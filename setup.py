@@ -1,10 +1,13 @@
 
 from setuptools import setup
+from dateparser import __version__
 
 setup(
     name='dateparser',
-    version='0.1',
+    version=__version__,
     author='ScrapingHub',
+    author_email='info@scrapinghub.com',
+    url='http://scrapinghub.com',
     packages=['dateparser'],
     description='Date parsing library designed to parse dates from HTML pages',
     requires=['dateutil'],
