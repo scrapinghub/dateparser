@@ -2,20 +2,75 @@
 from __future__ import unicode_literals
 
 import unittest
-
-from dateparser.date_parser import DateParser
 from datetime import datetime
 
-class TestDateParser(unittest.TestCase):
+from mock import patch, Mock
+
+from dateparser.date_parser import DateParser, translate_words
+from dateparser.date_parser import AutoDetectLanguage, ExactLanguage
+
+
+class AutoDetectLanguageTest(unittest.TestCase):
+
+    def setUp(self):
+        self.parser = AutoDetectLanguage(None)
 
     def test_detect_language(self):
-        d = DateParser()
+        self.assertEqual(['es', 'pt'], self.parser.detect_language('11 abril 2010'))
+        self.assertEqual(['es'], self.parser.detect_language('11 junio 2010'))
 
-        languages = d.detect_language('11 abril 2010')
-        self.assertEqual(languages, ['es', 'pt'])
+    def test_should_reduce_possible_languages_and_reject_different(self):
+        dates_in_spanish = [
+            (u'13 Ago, 2014', datetime(2014, 8, 13)),
+            (u'13 Septiembre, 2014', datetime(2014, 9, 13)),
+        ]
 
-        languages = d.detect_language('11 junio 2010')
-        self.assertEqual(languages, ['es'])
+        for date_string, correct_date in dates_in_spanish:
+            parsed_date = self.parser.parse(date_string, None)
+            self.assertEqual(correct_date.date(), parsed_date.date())
+
+        with self.assertRaisesRegexp(ValueError, 'Invalid date'):
+            portuguese_date = u'13 Setembro, 2014'
+            self.parser.parse(portuguese_date, None)
+
+    def test_should_accept_dates_in_different_languages(self):
+        date_fixtures = [
+            (u'13 Ago, 2014', datetime(2014, 8, 13)),
+            (u'13 Septiembre, 2014', datetime(2014, 9, 13)),
+            (u'13 Setembro, 2014', datetime(2014, 9, 13)),
+        ]
+        parser = AutoDetectLanguage(None, allow_redetection=True)
+
+        for date_string, correct_date in date_fixtures:
+            parsed_date = parser.parse(date_string, None)
+            self.assertEqual(correct_date.date(), parsed_date.date())
+
+
+class ExactLanguageTest(unittest.TestCase):
+
+    def test_parse_date_in_exact_language(self):
+        date_fixtures = [
+            (u'13 Ago, 2014', datetime(2014, 8, 13)),
+            (u'13 Septiembre, 2014', datetime(2014, 9, 13)),
+            (u'13/03/2014', datetime(2014, 3, 13)),
+
+            # TODO: make the following test pass
+            # in this case, it should have detected spanish as the
+            # language, and so it should use d/m/Y instead of d/m/Y
+            # (u'11/03/2014', datetime(2014, 3, 11)),
+        ]
+        parser = ExactLanguage('es')
+
+        for date_string, correct_date in date_fixtures:
+            parsed_date = parser.parse(date_string, None)
+            self.assertEqual(correct_date.date(), parsed_date.date())
+
+        with self.assertRaisesRegexp(ValueError, 'Invalid date'):
+            portuguese_date = u'13 Setembro, 2014'
+            parser.parse(portuguese_date, None)
+
+
+class TestDateParser(unittest.TestCase):
 
     def test_fr_dates(self):
         date = DateParser().parse('11 Mai 2014')
@@ -50,12 +105,6 @@ class TestDateParser(unittest.TestCase):
         self.assertEqual(date.year, 2014)
         self.assertEqual(date.month, 7)
         self.assertEqual(date.day, 15)
-
-    def test_translate_words(self):
-        parser = DateParser()
-        self.assertEqual('14 06 13', parser.translate_words('14 giu 13', 'it'))
-        self.assertEqual('14 06 13', parser.translate_words('14 giugno 13', 'it'))
-        self.assertEqual('14 06 13', parser.translate_words('14 junho 13', 'pt'))
 
     def test_pt_dates(self):
         date = DateParser().parse('sexta-feira, 10 de junho de 2014 14:52')
@@ -120,6 +169,19 @@ class TestDateParser(unittest.TestCase):
         self.assertEqual(date.minute, 07)
         self.assertEqual(date.second, 43)
 
+    def test_weekdays(self):
+        tuesday = datetime(2014, 8, 12, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
+        datetime_mock = Mock(wraps=datetime)
+        datetime_mock.utcnow = Mock(return_value=tuesday)
+        with patch('dateparser.date_parser.datetime', new=datetime_mock):
+            date = DateParser(language='en').parse('Friday')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 8)
+        self.assertEqual(date.day, 8)
+        self.assertEqual(date.hour, 0)
+        self.assertEqual(date.minute, 0)
+        self.assertEqual(date.second, 0)
+
     def test_parse_common_date(self):
         date = DateParser().parse('Tuesday Jul 22, 2014')
         self.assertEqual(date.year, 2014)
@@ -149,9 +211,52 @@ class TestDateParser(unittest.TestCase):
         for date_string, correct_date in date_fixtures:
             self.assertEqual(correct_date.date(), dp.parse(date_string).date())
 
+    def test_should_reject_empty_string(self):
+        dp = DateParser()
+        with self.assertRaisesRegexp(ValueError, 'Empty string'):
+            dp.parse('')
+
+    def test_should_not_allow_multiple_languages_by_default(self):
+        dates_in_spanish = [
+            (u'13 Ago, 2014', datetime(2014, 8, 13)),
+            (u'11 Marzo, 2014', datetime(2014, 3, 11)),
+            (u'13 Septiembre, 2014', datetime(2014, 9, 13)),
+        ]
+        dp = DateParser()
+
+        for date_string, correct_date in dates_in_spanish:
+            parsed_date = dp.parse(date_string, None)
+            self.assertEqual(correct_date.date(), parsed_date.date())
+
+        with self.assertRaisesRegexp(ValueError, 'Invalid date'):
+            portuguese_date = u'13 Setembro, 2014'
+            dp.parse(portuguese_date, None)
+
+    def test_should_enable_redetection_for_multiple_languages(self):
+        dates_fixture = [
+            (u'13 Ago, 2014', datetime(2014, 8, 13)),
+            (u'11 Marzo, 2014', datetime(2014, 3, 11)),
+            (u'13 Septiembre, 2014', datetime(2014, 9, 13)),
+            (u'13 Setembro, 2014', datetime(2014, 9, 13)),
+            (u'13 Março, 2014', datetime(2014, 3, 13)),
+        ]
+        dp = DateParser(allow_redetect_language=True)
+
+        for date_string, correct_date in dates_fixture:
+            parsed_date = dp.parse(date_string, None)
+            self.assertEqual(correct_date.date(), parsed_date.date())
+
     def test_fail(self):
         parser = DateParser()
         self.assertRaises(ValueError, parser.parse, 'invalid date string')
+
+
+class DateutilHelpersTest(unittest.TestCase):
+
+    def test_translate_words(self):
+        self.assertEqual('14 06 13', translate_words('14 giu 13', 'it'))
+        self.assertEqual('14 06 13', translate_words('14 giugno 13', 'it'))
+        self.assertEqual('14 06 13', translate_words('14 junho 13', 'pt'))
 
 
 if __name__ == '__main__':
