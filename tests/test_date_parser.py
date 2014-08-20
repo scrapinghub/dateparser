@@ -6,9 +6,10 @@ from datetime import datetime
 
 from mock import patch, Mock
 
-from dateparser.date_parser import DateParser, translate_words
+from dateparser.date_parser import DateParser
 from dateparser.date_parser import AutoDetectLanguage, ExactLanguage
 from dateparser.date_parser import LanguageWasNotSeenBeforeError
+from dateparser.date_parser import parse_with_language_and_format, translate_words
 
 
 class AutoDetectLanguageTest(unittest.TestCase):
@@ -289,6 +290,18 @@ class DateutilHelpersTest(unittest.TestCase):
         self.assertEqual('14 06 13', translate_words('14 giu 13', 'it'))
         self.assertEqual('14 06 13', translate_words('14 giugno 13', 'it'))
         self.assertEqual('14 06 13', translate_words('14 junho 13', 'pt'))
+
+    def test_should_use_language_and_format(self):
+        date_fixtures = (
+            (datetime(2013, 6, 14), '14 giu 13', 'it', '%d %b %y'),
+            (datetime(2013, 6, 14), '14_giu_13', 'it', '%d_%b_%y'),
+            (datetime(2013, 7, 14), '14_jul_13', 'pt', '%d_%b_%y'),
+            (datetime(2013, 7, 14), '%b14_jul_13', 'pt', '%%b%d_%b_%y'),
+        )
+
+        for correct_date, date_string, language, format_ in date_fixtures:
+            date = parse_with_language_and_format(date_string, language, format_)
+            self.assertEqual(correct_date.date(), date.date())
 
 
 if __name__ == '__main__':

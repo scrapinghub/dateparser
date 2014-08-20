@@ -225,7 +225,7 @@ def translate_words(date_string, language):
 
 def convert_date_formats_to_numeric(date_format):
     # TODO: weekdays?
-    return date_format.replace('%b', '%m').replace('%B', '%m')
+    return re.sub(r'(?<!%)%[bB]', '%m', date_format)
 
 
 def dateutil_parse(date_string, **kwargs):
