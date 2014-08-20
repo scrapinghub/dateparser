@@ -306,6 +306,10 @@ class DateParsingStrategy(object):
         raise NotImplementedError
 
 
+class LanguageWasNotSeenBeforeError(RuntimeError):
+    pass
+
+
 class AutoDetectLanguage(DateParsingStrategy):
     """Date parser with support for language detection.
 
@@ -327,9 +331,8 @@ class AutoDetectLanguage(DateParsingStrategy):
 
         candidates = get_language_candidates(tokens, self.detected_languages)
 
-        if not candidates:
-            return get_language_candidates(
-                tokens, exclude_languages=self.detected_languages)
+        if not candidates and self.detected_languages:
+            raise LanguageWasNotSeenBeforeError
 
         self.detected_languages = candidates
 
@@ -338,11 +341,22 @@ class AutoDetectLanguage(DateParsingStrategy):
 
         return candidates
 
+    def detect_unseen_language(self, date_string):
+        tokens = tokenize_date(date_string)
+        return get_language_candidates(tokens,
+                                       exclude_languages=self.detected_languages)
+
     def detect_language_and_parse(self, date_string, date_format):
         """Attempt to detect language and parse date.
         If no language is detected, fallback to vanilla dateutil parser
         """
-        languages = self.detect_language(date_string)
+        try:
+            languages = self.detect_language(date_string)
+        except LanguageWasNotSeenBeforeError:
+            if self.allow_redetection:
+                languages = self.detect_unseen_language(date_string)
+            else:
+                raise
 
         if not languages:
             return dateutil_parse(date_string)

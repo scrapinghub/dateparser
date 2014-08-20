@@ -8,6 +8,7 @@ from mock import patch, Mock
 
 from dateparser.date_parser import DateParser, translate_words
 from dateparser.date_parser import AutoDetectLanguage, ExactLanguage
+from dateparser.date_parser import LanguageWasNotSeenBeforeError
 
 
 class AutoDetectLanguageTest(unittest.TestCase):
@@ -243,8 +244,27 @@ class TestDateParser(unittest.TestCase):
         dp = DateParser(allow_redetect_language=True)
 
         for date_string, correct_date in dates_fixture:
-            parsed_date = dp.parse(date_string, None)
+            parsed_date = dp.parse(date_string)
             self.assertEqual(correct_date.date(), parsed_date.date())
+
+    def test_finding_no_language_after_detecting_several(self):
+        # when:
+        dp = DateParser()
+        # then:
+        self.assertEqual(datetime(2014, 8, 13).date(),
+                         dp.parse('13 Ago, 2014').date())
+
+        with self.assertRaises(LanguageWasNotSeenBeforeError):
+            dp.parse(u'11 Ağustos, 2014')
+
+        # when:
+        dp = DateParser(allow_redetect_language=True)
+        # then:
+        self.assertEqual(datetime(2014, 8, 13).date(),
+                         dp.parse('13 Ago, 2014').date())
+
+        self.assertEqual(datetime(2014, 8, 11).date(),
+                         dp.parse(u'11 Ağustos, 2014').date())
 
     def test_fail(self):
         parser = DateParser()
