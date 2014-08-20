@@ -5,6 +5,30 @@ This is a date parsing library which aims to make easy parsing dates
 commonly found in web pages.
 
 
+## Motivation
+
+If you have needed to parse dates before, you probably have used the date
+parser of the [dateutil] module.
+So, we built this library on top of it, adding a few features:
+
+* dateparser support dates in languages other than English
+* in fact, it can detect the language automatically
+* it can give you the date for text like: '1 min ago', '2 weeks ago', '3 months, 1 weeks and 1 day ago', etc
+
+[dateutil]: https://pypi.python.org/pypi/python-dateutil
+
+
+### Goals
+
+To support the common date formats used in websites all around the world.
+
+
+### Non-goals
+
+We're focused on getting right only the date information, namely,
+we aren't trying to handle hours, minutes and seconds just yet.
+
+
 ## Usage
 
 The most common way is to use the `dateparser.date.DateDataParser` class,
