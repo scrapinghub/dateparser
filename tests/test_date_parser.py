@@ -49,6 +49,13 @@ class AutoDetectLanguageTest(unittest.TestCase):
 
 class ExactLanguageTest(unittest.TestCase):
 
+    def test_force_setting_language(self):
+        with self.assertRaisesRegexp(TypeError, 'takes at least 2 arguments'):
+            ExactLanguage()
+
+        with self.assertRaisesRegexp(ValueError, 'cannot be None'):
+            ExactLanguage(None)
+
     def test_parse_date_in_exact_language(self):
         date_fixtures = [
             (u'13 Ago, 2014', datetime(2014, 8, 13)),

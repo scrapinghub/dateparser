@@ -297,7 +297,7 @@ def get_language_candidates(tokens, languages=None, exclude_languages=None):
 
 class DateParsingStrategy(object):
 
-    def __init__(self, language):
+    def __init__(self, language=None):
         self.language = language
 
     def parse(self, date_string, date_format):
@@ -318,7 +318,7 @@ class AutoDetectLanguage(DateParsingStrategy):
     previously detected languages and uses this information
     to reduce the set of possible languages.
     """
-    def __init__(self, language, allow_redetection=False, *args, **kwargs):
+    def __init__(self, language=None, allow_redetection=False, *args, **kwargs):
         super(AutoDetectLanguage, self).__init__(language, *args, **kwargs)
         self.detected_languages = None
         self.allow_redetection = allow_redetection
@@ -380,6 +380,11 @@ class AutoDetectLanguage(DateParsingStrategy):
 class ExactLanguage(DateParsingStrategy):
     """Date parser that works only for a specific language
     """
+    def __init__(self, language, *args, **kwargs):
+        super(ExactLanguage, self).__init__(language, *args, **kwargs)
+        if language is None:
+            raise ValueError("language cannot be None for ExactLanguage")
+
     def parse(self, date_string, date_format):
         return parse_using_languages(date_string, date_format, [self.language])
 
