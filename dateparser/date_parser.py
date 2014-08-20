@@ -353,9 +353,8 @@ class AutoDetectLanguage(DateParsingStrategy):
         try:
             languages = self.detect_language(date_string)
         except LanguageWasNotSeenBeforeError:
-            if self.allow_redetection:
-                languages = self.detect_unseen_language(date_string)
-            else:
+            languages = self.detect_unseen_language(date_string)
+            if languages and not self.allow_redetection:
                 raise
 
         if not languages:

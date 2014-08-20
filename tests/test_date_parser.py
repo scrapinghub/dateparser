@@ -254,24 +254,29 @@ class TestDateParser(unittest.TestCase):
             parsed_date = dp.parse(date_string)
             self.assertEqual(correct_date.date(), parsed_date.date())
 
-    def test_finding_no_language_after_detecting_several(self):
-        # when:
+    def test_finding_no_language_when_not_seen_before_should_raise_error(self):
         dp = DateParser()
-        # then:
         self.assertEqual(datetime(2014, 8, 13).date(),
                          dp.parse('13 Ago, 2014').date())
 
         with self.assertRaises(LanguageWasNotSeenBeforeError):
             dp.parse(u'11 Ağustos, 2014')
 
-        # when:
+    def test_finding_no_language_when_enabled_should_redetect(self):
         dp = DateParser(allow_redetect_language=True)
-        # then:
         self.assertEqual(datetime(2014, 8, 13).date(),
                          dp.parse('13 Ago, 2014').date())
 
         self.assertEqual(datetime(2014, 8, 11).date(),
                          dp.parse(u'11 Ağustos, 2014').date())
+
+    def test_finding_no_language_should_work_for_numeric_dates(self):
+        dp = DateParser()
+        self.assertEqual(datetime(2014, 8, 13).date(),
+                         dp.parse('13 Ago, 2014').date())
+
+        parsed_date = dp.parse(u'13/08/2014')
+        self.assertEqual(datetime(2014, 8, 13).date(), parsed_date.date())
 
     def test_fail(self):
         parser = DateParser()
