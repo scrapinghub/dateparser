@@ -27,6 +27,16 @@ class DateRangeTest(unittest.TestCase):
         self.assertEquals(begin + relativedelta(months=1), dates[1])
         self.assertEquals(begin + relativedelta(months=2), dates[2])
 
+    def test_should_reject_easily_mistaken_dateutil_arguments(self):
+        begin = datetime(2014, 6, 15)
+        end = datetime(2014, 6, 25)
+
+        with self.assertRaisesRegexp(ValueError, "Invalid argument"):
+            date.date_range(begin, end, month=1).next()
+
+        with self.assertRaisesRegexp(ValueError, "Invalid argument"):
+            date.date_range(begin, end, day=1).next()
+
 
 class ParseDateWithFormats(unittest.TestCase):
 
