@@ -27,7 +27,9 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         ('1 year 11 months', dict(years=1, months=11), 'months'),
         ('1 year 12 months', dict(years=1, months=12), 'months'),
         ('15 hr', dict(hours=15), 'day'),
+        ('15 hrs', dict(hours=15), 'day'),
         ('2 min', dict(minutes=2), 'day'),
+        ('2 mins', dict(minutes=2), 'day'),
         (
             '1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
             dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),

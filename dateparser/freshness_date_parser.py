@@ -22,8 +22,8 @@ class FreshnessDateDataParser(object):
                 ('1 day', ['yesterday']),
                 ('0 days', ['today']),
                 ('1', ['an', 'a', 'one']),
-                (r'\1 hour', ['(\d+)\s*hr']),
-                (r'\1 minute', ['(\d+)\s*min']),
+                (r'\1 hour\2', ['(\d+)\s*hr(s?)']),
+                (r'\1 minute\2', ['(\d+)\s*min(s?)']),
             ],
             'units': {
                 'year':     ('year', 'years'),
