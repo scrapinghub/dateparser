@@ -1,7 +1,7 @@
 #coding: utf-8
 import re
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 from .date_parser import DateParser
@@ -25,9 +25,13 @@ def date_range(begin, end, **kwargs):
             raise ValueError("Invalid argument: %s" % arg)
 
     date = begin
-    while cmp(date, end) < 0:
+    while date < end:
         yield date
         date += step
+
+    # handles edge-case when iterating months and last interval is < 30 days
+    if kwargs.get('months', 0) > 0 and (date.year, date.month) == (end.year, end.month):
+        yield end
 
 
 def sanitize_date(date_string):
