@@ -27,7 +27,9 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         ('1 year 11 months', dict(years=1, months=11), 'months'),
         ('1 year 12 months', dict(years=1, months=12), 'months'),
         ('15 hr', dict(hours=15), 'day'),
+        ('15 hrs', dict(hours=15), 'day'),
         ('2 min', dict(minutes=2), 'day'),
+        ('2 mins', dict(minutes=2), 'day'),
         (
             '1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
             dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),
@@ -127,6 +129,8 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         ('Вчера в', dict(days=1), 'day'),
         ('вчера', dict(days=1), 'day'),
         ('2 часа назад', dict(hours=2), 'day'),
+        ('час назад', dict(hours=1), 'day'),
+        ('минуту назад', dict(minutes=1), 'day'),
         ('около 23 часов назад', dict(hours=23), 'day'),
         ('1 год 2 месяца', dict(years=1, months=2), 'months'),
         ('1 год, 09 месяцев, 01 недель', dict(years=1, months=9, weeks=1), 'weeks'),
