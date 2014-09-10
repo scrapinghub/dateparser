@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 from dateparser import date
+from mock import Mock, patch
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import unittest
@@ -53,6 +54,33 @@ class ParseDateWithFormats(unittest.TestCase):
 
     def test_shouldnt_parse_invalid_date(self):
         self.assertIsNone(date.parse_with_formats('yesterday', ['%Y-%m-%d']))
+
+    def test_should_parse_date(self):
+        result = date.parse_with_formats('25-03-14', ['%d-%m-%y'])
+        self.assertEquals(datetime(2014, 3, 25).date(), result.date())
+
+    def test_should_use_current_date_for_dates_without_day(self):
+        twelfth = datetime(2014, 8, 12)
+        datetime_mock = Mock(wraps=datetime)
+        datetime_mock.utcnow = Mock(return_value=twelfth)
+
+        with patch('dateparser.date_parser.datetime', new=datetime_mock):
+            dt_data = date.parse_with_formats('August 2014', ['%B %Y'], final_call=True)
+
+        self.assertIsNotNone(dt_data)
+        self.assertEquals('month', dt_data['period'])
+        self.assertEquals(datetime(2014, 8, 31).date(), dt_data['date_obj'].date())
+
+        twelfth = datetime(2014, 2, 12)
+        datetime_mock = Mock(wraps=datetime)
+        datetime_mock.utcnow = Mock(return_value=twelfth)
+
+        with patch('dateparser.date_parser.datetime', new=datetime_mock):
+            dt_data = date.parse_with_formats('February 2014', ['%B %Y'], final_call=True)
+
+        self.assertIsNotNone(dt_data)
+        self.assertEquals('month', dt_data['period'])
+        self.assertEquals(datetime(2014, 2, 28).date(), dt_data['date_obj'].date())
 
 
 class DateDataParserTest(unittest.TestCase):
