@@ -6,6 +6,7 @@ from dateutil.relativedelta import relativedelta
 
 from .date_parser import DateParser
 from .freshness_date_parser import freshness_date_parser
+import calendar
 
 
 def sanitize_spaces(html_string):
@@ -50,6 +51,10 @@ def get_date_from_timestamp(date_string):
         return datetime.fromtimestamp(int(date_string[:10]))
 
 
+def get_last_day_of_month(year, month):
+    return calendar.monthrange(year, month)[1]
+
+
 def parse_with_formats(date_string, date_formats, final_call=False, alt_parser=None):
     """ Parse with formats and return depending on `final_call` arg.
     If final_call is True, return a dictionary with 'period' and 'obj_date'
@@ -69,12 +74,12 @@ def parse_with_formats(date_string, date_formats, final_call=False, alt_parser=N
             try:
                 date_obj = datetime.strptime(date_string, date_format)
 
-                #If day argument isn't provided, use today instead of day 1 (default)
-                #because day 1 is usually out of range.
-                #Filtering should be done at parse_item() level.
+                # If format does not include the day, use last day of the month
+                # instead of first, because the first is usually out of range.
                 if '%d' not in date_format:
-                    current_day = datetime.utcnow().day
-                    date_obj = date_obj.replace(day=current_day)
+                    data['period'] = 'month'
+                    date_obj = date_obj.replace(
+                        day=get_last_day_of_month(date_obj.year, date_obj.month))
 
             except ValueError:
                 alt_parser = alt_parser if alt_parser else DateParser()
