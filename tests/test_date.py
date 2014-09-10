@@ -19,13 +19,34 @@ class DateRangeTest(unittest.TestCase):
         self.assertEquals(end - timedelta(days=1), dates[-1])
 
     def test_should_one_date_for_each_month(self):
-        begin = datetime(2014, 4, 15)
+        fixtures = [
+            (datetime(2014, 4, 15), datetime(2014, 6, 25),
+             [(2014, 4), (2014, 5), (2014, 6)]),
+
+            (datetime(2014, 4, 25), datetime(2014, 5, 5),
+             [(2014, 4), (2014, 5)]),
+
+            (datetime(2014, 4, 5), datetime(2014, 4, 25),
+             [(2014, 4)]),
+
+            (datetime(2014, 4, 25), datetime(2014, 6, 5),
+             [(2014, 4), (2014, 5), (2014, 6)]),
+        ]
+
+        for begin, end, expected in fixtures:
+            result = list(date.date_range(begin, end, months=1))
+            self.assertEquals(expected,
+                              [(d.year, d.month) for d in result])
+
+    def test_should_reject_easily_mistaken_dateutil_arguments(self):
+        begin = datetime(2014, 6, 15)
         end = datetime(2014, 6, 25)
-        dates = list(date.date_range(begin, end, months=1))
-        self.assertEquals(3, len(dates))
-        self.assertEquals(begin, dates[0])
-        self.assertEquals(begin + relativedelta(months=1), dates[1])
-        self.assertEquals(begin + relativedelta(months=2), dates[2])
+
+        with self.assertRaisesRegexp(ValueError, "Invalid argument"):
+            date.date_range(begin, end, month=1).next()
+
+        with self.assertRaisesRegexp(ValueError, "Invalid argument"):
+            date.date_range(begin, end, day=1).next()
 
 
 class ParseDateWithFormats(unittest.TestCase):

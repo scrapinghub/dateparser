@@ -22,8 +22,8 @@ class FreshnessDateDataParser(object):
                 ('1 day', ['yesterday']),
                 ('0 days', ['today']),
                 ('1', ['an', 'a', 'one']),
-                (r'\1 hour', ['(\d+)\s*hr']),
-                (r'\1 minute', ['(\d+)\s*min']),
+                (r'\1 hour\2', ['(\d+)\s*hr(s?)']),
+                (r'\1 minute\2', ['(\d+)\s*min(s?)']),
             ],
             'units': {
                 'year':     ('year', 'years'),
@@ -131,6 +131,8 @@ class FreshnessDateDataParser(object):
             'word_replacements': [
                 ('1 дней', ['вчеравчера', 'Вчера в', 'вчера', 'Вчера']),
                 ('0 день', ['сегодня']),
+                ('1 минуту', ['^минуту']),
+                ('1 час', ['^час']),
             ],
             'units': {
                 'year':     ('год', 'лет'),
