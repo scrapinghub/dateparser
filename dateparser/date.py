@@ -1,7 +1,7 @@
 #coding: utf-8
 import re
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from .date_parser import DateParser
@@ -21,7 +21,7 @@ def date_range(begin, end, **kwargs):
     dateutil_error_prone_args = ['year', 'month', 'week', 'day', 'hour',
                                  'minute', 'second']
     for arg in dateutil_error_prone_args:
-        if kwargs.has_key(arg):
+        if arg in kwargs:
             raise ValueError("Invalid argument: %s" % arg)
 
     date = begin
@@ -68,6 +68,14 @@ def parse_with_formats(date_string, date_formats, final_call=False, alt_parser=N
         try:
             try:
                 date_obj = datetime.strptime(date_string, date_format)
+
+                #If day argument isn't provided, use today instead of day 1 (default)
+                #because day 1 is usually out of range.
+                #Filtering should be done at parse_item() level.
+                if '%d' not in date_format:
+                    current_day = datetime.utcnow().day
+                    date_obj = date_obj.replace(day=current_day)
+
             except ValueError:
                 alt_parser = alt_parser if alt_parser else DateParser()
                 date_obj = alt_parser.parse(date_string, date_format=date_format)
