@@ -84,7 +84,7 @@ class pt_parserinfo(parser.parserinfo):
 class tr_parserinfo(parser.parserinfo):
     MONTHS = [
         ('Ocak',),
-        ('Şubat'),
+        ('Şubat',),
         ('Mart',),
         ('Nisan',),
         ('Mayıs',),
@@ -142,6 +142,40 @@ class cz_parserinfo(parser.parserinfo):
     ]
 
 
+class de_parserinfo(parser.parserinfo):
+    MONTHS = [
+        ('Januar', 'Jan'),
+        ('Februar', 'Feb'),
+        ('März',),
+        ('April', 'Apr'),
+        ('Mai',),
+        ('Juni',),
+        ('Juli',),
+        ('August', 'Aug'),
+        ('September', 'Sept'),
+        ('Oktober', 'Okt'),
+        ('November', 'Nov'),
+        ('Dezember', 'Dez'),
+    ]
+
+
+class ro_parserinfo(parser.parserinfo):
+    MONTHS = [
+        ('ianuarie', 'ian'),
+        ('februarie', 'feb'),
+        ('martie', 'mar'),
+        ('aprilie', 'apr'),
+        ('mai',),
+        ('iunie',),
+        ('iulie',),
+        ('august', 'aug'),
+        ('septembrie', 'sept'),
+        ('octombrie', 'oct'),
+        ('noiembrie', 'noiem'),
+        ('decembrie', 'dec'),
+    ]
+
+
 INFOS = OrderedDict([
     ('es', es_parserinfo()),
     ('fr', fr_parserinfo()),
@@ -150,6 +184,8 @@ INFOS = OrderedDict([
     ('tr', tr_parserinfo()),
     ('ru', ru_parserinfo()),
     ('cz', cz_parserinfo()),
+    ('de', de_parserinfo()),
+    ('ro', ro_parserinfo()),
     ('en', parser.parserinfo()),
 ])
 

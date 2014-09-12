@@ -162,6 +162,30 @@ class TestDateParser(unittest.TestCase):
         self.assertEqual(date.hour, 20)
         self.assertEqual(date.minute, 56)
 
+    def test_ro_dates(self):
+        parser = DateParser()
+        date_fixtures = [
+            ('13 iunie 2013', datetime(2013, 6, 13)),
+            ('14 aprilie 2014', datetime(2014, 4, 14)),
+            ('18 martie 2012', datetime(2012, 3, 18)),
+        ]
+
+        for dt_string, correct_date in date_fixtures:
+            parsed = parser.parse(dt_string)
+            self.assertEquals(correct_date.date(), parsed.date())
+
+    def test_de_dates(self):
+        parser = DateParser()
+        date_fixtures = [
+            ('21. Dezember 2013', datetime(2013, 12, 21)),
+            ('19. Februar 2012', datetime(2012, 2, 19)),
+            ('26. Juli 2014', datetime(2014, 7, 26)),
+        ]
+
+        for dt_string, correct_date in date_fixtures:
+            parsed = parser.parse(dt_string)
+            self.assertEquals(correct_date.date(), parsed.date())
+
     def test_should_parse_a_plain_string_date(self):
         date = DateParser().parse(str('06-17-2014'))
         self.assertEqual(date.year, 2014)
