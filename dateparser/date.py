@@ -98,8 +98,8 @@ def parse_with_formats(date_string, date_formats, final_call=False, alt_parser=N
 
 class DateDataParser(object):
 
-    def __init__(self, language=None):
-        self.date_parser = DateParser(language)
+    def __init__(self, language=None, allow_redetect_language=False):
+        self.date_parser = DateParser(language, allow_redetect_language)
 
     def get_date_data(self, date_string, date_formats=None):
         """ Return a dictionary with a date object and a period.

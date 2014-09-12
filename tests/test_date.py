@@ -146,6 +146,20 @@ class DateDataParserTest(unittest.TestCase):
             self.check_equal(correct_date.date(),
                             date_data['date_obj'].date(), date_string)
 
+    def test_should_enable_redetection_for_multiple_languages(self):
+        date_fixtures = [
+            (u'13 Ago, 2014', datetime(2014, 8, 13)),
+            (u'11 Marzo, 2014', datetime(2014, 3, 11)),
+            (u'13 Septiembre, 2014', datetime(2014, 9, 13)),
+            (u'13 Setembro, 2014', datetime(2014, 9, 13)),
+            (u'13 Março, 2014', datetime(2014, 3, 13)),
+        ]
+        parser = date.DateDataParser(allow_redetect_language=True)
+
+        for date_string, correct_date in date_fixtures:
+            date_data = parser.get_date_data(date_string)
+            self.assertEqual(correct_date.date(), date_data['date_obj'].date())
+
 
 if __name__ == '__main__':
     unittest.main()
