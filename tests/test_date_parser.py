@@ -87,6 +87,13 @@ class TestDateParser(unittest.TestCase):
         self.assertEqual(date.month, 5)
         self.assertEqual(date.day, 11)
 
+    def test_nl_dates(self):
+        date = DateParser().parse('11 augustus 2014')
+        self.assertEqual(datetime(2014, 8, 11).date(), date.date())
+
+        date = DateParser().parse('14 januari 2014')
+        self.assertEqual(datetime(2014, 1, 14).date(), date.date())
+
     def test_it_dates(self):
         date = DateParser().parse('16 giu 2014')
         self.assertEqual(date.year, 2014)

@@ -176,6 +176,23 @@ class ro_parserinfo(parser.parserinfo):
     ]
 
 
+class nl_parserinfo(parser.parserinfo):
+    MONTHS = [
+        ('januari', 'jan'),
+        ('februari', 'feb'),
+        ('maart', 'mrt'),
+        ('april', 'apr'),
+        ('mei',),
+        ('juni', 'jun'),
+        ('juli', 'jul'),
+        ('augustus', 'aug'),
+        ('september', 'sep'),
+        ('oktober', 'okt'),
+        ('november', 'nov'),
+        ('december', 'dec'),
+    ]
+
+
 INFOS = OrderedDict([
     ('es', es_parserinfo()),
     ('fr', fr_parserinfo()),
@@ -186,6 +203,7 @@ INFOS = OrderedDict([
     ('cz', cz_parserinfo()),
     ('de', de_parserinfo()),
     ('ro', ro_parserinfo()),
+    ('nl', nl_parserinfo()),
     ('en', parser.parserinfo()),
 ])
 
