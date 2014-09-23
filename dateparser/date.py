@@ -81,6 +81,10 @@ def parse_with_formats(date_string, date_formats, final_call=False, alt_parser=N
                     date_obj = date_obj.replace(
                         day=get_last_day_of_month(date_obj.year, date_obj.month))
 
+                if not ('%y' in date_format or '%Y' in date_format):
+                    today = datetime.today()
+                    date_obj = date_obj.replace(year=today.year)
+
             except ValueError:
                 alt_parser = alt_parser if alt_parser else DateParser()
                 date_obj = alt_parser.parse(date_string, date_format=date_format)

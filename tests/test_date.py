@@ -59,6 +59,12 @@ class ParseDateWithFormats(unittest.TestCase):
         result = date.parse_with_formats('25-03-14', ['%d-%m-%y'])
         self.assertEquals(datetime(2014, 3, 25).date(), result.date())
 
+    def test_should_use_current_year_for_dates_without_year(self):
+        today = datetime.today()
+
+        result = date.parse_with_formats('09.16', ["%m.%d"])
+        self.assertEquals(datetime(today.year, 9, 16).date(), result.date())
+
     def test_should_use_current_date_for_dates_without_day(self):
         twelfth = datetime(2014, 8, 12)
         datetime_mock = Mock(wraps=datetime)
