@@ -131,6 +131,7 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         ('2 часа назад', dict(hours=2), 'day'),
         ('час назад', dict(hours=1), 'day'),
         ('минуту назад', dict(minutes=1), 'day'),
+        ('2 ч. 21 мин. назад', dict(hours=2, minutes=21), 'day'),
         ('около 23 часов назад', dict(hours=23), 'day'),
         ('1 год 2 месяца', dict(years=1, months=2), 'months'),
         ('1 год, 09 месяцев, 01 недель', dict(years=1, months=9, weeks=1), 'weeks'),
