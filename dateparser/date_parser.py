@@ -345,6 +345,7 @@ def get_language_candidates(tokens, languages=None, exclude_languages=None):
         for token in tokens:
             if _is_word_in_language(token, lang):
                 candidates.append(lang)
+                break
 
     return candidates
 

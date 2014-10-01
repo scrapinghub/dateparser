@@ -9,7 +9,9 @@ from mock import patch, Mock
 from dateparser.date_parser import DateParser
 from dateparser.date_parser import AutoDetectLanguage, ExactLanguage
 from dateparser.date_parser import LanguageWasNotSeenBeforeError
-from dateparser.date_parser import parse_with_language_and_format, translate_words
+from dateparser.date_parser import (
+    parse_with_language_and_format, translate_words, get_language_candidates, tokenize_date,
+)
 
 
 class AutoDetectLanguageTest(unittest.TestCase):
@@ -321,6 +323,10 @@ class DateutilHelpersTest(unittest.TestCase):
         self.assertEqual('14 06 13', translate_words('14 giu 13', 'it'))
         self.assertEqual('14 06 13', translate_words('14 giugno 13', 'it'))
         self.assertEqual('14 06 13', translate_words('14 junho 13', 'pt'))
+
+    def test_get_language_candidates(self):
+        tokens = tokenize_date('June/July 2012')
+        self.assertItemsEqual(['en'], get_language_candidates(tokens, languages=['en']))
 
     def test_should_use_language_and_format(self):
         date_fixtures = (
