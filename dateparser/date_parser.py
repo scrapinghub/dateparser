@@ -13,7 +13,11 @@ DATE_WORDS = 'Year|Month|Week|Day|Hour|Minute|Second'
 SPECIAL_CASE_WORDS = 'Today|Yesterday|The day before yesterday'
 
 
-class es_parserinfo(parser.parserinfo):
+class BaseParserInfo(parser.parserinfo):
+    JUMP = [" ", ".", ",", ";", "-", "/", "'", "|"]
+
+
+class es_parserinfo(BaseParserInfo):
     MONTHS = [
         ('enero', 'ene'),
         ('febrero', 'feb'),
@@ -30,7 +34,7 @@ class es_parserinfo(parser.parserinfo):
     ]
 
 
-class fr_parserinfo(parser.parserinfo):
+class fr_parserinfo(BaseParserInfo):
     MONTHS = [
         ('janvier', 'janv'),
         ('février', 'févr'),
@@ -47,7 +51,7 @@ class fr_parserinfo(parser.parserinfo):
     ]
 
 
-class it_parserinfo(parser.parserinfo):
+class it_parserinfo(BaseParserInfo):
     MONTHS = [
         ('gennaio', 'gen'),
         ('febbraio', 'feb'),
@@ -64,7 +68,19 @@ class it_parserinfo(parser.parserinfo):
     ]
 
 
-class pt_parserinfo(parser.parserinfo):
+class pt_parserinfo(BaseParserInfo):
+    JUMP = BaseParserInfo.JUMP + ["de"]
+
+    WEEKDAYS = [
+        ("Segunda-feira",),
+        ("Terça-feira",),
+        ("Quarta-feira",),
+        ("Quinta-feira",),
+        ("Sexta-feira",),
+        ("Sábado",),
+        ("Domingo",),
+    ]
+
     MONTHS = [
         ('janeiro', u'jan'),
         ('fevereiro', u'fev'),
@@ -80,8 +96,10 @@ class pt_parserinfo(parser.parserinfo):
         ('dezembro', u'dez'),
     ]
 
+    PERTAIN = ["de"]
 
-class tr_parserinfo(parser.parserinfo):
+
+class tr_parserinfo(BaseParserInfo):
     MONTHS = [
         ('Ocak',),
         ('Şubat',),
@@ -98,7 +116,7 @@ class tr_parserinfo(parser.parserinfo):
     ]
 
 
-class ru_parserinfo(parser.parserinfo):
+class ru_parserinfo(BaseParserInfo):
     MONTHS = [
         ('января', 'Января'),
         ('февраля', 'Февраля'),
@@ -115,7 +133,7 @@ class ru_parserinfo(parser.parserinfo):
     ]
 
 
-class cz_parserinfo(parser.parserinfo):
+class cz_parserinfo(BaseParserInfo):
     WEEKDAYS = [
         (u'pondělí', u'pon'),
         (u'úterý', u'úte'),
@@ -142,7 +160,7 @@ class cz_parserinfo(parser.parserinfo):
     ]
 
 
-class de_parserinfo(parser.parserinfo):
+class de_parserinfo(BaseParserInfo):
     MONTHS = [
         ('Januar', 'Jan'),
         ('Februar', 'Feb'),
@@ -159,7 +177,7 @@ class de_parserinfo(parser.parserinfo):
     ]
 
 
-class ro_parserinfo(parser.parserinfo):
+class ro_parserinfo(BaseParserInfo):
     MONTHS = [
         ('ianuarie', 'ian'),
         ('februarie', 'feb'),
@@ -176,7 +194,7 @@ class ro_parserinfo(parser.parserinfo):
     ]
 
 
-class nl_parserinfo(parser.parserinfo):
+class nl_parserinfo(BaseParserInfo):
     MONTHS = [
         ('januari', 'jan'),
         ('februari', 'feb'),
@@ -193,6 +211,10 @@ class nl_parserinfo(parser.parserinfo):
     ]
 
 
+class en_parserinfo(BaseParserInfo):
+    JUMP = list(set(BaseParserInfo.JUMP) | set(parser.parserinfo.JUMP))
+
+
 INFOS = OrderedDict([
     ('es', es_parserinfo()),
     ('fr', fr_parserinfo()),
@@ -204,7 +226,7 @@ INFOS = OrderedDict([
     ('de', de_parserinfo()),
     ('ro', ro_parserinfo()),
     ('nl', nl_parserinfo()),
-    ('en', parser.parserinfo()),
+    ('en', en_parserinfo()),
 ])
 
 
@@ -224,6 +246,21 @@ class new_timelex(parser._timelex):
             for char in token:
                 if char not in self.wordchars:
                     self.wordchars += char
+
+    @classmethod
+    def split(cls, s):
+        s = cls.prepare_string(s)
+        return super(new_timelex, cls).split(s)
+
+    @classmethod
+    def prepare_string(cls, s):
+        # As we added '-' to .wordchars because some weekdays contain it, we would always keep it
+        # as part of a word. Therefore in case '-' is clearly a separator (next to number)
+        # we should not keep it as part of the word but substitute it with space.
+        s = re.sub('(\d)[-]+', r'\1 ', s)
+        s = re.sub('[-]+(\d)', r' \1', s)
+        return s
+
 
 parser._timelex = new_timelex
 
