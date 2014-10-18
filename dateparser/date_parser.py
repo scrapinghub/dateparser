@@ -53,6 +53,18 @@ class es_parserinfo(BaseParserInfo):
 
 
 class fr_parserinfo(BaseParserInfo):
+    JUMP = BaseParserInfo.JUMP + ["le"]
+
+    WEEKDAYS = [
+        ("Lundi",),
+        ("Mardi",),
+        ("Mercredi",),
+        ("Jeudi",),
+        ("Vendredi",),
+        ("Samedi",),
+        ("Dimanche",),
+    ]
+
     MONTHS = [
         ('janvier', 'janv'),
         ('février', 'févr'),
@@ -412,7 +424,6 @@ def get_language_candidates(tokens, languages=None, exclude_languages=None):
         # Temporary log message to help find those sites relying on fuzzy parsing
         from scrapy import log
         log.msg('REQUIRE FUZZY: %s' % repr(''.join(tokens)), _level=log.CRITICAL)
-        print languages
 
     return candidates
 
