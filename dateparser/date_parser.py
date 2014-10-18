@@ -360,13 +360,7 @@ def parse_with_language_and_format(date_string, language, date_format):
 
         return datetime.strptime(date_string, date_format)
 
-    try:
-        return dateutil_parse(date_string, parserinfo=INFOS[language], ignoretz=True)
-    except ValueError:
-        # Temporary log message to help find those sites relying on fuzzy parsing
-        from scrapy import log
-        log.msg('REQUIRE FUZZY: %s' % repr(date_string), _level=log.CRITICAL)
-        raise
+    return dateutil_parse(date_string, parserinfo=INFOS[language], ignoretz=True)
 
 
 def parse_using_languages(date_string, date_format, languages):
@@ -393,13 +387,14 @@ def _is_word_in_language(token, language):
 
 def get_language_candidates(tokens, languages=None, exclude_languages=None):
     """Find the languages which have a word matching
-    at least one of the given tokens
+    at least one of the given tokens and all tokens are known by this language
     """
     languages = languages if languages else INFOS.keys()
     if exclude_languages:
         languages = filter(lambda l: l not in exclude_languages, languages)
 
     candidates = []
+    require_fuzzy = False
 
     for lang in languages:
         should_add = False
@@ -407,10 +402,17 @@ def get_language_candidates(tokens, languages=None, exclude_languages=None):
             if _is_word_in_language(token, lang):
                 should_add = True
             elif not token.isdigit() and not INFOS[lang].is_token_known(token):
+                require_fuzzy = True
                 should_add = False
                 break
         if should_add:
             candidates.append(lang)
+
+    if require_fuzzy and not candidates:
+        # Temporary log message to help find those sites relying on fuzzy parsing
+        from scrapy import log
+        log.msg('REQUIRE FUZZY: %s' % repr(''.join(tokens)), _level=log.CRITICAL)
+        print languages
 
     return candidates
 
