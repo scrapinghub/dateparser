@@ -2,16 +2,19 @@
 from __future__ import unicode_literals
 
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from mock import patch, Mock
+from nose_parameterized import parameterized, param
 
+import dateparser.timezones
 from dateparser.date_parser import DateParser
 from dateparser.date_parser import AutoDetectLanguage, ExactLanguage
 from dateparser.date_parser import LanguageWasNotSeenBeforeError
 from dateparser.date_parser import (
     parse_with_language_and_format, translate_words, get_language_candidates, tokenize_date,
 )
+from tests import BaseTestCase
 
 
 class AutoDetectLanguageTest(unittest.TestCase):
@@ -81,7 +84,7 @@ class ExactLanguageTest(unittest.TestCase):
             parser.parse(portuguese_date, None)
 
 
-class TestDateParser(unittest.TestCase):
+class TestDateParser(BaseTestCase):
 
     def test_fr_dates(self):
         date = DateParser().parse('11 Mai 2014')
@@ -315,6 +318,24 @@ class TestDateParser(unittest.TestCase):
     def test_fail(self):
         parser = DateParser()
         self.assertRaises(ValueError, parser.parse, 'invalid date string')
+
+    @parameterized.expand([
+        param('Sep 03 2014 | 4:32 pm EDT', datetime(2014, 9, 3, 21, 32)),
+        param('17th October, 2034 @ 01:08 am PDT', datetime(2034, 10, 17, 9, 8)),
+        param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 4, 24)),
+        param('15 May 2004', datetime(2004, 5, 15, 0, 0)),
+    ])
+    def test_parsing_with_time_zones(self, date_string, expected_datetime):
+        self.given_local_tz_offset(+1)
+        parser = DateParser()
+        self.assertEqual(expected_datetime, parser.parse(date_string))
+
+    def given_local_tz_offset(self, offset):
+        self.add_patch(
+            patch.object(dateparser.timezones,
+                         'local_tz_offset',
+                         new=timedelta(seconds=3600 * offset))
+        )
 
 
 class DateutilHelpersTest(unittest.TestCase):
