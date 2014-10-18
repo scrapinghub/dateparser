@@ -305,8 +305,13 @@ def parse_with_language_and_format(date_string, language, date_format):
 
         return datetime.strptime(date_string, date_format)
 
-    return dateutil_parse(date_string, parserinfo=INFOS[language],
-                          ignoretz=True, fuzzy=True)
+    try:
+        return dateutil_parse(date_string, parserinfo=INFOS[language], ignoretz=True)
+    except ValueError:
+        # Temporary log message to help find those sites relying on fuzzy parsing
+        from scrapy import log
+        log.msg('REQUIRE FUZZY: %s' % repr(date_string), _level=log.CRITICAL)
+        raise
 
 
 def parse_using_languages(date_string, date_format, languages):
