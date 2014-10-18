@@ -18,6 +18,22 @@ SPECIAL_CASE_WORDS = 'Today|Yesterday|The day before yesterday'
 class BaseParserInfo(parser.parserinfo):
     JUMP = [" ", ".", ",", ";", "-", "/", "'", "|", "@"]
 
+    def __init__(self, dayfirst=False, yearfirst=False):
+        super(BaseParserInfo, self).__init__(dayfirst=dayfirst, yearfirst=yearfirst)
+        self._known_tokens = set()
+        for dct in (self._jump,
+                    self._weekdays,
+                    self._months,
+                    self._hms,
+                    self._ampm,
+                    self._utczone,
+                    self._pertain):
+            for token in dct.keys():
+                self._known_tokens.add(token)
+
+    def is_token_known(self, name):
+        return name.lower() in self._known_tokens
+
 
 class es_parserinfo(BaseParserInfo):
     MONTHS = [
@@ -386,10 +402,15 @@ def get_language_candidates(tokens, languages=None, exclude_languages=None):
     candidates = []
 
     for lang in languages:
+        should_add = False
         for token in tokens:
             if _is_word_in_language(token, lang):
-                candidates.append(lang)
+                should_add = True
+            elif not token.isdigit() and not INFOS[lang].is_token_known(token):
+                should_add = False
                 break
+        if should_add:
+            candidates.append(lang)
 
     return candidates
 
