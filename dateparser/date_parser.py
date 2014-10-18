@@ -8,13 +8,15 @@ from datetime import datetime
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
+from timezones import pop_tz_offset_from_string, convert_to_local_tz
+
 
 DATE_WORDS = 'Year|Month|Week|Day|Hour|Minute|Second'
 SPECIAL_CASE_WORDS = 'Today|Yesterday|The day before yesterday'
 
 
 class BaseParserInfo(parser.parserinfo):
-    JUMP = [" ", ".", ",", ";", "-", "/", "'", "|"]
+    JUMP = [" ", ".", ",", ";", "-", "/", "'", "|", "@"]
 
 
 class es_parserinfo(BaseParserInfo):
@@ -500,5 +502,8 @@ class DateParser(object):
 
         if not date_string.strip():
             raise ValueError("Empty string")
-
-        return self._parser.parse(date_string, date_format)
+        date_string, tz_offset = pop_tz_offset_from_string(date_string)
+        date_obj = self._parser.parse(date_string, date_format)
+        if tz_offset is not None:
+            date_obj = convert_to_local_tz(date_obj, tz_offset)
+        return date_obj
