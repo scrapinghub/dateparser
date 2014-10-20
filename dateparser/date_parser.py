@@ -35,6 +35,14 @@ class BaseParserInfo(parser.parserinfo):
     def is_token_known(self, name):
         return name.lower() in self._known_tokens
 
+    def weekday(self, name):
+        if len(name) >= 2:
+            try:
+                return self._weekdays[name.lower()]
+            except KeyError:
+                pass
+        return None
+
 
 class es_parserinfo(BaseParserInfo):
     MONTHS = [
@@ -226,6 +234,16 @@ class ro_parserinfo(BaseParserInfo):
 
 
 class nl_parserinfo(BaseParserInfo):
+    WEEKDAYS = [
+        ("Maandag", "ma"),
+        ("Dinsdag", "di"),
+        ("Woensdag", "wo"),
+        ("Donderdag", "do"),
+        ("Vrijdag", "vr"),
+        ("Zaterdag", "za"),
+        ("Zondag", "zo"),
+    ]
+
     MONTHS = [
         ('januari', 'jan'),
         ('februari', 'feb'),
