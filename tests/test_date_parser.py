@@ -206,6 +206,13 @@ class TestDateParser(BaseTestCase):
             parsed = parser.parse(dt_string)
             self.assertEquals(correct_date.date(), parsed.date())
 
+        date = DateParser().parse('18.10.14 um 22:56 Uhr')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 10)
+        self.assertEqual(date.day, 18)
+        self.assertEqual(date.hour, 22)
+        self.assertEqual(date.minute, 56)
+
     def test_should_parse_a_plain_string_date(self):
         date = DateParser().parse(str('06-17-2014'))
         self.assertEqual(date.year, 2014)

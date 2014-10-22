@@ -200,6 +200,8 @@ class cz_parserinfo(BaseParserInfo):
 
 
 class de_parserinfo(BaseParserInfo):
+    JUMP = BaseParserInfo.JUMP + ["um", "uhr"]
+
     MONTHS = [
         ('Januar', 'Jan'),
         ('Februar', 'Feb'),
