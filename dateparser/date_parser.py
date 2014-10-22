@@ -45,6 +45,18 @@ class BaseParserInfo(parser.parserinfo):
 
 
 class es_parserinfo(BaseParserInfo):
+    JUMP = BaseParserInfo.JUMP + ["de"]
+
+    WEEKDAYS = [
+        ("Lunes",),
+        ("Martes",),
+        ("Miércoles",),
+        ("Jueves",),
+        ("Viernes",),
+        ("Sábado",),
+        ("Domingo",),
+    ]
+
     MONTHS = [
         ('enero', 'ene'),
         ('febrero', 'feb'),
@@ -59,6 +71,8 @@ class es_parserinfo(BaseParserInfo):
         ('noviembre', 'nov'),
         ('diciembre', 'dic'),
     ]
+
+    PERTAIN = ["de"]
 
 
 class fr_parserinfo(BaseParserInfo):
