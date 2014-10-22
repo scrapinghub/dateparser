@@ -444,7 +444,7 @@ def get_language_candidates(tokens, languages=None, exclude_languages=None):
         if should_add:
             candidates.append(lang)
 
-    if require_fuzzy and not candidates:
+    if require_fuzzy and not candidates and exclude_languages:
         # Temporary log message to help find those sites relying on fuzzy parsing
         from scrapy import log
         log.msg('REQUIRE FUZZY: %s' % repr(''.join(tokens)), _level=log.CRITICAL)
