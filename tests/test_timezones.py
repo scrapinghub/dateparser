@@ -18,6 +18,7 @@ class TestTZPopping(BaseTestCase):
         param('Sep 03 2014 | 4:32 pm EDT', -4),
         param('17th October, 2034 @ 01:08 am PDT', -7),
         param('October 17, 2014 at 7:30 am PST', -8),
+        param('20 Oct 2014 13:08 CET', +1),
         param('15 May 2004', None),
     ])
     def test_extracting_valid_offset(self, initial_string, expected_offset):
@@ -29,6 +30,7 @@ class TestTZPopping(BaseTestCase):
         param('Sep 03 2014 | 4:32 pm EDT', 'Sep 03 2014 | 4:32 pm'),
         param('17th October, 2034 @ 01:08 am PDT', '17th October, 2034 @ 01:08 am'),
         param('October 17, 2014 at 7:30 am PST', 'October 17, 2014 at 7:30 am'),
+        param('20 Oct 2014 13:08 CET', '20 Oct 2014 13:08'),
     ])
     def test_timezone_deleted_from_string(self, initial_string, result_string):
         self.given_string(initial_string)
