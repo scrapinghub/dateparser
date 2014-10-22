@@ -407,15 +407,6 @@ def parse_using_languages(date_string, date_format, languages):
         raise ValueError("Invalid date: %s" % date_string)
 
 
-def _is_word_in_language(token, language):
-    """Check if token is a word in the given language
-    """
-    # XXX: needed for unclean dates (in URLs) like 14_luglio_2014
-    token = token.strip('_')
-
-    return INFOS[language].month(token)
-
-
 def get_language_candidates(tokens, languages=None, exclude_languages=None):
     """Find the languages which have a word matching
     at least one of the given tokens and all tokens are known by this language
@@ -428,11 +419,9 @@ def get_language_candidates(tokens, languages=None, exclude_languages=None):
     require_fuzzy = False
 
     for lang in languages:
-        should_add = False
+        should_add = True
         for token in tokens:
-            if _is_word_in_language(token, lang):
-                should_add = True
-            elif not token.isdigit() and not INFOS[lang].is_token_known(token):
+            if not token.isdigit() and not INFOS[lang].is_token_known(token):
                 require_fuzzy = True
                 should_add = False
                 break
