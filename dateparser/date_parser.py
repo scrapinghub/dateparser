@@ -45,7 +45,7 @@ class BaseParserInfo(parser.parserinfo):
 
 
 class es_parserinfo(BaseParserInfo):
-    JUMP = BaseParserInfo.JUMP + ["de"]
+    JUMP = BaseParserInfo.JUMP + ["de", "del"]
 
     WEEKDAYS = [
         ("Lunes",),
@@ -72,7 +72,7 @@ class es_parserinfo(BaseParserInfo):
         ('diciembre', 'dic'),
     ]
 
-    PERTAIN = ["de"]
+    PERTAIN = ["de", "del"]
 
 
 class fr_parserinfo(BaseParserInfo):

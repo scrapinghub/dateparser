@@ -108,6 +108,11 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(date.month, 11)
         self.assertEqual(date.day, 20)
 
+        date = DateParser().parse(u'12 de junio del 2012')
+        self.assertEqual(date.year, 2012)
+        self.assertEqual(date.month, 6)
+        self.assertEqual(date.day, 12)
+
     def test_nl_dates(self):
         date = DateParser().parse('11 augustus 2014')
         self.assertEqual(datetime(2014, 8, 11).date(), date.date())
