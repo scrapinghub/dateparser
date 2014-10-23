@@ -349,6 +349,7 @@ class TestDateParser(BaseTestCase):
     def test_fail(self):
         parser = DateParser()
         self.assertRaises(ValueError, parser.parse, 'invalid date string')
+        self.assertRaises(ValueError, parser.parse, 'Aug 7, 2014Aug 7, 2014')
 
     @parameterized.expand([
         param('Sep 03 2014 | 4:32 pm EDT', datetime(2014, 9, 3, 21, 32)),
