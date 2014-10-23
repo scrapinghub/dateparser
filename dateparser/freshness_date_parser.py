@@ -120,6 +120,9 @@ class FreshnessDateDataParser(object):
             }
         },
         'tr': {
+            'word_replacements': [
+                ('1 gün', ['dün']),
+            ],
             'units': {
                 'year':     ('yıl', 'yıl'),
                 'month':    ('ay', 'ay'),
