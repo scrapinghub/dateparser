@@ -8,12 +8,55 @@ from datetime import datetime
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
+from timezones import pop_tz_offset_from_string, convert_to_local_tz
+
 
 DATE_WORDS = 'Year|Month|Week|Day|Hour|Minute|Second'
 SPECIAL_CASE_WORDS = 'Today|Yesterday|The day before yesterday'
 
 
-class es_parserinfo(parser.parserinfo):
+class BaseParserInfo(parser.parserinfo):
+    JUMP = [" ", ".", ",", ";", "-", "/", "'", "|", "@"]
+    _SPECIAL_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
+
+    def __init__(self, dayfirst=False, yearfirst=False):
+        super(BaseParserInfo, self).__init__(dayfirst=dayfirst, yearfirst=yearfirst)
+        self._known_tokens = set(self._SPECIAL_TOKENS)
+        for dct in (self._jump,
+                    self._weekdays,
+                    self._months,
+                    self._hms,
+                    self._ampm,
+                    self._utczone,
+                    self._pertain):
+            for token in dct.keys():
+                self._known_tokens.add(token)
+
+    def is_token_known(self, name):
+        return name.lower() in self._known_tokens
+
+    def weekday(self, name):
+        if len(name) >= 2:
+            try:
+                return self._weekdays[name.lower()]
+            except KeyError:
+                pass
+        return None
+
+
+class es_parserinfo(BaseParserInfo):
+    JUMP = BaseParserInfo.JUMP + ["de", "del"]
+
+    WEEKDAYS = [
+        ("Lunes",),
+        ("Martes",),
+        ("Miércoles",),
+        ("Jueves",),
+        ("Viernes",),
+        ("Sábado",),
+        ("Domingo",),
+    ]
+
     MONTHS = [
         ('enero', 'ene'),
         ('febrero', 'feb'),
@@ -29,8 +72,22 @@ class es_parserinfo(parser.parserinfo):
         ('diciembre', 'dic'),
     ]
 
+    PERTAIN = ["de", "del"]
 
-class fr_parserinfo(parser.parserinfo):
+
+class fr_parserinfo(BaseParserInfo):
+    JUMP = BaseParserInfo.JUMP + ["le"]
+
+    WEEKDAYS = [
+        ("Lundi",),
+        ("Mardi",),
+        ("Mercredi",),
+        ("Jeudi",),
+        ("Vendredi",),
+        ("Samedi",),
+        ("Dimanche",),
+    ]
+
     MONTHS = [
         ('janvier', 'janv'),
         ('février', 'févr'),
@@ -47,7 +104,7 @@ class fr_parserinfo(parser.parserinfo):
     ]
 
 
-class it_parserinfo(parser.parserinfo):
+class it_parserinfo(BaseParserInfo):
     MONTHS = [
         ('gennaio', 'gen'),
         ('febbraio', 'feb'),
@@ -64,7 +121,19 @@ class it_parserinfo(parser.parserinfo):
     ]
 
 
-class pt_parserinfo(parser.parserinfo):
+class pt_parserinfo(BaseParserInfo):
+    JUMP = BaseParserInfo.JUMP + ["de"]
+
+    WEEKDAYS = [
+        ("Segunda-feira",),
+        ("Terça-feira",),
+        ("Quarta-feira",),
+        ("Quinta-feira",),
+        ("Sexta-feira",),
+        ("Sábado",),
+        ("Domingo",),
+    ]
+
     MONTHS = [
         ('janeiro', u'jan'),
         ('fevereiro', u'fev'),
@@ -80,8 +149,10 @@ class pt_parserinfo(parser.parserinfo):
         ('dezembro', u'dez'),
     ]
 
+    PERTAIN = ["de"]
 
-class tr_parserinfo(parser.parserinfo):
+
+class tr_parserinfo(BaseParserInfo):
     MONTHS = [
         ('Ocak',),
         ('Şubat',),
@@ -98,7 +169,7 @@ class tr_parserinfo(parser.parserinfo):
     ]
 
 
-class ru_parserinfo(parser.parserinfo):
+class ru_parserinfo(BaseParserInfo):
     MONTHS = [
         ('января', 'Января'),
         ('февраля', 'Февраля'),
@@ -115,7 +186,7 @@ class ru_parserinfo(parser.parserinfo):
     ]
 
 
-class cz_parserinfo(parser.parserinfo):
+class cz_parserinfo(BaseParserInfo):
     WEEKDAYS = [
         (u'pondělí', u'pon'),
         (u'úterý', u'úte'),
@@ -142,7 +213,9 @@ class cz_parserinfo(parser.parserinfo):
     ]
 
 
-class de_parserinfo(parser.parserinfo):
+class de_parserinfo(BaseParserInfo):
+    JUMP = BaseParserInfo.JUMP + ["um", "uhr"]
+
     MONTHS = [
         ('Januar', 'Jan'),
         ('Februar', 'Feb'),
@@ -159,7 +232,7 @@ class de_parserinfo(parser.parserinfo):
     ]
 
 
-class ro_parserinfo(parser.parserinfo):
+class ro_parserinfo(BaseParserInfo):
     MONTHS = [
         ('ianuarie', 'ian'),
         ('februarie', 'feb'),
@@ -176,7 +249,17 @@ class ro_parserinfo(parser.parserinfo):
     ]
 
 
-class nl_parserinfo(parser.parserinfo):
+class nl_parserinfo(BaseParserInfo):
+    WEEKDAYS = [
+        ("Maandag", "ma"),
+        ("Dinsdag", "di"),
+        ("Woensdag", "wo"),
+        ("Donderdag", "do"),
+        ("Vrijdag", "vr"),
+        ("Zaterdag", "za"),
+        ("Zondag", "zo"),
+    ]
+
     MONTHS = [
         ('januari', 'jan'),
         ('februari', 'feb'),
@@ -193,6 +276,10 @@ class nl_parserinfo(parser.parserinfo):
     ]
 
 
+class en_parserinfo(BaseParserInfo):
+    JUMP = list(set(BaseParserInfo.JUMP) | set(parser.parserinfo.JUMP))
+
+
 INFOS = OrderedDict([
     ('es', es_parserinfo()),
     ('fr', fr_parserinfo()),
@@ -204,7 +291,7 @@ INFOS = OrderedDict([
     ('de', de_parserinfo()),
     ('ro', ro_parserinfo()),
     ('nl', nl_parserinfo()),
-    ('en', parser.parserinfo()),
+    ('en', en_parserinfo()),
 ])
 
 
@@ -224,6 +311,21 @@ class new_timelex(parser._timelex):
             for char in token:
                 if char not in self.wordchars:
                     self.wordchars += char
+
+    @classmethod
+    def split(cls, s):
+        s = cls.prepare_string(s)
+        return super(new_timelex, cls).split(s)
+
+    @classmethod
+    def prepare_string(cls, s):
+        # As we added '-' to .wordchars because some weekdays contain it, we would always keep it
+        # as part of a word. Therefore in case '-' is clearly a separator (next to number)
+        # we should not keep it as part of the word but substitute it with space.
+        s = re.sub('(\d)[-]+', r'\1 ', s)
+        s = re.sub('[-]+(\d)', r' \1', s)
+        return s
+
 
 parser._timelex = new_timelex
 
@@ -305,8 +407,7 @@ def parse_with_language_and_format(date_string, language, date_format):
 
         return datetime.strptime(date_string, date_format)
 
-    return dateutil_parse(date_string, parserinfo=INFOS[language],
-                          ignoretz=True, fuzzy=True)
+    return dateutil_parse(date_string, parserinfo=INFOS[language], ignoretz=True)
 
 
 def parse_using_languages(date_string, date_format, languages):
@@ -322,30 +423,31 @@ def parse_using_languages(date_string, date_format, languages):
         raise ValueError("Invalid date: %s" % date_string)
 
 
-def _is_word_in_language(token, language):
-    """Check if token is a word in the given language
-    """
-    # XXX: needed for unclean dates (in URLs) like 14_luglio_2014
-    token = token.strip('_')
-
-    return INFOS[language].month(token)
-
-
 def get_language_candidates(tokens, languages=None, exclude_languages=None):
     """Find the languages which have a word matching
-    at least one of the given tokens
+    at least one of the given tokens and all tokens are known by this language
     """
     languages = languages if languages else INFOS.keys()
     if exclude_languages:
         languages = filter(lambda l: l not in exclude_languages, languages)
 
     candidates = []
+    require_fuzzy = False
 
     for lang in languages:
+        should_add = True
         for token in tokens:
-            if _is_word_in_language(token, lang):
-                candidates.append(lang)
+            if not token.isdigit() and not INFOS[lang].is_token_known(token):
+                require_fuzzy = True
+                should_add = False
                 break
+        if should_add:
+            candidates.append(lang)
+
+    if require_fuzzy and not candidates and exclude_languages:
+        # Temporary log message to help find those sites relying on fuzzy parsing
+        from scrapy import log
+        log.msg('REQUIRE FUZZY: %s' % repr(''.join(tokens)), _level=log.CRITICAL)
 
     return candidates
 
@@ -458,5 +560,8 @@ class DateParser(object):
 
         if not date_string.strip():
             raise ValueError("Empty string")
-
-        return self._parser.parse(date_string, date_format)
+        date_string, tz_offset = pop_tz_offset_from_string(date_string)
+        date_obj = self._parser.parse(date_string, date_format)
+        if tz_offset is not None:
+            date_obj = convert_to_local_tz(date_obj, tz_offset)
+        return date_obj

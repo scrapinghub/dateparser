@@ -2,16 +2,19 @@
 from __future__ import unicode_literals
 
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from mock import patch, Mock
+from nose_parameterized import parameterized, param
 
+import dateparser.timezones
 from dateparser.date_parser import DateParser
 from dateparser.date_parser import AutoDetectLanguage, ExactLanguage
 from dateparser.date_parser import LanguageWasNotSeenBeforeError
 from dateparser.date_parser import (
     parse_with_language_and_format, translate_words, get_language_candidates, tokenize_date,
 )
+from tests import BaseTestCase
 
 
 class AutoDetectLanguageTest(unittest.TestCase):
@@ -81,7 +84,7 @@ class ExactLanguageTest(unittest.TestCase):
             parser.parse(portuguese_date, None)
 
 
-class TestDateParser(unittest.TestCase):
+class TestDateParser(BaseTestCase):
 
     def test_fr_dates(self):
         date = DateParser().parse('11 Mai 2014')
@@ -89,12 +92,36 @@ class TestDateParser(unittest.TestCase):
         self.assertEqual(date.month, 5)
         self.assertEqual(date.day, 11)
 
+        date = DateParser().parse('dimanche, 11 Mai 2014')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 5)
+        self.assertEqual(date.day, 11)
+
+    def test_es_dates(self):
+        date = DateParser().parse(u'Martes 21 de Octubre de 2014')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 10)
+        self.assertEqual(date.day, 21)
+
+        date = DateParser().parse(u'Miércoles 20 de Noviembre de 2013')
+        self.assertEqual(date.year, 2013)
+        self.assertEqual(date.month, 11)
+        self.assertEqual(date.day, 20)
+
+        date = DateParser().parse(u'12 de junio del 2012')
+        self.assertEqual(date.year, 2012)
+        self.assertEqual(date.month, 6)
+        self.assertEqual(date.day, 12)
+
     def test_nl_dates(self):
         date = DateParser().parse('11 augustus 2014')
         self.assertEqual(datetime(2014, 8, 11).date(), date.date())
 
         date = DateParser().parse('14 januari 2014')
         self.assertEqual(datetime(2014, 1, 14).date(), date.date())
+
+        date = DateParser().parse('vr jan 24, 2014 12:49')
+        self.assertEqual(datetime(2014, 1, 24, 12, 49), date)
 
     def test_it_dates(self):
         date = DateParser().parse('16 giu 2014')
@@ -194,6 +221,13 @@ class TestDateParser(unittest.TestCase):
         for dt_string, correct_date in date_fixtures:
             parsed = parser.parse(dt_string)
             self.assertEquals(correct_date.date(), parsed.date())
+
+        date = DateParser().parse('18.10.14 um 22:56 Uhr')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 10)
+        self.assertEqual(date.day, 18)
+        self.assertEqual(date.hour, 22)
+        self.assertEqual(date.minute, 56)
 
     def test_should_parse_a_plain_string_date(self):
         date = DateParser().parse(str('06-17-2014'))
@@ -315,6 +349,25 @@ class TestDateParser(unittest.TestCase):
     def test_fail(self):
         parser = DateParser()
         self.assertRaises(ValueError, parser.parse, 'invalid date string')
+        self.assertRaises(ValueError, parser.parse, 'Aug 7, 2014Aug 7, 2014')
+
+    @parameterized.expand([
+        param('Sep 03 2014 | 4:32 pm EDT', datetime(2014, 9, 3, 21, 32)),
+        param('17th October, 2034 @ 01:08 am PDT', datetime(2034, 10, 17, 9, 8)),
+        param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 4, 24)),
+        param('15 May 2004', datetime(2004, 5, 15, 0, 0)),
+    ])
+    def test_parsing_with_time_zones(self, date_string, expected_datetime):
+        self.given_local_tz_offset(+1)
+        parser = DateParser()
+        self.assertEqual(expected_datetime, parser.parse(date_string))
+
+    def given_local_tz_offset(self, offset):
+        self.add_patch(
+            patch.object(dateparser.timezones,
+                         'local_tz_offset',
+                         new=timedelta(seconds=3600 * offset))
+        )
 
 
 class DateutilHelpersTest(unittest.TestCase):

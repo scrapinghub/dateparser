@@ -30,6 +30,7 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         ('15 hrs', dict(hours=15), 'day'),
         ('2 min', dict(minutes=2), 'day'),
         ('2 mins', dict(minutes=2), 'day'),
+        ('3 sec', dict(seconds=3), 'day'),
         (
             '1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
             dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),
@@ -111,6 +112,7 @@ class TestFreshnessDateDataParser(unittest.TestCase):
     ]
 
     tr_params = [
+        ('Dün', dict(days=1), 'day'),
         ('2 saat önce', dict(hours=2), 'day'),
         ('yaklaşık 23 saat önce', dict(hours=23), 'day'),
         ('1 yıl 2 ay', dict(years=1, months=2), 'months'),
