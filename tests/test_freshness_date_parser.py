@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 
 import unittest
+from datetime import datetime, timedelta
 
-from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from nose_parameterized import parameterized, param
 
 from dateparser.freshness_date_parser import FreshnessDateDataParser
 
@@ -252,6 +253,16 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         for s in date_strings:
             date, period = self.fp.parse(s)
             self.assertEqual(date, None, '"%s" should not be parsed' % s)
+
+    @parameterized.expand([
+        param('несколько секунд назад', timedelta(seconds=45)),
+    ])
+    def test_inexplicit_dates(self, date_string, boundary):
+        date, period = self.fp.parse(date_string)
+        self.assertEqual('day', period)
+        self.assertLess(date, self.now)
+        self.assertLess(self.now - date, boundary)
+
 
 if __name__ == '__main__':
     unittest.main()
