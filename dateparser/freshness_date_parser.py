@@ -40,7 +40,7 @@ class FreshnessDateDataParser(object):
             'word_replacements': [
                 ('2 Tag', ['vorgestern']),
                 ('1 Tag', ['gestern']),
-                ('0 Tags', ['Heute']),
+                ('0 Tage', ['Heute']),
                 # Earlier we had an assumption that '\d hours ago' would mean only up to 23 hours,
                 # and translated it for 'Today', but then we came across 'vor 29h' on codekicker.de
                 (r'vor \1 Stunden', ['vor (\d+)\s*h']),
@@ -143,22 +143,22 @@ class FreshnessDateDataParser(object):
                 ('44 секунды', ['несколько секунд']),
             ],
             'units': {
-                'year':     ('год', 'лет'),
-                'month':    ('месяц', 'месяцев'),
-                'week':     ('неделя', 'недель'),
-                'day':      ('день', 'дней'),
-                'hour':     ('час', 'часов'),
-                'minute':   ('минута', 'минут'),
-                'second':   ('секунда', 'секунд'),
+                'year':     ('год', 'года', 'лет'),
+                'month':    ('месяц', 'месяца', 'месяцев'),
+                'week':     ('неделя', 'недели', 'недель', 'неделю'),
+                'day':      ('день', 'дня', 'дней'),
+                'hour':     ('час', 'часа', 'часов'),
+                'minute':   ('минута', 'минута', 'минут', 'минуту'),
+                'second':   ('секунда', 'секунды', 'секунд', 'секунду'),
             }
         },
         'cs': {
             'units': {
                 'year':     ('rok', 'roků'),
-                'month':    ('měsíc', 'měsíců'),
+                'month':    ('měsíc', 'měsíců', 'měsíce'),
                 'week':     ('týden', 'týdnů'),
                 'day':      ('den', 'dnů'),
-                'hour':     ('hodina', 'hodin'),
+                'hour':     ('hodina', 'hodin', 'hodinami'),
                 'minute':   ('minuta', 'minut'),
             }
         },
@@ -174,7 +174,8 @@ class FreshnessDateDataParser(object):
                 'day':      ('天',),
                 'hour':     ('小时',),
                 'minute':   ('分', '分钟'),
-            }
+            },
+            'no_word_spacing': True,
         },
     }
 
@@ -223,7 +224,11 @@ class FreshnessDateDataParser(object):
     def try_lang(self, date_string, lang):
         date_string = self.apply_replacements(date_string, lang)
 
-        pattern = r'(\d+)\s*(%s)' % '|'.join(flatten(lang['units'].values()))
+        if lang.get('no_word_spacing', False):
+            pattern = r'(\d+)\s*(%s)'
+        else:
+            pattern = r'(\d+)\s*(%s)\b'
+        pattern = pattern % '|'.join(flatten(lang['units'].values()))
 
         m = re.findall(pattern, date_string, re.I | re.S | re.U)
         if not m:

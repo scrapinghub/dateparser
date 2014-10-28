@@ -246,8 +246,8 @@ class TestFreshnessDateDataParser(unittest.TestCase):
 
     def test_insane_dates(self):
         date_strings = [
-            '1000 years ago'
-            '12 months ago'
+            '1000 years ago',
+            '15th of Aug, 2014 Diane Bennett',
         ]
 
         for s in date_strings:
