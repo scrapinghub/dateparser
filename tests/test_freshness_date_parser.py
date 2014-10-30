@@ -256,6 +256,7 @@ class TestFreshnessDateDataParser(unittest.TestCase):
 
     @parameterized.expand([
         param('несколько секунд назад', timedelta(seconds=45)),
+        param('há alguns segundos', timedelta(seconds=45)),
     ])
     def test_inexplicit_dates(self, date_string, boundary):
         date, period = self.fp.parse(date_string)

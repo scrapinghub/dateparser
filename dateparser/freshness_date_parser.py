@@ -109,6 +109,7 @@ class FreshnessDateDataParser(object):
                 ('1 dia', ['ontem']),
                 ('0 dias', ['hoje']),
                 ('1', ['um', 'uma']),
+                ('44 segundos', ['alguns segundos']),
             ],
             'units': {
                 'year':     ('ano', 'anos'),
@@ -117,6 +118,7 @@ class FreshnessDateDataParser(object):
                 'day':      ('dia', 'dias'),
                 'hour':     ('hora', 'horas'),
                 'minute':   ('minuto', 'minutos'),
+                'second':   ('segunda', 'segundos'),
             }
         },
         'tr': {
