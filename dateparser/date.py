@@ -1,7 +1,7 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
 import re
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 from .date_parser import DateParser
@@ -33,6 +33,38 @@ def date_range(begin, end, **kwargs):
     # handles edge-case when iterating months and last interval is < 30 days
     if kwargs.get('months', 0) > 0 and (date.year, date.month) == (end.year, end.month):
         yield end
+
+
+def get_intersecting_periods(low, high, period='day'):
+    if period not in ['year', 'month', 'week', 'day', 'hour', 'minute', 'second', 'microsecond']:
+        raise ValueError("Invalid period: {}".format(period))
+
+    if high <= low:
+        return
+
+    step = relativedelta(**{period + 's': 1})
+
+    current_period_start = low
+    if isinstance(current_period_start, datetime):
+        reset_arguments = {}
+        for test_period in ['microsecond', 'second', 'minute', 'hour']:
+            if test_period == period:
+                break
+            else:
+                reset_arguments[test_period] = 0
+        current_period_start = current_period_start.replace(**reset_arguments)
+
+    if period == 'week':
+        current_period_start \
+            = current_period_start - timedelta(days=current_period_start.weekday())
+    elif period == 'month':
+        current_period_start = current_period_start.replace(day=1)
+    elif period == 'year':
+        current_period_start = current_period_start.replace(month=1, day=1)
+
+    while current_period_start < high:
+        yield current_period_start
+        current_period_start += step
 
 
 def sanitize_date(date_string):

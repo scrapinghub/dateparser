@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals
-from dateparser import date
-from mock import Mock, patch
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
+
 import unittest
+from datetime import datetime, timedelta
+
+from dateutil.relativedelta import relativedelta
+from mock import Mock, patch
+from nose_parameterized import parameterized, param
+
+from dateparser import date
+from tests import BaseTestCase
 
 
 class DateRangeTest(unittest.TestCase):
@@ -48,6 +52,99 @@ class DateRangeTest(unittest.TestCase):
 
         with self.assertRaisesRegexp(ValueError, "Invalid argument"):
             date.date_range(begin, end, day=1).next()
+
+
+class GetIntersectingPeriodsTest(BaseTestCase):
+
+    def test_date_arguments_and_date_range_with_default_post_days(self):
+        low = datetime(2014, 6, 15)
+        high = datetime(2014, 6, 16)
+        dates = list(date.get_intersecting_periods(low, high))
+        self.assertEquals(1, len(dates))
+        self.assertEquals(low, dates[0])
+
+    @parameterized.expand([
+        param(low=datetime(2014, 4, 15),
+              high=datetime(2014, 6, 25),
+              expected_results=[datetime(2014, 4, 1), datetime(2014, 5, 1), datetime(2014, 6, 1)]),
+        param(low=datetime(2014, 4, 25),
+              high=datetime(2014, 5, 5),
+              expected_results=[datetime(2014, 4, 1), datetime(2014, 5, 1)]),
+        param(low=datetime(2014, 4, 5),
+              high=datetime(2014, 4, 25),
+              expected_results=[datetime(2014, 4, 1)]),
+        param(low=datetime(2014, 4, 25),
+              high=datetime(2014, 6, 5),
+              expected_results=[datetime(2014, 4, 1), datetime(2014, 5, 1), datetime(2014, 6, 1)]),
+        param(low=datetime(2014, 4, 25),
+              high=datetime(2014, 4, 25),
+              expected_results=[]),
+        param(low=datetime(2014, 12, 31),
+              high=datetime(2015, 1, 1),
+              expected_results=[datetime(2014, 12, 1)]),
+    ])
+    def test_should_one_date_for_each_month(self, low, high, expected_results):
+        results = list(date.get_intersecting_periods(low, high, period='month'))
+        self.assertEquals(expected_results, results)
+
+    @parameterized.expand([
+        param(low=datetime(2014, 4, 15),
+              high=datetime(2014, 5, 15),
+              period='month',
+              expected_results=[datetime(2014, 4, 1), datetime(2014, 5, 1)]),
+        param(low=datetime(2014, 10, 30, 4, 30),
+              high=datetime(2014, 11, 7, 5, 20),
+              period='week',
+              expected_results=[datetime(2014, 10, 27), datetime(2014, 11, 3)]),
+        param(low=datetime(2014, 8, 13, 13, 21),
+              high=datetime(2014, 8, 14, 14, 7),
+              period='day',
+              expected_results=[datetime(2014, 8, 13), datetime(2014, 8, 14)]),
+        param(low=datetime(2014, 5, 11, 22, 4),
+              high=datetime(2014, 5, 12, 0, 5),
+              period='hour',
+              expected_results=[datetime(2014, 5, 11, 22, 0),
+                                datetime(2014, 5, 11, 23, 0),
+                                datetime(2014, 5, 12, 0, 0)]),
+        param(low=datetime(2014, 4, 25, 11, 11, 11),
+              high=datetime(2014, 4, 25, 11, 12, 11),
+              period='minute',
+              expected_results=[datetime(2014, 4, 25, 11, 11, 0),
+                                datetime(2014, 4, 25, 11, 12, 0)]),
+        param(low=datetime(2014, 12, 31, 23, 59, 58, 500),
+              high=datetime(2014, 12, 31, 23, 59, 59, 600),
+              period='second',
+              expected_results=[datetime(2014, 12, 31, 23, 59, 58, 0),
+                                datetime(2014, 12, 31, 23, 59, 59, 0)]),
+    ])
+    def test_periods(self, low, high, period, expected_results):
+        results = list(date.get_intersecting_periods(low, high, period=period))
+        self.assertEquals(expected_results, results)
+
+    @parameterized.expand([
+        'years',
+        'months',
+        'days',
+        'hours',
+        'minutes',
+        'seconds',
+        'microseconds',
+        'some_period',
+    ])
+    def test_should_reject_easily_mistaken_dateutil_arguments(self, invalid_period):
+        low = datetime(2014, 6, 15)
+        period = datetime(2014, 6, 25)
+
+        with self.assertRaisesRegexp(ValueError, "Invalid period: {}".format(invalid_period)):
+            date.get_intersecting_periods(low, period, period=invalid_period).next()
+
+    @parameterized.expand([
+        param(low=datetime(2014, 4, 15), high=datetime(2014, 4, 14)),
+        param(low=datetime(2014, 4, 25), high=datetime(2014, 4, 25)),
+    ])
+    def test_empty_period(self, low, high):
+        results = list(date.get_intersecting_periods(low, high, period='month'))
+        self.assertEquals([], results)
 
 
 class ParseDateWithFormats(unittest.TestCase):
