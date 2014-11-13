@@ -159,8 +159,8 @@ class FreshnessDateDataParser(object):
                 'year':     ('rok', 'roků'),
                 'month':    ('měsíc', 'měsíců', 'měsíce'),
                 'week':     ('týden', 'týdnů'),
-                'day':      ('den', 'dnů'),
-                'hour':     ('hodina', 'hodin', 'hodinami'),
+                'day':      ('den', 'dnů', 'dny'),
+                'hour':     ('hodina', 'hodin', 'hodiny', 'hodinami'),
                 'minute':   ('minuta', 'minut'),
             }
         },

@@ -157,6 +157,8 @@ class TestFreshnessDateDataParser(unittest.TestCase):
             dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),
             'day',
         ),
+        ('3 dny', dict(days=3), 'day'),
+        ('3 hodiny', dict(hours=3), 'day'),
     ]
 
     es_params = [
