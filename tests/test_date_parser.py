@@ -86,6 +86,12 @@ class ExactLanguageTest(unittest.TestCase):
 
 class TestDateParser(BaseTestCase):
 
+    def test_en_dates(self):
+        date = DateParser().parse('[Sept] 04, 2014.')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 9)
+        self.assertEqual(date.day, 4)
+
     def test_fr_dates(self):
         date = DateParser().parse('11 Mai 2014')
         self.assertEqual(date.year, 2014)

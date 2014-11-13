@@ -16,7 +16,7 @@ SPECIAL_CASE_WORDS = 'Today|Yesterday|The day before yesterday'
 
 
 class BaseParserInfo(parser.parserinfo):
-    JUMP = [" ", ".", ",", ";", "-", "/", "'", "|", "@"]
+    JUMP = [" ", ".", ",", ";", "-", "/", "'", "|", "@", "[", "]"]
     _SPECIAL_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
 
     def __init__(self, dayfirst=False, yearfirst=False):
