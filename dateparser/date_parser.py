@@ -170,6 +170,8 @@ class tr_parserinfo(BaseParserInfo):
 
 
 class ru_parserinfo(BaseParserInfo):
+    JUMP = BaseParserInfo.JUMP + ["в"]
+
     MONTHS = [
         ('января', 'Января'),
         ('февраля', 'Февраля'),

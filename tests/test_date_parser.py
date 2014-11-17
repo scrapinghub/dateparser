@@ -180,6 +180,13 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(date.month, 11)
         self.assertEqual(date.day, 20)
 
+        date = DateParser().parse('28 октября 2014 в 07:54')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 10)
+        self.assertEqual(date.day, 28)
+        self.assertEqual(date.hour, 7)
+        self.assertEqual(date.minute, 54)
+
     def test_tr_dates(self):
         # forum.andronova.net
         date = DateParser().parse('08.Haziran.2014, 11:07')
