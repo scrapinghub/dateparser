@@ -89,15 +89,15 @@ class fr_parserinfo(BaseParserInfo):
     ]
 
     MONTHS = [
-        ('janvier', 'janv'),
-        ('février', 'févr'),
-        ('mars'),
-        ('avril'),
+        ('janvier', 'janv', 'jan'),
+        ('février', 'févr', 'fév'),
+        ('mars', 'mar'),
+        ('avril', 'avr'),
         ('mai'),
         ('juin'),
         ('juillet', 'juil'),
-        ('août',),
-        ('septembre', 'sept'),
+        ('août', 'aoû'),
+        ('septembre', 'sept', 'sep'),
         ('octobre', 'oct'),
         ('novembre', 'nov'),
         ('décembre', 'déc'),
