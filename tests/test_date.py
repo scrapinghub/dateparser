@@ -247,7 +247,7 @@ class DateDataParserTest(unittest.TestCase):
             self.assertIsNotNone(date_data['date_obj'],
                                  "Could not get date for: %s" % date_string)
             self.check_equal(correct_date.date(),
-                            date_data['date_obj'].date(), date_string)
+                             date_data['date_obj'].date(), date_string)
 
     def test_should_enable_redetection_for_multiple_languages(self):
         date_fixtures = [
