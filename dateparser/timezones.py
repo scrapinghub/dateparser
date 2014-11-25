@@ -13,7 +13,7 @@ def get_tz_offsets():
     for tz in all_timezones:
         if hasattr(timezone(tz), '_transition_info'):
             for timezone_info in timezone(tz)._transition_info:
-                tz_offsets[re.compile(r'\b%s$' % timezone_info[2])] = timedelta(seconds=timezone_info[0].seconds)
+                tz_offsets[re.compile(r'\b%s$' % timezone_info[2])] = timezone_info[0]
         else:
             now = datetime.now(timezone(tz))
             offset = now.tzinfo.utcoffset(now).total_seconds()
