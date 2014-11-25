@@ -3,20 +3,26 @@ import re
 from datetime import datetime, timedelta
 from math import ceil
 
+from pytz import all_timezones, timezone
 
 HOUR = 3600
 
-tz_offsets = {
-    'CET': +1 * HOUR,
+other_tz_offsets = {
     'EDT': -4 * HOUR,
     'PDT': -7 * HOUR,
     'PST': -8 * HOUR,
 }
 
-_tz_offsets = {
-    re.compile(r'\b%s$' % timezone): timedelta(seconds=offset)
-    for timezone, offset in tz_offsets.iteritems()
-}
+
+def get_tz_offsets():
+    tz_offsets = {}
+    for tz in all_timezones:
+        now = datetime.now(timezone(tz))
+        offset = now.tzinfo.utcoffset(now).total_seconds()
+        tz_offsets[re.compile(r'\b%s$' % tz)] = timedelta(seconds=offset)
+    for tz, offset in other_tz_offsets.iteritems():
+        tz_offsets[re.compile(r'\b%s$' % tz)] = timedelta(seconds=offset)
+    return tz_offsets
 
 
 def pop_tz_offset_from_string(date_string):
@@ -38,4 +44,5 @@ def get_local_tz_offset():
     return timedelta(seconds=days * 24 * HOUR + seconds + ceil(microseconds / 1000000.0))
 
 
+_tz_offsets = get_tz_offsets()
 local_tz_offset = get_local_tz_offset()

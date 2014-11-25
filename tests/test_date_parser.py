@@ -369,6 +369,7 @@ class TestDateParser(BaseTestCase):
         param('17th October, 2034 @ 01:08 am PDT', datetime(2034, 10, 17, 9, 8)),
         param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 4, 24)),
         param('15 May 2004', datetime(2004, 5, 15, 0, 0)),
+        param('Nov 25 2014 10:17 pm EST', datetime(2014, 11, 26, 4, 17)),
     ])
     def test_parsing_with_time_zones(self, date_string, expected_datetime):
         self.given_local_tz_offset(+1)
