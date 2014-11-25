@@ -11,10 +11,7 @@ except ImportError:
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
-requirements = [
-    "wheel==0.23.0",
-    "python-dateutil >= 2.2",
-]
+requirements = open('requirements.txt').read().splitlines()
 
 test_requirements = open('tests/requirements.txt').read().splitlines()
 
