@@ -36,7 +36,7 @@ lint:
 	flake8 dateparser tests
 
 test:
-	nosetests
+	python setup.py test
 
 test-all:
 	tox
