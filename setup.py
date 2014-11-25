@@ -11,12 +11,14 @@ except ImportError:
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
-requirements = [
-    "wheel==0.23.0",
-    "python-dateutil >= 2.2",
-]
 
-test_requirements = open('tests/requirements.txt').read().splitlines()
+def load_reqs(fname):
+    return open(fname).read().splitlines()
+
+
+requirements = load_reqs('requirements-build.txt') + load_reqs('requirements.txt')
+
+test_requirements = load_reqs('tests/requirements.txt')
 
 setup(
     name='dateparser',
@@ -44,6 +46,6 @@ setup(
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.7',
     ],
-    test_suite='tests',
+    test_suite='nose.collector',
     tests_require=test_requirements
 )
