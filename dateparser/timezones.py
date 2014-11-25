@@ -7,21 +7,17 @@ from pytz import all_timezones, timezone
 
 HOUR = 3600
 
-other_tz_offsets = {
-    'EDT': -4 * HOUR,
-    'PDT': -7 * HOUR,
-    'PST': -8 * HOUR,
-}
-
 
 def get_tz_offsets():
     tz_offsets = {}
     for tz in all_timezones:
-        now = datetime.now(timezone(tz))
-        offset = now.tzinfo.utcoffset(now).total_seconds()
-        tz_offsets[re.compile(r'\b%s$' % tz)] = timedelta(seconds=offset)
-    for tz, offset in other_tz_offsets.iteritems():
-        tz_offsets[re.compile(r'\b%s$' % tz)] = timedelta(seconds=offset)
+        if hasattr(timezone(tz), '_transition_info'):
+            for timezone_info in timezone(tz)._transition_info:
+                tz_offsets[re.compile(r'\b%s$' % timezone_info[2])] = timedelta(seconds=timezone_info[0].seconds)
+        else:
+            now = datetime.now(timezone(tz))
+            offset = now.tzinfo.utcoffset(now).total_seconds()
+            tz_offsets[re.compile(r'\b%s$' % tz)] = timedelta(seconds=offset)
     return tz_offsets
 
 
