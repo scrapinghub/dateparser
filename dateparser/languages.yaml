@@ -101,3 +101,89 @@ en:
         - (\d+)\s*hr(s?): \1 hour\2
         - (\d+)\s*min(s?): \1 minute\2
         - (\d+)\s*sec(s?): \1 second\2
+
+
+de:
+    name: German
+
+    skip: ["um", "uhr"]
+
+    monday:
+        - Montag
+    tuesday:
+        - Dienstag
+    wednesday:
+        - Mittwoch
+    thursday:
+        - Donnerstag
+    friday:
+        - Freitag
+    saturday:
+        - Samstag
+    sunday:
+        - Sonntag
+
+    january:
+        - Jan
+        - Januar
+    february:
+        - Feb
+        - Februar
+    march:
+        - März
+    april:
+        - Apr
+        - April
+    may:
+        - Mai
+    june:
+        - Juni
+    july:
+        - Juli
+    august:
+        - Aug
+        - August
+    september:
+        - Sept
+        - September
+    october:
+        - Okt
+        - Oktober
+    november:
+        - Nov
+        - November
+    december:
+        - Dez
+        - Dezember
+
+    year:
+        - Jahr
+        - Jahre
+    month:
+        - Monat
+        - Monate
+    week:
+        - Woche
+        - Wochen
+    day:
+        - Tag
+        - Tage
+    hour:
+        - Stunde
+        - Stunden
+    minute:
+        - Minute
+        - Minuten
+    second:
+        - Sekunde
+        - Sekunden
+
+    simplifications:
+        - vorgestern: 2 Tage
+        - gestern: 1 Tag
+        - heute: 0 Tage
+        - einer: 1
+        - einem: 1
+        - vor (\d+)\s*h: vor \1 Stunden
+        - vor (\d+)\s*m: vor \1 Minuten
+        - vor (\d+)\s*s: vor \1 Sekunden
