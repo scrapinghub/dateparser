@@ -9,12 +9,9 @@ HOUR = 3600
 
 
 def get_tz_offsets():
-    tz_offsets = {}
-    for tz in all_timezones:
-        if hasattr(timezone(tz), '_transition_info'):
-            for timezone_info in timezone(tz)._transition_info:
-                tz_offsets[re.compile(r'\b%s$' % timezone_info[2])] = timezone_info[0]
-    return tz_offsets
+    transition_info = [timezone(tz)._transition_info for tz in all_timezones if hasattr(timezone(tz), '_transition_info')]
+    infos = set((info[2], info[0]) for infolist in transition_info for info in infolist)
+    return {re.compile(r'\b%s$' % tz_info[0]): tz_info[1] for tz_info in infos}
 
 
 def pop_tz_offset_from_string(date_string):
