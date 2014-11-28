@@ -11,9 +11,14 @@ except ImportError:
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
-requirements = open('requirements.txt').read().splitlines()
 
-test_requirements = open('tests/requirements.txt').read().splitlines()
+def load_reqs(fname):
+    return open(fname).read().splitlines()
+
+
+requirements = load_reqs('requirements-build.txt') + load_reqs('requirements.txt')
+
+test_requirements = load_reqs('tests/requirements.txt')
 
 setup(
     name='dateparser',
