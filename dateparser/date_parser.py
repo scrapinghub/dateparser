@@ -278,6 +278,22 @@ class nl_parserinfo(BaseParserInfo):
     ]
 
 
+class zh_parserinfo(BaseParserInfo):
+    NUMBERS = {"〇": '0',
+               "零": '0',
+               "一": '1',
+               "二": '2',
+               "三": '3',
+               "四": '4',
+               "五": '5',
+               "六": '6',
+               "七": '7',
+               "八": '8',
+               "九": '9',
+               "十": '10',
+               "十一": '11',
+               "十二": '12'}
+
 class en_parserinfo(BaseParserInfo):
     JUMP = list(set(BaseParserInfo.JUMP) | set(parser.parserinfo.JUMP))
 
@@ -293,9 +309,11 @@ INFOS = OrderedDict([
     ('de', de_parserinfo()),
     ('ro', ro_parserinfo()),
     ('nl', nl_parserinfo()),
+    ('zh', zh_parserinfo()),
     ('en', en_parserinfo()),
 ])
 
+CJK_LANGUAGES = ['zh', 'ja', 'ko']
 
 class new_timelex(parser._timelex):
 
@@ -366,6 +384,20 @@ def _build_table(info):
 
     return table
 
+def translate_cjk_characters(date_string):
+    """Maps Chinese numerals to standard numbers."""
+    numbers = zh_parserinfo().NUMBERS
+    converted = [numbers[c] if c in numbers.keys() else c for c in date_string]
+    return ''.join(converted).replace('101', '11').replace('102', '12')
+
+def convert_cjk_to_numeric(date_string):
+    """Converts date_string of the format yyyy年mm月dd日 to yyyy mm dd"""
+    zh_or_ja_format = re.compile("\d\d\d\d年\d+月\d+日")
+    if zh_or_ja_format.findall(date_string)[0]:
+        for c in ["年", "月", "日"]:
+            date_string = date_string.replace(c, ' ')
+        return date_string
+
 
 def translate_words(date_string, language):
     """Translate date words in the given language into its equivalent number
@@ -402,6 +434,14 @@ def dateutil_parse(date_string, **kwargs):
 
 
 def parse_with_language_and_format(date_string, language, date_format):
+
+    if language in CJK_LANGUAGES:
+
+        date_string = translate_cjk_characters(date_string)
+        date_string = convert_cjk_to_numeric(date_string)
+
+        return datetime.strptime(date_string, '%Y %m %d ')
+
     if date_format:
 
         date_format = convert_date_formats_to_numeric(date_format)
