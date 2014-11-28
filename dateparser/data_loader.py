@@ -13,7 +13,7 @@ class LanguageDataLoader(object):
 
     def load_data(self):
         if self.file is None:
-            data = get_data('dateparser', 'languages.yaml')
+            data = get_data('data', 'languages.yaml')
         else:
             data = self.file.read()
         data = load_yaml(data)

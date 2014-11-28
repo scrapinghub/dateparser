@@ -3,7 +3,7 @@ include CONTRIBUTING.rst
 include HISTORY.rst
 include LICENSE
 include README.rst
-include dateparser/languages.yaml
+include data/languages.yaml
 include requirements.txt
 include requirements-build.txt
 
