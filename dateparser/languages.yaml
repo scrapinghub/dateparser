@@ -187,3 +187,90 @@ de:
         - vor (\d+)\s*h: vor \1 Stunden
         - vor (\d+)\s*m: vor \1 Minuten
         - vor (\d+)\s*s: vor \1 Sekunden
+
+fr:
+    name: French
+
+    skip: ["le"]
+
+    monday:
+        - Lundi
+    tuesday:
+        - Mardi
+    wednesday:
+        - Mercredi
+    thursday:
+        - Jeudi
+    friday:
+        - Vendredi
+    saturday:
+        - Samedi
+    sunday:
+        - Dimanche
+
+    january:
+        - Janvier
+        - Janv
+        - Jan
+    february:
+        - Février
+        - Févr
+        - Fév
+    march:
+        - Mars
+        - mar
+    april:
+        - Avril
+        - Avr
+    may:
+        - Mai
+    june:
+        - Juin
+    july:
+        - Juillet
+        - Juil
+    august:
+        - Août
+        - Aoû
+    september:
+        - Septembre
+        - Sept
+        - Sep
+    october:
+        - Octobre
+        - Oct
+    november:
+        - Novembre
+        - Nov
+    december:
+        - Décembre
+        - Déc
+
+    year:
+        - an
+        - année
+        - années
+    month:
+        - mois
+    week:
+        - semaine
+        - semaines
+    day:
+        - jour
+        - jours
+    hour:
+        - heure
+        - heures
+    minute:
+        - minute
+        - minutes
+    second:
+        - seconde
+        - secondes
+
+    simplifications:
+        - avant-hier: 2 jour
+        - hier: 1 jour
+        - aujourd'hui: 0 jours
+        - un: 1
+        - une: 1
