@@ -363,3 +363,86 @@ es:
         - hoy: 0 día
         - un: 1
         - una: 1
+
+
+it:
+    name: Italian
+
+    monday:
+        - Lunedi
+    tuesday:
+        - Martedì
+    wednesday:
+        - Mercoledì
+    thursday:
+        - Giovedi
+    friday:
+        - Venerdì
+    saturday:
+        - Sabato
+    sunday:
+        - Domenica
+
+    january:
+        - Gennaio
+        - Gen
+    february:
+        - Febbraio
+        - Feb
+    march:
+        - Marzo
+        - Mar
+    april:
+        - Aprile
+        - Apr
+    may:
+        - Maggio
+        - Mag
+    june:
+        - Giugno
+        - Giu
+    july:
+        - Luglio
+        - Lug
+    august:
+        - Agosto
+        - Ago
+    september:
+        - Settembre
+        - Set
+    october:
+        - Ottobre
+        - Ott
+    november:
+        - Novembre
+        - Nov
+    december:
+        - Dicembre
+        - Dic
+
+    year:
+        - anno
+        - anni
+    month:
+        - mese
+        - mesi
+    week:
+        - settimana
+        - settimane
+    day:
+        - giorno
+        - giorni
+    hour:
+        - ora
+        - ore
+    minute:
+        - minuto
+        - minuti
+    second:
+        - secondo
+        - secondi
+
+    simplifications:
+        - altro ieri: 2 giorni
+        - ieri: 1 giorno
+        - oggi: 0 giorni
