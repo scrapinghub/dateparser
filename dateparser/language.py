@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from logging import getLogger
 from pkgutil import get_data
 
@@ -224,6 +225,54 @@ class LanguageValidator(object):
                     cls.logger.error("Invalid simplification %(simplification)r for '%(id)s' language:"
                                      " eash simplification suppose to be one-to-one mapping",
                                      {'simplification': simplification, 'id': language_id})
+                    result = False
+                    continue
+
+                key, value = simplification.items()[0]
+                if not isinstance(key, basestring) or not isinstance(value, (basestring, int)):
+                    cls.logger.error("Invalid simplification %(simplification)r for '%(id)s' language:"
+                                     " each simplification suppose to be string-to-string-or-int mapping",
+                                     {'simplification': simplification, 'id': language_id})
+                    result = False
+                    continue
+
+                compiled_key = re.compile(key)
+                value = unicode(value)
+                replacements = re.findall(r'\\(\d+)', value)
+                replacements.extend(re.findall(r'\\g<(.+?)>', value))
+
+                groups = []
+                for group in replacements:
+                    if group.isdigit():
+                        groups.append(int(group))
+                    elif group in compiled_key.groupindex:
+                        groups.append(compiled_key.groupindex[group])
+                    else:
+                        cls.logger.error("Invalid simplification %(simplification)r for '%(id)s' language:"
+                                         " unknown group %(group)s",
+                                         {'simplification': simplification, 'id': language_id, 'group': group})
+                        result = False
+
+                used_groups = set(map(int, groups))
+                expected_groups = set(range(0, compiled_key.groups + 1))
+                extra_groups = used_groups - expected_groups
+                not_used_groups = expected_groups - used_groups
+                not_used_groups -= set([0])  # Entire substring is not required to be used
+
+                if extra_groups:
+                    cls.logger.error("Invalid simplification %(simplification)r for '%(id)s' language:"
+                                     " unknown groups %(groups)s",
+                                     {'simplification': simplification,
+                                      'id': language_id,
+                                      'groups': ", ".join(map(unicode, sorted(extra_groups)))})
+                    result = False
+
+                if not_used_groups:
+                    cls.logger.error("Invalid simplification %(simplification)r for '%(id)s' language:"
+                                     " groups %(groups)s were not used",
+                                     {'simplification': simplification,
+                                      'id': language_id,
+                                      'groups': ", ".join(map(unicode, sorted(not_used_groups)))})
                     result = False
         else:
             cls.logger.error("Invalid 'simplifications' list for '%(id)s' language:"
