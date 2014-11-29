@@ -34,6 +34,11 @@ class Language(object):
 
 class LanguageValidator(object):
     logger = getLogger('dateparser')
+    VALID_KEYS = ['name', 'skip', 'pertain', 'simplifications',
+                  'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
+                  'january', 'february', 'march', 'april', 'may', 'june', 'july',
+                  'august', 'september', 'october', 'november', 'december',
+                  'year', 'month', 'week', 'day', 'hour', 'minute', 'second']
 
     @classmethod
     def validate_info(cls, language_id, info):
@@ -50,6 +55,7 @@ class LanguageValidator(object):
         result &= cls._validate_months(language_id, info)
         result &= cls._validate_units(language_id, info)
         result &= cls._validate_simplifications(language_id, info)
+        result &= cls._validate_extra_keys(language_id, info)
         return result
 
     @classmethod
@@ -223,6 +229,18 @@ class LanguageValidator(object):
             cls.logger.error("Invalid 'simplifications' list for '%(id)s' language:"
                              " expected list type but have got %(type)s",
                              {'id': language_id, 'type': type(simplifications_list).__name__})
+            result = False
+
+        return result
+
+    @classmethod
+    def _validate_extra_keys(cls, language_id, info):
+        result = True
+
+        extra_keys = set(info.keys()) - set(cls.VALID_KEYS)
+        if extra_keys:
+            cls.logger.error("Extra keys found for '%(id)s' language: %(keys)s",
+                             {'id': language_id, 'keys': ", ".join(map(repr, extra_keys))})
             result = False
 
         return result
