@@ -1,6 +1,7 @@
 base:
     skip: [" ", ".", ",", ";", "-", "/", "'", "|", "@", "[", "]"]
 
+
 en:
     name: English
 
@@ -188,6 +189,7 @@ de:
         - vor (\d+)\s*m: vor \1 Minuten
         - vor (\d+)\s*s: vor \1 Sekunden
 
+
 fr:
     name: French
 
@@ -274,6 +276,7 @@ fr:
         - aujourd'hui: 0 jours
         - un: 1
         - une: 1
+
 
 es:
     name: Spanish
@@ -446,3 +449,93 @@ it:
         - altro ieri: 2 giorni
         - ieri: 1 giorno
         - oggi: 0 giorni
+
+
+pt:
+    name: Portuguese
+
+    skip: ["de"]
+    pertain: ["de"]
+
+    monday:
+        - Segunda-feira
+    tuesday:
+        - Terça-feira
+    wednesday:
+        - Quarta-feira
+    thursday:
+        - Quinta-feira
+    friday:
+        - Sexta-feira
+    saturday:
+        - Sábado
+    sunday:
+        - Domingo
+
+    january:
+        - Janeiro
+        - Jan
+    february:
+        - Fevereiro
+        - Fev
+    march:
+        - Março
+        - Mar
+    april:
+        - Abril
+        - Abr
+    may:
+        - Maio
+        - Mai
+    june:
+        - Junho
+        - Jun
+    july:
+        - Julho
+        - Jul
+    august:
+        - Agosto
+        - Ago
+    september:
+        - Septembro
+        - Setembro
+        - Set
+    october:
+        - Outubro
+        - Out
+    november:
+        - Novembro
+        - Nov
+    december:
+        - Dezembro
+        - Dez
+
+    year:
+        - ano
+        - anos
+    month:
+        - mês
+        - meses
+    week:
+        - semana
+        - semanas
+    day:
+        - dia
+        - dias
+    hour:
+        - hora
+        - horas
+    minute:
+        - minuto
+        - minutos
+    second:
+        - segunda
+        - segundos
+
+    simplifications:
+        - anteontem: 2 dias
+        - ontem: 1 dia
+        - hoje: 0 dias
+        - um: 1
+        - uma: 1
+        - alguns segundos: 44 segundos
