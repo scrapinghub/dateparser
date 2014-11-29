@@ -635,3 +635,65 @@ ru:
         - ^минуту: 1 минуту
         - ^секунду: 1 секунду
         - несколько секунд: 44 секунды
+
+
+tr:
+    name: Turkish
+
+    monday:
+        - Pazartesi
+    tuesday:
+        - Salı
+    wednesday:
+        - Çarşamba
+    thursday:
+        - Perşembe
+    friday:
+        - Cuma
+    saturday:
+        - Cumartesi
+    sunday:
+        - Pazar
+
+    january:
+        - Ocak
+    february:
+        - Şubat
+    march:
+        - Mart
+    april:
+        - Nisan
+    may:
+        - Mayıs
+    june:
+        - Haziran
+    july:
+        - Temmuz
+    august:
+        - Ağustos
+    september:
+        - Eylül
+    october:
+        - Ekim
+    november:
+        - Kasım
+    december:
+        - Aralık
+
+    year:
+        - yıl
+    month:
+        - ay
+    week:
+        - hafta
+    day:
+        - gün
+    hour:
+        - saat
+    minute:
+        - dakika
+    second:
+        - saniye
+
+    simplifications:
+        - dün: 1 gün
