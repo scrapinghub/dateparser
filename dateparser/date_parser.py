@@ -1,5 +1,6 @@
 # coding: utf-8
 from __future__ import unicode_literals
+from __future__ import absolute_import
 
 import re
 from collections import OrderedDict
@@ -8,7 +9,10 @@ from datetime import datetime
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
-from timezones import pop_tz_offset_from_string, convert_to_local_tz
+from dateparser.timezones import pop_tz_offset_from_string, convert_to_local_tz
+import sys
+
+PY2 = sys.version_info[0] == 2
 
 
 DATE_WORDS = 'Year|Month|Week|Day|Hour|Minute|Second'
@@ -301,7 +305,7 @@ class new_timelex(parser._timelex):
 
     def __init__(self, *args, **kwargs):
         super(new_timelex, self).__init__(*args, **kwargs)
-        for k, info in INFOS.iteritems():
+        for k, info in INFOS.items():
             for days in info.WEEKDAYS:
                 self._update_wordchars_for_tokens(days)
 
@@ -336,18 +340,18 @@ class new_relativedelta(relativedelta):
     """ dateutil does not check if result of parsing weekday is in the future.
     Although items dates are already in the past, so we need to fix this particular case.
     """
-
-    def __new__(cls, *args, **kwargs):
-        if not args and len(kwargs) == 1 and 'weekday' in kwargs:
-            return super(new_relativedelta, cls).__new__(cls, *args, **kwargs)
-        else:
-            # use original class to parse other cases
-            return relativedelta(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(new_relativedelta, self).__init__(*args, **kwargs)
+        self._assume_past_when_only_given_weekday = all(
+            (not args, len(kwargs) == 1, 'weekday' in kwargs)
+        )
 
     def __add__(self, other):
         ret = super(new_relativedelta, self).__add__(other)
-        if ret > datetime.utcnow():
-            ret -= relativedelta(days=7)
+
+        if self._assume_past_when_only_given_weekday and ret > datetime.utcnow():
+            return ret - relativedelta(days=7)
+
         return ret
 
 parser.relativedelta.relativedelta = new_relativedelta
@@ -397,7 +401,7 @@ def dateutil_parse(date_string, **kwargs):
     # https://bugs.launchpad.net/dateutil/+bug/1042851
     try:
         return parser.parse(date_string, **kwargs)
-    except TypeError, e:
+    except TypeError as e:
         raise ValueError(e, "Invalid date: %s" % date_string)
 
 
@@ -558,12 +562,16 @@ class DateParser(object):
             self._parser = parser_cls(language)
 
     def parse(self, date_string, date_format=None):
-        date_string = unicode(date_string)
+        if PY2:
+            date_string = unicode(date_string)
 
         if not date_string.strip():
             raise ValueError("Empty string")
+
         date_string, tz_offset = pop_tz_offset_from_string(date_string)
         date_obj = self._parser.parse(date_string, date_format)
+
         if tz_offset is not None:
             date_obj = convert_to_local_tz(date_obj, tz_offset)
+
         return date_obj

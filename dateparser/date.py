@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 import re
+import sys
 
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
-from .date_parser import DateParser
-from .freshness_date_parser import freshness_date_parser
+from dateparser.date_parser import DateParser
+from dateparser.freshness_date_parser import freshness_date_parser
 import calendar
+
+PY2 = sys.version_info[0] == 2
 
 
 def sanitize_spaces(html_string):
@@ -96,11 +100,13 @@ def parse_with_formats(date_string, date_formats, final_call=False, alt_parser=N
     :returns: :class:`datetime.datetime`, dict or None
 
     """
-    #Encode to support locale setting in spiders
     data = {'period': 'day', 'date_obj': None}
 
-    if isinstance(date_string, unicode):
-        date_string = date_string.encode('utf-8')
+    if PY2:
+        #Encode to support locale setting in spiders
+        if isinstance(date_string, unicode):
+            date_string = date_string.encode('utf-8')
+
     for date_format in date_formats:
         try:
             try:

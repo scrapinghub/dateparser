@@ -185,15 +185,15 @@ class FreshnessDateDataParser(object):
         self.now = now or datetime.utcnow()
         self.units_map = {}
 
-        for lang in self.langs.itervalues():
+        for lang in self.langs.values():
             d = lang['units']
-            for k, vlist in d.iteritems():
+            for k, vlist in d.items():
                 for v in vlist:
                     self.units_map[v.lower()] = k
 
     def parse(self, date_string):
         kwargs = {}
-        for lang in self.langs.itervalues():
+        for lang in self.langs.values():
             td_kwargs = self.try_lang(date_string, lang)
             if len(td_kwargs) > len(kwargs):
                 kwargs = td_kwargs
@@ -218,7 +218,7 @@ class FreshnessDateDataParser(object):
         if 'word_replacements' in lang:
             for replacement, words in lang['word_replacements']:
                 for w in words:
-                    date_string = re.sub(ur'\b%s\b' % w, replacement, date_string,
+                    date_string = re.sub(r'\b%s\b' % w, replacement, date_string,
                                          flags=re.IGNORECASE | re.UNICODE)
 
         return date_string
