@@ -8,10 +8,6 @@ readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 
-requirements = [
-    'python-dateutil >= 2.2',
-]
-
 test_requirements = open('tests/requirements.txt').read().splitlines()
 
 setup(
@@ -28,7 +24,9 @@ setup(
     package_dir={'dateparser':
                  'dateparser'},
     include_package_data=True,
-    install_requires=requirements,
+    install_requires=[
+        'python-dateutil >= 2.2',
+    ],
     license="BSD",
     zip_safe=False,
     keywords='dateparser',
