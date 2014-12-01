@@ -935,3 +935,75 @@ nl:
     second:
         - seconde
         - seconden
+
+
+ro:
+    name: Romanian
+
+    monday:
+        - Luni
+    tuesday:
+        - Marți
+    wednesday:
+        - Miercuri
+    thursday:
+        - Joi
+    friday:
+        - Vineri
+    saturday:
+        - Sâmbătă
+    sunday:
+        - Duminică
+
+    january:
+        - Ianuarie
+        - Ian
+    february:
+        - Februarie
+        - Feb
+    march:
+        - Martie
+        - Mar
+    april:
+        - Aprilie
+        - Apr
+    may:
+        - Mai
+    june:
+        - Iunie
+    july:
+        - Iulie
+    august:
+        - August
+        - Aug
+    september:
+        - Septembrie
+        - Sept
+    october:
+        - Octombrie
+        - Oct
+    november:
+        - Noiembrie
+        - Noiem
+    december:
+        - Decembrie
+        - Dec
+
+    year:
+        - ani
+    month:
+        - luna
+        - luni
+    week:
+        - săptămâni
+    day:
+        - zi
+        - zile
+    hour:
+        - oră
+        - ore
+    minute:
+        - minute
+    second:
+        - secundă
+        - secunde
