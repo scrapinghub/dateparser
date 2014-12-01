@@ -1,24 +1,18 @@
+import re
+from setuptools import setup
 
-from dateparser import __version__
-
-
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
-
+(__version__, ) = re.findall("__version__.*\s*=\s*[']([^']+)[']",
+                             open('dateparser/__init__.py').read())
 
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 
-def load_reqs(fname):
-    return open(fname).read().splitlines()
+requirements = [
+    'python-dateutil >= 2.2',
+]
 
-
-requirements = load_reqs('requirements-build.txt') + load_reqs('requirements.txt')
-
-test_requirements = load_reqs('tests/requirements.txt')
+test_requirements = open('tests/requirements.txt').read().splitlines()
 
 setup(
     name='dateparser',
