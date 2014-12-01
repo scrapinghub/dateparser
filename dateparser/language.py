@@ -35,7 +35,7 @@ class Language(object):
 
 class LanguageValidator(object):
     logger = getLogger('dateparser')
-    VALID_KEYS = ['name', 'skip', 'pertain', 'simplifications',
+    VALID_KEYS = ['name', 'skip', 'pertain', 'simplifications', 'no_word_spacing',
                   'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                   'january', 'february', 'march', 'april', 'may', 'june', 'july',
                   'august', 'september', 'october', 'november', 'december',
@@ -50,6 +50,7 @@ class LanguageValidator(object):
             return False
 
         result &= cls._validate_name(language_id, info)
+        result &= cls._validate_word_spacing(language_id, info)
         result &= cls._validate_skip_list(language_id, info)
         result &= cls._validate_pertain_list(language_id, info)
         result &= cls._validate_weekdays(language_id, info)
@@ -78,6 +79,22 @@ class LanguageValidator(object):
                 or not isinstance(info['name'], basestring) \
                 or not info['name']:
             cls.logger.error("Language '%(id)s' does not have a name", {'id': language_id})
+            result = False
+
+        return result
+
+    @classmethod
+    def _validate_word_spacing(cls, language_id, info):
+        if 'no_word_spacing' not in info:
+            return True  # Optional key
+
+        result = True
+
+        value = info['no_word_spacing']
+        if value not in [True, False]:
+            cls.logger.error("Invalid 'no_word_spacing' value %(value)r for '%(id)s' language:"
+                             " expected boolean",
+                             {'value': value, 'id': language_id})
             result = False
 
         return result

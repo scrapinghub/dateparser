@@ -790,6 +790,7 @@ cz:
 
 cn:
     name: Chinese
+    no_word_spacing: True
 
     monday:
         - 星期一
