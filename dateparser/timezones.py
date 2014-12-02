@@ -1,4 +1,4 @@
-# Based on http://stackoverflow.com/questions/1703546/parsing-date-time-string-with-timezone-abbreviated-name-in-python
+# Based on http://stackoverflow.com/q/1703546
 # As well as http://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
 # As well as https://github.com/scrapinghub/dateparser/pull/4
 

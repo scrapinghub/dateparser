@@ -33,7 +33,7 @@ clean-test:
 	rm -fr htmlcov/
 
 lint:
-	flake8 dateparser tests
+	flake8 dateparser tests --config=./flake8
 
 test:
 	python setup.py test
