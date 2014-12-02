@@ -9,8 +9,9 @@ HOUR = 3600
 tz_offsets = {
     'CET': +1 * HOUR,
     'EDT': -4 * HOUR,
+    'EST': -5 * HOUR,
     'PDT': -7 * HOUR,
-    'PST': -8 * HOUR,
+    'PST': -8 * HOUR
 }
 
 _tz_offsets = {
