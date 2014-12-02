@@ -18,8 +18,6 @@ from dateparser import timezones
 from tests import BaseTestCase
 import sys
 
-PY3 = sys.version_info[0] == 3
-
 
 class AutoDetectLanguageTest(unittest.TestCase):
 
@@ -60,10 +58,7 @@ class AutoDetectLanguageTest(unittest.TestCase):
 class ExactLanguageTest(unittest.TestCase):
 
     def test_force_setting_language(self):
-        expected_msg = 'takes at least 2 arguments'
-        if PY3:
-            expected_msg = 'missing 1 required positional argument'
-        with self.assertRaisesRegexp(TypeError, expected_msg):
+        with self.assertRaises(TypeError):
             ExactLanguage()
 
         with self.assertRaisesRegexp(ValueError, 'cannot be None'):
