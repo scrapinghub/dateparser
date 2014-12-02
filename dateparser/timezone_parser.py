@@ -4,12 +4,6 @@ from datetime import datetime, timedelta
 
 from dateparser.timezones import timezone_info_list
 
-HOUR = 3600
-
-
-def get_tz_offsets():
-    return {re.compile(r'\b%s$' % tz_info[0]): timedelta(seconds=tz_info[1]) for tz_info in timezone_info_list}
-
 
 def pop_tz_offset_from_string(date_string):
     for timezone_re, offset in _tz_offsets.iteritems():
@@ -22,6 +16,10 @@ def pop_tz_offset_from_string(date_string):
 
 def convert_to_local_tz(datetime_obj, datetime_tz_offset):
     return datetime_obj - datetime_tz_offset + local_tz_offset
+
+
+def get_tz_offsets():
+    return {re.compile(r'\b%s$' % tz_info[0]): timedelta(seconds=tz_info[1]) for tz_info in timezone_info_list}
 
 
 def get_local_tz_offset():
