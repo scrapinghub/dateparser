@@ -1,2 +1,1 @@
 python-dateutil>=2.2
-pytz==2014.9
