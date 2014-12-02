@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 from mock import Mock, patch
 from nose_parameterized import parameterized, param
 
-import dateparser.timezones
-from dateparser.timezones import pop_tz_offset_from_string, get_local_tz_offset
+import dateparser.timezone_parser
+from dateparser.timezone_parser import pop_tz_offset_from_string, get_local_tz_offset
 from tests import BaseTestCase
 
 
@@ -90,11 +90,11 @@ class TestLocalTZOffset(BaseTestCase):
         self.assertEqual(delta, self.timezone_offset)
 
     def _given_time(self, datetime_string, getter_name):
-        datetime_cls = dateparser.timezones.datetime
+        datetime_cls = dateparser.timezone_parser.datetime
         if not isinstance(datetime_cls, Mock):
             datetime_cls = Mock(wraps=datetime)
         datetime_obj = datetime.strptime(datetime_string, '%Y-%m-%d %H:%M')
         setattr(datetime_cls, getter_name, Mock(return_value=datetime_obj))
         self.add_patch(
-            patch('dateparser.timezones.datetime', new=datetime_cls)
+            patch('dateparser.timezone_parser.datetime', new=datetime_cls)
         )

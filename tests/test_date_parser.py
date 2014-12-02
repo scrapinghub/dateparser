@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from mock import patch, Mock
 from nose_parameterized import parameterized, param
 
-import dateparser.timezones
+import dateparser.timezone_parser
 from dateparser.date_parser import DateParser
 from dateparser.date_parser import AutoDetectLanguage, ExactLanguage
 from dateparser.date_parser import LanguageWasNotSeenBeforeError
@@ -378,7 +378,7 @@ class TestDateParser(BaseTestCase):
 
     def given_local_tz_offset(self, offset):
         self.add_patch(
-            patch.object(dateparser.timezones,
+            patch.object(dateparser.timezone_parser,
                          'local_tz_offset',
                          new=timedelta(seconds=3600 * offset))
         )

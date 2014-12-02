@@ -8,7 +8,7 @@ from datetime import datetime
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
-from timezones import pop_tz_offset_from_string, convert_to_local_tz
+from timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
 
 
 DATE_WORDS = 'Year|Month|Week|Day|Hour|Minute|Second'
