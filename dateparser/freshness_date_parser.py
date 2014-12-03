@@ -241,9 +241,6 @@ class FreshnessDateDataParser(object):
             unit = self.units_map[unit.lower()]
             kwargs[unit + 's'] = int(num)
 
-        years = kwargs.get('years', None)
-        months = kwargs.get('months', None)
-
         return kwargs
 
     def get_date_data(self, date_string):
