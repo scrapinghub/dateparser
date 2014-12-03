@@ -38,6 +38,7 @@ class TestFreshnessDateDataParser(unittest.TestCase):
             'day',
         ),
         ('1000 years ago', dict(years=1000), 'years'),
+        ('5000 months ago', dict(years=416,months=8), 'months'),
     ]
 
     fr_params = [
@@ -249,16 +250,11 @@ class TestFreshnessDateDataParser(unittest.TestCase):
 
     def test_insane_dates(self):
         cur_year = self.now.year
-        date_strings = [
-            str(cur_year) + ' years ago',
-            str(cur_year*12) + ' months ago',
-            '5000 years ago',
-            '15th of Aug, 2014 Diane Bennett',
-        ]
-
-        for s in date_strings:
-            date, period = self.fp.parse(s)
-            self.assertEqual(date, None, '"%s" should not be parsed' % s)
+        self.assertRaises(ValueError, self.fp.parse, '5000 years ago')
+        self.assertRaises(ValueError, self.fp.parse, str(cur_year) + ' years ago')
+        
+        date, period = self.fp.parse('15th of Aug, 2014 Diane Bennett')
+        self.assertEqual(date, None, '"15th of Aug, 2014 Diane Bennett" should not be parsed')
 
     @parameterized.expand([
         param('несколько секунд назад', timedelta(seconds=45)),
