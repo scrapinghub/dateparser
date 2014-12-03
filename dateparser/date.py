@@ -167,10 +167,9 @@ class DateDataParser(object):
             return data_from_freshness
 
         date_string = sanitize_date(date_string)
-
         # If known formats are provided, try them first
         if date_formats is not None:
-            date_obj = parse_with_formats(date_string, date_formats,
+            date_obj = parse_with_formats(date_string, list(date_formats),
                                           alt_parser=self.date_parser)
             if date_obj:
                 data['date_obj'] = date_obj
@@ -178,8 +177,7 @@ class DateDataParser(object):
 
         try:
             # Automatically detect date format
-            date_obj = self.date_parser.parse(date_string)
-            data['date_obj'] = date_obj.replace(tzinfo=None)
+            data['date_obj'] = self.date_parser.parse(date_string)
             return data
         except ValueError:
             # Try with hardcoded date formats
