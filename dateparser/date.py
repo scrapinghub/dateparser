@@ -167,6 +167,7 @@ class DateDataParser(object):
             return data_from_freshness
 
         date_string = sanitize_date(date_string)
+
         # If known formats are provided, try them first
         if date_formats is not None:
             date_obj = parse_with_formats(date_string, list(date_formats),
