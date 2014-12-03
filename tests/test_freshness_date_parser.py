@@ -252,6 +252,7 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         cur_year = self.now.year
         self.assertRaises(ValueError, self.fp.parse, '5000 years ago')
         self.assertRaises(ValueError, self.fp.parse, str(cur_year) + ' years ago')
+        self.assertRaises(ValueError, self.fp.parse, str(cur_year*12) + ' months ago')
         
         date, period = self.fp.parse('15th of Aug, 2014 Diane Bennett')
         self.assertEqual(date, None, '"15th of Aug, 2014 Diane Bennett" should not be parsed')
