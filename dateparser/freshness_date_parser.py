@@ -245,12 +245,14 @@ class FreshnessDateDataParser(object):
         months = kwargs.get('months', None)
 
         validate = lambda val, lower, upper: \
-            val is None or (lower <= val <= upper)
+            val is None or (lower <= val < upper)
 
-        if validate(years, 1, 19) and validate(months, 1, 12):
+        cur_year = self.now.year
+        if validate(years, 1, cur_year) and validate(months, 1, cur_year*12):
             return kwargs
         else:
             return {}
+        
 
     def get_date_data(self, date_string):
         date, period = self.parse(date_string)

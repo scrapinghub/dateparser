@@ -37,6 +37,7 @@ class TestFreshnessDateDataParser(unittest.TestCase):
             dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),
             'day',
         ),
+        ('1000 years ago', dict(years=1000), 'years'),
     ]
 
     fr_params = [
@@ -247,8 +248,11 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         self.iter_params(self.cn_params)
 
     def test_insane_dates(self):
+        cur_year = self.now.year
         date_strings = [
-            '1000 years ago',
+            str(cur_year) + ' years ago',
+            str(cur_year*12) + ' months ago',
+            '5000 years ago',
             '15th of Aug, 2014 Diane Bennett',
         ]
 
