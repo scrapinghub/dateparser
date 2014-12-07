@@ -179,6 +179,14 @@ class FreshnessDateDataParser(object):
             },
             'no_word_spacing': True,
         },
+        'th': {
+            'word_replacements': [
+                 (u'0 วัน', [u'วันนี้ เวลา', u'วันนี้'])
+                           ],
+                'units': {
+                        'day': (u'วัน')
+                          }
+                }
     }
 
     def __init__(self, now=None):

@@ -277,6 +277,32 @@ class nl_parserinfo(BaseParserInfo):
         ('december', 'dec'),
     ]
 
+class th_parserinfo(BaseParserInfo):
+    WEEKDAYS = [
+        (u'จันทร์', u'วันจันทร์'),
+        (u'วันอังคาร'),
+        (u'พุธ', u'วันพุธ'),
+        (u'พฤหัสบดี', u'พฤหัส', u'วันพฤหัสบดี'),
+        (u'ศุกร์', u'วันศุกร์'),
+        (u'เสาร์', u'วันเสาร์'),
+        (u'รวิวาร', u'วันอาทิตย์')
+    ]
+
+    MONTHS = [
+        (u'มกราคม', u'เดือนมกราคม'),
+        (u'กุมภาพันธ์', u'ก.พ.', u'เดือนกุมภาพันธ์'),
+        (u'มีนาคม', u'เดือนมีนาคม'),
+        (u'เมษายน'),
+        (u'พฤษภาคม', u'เดือนพฤษภาคม'),
+        (u'มิถุนายน', u'เดือนมิถุนายน'),
+        (u'กรกฎาคม', u'ก.ค.', u'เดือนกรกฏาคม'),
+        (u'สิงหาคม'),
+        (u'กันยายน'),
+        (u'ตุลาคม', u'เดือนตุลาคม'),
+        (u'พฤศจิกายน', u'เดือนพฤศจิกายน'),
+        (u'ธันวาคม', u'เดือนอ้าย')
+    ]
+
 
 class en_parserinfo(BaseParserInfo):
     JUMP = list(set(BaseParserInfo.JUMP) | set(parser.parserinfo.JUMP))
@@ -293,6 +319,7 @@ INFOS = OrderedDict([
     ('de', de_parserinfo()),
     ('ro', ro_parserinfo()),
     ('nl', nl_parserinfo()),
+    ('th', th_parserinfo()),
     ('en', en_parserinfo()),
 ])
 
