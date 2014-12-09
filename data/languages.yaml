@@ -1,11 +1,11 @@
 base:
-    skip: [" ", ".", ",", ";", "-", "/", "'", "|", "@", "[", "]"]
+    skip: [" ", ".", ",", ";", "-", "/", "'", "|", "@", "[", "]", "，"]
 
 
 en:
     name: English
 
-    skip: ["at", "on", "and", "ad", "m", "t", "of", "st", "nd", "rd", "th"]
+    skip: ["at", "on", "and", "ad", "m", "t", "of", "st", "nd", "rd", "th", "about"]
     pertain: ["of"]
 
     monday:
@@ -92,6 +92,9 @@ en:
         - second
         - seconds
 
+    ago:
+        - ago
+
     simplifications:
         - the day before yesterday: 2 days
         - yesterday: 1 day
@@ -107,7 +110,7 @@ en:
 de:
     name: German
 
-    skip: ["um", "uhr"]
+    skip: ["um", "uhr", "etwa", "und"]
 
     monday:
         - Montag
@@ -179,6 +182,9 @@ de:
         - Sekunde
         - Sekunden
 
+    ago:
+        - vor
+
     simplifications:
         - vorgestern: 2 Tage
         - gestern: 1 Tag
@@ -193,7 +199,7 @@ de:
 fr:
     name: French
 
-    skip: ["le"]
+    skip: ["le", "environ", "et"]
 
     monday:
         - Lundi
@@ -270,6 +276,9 @@ fr:
         - seconde
         - secondes
 
+    ago:
+        - il ya
+
     simplifications:
         - avant-hier: 2 jour
         - hier: 1 jour
@@ -281,7 +290,7 @@ fr:
 es:
     name: Spanish
 
-    skip: ["de", "del"]
+    skip: ["de", "del", "cerca", "y"]
     pertain: ["de", "del"]
 
     monday:
@@ -360,6 +369,9 @@ es:
         - segundo
         - segundos
 
+    ago:
+        - hace
+
     simplifications:
         - anteayer: 2 día
         - ayer: 1 día
@@ -370,6 +382,8 @@ es:
 
 it:
     name: Italian
+
+    skip: ["circa", "e"]
 
     monday:
         - Lunedi
@@ -445,6 +459,9 @@ it:
         - secondo
         - secondi
 
+    ago:
+        - fa
+
     simplifications:
         - altro ieri: 2 giorni
         - ieri: 1 giorno
@@ -454,7 +471,7 @@ it:
 pt:
     name: Portuguese
 
-    skip: ["de"]
+    skip: ["de", "cerca", "e"]
     pertain: ["de"]
 
     monday:
@@ -532,6 +549,10 @@ pt:
         - segunda
         - segundos
 
+    ago:
+        - atrás
+        - há
+
     simplifications:
         - anteontem: 2 dias
         - ontem: 1 dia
@@ -544,7 +565,7 @@ pt:
 ru:
     name: Russian
 
-    skip: ["в"]
+    skip: ["около", "в", "и"]
 
     monday:
         - Понедельник
@@ -625,6 +646,9 @@ ru:
         - секунд
         - секунду
 
+    ago:
+        - назад
+
     simplifications:
         - вчера: 1 день
         - сегодня: 0 дней
@@ -639,6 +663,7 @@ ru:
 
 tr:
     name: Turkish
+    skip: ["yaklaşık", "ve"]
 
     monday:
         - Pazartesi
@@ -695,12 +720,17 @@ tr:
     second:
         - saniye
 
+    ago:
+        - önce
+
     simplifications:
         - dün: 1 gün
 
 
 cz:
     name: Czech
+
+    skip: ["přibližně"]
 
     monday:
         - Pondělí
@@ -787,10 +817,15 @@ cz:
         - sekunda
         - sekundy
 
+    ago:
+        - před
+
 
 cn:
     name: Chinese
     no_word_spacing: True
+
+    skip: ["约"]
 
     monday:
         - 星期一
@@ -849,6 +884,9 @@ cn:
         - 分钟
     second:
         - 秒
+
+    ago:
+        - 前
 
     simplifications:
         - 昨天: 1天
@@ -936,6 +974,9 @@ nl:
         - seconde
         - seconden
 
+    ago:
+        - geleden
+
 
 ro:
     name: Romanian
@@ -1007,3 +1048,6 @@ ro:
     second:
         - secundă
         - secunde
+
+    ago:
+        - în urmă
