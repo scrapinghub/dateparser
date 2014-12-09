@@ -1,7 +1,6 @@
 # coding: utf-8
 from __future__ import unicode_literals
 from operator import attrgetter
-
 import unittest
 from datetime import datetime, timedelta
 
@@ -15,7 +14,7 @@ from dateparser.date_parser import LanguageWasNotSeenBeforeError
 from dateparser.date_parser import (
     parse_with_language_and_format, get_language_candidates,
 )
-from dateparser.language import LanguageDataLoader
+from dateparser.languages import LanguageDataLoader
 from tests import BaseTestCase
 
 

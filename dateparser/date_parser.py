@@ -7,7 +7,7 @@ from datetime import datetime
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
-from dateparser.language import LanguageDataLoader
+from dateparser.languages import LanguageDataLoader
 from dateparser.timezones import pop_tz_offset_from_string, convert_to_local_tz
 
 

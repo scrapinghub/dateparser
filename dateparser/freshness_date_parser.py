@@ -6,7 +6,7 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
-from dateparser.language import LanguageDataLoader
+from dateparser.languages import LanguageDataLoader
 
 
 class FreshnessDateDataParser(object):
