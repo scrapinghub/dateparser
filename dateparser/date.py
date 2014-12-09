@@ -153,42 +153,69 @@ class DateDataParser(object):
         TODO: Timezone issues
 
         """
-        data = {'period': 'day', 'date_obj': None}
-        #Detect timestamp date
-        date_obj = get_date_from_timestamp(date_string)
-        if date_obj:
-            data['date_obj'] = date_obj
-            return data
-
         date_string = date_string.strip()
-
-        data_from_freshness = freshness_date_parser.get_date_data(date_string)
-        if data_from_freshness['date_obj']:
-            return data_from_freshness
-
         date_string = sanitize_date(date_string)
 
-        #If known formats are provided, try them first
-        if date_formats is not None:
-            date_obj = parse_with_formats(date_string, date_formats,
-                                          alt_parser=self.date_parser)
-            if date_obj:
-                data['date_obj'] = date_obj
-                return data
+        for parser in (
+            self._try_timestamp,
+            self._try_freshness_parser,
+            self._try_given_formats,
+            self._try_dateutil_parser,
+            self._try_hardcoded_formats,
+        ):
+            date_obj = parser(date_string, date_formats)
+            if self._is_valid_date_obj(date_obj):
+                return date_obj
+        else:
+            return {'date_obj': None, 'period': 'day'}
 
+    def _try_timestamp(self, date_string, date_formats):
+        return {
+            'date_obj': get_date_from_timestamp(date_string),
+            'period': 'day',
+        }
+
+    def _try_freshness_parser(self, date_string, date_formats):
+        return freshness_date_parser.get_date_data(date_string)
+
+    def _try_dateutil_parser(self, date_string, date_formats):
         try:
-            #Automatically detect date format
             date_obj = self.date_parser.parse(date_string)
-            data['date_obj'] = date_obj.replace(tzinfo=None)
-            return data
+            return {
+                'date_obj': date_obj.replace(tzinfo=None),
+                'period': 'day',
+            }
         except ValueError:
-            #Try with hardcoded date formats
-            additional_date_formats = [
-                '%B %d, %Y, %I:%M:%S %p',
-                '%b %d, %Y at %I:%M %p',
-                '%d %B %Y %H:%M:%S',
-                '%A, %B %d, %Y',
-            ]
-            return parse_with_formats(date_string, additional_date_formats, final_call=True)
+            return None
+
+    def _try_given_formats(self, date_string, date_formats):
+        if not date_formats:
+            return
+
+        return parse_with_formats(date_string, date_formats, alt_parser=self.date_parser, final_call=True)
+
+    def _try_hardcoded_formats(self, date_string, date_formats):
+        hardcoded_date_formats = [
+            '%B %d, %Y, %I:%M:%S %p',
+            '%b %d, %Y at %I:%M %p',
+            '%d %B %Y %H:%M:%S',
+            '%A, %B %d, %Y',
+        ]
+        try:
+            return parse_with_formats(date_string, hardcoded_date_formats, final_call=True)
         except TypeError:
-            return data
+            return None
+
+    def _is_valid_date_obj(self, date_obj):
+        if not isinstance(date_obj, dict):
+            return False
+        if len(date_obj) != 2:
+            return False
+        if 'date_obj' not in date_obj or 'period' not in date_obj:
+            return False
+        if not date_obj['date_obj']:
+            return False
+        if date_obj['period'] not in ('day', 'week', 'month', 'year'):
+            return False
+
+        return True
