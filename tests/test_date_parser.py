@@ -1,5 +1,6 @@
 # coding: utf-8
 from __future__ import unicode_literals
+from operator import attrgetter
 
 import unittest
 from datetime import datetime, timedelta
@@ -12,8 +13,9 @@ from dateparser.date_parser import DateParser
 from dateparser.date_parser import AutoDetectLanguage, ExactLanguage
 from dateparser.date_parser import LanguageWasNotSeenBeforeError
 from dateparser.date_parser import (
-    parse_with_language_and_format, translate_words, get_language_candidates, tokenize_date,
+    parse_with_language_and_format, get_language_candidates,
 )
+from dateparser.language import LanguageDataLoader
 from tests import BaseTestCase
 
 
@@ -23,8 +25,8 @@ class AutoDetectLanguageTest(unittest.TestCase):
         self.parser = AutoDetectLanguage(None)
 
     def test_detect_language(self):
-        self.assertEqual(['es', 'pt'], self.parser.detect_language('11 abril 2010'))
-        self.assertEqual(['es'], self.parser.detect_language('11 junio 2010'))
+        self.assertItemsEqual(['es', 'pt'], map(attrgetter('shortname'), self.parser.detect_language('11 abril 2010')))
+        self.assertItemsEqual(['es'], map(attrgetter('shortname'), self.parser.detect_language('11 junio 2010')))
 
     def test_should_reduce_possible_languages_and_reject_different(self):
         dates_in_spanish = [
@@ -73,7 +75,8 @@ class ExactLanguageTest(unittest.TestCase):
             # language, and so it should use d/m/Y instead of d/m/Y
             # (u'11/03/2014', datetime(2014, 3, 11)),
         ]
-        parser = ExactLanguage('es')
+        spanish = LanguageDataLoader().get_language('es')
+        parser = ExactLanguage(spanish)
 
         for date_string, correct_date in date_fixtures:
             parsed_date = parser.parse(date_string, None)
@@ -385,14 +388,9 @@ class TestDateParser(BaseTestCase):
 
 class DateutilHelpersTest(unittest.TestCase):
 
-    def test_translate_words(self):
-        self.assertEqual('14 06 13', translate_words('14 giu 13', 'it'))
-        self.assertEqual('14 06 13', translate_words('14 giugno 13', 'it'))
-        self.assertEqual('14 06 13', translate_words('14 junho 13', 'pt'))
-
     def test_get_language_candidates(self):
-        tokens = tokenize_date('June/July 2012')
-        self.assertItemsEqual(['en'], get_language_candidates(tokens, languages=['en']))
+        english = LanguageDataLoader().get_language('en')
+        self.assertItemsEqual([english], get_language_candidates('June/July 2012', languages=[english]))
 
     def test_should_use_language_and_format(self):
         date_fixtures = (
@@ -402,7 +400,8 @@ class DateutilHelpersTest(unittest.TestCase):
             (datetime(2013, 7, 14), '%b14_jul_13', 'pt', '%%b%d_%b_%y'),
         )
 
-        for correct_date, date_string, language, format_ in date_fixtures:
+        for correct_date, date_string, shortname, format_ in date_fixtures:
+            language = LanguageDataLoader().get_language(shortname)
             date = parse_with_language_and_format(date_string, language, format_)
             self.assertEqual(correct_date.date(), date.date())
 

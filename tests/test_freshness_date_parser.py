@@ -128,7 +128,6 @@ class TestFreshnessDateDataParser(unittest.TestCase):
 
     ru_params = [
         ('сегодня', dict(days=0), 'day'),
-        ('вчеравчера', dict(days=1), 'day'),
         ('Вчера в', dict(days=1), 'day'),
         ('вчера', dict(days=1), 'day'),
         ('2 часа назад', dict(hours=2), 'day'),
