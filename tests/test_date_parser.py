@@ -9,12 +9,9 @@ from nose_parameterized import parameterized, param
 
 import dateparser.timezones
 from dateparser.date_parser import DateParser
-from dateparser.date_parser import AutoDetectLanguage, ExactLanguage
-from dateparser.date_parser import LanguageWasNotSeenBeforeError
-from dateparser.date_parser import (
-    parse_with_language_and_format, get_language_candidates,
-)
 from dateparser.languages import LanguageDataLoader
+from dateparser.languages.detection import DateParsingStrategy, AutoDetectLanguage, ExactLanguage
+from dateparser.languages.detection import LanguageWasNotSeenBeforeError
 from tests import BaseTestCase
 
 
@@ -264,8 +261,9 @@ class TestDateParser(BaseTestCase):
         tuesday = datetime(2014, 8, 12, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.utcnow = Mock(return_value=tuesday)
-        with patch('dateparser.date_parser.datetime', new=datetime_mock):
-            date = DateParser(language='en').parse('Friday')
+        self.add_patch(patch('dateparser.languages.detection.datetime', new=datetime_mock))
+        self.add_patch(patch('dateparser.date_parser.datetime', new=datetime_mock))
+        date = DateParser(language='en').parse('Friday')
         self.assertEqual(date.year, 2014)
         self.assertEqual(date.month, 8)
         self.assertEqual(date.day, 8)
@@ -389,7 +387,8 @@ class DateutilHelpersTest(unittest.TestCase):
 
     def test_get_language_candidates(self):
         english = LanguageDataLoader().get_language('en')
-        self.assertItemsEqual([english], get_language_candidates('June/July 2012', languages=[english]))
+        self.assertItemsEqual([english],
+                              DateParsingStrategy.get_language_candidates('June/July 2012', languages=[english]))
 
     def test_should_use_language_and_format(self):
         date_fixtures = (
@@ -401,7 +400,7 @@ class DateutilHelpersTest(unittest.TestCase):
 
         for correct_date, date_string, shortname, format_ in date_fixtures:
             language = LanguageDataLoader().get_language(shortname)
-            date = parse_with_language_and_format(date_string, language, format_)
+            date = DateParsingStrategy.parse_with_language_and_format(date_string, language, format_)
             self.assertEqual(correct_date.date(), date.date())
 
 
