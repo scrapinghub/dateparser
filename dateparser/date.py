@@ -87,49 +87,37 @@ def get_last_day_of_month(year, month):
     return calendar.monthrange(year, month)[1]
 
 
-def parse_with_formats(date_string, date_formats, final_call=False, alt_parser=None):
-    """ Parse with formats and return depending on `final_call` arg.
-    If final_call is True, return a dictionary with 'period' and 'obj_date'
-    because these data won't be processed by any method outside.
-    If final_call is False, return a 'obj_date' because it will be processed.
+def parse_with_formats(date_string, date_formats):
+    """ Parse with formats and return a dictionary with 'period' and 'obj_date'.
 
     :returns: :class:`datetime.datetime`, dict or None
 
     """
     #Encode to support locale setting in spiders
-    data = {'period': 'day', 'date_obj': None}
-
     if isinstance(date_string, unicode):
         date_string = date_string.encode('utf-8')
+
+    period = 'day'
     for date_format in date_formats:
         try:
-            try:
-                date_obj = datetime.strptime(date_string, date_format)
-
-                # If format does not include the day, use last day of the month
-                # instead of first, because the first is usually out of range.
-                if '%d' not in date_format:
-                    data['period'] = 'month'
-                    date_obj = date_obj.replace(
-                        day=get_last_day_of_month(date_obj.year, date_obj.month))
-
-                if not ('%y' in date_format or '%Y' in date_format):
-                    today = datetime.today()
-                    date_obj = date_obj.replace(year=today.year)
-
-            except ValueError:
-                alt_parser = alt_parser if alt_parser else DateParser()
-                date_obj = alt_parser.parse(date_string, date_format=date_format)
-            if final_call:
-                data['date_obj'] = date_obj
-                return data
-            else:
-                return date_obj
+            date_obj = datetime.strptime(date_string, date_format)
         except ValueError:
             continue
+        else:
+            # If format does not include the day, use last day of the month
+            # instead of first, because the first is usually out of range.
+            if '%d' not in date_format:
+                period = 'month'
+                date_obj = date_obj.replace(
+                    day=get_last_day_of_month(date_obj.year, date_obj.month))
+
+            if not ('%y' in date_format or '%Y' in date_format):
+                today = datetime.today()
+                date_obj = date_obj.replace(year=today.year)
+
+            return {'date_obj': date_obj, 'period': period}
     else:
-        if final_call:
-            return data
+        return {'date_obj': None, 'period': period}
 
 
 class DateDataParser(object):
@@ -192,7 +180,7 @@ class DateDataParser(object):
         if not date_formats:
             return
 
-        return parse_with_formats(date_string, date_formats, alt_parser=self.date_parser, final_call=True)
+        return parse_with_formats(date_string, date_formats)
 
     def _try_hardcoded_formats(self, date_string, date_formats):
         hardcoded_date_formats = [
@@ -202,7 +190,7 @@ class DateDataParser(object):
             '%A, %B %d, %Y',
         ]
         try:
-            return parse_with_formats(date_string, hardcoded_date_formats, final_call=True)
+            return parse_with_formats(date_string, hardcoded_date_formats)
         except TypeError:
             return None
 

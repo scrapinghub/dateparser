@@ -150,17 +150,17 @@ class GetIntersectingPeriodsTest(BaseTestCase):
 class ParseDateWithFormats(unittest.TestCase):
 
     def test_shouldnt_parse_invalid_date(self):
-        self.assertIsNone(date.parse_with_formats('yesterday', ['%Y-%m-%d']))
+        self.assertIsNone(date.parse_with_formats('yesterday', ['%Y-%m-%d'])['date_obj'])
 
     def test_should_parse_date(self):
         result = date.parse_with_formats('25-03-14', ['%d-%m-%y'])
-        self.assertEquals(datetime(2014, 3, 25).date(), result.date())
+        self.assertEquals(datetime(2014, 3, 25).date(), result['date_obj'].date())
 
     def test_should_use_current_year_for_dates_without_year(self):
         today = datetime.today()
 
         result = date.parse_with_formats('09.16', ["%m.%d"])
-        self.assertEquals(datetime(today.year, 9, 16).date(), result.date())
+        self.assertEquals(datetime(today.year, 9, 16).date(), result['date_obj'].date())
 
     def test_should_use_current_date_for_dates_without_day(self):
         twelfth = datetime(2014, 8, 12)
@@ -168,7 +168,7 @@ class ParseDateWithFormats(unittest.TestCase):
         datetime_mock.utcnow = Mock(return_value=twelfth)
 
         with patch('dateparser.date_parser.datetime', new=datetime_mock):
-            dt_data = date.parse_with_formats('August 2014', ['%B %Y'], final_call=True)
+            dt_data = date.parse_with_formats('August 2014', ['%B %Y'])
 
         self.assertIsNotNone(dt_data)
         self.assertEquals('month', dt_data['period'])
@@ -179,7 +179,7 @@ class ParseDateWithFormats(unittest.TestCase):
         datetime_mock.utcnow = Mock(return_value=twelfth)
 
         with patch('dateparser.date_parser.datetime', new=datetime_mock):
-            dt_data = date.parse_with_formats('February 2014', ['%B %Y'], final_call=True)
+            dt_data = date.parse_with_formats('February 2014', ['%B %Y'])
 
         self.assertIsNotNone(dt_data)
         self.assertEquals('month', dt_data['period'])
