@@ -278,6 +278,8 @@ class nl_parserinfo(BaseParserInfo):
     ]
 
 class vi_parserinfo(BaseParserInfo):
+    JUMP = BaseParserInfo.JUMP + ["lúc"]
+
     # From http://www.cjvlang.com/Dow/dowviet.html
     WEEKDAYS = [
         ("Thứ hai",),
@@ -286,7 +288,7 @@ class vi_parserinfo(BaseParserInfo):
         ("Thứ năm",),
         ("Thứ sáu",),
         ("Thứ bảy",),
-        ("Chủ nhật",),
+        ("Chủ nhật",)
     ]
 
     # From http://free.lessons.l-ceps.com/learn-vietnamese-free-lesson-10.html
@@ -302,7 +304,7 @@ class vi_parserinfo(BaseParserInfo):
         ('Tháng chín',),
         ('Tháng mười',),
         ('Tháng mười một',),
-        ('Tháng mười hai',),
+        ('Tháng mười hai',)
     ]
 
 class en_parserinfo(BaseParserInfo):
@@ -320,8 +322,8 @@ INFOS = OrderedDict([
     ('de', de_parserinfo()),
     ('ro', ro_parserinfo()),
     ('nl', nl_parserinfo()),
-    ('en', en_parserinfo()),
-    ('vi', vi_parserinfo())
+    ('vi', vi_parserinfo()),
+    ('en', en_parserinfo())
 ])
 
 
@@ -463,7 +465,6 @@ def get_language_candidates(tokens, languages=None, exclude_languages=None):
 
     candidates = []
     require_fuzzy = False
-
     for lang in languages:
         should_add = True
         for token in tokens:

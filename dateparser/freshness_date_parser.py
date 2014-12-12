@@ -182,8 +182,7 @@ class FreshnessDateDataParser(object):
         'vi': {
             'word_replacements': [
                 ('1 ngày', ['Hôm qua']),
-                ('0 ngày', ['Hôm nay']),
-                ('', ['lúc'])
+                ('0 ngày', ['Hôm nay'])
             ],
             'units': {
                 'year':     ('năm'),
