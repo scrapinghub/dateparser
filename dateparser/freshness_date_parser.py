@@ -179,6 +179,22 @@ class FreshnessDateDataParser(object):
             },
             'no_word_spacing': True,
         },
+        'vi': {
+            'word_replacements': [
+                ('1 ngày', ['Hôm qua']),
+                ('0 ngày', ['Hôm nay']),
+                ('', ['lúc'])
+            ],
+            'units': {
+                'year':     ('năm'),
+                'month':    ('tháng'),
+                'week':     ('tuần', 'tuần lể'),
+                'day':      ('ban ngày', 'buổi','ngày' ),
+                'hour':     ('giờ'),
+                'minute':   ('chút', 'lát', 'nguyên bản', 'phút'),
+                'second':   ('giây đồng hồ', 'hạng nhì'),
+            }
+        }
     }
 
     def __init__(self, now=None):
