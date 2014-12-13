@@ -160,7 +160,7 @@ class DateDataParser(object):
 
         """
         data = {'period': 'day', 'date_obj': None}
-        #Detect timestamp date
+        # Detect timestamp date
         date_obj = get_date_from_timestamp(date_string)
         if date_obj:
             data['date_obj'] = date_obj
@@ -174,7 +174,7 @@ class DateDataParser(object):
 
         date_string = sanitize_date(date_string)
 
-        #If known formats are provided, try them first
+        # If known formats are provided, try them first
         if date_formats is not None:
             date_obj = parse_with_formats(date_string, date_formats,
                                           alt_parser=self.date_parser)
@@ -183,12 +183,12 @@ class DateDataParser(object):
                 return data
 
         try:
-            #Automatically detect date format
+            # Automatically detect date format
             date_obj = self.date_parser.parse(date_string)
             data['date_obj'] = date_obj.replace(tzinfo=None)
             return data
         except ValueError:
-            #Try with hardcoded date formats
+            # Try with hardcoded date formats
             additional_date_formats = [
                 '%B %d, %Y, %I:%M:%S %p',
                 '%b %d, %Y at %I:%M %p',

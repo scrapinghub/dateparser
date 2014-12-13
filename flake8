@@ -1,5 +1,2 @@
-[wheel]
-universal = 1
-
 [flake8]
 max-line-length = 100

@@ -9,10 +9,10 @@ from datetime import datetime
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
-from dateparser.timezones import pop_tz_offset_from_string, convert_to_local_tz
 import sys
-
 PY2 = sys.version_info[0] == 2
+
+from dateparser.timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
 
 
 DATE_WORDS = 'Year|Month|Week|Day|Hour|Minute|Second'
