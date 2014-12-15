@@ -195,11 +195,20 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         ),
     ]
 
+    ar_params = [
+        ('يوم أمس', dict(days=1), 'day'),
+        ('اليوم', dict(days=0), 'day'),
+        ('1 عام, 1 شهر, 1 أسبوع, 1 يوم, 1 ساعة, 1 دقيقة',
+            dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),
+            'day',
+        )
+    ]
+
     def setUp(self):
         self.now = datetime.utcnow()
         self.fp = FreshnessDateDataParser(now=self.now)
 
-    def iter_params(self, params):
+    def iter_params(self, params, test=False):
 
         for params in params:
             date_string, td_kwargs, _period = params
@@ -207,6 +216,9 @@ class TestFreshnessDateDataParser(unittest.TestCase):
             date, period = self.fp.parse(date_string)
 
             td = relativedelta(**td_kwargs)
+
+            if test:
+                print date, period, td
 
             def check_equal(first, second):
                 msg = "%s != %s\n        for string: '%s'" % (
@@ -245,6 +257,9 @@ class TestFreshnessDateDataParser(unittest.TestCase):
 
     def test_cn_dates(self):
         self.iter_params(self.cn_params)
+
+    def test_ar_dates(self):
+        self.iter_params(self.ar_params, test=True)
 
     def test_insane_dates(self):
         date_strings = [
