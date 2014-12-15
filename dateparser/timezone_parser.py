@@ -4,11 +4,13 @@ from datetime import datetime, timedelta
 
 from dateparser.timezones import timezone_info_list
 
+TIMEZONE_REGEX_PATTERN = r'(\b|\d)%s$'
+
 
 def pop_tz_offset_from_string(date_string):
     for timezone_re, offset in _tz_offsets.iteritems():
         if timezone_re.search(date_string):
-            date_string = timezone_re.sub('', date_string).rstrip()
+            date_string = timezone_re.sub(r'\1', date_string).rstrip()  # \1 = (\b|\d) in TIMEZONE_REGEX_PATTERN
             return date_string, offset
     else:
         return date_string, None
@@ -20,7 +22,7 @@ def convert_to_local_tz(datetime_obj, datetime_tz_offset):
 
 def get_tz_offsets():
     return {
-        re.compile(r'[\b|\d]%s$' % tz_info[0], re.IGNORECASE): timedelta(seconds=tz_info[1])
+        re.compile(TIMEZONE_REGEX_PATTERN % tz_info[0], re.IGNORECASE): timedelta(seconds=tz_info[1])
         for tz_info in timezone_info_list
     }
 
