@@ -20,7 +20,7 @@ def convert_to_local_tz(datetime_obj, datetime_tz_offset):
 
 def get_tz_offsets():
     return {
-        re.compile(r'\b%s$' % tz_info[0]): timedelta(seconds=tz_info[1])
+        re.compile(r'[\b|\d]%s$' % tz_info[0], re.IGNORECASE): timedelta(seconds=tz_info[1])
         for tz_info in timezone_info_list
     }
 
