@@ -272,6 +272,17 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(date.minute, 07)
         self.assertEqual(date.second, 43)
 
+    def test_zh_dates(self):
+        date = DateParser(language='zh').parse(u'2014年10月4日')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 10)
+        self.assertEqual(date.day, 4)
+
+        date = DateParser(language='zh').parse(u'二〇一四年十月四日')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 10)
+        self.assertEqual(date.day, 4)
+
     def test_weekdays(self):
         tuesday = datetime(2014, 8, 12, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
         datetime_mock = Mock(wraps=datetime)
