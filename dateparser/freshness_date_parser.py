@@ -179,6 +179,20 @@ class FreshnessDateDataParser(object):
             },
             'no_word_spacing': True,
         },
+        'ar': {
+            'word_replacements': [
+                ('0 يوم', ['اليوم']),
+                ('1 يوم',['يوم أمس'])
+            ],
+            'units': {
+                'year':     ('عام'),
+                'month':    ('شهر'),
+                'week':     ('أسبوع'),
+                'day':      ('يوم','أيام'),
+                'hour':     ('ساعة','ساعات'),
+                'minute':   ('دقيقة'),
+            },
+        }
     }
 
     def __init__(self, now=None):
