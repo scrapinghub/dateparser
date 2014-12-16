@@ -281,6 +281,13 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(date.hour, 1)
         self.assertEqual(date.minute, 0)
 
+        date = DateParser().parse('11 ก.พ. 2020, 13:13 AM')
+        self.assertEqual(date.year, 2020)
+        self.assertEqual(date.month, 2)
+        self.assertEqual(date.day, 11)
+        self.assertEqual(date.hour, 13)
+        self.assertEqual(date.minute, 13)
+
     def test_weekdays(self):
         tuesday = datetime(2014, 8, 12, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
         datetime_mock = Mock(wraps=datetime)

@@ -181,19 +181,20 @@ class FreshnessDateDataParser(object):
         },
         'th': {
             'word_replacements': [
-                ('0 วัน', ['วันนี้']),
-                ('1 วัน', ['เมื่อวานนี้', '1 วันที่แล้ว']),
-                ('2 วัน', ['เมื่อวานซืน', '2 วันที่แล้ว'])
+                (u'0 วัน', [u'วันนี้']),
+                (u'1 วัน', [u'เมื่อวานนี้', u'1 วันที่แล้ว']),
+                (u'2 วัน', [u'เมื่อวานซืน', u'2 วันที่แล้ว'])
             ],
             'units': {
-                'year':     ('ปี',),
-                'month':    ('เดือน',),
-                'week':     ('สัปดาห์',),
-                'day':      ('วัน',),
-                'hour':     ('ชั่วโมง', 'ชม.'),
-                'minute':   ('นาที',),
-                'second':   ('วินาที',),
-            }
+                'year':     (u'ปี',),
+                'month':    (u'เดือน',),
+                'week':     (u'สัปดาห์',),
+                'day':      (u'วัน',),
+                'hour':     (u'ชั่วโมง', u'ชม.'),
+                'minute':   (u'นาที',),
+                'second':   (u'วินาที',),
+            },
+            'no_word_spacing': True,
         }
     }
 
@@ -234,9 +235,9 @@ class FreshnessDateDataParser(object):
         if 'word_replacements' in lang:
             for replacement, words in lang['word_replacements']:
                 for w in words:
-                    date_string = re.sub(ur'\b%s\b' % w, replacement, date_string,
+                    date_string = re.sub(ur'(?:^|(?<=\s))%s(?=[\W,.]|$)' % w,
+                                         replacement, date_string,
                                          flags=re.IGNORECASE | re.UNICODE)
-
         return date_string
 
     def try_lang(self, date_string, lang):

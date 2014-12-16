@@ -196,13 +196,15 @@ class TestFreshnessDateDataParser(unittest.TestCase):
     ]
 
     th_params = [
-        ('วันนี้', dict(days=0), 'day'),
-        ('เมื่อวานนี้', dict(days=1), 'day'),
-        ('12 ชม.', dict(hours=12), 'day'),
-        ('5 ชั่วโมง 17 นาที', dict(hours=5, minutes=17), 'day'),
-        ('1 ปี 9 เดือน 1 สัปดาห์', dict(years=1, months=9, weeks=1), 'weeks'),
+        (u'วันนี้', dict(days=0), 'day'),
+        (u'เมื่อวานนี้', dict(days=1), 'day'),
+        (u'2 วัน', dict(days=2), 'day'),
+        (u'2 ชั่วโมง', dict(hours=2), 'day'),
+        (u'23 ชม.', dict(hours=23), 'day'),
+        (u'2 สัปดาห์ 3 วัน', dict(weeks=2, days=3), 'day'),
+        (u'1 ปี 9 เดือน 1 สัปดาห์', dict(years=1, months=9, weeks=1), 'weeks'),
         (
-            '1 ปี 1 เดือน 1 สัปดาห์ 1 วัน 1 ชั่วโมง 1 นาที',
+            u'1 ปี 1 เดือน 1 สัปดาห์ 1 วัน 1 ชั่วโมง 1 นาที',
             dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),
             'day',
         ),
