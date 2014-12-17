@@ -20,14 +20,6 @@ dateparser.date_parser module
     :undoc-members:
     :show-inheritance:
 
-dateparser.dateparser module
-----------------------------
-
-.. automodule:: dateparser.dateparser
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 dateparser.freshness_date_parser module
 ---------------------------------------
 

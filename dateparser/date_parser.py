@@ -6,7 +6,7 @@ from datetime import datetime
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
-from dateparser.timezones import pop_tz_offset_from_string, convert_to_local_tz
+from dateparser.timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
 
 
 class new_relativedelta(relativedelta):
@@ -54,6 +54,12 @@ class DateParser(object):
             raise ValueError("Empty string")
 
         date_string, tz_offset = pop_tz_offset_from_string(date_string)
+
+        # this is a temporary fix to support noon and midnight in date strings.
+        # This would be done properly after feature-yaml-languages branch is merged
+        date_string = re.sub(r'\bnoon\b', '12:00', date_string, re.IGNORECASE)
+        date_string = re.sub(r'\bmidnight\b', '00:00', date_string, re.IGNORECASE)
+
         date_obj = dateutil_parse(date_string)
         if tz_offset is not None:
             date_obj = convert_to_local_tz(date_obj, tz_offset)

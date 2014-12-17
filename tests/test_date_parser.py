@@ -9,7 +9,7 @@ from operator import attrgetter
 from mock import patch, Mock
 from nose_parameterized import parameterized, param
 
-import dateparser.timezones
+import dateparser.timezone_parser
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import LanguageDataLoader
@@ -108,6 +108,9 @@ class TestDateParser(BaseTestCase):
         param('Tuesday Jul 22, 2014', datetime(2014, 7, 22)),
         param('10:04am EDT', datetime(2012, 11, 13, 14, 4)),
         param('Friday', datetime(2012, 11, 9)),
+        param('November 19, 2014 at noon', datetime(2014, 11, 19, 12, 0)),
+        param('December 13, 2014 at midnight', datetime(2014, 12, 13, 0, 0)),
+        param('Nov 25 2014 10:17 pm EST', datetime(2014, 11, 26, 3, 17)),
         # French dates
         param('11 Mai 2014', datetime(2014, 5, 11)),
         param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
@@ -157,20 +160,11 @@ class TestDateParser(BaseTestCase):
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
-    @parameterized.expand([
-        param('Sep 03 2014 | 4:32 pm EDT', datetime(2014, 9, 3, 21, 32)),
-        param('17th October, 2034 @ 01:08 am PDT', datetime(2034, 10, 17, 9, 8)),
-        param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 4, 24)),
-        param('15 May 2004', datetime(2004, 5, 15, 0, 0)),
-    ])
-    def test_parsing_with_time_zones(self, date_string, expected):
-        self.given_local_tz_offset(+1)
-        self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
-        self.then_date_was_parsed_by_date_parser()
-        self.then_period_is('day')
-        self.then_date_obj_exactly_is(expected)
+    def test_fr_dates(self):
+        date = DateParser().parse('11 Mai 2014')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 5)
+        self.assertEqual(date.day, 11)
 
     @parameterized.expand([
         param(''),
@@ -190,7 +184,7 @@ class TestDateParser(BaseTestCase):
 
     def given_local_tz_offset(self, offset):
         self.add_patch(
-            patch.object(dateparser.timezones,
+            patch.object(dateparser.timezone_parser,
                          'local_tz_offset',
                          new=timedelta(seconds=3600 * offset))
         )
@@ -322,6 +316,53 @@ class TestDateParser_(BaseTestCase):
 
         parsed_date = dp.parse(u'13/08/2014')
         self.assertEqual(datetime(2014, 8, 13).date(), parsed_date.date())
+
+    def test_fail(self):
+        parser = DateParser()
+        self.assertRaises(ValueError, parser.parse, 'invalid date string')
+        self.assertRaises(ValueError, parser.parse, 'Aug 7, 2014Aug 7, 2014')
+
+    @parameterized.expand([
+        param('Sep 03 2014 | 4:32 pm EDT', datetime(2014, 9, 3, 21, 32)),
+        param('17th October, 2034 @ 01:08 am PDT', datetime(2034, 10, 17, 9, 8)),
+        param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 4, 24)),
+        param('15 May 2004', datetime(2004, 5, 15, 0, 0)),
+    ])
+    def test_parsing_with_time_zones(self, date_string, expected_datetime):
+        self.given_local_tz_offset(+1)
+        parser = DateParser()
+        self.assertEqual(expected_datetime, parser.parse(date_string))
+
+    def given_local_tz_offset(self, offset):
+        self.add_patch(
+            patch.object(dateparser.timezone_parser,
+                         'local_tz_offset',
+                         new=timedelta(seconds=3600 * offset))
+        )
+
+
+class DateutilHelpersTest(unittest.TestCase):
+
+    def test_translate_words(self):
+        self.assertEqual('14 06 13', translate_words('14 giu 13', 'it'))
+        self.assertEqual('14 06 13', translate_words('14 giugno 13', 'it'))
+        self.assertEqual('14 06 13', translate_words('14 junho 13', 'pt'))
+
+    def test_get_language_candidates(self):
+        tokens = tokenize_date('June/July 2012')
+        self.assertItemsEqual(['en'], get_language_candidates(tokens, languages=['en']))
+
+    def test_should_use_language_and_format(self):
+        date_fixtures = (
+            (datetime(2013, 6, 14), '14 giu 13', 'it', '%d %b %y'),
+            (datetime(2013, 6, 14), '14_giu_13', 'it', '%d_%b_%y'),
+            (datetime(2013, 7, 14), '14_jul_13', 'pt', '%d_%b_%y'),
+            (datetime(2013, 7, 14), '%b14_jul_13', 'pt', '%%b%d_%b_%y'),
+        )
+
+        for correct_date, date_string, language, format_ in date_fixtures:
+            date = parse_with_language_and_format(date_string, language, format_)
+            self.assertEqual(correct_date.date(), date.date())
 
 
 if __name__ == '__main__':

@@ -95,7 +95,7 @@ def parse_with_formats(date_string, date_formats):
     :returns: :class:`datetime.datetime`, dict or None
 
     """
-    #Encode to support locale setting in spiders
+    # Encode to support locale setting in spiders
     if isinstance(date_string, unicode):
         date_string = date_string.encode('utf-8')
 
