@@ -105,6 +105,8 @@ en:
         - (\d+)\s*hr(s?): \1 hour\2
         - (\d+)\s*min(s?): \1 minute\2
         - (\d+)\s*sec(s?): \1 second\2
+        - noon: '12:00'
+        - midnight: '00:00'
 
 
 de:
@@ -226,7 +228,7 @@ fr:
         - Fév
     march:
         - Mars
-        - mar
+        - Mar
     april:
         - Avril
         - Avr

@@ -5,7 +5,7 @@ from operator import methodcaller
 
 from dateutil import parser
 
-from dateparser.timezones import pop_tz_offset_from_string
+from dateparser.timezone_parser import pop_tz_offset_from_string
 from .validation import LanguageValidator
 
 DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
