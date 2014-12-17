@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
+import calendar
 import re
-
 from datetime import datetime, timedelta
+
 from dateutil.relativedelta import relativedelta
 
-from .date_parser import DateParser
-from .freshness_date_parser import freshness_date_parser
-import calendar
+from dateparser.date_parser import date_parser
+from dateparser.freshness_date_parser import freshness_date_parser
+from dateparser.languages import LanguageDataLoader
+from dateparser.languages.detection import AutoDetectLanguage, ExactLanguage
 
 
 def sanitize_spaces(html_string):
@@ -123,7 +125,20 @@ def parse_with_formats(date_string, date_formats):
 class DateDataParser(object):
 
     def __init__(self, language=None, allow_redetect_language=False):
-        self.date_parser = DateParser(language, allow_redetect_language)
+        if isinstance(language, basestring):
+            available_language_map = default_language_loader.get_language_map()
+            if language in available_language_map:
+                language = available_language_map[language]
+            else:
+                raise ValueError("Unknown language %r" % language)
+
+        if allow_redetect_language:
+            self.language_detector = AutoDetectLanguage(languages=[language] if language else None,
+                                                        allow_redetection=True)
+        elif language:
+            self.language_detector = ExactLanguage(language=language)
+        else:
+            self.language_detector = AutoDetectLanguage(languages=None, allow_redetection=False)
 
     def get_date_data(self, date_string, date_formats=None):
         """ Return a dictionary with a date object and a period.
@@ -144,16 +159,21 @@ class DateDataParser(object):
         date_string = date_string.strip()
         date_string = sanitize_date(date_string)
 
-        for parser in (
-            self._try_timestamp,
-            self._try_freshness_parser,
-            self._try_given_formats,
-            self._try_dateutil_parser,
-            self._try_hardcoded_formats,
-        ):
-            date_obj = parser(date_string, date_formats)
-            if self._is_valid_date_obj(date_obj):
-                return date_obj
+        for language in self.language_detector.iterate_applicable_languages(date_string, modify=True):
+            translated_date = language.translate(date_string, keep_formatting=False)
+            translated_date_with_formatting = language.translate(date_string, keep_formatting=True)
+            for parser, date_string_ in (
+                (self._try_timestamp, date_string),
+                (self._try_freshness_parser, translated_date),
+                (self._try_given_formats, translated_date_with_formatting),
+                (self._try_dateutil_parser, translated_date),
+                (self._try_hardcoded_formats, translated_date_with_formatting),
+            ):
+                date_obj = parser(date_string_, date_formats)
+                if self._is_valid_date_obj(date_obj):
+                    return date_obj
+            else:
+                continue
         else:
             return {'date_obj': None, 'period': 'day'}
 
@@ -168,7 +188,7 @@ class DateDataParser(object):
 
     def _try_dateutil_parser(self, date_string, date_formats):
         try:
-            date_obj = self.date_parser.parse(date_string)
+            date_obj = date_parser.parse(date_string)
             return {
                 'date_obj': date_obj.replace(tzinfo=None),
                 'period': 'day',
@@ -207,3 +227,5 @@ class DateDataParser(object):
             return False
 
         return True
+
+default_language_loader = LanguageDataLoader()

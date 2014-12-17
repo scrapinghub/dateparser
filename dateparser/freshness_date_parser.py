@@ -6,8 +6,6 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
-from dateparser.languages import LanguageDataLoader
-
 
 class FreshnessDateDataParser(object):
     """ Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago" """
@@ -16,13 +14,7 @@ class FreshnessDateDataParser(object):
         self.now = now or datetime.utcnow()
 
     def parse(self, date_string):
-        for language in default_language_loader.get_languages():
-            if language.is_applicable(date_string):
-                break
-        else:
-            return None, None
-
-        kwargs = self.get_kwargs(date_string, language)
+        kwargs = self.get_kwargs(date_string)
         if not kwargs:
             return None, None
 
@@ -30,7 +22,7 @@ class FreshnessDateDataParser(object):
         if 'days' not in kwargs:
             for k in ['weeks', 'months', 'years']:
                 if k in kwargs:
-                    period = k
+                    period = k[:-1]
                     break
 
         td = relativedelta(**kwargs)
@@ -46,9 +38,7 @@ class FreshnessDateDataParser(object):
 
         return date_string
 
-    def get_kwargs(self, date_string, language):
-        date_string = language.translate(date_string)
-
+    def get_kwargs(self, date_string):
         m = re.findall(r'(\d+)\s*(year|month|week|day|hour|minute|second)\b', date_string, re.I | re.S | re.U)
         if not m:
             return {}
@@ -72,5 +62,4 @@ class FreshnessDateDataParser(object):
         date, period = self.parse(date_string)
         return dict(date_obj=date, period=period)
 
-default_language_loader = LanguageDataLoader()
 freshness_date_parser = FreshnessDateDataParser()
