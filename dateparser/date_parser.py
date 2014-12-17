@@ -32,11 +32,24 @@ class new_relativedelta(relativedelta):
 parser.relativedelta.relativedelta = new_relativedelta
 
 
+def dateutil_parse(date_string, **kwargs):
+    """Wrapper function around dateutil.parser.parse
+    """
+    today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+    kwargs.update(default=today)
+
+    # XXX: this is needed because of a bug in dateutil.parser
+    # that raises TypeError for an invalid string
+    # https://bugs.launchpad.net/dateutil/+bug/1042851
+    try:
+        return parser.parse(date_string, **kwargs)
+    except TypeError, e:
+        raise ValueError(e, "Invalid date: %s" % date_string)
+
+
 class DateParser(object):
 
     def __init__(self, language=None, allow_redetect_language=False):
-        parser_cls = ExactLanguage if language else AutoDetectLanguage
-
         if isinstance(language, basestring):
             available_language_map = default_language_loader.get_language_map()
             if language in available_language_map:
@@ -45,19 +58,34 @@ class DateParser(object):
                 raise ValueError("Unknown language %r" % language)
 
         if allow_redetect_language:
-            self._parser = AutoDetectLanguage(language, allow_redetection=True)
+            self._parser = AutoDetectLanguage(languages=[language] if language else None, allow_redetection=True)
+        elif language:
+            self._parser = ExactLanguage(language=language)
         else:
-            self._parser = parser_cls(language)
+            self._parser = AutoDetectLanguage(languages=None, allow_redetection=False)
 
-    def parse(self, date_string, date_format=None):
+    def parse(self, date_string):
         date_string = unicode(date_string)
 
         if not date_string.strip():
             raise ValueError("Empty string")
+
         date_string, tz_offset = pop_tz_offset_from_string(date_string)
-        date_obj = self._parser.parse(date_string, date_format)
+
+        for language in self._parser.iterate_applicable_languages(date_string, modify=True):
+            translated_date = language.translate(date_string, keep_formatting=True)
+            try:
+                date_obj = dateutil_parse(translated_date)
+            except ValueError:
+                continue
+            else:
+                break
+        else:
+            raise ValueError(u"Invalid date: %s" % date_string)
+
         if tz_offset is not None:
             date_obj = convert_to_local_tz(date_obj, tz_offset)
+
         return date_obj
 
 
