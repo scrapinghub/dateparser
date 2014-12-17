@@ -232,12 +232,15 @@ class FreshnessDateDataParser(object):
         return date, period
 
     def apply_replacements(self, date_string, lang):
+        punctuation_chars = r'''!"#$%%&'()*+,./:;<=>?@\\^_`{|}~-'''
         if 'word_replacements' in lang:
             for replacement, words in lang['word_replacements']:
                 for w in words:
-                    date_string = re.sub(ur'(?:^|(?<=\s))%s(?=[\W,.]|$)' % w,
-                                         replacement, date_string,
-                                         flags=re.IGNORECASE | re.UNICODE)
+                    # Regex is equivalent to \b%s\b, but working also for Thai.
+                    date_string = re.sub(
+                        ur'(?:^|(?<=\s))%s(?=[\s%s]|$)' % (w, punctuation_chars),
+                        replacement, date_string, flags=re.IGNORECASE | re.UNICODE
+                        )
         return date_string
 
     def try_lang(self, date_string, lang):
