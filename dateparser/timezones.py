@@ -22,7 +22,7 @@ _tz_offsets = {
 def pop_tz_offset_from_string(date_string, as_offset=True):
     for timezone_re, info in _tz_offsets.iteritems():
         if timezone_re.search(date_string):
-            date_string = timezone_re.sub('', date_string).rstrip()
+            date_string = timezone_re.sub('', date_string)
             return date_string, info['offset'] if as_offset else info['name']
     else:
         return date_string, None

@@ -276,6 +276,14 @@ class DateDataParserTest(unittest.TestCase):
             date_data = parser.get_date_data(date_string)
             self.assertEqual(correct_date.date(), date_data['date_obj'].date())
 
+    def test_should_parse_date_with_timezones_using_format(self):
+        date_string = "2014/11/17 14:56 EDT"
+        date_format = "%Y/%m/%d %H:%M EDT"
+        expected = datetime(2014, 11, 17, 14, 56)
+        date_data = self.parser.get_date_data(date_string, date_formats=[date_format])
+        self.assertEqual('day', date_data['period'])
+        self.assertEqual(expected, date_data['date_obj'])
+
 
 if __name__ == '__main__':
     unittest.main()
