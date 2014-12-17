@@ -1,13 +1,16 @@
 # coding: utf-8
 from __future__ import unicode_literals
-from operator import attrgetter
+
 import unittest
 from datetime import datetime, timedelta
+from functools import wraps
+from operator import attrgetter
 
 from mock import patch, Mock
 from nose_parameterized import parameterized, param
 
 import dateparser.timezones
+from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguage
@@ -91,60 +94,143 @@ class ExactLanguageTest(unittest.TestCase):
 
 
 class TestDateParser(BaseTestCase):
+    def setUp(self):
+        super(TestDateParser, self).setUp()
+        self.date_string = NotImplemented
+        self.parser = NotImplemented
+        self.result = NotImplemented
+        self.date_parser = NotImplemented
+        self.date_result = NotImplemented
 
-    def test_en_dates(self):
-        date = DateParser().parse('[Sept] 04, 2014.')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 9)
-        self.assertEqual(date.day, 4)
+    @parameterized.expand([
+        # English dates
+        param('[Sept] 04, 2014.', datetime(2014, 9, 4)),
+        param('Tuesday Jul 22, 2014', datetime(2014, 7, 22)),
+        param('10:04am EDT', datetime(2012, 11, 13, 14, 4)),
+        param('Friday', datetime(2012, 11, 9)),
+        # French dates
+        param('11 Mai 2014', datetime(2014, 5, 11)),
+        param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
+        # Spanish dates
+        param('Martes 21 de Octubre de 2014', datetime(2014, 10, 21)),
+        param('Miércoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),
+        param('12 de junio del 2012', datetime(2012, 6, 12)),
+        # Dutch dates
+        param('11 augustus 2014', datetime(2014, 8, 11)),
+        param('14 januari 2014', datetime(2014, 1, 14)),
+        param('vr jan 24, 2014 12:49', datetime(2014, 1, 24, 12, 49)),
+        # Italian dates
+        param('16 giu 2014', datetime(2014, 6, 16)),
+        param('26 gennaio 2014', datetime(2014, 1, 26)),
+        # Portuguese dates
+        param('sexta-feira, 10 de junho de 2014 14:52', datetime(2014, 6, 10, 14, 52)),
+        # Russian dates
+        param('10 мая', datetime(2012, 5, 10)),  # forum.codenet.ru
+        param('26 апреля', datetime(2012, 4, 26)),
+        param('20 ноября 2013', datetime(2013, 11, 20)),
+        param('28 октября 2014 в 07:54', datetime(2014, 10, 28, 7, 54)),
+        # Turkish dates
+        param('08.Haziran.2014, 11:07', datetime(2014, 6, 8, 11, 7)),  # forum.andronova.net
+        param('17.Şubat.2014, 17:51', datetime(2014, 2, 17, 17, 51)),
+        param('14-Aralık-2012, 20:56', datetime(2012, 12, 14, 20, 56)),  # forum.ceviz.net
+        # Romanian dates
+        param('13 iunie 2013', datetime(2013, 6, 13)),
+        param('14 aprilie 2014', datetime(2014, 4, 14)),
+        param('18 martie 2012', datetime(2012, 3, 18)),
+        # German dates
+        param('21. Dezember 2013', datetime(2013, 12, 21)),
+        param('19. Februar 2012', datetime(2012, 2, 19)),
+        param('26. Juli 2014', datetime(2014, 7, 26)),
+        param('18.10.14 um 22:56 Uhr', datetime(2014, 10, 18, 22, 56)),
+        # Czech dates
+        param('pon 16. čer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
+        # Numeric dates
+        param('06-17-2014', datetime(2014, 6, 17))
+    ])
+    def test_dates_parsing(self, date_string, expected):
+        self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
 
-    def test_fr_dates(self):
-        date = DateParser().parse('11 Mai 2014')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 5)
-        self.assertEqual(date.day, 11)
+    @parameterized.expand([
+        param('Sep 03 2014 | 4:32 pm EDT', datetime(2014, 9, 3, 21, 32)),
+        param('17th October, 2034 @ 01:08 am PDT', datetime(2034, 10, 17, 9, 8)),
+        param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 4, 24)),
+        param('15 May 2004', datetime(2004, 5, 15, 0, 0)),
+    ])
+    def test_parsing_with_time_zones(self, date_string, expected):
+        self.given_local_tz_offset(+1)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
 
-        date = DateParser().parse('dimanche, 11 Mai 2014')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 5)
-        self.assertEqual(date.day, 11)
+    @parameterized.expand([
+        param(''),
+        param('invalid date string'),
+        param('Aug 7, 2014Aug 7, 2014'),
+    ])
+    def test_dates_not_parsed(self, date_string):
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_not_parsed()
 
-    def test_es_dates(self):
-        date = DateParser().parse(u'Martes 21 de Octubre de 2014')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 10)
-        self.assertEqual(date.day, 21)
+    def given_utcnow(self, now):
+        datetime_mock = Mock(wraps=datetime)
+        datetime_mock.utcnow = Mock(return_value=now)
+        self.add_patch(patch('dateparser.date_parser.datetime', new=datetime_mock))
 
-        date = DateParser().parse(u'Miércoles 20 de Noviembre de 2013')
-        self.assertEqual(date.year, 2013)
-        self.assertEqual(date.month, 11)
-        self.assertEqual(date.day, 20)
+    def given_local_tz_offset(self, offset):
+        self.add_patch(
+            patch.object(dateparser.timezones,
+                         'local_tz_offset',
+                         new=timedelta(seconds=3600 * offset))
+        )
 
-        date = DateParser().parse(u'12 de junio del 2012')
-        self.assertEqual(date.year, 2012)
-        self.assertEqual(date.month, 6)
-        self.assertEqual(date.day, 12)
+    def given_date_string(self, date_string):
+        self.date_string = date_string
 
-    def test_nl_dates(self):
-        date = DateParser().parse('11 augustus 2014')
-        self.assertEqual(datetime(2014, 8, 11).date(), date.date())
+    def given_parser(self):
+        def collecting_get_date_data(parse):
+            @wraps(parse)
+            def wrapped(date_string):
+                self.date_result = parse(date_string)
+                return self.date_result
+            return wrapped
+        self.add_patch(patch.object(date_parser,
+                                    'parse',
+                                    collecting_get_date_data(date_parser.parse)))
 
-        date = DateParser().parse('14 januari 2014')
-        self.assertEqual(datetime(2014, 1, 14).date(), date.date())
+        self.date_parser = Mock(wraps=date_parser)
+        self.add_patch(patch('dateparser.date.date_parser', new=self.date_parser))
+        self.parser = DateDataParser()
 
-        date = DateParser().parse('vr jan 24, 2014 12:49')
-        self.assertEqual(datetime(2014, 1, 24, 12, 49), date)
+    def when_date_is_parsed(self):
+        self.result = self.parser.get_date_data(self.date_string)
 
-    def test_it_dates(self):
-        date = DateParser().parse('16 giu 2014')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 6)
-        self.assertEqual(date.day, 16)
+    def then_period_is(self, period):
+        self.assertEqual(period, self.result['period'])
 
-        date = DateParser().parse('26 gennaio 2014')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 1)
-        self.assertEqual(date.day, 26)
+    def then_date_obj_exactly_is(self, expected):
+        self.assertEqual(expected, self.result['date_obj'])
+
+    def then_date_was_not_parsed(self):
+        self.assertIsNone(self.result['date_obj'], '"%s" should not be parsed' % self.date_string)
+
+    def then_date_was_parsed_by_date_parser(self):
+        self.assertEqual(self.result['date_obj'], self.date_result)
+
+
+@unittest.skip('There are mostly old language detection tests left. New tests should be written.')
+class TestDateParser_(BaseTestCase):
 
     @unittest.skip('DateParser not using formats anymore. Should be tested separately.')
     def test_it_dates_with_format(self):
@@ -164,131 +250,6 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(date.month, 7)
         self.assertEqual(date.day, 15)
 
-    def test_pt_dates(self):
-        date = DateParser().parse('sexta-feira, 10 de junho de 2014 14:52')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 6)
-        self.assertEqual(date.day, 10)
-        self.assertEqual(date.hour, 14)
-        self.assertEqual(date.minute, 52)
-
-    def test_ru_dates(self):
-        # forum.codenet.ru
-        date = DateParser().parse('10 мая')
-        self.assertEqual(date.month, 5)
-        self.assertEqual(date.day, 10)
-
-        date = DateParser().parse('26 апреля')
-        self.assertEqual(date.month, 4)
-        self.assertEqual(date.day, 26)
-
-        date = DateParser().parse('20 ноября 2013')
-        self.assertEqual(date.year, 2013)
-        self.assertEqual(date.month, 11)
-        self.assertEqual(date.day, 20)
-
-        date = DateParser().parse('28 октября 2014 в 07:54')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 10)
-        self.assertEqual(date.day, 28)
-        self.assertEqual(date.hour, 7)
-        self.assertEqual(date.minute, 54)
-
-    def test_tr_dates(self):
-        # forum.andronova.net
-        date = DateParser().parse('08.Haziran.2014, 11:07')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 6)
-        self.assertEqual(date.day, 8)
-        self.assertEqual(date.hour, 11)
-        self.assertEqual(date.minute, 07)
-
-        date = DateParser().parse('17.Şubat.2014, 17:51')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 2)
-        self.assertEqual(date.day, 17)
-        self.assertEqual(date.hour, 17)
-        self.assertEqual(date.minute, 51)
-
-        # forum.ceviz.net
-        date = DateParser().parse('14-Aralık-2012, 20:56')
-        self.assertEqual(date.year, 2012)
-        self.assertEqual(date.month, 12)
-        self.assertEqual(date.day, 14)
-        self.assertEqual(date.hour, 20)
-        self.assertEqual(date.minute, 56)
-
-    def test_ro_dates(self):
-        parser = DateParser()
-        date_fixtures = [
-            ('13 iunie 2013', datetime(2013, 6, 13)),
-            ('14 aprilie 2014', datetime(2014, 4, 14)),
-            ('18 martie 2012', datetime(2012, 3, 18)),
-        ]
-
-        for dt_string, correct_date in date_fixtures:
-            parsed = parser.parse(dt_string)
-            self.assertEquals(correct_date.date(), parsed.date())
-
-    def test_de_dates(self):
-        parser = DateParser()
-        date_fixtures = [
-            ('21. Dezember 2013', datetime(2013, 12, 21)),
-            ('19. Februar 2012', datetime(2012, 2, 19)),
-            ('26. Juli 2014', datetime(2014, 7, 26)),
-        ]
-
-        for dt_string, correct_date in date_fixtures:
-            parsed = parser.parse(dt_string)
-            self.assertEquals(correct_date.date(), parsed.date())
-
-        date = DateParser().parse('18.10.14 um 22:56 Uhr')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 10)
-        self.assertEqual(date.day, 18)
-        self.assertEqual(date.hour, 22)
-        self.assertEqual(date.minute, 56)
-
-    def test_should_parse_a_plain_string_date(self):
-        date = DateParser().parse(str('06-17-2014'))
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 6)
-        self.assertEqual(date.day, 17)
-
-    def test_cz_dates(self):
-        # androidforum.cz
-        date = DateParser(language='cz').parse('pon 16. čer 2014 10:07:43')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 6)
-        self.assertEqual(date.day, 16)
-        self.assertEqual(date.hour, 10)
-        self.assertEqual(date.minute, 07)
-        self.assertEqual(date.second, 43)
-
-    def test_weekdays(self):
-        tuesday = datetime(2014, 8, 12, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
-        datetime_mock = Mock(wraps=datetime)
-        datetime_mock.utcnow = Mock(return_value=tuesday)
-        self.add_patch(patch('dateparser.date_parser.datetime', new=datetime_mock))
-        date = DateParser(language='en').parse('Friday')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 8)
-        self.assertEqual(date.day, 8)
-        self.assertEqual(date.hour, 0)
-        self.assertEqual(date.minute, 0)
-        self.assertEqual(date.second, 0)
-
-    def test_parse_common_date(self):
-        date = DateParser().parse('Tuesday Jul 22, 2014')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 7)
-        self.assertEqual(date.day, 22)
-
-    def test_parse_only_hours_date(self):
-        today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
-        result = DateParser().parse('10:04am EDT')
-        self.assertEqual(today.date(), result.date())
-
     def test_premature_detection(self):
         invalid_date_string = '24h ago'  # 'ago' is shortened august in some languages
         with self.assertRaisesRegexp(ValueError, 'Invalid date: {}'.format(invalid_date_string)):
@@ -306,11 +267,6 @@ class TestDateParser(BaseTestCase):
 
         for date_string, correct_date in date_fixtures:
             self.assertEqual(correct_date.date(), dp.parse(date_string).date())
-
-    def test_should_reject_empty_string(self):
-        dp = DateParser()
-        with self.assertRaisesRegexp(ValueError, 'Empty string'):
-            dp.parse('')
 
     def test_should_not_allow_multiple_languages_by_default(self):
         dates_in_spanish = [
@@ -366,29 +322,6 @@ class TestDateParser(BaseTestCase):
 
         parsed_date = dp.parse(u'13/08/2014')
         self.assertEqual(datetime(2014, 8, 13).date(), parsed_date.date())
-
-    def test_fail(self):
-        parser = DateParser()
-        self.assertRaises(ValueError, parser.parse, 'invalid date string')
-        self.assertRaises(ValueError, parser.parse, 'Aug 7, 2014Aug 7, 2014')
-
-    @parameterized.expand([
-        param('Sep 03 2014 | 4:32 pm EDT', datetime(2014, 9, 3, 21, 32)),
-        param('17th October, 2034 @ 01:08 am PDT', datetime(2034, 10, 17, 9, 8)),
-        param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 4, 24)),
-        param('15 May 2004', datetime(2004, 5, 15, 0, 0)),
-    ])
-    def test_parsing_with_time_zones(self, date_string, expected_datetime):
-        self.given_local_tz_offset(+1)
-        parser = DateParser()
-        self.assertEqual(expected_datetime, parser.parse(date_string))
-
-    def given_local_tz_offset(self, offset):
-        self.add_patch(
-            patch.object(dateparser.timezones,
-                         'local_tz_offset',
-                         new=timedelta(seconds=3600 * offset))
-        )
 
 
 if __name__ == '__main__':
