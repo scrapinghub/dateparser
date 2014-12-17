@@ -177,7 +177,7 @@ class Language(object):
                     combined.append(tested)
                     tested = ''
                     break
-                elif re.match(r'%s\b.*' % tested, translation):
+                elif re.match(r'%s\b.*' % re.escape(tested), translation):
                     candidate = True
                     continue
             else:
