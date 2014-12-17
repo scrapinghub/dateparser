@@ -21,17 +21,13 @@ class Language(object):
     _splitters = None
     _wordchars = None
 
-    def __init__(self, shortname, language_info, strip_timezone=False):
+    def __init__(self, shortname, language_info):
         self.shortname = shortname
         self.info = language_info.copy()
         for simplification in self.info.get('simplifications', []):
             key, value = simplification.items()[0]
             if isinstance(value, int):
                 simplification[key] = str(value)
-        self.strip_timezone = strip_timezone
-
-    def to_timezone_aware_language(self):
-        return self.__class__(self.shortname, self.info, strip_timezone=True)
 
     def validate_info(self, validator=None):
         if validator is None:
@@ -39,8 +35,8 @@ class Language(object):
 
         return validator.validate_info(language_id=self.shortname, info=self.info)
 
-    def is_applicable(self, date_string):
-        if self.strip_timezone:
+    def is_applicable(self, date_string, strip_timezone=False):
+        if strip_timezone:
             date_string, timezone = pop_tz_offset_from_string(date_string, as_offset=False)
 
         date_string = self._simplify(date_string)
@@ -51,9 +47,6 @@ class Language(object):
             return self._are_all_words_in_the_dictionary(tokens)
 
     def translate(self, date_string, keep_formatting=False):
-        if self.strip_timezone:
-            date_string, timezone = pop_tz_offset_from_string(date_string, as_offset=False)
-
         date_string = self._simplify(date_string)
         words = self._split(date_string, keep_formatting)
 
@@ -62,9 +55,6 @@ class Language(object):
             word = word.lower()
             if word in dictionary:
                 words[i] = dictionary[word] or ''
-
-        if self.strip_timezone:
-            words.append(timezone)
 
         return self._join(filter(bool, words), separator="" if keep_formatting else " ")
 

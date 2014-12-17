@@ -14,7 +14,7 @@ tz_offsets = {
 }
 
 _tz_offsets = {
-    re.compile(r'\b%s$' % timezone): {'name': timezone, 'offset': timedelta(seconds=offset)}
+    re.compile(r'\b%s$' % timezone, re.IGNORECASE): {'name': timezone, 'offset': timedelta(seconds=offset)}
     for timezone, offset in tz_offsets.iteritems()
 }
 

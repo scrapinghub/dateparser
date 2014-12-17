@@ -17,12 +17,10 @@ class BaseLanguageDetector(object):
     def _iterate_languages(date_string, languages):
         while languages:
             language = languages[0]
-            if language.is_applicable(date_string):
+            if language.is_applicable(date_string, strip_timezone=False):
                 yield language
-            else:
-                language = language.to_timezone_aware_language()
-                if language.is_applicable(date_string):
-                    yield language
+            elif language.is_applicable(date_string, strip_timezone=True):
+                yield language
 
             languages.pop(0)
 
