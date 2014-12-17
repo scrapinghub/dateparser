@@ -122,6 +122,95 @@ def parse_with_formats(date_string, date_formats):
         return {'date_obj': None, 'period': period}
 
 
+class _DateLanguageParser(object):
+    def __init__(self, language, date_string, date_formats):
+        self.language = language
+        self.date_string = date_string
+        self.date_formats = date_formats
+        self._translated_date = None
+        self._translated_date_with_formatting = None
+
+    @classmethod
+    def parse(cls, language, date_string, date_formats=None):
+        instance = cls(language, date_string, date_formats)
+        return instance._parse()
+
+    def _parse(self):
+        for parser in (
+            self._try_timestamp,
+            self._try_freshness_parser,
+            self._try_given_formats,
+            self._try_dateutil_parser,
+            self._try_hardcoded_formats,
+        ):
+            date_obj = parser()
+            if self._is_valid_date_obj(date_obj):
+                return date_obj
+        else:
+            return None
+
+    def _try_timestamp(self):
+        return {
+            'date_obj': get_date_from_timestamp(self.date_string),
+            'period': 'day',
+        }
+
+    def _try_freshness_parser(self):
+        return freshness_date_parser.get_date_data(self._get_translated_date())
+
+    def _try_dateutil_parser(self):
+        try:
+            date_obj = date_parser.parse(self._get_translated_date())
+            return {
+                'date_obj': date_obj.replace(tzinfo=None),
+                'period': 'day',
+            }
+        except ValueError:
+            return None
+
+    def _try_given_formats(self):
+        if not self.date_formats:
+            return
+
+        return parse_with_formats(self._get_translated_date_with_formatting(), self.date_formats)
+
+    def _try_hardcoded_formats(self):
+        hardcoded_date_formats = [
+            '%B %d, %Y, %I:%M:%S %p',
+            '%b %d, %Y at %I:%M %p',
+            '%d %B %Y %H:%M:%S',
+            '%A, %B %d, %Y',
+        ]
+        try:
+            return parse_with_formats(self._get_translated_date_with_formatting(), hardcoded_date_formats)
+        except TypeError:
+            return None
+
+    def _get_translated_date(self):
+        if self._translated_date is None:
+            self._translated_date = self.language.translate(self.date_string, keep_formatting=False)
+        return self._translated_date
+
+    def _get_translated_date_with_formatting(self):
+        if self._translated_date_with_formatting is None:
+            self._translated_date_with_formatting = self.language.translate(self.date_string, keep_formatting=True)
+        return self._translated_date_with_formatting
+
+    def _is_valid_date_obj(self, date_obj):
+        if not isinstance(date_obj, dict):
+            return False
+        if len(date_obj) != 2:
+            return False
+        if 'date_obj' not in date_obj or 'period' not in date_obj:
+            return False
+        if not date_obj['date_obj']:
+            return False
+        if date_obj['period'] not in ('day', 'week', 'month', 'year'):
+            return False
+
+        return True
+
+
 class DateDataParser(object):
 
     def __init__(self, language=None, allow_redetect_language=False):
@@ -160,72 +249,11 @@ class DateDataParser(object):
         date_string = sanitize_date(date_string)
 
         for language in self.language_detector.iterate_applicable_languages(date_string, modify=True):
-            translated_date = language.translate(date_string, keep_formatting=False)
-            translated_date_with_formatting = language.translate(date_string, keep_formatting=True)
-            for parser, date_string_ in (
-                (self._try_timestamp, date_string),
-                (self._try_freshness_parser, translated_date),
-                (self._try_given_formats, translated_date_with_formatting),
-                (self._try_dateutil_parser, translated_date),
-                (self._try_hardcoded_formats, translated_date_with_formatting),
-            ):
-                date_obj = parser(date_string_, date_formats)
-                if self._is_valid_date_obj(date_obj):
-                    return date_obj
-            else:
-                continue
+            parsed_date = _DateLanguageParser.parse(language, date_string, date_formats)
+            if parsed_date:
+                return parsed_date
         else:
             return {'date_obj': None, 'period': 'day'}
 
-    def _try_timestamp(self, date_string, date_formats):
-        return {
-            'date_obj': get_date_from_timestamp(date_string),
-            'period': 'day',
-        }
-
-    def _try_freshness_parser(self, date_string, date_formats):
-        return freshness_date_parser.get_date_data(date_string)
-
-    def _try_dateutil_parser(self, date_string, date_formats):
-        try:
-            date_obj = date_parser.parse(date_string)
-            return {
-                'date_obj': date_obj.replace(tzinfo=None),
-                'period': 'day',
-            }
-        except ValueError:
-            return None
-
-    def _try_given_formats(self, date_string, date_formats):
-        if not date_formats:
-            return
-
-        return parse_with_formats(date_string, date_formats)
-
-    def _try_hardcoded_formats(self, date_string, date_formats):
-        hardcoded_date_formats = [
-            '%B %d, %Y, %I:%M:%S %p',
-            '%b %d, %Y at %I:%M %p',
-            '%d %B %Y %H:%M:%S',
-            '%A, %B %d, %Y',
-        ]
-        try:
-            return parse_with_formats(date_string, hardcoded_date_formats)
-        except TypeError:
-            return None
-
-    def _is_valid_date_obj(self, date_obj):
-        if not isinstance(date_obj, dict):
-            return False
-        if len(date_obj) != 2:
-            return False
-        if 'date_obj' not in date_obj or 'period' not in date_obj:
-            return False
-        if not date_obj['date_obj']:
-            return False
-        if date_obj['period'] not in ('day', 'week', 'month', 'year'):
-            return False
-
-        return True
 
 default_language_loader = LanguageDataLoader()
