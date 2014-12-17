@@ -10,11 +10,20 @@ class BaseLanguageDetector(object):
 
     def iterate_applicable_languages(self, date_string, modify=False):
         languages = self.languages if modify else self.languages[:]
+        for language in self._iterate_languages(date_string, languages):
+            yield language
 
+    @staticmethod
+    def _iterate_languages(date_string, languages):
         while languages:
             language = languages[0]
             if language.is_applicable(date_string):
                 yield language
+            else:
+                language = language.to_timezone_aware_language()
+                if language.is_applicable(date_string):
+                    yield language
+
             languages.pop(0)
 
 
@@ -28,12 +37,8 @@ class AutoDetectLanguage(BaseLanguageDetector):
     def iterate_applicable_languages(self, date_string, modify=False):
         languages = self.languages if modify else self.languages[:]
         initial_languages = languages[:]
-
-        while languages:
-            language = languages[0]
-            if language.is_applicable(date_string):
-                yield language
-            languages.pop(0)
+        for language in self._iterate_languages(date_string, languages):
+            yield language
 
         if not self.allow_redetection:
             return
@@ -45,11 +50,8 @@ class AutoDetectLanguage(BaseLanguageDetector):
         if modify:
             self.languages = languages
 
-        while languages:
-            language = languages[0]
-            if language.is_applicable(date_string):
-                yield language
-            languages.pop(0)
+        for language in self._iterate_languages(date_string, languages):
+            yield language
 
 
 class ExactLanguage(BaseLanguageDetector):
