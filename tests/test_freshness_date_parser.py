@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import unittest
@@ -196,8 +196,11 @@ class TestFreshnessDateDataParser(unittest.TestCase):
     ]
 
     ar_params = [
-        ('يوم أمس', dict(days=1), 'day'),
         ('اليوم', dict(days=0), 'day'),
+        ('يوم أمس', dict(days=1), 'day'),
+        ('منذ يومين', dict(days=2), 'day'),
+        ('منذ 3 أيام', dict(days=3), 'day'),
+        ('منذ 21 أيام', dict(days=21), 'day'),
         ('1 عام, 1 شهر, 1 أسبوع, 1 يوم, 1 ساعة, 1 دقيقة',
             dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),
             'day',
