@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import unittest
@@ -175,6 +175,16 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1年，1月，1周，1天，1小时，1分钟前',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
+
+        # Arabic dates
+        param('اليوم', ago={'days': 0}, period='day'),
+        param('يوم أمس', ago={'days': 1}, period='day'),
+        param('منذ يومين', ago={'days': 2}, period='day'),
+        param('منذ 3 أيام', ago={'days': 3}, period='day'),
+        param('منذ 21 أيام', ago={'days': 21}, period='day'),
+        param('1 عام, 1 شهر, 1 أسبوع, 1 يوم, 1 ساعة, 1 دقيقة',
+              ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+              period='day'),
     ])
     def test_relative_dates(self, date_string, ago, period):
         self.given_parser()
@@ -183,6 +193,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_was_parsed_by_freshness_parser()
         self.then_date_obj_is_exactly_this_time_ago(ago)
         self.then_period_is(period)
+
+    ar_params = [
+    ]
 
     @parameterized.expand([
         param('1000 years ago'),
