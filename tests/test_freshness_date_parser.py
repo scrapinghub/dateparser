@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import re
 import unittest
 from datetime import datetime, timedelta
 from functools import wraps
@@ -22,6 +23,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.result = NotImplemented
         self.freshness_parser = NotImplemented
         self.freshness_result = NotImplemented
+        self.exception = NotImplemented
 
     @parameterized.expand([
         # English dates
@@ -45,7 +47,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('2 mins', ago={'minutes': 2}, period='day'),
         param('3 sec', ago={'seconds': 3}, period='day'),
         param('1000 years ago', ago={'years': 1000}, period='year'),
+        param('2013 years ago', ago={'years': 2013}, period='year'),  # We've fixed .now in setUp
         param('5000 months ago', ago={'years': 416, 'months': 8}, period='month'),
+        param('{} months ago'.format(2013 * 12 + 8), ago={'years': 2013, 'months': 8}, period='month'),
         param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
@@ -192,19 +196,31 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
+        self.then_error_was_not_raised()
         self.then_date_was_parsed_by_freshness_parser()
         self.then_date_obj_is_exactly_this_time_ago(ago)
         self.then_period_is(period)
 
     @parameterized.expand([
-        param('1000 years ago'),
         param('15th of Aug, 2014 Diane Bennett'),
     ])
     def test_insane_dates(self, date_string):
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
+        self.then_error_was_not_raised()
         self.then_date_was_not_parsed()
+
+    @parameterized.expand([
+        param('5000 years ago'),
+        param('2014 years ago'),  # We've fixed .now in setUp
+        param('{} months ago'.format(2013 * 12 + 9)),
+    ])
+    def test_dates_not_supported_by_date_time(self, date_string):
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_raised(ValueError, 'year is out of range')
 
     @parameterized.expand([
         param('несколько секунд назад', boundary={'seconds': 45}, period='day'),
@@ -214,6 +230,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
+        self.then_error_was_not_raised()
         self.then_date_was_parsed_by_freshness_parser()
         self.then_period_is(period)
         self.then_date_obj_is_between(self.now - timedelta(**boundary), self.now)
@@ -239,7 +256,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.parser = DateDataParser()
 
     def when_date_is_parsed(self):
-        self.result = self.parser.get_date_data(self.date_string)
+        try:
+            self.result = self.parser.get_date_data(self.date_string)
+        except Exception as error:
+            self.exception = error
 
     def then_period_is(self, period):
         self.assertEqual(period, self.result['period'])
@@ -256,6 +276,21 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     def then_date_was_parsed_by_freshness_parser(self):
         self.assertEqual(self.result, self.freshness_result)
+
+    def then_error_was_not_raised(self):
+        self.assertEqual(NotImplemented, self.exception)
+
+    def then_error_was_raised(self, error_cls, expected_regexp=None):
+        self.assertIsInstance(self.exception, error_cls)
+
+        if expected_regexp is None:
+            return
+
+        if isinstance(expected_regexp, basestring):
+            expected_regexp = re.compile(expected_regexp)
+
+        if not expected_regexp.search(str(self.exception)):
+            raise self.failureException('"%s" does not match "%s"' % (expected_regexp.pattern, str(self.exception)))
 
 
 if __name__ == '__main__':
