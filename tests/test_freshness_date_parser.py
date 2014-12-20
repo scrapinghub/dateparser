@@ -44,6 +44,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('2 min', ago={'minutes': 2}, period='day'),
         param('2 mins', ago={'minutes': 2}, period='day'),
         param('3 sec', ago={'seconds': 3}, period='day'),
+        param('1000 years ago', ago={'years': 1000}, period='year'),
+        param('5000 months ago', ago={'years': 416, 'months': 8}, period='month'),
         param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
@@ -193,9 +195,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_was_parsed_by_freshness_parser()
         self.then_date_obj_is_exactly_this_time_ago(ago)
         self.then_period_is(period)
-
-    ar_params = [
-    ]
 
     @parameterized.expand([
         param('1000 years ago'),
