@@ -257,16 +257,7 @@ class FreshnessDateDataParser(object):
             unit = self.units_map[unit.lower()]
             kwargs[unit + 's'] = int(num)
 
-        years = kwargs.get('years', None)
-        months = kwargs.get('months', None)
-
-        validate = lambda val, lower, upper: \
-            val is None or (lower <= val <= upper)
-
-        if validate(years, 1, 19) and validate(months, 1, 12):
-            return kwargs
-        else:
-            return {}
+        return kwargs
 
     def get_date_data(self, date_string):
         date, period = self.parse(date_string)
