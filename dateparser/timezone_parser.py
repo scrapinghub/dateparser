@@ -8,7 +8,7 @@ TIMEZONE_REGEX_PATTERN = r'(\b|\d)%s$'
 
 
 def pop_tz_offset_from_string(date_string):
-    for timezone_re, offset in _tz_offsets.iteritems():
+    for timezone_re, offset in _tz_offsets.items():
         if timezone_re.search(date_string):
             date_string = timezone_re.sub(r'\1', date_string).rstrip()  # \1 = (\b|\d) in TIMEZONE_REGEX_PATTERN
             return date_string, offset

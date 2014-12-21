@@ -1,5 +1,6 @@
 # coding: utf-8
 from __future__ import unicode_literals
+from __future__ import absolute_import
 
 import unittest
 from datetime import datetime, timedelta
@@ -14,7 +15,9 @@ from dateparser.date_parser import LanguageWasNotSeenBeforeError
 from dateparser.date_parser import (
     parse_with_language_and_format, translate_words, get_language_candidates, tokenize_date,
 )
+from dateparser import timezones
 from tests import BaseTestCase
+import sys
 
 
 class AutoDetectLanguageTest(unittest.TestCase):
@@ -56,7 +59,7 @@ class AutoDetectLanguageTest(unittest.TestCase):
 class ExactLanguageTest(unittest.TestCase):
 
     def test_force_setting_language(self):
-        with self.assertRaisesRegexp(TypeError, 'takes at least 2 arguments'):
+        with self.assertRaises(TypeError):
             ExactLanguage()
 
         with self.assertRaisesRegexp(ValueError, 'cannot be None'):
@@ -208,7 +211,7 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(date.month, 6)
         self.assertEqual(date.day, 8)
         self.assertEqual(date.hour, 11)
-        self.assertEqual(date.minute, 07)
+        self.assertEqual(date.minute, 7)
 
         date = DateParser().parse('17.Şubat.2014, 17:51')
         self.assertEqual(date.year, 2014)
@@ -269,7 +272,7 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(date.month, 6)
         self.assertEqual(date.day, 16)
         self.assertEqual(date.hour, 10)
-        self.assertEqual(date.minute, 07)
+        self.assertEqual(date.minute, 7)
         self.assertEqual(date.second, 43)
 
     def test_weekdays(self):
@@ -407,7 +410,7 @@ class DateutilHelpersTest(unittest.TestCase):
 
     def test_get_language_candidates(self):
         tokens = tokenize_date('June/July 2012')
-        self.assertItemsEqual(['en'], get_language_candidates(tokens, languages=['en']))
+        self.assertSequenceEqual(['en'], get_language_candidates(tokens, languages=['en']))
 
     def test_should_use_language_and_format(self):
         date_fixtures = (
@@ -420,7 +423,3 @@ class DateutilHelpersTest(unittest.TestCase):
         for correct_date, date_string, language, format_ in date_fixtures:
             date = parse_with_language_and_format(date_string, language, format_)
             self.assertEqual(correct_date.date(), date.date())
-
-
-if __name__ == '__main__':
-    unittest.main()

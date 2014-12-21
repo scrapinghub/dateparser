@@ -48,10 +48,10 @@ class DateRangeTest(unittest.TestCase):
         end = datetime(2014, 6, 25)
 
         with self.assertRaisesRegexp(ValueError, "Invalid argument"):
-            date.date_range(begin, end, month=1).next()
+            next(date.date_range(begin, end, month=1))
 
         with self.assertRaisesRegexp(ValueError, "Invalid argument"):
-            date.date_range(begin, end, day=1).next()
+            next(date.date_range(begin, end, day=1))
 
 
 class GetIntersectingPeriodsTest(BaseTestCase):
@@ -136,7 +136,7 @@ class GetIntersectingPeriodsTest(BaseTestCase):
         period = datetime(2014, 6, 25)
 
         with self.assertRaisesRegexp(ValueError, "Invalid period: {}".format(invalid_period)):
-            date.get_intersecting_periods(low, period, period=invalid_period).next()
+            next(date.get_intersecting_periods(low, period, period=invalid_period))
 
     @parameterized.expand([
         param(low=datetime(2014, 4, 15), high=datetime(2014, 4, 14)),
