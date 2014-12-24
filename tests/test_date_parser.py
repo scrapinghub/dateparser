@@ -92,6 +92,20 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(date.month, 9)
         self.assertEqual(date.day, 4)
 
+        date = DateParser().parse('November 19, 2014 at noon')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 11)
+        self.assertEqual(date.day, 19)
+        self.assertEqual(date.hour, 12)
+        self.assertEqual(date.minute, 0)
+
+        date = DateParser().parse('December 13, 2014 at midnight')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 12)
+        self.assertEqual(date.day, 13)
+        self.assertEqual(date.hour, 0)
+        self.assertEqual(date.minute, 0)
+
     def test_fr_dates(self):
         date = DateParser().parse('11 Mai 2014')
         self.assertEqual(date.year, 2014)

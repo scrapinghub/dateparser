@@ -182,6 +182,22 @@ class FreshnessDateDataParser(object):
             },
             'no_word_spacing': True,
         },
+        'ar': {
+            'word_replacements': [
+                ('0 يوم', ['اليوم']),
+                ('1 يوم',['يوم أمس']),
+                ('2 يوم', ['يومين']),
+                (r'\1 أيام', [r'\b(\d+)\s*أيام']),
+            ],
+            'units': {
+                'year':     ('عام', 'سنة'),
+                'month':    ('شهر',),
+                'week':     ('أسبوع',),
+                'day':      ('يوم', 'أيام'),
+                'hour':     ('ساعة', 'ساعات'),
+                'minute':   ('دقيقة', 'دقائق'),
+            },
+        },
         'th': {
             'word_replacements': [
                 (u'0 วัน', [u'วันนี้']),
@@ -261,16 +277,7 @@ class FreshnessDateDataParser(object):
             unit = self.units_map[unit.lower()]
             kwargs[unit + 's'] = int(num)
 
-        years = kwargs.get('years', None)
-        months = kwargs.get('months', None)
-
-        validate = lambda val, lower, upper: \
-            val is None or (lower <= val <= upper)
-
-        if validate(years, 1, 19) and validate(months, 1, 12):
-            return kwargs
-        else:
-            return {}
+        return kwargs
 
     def get_date_data(self, date_string):
         date, period = self.parse(date_string)

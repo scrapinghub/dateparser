@@ -591,6 +591,12 @@ class DateParser(object):
         if not date_string.strip():
             raise ValueError("Empty string")
         date_string, tz_offset = pop_tz_offset_from_string(date_string)
+
+        # this is a temporary fix to support noon and midnight in date strings.
+        # This would be done properly after feature-yaml-languages branch is merged
+        date_string = re.sub(r'\bnoon\b', '12:00', date_string, re.IGNORECASE)
+        date_string = re.sub(r'\bmidnight\b', '00:00', date_string, re.IGNORECASE)
+
         date_obj = self._parser.parse(date_string, date_format)
         if tz_offset is not None:
             date_obj = convert_to_local_tz(date_obj, tz_offset)

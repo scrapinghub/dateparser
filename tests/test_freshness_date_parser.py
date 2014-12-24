@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import unittest
@@ -37,6 +37,8 @@ class TestFreshnessDateDataParser(unittest.TestCase):
             dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),
             'day',
         ),
+        ('1000 years ago', dict(years=1000), 'years'),
+        ('5000 months ago', dict(years=416,months=8), 'months'),
     ]
 
     fr_params = [
@@ -195,6 +197,18 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         ),
     ]
 
+    ar_params = [
+        ('اليوم', dict(days=0), 'day'),
+        ('يوم أمس', dict(days=1), 'day'),
+        ('منذ يومين', dict(days=2), 'day'),
+        ('منذ 3 أيام', dict(days=3), 'day'),
+        ('منذ 21 أيام', dict(days=21), 'day'),
+        ('1 عام, 1 شهر, 1 أسبوع, 1 يوم, 1 ساعة, 1 دقيقة',
+            dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),
+            'day',
+        )
+    ]
+
     th_params = [
         (u'วันนี้', dict(days=0), 'day'),
         (u'เมื่อวานนี้', dict(days=1), 'day'),
@@ -261,18 +275,20 @@ class TestFreshnessDateDataParser(unittest.TestCase):
     def test_cn_dates(self):
         self.iter_params(self.cn_params)
 
+    def test_ar_dates(self):
+        self.iter_params(self.ar_params)
+
     def test_th_dates(self):
         self.iter_params(self.th_params)
 
     def test_insane_dates(self):
-        date_strings = [
-            '1000 years ago',
-            '15th of Aug, 2014 Diane Bennett',
-        ]
-
-        for s in date_strings:
-            date, period = self.fp.parse(s)
-            self.assertEqual(date, None, '"%s" should not be parsed' % s)
+        cur_year = self.now.year
+        self.assertRaises(ValueError, self.fp.parse, '5000 years ago')
+        self.assertRaises(ValueError, self.fp.parse, str(cur_year) + ' years ago')
+        self.assertRaises(ValueError, self.fp.parse, str(cur_year*12) + ' months ago')
+        
+        date, period = self.fp.parse('15th of Aug, 2014 Diane Bennett')
+        self.assertEqual(date, None, '"15th of Aug, 2014 Diane Bennett" should not be parsed')
 
     @parameterized.expand([
         param('несколько секунд назад', timedelta(seconds=45)),
