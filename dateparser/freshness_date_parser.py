@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import re
 
+import re
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
+
+from dateparser.utils import wrap_replacement_for_regex
 
 
 def flatten(iterable):
@@ -232,15 +235,12 @@ class FreshnessDateDataParser(object):
         return date, period
 
     def apply_replacements(self, date_string, lang):
-        punctuation_chars = r'''!"#$%%&'()*+,./:;<=>?@\\^_`{|}~-'''
         if 'word_replacements' in lang:
             for replacement, words in lang['word_replacements']:
                 for w in words:
-                    # Regex is equivalent to \b%s\b, but working also for Thai.
-                    date_string = re.sub(
-                        ur'(?:^|(?<=\s))%s(?=[\s%s]|$)' % (w, punctuation_chars),
-                        replacement, date_string, flags=re.IGNORECASE | re.UNICODE
-                        )
+                    wrapped_replacement = wrap_replacement_for_regex(replacement, w)
+                    w = ur'(\A|\d|_|\W)%s(\d|_|\W|\Z)' % w
+                    date_string = re.sub(w, wrapped_replacement, date_string, flags=re.IGNORECASE | re.UNICODE)
         return date_string
 
     def try_lang(self, date_string, lang):
