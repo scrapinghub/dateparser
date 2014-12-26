@@ -278,11 +278,39 @@ class nl_parserinfo(BaseParserInfo):
     ]
 
 
+class pl_parserinfo(BaseParserInfo):
+    WEEKDAYS = [
+        ('Poniedziałek', 'Poniedzialek', 'Pon', 'Po', 'Pn'),
+        ('Wtorek', 'Wt', 'Wto'),
+        ('Środa', 'Sroda', 'Śro', 'Sro', 'Śr', 'Sr'),
+        ('Czwartek', 'Czw', 'Cz'),
+        ('Piątek', 'Piatek', 'Pią', 'Pia', 'Pi', 'Pt'),
+        ('Sobota', 'Sob', 'So', 'Sb'),
+        ('Niedziela', 'Nie', 'Ni', 'Nd'),
+    ]
+
+    MONTHS = [
+        ('Styczeń', 'Styczen', 'Sty'),
+        ('Luty', 'Lut'),
+        ('Marzec', 'Mar'),
+        ('Kwiecień', 'Kwiecien', 'Kwi'),
+        ('Maj'),
+        ('Czerwiec', 'Cze'),
+        ('Lipiec', 'Lip'),
+        ('Sierpień', 'Sierpien', 'Sie'),
+        ('Wrzesień', 'Wrzesien', 'Wrz'),
+        ('Październik', 'Pazdziernik', 'Paź', 'Paz'),
+        ('Listopad', 'Lis'),
+        ('Grudzień', 'Grudzien', 'Gru'),
+    ]
+
+
 class en_parserinfo(BaseParserInfo):
     JUMP = list(set(BaseParserInfo.JUMP) | set(parser.parserinfo.JUMP))
 
 
 INFOS = OrderedDict([
+    ('pl', pl_parserinfo()),
     ('es', es_parserinfo()),
     ('fr', fr_parserinfo()),
     ('it', it_parserinfo()),

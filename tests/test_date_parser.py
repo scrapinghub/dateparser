@@ -272,6 +272,10 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(date.minute, 07)
         self.assertEqual(date.second, 43)
 
+    def test_pl_dates(self):
+        date = DateParser(language='pl').parse('Środa, 26 listopada 2014 10:11:12')
+        self.assertEqual(date.timetuple()[:6], (2014, 11, 26, 10, 11, 12))
+
     def test_weekdays(self):
         tuesday = datetime(2014, 8, 12, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
         datetime_mock = Mock(wraps=datetime)
