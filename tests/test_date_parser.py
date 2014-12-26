@@ -147,8 +147,13 @@ class TestDateParser(BaseTestCase):
         param('18.10.14 um 22:56 Uhr', datetime(2014, 10, 18, 22, 56)),
         # Czech dates
         param('pon 16. čer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
+        # Thai dates
+        param('ธันวาคม 11, 2014, 08:55:08 PM', datetime(2014, 12, 11, 20, 55, 8)),
+        param('22 พฤษภาคม 2012, 22:12', datetime(2012, 5, 22, 22, 12)),
+        param('1 เดือนตุลาคม 2005, 1:00 AM', datetime(2005, 10, 1, 1, 0)),
+        param('11 ก.พ. 2020, 13:13 AM', datetime(2020, 2, 11, 13, 13)),
         # Numeric dates
-        param('06-17-2014', datetime(2014, 6, 17))
+        param('06-17-2014', datetime(2014, 6, 17)),
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
