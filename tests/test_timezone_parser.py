@@ -19,6 +19,7 @@ class TestTZPopping(BaseTestCase):
         param('17th October, 2034 @ 01:08 am PDT', -7),
         param('October 17, 2014 at 7:30 am PST', -8),
         param('20 Oct 2014 13:08 CET', +1),
+        param('20 Oct 2014 13:08cet', +1),
         param('Nov 25 2014 | 10:17 pm EST', -5),
         param('15 May 2004', None),
     ])
@@ -32,6 +33,7 @@ class TestTZPopping(BaseTestCase):
         param('17th October, 2034 @ 01:08 am PDT', '17th October, 2034 @ 01:08 am'),
         param('October 17, 2014 at 7:30 am PST', 'October 17, 2014 at 7:30 am'),
         param('20 Oct 2014 13:08 CET', '20 Oct 2014 13:08'),
+        param('20 Oct 2014 13:08cet', '20 Oct 2014 13:08'),
         param('Nov 25 2014 | 10:17 pm EST', 'Nov 25 2014 | 10:17 pm'),
     ])
     def test_timezone_deleted_from_string(self, initial_string, result_string):
