@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import re
 
+import re
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
+
+from dateparser.utils import wrap_replacement_for_regex
 
 
 def flatten(iterable):
@@ -194,6 +197,23 @@ class FreshnessDateDataParser(object):
                 'hour':     ('ساعة', 'ساعات'),
                 'minute':   ('دقيقة', 'دقائق'),
             },
+        },
+        'th': {
+            'word_replacements': [
+                (u'0 วัน', [u'วันนี้']),
+                (u'1 วัน', [u'เมื่อวานนี้', u'1 วันที่แล้ว']),
+                (u'2 วัน', [u'เมื่อวานซืน', u'2 วันที่แล้ว'])
+            ],
+            'units': {
+                'year':     (u'ปี',),
+                'month':    (u'เดือน',),
+                'week':     (u'สัปดาห์',),
+                'day':      (u'วัน',),
+                'hour':     (u'ชั่วโมง', u'ชม.'),
+                'minute':   (u'นาที',),
+                'second':   (u'วินาที',),
+            },
+            'no_word_spacing': True,
         }
     }
 
@@ -234,9 +254,9 @@ class FreshnessDateDataParser(object):
         if 'word_replacements' in lang:
             for replacement, words in lang['word_replacements']:
                 for w in words:
-                    date_string = re.sub(ur'\b%s\b' % w, replacement, date_string,
-                                         flags=re.IGNORECASE | re.UNICODE)
-
+                    wrapped_replacement = wrap_replacement_for_regex(replacement, w)
+                    w = ur'(\A|\d|_|\W)%s(\d|_|\W|\Z)' % w
+                    date_string = re.sub(w, wrapped_replacement, date_string, flags=re.IGNORECASE | re.UNICODE)
         return date_string
 
     def try_lang(self, date_string, lang):

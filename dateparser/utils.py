@@ -7,12 +7,12 @@ G_REGEX = re.compile(r'g<(\d+)>')
 
 def wrap_replacement_for_regex(replacement, regex):
     # prepend group to replacement
-    replacement = r"\1%s" % increase_regex_replacements_group_positions(replacement, increment=1)
+    replacement = r"\g<1>%s" % increase_regex_replacements_group_positions(replacement, increment=1)
 
     # append group to replacement
     used_groups = re.compile(regex).groups
     new_group = used_groups + 2  # Consider that we already prepended replacement with one group
-    replacement = "%s\\%d" % (replacement, new_group)
+    replacement = "%s\\g<%d>" % (replacement, new_group)
 
     return replacement
 

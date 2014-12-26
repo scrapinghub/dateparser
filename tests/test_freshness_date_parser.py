@@ -209,6 +209,21 @@ class TestFreshnessDateDataParser(unittest.TestCase):
         )
     ]
 
+    th_params = [
+        (u'วันนี้', dict(days=0), 'day'),
+        (u'เมื่อวานนี้', dict(days=1), 'day'),
+        (u'2 วัน', dict(days=2), 'day'),
+        (u'2 ชั่วโมง', dict(hours=2), 'day'),
+        (u'23 ชม.', dict(hours=23), 'day'),
+        (u'2 สัปดาห์ 3 วัน', dict(weeks=2, days=3), 'day'),
+        (u'1 ปี 9 เดือน 1 สัปดาห์', dict(years=1, months=9, weeks=1), 'weeks'),
+        (
+            u'1 ปี 1 เดือน 1 สัปดาห์ 1 วัน 1 ชั่วโมง 1 นาที',
+            dict(years=1, months=1, weeks=1, days=1, hours=1, minutes=1),
+            'day',
+        ),
+    ]
+
     def setUp(self):
         self.now = datetime.utcnow()
         self.fp = FreshnessDateDataParser(now=self.now)
@@ -263,12 +278,15 @@ class TestFreshnessDateDataParser(unittest.TestCase):
     def test_ar_dates(self):
         self.iter_params(self.ar_params)
 
+    def test_th_dates(self):
+        self.iter_params(self.th_params)
+
     def test_insane_dates(self):
         cur_year = self.now.year
         self.assertRaises(ValueError, self.fp.parse, '5000 years ago')
         self.assertRaises(ValueError, self.fp.parse, str(cur_year) + ' years ago')
         self.assertRaises(ValueError, self.fp.parse, str(cur_year*12) + ' months ago')
-        
+
         date, period = self.fp.parse('15th of Aug, 2014 Diane Bennett')
         self.assertEqual(date, None, '"15th of Aug, 2014 Diane Bennett" should not be parsed')
 
