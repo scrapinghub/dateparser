@@ -290,18 +290,19 @@ class pl_parserinfo(BaseParserInfo):
     ]
 
     MONTHS = [
-        ('Styczeń', 'Styczen', 'Sty'),
-        ('Luty', 'Lut'),
-        ('Marzec', 'Mar'),
-        ('Kwiecień', 'Kwiecien', 'Kwi'),
-        ('Maj'),
-        ('Czerwiec', 'Cze'),
-        ('Lipiec', 'Lip'),
-        ('Sierpień', 'Sierpien', 'Sie'),
-        ('Wrzesień', 'Wrzesien', 'Wrz'),
-        ('Październik', 'Pazdziernik', 'Paź', 'Paz'),
-        ('Listopad', 'Lis'),
-        ('Grudzień', 'Grudzien', 'Gru'),
+        ('Styczeń', 'Styczen', 'Stycznia', 'Sty'),
+        ('Luty', 'Lutego', 'Lut'),
+        ('Marzec', 'Marca', 'Mar'),
+        ('Kwiecień', 'Kwiecien', 'Kwietnia', 'Kwi'),
+        ('Maj', 'Maja'),
+        ('Czerwiec', 'Czerwca', 'Cze'),
+        ('Lipiec', 'Lipca', 'Lip'),
+        ('Sierpień', 'Sierpien', 'Sierpnia', 'Sie'),
+        ('Wrzesień', 'Wrzesien', 'Września', 'Wrzesnia', 'Wrz'),
+        ('Październik', 'Pazdziernik', 'Października', 'Pazdziernika', 'Paź',
+         'Paz'),
+        ('Listopad', 'Listopada', 'Lis'),
+        ('Grudzień', 'Grudzien', 'Grudnia', 'Gru'),
     ]
 
 
