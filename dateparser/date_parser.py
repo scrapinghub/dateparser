@@ -278,6 +278,34 @@ class nl_parserinfo(BaseParserInfo):
     ]
 
 
+class pl_parserinfo(BaseParserInfo):
+    WEEKDAYS = [
+        ('Poniedziałek', 'Poniedzialek', 'Pon', 'Po', 'Pn'),
+        ('Wtorek', 'Wt', 'Wto'),
+        ('Środa', 'Sroda', 'Śro', 'Sro', 'Śr', 'Sr'),
+        ('Czwartek', 'Czw', 'Cz'),
+        ('Piątek', 'Piatek', 'Pią', 'Pia', 'Pi', 'Pt'),
+        ('Sobota', 'Sob', 'So', 'Sb'),
+        ('Niedziela', 'Nie', 'Ni', 'Nd'),
+    ]
+
+    MONTHS = [
+        ('Styczeń', 'Styczen', 'Stycznia', 'Sty'),
+        ('Luty', 'Lutego', 'Lut'),
+        ('Marzec', 'Marca', 'Mar'),
+        ('Kwiecień', 'Kwiecien', 'Kwietnia', 'Kwi'),
+        ('Maj', 'Maja'),
+        ('Czerwiec', 'Czerwca', 'Cze'),
+        ('Lipiec', 'Lipca', 'Lip'),
+        ('Sierpień', 'Sierpien', 'Sierpnia', 'Sie'),
+        ('Wrzesień', 'Wrzesien', 'Września', 'Wrzesnia', 'Wrz'),
+        ('Październik', 'Pazdziernik', 'Października', 'Pazdziernika', 'Paź',
+         'Paz'),
+        ('Listopad', 'Listopada', 'Lis'),
+        ('Grudzień', 'Grudzien', 'Grudnia', 'Gru'),
+    ]
+
+
 class th_parserinfo(BaseParserInfo):
     WEEKDAYS = [
         ('จันทร์', 'วันจันทร์'),
@@ -310,6 +338,7 @@ class en_parserinfo(BaseParserInfo):
 
 
 INFOS = OrderedDict([
+    ('pl', pl_parserinfo()),
     ('es', es_parserinfo()),
     ('fr', fr_parserinfo()),
     ('it', it_parserinfo()),
