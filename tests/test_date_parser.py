@@ -276,6 +276,36 @@ class TestDateParser(BaseTestCase):
         date = DateParser(language='pl').parse('Środa, 26 listopada 2014 10:11:12')
         self.assertEqual(date.timetuple()[:6], (2014, 11, 26, 10, 11, 12))
 
+    def test_th_dates(self):
+        date = DateParser().parse('ธันวาคม 11, 2014, 08:55:08 PM')
+        self.assertEqual(date.year, 2014)
+        self.assertEqual(date.month, 12)
+        self.assertEqual(date.day, 11)
+        self.assertEqual(date.hour, 20)
+        self.assertEqual(date.minute, 55)
+        self.assertEqual(date.second, 8)
+
+        date = DateParser().parse('22 พฤษภาคม 2012, 22:12')
+        self.assertEqual(date.year, 2012)
+        self.assertEqual(date.month, 5)
+        self.assertEqual(date.day, 22)
+        self.assertEqual(date.hour, 22)
+        self.assertEqual(date.minute, 12)
+
+        date = DateParser().parse('1 เดือนตุลาคม 2005, 1:00 AM')
+        self.assertEqual(date.year, 2005)
+        self.assertEqual(date.month, 10)
+        self.assertEqual(date.day, 1)
+        self.assertEqual(date.hour, 1)
+        self.assertEqual(date.minute, 0)
+
+        date = DateParser().parse('11 ก.พ. 2020, 13:13 AM')
+        self.assertEqual(date.year, 2020)
+        self.assertEqual(date.month, 2)
+        self.assertEqual(date.day, 11)
+        self.assertEqual(date.hour, 13)
+        self.assertEqual(date.minute, 13)
+
     def test_weekdays(self):
         tuesday = datetime(2014, 8, 12, hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
         datetime_mock = Mock(wraps=datetime)
