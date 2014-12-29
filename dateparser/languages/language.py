@@ -296,5 +296,5 @@ class Language(object):
                     self.info['minute'],
                     self.info['second']],
         }
-        name = '{language}ParserInfo'.format(self.info['name'])
+        name = '{language}ParserInfo'.format(language=self.info['name'])
         return type(name, bases=[base_cls], dict=attributes)
