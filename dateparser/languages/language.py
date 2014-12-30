@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
 import re
-from itertools import izip_longest, chain
-from operator import methodcaller
+from itertools import chain
 
 from dateutil import parser
 
 from dateparser.timezone_parser import pop_tz_offset_from_string
+from dateparser.utils import wrap_replacement_for_regex
+
+from .dictionary import Dictionary, DATEUTIL_PARSER_HARDCODED_TOKENS
 from .validation import LanguageValidator
-
-DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
-DATEUTIL_PARSERINFO_KNOWN_TOKENS = ["am", "pm", "a", "p", "UTC", "GMT", "Z"]
-
-
-class UnknownTokenError(Exception):
-    pass
 
 
 class Language(object):
@@ -63,7 +58,8 @@ class Language(object):
         for simplification in self.info.get('simplifications', []):
             pattern, replacement = simplification.items()[0]
             if not self.info.get('no_word_spacing', False):
-                pattern = r'\b%s\b' % pattern
+                replacement = wrap_replacement_for_regex(replacement, pattern)
+                pattern = ur'(\A|\d|_|\W)%s(\d|_|\W|\Z)' % pattern
             date_string = re.sub(pattern, replacement, date_string, flags=re.IGNORECASE | re.UNICODE).lower()
         return date_string
 
@@ -87,31 +83,8 @@ class Language(object):
 
     def _split(self, date_string, keep_formatting):
         tokens = [date_string]
-        tokens = self._split_tokens_by_wordchar_splitters(tokens, keep_formatting)
         tokens = self._split_tokens_with_regex(tokens, "(\d+)")
-
-        if self.info.get('no_word_spacing', False):
-            tokens = self._split_tokens_by_known_words(tokens)
-        else:
-            tokens = self._split_tokens_by_unknown_words(tokens, keep_formatting)
-
-        return tokens
-
-    def _split_tokens_by_wordchar_splitters(self, tokens, keep_formatting):
-        splitters = self._get_splitters()
-        if splitters['wordchars']:
-            capturing = set(splitters['wordchars']) & set(splitters['capturing'])
-            if capturing:
-                capturing_group = u'({})'.format("|".join(map(re.escape, capturing)))
-                tokens = self._split_tokens_with_regex(tokens, u'(?<=[\W\d]){}'.format(capturing_group))
-                tokens = self._split_tokens_with_regex(tokens, u'{}(?=[\W\d])'.format(capturing_group))
-
-            non_capturing = set(splitters['wordchars']) - set(splitters['capturing'])
-            if non_capturing:
-                non_capturing_group = (u'({})' if keep_formatting else u'(?:{})').format(
-                    "|".join(map(re.escape, non_capturing)))
-                tokens = self._split_tokens_with_regex(tokens, u'(?<=[\W\d]){}'.format(non_capturing_group))
-                tokens = self._split_tokens_with_regex(tokens, u'{}(?=[\W\d])'.format(non_capturing_group))
+        tokens = self._split_tokens_by_known_words(tokens, keep_formatting)
         return tokens
 
     def _split_tokens_with_regex(self, tokens, regex):
@@ -120,77 +93,11 @@ class Language(object):
             tokens[i] = re.split(regex, token)
         return filter(bool, chain(*tokens))
 
-    def _split_tokens_by_known_words(self, tokens):
+    def _split_tokens_by_known_words(self, tokens, keep_formatting):
+        dictionary = self._get_dictionary()
         for i, token in enumerate(tokens):
-            try:
-                splitted_token = self._split_by_dictionary(token)
-            except UnknownTokenError:
-                tokens[i] = [token]
-            else:
-                tokens[i] = splitted_token
+            tokens[i] = dictionary.split(token, keep_formatting)
         return list(chain(*tokens))
-
-    def _split_tokens_by_unknown_words(self, tokens, keep_formatting):
-        tokens = tokens[:]
-        wordchars = self._get_wordchars()
-        capturing_splitters = self._get_splitters()['capturing']
-        for i, token in enumerate(tokens):
-            splitted = []
-            token_ = ''
-            for char in token:
-                if char in wordchars:
-                    token_ += char
-                else:
-                    splitted.append(token_)
-                    token_ = ''
-                    if keep_formatting or (char in capturing_splitters) or re.match("^[^\W_]$", char, re.U):
-                        splitted.append(char)
-            splitted.append(token_)
-            tokens[i] = splitted
-
-        tokens = filter(bool, chain(*tokens))
-        tokens = self._combine_splitted_words(tokens)
-        return tokens
-
-    def _split_by_dictionary(self, string):
-        """ Recursively splitting string by words in dictionary """
-        dictionary = self._get_dictionary()
-        token = ''
-        while string:
-            token += string[0]
-            string = string[1:]
-            if token in dictionary:
-                try:
-                    splitted = self._split_by_dictionary(string) if string else []
-                except UnknownTokenError:
-                    continue  # Try longer token
-                else:
-                    return [token] + splitted
-
-        raise UnknownTokenError
-
-    def _combine_splitted_words(self, words):
-        combined = []
-        tested = ''
-        dictionary = self._get_dictionary()
-        for word in words:
-            tested += word
-            candidate = False
-            for translation in dictionary:
-                if translation == tested:
-                    combined.append(tested)
-                    tested = ''
-                    break
-                elif re.match(r'%s\b.*' % re.escape(tested), translation):
-                    candidate = True
-                    continue
-            else:
-                if not candidate:
-                    combined.append(tested)
-                    tested = ''
-        if tested:
-            combined.append(tested)
-        return combined
 
     def _join(self, tokens, separator=" "):
         if not tokens:
@@ -249,25 +156,7 @@ class Language(object):
         self._wordchars = wordchars - {" "} | {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
     def _generate_dictionary(self):
-        dictionary = {}
-
-        if 'skip' in self.info:
-            skip = map(methodcaller('lower'), self.info['skip'])
-            dictionary.update(izip_longest(skip, [], fillvalue=None))
-        if 'pertain' in self.info:
-            pertain = map(methodcaller('lower'), self.info['pertain'])
-            dictionary.update(izip_longest(pertain, [], fillvalue=None))
-        for word in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
-                     'january', 'february', 'march', 'april', 'may', 'june', 'july',
-                     'august', 'september', 'october', 'november', 'december',
-                     'year', 'month', 'week', 'day', 'hour', 'minute', 'second',
-                     'ago']:
-            translations = map(methodcaller('lower'), self.info[word])
-            dictionary.update(izip_longest(translations, [], fillvalue=word))
-        dictionary.update(izip_longest(DATEUTIL_PARSER_HARDCODED_TOKENS, DATEUTIL_PARSER_HARDCODED_TOKENS))
-        dictionary.update(izip_longest(DATEUTIL_PARSERINFO_KNOWN_TOKENS, DATEUTIL_PARSERINFO_KNOWN_TOKENS))
-
-        self._dictionary = dictionary
+        self._dictionary = Dictionary(self.info)
 
     def to_parserinfo(self, base_cls=parser.parserinfo):
         attributes = {
