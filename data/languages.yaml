@@ -1228,7 +1228,7 @@ th:
         - ชม.
     minute:
         - นาที
-    second':
+    second:
         - วินาที
 
     ago:
