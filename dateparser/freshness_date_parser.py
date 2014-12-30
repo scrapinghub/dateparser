@@ -6,8 +6,6 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
-from dateparser.utils import wrap_replacement_for_regex
-
 
 class FreshnessDateDataParser(object):
     """ Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago" """
@@ -30,15 +28,6 @@ class FreshnessDateDataParser(object):
         td = relativedelta(**kwargs)
         date = self.now - td
         return date, period
-
-    def apply_replacements(self, date_string, lang):
-        if 'word_replacements' in lang:
-            for replacement, words in lang['word_replacements']:
-                for w in words:
-                    wrapped_replacement = wrap_replacement_for_regex(replacement, w)
-                    w = ur'(\A|\d|_|\W)%s(\d|_|\W|\Z)' % w
-                    date_string = re.sub(w, wrapped_replacement, date_string, flags=re.IGNORECASE | re.UNICODE)
-        return date_string
 
     def get_kwargs(self, date_string):
         m = re.findall(r'(\d+)\s*(year|month|week|day|hour|minute|second)\b', date_string, re.I | re.S | re.U)
