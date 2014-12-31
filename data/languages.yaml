@@ -5,7 +5,7 @@ base:
 en:
     name: English
 
-    skip: ["at", "on", "and", "ad", "m", "t", "of", "st", "nd", "rd", "th", "about"]
+    skip: ["at", "on", "and", "ad", "m", "t", "of", "st", "nd", "rd", "th", "about", "the"]
     pertain: ["of"]
 
     monday:
@@ -96,9 +96,10 @@ en:
         - ago
 
     simplifications:
-        - the day before yesterday: 2 days
+        - day before yesterday: 2 days
         - yesterday: 1 day
         - today: 0 days
+        - last (week|month|year): 1 \1 
         - an: 1
         - a: 1
         - one: 1
