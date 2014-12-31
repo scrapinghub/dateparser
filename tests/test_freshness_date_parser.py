@@ -191,6 +191,23 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 عام, 1 شهر, 1 أسبوع, 1 يوم, 1 ساعة, 1 دقيقة',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
+
+        # Thai dates
+        param('วันนี้', ago={'days': 0}, period='day'),
+        param('เมื่อวานนี้', ago={'days': 1}, period='day'),
+        param('2 วัน', ago={'days': 2}, period='day'),
+        param('2 ชั่วโมง', ago={'hours': 2}, period='day'),
+        param('23 ชม.', ago={'hours': 23}, period='day'),
+        param('2 สัปดาห์ 3 วัน', ago={'weeks': 2, 'days': 3}, period='day'),
+        param('1 ปี 9 เดือน 1 สัปดาห์', ago={'years': 1, 'months': 9, 'weeks': 1},
+              period='week'),
+        param('1 ปี 1 เดือน 1 สัปดาห์ 1 วัน 1 ชั่วโมง 1 นาที',
+              ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+              period='day'),
+
+        # Vietnamese dates
+        param('Hôm nay', ago={'days': 0}, period='day'),
+        param('Hôm qua', ago={'days': 1}, period='day'),
     ])
     def test_relative_dates(self, date_string, ago, period):
         self.given_parser()

@@ -147,6 +147,10 @@ class TestDateParser(BaseTestCase):
         param('18.10.14 um 22:56 Uhr', datetime(2014, 10, 18, 22, 56)),
         # Czech dates
         param('pon 16. čer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
+        # Thai dates
+        param('ธันวาคม 11, 2014, 08:55:08 PM', datetime(2014, 12, 11, 20, 55, 8)),
+        param('22 พฤษภาคม 2012, 22:12', datetime(2012, 5, 22, 22, 12)),
+        param('11 กุมภา 2020, 8:13 AM', datetime(2020, 2, 11, 8, 13)),
         # Numeric dates
         param('06-17-2014', datetime(2014, 6, 17))
     ])
