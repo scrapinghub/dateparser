@@ -29,15 +29,6 @@ class FreshnessDateDataParser(object):
         date = self.now - td
         return date, period
 
-    def apply_replacements(self, date_string, lang):
-        if 'word_replacements' in lang:
-            for replacement, words in lang['word_replacements']:
-                for w in words:
-                    date_string = re.sub(ur'\b%s\b' % w, replacement, date_string,
-                                         flags=re.IGNORECASE | re.UNICODE)
-
-        return date_string
-
     def get_kwargs(self, date_string):
         m = re.findall(r'(\d+)\s*(year|month|week|day|hour|minute|second)\b', date_string, re.I | re.S | re.U)
         if not m:

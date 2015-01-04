@@ -1226,7 +1226,7 @@ th:
         - วัน
     hour:
         - ชั่วโมง
-        - ชม
+        - ชม.
     minute:
         - นาที
     second:
@@ -1315,4 +1315,5 @@ vi:
     simplifications:
         - Hôm qua: 1 ngày
         - Hôm nay: 0 ngày
+
 

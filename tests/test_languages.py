@@ -120,12 +120,22 @@ class TestBundledLanguages(BaseTestCase):
         self.then_tokens_are(expected_tokens)
 
     @parameterized.expand([
-        param('ru', "08.haziran.2014, 11:07"),
+        param('en', "17th October, 2034 @ 01:08 am PDT", strip_timezone=True),
+        param('en', "#@Sept#04#2014", strip_timezone=False),
     ])
-    def test_not_applicable_languages(self, shortname, datetime_string):
+    def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
-        self.when_datetime_string_checked_if_applicable()
+        self.when_datetime_string_checked_if_applicable(strip_timezone)
+        self.then_language_is_applicable()
+
+    @parameterized.expand([
+        param('ru', "08.haziran.2014, 11:07", strip_timezone=False),
+    ])
+    def test_not_applicable_languages(self, shortname, datetime_string, strip_timezone):
+        self.given_bundled_language(shortname)
+        self.given_string(datetime_string)
+        self.when_datetime_string_checked_if_applicable(strip_timezone)
         self.then_language_is_not_applicable()
 
     def given_string(self, datetime_string):
@@ -140,8 +150,8 @@ class TestBundledLanguages(BaseTestCase):
     def when_datetime_string_splitted(self, keep_formatting=False):
         self.tokens = self.language._split(self.datetime_string, keep_formatting)
 
-    def when_datetime_string_checked_if_applicable(self):
-        self.result = self.language.is_applicable(self.datetime_string)
+    def when_datetime_string_checked_if_applicable(self, strip_timezone):
+        self.result = self.language.is_applicable(self.datetime_string, strip_timezone)
 
     def then_string_translated_to(self, expected_string):
         self.assertEqual(expected_string, self.translation)
