@@ -202,7 +202,7 @@ de:
 fr:
     name: French
 
-    skip: ["le", "environ", "et"]
+    skip: ["le", "environ", "et", "\xe0"]
 
     monday:
         - Lundi
@@ -475,19 +475,24 @@ it:
 pt:
     name: Portuguese
 
-    skip: ["de", "cerca", "e"]
+    skip: ["de", "cerca", "e", "às"]
     pertain: ["de"]
 
     monday:
         - Segunda-feira
+        - Segunda
     tuesday:
         - Terça-feira
+        - Terça
     wednesday:
         - Quarta-feira
+        - Quarta
     thursday:
         - Quinta-feira
+        - Quinta
     friday:
         - Sexta-feira
+        - Sexta
     saturday:
         - Sábado
     sunday:
@@ -734,7 +739,7 @@ tr:
 cz:
     name: Czech
 
-    skip: ["přibližně"]
+    skip: ["přibližně", "v"]
 
     monday:
         - Pondělí
@@ -900,6 +905,8 @@ cn:
 nl:
     name: Dutch
 
+    skip: ["om"]
+
     monday:
         - Maandag
         - Ma
@@ -984,6 +991,8 @@ nl:
 
 ro:
     name: Romanian
+
+    skip: ["la"]
 
     monday:
         - Luni

@@ -19,10 +19,31 @@ class TestBundledLanguages(BaseTestCase):
     @parameterized.expand([
         param('en', "Sep 03 2014", "september 03 2014"),
         param('en', "friday, 03 september 2014", "friday 03 september 2014"),
+        # Chinese
         param('cn', "1年11个月", "1 year 11 month"),
         # French
         param('fr', "20 Février 2012", "20 february 2012"),
         param('fr', "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
+        # German
+        param('de', "29. Juni 2007", "29. june 2007"),
+        param('de', "Montag 5 Januar, 2015", "monday 5 january 2015"),
+        # Spanish
+        param('es', "Miércoles 31 Diciembre 2014", "wednesday 31 december 2014"),
+        # Italian
+        param('it', "Giovedi Maggio 29 2013", "thursday may 29 2013"),
+        param('it', "19 Luglio 2013", "19 july 2013"),
+        # Portuguese
+        param('pt', "22 de dezembro de 2014 às 02:38", "22  december  2014  02:38"),
+        # Russian
+        param('ru', "5 августа 2014 г. в 12:00", "5 august 2014  \u0433.  12:00"),
+        # Turkish
+        param('tr', "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
+        # Czech
+        param('cz', "22. prosinec 2014 v 2:38", "22. december 2014  2:38"),
+        # Dutch
+        param('nl', "maandag 22 december 2014 om 2:38", "monday 22 december 2014  2:38"),
+        # Romanian
+        param('ro', "22 Decembrie 2014 la 02:38", "22 december 2014  02:38"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
