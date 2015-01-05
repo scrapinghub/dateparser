@@ -154,6 +154,20 @@ class TestDateParser(BaseTestCase):
         param('11 ก.พ. 2020, 13:13 AM', datetime(2020, 2, 11, 13, 13)),
         # Numeric dates
         param('06-17-2014', datetime(2014, 6, 17)),
+        # Miscellaneous
+        param('April 9, 2013 at 6:11 a.m.', datetime(2013, 4, 9, 6, 11)),
+        param('Aug. 9, 2012 at 2:57 p.m.', datetime(2012, 8, 9, 14, 57)),
+        param('December 10, 2014, 11:02:21 pm', datetime(2014, 12, 10, 23, 2, 21)),
+        param('vendredi, d\xe9cembre 5 2014.', datetime(2014, 12, 5, 0, 0)),
+        param('le 08 D\xe9c 2014 15:11', datetime(2014, 12, 8, 15, 11)),
+        param('Le 11 D\xe9cembre 2014 \xe0 09:00', datetime(2014, 12, 11, 9, 0)),
+        param('f\xe9v 15, 2013', datetime(2013, 2, 15, 0, 0)),
+        param('8:25 a.m. Dec. 12, 2014', datetime(2014, 12, 12, 8, 25)),
+        param('2:21 p.m., December 11, 2014', datetime(2014, 12, 11, 14, 21)),
+        param('11. 12. 2014, 08:45:39', datetime(2014, 11, 12, 8, 45, 39)),
+        param('Fri, 12 Dec 2014 10:55:50 Z', datetime(2014, 12, 12, 10, 55, 50)),
+        param('čtv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
+        param('09 августа 2012', datetime(2012, 8, 9, 0, 0)),
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
