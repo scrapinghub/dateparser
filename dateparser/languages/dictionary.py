@@ -32,7 +32,9 @@ class Dictionary(object):
             translations = map(methodcaller('lower'), language_info[word])
             dictionary.update(izip_longest(translations, [], fillvalue=word))
         dictionary.update(izip_longest(DATEUTIL_PARSER_HARDCODED_TOKENS, DATEUTIL_PARSER_HARDCODED_TOKENS))
-        dictionary.update(izip_longest(DATEUTIL_PARSERINFO_KNOWN_TOKENS, DATEUTIL_PARSERINFO_KNOWN_TOKENS))
+        dictionary.update(izip_longest(map(methodcaller('lower'),
+                                           DATEUTIL_PARSERINFO_KNOWN_TOKENS),
+                                       DATEUTIL_PARSERINFO_KNOWN_TOKENS))
 
         self._dictionary = dictionary
         self._no_word_spacing = language_info.get('no_word_spacing', False)
