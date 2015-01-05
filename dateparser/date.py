@@ -71,7 +71,7 @@ def get_intersecting_periods(low, high, period='day'):
 
 def sanitize_date(date_string):
     date_string = re.sub(
-        u'\t|\n|\r|\u00bb|\xe0|,\s\u0432|\u0433\.|\u200e|\xb7', ' ', date_string, flags=re.M
+        u'\t|\n|\r|\u00bb|,\s\u0432|\u0433\.|\u200e|\xb7', ' ', date_string, flags=re.M
     )
     date_string = sanitize_spaces(date_string)
     date_string = re.sub('([AP]M).*', r'\1', date_string, flags=re.DOTALL)
