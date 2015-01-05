@@ -122,6 +122,7 @@ class TestBundledLanguages(BaseTestCase):
     @parameterized.expand([
         param('en', "17th October, 2034 @ 01:08 am PDT", strip_timezone=True),
         param('en', "#@Sept#04#2014", strip_timezone=False),
+        param('en', "2014-12-13T00:11:00Z", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)
