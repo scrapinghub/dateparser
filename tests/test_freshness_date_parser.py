@@ -213,10 +213,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 năm 1 tháng 1 tuần 1 ngày 1 giờ 1 chút',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
-        # weekday (last Thursday):
-        param('Thứ năm', ago={'days': 3}, period='day'),
-        # weekday (last Friday):
-        param('Thứ sáu', ago={'days': 2}, period='day'),
     ])
     def test_relative_dates(self, date_string, ago, period):
         self.given_parser()

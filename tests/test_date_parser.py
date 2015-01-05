@@ -154,12 +154,9 @@ class TestDateParser(BaseTestCase):
         param('1 เดือนตุลาคม 2005, 1:00 AM', datetime(2005, 10, 1, 1, 0)),
         param('11 ก.พ. 2020, 13:13 AM', datetime(2020, 2, 11, 13, 13)),
         # Vietnamese dates
-        # bpsosrcs.wordpress.com:
-        param('Tháng Mười Hai 29, 2013, 14:14', datetime(2013, 12, 29, 14, 14)),
-        # http://clbthietbiyte.com/Blogs:
-        param('Thg 11 25', datetime(2014, 11, 25)),
-        # http://www.dutoang8.com/forum:
-        param('19 Jan 2010 lúc 2:19pm', datetime(2010, 1, 19, 14, 19)),
+        param('Thứ năm', datetime(2012, 11, 8)),  # Thursday
+        param('Thứ sáu', datetime(2012, 11, 9)),  # Friday
+        param('Tháng Mười Hai 29, 2013, 14:14', datetime(2013, 12, 29, 14, 14)),  # bpsosrcs.wordpress.com
         param('05 Tháng một 2015 - 03:54 AM', datetime(2015, 1, 5, 3, 54)),
         # Numeric dates
         param('06-17-2014', datetime(2014, 6, 17)),

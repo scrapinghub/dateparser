@@ -98,6 +98,8 @@ class TestBundledLanguages(BaseTestCase):
         param('ar', "يوم أمس", "1 day"),
         param('ar', "4 عام", "4 year"),
         param('ar', "منذ 2 ساعات", "ago 2 hour"),
+        # Vietnamese
+        param('vi', "2 tuần 3 ngày", "2 week 3 day")
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -122,6 +124,7 @@ class TestBundledLanguages(BaseTestCase):
     @parameterized.expand([
         param('en', "17th October, 2034 @ 01:08 am PDT", strip_timezone=True),
         param('en', "#@Sept#04#2014", strip_timezone=False),
+        param('vi', "2 tuần 3 ngày", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)
