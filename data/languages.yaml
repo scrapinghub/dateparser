@@ -99,7 +99,7 @@ en:
         - day before yesterday: 2 days
         - yesterday: 1 day
         - today: 0 days
-        - last (week|month|year): 1 \1 
+        - last (week|month|year): 1 \1
         - an: 1
         - a: 1
         - one: 1
@@ -1315,5 +1315,4 @@ vi:
     simplifications:
         - Hôm qua: 1 ngày
         - Hôm nay: 0 ngày
-
-
+        - Thg: Tháng
