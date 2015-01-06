@@ -165,7 +165,7 @@ class TestDateParser(BaseTestCase):
         param('8:25 a.m. Dec. 12, 2014', datetime(2014, 12, 12, 8, 25)),
         param('2:21 p.m., December 11, 2014', datetime(2014, 12, 11, 14, 21)),
         param('11. 12. 2014, 08:45:39', datetime(2014, 11, 12, 8, 45, 39)),
-        param('Fri, 12 Dec 2014 10:55:50 Z', datetime(2014, 12, 12, 10, 55, 50)),
+        param('Fri, 12 Dec 2014 10:55:50', datetime(2014, 12, 12, 10, 55, 50)),
         param('čtv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
         param('09 августа 2012', datetime(2012, 8, 9, 0, 0)),
     ])
