@@ -1252,3 +1252,141 @@ th:
         - เมื่อวานซืน: 2 วัน
         - 2 วันที่แล้ว: 2 วัน
 
+pl:
+    name: Polish
+
+    skip: ['r.', 'roku', 'w', 'o']
+
+    monday:
+        - Poniedziałek
+        - Poniedzialek
+        - Pon
+        - Pn
+    tuesday:
+        - Wtorek
+        - Wt
+        - Wto
+    wednesday:
+        - Środa
+        - Sroda
+        - Śro
+        - Sro
+        - Śr
+        - Sr
+    thursday:
+        - Czwartek
+        - Czw
+        - Cz
+    friday:
+        - Piątek
+        - Piatek
+        - Pią
+        - Pia
+        - Pi
+        - Pt
+    saturday:
+        - Sobota
+        - Sob
+        - So
+        - Sb
+    sunday:
+        - Niedziela
+        - Nie
+        - Ni
+        - Nd
+
+    january:
+        - Styczeń
+        - Styczen
+        - Stycznia
+        - Sty
+    february:
+        - Luty
+        - Lutego
+        - Lut
+    march:
+        - Marzec
+        - Marca
+        - Mar
+    april:
+        - Kwiecień
+        - Kwiecien
+        - Kwietnia
+        - Kwi
+    may:
+        - Maj
+        - Maja
+    june:
+        - Czerwiec
+        - Czerwca
+        - Cze
+    july:
+        - Lipiec
+        - Lipca
+        - Lip
+    august:
+        - Sierpień
+        - Sierpien
+        - Sierpnia
+        - Sie
+    september:
+        - Wrzesień
+        - Wrzesien
+        - Września
+        - Wrzesnia
+        - Wrz
+    october:
+        - Październik
+        - Pazdziernik
+        - Października
+        - Pazdziernika
+        - Paź
+        - Paz
+    november:
+        - Listopad
+        - Listopada
+        - Lis
+    december:
+        - Grudzień
+        - Grudzien
+        - Grudnia
+        - Gru
+
+    year:
+        - rok
+        - lata
+        - lat
+    month:
+        - miesiąc
+        - miesiac
+        - miesięcy
+        - miesiąca
+    week:
+        - tydzień
+        - tydzien
+        - tygodni
+        - tygodnie
+    day:
+        - dzień
+        - dzien
+        - dnia
+        - dniu
+    hour:
+        - godzina
+        - godz.
+    minute:
+        - minuta
+        - min
+    second:
+        - drugi
+
+    ago:
+        - temu
+
+    simplifications:
+        - dziś: 0 dnia
+        - dzisiaj: 0 dnia
+        - onegdaj: 2 dnia
+        - przedwczoraj: 2 dnia
+        - wczoraj: 1 dnia
+

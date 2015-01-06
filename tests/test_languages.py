@@ -44,6 +44,9 @@ class TestBundledLanguages(BaseTestCase):
         param('nl', "maandag 22 december 2014 om 2:38", "monday 22 december 2014  2:38"),
         # Romanian
         param('ro', "22 Decembrie 2014 la 02:38", "22 december 2014  02:38"),
+        # Polish
+        param('pl', "4 stycznia o 13:50", "4 january  13:50"),
+        param('pl', "29 listopada 2014 o 08:40", "29 november 2014  08:40"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -119,6 +122,10 @@ class TestBundledLanguages(BaseTestCase):
         param('ar', "يوم أمس", "1 day"),
         param('ar', "4 عام", "4 year"),
         param('ar', "منذ 2 ساعات", "ago 2 hour"),
+        # Polish
+        param('pl', "2 godz.", "2 hour"),
+        param('pl', "Wczoraj o 07:40", "1 day  07:40"),
+        param('pl', "Poniedziałek 8:10 pm", "monday 8:10 pm"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
