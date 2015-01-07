@@ -47,6 +47,9 @@ class TestBundledLanguages(BaseTestCase):
         # Polish
         param('pl', "4 stycznia o 13:50", "4 january  13:50"),
         param('pl', "29 listopada 2014 o 08:40", "29 november 2014  08:40"),
+        # Arabic
+        param('ar', "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
+        param('ar', "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -119,9 +122,10 @@ class TestBundledLanguages(BaseTestCase):
         param('ro', "13 oră", "13 hour"),
         # Arabic
         param('ar', "يومين", "2 day"),
-        param('ar', "يوم أمس", "1 day"),
+        param('ar', "أمس", "1 day"),
         param('ar', "4 عام", "4 year"),
         param('ar', "منذ 2 ساعات", "ago 2 hour"),
+        param('ar', "منذ ساعتين", "ago 2 hour"),
         # Polish
         param('pl', "2 godz.", "2 hour"),
         param('pl', "Wczoraj o 07:40", "1 day  07:40"),
