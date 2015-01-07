@@ -138,9 +138,9 @@ class _DateLanguageParser(object):
     def _parse(self):
         for parser in (
             self._try_timestamp,
-            self._try_freshness_parser,
             self._try_given_formats,
             self._try_dateutil_parser,
+            self._try_freshness_parser,
             self._try_hardcoded_formats,
         ):
             date_obj = parser()
