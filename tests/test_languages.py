@@ -35,7 +35,7 @@ class TestBundledLanguages(BaseTestCase):
         # Portuguese
         param('pt', "22 de dezembro de 2014 às 02:38", "22  december  2014  02:38"),
         # Russian
-        param('ru', "5 августа 2014 г. в 12:00", "5 august 2014  \u0433.  12:00"),
+        param('ru', "5 августа 2014 г. в 12:00", "5 august 2014   12:00"),
         # Turkish
         param('tr', "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
         # Czech
@@ -144,6 +144,15 @@ class TestBundledLanguages(BaseTestCase):
         param('cn', "1年11个月", ["1", "年", "11", "个月"]),
         param('tr', "2 saat önce", ["2", " ", "saat", " ", "önce"]),
         param('fr', "il ya environ 23 heures'", ["il ya", " ", "environ", " ", "23", " ", "heures"]),
+        param('de', "Gestern um 04:41", ['Gestern ', 'um', ' ', '04', ':', '41']),
+        param('de', "Donnerstag, 8. Januar 2015 um 07:17", ['Donnerstag', ' ', '8', '.', ' ', 'Januar', ' ', '2015', ' ', 'um', ' ', '07', ':', '17']),
+        param('ru', "8 января 2015 г. в 9:10", ['8', ' ', 'января', ' ', '2015', ' ', 'г.', ' ', 'в', ' ', '9', ':', '10']),
+        param('cz', "6. leden 2015 v 22:29", ['6', '.', ' ', 'leden', ' ', '2015', ' ', 'v', ' ', '22', ':', '29']),
+        param('nl', "woensdag 7 januari 2015 om 21:32", ['woensdag', ' ', '7', ' ', 'januari', ' ', '2015', ' ', 'om', ' ', '21', ':', '32']),
+        param('ro', "8 Ianuarie 2015 la 13:33", ['8', ' ', 'Ianuarie', ' ', '2015', ' ', 'la', ' ', '13', ':', '33']),
+        param('ar', "8 يناير، 2015، الساعة 10:01 صباحاً", ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01', ' صباحاً']),
+        param('th', "8 มกราคม 2015 เวลา 12:22 น.", ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
+        param('pl', "8 stycznia 2015 o 10:19", ['8', ' ', 'stycznia', ' ', '2015', ' ', 'o', ' ', '10', ':', '19']),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
@@ -155,6 +164,16 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "17th October, 2034 @ 01:08 am PDT", strip_timezone=True),
         param('en', "#@Sept#04#2014", strip_timezone=False),
         param('en', "2014-12-13T00:11:00Z", strip_timezone=False),
+        param('de', "Donnerstag, 8. Januar 2015 um 07:17", strip_timezone=False),
+        param('ru', "8 января 2015 г. в 9:10", strip_timezone=False),
+        param('cz', "Pondělí v 22:29", strip_timezone=False),
+        param('nl', "woensdag 7 januari om 21:32", strip_timezone=False),
+        param('ro', "8 Ianuarie 2015 la 13:33", strip_timezone=False),
+        param('ar', "ساعتين", strip_timezone=False),
+        param('tr', "3 hafta", strip_timezone=False),
+        param('th', "17 เดือนมิถุนายน", strip_timezone=False),
+        param('pl', "przedwczoraj", strip_timezone=False),
+        param('fa', "ژانویه 8, 2015، ساعت 15:46", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)
@@ -164,6 +183,9 @@ class TestBundledLanguages(BaseTestCase):
 
     @parameterized.expand([
         param('ru', "08.haziran.2014, 11:07", strip_timezone=False),
+        param('ar', "6 دقیقه", strip_timezone=False),
+        param('fa', "ساعتين", strip_timezone=False),
+        param('cz', "3 hafta", strip_timezone=False),
     ])
     def test_not_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)

@@ -178,9 +178,11 @@ de:
     hour:
         - Stunde
         - Stunden
+        - Std.
     minute:
         - Minute
         - Minuten
+        - Min
     second:
         - Sekunde
         - Sekunden
@@ -574,7 +576,7 @@ pt:
 ru:
     name: Russian
 
-    skip: ["около", "в", "и"]
+    skip: ["около", "в", "и", "г."]
 
     monday:
         - Понедельник
@@ -829,6 +831,10 @@ cz:
     ago:
         - před
 
+    simplifications:
+        - včera: 1 den
+        - předevčírem: 2 den
+
 
 cn:
     name: Chinese
@@ -988,11 +994,14 @@ nl:
     ago:
         - geleden
 
+    simplifications:
+        - gisteren: 1 dag
+
 
 ro:
     name: Romanian
 
-    skip: ["la"]
+    skip: ["la", "de"]
 
     monday:
         - Luni
@@ -1064,6 +1073,9 @@ ro:
 
     ago:
         - în urmă
+
+    simplifications:
+        - ieri: 1 zi
 
 
 ar:
@@ -1140,13 +1152,14 @@ ar:
         - أمس : 1 يوم
         - ساعتين: 2 ساعات
         - صباحاً: am
-        - واحدة: 1
+        - ساعة واحدة: 1 ساعة
         - مساءً: pm
 
 
 th:
     name: Thai
-    no_word_spacing: True
+
+    skip: ['เวลา', 'น.']
 
     monday:
         - จันทร์
@@ -1242,7 +1255,7 @@ th:
         - วัน
     hour:
         - ชั่วโมง
-        - ชม.
+        - ชม
     minute:
         - นาที
     second:
@@ -1250,6 +1263,7 @@ th:
 
     ago:
         - มาแล้ว
+        - ก่อน
 
     simplifications:
         - วันนี้: 0 วัน
@@ -1257,6 +1271,7 @@ th:
         - 1 วันที่แล้ว: 1 วัน
         - เมื่อวานซืน: 2 วัน
         - 2 วันที่แล้ว: 2 วัน
+        - เมื่อสักครู่นี้: 0 วินาที
 
 pl:
     name: Polish
