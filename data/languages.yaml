@@ -1290,7 +1290,7 @@ vi:
     year:
         - năm
     month:
-        - tháng
+        - thang
     week:
         - tuần
         - tuần lể
@@ -1300,19 +1300,44 @@ vi:
         - ngày
     hour:
         - giờ
+        - giờ
     minute:
         - chút
         - lát
         - nguyên bản
         - phút
+        - phút
     second:
         - giây đồng hồ
         - hạng nhì
 
     ago:
         - cách đây
+        - trước đây
+        - trước
+        - trước
 
     simplifications:
-        - Hôm qua: 1 ngày
-        - Hôm nay: 0 ngày
+        - Hôm qua: 1 buổi
+        - Hôm nay: 0 buổi
         - Thg: Tháng
+        - (?:ngày|năm)\s(\d+): \1
+        - Tháng 1: january
+        - Tháng 2: february
+        - Tháng 3: march
+        - Tháng 4: april
+        - Tháng 5: may
+        - Tháng 6: june
+        - Tháng 7: july
+        - Tháng 8: august
+        - Tháng 9: september
+        - Tháng 10: october
+        - Tháng 11: november
+        - Tháng 12: december
+        - Thứ 2: monday
+        - Thứ 3: tuesday
+        - Thứ 4: wednesday
+        - Thứ 5: thursday
+        - Thứ 6: friday
+        - Thứ 7: saturday
+

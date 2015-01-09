@@ -210,9 +210,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('Hôm qua', ago={'days': 1}, period='day'),
         param('2 giờ', ago={'hours': 2}, period='day'),
         param('2 tuần 3 ngày', ago={'weeks': 2, 'days': 3}, period='day'),
-        param('1 năm 1 tháng 1 tuần 1 ngày 1 giờ 1 chút',
-              ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
-              period='day'),
+        # following test unsupported, refer to discussion at:
+        # http://github.com/scrapinghub/dateparser/issues/33
+        #param('1 năm 1 tháng 1 tuần 1 ngày 1 giờ 1 chút',
+        #      ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+        #      period='day'),
     ])
     def test_relative_dates(self, date_string, ago, period):
         self.given_parser()
