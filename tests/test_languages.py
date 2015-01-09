@@ -50,6 +50,10 @@ class TestBundledLanguages(BaseTestCase):
         # Arabic
         param('ar', "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
         param('ar', "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
+        # Vietnamese
+        param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8  january  2015"),
+        param('vi', "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015  22:34"),
+        param('vi', "9 Tháng 1 2015 lúc 15:08", "9  january  2015  15:08"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -130,6 +134,11 @@ class TestBundledLanguages(BaseTestCase):
         param('pl', "2 godz.", "2 hour"),
         param('pl', "Wczoraj o 07:40", "1 day  07:40"),
         param('pl', "Poniedziałek 8:10 pm", "monday 8:10 pm"),
+        # Vietnamese
+        param('vi', "2 tuần 3 ngày", "2 week 3 day"),
+        param('vi', "21 giờ trước", "21 hour ago"),
+        param('vi', "Hôm qua 08:16", "1 day 08:16"),
+        param('vi', "Hôm nay 15:39", "0 day 15:39"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -153,6 +162,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ar', "8 يناير، 2015، الساعة 10:01 صباحاً", ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01', ' صباحاً']),
         param('th', "8 มกราคม 2015 เวลา 12:22 น.", ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
         param('pl', "8 stycznia 2015 o 10:19", ['8', ' ', 'stycznia', ' ', '2015', ' ', 'o', ' ', '10', ':', '19']),
+        param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", ["Thứ Năm", " ", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
@@ -174,6 +184,7 @@ class TestBundledLanguages(BaseTestCase):
         param('th', "17 เดือนมิถุนายน", strip_timezone=False),
         param('pl', "przedwczoraj", strip_timezone=False),
         param('fa', "ژانویه 8, 2015، ساعت 15:46", strip_timezone=False),
+        param('vi', "2 tuần 3 ngày", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)

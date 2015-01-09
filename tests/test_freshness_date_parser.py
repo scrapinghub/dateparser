@@ -199,10 +199,22 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('2 ชั่วโมง', ago={'hours': 2}, period='day'),
         param('23 ชม.', ago={'hours': 23}, period='day'),
         param('2 สัปดาห์ 3 วัน', ago={'weeks': 2, 'days': 3}, period='day'),
-        param('1 ปี 9 เดือน 1 สัปดาห์', ago={'years': 1, 'months': 9, 'weeks': 1}, period='week'),
+        param('1 ปี 9 เดือน 1 สัปดาห์', ago={'years': 1, 'months': 9, 'weeks': 1},
+              period='week'),
         param('1 ปี 1 เดือน 1 สัปดาห์ 1 วัน 1 ชั่วโมง 1 นาที',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
+
+        # Vietnamese dates
+        param('Hôm nay', ago={'days': 0}, period='day'),
+        param('Hôm qua', ago={'days': 1}, period='day'),
+        param('2 giờ', ago={'hours': 2}, period='day'),
+        param('2 tuần 3 ngày', ago={'weeks': 2, 'days': 3}, period='day'),
+        # following test unsupported, refer to discussion at:
+        # http://github.com/scrapinghub/dateparser/issues/33
+        #param('1 năm 1 tháng 1 tuần 1 ngày 1 giờ 1 chút',
+        #      ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+        #      period='day'),
     ])
     def test_relative_dates(self, date_string, ago, period):
         self.given_parser()

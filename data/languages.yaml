@@ -99,7 +99,7 @@ en:
         - day before yesterday: 2 days
         - yesterday: 1 day
         - today: 0 days
-        - last (week|month|year): 1 \1 
+        - last (week|month|year): 1 \1
         - an: 1
         - a: 1
         - one: 1
@@ -1224,7 +1224,7 @@ th:
         - สิงหาคม
         - ส.ค.
         - สิงหา
-        - เดือนสิงหาคม'),
+        - เดือนสิงหาคม
     september:
         - กันยายน
         - ก.ย.
@@ -1243,7 +1243,7 @@ th:
     december:
         - ธันวาคม
         - เดือนธันวาคม
-        - ธ.ค
+        - ธ.ค.
         - ธันวา
 
     year:
@@ -1263,6 +1263,7 @@ th:
         - วินาที
 
     ago:
+        - แต่ก่อน
         - มาแล้ว
         - ก่อน
 
@@ -1510,4 +1511,102 @@ fa:
         - ۹: 9
         - دیروز: 1 روز
         - امروز: 0 روز
+
+vi:
+    name: Vietnamese
+    pertain: ['lúc']
+
+    monday:
+        - Thứ hai
+    tuesday:
+        - Thứ ba
+    wednesday:
+        - Thứ tư
+    thursday:
+        - Thứ năm
+    friday:
+        - Thứ sáu
+    saturday:
+        - Thứ bảy
+    sunday:
+        - Chủ nhật
+
+    january:
+        - Tháng một
+    february:
+        - Tháng hai
+    march:
+        - Tháng ba
+    april:
+        - Tháng tư
+    may:
+        - Tháng năm
+    june:
+        - Tháng sáu
+    july:
+        - Tháng bảy
+    august:
+        - Tháng tám
+    september:
+        - Tháng chín
+    october:
+        - Tháng mười
+    november:
+        - Tháng mười một
+    december:
+        - Tháng mười hai
+
+    year:
+        - năm
+    month:
+        - thang
+    week:
+        - tuần
+        - tuần lể
+    day:
+        - ban ngày
+        - buổi
+        - ngày
+    hour:
+        - giờ
+        - giờ
+    minute:
+        - chút
+        - lát
+        - nguyên bản
+        - phút
+        - phút
+    second:
+        - giây đồng hồ
+        - hạng nhì
+
+    ago:
+        - cách đây
+        - trước đây
+        - trước
+        - trước
+
+    simplifications:
+        - Hôm qua: 1 buổi
+        - Hôm nay: 0 buổi
+        - Thg: Tháng
+        - (?:ngày|năm)\s(\d+): \1
+        - Tháng 1: january
+        - Tháng 2: february
+        - Tháng 3: march
+        - Tháng 4: april
+        - Tháng 5: may
+        - Tháng 6: june
+        - Tháng 7: july
+        - Tháng 8: august
+        - Tháng 9: september
+        - Tháng 10: october
+        - Tháng 11: november
+        - Tháng 12: december
+        - Thứ 2: monday
+        - Thứ 3: tuesday
+        - Thứ 4: wednesday
+        - Thứ 5: thursday
+        - Thứ 6: friday
+        - Thứ 7: saturday
 
