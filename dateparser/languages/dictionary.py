@@ -5,6 +5,7 @@ from operator import methodcaller
 
 DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
 DATEUTIL_PARSERINFO_KNOWN_TOKENS = ["am", "pm", "a", "p", "UTC", "GMT", "Z"]
+ALWAYS_KEEP_TOKENS = ["+"] + DATEUTIL_PARSER_HARDCODED_TOKENS
 
 
 class UnknownTokenError(Exception):
@@ -31,7 +32,7 @@ class Dictionary(object):
                      'ago']:
             translations = map(methodcaller('lower'), language_info[word])
             dictionary.update(izip_longest(translations, [], fillvalue=word))
-        dictionary.update(izip_longest(DATEUTIL_PARSER_HARDCODED_TOKENS, DATEUTIL_PARSER_HARDCODED_TOKENS))
+        dictionary.update(izip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(izip_longest(map(methodcaller('lower'),
                                            DATEUTIL_PARSERINFO_KNOWN_TOKENS),
                                        DATEUTIL_PARSERINFO_KNOWN_TOKENS))
@@ -68,7 +69,7 @@ class Dictionary(object):
         return splitted
 
     def _should_capture(self, token, keep_formatting):
-        return keep_formatting or (token in DATEUTIL_PARSER_HARDCODED_TOKENS) or re.match("^.*[^\W_].*$", token, re.U)
+        return keep_formatting or (token in ALWAYS_KEEP_TOKENS) or re.match("^.*[^\W_].*$", token, re.U)
 
     def _get_sorted_words(self):
         if self._sorted_words is None:
