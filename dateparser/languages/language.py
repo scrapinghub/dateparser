@@ -7,7 +7,7 @@ from dateutil import parser
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import wrap_replacement_for_regex
 
-from .dictionary import Dictionary, DATEUTIL_PARSER_HARDCODED_TOKENS
+from .dictionary import Dictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
 
 
@@ -133,7 +133,7 @@ class Language(object):
             'wordchars': set(),  # The ones that split string only if they are not surrounded by letters from both sides
             'capturing': set(),  # The ones that are not filtered out from tokens after split
         }
-        splitters['capturing'] |= set(DATEUTIL_PARSER_HARDCODED_TOKENS)
+        splitters['capturing'] |= set(ALWAYS_KEEP_TOKENS)
 
         wordchars = self._get_wordchars()
         skip = set(self.info.get('skip', [])) | splitters['capturing']
