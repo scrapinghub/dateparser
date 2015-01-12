@@ -56,7 +56,7 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "9 Tháng 1 2015 lúc 15:08", "9  january  2015  15:08"),
         # Miscellaneous
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
-        param('en', "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20 +00:00"),
+        param('en', "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
         param('en', "28 Oct 2014 16:39:01 +0000", "28 october 2014 16:39:01 +0000"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
