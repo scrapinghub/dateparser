@@ -29,12 +29,12 @@ class TestTZPopping(BaseTestCase):
         self.then_offset_is(expected_offset)
 
     @parameterized.expand([
-        param('Sep 03 2014 | 4:32 pm EDT', 'Sep 03 2014 | 4:32 pm'),
-        param('17th October, 2034 @ 01:08 am PDT', '17th October, 2034 @ 01:08 am'),
-        param('October 17, 2014 at 7:30 am PST', 'October 17, 2014 at 7:30 am'),
-        param('20 Oct 2014 13:08 CET', '20 Oct 2014 13:08'),
+        param('Sep 03 2014 | 4:32 pm EDT', 'Sep 03 2014 | 4:32 pm '),
+        param('17th October, 2034 @ 01:08 am PDT', '17th October, 2034 @ 01:08 am '),
+        param('October 17, 2014 at 7:30 am PST', 'October 17, 2014 at 7:30 am '),
+        param('20 Oct 2014 13:08 CET', '20 Oct 2014 13:08 '),
         param('20 Oct 2014 13:08cet', '20 Oct 2014 13:08'),
-        param('Nov 25 2014 | 10:17 pm EST', 'Nov 25 2014 | 10:17 pm'),
+        param('Nov 25 2014 | 10:17 pm EST', 'Nov 25 2014 | 10:17 pm '),
     ])
     def test_timezone_deleted_from_string(self, initial_string, result_string):
         self.given_string(initial_string)
