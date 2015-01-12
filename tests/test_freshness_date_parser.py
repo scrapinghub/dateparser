@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 import re
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date, time
 from functools import wraps
 
 from dateutil.relativedelta import relativedelta
@@ -24,6 +24,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.freshness_parser = NotImplemented
         self.freshness_result = NotImplemented
         self.exception = NotImplemented
+        self.date = NotImplemented
+        self.time = NotImplemented
 
     @parameterized.expand([
         # English dates
@@ -259,6 +261,20 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_period_is(period)
         self.then_date_obj_is_between(self.now - timedelta(**boundary), self.now)
 
+    @parameterized.expand([
+        param('Today at 9 pm', date(2014, 9, 1), time(21, 0)),
+        param('Today at 11:20 am', date(2014, 9, 1), time(11, 20)),
+        param('Yesterday 1:20 pm', date(2014, 8, 31), time(13, 20)),
+        param('the day before yesterday 16:50', date(2014, 8, 30), time(16, 50)),
+        param('2 Tage 18:50', date(2014, 8, 30), time(18, 50)),
+    ])
+    def test_freshness_date_with_time(self, date_string, date, time):
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
     def given_date_string(self, date_string):
         self.date_string = date_string
 
@@ -284,6 +300,12 @@ class TestFreshnessDateDataParser(BaseTestCase):
             self.result = self.parser.get_date_data(self.date_string)
         except Exception as error:
             self.exception = error
+
+    def then_date_is(self, date):
+        self.assertEqual(date, self.result['date_obj'].date())
+
+    def then_time_is(self, time):
+        self.assertEqual(time, self.result['date_obj'].time())
 
     def then_period_is(self, period):
         self.assertEqual(period, self.result['period'])
