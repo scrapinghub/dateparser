@@ -13,7 +13,22 @@ class FreshnessDateDataParser(object):
     def __init__(self, now=None):
         self.now = now or datetime.utcnow()
 
+    def _are_all_words_units(self, date_string):
+        skip = [
+            r'year|month|week|day|hour|minute|second',  # units
+            r'about|ago|\d+',  # others
+        ]
+
+        date_string = re.sub(r'\s+', ' ', date_string.strip())
+
+        words = filter(lambda x: x if x else False, re.split('\W', date_string))
+        words = filter(lambda x: not re.match('|'.join(skip), x), words)
+        return not bool(words)
+
     def parse(self, date_string):
+        if not self._are_all_words_units(date_string):
+            return None, None
+
         kwargs = self.get_kwargs(date_string)
         if not kwargs:
             return None, None
