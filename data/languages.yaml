@@ -108,6 +108,7 @@ en:
         - (\d+)\s*sec(s?): \1 second\2
         - noon: '12:00'
         - midnight: '00:00'
+        - (\d+)h(\d+)m?: \1:\2
 
 
 de:

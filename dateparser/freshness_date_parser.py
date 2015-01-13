@@ -5,6 +5,10 @@ import re
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
+from dateutil.parser import parse
+
+_UNITS = r'year|month|week|day|hour|minute|second'
+PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
 
 
 class FreshnessDateDataParser(object):
@@ -13,7 +17,38 @@ class FreshnessDateDataParser(object):
     def __init__(self, now=None):
         self.now = now or datetime.utcnow()
 
+    def _are_all_words_units(self, date_string):
+        skip = [_UNITS,
+                r'about|ago|\d+',
+                r':|[ap]m'] 
+
+        date_string = re.sub(r'\s+', ' ', date_string.strip())
+
+        words = filter(lambda x: x if x else False, re.split('\W', date_string))
+        words = filter(lambda x: not re.match(r'%s' % '|'.join(skip), x), words)
+        return not bool(words)
+
+    def _parse_time(self, date_string):
+        date_string = PATTERN.sub('', date_string)
+        try:
+            return parse(date_string).time()
+        except:
+            pass
+
     def parse(self, date_string):
+        date, period = self._parse(date_string)
+        if date:
+            time = self._parse_time(date_string)
+            if time:
+                date = date.replace(hour=time.hour, minute=time.minute)
+
+        return date, period
+
+
+    def _parse(self, date_string):
+        if not self._are_all_words_units(date_string):
+            return None, None
+
         kwargs = self.get_kwargs(date_string)
         if not kwargs:
             return None, None
@@ -30,7 +65,7 @@ class FreshnessDateDataParser(object):
         return date, period
 
     def get_kwargs(self, date_string):
-        m = re.findall(r'(\d+)\s*(year|month|week|day|hour|minute|second)\b', date_string, re.I | re.S | re.U)
+        m = PATTERN.findall(date_string)
         if not m:
             return {}
 
