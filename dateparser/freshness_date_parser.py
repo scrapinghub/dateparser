@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 from dateutil.parser import parse
 
 _UNITS = r'year|month|week|day|hour|minute|second'
+PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
 
 
 class FreshnessDateDataParser(object):
@@ -28,20 +29,18 @@ class FreshnessDateDataParser(object):
         return not bool(words)
 
     def _parse_time(self, date_string):
-        date_string = re.sub(r'\d+\s*(%s)' % _UNITS, '', date_string)
-        date_string = re.sub(r'[\.,]', '', date_string)
+        date_string = PATTERN.sub('', date_string)
         try:
             return parse(date_string).time()
         except:
             pass
 
     def parse(self, date_string):
-        time = self._parse_time(date_string)
-
         date, period = self._parse(date_string)
-        
-        if date and time:
-            date = date.replace(hour=time.hour, minute=time.minute)
+        if date:
+            time = self._parse_time(date_string)
+            if time:
+                date = date.replace(hour=time.hour, minute=time.minute)
 
         return date, period
 
@@ -66,7 +65,7 @@ class FreshnessDateDataParser(object):
         return date, period
 
     def get_kwargs(self, date_string):
-        m = re.findall(r'(\d+)\s*(%s)\b' % _UNITS, date_string, re.I | re.S | re.U)
+        m = PATTERN.findall(date_string)
         if not m:
             return {}
 
