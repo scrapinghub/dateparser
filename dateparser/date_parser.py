@@ -1,6 +1,8 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
+import re
+
 from datetime import datetime
 
 from dateutil import parser
@@ -35,6 +37,7 @@ def dateutil_parse(date_string, **kwargs):
     """
     today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
     kwargs.update(default=today)
+    date_string = re.sub(r'\b(year|month|week|day)\b', '', date_string, re.I)
 
     # XXX: this is needed because of a bug in dateutil.parser
     # that raises TypeError for an invalid string
