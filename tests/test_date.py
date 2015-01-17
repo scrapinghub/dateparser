@@ -263,6 +263,11 @@ class DateDataParserTest(unittest.TestCase):
             date_data = parser.get_date_data(date_string)
             self.assertEqual(correct_date.date(), date_data['date_obj'].date())
 
+    def test_get_date_data_should_not_strip_timezone_info(self):
+        date_string_with_tz_info = '2014-10-09T17:57:39+00:00'
+        date_data = self.parser.get_date_data(date_string_with_tz_info)
+        self.assertTrue(hasattr(date_data['date_obj'], 'tzinfo'))
+
 
 if __name__ == '__main__':
     unittest.main()
