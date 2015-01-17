@@ -278,11 +278,67 @@ class nl_parserinfo(BaseParserInfo):
     ]
 
 
+class pl_parserinfo(BaseParserInfo):
+    WEEKDAYS = [
+        ('Poniedziałek', 'Poniedzialek', 'Pon', 'Po', 'Pn'),
+        ('Wtorek', 'Wt', 'Wto'),
+        ('Środa', 'Sroda', 'Śro', 'Sro', 'Śr', 'Sr'),
+        ('Czwartek', 'Czw', 'Cz'),
+        ('Piątek', 'Piatek', 'Pią', 'Pia', 'Pi', 'Pt'),
+        ('Sobota', 'Sob', 'So', 'Sb'),
+        ('Niedziela', 'Nie', 'Ni', 'Nd'),
+    ]
+
+    MONTHS = [
+        ('Styczeń', 'Styczen', 'Stycznia', 'Sty'),
+        ('Luty', 'Lutego', 'Lut'),
+        ('Marzec', 'Marca', 'Mar'),
+        ('Kwiecień', 'Kwiecien', 'Kwietnia', 'Kwi'),
+        ('Maj', 'Maja'),
+        ('Czerwiec', 'Czerwca', 'Cze'),
+        ('Lipiec', 'Lipca', 'Lip'),
+        ('Sierpień', 'Sierpien', 'Sierpnia', 'Sie'),
+        ('Wrzesień', 'Wrzesien', 'Września', 'Wrzesnia', 'Wrz'),
+        ('Październik', 'Pazdziernik', 'Października', 'Pazdziernika', 'Paź',
+         'Paz'),
+        ('Listopad', 'Listopada', 'Lis'),
+        ('Grudzień', 'Grudzien', 'Grudnia', 'Gru'),
+    ]
+
+
+class th_parserinfo(BaseParserInfo):
+    WEEKDAYS = [
+        ('จันทร์', 'วันจันทร์'),
+        ('อังคาร', 'วันอังคาร'),
+        ('พุธ', 'วันพุธ'),
+        ('พฤหัสบดี', 'พฤหัส', 'วันพฤหัสบดี'),
+        ('ศุกร์', 'วันศุกร์'),
+        ('เสาร์', 'วันเสาร์'),
+        ('อาทิตย์', 'วันอาทิตย์')
+    ]
+
+    MONTHS = [
+        ('มกราคม', 'เดือนมกราคม', 'มกรา', 'ม.ค.'),
+        ('กุมภาพันธ์', 'ก.พ.', 'เดือนกุมภาพันธ์', 'กุมภา'),
+        ('มีนาคม', 'เดือนมีนาคม', 'มี.ค.', 'มีนา'),
+        ('เมษายน', 'เมษา', 'เดือนเมษายน', 'เม.ย.'),
+        ('พฤษภาคม', 'เดือนพฤษภาคม', 'พ.ค.', 'พฤษภา'),
+        ('มิถุนายน', 'เดือนมิถุนายน', 'มิ.ย.', 'มิถุนา'),
+        ('กรกฎาคม', 'ก.ค.', 'เดือนกรกฏาคม', 'กรกฎา'),
+        ('สิงหาคม', 'ส.ค.', 'สิงหา', 'เดือนสิงหาคม'),
+        ('กันยายน', 'ก.ย.', 'กันยา', 'เดือนกันยายน'),
+        ('ตุลาคม', 'เดือนตุลาคม', 'ต.ค.', 'ตุลา'),
+        ('พฤศจิกายน', 'เดือนพฤศจิกายน', 'พ.ย.', 'พฤศจิ'),
+        ('ธันวาคม', 'เดือนธันวาคม', 'ธ.ค.', 'ธันวา')
+    ]
+
+
 class en_parserinfo(BaseParserInfo):
     JUMP = list(set(BaseParserInfo.JUMP) | set(parser.parserinfo.JUMP))
 
 
 INFOS = OrderedDict([
+    ('pl', pl_parserinfo()),
     ('es', es_parserinfo()),
     ('fr', fr_parserinfo()),
     ('it', it_parserinfo()),
@@ -293,6 +349,7 @@ INFOS = OrderedDict([
     ('de', de_parserinfo()),
     ('ro', ro_parserinfo()),
     ('nl', nl_parserinfo()),
+    ('th', th_parserinfo()),
     ('en', en_parserinfo()),
 ])
 
@@ -563,6 +620,12 @@ class DateParser(object):
         if not date_string.strip():
             raise ValueError("Empty string")
         date_string, tz_offset = pop_tz_offset_from_string(date_string)
+
+        # this is a temporary fix to support noon and midnight in date strings.
+        # This would be done properly after feature-yaml-languages branch is merged
+        date_string = re.sub(r'\bnoon\b', '12:00', date_string, re.IGNORECASE)
+        date_string = re.sub(r'\bmidnight\b', '00:00', date_string, re.IGNORECASE)
+
         date_obj = self._parser.parse(date_string, date_format)
         if tz_offset is not None:
             date_obj = convert_to_local_tz(date_obj, tz_offset)
