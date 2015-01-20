@@ -29,7 +29,7 @@ class FreshnessDateDataParser(object):
         return not bool(words)
 
     def _parse_time(self, date_string):
-        """Attemps to parse time part of date strings like '1 day ago at 2 PM' """
+        """Attemps to parse time part of date strings like '1 day ago, 2 PM' """
         date_string = PATTERN.sub('', date_string)
         date_string = re.sub(r'\bago\b', '', date_string)
         try:
