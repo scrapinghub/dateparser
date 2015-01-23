@@ -77,7 +77,6 @@ def sanitize_date(date_string):
     date_string = sanitize_spaces(date_string)
     date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
     date_string = re.sub('^.*?on:\s+(.*)', r'\1', date_string)
-    date_string = re.sub('(\d+)h(\d+)', r'\1:\2', date_string)
 
     return date_string
 

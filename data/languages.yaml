@@ -292,6 +292,7 @@ fr:
         - aujourd'hui: 0 jours
         - un: 1
         - une: 1
+        - (\d+)h(\d+)m?: \1:\2
 
 
 es:
