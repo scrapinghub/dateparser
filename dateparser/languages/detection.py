@@ -1,20 +1,35 @@
 # -*- coding: utf-8 -*-
+from functools import wraps
+
 from dateparser.languages import LanguageDataLoader
 
 default_language_loader = LanguageDataLoader()
+
+
+def _restore_languages_on_generator_exit(method):
+    @wraps(method)
+    def wrapped(self, *args, **kwargs):
+        stored_languages = self.languages[:]
+        for language in method(self, *args, **kwargs):
+            yield language
+        else:
+            self.languages[:] = stored_languages
+
+    return wrapped
 
 
 class BaseLanguageDetector(object):
     def __init__(self, languages):
         self.languages = languages
 
+    @_restore_languages_on_generator_exit
     def iterate_applicable_languages(self, date_string, modify=False):
         languages = self.languages if modify else self.languages[:]
-        for language in self._iterate_languages(date_string, languages):
+        for language in self._filter_languages(date_string, languages):
             yield language
 
     @staticmethod
-    def _iterate_languages(date_string, languages):
+    def _filter_languages(date_string, languages):
         while languages:
             language = languages[0]
             if language.is_applicable(date_string, strip_timezone=False):
@@ -32,10 +47,11 @@ class AutoDetectLanguage(BaseLanguageDetector):
         super(AutoDetectLanguage, self).__init__(languages=languages)
         self.allow_redetection = allow_redetection
 
+    @_restore_languages_on_generator_exit
     def iterate_applicable_languages(self, date_string, modify=False):
         languages = self.languages if modify else self.languages[:]
         initial_languages = languages[:]
-        for language in self._iterate_languages(date_string, languages):
+        for language in self._filter_languages(date_string, languages):
             yield language
 
         if not self.allow_redetection:
@@ -48,7 +64,7 @@ class AutoDetectLanguage(BaseLanguageDetector):
         if modify:
             self.languages = languages
 
-        for language in self._iterate_languages(date_string, languages):
+        for language in self._filter_languages(date_string, languages):
             yield language
 
 
@@ -58,6 +74,7 @@ class ExactLanguage(BaseLanguageDetector):
             raise ValueError("language cannot be None for ExactLanguage")
         super(ExactLanguage, self).__init__(languages=[language])
 
+    @_restore_languages_on_generator_exit
     def iterate_applicable_languages(self, date_string, modify=False):
         for language in super(ExactLanguage, self).iterate_applicable_languages(date_string, modify=False):
             yield language
