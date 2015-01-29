@@ -289,10 +289,8 @@ class DateDataParserTest(unittest.TestCase):
         param(['pk',]),
     ])
     def test_should_raise_error_when_unknown_language_given(self, shortnames):
-        with self.assertRaises(ValueError) as context:
+        with self.assertRaisesRegexp(ValueError, '%r' % ', '.join(shortnames)):
             date.DateDataParser(languages=shortnames)
-
-        self.assertTrue(context.exception)
 
 
 if __name__ == '__main__':

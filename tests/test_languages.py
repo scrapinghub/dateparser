@@ -345,7 +345,7 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
 
     def given_detector(self):
         self.assertIsInstance(self.known_languages, list, "Require a list of languages to initialize")
-        self.assertGreaterEqual(len(self.known_languages), 1, "Could be initialized with one or more languages")
+        self.assertGreaterEqual(len(self.known_languages), 1, "Could only be initialized with one or more languages")
         self.detector = ExactLanguages(languages=self.known_languages)
 
     def when_using_exact_languages(self):

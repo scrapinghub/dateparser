@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import calendar
-import collections
 import re
 from datetime import datetime, timedelta
 
@@ -218,7 +217,7 @@ class _DateLanguageParser(object):
 class DateDataParser(object):
 
     def __init__(self, languages=None, allow_redetect_language=False):
-        if isinstance(languages, collections.Iterable):
+        if isinstance(languages, list):
             available_language_map = default_language_loader.get_language_map()
 
             if all([language in available_language_map for language in languages]):
@@ -226,6 +225,8 @@ class DateDataParser(object):
             else:
                 unsupported_languages = set(languages) - set(available_language_map.keys())
                 raise ValueError("Unknown language(s) %r" % ', '.join(unsupported_languages))
+        elif languages:
+            raise TypeError("languages argument must be a list (%r given)"  % type(languages))
 
         if allow_redetect_language:
             self.language_detector = AutoDetectLanguage(languages=languages if languages else None,
