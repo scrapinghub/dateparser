@@ -284,6 +284,16 @@ class DateDataParserTest(unittest.TestCase):
         self.assertEqual('day', date_data['period'])
         self.assertEqual(expected, date_data['date_obj'])
 
+    @parameterized.expand([
+        param(['ur', 'li']),
+        param(['pk',]),
+    ])
+    def test_should_raise_error_when_unknown_language_given(self, shortnames):
+        with self.assertRaises(ValueError) as context:
+            date.DateDataParser(languages=shortnames)
+
+        self.assertTrue(context.exception)
+
 
 if __name__ == '__main__':
     unittest.main()

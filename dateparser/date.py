@@ -225,7 +225,7 @@ class DateDataParser(object):
                 languages = [available_language_map[language] for language in languages]
             else:
                 unsupported_languages = set(languages) - set(available_language_map.keys())
-                raise ValueError("Unknown language(s) %r" % ', '.join(unsupported_language))
+                raise ValueError("Unknown language(s) %r" % ', '.join(unsupported_languages))
 
         if allow_redetect_language:
             self.language_detector = AutoDetectLanguage(languages=languages if languages else None,
