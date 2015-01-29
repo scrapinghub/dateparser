@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import calendar
+import collections
 import re
 from datetime import datetime, timedelta
 
@@ -8,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages import LanguageDataLoader
-from dateparser.languages.detection import AutoDetectLanguage, ExactLanguage
+from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 
 
 def sanitize_spaces(html_string):
@@ -71,18 +72,18 @@ def get_intersecting_periods(low, high, period='day'):
 
 def sanitize_date(date_string):
     date_string = re.sub(
-        u'\t|\n|\r|\u00bb|,\s\u0432|\u0433\.|\u200e|\xb7|\u200f|\u064e|\u064f',
+        r'\t|\n|\r|\u00bb|,\s\u0432|\u0433\.|\u200e|\xb7|\u200f|\u064e|\u064f',
         ' ', date_string, flags=re.M
     )
     date_string = sanitize_spaces(date_string)
     date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
-    date_string = re.sub('^.*?on:\s+(.*)', r'\1', date_string)
+    date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
 
     return date_string
 
 
 def get_date_from_timestamp(date_string):
-    if re.search('^\d{10}', date_string):
+    if re.search(r'^\d{10}', date_string):
         return datetime.fromtimestamp(int(date_string[:10]))
 
 
@@ -183,7 +184,8 @@ class _DateLanguageParser(object):
             '%A, %B %d, %Y',
         ]
         try:
-            return parse_with_formats(self._get_translated_date_with_formatting(), hardcoded_date_formats)
+            return parse_with_formats(
+                self._get_translated_date_with_formatting(), hardcoded_date_formats)
         except TypeError:
             return None
 
@@ -194,7 +196,8 @@ class _DateLanguageParser(object):
 
     def _get_translated_date_with_formatting(self):
         if self._translated_date_with_formatting is None:
-            self._translated_date_with_formatting = self.language.translate(self.date_string, keep_formatting=True)
+            self._translated_date_with_formatting = self.language.translate(
+                self.date_string, keep_formatting=True)
         return self._translated_date_with_formatting
 
     def _is_valid_date_obj(self, date_obj):
@@ -214,19 +217,21 @@ class _DateLanguageParser(object):
 
 class DateDataParser(object):
 
-    def __init__(self, language=None, allow_redetect_language=False):
-        if isinstance(language, basestring):
+    def __init__(self, languages=None, allow_redetect_language=False):
+        if isinstance(languages, collections.Iterable):
             available_language_map = default_language_loader.get_language_map()
-            if language in available_language_map:
-                language = available_language_map[language]
+
+            if all([language in available_language_map for language in languages]):
+                languages = [available_language_map[language] for language in languages]
             else:
-                raise ValueError("Unknown language %r" % language)
+                unsupported_languages = set(languages) - set(available_language_map.keys())
+                raise ValueError("Unknown language(s) %r" % ', '.join(unsupported_language))
 
         if allow_redetect_language:
-            self.language_detector = AutoDetectLanguage(languages=[language] if language else None,
+            self.language_detector = AutoDetectLanguage(languages=languages if languages else None,
                                                         allow_redetection=True)
-        elif language:
-            self.language_detector = ExactLanguage(language=language)
+        elif languages:
+            self.language_detector = ExactLanguages(languages=languages)
         else:
             self.language_detector = AutoDetectLanguage(languages=None, allow_redetection=False)
 
@@ -249,7 +254,8 @@ class DateDataParser(object):
         date_string = date_string.strip()
         date_string = sanitize_date(date_string)
 
-        for language in self.language_detector.iterate_applicable_languages(date_string, modify=True):
+        for language in self.language_detector.iterate_applicable_languages(
+                date_string, modify=True):
             parsed_date = _DateLanguageParser.parse(language, date_string, date_formats)
             if parsed_date:
                 return parsed_date

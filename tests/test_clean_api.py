@@ -16,7 +16,7 @@ class TestCleanApi(unittest.TestCase):
         self.assertEquals(date(2014, 1, 25), result.date())
 
     def test_parse_date_only_in_given_language(self):
-        result = dateparser.parse('24 de Janeiro de 2014', language='pt')
+        result = dateparser.parse('24 de Janeiro de 2014', languages=['pt'])
         self.assertEquals(date(2014, 1, 24), result.date())
 
-        self.assertIsNone(dateparser.parse('January 24, 2014', language='pt'))
+        self.assertIsNone(dateparser.parse('January 24, 2014', languages=['pt']))

@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from nose_parameterized import parameterized, param
 
 from dateparser.languages import LanguageDataLoader, Language
-from dateparser.languages.detection import AutoDetectLanguage, ExactLanguage
+from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from tests import BaseTestCase
 
 
@@ -324,13 +324,35 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         self.assertIs(self.detected_language, self.NOT_DETECTED)
 
 
-class TestExactLanguage(BaseLanguageDetectorTestCase):
+class TestExactLanguages(BaseLanguageDetectorTestCase):
     __test__ = True
 
+    @parameterized.expand([
+        param("01-01-12", ['en', 'fr']),
+        param("01-01-12", ['tr', 'ar']),
+        param("01-01-12", ['ru', 'fr', 'en', 'pl']),
+        param("01-01-12", ['en']),
+    ])
+    def test_exact_languages(self, datetime_string, shortnames):
+        self.given_string(datetime_string)
+        self.given_known_languages(shortnames)
+        self.given_detector()
+        self.when_using_exact_languages()
+        self.then_exact_languages_were_filtered(shortnames)
+
+    def given_known_languages(self, shortnames):
+        self.known_languages = [self.language_loader.get_language(shortname) for shortname in shortnames]
+
     def given_detector(self):
-        self.assertIsInstance(self.known_languages, list, "Require a language to initialize")
-        self.assertEqual(1, len(self.known_languages), "Could be initialized with exactly one language")
-        self.detector = ExactLanguage(language=self.known_languages[0])
+        self.assertIsInstance(self.known_languages, list, "Require a list of languages to initialize")
+        self.assertGreaterEqual(len(self.known_languages), 1, "Could be initialized with one or more languages")
+        self.detector = ExactLanguages(languages=self.known_languages)
+
+    def when_using_exact_languages(self):
+        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True)
+
+    def then_exact_languages_were_filtered(self, shortnames):
+        self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
 
 
 class BaseAutoDetectLanguageDetectorTestCase(BaseLanguageDetectorTestCase):
