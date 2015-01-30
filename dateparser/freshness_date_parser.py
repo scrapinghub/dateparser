@@ -47,7 +47,6 @@ class FreshnessDateDataParser(object):
 
         return date, period
 
-
     def _parse(self, date_string):
         if not self._are_all_words_units(date_string):
             return None, None
