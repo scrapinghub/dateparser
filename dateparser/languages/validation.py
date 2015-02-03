@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import re
-from logging import getLogger
+from dateparser.utils import get_logger
 
 
 class LanguageValidator(object):
-    logger = getLogger('dateparser')
+    logger = get_logger()
+
     VALID_KEYS = ['name', 'skip', 'pertain', 'simplifications', 'no_word_spacing', 'ago',
                   'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                   'january', 'february', 'march', 'april', 'may', 'june', 'july',

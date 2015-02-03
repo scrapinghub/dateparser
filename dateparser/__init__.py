@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 __version__ = '0.1.0'
 
-import logging
 from date import DateDataParser
 
-logging.basicConfig()
 _default_parser = DateDataParser(allow_redetect_language=True)
 
 
