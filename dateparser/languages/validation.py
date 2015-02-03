@@ -43,8 +43,9 @@ class LanguageValidator(object):
         result = True
 
         if not isinstance(info, dict):
-            cls.get_logger().error("Language '%(id)s' info expected to be dict, but have got %(type)s",
-                             {'id': language_id, 'type': type(info).__name__})
+            cls.get_logger().error(
+                "Language '%(id)s' info expected to be dict, but have got %(type)s",
+                {'id': language_id, 'type': type(info).__name__})
             result = False
 
         return result
@@ -53,9 +54,7 @@ class LanguageValidator(object):
     def _validate_name(cls, language_id, info):
         result = True
 
-        if 'name' not in info \
-            or not isinstance(info['name'], basestring) \
-            or not info['name']:
+        if 'name' not in info or not isinstance(info['name'], basestring) or not info['name']:
             cls.get_logger().error("Language '%(id)s' does not have a name", {'id': language_id})
             result = False
 
@@ -70,9 +69,10 @@ class LanguageValidator(object):
 
         value = info['no_word_spacing']
         if value not in [True, False]:
-            cls.get_logger().error("Invalid 'no_word_spacing' value %(value)r for '%(id)s' language:"
-                             " expected boolean",
-                             {'value': value, 'id': language_id})
+            cls.get_logger().error(
+                "Invalid 'no_word_spacing' value %(value)r for '%(id)s' "
+                "language: expected boolean",
+                {'value': value, 'id': language_id})
             result = False
 
         return result
@@ -88,14 +88,16 @@ class LanguageValidator(object):
         if isinstance(skip_tokens_list, list):
             for token in skip_tokens_list:
                 if not isinstance(token, basestring) or not token:
-                    cls.get_logger().error("Invalid 'skip' token %(token)r for '%(id)s' language:"
-                                     " expected not empty string",
-                                     {'token': token, 'id': language_id})
+                    cls.get_logger().error(
+                        "Invalid 'skip' token %(token)r for '%(id)s' "
+                        "language: expected not empty string",
+                        {'token': token, 'id': language_id})
                     result = False
         else:
-            cls.get_logger().error("Invalid 'skip' list for '%(id)s' language:"
-                             " expected list type but have got %(type)s",
-                             {'id': language_id, 'type': type(skip_tokens_list).__name__})
+            cls.get_logger().error(
+                "Invalid 'skip' list for '%(id)s' "
+                "language: expected list type but have got %(type)s",
+                {'id': language_id, 'type': type(skip_tokens_list).__name__})
             result = False
 
         return result
@@ -111,14 +113,16 @@ class LanguageValidator(object):
         if isinstance(pertain_tokens_list, list):
             for token in pertain_tokens_list:
                 if not isinstance(token, basestring) or not token:
-                    cls.get_logger().error("Invalid 'pertain' token %(token)r for '%(id)s' language:"
-                                     " expected not empty string",
-                                     {'token': token, 'id': language_id})
+                    cls.get_logger().error(
+                        "Invalid 'pertain' token %(token)r for '%(id)s' "
+                        "language: expected not empty string",
+                        {'token': token, 'id': language_id})
                     result = False
         else:
-            cls.get_logger().error("Invalid 'pertain' list for '%(id)s' language:"
-                             " expected list type but have got %(type)s",
-                             {'id': language_id, 'type': type(pertain_tokens_list).__name__})
+            cls.get_logger().error(
+                "Invalid 'pertain' list for '%(id)s' "
+                "language: expected list type but have got %(type)s",
+                {'id': language_id, 'type': type(pertain_tokens_list).__name__})
             result = False
 
         return result
@@ -129,8 +133,9 @@ class LanguageValidator(object):
 
         for weekday in 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday':
             if weekday not in info or not info[weekday]:
-                cls.get_logger().error("No translations for '%(weekday)s' provided for '%(id)s' language",
-                                 {'weekday': weekday, 'id': language_id})
+                cls.get_logger().error(
+                    "No translations for '%(weekday)s' provided for '%(id)s' language",
+                    {'weekday': weekday, 'id': language_id})
                 result = False
                 continue
 
@@ -138,18 +143,20 @@ class LanguageValidator(object):
             if isinstance(translations_list, list):
                 for token in translations_list:
                     if not isinstance(token, basestring) or not token:
-                        cls.get_logger().error("Invalid '%(weekday)s' translation %(token)r for '%(id)s' language:"
-                                         " expected not empty string",
-                                         {'weekday': weekday, 'token': token, 'id': language_id})
+                        cls.get_logger().error(
+                            "Invalid '%(weekday)s' translation %(token)r for '%(id)s' "
+                            "language: expected not empty string",
+                            {'weekday': weekday, 'token': token, 'id': language_id})
                         result = False
             else:
-                cls.get_logger().error("Invalid '%(weekday)s' translations list for '%(id)s' language:"
-                                 " expected list type but have got %(type)s",
-                                 {'weekday': weekday, 'id': language_id, 'type': type(translations_list).__name__})
+                cls.get_logger().error(
+                    "Invalid '%(weekday)s' translations list for '%(id)s' "
+                    "language: expected list type but have got %(type)s",
+                    {'weekday': weekday, 'id': language_id,
+                     'type': type(translations_list).__name__})
                 result = False
 
         return result
-
 
     @classmethod
     def _validate_months(cls, language_id, info):
@@ -158,8 +165,9 @@ class LanguageValidator(object):
         for month in ('january', 'february', 'march', 'april', 'may', 'june', 'july',
                       'august', 'september', 'october', 'november', 'december'):
             if month not in info or not info[month]:
-                cls.get_logger().error("No translations for '%(month)s' provided for '%(id)s' language",
-                                 {'month': month, 'id': language_id})
+                cls.get_logger().error(
+                    "No translations for '%(month)s' provided for '%(id)s' language",
+                    {'month': month, 'id': language_id})
                 result = False
                 continue
 
@@ -167,14 +175,16 @@ class LanguageValidator(object):
             if isinstance(translations_list, list):
                 for token in translations_list:
                     if not isinstance(token, basestring) or not token:
-                        cls.get_logger().error("Invalid '%(month)s' translation %(token)r for '%(id)s' language:"
-                                         " expected not empty string",
-                                         {'month': month, 'token': token, 'id': language_id})
+                        cls.get_logger().error(
+                            "Invalid '%(month)s' translation %(token)r for '%(id)s' "
+                            "language: expected not empty string",
+                            {'month': month, 'token': token, 'id': language_id})
                         result = False
             else:
-                cls.get_logger().error("Invalid '%(month)s' translations list for '%(id)s' language:"
-                                 " expected list type but have got %(type)s",
-                                 {'month': month, 'id': language_id, 'type': type(translations_list).__name__})
+                cls.get_logger().error(
+                    "Invalid '%(month)s' translations list for '%(id)s' "
+                    "language: expected list type but have got %(type)s",
+                    {'month': month, 'id': language_id, 'type': type(translations_list).__name__})
                 result = False
 
         return result
@@ -185,8 +195,9 @@ class LanguageValidator(object):
 
         for unit in 'year', 'month', 'week', 'day', 'hour', 'minute', 'second':
             if unit not in info or not info[unit]:
-                cls.get_logger().error("No translations for '%(unit)s' provided for '%(id)s' language",
-                                 {'unit': unit, 'id': language_id})
+                cls.get_logger().error(
+                    "No translations for '%(unit)s' provided for '%(id)s' language",
+                    {'unit': unit, 'id': language_id})
                 result = False
                 continue
 
@@ -194,14 +205,16 @@ class LanguageValidator(object):
             if isinstance(translations_list, list):
                 for token in translations_list:
                     if not isinstance(token, basestring) or not token:
-                        cls.get_logger().error("Invalid '%(unit)s' translation %(token)r for '%(id)s' language:"
-                                         " expected not empty string",
-                                         {'unit': unit, 'token': token, 'id': language_id})
+                        cls.get_logger().error(
+                            "Invalid '%(unit)s' translation %(token)r for '%(id)s' "
+                            "language: expected not empty string",
+                            {'unit': unit, 'token': token, 'id': language_id})
                         result = False
             else:
-                cls.get_logger().error("Invalid '%(unit)s' translations list for '%(id)s' language:"
-                                 " expected list type but have got %(type)s",
-                                 {'unit': unit, 'id': language_id, 'type': type(translations_list).__name__})
+                cls.get_logger().error(
+                    "Invalid '%(unit)s' translations list for '%(id)s' "
+                    "language: expected list type but have got %(type)s",
+                    {'unit': unit, 'id': language_id, 'type': type(translations_list).__name__})
                 result = False
 
         return result
@@ -212,8 +225,9 @@ class LanguageValidator(object):
 
         for word in 'ago', :
             if word not in info or not info[word]:
-                cls.get_logger().error("No translations for '%(word)s' provided for '%(id)s' language",
-                                 {'word': word, 'id': language_id})
+                cls.get_logger().error(
+                    "No translations for '%(word)s' provided for '%(id)s' language",
+                    {'word': word, 'id': language_id})
                 result = False
                 continue
 
@@ -221,14 +235,16 @@ class LanguageValidator(object):
             if isinstance(translations_list, list):
                 for token in translations_list:
                     if not isinstance(token, basestring) or not token:
-                        cls.get_logger().error("Invalid '%(word)s' translation %(token)r for '%(id)s' language:"
-                                         " expected not empty string",
-                                         {'word': word, 'token': token, 'id': language_id})
+                        cls.get_logger().error(
+                            "Invalid '%(word)s' translation %(token)r for '%(id)s' "
+                            "language: expected not empty string",
+                            {'word': word, 'token': token, 'id': language_id})
                         result = False
             else:
-                cls.get_logger().error("Invalid '%(word)s' translations list for '%(id)s' language:"
-                                 " expected list type but have got %(type)s",
-                                 {'word': word, 'id': language_id, 'type': type(translations_list).__name__})
+                cls.get_logger().error(
+                    "Invalid '%(word)s' translations list for '%(id)s' "
+                    "language: expected list type but have got %(type)s",
+                    {'word': word, 'id': language_id, 'type': type(translations_list).__name__})
                 result = False
 
         return result
@@ -244,17 +260,20 @@ class LanguageValidator(object):
         if isinstance(simplifications_list, list):
             for simplification in simplifications_list:
                 if not isinstance(simplification, dict) or len(simplification) != 1:
-                    cls.get_logger().error("Invalid simplification %(simplification)r for '%(id)s' language:"
-                                     " eash simplification suppose to be one-to-one mapping",
-                                     {'simplification': simplification, 'id': language_id})
+                    cls.get_logger().error(
+                        "Invalid simplification %(simplification)r for '%(id)s' "
+                        "language: eash simplification suppose to be one-to-one mapping",
+                        {'simplification': simplification, 'id': language_id})
                     result = False
                     continue
 
                 key, value = simplification.items()[0]
                 if not isinstance(key, basestring) or not isinstance(value, (basestring, int)):
-                    cls.get_logger().error("Invalid simplification %(simplification)r for '%(id)s' language:"
-                                     " each simplification suppose to be string-to-string-or-int mapping",
-                                     {'simplification': simplification, 'id': language_id})
+                    cls.get_logger().error(
+                        "Invalid simplification %(simplification)r for '%(id)s' "
+                        "language: each simplification suppose to be "
+                        "string-to-string-or-int mapping",
+                        {'simplification': simplification, 'id': language_id})
                     result = False
                     continue
 
@@ -270,9 +289,12 @@ class LanguageValidator(object):
                     elif group in compiled_key.groupindex:
                         groups.append(compiled_key.groupindex[group])
                     else:
-                        cls.get_logger().error("Invalid simplification %(simplification)r for '%(id)s' language:"
-                                         " unknown group %(group)s",
-                                         {'simplification': simplification, 'id': language_id, 'group': group})
+                        cls.get_logger().error(
+                            "Invalid simplification %(simplification)r for '%(id)s' "
+                            "language: unknown group %(group)s",
+                            {'simplification': simplification,
+                             'id': language_id,
+                             'group': group})
                         result = False
 
                 used_groups = set(map(int, groups))
@@ -282,24 +304,27 @@ class LanguageValidator(object):
                 not_used_groups -= {0}  # Entire substring is not required to be used
 
                 if extra_groups:
-                    cls.get_logger().error("Invalid simplification %(simplification)r for '%(id)s' language:"
-                                     " unknown groups %(groups)s",
-                                     {'simplification': simplification,
-                                      'id': language_id,
-                                      'groups': ", ".join(map(unicode, sorted(extra_groups)))})
+                    cls.get_logger().error(
+                        "Invalid simplification %(simplification)r for '%(id)s' "
+                        "language: unknown groups %(groups)s",
+                        {'simplification': simplification,
+                         'id': language_id,
+                         'groups': ", ".join(map(unicode, sorted(extra_groups)))})
                     result = False
 
                 if not_used_groups:
-                    cls.get_logger().error("Invalid simplification %(simplification)r for '%(id)s' language:"
-                                     " groups %(groups)s were not used",
-                                     {'simplification': simplification,
-                                      'id': language_id,
-                                      'groups': ", ".join(map(unicode, sorted(not_used_groups)))})
+                    cls.get_logger().error(
+                        "Invalid simplification %(simplification)r for '%(id)s' "
+                        "language: groups %(groups)s were not used",
+                        {'simplification': simplification,
+                         'id': language_id,
+                         'groups': ", ".join(map(unicode, sorted(not_used_groups)))})
                     result = False
         else:
-            cls.get_logger().error("Invalid 'simplifications' list for '%(id)s' language:"
-                             " expected list type but have got %(type)s",
-                             {'id': language_id, 'type': type(simplifications_list).__name__})
+            cls.get_logger().error(
+                "Invalid 'simplifications' list for '%(id)s' "
+                "language: expected list type but have got %(type)s",
+                {'id': language_id, 'type': type(simplifications_list).__name__})
             result = False
 
         return result
@@ -310,8 +335,9 @@ class LanguageValidator(object):
 
         extra_keys = set(info.keys()) - set(cls.VALID_KEYS)
         if extra_keys:
-            cls.get_logger().error("Extra keys found for '%(id)s' language: %(keys)s",
-                             {'id': language_id, 'keys': ", ".join(map(repr, extra_keys))})
+            cls.get_logger().error(
+                "Extra keys found for '%(id)s' language: %(keys)s",
+                {'id': language_id, 'keys': ", ".join(map(repr, extra_keys))})
             result = False
 
         return result
