@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class Settings(object):
     PREFER_DATES_FROM_FUTURE = None
     SUPPORT_BEFORE_COMMON_ERA = False
@@ -10,6 +11,7 @@ class Settings(object):
 
     def update(self, key, value):
         setattr(self, key, value)
+
 
 def reload_settings():
     global settings

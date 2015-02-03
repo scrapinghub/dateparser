@@ -4,16 +4,14 @@ from __future__ import unicode_literals
 import re
 from cStringIO import StringIO
 
-from datetime import datetime, time
-import collections
+from datetime import datetime
 
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
-from dateutil import tz
-from six import text_type, binary_type, integer_types
 from dateparser.timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
 
 from conf import settings
+
 
 class new_relativedelta(relativedelta):
     """ dateutil does not check if result of parsing weekday is in the future.
@@ -37,13 +35,18 @@ parser.relativedelta.relativedelta = new_relativedelta
 
 
 class new_parser(parser.parser):
+    """
+    Implements an alternate parse method which supports preference to dates in future and past.
+    For more see issue #36
+    """
 
     def parse(self, timestr, default=None, ignoretz=False, prefer_future=None, **kwargs):
         # timestr needs to be a buffer as required by _parse
         timestr = timestr if not isinstance(timestr, str) else StringIO(timestr)
 
         # Set right prefer_future var
-        prefer_future = prefer_future if prefer_future is not None else settings.PREFER_DATES_FROM_FUTURE
+        prefer_future = prefer_future if prefer_future is not None \
+            else settings.PREFER_DATES_FROM_FUTURE
 
         # Parse timestr
         res = self._parse(timestr, **kwargs)
@@ -65,17 +68,18 @@ class new_parser(parser.parser):
 
         # Correct date to if prefer in future of past
         if prefer_future is not None:
-            for field in ['microseconds', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'years']:
+            for field in ['microseconds', 'seconds', 'minutes', 'hours', 'days',
+                          'weeks', 'months', 'years']:
                 # Can't override given field
                 if field in given_fields:
                     continue
 
                 delta = relativedelta(**{field: 1})
 
-                if (prefer_future == False and new_date >= default and new_date - delta < default)\
-                    or (prefer_future == True and new_date <= default and new_date + delta > default):
+                if (prefer_future is False and new_date >= default and new_date - delta < default) or\
+                   (prefer_future is True and new_date <= default and new_date + delta > default):
 
-                    new_date = new_date - delta if prefer_future == False else new_date + delta
+                    new_date = new_date - delta if prefer_future is False else new_date + delta
                     break
 
         # Clean hour and minutes, etc in case not defined
@@ -83,6 +87,7 @@ class new_parser(parser.parser):
             new_date = new_date.replace(hour=0, minute=0, second=0, microsecond=0)
 
         return new_date
+
 
 def dateutil_parse(date_string, **kwargs):
     """Wrapper function around dateutil.parser.parse
