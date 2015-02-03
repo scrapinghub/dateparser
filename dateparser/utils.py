@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 import logging
+import logging.config
 
 GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
 G_REGEX = re.compile(r'g<(\d+)>')
@@ -29,16 +30,34 @@ def increase_regex_replacements_group_positions(replacement, increment):
     return u"".join(splitted)
 
 
+def setup_logging():
+    if len(logging.root.handlers):
+        return
+
+    config = {
+        'version': 1,
+        'disable_existing_loggers': True,
+        'formatters': {
+            'console': {
+                'format': "%(asctime)s %(levelname)s: [%(name)s] %(message)s",
+            },
+        },
+        'handlers': {
+            'console': {
+                'level': logging.DEBUG,
+                'class': "logging.StreamHandler",
+                'formatter': "console",
+                'stream': "ext://sys.stdout",
+            },
+        },
+        'root': {
+            'level': logging.DEBUG,
+            'handlers': ["console"],
+        },
+    }
+    logging.config.dictConfig(config)
+
+
 def get_logger():
-    logger = logging.getLogger('dateparser')
-
-    # if there already is a handler for this namespace, no need to set one
-    if len(logger.handlers):
-        return logger
-
-    formatter = logging.Formatter('%(asctime)s %(levelname)s: [%(name)s] %(message)s')
-    logging_handler = logging.StreamHandler()
-    logging_handler.setLevel(logging.ERROR)
-    logging_handler.setFormatter(formatter)
-    logger.addHandler(logging_handler)
-    return logger
+    setup_logging()
+    return logging.getLogger('dateparser')
