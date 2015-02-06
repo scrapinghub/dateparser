@@ -2,7 +2,7 @@
 
 
 class Settings(object):
-    PREFER_DATES_FROM_FUTURE = None
+    PREFER_DATES_FROM = 'current_period'  # past, future, current_period
     SUPPORT_BEFORE_COMMON_ERA = False
 
     def __init__(self, **kwargs):

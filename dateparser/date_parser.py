@@ -2,9 +2,8 @@
 from __future__ import unicode_literals
 
 import re
-from cStringIO import StringIO
-
 from datetime import datetime
+from six import binary_type
 
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
@@ -40,13 +39,10 @@ class new_parser(parser.parser):
     For more see issue #36
     """
 
-    def parse(self, timestr, default=None, ignoretz=False, prefer_future=None, **kwargs):
+    def parse(self, timestr, default=None, ignoretz=False, **kwargs):
         # timestr needs to be a buffer as required by _parse
-        timestr = timestr if not isinstance(timestr, str) else StringIO(timestr)
-
-        # Set right prefer_future var
-        prefer_future = prefer_future if prefer_future is not None \
-            else settings.PREFER_DATES_FROM_FUTURE
+        if isinstance(timestr, binary_type):
+            timestr = timestr.decode()
 
         # Parse timestr
         res = self._parse(timestr, **kwargs)
@@ -55,38 +51,58 @@ class new_parser(parser.parser):
             raise ValueError("unknown string format")
 
         # Fill in missing date
-        given_fields = []  # fields set by
-        new_date = default
-
-        for field in ['year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond']:
-            value = getattr(res, field)
-            if value is not None:
-                new_date = new_date.replace(**{field: value})
-                given_fields.append(field + 's')
-        if res.weekday and not res.day:
-            new_date = new_date + new_relativedelta(weekday=res.weekday)
+        new_date, given_fields = self.populate(res, default)
 
         # Correct date to if prefer in future of past
-        if prefer_future is not None:
-            for field in ['microseconds', 'seconds', 'minutes', 'hours', 'days',
-                          'weeks', 'months', 'years']:
-                # Can't override given field
-                if field in given_fields:
-                    continue
-
-                delta = relativedelta(**{field: 1})
-
-                if (prefer_future is False and new_date >= default and new_date - delta < default) or\
-                   (prefer_future is True and new_date <= default and new_date + delta > default):
-
-                    new_date = new_date - delta if prefer_future is False else new_date + delta
-                    break
+        new_date = self.correct(new_date, given_fields, default)
 
         # Clean hour and minutes, etc in case not defined
         if not res.hour and not res.minute and not res.second and not res.microsecond:
             new_date = new_date.replace(hour=0, minute=0, second=0, microsecond=0)
 
         return new_date
+
+    def populate(self, res, default):
+        given_fields = []  # fields that cannot be overriden
+        new_date = default
+
+        # Populate all fields
+        repl = {}
+        for field in ['year', 'month', 'day', 'hour', 'minute', 'second', 'microsecond']:
+            value = getattr(res, field)
+            if value is not None:
+                repl[field] = value
+                given_fields.append(field + 's')
+        new_date = new_date.replace(**repl)
+
+        # Fix weekday
+        if res.weekday and not res.day:
+            new_date = new_date + new_relativedelta(weekday=res.weekday)
+
+        return new_date, given_fields
+
+    def correct(self, date, given_fields, default):
+        if settings.PREFER_DATES_FROM is not 'current_period':
+            for field in ['microseconds', 'seconds', 'minutes', 'hours', 'days',
+                          'weeks', 'months', 'years']:
+                # Can't override a given field
+                if field in given_fields:
+                    continue
+
+                # Try if applying the delta for this field corrects the problem
+                delta = relativedelta(**{field: 1})
+                if (settings.PREFER_DATES_FROM == 'past'
+                   and date >= default and date - delta < default) or\
+                   (settings.PREFER_DATES_FROM == 'future'
+                   and date <= default and date + delta > default):
+
+                    # Update date
+                    date = date - delta if settings.PREFER_DATES_FROM == 'past' else date + delta
+
+                    # We're done so let's get out of here.
+                    break
+
+        return date
 
 
 def dateutil_parse(date_string, **kwargs):
