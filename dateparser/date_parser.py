@@ -51,10 +51,10 @@ class new_parser(parser.parser):
             raise ValueError("unknown string format")
 
         # Fill in missing date
-        new_date, given_fields = self.populate(res, default)
+        new_date, given_fields = new_parser._populate(res, default)
 
         # Correct date to if prefer in future of past
-        new_date = self.correct(new_date, given_fields, default)
+        new_date = new_parser._correct(new_date, given_fields, default)
 
         # Clean hour and minutes, etc in case not defined
         if not res.hour and not res.minute and not res.second and not res.microsecond:
@@ -62,7 +62,8 @@ class new_parser(parser.parser):
 
         return new_date
 
-    def populate(self, res, default):
+    @staticmethod
+    def _populate(res, default):
         given_fields = []  # fields that cannot be overriden
         new_date = default
 
@@ -72,37 +73,57 @@ class new_parser(parser.parser):
             value = getattr(res, field)
             if value is not None:
                 repl[field] = value
-                given_fields.append(field + 's')
         new_date = new_date.replace(**repl)
 
         # Fix weekday
         if res.weekday and not res.day:
             new_date = new_date + new_relativedelta(weekday=res.weekday)
 
-        return new_date, given_fields
+        return new_date, [key + 's' for key in repl.keys()]
 
-    def correct(self, date, given_fields, default):
-        if settings.PREFER_DATES_FROM is not 'current_period':
-            for field in ['microseconds', 'seconds', 'minutes', 'hours', 'days',
-                          'weeks', 'months', 'years']:
-                # Can't override a given field
-                if field in given_fields:
-                    continue
+    @staticmethod
+    def _correct(date, given_fields, default):
+        if settings.PREFER_DATES_FROM == 'current_period':
+            return date
 
-                # Try if applying the delta for this field corrects the problem
-                delta = relativedelta(**{field: 1})
-                if (settings.PREFER_DATES_FROM == 'past'
-                   and date >= default and date - delta < default) or\
-                   (settings.PREFER_DATES_FROM == 'future'
-                   and date <= default and date + delta > default):
+        for field in ['microseconds', 'seconds', 'minutes', 'hours', 'days',
+                      'weeks', 'months', 'years']:
+            # Can't override a given field
+            if field in given_fields:
+                continue
 
-                    # Update date
-                    date = date - delta if settings.PREFER_DATES_FROM == 'past' else date + delta
-
-                    # We're done so let's get out of here.
-                    break
+            # Try if applying the delta for this field corrects the problem
+            delta = relativedelta(**{field: 1})
+            new_date = new_parser._correct_for_future(date, delta, default) or new_parser._correct_for_past(date, delta, default)
+            if new_date:
+                date = new_date
+                break
 
         return date
+
+    @staticmethod
+    def _correct_for_future(date, delta, default):
+        if settings.PREFER_DATES_FROM != 'future':
+            return None
+
+        if date < default < date + delta:
+            date += delta
+            return date
+
+        return None
+
+    @staticmethod
+    def _correct_for_past(date, delta, default):
+        if settings.PREFER_DATES_FROM != 'past':
+            return None
+
+        if date > default > date - delta:
+            date -= delta
+            return date
+
+        return None
+
+
 
 
 def dateutil_parse(date_string, **kwargs):
