@@ -205,7 +205,7 @@ de:
 fr:
     name: French
 
-    skip: ["le", "environ", "et", "\xe0"]
+    skip: ["le", "environ", "et", "\xe0", "er"]
 
     monday:
         - Lundi
@@ -276,6 +276,7 @@ fr:
         - heure
         - heures
     minute:
+        - min
         - minute
         - minutes
     second:
