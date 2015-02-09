@@ -22,6 +22,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'python-dateutil >= 2.2',
+        'PyYAML'
     ],
     license="BSD",
     zip_safe=False,

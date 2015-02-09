@@ -13,8 +13,9 @@ import dateparser.timezone_parser
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import LanguageDataLoader
-from dateparser.languages.detection import AutoDetectLanguage, ExactLanguage
+from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import settings
+
 from tests import BaseTestCase
 
 
@@ -60,14 +61,14 @@ class AutoDetectLanguageTest(unittest.TestCase):
             self.assertEqual(correct_date.date(), parsed_date.date())
 
 
-class ExactLanguageTest(unittest.TestCase):
+class ExactLanguagesTest(unittest.TestCase):
 
     def test_force_setting_language(self):
         with self.assertRaisesRegexp(TypeError, 'takes exactly 2 arguments'):
-            ExactLanguage()
+            ExactLanguages()
 
         with self.assertRaisesRegexp(ValueError, 'cannot be None'):
-            ExactLanguage(None)
+            ExactLanguages(None)
 
     @unittest.skip('This test should only be testing detecting languages, not parsing them. Although tests '
                    'for parsing this dates should be created separatly to not reduce the coverage')
@@ -83,7 +84,7 @@ class ExactLanguageTest(unittest.TestCase):
             # (u'11/03/2014', datetime(2014, 3, 11)),
         ]
         spanish = LanguageDataLoader().get_language('es')
-        parser = ExactLanguage(spanish)
+        parser = ExactLanguages([spanish])
 
         for date_string, correct_date in date_fixtures:
             parsed_date = parser.parse(date_string, None)
@@ -115,6 +116,8 @@ class TestDateParser(BaseTestCase):
         # French dates
         param('11 Mai 2014', datetime(2014, 5, 11)),
         param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
+        param('22 janvier 2015 \xe0 14h40', datetime(2015, 1, 22, 14, 40)),
+        param('Dimanche 1er F\xe9vrier \xe0 21:24', datetime(2012, 2, 1, 21, 24)),
         # Spanish dates
         param('Martes 21 de Octubre de 2014', datetime(2014, 10, 21)),
         param('Miércoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),

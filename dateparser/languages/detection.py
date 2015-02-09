@@ -68,13 +68,14 @@ class AutoDetectLanguage(BaseLanguageDetector):
             yield language
 
 
-class ExactLanguage(BaseLanguageDetector):
-    def __init__(self, language):
-        if language is None:
-            raise ValueError("language cannot be None for ExactLanguage")
-        super(ExactLanguage, self).__init__(languages=[language])
+class ExactLanguages(BaseLanguageDetector):
+    def __init__(self, languages):
+        if languages is None:
+            raise ValueError("language cannot be None for ExactLanguages")
+        super(ExactLanguages, self).__init__(languages=languages)
 
     @_restore_languages_on_generator_exit
     def iterate_applicable_languages(self, date_string, modify=False):
-        for language in super(ExactLanguage, self).iterate_applicable_languages(date_string, modify=False):
+        for language in super(
+                ExactLanguages, self).iterate_applicable_languages(date_string, modify=False):
             yield language
