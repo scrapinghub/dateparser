@@ -14,6 +14,8 @@ from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.conf import settings
+
 from tests import BaseTestCase
 
 
@@ -217,6 +219,63 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed()
         self.then_date_was_not_parsed()
 
+    @parameterized.expand([
+        param('10 December', datetime(2014, 12, 10)),
+        param('March', datetime(2014, 3, 15)),
+        param('Friday', datetime(2015, 2, 13)),
+        param('10:00PM', datetime(2015, 2, 14, 22, 00)),
+        param('16:10', datetime(2015, 2, 14, 16, 10)),
+        param('14:05', datetime(2015, 2, 15, 14, 5)),
+    ])
+    def test_preferably_past_dates(self, date_string, expected):
+        self.given_configuration('PREFER_DATES_FROM', 'past')
+        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('10 December', datetime(2015, 12, 10)),
+        param('March', datetime(2015, 3, 15)),
+        param('Friday', datetime(2015, 2, 20)),
+        param('10:00PM', datetime(2015, 2, 15, 22, 00)),
+        param('16:10', datetime(2015, 2, 15, 16, 10)),
+        param('14:05', datetime(2015, 2, 16, 14, 5)),
+    ])
+    def test_preferably_future_dates(self, date_string, expected):
+        self.given_configuration('PREFER_DATES_FROM', 'future')
+        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('10 December', datetime(2015, 12, 10)),
+        param('March', datetime(2015, 3, 15)),
+        param('Friday', datetime(2015, 2, 13)),
+        param('10:00PM', datetime(2015, 2, 15, 22, 00)),
+        param('16:10', datetime(2015, 2, 15, 16, 10)),
+        param('14:05', datetime(2015, 2, 15, 14, 5)),
+    ])
+    def test_dates_without_preference(self, date_string, expected):
+        self.given_configuration('PREFER_DATES_FROM', 'current_period')
+        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
+
     def given_utcnow(self, now):
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.utcnow = Mock(return_value=now)
@@ -246,6 +305,9 @@ class TestDateParser(BaseTestCase):
         self.date_parser = Mock(wraps=date_parser)
         self.add_patch(patch('dateparser.date.date_parser', new=self.date_parser))
         self.parser = DateDataParser()
+
+    def given_configuration(self, key, value):
+        self.add_patch(patch.object(settings, key, new=value))
 
     def when_date_is_parsed(self):
         self.result = self.parser.get_date_data(self.date_string)
