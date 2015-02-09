@@ -14,7 +14,7 @@ from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguage
-from dateparser.conf import settings, reload_settings
+from dateparser.conf import settings
 from tests import BaseTestCase
 
 
