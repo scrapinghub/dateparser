@@ -1,15 +1,17 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-import re
+import re, sys
 from datetime import datetime
-from six import binary_type
+
 
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 from dateparser.timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
 
 from conf import settings
+
+binary_type = bytes if sys.version_info[0] == 3 else str
 
 
 class new_relativedelta(relativedelta):
@@ -29,6 +31,7 @@ class new_relativedelta(relativedelta):
         if ret > datetime.utcnow():
             ret -= relativedelta(days=7)
         return ret
+
 
 parser.relativedelta.relativedelta = new_relativedelta
 
@@ -51,20 +54,17 @@ class new_parser(parser.parser):
             raise ValueError("unknown string format")
 
         # Fill in missing date
-        new_date, given_fields = new_parser._populate(res, default)
-
-        # Correct date to if prefer in future of past
-        new_date = new_parser._correct(new_date, given_fields, default)
+        new_date = new_parser._populate(res, default)
 
         # Clean hour and minutes, etc in case not defined
-        if not res.hour and not res.minute and not res.second and not res.microsecond:
-            new_date = new_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        for e in ['hour', 'minute', 'second', 'microsecond']:
+            if not getattr(res, e):
+                new_date = new_date.replace(**{e: 0})
 
         return new_date
 
     @staticmethod
     def _populate(res, default):
-        given_fields = []  # fields that cannot be overriden
         new_date = default
 
         # Populate all fields
@@ -79,7 +79,8 @@ class new_parser(parser.parser):
         if res.weekday and not res.day:
             new_date = new_date + new_relativedelta(weekday=res.weekday)
 
-        return new_date, [key + 's' for key in repl.keys()]
+        # Correct date and return
+        return new_parser._correct(new_date, [key + 's' for key in repl.keys()], default)
 
     @staticmethod
     def _correct(date, given_fields, default):
@@ -94,9 +95,14 @@ class new_parser(parser.parser):
 
             # Try if applying the delta for this field corrects the problem
             delta = relativedelta(**{field: 1})
-            new_date = new_parser._correct_for_future(date, delta, default) or new_parser._correct_for_past(date, delta, default)
-            if new_date:
-                date = new_date
+
+            # Run through corrections
+            corrected_date = new_parser._correct_for_future(date, delta, default)
+            corrected_date = new_parser._correct_for_past(corrected_date, delta, default)
+
+            # check if changed
+            if corrected_date != date:
+                date = corrected_date
                 break
 
         return date
@@ -104,26 +110,22 @@ class new_parser(parser.parser):
     @staticmethod
     def _correct_for_future(date, delta, default):
         if settings.PREFER_DATES_FROM != 'future':
-            return None
+            return date
 
         if date < default < date + delta:
             date += delta
-            return date
 
-        return None
+        return date
 
     @staticmethod
     def _correct_for_past(date, delta, default):
         if settings.PREFER_DATES_FROM != 'past':
-            return None
+            return date
 
         if date > default > date - delta:
             date -= delta
-            return date
 
-        return None
-
-
+        return date
 
 
 def dateutil_parse(date_string, **kwargs):
@@ -143,7 +145,6 @@ def dateutil_parse(date_string, **kwargs):
 
 
 class DateParser(object):
-
     def parse(self, date_string):
         date_string = unicode(date_string)
 

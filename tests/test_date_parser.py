@@ -103,9 +103,6 @@ class TestDateParser(BaseTestCase):
         self.date_parser = NotImplemented
         self.date_result = NotImplemented
 
-    def tearDown(self):
-        reload_settings()
-
     @parameterized.expand([
         # English dates
         param('[Sept] 04, 2014.', datetime(2014, 9, 4)),
@@ -307,7 +304,7 @@ class TestDateParser(BaseTestCase):
         self.parser = DateDataParser()
 
     def given_configuration(self, key, value):
-        settings.update(key, value)
+        self.add_patch(patch.object(settings, key, new=value))
 
     def when_date_is_parsed(self):
         self.result = self.parser.get_date_data(self.date_string)
