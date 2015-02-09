@@ -150,17 +150,17 @@ class GetIntersectingPeriodsTest(BaseTestCase):
 class ParseDateWithFormats(unittest.TestCase):
 
     def test_shouldnt_parse_invalid_date(self):
-        self.assertIsNone(date.parse_with_formats('yesterday', ['%Y-%m-%d']))
+        self.assertIsNone(date.parse_with_formats('yesterday', ['%Y-%m-%d'])['date_obj'])
 
     def test_should_parse_date(self):
         result = date.parse_with_formats('25-03-14', ['%d-%m-%y'])
-        self.assertEquals(datetime(2014, 3, 25).date(), result.date())
+        self.assertEquals(datetime(2014, 3, 25).date(), result['date_obj'].date())
 
     def test_should_use_current_year_for_dates_without_year(self):
         today = datetime.today()
 
         result = date.parse_with_formats('09.16', ["%m.%d"])
-        self.assertEquals(datetime(today.year, 9, 16).date(), result.date())
+        self.assertEquals(datetime(today.year, 9, 16).date(), result['date_obj'].date())
 
     def test_should_use_current_date_for_dates_without_day(self):
         twelfth = datetime(2014, 8, 12)
@@ -168,7 +168,7 @@ class ParseDateWithFormats(unittest.TestCase):
         datetime_mock.utcnow = Mock(return_value=twelfth)
 
         with patch('dateparser.date_parser.datetime', new=datetime_mock):
-            dt_data = date.parse_with_formats('August 2014', ['%B %Y'], final_call=True)
+            dt_data = date.parse_with_formats('August 2014', ['%B %Y'])
 
         self.assertIsNotNone(dt_data)
         self.assertEquals('month', dt_data['period'])
@@ -179,7 +179,7 @@ class ParseDateWithFormats(unittest.TestCase):
         datetime_mock.utcnow = Mock(return_value=twelfth)
 
         with patch('dateparser.date_parser.datetime', new=datetime_mock):
-            dt_data = date.parse_with_formats('February 2014', ['%B %Y'], final_call=True)
+            dt_data = date.parse_with_formats('February 2014', ['%B %Y'])
 
         self.assertIsNotNone(dt_data)
         self.assertEquals('month', dt_data['period'])
@@ -203,35 +203,48 @@ class DateDataParserTest(unittest.TestCase):
         self.assertIsNotNone(date_data['date_obj'])
         self.assertEqual(today.date(), date_data['date_obj'].date())
 
-    def test_should_return_today(self):
+    @parameterized.expand([
+        param('today'),
+        param('Today'),
+        param('TODAY'),
+        param('Сегодня'),
+        param('Hoje'),
+        param('Oggi'),
+    ])
+    def test_should_return_today(self, date_string):
         today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        date_data = self.parser.get_date_data(date_string)
+        self.assertIsNotNone(date_data['date_obj'])
+        self.assertEqual(today.date(), date_data['date_obj'].date())
 
-        for date_string in ['today', 'Today', 'TODAY', 'Сегодня', 'Hoje', 'Oggi']:
-            date_data = self.parser.get_date_data(date_string)
-            self.assertIsNotNone(date_data['date_obj'])
-            self.assertEqual(today.date(), date_data['date_obj'].date())
-
-    def test_should_return_yesterday(self):
+    @parameterized.expand([
+        param('yesterday'),
+        param(' Yesterday \n'),
+        param('Ontem'),
+        param('Ieri'),
+    ])
+    def test_should_return_yesterday(self, date_string):
         today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
         yesterday = today - relativedelta(days=1)
+        date_data = self.parser.get_date_data(date_string)
+        self.assertIsNotNone(date_data['date_obj'],
+                             "could not parse date from: %s" % date_string)
+        self.check_equal(yesterday.date(),
+                         date_data['date_obj'].date(), date_string)
 
-        for date_string in ['yesterday', ' Yesterday \n', 'Ontem', 'Ieri']:
-            date_data = self.parser.get_date_data(date_string)
-            self.assertIsNotNone(date_data['date_obj'],
-                                 "could not parse date from: %s" % date_string)
-            self.check_equal(yesterday.date(),
-                             date_data['date_obj'].date(), date_string)
-
-    def test_should_return_day_before_yesterday(self):
+    @parameterized.expand([
+        param('the day before yesterday'),
+        param('The DAY before Yesterday'),
+        param('Anteontem'),
+        param('Avant-hier'),
+    ])
+    def test_should_return_day_before_yesterday(self, date_string):
         today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
         day_before_yesterday = today - relativedelta(days=2)
-
-        for date_string in ['the day before yesterday', 'The DAY before Yesterday',
-                            'Anteontem', 'Avant-hier']:
-            date_data = self.parser.get_date_data(date_string)
-            self.assertIsNotNone(date_data['date_obj'])
-            self.check_equal(day_before_yesterday.date(),
-                             date_data['date_obj'].date(), date_string)
+        date_data = self.parser.get_date_data(date_string)
+        self.assertIsNotNone(date_data['date_obj'])
+        self.check_equal(day_before_yesterday.date(),
+                         date_data['date_obj'].date(), date_string)
 
     def test_should_not_assume_language_too_early(self):
         date_fixtures = [
@@ -267,6 +280,22 @@ class DateDataParserTest(unittest.TestCase):
         date_string_with_tz_info = '2014-10-09T17:57:39+00:00'
         date_data = self.parser.get_date_data(date_string_with_tz_info)
         self.assertTrue(hasattr(date_data['date_obj'], 'tzinfo'))
+
+    def test_should_parse_date_with_timezones_using_format(self):
+        date_string = "2014/11/17 14:56 EDT"
+        date_format = "%Y/%m/%d %H:%M EDT"
+        expected = datetime(2014, 11, 17, 14, 56)
+        date_data = self.parser.get_date_data(date_string, date_formats=[date_format])
+        self.assertEqual('day', date_data['period'])
+        self.assertEqual(expected, date_data['date_obj'])
+
+    @parameterized.expand([
+        param(['ur', 'li']),
+        param(['pk',]),
+    ])
+    def test_should_raise_error_when_unknown_language_given(self, shortnames):
+        with self.assertRaisesRegexp(ValueError, '%r' % ', '.join(shortnames)):
+            date.DateDataParser(languages=shortnames)
 
 
 if __name__ == '__main__':

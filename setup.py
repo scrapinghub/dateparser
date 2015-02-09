@@ -1,5 +1,5 @@
 import re
-from setuptools import setup
+from setuptools import setup, find_packages
 
 (__version__, ) = re.findall("__version__.*\s*=\s*[']([^']+)[']",
                              open('dateparser/__init__.py').read())
@@ -18,14 +18,11 @@ setup(
     author='Scrapinghub',
     author_email='info@scrapinghub.com',
     url='https://github.com/scrapinghub/dateparser',
-    packages=[
-        'dateparser',
-    ],
-    package_dir={'dateparser':
-                 'dateparser'},
+    packages=find_packages(exclude=('tests', 'tests.*')),
     include_package_data=True,
     install_requires=[
         'python-dateutil >= 2.2',
+        'PyYAML'
     ],
     license="BSD",
     zip_safe=False,

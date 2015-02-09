@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
+import calendar
+import collections
 import re
 
 from datetime import datetime, timedelta
+
 from dateutil.relativedelta import relativedelta
 
-from .date_parser import DateParser
-from .freshness_date_parser import freshness_date_parser
-import calendar
+from dateparser.date_parser import date_parser
+from dateparser.freshness_date_parser import freshness_date_parser
+from dateparser.languages import LanguageDataLoader
+from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 
 
 def sanitize_spaces(html_string):
@@ -69,17 +73,18 @@ def get_intersecting_periods(low, high, period='day'):
 
 def sanitize_date(date_string):
     date_string = re.sub(
-        u'\t|\n|\r|\u00bb|\xe0|,\s\u0432|\u0433\.|\u200e|\xb7', ' ', date_string, flags=re.M
+        r'\t|\n|\r|\u00bb|,\s\u0432|\u0433\.|\u200e|\xb7|\u200f|\u064e|\u064f',
+        ' ', date_string, flags=re.M
     )
     date_string = sanitize_spaces(date_string)
-    date_string = re.sub('([AP]M).*', r'\1', date_string, flags=re.DOTALL)
-    date_string = re.sub('^.*?on:\s+(.*)', r'\1', date_string)
+    date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
+    date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
 
     return date_string
 
 
 def get_date_from_timestamp(date_string):
-    if re.search('^\d{10}', date_string):
+    if re.search(r'^\d{10}', date_string):
         return datetime.fromtimestamp(int(date_string[:10]))
 
 
@@ -87,55 +92,151 @@ def get_last_day_of_month(year, month):
     return calendar.monthrange(year, month)[1]
 
 
-def parse_with_formats(date_string, date_formats, final_call=False, alt_parser=None):
-    """ Parse with formats and return depending on `final_call` arg.
-    If final_call is True, return a dictionary with 'period' and 'obj_date'
-    because these data won't be processed by any method outside.
-    If final_call is False, return a 'obj_date' because it will be processed.
+def parse_with_formats(date_string, date_formats):
+    """ Parse with formats and return a dictionary with 'period' and 'obj_date'.
 
     :returns: :class:`datetime.datetime`, dict or None
 
     """
     # Encode to support locale setting in spiders
-    data = {'period': 'day', 'date_obj': None}
-
     if isinstance(date_string, unicode):
         date_string = date_string.encode('utf-8')
+
+    period = 'day'
     for date_format in date_formats:
         try:
-            try:
-                date_obj = datetime.strptime(date_string, date_format)
-
-                # If format does not include the day, use last day of the month
-                # instead of first, because the first is usually out of range.
-                if '%d' not in date_format:
-                    data['period'] = 'month'
-                    date_obj = date_obj.replace(
-                        day=get_last_day_of_month(date_obj.year, date_obj.month))
-
-                if not ('%y' in date_format or '%Y' in date_format):
-                    today = datetime.today()
-                    date_obj = date_obj.replace(year=today.year)
-
-            except ValueError:
-                alt_parser = alt_parser if alt_parser else DateParser()
-                date_obj = alt_parser.parse(date_string, date_format=date_format)
-            if final_call:
-                data['date_obj'] = date_obj
-                return data
-            else:
-                return date_obj
+            date_obj = datetime.strptime(date_string, date_format)
         except ValueError:
             continue
+        else:
+            # If format does not include the day, use last day of the month
+            # instead of first, because the first is usually out of range.
+            if '%d' not in date_format:
+                period = 'month'
+                date_obj = date_obj.replace(
+                    day=get_last_day_of_month(date_obj.year, date_obj.month))
+
+            if not ('%y' in date_format or '%Y' in date_format):
+                today = datetime.today()
+                date_obj = date_obj.replace(year=today.year)
+
+            return {'date_obj': date_obj, 'period': period}
     else:
-        if final_call:
-            return data
+        return {'date_obj': None, 'period': period}
+
+
+class _DateLanguageParser(object):
+    def __init__(self, language, date_string, date_formats):
+        self.language = language
+        self.date_string = date_string
+        self.date_formats = date_formats
+        self._translated_date = None
+        self._translated_date_with_formatting = None
+
+    @classmethod
+    def parse(cls, language, date_string, date_formats=None):
+        instance = cls(language, date_string, date_formats)
+        return instance._parse()
+
+    def _parse(self):
+        for parser in (
+            self._try_timestamp,
+            self._try_freshness_parser,
+            self._try_given_formats,
+            self._try_dateutil_parser,
+            self._try_hardcoded_formats,
+        ):
+            date_obj = parser()
+            if self._is_valid_date_obj(date_obj):
+                return date_obj
+        else:
+            return None
+
+    def _try_timestamp(self):
+        return {
+            'date_obj': get_date_from_timestamp(self.date_string),
+            'period': 'day',
+        }
+
+    def _try_freshness_parser(self):
+        return freshness_date_parser.get_date_data(self._get_translated_date())
+
+    def _try_dateutil_parser(self):
+        try:
+            date_obj = date_parser.parse(self._get_translated_date())
+            return {
+                'date_obj': date_obj,
+                'period': 'day',
+            }
+        except ValueError:
+            return None
+
+    def _try_given_formats(self):
+        if not self.date_formats:
+            return
+
+        return parse_with_formats(self._get_translated_date_with_formatting(), list(self.date_formats))
+
+    def _try_hardcoded_formats(self):
+        hardcoded_date_formats = [
+            '%B %d, %Y, %I:%M:%S %p',
+            '%b %d, %Y at %I:%M %p',
+            '%d %B %Y %H:%M:%S',
+            '%A, %B %d, %Y',
+        ]
+        try:
+            return parse_with_formats(
+                self._get_translated_date_with_formatting(), hardcoded_date_formats)
+        except TypeError:
+            return None
+
+    def _get_translated_date(self):
+        if self._translated_date is None:
+            self._translated_date = self.language.translate(self.date_string, keep_formatting=False)
+        return self._translated_date
+
+    def _get_translated_date_with_formatting(self):
+        if self._translated_date_with_formatting is None:
+            self._translated_date_with_formatting = self.language.translate(
+                self.date_string, keep_formatting=True)
+        return self._translated_date_with_formatting
+
+    def _is_valid_date_obj(self, date_obj):
+        if not isinstance(date_obj, dict):
+            return False
+        if len(date_obj) != 2:
+            return False
+        if 'date_obj' not in date_obj or 'period' not in date_obj:
+            return False
+        if not date_obj['date_obj']:
+            return False
+        if date_obj['period'] not in ('day', 'week', 'month', 'year'):
+            return False
+
+        return True
 
 
 class DateDataParser(object):
 
-    def __init__(self, language=None, allow_redetect_language=False):
-        self.date_parser = DateParser(language, allow_redetect_language)
+    def __init__(self, languages=None, allow_redetect_language=False):
+        if isinstance(languages, (list, tuple, collections.Set)):
+            available_language_map = default_language_loader.get_language_map()
+
+            if all([language in available_language_map for language in languages]):
+                languages = [available_language_map[language] for language in languages]
+            else:
+                unsupported_languages = set(languages) - set(available_language_map.keys())
+                raise ValueError("Unknown language(s) %r" % ', '.join(unsupported_languages))
+        elif languages is not None:
+            raise TypeError("languages argument must be a list (%r given)"  % type(languages))
+
+        if allow_redetect_language:
+            self.language_detector = AutoDetectLanguage(languages=languages if languages else None,
+                                                        allow_redetection=True)
+        elif languages:
+            self.language_detector = ExactLanguages(languages=languages)
+        else:
+            self.language_detector = AutoDetectLanguage(languages=None, allow_redetection=False)
 
     def get_date_data(self, date_string, date_formats=None):
         """ Return a dictionary with a date object and a period.
@@ -153,41 +254,16 @@ class DateDataParser(object):
         TODO: Timezone issues
 
         """
-        data = {'period': 'day', 'date_obj': None}
-        # Detect timestamp date
-        date_obj = get_date_from_timestamp(date_string)
-        if date_obj:
-            data['date_obj'] = date_obj
-            return data
-
         date_string = date_string.strip()
-
-        data_from_freshness = freshness_date_parser.get_date_data(date_string)
-        if data_from_freshness['date_obj']:
-            return data_from_freshness
-
         date_string = sanitize_date(date_string)
 
-        # If known formats are provided, try them first
-        if date_formats is not None:
-            date_obj = parse_with_formats(date_string, list(date_formats),
-                                          alt_parser=self.date_parser)
-            if date_obj:
-                data['date_obj'] = date_obj
-                return data
+        for language in self.language_detector.iterate_applicable_languages(
+                date_string, modify=True):
+            parsed_date = _DateLanguageParser.parse(language, date_string, date_formats)
+            if parsed_date:
+                return parsed_date
+        else:
+            return {'date_obj': None, 'period': 'day'}
 
-        try:
-            # Automatically detect date format
-            data['date_obj'] = self.date_parser.parse(date_string)
-            return data
-        except ValueError:
-            # Try with hardcoded date formats
-            additional_date_formats = [
-                '%B %d, %Y, %I:%M:%S %p',
-                '%b %d, %Y at %I:%M %p',
-                '%d %B %Y %H:%M:%S',
-                '%A, %B %d, %Y',
-            ]
-            return parse_with_formats(date_string, additional_date_formats, final_call=True)
-        except TypeError:
-            return data
+
+default_language_loader = LanguageDataLoader()
