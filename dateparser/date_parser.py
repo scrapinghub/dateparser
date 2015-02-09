@@ -54,7 +54,7 @@ class new_parser(parser.parser):
             raise ValueError("unknown string format")
 
         # Fill in missing date
-        new_date = new_parser._populate(res, default)
+        new_date = self._populate(res, default)
 
         # Clean hour and minutes, etc in case not defined
         for e in ['hour', 'minute', 'second', 'microsecond']:
@@ -63,8 +63,8 @@ class new_parser(parser.parser):
 
         return new_date
 
-    @staticmethod
-    def _populate(res, default):
+    @classmethod
+    def _populate(cls, res, default):
         new_date = default
 
         # Populate all fields
@@ -80,10 +80,10 @@ class new_parser(parser.parser):
             new_date = new_date + new_relativedelta(weekday=res.weekday)
 
         # Correct date and return
-        return new_parser._correct(new_date, [key + 's' for key in repl.keys()], default)
+        return cls._correct(new_date, [key + 's' for key in repl.keys()], default)
 
-    @staticmethod
-    def _correct(date, given_fields, default):
+    @classmethod
+    def _correct(cls, date, given_fields, default):
         if settings.PREFER_DATES_FROM == 'current_period':
             return date
 
@@ -97,8 +97,8 @@ class new_parser(parser.parser):
             delta = relativedelta(**{field: 1})
 
             # Run through corrections
-            corrected_date = new_parser._correct_for_future(date, delta, default)
-            corrected_date = new_parser._correct_for_past(corrected_date, delta, default)
+            corrected_date = cls._correct_for_future(date, delta, default)
+            corrected_date = cls._correct_for_past(corrected_date, delta, default)
 
             # check if changed
             if corrected_date != date:
