@@ -70,6 +70,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('Il ya 1 an, 1 mois, 1 semaine, 1 jour, 1 heure et 1 minute',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
+        param('Il y a 40 min', ago={'minutes': 40}, period='day'),
 
         # German dates
         param('Heute', ago={'days': 0}, period='day'),
