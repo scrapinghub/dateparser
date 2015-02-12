@@ -2,12 +2,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from types import MethodType
+
+import collections
+
 import unittest
 from datetime import datetime, timedelta
 
 from dateutil.relativedelta import relativedelta
 from mock import Mock, patch
+
 from nose_parameterized import parameterized, param
+
+from dateparser.languages import LanguageDataLoader
 
 from dateparser import date
 from tests import BaseTestCase
@@ -346,6 +353,7 @@ class DateDataParserTest(BaseTestCase):
         super(DateDataParserTest, self).setUp()
         self.parser = date.DateDataParser()
         self.date_format = NotImplemented
+        self.date_parser = date.date_parser
 
     def check_equal(self, first, second, date_string):
         self.assertEqual(first, second, "%s != %s for date_string:  '%s'" %
@@ -419,18 +427,23 @@ class DateDataParserTest(BaseTestCase):
         self.then_should_not_assume_language_too_early_is_not_none()
         self.then_should_not_assume_language_too_early_is_equal()
 
-    @parameterized.expand([
-        param(u'13 Ago, 2014', datetime(2014, 8, 13)),
-        param(u'11 Marzo, 2014', datetime(2014, 3, 11)),
-        param(u'13 Septiembre, 2014', datetime(2014, 9, 13)),
-        param(u'13 Setembro, 2014', datetime(2014, 9, 13)),
-        param(u'13 Março, 2014', datetime(2014, 3, 13)),
-    ])
-    def test_should_enable_redetection_for_multiple_languages(self, date_string, correct_date):
+    def test_should_enable_redetection_for_multiple_languages(self):
+        dates_to_parse = {u'13 Ago, 2014': datetime(2014, 8, 13),
+                          u'11 Marzo, 2014': datetime(2014, 3, 11),
+                          u'13 Septiembre, 2014': datetime(2014, 9, 13),
+                          u'13 Setembro, 2014': datetime(2014, 9, 13),
+                          u'13 Março, 2014': datetime(2014, 3, 13)}
+
+        known_languages = collections.OrderedDict({'en': 'English',
+                                                   'fr': 'French',
+                                                   'cz': 'Czech',
+                                                   'ru': 'Russian'})
+
+        self.load_empty_data()
         self.given_different_parser()
-        self.given_date_string(date_string)
-        self.given_correct_date(correct_date)
-        self.when_date_data()
+        self.given_known_languages(known_languages)
+        self.given_multiple_dates(dates_to_parse)
+        self.when_multiple_dates_are_parsed()
         self.then_should_enable_redetection_for_multiple_languages()
 
     def test_should_parse_date_with_timezones_using_format(self):
@@ -448,6 +461,32 @@ class DateDataParserTest(BaseTestCase):
     def test_should_raise_error_when_unknown_language_given(self, shortnames):
         with self.assertRaisesRegexp(ValueError, '%r' % ', '.join(shortnames)):
             date.DateDataParser(languages=shortnames)
+
+    def when_multiple_dates_are_parsed(self):
+        self.results = []
+        for date_string in self.date_strings:
+            try:
+                result = self.parser.get_date_data(date_string)
+            except ValueError as error:
+                result = error
+            finally:
+                self.results.append(result)
+
+    def given_multiple_dates(self, date_to_parse):
+        self.date_strings = date_to_parse.keys()
+        self.dates = list(date_to_parse.values())
+
+    def given_known_languages(self, known_languages):
+        self.language_loader._data = (self.language_loader._data or {}).update(**known_languages)
+
+    def load_empty_data(self):
+        self._data = {}
+
+        language_loader = LanguageDataLoader()
+        self.language_map = date.default_language_loader.get_language_map()
+        self.language_loader = language_loader
+        language_loader._load_data = MethodType(self.load_empty_data, language_loader)
+        self.add_patch(patch('dateparser.date.default_language_loader', new=language_loader))
 
     def given_different_parser(self):
         self.parser = date.DateDataParser(allow_redetect_language=True)
@@ -512,7 +551,8 @@ class DateDataParserTest(BaseTestCase):
                          self.date_data['date_obj'].date(), self.date_string)
 
     def then_should_enable_redetection_for_multiple_languages(self):
-        self.assertEqual(self.correct_date.date(), self.date_data['date_obj'].date())
+        for d1, d2 in map(None, self.results, self.dates):
+            self.assertEqual(d1['date_obj'].date(), d2.date())
 
     def when_should_parse_date_with_timezones_using_format(self):
         self.date_data = self.parser.get_date_data(self.date_string, date_formats=[self.date_format])
