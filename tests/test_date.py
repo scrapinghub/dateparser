@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from types import MethodType
 
-import collections
+from collections import OrderedDict
 
 import unittest
 from datetime import datetime, timedelta
@@ -434,14 +434,8 @@ class DateDataParserTest(BaseTestCase):
                           u'13 Setembro, 2014': datetime(2014, 9, 13),
                           u'13 Março, 2014': datetime(2014, 3, 13)}
 
-        known_languages = collections.OrderedDict({'en': 'English',
-                                                   'fr': 'French',
-                                                   'cz': 'Czech',
-                                                   'ru': 'Russian'})
-
-        self.load_empty_data()
-        self.given_different_parser()
-        self.given_known_languages(known_languages)
+        self.given_languages_parser()
+        self.given_known_languages('en', 'fr', 'cz', 'ru')
         self.given_multiple_dates(dates_to_parse)
         self.when_multiple_dates_are_parsed()
         self.then_should_enable_redetection_for_multiple_languages()
@@ -476,20 +470,26 @@ class DateDataParserTest(BaseTestCase):
         self.date_strings = date_to_parse.keys()
         self.dates = list(date_to_parse.values())
 
-    def given_known_languages(self, known_languages):
-        self.language_loader._data = (self.language_loader._data or {}).update(**known_languages)
+    def given_known_languages(self, *shortnames):
+        self.ordered_languages = OrderedDict()
 
-    def load_empty_data(self):
+        self.known_languages = [self.language_map.get(shortname)
+                                for shortname in shortnames]
+
+        for language in self.known_languages:
+            self.ordered_languages[language.shortname] = language
+
+        self.language_loader._data = self.ordered_languages
+
+    def given_languages_parser(self):
         self._data = {}
+        self.parser = date.DateDataParser(allow_redetect_language=True)
 
         language_loader = LanguageDataLoader()
         self.language_map = date.default_language_loader.get_language_map()
         self.language_loader = language_loader
-        language_loader._load_data = MethodType(self.load_empty_data, language_loader)
+        language_loader._load_data = MethodType(self.given_languages_parser, language_loader)
         self.add_patch(patch('dateparser.date.default_language_loader', new=language_loader))
-
-    def given_different_parser(self):
-        self.parser = date.DateDataParser(allow_redetect_language=True)
 
     def given_date_string(self, date_string):
         self.date_string = date_string
