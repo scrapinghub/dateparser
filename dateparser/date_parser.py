@@ -1,6 +1,7 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
+import calendar
 import re, sys
 from datetime import datetime
 
@@ -10,6 +11,7 @@ from dateutil.relativedelta import relativedelta
 from dateparser.timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
 
 from conf import settings
+
 
 binary_type = bytes if sys.version_info[0] == 3 else str
 
@@ -73,7 +75,11 @@ class new_parser(parser.parser):
             value = getattr(res, field)
             if value is not None:
                 repl[field] = value
-        new_date = new_date.replace(**repl)
+
+        # Fix day and populate date with result
+        repl_copy = repl.copy()
+        repl_copy['day'] = cls.get_valid_day(repl, new_date)
+        new_date = new_date.replace(**repl_copy)
 
         # Fix weekday
         if res.weekday and not res.day:
@@ -81,6 +87,25 @@ class new_parser(parser.parser):
 
         # Correct date and return
         return cls._correct(new_date, [key + 's' for key in repl.keys()], default)
+
+    @staticmethod
+    def get_valid_day(res, new_date):
+        _, tail = calendar.monthrange(res.get('year', new_date.year),
+                                      res.get('month', new_date.month))
+
+        if 'day' in res:
+            if res['day'] > tail:
+                raise ValueError('Day not in range for month',)
+            else:
+                return res['day']
+
+        options = {
+            'first': 1,
+            'last': tail,
+            'current': new_date.day if new_date.day <= tail else tail
+        }
+
+        return options[settings.PREFER_DAY_OF_MONTH]
 
     @classmethod
     def _correct(cls, date, given_fields, default):

@@ -276,6 +276,56 @@ class TestDateParser(BaseTestCase):
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
+    @parameterized.expand([
+        param('February 2015', datetime(2015, 1, 31), datetime(2015, 2, 28)),
+        param('February 2012', datetime(2015, 1, 31), datetime(2012, 2, 29)),
+        param('March 2015', datetime(2015, 1, 25), datetime(2015, 3, 25)),
+        param('April 2015', datetime(2015, 1, 31), datetime(2015, 4, 30)),
+        param('April 2015', datetime(2015, 2, 28), datetime(2015, 4, 28)),
+        param('December 2014', datetime(2015, 2, 15), datetime(2014, 12, 15)),
+    ])
+    def test_dates_with_day_missing_having_default_preference(self, date_string, utcnow, expected):
+        self.given_utcnow(utcnow)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('February 2015', datetime(2015, 1, 1), datetime(2015, 2, 28)),
+        param('February 2012', datetime(2015, 1, 1), datetime(2012, 2, 29)),
+        param('March 2015', datetime(2015, 1, 25), datetime(2015, 3, 31)),
+        param('April 2015', datetime(2015, 1, 15), datetime(2015, 4, 30)),
+        param('April 2015', datetime(2015, 2, 28), datetime(2015, 4, 30)),
+        param('December 2014', datetime(2015, 2, 15), datetime(2014, 12, 31)),
+    ])
+    def test_dates_with_day_missing_prefering_last_day_of_month(self, date_string, utcnow, expected):
+        self.given_configuration('PREFER_DAY_OF_MONTH', 'last')
+        self.given_utcnow(utcnow)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('February 2015', datetime(2015, 1, 8), datetime(2015, 2, 1)),
+        param('February 2012', datetime(2015, 1, 7), datetime(2012, 2, 1)),
+        param('March 2015', datetime(2015, 1, 25), datetime(2015, 3, 1)),
+        param('April 2015', datetime(2015, 1, 15), datetime(2015, 4, 1)),
+        param('April 2015', datetime(2015, 2, 28), datetime(2015, 4, 1)),
+        param('December 2014', datetime(2015, 2, 15), datetime(2014, 12, 1)),
+    ])
+    def test_dates_with_day_missing_prefering_first_day_of_month(self, date_string, utcnow, expected):
+        self.given_configuration('PREFER_DAY_OF_MONTH', 'first')
+        self.given_utcnow(utcnow)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
     def given_utcnow(self, now):
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.utcnow = Mock(return_value=now)
