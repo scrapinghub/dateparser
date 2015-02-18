@@ -284,6 +284,12 @@ class DateDataParserTest(unittest.TestCase):
         self.assertEqual('day', date_data['period'])
         self.assertEqual(expected, date_data['date_obj'])
 
+    def test_should_parse_with_no_break_space_in_dates(self):
+        date_string = "08-08-2014 18:29"
+        expected = datetime(2014, 8, 8, 18, 29)
+        date_data = self.parser.get_date_data(date_string)
+        self.assertEqual(expected, date_data['date_obj'])
+
     @parameterized.expand([
         param(['ur', 'li']),
         param(['pk',]),
