@@ -276,6 +276,82 @@ class TestDateParser(BaseTestCase):
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
+    @parameterized.expand([
+        param('February 2015', today=datetime(2015, 1, 31), expected=datetime(2015, 2, 28)),
+        param('February 2012', today=datetime(2015, 1, 31), expected=datetime(2012, 2, 29)),
+        param('March 2015', today=datetime(2015, 1, 25), expected=datetime(2015, 3, 25)),
+        param('April 2015', today=datetime(2015, 1, 31), expected=datetime(2015, 4, 30)),
+        param('April 2015', today=datetime(2015, 2, 28), expected=datetime(2015, 4, 28)),
+        param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 15)),
+    ])
+    def test_dates_with_day_missing_prefering_current_day_of_month(self, date_string, today=None, expected=None):
+        self.given_configuration('PREFER_DAY_OF_MONTH', 'current')
+        self.given_utcnow(today)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('February 2015', today=datetime(2015, 1, 1), expected=datetime(2015, 2, 28)),
+        param('February 2012', today=datetime(2015, 1, 1), expected=datetime(2012, 2, 29)),
+        param('March 2015', today=datetime(2015, 1, 25), expected=datetime(2015, 3, 31)),
+        param('April 2015', today=datetime(2015, 1, 15), expected=datetime(2015, 4, 30)),
+        param('April 2015', today=datetime(2015, 2, 28), expected=datetime(2015, 4, 30)),
+        param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 31)),
+    ])
+    def test_dates_with_day_missing_prefering_last_day_of_month(self, date_string, today=None, expected=None):
+        self.given_configuration('PREFER_DAY_OF_MONTH', 'last')
+        self.given_utcnow(today)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('February 2015', today=datetime(2015, 1, 8), expected=datetime(2015, 2, 1)),
+        param('February 2012', today=datetime(2015, 1, 7), expected=datetime(2012, 2, 1)),
+        param('March 2015', today=datetime(2015, 1, 25), expected=datetime(2015, 3, 1)),
+        param('April 2015', today=datetime(2015, 1, 15), expected=datetime(2015, 4, 1)),
+        param('April 2015', today=datetime(2015, 2, 28), expected=datetime(2015, 4, 1)),
+        param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 1)),
+    ])
+    def test_dates_with_day_missing_prefering_first_day_of_month(self, date_string, today=None, expected=None):
+        self.given_configuration('PREFER_DAY_OF_MONTH', 'first')
+        self.given_utcnow(today)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param(prefer_day_of_month='current'),
+        param(prefer_day_of_month='last'),
+        param(prefer_day_of_month='first'),
+    ])
+    def test_that_day_preference_does_not_affect_dates_with_explicit_day(self, prefer_day_of_month=None):
+        self.given_configuration('PREFER_DAY_OF_MONTH', prefer_day_of_month)
+        self.given_utcnow(datetime(2015, 2, 12))
+        self.given_parser()
+        self.given_date_string('24 April 2012')
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(datetime(2012, 4, 24))
+
+    @parameterized.expand([
+        param('29 February 2015'),
+        param('32 January 2015'),
+        param('31 April 2015'),
+        param('31 June 2015'),
+        param('31 September 2015'),
+    ])
+    def test_error_should_be_raised_for_invalid_dates_with_too_large_day_number(self, date_string):
+        with self.assertRaisesRegexp(ValueError, 'Day not in range for month'):
+            DateParser().parse(date_string)
+
     def given_utcnow(self, now):
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.utcnow = Mock(return_value=now)
