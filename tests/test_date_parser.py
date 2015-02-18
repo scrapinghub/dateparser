@@ -332,7 +332,7 @@ class TestDateParser(BaseTestCase):
         param(prefer_day_of_month='last'),
         param(prefer_day_of_month='first'),
     ])
-    def test_that_day_preference_does_note_affect_dates_with_explicit_day(self, prefer_day_of_month=None):
+    def test_that_day_preference_does_not_affect_dates_with_explicit_day(self, prefer_day_of_month=None):
         self.given_configuration('PREFER_DAY_OF_MONTH', prefer_day_of_month)
         self.given_utcnow(datetime(2015, 2, 12))
         self.given_parser()
