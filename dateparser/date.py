@@ -14,7 +14,7 @@ from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 
 
 def sanitize_spaces(html_string):
-    html_string = re.sub(u'\xc2\xa0', ' ', html_string)
+    html_string = re.sub(u'\xa0', ' ', html_string, flags=re.UNICODE)
     html_string = re.sub(r'\s+', ' ', html_string)
     html_string = re.sub(r'^\s+(\S.*?)\s+$', r'\1', html_string)
     return html_string
