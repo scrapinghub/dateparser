@@ -328,17 +328,19 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
-        param('14 February 2015', prefer_day_of_month='current', expected=datetime(2015, 2, 14)),
-        param('1 January 2015', prefer_day_of_month='last', expected=datetime(2015, 1, 1)),
-        param('30 April 2015', prefer_day_of_month='first', expected=datetime(2015, 4, 30)),
+        param(prefer_day_of_month='current', day=12),  # day is used from the fixed now date inside the test. (2015-02-12)
+        param(prefer_day_of_month='last', day=30),  # day is used from the fixed given date inside the test. (2012-04-24)
+        param(prefer_day_of_month='first', day=1),
     ])
-    def test_only_dates_with_day_missing_should_be_substituted(self, date_string, prefer_day_of_month=None, expected=None):
+    def test_should_substitute_only_dates_with_day_missing(self, prefer_day_of_month=None, day=None):
         self.given_configuration('PREFER_DAY_OF_MONTH', prefer_day_of_month)
+        self.given_utcnow(datetime(2015, 2, 12))
         self.given_parser()
-        self.given_date_string(date_string)
+        self.given_date_string('24 April 2012')
         self.when_date_is_parsed()
         self.then_date_was_parsed_by_date_parser()
-        self.then_date_obj_exactly_is(expected)
+        self.then_date_obj_exactly_is(datetime(2012, 4, 24))
+        self.then_day_is_not(day)
 
     @parameterized.expand([
         param('29 February 2015'),
@@ -392,6 +394,9 @@ class TestDateParser(BaseTestCase):
 
     def then_date_obj_exactly_is(self, expected):
         self.assertEqual(expected, self.result['date_obj'])
+
+    def then_day_is_not(self, day):
+        self.assertNotEqual(day, self.result['date_obj'].day)
 
     def then_date_was_not_parsed(self):
         self.assertIsNone(self.result['date_obj'], '"%s" should not be parsed' % self.date_string)
