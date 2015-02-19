@@ -3,6 +3,7 @@ import calendar
 import collections
 import re
 from datetime import datetime, timedelta
+from types import NoneType
 from warnings import warn
 
 from dateutil.relativedelta import relativedelta
@@ -132,7 +133,7 @@ class _DateLanguageParser(object):
         if isinstance(date_formats, basestring):
             warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
             date_formats = [date_formats]
-        elif not isinstance(date_formats, (list, tuple, collections.Set)):
+        elif not isinstance(date_formats, (list, tuple, collections.Set, NoneType)):
             raise TypeError(self.DATE_FORMATS_ERROR_MESSAGE)
 
         self.language = language
