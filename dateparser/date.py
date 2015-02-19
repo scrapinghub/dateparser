@@ -165,7 +165,7 @@ class _DateLanguageParser(object):
         try:
             date_obj = date_parser.parse(self._get_translated_date())
             return {
-                'date_obj': date_obj.replace(tzinfo=None),
+                'date_obj': date_obj,
                 'period': 'day',
             }
         except ValueError:
@@ -175,7 +175,11 @@ class _DateLanguageParser(object):
         if not self.date_formats:
             return
 
-        return parse_with_formats(self._get_translated_date_with_formatting(), self.date_formats)
+        date_formats = self.date_formats
+        if not isinstance(self.date_formats, (list, tuple, collections.Set)):
+            date_formats = [self.date_formats]
+
+        return parse_with_formats(self._get_translated_date_with_formatting(), date_formats)
 
     def _try_hardcoded_formats(self):
         hardcoded_date_formats = [
