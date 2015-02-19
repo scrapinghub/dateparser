@@ -21,7 +21,7 @@ setup(
     packages=find_packages(exclude=('tests', 'tests.*')),
     include_package_data=True,
     install_requires=[
-        'python-dateutil >= 2.2',
+        'python-dateutil >= 2.3',
         'PyYAML'
     ],
     license="BSD",
