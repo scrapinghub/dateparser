@@ -2,8 +2,8 @@
 import calendar
 import collections
 import re
-
 from datetime import datetime, timedelta
+from warnings import warn
 
 from dateutil.relativedelta import relativedelta
 
@@ -126,7 +126,15 @@ def parse_with_formats(date_string, date_formats):
 
 
 class _DateLanguageParser(object):
+    DATE_FORMATS_ERROR_MESSAGE = "Date formats should be list, tuple or set of strings"
+
     def __init__(self, language, date_string, date_formats):
+        if isinstance(date_formats, basestring):
+            warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
+            date_formats = [date_formats]
+        elif not isinstance(date_formats, (list, tuple, collections.Set)):
+            raise TypeError(self.DATE_FORMATS_ERROR_MESSAGE)
+
         self.language = language
         self.date_string = date_string
         self.date_formats = date_formats
@@ -175,11 +183,7 @@ class _DateLanguageParser(object):
         if not self.date_formats:
             return
 
-        date_formats = self.date_formats
-        if not isinstance(self.date_formats, (list, tuple, collections.Set)):
-            date_formats = [self.date_formats]
-
-        return parse_with_formats(self._get_translated_date_with_formatting(), date_formats)
+        return parse_with_formats(self._get_translated_date_with_formatting(), self.date_formats)
 
     def _try_hardcoded_formats(self):
         hardcoded_date_formats = [
