@@ -235,7 +235,6 @@ class TestDateParser(BaseTestCase):
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_date_was_parsed_by_date_parser()
-        self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
@@ -254,7 +253,6 @@ class TestDateParser(BaseTestCase):
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_date_was_parsed_by_date_parser()
-        self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
@@ -273,7 +271,6 @@ class TestDateParser(BaseTestCase):
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_date_was_parsed_by_date_parser()
-        self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
@@ -370,8 +367,8 @@ class TestDateParser(BaseTestCase):
     def given_parser(self):
         def collecting_get_date_data(parse):
             @wraps(parse)
-            def wrapped(date_string):
-                self.date_result = parse(date_string)
+            def wrapped(date_string, return_period=False):
+                self.date_result = parse(date_string, return_period=return_period)
                 return self.date_result
             return wrapped
         self.add_patch(patch.object(date_parser,
@@ -398,7 +395,7 @@ class TestDateParser(BaseTestCase):
         self.assertIsNone(self.result['date_obj'], '"%s" should not be parsed' % self.date_string)
 
     def then_date_was_parsed_by_date_parser(self):
-        self.assertEqual(self.result['date_obj'], self.date_result)
+        self.assertEqual(self.result['date_obj'], self.date_result[0])
 
 
 @unittest.skip('There are mostly old language detection tests left. New tests should be written.')
