@@ -351,6 +351,36 @@ class TestDateParser(BaseTestCase):
         with self.assertRaisesRegexp(ValueError, 'Day not in range for month'):
             DateParser().parse(date_string)
 
+    @parameterized.expand([
+        param('10 December', expected=datetime(2015, 12, 10), period='day'),
+        param('March', expected=datetime(2015, 3, 15), period='month'),
+        param('April', expected=datetime(2015, 4, 15), period='month'),
+        param('December', expected=datetime(2015, 12, 15), period='month'),
+        param('Friday', expected=datetime(2015, 2, 13), period='day'),
+        param('Monday', expected=datetime(2015, 2, 9), period='day'),
+        param('10:00PM', expected=datetime(2015, 2, 15, 22, 00), period='day'),
+        param('16:10', expected=datetime(2015, 2, 15, 16, 10), period='day'),
+        param('2014', expected=datetime(2014, 2, 15), period='year'),
+        param('2008', expected=datetime(2008, 2, 15), period='year'),
+    ])
+    def test_extracted_period(self, date_string, expected=None, period=None):
+        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+        self.then_period_is(period)
+
+    def test_only_date_should_be_return_when_return_period_is_false(self):
+        date = DateParser().parse('21 February 2014', return_period=False)
+        self.assertEqual(date, datetime(2014, 2, 21))
+
+    def test_date_period_tuple_should_be_return_when_return_period_is_true(self):
+        date_period = DateParser().parse('21 February 2014', return_period=True)
+        self.assertEqual(date_period, (datetime(2014, 2, 21), 'day'))
+
     def given_utcnow(self, now):
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.utcnow = Mock(return_value=now)
