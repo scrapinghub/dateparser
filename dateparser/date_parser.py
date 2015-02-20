@@ -72,7 +72,7 @@ class new_parser(parser.parser):
             (period if period not in periods[2:] else periods[2],
              getattr(res, period, None)) for period in periods
         ]
-        res_periods_tuples = filter(lambda x: x if x[1] else False, res_periods_tuples)
+        res_periods_tuples = filter(lambda x: x if x[1] is not None else False, res_periods_tuples)
         try:
             return res_periods_tuples[-1][0]
         except:
@@ -95,7 +95,7 @@ class new_parser(parser.parser):
         new_date = new_date.replace(**repl_copy)
 
         # Fix weekday
-        if res.weekday and not res.day:
+        if res.weekday is not None and not res.day:
             new_date = new_date + new_relativedelta(weekday=res.weekday)
 
         # Correct date and return
