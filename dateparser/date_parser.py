@@ -63,10 +63,7 @@ class new_parser(parser.parser):
             if not getattr(res, e):
                 new_date = new_date.replace(**{e: 0})
 
-        if return_period:
-            return new_date, self.get_period(res)
-        else:
-            return new_date
+        return new_date, self.get_period(res) if return_period else new_date
 
     @staticmethod
     def get_period(res):
@@ -203,10 +200,7 @@ class DateParser(object):
         if tz_offset is not None:
             date_obj = convert_to_local_tz(date_obj, tz_offset)
 
-        if return_period:
-            return date_obj, period
-        else:
-            return date_obj
+        return date_obj, period if return_period else date_obj
 
 
 date_parser = DateParser()
