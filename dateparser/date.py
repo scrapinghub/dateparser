@@ -3,6 +3,7 @@ import calendar
 import collections
 import re
 from datetime import datetime, timedelta
+from functools import wraps
 from types import NoneType
 from warnings import warn
 
@@ -126,8 +127,26 @@ def parse_with_formats(date_string, date_formats):
         return {'date_obj': None, 'period': period}
 
 
+def same_for_all_languages(method):
+    @wraps(method)
+    def wrapped(self):
+        control_attribute = '__{}_executed'.format(method.func_name)
+        if getattr(self, control_attribute, False):
+            return
+        result = method(self)
+        setattr(self, control_attribute, True)
+        return result
+    return wrapped
+
+
 class _DateLanguageParser(object):
     DATE_FORMATS_ERROR_MESSAGE = "Date formats should be list, tuple or set of strings"
+    HARDCODED_DATE_FORMATS = [
+        '%B %d, %Y, %I:%M:%S %p',
+        '%b %d, %Y at %I:%M %p',
+        '%d %B %Y %H:%M:%S',
+        '%A, %B %d, %Y',
+    ]
 
     def __init__(self, language, date_string, date_formats):
         if isinstance(date_formats, basestring):
@@ -151,8 +170,10 @@ class _DateLanguageParser(object):
         for parser in (
             self._try_timestamp,
             self._try_freshness_parser,
+            self._try_untranslated_with_given_formats,
             self._try_given_formats,
             self._try_dateutil_parser,
+            self._try_untranslated_with_hardcoded_formats,
             self._try_hardcoded_formats,
         ):
             date_obj = parser()
@@ -161,6 +182,7 @@ class _DateLanguageParser(object):
         else:
             return None
 
+    @same_for_all_languages
     def _try_timestamp(self):
         return {
             'date_obj': get_date_from_timestamp(self.date_string),
@@ -186,18 +208,21 @@ class _DateLanguageParser(object):
 
         return parse_with_formats(self._get_translated_date_with_formatting(), self.date_formats)
 
+    @same_for_all_languages
+    def _try_untranslated_with_given_formats(self):
+        # TODO: When tests are unified we should add test to parse '02/12/2014 at 15:08' string
+        # with ['%d/%m/%Y at %H:%M'] formats
+        if not self.date_formats:
+            return
+
+        return parse_with_formats(self.date_string, self.date_formats)
+
     def _try_hardcoded_formats(self):
-        hardcoded_date_formats = [
-            '%B %d, %Y, %I:%M:%S %p',
-            '%b %d, %Y at %I:%M %p',
-            '%d %B %Y %H:%M:%S',
-            '%A, %B %d, %Y',
-        ]
-        try:
-            return parse_with_formats(
-                self._get_translated_date_with_formatting(), hardcoded_date_formats)
-        except TypeError:
-            return None
+        return parse_with_formats(self._get_translated_date_with_formatting(), self.HARDCODED_DATE_FORMATS)
+
+    @same_for_all_languages
+    def _try_untranslated_with_hardcoded_formats(self):
+        return parse_with_formats(self.date_string, self.HARDCODED_DATE_FORMATS)
 
     def _get_translated_date(self):
         if self._translated_date is None:
@@ -268,6 +293,7 @@ class DateDataParser(object):
 
         for language in self.language_detector.iterate_applicable_languages(
                 date_string, modify=True):
+            print 'language', language.shortname
             parsed_date = _DateLanguageParser.parse(language, date_string, date_formats)
             if parsed_date:
                 return parsed_date
