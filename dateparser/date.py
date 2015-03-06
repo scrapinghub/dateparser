@@ -21,13 +21,13 @@ def sanitize_spaces(html_string):
 
 
 def date_range(begin, end, **kwargs):
-    step = relativedelta(**kwargs) if kwargs else relativedelta(days=1)
-
     dateutil_error_prone_args = ['year', 'month', 'week', 'day', 'hour',
                                  'minute', 'second']
     for arg in dateutil_error_prone_args:
         if arg in kwargs:
             raise ValueError("Invalid argument: %s" % arg)
+
+    step = relativedelta(**kwargs) if kwargs else relativedelta(days=1)
 
     date = begin
     while date < end:
