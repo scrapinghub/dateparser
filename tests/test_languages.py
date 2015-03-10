@@ -53,6 +53,8 @@ class TestBundledLanguages(BaseTestCase):
         # Polish
         param('pl', "4 stycznia o 13:50", "4 january  13:50"),
         param('pl', "29 listopada 2014 o 08:40", "29 november 2014  08:40"),
+        # Ukrainian
+        param('uk', "30 листопада 2013 о 04:27", "30 november 2013  04:27"),
         # Arabic
         param('ar', "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
         param('ar', "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
