@@ -88,6 +88,7 @@ class TestBundledLanguages(BaseTestCase):
         # Spanish
         param('es', "anteayer", "2 day"),
         param('es', "ayer", "1 day"),
+        param('es', "ayer a las", "1 day "),
         param('es', "hoy", "0 day"),
         param('es', "hace un horas", "ago 1 hour"),
         param('es', "2 semanas", "2 week"),
