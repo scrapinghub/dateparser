@@ -3,12 +3,13 @@
 from __future__ import unicode_literals
 
 from types import MethodType
-from itertools import *
+from itertools import izip
 from collections import OrderedDict
 import unittest
 from datetime import datetime, timedelta
 
 from dateutil.relativedelta import relativedelta
+
 from mock import Mock, patch
 
 from nose_parameterized import parameterized, param
@@ -124,7 +125,7 @@ class GetIntersectingPeriodsTest(BaseTestCase):
         self.given_period_high(high)
         self.given_dates(list(date.get_intersecting_periods(datetime(2014, 6, 15),
                                                             datetime(2014, 6, 16))))
-        self.when_date_intersecting_generated()
+        self.when_date_parsed()
         self.then_date_period_and_intersected_dates_should_equal()
         self.then_date_range_length_should_one()
 
@@ -194,20 +195,20 @@ class GetIntersectingPeriodsTest(BaseTestCase):
         self.when_should_one_date_for_each_month()
         self.then_should_one_date_for_each_month()
 
-    @parameterized.expand([
-        'years',
-        'months',
-        'days',
-        'hours',
-        'minutes',
-        'seconds',
-        'microseconds',
-        'some_period',
-    ])
-    def test_should_reject_easily_mistaken_dateutil_arguments(self, invalid_period):
+    def test_should_reject_easily_mistaken_dateutil_arguments(self):
+        periods = [
+            'years',
+            'months',
+            'days',
+            'hours',
+            'minutes',
+            'seconds',
+            'microseconds',
+            'some_period',
+        ]
         self.given_period_low(datetime(2014, 6, 15))
         self.given_period(datetime(2014, 6, 25))
-        self.given_invalid_period(invalid_period)
+        self.when_multiple_periods_are_parsed(periods)
         self.then_should_reject_easily_mistaken_dateutil_arguments()
 
     @parameterized.expand([
@@ -230,16 +231,13 @@ class GetIntersectingPeriodsTest(BaseTestCase):
     def given_period_low(self, low):
         self.period_low = low
 
-    def given_invalid_period(self, invalid_period):
-        self.invalid_period = invalid_period
-
     def given_period_high(self, high):
         self.period_high = high
 
     def given_period(self, period):
         self.period = period
 
-    def when_date_intersecting_generated(self):
+    def when_date_parsed(self):
         self.intersected_dates = self.dates
 
     def when_should_one_date_for_each_month(self):
@@ -262,9 +260,19 @@ class GetIntersectingPeriodsTest(BaseTestCase):
     def then_period_is_empty(self):
         self.assertEquals([], self.intersected_dates)
 
+    def when_multiple_periods_are_parsed(self, periods):
+        self.results = []
+        for period in periods:
+            try:
+                result = date.get_intersecting_periods(self.period_low, self.period, period=period).next()
+            except ValueError as error:
+                result = error
+            finally:
+                self.results.append(result)
+
     def then_should_reject_easily_mistaken_dateutil_arguments(self):
-        with self.assertRaisesRegexp(ValueError, "Invalid period: {}".format(self.invalid_period)):
-            date.get_intersecting_periods(self.period_low, self.period, period=self.invalid_period).next()
+        for p in self.results:
+            self.assertRaisesRegexp(ValueError, str(p))
 
 
 class ParseDateWithFormats(BaseTestCase):
@@ -278,36 +286,31 @@ class ParseDateWithFormats(BaseTestCase):
         self.then_shouldnt_parse_invalid_date()
 
     def test_should_parse_date(self):
-        self.given_date_str('25-03-14')
-        self.given_date_format('%d-%m-%y')
-        self.given_date(datetime(2014, 3, 25))
-        self.when_should_parse_date()
-        self.then_should_parse_date()
+        self.given_a_date(datetime(2014, 3, 25))
+        self.when_date_is_parsed_with_format('25-03-14', '%d-%m-%y')
+        self.then_parsed_date_is()
 
     def test_should_use_current_year_for_dates_without_year(self):
         self.given_current_year()
-        self.when_should_use_current_year_for_dates_without_year()
+        self.given_day(16)
+        self.given_month(9)
+        self.when_date_is_parsed_with_format('09.16', "%m.%d")
         self.then_should_use_current_year_for_dates_without_year()
 
-    @parameterized.expand([
-        param(given_date=datetime(2014, 8, 31),
-              mock_date=datetime(2014, 8, 12),
-              date_str='August 2014',
-              date_format='%B %Y'),
-        param(given_date=datetime(2014, 2, 28),
-              mock_date=datetime(2014, 2, 12),
-              date_str='February 2014',
-              date_format='%B %Y'),
-    ])
-    def test_should_use_current_date_for_dates_without_day(self, given_date, mock_date,
-                                                           date_str, date_format):
-        self.given_date(given_date)
-        self.given_datetime_mock(mock_date)
-        self.given_patch()
-        self.when_patch_parsed(date_str, date_format)
+    def test_should_use_date_for_dates_without_day(self):
+        self.given_a_date(datetime(2014, 8, 31))
+        self.given_now(datetime(2014, 8, 12))
+        self.given_utc_date()
+        self.when_date_is_parsed_with_format('August 2014', '%B %Y')
         self.then_dates_is_not_none()
         self.then_period_equal()
         self.then_dates_are_equal()
+
+    def given_day(self, day):
+        self.day = day
+
+    def given_month(self, month):
+        self.month = month
 
     def given_invalid_date(self, date_str):
         self.invalid_date = date_str
@@ -315,40 +318,28 @@ class ParseDateWithFormats(BaseTestCase):
     def given_current_year(self):
         self.year = datetime.today().year
 
-    def given_date_format(self, date_format):
-        self.format = date_format
-
-    def given_date(self, date_obj):
+    def given_a_date(self, date_obj):
         self.date_obj = date_obj.date()
 
-    def given_date_str(self, date_str):
-        self.date_str = date_str
-
-    def given_datetime_mock(self, given_date):
+    def given_now(self, given_date):
         self.datetime_mock = Mock(wraps=datetime)
         self.datetime_mock.utcnow = Mock(return_value=given_date)
 
-    def given_patch(self):
+    def given_utc_date(self):
         self.add_patch(patch('dateparser.date_parser.datetime', new=self.datetime_mock))
-
-    def when_should_use_current_year_for_dates_without_year(self):
-        self.result = date.parse_with_formats('09.16', ["%m.%d"])
 
     def when_parse_invalid_date(self):
         self.parsed_invalid_date = date.parse_with_formats(self.invalid_date,
                                                            ['%Y-%m-%d'])['date_obj']
 
-    def when_should_parse_date(self):
-        self.result = date.parse_with_formats(self.date_str, [self.format])
-
-    def when_patch_parsed(self, some_date, some_format):
+    def when_date_is_parsed_with_format(self, some_date, some_format):
         self.dt_data = date.parse_with_formats(some_date, [some_format])
 
     def then_should_use_current_year_for_dates_without_year(self):
-        self.assertEquals(datetime(self.year, 9, 16).date(), self.result['date_obj'].date())
+        self.assertEquals(datetime(self.year, self.month, self.day).date(), self.dt_data['date_obj'].date())
 
-    def then_should_parse_date(self):
-        self.assertEquals(self.date_obj, self.result['date_obj'].date())
+    def then_parsed_date_is(self):
+        self.assertEquals(self.date_obj, self.dt_data['date_obj'].date())
 
     def then_shouldnt_parse_invalid_date(self):
         self.assertIsNone(self.parsed_invalid_date)
@@ -377,7 +368,7 @@ class DateDataParserTest(BaseTestCase):
         self.given_date_string('10:04am EDT')
         self.given_today()
         self.when_date_data_is_parsed()
-        self.then_check_time()
+        self.then_check_date()
         self.then_time_in_today()
 
     @parameterized.expand([
@@ -392,7 +383,7 @@ class DateDataParserTest(BaseTestCase):
         self.given_today()
         self.given_date_string(date_string)
         self.when_date_data_is_parsed()
-        self.then_today_was_parsed()
+        self.then_check_date()
         self.then_date_was_parsed()
 
     @parameterized.expand([
@@ -534,14 +525,11 @@ class DateDataParserTest(BaseTestCase):
     def when_should_parse_date_with_timezones_using_format(self):
         self.date_data = self.parser.get_date_data(self.date_string, date_formats=[self.date_format])
 
-    def then_check_time(self):
+    def then_check_date(self):
         self.assertIsNotNone(self.date_data['date_obj'])
 
     def then_time_in_today(self):
         self.assertEqual(self.today.date(), self.date_data['date_obj'].date())
-
-    def then_today_was_parsed(self):
-        self.assertIsNotNone(self.date_data['date_obj'])
 
     def then_date_was_parsed(self):
         self.assertEqual(self.today.date(), self.date_data['date_obj'].date())
