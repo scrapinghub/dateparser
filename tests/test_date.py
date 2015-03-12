@@ -69,8 +69,9 @@ class DateRangeTest(BaseTestCase):
     def test_should_reject_easily_mistaken_dateutil_arguments(self, invalid_period):
         self.given_period_start(datetime(2014, 6, 15))
         self.given_period_end(datetime(2014, 6, 25))
-        self.given_invalid_period(invalid_period)
-        self.then_should_reject_easily_mistaken_dateutil_arguments()
+        self.given_period_size(**{invalid_period: 1})
+        self.when_period_is_parsed()
+        self.then_period_was_rejected(invalid_period)
 
     def given_period_start(self, begin):
         self.period_start = begin
@@ -81,14 +82,19 @@ class DateRangeTest(BaseTestCase):
     def given_period_size(self, **params):
         self.period_size = params
 
-    def given_invalid_period(self, invalid_period):
-        self.invalid_period = invalid_period
-
     def when_month_range_generated(self):
         self.generated_months = list(date.date_range(self.period_start, self.period_end, **self.period_size))
 
     def when_date_range_generated(self):
         self.range = list(date.date_range(self.period_start, self.period_end))
+
+    def when_period_is_parsed(self):
+        try:
+            self.result = date.date_range(self.period_start, self.period_end, **self.period_size).next()
+        except Exception as error:
+            self.result = error
+        finally:
+            self.results = self.result
 
     def then_expected_months_are(self, expected):
         self.assertEqual(expected,
@@ -107,9 +113,9 @@ class DateRangeTest(BaseTestCase):
         for i in xrange(len(self.range) - 1):
             self.assertLess(self.range[i], self.range[i + 1])
 
-    def then_should_reject_easily_mistaken_dateutil_arguments(self):
-        with self.assertRaisesRegexp(ValueError, "Invalid argument"):
-            date.date_range(self.period_start, self.period_end, **{self.invalid_period: 1}).next()
+    def then_period_was_rejected(self, period):
+        self.assertIsInstance(self.result, ValueError)
+        self.assertEqual('Invalid argument: {}'.format(period), self.result.message)
 
 
 class GetIntersectingPeriodsTest(BaseTestCase):
@@ -411,7 +417,7 @@ class DateDataParserTest(BaseTestCase):
         self.given_today()
         self.given_day_before_yesterday()
         self.when_date_data_is_parsed()
-        self.then_check_day_before_yesterday()
+        self.then_check_date()
         self.then_day_before_yesterday_was_parsed()
 
     def test_should_not_assume_language_too_early(self):
@@ -541,9 +547,6 @@ class DateDataParserTest(BaseTestCase):
     def then_yesterday_is_parsed(self):
         self.check_equal(self.yesterday.date(),
                          self.date_data['date_obj'].date(), self.date_string)
-
-    def then_check_day_before_yesterday(self):
-        self.assertIsNotNone(self.date_data['date_obj'])
 
     def then_day_before_yesterday_was_parsed(self):
         self.check_equal(self.day_before_yesterday.date(),
