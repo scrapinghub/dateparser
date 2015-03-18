@@ -53,6 +53,8 @@ class TestBundledLanguages(BaseTestCase):
         # Polish
         param('pl', "4 stycznia o 13:50", "4 january  13:50"),
         param('pl', "29 listopada 2014 o 08:40", "29 november 2014  08:40"),
+        # Ukrainian
+        param('uk', "30 листопада 2013 о 04:27", "30 november 2013  04:27"),
         # Arabic
         param('ar', "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
         param('ar', "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
@@ -64,6 +66,7 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
         param('en', "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
         param('en', "28 Oct 2014 16:39:01 +0000", "28 october 2014 16:39:01 +0000"),
+        param('es', "13 Febrero 2015 a las 23:00", "13 february 2015  23:00")
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -88,6 +91,7 @@ class TestBundledLanguages(BaseTestCase):
         # Spanish
         param('es', "anteayer", "2 day"),
         param('es', "ayer", "1 day"),
+        param('es', "ayer a las", "1 day "),
         param('es', "hoy", "0 day"),
         param('es', "hace un horas", "ago 1 hour"),
         param('es', "2 semanas", "2 week"),
