@@ -170,15 +170,15 @@ def dateutil_parse(date_string, **kwargs):
 
 
 class DateParser(object):
-    def parse(self, date_string):
+    def parse(self, date_string, dayfirst=False):
         date_string = unicode(date_string)
 
         if not date_string.strip():
             raise ValueError("Empty string")
 
-        date_string, tz_offset = pop_tz_offset_from_string(date_string)
+        date_string, tz_offset = pop_tz_offset_from_string(date_string)        
 
-        date_obj = dateutil_parse(date_string)
+        date_obj = dateutil_parse(date_string, dayfirst=dayfirst)
         if tz_offset is not None:
             date_obj = convert_to_local_tz(date_obj, tz_offset)
 

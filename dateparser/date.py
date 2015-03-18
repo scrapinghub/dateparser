@@ -172,7 +172,13 @@ class _DateLanguageParser(object):
 
     def _try_dateutil_parser(self):
         try:
-            date_obj = date_parser.parse(self._get_translated_date())
+            if 'dayfirst' in self.language.info:
+                dayfirst = bool(self.language.info['dayfirst'])
+            else:
+                dayfirst = None
+            
+            date_obj = date_parser.parse(self._get_translated_date(), dayfirst=dayfirst)
+
             return {
                 'date_obj': date_obj,
                 'period': 'day',

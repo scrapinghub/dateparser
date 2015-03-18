@@ -578,6 +578,7 @@ pt:
 
 ru:
     name: Russian
+    dayfirst: True
 
     skip: ["около", "в", "и"]
 

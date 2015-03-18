@@ -137,6 +137,8 @@ class TestDateParser(BaseTestCase):
         param('20 ноября 2013', datetime(2013, 11, 20)),
         param('28 октября 2014 в 07:54', datetime(2014, 10, 28, 7, 54)),
         param('13 января 2015 г. в 13:34', datetime(2015, 1, 13, 13, 34)),
+        param('09 августа 2012', datetime(2012, 8, 9, 0, 0)),
+        param('Суббота, 07.02.2015', datetime(2015, 2, 7)),        
         # Turkish dates
         param('08.Haziran.2014, 11:07', datetime(2014, 6, 8, 11, 7)),  # forum.andronova.net
         param('17.Şubat.2014, 17:51', datetime(2014, 2, 17, 17, 51)),
@@ -175,10 +177,9 @@ class TestDateParser(BaseTestCase):
         param('f\xe9v 15, 2013', datetime(2013, 2, 15, 0, 0)),
         param('8:25 a.m. Dec. 12, 2014', datetime(2014, 12, 12, 8, 25)),
         param('2:21 p.m., December 11, 2014', datetime(2014, 12, 11, 14, 21)),
-        param('11. 12. 2014, 08:45:39', datetime(2014, 11, 12, 8, 45, 39)),
+        param('11. 12. 2014, 08:45:39', datetime(2014, 12, 11, 8, 45, 39)),
         param('Fri, 12 Dec 2014 10:55:50', datetime(2014, 12, 12, 10, 55, 50)),
         param('čtv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
-        param('09 августа 2012', datetime(2012, 8, 9, 0, 0)),
         param('20 Mar 2013 10h11', datetime(2013, 3, 20, 10, 11)),
         param('10:06am Dec 11, 2014', datetime(2014, 12, 11, 10, 6)),
         param('19 February 2013 year 09:10', datetime(2013, 2, 19, 9, 10)),
@@ -370,8 +371,8 @@ class TestDateParser(BaseTestCase):
     def given_parser(self):
         def collecting_get_date_data(parse):
             @wraps(parse)
-            def wrapped(date_string):
-                self.date_result = parse(date_string)
+            def wrapped(date_string, dayfirst):
+                self.date_result = parse(date_string, dayfirst)
                 return self.date_result
             return wrapped
         self.add_patch(patch.object(date_parser,
