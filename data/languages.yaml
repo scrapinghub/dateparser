@@ -209,18 +209,25 @@ fr:
 
     monday:
         - Lundi
+        - Lun
     tuesday:
         - Mardi
+        - Mar
     wednesday:
         - Mercredi
+        - Mer
     thursday:
         - Jeudi
+        - Jeu
     friday:
         - Vendredi
+        - Ven
     saturday:
         - Samedi
+        - Sam
     sunday:
         - Dimanche
+        - Dim
 
     january:
         - Janvier
