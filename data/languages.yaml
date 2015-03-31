@@ -557,6 +557,7 @@ pt:
         - hora
         - horas
     minute:
+        - min
         - minuto
         - minutos
     second:
