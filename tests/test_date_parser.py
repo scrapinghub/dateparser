@@ -113,56 +113,71 @@ class TestDateParser(BaseTestCase):
         param('November 19, 2014 at noon', datetime(2014, 11, 19, 12, 0)),
         param('December 13, 2014 at midnight', datetime(2014, 12, 13, 0, 0)),
         param('Nov 25 2014 10:17 pm EST', datetime(2014, 11, 26, 3, 17)),
+        param('Monday 04/05/15', datetime(2015, 04, 05)),
         # French dates
         param('11 Mai 2014', datetime(2014, 5, 11)),
         param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
         param('22 janvier 2015 \xe0 14h40', datetime(2015, 1, 22, 14, 40)),
         param('Dimanche 1er F\xe9vrier \xe0 21:24', datetime(2012, 2, 1, 21, 24)),
+        param('Jeudi 04/07/02', datetime(2002, 7, 4)),
         # Spanish dates
         param('Martes 21 de Octubre de 2014', datetime(2014, 10, 21)),
         param('Miércoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),
         param('12 de junio del 2012', datetime(2012, 6, 12)),
+        param('Martes 02/10/07', datetime(2007, 10, 2)),
         # Dutch dates
         param('11 augustus 2014', datetime(2014, 8, 11)),
         param('14 januari 2014', datetime(2014, 1, 14)),
         param('vr jan 24, 2014 12:49', datetime(2014, 1, 24, 12, 49)),
+        param('Zondag 11-05-08', datetime(2008, 5, 11)),
         # Italian dates
         param('16 giu 2014', datetime(2014, 6, 16)),
         param('26 gennaio 2014', datetime(2014, 1, 26)),
+        param('Lunedi 11/08/03', datetime(2003, 8, 11)),
         # Portuguese dates
         param('sexta-feira, 10 de junho de 2014 14:52', datetime(2014, 6, 10, 14, 52)),
+        param('Sábado 02/05/09', datetime(2009, 5, 2)),
         # Russian dates
         param('10 мая', datetime(2012, 5, 10)),  # forum.codenet.ru
         param('26 апреля', datetime(2012, 4, 26)),
         param('20 ноября 2013', datetime(2013, 11, 20)),
         param('28 октября 2014 в 07:54', datetime(2014, 10, 28, 7, 54)),
         param('13 января 2015 г. в 13:34', datetime(2015, 1, 13, 13, 34)),
+        param('Вторник 05.11.02', datetime(2002, 11, 5)),
         # Turkish dates
         param('08.Haziran.2014, 11:07', datetime(2014, 6, 8, 11, 7)),  # forum.andronova.net
         param('17.Şubat.2014, 17:51', datetime(2014, 2, 17, 17, 51)),
         param('14-Aralık-2012, 20:56', datetime(2012, 12, 14, 20, 56)),  # forum.ceviz.net
+        param('Pazartesi 06/07/09', datetime(2009, 7, 6)),
         # Romanian dates
         param('13 iunie 2013', datetime(2013, 6, 13)),
         param('14 aprilie 2014', datetime(2014, 4, 14)),
         param('18 martie 2012', datetime(2012, 3, 18)),
+        param('Vineri 5/10/12', datetime(2012, 10, 5)),
         # German dates
         param('21. Dezember 2013', datetime(2013, 12, 21)),
         param('19. Februar 2012', datetime(2012, 2, 19)),
         param('26. Juli 2014', datetime(2014, 7, 26)),
         param('18.10.14 um 22:56 Uhr', datetime(2014, 10, 18, 22, 56)),
+        param('Donnerstag 09.01.03', datetime(2003, 1, 9)),
         # Czech dates
         param('pon 16. čer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
+        param('Neděle 10.07.11', datetime(2011, 7, 10)),
         # Thai dates
         param('ธันวาคม 11, 2014, 08:55:08 PM', datetime(2014, 12, 11, 20, 55, 8)),
         param('22 พฤษภาคม 2012, 22:12', datetime(2012, 5, 22, 22, 12)),
         param('11 กุมภา 2020, 8:13 AM', datetime(2020, 2, 11, 8, 13)),
         param('1 เดือนตุลาคม 2005, 1:00 AM', datetime(2005, 10, 1, 1, 0)),
         param('11 ก.พ. 2020, 1:13 pm', datetime(2020, 2, 11, 13, 13)),
+        param('อังคาร 23/11/04', datetime(2004, 11, 23)),
         # Vietnamese dates
         param('Thứ năm', datetime(2012, 11, 8)),  # Thursday
         param('Thứ sáu', datetime(2012, 11, 9)),  # Friday
         param('Tháng Mười Hai 29, 2013, 14:14', datetime(2013, 12, 29, 14, 14)),  # bpsosrcs.wordpress.com
         param('05 Tháng một 2015 - 03:54 AM', datetime(2015, 1, 5, 3, 54)),
+        param('Thứ tư 02/06/10', datetime(2010, 6, 2)),
+        # Chinese dates
+        param('星期三 2010-06-02', datetime(2010, 6, 2)),
         # Numeric dates
         param('06-17-2014', datetime(2014, 6, 17)),
         # Miscellaneous
@@ -175,7 +190,7 @@ class TestDateParser(BaseTestCase):
         param('f\xe9v 15, 2013', datetime(2013, 2, 15, 0, 0)),
         param('8:25 a.m. Dec. 12, 2014', datetime(2014, 12, 12, 8, 25)),
         param('2:21 p.m., December 11, 2014', datetime(2014, 12, 11, 14, 21)),
-        param('11. 12. 2014, 08:45:39', datetime(2014, 11, 12, 8, 45, 39)),
+        param('11. 12. 2014, 08:45:39', datetime(2014, 12, 11, 8, 45, 39)),
         param('Fri, 12 Dec 2014 10:55:50', datetime(2014, 12, 12, 10, 55, 50)),
         param('čtv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
         param('09 августа 2012', datetime(2012, 8, 9, 0, 0)),
@@ -370,8 +385,8 @@ class TestDateParser(BaseTestCase):
     def given_parser(self):
         def collecting_get_date_data(parse):
             @wraps(parse)
-            def wrapped(date_string):
-                self.date_result = parse(date_string)
+            def wrapped(date_string, dayfirst, yearfirst):
+                self.date_result = parse(date_string, dayfirst, yearfirst)
                 return self.date_result
             return wrapped
         self.add_patch(patch.object(date_parser,
