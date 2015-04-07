@@ -28,7 +28,7 @@ class DateRangeTest(BaseTestCase):
     def test_date_range(self, begin, end, expected_length):
         self.when_date_range_generated(begin, end)
         self.then_range_length_is(expected_length)
-        self.then_all_dates_are_present_in_range(begin, end)
+        self.then_all_dates_in_range_are_present(begin, end)
         self.then_range_is_in_ascending_order()
 
     @parameterized.expand([
@@ -77,7 +77,7 @@ class DateRangeTest(BaseTestCase):
     def then_range_length_is(self, expected_length):
         self.assertEqual(expected_length, len(self.result))
 
-    def then_all_dates_are_present_in_range(self, begin, end):
+    def then_all_dates_in_range_are_present(self, begin, end):
         date_under_test = begin
         while date_under_test < end:
             self.assertIn(date_under_test, self.result)
@@ -95,22 +95,14 @@ class DateRangeTest(BaseTestCase):
 class GetIntersectingPeriodsTest(BaseTestCase):
     def setUp(self):
         super(GetIntersectingPeriodsTest, self).setUp()
-        self.intersected_dates = NotImplemented
-        self.expected_results = NotImplemented
-        self.period = NotImplemented
-        self.period_high = NotImplemented
-        self.period_low = NotImplemented
-        self.results = NotImplemented
-        self.results = NotImplemented
+        self.result = NotImplemented
+        self.error = NotImplemented
 
     @parameterized.expand([
         param(low=datetime(2014, 6, 15), high=datetime(2014, 6, 16), length=1)])
     def test_date_arguments_and_date_range_with_default_post_days(self, low, high, length):
-        self.given_period_low(low)
-        self.given_period_high(high)
-        self.given_period('day')
-        self.when_intersecting_period_calculated()
-        self.then_all_dates_are_present_in_range()
+        self.when_intersecting_period_calculated(low, high, period_size='day')
+        self.then_all_dates_in_range_are_present(begin=low, end=high)
         self.then_date_range_length_is(length)
 
     @parameterized.expand([
@@ -134,50 +126,42 @@ class GetIntersectingPeriodsTest(BaseTestCase):
               expected_results=[datetime(2014, 12, 1)]),
     ])
     def test_should_one_date_for_each_month(self, low, high, expected_results):
-        self.given_period_low(low)
-        self.given_period_high(high)
-        self.given_period('month')
-        self.given_expected_results(expected_results)
-        self.when_intersecting_period_calculated()
-        self.then_should_one_date_for_each_date(expected_results)
+        self.when_intersecting_period_calculated(low, high, period_size='month')
+        self.then_results_are(expected_results)
 
     @parameterized.expand([
         param(low=datetime(2014, 4, 15),
               high=datetime(2014, 5, 15),
-              period='month',
+              period_size='month',
               expected_results=[datetime(2014, 4, 1), datetime(2014, 5, 1)]),
         param(low=datetime(2014, 10, 30, 4, 30),
               high=datetime(2014, 11, 7, 5, 20),
-              period='week',
+              period_size='week',
               expected_results=[datetime(2014, 10, 27), datetime(2014, 11, 3)]),
         param(low=datetime(2014, 8, 13, 13, 21),
               high=datetime(2014, 8, 14, 14, 7),
-              period='day',
+              period_size='day',
               expected_results=[datetime(2014, 8, 13), datetime(2014, 8, 14)]),
         param(low=datetime(2014, 5, 11, 22, 4),
               high=datetime(2014, 5, 12, 0, 5),
-              period='hour',
+              period_size='hour',
               expected_results=[datetime(2014, 5, 11, 22, 0),
                                 datetime(2014, 5, 11, 23, 0),
                                 datetime(2014, 5, 12, 0, 0)]),
         param(low=datetime(2014, 4, 25, 11, 11, 11),
               high=datetime(2014, 4, 25, 11, 12, 11),
-              period='minute',
+              period_size='minute',
               expected_results=[datetime(2014, 4, 25, 11, 11, 0),
                                 datetime(2014, 4, 25, 11, 12, 0)]),
         param(low=datetime(2014, 12, 31, 23, 59, 58, 500),
               high=datetime(2014, 12, 31, 23, 59, 59, 600),
-              period='second',
+              period_size='second',
               expected_results=[datetime(2014, 12, 31, 23, 59, 58, 0),
                                 datetime(2014, 12, 31, 23, 59, 59, 0)]),
     ])
-    def test_periods(self, low, high, period, expected_results):
-        self.given_period_low(low)
-        self.given_period_high(high)
-        self.given_period(period)
-        self.given_expected_results(expected_results)
-        self.when_intersecting_period_calculated()
-        self.then_should_one_date_for_each_date(expected_results)
+    def test_periods(self, low, high, period_size, expected_results):
+        self.when_intersecting_period_calculated(low, high, period_size=period_size)
+        self.then_results_are(expected_results)
 
     @parameterized.expand([
         param('years'),
@@ -189,68 +173,44 @@ class GetIntersectingPeriodsTest(BaseTestCase):
         param('microseconds'),
         param('some_period'),
     ])
-    def test_should_reject_easily_mistaken_dateutil_arguments(self, periods):
-        self.given_period_low(datetime(2014, 6, 15))
-        self.given_period_high(datetime(2014, 6, 25))
-        self.when_multiple_periods_are_parsed(periods)
-        self.then_should_reject_easily_mistaken_dateutil_arguments(periods)
+    def test_should_reject_easily_mistaken_dateutil_arguments(self, period_size):
+        self.when_intersecting_period_calculated(low=datetime(2014, 6, 15),
+                                                 high=datetime(2014, 6, 25),
+                                                 period_size=period_size)
+        self.then_should_reject_easily_mistaken_dateutil_argument(period_size)
 
     @parameterized.expand([
-        param(low=datetime(2014, 4, 15), high=datetime(2014, 4, 14), period='month'),
-        param(low=datetime(2014, 4, 25), high=datetime(2014, 4, 25), period='month'),
+        param(low=datetime(2014, 4, 15), high=datetime(2014, 4, 14), period_size='month'),
+        param(low=datetime(2014, 4, 25), high=datetime(2014, 4, 25), period_size='month'),
     ])
-    def test_empty_period(self, low, high, period):
-        self.given_period_low(low)
-        self.given_period_high(high)
-        self.given_period(period)
-        self.when_intersecting_period_calculated()
+    def test_empty_period(self, low, high, period_size):
+        self.when_intersecting_period_calculated(low, high, period_size)
         self.then_period_is_empty()
 
-    def given_expected_results(self, expected_results):
-        self.expected_results = expected_results
+    def when_intersecting_period_calculated(self, low, high, period_size):
+        try:
+            self.result = list(date.get_intersecting_periods(low, high, period=period_size))
+        except Exception as error:
+            self.error = error
 
-    def given_period_low(self, low):
-        self.period_low = low
-
-    def given_period_high(self, high):
-        self.period_high = high
-
-    def given_period(self, period):
-        self.period = period
-
-    def when_intersecting_period_calculated(self):
-        self.intersected_dates = list(date.get_intersecting_periods(
-            self.period_low, self.period_high, period=self.period))
-
-    def then_should_one_date_for_each_date(self, expected_results):
-        self.assertEquals(expected_results, self.intersected_dates)
+    def then_results_are(self, expected_results):
+        self.assertEquals(expected_results, self.result)
 
     def then_date_range_length_is(self, size):
-        self.assertEquals(size, len(self.intersected_dates))
+        self.assertEquals(size, len(self.result))
 
-    def then_all_dates_are_present_in_range(self):
-        date_under_test = self.period_low
-        while date_under_test < self.period_high:
-            self.assertIn(date_under_test, self.intersected_dates)
+    def then_all_dates_in_range_are_present(self, begin, end):
+        date_under_test = begin
+        while date_under_test < end:
+            self.assertIn(date_under_test, self.result)
             date_under_test += timedelta(days=1)
 
     def then_period_is_empty(self):
-        self.assertEquals([], self.intersected_dates)
+        self.assertEquals([], self.result)
 
-    def when_multiple_periods_are_parsed(self, periods):
-        self.results = []
-        for period in periods:
-            try:
-                result = date.get_intersecting_periods(self.period_low, self.period_high, period=period).next()
-            except Exception as error:
-                result = error
-            finally:
-                self.results.append(result)
-
-    def then_should_reject_easily_mistaken_dateutil_arguments(self, periods):
-        for p in izip(self.results, periods):
-            self.assertIsInstance(p[0], ValueError)
-            self.assertEqual('Invalid period: {}'.format(p[1]), p[0].message)
+    def then_should_reject_easily_mistaken_dateutil_argument(self, period_size):
+        self.assertIsInstance(self.error, ValueError)
+        self.assertEqual('Invalid period: {}'.format(period_size), str(self.error))
 
 
 class ParseDateWithFormats(BaseTestCase):
