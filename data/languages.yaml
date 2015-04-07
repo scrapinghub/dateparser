@@ -851,6 +851,7 @@ tr:
 
     simplifications:
         - dün: 1 gün
+        - bugün: 0 gün
 
 
 cz:
