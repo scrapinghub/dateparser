@@ -2,18 +2,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from types import MethodType
-from itertools import izip
-from collections import OrderedDict
 import unittest
+from collections import OrderedDict
 from datetime import datetime, timedelta
+from itertools import izip
+from types import MethodType
 
 from mock import Mock, patch
-
 from nose_parameterized import parameterized, param
 
-from dateparser.languages import LanguageDataLoader
 from dateparser import date
+from dateparser.languages import LanguageDataLoader
 from tests import BaseTestCase
 
 
