@@ -19,20 +19,15 @@ from tests import BaseTestCase
 class DateRangeTest(BaseTestCase):
     def setUp(self):
         super(DateRangeTest, self).setUp()
-        self.period_start = NotImplemented
-        self.period_end = NotImplemented
-        self.period_size = NotImplemented
         self.result = NotImplemented
 
     @parameterized.expand([
         param(begin=datetime(2014, 6, 15), end=datetime(2014, 6, 25), expected_length=10)
     ])
     def test_date_range(self, begin, end, expected_length):
-        self.given_period_start(begin)
-        self.given_period_end(end)
-        self.when_date_range_generated()
+        self.when_date_range_generated(begin, end)
         self.then_range_length_is(expected_length)
-        self.then_all_dates_are_present_in_range()
+        self.then_all_dates_are_present_in_range(begin, end)
         self.then_range_is_in_ascending_order()
 
     @parameterized.expand([
@@ -50,10 +45,7 @@ class DateRangeTest(BaseTestCase):
               expected_months=[(2014, 4), (2014, 5), (2014, 6)]),
     ])
     def test_one_date_for_each_month(self, begin, end, expected_months):
-        self.given_period_start(begin)
-        self.given_period_end(end)
-        self.given_period_size(months=1)
-        self.when_period_is_parsed()
+        self.when_date_range_generated(begin, end, months=1)
         self.then_expected_months_are(expected_months)
 
     @parameterized.expand([
@@ -66,27 +58,14 @@ class DateRangeTest(BaseTestCase):
         'second',
     ])
     def test_should_reject_easily_mistaken_dateutil_arguments(self, invalid_period):
-        self.given_period_start(datetime(2014, 6, 15))
-        self.given_period_end(datetime(2014, 6, 25))
-        self.given_period_size(**{invalid_period: 1})
-        self.when_period_is_parsed()
+        self.when_date_range_generated(begin=datetime(2014, 6, 15),
+                                       end=datetime(2014, 6, 25),
+                                       **{invalid_period: 1})
         self.then_period_was_rejected(invalid_period)
 
-    def given_period_start(self, begin):
-        self.period_start = begin
-
-    def given_period_end(self, end):
-        self.period_end = end
-
-    def given_period_size(self, **params):
-        self.period_size = params
-
-    def when_date_range_generated(self):
-        self.result = list(date.date_range(self.period_start, self.period_end))
-
-    def when_period_is_parsed(self):
+    def when_date_range_generated(self, begin, end, **size):
         try:
-            self.result = list(date.date_range(self.period_start, self.period_end, **self.period_size))
+            self.result = list(date.date_range(begin, end, **size))
         except Exception as error:
             self.result = error
 
@@ -97,9 +76,9 @@ class DateRangeTest(BaseTestCase):
     def then_range_length_is(self, expected_length):
         self.assertEqual(expected_length, len(self.result))
 
-    def then_all_dates_are_present_in_range(self):
-        date_under_test = self.period_start
-        while date_under_test < self.period_end:
+    def then_all_dates_are_present_in_range(self, begin, end):
+        date_under_test = begin
+        while date_under_test < end:
             self.assertIn(date_under_test, self.result)
             date_under_test += timedelta(days=1)
 
