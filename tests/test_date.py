@@ -21,10 +21,8 @@ class DateRangeTest(BaseTestCase):
         super(DateRangeTest, self).setUp()
         self.period_start = NotImplemented
         self.period_end = NotImplemented
-        self.result = NotImplemented
-        self.period_end = NotImplemented
         self.period_size = NotImplemented
-        self.range = NotImplemented
+        self.result = NotImplemented
 
     @parameterized.expand([
         param(begin=datetime(2014, 6, 15), end=datetime(2014, 6, 25), expected_length=10)
@@ -84,7 +82,7 @@ class DateRangeTest(BaseTestCase):
         self.period_size = params
 
     def when_date_range_generated(self):
-        self.range = list(date.date_range(self.period_start, self.period_end))
+        self.result = list(date.date_range(self.period_start, self.period_end))
 
     def when_period_is_parsed(self):
         try:
@@ -97,17 +95,17 @@ class DateRangeTest(BaseTestCase):
                          [(d.year, d.month) for d in self.result])
 
     def then_range_length_is(self, expected_length):
-        self.assertEqual(expected_length, len(self.range))
+        self.assertEqual(expected_length, len(self.result))
 
     def then_all_dates_are_present_in_range(self):
         date_under_test = self.period_start
         while date_under_test < self.period_end:
-            self.assertIn(date_under_test, self.range)
+            self.assertIn(date_under_test, self.result)
             date_under_test += timedelta(days=1)
 
     def then_range_is_in_ascending_order(self):
-        for i in xrange(len(self.range) - 1):
-            self.assertLess(self.range[i], self.range[i + 1])
+        for i in xrange(len(self.result) - 1):
+            self.assertLess(self.result[i], self.result[i + 1])
 
     def then_period_was_rejected(self, period):
         self.assertIsInstance(self.result, ValueError)
