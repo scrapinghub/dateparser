@@ -20,6 +20,7 @@ class DateRangeTest(BaseTestCase):
     def setUp(self):
         super(DateRangeTest, self).setUp()
         self.result = NotImplemented
+        self.error = NotImplemented
 
     @parameterized.expand([
         param(begin=datetime(2014, 6, 15), end=datetime(2014, 6, 25), expected_length=10)
@@ -67,7 +68,7 @@ class DateRangeTest(BaseTestCase):
         try:
             self.result = list(date.date_range(begin, end, **size))
         except Exception as error:
-            self.result = error
+            self.error = error
 
     def then_expected_months_are(self, expected):
         self.assertEqual(expected,
@@ -87,8 +88,8 @@ class DateRangeTest(BaseTestCase):
             self.assertLess(self.result[i], self.result[i + 1])
 
     def then_period_was_rejected(self, period):
-        self.assertIsInstance(self.result, ValueError)
-        self.assertEqual('Invalid argument: {}'.format(period), self.result.message)
+        self.assertIsInstance(self.error, ValueError)
+        self.assertEqual('Invalid argument: {}'.format(period), str(self.error))
 
 
 class GetIntersectingPeriodsTest(BaseTestCase):
