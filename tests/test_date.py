@@ -285,23 +285,15 @@ class ParseDateWithFormats(BaseTestCase):
 class DateDataParserTest(BaseTestCase):
     def setUp(self):
         super(DateDataParserTest, self).setUp()
-        self.parser = date.DateDataParser()
+        self.parser = NotImplemented
         self.date_data = NotImplemented
         self.results = NotImplemented
-        self.known_languages = NotImplemented
-        self.language_loader = NotImplemented
-        self.language_map = NotImplemented
-        self.ordered_languages = NotImplemented
-        self._data = NotImplemented
-
-    def check_equal(self, first, second, date_string):
-        self.assertEqual(first, second, "%s != %s for date_string:  '%s'" %
-                         (repr(first), repr(second), date_string))
 
     @parameterized.expand([
         param('10:04am EDT'),
     ])
     def test_time_in_today_should_return_today(self, date_string):
+        self.given_parser()
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
 
@@ -325,30 +317,31 @@ class DateDataParserTest(BaseTestCase):
         param('Avant-hier', days_ago=2),
     ])
     def test_temporal_nouns_are_parsed(self, date_string, days_ago):
+        self.given_parser()
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
         self.then_date_is_n_days_ago(days=days_ago)
 
     def test_should_not_assume_language_too_early(self):
-        dates_to_parse = OrderedDict([(u'07.ene.2014 | 12:52', datetime(2014, 1, 7).date()),
-                                      (u'07.feb.2014 | 12:52', datetime(2014, 2, 7).date()),
-                                      (u'07/07/2014', datetime(2014, 7, 7).date()),
-                                      (u'07.jul.2014 | 12:52', datetime(2014, 7, 7).date()),
-                                      (u'07.ago.2014 | 12:52', datetime(2014, 8, 7).date())])
-
+        dates_to_parse = OrderedDict([(u'07.ene.2014 | 12:52', datetime(2014, 1, 7).date()),  # es
+                                      (u'07.feb.2014 | 12:52', datetime(2014, 2, 7).date()),  # en, de, es, it, nl, ro
+                                      (u'07/07/2014', datetime(2014, 7, 7).date()),  # any language
+                                      (u'07.jul.2014 | 12:52', datetime(2014, 7, 7).date()),  # en, es, pt, nl
+                                      (u'07.ago.2014 | 12:52', datetime(2014, 8, 7).date())])  # es, it, pt
+        self.given_parser(restrict_to_languages=['en', 'de', 'fr', 'it', 'pt', 'nl', 'ro', 'es', 'ru'],
+                          allow_redetect_language=False)
         self.when_multiple_dates_are_parsed(dates_to_parse.keys())
         self.then_all_results_were_parsed()
         self.then_parsed_dates_are(dates_to_parse.values())
 
     def test_should_enable_redetection_for_multiple_languages(self):
-        dates_to_parse = OrderedDict([(u'11 Marzo, 2014', datetime(2014, 3, 11).date()),
-                                      (u'13 Março, 2014', datetime(2014, 3, 13).date()),
-                                      (u'13 Ago, 2014', datetime(2014, 8, 13).date()),
-                                      (u'13 Septiembre, 2014', datetime(2014, 9, 13).date()),
-                                      (u'13 Setembro, 2014', datetime(2014, 9, 13).date())])
+        dates_to_parse = OrderedDict([(u'11 Marzo, 2014', datetime(2014, 3, 11).date()),  # es, it
+                                      (u'13 Março, 2014', datetime(2014, 3, 13).date()),  # pt
+                                      (u'13 Ago, 2014', datetime(2014, 8, 13).date()),  # es, it, pt
+                                      (u'13 Septiembre, 2014', datetime(2014, 9, 13).date()),  # es
+                                      (u'13 Setembro, 2014', datetime(2014, 9, 13).date())])  # pt
 
-        self.given_empty_languages_parser()
-        self.given_known_languages('it', 'es', 'pt')
+        self.given_parser(restrict_to_languages=['es', 'it', 'pt'], allow_redetect_language=True)
         self.when_multiple_dates_are_parsed(dates_to_parse.keys())
         self.then_all_results_were_parsed()
         self.then_parsed_dates_are(dates_to_parse.values())
@@ -357,6 +350,7 @@ class DateDataParserTest(BaseTestCase):
         param("2014-10-09T17:57:39+00:00"),
     ])
     def test_get_date_data_should_not_strip_timezone_info(self, date_string):
+        self.given_parser()
         self.when_should_parse_date_with_timezones_using_format(date_string)
         self.then_parsed_date_has_timezone()
 
@@ -366,6 +360,7 @@ class DateDataParserTest(BaseTestCase):
               expected_result=datetime(2014, 11, 17, 14, 56)),
     ])
     def test_should_parse_date_with_timezones_using_format(self, date_string, date_formats, expected_result):
+        self.given_parser()
         self.when_should_parse_date_with_timezones_using_format(date_string, date_formats)
         self.then_period_is('day')
         self.then_should_parse_date_with_expected_date(expected_result)
@@ -374,6 +369,7 @@ class DateDataParserTest(BaseTestCase):
         param(date_string="08-08-2014\xa018:29", expected_result=datetime(2014, 8, 8, 18, 29)),
     ])
     def test_should_parse_with_no_break_space_in_dates(self, date_string, expected_result):
+        self.given_parser()
         self.when_should_parse_date_with_timezones_using_format(date_string)
         self.then_period_is('day')
         self.then_should_parse_date_with_expected_date(expected_result)
@@ -386,26 +382,19 @@ class DateDataParserTest(BaseTestCase):
         with self.assertRaisesRegexp(ValueError, '%r' % ', '.join(shortnames)):
             date.DateDataParser(languages=shortnames)
 
-    def given_known_languages(self, *shortnames):
-        self.ordered_languages = OrderedDict()
+    def given_parser(self, restrict_to_languages=None, **params):
+        self.parser = date.DateDataParser(**params)
 
-        self.known_languages = [self.language_map.get(shortname)
-                                for shortname in shortnames]
+        if restrict_to_languages is not None:
+            language_loader = LanguageDataLoader()
+            language_map = date.default_language_loader.get_language_map()
 
-        for language in self.known_languages:
-            self.ordered_languages[language.shortname] = language
-
-        self.language_loader._data = self.ordered_languages
-
-    def given_empty_languages_parser(self):
-        self._data = {}
-        self.parser = date.DateDataParser(allow_redetect_language=True)
-
-        language_loader = LanguageDataLoader()
-        self.language_map = date.default_language_loader.get_language_map()
-        self.language_loader = language_loader
-        language_loader._load_data = MethodType(self.given_empty_languages_parser, language_loader)
-        self.add_patch(patch('dateparser.date.default_language_loader', new=language_loader))
+            ordered_languages = OrderedDict([
+                (shortname, language_map[shortname])
+                for shortname in restrict_to_languages
+            ])
+            language_loader._data = ordered_languages
+            self.add_patch(patch('dateparser.date.default_language_loader', new=language_loader))
 
     def when_date_string_is_parsed(self, date_string):
         self.date_data = self.parser.get_date_data(date_string)
