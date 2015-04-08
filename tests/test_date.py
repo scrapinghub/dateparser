@@ -309,20 +309,20 @@ class DateDataParserTest(BaseTestCase):
         self.when_date_data_is_parsed()
         self.then_date_was_parsed()
 
-    # Today
-    # Yesterday
-    # Day before yesterday
     @parameterized.expand([
+        # Today
         param('today', days_ago=0),
         param('Today', days_ago=0),
         param('TODAY', days_ago=0),
         param('Сегодня', days_ago=0),
         param('Hoje', days_ago=0),
         param('Oggi', days_ago=0),
+        # Yesterday
         param('yesterday', days_ago=1),
         param(' Yesterday \n', days_ago=1),
         param('Ontem', days_ago=1),
         param('Ieri', days_ago=1),
+        # Day before yesterday
         param('the day before yesterday', days_ago=2),
         param('The DAY before Yesterday', days_ago=2),
         param('Anteontem', days_ago=2),
