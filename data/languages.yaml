@@ -293,6 +293,7 @@ fr:
         - aujourd'hui: 0 jours
         - un: 1
         - une: 1
+        - (\d+)\sh\s(\d+)\smin: \1h\2m
         - (\d+)h(\d+)m?: \1:\2
 
 
