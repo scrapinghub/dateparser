@@ -298,7 +298,6 @@ class DateDataParserTest(BaseTestCase):
         self.language_loader = NotImplemented
         self.language_map = NotImplemented
         self.ordered_languages = NotImplemented
-        self.today = NotImplemented
         self._data = NotImplemented
 
     def check_equal(self, first, second, date_string):
@@ -307,7 +306,6 @@ class DateDataParserTest(BaseTestCase):
 
     def test_time_in_today_should_return_today(self):
         self.given_date_string('10:04am EDT')
-        self.given_today()
         self.when_date_data_is_parsed()
         self.then_date_was_parsed()
 
@@ -332,7 +330,6 @@ class DateDataParserTest(BaseTestCase):
     ])
     def test_temporal_nouns_are_parsed(self, date_string, days_ago):
         self.given_date_string(date_string)
-        self.given_today()
         self.when_date_string_is_parsed()
         self.then_date_was_parsed()
         self.then_date_is_n_days_ago(days=days_ago)
@@ -429,9 +426,6 @@ class DateDataParserTest(BaseTestCase):
     def given_date_format(self, date_format):
         self.date_format = date_format
 
-    def given_today(self):
-        self.today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
-
     def when_date_string_is_parsed(self):
         self.date_data = self.parser.get_date_data(self.date_string)
 
@@ -445,9 +439,9 @@ class DateDataParserTest(BaseTestCase):
         self.assertIsNotNone(self.date_data['date_obj'])
 
     def then_date_is_n_days_ago(self, days):
-        self.assertIsNotNone(self.date_data['date_obj'])
-        expected_days = self.today.date() - self.date_data['date_obj'].date()
-        self.assertEqual(expected_days.days, days)
+        today = datetime.utcnow().date()
+        expected_date = today - timedelta(days=days)
+        self.assertEqual(expected_date, self.date_data['date_obj'].date())
 
     def then_check_language_too_early(self):
         self.assertIsNotNone(self.results)
