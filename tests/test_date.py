@@ -12,6 +12,7 @@ from mock import Mock, patch
 from nose_parameterized import parameterized, param
 
 from dateparser import date
+from dateparser.date import get_last_day_of_month
 from dateparser.languages import LanguageDataLoader
 from tests import BaseTestCase
 
@@ -216,65 +217,70 @@ class GetIntersectingPeriodsTest(BaseTestCase):
 class ParseDateWithFormats(BaseTestCase):
     def setUp(self):
         super(ParseDateWithFormats, self).setUp()
-        self.dt_data = NotImplemented
-        self.day = NotImplemented
-        self.month = NotImplemented
-        self.invalid_date = NotImplemented
-        self.year = NotImplemented
-        self.date_obj = NotImplemented
-        self.datetime_mock = NotImplemented
-        self.parsed_invalid_date = NotImplemented
+        self.result = NotImplemented
 
-    def test_date_with_not_matching_format_is_not_parsed(self):
-        self.given_invalid_date('yesterday')
-        self.when_shouldnt_parse_invalid_date()
-        self.then_shouldnt_parse_invalid_date()
+    @parameterized.expand([
+        param(date_string='yesterday', date_formats=['%Y-%m-%d']),
+    ])
+    def test_date_with_not_matching_format_is_not_parsed(self, date_string, date_formats):
+        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        self.then_date_was_not_parsed()
 
-    def test_should_parse_date(self):
-        self.when_date_is_parsed_with_format('25-03-14', '%d-%m-%y')
-        self.then_parsed_date_is(datetime(2014, 3, 25))
+    @parameterized.expand([
+        param(date_string='25-03-14', date_formats=['%d-%m-%y'], expected_result=datetime(2014, 3, 25)),
+    ])
+    def test_should_parse_date(self, date_string, date_formats, expected_result):
+        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        self.then_date_was_parsed()
+        self.then_parsed_period_is('day')
+        self.then_parsed_date_is(expected_result)
 
-    def test_should_use_current_year_for_dates_without_year(self):
-        self.given_today(datetime(2015, 2, 4))
-        self.when_date_is_parsed_with_format('09.16', "%m.%d")
-        self.then_parsed_date_is(datetime(2015, 9, 16))
+    @parameterized.expand([
+        param(date_string='09.16', date_formats=['%m.%d'], expected_month=9, expected_day=16),
+    ])
+    def test_should_use_current_year_for_dates_without_year(
+        self, date_string, date_formats, expected_month, expected_day
+    ):
+        self.given_now(2015, 2, 4)
+        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        self.then_date_was_parsed()
+        self.then_parsed_period_is('day')
+        self.then_parsed_date_is(datetime(2015, expected_month, expected_day))
 
-    def test_should_use_date_for_dates_without_day(self):
-        self.given_now(datetime(2014, 8, 12))
-        self.when_date_is_parsed_with_format('August 2014', '%B %Y')
-        self.then_dates_are_parsed()
-        self.then_period_equal('month')
-        self.then_parsed_date_is(datetime(2014, 8, 31))
+    @parameterized.expand([
+        param(date_string='August 2014', date_formats=['%B %Y'], expected_year=2014, expected_month=8),
+    ])
+    def test_should_use_date_for_dates_without_day(self, date_string, date_formats, expected_year, expected_month):
+        self.given_now(2014, 8, 12)
+        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        self.then_date_was_parsed()
+        self.then_parsed_period_is('month')
+        self.then_parsed_date_is(datetime(year=expected_year,
+                                          month=expected_month,
+                                          day=get_last_day_of_month(expected_year, expected_month)))
 
-    def given_today(self, date_obj):
-        self.date_obj = date_obj
+    def given_now(self, year, month, day, **time):
+        datetime_mock = Mock(wraps=datetime)
+        datetime_mock.utcnow = Mock(return_value=datetime(year, month, day, **time))
+        self.add_patch(
+            patch('dateparser.date_parser.datetime', new=datetime_mock)
+        )
 
-    def given_invalid_date(self, date_str):
-        self.invalid_date = date_str
+    def when_date_is_parsed_with_formats(self, date_string, date_formats):
+        self.result = date.parse_with_formats(date_string, date_formats)
 
-    def given_now(self, given_date):
-        self.datetime_mock = Mock(wraps=datetime)
-        self.datetime_mock.utcnow = Mock(return_value=given_date)
-        self.add_patch(patch('dateparser.date_parser.datetime', new=self.datetime_mock))
+    def then_date_was_not_parsed(self):
+        self.assertIsNone(self.result['date_obj'])
 
-    def when_date_is_parsed_with_format(self, some_date, some_format):
-        self.dt_data = date.parse_with_formats(some_date, [some_format])
-
-    def when_shouldnt_parse_invalid_date(self):
-        self.parsed_invalid_date = date.parse_with_formats(self.invalid_date,
-                                                           ['%Y-%m-%d'])['date_obj']
+    def then_date_was_parsed(self):
+        self.assertIsNotNone(self.result)
+        self.assertIsNotNone(self.result['date_obj'])
 
     def then_parsed_date_is(self, date_obj):
-        self.assertEquals(date_obj.date(), self.dt_data['date_obj'].date())
+        self.assertEquals(date_obj.date(), self.result['date_obj'].date())
 
-    def then_shouldnt_parse_invalid_date(self):
-        self.assertIsNone(self.parsed_invalid_date)
-
-    def then_dates_are_parsed(self):
-        self.assertIsNotNone(self.dt_data)
-
-    def then_period_equal(self, period):
-        self.assertEquals(period, self.dt_data['period'])
+    def then_parsed_period_is(self, period):
+        self.assertEquals(period, self.result['period'])
 
 
 class DateDataParserTest(BaseTestCase):
