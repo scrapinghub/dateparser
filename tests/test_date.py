@@ -287,12 +287,9 @@ class DateDataParserTest(BaseTestCase):
     def setUp(self):
         super(DateDataParserTest, self).setUp()
         self.parser = date.DateDataParser()
-        self.date_format = NotImplemented
         self.date_strings = NotImplemented
-        self.date_string = NotImplemented
         self.date_data = NotImplemented
         self.results = NotImplemented
-        self.date_format = NotImplemented
         self.dates = NotImplemented
         self.known_languages = NotImplemented
         self.language_loader = NotImplemented
@@ -304,9 +301,11 @@ class DateDataParserTest(BaseTestCase):
         self.assertEqual(first, second, "%s != %s for date_string:  '%s'" %
                          (repr(first), repr(second), date_string))
 
-    def test_time_in_today_should_return_today(self):
-        self.given_date_string('10:04am EDT')
-        self.when_date_data_is_parsed()
+    @parameterized.expand([
+        param('10:04am EDT'),
+    ])
+    def test_time_in_today_should_return_today(self, date_string):
+        self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
 
     @parameterized.expand([
@@ -329,8 +328,7 @@ class DateDataParserTest(BaseTestCase):
         param('Avant-hier', days_ago=2),
     ])
     def test_temporal_nouns_are_parsed(self, date_string, days_ago):
-        self.given_date_string(date_string)
-        self.when_date_string_is_parsed()
+        self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
         self.then_date_is_n_days_ago(days=days_ago)
 
@@ -359,23 +357,30 @@ class DateDataParserTest(BaseTestCase):
         self.when_multiple_dates_are_parsed()
         self.then_should_enable_redetection_for_multiple_languages()
 
-    def test_get_date_data_should_not_strip_timezone_info(self):
-        date_string_with_tz_info = '2014-10-09T17:57:39+00:00'
-        date_data = self.parser.get_date_data(date_string_with_tz_info)
-        self.assertTrue(hasattr(date_data['date_obj'], 'tzinfo'))
+    @parameterized.expand([
+        param("2014-10-09T17:57:39+00:00"),
+    ])
+    def test_get_date_data_should_not_strip_timezone_info(self, date_string):
+        self.when_should_parse_date_with_timezones_using_format(date_string)
+        self.then_parsed_date_has_timezone()
 
-    def test_should_parse_date_with_timezones_using_format(self):
-        self.given_date_string("2014/11/17 14:56 EDT")
-        self.given_date_format("%Y/%m/%d %H:%M EDT")
-        self.when_should_parse_date_with_timezones_using_format()
+    @parameterized.expand([
+        param(date_string="2014/11/17 14:56 EDT",
+              date_formats=["%Y/%m/%d %H:%M EDT"],
+              expected_result=datetime(2014, 11, 17, 14, 56)),
+    ])
+    def test_should_parse_date_with_timezones_using_format(self, date_string, date_formats, expected_result):
+        self.when_should_parse_date_with_timezones_using_format(date_string, date_formats)
         self.then_period_is('day')
-        self.then_should_parse_date_with_expected_date(datetime(2014, 11, 17, 14, 56))
+        self.then_should_parse_date_with_expected_date(expected_result)
 
-    def test_should_parse_with_no_break_space_in_dates(self):
-        date_string = "08-08-2014\xa018:29"
-        expected = datetime(2014, 8, 8, 18, 29)
-        date_data = self.parser.get_date_data(date_string)
-        self.assertEqual(expected, date_data['date_obj'])
+    @parameterized.expand([
+        param(date_string="08-08-2014\xa018:29", expected_result=datetime(2014, 8, 8, 18, 29)),
+    ])
+    def test_should_parse_with_no_break_space_in_dates(self, date_string, expected_result):
+        self.when_should_parse_date_with_timezones_using_format(date_string)
+        self.then_period_is('day')
+        self.then_should_parse_date_with_expected_date(expected_result)
 
     @parameterized.expand([
         param(['ur', 'li']),
@@ -420,20 +425,11 @@ class DateDataParserTest(BaseTestCase):
         language_loader._load_data = MethodType(self.given_empty_languages_parser, language_loader)
         self.add_patch(patch('dateparser.date.default_language_loader', new=language_loader))
 
-    def given_date_string(self, date_string):
-        self.date_string = date_string
+    def when_date_string_is_parsed(self, date_string):
+        self.date_data = self.parser.get_date_data(date_string)
 
-    def given_date_format(self, date_format):
-        self.date_format = date_format
-
-    def when_date_string_is_parsed(self):
-        self.date_data = self.parser.get_date_data(self.date_string)
-
-    def when_date_data_is_parsed(self):
-        self.date_data = self.parser.get_date_data(self.date_string)
-
-    def when_should_parse_date_with_timezones_using_format(self):
-        self.date_data = self.parser.get_date_data(self.date_string, date_formats=[self.date_format])
+    def when_should_parse_date_with_timezones_using_format(self, date_string, date_formats=None):
+        self.date_data = self.parser.get_date_data(date_string, date_formats)
 
     def then_date_was_parsed(self):
         self.assertIsNotNone(self.date_data['date_obj'])
@@ -459,6 +455,9 @@ class DateDataParserTest(BaseTestCase):
 
     def then_should_parse_date_with_expected_date(self, expected_date):
         self.assertEqual(expected_date, self.date_data['date_obj'])
+
+    def then_parsed_date_has_timezone(self):
+        self.assertTrue(hasattr(self.date_data['date_obj'], 'tzinfo'))
 
 
 if __name__ == '__main__':
