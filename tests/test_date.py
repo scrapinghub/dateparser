@@ -295,10 +295,12 @@ class TestDateDataParser(BaseTestCase):
     @parameterized.expand([
         param('10:04am EDT'),
     ])
-    def test_time_in_today_should_return_today(self, date_string):
+    def test_time_without_date_should_use_today(self, date_string):
+        self.given_now(2020, 7, 19)
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
+        self.then_parsed_date_is(datetime(2020, 7, 19).date())
 
     @parameterized.expand([
         # Today
@@ -326,11 +328,12 @@ class TestDateDataParser(BaseTestCase):
         self.then_date_is_n_days_ago(days=days_ago)
 
     def test_should_not_assume_language_too_early(self):
-        dates_to_parse = OrderedDict([(u'07.ene.2014 | 12:52', datetime(2014, 1, 7).date()),  # es
-                                      (u'07.feb.2014 | 12:52', datetime(2014, 2, 7).date()),  # en, de, es, it, nl, ro
-                                      (u'07/07/2014', datetime(2014, 7, 7).date()),  # any language
+        dates_to_parse = OrderedDict([(u'07/07/2014', datetime(2014, 7, 7).date()),  # any language
                                       (u'07.jul.2014 | 12:52', datetime(2014, 7, 7).date()),  # en, es, pt, nl
-                                      (u'07.ago.2014 | 12:52', datetime(2014, 8, 7).date())])  # es, it, pt
+                                      (u'07.ago.2014 | 12:52', datetime(2014, 8, 7).date()),  # es, it, pt
+                                      (u'07.feb.2014 | 12:52', datetime(2014, 2, 7).date()),  # en, de, es, it, nl, ro
+                                      (u'07.ene.2014 | 12:52', datetime(2014, 1, 7).date())])  # es
+
         self.given_parser(restrict_to_languages=['en', 'de', 'fr', 'it', 'pt', 'nl', 'ro', 'es', 'ru'],
                           allow_redetect_language=False)
         self.when_multiple_dates_are_parsed(dates_to_parse.keys())
@@ -338,11 +341,11 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_dates_are(dates_to_parse.values())
 
     def test_should_enable_redetection_for_multiple_languages(self):
-        dates_to_parse = OrderedDict([(u'11 Marzo, 2014', datetime(2014, 3, 11).date()),  # es, it
-                                      (u'13 Março, 2014', datetime(2014, 3, 13).date()),  # pt
-                                      (u'13 Ago, 2014', datetime(2014, 8, 13).date()),  # es, it, pt
+        dates_to_parse = OrderedDict([(u'13 Ago, 2014', datetime(2014, 8, 13).date()),  # es, it, pt
+                                      (u'11 Marzo, 2014', datetime(2014, 3, 11).date()),  # es, it
                                       (u'13 Septiembre, 2014', datetime(2014, 9, 13).date()),  # es
-                                      (u'13 Setembro, 2014', datetime(2014, 9, 13).date())])  # pt
+                                      (u'13 Setembro, 2014', datetime(2014, 9, 13).date()),  # pt
+                                      (u'13 Março, 2014', datetime(2014, 3, 13).date())])  # pt
 
         self.given_parser(restrict_to_languages=['es', 'it', 'pt'], allow_redetect_language=True)
         self.when_multiple_dates_are_parsed(dates_to_parse.keys())
@@ -368,7 +371,7 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed(date_string, date_formats)
         self.then_date_was_parsed()
         self.then_period_is('day')
-        self.then_parsed_date_is(expected_result)
+        self.then_parsed_datetime_is(expected_result)
 
     @parameterized.expand([
         param(date_string="08-08-2014\xa018:29", expected_result=datetime(2014, 8, 8, 18, 29)),
@@ -378,7 +381,14 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
         self.then_period_is('day')
-        self.then_parsed_date_is(expected_result)
+        self.then_parsed_datetime_is(expected_result)
+
+    def given_now(self, year, month, day, **time):
+        datetime_mock = Mock(wraps=datetime)
+        datetime_mock.utcnow = Mock(return_value=datetime(year, month, day, **time))
+        self.add_patch(
+            patch('dateparser.date_parser.datetime', new=datetime_mock)
+        )
 
     def given_parser(self, restrict_to_languages=None, **params):
         self.parser = date.DateDataParser(**params)
@@ -424,8 +434,11 @@ class TestDateDataParser(BaseTestCase):
     def then_period_is(self, day):
         self.assertEqual(day, self.result['period'])
 
+    def then_parsed_datetime_is(self, expected_datetime):
+        self.assertEqual(expected_datetime, self.result['date_obj'])
+
     def then_parsed_date_is(self, expected_date):
-        self.assertEqual(expected_date, self.result['date_obj'])
+        self.assertEqual(expected_date, self.result['date_obj'].date())
 
     def then_parsed_date_has_timezone(self):
         self.assertTrue(hasattr(self.result['date_obj'], 'tzinfo'))
