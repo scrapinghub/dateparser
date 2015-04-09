@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 import unittest
 from collections import OrderedDict
 from datetime import datetime, timedelta
-from types import MethodType
 
 from mock import Mock, patch
 from nose_parameterized import parameterized, param
@@ -286,8 +285,8 @@ class DateDataParserTest(BaseTestCase):
     def setUp(self):
         super(DateDataParserTest, self).setUp()
         self.parser = NotImplemented
-        self.date_data = NotImplemented
-        self.results = NotImplemented
+        self.result = NotImplemented
+        self.multiple_results = NotImplemented
 
     @parameterized.expand([
         param('10:04am EDT'),
@@ -352,6 +351,7 @@ class DateDataParserTest(BaseTestCase):
     def test_get_date_data_should_not_strip_timezone_info(self, date_string):
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
+        self.then_date_was_parsed()
         self.then_parsed_date_has_timezone()
 
     @parameterized.expand([
@@ -362,8 +362,9 @@ class DateDataParserTest(BaseTestCase):
     def test_should_parse_date_with_timezones_using_format(self, date_string, date_formats, expected_result):
         self.given_parser()
         self.when_date_string_is_parsed(date_string, date_formats)
+        self.then_date_was_parsed()
         self.then_period_is('day')
-        self.then_should_parse_date_with_expected_date(expected_result)
+        self.then_parsed_date_is(expected_result)
 
     @parameterized.expand([
         param(date_string="08-08-2014\xa018:29", expected_result=datetime(2014, 8, 8, 18, 29)),
@@ -371,8 +372,9 @@ class DateDataParserTest(BaseTestCase):
     def test_should_parse_with_no_break_space_in_dates(self, date_string, expected_result):
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
+        self.then_date_was_parsed()
         self.then_period_is('day')
-        self.then_should_parse_date_with_expected_date(expected_result)
+        self.then_parsed_date_is(expected_result)
 
     def given_parser(self, restrict_to_languages=None, **params):
         self.parser = date.DateDataParser(**params)
@@ -389,40 +391,40 @@ class DateDataParserTest(BaseTestCase):
             self.add_patch(patch('dateparser.date.default_language_loader', new=language_loader))
 
     def when_date_string_is_parsed(self, date_string, date_formats=None):
-        self.date_data = self.parser.get_date_data(date_string, date_formats)
+        self.result = self.parser.get_date_data(date_string, date_formats)
 
     def when_multiple_dates_are_parsed(self, date_strings):
-        self.results = []
+        self.multiple_results = []
         for date_string in date_strings:
             try:
                 result = self.parser.get_date_data(date_string)
             except Exception as error:
                 result = error
             finally:
-                self.results.append(result)
+                self.multiple_results.append(result)
 
     def then_date_was_parsed(self):
-        self.assertIsNotNone(self.date_data['date_obj'])
+        self.assertIsNotNone(self.result['date_obj'])
 
     def then_date_is_n_days_ago(self, days):
         today = datetime.utcnow().date()
         expected_date = today - timedelta(days=days)
-        self.assertEqual(expected_date, self.date_data['date_obj'].date())
+        self.assertEqual(expected_date, self.result['date_obj'].date())
 
     def then_all_results_were_parsed(self):
-        self.assertNotIn(None, self.results)
+        self.assertNotIn(None, self.multiple_results)
 
     def then_parsed_dates_are(self, expected_dates):
-        self.assertEqual(expected_dates, [result['date_obj'].date() for result in self.results])
+        self.assertEqual(expected_dates, [result['date_obj'].date() for result in self.multiple_results])
 
     def then_period_is(self, day):
-        self.assertEqual(day, self.date_data['period'])
+        self.assertEqual(day, self.result['period'])
 
-    def then_should_parse_date_with_expected_date(self, expected_date):
-        self.assertEqual(expected_date, self.date_data['date_obj'])
+    def then_parsed_date_is(self, expected_date):
+        self.assertEqual(expected_date, self.result['date_obj'])
 
     def then_parsed_date_has_timezone(self):
-        self.assertTrue(hasattr(self.date_data['date_obj'], 'tzinfo'))
+        self.assertTrue(hasattr(self.result['date_obj'], 'tzinfo'))
 
 
 class TestParserInitialization(BaseTestCase):
