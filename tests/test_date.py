@@ -351,7 +351,7 @@ class DateDataParserTest(BaseTestCase):
     ])
     def test_get_date_data_should_not_strip_timezone_info(self, date_string):
         self.given_parser()
-        self.when_should_parse_date_with_timezones_using_format(date_string)
+        self.when_date_string_is_parsed(date_string)
         self.then_parsed_date_has_timezone()
 
     @parameterized.expand([
@@ -361,7 +361,7 @@ class DateDataParserTest(BaseTestCase):
     ])
     def test_should_parse_date_with_timezones_using_format(self, date_string, date_formats, expected_result):
         self.given_parser()
-        self.when_should_parse_date_with_timezones_using_format(date_string, date_formats)
+        self.when_date_string_is_parsed(date_string, date_formats)
         self.then_period_is('day')
         self.then_should_parse_date_with_expected_date(expected_result)
 
@@ -370,17 +370,9 @@ class DateDataParserTest(BaseTestCase):
     ])
     def test_should_parse_with_no_break_space_in_dates(self, date_string, expected_result):
         self.given_parser()
-        self.when_should_parse_date_with_timezones_using_format(date_string)
+        self.when_date_string_is_parsed(date_string)
         self.then_period_is('day')
         self.then_should_parse_date_with_expected_date(expected_result)
-
-    @parameterized.expand([
-        param(['ur', 'li']),
-        param(['pk', ]),
-    ])
-    def test_should_raise_error_when_unknown_language_given(self, shortnames):
-        with self.assertRaisesRegexp(ValueError, '%r' % ', '.join(shortnames)):
-            date.DateDataParser(languages=shortnames)
 
     def given_parser(self, restrict_to_languages=None, **params):
         self.parser = date.DateDataParser(**params)
@@ -396,10 +388,7 @@ class DateDataParserTest(BaseTestCase):
             language_loader._data = ordered_languages
             self.add_patch(patch('dateparser.date.default_language_loader', new=language_loader))
 
-    def when_date_string_is_parsed(self, date_string):
-        self.date_data = self.parser.get_date_data(date_string)
-
-    def when_should_parse_date_with_timezones_using_format(self, date_string, date_formats=None):
+    def when_date_string_is_parsed(self, date_string, date_formats=None):
         self.date_data = self.parser.get_date_data(date_string, date_formats)
 
     def when_multiple_dates_are_parsed(self, date_strings):
@@ -434,6 +423,34 @@ class DateDataParserTest(BaseTestCase):
 
     def then_parsed_date_has_timezone(self):
         self.assertTrue(hasattr(self.date_data['date_obj'], 'tzinfo'))
+
+
+class TestParserInitialization(BaseTestCase):
+    def setUp(self):
+        super(TestParserInitialization, self).setUp()
+        self.result = NotImplemented
+        self.error = NotImplemented
+
+    @parameterized.expand([
+        param(['ur', 'li'], error_message=u"Unknown language(s): u'ur', u'li'"),
+        param(['ur', 'en'], error_message=u"Unknown language(s): u'ur'"),
+        param(['pk'], error_message=u"Unknown language(s): u'pk'"),
+        ])
+    def test_should_raise_error_when_unknown_language_given(self, shortnames, error_message):
+        self.when_parser_is_initialized(languages=shortnames)
+        self.then_error_was_raised(ValueError, error_message)
+
+    def when_parser_is_initialized(self, **params):
+        try:
+            self.parser = date.DateDataParser(**params)
+        except Exception as error:
+            self.error = error
+
+    def then_error_was_raised(self, error_cls, error_message=None):
+        self.assertIsInstance(self.error, error_cls)
+
+        if error_message is not None:
+            self.assertEqual(error_message, str(self.error))
 
 
 if __name__ == '__main__':
