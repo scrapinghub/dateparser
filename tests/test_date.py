@@ -98,7 +98,8 @@ class GetIntersectingPeriodsTest(BaseTestCase):
         self.error = NotImplemented
 
     @parameterized.expand([
-        param(low=datetime(2014, 6, 15), high=datetime(2014, 6, 16), length=1)])
+        param(low=datetime(2014, 6, 15), high=datetime(2014, 6, 16), length=1)
+    ])
     def test_date_arguments_and_date_range_with_default_post_days(self, low, high, length):
         self.when_intersecting_period_calculated(low, high, period_size='day')
         self.then_all_dates_in_range_are_present(begin=low, end=high)
@@ -176,7 +177,7 @@ class GetIntersectingPeriodsTest(BaseTestCase):
         self.when_intersecting_period_calculated(low=datetime(2014, 6, 15),
                                                  high=datetime(2014, 6, 25),
                                                  period_size=period_size)
-        self.then_should_reject_easily_mistaken_dateutil_argument(period_size)
+        self.then_error_was_raised(ValueError, 'Invalid period: ' + str(period_size))
 
     @parameterized.expand([
         param(low=datetime(2014, 4, 15), high=datetime(2014, 4, 14), period_size='month'),
@@ -207,9 +208,9 @@ class GetIntersectingPeriodsTest(BaseTestCase):
     def then_period_is_empty(self):
         self.assertEquals([], self.result)
 
-    def then_should_reject_easily_mistaken_dateutil_argument(self, period_size):
-        self.assertIsInstance(self.error, ValueError)
-        self.assertEqual('Invalid period: {}'.format(period_size), str(self.error))
+    def then_error_was_raised(self, error_cls, error_message):
+        self.assertIsInstance(self.error, error_cls)
+        self.assertEqual(error_message, str(self.error))
 
 
 class ParseDateWithFormats(BaseTestCase):
@@ -448,11 +449,9 @@ class TestParserInitialization(BaseTestCase):
         except Exception as error:
             self.error = error
 
-    def then_error_was_raised(self, error_cls, error_message=None):
+    def then_error_was_raised(self, error_cls, error_message):
         self.assertIsInstance(self.error, error_cls)
-
-        if error_message is not None:
-            self.assertEqual(error_message, str(self.error))
+        self.assertEqual(error_message, str(self.error))
 
 
 if __name__ == '__main__':
