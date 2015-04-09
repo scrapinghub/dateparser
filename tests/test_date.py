@@ -15,9 +15,9 @@ from dateparser.languages import LanguageDataLoader
 from tests import BaseTestCase
 
 
-class DateRangeTest(BaseTestCase):
+class TestDateRangeFunction(BaseTestCase):
     def setUp(self):
-        super(DateRangeTest, self).setUp()
+        super(TestDateRangeFunction, self).setUp()
         self.result = NotImplemented
         self.error = NotImplemented
 
@@ -91,9 +91,9 @@ class DateRangeTest(BaseTestCase):
         self.assertEqual('Invalid argument: {}'.format(period), str(self.error))
 
 
-class GetIntersectingPeriodsTest(BaseTestCase):
+class TestGetIntersectingPeriodsFunction(BaseTestCase):
     def setUp(self):
-        super(GetIntersectingPeriodsTest, self).setUp()
+        super(TestGetIntersectingPeriodsFunction, self).setUp()
         self.result = NotImplemented
         self.error = NotImplemented
 
@@ -213,9 +213,9 @@ class GetIntersectingPeriodsTest(BaseTestCase):
         self.assertEqual(error_message, str(self.error))
 
 
-class ParseDateWithFormats(BaseTestCase):
+class TestParseWithFormatsFunction(BaseTestCase):
     def setUp(self):
-        super(ParseDateWithFormats, self).setUp()
+        super(TestParseWithFormatsFunction, self).setUp()
         self.result = NotImplemented
 
     @parameterized.expand([
@@ -249,7 +249,9 @@ class ParseDateWithFormats(BaseTestCase):
     @parameterized.expand([
         param(date_string='August 2014', date_formats=['%B %Y'], expected_year=2014, expected_month=8),
     ])
-    def test_should_use_date_for_dates_without_day(self, date_string, date_formats, expected_year, expected_month):
+    def test_should_use_last_day_of_month_for_dates_without_day(
+        self, date_string, date_formats, expected_year, expected_month
+    ):
         self.given_now(2014, 8, 12)
         self.when_date_is_parsed_with_formats(date_string, date_formats)
         self.then_date_was_parsed()
@@ -269,6 +271,7 @@ class ParseDateWithFormats(BaseTestCase):
         self.result = date.parse_with_formats(date_string, date_formats)
 
     def then_date_was_not_parsed(self):
+        self.assertIsNotNone(self.result)
         self.assertIsNone(self.result['date_obj'])
 
     def then_date_was_parsed(self):
@@ -282,9 +285,9 @@ class ParseDateWithFormats(BaseTestCase):
         self.assertEquals(period, self.result['period'])
 
 
-class DateDataParserTest(BaseTestCase):
+class TestDateDataParser(BaseTestCase):
     def setUp(self):
-        super(DateDataParserTest, self).setUp()
+        super(TestDateDataParser, self).setUp()
         self.parser = NotImplemented
         self.result = NotImplemented
         self.multiple_results = NotImplemented
