@@ -146,6 +146,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
               period='day'),
 
         # Czech dates
+        param('Dnes', ago={'days': 0}, period='day'),
+        param('Včera', ago={'days': 1}, period='day'),
+        param('Předevčírem', ago={'days': 2}, period='day'),
         param('Před 2 hodinami', ago={'hours': 2}, period='day'),
         param('před přibližně 23 hodin', ago={'hours': 23}, period='day'),
         param('1 rok 2 měsíce', ago={'years': 1, 'months': 2}, period='month'),

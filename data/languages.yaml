@@ -947,6 +947,7 @@ cz:
         - před
 
     simplifications:
+        - dnes: 0 den
         - včera: 1 den
         - předevčírem: 2 den
 
