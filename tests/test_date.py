@@ -125,7 +125,9 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
               high=datetime(2015, 1, 1),
               expected_results=[datetime(2014, 12, 1)]),
     ])
-    def test_should_one_date_for_each_month(self, low, high, expected_results):
+    def test_dates_in_the_intersecting_period_should_use_first_day_when_period_is_month(
+        self, low, high, expected_results
+    ):
         self.when_intersecting_period_calculated(low, high, period_size='month')
         self.then_results_are(expected_results)
 
