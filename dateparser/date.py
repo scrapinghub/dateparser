@@ -22,13 +22,13 @@ def sanitize_spaces(html_string):
 
 
 def date_range(begin, end, **kwargs):
-    step = relativedelta(**kwargs) if kwargs else relativedelta(days=1)
-
     dateutil_error_prone_args = ['year', 'month', 'week', 'day', 'hour',
                                  'minute', 'second']
     for arg in dateutil_error_prone_args:
         if arg in kwargs:
             raise ValueError("Invalid argument: %s" % arg)
+
+    step = relativedelta(**kwargs) if kwargs else relativedelta(days=1)
 
     date = begin
     while date < end:
@@ -235,7 +235,7 @@ class DateDataParser(object):
                 languages = [available_language_map[language] for language in languages]
             else:
                 unsupported_languages = set(languages) - set(available_language_map.keys())
-                raise ValueError("Unknown language(s) %r" % ', '.join(unsupported_languages))
+                raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
         elif languages is not None:
             raise TypeError("languages argument must be a list (%r given)"  % type(languages))
 
