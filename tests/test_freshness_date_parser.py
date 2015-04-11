@@ -120,6 +120,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         # Turkish dates
         param('Dün', ago={'days': 1}, period='day'),
+        param('Bugün', ago={'days': 0}, period='day'),
         param('2 saat önce', ago={'hours': 2}, period='day'),
         param('yaklaşık 23 saat önce', ago={'hours': 23}, period='day'),
         param('1 yıl 2 ay', ago={'years': 1, 'months': 2}, period='month'),
