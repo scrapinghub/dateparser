@@ -81,6 +81,7 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "today", "0 day"),
         param('en', "day before yesterday", "2 day"),
         param('en', "last month", "1 month"),
+        param('en', "less then a minute ago", "45 second"),
         # German
         param('de', "vorgestern", "2 day"),
         param('de', "heute", "0 day"),

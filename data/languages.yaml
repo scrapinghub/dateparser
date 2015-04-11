@@ -109,6 +109,7 @@ en:
         - noon: '12:00'
         - midnight: '00:00'
         - (\d+)h(\d+)m?: \1:\2
+        - less then 1 minute ago: 45 seconds
 
 
 de:
