@@ -110,6 +110,7 @@ class TestBundledLanguages(BaseTestCase):
         param('pt', "hoje", "0 day"),
         param('pt', "56 minutos", "56 minute"),
         param('pt', "12 dias", "12 day"),
+        param('pt', "há 14 min.", "ago 14 minute."),
         # Russian
         param('ru', "9 месяцев", "9 month"),
         param('ru', "8 недели", "8 week"),

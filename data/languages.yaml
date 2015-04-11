@@ -561,6 +561,7 @@ pt:
     minute:
         - minuto
         - minutos
+        - min
     second:
         - segunda
         - segundos
