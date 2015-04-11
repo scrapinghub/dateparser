@@ -5,6 +5,8 @@ base:
 en:
     name: English
 
+    date_order: MDY
+
     skip: ["at", "on", "and", "ad", "m", "t", "of", "st", "nd", "rd", "th", "about", "the"]
     pertain: ["of"]
 
@@ -115,6 +117,8 @@ en:
 de:
     name: German
 
+    date_order: DMY
+
     skip: ["um", "uhr", "etwa", "und"]
 
     monday:
@@ -205,6 +209,8 @@ de:
 
 fr:
     name: French
+
+    date_order: DMY
 
     skip: ["le", "environ", "et", "\xe0", "er"]
 
@@ -301,6 +307,8 @@ fr:
 es:
     name: Spanish
 
+    date_order: DMY
+
     skip: ["de", "del", "cerca", "y", "a las"]
     pertain: ["de", "del"]
 
@@ -394,6 +402,8 @@ es:
 it:
     name: Italian
 
+    date_order: DMY
+
     skip: ["circa", "e"]
 
     monday:
@@ -481,6 +491,8 @@ it:
 
 pt:
     name: Portuguese
+
+    date_order: DMY
 
     skip: ["de", "cerca", "e", "às"]
     pertain: ["de"]
@@ -582,6 +594,8 @@ pt:
 ru:
     name: Russian
 
+    date_order: DMY
+
     skip: ["около", "в", "и"]
 
     monday:
@@ -681,6 +695,8 @@ ru:
 
 uk:
     name: Ukrainian
+
+    date_order: DMY
 
     skip: ["близько", "о", "об", "і"]
 
@@ -792,6 +808,9 @@ uk:
 
 tr:
     name: Turkish
+
+    date_order: DMY
+
     skip: ["yaklaşık", "ve"]
 
     monday:
@@ -859,6 +878,8 @@ tr:
 
 cz:
     name: Czech
+
+    date_order: DMY
 
     skip: ["přibližně", "v"]
 
@@ -960,6 +981,8 @@ cn:
     name: Chinese
     no_word_spacing: True
 
+    date_order: YMD
+
     skip: ["约"]
 
     monday:
@@ -1030,6 +1053,8 @@ cn:
 
 nl:
     name: Dutch
+
+    date_order: DMY
 
     skip: ["om"]
 
@@ -1121,6 +1146,8 @@ nl:
 ro:
     name: Romanian
 
+    date_order: DMY
+
     skip: ["la", "de"]
 
     monday:
@@ -1201,6 +1228,8 @@ ro:
 ar:
     name: Arabic
 
+    date_order: DMY
+
     skip: ['الساعة', 'مساءً', 'في']
 
     monday:
@@ -1278,6 +1307,8 @@ ar:
 
 th:
     name: Thai
+
+    date_order: DMY
 
     skip: ['เวลา', 'น.']
 
@@ -1396,6 +1427,8 @@ th:
 
 pl:
     name: Polish
+
+    date_order: DMY
 
     skip: ['r.', 'roku', 'w', 'o']
 
@@ -1535,6 +1568,8 @@ pl:
 fa:
     name: Persian
 
+    date_order: YMD
+
     monday:
         - دوشنبه
         - د.
@@ -1634,6 +1669,8 @@ fa:
 vi:
     name: Vietnamese
     pertain: ['lúc']
+
+    date_order: DMY
 
     monday:
         - Thứ hai

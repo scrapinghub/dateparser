@@ -172,7 +172,16 @@ class _DateLanguageParser(object):
 
     def _try_dateutil_parser(self):
         try:
-            date_obj = date_parser.parse(self._get_translated_date())
+            date_order = self.language.info.get('date_order', '')
+            yearfirst, dayfirst = (False, False)
+            if date_order.startswith('Y'):
+                yearfirst = True
+            if 'DM' in date_order:
+                dayfirst = True
+            date_obj = date_parser.parse(
+                self._get_translated_date(),
+                dayfirst=dayfirst, yearfirst=yearfirst
+            )
             return {
                 'date_obj': date_obj,
                 'period': 'day',
