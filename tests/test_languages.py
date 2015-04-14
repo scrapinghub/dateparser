@@ -62,6 +62,9 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8  january  2015"),
         param('vi', "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015  22:34"),
         param('vi', "9 Tháng 1 2015 lúc 15:08", "9  january  2015  15:08"),
+        # Thai
+        param('th', "เมื่อ กุมภาพันธ์ 09, 2015, 09:27:57 AM", "february 09 2015 09:27:57 am"),
+        param('th', "เมื่อ กรกฎาคม 05, 2012, 01:18:06 AM", "july 05 2012 01:18:06 am"),
         # Miscellaneous
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
         param('en', "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
