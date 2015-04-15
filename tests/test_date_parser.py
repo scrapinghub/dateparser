@@ -157,7 +157,7 @@ class TestDateParser(BaseTestCase):
         param('22 พฤษภาคม 2012, 22:12', datetime(2012, 5, 22, 22, 12)),
         param('11 กุมภา 2020, 8:13 AM', datetime(2020, 2, 11, 8, 13)),
         param('1 เดือนตุลาคม 2005, 1:00 AM', datetime(2005, 10, 1, 1, 0)),
-        param('11 ก.พ. 2020, 13:13 AM', datetime(2020, 2, 11, 13, 13)),
+        param('11 ก.พ. 2020, 1:13 pm', datetime(2020, 2, 11, 13, 13)),
         # Vietnamese dates
         param('Thứ năm', datetime(2012, 11, 8)),  # Thursday
         param('Thứ sáu', datetime(2012, 11, 9)),  # Friday

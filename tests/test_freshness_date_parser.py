@@ -120,6 +120,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         # Turkish dates
         param('Dün', ago={'days': 1}, period='day'),
+        param('Bugün', ago={'days': 0}, period='day'),
         param('2 saat önce', ago={'hours': 2}, period='day'),
         param('yaklaşık 23 saat önce', ago={'hours': 23}, period='day'),
         param('1 yıl 2 ay', ago={'years': 1, 'months': 2}, period='month'),
@@ -146,6 +147,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
               period='day'),
 
         # Czech dates
+        param('Dnes', ago={'days': 0}, period='day'),
+        param('Včera', ago={'days': 1}, period='day'),
+        param('Předevčírem', ago={'days': 2}, period='day'),
         param('Před 2 hodinami', ago={'hours': 2}, period='day'),
         param('před přibližně 23 hodin', ago={'hours': 23}, period='day'),
         param('1 rok 2 měsíce', ago={'years': 1, 'months': 2}, period='month'),
@@ -269,6 +273,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('the day before yesterday 16:50', date(2014, 8, 30), time(16, 50)),
         param('2 Tage 18:50', date(2014, 8, 30), time(18, 50)),
         param('1 day ago at 2 PM', date(2014, 8, 31), time(14, 0)),
+        param('Dnes v 12:40', date(2014, 9, 1), time(12, 40)),
     ])
     def test_freshness_date_with_time(self, date_string, date, time):
         self.given_parser()

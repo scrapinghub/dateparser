@@ -30,6 +30,7 @@ class TestBundledLanguages(BaseTestCase):
         # French
         param('fr', "20 Février 2012", "20 february 2012"),
         param('fr', "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
+        param('fr', "18 octobre 2012 à 19 h 21 min", "18 october 2012  19:21"),
         # German
         param('de', "29. Juni 2007", "29. june 2007"),
         param('de', "Montag 5 Januar, 2015", "monday 5 january 2015"),
@@ -53,6 +54,8 @@ class TestBundledLanguages(BaseTestCase):
         # Polish
         param('pl', "4 stycznia o 13:50", "4 january  13:50"),
         param('pl', "29 listopada 2014 o 08:40", "29 november 2014  08:40"),
+        # Ukrainian
+        param('uk', "30 листопада 2013 о 04:27", "30 november 2013  04:27"),
         # Arabic
         param('ar', "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
         param('ar', "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
@@ -60,10 +63,14 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8  january  2015"),
         param('vi', "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015  22:34"),
         param('vi', "9 Tháng 1 2015 lúc 15:08", "9  january  2015  15:08"),
+        # Thai
+        param('th', "เมื่อ กุมภาพันธ์ 09, 2015, 09:27:57 AM", "february 09 2015 09:27:57 am"),
+        param('th', "เมื่อ กรกฎาคม 05, 2012, 01:18:06 AM", "july 05 2012 01:18:06 am"),
         # Miscellaneous
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
         param('en', "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
         param('en', "28 Oct 2014 16:39:01 +0000", "28 october 2014 16:39:01 +0000"),
+        param('es', "13 Febrero 2015 a las 23:00", "13 february 2015  23:00")
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -77,6 +84,7 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "today", "0 day"),
         param('en', "day before yesterday", "2 day"),
         param('en', "last month", "1 month"),
+        param('en', "less then a minute ago", "45 second"),
         # German
         param('de', "vorgestern", "2 day"),
         param('de', "heute", "0 day"),
@@ -88,6 +96,7 @@ class TestBundledLanguages(BaseTestCase):
         # Spanish
         param('es', "anteayer", "2 day"),
         param('es', "ayer", "1 day"),
+        param('es', "ayer a las", "1 day "),
         param('es', "hoy", "0 day"),
         param('es', "hace un horas", "ago 1 hour"),
         param('es', "2 semanas", "2 week"),
@@ -104,6 +113,7 @@ class TestBundledLanguages(BaseTestCase):
         param('pt', "hoje", "0 day"),
         param('pt', "56 minutos", "56 minute"),
         param('pt', "12 dias", "12 day"),
+        param('pt', "há 14 min.", "ago 14 minute."),
         # Russian
         param('ru', "9 месяцев", "9 month"),
         param('ru', "8 недели", "8 week"),
