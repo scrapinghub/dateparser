@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import calendar
 import re, sys
 from datetime import datetime
-
+from collections import OrderedDict
 
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
@@ -70,16 +70,15 @@ class new_parser(parser.parser):
 
     @staticmethod
     def get_period(res):
-        periods = ['year', 'month', 'day', 'weekday', 'hour', 'minute', 'second', 'microsecond']
-        res_periods_tuples = [
-            (period if period not in periods[2:] else periods[2],
-             getattr(res, period, None)) for period in periods
-        ]
-        res_periods_tuples = filter(lambda x: x if x[1] is not None else False, res_periods_tuples)
-        try:
-            return res_periods_tuples[-1][0]
-        except:
-            return None
+        periods = OrderedDict([
+            ('day', ['day', 'weekday', 'hour', 'minute', 'second', 'microsecond']),
+            ('month', ['month']),
+            ('year', ['year']),
+        ])
+        for period, markers in periods.iteritems():
+            for marker in markers:
+                if getattr(res, marker) is not None:
+                    return period
 
     @classmethod
     def _populate(cls, res, default):
