@@ -136,6 +136,7 @@ class TestBundledLanguages(BaseTestCase):
         param('cn', "50 秒", "50 second"),
         param('cn', "7 周", "7 week"),
         param('cn', "12 年", "12 year"),
+        param('cn', "半小时前", "30 minute ago"),
         # Dutch
         param('nl', "17 uur geleden", "17 hour ago"),
         param('nl', "27 jaar geleden", "27 year ago"),

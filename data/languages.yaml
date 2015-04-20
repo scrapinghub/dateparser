@@ -960,7 +960,7 @@ cn:
     name: Chinese
     no_word_spacing: True
 
-    skip: ["约"]
+    skip: ["约", "时"]
 
     monday:
         - 星期一
@@ -1026,6 +1026,7 @@ cn:
     simplifications:
         - 昨天: 1天
         - 前天: 2天
+        - 半小: 30分
 
 
 nl:
