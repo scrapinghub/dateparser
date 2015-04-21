@@ -206,7 +206,7 @@ de:
 fr:
     name: French
 
-    skip: ["le", "environ", "et", "\xe0", "er"]
+    skip: ["le", "environ", "et", "\xe0", "er", "moins de", "moins d'"]
 
     monday:
         - Lundi
@@ -296,6 +296,9 @@ fr:
         - une: 1
         - (\d+)\sh\s(\d+)\smin: \1h\2m
         - (\d+)h(\d+)m?: \1:\2
+        - (\d+)s: \1 secondes
+        - (\d+)m: \1 minutes
+        - (\d+)h: \1 heures
 
 
 es:
