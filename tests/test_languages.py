@@ -159,6 +159,10 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "21 giờ trước", "21 hour ago"),
         param('vi', "Hôm qua 08:16", "1 day 08:16"),
         param('vi', "Hôm nay 15:39", "0 day 15:39"),
+        #French
+        param('fr', u"Il y a moins d'une minute", "ago 1 minute"),
+        param('fr', u"Il y a moins de 30s", "ago  30 second")
+
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
