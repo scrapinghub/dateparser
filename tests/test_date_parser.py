@@ -373,14 +373,6 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
         self.then_period_is(period)
 
-    def test_only_date_should_be_return_when_return_period_is_false(self):
-        date = DateParser().parse('21 February 2014', return_period=False)
-        self.assertEqual(date, datetime(2014, 2, 21))
-
-    def test_date_period_tuple_should_be_return_when_return_period_is_true(self):
-        date_period = DateParser().parse('21 February 2014', return_period=True)
-        self.assertEqual(date_period, (datetime(2014, 2, 21), 'day'))
-
     def given_utcnow(self, now):
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.utcnow = Mock(return_value=now)
@@ -399,8 +391,8 @@ class TestDateParser(BaseTestCase):
     def given_parser(self):
         def collecting_get_date_data(parse):
             @wraps(parse)
-            def wrapped(date_string, return_period=False):
-                self.date_result = parse(date_string, return_period=return_period)
+            def wrapped(date_string):
+                self.date_result = parse(date_string)
                 return self.date_result
             return wrapped
         self.add_patch(patch.object(date_parser,

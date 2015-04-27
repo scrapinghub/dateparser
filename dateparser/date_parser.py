@@ -44,7 +44,7 @@ class new_parser(parser.parser):
     For more see issue #36
     """
 
-    def parse(self, timestr, default=None, ignoretz=False, return_period=False, **kwargs):
+    def parse(self, timestr, default=None, ignoretz=False, **kwargs):
         # timestr needs to be a buffer as required by _parse
         if isinstance(timestr, binary_type):
             timestr = timestr.decode()
@@ -63,10 +63,7 @@ class new_parser(parser.parser):
             if not getattr(res, e):
                 new_date = new_date.replace(**{e: 0})
 
-        if return_period:
-            return new_date, self.get_period(res)
-        else:
-            return new_date
+        return new_date, self.get_period(res)
 
     @staticmethod
     def get_period(res):
@@ -168,7 +165,7 @@ class new_parser(parser.parser):
         return date
 
 
-def dateutil_parse(date_string, return_period=False, **kwargs):
+def dateutil_parse(date_string, **kwargs):
     """Wrapper function around dateutil.parser.parse
     """
     today = datetime.utcnow()
@@ -179,14 +176,14 @@ def dateutil_parse(date_string, return_period=False, **kwargs):
     # that raises TypeError for an invalid string
     # https://bugs.launchpad.net/dateutil/+bug/1042851
     try:
-        return new_parser().parse(date_string, return_period=return_period, **kwargs)
+        return new_parser().parse(date_string, **kwargs)
     except TypeError, e:
         raise ValueError(e, "Invalid date: %s" % date_string)
 
 
 class DateParser(object):
 
-    def parse(self, date_string, return_period=False):
+    def parse(self, date_string):
         date_string = unicode(date_string)
 
         if not date_string.strip():
@@ -194,18 +191,12 @@ class DateParser(object):
 
         date_string, tz_offset = pop_tz_offset_from_string(date_string)
 
-        if return_period:
-            date_obj, period = dateutil_parse(date_string, return_period=return_period)
-        else:
-            date_obj = dateutil_parse(date_string)
+        date_obj, period = dateutil_parse(date_string)
 
         if tz_offset is not None:
             date_obj = convert_to_local_tz(date_obj, tz_offset)
 
-        if return_period:
-            return date_obj, period
-        else:
-            return date_obj
+        return date_obj, period
 
 
 date_parser = DateParser()
