@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
 
-from dateparser.languages import LanguageDataLoader
-
-default_language_loader = LanguageDataLoader()
+from dateparser.languages import default_language_loader
 
 
 def _restore_languages_on_generator_exit(method):

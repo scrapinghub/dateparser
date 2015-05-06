@@ -11,7 +11,7 @@ from nose_parameterized import parameterized, param
 
 from dateparser import date
 from dateparser.date import get_last_day_of_month
-from dateparser.languages import LanguageDataLoader
+from dateparser.languages.loader import LanguageDataLoader
 from tests import BaseTestCase
 
 

@@ -12,7 +12,7 @@ from nose_parameterized import parameterized, param
 import dateparser.timezone_parser
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
-from dateparser.languages import LanguageDataLoader
+from dateparser.languages import default_language_loader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import settings
 
@@ -84,7 +84,7 @@ class ExactLanguagesTest(BaseTestCase):
             # language, and so it should use d/m/Y instead of d/m/Y
             # (u'11/03/2014', datetime(2014, 3, 11)),
         ]
-        spanish = LanguageDataLoader().get_language('es')
+        spanish = default_language_loader.get_language('es')
         parser = ExactLanguages([spanish])
 
         for date_string, correct_date in date_fixtures:
