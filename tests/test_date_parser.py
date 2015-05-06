@@ -19,9 +19,10 @@ from dateparser.conf import settings
 from tests import BaseTestCase
 
 
-class AutoDetectLanguageTest(unittest.TestCase):
+class AutoDetectLanguageTest(BaseTestCase):
 
     def setUp(self):
+        super(AutoDetectLanguageTest, self).setUp()
         self.parser = AutoDetectLanguage()
 
     def test_detect_language(self):
@@ -61,7 +62,7 @@ class AutoDetectLanguageTest(unittest.TestCase):
             self.assertEqual(correct_date.date(), parsed_date.date())
 
 
-class ExactLanguagesTest(unittest.TestCase):
+class ExactLanguagesTest(BaseTestCase):
 
     def test_force_setting_language(self):
         with self.assertRaisesRegexp(TypeError, 'takes exactly 2 arguments'):
