@@ -120,6 +120,10 @@ class AutoDetectLanguageTest(BaseTestCase):
 
 
 class ExactLanguagesTest(BaseTestCase):
+    def setUp(self):
+        super(ExactLanguagesTest, self).setUp()
+        self.parser = NotImplemented
+        self.detected_languages = NotImplemented
 
     def test_force_setting_language(self):
         with self.assertRaisesRegexp(TypeError, 'takes exactly 2 arguments'):
@@ -128,29 +132,40 @@ class ExactLanguagesTest(BaseTestCase):
         with self.assertRaisesRegexp(ValueError, 'cannot be None'):
             ExactLanguages(None)
 
-    @unittest.skip('This test should only be testing detecting languages, not parsing them. Although tests '
-                   'for parsing this dates should be created separatly to not reduce the coverage')
-    def test_parse_date_in_exact_language(self):
-        date_fixtures = [
-            (u'13 Ago, 2014', datetime(2014, 8, 13)),
-            (u'13 Septiembre, 2014', datetime(2014, 9, 13)),
-            (u'13/03/2014', datetime(2014, 3, 13)),
+    @parameterized.expand([
+        param(languages=['es'], date_strings=["13 Ago, 2014"]),
+        param(languages=['es'], date_strings=["13 Septiembre, 2014"]),
+        param(languages=['es'], date_strings=["13/03/2014"]),
+        param(languages=['es'], date_strings=["11/03/2014"]),
+    ])
+    def test_parse_date_in_exact_language(self, languages, date_strings):
+        self.given_parser(languages)
+        self.when_languages_are_detected(date_strings)
+        self.then_detected_languages_are(languages)
 
-            # TODO: make the following test pass
-            # in this case, it should have detected spanish as the
-            # language, and so it should use d/m/Y instead of d/m/Y
-            # (u'11/03/2014', datetime(2014, 3, 11)),
-        ]
-        spanish = default_language_loader.get_language('es')
-        parser = ExactLanguages([spanish])
+    @parameterized.expand([
+        param(languages=['es'], date_strings=["13 Setembro, 2014"]),
+    ])
+    def test_reject_dates_in_other_languages(self, languages, date_strings):
+        self.given_parser(languages=languages)
+        self.when_languages_are_detected(date_strings)
+        self.then_detected_languages_are([])
 
-        for date_string, correct_date in date_fixtures:
-            parsed_date = parser.parse(date_string, None)
-            self.assertEqual(correct_date.date(), parsed_date.date())
+    def given_parser(self, languages):
+        language_map = default_language_loader.get_language_map()
+        languages = [language_map[language]
+                     for language in languages]
+        self.parser = ExactLanguages(languages)
 
-        with self.assertRaisesRegexp(ValueError, 'Invalid date'):
-            portuguese_date = u'13 Setembro, 2014'
-            parser.parse(portuguese_date, None)
+    def when_languages_are_detected(self, date_strings, modify=False):
+        assert not isinstance(date_strings, basestring)
+        for date_string in date_strings:
+            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify))
+        self.detected_languages = detected_languages
+
+    def then_detected_languages_are(self, expected_languages):
+        shortnames = map(attrgetter('shortname'), self.detected_languages)
+        self.assertItemsEqual(expected_languages, shortnames)
 
 
 class TestDateParser(BaseTestCase):
@@ -226,6 +241,7 @@ class TestDateParser(BaseTestCase):
         param('05 Tháng một 2015 - 03:54 AM', datetime(2015, 1, 5, 3, 54)),
         # Numeric dates
         param('06-17-2014', datetime(2014, 6, 17)),
+        param('13/03/2014', datetime(2014, 3, 13)),
         # Miscellaneous
         param('April 9, 2013 at 6:11 a.m.', datetime(2013, 4, 9, 6, 11)),
         param('Aug. 9, 2012 at 2:57 p.m.', datetime(2012, 8, 9, 14, 57)),
