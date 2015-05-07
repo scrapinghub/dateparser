@@ -18,7 +18,7 @@ def _restore_languages_on_generator_exit(method):
 
 class BaseLanguageDetector(object):
     def __init__(self, languages):
-        self.languages = languages
+        self.languages = languages[:]
 
     @_restore_languages_on_generator_exit
     def iterate_applicable_languages(self, date_string, modify=False):
@@ -42,7 +42,8 @@ class AutoDetectLanguage(BaseLanguageDetector):
     def __init__(self, languages=None, allow_redetection=False):
         if languages is None:
             languages = default_language_loader.get_languages()
-        super(AutoDetectLanguage, self).__init__(languages=languages)
+        super(AutoDetectLanguage, self).__init__(languages=languages[:])
+        self.language_pool = languages[:]
         self.allow_redetection = allow_redetection
 
     @_restore_languages_on_generator_exit
@@ -57,7 +58,7 @@ class AutoDetectLanguage(BaseLanguageDetector):
 
         # Try languages that was not tried before with this date_string
         languages = [language
-                     for language in default_language_loader.get_languages()
+                     for language in self.language_pool
                      if language not in initial_languages]
         if modify:
             self.languages = languages
