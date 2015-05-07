@@ -72,35 +72,20 @@ class AutoDetectLanguageTest(BaseTestCase):
         self.then_detected_languages_are(expected_languages)
         self.then_parser_languages_are(self.known_languages)
 
-    @unittest.skip('This test should only be testing detecting languages, not parsing them. Although tests '
-                   'for parsing this dates should be created separately to not reduce the coverage')
-    def test_should_reduce_possible_languages_and_reject_different(self):
-        dates_in_spanish = [
-            (u'13 Ago, 2014', datetime(2014, 8, 13)),
-            (u'13 Septiembre, 2014', datetime(2014, 9, 13)),
-        ]
+    @parameterized.expand([
+        param(language='es', date_strings=["13 Setembro, 2014"]),
+    ])
+    def test_reject_dates_in_other_languages_without_redetection(self, language, date_strings):
+        self.given_parser(languages=self.known_languages)
+        self.given_parser_languages_are([language])
+        self.when_all_languages_are_detected(date_strings)
+        self.then_detected_languages_are([])
 
-        for date_string, correct_date in dates_in_spanish:
-            parsed_date = self.parser.parse(date_string, None)
-            self.assertEqual(correct_date.date(), parsed_date.date())
-
-        with self.assertRaisesRegexp(ValueError, 'Invalid date'):
-            portuguese_date = u'13 Setembro, 2014'
-            self.parser.parse(portuguese_date, None)
-
-    @unittest.skip('This test should only be testing detecting languages, not parsing them. Although tests '
-                   'for parsing this dates should be created separately to not reduce the coverage')
-    def test_should_accept_dates_in_different_languages(self):
-        date_fixtures = [
-            (u'13 Ago, 2014', datetime(2014, 8, 13)),
-            (u'13 Septiembre, 2014', datetime(2014, 9, 13)),
-            (u'13 Setembro, 2014', datetime(2014, 9, 13)),
-        ]
-        parser = AutoDetectLanguage(None, allow_redetection=True)
-
-        for date_string, correct_date in date_fixtures:
-            parsed_date = parser.parse(date_string, None)
-            self.assertEqual(correct_date.date(), parsed_date.date())
+    def test_accept_dates_in_other_languages_with_redetection_enabled(self):
+        self.given_parser(languages=self.known_languages, allow_redetection=True)
+        self.given_parser_languages_are(['es'])
+        self.when_all_languages_are_detected(['13 Juillet, 2014'])  # fr
+        self.then_detected_languages_are(['fr'])
 
     def given_parser(self, languages=None, allow_redetection=False):
         if languages is not None:
@@ -109,7 +94,13 @@ class AutoDetectLanguageTest(BaseTestCase):
                          for language in languages]
         self.parser = AutoDetectLanguage(languages=languages, allow_redetection=allow_redetection)
 
+    def given_parser_languages_are(self, languages):
+        language_map = default_language_loader.get_language_map()
+        self.parser.languages = [language_map[language]
+                                 for language in languages]
+
     def when_all_languages_are_detected(self, date_strings, modify=False):
+        assert not isinstance(date_strings, basestring)
         for date_string in date_strings:
             detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify))
         self.detected_languages = detected_languages
@@ -125,7 +116,6 @@ class AutoDetectLanguageTest(BaseTestCase):
 
     def then_parser_languages_are(self, expected_languages):
         shortnames = map(attrgetter('shortname'), self.parser.languages)
-        print shortnames, expected_languages
         self.assertItemsEqual(expected_languages, shortnames)
 
 
@@ -190,6 +180,8 @@ class TestDateParser(BaseTestCase):
         param('Martes 21 de Octubre de 2014', datetime(2014, 10, 21)),
         param('Miércoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),
         param('12 de junio del 2012', datetime(2012, 6, 12)),
+        param('13 Ago, 2014', datetime(2014, 8, 13)),
+        param('13 Septiembre, 2014', datetime(2014, 9, 13)),
         # Dutch dates
         param('11 augustus 2014', datetime(2014, 8, 11)),
         param('14 januari 2014', datetime(2014, 1, 14)),
@@ -199,6 +191,7 @@ class TestDateParser(BaseTestCase):
         param('26 gennaio 2014', datetime(2014, 1, 26)),
         # Portuguese dates
         param('sexta-feira, 10 de junho de 2014 14:52', datetime(2014, 6, 10, 14, 52)),
+        param('13 Setembro, 2014', datetime(2014, 9, 13)),
         # Russian dates
         param('10 мая', datetime(2012, 5, 10)),  # forum.codenet.ru
         param('26 апреля', datetime(2012, 4, 26)),
