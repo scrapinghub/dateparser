@@ -20,16 +20,57 @@ from tests import BaseTestCase
 
 
 class AutoDetectLanguageTest(BaseTestCase):
-
     def setUp(self):
         super(AutoDetectLanguageTest, self).setUp()
-        self.parser = AutoDetectLanguage()
 
-    def test_detect_language(self):
-        self.assertItemsEqual(['es', 'pt'],
-                              map(attrgetter('shortname'), self.parser.iterate_applicable_languages('11 abril 2010')))
-        self.assertItemsEqual(['es'],
-                              map(attrgetter('shortname'), self.parser.iterate_applicable_languages('11 junio 2010')))
+        # Just a known subset so we can rely on test outcomes. Feel free to add, but not exclude or change order.
+        self.known_languages = ['en', 'fr', 'es', 'pt', 'ru']
+
+        self.parser = NotImplemented
+        self.detected_languages = NotImplemented
+
+    @parameterized.expand([
+        param(date_strings=["11 abril 2010"], expected_languages=['es', 'pt']),
+        param(date_strings=["11 junio 2010"], expected_languages=['es']),
+        param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_languages=['es']),
+    ])
+    def test_detect_languages(self, date_strings, expected_languages):
+        self.given_parser(languages=self.known_languages)
+        self.when_all_languages_are_detected(date_strings)
+        self.then_detected_languages_are(expected_languages)
+
+    @parameterized.expand([
+        param(date_strings=["11 abril 2010"], expected_language='es'),
+        param(date_strings=["11 junio 2010"], expected_language='es'),
+        param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_language='es'),
+    ])
+    def test_exclude_ineligible_languages_with_modify(self, date_strings, expected_language):
+        self.given_parser(languages=self.known_languages)
+        self.when_one_language_is_detected(date_strings, modify=True)
+        self.then_detected_languages_are([expected_language])
+        self.then_parser_languages_are(self.known_languages[self.known_languages.index(expected_language):])
+
+    @parameterized.expand([
+        param(date_strings=["11 abril 2010"], expected_language='es'),
+        param(date_strings=["11 junio 2010"], expected_language='es'),
+        param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_language='es'),
+    ])
+    def test_do_not_exclude_ineligible_languages_without_modify(self, date_strings, expected_language):
+        self.given_parser(languages=self.known_languages)
+        self.when_one_language_is_detected(date_strings, modify=False)
+        self.then_detected_languages_are([expected_language])
+        self.then_parser_languages_are(self.known_languages)
+
+    @parameterized.expand([
+        param(date_strings=["11 abril 2010"], expected_languages=['es', 'pt']),
+        param(date_strings=["11 junio 2010"], expected_languages=['es']),
+        param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_languages=['es']),
+    ])
+    def test_do_not_exclude_ineligible_languages_when_all_ineligible(self, date_strings, expected_languages):
+        self.given_parser(languages=self.known_languages)
+        self.when_all_languages_are_detected(date_strings, modify=True)
+        self.then_detected_languages_are(expected_languages)
+        self.then_parser_languages_are(self.known_languages)
 
     @unittest.skip('This test should only be testing detecting languages, not parsing them. Although tests '
                    'for parsing this dates should be created separately to not reduce the coverage')
@@ -60,6 +101,32 @@ class AutoDetectLanguageTest(BaseTestCase):
         for date_string, correct_date in date_fixtures:
             parsed_date = parser.parse(date_string, None)
             self.assertEqual(correct_date.date(), parsed_date.date())
+
+    def given_parser(self, languages=None, allow_redetection=False):
+        if languages is not None:
+            language_map = default_language_loader.get_language_map()
+            languages = [language_map[language]
+                         for language in languages]
+        self.parser = AutoDetectLanguage(languages=languages, allow_redetection=allow_redetection)
+
+    def when_all_languages_are_detected(self, date_strings, modify=False):
+        for date_string in date_strings:
+            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify))
+        self.detected_languages = detected_languages
+
+    def when_one_language_is_detected(self, date_strings, modify=False):
+        for date_string in date_strings:
+            detected_language = self.parser.iterate_applicable_languages(date_string, modify=modify).next()
+        self.detected_languages = [detected_language]
+
+    def then_detected_languages_are(self, expected_languages):
+        shortnames = map(attrgetter('shortname'), self.detected_languages)
+        self.assertItemsEqual(expected_languages, shortnames)
+
+    def then_parser_languages_are(self, expected_languages):
+        shortnames = map(attrgetter('shortname'), self.parser.languages)
+        print shortnames, expected_languages
+        self.assertItemsEqual(expected_languages, shortnames)
 
 
 class ExactLanguagesTest(BaseTestCase):
