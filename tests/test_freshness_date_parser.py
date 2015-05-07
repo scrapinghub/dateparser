@@ -55,6 +55,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
+        param('just now', ago={'seconds':0}, period='day'),
 
         # French dates
         param("Aujourd'hui", ago={'days': 0}, period='day'),
