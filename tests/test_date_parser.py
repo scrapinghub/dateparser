@@ -124,13 +124,11 @@ class ExactLanguagesTest(BaseTestCase):
         super(ExactLanguagesTest, self).setUp()
         self.parser = NotImplemented
         self.detected_languages = NotImplemented
+        self.error = NotImplemented
 
-    def test_force_setting_language(self):
-        with self.assertRaisesRegexp(TypeError, 'takes exactly 2 arguments'):
-            ExactLanguages()
-
-        with self.assertRaisesRegexp(ValueError, 'cannot be None'):
-            ExactLanguages(None)
+    def test_languages_passed_in_constructor_should_not_be_none(self):
+        self.when_parser_is_constructed(languages=None)
+        self.then_error_was_raised(ValueError, 'language cannot be None for ExactLanguages')
 
     @parameterized.expand([
         param(languages=['es'], date_strings=["13 Ago, 2014"]),
@@ -163,9 +161,19 @@ class ExactLanguagesTest(BaseTestCase):
             detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify))
         self.detected_languages = detected_languages
 
+    def when_parser_is_constructed(self, languages):
+        try:
+            ExactLanguages(languages)
+        except Exception as error:
+            self.error = error
+
     def then_detected_languages_are(self, expected_languages):
         shortnames = map(attrgetter('shortname'), self.detected_languages)
         self.assertItemsEqual(expected_languages, shortnames)
+
+    def then_error_was_raised(self, error_cls, error_message):
+        self.assertIsInstance(self.error, error_cls)
+        self.assertEqual(error_message, str(self.error))
 
 
 class TestDateParser(BaseTestCase):
@@ -275,7 +283,7 @@ class TestDateParser(BaseTestCase):
         param('17th October, 2034 @ 01:08 am PDT', datetime(2034, 10, 17, 9, 8)),
         param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 4, 24)),
         param('15 May 2004', datetime(2004, 5, 15, 0, 0)),
-        ])
+    ])
     def test_parsing_with_time_zones(self, date_string, expected):
         self.given_local_tz_offset(+1)
         self.given_parser()
