@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from mock import Mock, patch
 from nose_parameterized import parameterized, param
 
+import dateparser
 from dateparser import date
 from dateparser.date import get_last_day_of_month
 from dateparser.languages.loader import LanguageDataLoader
@@ -364,11 +365,23 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_date_has_timezone()
 
     @parameterized.expand([
+        param(date_string="2014/11/17 14:56 EDT", expected_result=datetime(2014, 11, 17, 18, 56)),
+    ])
+    def test_parse_date_with_timezones_not_using_format(self, date_string, expected_result):
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.when_date_string_is_parsed(date_string)
+        self.then_date_was_parsed()
+        self.then_period_is('day')
+        self.then_parsed_datetime_is(expected_result)
+
+    @parameterized.expand([
         param(date_string="2014/11/17 14:56 EDT",
               date_formats=["%Y/%m/%d %H:%M EDT"],
               expected_result=datetime(2014, 11, 17, 14, 56)),
     ])
-    def test_should_parse_date_with_timezones_using_format(self, date_string, date_formats, expected_result):
+    def test_parse_date_with_timezones_using_format_ignore_timezone(self, date_string, date_formats, expected_result):
+        self.given_local_tz_offset(0)
         self.given_parser()
         self.when_date_string_is_parsed(date_string, date_formats)
         self.then_date_was_parsed()
@@ -405,6 +418,13 @@ class TestDateDataParser(BaseTestCase):
             ])
             language_loader._data = ordered_languages
             self.add_patch(patch('dateparser.date.default_language_loader', new=language_loader))
+
+    def given_local_tz_offset(self, offset):
+        self.add_patch(
+            patch.object(dateparser.timezone_parser,
+                         'local_tz_offset',
+                         new=timedelta(seconds=3600 * offset))
+        )
 
     def when_date_string_is_parsed(self, date_string, date_formats=None):
         self.result = self.parser.get_date_data(date_string, date_formats)
