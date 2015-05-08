@@ -220,12 +220,12 @@ class TestDateParser(BaseTestCase):
         # French dates
         param('11 Mai 2014', datetime(2014, 5, 11)),
         param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
-        param('22 janvier 2015 \xe0 14h40', datetime(2015, 1, 22, 14, 40)),
-        param('Dimanche 1er F\xe9vrier \xe0 21:24', datetime(2012, 2, 1, 21, 24)),
-        param('vendredi, d\xe9cembre 5 2014.', datetime(2014, 12, 5, 0, 0)),
-        param('le 08 D\xe9c 2014 15:11', datetime(2014, 12, 8, 15, 11)),
-        param('Le 11 D\xe9cembre 2014 \xe0 09:00', datetime(2014, 12, 11, 9, 0)),
-        param('f\xe9v 15, 2013', datetime(2013, 2, 15, 0, 0)),
+        param('22 janvier 2015 à 14h40', datetime(2015, 1, 22, 14, 40)),
+        param('Dimanche 1er Février à 21:24', datetime(2012, 2, 1, 21, 24)),
+        param('vendredi, décembre 5 2014.', datetime(2014, 12, 5, 0, 0)),
+        param('le 08 Déc 2014 15:11', datetime(2014, 12, 8, 15, 11)),
+        param('Le 11 Décembre 2014 à 09:00', datetime(2014, 12, 11, 9, 0)),
+        param('fév 15, 2013', datetime(2013, 2, 15, 0, 0)),
         # Spanish dates
         param('Martes 21 de Octubre de 2014', datetime(2014, 10, 21)),
         param('Miércoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),
