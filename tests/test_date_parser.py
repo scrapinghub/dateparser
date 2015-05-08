@@ -291,15 +291,18 @@ class TestDateParser(BaseTestCase):
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
+    def test_empty_dates_string_is_not_parsed(self):
+        self.when_date_is_parsed_by_date_parser('')
+        self.then_error_was_raised(ValueError, "Empty string")
+
     @parameterized.expand([
-        param(''),
         param('invalid date string'),
         param('Aug 7, 2014Aug 7, 2014'),
+        param('24h ago'),
     ])
     def test_dates_not_parsed(self, date_string):
-        self.given_parser()
-        self.when_date_is_parsed(date_string)
-        self.then_date_was_not_parsed()
+        self.when_date_is_parsed_by_date_parser(date_string)
+        self.then_error_was_raised(ValueError, "unknown string format")
 
     @parameterized.expand([
         param('10 December', datetime(2014, 12, 10)),
@@ -472,9 +475,6 @@ class TestDateParser(BaseTestCase):
     def then_date_obj_exactly_is(self, expected):
         self.assertEqual(expected, self.result['date_obj'])
 
-    def then_date_was_not_parsed(self):
-        self.assertIsNone(self.result['date_obj'])
-
     def then_date_was_parsed_by_date_parser(self):
         self.assertEqual(self.result['date_obj'], self.date_result)
 
@@ -485,11 +485,6 @@ class TestDateParser(BaseTestCase):
 
 @unittest.skip('There are mostly old language detection tests left. New tests should be written.')
 class TestDateParser_(BaseTestCase):
-
-    def test_premature_detection(self):
-        invalid_date_string = '24h ago'  # 'ago' is shortened august in some languages
-        with self.assertRaisesRegexp(ValueError, 'Invalid date: {}'.format(invalid_date_string)):
-            DateParser().parse(invalid_date_string)
 
     def test_should_not_assume_language_prematurely(self):
         dp = DateParser()
