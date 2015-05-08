@@ -179,9 +179,9 @@ class ExactLanguagesTest(BaseTestCase):
 class TestDateParser(BaseTestCase):
     def setUp(self):
         super(TestDateParser, self).setUp()
-        self.date_string = NotImplemented
         self.parser = NotImplemented
         self.result = NotImplemented
+        self.error = NotImplemented
         self.date_parser = NotImplemented
         self.date_result = NotImplemented
 
@@ -272,8 +272,7 @@ class TestDateParser(BaseTestCase):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
         self.given_local_tz_offset(0)
         self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
+        self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
@@ -287,8 +286,7 @@ class TestDateParser(BaseTestCase):
     def test_parsing_with_time_zones(self, date_string, expected):
         self.given_local_tz_offset(+1)
         self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
+        self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
@@ -300,8 +298,7 @@ class TestDateParser(BaseTestCase):
     ])
     def test_dates_not_parsed(self, date_string):
         self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
+        self.when_date_is_parsed(date_string)
         self.then_date_was_not_parsed()
 
     @parameterized.expand([
@@ -317,8 +314,7 @@ class TestDateParser(BaseTestCase):
         self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
         self.given_local_tz_offset(0)
         self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
+        self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
@@ -336,8 +332,7 @@ class TestDateParser(BaseTestCase):
         self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
         self.given_local_tz_offset(0)
         self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
+        self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
@@ -355,8 +350,7 @@ class TestDateParser(BaseTestCase):
         self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
         self.given_local_tz_offset(0)
         self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
+        self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
@@ -373,8 +367,7 @@ class TestDateParser(BaseTestCase):
         self.given_configuration('PREFER_DAY_OF_MONTH', 'current')
         self.given_utcnow(today)
         self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
+        self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
@@ -390,8 +383,7 @@ class TestDateParser(BaseTestCase):
         self.given_configuration('PREFER_DAY_OF_MONTH', 'last')
         self.given_utcnow(today)
         self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
+        self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
@@ -407,8 +399,7 @@ class TestDateParser(BaseTestCase):
         self.given_configuration('PREFER_DAY_OF_MONTH', 'first')
         self.given_utcnow(today)
         self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
+        self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
@@ -421,8 +412,7 @@ class TestDateParser(BaseTestCase):
         self.given_configuration('PREFER_DAY_OF_MONTH', prefer_day_of_month)
         self.given_utcnow(datetime(2015, 2, 12))
         self.given_parser()
-        self.given_date_string('24 April 2012')
-        self.when_date_is_parsed()
+        self.when_date_is_parsed('24 April 2012')
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(datetime(2012, 4, 24))
 
@@ -434,8 +424,8 @@ class TestDateParser(BaseTestCase):
         param('31 September 2015'),
     ])
     def test_error_should_be_raised_for_invalid_dates_with_too_large_day_number(self, date_string):
-        with self.assertRaisesRegexp(ValueError, 'Day not in range for month'):
-            DateParser().parse(date_string)
+        self.when_date_is_parsed_by_date_parser(date_string)
+        self.then_error_was_raised(ValueError, 'Day not in range for month')
 
     def given_utcnow(self, now):
         datetime_mock = Mock(wraps=datetime)
@@ -448,9 +438,6 @@ class TestDateParser(BaseTestCase):
                          'local_tz_offset',
                          new=timedelta(seconds=3600 * offset))
         )
-
-    def given_date_string(self, date_string):
-        self.date_string = date_string
 
     def given_parser(self):
         def collecting_get_date_data(parse):
@@ -470,8 +457,14 @@ class TestDateParser(BaseTestCase):
     def given_configuration(self, key, value):
         self.add_patch(patch.object(settings, key, new=value))
 
-    def when_date_is_parsed(self):
-        self.result = self.parser.get_date_data(self.date_string)
+    def when_date_is_parsed(self, date_string):
+        self.result = self.parser.get_date_data(date_string)
+
+    def when_date_is_parsed_by_date_parser(self, date_string):
+        try:
+            self.result = DateParser().parse(date_string)
+        except Exception as error:
+            self.error = error
 
     def then_period_is(self, period):
         self.assertEqual(period, self.result['period'])
@@ -480,10 +473,14 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(expected, self.result['date_obj'])
 
     def then_date_was_not_parsed(self):
-        self.assertIsNone(self.result['date_obj'], '"%s" should not be parsed' % self.date_string)
+        self.assertIsNone(self.result['date_obj'])
 
     def then_date_was_parsed_by_date_parser(self):
         self.assertEqual(self.result['date_obj'], self.date_result)
+
+    def then_error_was_raised(self, error_cls, error_message):
+        self.assertIsInstance(self.error, error_cls)
+        self.assertEqual(error_message, str(self.error))
 
 
 @unittest.skip('There are mostly old language detection tests left. New tests should be written.')
