@@ -365,9 +365,22 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_date_has_timezone()
 
     @parameterized.expand([
+        param(date_string="14 giu 13", date_formats=["%y %B %d"], expected_result=datetime(2014, 6, 13)),
+        param(date_string="14_luglio_15", date_formats=["%y_%B_%d"], expected_result=datetime(2014, 7, 15)),
+        param(date_string="14_LUGLIO_15", date_formats=["%y_%B_%d"], expected_result=datetime(2014, 7, 15)),
+    ])
+    def test_parse_date_using_format(self, date_string, date_formats, expected_result):
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.when_date_string_is_parsed(date_string, date_formats)
+        self.then_date_was_parsed()
+        self.then_period_is('day')
+        self.then_parsed_datetime_is(expected_result)
+
+    @parameterized.expand([
         param(date_string="2014/11/17 14:56 EDT", expected_result=datetime(2014, 11, 17, 18, 56)),
     ])
-    def test_parse_date_with_timezones_not_using_format(self, date_string, expected_result):
+    def test_parse_date_with_timezones_not_using_formats(self, date_string, expected_result):
         self.given_local_tz_offset(0)
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
@@ -380,7 +393,7 @@ class TestDateDataParser(BaseTestCase):
               date_formats=["%Y/%m/%d %H:%M EDT"],
               expected_result=datetime(2014, 11, 17, 14, 56)),
     ])
-    def test_parse_date_with_timezones_using_format_ignore_timezone(self, date_string, date_formats, expected_result):
+    def test_parse_date_with_timezones_using_formats_ignore_timezone(self, date_string, date_formats, expected_result):
         self.given_local_tz_offset(0)
         self.given_parser()
         self.when_date_string_is_parsed(date_string, date_formats)

@@ -489,24 +489,6 @@ class TestDateParser(BaseTestCase):
 @unittest.skip('There are mostly old language detection tests left. New tests should be written.')
 class TestDateParser_(BaseTestCase):
 
-    @unittest.skip('DateParser not using formats anymore. Should be tested separately.')
-    def test_it_dates_with_format(self):
-        parser = DateParser()
-        date = parser.parse('14 giu 13', date_format='%y %B %d')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 6)
-        self.assertEqual(date.day, 13)
-
-        date = parser.parse('14_luglio_15', date_format='%y_%b_%d')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 7)
-        self.assertEqual(date.day, 15)
-
-        date = parser.parse('14_LUGLIO_15', date_format='%y_%b_%d')
-        self.assertEqual(date.year, 2014)
-        self.assertEqual(date.month, 7)
-        self.assertEqual(date.day, 15)
-
     def test_premature_detection(self):
         invalid_date_string = '24h ago'  # 'ago' is shortened august in some languages
         with self.assertRaisesRegexp(ValueError, 'Invalid date: {}'.format(invalid_date_string)):
