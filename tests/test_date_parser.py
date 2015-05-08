@@ -208,11 +208,24 @@ class TestDateParser(BaseTestCase):
         param('November 19, 2014 at noon', datetime(2014, 11, 19, 12, 0)),
         param('December 13, 2014 at midnight', datetime(2014, 12, 13, 0, 0)),
         param('Nov 25 2014 10:17 pm EST', datetime(2014, 11, 26, 3, 17)),
+        param('April 9, 2013 at 6:11 a.m.', datetime(2013, 4, 9, 6, 11)),
+        param('Aug. 9, 2012 at 2:57 p.m.', datetime(2012, 8, 9, 14, 57)),
+        param('December 10, 2014, 11:02:21 pm', datetime(2014, 12, 10, 23, 2, 21)),
+        param('8:25 a.m. Dec. 12, 2014', datetime(2014, 12, 12, 8, 25)),
+        param('2:21 p.m., December 11, 2014', datetime(2014, 12, 11, 14, 21)),
+        param('Fri, 12 Dec 2014 10:55:50', datetime(2014, 12, 12, 10, 55, 50)),
+        param('20 Mar 2013 10h11', datetime(2013, 3, 20, 10, 11)),
+        param('10:06am Dec 11, 2014', datetime(2014, 12, 11, 10, 6)),
+        param('19 February 2013 year 09:10', datetime(2013, 2, 19, 9, 10)),
         # French dates
         param('11 Mai 2014', datetime(2014, 5, 11)),
         param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
         param('22 janvier 2015 \xe0 14h40', datetime(2015, 1, 22, 14, 40)),
         param('Dimanche 1er F\xe9vrier \xe0 21:24', datetime(2012, 2, 1, 21, 24)),
+        param('vendredi, d\xe9cembre 5 2014.', datetime(2014, 12, 5, 0, 0)),
+        param('le 08 D\xe9c 2014 15:11', datetime(2014, 12, 8, 15, 11)),
+        param('Le 11 D\xe9cembre 2014 \xe0 09:00', datetime(2014, 12, 11, 9, 0)),
+        param('f\xe9v 15, 2013', datetime(2013, 2, 15, 0, 0)),
         # Spanish dates
         param('Martes 21 de Octubre de 2014', datetime(2014, 10, 21)),
         param('Miércoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),
@@ -236,6 +249,7 @@ class TestDateParser(BaseTestCase):
         param('20 ноября 2013', datetime(2013, 11, 20)),
         param('28 октября 2014 в 07:54', datetime(2014, 10, 28, 7, 54)),
         param('13 января 2015 г. в 13:34', datetime(2015, 1, 13, 13, 34)),
+        param('09 августа 2012', datetime(2012, 8, 9, 0, 0)),
         # Turkish dates
         param('11 Ağustos, 2014', datetime(2014, 8, 11)),
         param('08.Haziran.2014, 11:07', datetime(2014, 6, 8, 11, 7)),  # forum.andronova.net
@@ -253,6 +267,7 @@ class TestDateParser(BaseTestCase):
         # Czech dates
         param('pon 16. čer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
         param('13 Srpen, 2014', datetime(2014, 8, 13)),
+        param('čtv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
         # Thai dates
         param('ธันวาคม 11, 2014, 08:55:08 PM', datetime(2014, 12, 11, 20, 55, 8)),
         param('22 พฤษภาคม 2012, 22:12', datetime(2012, 5, 22, 22, 12)),
@@ -267,23 +282,7 @@ class TestDateParser(BaseTestCase):
         # Numeric dates
         param('06-17-2014', datetime(2014, 6, 17)),
         param('13/03/2014', datetime(2014, 3, 13)),
-        # Miscellaneous
-        param('April 9, 2013 at 6:11 a.m.', datetime(2013, 4, 9, 6, 11)),
-        param('Aug. 9, 2012 at 2:57 p.m.', datetime(2012, 8, 9, 14, 57)),
-        param('December 10, 2014, 11:02:21 pm', datetime(2014, 12, 10, 23, 2, 21)),
-        param('vendredi, d\xe9cembre 5 2014.', datetime(2014, 12, 5, 0, 0)),
-        param('le 08 D\xe9c 2014 15:11', datetime(2014, 12, 8, 15, 11)),
-        param('Le 11 D\xe9cembre 2014 \xe0 09:00', datetime(2014, 12, 11, 9, 0)),
-        param('f\xe9v 15, 2013', datetime(2013, 2, 15, 0, 0)),
-        param('8:25 a.m. Dec. 12, 2014', datetime(2014, 12, 12, 8, 25)),
-        param('2:21 p.m., December 11, 2014', datetime(2014, 12, 11, 14, 21)),
         param('11. 12. 2014, 08:45:39', datetime(2014, 11, 12, 8, 45, 39)),
-        param('Fri, 12 Dec 2014 10:55:50', datetime(2014, 12, 12, 10, 55, 50)),
-        param('čtv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
-        param('09 августа 2012', datetime(2012, 8, 9, 0, 0)),
-        param('20 Mar 2013 10h11', datetime(2013, 3, 20, 10, 11)),
-        param('10:06am Dec 11, 2014', datetime(2014, 12, 11, 10, 6)),
-        param('19 February 2013 year 09:10', datetime(2013, 2, 19, 9, 10)),
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
