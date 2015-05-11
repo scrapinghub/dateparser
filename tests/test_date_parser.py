@@ -138,7 +138,6 @@ class ExactLanguagesTest(BaseTestCase):
         super(ExactLanguagesTest, self).setUp()
         self.parser = NotImplemented
         self.detected_languages = NotImplemented
-        self.error = NotImplemented
 
     def test_languages_passed_in_constructor_should_not_be_none(self):
         self.when_parser_is_constructed(languages=None)
@@ -185,17 +184,12 @@ class ExactLanguagesTest(BaseTestCase):
         shortnames = map(attrgetter('shortname'), self.detected_languages)
         self.assertItemsEqual(expected_languages, shortnames)
 
-    def then_error_was_raised(self, error_cls, error_message):
-        self.assertIsInstance(self.error, error_cls)
-        self.assertEqual(error_message, str(self.error))
-
 
 class TestDateParser(BaseTestCase):
     def setUp(self):
         super(TestDateParser, self).setUp()
         self.parser = NotImplemented
         self.result = NotImplemented
-        self.error = NotImplemented
         self.date_parser = NotImplemented
         self.date_result = NotImplemented
 
@@ -493,10 +487,6 @@ class TestDateParser(BaseTestCase):
 
     def then_date_was_parsed_by_date_parser(self):
         self.assertEqual(self.result['date_obj'], self.date_result)
-
-    def then_error_was_raised(self, error_cls, error_message):
-        self.assertIsInstance(self.error, error_cls)
-        self.assertEqual(error_message, str(self.error))
 
 
 if __name__ == '__main__':

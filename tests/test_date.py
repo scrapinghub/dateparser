@@ -20,7 +20,6 @@ class TestDateRangeFunction(BaseTestCase):
     def setUp(self):
         super(TestDateRangeFunction, self).setUp()
         self.result = NotImplemented
-        self.error = NotImplemented
 
     @parameterized.expand([
         param(begin=datetime(2014, 6, 15), end=datetime(2014, 6, 25), expected_length=10)
@@ -88,15 +87,13 @@ class TestDateRangeFunction(BaseTestCase):
             self.assertLess(self.result[i], self.result[i + 1])
 
     def then_period_was_rejected(self, period):
-        self.assertIsInstance(self.error, ValueError)
-        self.assertEqual('Invalid argument: {}'.format(period), str(self.error))
+        self.then_error_was_raised(ValueError, 'Invalid argument: {}'.format(period))
 
 
 class TestGetIntersectingPeriodsFunction(BaseTestCase):
     def setUp(self):
         super(TestGetIntersectingPeriodsFunction, self).setUp()
         self.result = NotImplemented
-        self.error = NotImplemented
 
     @parameterized.expand([
         param(low=datetime(2014, 6, 15), high=datetime(2014, 6, 16), length=1)
@@ -210,10 +207,6 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
 
     def then_period_is_empty(self):
         self.assertEquals([], self.result)
-
-    def then_error_was_raised(self, error_cls, error_message):
-        self.assertIsInstance(self.error, error_cls)
-        self.assertEqual(error_message, str(self.error))
 
 
 class TestParseWithFormatsFunction(BaseTestCase):
@@ -483,7 +476,6 @@ class TestParserInitialization(BaseTestCase):
     def setUp(self):
         super(TestParserInitialization, self).setUp()
         self.result = NotImplemented
-        self.error = NotImplemented
 
     @parameterized.expand([
         param(['ur', 'li'], error_message=u"Unknown language(s): u'ur', u'li'"),
@@ -499,10 +491,6 @@ class TestParserInitialization(BaseTestCase):
             self.parser = date.DateDataParser(**params)
         except Exception as error:
             self.error = error
-
-    def then_error_was_raised(self, error_cls, error_message):
-        self.assertIsInstance(self.error, error_cls)
-        self.assertEqual(error_message, str(self.error))
 
 
 if __name__ == '__main__':
