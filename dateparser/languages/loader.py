@@ -49,3 +49,6 @@ class LanguageDataLoader(object):
             if isinstance(values, list):
                 extended_values = (values + language_info[key]) if key in language_info else values
                 language_info[key] = extended_values
+
+
+default_language_loader = LanguageDataLoader()

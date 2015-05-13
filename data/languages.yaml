@@ -207,7 +207,7 @@ de:
 fr:
     name: French
 
-    skip: ["le", "environ", "et", "\xe0", "er"]
+    skip: ["le", "environ", "et", "à", "er"]
 
     monday:
         - Lundi
