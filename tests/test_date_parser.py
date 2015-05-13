@@ -455,8 +455,7 @@ class TestDateParser(BaseTestCase):
         self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
         self.given_local_tz_offset(0)
         self.given_parser()
-        self.given_date_string(date_string)
-        self.when_date_is_parsed()
+        self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
         self.then_period_is(period)
