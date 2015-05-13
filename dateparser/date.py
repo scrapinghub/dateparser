@@ -172,10 +172,10 @@ class _DateLanguageParser(object):
 
     def _try_dateutil_parser(self):
         try:
-            date_obj = date_parser.parse(self._get_translated_date())
+            date_obj, period = date_parser.parse(self._get_translated_date())
             return {
                 'date_obj': date_obj,
-                'period': 'day',
+                'period': period,
             }
         except ValueError:
             return None

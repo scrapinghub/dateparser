@@ -318,6 +318,7 @@ class TestDateParser(BaseTestCase):
         param('10 December', datetime(2014, 12, 10)),
         param('March', datetime(2014, 3, 15)),
         param('Friday', datetime(2015, 2, 13)),
+        param('Monday', datetime(2015, 2, 9)),
         param('10:00PM', datetime(2015, 2, 14, 22, 00)),
         param('16:10', datetime(2015, 2, 14, 16, 10)),
         param('14:05', datetime(2015, 2, 15, 14, 5)),
@@ -329,13 +330,13 @@ class TestDateParser(BaseTestCase):
         self.given_parser()
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
-        self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
         param('10 December', datetime(2015, 12, 10)),
         param('March', datetime(2015, 3, 15)),
         param('Friday', datetime(2015, 2, 20)),
+        param('Monday', datetime(2015, 2, 16)),
         param('10:00PM', datetime(2015, 2, 15, 22, 00)),
         param('16:10', datetime(2015, 2, 15, 16, 10)),
         param('14:05', datetime(2015, 2, 16, 14, 5)),
@@ -347,7 +348,6 @@ class TestDateParser(BaseTestCase):
         self.given_parser()
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
-        self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
@@ -365,7 +365,6 @@ class TestDateParser(BaseTestCase):
         self.given_parser()
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
-        self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
@@ -440,6 +439,27 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed_by_date_parser(date_string)
         self.then_error_was_raised(ValueError, 'Day not in range for month')
 
+    @parameterized.expand([
+        param('10 December', expected=datetime(2015, 12, 10), period='day'),
+        param('March', expected=datetime(2015, 3, 15), period='month'),
+        param('April', expected=datetime(2015, 4, 15), period='month'),
+        param('December', expected=datetime(2015, 12, 15), period='month'),
+        param('Friday', expected=datetime(2015, 2, 13), period='day'),
+        param('Monday', expected=datetime(2015, 2, 9), period='day'),
+        param('10:00PM', expected=datetime(2015, 2, 15, 22, 00), period='day'),
+        param('16:10', expected=datetime(2015, 2, 15, 16, 10), period='day'),
+        param('2014', expected=datetime(2014, 2, 15), period='year'),
+        param('2008', expected=datetime(2008, 2, 15), period='year'),
+    ])
+    def test_extracted_period(self, date_string, expected=None, period=None):
+        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+        self.then_period_is(period)
+
     def given_utcnow(self, now):
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.utcnow = Mock(return_value=now)
@@ -486,7 +506,7 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(expected, self.result['date_obj'])
 
     def then_date_was_parsed_by_date_parser(self):
-        self.assertEqual(self.result['date_obj'], self.date_result)
+        self.assertEqual(self.result['date_obj'], self.date_result[0])
 
 
 if __name__ == '__main__':
