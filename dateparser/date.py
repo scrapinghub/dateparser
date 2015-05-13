@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
-from dateparser.languages import LanguageDataLoader
+from dateparser.languages import default_language_loader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 
 
@@ -273,6 +273,3 @@ class DateDataParser(object):
                 return parsed_date
         else:
             return {'date_obj': None, 'period': 'day'}
-
-
-default_language_loader = LanguageDataLoader()

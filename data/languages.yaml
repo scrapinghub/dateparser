@@ -5,7 +5,7 @@ base:
 en:
     name: English
 
-    skip: ["at", "on", "and", "ad", "m", "t", "of", "st", "nd", "rd", "th", "about", "the"]
+    skip: ["at", "on", "and", "ad", "m", "t", "of", "st", "nd", "rd", "th", "about", "the", "just"]
     pertain: ["of"]
 
     monday:
@@ -110,6 +110,7 @@ en:
         - midnight: '00:00'
         - (\d+)h(\d+)m?: \1:\2
         - less then 1 minute ago: 45 seconds
+        - now: 0 second
 
 
 de:
@@ -206,7 +207,7 @@ de:
 fr:
     name: French
 
-    skip: ["le", "environ", "et", "\xe0", "er"]
+    skip: ["le", "environ", "et", "à", "er"]
 
     monday:
         - Lundi

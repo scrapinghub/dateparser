@@ -23,7 +23,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.result = NotImplemented
         self.freshness_parser = NotImplemented
         self.freshness_result = NotImplemented
-        self.exception = NotImplemented
         self.date = NotImplemented
         self.time = NotImplemented
 
@@ -55,6 +54,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
+        param('just now', ago={'seconds':0}, period='day'),
 
         # French dates
         param("Aujourd'hui", ago={'days': 0}, period='day'),
@@ -306,7 +306,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         try:
             self.result = self.parser.get_date_data(self.date_string)
         except Exception as error:
-            self.exception = error
+            self.error = error
 
     def then_date_is(self, date):
         self.assertEqual(date, self.result['date_obj'].date())
@@ -331,19 +331,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.assertEqual(self.result, self.freshness_result)
 
     def then_error_was_not_raised(self):
-        self.assertEqual(NotImplemented, self.exception)
-
-    def then_error_was_raised(self, error_cls, expected_regexp=None):
-        self.assertIsInstance(self.exception, error_cls)
-
-        if expected_regexp is None:
-            return
-
-        if isinstance(expected_regexp, basestring):
-            expected_regexp = re.compile(expected_regexp)
-
-        if not expected_regexp.search(str(self.exception)):
-            raise self.failureException('"%s" does not match "%s"' % (expected_regexp.pattern, str(self.exception)))
+        self.assertEqual(NotImplemented, self.error)
 
 
 if __name__ == '__main__':

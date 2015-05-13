@@ -3,17 +3,12 @@ from __future__ import unicode_literals
 
 from nose_parameterized import parameterized, param
 
-from dateparser.languages import LanguageDataLoader, Language
+from dateparser.languages import default_language_loader, Language
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from tests import BaseTestCase
 
 
 class TestBundledLanguages(BaseTestCase):
-    @classmethod
-    def setUpClass(cls):
-        super(TestBundledLanguages, cls).setUpClass()
-        cls.language_loader = LanguageDataLoader()
-
     def setUp(self):
         super(TestBundledLanguages, self).setUp()
         self.language = NotImplemented
@@ -228,7 +223,7 @@ class TestBundledLanguages(BaseTestCase):
         self.datetime_string = datetime_string
 
     def given_bundled_language(self, shorname):
-        self.language = self.language_loader.get_language(shorname)
+        self.language = default_language_loader.get_language(shorname)
 
     def when_datetime_string_translated(self):
         self.translation = self.language.translate(self.datetime_string)
@@ -256,11 +251,6 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
     __test__ = False
 
     NOT_DETECTED = object()
-
-    @classmethod
-    def setUpClass(cls):
-        super(BaseLanguageDetectorTestCase, cls).setUpClass()
-        cls.language_loader = LanguageDataLoader()
 
     def setUp(self):
         super(BaseLanguageDetectorTestCase, self).setUp()
@@ -306,7 +296,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         self.then_language_was_detected('en')
 
     def given_languages(self, *shortnames):
-        self.known_languages = [self.language_loader.get_language(shortname)
+        self.known_languages = [default_language_loader.get_language(shortname)
                                 for shortname in shortnames]
 
     def given_previosly_detected_string(self, datetime_string):
@@ -351,7 +341,8 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.then_exact_languages_were_filtered(shortnames)
 
     def given_known_languages(self, shortnames):
-        self.known_languages = [self.language_loader.get_language(shortname) for shortname in shortnames]
+        self.known_languages = [default_language_loader.get_language(shortname)
+                                for shortname in shortnames]
 
     def given_detector(self):
         self.assertIsInstance(self.known_languages, list, "Require a list of languages to initialize")

@@ -45,7 +45,7 @@ coverage:
 	coverage run --source dateparser setup.py test
 	coverage report -m
 	coverage html
-	open htmlcov/index.html
+	python -m webbrowser htmlcov/index.html
 
 docs:
 	rm -f docs/dateparser.rst
@@ -53,7 +53,7 @@ docs:
 	sphinx-apidoc -o docs/ dateparser
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
-	@echo Open in your browser: docs/_build/html/index.html
+	python -m webbrowser docs/_build/html/index.html
 
 release: clean
 	python setup.py sdist upload
