@@ -440,6 +440,18 @@ class TestDateParser(BaseTestCase):
         self.then_error_was_raised(ValueError, 'Day not in range for month')
 
     @parameterized.expand([
+        param('2015-05-02T10:20:19+0000', languages=['fr'], expected=datetime(2015, 5, 2, 10, 20, 19)),
+        param('2015-05-02T10:20:19+0000', languages=['en'], expected=datetime(2015, 5, 2, 10, 20, 19)),
+        param('2015-05-02T10:20:19+0000', languages=[], expected=datetime(2015, 5, 2, 10, 20, 19)),
+        param('1994-11-05T13:15:30Z', languages=[], expected=datetime(1994, 11, 5, 13, 15, 30)),
+    ])
+    def test_date_in_iso_format_should_always_parse(self, date_string, languages, expected):
+        self.given_parser(languages=languages)
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
         param('10 December', expected=datetime(2015, 12, 10), period='day'),
         param('March', expected=datetime(2015, 3, 15), period='month'),
         param('April', expected=datetime(2015, 4, 15), period='month'),
@@ -472,7 +484,7 @@ class TestDateParser(BaseTestCase):
                          new=timedelta(seconds=3600 * offset))
         )
 
-    def given_parser(self):
+    def given_parser(self, *args, **kwds):
         def collecting_get_date_data(parse):
             @wraps(parse)
             def wrapped(date_string):
@@ -485,7 +497,7 @@ class TestDateParser(BaseTestCase):
 
         self.date_parser = Mock(wraps=date_parser)
         self.add_patch(patch('dateparser.date.date_parser', new=self.date_parser))
-        self.parser = DateDataParser()
+        self.parser = DateDataParser(*args, **kwds)
 
     def given_configuration(self, key, value):
         self.add_patch(patch.object(settings, key, new=value))

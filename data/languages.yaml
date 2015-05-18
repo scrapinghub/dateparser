@@ -1,11 +1,11 @@
 base:
-    skip: [" ", ".", ",", ";", "-", "/", "'", "|", "@", "[", "]", "，"]
+    skip: [" ", ".", ",", ";", "-", "/", "'", "|", "@", "[", "]", "，", "t"]
 
 
 en:
     name: English
 
-    skip: ["at", "on", "and", "ad", "m", "t", "of", "st", "nd", "rd", "th", "about", "the", "just"]
+    skip: ["at", "on", "and", "ad", "m", "of", "st", "nd", "rd", "th", "about", "the", "just"]
     pertain: ["of"]
 
     monday:
