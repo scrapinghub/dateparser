@@ -5,7 +5,7 @@
 timezone_info_list = [
     {
         'regex_patterns':
-            [r'(\b|\d)\(?%s\)?$',],
+            [r'(.)\(?%s\)?$',],
         'timezones':
             [('ACDT', 37800),
             ('ACST', 34200),
