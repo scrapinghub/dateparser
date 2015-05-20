@@ -456,11 +456,12 @@ class TestDateParser(BaseTestCase):
         self.then_error_was_raised(ValueError, 'Day not in range for month')
 
     @parameterized.expand([
-        param('2015-05-02T10:20:19+0000', languages=['fr'], expected=datetime(2015, 5, 2, 15, 20, 19)),
-        param('2015-05-02T10:20:19+0000', languages=['en'], expected=datetime(2015, 5, 2, 15, 20, 19)),
-        param('2015-05-02T10:20:19+0000', languages=[], expected=datetime(2015, 5, 2, 15, 20, 19)),
+        param('2015-05-02T10:20:19+0000', languages=['fr'], expected=datetime(2015, 5, 2, 10, 20, 19)),
+        param('2015-05-02T10:20:19+0000', languages=['en'], expected=datetime(2015, 5, 2, 10, 20, 19)),
+        param('2015-05-02T10:20:19+0000', languages=[], expected=datetime(2015, 5, 2, 10, 20, 19)),
     ])
     def test_iso_datestamp_format_should_always_parse(self, date_string, languages, expected):
+        self.given_local_tz_offset(0)
         self.given_parser(languages=languages)
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
