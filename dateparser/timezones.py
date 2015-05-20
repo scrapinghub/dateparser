@@ -1,6 +1,7 @@
 # Based on http://stackoverflow.com/q/1703546
 # As well as http://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
 # As well as https://github.com/scrapinghub/dateparser/pull/4
+# As well as http://en.wikipedia.org/wiki/List_of_UTC_time_offsets
 
 timezone_info_list = [
     {
