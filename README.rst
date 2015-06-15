@@ -24,13 +24,13 @@ Features
 * Generic parsing of dates in English, Spanish, Dutch, Russian and several other langauges and formats.
 * Generic parsing of contextual dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 weeks and 1 day ago'``.
 * Generic parsing of dates with time zones abbreviations like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``.
-* Easy confingurations to change default parsing behavior.
+* Easy confingurations to change default parsing behavior. See :mod:`dateparser.conf`.
 * Extensive test coverage.
 
 
 Usage
 -----
-The most common way is to use the :py:meth:``dateparser.parse`` function,
+The most common way is to use the :func:`dateparser.parse` function,
 that wraps around most of the functionality in the module.
 
 Here is a quick example of usage::
@@ -78,7 +78,8 @@ Contextual Dates
 
 Dependencies
 ------------
-`dateparser` translates non-english dates to English and uses dateutil_ module ``'parser'`` to parse the translated date. 
+`dateparser` translates non-english dates to English and uses dateutil_ module ``'parser'`` to parse the translated date.
+
 Also, it requires PyYAML_ for its language detection module to work.
 
 .. _dateutil: https://pypi.python.org/pypi/python-dateutil
@@ -88,4 +89,8 @@ Also, it requires PyYAML_ for its language detection module to work.
 Limitations
 -----------
 `dateparser` at this point does not support generic parsing of dates with fixed UTC offsets. This restricts its ability to reliably parse time zone aware dates since the use of abbreviated time zones as a sole designator of time zones is not recommended.
+
+Read `Wikipedia Time Zone article`_ for more information.
+
+.. _Wikipedia Time Zone Article: https://en.wikipedia.org/wiki/Time_zone#Abbreviations
 
