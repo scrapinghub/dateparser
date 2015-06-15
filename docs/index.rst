@@ -15,6 +15,7 @@ Contents:
 
    installation
    usage
+   dateparser_parse
    contributing
    authors
    history
