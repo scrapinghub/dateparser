@@ -1,11 +1,60 @@
-========
-Usage
-========
+Using dateparser
+================
 
-The most common way is to use the ``dateparser.date.DateDataParser`` class,
-that wraps around most of the functionality in the module.
+Quickstart
+----------
 
-Here is a quick example of usage::
+The most straightforward way to parse a date with ``dateparser`` is to
+use the :py:meth:`dateparser.parse` function::
+
+    >>> import dateparser
+    >>> dateparser.parse('18 Julho 1997')
+    datetime.datetime(1997, 7, 18, 0, 0)
+    >>> dateparser.parse('2015, Jun 13, 1:08 pm')
+    datetime.datetime(2015, 6, 13, 13, 8)
+    >>> dateparser.parse('15 min ago')
+    datetime.datetime(2015, 6, 6, 17, 21, 36, 23723)
+    >>> dateparser.parse(u'15 minutos atrás')
+    datetime.datetime(2015, 6, 6, 17, 21, 36, 23723)
+
+
+This will try to parse a date from the given string, attempting to
+detect the language each time.
+
+If you know beforehand the languages that the date should be, you can skip
+language detection specifying them using the ``languages`` argument::
+
+    >>> dateparser.parse('2015, Ago 15, 1:08 pm', languages=['pt', 'es'])
+    datetime.datetime(2015, 8, 15, 13, 8)
+    >>> dateparser.parse(u'il y a 15 minutes', languages=['fr'])
+    datetime.datetime(2015, 6, 6, 17, 21, 36, 23723)
+    >>> dateparser.parse(u'ayer', languages=['es'])
+    datetime.datetime(2015, 6, 5, 17, 36, 36, 23723)
+
+
+If you know the possible formats that the date will be, you can
+use the ``date_formats`` argument::
+
+    >>> dateparser.parse(u'22 Décembre 2010', date_formats=['%d %B %Y'])
+    datetime.datetime(2010, 12, 22, 0, 0)
+
+
+DateDataParser: deducing language and period detail
+----------------------------------------------------
+
+If you have a set of dates that are expected to be in the same language
+(for example, if they belong to the same documents), but you don't know
+what the language is at first, you can use the ``DateDataParser``
+class directly.
+
+This class wraps around the core ``dateparser`` functionality, and by default
+it assumes that all of the dates fed to it will be in the same language.
+
+The result of parsing will be a dict containing the datetime object and also an
+indication of the period detail recognized for the date under the `'period'`
+key.
+
+Here are some usage examples::
 
     >>> from dateparser.date import DateDataParser
     >>> ddp = DateDataParser()
@@ -20,16 +69,12 @@ Here is a quick example of usage::
     >>> ddp.get_date_data('13 August, 2014')
     {'date_obj': datetime.datetime(2014, 8, 13, 0, 0), 'period': 'day'}
 
+Note: the possible values for `'period'` are currently: `'year'`, `week` or `day`.
 
-Note about language detection
------------------------------
-
-As it is now, an instance of DateDataParser by default assumes that
-all of the dates fed to it will be in the same language.
-
-So, it will keep trying to detect the possible languages until it reduces it
-to only one possibility. When it does, it will just assume that for the next
-dates and won't try to execute the language detection again::
+By default, an instance of DateDataParser will keep trying to reduce the number
+of possible languages, until it reduces it to only one possibility. It will
+assume the previously detected languages for all the next dates and won't try
+to execute the language detection again after a language is discarded::
 
 
     >>> ddp = DateDataParser()
@@ -45,14 +90,13 @@ dates and won't try to execute the language detection again::
     dateparser.date_parser.LanguageWasNotSeenBeforeError
 
 
-If you want it to redetect the language every time, you can use a custom date_parser, like so::
+If you want it to redetect the language every time, you can set the argument
+allow_redetect_language, like so::
 
 
-    >>> ddp = DateDataParser()
-    >>> from dateparser.date_parser import DateParser
-    >>> ddp.date_parser = DateParser(allow_redetect_language=True)
-    >>> ddp.get_date_data('1 minuto atrás')
-    {'date_obj': datetime.datetime(2014, 8, 20, 21, 1, 42, 590596), 'period': u'day'}
+    >>> ddp = DateDataParser(allow_redetect_language=True)
+    >>> ddp.get_date_data(u'1 minuto atrás')
+    {'date_obj': datetime.datetime(2015, 6, 6, 19, 0, 42, 300135), 'period': u'day'}
     >>> ddp.get_date_data('13 Agosto 2014')
     {'date_obj': datetime.datetime(2014, 8, 13, 0, 0), 'period': 'day'}
     >>> ddp.get_date_data('13 Marzo 2014')
@@ -61,22 +105,78 @@ If you want it to redetect the language every time, you can use a custom date_pa
     {'date_obj': datetime.datetime(2014, 5, 13, 0, 0), 'period': 'day'}
 
 
-How to use in a Scrapy Cloud project
-------------------------------------
+Deploying dateparser in a Scrapy Cloud project
+----------------------------------------------
 
-To use in `Scrapy Cloud <http://scrapinghub.com/scrapy-cloud>`_, first you need to build an egg for the library.
+The initial use cases for `dateparser` were for Scrapy projects doing web
+scraping that needed to parse dates from websites. These instructions show how
+you can deploy it in a Scrapy project running in `Scrapy Cloud
+<http://scrapinghub.com/scrapy-cloud>`_.
 
-Clone the repo and inside its directory, run the command::
+
+Deploying with shub
+~~~~~~~~~~~~~~~~~~~
+
+The most straightforward way to do that is to use the
+latest version of the `shub <https://github.com/scrapinghub/shub>`
+command line tool.
+
+First, install ``shub``, if you haven't already::
+
+    pip install shub
+
+Then, you can choose between deploying a stable release or the latest from
+development.
+
+
+Deploying a stable dateparser release:
+**************************************
+
+
+1) Then, use ``shub`` to install `python-dateutil`_ and `PyYAML`_ dependencies from `PyPI`_::
+
+    shub deploy-egg --from-pypi python-dateutil YOUR_PROJECT_ID
+    shub deploy-egg --from-pypi PyYAML YOUR_PROJECT_ID
+
+
+2) Finally, deploy dateparser from PyPI::
+
+    shub deploy-egg --from-pypi dateparser YOUR_PROJECT_ID
+
+.. _python-dateutil: https://pypi.python.org/pypi/python-dateutil
+.. _PyYAML: https://pypi.python.org/pypi/PyYAML
+.. _PyPI: https://pypi.python.org/pypi
+
+
+Deploying from latest sources
+*****************************
+
+Optionally, you can deploy it from the latest sources:
+
+Inside the ``dateparser`` root directory::
+
+1) Run the command to deploy the dependencies::
+
+    shub deploy-reqs YOUR_PROJECT_ID requirements.txt
+
+2) Then, either deploy from the latest sources on GitHub::
+
+    shub deploy-egg --from-url git@github.com:scrapinghub/dateparser.git YOUR_PROJECT_ID
+
+Or, just deploy from the local sources (useful if you have local
+modifications)::
+
+    shub deploy-egg
+
+
+Deploying the egg manually
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In case you run into trouble with the above procedure, you can deploy the egg
+manually. First clone the ``dateparser``'s repo, then inside its directory run
+the command::
 
     python setup.py bdist_egg
 
-After that, you can upload the egg using
-`Scrapy Cloud's Dashboard interface <http://dash.scrapinghub.com>`_,
-or you can use shubc_ command and do::
-
-    shubc eggs-add <YOUR_PROJECT_ID> dist/dateparser-0.1-py2.7.egg
-
-
-.. _shubc: https://github.com/scrapinghub/shubc
-
-
+After that, you can upload the egg using `Scrapy Cloud's Dashboard interface
+<http://dash.scrapinghub.com>`_.
