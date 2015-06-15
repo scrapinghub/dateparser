@@ -4,6 +4,7 @@
    contain the root `toctree` directive.
 
 .. include:: ../README.rst
+.. include:: usage.rst
 
 Documentation
 =============
@@ -14,7 +15,6 @@ Contents:
    :maxdepth: 2
 
    installation
-   usage
    dateparser_parse
    contributing
    authors

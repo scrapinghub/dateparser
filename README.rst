@@ -30,7 +30,7 @@ Features
 
 Usage
 -----
-The most common way is to use the :func:`dateparser.parse` function,
+The most straightforward way is to use the :func:`dateparser.parse` function,
 that wraps around most of the functionality in the module.
 
 Here is a quick example of usage::
@@ -40,7 +40,7 @@ Popular Formats
 ~~~~~~~~~~~~~~~
 
     >>> import dateparser
-    >>> ddp.get_date_data('12/12/12')
+    >>> dateparser.parse('12/12/12')
     datetime.datetime(2012, 12, 12, 0, 0)
     >>> dateparser.parse(u'Fri, 12 Dec 2014 10:55:50')
     datetime.datetime(2014, 12, 12, 10, 55, 50)
@@ -52,6 +52,21 @@ Popular Formats
     datetime.datetime(2015, 1, 13, 13, 34)
     >>> dateparser.parse(u'1 เดือนตุลาคม 2005, 1:00 AM')  # Thai
     datetime.datetime(2005, 10, 1, 1, 0)
+
+This will try to parse a date from the given string, attempting to
+detect the language each time.
+
+If you know beforehand the languages that the date should be, you can skip
+language detection specifying them using the ``languages`` argument::
+
+    >>> dateparser.parse('2015, Ago 15, 1:08 pm', languages=['pt', 'es'])
+    datetime.datetime(2015, 8, 15, 13, 8)
+
+If you know the possible formats that the date will be, you can
+use the ``date_formats`` argument::
+
+    >>> dateparser.parse(u'22 Décembre 2010', date_formats=['%d %B %Y'])
+    datetime.datetime(2010, 12, 22, 0, 0)
 
 
 Contextual Dates
@@ -70,7 +85,7 @@ Contextual Dates
     >>> parse(u'2小时前')  # Chinese
     datetime.datetime(2012, 12, 21, 22, 0)
 
-.. note:: Testing above code might return different values for you depending on your environment's current date time. To reproduce exactly above results, you can patch your environment as follows:
+.. note:: Testing above code might return different values for you depending on your environment's current date time. To reproduce exactly above results, you can patch your environment as follows::
 
     >>> from dateparser.date import freshness_date_parser
     >>> patch.object(freshness_date_parser, 'now', datetime(2012, 12, 22, 0, 0)).start()

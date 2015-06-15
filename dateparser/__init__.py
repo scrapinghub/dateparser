@@ -22,7 +22,7 @@ def parse(date_string, date_formats=None, languages=None):
             If languages are given, it will not attempt to detect the language.
         
     :return: 
-            Returns a datetime.datetime() if successful, else returns None
+            Returns a :mod:`datetime.datetime` if successful, else returns None
     """
     parser = _default_parser
 

@@ -228,6 +228,14 @@ class _DateLanguageParser(object):
 class DateDataParser(object):
 
     def __init__(self, languages=None, allow_redetect_language=False):
+        """
+        :param languages:
+                A list of two letters language codes.e.g. ['en', 'es'].
+                If languages are given, it will not attempt to detect the language.
+
+        :param allow_redetect_language:
+                Enables/disables language re-detection.
+        """
         if isinstance(languages, (list, tuple, collections.Set)):
             available_language_map = default_language_loader.get_language_map()
 
@@ -248,10 +256,26 @@ class DateDataParser(object):
             self.language_detector = AutoDetectLanguage(languages=None, allow_redetection=False)
 
     def get_date_data(self, date_string, date_formats=None):
-        """ Return a dictionary with a date object and a period.
-        Period values can be a 'day' (default), 'week', 'month', 'year'.
-        It aims to solve the following issue:
-        In example, a forum could displays "2 weeks ago" in the thread list
+        """ 
+        Parse string representing date and/or time in recognizeable localized formats.
+        Supports parsing multiple languages.
+
+        :param date_string:
+                A string representing date and/or time in a recognizably valid format.
+        :param date_formats:
+                A list of format strings using directives as given here_.
+                The parser applies formats one by one, taking into account the detected
+                languages.
+
+        .. _here: https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
+            :param date_formats:
+
+        :return: a dictionary with a :mod:`datetime.datetime` object and a *period*.
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year'.
+
+        *Period* aims to solve the following issue:
+
+        For example, a forum could displays "2 weeks ago" in the thread list
         (in the thread itself there's the right date) so the engine
         will translate "2 weeks ago" to a certain date.
         The next thread summary displays "3 weeks ago" which is translated
