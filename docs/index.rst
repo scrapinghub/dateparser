@@ -5,7 +5,6 @@
 
 .. include:: ../README.rst
 .. include:: usage.rst
-.. include:: conf.rst
 
 Documentation
 =============

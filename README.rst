@@ -22,9 +22,8 @@ any string formats commonly found on web pages.
 Features
 --------
 * Generic parsing of dates in English, Spanish, Dutch, Russian and several other langauges and formats.
-* Generic parsing of contextual dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 weeks and 1 day ago'``.
+* Generic parsing of contextual dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
 * Generic parsing of dates with time zones abbreviations like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``.
-* Easy confingurations to change default parsing behavior. See :mod:`dateparser.conf`.
 * Extensive test coverage.
 
 
