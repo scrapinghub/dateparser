@@ -1,6 +1,6 @@
-==========
-dateparser
-==========
+====================================================
+dateparser -- python parser for human readable dates
+====================================================
 
 .. image:: https://img.shields.io/travis/scrapinghub/dateparser/master.svg?style=flat-square
     :target: https://travis-ci.org/scrapinghub/dateparser
