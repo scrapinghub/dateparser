@@ -102,10 +102,6 @@ Before you submit a pull request, check that it meets these guidelines:
    feature to the list in README.rst.
 3. Check https://travis-ci.org/scrapinghub/dateparser/pull_requests
    and make sure that the tests pass for all supported Python versions.
+4. Follow the core developers' advices as they are given for keeping code consistent regardless of variety approaches used by many contributors.
+5. If you don't have time to continue working on pull request, or simple lost interest. Please write a 5 second comment about it, so we know we can apply changes there to get it done.
 
-Tips
-----
-
-To run a subset of tests::
-
-    $ nosetests tests.test_date_parser
