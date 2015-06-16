@@ -8,13 +8,16 @@ from the same source.
 :class:`dateparser.date.DateDataParser` provides an alternate and efficient way
 to control language detection behavior.
 
-The instance of :class:`DateDataParser` reduces the number
+The instance of :class:`dateparser.date.DateDataParser` reduces the number
 of applicable languages, until only one or no language is left. It 
 assumes the previously detected language for all the next dates and does not try
 to execute the language detection again after a language is discarded.
 
 This class wraps around the core :mod:`dateparser` functionality, and by default
 assumes that all of the dates fed to it are in the same language.
+
+.. autoclass:: dateparser.date.DateDataParser
+   :members: get_date_data
 
 Once initialized, :func:`dateparser.date.DateDataParser.get_date_data` parses date strings::
 
@@ -25,12 +28,21 @@ Once initialized, :func:`dateparser.date.DateDataParser.get_date_data` parses da
     >>> ddp.get_date_data(u'13 Septiembre, 2014')  # Spanish
     {'date_obj': datetime.datetime(2014, 9, 13, 0, 0), 'period': u'day'}
 
-**Please note** it fails to parse *English* dates now, because *Spanish* was detected and
-stored with the ``ddp`` instance::
+.. warning:: It fails to parse *English* dates in the example below, because *Spanish* was detected and stored with the ``ddp`` instance::
+
     >>> ddp.get_date_data('11 August 2012')
-    {'date_obj': None, 'period': 'day'}
+    {'date_obj': None, 'period': 'day'} 
+
 
 .. note:: the possible values for `'period'` are currently: `'year'`, `week` or `day`.
+
+:class:`dateparser.date.DateDataParser` can also be initialized with known languages::
+
+    >>> ddp = DateDataParser(languages=['de', 'nl'])
+    >>> ddp.get_date_data(u'vr jan 24, 2014 12:49')
+    {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': u'day'}
+    >>> ddp.get_date_data(u'18.10.14 um 22:56 Uhr')
+    {'date_obj': datetime.datetime(2014, 10, 18, 22, 56), 'period': u'day'}
 
 
 Deploying dateparser in a Scrapy Cloud project
@@ -46,7 +58,7 @@ Deploying with shub
 ~~~~~~~~~~~~~~~~~~~
 
 The most straightforward way to do that is to use the
-latest version of the `shub <https://github.com/scrapinghub/shub>`
+latest version of the `shub <https://github.com/scrapinghub/shub>`_
 command line tool.
 
 First, install ``shub``, if you haven't already::

@@ -5,6 +5,7 @@
 
 .. include:: ../README.rst
 .. include:: usage.rst
+.. include:: conf.rst
 
 Documentation
 =============
@@ -15,7 +16,6 @@ Contents:
    :maxdepth: 2
 
    installation
-   dateparser_parse
    contributing
    authors
    history

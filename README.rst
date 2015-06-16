@@ -33,11 +33,12 @@ Usage
 The most straightforward way is to use the :func:`dateparser.parse` function,
 that wraps around most of the functionality in the module.
 
-Here is a quick example of usage::
+.. automodule:: dateparser.__init__
+   :members: parse
 
 
 Popular Formats
-~~~~~~~~~~~~~~~
++++++++++++++++
 
     >>> import dateparser
     >>> dateparser.parse('12/12/12')
@@ -70,7 +71,7 @@ use the ``date_formats`` argument::
 
 
 Contextual Dates
-~~~~~~~~~~~~~~~~
+++++++++++++++++
 
     >>> parse('1 hour ago')
     datetime.datetime(2012, 12, 21, 23, 0)

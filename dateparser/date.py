@@ -235,6 +235,8 @@ class DateDataParser(object):
 
         :param allow_redetect_language:
                 Enables/disables language re-detection.
+        
+        :return: A parser instance
         """
         if isinstance(languages, (list, tuple, collections.Set)):
             available_language_map = default_language_loader.get_language_map()
