@@ -12,4 +12,21 @@ Development Lead
 Contributors
 ------------
 
-Shuai Lin, Ismael Carnales and other folks from Scrapinghub staff.
+* Artur Sadurski
+* Claudio Salazar
+* Elias Dorneles
+* Eugene Amirov
+* Faisal Anees
+* Ismael Carnales
+* Joseph Kahn
+* Mark Baas
+* Marko Horvatić
+* Mateusz Golewski
+* Opp Lieamsiriwong
+* Rajat Goyal
+* Raul Gallegos
+* Shuai Lin
+* Sviatoslav Sydorenko
+* Tom Russell
+* Umair Ashraf
+* Waqas Shabir
