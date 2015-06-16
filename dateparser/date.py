@@ -272,19 +272,25 @@ class DateDataParser(object):
         .. _here: https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
             :param date_formats:
 
-        :return: a dictionary with a :mod:`datetime.datetime` object and a *period*.
+        :return: a dict mapping keys to :mod:`datetime.datetime` object and *period*. For example:
+
+            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': u'day'}
+
         .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year'.
 
-        *Period* aims to solve the following issue:
+        *Period* represent the granularity of date parsed from the given string.
 
-        For example, a forum could displays "2 weeks ago" in the thread list
-        (in the thread itself there's the right date) so the engine
-        will translate "2 weeks ago" to a certain date.
-        The next thread summary displays "3 weeks ago" which is translated
-        to a other date seven days before first date.
-        A valid date_string between both dates won't be scraped because
-        it's not an exact date match. The period field helps to build
-        better date range detection.
+        In the example below, since no day information is present, the day is assumed to be current
+        day ``16`` from *June 16, 2015*. Hence, the level of precision is ``month``. 
+
+            >>> DateDataParser().get_date_data(u'March 2015')
+            {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': u'month'}
+
+        Similarly, for date strings with no day and month information present, level of precision
+        is ``year`` and day ``16`` and month ``6`` are from *June 16, 2015*.
+
+            >>> DateDataParser().get_date_data(u'2014')
+            {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
 
         TODO: Timezone issues
 

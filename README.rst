@@ -22,7 +22,7 @@ any string formats commonly found on web pages.
 Features
 --------
 * Generic parsing of dates in English, Spanish, Dutch, Russian and several other langauges and formats.
-* Generic parsing of contextual dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
+* Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
 * Generic parsing of dates with time zones abbreviations like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``.
 * Extensive test coverage.
 
@@ -32,7 +32,7 @@ Usage
 The most straightforward way is to use the :func:`dateparser.parse` function,
 that wraps around most of the functionality in the module.
 
-.. automodule:: dateparser.__init__
+.. automodule:: dateparser
    :members: parse
 
 
@@ -56,8 +56,7 @@ Popular Formats
 This will try to parse a date from the given string, attempting to
 detect the language each time.
 
-If you know beforehand the languages that the date should be, you can skip
-language detection specifying them using the ``languages`` argument::
+You can specify the language(s), if known, using ``languages`` argument. In this case, given languages, if supported, are used and language detection is skipped::
 
     >>> dateparser.parse('2015, Ago 15, 1:08 pm', languages=['pt', 'es'])
     datetime.datetime(2015, 8, 15, 13, 8)
@@ -69,26 +68,23 @@ use the ``date_formats`` argument::
     datetime.datetime(2010, 12, 22, 0, 0)
 
 
-Contextual Dates
-++++++++++++++++
+Relative Dates
+++++++++++++++
 
     >>> parse('1 hour ago')
-    datetime.datetime(2012, 12, 21, 23, 0)
-    >>> parse(u'Il ya 2 heures')  # French
-    datetime.datetime(2012, 12, 21, 22, 0)
-    >>> parse(u'1 anno 2 mesi')  # Italian
-    datetime.datetime(2011, 10, 22, 0, 0)
-    >>> parse(u'yaklaşık 23 saat önce')  # Russian
-    datetime.datetime(2012, 12, 21, 1, 0)
-    >>> parse(u'Hace una semana')  # Spanish
-    datetime.datetime(2012, 12, 15, 0, 0)
-    >>> parse(u'2小时前')  # Chinese
-    datetime.datetime(2012, 12, 21, 22, 0)
+    datetime.datetime(2015, 5, 31, 23, 0)
+    >>> parse(u'Il ya 2 heures')  # French (2 hours ago)
+    datetime.datetime(2015, 5, 31, 22, 0)
+    >>> parse(u'1 anno 2 mesi')  # Italian (1 year 2 months)
+    datetime.datetime(2014, 4, 1, 0, 0)
+    >>> parse(u'yaklaşık 23 saat önce')  # Turkish (23 hours ago)
+    datetime.datetime(2015, 5, 31, 1, 0)
+    >>> parse(u'Hace una semana')  # Spanish (a week ago)
+    datetime.datetime(2015, 5, 25, 0, 0)
+    >>> parse(u'2小时前')  # Chinese (2 hours ago)
+    datetime.datetime(2015, 5, 31, 22, 0)
 
-.. note:: Testing above code might return different values for you depending on your environment's current date time. To reproduce exactly above results, you can patch your environment as follows::
-
-    >>> from dateparser.date import freshness_date_parser
-    >>> patch.object(freshness_date_parser, 'now', datetime(2012, 12, 22, 0, 0)).start()
+.. note:: Testing above code might return different values for you depending on your environment's current date and time.
 
 
 Dependencies
