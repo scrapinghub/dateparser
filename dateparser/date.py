@@ -226,18 +226,26 @@ class _DateLanguageParser(object):
 
 
 class DateDataParser(object):
+    """
+    Class which handles language detection, translation and subsequent generic parsing of
+    string representing date and/or time.
+
+    :param languages:
+            A list of two letters language codes.e.g. ['en', 'es'].
+            If languages are given, it will not attempt to detect the language.
+    :type languages: list
+
+    :param allow_redetect_language:
+            Enables/disables language re-detection.
+    :type allow_redetect_language: bool
+    
+    :return: A parser instance
+
+    :raises: 
+            ValueError - Unknown Language, TypeError - Languages argument must be a list
+    """
 
     def __init__(self, languages=None, allow_redetect_language=False):
-        """
-        :param languages:
-                A list of two letters language codes.e.g. ['en', 'es'].
-                If languages are given, it will not attempt to detect the language.
-
-        :param allow_redetect_language:
-                Enables/disables language re-detection.
-        
-        :return: A parser instance
-        """
         if isinstance(languages, (list, tuple, collections.Set)):
             available_language_map = default_language_loader.get_language_map()
 
@@ -264,30 +272,28 @@ class DateDataParser(object):
 
         :param date_string:
                 A string representing date and/or time in a recognizably valid format.
+        :type date_string: str
         :param date_formats:
-                A list of format strings using directives as given here_.
-                The parser applies formats one by one, taking into account the detected
-                languages.
-
-        .. _here: https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior
-            :param date_formats:
+                A list of format strings using directives as given `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_. The parser applies formats one by one, taking into account the detected languages.
+        :type date_formats: list
 
         :return: a dict mapping keys to :mod:`datetime.datetime` object and *period*. For example:
-
             {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': u'day'}
+
+        :raises: ValueError - Unknown Language
 
         .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year'.
 
         *Period* represent the granularity of date parsed from the given string.
 
         In the example below, since no day information is present, the day is assumed to be current
-        day ``16`` from *June 16, 2015*. Hence, the level of precision is ``month``. 
+        day ``16`` from *current date* (which is June 16, 2015, at the moment of writing this). Hence, the level of precision is ``month``. 
 
             >>> DateDataParser().get_date_data(u'March 2015')
             {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': u'month'}
 
         Similarly, for date strings with no day and month information present, level of precision
-        is ``year`` and day ``16`` and month ``6`` are from *June 16, 2015*.
+        is ``year`` and day ``16`` and month ``6`` are from *current_date*.
 
             >>> DateDataParser().get_date_data(u'2014')
             {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
