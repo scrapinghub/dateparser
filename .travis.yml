@@ -7,6 +7,7 @@ python:
 env:
 - TOXENV=py27
 install:
+- pip install -U wheel
 - pip install -U tox
 # command to run tests, e.g. python setup.py test
 script: tox
