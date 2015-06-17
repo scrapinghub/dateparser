@@ -44,13 +44,13 @@ Popular Formats
     datetime.datetime(2012, 12, 12, 0, 0)
     >>> dateparser.parse(u'Fri, 12 Dec 2014 10:55:50')
     datetime.datetime(2014, 12, 12, 10, 55, 50)
-    >>> dateparser.parse(u'Martes 21 de Octubre de 2014')  # Spanish
+    >>> dateparser.parse(u'Martes 21 de Octubre de 2014')  # Spanish (Tuesday 21 October 2014)
     datetime.datetime(2014, 10, 21, 0, 0)
-    >>> dateparser.parse(u'Le 11 Décembre 2014 à 09:00')  # French
+    >>> dateparser.parse(u'Le 11 Décembre 2014 à 09:00')  # French (11 December 2014 at 09:00)
     datetime.datetime(2014, 12, 11, 9, 0)
-    >>> dateparser.parse(u'13 января 2015 г. в 13:34')  # Russian
+    >>> dateparser.parse(u'13 января 2015 г. в 13:34')  # Russian (13 January 2015 at 13:34)
     datetime.datetime(2015, 1, 13, 13, 34)
-    >>> dateparser.parse(u'1 เดือนตุลาคม 2005, 1:00 AM')  # Thai
+    >>> dateparser.parse(u'1 เดือนตุลาคม 2005, 1:00 AM')  # Thai (1 October 2005, 1:00 AM)
     datetime.datetime(2005, 10, 1, 1, 0)
 
 This will try to parse a date from the given string, attempting to
