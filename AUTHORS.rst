@@ -2,15 +2,9 @@
 Credits
 =======
 
-Development Lead
-----------------
 
-* Claudio Salazar <claudio@scrapinghub.com>
-* Elias Dorneles <elias@scrapinghub.com>
-* Eugene Amirov <eugene@scrapinghub.com>
-
-Contributors
-------------
+Committers
+----------
 
 * Artur Sadurski
 * Claudio Salazar
@@ -26,6 +20,7 @@ Contributors
 * Rajat Goyal
 * Raul Gallegos
 * Shuai Lin
+* Sigit Dewanto
 * Sviatoslav Sydorenko
 * Tom Russell
 * Umair Ashraf
