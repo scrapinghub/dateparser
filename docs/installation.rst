@@ -91,4 +91,10 @@ the command::
     python setup.py bdist_egg
 
 After that, you can upload the egg using `Scrapy Cloud's Dashboard interface
-<http://dash.scrapinghub.com>`_.
+<http://dash.scrapinghub.com>`_ under Settings > Eggs section.
+
+Dependencies
+************
+
+Similarly, you can download source and package `PyYAML <https://pypi.python.org/pypi/PyYAML>`_ and `dateutil <https://pypi.python.org/pypi/python-dateutil>`_ as `eggs` and deploy them like above.
+
