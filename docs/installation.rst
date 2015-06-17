@@ -45,7 +45,7 @@ Deploying a stable dateparser release:
 **************************************
 
 
-1) Then, use ``shub`` to install `python-dateutil`_ and `PyYAML`_ dependencies from `PyPI`_::
+1) Then, use ``shub`` to install `python-dateutil`_ (we require at least 2.3 version) and `PyYAML`_ dependencies from `PyPI`_::
 
     shub deploy-egg --from-pypi python-dateutil YOUR_PROJECT_ID
     shub deploy-egg --from-pypi PyYAML YOUR_PROJECT_ID
@@ -96,5 +96,5 @@ After that, you can upload the egg using `Scrapy Cloud's Dashboard interface
 Dependencies
 ************
 
-Similarly, you can download source and package `PyYAML <https://pypi.python.org/pypi/PyYAML>`_ and `dateutil <https://pypi.python.org/pypi/python-dateutil>`_ as `eggs` and deploy them like above.
+Similarly, you can download source and package `PyYAML <https://pypi.python.org/pypi/PyYAML>`_ and `dateutil <https://pypi.python.org/pypi/python-dateutil>`_ (version >= 2.3) as `eggs` and deploy them like above.
 
