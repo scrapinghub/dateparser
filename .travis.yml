@@ -7,3 +7,14 @@ python:
 
 # command to run tests, e.g. python setup.py test
 script: python setup.py test
+
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: scrapinghub
+  password:
+    secure: CJWIRI51KvqZrkPf7At1li+bbAZ/pN3iWRUPy0JaKWAC8O8B+GljXQxiXisPyLL1pIikcfLYZScOsKEhE+Uon/beeL1TPimVU3ELr7GYzuIkl3eK7quFUOiJ7glEggA5UyGNmk6goMVgaBQEOwT3gwH2LYwd1uFRvQsgIPY+tks=
+  on:
+    tags: true
+    repo: scrapinghub/dateparser
+    condition: "$TOXENV == py27"
