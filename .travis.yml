@@ -4,9 +4,10 @@ language: python
 
 python:
   - "2.7"
-
+env:
+- TOXENV=py27
 # command to run tests, e.g. python setup.py test
-script: python setup.py test
+script: tox
 
 deploy:
   provider: pypi
