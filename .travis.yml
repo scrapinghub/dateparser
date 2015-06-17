@@ -17,7 +17,7 @@ deploy:
   distributions: sdist bdist_wheel
   user: scrapinghub
   password:
-    secure: "EviWl7/ssRUYyfcQ2G1o+8lc8kLmy0dpLxSDgVerwEmhFWMem+dyfvfGQk7C8C3yDO3J0BrvgbZLj5/UgZRp3lz3imV7b+iQ8ITLYWAU6X8/+XbQ+xcwNfnzxg9Pj1CLXu4CBvT5biSTJ969K2w5lm5l9J/TIqTp9VfypikOgf0="
+    secure: "Vs2Z69YTFzQWVkos7IvP4xk0RAQ35dzVXP+EAmzMkqi9qToTa7jdeF8deY18r3l8093jaJ/ct6NzjNiZ6ryWl1yKBwYoW+jaXjKGVXMFSQdqXiDreu516rqrOiRfZVHy+G9TabjhVrIW2npkxuOP7d0HONOZnNtCn6QrxQwEBzw="
   on:
     tags: true
     repo: scrapinghub/dateparser
