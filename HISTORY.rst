@@ -6,6 +6,7 @@ History
 
 0.2.0 (2015-06-17)
 ------------------
+* Easy to use `parse` function
 * Languages definitions using YAML.
 * Using translation based approach for parsing non-english languages. Previously, :mod:`dateutil.parserinfo` was used for language definitions.
 * Better period extraction.
