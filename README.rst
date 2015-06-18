@@ -31,8 +31,11 @@ Features
 Usage
 =====
 
-The most straightforward way is to use the `dateparser.parse` function,
+The most straightforward way is to use the `dateparser.parse <#dateparser.parse>`_ function,
 that wraps around most of the functionality in the module.
+
+.. automodule:: dateparser
+   :members: parse
 
 
 Popular Formats
