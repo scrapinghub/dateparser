@@ -19,6 +19,12 @@ dateparser -- python parser for human readable dates
 any string formats commonly found on web pages.
 
 
+Documentation
+=============
+
+Documentation can be found `here <https://dateparser.readthedocs.org/en/latest/>`_.
+
+
 Features
 ========
 
