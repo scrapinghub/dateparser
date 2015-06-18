@@ -4,16 +4,20 @@ language: python
 
 python:
   - "2.7"
-
+env:
+- TOXENV=py27
+install:
+- pip install -U wheel
+- pip install -U tox
 # command to run tests, e.g. python setup.py test
-script: python setup.py test
+script: tox
 
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: scrapinghub
   password:
-    secure: CJWIRI51KvqZrkPf7At1li+bbAZ/pN3iWRUPy0JaKWAC8O8B+GljXQxiXisPyLL1pIikcfLYZScOsKEhE+Uon/beeL1TPimVU3ELr7GYzuIkl3eK7quFUOiJ7glEggA5UyGNmk6goMVgaBQEOwT3gwH2LYwd1uFRvQsgIPY+tks=
+    secure: "Vs2Z69YTFzQWVkos7IvP4xk0RAQ35dzVXP+EAmzMkqi9qToTa7jdeF8deY18r3l8093jaJ/ct6NzjNiZ6ryWl1yKBwYoW+jaXjKGVXMFSQdqXiDreu516rqrOiRfZVHy+G9TabjhVrIW2npkxuOP7d0HONOZnNtCn6QrxQwEBzw="
   on:
     tags: true
     repo: scrapinghub/dateparser
