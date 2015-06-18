@@ -19,8 +19,15 @@ dateparser -- python parser for human readable dates
 any string formats commonly found on web pages.
 
 
+Documentation
+=============
+
+Documentation can be found `here <https://dateparser.readthedocs.org/en/latest/>`_.
+
+
 Features
---------
+========
+
 * Generic parsing of dates in English, Spanish, Dutch, Russian and several other langauges and formats.
 * Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
 * Generic parsing of dates with time zones abbreviations like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``.
@@ -28,8 +35,9 @@ Features
 
 
 Usage
------
-The most straightforward way is to use the :func:`dateparser.parse` function,
+=====
+
+The most straightforward way is to use the `dateparser.parse <#dateparser.parse>`_ function,
 that wraps around most of the functionality in the module.
 
 .. automodule:: dateparser
@@ -37,7 +45,7 @@ that wraps around most of the functionality in the module.
 
 
 Popular Formats
-+++++++++++++++
+---------------
 
     >>> import dateparser
     >>> dateparser.parse('12/12/12')
@@ -69,7 +77,7 @@ use the ``date_formats`` argument::
 
 
 Relative Dates
-++++++++++++++
+--------------
 
     >>> parse('1 hour ago')
     datetime.datetime(2015, 5, 31, 23, 0)
@@ -88,7 +96,8 @@ Relative Dates
 
 
 Dependencies
-------------
+============
+
 `dateparser` translates non-english dates to English and uses dateutil_ module ``'parser'`` to parse the translated date.
 
 Also, it requires PyYAML_ for its language detection module to work.
@@ -98,7 +107,7 @@ Also, it requires PyYAML_ for its language detection module to work.
 
 
 Limitations
------------
+===========
 
 * Only Python 2 support for now (Python 3 support **will be** added in future versions)
 

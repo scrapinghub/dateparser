@@ -14,7 +14,7 @@ History
 * Added a number of new simplifications for more comprehensive generic parsing.
 * Improved validation for dates.
 * Support for Polish, Thai and Arabic dates.
-* Support for pytz timezones.
+* Support for :mod:`pytz` timezones.
 * Fixed building and packaging issues.
 
 
