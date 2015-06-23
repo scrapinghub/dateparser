@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import re
 import unittest
 from collections import OrderedDict
 from datetime import datetime, timedelta
@@ -473,24 +474,33 @@ class TestDateDataParser(BaseTestCase):
 
 
 class TestParserInitialization(BaseTestCase):
+    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile(u"Unknown language\(s\): (.+)")
+
     def setUp(self):
         super(TestParserInitialization, self).setUp()
         self.result = NotImplemented
 
     @parameterized.expand([
-        param(['ur', 'li'], error_message=u"Unknown language(s): u'ur', u'li'"),
-        param(['ur', 'en'], error_message=u"Unknown language(s): u'ur'"),
-        param(['pk'], error_message=u"Unknown language(s): u'pk'"),
+        param(['ur', 'li'], unknown_languages=[u'ur', u'li']),
+        param(['ur', 'en'], unknown_languages=[u'ur']),
+        param(['pk'], unknown_languages=[u'pk']),
         ])
-    def test_should_raise_error_when_unknown_language_given(self, shortnames, error_message):
+    def test_should_raise_error_when_unknown_language_given(self, shortnames, unknown_languages):
         self.when_parser_is_initialized(languages=shortnames)
-        self.then_error_was_raised(ValueError, error_message)
+        self.then_languages_are_unknown(unknown_languages)
 
     def when_parser_is_initialized(self, **params):
         try:
             self.parser = date.DateDataParser(**params)
         except Exception as error:
             self.error = error
+
+    def then_languages_are_unknown(self, unknown_languages):
+        self.assertIsInstance(self.error, ValueError)
+        match = self.UNKNOWN_LANGUAGES_EXCEPTION_RE.match(str(self.error))
+        self.assertTrue(match)
+        languages = [shortname[2:-1] for shortname in match.group(1).split(", ")]
+        self.assertItemsEqual(languages, unknown_languages)
 
 
 if __name__ == '__main__':

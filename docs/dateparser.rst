@@ -1,8 +1,23 @@
 dateparser package
 ==================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    dateparser.languages
+
 Submodules
 ----------
+
+dateparser.conf module
+----------------------
+
+.. automodule:: dateparser.conf
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 dateparser.date module
 ----------------------
@@ -28,10 +43,26 @@ dateparser.freshness_date_parser module
     :undoc-members:
     :show-inheritance:
 
+dateparser.timezone_parser module
+---------------------------------
+
+.. automodule:: dateparser.timezone_parser
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 dateparser.timezones module
 ---------------------------
 
 .. automodule:: dateparser.timezones
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+dateparser.utils module
+-----------------------
+
+.. automodule:: dateparser.utils
     :members:
     :undoc-members:
     :show-inheritance:
