@@ -25,6 +25,8 @@ Assuming current date is June 16, 2015::
     >>> settings.update('PREFER_DATES_FROM', 'future')
     >>> parse(u'March')
     datetime.datetime(2016, 3, 16, 0, 0)
+
+*``SKIP_TOKENS``* is a ``list`` of tokens to discard while detecting language. Defaults to ``['t']`` which skips T in iso format datetime string.e.g. ``2015-05-02T10:20:19+0000``.
 """
 
 
@@ -32,6 +34,7 @@ class Settings(object):
     PREFER_DATES_FROM = 'current_period'  # past, future, current_period
     SUPPORT_BEFORE_COMMON_ERA = False
     PREFER_DAY_OF_MONTH = 'current'  # current, first, last
+    SKIP_TOKENS = ['t']
 
     def __init__(self, **kwargs):
         for key in kwargs:

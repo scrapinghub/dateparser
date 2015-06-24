@@ -9,12 +9,14 @@ from dateparser.utils import wrap_replacement_for_regex
 
 from .dictionary import Dictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
+from ..conf import settings
 
 
 class Language(object):
     _dictionary = None
     _splitters = None
     _wordchars = None
+    _cached = None
 
     def __init__(self, shortname, language_info):
         self.shortname = shortname
@@ -24,40 +26,51 @@ class Language(object):
             if isinstance(value, int):
                 simplification[key] = str(value)
 
+        self._cached = self
+
     def validate_info(self, validator=None):
         if validator is None:
             validator = LanguageValidator
 
-        return validator.validate_info(language_id=self.shortname, info=self.info)
+        return validator.validate_info(language_id=self.shortname, info=self._cached.info)
 
     def is_applicable(self, date_string, strip_timezone=False):
         if strip_timezone:
             date_string, timezone = pop_tz_offset_from_string(date_string, as_offset=False)
 
-        date_string = self._simplify(date_string)
-        tokens = self._split(date_string, keep_formatting=False)
-        if self._is_date_consists_of_digits_only(tokens):
+        date_string = self._cached._simplify(date_string)
+        tokens = self._cached._split(date_string, keep_formatting=False)
+        if self._cached._is_date_consists_of_digits_only(tokens):
             return True
         else:
-            return self._are_all_words_in_the_dictionary(tokens)
+            return self._cached._are_all_words_in_the_dictionary(tokens)
 
     def translate(self, date_string, keep_formatting=False):
-        date_string = self._simplify(date_string)
-        words = self._split(date_string, keep_formatting)
+        tokens = self._cached._get_new_skip_tokens(settings.SKIP_TOKENS)
 
-        dictionary = self._get_dictionary()
+        if tokens:
+            self._cached.info['skip'] += tokens
+            self._cached = Language(self._language_object.shortname, self._language_object.info)
+
+        date_string = self._cached._simplify(date_string)
+        words = self._cached._split(date_string, keep_formatting)
+
+        dictionary = self._cached._get_dictionary()
         for i, word in enumerate(words):
             word = word.lower()
             if word in dictionary:
                 words[i] = dictionary[word] or ''
 
-        return self._join(filter(bool, words), separator="" if keep_formatting else " ")
+        return self._cached._join(filter(bool, words), separator="" if keep_formatting else " ")
+
+    def _get_new_skip_tokens(self, tokens):
+        return [token for token in tokens if token not in self._cached.info.get('skip', [])]
 
     def _simplify(self, date_string):
         date_string = date_string.lower()
-        for simplification in self.info.get('simplifications', []):
+        for simplification in self._cached.info.get('simplifications', []):
             pattern, replacement = simplification.items()[0]
-            if not self.info.get('no_word_spacing', False):
+            if not self._cached.info.get('no_word_spacing', False):
                 replacement = wrap_replacement_for_regex(replacement, pattern)
                 pattern = ur'(\A|\d|_|\W)%s(\d|_|\W|\Z)' % pattern
             date_string = re.sub(pattern, replacement, date_string, flags=re.IGNORECASE | re.UNICODE).lower()
@@ -71,7 +84,7 @@ class Language(object):
             return True
 
     def _are_all_words_in_the_dictionary(self, words):
-        dictionary = self._get_dictionary()
+        dictionary = self._cached._get_dictionary()
         for word in words:
             word = word.lower()
             if word.isdigit() or word in dictionary:
@@ -83,8 +96,8 @@ class Language(object):
 
     def _split(self, date_string, keep_formatting):
         tokens = [date_string]
-        tokens = self._split_tokens_with_regex(tokens, "(\d+)")
-        tokens = self._split_tokens_by_known_words(tokens, keep_formatting)
+        tokens = self._cached._split_tokens_with_regex(tokens, "(\d+)")
+        tokens = self._cached._split_tokens_by_known_words(tokens, keep_formatting)
         return tokens
 
     def _split_tokens_with_regex(self, tokens, regex):
@@ -94,7 +107,7 @@ class Language(object):
         return filter(bool, chain(*tokens))
 
     def _split_tokens_by_known_words(self, tokens, keep_formatting):
-        dictionary = self._get_dictionary()
+        dictionary = self._cached._get_dictionary()
         for i, token in enumerate(tokens):
             tokens[i] = dictionary.split(token, keep_formatting)
         return list(chain(*tokens))
@@ -103,7 +116,7 @@ class Language(object):
         if not tokens:
             return ""
 
-        capturing_splitters = self._get_splitters()['capturing']
+        capturing_splitters = self._cached._get_splitters()['capturing']
         joined = tokens[0]
         for i in range(1, len(tokens)):
             left, right = tokens[i - 1], tokens[i]
@@ -114,19 +127,19 @@ class Language(object):
         return joined
 
     def _get_dictionary(self):
-        if self._dictionary is None:
-            self._generate_dictionary()
-        return self._dictionary
+        if self._cached._dictionary is None:
+            self._cached._generate_dictionary()
+        return self._cached._dictionary
 
     def _get_wordchars(self):
-        if self._wordchars is None:
-            self._set_wordchars()
-        return self._wordchars
+        if self._cached._wordchars is None:
+            self._cached._set_wordchars()
+        return self._cached._wordchars
 
     def _get_splitters(self):
-        if self._splitters is None:
-            self._set_splitters()
-        return self._splitters
+        if self._cached._splitters is None:
+            self._cached._set_splitters()
+        return self._cached._splitters
 
     def _set_splitters(self):
         splitters = {
@@ -135,28 +148,28 @@ class Language(object):
         }
         splitters['capturing'] |= set(ALWAYS_KEEP_TOKENS)
 
-        wordchars = self._get_wordchars()
-        skip = set(self.info.get('skip', [])) | splitters['capturing']
+        wordchars = self._cached._get_wordchars()
+        skip = set(self._cached.info.get('skip', [])) | splitters['capturing']
         for token in skip:
             if not re.match('^\W+$', token, re.UNICODE):
                 continue
             if token in wordchars:
                 splitters['wordchars'].add(token)
 
-        self._splitters = splitters
+        self._cached._splitters = splitters
 
     def _set_wordchars(self):
         wordchars = set()
-        for word in self._get_dictionary():
+        for word in self._cached._get_dictionary():
             if re.match('^[\W\d_]+$', word, re.UNICODE):
                 continue
             for char in word:
                 wordchars.add(char.lower())
 
-        self._wordchars = wordchars - {" "} | {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+        self._cached._wordchars = wordchars - {" "} | {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
     def _generate_dictionary(self):
-        self._dictionary = Dictionary(self.info)
+        self._cached._dictionary = Dictionary(self.info)
 
     def to_parserinfo(self, base_cls=parser.parserinfo):
         attributes = {
