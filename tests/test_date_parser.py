@@ -106,7 +106,7 @@ class AutoDetectLanguageTest(BaseTestCase):
             language_map = default_language_loader.get_language_map()
             languages = [language_map[language]
                          for language in languages]
-        self.parser = AutoDetectLanguage(languages=languages, allow_redetection=allow_redetection)
+        self.parser = AutoDetectLanguage(languages, allow_redetection=allow_redetection)
 
     def given_parser_languages_are(self, languages):
         language_map = default_language_loader.get_language_map()
@@ -366,27 +366,6 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
-    @parameterized.expand([
-        param('al 27 de junio 1981'),  # Spanish (at 27 June 1981)
-        param('au 27 juin 1981'),  # French (at 27 June 1981)
-        param('27 Haziran 1981 de'),  # Turkish (at 27 June 1981)
-    ])
-    def test_skip_tokens_configuration_dates_should_not_parse(self, date_string):
-        self.given_parser()
-        self.when_date_is_parsed(date_string)
-        self.then_date_was_not_parsed_by_date_parser()
-
-    @parameterized.expand([
-        param('al 27 de junio 1981', datetime(1981, 6, 27), ['al']),  # Spanish (at 27 June 1981)
-        param('au 27 juin 1981', datetime(1981, 6, 27), ['au']),  # French (at 27 June 1981)
-        param('27 Haziran 1981 de', datetime(1981, 6, 27), ['de']),  # Turkish (at 27 June 1981)
-    ])
-    def test_skip_tokens_configuration_dates_should_parse(self, date_string, expected, tokens):
-        self.given_configuration('SKIP_TOKENS', tokens)
-        self.given_parser()
-        self.when_date_is_parsed(date_string)
-        self.then_date_was_parsed_by_date_parser()
-        self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
         param('10 December', datetime(2015, 12, 10)),
@@ -529,6 +508,7 @@ class TestDateParser(BaseTestCase):
                 self.date_result = parse(date_string)
                 return self.date_result
             return wrapped
+
         self.add_patch(patch.object(date_parser,
                                     'parse',
                                     collecting_get_date_data(date_parser.parse)))
@@ -557,9 +537,6 @@ class TestDateParser(BaseTestCase):
 
     def then_date_was_parsed_by_date_parser(self):
         self.assertEqual(self.result['date_obj'], self.date_result[0])
-
-    def then_date_was_not_parsed_by_date_parser(self):
-        self.assertFalse(self.result['date_obj'])
 
 
 if __name__ == '__main__':

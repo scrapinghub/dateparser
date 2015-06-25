@@ -14,6 +14,8 @@ import dateparser
 from dateparser import date
 from dateparser.date import get_last_day_of_month
 from dateparser.languages.loader import LanguageDataLoader
+from dateparser.conf import settings
+
 from tests import BaseTestCase
 
 
@@ -449,6 +451,9 @@ class TestDateDataParser(BaseTestCase):
     def then_date_was_parsed(self):
         self.assertIsNotNone(self.result['date_obj'])
 
+    def then_date_was_not_parsed(self):
+        self.assertIsNone(self.result['date_obj'])
+
     def then_date_is_n_days_ago(self, days):
         today = datetime.utcnow().date()
         expected_date = today - timedelta(days=days)
@@ -501,6 +506,42 @@ class TestParserInitialization(BaseTestCase):
         self.assertTrue(match)
         languages = [shortname[2:-1] for shortname in match.group(1).split(", ")]
         self.assertItemsEqual(languages, unknown_languages)
+
+
+class TestSkipTokensConfiguration(BaseTestCase):
+
+    def setUp(self):
+        super(TestSkipTokensConfiguration, self).setUp()
+        self.result = NotImplemented
+        self.parser = NotImplemented
+
+    @parameterized.expand([
+        param('al 27 de junio 1981'),  # Spanish (at 27 June 1981)
+        param('au 27 juin 1981'),  # French (at 27 June 1981)
+        param('27 Haziran 1981 de'),  # Turkish (at 27 June 1981)
+    ])
+    def test_skip_tokens_configuration_dates_should_not_parse(self, date_string):
+        self.when_date_string_is_parsed(date_string)
+        self.then_parsed_datetime_is(None)
+
+    @parameterized.expand([
+        param('al 27 de junio 1981', datetime(1981, 6, 27), ['al']),  # Spanish (at 27 June 1981)
+        param('au 27 juin 1981', datetime(1981, 6, 27), ['au']),  # French (at 27 June 1981)
+        param('27 Haziran 1981 de', datetime(1981, 6, 27), ['de']),  # Turkish (at 27 June 1981)
+    ])
+    def test_skip_tokens_configuration_dates_should_parse(self, date_string, expected, tokens):
+        self.given_configuration('SKIP_TOKENS', tokens)
+        self.when_date_string_is_parsed(date_string)
+        self.then_parsed_datetime_is(expected)
+
+    def given_configuration(self, key, value):
+        self.add_patch(patch.object(settings, key, new=value))
+
+    def when_date_string_is_parsed(self, date_string):
+        self.result = dateparser.parse(date_string)
+
+    def then_parsed_datetime_is(self, expected):
+        self.assertEqual(expected, self.result)
 
 
 if __name__ == '__main__':
