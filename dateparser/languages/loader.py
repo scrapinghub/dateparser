@@ -4,10 +4,12 @@ from pkgutil import get_data
 from yaml import load as load_yaml
 
 from .language import Language
+from ..conf import settings
 
 
 class LanguageDataLoader(object):
     _data = None
+    _raw_data = None
 
     def __init__(self, file=None):
         if isinstance(file, basestring):
@@ -34,10 +36,14 @@ class LanguageDataLoader(object):
             data = get_data('data', 'languages.yaml')
         else:
             data = self.file.read()
-        data = load_yaml(data)
-        base_data = data.pop('base', {})
+        
+        if not self._raw_data:
+            self._raw_data = load_yaml(data)
+
+        base_data = self._raw_data.pop('base', {'skip': []})
+        base_data['skip'] += settings.SKIP_TOKENS
         known_languages = {}
-        for shortname, language_info in data.iteritems():
+        for shortname, language_info in self._raw_data.iteritems():
             self._update_language_info_with_base_info(language_info, base_data)
             language = Language(shortname, language_info)
             if language.validate_info():

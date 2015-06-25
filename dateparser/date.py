@@ -11,7 +11,9 @@ from dateutil.relativedelta import relativedelta
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages import default_language_loader
+from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.conf import settings
 
 
 def sanitize_spaces(html_string):
@@ -244,10 +246,16 @@ class DateDataParser(object):
     :raises:
             ValueError - Unknown Language, TypeError - Languages argument must be a list
     """
+    _default_args = None
+    _skip_tokens = None
 
     def __init__(self, languages=None, allow_redetect_language=False):
+        available_language_map = default_language_loader.get_language_map()
+
+        self._default_args = [languages, allow_redetect_language]
+        self._skip_tokens = settings.SKIP_TOKENS
+
         if isinstance(languages, (list, tuple, collections.Set)):
-            available_language_map = default_language_loader.get_language_map()
 
             if all([language in available_language_map for language in languages]):
                 languages = [available_language_map[language] for language in languages]
@@ -258,12 +266,14 @@ class DateDataParser(object):
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
         if allow_redetect_language:
-            self.language_detector = AutoDetectLanguage(languages=languages if languages else None,
-                                                        allow_redetection=True)
+            self.language_detector = AutoDetectLanguage(
+                    languages if languages else available_language_map.values(),
+                    allow_redetection=True)
         elif languages:
             self.language_detector = ExactLanguages(languages=languages)
         else:
-            self.language_detector = AutoDetectLanguage(languages=None, allow_redetection=False)
+            self.language_detector = AutoDetectLanguage(
+                available_language_map.values(), allow_redetection=False)
 
     def get_date_data(self, date_string, date_formats=None):
         """
@@ -304,6 +314,11 @@ class DateDataParser(object):
         TODO: Timezone issues
 
         """
+        global default_language_loader
+        if settings.SKIP_TOKENS != self._skip_tokens:
+            default_language_loader = LanguageDataLoader()
+            self = DateDataParser(*self._default_args)
+
         date_string = date_string.strip()
         date_string = sanitize_date(date_string)
 
