@@ -4,7 +4,6 @@ from pkgutil import get_data
 from yaml import load as load_yaml
 
 from .language import Language
-from ..conf import settings
 
 
 class LanguageDataLoader(object):
@@ -36,9 +35,7 @@ class LanguageDataLoader(object):
         else:
             data = self.file.read()
         data = load_yaml(data)
-        base_data = data.pop('base', {'skip': []})
-        # also add any skip tokens from custom settings
-        base_data['skip'] += settings.SKIP_TOKENS
+        base_data = data.pop('base', {})
         known_languages = {}
         for shortname, language_info in data.iteritems():
             self._update_language_info_with_base_info(language_info, base_data)
