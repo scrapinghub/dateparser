@@ -32,7 +32,7 @@ class Language(object):
         if validator is None:
             validator = LanguageValidator
 
-        return validator.validate_info(language_id=self.shortname, info=self._cached.info)
+        return validator.validate_info(language_id=self._cached.shortname, info=self._cached.info)
 
     def is_applicable(self, date_string, strip_timezone=False):
         tokens = self._cached._get_new_skip_tokens(settings.SKIP_TOKENS)
