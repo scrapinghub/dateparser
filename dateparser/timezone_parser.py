@@ -9,7 +9,6 @@ def pop_tz_offset_from_string(date_string, as_offset=True):
     for name, info in _tz_offsets:
         timezone_re = info['regex']
         if timezone_re.search(date_string):
-            # \1 = (\b|\d) in TIMEZONE_REGEX_PATTERN
             date_string = timezone_re.sub(r'\1', date_string)
             return date_string, info['offset'] if as_offset else name
     else:
