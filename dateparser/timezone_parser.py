@@ -21,7 +21,7 @@ def convert_to_local_tz(datetime_obj, datetime_tz_offset):
 
 def get_tz_offsets():
 
-    def get_offset(tz_obj, repl='', replw=''):
+    def get_offset(tz_obj, regex, repl='', replw=''):
         return (
             tz_obj[0],
             {
@@ -33,12 +33,12 @@ def get_tz_offsets():
     for tz_info in timezone_info_list:
         for regex in tz_info['regex_patterns']:
             for tz_obj in tz_info['timezones']:
-                yield get_offset(tz_obj)
+                yield get_offset(tz_obj, regex)
 
             # alternate patterns
             for replace, replacewith in tz_info.get('replace', []):
                 for tz_obj in tz_info['timezones']:
-                    yield get_offset(tz_obj, repl=replace, replw=replacewith)
+                    yield get_offset(tz_obj, regex, repl=replace, replw=replacewith)
 
 
 def get_local_tz_offset():

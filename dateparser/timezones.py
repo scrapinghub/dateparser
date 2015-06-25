@@ -398,7 +398,7 @@ timezone_info_list = [
     },
     {
         'regex_patterns': 
-            [r'(.)%s',],
+            [r'(.)%s$',],
         'replace':
             [(r'UTC', r''),
              (r':', r''),
