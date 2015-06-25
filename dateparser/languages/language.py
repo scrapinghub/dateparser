@@ -35,12 +35,6 @@ class Language(object):
         return validator.validate_info(language_id=self.shortname, info=self._cached.info)
 
     def is_applicable(self, date_string, strip_timezone=False):
-        tokens = self._cached._get_new_skip_tokens(settings.SKIP_TOKENS)
-
-        if tokens:
-            self._cached.info['skip'] += tokens
-            self._cached = Language(self._cached.shortname, self._cached.info)
-
         if strip_timezone:
             date_string, timezone = pop_tz_offset_from_string(date_string, as_offset=False)
 
@@ -52,6 +46,12 @@ class Language(object):
             return self._cached._are_all_words_in_the_dictionary(tokens)
 
     def translate(self, date_string, keep_formatting=False):
+        tokens = self._cached._get_new_skip_tokens(settings.SKIP_TOKENS)
+
+        if tokens:
+            self._cached.info['skip'] += tokens
+            self._cached = Language(self._language_object.shortname, self._language_object.info)
+
         date_string = self._cached._simplify(date_string)
         words = self._cached._split(date_string, keep_formatting)
 
