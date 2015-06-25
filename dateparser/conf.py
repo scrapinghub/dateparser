@@ -27,6 +27,10 @@ Assuming current date is June 16, 2015::
     datetime.datetime(2016, 3, 16, 0, 0)
 
 *``SKIP_TOKENS``* is a ``list`` of tokens to discard while detecting language. Defaults to ``['t']`` which skips T in iso format datetime string.e.g. ``2015-05-02T10:20:19+0000``.
+
+    >>> settings.update('SKIP_TOKENS', ['de'])  # Turkish word for 'at'
+    >>> parse(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
+    datetime.datetime(1981, 6, 27, 0, 0)
 """
 
 

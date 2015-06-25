@@ -111,9 +111,3 @@ Limitations
 
 * Only Python 2 support for now (Python 3 support **will be** added in future versions)
 
-* `dateparser` at this point does not support generic parsing of dates with fixed UTC offsets. This restricts its ability to reliably parse time zone aware dates since the use of abbreviated time zones as a sole designator of time zones is not recommended.
-
-  Read `Wikipedia Time Zone article`_ for more information.
-
-.. _Wikipedia Time Zone Article: https://en.wikipedia.org/wiki/Time_zone#Abbreviations
-
