@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
 
-from dateparser.languages import default_language_loader
-
 
 def _restore_languages_on_generator_exit(method):
     @wraps(method)
@@ -39,9 +37,7 @@ class BaseLanguageDetector(object):
 
 
 class AutoDetectLanguage(BaseLanguageDetector):
-    def __init__(self, languages=None, allow_redetection=False):
-        if languages is None:
-            languages = default_language_loader.get_languages()
+    def __init__(self, languages, allow_redetection=False):
         super(AutoDetectLanguage, self).__init__(languages=languages[:])
         self.language_pool = languages[:]
         self.allow_redetection = allow_redetection
