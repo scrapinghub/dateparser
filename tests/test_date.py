@@ -525,9 +525,10 @@ class TestSkipTokensConfiguration(BaseTestCase):
         self.then_parsed_datetime_is(None)
 
     @parameterized.expand([
-        param('al 27 de junio 1981', datetime(1981, 6, 27), ['al']),  # Spanish (at 27 June 1981)
-        param('au 27 juin 1981', datetime(1981, 6, 27), ['au']),  # French (at 27 June 1981)
-        param('27 Haziran 1981 de', datetime(1981, 6, 27), ['de']),  # Turkish (at 27 June 1981)
+        # 't' is to retain the default SKIP_TOKENS value.
+        param('al 27 de junio 1981', datetime(1981, 6, 27), ['t', 'al']),  # Spanish (at 27 June 1981)
+        param('au 27 juin 1981', datetime(1981, 6, 27), ['t', 'au']),  # French (at 27 June 1981)
+        param('27 Haziran 1981 de', datetime(1981, 6, 27), ['t', 'de']),  # Turkish (at 27 June 1981)
     ])
     def test_skip_tokens_configuration_dates_should_parse(self, date_string, expected, tokens):
         self.given_configuration('SKIP_TOKENS', tokens)
