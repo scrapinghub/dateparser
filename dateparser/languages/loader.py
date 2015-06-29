@@ -37,8 +37,8 @@ class LanguageDataLoader(object):
         else:
             data = self.file.read()
         
-        if not self._raw_data:
-            self._raw_data = load_yaml(data)
+        if not LanguageDataLoader._raw_data:
+            LanguageDataLoader._raw_data = load_yaml(data)
 
         base_data = self._raw_data.pop('base', {'skip': []})
         base_data['skip'] += settings.SKIP_TOKENS
