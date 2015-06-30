@@ -246,14 +246,8 @@ class DateDataParser(object):
     :raises:
             ValueError - Unknown Language, TypeError - Languages argument must be a list
     """
-    _default_args = None
-    _skip_tokens = None
-
     def __init__(self, languages=None, allow_redetect_language=False):
-        available_language_map = default_language_loader.get_language_map()
-
-        self._default_args = [languages, allow_redetect_language]
-        self._skip_tokens = settings.SKIP_TOKENS
+        available_language_map = self._get_language_loader().get_language_map()
 
         if isinstance(languages, (list, tuple, collections.Set)):
 
@@ -314,11 +308,6 @@ class DateDataParser(object):
         TODO: Timezone issues
 
         """
-        global default_language_loader
-        if settings.SKIP_TOKENS != self._skip_tokens:
-            default_language_loader = LanguageDataLoader()
-            self = DateDataParser(*self._default_args)
-
         date_string = date_string.strip()
         date_string = sanitize_date(date_string)
 
@@ -329,3 +318,13 @@ class DateDataParser(object):
                 return parsed_date
         else:
             return {'date_obj': None, 'period': 'day'}
+
+    @classmethod
+    def _get_language_loader(cls):
+        tokens_not_in_skip = [
+            token for token in settings.SKIP_TOKENS \
+                if token not in default_language_loader.get_languages()[0].info['skip']]
+        if tokens_not_in_skip:
+            return LanguageDataLoader()
+        else:
+            return default_language_loader

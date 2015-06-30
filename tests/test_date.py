@@ -539,7 +539,7 @@ class TestSkipTokensConfiguration(BaseTestCase):
         self.add_patch(patch.object(settings, key, new=value))
 
     def when_date_string_is_parsed(self, date_string):
-        self.result = dateparser.parse(date_string)
+        self.result = date.DateDataParser().get_date_data(date_string)['date_obj']
 
     def then_parsed_datetime_is(self, expected):
         self.assertEqual(expected, self.result)
