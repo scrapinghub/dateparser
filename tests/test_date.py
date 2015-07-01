@@ -14,6 +14,7 @@ import dateparser
 from dateparser import date
 from dateparser.date import get_last_day_of_month
 from dateparser.languages.loader import LanguageDataLoader
+from dateparser.languages.loader import default_language_loader
 from dateparser.conf import settings
 
 from tests import BaseTestCase
@@ -415,18 +416,7 @@ class TestDateDataParser(BaseTestCase):
         )
 
     def given_parser(self, restrict_to_languages=None, **params):
-        self.parser = date.DateDataParser(**params)
-
-        if restrict_to_languages is not None:
-            language_loader = LanguageDataLoader()
-            language_map = date.default_language_loader.get_language_map()
-
-            ordered_languages = OrderedDict([
-                (shortname, language_map[shortname])
-                for shortname in restrict_to_languages
-            ])
-            language_loader._data = ordered_languages
-            self.add_patch(patch('dateparser.date.default_language_loader', new=language_loader))
+        self.parser = date.DateDataParser(languages=restrict_to_languages, **params)
 
     def given_local_tz_offset(self, offset):
         self.add_patch(
