@@ -10,10 +10,8 @@ from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
-from dateparser.languages import default_language_loader
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
-from dateparser.conf import settings
 
 
 def sanitize_spaces(html_string):
@@ -246,6 +244,8 @@ class DateDataParser(object):
     :raises:
             ValueError - Unknown Language, TypeError - Languages argument must be a list
     """
+    language_loader = None
+
     def __init__(self, languages=None, allow_redetect_language=False):
         available_language_map = self._get_language_loader().get_language_map()
 
@@ -319,12 +319,7 @@ class DateDataParser(object):
         else:
             return {'date_obj': None, 'period': 'day'}
 
-    @classmethod
-    def _get_language_loader(cls):
-        tokens_not_in_skip = [
-            token for token in settings.SKIP_TOKENS \
-                if token not in default_language_loader.get_languages()[0].info['skip']]
-        if tokens_not_in_skip:
-            return LanguageDataLoader()
-        else:
-            return default_language_loader
+    def _get_language_loader(self):
+        if not self.language_loader:
+            self.language_loader = LanguageDataLoader()
+        return self.language_loader
