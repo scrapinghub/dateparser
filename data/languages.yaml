@@ -960,7 +960,7 @@ cn:
     name: Chinese
     no_word_spacing: True
 
-    skip: ["约", "时"]
+    skip: ["约"]
 
     monday:
         - 星期一
@@ -1014,6 +1014,8 @@ cn:
         - 天
     hour:
         - 小时
+        - 時
+        - 时
     minute:
         - 分
         - 分钟
