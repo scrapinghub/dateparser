@@ -319,7 +319,8 @@ class DateDataParser(object):
         else:
             return {'date_obj': None, 'period': 'day'}
 
-    def _get_language_loader(self):
-        if not self.language_loader:
-            self.language_loader = LanguageDataLoader()
-        return self.language_loader
+    @classmethod
+    def _get_language_loader(cls):
+        if not cls.language_loader:
+            cls.language_loader = LanguageDataLoader()
+        return cls.language_loader
