@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+from pkgutil import get_data
+
+from yaml import load as load_yaml
+
 """
 :mod:`dateparser`'s parsing behavior can be configured like below
 
@@ -29,11 +33,18 @@ Assuming current date is June 16, 2015::
 
 
 class Settings(object):
-    PREFER_DATES_FROM = 'current_period'  # past, future, current_period
-    SUPPORT_BEFORE_COMMON_ERA = False
-    PREFER_DAY_OF_MONTH = 'current'  # current, first, last
-
     def __init__(self, **kwargs):
+        """
+        Settings are now loaded using the data/settings.yaml file.
+        """
+
+        data = get_data('data', 'settings.yaml')
+        data = load_yaml(data)
+        settings_data = data.pop('settings', {})
+
+        for datum in settings_data:
+            setattr(self, datum, settings_data[datum])
+
         for key in kwargs:
             setattr(self, key, kwargs[key])
 
