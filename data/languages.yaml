@@ -302,7 +302,7 @@ fr:
 es:
     name: Spanish
 
-    skip: ["de", "del", "cerca", "y", "a las"]
+    skip: ["de", "del", "cerca", "y", "a las", "en"]
     pertain: ["de", "del"]
 
     monday:
