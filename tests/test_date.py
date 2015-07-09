@@ -452,9 +452,6 @@ class TestDateDataParser(BaseTestCase):
     def then_date_was_parsed(self):
         self.assertIsNotNone(self.result['date_obj'])
 
-    def then_date_was_not_parsed(self):
-        self.assertIsNone(self.result['date_obj'])
-
     def then_date_is_n_days_ago(self, days):
         today = datetime.utcnow().date()
         expected_date = today - timedelta(days=days)
