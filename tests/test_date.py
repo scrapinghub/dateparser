@@ -416,7 +416,18 @@ class TestDateDataParser(BaseTestCase):
         )
 
     def given_parser(self, restrict_to_languages=None, **params):
-        self.parser = date.DateDataParser(languages=restrict_to_languages, **params)
+        self.parser = date.DateDataParser(**params)
+
+        if restrict_to_languages is not None:
+            language_loader = LanguageDataLoader()
+            language_map = default_language_loader.get_language_map()
+
+            ordered_languages = OrderedDict([
+                (shortname, language_map[shortname])
+                for shortname in restrict_to_languages
+            ])
+            language_loader._data = ordered_languages
+            self.add_patch(patch('dateparser.date.DateDataParser.language_loader', new=language_loader))
 
     def given_local_tz_offset(self, offset):
         self.add_patch(
