@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import calendar
 import re, sys
 from datetime import datetime
-
+from collections import OrderedDict
 
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
@@ -63,7 +63,19 @@ class new_parser(parser.parser):
             if not getattr(res, e):
                 new_date = new_date.replace(**{e: 0})
 
-        return new_date
+        return new_date, self.get_period(res)
+
+    @staticmethod
+    def get_period(res):
+        periods = OrderedDict([
+            ('day', ['day', 'weekday', 'hour', 'minute', 'second', 'microsecond']),
+            ('month', ['month']),
+            ('year', ['year']),
+        ])
+        for period, markers in periods.iteritems():
+            for marker in markers:
+                if getattr(res, marker) is not None:
+                    return period
 
     @classmethod
     def _populate(cls, res, default):
@@ -82,7 +94,7 @@ class new_parser(parser.parser):
         new_date = new_date.replace(**repl_copy)
 
         # Fix weekday
-        if res.weekday and not res.day:
+        if res.weekday is not None and not res.day:
             new_date = new_date + new_relativedelta(weekday=res.weekday)
 
         # Correct date and return
@@ -170,6 +182,7 @@ def dateutil_parse(date_string, **kwargs):
 
 
 class DateParser(object):
+
     def parse(self, date_string):
         date_string = unicode(date_string)
 
@@ -178,11 +191,12 @@ class DateParser(object):
 
         date_string, tz_offset = pop_tz_offset_from_string(date_string)
 
-        date_obj = dateutil_parse(date_string)
+        date_obj, period = dateutil_parse(date_string)
+
         if tz_offset is not None:
             date_obj = convert_to_local_tz(date_obj, tz_offset)
 
-        return date_obj
+        return date_obj, period
 
 
 date_parser = DateParser()

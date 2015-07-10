@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
-from dateparser.languages import LanguageDataLoader
+from dateparser.languages import default_language_loader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 
 
@@ -172,10 +172,10 @@ class _DateLanguageParser(object):
 
     def _try_dateutil_parser(self):
         try:
-            date_obj = date_parser.parse(self._get_translated_date())
+            date_obj, period = date_parser.parse(self._get_translated_date())
             return {
                 'date_obj': date_obj,
-                'period': 'day',
+                'period': period,
             }
         except ValueError:
             return None
@@ -226,6 +226,24 @@ class _DateLanguageParser(object):
 
 
 class DateDataParser(object):
+    """
+    Class which handles language detection, translation and subsequent generic parsing of
+    string representing date and/or time.
+
+    :param languages:
+            A list of two letters language codes.e.g. ['en', 'es'].
+            If languages are given, it will not attempt to detect the language.
+    :type languages: list
+
+    :param allow_redetect_language:
+            Enables/disables language re-detection.
+    :type allow_redetect_language: bool
+
+    :return: A parser instance
+
+    :raises:
+            ValueError - Unknown Language, TypeError - Languages argument must be a list
+    """
 
     def __init__(self, languages=None, allow_redetect_language=False):
         if isinstance(languages, (list, tuple, collections.Set)):
@@ -237,7 +255,7 @@ class DateDataParser(object):
                 unsupported_languages = set(languages) - set(available_language_map.keys())
                 raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
         elif languages is not None:
-            raise TypeError("languages argument must be a list (%r given)"  % type(languages))
+            raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
         if allow_redetect_language:
             self.language_detector = AutoDetectLanguage(languages=languages if languages else None,
@@ -248,17 +266,40 @@ class DateDataParser(object):
             self.language_detector = AutoDetectLanguage(languages=None, allow_redetection=False)
 
     def get_date_data(self, date_string, date_formats=None):
-        """ Return a dictionary with a date object and a period.
-        Period values can be a 'day' (default), 'week', 'month', 'year'.
-        It aims to solve the following issue:
-        In example, a forum could displays "2 weeks ago" in the thread list
-        (in the thread itself there's the right date) so the engine
-        will translate "2 weeks ago" to a certain date.
-        The next thread summary displays "3 weeks ago" which is translated
-        to a other date seven days before first date.
-        A valid date_string between both dates won't be scraped because
-        it's not an exact date match. The period field helps to build
-        better date range detection.
+        """
+        Parse string representing date and/or time in recognizeable localized formats.
+        Supports parsing multiple languages.
+
+        :param date_string:
+            A string representing date and/or time in a recognizably valid format.
+        :type date_string: str|unicode
+        :param date_formats:
+            A list of format strings using directives as given
+            `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
+            The parser applies formats one by one, taking into account the detected languages.
+        :type date_formats: list
+
+        :return: a dict mapping keys to :mod:`datetime.datetime` object and *period*. For example:
+            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': u'day'}
+
+        :raises: ValueError - Unknown Language
+
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year'.
+
+        *Period* represent the granularity of date parsed from the given string.
+
+        In the example below, since no day information is present, the day is assumed to be current
+        day ``16`` from *current date* (which is June 16, 2015, at the moment of writing this).
+        Hence, the level of precision is ``month``.
+
+            >>> DateDataParser().get_date_data(u'March 2015')
+            {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': u'month'}
+
+        Similarly, for date strings with no day and month information present, level of precision
+        is ``year`` and day ``16`` and month ``6`` are from *current_date*.
+
+            >>> DateDataParser().get_date_data(u'2014')
+            {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
 
         TODO: Timezone issues
 
@@ -273,6 +314,3 @@ class DateDataParser(object):
                 return parsed_date
         else:
             return {'date_obj': None, 'period': 'day'}
-
-
-default_language_loader = LanguageDataLoader()

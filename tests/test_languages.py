@@ -3,17 +3,12 @@ from __future__ import unicode_literals
 
 from nose_parameterized import parameterized, param
 
-from dateparser.languages import LanguageDataLoader, Language
+from dateparser.languages import default_language_loader, Language
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from tests import BaseTestCase
 
 
 class TestBundledLanguages(BaseTestCase):
-    @classmethod
-    def setUpClass(cls):
-        super(TestBundledLanguages, cls).setUpClass()
-        cls.language_loader = LanguageDataLoader()
-
     def setUp(self):
         super(TestBundledLanguages, self).setUp()
         self.language = NotImplemented
@@ -66,6 +61,11 @@ class TestBundledLanguages(BaseTestCase):
         # Thai
         param('th', "เมื่อ กุมภาพันธ์ 09, 2015, 09:27:57 AM", "february 09 2015 09:27:57 am"),
         param('th', "เมื่อ กรกฎาคม 05, 2012, 01:18:06 AM", "july 05 2012 01:18:06 am"),
+
+        # Filipino
+        param('ph', "Biyernes Hulyo 3, 2015", "friday july 3 2015"),
+        param('ph', "Pebrero 5, 2015 7:00 pm", "february 5 2015 7:00 pm"),
+
         # Miscellaneous
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
         param('en', "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
@@ -161,8 +161,10 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "Hôm nay 15:39", "0 day 15:39"),
         #French
         param('fr', u"Il y a moins d'une minute", "ago 1 minute"),
-        param('fr', u"Il y a moins de 30s", "ago  30 second")
-
+        param('fr', u"Il y a moins de 30s", "ago  30 second"),
+        #Filipino
+        param('ph', "kahapon", "1 day"),
+        param('ph', "ngayon", "0 second"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -187,6 +189,7 @@ class TestBundledLanguages(BaseTestCase):
         param('th', "8 มกราคม 2015 เวลา 12:22 น.", ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
         param('pl', "8 stycznia 2015 o 10:19", ['8', ' ', 'stycznia', ' ', '2015', ' ', 'o', ' ', '10', ':', '19']),
         param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", ["Thứ Năm", " ", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
+        param('ph', "Biyernes Hulyo 3 2015", ["Biyernes", " ", "Hulyo", " ", "3", " ", "2015"]),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
@@ -209,6 +212,7 @@ class TestBundledLanguages(BaseTestCase):
         param('pl', "przedwczoraj", strip_timezone=False),
         param('fa', "ژانویه 8, 2015، ساعت 15:46", strip_timezone=False),
         param('vi', "2 tuần 3 ngày", strip_timezone=False),
+        param('ph', "Hulyo 3, 2015 7:00 pm", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)
@@ -232,7 +236,7 @@ class TestBundledLanguages(BaseTestCase):
         self.datetime_string = datetime_string
 
     def given_bundled_language(self, shorname):
-        self.language = self.language_loader.get_language(shorname)
+        self.language = default_language_loader.get_language(shorname)
 
     def when_datetime_string_translated(self):
         self.translation = self.language.translate(self.datetime_string)
@@ -260,11 +264,6 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
     __test__ = False
 
     NOT_DETECTED = object()
-
-    @classmethod
-    def setUpClass(cls):
-        super(BaseLanguageDetectorTestCase, cls).setUpClass()
-        cls.language_loader = LanguageDataLoader()
 
     def setUp(self):
         super(BaseLanguageDetectorTestCase, self).setUp()
@@ -310,7 +309,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         self.then_language_was_detected('en')
 
     def given_languages(self, *shortnames):
-        self.known_languages = [self.language_loader.get_language(shortname)
+        self.known_languages = [default_language_loader.get_language(shortname)
                                 for shortname in shortnames]
 
     def given_previosly_detected_string(self, datetime_string):
@@ -355,7 +354,8 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.then_exact_languages_were_filtered(shortnames)
 
     def given_known_languages(self, shortnames):
-        self.known_languages = [self.language_loader.get_language(shortname) for shortname in shortnames]
+        self.known_languages = [default_language_loader.get_language(shortname)
+                                for shortname in shortnames]
 
     def given_detector(self):
         self.assertIsInstance(self.known_languages, list, "Require a list of languages to initialize")
