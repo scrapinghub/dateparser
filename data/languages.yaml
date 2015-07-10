@@ -1730,3 +1730,82 @@ vi:
         - Thứ 6: friday
         - Thứ 7: saturday
 
+ph:
+    name: Filipino
+    skip: ["noong", "noon", "sa", "ganap", "na"]
+
+    monday:
+        - Lunes
+    tuesday:
+        - Martes
+    wednesday:
+        - Miyerkules
+    thursday:
+        - Huwebes
+    friday:
+        - Biyernes
+    saturday:
+        - Sabado
+    sunday:
+        - Linggo
+
+    january:
+        - Enero
+        - Ene
+    february:
+        - Pebrero
+        - Peb
+    march:
+        - Marso
+        - Mar
+    april:
+        - Abril
+        - Abr
+    may:
+        - Mayo
+        - May
+    june:
+        - Hunyo
+        - Hun
+    july:
+        - Hulyo
+        - Hul
+    august:
+        - Agosto
+        - Ago
+    september:
+        - Setyembre
+        - Set
+    october:
+        - Oktubre
+        - Okt
+    november:
+        - Nobyembre
+        - Nob
+    december:
+        - Disyembre
+        - Dis
+
+    year:
+        - taon
+    month:
+        - buwan
+    week:
+        - linggo
+    day:
+        - araw
+    hour:
+        - oras
+    minute:
+        - minuto
+    second:
+        - segundo
+
+    ago:
+        - nakaraan
+        - nakalipas
+
+    simplifications:
+        - kahapon: 1 araw
+        - ngayon: 0 segundo
+        - isang araw: 2 araw
