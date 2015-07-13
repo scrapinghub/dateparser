@@ -25,6 +25,14 @@ Assuming current date is June 16, 2015::
     >>> settings.update('PREFER_DATES_FROM', 'future')
     >>> parse(u'March')
     datetime.datetime(2016, 3, 16, 0, 0)
+
+*``SKIP_TOKENS``* is a ``list`` of tokens to discard while detecting language. Defaults to ``['t']`` which skips T in iso format datetime string.e.g. ``2015-05-02T10:20:19+0000``.
+This only works with :mod:`DateDataParser` like below:
+
+    >>> settings.update('SKIP_TOKENS', ['de'])  # Turkish word for 'at'
+    >>> from dateparser.date import DateDataParser
+    >>> DateDataParser().get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
+    {'date_obj': datetime.datetime(1981, 6, 27, 0, 0), 'period': 'day'}
 """
 
 
@@ -32,6 +40,7 @@ class Settings(object):
     PREFER_DATES_FROM = 'current_period'  # past, future, current_period
     SUPPORT_BEFORE_COMMON_ERA = False
     PREFER_DAY_OF_MONTH = 'current'  # current, first, last
+    SKIP_TOKENS = ['t']
 
     def __init__(self, **kwargs):
         for key in kwargs:

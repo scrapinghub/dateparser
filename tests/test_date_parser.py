@@ -106,7 +106,7 @@ class AutoDetectLanguageTest(BaseTestCase):
             language_map = default_language_loader.get_language_map()
             languages = [language_map[language]
                          for language in languages]
-        self.parser = AutoDetectLanguage(languages=languages, allow_redetection=allow_redetection)
+        self.parser = AutoDetectLanguage(languages, allow_redetection=allow_redetection)
 
     def given_parser_languages_are(self, languages):
         language_map = default_language_loader.get_language_map()
@@ -293,9 +293,25 @@ class TestDateParser(BaseTestCase):
         param('17th October, 2034 @ 01:08 am PDT', datetime(2034, 10, 17, 9, 8)),
         param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 4, 24)),
         param('15 May 2004', datetime(2004, 5, 15, 0, 0)),
+        param('08/17/14 17:00 (PDT)', datetime(2014, 8, 18, 1, 0)),
     ])
     def test_parsing_with_time_zones(self, date_string, expected):
         self.given_local_tz_offset(+1)
+        self.given_parser()
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('15 May 2004 16:10 -0400', datetime(2004, 5, 15, 20, 10)),
+        param('1999-12-31 19:00:00 -0500', datetime(2000, 1, 1, 0, 0)),
+        param('1999-12-31 19:00:00 +0500', datetime(1999, 12, 31, 14, 0)),
+        param('Fri, 09 Sep 2005 13:51:39 -0700', datetime(2005, 9, 9, 20, 51, 39)),
+        param('Fri, 09 Sep 2005 13:51:39 +0000', datetime(2005, 9, 9, 13, 51, 39)),
+    ])
+    def test_parsing_with_utc_offsets(self, date_string, expected):
+        self.given_local_tz_offset(0)
         self.given_parser()
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
@@ -350,6 +366,7 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
 
     @parameterized.expand([
         param('10 December', datetime(2015, 12, 10)),
@@ -441,6 +458,18 @@ class TestDateParser(BaseTestCase):
         self.then_error_was_raised(ValueError, 'Day not in range for month')
 
     @parameterized.expand([
+        param('2015-05-02T10:20:19+0000', languages=['fr'], expected=datetime(2015, 5, 2, 10, 20, 19)),
+        param('2015-05-02T10:20:19+0000', languages=['en'], expected=datetime(2015, 5, 2, 10, 20, 19)),
+        param('2015-05-02T10:20:19+0000', languages=[], expected=datetime(2015, 5, 2, 10, 20, 19)),
+    ])
+    def test_iso_datestamp_format_should_always_parse(self, date_string, languages, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser(languages=languages)
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
         param('10 December', expected=datetime(2015, 12, 10), period='day'),
         param('March', expected=datetime(2015, 3, 15), period='month'),
         param('April', expected=datetime(2015, 4, 15), period='month'),
@@ -473,20 +502,21 @@ class TestDateParser(BaseTestCase):
                          new=timedelta(seconds=3600 * offset))
         )
 
-    def given_parser(self):
+    def given_parser(self, *args, **kwds):
         def collecting_get_date_data(parse):
             @wraps(parse)
             def wrapped(date_string):
                 self.date_result = parse(date_string)
                 return self.date_result
             return wrapped
+
         self.add_patch(patch.object(date_parser,
                                     'parse',
                                     collecting_get_date_data(date_parser.parse)))
 
         self.date_parser = Mock(wraps=date_parser)
         self.add_patch(patch('dateparser.date.date_parser', new=self.date_parser))
-        self.parser = DateDataParser()
+        self.parser = DateDataParser(*args, **kwds)
 
     def given_configuration(self, key, value):
         self.add_patch(patch.object(settings, key, new=value))
