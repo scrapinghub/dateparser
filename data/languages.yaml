@@ -207,7 +207,7 @@ de:
 fr:
     name: French
 
-    skip: ["le", "environ", "et", "\xe0", "er", "moins de", "moins d'"]
+    skip: ["le", "environ", "et", "\xe0", "er"]
 
     monday:
         - Lundi
@@ -293,13 +293,13 @@ fr:
         - avant-hier: 2 jour
         - hier: 1 jour
         - aujourd'hui: 0 jours
+        - d'une: 1
         - un: 1
         - une: 1
         - (\d+)\sh\s(\d+)\smin: \1h\2m
         - (\d+)h(\d+)m?: \1:\2
-        - (\d+)s: \1 secondes
-        - (\d+)m: \1 minutes
-        - (\d+)h: \1 heures
+        - moins\sde\s(\d+)([smh]|minute|seconde|heure): \1\2 
+        - moins\s(\d+)\s([smh]|minute|seconde|heure): \1\2
 
 
 es:

@@ -161,7 +161,7 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "Hôm nay 15:39", "0 day 15:39"),
         #French
         param('fr', u"Il y a moins d'une minute", "ago 1 minute"),
-        param('fr', u"Il y a moins de 30s", "ago  30 second"),
+        param('fr', u"Il y a moins de 30s", "ago 30 s"),
         #Filipino
         param('ph', "kahapon", "1 day"),
         param('ph', "ngayon", "0 second"),
