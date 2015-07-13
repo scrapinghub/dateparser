@@ -84,7 +84,7 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "today", "0 day"),
         param('en', "day before yesterday", "2 day"),
         param('en', "last month", "1 month"),
-        param('en', "less then a minute ago", "45 second"),
+        param('en', "less than a minute ago", "45 second"),
         # German
         param('de', "vorgestern", "2 day"),
         param('de', "heute", "0 day"),
@@ -159,6 +159,9 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "21 giờ trước", "21 hour ago"),
         param('vi', "Hôm qua 08:16", "1 day 08:16"),
         param('vi', "Hôm nay 15:39", "0 day 15:39"),
+        #French
+        param('fr', u"Il y a moins d'une minute", "ago 1 minute"),
+        param('fr', u"Il y a moins de 30s", "ago 30 s"),
         #Filipino
         param('ph', "kahapon", "1 day"),
         param('ph', "ngayon", "0 second"),

@@ -109,7 +109,7 @@ en:
         - noon: '12:00'
         - midnight: '00:00'
         - (\d+)h(\d+)m?: \1:\2
-        - less then 1 minute ago: 45 seconds
+        - less than 1 minute ago: 45 seconds
         - now: 0 second
 
 
@@ -207,7 +207,7 @@ de:
 fr:
     name: French
 
-    skip: ["le", "environ", "et", "à", "er"]
+    skip: ["le", "environ", "et", "\xe0", "er"]
 
     monday:
         - Lundi
@@ -293,10 +293,13 @@ fr:
         - avant-hier: 2 jour
         - hier: 1 jour
         - aujourd'hui: 0 jours
+        - d'une: 1
         - un: 1
         - une: 1
         - (\d+)\sh\s(\d+)\smin: \1h\2m
         - (\d+)h(\d+)m?: \1:\2
+        - moins\sde\s(\d+)([smh]|minute|seconde|heure): \1\2 
+        - moins\s(\d+)\s([smh]|minute|seconde|heure): \1\2
 
 
 es:
