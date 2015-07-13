@@ -207,7 +207,7 @@ de:
 fr:
     name: French
 
-    skip: ["le", "environ", "et", "\xe0", "er"]
+    skip: ["le", "environ", "et", "à", "er"]
 
     monday:
         - Lundi
@@ -298,8 +298,7 @@ fr:
         - une: 1
         - (\d+)\sh\s(\d+)\smin: \1h\2m
         - (\d+)h(\d+)m?: \1:\2
-        - moins\sde\s(\d+)([smh]|minute|seconde|heure): \1\2 
-        - moins\s(\d+)\s([smh]|minute|seconde|heure): \1\2
+        - moins\s(?:de\s)?(\d+)(\s?(?:[smh]|minute|seconde|heure)): \1\2
 
 
 es:
@@ -775,7 +774,7 @@ uk:
 
     ago:
         - тому
-        - назад # workaround for incorrect translations from Russian
+        - назад
 
     simplifications:
         - вчора: 1 день
