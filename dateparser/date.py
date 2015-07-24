@@ -2,8 +2,8 @@
 import calendar
 import collections
 import re
+import six
 from datetime import datetime, timedelta
-from types import NoneType
 from warnings import warn
 
 from dateutil.relativedelta import relativedelta
@@ -99,10 +99,6 @@ def parse_with_formats(date_string, date_formats):
     :returns: :class:`datetime.datetime`, dict or None
 
     """
-    # Encode to support locale setting in spiders
-    if isinstance(date_string, unicode):
-        date_string = date_string.encode('utf-8')
-
     period = 'day'
     for date_format in date_formats:
         try:
@@ -130,10 +126,10 @@ class _DateLanguageParser(object):
     DATE_FORMATS_ERROR_MESSAGE = "Date formats should be list, tuple or set of strings"
 
     def __init__(self, language, date_string, date_formats):
-        if isinstance(date_formats, basestring):
+        if isinstance(date_formats, six.string_types):
             warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
             date_formats = [date_formats]
-        elif not isinstance(date_formats, (list, tuple, collections.Set, NoneType)):
+        elif not (date_formats is None or isinstance(date_formats, (list, tuple, collections.Set))):
             raise TypeError(self.DATE_FORMATS_ERROR_MESSAGE)
 
         self.language = language
@@ -261,13 +257,13 @@ class DateDataParser(object):
 
         if allow_redetect_language:
             self.language_detector = AutoDetectLanguage(
-                    languages if languages else available_language_map.values(),
+                    languages if languages else list(available_language_map.values()),
                     allow_redetection=True)
         elif languages:
             self.language_detector = ExactLanguages(languages=languages)
         else:
             self.language_detector = AutoDetectLanguage(
-                available_language_map.values(), allow_redetection=False)
+                list(available_language_map.values()), allow_redetection=False)
 
     def get_date_data(self, date_string, date_formats=None):
         """

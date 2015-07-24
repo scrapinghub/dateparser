@@ -26,7 +26,7 @@ class FreshnessDateDataParser(object):
 
         words = filter(lambda x: x if x else False, re.split('\W', date_string))
         words = filter(lambda x: not re.match(r'%s' % '|'.join(skip), x), words)
-        return not bool(words)
+        return not list(words)
 
     def _parse_time(self, date_string):
         """Attemps to parse time part of date strings like '1 day ago, 2 PM' """

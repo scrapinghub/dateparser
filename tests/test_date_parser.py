@@ -10,6 +10,7 @@ from mock import patch, Mock
 from nose_parameterized import parameterized, param
 
 import dateparser.timezone_parser
+import six
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import default_language_loader
@@ -114,23 +115,23 @@ class AutoDetectLanguageTest(BaseTestCase):
                                  for language in languages]
 
     def when_all_languages_are_detected(self, date_strings, modify=False):
-        assert not isinstance(date_strings, basestring)
+        assert not isinstance(date_strings, six.string_types)
         for date_string in date_strings:
             detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify))
         self.detected_languages = detected_languages
 
     def when_one_language_is_detected(self, date_strings, modify=False):
         for date_string in date_strings:
-            detected_language = self.parser.iterate_applicable_languages(date_string, modify=modify).next()
+            detected_language = next(self.parser.iterate_applicable_languages(date_string, modify=modify))
         self.detected_languages = [detected_language]
 
     def then_detected_languages_are(self, expected_languages):
         shortnames = map(attrgetter('shortname'), self.detected_languages)
-        self.assertItemsEqual(expected_languages, shortnames)
+        six.assertCountEqual(self, expected_languages, shortnames)
 
     def then_parser_languages_are(self, expected_languages):
         shortnames = map(attrgetter('shortname'), self.parser.languages)
-        self.assertItemsEqual(expected_languages, shortnames)
+        six.assertCountEqual(self, expected_languages, shortnames)
 
 
 class ExactLanguagesTest(BaseTestCase):
@@ -141,7 +142,7 @@ class ExactLanguagesTest(BaseTestCase):
 
     def test_languages_passed_in_constructor_should_not_be_none(self):
         self.when_parser_is_constructed(languages=None)
-        self.then_error_was_raised(ValueError, 'language cannot be None for ExactLanguages')
+        self.then_error_was_raised(ValueError, ['language cannot be None for ExactLanguages'])
 
     @parameterized.expand([
         param(languages=['es'], date_strings=["13 Ago, 2014"]),
@@ -169,7 +170,7 @@ class ExactLanguagesTest(BaseTestCase):
         self.parser = ExactLanguages(languages)
 
     def when_languages_are_detected(self, date_strings, modify=False):
-        assert not isinstance(date_strings, basestring)
+        assert not isinstance(date_strings, six.string_types)
         for date_string in date_strings:
             detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify))
         self.detected_languages = detected_languages
@@ -182,7 +183,7 @@ class ExactLanguagesTest(BaseTestCase):
 
     def then_detected_languages_are(self, expected_languages):
         shortnames = map(attrgetter('shortname'), self.detected_languages)
-        self.assertItemsEqual(expected_languages, shortnames)
+        six.assertCountEqual(self, expected_languages, shortnames)
 
 
 class TestDateParser(BaseTestCase):
@@ -320,7 +321,7 @@ class TestDateParser(BaseTestCase):
 
     def test_empty_dates_string_is_not_parsed(self):
         self.when_date_is_parsed_by_date_parser('')
-        self.then_error_was_raised(ValueError, "Empty string")
+        self.then_error_was_raised(ValueError, ["Empty string"])
 
     @parameterized.expand([
         param('invalid date string'),
@@ -329,7 +330,7 @@ class TestDateParser(BaseTestCase):
     ])
     def test_dates_not_parsed(self, date_string):
         self.when_date_is_parsed_by_date_parser(date_string)
-        self.then_error_was_raised(ValueError, "unknown string format")
+        self.then_error_was_raised(ValueError, ["unknown string format"])
 
     @parameterized.expand([
         param('10 December', datetime(2014, 12, 10)),
@@ -455,7 +456,7 @@ class TestDateParser(BaseTestCase):
     ])
     def test_error_should_be_raised_for_invalid_dates_with_too_large_day_number(self, date_string):
         self.when_date_is_parsed_by_date_parser(date_string)
-        self.then_error_was_raised(ValueError, 'Day not in range for month')
+        self.then_error_was_raised(ValueError, ['Day not in range for month'])
 
     @parameterized.expand([
         param('2015-05-02T10:20:19+0000', languages=['fr'], expected=datetime(2015, 5, 2, 10, 20, 19)),
@@ -537,6 +538,7 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(expected, self.result['date_obj'])
 
     def then_date_was_parsed_by_date_parser(self):
+        self.assertNotEqual(NotImplemented, self.date_result, "Date was not parsed")
         self.assertEqual(self.result['date_obj'], self.date_result[0])
 
 

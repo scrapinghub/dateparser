@@ -11,11 +11,11 @@ from mock import Mock, patch
 from nose_parameterized import parameterized, param
 
 import dateparser
+import six
 from dateparser import date
 from dateparser.date import get_last_day_of_month
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.loader import default_language_loader
-from dateparser.conf import settings
 
 from tests import BaseTestCase
 
@@ -87,11 +87,11 @@ class TestDateRangeFunction(BaseTestCase):
             date_under_test += timedelta(days=1)
 
     def then_range_is_in_ascending_order(self):
-        for i in xrange(len(self.result) - 1):
+        for i in six.moves.range(len(self.result) - 1):
             self.assertLess(self.result[i], self.result[i + 1])
 
     def then_period_was_rejected(self, period):
-        self.then_error_was_raised(ValueError, 'Invalid argument: {}'.format(period))
+        self.then_error_was_raised(ValueError, ['Invalid argument: {}'.format(period)])
 
 
 class TestGetIntersectingPeriodsFunction(BaseTestCase):
@@ -181,7 +181,7 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
         self.when_intersecting_period_calculated(low=datetime(2014, 6, 15),
                                                  high=datetime(2014, 6, 25),
                                                  period_size=period_size)
-        self.then_error_was_raised(ValueError, 'Invalid period: ' + str(period_size))
+        self.then_error_was_raised(ValueError, ['Invalid period: ' + str(period_size)])
 
     @parameterized.expand([
         param(low=datetime(2014, 4, 15), high=datetime(2014, 4, 14), period_size='month'),
@@ -338,7 +338,7 @@ class TestDateDataParser(BaseTestCase):
                           allow_redetect_language=False)
         self.when_multiple_dates_are_parsed(dates_to_parse.keys())
         self.then_all_results_were_parsed()
-        self.then_parsed_dates_are(dates_to_parse.values())
+        self.then_parsed_dates_are(list(dates_to_parse.values()))
 
     def test_should_enable_redetection_for_multiple_languages(self):
         dates_to_parse = OrderedDict([(u'13 Ago, 2014', datetime(2014, 8, 13).date()),  # es, it, pt
@@ -350,7 +350,7 @@ class TestDateDataParser(BaseTestCase):
         self.given_parser(restrict_to_languages=['es', 'it', 'pt'], allow_redetect_language=True)
         self.when_multiple_dates_are_parsed(dates_to_parse.keys())
         self.then_all_results_were_parsed()
-        self.then_parsed_dates_are(dates_to_parse.values())
+        self.then_parsed_dates_are(list(dates_to_parse.values()))
 
     @parameterized.expand([
         param("2014-10-09T17:57:39+00:00"),
@@ -502,8 +502,8 @@ class TestParserInitialization(BaseTestCase):
         self.assertIsInstance(self.error, ValueError)
         match = self.UNKNOWN_LANGUAGES_EXCEPTION_RE.match(str(self.error))
         self.assertTrue(match)
-        languages = [shortname[2:-1] for shortname in match.group(1).split(", ")]
-        self.assertItemsEqual(languages, unknown_languages)
+        languages = match.group(1).split(", ")
+        six.assertCountEqual(self, languages, [repr(l) for l in unknown_languages])
 
 
 if __name__ == '__main__':

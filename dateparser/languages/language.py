@@ -20,7 +20,7 @@ class Language(object):
         self.shortname = shortname
         self.info = language_info.copy()
         for simplification in self.info.get('simplifications', []):
-            key, value = simplification.items()[0]
+            key, value = list(simplification.items())[0]
             if isinstance(value, int):
                 simplification[key] = str(value)
 
@@ -51,15 +51,15 @@ class Language(object):
             if word in dictionary:
                 words[i] = dictionary[word] or ''
 
-        return self._join(filter(bool, words), separator="" if keep_formatting else " ")
+        return self._join(list(filter(bool, words)), separator="" if keep_formatting else " ")
 
     def _simplify(self, date_string):
         date_string = date_string.lower()
         for simplification in self.info.get('simplifications', []):
-            pattern, replacement = simplification.items()[0]
+            pattern, replacement = list(simplification.items())[0]
             if not self.info.get('no_word_spacing', False):
                 replacement = wrap_replacement_for_regex(replacement, pattern)
-                pattern = ur'(\A|\d|_|\W)%s(\d|_|\W|\Z)' % pattern
+                pattern = r'(\A|\d|_|\W)%s(\d|_|\W|\Z)' % pattern
             date_string = re.sub(pattern, replacement, date_string, flags=re.IGNORECASE | re.UNICODE).lower()
         return date_string
 
@@ -83,8 +83,8 @@ class Language(object):
 
     def _split(self, date_string, keep_formatting):
         tokens = [date_string]
-        tokens = self._split_tokens_with_regex(tokens, "(\d+)")
-        tokens = self._split_tokens_by_known_words(tokens, keep_formatting)
+        tokens = list(self._split_tokens_with_regex(tokens, "(\d+)"))
+        tokens = list(self._split_tokens_by_known_words(tokens, keep_formatting))
         return tokens
 
     def _split_tokens_with_regex(self, tokens, regex):
