@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+import six
 from dateparser.utils import get_logger
 
 
@@ -54,7 +55,7 @@ class LanguageValidator(object):
     def _validate_name(cls, language_id, info):
         result = True
 
-        if 'name' not in info or not isinstance(info['name'], basestring) or not info['name']:
+        if 'name' not in info or not isinstance(info['name'], six.string_types) or not info['name']:
             cls.get_logger().error("Language '%(id)s' does not have a name", {'id': language_id})
             result = False
 
@@ -86,7 +87,7 @@ class LanguageValidator(object):
         skip_tokens_list = info['skip']
         if isinstance(skip_tokens_list, list):
             for token in skip_tokens_list:
-                if not isinstance(token, basestring) or not token:
+                if not isinstance(token, six.string_types) or not token:
                     cls.get_logger().error(
                         "Invalid 'skip' token %(token)r for '%(id)s' language: "
                         "expected not empty string",
@@ -111,7 +112,7 @@ class LanguageValidator(object):
         pertain_tokens_list = info['skip']
         if isinstance(pertain_tokens_list, list):
             for token in pertain_tokens_list:
-                if not isinstance(token, basestring) or not token:
+                if not isinstance(token, six.string_types) or not token:
                     cls.get_logger().error(
                         "Invalid 'pertain' token %(token)r for '%(id)s' language: "
                         "expected not empty string",
@@ -141,7 +142,7 @@ class LanguageValidator(object):
             translations_list = info[weekday]
             if isinstance(translations_list, list):
                 for token in translations_list:
-                    if not isinstance(token, basestring) or not token:
+                    if not isinstance(token, six.string_types) or not token:
                         cls.get_logger().error(
                             "Invalid '%(weekday)s' translation %(token)r for '%(id)s' language: "
                             "expected not empty string",
@@ -174,7 +175,7 @@ class LanguageValidator(object):
             translations_list = info[month]
             if isinstance(translations_list, list):
                 for token in translations_list:
-                    if not isinstance(token, basestring) or not token:
+                    if not isinstance(token, six.string_types) or not token:
                         cls.get_logger().error(
                             "Invalid '%(month)s' translation %(token)r for '%(id)s' language: "
                             "expected not empty string",
@@ -204,7 +205,7 @@ class LanguageValidator(object):
             translations_list = info[unit]
             if isinstance(translations_list, list):
                 for token in translations_list:
-                    if not isinstance(token, basestring) or not token:
+                    if not isinstance(token, six.string_types) or not token:
                         cls.get_logger().error(
                             "Invalid '%(unit)s' translation %(token)r for '%(id)s' language: "
                             "expected not empty string",
@@ -234,7 +235,7 @@ class LanguageValidator(object):
             translations_list = info[word]
             if isinstance(translations_list, list):
                 for token in translations_list:
-                    if not isinstance(token, basestring) or not token:
+                    if not isinstance(token, six.string_types) or not token:
                         cls.get_logger().error(
                             "Invalid '%(word)s' translation %(token)r for '%(id)s' language: "
                             "expected not empty string",
@@ -267,8 +268,8 @@ class LanguageValidator(object):
                     result = False
                     continue
 
-                key, value = simplification.items()[0]
-                if not isinstance(key, basestring) or not isinstance(value, (basestring, int)):
+                key, value = list(simplification.items())[0]
+                if not isinstance(key, six.string_types) or not isinstance(value, (six.string_types, int)):
                     cls.get_logger().error(
                         "Invalid simplification %(simplification)r for '%(id)s' language: "
                         "each simplification suppose to be string-to-string-or-int mapping",
@@ -277,7 +278,7 @@ class LanguageValidator(object):
                     continue
 
                 compiled_key = re.compile(key)
-                value = unicode(value)
+                value = six.text_type(value)
                 replacements = re.findall(r'\\(\d+)', value)
                 replacements.extend(re.findall(r'\\g<(.+?)>', value))
 
@@ -308,7 +309,7 @@ class LanguageValidator(object):
                         "unknown groups %(groups)s",
                         {'simplification': simplification,
                          'id': language_id,
-                         'groups': ", ".join(map(unicode, sorted(extra_groups)))})
+                         'groups': ", ".join(map(six.text_type, sorted(extra_groups)))})
                     result = False
 
                 if not_used_groups:
@@ -317,7 +318,7 @@ class LanguageValidator(object):
                         "groups %(groups)s were not used",
                         {'simplification': simplification,
                          'id': language_id,
-                         'groups': ", ".join(map(unicode, sorted(not_used_groups)))})
+                         'groups': ", ".join(map(six.text_type, sorted(not_used_groups)))})
                     result = False
         else:
             cls.get_logger().error(

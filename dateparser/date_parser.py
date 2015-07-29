@@ -2,40 +2,20 @@
 from __future__ import unicode_literals
 
 import calendar
-import re, sys
+import re
+import sys
 from datetime import datetime
 from collections import OrderedDict
 
+import six
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 from dateparser.timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
 
-from conf import settings
+from .conf import settings
 
 
 binary_type = bytes if sys.version_info[0] == 3 else str
-
-
-class new_relativedelta(relativedelta):
-    """ dateutil does not check if result of parsing weekday is in the future.
-    Although items dates are already in the past, so we need to fix this particular case.
-    """
-
-    def __new__(cls, *args, **kwargs):
-        if not args and len(kwargs) == 1 and 'weekday' in kwargs:
-            return super(new_relativedelta, cls).__new__(cls, *args, **kwargs)
-        else:
-            # use original class to parse other cases
-            return relativedelta(*args, **kwargs)
-
-    def __add__(self, other):
-        ret = super(new_relativedelta, self).__add__(other)
-        if ret > datetime.utcnow():
-            ret -= relativedelta(days=7)
-        return ret
-
-
-parser.relativedelta.relativedelta = new_relativedelta
 
 
 class new_parser(parser.parser):
@@ -72,7 +52,7 @@ class new_parser(parser.parser):
             ('month', ['month']),
             ('year', ['year']),
         ])
-        for period, markers in periods.iteritems():
+        for period, markers in six.iteritems(periods):
             for marker in markers:
                 if getattr(res, marker) is not None:
                     return period
@@ -95,7 +75,9 @@ class new_parser(parser.parser):
 
         # Fix weekday
         if res.weekday is not None and not res.day:
-            new_date = new_date + new_relativedelta(weekday=res.weekday)
+            new_date = new_date + relativedelta(weekday=res.weekday)
+            if new_date > datetime.utcnow():
+                new_date -= relativedelta(days=7)
 
         # Correct date and return
         return cls._correct(new_date, [key + 's' for key in repl.keys()], default)
@@ -177,14 +159,14 @@ def dateutil_parse(date_string, **kwargs):
     # https://bugs.launchpad.net/dateutil/+bug/1042851
     try:
         return new_parser().parse(date_string, **kwargs)
-    except TypeError, e:
+    except TypeError as e:
         raise ValueError(e, "Invalid date: %s" % date_string)
 
 
 class DateParser(object):
 
     def parse(self, date_string):
-        date_string = unicode(date_string)
+        date_string = six.text_type(date_string)
 
         if not date_string.strip():
             raise ValueError("Empty string")

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import re
+import six
 import unittest
 from datetime import datetime, timedelta, date, time
 from functools import wraps
@@ -251,7 +251,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
-        self.then_error_was_raised(ValueError, 'year is out of range')
+        self.then_error_was_raised(ValueError, ['year is out of range',
+                                                "('year must be in 1..9999'"])
 
     @parameterized.expand([
         param('несколько секунд назад', boundary={'seconds': 45}, period='day'),

@@ -29,7 +29,6 @@ class TestTZPopping(BaseTestCase):
         param('15 May 2004', None),
     ])
     def test_extracting_valid_offset(self, initial_string, expected_offset):
-        print self.datetime_string, self.timezone_offset
         self.given_string(initial_string)
         self.when_offset_popped_from_string()
         self.then_offset_is(expected_offset)

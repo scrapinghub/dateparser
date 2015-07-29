@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __version__ = '0.2.1'
 
-from date import DateDataParser
+from .date import DateDataParser
 
 _default_parser = DateDataParser(allow_redetect_language=True)
 

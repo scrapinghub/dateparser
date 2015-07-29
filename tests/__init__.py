@@ -18,6 +18,8 @@ class BaseTestCase(TestCase):
         for patch in reversed(self.__patches):
             patch.stop()
 
-    def then_error_was_raised(self, error_cls, error_message):
+    def then_error_was_raised(self, error_cls, allowed_substrings=()):
         self.assertIsInstance(self.error, error_cls)
-        self.assertEqual(error_message, str(self.error))
+        self.assertTrue(any(mesg in str(self.error) for mesg in allowed_substrings),
+                        "Didn't found any of the expected messages (%r) -- message was: %r" % (
+                            allowed_substrings, self.error))

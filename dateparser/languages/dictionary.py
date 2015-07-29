@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import re
-from itertools import izip_longest
+from six.moves import zip_longest
 from operator import methodcaller
 
 DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
@@ -21,19 +22,19 @@ class Dictionary(object):
 
         if 'skip' in language_info:
             skip = map(methodcaller('lower'), language_info['skip'])
-            dictionary.update(izip_longest(skip, [], fillvalue=None))
+            dictionary.update(zip_longest(skip, [], fillvalue=None))
         if 'pertain' in language_info:
             pertain = map(methodcaller('lower'), language_info['pertain'])
-            dictionary.update(izip_longest(pertain, [], fillvalue=None))
+            dictionary.update(zip_longest(pertain, [], fillvalue=None))
         for word in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                      'january', 'february', 'march', 'april', 'may', 'june', 'july',
                      'august', 'september', 'october', 'november', 'december',
                      'year', 'month', 'week', 'day', 'hour', 'minute', 'second',
                      'ago']:
             translations = map(methodcaller('lower'), language_info[word])
-            dictionary.update(izip_longest(translations, [], fillvalue=word))
-        dictionary.update(izip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
-        dictionary.update(izip_longest(map(methodcaller('lower'),
+            dictionary.update(zip_longest(translations, [], fillvalue=word))
+        dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
+        dictionary.update(zip_longest(map(methodcaller('lower'),
                                            DATEUTIL_PARSERINFO_KNOWN_TOKENS),
                                        DATEUTIL_PARSERINFO_KNOWN_TOKENS))
 
@@ -84,7 +85,7 @@ class Dictionary(object):
     def _construct_split_regex(self):
         known_words_group = u"|".join(map(re.escape, self._get_sorted_words()))
         if self._no_word_spacing:
-            regex = ur"^(.*?)({})(.*)$".format(known_words_group)
+            regex = r"^(.*?)({})(.*)$".format(known_words_group)
         else:
-            regex = ur"^(.*?(?:\A|\d|_|\W))({})((?:\d|_|\W|\Z).*)$".format(known_words_group)
+            regex = r"^(.*?(?:\A|\d|_|\W))({})((?:\d|_|\W|\Z).*)$".format(known_words_group)
         self._split_regex = re.compile(regex, re.UNICODE | re.IGNORECASE)
