@@ -227,7 +227,7 @@ class DateDataParser(object):
     string representing date and/or time.
 
     :param languages:
-            A list of two letters language codes.e.g. ['en', 'es'].
+            A list of two letters language codes, e.g. ['en', 'es'].
             If languages are given, it will not attempt to detect the language.
     :type languages: list
 
@@ -267,8 +267,8 @@ class DateDataParser(object):
 
     def get_date_data(self, date_string, date_formats=None):
         """
-        Parse string representing date and/or time in recognizeable localized formats.
-        Supports parsing multiple languages.
+        Parse string representing date and/or time in recognizable localized formats.
+        Supports parsing multiple languages and timezones.
 
         :param date_string:
             A string representing date and/or time in a recognizably valid format.
@@ -286,7 +286,7 @@ class DateDataParser(object):
 
         .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year'.
 
-        *Period* represent the granularity of date parsed from the given string.
+        *Period* represents the granularity of date parsed from the given string.
 
         In the example below, since no day information is present, the day is assumed to be current
         day ``16`` from *current date* (which is June 16, 2015, at the moment of writing this).
@@ -301,7 +301,9 @@ class DateDataParser(object):
             >>> DateDataParser().get_date_data(u'2014')
             {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
 
-        TODO: Timezone issues
+        Dates with time zone indications or UTC offsets are returned in UTC time.
+            >>> DateDataParser().get_date_data(u'23 March 2000, 1:21 PM CET')
+            {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
         date_string = date_string.strip()

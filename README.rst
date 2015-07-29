@@ -28,9 +28,9 @@ Documentation can be found `here <https://dateparser.readthedocs.org/en/latest/>
 Features
 ========
 
-* Generic parsing of dates in English, Spanish, Dutch, Russian and several other langauges and formats.
+* Generic parsing of dates in English, Spanish, Dutch, Russian and several other languages and formats.
 * Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
-* Generic parsing of dates with time zones abbreviations like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``.
+* Generic parsing of dates with time zones abbreviations or UTC offsets like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``, ``'21 July 2013 10:15 pm +0500'``.
 * Extensive test coverage.
 
 
@@ -69,7 +69,7 @@ You can specify the language(s), if known, using ``languages`` argument. In this
     >>> dateparser.parse('2015, Ago 15, 1:08 pm', languages=['pt', 'es'])
     datetime.datetime(2015, 8, 15, 13, 8)
 
-If you know the possible formats that the date will be, you can
+If you know the possible formats of the dates, you can
 use the ``date_formats`` argument::
 
     >>> dateparser.parse(u'22 Décembre 2010', date_formats=['%d %B %Y'])
@@ -98,7 +98,7 @@ Relative Dates
 Dependencies
 ============
 
-`dateparser` translates non-english dates to English and uses dateutil_ module ``'parser'`` to parse the translated date.
+`dateparser` translates non-English dates to English and uses dateutil_ module ``parser`` to parse the translated date.
 
 Also, it requires PyYAML_ for its language detection module to work.
 
@@ -109,5 +109,4 @@ Also, it requires PyYAML_ for its language detection module to work.
 Limitations
 ===========
 
-* Only Python 2 support for now (Python 3 support **will be** added in future versions)
-
+* Limited language support.
