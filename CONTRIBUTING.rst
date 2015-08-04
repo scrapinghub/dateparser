@@ -32,6 +32,7 @@ Implement Features
 
 Look through the GitHub issues for features. Anything tagged with "feature"
 is open to whoever wants to implement it.
+We encourage you to add new languages to existing stack.
 
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~

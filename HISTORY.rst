@@ -3,6 +3,24 @@
 History
 =======
 
+0.3.0 (2015-07-29)
+------------------
+New features:
+
+* Compatibility with Python 3 and PyPy.
+
+Improvements:
+
+* `languages.yaml` data cleaned up to make it human-readable.
+* Improved Spanish date parsing.
+
+
+0.2.1 (2015-07-13)
+------------------
+* Support for generic parsing of dates with UTC offset.
+* Support for Filipino dates.
+* Improved support for French and Spanish dates.
+
 
 0.2.0 (2015-06-17)
 ------------------

@@ -12,6 +12,7 @@ Committers
 * Eugene Amirov
 * Faisal Anees
 * Ismael Carnales
+* Jolo Balbin
 * Joseph Kahn
 * Mark Baas
 * Marko Horvatić
