@@ -203,6 +203,7 @@ class TestDateParser(BaseTestCase):
         param('November 19, 2014 at noon', datetime(2014, 11, 19, 12, 0)),
         param('December 13, 2014 at midnight', datetime(2014, 12, 13, 0, 0)),
         param('Nov 25 2014 10:17 pm EST', datetime(2014, 11, 26, 3, 17)),
+        param('Wed Aug 05 12:00:00 EDT 2015', datetime(2015, 8, 5, 16, 0)),
         param('April 9, 2013 at 6:11 a.m.', datetime(2013, 4, 9, 6, 11)),
         param('Aug. 9, 2012 at 2:57 p.m.', datetime(2012, 8, 9, 14, 57)),
         param('December 10, 2014, 11:02:21 pm', datetime(2014, 12, 10, 23, 2, 21)),
