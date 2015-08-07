@@ -275,7 +275,7 @@ class TestDateParser(BaseTestCase):
         param('Thứ sáu', datetime(2012, 11, 9)),  # Friday
         param('Tháng Mười Hai 29, 2013, 14:14', datetime(2013, 12, 29, 14, 14)),  # bpsosrcs.wordpress.com
         param('05 Tháng một 2015 - 03:54 AM', datetime(2015, 1, 5, 3, 54)),
-        # Belarussian dates
+        # Belarusian dates
         param('11 траўня', datetime(2012, 5, 11)),
         param('4 мая', datetime(2012, 5, 4)),
         param('Чацвер 06 жніўня 2015', datetime(2015, 8, 6)),

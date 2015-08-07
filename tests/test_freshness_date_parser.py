@@ -223,7 +223,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         #      ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
         #      period='day'),
 
-        # Belarussian dates
+        # Belarusian dates
         param('сёння', ago={'days': 0}, period='day'),
         param('учора ў', ago={'days': 1}, period='day'),
         param('ўчора', ago={'days': 1}, period='day'),
