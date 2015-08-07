@@ -41,11 +41,6 @@ This only works with :mod:`DateDataParser` like below:
 
 
 class Settings(object):
-    PREFER_DATES_FROM = 'current_period'  # past, future, current_period
-    SUPPORT_BEFORE_COMMON_ERA = False
-    PREFER_DAY_OF_MONTH = 'current'  # current, first, last
-    SKIP_TOKENS = ['t']
-
     def __init__(self, **kwargs):
         """
         Settings are now loaded using the data/settings.yaml file.
@@ -60,6 +55,8 @@ class Settings(object):
 
         for key in kwargs:
             setattr(self, key, kwargs[key])
+
+        print settings_data
 
     def update(self, key, value):
         setattr(self, key, value)
