@@ -56,8 +56,6 @@ class Settings(object):
         for key in kwargs:
             setattr(self, key, kwargs[key])
 
-        print settings_data
-
     def update(self, key, value):
         setattr(self, key, value)
 
