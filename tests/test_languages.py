@@ -175,7 +175,6 @@ class TestBundledLanguages(BaseTestCase):
         param('by', "1 тыдзень", "1 week"),
         param('by', "2 года", "2 year"),
         param('by', "3 гады", "3 year"),
-        param('by', "2 сякунды", "2 second"),
         param('by', "11 секунд", "11 second"),
         param('by', "учора", "1 day"),
         param('by', "пазаўчора", "2 day"),
