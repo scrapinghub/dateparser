@@ -222,6 +222,24 @@ class TestFreshnessDateDataParser(BaseTestCase):
         #param('1 năm 1 tháng 1 tuần 1 ngày 1 giờ 1 chút',
         #      ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
         #      period='day'),
+
+        # Belarusian dates
+        param('сёння', ago={'days': 0}, period='day'),
+        param('учора ў', ago={'days': 1}, period='day'),
+        param('ўчора', ago={'days': 1}, period='day'),
+        param('пазаўчора', ago={'days': 2}, period='day'),
+        param('2 гадзіны таму назад', ago={'hours': 2}, period='day'),
+        param('2 гадзіны таму', ago={'hours': 2}, period='day'),
+        param('гадзіну назад', ago={'hours': 1}, period='day'),
+        param('хвіліну таму', ago={'minutes': 1}, period='day'),
+        param('2 гадзіны 21 хвіл. назад', ago={'hours': 2, 'minutes': 21}, period='day'),
+        param('каля 23 гадзін назад', ago={'hours': 23}, period='day'),
+        param('1 год 2 месяцы', ago={'years': 1, 'months': 2}, period='month'),
+        param('1 год, 09 месяцаў, 01 тыдзень', ago={'years': 1, 'months': 9, 'weeks': 1}, period='week'),
+        param('2 гады 3 месяцы', ago={'years': 2, 'months': 3}, period='month'),
+        param('5 гадоў, 1 месяц, 6 тыдняў, 3 дні, 5 гадзін 1 хвіліну і 3 секунды таму назад',
+              ago={'years': 5, 'months': 1, 'weeks': 6, 'days': 3, 'hours': 5, 'minutes': 1, 'seconds': 3},
+              period='day'),
     ])
     def test_relative_dates(self, date_string, ago, period):
         self.given_parser()
