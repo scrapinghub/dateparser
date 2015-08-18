@@ -7,6 +7,10 @@ GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
 G_REGEX = re.compile(r'g<(\d+)>')
 
 
+def strip_braces(date_string):
+    return re.sub(r'[{}()<>\[\]]+', '', date_string)
+
+
 def wrap_replacement_for_regex(replacement, regex):
     # prepend group to replacement
     replacement = r"\g<1>%s" % increase_regex_replacements_group_positions(replacement, increment=1)
