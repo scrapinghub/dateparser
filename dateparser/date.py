@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import calendar
 import collections
-import re
+import regex as re
 import six
 from datetime import datetime, timedelta
 from warnings import warn

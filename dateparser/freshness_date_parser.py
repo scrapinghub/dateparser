@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import re
+import regex as re
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta

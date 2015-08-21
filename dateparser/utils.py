@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-import re
+import regex as re
 import logging
-import logging.config
 
 GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
 G_REGEX = re.compile(r'g<(\d+)>')
