@@ -10,8 +10,9 @@ from collections import OrderedDict
 import six
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
-from dateparser.timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
 
+from .timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
+from .utils import strip_braces
 from .conf import settings
 
 
@@ -171,6 +172,7 @@ class DateParser(object):
         if not date_string.strip():
             raise ValueError("Empty string")
 
+        date_string = strip_braces(date_string)
         date_string, tz_offset = pop_tz_offset_from_string(date_string)
 
         date_obj, period = dateutil_parse(date_string)
