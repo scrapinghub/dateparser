@@ -3,11 +3,9 @@ import re
 from datetime import datetime, timedelta
 
 from .timezones import timezone_info_list
-from .utils import strip_braces
 
 
 def pop_tz_offset_from_string(date_string, as_offset=True):
-    date_string = strip_braces(date_string)
     for name, info in _tz_offsets:
         timezone_re = info['regex']
         if timezone_re.search(date_string):
