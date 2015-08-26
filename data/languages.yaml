@@ -611,28 +611,40 @@ ru:
 
     january:
         - Января
+        - Янв
     february:
         - Февраля
+        - Фев
     march:
         - Марта
+        - Мар
     april:
         - Апреля
+        - Апр
     may:
         - Мая
+        - Май
     june:
         - Июня
+        - Июн
     july:
         - Июля
+        - Июл
     august:
         - Августа
+        - Авг
     september:
         - Сентября
+        - Сен
     october:
         - Октября
+        - Окт
     november:
         - Ноября
+        - Ноя
     december:
         - Декабря
+        - Дек
 
     year:
         - год
