@@ -246,6 +246,8 @@ class TestDateParser(BaseTestCase):
         param('28 октября 2014 в 07:54', datetime(2014, 10, 28, 7, 54)),
         param('13 января 2015 г. в 13:34', datetime(2015, 1, 13, 13, 34)),
         param('09 августа 2012', datetime(2012, 8, 9, 0, 0)),
+        param('Авг 26, 2015 15:12', datetime(2015, 8, 26, 15, 12)),
+        param('2 Декабрь 95 11:15', datetime(1995, 12, 2, 11, 15)),
         # Turkish dates
         param('11 Ağustos, 2014', datetime(2014, 8, 11)),
         param('08.Haziran.2014, 11:07', datetime(2014, 6, 8, 11, 7)),  # forum.andronova.net
