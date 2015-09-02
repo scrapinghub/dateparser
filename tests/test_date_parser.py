@@ -222,7 +222,7 @@ class TestDateParser(BaseTestCase):
         param('le 08 Déc 2014 15:11', datetime(2014, 12, 8, 15, 11)),
         param('Le 11 Décembre 2014 à 09:00', datetime(2014, 12, 11, 9, 0)),
         param('fév 15, 2013', datetime(2013, 2, 15, 0, 0)),
-        param('Ma 15:12', datetime(2012, 11, 6, 15, 12)),
+        param('Jeu 15:12', datetime(2012, 11, 8, 15, 12)),
         # Spanish dates
         param('Martes 21 de Octubre de 2014', datetime(2014, 10, 21)),
         param('Miércoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),

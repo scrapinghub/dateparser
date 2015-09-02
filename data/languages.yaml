@@ -232,7 +232,6 @@ fr:
         - Lu
     tuesday:
         - Mardi
-        - Ma
     wednesday:
         - Mercredi
         - Mer
@@ -344,7 +343,6 @@ es:
         - Lu
     tuesday:
         - Martes
-        - Ma
     wednesday:
         - Miércoles
         - Mi
@@ -443,7 +441,6 @@ it:
         - Lun
     tuesday:
         - Martedì
-        - Mar
     wednesday:
         - Mercoledì
         - Mer
@@ -867,7 +864,7 @@ tr:
         - Pzt
     tuesday:
         - Salı
-        - Sa
+        - Sal
     wednesday:
         - Çarşamba
         - Çrs
@@ -892,7 +889,7 @@ tr:
         - Şu
     march:
         - Mart
-        - Ma
+        - Mar
     april:
         - Nisan
         - Ni
@@ -1215,7 +1212,6 @@ ro:
         - L
     tuesday:
         - Marți
-        - Ma
     wednesday:
         - Miercuri
         - Mi
@@ -1838,7 +1834,6 @@ ph:
         - Lun
     tuesday:
         - Martes
-        - Mar
     wednesday:
         - Miyerkules
         - Miy
