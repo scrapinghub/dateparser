@@ -7,7 +7,7 @@ ATTR_GETTER = regex.compile('\{([a-z_]+)\}')
 
 class DateValidator(object):
 
-    _regex_cache = []
+    _formats_regex_cache = []
 
     _re_delimiter = {
         'delimiters': [',', '-', '/', '\\', '.'],
@@ -25,7 +25,12 @@ class DateValidator(object):
     _re_day_names = {
         'days': ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                  'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
-        're': r'(?P<dayname>\L<daynames>)'
+        're': r'(?P<dayname>\L<days>)'
+    }
+
+    _re_parts_of_date = {
+        'parts': ['year', 'month', 'day', 'hour', 'minute', 'second'],
+        're': r'(\d+)\s*(?P<parts_of_date>\L<parts>)',
     }
 
     _re_year = {'re': r'(?P<year>(?:\s|\b)(?:\d{2}|\d{4})(?:\s|\b))'}
@@ -54,115 +59,82 @@ class DateValidator(object):
                 '(?P<sign>[+-]?)(?P<utchour>00):?(?P<utcminute>00))')
     }
 
-    _re_abbreviated_tz = {'re': r'(?P<tz>[A-Z]{3,4}|Z)'}
+    _re_abbreviated_tz = {'re': r'\b(?P<tz>[A-Z]{3,4}|Z)\b'}
 
-    date_formats = [
-        # word formats
-        r'{year}{delimiter}{month_names}{delimiter}{day}\s*{twelve_hour_time}\W*{abbreviated_tz}',
-        r'{year}{delimiter}{month_names}{delimiter}{day}\s*{twelve_hour_time}\W*{utc_offset}',
-        r'{year}{delimiter}{month_names}{delimiter}{day}\s*{time}\W*{abbreviated_tz}',
-        r'{year}{delimiter}{month_names}{delimiter}{day}\s*{time}\W*{utc_offset}',
-        r'{year}{delimiter}{month_names}{delimiter}{day}\s*{twelve_hour_time}',
-        r'{year}{delimiter}{month_names}{delimiter}{day}\s*{time}',
-        r'{year}{delimiter}{month_names}{delimiter}{day}',
-
-        r'{year}{delimiter}{day}{delimiter}{month_names}\s*{twelve_hour_time}\W*{abbreviated_tz}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month_names}\s*{twelve_hour_time}\W*{utc_offset}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month_names}\s*{time}\W*{abbreviated_tz}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month_names}\s*{time}\W*{utc_offset}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month_names}\s*{twelve_hour_time}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month_names}\s*{time}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month_names}',  # test covered
-
-        r'{month_names}{delimiter}{day}{delimiter}{year}\s*{twelve_hour_time}\W*{abbreviated_tz}',  # test covered
-        r'{month_names}{delimiter}{day}{delimiter}{year}\s*{twelve_hour_time}\W*{utc_offset}',  # test covered
-        r'{month_names}{delimiter}{day}{delimiter}{year}\s*{time}\W*{abbreviated_tz}',  # test covered
-        r'{month_names}{delimiter}{day}{delimiter}{year}\s*{time}\W*{utc_offset}',  # test covered
-        r'{month_names}{delimiter}{day}{delimiter}{year}\s*{twelve_hour_time}',  # test covered
-        r'{month_names}{delimiter}{day}{delimiter}{year}\s*{time}',  # test covered
-        r'{month_names}{delimiter}{day}{delimiter}{year}',  # test covered
-
-        r'{month_names}{delimiter}{year}{delimiter}{day}\s*{twelve_hour_time}\W*{abbreviated_tz}',  # test covered
-        r'{month_names}{delimiter}{year}{delimiter}{day}\s*{twelve_hour_time}\W*{utc_offset}',  # test covered
-        r'{month_names}{delimiter}{year}{delimiter}{day}\s*{time}\W*{abbreviated_tz}',  # test covered
-        r'{month_names}{delimiter}{year}{delimiter}{day}\s*{time}\W*{utc_offset}',  # test covered
-        r'{month_names}{delimiter}{year}{delimiter}{day}\s*{twelve_hour_time}',  # test covered
-        r'{month_names}{delimiter}{year}{delimiter}{day}\s*{time}',  # test covered
-        r'{month_names}{delimiter}{year}{delimiter}{day}',  # test covered
-
-        r'{day}{delimiter}{year}{delimiter}{month_names}\s*{twelve_hour_time}\W*{abbreviated_tz}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month_names}\s*{twelve_hour_time}\W*{utc_offset}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month_names}\s*{time}\W*{abbreviated_tz}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month_names}\s*{time}\W*{utc_offset}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month_names}\s*{twelve_hour_time}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month_names}\s*{time}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month_names}',  # test covered
-
-        r'{day}{delimiter}{month_names}{delimiter}{year}\s*{twelve_hour_time}\W*{abbreviated_tz}',  # test covered
-        r'{day}{delimiter}{month_names}{delimiter}{year}\s*{twelve_hour_time}\W*{utc_offset}',  # test covered
-        r'{day}{delimiter}{month_names}{delimiter}{year}\s*{time}\W*{abbreviated_tz}',  # test covered
-        r'{day}{delimiter}{month_names}{delimiter}{year}\s*{time}\W*{utc_offset}',  # test covered
-        r'{day}{delimiter}{month_names}{delimiter}{year}\s*{twelve_hour_time}',  # test covered
-        r'{day}{delimiter}{month_names}{delimiter}{year}\s*{time}',  # test covered
-        r'{day}{delimiter}{month_names}{delimiter}{year}',  # test covered
-
-        # numeric formats
-        r'{year}{delimiter}{month}{delimiter}{day}\s*{twelve_hour_time}\W*{abbreviated_tz}',
-        r'{year}{delimiter}{month}{delimiter}{day}\s*{twelve_hour_time}\W*{utc_offset}',
-        r'{year}{delimiter}{month}{delimiter}{day}\s*{time}\W*{abbreviated_tz}',
-        r'{year}{delimiter}{month}{delimiter}{day}\s*{time}\W*{utc_offset}',
-        r'{year}{delimiter}{month}{delimiter}{day}\s*{twelve_hour_time}',
-        r'{year}{delimiter}{month}{delimiter}{day}\s*{time}',
-        r'{year}{delimiter}{month}{delimiter}{day}',
-
-        r'{year}{delimiter}{day}{delimiter}{month}\s*{twelve_hour_time}\W*{abbreviated_tz}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month}\s*{twelve_hour_time}\W*{utc_offset}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month}\s*{time}\W*{abbreviated_tz}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month}\s*{time}\W*{utc_offset}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month}\s*{twelve_hour_time}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month}\s*{time}',  # test covered
-        r'{year}{delimiter}{day}{delimiter}{month}',  # test covered
-
-        r'{month}{delimiter}{day}{delimiter}{year}\s*{twelve_hour_time}\W*{abbreviated_tz}',  # test covered
-        r'{month}{delimiter}{day}{delimiter}{year}\s*{twelve_hour_time}\W*{utc_offset}',  # test covered
-        r'{month}{delimiter}{day}{delimiter}{year}\s*{time}\W*{abbreviated_tz}',  # test covered
-        r'{month}{delimiter}{day}{delimiter}{year}\s*{time}\W*{utc_offset}',  # test covered
-        r'{month}{delimiter}{day}{delimiter}{year}\s*{twelve_hour_time}',  # test covered
-        r'{month}{delimiter}{day}{delimiter}{year}\s*{time}',  # test covered
-        r'{month}{delimiter}{day}{delimiter}{year}',  # test covered
-
-        r'{month}{delimiter}{year}{delimiter}{day}\s*{twelve_hour_time}\W*{abbreviated_tz}',  # test covered
-        r'{month}{delimiter}{year}{delimiter}{day}\s*{twelve_hour_time}\W*{utc_offset}',  # test covered
-        r'{month}{delimiter}{year}{delimiter}{day}\s*{time}\W*{abbreviated_tz}',  # test covered
-        r'{month}{delimiter}{year}{delimiter}{day}\s*{time}\W*{utc_offset}',  # test covered
-        r'{month}{delimiter}{year}{delimiter}{day}\s*{twelve_hour_time}',  # test covered
-        r'{month}{delimiter}{year}{delimiter}{day}\s*{time}',  # test covered
-        r'{month}{delimiter}{year}{delimiter}{day}',  # test covered
-
-        r'{day}{delimiter}{year}{delimiter}{month}\s*{twelve_hour_time}\W*{abbreviated_tz}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month}\s*{twelve_hour_time}\W*{utc_offset}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month}\s*{time}\W*{abbreviated_tz}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month}\s*{time}\W*{utc_offset}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month}\s*{twelve_hour_time}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month}\s*{time}',  # test covered
-        r'{day}{delimiter}{year}{delimiter}{month}',  # test covered
-
-        r'{day}{delimiter}{month}{delimiter}{year}\s*{twelve_hour_time}\W*{abbreviated_tz}',  # test covered
-        r'{day}{delimiter}{month}{delimiter}{year}\s*{twelve_hour_time}\W*{utc_offset}',  # test covered
-        r'{day}{delimiter}{month}{delimiter}{year}\s*{time}\W*{abbreviated_tz}',  # test covered
-        r'{day}{delimiter}{month}{delimiter}{year}\s*{time}\W*{utc_offset}',  # test covered
-        r'{day}{delimiter}{month}{delimiter}{year}\s*{twelve_hour_time}',  # test covered
-        r'{day}{delimiter}{month}{delimiter}{year}\s*{time}',  # test covered
-        r'{day}{delimiter}{month}{delimiter}{year}',  # test covered
+    date_parts = [
+            r'{twelve_hour_time}',
+            r'{twelve_hour}{minute}{second}',
+            r'{time}',
+            r'{utc_offset}',
+            r'{abbreviated_tz}',
+            r'{day_names}',
+            # ABC - ACB - BCA - BAC - CAB - CBA  -- A day, B month, C year
+            r'{day}{delimiter}(?:{month}|{month_names}){delimiter}{year}',  # ABC
+            r'{day}{delimiter}{year}{delimiter}(?:{month}|{month_names})',  # ACB
+            r'(?:{month}|{month_names}){delimiter}{year}{delimiter}{day}',  # BCA
+            r'(?:{month}|{month_names}){delimiter}{day}{delimiter}{year}',  # BAC
+            r'{year}{delimiter}{day}{delimiter}(?:{month}|{month_names})',  # CAB
+            r'{year}{delimiter}(?:{month}|{month_names}){delimiter}{day}',  # CBA
     ]
 
-    def __init__(self, date_string):
-        self.date_string = date_string
+    date_formats = [
+        r'{year}{delimiter}(?:{month_names}|{month}){delimiter}{day}\s*{twelve_hour_time}\W*{abbreviated_tz}',
+        r'{year}{delimiter}(?:{month_names}|{month}){delimiter}{day}\s*{twelve_hour_time}\W*{utc_offset}',
+        r'{year}{delimiter}(?:{month_names}|{month}){delimiter}{day}\s*{time}\W*{abbreviated_tz}',
+        r'{year}{delimiter}(?:{month_names}|{month}){delimiter}{day}\s*{time}\W*{utc_offset}',
+        r'{year}{delimiter}(?:{month_names}|{month}){delimiter}{day}\s*{twelve_hour_time}',
+        r'{year}{delimiter}(?:{month_names}|{month}){delimiter}{day}\s*{time}',
+        r'{year}{delimiter}(?:{month_names}|{month}){delimiter}{day}',
 
-    def populate_regex_cache(self):
+        r'{year}{delimiter}{day}{delimiter}(?:{month_names}|{month})\s*{twelve_hour_time}\W*{abbreviated_tz}',
+        r'{year}{delimiter}{day}{delimiter}(?:{month_names}|{month})\s*{twelve_hour_time}\W*{utc_offset}',
+        r'{year}{delimiter}{day}{delimiter}(?:{month_names}|{month})\s*{time}\W*{abbreviated_tz}',
+        r'{year}{delimiter}{day}{delimiter}(?:{month_names}|{month})\s*{time}\W*{utc_offset}',
+        r'{year}{delimiter}{day}{delimiter}(?:{month_names}|{month})\s*{twelve_hour_time}',
+        r'{year}{delimiter}{day}{delimiter}(?:{month_names}|{month})\s*{time}',
+        r'{year}{delimiter}{day}{delimiter}(?:{month_names}|{month})',
+
+        r'(?:{month_names}|{month}){delimiter}{day}{delimiter}{year}\s*{twelve_hour_time}\W*{abbreviated_tz}',
+        r'(?:{month_names}|{month}){delimiter}{day}{delimiter}{year}\s*{twelve_hour_time}\W*{utc_offset}',
+        r'(?:{month_names}|{month}){delimiter}{day}{delimiter}{year}\s*{time}\W*{abbreviated_tz}',
+        r'(?:{month_names}|{month}){delimiter}{day}{delimiter}{year}\s*{time}\W*{utc_offset}',
+        r'(?:{month_names}|{month}){delimiter}{day}{delimiter}{year}\s*{twelve_hour_time}',
+        r'(?:{month_names}|{month}){delimiter}{day}{delimiter}{year}\s*{time}',
+        r'(?:{month_names}|{month}){delimiter}{day}{delimiter}{year}',
+
+        r'(?:{month_names}|{month}){delimiter}{year}{delimiter}{day}\s*{twelve_hour_time}\W*{abbreviated_tz}',
+        r'(?:{month_names}|{month}){delimiter}{year}{delimiter}{day}\s*{twelve_hour_time}\W*{utc_offset}',
+        r'(?:{month_names}|{month}){delimiter}{year}{delimiter}{day}\s*{time}\W*{abbreviated_tz}',
+        r'(?:{month_names}|{month}){delimiter}{year}{delimiter}{day}\s*{time}\W*{utc_offset}',
+        r'(?:{month_names}|{month}){delimiter}{year}{delimiter}{day}\s*{twelve_hour_time}',
+        r'(?:{month_names}|{month}){delimiter}{year}{delimiter}{day}\s*{time}',
+        r'(?:{month_names}|{month}){delimiter}{year}{delimiter}{day}',
+
+        r'{day}{delimiter}{year}{delimiter}(?:{month_names}|{month})\s*{twelve_hour_time}\W*{abbreviated_tz}',
+        r'{day}{delimiter}{year}{delimiter}(?:{month_names}|{month})\s*{twelve_hour_time}\W*{utc_offset}',
+        r'{day}{delimiter}{year}{delimiter}(?:{month_names}|{month})\s*{time}\W*{abbreviated_tz}',
+        r'{day}{delimiter}{year}{delimiter}(?:{month_names}|{month})\s*{time}\W*{utc_offset}',
+        r'{day}{delimiter}{year}{delimiter}(?:{month_names}|{month})\s*{twelve_hour_time}',
+        r'{day}{delimiter}{year}{delimiter}(?:{month_names}|{month})\s*{time}',
+        r'{day}{delimiter}{year}{delimiter}(?:{month_names}|{month})',
+
+        r'{day}{delimiter}(?:{month_names}|{month}){delimiter}{year}\s*{twelve_hour_time}\W*{abbreviated_tz}',
+        r'{day}{delimiter}(?:{month_names}|{month}){delimiter}{year}\s*{twelve_hour_time}\W*{utc_offset}',
+        r'{day}{delimiter}(?:{month_names}|{month}){delimiter}{year}\s*{time}\W*{abbreviated_tz}',
+        r'{day}{delimiter}(?:{month_names}|{month}){delimiter}{year}\s*{time}\W*{utc_offset}',
+        r'{day}{delimiter}(?:{month_names}|{month}){delimiter}{year}\s*{twelve_hour_time}',
+        r'{day}{delimiter}(?:{month_names}|{month}){delimiter}{year}\s*{time}',
+        r'{day}{delimiter}(?:{month_names}|{month}){delimiter}{year}',
+    ]
+
+    def __init__(self, date_string, enforce_format=True):
+        self.date_string = date_string
+        self._enforce_format = enforce_format
+
+    def populate_regex_cache(self, patterns, cache_attr_name):
         cache_entry = []
 
-        for pattern in self.date_formats:
+        for pattern in patterns:
             keywords = {}
             compile_keywords = {}
             for keyword in ATTR_GETTER.findall(pattern):
@@ -178,19 +150,23 @@ class DateValidator(object):
 
             cache_entry.append(compiled_pattern)
 
-        self._regex_cache = cache_entry
-        
+        setattr(self, cache_attr_name, cache_entry)
+
     def validate(self):
+        if self._enforce_format:
+            return self._validate(self.date_formats, '_formats_regex_cache')
+        
+    def _validate(self, patterns, cache_attr_name):
         results = []
 
         length_not_visited = len(self.date_string)
         start_index = 0
 
-        if not self._regex_cache:
-            self.populate_regex_cache()
+        if not getattr(self, cache_attr_name):
+            self.populate_regex_cache(patterns, cache_attr_name)
 
         while length_not_visited > 0:
-            for re_obj in self._regex_cache:
+            for re_obj in getattr(self, cache_attr_name):
                 match = re_obj.match(self.date_string[start_index:])
                 if match:
                     length_not_visited -= match.span()[-1]
