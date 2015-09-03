@@ -8,6 +8,7 @@ ATTR_GETTER = regex.compile('\{([a-z_]+)\}')
 class DateValidator(object):
 
     _formats_regex_cache = []
+    _partial_regex_cache = []
 
     _re_delimiter = {
         'delimiters': [',', '-', '/', '\\', '.'],
@@ -15,8 +16,8 @@ class DateValidator(object):
     }
 
     _re_month_names = {
-        'months': ['january', 'february', 'march', 'april', 'may',
-                   'june', 'july', 'august', 'september', 'november', 'december',
+        'months': ['january', 'february', 'march', 'april', 'may', 'june',
+                   'july', 'august', 'september', 'october', 'november', 'december',
                    'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul',
                    'aug', 'sep', 'oct', 'nov', 'dec',],
         're': r'(?P<month>\L<months>)'
@@ -30,7 +31,7 @@ class DateValidator(object):
 
     _re_parts_of_date = {
         'parts': ['year', 'month', 'day', 'hour', 'minute', 'second'],
-        're': r'(\d+)\s*(?P<parts_of_date>\L<parts>)',
+        're': r'(?P<parts_of_date>(\d+)\s*(\L<parts>))',
     }
 
     _re_year = {'re': r'(?P<year>(?:\s|\b)(?:\d{2}|\d{4})(?:\s|\b))'}
@@ -38,8 +39,8 @@ class DateValidator(object):
     _re_day = {'re': r'(?P<day>(?:\s|\b)(?:[1-9]|[0-2][0-9]|3[0-1])(?:\s|\b))'}
 
     _re_hour = {'re': r'(?P<hour>(?:\s|\b)(?:2[0-3]|[0-1]?[0-9])(?:\s|\b))'}
-    _re_twelve_hour = {'re': r'(?P<twelvehour>0?[0-9]|1[0-2])'}
-    _re_minute = {'re': r'(?::(?P<minute>(?:\s|\b)(?:[0-5]?[0-9])(?:\s|\b)))?'}
+    _re_twelve_hour = {'re': r'\b(?P<twelvehour>0?[0-9]|1[0-2])\b'}
+    _re_minute = {'re': r':(?P<minute>(?:\s|\b)(?:[0-5]?[0-9])(?:\s|\b))'}
     _re_second = {'re': r'(?::(?P<second>(?:[0-5]?[0-9]|60)(?:\s|\b)?))?'}
     _re_time = {'re': r'%s%s%s' % (_re_hour['re'], _re_minute['re'], _re_second['re'])}
     _re_period = {'re': r'(?P<period>\.?[ap.]{1,2}m\.?)'}
@@ -61,21 +62,25 @@ class DateValidator(object):
 
     _re_abbreviated_tz = {'re': r'\b(?P<tz>[A-Z]{3,4}|Z)\b'}
 
-    date_parts = [
+    date_parts = {
+            r'{parts_of_date}',
             r'{twelve_hour_time}',
             r'{twelve_hour}{minute}{second}',
             r'{time}',
             r'{utc_offset}',
             r'{abbreviated_tz}',
             r'{day_names}',
-            # ABC - ACB - BCA - BAC - CAB - CBA  -- A day, B month, C year
-            r'{day}{delimiter}(?:{month}|{month_names}){delimiter}{year}',  # ABC
-            r'{day}{delimiter}{year}{delimiter}(?:{month}|{month_names})',  # ACB
-            r'(?:{month}|{month_names}){delimiter}{year}{delimiter}{day}',  # BCA
-            r'(?:{month}|{month_names}){delimiter}{day}{delimiter}{year}',  # BAC
-            r'{year}{delimiter}{day}{delimiter}(?:{month}|{month_names})',  # CAB
-            r'{year}{delimiter}(?:{month}|{month_names}){delimiter}{day}',  # CBA
-    ]
+            r'{day}{delimiter}(?:{month}|{month_names}){delimiter}{year}', 
+            r'{day}{delimiter}{year}{delimiter}(?:{month}|{month_names})',
+            r'(?:{month}|{month_names}){delimiter}{year}{delimiter}{day}',
+            r'(?:{month}|{month_names}){delimiter}{day}{delimiter}{year}',
+            r'{year}{delimiter}{day}{delimiter}(?:{month}|{month_names})',
+            r'{year}{delimiter}(?:{month}|{month_names}){delimiter}{day}',
+            r'{year}{delimiter}{month_names}',
+            r'{month_names}{delimiter}{year}',
+            r'{month_names}',
+            r'{year}(?!hour)',
+    }
 
     date_formats = [
         r'{year}{delimiter}(?:{month_names}|{month}){delimiter}{day}\s*{twelve_hour_time}\W*{abbreviated_tz}',
@@ -127,7 +132,7 @@ class DateValidator(object):
         r'{day}{delimiter}(?:{month_names}|{month}){delimiter}{year}',
     ]
 
-    def __init__(self, date_string, enforce_format=True):
+    def __init__(self, date_string, enforce_format=False):
         self.date_string = date_string
         self._enforce_format = enforce_format
 
@@ -152,11 +157,56 @@ class DateValidator(object):
 
         setattr(self, cache_attr_name, cache_entry)
 
+    def _diff_length(self):
+        '''Identify parts of dates and reconstruct date using them.
+           Compare the lengths of reconstructed and original strings,
+           computers and returns the difference.
+        '''
+        result = self._validate_format(self.date_formats, '_formats_regex_cache')
+
+        if not self._enforce_format and not result:
+            result = self._validate_partial(self.date_parts, '_partial_regex_cache')
+
+        reconstructed_string = self.reconstruct_string(result)
+        diff_length = (len(regex.sub(r':|\W\s|\s', '', reconstructed_string, regex.DOTALL)) - \
+                       len(regex.sub(r':|\W\s|\s', '', self.date_string, regex.DOTALL)))
+        print result
+        return diff_length
+
     def validate(self):
-        if self._enforce_format:
-            return self._validate(self.date_formats, '_formats_regex_cache')
-        
-    def _validate(self, patterns, cache_attr_name):
+        dl = self._diff_length()
+        print dl
+        if dl == 0 or dl == 1 or dl == -1:
+            return True
+        else:
+            return False
+
+    def reconstruct_string(self, result):
+        try:
+            return ''.join([''.join(l) for l in result.values()])
+        except:
+            resdict = {k: v for d in result for k, v in d.items()}
+            return ''.join([''.join(l) for l in resdict.values()])
+
+    def _validate_partial(self, patterns, cache_attr_name):
+        result = []
+
+        if not getattr(self, cache_attr_name):
+            self.populate_regex_cache(patterns, cache_attr_name)
+
+        for re_obj in getattr(self, cache_attr_name):
+            match = re_obj.search(self.date_string)
+            if match:
+                result.append(match.capturesdict())
+        resdict = {k: v for d in result for k, v in d.items()}
+
+        # fix for tz
+        tz = resdict.get('tz', [])
+        if 'hour' in tz or 'year' in tz or 'day' in tz:
+            resdict.pop('tz')
+        return resdict
+
+    def _validate_format(self, patterns, cache_attr_name):
         results = []
 
         length_not_visited = len(self.date_string)
