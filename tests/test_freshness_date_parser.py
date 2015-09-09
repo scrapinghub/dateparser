@@ -107,6 +107,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('anteontem', ago={'days': 2}, period='day'),
         param('hoje', ago={'days': 0}, period='day'),
         param('uma hora atrás', ago={'hours': 1}, period='day'),
+        param('1 segundo atrás', ago={'seconds': 1}, period='day'),
         param('um dia atrás', ago={'days': 1}, period='day'),
         param('uma semana atrás', ago={'weeks': 1}, period='week'),
         param('2 horas atrás', ago={'hours': 2}, period='day'),
