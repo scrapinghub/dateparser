@@ -231,7 +231,7 @@ class TestDateParser(BaseTestCase):
         param('13 Septiembre, 2014', datetime(2014, 9, 13)),
         param('11 Marzo, 2014', datetime(2014, 3, 11)),
         param('julio 5, 2015 en 1:04 pm', datetime(2015, 7, 5, 13, 4)),
-        param('Sa 17:15', datetime(2012, 11, 10, 17, 15)),
+        param('Vi 17:15', datetime(2012, 11, 9, 17, 15)),
         # Dutch dates
         param('11 augustus 2014', datetime(2014, 8, 11)),
         param('14 januari 2014', datetime(2014, 1, 14)),
