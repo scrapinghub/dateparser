@@ -3,12 +3,27 @@ import re
 import logging
 import logging.config
 
+from dateutil.parser import parser
+
+
 GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
 G_REGEX = re.compile(r'g<(\d+)>')
 
 
 def strip_braces(date_string):
     return re.sub(r'[{}()<>\[\]]+', '', date_string)
+
+
+def is_dateutil_result_obj_parsed(date_string):
+    res = parser()._parse(date_string)
+    if not res:
+        return False
+    
+    def get_value(obj, key):
+        value = getattr(obj, key)
+        return str(value) if value is not None else ''
+
+    return any([get_value(res, k) for k in res.__slots__])
 
 
 def wrap_replacement_for_regex(replacement, regex):
