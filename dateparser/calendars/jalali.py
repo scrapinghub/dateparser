@@ -40,9 +40,9 @@ class JalaliParser(CalendarBase):
 
     _number_letters = {
         0: ["صفر"],
-        1: ["یک", "اولین"],
+        1: ["یک", "اول"],
         2: ["دو"],
-        3: ["سه", "سوم"],
+        3: ["سه", "سو"],
         4: ["چهار"],
         5: ["پنج"],
         6: ["شش"],
@@ -61,8 +61,8 @@ class JalaliParser(CalendarBase):
         19: ["نوزده"],
         20: ["بیست"],
         21: ["بیست و یک"],
-        22: ["بیست و دو"],
-        23: ["بیست و سه"],
+        22: ["بیست و دو", "بیست ثانیه"],
+        23: ["بیست و سه", "بیست و سو"],
         24: ["بیست و چهار"],
         25: ["بیست و پنج"],
         26: ["بیست و شش"],
@@ -96,12 +96,17 @@ class JalaliParser(CalendarBase):
         return result
 
     def replace_days(self, source):
-        result = source
+        result = re.sub(r'ام|م|ین', '', source)  # removes persian variant of th/first/second/third
         day_pairs = self._number_letters.items()
         day_pairs.sort(
                 key=lambda (num, _): num,
                 reverse=True
             )
+
+        thirteen, thirty = day_pairs[-14], day_pairs[1]
+        day_pairs[-14] = thirty
+        day_pairs[1] = thirteen
+        
         for persian, number in reduce(
                 lambda a, b: a + b,
                 [[(val, repl) for val in persian] for repl, persian in day_pairs]):
