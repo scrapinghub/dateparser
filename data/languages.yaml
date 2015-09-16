@@ -566,7 +566,7 @@ pt:
         - minutos
         - min
     second:
-        - segunda
+        - segundo
         - segundos
 
     ago:

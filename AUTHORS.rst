@@ -8,6 +8,7 @@ Committers
 
 * Artur Sadurski
 * Claudio Salazar
+* Cesar Flores
 * Elias Dorneles
 * Eugene Amirov
 * Faisal Anees
