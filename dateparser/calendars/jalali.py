@@ -1,14 +1,14 @@
 # coding: utf-8
 from __future__ import unicode_literals
-from datetime import datetime
 import re
+from datetime import datetime
+from collections import OrderedDict
 
 from jdatetime import JalaliToGregorian
+from . import CalendarBase
 
 
-class JalaliParser(object):
-    _skip = ["م"]
-
+class JalaliParser(CalendarBase):
     _digits = { "۰": 0, "۱": 1, "۲": 2, "۳": 3, "۴": 4,
                 "۵": 5, "۶": 6, "۷": 7, "۸": 8, "۹": 9}
 
@@ -24,19 +24,19 @@ class JalaliParser(object):
         "Aban": (["آبان"], 8, 30),
         "Azar": (["آذر"], 9, 30),
         "Dey": (["دی"], 10, 30),
-        "Bahman": (["بهمن"], 11, 30),
+        "Bahman": (["بهمن", "بهن"], 11, 30),
         "Esfand": (["اسفند"], 12, 29),
     }
 
-    _weekdays = {
-        "Saturday": ["شنبه"],
-        "Sunday": ["یکشنبه"],
-        "Monday": ["دوشنبه"],
-        "Tuesday": ["سهشنبه", "سه شنبه"],
-        "Wednesday": ["چهارشنبه"],
-        "Thursday": ["پنجشنبه"],
-        "Friday": ["جمعه"],
-    }
+    _weekdays = [
+        ("Sunday", ["یکشنبه"]),
+        ("Monday", ["دوشنبه"]),
+        ("Tuesday", ["سهشنبه", "سه شنبه"]),
+        ("Wednesday", ["چهارشنبه", "چهار شنبه"]),
+        ("Thursday", ["پنجشنبه", "پنج شنبه"]),
+        ("Friday", ["جمعه"]),
+        ("Saturday", ["روز شنبه", "شنبه"]),
+    ]
 
     _number_letters = {
         0: ["صفر"],
@@ -81,35 +81,39 @@ class JalaliParser(object):
 
     def replace_months(self, source):
         result = source
-
-        for persian, latin in [('|'.join(props[0]), key) for key, props in self._months.items()]:
-            result = re.sub(persian, latin, result)
-
+        for persian, latin in reversed(reduce(
+                lambda a, b: a + b,
+                [[(value, month) for value in repl[0]] for month, repl in self._months.items()])):
+            result = result.replace(persian, latin)
         return result
 
     def replace_weekdays(self, source):
         result = source
-        for persian, latin in [('|'.join(values), key) for key, values in self._weekdays.items()]:
-            result = re.sub(persian, latin, result)
+        for persian, latin in reduce(
+                lambda a, b: a + b,
+                [[(value, weekday) for value in repl] for weekday, repl in self._weekdays]):
+            result = result.replace(persian, latin)
         return result
 
     def replace_days(self, source):
-        # TODO 
         result = source
-        day_pairs = PERSIAN_DAYS.items()
+        day_pairs = self._number_letters.items()
         day_pairs.sort(
-                key=lambda (_, num): num,
+                key=lambda (num, _): num,
                 reverse=True
-            )    
-        for persian, number in day_pairs:
+            )
+        for persian, number in reduce(
+                lambda a, b: a + b,
+                [[(val, repl) for val in persian] for repl, persian in day_pairs]):
             result = result.replace(persian, str(number))
         return result
 
     def persian_to_latin(self, source):
-        result = re.sub('|'.join(self._skip), '', source)
+        result = source
         result = self.replace_months(result)
         result = self.replace_weekdays(result)
         result = self.replace_digits(result)
+        result = self.replace_days(result)
 
         result = re.sub(r"[^\w ]", "", result, flags=re.UNICODE)
         result = result.strip()
@@ -133,8 +137,8 @@ class JalaliParser(object):
         if match:
             return match.groupdict()
 
-    def get_date(self, persian):
-        jdate = self.search_persian_date(persian)
+    def get_date(self):
+        jdate = self.search_persian_date(self.source)
         try:
             gdate = JalaliToGregorian(
                 int(jdate['year']),
