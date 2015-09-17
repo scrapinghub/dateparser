@@ -4,6 +4,7 @@ include HISTORY.rst
 include LICENSE
 include README.rst
 include data/languages.yaml
+include data/settings.yaml
 include requirements.txt
 include requirements-build.txt
 
