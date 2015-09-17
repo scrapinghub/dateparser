@@ -69,6 +69,9 @@ class TestBundledLanguages(BaseTestCase):
         # Filipino
         param('ph', "Biyernes Hulyo 3, 2015", "friday july 3 2015"),
         param('ph', "Pebrero 5, 2015 7:00 pm", "february 5 2015 7:00 pm"),
+        # Indonesian
+        param('id', "06 Sep 2015", "06 september 2015"),
+        param('id', "07 Feb 2015 20:15", "07 february 2015 20:15"),
 
         # Miscellaneous
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
@@ -118,6 +121,7 @@ class TestBundledLanguages(BaseTestCase):
         param('pt', "56 minutos", "56 minute"),
         param('pt', "12 dias", "12 day"),
         param('pt', "há 14 min.", "ago 14 minute."),
+        param('pt', "1 segundo atrás", "1 second ago"),
         # Russian
         param('ru', "9 месяцев", "9 month"),
         param('ru', "8 недели", "8 week"),
@@ -180,6 +184,15 @@ class TestBundledLanguages(BaseTestCase):
         param('by', "пазаўчора", "2 day"),
         param('by', "сёння", "0 day"),
         param('by', "некалькі хвілін", "2 minute"),
+        # Indonesian
+        param('id', "baru saja", "0 second"),
+        param('id', "hari ini", "0 day"),
+        param('id', "kemarin", "1 day"),
+        param('id', "kemarin lusa", "2 day"),
+        param('id', "sehari yang lalu", "1 day  ago"),
+        param('id', "seminggu yang lalu", "1 week  ago"),
+        param('id', "sebulan yang lalu", "1 month  ago"),
+        param('id', "setahun yang lalu", "1 year  ago"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -206,6 +219,7 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", ["Thứ Năm", " ", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
         param('ph', "Biyernes Hulyo 3 2015", ["Biyernes", " ", "Hulyo", " ", "3", " ", "2015"]),
         param('by', "3 верасня 2015 г. у 11:10", ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
+        param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
@@ -230,6 +244,7 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "2 tuần 3 ngày", strip_timezone=False),
         param('ph', "Hulyo 3, 2015 7:00 pm", strip_timezone=False),
         param('by', "3 верасня 2015 г. у 11:10", strip_timezone=False),
+        param('id', "01 Agustus 2015 18:23", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)

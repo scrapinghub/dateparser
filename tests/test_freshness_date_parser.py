@@ -107,6 +107,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('anteontem', ago={'days': 2}, period='day'),
         param('hoje', ago={'days': 0}, period='day'),
         param('uma hora atrás', ago={'hours': 1}, period='day'),
+        param('1 segundo atrás', ago={'seconds': 1}, period='day'),
         param('um dia atrás', ago={'days': 1}, period='day'),
         param('uma semana atrás', ago={'weeks': 1}, period='week'),
         param('2 horas atrás', ago={'hours': 2}, period='day'),
@@ -293,6 +294,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('2 Tage 18:50', date(2014, 8, 30), time(18, 50)),
         param('1 day ago at 2 PM', date(2014, 8, 31), time(14, 0)),
         param('Dnes v 12:40', date(2014, 9, 1), time(12, 40)),
+        param('1 week ago at 12:00 am', date(2014, 8, 25), time(0, 0)),
     ])
     def test_freshness_date_with_time(self, date_string, date, time):
         self.given_parser()

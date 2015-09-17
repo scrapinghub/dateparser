@@ -3,9 +3,13 @@ from __future__ import unicode_literals
 
 import re
 from datetime import datetime
+from datetime import time
 
 from dateutil.relativedelta import relativedelta
 from dateutil.parser import parse
+
+from .utils import is_dateutil_result_obj_parsed
+
 
 _UNITS = r'year|month|week|day|hour|minute|second'
 PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
@@ -32,18 +36,19 @@ class FreshnessDateDataParser(object):
         """Attemps to parse time part of date strings like '1 day ago, 2 PM' """
         date_string = PATTERN.sub('', date_string)
         date_string = re.sub(r'\bago\b', '', date_string)
-        try:
-            return parse(date_string).time()
-        except:
-            pass
+        if is_dateutil_result_obj_parsed(date_string):
+            try:
+                return parse(date_string).time()
+            except:
+                pass
 
     def parse(self, date_string):
         date, period = self._parse(date_string)
         if date:
-            time = self._parse_time(date_string)
-            if time:
-                date = date.replace(hour=time.hour, minute=time.minute,
-                                    second=time.second, microsecond=time.microsecond)
+            _time = self._parse_time(date_string)
+            if isinstance(_time, time):
+                date = date.replace(hour=_time.hour, minute=_time.minute,
+                                    second=_time.second, microsecond=_time.microsecond)
 
         return date, period
 
