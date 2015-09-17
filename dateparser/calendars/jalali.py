@@ -1,7 +1,9 @@
 # coding: utf-8
 from __future__ import unicode_literals
 import re
+from collections import OrderedDict
 from datetime import datetime, time
+from functools import reduce
 
 from jdatetime import JalaliToGregorian
 from dateutil.parser import parse
@@ -48,21 +50,21 @@ class JalaliParser(CalendarBase):
     _digits = {"۰": 0, "۱": 1, "۲": 2, "۳": 3, "۴": 4,
                "۵": 5, "۶": 6, "۷": 7, "۸": 8, "۹": 9}
 
-    _months = {
+    _months = OrderedDict([
         # pinglish : (persian literals, month index, number of days)
-        "Farvardin": (["فروردین"], 1, 31),
-        "Ordibehesht": (["اردیبهشت"], 2, 31),
-        "Khordad": (["خرداد"], 3, 31),
-        "Tir": (["تیر"], 4, 31),
-        "Mordad": (["امرداد", "مرداد"], 5, 31),
-        "Shahrivar": (["شهریور", "شهريور"], 6, 31),
-        "Mehr": (["مهر"], 7, 30),
-        "Aban": (["آبان"], 8, 30),
-        "Azar": (["آذر"], 9, 30),
-        "Dey": (["دی"], 10, 30),
-        "Bahman": (["بهمن", "بهن"], 11, 30),
-        "Esfand": (["اسفند"], 12, 29),
-    }
+        ("Farvardin", (["فروردین"], 1, 31)),
+        ("Ordibehesht", (["اردیبهشت"], 2, 31)),
+        ("Khordad", (["خرداد"], 3, 31)),
+        ("Tir", (["تیر"], 4, 31)),
+        ("Mordad", (["امرداد", "مرداد"], 5, 31)),
+        ("Shahrivar", (["شهریور", "شهريور"], 6, 31)),
+        ("Mehr", (["مهر"], 7, 30)),
+        ("Aban", (["آبان"], 8, 30)),
+        ("Azar", (["آذر"], 9, 30)),
+        ("Dey", (["دی"], 10, 30)),
+        ("Bahman", (["بهمن", "بهن"], 11, 30)),
+        ("Esfand", (["اسفند"], 12, 29)),
+    ])
 
     _weekdays = [
         ("Sunday", ["یکشنبه"]),
@@ -117,9 +119,9 @@ class JalaliParser(CalendarBase):
 
     def replace_months(self, source):
         result = source
-        for persian, latin in reversed(reduce(
+        for persian, latin in reduce(
                 lambda a, b: a + b,
-                [[(value, month) for value in repl[0]] for month, repl in self._months.items()])):
+                [[(value, month) for value in repl[0]] for month, repl in self._months.items()]):
             result = result.replace(persian, latin)
         return result
 
@@ -133,11 +135,12 @@ class JalaliParser(CalendarBase):
 
     def replace_days(self, source):
         result = re.sub(r'ام|م|ین', '', source)  # removes persian variant of th/first/second/third
-        day_pairs = self._number_letters.items()
-        day_pairs.sort(
-            key=lambda (num, _): num,
-            reverse=True
-        )
+        day_pairs = list(self._number_letters.items())
+
+        def comp_key(tup):
+            return tup[0]
+
+        day_pairs.sort(key=comp_key, reverse=True)
 
         thirteen, thirty = day_pairs[-14], day_pairs[1]
         day_pairs[-14] = thirty
