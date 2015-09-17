@@ -157,6 +157,16 @@ class TestJalaliParser(BaseTestCase):
         param(date_string=u'شنبه نهم مرداد ۱۳۸۹', dt=datetime(2010, 7, 31, 0, 0)),
         param(date_string=u'پنجشنبه بیست و سوم اردیبهشت ۱۳۸۹', dt=datetime(2010, 5, 13, 0, 0)),
         param(date_string=u'جمعه سی ام اسفند ۱۳۸۷', dt=datetime(2009, 3, 20, 0, 0)),
+        # dates with time component
+        param(date_string=u'پنجشنبه ۲۶ شهريور ۱۳۹۴ ساعت ۹:۳۲', dt=datetime(2015, 9, 17, 9, 32)),
+        param(date_string=u'دوشنبه ۲۳ شهريور ۱۳۹۴ ساعت ۱۹:۱۱', dt=datetime(2015, 9, 14, 19, 11)),
+        param(date_string=u'جمعه سی ام اسفند ۱۳۸۷ساعت 19:47', dt=datetime(2009, 3, 20, 19, 47)),
+        param(date_string=u'شنبه چهاردهم دی ۱۳۹۲ساعت 12:1', dt=datetime(2014, 1, 4, 12, 1)),
+        param(date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه و 47 ثانیه', dt=datetime(2015, 9, 17, 11, 1, 47)),
+        param(date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 10 و 58 دقیقه و 04 ثانیه', dt=datetime(2015, 9, 17, 10, 58, 4)),
+        param(date_string=u'سه شنبه 17 شهریور 1394 ساعت ساعت 18 و 21 دقیقه و 44 ثانیه', dt=datetime(2015, 9, 8, 18, 21, 44)),
+        param(date_string=u'پنجشنبه 11 تیر 1394', dt=datetime(2015, 7, 2, 0, 0)),
+        param(date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه', dt=datetime(2015, 9, 17, 11, 1)),
     ])
     def test_get_date(self, date_string, dt):
         self.when_date_is_given(date_string)
