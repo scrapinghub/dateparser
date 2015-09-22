@@ -1437,6 +1437,8 @@ pl:
     wednesday:
         - Środa
         - Sroda
+        - Środę
+        - Srode
         - Śro
         - Sro
         - Śr
@@ -1454,11 +1456,15 @@ pl:
         - Pt
     saturday:
         - Sobota
+        - Sobotę
+        - Sobote
         - Sob
         - So
         - Sb
     sunday:
         - Niedziela
+        - Niedzielę
+        - Niedziele
         - Nie
         - Ni
         - Nd
@@ -1467,57 +1473,71 @@ pl:
         - Styczeń
         - Styczen
         - Stycznia
+        - Styczniu
         - Sty
     february:
         - Luty
         - Lutego
+        - Lutym
         - Lut
     march:
         - Marzec
         - Marca
+        - Marcu
         - Mar
     april:
         - Kwiecień
         - Kwiecien
         - Kwietnia
+        - Kwietniu
         - Kwi
     may:
         - Maj
         - Maja
+        - Maju
     june:
         - Czerwiec
         - Czerwca
+        - Czerwcu
         - Cze
     july:
         - Lipiec
         - Lipca
+        - Lipcu
         - Lip
     august:
         - Sierpień
         - Sierpien
         - Sierpnia
+        - Sierpniu
         - Sie
     september:
         - Wrzesień
         - Wrzesien
         - Września
         - Wrzesnia
+        - Wrześniu
+        - Wrzesniu
         - Wrz
     october:
         - Październik
         - Pazdziernik
         - Października
         - Pazdziernika
+        - Październiku
+        - Pazdzierniku
         - Paź
         - Paz
     november:
         - Listopad
         - Listopada
+        - Listopadzie
         - Lis
     december:
         - Grudzień
         - Grudzien
         - Grudnia
+        - Grudniu
         - Gru
 
     year:
@@ -1529,6 +1549,8 @@ pl:
         - miesiac
         - miesięcy
         - miesiąca
+        - miesiące
+        - miesiace
     week:
         - tydzień
         - tydzien
@@ -1539,14 +1561,29 @@ pl:
         - dzien
         - dnia
         - dniu
+        - dni
     hour:
         - godzina
+        - godzinę
+        - godzine
+        - godzin
+        - godziny
         - godz.
     minute:
         - minuta
         - min
+        - minuty
+        - minut
+        - minute
+        - minutę
     second:
-        - drugi
+        - sekunda
+        - sekundę
+        - sekunde
+        - sekundy
+        - sekund
+        - s
+        - sek.
 
     ago:
         - temu
