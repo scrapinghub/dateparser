@@ -247,7 +247,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("1 godz. 2 minuty temu", ago={'hours': 1, 'minutes': 2}, period='day'),
         param("2 lata, 3 miesiące, 1 tydzień, 2 dni, 4 godziny, 15 minut i 25 sekund temu",
               ago={'years': 2, 'months': 3, 'weeks': 1, 'days': 2, 'hours': 4, 'minutes': 15, 'seconds': 25},
-              period='day')
+              period='day'),
+        param("2 minuty temu", ago={'minutes': 2}, period='day'),
+        param("15 minut temu", ago={'minutes': 15}, period='day'),
     ])
     def test_relative_dates(self, date_string, ago, period):
         self.given_parser()
