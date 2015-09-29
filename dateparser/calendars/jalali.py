@@ -31,7 +31,10 @@ def validate_time(string):
             result_dict[latin] = '00'
             continue
         elif cursor > 0:
-            result = string[cursor-3: cursor]
+            cursor_back = cursor - 3
+            if cursor_back == -1:
+                cursor_back = 0
+            result = string[cursor_back: cursor]
         else:
             cursor += len(persian)
             result = string[cursor: cursor+3]
