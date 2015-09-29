@@ -55,18 +55,18 @@ class JalaliParser(CalendarBase):
 
     _months = OrderedDict([
         # pinglish : (persian literals, month index, number of days)
-        ("Farvardin", (["فروردین"], 1, 31)),
-        ("Ordibehesht", (["اردیبهشت"], 2, 31)),
-        ("Khordad", (["خرداد"], 3, 31)),
-        ("Tir", (["تیر"], 4, 31)),
-        ("Mordad", (["امرداد", "مرداد"], 5, 31)),
-        ("Shahrivar", (["شهریور", "شهريور"], 6, 31)),
-        ("Mehr", (["مهر"], 7, 30)),
-        ("Aban", (["آبان"], 8, 30)),
-        ("Azar", (["آذر"], 9, 30)),
-        ("Dey", (["دی"], 10, 30)),
-        ("Bahman", (["بهمن", "بهن"], 11, 30)),
-        ("Esfand", (["اسفند"], 12, 29)),
+        ("Farvardin", (1, 31, ["فروردین"])),
+        ("Ordibehesht", (2, 31, ["اردیبهشت"])),
+        ("Khordad", (3, 31, ["خرداد"])),
+        ("Tir", (4, 31, ["تیر"])),
+        ("Mordad", (5, 31, ["امرداد", "مرداد"])),
+        ("Shahrivar", (6, 31, ["شهریور", "شهريور"])),
+        ("Mehr", (7, 30, ["مهر"])),
+        ("Aban", (8, 30, ["آبان"])),
+        ("Azar", (9, 30, ["آذر"])),
+        ("Dey", (10, 30, ["دی"])),
+        ("Bahman", (11, 30, ["بهمن", "بهن"])),
+        ("Esfand", (12, 29, ["اسفند"])),
     ])
 
     _weekdays = [
@@ -124,7 +124,7 @@ class JalaliParser(CalendarBase):
         result = source
         for persian, latin in reduce(
                 lambda a, b: a + b,
-                [[(value, month) for value in repl[0]] for month, repl in self._months.items()]):
+                [[(value, month) for value in repl[-1]] for month, repl in self._months.items()]):
             result = result.replace(persian, latin)
         return result
 
@@ -207,7 +207,7 @@ class JalaliParser(CalendarBase):
         try:
             gdate = JalaliToGregorian(
                 int(jdate['year']),
-                self._months[jdate['month']][1],
+                self._months[jdate['month']][0],
                 int(jdate['day'])
             ).getGregorianList()
             return datetime(gdate[0], gdate[1], gdate[2],
