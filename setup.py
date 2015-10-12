@@ -22,7 +22,8 @@ setup(
     include_package_data=True,
     install_requires=[
         'python-dateutil >= 2.3',
-        'PyYAML'
+        'PyYAML',
+        'jdatetime'
     ],
     license="BSD",
     zip_safe=False,
