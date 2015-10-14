@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
 
     dateparser.languages
+    dateparser.calendars
 
 Submodules
 ----------

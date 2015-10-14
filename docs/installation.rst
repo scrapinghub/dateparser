@@ -98,5 +98,5 @@ After that, you can upload the egg using `Scrapy Cloud's Dashboard interface
 Dependencies
 ************
 
-Similarly, you can download source and package `PyYAML <https://pypi.python.org/pypi/PyYAML>`_ and `dateutil <https://pypi.python.org/pypi/python-dateutil>`_ (version >= 2.3) as `eggs` and deploy them like above.
+Similarly, you can download source and package `PyYAML <https://pypi.python.org/pypi/PyYAML>`_, `jdatetime <https://pypi.python.org/pypi/jdatetime>`_ and `dateutil <https://pypi.python.org/pypi/python-dateutil>`_ (version >= 2.3) as `eggs` and deploy them like above.
 

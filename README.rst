@@ -31,6 +31,7 @@ Features
 * Generic parsing of dates in English, Spanish, Dutch, Russian and several other languages and formats.
 * Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
 * Generic parsing of dates with time zones abbreviations or UTC offsets like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``, ``'21 July 2013 10:15 pm +0500'``.
+* Generic parsing of dates in non-Gregorian calendar systems, like: ``u'جمعه سی ام اسفند ۱۳۸۷'``.
 * Extensive test coverage.
 
 
@@ -100,13 +101,34 @@ Dependencies
 
 `dateparser` translates non-English dates to English and uses dateutil_ module ``parser`` to parse the translated date.
 
-Also, it requires PyYAML_ for its language detection module to work.
+Also, it requires PyYAML_ for its language detection module to work. The module jdatetime_ is used for handling Jalali calendar.
 
 .. _dateutil: https://pypi.python.org/pypi/python-dateutil
 .. _PyYAML: https://pypi.python.org/pypi/PyYAML
+.. _jdatetime: https://pypi.python.org/pypi/jdatetime
 
 
-Limitations
+Supported languages
 ===========
 
-* Limited language support.
+* Arabic
+* Belarusian
+* Chinese
+* Czech
+* Dutch
+* English
+* Filipino
+* French
+* German
+* Indonesian
+* Italian
+* Persian
+* Polish
+* Portuguese
+* Romanian
+* Russian
+* Spanish
+* Thai
+* Turkish
+* Ukrainian
+* Vietnamese

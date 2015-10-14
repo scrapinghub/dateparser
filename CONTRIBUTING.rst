@@ -103,6 +103,12 @@ Before you submit a pull request, check that it meets these guidelines:
    feature to the list in README.rst.
 3. Check https://travis-ci.org/scrapinghub/dateparser/pull_requests
    and make sure that the tests pass for all supported Python versions.
-4. Follow the core developers' advices which aim to ensure code's consistency regardless of variety approaches used by many contributors.
-5. In case, you are unable to continue working on a PR, please leave a short comment to notify us. We will be pleased to make any changes required to get it done.
+4. Follow the core developers' advice which aim to ensure code's consistency regardless of variety of approaches used by many contributors.
+5. In case you are unable to continue working on a PR, please leave a short comment to notify us. We will be pleased to make any changes required to get it done.
 
+Guidelines for Adding New Languages
+-----------------------------------
+The language data required for parsing dates is contained in data/languages.yml file. 
+Refer to :ref:`language-data-template` for details about its structure and take a look at already implemented languages for examples.
+As we deal with the delicate fabric of interwoven languages, tests are essential to keep the functionality.
+Therefore any addition or change should be reflected in tests.
