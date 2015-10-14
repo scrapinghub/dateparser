@@ -284,6 +284,9 @@ class TestDateParser(BaseTestCase):
         param('Чацвер 06 жніўня 2015', datetime(2015, 8, 6)),
         param('Нд 14 сакавіка 2015 у 7 гадзін 10 хвілін', datetime(2015, 3, 14, 7, 10)),
         param('5 жніўня 2015 года у 13:34', datetime(2015, 8, 5, 13, 34)),
+        # Polish dates
+        param('14 sierpnia 2015 roku o 12:13', datetime(2015, 8, 14, 12, 13)),
+        param('2012, wrz 13, 15:05', datetime(2012, 9, 13, 15, 5)),
         # Numeric dates
         param('06-17-2014', datetime(2014, 6, 17)),
         param('13/03/2014', datetime(2014, 3, 13)),
