@@ -45,7 +45,7 @@ Deploying a stable dateparser release:
 **************************************
 
 
-1) Then, use ``shub`` to install `python-dateutil`_ (we require at least 2.3 version), `jdatetime` and `PyYAML`_ dependencies from `PyPI`_::
+1) Then, use ``shub`` to install `python-dateutil`_ (we require at least 2.3 version), `jdatetime`_ and `PyYAML`_ dependencies from `PyPI`_::
 
     shub deploy-egg --from-pypi python-dateutil YOUR_PROJECT_ID
     shub deploy-egg --from-pypi jdatetime YOUR_PROJECT_ID

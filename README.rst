@@ -31,7 +31,7 @@ Features
 * Generic parsing of dates in English, Spanish, Dutch, Russian and several other languages and formats.
 * Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
 * Generic parsing of dates with time zones abbreviations or UTC offsets like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``, ``'21 July 2013 10:15 pm +0500'``.
-* Generic parsing of dates in non-Gregorian calendar systems, like: ``u'جمعه سی ام اسفند ۱۳۸۷'``.
+* Support for non-Gregorian calendar systems with the first addition of Persian Jalali Calendar <https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>_..
 * Extensive test coverage.
 
 

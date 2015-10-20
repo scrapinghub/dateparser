@@ -110,5 +110,7 @@ Guidelines for Adding New Languages
 -----------------------------------
 The language data required for parsing dates is contained in data/languages.yml file. 
 Refer to :ref:`language-data-template` for details about its structure and take a look at already implemented languages for examples.
-As we deal with the delicate fabric of interwoven languages, tests are essential to keep the functionality.
+As we deal with the delicate fabric of interwoven languages, tests are essential to keep the functionality across them.
 Therefore any addition or change should be reflected in tests.
+However, there is nothing to be afraid of: our tests are highly parameterized and in most cases a test fits in one declarative line of data.
+Alternatively, you can provide required information and ask the maintainers to create the tests for you.
