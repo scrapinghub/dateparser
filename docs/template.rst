@@ -5,7 +5,7 @@ Language Data Template
 
 .. sourcecode:: none
 
-	two-letter language name (e.g. en):
+	two-letter language code as defined in ISO-639-1 (https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes). e.g. for English - en:
 	    name: language name (e.g. English)
 	    no_word_spacing: False (set to True for languages that do not use spaces between words)
 	
