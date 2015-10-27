@@ -28,10 +28,10 @@ Once initialized, :func:`dateparser.date.DateDataParser.get_date_data` parses da
     >>> ddp.get_date_data(u'13 Septiembre, 2014')  # Spanish
     {'date_obj': datetime.datetime(2014, 9, 13, 0, 0), 'period': u'day'}
 
-.. warning:: It fails to parse *English* dates in the example below, because *Spanish* was detected and stored with the ``ddp`` instance::
+.. warning:: It fails to parse *English* dates in the example below, because *Spanish* was detected and stored with the ``ddp`` instance:
 
     >>> ddp.get_date_data('11 August 2012')
-    {'date_obj': None, 'period': 'day'} 
+    {'date_obj': None, 'period': 'day'}
 
 
 :class:`dateparser.date.DateDataParser` can also be initialized with known languages::

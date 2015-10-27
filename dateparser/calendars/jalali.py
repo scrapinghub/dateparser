@@ -45,6 +45,7 @@ def validate_time(string):
 
 
 class JalaliParser(CalendarBase):
+    """Calendar parser class for Jalali calendar."""
 
     def __init__(self, source):
         super(JalaliParser, self).__init__(source)
@@ -202,6 +203,7 @@ class JalaliParser(CalendarBase):
         return time(0, 0)
 
     def get_date(self):
+        """Output method for Jalali calendar parser."""
         jdate = self.search_persian_date(self.source)
         gtime = self.search_time()
         try:
