@@ -3,6 +3,22 @@
 History
 =======
 
+0.3.1 (2015-10-28)
+------------------
+New features:
+
+* Support for Jalali Calendar.
+* Belarusian language support.
+* Indonesian language support.
+
+
+Improvements:
+
+* Extended support for Russian and Polish.
+* Fixed bug with time zone recognition.
+* Fixed bug with incorrect translation of "second" for Portuguese.
+
+
 0.3.0 (2015-07-29)
 ------------------
 New features:
