@@ -293,6 +293,7 @@ fr:
         - avant-hier: 2 jour
         - hier: 1 jour
         - aujourd'hui: 0 jours
+        - aujourd’hui: 0 jours
         - d'une: 1
         - un: 1
         - une: 1

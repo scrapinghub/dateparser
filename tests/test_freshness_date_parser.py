@@ -58,6 +58,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         # French dates
         param("Aujourd'hui", ago={'days': 0}, period='day'),
+        param("Aujourd’hui", ago={'days': 0}, period='day'),
         param("Hier", ago={'days': 1}, period='day'),
         param("Avant-hier", ago={'days': 2}, period='day'),
         param('Il ya un jour', ago={'days': 1}, period='day'),
