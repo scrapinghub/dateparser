@@ -80,3 +80,9 @@ def setup_logging():
 def get_logger():
     setup_logging()
     return logging.getLogger('dateparser')
+
+
+def find_date_separator(format):
+    m = re.search(r'(?:(?:%[dbBmaA])(\W))+', format)
+    if m:
+        return m.group(1)
