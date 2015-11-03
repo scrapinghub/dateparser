@@ -14,6 +14,12 @@ from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 
 
+APOSTROPHE_LOOK_ALIKE_CHARS = [
+    u'\u2019', u'\u02bc', u'\u02bb', u'\u055a', u'\ua78c',
+    u'\uff07', u'\u2032', u'\u2035', u'\u02b9', u'\uff07',
+]
+
+
 def sanitize_spaces(html_string):
     html_string = re.sub(u'\xa0', ' ', html_string, flags=re.UNICODE)
     html_string = re.sub(r'\s+', ' ', html_string)
@@ -80,7 +86,8 @@ def sanitize_date(date_string):
     date_string = sanitize_spaces(date_string)
     date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
     date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
-    date_string = re.sub(ur'\u2019', u"'", date_string)
+
+    date_string = re.sub(ur'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS), u"'", date_string)
 
     return date_string
 
