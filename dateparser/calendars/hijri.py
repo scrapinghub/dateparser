@@ -76,7 +76,6 @@ class HijriCalendar(CalendarBase):
             date_data = self._parser_get_date(fixed_date_string, date_formats, languages)
             date_obj = date_data.get('date_obj')
             if date_obj:
-                print 'date_obj: {}'.format(date_obj)
                 # Remember that, we have subtracted 10 days.
                 date_data['date_obj'] = self._hijri_to_gregorian(
                     date_obj.year, date_obj.month, date_obj.day + 10, date_obj)
