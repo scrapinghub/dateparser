@@ -158,6 +158,8 @@ class TestBundledLanguages(BaseTestCase):
         param('ar', "4 عام", "4 year"),
         param('ar', "منذ 2 ساعات", "ago 2 hour"),
         param('ar', "منذ ساعتين", "ago 2 hour"),
+        param('ar', "اليوم السابق", "1 day"),
+        param('ar', "اليوم", "0 day"),
         # Polish
         param('pl', "2 godz.", "2 hour"),
         param('pl', "Wczoraj o 07:40", "1 day  07:40"),

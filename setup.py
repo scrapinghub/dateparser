@@ -23,7 +23,8 @@ setup(
     install_requires=[
         'python-dateutil >= 2.3',
         'PyYAML',
-        'jdatetime'
+        'jdatetime',
+        'umalqurra'
     ],
     license="BSD",
     zip_safe=False,
