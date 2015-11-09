@@ -15,8 +15,15 @@ from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
-    u'\u2019', u'\u02bc', u'\u02bb', u'\u055a', u'\ua78c',
-    u'\uff07', u'\u2032', u'\u2035', u'\u02b9', u'\uff07',
+    u'\N{RIGHT SINGLE QUOTATION MARK}',     # u'\u2019'
+    u'\N{MODIFIER LETTER APOSTROPHE}',      # u'\u02bc'
+    u'\N{MODIFIER LETTER TURNED COMMA}',    # u'\u02bb'
+    u'\N{ARMENIAN APOSTROPHE}',             # u'\u055a'
+    u'\N{LATIN SMALL LETTER SALTILLO}',     # u'\ua78c'
+    u'\N{PRIME}',                           # u'\u2032'
+    u'\N{REVERSED PRIME}',                  # u'\u2035'
+    u'\N{MODIFIER LETTER PRIME}',           # u'\u02b9'
+    u'\N{FULLWIDTH APOSTROPHE}',            # u'\uff07'
 ]
 
 
