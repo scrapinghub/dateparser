@@ -990,18 +990,33 @@ cn:
 
     monday:
         - 星期一
+        - 周一
+        - 礼拜一
     tuesday:
         - 星期二
+        - 周二
+        - 礼拜二
     wednesday:
         - 星期三
+        - 周三
+        - 礼拜三
     thursday:
         - 星期四
+        - 周四
+        - 礼拜四
     friday:
         - 星期五
+        - 周五
+        - 礼拜五
     saturday:
         - 星期六
+        - 周六
+        - 礼拜六
     sunday:
         - 星期天
+        - 星期日
+        - 周日
+        - 礼拜日
 
     january:
         - 一月
