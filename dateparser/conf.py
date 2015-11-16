@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from pkgutil import get_data
 
+from itertools import chain
 from yaml import load as load_yaml
 
 """
@@ -41,27 +42,33 @@ This only works with :mod:`DateDataParser` like below:
 
 
 class Settings(object):
+
+    _attributes = []
+
     def __init__(self, **kwargs):
         """
         Settings are now loaded using the data/settings.yaml file.
         """
+        self.updateall(
+            chain(self.get_settings_from_yaml().items(),
+            kwargs.items())
+        )
 
+    def get_settings_from_yaml(self):
         data = get_data('data', 'settings.yaml')
         data = load_yaml(data)
-        settings_data = data.pop('settings', {})
+        return data.pop('settings', {})
 
-        for datum in settings_data:
-            setattr(self, datum, settings_data[datum])
+    def updateall(self, iterable):
+        for key, value in iterable:
+            self._attributes.append(key)
+            setattr(self, key, value)
 
-        for key in kwargs:
-            setattr(self, key, kwargs[key])
+    def replace(self, **kwds):
+        for x in self._attributes:
+            kwds.setdefault(x, getattr(self, x))
 
-    def update(self, key, value):
-        setattr(self, key, value)
+        return self.__class__(**kwds)
 
-
-def reload_settings():
-    global settings
-    settings = Settings()
 
 settings = Settings()
