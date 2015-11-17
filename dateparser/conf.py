@@ -2,6 +2,7 @@
 from pkgutil import get_data
 
 from itertools import chain
+from functools import wraps
 from yaml import load as load_yaml
 
 """
@@ -72,3 +73,19 @@ class Settings(object):
 
 
 settings = Settings()
+
+
+def apply_settings(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if 'settings' in kwargs:
+            if isinstance(kwargs['settings'], dict):
+                kwargs['settings'] = settings.replace(**kwargs['settings'])
+            elif isinstance(kwargs['settings'], Settings):
+                kwargs['settings'] = kwargs['settings']
+            else:
+                raise TypeError("settings can only be either dict or instance of Settings class")
+        else:
+            kwargs['settings'] = settings
+        return f(*args, **kwargs)
+    return wrapper

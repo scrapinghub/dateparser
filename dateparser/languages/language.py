@@ -12,17 +12,24 @@ from .validation import LanguageValidator
 
 
 class Language(object):
+
     _dictionary = None
     _splitters = None
     _wordchars = None
 
-    def __init__(self, shortname, language_info):
+    def __init__(self, shortname, language_info, settings):
         self.shortname = shortname
-        self.info = language_info.copy()
+        self.info = self.update_info_from_settings(
+            language_info.copy(), settings
+        )
         for simplification in self.info.get('simplifications', []):
             key, value = list(simplification.items())[0]
             if isinstance(value, int):
                 simplification[key] = str(value)
+
+    def update_info_from_settings(self, info, settings):
+        info['skip'] += settings.SKIP_TOKENS
+        return info
 
     def validate_info(self, validator=None):
         if validator is None:

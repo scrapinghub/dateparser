@@ -520,8 +520,8 @@ class TestDateParser(BaseTestCase):
     def given_parser(self, *args, **kwds):
         def collecting_get_date_data(parse):
             @wraps(parse)
-            def wrapped(date_string):
-                self.date_result = parse(date_string)
+            def wrapped(*args, **kwargs):
+                self.date_result = parse(*args, **kwargs)
                 return self.date_result
             return wrapped
 

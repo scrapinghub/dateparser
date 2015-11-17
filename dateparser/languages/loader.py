@@ -4,17 +4,19 @@ from pkgutil import get_data
 import six
 from yaml import load as load_yaml
 
+from ..conf import settings as default_settings
 from .language import Language
-from ..conf import settings
 
 
 class LanguageDataLoader(object):
     _data = None
+    _settings = None
 
-    def __init__(self, file=None):
+    def __init__(self, file=None, settings=None):
         if isinstance(file, six.string_types):
             file = open(file)
         self.file = file
+        self._settings = settings
 
     def get_language_map(self):
         if self._data is None:
@@ -38,11 +40,10 @@ class LanguageDataLoader(object):
             data = self.file.read()
         data = load_yaml(data)
         base_data = data.pop('base', {'skip': []})
-        base_data['skip'] += settings.SKIP_TOKENS
         known_languages = {}
         for shortname, language_info in six.iteritems(data):
             self._update_language_info_with_base_info(language_info, base_data)
-            language = Language(shortname, language_info)
+            language = Language(shortname, language_info, self._settings)
             if language.validate_info():
                 known_languages[shortname] = language
         self._data = known_languages
@@ -54,4 +55,4 @@ class LanguageDataLoader(object):
                 language_info[key] = extended_values
 
 
-default_language_loader = LanguageDataLoader()
+default_language_loader = LanguageDataLoader(settings=default_settings)
