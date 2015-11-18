@@ -5,6 +5,9 @@ from nose_parameterized import parameterized, param
 
 from dateparser.languages import default_language_loader, Language
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.conf import settings
+from dateparser.conf import apply_settings
+
 from tests import BaseTestCase
 
 
@@ -418,3 +421,68 @@ class TestAutoDetectLanguageDetectorWithoutRedetection(BaseAutoDetectLanguageDet
 class TestAutoDetectLanguageDetectorWithRedetection(BaseAutoDetectLanguageDetectorTestCase):
     __test__ = True
     allow_redetection = True
+
+
+class LanguageRegistryTest(BaseTestCase):
+
+    language_info_data = {
+        'week': ['semaine'], 'march': ['Mars'], 'august': [u'Ao\xfbt'],
+        'monday': ['Lundi'], 'september': ['Septembre'], 'december': [u'D\xe9cembre'],
+        'tuesday': ['Mardi'], 'friday': ['Vendredi'], 'june': ['Juin'],
+        'simplifications': [{'avant-hier': '2 jour'}], 'month': ['mois'], 'second': ['seconde'],
+        'year': ['an'], 'november': ['Novembre'], 'july': ['Juillet'],
+        'saturday': ['Samedi'], 'minute': ['min'], 'ago': ['il ya'],
+        'february': [u'F\xe9v'], 'october': ['Octobre'], 'name': 'French',
+        'hour': ['heure'], 'april': ['Avril'], 'january': ['Janvier'],
+        'wednesday': ['Mercredi'], 'thursday': ['Jeudi'], 'day': ['jour'],
+        'may': ['Mai'], 'sunday': ['Dimanche'], 'skip': [' ', ]
+    }
+
+    def setUp(self):
+        super(LanguageRegistryTest, self).setUp()
+        self.default_settings = settings
+        self._resultant_instances = []
+
+    def given_settings(self, settings):
+        self._given_settings = settings
+
+    def when_multiple_instances_are_created(self, count):
+        while count:
+            self._resultant_instances.append(Language('fr', self.language_info_data, self._given_settings))
+            count -= 1
+    
+    def when_instance_is_created(self):
+        self._resultant_instances.append(Language('fr', self.language_info_data, self._given_settings))
+
+    def then_expected_instances_are_all_same(self):
+        self.assertEqual(1, len(set(self._resultant_instances)))
+        self._result_instances = []
+
+    def then_expected_instances_are_all_different(self):
+        self.assertNotEqual(1, len(set(self._resultant_instances)))
+        self._result_instances = []
+
+    def test_different_languages_are_returned_with_different_supplied_settings(self):
+        self.given_settings(self.default_settings)
+        self.when_instance_is_created()
+
+        settings = apply_settings(test_function)(settings={'SKIP_TOKENS': ['de']})
+        self.given_settings(settings)
+        self.when_instance_is_created()
+
+        self.then_expected_instances_are_all_different()
+        
+    def test_same_language_instance_is_return_from_registry_when_constructor_is_called_more_than_once_for_default_language_related_settings(self):
+        self.given_settings(self.default_settings)
+        self.when_multiple_instances_are_created(3)
+        self.then_expected_instances_are_all_same()
+
+    def test_same_language_instance_is_return_from_registry_when_constructor_is_called_twice_for_same_supplied_language_related_settings(self):
+        settings = apply_settings(test_function)(settings={'SKIP_TOKENS': ['de']})
+        self.given_settings(settings)
+        self.when_multiple_instances_are_created(3)
+        self.then_expected_instances_are_all_same()
+
+
+def test_function(settings=None):
+    return settings
