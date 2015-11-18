@@ -253,6 +253,10 @@ class DateDataParser(object):
             Enables/disables language re-detection.
     :type allow_redetect_language: bool
 
+    :param settings:
+           Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+    :type settings: dict
+
     :return: A parser instance
 
     :raises:

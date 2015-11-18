@@ -23,6 +23,11 @@ def parse(date_string, date_formats=None, languages=None, settings=None):
         to detect the language.
     :type languages: list
 
+    :param settings:
+           Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+    :type settings: dict
+
+
     :return: Returns a :mod:`datetime.datetime` if successful, else returns None
     :raises: ValueError - Unknown Language
     """
