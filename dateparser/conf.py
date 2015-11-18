@@ -5,6 +5,8 @@ from itertools import chain
 from functools import wraps
 from yaml import load as load_yaml
 
+from .utils import Registry
+
 """
 :mod:`dateparser`'s parsing behavior can be configured like below
 
@@ -42,7 +44,20 @@ This only works with :mod:`DateDataParser` like below:
 """
 
 
+class SettingsRegistry(Registry):
+
+    @classmethod
+    def get_key(cls, *args, **kwargs):
+        if not args and not kwargs:
+            return 'default'
+
+        keys= sorted(['%s-%s' % (key, str(kwargs[key])) for key in kwargs])
+        return ''.join(keys)
+
+
 class Settings(object):
+
+    __metaclass__ = SettingsRegistry
 
     _attributes = []
     _default = True

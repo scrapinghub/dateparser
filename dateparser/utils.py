@@ -86,3 +86,24 @@ def find_date_separator(format):
     m = re.search(r'(?:(?:%[dbBmaA])(\W))+', format)
     if m:
         return m.group(1)
+
+
+class Registry(type):
+
+    _global_dict = {}
+
+    def __call__(self, *args, **kwargs):
+
+        key = self.get_key(*args, **kwargs)
+
+        if key in self._global_dict:
+            return self._global_dict[key]
+
+        return self._global_dict.setdefault(
+            key,
+            super(Registry, self).__call__(*args, **kwargs)
+        )
+
+    @classmethod
+    def get_key(cls, *args, **kwargs):
+        raise NotImplemented

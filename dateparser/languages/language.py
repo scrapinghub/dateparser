@@ -5,13 +5,26 @@ from itertools import chain
 from dateutil import parser
 
 from dateparser.timezone_parser import pop_tz_offset_from_string
-from dateparser.utils import wrap_replacement_for_regex
+from dateparser.utils import wrap_replacement_for_regex, Registry
 
 from .dictionary import Dictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
 
 
+class LanguageRegistry(Registry):
+
+    @classmethod
+    def get_key(cls, *args, **kwargs):
+        key_template = '%(shortname)s-%(skip_tokens)s'
+        return key_template % {
+            'shortname': args[0],
+            'skip_tokens': ''.join(args[-1].SKIP_TOKENS)
+        }
+
+
 class Language(object):
+
+    __metaclass__ = LanguageRegistry
 
     _dictionary = None
     _splitters = None
