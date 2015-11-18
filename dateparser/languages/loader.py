@@ -4,7 +4,7 @@ from pkgutil import get_data
 import six
 from yaml import load as load_yaml
 
-from ..conf import settings as default_settings
+from ..conf import apply_settings
 from .language import Language
 
 
@@ -12,6 +12,7 @@ class LanguageDataLoader(object):
     _data = None
     _settings = None
 
+    @apply_settings
     def __init__(self, file=None, settings=None):
         if isinstance(file, six.string_types):
             file = open(file)
@@ -55,4 +56,4 @@ class LanguageDataLoader(object):
                 language_info[key] = extended_values
 
 
-default_language_loader = LanguageDataLoader(settings=default_settings)
+default_language_loader = LanguageDataLoader()

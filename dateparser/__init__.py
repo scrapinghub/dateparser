@@ -28,7 +28,7 @@ def parse(date_string, date_formats=None, languages=None, settings=None):
     """
     parser = _default_parser
 
-    if any([languages, settings]):
+    if any([languages, not settings._default]):
         parser = DateDataParser(languages=languages, settings=settings)
 
     data = parser.get_date_data(date_string, date_formats)

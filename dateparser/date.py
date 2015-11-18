@@ -96,7 +96,7 @@ def sanitize_date(date_string):
     date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
     date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
 
-    date_string = re.sub(ur'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS), u"'", date_string)
+    date_string = re.sub(r'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS), u"'", date_string)
 
     return date_string
 
@@ -258,13 +258,12 @@ class DateDataParser(object):
     :raises:
             ValueError - Unknown Language, TypeError - Languages argument must be a list
     """
-    language_loader = None
-    _settings = default_settings
+    language_loaders = {}
 
     @apply_settings
     def __init__(self, languages=None, allow_redetect_language=False, settings=None):
         self._settings = settings
-        available_language_map = self._get_language_loader().get_language_map()
+        available_language_map = self._get_language_loader(settings).get_language_map()
 
         if isinstance(languages, (list, tuple, collections.Set)):
 
@@ -339,7 +338,7 @@ class DateDataParser(object):
             return {'date_obj': None, 'period': 'day'}
 
     @classmethod
-    def _get_language_loader(cls):
-        if not cls.language_loader:
-            cls.language_loader = LanguageDataLoader(settings=cls._settings)
-        return cls.language_loader
+    def _get_language_loader(cls, settings):
+        if any([not cls.language_loaders, not settings._default]):
+            cls.language_loaders[settings] = LanguageDataLoader(settings=settings)
+        return cls.language_loaders[settings]

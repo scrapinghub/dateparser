@@ -427,7 +427,7 @@ class TestDateDataParser(BaseTestCase):
                 for shortname in restrict_to_languages
             ])
             language_loader._data = ordered_languages
-            self.add_patch(patch('dateparser.date.DateDataParser.language_loader', new=language_loader))
+            self.add_patch(patch('dateparser.date.DateDataParser.language_loaders', new={language_loader._settings: language_loader}))
 
     def given_local_tz_offset(self, offset):
         self.add_patch(

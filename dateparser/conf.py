@@ -45,6 +45,7 @@ This only works with :mod:`DateDataParser` like below:
 class Settings(object):
 
     _attributes = []
+    _default = True
 
     def __init__(self, **kwargs):
         """
@@ -68,6 +69,7 @@ class Settings(object):
     def replace(self, **kwds):
         for x in self._attributes:
             kwds.setdefault(x, getattr(self, x))
+        kwds['_default'] = False
 
         return self.__class__(**kwds)
 
