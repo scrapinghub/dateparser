@@ -13,7 +13,6 @@ from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import apply_settings
-from dateparser.conf import settings as default_settings
 
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -186,7 +185,8 @@ class _DateLanguageParser(object):
 
     def _try_dateutil_parser(self):
         try:
-            date_obj, period = date_parser.parse(self._get_translated_date(), settings=self._settings)
+            date_obj, period = date_parser.parse(
+                self._get_translated_date(), settings=self._settings)
             return {
                 'date_obj': date_obj,
                 'period': period,
@@ -335,7 +335,8 @@ class DateDataParser(object):
 
         for language in self.language_detector.iterate_applicable_languages(
                 date_string, modify=True):
-            parsed_date = _DateLanguageParser.parse(language, date_string, date_formats, settings=self._settings)
+            parsed_date = _DateLanguageParser.parse(
+                language, date_string, date_formats, settings=self._settings)
             if parsed_date:
                 return parsed_date
         else:
