@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import hashlib
 import re
 from itertools import chain
 
@@ -16,10 +17,10 @@ class LanguageRegistry(Registry):
     @classmethod
     def get_key(cls, *args, **kwargs):
         key_template = '%(shortname)s-%(skip_tokens)s'
-        return key_template % {
+        return hashlib.md5(key_template % {
             'shortname': args[0],
             'skip_tokens': ''.join(args[-1].SKIP_TOKENS)
-        }
+        }).hexdigest()
 
 
 class Language(object):

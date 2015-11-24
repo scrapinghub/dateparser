@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import hashlib
 from pkgutil import get_data
 
 from itertools import chain
@@ -16,7 +17,7 @@ class SettingsRegistry(Registry):
             return 'default'
 
         keys= sorted(['%s-%s' % (key, str(kwargs[key])) for key in kwargs])
-        return ''.join(keys)
+        return hashlib.md5(''.join(keys)).hexdigest()
 
 
 class Settings(object):
