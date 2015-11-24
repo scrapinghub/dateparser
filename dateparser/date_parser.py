@@ -25,7 +25,6 @@ class new_parser(parser.parser):
     For more see issue #36
     """
 
-    @apply_settings
     def parse(self, timestr, default=None, ignoretz=False, settings=None, **kwargs):
         # timestr needs to be a buffer as required by _parse
         if isinstance(timestr, binary_type):

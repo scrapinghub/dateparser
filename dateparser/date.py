@@ -344,6 +344,6 @@ class DateDataParser(object):
 
     @classmethod
     def _get_language_loader(cls, settings):
-        if any([not cls.language_loaders, settings not in cls.language_loaders]):
+        if settings not in cls.language_loaders:
             cls.language_loaders[settings] = LanguageDataLoader(settings=settings)
         return cls.language_loaders[settings]
