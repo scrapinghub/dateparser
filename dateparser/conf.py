@@ -30,17 +30,17 @@ class Settings(object):
         """
         Settings are now loaded using the data/settings.yaml file.
         """
-        self.updateall(
-            chain(self.get_settings_from_yaml().items(),
+        self._updateall(
+            chain(self._get_settings_from_yaml().items(),
             kwargs.items())
         )
 
-    def get_settings_from_yaml(self):
+    def _get_settings_from_yaml(self):
         data = get_data('data', 'settings.yaml')
         data = load_yaml(data)
         return data.pop('settings', {})
 
-    def updateall(self, iterable):
+    def _updateall(self, iterable):
         for key, value in iterable:
             self._attributes.append(key)
             setattr(self, key, value)
