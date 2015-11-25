@@ -2,6 +2,7 @@
 import re
 import logging
 import logging.config
+from functools import wraps
 
 from dateutil.parser import parser
 
@@ -88,20 +89,29 @@ def find_date_separator(format):
         return m.group(1)
 
 
-class Registry(type):
+def skip_init_if_instance_from_registry(f):
+    @wraps(f)
+    def wrapper(self, *args, **kwargs):
+        if not getattr(self, 'from_registry', False):
+            return f(self, *args, **kwargs)
+    return wrapper
+
+
+class Registry(object):
 
     _global_dict = {}
 
-    def __call__(self, *args, **kwargs):
+    def __new__(cls, *args, **kwargs):
+        key = cls.get_key(*args, **kwargs)
 
-        key = self.get_key(*args, **kwargs)
+        if key in cls._global_dict:
+            inst = cls._global_dict[key]
+            inst.from_registry = True
+            return inst
 
-        if key in self._global_dict:
-            return self._global_dict[key]
-
-        return self._global_dict.setdefault(
+        return cls._global_dict.setdefault(
             key,
-            super(Registry, self).__call__(*args, **kwargs)
+            object.__new__(cls, *args, **kwargs)
         )
 
     @classmethod

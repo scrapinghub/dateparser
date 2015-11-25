@@ -6,7 +6,11 @@ from itertools import chain
 from dateutil import parser
 
 from dateparser.timezone_parser import pop_tz_offset_from_string
-from dateparser.utils import wrap_replacement_for_regex, Registry
+from dateparser.utils import (
+        wrap_replacement_for_regex,
+        Registry,
+        skip_init_if_instance_from_registry
+    )
 
 from .dictionary import Dictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
@@ -23,14 +27,13 @@ class LanguageRegistry(Registry):
         }).hexdigest()
 
 
-class Language(object):
-
-    __metaclass__ = LanguageRegistry
+class Language(LanguageRegistry):
 
     _dictionary = None
     _splitters = None
     _wordchars = None
 
+    @skip_init_if_instance_from_registry
     def __init__(self, shortname, language_info, settings):
         self.shortname = shortname
         self.info = self.update_info_from_settings(
