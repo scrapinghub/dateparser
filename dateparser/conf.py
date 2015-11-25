@@ -6,7 +6,7 @@ from itertools import chain
 from functools import wraps
 from yaml import load as load_yaml
 
-from .utils import Registry, skip_init_if_instance_from_registry
+from .utils import Registry
 
 
 class SettingsRegistry(Registry):
@@ -25,7 +25,7 @@ class Settings(SettingsRegistry):
     _attributes = []
     _default = True
 
-    @skip_init_if_instance_from_registry
+    @Registry.skip_init_if_instance_from_registry
     def __init__(self, **kwargs):
         """
         Settings are now loaded using the data/settings.yaml file.
