@@ -12,18 +12,19 @@ from .dictionary import Dictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
 
 
-class LanguageRegistry(Registry):
-
-    @classmethod
-    def get_key(cls, *args, **kwargs):
-        key_template = '%(shortname)s-%(skip_tokens)s'
-        return hashlib.md5(key_template % {
-            'shortname': args[0],
-            'skip_tokens': ''.join(args[-1].SKIP_TOKENS)
-        }).hexdigest()
+def get_key(*args, **kwargs):
+    key_template = '%(shortname)s-%(skip_tokens)s'
+    return hashlib.md5(key_template % {
+        'shortname': args[0],
+        'skip_tokens': ''.join(args[-1].SKIP_TOKENS)
+    }).hexdigest()
 
 
-class Language(LanguageRegistry):
+_global_dict = {}
+
+
+@Registry(_global_dict, get_key)
+class Language(object):
 
     _dictionary = None
     _splitters = None

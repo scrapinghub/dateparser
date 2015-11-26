@@ -91,28 +91,37 @@ def find_date_separator(format):
 
 class Registry(object):
 
-    _global_dict = {}
     _tag = 'from_registry'
 
-    def __new__(cls, *args, **kwargs):
-        key = cls.get_key(*args, **kwargs)
+    def __init__(self, global_dict, get_key):
+        self._global_dict = global_dict
+        self.get_key = get_key
 
-        if key in cls._global_dict:
-            return cls._tag_instance(cls._global_dict[key])
+    def __call__(self, cls):
 
-        return cls._global_dict.setdefault(
-            key,
-            object.__new__(cls, *args, **kwargs)
-        )
+        class Wrapped(cls):
+            _global_dict = self._global_dict
+            func = {'get_key': self.get_key}
+
+            def __new__(cls, *args, **kwargs):
+                key = cls.func['get_key'](*args, **kwargs)
+
+                if key in cls._global_dict:
+                    return Registry._tag_instance(cls._global_dict[key])
+
+                return cls._global_dict.setdefault(
+                    key,
+                    object.__new__(cls, *args, **kwargs)
+                )
+
+        Wrapped.__name__ = cls.__name__
+        Wrapped.__module__ = cls.__module__
+        return Wrapped
 
     @classmethod
     def _tag_instance(cls, instance):
         setattr(instance, cls._tag, True)
         return instance
-
-    @classmethod
-    def get_key(cls, *args, **kwargs):
-        raise NotImplemented
 
     @classmethod
     def skip_init_if_instance_from_registry(cls, f):

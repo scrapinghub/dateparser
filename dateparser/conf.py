@@ -9,18 +9,19 @@ from yaml import load as load_yaml
 from .utils import Registry
 
 
-class SettingsRegistry(Registry):
+def _get_key(*args, **kwargs):
+    if not args and not kwargs:
+        return 'default'
 
-    @classmethod
-    def get_key(cls, *args, **kwargs):
-        if not args and not kwargs:
-            return 'default'
-
-        keys= sorted(['%s-%s' % (key, str(kwargs[key])) for key in kwargs])
-        return hashlib.md5(''.join(keys)).hexdigest()
+    keys= sorted(['%s-%s' % (key, str(kwargs[key])) for key in kwargs])
+    return hashlib.md5(''.join(keys)).hexdigest()
 
 
-class Settings(SettingsRegistry):
+_global_dict = {}
+
+
+@Registry(_global_dict, _get_key)
+class Settings(object):
 
     _attributes = []
     _default = True
