@@ -6,31 +6,27 @@ from itertools import chain
 from dateutil import parser
 
 from dateparser.timezone_parser import pop_tz_offset_from_string
-from dateparser.utils import wrap_replacement_for_regex, Registry
+from dateparser.utils import wrap_replacement_for_regex, registry
 
 from .dictionary import Dictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
 
 
-def get_key(*args, **kwargs):
-    key_template = '%(shortname)s-%(skip_tokens)s'
-    return hashlib.md5(key_template % {
-        'shortname': args[0],
-        'skip_tokens': ''.join(args[-1].SKIP_TOKENS)
-    }).hexdigest()
-
-
-_global_dict = {}
-
-
-@Registry(_global_dict, get_key)
+@registry
 class Language(object):
 
     _dictionary = None
     _splitters = None
     _wordchars = None
 
-    @Registry.skip_init_if_instance_from_registry
+    @classmethod
+    def get_key(cls, *args, **kwargs):
+        key_template = '%(shortname)s-%(skip_tokens)s'
+        return hashlib.md5(key_template % {
+            'shortname': args[0],
+            'skip_tokens': ''.join(args[-1].SKIP_TOKENS)
+        }).hexdigest()
+
     def __init__(self, shortname, language_info, settings):
         self.shortname = shortname
         self.info = self.update_info_from_settings(

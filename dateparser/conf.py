@@ -6,27 +6,15 @@ from itertools import chain
 from functools import wraps
 from yaml import load as load_yaml
 
-from .utils import Registry
+from .utils import registry
 
 
-def _get_key(*args, **kwargs):
-    if not args and not kwargs:
-        return 'default'
-
-    keys= sorted(['%s-%s' % (key, str(kwargs[key])) for key in kwargs])
-    return hashlib.md5(''.join(keys)).hexdigest()
-
-
-_global_dict = {}
-
-
-@Registry(_global_dict, _get_key)
+@registry
 class Settings(object):
 
     _attributes = []
     _default = True
 
-    @Registry.skip_init_if_instance_from_registry
     def __init__(self, **kwargs):
         """
         Settings are now loaded using the data/settings.yaml file.
@@ -35,6 +23,14 @@ class Settings(object):
             chain(self._get_settings_from_yaml().items(),
             kwargs.items())
         )
+
+    @classmethod
+    def get_key(cls, *args, **kwargs):
+        if not args and not kwargs:
+            return 'default'
+
+        keys= sorted(['%s-%s' % (key, str(kwargs[key])) for key in kwargs])
+        return hashlib.md5(''.join(keys)).hexdigest()
 
     def _get_settings_from_yaml(self):
         data = get_data('data', 'settings.yaml')

@@ -2,7 +2,7 @@
 import re
 import logging
 import logging.config
-from functools import wraps
+import types
 
 from dateutil.parser import parser
 
@@ -89,44 +89,34 @@ def find_date_separator(format):
         return m.group(1)
 
 
-class Registry(object):
+def registry(cls):
+    def choose(creator):
+        def constructor(cls, *args, **kwargs):
+            key = cls.get_key(*args, **kwargs)
 
-    _tag = 'from_registry'
+            if not hasattr(cls, "__registry_dict"):
+                setattr(cls, "__registry_dict", {})
+            registry_dict = getattr(cls, "__registry_dict")
 
-    def __init__(self, global_dict, get_key):
-        self._global_dict = global_dict
-        self.get_key = get_key
+            if key not in registry_dict:
+                registry_dict[key] = creator(cls, *args, **kwargs)
+            return registry_dict[key]
+        return staticmethod(constructor)
 
-    def __call__(self, cls):
+    def self_destruct(initializer):
+        def destructor(self, *args, **kwargs):
+            if getattr(self, "__initialized", False):
+                return
+            else:
+                initializer(self, *args, **kwargs)
+                setattr(self, "__initialized", True)
+        return destructor
 
-        class Wrapped(cls):
-            _global_dict = self._global_dict
-            func = {'get_key': self.get_key}
+    if not (hasattr(cls, "get_key")
+            and isinstance(cls.get_key, types.MethodType)
+            and cls.get_key.__self__ is cls):
+        raise NotImplementedError("Registry classes require to implement class method get_key")
 
-            def __new__(cls, *args, **kwargs):
-                key = cls.func['get_key'](*args, **kwargs)
-
-                if key in cls._global_dict:
-                    return Registry._tag_instance(cls._global_dict[key])
-
-                return cls._global_dict.setdefault(
-                    key,
-                    object.__new__(cls, *args, **kwargs)
-                )
-
-        Wrapped.__name__ = cls.__name__
-        Wrapped.__module__ = cls.__module__
-        return Wrapped
-
-    @classmethod
-    def _tag_instance(cls, instance):
-        setattr(instance, cls._tag, True)
-        return instance
-
-    @classmethod
-    def skip_init_if_instance_from_registry(cls, f):
-        @wraps(f)
-        def wrapper(self, *args, **kwargs):
-            if not getattr(self, cls._tag, False):
-                return f(self, *args, **kwargs)
-        return wrapper
+    setattr(cls, '__new__', choose(cls.__new__))
+    setattr(cls, '__init__', self_destruct(cls.__init__.__func__))
+    return cls
