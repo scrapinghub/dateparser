@@ -56,14 +56,17 @@ settings = Settings()
 def apply_settings(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
-        if 'settings' in kwargs:
-            if isinstance(kwargs['settings'], dict):
-                kwargs['settings'] = settings.replace(**kwargs['settings'])
-            elif isinstance(kwargs['settings'], Settings):
-                kwargs['settings'] = kwargs['settings']
-            else:
-                raise TypeError("settings can only be either dict or instance of Settings class")
-        else:
+        kwargs['settings'] = kwargs.get('settings', settings)
+
+        if kwargs['settings'] is None:
             kwargs['settings'] = settings
+
+        if isinstance(kwargs['settings'], dict):
+            kwargs['settings'] = settings.replace(**kwargs['settings'])
+
+        if not isinstance(kwargs['settings'], Settings):
+            raise TypeError(
+                "settings can only be either dict or instance of Settings class")
+
         return f(*args, **kwargs)
     return wrapper
