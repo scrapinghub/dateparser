@@ -100,6 +100,7 @@ def registry(cls):
 
             if key not in registry_dict:
                 registry_dict[key] = creator(cls, *args, **kwargs)
+                setattr(registry_dict[key], 'registry_key', key)
             return registry_dict[key]
         return staticmethod(constructor)
 
