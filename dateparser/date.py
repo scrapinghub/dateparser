@@ -2,9 +2,9 @@
 import calendar
 import collections
 import re
-import six
 from datetime import datetime, timedelta
 from warnings import warn
+import six
 
 from dateutil.relativedelta import relativedelta
 
@@ -162,11 +162,11 @@ class _DateLanguageParser(object):
 
     def _parse(self):
         for parser in (
-            self._try_timestamp,
-            self._try_freshness_parser,
-            self._try_given_formats,
-            self._try_dateutil_parser,
-            self._try_hardcoded_formats,
+                self._try_timestamp,
+                self._try_freshness_parser,
+                self._try_given_formats,
+                self._try_dateutil_parser,
+                self._try_hardcoded_formats,
         ):
             date_obj = parser()
             if self._is_valid_date_obj(date_obj):
@@ -215,13 +215,14 @@ class _DateLanguageParser(object):
 
     def _get_translated_date(self):
         if self._translated_date is None:
-            self._translated_date = self.language.translate(self.date_string, keep_formatting=False)
+            self._translated_date = self.language.translate(
+                self.date_string, keep_formatting=False, settings=self._settings)
         return self._translated_date
 
     def _get_translated_date_with_formatting(self):
         if self._translated_date_with_formatting is None:
             self._translated_date_with_formatting = self.language.translate(
-                self.date_string, keep_formatting=True)
+                self.date_string, keep_formatting=True, settings=self._settings)
         return self._translated_date_with_formatting
 
     def _is_valid_date_obj(self, date_obj):
@@ -262,12 +263,12 @@ class DateDataParser(object):
     :raises:
             ValueError - Unknown Language, TypeError - Languages argument must be a list
     """
-    language_loaders = {}
+    language_loader = None
 
     @apply_settings
     def __init__(self, languages=None, allow_redetect_language=False, settings=None):
         self._settings = settings
-        available_language_map = self._get_language_loader(settings).get_language_map()
+        available_language_map = self._get_language_loader().get_language_map()
 
         if isinstance(languages, (list, tuple, collections.Set)):
 
@@ -275,14 +276,15 @@ class DateDataParser(object):
                 languages = [available_language_map[language] for language in languages]
             else:
                 unsupported_languages = set(languages) - set(available_language_map.keys())
-                raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
+                raise ValueError(
+                    "Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
         elif languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
         if allow_redetect_language:
             self.language_detector = AutoDetectLanguage(
-                    languages if languages else list(available_language_map.values()),
-                    allow_redetection=True)
+                languages if languages else list(available_language_map.values()),
+                allow_redetection=True)
         elif languages:
             self.language_detector = ExactLanguages(languages=languages)
         else:
@@ -334,7 +336,7 @@ class DateDataParser(object):
         date_string = sanitize_date(date_string)
 
         for language in self.language_detector.iterate_applicable_languages(
-                date_string, modify=True):
+                date_string, modify=True, settings=self._settings):
             parsed_date = _DateLanguageParser.parse(
                 language, date_string, date_formats, settings=self._settings)
             if parsed_date:
@@ -343,7 +345,7 @@ class DateDataParser(object):
             return {'date_obj': None, 'period': 'day'}
 
     @classmethod
-    def _get_language_loader(cls, settings):
-        if settings not in cls.language_loaders:
-            cls.language_loaders[settings] = LanguageDataLoader(settings=settings)
-        return cls.language_loaders[settings]
+    def _get_language_loader(cls):
+        if not cls.language_loader:
+            cls.language_loader = LanguageDataLoader()
+        return cls.language_loader

@@ -1,10 +1,13 @@
 import re
 from datetime import datetime
+
 from umalqurra.hijri_date import HijriDate
+
 from dateparser.calendars import CalendarBase
 from dateparser.date import DateDataParser
 from dateparser.languages.loader import default_language_loader
 from dateparser.utils import find_date_separator
+from dateparser.conf import settings
 
 
 class HijriGregorianFebruaryMismatch(Exception):
@@ -44,7 +47,7 @@ class HijriCalendar(CalendarBase):
         """
         for lang_shortname in languages:
             language = default_language_loader.get_language(lang_shortname)
-            translated = language.translate(self.source)
+            translated = language.translate(self.source, settings=settings)
             for date_format in date_formats:
                 try:
                     datetime.strptime(date_format, translated)
@@ -63,7 +66,7 @@ class HijriCalendar(CalendarBase):
         # days to parsed Hijri form.
         for lang_shortname in languages:
             language = default_language_loader.get_language(lang_shortname)
-            translated = language.translate(self.source)
+            translated = language.translate(self.source, settings=settings)
 
             def _sub_fn(m):
                 digit = int(m.group(0))

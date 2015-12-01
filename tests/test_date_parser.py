@@ -6,15 +6,16 @@ from datetime import datetime, timedelta
 from functools import wraps
 from operator import attrgetter
 
+import six
 from mock import patch, Mock
 from nose_parameterized import parameterized, param
 
 import dateparser.timezone_parser
-import six
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import default_language_loader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.conf import settings
 
 from tests import BaseTestCase
 
@@ -116,12 +117,12 @@ class AutoDetectLanguageTest(BaseTestCase):
     def when_all_languages_are_detected(self, date_strings, modify=False):
         assert not isinstance(date_strings, six.string_types)
         for date_string in date_strings:
-            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify))
+            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings))
         self.detected_languages = detected_languages
 
     def when_one_language_is_detected(self, date_strings, modify=False):
         for date_string in date_strings:
-            detected_language = next(self.parser.iterate_applicable_languages(date_string, modify=modify))
+            detected_language = next(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings))
         self.detected_languages = [detected_language]
 
     def then_detected_languages_are(self, expected_languages):
@@ -171,7 +172,7 @@ class ExactLanguagesTest(BaseTestCase):
     def when_languages_are_detected(self, date_strings, modify=False):
         assert not isinstance(date_strings, six.string_types)
         for date_string in date_strings:
-            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify))
+            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings))
         self.detected_languages = detected_languages
 
     def when_parser_is_constructed(self, languages):
@@ -453,7 +454,7 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(datetime(2012, 4, 24))
 
-    def test_date_is_parsed_when_skip_tokens_are_supplied(self, prefer_day_of_month=None):
+    def test_date_is_parsed_when_skip_tokens_are_supplied(self):
         self.given_utcnow(datetime(2015, 2, 12))
         self.given_parser(settings={'SKIP_TOKENS': ['de']})
         self.when_date_is_parsed('24 April 2012 de')

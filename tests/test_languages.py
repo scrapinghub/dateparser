@@ -6,7 +6,6 @@ from nose_parameterized import parameterized, param
 from dateparser.languages import default_language_loader, Language
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import settings
-from dateparser.conf import apply_settings
 
 from tests import BaseTestCase
 
@@ -276,13 +275,13 @@ class TestBundledLanguages(BaseTestCase):
         self.language = default_language_loader.get_language(shorname)
 
     def when_datetime_string_translated(self):
-        self.translation = self.language.translate(self.datetime_string)
+        self.translation = self.language.translate(self.datetime_string, settings=settings)
 
     def when_datetime_string_splitted(self, keep_formatting=False):
-        self.tokens = self.language._split(self.datetime_string, keep_formatting)
+        self.tokens = self.language._split(self.datetime_string, keep_formatting, settings=settings)
 
     def when_datetime_string_checked_if_applicable(self, strip_timezone):
-        self.result = self.language.is_applicable(self.datetime_string, strip_timezone)
+        self.result = self.language.is_applicable(self.datetime_string, strip_timezone, settings=settings)
 
     def then_string_translated_to(self, expected_string):
         self.assertEqual(expected_string, self.translation)
@@ -350,7 +349,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
                                 for shortname in shortnames]
 
     def given_previosly_detected_string(self, datetime_string):
-        for _ in self.detector.iterate_applicable_languages(datetime_string, modify=True):
+        for _ in self.detector.iterate_applicable_languages(datetime_string, modify=True, settings=settings):
             break
 
     def given_string(self, datetime_string):
@@ -360,7 +359,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         raise NotImplementedError
 
     def when_searching_for_first_applicable_language(self):
-        for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True):
+        for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True, settings=settings):
             self.detected_language = language
             break
         else:
@@ -400,7 +399,7 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.detector = ExactLanguages(languages=self.known_languages)
 
     def when_using_exact_languages(self):
-        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True)
+        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True, settings=settings)
 
     def then_exact_languages_were_filtered(self, shortnames):
         self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
@@ -421,68 +420,3 @@ class TestAutoDetectLanguageDetectorWithoutRedetection(BaseAutoDetectLanguageDet
 class TestAutoDetectLanguageDetectorWithRedetection(BaseAutoDetectLanguageDetectorTestCase):
     __test__ = True
     allow_redetection = True
-
-
-class LanguageRegistryTest(BaseTestCase):
-
-    language_info_data = {
-        'week': ['semaine'], 'march': ['Mars'], 'august': [u'Ao\xfbt'],
-        'monday': ['Lundi'], 'september': ['Septembre'], 'december': [u'D\xe9cembre'],
-        'tuesday': ['Mardi'], 'friday': ['Vendredi'], 'june': ['Juin'],
-        'simplifications': [{'avant-hier': '2 jour'}], 'month': ['mois'], 'second': ['seconde'],
-        'year': ['an'], 'november': ['Novembre'], 'july': ['Juillet'],
-        'saturday': ['Samedi'], 'minute': ['min'], 'ago': ['il ya'],
-        'february': [u'F\xe9v'], 'october': ['Octobre'], 'name': 'French',
-        'hour': ['heure'], 'april': ['Avril'], 'january': ['Janvier'],
-        'wednesday': ['Mercredi'], 'thursday': ['Jeudi'], 'day': ['jour'],
-        'may': ['Mai'], 'sunday': ['Dimanche'], 'skip': [' ', ]
-    }
-
-    def setUp(self):
-        super(LanguageRegistryTest, self).setUp()
-        self.default_settings = settings
-        self._resultant_instances = []
-
-    def given_settings(self, settings):
-        self._given_settings = settings
-
-    def when_multiple_instances_are_created(self, count):
-        while count:
-            self._resultant_instances.append(Language('fr', self.language_info_data, self._given_settings))
-            count -= 1
-    
-    def when_instance_is_created(self):
-        self._resultant_instances.append(Language('fr', self.language_info_data, self._given_settings))
-
-    def then_expected_instances_are_all_same(self):
-        self.assertEqual(1, len(set(self._resultant_instances)))
-        self._result_instances = []
-
-    def then_expected_instances_are_all_different(self):
-        self.assertNotEqual(1, len(set(self._resultant_instances)))
-        self._result_instances = []
-
-    def test_different_languages_are_returned_with_different_supplied_settings(self):
-        self.given_settings(self.default_settings)
-        self.when_instance_is_created()
-
-        settings = apply_settings(test_function)(settings={'SKIP_TOKENS': ['de']})
-        self.given_settings(settings)
-        self.when_instance_is_created()
-
-        self.then_expected_instances_are_all_different()
-        
-    def test_same_language_instance_is_return_from_registry_when_constructor_is_called_more_than_once_for_default_language_related_settings(self):
-        self.given_settings(self.default_settings)
-        self.when_multiple_instances_are_created(3)
-        self.then_expected_instances_are_all_same()
-
-    def test_same_language_instance_is_return_from_registry_when_constructor_is_called_twice_for_same_supplied_language_related_settings(self):
-        settings = apply_settings(test_function)(settings={'SKIP_TOKENS': ['de']})
-        self.given_settings(settings)
-        self.when_multiple_instances_are_created(3)
-        self.then_expected_instances_are_all_same()
-
-
-def test_function(settings=None):
-    return settings
