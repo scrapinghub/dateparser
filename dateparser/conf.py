@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import hashlib
 from pkgutil import get_data
-
 from itertools import chain
 from functools import wraps
+import six
+
 from yaml import load as load_yaml
 
 from .utils import registry
@@ -11,17 +12,21 @@ from .utils import registry
 
 @registry
 class Settings(object):
+    """Control and configure default parsing behavior of dateparser.
+    Currently, supported settings are:
+    - `PREFER_DATES_FROM`: defaults to `current_period`. Options are `future` or `past`.
+    - `SUPPORT_BEFORE_COMMON_ERA`: defaults to `False`.
+    - `PREFER_DAY_OF_MONTH`: defaults to `current`. Could be `first` and `last` day of month.
+    - `SKIP_TOKENS`: defaults to `['t']`. Can be any string.
+    """
 
-    _attributes = []
     _default = True
+    _yaml_data = {}
 
     def __init__(self, **kwargs):
-        """
-        Settings are now loaded using the data/settings.yaml file.
-        """
         self._updateall(
             chain(self._get_settings_from_yaml().items(),
-            kwargs.items())
+                  kwargs.items())
         )
 
     @classmethod
@@ -29,22 +34,24 @@ class Settings(object):
         if not args and not kwargs:
             return 'default'
 
-        keys= sorted(['%s-%s' % (key, str(kwargs[key])) for key in kwargs])
+        keys = sorted(['%s-%s' % (key, str(kwargs[key])) for key in kwargs])
         return hashlib.md5(''.join(keys)).hexdigest()
 
-    def _get_settings_from_yaml(self):
-        data = get_data('data', 'settings.yaml')
-        data = load_yaml(data)
-        return data.pop('settings', {})
+    @classmethod
+    def _get_settings_from_yaml(cls):
+        if not cls._yaml_data:
+            data = get_data('data', 'settings.yaml')
+            cls._yaml_data = load_yaml(data).pop('settings', {})
+        return cls._yaml_data
 
     def _updateall(self, iterable):
         for key, value in iterable:
-            self._attributes.append(key)
             setattr(self, key, value)
 
     def replace(self, **kwds):
-        for x in self._attributes:
+        for x in six.iterkeys(self._get_settings_from_yaml()):
             kwds.setdefault(x, getattr(self, x))
+
         kwds['_default'] = False
 
         return self.__class__(**kwds)
