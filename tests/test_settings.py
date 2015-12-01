@@ -31,4 +31,5 @@ class SettingsTest(BaseTestCase):
         test_func = apply_settings(test_function)
         settings_once = test_func(settings={'PREFER_DATES_FROM': 'past'})
         settings_twice = test_func()
+        self.assertNotEqual(settings_once, self.default_settings)
         self.assertEqual(settings_twice, self.default_settings)
