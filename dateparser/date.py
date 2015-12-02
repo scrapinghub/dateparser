@@ -95,7 +95,7 @@ def sanitize_date(date_string):
     date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
     date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
 
-    date_string = re.sub(r'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS), u"'", date_string)
+    date_string = re.sub(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS), u"'", date_string)
 
     return date_string
 
@@ -162,11 +162,11 @@ class _DateLanguageParser(object):
 
     def _parse(self):
         for parser in (
-                self._try_timestamp,
-                self._try_freshness_parser,
-                self._try_given_formats,
-                self._try_dateutil_parser,
-                self._try_hardcoded_formats,
+            self._try_timestamp,
+            self._try_freshness_parser,
+            self._try_given_formats,
+            self._try_dateutil_parser,
+            self._try_hardcoded_formats,
         ):
             date_obj = parser()
             if self._is_valid_date_obj(date_obj):

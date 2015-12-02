@@ -21,7 +21,7 @@ class Settings(object):
     """
 
     _default = True
-    _yaml_data = {}
+    _yaml_data = None
 
     def __init__(self, **kwargs):
         self._updateall(

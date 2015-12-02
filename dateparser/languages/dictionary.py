@@ -85,21 +85,21 @@ class Dictionary(object):
 
     def _get_sorted_words_from_cache(self):
         if (
-                self._settings not in self._sorted_words_cache or
-                self.info['name'] not in self._sorted_words_cache[self._settings]
+                self._settings.registry_key not in self._sorted_words_cache or
+                self.info['name'] not in self._sorted_words_cache[self._settings.registry_key]
             ):
-            self._sorted_words_cache[self._settings] = {
+            self._sorted_words_cache[self._settings.registry_key] = {
                 self.info['name']: sorted([key for key in self], key=len, reverse=True)
             }
-        return self._sorted_words_cache[self._settings][self.info['name']]
+        return self._sorted_words_cache[self._settings.registry_key][self.info['name']]
 
     def _get_split_regex_cache(self):
         if (
-                self._settings not in self._split_regex_cache or
-                self.info['name'] not in self._split_regex_cache[self._settings]
+                self._settings.registry_key not in self._split_regex_cache or
+                self.info['name'] not in self._split_regex_cache[self._settings.registry_key]
             ):
             self._construct_split_regex()
-        return self._split_regex_cache[self._settings][self.info['name']]
+        return self._split_regex_cache[self._settings.registry_key][self.info['name']]
 
     def _construct_split_regex(self):
         known_words_group = u"|".join(map(re.escape, self._get_sorted_words_from_cache()))
@@ -107,6 +107,6 @@ class Dictionary(object):
             regex = r"^(.*?)({})(.*)$".format(known_words_group)
         else:
             regex = r"^(.*?(?:\A|\d|_|\W))({})((?:\d|_|\W|\Z).*)$".format(known_words_group)
-        self._split_regex_cache[self._settings] = {
+        self._split_regex_cache[self._settings.registry_key] = {
             self.info['name']: re.compile(regex, re.UNICODE | re.IGNORECASE)
         }
