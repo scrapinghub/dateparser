@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import six
 import unittest
 from datetime import datetime, timedelta, date, time
 from functools import wraps
@@ -10,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 from mock import Mock, patch
 from nose_parameterized import parameterized, param
 
+import dateparser
 from dateparser.date import DateDataParser, freshness_date_parser
 from tests import BaseTestCase
 
@@ -326,7 +326,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.date_string = date_string
 
     def given_parser(self):
-        self.add_patch(patch.object(freshness_date_parser, 'now', self.now))
 
         def collecting_get_date_data(get_date_data):
             @wraps(get_date_data)
@@ -339,6 +338,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
                                     collecting_get_date_data(freshness_date_parser.get_date_data)))
 
         self.freshness_parser = Mock(wraps=freshness_date_parser)
+
+        dt_mock = Mock(wraps=dateparser.freshness_date_parser.datetime)
+        dt_mock.utcnow = Mock(return_value=self.now)
+        self.add_patch(patch('dateparser.freshness_date_parser.datetime', new=dt_mock))
         self.add_patch(patch('dateparser.date.freshness_date_parser', new=self.freshness_parser))
         self.parser = DateDataParser()
 
