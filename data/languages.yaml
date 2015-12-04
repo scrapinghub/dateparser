@@ -111,7 +111,22 @@ en:
         - (\d+)h(\d+)m?: \1:\2
         - less than 1 minute ago: 45 seconds
         - now: 0 second
-
+    numbers:
+        - 1:
+            - one
+            - first
+        - 2:
+            - two
+            - (!?\d\s)second
+        - 3:
+            - three
+            - third
+        - 20:
+            - twenty
+            - twentieth
+        - 30:
+            - thirty
+            - thirtieth
 
 de:
     name: German

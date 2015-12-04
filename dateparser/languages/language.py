@@ -44,6 +44,7 @@ class Language(object):
             return self._are_all_words_in_the_dictionary(tokens, settings)
 
     def translate(self, date_string, keep_formatting=False, settings=None):
+        date_string = self._translate_numerals(date_string)
         date_string = self._simplify(date_string)
         words = self._split(date_string, keep_formatting, settings=settings)
 
@@ -65,6 +66,13 @@ class Language(object):
                 pattern = r'(\A|\d|_|\W)%s(\d|_|\W|\Z)' % pattern
             date_string = re.sub(
                 pattern, replacement, date_string, flags=re.IGNORECASE | re.UNICODE).lower()
+        return date_string
+
+    def _translate_numerals(self, date_string):
+        for numeral_forms in self.info.get('numbers', []):
+            for number, numerals in numeral_forms.items():
+                for numeral in numerals:
+                    date_string = re.sub(numeral, str(number), date_string, flags=re.IGNORECASE)
         return date_string
 
     def _is_date_consists_of_digits_only(self, tokens):
