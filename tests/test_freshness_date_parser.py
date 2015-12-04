@@ -330,8 +330,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         def collecting_get_date_data(get_date_data):
             @wraps(get_date_data)
-            def wrapped(date_string):
-                self.freshness_result = get_date_data(date_string)
+            def wrapped(*args, **kwargs):
+                self.freshness_result = get_date_data(*args, **kwargs)
                 return self.freshness_result
             return wrapped
         self.add_patch(patch.object(freshness_date_parser,

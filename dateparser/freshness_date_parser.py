@@ -51,13 +51,13 @@ class FreshnessDateDataParser(object):
                 date = date.replace(hour=_time.hour, minute=_time.minute,
                                     second=_time.second, microsecond=_time.microsecond)
 
-        date = UTC.localize(date)
-        usr_timezone = timezone(settings.TIMEZONE)
+            date = UTC.localize(date)
+            usr_timezone = timezone(settings.TIMEZONE)
 
-        if date.tzinfo != usr_timezone:
-            date = date.astimezone(usr_timezone)
+            if date.tzinfo != usr_timezone:
+                date = date.astimezone(usr_timezone)
 
-        date = date.replace(tzinfo=None)
+            date = date.replace(tzinfo=None)
 
         return date, period
 
