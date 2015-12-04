@@ -2,6 +2,7 @@
 import re
 import logging
 import logging.config
+import types
 
 from dateutil.parser import parser
 
@@ -86,3 +87,37 @@ def find_date_separator(format):
     m = re.search(r'(?:(?:%[dbBmaA])(\W))+', format)
     if m:
         return m.group(1)
+
+
+def registry(cls):
+    def choose(creator):
+        def constructor(cls, *args, **kwargs):
+            key = cls.get_key(*args, **kwargs)
+
+            if not hasattr(cls, "__registry_dict"):
+                setattr(cls, "__registry_dict", {})
+            registry_dict = getattr(cls, "__registry_dict")
+
+            if key not in registry_dict:
+                registry_dict[key] = creator(cls, *args, **kwargs)
+                setattr(registry_dict[key], 'registry_key', key)
+            return registry_dict[key]
+        return staticmethod(constructor)
+
+    def self_destruct(initializer):
+        def destructor(self, *args, **kwargs):
+            if getattr(self, "__initialized", False):
+                return
+            else:
+                initializer(self, *args, **kwargs)
+                setattr(self, "__initialized", True)
+        return destructor
+
+    if not (hasattr(cls, "get_key")
+            and isinstance(cls.get_key, types.MethodType)
+            and cls.get_key.__self__ is cls):
+        raise NotImplementedError("Registry classes require to implement class method get_key")
+
+    setattr(cls, '__new__', choose(cls.__new__))
+    setattr(cls, '__init__', self_destruct(cls.__init__.__func__))
+    return cls

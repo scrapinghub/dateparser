@@ -9,9 +9,9 @@ from datetime import datetime, timedelta
 
 from mock import Mock, patch
 from nose_parameterized import parameterized, param
+import six
 
 import dateparser
-import six
 from dateparser import date
 from dateparser.date import get_last_day_of_month
 from dateparser.languages.loader import LanguageDataLoader

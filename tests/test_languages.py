@@ -5,6 +5,8 @@ from nose_parameterized import parameterized, param
 
 from dateparser.languages import default_language_loader, Language
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.conf import settings
+
 from tests import BaseTestCase
 
 
@@ -276,13 +278,13 @@ class TestBundledLanguages(BaseTestCase):
         self.language = default_language_loader.get_language(shorname)
 
     def when_datetime_string_translated(self):
-        self.translation = self.language.translate(self.datetime_string)
+        self.translation = self.language.translate(self.datetime_string, settings=settings)
 
     def when_datetime_string_splitted(self, keep_formatting=False):
-        self.tokens = self.language._split(self.datetime_string, keep_formatting)
+        self.tokens = self.language._split(self.datetime_string, keep_formatting, settings=settings)
 
     def when_datetime_string_checked_if_applicable(self, strip_timezone):
-        self.result = self.language.is_applicable(self.datetime_string, strip_timezone)
+        self.result = self.language.is_applicable(self.datetime_string, strip_timezone, settings=settings)
 
     def then_string_translated_to(self, expected_string):
         self.assertEqual(expected_string, self.translation)
@@ -350,7 +352,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
                                 for shortname in shortnames]
 
     def given_previosly_detected_string(self, datetime_string):
-        for _ in self.detector.iterate_applicable_languages(datetime_string, modify=True):
+        for _ in self.detector.iterate_applicable_languages(datetime_string, modify=True, settings=settings):
             break
 
     def given_string(self, datetime_string):
@@ -360,7 +362,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         raise NotImplementedError
 
     def when_searching_for_first_applicable_language(self):
-        for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True):
+        for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True, settings=settings):
             self.detected_language = language
             break
         else:
@@ -400,7 +402,7 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.detector = ExactLanguages(languages=self.known_languages)
 
     def when_using_exact_languages(self):
-        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True)
+        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True, settings=settings)
 
     def then_exact_languages_were_filtered(self, shortnames):
         self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))

@@ -42,3 +42,29 @@ Once initialized, :func:`dateparser.date.DateDataParser.get_date_data` parses da
     >>> ddp.get_date_data(u'18.10.14 um 22:56 Uhr')
     {'date_obj': datetime.datetime(2014, 10, 18, 22, 56), 'period': u'day'}
 
+:mod:`dateparser`'s parsing behavior can be configured like below::
+
+*``PREFER_DAY_OF_MONTH``* defaults to ``current`` and can have ``first`` and ``last`` as values::
+
+    >>> from dateparser import parse
+    >>> parse(u'December 2015')  # default behavior
+    datetime.datetime(2015, 12, 16, 0, 0)
+    >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'last'})
+    datetime.datetime(2015, 12, 31, 0, 0)
+    >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
+    datetime.datetime(2015, 12, 1, 0, 0)
+
+*``PREFER_DATES_FROM``* defaults to ``current_period`` and can have ``past`` and ``future`` as values.
+Assuming current date is June 16, 2015::
+
+    >>> from dateparser import parse
+    >>> parse(u'March')
+    datetime.datetime(2015, 3, 16, 0, 0)
+    >>> parse(u'March', settings={'PREFER_DATES_FROM': 'future'})
+    datetime.datetime(2016, 3, 16, 0, 0)
+
+*``SKIP_TOKENS``* is a ``list`` of tokens to discard while detecting language. Defaults to ``['t']`` which skips T in iso format datetime string.e.g. ``2015-05-02T10:20:19+0000``.::
+
+    >>> from dateparser.date import DateDataParser
+    >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
+    {'date_obj': datetime.datetime(1981, 6, 27, 0, 0), 'period': 'day'}

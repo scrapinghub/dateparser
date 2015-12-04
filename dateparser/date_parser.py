@@ -13,7 +13,7 @@ from dateutil.relativedelta import relativedelta
 
 from .timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
 from .utils import strip_braces
-from .conf import settings
+from .conf import apply_settings
 
 
 binary_type = bytes if sys.version_info[0] == 3 else str
@@ -25,7 +25,7 @@ class new_parser(parser.parser):
     For more see issue #36
     """
 
-    def parse(self, timestr, default=None, ignoretz=False, **kwargs):
+    def parse(self, timestr, default=None, ignoretz=False, settings=None, **kwargs):
         # timestr needs to be a buffer as required by _parse
         if isinstance(timestr, binary_type):
             timestr = timestr.decode()
@@ -37,7 +37,7 @@ class new_parser(parser.parser):
             raise ValueError("unknown string format")
 
         # Fill in missing date
-        new_date = self._populate(res, default)
+        new_date = self._populate(res, default, settings=settings)
 
         # Clean hour and minutes, etc in case not defined
         for e in ['hour', 'minute', 'second', 'microsecond']:
@@ -59,7 +59,7 @@ class new_parser(parser.parser):
                     return period
 
     @classmethod
-    def _populate(cls, res, default):
+    def _populate(cls, res, default, settings=None):
         new_date = default
 
         # Populate all fields
@@ -71,7 +71,7 @@ class new_parser(parser.parser):
 
         # Fix day and populate date with result
         repl_copy = repl.copy()
-        repl_copy['day'] = cls.get_valid_day(repl, new_date)
+        repl_copy['day'] = cls.get_valid_day(repl, new_date, settings=settings)
         new_date = new_date.replace(**repl_copy)
 
         # Fix weekday
@@ -81,10 +81,11 @@ class new_parser(parser.parser):
                 new_date -= relativedelta(days=7)
 
         # Correct date and return
-        return cls._correct(new_date, [key + 's' for key in repl.keys()], default)
+        return cls._correct(new_date, [key + 's' for key in repl.keys()], default, settings=settings)
 
     @staticmethod
-    def get_valid_day(res, new_date):
+    @apply_settings
+    def get_valid_day(res, new_date, settings=None):
         _, tail = calendar.monthrange(res.get('year', new_date.year),
                                       res.get('month', new_date.month))
 
@@ -103,7 +104,7 @@ class new_parser(parser.parser):
         return options[settings.PREFER_DAY_OF_MONTH]
 
     @classmethod
-    def _correct(cls, date, given_fields, default):
+    def _correct(cls, date, given_fields, default, settings=None):
         if settings.PREFER_DATES_FROM == 'current_period':
             return date
 
@@ -117,8 +118,8 @@ class new_parser(parser.parser):
             delta = relativedelta(**{field: 1})
 
             # Run through corrections
-            corrected_date = cls._correct_for_future(date, delta, default)
-            corrected_date = cls._correct_for_past(corrected_date, delta, default)
+            corrected_date = cls._correct_for_future(date, delta, default, settings)
+            corrected_date = cls._correct_for_past(corrected_date, delta, default, settings)
 
             # check if changed
             if corrected_date != date:
@@ -128,7 +129,7 @@ class new_parser(parser.parser):
         return date
 
     @staticmethod
-    def _correct_for_future(date, delta, default):
+    def _correct_for_future(date, delta, default, settings=None):
         if settings.PREFER_DATES_FROM != 'future':
             return date
 
@@ -138,7 +139,7 @@ class new_parser(parser.parser):
         return date
 
     @staticmethod
-    def _correct_for_past(date, delta, default):
+    def _correct_for_past(date, delta, default, settings=None):
         if settings.PREFER_DATES_FROM != 'past':
             return date
 
@@ -148,7 +149,7 @@ class new_parser(parser.parser):
         return date
 
 
-def dateutil_parse(date_string, **kwargs):
+def dateutil_parse(date_string, settings=None, **kwargs):
     """Wrapper function around dateutil.parser.parse
     """
     today = datetime.utcnow()
@@ -159,14 +160,15 @@ def dateutil_parse(date_string, **kwargs):
     # that raises TypeError for an invalid string
     # https://bugs.launchpad.net/dateutil/+bug/1042851
     try:
-        return new_parser().parse(date_string, **kwargs)
+        return new_parser().parse(date_string, settings=settings, **kwargs)
     except TypeError as e:
         raise ValueError(e, "Invalid date: %s" % date_string)
 
 
 class DateParser(object):
 
-    def parse(self, date_string):
+    @apply_settings
+    def parse(self, date_string, settings=None):
         date_string = six.text_type(date_string)
 
         if not date_string.strip():
@@ -175,7 +177,7 @@ class DateParser(object):
         date_string = strip_braces(date_string)
         date_string, tz_offset = pop_tz_offset_from_string(date_string)
 
-        date_obj, period = dateutil_parse(date_string)
+        date_obj, period = dateutil_parse(date_string, settings=settings)
 
         if tz_offset is not None:
             date_obj = convert_to_local_tz(date_obj, tz_offset)
