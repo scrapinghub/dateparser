@@ -126,6 +126,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ru', "9 месяцев", "9 month"),
         param('ru', "8 недели", "8 week"),
         param('ru', "7 года", "7 year"),
+        param('ru', "позавчера", "2 day"),
         param('ru', "вчера", "1 day"),
         param('ru', "сегодня", "0 day"),
         param('ru', "несколько секунд", "44 second"),
@@ -175,6 +176,8 @@ class TestBundledLanguages(BaseTestCase):
         #Filipino
         param('ph', "kahapon", "1 day"),
         param('ph', "ngayon", "0 second"),
+        # Ukrainian
+        param('uk', "позавчора", "2 day"),
         # Belarusian
         param('by', "9 месяцаў", "9 month"),
         param('by', "8 тыдняў", "8 week"),
