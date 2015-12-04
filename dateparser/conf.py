@@ -18,6 +18,7 @@ class Settings(object):
     - `SUPPORT_BEFORE_COMMON_ERA`: defaults to `False`.
     - `PREFER_DAY_OF_MONTH`: defaults to `current`. Could be `first` and `last` day of month.
     - `SKIP_TOKENS`: defaults to `['t']`. Can be any string.
+    - `TIMEZONE`: defaults to `UTC`. Can be any :mod:`pytz` timezone string.
     """
 
     _default = True

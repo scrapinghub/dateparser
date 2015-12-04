@@ -4,11 +4,12 @@ from __future__ import unicode_literals
 import re
 from datetime import datetime
 from datetime import time
+from pytz import UTC, timezone
 
 from dateutil.relativedelta import relativedelta
 from dateutil.parser import parse
 
-from .utils import is_dateutil_result_obj_parsed
+from dateparser.utils import is_dateutil_result_obj_parsed
 
 
 _UNITS = r'year|month|week|day|hour|minute|second'
@@ -42,13 +43,21 @@ class FreshnessDateDataParser(object):
             except:
                 pass
 
-    def parse(self, date_string):
+    def parse(self, date_string, settings):
         date, period = self._parse(date_string)
         if date:
             _time = self._parse_time(date_string)
             if isinstance(_time, time):
                 date = date.replace(hour=_time.hour, minute=_time.minute,
                                     second=_time.second, microsecond=_time.microsecond)
+
+        date = UTC.localize(date)
+        usr_timezone = timezone(settings.TIMEZONE)
+
+        if date.tzinfo != usr_timezone:
+            date = date.astimezone(usr_timezone)
+
+        date = date.replace(tzinfo=None)
 
         return date, period
 
@@ -82,8 +91,8 @@ class FreshnessDateDataParser(object):
 
         return kwargs
 
-    def get_date_data(self, date_string):
-        date, period = self.parse(date_string)
+    def get_date_data(self, date_string, settings=None):
+        date, period = self.parse(date_string, settings)
         return dict(date_obj=date, period=period)
 
 freshness_date_parser = FreshnessDateDataParser()
