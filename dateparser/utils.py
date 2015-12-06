@@ -7,6 +7,8 @@ import types
 from dateutil.parser import parser
 from pytz import UTC, timezone
 
+from dateparser.timezone_parser import _tz_offsets
+
 
 GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
 G_REGEX = re.compile(r'g<(\d+)>')
@@ -20,7 +22,7 @@ def is_dateutil_result_obj_parsed(date_string):
     res = parser()._parse(date_string)
     if not res:
         return False
-    
+
     def get_value(obj, key):
         value = getattr(obj, key)
         return str(value) if value is not None else ''
@@ -90,14 +92,29 @@ def find_date_separator(format):
         return m.group(1)
 
 
-def apply_timezone(date, pytz_string):
-    date = UTC.localize(date)
+def apply_tzdatabase_timezone(datetime, pytz_string):
+    datetime = UTC.localize(datetime)
     usr_timezone = timezone(pytz_string)
 
-    if date.tzinfo != usr_timezone:
-        date = date.astimezone(usr_timezone)
+    if datetime.tzinfo != usr_timezone:
+        datetime = datetime.astimezone(usr_timezone)
 
-    return date.replace(tzinfo=None)
+    return datetime.replace(tzinfo=None)
+
+
+def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
+    for _, info in _tz_offsets:
+        if info['regex'].search(' %s' % offset_or_timezone_abb):
+            return utc_datetime + info['offset']
+
+
+def apply_timezone(datetime, tz_string):
+    new_datetime = apply_dateparser_timezone(datetime, tz_string)
+
+    if not new_datetime:
+        new_datetime = apply_tzdatabase_timezone(datetime, tz_string)
+
+    return new_datetime
 
 
 def registry(cls):

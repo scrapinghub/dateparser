@@ -324,9 +324,35 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         param('2 hours ago', 'Asia/Karachi', date(2014, 9, 1), time(13, 30)),
-        param('Today at 9 pm', 'Asia/Karachi', date(2014, 9, 1), time(21, 0)),
+        param('3 hours ago', 'Europe/Paris', date(2014, 9, 1), time(9, 30)),
+        param('5 hours ago', 'US/Eastern', date(2014, 9, 1), time(1, 30)), # date in DST range
+        param('Today at 9 pm', 'Asia/Karachi', date(2014, 9, 1), time(21, 0)), # time given, hence, no shift applies
     ])
-    def test_freshness_date_with_timezones(self, date_string, timezone, date, time):
+    def test_freshness_date_with_pytz_timezones(self, date_string, timezone, date, time):
+        self.given_parser(settings={'TIMEZONE': timezone})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
+    @parameterized.expand([
+        param('2 hours ago', 'PKT', date(2014, 9, 1), time(13, 30)),
+        param('5 hours ago', 'EST', date(2014, 9, 1), time(0, 30)),
+        param('3 hours ago', 'MET', date(2014, 9, 1), time(8, 30)),
+    ])
+    def test_freshness_date_with_timezone_abbreviations(self, date_string, timezone, date, time):
+        self.given_parser(settings={'TIMEZONE': timezone})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
+    @parameterized.expand([
+        param('2 hours ago', '+05:00', date(2014, 9, 1), time(13, 30)),
+        param('5 hours ago', '-05:00', date(2014, 9, 1), time(0, 30)),
+        param('3 hours ago', '+01:00', date(2014, 9, 1), time(8, 30)),
+    ])
+    def test_freshness_date_with_timezone_utc_offset(self, date_string, timezone, date, time):
         self.given_parser(settings={'TIMEZONE': timezone})
         self.given_date_string(date_string)
         self.when_date_is_parsed()

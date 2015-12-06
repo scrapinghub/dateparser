@@ -46,12 +46,14 @@ class FreshnessDateDataParser(object):
         date, period = self._parse(date_string)
 
         if date:
-            date = apply_timezone(date, settings.TIMEZONE)
-
-            _time = self._parse_time(date_string)  # concrete time takes precedence, if given.
+            _time = self._parse_time(date_string)
             if isinstance(_time, time):
                 date = date.replace(hour=_time.hour, minute=_time.minute,
                                     second=_time.second, microsecond=_time.microsecond)
+            else:
+                # No timezone shift takes place if time is given in the string.
+                # e.g. `2 days ago at 1 PM`
+                date = apply_timezone(date, settings.TIMEZONE)
 
         return date, period
 
