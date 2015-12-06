@@ -5,6 +5,7 @@ import logging.config
 import types
 
 from dateutil.parser import parser
+from pytz import UTC, timezone
 
 
 GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
@@ -87,6 +88,16 @@ def find_date_separator(format):
     m = re.search(r'(?:(?:%[dbBmaA])(\W))+', format)
     if m:
         return m.group(1)
+
+
+def apply_timezone(date, pytz_string):
+    date = UTC.localize(date)
+    usr_timezone = timezone(pytz_string)
+
+    if date.tzinfo != usr_timezone:
+        date = date.astimezone(usr_timezone)
+
+    return date.replace(tzinfo=None)
 
 
 def registry(cls):

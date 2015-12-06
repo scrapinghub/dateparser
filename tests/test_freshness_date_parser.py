@@ -322,10 +322,21 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_is(date)
         self.then_time_is(time)
 
+    @parameterized.expand([
+        param('2 hours ago', 'Asia/Karachi', date(2014, 9, 1), time(13, 30)),
+        param('Today at 9 pm', 'Asia/Karachi', date(2014, 9, 1), time(21, 0)),
+    ])
+    def test_freshness_date_with_timezones(self, date_string, timezone, date, time):
+        self.given_parser(settings={'TIMEZONE': timezone})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
     def given_date_string(self, date_string):
         self.date_string = date_string
 
-    def given_parser(self):
+    def given_parser(self, settings=None):
         self.add_patch(patch.object(freshness_date_parser, 'now', self.now))
 
         def collecting_get_date_data(get_date_data):
@@ -340,7 +351,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         self.freshness_parser = Mock(wraps=freshness_date_parser)
         self.add_patch(patch('dateparser.date.freshness_date_parser', new=self.freshness_parser))
-        self.parser = DateDataParser()
+        self.parser = DateDataParser(settings=settings)
 
     def when_date_is_parsed(self):
         try:
