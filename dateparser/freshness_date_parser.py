@@ -20,7 +20,7 @@ class FreshnessDateDataParser(object):
 
     @property
     def now(self):
-        return datetime.utcnow()
+        return self.relative_base_date or datetime.utcnow()
 
     def _are_all_words_units(self, date_string):
         skip = [_UNITS,
@@ -83,7 +83,8 @@ class FreshnessDateDataParser(object):
 
         return kwargs
 
-    def get_date_data(self, date_string):
+    def get_date_data(self, date_string, relative_base_date=None):
+        self.relative_base_date = relative_base_date
         date, period = self.parse(date_string)
         return dict(date_obj=date, period=period)
 

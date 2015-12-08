@@ -7,12 +7,15 @@ from .conf import apply_settings
 _default_parser = DateDataParser(allow_redetect_language=True)
 
 @apply_settings
-def parse(date_string, date_formats=None, languages=None, settings=None):
+def parse(date_string, date_formats=None, languages=None, settings=None, relative_base_date=None):
     """Parse date and time from given date string.
 
     :param date_string:
         A string representing date and/or time in a recognizably valid format.
     :type date_string: str|unicode
+    :param relative_base_date:
+        A date to count relative dates from it.
+    :type relative_base_date: datetime
     :param date_formats:
         A list of format strings using directives as given
         `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
@@ -36,7 +39,7 @@ def parse(date_string, date_formats=None, languages=None, settings=None):
     if any([languages, not settings._default]):
         parser = DateDataParser(languages=languages, settings=settings)
 
-    data = parser.get_date_data(date_string, date_formats)
+    data = parser.get_date_data(date_string, date_formats, relative_base_date)
 
     if data:
         return data['date_obj']
