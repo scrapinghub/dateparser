@@ -111,6 +111,7 @@ en:
         - (\d+)h(\d+)m?: \1:\2
         - less than 1 minute ago: 45 seconds
         - now: 0 second
+
     numbers:
         - 1:
             - one
@@ -121,6 +122,54 @@ en:
         - 3:
             - three
             - third
+        - 4:
+            - four
+            - fourth
+        - 5:
+            - five
+            - fifth
+        - 6:
+            - six
+            - sixth
+        - 7:
+            - seven
+            - seventh
+        - 8:
+            - eight
+            - eighth
+        - 9:
+            - nine
+            - ninth
+        - 10:
+            - ten
+            - tenth
+        - 11:
+            - eleven
+            - eleventh
+        - 12:
+            - twelve
+            - twelfth
+        - 13:
+            - thirteen
+            - thirteenth
+        - 14:
+            - fourteen
+            - fourteenth
+        - 15:
+            - fifteen
+            - fifteenth
+        - 16:
+            - sixteen
+            - sixteenth
+        - 17:
+            - seventeen
+            - seventeenth
+        - 18:
+            - eighteen
+            - eighteenth
+        - 19:
+            - nineteen
+            - nineteenth
         - 20:
             - twenty
             - twentieth
@@ -218,6 +267,53 @@ de:
         - vor (\d+)\s*m: vor \1 Minuten
         - vor (\d+)\s*s: vor \1 Sekunden
 
+    numbers:
+        - 1:
+            - eins
+            - erst\w*
+        - 2:
+            - zwei\w*
+        - 3:
+            - drei\w*
+        - 4:
+            - vier\w*
+        - 5:
+            - fünf\w*
+            - funf\w*
+        - 6:
+            - sechs\w*
+        - 7:
+            - sieben\w*
+        - 8:
+            - acht\w*
+        - 9:
+            - neun\w*
+        - 10:
+            - zehn\w*
+        - 11:
+            - elf\w*
+        - 12:
+            - zwölf\w*
+            - zwolf\w*
+        - 13:
+            - dreizehn\w*
+        - 14:
+            - vierzehn\w*
+        - 15:
+            - fünfzehn\w*
+        - 16:
+            - sechzehn\w*
+        - 17:
+            - siebzehn\w*
+        - 18:
+            - achtzehn\w*
+        - 19:
+            - neunzehn\w*
+        - 20:
+            - zwanzig\w*
+        - 30:
+            - dreißig\w*
+            - dreissig\w*
 
 fr:
     name: French
@@ -1610,6 +1706,94 @@ pl:
         - onegdaj: 2 dnia
         - przedwczoraj: 2 dnia
         - wczoraj: 1 dnia
+
+    numbers:
+        - 1:
+            - jeden
+            - pierwsz\w*
+        - 2:
+            - dwa
+            - drug\w*
+        - 3:
+            - trzy
+            - trzeci\w*
+        - 4:
+            - cztery
+            - czwart\w*
+        - 5:
+            - pięć
+            - piec
+            - piąt\w*
+            - piat\w*
+        - 6:
+            - sześć
+            - szesc
+            - szóst\w*
+            - szost\w*
+        - 7:
+            - siedem
+            - siódm\w*
+            - siodm\w*
+        - 8:
+            - osiem
+            - ósm\w*
+            - osm\w*
+        - 9:
+            - dziewięć
+            - dziewiec
+            - dziewiąt\w*
+            - dziewiat\w*
+        - 10:
+            - dziesięć
+            - dziesiec
+            - dziesiąt\w*
+            - dziesiat\w*
+        - 11:
+            - jedenaście
+            - jedenascie
+            - jedenast\w*
+        - 12:
+            - dwanaście
+            - dwanascie
+            - dwunast\w*
+        - 13:
+            - trzynaście
+            - trzynascie
+            - trzynast\w*
+        - 14:
+            - czternaście
+            - czternascie
+            - czternast\w*
+        - 15:
+            - piętnaście
+            - pietnascie
+            - piętnast\w*
+            - pietnast\w*
+        - 16:
+            - szesnaście
+            - szesnascie
+            - szesnast\w*
+        - 17:
+            - siedemnaście
+            - siedemnascie
+            - siedemnast\w*
+        - 18:
+            - osiemnaście
+            - osiemnascie
+            - osiemnast\w*
+        - 19:
+            - dziewiętnaście
+            - dziewietnascie
+            - dziewiętnast\w*
+            - dziewietnast\w*
+        - 20:
+            - dwadzieścia
+            - dwadziescia
+            - dwudziest\w*
+        - 30:
+            - trzydzieści
+            - trzydziesci
+            - trzydziest\w*
 
 fa:
     name: Persian

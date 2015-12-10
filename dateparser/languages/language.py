@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from itertools import chain
+from itertools import chain, permutations
 
 from dateutil import parser
 
@@ -69,10 +69,21 @@ class Language(object):
         return date_string
 
     def _translate_numerals(self, date_string):
-        for numeral_forms in self.info.get('numbers', []):
-            for number, numerals in numeral_forms.items():
+        sum_neighbors = []
+        numbers_dictionary = self.info.get('numbers', [])
+
+        for number_dict in numbers_dictionary:
+            for number, numerals in number_dict.items():
                 for numeral in numerals:
-                    date_string = re.sub(numeral, str(number), date_string, flags=re.IGNORECASE)
+                    match = re.findall(numeral, date_string, re.I)
+                    if match:
+                        sum_neighbors.append((match[0], number))
+
+        summaric_number = sum([number[1] for number in sum_neighbors])
+        summaric_numerals = [number[0] for number in sum_neighbors]
+        summaric_regex = "|".join(["\W*".join(result) for result in permutations(summaric_numerals)])
+
+        date_string = re.sub(summaric_regex, str(summaric_number), date_string, re.I)
         return date_string
 
     def _is_date_consists_of_digits_only(self, tokens):

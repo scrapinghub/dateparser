@@ -29,6 +29,10 @@ class Dictionary(object):
         if 'pertain' in language_info:
             pertain = map(methodcaller('lower'), language_info['pertain'])
             dictionary.update(zip_longest(pertain, [], fillvalue=None))
+        if 'numbers' in language_info:
+            numeral_dict = [(numeral.lower(), number) for listing in language_info['numbers']
+                            for number, numeral_list in listing.items() for numeral in numeral_list]
+            dictionary.update(numeral_dict)
         for word in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                      'january', 'february', 'march', 'april', 'may', 'june', 'july',
                      'august', 'september', 'october', 'november', 'december',
