@@ -11,8 +11,8 @@ import six
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
-from .timezone_parser import pop_tz_offset_from_string, convert_to_local_tz
-from .utils import strip_braces
+from .timezone_parser import pop_tz_offset_from_string
+from .utils import strip_braces, apply_timezone
 from .conf import apply_settings
 
 
@@ -180,7 +180,9 @@ class DateParser(object):
         date_obj, period = dateutil_parse(date_string, settings=settings)
 
         if tz_offset is not None:
-            date_obj = convert_to_local_tz(date_obj, tz_offset)
+            date_obj -= tz_offset  # convert date to UTC if timezone detected
+
+        date_obj = apply_timezone(date_obj, settings.TIMEZONE)
 
         return date_obj, period
 

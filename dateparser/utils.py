@@ -109,6 +109,9 @@ def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
 
 
 def apply_timezone(datetime, tz_string):
+    if 'UTC' in tz_string:
+        return datetime
+
     new_datetime = apply_dateparser_timezone(datetime, tz_string)
 
     if not new_datetime:
