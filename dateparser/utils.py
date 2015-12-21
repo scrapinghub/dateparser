@@ -92,14 +92,14 @@ def find_date_separator(format):
         return m.group(1)
 
 
-def apply_tzdatabase_timezone(datetime, pytz_string):
-    datetime = UTC.localize(datetime)
+def apply_tzdatabase_timezone(date_time, pytz_string):
+    date_time = UTC.localize(date_time)
     usr_timezone = timezone(pytz_string)
 
-    if datetime.tzinfo != usr_timezone:
-        datetime = datetime.astimezone(usr_timezone)
+    if date_time.tzinfo != usr_timezone:
+        date_time = date_time.astimezone(usr_timezone)
 
-    return datetime.replace(tzinfo=None)
+    return date_time.replace(tzinfo=None)
 
 
 def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
@@ -130,19 +130,10 @@ def registry(cls):
             registry_dict = getattr(cls, "__registry_dict")
 
             if key not in registry_dict:
-                registry_dict[key] = creator(cls, *args, **kwargs)
+                registry_dict[key] = creator(cls, *args)
                 setattr(registry_dict[key], 'registry_key', key)
             return registry_dict[key]
         return staticmethod(constructor)
-
-    def self_destruct(initializer):
-        def destructor(self, *args, **kwargs):
-            if getattr(self, "__initialized", False):
-                return
-            else:
-                initializer(self, *args, **kwargs)
-                setattr(self, "__initialized", True)
-        return destructor
 
     if not (hasattr(cls, "get_key")
             and isinstance(cls.get_key, types.MethodType)
@@ -150,5 +141,4 @@ def registry(cls):
         raise NotImplementedError("Registry classes require to implement class method get_key")
 
     setattr(cls, '__new__', choose(cls.__new__))
-    setattr(cls, '__init__', self_destruct(cls.__init__.__func__))
     return cls

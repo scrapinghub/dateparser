@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import hashlib
 from pkgutil import get_data
-from itertools import chain
 from functools import wraps
 import six
 
@@ -18,26 +17,24 @@ class Settings(object):
     - `SUPPORT_BEFORE_COMMON_ERA`: defaults to `False`.
     - `PREFER_DAY_OF_MONTH`: defaults to `current`. Could be `first` and `last` day of month.
     - `SKIP_TOKENS`: defaults to `['t']`. Can be any string.
-    - `TIMEZONE`: defaults to `UTC`. Can be any :mod:`pytz` timezone string (US/Eastern),
-                  UTC offset (-05:00) or timezone abbreviation (EST).
     """
 
     _default = True
     _yaml_data = None
 
-    def __init__(self, **kwargs):
-        self._updateall(
-            chain(self._get_settings_from_yaml().items(),
-                  kwargs.items())
-        )
+    def __init__(self, settings=None):
+        if settings:
+            self._updateall(settings.items())
+        else:
+            self._updateall(self._get_settings_from_yaml().items())
 
     @classmethod
-    def get_key(cls, *args, **kwargs):
-        if not args and not kwargs:
+    def get_key(cls, settings=None):
+        if not settings:
             return 'default'
 
-        keys = sorted(['%s-%s' % (key, str(kwargs[key])) for key in kwargs])
-        return hashlib.md5(''.join(keys)).hexdigest()
+        keys = sorted(['%s-%s' % (key, str(settings[key])) for key in settings])
+        return hashlib.md5(''.join(keys).encode('utf-8')).hexdigest()
 
     @classmethod
     def _get_settings_from_yaml(cls):
@@ -56,7 +53,7 @@ class Settings(object):
 
         kwds['_default'] = False
 
-        return self.__class__(**kwds)
+        return self.__class__(settings=kwds)
 
 
 settings = Settings()
