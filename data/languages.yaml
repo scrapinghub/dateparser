@@ -100,6 +100,7 @@ en:
     simplifications:
         - day before yesterday: 2 days
         - yesterday: 1 day
+        - tomorrow: in 1 day
         - today: 0 days
         - last (week|month|year): 1 \1
         - an: 1
