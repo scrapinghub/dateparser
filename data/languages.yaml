@@ -94,6 +94,8 @@ en:
 
     ago:
         - ago
+    in:
+        - in
 
     simplifications:
         - day before yesterday: 2 days
@@ -192,6 +194,8 @@ de:
 
     ago:
         - vor
+    in:
+        - in
 
     simplifications:
         - vorgestern: 2 Tage
@@ -288,6 +292,9 @@ fr:
     ago:
         - il ya
         - il y a
+    in:
+        - dans
+        - en
 
     simplifications:
         - avant-hier: 2 jour
@@ -1590,6 +1597,8 @@ pl:
 
     ago:
         - temu
+    in:
+        - za
 
     simplifications:
         - dziś: 0 dnia

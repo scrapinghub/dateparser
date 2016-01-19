@@ -7,7 +7,7 @@ from dateparser.utils import get_logger
 class LanguageValidator(object):
     logger = None
 
-    VALID_KEYS = ['name', 'skip', 'pertain', 'simplifications', 'no_word_spacing', 'ago',
+    VALID_KEYS = ['name', 'skip', 'pertain', 'simplifications', 'no_word_spacing', 'ago', 'in',
                   'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                   'january', 'february', 'march', 'april', 'may', 'june', 'july',
                   'august', 'september', 'october', 'november', 'december',
