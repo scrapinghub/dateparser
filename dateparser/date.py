@@ -181,7 +181,7 @@ class _DateLanguageParser(object):
         }
 
     def _try_freshness_parser(self):
-        return freshness_date_parser.get_date_data(self._get_translated_date())
+        return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings)
 
     def _try_dateutil_parser(self):
         try:

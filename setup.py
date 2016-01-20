@@ -24,7 +24,8 @@ setup(
         'python-dateutil >= 2.3',
         'PyYAML',
         'jdatetime',
-        'umalqurra'
+        'umalqurra',
+        'pytz',
     ],
     license="BSD",
     zip_safe=False,

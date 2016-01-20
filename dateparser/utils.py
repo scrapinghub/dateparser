@@ -5,6 +5,9 @@ import logging.config
 import types
 
 from dateutil.parser import parser
+from pytz import UTC, timezone
+
+from dateparser.timezone_parser import _tz_offsets
 
 
 GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
@@ -19,7 +22,7 @@ def is_dateutil_result_obj_parsed(date_string):
     res = parser()._parse(date_string)
     if not res:
         return False
-    
+
     def get_value(obj, key):
         value = getattr(obj, key)
         return str(value) if value is not None else ''
@@ -89,6 +92,34 @@ def find_date_separator(format):
         return m.group(1)
 
 
+def apply_tzdatabase_timezone(date_time, pytz_string):
+    date_time = UTC.localize(date_time)
+    usr_timezone = timezone(pytz_string)
+
+    if date_time.tzinfo != usr_timezone:
+        date_time = date_time.astimezone(usr_timezone)
+
+    return date_time.replace(tzinfo=None)
+
+
+def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
+    for _, info in _tz_offsets:
+        if info['regex'].search(' %s' % offset_or_timezone_abb):
+            return utc_datetime + info['offset']
+
+
+def apply_timezone(datetime, tz_string):
+    if 'UTC' in tz_string:
+        return datetime
+
+    new_datetime = apply_dateparser_timezone(datetime, tz_string)
+
+    if not new_datetime:
+        new_datetime = apply_tzdatabase_timezone(datetime, tz_string)
+
+    return new_datetime
+
+
 def registry(cls):
     def choose(creator):
         def constructor(cls, *args, **kwargs):
@@ -99,19 +130,10 @@ def registry(cls):
             registry_dict = getattr(cls, "__registry_dict")
 
             if key not in registry_dict:
-                registry_dict[key] = creator(cls, *args, **kwargs)
+                registry_dict[key] = creator(cls, *args)
                 setattr(registry_dict[key], 'registry_key', key)
             return registry_dict[key]
         return staticmethod(constructor)
-
-    def self_destruct(initializer):
-        def destructor(self, *args, **kwargs):
-            if getattr(self, "__initialized", False):
-                return
-            else:
-                initializer(self, *args, **kwargs)
-                setattr(self, "__initialized", True)
-        return destructor
 
     if not (hasattr(cls, "get_key")
             and isinstance(cls.get_key, types.MethodType)
@@ -119,5 +141,4 @@ def registry(cls):
         raise NotImplementedError("Registry classes require to implement class method get_key")
 
     setattr(cls, '__new__', choose(cls.__new__))
-    setattr(cls, '__init__', self_destruct(cls.__init__.__func__))
     return cls
