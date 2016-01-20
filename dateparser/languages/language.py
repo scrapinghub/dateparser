@@ -51,7 +51,7 @@ class Language(object):
         for i, word in enumerate(words):
             word = word.lower()
             if word in dictionary:
-                words[i] = dictionary[word] or ''
+                    words[i] = dictionary[word]
 
         return self._join(
             list(filter(bool, words)), separator="" if keep_formatting else " ", settings=settings)
@@ -116,7 +116,8 @@ class Language(object):
                 joined += separator
             joined += right
 
-        return joined
+        joined = re.sub(r'\s+', ' ', joined)
+        return re.sub(r'\s,', ',', joined)
 
     def _get_dictionary(self, settings=None):
         if self._dictionary is None:

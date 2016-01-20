@@ -227,6 +227,7 @@ class TestParseWithFormatsFunction(BaseTestCase):
 
     @parameterized.expand([
         param(date_string='25-03-14', date_formats=['%d-%m-%y'], expected_result=datetime(2014, 3, 25)),
+        param(date_string='12.01.2016, 23:17', date_formats=['%d.%m.%Y, %H:%M'], expected_result=datetime(2016, 1, 12, 23, 17)),
     ])
     def test_should_parse_date(self, date_string, date_formats, expected_result):
         self.when_date_is_parsed_with_formats(date_string, date_formats)

@@ -17,7 +17,7 @@ class HijriGregorianFebruaryMismatch(Exception):
 class HijriCalendar(CalendarBase):
 
     def get_date(self, date_formats=None, languages=None):
-        date_formats = date_formats or ['%d-%m-%Y %I:%M %p', '%d-%m-%Y %I:%M',
+        date_formats = date_formats or ['%d-%m-%Y, %I:%M %p', '%d-%m-%Y %I:%M',
                                         '%d-%m-%Y']
         languages = languages or ['ar']
         date_data = self._parser_get_date(self.source, date_formats, languages)

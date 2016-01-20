@@ -27,7 +27,7 @@ class TestBundledLanguages(BaseTestCase):
         # French
         param('fr', "20 Février 2012", "20 february 2012"),
         param('fr', "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
-        param('fr', "18 octobre 2012 à 19 h 21 min", "18 october 2012  19:21"),
+        param('fr', "18 octobre 2012 à 19 h 21 min", "18 october 2012 19:21"),
         # German
         param('de', "29. Juni 2007", "29. june 2007"),
         param('de', "Montag 5 Januar, 2015", "monday 5 january 2015"),
@@ -37,33 +37,33 @@ class TestBundledLanguages(BaseTestCase):
         param('it', "Giovedi Maggio 29 2013", "thursday may 29 2013"),
         param('it', "19 Luglio 2013", "19 july 2013"),
         # Portuguese
-        param('pt', "22 de dezembro de 2014 às 02:38", "22  december  2014  02:38"),
+        param('pt', "22 de dezembro de 2014 às 02:38", "22 december 2014 02:38"),
         # Russian
-        param('ru', "5 августа 2014 г. в 12:00", "5 august 2014 year  12:00"),
+        param('ru', "5 августа 2014 г. в 12:00", "5 august 2014 year 12:00"),
         # Turkish
         param('tr', "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
         # Czech
-        param('cz', "22. prosinec 2014 v 2:38", "22. december 2014  2:38"),
+        param('cz', "22. prosinec 2014 v 2:38", "22. december 2014 2:38"),
         # Dutch
-        param('nl', "maandag 22 december 2014 om 2:38", "monday 22 december 2014  2:38"),
+        param('nl', "maandag 22 december 2014 om 2:38", "monday 22 december 2014 2:38"),
         # Romanian
-        param('ro', "22 Decembrie 2014 la 02:38", "22 december 2014  02:38"),
+        param('ro', "22 Decembrie 2014 la 02:38", "22 december 2014 02:38"),
         # Polish
-        param('pl', "4 stycznia o 13:50", "4 january  13:50"),
-        param('pl', "29 listopada 2014 o 08:40", "29 november 2014  08:40"),
+        param('pl', "4 stycznia o 13:50", "4 january 13:50"),
+        param('pl', "29 listopada 2014 o 08:40", "29 november 2014 08:40"),
         # Ukrainian
-        param('uk', "30 листопада 2013 о 04:27", "30 november 2013  04:27"),
+        param('uk', "30 листопада 2013 о 04:27", "30 november 2013 04:27"),
         # Belarusian
-        param('by', "5 снежня 2015 г. у 12:00", "5 december 2015 year  12:00"),
-        param('by', "11 верасня 2015 г. у 12:11", "11 september 2015 year  12:11"),
-        param('by', "3 стд 2015 г. у 10:33", "3 january 2015 year  10:33"),
+        param('by', "5 снежня 2015 г. у 12:00", "5 december 2015 year 12:00"),
+        param('by', "11 верасня 2015 г. у 12:11", "11 september 2015 year 12:11"),
+        param('by', "3 стд 2015 г. у 10:33", "3 january 2015 year 10:33"),
         # Arabic
         param('ar', "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
         param('ar', "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
         # Vietnamese
-        param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8  january  2015"),
-        param('vi', "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015  22:34"),
-        param('vi', "9 Tháng 1 2015 lúc 15:08", "9  january  2015  15:08"),
+        param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
+        param('vi', "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015 22:34"),
+        param('vi', "9 Tháng 1 2015 lúc 15:08", "9 january 2015 15:08"),
         # Thai
         param('th', "เมื่อ กุมภาพันธ์ 09, 2015, 09:27:57 AM", "february 09 2015 09:27:57 am"),
         param('th', "เมื่อ กรกฎาคม 05, 2012, 01:18:06 AM", "july 05 2012 01:18:06 am"),
@@ -79,7 +79,7 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
         param('en', "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
         param('en', "28 Oct 2014 16:39:01 +0000", "28 october 2014 16:39:01 +0000"),
-        param('es', "13 Febrero 2015 a las 23:00", "13 february 2015  23:00")
+        param('es', "13 Febrero 2015 a las 23:00", "13 february 2015 23:00")
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -165,7 +165,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ar', "اليوم", "0 day"),
         # Polish
         param('pl', "2 godz.", "2 hour"),
-        param('pl', "Wczoraj o 07:40", "1 day  07:40"),
+        param('pl', "Wczoraj o 07:40", "1 day 07:40"),
         param('pl', "Poniedziałek 8:10 pm", "monday 8:10 pm"),
         # Vietnamese
         param('vi', "2 tuần 3 ngày", "2 week 3 day"),
@@ -196,10 +196,10 @@ class TestBundledLanguages(BaseTestCase):
         param('id', "hari ini", "0 day"),
         param('id', "kemarin", "1 day"),
         param('id', "kemarin lusa", "2 day"),
-        param('id', "sehari yang lalu", "1 day  ago"),
-        param('id', "seminggu yang lalu", "1 week  ago"),
-        param('id', "sebulan yang lalu", "1 month  ago"),
-        param('id', "setahun yang lalu", "1 year  ago"),
+        param('id', "sehari yang lalu", "1 day ago"),
+        param('id', "seminggu yang lalu", "1 week ago"),
+        param('id', "sebulan yang lalu", "1 month ago"),
+        param('id', "setahun yang lalu", "1 year ago"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -223,7 +223,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ar', "8 يناير، 2015، الساعة 10:01 صباحاً", ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01', ' صباحاً']),
         param('th', "8 มกราคม 2015 เวลา 12:22 น.", ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
         param('pl', "8 stycznia 2015 o 10:19", ['8', ' ', 'stycznia', ' ', '2015', ' ', 'o', ' ', '10', ':', '19']),
-        param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", ["Thứ Năm", " ", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
+        param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", ["Thứ Năm", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
         param('ph', "Biyernes Hulyo 3 2015", ["Biyernes", " ", "Hulyo", " ", "3", " ", "2015"]),
         param('by', "3 верасня 2015 г. у 11:10", ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
         param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
