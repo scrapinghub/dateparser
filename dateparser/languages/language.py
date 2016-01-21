@@ -51,7 +51,7 @@ class Language(object):
         for i, word in enumerate(words):
             word = word.lower()
             if word in dictionary:
-                    words[i] = dictionary[word]
+                words[i] = dictionary[word] or ''
 
         return self._join(
             list(filter(bool, words)), separator="" if keep_formatting else " ", settings=settings)
