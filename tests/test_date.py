@@ -14,6 +14,7 @@ import six
 import dateparser
 from dateparser import date
 from dateparser.date import get_last_day_of_month
+from dateparser.date import _DateLanguageParser, DateDataParser, parse_with_formats
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.loader import default_language_loader
 
@@ -228,6 +229,8 @@ class TestParseWithFormatsFunction(BaseTestCase):
     @parameterized.expand([
         param(date_string='25-03-14', date_formats=['%d-%m-%y'], expected_result=datetime(2014, 3, 25)),
         param(date_string='12.01.2016, 23:17', date_formats=['%d.%m.%Y, %H:%M'], expected_result=datetime(2016, 1, 12, 23, 17)),
+        param(date_string=u'Чт 16-1-2', date_formats=['%A %y-%m-%d'], expected_result=datetime(2016, 1, 2)),
+        param(date_string=u'пятница, 10-11-12', date_formats=['%A, %d-%y-%m'], expected_result=datetime(2011, 12, 10)),
     ])
     def test_should_parse_date(self, date_string, date_formats, expected_result):
         self.when_date_is_parsed_with_formats(date_string, date_formats)
@@ -271,7 +274,14 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.add_patch(patch('dateparser.date.datetime', new=datetime_mock))
 
     def when_date_is_parsed_with_formats(self, date_string, date_formats):
-        self.result = date.parse_with_formats(date_string, date_formats)
+        ddp = DateDataParser()
+        for language in ddp.language_detector.iterate_applicable_languages(
+                date_string, modify=True, settings=ddp._settings):
+            translated_date = _DateLanguageParser(language, date_string, date_formats, settings=ddp._settings)._get_translated_date_with_formatting()
+            print translated_date
+            self.result = parse_with_formats(translated_date, date_formats)
+            if self.result:
+                break
 
     def then_date_was_not_parsed(self):
         self.assertIsNotNone(self.result)
