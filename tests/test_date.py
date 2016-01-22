@@ -278,7 +278,6 @@ class TestParseWithFormatsFunction(BaseTestCase):
         for language in ddp.language_detector.iterate_applicable_languages(
                 date_string, modify=True, settings=ddp._settings):
             translated_date = _DateLanguageParser(language, date_string, date_formats, settings=ddp._settings)._get_translated_date_with_formatting()
-            print translated_date
             self.result = parse_with_formats(translated_date, date_formats)
             if self.result:
                 break
