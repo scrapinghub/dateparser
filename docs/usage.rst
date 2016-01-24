@@ -1,82 +1,70 @@
-========
-Usage
-========
+Using DateDataParser
+--------------------
 
-The most common way is to use the ``dateparser.date.DateDataParser`` class,
-that wraps around most of the functionality in the module.
+:func:`dateparser.parse` uses a default parser which tries to detect language
+every time it is called and is not the most efficient way while parsing dates
+from the same source.
 
-Here is a quick example of usage::
+:class:`dateparser.date.DateDataParser` provides an alternate and efficient way
+to control language detection behavior.
+
+The instance of :class:`dateparser.date.DateDataParser` reduces the number
+of applicable languages, until only one or no language is left. It 
+assumes the previously detected language for all the next dates and does not try
+to execute the language detection again after a language is discarded.
+
+This class wraps around the core :mod:`dateparser` functionality, and by default
+assumes that all of the dates fed to it are in the same language.
+
+.. autoclass:: dateparser.date.DateDataParser
+   :members: get_date_data
+
+Once initialized, :func:`dateparser.date.DateDataParser.get_date_data` parses date strings::
 
     >>> from dateparser.date import DateDataParser
     >>> ddp = DateDataParser()
-    >>> ddp.get_date_data('1 min ago')
-    {'date_obj': datetime.datetime(2014, 8, 20, 21, 1, 42, 590596), 'period': u'day'}
-    >>> ddp.get_date_data('1 week ago')
-    {'date_obj': datetime.datetime(2014, 8, 13, 21, 2, 42, 590596), 'period': u'weeks'}
-    >>> ddp.get_date_data('1 year ago')
-    {'date_obj': datetime.datetime(2013, 8, 20, 21, 2, 42, 590596), 'period': u'years'}
-    >>> ddp.get_date_data('12/12/12')
-    {'date_obj': datetime.datetime(2012, 12, 12, 0, 0), 'period': 'day'}
-    >>> ddp.get_date_data('13 August, 2014')
-    {'date_obj': datetime.datetime(2014, 8, 13, 0, 0), 'period': 'day'}
+    >>> ddp.get_date_data(u'Martes 21 de Octubre de 2014')  # Spanish
+    {'date_obj': datetime.datetime(2014, 10, 21, 0, 0), 'period': u'day'}
+    >>> ddp.get_date_data(u'13 Septiembre, 2014')  # Spanish
+    {'date_obj': datetime.datetime(2014, 9, 13, 0, 0), 'period': u'day'}
+
+.. warning:: It fails to parse *English* dates in the example below, because *Spanish* was detected and stored with the ``ddp`` instance:
+
+    >>> ddp.get_date_data('11 August 2012')
+    {'date_obj': None, 'period': 'day'}
 
 
-Note about language detection
------------------------------
+:class:`dateparser.date.DateDataParser` can also be initialized with known languages::
 
-As it is now, an instance of DateDataParser by default assumes that
-all of the dates fed to it will be in the same language.
+    >>> ddp = DateDataParser(languages=['de', 'nl'])
+    >>> ddp.get_date_data(u'vr jan 24, 2014 12:49')
+    {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': u'day'}
+    >>> ddp.get_date_data(u'18.10.14 um 22:56 Uhr')
+    {'date_obj': datetime.datetime(2014, 10, 18, 22, 56), 'period': u'day'}
 
-So, it will keep trying to detect the possible languages until it reduces it
-to only one possibility. When it does, it will just assume that for the next
-dates and won't try to execute the language detection again::
+:mod:`dateparser`'s parsing behavior can be configured like below::
 
+*``PREFER_DAY_OF_MONTH``* defaults to ``current`` and can have ``first`` and ``last`` as values::
 
-    >>> ddp = DateDataParser()
-    >>> ddp.get_date_data('1 minuto atrás')
-    {'date_obj': datetime.datetime(2014, 8, 20, 21, 1, 42, 590596), 'period': u'day'}
-    >>> ddp.get_date_data('13 Agosto 2014')
-    {'date_obj': datetime.datetime(2014, 8, 13, 0, 0), 'period': 'day'}
-    >>> ddp.get_date_data('13 Marzo 2014')
-    {'date_obj': datetime.datetime(2014, 3, 13, 0, 0), 'period': 'day'}
-    >>> ddp.get_date_data('13 Maio 2014')
-    Traceback (most recent call last):
-    ...
-    dateparser.date_parser.LanguageWasNotSeenBeforeError
+    >>> from dateparser import parse
+    >>> parse(u'December 2015')  # default behavior
+    datetime.datetime(2015, 12, 16, 0, 0)
+    >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'last'})
+    datetime.datetime(2015, 12, 31, 0, 0)
+    >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
+    datetime.datetime(2015, 12, 1, 0, 0)
 
+*``PREFER_DATES_FROM``* defaults to ``current_period`` and can have ``past`` and ``future`` as values.
+Assuming current date is June 16, 2015::
 
-If you want it to redetect the language every time, you can use a custom date_parser, like so::
+    >>> from dateparser import parse
+    >>> parse(u'March')
+    datetime.datetime(2015, 3, 16, 0, 0)
+    >>> parse(u'March', settings={'PREFER_DATES_FROM': 'future'})
+    datetime.datetime(2016, 3, 16, 0, 0)
 
+*``SKIP_TOKENS``* is a ``list`` of tokens to discard while detecting language. Defaults to ``['t']`` which skips T in iso format datetime string.e.g. ``2015-05-02T10:20:19+0000``.::
 
-    >>> ddp = DateDataParser()
-    >>> from dateparser.date_parser import DateParser
-    >>> ddp.date_parser = DateParser(allow_redetect_language=True)
-    >>> ddp.get_date_data('1 minuto atrás')
-    {'date_obj': datetime.datetime(2014, 8, 20, 21, 1, 42, 590596), 'period': u'day'}
-    >>> ddp.get_date_data('13 Agosto 2014')
-    {'date_obj': datetime.datetime(2014, 8, 13, 0, 0), 'period': 'day'}
-    >>> ddp.get_date_data('13 Marzo 2014')
-    {'date_obj': datetime.datetime(2014, 3, 13, 0, 0), 'period': 'day'}
-    >>> ddp.get_date_data('13 Maio 2014')
-    {'date_obj': datetime.datetime(2014, 5, 13, 0, 0), 'period': 'day'}
-
-
-How to use in a Scrapy Cloud project
-------------------------------------
-
-To use in `Scrapy Cloud <http://scrapinghub.com/scrapy-cloud>`_, first you need to build an egg for the library.
-
-Clone the repo and inside its directory, run the command::
-
-    python setup.py bdist_egg
-
-After that, you can upload the egg using
-`Scrapy Cloud's Dashboard interface <http://dash.scrapinghub.com>`_,
-or you can use shubc_ command and do::
-
-    shubc eggs-add <YOUR_PROJECT_ID> dist/dateparser-0.1-py2.7.egg
-
-
-.. _shubc: https://github.com/scrapinghub/shubc
-
-
+    >>> from dateparser.date import DateDataParser
+    >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
+    {'date_obj': datetime.datetime(1981, 6, 27, 0, 0), 'period': 'day'}

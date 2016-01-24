@@ -3,15 +3,29 @@ import calendar
 import collections
 import re
 from datetime import datetime, timedelta
-from types import NoneType
 from warnings import warn
+import six
 
 from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
-from dateparser.languages import LanguageDataLoader
+from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.conf import apply_settings
+
+
+APOSTROPHE_LOOK_ALIKE_CHARS = [
+    u'\N{RIGHT SINGLE QUOTATION MARK}',     # u'\u2019'
+    u'\N{MODIFIER LETTER APOSTROPHE}',      # u'\u02bc'
+    u'\N{MODIFIER LETTER TURNED COMMA}',    # u'\u02bb'
+    u'\N{ARMENIAN APOSTROPHE}',             # u'\u055a'
+    u'\N{LATIN SMALL LETTER SALTILLO}',     # u'\ua78c'
+    u'\N{PRIME}',                           # u'\u2032'
+    u'\N{REVERSED PRIME}',                  # u'\u2035'
+    u'\N{MODIFIER LETTER PRIME}',           # u'\u02b9'
+    u'\N{FULLWIDTH APOSTROPHE}',            # u'\uff07'
+]
 
 
 def sanitize_spaces(html_string):
@@ -22,13 +36,13 @@ def sanitize_spaces(html_string):
 
 
 def date_range(begin, end, **kwargs):
-    step = relativedelta(**kwargs) if kwargs else relativedelta(days=1)
-
     dateutil_error_prone_args = ['year', 'month', 'week', 'day', 'hour',
                                  'minute', 'second']
     for arg in dateutil_error_prone_args:
         if arg in kwargs:
             raise ValueError("Invalid argument: %s" % arg)
+
+    step = relativedelta(**kwargs) if kwargs else relativedelta(days=1)
 
     date = begin
     while date < end:
@@ -81,6 +95,8 @@ def sanitize_date(date_string):
     date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
     date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
 
+    date_string = re.sub(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS), u"'", date_string)
+
     return date_string
 
 
@@ -99,10 +115,6 @@ def parse_with_formats(date_string, date_formats):
     :returns: :class:`datetime.datetime`, dict or None
 
     """
-    # Encode to support locale setting in spiders
-    if isinstance(date_string, unicode):
-        date_string = date_string.encode('utf-8')
-
     period = 'day'
     for date_format in date_formats:
         try:
@@ -129,11 +141,12 @@ def parse_with_formats(date_string, date_formats):
 class _DateLanguageParser(object):
     DATE_FORMATS_ERROR_MESSAGE = "Date formats should be list, tuple or set of strings"
 
-    def __init__(self, language, date_string, date_formats):
-        if isinstance(date_formats, basestring):
+    def __init__(self, language, date_string, date_formats, settings=None):
+        self._settings = settings
+        if isinstance(date_formats, six.string_types):
             warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
             date_formats = [date_formats]
-        elif not isinstance(date_formats, (list, tuple, collections.Set, NoneType)):
+        elif not (date_formats is None or isinstance(date_formats, (list, tuple, collections.Set))):
             raise TypeError(self.DATE_FORMATS_ERROR_MESSAGE)
 
         self.language = language
@@ -143,8 +156,8 @@ class _DateLanguageParser(object):
         self._translated_date_with_formatting = None
 
     @classmethod
-    def parse(cls, language, date_string, date_formats=None):
-        instance = cls(language, date_string, date_formats)
+    def parse(cls, language, date_string, date_formats=None, settings=None):
+        instance = cls(language, date_string, date_formats, settings)
         return instance._parse()
 
     def _parse(self):
@@ -168,14 +181,15 @@ class _DateLanguageParser(object):
         }
 
     def _try_freshness_parser(self):
-        return freshness_date_parser.get_date_data(self._get_translated_date())
+        return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings)
 
     def _try_dateutil_parser(self):
         try:
-            date_obj = date_parser.parse(self._get_translated_date())
+            date_obj, period = date_parser.parse(
+                self._get_translated_date(), settings=self._settings)
             return {
                 'date_obj': date_obj,
-                'period': 'day',
+                'period': period,
             }
         except ValueError:
             return None
@@ -201,13 +215,14 @@ class _DateLanguageParser(object):
 
     def _get_translated_date(self):
         if self._translated_date is None:
-            self._translated_date = self.language.translate(self.date_string, keep_formatting=False)
+            self._translated_date = self.language.translate(
+                self.date_string, keep_formatting=False, settings=self._settings)
         return self._translated_date
 
     def _get_translated_date_with_formatting(self):
         if self._translated_date_with_formatting is None:
             self._translated_date_with_formatting = self.language.translate(
-                self.date_string, keep_formatting=True)
+                self.date_string, keep_formatting=True, settings=self._settings)
         return self._translated_date_with_formatting
 
     def _is_valid_date_obj(self, date_obj):
@@ -226,53 +241,111 @@ class _DateLanguageParser(object):
 
 
 class DateDataParser(object):
+    """
+    Class which handles language detection, translation and subsequent generic parsing of
+    string representing date and/or time.
 
-    def __init__(self, languages=None, allow_redetect_language=False):
+    :param languages:
+            A list of two letters language codes, e.g. ['en', 'es'].
+            If languages are given, it will not attempt to detect the language.
+    :type languages: list
+
+    :param allow_redetect_language:
+            Enables/disables language re-detection.
+    :type allow_redetect_language: bool
+
+    :param settings:
+           Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+    :type settings: dict
+
+    :return: A parser instance
+
+    :raises:
+            ValueError - Unknown Language, TypeError - Languages argument must be a list
+    """
+    language_loader = None
+
+    @apply_settings
+    def __init__(self, languages=None, allow_redetect_language=False, settings=None):
+        self._settings = settings
+        available_language_map = self._get_language_loader().get_language_map()
+
         if isinstance(languages, (list, tuple, collections.Set)):
-            available_language_map = default_language_loader.get_language_map()
 
             if all([language in available_language_map for language in languages]):
                 languages = [available_language_map[language] for language in languages]
             else:
                 unsupported_languages = set(languages) - set(available_language_map.keys())
-                raise ValueError("Unknown language(s) %r" % ', '.join(unsupported_languages))
+                raise ValueError(
+                    "Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
         elif languages is not None:
-            raise TypeError("languages argument must be a list (%r given)"  % type(languages))
+            raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
         if allow_redetect_language:
-            self.language_detector = AutoDetectLanguage(languages=languages if languages else None,
-                                                        allow_redetection=True)
+            self.language_detector = AutoDetectLanguage(
+                languages if languages else list(available_language_map.values()),
+                allow_redetection=True)
         elif languages:
             self.language_detector = ExactLanguages(languages=languages)
         else:
-            self.language_detector = AutoDetectLanguage(languages=None, allow_redetection=False)
+            self.language_detector = AutoDetectLanguage(
+                list(available_language_map.values()), allow_redetection=False)
 
     def get_date_data(self, date_string, date_formats=None):
-        """ Return a dictionary with a date object and a period.
-        Period values can be a 'day' (default), 'week', 'month', 'year'.
-        It aims to solve the following issue:
-        In example, a forum could displays "2 weeks ago" in the thread list
-        (in the thread itself there's the right date) so the engine
-        will translate "2 weeks ago" to a certain date.
-        The next thread summary displays "3 weeks ago" which is translated
-        to a other date seven days before first date.
-        A valid date_string between both dates won't be scraped because
-        it's not an exact date match. The period field helps to build
-        better date range detection.
+        """
+        Parse string representing date and/or time in recognizable localized formats.
+        Supports parsing multiple languages and timezones.
 
-        TODO: Timezone issues
+        :param date_string:
+            A string representing date and/or time in a recognizably valid format.
+        :type date_string: str|unicode
+        :param date_formats:
+            A list of format strings using directives as given
+            `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
+            The parser applies formats one by one, taking into account the detected languages.
+        :type date_formats: list
+
+        :return: a dict mapping keys to :mod:`datetime.datetime` object and *period*. For example:
+            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': u'day'}
+
+        :raises: ValueError - Unknown Language
+
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year'.
+
+        *Period* represents the granularity of date parsed from the given string.
+
+        In the example below, since no day information is present, the day is assumed to be current
+        day ``16`` from *current date* (which is June 16, 2015, at the moment of writing this).
+        Hence, the level of precision is ``month``.
+
+            >>> DateDataParser().get_date_data(u'March 2015')
+            {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': u'month'}
+
+        Similarly, for date strings with no day and month information present, level of precision
+        is ``year`` and day ``16`` and month ``6`` are from *current_date*.
+
+            >>> DateDataParser().get_date_data(u'2014')
+            {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
+
+        Dates with time zone indications or UTC offsets are returned in UTC time.
+            >>> DateDataParser().get_date_data(u'23 March 2000, 1:21 PM CET')
+            {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
         date_string = date_string.strip()
         date_string = sanitize_date(date_string)
 
         for language in self.language_detector.iterate_applicable_languages(
-                date_string, modify=True):
-            parsed_date = _DateLanguageParser.parse(language, date_string, date_formats)
+                date_string, modify=True, settings=self._settings):
+            parsed_date = _DateLanguageParser.parse(
+                language, date_string, date_formats, settings=self._settings)
             if parsed_date:
                 return parsed_date
         else:
             return {'date_obj': None, 'period': 'day'}
 
-
-default_language_loader = LanguageDataLoader()
+    @classmethod
+    def _get_language_loader(cls):
+        if not cls.language_loader:
+            cls.language_loader = LanguageDataLoader()
+        return cls.language_loader

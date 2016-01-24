@@ -4,6 +4,24 @@ language: python
 
 python:
   - "2.7"
-
+  - "3.3"
+  - "3.4"
+  - "pypy"
+env:
+- TOXENV=py27
+install:
+- pip install -U wheel
+- pip install -U tox
 # command to run tests, e.g. python setup.py test
-script: python setup.py test
+script: tox
+
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: scrapinghub
+  password:
+    secure: "Vs2Z69YTFzQWVkos7IvP4xk0RAQ35dzVXP+EAmzMkqi9qToTa7jdeF8deY18r3l8093jaJ/ct6NzjNiZ6ryWl1yKBwYoW+jaXjKGVXMFSQdqXiDreu516rqrOiRfZVHy+G9TabjhVrIW2npkxuOP7d0HONOZnNtCn6QrxQwEBzw="
+  on:
+    tags: true
+    repo: scrapinghub/dateparser
+    condition: "$TOXENV == py27"
