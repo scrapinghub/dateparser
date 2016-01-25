@@ -31,7 +31,7 @@ Features
 * Generic parsing of dates in English, Spanish, Dutch, Russian and several other languages and formats.
 * Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
 * Generic parsing of dates with time zones abbreviations or UTC offsets like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``, ``'21 July 2013 10:15 pm +0500'``.
-* Support for non-Gregorian calendar systems with the first addition of :class:`JalaliParser <dateparser.calendars.jalali.JalaliParser>`. See `Persian Jalali Calendar <https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>`_ for more information.
+* Support for non-Gregorian calendar systems. See `Supported Calendars`_. 
 * Extensive test coverage.
 
 
@@ -99,13 +99,17 @@ Relative Dates
 Dependencies
 ============
 
-`dateparser` translates non-English dates to English and uses dateutil_ module ``parser`` to parse the translated date.
+`dateparser` relies on following libraries in some ways:
 
-Also, it requires PyYAML_ for its language detection module to work. The module jdatetime_ is used for handling Jalali calendar.
+  * dateutil_'s module ``parser`` to parse the translated dates.
+  * PyYAML_ for reading language and configuration files.
+  * jdatetime_ to convert *Jalali* dates to *Gregorian*.
+  * umalqurra_ to convert *Hijri* dates to *Gregorian*.
 
 .. _dateutil: https://pypi.python.org/pypi/python-dateutil
 .. _PyYAML: https://pypi.python.org/pypi/PyYAML
 .. _jdatetime: https://pypi.python.org/pypi/jdatetime
+.. _umalqurra: https://pypi.python.org/pypi/umalqurra/
 
 
 Supported languages
@@ -133,15 +137,21 @@ Supported languages
 * Ukrainian
 * Vietnamese
 
+
 Supported Calendars
 ===================
-* Gregorian calendar
+* Gregorian calendar.
 
-* Persian Jalali calendar
+* Persian Jalali calendar. For more information, refer to `Persian Jalali Calendar <https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>`_.
 
-Example of Use for Jalali Calendar
-==================================
+* Hijri/Islamic Calendar. For more information, refer to `Hijri Calendar <https://en.wikipedia.org/wiki/Islamic_calendar>`_.
 
 	>>> from dateparser.calendars.jalali import JalaliParser
 	>>> JalaliParser(u'جمعه سی ام اسفند ۱۳۸۷').get_date()
 	datetime.datetime(2009, 3, 20, 0, 0)
+
+        >>> from dateparser.calendars.hijri import HijriCalendar
+        >>> HijriCalendar(u'17-01-1437 هـ 08:30 مساءً').get_date()
+        {'date_obj': datetime.datetime(2015, 10, 30, 20, 30), 'period': 'day'}
+
+.. note:: `HijriCalendar` has some limitations with Python 3.

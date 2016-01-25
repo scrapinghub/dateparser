@@ -16,7 +16,7 @@ Improvements:
 * Fixed problem with caching :func:`datetime.now` in :class:`FreshnessDateDataParser`.
 * Added month names and week day names abbreviations to several languages.
 * More simplifications for Russian and Ukranian languages.
-* Fixed problem with parsing time component of date strings having punctuation symbols look alike.
+* Fixed problem with parsing time component of date strings with several kinds of apostrophes.
 
 
 0.3.1 (2015-10-28)

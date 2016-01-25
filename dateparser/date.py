@@ -316,7 +316,7 @@ class DateDataParser(object):
 
         In the example below, since no day information is present, the day is assumed to be current
         day ``16`` from *current date* (which is June 16, 2015, at the moment of writing this).
-        Hence, the level of precision is ``month``.
+        Hence, the level of precision is ``month``:
 
             >>> DateDataParser().get_date_data(u'March 2015')
             {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': u'month'}
@@ -328,6 +328,7 @@ class DateDataParser(object):
             {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
 
         Dates with time zone indications or UTC offsets are returned in UTC time.
+
             >>> DateDataParser().get_date_data(u'23 March 2000, 1:21 PM CET')
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 

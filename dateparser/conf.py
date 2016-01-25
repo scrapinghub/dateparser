@@ -13,10 +13,12 @@ from .utils import registry
 class Settings(object):
     """Control and configure default parsing behavior of dateparser.
     Currently, supported settings are:
-    - `PREFER_DATES_FROM`: defaults to `current_period`. Options are `future` or `past`.
-    - `SUPPORT_BEFORE_COMMON_ERA`: defaults to `False`.
-    - `PREFER_DAY_OF_MONTH`: defaults to `current`. Could be `first` and `last` day of month.
-    - `SKIP_TOKENS`: defaults to `['t']`. Can be any string.
+
+    * `PREFER_DATES_FROM`: defaults to `current_period`. Options are `future` or `past`.
+    * `SUPPORT_BEFORE_COMMON_ERA`: defaults to `False`.
+    * `PREFER_DAY_OF_MONTH`: defaults to `current`. Could be `first` and `last` day of month.
+    * `SKIP_TOKENS`: defaults to `['t']`. Can be any string.
+    * `TIMEZONE`: defaults to `UTC`. Can be timezone abbreviation or any of `tz database name as given here <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>`_.
     """
 
     _default = True
