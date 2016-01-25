@@ -65,13 +65,13 @@ Popular Formats
 This will try to parse a date from the given string, attempting to
 detect the language each time.
 
-You can specify the language(s), if known, using ``languages`` argument. In this case, given languages are used and language detection is skipped::
+You can specify the language(s), if known, using ``languages`` argument. In this case, given languages are used and language detection is skipped:
 
     >>> dateparser.parse('2015, Ago 15, 1:08 pm', languages=['pt', 'es'])
     datetime.datetime(2015, 8, 15, 13, 8)
 
 If you know the possible formats of the dates, you can
-use the ``date_formats`` argument::
+use the ``date_formats`` argument:
 
     >>> dateparser.parse(u'22 Décembre 2010', date_formats=['%d %B %Y'])
     datetime.datetime(2010, 12, 22, 0, 0)

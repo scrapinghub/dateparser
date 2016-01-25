@@ -4,8 +4,8 @@ from setuptools import setup, find_packages
 (__version__, ) = re.findall("__version__.*\s*=\s*[']([^']+)[']",
                              open('dateparser/__init__.py').read())
 
-readme = re.sub(r':members:.+|..\sautomodule::.+', '', open('README.rst').read())
-history = re.sub(r':mod:', '', open('HISTORY.rst').read())
+readme = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:', '', open('README.rst').read())
+history = re.sub(r':mod:|:class:|:func:', '', open('HISTORY.rst').read())
 
 
 test_requirements = open('tests/requirements.txt').read().splitlines()
