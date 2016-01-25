@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 
 from .date import DateDataParser
+from .conf import apply_settings
 
 _default_parser = DateDataParser(allow_redetect_language=True)
 
-
-def parse(date_string, date_formats=None, languages=None):
+@apply_settings
+def parse(date_string, date_formats=None, languages=None, settings=None):
     """Parse date and time from given date string.
 
     :param date_string:
@@ -22,13 +23,18 @@ def parse(date_string, date_formats=None, languages=None):
         to detect the language.
     :type languages: list
 
+    :param settings:
+           Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+    :type settings: dict
+
+
     :return: Returns a :mod:`datetime.datetime` if successful, else returns None
     :raises: ValueError - Unknown Language
     """
     parser = _default_parser
 
-    if languages:
-        parser = DateDataParser(languages=languages)
+    if any([languages, not settings._default]):
+        parser = DateDataParser(languages=languages, settings=settings)
 
     data = parser.get_date_data(date_string, date_formats)
 

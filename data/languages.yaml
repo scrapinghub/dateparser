@@ -230,8 +230,10 @@ fr:
     monday:
         - Lundi
         - Lu
+        - Lun
     tuesday:
         - Mardi
+        - Mar
     wednesday:
         - Mercredi
         - Mer
@@ -263,7 +265,6 @@ fr:
         - Fév
     march:
         - Mars
-        - Mar
     april:
         - Avril
         - Avr
@@ -616,7 +617,7 @@ pt:
         - minutos
         - min
     second:
-        - segunda
+        - segundo
         - segundos
 
     ago:
@@ -657,32 +658,56 @@ ru:
         - Сб
     sunday:
         - Воскресение
+        - Воскресенье
         - Вс
 
     january:
+        - Январь
         - Января
+        - Янв
     february:
+        - Февраль
         - Февраля
+        - Фев
     march:
+        - Март
         - Марта
+        - Мар
     april:
+        - Апрель
         - Апреля
+        - Апр
     may:
+        - Май
         - Мая
     june:
+        - Июнь
         - Июня
+        - Июн
     july:
+        - Июль
         - Июля
+        - Июл
     august:
+        - Август
         - Августа
+        - Авг
     september:
+        - Сентябрь
         - Сентября
+        - Сен
     october:
+        - Октябрь
         - Октября
+        - Окт
     november:
+        - Ноябрь
         - Ноября
+        - Ноя
     december:
+        - Декабрь
         - Декабря
+        - Дек
 
     year:
         - год
@@ -721,6 +746,7 @@ ru:
         - назад
 
     simplifications:
+        - позавчера: 2 дня
         - вчера: 1 день
         - сегодня: 0 дней
         - ч: час
@@ -839,6 +865,7 @@ uk:
         - назад
 
     simplifications:
+        - позавчора: 2 дні
         - вчора: 1 день
         - учора: 1 день
         - сьогодні: 0 днів
@@ -1297,7 +1324,7 @@ ro:
 ar:
     name: Arabic
 
-    skip: ['الساعة', 'مساءً', 'في']
+    skip: ['الساعة', 'مساءً', 'في', 'هـ']
 
     monday:
         - الإثنين
@@ -1362,6 +1389,7 @@ ar:
         - منذ
 
     simplifications:
+        - اليوم السابق: 1 يوم
         - اليوم: 0 يوم
         - الأمس : 1 يوم
         - يومين: 2 يوم
@@ -1493,7 +1521,7 @@ th:
 pl:
     name: Polish
 
-    skip: ['r.', 'roku', 'w', 'o']
+    skip: ['r.', 'roku', 'w', 'o', 'i']
 
     monday:
         - Poniedziałek
@@ -1507,6 +1535,8 @@ pl:
     wednesday:
         - Środa
         - Sroda
+        - Środę
+        - Srode
         - Śro
         - Sro
         - Śr
@@ -1524,11 +1554,15 @@ pl:
         - Pt
     saturday:
         - Sobota
+        - Sobotę
+        - Sobote
         - Sob
         - So
         - Sb
     sunday:
         - Niedziela
+        - Niedzielę
+        - Niedziele
         - Nie
         - Ni
         - Nd
@@ -1537,57 +1571,71 @@ pl:
         - Styczeń
         - Styczen
         - Stycznia
+        - Styczniu
         - Sty
     february:
         - Luty
         - Lutego
+        - Lutym
         - Lut
     march:
         - Marzec
         - Marca
+        - Marcu
         - Mar
     april:
         - Kwiecień
         - Kwiecien
         - Kwietnia
+        - Kwietniu
         - Kwi
     may:
         - Maj
         - Maja
+        - Maju
     june:
         - Czerwiec
         - Czerwca
+        - Czerwcu
         - Cze
     july:
         - Lipiec
         - Lipca
+        - Lipcu
         - Lip
     august:
         - Sierpień
         - Sierpien
         - Sierpnia
+        - Sierpniu
         - Sie
     september:
         - Wrzesień
         - Wrzesien
         - Września
         - Wrzesnia
+        - Wrześniu
+        - Wrzesniu
         - Wrz
     october:
         - Październik
         - Pazdziernik
         - Października
         - Pazdziernika
+        - Październiku
+        - Pazdzierniku
         - Paź
         - Paz
     november:
         - Listopad
         - Listopada
+        - Listopadzie
         - Lis
     december:
         - Grudzień
         - Grudzien
         - Grudnia
+        - Grudniu
         - Gru
 
     year:
@@ -1599,6 +1647,8 @@ pl:
         - miesiac
         - miesięcy
         - miesiąca
+        - miesiące
+        - miesiace
     week:
         - tydzień
         - tydzien
@@ -1609,14 +1659,29 @@ pl:
         - dzien
         - dnia
         - dniu
+        - dni
     hour:
         - godzina
+        - godzinę
+        - godzine
+        - godzin
+        - godziny
         - godz.
     minute:
         - minuta
         - min
+        - minuty
+        - minut
+        - minute
+        - minutę
     second:
-        - drugi
+        - sekunda
+        - sekundę
+        - sekunde
+        - sekundy
+        - sekund
+        - s
+        - sek.
 
     ago:
         - temu
@@ -2044,3 +2109,89 @@ by:
         - ^секунду: 1 секунду
         - некалькі секунд: 44 секунды
         - некалькі хвілін: 2 хвіліны
+
+id:
+    name: Indonesian
+
+    skip: ["tanggal", "pukul", "yang"]
+
+    monday:
+        - Senin
+    tuesday:
+        - Selasa
+    wednesday:
+        - Rabu
+    thursday:
+        - Kamis
+    friday:
+        - Jumat
+    saturday:
+        - Sabtu
+    sunday:
+        - Minggu
+        - Ahad
+
+    january:
+        - Jan
+        - Januari
+    february:
+        - Feb
+        - Februari
+    march:
+        - Mar
+        - Maret
+    april:
+        - Apr
+        - April
+    may:
+        - Mei
+    june:
+        - Jun
+        - Juni
+    july:
+        - Jul
+        - Juli
+    august:
+        - Agu
+        - Agustus
+    september:
+        - Sep
+        - Sept
+        - September
+    october:
+        - Okt
+        - Oktober
+    november:
+        - Nov
+        - November
+    december:
+        - Des
+        - Desember
+
+    year:
+        - tahun
+    month:
+        - bulan
+    week:
+        - minggu
+    day:
+        - hari
+    hour:
+        - jam
+    minute:
+        - menit
+    second:
+        - detik
+
+    ago:
+        - lalu
+
+    simplifications:
+        - kemarin lusa: 2 hari
+        - kemarin: 1 hari
+        - hari ini: 0 hari
+        - baru saja: 0 detik
+        - sehari: 1 hari
+        - seminggu: 1 minggu
+        - sebulan: 1 bulan
+        - setahun: 1 tahun

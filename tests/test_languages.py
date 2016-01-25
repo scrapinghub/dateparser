@@ -5,6 +5,8 @@ from nose_parameterized import parameterized, param
 
 from dateparser.languages import default_language_loader, Language
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.conf import settings
+
 from tests import BaseTestCase
 
 
@@ -69,6 +71,9 @@ class TestBundledLanguages(BaseTestCase):
         # Filipino
         param('ph', "Biyernes Hulyo 3, 2015", "friday july 3 2015"),
         param('ph', "Pebrero 5, 2015 7:00 pm", "february 5 2015 7:00 pm"),
+        # Indonesian
+        param('id', "06 Sep 2015", "06 september 2015"),
+        param('id', "07 Feb 2015 20:15", "07 february 2015 20:15"),
 
         # Miscellaneous
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
@@ -118,10 +123,12 @@ class TestBundledLanguages(BaseTestCase):
         param('pt', "56 minutos", "56 minute"),
         param('pt', "12 dias", "12 day"),
         param('pt', "há 14 min.", "ago 14 minute."),
+        param('pt', "1 segundo atrás", "1 second ago"),
         # Russian
         param('ru', "9 месяцев", "9 month"),
         param('ru', "8 недели", "8 week"),
         param('ru', "7 года", "7 year"),
+        param('ru', "позавчера", "2 day"),
         param('ru', "вчера", "1 day"),
         param('ru', "сегодня", "0 day"),
         param('ru', "несколько секунд", "44 second"),
@@ -154,6 +161,8 @@ class TestBundledLanguages(BaseTestCase):
         param('ar', "4 عام", "4 year"),
         param('ar', "منذ 2 ساعات", "ago 2 hour"),
         param('ar', "منذ ساعتين", "ago 2 hour"),
+        param('ar', "اليوم السابق", "1 day"),
+        param('ar', "اليوم", "0 day"),
         # Polish
         param('pl', "2 godz.", "2 hour"),
         param('pl', "Wczoraj o 07:40", "1 day  07:40"),
@@ -169,6 +178,8 @@ class TestBundledLanguages(BaseTestCase):
         #Filipino
         param('ph', "kahapon", "1 day"),
         param('ph', "ngayon", "0 second"),
+        # Ukrainian
+        param('uk', "позавчора", "2 day"),
         # Belarusian
         param('by', "9 месяцаў", "9 month"),
         param('by', "8 тыдняў", "8 week"),
@@ -180,6 +191,15 @@ class TestBundledLanguages(BaseTestCase):
         param('by', "пазаўчора", "2 day"),
         param('by', "сёння", "0 day"),
         param('by', "некалькі хвілін", "2 minute"),
+        # Indonesian
+        param('id', "baru saja", "0 second"),
+        param('id', "hari ini", "0 day"),
+        param('id', "kemarin", "1 day"),
+        param('id', "kemarin lusa", "2 day"),
+        param('id', "sehari yang lalu", "1 day  ago"),
+        param('id', "seminggu yang lalu", "1 week  ago"),
+        param('id', "sebulan yang lalu", "1 month  ago"),
+        param('id', "setahun yang lalu", "1 year  ago"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -206,6 +226,7 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", ["Thứ Năm", " ", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
         param('ph', "Biyernes Hulyo 3 2015", ["Biyernes", " ", "Hulyo", " ", "3", " ", "2015"]),
         param('by', "3 верасня 2015 г. у 11:10", ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
+        param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
@@ -230,6 +251,7 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "2 tuần 3 ngày", strip_timezone=False),
         param('ph', "Hulyo 3, 2015 7:00 pm", strip_timezone=False),
         param('by', "3 верасня 2015 г. у 11:10", strip_timezone=False),
+        param('id', "01 Agustus 2015 18:23", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)
@@ -256,13 +278,13 @@ class TestBundledLanguages(BaseTestCase):
         self.language = default_language_loader.get_language(shorname)
 
     def when_datetime_string_translated(self):
-        self.translation = self.language.translate(self.datetime_string)
+        self.translation = self.language.translate(self.datetime_string, settings=settings)
 
     def when_datetime_string_splitted(self, keep_formatting=False):
-        self.tokens = self.language._split(self.datetime_string, keep_formatting)
+        self.tokens = self.language._split(self.datetime_string, keep_formatting, settings=settings)
 
     def when_datetime_string_checked_if_applicable(self, strip_timezone):
-        self.result = self.language.is_applicable(self.datetime_string, strip_timezone)
+        self.result = self.language.is_applicable(self.datetime_string, strip_timezone, settings=settings)
 
     def then_string_translated_to(self, expected_string):
         self.assertEqual(expected_string, self.translation)
@@ -330,7 +352,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
                                 for shortname in shortnames]
 
     def given_previosly_detected_string(self, datetime_string):
-        for _ in self.detector.iterate_applicable_languages(datetime_string, modify=True):
+        for _ in self.detector.iterate_applicable_languages(datetime_string, modify=True, settings=settings):
             break
 
     def given_string(self, datetime_string):
@@ -340,7 +362,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         raise NotImplementedError
 
     def when_searching_for_first_applicable_language(self):
-        for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True):
+        for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True, settings=settings):
             self.detected_language = language
             break
         else:
@@ -380,7 +402,7 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.detector = ExactLanguages(languages=self.known_languages)
 
     def when_using_exact_languages(self):
-        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True)
+        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True, settings=settings)
 
     def then_exact_languages_were_filtered(self, shortnames):
         self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
