@@ -120,18 +120,32 @@ de:
 
     monday:
         - Montag
+        - Mon
+        - Mo
     tuesday:
         - Dienstag
+        - Die
+        - Di
     wednesday:
         - Mittwoch
+        - Mit
+        - Mi
     thursday:
         - Donnerstag
+        - Don
+        - Do
     friday:
         - Freitag
+        - Fre
+        - Fr
     saturday:
         - Samstag
+        - Sam
+        - Sa
     sunday:
         - Sonntag
+        - Son
+        - So
 
     january:
         - Jan
@@ -141,6 +155,7 @@ de:
         - Februar
     march:
         - März
+        - Mär
     april:
         - Apr
         - April
@@ -148,13 +163,16 @@ de:
         - Mai
     june:
         - Juni
+        - Jun
     july:
         - Juli
+        - Jul
     august:
         - Aug
         - August
     september:
         - Sept
+        - Sep
         - September
     october:
         - Okt
@@ -211,6 +229,7 @@ fr:
 
     monday:
         - Lundi
+        - Lu
         - Lun
     tuesday:
         - Mardi
@@ -218,18 +237,23 @@ fr:
     wednesday:
         - Mercredi
         - Mer
+        - Me
     thursday:
         - Jeudi
         - Jeu
+        - Je
     friday:
         - Vendredi
         - Ven
+        - Ve
     saturday:
         - Samedi
         - Sam
+        - Sa
     sunday:
         - Dimanche
         - Dim
+        - Di
 
     january:
         - Janvier
@@ -248,9 +272,11 @@ fr:
         - Mai
     june:
         - Juin
+        - Jun
     july:
         - Juillet
         - Juil
+        - Jul
     august:
         - Août
         - Aoû
@@ -315,18 +341,24 @@ es:
 
     monday:
         - Lunes
+        - Lu
     tuesday:
         - Martes
     wednesday:
         - Miércoles
+        - Mi
     thursday:
         - Jueves
+        - Ju
     friday:
         - Viernes
+        - Vi
     saturday:
         - Sábado
+        - Sa
     sunday:
         - Domingo
+        - Do
 
     january:
         - Enero
@@ -407,18 +439,24 @@ it:
 
     monday:
         - Lunedi
+        - Lun
     tuesday:
         - Martedì
     wednesday:
         - Mercoledì
+        - Mer
     thursday:
         - Giovedi
+        - Gio
     friday:
         - Venerdì
+        - Ven
     saturday:
         - Sabato
+        - Sab
     sunday:
         - Domenica
+        - Dom
 
     january:
         - Gennaio
@@ -497,22 +535,29 @@ pt:
     monday:
         - Segunda-feira
         - Segunda
+        - Seg
     tuesday:
         - Terça-feira
         - Terça
+        - Ter
     wednesday:
         - Quarta-feira
         - Quarta
+        - Qua
     thursday:
         - Quinta-feira
         - Quinta
+        - Qui
     friday:
         - Sexta-feira
         - Sexta
+        - Sex
     saturday:
         - Sábado
+        - Sab
     sunday:
         - Domingo
+        - Dom
 
     january:
         - Janeiro
@@ -748,28 +793,40 @@ uk:
 
     january:
         - січня
+        - січ
     february:
         - лютого
+        - лют
     march:
         - березня
+        - бер
     april:
         - квітня
+        - кві
     may:
         - травня
+        - тра
     june:
         - червня
+        - чер
     july:
         - липня
+        - лип
     august:
         - серпня
+        - сер
     september:
         - вересня
+        - вер
     october:
         - жовтня
+        - жов
     november:
         - листопада
+        - лис
     december:
         - грудня
+        - гру
 
     year:
         - рік
@@ -831,43 +888,62 @@ tr:
 
     monday:
         - Pazartesi
+        - Pzt
     tuesday:
         - Salı
+        - Sal
     wednesday:
         - Çarşamba
+        - Çrs
     thursday:
         - Perşembe
+        - Prs
     friday:
         - Cuma
+        - Cum
     saturday:
         - Cumartesi
+        - Cmt
     sunday:
         - Pazar
+        - Paz
 
     january:
         - Ocak
+        - Oc
     february:
         - Şubat
+        - Şu
     march:
         - Mart
+        - Mar
     april:
         - Nisan
+        - Ni
     may:
         - Mayıs
+        - May
     june:
         - Haziran
+        - Ha
     july:
         - Temmuz
+        - Te
     august:
         - Ağustos
+        - Ağ
     september:
         - Eylül
+        - Ey
     october:
         - Ekim
+        - Ek
     november:
         - Kasım
+        - Ka
     december:
         - Aralık
+        - Ar
 
     year:
         - yıl
@@ -1160,27 +1236,35 @@ ro:
 
     monday:
         - Luni
+        - L
     tuesday:
         - Marți
     wednesday:
         - Miercuri
+        - Mi
     thursday:
         - Joi
+        - J
     friday:
         - Vineri
+        - V
     saturday:
         - Sâmbătă
+        - S
     sunday:
         - Duminică
+        - D
 
     january:
         - Ianuarie
         - Ian
     february:
         - Februarie
+        - Febr
         - Feb
     march:
         - Martie
+        - Mart
         - Mar
     april:
         - Aprilie
@@ -1189,20 +1273,24 @@ ro:
         - Mai
     june:
         - Iunie
+        - Iun
     july:
         - Iulie
+        - Iul
     august:
         - August
         - Aug
     september:
         - Septembrie
         - Sept
+        - Sep
     october:
         - Octombrie
         - Oct
     november:
         - Noiembrie
         - Noiem
+        - Nov
     december:
         - Decembrie
         - Dec
@@ -1808,18 +1896,24 @@ ph:
 
     monday:
         - Lunes
+        - Lun
     tuesday:
         - Martes
     wednesday:
         - Miyerkules
+        - Miy
     thursday:
         - Huwebes
+        - Huw
     friday:
         - Biyernes
+        - Biy
     saturday:
         - Sabado
+        - Sab
     sunday:
         - Linggo
+        - Lin
 
     january:
         - Enero
