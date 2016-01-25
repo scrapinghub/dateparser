@@ -214,6 +214,7 @@ fr:
         - Lun
     tuesday:
         - Mardi
+        - Mar
     wednesday:
         - Mercredi
         - Mer
@@ -240,7 +241,6 @@ fr:
         - Fév
     march:
         - Mars
-        - Mar
     april:
         - Avril
         - Avr
