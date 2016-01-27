@@ -98,6 +98,8 @@ class TestBundledLanguages(BaseTestCase):
         param('de', "vorgestern", "2 day"),
         param('de', "heute", "0 day"),
         param('de', "vor 3 Stunden", "ago 3 hour"),
+        param('de', "vor 2 Monaten", "ago 2 month"),
+        param('de', "vor 2 Monaten, 2 Wochen", "ago 2 month 2 week"),
         # French
         param('fr', "avant-hier", "2 day"),
         param('fr', "hier", "1 day"),
