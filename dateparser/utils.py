@@ -7,7 +7,7 @@ import types
 from dateutil.parser import parser
 from pytz import UTC, timezone
 
-from dateparser.timezone_parser import _tz_offsets
+from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
 
 
 GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
@@ -93,25 +93,25 @@ def find_date_separator(format):
 
 
 def apply_tzdatabase_timezone(date_time, pytz_string):
-    date_time = UTC.localize(date_time)
+    if not date_time.tzinfo:
+        date_time = UTC.localize(date_time)
+
     usr_timezone = timezone(pytz_string)
 
     if date_time.tzinfo != usr_timezone:
         date_time = date_time.astimezone(usr_timezone)
 
-    return date_time.replace(tzinfo=None)
+    return date_time
 
 
 def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
-    for _, info in _tz_offsets:
+    for name, info in _tz_offsets:
         if info['regex'].search(' %s' % offset_or_timezone_abb):
-            return utc_datetime + info['offset']
+            tz = StaticTzInfo(name, info['offset'])
+            return utc_datetime.astimezone(tz)
 
 
 def apply_timezone(datetime, tz_string):
-    if 'UTC' in tz_string:
-        return datetime
-
     new_datetime = apply_dateparser_timezone(datetime, tz_string)
 
     if not new_datetime:

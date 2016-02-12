@@ -175,14 +175,17 @@ class DateParser(object):
             raise ValueError("Empty string")
 
         date_string = strip_braces(date_string)
-        date_string, tz_offset = pop_tz_offset_from_string(date_string)
+        date_string, tz = pop_tz_offset_from_string(date_string)
 
         date_obj, period = dateutil_parse(date_string, settings=settings)
 
-        if tz_offset is not None:
-            date_obj -= tz_offset  # convert date to UTC if timezone detected
+        if tz is not None:
+            date_obj = tz.localize(date_obj)
 
         date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+
+        if not settings.RETURN_AS_TIMEZONE_AWARE:
+            date_obj = date_obj.replace(tzinfo=None)
 
         return date_obj, period
 

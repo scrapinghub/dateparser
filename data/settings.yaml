@@ -4,3 +4,4 @@ settings:
     PREFER_DAY_OF_MONTH: 'current'
     SKIP_TOKENS: ["t"]
     TIMEZONE: 'UTC'
+    RETURN_AS_TIMEZONE_AWARE: False
