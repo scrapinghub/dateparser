@@ -25,7 +25,7 @@ class StaticTzInfo(tzinfo):
 
     def localize(self, dt, is_dst=False):
         if dt.tzinfo is not None:
-            raise ValueError, 'Not naive datetime (tzinfo is already set)'
+            raise ValueError('Not naive datetime (tzinfo is already set)')
         return dt.replace(tzinfo=self)
 
 

@@ -59,7 +59,11 @@ class TestTZPopping(BaseTestCase):
         self.initial_string = string_
 
     def when_offset_popped_from_string(self):
-        self.datetime_string, self.timezone_offset = pop_tz_offset_from_string(self.initial_string)
+        self.datetime_string, timezone_offset = pop_tz_offset_from_string(self.initial_string)
+        if timezone_offset:
+            self.timezone_offset = timezone_offset.utcoffset('')
+        else:
+            self.timezone_offset = timezone_offset
 
     def then_string_modified_to(self, expected_string):
         self.assertEqual(expected_string, self.datetime_string)

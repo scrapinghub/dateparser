@@ -93,9 +93,6 @@ def find_date_separator(format):
 
 
 def apply_tzdatabase_timezone(date_time, pytz_string):
-    if not date_time.tzinfo:
-        date_time = UTC.localize(date_time)
-
     usr_timezone = timezone(pytz_string)
 
     if date_time.tzinfo != usr_timezone:
@@ -111,11 +108,14 @@ def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
             return utc_datetime.astimezone(tz)
 
 
-def apply_timezone(datetime, tz_string):
-    new_datetime = apply_dateparser_timezone(datetime, tz_string)
+def apply_timezone(date_time, tz_string):
+    if not date_time.tzinfo:
+        date_time = UTC.localize(date_time)
+
+    new_datetime = apply_dateparser_timezone(date_time, tz_string)
 
     if not new_datetime:
-        new_datetime = apply_tzdatabase_timezone(datetime, tz_string)
+        new_datetime = apply_tzdatabase_timezone(date_time, tz_string)
 
     return new_datetime
 
