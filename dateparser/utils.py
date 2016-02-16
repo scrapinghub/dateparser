@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-import re
 import logging
-import logging.config
 import types
 
+import regex as re
 from dateutil.parser import parser
 from pytz import UTC, timezone
 

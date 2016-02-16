@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 import calendar
-import re
+import regex as re
 import sys
 from datetime import datetime
 from collections import OrderedDict
