@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import calendar
 import collections
-import re
 from datetime import datetime, timedelta
 from warnings import warn
-import six
 
+import six
+import regex as re
 from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser

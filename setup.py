@@ -26,6 +26,7 @@ setup(
         'jdatetime',
         'umalqurra',
         'pytz',
+        'regex',
     ],
     license="BSD",
     zip_safe=False,
