@@ -1,3 +1,6 @@
 python-dateutil>=2.3
 PyYAML
 regex
+jdatetime
+umalqurra
+pytz

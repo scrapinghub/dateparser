@@ -3,6 +3,38 @@
 History
 =======
 
+0.3.2 (2016-01-25)
+------------------
+New features:
+
+* Added Hijri Calendar support.
+* Added settings for better control over parsing dates.
+* Support to convert parsed time to the given timezone for both complete and relative dates.
+
+Improvements:
+
+* Fixed problem with caching :func:`datetime.now` in :class:`FreshnessDateDataParser`.
+* Added month names and week day names abbreviations to several languages.
+* More simplifications for Russian and Ukranian languages.
+* Fixed problem with parsing time component of date strings with several kinds of apostrophes.
+
+
+0.3.1 (2015-10-28)
+------------------
+New features:
+
+* Support for Jalali Calendar.
+* Belarusian language support.
+* Indonesian language support.
+
+
+Improvements:
+
+* Extended support for Russian and Polish.
+* Fixed bug with time zone recognition.
+* Fixed bug with incorrect translation of "second" for Portuguese.
+
+
 0.3.0 (2015-07-29)
 ------------------
 New features:

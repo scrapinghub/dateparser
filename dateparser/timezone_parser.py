@@ -2,7 +2,7 @@
 import regex as re
 from datetime import datetime, timedelta
 
-from dateparser.timezones import timezone_info_list
+from .timezones import timezone_info_list
 
 
 def pop_tz_offset_from_string(date_string, as_offset=True):

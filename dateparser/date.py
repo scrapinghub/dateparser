@@ -1,17 +1,31 @@
 # -*- coding: utf-8 -*-
 import calendar
 import collections
-import regex as re
-import six
 from datetime import datetime, timedelta
 from warnings import warn
 
+import six
+import regex as re
 from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.conf import apply_settings
+
+
+APOSTROPHE_LOOK_ALIKE_CHARS = [
+    u'\N{RIGHT SINGLE QUOTATION MARK}',     # u'\u2019'
+    u'\N{MODIFIER LETTER APOSTROPHE}',      # u'\u02bc'
+    u'\N{MODIFIER LETTER TURNED COMMA}',    # u'\u02bb'
+    u'\N{ARMENIAN APOSTROPHE}',             # u'\u055a'
+    u'\N{LATIN SMALL LETTER SALTILLO}',     # u'\ua78c'
+    u'\N{PRIME}',                           # u'\u2032'
+    u'\N{REVERSED PRIME}',                  # u'\u2035'
+    u'\N{MODIFIER LETTER PRIME}',           # u'\u02b9'
+    u'\N{FULLWIDTH APOSTROPHE}',            # u'\uff07'
+]
 
 
 def sanitize_spaces(html_string):
@@ -81,6 +95,8 @@ def sanitize_date(date_string):
     date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
     date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
 
+    date_string = re.sub(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS), u"'", date_string)
+
     return date_string
 
 
@@ -125,7 +141,8 @@ def parse_with_formats(date_string, date_formats):
 class _DateLanguageParser(object):
     DATE_FORMATS_ERROR_MESSAGE = "Date formats should be list, tuple or set of strings"
 
-    def __init__(self, language, date_string, date_formats):
+    def __init__(self, language, date_string, date_formats, settings=None):
+        self._settings = settings
         if isinstance(date_formats, six.string_types):
             warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
             date_formats = [date_formats]
@@ -139,8 +156,8 @@ class _DateLanguageParser(object):
         self._translated_date_with_formatting = None
 
     @classmethod
-    def parse(cls, language, date_string, date_formats=None):
-        instance = cls(language, date_string, date_formats)
+    def parse(cls, language, date_string, date_formats=None, settings=None):
+        instance = cls(language, date_string, date_formats, settings)
         return instance._parse()
 
     def _parse(self):
@@ -164,11 +181,12 @@ class _DateLanguageParser(object):
         }
 
     def _try_freshness_parser(self):
-        return freshness_date_parser.get_date_data(self._get_translated_date())
+        return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings)
 
     def _try_dateutil_parser(self):
         try:
-            date_obj, period = date_parser.parse(self._get_translated_date())
+            date_obj, period = date_parser.parse(
+                self._get_translated_date(), settings=self._settings)
             return {
                 'date_obj': date_obj,
                 'period': period,
@@ -197,13 +215,14 @@ class _DateLanguageParser(object):
 
     def _get_translated_date(self):
         if self._translated_date is None:
-            self._translated_date = self.language.translate(self.date_string, keep_formatting=False)
+            self._translated_date = self.language.translate(
+                self.date_string, keep_formatting=False, settings=self._settings)
         return self._translated_date
 
     def _get_translated_date_with_formatting(self):
         if self._translated_date_with_formatting is None:
             self._translated_date_with_formatting = self.language.translate(
-                self.date_string, keep_formatting=True)
+                self.date_string, keep_formatting=True, settings=self._settings)
         return self._translated_date_with_formatting
 
     def _is_valid_date_obj(self, date_obj):
@@ -235,6 +254,10 @@ class DateDataParser(object):
             Enables/disables language re-detection.
     :type allow_redetect_language: bool
 
+    :param settings:
+           Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+    :type settings: dict
+
     :return: A parser instance
 
     :raises:
@@ -242,7 +265,9 @@ class DateDataParser(object):
     """
     language_loader = None
 
-    def __init__(self, languages=None, allow_redetect_language=False):
+    @apply_settings
+    def __init__(self, languages=None, allow_redetect_language=False, settings=None):
+        self._settings = settings
         available_language_map = self._get_language_loader().get_language_map()
 
         if isinstance(languages, (list, tuple, collections.Set)):
@@ -251,14 +276,15 @@ class DateDataParser(object):
                 languages = [available_language_map[language] for language in languages]
             else:
                 unsupported_languages = set(languages) - set(available_language_map.keys())
-                raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
+                raise ValueError(
+                    "Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
         elif languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
         if allow_redetect_language:
             self.language_detector = AutoDetectLanguage(
-                    languages if languages else list(available_language_map.values()),
-                    allow_redetection=True)
+                languages if languages else list(available_language_map.values()),
+                allow_redetection=True)
         elif languages:
             self.language_detector = ExactLanguages(languages=languages)
         else:
@@ -290,7 +316,7 @@ class DateDataParser(object):
 
         In the example below, since no day information is present, the day is assumed to be current
         day ``16`` from *current date* (which is June 16, 2015, at the moment of writing this).
-        Hence, the level of precision is ``month``.
+        Hence, the level of precision is ``month``:
 
             >>> DateDataParser().get_date_data(u'March 2015')
             {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': u'month'}
@@ -302,6 +328,7 @@ class DateDataParser(object):
             {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
 
         Dates with time zone indications or UTC offsets are returned in UTC time.
+
             >>> DateDataParser().get_date_data(u'23 March 2000, 1:21 PM CET')
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
@@ -310,8 +337,9 @@ class DateDataParser(object):
         date_string = sanitize_date(date_string)
 
         for language in self.language_detector.iterate_applicable_languages(
-                date_string, modify=True):
-            parsed_date = _DateLanguageParser.parse(language, date_string, date_formats)
+                date_string, modify=True, settings=self._settings):
+            parsed_date = _DateLanguageParser.parse(
+                language, date_string, date_formats, settings=self._settings)
             if parsed_date:
                 return parsed_date
         else:

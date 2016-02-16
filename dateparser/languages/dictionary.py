@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
+from itertools import chain
+from operator import methodcaller
+
 import regex as re
 from six.moves import zip_longest
-from operator import methodcaller
 
 DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
 DATEUTIL_PARSERINFO_KNOWN_TOKENS = ["am", "pm", "a", "p", "UTC", "GMT", "Z"]
@@ -14,11 +17,13 @@ class UnknownTokenError(Exception):
 
 
 class Dictionary(object):
-    _sorted_words = None
-    _split_regex = None
+    _split_regex_cache = {}
+    _sorted_words_cache = {}
 
-    def __init__(self, language_info):
+    def __init__(self, language_info, settings=None):
         dictionary = {}
+        self._settings = settings
+        self.info = language_info
 
         if 'skip' in language_info:
             skip = map(methodcaller('lower'), language_info['skip'])
@@ -35,27 +40,31 @@ class Dictionary(object):
             dictionary.update(zip_longest(translations, [], fillvalue=word))
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(zip_longest(map(methodcaller('lower'),
-                                           DATEUTIL_PARSERINFO_KNOWN_TOKENS),
-                                       DATEUTIL_PARSERINFO_KNOWN_TOKENS))
+                                          DATEUTIL_PARSERINFO_KNOWN_TOKENS),
+                                      DATEUTIL_PARSERINFO_KNOWN_TOKENS))
 
         self._dictionary = dictionary
         self._no_word_spacing = language_info.get('no_word_spacing', False)
 
     def __contains__(self, key):
+        if key in self._settings.SKIP_TOKENS:
+            return True
         return self._dictionary.__contains__(key)
 
     def __getitem__(self, key):
+        if key in self._settings.SKIP_TOKENS:
+            return None
         return self._dictionary.__getitem__(key)
 
     def __iter__(self):
-        return iter(self._dictionary)
+        return chain(self._settings.SKIP_TOKENS, iter(self._dictionary))
 
     def split(self, string, keep_formatting):
         """ Recursively splitting string by words in dictionary """
         if not string:
             return string
 
-        regex = self._get_split_regex()
+        regex = self._get_split_regex_cache()
         match = regex.match(string)
         if not match:
             return [string] if self._should_capture(string, keep_formatting) else []
@@ -70,22 +79,36 @@ class Dictionary(object):
         return splitted
 
     def _should_capture(self, token, keep_formatting):
-        return keep_formatting or (token in ALWAYS_KEEP_TOKENS) or re.match("^.*[^\W_].*$", token, re.U)
+        return (
+            keep_formatting or
+            (token in ALWAYS_KEEP_TOKENS) or
+            re.match(r"^.*[^\W_].*$", token, re.U)
+        )
 
-    def _get_sorted_words(self):
-        if self._sorted_words is None:
-            self._sorted_words = sorted(self._dictionary.keys(), key=len, reverse=True)
-        return self._sorted_words
+    def _get_sorted_words_from_cache(self):
+        if (
+                self._settings.registry_key not in self._sorted_words_cache or
+                self.info['name'] not in self._sorted_words_cache[self._settings.registry_key]
+            ):
+            self._sorted_words_cache[self._settings.registry_key] = {
+                self.info['name']: sorted([key for key in self], key=len, reverse=True)
+            }
+        return self._sorted_words_cache[self._settings.registry_key][self.info['name']]
 
-    def _get_split_regex(self):
-        if self._split_regex is None:
+    def _get_split_regex_cache(self):
+        if (
+                self._settings.registry_key not in self._split_regex_cache or
+                self.info['name'] not in self._split_regex_cache[self._settings.registry_key]
+            ):
             self._construct_split_regex()
-        return self._split_regex
+        return self._split_regex_cache[self._settings.registry_key][self.info['name']]
 
     def _construct_split_regex(self):
-        known_words_group = u"|".join(map(re.escape, self._get_sorted_words()))
+        known_words_group = u"|".join(map(re.escape, self._get_sorted_words_from_cache()))
         if self._no_word_spacing:
             regex = r"^(.*?)({})(.*)$".format(known_words_group)
         else:
             regex = r"^(.*?(?:\A|\d|_|\W))({})((?:\d|_|\W|\Z).*)$".format(known_words_group)
-        self._split_regex = re.compile(regex, re.UNICODE | re.IGNORECASE)
+        self._split_regex_cache[self._settings.registry_key] = {
+            self.info['name']: re.compile(regex, re.UNICODE | re.IGNORECASE)
+        }
