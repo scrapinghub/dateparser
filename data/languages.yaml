@@ -774,7 +774,6 @@ uk:
     wednesday:
         - середа
         - ср
-        - сер
     thursday:
         - четвер
         - чт
@@ -906,7 +905,6 @@ tr:
         - Cmt
     sunday:
         - Pazar
-        - Paz
 
     january:
         - Ocak
@@ -1564,7 +1562,6 @@ pl:
         - Niedzielę
         - Niedziele
         - Nie
-        - Ni
         - Nd
 
     january:
@@ -1992,7 +1989,6 @@ by:
         - Аў
     wednesday:
         - Серада
-        - Сер
         - Ср
     thursday:
         - Чацвер
