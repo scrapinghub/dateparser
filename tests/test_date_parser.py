@@ -306,6 +306,11 @@ class TestDateParser(BaseTestCase):
         param('06-17-2014', datetime(2014, 6, 17)),
         param('13/03/2014', datetime(2014, 3, 13)),
         param('11. 12. 2014, 08:45:39', datetime(2014, 11, 12, 8, 45, 39)),
+        # Miscellaneous dates
+        param('1 Ni 2015', datetime(2015, 4, 1, 0, 0)),
+        param('1 Mar 2015', datetime(2015, 3, 1, 0, 0)),
+        param('1 Paz 2015', datetime(2015, 10, 1, 0, 0)),
+        param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
