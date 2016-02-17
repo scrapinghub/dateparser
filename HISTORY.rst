@@ -3,6 +3,12 @@
 History
 =======
 
+x.x.x (xxxx-xx-xx)
+------------------
+New features:
+
+* Finnish language support.
+
 0.3.2 (2016-01-25)
 ------------------
 New features:

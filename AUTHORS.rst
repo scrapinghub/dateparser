@@ -24,6 +24,7 @@ Committers
 * Shuai Lin
 * Sigit Dewanto
 * Sviatoslav Sydorenko
+* Taito Horiuchi
 * Tom Russell
 * Umair Ashraf
 * Waqas Shabir
