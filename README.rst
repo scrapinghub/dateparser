@@ -122,6 +122,7 @@ Supported languages
 * Dutch
 * English
 * Filipino
+* Finnish
 * French
 * German
 * Indonesian
