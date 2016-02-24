@@ -56,6 +56,9 @@ class FreshnessDateDataParser(object):
                 # e.g. `2 days ago at 1 PM`
                 date = apply_timezone(date, settings.TIMEZONE)
 
+            if not settings.RETURN_AS_TIMEZONE_AWARE:
+                date = date.replace(tzinfo=None)
+
         return date, period
 
     def _parse(self, date_string):

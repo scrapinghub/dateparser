@@ -1,8 +1,32 @@
 # -*- coding: utf-8 -*-
 import regex as re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, tzinfo
 
 from .timezones import timezone_info_list
+
+
+class StaticTzInfo(tzinfo):
+
+    def __init__(self, name, offset):
+        self.__offset = offset
+        self.__name = name
+
+    def tzname(self, dt):
+        return self.__name
+
+    def utcoffset(self, dt):
+        return self.__offset
+
+    def dst(self, dt):
+        return timedelta(0)
+
+    def __repr__(self):
+        return "<%s '%s'>" % (self.__class__.__name__, self.__name)
+
+    def localize(self, dt, is_dst=False):
+        if dt.tzinfo is not None:
+            raise ValueError('Not naive datetime (tzinfo is already set)')
+        return dt.replace(tzinfo=self)
 
 
 def pop_tz_offset_from_string(date_string, as_offset=True):
@@ -10,7 +34,7 @@ def pop_tz_offset_from_string(date_string, as_offset=True):
         timezone_re = info['regex']
         if timezone_re.search(date_string):
             date_string = timezone_re.sub(r'\1', date_string)
-            return date_string, info['offset'] if as_offset else name
+            return date_string, StaticTzInfo(name, info['offset']) if as_offset else name
     else:
         return date_string, None
 

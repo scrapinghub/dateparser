@@ -327,7 +327,8 @@ class DateDataParser(object):
             >>> DateDataParser().get_date_data(u'2014')
             {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
 
-        Dates with time zone indications or UTC offsets are returned in UTC time.
+        Dates with time zone indications or UTC offsets are returned in UTC time unless
+        specified using `Settings`_.
 
             >>> DateDataParser().get_date_data(u'23 March 2000, 1:21 PM CET')
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
