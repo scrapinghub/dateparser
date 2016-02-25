@@ -116,7 +116,8 @@ class Language(object):
                 joined += separator
             joined += right
 
-        return joined
+        joined = re.sub(r'\s+', ' ', joined)
+        return re.sub(r'\s,', ',', joined)
 
     def _get_dictionary(self, settings=None):
         if self._dictionary is None:
