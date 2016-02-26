@@ -79,7 +79,33 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
         param('en', "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
         param('en', "28 Oct 2014 16:39:01 +0000", "28 october 2014 16:39:01 +0000"),
-        param('es', "13 Febrero 2015 a las 23:00", "13 february 2015  23:00")
+        param('es', "13 Febrero 2015 a las 23:00", "13 february 2015  23:00"),
+
+        # Finnish
+        param('fi', "maanantai tammikuu 16, 2015", "monday january 16 2015"),
+        param('fi', "ma tammi 16, 2015", "monday january 16 2015"),
+        param('fi', "tiistai helmikuu 16, 2015", "tuesday february 16 2015"),
+        param('fi', "ti helmi 16, 2015", "tuesday february 16 2015"),
+        param('fi', "keskiviikko maaliskuu 16, 2015", "wednesday march 16 2015"),
+        param('fi', "ke maalis 16, 2015", "wednesday march 16 2015"),
+        param('fi', "torstai huhtikuu 16, 2015", "thursday april 16 2015"),
+        param('fi', "to huhti 16, 2015", "thursday april 16 2015"),
+        param('fi', "perjantai toukokuu 16, 2015", "friday may 16 2015"),
+        param('fi', "pe touko 16, 2015", "friday may 16 2015"),
+        param('fi', "lauantai kesäkuu 16, 2015", "saturday june 16 2015"),
+        param('fi', "la kesä 16, 2015", "saturday june 16 2015"),
+        param('fi', "sunnuntai heinäkuu 16, 2015", "sunday july 16 2015"),
+        param('fi', "su heinä 16, 2015", "sunday july 16 2015"),
+        param('fi', "su elokuu 16, 2015", "sunday august 16 2015"),
+        param('fi', "su elo 16, 2015", "sunday august 16 2015"),
+        param('fi', "su syyskuu 16, 2015", "sunday september 16 2015"),
+        param('fi', "su syys 16, 2015", "sunday september 16 2015"),
+        param('fi', "su lokakuu 16, 2015", "sunday october 16 2015"),
+        param('fi', "su loka 16, 2015", "sunday october 16 2015"),
+        param('fi', "su marraskuu 16, 2015", "sunday november 16 2015"),
+        param('fi', "su marras 16, 2015", "sunday november 16 2015"),
+        param('fi', "su joulukuu 16, 2015", "sunday december 16 2015"),
+        param('fi', "su joulu 16, 2015", "sunday december 16 2015"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -202,12 +228,50 @@ class TestBundledLanguages(BaseTestCase):
         param('id', "seminggu yang lalu", "1 week  ago"),
         param('id', "sebulan yang lalu", "1 month  ago"),
         param('id', "setahun yang lalu", "1 year  ago"),
+        # Finnish
+        param('fi', "1 vuosi sitten", "1 year ago"),
+        param('fi', "2 vuotta sitten", "2 year ago"),
+        param('fi', "3 v sitten", "3 year ago"),
+        param('fi', "4 v. sitten", "4 year ago"),
+        param('fi', "5 vv. sitten", "5 year ago"),
+        param('fi', "1 kuukausi sitten", "1 month ago"),
+        param('fi', "2 kuukautta sitten", "2 month ago"),
+        param('fi', "3 kk sitten", "3 month ago"),
+        param('fi', "1 viikko sitten", "1 week ago"),
+        param('fi', "2 viikkoa sitten", "2 week ago"),
+        param('fi', "3 vk sitten", "3 week ago"),
+        param('fi', "4 vko sitten", "4 week ago"),
+        param('fi', "1 päivä sitten", "1 day ago"),
+        param('fi', "2 päivää sitten", "2 day ago"),
+        param('fi', "3 pv sitten", "3 day ago"),
+        param('fi', "4 p. sitten", "4 day ago"),
+        param('fi', "5 pvä sitten", "5 day ago"),
+        param('fi', "1 tunti sitten", "1 hour ago"),
+        param('fi', "2 tuntia sitten", "2 hour ago"),
+        param('fi', "3 t sitten", "3 hour ago"),
+        param('fi', "1 minuutti sitten", "1 minute ago"),
+        param('fi', "2 minuuttia sitten", "2 minute ago"),
+        param('fi', "3 min sitten", "3 minute ago"),
+        param('fi', "1 sekuntti sitten", "1 second ago"),
+        param('fi', "2 sekunttia sitten", "2 second ago"),
+        param('fi', "3 s sitten", "3 second ago"),
+        param('fi', "eilen", "1 day"),
+        param('fi', "tänään", "0 day"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
+        # Finnish language use "t" as hour, so empty SKIP_TOKENS.
+        if shortname == 'fi':
+            skip_tokens = settings.SKIP_TOKENS
+            settings.SKIP_TOKENS = []
+
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
         self.when_datetime_string_translated()
         self.then_string_translated_to(expected_translation)
+
+        # Return the default SKIP_TOKENS.
+        if shortname == 'fi':
+            settings.SKIP_TOKENS = skip_tokens
 
     @parameterized.expand([
         param('pt', "sexta-feira, 10 de junho de 2014 14:52",
