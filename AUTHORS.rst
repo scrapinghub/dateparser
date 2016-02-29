@@ -6,10 +6,7 @@ Credits
 Committers
 ----------
 
-* Adam LeVasseur
-* Alec Koumjian
 * Artur Sadurski
-* Artur Gaspar
 * Claudio Salazar
 * Cesar Flores
 * Elias Dorneles

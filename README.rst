@@ -156,4 +156,3 @@ Supported Calendars
         {'date_obj': datetime.datetime(2015, 10, 30, 20, 30), 'period': 'day'}
 
 .. note:: `HijriCalendar` has some limitations with Python 3.
-.. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.
