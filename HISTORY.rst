@@ -3,11 +3,17 @@
 History
 =======
 
-x.x.x (xxxx-xx-xx)
+0.3.3 (2016-02-29)
 ------------------
 New features:
 
 * Finnish language support.
+
+Improvements:
+
+* Faster parsing with switching to regex module.
+* `RETURN_AS_TIMEZONE_AWARE` setting to return tz aware date object.
+* Fixed conflicts with month/weekday names similarity across languages.
 
 0.3.2 (2016-01-25)
 ------------------
