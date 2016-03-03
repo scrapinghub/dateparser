@@ -13,6 +13,10 @@ dateparser -- python parser for human readable dates
 .. image:: https://img.shields.io/pypi/v/dateparser.svg?style=flat-square
     :target: https://pypi.python.org/pypi/dateparser
     :alt: pypi version
+    
+.. image:: https://readthedocs.org/projects/dateparser/badge/?version=latest
+    :target: http://dateparser.readthedocs.org/en/latest/?badge=latest
+    :alt: Documentation Status
 
 
 `dateparser` provides modules to easily parse localized dates in almost
@@ -22,7 +26,8 @@ any string formats commonly found on web pages.
 Documentation
 =============
 
-Documentation can be found `here <https://dateparser.readthedocs.org/en/latest/>`_.
+Documentation is built automatically and can be found on
+`Read the Docs <https://dateparser.readthedocs.org/en/latest/>`_.
 
 
 Features
