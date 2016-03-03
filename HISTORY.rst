@@ -3,6 +3,12 @@
 History
 =======
 
+0.3.4 (2016-03-03)
+------------------
+Improvements:
+
+* Fixed broken version 0.3.3 by excluding latest python-dateutil version. 
+
 0.3.3 (2016-02-29)
 ------------------
 New features:
