@@ -508,5 +508,12 @@ class TestParserInitialization(BaseTestCase):
         six.assertCountEqual(self, languages, [repr(l) for l in unknown_languages])
 
 
+class TestSanitizeDate(BaseTestCase):
+    def test_remove_year_in_russian(self):
+        self.assertEqual(date.sanitize_date(u'2005г.'), u'2005 ')
+        self.assertEqual(date.sanitize_date(u'2005 г.'), u'2005 ')
+        self.assertEqual(date.sanitize_date(u'Авг.'), u'Авг.')
+
+
 if __name__ == '__main__':
     unittest.main()
