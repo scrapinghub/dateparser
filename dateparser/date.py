@@ -88,9 +88,11 @@ def get_intersecting_periods(low, high, period='day'):
 
 def sanitize_date(date_string):
     date_string = re.sub(
-        r'\t|\n|\r|\u00bb|,\s\u0432|\u0433\.|\u200e|\xb7|\u200f|\u064e|\u064f',
+        r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u064e|\u064f',
         ' ', date_string, flags=re.M
     )
+    date_string = re.sub(r'([\W\d])\u0433\.', r'\1 ', date_string,
+                         flags=re.I | re.U)  # remove u'г.' (Russian for year) but not in words
     date_string = sanitize_spaces(date_string)
     date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
     date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
