@@ -334,6 +334,7 @@ class TestDateDataParser(BaseTestCase):
     def test_should_not_assume_language_too_early(self):
         dates_to_parse = OrderedDict([(u'07/07/2014', datetime(2014, 7, 7).date()),  # any language
                                       (u'2013-10-24', datetime(2013, 10, 24).date()),  # any language
+                                      (u'2013-05-24', datetime(2013, 5, 24).date()),  # any language
                                       (u'07.jul.2014 | 12:52', datetime(2014, 7, 7).date()),  # en, es, pt, nl
                                       (u'07.ago.2014 | 12:52', datetime(2014, 8, 7).date()),  # es, it, pt
                                       (u'07.feb.2014 | 12:52', datetime(2014, 2, 7).date()),  # en, de, es, it, nl, ro
