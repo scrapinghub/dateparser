@@ -312,6 +312,8 @@ class TestDateDataParser(BaseTestCase):
         param('Сегодня', days_ago=0),
         param('Hoje', days_ago=0),
         param('Oggi', days_ago=0),
+        # Now
+        param('now', days_ago=0),
         # Yesterday
         param('yesterday', days_ago=1),
         param(' Yesterday \n', days_ago=1),
