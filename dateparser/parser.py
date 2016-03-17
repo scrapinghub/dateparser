@@ -54,12 +54,13 @@ class _parser(object):
     def _get_component_token(self, key):
         return getattr(self, '_token_%s' % key, None)
 
-    def __init__(self, tokens, dayfirst=False, yearfirst=False, fuzzy=False):
+    def __init__(self, tokens, dayfirst=False, yearfirst=False, fuzzy=False, default=None):
         self.day = None
         self.month = None
         self.year = None
         self.time = None
         self.delta = timedelta(0)
+        self.default = default
 
         self.auto_order = []
 
@@ -96,12 +97,13 @@ class _parser(object):
 
                 self.auto_order[index1] = key2
                 self.auto_order[index2] = key1
+        if yearfirst:
+            swap('year', 'month')
+            swap('month', 'day')
 
         if dayfirst:
             swap('day', 'month')
 
-        if yearfirst:
-            swap('year', 'day' if dayfirst else 'month')
 
     def _get_period(self):
         if 'day' in self.auto_order:
@@ -113,30 +115,30 @@ class _parser(object):
         elif 'time' in self.auto_order:
             return 'day'
 
-    def _results(self, complete_partial_dates=False):
+    def _results(self, complete_partial_dates=True):
         now = None
         if complete_partial_dates:
-            now = datetime.utcnow()
+            now = self.default
 
         return {
             'day': self.day or getattr(now, 'day'),
             'month': self.month or getattr(now, 'month'),
             'year': self.year or getattr(now, 'year'),
-            'hour': getattr(self.time(), 'hour', None) or getattr(now, 'hour'),
-            'minute': getattr(self.time(), 'minute', None) or getattr(now, 'minute'),
-            'second': getattr(self.time(), 'second', None) or getattr(now, 'second'),
+            'hour': getattr(self.time() if self.time else {}, 'hour', None) or getattr(now, 'hour'),
+            'minute': getattr(self.time() if self.time else {}, 'minute', None) or getattr(now, 'minute'),
+            'second': getattr(self.time() if self.time else {}, 'second', None) or getattr(now, 'second'),
         }
 
     @classmethod
-    def parse(cls, datestring, dayfirst=False, yearfirst=False, fuzzy=False, complete_dates=True):
+    def parse(cls, datestring, dayfirst=False, yearfirst=False, fuzzy=False, complete_dates=True, default=datetime.utcnow()):
         tokens = tokenizer(datestring)
-        po = cls(tokens.tokenize(), dayfirst, yearfirst, fuzzy)
+        po = cls(tokens.tokenize(), dayfirst, yearfirst, fuzzy, default)
         dateobj = datetime(**po._results(complete_dates))
 
         if po.delta and po.time().hour <= 12:
             dateobj += po.delta
 
-        return dateobj, po._get_period()
+        return dateobj
 
     def _parse(self, type, token, fuzzy):
 
@@ -179,7 +181,6 @@ class _parser(object):
                 for directive in self.time_directives:
                     try:
                         do = datetime.strptime(token, directive)
-                        import pdb; pdb.set_trace()
                         return [('delta', self.deltas.get(token.lower(), timedelta(0)))]
                     except:
                         pass
