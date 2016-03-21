@@ -11,6 +11,8 @@ DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in d
 DATEUTIL_PARSERINFO_KNOWN_TOKENS = ["am", "pm", "a", "p", "UTC", "GMT", "Z"]
 ALWAYS_KEEP_TOKENS = ["+"] + DATEUTIL_PARSER_HARDCODED_TOKENS
 
+from dateparser.utils import strip_diacritical_marks
+
 
 class UnknownTokenError(Exception):
     pass
@@ -37,6 +39,8 @@ class Dictionary(object):
                      'year', 'month', 'week', 'day', 'hour', 'minute', 'second',
                      'ago']:
             translations = map(methodcaller('lower'), language_info[word])
+            translations = translations + [strip_diacritical_marks(t) for t in translations]
+
             dictionary.update(zip_longest(translations, [], fillvalue=word))
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(zip_longest(map(methodcaller('lower'),
