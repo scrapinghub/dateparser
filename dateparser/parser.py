@@ -1,8 +1,44 @@
 # coding: utf-8
+import calendar
+
 from cStringIO import StringIO
 from collections import OrderedDict
 from datetime import datetime
 from datetime import timedelta
+
+
+class _no_spaces_parser(object):
+    _dateformats = [
+        '%Y%m%d', '%Y%d%m', '%m%Y%d',
+        '%m%d%Y', '%d%Y%m', '%d%m%Y',
+        '%y%m%d', '%y%d%m', '%m%y%d',
+        '%m%d%y', '%d%y%m', '%d%m%y'
+    ]
+
+    _timeformats = ['%H', '%H%M', '%H%M%S']
+
+    _all = _dateformats + [x+y for x in _dateformats for y in _timeformats] + _timeformats
+
+    date_formats = {
+        (False, False): _all,
+        (True, False): [x for x in _all if x.lower().startswith('%y')],
+        (False, True): [x for x in _all if '%d%m' in x],
+        (True, True): [x for x in _all if x.lower().startswith('%y%d')],
+    }
+
+    @classmethod
+    def parse(cls, datestring, dayfirst=False, yearfirst=False):
+        datestring = datestring.replace(':', '')
+        tokens = tokenizer(datestring)
+        for token, _ in tokens.tokenize():
+            for fmt in cls.date_formats[(yearfirst, dayfirst)]:
+                try:
+                    return datetime.strptime(token, fmt)
+                except:
+                    pass
+        else:
+            raise ValueError('Unable to parse date from: %s' % datestring)
+
 
 class _parser(object):
 
@@ -106,37 +142,78 @@ class _parser(object):
 
 
     def _get_period(self):
-        if 'day' in self.auto_order:
-            return 'day'
-        elif 'month' in self.auto_order:
-            return 'month'
-        elif 'year' in self.auto_order:
-            return 'year'
-        elif 'time' in self.auto_order:
-            return 'day'
+        for period in ['time', 'day']:
+            if getattr(self, period, None):
+                return 'day'
 
-    def _results(self, complete_partial_dates=True):
-        now = None
-        if complete_partial_dates:
-            now = self.default
+        for period in ['month', 'year']:
+            if getattr(self, period, None):
+                return period
+
+    def _results(self):
+        now = self.default
+        time = self.time() if not self.time is None else None
 
         return {
-            'day': self.day or getattr(now, 'day'),
-            'month': self.month or getattr(now, 'month'),
-            'year': self.year or getattr(now, 'year'),
-            'hour': getattr(self.time() if self.time else {}, 'hour', None) or getattr(now, 'hour'),
-            'minute': getattr(self.time() if self.time else {}, 'minute', None) or getattr(now, 'minute'),
-            'second': getattr(self.time() if self.time else {}, 'second', None) or getattr(now, 'second'),
+            'day': self.day or now.day,
+            'month': self.month or now.month,
+            'year': self.year or now.year,
+            'hour': time.hour if time else now.hour,
+            'minute': time.minute if time else now.minute,
+            'second': time.second if time else now.second,
         }
 
+    def _correct(self, dateobj, future=False):
+        days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+
+        if hasattr(self, 'weekday') and not self.day:
+            day_index = calendar.weekday(dateobj.year, dateobj.month, dateobj.day)
+            day = getattr(self, '_token_weekday')[:3].lower()
+            steps = 0
+            if not future:
+                while days[day_index] != day:
+                    day_index -= 1
+                    steps += 1
+                delta = timedelta(days=-steps)
+            else:
+                while days[day_index] != day:
+                    day_index += 1
+                    steps += 1
+                delta = timedelta(days=steps)
+
+            return dateobj + delta
+
+        if self.month and not self.year:
+            if self.default.month < dateobj.month:
+                if not future:
+                    dateobj = dateobj.replace(year=dateobj.year - 1)
+
+            elif future:
+                dateobj = dateobj.replace(year=dateobj.year + 1)
+            return dateobj
+
+        if self.default < dateobj and not future:
+            return dateobj - timedelta(days=1)
+
+        return dateobj
+
     @classmethod
-    def parse(cls, datestring, dayfirst=False, yearfirst=False, fuzzy=False, complete_dates=True, default=datetime.utcnow()):
+    def parse(cls,
+              datestring,
+              dayfirst=False,
+              yearfirst=False,
+              fuzzy=False,
+              default=datetime.now(),
+              prefer_future=False):
         tokens = tokenizer(datestring)
         po = cls(tokens.tokenize(), dayfirst, yearfirst, fuzzy, default)
-        dateobj = datetime(**po._results(complete_dates))
+        dateobj = datetime(**po._results())
 
         if po.delta and po.time().hour <= 12:
             dateobj += po.delta
+
+        # correction for past, future if applicable
+        dateobj = po._correct(dateobj, future=prefer_future)
 
         return dateobj
 
@@ -198,34 +275,34 @@ class tokenizer(object):
     letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     nonwords = "./\()\"':,.;<>~!@#$%^&*|+=[]{}`~?-     "
 
-    def _isletter(self, x): return x in self.letters
-    def _isdigit(self, x): return x in self.digits
-    def _isnonword(self, x): return x in self.nonwords
+    def _isletter(self, tkn): return tkn in self.letters
+    def _isdigit(self, tkn): return tkn in self.digits
+    def _isnonword(self, tkn): return tkn in self.nonwords
 
     def __init__(self, ds):
         self.instream = StringIO(ds)
 
     def _switch(self, chara, charb):
         if self._isdigit(chara):
-            return 0, not(self._isdigit(charb))
+            return 0, not self._isdigit(charb)
 
         if self._isletter(chara):
-            return 1, not(self._isletter(charb))
+            return 1, not self._isletter(charb)
 
         if self._isnonword(chara):
-            return 2, not(self._isnonword(charb))
+            return 2, not self._isnonword(charb)
 
         return '', True
 
     def tokenize(self):
         token = ''
-        self.EOF = False
+        EOF = False
 
-        while not self.EOF:
+        while not EOF:
             nextchar = self.instream.read(1)
 
             if not nextchar:
-                self.EOF = True
+                EOF = True
                 type, _ = self._switch(token[-1], nextchar)
                 yield token, type
                 return
