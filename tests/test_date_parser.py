@@ -60,6 +60,14 @@ class AutoDetectLanguageTest(BaseTestCase):
         self.then_detected_languages_are([expected_language])
 
     @parameterized.expand([
+        param(date_strings=["04 Tháng sau 2015", "04 Tháng sáu 2015"], expected_language='vi'),
+    ])
+    def test_partially_missing_diacritical_marks(self, date_strings, expected_language):
+        self.given_parser(languages=self.known_languages)
+        self.when_all_languages_are_detected(date_strings)
+        self.then_detected_languages_are([expected_language])
+
+    @parameterized.expand([
         param(date_strings=["11 abril 2010"], expected_language='es'),
         param(date_strings=["11 junio 2010"], expected_language='es'),
         param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_language='es'),

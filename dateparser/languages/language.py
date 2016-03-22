@@ -10,6 +10,7 @@ from dateparser.utils import wrap_replacement_for_regex
 from .dictionary import Dictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
 
+from dateparser.utils import strip_diacritical_marks
 
 class Language(object):
 
@@ -50,7 +51,7 @@ class Language(object):
         dictionary = self._get_dictionary(settings)
         for i, word in enumerate(words):
             word = word.lower()
-            if word in dictionary:
+            if word in dictionary or strip_diacritical_marks(word) in dictionary:
                 words[i] = dictionary[word] or ''
 
         return self._join(
@@ -78,7 +79,7 @@ class Language(object):
         dictionary = self._get_dictionary(settings=settings)
         for word in words:
             word = word.lower()
-            if word.isdigit() or word in dictionary:
+            if word.isdigit() or word in dictionary or strip_diacritical_marks(word) in dictionary:
                 continue
             else:
                 return False
