@@ -52,22 +52,6 @@ class AutoDetectLanguageTest(BaseTestCase):
         self.then_parser_languages_are(self.known_languages[self.known_languages.index(expected_language):])
 
     @parameterized.expand([
-        param(date_strings=["04-decembre-2015", "13 aou, 2014"], expected_language='fr'),
-    ])
-    def test_missing_diacritical_marks(self, date_strings, expected_language):
-        self.given_parser(languages=self.known_languages)
-        self.when_all_languages_are_detected(date_strings)
-        self.then_detected_languages_are([expected_language])
-
-    @parameterized.expand([
-        param(date_strings=["04 Tháng sau 2015", "04 Tháng sáu 2015"], expected_language='vi'),
-    ])
-    def test_partially_missing_diacritical_marks(self, date_strings, expected_language):
-        self.given_parser(languages=self.known_languages)
-        self.when_all_languages_are_detected(date_strings)
-        self.then_detected_languages_are([expected_language])
-
-    @parameterized.expand([
         param(date_strings=["11 abril 2010"], expected_language='es'),
         param(date_strings=["11 junio 2010"], expected_language='es'),
         param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_language='es'),
@@ -159,6 +143,16 @@ class ExactLanguagesTest(BaseTestCase):
     def test_languages_passed_in_constructor_should_not_be_none(self):
         self.when_parser_is_constructed(languages=None)
         self.then_error_was_raised(ValueError, ['language cannot be None for ExactLanguages'])
+
+    @parameterized.expand([
+        param(languages=['fr'], date_strings=["04-decembre-2015", "13 aou, 2014"]),
+    ])
+    def test_missing_diacritical_marks(self, languages, date_strings):
+        self.given_parser(languages)
+        for date_string in date_strings:
+            detected_languages = list(self.parser.iterate_applicable_languages(date_string, settings={'normalize_on_failure': True}))
+        self.when_all_languages_are_detected(date_strings)
+        self.then_detected_languages_are(languages)
 
     @parameterized.expand([
         param(languages=['es'], date_strings=["13 Ago, 2014"]),

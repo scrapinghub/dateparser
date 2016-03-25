@@ -12,15 +12,17 @@ from .validation import LanguageValidator
 
 from dateparser.utils import strip_diacritical_marks
 
+
 class Language(object):
 
     _dictionary = None
     _splitters = None
     _wordchars = None
 
-    def __init__(self, shortname, language_info):
+    def __init__(self, shortname, language_info, normalize_on_failure=False):
         self.shortname = shortname
         self.info = language_info
+        self.normalize_on_failure = normalize_on_failure
 
         for simplification in self.info.get('simplifications', []):
             key, value = list(simplification.items())[0]
@@ -51,7 +53,9 @@ class Language(object):
         dictionary = self._get_dictionary(settings)
         for i, word in enumerate(words):
             word = word.lower()
-            if word in dictionary or strip_diacritical_marks(word) in dictionary:
+            if (word in dictionary or
+                (self.normalize_on_failure and
+                 strip_diacritical_marks(word) in dictionary)):
                 words[i] = dictionary[word] or ''
 
         return self._join(
@@ -79,7 +83,10 @@ class Language(object):
         dictionary = self._get_dictionary(settings=settings)
         for word in words:
             word = word.lower()
-            if word.isdigit() or word in dictionary or strip_diacritical_marks(word) in dictionary:
+            if (word.isdigit() or
+                word in dictionary or
+                (self.normalize_on_failure and
+                 strip_diacritical_marks(word) in dictionary)):
                 continue
             else:
                 return False
