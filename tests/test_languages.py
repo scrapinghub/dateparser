@@ -106,6 +106,24 @@ class TestBundledLanguages(BaseTestCase):
         param('fi', "su marras 16, 2015", "sunday november 16 2015"),
         param('fi', "su joulukuu 16, 2015", "sunday december 16 2015"),
         param('fi', "su joulu 16, 2015", "sunday december 16 2015"),
+
+        # Japanese
+        param('ja', "午後3時", "pm 3:00"),
+        param('ja', "2時", "2:00"),
+        param('ja', "11時42分", "11:42"),
+        param('ja', "3ヶ月", "3 month"),
+        param('ja', "約53か月前", "53 month ago"),
+        param('ja', "3月", "march"),
+        param('ja', "十二月", "december"),
+        param('ja', "2月10日", "2-10"),
+        param('ja', "2013年2月", "2013 year february"),
+        param('ja', "2013年04月08日", "2013-04-08"),
+        param('ja', "2016年03月24日 木曜日 10時05分", "2016-03-24 thursday 10:05"),
+        param('ja', "2016年3月20日 21時40分", "2016-3-20 21:40"),
+        param('ja', "2016年03月21日 23時05分11秒", "2016-03-21 23:05:11"),
+        param('ja', "2016年3月21日(月) 14時48分", "2016-3-21 monday 14:48"),
+        param('ja', "2016年3月20日(日) 21時40分", "2016-3-20 sunday 21:40"),
+        param('ja', "2016年3月20日 (日) 21時40分", "2016-3-20 sunday 21:40"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -257,6 +275,30 @@ class TestBundledLanguages(BaseTestCase):
         param('fi', "3 s sitten", "3 second ago"),
         param('fi', "eilen", "1 day"),
         param('fi', "tänään", "0 day"),
+        # Japanese
+        param('ja', "今年", "0 year"),
+        param('ja', "去年", "1 year"),
+        param('ja', "17年前", "17 year ago"),
+        param('ja', "今月", "0 month"),
+        param('ja', "先月", "1 month"),
+        param('ja', "1ヶ月前", "1 month ago"),
+        param('ja', "2ヶ月前", "2 month ago"),
+        param('ja', "今週", "0 week"),
+        param('ja', "先週", "1 week"),
+        param('ja', "先々週", "2 week"),
+        param('ja', "2週間前", "2 week ago"),
+        param('ja', "3週間", "3 week"),
+        param('ja', "今日", "0 day"),
+        param('ja', "昨日", "1 day"),
+        param('ja', "一昨日", "2 day"),
+        param('ja', "3日前", "3 day ago"),
+        param('ja', "1時間", "1 hour"),
+        param('ja', "23時間前", "23 hour ago"),
+        param('ja', "30分", "30 minute"),
+        param('ja', "3分間", "3 minute"),
+        param('ja', "60秒", "60 second"),
+        param('ja', "3秒前", "3 second ago"),
+        param('ja', "現在", "now"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         # Finnish language use "t" as hour, so empty SKIP_TOKENS.
