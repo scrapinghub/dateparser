@@ -10,9 +10,85 @@ from six.moves import zip_longest
 DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
 DATEUTIL_PARSERINFO_KNOWN_TOKENS = ["am", "pm", "a", "p", "UTC", "GMT", "Z"]
 ALWAYS_KEEP_TOKENS = ["+"] + DATEUTIL_PARSER_HARDCODED_TOKENS
-
 from dateparser.utils import strip_diacritical_marks
 
+# Convert these unicode characters into ASCII
+xlate = {
+    # The note at the bottom of the page says "the inverted question
+    # mark represents a questionable character found as a result of
+    # NLM's conversion from its legacy extended EBCDIC character set
+    # to UNICODE UTF-8."  I do not use it but leave it here for
+    # completeness.
+    ord(u"\N{LATIN CAPITAL LETTER O WITH STROKE}"): u"O",
+    ord(u"\N{LATIN SMALL LETTER A WITH GRAVE}"): u"a",
+    ord(u"\N{LATIN SMALL LETTER A WITH ACUTE}"): u"a",
+    ord(u"\N{LATIN SMALL LETTER A WITH CIRCUMFLEX}"): u"a",
+    ord(u"\N{LATIN SMALL LETTER A WITH TILDE}"): u"a",
+    ord(u"\N{LATIN SMALL LETTER A WITH DIAERESIS}"): u"a",
+    ord(u"\N{LATIN SMALL LETTER A WITH RING ABOVE}"): u"a",
+    ord(u"\N{LATIN SMALL LETTER C WITH CEDILLA}"): u"c",
+    ord(u"\N{LATIN SMALL LETTER E WITH GRAVE}"): u"e",
+    ord(u"\N{LATIN SMALL LETTER E WITH ACUTE}"): u"e",
+#    ord(u"\N{LATIN SMALL LETTER E WITH CIRCUMFLEX}"): u"e",
+#    ord(u"\N{LATIN SMALL LETTER E WITH DIAERESIS}"): u"e",
+#    ord(u"\N{LATIN SMALL LETTER I WITH GRAVE}"): u"i",
+#    ord(u"\N{LATIN SMALL LETTER I WITH ACUTE}"): u"i",
+#    ord(u"\N{LATIN SMALL LETTER I WITH CIRCUMFLEX}"): u"i",
+#    ord(u"\N{LATIN SMALL LETTER I WITH DIAERESIS}"): u"i",
+#    ord(u"\N{LATIN SMALL LETTER N WITH TILDE}"): u"n",
+#    ord(u"\N{LATIN SMALL LETTER O WITH GRAVE}"): u"o",
+#    ord(u"\N{LATIN SMALL LETTER O WITH ACUTE}"): u"o",
+#    ord(u"\N{LATIN SMALL LETTER O WITH CIRCUMFLEX}"): u"o",
+#    ord(u"\N{LATIN SMALL LETTER O WITH TILDE}"): u"o",
+#    ord(u"\N{LATIN SMALL LETTER O WITH DIAERESIS}"): u"o",
+#    ord(u"\N{LATIN SMALL LETTER O WITH STROKE}"): u"o",
+#    ord(u"\N{LATIN SMALL LETTER U WITH GRAVE}"): u"u",
+#    ord(u"\N{LATIN SMALL LETTER U WITH ACUTE}"): u"u",
+#    ord(u"\N{LATIN SMALL LETTER U WITH CIRCUMFLEX}"): u"u",
+#    ord(u"\N{LATIN SMALL LETTER U WITH DIAERESIS}"): u"u",
+#    ord(u"\N{LATIN SMALL LETTER Y WITH ACUTE}"): u"y",
+#    ord(u"\N{LATIN SMALL LETTER Y WITH DIAERESIS}"): u"y",
+#    ord(u"\N{LATIN SMALL LETTER A WITH MACRON}"): u"a",
+#    ord(u"\N{LATIN SMALL LETTER A WITH BREVE}"): u"a",
+#    ord(u"\N{LATIN SMALL LETTER C WITH ACUTE}"): u"c",
+#    ord(u"\N{LATIN SMALL LETTER C WITH CIRCUMFLEX}"): u"c",
+#    ord(u"\N{LATIN SMALL LETTER E WITH MACRON}"): u"e",
+#    ord(u"\N{LATIN SMALL LETTER E WITH BREVE}"): u"e",
+#    ord(u"\N{LATIN SMALL LETTER G WITH CIRCUMFLEX}"): u"g",
+#    ord(u"\N{LATIN SMALL LETTER G WITH BREVE}"): u"g",
+#    ord(u"\N{LATIN SMALL LETTER G WITH CEDILLA}"): u"g",
+#    ord(u"\N{LATIN SMALL LETTER H WITH CIRCUMFLEX}"): u"h",
+#    ord(u"\N{LATIN SMALL LETTER I WITH TILDE}"): u"i",
+#    ord(u"\N{LATIN SMALL LETTER I WITH MACRON}"): u"i",
+#    ord(u"\N{LATIN SMALL LETTER I WITH BREVE}"): u"i",
+#    ord(u"\N{LATIN SMALL LETTER J WITH CIRCUMFLEX}"): u"j",
+#    ord(u"\N{LATIN SMALL LETTER K WITH CEDILLA}"): u"k",
+#    ord(u"\N{LATIN SMALL LETTER L WITH ACUTE}"): u"l",
+#    ord(u"\N{LATIN SMALL LETTER L WITH CEDILLA}"): u"l",
+#    ord(u"\N{LATIN CAPITAL LETTER L WITH STROKE}"): u"L",
+#    ord(u"\N{LATIN SMALL LETTER L WITH STROKE}"): u"l",
+#    ord(u"\N{LATIN SMALL LETTER N WITH ACUTE}"): u"n",
+#    ord(u"\N{LATIN SMALL LETTER N WITH CEDILLA}"): u"n",
+#    ord(u"\N{LATIN SMALL LETTER O WITH MACRON}"): u"o",
+#    ord(u"\N{LATIN SMALL LETTER O WITH BREVE}"): u"o",
+#    ord(u"\N{LATIN SMALL LETTER R WITH ACUTE}"): u"r",
+#    ord(u"\N{LATIN SMALL LETTER R WITH CEDILLA}"): u"r",
+#    ord(u"\N{LATIN SMALL LETTER S WITH ACUTE}"): u"s",
+#    ord(u"\N{LATIN SMALL LETTER S WITH CIRCUMFLEX}"): u"s",
+#    ord(u"\N{LATIN SMALL LETTER S WITH CEDILLA}"): u"s",
+#    ord(u"\N{LATIN SMALL LETTER T WITH CEDILLA}"): u"t",
+#    ord(u"\N{LATIN SMALL LETTER U WITH TILDE}"): u"u",
+#    ord(u"\N{LATIN SMALL LETTER U WITH MACRON}"): u"u",
+#    ord(u"\N{LATIN SMALL LETTER U WITH BREVE}"): u"u",
+#    ord(u"\N{LATIN SMALL LETTER U WITH RING ABOVE}"): u"u",
+#    ord(u"\N{LATIN SMALL LETTER W WITH CIRCUMFLEX}"): u"w",
+#    ord(u"\N{LATIN SMALL LETTER Y WITH CIRCUMFLEX}"): u"y",
+#    ord(u"\N{LATIN SMALL LETTER Z WITH ACUTE}"): u"z",
+#    ord(u"\N{LATIN SMALL LETTER W WITH GRAVE}"): u"w",
+#    ord(u"\N{LATIN SMALL LETTER W WITH ACUTE}"): u"w",
+#    ord(u"\N{LATIN SMALL LETTER W WITH DIAERESIS}"): u"w",
+#    ord(u"\N{LATIN SMALL LETTER Y WITH GRAVE}"): u"y",
+    }
 
 class UnknownTokenError(Exception):
     pass
@@ -21,6 +97,7 @@ class UnknownTokenError(Exception):
 class Dictionary(object):
     _split_regex_cache = {}
     _sorted_words_cache = {}
+    _denormalized_words_cache = {}
 
     def __init__(self, language_info, settings=None):
         dictionary = {}
@@ -33,14 +110,20 @@ class Dictionary(object):
         if 'pertain' in language_info:
             pertain = map(methodcaller('lower'), language_info['pertain'])
             dictionary.update(zip_longest(pertain, [], fillvalue=None))
+        tab = {}
+        if 'normalization' in language_info:
+            for n in language_info['normalization']:
+                for j in n:
+                    tab.update({ord(j): unicode(n[j])})
+       
+
         for word in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                      'january', 'february', 'march', 'april', 'may', 'june', 'july',
                      'august', 'september', 'october', 'november', 'december',
                      'year', 'month', 'week', 'day', 'hour', 'minute', 'second',
                      'ago']:
             translations = map(methodcaller('lower'), language_info[word])
-            translations = translations + [strip_diacritical_marks(t) for t in translations]
-
+            translations = translations + [unicode(t).translate(tab) for t in translations]
             dictionary.update(zip_longest(translations, [], fillvalue=word))
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(zip_longest(map(methodcaller('lower'),
@@ -97,7 +180,20 @@ class Dictionary(object):
             self._sorted_words_cache[self._settings.registry_key] = {
                 self.info['name']: sorted([key for key in self], key=len, reverse=True)
             }
+        print self._sorted_words_cache[self._settings.registry_key][self.info['name']]
         return self._sorted_words_cache[self._settings.registry_key][self.info['name']]
+
+    def _get_normalized_words_from_cache(self):
+        if (
+                self._settings.registry_key not in self._denormalized_words_cache or
+                self.info['name'] not in self._denormalized_words_cache[self._settings.registry_key]
+            ):
+            self._denormalized_words_cache[self._settings.registry_key] = {
+                self.info['name']: sorted([strip_diacritical_marks(key) for key in self], key=len, reverse=True)
+            }
+        print self._denormalized_words_cache[self._settings.registry_key][self.info['name']]
+        return self._denormalized_words_cache[self._settings.registry_key][self.info['name']]
+
 
     def _get_split_regex_cache(self):
         if (
