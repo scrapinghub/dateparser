@@ -19,18 +19,18 @@ class BaseLanguageDetector(object):
         self.languages = languages[:]
 
     @_restore_languages_on_generator_exit
-    def iterate_applicable_languages(self, date_string, settings=None, modify=False):
+    def iterate_applicable_languages(self, date_string, settings=None, modify=False, normalize=False):
         languages = self.languages if modify else self.languages[:]
-        for language in self._filter_languages(date_string, languages, settings):
+        for language in self._filter_languages(date_string, languages, settings, normalize=normalize):
             yield language
 
     @staticmethod
-    def _filter_languages(date_string, languages, settings=None):
+    def _filter_languages(date_string, languages, settings=None, normalize=False):
         while languages:
             language = languages[0]
-            if language.is_applicable(date_string, strip_timezone=False, settings=settings):
+            if language.is_applicable(date_string, strip_timezone=False, settings=settings, normalize=normalize):
                 yield language
-            elif language.is_applicable(date_string, strip_timezone=True, settings=settings):
+            elif language.is_applicable(date_string, strip_timezone=True, settings=settings, normalize=normalize):
                 yield language
 
             languages.pop(0)
@@ -43,10 +43,10 @@ class AutoDetectLanguage(BaseLanguageDetector):
         self.allow_redetection = allow_redetection
 
     @_restore_languages_on_generator_exit
-    def iterate_applicable_languages(self, date_string, modify=False, settings=None):
+    def iterate_applicable_languages(self, date_string, modify=False, settings=None, normalize=False):
         languages = self.languages if modify else self.languages[:]
         initial_languages = languages[:]
-        for language in self._filter_languages(date_string, languages, settings=settings):
+        for language in self._filter_languages(date_string, languages, settings=settings, normalize=normalize):
             yield language
 
         if not self.allow_redetection:
@@ -59,7 +59,7 @@ class AutoDetectLanguage(BaseLanguageDetector):
         if modify:
             self.languages = languages
 
-        for language in self._filter_languages(date_string, languages, settings=settings):
+        for language in self._filter_languages(date_string, languages, settings=settings, normalize=normalize):
             yield language
 
 
@@ -70,8 +70,8 @@ class ExactLanguages(BaseLanguageDetector):
         super(ExactLanguages, self).__init__(languages=languages)
 
     @_restore_languages_on_generator_exit
-    def iterate_applicable_languages(self, date_string, modify=False, settings=None):
+    def iterate_applicable_languages(self, date_string, modify=False, settings=None, normalize=False):
         for language in super(
                 ExactLanguages, self).iterate_applicable_languages(
-                    date_string, modify=False, settings=settings):
+                    date_string, modify=False, settings=settings, normalize=normalize):
             yield language

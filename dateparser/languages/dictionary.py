@@ -110,20 +110,12 @@ class Dictionary(object):
         if 'pertain' in language_info:
             pertain = map(methodcaller('lower'), language_info['pertain'])
             dictionary.update(zip_longest(pertain, [], fillvalue=None))
-        tab = {}
-        if 'normalization' in language_info:
-            for n in language_info['normalization']:
-                for j in n:
-                    tab.update({ord(j): unicode(n[j])})
-       
-
         for word in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                      'january', 'february', 'march', 'april', 'may', 'june', 'july',
                      'august', 'september', 'october', 'november', 'december',
                      'year', 'month', 'week', 'day', 'hour', 'minute', 'second',
                      'ago']:
             translations = map(methodcaller('lower'), language_info[word])
-            translations = translations + [unicode(t).translate(tab) for t in translations]
             dictionary.update(zip_longest(translations, [], fillvalue=word))
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(zip_longest(map(methodcaller('lower'),
@@ -180,19 +172,7 @@ class Dictionary(object):
             self._sorted_words_cache[self._settings.registry_key] = {
                 self.info['name']: sorted([key for key in self], key=len, reverse=True)
             }
-        print self._sorted_words_cache[self._settings.registry_key][self.info['name']]
         return self._sorted_words_cache[self._settings.registry_key][self.info['name']]
-
-    def _get_normalized_words_from_cache(self):
-        if (
-                self._settings.registry_key not in self._denormalized_words_cache or
-                self.info['name'] not in self._denormalized_words_cache[self._settings.registry_key]
-            ):
-            self._denormalized_words_cache[self._settings.registry_key] = {
-                self.info['name']: sorted([strip_diacritical_marks(key) for key in self], key=len, reverse=True)
-            }
-        print self._denormalized_words_cache[self._settings.registry_key][self.info['name']]
-        return self._denormalized_words_cache[self._settings.registry_key][self.info['name']]
 
 
     def _get_split_regex_cache(self):
@@ -212,3 +192,22 @@ class Dictionary(object):
         self._split_regex_cache[self._settings.registry_key] = {
             self.info['name']: re.compile(regex, re.UNICODE | re.IGNORECASE)
         }
+
+class NormalizedDictionary(Dictionary):
+
+    def __init__(self, language_info, settings=None):
+        super(NormalizedDictionary, self).__init__(language_info, settings)
+        self._normalize_dictionary()
+
+    def _normalize_dictionary(self):
+
+        normalization_table = {}
+        if 'normalization' in self.info:
+            for n in self.info['normalization']:
+                for j in n:
+                    normalization_table.update({ord(j): unicode(n[j])})
+
+        new_dict = {}
+        for i in self._dictionary:
+            new_dict[unicode(i).translate(normalization_table)] = self._dictionary[i]
+        self._dictionary = new_dict
