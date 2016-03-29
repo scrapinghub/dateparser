@@ -8,7 +8,6 @@ from pytz import UTC, timezone
 
 from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
 
-import unicodedata
 
 GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
 G_REGEX = re.compile(r'g<(\d+)>')
@@ -16,11 +15,6 @@ G_REGEX = re.compile(r'g<(\d+)>')
 
 def strip_braces(date_string):
     return re.sub(r'[{}()<>\[\]]+', '', date_string)
-
-def strip_diacritical_marks(string):
-    return ''.join((
-            c for c in unicodedata.normalize('NFKD', unicode(string))
-            if unicodedata.category(c) != 'Mn'))
 
 def is_dateutil_result_obj_parsed(date_string):
     res = parser()._parse(date_string)

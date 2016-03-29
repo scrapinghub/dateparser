@@ -11,7 +11,7 @@ class LanguageValidator(object):
                   'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                   'january', 'february', 'march', 'april', 'may', 'june', 'july',
                   'august', 'september', 'october', 'november', 'december',
-                  'year', 'month', 'week', 'day', 'hour', 'minute', 'second', 'normalization']
+                  'year', 'month', 'week', 'day', 'hour', 'minute', 'second', 'normalization_mapping']
 
     @classmethod
     def get_logger(cls):

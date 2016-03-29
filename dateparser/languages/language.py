@@ -10,8 +10,6 @@ from dateparser.utils import wrap_replacement_for_regex
 from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
 
-from dateparser.utils import strip_diacritical_marks
-
 
 class Language(object):
 

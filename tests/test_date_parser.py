@@ -150,8 +150,8 @@ class ExactLanguagesTest(BaseTestCase):
     def test_missing_diacritical_marks(self, languages, date_strings):
         self.given_parser(languages)
         for date_string in date_strings:
-            detected_languages = list(self.parser.iterate_applicable_languages(date_string, settings={'normalize_on_failure': True}))
-        self.when_all_languages_are_detected(date_strings)
+            detected_languages = list(self.parser.iterate_applicable_languages(date_string, settings=settings, normalize=True))
+        self.when_languages_are_detected(date_strings, normalize=True)
         self.then_detected_languages_are(languages)
 
     @parameterized.expand([
@@ -179,10 +179,10 @@ class ExactLanguagesTest(BaseTestCase):
                      for language in languages]
         self.parser = ExactLanguages(languages)
 
-    def when_languages_are_detected(self, date_strings, modify=False):
+    def when_languages_are_detected(self, date_strings, modify=False, normalize=False):
         assert not isinstance(date_strings, six.string_types)
         for date_string in date_strings:
-            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings))
+            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings, normalize=normalize))
         self.detected_languages = detected_languages
 
     def when_parser_is_constructed(self, languages):
@@ -331,6 +331,118 @@ class TestDateParser(BaseTestCase):
         self.given_local_tz_offset(0)
         self.given_parser()
         self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
+
+
+    @parameterized.expand([
+        # English dates
+        param('[Sept] 04, 2014.', datetime(2014, 9, 4)),
+        param('Tuesday Jul 22, 2014', datetime(2014, 7, 22)),
+        param('10:04am EDT', datetime(2012, 11, 13, 14, 4)),
+        param('Friday', datetime(2012, 11, 9)),
+        param('November 19, 2014 at noon', datetime(2014, 11, 19, 12, 0)),
+        param('December 13, 2014 at midnight', datetime(2014, 12, 13, 0, 0)),
+        param('Nov 25 2014 10:17 pm EST', datetime(2014, 11, 26, 3, 17)),
+        param('Wed Aug 05 12:00:00 EDT 2015', datetime(2015, 8, 5, 16, 0)),
+        param('April 9, 2013 at 6:11 a.m.', datetime(2013, 4, 9, 6, 11)),
+        param('Aug. 9, 2012 at 2:57 p.m.', datetime(2012, 8, 9, 14, 57)),
+        param('December 10, 2014, 11:02:21 pm', datetime(2014, 12, 10, 23, 2, 21)),
+        param('8:25 a.m. Dec. 12, 2014', datetime(2014, 12, 12, 8, 25)),
+        param('2:21 p.m., December 11, 2014', datetime(2014, 12, 11, 14, 21)),
+        param('Fri, 12 Dec 2014 10:55:50', datetime(2014, 12, 12, 10, 55, 50)),
+        param('20 Mar 2013 10h11', datetime(2013, 3, 20, 10, 11)),
+        param('10:06am Dec 11, 2014', datetime(2014, 12, 11, 10, 6)),
+        param('19 February 2013 year 09:10', datetime(2013, 2, 19, 9, 10)),
+        # French dates
+        param('11 Mai 2014', datetime(2014, 5, 11)),
+        param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
+        param('vendredi, decembre 5 2014.', datetime(2014, 12, 5, 0, 0)),
+        param('le 08 Dec 2014 15:11', datetime(2014, 12, 8, 15, 11)),
+        param('fev 15, 2013', datetime(2013, 2, 15, 0, 0)),
+        param('Jeu 15:12', datetime(2012, 11, 8, 15, 12)),
+        # Spanish dates
+        param('Martes 21 de Octubre de 2014', datetime(2014, 10, 21)),
+        param('Miercoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),
+        param('12 de junio del 2012', datetime(2012, 6, 12)),
+        param('13 Ago, 2014', datetime(2014, 8, 13)),
+        param('13 Septiembre, 2014', datetime(2014, 9, 13)),
+        param('11 Marzo, 2014', datetime(2014, 3, 11)),
+        param('julio 5, 2015 en 1:04 pm', datetime(2015, 7, 5, 13, 4)),
+        param('Vi 17:15', datetime(2012, 11, 9, 17, 15)),
+        # Dutch dates
+        param('11 augustus 2014', datetime(2014, 8, 11)),
+        param('14 januari 2014', datetime(2014, 1, 14)),
+        param('vr jan 24, 2014 12:49', datetime(2014, 1, 24, 12, 49)),
+        # Italian dates
+        param('16 giu 2014', datetime(2014, 6, 16)),
+        param('26 gennaio 2014', datetime(2014, 1, 26)),
+        param('Ven 18:23', datetime(2012, 11, 9, 18, 23)),
+        # Portuguese dates
+        param('sexta-feira, 10 de junho de 2014 14:52', datetime(2014, 6, 10, 14, 52)),
+        param('13 Setembro, 2014', datetime(2014, 9, 13)),
+        param('Sab 3:03', datetime(2012, 11, 10, 3, 3)),
+        # Russian dates
+        param('10 мая', datetime(2012, 5, 10)),  # forum.codenet.ru
+        param('26 апреля', datetime(2012, 4, 26)),
+        param('20 ноября 2013', datetime(2013, 11, 20)),
+        param('28 октября 2014 в 07:54', datetime(2014, 10, 28, 7, 54)),
+        param('13 января 2015 г. в 13:34', datetime(2015, 1, 13, 13, 34)),
+        param('09 августа 2012', datetime(2012, 8, 9, 0, 0)),
+        param('Авг 26, 2015 15:12', datetime(2015, 8, 26, 15, 12)),
+        param('2 Декабрь 95 11:15', datetime(1995, 12, 2, 11, 15)),
+        param('13 янв. 2005 19:13', datetime(2005, 1, 13, 19, 13)),
+        param('13 авг. 2005 19:13', datetime(2005, 8, 13, 19, 13)),
+        param('13 авг. 2005г. 19:13', datetime(2005, 8, 13, 19, 13)),
+        param('13 авг. 2005 г. 19:13', datetime(2005, 8, 13, 19, 13)),
+        # Turkish dates
+        param('11 Agustos, 2014', datetime(2014, 8, 11)),
+        param('08.Haziran.2014, 11:07', datetime(2014, 6, 8, 11, 7)),  # forum.andronova.net
+        param('17.Subat.2014, 17:51', datetime(2014, 2, 17, 17, 51)),
+        param('14-Aralık-2012, 20:56', datetime(2012, 12, 14, 20, 56)),  # forum.ceviz.net
+        # Romanian dates
+        param('13 iunie 2013', datetime(2013, 6, 13)),
+        param('14 aprilie 2014', datetime(2014, 4, 14)),
+        param('18 martie 2012', datetime(2012, 3, 18)),
+        param('S 14:14', datetime(2012, 11, 10, 14, 14)),
+        param('12-Iun-2013', datetime(2013, 6, 12)),
+        # German dates
+        param('21. Dezember 2013', datetime(2013, 12, 21)),
+        param('19. Februar 2012', datetime(2012, 2, 19)),
+        param('26. Juli 2014', datetime(2014, 7, 26)),
+        param('18.10.14 um 22:56 Uhr', datetime(2014, 10, 18, 22, 56)),
+        param('12-Mar-2014', datetime(2014, 3, 12)),
+        param('Mit 13:14', datetime(2012, 11, 7, 13, 14)),
+        # Czech dates
+        param('pon 16. cer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
+        param('13 Srpen, 2014', datetime(2014, 8, 13)),
+        param('ctv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
+        # Ukrainian dates
+        param('2015-кві-12', datetime(2015, 4, 12)),
+        param('21 чер 2013 3:13', datetime(2013, 6, 21, 3, 13)),
+        param('12 лютого 2012, 13:12:23', datetime(2012, 2, 12, 13, 12, 23)),
+        param('вів о 14:04', datetime(2012, 11, 6, 14, 4)),
+        # Filipino dates
+        param('12 Hulyo 2003 13:01', datetime(2003, 7, 12, 13, 1)),
+        param('1978, 1 Peb, 7:05 PM', datetime(1978, 2, 1, 19, 5)),
+        param('2 hun', datetime(2012, 6, 2)),
+        param('Lin 16:16', datetime(2012, 11, 11, 16, 16)),
+        # Numeric dates
+        param('06-17-2014', datetime(2014, 6, 17)),
+        param('13/03/2014', datetime(2014, 3, 13)),
+        param('11. 12. 2014, 08:45:39', datetime(2014, 11, 12, 8, 45, 39)),
+        # Miscellaneous dates
+        param('1 Ni 2015', datetime(2015, 4, 1, 0, 0)),
+        param('1 Mar 2015', datetime(2015, 3, 1, 0, 0)),
+        param('1 Paz 2015', datetime(2015, 10, 1, 0, 0)),
+        param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
+    ])
+    def test_parsing_dates_with_normalization(self, date_string, expected):
+        self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.when_date_is_parsed(date_string, normalize=True)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
@@ -565,8 +677,8 @@ class TestDateParser(BaseTestCase):
         self.add_patch(patch('dateparser.date.date_parser', new=self.date_parser))
         self.parser = DateDataParser(*args, **kwds)
 
-    def when_date_is_parsed(self, date_string):
-        self.result = self.parser.get_date_data(date_string)
+    def when_date_is_parsed(self, date_string, normalize=False):
+        self.result = self.parser.get_date_data(date_string, normalize=normalize)
 
     def when_date_is_parsed_by_date_parser(self, date_string):
         try:

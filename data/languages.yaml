@@ -1,8 +1,5 @@
 base:
     skip: [" ", ".", ",", ";", "-", "/", "'", "|", "@", "[", "]", "，"]
-    normalization:
-        - é: "e"
-
 
 en:
     name: English
