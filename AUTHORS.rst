@@ -28,6 +28,7 @@ Committers
 * Sigit Dewanto
 * Sviatoslav Sydorenko
 * Taito Horiuchi
+* Takahiro Kamatani
 * Tom Russell
 * Umair Ashraf
 * Waqas Shabir
