@@ -68,9 +68,9 @@ class TestBundledLanguages(BaseTestCase):
         param('th', "เมื่อ กุมภาพันธ์ 09, 2015, 09:27:57 AM", "february 09 2015 09:27:57 am"),
         param('th', "เมื่อ กรกฎาคม 05, 2012, 01:18:06 AM", "july 05 2012 01:18:06 am"),
 
-        # Filipino
-        param('ph', "Biyernes Hulyo 3, 2015", "friday july 3 2015"),
-        param('ph', "Pebrero 5, 2015 7:00 pm", "february 5 2015 7:00 pm"),
+        # Tagalog
+        param('tl', "Biyernes Hulyo 3, 2015", "friday july 3 2015"),
+        param('tl', "Pebrero 5, 2015 7:00 pm", "february 5 2015 7:00 pm"),
         # Indonesian
         param('id', "06 Sep 2015", "06 september 2015"),
         param('id', "07 Feb 2015 20:15", "07 february 2015 20:15"),
@@ -218,12 +218,12 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "21 giờ trước", "21 hour ago"),
         param('vi', "Hôm qua 08:16", "1 day 08:16"),
         param('vi', "Hôm nay 15:39", "0 day 15:39"),
-        #French
+        # French
         param('fr', u"Il y a moins d'une minute", "ago 1 minute"),
         param('fr', u"Il y a moins de 30s", "ago 30 s"),
-        #Filipino
-        param('ph', "kahapon", "1 day"),
-        param('ph', "ngayon", "0 second"),
+        # Tagalog
+        param('tl', "kahapon", "1 day"),
+        param('tl', "ngayon", "0 second"),
         # Ukrainian
         param('uk', "позавчора", "2 day"),
         # Belarusian
@@ -332,7 +332,7 @@ class TestBundledLanguages(BaseTestCase):
         param('th', "8 มกราคม 2015 เวลา 12:22 น.", ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
         param('pl', "8 stycznia 2015 o 10:19", ['8', ' ', 'stycznia', ' ', '2015', ' ', 'o', ' ', '10', ':', '19']),
         param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", ["Thứ Năm", " ", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
-        param('ph', "Biyernes Hulyo 3 2015", ["Biyernes", " ", "Hulyo", " ", "3", " ", "2015"]),
+        param('tl', "Biyernes Hulyo 3 2015", ["Biyernes", " ", "Hulyo", " ", "3", " ", "2015"]),
         param('by', "3 верасня 2015 г. у 11:10", ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
         param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
     ])
@@ -357,7 +357,7 @@ class TestBundledLanguages(BaseTestCase):
         param('pl', "przedwczoraj", strip_timezone=False),
         param('fa', "ژانویه 8, 2015، ساعت 15:46", strip_timezone=False),
         param('vi', "2 tuần 3 ngày", strip_timezone=False),
-        param('ph', "Hulyo 3, 2015 7:00 pm", strip_timezone=False),
+        param('tl', "Hulyo 3, 2015 7:00 pm", strip_timezone=False),
         param('by', "3 верасня 2015 г. у 11:10", strip_timezone=False),
         param('id', "01 Agustus 2015 18:23", strip_timezone=False),
     ])

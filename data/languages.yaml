@@ -1887,8 +1887,8 @@ vi:
         - Thứ 6: friday
         - Thứ 7: saturday
 
-ph:
-    name: Filipino
+tl:
+    name: Tagalog
     skip: ["noong", "noon", "sa", "ganap", "na"]
 
     monday:

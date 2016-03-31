@@ -301,7 +301,7 @@ class TestDateParser(BaseTestCase):
         param('21 чер 2013 3:13', datetime(2013, 6, 21, 3, 13)),
         param('12 лютого 2012, 13:12:23', datetime(2012, 2, 12, 13, 12, 23)),
         param('вів о 14:04', datetime(2012, 11, 6, 14, 4)),
-        # Filipino dates
+        # Tagalog dates
         param('12 Hulyo 2003 13:01', datetime(2003, 7, 12, 13, 1)),
         param('1978, 1 Peb, 7:05 PM', datetime(1978, 2, 1, 19, 5)),
         param('2 hun', datetime(2012, 6, 2)),
