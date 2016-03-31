@@ -2300,7 +2300,7 @@ fi:
         - tänään: 0 päivä
 
 
-jp:
+ja:
     name: Japanese
     no_word_spacing: True
 
