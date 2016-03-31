@@ -23,7 +23,7 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "Sep 03 2014", "september 03 2014"),
         param('en', "friday, 03 september 2014", "friday 03 september 2014"),
         # Chinese
-        param('cn', "1年11个月", "1 year 11 month"),
+        param('zh', "1年11个月", "1 year 11 month"),
         # French
         param('fr', "20 Février 2012", "20 february 2012"),
         param('fr', "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
@@ -188,11 +188,11 @@ class TestBundledLanguages(BaseTestCase):
         param('cs', "4 týden", "4 week"),
         param('cs', "14 roků", "14 year"),
         # Chinese
-        param('cn', "昨天", "1 day"),
-        param('cn', "前天", "2 day"),
-        param('cn', "50 秒", "50 second"),
-        param('cn', "7 周", "7 week"),
-        param('cn', "12 年", "12 year"),
+        param('zh', "昨天", "1 day"),
+        param('zh', "前天", "2 day"),
+        param('zh', "50 秒", "50 second"),
+        param('zh', "7 周", "7 week"),
+        param('zh', "12 年", "12 year"),
         # Dutch
         param('nl', "17 uur geleden", "17 hour ago"),
         param('nl', "27 jaar geleden", "27 year ago"),
@@ -319,7 +319,7 @@ class TestBundledLanguages(BaseTestCase):
         param('pt', "sexta-feira, 10 de junho de 2014 14:52",
               ["sexta-feira", " ", "10", " ", "de", " ", "junho", " ", "de", " ", "2014", " ", "14", ":", "52"]),
         param('it', "14_luglio_15", ["14", "luglio", "15"]),
-        param('cn', "1年11个月", ["1", "年", "11", "个月"]),
+        param('zh', "1年11个月", ["1", "年", "11", "个月"]),
         param('tr', "2 saat önce", ["2", " ", "saat", " ", "önce"]),
         param('fr', "il ya environ 23 heures'", ["il ya", " ", "environ", " ", "23", " ", "heures"]),
         param('de', "Gestern um 04:41", ['Gestern ', 'um', ' ', '04', ':', '41']),
