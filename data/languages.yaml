@@ -966,7 +966,7 @@ tr:
         - bugün: 0 gün
 
 
-cz:
+cs:
     name: Czech
 
     skip: ["přibližně", "v"]
