@@ -54,9 +54,9 @@ class TestBundledLanguages(BaseTestCase):
         # Ukrainian
         param('uk', "30 листопада 2013 о 04:27", "30 november 2013  04:27"),
         # Belarusian
-        param('by', "5 снежня 2015 г. у 12:00", "5 december 2015 year  12:00"),
-        param('by', "11 верасня 2015 г. у 12:11", "11 september 2015 year  12:11"),
-        param('by', "3 стд 2015 г. у 10:33", "3 january 2015 year  10:33"),
+        param('be', "5 снежня 2015 г. у 12:00", "5 december 2015 year  12:00"),
+        param('be', "11 верасня 2015 г. у 12:11", "11 september 2015 year  12:11"),
+        param('be', "3 стд 2015 г. у 10:33", "3 january 2015 year  10:33"),
         # Arabic
         param('ar', "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
         param('ar', "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
@@ -227,16 +227,16 @@ class TestBundledLanguages(BaseTestCase):
         # Ukrainian
         param('uk', "позавчора", "2 day"),
         # Belarusian
-        param('by', "9 месяцаў", "9 month"),
-        param('by', "8 тыдняў", "8 week"),
-        param('by', "1 тыдзень", "1 week"),
-        param('by', "2 года", "2 year"),
-        param('by', "3 гады", "3 year"),
-        param('by', "11 секунд", "11 second"),
-        param('by', "учора", "1 day"),
-        param('by', "пазаўчора", "2 day"),
-        param('by', "сёння", "0 day"),
-        param('by', "некалькі хвілін", "2 minute"),
+        param('be', "9 месяцаў", "9 month"),
+        param('be', "8 тыдняў", "8 week"),
+        param('be', "1 тыдзень", "1 week"),
+        param('be', "2 года", "2 year"),
+        param('be', "3 гады", "3 year"),
+        param('be', "11 секунд", "11 second"),
+        param('be', "учора", "1 day"),
+        param('be', "пазаўчора", "2 day"),
+        param('be', "сёння", "0 day"),
+        param('be', "некалькі хвілін", "2 minute"),
         # Indonesian
         param('id', "baru saja", "0 second"),
         param('id', "hari ini", "0 day"),
@@ -333,7 +333,7 @@ class TestBundledLanguages(BaseTestCase):
         param('pl', "8 stycznia 2015 o 10:19", ['8', ' ', 'stycznia', ' ', '2015', ' ', 'o', ' ', '10', ':', '19']),
         param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", ["Thứ Năm", " ", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
         param('tl', "Biyernes Hulyo 3 2015", ["Biyernes", " ", "Hulyo", " ", "3", " ", "2015"]),
-        param('by', "3 верасня 2015 г. у 11:10", ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
+        param('be', "3 верасня 2015 г. у 11:10", ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
         param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
@@ -358,7 +358,7 @@ class TestBundledLanguages(BaseTestCase):
         param('fa', "ژانویه 8, 2015، ساعت 15:46", strip_timezone=False),
         param('vi', "2 tuần 3 ngày", strip_timezone=False),
         param('tl', "Hulyo 3, 2015 7:00 pm", strip_timezone=False),
-        param('by', "3 верасня 2015 г. у 11:10", strip_timezone=False),
+        param('be', "3 верасня 2015 г. у 11:10", strip_timezone=False),
         param('id', "01 Agustus 2015 18:23", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):

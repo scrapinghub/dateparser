@@ -1974,7 +1974,7 @@ tl:
         - isang araw: 2 araw
 
 
-by:
+be:
     name: Belarusian
 
     skip: ["каля", "у", "ў", "і"]
