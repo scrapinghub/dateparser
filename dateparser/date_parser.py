@@ -8,6 +8,7 @@ from datetime import datetime
 from collections import OrderedDict
 
 import six
+import pytz
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
@@ -181,8 +182,11 @@ class DateParser(object):
 
         if tz is not None:
             date_obj = tz.localize(date_obj)
+        elif not settings.NO_DEFAULT_TIMEZONE:
+            date_obj = pytz.timezone(settings.TIMEZONE).localize(date_obj)
 
-        date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+        if settings.TIMEZONE_CONVERSION and not settings.NO_DEFAULT_TIMEZONE:
+            date_obj = apply_timezone(date_obj, settings.TIMEZONE)
 
         if not settings.RETURN_AS_TIMEZONE_AWARE:
             date_obj = date_obj.replace(tzinfo=None)

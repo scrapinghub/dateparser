@@ -20,6 +20,8 @@ class Settings(object):
     * `SKIP_TOKENS`: defaults to `['t']`. Can be any string.
     * `TIMEZONE`: defaults to `UTC`. Can be timezone abbreviation or any of `tz database name as given here <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>`_.
     * `RETURN_AS_TIMEZONE_AWARE`: return tz aware datetime objects in case timezone is detected in the date string.
+    * `TIMEZONE_CONVERSION`: defaults to `True`.  Converts the output to the timezone specified in `TIMEZONE`
+    * `NO_DEFAULT_TIMEZONE`: defaults to `False`. Prevents UTC timezone being used by default in case no timezone is detected and `TIMEZONE` is not specified.
     """
 
     _default = True
