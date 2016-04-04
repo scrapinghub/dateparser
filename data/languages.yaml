@@ -96,6 +96,7 @@ en:
         - ago
     in:
         - in
+        - from now
 
     simplifications:
         - day before yesterday: 2 days
@@ -113,7 +114,7 @@ en:
         - midnight: '00:00'
         - (\d+)h(\d+)m?: \1:\2
         - less than 1 minute ago: 45 seconds
-        - now: 0 second
+        - (?<!from\s)now: 0 second
 
 
 de:
@@ -393,6 +394,8 @@ es:
 
     ago:
         - hace
+    in:
+        - en
 
     simplifications:
         - anteayer: 2 día
@@ -483,6 +486,8 @@ it:
 
     ago:
         - fa
+    in:
+        - in
 
     simplifications:
         - altro ieri: 2 giorni
@@ -580,6 +585,8 @@ pt:
     ago:
         - atrás
         - há
+    in:
+        - em
 
     simplifications:
         - anteontem: 2 dias
@@ -700,6 +707,8 @@ ru:
 
     ago:
         - назад
+    in:
+        - в течение
 
     simplifications:
         - позавчера: 2 дня
@@ -807,6 +816,8 @@ uk:
     ago:
         - тому
         - назад
+    in:
+        - протягом
 
     simplifications:
         - позавчора: 2 дні
@@ -887,6 +898,8 @@ tr:
 
     ago:
         - önce
+    in:
+        - iki
 
     simplifications:
         - dün: 1 gün
@@ -985,6 +998,8 @@ cz:
 
     ago:
         - před
+    in:
+        - ve
 
     simplifications:
         - dnes: 0 den
@@ -1058,6 +1073,8 @@ cn:
 
     ago:
         - 前
+    in:
+        - 在
 
     simplifications:
         - 昨天: 1天
@@ -1149,6 +1166,8 @@ nl:
 
     ago:
         - geleden
+    in:
+        - in
 
     simplifications:
         - gisteren: 1 dag
@@ -1229,6 +1248,8 @@ ro:
 
     ago:
         - în urmă
+    in:
+        - în
 
     simplifications:
         - ieri: 1 zi
@@ -1300,6 +1321,8 @@ ar:
 
     ago:
         - منذ
+    in:
+        - خلال
 
     simplifications:
         - اليوم السابق: 1 يوم
@@ -1422,6 +1445,8 @@ th:
         - แต่ก่อน
         - มาแล้ว
         - ก่อน
+    in:
+        - ใน
 
     simplifications:
         - วันนี้: 0 วัน
@@ -1692,6 +1717,8 @@ fa:
 
     ago:
         - پیش
+    in:
+        - در
 
     simplifications:
         - ۰: 0
@@ -1780,6 +1807,8 @@ vi:
         - trước đây
         - trước
         - trước
+    in:
+        - trong
 
     simplifications:
         - Hôm qua: 1 buổi
@@ -1879,6 +1908,8 @@ ph:
     ago:
         - nakaraan
         - nakalipas
+    in:
+        - sa
 
     simplifications:
         - kahapon: 1 araw
@@ -2003,6 +2034,8 @@ by:
         - таму назад
         - таму
         - назад
+    in:
+        - на працягу
 
     simplifications:
         - пазаўчора: 2 дні
@@ -2094,6 +2127,8 @@ id:
 
     ago:
         - lalu
+    in:
+        - dalam
 
     simplifications:
         - kemarin lusa: 2 hari
