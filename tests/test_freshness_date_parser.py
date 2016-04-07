@@ -314,6 +314,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 day ago at 2 PM', date(2014, 8, 31), time(14, 0)),
         param('Dnes v 12:40', date(2014, 9, 1), time(12, 40)),
         param('1 week ago at 12:00 am', date(2014, 8, 25), time(0, 0)),
+        param('tomorrow at 2 PM', date(2014, 9, 2), time(14, 0)),
     ])
     def test_freshness_date_with_time(self, date_string, date, time):
         self.given_parser()

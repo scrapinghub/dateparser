@@ -69,10 +69,10 @@ class FreshnessDateDataParser(object):
                     break
 
         td = relativedelta(**kwargs)
-        if 'ago' in date_string:
-            date = self.now - td
-        elif 'in' in date_string:
+        if re.search(r'\bin\b', date_string):
             date = self.now + td
+        else:
+            date = self.now - td
         return date, period
 
     def get_kwargs(self, date_string):
