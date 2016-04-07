@@ -13,7 +13,7 @@ dateparser -- python parser for human readable dates
 .. image:: https://img.shields.io/pypi/v/dateparser.svg?style=flat-square
     :target: https://pypi.python.org/pypi/dateparser
     :alt: pypi version
-    
+
 .. image:: https://readthedocs.org/projects/dateparser/badge/?version=latest
     :target: http://dateparser.readthedocs.org/en/latest/?badge=latest
     :alt: Documentation Status
@@ -36,7 +36,7 @@ Features
 * Generic parsing of dates in English, Spanish, Dutch, Russian and several other languages and formats.
 * Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
 * Generic parsing of dates with time zones abbreviations or UTC offsets like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``, ``'21 July 2013 10:15 pm +0500'``.
-* Support for non-Gregorian calendar systems. See `Supported Calendars`_. 
+* Support for non-Gregorian calendar systems. See `Supported Calendars`_.
 * Extensive test coverage.
 
 
@@ -132,6 +132,7 @@ Supported languages
 * German
 * Indonesian
 * Italian
+* Japanese
 * Persian
 * Polish
 * Portuguese

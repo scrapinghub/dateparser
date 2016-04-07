@@ -316,6 +316,9 @@ class TestDateParser(BaseTestCase):
         param('1978, 1 Peb, 7:05 PM', datetime(1978, 2, 1, 19, 5)),
         param('2 hun', datetime(2012, 6, 2)),
         param('Lin 16:16', datetime(2012, 11, 11, 16, 16)),
+        # Japanese dates
+        param('2016年3月20日(日) 21時40分', datetime(2016, 3, 20, 21, 40)),
+        param("2016年3月20日 21時40分", datetime(2016, 3, 20, 21, 40)),
         # Numeric dates
         param('06-17-2014', datetime(2014, 6, 17)),
         param('13/03/2014', datetime(2014, 3, 13)),
