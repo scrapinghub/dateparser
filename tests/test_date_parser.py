@@ -15,7 +15,7 @@ from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import default_language_loader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
-from dateparser.conf import settings
+from dateparser.conf import settings, Settings
 
 from tests import BaseTestCase
 
@@ -149,10 +149,11 @@ class ExactLanguagesTest(BaseTestCase):
     ])
     def test_missing_diacritical_marks(self, languages, date_strings):
         self.given_parser(languages)
-        for date_string in date_strings:
-            detected_languages = list(self.parser.iterate_applicable_languages(date_string, settings=settings, normalize=True))
-        self.when_languages_are_detected(date_strings, normalize=True)
+        setting = Settings()
+        setting.NORMALIZE = True
+        self.when_languages_are_detected(date_strings)
         self.then_detected_languages_are(languages)
+        setting.NORMALIZE = False
 
     @parameterized.expand([
         param(languages=['es'], date_strings=["13 Ago, 2014"]),
@@ -179,10 +180,10 @@ class ExactLanguagesTest(BaseTestCase):
                      for language in languages]
         self.parser = ExactLanguages(languages)
 
-    def when_languages_are_detected(self, date_strings, modify=False, normalize=False):
+    def when_languages_are_detected(self, date_strings, modify=False):
         assert not isinstance(date_strings, six.string_types)
         for date_string in date_strings:
-            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings, normalize=normalize))
+            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings))
         self.detected_languages = detected_languages
 
     def when_parser_is_constructed(self, languages):
@@ -338,7 +339,6 @@ class TestDateParser(BaseTestCase):
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
-
     @parameterized.expand([
         # English dates
         param('[Sept] 04, 2014.', datetime(2014, 9, 4)),
@@ -444,8 +444,8 @@ class TestDateParser(BaseTestCase):
     def test_parsing_dates_with_normalization(self, date_string, expected):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
         self.given_local_tz_offset(0)
-        self.given_parser()
-        self.when_date_is_parsed(date_string, normalize=True)
+        self.given_parser(settings={'NORMALIZE': True})
+        self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
@@ -526,7 +526,6 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
-
 
     @parameterized.expand([
         param('10 December', datetime(2015, 12, 10)),
@@ -680,8 +679,8 @@ class TestDateParser(BaseTestCase):
         self.add_patch(patch('dateparser.date.date_parser', new=self.date_parser))
         self.parser = DateDataParser(*args, **kwds)
 
-    def when_date_is_parsed(self, date_string, normalize=False):
-        self.result = self.parser.get_date_data(date_string, normalize=normalize)
+    def when_date_is_parsed(self, date_string):
+        self.result = self.parser.get_date_data(date_string)
 
     def when_date_is_parsed_by_date_parser(self, date_string):
         try:

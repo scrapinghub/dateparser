@@ -143,7 +143,7 @@ def parse_with_formats(date_string, date_formats):
 class _DateLanguageParser(object):
     DATE_FORMATS_ERROR_MESSAGE = "Date formats should be list, tuple or set of strings"
 
-    def __init__(self, language, date_string, date_formats, settings=None, normalize=False):
+    def __init__(self, language, date_string, date_formats, settings=None):
         self._settings = settings
         if isinstance(date_formats, six.string_types):
             warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
@@ -156,11 +156,10 @@ class _DateLanguageParser(object):
         self.date_formats = date_formats
         self._translated_date = None
         self._translated_date_with_formatting = None
-        self.normalize = normalize
 
     @classmethod
-    def parse(cls, language, date_string, date_formats=None, settings=None, normalize=False):
-        instance = cls(language, date_string, date_formats, settings, normalize)
+    def parse(cls, language, date_string, date_formats=None, settings=None):
+        instance = cls(language, date_string, date_formats, settings)
         return instance._parse()
 
     def _parse(self):
@@ -219,13 +218,13 @@ class _DateLanguageParser(object):
     def _get_translated_date(self):
         if self._translated_date is None:
             self._translated_date = self.language.translate(
-                self.date_string, keep_formatting=False, settings=self._settings, normalize=self.normalize)
+                self.date_string, keep_formatting=False, settings=self._settings)
         return self._translated_date
 
     def _get_translated_date_with_formatting(self):
         if self._translated_date_with_formatting is None:
             self._translated_date_with_formatting = self.language.translate(
-                self.date_string, keep_formatting=True, settings=self._settings, normalize=self.normalize)
+                self.date_string, keep_formatting=True, settings=self._settings)
         return self._translated_date_with_formatting
 
     def _is_valid_date_obj(self, date_obj):
@@ -294,7 +293,7 @@ class DateDataParser(object):
             self.language_detector = AutoDetectLanguage(
                 list(available_language_map.values()), allow_redetection=False)
 
-    def get_date_data(self, date_string, date_formats=None, normalize=False):
+    def get_date_data(self, date_string, date_formats=None):
         """
         Parse string representing date and/or time in recognizable localized formats.
         Supports parsing multiple languages and timezones.
@@ -341,9 +340,9 @@ class DateDataParser(object):
         date_string = sanitize_date(date_string)
 
         for language in self.language_detector.iterate_applicable_languages(
-                date_string, modify=True, settings=self._settings, normalize=normalize):
+                date_string, modify=True, settings=self._settings):
             parsed_date = _DateLanguageParser.parse(
-                language, date_string, date_formats, settings=self._settings, normalize=normalize)
+                language, date_string, date_formats, settings=self._settings)
             if parsed_date:
                 return parsed_date
         else:

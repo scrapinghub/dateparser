@@ -5,7 +5,7 @@ from itertools import chain
 from dateutil import parser
 
 from dateparser.timezone_parser import pop_tz_offset_from_string
-from dateparser.utils import wrap_replacement_for_regex
+from dateparser.utils import wrap_replacement_for_regex, normalize_unicode
 
 from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
@@ -33,31 +33,22 @@ class Language(object):
 
         return validator.validate_info(language_id=self.shortname, info=self.info)
 
-    def _get_normalization_table(self):
-        normalization_table = {}
-        if 'normalization' in self.info:
-            for n in self.info['normalization']:
-                for j in n:
-                    normalization_table.update({ord(j): unicode(n[j])})
-        return normalization_table
-
-
-    def is_applicable(self, date_string, strip_timezone=False, settings=None, normalize=False):
+    def is_applicable(self, date_string, strip_timezone=False, settings=None):
         if strip_timezone:
             date_string, _ = pop_tz_offset_from_string(date_string, as_offset=False)
 
         date_string = self._simplify(date_string)
-        tokens = self._split(date_string, keep_formatting=False, settings=settings, normalize=normalize)
+        tokens = self._split(date_string, keep_formatting=False, settings=settings)
         if self._is_date_consists_of_digits_only(tokens):
             return True
         else:
-            return self._are_all_words_in_the_dictionary(tokens, settings, normalize=normalize)
+            return self._are_all_words_in_the_dictionary(tokens, settings)
 
-    def translate(self, date_string, keep_formatting=False, settings=None, normalize=False):
+    def translate(self, date_string, keep_formatting=False, settings=None):
         date_string = self._simplify(date_string)
-        words = self._split(date_string, keep_formatting, settings=settings, normalize=normalize)
+        words = self._split(date_string, keep_formatting, settings=settings)
 
-        dictionary = self._get_dictionary(settings, normalize=normalize)
+        dictionary = self._get_dictionary(settings)
         for i, word in enumerate(words):
             word = word.lower()
             if word in dictionary:
@@ -84,23 +75,22 @@ class Language(object):
         else:
             return True
 
-    def _are_all_words_in_the_dictionary(self, words, settings=None, normalize=False):
-        dictionary = self._get_dictionary(settings=settings, normalize=normalize)
+    def _are_all_words_in_the_dictionary(self, words, settings=None):
+        dictionary = self._get_dictionary(settings=settings)
         for word in words:
             word = word.lower()
-            if (word.isdigit() or
-                 word in dictionary):
+            if (word.isdigit() or word in dictionary):
                 continue
             else:
                 return False
         else:
             return True
 
-    def _split(self, date_string, keep_formatting, settings=None, normalize=False):
-        tokens = [unicode(date_string).translate(self._get_normalization_table()) if normalize else date_string]
+    def _split(self, date_string, keep_formatting, settings=None):
+        tokens = [normalize_unicode(date_string) if settings.NORMALIZE else date_string]
         tokens = list(self._split_tokens_with_regex(tokens, r"(\d+)"))
         tokens = list(
-            self._split_tokens_by_known_words(tokens, keep_formatting, settings=settings, normalize=normalize))
+            self._split_tokens_by_known_words(tokens, keep_formatting, settings=settings))
         return tokens
 
     def _split_tokens_with_regex(self, tokens, regex):
@@ -109,8 +99,8 @@ class Language(object):
             tokens[i] = re.split(regex, token)
         return filter(bool, chain(*tokens))
 
-    def _split_tokens_by_known_words(self, tokens, keep_formatting, settings=None, normalize=False):
-        dictionary = self._get_dictionary(settings, normalize=normalize)
+    def _split_tokens_by_known_words(self, tokens, keep_formatting, settings=None):
+        dictionary = self._get_dictionary(settings)
         for i, token in enumerate(tokens):
             tokens[i] = dictionary.split(token, keep_formatting)
         return list(chain(*tokens))
@@ -129,8 +119,8 @@ class Language(object):
 
         return joined
 
-    def _get_dictionary(self, settings=None, normalize=False):
-        if not normalize:
+    def _get_dictionary(self, settings=None):
+        if not settings.NORMALIZE:
             if self._dictionary is None:
                 self._generate_dictionary()
             self._dictionary._settings = settings
@@ -140,7 +130,6 @@ class Language(object):
                 self._generate_normalized_dictionary()
             self._normalized_dictionary._settings = settings
             return self._normalized_dictionary
-
 
     def _get_wordchars(self, settings=None):
         if self._wordchars is None:
@@ -169,9 +158,9 @@ class Language(object):
 
         self._splitters = splitters
 
-    def _set_wordchars(self, settings=None, normalize=False):
+    def _set_wordchars(self, settings=None):
         wordchars = set()
-        for word in self._get_dictionary(settings, normalize=normalize):
+        for word in self._get_dictionary(settings):
             if re.match(r'^[\W\d_]+$', word, re.UNICODE):
                 continue
             for char in word:

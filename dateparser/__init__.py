@@ -6,8 +6,9 @@ from .conf import apply_settings
 
 _default_parser = DateDataParser(allow_redetect_language=True)
 
+
 @apply_settings
-def parse(date_string, date_formats=None, languages=None, settings=None, normalize=False):
+def parse(date_string, date_formats=None, languages=None, settings=None):
     """Parse date and time from given date string.
 
     :param date_string:
@@ -37,7 +38,7 @@ def parse(date_string, date_formats=None, languages=None, settings=None, normali
     if any([languages, not settings._default]):
         parser = DateDataParser(languages=languages, settings=settings)
 
-    data = parser.get_date_data(date_string, date_formats, normalize=normalize)
+    data = parser.get_date_data(date_string, date_formats)
 
     if data:
         return data['date_obj']

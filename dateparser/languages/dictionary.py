@@ -7,11 +7,12 @@ from operator import methodcaller
 import regex as re
 from six.moves import zip_longest
 
-import unicodedata
+from dateparser.utils import normalize_unicode
 
 DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
 DATEUTIL_PARSERINFO_KNOWN_TOKENS = ["am", "pm", "a", "p", "UTC", "GMT", "Z"]
 ALWAYS_KEEP_TOKENS = ["+"] + DATEUTIL_PARSER_HARDCODED_TOKENS
+
 
 class UnknownTokenError(Exception):
     pass
@@ -96,7 +97,6 @@ class Dictionary(object):
             }
         return self._sorted_words_cache[self._settings.registry_key][self.info['name']]
 
-
     def _get_split_regex_cache(self):
         if (
                 self._settings.registry_key not in self._split_regex_cache or
@@ -123,29 +123,7 @@ class NormalizedDictionary(Dictionary):
         self._normalize()
 
     def _normalize(self):
-        '''
-        Normalization can be done by defining either normalization mapping in languages.yml or 
-        default unicode nkfd normalization.
-        Example entry in languages.yml:
-        normalization_mapping:
-            - é: "e"
-            - û: "u"
-        '''
-
-        normalization_mapping = {}
-        if 'normalization_mapping' in self.info:
-            for char_mapping in self.info['normalization_mapping']:
-                for char in char_mapping:
-                    normalization_mapping.update({ord(char): unicode(char_mapping[char])})
         new_dict = {}
         for key, value in self._dictionary.items():
-            if set(key).intersection(set(normalization_mapping.keys())):
-                new_dict[unicode(key).translate(normalization_mapping)] = value
-            else:
-                new_dict[self._normalize_default(key)] = value
+            new_dict[normalize_unicode(key)] = value
         self._dictionary = new_dict
-
-    def _normalize_default(self, string):
-        return ''.join((
-                c for c in unicodedata.normalize('NFKD', unicode(string))
-                if unicodedata.category(c) != 'Mn'))
