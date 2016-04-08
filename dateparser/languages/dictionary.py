@@ -124,6 +124,16 @@ class NormalizedDictionary(Dictionary):
 
     def _normalize(self):
         new_dict = {}
+        conflicting_keys = []
         for key, value in self._dictionary.items():
-            new_dict[normalize_unicode(key)] = value
+            normalized = normalize_unicode(key)
+            if key != normalized and normalized in self._dictionary:
+                conflicting_keys.append(key)
+            else:
+                new_dict[normalized] = value
+        for key in conflicting_keys:
+            normalized = normalize_unicode(key)
+            if key in (self.info.get('skip', []) + self.info.get('pertain', [])):
+                new_dict[normalized] = self._dictionary[key]
+
         self._dictionary = new_dict

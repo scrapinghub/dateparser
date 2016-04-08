@@ -16,6 +16,7 @@ from dateparser.date_parser import DateParser
 from dateparser.languages import default_language_loader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import settings, Settings
+from dateparser.utils import normalize_unicode
 
 from tests import BaseTestCase
 
@@ -361,13 +362,16 @@ class TestDateParser(BaseTestCase):
         # French dates
         param('11 Mai 2014', datetime(2014, 5, 11)),
         param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
-        param('vendredi, decembre 5 2014.', datetime(2014, 12, 5, 0, 0)),
-        param('le 08 Dec 2014 15:11', datetime(2014, 12, 8, 15, 11)),
-        param('fev 15, 2013', datetime(2013, 2, 15, 0, 0)),
+        param('22 janvier 2015 à 14h40', datetime(2015, 1, 22, 14, 40)), #wrong
+        param('Dimanche 1er Février à 21:24', datetime(2012, 2, 1, 21, 24)),
+        param('vendredi, décembre 5 2014.', datetime(2014, 12, 5, 0, 0)),
+        param('le 08 Déc 2014 15:11', datetime(2014, 12, 8, 15, 11)),
+        param('Le 11 Décembre 2014 à 09:00', datetime(2014, 12, 11, 9, 0)),
+        param('fév 15, 2013', datetime(2013, 2, 15, 0, 0)),
         param('Jeu 15:12', datetime(2012, 11, 8, 15, 12)),
         # Spanish dates
         param('Martes 21 de Octubre de 2014', datetime(2014, 10, 21)),
-        param('Miercoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),
+        param('Miércoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),
         param('12 de junio del 2012', datetime(2012, 6, 12)),
         param('13 Ago, 2014', datetime(2014, 8, 13)),
         param('13 Septiembre, 2014', datetime(2014, 9, 13)),
@@ -400,9 +404,9 @@ class TestDateParser(BaseTestCase):
         param('13 авг. 2005г. 19:13', datetime(2005, 8, 13, 19, 13)),
         param('13 авг. 2005 г. 19:13', datetime(2005, 8, 13, 19, 13)),
         # Turkish dates
-        param('11 Agustos, 2014', datetime(2014, 8, 11)),
+        param('11 Ağustos, 2014', datetime(2014, 8, 11)),
         param('08.Haziran.2014, 11:07', datetime(2014, 6, 8, 11, 7)),  # forum.andronova.net
-        param('17.Subat.2014, 17:51', datetime(2014, 2, 17, 17, 51)),
+        param('17.Şubat.2014, 17:51', datetime(2014, 2, 17, 17, 51)),
         param('14-Aralık-2012, 20:56', datetime(2012, 12, 14, 20, 56)),  # forum.ceviz.net
         # Romanian dates
         param('13 iunie 2013', datetime(2013, 6, 13)),
@@ -415,12 +419,29 @@ class TestDateParser(BaseTestCase):
         param('19. Februar 2012', datetime(2012, 2, 19)),
         param('26. Juli 2014', datetime(2014, 7, 26)),
         param('18.10.14 um 22:56 Uhr', datetime(2014, 10, 18, 22, 56)),
-        param('12-Mar-2014', datetime(2014, 3, 12)),
+        param('12-Mär-2014', datetime(2014, 3, 12)),
         param('Mit 13:14', datetime(2012, 11, 7, 13, 14)),
         # Czech dates
-        param('pon 16. cer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
+        param('pon 16. čer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
         param('13 Srpen, 2014', datetime(2014, 8, 13)),
-        param('ctv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
+        param('čtv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
+        # Thai dates
+        param('ธันวาคม 11, 2014, 08:55:08 PM', datetime(2014, 12, 11, 20, 55, 8)),
+        param('22 พฤษภาคม 2012, 22:12', datetime(2012, 5, 22, 22, 12)),
+        param('11 กุมภา 2020, 8:13 AM', datetime(2020, 2, 11, 8, 13)),
+        param('1 เดือนตุลาคม 2005, 1:00 AM', datetime(2005, 10, 1, 1, 0)),
+        param('11 ก.พ. 2020, 1:13 pm', datetime(2020, 2, 11, 13, 13)),
+        # Vietnamese dates
+        param('Thứ năm', datetime(2012, 11, 8)),  # Thursday
+        param('Thứ sáu', datetime(2012, 11, 9)),  # Friday
+        param('Tháng Mười Hai 29, 2013, 14:14', datetime(2013, 12, 29, 14, 14)),  # bpsosrcs.wordpress.com
+        param('05 Tháng một 2015 - 03:54 AM', datetime(2015, 1, 5, 3, 54)),
+        # Belarusian dates
+        param('11 траўня', datetime(2012, 5, 11)),
+        param('4 мая', datetime(2012, 5, 4)),
+        param('Чацвер 06 жніўня 2015', datetime(2015, 8, 6)),
+        param('Нд 14 сакавіка 2015 у 7 гадзін 10 хвілін', datetime(2015, 3, 14, 7, 10)),
+        param('5 жніўня 2015 года у 13:34', datetime(2015, 8, 5, 13, 34)),
         # Ukrainian dates
         param('2015-кві-12', datetime(2015, 4, 12)),
         param('21 чер 2013 3:13', datetime(2013, 6, 21, 3, 13)),
@@ -431,6 +452,9 @@ class TestDateParser(BaseTestCase):
         param('1978, 1 Peb, 7:05 PM', datetime(1978, 2, 1, 19, 5)),
         param('2 hun', datetime(2012, 6, 2)),
         param('Lin 16:16', datetime(2012, 11, 11, 16, 16)),
+        # Japanese dates
+        param('2016年3月20日(日) 21時40分', datetime(2016, 3, 20, 21, 40)),
+        param("2016年3月20日 21時40分", datetime(2016, 3, 20, 21, 40)),
         # Numeric dates
         param('06-17-2014', datetime(2014, 6, 17)),
         param('13/03/2014', datetime(2014, 3, 13)),
@@ -445,7 +469,8 @@ class TestDateParser(BaseTestCase):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
         self.given_local_tz_offset(0)
         self.given_parser(settings={'NORMALIZE': True})
-        self.when_date_is_parsed(date_string)
+        print normalize_unicode(date_string)
+        self.when_date_is_parsed(normalize_unicode(date_string))
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)

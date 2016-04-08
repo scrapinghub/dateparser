@@ -5,7 +5,7 @@ from itertools import chain
 from dateutil import parser
 
 from dateparser.timezone_parser import pop_tz_offset_from_string
-from dateparser.utils import wrap_replacement_for_regex, normalize_unicode
+from dateparser.utils import wrap_replacement_for_regex
 
 from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
@@ -87,7 +87,7 @@ class Language(object):
             return True
 
     def _split(self, date_string, keep_formatting, settings=None):
-        tokens = [normalize_unicode(date_string) if settings.NORMALIZE else date_string]
+        tokens = [date_string]
         tokens = list(self._split_tokens_with_regex(tokens, r"(\d+)"))
         tokens = list(
             self._split_tokens_by_known_words(tokens, keep_formatting, settings=settings))
