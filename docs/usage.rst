@@ -80,3 +80,10 @@ Assuming current date is June 16, 2015:
     >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': 'EST'})
     datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)
 
+If ``RETURN_AS_TIMEZONE_AWARE`` is set to ``True``, and ``TIMEZONE`` is ``None``, a timezone aware date is only returned if the input string explicitly specifies the time zone, otherwise an unaware date is returned:
+
+    >>> parse('12 Feb 2015 10:56 PM', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None})
+    datetime.datetime(2015, 2, 12, 22, 56)
+
+    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None})
+    datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)
