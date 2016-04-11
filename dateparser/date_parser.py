@@ -31,7 +31,11 @@ class new_parser(parser.parser):
             timestr = timestr.decode()
 
         # Parse timestr
-        res = self._parse(timestr, **kwargs)
+        # handle dateutil>=2.5 tuple result first
+        try:
+            res, _ = self._parse(timestr, **kwargs)
+        except TypeError:
+            res = self._parse(timestr, **kwargs)
 
         if res is None:
             raise ValueError("unknown string format")
