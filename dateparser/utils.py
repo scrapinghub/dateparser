@@ -18,7 +18,11 @@ def strip_braces(date_string):
 
 
 def is_dateutil_result_obj_parsed(date_string):
-    res = parser()._parse(date_string)
+    # handle dateutil>=2.5 tuple result first
+    try:
+        res, _ = parser()._parse(date_string)
+    except TypeError:
+        res = parser()._parse(date_string)
     if not res:
         return False
 
