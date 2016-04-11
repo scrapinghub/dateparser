@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import re
+
 from itertools import chain
 from operator import methodcaller
+
+import regex as re
 from six.moves import zip_longest
 
 DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse

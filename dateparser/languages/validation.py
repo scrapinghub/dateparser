@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import re
+import regex as re
 import six
 from dateparser.utils import get_logger
 

@@ -79,7 +79,51 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
         param('en', "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
         param('en', "28 Oct 2014 16:39:01 +0000", "28 october 2014 16:39:01 +0000"),
-        param('es', "13 Febrero 2015 a las 23:00", "13 february 2015  23:00")
+        param('es', "13 Febrero 2015 a las 23:00", "13 february 2015  23:00"),
+
+        # Finnish
+        param('fi', "maanantai tammikuu 16, 2015", "monday january 16 2015"),
+        param('fi', "ma tammi 16, 2015", "monday january 16 2015"),
+        param('fi', "tiistai helmikuu 16, 2015", "tuesday february 16 2015"),
+        param('fi', "ti helmi 16, 2015", "tuesday february 16 2015"),
+        param('fi', "keskiviikko maaliskuu 16, 2015", "wednesday march 16 2015"),
+        param('fi', "ke maalis 16, 2015", "wednesday march 16 2015"),
+        param('fi', "torstai huhtikuu 16, 2015", "thursday april 16 2015"),
+        param('fi', "to huhti 16, 2015", "thursday april 16 2015"),
+        param('fi', "perjantai toukokuu 16, 2015", "friday may 16 2015"),
+        param('fi', "pe touko 16, 2015", "friday may 16 2015"),
+        param('fi', "lauantai kesäkuu 16, 2015", "saturday june 16 2015"),
+        param('fi', "la kesä 16, 2015", "saturday june 16 2015"),
+        param('fi', "sunnuntai heinäkuu 16, 2015", "sunday july 16 2015"),
+        param('fi', "su heinä 16, 2015", "sunday july 16 2015"),
+        param('fi', "su elokuu 16, 2015", "sunday august 16 2015"),
+        param('fi', "su elo 16, 2015", "sunday august 16 2015"),
+        param('fi', "su syyskuu 16, 2015", "sunday september 16 2015"),
+        param('fi', "su syys 16, 2015", "sunday september 16 2015"),
+        param('fi', "su lokakuu 16, 2015", "sunday october 16 2015"),
+        param('fi', "su loka 16, 2015", "sunday october 16 2015"),
+        param('fi', "su marraskuu 16, 2015", "sunday november 16 2015"),
+        param('fi', "su marras 16, 2015", "sunday november 16 2015"),
+        param('fi', "su joulukuu 16, 2015", "sunday december 16 2015"),
+        param('fi', "su joulu 16, 2015", "sunday december 16 2015"),
+
+        # Japanese
+        param('jp', "午後3時", "pm 3:00"),
+        param('jp', "2時", "2:00"),
+        param('jp', "11時42分", "11:42"),
+        param('jp', "3ヶ月", "3 month"),
+        param('jp', "約53か月前", "53 month ago"),
+        param('jp', "3月", "march"),
+        param('jp', "十二月", "december"),
+        param('jp', "2月10日", "2-10"),
+        param('jp', "2013年2月", "2013 year february"),
+        param('jp', "2013年04月08日", "2013-04-08"),
+        param('jp', "2016年03月24日 木曜日 10時05分", "2016-03-24 thursday 10:05"),
+        param('jp', "2016年3月20日 21時40分", "2016-3-20 21:40"),
+        param('jp', "2016年03月21日 23時05分11秒", "2016-03-21 23:05:11"),
+        param('jp', "2016年3月21日(月) 14時48分", "2016-3-21 monday 14:48"),
+        param('jp', "2016年3月20日(日) 21時40分", "2016-3-20 sunday 21:40"),
+        param('jp', "2016年3月20日 (日) 21時40分", "2016-3-20 sunday 21:40"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -98,6 +142,8 @@ class TestBundledLanguages(BaseTestCase):
         param('de', "vorgestern", "2 day"),
         param('de', "heute", "0 day"),
         param('de', "vor 3 Stunden", "ago 3 hour"),
+        param('de', "vor 2 Monaten", "ago 2 month"),
+        param('de', "vor 2 Monaten, 2 Wochen", "ago 2 month 2 week"),
         # French
         param('fr', "avant-hier", "2 day"),
         param('fr', "hier", "1 day"),
@@ -200,12 +246,74 @@ class TestBundledLanguages(BaseTestCase):
         param('id', "seminggu yang lalu", "1 week  ago"),
         param('id', "sebulan yang lalu", "1 month  ago"),
         param('id', "setahun yang lalu", "1 year  ago"),
+        # Finnish
+        param('fi', "1 vuosi sitten", "1 year ago"),
+        param('fi', "2 vuotta sitten", "2 year ago"),
+        param('fi', "3 v sitten", "3 year ago"),
+        param('fi', "4 v. sitten", "4 year ago"),
+        param('fi', "5 vv. sitten", "5 year ago"),
+        param('fi', "1 kuukausi sitten", "1 month ago"),
+        param('fi', "2 kuukautta sitten", "2 month ago"),
+        param('fi', "3 kk sitten", "3 month ago"),
+        param('fi', "1 viikko sitten", "1 week ago"),
+        param('fi', "2 viikkoa sitten", "2 week ago"),
+        param('fi', "3 vk sitten", "3 week ago"),
+        param('fi', "4 vko sitten", "4 week ago"),
+        param('fi', "1 päivä sitten", "1 day ago"),
+        param('fi', "2 päivää sitten", "2 day ago"),
+        param('fi', "3 pv sitten", "3 day ago"),
+        param('fi', "4 p. sitten", "4 day ago"),
+        param('fi', "5 pvä sitten", "5 day ago"),
+        param('fi', "1 tunti sitten", "1 hour ago"),
+        param('fi', "2 tuntia sitten", "2 hour ago"),
+        param('fi', "3 t sitten", "3 hour ago"),
+        param('fi', "1 minuutti sitten", "1 minute ago"),
+        param('fi', "2 minuuttia sitten", "2 minute ago"),
+        param('fi', "3 min sitten", "3 minute ago"),
+        param('fi', "1 sekuntti sitten", "1 second ago"),
+        param('fi', "2 sekunttia sitten", "2 second ago"),
+        param('fi', "3 s sitten", "3 second ago"),
+        param('fi', "eilen", "1 day"),
+        param('fi', "tänään", "0 day"),
+        # Japanese
+        param('jp', "今年", "0 year"),
+        param('jp', "去年", "1 year"),
+        param('jp', "17年前", "17 year ago"),
+        param('jp', "今月", "0 month"),
+        param('jp', "先月", "1 month"),
+        param('jp', "1ヶ月前", "1 month ago"),
+        param('jp', "2ヶ月前", "2 month ago"),
+        param('jp', "今週", "0 week"),
+        param('jp', "先週", "1 week"),
+        param('jp', "先々週", "2 week"),
+        param('jp', "2週間前", "2 week ago"),
+        param('jp', "3週間", "3 week"),
+        param('jp', "今日", "0 day"),
+        param('jp', "昨日", "1 day"),
+        param('jp', "一昨日", "2 day"),
+        param('jp', "3日前", "3 day ago"),
+        param('jp', "1時間", "1 hour"),
+        param('jp', "23時間前", "23 hour ago"),
+        param('jp', "30分", "30 minute"),
+        param('jp', "3分間", "3 minute"),
+        param('jp', "60秒", "60 second"),
+        param('jp', "3秒前", "3 second ago"),
+        param('jp', "現在", "now"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
+        # Finnish language use "t" as hour, so empty SKIP_TOKENS.
+        if shortname == 'fi':
+            skip_tokens = settings.SKIP_TOKENS
+            settings.SKIP_TOKENS = []
+
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
         self.when_datetime_string_translated()
         self.then_string_translated_to(expected_translation)
+
+        # Return the default SKIP_TOKENS.
+        if shortname == 'fi':
+            settings.SKIP_TOKENS = skip_tokens
 
     @parameterized.expand([
         param('pt', "sexta-feira, 10 de junho de 2014 14:52",

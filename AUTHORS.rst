@@ -6,7 +6,10 @@ Credits
 Committers
 ----------
 
+* Adam LeVasseur
+* Alec Koumjian
 * Artur Sadurski
+* Artur Gaspar
 * Claudio Salazar
 * Cesar Flores
 * Elias Dorneles
@@ -24,6 +27,8 @@ Committers
 * Shuai Lin
 * Sigit Dewanto
 * Sviatoslav Sydorenko
+* Taito Horiuchi
+* Takahiro Kamatani
 * Tom Russell
 * Umair Ashraf
 * Waqas Shabir
