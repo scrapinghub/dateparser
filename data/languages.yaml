@@ -198,11 +198,13 @@ de:
         - vor
     in:
         - in
+        - im
 
     simplifications:
         - vorgestern: 2 Tage
         - gestern: 1 Tag
         - heute: 0 Tage
+        - morgen: in 1 Tag
         - einer: 1
         - einem: 1
         - vor (\d+)\s*h: vor \1 Stunden
@@ -1632,6 +1634,8 @@ pl:
         - onegdaj: 2 dnia
         - przedwczoraj: 2 dnia
         - wczoraj: 1 dnia
+        - jutro: za 1 dnia
+        - pojutrze: za 2 dnia
 
 fa:
     name: Persian
