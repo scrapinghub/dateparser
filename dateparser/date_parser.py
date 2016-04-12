@@ -37,6 +37,10 @@ class new_parser(parser.parser):
         except TypeError:
             res = self._parse(timestr, **kwargs)
 
+        # python-dateutil >= 2.50 changed return type of parser._parse()
+        if isinstance(res, tuple):
+            res = res[0]
+
         if res is None:
             raise ValueError("unknown string format")
 
