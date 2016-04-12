@@ -467,7 +467,6 @@ class TestDateParser(BaseTestCase):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
         self.given_local_tz_offset(0)
         self.given_parser(settings={'NORMALIZE': True})
-        print normalize_unicode(date_string)
         self.when_date_is_parsed(normalize_unicode(date_string))
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
