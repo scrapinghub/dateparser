@@ -5,3 +5,5 @@ settings:
     SKIP_TOKENS: ["t"]
     TIMEZONE: 'UTC'
     RETURN_AS_TIMEZONE_AWARE: False
+    TIMEZONE_CONVERSION: True
+    NO_DEFAULT_TIMEZONE: False
