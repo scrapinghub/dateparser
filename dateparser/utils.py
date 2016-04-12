@@ -35,8 +35,11 @@ def is_dateutil_result_obj_parsed(date_string):
 
 
 def normalize_unicode(string, form='NFKD'):
+    if isinstance(string, str):
+        string = string.decode('utf-8')
+
     return ''.join(
-        (c for c in unicodedata.normalize(form, unicode(string))
+        (c for c in unicodedata.normalize(form, string)
             if unicodedata.category(c) != 'Mn'))
 
 

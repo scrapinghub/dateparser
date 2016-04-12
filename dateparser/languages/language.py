@@ -188,7 +188,7 @@ class Language(object):
             key, value = list(simplification.items())[0]
             key = normalize_unicode(key)
             if isinstance(value, int):
-                c_simplification[key] = unicode(value)
+                c_simplification[key] = str(value)
             else:
                 c_simplification[key] = normalize_unicode(value)
             self._normalized_simplifications.append(c_simplification)
