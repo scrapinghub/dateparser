@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from unittest import TestCase
+from dateparser.conf import settings
 
 
 class BaseTestCase(TestCase):
@@ -8,6 +9,7 @@ class BaseTestCase(TestCase):
         self.__patches = []
 
         self.error = NotImplemented
+        settings.NORMALIZE = False
 
     def add_patch(self, patch):
         patch.start()
@@ -17,6 +19,7 @@ class BaseTestCase(TestCase):
         super(BaseTestCase, self).tearDown()
         for patch in reversed(self.__patches):
             patch.stop()
+        settings.NORMALIZE = False
 
     def then_error_was_raised(self, error_cls, allowed_substrings=()):
         self.assertIsInstance(self.error, error_cls)

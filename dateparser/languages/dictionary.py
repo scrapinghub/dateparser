@@ -135,5 +135,4 @@ class NormalizedDictionary(Dictionary):
             normalized = normalize_unicode(key)
             if key in (self.info.get('skip', []) + self.info.get('pertain', [])):
                 new_dict[normalized] = self._dictionary[key]
-
         self._dictionary = new_dict

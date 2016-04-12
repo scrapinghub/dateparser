@@ -15,7 +15,7 @@ from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import default_language_loader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
-from dateparser.conf import settings, Settings
+from dateparser.conf import settings
 from dateparser.utils import normalize_unicode
 
 from tests import BaseTestCase
@@ -149,12 +149,10 @@ class ExactLanguagesTest(BaseTestCase):
         param(languages=['fr'], date_strings=["04-decembre-2015", "13 aou, 2014"]),
     ])
     def test_missing_diacritical_marks(self, languages, date_strings):
+        settings.NORMALIZE = True
         self.given_parser(languages)
-        setting = Settings()
-        setting.NORMALIZE = True
         self.when_languages_are_detected(date_strings)
         self.then_detected_languages_are(languages)
-        setting.NORMALIZE = False
 
     @parameterized.expand([
         param(languages=['es'], date_strings=["13 Ago, 2014"]),
