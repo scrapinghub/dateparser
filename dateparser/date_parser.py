@@ -39,6 +39,9 @@ class new_parser(parser.parser):
 
         if res is None:
             raise ValueError("unknown string format")
+        if isinstance(res, tuple):
+            # First item is a result object
+            res = res[0]
 
         # Fill in missing date
         new_date = self._populate(res, default, settings=settings)

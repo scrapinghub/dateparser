@@ -25,6 +25,9 @@ def is_dateutil_result_obj_parsed(date_string):
         res = parser()._parse(date_string)
     if not res:
         return False
+    if isinstance(res, tuple):
+        # First item is a result object
+        res = res[0]
 
     def get_value(obj, key):
         value = getattr(obj, key)
