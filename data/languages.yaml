@@ -965,7 +965,7 @@ tr:
         - bugün: 0 gün
 
 
-cz:
+cs:
     name: Czech
 
     skip: ["přibližně", "v"]
@@ -1064,7 +1064,7 @@ cz:
         - předevčírem: 2 den
 
 
-cn:
+zh:
     name: Chinese
     no_word_spacing: True
 
@@ -1886,8 +1886,8 @@ vi:
         - Thứ 6: friday
         - Thứ 7: saturday
 
-ph:
-    name: Filipino
+tl:
+    name: Tagalog
     skip: ["noong", "noon", "sa", "ganap", "na"]
 
     monday:
@@ -1973,7 +1973,7 @@ ph:
         - isang araw: 2 araw
 
 
-by:
+be:
     name: Belarusian
 
     skip: ["каля", "у", "ў", "і"]
@@ -2299,7 +2299,7 @@ fi:
         - tänään: 0 päivä
 
 
-jp:
+ja:
     name: Japanese
     no_word_spacing: True
 
