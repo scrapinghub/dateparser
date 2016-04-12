@@ -35,7 +35,7 @@ def is_dateutil_result_obj_parsed(date_string):
 
 
 def normalize_unicode(string, form='NFKD'):
-    if isinstance(string, str):
+    if type(string) == bytes:
         string = string.decode('utf-8')
 
     return ''.join(
