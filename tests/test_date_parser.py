@@ -25,7 +25,7 @@ class AutoDetectLanguageTest(BaseTestCase):
         super(AutoDetectLanguageTest, self).setUp()
 
         # Just a known subset so we can rely on test outcomes. Feel free to add, but not exclude or change order.
-        self.known_languages = ['en', 'fr', 'es', 'pt', 'ru', 'tr', 'cz']
+        self.known_languages = ['en', 'fr', 'es', 'pt', 'ru', 'tr', 'cs']
 
         self.parser = NotImplemented
         self.detected_languages = NotImplemented
@@ -66,7 +66,7 @@ class AutoDetectLanguageTest(BaseTestCase):
         param(date_strings=["11 abril 2010"], expected_languages=['es', 'pt']),
         param(date_strings=["11 junio 2010"], expected_languages=['es']),
         param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_languages=['es']),
-        param(date_strings=["13 Srpen, 2014"], expected_languages=['cz']),
+        param(date_strings=["13 Srpen, 2014"], expected_languages=['cs']),
     ])
     def test_do_not_exclude_ineligible_languages_when_all_ineligible(self, date_strings, expected_languages):
         self.given_parser(languages=self.known_languages)
@@ -76,7 +76,7 @@ class AutoDetectLanguageTest(BaseTestCase):
 
     @parameterized.expand([
         param(language='es', date_strings=["13 Setembro, 2014"]),
-        param(language='cz', date_strings=["'11 Ağustos, 2014'"]),
+        param(language='cs', date_strings=["'11 Ağustos, 2014'"]),
     ])
     def test_reject_dates_in_other_languages_without_redetection(self, language, date_strings):
         self.given_parser(languages=self.known_languages)
@@ -301,7 +301,7 @@ class TestDateParser(BaseTestCase):
         param('21 чер 2013 3:13', datetime(2013, 6, 21, 3, 13)),
         param('12 лютого 2012, 13:12:23', datetime(2012, 2, 12, 13, 12, 23)),
         param('вів о 14:04', datetime(2012, 11, 6, 14, 4)),
-        # Filipino dates
+        # Tagalog dates
         param('12 Hulyo 2003 13:01', datetime(2003, 7, 12, 13, 1)),
         param('1978, 1 Peb, 7:05 PM', datetime(1978, 2, 1, 19, 5)),
         param('2 hun', datetime(2012, 6, 2)),
