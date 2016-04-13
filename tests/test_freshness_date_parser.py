@@ -472,7 +472,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         # Vietnamese dates
         param('Hôm nay', ago={'days': 0}, period='day'),
         param('Hôm qua', ago={'days': 1}, period='day'),
-        param('2 giờ', ago={'hours': 2}, period='day'),
         param('2 tuần 3 ngày', ago={'weeks': 2, 'days': 3}, period='day'),
 
         # Belarusian dates
