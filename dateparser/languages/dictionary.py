@@ -21,7 +21,6 @@ class UnknownTokenError(Exception):
 class Dictionary(object):
     _split_regex_cache = {}
     _sorted_words_cache = {}
-    _denormalized_words_cache = {}
 
     def __init__(self, language_info, settings=None):
         dictionary = {}

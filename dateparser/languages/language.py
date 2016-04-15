@@ -178,36 +178,30 @@ class Language(object):
     def _get_simplifications(self, settings=None):
         if not settings.NORMALIZE:
             if self._simplifications is None:
-                self._generate_simplifications()
+                self._simplifications = self._generate_simplifications(
+                    normalize=False)
             return self._simplifications
         else:
             if self._normalized_simplifications is None:
-                self._generate_normalized_simplifications()
+                self._normalized_simplifications = self._generate_simplifications(
+                    normalize=True)
             return self._normalized_simplifications
 
-    def _generate_normalized_simplifications(self):
-        self._normalized_simplifications = []
+    def _generate_simplifications(self, normalize=False):
+        simplifications = []
         for simplification in self.info.get('simplifications', []):
             c_simplification = {}
             key, value = list(simplification.items())[0]
-            key = normalize_unicode(key)
+            if normalize:
+                key = normalize_unicode(key)
+
             if isinstance(value, int):
                 c_simplification[key] = str(value)
             else:
-                c_simplification[key] = normalize_unicode(value)
-            self._normalized_simplifications.append(c_simplification)
+                c_simplification[key] = normalize_unicode(value) if normalize else value
 
-    def _generate_simplifications(self):
-        self._simplifications = []
-        for simplification in self.info.get('simplifications', []):
-            c_simplification = {}
-            key, value = list(simplification.items())[0]
-            if isinstance(value, int):
-                c_simplification[key] = str(value)
-            else:
-                c_simplification[key] = value
-
-            self._simplifications.append(c_simplification)
+            simplifications.append(c_simplification)
+        return simplifications
 
     def to_parserinfo(self, base_cls=parser.parserinfo):
         attributes = {
