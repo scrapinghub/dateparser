@@ -36,7 +36,8 @@ class Dictionary(object):
         for word in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
                      'january', 'february', 'march', 'april', 'may', 'june', 'july',
                      'august', 'september', 'october', 'november', 'december',
-                     'year', 'month', 'week', 'day', 'hour', 'minute', 'second', 'ago']:
+                     'year', 'month', 'week', 'day', 'hour', 'minute', 'second',
+                     'ago']:
             translations = map(methodcaller('lower'), language_info[word])
             dictionary.update(zip_longest(translations, [], fillvalue=word))
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))

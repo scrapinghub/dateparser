@@ -264,7 +264,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("15 minut temu", ago={'minutes': 15}, period='day'),
     ])
     def test_relative_dates(self, date_string, ago, period):
-        self.given_parser()
+        self.given_parser(settings={'NORMALIZE': False})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_error_was_not_raised()
@@ -502,7 +502,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("15 minut temu", ago={'minutes': 15}, period='day'),
     ])
     def test_normalized_relative_dates(self, date_string, ago, period):
-        settings.NORMALIZE = True
         date_string = normalize_unicode(date_string)
         self.given_parser(settings={'NORMALIZE': True})
         self.given_date_string(date_string)

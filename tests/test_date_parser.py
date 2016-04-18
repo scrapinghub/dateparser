@@ -332,7 +332,7 @@ class TestDateParser(BaseTestCase):
     def test_dates_parsing(self, date_string, expected):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
         self.given_local_tz_offset(0)
-        self.given_parser()
+        self.given_parser(settings={'NORMALIZE': False})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
@@ -463,7 +463,7 @@ class TestDateParser(BaseTestCase):
         param('1 Paz 2015', datetime(2015, 10, 1, 0, 0)),
         param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
     ])
-    def test_parsing_dates_with_normalization(self, date_string, expected):
+    def test_dates_parsing_with_normalization(self, date_string, expected):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
         self.given_local_tz_offset(0)
         self.given_parser(settings={'NORMALIZE': True})

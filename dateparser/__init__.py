@@ -6,7 +6,6 @@ from .conf import apply_settings
 
 _default_parser = DateDataParser(allow_redetect_language=True)
 
-
 @apply_settings
 def parse(date_string, date_formats=None, languages=None, settings=None):
     """Parse date and time from given date string.
