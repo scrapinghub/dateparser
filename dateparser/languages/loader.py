@@ -1,10 +1,31 @@
 # -*- coding: utf-8 -*-
 from pkgutil import get_data
+from pkgutil import get_loader
 
 import six
 from yaml import load as load_yaml
+import yaml
 
 from .language import Language
+
+
+import os.path
+from os import listdir
+
+class Loader(yaml.Loader):
+
+    def __init__(self, stream):
+        self._root = os.path.split(stream.name)[0]
+
+        super(Loader, self).__init__(stream)
+
+    def include(self, node):
+        filename = os.path.join(self._root, self.construct_scalar(node))
+
+        with open(filename, 'r') as f:
+            return load_yaml(f, Loader)
+
+Loader.add_constructor('!include', Loader.include)
 
 
 class LanguageDataLoader(object):
@@ -31,18 +52,20 @@ class LanguageDataLoader(object):
         return self._data.get(shortname)
 
     def _load_data(self):
-        if self.file is None:
-            data = get_data('data', 'languages.yaml')
-        else:
-            data = self.file.read()
-        data = load_yaml(data)
-        base_data = data.pop('base', {'skip': []})
         known_languages = {}
-        for shortname, language_info in six.iteritems(data):
-            self._update_language_info_with_base_info(language_info, base_data)
-            language = Language(shortname, language_info)
-            if language.validate_info():
-                known_languages[shortname] = language
+        loader = get_loader('data.languages')
+        for lang_file in  listdir(loader.filename):
+            if not lang_file.startswith('base') and lang_file.endswith('.yaml'):
+                shortname = lang_file.replace('.yaml', '')
+                f_name = os.path.join(loader.filename, lang_file)
+                with open(f_name, 'r') as f:
+                    lang_data = load_yaml(f, Loader)
+                    base_data = lang_data.pop('base', {'skip': []})
+                    self._update_language_info_with_base_info(lang_data, base_data)
+                    language = Language(shortname, lang_data)
+                    if language.validate_info():
+                        known_languages[shortname] = language
+
         self._data = known_languages
 
     def _update_language_info_with_base_info(self, language_info, base_info):
