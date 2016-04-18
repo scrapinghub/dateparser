@@ -31,10 +31,8 @@ Loader.add_constructor('!include', Loader.include)
 class LanguageDataLoader(object):
     _data = None
 
-    def __init__(self, file=None):
-        if isinstance(file, six.string_types):
-            file = open(file)
-        self.file = file
+    def __init__(self, dir=None):
+        self.dir = dir
 
     def get_language_map(self):
         if self._data is None:
@@ -53,11 +51,14 @@ class LanguageDataLoader(object):
 
     def _load_data(self):
         known_languages = {}
-        loader = get_loader('data.languages')
-        for lang_file in listdir(loader.filename):
+        if not self.dir:
+            loader = get_loader('data.languages')
+            dir = loader.filename
+
+        for lang_file in listdir(dir):
             if not lang_file.startswith('base') and lang_file.endswith('.yaml'):
                 shortname = lang_file.replace('.yaml', '')
-                f_name = os.path.join(loader.filename, lang_file)
+                f_name = os.path.join(dir, lang_file)
                 with open(f_name, 'r') as f:
                     lang_data = load_yaml(f, Loader)
                     base_data = lang_data.pop('base', {'skip': []})
