@@ -305,7 +305,7 @@ class TestBundledLanguages(BaseTestCase):
         if shortname == 'fi':
             skip_tokens = settings.SKIP_TOKENS
             settings.SKIP_TOKENS = []
-
+        settings.NORMALIZE = False
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
         self.when_datetime_string_translated()
