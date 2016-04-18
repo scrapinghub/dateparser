@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from pkgutil import get_data
 from pkgutil import get_loader
 
 import six
@@ -11,6 +10,7 @@ from .language import Language
 
 import os.path
 from os import listdir
+
 
 class Loader(yaml.Loader):
 
@@ -54,7 +54,7 @@ class LanguageDataLoader(object):
     def _load_data(self):
         known_languages = {}
         loader = get_loader('data.languages')
-        for lang_file in  listdir(loader.filename):
+        for lang_file in listdir(loader.filename):
             if not lang_file.startswith('base') and lang_file.endswith('.yaml'):
                 shortname = lang_file.replace('.yaml', '')
                 f_name = os.path.join(loader.filename, lang_file)
