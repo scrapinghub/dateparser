@@ -54,7 +54,8 @@ class FreshnessDateDataParser(object):
             else:
                 # No timezone shift takes place if time is given in the string.
                 # e.g. `2 days ago at 1 PM`
-                date = apply_timezone(date, settings.TIMEZONE)
+                if settings.TIMEZONE:
+                    date = apply_timezone(date, settings.TIMEZONE)
 
             if not settings.RETURN_AS_TIMEZONE_AWARE:
                 date = date.replace(tzinfo=None)
