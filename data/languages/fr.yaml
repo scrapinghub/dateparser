@@ -1,0 +1,108 @@
+base: !include base.yaml
+name: French
+
+skip: ["le", "environ", "et", "à", "er"]
+
+monday:
+    - Lundi
+    - Lu
+    - Lun
+tuesday:
+    - Mardi
+wednesday:
+    - Mercredi
+    - Mer
+    - Me
+thursday:
+    - Jeudi
+    - Jeu
+    - Je
+friday:
+    - Vendredi
+    - Ven
+    - Ve
+saturday:
+    - Samedi
+    - Sam
+    - Sa
+sunday:
+    - Dimanche
+    - Dim
+    - Di
+
+january:
+    - Janvier
+    - Janv
+    - Jan
+february:
+    - Février
+    - Févr
+    - Fév
+march:
+    - Mars
+april:
+    - Avril
+    - Avr
+may:
+    - Mai
+june:
+    - Juin
+    - Jun
+july:
+    - Juillet
+    - Juil
+    - Jul
+august:
+    - Août
+    - Aoû
+september:
+    - Septembre
+    - Sept
+    - Sep
+october:
+    - Octobre
+    - Oct
+november:
+    - Novembre
+    - Nov
+december:
+    - Décembre
+    - Déc
+
+year:
+    - an
+    - année
+    - années
+month:
+    - mois
+week:
+    - semaine
+    - semaines
+day:
+    - jour
+    - jours
+hour:
+    - heure
+    - heures
+minute:
+    - min
+    - minute
+    - minutes
+second:
+    - seconde
+    - secondes
+
+ago:
+    - il ya
+    - il y a
+
+simplifications:
+    - avant-hier: 2 jour
+    - hier: 1 jour
+    - aujourd'hui: 0 jours
+    - d'une: 1
+    - un: 1
+    - une: 1
+    - (\d+)\sh\s(\d+)\smin: \1h\2m
+    - (\d+)h(\d+)m?: \1:\2
+    - moins\s(?:de\s)?(\d+)(\s?(?:[smh]|minute|seconde|heure)): \1\2
