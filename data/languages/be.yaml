@@ -1,3 +1,4 @@
+base: !include base.yaml
 name: Belarusian
 
 skip: ["каля", "у", "ў", "і"]
