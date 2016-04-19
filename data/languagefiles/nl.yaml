@@ -1,0 +1,88 @@
+name: Dutch
+
+skip: ["om"]
+
+monday:
+    - Maandag
+    - Ma
+tuesday:
+    - Dinsdag
+    - Di
+wednesday:
+    - Woensdag
+    - Wo
+thursday:
+    - Donderdag
+    - Do
+friday:
+    - Vrijdag
+    - Vr
+saturday:
+    - Zaterdag
+    - Za
+sunday:
+    - Zondag
+    - Zo
+
+january:
+    - Januari
+    - Jan
+february:
+    - Februari
+    - Feb
+march:
+    - Maart
+    - Mrt
+april:
+    - April
+    - Apr
+may:
+    - Mei
+june:
+    - Juni
+    - Jun
+july:
+    - Juli
+    - Jul
+august:
+    - Augustus
+    - Aug
+september:
+    - September
+    - Sep
+october:
+    - Oktober
+    - Okt
+november:
+    - November
+    - Nov
+december:
+    - December
+    - Dec
+
+year:
+    - jaar
+month:
+    - maand
+    - maanden
+week:
+    - week
+    - weken
+day:
+    - dag
+    - dagen
+hour:
+    - uur
+minute:
+    - minuut
+    - minuten
+second:
+    - seconde
+    - seconden
+
+ago:
+    - geleden
+
+simplifications:
+    - gisteren: 1 dag
+
