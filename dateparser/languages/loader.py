@@ -53,12 +53,12 @@ class LanguageDataLoader(object):
         known_languages = {}
         if not self.dir:
             loader = get_loader('data.languages')
-            dir = os.path.dirname(loader.get_filename())
+            self.dir = os.path.dirname(loader.get_filename())
 
-        for lang_file in listdir(dir):
+        for lang_file in listdir(self.dir):
             if not lang_file.startswith('base') and lang_file.endswith('.yaml'):
                 shortname = lang_file.replace('.yaml', '')
-                f_name = os.path.join(dir, lang_file)
+                f_name = os.path.join(self.dir, lang_file)
                 with open(f_name, 'r') as f:
                     lang_data = load_yaml(f, Loader)
                     base_data = lang_data.pop('base', {'skip': []})
