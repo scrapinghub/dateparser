@@ -53,7 +53,7 @@ class LanguageDataLoader(object):
         known_languages = {}
         if not self.dir:
             loader = get_loader('data.languages')
-            dir = loader.filename
+            dir = os.path.dirname(loader.get_filename())
 
         for lang_file in listdir(dir):
             if not lang_file.startswith('base') and lang_file.endswith('.yaml'):
