@@ -1,0 +1,109 @@
+name: English
+
+skip: ["at", "on", "and", "ad", "m", "of", "st", "nd", "rd", "th", "about", "the", "just"]
+pertain: ["of"]
+
+monday:
+    - Mon
+    - Monday
+tuesday:
+    - Tue
+    - Tuesday
+wednesday:
+    - Wed
+    - Wednesday
+thursday:
+    - Thu
+    - Thursday
+friday:
+    - Fri
+    - Friday
+saturday:
+    - Sat
+    - Saturday
+sunday:
+    - Sun
+    - Sunday
+
+january:
+    - Jan
+    - January
+february:
+    - Feb
+    - February
+march:
+    - Mar
+    - March
+april:
+    - Apr
+    - April
+may:
+    - May
+june:
+    - Jun
+    - June
+july:
+    - Jul
+    - July
+august:
+    - Aug
+    - August
+september:
+    - Sep
+    - Sept
+    - September
+october:
+    - Oct
+    - October
+november:
+    - Nov
+    - November
+december:
+    - Dec
+    - December
+
+year:
+    - year
+    - years
+month:
+    - month
+    - months
+week:
+    - week
+    - weeks
+day:
+    - day
+    - days
+hour:
+    - h
+    - hour
+    - hours
+minute:
+    - m
+    - minute
+    - minutes
+second:
+    - s
+    - second
+    - seconds
+
+ago:
+    - ago
+
+simplifications:
+    - day before yesterday: 2 days
+    - yesterday: 1 day
+    - today: 0 days
+    - last (week|month|year): 1 \1
+    - an: 1
+    - a: 1
+    - one: 1
+    - (\d+)\s*hr(s?): \1 hour\2
+    - (\d+)\s*min(s?): \1 minute\2
+    - (\d+)\s*sec(s?): \1 second\2
+    - noon: '12:00'
+    - midnight: '00:00'
+    - (\d+)h(\d+)m?: \1:\2
+    - less than 1 minute ago: 45 seconds
+    - now: 0 second
+
