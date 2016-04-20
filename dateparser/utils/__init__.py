@@ -2,6 +2,7 @@
 import logging
 import types
 import unicodedata
+import functools
 
 import regex as re
 from dateutil.parser import parser
@@ -34,6 +35,22 @@ def is_dateutil_result_obj_parsed(date_string):
     return any([get_value(res, k) for k in res.__slots__])
 
 
+class memoize(dict):
+    def __init__(self, max_size, func):
+        self._max_size = max_size
+        self._func = func
+
+    def __call__(self, *args):
+        return self[args]
+
+    def __missing__(self, key):
+        if len(self) == self._max_size:
+            self.clear()
+        result = self[key] = self._func(*key)
+        return result
+
+
+@functools.partial(memoize, 200)
 def normalize_unicode(string, form='NFKD'):
     if isinstance(string, bytes):
         string = string.decode('utf-8')
