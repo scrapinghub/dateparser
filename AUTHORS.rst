@@ -10,6 +10,7 @@ Committers
 * Alec Koumjian
 * Artur Sadurski
 * Artur Gaspar
+* Benjamin Bach
 * Claudio Salazar
 * Cesar Flores
 * Elias Dorneles
