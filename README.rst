@@ -126,7 +126,7 @@ Supported languages
 * Czech
 * Dutch
 * English
-* Filipino
+* Tagalog/Filipino
 * Finnish
 * French
 * German

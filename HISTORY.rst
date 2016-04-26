@@ -75,7 +75,7 @@ Improvements:
 0.2.1 (2015-07-13)
 ------------------
 * Support for generic parsing of dates with UTC offset.
-* Support for Filipino dates.
+* Support for Tagalog/Filipino dates.
 * Improved support for French and Spanish dates.
 
 

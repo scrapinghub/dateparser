@@ -186,7 +186,8 @@ class DateParser(object):
         if tz is not None:
             date_obj = tz.localize(date_obj)
 
-        date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+        if settings.TIMEZONE:
+            date_obj = apply_timezone(date_obj, settings.TIMEZONE)
 
         if not settings.RETURN_AS_TIMEZONE_AWARE:
             date_obj = date_obj.replace(tzinfo=None)

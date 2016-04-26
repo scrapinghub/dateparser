@@ -1,0 +1,99 @@
+name: Spanish
+
+skip: ["de", "del", "cerca", "y", "a las", "en"]
+pertain: ["de", "del"]
+
+monday:
+    - Lunes
+    - Lu
+tuesday:
+    - Martes
+wednesday:
+    - Miércoles
+    - Mi
+thursday:
+    - Jueves
+    - Ju
+friday:
+    - Viernes
+    - Vi
+saturday:
+    - Sábado
+    - Sa
+sunday:
+    - Domingo
+    - Do
+
+january:
+    - Enero
+    - Ene
+february:
+    - Febrero
+    - Feb
+march:
+    - Marzo
+    - Mar
+april:
+    - Abril
+    - Abr
+may:
+    - Mayo
+    - May
+june:
+    - Junio
+    - Jun
+july:
+    - Julio
+    - Jul
+august:
+    - Agosto
+    - Ago
+september:
+    - Septiembre
+    - Setiembre
+    - Sep
+    - Set
+october:
+    - Octubre
+    - Oct
+november:
+    - Noviembre
+    - Nov
+december:
+    - Diciembre
+    - Dic
+
+year:
+    - año
+    - años
+month:
+    - mes
+    - meses
+week:
+    - semana
+    - semanas
+day:
+    - día
+    - días
+hour:
+    - hora
+    - horas
+minute:
+    - minuto
+    - minutos
+second:
+    - segundo
+    - segundos
+
+ago:
+    - hace
+in:
+    - en
+
+simplifications:
+    - anteayer: 2 día
+    - ayer: 1 día
+    - hoy: 0 día
+    - un: 1
+    - una: 1
+

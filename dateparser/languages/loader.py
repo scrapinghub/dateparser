@@ -2,9 +2,16 @@
 from pkgutil import get_data
 
 import six
-from yaml import load as load_yaml
+import yaml
 
 from .language import Language
+
+
+# support `!include` directive
+def yaml_include(loader, node):
+    return yaml.load(get_data('data', node.value))
+
+yaml.add_constructor("!include", yaml_include)
 
 
 class LanguageDataLoader(object):
@@ -35,7 +42,7 @@ class LanguageDataLoader(object):
             data = get_data('data', 'languages.yaml')
         else:
             data = self.file.read()
-        data = load_yaml(data)
+        data = yaml.load(data)
         base_data = data.pop('base', {'skip': []})
         known_languages = {}
         for shortname, language_info in six.iteritems(data):

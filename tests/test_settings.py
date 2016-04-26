@@ -49,6 +49,23 @@ class TimeZoneSettingsTest(BaseTestCase):
         self.then_date_is(dt)
         self.then_timezone_is(tz)
 
+    @parameterized.expand([
+        param('12 Feb 2015 4:30 PM', datetime(2015, 2, 12, 16, 30), None),
+        param('12 Feb 2015 4:30 PM EST', datetime(2015, 2, 12, 16, 30), 'EST'),
+        param('12 Feb 2015 8:30 PM PKT', datetime(2015, 2, 12, 20, 30), 'PKT'),
+        param('12 Feb 2015 8:30 PM ACT', datetime(2015, 2, 12, 20, 30), 'ACT'),
+        ])
+    def test_only_return_explicit_timezone(self, ds, dt, tz):
+        self.given(ds)
+        self.given_configurations({'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None})
+        self.when_date_is_parsed()
+        self.then_date_is(dt)
+        if tz:
+            self.then_date_is_tz_aware()
+            self.then_timezone_is(tz)
+        else:
+            self.then_date_is_not_tz_aware()
+
     def then_timezone_is(self, tzname):
         self.assertEqual(self.result.tzinfo.tzname(''), tzname)
 
@@ -63,6 +80,9 @@ class TimeZoneSettingsTest(BaseTestCase):
 
     def then_date_is_tz_aware(self):
         self.assertIsInstance(self.result.tzinfo, tzinfo)
+
+    def then_date_is_not_tz_aware(self):
+        self.assertIsNone(self.result.tzinfo)
 
     def then_date_is(self, date):
         dtc = self.result.replace(tzinfo=None)

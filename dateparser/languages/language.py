@@ -5,26 +5,24 @@ from itertools import chain
 from dateutil import parser
 
 from dateparser.timezone_parser import pop_tz_offset_from_string
-from dateparser.utils import wrap_replacement_for_regex
+from dateparser.utils import wrap_replacement_for_regex, normalize_unicode
 
-from .dictionary import Dictionary, ALWAYS_KEEP_TOKENS
+from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
 from .validation import LanguageValidator
 
 
 class Language(object):
 
     _dictionary = None
+    _normalized_dictionary = None
+    _simplifications = None
+    _normalized_simplifications = None
     _splitters = None
     _wordchars = None
 
     def __init__(self, shortname, language_info):
         self.shortname = shortname
         self.info = language_info
-
-        for simplification in self.info.get('simplifications', []):
-            key, value = list(simplification.items())[0]
-            if isinstance(value, int):
-                simplification[key] = str(value)
 
     def validate_info(self, validator=None):
         if validator is None:
@@ -33,10 +31,12 @@ class Language(object):
         return validator.validate_info(language_id=self.shortname, info=self.info)
 
     def is_applicable(self, date_string, strip_timezone=False, settings=None):
+        if settings.NORMALIZE:
+            date_string = normalize_unicode(date_string)
         if strip_timezone:
             date_string, _ = pop_tz_offset_from_string(date_string, as_offset=False)
 
-        date_string = self._simplify(date_string)
+        date_string = self._simplify(date_string, settings=settings)
         tokens = self._split(date_string, keep_formatting=False, settings=settings)
         if self._is_date_consists_of_digits_only(tokens):
             return True
@@ -44,7 +44,9 @@ class Language(object):
             return self._are_all_words_in_the_dictionary(tokens, settings)
 
     def translate(self, date_string, keep_formatting=False, settings=None):
-        date_string = self._simplify(date_string)
+        if settings.NORMALIZE:
+            date_string = normalize_unicode(date_string)
+        date_string = self._simplify(date_string, settings=settings)
         words = self._split(date_string, keep_formatting, settings=settings)
 
         dictionary = self._get_dictionary(settings)
@@ -58,9 +60,9 @@ class Language(object):
         return self._join(
             list(filter(bool, words)), separator="" if keep_formatting else " ", settings=settings)
 
-    def _simplify(self, date_string):
+    def _simplify(self, date_string, settings=None):
         date_string = date_string.lower()
-        for simplification in self.info.get('simplifications', []):
+        for simplification in self._get_simplifications(settings=settings):
             pattern, replacement = list(simplification.items())[0]
             if not self.info.get('no_word_spacing', False):
                 replacement = wrap_replacement_for_regex(replacement, pattern)
@@ -86,7 +88,7 @@ class Language(object):
         dictionary = self._get_dictionary(settings=settings)
         for word in words:
             word = word.lower()
-            if word.isdigit() or word in dictionary:
+            if (word.isdigit() or word in dictionary):
                 continue
             else:
                 return False
@@ -127,10 +129,16 @@ class Language(object):
         return joined
 
     def _get_dictionary(self, settings=None):
-        if self._dictionary is None:
-            self._generate_dictionary()
-        self._dictionary._settings = settings
-        return self._dictionary
+        if not settings.NORMALIZE:
+            if self._dictionary is None:
+                self._generate_dictionary()
+            self._dictionary._settings = settings
+            return self._dictionary
+        else:
+            if self._normalized_dictionary is None:
+                self._generate_normalized_dictionary()
+            self._normalized_dictionary._settings = settings
+            return self._normalized_dictionary
 
     def _get_wordchars(self, settings=None):
         if self._wordchars is None:
@@ -171,6 +179,37 @@ class Language(object):
 
     def _generate_dictionary(self, settings=None):
         self._dictionary = Dictionary(self.info, settings=settings)
+
+    def _generate_normalized_dictionary(self, settings=None):
+        self._normalized_dictionary = NormalizedDictionary(self.info, settings=settings)
+
+    def _get_simplifications(self, settings=None):
+        if not settings.NORMALIZE:
+            if self._simplifications is None:
+                self._simplifications = self._generate_simplifications(
+                    normalize=False)
+            return self._simplifications
+        else:
+            if self._normalized_simplifications is None:
+                self._normalized_simplifications = self._generate_simplifications(
+                    normalize=True)
+            return self._normalized_simplifications
+
+    def _generate_simplifications(self, normalize=False):
+        simplifications = []
+        for simplification in self.info.get('simplifications', []):
+            c_simplification = {}
+            key, value = list(simplification.items())[0]
+            if normalize:
+                key = normalize_unicode(key)
+
+            if isinstance(value, int):
+                c_simplification[key] = str(value)
+            else:
+                c_simplification[key] = normalize_unicode(value) if normalize else value
+
+            simplifications.append(c_simplification)
+        return simplifications
 
     def to_parserinfo(self, base_cls=parser.parserinfo):
         attributes = {
