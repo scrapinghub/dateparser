@@ -24,8 +24,6 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "friday, 03 september 2014", "friday 03 september 2014"),
         # Chinese
         param('cn', "1年11个月", "1 year 11 month"),
-        param('cn', "2015年04月08日10:05", "2015-04-08 10:05"),
-        param('cn', "2013年04月08日", "2013-04-08"),
         # French
         param('fr', "20 Février 2012", "20 february 2012"),
         param('fr', "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
