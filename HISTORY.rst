@@ -7,6 +7,7 @@ x.x.x (xxxx-xx-xx)
 ------------------
 New features:
 
+* Danish language support.
 * Japanese language support.
 
 

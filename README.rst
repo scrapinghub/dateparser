@@ -124,6 +124,7 @@ Supported languages
 * Belarusian
 * Chinese
 * Czech
+* Danish
 * Dutch
 * English
 * Tagalog/Filipino

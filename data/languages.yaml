@@ -4,6 +4,7 @@ base:
 ar: !include languagefiles/ar.yaml
 be: !include languagefiles/be.yaml
 cs: !include languagefiles/cs.yaml
+da: !include languagefiles/da.yaml
 de: !include languagefiles/de.yaml
 en: !include languagefiles/en.yaml
 es: !include languagefiles/es.yaml
