@@ -14,6 +14,10 @@ dateparser -- python parser for human readable dates
     :target: https://pypi.python.org/pypi/dateparser
     :alt: pypi version
 
+.. image:: https://readthedocs.org/projects/dateparser/badge/?version=latest
+    :target: http://dateparser.readthedocs.org/en/latest/?badge=latest
+    :alt: Documentation Status
+
 
 `dateparser` provides modules to easily parse localized dates in almost
 any string formats commonly found on web pages.
@@ -22,7 +26,8 @@ any string formats commonly found on web pages.
 Documentation
 =============
 
-Documentation can be found `here <https://dateparser.readthedocs.org/en/latest/>`_.
+Documentation is built automatically and can be found on
+`Read the Docs <https://dateparser.readthedocs.org/en/latest/>`_.
 
 
 Features
@@ -31,7 +36,7 @@ Features
 * Generic parsing of dates in English, Spanish, Dutch, Russian and several other languages and formats.
 * Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
 * Generic parsing of dates with time zones abbreviations or UTC offsets like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``, ``'21 July 2013 10:15 pm +0500'``.
-* Support for non-Gregorian calendar systems. See `Supported Calendars`_. 
+* Support for non-Gregorian calendar systems. See `Supported Calendars`_.
 * Extensive test coverage.
 
 
@@ -121,11 +126,13 @@ Supported languages
 * Czech
 * Dutch
 * English
-* Filipino
+* Tagalog/Filipino
+* Finnish
 * French
 * German
 * Indonesian
 * Italian
+* Japanese
 * Persian
 * Polish
 * Portuguese
@@ -155,3 +162,4 @@ Supported Calendars
         {'date_obj': datetime.datetime(2015, 10, 30, 20, 30), 'period': 'day'}
 
 .. note:: `HijriCalendar` has some limitations with Python 3.
+.. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.

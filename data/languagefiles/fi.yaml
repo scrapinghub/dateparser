@@ -1,0 +1,105 @@
+name: Finnish
+
+skip: []
+pertain: []
+
+monday:
+    - Maanantai
+    - Ma
+tuesday:
+    - Tiistai
+    - Ti
+wednesday:
+    - Keskiviikko
+    - Ke
+thursday:
+    - Torstai
+    - To
+friday:
+    - Perjantai
+    - Pe
+saturday:
+    - Lauantai
+    - La
+sunday:
+    - Sunnuntai
+    - Su
+
+january:
+    - Tammikuu
+    - Tammi
+february:
+    - Helmikuu
+    - Helmi
+march:
+    - Maaliskuu
+    - Maalis
+april:
+    - Huhtikuu
+    - Huhti
+may:
+    - Toukokuu
+    - Touko
+june:
+    - Kesäkuu
+    - Kesä
+july:
+    - Heinäkuu
+    - Heinä
+august:
+    - Elokuu
+    - Elo
+september:
+    - Syyskuu
+    - Syys
+october:
+    - Lokakuu
+    - Loka
+november:
+    - Marraskuu
+    - Marras
+december:
+    - Joulukuu
+    - Joulu
+
+year:
+    - vuosi
+    - vuotta
+    - v
+    - v.
+    - vv.
+month:
+    - kuukausi
+    - kuukautta
+    - kk
+week:
+    - viikko
+    - viikkoa
+    - vk
+    - vko
+day:
+    - päivä
+    - päivää
+    - pv
+    - p.
+    - pvä
+hour:
+    - tunti
+    - tuntia
+    - t
+minute:
+    - minuutti
+    - minuuttia
+    - min
+second:
+    - sekuntti
+    - sekunttia
+    - s
+
+ago:
+    - sitten
+
+simplifications:
+    - eilen: 1 päivä
+    - tänään: 0 päivä
+

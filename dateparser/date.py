@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import calendar
 import collections
-import re
 from datetime import datetime, timedelta
 from warnings import warn
-import six
 
+import six
+import regex as re
 from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
@@ -88,9 +88,11 @@ def get_intersecting_periods(low, high, period='day'):
 
 def sanitize_date(date_string):
     date_string = re.sub(
-        r'\t|\n|\r|\u00bb|,\s\u0432|\u0433\.|\u200e|\xb7|\u200f|\u064e|\u064f',
+        r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u064e|\u064f',
         ' ', date_string, flags=re.M
     )
+    date_string = re.sub(r'([\W\d])\u0433\.', r'\1 ', date_string,
+                         flags=re.I | re.U)  # remove u'г.' (Russian for year) but not in words
     date_string = sanitize_spaces(date_string)
     date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
     date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
@@ -327,7 +329,8 @@ class DateDataParser(object):
             >>> DateDataParser().get_date_data(u'2014')
             {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
 
-        Dates with time zone indications or UTC offsets are returned in UTC time.
+        Dates with time zone indications or UTC offsets are returned in UTC time unless
+        specified using `Settings`_.
 
             >>> DateDataParser().get_date_data(u'23 March 2000, 1:21 PM CET')
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}

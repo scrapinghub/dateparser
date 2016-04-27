@@ -71,3 +71,19 @@ Assuming current date is June 16, 2015:
     >>> from dateparser.date import DateDataParser
     >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
     {'date_obj': datetime.datetime(1981, 6, 27, 0, 0), 'period': 'day'}
+
+``RETURN_AS_TIMEZONE_AWARE`` is a flag to turn on timezone aware dates if timezone is detected or specified.:
+
+    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True})
+    datetime.datetime(2015, 2, 13, 3, 56, tzinfo=<StaticTzInfo 'UTC'>)
+
+    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': 'EST'})
+    datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)
+
+If ``RETURN_AS_TIMEZONE_AWARE`` is set to ``True``, and ``TIMEZONE`` is ``None``, a timezone aware date is only returned if the input string explicitly specifies the time zone, otherwise an unaware date is returned:
+
+    >>> parse('12 Feb 2015 10:56 PM', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None})
+    datetime.datetime(2015, 2, 12, 22, 56)
+
+    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None})
+    datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)

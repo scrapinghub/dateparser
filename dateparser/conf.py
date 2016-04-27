@@ -19,6 +19,7 @@ class Settings(object):
     * `PREFER_DAY_OF_MONTH`: defaults to `current`. Could be `first` and `last` day of month.
     * `SKIP_TOKENS`: defaults to `['t']`. Can be any string.
     * `TIMEZONE`: defaults to `UTC`. Can be timezone abbreviation or any of `tz database name as given here <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>`_.
+    * `RETURN_AS_TIMEZONE_AWARE`: return tz aware datetime objects in case timezone is detected in the date string.
     """
 
     _default = True

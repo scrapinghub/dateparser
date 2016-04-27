@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 import calendar
-import re
+import regex as re
 import sys
 from datetime import datetime
 from collections import OrderedDict
@@ -31,7 +31,11 @@ class new_parser(parser.parser):
             timestr = timestr.decode()
 
         # Parse timestr
-        res = self._parse(timestr, **kwargs)
+        # handle dateutil>=2.5 tuple result first
+        try:
+            res, _ = self._parse(timestr, **kwargs)
+        except TypeError:
+            res = self._parse(timestr, **kwargs)
 
         if res is None:
             raise ValueError("unknown string format")
@@ -175,14 +179,18 @@ class DateParser(object):
             raise ValueError("Empty string")
 
         date_string = strip_braces(date_string)
-        date_string, tz_offset = pop_tz_offset_from_string(date_string)
+        date_string, tz = pop_tz_offset_from_string(date_string)
 
         date_obj, period = dateutil_parse(date_string, settings=settings)
 
-        if tz_offset is not None:
-            date_obj -= tz_offset  # convert date to UTC if timezone detected
+        if tz is not None:
+            date_obj = tz.localize(date_obj)
 
-        date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+        if settings.TIMEZONE:
+            date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+
+        if not settings.RETURN_AS_TIMEZONE_AWARE:
+            date_obj = date_obj.replace(tzinfo=None)
 
         return date_obj, period
 
