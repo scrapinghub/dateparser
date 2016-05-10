@@ -575,6 +575,25 @@ class TestFreshnessDateDataParser(BaseTestCase):
               period='day'),
         param("za 2 minuty", in_future={'minutes': 2}, period='day'),
         param("za 15 minut", in_future={'minutes': 15}, period='day'),
+
+        # Turkish dates
+        param('yarın', in_future={'days': 1}, period='day'),
+        param('2 gün içerisinde', in_future={'days': 2}, period='day'),
+        param('4 ay içerisinde', in_future={'months': 4}, period='month'),
+        param('3 gün sonra', in_future={'days': 3}, period='day'),
+        param('2 ay sonra', in_future={'months': 2}, period='month'),
+        param('5 yıl 3 gün sonra', in_future={'years': 5, 'days': 3}, period='day'),
+        param('5 gün içinde', in_future={'days': 5}, period='day'),
+        param('6 ay içinde', in_future={'months': 6}, period='month'),
+        param('5 yıl içinde', in_future={'years': 5}, period='year'),
+        param('5 sene içinde', in_future={'years': 5}, period='year'),
+        param('haftaya', in_future={'weeks': 1}, period='week'),
+        param('gelecek hafta', in_future={'weeks': 1}, period='week'),
+        param('gelecek ay', in_future={'months': 1}, period='month'),
+        param('gelecek yıl', in_future={'years': 1}, period='year'),
+        param('gelecek hafta', in_future={'weeks': 1}, period='week'),
+        param('gelecek ay', in_future={'months': 1}, period='month'),
+        param('gelecek yıl', in_future={'years': 1}, period='year'),
     ])
     def test_relative_future_dates(self, date_string, in_future, period):
         self.given_parser()
