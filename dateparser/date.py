@@ -336,7 +336,10 @@ class DateDataParser(object):
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
-        date_string = date_string.strip()
+        try:
+            date_string = date_string.strip()
+        except AttributeError:
+            raise TypeError('Input type must be str or unicode')
         date_string = sanitize_date(date_string)
 
         for language in self.language_detector.iterate_applicable_languages(
