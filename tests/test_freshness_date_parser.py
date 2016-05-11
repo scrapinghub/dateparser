@@ -591,9 +591,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('gelecek hafta', in_future={'weeks': 1}, period='week'),
         param('gelecek ay', in_future={'months': 1}, period='month'),
         param('gelecek yıl', in_future={'years': 1}, period='year'),
-        param('gelecek hafta', in_future={'weeks': 1}, period='week'),
-        param('gelecek ay', in_future={'months': 1}, period='month'),
-        param('gelecek yıl', in_future={'years': 1}, period='year'),
     ])
     def test_relative_future_dates(self, date_string, in_future, period):
         self.given_parser()
