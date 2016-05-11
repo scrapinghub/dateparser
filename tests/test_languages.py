@@ -24,6 +24,8 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "friday, 03 september 2014", "friday 03 september 2014"),
         # Chinese
         param('zh', "1年11个月", "1 year 11 month"),
+        param('zh', "2015年04月08日10:05", "2015-04-08 10:05"),
+        param('zh', "2013年04月08日", "2013-04-08"),
         # French
         param('fr', "20 Février 2012", "20 february 2012"),
         param('fr', "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
@@ -80,6 +82,11 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
         param('en', "28 Oct 2014 16:39:01 +0000", "28 october 2014 16:39:01 +0000"),
         param('es', "13 Febrero 2015 a las 23:00", "13 february 2015  23:00"),
+
+        # Danish
+        param('da', "Sep 03 2014", "september 03 2014"),
+        param('da', "fredag, 03 september 2014", "friday 03 september 2014"),
+        param('da', "fredag d. 3 september 2014", "friday  3 september 2014"),
 
         # Finnish
         param('fi', "maanantai tammikuu 16, 2015", "monday january 16 2015"),
@@ -193,6 +200,11 @@ class TestBundledLanguages(BaseTestCase):
         param('zh', "50 秒", "50 second"),
         param('zh', "7 周", "7 week"),
         param('zh', "12 年", "12 year"),
+        # Danish
+        param('da', "i går", "1 day"),
+        param('da', "i dag", "0 day"),
+        param('da', "sidste måned", "1 month"),
+        param('da', "mindre end et minut siden", "45  seconds"),
         # Dutch
         param('nl', "17 uur geleden", "17 hour ago"),
         param('nl', "27 jaar geleden", "27 year ago"),
@@ -347,6 +359,7 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "#@Sept#04#2014", strip_timezone=False),
         param('en', "2014-12-13T00:11:00Z", strip_timezone=False),
         param('de', "Donnerstag, 8. Januar 2015 um 07:17", strip_timezone=False),
+        param('da', "Torsdag, 8. januar 2015 kl. 07:17", strip_timezone=False),
         param('ru', "8 января 2015 г. в 9:10", strip_timezone=False),
         param('cs', "Pondělí v 22:29", strip_timezone=False),
         param('nl', "woensdag 7 januari om 21:32", strip_timezone=False),

@@ -3,11 +3,23 @@
 History
 =======
 
-x.x.x (xxxx-xx-xx)
+0.3.5 (2016-04-27)
 ------------------
 New features:
 
+* Danish language support.
 * Japanese language support.
+* Support for parsing date strings with accents.
+
+Improvements:
+
+* Transformed languages.yaml into base file and separate files for each language.
+* Fixed vietnamese language simplifications.
+* No more version restrictions for python-dateutil.
+* Timezone parsing improvements. 
+* Fixed test environments.
+* Cleaned language codes. Now we strictly follow codes as in ISO 639-1.
+* Improved chinese dates parsing.
 
 
 0.3.4 (2016-03-03)
