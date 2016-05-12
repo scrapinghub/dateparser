@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import calendar
 import collections
-import re
 from datetime import datetime, timedelta
 from warnings import warn
-import six
 
+import six
+import regex as re
 from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
@@ -88,9 +88,11 @@ def get_intersecting_periods(low, high, period='day'):
 
 def sanitize_date(date_string):
     date_string = re.sub(
-        r'\t|\n|\r|\u00bb|,\s\u0432|\u0433\.|\u200e|\xb7|\u200f|\u064e|\u064f',
+        r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u064e|\u064f',
         ' ', date_string, flags=re.M
     )
+    date_string = re.sub(r'([\W\d])\u0433\.', r'\1 ', date_string,
+                         flags=re.I | re.U)  # remove u'г.' (Russian for year) but not in words
     date_string = sanitize_spaces(date_string)
     date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
     date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
@@ -182,7 +184,7 @@ class _DateLanguageParser(object):
         }
 
     def _try_freshness_parser(self):
-        return freshness_date_parser.get_date_data(self._get_translated_date(), self.relative_base_date)
+        return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings, self.relative_base_date)
 
     def _try_dateutil_parser(self):
         try:
@@ -317,7 +319,7 @@ class DateDataParser(object):
 
         In the example below, since no day information is present, the day is assumed to be current
         day ``16`` from *current date* (which is June 16, 2015, at the moment of writing this).
-        Hence, the level of precision is ``month``.
+        Hence, the level of precision is ``month``:
 
             >>> DateDataParser().get_date_data(u'March 2015')
             {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': u'month'}
@@ -328,12 +330,17 @@ class DateDataParser(object):
             >>> DateDataParser().get_date_data(u'2014')
             {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
 
-        Dates with time zone indications or UTC offsets are returned in UTC time.
+        Dates with time zone indications or UTC offsets are returned in UTC time unless
+        specified using `Settings`_.
+
             >>> DateDataParser().get_date_data(u'23 March 2000, 1:21 PM CET')
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
-        date_string = date_string.strip()
+        try:
+            date_string = date_string.strip()
+        except AttributeError:
+            raise TypeError('Input type must be str or unicode')
         date_string = sanitize_date(date_string)
 
         for language in self.language_detector.iterate_applicable_languages(

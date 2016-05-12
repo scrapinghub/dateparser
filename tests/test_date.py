@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import re
+import regex as re
 import unittest
 from collections import OrderedDict
 from datetime import datetime, timedelta
@@ -261,11 +261,13 @@ class TestParseWithFormatsFunction(BaseTestCase):
                                           day=get_last_day_of_month(expected_year, expected_month)))
 
     def given_now(self, year, month, day, **time):
+        now = datetime(year, month, day, **time)
         datetime_mock = Mock(wraps=datetime)
-        datetime_mock.utcnow = Mock(return_value=datetime(year, month, day, **time))
-        self.add_patch(
-            patch('dateparser.date_parser.datetime', new=datetime_mock)
-        )
+        datetime_mock.utcnow = Mock(return_value=now)
+        datetime_mock.now = Mock(return_value=now)
+        datetime_mock.today = Mock(return_value=now)
+        self.add_patch(patch('dateparser.date_parser.datetime', new=datetime_mock))
+        self.add_patch(patch('dateparser.date.datetime', new=datetime_mock))
 
     def when_date_is_parsed_with_formats(self, date_string, date_formats):
         self.result = date.parse_with_formats(date_string, date_formats)
@@ -504,6 +506,13 @@ class TestParserInitialization(BaseTestCase):
         self.assertTrue(match)
         languages = match.group(1).split(", ")
         six.assertCountEqual(self, languages, [repr(l) for l in unknown_languages])
+
+
+class TestSanitizeDate(BaseTestCase):
+    def test_remove_year_in_russian(self):
+        self.assertEqual(date.sanitize_date(u'2005г.'), u'2005 ')
+        self.assertEqual(date.sanitize_date(u'2005 г.'), u'2005 ')
+        self.assertEqual(date.sanitize_date(u'Авг.'), u'Авг.')
 
 
 if __name__ == '__main__':

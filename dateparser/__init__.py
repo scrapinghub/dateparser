@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__version__ = '0.3.1'
+__version__ = '0.3.5'
 
 from .date import DateDataParser
 from .conf import apply_settings
@@ -31,7 +31,8 @@ def parse(date_string, date_formats=None, languages=None, settings=None, relativ
     :type settings: dict
 
 
-    :return: Returns a :mod:`datetime.datetime` if successful, else returns None
+    :return: Returns :class:`datetime <datetime.datetime>` representing parsed date if successful, else returns None
+    :rtype: :class:`datetime <datetime.datetime>`.
     :raises: ValueError - Unknown Language
     """
     parser = _default_parser

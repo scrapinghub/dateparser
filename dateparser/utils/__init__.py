@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-import re
 import logging
-import logging.config
 import types
+import unicodedata
 
+import regex as re
 from dateutil.parser import parser
+from pytz import UTC, timezone
+
+from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
 
 
 GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
@@ -16,15 +19,28 @@ def strip_braces(date_string):
 
 
 def is_dateutil_result_obj_parsed(date_string):
-    res = parser()._parse(date_string)
+    # handle dateutil>=2.5 tuple result first
+    try:
+        res, _ = parser()._parse(date_string)
+    except TypeError:
+        res = parser()._parse(date_string)
     if not res:
         return False
-    
+
     def get_value(obj, key):
         value = getattr(obj, key)
         return str(value) if value is not None else ''
 
     return any([get_value(res, k) for k in res.__slots__])
+
+
+def normalize_unicode(string, form='NFKD'):
+    if isinstance(string, bytes):
+        string = string.decode('utf-8')
+
+    return ''.join(
+        (c for c in unicodedata.normalize(form, string)
+            if unicodedata.category(c) != 'Mn'))
 
 
 def wrap_replacement_for_regex(replacement, regex):
@@ -89,6 +105,34 @@ def find_date_separator(format):
         return m.group(1)
 
 
+def apply_tzdatabase_timezone(date_time, pytz_string):
+    usr_timezone = timezone(pytz_string)
+
+    if date_time.tzinfo != usr_timezone:
+        date_time = date_time.astimezone(usr_timezone)
+
+    return date_time
+
+
+def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
+    for name, info in _tz_offsets:
+        if info['regex'].search(' %s' % offset_or_timezone_abb):
+            tz = StaticTzInfo(name, info['offset'])
+            return utc_datetime.astimezone(tz)
+
+
+def apply_timezone(date_time, tz_string):
+    if not date_time.tzinfo:
+        date_time = UTC.localize(date_time)
+
+    new_datetime = apply_dateparser_timezone(date_time, tz_string)
+
+    if not new_datetime:
+        new_datetime = apply_tzdatabase_timezone(date_time, tz_string)
+
+    return new_datetime
+
+
 def registry(cls):
     def choose(creator):
         def constructor(cls, *args, **kwargs):
@@ -99,19 +143,10 @@ def registry(cls):
             registry_dict = getattr(cls, "__registry_dict")
 
             if key not in registry_dict:
-                registry_dict[key] = creator(cls, *args, **kwargs)
+                registry_dict[key] = creator(cls, *args)
                 setattr(registry_dict[key], 'registry_key', key)
             return registry_dict[key]
         return staticmethod(constructor)
-
-    def self_destruct(initializer):
-        def destructor(self, *args, **kwargs):
-            if getattr(self, "__initialized", False):
-                return
-            else:
-                initializer(self, *args, **kwargs)
-                setattr(self, "__initialized", True)
-        return destructor
 
     if not (hasattr(cls, "get_key")
             and isinstance(cls.get_key, types.MethodType)
@@ -119,5 +154,4 @@ def registry(cls):
         raise NotImplementedError("Registry classes require to implement class method get_key")
 
     setattr(cls, '__new__', choose(cls.__new__))
-    setattr(cls, '__init__', self_destruct(cls.__init__.__func__))
     return cls

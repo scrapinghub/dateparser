@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import re
+
 from itertools import chain
 from operator import methodcaller
+
+import regex as re
 from six.moves import zip_longest
+
+from dateparser.utils import normalize_unicode
 
 DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
 DATEUTIL_PARSERINFO_KNOWN_TOKENS = ["am", "pm", "a", "p", "UTC", "GMT", "Z"]
@@ -110,3 +114,25 @@ class Dictionary(object):
         self._split_regex_cache[self._settings.registry_key] = {
             self.info['name']: re.compile(regex, re.UNICODE | re.IGNORECASE)
         }
+
+
+class NormalizedDictionary(Dictionary):
+
+    def __init__(self, language_info, settings=None):
+        super(NormalizedDictionary, self).__init__(language_info, settings)
+        self._normalize()
+
+    def _normalize(self):
+        new_dict = {}
+        conflicting_keys = []
+        for key, value in self._dictionary.items():
+            normalized = normalize_unicode(key)
+            if key != normalized and normalized in self._dictionary:
+                conflicting_keys.append(key)
+            else:
+                new_dict[normalized] = value
+        for key in conflicting_keys:
+            normalized = normalize_unicode(key)
+            if key in (self.info.get('skip', []) + self.info.get('pertain', [])):
+                new_dict[normalized] = self._dictionary[key]
+        self._dictionary = new_dict
