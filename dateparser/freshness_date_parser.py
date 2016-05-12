@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import regex as re
+import re
 from datetime import datetime
 from datetime import time
 
 from dateutil.relativedelta import relativedelta
 from dateutil.parser import parse
 
-from dateparser.utils import is_dateutil_result_obj_parsed, apply_timezone
+from .utils import is_dateutil_result_obj_parsed
 
 
 _UNITS = r'year|month|week|day|hour|minute|second'
@@ -20,7 +20,7 @@ class FreshnessDateDataParser(object):
 
     @property
     def now(self):
-        return self.relative_base_date or datetime.utcnow()
+        return datetime.utcnow()
 
     def _are_all_words_units(self, date_string):
         skip = [_UNITS,
@@ -43,22 +43,13 @@ class FreshnessDateDataParser(object):
             except:
                 pass
 
-    def parse(self, date_string, settings):
+    def parse(self, date_string):
         date, period = self._parse(date_string)
-
         if date:
             _time = self._parse_time(date_string)
             if isinstance(_time, time):
                 date = date.replace(hour=_time.hour, minute=_time.minute,
                                     second=_time.second, microsecond=_time.microsecond)
-            else:
-                # No timezone shift takes place if time is given in the string.
-                # e.g. `2 days ago at 1 PM`
-                if settings.TIMEZONE:
-                    date = apply_timezone(date, settings.TIMEZONE)
-
-            if not settings.RETURN_AS_TIMEZONE_AWARE:
-                date = date.replace(tzinfo=None)
 
         return date, period
 
@@ -92,9 +83,8 @@ class FreshnessDateDataParser(object):
 
         return kwargs
 
-    def get_date_data(self, date_string, settings=None, relative_base_date=None):
-        self.relative_base_date = relative_base_date
-        date, period = self.parse(date_string, settings)
+    def get_date_data(self, date_string):
+        date, period = self.parse(date_string)
         return dict(date_obj=date, period=period)
 
 freshness_date_parser = FreshnessDateDataParser()

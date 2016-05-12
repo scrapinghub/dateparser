@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__version__ = '0.3.5'
+__version__ = '0.3.1'
 
 from .date import DateDataParser
 from .conf import apply_settings
@@ -7,15 +7,12 @@ from .conf import apply_settings
 _default_parser = DateDataParser(allow_redetect_language=True)
 
 @apply_settings
-def parse(date_string, date_formats=None, languages=None, settings=None, relative_base_date=None):
+def parse(date_string, date_formats=None, languages=None, settings=None):
     """Parse date and time from given date string.
 
     :param date_string:
         A string representing date and/or time in a recognizably valid format.
     :type date_string: str|unicode
-    :param relative_base_date:
-        A date to count relative dates from it.
-    :type relative_base_date: datetime
     :param date_formats:
         A list of format strings using directives as given
         `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
@@ -31,8 +28,7 @@ def parse(date_string, date_formats=None, languages=None, settings=None, relativ
     :type settings: dict
 
 
-    :return: Returns :class:`datetime <datetime.datetime>` representing parsed date if successful, else returns None
-    :rtype: :class:`datetime <datetime.datetime>`.
+    :return: Returns a :mod:`datetime.datetime` if successful, else returns None
     :raises: ValueError - Unknown Language
     """
     parser = _default_parser
@@ -40,7 +36,7 @@ def parse(date_string, date_formats=None, languages=None, settings=None, relativ
     if any([languages, not settings._default]):
         parser = DateDataParser(languages=languages, settings=settings)
 
-    data = parser.get_date_data(date_string, date_formats, relative_base_date)
+    data = parser.get_date_data(date_string, date_formats)
 
     if data:
         return data['date_obj']
