@@ -351,6 +351,11 @@ class DateDataParser(object):
         else:
             return {'date_obj': None, 'period': 'day'}
 
+    def get_date_tuple(self, *args, **kwargs):
+        date_tuple = collections.namedtuple('DateData', 'date_obj period')
+        date_data = self.get_date_data(*args, **kwargs)
+        return date_tuple(**date_data)
+
     @classmethod
     def _get_language_loader(cls):
         if not cls.language_loader:
