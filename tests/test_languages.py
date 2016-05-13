@@ -208,6 +208,7 @@ class TestBundledLanguages(BaseTestCase):
         param('zh', "50 秒", "50 second"),
         param('zh', "7 周", "7 week"),
         param('zh', "12 年", "12 year"),
+        param('zh', "半小时前", "30 minute ago"),
         # Danish
         param('da', "i går", "1 day"),
         param('da', "i dag", "0 day"),
