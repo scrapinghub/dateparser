@@ -21,6 +21,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         super(TestFreshnessDateDataParser, self).setUp()
         self.now = datetime(2014, 9, 1, 10, 30)
         self.date_string = NotImplemented
+        self.relative_base_date = NotImplemented
         self.parser = NotImplemented
         self.result = NotImplemented
         self.freshness_parser = NotImplemented
@@ -691,8 +692,55 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_is(date)
         self.then_time_is(time)
 
+    @parameterized.expand([
+        param('Today at 9 pm', date(2010, 6, 4), time(21, 0)),
+        param('Today at 11:20 am', date(2010, 6, 4), time(11, 20)),
+        param('Yesterday 1:20 pm', date(2010, 6, 3), time(13, 20)),
+        param('the day before yesterday 16:50', date(2010, 6, 2), time(16, 50)),
+        param('2 Tage 18:50', date(2010, 6, 2), time(18, 50)),
+        param('1 day ago at 2 PM', date(2010, 6, 3), time(14, 0)),
+        param('Dnes v 12:40', date(2010, 6, 4), time(12, 40)),
+        param('1 week ago at 12:00 am', date(2010, 5, 28), time(0, 0)),
+        param('yesterday', date(2010, 6, 3), time(13, 15)),
+        param('the day before yesterday', date(2010, 6, 2), time(13, 15)),
+        param('today', date(2010, 6, 4), time(13, 15)),
+        param('an hour ago', date(2010, 6, 4), time(12, 15)),
+        param('about an hour ago', date(2010, 6, 4), time(12, 15)),
+        param('a day ago', date(2010, 6, 3), time(13, 15)),
+        param('a week ago', date(2010, 5, 28), time(13, 15)),
+        param('one week ago', date(2010, 5, 28), time(13, 15)),
+        param('2 hours ago', date(2010, 6, 4), time(11, 15)),
+        param('about 23 hours ago', date(2010, 6, 3), time(14, 15)),
+        param('1 year 2 months', date(2009, 4, 4), time(13, 15)),
+        param('1 year, 09 months,01 weeks', date(2008, 8, 28), time(13, 15)),
+        param('1 year 11 months', date(2008, 7, 4), time(13, 15)),
+        param('1 year 12 months', date(2008, 6, 4), time(13, 15)),
+        param('15 hr', date(2010, 6, 3), time(22, 15)),
+        param('15 hrs', date(2010, 6, 3), time(22, 15)),
+        param('2 min', date(2010, 6, 4), time(13, 13)),
+        param('2 mins', date(2010, 6, 4), time(13, 13)),
+        param('3 sec', date(2010, 6, 4), time(13, 14, 57)),
+        param('1000 years ago', date(1010, 6, 4), time(13, 15)),
+        param('2008 years ago', date(2, 6, 4), time(13, 15)),
+        param('5000 months ago', date(1593, 10, 4), time(13, 15)),
+        param('{} months ago'.format(2008 * 12 + 8), date(1, 10, 4), time(13, 15)),
+        param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
+            date(2009, 4, 26), time(12, 14)),
+        param('just now', date(2010, 6, 4), time(13, 15))
+    ])
+    def test_freshness_date_with_relative_base(self, date_string, date, time):
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.given_relative_base_date(datetime(2010, 6, 4, 13, 15))
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
     def given_date_string(self, date_string):
         self.date_string = date_string
+
+    def given_relative_base_date(self, relative_base_date):
+        self.relative_base_date = relative_base_date
 
     def given_parser(self, settings=None):
 
@@ -717,7 +765,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     def when_date_is_parsed(self):
         try:
-            self.result = self.parser.get_date_data(self.date_string)
+            self.result = self.parser.get_date_data(self.date_string, relative_base_date=self.relative_base_date)
         except Exception as error:
             self.error = error
 
