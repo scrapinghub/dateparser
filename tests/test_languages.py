@@ -26,6 +26,14 @@ class TestBundledLanguages(BaseTestCase):
         param('zh', "1年11个月", "1 year 11 month"),
         param('zh', "2015年04月08日10:05", "2015-04-08 10:05"),
         param('zh', "2013年04月08日", "2013-04-08"),
+        param('zh', "周一", "monday"),
+        param('zh', "礼拜一", "monday"),
+        param('zh', "周二", "tuesday"),
+        param('zh', "礼拜二", "tuesday"),
+        param('zh', "周三", "wednesday"),
+        param('zh', "礼拜三", "wednesday"),
+        param('zh', "星期日 2015年04月08日10:05", "sunday 2015-04-08 10:05"),
+        param('zh', "周六 2013年04月08日", "saturday 2013-04-08"),
         # French
         param('fr', "20 Février 2012", "20 february 2012"),
         param('fr', "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
@@ -200,6 +208,7 @@ class TestBundledLanguages(BaseTestCase):
         param('zh', "50 秒", "50 second"),
         param('zh', "7 周", "7 week"),
         param('zh', "12 年", "12 year"),
+        param('zh', "半小时前", "30 minute ago"),
         # Danish
         param('da', "i går", "1 day"),
         param('da', "i dag", "0 day"),
