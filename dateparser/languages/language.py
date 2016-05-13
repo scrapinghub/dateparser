@@ -54,6 +54,8 @@ class Language(object):
             word = word.lower()
             if word in dictionary:
                 words[i] = dictionary[word] or ''
+        if "in" in words:
+            words = self._clear_future_words(words)
 
         return self._join(
             list(filter(bool, words)), separator="" if keep_formatting else " ", settings=settings)
@@ -68,6 +70,12 @@ class Language(object):
             date_string = re.sub(
                 pattern, replacement, date_string, flags=re.IGNORECASE | re.UNICODE).lower()
         return date_string
+
+    def _clear_future_words(self, words):
+        freshness_words = set(['day', 'week', 'month', 'year', 'hour', 'minute', 'second'])
+        if set(words).isdisjoint(freshness_words):
+            words.remove("in")
+        return words
 
     def _is_date_consists_of_digits_only(self, tokens):
         for token in tokens:

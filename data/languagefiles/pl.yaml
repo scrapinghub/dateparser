@@ -164,6 +164,8 @@ second:
 
 ago:
     - temu
+in:
+    - za
 
 simplifications:
     - dziś: 0 dnia
@@ -171,4 +173,5 @@ simplifications:
     - onegdaj: 2 dnia
     - przedwczoraj: 2 dnia
     - wczoraj: 1 dnia
-
+    - jutro: za 1 dnia
+    - pojutrze: za 2 dnia

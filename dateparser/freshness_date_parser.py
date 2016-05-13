@@ -24,7 +24,7 @@ class FreshnessDateDataParser(object):
 
     def _are_all_words_units(self, date_string):
         skip = [_UNITS,
-                r'ago|\d+',
+                r'ago|in|\d+',
                 r':|[ap]m']
 
         date_string = re.sub(r'\s+', ' ', date_string.strip())
@@ -36,7 +36,7 @@ class FreshnessDateDataParser(object):
     def _parse_time(self, date_string):
         """Attemps to parse time part of date strings like '1 day ago, 2 PM' """
         date_string = PATTERN.sub('', date_string)
-        date_string = re.sub(r'\bago\b', '', date_string)
+        date_string = re.sub(r'\b(?:ago|in)\b', '', date_string)
         if is_dateutil_result_obj_parsed(date_string):
             try:
                 return parse(date_string).time()
@@ -78,7 +78,10 @@ class FreshnessDateDataParser(object):
                     break
 
         td = relativedelta(**kwargs)
-        date = self.now - td
+        if re.search(r'\bin\b', date_string):
+            date = self.now + td
+        else:
+            date = self.now - td
         return date, period
 
     def get_kwargs(self, date_string):

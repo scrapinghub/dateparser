@@ -64,6 +64,8 @@ second:
 
 ago:
     - 前
+in:
+    - 在
 
 simplifications:
     - 昨天: 1天

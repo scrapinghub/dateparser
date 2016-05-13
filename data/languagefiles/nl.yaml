@@ -82,6 +82,8 @@ second:
 
 ago:
     - geleden
+in:
+    - in
 
 simplifications:
     - gisteren: 1 dag

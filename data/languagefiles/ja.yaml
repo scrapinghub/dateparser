@@ -72,6 +72,9 @@ second:
     - 秒
 ago:
     - 前
+in:
+    - 今から
+    - で
 
 simplifications:
     - (\d+)年(?:\s+)?(\d+)月(?:\s+)?(\d+)日: \1-\2-\3

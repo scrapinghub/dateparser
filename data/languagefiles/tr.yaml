@@ -61,6 +61,7 @@ december:
 
 year:
     - yıl
+    - sene
 month:
     - ay
 week:
@@ -76,8 +77,16 @@ second:
 
 ago:
     - önce
+in:
+    - içerisinde
+    - içinde
+    - sonra
 
 simplifications:
     - dün: 1 gün
     - bugün: 0 gün
-
+    - haftaya: 1 hafta sonra
+    - yarın: 1 gün sonra
+    - geçen (gün|hafta|ay|yıl): 1 \1
+    - önümüzdeki (gün|hafta|ay|yıl): 1 \1 sonra
+    - gelecek (hafta|ay|yıl): 1 \1 sonra

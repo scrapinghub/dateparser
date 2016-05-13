@@ -84,6 +84,8 @@ second:
 
 ago:
     - fa
+in:
+    - in
 
 simplifications:
     - altro ieri: 2 giorni
