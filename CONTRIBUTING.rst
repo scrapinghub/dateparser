@@ -32,6 +32,7 @@ Implement Features
 
 Look through the GitHub issues for features. Anything tagged with "feature"
 is open to whoever wants to implement it.
+We encourage you to add new languages to existing stack.
 
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
@@ -99,13 +100,21 @@ Before you submit a pull request, check that it meets these guidelines:
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
-   feature to the list in README.rst.
+   feature to the list in *README.rst*.
 3. Check https://travis-ci.org/scrapinghub/dateparser/pull_requests
    and make sure that the tests pass for all supported Python versions.
+4. Follow the core developers' advice which aim to ensure code's consistency regardless of variety of approaches used by many contributors.
+5. In case you are unable to continue working on a PR, please leave a short comment to notify us. We will be pleased to make any changes required to get it done.
 
-Tips
-----
+Guidelines for Adding New Languages
+-----------------------------------
+English is the primary language of the dateparser. Dates in all other languages are translated into English equivalents before they are parsed.
+The language data required for parsing dates is contained in *data/languages.yml* file. It contains variable parts that can be used in dates, language by language: month and week names - and their abbreviations, prepositions, conjunctions and frequently used descriptive words and phrases (like "today").
+The chosen data format is YAML because it is readable and simple to edit.
+Language data is extracted per language from YAML with :class:`LanguageDataLoader` and validated before being put into :class:`Language` class.
 
-To run a subset of tests::
-
-    $ nosetests tests.test_date_parser
+Refer to :ref:`language-data-template` for details about its structure and take a look at already implemented languages for examples.
+As we deal with the delicate fabric of interwoven languages, tests are essential to keep the functionality across them.
+Therefore any addition or change should be reflected in tests.
+However, there is nothing to be afraid of: our tests are highly parameterized and in most cases a test fits in one declarative line of data.
+Alternatively, you can provide required information and ask the maintainers to create the tests for you.

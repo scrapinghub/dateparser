@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import re
+import regex as re
 from datetime import datetime
+from datetime import time
 
 from dateutil.relativedelta import relativedelta
 from dateutil.parser import parse
+
+from dateparser.utils import is_dateutil_result_obj_parsed, apply_timezone
+
 
 _UNITS = r'year|month|week|day|hour|minute|second'
 PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
@@ -14,36 +18,47 @@ PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
 class FreshnessDateDataParser(object):
     """ Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago" """
 
-    def __init__(self, now=None):
-        self.now = now or datetime.utcnow()
+    @property
+    def now(self):
+        return datetime.utcnow()
 
     def _are_all_words_units(self, date_string):
         skip = [_UNITS,
-                r'ago|\d+',
+                r'ago|in|\d+',
                 r':|[ap]m']
 
         date_string = re.sub(r'\s+', ' ', date_string.strip())
 
-        words = filter(lambda x: x if x else False, re.split('\W', date_string))
+        words = filter(lambda x: x if x else False, re.split(r'\W', date_string))
         words = filter(lambda x: not re.match(r'%s' % '|'.join(skip), x), words)
-        return not bool(words)
+        return not list(words)
 
     def _parse_time(self, date_string):
         """Attemps to parse time part of date strings like '1 day ago, 2 PM' """
         date_string = PATTERN.sub('', date_string)
-        date_string = re.sub(r'\bago\b', '', date_string)
-        try:
-            return parse(date_string).time()
-        except:
-            pass
+        date_string = re.sub(r'\b(?:ago|in)\b', '', date_string)
+        if is_dateutil_result_obj_parsed(date_string):
+            try:
+                return parse(date_string).time()
+            except:
+                pass
 
-    def parse(self, date_string):
+    def parse(self, date_string, settings):
         date, period = self._parse(date_string)
+
         if date:
-            time = self._parse_time(date_string)
-            if time:
-                date = date.replace(hour=time.hour, minute=time.minute,
-                                    second=time.second, microsecond=time.microsecond)
+            _time = self._parse_time(date_string)
+            if isinstance(_time, time):
+                date = date.replace(hour=_time.hour, minute=_time.minute,
+                                    second=_time.second, microsecond=_time.microsecond)
+            else:
+                # No timezone shift takes place if time is given in the string.
+                # e.g. `2 days ago at 1 PM`
+                if settings.TIMEZONE:
+                    date = apply_timezone(date, settings.TIMEZONE)
+
+            if not settings.RETURN_AS_TIMEZONE_AWARE:
+                date = date.replace(tzinfo=None)
 
         return date, period
 
@@ -63,7 +78,10 @@ class FreshnessDateDataParser(object):
                     break
 
         td = relativedelta(**kwargs)
-        date = self.now - td
+        if re.search(r'\bin\b', date_string):
+            date = self.now + td
+        else:
+            date = self.now - td
         return date, period
 
     def get_kwargs(self, date_string):
@@ -77,8 +95,8 @@ class FreshnessDateDataParser(object):
 
         return kwargs
 
-    def get_date_data(self, date_string):
-        date, period = self.parse(date_string)
+    def get_date_data(self, date_string, settings=None):
+        date, period = self.parse(date_string, settings)
         return dict(date_obj=date, period=period)
 
 freshness_date_parser = FreshnessDateDataParser()

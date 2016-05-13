@@ -1,11 +1,14 @@
 import re
+import io
 from setuptools import setup, find_packages
+
+open_as_utf = lambda x: io.open(x, encoding='utf-8')
 
 (__version__, ) = re.findall("__version__.*\s*=\s*[']([^']+)[']",
                              open('dateparser/__init__.py').read())
 
-readme = open('README.rst').read()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+readme = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:', '', open_as_utf('README.rst').read())
+history = re.sub(r':mod:|:class:|:func:', '', open_as_utf('HISTORY.rst').read())
 
 
 test_requirements = open('tests/requirements.txt').read().splitlines()
@@ -21,8 +24,12 @@ setup(
     packages=find_packages(exclude=('tests', 'tests.*')),
     include_package_data=True,
     install_requires=[
-        'python-dateutil >= 2.3',
-        'PyYAML'
+        'python-dateutil',
+        'PyYAML',
+        'jdatetime',
+        'umalqurra',
+        'pytz',
+        'regex',
     ],
     license="BSD",
     zip_safe=False,
@@ -34,6 +41,11 @@ setup(
         'Natural Language :: English',
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: Implementation :: PyPy'
     ],
     test_suite='nose.collector',
     tests_require=test_requirements

@@ -2,16 +2,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import regex as re
 import unittest
 from collections import OrderedDict
 from datetime import datetime, timedelta
 
 from mock import Mock, patch
 from nose_parameterized import parameterized, param
+import six
 
+import dateparser
 from dateparser import date
 from dateparser.date import get_last_day_of_month
-from dateparser.languages import LanguageDataLoader
+from dateparser.languages.loader import LanguageDataLoader
+from dateparser.languages.loader import default_language_loader
+
 from tests import BaseTestCase
 
 
@@ -19,7 +24,6 @@ class TestDateRangeFunction(BaseTestCase):
     def setUp(self):
         super(TestDateRangeFunction, self).setUp()
         self.result = NotImplemented
-        self.error = NotImplemented
 
     @parameterized.expand([
         param(begin=datetime(2014, 6, 15), end=datetime(2014, 6, 25), expected_length=10)
@@ -83,19 +87,17 @@ class TestDateRangeFunction(BaseTestCase):
             date_under_test += timedelta(days=1)
 
     def then_range_is_in_ascending_order(self):
-        for i in xrange(len(self.result) - 1):
+        for i in six.moves.range(len(self.result) - 1):
             self.assertLess(self.result[i], self.result[i + 1])
 
     def then_period_was_rejected(self, period):
-        self.assertIsInstance(self.error, ValueError)
-        self.assertEqual('Invalid argument: {}'.format(period), str(self.error))
+        self.then_error_was_raised(ValueError, ['Invalid argument: {}'.format(period)])
 
 
 class TestGetIntersectingPeriodsFunction(BaseTestCase):
     def setUp(self):
         super(TestGetIntersectingPeriodsFunction, self).setUp()
         self.result = NotImplemented
-        self.error = NotImplemented
 
     @parameterized.expand([
         param(low=datetime(2014, 6, 15), high=datetime(2014, 6, 16), length=1)
@@ -179,7 +181,7 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
         self.when_intersecting_period_calculated(low=datetime(2014, 6, 15),
                                                  high=datetime(2014, 6, 25),
                                                  period_size=period_size)
-        self.then_error_was_raised(ValueError, 'Invalid period: ' + str(period_size))
+        self.then_error_was_raised(ValueError, ['Invalid period: ' + str(period_size)])
 
     @parameterized.expand([
         param(low=datetime(2014, 4, 15), high=datetime(2014, 4, 14), period_size='month'),
@@ -209,10 +211,6 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
 
     def then_period_is_empty(self):
         self.assertEquals([], self.result)
-
-    def then_error_was_raised(self, error_cls, error_message):
-        self.assertIsInstance(self.error, error_cls)
-        self.assertEqual(error_message, str(self.error))
 
 
 class TestParseWithFormatsFunction(BaseTestCase):
@@ -263,11 +261,13 @@ class TestParseWithFormatsFunction(BaseTestCase):
                                           day=get_last_day_of_month(expected_year, expected_month)))
 
     def given_now(self, year, month, day, **time):
+        now = datetime(year, month, day, **time)
         datetime_mock = Mock(wraps=datetime)
-        datetime_mock.utcnow = Mock(return_value=datetime(year, month, day, **time))
-        self.add_patch(
-            patch('dateparser.date_parser.datetime', new=datetime_mock)
-        )
+        datetime_mock.utcnow = Mock(return_value=now)
+        datetime_mock.now = Mock(return_value=now)
+        datetime_mock.today = Mock(return_value=now)
+        self.add_patch(patch('dateparser.date_parser.datetime', new=datetime_mock))
+        self.add_patch(patch('dateparser.date.datetime', new=datetime_mock))
 
     def when_date_is_parsed_with_formats(self, date_string, date_formats):
         self.result = date.parse_with_formats(date_string, date_formats)
@@ -340,7 +340,7 @@ class TestDateDataParser(BaseTestCase):
                           allow_redetect_language=False)
         self.when_multiple_dates_are_parsed(dates_to_parse.keys())
         self.then_all_results_were_parsed()
-        self.then_parsed_dates_are(dates_to_parse.values())
+        self.then_parsed_dates_are(list(dates_to_parse.values()))
 
     def test_should_enable_redetection_for_multiple_languages(self):
         dates_to_parse = OrderedDict([(u'13 Ago, 2014', datetime(2014, 8, 13).date()),  # es, it, pt
@@ -352,7 +352,7 @@ class TestDateDataParser(BaseTestCase):
         self.given_parser(restrict_to_languages=['es', 'it', 'pt'], allow_redetect_language=True)
         self.when_multiple_dates_are_parsed(dates_to_parse.keys())
         self.then_all_results_were_parsed()
-        self.then_parsed_dates_are(dates_to_parse.values())
+        self.then_parsed_dates_are(list(dates_to_parse.values()))
 
     @parameterized.expand([
         param("2014-10-09T17:57:39+00:00"),
@@ -364,11 +364,36 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_date_has_timezone()
 
     @parameterized.expand([
+        param(date_string="14 giu 13", date_formats=["%y %B %d"], expected_result=datetime(2014, 6, 13)),
+        param(date_string="14_luglio_15", date_formats=["%y_%B_%d"], expected_result=datetime(2014, 7, 15)),
+        param(date_string="14_LUGLIO_15", date_formats=["%y_%B_%d"], expected_result=datetime(2014, 7, 15)),
+    ])
+    def test_parse_date_using_format(self, date_string, date_formats, expected_result):
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.when_date_string_is_parsed(date_string, date_formats)
+        self.then_date_was_parsed()
+        self.then_period_is('day')
+        self.then_parsed_datetime_is(expected_result)
+
+    @parameterized.expand([
+        param(date_string="2014/11/17 14:56 EDT", expected_result=datetime(2014, 11, 17, 18, 56)),
+    ])
+    def test_parse_date_with_timezones_not_using_formats(self, date_string, expected_result):
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.when_date_string_is_parsed(date_string)
+        self.then_date_was_parsed()
+        self.then_period_is('day')
+        self.then_parsed_datetime_is(expected_result)
+
+    @parameterized.expand([
         param(date_string="2014/11/17 14:56 EDT",
               date_formats=["%Y/%m/%d %H:%M EDT"],
               expected_result=datetime(2014, 11, 17, 14, 56)),
     ])
-    def test_should_parse_date_with_timezones_using_format(self, date_string, date_formats, expected_result):
+    def test_parse_date_with_timezones_using_formats_ignore_timezone(self, date_string, date_formats, expected_result):
+        self.given_local_tz_offset(0)
         self.given_parser()
         self.when_date_string_is_parsed(date_string, date_formats)
         self.then_date_was_parsed()
@@ -397,14 +422,21 @@ class TestDateDataParser(BaseTestCase):
 
         if restrict_to_languages is not None:
             language_loader = LanguageDataLoader()
-            language_map = date.default_language_loader.get_language_map()
+            language_map = default_language_loader.get_language_map()
 
             ordered_languages = OrderedDict([
                 (shortname, language_map[shortname])
                 for shortname in restrict_to_languages
             ])
             language_loader._data = ordered_languages
-            self.add_patch(patch('dateparser.date.default_language_loader', new=language_loader))
+            self.add_patch(patch('dateparser.date.DateDataParser.language_loader', new=language_loader))
+
+    def given_local_tz_offset(self, offset):
+        self.add_patch(
+            patch.object(dateparser.timezone_parser,
+                         'local_tz_offset',
+                         new=timedelta(seconds=3600 * offset))
+        )
 
     def when_date_string_is_parsed(self, date_string, date_formats=None):
         self.result = self.parser.get_date_data(date_string, date_formats)
@@ -447,19 +479,20 @@ class TestDateDataParser(BaseTestCase):
 
 
 class TestParserInitialization(BaseTestCase):
+    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile(u"Unknown language\(s\): (.+)")
+
     def setUp(self):
         super(TestParserInitialization, self).setUp()
         self.result = NotImplemented
-        self.error = NotImplemented
 
     @parameterized.expand([
-        param(['ur', 'li'], error_message=u"Unknown language(s): u'ur', u'li'"),
-        param(['ur', 'en'], error_message=u"Unknown language(s): u'ur'"),
-        param(['pk'], error_message=u"Unknown language(s): u'pk'"),
+        param(['ur', 'li'], unknown_languages=[u'ur', u'li']),
+        param(['ur', 'en'], unknown_languages=[u'ur']),
+        param(['pk'], unknown_languages=[u'pk']),
         ])
-    def test_should_raise_error_when_unknown_language_given(self, shortnames, error_message):
+    def test_should_raise_error_when_unknown_language_given(self, shortnames, unknown_languages):
         self.when_parser_is_initialized(languages=shortnames)
-        self.then_error_was_raised(ValueError, error_message)
+        self.then_languages_are_unknown(unknown_languages)
 
     def when_parser_is_initialized(self, **params):
         try:
@@ -467,9 +500,19 @@ class TestParserInitialization(BaseTestCase):
         except Exception as error:
             self.error = error
 
-    def then_error_was_raised(self, error_cls, error_message):
-        self.assertIsInstance(self.error, error_cls)
-        self.assertEqual(error_message, str(self.error))
+    def then_languages_are_unknown(self, unknown_languages):
+        self.assertIsInstance(self.error, ValueError)
+        match = self.UNKNOWN_LANGUAGES_EXCEPTION_RE.match(str(self.error))
+        self.assertTrue(match)
+        languages = match.group(1).split(", ")
+        six.assertCountEqual(self, languages, [repr(l) for l in unknown_languages])
+
+
+class TestSanitizeDate(BaseTestCase):
+    def test_remove_year_in_russian(self):
+        self.assertEqual(date.sanitize_date(u'2005г.'), u'2005 ')
+        self.assertEqual(date.sanitize_date(u'2005 г.'), u'2005 ')
+        self.assertEqual(date.sanitize_date(u'Авг.'), u'Авг.')
 
 
 if __name__ == '__main__':
