@@ -6,3 +6,4 @@ settings:
     TIMEZONE: 'UTC'
     RETURN_AS_TIMEZONE_AWARE: False
     NORMALIZE: True
+    RELATIVE_BASE: False
