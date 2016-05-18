@@ -263,7 +263,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("2 minuty temu", ago={'minutes': 2}, period='day'),
         param("15 minut temu", ago={'minutes': 15}, period='day'),
     ])
-    def test_relative_dates(self, date_string, ago, period):
+    def test_relative_past_dates(self, date_string, ago, period):
         self.given_parser(settings={'NORMALIZE': False})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -512,6 +512,96 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_period_is(period)
 
     @parameterized.expand([
+        # English dates
+        param('tomorrow', in_future={'days': 1}, period='day'),
+        param('today', in_future={'days': 0}, period='day'),
+        param('in an hour', in_future={'hours': 1}, period='day'),
+        param('in about an hour', in_future={'hours': 1}, period='day'),
+        param('in 1 day', in_future={'days': 1}, period='day'),
+        param('in a week', in_future={'weeks': 1}, period='week'),
+        param('in one week', in_future={'weeks': 1}, period='week'),
+        param('in 2 hours', in_future={'hours': 2}, period='day'),
+        param('in about 23 hours', in_future={'hours': 23}, period='day'),
+        param('in 1 year 2 months', in_future={'years': 1, 'months': 2}, period='month'),
+        param('in 1 year, 09 months,01 weeks', in_future={'years': 1, 'months': 9, 'weeks': 1}, period='week'),
+        param('in 1 year 11 months', in_future={'years': 1, 'months': 11}, period='month'),
+        param('in 1 year 12 months', in_future={'years': 1, 'months': 12}, period='month'),
+        param('in 15 hr', in_future={'hours': 15}, period='day'),
+        param('in 15 hrs', in_future={'hours': 15}, period='day'),
+        param('in 2 min', in_future={'minutes': 2}, period='day'),
+        param('in 2 mins', in_future={'minutes': 2}, period='day'),
+        param('in 3 sec', in_future={'seconds': 3}, period='day'),
+        param('in 1000 years', in_future={'years': 1000}, period='year'),
+        param('in 5000 months', in_future={'years': 416, 'months': 8}, period='month'),
+        param('in {} months'.format(2013 * 12 + 8), in_future={'years': 2013, 'months': 8}, period='month'),
+        param('in 1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute',
+              in_future={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+              period='day'),
+        param('just now', in_future={'seconds': 0}, period='day'),
+
+        # French dates
+        param("Aujourd'hui", in_future={'days': 0}, period='day'),
+        param('Dans un jour', in_future={'days': 1}, period='day'),
+        param('Dans une heure', in_future={'hours': 1}, period='day'),
+        param('En 2 heures', in_future={'hours': 2}, period='day'),
+        param('Dans environ 23 heures', in_future={'hours': 23}, period='day'),
+        param('Dans 1 an 2 mois', in_future={'years': 1, 'months': 2}, period='month'),
+        param('En 1 année, 09 mois, 01 semaines', in_future={'years': 1, 'months': 9, 'weeks': 1}, period='week'),
+        param('Dans 1 an 11 mois', in_future={'years': 1, 'months': 11}, period='month'),
+        param('Dans 1 année, 1 mois, 1 semaine, 1 jour, 1 heure et 1 minute',
+              in_future={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+              period='day'),
+        param('Dans 40 min', in_future={'minutes': 40}, period='day'),
+
+        # German dates
+        param('Heute', in_future={'days': 0}, period='day'),
+        param('Morgen', in_future={'days': 1}, period='day'),
+        param('in einem Tag', in_future={'days': 1}, period='day'),
+        param('in einer Stunde', in_future={'hours': 1}, period='day'),
+        param('in 2 Stunden', in_future={'hours': 2}, period='day'),
+        param('in etwa 23 Stunden', in_future={'hours': 23}, period='day'),
+        param('im 1 Jahr 2 Monate', in_future={'years': 1, 'months': 2}, period='month'),
+        param('im 1 Jahr, 09 Monate, 01 Wochen', in_future={'years': 1, 'months': 9, 'weeks': 1}, period='week'),
+        param('im 1 Jahr 11 Monate', in_future={'years': 1, 'months': 11}, period='month'),
+        param('im 1 Jahr, 1 Monat, 1 Woche, 1 Tag, 1 Stunde und 1 Minute',
+              in_future={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+              period='day'),
+
+        # Polish dates
+        param("jutro", in_future={'days': 1}, period='day'),
+        param("pojutrze", in_future={'days': 2}, period='day'),
+        param("za 2 lata, 3 miesiące, 1 tydzień, 2 dni, 4 godziny, 15 minut i 25 sekund",
+              in_future={'years': 2, 'months': 3, 'weeks': 1, 'days': 2, 'hours': 4, 'minutes': 15, 'seconds': 25},
+              period='day'),
+        param("za 2 minuty", in_future={'minutes': 2}, period='day'),
+        param("za 15 minut", in_future={'minutes': 15}, period='day'),
+
+        # Turkish dates
+        param('yarın', in_future={'days': 1}, period='day'),
+        param('2 gün içerisinde', in_future={'days': 2}, period='day'),
+        param('4 ay içerisinde', in_future={'months': 4}, period='month'),
+        param('3 gün sonra', in_future={'days': 3}, period='day'),
+        param('2 ay sonra', in_future={'months': 2}, period='month'),
+        param('5 yıl 3 gün sonra', in_future={'years': 5, 'days': 3}, period='day'),
+        param('5 gün içinde', in_future={'days': 5}, period='day'),
+        param('6 ay içinde', in_future={'months': 6}, period='month'),
+        param('5 yıl içinde', in_future={'years': 5}, period='year'),
+        param('5 sene içinde', in_future={'years': 5}, period='year'),
+        param('haftaya', in_future={'weeks': 1}, period='week'),
+        param('gelecek hafta', in_future={'weeks': 1}, period='week'),
+        param('gelecek ay', in_future={'months': 1}, period='month'),
+        param('gelecek yıl', in_future={'years': 1}, period='year'),
+    ])
+    def test_relative_future_dates(self, date_string, in_future, period):
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_was_parsed_by_freshness_parser()
+        self.then_date_obj_is_exactly_this_time_in_future(in_future)
+        self.then_period_is(period)
+
+    @parameterized.expand([
         param('15th of Aug, 2014 Diane Bennett'),
     ])
     def test_insane_dates(self, date_string):
@@ -555,6 +645,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 day ago at 2 PM', date(2014, 8, 31), time(14, 0)),
         param('Dnes v 12:40', date(2014, 9, 1), time(12, 40)),
         param('1 week ago at 12:00 am', date(2014, 8, 25), time(0, 0)),
+        param('tomorrow at 2 PM', date(2014, 9, 2), time(14, 0)),
     ])
     def test_freshness_date_with_time(self, date_string, date, time):
         self.given_parser()
@@ -595,6 +686,49 @@ class TestFreshnessDateDataParser(BaseTestCase):
     ])
     def test_freshness_date_with_timezone_utc_offset(self, date_string, timezone, date, time):
         self.given_parser(settings={'TIMEZONE': timezone})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
+    @parameterized.expand([
+        param('Today at 9 pm', date(2010, 6, 4), time(21, 0)),
+        param('Today at 11:20 am', date(2010, 6, 4), time(11, 20)),
+        param('Yesterday 1:20 pm', date(2010, 6, 3), time(13, 20)),
+        param('the day before yesterday 16:50', date(2010, 6, 2), time(16, 50)),
+        param('2 Tage 18:50', date(2010, 6, 2), time(18, 50)),
+        param('1 day ago at 2 PM', date(2010, 6, 3), time(14, 0)),
+        param('Dnes v 12:40', date(2010, 6, 4), time(12, 40)),
+        param('1 week ago at 12:00 am', date(2010, 5, 28), time(0, 0)),
+        param('yesterday', date(2010, 6, 3), time(13, 15)),
+        param('the day before yesterday', date(2010, 6, 2), time(13, 15)),
+        param('today', date(2010, 6, 4), time(13, 15)),
+        param('an hour ago', date(2010, 6, 4), time(12, 15)),
+        param('about an hour ago', date(2010, 6, 4), time(12, 15)),
+        param('a day ago', date(2010, 6, 3), time(13, 15)),
+        param('a week ago', date(2010, 5, 28), time(13, 15)),
+        param('one week ago', date(2010, 5, 28), time(13, 15)),
+        param('2 hours ago', date(2010, 6, 4), time(11, 15)),
+        param('about 23 hours ago', date(2010, 6, 3), time(14, 15)),
+        param('1 year 2 months', date(2009, 4, 4), time(13, 15)),
+        param('1 year, 09 months,01 weeks', date(2008, 8, 28), time(13, 15)),
+        param('1 year 11 months', date(2008, 7, 4), time(13, 15)),
+        param('1 year 12 months', date(2008, 6, 4), time(13, 15)),
+        param('15 hr', date(2010, 6, 3), time(22, 15)),
+        param('15 hrs', date(2010, 6, 3), time(22, 15)),
+        param('2 min', date(2010, 6, 4), time(13, 13)),
+        param('2 mins', date(2010, 6, 4), time(13, 13)),
+        param('3 sec', date(2010, 6, 4), time(13, 14, 57)),
+        param('1000 years ago', date(1010, 6, 4), time(13, 15)),
+        param('2008 years ago', date(2, 6, 4), time(13, 15)),
+        param('5000 months ago', date(1593, 10, 4), time(13, 15)),
+        param('{} months ago'.format(2008 * 12 + 8), date(1, 10, 4), time(13, 15)),
+        param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
+            date(2009, 4, 26), time(12, 14)),
+        param('just now', date(2010, 6, 4), time(13, 15))
+    ])
+    def test_freshness_date_with_relative_base(self, date_string, date, time):
+        self.given_parser(settings={'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_date_is(date)
@@ -645,6 +779,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     def then_date_obj_is_exactly_this_time_ago(self, ago):
         self.assertEqual(self.now - relativedelta(**ago), self.result['date_obj'])
+
+    def then_date_obj_is_exactly_this_time_in_future(self, in_future):
+        self.assertEqual(self.now + relativedelta(**in_future), self.result['date_obj'])
 
     def then_date_was_not_parsed(self):
         self.assertIsNone(self.result['date_obj'], '"%s" should not be parsed' % self.date_string)

@@ -108,6 +108,8 @@ second:
 
 ago:
     - назад
+in:
+    - в течение
 
 simplifications:
     - позавчера: 2 дня

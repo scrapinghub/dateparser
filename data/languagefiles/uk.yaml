@@ -101,6 +101,8 @@ second:
 ago:
     - тому
     - назад
+in:
+    - протягом
 
 simplifications:
     - позавчора: 2 дні

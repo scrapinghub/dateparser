@@ -72,6 +72,8 @@ second:
 
 ago:
     - lalu
+in:
+    - dalam
 
 simplifications:
     - kemarin lusa: 2 hari

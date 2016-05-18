@@ -94,6 +94,9 @@ second:
 ago:
     - il ya
     - il y a
+in:
+    - dans
+    - en
 
 simplifications:
     - avant-hier: 2 jour

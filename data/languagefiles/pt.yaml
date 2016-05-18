@@ -94,6 +94,8 @@ second:
 ago:
     - atrás
     - há
+in:
+    - em
 
 simplifications:
     - anteontem: 2 dias

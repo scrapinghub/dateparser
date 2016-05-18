@@ -87,6 +87,8 @@ second:
 
 ago:
     - hace
+in:
+    - en
 
 simplifications:
     - anteayer: 2 día

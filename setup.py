@@ -1,11 +1,14 @@
 import re
+import io
 from setuptools import setup, find_packages
+
+open_as_utf = lambda x: io.open(x, encoding='utf-8')
 
 (__version__, ) = re.findall("__version__.*\s*=\s*[']([^']+)[']",
                              open('dateparser/__init__.py').read())
 
-readme = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:', '', open('README.rst').read())
-history = re.sub(r':mod:|:class:|:func:', '', open('HISTORY.rst').read())
+readme = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:', '', open_as_utf('README.rst').read())
+history = re.sub(r':mod:|:class:|:func:', '', open_as_utf('HISTORY.rst').read())
 
 
 test_requirements = open('tests/requirements.txt').read().splitlines()

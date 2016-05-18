@@ -89,6 +89,8 @@ second:
 
 ago:
     - před
+in:
+    - ve
 
 simplifications:
     - dnes: 0 den
