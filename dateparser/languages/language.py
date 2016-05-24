@@ -31,8 +31,6 @@ class Language(object):
         return validator.validate_info(language_id=self.shortname, info=self.info)
 
     def is_applicable(self, date_string, strip_timezone=False, settings=None):
-        if settings.NORMALIZE:
-            date_string = normalize_unicode(date_string)
         if strip_timezone:
             date_string, _ = pop_tz_offset_from_string(date_string, as_offset=False)
 
@@ -44,8 +42,6 @@ class Language(object):
             return self._are_all_words_in_the_dictionary(tokens, settings)
 
     def translate(self, date_string, keep_formatting=False, settings=None):
-        if settings.NORMALIZE:
-            date_string = normalize_unicode(date_string)
         date_string = self._simplify(date_string, settings=settings)
         words = self._split(date_string, keep_formatting, settings=settings)
 

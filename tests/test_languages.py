@@ -6,6 +6,7 @@ from nose_parameterized import parameterized, param
 from dateparser.languages import default_language_loader, Language
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import settings
+from dateparser.utils import normalize_unicode
 
 from tests import BaseTestCase
 
@@ -402,6 +403,8 @@ class TestBundledLanguages(BaseTestCase):
         self.then_language_is_not_applicable()
 
     def given_string(self, datetime_string):
+        if settings.NORMALIZE:
+            datetime_string = normalize_unicode(datetime_string)
         self.datetime_string = datetime_string
 
     def given_bundled_language(self, shorname):

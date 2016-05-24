@@ -118,6 +118,8 @@ class AutoDetectLanguageTest(BaseTestCase):
     def when_all_languages_are_detected(self, date_strings, modify=False):
         assert not isinstance(date_strings, six.string_types)
         for date_string in date_strings:
+            if settings.NORMALIZE:
+                date_string = normalize_unicode(date_string)
             detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings))
         self.detected_languages = detected_languages
 
