@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__version__ = '0.3.4'
+__version__ = '0.3.5'
 
 from .date import DateDataParser
 from .conf import apply_settings

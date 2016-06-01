@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import types
+import unicodedata
 
 import regex as re
 from dateutil.parser import parser
@@ -18,7 +19,11 @@ def strip_braces(date_string):
 
 
 def is_dateutil_result_obj_parsed(date_string):
-    res = parser()._parse(date_string)
+    # handle dateutil>=2.5 tuple result first
+    try:
+        res, _ = parser()._parse(date_string)
+    except TypeError:
+        res = parser()._parse(date_string)
     if not res:
         return False
 
@@ -27,6 +32,15 @@ def is_dateutil_result_obj_parsed(date_string):
         return str(value) if value is not None else ''
 
     return any([get_value(res, k) for k in res.__slots__])
+
+
+def normalize_unicode(string, form='NFKD'):
+    if isinstance(string, bytes):
+        string = string.decode('utf-8')
+
+    return ''.join(
+        (c for c in unicodedata.normalize(form, string)
+            if unicodedata.category(c) != 'Mn'))
 
 
 def wrap_replacement_for_regex(replacement, regex):

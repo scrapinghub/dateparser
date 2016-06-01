@@ -3,11 +3,30 @@
 History
 =======
 
+0.3.5 (2016-04-27)
+------------------
+New features:
+
+* Danish language support.
+* Japanese language support.
+* Support for parsing date strings with accents.
+
+Improvements:
+
+* Transformed languages.yaml into base file and separate files for each language.
+* Fixed vietnamese language simplifications.
+* No more version restrictions for python-dateutil.
+* Timezone parsing improvements. 
+* Fixed test environments.
+* Cleaned language codes. Now we strictly follow codes as in ISO 639-1.
+* Improved chinese dates parsing.
+
+
 0.3.4 (2016-03-03)
 ------------------
 Improvements:
 
-* Fixed broken version 0.3.3 by excluding latest python-dateutil version. 
+* Fixed broken version 0.3.3 by excluding latest python-dateutil version.
 
 0.3.3 (2016-02-29)
 ------------------
@@ -68,7 +87,7 @@ Improvements:
 0.2.1 (2015-07-13)
 ------------------
 * Support for generic parsing of dates with UTC offset.
-* Support for Filipino dates.
+* Support for Tagalog/Filipino dates.
 * Improved support for French and Spanish dates.
 
 

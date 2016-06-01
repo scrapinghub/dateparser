@@ -8,6 +8,7 @@ include data/settings.yaml
 include requirements.txt
 include requirements-build.txt
 
+recursive-include data/languagefiles *.yaml
 recursive-include tests *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]

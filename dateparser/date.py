@@ -13,6 +13,7 @@ from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import apply_settings
+from dateparser.utils import normalize_unicode
 
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -336,7 +337,13 @@ class DateDataParser(object):
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
-        date_string = date_string.strip()
+        try:
+            date_string = date_string.strip()
+        except AttributeError:
+            raise TypeError('Input type must be str or unicode')
+        if self._settings.NORMALIZE:
+           date_string = normalize_unicode(date_string)
+
         date_string = sanitize_date(date_string)
 
         for language in self.language_detector.iterate_applicable_languages(
@@ -347,6 +354,11 @@ class DateDataParser(object):
                 return parsed_date
         else:
             return {'date_obj': None, 'period': 'day'}
+
+    def get_date_tuple(self, *args, **kwargs):
+        date_tuple = collections.namedtuple('DateData', 'date_obj period')
+        date_data = self.get_date_data(*args, **kwargs)
+        return date_tuple(**date_data)
 
     @classmethod
     def _get_language_loader(cls):
