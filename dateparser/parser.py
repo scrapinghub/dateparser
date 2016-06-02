@@ -26,6 +26,20 @@ class _no_spaces_parser(object):
         (True, True): [x for x in _all if x.lower().startswith('%y%d')],
     }
 
+    period = {
+        'day': ['%d', '%H', '%M', '%S'],
+        'month': ['%m']
+    }
+
+    @classmethod
+    def _get_period(cls, format_string):
+        for pname, pdrv in cls.period.items():
+            for drv in pdrv:
+                if drv in format_string:
+                    return pname
+        else:
+            return 'year'
+
     @classmethod
     def parse(cls, datestring, dayfirst=False, yearfirst=False):
         datestring = datestring.replace(':', '')
@@ -33,7 +47,7 @@ class _no_spaces_parser(object):
         for token, _ in tokens.tokenize():
             for fmt in cls.date_formats[(yearfirst, dayfirst)]:
                 try:
-                    return datetime.strptime(token, fmt)
+                    return datetime.strptime(token, fmt), cls._get_period(fmt)
                 except:
                     pass
         else:
@@ -215,7 +229,7 @@ class _parser(object):
         # correction for past, future if applicable
         dateobj = po._correct(dateobj, future=prefer_future)
 
-        return dateobj
+        return dateobj, po._get_period()
 
     def _parse(self, type, token, fuzzy):
 
