@@ -7,6 +7,19 @@ from datetime import datetime
 from datetime import timedelta
 
 
+def parse(datestring, settings):
+    exceptions = []
+    for parser in [_no_spaces_parser.parse, _parser.parse]:
+        try:
+            res = parser(datestring)
+            if res:
+                return res
+        except Exception, e:
+            exceptions.append(e)
+    else:
+        raise exceptions.pop(-1)
+
+
 class _no_spaces_parser(object):
     _dateformats = [
         '%Y%m%d', '%Y%d%m', '%m%Y%d',
@@ -42,6 +55,9 @@ class _no_spaces_parser(object):
 
     @classmethod
     def parse(cls, datestring, dayfirst=False, yearfirst=False):
+        if ' ' in datestring:
+            return
+
         datestring = datestring.replace(':', '')
         tokens = tokenizer(datestring)
         for token, _ in tokens.tokenize():
@@ -164,6 +180,9 @@ class _parser(object):
             if getattr(self, period, None):
                 return period
 
+        if self._results():
+            return 'day'
+
     def _results(self):
         now = self.default
         time = self.time() if not self.time is None else None
@@ -191,11 +210,11 @@ class _parser(object):
                 delta = timedelta(days=-steps)
             else:
                 while days[day_index] != day:
-                    day_index += 1
+                    day_index = (day_index + 1) % 7
                     steps += 1
                 delta = timedelta(days=steps)
 
-            return dateobj + delta
+            dateobj = dateobj + delta
 
         if self.month and not self.year:
             if self.default.month < dateobj.month:
@@ -204,7 +223,6 @@ class _parser(object):
 
             elif future:
                 dateobj = dateobj.replace(year=dateobj.year + 1)
-            return dateobj
 
         if self.default < dateobj and not future:
             return dateobj - timedelta(days=1)

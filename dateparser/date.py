@@ -9,6 +9,7 @@ import regex as re
 from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
+from dateparser.parser import parse
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
@@ -104,7 +105,7 @@ def sanitize_date(date_string):
 
 
 def get_date_from_timestamp(date_string):
-    if re.search(r'^\d{10}', date_string):
+    if re.search(r'^\d{10}$', date_string):
         return datetime.fromtimestamp(int(date_string[:10]))
 
 
@@ -168,7 +169,7 @@ class _DateLanguageParser(object):
             self._try_timestamp,
             self._try_freshness_parser,
             self._try_given_formats,
-            self._try_dateutil_parser,
+            self._try_parser,
             self._try_hardcoded_formats,
         ):
             date_obj = parser()
@@ -186,7 +187,7 @@ class _DateLanguageParser(object):
     def _try_freshness_parser(self):
         return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings)
 
-    def _try_dateutil_parser(self):
+    def _try_parser(self):
         try:
             date_obj, period = date_parser.parse(
                 self._get_translated_date(), settings=self._settings)

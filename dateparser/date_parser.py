@@ -14,6 +14,7 @@ from dateutil.relativedelta import relativedelta
 from .timezone_parser import pop_tz_offset_from_string
 from .utils import strip_braces, apply_timezone
 from .conf import apply_settings
+from .parser import parse
 
 
 binary_type = bytes if sys.version_info[0] == 3 else str
@@ -181,7 +182,7 @@ class DateParser(object):
         date_string = strip_braces(date_string)
         date_string, tz = pop_tz_offset_from_string(date_string)
 
-        date_obj, period = dateutil_parse(date_string, settings=settings)
+        date_obj, period = parse(date_string, settings=settings)
 
         if tz is not None:
             date_obj = tz.localize(date_obj)
