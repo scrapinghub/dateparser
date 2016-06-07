@@ -1,5 +1,6 @@
 # coding: utf-8
 import calendar
+import re
 
 from cStringIO import StringIO
 from collections import OrderedDict
@@ -7,11 +8,28 @@ from datetime import datetime
 from datetime import timedelta
 
 
+NSP_COMPATIBLE = re.compile(r'\D')
+
+
+def no_space_parser_eligibile(datestring):
+    return not bool(NSP_COMPATIBLE.search(datestring))
+
+
+def resolve_date_order(order):
+    chart = {
+        'MDY': {'day': False, 'year': False},
+        'YMD': {'day': False, 'year': True},
+        'YDM': {'day': True, 'year': True},
+        'DMY': {'day': True, 'year': False},
+    }
+    return chart[order]
+
+
 def parse(datestring, settings):
     exceptions = []
-    for parser in [_no_spaces_parser.parse, _parser.parse]:
+    for parser in [_parser.parse, _no_spaces_parser.parse]:
         try:
-            res = parser(datestring)
+            res = parser(datestring, settings)
             if res:
                 return res
         except Exception, e:
@@ -54,14 +72,15 @@ class _no_spaces_parser(object):
             return 'year'
 
     @classmethod
-    def parse(cls, datestring, dayfirst=False, yearfirst=False):
-        if ' ' in datestring:
+    def parse(cls, datestring, settings):
+        if not no_space_parser_eligibile(datestring):
             return
 
         datestring = datestring.replace(':', '')
         tokens = tokenizer(datestring)
+        order = resolve_date_order(settings.DATE_ORDER)
         for token, _ in tokens.tokenize():
-            for fmt in cls.date_formats[(yearfirst, dayfirst)]:
+            for fmt in cls.date_formats[(order['year'], order['day'])]:
                 try:
                     return datetime.strptime(token, fmt), cls._get_period(fmt)
                 except:
@@ -120,13 +139,14 @@ class _parser(object):
     def _get_component_token(self, key):
         return getattr(self, '_token_%s' % key, None)
 
-    def __init__(self, tokens, dayfirst=False, yearfirst=False, fuzzy=False, default=None):
+    def __init__(self, tokens, settings):
+        self.settings = settings
+
         self.day = None
         self.month = None
         self.year = None
         self.time = None
         self.delta = timedelta(0)
-        self.default = default
 
         self.auto_order = []
 
@@ -137,15 +157,17 @@ class _parser(object):
         self._token_delta = None
 
         for token, type in tokens:
+            if token in settings.SKIP_TOKENS:
+                continue
             if type <= 1:
-                results = self._parse(type, token, fuzzy)
+                results = self._parse(type, token, settings.FUZZY)
                 for res in results:
                     setattr(self, *res)
 
-        self.apply_date_order(yearfirst, dayfirst)
+        self.apply_date_order(**resolve_date_order(settings.DATE_ORDER))
 
-    def apply_date_order(self, yearfirst=False, dayfirst=False):
-        if not yearfirst and not dayfirst:
+    def apply_date_order(self, year=False, day=False):
+        if not year and not day:
             return
 
         def swap(key1, key2):
@@ -184,68 +206,69 @@ class _parser(object):
             return 'day'
 
     def _results(self):
-        now = self.default
+        self.now = self.settings.RELATIVE_BASE
+        if not self.now:
+            self.now = datetime.utcnow()
+
         time = self.time() if not self.time is None else None
 
         return {
-            'day': self.day or now.day,
-            'month': self.month or now.month,
-            'year': self.year or now.year,
-            'hour': time.hour if time else now.hour,
-            'minute': time.minute if time else now.minute,
-            'second': time.second if time else now.second,
+            'day': self.day or self.now.day,
+            'month': self.month or self.now.month,
+            'year': self.year or self.now.year,
+            'hour': time.hour if time else 0,
+            'minute': time.minute if time else 0,
+            'second': time.second if time else 0,
         }
 
-    def _correct(self, dateobj, future=False):
+    def _correct(self, dateobj):
         days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
 
-        if hasattr(self, 'weekday') and not self.day:
+        token_weekday = getattr(self, '_token_weekday', None)
+
+        if token_weekday and not(self._token_year and self._token_month and self._token_day):
             day_index = calendar.weekday(dateobj.year, dateobj.month, dateobj.day)
-            day = getattr(self, '_token_weekday')[:3].lower()
+            day = token_weekday[:3].lower()
             steps = 0
-            if not future:
-                while days[day_index] != day:
-                    day_index -= 1
-                    steps += 1
-                delta = timedelta(days=-steps)
-            else:
+            if 'future' in self.settings.PREFER_DATES_FROM:
                 while days[day_index] != day:
                     day_index = (day_index + 1) % 7
                     steps += 1
                 delta = timedelta(days=steps)
+            else:
+                while days[day_index] != day:
+                    day_index -= 1
+                    steps += 1
+                delta = timedelta(days=-steps)
 
             dateobj = dateobj + delta
 
         if self.month and not self.year:
-            if self.default.month < dateobj.month:
-                if not future:
+            if self.now.month < dateobj.month:
+                if 'past' in self.settings.PREFER_DATES_FROM:
                     dateobj = dateobj.replace(year=dateobj.year - 1)
 
-            elif future:
-                dateobj = dateobj.replace(year=dateobj.year + 1)
+                elif 'future' in self.settings.PREFER_DATES_FROM:
+                    dateobj = dateobj.replace(year=dateobj.year + 1)
 
-        if self.default < dateobj and not future:
-            return dateobj - timedelta(days=1)
+        if self._token_time and not(self._token_year and self._token_month and self._token_day):
+            if 'past' in self.settings.PREFER_DATES_FROM:
+                if self.now.time() < dateobj.time():
+                    dateobj = dateobj + timedelta(days=-1)
 
         return dateobj
 
     @classmethod
-    def parse(cls,
-              datestring,
-              dayfirst=False,
-              yearfirst=False,
-              fuzzy=False,
-              default=datetime.now(),
-              prefer_future=False):
+    def parse(cls, datestring, settings):
         tokens = tokenizer(datestring)
-        po = cls(tokens.tokenize(), dayfirst, yearfirst, fuzzy, default)
+        po = cls(tokens.tokenize(), settings)
         dateobj = datetime(**po._results())
 
         if po.delta and po.time().hour <= 12:
             dateobj += po.delta
 
         # correction for past, future if applicable
-        dateobj = po._correct(dateobj, future=prefer_future)
+        dateobj = po._correct(dateobj)
 
         return dateobj, po._get_period()
 

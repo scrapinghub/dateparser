@@ -298,8 +298,7 @@ class TestDateDataParser(BaseTestCase):
         param('10:04am EDT'),
     ])
     def test_time_without_date_should_use_today(self, date_string):
-        self.given_now(2020, 7, 19)
-        self.given_parser()
+        self.given_parser(settings={'RELATIVE_BASE': datetime(2020, 7, 19)})
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
         self.then_parsed_date_is(datetime(2020, 7, 19).date())

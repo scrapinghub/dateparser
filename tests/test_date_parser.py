@@ -531,9 +531,8 @@ class TestDateParser(BaseTestCase):
         param('14:05', datetime(2015, 2, 15, 14, 5)),
     ])
     def test_preferably_past_dates(self, date_string, expected):
-        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'PREFER_DATES_FROM': 'past'})
+        self.given_parser(settings={'PREFER_DATES_FROM': 'past', 'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -548,9 +547,9 @@ class TestDateParser(BaseTestCase):
         param('14:05', datetime(2015, 2, 16, 14, 5)),
     ])
     def test_preferably_future_dates(self, date_string, expected):
-        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
+        self.given_utcnow()  # Sunday
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'PREFER_DATES_FROM': 'future'})
+        self.given_parser(settings={'PREFER_DATES_FROM': 'future', 'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -644,7 +643,7 @@ class TestDateParser(BaseTestCase):
     ])
     def test_error_should_be_raised_for_invalid_dates_with_too_large_day_number(self, date_string):
         self.when_date_is_parsed_by_date_parser(date_string)
-        self.then_error_was_raised(ValueError, ['Day not in range for month'])
+        self.then_error_was_raised(ValueError, ['day is out of range for month'])
 
     @parameterized.expand([
         param('2015-05-02T10:20:19+0000', languages=['fr'], expected=datetime(2015, 5, 2, 10, 20, 19)),
@@ -671,9 +670,8 @@ class TestDateParser(BaseTestCase):
         param('2008', expected=datetime(2008, 2, 15), period='year'),
     ])
     def test_extracted_period(self, date_string, expected=None, period=None):
-        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
         self.given_local_tz_offset(0)
-        self.given_parser()
+        self.given_parser(settings={'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
