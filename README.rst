@@ -131,6 +131,7 @@ Supported languages
 * Finnish
 * French
 * German
+* Greek
 * Indonesian
 * Italian
 * Japanese
