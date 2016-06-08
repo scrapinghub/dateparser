@@ -626,15 +626,15 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(datetime(2012, 4, 24))
 
     @parameterized.expand([
-        param('29 February 2015'),
-        param('32 January 2015'),
-        param('31 April 2015'),
-        param('31 June 2015'),
-        param('31 September 2015'),
+        param('29 February 2015', 'day must be in 1..28'),
+        param('32 January 2015', 'day must be in 1..31'),
+        param('31 April 2015', 'day must be in 1..30'),
+        param('31 June 2015', 'day must be in 1..30'),
+        param('31 September 2015', 'day must be in 1..30'),
     ])
-    def test_error_should_be_raised_for_invalid_dates_with_too_large_day_number(self, date_string):
+    def test_error_should_be_raised_for_invalid_dates_with_too_large_day_number(self, date_string, message):
         self.when_date_is_parsed_by_date_parser(date_string)
-        self.then_error_was_raised(ValueError, ['day is out of range for month'])
+        self.then_error_was_raised(ValueError, ['day is out of range for month', message])
 
     @parameterized.expand([
         param('2015-05-02T10:20:19+0000', languages=['fr'], expected=datetime(2015, 5, 2, 10, 20, 19)),

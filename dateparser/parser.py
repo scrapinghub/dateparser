@@ -255,7 +255,8 @@ class _parser(object):
             return datetime(**params)
         except ValueError as e:
             error_text = getattr(e, 'message', None) or e.__str__()
-            if ('day is out of range' in error_text and
+            error_msgs = ['day is out of range', 'day must be in']
+            if ((error_msgs[0] in error_text or error_msgs[1] in error_text) and
                 not(self._token_day or hasattr(self, '_token_weekday'))
                 ):
                 _, tail = calendar.monthrange(params['year'], params['month'])
