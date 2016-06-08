@@ -589,8 +589,7 @@ class TestDateParser(BaseTestCase):
         param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 31)),
     ])
     def test_dates_with_day_missing_prefering_last_day_of_month(self, date_string, today=None, expected=None):
-        self.given_utcnow(today)
-        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'last'})
+        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'last', 'RELATIVE_BASE': today})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -604,8 +603,7 @@ class TestDateParser(BaseTestCase):
         param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 1)),
     ])
     def test_dates_with_day_missing_prefering_first_day_of_month(self, date_string, today=None, expected=None):
-        self.given_utcnow(today)
-        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'first'})
+        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'first', 'RELATIVE_BASE': today})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -616,15 +614,13 @@ class TestDateParser(BaseTestCase):
         param(prefer_day_of_month='first'),
     ])
     def test_that_day_preference_does_not_affect_dates_with_explicit_day(self, prefer_day_of_month=None):
-        self.given_utcnow(datetime(2015, 2, 12))
-        self.given_parser(settings={'PREFER_DAY_OF_MONTH': prefer_day_of_month})
+        self.given_parser(settings={'PREFER_DAY_OF_MONTH': prefer_day_of_month, 'RELATIVE_BASE': datetime(2015, 2, 12)})
         self.when_date_is_parsed('24 April 2012')
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(datetime(2012, 4, 24))
 
     def test_date_is_parsed_when_skip_tokens_are_supplied(self):
-        self.given_utcnow(datetime(2015, 2, 12))
-        self.given_parser(settings={'SKIP_TOKENS': ['de']})
+        self.given_parser(settings={'SKIP_TOKENS': ['de'], 'RELATIVE_BASE': datetime(2015, 2, 12)})
         self.when_date_is_parsed('24 April 2012 de')
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(datetime(2012, 4, 24))

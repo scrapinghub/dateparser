@@ -266,7 +266,6 @@ class TestParseWithFormatsFunction(BaseTestCase):
         datetime_mock.utcnow = Mock(return_value=now)
         datetime_mock.now = Mock(return_value=now)
         datetime_mock.today = Mock(return_value=now)
-        self.add_patch(patch('dateparser.date_parser.datetime', new=datetime_mock))
         self.add_patch(patch('dateparser.date.datetime', new=datetime_mock))
 
     def when_date_is_parsed_with_formats(self, date_string, date_formats):
