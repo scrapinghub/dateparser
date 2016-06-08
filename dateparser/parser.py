@@ -8,11 +8,15 @@ from datetime import datetime
 from datetime import timedelta
 
 
-NSP_COMPATIBLE = re.compile(r'\D')
+NSP_COMPATIBLE = re.compile(r'\D+')
 
 
 def no_space_parser_eligibile(datestring):
-    return not bool(NSP_COMPATIBLE.search(datestring))
+    src = NSP_COMPATIBLE.search(datestring)
+    if not src or ':' == src.group():
+        return True
+
+    return False
 
 
 def get_unresolved_attrs(parser_object):
@@ -70,7 +74,7 @@ class _no_spaces_parser(object):
                      [x+y for x in self._dateformats for y in self._timeformats] +
                      self._timeformats)
 
-        date_formats = {
+        self.date_formats = {
             (False, False): self._all,
             (True, False): [x for x in self._all if x.lower().startswith('%y')],
             (False, True): [x for x in self._all if '%d%m' in x],

@@ -330,6 +330,7 @@ class TestDateParser(BaseTestCase):
         param('1 Mar 2015', datetime(2015, 3, 1, 0, 0)),
         param('1 Paz 2015', datetime(2015, 10, 1, 0, 0)),
         param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
+        param('2016020417:10', datetime(2016, 2, 4, 17, 10)),
         # Chinese dates
         param('2015年04月08日10:05', datetime(2015, 4, 8, 10, 5)),
         param('2012年12月20日10:35', datetime(2012, 12, 20, 10, 35)),
