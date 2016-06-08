@@ -161,6 +161,7 @@ class _parser(object):
 
     def __init__(self, tokens, settings):
         self.settings = settings
+        self.tokens = list(tokens)
 
         self.unset_tokens = []
 
@@ -178,7 +179,7 @@ class _parser(object):
         self._token_time = None
         self._token_delta = None
 
-        for token, type in tokens:
+        for token, type in self.tokens:
             if type <= 1:
                 if token in settings.SKIP_TOKENS_PARSER:
                     continue
