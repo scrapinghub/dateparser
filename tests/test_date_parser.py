@@ -528,9 +528,9 @@ class TestDateParser(BaseTestCase):
         param('10:00PM', datetime(2015, 2, 14, 22, 0)),
         param('16:10', datetime(2015, 2, 14, 16, 10)),
         param('14:05', datetime(2015, 2, 15, 14, 5)),
+        param('15 february 15:00', datetime(2015, 2, 15, 15, 0)),
     ])
     def test_preferably_past_dates(self, date_string, expected):
-        self.given_local_tz_offset(0)
         self.given_parser(settings={'PREFER_DATES_FROM': 'past', 'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
