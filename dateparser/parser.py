@@ -2,7 +2,7 @@
 import calendar
 import re
 
-from cStringIO import StringIO
+from io import StringIO
 from collections import OrderedDict
 from datetime import datetime
 from datetime import timedelta
@@ -44,7 +44,7 @@ def parse(datestring, settings):
             res = parser(datestring, settings)
             if res:
                 return res
-        except Exception, e:
+        except Exception as e:
             exceptions.append(e)
     else:
         raise exceptions.pop(-1)
@@ -58,21 +58,24 @@ class _no_spaces_parser(object):
         '%m%d%y', '%d%y%m', '%d%m%y'
     ]
 
-    _timeformats = ['%H', '%H%M', '%H%M%S']
-
-    _all = _dateformats + [x+y for x in _dateformats for y in _timeformats] + _timeformats
-
-    date_formats = {
-        (False, False): _all,
-        (True, False): [x for x in _all if x.lower().startswith('%y')],
-        (False, True): [x for x in _all if '%d%m' in x],
-        (True, True): [x for x in _all if x.lower().startswith('%y%d')],
-    }
-
     period = {
         'day': ['%d', '%H', '%M', '%S'],
         'month': ['%m']
     }
+
+    def __init__(self, *args, **kwargs):
+        self._timeformats = ['%H', '%H%M', '%H%M%S']
+
+        self._all = (self._dateformats + 
+                     [x+y for x in self._dateformats for y in self._timeformats] +
+                     self._timeformats)
+
+        date_formats = {
+            (False, False): self._all,
+            (True, False): [x for x in self._all if x.lower().startswith('%y')],
+            (False, True): [x for x in self._all if '%d%m' in x],
+            (True, True): [x for x in self._all if x.lower().startswith('%y%d')],
+        }
 
     @classmethod
     def _get_period(cls, format_string):
@@ -91,8 +94,9 @@ class _no_spaces_parser(object):
         datestring = datestring.replace(':', '')
         tokens = tokenizer(datestring)
         order = resolve_date_order(settings.DATE_ORDER)
+        nsp = cls()
         for token, _ in tokens.tokenize():
-            for fmt in cls.date_formats[(order['year'], order['day'])]:
+            for fmt in nsp.date_formats[(order['year'], order['day'])]:
                 try:
                     return datetime.strptime(token, fmt), cls._get_period(fmt)
                 except:
@@ -249,8 +253,9 @@ class _parser(object):
 
         try:
             return datetime(**params)
-        except ValueError, e:
-            if ('day is out of range' in e.message and
+        except ValueError as e:
+            error_text = getattr(e, 'message', None) or e.__str__()
+            if ('day is out of range' in error_text and
                 not(self._token_day or hasattr(self, '_token_weekday'))
                 ):
                 _, tail = calendar.monthrange(params['year'], params['month'])
