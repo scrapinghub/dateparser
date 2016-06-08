@@ -15,6 +15,18 @@ def no_space_parser_eligibile(datestring):
     return not bool(NSP_COMPATIBLE.search(datestring))
 
 
+def get_unresolved_attrs(parser_object):
+    attrs = ['year', 'month', 'day']
+    seen = []
+    unseen = []
+    for attr in attrs:
+        if getattr(parser_object, attr, None) is not None:
+            seen.append(attr)
+        else:
+            unseen.append(attr)
+    return seen, unseen
+
+
 def resolve_date_order(order):
     chart = {
         'MDY': {'day': False, 'year': False},
@@ -142,6 +154,8 @@ class _parser(object):
     def __init__(self, tokens, settings):
         self.settings = settings
 
+        self.unset_tokens = []
+
         self.day = None
         self.month = None
         self.year = None
@@ -157,12 +171,24 @@ class _parser(object):
         self._token_delta = None
 
         for token, type in tokens:
-            if token in settings.SKIP_TOKENS:
-                continue
             if type <= 1:
+                if token in settings.SKIP_TOKENS_PARSER:
+                    continue
                 results = self._parse(type, token, settings.FUZZY)
                 for res in results:
                     setattr(self, *res)
+
+        known, unknown = get_unresolved_attrs(self)
+        params = {}
+        for attr in known:
+            params.update({attr: getattr(self, attr)})
+        for attr in unknown:
+            for token, type, _ in self.unset_tokens:
+                if type == 0:
+                    params.update({attr: int(token)})
+                    datetime(**params)
+                    setattr(self, '_token_%s' % attr, token)
+                    setattr(self, attr, token)
 
         self.apply_date_order(**resolve_date_order(settings.DATE_ORDER))
 
@@ -212,7 +238,7 @@ class _parser(object):
 
         time = self.time() if not self.time is None else None
 
-        return {
+        params = {
             'day': self.day or self.now.day,
             'month': self.month or self.now.month,
             'year': self.year or self.now.year,
@@ -221,86 +247,147 @@ class _parser(object):
             'second': time.second if time else 0,
         }
 
-    def _correct(self, dateobj):
+        try:
+            return datetime(**params)
+        except ValueError, e:
+            if ('day is out of range' in e.message and
+                not(self._token_day or hasattr(self, '_token_weekday'))
+                ):
+                _, tail = calendar.monthrange(params['year'], params['month'])
+                params['day'] = tail
+                return datetime(**params)
+            else:
+                raise e
+
+    def _correct_for_time_frame(self, dateobj):
         days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
 
-        token_weekday = getattr(self, '_token_weekday', None)
+        token_weekday, _ = getattr(self, '_token_weekday', (None, None))
 
-        if token_weekday and not(self._token_year and self._token_month and self._token_day):
+        if token_weekday and not(self._token_year or self._token_month or self._token_day):
             day_index = calendar.weekday(dateobj.year, dateobj.month, dateobj.day)
             day = token_weekday[:3].lower()
             steps = 0
             if 'future' in self.settings.PREFER_DATES_FROM:
-                while days[day_index] != day:
-                    day_index = (day_index + 1) % 7
-                    steps += 1
+                if days[day_index] == day:
+                    steps = 7
+                else:
+                    while days[day_index] != day:
+                        day_index = (day_index + 1) % 7
+                        steps += 1
                 delta = timedelta(days=steps)
             else:
-                while days[day_index] != day:
-                    day_index -= 1
-                    steps += 1
+                if days[day_index] == day:
+                    steps = 7
+                else:
+                    while days[day_index] != day:
+                        day_index -= 1
+                        steps += 1
                 delta = timedelta(days=-steps)
 
             dateobj = dateobj + delta
 
         if self.month and not self.year:
-            if self.now.month < dateobj.month:
+            if self.now < dateobj:
                 if 'past' in self.settings.PREFER_DATES_FROM:
                     dateobj = dateobj.replace(year=dateobj.year - 1)
-
-                elif 'future' in self.settings.PREFER_DATES_FROM:
+            else:
+                if 'future' in self.settings.PREFER_DATES_FROM:
                     dateobj = dateobj.replace(year=dateobj.year + 1)
 
-        if self._token_time and not(self._token_year and self._token_month and self._token_day):
+        if self._token_time and not any([self._token_year,
+                                         self._token_month,
+                                         self._token_day,
+                                         hasattr(self, '_token_weekday')]):
             if 'past' in self.settings.PREFER_DATES_FROM:
                 if self.now.time() < dateobj.time():
                     dateobj = dateobj + timedelta(days=-1)
+            if 'future' in self.settings.PREFER_DATES_FROM:
+                if self.now.time() > dateobj.time():
+                    dateobj = dateobj + timedelta(days=1)
 
         return dateobj
+
+    def _correct_for_day(self, dateobj):
+        if (getattr(self, '_token_day', None) or
+            getattr(self, '_token_weekday', None) or
+            getattr(self, '_token_time', None)):
+            return dateobj
+
+        _, tail = calendar.monthrange(dateobj.year, dateobj.month)
+        options = {
+            'first': 1,
+            'last': tail,
+            'current': self.now.day
+        }
+
+        try:
+            return dateobj.replace(day=options[self.settings.PREFER_DAY_OF_MONTH])
+        except ValueError:
+            return dateobj.replace(day=options['last'])
 
     @classmethod
     def parse(cls, datestring, settings):
         tokens = tokenizer(datestring)
         po = cls(tokens.tokenize(), settings)
-        dateobj = datetime(**po._results())
+        dateobj = po._results()
 
         if po.delta and po.time().hour <= 12:
             dateobj += po.delta
 
         # correction for past, future if applicable
-        dateobj = po._correct(dateobj)
+        dateobj = po._correct_for_time_frame(dateobj)
+
+        # correction for preference of day: beginning, current, end
+        dateobj = po._correct_for_day(dateobj)
 
         return dateobj, po._get_period()
 
-    def _parse(self, type, token, fuzzy):
+    def _parse(self, type, token, fuzzy, skip_component=None):
 
-        def set_and_return(token, component, dateobj, skip_date_order=False):
+        def set_and_return(token, type, component, dateobj, skip_date_order=False):
             if not skip_date_order:
                 self.auto_order.append(component)
-            setattr(self, '_token_%s' % component, token)
+            setattr(self, '_token_%s' % component, (token, type))
             return [(component, getattr(dateobj, component))]
 
-        def parse_number(token):
+        def parse_number(token, skip_component=None):
+            type = 0
+
             for component, directives in self.num_directives.items():
+                if skip_component == component:
+                    continue
                 for directive in directives:
                     try:
                         do = datetime.strptime(token, directive)
                         prev_value = getattr(self, component, None)
                         if not prev_value:
-                            return set_and_return(token, component, do)
-                    except:
+                            return set_and_return(token, type, component, do)
+                        else:
+                            try:
+                                prev_token, prev_type = getattr(self, '_token_%s' % component)
+                                if prev_type == type:
+                                    do = datetime.strptime(prev_token, directive)
+                            except ValueError:
+                                self.unset_tokens.append((prev_token, prev_type, component))
+                                return set_and_return(token, type, component, do)
+                    except ValueError:
                         pass
             else:
                 raise ValueError('Unable to parse: %s' % token)
 
-        def parse_alpha(token):
+        def parse_alpha(token, skip_component=None):
+            type = 1
+
             for component, directives in self.alpha_directives.items():
+                if skip_component == component:
+                    continue
                 for directive in directives:
                     try:
                         do = datetime.strptime(token, directive)
                         prev_value = getattr(self, component, None)
                         if not prev_value:
-                            return set_and_return(token, component, do, skip_date_order=True)
+                            return set_and_return(token, type, component, do, skip_date_order=True)
                         elif component == 'month':
                             index = self.auto_order.index('month')
                             self.auto_order[index] = 'day'
@@ -322,7 +409,7 @@ class _parser(object):
                     return []
 
         handlers = {0: parse_number, 1: parse_alpha}
-        return handlers[type](token)
+        return handlers[type](token, skip_component)
 
 
 class tokenizer(object):

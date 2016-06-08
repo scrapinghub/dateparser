@@ -336,9 +336,8 @@ class TestDateParser(BaseTestCase):
         param('2016年 2月 5日', datetime(2016, 2, 5, 0, 0)),
     ])
     def test_dates_parsing(self, date_string, expected):
-        self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'NORMALIZE': False})
+        self.given_parser(settings={'NORMALIZE': False, 'RELATIVE_BASE': datetime(2012, 11, 13)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
@@ -470,9 +469,8 @@ class TestDateParser(BaseTestCase):
         param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
     ])
     def test_dates_parsing_with_normalization(self, date_string, expected):
-        self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'NORMALIZE': True})
+        self.given_parser(settings={'NORMALIZE': True, 'RELATIVE_BASE': datetime(2012, 11, 13)})
         self.when_date_is_parsed(normalize_unicode(date_string))
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
@@ -513,20 +511,20 @@ class TestDateParser(BaseTestCase):
         self.then_error_was_raised(ValueError, ["Empty string"])
 
     @parameterized.expand([
-        param('invalid date string'),
-        param('Aug 7, 2014Aug 7, 2014'),
-        param('24h ago'),
+        param('invalid date string', 'Unable to parse: h'),
+        param('Aug 7, 2014Aug 7, 2014', 'Unable to parse: Aug'),
+        param('24h ago', 'Unable to parse: h'),
     ])
-    def test_dates_not_parsed(self, date_string):
+    def test_dates_not_parsed(self, date_string, message):
         self.when_date_is_parsed_by_date_parser(date_string)
-        self.then_error_was_raised(ValueError, ["unknown string format"])
+        self.then_error_was_raised(ValueError, message)
 
     @parameterized.expand([
         param('10 December', datetime(2014, 12, 10)),
         param('March', datetime(2014, 3, 15)),
         param('Friday', datetime(2015, 2, 13)),
         param('Monday', datetime(2015, 2, 9)),
-        param('10:00PM', datetime(2015, 2, 14, 22, 00)),
+        param('10:00PM', datetime(2015, 2, 14, 22, 0)),
         param('16:10', datetime(2015, 2, 14, 16, 10)),
         param('14:05', datetime(2015, 2, 15, 14, 5)),
     ])
@@ -542,12 +540,11 @@ class TestDateParser(BaseTestCase):
         param('March', datetime(2015, 3, 15)),
         param('Friday', datetime(2015, 2, 20)),
         param('Monday', datetime(2015, 2, 16)),
-        param('10:00PM', datetime(2015, 2, 15, 22, 00)),
+        param('10:00PM', datetime(2015, 2, 15, 22, 0)),
         param('16:10', datetime(2015, 2, 15, 16, 10)),
         param('14:05', datetime(2015, 2, 16, 14, 5)),
     ])
     def test_preferably_future_dates(self, date_string, expected):
-        self.given_utcnow()  # Sunday
         self.given_local_tz_offset(0)
         self.given_parser(settings={'PREFER_DATES_FROM': 'future', 'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
         self.when_date_is_parsed(date_string)
@@ -563,9 +560,8 @@ class TestDateParser(BaseTestCase):
         param('14:05', datetime(2015, 2, 15, 14, 5)),
     ])
     def test_dates_without_preference(self, date_string, expected):
-        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'PREFER_DATES_FROM': 'current_period'})
+        self.given_parser(settings={'PREFER_DATES_FROM': 'current_period', 'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -579,8 +575,7 @@ class TestDateParser(BaseTestCase):
         param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 15)),
     ])
     def test_dates_with_day_missing_prefering_current_day_of_month(self, date_string, today=None, expected=None):
-        self.given_utcnow(today)
-        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'current'})
+        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'current', 'RELATIVE_BASE': today})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
