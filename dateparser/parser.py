@@ -41,6 +41,20 @@ def resolve_date_order(order):
     return chart[order]
 
 
+def convert_to_dateparser_order_notation(seq):
+    order = ''
+
+    for value in seq:
+        if 'year' in value:
+            order += 'Y'
+        if 'month' in value:
+            order += 'M'
+        if 'day' in value:
+            order += 'D'
+
+    return order
+
+
 def parse(datestring, settings):
     exceptions = []
     for parser in [_parser.parse, _no_spaces_parser.parse]:
@@ -199,34 +213,43 @@ class _parser(object):
                     setattr(self, '_token_%s' % attr, token)
                     setattr(self, attr, token)
 
-        self.apply_date_order(**resolve_date_order(settings.DATE_ORDER))
+#        self.apply_date_order(settings.DATE_ORDER)
 
-    def apply_date_order(self, year=False, day=False):
-        if not year and not day:
+    def apply_date_order(self, required_order=None):
+
+        def swap(from_, to_):
+            table = {'D': 'day', 'Y': 'year', 'M': 'month'}
+            from_tkn = getattr(self, '_token_%s' % table[from_])
+            from_method = getattr(self, '_get_%s' % table[from_])
+            to_tkn = getattr(self, '_token_%s' % table[to_])
+            to_method = getattr(self, '_get_%s' % table[to_])
+            setattr(self, table[from_], from_method(to_tkn[0]))
+            setattr(self, table[to_], to_method(from_tkn[0]))
+
+        autoorder = convert_to_dateparser_order_notation(self.auto_order)
+
+        if not required_order or required_order == autoorder:
             return
 
-        def swap(key1, key2):
-            if not(key1 in self.auto_order and key2 in self.auto_order):
-                return
+        # ignore indices which does not need switching
+        if len(autoorder) < len(required_order):
+            neworder = ''
+            for roc in required_order:
+                if roc in autoorder:
+                    neworder += roc
+            required_order = neworder
 
-            index1 = self.auto_order.index(key1)
-            index2 = self.auto_order.index(key2)
-            if index1 > index2:
-                old_val1, old_val2 = self._get_component_token(key1), \
-                    self._get_component_token(key2)
+        swap_pairs = [orderstr for orderstr in zip(autoorder, required_order)
+                      if orderstr[0] != orderstr[1]]
 
-                setattr(self, key1, getattr(self, '_get_%s' % key1)(old_val2))
-                setattr(self, key2, getattr(self, '_get_%s' % key2)(old_val1))
+        for i in range(0, len(swap_pairs) - 1):
+            from1, to1 = swap_pairs[i]
+            from2, to2 = swap_pairs[i+1]
+            if from1 == to2 and to1 == from2:
+                del swap_pairs[i+1]
 
-                self.auto_order[index1] = key2
-                self.auto_order[index2] = key1
-        if yearfirst:
-            swap('year', 'month')
-            swap('month', 'day')
-
-        if dayfirst:
-            swap('day', 'month')
-
+        for from_, to_ in swap_pairs:
+            swap(from_, to_)
 
     def _get_period(self):
         for period in ['time', 'day']:
