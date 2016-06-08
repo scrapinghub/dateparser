@@ -83,7 +83,7 @@ class _no_spaces_parser(object):
 
     @classmethod
     def _get_period(cls, format_string):
-        for pname, pdrv in cls.period.items():
+        for pname, pdrv in sorted(cls.period.items(), key=lambda x: x[0]):
             for drv in pdrv:
                 if drv in format_string:
                     return pname
