@@ -10,9 +10,9 @@ class LanguageValidator(object):
     VALID_KEYS = [
         'name', 'skip', 'pertain', 'simplifications', 'no_word_spacing', 'ago', 'in',
         'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
-        'january', 'february', 'march', 'april', 'may', 'june', 'july',
-        'august', 'september', 'october', 'november', 'december',
-        'year', 'month', 'week', 'day', 'hour', 'minute', 'second'
+        'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august',
+        'september', 'october', 'november', 'december', 'year', 'month', 'week', 'day',
+        'hour', 'minute', 'second', 'dateorder'
     ]
 
     @classmethod

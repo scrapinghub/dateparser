@@ -1,5 +1,7 @@
 name: German
 
+dateorder: DMY
+
 skip: ["um", "uhr", "etwa", "und"]
 
 monday:

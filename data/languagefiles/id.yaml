@@ -1,5 +1,7 @@
 name: Indonesian
 
+dateorder: DMY
+
 skip: ["tanggal", "pukul", "yang"]
 
 monday:

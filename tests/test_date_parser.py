@@ -645,7 +645,7 @@ class TestDateParser(BaseTestCase):
     ])
     def test_iso_datestamp_format_should_always_parse(self, date_string, languages, expected):
         self.given_local_tz_offset(0)
-        self.given_parser(languages=languages)
+        self.given_parser(languages=languages, settings={'PREFER_LANGUAGE_DATE_ORDER': False})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)

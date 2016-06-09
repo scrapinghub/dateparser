@@ -1,5 +1,7 @@
 name: French
 
+dateorder: DMY
+
 skip: ["le", "environ", "et", "à", "er"]
 
 monday:

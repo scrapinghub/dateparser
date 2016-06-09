@@ -188,14 +188,19 @@ class _DateLanguageParser(object):
         return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings)
 
     def _try_parser(self):
+        _order = self._settings.DATE_ORDER 
         try:
+            if self._settings.PREFER_LANGUAGE_DATE_ORDER:
+                self._settings.DATE_ORDER = self.language.info.get('dateorder', _order)
             date_obj, period = date_parser.parse(
                 self._get_translated_date(), settings=self._settings)
+            self._settings.DATE_ORDER = _order
             return {
                 'date_obj': date_obj,
                 'period': period,
             }
         except ValueError:
+            self._settings.DATE_ORDER = _order
             return None
 
     def _try_given_formats(self):

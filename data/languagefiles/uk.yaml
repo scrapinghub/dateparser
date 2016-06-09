@@ -1,5 +1,7 @@
 name: Ukrainian
 
+dateorder: DMY
+
 skip: ["близько", "о", "об", "і"]
 
 monday:
