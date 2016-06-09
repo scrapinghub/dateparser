@@ -31,14 +31,26 @@ def get_unresolved_attrs(parser_object):
     return seen, unseen
 
 
-def resolve_date_order(order):
+def resolve_date_order(order, lst=None):
     chart = {
         'MDY': {'day': False, 'year': False},
+        'MYD': {'day': False, 'year': True},
         'YMD': {'day': False, 'year': True},
         'YDM': {'day': True, 'year': True},
         'DMY': {'day': True, 'year': False},
+        'DYM': {'day': True, 'year': True},
     }
-    return chart[order]
+
+    chart_list = {
+        'MDY': ['month', 'day', 'year'],
+        'MYD': ['month', 'year', 'day'],
+        'YMD': ['year', 'month', 'day'],
+        'YDM': ['year', 'day', 'month'],
+        'DMY': ['day', 'month', 'year'],
+        'DYM': ['day', 'year', 'month'],
+    }
+
+    return chart_list[order] if lst else chart[order]
 
 
 def convert_to_dateparser_order_notation(seq):
@@ -134,43 +146,23 @@ class _parser(object):
 
     time_directives = ['%p']
 
-    num_directives = OrderedDict([
-        ('month', ['%m']),
-        ('day', ['%d']),
-        ('year', ['%y', '%Y']),
-        ('time', ['%H:%M:%S', '%H:%M', '%I:%M:%S', '%I:%M']),
-    ])
+#    num_directives = OrderedDict([
+#        ('month', ['%m']),
+#        ('day', ['%d']),
+#        ('year', ['%y', '%Y']),
+#        ('time', ['%H:%M:%S', '%H:%M', '%I:%M:%S', '%I:%M']),
+#    ])
+
+    num_directives = {
+        'month': ['%m'],
+        'day': ['%d'],
+        'year': ['%y', '%Y'],
+        'time': ['%H:%M:%S', '%H:%M', '%I:%M:%S', '%I:%M'],
+    }
 
     deltas = {
         'pm': timedelta(hours=12),
     }
-
-    def _get_year(self, token):
-        for directive in self.num_directives['year']:
-            try:
-                do = datetime.strptime(token, directive)
-                self._token_year = token
-                return do.year
-            except:
-                pass
-
-    def _get_day(self, token):
-        for directive in self.num_directives['day']:
-            try:
-                do = datetime.strptime(token, directive)
-                self._token_day = token
-                return do.day
-            except:
-                pass
-
-    def _get_month(self, token):
-        for directive in self.num_directives['month']:
-            try:
-                do = datetime.strptime(token, directive)
-                self._token_month = token
-                return do.month
-            except:
-                pass
 
     def _get_component_token(self, key):
         return getattr(self, '_token_%s' % key, None)
@@ -195,6 +187,11 @@ class _parser(object):
         self._token_time = None
         self._token_delta = None
 
+        self.ordered_num_directives = OrderedDict(
+            (k, self.num_directives[k])
+            for k in (resolve_date_order(settings.DATE_ORDER, lst=True) + ['time'])
+        )
+
         for token, type in self.tokens:
             if type <= 1:
                 if token in settings.SKIP_TOKENS_PARSER:
@@ -214,44 +211,6 @@ class _parser(object):
                     datetime(**params)
                     setattr(self, '_token_%s' % attr, token)
                     setattr(self, attr, token)
-
-#        self.apply_date_order(settings.DATE_ORDER)
-
-    def apply_date_order(self, required_order=None):
-
-        def swap(from_, to_):
-            table = {'D': 'day', 'Y': 'year', 'M': 'month'}
-            from_tkn = getattr(self, '_token_%s' % table[from_])
-            from_method = getattr(self, '_get_%s' % table[from_])
-            to_tkn = getattr(self, '_token_%s' % table[to_])
-            to_method = getattr(self, '_get_%s' % table[to_])
-            setattr(self, table[from_], from_method(to_tkn[0]))
-            setattr(self, table[to_], to_method(from_tkn[0]))
-
-        autoorder = convert_to_dateparser_order_notation(self.auto_order)
-
-        if not required_order or required_order == autoorder:
-            return
-
-        # ignore indices which does not need switching
-        if len(autoorder) < len(required_order):
-            neworder = ''
-            for roc in required_order:
-                if roc in autoorder:
-                    neworder += roc
-            required_order = neworder
-
-        swap_pairs = [orderstr for orderstr in zip(autoorder, required_order)
-                      if orderstr[0] != orderstr[1]]
-
-        for i in range(0, len(swap_pairs) - 1):
-            from1, to1 = swap_pairs[i]
-            from2, to2 = swap_pairs[i+1]
-            if from1 == to2 and to1 == from2:
-                del swap_pairs[i+1]
-
-        for from_, to_ in swap_pairs:
-            swap(from_, to_)
 
     def _get_period(self):
         for period in ['time', 'day']:
@@ -390,7 +349,7 @@ class _parser(object):
         def parse_number(token, skip_component=None):
             type = 0
 
-            for component, directives in self.num_directives.items():
+            for component, directives in self.ordered_num_directives.items():
                 if skip_component == component:
                     continue
                 for directive in directives:

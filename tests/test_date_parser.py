@@ -670,10 +670,19 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
         self.then_period_is(period)
 
-    def given_utcnow(self, now):
-        datetime_mock = Mock(wraps=datetime)
-        datetime_mock.utcnow = Mock(return_value=now)
-        self.add_patch(patch('dateparser.date_parser.datetime', new=datetime_mock))
+    @parameterized.expand([
+        param('15-12-18 06:00', expected=datetime(2015, 12, 18, 6, 0), order='YMD'),
+        param('15-18-12 06:00', expected=datetime(2015, 12, 18, 6, 0), order='YDM'),
+        param('10-11-12 06:00', expected=datetime(2012, 10, 11, 6, 0), order='MDY'),
+        param('10-11-12 06:00', expected=datetime(2011, 10, 12, 6, 0), order='MYD'),
+        param('10-11-12 06:00', expected=datetime(2011, 12, 10, 6, 0), order='DYM'),
+        param('15-12-18 06:00', expected=datetime(2018, 12, 15, 6, 0), order='DMY'),
+    ])
+    def test_extracted_period(self, date_string, expected=None, order=None):
+        self.given_parser(settings={'DATE_ORDER': order})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
 
     def given_local_tz_offset(self, offset):
         self.add_patch(
