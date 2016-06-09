@@ -8,5 +8,5 @@ settings:
     RETURN_AS_TIMEZONE_AWARE: False
     NORMALIZE: True
     RELATIVE_BASE: False
-    DATE_ORDER: MDY
+    DATE_ORDER:
     FUZZY: False

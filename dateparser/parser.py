@@ -81,6 +81,8 @@ class _no_spaces_parser(object):
         'month': ['%m']
     }
 
+    _default_order = resolve_date_order('MDY')
+
     def __init__(self, *args, **kwargs):
         self._timeformats = ['%H', '%H%M', '%H%M%S']
 
@@ -111,7 +113,7 @@ class _no_spaces_parser(object):
 
         datestring = datestring.replace(':', '')
         tokens = tokenizer(datestring)
-        order = resolve_date_order(settings.DATE_ORDER)
+        order = resolve_date_order(settings.DATE_ORDER) if settings.DATE_ORDER else cls._default_order
         nsp = cls()
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[(order['year'], order['day'])]:
