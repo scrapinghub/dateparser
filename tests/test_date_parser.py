@@ -338,7 +338,9 @@ class TestDateParser(BaseTestCase):
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'NORMALIZE': False, 'RELATIVE_BASE': datetime(2012, 11, 13)})
+        self.given_parser(settings={'NORMALIZE': False,
+                                    'RELATIVE_BASE': datetime(2012, 11, 13),
+                                    'PREFER_LANGUAGE_DATE_ORDER': False})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
@@ -471,7 +473,9 @@ class TestDateParser(BaseTestCase):
     ])
     def test_dates_parsing_with_normalization(self, date_string, expected):
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'NORMALIZE': True, 'RELATIVE_BASE': datetime(2012, 11, 13)})
+        self.given_parser(settings={'NORMALIZE': True,
+                                    'RELATIVE_BASE': datetime(2012, 11, 13),
+                                    'PREFER_LANGUAGE_DATE_ORDER': False})
         self.when_date_is_parsed(normalize_unicode(date_string))
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
@@ -678,8 +682,8 @@ class TestDateParser(BaseTestCase):
         param('10-11-12 06:00', expected=datetime(2011, 12, 10, 6, 0), order='DYM'),
         param('15-12-18 06:00', expected=datetime(2018, 12, 15, 6, 0), order='DMY'),
     ])
-    def test_extracted_period(self, date_string, expected=None, order=None):
-        self.given_parser(settings={'DATE_ORDER': order})
+    def test_order(self, date_string, expected=None, order=None):
+        self.given_parser(settings={'DATE_ORDER': order, 'PREFER_LANGUAGE_DATE_ORDER': False})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
