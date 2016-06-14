@@ -6,9 +6,9 @@ from datetime import datetime
 from datetime import time
 
 from dateutil.relativedelta import relativedelta
-from dateutil.parser import parse
 
-from dateparser.utils import is_dateutil_result_obj_parsed, apply_timezone
+from dateparser.utils import apply_timezone
+from .parser import time_parser
 
 
 _UNITS = r'year|month|week|day|hour|minute|second'
@@ -39,15 +39,14 @@ class FreshnessDateDataParser(object):
         words = filter(lambda x: not re.match(r'%s' % '|'.join(skip), x), words)
         return not list(words)
 
-    def _parse_time(self, date_string):
+    def _parse_time(self, date_string, settings):
         """Attemps to parse time part of date strings like '1 day ago, 2 PM' """
         date_string = PATTERN.sub('', date_string)
         date_string = re.sub(r'\b(?:ago|in)\b', '', date_string)
-        if is_dateutil_result_obj_parsed(date_string):
-            try:
-                return parse(date_string).time()
-            except:
-                pass
+        try:
+            return time_parser(date_string)
+        except:
+            pass
 
     def parse(self, date_string, settings):
         if settings.RELATIVE_BASE:
@@ -56,7 +55,7 @@ class FreshnessDateDataParser(object):
         date, period = self._parse(date_string)
 
         if date:
-            _time = self._parse_time(date_string)
+            _time = self._parse_time(date_string, settings)
             if isinstance(_time, time):
                 date = date.replace(hour=_time.hour, minute=_time.minute,
                                     second=_time.second, microsecond=_time.microsecond)

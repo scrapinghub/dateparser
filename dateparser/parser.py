@@ -1,6 +1,6 @@
 # coding: utf-8
 import calendar
-import re
+import regex as re
 
 from io import StringIO
 from collections import OrderedDict
@@ -9,6 +9,7 @@ from datetime import timedelta
 
 
 NSP_COMPATIBLE = re.compile(r'\D+')
+MERIDIAN = re.compile(r'am|pm')
 
 
 def no_space_parser_eligibile(datestring):
@@ -80,6 +81,28 @@ def parse(datestring, settings):
         raise exceptions.pop(-1)
 
 
+class _time_parser(object):
+    time_directives = [
+        '%H:%M:%S',
+        '%I:%M:%S %p',
+        '%H:%M',
+        '%I:%M %p',
+        '%I %p',
+    ]
+
+    def __call__(self, timestring):
+        _timestring = timestring
+        for directive in self.time_directives:
+            try:
+                return datetime.strptime(timestring.strip(), directive).time()
+            except ValueError:
+                pass
+        else:
+            raise ValueError('%s does not seem to be a valid time string' % _timestring)
+
+time_parser = _time_parser()
+
+
 class _no_spaces_parser(object):
     _dateformats = [
         '%Y%m%d', '%Y%d%m', '%m%Y%d',
@@ -144,24 +167,10 @@ class _parser(object):
         ('month', ['%B', '%b']),
     ])
 
-    time_directives = ['%p']
-
-#    num_directives = OrderedDict([
-#        ('month', ['%m']),
-#        ('day', ['%d']),
-#        ('year', ['%y', '%Y']),
-#        ('time', ['%H:%M:%S', '%H:%M', '%I:%M:%S', '%I:%M']),
-#    ])
-
     num_directives = {
         'month': ['%m'],
         'day': ['%d'],
         'year': ['%y', '%Y'],
-        'time': ['%H:%M:%S', '%H:%M', '%I:%M:%S', '%I:%M'],
-    }
-
-    deltas = {
-        'pm': timedelta(hours=12),
     }
 
     def _get_component_token(self, key):
@@ -170,6 +179,7 @@ class _parser(object):
     def __init__(self, tokens, settings):
         self.settings = settings
         self.tokens = list(tokens)
+        self.filtered_tokens = [t for t in self.tokens if t[1] <= 1]
 
         self.unset_tokens = []
 
@@ -177,7 +187,6 @@ class _parser(object):
         self.month = None
         self.year = None
         self.time = None
-        self.delta = timedelta(0)
 
         self.auto_order = []
 
@@ -185,20 +194,43 @@ class _parser(object):
         self._token_month = None
         self._token_year = None
         self._token_time = None
-        self._token_delta = None
 
         self.ordered_num_directives = OrderedDict(
             (k, self.num_directives[k])
-            for k in (resolve_date_order(settings.DATE_ORDER, lst=True) + ['time'])
+            for k in (resolve_date_order(settings.DATE_ORDER, lst=True))
         )
 
-        for token, type in self.tokens:
-            if type <= 1:
-                if token in settings.SKIP_TOKENS_PARSER:
-                    continue
-                results = self._parse(type, token, settings.FUZZY)
-                for res in results:
-                    setattr(self, *res)
+        skip_index = -1
+        for index, token_type in enumerate(self.filtered_tokens):
+
+            if index == skip_index:
+                continue
+
+            token, type = token_type
+
+            if token in settings.SKIP_TOKENS_PARSER:
+                continue
+
+            if self.time is None:
+                try:
+                    meridian = MERIDIAN.search(self.filtered_tokens[index+1][0]).group()
+                except:
+                    meridian = None
+
+                if ':' in token or meridian:
+                    if meridian:
+                        self._token_time = '%s %s' % (token, meridian)
+                        self.time = lambda: time_parser(self._token_time)
+                        skip_index = index + 1
+                        continue
+                    else:
+                        self._token_time = token
+                        self.time = lambda: time_parser(self._token_time)
+                        continue
+
+            results = self._parse(type, token, settings.FUZZY)
+            for res in results:
+                setattr(self, *res)
 
         known, unknown = get_unresolved_attrs(self)
         params = {}
@@ -210,7 +242,7 @@ class _parser(object):
                     params.update({attr: int(token)})
                     datetime(**params)
                     setattr(self, '_token_%s' % attr, token)
-                    setattr(self, attr, token)
+                    setattr(self, attr, int(token))
 
     def _get_period(self):
         for period in ['time', 'day']:
@@ -327,9 +359,6 @@ class _parser(object):
         po = cls(tokens.tokenize(), settings)
         dateobj = po._results()
 
-        if po.delta and po.time().hour <= 12:
-            dateobj += po.delta
-
         # correction for past, future if applicable
         dateobj = po._correct_for_time_frame(dateobj)
 
@@ -392,16 +421,7 @@ class _parser(object):
                     except:
                         pass
             else:
-                for directive in self.time_directives:
-                    try:
-                        do = datetime.strptime(token, directive)
-                        return [('delta', self.deltas.get(token.lower(), timedelta(0)))]
-                    except:
-                        pass
-                if not fuzzy:
-                    raise ValueError('Unable to parse: %s' % token)
-                else:
-                    return []
+                raise ValueError('Unable to parse: %s' % token)
 
         handlers = {0: parse_number, 1: parse_alpha}
         return handlers[type](token, skip_component)
