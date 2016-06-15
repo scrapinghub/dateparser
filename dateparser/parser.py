@@ -398,7 +398,10 @@ class _parser(object):
                     except ValueError:
                         pass
             else:
-                raise ValueError('Unable to parse: %s' % token)
+                if not fuzzy:
+                    raise ValueError('Unable to parse: %s' % token)
+                else:
+                    return []
 
         def parse_alpha(token, skip_component=None):
             type = 1
@@ -421,7 +424,10 @@ class _parser(object):
                     except:
                         pass
             else:
-                raise ValueError('Unable to parse: %s' % token)
+                if not fuzzy:
+                    raise ValueError('Unable to parse: %s' % token)
+                else:
+                    return []
 
         handlers = {0: parse_number, 1: parse_alpha}
         return handlers[type](token, skip_component)

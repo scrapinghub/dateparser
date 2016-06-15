@@ -106,7 +106,7 @@ Dependencies
 
 `dateparser` relies on following libraries in some ways:
 
-  * dateutil_'s module ``parser`` to parse the translated dates.
+  * dateutil_'s module ``relativedelta`` for its freshness parser.
   * PyYAML_ for reading language and configuration files.
   * jdatetime_ to convert *Jalali* dates to *Gregorian*.
   * umalqurra_ to convert *Hijri* dates to *Gregorian*.
