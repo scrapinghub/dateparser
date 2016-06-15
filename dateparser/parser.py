@@ -263,6 +263,14 @@ class _parser(object):
 
         time = self.time() if not self.time is None else None
 
+        if self.settings.FUZZY:
+            attr_truth_values = [] 
+            for attr in ['day', 'month', 'year', 'time']:
+                attr_truth_values.append(getattr(self, attr, False))
+
+            if not any(attr_truth_values):
+                raise ValueError('Nothing date like found')
+
         params = {
             'day': self.day or self.now.day,
             'month': self.month or self.now.month,
