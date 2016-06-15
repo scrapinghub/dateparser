@@ -8,6 +8,7 @@ open_as_utf = lambda x: io.open(x, encoding='utf-8')
                              open('dateparser/__init__.py').read())
 
 readme = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:', '', open_as_utf('README.rst').read())
+readme = re.sub(r'`Settings`_', '`Settings`', readme)
 history = re.sub(r':mod:|:class:|:func:', '', open_as_utf('HISTORY.rst').read())
 
 
