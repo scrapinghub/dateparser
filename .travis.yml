@@ -13,12 +13,13 @@ env:
 install:
 - pip install -U wheel
 - pip install -U tox
+- pip install codecov
 
 # command to run tests, e.g. python setup.py test
 script: tox
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov
 
 deploy:
   provider: pypi
