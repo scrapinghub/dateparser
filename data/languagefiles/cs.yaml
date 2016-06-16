@@ -1,5 +1,7 @@
 name: Czech
 
+dateorder: DMY
+
 skip: ["přibližně", "v"]
 
 monday:

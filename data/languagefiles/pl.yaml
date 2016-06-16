@@ -1,5 +1,7 @@
 name: Polish
 
+dateorder: DMY
+
 skip: ['r.', 'roku', 'w', 'o', 'i']
 
 monday:

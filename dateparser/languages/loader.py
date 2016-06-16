@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from pkgutil import get_data
+from collections import OrderedDict
 
 import six
 import yaml
@@ -44,8 +45,10 @@ class LanguageDataLoader(object):
             data = self.file.read()
         data = yaml.load(data)
         base_data = data.pop('base', {'skip': []})
-        known_languages = {}
-        for shortname, language_info in six.iteritems(data):
+        language_order = data.pop('languageorder')
+        known_languages = OrderedDict()
+        for shortname in language_order:
+            language_info = data[shortname]
             self._update_language_info_with_base_info(language_info, base_data)
             language = Language(shortname, language_info)
             if language.validate_info():

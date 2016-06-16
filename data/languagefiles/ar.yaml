@@ -1,5 +1,7 @@
 name: Arabic
 
+dateorder: DMY
+
 skip: ['الساعة', 'مساءً', 'في', 'هـ']
 
 monday:

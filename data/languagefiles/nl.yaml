@@ -1,5 +1,7 @@
 name: Dutch
 
+dateorder: DMY
+
 skip: ["om"]
 
 monday:

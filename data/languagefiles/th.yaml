@@ -1,5 +1,7 @@
 name: Thai
 
+dateorder: DMY
+
 skip: ['เวลา', 'น.', 'เมื่อ ']
 
 monday:

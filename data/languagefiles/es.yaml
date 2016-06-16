@@ -1,5 +1,7 @@
 name: Spanish
 
+dateorder: DMY
+
 skip: ["de", "del", "cerca", "y", "a las", "en"]
 pertain: ["de", "del"]
 

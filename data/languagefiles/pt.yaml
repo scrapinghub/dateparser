@@ -1,5 +1,7 @@
 name: Portuguese
 
+dateorder: DMY
+
 skip: ["de", "cerca", "e", "às"]
 pertain: ["de"]
 

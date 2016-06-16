@@ -4,7 +4,6 @@ import types
 import unicodedata
 
 import regex as re
-from dateutil.parser import parser
 from pytz import UTC, timezone
 
 from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
@@ -18,29 +17,13 @@ def strip_braces(date_string):
     return re.sub(r'[{}()<>\[\]]+', '', date_string)
 
 
-def is_dateutil_result_obj_parsed(date_string):
-    # handle dateutil>=2.5 tuple result first
-    try:
-        res, _ = parser()._parse(date_string)
-    except TypeError:
-        res = parser()._parse(date_string)
-    if not res:
-        return False
-
-    def get_value(obj, key):
-        value = getattr(obj, key)
-        return str(value) if value is not None else ''
-
-    return any([get_value(res, k) for k in res.__slots__])
-
-
 def normalize_unicode(string, form='NFKD'):
     if isinstance(string, bytes):
         string = string.decode('utf-8')
 
     return ''.join(
         (c for c in unicodedata.normalize(form, string)
-            if unicodedata.category(c) != 'Mn'))
+         if unicodedata.category(c) != 'Mn'))
 
 
 def wrap_replacement_for_regex(replacement, regex):
