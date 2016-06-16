@@ -107,8 +107,8 @@ simplifications:
     - (\d+)\s*hr(s?): \1 hour\2
     - (\d+)\s*min(s?): \1 minute\2
     - (\d+)\s*sec(s?): \1 second\2
-    - noon: '12:00'
-    - midnight: '00:00'
+    - (?:12\s+)?noon: '12:00'
+    - (?:12\s+)?midnight: '00:00'
     - (\d+)h(\d+)m?: \1:\2
     - less than 1 minute ago: 45 seconds
     - (?<!from\s)now: 0 second
