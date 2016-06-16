@@ -343,10 +343,13 @@ class DateDataParser(object):
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
-        try:
-            date_string = date_string.strip()
-        except AttributeError:
+        if not(isinstance(date_string, six.text_type) or isinstance(date_string, six.string_types)):
             raise TypeError('Input type must be str or unicode')
+
+        res = parse_with_formats(date_string, date_formats or [])
+        if res['date_obj']:
+            return res
+
         if self._settings.NORMALIZE:
            date_string = normalize_unicode(date_string)
 
