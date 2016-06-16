@@ -4,7 +4,7 @@ from pkgutil import get_data
 from functools import wraps
 import six
 
-from yaml import load as load_yaml
+from ruamel.yaml import load as load_yaml
 
 from .utils import registry
 
