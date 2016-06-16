@@ -6,10 +6,6 @@ dateparser -- python parser for human readable dates
     :target: https://travis-ci.org/scrapinghub/dateparser
     :alt: travis build status
 
-.. image:: https://img.shields.io/pypi/dd/dateparser.svg?style=flat-square
-    :target: https://pypi.python.org/pypi/dateparser/
-    :alt: pypi downloads per day
-
 .. image:: https://img.shields.io/pypi/v/dateparser.svg?style=flat-square
     :target: https://pypi.python.org/pypi/dateparser
     :alt: pypi version
@@ -33,8 +29,8 @@ Documentation is built automatically and can be found on
 Features
 ========
 
-* Generic parsing of dates in English, Spanish, Dutch, Russian and several other languages and formats.
-* Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
+* Generic parsing of dates in English, Spanish, Dutch, Russian and over 20 other languages plus numerous formats in a language agnostic fashion.
+* Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``, ``'in 2 days'``, ``'tomorrow'``.
 * Generic parsing of dates with time zones abbreviations or UTC offsets like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``, ``'21 July 2013 10:15 pm +0500'``.
 * Support for non-Gregorian calendar systems. See `Supported Calendars`_.
 * Extensive test coverage.
@@ -100,6 +96,8 @@ Relative Dates
 
 .. note:: Testing above code might return different values for you depending on your environment's current date and time.
 
+.. note:: Support for relative dates in future needs a lot of improvement, we look forward to community's contribution to get better on that part. See `Contributing`_.
+
 
 OOTB Language Based Date Order Preference
 -----------------------------------------
@@ -131,7 +129,7 @@ Support for tzaware objects:
     >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True})
     datetime.datetime(2015, 2, 13, 3, 56, tzinfo=<StaticTzInfo 'UTC'>)
 
-    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': 'EST'})
+    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None}) 
     datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)
 
 For more on timezones, please look at `Settings`_.
