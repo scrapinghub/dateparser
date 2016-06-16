@@ -14,6 +14,10 @@ dateparser -- python parser for human readable dates
     :target: http://dateparser.readthedocs.org/en/latest/?badge=latest
     :alt: Documentation Status
 
+.. image:: https://codecov.io/gh/scrapinghub/dateparser/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/scrapinghub/dateparser
+    :alt: Code Coverage
+
 
 `dateparser` provides modules to easily parse localized dates in almost
 any string formats commonly found on web pages.
