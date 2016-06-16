@@ -365,6 +365,8 @@ class TestDateDataParser(BaseTestCase):
         param(date_string="14 giu 13", date_formats=["%y %B %d"], expected_result=datetime(2014, 6, 13)),
         param(date_string="14_luglio_15", date_formats=["%y_%B_%d"], expected_result=datetime(2014, 7, 15)),
         param(date_string="14_LUGLIO_15", date_formats=["%y_%B_%d"], expected_result=datetime(2014, 7, 15)),
+        param(date_string="02/12/2014 \xe0 15:08", date_formats=["%d/%m/%Y \xe0 %H:%M"], expected_result=datetime(2014, 12, 2, 15, 8)),
+        param(date_string="10.01.2016, 20:35", date_formats=["%d.%m.%Y, %H:%M"], expected_result=datetime(2016, 1, 10, 20, 35)),
     ])
     def test_parse_date_using_format(self, date_string, date_formats, expected_result):
         self.given_local_tz_offset(0)
