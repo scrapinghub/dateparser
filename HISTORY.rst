@@ -3,6 +3,25 @@
 History
 =======
 
+0.4.0 (2016-06-17)
+------------------
+New features:
+
+* Support for Language based date order preference while parsing ambiguous dates.
+* Support for parsing dates with no spaces in between components.
+* Support for custom date order preference using `settings`.
+* Support for parsing generic relative dates in future.e.g. `tomorrow`, `in two weeks`, etc.
+* Added `RELATIVE_BASE` settings to set date context to any datetime in past or future.
+* Replaced dateutil.parser.parse with dateparser's own parser.
+
+Improvements:
+
+* Added simplifications for `12 noon` and `12 midnight`.
+* Fixed several bugs
+* Replaced PyYAML library by its active fork `ruamel.yaml` which also fixed the issues with installation on windows using python35.
+* More predictable `date_formats` handling.
+
+
 0.3.5 (2016-04-27)
 ------------------
 New features:
