@@ -1,4 +1,7 @@
 name: Turkish
+
+dateorder: DMY
+
 skip: ["yaklaşık", "ve"]
 
 monday:

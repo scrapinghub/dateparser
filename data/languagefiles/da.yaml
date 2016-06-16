@@ -1,5 +1,7 @@
 name: Danish
 
+dateorder: DMY
+
 skip: ["kl", "kl.", "cirka", "d."]
 
 monday:

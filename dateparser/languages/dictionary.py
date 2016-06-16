@@ -9,9 +9,9 @@ from six.moves import zip_longest
 
 from dateparser.utils import normalize_unicode
 
-DATEUTIL_PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]  # Consts used in dateutil.parser._parse
-DATEUTIL_PARSERINFO_KNOWN_TOKENS = ["am", "pm", "a", "p", "UTC", "GMT", "Z"]
-ALWAYS_KEEP_TOKENS = ["+"] + DATEUTIL_PARSER_HARDCODED_TOKENS
+PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
+PARSER_KNOWN_TOKENS = ["am", "pm", "a", "p", "UTC", "GMT", "Z"]
+ALWAYS_KEEP_TOKENS = ["+"] + PARSER_HARDCODED_TOKENS
 
 
 class UnknownTokenError(Exception):
@@ -42,8 +42,8 @@ class Dictionary(object):
             dictionary.update(zip_longest(translations, [], fillvalue=word))
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(zip_longest(map(methodcaller('lower'),
-                                          DATEUTIL_PARSERINFO_KNOWN_TOKENS),
-                                      DATEUTIL_PARSERINFO_KNOWN_TOKENS))
+                                          PARSER_KNOWN_TOKENS),
+                                          PARSER_KNOWN_TOKENS))
 
         self._dictionary = dictionary
         self._no_word_spacing = language_info.get('no_word_spacing', False)

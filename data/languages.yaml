@@ -1,6 +1,8 @@
 base:
     skip: [" ", ".", ",", ";", "-", "/", "'", "|", "@", "[", "]", "，"]
 
+languageorder: ['en', 'ar', 'be', 'cs', 'da', 'de', 'es', 'fa', 'fi', 'fr', 'id', 'it', 'ja', 'nl', 'pl', 'pt', 'ro', 'ru', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
+
 ar: !include languagefiles/ar.yaml
 be: !include languagefiles/be.yaml
 cs: !include languagefiles/cs.yaml

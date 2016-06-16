@@ -1,4 +1,7 @@
 name: Vietnamese
+
+dateorder: DMY
+
 pertain: ['lúc']
 
 monday:

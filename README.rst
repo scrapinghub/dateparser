@@ -6,10 +6,6 @@ dateparser -- python parser for human readable dates
     :target: https://travis-ci.org/scrapinghub/dateparser
     :alt: travis build status
 
-.. image:: https://img.shields.io/pypi/dd/dateparser.svg?style=flat-square
-    :target: https://pypi.python.org/pypi/dateparser/
-    :alt: pypi downloads per day
-
 .. image:: https://img.shields.io/pypi/v/dateparser.svg?style=flat-square
     :target: https://pypi.python.org/pypi/dateparser
     :alt: pypi version
@@ -33,8 +29,8 @@ Documentation is built automatically and can be found on
 Features
 ========
 
-* Generic parsing of dates in English, Spanish, Dutch, Russian and several other languages and formats.
-* Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``.
+* Generic parsing of dates in English, Spanish, Dutch, Russian and over 20 other languages plus numerous formats in a language agnostic fashion.
+* Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``, ``'in 2 days'``, ``'tomorrow'``.
 * Generic parsing of dates with time zones abbreviations or UTC offsets like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``, ``'21 July 2013 10:15 pm +0500'``.
 * Support for non-Gregorian calendar systems. See `Supported Calendars`_.
 * Extensive test coverage.
@@ -100,13 +96,73 @@ Relative Dates
 
 .. note:: Testing above code might return different values for you depending on your environment's current date and time.
 
+.. note:: Support for relative dates in future needs a lot of improvement, we look forward to community's contribution to get better on that part. See `Contributing`_.
+
+
+OOTB Language Based Date Order Preference
+-----------------------------------------
+
+   >>> # parsing ambiguous date
+   >>> parse('02-03-2016')  # assumes english language, uses MDY date order 
+   datetime.datetime(2016, 3, 2, 0, 0)
+   >>> parse('le 02-03-2016')  # detects french, uses DMY date order
+   datetime.datetime(2016, 3, 2, 0, 0)
+
+.. note:: Ordering is not locale based, that's why do not expect `DMY` order for UK/Australia English. You can specify date order in that case as follows usings `Settings`_:
+
+    >>> parse('18-12-15 06:00', settings={'DATE_ORDER': 'DMY'})
+    datetime.datetime(2015, 12, 18, 6, 0)
+
+For more on date order, please look at `Settings`_.
+
+
+Timezone and UTC Offset 
+-----------------------
+
+Dateparser assumes all dates to be in UTC if no timezone is specified in the string. To convert the resultant `datetime` object to required timezone. You can do the following:
+
+    >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': 'US/Eastern'})
+    datetime.datetime(2012, 1, 12, 17, 0)
+
+Support for tzaware objects:
+
+    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True})
+    datetime.datetime(2015, 2, 13, 3, 56, tzinfo=<StaticTzInfo 'UTC'>)
+
+    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None}) 
+    datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)
+
+For more on timezones, please look at `Settings`_.
+
+
+Incomplete Dates
+----------------
+
+    >>> from dateparser import parse
+    >>> parse(u'December 2015')  # default behavior
+    datetime.datetime(2015, 12, 16, 0, 0)
+    >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'last'})
+    datetime.datetime(2015, 12, 31, 0, 0)
+    >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
+    datetime.datetime(2015, 12, 1, 0, 0)
+
+    >>> parse(u'March')
+    datetime.datetime(2015, 3, 16, 0, 0)
+    >>> parse(u'March', settings={'PREFER_DATES_FROM': 'future'})
+    datetime.datetime(2016, 3, 16, 0, 0)
+    >>> # parsing with preference set for 'past'
+    >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
+    datetime.datetime(2015, 8, 15, 0, 0)
+
+For more on handling incomplete dates, please look at `Settings`_.
+
 
 Dependencies
 ============
 
 `dateparser` relies on following libraries in some ways:
 
-  * dateutil_'s module ``parser`` to parse the translated dates.
+  * dateutil_'s module ``relativedelta`` for its freshness parser.
   * PyYAML_ for reading language and configuration files.
   * jdatetime_ to convert *Jalali* dates to *Gregorian*.
   * umalqurra_ to convert *Hijri* dates to *Gregorian*.

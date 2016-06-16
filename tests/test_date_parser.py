@@ -330,15 +330,16 @@ class TestDateParser(BaseTestCase):
         param('1 Mar 2015', datetime(2015, 3, 1, 0, 0)),
         param('1 Paz 2015', datetime(2015, 10, 1, 0, 0)),
         param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
+        param('2016020417:10', datetime(2016, 2, 4, 17, 10)),
         # Chinese dates
         param('2015年04月08日10:05', datetime(2015, 4, 8, 10, 5)),
         param('2012年12月20日10:35', datetime(2012, 12, 20, 10, 35)),
         param('2016年 2月 5日', datetime(2016, 2, 5, 0, 0)),
     ])
     def test_dates_parsing(self, date_string, expected):
-        self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'NORMALIZE': False})
+        self.given_parser(settings={'NORMALIZE': False,
+                                    'RELATIVE_BASE': datetime(2012, 11, 13)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
@@ -470,9 +471,9 @@ class TestDateParser(BaseTestCase):
         param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
     ])
     def test_dates_parsing_with_normalization(self, date_string, expected):
-        self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'NORMALIZE': True})
+        self.given_parser(settings={'NORMALIZE': True,
+                                    'RELATIVE_BASE': datetime(2012, 11, 13)})
         self.when_date_is_parsed(normalize_unicode(date_string))
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
@@ -513,27 +514,27 @@ class TestDateParser(BaseTestCase):
         self.then_error_was_raised(ValueError, ["Empty string"])
 
     @parameterized.expand([
-        param('invalid date string'),
-        param('Aug 7, 2014Aug 7, 2014'),
-        param('24h ago'),
+        param('invalid date string', 'Unable to parse: h'),
+        param('Aug 7, 2014Aug 7, 2014', 'Unable to parse: Aug'),
+        param('24h ago', 'Unable to parse: h'),
+        param('2015-03-17t16:37:51+00:002015-03-17t15:24:37+00:00', 'Unable to parser: 00:002015')
     ])
-    def test_dates_not_parsed(self, date_string):
+    def test_dates_not_parsed(self, date_string, message):
         self.when_date_is_parsed_by_date_parser(date_string)
-        self.then_error_was_raised(ValueError, ["unknown string format"])
+        self.then_error_was_raised(ValueError, message)
 
     @parameterized.expand([
         param('10 December', datetime(2014, 12, 10)),
         param('March', datetime(2014, 3, 15)),
         param('Friday', datetime(2015, 2, 13)),
         param('Monday', datetime(2015, 2, 9)),
-        param('10:00PM', datetime(2015, 2, 14, 22, 00)),
+        param('10:00PM', datetime(2015, 2, 14, 22, 0)),
         param('16:10', datetime(2015, 2, 14, 16, 10)),
         param('14:05', datetime(2015, 2, 15, 14, 5)),
+        param('15 february 15:00', datetime(2015, 2, 15, 15, 0)),
     ])
     def test_preferably_past_dates(self, date_string, expected):
-        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
-        self.given_local_tz_offset(0)
-        self.given_parser(settings={'PREFER_DATES_FROM': 'past'})
+        self.given_parser(settings={'PREFER_DATES_FROM': 'past', 'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -543,14 +544,13 @@ class TestDateParser(BaseTestCase):
         param('March', datetime(2015, 3, 15)),
         param('Friday', datetime(2015, 2, 20)),
         param('Monday', datetime(2015, 2, 16)),
-        param('10:00PM', datetime(2015, 2, 15, 22, 00)),
+        param('10:00PM', datetime(2015, 2, 15, 22, 0)),
         param('16:10', datetime(2015, 2, 15, 16, 10)),
         param('14:05', datetime(2015, 2, 16, 14, 5)),
     ])
     def test_preferably_future_dates(self, date_string, expected):
-        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'PREFER_DATES_FROM': 'future'})
+        self.given_parser(settings={'PREFER_DATES_FROM': 'future', 'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -564,9 +564,8 @@ class TestDateParser(BaseTestCase):
         param('14:05', datetime(2015, 2, 15, 14, 5)),
     ])
     def test_dates_without_preference(self, date_string, expected):
-        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
         self.given_local_tz_offset(0)
-        self.given_parser(settings={'PREFER_DATES_FROM': 'current_period'})
+        self.given_parser(settings={'PREFER_DATES_FROM': 'current_period', 'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -580,8 +579,7 @@ class TestDateParser(BaseTestCase):
         param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 15)),
     ])
     def test_dates_with_day_missing_prefering_current_day_of_month(self, date_string, today=None, expected=None):
-        self.given_utcnow(today)
-        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'current'})
+        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'current', 'RELATIVE_BASE': today})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -595,8 +593,7 @@ class TestDateParser(BaseTestCase):
         param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 31)),
     ])
     def test_dates_with_day_missing_prefering_last_day_of_month(self, date_string, today=None, expected=None):
-        self.given_utcnow(today)
-        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'last'})
+        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'last', 'RELATIVE_BASE': today})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -610,8 +607,7 @@ class TestDateParser(BaseTestCase):
         param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 1)),
     ])
     def test_dates_with_day_missing_prefering_first_day_of_month(self, date_string, today=None, expected=None):
-        self.given_utcnow(today)
-        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'first'})
+        self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'first', 'RELATIVE_BASE': today})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -622,29 +618,27 @@ class TestDateParser(BaseTestCase):
         param(prefer_day_of_month='first'),
     ])
     def test_that_day_preference_does_not_affect_dates_with_explicit_day(self, prefer_day_of_month=None):
-        self.given_utcnow(datetime(2015, 2, 12))
-        self.given_parser(settings={'PREFER_DAY_OF_MONTH': prefer_day_of_month})
+        self.given_parser(settings={'PREFER_DAY_OF_MONTH': prefer_day_of_month, 'RELATIVE_BASE': datetime(2015, 2, 12)})
         self.when_date_is_parsed('24 April 2012')
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(datetime(2012, 4, 24))
 
     def test_date_is_parsed_when_skip_tokens_are_supplied(self):
-        self.given_utcnow(datetime(2015, 2, 12))
-        self.given_parser(settings={'SKIP_TOKENS': ['de']})
+        self.given_parser(settings={'SKIP_TOKENS': ['de'], 'RELATIVE_BASE': datetime(2015, 2, 12)})
         self.when_date_is_parsed('24 April 2012 de')
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(datetime(2012, 4, 24))
 
     @parameterized.expand([
-        param('29 February 2015'),
-        param('32 January 2015'),
-        param('31 April 2015'),
-        param('31 June 2015'),
-        param('31 September 2015'),
+        param('29 February 2015', 'day must be in 1..28'),
+        param('32 January 2015', 'day must be in 1..31'),
+        param('31 April 2015', 'day must be in 1..30'),
+        param('31 June 2015', 'day must be in 1..30'),
+        param('31 September 2015', 'day must be in 1..30'),
     ])
-    def test_error_should_be_raised_for_invalid_dates_with_too_large_day_number(self, date_string):
+    def test_error_should_be_raised_for_invalid_dates_with_too_large_day_number(self, date_string, message):
         self.when_date_is_parsed_by_date_parser(date_string)
-        self.then_error_was_raised(ValueError, ['Day not in range for month'])
+        self.then_error_was_raised(ValueError, ['day is out of range for month', message])
 
     @parameterized.expand([
         param('2015-05-02T10:20:19+0000', languages=['fr'], expected=datetime(2015, 5, 2, 10, 20, 19)),
@@ -653,7 +647,7 @@ class TestDateParser(BaseTestCase):
     ])
     def test_iso_datestamp_format_should_always_parse(self, date_string, languages, expected):
         self.given_local_tz_offset(0)
-        self.given_parser(languages=languages)
+        self.given_parser(languages=languages, settings={'PREFER_LANGUAGE_DATE_ORDER': False})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -671,18 +665,26 @@ class TestDateParser(BaseTestCase):
         param('2008', expected=datetime(2008, 2, 15), period='year'),
     ])
     def test_extracted_period(self, date_string, expected=None, period=None):
-        self.given_utcnow(datetime(2015, 2, 15, 15, 30))  # Sunday
         self.given_local_tz_offset(0)
-        self.given_parser()
+        self.given_parser(settings={'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
         self.then_period_is(period)
 
-    def given_utcnow(self, now):
-        datetime_mock = Mock(wraps=datetime)
-        datetime_mock.utcnow = Mock(return_value=now)
-        self.add_patch(patch('dateparser.date_parser.datetime', new=datetime_mock))
+    @parameterized.expand([
+        param('15-12-18 06:00', expected=datetime(2015, 12, 18, 6, 0), order='YMD'),
+        param('15-18-12 06:00', expected=datetime(2015, 12, 18, 6, 0), order='YDM'),
+        param('10-11-12 06:00', expected=datetime(2012, 10, 11, 6, 0), order='MDY'),
+        param('10-11-12 06:00', expected=datetime(2011, 10, 12, 6, 0), order='MYD'),
+        param('10-11-12 06:00', expected=datetime(2011, 12, 10, 6, 0), order='DYM'),
+        param('15-12-18 06:00', expected=datetime(2018, 12, 15, 6, 0), order='DMY'),
+    ])
+    def test_order(self, date_string, expected=None, order=None):
+        self.given_parser(settings={'DATE_ORDER': order})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
 
     def given_local_tz_offset(self, offset):
         self.add_patch(

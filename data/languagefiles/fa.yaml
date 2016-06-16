@@ -1,5 +1,7 @@
 name: Persian
 
+dateorder: DMY
+
 monday:
     - دوشنبه
     - د.

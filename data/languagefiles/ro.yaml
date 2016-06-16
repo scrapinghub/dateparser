@@ -1,5 +1,7 @@
 name: Romanian
 
+dateorder: DMY
+
 skip: ["la", "de"]
 
 monday:

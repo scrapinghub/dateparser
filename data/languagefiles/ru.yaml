@@ -1,5 +1,7 @@
 name: Russian
 
+dateorder: DMY
+
 skip: ["около", "в", "и"]
 
 monday:

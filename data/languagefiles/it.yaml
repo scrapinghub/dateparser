@@ -1,5 +1,7 @@
 name: Italian
 
+dateorder: DMY
+
 skip: ["circa", "e"]
 
 monday:
