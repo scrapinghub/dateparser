@@ -3,7 +3,7 @@ from pkgutil import get_data
 from collections import OrderedDict
 
 import six
-import yaml
+import ruamel.yaml as yaml
 
 from .language import Language
 
