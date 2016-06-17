@@ -347,7 +347,13 @@ class DateDataParser(object):
         except AttributeError:
             raise TypeError('Input type must be str or unicode')
         if self._settings.NORMALIZE:
-           date_string = normalize_unicode(date_string)
+            # Convert Korean date to the intarnational
+            # 2016년 3월 14일 to 2016 3 14
+            corean_symbols = ('월', '일', '년')
+            for i in corean_symbols:
+                date_string = date_string.replace(i, '')
+
+            date_string = normalize_unicode(date_string)
 
         date_string = sanitize_date(date_string)
 
