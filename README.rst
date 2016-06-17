@@ -18,6 +18,10 @@ dateparser -- python parser for human readable dates
    :target: https://codecov.io/gh/scrapinghub/dateparser
    :alt: Code Coverage
 
+.. image:: https://badges.gitter.im/scrapinghub/dateparser.svg
+   :alt: Join the chat at https://gitter.im/scrapinghub/dateparser
+   :target: https://gitter.im/scrapinghub/dateparser?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
 
 `dateparser` provides modules to easily parse localized dates in almost
 any string formats commonly found on web pages.
@@ -225,7 +229,3 @@ Supported Calendars
 .. note:: `HijriCalendar` has some limitations with Python 3.
 .. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.
 
-
-.. image:: https://badges.gitter.im/scrapinghub/dateparser.svg
-   :alt: Join the chat at https://gitter.im/scrapinghub/dateparser
-   :target: https://gitter.im/scrapinghub/dateparser?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
