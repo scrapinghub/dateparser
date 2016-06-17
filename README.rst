@@ -224,3 +224,8 @@ Supported Calendars
 
 .. note:: `HijriCalendar` has some limitations with Python 3.
 .. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.
+
+
+.. image:: https://badges.gitter.im/scrapinghub/dateparser.svg
+   :alt: Join the chat at https://gitter.im/scrapinghub/dateparser
+   :target: https://gitter.im/scrapinghub/dateparser?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
