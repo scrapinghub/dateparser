@@ -347,6 +347,9 @@ class TestDateParser(BaseTestCase):
         param('24 Οκτωβρίου 2014', datetime(2014, 10, 24, 0, 0)),
         param('1 Ιουλίου 2014', datetime(2014, 7, 1, 0, 0)),
         param('27 Νοεμβρίου 2014', datetime(2014, 11, 27, 0, 0)),
+        # Arabic dates
+        param('١٦ أكتوبر، ٢٠١٥', datetime(2015, 10, 16, 0, 0)),
+        param('١٦ يونيو، ٢٠١٦', datetime(2016, 6, 16, 0, 0)),
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
