@@ -334,6 +334,19 @@ class TestDateParser(BaseTestCase):
         param('2015年04月08日10:05', datetime(2015, 4, 8, 10, 5)),
         param('2012年12月20日10:35', datetime(2012, 12, 20, 10, 35)),
         param('2016年 2月 5日', datetime(2016, 2, 5, 0, 0)),
+        # Greek dates
+        param('19 Ιουνίου 2016', datetime(2016, 6, 19, 0, 0)),
+        param('8 Ιανουαρίου 2015', datetime(2015, 1, 8, 0, 0)),
+        param('4 Μαρτίου 2015', datetime(2015, 3, 4, 0, 0)),
+        param('29 Δεκεμβρίου 2015', datetime(2015, 12, 29, 0, 0)),
+        param('4 Απριλίου 2015', datetime(2015, 4, 4, 0, 0)),
+        param('19 Φεβρουαρίου 2015', datetime(2015, 2, 19, 0, 0)),
+        param('16 Μαΐου 2015', datetime(2015, 5, 16, 0, 0)),
+        param('21 Αυγούστου 2014', datetime(2014, 8, 21, 0, 0)),
+        param('30 Σεπτεμβρίου 2014', datetime(2014, 9, 30, 0, 0)),
+        param('24 Οκτωβρίου 2014', datetime(2014, 10, 24, 0, 0)),
+        param('1 Ιουλίου 2014', datetime(2014, 7, 1, 0, 0)),
+        param('27 Νοεμβρίου 2014', datetime(2014, 11, 27, 0, 0)),
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday
