@@ -350,6 +350,8 @@ class TestDateParser(BaseTestCase):
         # Arabic dates
         param('١٦ أكتوبر، ٢٠١٥', datetime(2015, 10, 16, 0, 0)),
         param('١٦ يونيو، ٢٠١٦', datetime(2016, 6, 16, 0, 0)),
+        # Korean
+        param('2016년 6월 18일', datetime(2016, 6, 18, 0, 0)),
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_utcnow(datetime(2012, 11, 13))  # Tuesday

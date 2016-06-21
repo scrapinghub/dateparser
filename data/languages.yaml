@@ -14,6 +14,7 @@ fi: !include languagefiles/fi.yaml
 fr: !include languagefiles/fr.yaml
 id: !include languagefiles/id.yaml
 it: !include languagefiles/it.yaml
+kr: !include languagefiles/kr.yaml
 ja: !include languagefiles/ja.yaml
 nl: !include languagefiles/nl.yaml
 pl: !include languagefiles/pl.yaml
