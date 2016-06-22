@@ -193,6 +193,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ru', "позавчера", "2 day"),
         param('ru', "вчера", "1 day"),
         param('ru', "сегодня", "0 day"),
+        param('ru', "завтра", "in 1 day"),
         param('ru', "несколько секунд", "44 second"),
         # Turkish
         param('tr', "dün", "1 day"),
