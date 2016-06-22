@@ -10,6 +10,7 @@ from datetime import timedelta
 
 NSP_COMPATIBLE = re.compile(r'\D+')
 MERIDIAN = re.compile(r'am|pm')
+MICROSECOND = re.compile(r'\d{6}')
 
 
 def no_space_parser_eligibile(datestring):
@@ -88,6 +89,8 @@ class _time_parser(object):
         '%H:%M',
         '%I:%M %p',
         '%I %p',
+        '%H:%M:%S.%f',
+        '%I:%M:%S.%f %p',
     ]
 
     def __call__(self, timestring):
@@ -200,10 +203,10 @@ class _parser(object):
             for k in (resolve_date_order(settings.DATE_ORDER, lst=True))
         )
 
-        skip_index = -1
+        skip_index = []
         for index, token_type in enumerate(self.filtered_tokens):
 
-            if index == skip_index:
+            if index in skip_index:
                 continue
 
             token, type = token_type
@@ -213,20 +216,35 @@ class _parser(object):
 
             if self.time is None:
                 try:
-                    meridian = MERIDIAN.search(self.filtered_tokens[index+1][0]).group()
+                    microsecond = MICROSECOND.search(self.filtered_tokens[index+1][0]).group()
+                except:
+                    microsecond = None
+
+                if microsecond:
+                    mindex = index + 2
+                else:
+                    mindex = index + 1
+
+                try:
+                    meridian = MERIDIAN.search(self.filtered_tokens[mindex][0]).group()
                 except:
                     meridian = None
 
-                if ':' in token or meridian:
-                    if meridian:
+                if any([':' in token, meridian, microsecond]):
+                    if meridian and not microsecond:
                         self._token_time = '%s %s' % (token, meridian)
-                        self.time = lambda: time_parser(self._token_time)
-                        skip_index = index + 1
-                        continue
+                        skip_index.append(mindex)
+                    elif microsecond and not meridian:
+                        self._token_time = '%s.%s' % (token, microsecond)
+                        skip_index.append(index + 1)
+                    elif meridian and microsecond:
+                        self._token_time = '%s.%s %s' % (token, microsecond, meridian)
+                        skip_index.append(index + 1)
+                        skip_index.append(mindex)
                     else:
                         self._token_time = token
-                        self.time = lambda: time_parser(self._token_time)
-                        continue
+                    self.time = lambda: time_parser(self._token_time)
+                    continue
 
             results = self._parse(type, token, settings.FUZZY)
             for res in results:
@@ -275,10 +293,14 @@ class _parser(object):
             'day': self.day or self.now.day,
             'month': self.month or self.now.month,
             'year': self.year or self.now.year,
-            'hour': time.hour if time else 0,
-            'minute': time.minute if time else 0,
-            'second': time.second if time else 0,
+            'hour': 0, 'minute': 0, 'second': 0, 'microsecond': 0,
         }
+
+        if time:
+            params.update(dict(hour=time.hour,
+                               minute=time.minute,
+                               second=time.second,
+                               microsecond=time.microsecond))
 
         try:
             return datetime(**params)
