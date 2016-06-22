@@ -345,6 +345,15 @@ class TestDateParser(BaseTestCase):
         self.then_period_is('day')
         self.then_date_obj_exactly_is(expected)
 
+    def test_stringified_datetime_should_parse_fine(self):
+        expected_date = datetime(2012, 11, 13, 10, 15, 5)
+        self.given_parser(settings={'RELATIVE_BASE': expected_date})
+        date_string = str(self.parser.get_date_data('today')['date_obj'])
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected_date)
+
     @parameterized.expand([
         # English dates
         param('[Sept] 04, 2014.', datetime(2014, 9, 4)),
