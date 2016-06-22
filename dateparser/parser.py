@@ -293,10 +293,14 @@ class _parser(object):
             'day': self.day or self.now.day,
             'month': self.month or self.now.month,
             'year': self.year or self.now.year,
-            'hour': time.hour if time else 0,
-            'minute': time.minute if time else 0,
-            'second': time.second if time else 0,
+            'hour': 0, 'minute': 0, 'second': 0, 'microsecond': 0,
         }
+
+        if time:
+            params.update(dict(hour=time.hour,
+                               minute=time.minute,
+                               second=time.second,
+                               microsecond=time.microsecond))
 
         try:
             return datetime(**params)

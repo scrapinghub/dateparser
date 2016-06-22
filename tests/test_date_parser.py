@@ -346,7 +346,7 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
 
     def test_stringified_datetime_should_parse_fine(self):
-        expected_date = datetime(2012, 11, 13, 10, 15, 5)
+        expected_date = datetime(2012, 11, 13, 10, 15, 5, 330256)
         self.given_parser(settings={'RELATIVE_BASE': expected_date})
         date_string = str(self.parser.get_date_data('today')['date_obj'])
         self.when_date_is_parsed(date_string)
