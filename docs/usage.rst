@@ -109,7 +109,7 @@ Handling Incomplete Dates
     >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
     datetime.datetime(2015, 12, 1, 0, 0)
 
-``PREFER_DATES_FROM`` defaults to ``current_period`` and can have ``past`` and ``future`` as values.
+``PREFER_DATES_FROM`` defaults to `current_period` and can have `past` and `future` as values.
 
 If date string is missing some part, this option ensures consistent results depending on the `past` or `future` preference, for example, assuming current date is `June 16, 2015`:
 
@@ -121,6 +121,13 @@ If date string is missing some part, this option ensures consistent results depe
     >>> # parsing with preference set for 'past'
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
     datetime.datetime(2015, 8, 15, 0, 0)
+
+``STRICT_PARSING`` defaults to `False`.
+
+When set to `True` if missing any of `day`, `month` or `year` parts, it does not return any result altogether.:
+
+    >>> parse(u'March', settings={'STRICT_PARSING': True})
+    None
 
 
 Language Detection

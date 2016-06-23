@@ -11,3 +11,4 @@ settings:
     DATE_ORDER: MDY
     PREFER_LANGUAGE_DATE_ORDER: True
     FUZZY: False
+    STRICT_PARSING: False

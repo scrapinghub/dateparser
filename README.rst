@@ -162,6 +162,11 @@ Incomplete Dates
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
     datetime.datetime(2015, 8, 15, 0, 0)
 
+You can also ignore parsing incomplete dates altogether by setting `STRICT_PARSING` flag as follows:
+
+    >>> parse(u'December 2015', settings={'STRICT_PARSING': True})
+    None
+
 For more on handling incomplete dates, please look at `Settings`_.
 
 
