@@ -35,12 +35,12 @@ def get_unresolved_attrs(parser_object):
 
 def resolve_date_order(order, lst=None):
     chart = {
-        'MDY': {'day': False, 'year': False},
-        'MYD': {'day': False, 'year': True},
-        'YMD': {'day': False, 'year': True},
-        'YDM': {'day': True, 'year': True},
-        'DMY': {'day': True, 'year': False},
-        'DYM': {'day': True, 'year': True},
+        'MDY': '%m%d%y',
+        'MYD': '%m%y%d',
+        'YMD': '%y%m%d',
+        'YDM': '%y%d%m',
+        'DMY': '%d%m%y',
+        'DYM': '%d%y%m',
     }
 
     chart_list = {
@@ -114,6 +114,10 @@ class _no_spaces_parser(object):
         '%m%d%y', '%d%y%m', '%d%m%y'
     ]
 
+    _preferred_formats = ['%Y%m%d%H%M', '%Y%m%d%H%M%S', '%Y%m%d%H%M%S.%f']
+
+    _timeformats = ['%H%M%S.%f', '%H%M%S', '%H%M', '%H']
+
     period = {
         'day': ['%d', '%H', '%M', '%S'],
         'month': ['%m']
@@ -122,17 +126,20 @@ class _no_spaces_parser(object):
     _default_order = resolve_date_order('MDY')
 
     def __init__(self, *args, **kwargs):
-        self._timeformats = ['%H', '%H%M', '%H%M%S']
 
-        self._all = (self._dateformats + 
+        self._all = (self._dateformats +
                      [x+y for x in self._dateformats for y in self._timeformats] +
                      self._timeformats)
 
         self.date_formats = {
-            (False, False): self._all,
-            (True, False): [x for x in self._all if x.lower().startswith('%y')],
-            (False, True): [x for x in self._all if '%d%m' in x],
-            (True, True): [x for x in self._all if x.lower().startswith('%y%d')],
+            '%m%d%y': (self._preferred_formats +
+                       sorted(self._all, key=lambda x: x.lower().startswith('%m%d%y'), reverse=True)
+            ),
+            '%m%y%d': sorted(self._all, key=lambda x: x.lower().startswith('%m%y%d'), reverse=True),
+            '%y%m%d': sorted(self._all, key=lambda x: x.lower().startswith('%y%m%d'), reverse=True),
+            '%y%d%m': sorted(self._all, key=lambda x: x.lower().startswith('%y%d%m'), reverse=True),
+            '%d%m%y': sorted(self._all, key=lambda x: x.lower().startswith('%d%m%y'), reverse=True),
+            '%d%y%m': sorted(self._all, key=lambda x: x.lower().startswith('%d%y%m'), reverse=True),
         }
 
     @classmethod
@@ -154,7 +161,7 @@ class _no_spaces_parser(object):
         order = resolve_date_order(settings.DATE_ORDER) if settings.DATE_ORDER else cls._default_order
         nsp = cls()
         for token, _ in tokens.tokenize():
-            for fmt in nsp.date_formats[(order['year'], order['day'])]:
+            for fmt in nsp.date_formats[order]:
                 try:
                     return datetime.strptime(token, fmt), cls._get_period(fmt)
                 except:
@@ -275,6 +282,17 @@ class _parser(object):
             return 'day'
 
     def _results(self):
+        if self.settings.STRICT_PARSING:
+            errors = []
+            if not self.day:
+                errors.append('Day')
+            if not self.month:
+                errors.append('Month')
+            if not self.year:
+                errors.append('Year')
+            if errors:
+                raise ValueError('%s not found in the date string' % ''.join(errors))
+
         self.now = self.settings.RELATIVE_BASE
         if not self.now:
             self.now = datetime.utcnow()
@@ -464,9 +482,9 @@ class _parser(object):
 
 
 class tokenizer(object):
-    digits = '0123456789:'
-    letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    nonwords = "./\()\"':,.;<>~!@#$%^&*|+=[]{}`~?-     "
+    digits = u'0123456789:'
+    letters = u'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    nonwords = u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-     "
 
     def _isletter(self, tkn): return tkn in self.letters
     def _isdigit(self, tkn): return tkn in self.digits
