@@ -73,6 +73,7 @@ def parse(datestring, settings):
     exceptions = []
     for parser in [_parser.parse, _no_spaces_parser.parse]:
         try:
+            print datestring
             res = parser(datestring, settings)
             if res:
                 return res
@@ -185,6 +186,9 @@ class _parser(object):
 
     def _get_component_token(self, key):
         return getattr(self, '_token_%s' % key, None)
+
+    def _parse_date_component(self, token, directive):
+        return datetime.strptime(token, directive)
 
     def __init__(self, tokens, settings):
         self.settings = settings
@@ -431,7 +435,7 @@ class _parser(object):
                     continue
                 for directive in directives:
                     try:
-                        do = datetime.strptime(token, directive)
+                        do = self._parse_date_component(token, directive)
                         prev_value = getattr(self, component, None)
                         if not prev_value:
                             return set_and_return(token, type, component, do)
@@ -439,7 +443,7 @@ class _parser(object):
                             try:
                                 prev_token, prev_type = getattr(self, '_token_%s' % component)
                                 if prev_type == type:
-                                    do = datetime.strptime(prev_token, directive)
+                                    do = self._parse_date_component(prev_token, directive)
                             except ValueError:
                                 self.unset_tokens.append((prev_token, prev_type, component))
                                 return set_and_return(token, type, component, do)
@@ -459,7 +463,7 @@ class _parser(object):
                     continue
                 for directive in directives:
                     try:
-                        do = datetime.strptime(token, directive)
+                        do = self._parse_date_component(token, directive)
                         prev_value = getattr(self, component, None)
                         if not prev_value:
                             return set_and_return(token, type, component, do, skip_date_order=True)
