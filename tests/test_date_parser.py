@@ -334,6 +334,7 @@ class TestDateParser(BaseTestCase):
         # Chinese dates
         param('2015年04月08日10:05', datetime(2015, 4, 8, 10, 5)),
         param('2012年12月20日10:35', datetime(2012, 12, 20, 10, 35)),
+        param('2016年06月30日09时30分', datetime(2016, 6, 30, 9, 30)),
         param('2016年 2月 5日', datetime(2016, 2, 5, 0, 0)),
     ])
     def test_dates_parsing(self, date_string, expected):
