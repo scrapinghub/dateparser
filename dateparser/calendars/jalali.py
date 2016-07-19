@@ -10,6 +10,7 @@ from jdatetime import JalaliToGregorian
 from dateutil.parser import parse
 
 from . import CalendarBase
+from dateparser.conf import settings
 
 
 def validate_time(string):
@@ -204,16 +205,13 @@ class JalaliParser(CalendarBase):
         return time(0, 0)
 
     def get_date(self):
-        """Output method for Jalali calendar parser."""
-        jdate = self.search_persian_date(self.source)
-        gtime = self.search_time()
+        self.persian_to_latin(self.source)
+        self.search_time()
+        from dateparser.calendars.jalali_parser import jalali_parser
+        #print self.translated
+        settings.FUZZY = True
         try:
-            gdate = JalaliToGregorian(
-                int(jdate['year']),
-                self._months[jdate['month']][0],
-                int(jdate['day'])
-            ).getGregorianList()
-            return datetime(gdate[0], gdate[1], gdate[2],
-                            gtime.hour, gtime.minute, gtime.second)
-        except TypeError:
+            return jalali_parser.parse(self.translated, settings)
+        except ValueError, ex:
             pass
+

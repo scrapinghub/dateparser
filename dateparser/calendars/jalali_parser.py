@@ -50,10 +50,11 @@ class jalali_parser(_parser):
         return params
 
     def _get_date_obj(self, token, directive):
-        persian_gregorian_day_map = dict(zip(persian.WEEKDAYS,  ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']))
+        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        persian_gregorian_day_map = dict(zip(persian.WEEKDAYS,  days))
         year, month, day = 1348, 1, 1
-        if directive in ('%A', '%a') and token.title() in persian.WEEKDAYS:
-            pass
+        if directive in ('%A', '%a') and (token.title() in persian.WEEKDAYS or token.title() in days):
+            print 'WHOOP ', token
         elif directive == '%m' and len(token) == 2 and token.isdigit() and int(token) >= 1 and int(token) <= 12:
             month = int(token)
         elif directive == '%B' and token in self._months:
