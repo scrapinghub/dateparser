@@ -183,8 +183,6 @@ class _parser(object):
         'year': ['%y', '%Y'],
     }
 
-    datetime_cls = datetime
-
     def _get_component_token(self, key):
         return getattr(self, '_token_%s' % key, None)
 
@@ -298,6 +296,26 @@ class _parser(object):
             else:
                 raise e
 
+    def _set_relative_base(self):
+        self.now = self.settings.RELATIVE_BASE
+        if not self.now:
+            self.now = datetime.utcnow()
+
+    def _get_datetime_obj_params(self):
+        if not self.now:
+            self._set_relative_base()
+
+        params = {
+            'day': self.day or self.now.day,
+            'month': self.month or self.now.month,
+            'year': self.year or self.now.year,
+            'hour': 0, 'minute': 0, 'second': 0, 'microsecond': 0,
+        }
+        return params
+
+    def _get_date_obj(self, token, directive):
+        return datetime.strptime(token, directive)
+
     def _results(self):
         if self.settings.STRICT_PARSING:
             errors = []
@@ -310,9 +328,7 @@ class _parser(object):
             if errors:
                 raise ValueError('%s not found in the date string' % ''.join(errors))
 
-        self.now = self.settings.RELATIVE_BASE
-        if not self.now:
-            self.now = self.datetime_cls.utcnow()
+        self._set_relative_base()
 
         time = self.time() if not self.time is None else None
 
@@ -324,12 +340,7 @@ class _parser(object):
             if not any(attr_truth_values):
                 raise ValueError('Nothing date like found')
 
-        params = {
-            'day': self.day or self.now.day,
-            'month': self.month or self.now.month,
-            'year': self.year or self.now.year,
-            'hour': 0, 'minute': 0, 'second': 0, 'microsecond': 0,
-        }
+        params = self._get_datetime_obj_params()
 
         if time:
             params.update(dict(hour=time.hour,
@@ -436,7 +447,7 @@ class _parser(object):
                     continue
                 for directive in directives:
                     try:
-                        do = self.datetime_cls.strptime(token, directive)
+                        do = self._get_date_obj(token, directive)
                         prev_value = getattr(self, component, None)
                         if not prev_value:
                             return set_and_return(token, type, component, do)
@@ -444,7 +455,7 @@ class _parser(object):
                             try:
                                 prev_token, prev_type = getattr(self, '_token_%s' % component)
                                 if prev_type == type:
-                                    do = self.datetime_cls.strptime(prev_token, directive)
+                                    do = self._get_date_obj(prev_token, directive)
                             except ValueError:
                                 self.unset_tokens.append((prev_token, prev_type, component))
                                 return set_and_return(token, type, component, do)
@@ -464,7 +475,7 @@ class _parser(object):
                     continue
                 for directive in directives:
                     try:
-                        do = self.datetime_cls.strptime(token, directive)
+                        do = self._get_date_obj(token, directive)
                         prev_value = getattr(self, component, None)
                         if not prev_value:
                             return set_and_return(token, type, component, do, skip_date_order=True)
