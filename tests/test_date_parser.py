@@ -691,6 +691,9 @@ class TestDateParser(BaseTestCase):
         param('10-11-12 06:00', expected=datetime(2011, 10, 12, 6, 0), order='MYD'),
         param('10-11-12 06:00', expected=datetime(2011, 12, 10, 6, 0), order='DYM'),
         param('15-12-18 06:00', expected=datetime(2018, 12, 15, 6, 0), order='DMY'),
+        param('201508', expected=datetime(2015, 8, 20, 0, 0), order='DYM'),
+        param('201508', expected=datetime(2020, 8, 15, 0, 0), order='YDM'),
+        param('201108', expected=datetime(2008, 11, 20, 0, 0), order='DMY'),
     ])
     def test_order(self, date_string, expected=None, order=None):
         self.given_parser(settings={'DATE_ORDER': order})
