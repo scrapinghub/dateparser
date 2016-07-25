@@ -54,12 +54,12 @@ class jalali_parser(_parser):
         persian_gregorian_day_map = dict(zip(persian.WEEKDAYS,  days))
         year, month, day = 1348, 1, 1
         if directive in ('%A', '%a') and (token.title() in persian.WEEKDAYS or token.title() in days):
-            print 'WHOOP ', token
-        elif directive == '%m' and len(token) == 2 and token.isdigit() and int(token) >= 1 and int(token) <= 12:
+            pass
+        elif directive == '%m' and len(token) <= 2 and token.isdigit() and int(token) >= 1 and int(token) <= 12:
             month = int(token)
         elif directive == '%B' and token in self._months:
             month = self._months.index(token) + 1
-        elif directive == '%d' and len(token) == 2 and token.isdigit() and 0 < int(token) <= persian.month_length(year, month):
+        elif directive == '%d' and len(token) <= 2 and token.isdigit() and 0 < int(token) <= persian.month_length(year, month):
             day = int(token)
         elif directive == '%Y' and len(token) == 4 and token.isdigit():
             year = int(token)
