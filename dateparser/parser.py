@@ -160,14 +160,22 @@ class _no_spaces_parser(object):
         tokens = tokenizer(datestring)
         order = resolve_date_order(settings.DATE_ORDER) if settings.DATE_ORDER else cls._default_order
         nsp = cls()
+        ambiguous_date = None
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[order]:
                 try:
-                    return datetime.strptime(token, fmt), cls._get_period(fmt)
+                    dt = datetime.strptime(token, fmt), cls._get_period(fmt)
+                    if len(str(dt[0].year)) < 4:
+                        ambiguous_date = dt
+                        continue
+                    return dt
                 except:
                     pass
         else:
-            raise ValueError('Unable to parse date from: %s' % datestring)
+            if ambiguous_date:
+                return ambiguous_date
+            else:
+                raise ValueError('Unable to parse date from: %s' % datestring)
 
 
 class _parser(object):
