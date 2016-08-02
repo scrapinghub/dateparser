@@ -139,6 +139,19 @@ class JalaliParser(CalendarBase):
             result = result.replace(persian, latin)
         return result
 
+    def replace_time(self, source):
+        def only_numbers(match_obj):
+            matched_string = match_obj.group()
+            return re.sub(r'\D', ' ', matched_string)
+        hour_pattern = ur'ساعت\s+\d{2}'
+        minute_pattern = ur'\d{2}\s+دقیقه'
+        second_pattern = ur'\d{2}\s+ثانیه'
+        result = re.sub(hour_pattern, only_numbers, source)
+        result = re.sub(minute_pattern, only_numbers, result)
+        result = re.sub(second_pattern, only_numbers, result)
+        result = re.sub(ur'\s+و\s+', ':', result)
+        return result
+
     def replace_days(self, source):
         result = re.sub(r'ام|م|ین', '', source)  # removes persian variant of th/first/second/third
         day_pairs = list(self._number_letters.items())
@@ -170,48 +183,11 @@ class JalaliParser(CalendarBase):
         self.translated = result
         return result
 
-    def search_persian_date(self, persian):
-        latin = self.persian_to_latin(persian)
-        rx_months = r"(?P<month>%s)" % r'|'.join(
-            [month for month in self._months.keys()]
-        )
-
-        match = None
-        for regex in [
-                r"(?:^|[^\d])(?P<day>\d+)[ ,]+%s[ ,]+(?P<year>\d+)(?:[^\d]|$)" % rx_months
-            ]:
-            match = re.search(regex, latin)
-            if match:
-                break
-
-        if match:
-            return match.groupdict()
-
-    def search_time(self):
-        if not self.translated:
-            self.translated = self.persian_to_latin(self.source)
-
-        result = self.translated
-
-        time_pointers = ['ساعت']
-        for splitter in time_pointers:
-            try:
-                _, timestr = result.split(splitter, 1)
-                timeobj = parse(validate_time(timestr)).time()
-                return timeobj
-            except ValueError:
-                pass
-
-        return time(0, 0)
-
     def get_date(self):
         self.persian_to_latin(self.source)
-        self.search_time()
+        self.translated = self.replace_time(self.translated)
         from dateparser.calendars.jalali_parser import jalali_parser
-        #print self.translated
-        settings.FUZZY = True
         try:
             return jalali_parser.parse(self.translated, settings)
         except ValueError, ex:
             pass
-

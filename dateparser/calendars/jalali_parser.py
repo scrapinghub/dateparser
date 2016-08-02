@@ -9,6 +9,12 @@ class persian_date(object):
         self.month=month
         self.day=day
 
+    def weekday(self):
+        for week in persian.monthcalendar(self.year, self.month):
+            for idx, day in enumerate(week):
+                if day==self.day:
+                    return idx
+
 class jalali_parser(_parser):
 
     _months = [
@@ -53,7 +59,7 @@ class jalali_parser(_parser):
         days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         persian_gregorian_day_map = dict(zip(persian.WEEKDAYS,  days))
         year, month, day = 1348, 1, 1
-        if directive in ('%A', '%a') and (token.title() in persian.WEEKDAYS or token.title() in days):
+        if directive == '%A' and (token.title() in persian.WEEKDAYS or token.title() in days):
             pass
         elif directive == '%m' and len(token) <= 2 and token.isdigit() and int(token) >= 1 and int(token) <= 12:
             month = int(token)
