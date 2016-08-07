@@ -338,6 +338,24 @@ class TestDateParser(BaseTestCase):
         param('2016年6月2911:30', datetime(2016, 6, 29, 11, 30)),
         param('2016年6月29', datetime(2016, 6, 29, 0, 0)),
         param('2016年 2月 5日', datetime(2016, 2, 5, 0, 0)),
+        # Greek dates
+        param('19 Ιουνίου 2016', datetime(2016, 6, 19, 0, 0)),
+        param('8 Ιανουαρίου 2015', datetime(2015, 1, 8, 0, 0)),
+        param('4 Μαρτίου 2015', datetime(2015, 3, 4, 0, 0)),
+        param('29 Δεκεμβρίου 2015', datetime(2015, 12, 29, 0, 0)),
+        param('4 Απριλίου 2015', datetime(2015, 4, 4, 0, 0)),
+        param('19 Φεβρουαρίου 2015', datetime(2015, 2, 19, 0, 0)),
+        param('16 Μαΐου 2015', datetime(2015, 5, 16, 0, 0)),
+        param('21 Αυγούστου 2014', datetime(2014, 8, 21, 0, 0)),
+        param('30 Σεπτεμβρίου 2014', datetime(2014, 9, 30, 0, 0)),
+        param('24 Οκτωβρίου 2014', datetime(2014, 10, 24, 0, 0)),
+        param('1 Ιουλίου 2014', datetime(2014, 7, 1, 0, 0)),
+        param('27 Νοεμβρίου 2014', datetime(2014, 11, 27, 0, 0)),
+        # Arabic dates
+        param('١٦ أكتوبر، ٢٠١٥', datetime(2015, 10, 16, 0, 0)),
+        param('١٦ يونيو، ٢٠١٦', datetime(2016, 6, 16, 0, 0)),
+        # Korean
+        param('2016년 6월 18일', datetime(2016, 6, 18, 0, 0)),
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_local_tz_offset(0)

@@ -101,6 +101,11 @@ def sanitize_date(date_string):
 
     date_string = re.sub(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS), u"'", date_string)
 
+    # replace Arabic Numeral for English Numeral
+    rep_num = zip('٠١٢٣٤٥٦٧٨٩', '0123456789')
+    for i, j in rep_num:
+        date_string = date_string.replace(i, j)
+
     return date_string
 
 
@@ -351,7 +356,7 @@ class DateDataParser(object):
             return res
 
         if self._settings.NORMALIZE:
-           date_string = normalize_unicode(date_string)
+            date_string = normalize_unicode(date_string)
 
         date_string = sanitize_date(date_string)
 

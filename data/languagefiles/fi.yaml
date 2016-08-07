@@ -30,39 +30,51 @@ sunday:
 january:
     - Tammikuu
     - Tammi
+    - Tammikuuta
 february:
     - Helmikuu
     - Helmi
+    - Helmikuuta
 march:
     - Maaliskuu
     - Maalis
+    - Maaliskuuta
 april:
     - Huhtikuu
     - Huhti
+    - Huhtikuuta
 may:
     - Toukokuu
     - Touko
+    - Toukokuuta
 june:
     - Kesäkuu
     - Kesä
+    - Kesäkuuta
 july:
     - Heinäkuu
     - Heinä
+    - Heinäkuuta
 august:
     - Elokuu
     - Elo
+    - Elokuuta
 september:
     - Syyskuu
     - Syys
+    - Syyskuuta
 october:
     - Lokakuu
     - Loka
+    - Lokakuuta
 november:
     - Marraskuu
     - Marras
+    - Marraskuuta
 december:
     - Joulukuu
     - Joulu
+    - Joulukuuta
 
 year:
     - vuosi
