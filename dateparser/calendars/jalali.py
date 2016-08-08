@@ -3,11 +3,7 @@ from __future__ import unicode_literals
 
 import regex as re
 from collections import OrderedDict
-from datetime import datetime, time
 from functools import reduce
-
-from jdatetime import JalaliToGregorian
-from dateutil.parser import parse
 
 from . import CalendarBase
 from dateparser.conf import settings
