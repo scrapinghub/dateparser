@@ -219,6 +219,7 @@ class _parser(object):
         )
 
         skip_index = []
+        skip_component = None
         for index, token_type in enumerate(self.filtered_tokens):
 
             if index in skip_index:
@@ -261,8 +262,10 @@ class _parser(object):
                     self.time = lambda: time_parser(self._token_time)
                     continue
 
-            results = self._parse(type, token, settings.FUZZY)
+            results = self._parse(type, token, settings.FUZZY, skip_component=skip_component)
             for res in results:
+                if len(token) == 4 and res[0] == 'year':
+                    skip_component = 'year'
                 setattr(self, *res)
 
         known, unknown = get_unresolved_attrs(self)
