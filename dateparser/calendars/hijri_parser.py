@@ -92,6 +92,5 @@ class hijri_parser(_parser):
     @classmethod
     def parse(cls, datestring, settings):
         dateobj, period = super(hijri_parser, cls).parse(datestring, settings)
-        o = super(hijri_parser, cls).parse(datestring, settings)
 
         return dateobj, period 

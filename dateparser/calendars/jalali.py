@@ -179,6 +179,7 @@ class JalaliParser(CalendarBase):
         translated = self.persian_to_latin(self.source)
         from dateparser.calendars.jalali_parser import jalali_parser
         try:
-            return jalali_parser.parse(translated, settings)
+            date_obj, period = jalali_parser.parse(translated, settings)
+            return {'date_obj': date_obj, 'period': period}
         except ValueError, ex:
             pass

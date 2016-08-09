@@ -25,7 +25,7 @@ class HijriCalendar(CalendarBase):
         from dateparser.calendars.hijri_parser import hijri_parser
         translated = self.replace_time_conventions(self.source)
         try:
-            return hijri_parser.parse(translated, settings)
+            date_obj, period =  hijri_parser.parse(translated, settings)
+            return {'date_obj': date_obj, 'period': period}
         except ValueError, ex:
-            raise ex
             pass

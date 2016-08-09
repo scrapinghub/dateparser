@@ -59,7 +59,7 @@ class TestJalaliParser(BaseTestCase):
         self.assertEqual(digit, self.translated)
 
     def then_date_parsed_is(self, datetime):
-        self.assertEqual(datetime, self.result[0])
+        self.assertEqual(datetime, self.result['date_obj'])
 
     def then_numeral_parsed_is(self, datetime):
         self.assertEqual(datetime, self.translated)
