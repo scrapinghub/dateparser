@@ -4,6 +4,7 @@ from convertdate import islamic
 from datetime import datetime, timedelta
 from umalqurra.hijri_date import HijriDate
 from umalqurra.hijri import Umalqurra
+from umalqurra.ummalqura_arrray import UmalqurraArray
 
 
 class hijri(object):
@@ -23,9 +24,16 @@ class hijri(object):
 
     @classmethod
     def month_length(cls, year, month):
-        year, month , day = Umalqurra().hijri_to_gregorian(year, month, 1)
-        _, _, _, ml = Umalqurra().gegorean_to_hijri(year, month, day)
-        return int(ml)
+        iy = year
+        im = month
+        id = 1
+        ii = iy - 1
+        iln = (ii * 12) + 1 + (im - 1)
+        i = iln - 16260
+        mcjdn = id + UmalqurraArray.ummalqura_dat[i - 1] - 1
+        index = UmalqurraArray.get_index(mcjdn)
+        ml = UmalqurraArray.ummalqura_dat[index] - UmalqurraArray.ummalqura_dat[index - 1]
+        return ml
 
 
 class hijri_date(object):
