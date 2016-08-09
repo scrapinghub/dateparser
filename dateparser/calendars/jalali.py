@@ -45,10 +45,6 @@ def validate_time(string):
 class JalaliParser(CalendarBase):
     """Calendar parser class for Jalali calendar."""
 
-    def __init__(self, source):
-        super(JalaliParser, self).__init__(source)
-        self.translated = None
-
     _digits = {"۰": 0, "۱": 1, "۲": 2, "۳": 3, "۴": 4,
                "۵": 5, "۶": 6, "۷": 7, "۸": 8, "۹": 9}
 
@@ -173,17 +169,16 @@ class JalaliParser(CalendarBase):
         result = self.replace_weekdays(result)
         result = self.replace_digits(result)
         result = self.replace_days(result)
+        result = self.replace_time(result)
 
         result = result.strip()
 
-        self.translated = result
         return result
 
     def get_date(self):
-        self.persian_to_latin(self.source)
-        self.translated = self.replace_time(self.translated)
+        translated = self.persian_to_latin(self.source)
         from dateparser.calendars.jalali_parser import jalali_parser
         try:
-            return jalali_parser.parse(self.translated, settings)
+            return jalali_parser.parse(translated, settings)
         except ValueError, ex:
             pass
