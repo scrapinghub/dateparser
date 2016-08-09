@@ -135,13 +135,13 @@ class JalaliParser(CalendarBase):
         def only_numbers(match_obj):
             matched_string = match_obj.group()
             return re.sub(r'\D', ' ', matched_string)
-        hour_pattern = ur'ساعت\s+\d{2}'
-        minute_pattern = ur'\d{2}\s+دقیقه'
-        second_pattern = ur'\d{2}\s+ثانیه'
+        hour_pattern = r'ساعت\s+\d{2}'
+        minute_pattern = r'\d{2}\s+دقیقه'
+        second_pattern = r'\d{2}\s+ثانیه'
         result = re.sub(hour_pattern, only_numbers, source)
         result = re.sub(minute_pattern, only_numbers, result)
         result = re.sub(second_pattern, only_numbers, result)
-        result = re.sub(ur'\s+و\s+', ':', result)
+        result = re.sub(r'\s+و\s+', ':', result)
         return result
 
     def replace_days(self, source):
@@ -181,5 +181,5 @@ class JalaliParser(CalendarBase):
         try:
             date_obj, period = jalali_parser.parse(translated, settings)
             return {'date_obj': date_obj, 'period': period}
-        except ValueError, ex:
+        except ValueError:
             pass

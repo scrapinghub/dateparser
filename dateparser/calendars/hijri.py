@@ -27,5 +27,5 @@ class HijriCalendar(CalendarBase):
         try:
             date_obj, period =  hijri_parser.parse(translated, settings)
             return {'date_obj': date_obj, 'period': period}
-        except ValueError, ex:
+        except ValueError:
             pass
