@@ -142,6 +142,7 @@ class JalaliParser(CalendarBase):
         result = re.sub(minute_pattern, only_numbers, result)
         result = re.sub(second_pattern, only_numbers, result)
         result = re.sub(r'\s+و\s+', ':', result)
+        result = result.replace('ساعت', '')
         return result
 
     def replace_days(self, source):
