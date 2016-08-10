@@ -1,9 +1,8 @@
 # coding: utf-8
 from dateparser.parser import _parser
 from convertdate import islamic
-from datetime import datetime, timedelta
+from datetime import datetime
 from umalqurra.hijri_date import HijriDate
-from umalqurra.hijri import Umalqurra
 from umalqurra.ummalqura_arrray import UmalqurraArray
 
 

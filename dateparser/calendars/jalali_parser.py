@@ -34,7 +34,6 @@ class jalali_parser(_parser):
     ]
 
     def _get_datetime_obj(self, **params):
-        from convertdate import persian 
         day = params['day']
         if not(0 < day <= persian.month_length(params['year'], params['month'])) and not(self._token_day or hasattr(self, '_token_weekday')):
             day = persian.month_length(params['year'], params['month'])
