@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 import regex as re
 
 from . import CalendarBase
-from dateparser.conf import settings
 from dateparser.calendars.jalali_parser import jalali_parser
 
 
@@ -44,11 +43,4 @@ def validate_time(string):
 class JalaliCalendar(CalendarBase):
     """Calendar class for Jalali calendar."""
 
-    
-    def get_date(self):
-        try:
-            date_obj, period = jalali_parser.parse(self.source, settings)
-            return {'date_obj': date_obj, 'period': period}
-        except ValueError as ex:
-            raise ex
-            pass
+    parser = jalali_parser

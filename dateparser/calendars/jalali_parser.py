@@ -4,14 +4,14 @@ from __future__ import unicode_literals
 
 import re
 
-from dateparser.parser import _parser
+from dateparser.calendars import non_gregorian_parser
 from convertdate import persian
 from datetime import datetime
 from collections import OrderedDict
 from functools import reduce
 
 
-class persian_date(object):
+class PersianDate(object):
     def __init__(self, year, month, day):
         self.year=year
         self.month=month
@@ -23,7 +23,13 @@ class persian_date(object):
                 if day==self.day:
                     return idx
 
-class jalali_parser(_parser):
+class jalali_parser(non_gregorian_parser):
+
+    calendar_converter = persian
+    default_year = 1348
+    default_month = 1
+    default_day = 1
+    non_gregorian_date_cls = PersianDate
 
     _digits = {"۰": 0, "۱": 1, "۲": 2, "۳": 3, "۴": 4,
                "۵": 5, "۶": 6, "۷": 7, "۸": 8, "۹": 9}
@@ -148,60 +154,3 @@ class jalali_parser(_parser):
                 [[(val, repl) for val in persian] for repl, persian in day_pairs]):
             result = result.replace(persian, str(number))
         return result
-
-    @classmethod
-    def to_latin(cls, source):
-        result = source
-        result = cls.replace_months(result)
-        result = cls.replace_weekdays(result)
-        result = cls.replace_digits(result)
-        result = cls.replace_days(result)
-        result = cls.replace_time(result)
-
-        result = result.strip()
-
-        return result
-
-
-    def _get_datetime_obj(self, **params):
-        day = params['day']
-        if not(0 < day <= persian.month_length(params['year'], params['month'])) and not(self._token_day or hasattr(self, '_token_weekday')):
-            day = persian.month_length(params['year'], params['month'])
-        year, month, day = persian.to_gregorian(year=params['year'], month=params['month'], day=day)
-        c_params = params.copy()
-        c_params.update(dict(year=year,month=month, day=day))
-        return datetime(**c_params)
-
-    def _get_datetime_obj_params(self):
-        if not self.now:
-            self._set_relative_base()
-        persian_now_year, persian_now_month, persian_now_day = persian.from_gregorian(self.now.year, self.now.month, self.now.day)
-        params = {
-            'day': self.day or persian_now_day,
-            'month': self.month or persian_now_month,
-            'year': self.year or persian_now_year,
-            'hour': 0, 'minute': 0, 'second': 0, 'microsecond': 0,
-        }
-        return params
-
-    def _get_date_obj(self, token, directive):
-        year, month, day = 1348, 1, 1
-        if directive == '%A' and token.title() in self._weekdays:
-            pass
-        elif directive == '%m' and len(token) <= 2 and token.isdigit() and int(token) >= 1 and int(token) <= 12:
-            month = int(token)
-        elif directive == '%B' and token in self._months:
-            month = list(self._months.keys()).index(token) + 1
-        elif directive == '%d' and len(token) <= 2 and token.isdigit() and 0 < int(token) <= persian.month_length(year, month):
-            day = int(token)
-        elif directive == '%Y' and len(token) == 4 and token.isdigit():
-            year = int(token)
-        else:
-            raise ValueError
-        return persian_date(year,month,day)
-
-    @classmethod
-    def parse(cls, datestring, settings):
-        datestring = cls.to_latin(datestring)
-        return super(jalali_parser, cls).parse(datestring, settings)
-
