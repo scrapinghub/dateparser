@@ -5,6 +5,7 @@ from dateparser.parser import _parser
 from dateparser.conf import settings
 from datetime import datetime
 
+
 class CalendarBase(object):
     """Base setup class for non-Gregorian calendar system.
 
@@ -27,21 +28,6 @@ class CalendarBase(object):
             return {'date_obj': date_obj, 'period': period}
         except ValueError:
             pass
-
-class CalendarConverter(object):
-
-    @classmethod
-    def to_gregorian(cls, year=None, month=None, day=None):
-        raise NotImplemented
-
-
-    @classmethod
-    def from_gregorian(cls, year=None, month=None, day=None):
-        raise NotImplemented
-
-    @classmethod
-    def month_length(cls, year, month):
-        raise NotImplemented
 
 
 class non_gregorian_parser(_parser):

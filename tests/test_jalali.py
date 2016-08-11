@@ -7,34 +7,7 @@ from datetime import datetime
 
 from dateparser.calendars.jalali import JalaliCalendar
 from dateparser.calendars.jalali_parser import jalali_parser
-from dateparser.calendars.jalali import validate_time
 from tests import BaseTestCase
-
-
-class TestValidateTime(BaseTestCase):
-    def setUp(self):
-        super(TestValidateTime, self).setUp()
-        self.result = NotImplemented
-        self.time_string = NotImplemented
-
-    def when_date_is_given(self, time_string):
-        self.time_string = time_string
-        self.result = validate_time(time_string)
-
-    def then_time_is_parsed_as(self, time):
-        self.assertEqual(time, self.result)
-
-    @parameterized.expand([
-        param(time_string='9 ساعت 10 دقیقه 30 ثانیه', time='9:10:30'),
-        param(time_string='09 ساعت 10 دقیقه 30 ثانیه', time='09:10:30'),
-        param(time_string='09 ساعت 0 دقیقه 0 ثانیه', time='09:0:0'),
-        param(time_string='09 ساعت 00 دقیقه', time='09:00:00'),
-        param(time_string='00 دقیقه', time='00:00:00'),
-        param(time_string='15 دقیقه 30 ثانیه', time='00:15:30'),
-    ])
-    def test_validate_time(self, time_string, time):
-        self.when_date_is_given(time_string)
-        self.then_time_is_parsed_as(time)
 
 
 class TestJalaliParser(BaseTestCase):
