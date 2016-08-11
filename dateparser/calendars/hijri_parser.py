@@ -8,8 +8,6 @@ from umalqurra.ummalqura_arrray import UmalqurraArray
 
 class hijri(object):
 
-    WEEKDAYS = islamic.WEEKDAYS
-
     @classmethod
     def to_gregorian(cls, year=None, month=None, day=None):
         h = HijriDate(year=year, month=month, day=day)
@@ -50,6 +48,58 @@ class hijri_date(object):
 
 class hijri_parser(_parser): 
 
+    _time_conventions = {
+        'am': [u"صباحاً"],
+        'pm': [u"مساءً"],
+    }
+
+    @classmethod
+    def replace_time_conventions(cls, source):
+        result = source
+        for latin, arabics in cls._time_conventions.items():
+            for arabic in arabics:
+                result = result.replace(arabic, latin)
+        return result
+
+    @classmethod
+    def replace_digits(cls, source):
+        # TODO
+        return source
+
+    @classmethod
+    def replace_months(cls, source):
+        # TODO
+        return source
+
+    @classmethod
+    def replace_weekdays(cls, source):
+        # TODO
+        return source
+
+    @classmethod
+    def replace_time(cls, source):
+        # TODO
+        return source
+
+    @classmethod
+    def replace_days(cls, source):
+        # TODO
+        return source
+
+    @classmethod
+    def to_latin(cls, source):
+        result = source
+        result = cls.replace_months(result)
+        result = cls.replace_weekdays(result)
+        result = cls.replace_digits(result)
+        result = cls.replace_days(result)
+        result = cls.replace_time(result)
+        result = cls.replace_time_conventions(result)
+
+        result = result.strip()
+
+        return result
+
     def _get_datetime_obj(self, **params):
         day = params['day']
         if not(0 < day <= hijri.month_length(params['year'], params['month'])) and not(self._token_day or hasattr(self, '_token_weekday')):
@@ -72,9 +122,8 @@ class hijri_parser(_parser):
         return params
 
     def _get_date_obj(self, token, directive):
-        days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         year, month, day = 1389, 1, 1
-        if directive == '%A' and (token.title() in hijri.WEEKDAYS or token.title() in days):
+        if directive == '%A' and token.title() in self._weekdays:
             pass
         elif directive == '%m' and len(token) <= 2 and token.isdigit() and int(token) >= 1 and int(token) <= 12:
             month = int(token)
@@ -87,3 +136,8 @@ class hijri_parser(_parser):
         else:
             raise ValueError
         return hijri_date(year,month,day)
+
+    @classmethod
+    def parse(cls, datestring, settings):
+        datestring = cls.to_latin(datestring)
+        return super(hijri_parser, cls).parse(datestring, settings)

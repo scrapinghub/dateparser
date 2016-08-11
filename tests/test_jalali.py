@@ -5,7 +5,8 @@ from nose_parameterized import parameterized, param
 from unittest import TestCase
 from datetime import datetime
 
-from dateparser.calendars.jalali import JalaliParser
+from dateparser.calendars.jalali import JalaliCalendar
+from dateparser.calendars.jalali_parser import jalali_parser
 from dateparser.calendars.jalali import validate_time
 from tests import BaseTestCase
 
@@ -35,19 +36,14 @@ class TestValidateTime(BaseTestCase):
         self.when_date_is_given(time_string)
         self.then_time_is_parsed_as(time)
 
+
 class TestJalaliParser(BaseTestCase):
     def setUp(self):
         super(TestJalaliParser, self).setUp()
-        self.result = NotImplemented
-        self.date_string = NotImplemented
-        self.parser = NotImplemented
         self.translated = NotImplemented
 
     def when_date_is_given(self, date_string):
-        self.date_string = date_string
-        self.parser = JalaliParser(date_string)
-        self.result = self.parser.get_date()
-        self.translated = self.parser.persian_to_latin(date_string)
+        self.translated = jalali_parser.to_latin(date_string)
 
     def then_month_is_parsed_as(self, month_name):
         self.assertEqual(month_name, self.translated)
@@ -57,9 +53,6 @@ class TestJalaliParser(BaseTestCase):
 
     def then_digit_is_parsed_as(self, digit):
         self.assertEqual(digit, self.translated)
-
-    def then_date_parsed_is(self, datetime):
-        self.assertEqual(datetime, self.result['date_obj'])
 
     def then_numeral_parsed_is(self, datetime):
         self.assertEqual(datetime, self.translated)
@@ -167,6 +160,23 @@ class TestJalaliParser(BaseTestCase):
     def test_replace_day_literal_with_numerals(self, persian, numeral):
         self.when_date_is_given(persian)
         self.then_numeral_parsed_is(numeral)
+
+
+class TestJalaliCalendar(BaseTestCase):
+
+    def setUp(self):
+        super(TestJalaliCalendar, self).setUp()
+        self.result = NotImplemented
+        self.date_string = NotImplemented
+        self.calendar = NotImplemented
+
+    def when_date_is_given(self, date_string):
+        self.date_string = date_string
+        self.calendar = JalaliCalendar(date_string)
+        self.result = self.calendar.get_date()
+
+    def then_date_parsed_is(self, datetime):
+        self.assertEqual(datetime, self.result['date_obj'])
 
     @parameterized.expand([
         param(date_string=u'سه شنبه سوم شهریور ۱۳۹۴', dt=datetime(2015, 8, 25, 0, 0)),
