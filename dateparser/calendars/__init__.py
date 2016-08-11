@@ -85,7 +85,7 @@ class non_gregorian_parser(_parser):
     def _get_datetime_obj(self, **params):
         day = params['day']
         if not(0 < day <= self.calendar_converter.month_length(params['year'], params['month'])) and not(self._token_day or hasattr(self, '_token_weekday')):
-            day = persian.month_length(params['year'], params['month'])
+            day = self.calendar_converter.month_length(params['year'], params['month'])
         year, month, day = self.calendar_converter.to_gregorian(year=params['year'], month=params['month'], day=day)
         c_params = params.copy()
         c_params.update(dict(year=year,month=month, day=day))
