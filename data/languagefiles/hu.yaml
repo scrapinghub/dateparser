@@ -117,7 +117,7 @@ second:
     - másodperc
     - mp.
     - másodpercek
-    - másodperce 
+    - másodperce
     - másodperccel
     - másodpercig
     - másodperctől
@@ -127,8 +127,8 @@ in:
     - múlva
 
 simplifications:
-    - tegnapelőtt: 2 napja
-    - tegnap: 1 napja
-    - ma: 0 napja
+    - tegnapelőtt: 2 nappal ezelőtt
+    - tegnap: 1 nappal ezelőtt
+    - ma: 0 nappal ezelőtt
     - holnap: 1 nap múlva
     - egy: 1
