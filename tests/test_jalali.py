@@ -18,7 +18,6 @@ class TestPersianDate(BaseTestCase):
         self.persian_date = PersianDate(year, month, day)
 
     def then_weekday_is(self, weekday):
-        print self.persian_date.weekday(), weekday
         self.assertEqual(self.persian_date.weekday(), weekday)
 
     @parameterized.expand([
