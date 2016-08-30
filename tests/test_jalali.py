@@ -5,8 +5,31 @@ from nose_parameterized import parameterized, param
 from datetime import datetime
 
 from dateparser.calendars.jalali import JalaliCalendar
-from dateparser.calendars.jalali_parser import jalali_parser
+from dateparser.calendars.jalali_parser import jalali_parser, PersianDate
 from tests import BaseTestCase
+
+
+class TestPersianDate(BaseTestCase):
+    def setUp(self):
+        super(TestPersianDate, self).setUp()
+        self.persian_date = NotImplemented
+
+    def when_date_is_given(self, year, month, day):
+        self.persian_date = PersianDate(year, month, day)
+
+    def then_weekday_is(self, weekday):
+        print self.persian_date.weekday(), weekday
+        self.assertEqual(self.persian_date.weekday(), weekday)
+
+    @parameterized.expand([
+        param(year=1348, month=1, day=3, weekday=0),
+        param(year=1348, month=2, day=28, weekday=0),
+        param(year=1348, month=3, day=27, weekday=2),
+        param(year=1348, month=4, day=11, weekday=3),
+    ])
+    def test_weekday(self, year, month, day, weekday):
+        self.when_date_is_given(year, month, day)
+        self.then_weekday_is(weekday)
 
 
 class TestJalaliParser(BaseTestCase):
