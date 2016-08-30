@@ -402,6 +402,14 @@ class _parser(object):
                 if 'future' in self.settings.PREFER_DATES_FROM:
                     dateobj = dateobj.replace(year=dateobj.year + 1)
 
+        if self._token_year and len(self._token_year[0]) == 2:
+            if self.now < dateobj:
+                if 'past' in self.settings.PREFER_DATES_FROM:
+                    dateobj = dateobj.replace(year=dateobj.year - 100)
+            else:
+                if 'future' in self.settings.PREFER_DATES_FROM:
+                    dateobj = dateobj.replace(year=dateobj.year + 100)
+
         if self._token_time and not any([self._token_year,
                                          self._token_month,
                                          self._token_day,

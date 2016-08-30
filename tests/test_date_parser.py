@@ -210,6 +210,7 @@ class TestDateParser(BaseTestCase):
         # English dates
         param('[Sept] 04, 2014.', datetime(2014, 9, 4)),
         param('Tuesday Jul 22, 2014', datetime(2014, 7, 22)),
+        param('Tues 9th Aug, 2015', datetime(2015, 8, 9)),
         param('10:04am EDT', datetime(2012, 11, 13, 14, 4)),
         param('Friday', datetime(2012, 11, 9)),
         param('November 19, 2014 at noon', datetime(2014, 11, 19, 12, 0)),
@@ -544,6 +545,8 @@ class TestDateParser(BaseTestCase):
         param('16:10', datetime(2015, 2, 14, 16, 10)),
         param('14:05', datetime(2015, 2, 15, 14, 5)),
         param('15 february 15:00', datetime(2015, 2, 15, 15, 0)),
+        param('3/3/50', datetime(1950, 3, 3)),
+        param('3/3/94', datetime(1994, 3, 3)),
     ])
     def test_preferably_past_dates(self, date_string, expected):
         self.given_parser(settings={'PREFER_DATES_FROM': 'past', 'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
@@ -559,6 +562,8 @@ class TestDateParser(BaseTestCase):
         param('10:00PM', datetime(2015, 2, 15, 22, 0)),
         param('16:10', datetime(2015, 2, 15, 16, 10)),
         param('14:05', datetime(2015, 2, 16, 14, 5)),
+        param('3/3/50', datetime(2050, 3, 3)),
+        param('3/3/94', datetime(2094, 3, 3)),
     ])
     def test_preferably_future_dates(self, date_string, expected):
         self.given_local_tz_offset(0)
