@@ -12,7 +12,6 @@ class hijri(object):
         h = hj(year=year, month=month, day=day)
         return int(h.year_gr), int(h.month_gr), int(h.day_gr)
 
-
     @classmethod
     def from_gregorian(cls, year=None, month=None, day=None):
         h = hj(year=year, month=month, day=day, gr=True)
@@ -34,18 +33,18 @@ class hijri(object):
 
 class HijriDate(object):
     def __init__(self, year, month, day):
-        self.year=year
-        self.month=month
-        self.day=day
+        self.year = year
+        self.month = month
+        self.day = day
 
     def weekday(self):
         for week in hijri.monthcalendar(self.year, self.month):
             for idx, day in enumerate(week):
-                if day==self.day:
+                if day == self.day:
                     return idx
 
 
-class hijri_parser(non_gregorian_parser): 
+class hijri_parser(non_gregorian_parser):
 
     calendar_converter = hijri
     default_year = 1389
@@ -58,7 +57,8 @@ class hijri_parser(non_gregorian_parser):
         'pm': [u"مساءً"],
     }
 
-    # TODO: Implement arabic to latin translation replace_ methods according to the way native speakers write
+    # TODO: Implement arabic to latin translation
+    # replace_ methods according to the way native speakers write
 
     @classmethod
     def replace_time_conventions(cls, source):

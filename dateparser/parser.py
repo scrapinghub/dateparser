@@ -132,8 +132,9 @@ class _no_spaces_parser(object):
                      self._timeformats)
 
         self.date_formats = {
-            '%m%d%y': (self._preferred_formats +
-                       sorted(self._all, key=lambda x: x.lower().startswith('%m%d%y'), reverse=True)
+            '%m%d%y': (
+                self._preferred_formats +
+                sorted(self._all, key=lambda x: x.lower().startswith('%m%d%y'), reverse=True)
             ),
             '%m%y%d': sorted(self._all, key=lambda x: x.lower().startswith('%m%y%d'), reverse=True),
             '%y%m%d': sorted(self._all, key=lambda x: x.lower().startswith('%y%m%d'), reverse=True),
@@ -158,7 +159,10 @@ class _no_spaces_parser(object):
 
         datestring = datestring.replace(':', '')
         tokens = tokenizer(datestring)
-        order = resolve_date_order(settings.DATE_ORDER) if settings.DATE_ORDER else cls._default_order
+        if settings.DATE_ORDER:
+            order = resolve_date_order(settings.DATE_ORDER)
+        else:
+            order = cls._default_order
         nsp = cls()
         ambiguous_date = None
         for token, _ in tokens.tokenize():
@@ -298,9 +302,10 @@ class _parser(object):
         except ValueError as e:
             error_text = getattr(e, 'message', None) or e.__str__()
             error_msgs = ['day is out of range', 'day must be in']
-            if ((error_msgs[0] in error_text or error_msgs[1] in error_text) and
+            if (
+                (error_msgs[0] in error_text or error_msgs[1] in error_text) and
                 not(self._token_day or hasattr(self, '_token_weekday'))
-                ):
+            ):
                 _, tail = calendar.monthrange(params['year'], params['month'])
                 params['day'] = tail
                 return datetime(**params)
@@ -341,10 +346,10 @@ class _parser(object):
 
         self._set_relative_base()
 
-        time = self.time() if not self.time is None else None
+        time = self.time() if self.time is not None else None
 
         if self.settings.FUZZY:
-            attr_truth_values = [] 
+            attr_truth_values = []
             for attr in ['day', 'month', 'year', 'time']:
                 attr_truth_values.append(getattr(self, attr, False))
 
@@ -411,9 +416,11 @@ class _parser(object):
         return dateobj
 
     def _correct_for_day(self, dateobj):
-        if (getattr(self, '_token_day', None) or
+        if (
+            getattr(self, '_token_day', None) or
             getattr(self, '_token_weekday', None) or
-            getattr(self, '_token_time', None)):
+            getattr(self, '_token_time', None)
+        ):
             return dateobj
 
         _, tail = calendar.monthrange(dateobj.year, dateobj.month)
@@ -514,7 +521,9 @@ class tokenizer(object):
     nonwords = u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-     "
 
     def _isletter(self, tkn): return tkn in self.letters
+
     def _isdigit(self, tkn): return tkn in self.digits
+
     def _isnonword(self, tkn): return tkn in self.nonwords
 
     def __init__(self, ds):

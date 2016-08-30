@@ -6,22 +6,22 @@ import re
 
 from dateparser.calendars import non_gregorian_parser
 from convertdate import persian
-from datetime import datetime
 from collections import OrderedDict
 from functools import reduce
 
 
 class PersianDate(object):
     def __init__(self, year, month, day):
-        self.year=year
-        self.month=month
-        self.day=day
+        self.year = year
+        self.month = month
+        self.day = day
 
     def weekday(self):
         for week in persian.monthcalendar(self.year, self.month):
             for idx, day in enumerate(week):
-                if day==self.day:
+                if day == self.day:
                     return idx
+
 
 class jalali_parser(non_gregorian_parser):
 
@@ -105,19 +105,21 @@ class jalali_parser(non_gregorian_parser):
     @classmethod
     def replace_months(cls, source):
         result = source
-        for persian, latin in reduce(
-                lambda a, b: a + b,
-                [[(value, month) for value in repl[-1]] for month, repl in cls._months.items()]):
-            result = result.replace(persian, latin)
+        for pers, latin in reduce(
+            lambda a, b: a + b,
+            [[(value, month) for value in repl[-1]] for month, repl in cls._months.items()]
+        ):
+            result = result.replace(pers, latin)
         return result
 
     @classmethod
     def replace_weekdays(cls, source):
         result = source
-        for persian, latin in reduce(
-                lambda a, b: a + b,
-                [[(value, weekday) for value in repl] for weekday, repl in cls._weekdays.items()]):
-            result = result.replace(persian, latin)
+        for pers, latin in reduce(
+            lambda a, b: a + b,
+            [[(value, weekday) for value in repl] for weekday, repl in cls._weekdays.items()]
+        ):
+            result = result.replace(pers, latin)
         return result
 
     @classmethod
