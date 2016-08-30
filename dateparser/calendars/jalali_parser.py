@@ -96,14 +96,14 @@ class jalali_parser(non_gregorian_parser):
     }
 
     @classmethod
-    def replace_digits(cls, source):
+    def _replace_digits(cls, source):
         result = source
         for pers_digit, number in cls._digits.items():
             result = result.replace(pers_digit, str(number))
         return result
 
     @classmethod
-    def replace_months(cls, source):
+    def _replace_months(cls, source):
         result = source
         for pers, latin in reduce(
             lambda a, b: a + b,
@@ -113,7 +113,7 @@ class jalali_parser(non_gregorian_parser):
         return result
 
     @classmethod
-    def replace_weekdays(cls, source):
+    def _replace_weekdays(cls, source):
         result = source
         for pers, latin in reduce(
             lambda a, b: a + b,
@@ -123,7 +123,7 @@ class jalali_parser(non_gregorian_parser):
         return result
 
     @classmethod
-    def replace_time(cls, source):
+    def _replace_time(cls, source):
         def only_numbers(match_obj):
             matched_string = match_obj.group()
             return re.sub(r'\D', ' ', matched_string)
@@ -138,7 +138,7 @@ class jalali_parser(non_gregorian_parser):
         return result
 
     @classmethod
-    def replace_days(cls, source):
+    def _replace_days(cls, source):
         result = re.sub(r'ام|م|ین', '', source)  # removes persian variant of th/first/second/third
         day_pairs = list(cls._number_letters.items())
 

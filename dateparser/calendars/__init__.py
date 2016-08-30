@@ -41,38 +41,38 @@ class non_gregorian_parser(_parser):
     _number_letters = None
 
     @classmethod
-    def replace_time_conventions(cls, source):
+    def _replace_time_conventions(cls, source):
         return source
 
     @classmethod
-    def replace_digits(cls, source):
+    def _replace_digits(cls, source):
         return source
 
     @classmethod
-    def replace_months(cls, source):
+    def _replace_months(cls, source):
         return source
 
     @classmethod
-    def replace_weekdays(cls, source):
+    def _replace_weekdays(cls, source):
         return source
 
     @classmethod
-    def replace_time(cls, source):
+    def _replace_time(cls, source):
         return source
 
     @classmethod
-    def replace_days(cls, source):
+    def _replace_days(cls, source):
         return source
 
     @classmethod
     def to_latin(cls, source):
         result = source
-        result = cls.replace_months(result)
-        result = cls.replace_weekdays(result)
-        result = cls.replace_digits(result)
-        result = cls.replace_days(result)
-        result = cls.replace_time(result)
-        result = cls.replace_time_conventions(result)
+        result = cls._replace_months(result)
+        result = cls._replace_weekdays(result)
+        result = cls._replace_digits(result)
+        result = cls._replace_days(result)
+        result = cls._replace_time(result)
+        result = cls._replace_time_conventions(result)
 
         result = result.strip()
 

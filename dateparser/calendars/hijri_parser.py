@@ -61,7 +61,7 @@ class hijri_parser(non_gregorian_parser):
     # replace_ methods according to the way native speakers write
 
     @classmethod
-    def replace_time_conventions(cls, source):
+    def _replace_time_conventions(cls, source):
         result = source
         for latin, arabics in cls._time_conventions.items():
             for arabic in arabics:
