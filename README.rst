@@ -223,9 +223,9 @@ Supported Calendars
 
 * Hijri/Islamic Calendar. For more information, refer to `Hijri Calendar <https://en.wikipedia.org/wiki/Islamic_calendar>`_.
 
-	>>> from dateparser.calendars.jalali import JalaliParser
-	>>> JalaliParser(u'جمعه سی ام اسفند ۱۳۸۷').get_date()
-	datetime.datetime(2009, 3, 20, 0, 0)
+	>>> from dateparser.calendars.jalali import JalaliCalendar
+	>>> JalaliCalendar(u'جمعه سی ام اسفند ۱۳۸۷').get_date()
+	{'date_obj': datetime.datetime(2009, 3, 20, 0, 0), 'period': 'day'}
 
         >>> from dateparser.calendars.hijri import HijriCalendar
         >>> HijriCalendar(u'17-01-1437 هـ 08:30 مساءً').get_date()
