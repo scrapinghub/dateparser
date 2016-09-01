@@ -33,7 +33,7 @@ class TestHijriParser(BaseTestCase):
     def when_date_is_given(self, dt_string, date_formats, languages):
         self.date_string = dt_string
         self.parser = HijriCalendar(dt_string)
-        self.result = self.parser.get_date(date_formats, languages)
+        self.result = self.parser.get_date()
 
     def then_parsed_datetime_is(self, dt):
         self.assertEqual(dt, self.result['date_obj'])
@@ -49,5 +49,7 @@ class TestHijriParser(BaseTestCase):
     ])
     def test_datetime_parsing(self, dt_string, dt_obj,
                               date_formats=None, languages=None):
+        from dateparser.conf import settings
+        settings.DATE_ORDER = 'DMY'
         self.when_date_is_given(dt_string, date_formats, languages)
         self.then_parsed_datetime_is(dt_obj)

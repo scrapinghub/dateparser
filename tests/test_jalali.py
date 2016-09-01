@@ -2,52 +2,42 @@
 from __future__ import unicode_literals
 
 from nose_parameterized import parameterized, param
-from unittest import TestCase
 from datetime import datetime
 
-from dateparser.calendars.jalali import JalaliParser
-from dateparser.calendars.jalali import validate_time
+from dateparser.calendars.jalali import JalaliCalendar
+from dateparser.calendars.jalali_parser import jalali_parser, PersianDate
 from tests import BaseTestCase
 
 
-class TestValidateTime(BaseTestCase):
+class TestPersianDate(BaseTestCase):
     def setUp(self):
-        super(TestValidateTime, self).setUp()
-        self.result = NotImplemented
-        self.time_string = NotImplemented
+        super(TestPersianDate, self).setUp()
+        self.persian_date = NotImplemented
 
-    def when_date_is_given(self, time_string):
-        self.time_string = time_string
-        self.result = validate_time(time_string)
+    def when_date_is_given(self, year, month, day):
+        self.persian_date = PersianDate(year, month, day)
 
-    def then_time_is_parsed_as(self, time):
-        self.assertEqual(time, self.result)
+    def then_weekday_is(self, weekday):
+        self.assertEqual(self.persian_date.weekday(), weekday)
 
     @parameterized.expand([
-        param(time_string='9 ساعت 10 دقیقه 30 ثانیه', time='9:10:30'),
-        param(time_string='09 ساعت 10 دقیقه 30 ثانیه', time='09:10:30'),
-        param(time_string='09 ساعت 0 دقیقه 0 ثانیه', time='09:0:0'),
-        param(time_string='09 ساعت 00 دقیقه', time='09:00:00'),
-        param(time_string='00 دقیقه', time='00:00:00'),
-        param(time_string='15 دقیقه 30 ثانیه', time='00:15:30'),
+        param(year=1348, month=1, day=3, weekday=0),
+        param(year=1348, month=2, day=28, weekday=0),
+        param(year=1348, month=3, day=27, weekday=2),
+        param(year=1348, month=4, day=11, weekday=3),
     ])
-    def test_validate_time(self, time_string, time):
-        self.when_date_is_given(time_string)
-        self.then_time_is_parsed_as(time)
+    def test_weekday(self, year, month, day, weekday):
+        self.when_date_is_given(year, month, day)
+        self.then_weekday_is(weekday)
+
 
 class TestJalaliParser(BaseTestCase):
     def setUp(self):
         super(TestJalaliParser, self).setUp()
-        self.result = NotImplemented
-        self.date_string = NotImplemented
-        self.parser = NotImplemented
         self.translated = NotImplemented
 
     def when_date_is_given(self, date_string):
-        self.date_string = date_string
-        self.parser = JalaliParser(date_string)
-        self.result = self.parser.get_date()
-        self.translated = self.parser.persian_to_latin(date_string)
+        self.translated = jalali_parser.to_latin(date_string)
 
     def then_month_is_parsed_as(self, month_name):
         self.assertEqual(month_name, self.translated)
@@ -57,9 +47,6 @@ class TestJalaliParser(BaseTestCase):
 
     def then_digit_is_parsed_as(self, digit):
         self.assertEqual(digit, self.translated)
-
-    def then_date_parsed_is(self, datetime):
-        self.assertEqual(datetime, self.result)
 
     def then_numeral_parsed_is(self, datetime):
         self.assertEqual(datetime, self.translated)
@@ -168,6 +155,23 @@ class TestJalaliParser(BaseTestCase):
         self.when_date_is_given(persian)
         self.then_numeral_parsed_is(numeral)
 
+
+class TestJalaliCalendar(BaseTestCase):
+
+    def setUp(self):
+        super(TestJalaliCalendar, self).setUp()
+        self.result = NotImplemented
+        self.date_string = NotImplemented
+        self.calendar = NotImplemented
+
+    def when_date_is_given(self, date_string):
+        self.date_string = date_string
+        self.calendar = JalaliCalendar(date_string)
+        self.result = self.calendar.get_date()
+
+    def then_date_parsed_is(self, datetime):
+        self.assertEqual(datetime, self.result['date_obj'])
+
     @parameterized.expand([
         param(date_string=u'سه شنبه سوم شهریور ۱۳۹۴', dt=datetime(2015, 8, 25, 0, 0)),
         param(date_string=u'پنجشنبه چهارم تیر ۱۳۹۴', dt=datetime(2015, 6, 25, 0, 0)),
@@ -188,11 +192,23 @@ class TestJalaliParser(BaseTestCase):
         param(date_string=u'دوشنبه ۲۳ شهريور ۱۳۹۴ ساعت ۱۹:۱۱', dt=datetime(2015, 9, 14, 19, 11)),
         param(date_string=u'جمعه سی ام اسفند ۱۳۸۷ساعت 19:47', dt=datetime(2009, 3, 20, 19, 47)),
         param(date_string=u'شنبه چهاردهم دی ۱۳۹۲ساعت 12:1', dt=datetime(2014, 1, 4, 12, 1)),
-        param(date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه و 47 ثانیه', dt=datetime(2015, 9, 17, 11, 1, 47)),
-        param(date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 10 و 58 دقیقه و 04 ثانیه', dt=datetime(2015, 9, 17, 10, 58, 4)),
-        param(date_string=u'سه شنبه 17 شهریور 1394 ساعت ساعت 18 و 21 دقیقه و 44 ثانیه', dt=datetime(2015, 9, 8, 18, 21, 44)),
+        param(
+            date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه و 47 ثانیه',
+            dt=datetime(2015, 9, 17, 11, 1, 47)
+        ),
+        param(
+            date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 10 و 58 دقیقه و 04 ثانیه',
+            dt=datetime(2015, 9, 17, 10, 58, 4)
+        ),
+        param(
+            date_string=u'سه شنبه 17 شهریور 1394 ساعت ساعت 18 و 21 دقیقه و 44 ثانیه',
+            dt=datetime(2015, 9, 8, 18, 21, 44)
+        ),
         param(date_string=u'پنجشنبه 11 تیر 1394', dt=datetime(2015, 7, 2, 0, 0)),
-        param(date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه', dt=datetime(2015, 9, 17, 11, 1)),
+        param(
+            date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه',
+            dt=datetime(2015, 9, 17, 11, 1)
+        ),
     ])
     def test_get_date(self, date_string, dt):
         self.when_date_is_given(date_string)

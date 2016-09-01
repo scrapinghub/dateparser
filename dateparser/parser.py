@@ -132,8 +132,9 @@ class _no_spaces_parser(object):
                      self._timeformats)
 
         self.date_formats = {
-            '%m%d%y': (self._preferred_formats +
-                       sorted(self._all, key=lambda x: x.lower().startswith('%m%d%y'), reverse=True)
+            '%m%d%y': (
+                self._preferred_formats +
+                sorted(self._all, key=lambda x: x.lower().startswith('%m%d%y'), reverse=True)
             ),
             '%m%y%d': sorted(self._all, key=lambda x: x.lower().startswith('%m%y%d'), reverse=True),
             '%y%m%d': sorted(self._all, key=lambda x: x.lower().startswith('%y%m%d'), reverse=True),
@@ -158,7 +159,10 @@ class _no_spaces_parser(object):
 
         datestring = datestring.replace(':', '')
         tokens = tokenizer(datestring)
-        order = resolve_date_order(settings.DATE_ORDER) if settings.DATE_ORDER else cls._default_order
+        if settings.DATE_ORDER:
+            order = resolve_date_order(settings.DATE_ORDER)
+        else:
+            order = cls._default_order
         nsp = cls()
         ambiguous_date = None
         for token, _ in tokens.tokenize():
@@ -292,6 +296,42 @@ class _parser(object):
         if self._results():
             return 'day'
 
+    def _get_datetime_obj(self, **params):
+        try:
+            return datetime(**params)
+        except ValueError as e:
+            error_text = getattr(e, 'message', None) or e.__str__()
+            error_msgs = ['day is out of range', 'day must be in']
+            if (
+                (error_msgs[0] in error_text or error_msgs[1] in error_text) and
+                not(self._token_day or hasattr(self, '_token_weekday'))
+            ):
+                _, tail = calendar.monthrange(params['year'], params['month'])
+                params['day'] = tail
+                return datetime(**params)
+            else:
+                raise e
+
+    def _set_relative_base(self):
+        self.now = self.settings.RELATIVE_BASE
+        if not self.now:
+            self.now = datetime.utcnow()
+
+    def _get_datetime_obj_params(self):
+        if not self.now:
+            self._set_relative_base()
+
+        params = {
+            'day': self.day or self.now.day,
+            'month': self.month or self.now.month,
+            'year': self.year or self.now.year,
+            'hour': 0, 'minute': 0, 'second': 0, 'microsecond': 0,
+        }
+        return params
+
+    def _get_date_obj(self, token, directive):
+        return datetime.strptime(token, directive)
+
     def _results(self):
         if self.settings.STRICT_PARSING:
             errors = []
@@ -304,26 +344,19 @@ class _parser(object):
             if errors:
                 raise ValueError('%s not found in the date string' % ''.join(errors))
 
-        self.now = self.settings.RELATIVE_BASE
-        if not self.now:
-            self.now = datetime.utcnow()
+        self._set_relative_base()
 
-        time = self.time() if not self.time is None else None
+        time = self.time() if self.time is not None else None
 
         if self.settings.FUZZY:
-            attr_truth_values = [] 
+            attr_truth_values = []
             for attr in ['day', 'month', 'year', 'time']:
                 attr_truth_values.append(getattr(self, attr, False))
 
             if not any(attr_truth_values):
                 raise ValueError('Nothing date like found')
 
-        params = {
-            'day': self.day or self.now.day,
-            'month': self.month or self.now.month,
-            'year': self.year or self.now.year,
-            'hour': 0, 'minute': 0, 'second': 0, 'microsecond': 0,
-        }
+        params = self._get_datetime_obj_params()
 
         if time:
             params.update(dict(hour=time.hour,
@@ -331,19 +364,7 @@ class _parser(object):
                                second=time.second,
                                microsecond=time.microsecond))
 
-        try:
-            return datetime(**params)
-        except ValueError as e:
-            error_text = getattr(e, 'message', None) or e.__str__()
-            error_msgs = ['day is out of range', 'day must be in']
-            if ((error_msgs[0] in error_text or error_msgs[1] in error_text) and
-                not(self._token_day or hasattr(self, '_token_weekday'))
-                ):
-                _, tail = calendar.monthrange(params['year'], params['month'])
-                params['day'] = tail
-                return datetime(**params)
-            else:
-                raise e
+        return self._get_datetime_obj(**params)
 
     def _correct_for_time_frame(self, dateobj):
         days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
@@ -403,9 +424,11 @@ class _parser(object):
         return dateobj
 
     def _correct_for_day(self, dateobj):
-        if (getattr(self, '_token_day', None) or
+        if (
+            getattr(self, '_token_day', None) or
             getattr(self, '_token_weekday', None) or
-            getattr(self, '_token_time', None)):
+            getattr(self, '_token_time', None)
+        ):
             return dateobj
 
         _, tail = calendar.monthrange(dateobj.year, dateobj.month)
@@ -450,7 +473,7 @@ class _parser(object):
                     continue
                 for directive in directives:
                     try:
-                        do = datetime.strptime(token, directive)
+                        do = self._get_date_obj(token, directive)
                         prev_value = getattr(self, component, None)
                         if not prev_value:
                             return set_and_return(token, type, component, do)
@@ -458,7 +481,7 @@ class _parser(object):
                             try:
                                 prev_token, prev_type = getattr(self, '_token_%s' % component)
                                 if prev_type == type:
-                                    do = datetime.strptime(prev_token, directive)
+                                    do = self._get_date_obj(prev_token, directive)
                             except ValueError:
                                 self.unset_tokens.append((prev_token, prev_type, component))
                                 return set_and_return(token, type, component, do)
@@ -478,7 +501,7 @@ class _parser(object):
                     continue
                 for directive in directives:
                     try:
-                        do = datetime.strptime(token, directive)
+                        do = self._get_date_obj(token, directive)
                         prev_value = getattr(self, component, None)
                         if not prev_value:
                             return set_and_return(token, type, component, do, skip_date_order=True)
@@ -506,7 +529,9 @@ class tokenizer(object):
     nonwords = u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-     "
 
     def _isletter(self, tkn): return tkn in self.letters
+
     def _isdigit(self, tkn): return tkn in self.digits
+
     def _isnonword(self, tkn): return tkn in self.nonwords
 
     def __init__(self, ds):
