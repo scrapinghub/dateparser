@@ -353,6 +353,23 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_dates_are(list(dates_to_parse.values()))
 
     @parameterized.expand([
+        param(date_string=u'11 Marzo, 2014', language='es'),
+        param(date_string=u'13 Septiembre, 2014', language='es'),
+        param(date_string=u'Сегодня', language='ru'),
+        param(date_string=u'Avant-hier', language='fr'),
+        param(date_string=u'Anteontem', language='pt'),
+        param(date_string=u'ธันวาคม 11, 2014, 08:55:08 PM', language='th'),
+        param(date_string=u'Anteontem', language='pt'),
+        param(date_string=u'14 aprilie 2014', language='ro'),
+        param(date_string=u'11 Ağustos, 2014', language='tr'),
+        param(date_string=u'pon 16. čer 2014 10:07:43', language='cs'),
+    ])
+    def test_returned_detected_language_should_be(self, date_string, language):
+        self.given_parser()
+        self.when_date_string_is_parsed(date_string)
+        self.then_detected_language(language)
+
+    @parameterized.expand([
         param("2014-10-09T17:57:39+00:00"),
     ])
     def test_get_date_data_should_not_strip_timezone_info(self, date_string):
@@ -454,6 +471,9 @@ class TestDateDataParser(BaseTestCase):
     def then_date_was_parsed(self):
         self.assertIsNotNone(self.result['date_obj'])
 
+    def then_date_language(self):
+        self.assertIsNotNone(self.result['language'])
+
     def then_date_is_n_days_ago(self, days):
         today = datetime.utcnow().date()
         expected_date = today - timedelta(days=days)
@@ -464,6 +484,9 @@ class TestDateDataParser(BaseTestCase):
 
     def then_parsed_dates_are(self, expected_dates):
         self.assertEqual(expected_dates, [result['date_obj'].date() for result in self.multiple_results])
+
+    def then_detected_language(self, language):
+        self.assertEqual(language, self.result['language'])
 
     def then_period_is(self, day):
         self.assertEqual(day, self.result['period'])

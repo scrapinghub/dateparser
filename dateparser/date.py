@@ -9,7 +9,6 @@ import regex as re
 from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
-from dateparser.parser import parse
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
@@ -188,7 +187,7 @@ class _DateLanguageParser(object):
         return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings)
 
     def _try_parser(self):
-        _order = self._settings.DATE_ORDER 
+        _order = self._settings.DATE_ORDER
         try:
             if self._settings.PREFER_LANGUAGE_DATE_ORDER:
                 self._settings.DATE_ORDER = self.language.info.get('dateorder', _order)
@@ -351,7 +350,7 @@ class DateDataParser(object):
             return res
 
         if self._settings.NORMALIZE:
-           date_string = normalize_unicode(date_string)
+            date_string = normalize_unicode(date_string)
 
         date_string = sanitize_date(date_string)
 
@@ -360,12 +359,13 @@ class DateDataParser(object):
             parsed_date = _DateLanguageParser.parse(
                 language, date_string, date_formats, settings=self._settings)
             if parsed_date:
+                parsed_date['language'] = language.shortname
                 return parsed_date
         else:
-            return {'date_obj': None, 'period': 'day'}
+            return {'date_obj': None, 'period': 'day', 'language': None}
 
     def get_date_tuple(self, *args, **kwargs):
-        date_tuple = collections.namedtuple('DateData', 'date_obj period')
+        date_tuple = collections.namedtuple('DateData', 'date_obj period language')
         date_data = self.get_date_data(*args, **kwargs)
         return date_tuple(**date_data)
 
