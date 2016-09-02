@@ -509,7 +509,7 @@ class _parser(object):
                             index = self.auto_order.index('month')
                             self.auto_order[index] = 'day'
                             setattr(self, '_token_day', self._token_month)
-                            setattr(self, '_token_month', token)
+                            setattr(self, '_token_month', (token, type))
                             return [(component, getattr(do, component)), ('day', prev_value)]
                     except:
                         pass

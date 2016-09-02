@@ -191,4 +191,3 @@ class TestParser(BaseTestCase):
     def then_error_is_raised_when_date_is_parsed(self, date_string):
         with self.assertRaises(ValueError):
             self.parser.parse(date_string, self.settings)
-
