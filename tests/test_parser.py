@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 
 from nose_parameterized import parameterized, param
 from tests import BaseTestCase
@@ -6,6 +6,7 @@ from tests import BaseTestCase
 from dateparser.parser import tokenizer
 from dateparser.parser import _no_spaces_parser
 from dateparser.parser import _parser
+from dateparser.parser import time_parser
 from dateparser.conf import apply_settings
 
 
@@ -191,3 +192,30 @@ class TestParser(BaseTestCase):
     def then_error_is_raised_when_date_is_parsed(self, date_string):
         with self.assertRaises(ValueError):
             self.parser.parse(date_string, self.settings)
+
+
+class TestTimeParser(BaseTestCase):
+
+    @parameterized.expand([
+        param(date_string=u"11:30:14", timeobj=time(11, 30, 14)),
+        param(date_string=u"11:30", timeobj=time(11, 30)),
+        param(date_string=u"11:30 PM", timeobj=time(23, 30)),
+        param(date_string=u"1:30 AM", timeobj=time(1, 30)),
+        param(date_string=u"1:30:15.330 AM", timeobj=time(1, 30, 15, 330000)),
+        param(date_string=u"1:30:15.330 PM", timeobj=time(13, 30, 15, 330000)),
+        param(date_string=u"1:30:15.3301 PM", timeobj=time(13, 30, 15, 330100)),
+        param(date_string=u"14:30:15.330100", timeobj=time(14, 30, 15, 330100)),
+    ])
+    def test_time_is_parsed(self, date_string, timeobj):
+        self.given_parser()
+        self.when_time_is_parsed(date_string)
+        self.then_time_exactly_is(timeobj)
+
+    def given_parser(self):
+        self.parser = time_parser
+
+    def when_time_is_parsed(self, datestring):
+        self.result = self.parser(datestring)
+
+    def then_time_exactly_is(self, timeobj):
+        self.assertEqual(self.result, timeobj)
