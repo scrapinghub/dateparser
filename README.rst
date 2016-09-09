@@ -196,9 +196,10 @@ Supported languages
 * Danish
 * Dutch
 * English
-* Tagalog/Filipino
+* Filipino/Tagalog
 * Finnish
 * French
+* Hungarian
 * German
 * Indonesian
 * Italian
