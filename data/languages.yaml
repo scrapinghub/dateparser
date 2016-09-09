@@ -1,7 +1,7 @@
 base:
     skip: [" ", ".", ",", ";", "-", "/", "'", "|", "@", "[", "]", "，"]
 
-languageorder: ['en', 'ar', 'be', 'cs', 'da', 'de', 'es', 'fa', 'fi', 'fr', 'id', 'it', 'ja', 'nl', 'pl', 'pt', 'ro', 'ru', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
+languageorder: ['en', 'ar', 'be', 'cs', 'da', 'de', 'es', 'fa', 'fi', 'fr', 'hu','id', 'it', 'ja', 'nl', 'pl', 'pt', 'ro', 'ru', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
 
 ar: !include languagefiles/ar.yaml
 be: !include languagefiles/be.yaml
@@ -13,6 +13,7 @@ es: !include languagefiles/es.yaml
 fa: !include languagefiles/fa.yaml
 fi: !include languagefiles/fi.yaml
 fr: !include languagefiles/fr.yaml
+hu: !include languagefiles/hu.yaml
 id: !include languagefiles/id.yaml
 it: !include languagefiles/it.yaml
 ja: !include languagefiles/ja.yaml

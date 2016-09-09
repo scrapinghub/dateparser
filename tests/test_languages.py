@@ -42,6 +42,15 @@ class TestBundledLanguages(BaseTestCase):
         # German
         param('de', "29. Juni 2007", "29. june 2007"),
         param('de', "Montag 5 Januar, 2015", "monday 5 january 2015"),
+        #Hungarian
+        param('hu', '2016 augusztus 11.', '2016 august 11.'),
+        param('hu', '2016-08-13 szombat 10:21', '2016-08-13 saturday 10:21'),
+        param('hu', '2016. augusztus 14. vasárnap 10:21', '2016. august 14. sunday 10:21'),
+        param('hu', 'hétfő', 'monday'),
+        param('hu', 'tegnapelőtt', '2 day ago'),
+        param('hu', 'ma', "0 day ago"),
+        param('hu', '2 hónappal ezelőtt', "2 month ago"),
+        param('hu', '2016-08-13 szombat 10:21 GMT', '2016-08-13 saturday 10:21 GMT'),
         # Spanish
         param('es', "Miércoles 31 Diciembre 2014", "wednesday 31 december 2014"),
         # Italian
