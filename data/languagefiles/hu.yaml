@@ -1,0 +1,134 @@
+name: Hungarian
+
+dateorder: YMD
+
+skip: ["-án", "-én", "-kor", "-a", "-je", "-i", "-ji", "-ei", "-jei", "-ától", "-étől", "-ai", "-től", "-tól", "-ig", "-áig", "-éig", "-akor", "-ekor", "-e", "-es", "-ös"]
+
+monday:
+    - hétfő
+    - H
+tuesday:
+    - kedd
+    - K
+wednesday:
+    - szerda
+    - SZE
+thursday:
+    - csütörtök
+    - CS
+friday:
+    - péntek
+    - P
+saturday:
+    - szombat
+    - SZO
+sunday:
+    - vasárnap
+    - VAS
+    - V
+
+january:
+    - jan.
+    - I.
+    - január
+february:
+    - feb.
+    - II.
+    - február
+march:
+    - már.
+    - III.
+    - március
+april:
+    - ápr.
+    - IV.
+    - április
+may:
+    - máj.
+    - V.
+    - május
+june:
+    - jún.
+    - VI.
+    - június
+july:
+    - júl.
+    - VII.
+    - július
+august:
+    - aug.
+    - VIII.
+    - augusztus
+september:
+    - szept.
+    - IX.
+    - szeptember
+october:
+    - okt.
+    - X.
+    - október
+november:
+    - nov.
+    - XI.
+    - november
+december:
+    - dec.
+    - XII.
+    - december
+
+year:
+    - év
+    - évek
+    - évvel
+    - éve
+month:
+    - hó
+    - hónap
+    - hónapok
+    - hónappal
+    - hónapja
+week:
+    - hét
+    - hetek
+    - héttel
+    - hete
+day:
+    - nap
+    - napok
+    - napja
+    - nappal
+hour:
+    - óra
+    - ó.
+    - órák
+    - órája
+    - órával
+    - óráig
+    - órától
+minute:
+    - perc
+    - p.
+    - percek
+    - perce
+    - perccel
+    - percig
+    - perctől
+second:
+    - másodperc
+    - mp.
+    - másodpercek
+    - másodperce
+    - másodperccel
+    - másodpercig
+    - másodperctől
+ago:
+    - ezelőtt
+in:
+    - múlva
+
+simplifications:
+    - tegnapelőtt: 2 nappal ezelőtt
+    - tegnap: 1 nappal ezelőtt
+    - ma: 0 nappal ezelőtt
+    - holnap: 1 nap múlva
+    - egy: 1
