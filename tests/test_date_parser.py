@@ -211,12 +211,12 @@ class TestDateParser(BaseTestCase):
         param('[Sept] 04, 2014.', datetime(2014, 9, 4)),
         param('Tuesday Jul 22, 2014', datetime(2014, 7, 22)),
         param('Tues 9th Aug, 2015', datetime(2015, 8, 9)),
-        param('10:04am EDT', datetime(2012, 11, 13, 14, 4)),
+        param('10:04am EDT', datetime(2012, 11, 13, 10, 4)),
         param('Friday', datetime(2012, 11, 9)),
         param('November 19, 2014 at noon', datetime(2014, 11, 19, 12, 0)),
         param('December 13, 2014 at midnight', datetime(2014, 12, 13, 0, 0)),
-        param('Nov 25 2014 10:17 pm EST', datetime(2014, 11, 26, 3, 17)),
-        param('Wed Aug 05 12:00:00 EDT 2015', datetime(2015, 8, 5, 16, 0)),
+        param('Nov 25 2014 10:17 pm EST', datetime(2014, 11, 25, 22, 17)),
+        param('Wed Aug 05 12:00:00 EDT 2015', datetime(2015, 8, 5, 12, 0)),
         param('April 9, 2013 at 6:11 a.m.', datetime(2013, 4, 9, 6, 11)),
         param('Aug. 9, 2012 at 2:57 p.m.', datetime(2012, 8, 9, 14, 57)),
         param('December 10, 2014, 11:02:21 pm', datetime(2014, 12, 10, 23, 2, 21)),
@@ -341,7 +341,6 @@ class TestDateParser(BaseTestCase):
         param('2016年 2月 5日', datetime(2016, 2, 5, 0, 0)),
     ])
     def test_dates_parsing(self, date_string, expected):
-        self.given_local_tz_offset(0)
         self.given_parser(settings={'NORMALIZE': False,
                                     'RELATIVE_BASE': datetime(2012, 11, 13)})
         self.when_date_is_parsed(date_string)
@@ -362,12 +361,12 @@ class TestDateParser(BaseTestCase):
         # English dates
         param('[Sept] 04, 2014.', datetime(2014, 9, 4)),
         param('Tuesday Jul 22, 2014', datetime(2014, 7, 22)),
-        param('10:04am EDT', datetime(2012, 11, 13, 14, 4)),
+        param('10:04am EDT', datetime(2012, 11, 13, 10, 4)),
         param('Friday', datetime(2012, 11, 9)),
         param('November 19, 2014 at noon', datetime(2014, 11, 19, 12, 0)),
         param('December 13, 2014 at midnight', datetime(2014, 12, 13, 0, 0)),
-        param('Nov 25 2014 10:17 pm EST', datetime(2014, 11, 26, 3, 17)),
-        param('Wed Aug 05 12:00:00 EDT 2015', datetime(2015, 8, 5, 16, 0)),
+        param('Nov 25 2014 10:17 pm EST', datetime(2014, 11, 25, 22, 17)),
+        param('Wed Aug 05 12:00:00 EDT 2015', datetime(2015, 8, 5, 12, 0)),
         param('April 9, 2013 at 6:11 a.m.', datetime(2013, 4, 9, 6, 11)),
         param('Aug. 9, 2012 at 2:57 p.m.', datetime(2012, 8, 9, 14, 57)),
         param('December 10, 2014, 11:02:21 pm', datetime(2014, 12, 10, 23, 2, 21)),
@@ -496,12 +495,10 @@ class TestDateParser(BaseTestCase):
         param('Sep 03 2014 | 4:32 pm EDT', datetime(2014, 9, 3, 20, 32)),
         param('17th October, 2034 @ 01:08 am PDT', datetime(2034, 10, 17, 8, 8)),
         param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 3, 24)),
-        param('15 May 2004', datetime(2004, 5, 15, 0, 0)),
         param('08/17/14 17:00 (PDT)', datetime(2014, 8, 18, 0, 0)),
     ])
     def test_parsing_with_time_zones(self, date_string, expected):
-        self.given_local_tz_offset(+1)
-        self.given_parser()
+        self.given_parser(settings={'TO_TIMEZONE': 'UTC'})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
@@ -515,8 +512,7 @@ class TestDateParser(BaseTestCase):
         param('Fri, 09 Sep 2005 13:51:39 +0000', datetime(2005, 9, 9, 13, 51, 39)),
     ])
     def test_parsing_with_utc_offsets(self, date_string, expected):
-        self.given_local_tz_offset(0)
-        self.given_parser()
+        self.given_parser(settings={'TO_TIMEZONE': 'utc'})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')

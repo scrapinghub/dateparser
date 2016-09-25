@@ -28,6 +28,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.date = NotImplemented
         self.time = NotImplemented
 
+        settings.TIMEZONE = 'utc'
+
     @parameterized.expand([
         # English dates
         param('yesterday', ago={'days': 1}, period='day'),

@@ -31,7 +31,7 @@ class TimeZoneSettingsTest(BaseTestCase):
         ])
     def test_should_return_tz_aware_dates(self, ds, dt):
         self.given(ds)
-        self.given_configurations({'RETURN_AS_TIMEZONE_AWARE': True})
+        self.given_configurations({'RETURN_AS_TIMEZONE_AWARE': True, 'TO_TIMEZONE': 'UTC'})
         self.when_date_is_parsed()
         self.then_date_is_tz_aware()
         self.then_date_is(dt)
@@ -57,7 +57,7 @@ class TimeZoneSettingsTest(BaseTestCase):
         ])
     def test_only_return_explicit_timezone(self, ds, dt, tz):
         self.given(ds)
-        self.given_configurations({'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None})
+        self.given_configurations({'RETURN_AS_TIMEZONE_AWARE': True})
         self.when_date_is_parsed()
         self.then_date_is(dt)
         if tz:
