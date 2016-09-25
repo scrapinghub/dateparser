@@ -5,3 +5,4 @@ jdatetime
 umalqurra
 convertdate
 pytz
+tzlocal
