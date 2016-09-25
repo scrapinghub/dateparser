@@ -50,7 +50,6 @@ class TimeZoneSettingsTest(BaseTestCase):
         self.then_timezone_is(tz)
 
     @parameterized.expand([
-        param('12 Feb 2015 4:30 PM', datetime(2015, 2, 12, 16, 30), None),
         param('12 Feb 2015 4:30 PM EST', datetime(2015, 2, 12, 16, 30), 'EST'),
         param('12 Feb 2015 8:30 PM PKT', datetime(2015, 2, 12, 20, 30), 'PKT'),
         param('12 Feb 2015 8:30 PM ACT', datetime(2015, 2, 12, 20, 30), 'ACT'),
