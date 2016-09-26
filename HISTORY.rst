@@ -3,6 +3,22 @@
 History
 =======
 
+0.5.0 (2016-09-26)
+------------------
+New features:
+
+* `DateDataParser` now also returns detected language in the result dictionary.
+* Explicit and lucid timezone conversion for a given datestring using `TIMEZONE`, `TO_TIMEZONE` settings.
+* Added Hungarian langauge.
+* Added setting, `STRICT_PARSING` to ignore imcomplete dates.
+
+Improvements:
+
+* Fixed quite a few parser bugs reported in issues #219, #222, #207, #224.
+* Improved support for chinese language.
+* Consistent interface for both Jalali and Hijri parsers.
+
+
 0.4.0 (2016-06-17)
 ------------------
 New features:
