@@ -32,6 +32,7 @@ setup(
         'umalqurra',
         'pytz',
         'regex',
+        'tzlocal',
     ],
     license="BSD",
     zip_safe=False,

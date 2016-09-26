@@ -4,7 +4,7 @@ import types
 import unicodedata
 
 import regex as re
-from pytz import UTC, timezone
+from pytz import UTC, timezone, UnknownTimeZoneError
 
 from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
 
@@ -86,6 +86,25 @@ def find_date_separator(format):
     m = re.search(r'(?:(?:%[dbBmaA])(\W))+', format)
     if m:
         return m.group(1)
+
+
+def localize_timezone(date_time, tz_string):
+    if date_time.tzinfo:
+        return date_time
+
+    tz = None
+    
+    try:
+        tz = timezone(tz_string)
+    except UnknownTimeZoneError as e:
+        for name, info in _tz_offsets:
+            if info['regex'].search(' %s' % tz_string):
+                tz = StaticTzInfo(name, info['offset'])
+                break
+        else:
+            raise e
+
+    return tz.localize(date_time)
 
 
 def apply_tzdatabase_timezone(date_time, pytz_string):

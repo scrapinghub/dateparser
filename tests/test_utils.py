@@ -1,7 +1,11 @@
 import itertools
+
+from datetime import datetime
 from tests import BaseTestCase
 from nose_parameterized import parameterized, param
-from dateparser.utils import find_date_separator
+from dateparser.utils import (
+    find_date_separator, localize_timezone, apply_timezone
+)
 
 
 class TestUtils(BaseTestCase):
@@ -29,3 +33,20 @@ class TestUtils(BaseTestCase):
         self.given_date_format(date_format)
         self.when_date_seperator_is_parsed()
         self.then_date_seperator_is(expected_sep)
+
+    @parameterized.expand([
+        param(datetime(2015, 12, 12), timezone='UTC', zone='UTC'),
+        param(datetime(2015, 12, 12), timezone='Asia/Karachi', zone='Asia/Karachi'),
+    ])
+    def test_localize_timezone(self, date, timezone, zone):
+        tzaware_dt = localize_timezone(date, timezone)
+        self.assertEqual(tzaware_dt.tzinfo.zone, zone)
+
+    @parameterized.expand([
+        param(datetime(2015, 12, 12, 10, 12), timezone='Asia/Karachi', expected=datetime(2015, 12, 12, 15, 12)),
+        param(datetime(2015, 12, 12, 10, 12), timezone='-0500', expected=datetime(2015, 12, 12, 5, 12)),
+    ])
+    def test_apply_timezone(self, date, timezone, expected):
+        result = apply_timezone(date, timezone)
+        result = result.replace(tzinfo=None)
+        self.assertEqual(expected, result)

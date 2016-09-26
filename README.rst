@@ -127,17 +127,22 @@ For more on date order, please look at `Settings`_.
 Timezone and UTC Offset 
 -----------------------
 
-Dateparser assumes all dates to be in UTC if no timezone is specified in the string. To convert the resultant `datetime` object to required timezone. You can do the following:
+`dateparser` automatically detects the timezone if given in the date string. If date has no timezone name/abbreviation or offset, you can still specify it using `TIMEZONE` setting.
 
     >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': 'US/Eastern'})
-    datetime.datetime(2012, 1, 12, 17, 0)
+    datetime.datetime(2012, 1, 12, 22, 0)
+
+You can also convert from one time zone to another using `TO_TIMEZONE` setting.
+
+    >>> parse('10:00 am', settings={'TO_TIMEZONE': 'EDT', 'TIMEZONE': 'EST'})
+    datetime.datetime(2016, 9, 25, 11, 0)
+
+    >>> parse('10:00 am EST', settings={'TO_TIMEZONE': 'EDT'})
+    datetime.datetime(2016, 9, 25, 11, 0)
 
 Support for tzaware objects:
 
-    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True})
-    datetime.datetime(2015, 2, 13, 3, 56, tzinfo=<StaticTzInfo 'UTC'>)
-
-    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None}) 
+    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True}) 
     datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)
 
 For more on timezones, please look at `Settings`_.
@@ -179,11 +184,13 @@ Dependencies
   * ruamel.yaml_ for reading language and configuration files.
   * jdatetime_ to convert *Jalali* dates to *Gregorian*.
   * umalqurra_ to convert *Hijri* dates to *Gregorian*.
+  * tzlocal_ to reliably get local timezone.
 
 .. _dateutil: https://pypi.python.org/pypi/python-dateutil
 .. _ruamel.yaml: https://pypi.python.org/pypi/ruamel.yaml
 .. _jdatetime: https://pypi.python.org/pypi/jdatetime
 .. _umalqurra: https://pypi.python.org/pypi/umalqurra/
+.. _tzlocal: https://pypi.python.org/pypi/tzlocal
 
 
 Supported languages

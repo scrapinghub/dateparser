@@ -71,12 +71,15 @@ Date Order
 Timezone Related Configurations
 +++++++++++++++++++++++++++++++
 
-``TIMEZONE`` defaults to `UTC`. All dates, complete or relative, are assumed to be in `UTC`. When specified, resultant :class:`datetime <datetime.datetime>` converts according to the supplied timezone:
-
-    >>> parse('January 12, 2012 10:00 PM')
-    datetime.datetime(2012, 1, 12, 22, 0)
+``TIMEZONE`` defaults to local timezone. When specified, resultant :class:`datetime <datetime.datetime>` is localized with the given timezone.
 
     >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': 'US/Eastern'})
+    datetime.datetime(2012, 1, 12, 22, 0)
+
+``TO_TIMEZONE`` defaults to None. When specified, resultant :class:`datetime <datetime.datetime>` converts according to the supplied timezone:
+
+    >>> settings = {'TIMEZONE': 'UTC', 'TO_TIMEZONE': 'US/Eastern'}
+    >>> parse('January 12, 2012 10:00 PM', settings=settings)
     datetime.datetime(2012, 1, 12, 17, 0)
 
 ``RETURN_AS_TIMEZONE_AWARE`` is a flag to turn on timezone aware dates if timezone is detected or specified.:

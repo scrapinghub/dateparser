@@ -397,8 +397,7 @@ class TestDateDataParser(BaseTestCase):
         param(date_string="2014/11/17 14:56 EDT", expected_result=datetime(2014, 11, 17, 18, 56)),
     ])
     def test_parse_date_with_timezones_not_using_formats(self, date_string, expected_result):
-        self.given_local_tz_offset(0)
-        self.given_parser()
+        self.given_parser(settings={'TO_TIMEZONE': 'UTC'})
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
         self.then_period_is('day')
@@ -475,7 +474,7 @@ class TestDateDataParser(BaseTestCase):
         self.assertIsNotNone(self.result['language'])
 
     def then_date_is_n_days_ago(self, days):
-        today = datetime.utcnow().date()
+        today = datetime.now().date()
         expected_date = today - timedelta(days=days)
         self.assertEqual(expected_date, self.result['date_obj'].date())
 
