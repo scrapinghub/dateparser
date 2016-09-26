@@ -137,8 +137,8 @@ class TestTimeZoneConversion(BaseTestCase):
         self.result = NotImplemented
 
     @parameterized.expand([
-        param('2015-12-01 10:04 AM', 'Asia/Karachi', 'UTC', datetime(2015, 12, 1, 5, 4)),
-        param('2015-12-01 10:04 AM', 'Asia/Karachi', '+0200', datetime(2015, 12, 1, 7, 4)),
+        param('2015-12-31 10:04 AM', 'Asia/Karachi', 'UTC', datetime(2015, 12, 31, 5, 4)),
+        param('2015-12-30 10:04 AM', 'Asia/Karachi', '+0200', datetime(2015, 12, 30, 7, 4)),
     ])
     def test_timezone_conversion(self, datestring, from_tz, to_tz, expected):
         self.given_from_timezone(from_tz)
