@@ -6,6 +6,7 @@ from nose_parameterized import parameterized, param
 
 import dateparser.timezone_parser
 from dateparser.timezone_parser import pop_tz_offset_from_string, get_local_tz_offset
+from dateparser import parse
 from tests import BaseTestCase
 
 
@@ -126,3 +127,33 @@ class TestLocalTZOffset(BaseTestCase):
         self.add_patch(
             patch('dateparser.timezone_parser.datetime', new=datetime_cls)
         )
+
+
+class TestTimeZoneConversion(BaseTestCase):
+    def setUp(self):
+        super(TestTimeZoneConversion, self).setUp()
+        self.settings = {}
+        self.parser = parse
+        self.result = NotImplemented
+
+    @parameterized.expand([
+        param('2015-12-01 10:04 AM', 'Asia/Karachi', 'UTC', datetime(2015, 12, 1, 5, 4)),
+        param('2015-12-01 10:04 AM', 'Asia/Karachi', '+0200', datetime(2015, 12, 1, 7, 4)),
+    ])
+    def test_timezone_conversion(self, datestring, from_tz, to_tz, expected):
+        self.given_from_timezone(from_tz)
+        self.given_to_timezone(to_tz)
+        self.when_date_is_parsed(datestring)
+        self.then_date_is(expected)
+
+    def given_from_timezone(self, timezone):
+        self.settings['TIMEZONE'] = timezone
+
+    def given_to_timezone(self, timezone):
+        self.settings['TO_TIMEZONE'] = timezone
+
+    def when_date_is_parsed(self, datestring):
+        self.result = self.parser(datestring, settings=self.settings)
+
+    def then_date_is(self, date):
+        self.assertEqual(date, self.result)
