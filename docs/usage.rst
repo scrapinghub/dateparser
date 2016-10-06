@@ -125,6 +125,19 @@ If date string is missing some part, this option ensures consistent results depe
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
     datetime.datetime(2015, 8, 15, 0, 0)
 
+``RELATIVE_BASE`` allows setting the base datetime to use for interpreting partial or relative date strings. 
+Defaults to the current date and time.
+
+For example, assuming current date is `June 16, 2015`:
+
+    >>> from dateparser import parse
+    >>> parse(u'14:30')
+    datetime.datetime(2015, 3, 16, 14, 30)
+    >>> parse(u'14:30', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
+    datetime.datetime(2020, 1, 1, 14, 30)
+    >>> parse(u'tomorrow', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
+    datetime.datetime(2020, 1, 2, 0, 0)
+
 ``STRICT_PARSING`` defaults to `False`.
 
 When set to `True` if missing any of `day`, `month` or `year` parts, it does not return any result altogether.:
