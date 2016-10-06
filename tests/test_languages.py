@@ -149,6 +149,12 @@ class TestBundledLanguages(BaseTestCase):
         param('ja', "2016年3月21日(月) 14時48分", "2016-3-21 monday 14:48"),
         param('ja', "2016年3月20日(日) 21時40分", "2016-3-20 sunday 21:40"),
         param('ja', "2016年3月20日 (日) 21時40分", "2016-3-20 sunday 21:40"),
+
+        # Hebrew
+        param('he', "20 לאפריל 2012", "20 april 2012"),
+        param('he', "יום רביעי ה-19 בנובמבר 2013", "wednesday 19 november 2013"),
+        param('he', "18 לאוקטובר 2012 בשעה 19:21", "18 october 2012  19:21"),
+
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -334,6 +340,12 @@ class TestBundledLanguages(BaseTestCase):
         param('ja', "60秒", "60 second"),
         param('ja', "3秒前", "3 second ago"),
         param('ja', "現在", "now"),
+        # Hebrew
+        param('he', "אתמול", "1 day"),
+        param('he', "אתמול בשעה 3", "1 day  3"),
+        param('he', "היום", "0 day"),
+        param('he', "לפני יומיים", "ago 2 day"),
+        param('he', "לפני שבועיים", "ago 2 week"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         # Finnish language use "t" as hour, so empty SKIP_TOKENS.
@@ -370,6 +382,7 @@ class TestBundledLanguages(BaseTestCase):
         param('tl', "Biyernes Hulyo 3 2015", ["Biyernes", " ", "Hulyo", " ", "3", " ", "2015"]),
         param('be', "3 верасня 2015 г. у 11:10", ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
         param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
+        param('he', "ה-21 לאוקטובר 2016 ב-15:00", ['ה-', '21', ' ', 'לאוקטובר', ' ', '2016', ' ', 'ב-', '15', ':', '00']),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
@@ -396,6 +409,7 @@ class TestBundledLanguages(BaseTestCase):
         param('tl', "Hulyo 3, 2015 7:00 pm", strip_timezone=False),
         param('be', "3 верасня 2015 г. у 11:10", strip_timezone=False),
         param('id', "01 Agustus 2015 18:23", strip_timezone=False),
+        param('he', "6 לדצמבר 1973", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)
