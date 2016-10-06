@@ -154,6 +154,15 @@ class TestBundledLanguages(BaseTestCase):
         param('he', "20 לאפריל 2012", "20 april 2012"),
         param('he', "יום רביעי ה-19 בנובמבר 2013", "wednesday 19 november 2013"),
         param('he', "18 לאוקטובר 2012 בשעה 19:21", "18 october 2012  19:21"),
+        param('he', "יום ה' 6/10/2016", "thursday 6/10/2016"),
+        param('he', "חצות", "12 am"),
+        param('he', "1 אחר חצות", "1 am"),
+        param('he', "3 לפנות בוקר", "3 am"),
+        param('he', "3 בבוקר", "3 am"),
+        param('he', "3 בצהריים", "3 pm"),
+        param('he', "6 לפנות ערב", "6 pm"),
+        param('he', "6 אחרי הצהריים", "6 pm"),
+        param('he', "6 אחרי הצהרים", "6 pm"),
 
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
