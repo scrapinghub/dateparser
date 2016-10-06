@@ -206,6 +206,7 @@ Supported languages
 * Filipino/Tagalog
 * Finnish
 * French
+* Hebrew
 * Hungarian
 * German
 * Indonesian
