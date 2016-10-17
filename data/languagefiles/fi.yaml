@@ -8,61 +8,92 @@ pertain: []
 monday:
     - Maanantai
     - Ma
+    - Maanantaina
 tuesday:
     - Tiistai
     - Ti
+    - Tiistaina
 wednesday:
     - Keskiviikko
     - Ke
+    - Keskiviikkona
 thursday:
     - Torstai
     - To
+    - Torstaina
 friday:
     - Perjantai
     - Pe
+    - Perjantaina
 saturday:
     - Lauantai
     - La
+    - Lauantaina
 sunday:
     - Sunnuntai
     - Su
+    - Sunnuntaina
 
 january:
     - Tammikuu
     - Tammi
+    - Tammikuussa
+    - Tammikuuta
 february:
     - Helmikuu
     - Helmi
+    - Helmikuussa
+    - Helmikuuta
 march:
     - Maaliskuu
     - Maalis
+    - Maaliskuussa
+    - Maaliskuuta
 april:
     - Huhtikuu
     - Huhti
+    - Huhtikuussa
+    - Huhtikuuta
 may:
     - Toukokuu
     - Touko
+    - Toukokuussa
+    - Toukokuuta
 june:
     - Kesäkuu
     - Kesä
+    - Kesäkuussa
+    - Kesäkuuta
 july:
     - Heinäkuu
     - Heinä
+    - Heinäkuussa
+    - Heinäkuuta
 august:
     - Elokuu
     - Elo
+    - Elokuussa
+    - Elokuuta
 september:
     - Syyskuu
     - Syys
+    - Syyskuussa
+    - Syyskuuta
 october:
     - Lokakuu
     - Loka
+    - Lokakuussa
+    - Lokakuuta
 november:
     - Marraskuu
     - Marras
+    - Marraskuussa
+    - Marraskuuta
 december:
     - Joulukuu
     - Joulu
+    - Joulukuussa
+    - Joulukuuta
 
 year:
     - vuosi
@@ -70,6 +101,8 @@ year:
     - v
     - v.
     - vv.
+    - vuonna
+    - vuoden
 month:
     - kuukausi
     - kuukautta
@@ -85,6 +118,7 @@ day:
     - pv
     - p.
     - pvä
+    - pvää
 hour:
     - tunti
     - tuntia
@@ -94,6 +128,8 @@ minute:
     - minuuttia
     - min
 second:
+    - sekunti
+    - sekuntia
     - sekuntti
     - sekunttia
     - s
@@ -102,6 +138,7 @@ ago:
     - sitten
 in:
     - kuluttua
+    - päästä
 
 simplifications:
     - eilen: 1 päivä
