@@ -143,4 +143,14 @@ in:
 simplifications:
     - eilen: 1 päivä
     - tänään: 0 päivä
+    - nyt: 0 second
+    - huomenna: in 1 day
+    - viime viikolla: 1 week
+    - viime kuussa: 1 month
+    - viime vuonna: 1 year
+    - toissa päivänä: 2 days
+    - toissa viikolla: 2 week
+    - toissa kuussa: 2 month
+    - toissa vuonna: 2 year
+
 
