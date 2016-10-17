@@ -2,7 +2,7 @@ name: Finnish
 
 dateorder: DMY
 
-skip: []
+skip: [":n"]
 pertain: []
 
 monday:
@@ -107,11 +107,13 @@ month:
     - kuukausi
     - kuukautta
     - kk
+    - kuukauden
 week:
     - viikko
     - viikkoa
     - vk
     - vko
+    - viikon
 day:
     - päivä
     - päivää
@@ -119,6 +121,7 @@ day:
     - p.
     - pvä
     - pvää
+    - päivän
 hour:
     - tunti
     - tuntia
@@ -141,16 +144,19 @@ in:
     - päästä
 
 simplifications:
-    - eilen: 1 päivä
-    - tänään: 0 päivä
-    - nyt: 0 second
-    - huomenna: in 1 day
-    - viime viikolla: 1 week
-    - viime kuussa: 1 month
-    - viime vuonna: 1 year
-    - toissa päivänä: 2 days
-    - toissa viikolla: 2 week
-    - toissa kuussa: 2 month
-    - toissa vuonna: 2 year
+    - eilen: 1 päivä sitten
+    - tänään: 0 päivää sitten
+    - nyt: 0 sekunti
+    - huomenna: 1 päivän päästä
+    - ensi viikolla: 1 viikon päästä
+    - ensi kuussa: 1 kuukauden päästä
+    - ensi vuonna: 1 vuoden päästä
+    - viime viikolla: 1 viikko sitten
+    - viime kuussa: 1 kuukausi sitten
+    - viime vuonna: 1 vuosi sitten
+    - toissa päivänä: 2 päivää sitten
+    - toissa viikolla: 2 viikkoa sitten
+    - toissa kuussa: 2 kuukautta sitten
+    - toissa vuonna: 2 vuotta sitten
 
 
