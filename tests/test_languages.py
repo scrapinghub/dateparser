@@ -131,8 +131,6 @@ class TestBundledLanguages(BaseTestCase):
         param('fi', "su marras 16, 2015", "sunday november 16 2015"),
         param('fi', "su joulukuu 16, 2015", "sunday december 16 2015"),
         param('fi', "su joulu 16, 2015", "sunday december 16 2015"),
-        param('fi', "1. tammikuuta, 2016", "1. january 2016"),
-        param('fi', "tiistaina, 27. lokakuuta 2015", "tuesday 27. october 2015"),
 
         # Japanese
         param('ja', "午後3時", "pm 3:00"),
@@ -332,11 +330,12 @@ class TestBundledLanguages(BaseTestCase):
         param('fi', "tänään", "0 day ago"),
         param('fi', "huomenna", "in 1 day"),
         param('fi', "nyt", "0 second"),
-        param('fi', "ensi viikolla", " in 1 week"),
+        param('fi', "ensi viikolla", "in 1 week"),
         param('fi', "viime viikolla", "1 week ago"),
         param('fi', "toissa vuonna", "2 year ago"),
         param('fi', "9 kuukautta sitten", "9 month ago"),
         param('fi', "3 viikon päästä", "in 3 week"),
+        param('fi', "10 tunnin kuluttua", "in 10 hour"),
         # Japanese
         param('ja', "今年", "0 year"),
         param('ja', "去年", "1 year"),

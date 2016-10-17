@@ -126,16 +126,20 @@ hour:
     - tunti
     - tuntia
     - t
+    - tunnin
 minute:
     - minuutti
     - minuuttia
     - min
+    - minuutin
 second:
     - sekunti
     - sekuntia
     - sekuntti
     - sekunttia
     - s
+    - sekuntin
+    - sekunnin
 
 ago:
     - sitten
@@ -147,10 +151,10 @@ simplifications:
     - eilen: 1 päivä sitten
     - tänään: 0 päivää sitten
     - nyt: 0 sekunti
-    - huomenna: 1 päivän päästä
-    - ensi viikolla: 1 viikon päästä
-    - ensi kuussa: 1 kuukauden päästä
-    - ensi vuonna: 1 vuoden päästä
+    - huomenna: päästä 1 päivä
+    - ensi viikolla: päästä 1 viikko
+    - ensi kuussa: päästä 1 kuukausi
+    - ensi vuonna: päästä 1 vuosi
     - viime viikolla: 1 viikko sitten
     - viime kuussa: 1 kuukausi sitten
     - viime vuonna: 1 vuosi sitten
@@ -158,5 +162,4 @@ simplifications:
     - toissa viikolla: 2 viikkoa sitten
     - toissa kuussa: 2 kuukautta sitten
     - toissa vuonna: 2 vuotta sitten
-
-
+    - (\d+) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua): \3 \1 \2
