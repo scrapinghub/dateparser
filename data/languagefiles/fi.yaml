@@ -2,67 +2,98 @@ name: Finnish
 
 dateorder: DMY
 
-skip: []
+skip: [":n"]
 pertain: []
 
 monday:
     - Maanantai
     - Ma
+    - Maanantaina
 tuesday:
     - Tiistai
     - Ti
+    - Tiistaina
 wednesday:
     - Keskiviikko
     - Ke
+    - Keskiviikkona
 thursday:
     - Torstai
     - To
+    - Torstaina
 friday:
     - Perjantai
     - Pe
+    - Perjantaina
 saturday:
     - Lauantai
     - La
+    - Lauantaina
 sunday:
     - Sunnuntai
     - Su
+    - Sunnuntaina
 
 january:
     - Tammikuu
     - Tammi
+    - Tammikuussa
+    - Tammikuuta
 february:
     - Helmikuu
     - Helmi
+    - Helmikuussa
+    - Helmikuuta
 march:
     - Maaliskuu
     - Maalis
+    - Maaliskuussa
+    - Maaliskuuta
 april:
     - Huhtikuu
     - Huhti
+    - Huhtikuussa
+    - Huhtikuuta
 may:
     - Toukokuu
     - Touko
+    - Toukokuussa
+    - Toukokuuta
 june:
     - Kesäkuu
     - Kesä
+    - Kesäkuussa
+    - Kesäkuuta
 july:
     - Heinäkuu
     - Heinä
+    - Heinäkuussa
+    - Heinäkuuta
 august:
     - Elokuu
     - Elo
+    - Elokuussa
+    - Elokuuta
 september:
     - Syyskuu
     - Syys
+    - Syyskuussa
+    - Syyskuuta
 october:
     - Lokakuu
     - Loka
+    - Lokakuussa
+    - Lokakuuta
 november:
     - Marraskuu
     - Marras
+    - Marraskuussa
+    - Marraskuuta
 december:
     - Joulukuu
     - Joulu
+    - Joulukuussa
+    - Joulukuuta
 
 year:
     - vuosi
@@ -70,40 +101,65 @@ year:
     - v
     - v.
     - vv.
+    - vuonna
+    - vuoden
 month:
     - kuukausi
     - kuukautta
     - kk
+    - kuukauden
 week:
     - viikko
     - viikkoa
     - vk
     - vko
+    - viikon
 day:
     - päivä
     - päivää
     - pv
     - p.
     - pvä
+    - pvää
+    - päivän
 hour:
     - tunti
     - tuntia
     - t
+    - tunnin
 minute:
     - minuutti
     - minuuttia
     - min
+    - minuutin
 second:
+    - sekunti
+    - sekuntia
     - sekuntti
     - sekunttia
     - s
+    - sekuntin
+    - sekunnin
 
 ago:
     - sitten
 in:
     - kuluttua
+    - päästä
 
 simplifications:
-    - eilen: 1 päivä
-    - tänään: 0 päivä
-
+    - eilen: 1 päivä sitten
+    - tänään: 0 päivää sitten
+    - nyt: 0 sekunti
+    - huomenna: päästä 1 päivä
+    - ensi viikolla: päästä 1 viikko
+    - ensi kuussa: päästä 1 kuukausi
+    - ensi vuonna: päästä 1 vuosi
+    - viime viikolla: 1 viikko sitten
+    - viime kuussa: 1 kuukausi sitten
+    - viime vuonna: 1 vuosi sitten
+    - toissa päivänä: 2 päivää sitten
+    - toissa viikolla: 2 viikkoa sitten
+    - toissa kuussa: 2 kuukautta sitten
+    - toissa vuonna: 2 vuotta sitten
+    - (\d+) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua): \3 \1 \2
