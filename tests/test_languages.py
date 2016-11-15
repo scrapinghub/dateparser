@@ -36,6 +36,9 @@ class TestBundledLanguages(BaseTestCase):
         param('zh', "礼拜三", "wednesday"),
         param('zh', "星期日 2015年04月08日10:05", "sunday 2015-04-08 10:05"),
         param('zh', "周六 2013年04月08日", "saturday 2013-04-08"),
+        param('zh', "下午3:30", "3:30 pm"),
+        param('zh', "凌晨3:30", "3:30 am"),
+        param('zh', "中午", "12:00"),
         # French
         param('fr', "20 Février 2012", "20 february 2012"),
         param('fr', "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
