@@ -10,7 +10,7 @@ from .language import Language
 
 # support `!include` directive
 def yaml_include(loader, node):
-    return yaml.load(get_data('data', node.value))
+    return yaml.load(get_data('data', node.value), Loader=yaml.Loader)
 
 yaml.add_constructor("!include", yaml_include)
 
@@ -43,7 +43,7 @@ class LanguageDataLoader(object):
             data = get_data('data', 'languages.yaml')
         else:
             data = self.file.read()
-        data = yaml.load(data)
+        data = yaml.load(data, Loader=yaml.Loader)
         base_data = data.pop('base', {'skip': []})
         language_order = data.pop('languageorder')
         known_languages = OrderedDict()
