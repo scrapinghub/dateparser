@@ -402,6 +402,7 @@ timezone_info_list = [
              ('ULAT', 28800),
              ('URAST', 18000),
              ('URAT', 18000),
+             ('UT', 0),
              ('UTC', 0),
              ('UYHST', -9000),
              ('UYST', -7200),
