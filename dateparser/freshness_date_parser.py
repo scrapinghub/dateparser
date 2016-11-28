@@ -7,7 +7,7 @@ from datetime import time
 
 from dateutil.relativedelta import relativedelta
 
-from dateparser.utils import apply_timezone
+from dateparser.utils import apply_timezone, localize_timezone
 from .parser import time_parser
 
 
@@ -44,7 +44,7 @@ class FreshnessDateDataParser(object):
 
         _time = self._parse_time(date_string, settings)
 
-        def  apply_time(dateobj, timeobj):
+        def apply_time(dateobj, timeobj):
             if not isinstance(_time, time):
                 return dateobj
 
@@ -54,7 +54,11 @@ class FreshnessDateDataParser(object):
             )
 
         if settings.RELATIVE_BASE:
-            self.now = settings.RELATIVE_BASE
+            if 'local' not in settings.TIMEZONE.lower():
+                self.now = localize_timezone(
+                    settings.RELATIVE_BASE, settings.TIMEZONE)
+            else:
+                self.now = settings.RELATIVE_BASE
 
         elif 'local' in settings.TIMEZONE.lower():
             self.now = datetime.now()
