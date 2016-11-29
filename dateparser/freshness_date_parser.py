@@ -67,7 +67,7 @@ class FreshnessDateDataParser(object):
             utc_dt = datetime.utcnow()
             self.now = apply_timezone(utc_dt, settings.TIMEZONE)
 
-        date, period = self._parse(date_string)
+        date, period = self._parse_date(date_string)
 
         if date:
             date = apply_time(date, _time)
@@ -80,7 +80,7 @@ class FreshnessDateDataParser(object):
         self.now = None
         return date, period
 
-    def _parse(self, date_string):
+    def _parse_date(self, date_string):
         if not self._are_all_words_units(date_string):
             return None, None
 
