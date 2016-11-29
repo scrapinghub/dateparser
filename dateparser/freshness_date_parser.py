@@ -7,7 +7,7 @@ from datetime import time
 
 from dateutil.relativedelta import relativedelta
 
-from dateparser.utils import apply_timezone
+from dateparser.utils import apply_timezone, localize_timezone
 from .parser import time_parser
 
 
@@ -41,8 +41,24 @@ class FreshnessDateDataParser(object):
             pass
 
     def parse(self, date_string, settings):
+
+        _time = self._parse_time(date_string, settings)
+
+        def apply_time(dateobj, timeobj):
+            if not isinstance(_time, time):
+                return dateobj
+
+            return dateobj.replace(
+                hour=timeobj.hour, minute=timeobj.minute,
+                second=timeobj.second, microsecond=timeobj.microsecond
+            )
+
         if settings.RELATIVE_BASE:
-            self.now = settings.RELATIVE_BASE
+            if 'local' not in settings.TIMEZONE.lower():
+                self.now = localize_timezone(
+                    settings.RELATIVE_BASE, settings.TIMEZONE)
+            else:
+                self.now = settings.RELATIVE_BASE
 
         elif 'local' in settings.TIMEZONE.lower():
             self.now = datetime.now()
@@ -51,25 +67,20 @@ class FreshnessDateDataParser(object):
             utc_dt = datetime.utcnow()
             self.now = apply_timezone(utc_dt, settings.TIMEZONE)
 
-        date, period = self._parse(date_string)
+        date, period = self._parse_date(date_string)
 
         if date:
-            _time = self._parse_time(date_string, settings)
-            if isinstance(_time, time):
-                date = date.replace(hour=_time.hour, minute=_time.minute,
-                                    second=_time.second, microsecond=_time.microsecond)
-            else:
-                # No timezone shift takes place if time is given in the string.
-                # e.g. `2 days ago at 1 PM`
-                if settings.TO_TIMEZONE:
-                    date = apply_timezone(date, settings.TO_TIMEZONE)
+            date = apply_time(date, _time)
+            if settings.TO_TIMEZONE:
+                date = apply_timezone(date, settings.TO_TIMEZONE)
 
             if not settings.RETURN_AS_TIMEZONE_AWARE:
                 date = date.replace(tzinfo=None)
+
         self.now = None
         return date, period
 
-    def _parse(self, date_string):
+    def _parse_date(self, date_string):
         if not self._are_all_words_units(date_string):
             return None, None
 
