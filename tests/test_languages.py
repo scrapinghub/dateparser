@@ -372,6 +372,9 @@ class TestBundledLanguages(BaseTestCase):
         param('he', "היום", "0 day"),
         param('he', "לפני יומיים", "ago 2 day"),
         param('he', "לפני שבועיים", "ago 2 week"),
+        # Bulgarian
+        param("bg", "вдругиден", "in 2 day"),
+        param("bg", "утре", "in 1 day"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         # Finnish language use "t" as hour, so empty SKIP_TOKENS.

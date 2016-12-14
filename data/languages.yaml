@@ -1,10 +1,11 @@
 base:
     skip: [" ", ".", ",", ";", "-", "/", "'", "|", "@", "[", "]", "，"]
 
-languageorder: ['en', 'ar', 'be', 'cs', 'da', 'de', 'es', 'fa', 'fi', 'fr', 'he', 'hu', 'id', 'it', 'ja', 'nl', 'pl', 'pt', 'ro', 'ru', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
+languageorder: ['en', 'ar', 'be', 'bg', 'cs', 'da', 'de', 'es', 'fa', 'fi', 'fr', 'he', 'hu', 'id', 'it', 'ja', 'nl', 'pl', 'pt', 'ro', 'ru', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
 
 ar: !include languagefiles/ar.yaml
 be: !include languagefiles/be.yaml
+bg: !include languagefiles/bg.yaml
 cs: !include languagefiles/cs.yaml
 da: !include languagefiles/da.yaml
 de: !include languagefiles/de.yaml
