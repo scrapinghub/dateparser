@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from pkgutil import get_data
 import logging
 import types
 import unicodedata
 
 import regex as re
+import ruamel.yaml as yaml
 from pytz import UTC, timezone, UnknownTimeZoneError
 
 from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
@@ -93,7 +95,7 @@ def localize_timezone(date_time, tz_string):
         return date_time
 
     tz = None
-    
+
     try:
         tz = timezone(tz_string)
     except UnknownTimeZoneError as e:
@@ -157,3 +159,14 @@ def registry(cls):
 
     setattr(cls, '__new__', choose(cls.__new__))
     return cls
+
+
+class SafeLoader(yaml.loader.SafeLoader):
+    """Supports !include directive.
+    """
+    def __init__(self, *args, **kwds):
+        super(SafeLoader, self).__init__(*args, **kwds)
+        self.add_constructor('!include', self.construct_yaml_include)
+
+    def construct_yaml_include(self, loader, node):
+        return yaml.safe_load(get_data('data', node.value))
