@@ -3,6 +3,21 @@
 History
 =======
 
+0.5.1 (2016-12-18)
+------------------
+
+New features:
+
+* Added support for Hebrew
+
+Improvements:
+
+* Safer loading of YAML. See #251
+* Better timezone parsing for freshness dates. See #256
+* Pinned dependencies' versions in requirements. See #265
+* Improved support for zh, fi languages. See #249, #250, #248, #244
+
+
 0.5.0 (2016-09-26)
 ------------------
 New features:
@@ -51,7 +66,7 @@ Improvements:
 * Transformed languages.yaml into base file and separate files for each language.
 * Fixed vietnamese language simplifications.
 * No more version restrictions for python-dateutil.
-* Timezone parsing improvements. 
+* Timezone parsing improvements.
 * Fixed test environments.
 * Cleaned language codes. Now we strictly follow codes as in ISO 639-1.
 * Improved chinese dates parsing.

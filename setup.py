@@ -33,6 +33,7 @@ setup(
         'pytz',
         'regex',
         'tzlocal',
+        'convertdate'
     ],
     license="BSD",
     zip_safe=False,
