@@ -51,6 +51,10 @@ class Settings(object):
             setattr(self, key, value)
 
     def replace(self, **kwds):
+        for k, v in six.iteritems(kwds):
+            if v is None:
+                raise TypeError('Invalid {{"{}": {}}}'.format(k, v))
+
         for x in six.iterkeys(self._get_settings_from_yaml()):
             kwds.setdefault(x, getattr(self, x))
 

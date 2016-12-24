@@ -114,3 +114,20 @@ class SettingsTest(BaseTestCase):
         settings_twice = test_func()
         self.assertNotEqual(settings_once, self.default_settings)
         self.assertEqual(settings_twice, self.default_settings)
+
+
+class InvalidSettingsTest(BaseTestCase):
+
+    def setUp(self):
+        super(InvalidSettingsTest, self).setUp()
+
+    def test_error_is_raised_when_none_is_passed_in_settings(self):
+        test_func = apply_settings(test_function)
+        with self.assertRaisesRegexp(TypeError, 'Invalid.*None\}'):
+            test_func(settings={'PREFER_DATES_FROM': None})
+
+        with self.assertRaisesRegexp(TypeError, 'Invalid.*None\}'):
+            test_func(settings={'TIMEZONE': None})
+
+        with self.assertRaisesRegexp(TypeError, 'Invalid.*None\}'):
+            test_func(settings={'TO_TIMEZONE': None})
