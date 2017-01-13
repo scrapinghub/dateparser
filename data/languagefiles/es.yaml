@@ -95,6 +95,7 @@ in:
 simplifications:
     - anteayer: 2 día
     - ayer: 1 día
+    - mañana: en 1 día
     - hoy: 0 día
     - un: 1
     - una: 1
