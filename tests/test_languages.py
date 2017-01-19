@@ -25,6 +25,7 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "friday, 03 september 2014", "friday 03 september 2014"),
         # Chinese
         param('zh', "1年11个月", "1 year 11 month"),
+        param('zh', "1年11個月", "1 year 11 month"),
         param('zh', "2015年04月08日10点05", "2015-04-08 10:05"),
         param('zh', "2015年04月08日10:05", "2015-04-08 10:05"),
         param('zh', "2013年04月08日", "2013-04-08"),
@@ -393,6 +394,7 @@ class TestBundledLanguages(BaseTestCase):
               ["sexta-feira", " ", "10", " ", "de", " ", "junho", " ", "de", " ", "2014", " ", "14", ":", "52"]),
         param('it', "14_luglio_15", ["14", "luglio", "15"]),
         param('zh', "1年11个月", ["1", "年", "11", "个月"]),
+        param('zh', "1年11個月", ["1", "年", "11", "個月"]),
         param('tr', "2 saat önce", ["2", " ", "saat", " ", "önce"]),
         param('fr', "il ya environ 23 heures'", ["il ya", " ", "environ", " ", "23", " ", "heures"]),
         param('de', "Gestern um 04:41", ['Gestern ', 'um', ' ', '04', ':', '41']),
