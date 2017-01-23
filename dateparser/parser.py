@@ -10,7 +10,7 @@ from datetime import timedelta
 
 NSP_COMPATIBLE = re.compile(r'\D+')
 MERIDIAN = re.compile(r'am|pm')
-MICROSECOND = re.compile(r'\d{6}')
+MICROSECOND = re.compile(r'\d{1,6}')
 
 
 def no_space_parser_eligibile(datestring):
@@ -237,6 +237,9 @@ class _parser(object):
             if self.time is None:
                 try:
                     microsecond = MICROSECOND.search(self.filtered_tokens[index+1][0]).group()
+                    _lookbehind_microsecond = re.search(
+                        r'(?<=[.,:])%s\b' % microsecond, ''.join([t[0] for t in self.tokens])
+                    ).group()
                 except:
                     microsecond = None
 
