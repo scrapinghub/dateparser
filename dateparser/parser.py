@@ -237,9 +237,7 @@ class _parser(object):
             if self.time is None:
                 try:
                     microsecond = MICROSECOND.search(self.filtered_tokens[index+1][0]).group()
-                    _lookbehind_microsecond = re.search(
-                        r'(?<=[.,:])%s\b' % microsecond, ''.join([t[0] for t in self.tokens])
-                    ).group()
+                    _is_after_time_token = token.index(":")
                 except:
                     microsecond = None
 

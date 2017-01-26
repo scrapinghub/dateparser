@@ -226,6 +226,8 @@ class TestDateParser(BaseTestCase):
         param('20 Mar 2013 10h11', datetime(2013, 3, 20, 10, 11)),
         param('10:06am Dec 11, 2014', datetime(2014, 12, 11, 10, 6)),
         param('19 February 2013 year 09:10', datetime(2013, 2, 19, 9, 10)),
+        param('21 January 2012 13:11:23.678', datetime(2012, 1, 21, 13, 11, 23, 678000)),
+        param('1/1/16 9:02:43.1', datetime(2016, 1, 1, 9, 2, 43, 100000)),
         # French dates
         param('11 Mai 2014', datetime(2014, 5, 11)),
         param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
