@@ -271,6 +271,30 @@ class TestFreshnessDateDataParser(BaseTestCase):
               period='day'),
         param("2 minuty temu", ago={'minutes': 2}, period='day'),
         param("15 minut temu", ago={'minutes': 15}, period='day'),
+
+        # Bangla dates
+        # param('গতকাল', ago={'days': 1}, period='day'),
+        # param('আজ', ago={'days': 0}, period='day'),
+        param('1 ঘন্টা আগে', ago={'hours': 1}, period='day'),
+        param('প্রায় 1 ঘন্টা আগে', ago={'hours': 1}, period='day'),
+        param('1 দিন আগে', ago={'days': 1}, period='day'),
+        param('1 সপ্তাহ আগে', ago={'weeks': 1}, period='week'),
+        param('2 ঘন্টা আগে', ago={'hours': 2}, period='day'),
+        param('প্রায় 23 ঘন্টা আগে', ago={'hours': 23}, period='day'),
+        param('1 বছর 2 মাস', ago={'years': 1, 'months': 2}, period='month'),
+        param('1 বছর, 09 মাস,01 সপ্তাহ', ago={'years': 1, 'months': 9, 'weeks': 1}, period='week'),
+        param('1 বছর 11 মাস', ago={'years': 1, 'months': 11}, period='month'),
+        param('1 বছর 12 মাস', ago={'years': 1, 'months': 12}, period='month'),
+        param('15 ঘন্টা', ago={'hours': 15}, period='day'),
+        param('2 মিনিট', ago={'minutes': 2}, period='day'),
+        param('3 সেকেন্ড', ago={'seconds': 3}, period='day'),
+        param('1000 বছর আগে', ago={'years': 1000}, period='year'),
+        param('5000 মাস আগে', ago={'years': 416, 'months': 8}, period='month'),
+        param('{} মাস আগে'.format(2013 * 12 + 8), ago={'years': 2013, 'months': 8}, period='month'),
+        param('1 বছর, 1 মাস, 1 সপ্তাহ, 1 দিন, 1 ঘন্টা এবং 1 মিনিট আগে',
+              ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+              period='day'),
+        # param('এখন', ago={'seconds': 0}, period='day'),
     ])
     def test_relative_past_dates(self, date_string, ago, period):
         self.given_parser(settings={'NORMALIZE': False})
@@ -511,6 +535,30 @@ class TestFreshnessDateDataParser(BaseTestCase):
               period='day'),
         param("2 minuty temu", ago={'minutes': 2}, period='day'),
         param("15 minut temu", ago={'minutes': 15}, period='day'),
+
+        # Bangla dates
+        # param('গতকাল', ago={'days': 1}, period='day'),
+        # param('আজ', ago={'days': 0}, period='day'),
+        param('1 ঘন্টা আগে', ago={'hours': 1}, period='day'),
+        param('প্রায় 1 ঘন্টা আগে', ago={'hours': 1}, period='day'),
+        param('1 দিন আগে', ago={'days': 1}, period='day'),
+        param('1 সপ্তাহ আগে', ago={'weeks': 1}, period='week'),
+        param('2 ঘন্টা আগে', ago={'hours': 2}, period='day'),
+        param('প্রায় 23 ঘন্টা আগে', ago={'hours': 23}, period='day'),
+        param('1 বছর 2 মাস', ago={'years': 1, 'months': 2}, period='month'),
+        param('1 বছর, 09 মাস,01 সপ্তাহ', ago={'years': 1, 'months': 9, 'weeks': 1}, period='week'),
+        param('1 বছর 11 মাস', ago={'years': 1, 'months': 11}, period='month'),
+        param('1 বছর 12 মাস', ago={'years': 1, 'months': 12}, period='month'),
+        param('15 ঘন্টা', ago={'hours': 15}, period='day'),
+        param('2 মিনিট', ago={'minutes': 2}, period='day'),
+        param('3 সেকেন্ড', ago={'seconds': 3}, period='day'),
+        param('1000 বছর আগে', ago={'years': 1000}, period='year'),
+        param('5000 মাস আগে', ago={'years': 416, 'months': 8}, period='month'),
+        param('{} মাস আগে'.format(2013 * 12 + 8), ago={'years': 2013, 'months': 8}, period='month'),
+        param('1 বছর, 1 মাস, 1 সপ্তাহ, 1 দিন, 1 ঘন্টা এবং 1 মিনিট আগে',
+              ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+              period='day'),
+        # param('এখন', ago={'seconds': 0}, period='day'),
     ])
     def test_normalized_relative_dates(self, date_string, ago, period):
         date_string = normalize_unicode(date_string)

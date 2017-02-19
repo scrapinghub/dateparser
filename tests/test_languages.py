@@ -379,10 +379,10 @@ class TestBundledLanguages(BaseTestCase):
         param('he', "לפני שבועיים", "ago 2 week"),
 
         # Bangla
-        param('bn', "yesterday", "পরশুদিন"),
-        param('bn', "today", "আজকে"),
-        param('bn', "last month", "গত month"),
-        param('bn', "next week", "আগামী week"),
+        param('bn', "গতকাল", "1 day"),
+        param('bn', "আজ", "0 days"),
+        param('bn', "গত মাস", "1 month"),
+        param('bn', "আগামী সপ্তাহ", "in 1 week"),
 
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
