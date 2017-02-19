@@ -172,7 +172,7 @@ class TestBundledLanguages(BaseTestCase):
         param('he', "6 אחרי הצהרים", "6 pm"),
 
         # Bangla
-	    param('bn', "সেপ্টেম্বর 03 2014", "september 03 2014"),
+        param('bn', "সেপ্টেম্বর 03 2014", "september 03 2014"),
         param('bn', "শুক্রবার, 03 সেপ্টেম্বর 2014", "friday 03 september 2014"),
 
     ])
