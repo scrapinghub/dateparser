@@ -25,6 +25,11 @@ install:
 # command to run tests, e.g. python setup.py test
 script: tox
 
+addons:
+  apt:
+    packages:
+      - language-pack-fr
+
 after_success:
     - codecov
 
