@@ -23,7 +23,12 @@ def patch_strptime():
         'strptime_patched', *imp.find_module('_strptime')
     )
 
+    _calendar = imp.load_module(
+        'calendar_patched', *imp.find_module('_strptime')
+    )
+
     _strptime._getlang = lambda: ('en_US', 'UTF-8')
+    _strptime.calendar = _calendar
     _strptime.calendar.day_abbr = [
         'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'
     ]
@@ -35,7 +40,7 @@ def patch_strptime():
         '', 'jan', 'feb', 'mar', 'apr', 'may', 'jun',
         'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
     ]
-    _strptime.calendar.month_full = [
+    _strptime.calendar.month_name = [
         '', 'january', 'february', 'march', 'april',
         'may', 'june', 'july', 'august', 'september',
         'october', 'november', 'december'
