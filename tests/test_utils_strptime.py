@@ -26,7 +26,6 @@ class TestStrptime(BaseTestCase):
             self.result = e
 
     def then_date_object_is(self, expected):
-        print self.result
         assert self.result == expected
 
     def then_date_object_is_instance_of(self, expected):
