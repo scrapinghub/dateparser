@@ -197,6 +197,7 @@ Supported languages
 ===================
 
 * Arabic
+* Bangla
 * Belarusian
 * Chinese
 * Czech

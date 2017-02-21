@@ -171,6 +171,10 @@ class TestBundledLanguages(BaseTestCase):
         param('he', "6 אחרי הצהריים", "6 pm"),
         param('he', "6 אחרי הצהרים", "6 pm"),
 
+        # Bangla
+        param('bn', "সেপ্টেম্বর 03 2014", "september 03 2014"),
+        param('bn', "শুক্রবার, 03 সেপ্টেম্বর 2014", "friday 03 september 2014"),
+
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -373,6 +377,13 @@ class TestBundledLanguages(BaseTestCase):
         param('he', "היום", "0 day"),
         param('he', "לפני יומיים", "ago 2 day"),
         param('he', "לפני שבועיים", "ago 2 week"),
+
+        # Bangla
+        param('bn', "গতকাল", "1 day"),
+        param('bn', "আজ", "0 days"),
+        param('bn', "গত মাস", "1 month"),
+        param('bn', "আগামী সপ্তাহ", "in 1 week"),
+
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         # Finnish language use "t" as hour, so empty SKIP_TOKENS.
@@ -411,6 +422,7 @@ class TestBundledLanguages(BaseTestCase):
         param('be', "3 верасня 2015 г. у 11:10", ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
         param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
         param('he', "ה-21 לאוקטובר 2016 ב-15:00", ['ה-', '21', ' ', 'לאוקטובר', ' ', '2016', ' ', 'ב-', '15', ':', '00']),
+        param('bn', "3 জুন 2015 13:05:46", ['3', ' ', 'জুন', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
@@ -438,6 +450,7 @@ class TestBundledLanguages(BaseTestCase):
         param('be', "3 верасня 2015 г. у 11:10", strip_timezone=False),
         param('id', "01 Agustus 2015 18:23", strip_timezone=False),
         param('he', "6 לדצמבר 1973", strip_timezone=False),
+        param('bn', "3 সপ্তাহ", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)
