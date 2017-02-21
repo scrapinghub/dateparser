@@ -340,6 +340,9 @@ class TestDateParser(BaseTestCase):
         param('2016年6月29', datetime(2016, 6, 29, 0, 0)),
         param('2016年 2月 5日', datetime(2016, 2, 5, 0, 0)),
         param('2016年9月14日晚8:00', datetime(2016, 9, 14, 20, 0)),
+        # Bulgarian
+        param('25 ян 2016', datetime(2016, 1, 25, 0, 0)),
+        param('23 декември 2013 15:10:01', datetime(2016, 12, 23, 15, 10, 1))
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,

@@ -320,6 +320,8 @@ class TestDateDataParser(BaseTestCase):
         param('The DAY before Yesterday', days_ago=2),
         param('Anteontem', days_ago=2),
         param('Avant-hier', days_ago=2),
+        param('вчера', days_ago=1),
+        param('снощи', days_ago=1)
     ])
     def test_temporal_nouns_are_parsed(self, date_string, days_ago):
         self.given_parser()
