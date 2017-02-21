@@ -320,8 +320,8 @@ class TestDateDataParser(BaseTestCase):
         param('The DAY before Yesterday', days_ago=2),
         param('Anteontem', days_ago=2),
         param('Avant-hier', days_ago=2),
-        param('вчера', days_ago=1),
-        param('снощи', days_ago=1)
+        param(u'вчера', days_ago=1),
+        param(u'снощи', days_ago=1)
     ])
     def test_temporal_nouns_are_parsed(self, date_string, days_ago):
         self.given_parser()
@@ -365,6 +365,7 @@ class TestDateDataParser(BaseTestCase):
         param(date_string=u'14 aprilie 2014', language='ro'),
         param(date_string=u'11 Ağustos, 2014', language='tr'),
         param(date_string=u'pon 16. čer 2014 10:07:43', language='cs'),
+        param(date_string=u'24 януари 2015г.', language='bg')
     ])
     def test_returned_detected_language_should_be(self, date_string, language):
         self.given_parser()

@@ -269,6 +269,19 @@ class TestFreshnessDateDataParser(BaseTestCase):
               period='day'),
         param("2 minuty temu", ago={'minutes': 2}, period='day'),
         param("15 minut temu", ago={'minutes': 15}, period='day'),
+
+        # Bulgarian dates
+        param('преди 3 дни', ago={'days': 3}, period='day'),
+        param('преди час', ago={'hours': 1}, period='day'),
+        param('преди година', ago={'years': 1}, period='year'),
+        param('вчера', ago={'days': 1}, period='day'),
+        param('онзи ден', ago={'days': 2}, period='day'),
+        param('днес', ago={'days': 0}, period='day'),
+        param('преди час', ago={'hours': 1}, period='day'),
+        param('преди един ден', ago={'days': 1}, period='day'),
+        param('преди седмица', ago={'weeks': 1}, period='week'),
+        param('преди 2 часа', ago={'hours': 2}, period='day'),
+        param('преди около 23 часа', ago={'hours': 23}, period='day')
     ])
     def test_relative_past_dates(self, date_string, ago, period):
         self.given_parser(settings={'NORMALIZE': False})
