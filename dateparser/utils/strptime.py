@@ -4,6 +4,7 @@ import regex as re
 from datetime import datetime
 
 TIME_MATCHER = re.compile(
+    r'.*?'
     r'(?P<hour>2[0-3]|[0-1]\d|\d):'
     '(?P<minute>[0-5]\d|\d):'
     '(?P<second>6[0-1]|[0-5]\d|\d)'
