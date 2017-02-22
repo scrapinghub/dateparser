@@ -342,7 +342,7 @@ class TestDateParser(BaseTestCase):
         param('2016年9月14日晚8:00', datetime(2016, 9, 14, 20, 0)),
         # Bulgarian
         param('25 ян 2016', datetime(2016, 1, 25, 0, 0)),
-        param('23 декември 2013 15:10:01', datetime(2013, 12, 23, 15, 10, 1))
+        param('23 декември 2013 15:10:01', datetime(2013, 12, 23, 15, 10, 1)),
         # Bangla dates
         param('[সেপ্টেম্বর] 04, 2014.', datetime(2014, 9, 4)),
         param('মঙ্গলবার জুলাই 22, 2014', datetime(2014, 7, 22)),

@@ -283,7 +283,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('преди един ден', ago={'days': 1}, period='day'),
         param('преди седмица', ago={'weeks': 1}, period='week'),
         param('преди 2 часа', ago={'hours': 2}, period='day'),
-        param('преди около 23 часа', ago={'hours': 23}, period='day')
+        param('преди около 23 часа', ago={'hours': 23}, period='day'),
         # Bangla dates
         # param('গতকাল', ago={'days': 1}, period='day'),
         # param('আজ', ago={'days': 0}, period='day'),
