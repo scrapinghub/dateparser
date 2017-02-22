@@ -4,9 +4,8 @@ from pkgutil import get_data
 from functools import wraps
 import six
 
-from ruamel.yaml import safe_load as load_yaml
-
 from .utils import registry
+from .utils import SafeLoader
 
 
 @registry
@@ -44,7 +43,7 @@ class Settings(object):
     def _get_settings_from_yaml(cls):
         if not cls._yaml_data:
             data = get_data('data', 'settings.yaml')
-            cls._yaml_data = load_yaml(data).pop('settings', {})
+            cls._yaml_data = SafeLoader(data).get_data().pop('settings', {})
         return cls._yaml_data
 
     def _updateall(self, iterable):
@@ -52,6 +51,10 @@ class Settings(object):
             setattr(self, key, value)
 
     def replace(self, **kwds):
+        for k, v in six.iteritems(kwds):
+            if v is None:
+                raise TypeError('Invalid {{"{}": {}}}'.format(k, v))
+
         for x in six.iterkeys(self._get_settings_from_yaml()):
             kwds.setdefault(x, getattr(self, x))
 

@@ -25,6 +25,7 @@ class TestBundledLanguages(BaseTestCase):
         param('en', "friday, 03 september 2014", "friday 03 september 2014"),
         # Chinese
         param('zh', "1年11个月", "1 year 11 month"),
+        param('zh', "1年11個月", "1 year 11 month"),
         param('zh', "2015年04月08日10点05", "2015-04-08 10:05"),
         param('zh', "2015年04月08日10:05", "2015-04-08 10:05"),
         param('zh', "2013年04月08日", "2013-04-08"),
@@ -169,6 +170,10 @@ class TestBundledLanguages(BaseTestCase):
         param('he', "6 לפנות ערב", "6 pm"),
         param('he', "6 אחרי הצהריים", "6 pm"),
         param('he', "6 אחרי הצהרים", "6 pm"),
+
+        # Bangla
+        param('bn', "সেপ্টেম্বর 03 2014", "september 03 2014"),
+        param('bn', "শুক্রবার, 03 সেপ্টেম্বর 2014", "friday 03 september 2014"),
 
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
@@ -382,6 +387,11 @@ class TestBundledLanguages(BaseTestCase):
         param("bg", "преди час", "ago 1 hour"),
         param("bg", "преди 4 години", "ago 4 year"),
         param("bg", "преди десетилетие", "ago 10 year"),
+        # Bangla
+        param('bn', "গতকাল", "1 day"),
+        param('bn', "আজ", "0 days"),
+        param('bn', "গত মাস", "1 month"),
+        param('bn', "আগামী সপ্তাহ", "in 1 week"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         # Finnish language use "t" as hour, so empty SKIP_TOKENS.
@@ -403,6 +413,7 @@ class TestBundledLanguages(BaseTestCase):
               ["sexta-feira", " ", "10", " ", "de", " ", "junho", " ", "de", " ", "2014", " ", "14", ":", "52"]),
         param('it', "14_luglio_15", ["14", "luglio", "15"]),
         param('zh', "1年11个月", ["1", "年", "11", "个月"]),
+        param('zh', "1年11個月", ["1", "年", "11", "個月"]),
         param('tr', "2 saat önce", ["2", " ", "saat", " ", "önce"]),
         param('fr', "il ya environ 23 heures'", ["il ya", " ", "environ", " ", "23", " ", "heures"]),
         param('de', "Gestern um 04:41", ['Gestern ', 'um', ' ', '04', ':', '41']),
@@ -419,6 +430,7 @@ class TestBundledLanguages(BaseTestCase):
         param('be', "3 верасня 2015 г. у 11:10", ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
         param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
         param('he', "ה-21 לאוקטובר 2016 ב-15:00", ['ה-', '21', ' ', 'לאוקטובר', ' ', '2016', ' ', 'ב-', '15', ':', '00']),
+        param('bn', "3 জুন 2015 13:05:46", ['3', ' ', 'জুন', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
@@ -446,6 +458,7 @@ class TestBundledLanguages(BaseTestCase):
         param('be', "3 верасня 2015 г. у 11:10", strip_timezone=False),
         param('id', "01 Agustus 2015 18:23", strip_timezone=False),
         param('he', "6 לדצמבר 1973", strip_timezone=False),
+        param('bn', "3 সপ্তাহ", strip_timezone=False),
     ])
     def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
         self.given_bundled_language(shortname)
