@@ -340,6 +340,9 @@ class TestDateParser(BaseTestCase):
         param('2016年6月29', datetime(2016, 6, 29, 0, 0)),
         param('2016年 2月 5日', datetime(2016, 2, 5, 0, 0)),
         param('2016年9月14日晚8:00', datetime(2016, 9, 14, 20, 0)),
+        # Bulgarian
+        param('25 ян 2016', datetime(2016, 1, 25, 0, 0)),
+        param('23 декември 2013 15:10:01', datetime(2013, 12, 23, 15, 10, 1)),
         # Bangla dates
         param('[সেপ্টেম্বর] 04, 2014.', datetime(2014, 9, 4)),
         param('মঙ্গলবার জুলাই 22, 2014', datetime(2014, 7, 22)),
@@ -502,6 +505,8 @@ class TestDateParser(BaseTestCase):
         param('1 Mar 2015', datetime(2015, 3, 1, 0, 0)),
         param('1 Paz 2015', datetime(2015, 10, 1, 0, 0)),
         param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
+        # Bulgarian
+        param('24 ян 2015г.', datetime(2015, 1, 24, 0, 0))
     ])
     def test_dates_parsing_with_normalization(self, date_string, expected):
         self.given_local_tz_offset(0)
