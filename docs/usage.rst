@@ -9,7 +9,7 @@ from the same source.
 to control language detection behavior.
 
 The instance of :class:`DateDataParser <dateparser.date.DateDataParser>` reduces the number
-of applicable languages, until only one or no language is left. It 
+of applicable languages, until only one or no language is left. It
 assumes the previously detected language for all the subsequent dates supplied.
 
 This class wraps around the core :mod:`dateparser` functionality, and by default
@@ -54,13 +54,13 @@ Date Order
 ``PREFER_LANGUAGE_DATE_ORDER`` defaults to `True`. Most languages have a default `DATE_ORDER` specified for them. For example, for French it is `DMY`:
 
    >>> # parsing ambiguous date
-   >>> parse('02-03-2016')  # assumes english language, uses MDY date order 
+   >>> parse('02-03-2016')  # assumes english language, uses MDY date order
    datetime.datetime(2016, 3, 2, 0, 0)
    >>> parse('le 02-03-2016')  # detects french, hence, uses DMY date order
    datetime.datetime(2016, 3, 2, 0, 0)
 
 .. note:: There's no language level default `DATE_ORDER` associated with `en` language. That's why it assumes `MDY` which is :obj:``settings <dateparser.conf.settings>`` default. If the language has a default `DATE_ORDER` associated, supplying custom date order will not be applied unless we set `PREFER_LANGUAGE_DATE_ORDER` to `False`:
-   
+
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY'})
     datetime.datetime(2016, 3, 2, 0, 0)  # MDY didn't apply
 
@@ -82,7 +82,7 @@ Timezone Related Configurations
     >>> parse('January 12, 2012 10:00 PM', settings=settings)
     datetime.datetime(2012, 1, 12, 17, 0)
 
-``RETURN_AS_TIMEZONE_AWARE`` is a flag to turn on timezone aware dates if timezone is detected or specified.:
+``RETURN_AS_TIMEZONE_AWARE`` is a flag to turn on timezone aware dates:
 
     >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True})
     datetime.datetime(2015, 2, 13, 3, 56, tzinfo=<StaticTzInfo 'UTC'>)
@@ -90,13 +90,6 @@ Timezone Related Configurations
     >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': 'EST'})
     datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)
 
-    if `TIMEZONE` is set to `None` and `RETURN_AS_TIMEZONE_AWARE` to `True`, a tz aware date will only be returned if timezone is detected in the string.
-
-    >>> parse('12 Feb 2015 10:56 PM', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None})
-    datetime.datetime(2015, 2, 12, 22, 56)
-
-    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': None})
-    datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)
 
 
 Handling Incomplete Dates
@@ -125,7 +118,7 @@ If date string is missing some part, this option ensures consistent results depe
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
     datetime.datetime(2015, 8, 15, 0, 0)
 
-``RELATIVE_BASE`` allows setting the base datetime to use for interpreting partial or relative date strings. 
+``RELATIVE_BASE`` allows setting the base datetime to use for interpreting partial or relative date strings.
 Defaults to the current date and time.
 
 For example, assuming current date is `June 16, 2015`:
@@ -154,4 +147,3 @@ Language Detection
     >>> from dateparser.date import DateDataParser
     >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
     {'date_obj': datetime.datetime(1981, 6, 27, 0, 0), 'period': 'day'}
-

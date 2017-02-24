@@ -404,6 +404,7 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
         self.then_period_is('day')
+        self.result['date_obj'] = self.result['date_obj'].replace(tzinfo=None)
         self.then_parsed_datetime_is(expected_result)
 
     @parameterized.expand([
