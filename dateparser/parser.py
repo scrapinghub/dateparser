@@ -7,6 +7,8 @@ from collections import OrderedDict
 from datetime import datetime
 from datetime import timedelta
 
+from dateparser.utils.strptime import strptime
+
 
 NSP_COMPATIBLE = re.compile(r'\D+')
 MERIDIAN = re.compile(r'am|pm')
@@ -97,7 +99,7 @@ class _time_parser(object):
         _timestring = timestring
         for directive in self.time_directives:
             try:
-                return datetime.strptime(timestring.strip(), directive).time()
+                return strptime(timestring.strip(), directive).time()
             except ValueError:
                 pass
         else:
@@ -168,7 +170,7 @@ class _no_spaces_parser(object):
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[order]:
                 try:
-                    dt = datetime.strptime(token, fmt), cls._get_period(fmt)
+                    dt = strptime(token, fmt), cls._get_period(fmt)
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
                         continue
@@ -332,7 +334,7 @@ class _parser(object):
         return params
 
     def _get_date_obj(self, token, directive):
-        return datetime.strptime(token, directive)
+        return strptime(token, directive)
 
     def _results(self):
         if self.settings.STRICT_PARSING:
