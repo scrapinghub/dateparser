@@ -104,7 +104,7 @@ def sanitize_date(date_string):
 
 
 def get_date_from_timestamp(date_string):
-    if re.search(r'^\d{10}', date_string):
+    if re.search(r'^\d{10}(?![^\d.])', date_string):
         return datetime.fromtimestamp(int(date_string[:10]))
 
 
