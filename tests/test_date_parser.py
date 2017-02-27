@@ -538,7 +538,7 @@ class TestDateParser(BaseTestCase):
         param('1999-12-31 19:00:00 +0500', datetime(1999, 12, 31, 14, 0)),
         param('Fri, 09 Sep 2005 13:51:39 -0700', datetime(2005, 9, 9, 20, 51, 39)),
         param('Fri, 09 Sep 2005 13:51:39 +0000', datetime(2005, 9, 9, 13, 51, 39)),
-        param('Fri Sep 23 2016 10:34:51 GMT+0800 (CST)', datetime(2016, 9, 23, 10, 34, 51)),
+        param('Fri Sep 23 2016 10:34:51 GMT+0800 (CST)', datetime(2016, 9, 23, 2, 34, 51)),
     ])
     def test_parsing_with_utc_offsets(self, date_string, expected):
         self.given_parser(settings={'TO_TIMEZONE': 'utc'})
@@ -697,20 +697,14 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand([
         # Epoch timestamps.
-        param('1484823450', languages=[],
-              expected=datetime(2017, 1, 19, 11, 57, 30)),
-        param('1436745600000', languages=[],
-              expected=datetime(2015, 7, 13, 2, 0)),
-        param('1015673450', languages=[],
-              expected=datetime(2002, 3, 9, 12, 30, 50)),
-        param('2016-09-23T02:54:32.845Z', languages=[],
-              expected=datetime(2016, 9, 23, 2, 54, 32, 845000))
+        param('1484823450', expected=datetime(2017, 1, 19, 11, 57, 30)),
+        param('1436745600000', expected=datetime(2015, 7, 13, 2, 0)),
+        param('1015673450', expected=datetime(2002, 3, 9, 12, 30, 50)),
+        param('2016-09-23T02:54:32.845Z', expected=datetime(2016, 9, 23, 2, 54, 32, 845000))
     ])
-    def test_parse_timestamp(self, date_string, languages, expected):
-        self.given_local_tz_offset(0)
-        self.given_parser(languages=languages, settings={'PREFER_LANGUAGE_DATE_ORDER': False})
+    def test_parse_timestamp(self, date_string, expected):
+        self.given_parser()
         self.when_date_is_parsed(date_string)
-        self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
