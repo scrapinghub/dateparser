@@ -51,6 +51,9 @@ class Settings(object):
             setattr(self, key, value)
 
     def replace(self, **kwds):
+        if 'TIMEZONE' in kwds and kwds['TIMEZONE'] is None:
+            del kwds['TIMEZONE']
+
         for k, v in six.iteritems(kwds):
             if v is None:
                 raise TypeError('Invalid {{"{}": {}}}'.format(k, v))
