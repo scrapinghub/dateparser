@@ -357,8 +357,6 @@ class TestDateParser(BaseTestCase):
         param('ग्यारह जुलाई 1994, 11:12',datetime(1994, 7, 11, 11, 12)),
         param('१७ अक्टूबर २०१८',datetime(2018, 10, 17, 0, 0)),
         param('12 जनवरी  1997 11:08 अपराह्न',datetime(1997, 1, 12, 23, 8)),
-        param('पच्चीस नवम्बर २०१७ ,11:15'),datetime(2017, 11, 25, 11, 15)),
-        param('2:32 गुरुवार अगस्त 15 2011'),datetime(2011, 8, 15, 2, 32)),
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,

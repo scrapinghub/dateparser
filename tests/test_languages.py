@@ -177,7 +177,7 @@ class TestBundledLanguages(BaseTestCase):
         
         #Hindi
         param('hi', 'सोमवार 13 जून 1998','monday 13 june 1998'),
-        param('hi', 'मंगल 16 1786 ,12:18','tuesday 16 1786,12:18'),
+        param('hi', 'मंगल 16 1786 12:18','tuesday 16 1786 12:18'),
         param('hi','शनि 11 अप्रैल 2002 03:09','saturday 11 april 2002 03:09'),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
@@ -401,7 +401,7 @@ class TestBundledLanguages(BaseTestCase):
         param('hi', "२४ मिनट पहले", "24 minute ago"),
         param('hi', "पांच वर्ष","5 year"),
         param('hi', "५३ सप्ताह बाद","53 week in"),
-        param('hi', "सन्  १९२०","1920"),
+        param('hi', "सन् १९२०"," 1920"),
         param('hi',"आठ पूर्वाह्न","8 am"),
         param('hi',"बारह सेकंड पूर्व","12 second ago"),
     ])
@@ -443,7 +443,7 @@ class TestBundledLanguages(BaseTestCase):
         param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
         param('he', "ה-21 לאוקטובר 2016 ב-15:00", ['ה-', '21', ' ', 'לאוקטובר', ' ', '2016', ' ', 'ב-', '15', ':', '00']),
         param('bn', "3 জুন 2015 13:05:46", ['3', ' ', 'জুন', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
-        param('hi', "13 मार्च 2013 11:15:09 ",['13',' ','मार्च',' ','2013',' ','11',':','15','09']),
+        param('hi', "13 मार्च 2013 11:15:09",['13',' ','मार्च',' ','2013',' ','11',':','15',':','09']),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
