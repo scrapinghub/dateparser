@@ -174,7 +174,11 @@ class TestBundledLanguages(BaseTestCase):
         # Bangla
         param('bn', "সেপ্টেম্বর 03 2014", "september 03 2014"),
         param('bn', "শুক্রবার, 03 সেপ্টেম্বর 2014", "friday 03 september 2014"),
-
+        
+        #Hindi
+        param('hi', 'सोमवार 13 जून 1998','monday 13 june 1998'),
+        param('hi', 'मंगल 16 1786 ,12:18','tuesday 16 1786,12:18'),
+        param('hi','शनि 11 अप्रैल 2002 03:09','saturday 11 april 2002 03:09'),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -392,6 +396,14 @@ class TestBundledLanguages(BaseTestCase):
         param('bn', "আজ", "0 days"),
         param('bn', "গত মাস", "1 month"),
         param('bn', "আগামী সপ্তাহ", "in 1 week"),
+        # Hindi
+        param('hi', "१ सप्ताह", "1 week"),
+        param('hi', "२४ मिनट पहले", "24 minute ago"),
+        param('hi', "पांच वर्ष","5 year"),
+        param('hi', "५३ सप्ताह बाद","53 week in"),
+        param('hi', "सन्  १९२०","1920"),
+        param('hi',"आठ पूर्वाह्न","8 am"),
+        param('hi',"बारह सेकंड पूर्व","12 second ago"),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         # Finnish language use "t" as hour, so empty SKIP_TOKENS.
@@ -431,6 +443,7 @@ class TestBundledLanguages(BaseTestCase):
         param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
         param('he', "ה-21 לאוקטובר 2016 ב-15:00", ['ה-', '21', ' ', 'לאוקטובר', ' ', '2016', ' ', 'ב-', '15', ':', '00']),
         param('bn', "3 জুন 2015 13:05:46", ['3', ' ', 'জুন', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
+        param('hi', "13 मार्च 2013 11:15:09 ",['13',' ','मार्च',' ','2013',' ','11',':','15','09']),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
