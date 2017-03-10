@@ -36,7 +36,7 @@ class DateParser(object):
         if settings.TO_TIMEZONE:
             date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
-        if not settings.RETURN_AS_TIMEZONE_AWARE and ptz is None:
+        if not settings.RETURN_AS_TIMEZONE_AWARE or ptz is None:
             date_obj = date_obj.replace(tzinfo=None)
 
         return date_obj, period

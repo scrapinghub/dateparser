@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import regex as re
 from datetime import datetime
 from datetime import time
+from tzlocal import get_localzone
 
 from dateutil.relativedelta import relativedelta
 
@@ -40,6 +41,9 @@ class FreshnessDateDataParser(object):
         except:
             pass
 
+    def get_local_tz(self):
+        return get_localzone()
+
     def parse(self, date_string, settings):
 
         _time = self._parse_time(date_string, settings)
@@ -59,9 +63,11 @@ class FreshnessDateDataParser(object):
                     settings.RELATIVE_BASE, settings.TIMEZONE)
             else:
                 self.now = settings.RELATIVE_BASE
+                if not self.now.tzinfo:
+                    self.now = self.get_local_tz().localize(self.now)
 
         elif 'local' in settings.TIMEZONE.lower():
-            self.now = datetime.now()
+            self.now = datetime.now(self.get_local_tz())
 
         else:
             utc_dt = datetime.utcnow()
@@ -74,10 +80,16 @@ class FreshnessDateDataParser(object):
             if settings.TO_TIMEZONE:
                 date = apply_timezone(date, settings.TO_TIMEZONE)
 
-            if not settings.RETURN_AS_TIMEZONE_AWARE:
+            if (
+                not settings.RETURN_AS_TIMEZONE_AWARE or
+                (
+                    settings.RETURN_AS_TIMEZONE_AWARE and
+                    'default' == settings.RETURN_AS_TIMEZONE_AWARE
+                )
+            ):
                 date = date.replace(tzinfo=None)
 
-        self.now = None
+        # self.now = None
         return date, period
 
     def _parse_date(self, date_string):
@@ -116,5 +128,6 @@ class FreshnessDateDataParser(object):
     def get_date_data(self, date_string, settings=None):
         date, period = self.parse(date_string, settings)
         return dict(date_obj=date, period=period)
+
 
 freshness_date_parser = FreshnessDateDataParser()
