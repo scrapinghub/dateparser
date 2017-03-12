@@ -8,8 +8,9 @@ from tzlocal import get_localzone
 
 from dateutil.relativedelta import relativedelta
 
-from dateparser.utils import apply_timezone, localize_timezone
+from dateparser.utils import apply_timezone, localize_timezone, strip_braces
 from .parser import time_parser
+from .timezone_parser import pop_tz_offset_from_string
 
 
 _UNITS = r'year|month|week|day|hour|minute|second'
@@ -48,6 +49,11 @@ class FreshnessDateDataParser(object):
 
         _time = self._parse_time(date_string, settings)
 
+        date_string = strip_braces(date_string)
+        date_string, ptz = pop_tz_offset_from_string(date_string)
+
+        _settings_tz = settings.TIMEZONE.lower()
+
         def apply_time(dateobj, timeobj):
             if not isinstance(_time, time):
                 return dateobj
@@ -58,20 +64,34 @@ class FreshnessDateDataParser(object):
             )
 
         if settings.RELATIVE_BASE:
-            if 'local' not in settings.TIMEZONE.lower():
-                self.now = localize_timezone(
-                    settings.RELATIVE_BASE, settings.TIMEZONE)
-            else:
-                self.now = settings.RELATIVE_BASE
-                if not self.now.tzinfo:
-                    self.now = self.get_local_tz().localize(self.now)
+            self.now = settings.RELATIVE_BASE
 
-        elif 'local' in settings.TIMEZONE.lower():
-            self.now = datetime.now(self.get_local_tz())
+            if 'local' not in _settings_tz:
+                self.now = localize_timezone(self.now, settings.TIMEZONE)
+
+            if ptz:
+                if self.now.tzinfo:
+                    self.now = self.now.astimezone(ptz)
+                else:
+                    self.now = ptz.localize(self.now)
+
+            if not self.now.tzinfo:
+                self.now = self.get_local_tz().localize(self.now)
+
+        elif ptz:
+            _now = datetime.now(ptz)
+
+            if 'local' in _settings_tz:
+                self.now = _now
+            else:
+                self.now = apply_timezone(_now, settings.TIMEZONE)
 
         else:
-            utc_dt = datetime.utcnow()
-            self.now = apply_timezone(utc_dt, settings.TIMEZONE)
+            if 'local' not in _settings_tz:
+                utc_dt = datetime.utcnow()
+                self.now = apply_timezone(utc_dt, settings.TIMEZONE)
+            else:
+                self.now = datetime.now(self.get_local_tz())
 
         date, period = self._parse_date(date_string)
 
@@ -82,10 +102,8 @@ class FreshnessDateDataParser(object):
 
             if (
                 not settings.RETURN_AS_TIMEZONE_AWARE or
-                (
-                    settings.RETURN_AS_TIMEZONE_AWARE and
-                    'default' == settings.RETURN_AS_TIMEZONE_AWARE
-                )
+                (settings.RETURN_AS_TIMEZONE_AWARE and
+                 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
             ):
                 date = date.replace(tzinfo=None)
 

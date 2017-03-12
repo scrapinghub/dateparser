@@ -111,7 +111,7 @@ OOTB Language Based Date Order Preference
 -----------------------------------------
 
    >>> # parsing ambiguous date
-   >>> parse('02-03-2016')  # assumes english language, uses MDY date order 
+   >>> parse('02-03-2016')  # assumes english language, uses MDY date order
    datetime.datetime(2016, 3, 2, 0, 0)
    >>> parse('le 02-03-2016')  # detects french, uses DMY date order
    datetime.datetime(2016, 3, 2, 0, 0)
@@ -124,26 +124,69 @@ OOTB Language Based Date Order Preference
 For more on date order, please look at `Settings`_.
 
 
-Timezone and UTC Offset 
+Timezone and UTC Offset
 -----------------------
 
-`dateparser` automatically detects the timezone if given in the date string. If date has no timezone name/abbreviation or offset, you can still specify it using `TIMEZONE` setting.
+By default, `dateparser` returns tzaware `datetime` if timezone is present in date string. Otherwise, it returns a naive `datetime` object.
+
+    >>> parse('January 12, 2012 10:00 PM EST')
+    datetime.datetime(2012, 1, 12, 22, 0, tzinfo=<StaticTzInfo 'EST'>)
+
+    >>> parse('January 12, 2012 10:00 PM -0500')
+    datetime.datetime(2012, 1, 12, 22, 0, tzinfo=<StaticTzInfo 'UTC\-05:00'>)
+
+    >>> parse('2 hours ago EST')
+    datetime.datetime(2017, 3, 10, 15, 55, 39, 579667, tzinfo=<StaticTzInfo 'EST'>)
+
+    >>> parse('2 hours ago -0500')
+    datetime.datetime(2017, 3, 10, 15, 59, 30, 193431, tzinfo=<StaticTzInfo 'UTC\-05:00'>)
+
+ If date has no timezone name/abbreviation or offset, you can specify it using `TIMEZONE` setting.
 
     >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': 'US/Eastern'})
     datetime.datetime(2012, 1, 12, 22, 0)
 
-You can also convert from one time zone to another using `TO_TIMEZONE` setting.
+    >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': '+0500'})
+    datetime.datetime(2012, 1, 12, 22, 0)
 
-    >>> parse('10:00 am', settings={'TO_TIMEZONE': 'EDT', 'TIMEZONE': 'EST'})
+`TIMEZONE` option may not be useful alone as it only attaches given timezone to
+resultant `datetime` object. But can be useful in cases where you want conversions from and to different
+timezones or when simply want a tzaware date with given timezone info attached.
+
+    >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': 'US/Eastern', 'RETURN_AS_TIMEZONE_AWARE': True})
+    datetime.datetime(2012, 1, 12, 22, 0, tzinfo=<DstTzInfo 'US/Eastern' EST-1 day, 19:00:00 STD>)
+
+
+    >>> parse('10:00 am', settings={'TIMEZONE': 'EST', 'TO_TIMEZONE': 'EDT'})
     datetime.datetime(2016, 9, 25, 11, 0)
 
-    >>> parse('10:00 am EST', settings={'TO_TIMEZONE': 'EDT'})
-    datetime.datetime(2016, 9, 25, 11, 0)
+Some more use cases for conversion of timezones.
 
-Support for tzaware objects:
+    >>> parse('10:00 am EST', settings={'TO_TIMEZONE': 'EDT'})  # date string has timezone info
+    datetime.datetime(2017, 3, 12, 11, 0, tzinfo=<StaticTzInfo 'EDT'>)
 
-    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True}) 
-    datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)
+    >>> parse('now EST', settings={'TO_TIMEZONE': 'UTC'})  # relative dates
+    datetime.datetime(2017, 3, 10, 23, 24, 47, 371823, tzinfo=<StaticTzInfo 'UTC'>)
+
+In case, no timezone is present in date string or defined in `settings`. You can still
+return tzaware `datetime`. It is especially useful in case of relative dates when uncertain
+what timezone is relative base.
+
+    >>> parse('2 minutes ago', settings={'RETURN_AS_TIMEZONE_AWARE': True})
+    datetime.datetime(2017, 3, 11, 4, 25, 24, 152670, tzinfo=<DstTzInfo 'Asia/Karachi' PKT+5:00:00 STD>)
+
+In case, you want to compute relative dates in UTC instead of default system local timezone, you can use `TIMEZONE` setting.
+
+    >>> parse('4 minutes ago', settings={'TIMEZONE': 'UTC'})
+    datetime.datetime(2017, 3, 10, 23, 27, 59, 647248, tzinfo=<StaticTzInfo 'UTC'>)
+
+.. note:: In case, when timezone is present both in string and also specified using `settings`, string is parsed into tzaware representation and then converted to timezone specified in `settings`.
+
+   >>> parse('10:40 pm PKT', settings={'TIMEZONE': 'UTC'})
+   datetime.datetime(2017, 3, 12, 17, 40, tzinfo=<StaticTzInfo 'UTC'>)
+
+   >>> parse('20 mins ago EST', settings={'TIMEZONE': 'UTC'})
+   datetime.datetime(2017, 3, 12, 21, 16, 0, 885091, tzinfo=<StaticTzInfo 'UTC'>)
 
 For more on timezones, please look at `Settings`_.
 
@@ -245,4 +288,3 @@ Supported Calendars
 
 .. note:: `HijriCalendar` has some limitations with Python 3.
 .. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.
-

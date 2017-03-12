@@ -71,6 +71,7 @@ Date Order
 Timezone Related Configurations
 +++++++++++++++++++++++++++++++
 
+
 ``TIMEZONE`` defaults to local timezone. When specified, resultant :class:`datetime <datetime.datetime>` is localized with the given timezone.
 
     >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': 'US/Eastern'})
@@ -82,13 +83,13 @@ Timezone Related Configurations
     >>> parse('January 12, 2012 10:00 PM', settings=settings)
     datetime.datetime(2012, 1, 12, 17, 0)
 
-``RETURN_AS_TIMEZONE_AWARE`` is a flag to turn on timezone aware dates:
+``RETURN_AS_TIMEZONE_AWARE`` is a flag to toggle between timezone aware/naive dates:
 
-    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True})
-    datetime.datetime(2015, 2, 13, 3, 56, tzinfo=<StaticTzInfo 'UTC'>)
+    >>> parse('30 mins ago', settings={'RETURN_AS_TIMEZONE_AWARE': True})
+    datetime.datetime(2017, 3, 13, 1, 43, 10, 243565, tzinfo=<DstTzInfo 'Asia/Karachi' PKT+5:00:00 STD>)
 
-    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': True, 'TIMEZONE': 'EST'})
-    datetime.datetime(2015, 2, 12, 22, 56, tzinfo=<StaticTzInfo 'EST'>)
+    >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': False})
+    datetime.datetime(2015, 2, 12, 22, 56)
 
 
 

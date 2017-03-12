@@ -11,6 +11,7 @@ from dateparser.conf import apply_settings
 
 from dateparser import parse
 
+
 def test_function(settings=None):
     return settings
 
@@ -72,7 +73,10 @@ class TimeZoneSettingsTest(BaseTestCase):
         self.given_ds = ds
 
     def given_configurations(self, confs):
-        self.confs = confs
+        if 'TIMEZONE' not in confs:
+            confs.update({'TIMEZONE': 'local'})
+
+        self.confs = settings.replace(**confs)
 
     def when_date_is_parsed(self):
         self.result = parse(self.given_ds, settings=(self.confs or {}))
