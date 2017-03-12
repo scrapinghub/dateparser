@@ -534,12 +534,46 @@ class TestDateParser(BaseTestCase):
         param('15 May 2004 23:24 EDT', datetime(2004, 5, 16, 3, 24)),
         param('08/17/14 17:00 (PDT)', datetime(2014, 8, 18, 0, 0)),
     ])
-    def test_parsing_with_time_zones(self, date_string, expected):
+    def test_parsing_with_time_zones_and_converting_to_UTC(self, date_string, expected):
         self.given_parser(settings={'TO_TIMEZONE': 'UTC'})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
         self.then_timezone_parsed_is('UTC')
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('Sep 03 2014 | 4:32 pm EDT', 'EDT', datetime(2014, 9, 3, 16, 32)),
+        param('17th October, 2034 @ 01:08 am PDT', 'PDT', datetime(2034, 10, 17, 1, 8)),
+        param('15 May 2004 23:24 EDT', 'EDT', datetime(2004, 5, 15, 23, 24)),
+        param('08/17/14 17:00 (PDT)', 'PDT', datetime(2014, 8, 17, 17, 0)),
+        param('15 May 2004 16:10 -0400', '-04:00', datetime(2004, 5, 15, 16, 10)),
+        param('1999-12-31 19:00:00 -0500', '-05:00', datetime(1999, 12, 31, 19, 0)),
+        param('1999-12-31 19:00:00 +0500', '+05:00', datetime(1999, 12, 31, 19, 0)),
+        param('Fri, 09 Sep 2005 13:51:39 -0700', '-07:00', datetime(2005, 9, 9, 13, 51, 39)),
+        param('Fri, 09 Sep 2005 13:51:39 +0000', '+00:00', datetime(2005, 9, 9, 13, 51, 39)),
+    ])
+    def test_dateparser_should_return_tzaware_date_when_tz_info_present_in_date_string(self, date_string, timezone_str, expected):
+        self.given_parser()
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_timezone_parsed_is(timezone_str)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('15 May 2004 16:10 -0400', 'UTC', datetime(2004, 5, 15, 20, 10)),
+        param('1999-12-31 19:00:00 -0500', 'UTC', datetime(2000, 1, 1, 0, 0)),
+        param('1999-12-31 19:00:00 +0500', 'UTC', datetime(1999, 12, 31, 14, 0)),
+        param('Fri, 09 Sep 2005 13:51:39 -0700', 'GMT', datetime(2005, 9, 9, 20, 51, 39)),
+        param('Fri, 09 Sep 2005 13:51:39 +0000', 'GMT', datetime(2005, 9, 9, 13, 51, 39)),
+    ])
+    def test_dateparser_shoult_return_date_in_setting_timezone_if_timezone_info_present_both_in_datestring_and_given_in_settings(self, date_string, setting_timezone, expected):
+        self.given_parser(settings={'TO_TIMEZONE': setting_timezone})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_timezone_parsed_is(setting_timezone)
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
@@ -802,7 +836,7 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(self.result['date_obj'], self.date_result[0])
 
     def then_timezone_parsed_is(self, tzstr):
-        self.assertTrue(tzstr in self.result['date_obj'].tzinfo.tzname(''))
+        self.assertTrue(tzstr in repr(self.result['date_obj'].tzinfo))
         self.result['date_obj'] = self.result['date_obj'].replace(tzinfo=None)
 
 

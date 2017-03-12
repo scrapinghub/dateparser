@@ -175,7 +175,7 @@ what timezone is relative base.
     >>> parse('2 minutes ago', settings={'RETURN_AS_TIMEZONE_AWARE': True})
     datetime.datetime(2017, 3, 11, 4, 25, 24, 152670, tzinfo=<DstTzInfo 'Asia/Karachi' PKT+5:00:00 STD>)
 
-In case, you want to compute relative dates in UTC instead of default system local timezone, you can use `TIMEZONE` setting.
+In case, you want to compute relative dates in UTC instead of default system's local timezone, you can use `TIMEZONE` setting.
 
     >>> parse('4 minutes ago', settings={'TIMEZONE': 'UTC'})
     datetime.datetime(2017, 3, 10, 23, 27, 59, 647248, tzinfo=<StaticTzInfo 'UTC'>)

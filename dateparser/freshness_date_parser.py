@@ -107,7 +107,7 @@ class FreshnessDateDataParser(object):
             ):
                 date = date.replace(tzinfo=None)
 
-        # self.now = None
+        self.now = None
         return date, period
 
     def _parse_date(self, date_string):
