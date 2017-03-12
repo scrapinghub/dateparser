@@ -88,5 +88,12 @@ in:
     - in
 
 simplifications:
+    - eergisteren: 2 dagen
     - gisteren: 1 dag
-
+    - vandaag: 0 dag
+    - nu: 0 seconden
+    - morgen: in 1 dag
+    - overmorgen: in 2 dagen
+    - vorige (week|maand|jaar): 1 \1 geleden
+    - volgende (week|maand): in 1 \1
+    - volgend jaar: in 1 jaar
