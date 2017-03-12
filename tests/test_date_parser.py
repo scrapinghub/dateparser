@@ -353,6 +353,10 @@ class TestDateParser(BaseTestCase):
         param('8ই মে 2002', datetime(2002, 5, 8)),
         param('10:06am ডিসেম্বর 11, 2014', datetime(2014, 12, 11, 10, 6)),
         param('19 ফেব্রুয়ারী 2013 সাল 09:10', datetime(2013, 2, 19, 9, 10)),
+        #Hindi dates
+        param('ग्यारह जुलाई 1994, 11:12',datetime(1994, 7, 11, 11, 12)),
+        param('१७ अक्टूबर २०१८',datetime(2018, 10, 17, 0, 0)),
+        param('12 जनवरी  1997 11:08 अपराह्न',datetime(1997, 1, 12, 23, 8)),
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,
@@ -506,7 +510,12 @@ class TestDateParser(BaseTestCase):
         param('1 Paz 2015', datetime(2015, 10, 1, 0, 0)),
         param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
         # Bulgarian
-        param('24 ян 2015г.', datetime(2015, 1, 24, 0, 0))
+        param('24 ян 2015г.', datetime(2015, 1, 24, 0, 0)),
+        #Hindi dates
+        param('बुधवार 24 मई 1997 12:09',datetime(1997, 5, 24, 12, 9)),
+        param('28 दिसम्बर 2000 , 01:09:08',datetime(2000, 12, 28, 1, 9, 8)),
+        param('१६ दिसम्बर १९७१',datetime(1971, 12, 16, 0, 0)),
+        param('सन् 1989 11 फ़रवरी 09:43',datetime(1989, 2, 11, 9, 43)),
     ])
     def test_dates_parsing_with_normalization(self, date_string, expected):
         self.given_local_tz_offset(0)

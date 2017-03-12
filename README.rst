@@ -209,6 +209,7 @@ Supported languages
 * Finnish
 * French
 * Hebrew
+* Hindi
 * Hungarian
 * German
 * Indonesian
