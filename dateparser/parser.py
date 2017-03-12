@@ -12,7 +12,7 @@ from dateparser.utils.strptime import strptime
 
 NSP_COMPATIBLE = re.compile(r'\D+')
 MERIDIAN = re.compile(r'am|pm')
-MICROSECOND = re.compile(r'\d{6}')
+MICROSECOND = re.compile(r'\d{1,6}')
 
 
 def no_space_parser_eligibile(datestring):
@@ -239,6 +239,9 @@ class _parser(object):
             if self.time is None:
                 try:
                     microsecond = MICROSECOND.search(self.filtered_tokens[index+1][0]).group()
+                    _is_after_time_token = token.index(":")
+                    _is_after_period = self.tokens[
+                        self.tokens.index((token, 0)) + 1][0].index('.')
                 except:
                     microsecond = None
 

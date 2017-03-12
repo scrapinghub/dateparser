@@ -226,6 +226,8 @@ class TestDateParser(BaseTestCase):
         param('20 Mar 2013 10h11', datetime(2013, 3, 20, 10, 11)),
         param('10:06am Dec 11, 2014', datetime(2014, 12, 11, 10, 6)),
         param('19 February 2013 year 09:10', datetime(2013, 2, 19, 9, 10)),
+        param('21 January 2012 13:11:23.678', datetime(2012, 1, 21, 13, 11, 23, 678000)),
+        param('1/1/16 9:02:43.1', datetime(2016, 1, 1, 9, 2, 43, 100000)),
         # French dates
         param('11 Mai 2014', datetime(2014, 5, 11)),
         param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
@@ -545,6 +547,7 @@ class TestDateParser(BaseTestCase):
         param('1999-12-31 19:00:00 +0500', datetime(1999, 12, 31, 14, 0)),
         param('Fri, 09 Sep 2005 13:51:39 -0700', datetime(2005, 9, 9, 20, 51, 39)),
         param('Fri, 09 Sep 2005 13:51:39 +0000', datetime(2005, 9, 9, 13, 51, 39)),
+        param('Fri Sep 23 2016 10:34:51 GMT+0800 (CST)', datetime(2016, 9, 23, 2, 34, 51)),
     ])
     def test_parsing_with_utc_offsets(self, date_string, expected):
         self.given_parser(settings={'TO_TIMEZONE': 'utc'})
@@ -699,6 +702,19 @@ class TestDateParser(BaseTestCase):
         self.given_parser(languages=languages, settings={'PREFER_LANGUAGE_DATE_ORDER': False})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        # Epoch timestamps.
+        param('1484823450', expected=datetime(2017, 1, 19, 10, 57, 30)),
+        param('1436745600000', expected=datetime(2015, 7, 13, 0, 0)),
+        param('1015673450', expected=datetime(2002, 3, 9, 11, 30, 50)),
+        param('2016-09-23T02:54:32.845Z', expected=datetime(2016, 9, 23, 2, 54, 32, 845000))
+    ])
+    def test_parse_timestamp(self, date_string, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.when_date_is_parsed(date_string)
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([

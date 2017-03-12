@@ -16,7 +16,8 @@ timezone_info_list = [
              (r'UTC', r'GMT'),
              (r'UTC\\(\+|\-)0(\d):00', r'GMT\\\1\2'), # GMT+n, GMT-n
              (r'UTC\\(\+|\-)0(\d):(\d\d)', r'GMT\\\1\2:\3'), # GMT+n:mm, GMT-n:mm
-            ],
+             (r'(?:UTC|GMT)(\\[+-])(\d{2}):(\d{2})\$', r'(?:UTC|GMT)\1\2\3.*'), # GMT+nnmm
+             ],
         'timezones':
             [('UTC\-12:00', -43200),
              ('UTC\-11:00', -39600),
