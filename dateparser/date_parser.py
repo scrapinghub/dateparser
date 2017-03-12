@@ -30,6 +30,8 @@ class DateParser(object):
         elif 'local' in settings.TIMEZONE.lower():
             stz = get_localzone()
             date_obj = stz.localize(date_obj)
+            if settings.RETURN_AS_TIMEZONE_AWARE:
+                date_obj = date_obj.replace(tzinfo=None)
         else:
             date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 
