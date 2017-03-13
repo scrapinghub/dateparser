@@ -16,6 +16,7 @@ from dateparser import date
 from dateparser.date import get_last_day_of_month
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.loader import default_language_loader
+from dateparser.conf import settings
 
 from tests import BaseTestCase
 
@@ -269,7 +270,7 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.add_patch(patch('dateparser.date.datetime', new=datetime_mock))
 
     def when_date_is_parsed_with_formats(self, date_string, date_formats):
-        self.result = date.parse_with_formats(date_string, date_formats)
+        self.result = date.parse_with_formats(date_string, date_formats, settings)
 
     def then_date_was_not_parsed(self):
         self.assertIsNotNone(self.result)
@@ -404,6 +405,7 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
         self.then_period_is('day')
+        self.result['date_obj'] = self.result['date_obj'].replace(tzinfo=None)
         self.then_parsed_datetime_is(expected_result)
 
     @parameterized.expand([

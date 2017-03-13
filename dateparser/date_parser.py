@@ -25,18 +25,27 @@ class DateParser(object):
 
         date_obj, period = parse(date_string, settings=settings)
 
-        if ptz is not None:
+        _settings_tz = settings.TIMEZONE.lower()
+
+        if ptz:
             date_obj = ptz.localize(date_obj)
-        elif 'local' in settings.TIMEZONE.lower():
-            stz = get_localzone()
-            date_obj = stz.localize(date_obj)
+            if 'local' not in _settings_tz:
+                date_obj = apply_timezone(date_obj, settings.TIMEZONE)
         else:
-            date_obj = localize_timezone(date_obj, settings.TIMEZONE)
+            if 'local' in _settings_tz:
+                stz = get_localzone()
+                date_obj = stz.localize(date_obj)
+            else:
+                date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 
         if settings.TO_TIMEZONE:
             date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
-        if not settings.RETURN_AS_TIMEZONE_AWARE:
+        if (
+            not settings.RETURN_AS_TIMEZONE_AWARE or
+            (settings.RETURN_AS_TIMEZONE_AWARE and
+             'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
+        ):
             date_obj = date_obj.replace(tzinfo=None)
 
         return date_obj, period

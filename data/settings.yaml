@@ -6,7 +6,7 @@ settings:
     SKIP_TOKENS_PARSER: ["t", "year", "hour", "minute"]
     TIMEZONE: 'local'
     TO_TIMEZONE: False
-    RETURN_AS_TIMEZONE_AWARE: False
+    RETURN_AS_TIMEZONE_AWARE: 'default'
     NORMALIZE: True
     RELATIVE_BASE: False
     DATE_ORDER: MDY

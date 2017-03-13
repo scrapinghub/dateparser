@@ -6,6 +6,7 @@ import unicodedata
 
 import regex as re
 import ruamel.yaml as yaml
+from tzlocal import get_localzone
 from pytz import UTC, timezone, UnknownTimeZoneError
 
 from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
@@ -135,6 +136,25 @@ def apply_timezone(date_time, tz_string):
         new_datetime = apply_tzdatabase_timezone(date_time, tz_string)
 
     return new_datetime
+
+
+def apply_timezone_from_settings(date_obj, settings):
+    tz = get_localzone()
+    if settings is None:
+        return date_obj
+
+    if 'local' in settings.TIMEZONE.lower():
+        date_obj = tz.localize(date_obj)
+    else:
+        date_obj = localize_timezone(date_obj, settings.TIMEZONE)
+
+    if settings.TO_TIMEZONE:
+        date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
+
+    if settings.RETURN_AS_TIMEZONE_AWARE is not True:
+        date_obj = date_obj.replace(tzinfo=None)
+
+    return date_obj
 
 
 def registry(cls):

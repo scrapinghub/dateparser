@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import unittest
 from datetime import datetime, timedelta, date, time
 from functools import wraps
+import pytz
 
 from dateutil.relativedelta import relativedelta
 from mock import Mock, patch
@@ -774,6 +775,20 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.when_date_is_parsed()
         self.then_date_is(date)
         self.then_time_is(time)
+
+    def test_freshness_date_with_to_timezone_setting(self):
+        _settings = settings.replace(**{
+            'TIMEZONE': 'local',
+            'TO_TIMEZONE': 'UTC',
+            'RELATIVE_BASE': datetime(2014, 9, 1, 10, 30)
+        })
+
+        parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
+        parser.get_local_tz = Mock(return_value=pytz.timezone('US/Eastern'))
+        result = parser.get_date_data('1 minute ago', _settings)
+        result = result['date_obj']
+        self.assertEqual(result.date(), date(2014, 9, 1))
+        self.assertEqual(result.time(), time(14, 29))
 
     @parameterized.expand([
         param('2 hours ago', 'PKT', date(2014, 9, 1), time(13, 30)),

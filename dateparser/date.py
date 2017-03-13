@@ -13,7 +13,7 @@ from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import apply_settings
-from dateparser.utils import normalize_unicode
+from dateparser.utils import normalize_unicode, apply_timezone_from_settings
 
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -103,16 +103,18 @@ def sanitize_date(date_string):
     return date_string
 
 
-def get_date_from_timestamp(date_string):
+def get_date_from_timestamp(date_string, settings):
     if re.search(r'^\d{10}(?![^\d.])', date_string):
-        return datetime.fromtimestamp(int(date_string[:10]))
+        date_obj = datetime.fromtimestamp(int(date_string[:10]))
+        date_obj = apply_timezone_from_settings(date_obj, settings)
+        return date_obj
 
 
 def get_last_day_of_month(year, month):
     return calendar.monthrange(year, month)[1]
 
 
-def parse_with_formats(date_string, date_formats):
+def parse_with_formats(date_string, date_formats, settings):
     """ Parse with formats and return a dictionary with 'period' and 'obj_date'.
 
     :returns: :class:`datetime.datetime`, dict or None
@@ -135,6 +137,8 @@ def parse_with_formats(date_string, date_formats):
             if not ('%y' in date_format or '%Y' in date_format):
                 today = datetime.today()
                 date_obj = date_obj.replace(year=today.year)
+
+            date_obj = apply_timezone_from_settings(date_obj, settings)
 
             return {'date_obj': date_obj, 'period': period}
     else:
@@ -179,7 +183,7 @@ class _DateLanguageParser(object):
 
     def _try_timestamp(self):
         return {
-            'date_obj': get_date_from_timestamp(self.date_string),
+            'date_obj': get_date_from_timestamp(self.date_string, self._settings),
             'period': 'day',
         }
 
@@ -206,7 +210,10 @@ class _DateLanguageParser(object):
         if not self.date_formats:
             return
 
-        return parse_with_formats(self._get_translated_date_with_formatting(), self.date_formats)
+        return parse_with_formats(
+            self._get_translated_date_with_formatting(),
+            self.date_formats, settings=self._settings
+        )
 
     def _try_hardcoded_formats(self):
         hardcoded_date_formats = [
@@ -218,7 +225,10 @@ class _DateLanguageParser(object):
         ]
         try:
             return parse_with_formats(
-                self._get_translated_date_with_formatting(), hardcoded_date_formats)
+                self._get_translated_date_with_formatting(),
+                hardcoded_date_formats,
+                settings=self._settings
+            )
         except TypeError:
             return None
 
@@ -346,7 +356,7 @@ class DateDataParser(object):
         if not(isinstance(date_string, six.text_type) or isinstance(date_string, six.string_types)):
             raise TypeError('Input type must be str or unicode')
 
-        res = parse_with_formats(date_string, date_formats or [])
+        res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:
             return res
 

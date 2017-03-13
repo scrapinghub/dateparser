@@ -4,8 +4,11 @@ from datetime import datetime
 from tests import BaseTestCase
 from nose_parameterized import parameterized, param
 from dateparser.utils import (
-    find_date_separator, localize_timezone, apply_timezone
+    find_date_separator, localize_timezone, apply_timezone,
+    apply_timezone_from_settings
 )
+
+from dateparser.conf import settings
 
 
 class TestUtils(BaseTestCase):
@@ -38,7 +41,7 @@ class TestUtils(BaseTestCase):
         param(datetime(2015, 12, 12), timezone='UTC', zone='UTC'),
         param(datetime(2015, 12, 12), timezone='Asia/Karachi', zone='Asia/Karachi'),
     ])
-    def test_localize_timezone(self, date, timezone, zone):
+    def test_localize_timezone_function(self, date, timezone, zone):
         tzaware_dt = localize_timezone(date, timezone)
         self.assertEqual(tzaware_dt.tzinfo.zone, zone)
 
@@ -46,7 +49,23 @@ class TestUtils(BaseTestCase):
         param(datetime(2015, 12, 12, 10, 12), timezone='Asia/Karachi', expected=datetime(2015, 12, 12, 15, 12)),
         param(datetime(2015, 12, 12, 10, 12), timezone='-0500', expected=datetime(2015, 12, 12, 5, 12)),
     ])
-    def test_apply_timezone(self, date, timezone, expected):
+    def test_apply_timezone_function(self, date, timezone, expected):
         result = apply_timezone(date, timezone)
         result = result.replace(tzinfo=None)
         self.assertEqual(expected, result)
+
+    @parameterized.expand([
+        param(datetime(2015, 12, 12, 10, 12), timezone='Asia/Karachi', expected=datetime(2015, 12, 12, 15, 12)),
+        param(datetime(2015, 12, 12, 10, 12), timezone='-0500', expected=datetime(2015, 12, 12, 5, 12)),
+    ])
+    def test_apply_timezone_from_settings_function(self, date, timezone, expected):
+        result = apply_timezone_from_settings(date, settings.replace(**{'TO_TIMEZONE': timezone, 'TIMEZONE': 'UTC'}))
+        self.assertEqual(expected, result)
+
+    @parameterized.expand([
+        param(datetime(2015, 12, 12, 10, 12),),
+        param(datetime(2015, 12, 12, 10, 12),),
+    ])
+    def test_apply_timezone_from_settings_function_should_return_tz(self, date):
+        result = apply_timezone_from_settings(date, settings.replace(**{'RETURN_AS_TIMEZONE_AWARE': True}))
+        self.assertTrue(bool(result.tzinfo))
