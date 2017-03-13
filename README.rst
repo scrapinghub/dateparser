@@ -288,3 +288,9 @@ Supported Calendars
 
 .. note:: `HijriCalendar` has some limitations with Python 3.
 .. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.
+
+
+Install using following command to use calendars.
+
+.. tip::
+   pip install dateparser[calendars]
