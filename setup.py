@@ -28,13 +28,13 @@ setup(
     install_requires=[
         'python-dateutil',
         'ruamel.yaml',
-        'jdatetime',
-        'umalqurra',
         'pytz',
         'regex',
         'tzlocal',
-        'convertdate'
     ],
+    extra_requires={
+        'calendars': ['convertdate', 'umalqurra', 'jdatetime'],
+    },
     license="BSD",
     zip_safe=False,
     keywords='dateparser',
