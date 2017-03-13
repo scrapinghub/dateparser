@@ -15,6 +15,7 @@ from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import default_language_loader
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.timezone_parser import StaticTzInfo
 from dateparser.conf import settings
 from dateparser.utils import normalize_unicode
 
@@ -746,7 +747,7 @@ class TestDateParser(BaseTestCase):
         param('1484823450', expected=datetime(2017, 1, 19, 10, 57, 30)),
         param('1436745600000', expected=datetime(2015, 7, 13, 0, 0)),
         param('1015673450', expected=datetime(2002, 3, 9, 11, 30, 50)),
-        param('2016-09-23T02:54:32.845Z', expected=datetime(2016, 9, 23, 2, 54, 32, 845000))
+        param('2016-09-23T02:54:32.845Z', expected=datetime(2016, 9, 23, 2, 54, 32, 845000, tzinfo=StaticTzInfo('Z', timedelta(0))))
     ])
     def test_parse_timestamp(self, date_string, expected):
         self.given_local_tz_offset(0)
