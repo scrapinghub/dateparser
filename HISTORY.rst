@@ -3,6 +3,24 @@
 History
 =======
 
+0.6.0 (2017-03-13)
+------------------
+
+New features:
+* Consistent parsing in terms of true python representation of date string. See #281
+* Added support for Bangla, Bulgarian and Hindi languages.
+
+Improvements:
+
+* Major bug fixes related to parser and system's locale. See #277, #282
+* Type check for timezone arguments in settings. see #267
+* Pinned dependencies' versions in requirements. See #265
+* Improved support for cn, es, dutch languages. See #274, #272, #285
+
+Packaging:
+* Make calendars extras to be used at the time of installation if need to use calendars feature.
+
+
 0.5.1 (2016-12-18)
 ------------------
 
