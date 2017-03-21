@@ -28,11 +28,23 @@ APOSTROPHE_LOOK_ALIKE_CHARS = [
     u'\N{FULLWIDTH APOSTROPHE}',            # u'\uff07'
 ]
 
+RE_NBSP = re.compile(u'\xa0', flags=re.UNICODE)
+RE_SPACES = re.compile(r'\s+')
+RE_TRIM_SPACES = re.compile(r'^\s+(\S.*?)\s+$')
+
+RE_SANITIZE_SKIP = re.compile(r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u064e|\u064f', flags=re.M)
+RE_SANITIZE_RUSSIAN = re.compile(r'([\W\d])\u0433\.', flags=re.I | re.U)
+RE_SANITIZE_AMPM = re.compile(r'\b([ap])(\.)?m(\.)?\b', flags=re.DOTALL | re.I)
+RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
+RE_SANITIZE_APOSTROPHE = re.compile(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
+
+RE_SEARCH_TIMESTAMP = re.compile(r'^\d{10}(?![^\d.])')
+
 
 def sanitize_spaces(html_string):
-    html_string = re.sub(u'\xa0', ' ', html_string, flags=re.UNICODE)
-    html_string = re.sub(r'\s+', ' ', html_string)
-    html_string = re.sub(r'^\s+(\S.*?)\s+$', r'\1', html_string)
+    html_string = RE_NBSP.sub(' ', html_string)
+    html_string = RE_SPACES.sub(' ', html_string)
+    html_string = RE_TRIM_SPACES.sub(r'\1', html_string)
     return html_string
 
 
@@ -88,23 +100,19 @@ def get_intersecting_periods(low, high, period='day'):
 
 
 def sanitize_date(date_string):
-    date_string = re.sub(
-        r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u064e|\u064f',
-        ' ', date_string, flags=re.M
-    )
-    date_string = re.sub(r'([\W\d])\u0433\.', r'\1 ', date_string,
-                         flags=re.I | re.U)  # remove u'г.' (Russian for year) but not in words
+    date_string = RE_SANITIZE_SKIP.sub(' ', date_string)
+    date_string = RE_SANITIZE_RUSSIAN.sub(r'\1 ', date_string)  # remove u'г.' (Russian for year) but not in words
     date_string = sanitize_spaces(date_string)
-    date_string = re.sub(r'\b([ap])(\.)?m(\.)?\b', r'\1m', date_string, flags=re.DOTALL | re.I)
-    date_string = re.sub(r'^.*?on:\s+(.*)', r'\1', date_string)
+    date_string = RE_SANITIZE_AMPM.sub(r'\1m', date_string)
+    date_string = RE_SANITIZE_ON.sub(r'\1', date_string)
 
-    date_string = re.sub(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS), u"'", date_string)
+    date_string = RE_SANITIZE_APOSTROPHE.sub(u"'", date_string)
 
     return date_string
 
 
 def get_date_from_timestamp(date_string, settings):
-    if re.search(r'^\d{10}(?![^\d.])', date_string):
+    if RE_SEARCH_TIMESTAMP.search(date_string):
         date_obj = datetime.fromtimestamp(int(date_string[:10]))
         date_obj = apply_timezone_from_settings(date_obj, settings)
         return date_obj
