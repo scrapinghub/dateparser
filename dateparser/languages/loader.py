@@ -11,10 +11,11 @@ from .language import Language
 class LanguageDataLoader(object):
     _data = None
 
-    def __init__(self, file=None):
+    def __init__(self, file=None,languages=None):
         if isinstance(file, six.string_types):
             file = open(file)
         self.file = file
+        self.languages=languages
 
     def get_language_map(self):
         if self._data is None:
@@ -36,16 +37,26 @@ class LanguageDataLoader(object):
             data = get_data('data', 'languages.yaml')
         else:
             data = self.file.read()
-        data = SafeLoader(data).get_data()
+        data = SafeLoader(data,languages=self.languages).get_data()
+        data = {key:value for key,value in data.items() if value}
         base_data = data.pop('base', {'skip': []})
         language_order = data.pop('languageorder')
         known_languages = OrderedDict()
-        for shortname in language_order:
-            language_info = data[shortname]
-            self._update_language_info_with_base_info(language_info, base_data)
-            language = Language(shortname, language_info)
-            if language.validate_info():
-                known_languages[shortname] = language
+        unsupported_languages=[]
+        if self.languages:
+            for shortname in self.languages:
+                language_info = data[shortname]
+                self._update_language_info_with_base_info(language_info, base_data)
+                language = Language(shortname, language_info)
+                if language.validate_info():
+                    known_languages[shortname] = language
+        else:
+            for shortname in language_order:
+                language_info = data[shortname]
+                self._update_language_info_with_base_info(language_info, base_data)
+                language = Language(shortname, language_info)
+                if language.validate_info():
+                    known_languages[shortname] = language
         self._data = known_languages
 
     def _update_language_info_with_base_info(self, language_info, base_info):

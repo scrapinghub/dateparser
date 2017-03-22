@@ -185,8 +185,18 @@ class SafeLoader(yaml.loader.SafeLoader):
     """Supports !include directive.
     """
     def __init__(self, *args, **kwds):
+        self.languages=None
+        if 'languages' in kwds:
+            self.languages=kwds.pop('languages')
         super(SafeLoader, self).__init__(*args, **kwds)
         self.add_constructor('!include', self.construct_yaml_include)
+        if self.languages is not None:
+            self.languages=['languagefiles/'+shortname+'.yaml' for shortname in self.languages]
 
     def construct_yaml_include(self, loader, node):
-        return yaml.safe_load(get_data('data', node.value))
+        if self.languages:
+            if node.value in self.languages:
+                return yaml.safe_load(get_data('data', node.value))
+        else:
+            return yaml.safe_load(get_data('data', node.value))
+        
