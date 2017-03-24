@@ -41,22 +41,15 @@ class LanguageDataLoader(object):
         data = {key:value for key,value in data.items() if value}
         base_data = data.pop('base', {'skip': []})
         language_order = data.pop('languageorder')
+        if not self.languages:
+            self.languages = language_order
         known_languages = OrderedDict()
-        unsupported_languages=[]
-        if self.languages:
-            for shortname in self.languages:
-                language_info = data[shortname]
-                self._update_language_info_with_base_info(language_info, base_data)
-                language = Language(shortname, language_info)
-                if language.validate_info():
-                    known_languages[shortname] = language
-        else:
-            for shortname in language_order:
-                language_info = data[shortname]
-                self._update_language_info_with_base_info(language_info, base_data)
-                language = Language(shortname, language_info)
-                if language.validate_info():
-                    known_languages[shortname] = language
+        for shortname in self.languages:
+            language_info = data[shortname]
+            self._update_language_info_with_base_info(language_info, base_data)
+            language = Language(shortname, language_info)
+            if language.validate_info():
+                known_languages[shortname] = language
         self._data = known_languages
 
     def _update_language_info_with_base_info(self, language_info, base_info):

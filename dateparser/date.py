@@ -282,24 +282,30 @@ class DateDataParser(object):
     :raises:
             ValueError - Unknown Language, TypeError - Languages argument must be a list
     """
-    language_loader = None
+    available_language_map = {}
 
     @apply_settings
     def __init__(self, languages=None, allow_redetect_language=False, settings=None):
         self._settings = settings
         self.allow_redetect_language=allow_redetect_language
         self.languages=languages
+        self.are_languages_passed = bool(languages)
 
         available_language_shortnames=['en', 'ar', 'be', 'bg', 'bn', 'cs', 'da', 'de', 'es', 
         'fa', 'fi', 'fr', 'he', 'hi', 'hu', 'id', 'it', 'ja', 'nl', 'pl', 'pt', 
         'ro', 'ru', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
         
-        if isinstance(languages, (list, tuple, collections.Set)):
+        if not languages:
+            self.languages = available_language_shortnames
+        
+        elif isinstance(languages, (list, tuple, collections.Set)):
             unsupported_languages = set(languages) - set(available_language_shortnames)
             if unsupported_languages:
                 raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
+            else:
+                self.languages.sort(key = available_language_shortnames.index)
 
-        elif languages is not None:
+        else:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
 
@@ -346,11 +352,12 @@ class DateDataParser(object):
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
-        available_language_map = self._get_language_loader(languages=self.languages).get_language_map()
-        self.language_list = list(available_language_map.values())
+        required_language_map = self._get_language_map(languages=self.languages)
+        self.language_list = list(required_language_map.values())
+        
         if self.allow_redetect_language:
             self.language_detector = AutoDetectLanguage(languages=self.language_list,allow_redetection=True)
-        elif self.languages:
+        elif self.are_languages_passed:
             self.language_detector = ExactLanguages(languages=self.language_list)
         else:
             self.language_detector = AutoDetectLanguage(languages=self.language_list,allow_redetection=False)
@@ -385,9 +392,12 @@ class DateDataParser(object):
 
 
     @classmethod
-    def _get_language_loader(cls,languages):
-        if not cls.language_loader:
-            cls.language_loader = LanguageDataLoader(file=None,languages=languages)
-        elif languages not in cls.language_loader.get_language_map().keys():
-            cls.language_loader = LanguageDataLoader(file=None,languages=languages)
-        return cls.language_loader
+    def _get_language_map(cls,languages):
+        absent_languages = set(languages)-set(cls.available_language_map.keys())
+        if absent_languages:
+            absent_language_map = LanguageDataLoader(file=None,languages=absent_languages).get_language_map()
+            cls.available_language_map.update(absent_language_map)
+        required_language_map = collections.OrderedDict() 
+        for shortname in languages:
+            required_language_map[shortname] = cls.available_language_map[shortname]
+        return required_language_map
