@@ -60,6 +60,12 @@ class TestFreshnessDateDataParser(BaseTestCase):
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         param('just now', ago={'seconds': 0}, period='day'),
+        # Fix for #291, work till one to twelve only
+        param('nine hours ago', ago={'hours': 9}, period='day'),
+        param('three week ago', ago={'weeks': 3}, period='week'),
+        param('in eight months', ago={'months': 8}, period='month'),
+        param('six days ago', ago={'days': 6}, period='day'),
+        param('in 5 years', ago={'years': 5}, period='year'),
 
         # French dates
         param("Aujourd'hui", ago={'days': 0}, period='day'),
