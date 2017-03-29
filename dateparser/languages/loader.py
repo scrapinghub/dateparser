@@ -9,48 +9,52 @@ from .language import Language
 
 
 class LanguageDataLoader(object):
-    _data = None
+    _data = {}
 
-    def __init__(self, file=None,languages=None):
+    def __init__(self, file=None):
         if isinstance(file, six.string_types):
             file = open(file)
         self.file = file
-        self.languages=languages
 
-    def get_language_map(self):
-        if self._data is None:
-            self._load_data()
-        return self._data
+    def get_language_map(self,languages = None):
+        return self._load_data(languages = languages)
 
     def get_languages(self):
-        if self._data is None:
-            self._load_data()
-        return self._data.values()
+        return self._load_data().values()
 
     def get_language(self, shortname):
-        if self._data is None:
-            self._load_data()
-        return self._data.get(shortname)
+        return self._load_data(languages = [shortname]).get(shortname)
 
-    def _load_data(self):
+    def _load_data(self, languages = None):
         if self.file is None:
             data = get_data('data', 'languages.yaml')
         else:
             data = self.file.read()
-        data = SafeLoader(data,languages=self.languages).get_data()
+        
+        language_order = ['en', 'ar', 'be', 'bg', 'bn', 'cs', 'da', 'de', 'es', 
+          'fa', 'fi', 'fr', 'he', 'hi', 'hu', 'id', 'it', 'ja', 'nl', 'pl', 'pt', 
+          'ro', 'ru', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
+        if not languages:
+            languages=language_order
+        else:
+            unsupported_languages = set(languages)-set(language_order)
+            if unsupported_languages:
+                raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
+            languages.sort(key = language_order.index)
+        absent_languages = set(languages)-set(self._data.keys())
+        data = SafeLoader(data,languages=absent_languages).get_data()
         data = {key:value for key,value in data.items() if value}
         base_data = data.pop('base', {'skip': []})
-        language_order = data.pop('languageorder')
-        if not self.languages:
-            self.languages = language_order
-        known_languages = OrderedDict()
-        for shortname in self.languages:
+        for shortname in absent_languages:
             language_info = data[shortname]
             self._update_language_info_with_base_info(language_info, base_data)
             language = Language(shortname, language_info)
             if language.validate_info():
-                known_languages[shortname] = language
-        self._data = known_languages
+                self._data[shortname] = language
+        required_languages=OrderedDict()
+        for shortname in languages:
+            required_languages[shortname] = self._data[shortname]
+        return required_languages
 
     def _update_language_info_with_base_info(self, language_info, base_info):
         for key, values in six.iteritems(base_info):

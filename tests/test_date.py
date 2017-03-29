@@ -286,6 +286,7 @@ class TestParseWithFormatsFunction(BaseTestCase):
 
 
 class TestDateDataParser(BaseTestCase):
+    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile(u"Unknown language\(s\): (.+)")
     def setUp(self):
         super(TestDateDataParser, self).setUp()
         self.parser = NotImplemented
@@ -381,6 +382,16 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_date_has_timezone()
 
     @parameterized.expand([
+        param(['ur', 'li'], unknown_languages=[u'ur', u'li']),
+        param(['ur', 'en'], unknown_languages=[u'ur']),
+        param(['pk'], unknown_languages=[u'pk']),
+        ])
+    def test_get_date_data_should_raise_error_when_unknown_language_given(self, shortnames, unknown_languages):
+        self.given_parser(restrict_to_languages = shortnames)
+        self.when_date_string_is_parsed('11 Jan 1999 12:05')
+        self.then_languages_are_unknown(unknown_languages)
+
+    @parameterized.expand([
         param(date_string="14 giu 13", date_formats=["%y %B %d"], expected_result=datetime(2014, 6, 13)),
         param(date_string="14_luglio_15", date_formats=["%y_%B_%d"], expected_result=datetime(2014, 7, 15)),
         param(date_string="14_LUGLIO_15", date_formats=["%y_%B_%d"], expected_result=datetime(2014, 7, 15)),
@@ -447,7 +458,10 @@ class TestDateDataParser(BaseTestCase):
         )
 
     def when_date_string_is_parsed(self, date_string, date_formats=None):
-        self.result = self.parser.get_date_data(date_string, date_formats)
+        try:
+            self.result = self.parser.get_date_data(date_string, date_formats)
+        except Exception as error:
+            self.error = error
 
     def when_multiple_dates_are_parsed(self, date_strings):
         self.multiple_results = []
@@ -491,36 +505,12 @@ class TestDateDataParser(BaseTestCase):
     def then_parsed_date_has_timezone(self):
         self.assertTrue(hasattr(self.result['date_obj'], 'tzinfo'))
 
-
-class TestParserInitialization(BaseTestCase):
-    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile(u"Unknown language\(s\): (.+)")
-
-    def setUp(self):
-        super(TestParserInitialization, self).setUp()
-        self.result = NotImplemented
-
-    @parameterized.expand([
-        param(['ur', 'li'], unknown_languages=[u'ur', u'li']),
-        param(['ur', 'en'], unknown_languages=[u'ur']),
-        param(['pk'], unknown_languages=[u'pk']),
-        ])
-    def test_should_raise_error_when_unknown_language_given(self, shortnames, unknown_languages):
-        self.when_parser_is_initialized(languages=shortnames)
-        self.then_languages_are_unknown(unknown_languages)
-
-    def when_parser_is_initialized(self, **params):
-        try:
-            self.parser = date.DateDataParser(**params)
-        except Exception as error:
-            self.error = error
-
     def then_languages_are_unknown(self, unknown_languages):
         self.assertIsInstance(self.error, ValueError)
         match = self.UNKNOWN_LANGUAGES_EXCEPTION_RE.match(str(self.error))
         self.assertTrue(match)
         languages = match.group(1).split(", ")
         six.assertCountEqual(self, languages, [repr(l) for l in unknown_languages])
-
 
 class TestSanitizeDate(BaseTestCase):
     def test_remove_year_in_russian(self):

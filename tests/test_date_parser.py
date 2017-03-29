@@ -106,15 +106,13 @@ class AutoDetectLanguageTest(BaseTestCase):
 
     def given_parser(self, languages=None, allow_redetection=False):
         if languages is not None:
-            language_map = default_language_loader.get_language_map()
-            languages = [language_map[language]
-                         for language in languages]
+            language_map = default_language_loader.get_language_map(languages = languages)
+            languages = language_map.values()
         self.parser = AutoDetectLanguage(languages, allow_redetection=allow_redetection)
 
     def given_parser_languages_are(self, languages):
-        language_map = default_language_loader.get_language_map()
-        self.parser.languages = [language_map[language]
-                                 for language in languages]
+        language_map = default_language_loader.get_language_map(languages = languages)
+        self.parser.languages = language_map.values()
 
     def when_all_languages_are_detected(self, date_strings, modify=False):
         assert not isinstance(date_strings, six.string_types)
@@ -177,9 +175,8 @@ class ExactLanguagesTest(BaseTestCase):
         self.then_detected_languages_are([])
 
     def given_parser(self, languages):
-        language_map = default_language_loader.get_language_map()
-        languages = [language_map[language]
-                     for language in languages]
+        language_map = default_language_loader.get_language_map(languages = languages)
+        languages = language_map.values()
         self.parser = ExactLanguages(languages)
 
     def when_languages_are_detected(self, date_strings, modify=False):
