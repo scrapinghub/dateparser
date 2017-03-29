@@ -104,6 +104,7 @@ simplifications:
     - avant-hier: 2 jour
     - hier: 1 jour
     - aujourd'hui: 0 jours
+    - demain: dans 1 jour
     - d'une: 1
     - un: 1
     - une: 1
