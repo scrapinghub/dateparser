@@ -26,11 +26,6 @@ class LanguageDataLoader(object):
         return self._load_data(languages = [shortname]).get(shortname)
 
     def _load_data(self, languages = None):
-        if self.file is None:
-            data = get_data('data', 'languages.yaml')
-        else:
-            data = self.file.read()
-        
         language_order = ['en', 'ar', 'be', 'bg', 'bn', 'cs', 'da', 'de', 'es', 
           'fa', 'fi', 'fr', 'he', 'hi', 'hu', 'id', 'it', 'ja', 'nl', 'pl', 'pt', 
           'ro', 'ru', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
@@ -42,15 +37,20 @@ class LanguageDataLoader(object):
                 raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
             languages.sort(key = language_order.index)
         absent_languages = set(languages)-set(self._data.keys())
-        data = SafeLoader(data,languages=absent_languages).get_data()
-        data = {key:value for key,value in data.items() if value}
-        base_data = data.pop('base', {'skip': []})
-        for shortname in absent_languages:
-            language_info = data[shortname]
-            self._update_language_info_with_base_info(language_info, base_data)
-            language = Language(shortname, language_info)
-            if language.validate_info():
-                self._data[shortname] = language
+        if absent_languages:
+            if self.file is None:
+                data = get_data('data', 'languages.yaml')
+            else:
+                data = self.file.read()
+            data = SafeLoader(data,languages=absent_languages).get_data()
+            data = {key:value for key,value in data.items() if value}
+            base_data = data.pop('base', {'skip': []})
+            for shortname in absent_languages:
+                language_info = data[shortname]
+                self._update_language_info_with_base_info(language_info, base_data)
+                language = Language(shortname, language_info)
+                if language.validate_info():
+                    self._data[shortname] = language
         required_languages=OrderedDict()
         for shortname in languages:
             required_languages[shortname] = self._data[shortname]
