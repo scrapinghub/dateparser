@@ -452,6 +452,8 @@ class _parser(object):
     def parse(cls, datestring, settings):
         tokens = tokenizer(datestring)
         po = cls(tokens.tokenize(), settings)
+        if not po.filtered_tokens:
+            return None,None
         dateobj = po._results()
 
         # correction for past, future if applicable

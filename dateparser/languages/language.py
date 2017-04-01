@@ -50,8 +50,6 @@ class Language(object):
             word = word.lower()
             if word in dictionary:
                 words[i] = dictionary[word] or ''
-            elif re.match('^\W+$',word):
-                raise ValueError('Invalid date string')
         if "in" in words:
             words = self._clear_future_words(words)
 

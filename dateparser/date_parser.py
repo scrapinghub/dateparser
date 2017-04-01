@@ -27,7 +27,10 @@ class DateParser(object):
 
         _settings_tz = settings.TIMEZONE.lower()
 
-        if ptz:
+        if date_obj is None:
+            return date_obj, period
+        
+        elif ptz:
             date_obj = ptz.localize(date_obj)
             if 'local' not in _settings_tz:
                 date_obj = apply_timezone(date_obj, settings.TIMEZONE)
