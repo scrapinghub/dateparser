@@ -431,6 +431,17 @@ class TestDateDataParser(BaseTestCase):
         self.then_period_is('day')
         self.then_parsed_datetime_is(expected_result)
 
+    @parameterized.expand([
+    param(date_string="੨੦੧੭-੦੧-੧੬",languages=['en','es','he','hi','bn','be','ar','fr','fi']),
+    param(date_string="१४-२",languages=['en','es','he']),
+    param(date_string="႐႑႒",languages=['bn','be','ar','fr','fi']),
+    param(date_string="౨౩౪",languages=['bn','be','ar','fr','fi','bg','pt']),
+    ])
+    def test_dates_with_numerals_in_other_languages_are_not_parsed(self, date_string, languages):
+        self.given_parser(languages=languages)
+        self.when_date_string_is_parsed(date_string)
+        self.then_date_is_not_parsed()
+
     def given_now(self, year, month, day, **time):
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.utcnow = Mock(return_value=datetime(year, month, day, **time))
@@ -503,6 +514,9 @@ class TestDateDataParser(BaseTestCase):
 
     def then_parsed_date_has_timezone(self):
         self.assertTrue(hasattr(self.result['date_obj'], 'tzinfo'))
+
+    def then_date_is_not_parsed(self):
+        self.assertIsNone(self.result['date_obj'])
 
 
 class TestParserInitialization(BaseTestCase):
