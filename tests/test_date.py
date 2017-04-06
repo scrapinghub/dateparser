@@ -436,6 +436,10 @@ class TestDateDataParser(BaseTestCase):
     param(date_string="१४-२",languages=['en','es','he']),
     param(date_string="႐႑-႒",languages=['bn','be','ar','fr','fi']),
     param(date_string="౨౩-౪",languages=['bn','be','ar','fr','fi','bg','pt']),
+    param(date_string="੨੦੧੭੦੧੧੬",languages=['en','es','he','hi','bn','be','ar','fr','fi']),
+    param(date_string="१४२",languages=['en','es','he']),
+    param(date_string="႐႑႒",languages=['bn','be','ar','fr','fi']),
+    param(date_string="౨౩౪",languages=['bn','be','ar','fr','fi','bg','pt']),    
     ])
     def test_dates_with_numerals_in_other_languages_are_not_parsed(self, date_string, languages):
         self.given_parser(languages=languages)
