@@ -101,9 +101,11 @@ in:
     - en
 
 simplifications:
+    - maintenant: 0 seconde
     - avant-hier: 2 jour
     - hier: 1 jour
     - aujourd'hui: 0 jours
+    - demain: dans 1 jour
     - d'une: 1
     - un: 1
     - une: 1
@@ -113,4 +115,3 @@ simplifications:
     - moins\s(?:de\s)?(\d+)\s?s: \1 seconde
     - moins\s(?:de\s)?(\d+)\s?m: \1 minute
     - moins\s(?:de\s)?(\d+)\s?h: \1 heure
-

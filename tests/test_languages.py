@@ -174,7 +174,7 @@ class TestBundledLanguages(BaseTestCase):
         # Bangla
         param('bn', "সেপ্টেম্বর 03 2014", "september 03 2014"),
         param('bn', "শুক্রবার, 03 সেপ্টেম্বর 2014", "friday 03 september 2014"),
-        
+
         #Hindi
         param('hi', 'सोमवार 13 जून 1998','monday 13 june 1998'),
         param('hi', 'मंगल 16 1786 12:18','tuesday 16 1786 12:18'),
@@ -287,6 +287,8 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "Hôm qua 08:16", "1 day 08:16"),
         param('vi', "Hôm nay 15:39", "0 day 15:39"),
         # French
+        param('fr', "maintenant", "0 second"),
+        param('fr', "demain", "in 1 day"),
         param('fr', u"Il y a moins d'une minute", "ago 1  minute"),
         param('fr', u"Il y a moins de 30s", "ago 30 second"),
         # Tagalog
