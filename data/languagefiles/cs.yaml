@@ -7,64 +7,86 @@ skip: ["přibližně", "v"]
 monday:
     - Pondělí
     - Pon
+    - Po
 tuesday:
     - Úterý
     - Úte
+    - Út
 wednesday:
     - Středa
+    - Středu
     - Stř
+    - St
 thursday:
     - Čtvrtek
     - Čtv
+    - Čt
 friday:
     - Pátek
     - Pát
+    - Pá
 saturday:
     - Sobota
     - Sob
+    - Sobotu
+    - So
 sunday:
     - Neděle
     - Ned
+    - Neděli
+    - Ne
 
 january:
     - Leden
+    - Ledna
     - Led
 february:
     - Únor
+    - Února
     - Úno
 march:
     - Březen
+    - Března
     - Bře
 april:
     - Duben
+    - Dubna
     - Dub
 may:
     - Květen
+    - Května
     - Kvě
 june:
     - Červen
+    - Června
     - Čer
 july:
     - Červenec
+    - Července
     - Črc
 august:
     - Srpen
+    - Srpna
     - Srp
 september:
     - Září
     - Zář
 october:
     - Říjen
+    - Října
     - Říj
 november:
     - Listopad
+    - Listopadu
     - Lis
 december:
     - Prosinec
+    - Prosince
     - Pro
 
 year:
     - rok
+    - roky
     - roků
 month:
     - měsíc
@@ -72,6 +94,7 @@ month:
     - měsíce
 week:
     - týden
+    - týdny
     - týdnů
 day:
     - den
@@ -81,18 +104,25 @@ hour:
     - hodina
     - hodin
     - hodiny
+    - hodinu
     - hodinami
 minute:
     - minuta
+    - minuty
     - minut
 second:
     - sekunda
     - sekundy
+    - sekund
+    - vteřina
+    - vteřin
+    - vteřiny
 
 ago:
     - před
 in:
     - ve
+    - v
 
 simplifications:
     - dnes: 0 den
