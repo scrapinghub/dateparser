@@ -16,6 +16,7 @@ class Language(object):
     _dictionary = None
     _normalized_dictionary = None
     _simplifications = None
+    _simplification_patterns = None
     _normalized_simplifications = None
     _splitters = None
     _wordchars = None
@@ -59,13 +60,23 @@ class Language(object):
     def _simplify(self, date_string, settings=None):
         date_string = date_string.lower()
         for simplification in self._get_simplifications(settings=settings):
-            pattern, replacement = list(simplification.items())[0]
-            if not self.info.get('no_word_spacing', False):
-                replacement = wrap_replacement_for_regex(replacement, pattern)
-                pattern = r'(\A|\d|_|\W)%s(\d|_|\W|\Z)' % pattern
-            date_string = re.sub(
-                pattern, replacement, date_string, flags=re.IGNORECASE | re.UNICODE).lower()
+            pattern, replacement = self._get_simplification_substitution(simplification)
+            date_string = pattern.sub(replacement, date_string).lower()
         return date_string
+
+    def _get_simplification_substitution(self, simplification):
+        pattern, replacement = list(simplification.items())[0]
+        if not self.info.get('no_word_spacing', False):
+            replacement = wrap_replacement_for_regex(replacement, pattern)
+            pattern = r'(\A|\d|_|\W)%s(\d|_|\W|\Z)' % pattern
+
+        if self._simplification_patterns is None:
+            self._simplification_patterns = {}
+
+        if pattern not in self._simplification_patterns:
+            self._simplification_patterns[pattern] = re.compile(pattern, flags=re.IGNORECASE | re.UNICODE)
+        pattern = self._simplification_patterns[pattern]
+        return pattern, replacement
 
     def _clear_future_words(self, words):
         freshness_words = set(['day', 'week', 'month', 'year', 'hour', 'minute', 'second'])
