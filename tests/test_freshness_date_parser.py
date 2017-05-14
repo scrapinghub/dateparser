@@ -5,6 +5,7 @@ import unittest
 from datetime import datetime, timedelta, date, time
 from functools import wraps
 import pytz
+import regex as re
 
 from dateutil.relativedelta import relativedelta
 from mock import Mock, patch
@@ -308,7 +309,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         # param('এখন', ago={'seconds': 0}, period='day'),
-        
+
         # Hindi dates
         param('1 घंटे पहले', ago={'hours': 1},period='day'),
         param('15 मिनट पहले',ago={'minutes':15},period='day'),
@@ -317,7 +318,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
     ])
-    
+
     def test_relative_past_dates(self, date_string, ago, period):
         self.given_parser(settings={'NORMALIZE': False})
         self.given_date_string(date_string)
@@ -581,7 +582,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         # param('এখন', ago={'seconds': 0}, period='day'),
-        
+
         # Hindi dates
         param('1 घंटे पहले', ago={'hours': 1},period='day'),
         param('15 मिनट पहले',ago={'minutes':15},period='day'),
@@ -680,7 +681,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('gelecek hafta', in_future={'weeks': 1}, period='week'),
         param('gelecek ay', in_future={'months': 1}, period='month'),
         param('gelecek yıl', in_future={'years': 1}, period='year'),
-        
+
         #Hindi dates
         #param('1 वर्ष 10 महीने में', in_future={'years': 1, 'months': 10}, period='month'),
         param('15 घंटे बाद', in_future={'hours': 15}, period='day'),
@@ -716,6 +717,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
+        self.error = ValueError(re.sub('year \d+ is out of range','year is out of range',str(self.error)))
         self.then_error_was_raised(ValueError, ['year is out of range',
                                                 "('year must be in 1..9999'"])
 
