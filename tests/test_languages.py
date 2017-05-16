@@ -10,6 +10,7 @@ from dateparser.utils import normalize_unicode
 
 from tests import BaseTestCase
 
+
 class TestBundledLanguages(BaseTestCase):
     def setUp(self):
         super(TestBundledLanguages, self).setUp()
