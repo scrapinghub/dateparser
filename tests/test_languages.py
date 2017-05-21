@@ -417,7 +417,11 @@ class TestBundledLanguages(BaseTestCase):
         param('sv', "förrgår", "2 day"),
         param('sv', "förra månaden", "1 month"),
         param('sv', "nästa månad", "in 1 month"),
-
+        # Georgian
+        param('ka', 'გუშინ', '1 day'),
+        param('ka', 'დღეს', '0 day'),
+        param('ka', 'ერთ თვე', '1 month'),
+        param('ka', 'დღეიდან ერთ კვირა', 'in 1 week'),
     ])
     def test_freshness_translation(self, shortname, datetime_string, expected_translation):
         # Finnish language use "t" as hour, so empty SKIP_TOKENS.

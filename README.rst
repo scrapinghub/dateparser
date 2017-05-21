@@ -254,6 +254,7 @@ Supported languages
 * Hebrew
 * Hindi
 * Hungarian
+* Georgian
 * German
 * Indonesian
 * Italian
