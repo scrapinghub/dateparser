@@ -179,6 +179,10 @@ class TestBundledLanguages(BaseTestCase):
         param('hi', 'सोमवार 13 जून 1998','monday 13 june 1998'),
         param('hi', 'मंगल 16 1786 12:18','tuesday 16 1786 12:18'),
         param('hi','शनि 11 अप्रैल 2002 03:09','saturday 11 april 2002 03:09'),
+
+        # Swedish
+        param('sv', "Sept 03 2014", "september 03 2014"),
+        param('sv', "fredag, 03 september 2014", "friday 03 september 2014"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_bundled_language(shortname)
@@ -407,6 +411,12 @@ class TestBundledLanguages(BaseTestCase):
         param('hi', "सन् १९२०"," 1920"),
         param('hi',"आठ पूर्वाह्न","8 am"),
         param('hi',"बारह सेकंड पूर्व","12 second ago"),
+        # Swedish
+        param('sv', "igår", "1 day"),
+        param('sv', "idag", "0 day"),
+        param('sv', "förrgår", "2 day"),
+        param('sv', "förra månaden", "1 month"),
+        param('sv', "nästa månad", "in 1 month"),
         # Georgian
         param('ka', 'გუშინ', '1 day'),
         param('ka', 'დღეს', '0 day'),
