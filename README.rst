@@ -265,6 +265,7 @@ Supported languages
 * Romanian
 * Russian
 * Spanish
+* Swedish
 * Thai
 * Turkish
 * Ukrainian
