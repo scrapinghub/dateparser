@@ -28,6 +28,7 @@ class TestBundledLanguages(BaseTestCase):
         param('zh', "1年11個月", "1 year 11 month"),
         param('zh', "2015年04月08日10点05", "2015-04-08 10:05"),
         param('zh', "2015年04月08日10:05", "2015-04-08 10:05"),
+        param('zh', "2015年04月08日10点05分", "2015-04-08 10:05"),
         param('zh', "2013年04月08日", "2013-04-08"),
         param('zh', "周一", "monday"),
         param('zh', "礼拜一", "monday"),
