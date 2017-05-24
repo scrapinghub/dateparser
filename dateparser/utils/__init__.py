@@ -128,7 +128,8 @@ def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
 
 def apply_timezone(date_time, tz_string):
     if not date_time.tzinfo:
-        date_time = UTC.localize(date_time)
+        thetz = timezone(tz_string)
+        date_time = thetz.localize(date_time)
 
     new_datetime = apply_dateparser_timezone(date_time, tz_string)
 
