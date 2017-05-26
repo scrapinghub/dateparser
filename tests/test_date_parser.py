@@ -357,6 +357,9 @@ class TestDateParser(BaseTestCase):
         param('ग्यारह जुलाई 1994, 11:12',datetime(1994, 7, 11, 11, 12)),
         param('१७ अक्टूबर २०१८',datetime(2018, 10, 17, 0, 0)),
         param('12 जनवरी  1997 11:08 अपराह्न',datetime(1997, 1, 12, 23, 8)),
+        # Georgian dates
+        param('2011 წლის 17 მარტი, ოთხშაბათი', datetime(2011, 3, 17, 0, 0)),
+        param('2015 წ. 12 ივნ, 15:34', datetime(2015, 6, 12, 15, 34))
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,

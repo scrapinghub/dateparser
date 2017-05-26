@@ -44,3 +44,5 @@ docs/_build
 
 # Vim temp files
 *.swp
+
+.idea
