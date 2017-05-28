@@ -7,6 +7,7 @@ from dateparser.languages import default_language_loader, Language
 from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import settings
 from dateparser.utils import normalize_unicode
+from dateparser.languages.validation import LanguageValidator
 
 from tests import BaseTestCase
 
@@ -47,7 +48,7 @@ class TestBundledLanguages(BaseTestCase):
         # German
         param('de', "29. Juni 2007", "29. june 2007"),
         param('de', "Montag 5 Januar, 2015", "monday 5 january 2015"),
-        #Hungarian
+        # Hungarian
         param('hu', '2016 augusztus 11.', '2016 august 11.'),
         param('hu', '2016-08-13 szombat 10:21', '2016-08-13 saturday 10:21'),
         param('hu', '2016. augusztus 14. vasárnap 10:21', '2016. august 14. sunday 10:21'),
@@ -175,10 +176,10 @@ class TestBundledLanguages(BaseTestCase):
         param('bn', "সেপ্টেম্বর 03 2014", "september 03 2014"),
         param('bn', "শুক্রবার, 03 সেপ্টেম্বর 2014", "friday 03 september 2014"),
 
-        #Hindi
-        param('hi', 'सोमवार 13 जून 1998','monday 13 june 1998'),
-        param('hi', 'मंगल 16 1786 12:18','tuesday 16 1786 12:18'),
-        param('hi','शनि 11 अप्रैल 2002 03:09','saturday 11 april 2002 03:09'),
+        # Hindi
+        param('hi', 'सोमवार 13 जून 1998', 'monday 13 june 1998'),
+        param('hi', 'मंगल 16 1786 12:18', 'tuesday 16 1786 12:18'),
+        param('hi', 'शनि 11 अप्रैल 2002 03:09', 'saturday 11 april 2002 03:09'),
 
         # Swedish
         param('sv', "Sept 03 2014", "september 03 2014"),
@@ -406,11 +407,11 @@ class TestBundledLanguages(BaseTestCase):
         # Hindi
         param('hi', "१ सप्ताह", "1 week"),
         param('hi', "२४ मिनट पहले", "24 minute ago"),
-        param('hi', "पांच वर्ष","5 year"),
-        param('hi', "५३ सप्ताह बाद","53 week in"),
-        param('hi', "सन् १९२०"," 1920"),
-        param('hi',"आठ पूर्वाह्न","8 am"),
-        param('hi',"बारह सेकंड पूर्व","12 second ago"),
+        param('hi', "पांच वर्ष", "5 year"),
+        param('hi', "५३ सप्ताह बाद", "53 week in"),
+        param('hi', "सन् १९२०", " 1920"),
+        param('hi', "आठ पूर्वाह्न", "8 am"),
+        param('hi', "बारह सेकंड पूर्व", "12 second ago"),
         # Swedish
         param('sv', "igår", "1 day"),
         param('sv', "idag", "0 day"),
@@ -447,21 +448,29 @@ class TestBundledLanguages(BaseTestCase):
         param('tr', "2 saat önce", ["2", " ", "saat", " ", "önce"]),
         param('fr', "il ya environ 23 heures'", ["il ya", " ", "environ", " ", "23", " ", "heures"]),
         param('de', "Gestern um 04:41", ['Gestern ', 'um', ' ', '04', ':', '41']),
-        param('de', "Donnerstag, 8. Januar 2015 um 07:17", ['Donnerstag', ' ', '8', '.', ' ', 'Januar', ' ', '2015', ' ', 'um', ' ', '07', ':', '17']),
-        param('ru', "8 января 2015 г. в 9:10", ['8', ' ', 'января', ' ', '2015', ' ', 'г.', ' ', 'в', ' ', '9', ':', '10']),
+        param('de', "Donnerstag, 8. Januar 2015 um 07:17",
+              ['Donnerstag', ' ', '8', '.', ' ', 'Januar', ' ', '2015', ' ', 'um', ' ', '07', ':', '17']),
+        param('ru', "8 января 2015 г. в 9:10",
+              ['8', ' ', 'января', ' ', '2015', ' ', 'г.', ' ', 'в', ' ', '9', ':', '10']),
         param('cs', "6. leden 2015 v 22:29", ['6', '.', ' ', 'leden', ' ', '2015', ' ', 'v', ' ', '22', ':', '29']),
-        param('nl', "woensdag 7 januari 2015 om 21:32", ['woensdag', ' ', '7', ' ', 'januari', ' ', '2015', ' ', 'om', ' ', '21', ':', '32']),
+        param('nl', "woensdag 7 januari 2015 om 21:32",
+              ['woensdag', ' ', '7', ' ', 'januari', ' ', '2015', ' ', 'om', ' ', '21', ':', '32']),
         param('ro', "8 Ianuarie 2015 la 13:33", ['8', ' ', 'Ianuarie', ' ', '2015', ' ', 'la', ' ', '13', ':', '33']),
-        param('ar', "8 يناير، 2015، الساعة 10:01 صباحاً", ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01', ' صباحاً']),
-        param('th', "8 มกราคม 2015 เวลา 12:22 น.", ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
+        param('ar', "8 يناير، 2015، الساعة 10:01 صباحاً",
+              ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01', ' صباحاً']),
+        param('th', "8 มกราคม 2015 เวลา 12:22 น.",
+              ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
         param('pl', "8 stycznia 2015 o 10:19", ['8', ' ', 'stycznia', ' ', '2015', ' ', 'o', ' ', '10', ':', '19']),
-        param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015", ["Thứ Năm", " ", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
+        param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015",
+              ["Thứ Năm", " ", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
         param('tl', "Biyernes Hulyo 3 2015", ["Biyernes", " ", "Hulyo", " ", "3", " ", "2015"]),
-        param('be', "3 верасня 2015 г. у 11:10", ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
+        param('be', "3 верасня 2015 г. у 11:10",
+              ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
         param('id', "3 Juni 2015 13:05:46", ['3', ' ', 'Juni', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
-        param('he', "ה-21 לאוקטובר 2016 ב-15:00", ['ה-', '21', ' ', 'לאוקטובר', ' ', '2016', ' ', 'ב-', '15', ':', '00']),
+        param('he', "ה-21 לאוקטובר 2016 ב-15:00",
+              ['ה-', '21', ' ', 'לאוקטובר', ' ', '2016', ' ', 'ב-', '15', ':', '00']),
         param('bn', "3 জুন 2015 13:05:46", ['3', ' ', 'জুন', ' ', '2015', ' ', '13', ':', '05', ':', '46']),
-        param('hi', "13 मार्च 2013 11:15:09",['13',' ','मार्च',' ','2013',' ','11',':','15',':','09']),
+        param('hi', "13 मार्च 2013 11:15:09", ['13', ' ', 'मार्च', ' ', '2013', ' ', '11', ':', '15', ':', '09']),
     ])
     def test_split(self, shortname, datetime_string, expected_tokens):
         self.given_bundled_language(shortname)
@@ -553,7 +562,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
 
     @parameterized.expand([
         param("1 january 2015", 'en'),
-        ])
+    ])
     def test_valid_dates_detected(self, datetime_string, expected_language):
         self.given_languages(expected_language)
         self.given_detector()
@@ -602,7 +611,8 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         raise NotImplementedError
 
     def when_searching_for_first_applicable_language(self):
-        for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True, settings=settings):
+        for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True,
+                                                                   settings=settings):
             self.detected_language = language
             break
         else:
@@ -642,7 +652,8 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.detector = ExactLanguages(languages=self.known_languages)
 
     def when_using_exact_languages(self):
-        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True, settings=settings)
+        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True,
+                                                                          settings=settings)
 
     def then_exact_languages_were_filtered(self, shortnames):
         self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
@@ -663,3 +674,145 @@ class TestAutoDetectLanguageDetectorWithoutRedetection(BaseAutoDetectLanguageDet
 class TestAutoDetectLanguageDetectorWithRedetection(BaseAutoDetectLanguageDetectorTestCase):
     __test__ = True
     allow_redetection = True
+
+
+class TestLanguageValidatorWhenInvalid(BaseTestCase):
+    def setUp(self):
+        super(TestLanguageValidatorWhenInvalid, self).setUp()
+        self.validator = LanguageValidator
+
+    @parameterized.expand([
+        param('en', 'string instead of dict'),
+    ])
+    def test_validate_info_when_invalid_tipe(self, lang_id, lang_info):
+        result = self.validator.validate_info(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+        param('en', {'name': 22}),
+        param('en', {'name': ''}),
+    ])
+    def test_validate_name_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_name(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {'no_word_spacing': 'string instead of bool'}),
+    ])
+    def test_validate_word_spacing_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_word_spacing(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {'skip': 'string instead of list'}),
+        param('en', {'skip': ['']}),
+    ])
+    def test_validate_skip_list_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_skip_list(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+
+    ])
+    def test_validate_skip_list_when_abscent(self, lang_id, lang_info):
+        result = self.validator._validate_skip_list(lang_id, lang_info)
+        self.assertTrue(result)
+
+    @parameterized.expand([
+        param('en', {'pertain': 'string instead of list'}),
+        param('en', {'pertain': ['']}),
+    ])
+    def test_validate_pertain_list_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_pertain_list(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+        param('en',
+              {'monday': 1, 'tuesday': 2, 'wednesday': 3, 'thursday': 4, 'friday': 5, 'saturday': 6, 'sunday': 7}),
+        param('en', {'monday': [1], 'tuesday': [2], 'wednesday': [3], 'thursday': [4], 'friday': [5],
+                     'saturday': [6], 'sunday': [7]}),
+    ])
+    def test_validate_weekdays_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_weekdays(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+        param('en',
+              {'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5, 'june': 6, 'july': 7,
+               'august': 8, 'september': 9, 'october': 10, 'november': 11, 'december': 12}),
+        param('en',
+              {'january': [1], 'february': [2], 'march': [3], 'april': [4], 'may': [5], 'june': [6], 'july': [7],
+               'august': [8], 'september': [9], 'october': [10], 'november': [11], 'december': [12]}),
+    ])
+    def test_validate_months_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_months(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+        param('en',
+              {'year': 1, 'month': 2, 'week': 3, 'day': 4, 'hour': 5, 'minute': 6, 'second': 7}),
+        param('en',
+              {'year': [1], 'month': [2], 'week': [3], 'day': [4], 'hour': [5], 'minute': [6], 'second': [7]}),
+    ])
+    def test_validate_units_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_units(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+        param('en',
+              {'ago': 1}),
+        param('en',
+              {'ago': []}),
+        param('en',
+              {'ago': ['']}),
+    ])
+    def test_validate_other_words_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_other_words(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+
+    ])
+    def test_validate_simplifications_when_abscent(self, lang_id, lang_info):
+        result = self.validator._validate_simplifications(lang_id, lang_info)
+        self.assertTrue(result)
+
+    @parameterized.expand([
+        param('en',
+              {'simplifications': 'string instead of list'}),
+        param('en',
+              {'simplifications': [{}]}),
+        param('en',
+              {'simplifications': [{28: []}]}),
+        param('en',
+              {'simplifications': [{'simplification': []}]}),
+        # groups were not used
+        param('en',
+              {'simplifications': [{'(\d+)\s*hr(s?)\g<(.+?)>': r'\1 hour\2'}]}),
+        #
+        param('en',
+              {'simplifications': [{'(one)(two)(three)': r'\1\3\2\4'}]}),
+        param('en',
+              {'simplifications': [{r'(?P<A>\w+)(?P<B>\w+)': '\\g<A>'}]}),
+        param('en',
+              {'simplifications': [{r'(?P<A>\w+)': '\\g<B>(.*?)'}]}),
+
+    ])
+    def test_validate_simplifications_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_simplifications(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {'invalid_key': ''}),
+
+    ])
+    def test_validate_extra_keys_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_extra_keys(lang_id, lang_info)
+        self.assertFalse(result)
