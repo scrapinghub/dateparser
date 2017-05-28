@@ -720,13 +720,13 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         result = self.validator._validate_skip_list(lang_id, lang_info)
         self.assertTrue(result)
 
-    @parameterized.expand([
-        param('en', {'pertain': 'string instead of list'}),
-        param('en', {'pertain': ['']}),
-    ])
-    def test_validate_pertain_list_when_invalid(self, lang_id, lang_info):
-        result = self.validator._validate_pertain_list(lang_id, lang_info)
-        self.assertFalse(result)
+    # @parameterized.expand([
+    #     param('en', {'pertain': 'string instead of list'}),
+    #     param('en', {'pertain': ['']}),
+    # ])
+    # def test_validate_pertain_list_when_invalid(self, lang_id, lang_info):
+    #     result = self.validator._validate_pertain_list(lang_id, lang_info)
+    #     self.assertFalse(result)
 
     @parameterized.expand([
         param('en', {}),
