@@ -105,14 +105,50 @@ class TestNoSpaceParser(BaseTestCase):
             expected_period='day',
         ),
         param(
+            date_string=u"18092017",
+            expected_date=datetime(2017, 9, 18),
+            date_order='DMY',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"912958:15:10",
+            expected_date=datetime(9581, 12, 9, 5, 1),
+            date_order='DMY',
+            expected_period='day',
+        ),
+        param(
             date_string=u"20201511",
             expected_date=datetime(2015, 11, 20),
             date_order='DYM',
             expected_period='day',
         ),
         param(
+            date_string=u"171410",
+            expected_date=datetime(2014, 10, 17),
+            date_order='DYM',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"71995121046",
+            expected_date=datetime(1995, 12, 7, 10, 4, 6),
+            date_order='DYM',
+            expected_period='day',
+        ),
+        param(
             date_string=u"112015",
             expected_date=datetime(2015, 1, 1),
+            date_order='MDY',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"12595",
+            expected_date=datetime(1995, 12, 5),
+            date_order='MDY',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"459712:15:07.54",
+            expected_date=datetime(4597, 12, 15, 0, 7),
             date_order='MDY',
             expected_period='day',
         ),
@@ -129,14 +165,56 @@ class TestNoSpaceParser(BaseTestCase):
             expected_period='day',
         ),
         param(
+            date_string=u"21813",
+            expected_date=datetime(2018, 2, 13),
+            date_order='MYD',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"12937886",
+            expected_date=datetime(2937, 1, 8, 8, 6),
+            date_order='MYD',
+            expected_period='day',
+        ),
+        param(
             date_string=u"20151211",
             expected_date=datetime(2015, 12, 11),
             date_order='YMD',
             expected_period='day',
         ),
         param(
+            date_string=u"18216",
+            expected_date=datetime(2018, 2, 16),
+            date_order='YMD',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"1986411:5",
+            expected_date=datetime(1986, 4, 1, 1, 5),
+            date_order='YMD',
+            expected_period='day',
+        ),
+        param(
             date_string=u"20153011",
             expected_date=datetime(2015, 11, 30),
+            date_order='YDM',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"14271",
+            expected_date=datetime(2014, 1, 27),
+            date_order='YDM',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"2010111110:11",
+            expected_date=datetime(2010, 11, 11, 10, 1, 1),
+            date_order='YDM',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"10:11:2",
+            expected_date=datetime(2010, 2, 11, 0, 0),
             date_order='YDM',
             expected_period='day',
         ),
@@ -148,6 +226,16 @@ class TestNoSpaceParser(BaseTestCase):
         self.then_date_exactly_is(expected_date)
         self.then_period_exactly_is(expected_period)
 
+    @parameterized.expand([
+        param(date_string=u"12345678901234567890", date_order='YMD'),
+        param(date_string=u"987654321234567890123456789", date_order='DMY'),
+    ])
+    def test_error_is_raised_when_date_cannot_be_parsed(self, date_string, date_order):
+        self.given_parser()
+        self.given_settings(settings={'DATE_ORDER': date_order})
+        self.when_date_is_parsed(date_string)
+        self.then_error_was_raised(ValueError, ['Unable to parse date from: {}'.format(date_string)])
+
     def given_parser(self):
         self.parser = _no_spaces_parser
 
@@ -156,11 +244,14 @@ class TestNoSpaceParser(BaseTestCase):
         self.settings = settings
 
     def when_date_is_parsed(self, date_string):
-        self.result = self.parser.parse(date_string, self.settings)
+        try:
+            self.result = self.parser.parse(date_string, self.settings)
+        except Exception as error:
+            self.error = error
 
     def then_date_exactly_is(self, expected_date):
         self.assertEqual(self.result[0], expected_date)
-    
+
     def then_period_exactly_is(self, expected_period):
         self.assertEqual(self.result[1], expected_period)
 
@@ -204,6 +295,7 @@ class TestTimeParser(BaseTestCase):
         param(date_string=u"1:30:15.330 AM", timeobj=time(1, 30, 15, 330000)),
         param(date_string=u"1:30:15.330 PM", timeobj=time(13, 30, 15, 330000)),
         param(date_string=u"1:30:15.3301 PM", timeobj=time(13, 30, 15, 330100)),
+        param(date_string=u"11:20:05 AM", timeobj=time(11, 20, 5)),
         param(date_string=u"14:30:15.330100", timeobj=time(14, 30, 15, 330100)),
     ])
     def test_time_is_parsed(self, date_string, timeobj):
@@ -211,11 +303,29 @@ class TestTimeParser(BaseTestCase):
         self.when_time_is_parsed(date_string)
         self.then_time_exactly_is(timeobj)
 
+    @parameterized.expand([
+        param(date_string=u"11"),
+        param(date_string=u"22:12:12 PM"),
+        param(date_string=u"22:12:10:16"),
+        param(date_string=u"16:14 AM"),
+        param(date_string=u"10:14.123 PM"),
+        param(date_string=u"2:13:88"),
+        param(date_string=u"23:01:56.34 PM"),
+        param(date_string=u"2.45 PM"),
+    ])
+    def test_error_is_raised_for_invalid_time_string(self, date_string):
+        self.given_parser()
+        self.when_time_is_parsed(date_string)
+        self.then_error_was_raised(ValueError, ['{} does not seem to be a valid time string'.format(date_string)])
+
     def given_parser(self):
         self.parser = time_parser
 
     def when_time_is_parsed(self, datestring):
-        self.result = self.parser(datestring)
+        try:
+            self.result = self.parser(datestring)
+        except Exception as error:
+            self.error = error
 
     def then_time_exactly_is(self, timeobj):
         self.assertEqual(self.result, timeobj)
