@@ -718,17 +718,25 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         param('en', {}),
 
     ])
-    def test_validate_skip_list_when_abscent(self, lang_id, lang_info):
+    def test_validate_skip_list_when_absent(self, lang_id, lang_info):
         result = self.validator._validate_skip_list(lang_id, lang_info)
         self.assertTrue(result)
 
-    # @parameterized.expand([
-    #     param('en', {'pertain': 'string instead of list'}),
-    #     param('en', {'pertain': ['']}),
-    # ])
-    # def test_validate_pertain_list_when_invalid(self, lang_id, lang_info):
-    #     result = self.validator._validate_pertain_list(lang_id, lang_info)
-    #     self.assertFalse(result)
+    @parameterized.expand([
+        param('en', {'pertain': 'it is a string', 'skip': ['']}),
+        param('en', {'pertain': [''], 'skip': 'it is a string'}),
+    ])
+    def test_validate_pertain_list_when_invalid(self, lang_id, lang_info):
+        result = self.validator._validate_pertain_list(lang_id, lang_info)
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+
+    ])
+    def test_validate_pertain_list_when_absent(self, lang_id, lang_info):
+        result = self.validator._validate_pertain_list(lang_id, lang_info)
+        self.assertTrue(result)
 
     @parameterized.expand([
         param('en', {}),
@@ -782,7 +790,7 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         param('en', {}),
 
     ])
-    def test_validate_simplifications_when_abscent(self, lang_id, lang_info):
+    def test_validate_simplifications_when_absent(self, lang_id, lang_info):
         result = self.validator._validate_simplifications(lang_id, lang_info)
         self.assertTrue(result)
 
@@ -795,10 +803,8 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
               {'simplifications': [{28: []}]}),
         param('en',
               {'simplifications': [{'simplification': []}]}),
-        # groups were not used
         param('en',
               {'simplifications': [{'(\d+)\s*hr(s?)\g<(.+?)>': r'\1 hour\2'}]}),
-        #
         param('en',
               {'simplifications': [{'(one)(two)(three)': r'\1\3\2\4'}]}),
         param('en',
