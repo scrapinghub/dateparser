@@ -292,6 +292,8 @@ class TestBundledLanguages(BaseTestCase):
         param('vi', "Hôm qua 08:16", "1 day 08:16"),
         param('vi', "Hôm nay 15:39", "0 day 15:39"),
         # French
+        param('fr', "maintenant", "0 second"),
+        param('fr', "demain", "in 1 day"),
         param('fr', u"Il y a moins d'une minute", "ago 1  minute"),
         param('fr', u"Il y a moins de 30s", "ago 30 second"),
         # Tagalog
