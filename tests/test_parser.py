@@ -274,7 +274,9 @@ class TestParser(BaseTestCase):
         self.then_error_is_raised_when_date_is_parsed(date_string)
 
     @parameterized.expand([
-        param(date_string=u"Januar")
+        param(date_string=u"Januar"),
+        param(date_string=u"56341819"),
+        param(date_string=u"56341819 Febr"),
     ])
     def test_error_is_raised_when_invalid_dates_given_when_fuzzy(self, date_string):
         self.given_parser()
