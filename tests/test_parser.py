@@ -273,12 +273,27 @@ class TestParser(BaseTestCase):
         self.given_settings(settings={'STRICT_PARSING': True})
         self.then_error_is_raised_when_date_is_parsed(date_string)
 
+    @parameterized.expand([
+        param(date_string=u"Januar")
+    ])
+    def test_error_is_raised_when_invalid_dates_given_when_fuzzy(self, date_string):
+        self.given_parser()
+        self.given_settings(settings={'FUZZY': True})
+        self.when_date_is_parsed(date_string)
+        self.then_error_was_raised(ValueError, ['Nothing date like found'])
+
     def given_parser(self):
         self.parser = _parser
 
     @apply_settings
     def given_settings(self, settings=None):
         self.settings = settings
+
+    def when_date_is_parsed(self, date_string):
+        try:
+            self.parser.parse(date_string, self.settings)
+        except Exception as error:
+            self.error = error
 
     def then_error_is_raised_when_date_is_parsed(self, date_string):
         with self.assertRaises(ValueError):

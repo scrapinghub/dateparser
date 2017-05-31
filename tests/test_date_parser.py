@@ -601,10 +601,10 @@ class TestDateParser(BaseTestCase):
         self.then_error_was_raised(ValueError, ["Empty string"])
 
     @parameterized.expand([
-        param('invalid date string', 'Unable to parse: h'),
+        param('invalid date string', 'Unable to parse: invalid'),
         param('Aug 7, 2014Aug 7, 2014', 'Unable to parse: Aug'),
         param('24h ago', 'Unable to parse: h'),
-        param('2015-03-17t16:37:51+00:002015-03-17t15:24:37+00:00', 'Unable to parser: 00:002015'),
+        param('2015-03-17t16:37:51+00:002015-03-17t15:24:37+00:00', 'Unable to parse: 00:002015'),
         param('8 enero 2013 martes 7:03 AM EST 8 enero 2013 martes 7:03 AM EST', 'Unable to parse: 8')
     ])
     def test_dates_not_parsed(self, date_string, message):
@@ -785,11 +785,15 @@ class TestDateParser(BaseTestCase):
         param('10-11-12 06:00', expected=datetime(2011, 10, 12, 6, 0), order='MYD'),
         param('10-11-12 06:00', expected=datetime(2011, 12, 10, 6, 0), order='DYM'),
         param('15-12-18 06:00', expected=datetime(2018, 12, 15, 6, 0), order='DMY'),
+        param('12/09/08 04:23:15.567', expected=datetime(2008, 9, 12, 4, 23, 15, 567000), order='DMY'),
+        param('10/9/1914 03:07:09.788888 pm', expected=datetime(1914, 10, 9, 15, 7, 9, 788888), order='MDY'),
+        param('1-8-09 07:12:49 AM', expected=datetime(2009, 1, 8, 7, 12, 49), order='MDY'),
         param('201508', expected=datetime(2015, 8, 20, 0, 0), order='DYM'),
         param('201508', expected=datetime(2020, 8, 15, 0, 0), order='YDM'),
         param('201108', expected=datetime(2008, 11, 20, 0, 0), order='DMY'),
         param('2016 july 13.', expected=datetime(2016, 7, 13, 0, 0), order='YMD'),
         param('16 july 13.', expected=datetime(2016, 7, 13, 0, 0), order='YMD'),
+        param('Sunday 23 May 1856 12:09:08 AM', expected=datetime(1856, 5, 23, 0, 9, 8), order='DMY'),
     ])
     def test_order(self, date_string, expected=None, order=None):
         self.given_parser(settings={'DATE_ORDER': order})
