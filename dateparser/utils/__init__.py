@@ -28,8 +28,15 @@ def normalize_unicode(string, form='NFKD'):
         (c for c in unicodedata.normalize(form, string)
          if unicodedata.category(c) != 'Mn'))
 
+replacement_cache = {}
+
 
 def wrap_replacement_for_regex(replacement, regex):
+    h = replacement + regex
+    v = replacement_cache.get(h)
+    if v:
+        return v
+
     # prepend group to replacement
     replacement = r"\g<1>%s" % increase_regex_replacements_group_positions(replacement, increment=1)
 
@@ -38,6 +45,7 @@ def wrap_replacement_for_regex(replacement, regex):
     new_group = used_groups + 2  # Consider that we already prepended replacement with one group
     replacement = "%s\\g<%d>" % (replacement, new_group)
 
+    replacement_cache[h] = replacement
     return replacement
 
 
