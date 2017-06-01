@@ -686,6 +686,7 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         self.validator = LanguageValidator
         self.captured_logs = StringIO()
         self.validator.get_logger()
+        self.validator.get_logger()
         self.sh = logging.StreamHandler(self.captured_logs)
         self.validator.logger.addHandler(self.sh)
         self.log_list = self.captured_logs.getvalue().split('\n')[0]
