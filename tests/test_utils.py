@@ -30,8 +30,6 @@ class TestUtils(BaseTestCase):
     def make_class_without_get_keys():
         class SomeClass:
             pass
-            # def __init__(self):
-            #    var = 1 == 1
         some_class = SomeClass
         return some_class
 
