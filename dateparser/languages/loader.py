@@ -26,9 +26,10 @@ class LanguageDataLoader(object):
         return self._load_data(languages = [shortname]).get(shortname)
 
     def _load_data(self, languages = None):
-        language_order = ['en', 'ar', 'be', 'bg', 'bn', 'cs', 'da', 'de', 'es', 
-          'fa', 'fi', 'fr', 'he', 'hi', 'hu', 'id', 'it', 'ja', 'nl', 'pl', 'pt', 
-          'ro', 'ru', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
+        language_order = ['en', 'ar', 'be', 'bg', 'bn', 'cs', 'da', 'de',
+                          'es', 'fa', 'fi', 'fr', 'he', 'hi', 'hu', 'id',
+                          'it', 'ja', 'ka', 'nl', 'pl', 'pt', 'ro', 'ru',
+                          'sv', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
         if not languages:
             languages=language_order
         else:
