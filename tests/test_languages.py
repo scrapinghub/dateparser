@@ -690,8 +690,15 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         self.validator.logger.addHandler(self.sh)
         self.log_list = self.captured_logs.getvalue().split('\n')[0]
 
+    @staticmethod
+    def make_python3_msg(text):
+        text = text.replace('unicode', 'str')
+        text = text.replace('u\'', '\'')
+        return text
+
+
     def get_log_str(self):
-        return self.captured_logs.getvalue().split('\n')[0]
+        return self.make_python3_msg(self.captured_logs.getvalue().split('\n')[0])
 
     @parameterized.expand([
         param('en', 'string instead of dict', log_msg="Language 'en' info expected to be dict, "
