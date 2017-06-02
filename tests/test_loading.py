@@ -1,5 +1,5 @@
 from nose_parameterized import parameterized, param
-from dateparser.languages.loader import default_language_loader
+from dateparser.languages.loader import default_language_loader, LanguageDataLoader
 from tests import BaseTestCase
 
 class TestLanguageDataLoader(BaseTestCase):
@@ -30,8 +30,35 @@ class TestLanguageDataLoader(BaseTestCase):
         self.then_loaded_languages_are(loaded_languages)
         self.then_returned_languages_are(returned_languages)
 
+    @parameterized.expand([
+        param(languages=['he','fr','ar'], returned_languages=['ar','fr','he']),
+        param(languages=['es','id','sv'], returned_languages=['es','id','sv']),
+        param(languages=['hi','en'], returned_languages=['en','hi']),
+    ])
+    def test_loading_from_file(self, languages, returned_languages):
+        self.get_data_loader(file = "../data/languages.yaml")
+        self.load_data(languages)
+        self.then_returned_languages_are(returned_languages)
+
+    @parameterized.expand([
+        param(file="test_date.py"),
+        param(file="requirements.txt"),
+        param(file=188),
+        param(file=13.56),
+        param(file=["languages.yaml"]),
+    ])
+    def test_invalid_file_must_raise_error(self, file):
+        self.get_data_loader(file = file)
+        self.then_error_was_raised(ValueError,["Invalid file : {}".format(file)])
+
     def load_data(self, languages):
         self.returned_languages = self.data_loader._load_data(languages=languages)
+
+    def get_data_loader(self, file = None):
+        try:
+            self.data_loader = LanguageDataLoader(file = file)
+        except Exception as error:
+            self.error = error
 
     def then_loaded_languages_are(self, loaded_languages):
         self.assertEqual(set(loaded_languages),set(self.data_loader._data.keys()))
