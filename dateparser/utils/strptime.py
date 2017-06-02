@@ -11,6 +11,8 @@ TIME_MATCHER = re.compile(
     '\.(?P<microsecond>[0-9]{1,6})'
 )
 
+MS_SEARCHER = re.compile(r'\.(?P<microsecond>[0-9]{1,6})')
+
 
 def patch_strptime():
     """Monkey patching _strptime to avoid problems related with non-english
@@ -63,6 +65,9 @@ def strptime(date_string, format):
             ms = ms + ((6 - len(ms)) * '0')
             obj = obj.replace(microsecond=int(ms))
         except AttributeError:
-            pass
+            match_groups = MS_SEARCHER.search(date_string).groupdict()
+            ms = match_groups['microsecond']
+            ms = ms + ((6 - len(ms)) * '0')
+            obj = obj.replace(microsecond=int(ms))
 
     return obj
