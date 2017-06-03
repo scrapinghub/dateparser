@@ -1,0 +1,232 @@
+{
+    "name": "ksh", 
+    "date_order": "D. M. Y", 
+    "january": [
+        "Jan", 
+        "J", 
+        "Jannewa", 
+        "Jan."
+    ], 
+    "february": [
+        "Fäbrowa", 
+        "Fäb", 
+        "Fäb.", 
+        "F"
+    ], 
+    "march": [
+        "Mäz", 
+        "Määz", 
+        "Mäz.", 
+        "M"
+    ], 
+    "april": [
+        "A", 
+        "Apr", 
+        "Aprell", 
+        "Apr."
+    ], 
+    "may": [
+        "Mai", 
+        "M"
+    ], 
+    "june": [
+        "Juuni", 
+        "J", 
+        "Jun", 
+        "Jun."
+    ], 
+    "july": [
+        "J", 
+        "Juuli", 
+        "Jul.", 
+        "Jul"
+    ], 
+    "august": [
+        "Oujoß", 
+        "Ouj.", 
+        "O", 
+        "Ouj"
+    ], 
+    "september": [
+        "Septämber", 
+        "S", 
+        "Säp", 
+        "Säp."
+    ], 
+    "october": [
+        "Okt.", 
+        "Oktohber", 
+        "Okt", 
+        "O"
+    ], 
+    "november": [
+        "Nov.", 
+        "Nov", 
+        "Novämber", 
+        "N"
+    ], 
+    "december": [
+        "Dez.", 
+        "Dez", 
+        "Dezämber", 
+        "D"
+    ], 
+    "monday": [
+        "Mohndaach", 
+        "M", 
+        "Mo."
+    ], 
+    "tuesday": [
+        "Di.", 
+        "Dinnsdaach", 
+        "D"
+    ], 
+    "wednesday": [
+        "Metwoch", 
+        "Me.", 
+        "M"
+    ], 
+    "thursday": [
+        "Dunnersdaach", 
+        "D", 
+        "Du."
+    ], 
+    "friday": [
+        "Friidaach", 
+        "Fr.", 
+        "F"
+    ], 
+    "saturday": [
+        "S", 
+        "Sa.", 
+        "Samsdaach"
+    ], 
+    "sunday": [
+        "Su.", 
+        "Sunndaach", 
+        "S"
+    ], 
+    "year": [
+        "J.", 
+        "Johr"
+    ], 
+    "month": [
+        "Mohnd", 
+        "M."
+    ], 
+    "week": [
+        "W.", 
+        "Woch"
+    ], 
+    "day": [
+        "D.", 
+        "Daach"
+    ], 
+    "hour": [
+        "Schtund", 
+        "Std.", 
+        "S."
+    ], 
+    "minute": [
+        "m.", 
+        "Menutt", 
+        "min."
+    ], 
+    "second": [
+        "Sekond", 
+        "s.", 
+        "sek."
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "läz Johr"
+        ], 
+        "0 year ago": [
+            "diß Johr"
+        ], 
+        "in 1 year": [
+            "näx Johr"
+        ], 
+        "1 month ago": [
+            "lätzde Mohnd"
+        ], 
+        "0 month ago": [
+            "diese Mohnd"
+        ], 
+        "in 1 month": [
+            "nächste Mohnd"
+        ], 
+        "1 week ago": [
+            "läz Woch"
+        ], 
+        "0 week ago": [
+            "di Woch"
+        ], 
+        "in 1 week": [
+            "nächste Woche"
+        ], 
+        "1 day ago": [
+            "jestere"
+        ], 
+        "0 day ago": [
+            "hück"
+        ], 
+        "in 1 day": [
+            "morje"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "en (\\d+) Johr", 
+            "en (\\d+) Johre"
+        ], 
+        "\\1 year ago": [
+            "vör (\\d+) Johr", 
+            "vör (\\d+) Johre"
+        ], 
+        "in \\1 month": [
+            "+(\\d+) m"
+        ], 
+        "\\1 month ago": [
+            "-(\\d+) m"
+        ], 
+        "in \\1 week": [
+            "+(\\d+) w"
+        ], 
+        "\\1 week ago": [
+            "-(\\d+) w"
+        ], 
+        "in \\1 day": [
+            "+(\\d+) d"
+        ], 
+        "\\1 day ago": [
+            "-(\\d+) d"
+        ], 
+        "in \\1 hour": [
+            "+(\\d+) h"
+        ], 
+        "\\1 hour ago": [
+            "-(\\d+) h"
+        ], 
+        "in \\1 minute": [
+            "+(\\d+) min"
+        ], 
+        "\\1 minute ago": [
+            "-(\\d+) min"
+        ], 
+        "in \\1 second": [
+            "+(\\d+) s"
+        ], 
+        "\\1 second ago": [
+            "-(\\d+) s"
+        ]
+    }, 
+    "locale_specific": {}
+}

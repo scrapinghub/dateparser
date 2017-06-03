@@ -1,0 +1,210 @@
+{
+    "name": "rw", 
+    "date_order": "YMD", 
+    "january": [
+        "1", 
+        "Mutarama", 
+        "mut."
+    ], 
+    "february": [
+        "Gashyantare", 
+        "2", 
+        "gas."
+    ], 
+    "march": [
+        "Werurwe", 
+        "3", 
+        "wer."
+    ], 
+    "april": [
+        "mat.", 
+        "4", 
+        "Mata"
+    ], 
+    "may": [
+        "5", 
+        "Gicuransi", 
+        "gic."
+    ], 
+    "june": [
+        "6", 
+        "kam.", 
+        "Kamena"
+    ], 
+    "july": [
+        "nya.", 
+        "7", 
+        "Nyakanga"
+    ], 
+    "august": [
+        "kan.", 
+        "8", 
+        "Kanama"
+    ], 
+    "september": [
+        "9", 
+        "Nzeli", 
+        "nze."
+    ], 
+    "october": [
+        "10", 
+        "ukw.", 
+        "Ukwakira"
+    ], 
+    "november": [
+        "11", 
+        "Ugushyingo", 
+        "ugu."
+    ], 
+    "december": [
+        "uku.", 
+        "12", 
+        "Ukuboza"
+    ], 
+    "monday": [
+        "M", 
+        "Kuwa mbere", 
+        "mbe."
+    ], 
+    "tuesday": [
+        "kab.", 
+        "T", 
+        "Kuwa kabiri"
+    ], 
+    "wednesday": [
+        "gtu.", 
+        "Kuwa gatatu", 
+        "W"
+    ], 
+    "thursday": [
+        "kan.", 
+        "T", 
+        "Kuwa kane"
+    ], 
+    "friday": [
+        "Kuwa gatanu", 
+        "gnu.", 
+        "F"
+    ], 
+    "saturday": [
+        "S", 
+        "gnd.", 
+        "Kuwa gatandatu"
+    ], 
+    "sunday": [
+        "S", 
+        "Ku cyumweru", 
+        "cyu."
+    ], 
+    "year": [
+        "Year"
+    ], 
+    "month": [
+        "Month"
+    ], 
+    "week": [
+        "Week"
+    ], 
+    "day": [
+        "Day"
+    ], 
+    "hour": [
+        "Hour"
+    ], 
+    "minute": [
+        "Minute"
+    ], 
+    "second": [
+        "Second"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "last year"
+        ], 
+        "0 year ago": [
+            "this year"
+        ], 
+        "in 1 year": [
+            "next year"
+        ], 
+        "1 month ago": [
+            "last month"
+        ], 
+        "0 month ago": [
+            "this month"
+        ], 
+        "in 1 month": [
+            "next month"
+        ], 
+        "1 week ago": [
+            "last week"
+        ], 
+        "0 week ago": [
+            "this week"
+        ], 
+        "in 1 week": [
+            "next week"
+        ], 
+        "1 day ago": [
+            "yesterday"
+        ], 
+        "0 day ago": [
+            "today"
+        ], 
+        "in 1 day": [
+            "tomorrow"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "+(\\d+) y"
+        ], 
+        "\\1 year ago": [
+            "-(\\d+) y"
+        ], 
+        "in \\1 month": [
+            "+(\\d+) m"
+        ], 
+        "\\1 month ago": [
+            "-(\\d+) m"
+        ], 
+        "in \\1 week": [
+            "+(\\d+) w"
+        ], 
+        "\\1 week ago": [
+            "-(\\d+) w"
+        ], 
+        "in \\1 day": [
+            "+(\\d+) d"
+        ], 
+        "\\1 day ago": [
+            "-(\\d+) d"
+        ], 
+        "in \\1 hour": [
+            "+(\\d+) h"
+        ], 
+        "\\1 hour ago": [
+            "-(\\d+) h"
+        ], 
+        "in \\1 minute": [
+            "+(\\d+) min"
+        ], 
+        "\\1 minute ago": [
+            "-(\\d+) min"
+        ], 
+        "in \\1 second": [
+            "+(\\d+) s"
+        ], 
+        "\\1 second ago": [
+            "-(\\d+) s"
+        ]
+    }, 
+    "locale_specific": {}
+}

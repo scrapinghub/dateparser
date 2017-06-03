@@ -1,0 +1,288 @@
+{
+    "name": "lb", 
+    "date_order": "DMY", 
+    "january": [
+        "Jan", 
+        "J", 
+        "Januar", 
+        "Jan."
+    ], 
+    "february": [
+        "Feb.", 
+        "Feb", 
+        "Februar", 
+        "F"
+    ], 
+    "march": [
+        "M", 
+        "Mäerz", 
+        "Mäe.", 
+        "Mäe"
+    ], 
+    "april": [
+        "A", 
+        "Abr.", 
+        "Abr", 
+        "Abrëll"
+    ], 
+    "may": [
+        "Mee", 
+        "M"
+    ], 
+    "june": [
+        "Juni", 
+        "J", 
+        "Jun"
+    ], 
+    "july": [
+        "Juli", 
+        "J", 
+        "Jul"
+    ], 
+    "august": [
+        "A", 
+        "August", 
+        "Aug", 
+        "Aug."
+    ], 
+    "september": [
+        "September", 
+        "S", 
+        "Sep.", 
+        "Sep"
+    ], 
+    "october": [
+        "Okt.", 
+        "Oktober", 
+        "Okt", 
+        "O"
+    ], 
+    "november": [
+        "Nov.", 
+        "November", 
+        "Nov", 
+        "N"
+    ], 
+    "december": [
+        "Dez.", 
+        "Dezember", 
+        "Dez", 
+        "D"
+    ], 
+    "monday": [
+        "Méi", 
+        "Méindeg", 
+        "Méi.", 
+        "M"
+    ], 
+    "tuesday": [
+        "Dën", 
+        "Dën.", 
+        "Dënschdeg", 
+        "D"
+    ], 
+    "wednesday": [
+        "M", 
+        "Mët.", 
+        "Mëttwoch", 
+        "Mët"
+    ], 
+    "thursday": [
+        "Don.", 
+        "Don", 
+        "Donneschdeg", 
+        "D"
+    ], 
+    "friday": [
+        "Fre.", 
+        "Freideg", 
+        "Fre", 
+        "F"
+    ], 
+    "saturday": [
+        "Samschdeg", 
+        "S", 
+        "Sam", 
+        "Sam."
+    ], 
+    "sunday": [
+        "Sonndeg", 
+        "S", 
+        "Son.", 
+        "Son"
+    ], 
+    "year": [
+        "J.", 
+        "Joer"
+    ], 
+    "month": [
+        "Mount", 
+        "M."
+    ], 
+    "week": [
+        "W.", 
+        "Woch"
+    ], 
+    "day": [
+        "D.", 
+        "Dag"
+    ], 
+    "hour": [
+        "Stonn", 
+        "St."
+    ], 
+    "minute": [
+        "Min.", 
+        "Minutt"
+    ], 
+    "second": [
+        "Sekonn", 
+        "Sek."
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "lescht Joer"
+        ], 
+        "0 year ago": [
+            "dëst Joer"
+        ], 
+        "in 1 year": [
+            "nächst Joer"
+        ], 
+        "1 month ago": [
+            "leschte Mount"
+        ], 
+        "0 month ago": [
+            "dëse Mount"
+        ], 
+        "in 1 month": [
+            "nächste Mount"
+        ], 
+        "1 week ago": [
+            "lescht Woch"
+        ], 
+        "0 week ago": [
+            "dës Woch"
+        ], 
+        "in 1 week": [
+            "nächst Woch"
+        ], 
+        "1 day ago": [
+            "gëschter"
+        ], 
+        "0 day ago": [
+            "haut"
+        ], 
+        "in 1 day": [
+            "muer"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "an (\\d+) J.", 
+            "a(n) (\\d+) J.", 
+            "a(n) (\\d+) Joer", 
+            "+(\\d+) J.", 
+            "an (\\d+) Joer"
+        ], 
+        "\\1 year ago": [
+            "-(\\d+) J.", 
+            "viru(n) (\\d+) Joer", 
+            "virun (\\d+) J.", 
+            "viru(n) (\\d+) J.", 
+            "virun (\\d+) Joer"
+        ], 
+        "in \\1 month": [
+            "an (\\d+) Mount", 
+            "a(n) (\\d+) M.", 
+            "+(\\d+) M.", 
+            "a(n) (\\d+) Méint", 
+            "an (\\d+) M."
+        ], 
+        "\\1 month ago": [
+            "virun (\\d+) M.", 
+            "viru(n) (\\d+) M.", 
+            "virun (\\d+) Mount", 
+            "viru(n) (\\d+) Méint", 
+            "-(\\d+) M."
+        ], 
+        "in \\1 week": [
+            "an (\\d+) W.", 
+            "a(n) (\\d+) W.", 
+            "a(n) (\\d+) Wochen", 
+            "an (\\d+) Woch", 
+            "+(\\d+) W."
+        ], 
+        "\\1 week ago": [
+            "viru(n) (\\d+) W.", 
+            "virun (\\d+) W.", 
+            "virun (\\d+) Woch", 
+            "-(\\d+) W.", 
+            "viru(n) (\\d+) Wochen"
+        ], 
+        "in \\1 day": [
+            "+(\\d+) D.", 
+            "a(n) (\\d+) D.", 
+            "an (\\d+) D.", 
+            "an (\\d+) Dag", 
+            "a(n) (\\d+) Deeg"
+        ], 
+        "\\1 day ago": [
+            "viru(n) (\\d+) Deeg", 
+            "viru(n) (\\d+) D.", 
+            "-(\\d+) D.", 
+            "virun (\\d+) Dag", 
+            "virun (\\d+) D."
+        ], 
+        "in \\1 hour": [
+            "an (\\d+) St.", 
+            "a(n) (\\d+) Stonnen", 
+            "an (\\d+) Stonn", 
+            "a(n) (\\d+) St.", 
+            "+(\\d+) St."
+        ], 
+        "\\1 hour ago": [
+            "virun (\\d+) St.", 
+            "-(\\d+) St.", 
+            "viru(n) (\\d+) St.", 
+            "virun (\\d+) Stonn", 
+            "viru(n) (\\d+) Stonnen"
+        ], 
+        "in \\1 minute": [
+            "a(n) (\\d+) Min.", 
+            "a(n) (\\d+) Minutten", 
+            "an (\\d+) Min.", 
+            "an (\\d+) Minutt", 
+            "+(\\d+) Min."
+        ], 
+        "\\1 minute ago": [
+            "-(\\d+) Min.", 
+            "viru(n) (\\d+) Min.", 
+            "virun (\\d+) Min.", 
+            "virun (\\d+) Minutt", 
+            "viru(n) (\\d+) Minutten"
+        ], 
+        "in \\1 second": [
+            "a(n) (\\d+) Sek.", 
+            "an (\\d+) Sek.", 
+            "an (\\d+) Sekonn", 
+            "+(\\d+) Sek.", 
+            "a(n) (\\d+) Sekonnen"
+        ], 
+        "\\1 second ago": [
+            "viru(n) (\\d+) Sek.", 
+            "virun (\\d+) Sek.", 
+            "viru(n) (\\d+) Sekonnen", 
+            "virun (\\d+) Sekonn", 
+            "-(\\d+) Sek."
+        ]
+    }, 
+    "locale_specific": {}
+}

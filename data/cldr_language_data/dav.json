@@ -1,0 +1,210 @@
+{
+    "name": "dav", 
+    "date_order": "DMY", 
+    "january": [
+        "I", 
+        "Imb", 
+        "Mori ghwa imbiri"
+    ], 
+    "february": [
+        "K", 
+        "Kaw", 
+        "Mori ghwa kawi"
+    ], 
+    "march": [
+        "Mori ghwa kadadu", 
+        "K", 
+        "Kad"
+    ], 
+    "april": [
+        "Mori ghwa kana", 
+        "K", 
+        "Kan"
+    ], 
+    "may": [
+        "Kas", 
+        "K", 
+        "Mori ghwa kasanu"
+    ], 
+    "june": [
+        "Mori ghwa karandadu", 
+        "Kar", 
+        "K"
+    ], 
+    "july": [
+        "M", 
+        "Mfu", 
+        "Mori ghwa mfungade"
+    ], 
+    "august": [
+        "W", 
+        "Wun", 
+        "Mori ghwa wunyanya"
+    ], 
+    "september": [
+        "Mori ghwa ikenda", 
+        "I", 
+        "Ike"
+    ], 
+    "october": [
+        "I", 
+        "Mori ghwa ikumi", 
+        "Iku"
+    ], 
+    "november": [
+        "I", 
+        "Imw", 
+        "Mori ghwa ikumi na imweri"
+    ], 
+    "december": [
+        "I", 
+        "Mori ghwa ikumi na iwi", 
+        "Iwi"
+    ], 
+    "monday": [
+        "J", 
+        "Jim", 
+        "Kuramuka jimweri"
+    ], 
+    "tuesday": [
+        "Kuramuka kawi", 
+        "Kaw", 
+        "K"
+    ], 
+    "wednesday": [
+        "K", 
+        "Kuramuka kadadu", 
+        "Kad"
+    ], 
+    "thursday": [
+        "K", 
+        "Kuramuka kana", 
+        "Kan"
+    ], 
+    "friday": [
+        "Kas", 
+        "K", 
+        "Kuramuka kasanu"
+    ], 
+    "saturday": [
+        "Ngu", 
+        "Kifula nguwo", 
+        "N"
+    ], 
+    "sunday": [
+        "Ituku ja jumwa", 
+        "J", 
+        "Jum"
+    ], 
+    "year": [
+        "Mwaka"
+    ], 
+    "month": [
+        "Mori"
+    ], 
+    "week": [
+        "Juma"
+    ], 
+    "day": [
+        "Ituku"
+    ], 
+    "hour": [
+        "Saa"
+    ], 
+    "minute": [
+        "Dakika"
+    ], 
+    "second": [
+        "Sekunde"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "last year"
+        ], 
+        "0 year ago": [
+            "this year"
+        ], 
+        "in 1 year": [
+            "next year"
+        ], 
+        "1 month ago": [
+            "last month"
+        ], 
+        "0 month ago": [
+            "this month"
+        ], 
+        "in 1 month": [
+            "next month"
+        ], 
+        "1 week ago": [
+            "last week"
+        ], 
+        "0 week ago": [
+            "this week"
+        ], 
+        "in 1 week": [
+            "next week"
+        ], 
+        "1 day ago": [
+            "Iguo"
+        ], 
+        "0 day ago": [
+            "Idime"
+        ], 
+        "in 1 day": [
+            "Kesho"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "+(\\d+) y"
+        ], 
+        "\\1 year ago": [
+            "-(\\d+) y"
+        ], 
+        "in \\1 month": [
+            "+(\\d+) m"
+        ], 
+        "\\1 month ago": [
+            "-(\\d+) m"
+        ], 
+        "in \\1 week": [
+            "+(\\d+) w"
+        ], 
+        "\\1 week ago": [
+            "-(\\d+) w"
+        ], 
+        "in \\1 day": [
+            "+(\\d+) d"
+        ], 
+        "\\1 day ago": [
+            "-(\\d+) d"
+        ], 
+        "in \\1 hour": [
+            "+(\\d+) h"
+        ], 
+        "\\1 hour ago": [
+            "-(\\d+) h"
+        ], 
+        "in \\1 minute": [
+            "+(\\d+) min"
+        ], 
+        "\\1 minute ago": [
+            "-(\\d+) min"
+        ], 
+        "in \\1 second": [
+            "+(\\d+) s"
+        ], 
+        "\\1 second ago": [
+            "-(\\d+) s"
+        ]
+    }, 
+    "locale_specific": {}
+}

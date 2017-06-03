@@ -1,0 +1,293 @@
+{
+    "name": "de", 
+    "date_order": "DMY", 
+    "january": [
+        "Jan", 
+        "J", 
+        "Januar", 
+        "Jan."
+    ], 
+    "february": [
+        "Feb.", 
+        "Feb", 
+        "Februar", 
+        "F"
+    ], 
+    "march": [
+        "Mär", 
+        "M", 
+        "März"
+    ], 
+    "april": [
+        "Apr", 
+        "April", 
+        "Apr.", 
+        "A"
+    ], 
+    "may": [
+        "Mai", 
+        "M"
+    ], 
+    "june": [
+        "Juni", 
+        "J", 
+        "Jun"
+    ], 
+    "july": [
+        "Juli", 
+        "J", 
+        "Jul"
+    ], 
+    "august": [
+        "A", 
+        "August", 
+        "Aug", 
+        "Aug."
+    ], 
+    "september": [
+        "September", 
+        "S", 
+        "Sep.", 
+        "Sep"
+    ], 
+    "october": [
+        "Okt.", 
+        "Oktober", 
+        "Okt", 
+        "O"
+    ], 
+    "november": [
+        "Nov.", 
+        "November", 
+        "Nov", 
+        "N"
+    ], 
+    "december": [
+        "Dez.", 
+        "Dezember", 
+        "Dez", 
+        "D"
+    ], 
+    "monday": [
+        "Montag", 
+        "Mo", 
+        "M", 
+        "Mo."
+    ], 
+    "tuesday": [
+        "Di.", 
+        "Dienstag", 
+        "D", 
+        "Di"
+    ], 
+    "wednesday": [
+        "Mittwoch", 
+        "M", 
+        "Mi", 
+        "Mi."
+    ], 
+    "thursday": [
+        "Donnerstag", 
+        "Do.", 
+        "D", 
+        "Do"
+    ], 
+    "friday": [
+        "Freitag", 
+        "Fr", 
+        "Fr.", 
+        "F"
+    ], 
+    "saturday": [
+        "Sa", 
+        "Samstag", 
+        "S", 
+        "Sa."
+    ], 
+    "sunday": [
+        "S", 
+        "So", 
+        "Sonntag", 
+        "So."
+    ], 
+    "year": [
+        "Jahr", 
+        "J"
+    ], 
+    "month": [
+        "Monat", 
+        "M"
+    ], 
+    "week": [
+        "Woche", 
+        "W"
+    ], 
+    "day": [
+        "Tag"
+    ], 
+    "hour": [
+        "Std.", 
+        "Stunde"
+    ], 
+    "minute": [
+        "Min.", 
+        "Minute"
+    ], 
+    "second": [
+        "Sekunde", 
+        "Sek."
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "letztes Jahr"
+        ], 
+        "0 year ago": [
+            "dieses Jahr"
+        ], 
+        "in 1 year": [
+            "nächstes Jahr"
+        ], 
+        "1 month ago": [
+            "letzten Monat"
+        ], 
+        "0 month ago": [
+            "diesen Monat"
+        ], 
+        "in 1 month": [
+            "nächsten Monat"
+        ], 
+        "1 week ago": [
+            "letzte Woche"
+        ], 
+        "0 week ago": [
+            "diese Woche"
+        ], 
+        "in 1 week": [
+            "nächste Woche"
+        ], 
+        "1 day ago": [
+            "gestern"
+        ], 
+        "0 day ago": [
+            "heute"
+        ], 
+        "in 1 day": [
+            "morgen"
+        ], 
+        "0 hour ago": [
+            "in dieser Stunde"
+        ], 
+        "0 minute ago": [
+            "in dieser Minute"
+        ], 
+        "0 second ago": [
+            "jetzt"
+        ], 
+        "in \\1 year": [
+            "in (\\d+) Jahr", 
+            "in (\\d+) Jahren"
+        ], 
+        "\\1 year ago": [
+            "vor (\\d+) Jahr", 
+            "vor (\\d+) Jahren"
+        ], 
+        "in \\1 month": [
+            "in (\\d+) Monat", 
+            "in (\\d+) Monaten"
+        ], 
+        "\\1 month ago": [
+            "vor (\\d+) Monat", 
+            "vor (\\d+) Monaten", 
+            "vor (\\d+) Monat", 
+            "vor (\\d+) Monaten"
+        ], 
+        "in \\1 week": [
+            "in (\\d+) Wo.", 
+            "in (\\d+) Woche", 
+            "in (\\d+) Wochen"
+        ], 
+        "\\1 week ago": [
+            "vor (\\d+) Wo.", 
+            "vor (\\d+) Wochen", 
+            "vor (\\d+) Woche"
+        ], 
+        "in \\1 day": [
+            "in (\\d+) Tagen", 
+            "in (\\d+) Tag"
+        ], 
+        "\\1 day ago": [
+            "vor (\\d+) Tagen", 
+            "vor (\\d+) Tag"
+        ], 
+        "in \\1 hour": [
+            "in (\\d+) Stunden", 
+            "in (\\d+) Std.", 
+            "in (\\d+) Stunde"
+        ], 
+        "\\1 hour ago": [
+            "vor (\\d+) Stunden", 
+            "vor (\\d+) Stunde", 
+            "vor (\\d+) Std."
+        ], 
+        "in \\1 minute": [
+            "in (\\d+) Min.", 
+            "in (\\d+) m", 
+            "in (\\d+) Minute", 
+            "in (\\d+) Minuten"
+        ], 
+        "\\1 minute ago": [
+            "vor (\\d+) m", 
+            "vor (\\d+) Minute", 
+            "vor (\\d+) Minuten", 
+            "vor (\\d+) Min."
+        ], 
+        "in \\1 second": [
+            "in (\\d+) Sekunden", 
+            "in (\\d+) Sekunde", 
+            "in (\\d+) s", 
+            "in (\\d+) Sek."
+        ], 
+        "\\1 second ago": [
+            "vor (\\d+) Sekunden", 
+            "vor (\\d+) Sekunde", 
+            "vor (\\d+) Sek.", 
+            "vor (\\d+) s"
+        ]
+    }, 
+    "locale_specific": {
+        "de-AT": {
+            "january": [
+                "Jänner", 
+                "Jän.", 
+                "Jän"
+            ], 
+            "date_order": "DMY", 
+            "name": "de-AT"
+        }, 
+        "de-BE": {
+            "date_order": "DMY", 
+            "name": "de-BE"
+        }, 
+        "de-CH": {
+            "date_order": "DMY", 
+            "name": "de-CH"
+        }, 
+        "de-IT": {
+            "january": [
+                "Jänner", 
+                "Jän.", 
+                "Jän"
+            ], 
+            "date_order": "DMY", 
+            "name": "de-IT"
+        }, 
+        "de-LI": {
+            "date_order": "DMY", 
+            "name": "de-LI"
+        }, 
+        "de-LU": {
+            "date_order": "DMY", 
+            "name": "de-LU"
+        }
+    }
+}

@@ -1,0 +1,220 @@
+{
+    "name": "fy", 
+    "date_order": "DMY", 
+    "january": [
+        "Jannewaris", 
+        "Jan", 
+        "J"
+    ], 
+    "february": [
+        "Febrewaris", 
+        "Feb", 
+        "F"
+    ], 
+    "march": [
+        "Maart", 
+        "Mrt", 
+        "M"
+    ], 
+    "april": [
+        "Apr", 
+        "April", 
+        "A"
+    ], 
+    "may": [
+        "Maaie", 
+        "Mai", 
+        "M"
+    ], 
+    "june": [
+        "Juny", 
+        "J", 
+        "Jun"
+    ], 
+    "july": [
+        "July", 
+        "J", 
+        "Jul"
+    ], 
+    "august": [
+        "A", 
+        "Aug", 
+        "Augustus"
+    ], 
+    "september": [
+        "S", 
+        "Septimber", 
+        "Sep"
+    ], 
+    "october": [
+        "Oktober", 
+        "Okt", 
+        "O"
+    ], 
+    "november": [
+        "Nov", 
+        "Novimber", 
+        "N"
+    ], 
+    "december": [
+        "Des", 
+        "Desimber", 
+        "D"
+    ], 
+    "monday": [
+        "moandei", 
+        "M", 
+        "mo"
+    ], 
+    "tuesday": [
+        "T", 
+        "tiisdei", 
+        "ti"
+    ], 
+    "wednesday": [
+        "woansdei", 
+        "wo", 
+        "W"
+    ], 
+    "thursday": [
+        "to", 
+        "tongersdei", 
+        "T"
+    ], 
+    "friday": [
+        "fr", 
+        "F", 
+        "freed"
+    ], 
+    "saturday": [
+        "S", 
+        "so", 
+        "sneon"
+    ], 
+    "sunday": [
+        "snein", 
+        "si", 
+        "S"
+    ], 
+    "year": [
+        "Jier"
+    ], 
+    "month": [
+        "Moanne"
+    ], 
+    "week": [
+        "Wike"
+    ], 
+    "day": [
+        "dei"
+    ], 
+    "hour": [
+        "oere"
+    ], 
+    "minute": [
+        "Minút"
+    ], 
+    "second": [
+        "Sekonde"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "foarich jier"
+        ], 
+        "0 year ago": [
+            "dit jier"
+        ], 
+        "in 1 year": [
+            "folgjend jier"
+        ], 
+        "1 month ago": [
+            "foarige moanne"
+        ], 
+        "0 month ago": [
+            "dizze moanne"
+        ], 
+        "in 1 month": [
+            "folgjende moanne"
+        ], 
+        "1 week ago": [
+            "foarige wike"
+        ], 
+        "0 week ago": [
+            "dizze wike"
+        ], 
+        "in 1 week": [
+            "folgjende wike"
+        ], 
+        "1 day ago": [
+            "gisteren"
+        ], 
+        "0 day ago": [
+            "vandaag"
+        ], 
+        "in 1 day": [
+            "morgen"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "nu"
+        ], 
+        "in \\1 year": [
+            "Oer (\\d+) jier"
+        ], 
+        "\\1 year ago": [
+            "(\\d+) jier lyn"
+        ], 
+        "in \\1 month": [
+            "Oer (\\d+) moannen", 
+            "Oer (\\d+) moanne"
+        ], 
+        "\\1 month ago": [
+            "(\\d+) moanne lyn", 
+            "(\\d+) moannen lyn"
+        ], 
+        "in \\1 week": [
+            "Oer (\\d+) wike", 
+            "Oer (\\d+) wiken"
+        ], 
+        "\\1 week ago": [
+            "(\\d+) wiken lyn", 
+            "(\\d+) wike lyn"
+        ], 
+        "in \\1 day": [
+            "Oer (\\d+) dei", 
+            "Oer (\\d+) deien"
+        ], 
+        "\\1 day ago": [
+            "(\\d+) deien lyn", 
+            "(\\d+) dei lyn"
+        ], 
+        "in \\1 hour": [
+            "Oer (\\d+) oere"
+        ], 
+        "\\1 hour ago": [
+            "(\\d+) oere lyn"
+        ], 
+        "in \\1 minute": [
+            "Oer (\\d+) minút", 
+            "Oer (\\d+) minuten"
+        ], 
+        "\\1 minute ago": [
+            "(\\d+) minuten lyn", 
+            "(\\d+) minút lyn"
+        ], 
+        "in \\1 second": [
+            "Oer (\\d+) sekonden", 
+            "Oer (\\d+) sekonde"
+        ], 
+        "\\1 second ago": [
+            "(\\d+) sekonden lyn", 
+            "(\\d+) sekonde lyn"
+        ]
+    }, 
+    "locale_specific": {}
+}

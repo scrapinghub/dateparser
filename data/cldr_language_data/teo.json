@@ -1,0 +1,215 @@
+{
+    "name": "teo", 
+    "date_order": "DMY", 
+    "january": [
+        "R", 
+        "Rar", 
+        "Orara"
+    ], 
+    "february": [
+        "Omuk", 
+        "M", 
+        "Muk"
+    ], 
+    "march": [
+        "Okwamg’", 
+        "Kwa", 
+        "K"
+    ], 
+    "april": [
+        "Odung’el", 
+        "D", 
+        "Dun"
+    ], 
+    "may": [
+        "Mar", 
+        "M", 
+        "Omaruk"
+    ], 
+    "june": [
+        "Omodok’king’ol", 
+        "M", 
+        "Mod"
+    ], 
+    "july": [
+        "Ojola", 
+        "J", 
+        "Jol"
+    ], 
+    "august": [
+        "Ped", 
+        "P", 
+        "Opedel"
+    ], 
+    "september": [
+        "S", 
+        "Osokosokoma", 
+        "Sok"
+    ], 
+    "october": [
+        "Otibar", 
+        "T", 
+        "Tib"
+    ], 
+    "november": [
+        "Olabor", 
+        "Lab", 
+        "L"
+    ], 
+    "december": [
+        "Poo", 
+        "Opoo", 
+        "P"
+    ], 
+    "monday": [
+        "B", 
+        "Bar", 
+        "Nakaebarasa"
+    ], 
+    "tuesday": [
+        "Nakaare", 
+        "A", 
+        "Aar"
+    ], 
+    "wednesday": [
+        "Uni", 
+        "Nakauni", 
+        "U"
+    ], 
+    "thursday": [
+        "Nakaung’on", 
+        "U", 
+        "Ung"
+    ], 
+    "friday": [
+        "K", 
+        "Nakakany", 
+        "Kan"
+    ], 
+    "saturday": [
+        "Sab", 
+        "S", 
+        "Nakasabiti"
+    ], 
+    "sunday": [
+        "J", 
+        "Nakaejuma", 
+        "Jum"
+    ], 
+    "year": [
+        "Ekan"
+    ], 
+    "month": [
+        "Elap"
+    ], 
+    "week": [
+        "Ewiki"
+    ], 
+    "day": [
+        "Aparan"
+    ], 
+    "hour": [
+        "Esaa"
+    ], 
+    "minute": [
+        "Idakika"
+    ], 
+    "second": [
+        "Isekonde"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "last year"
+        ], 
+        "0 year ago": [
+            "this year"
+        ], 
+        "in 1 year": [
+            "next year"
+        ], 
+        "1 month ago": [
+            "last month"
+        ], 
+        "0 month ago": [
+            "this month"
+        ], 
+        "in 1 month": [
+            "next month"
+        ], 
+        "1 week ago": [
+            "last week"
+        ], 
+        "0 week ago": [
+            "this week"
+        ], 
+        "in 1 week": [
+            "next week"
+        ], 
+        "1 day ago": [
+            "Jaan"
+        ], 
+        "0 day ago": [
+            "Lolo"
+        ], 
+        "in 1 day": [
+            "Moi"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "+(\\d+) y"
+        ], 
+        "\\1 year ago": [
+            "-(\\d+) y"
+        ], 
+        "in \\1 month": [
+            "+(\\d+) m"
+        ], 
+        "\\1 month ago": [
+            "-(\\d+) m"
+        ], 
+        "in \\1 week": [
+            "+(\\d+) w"
+        ], 
+        "\\1 week ago": [
+            "-(\\d+) w"
+        ], 
+        "in \\1 day": [
+            "+(\\d+) d"
+        ], 
+        "\\1 day ago": [
+            "-(\\d+) d"
+        ], 
+        "in \\1 hour": [
+            "+(\\d+) h"
+        ], 
+        "\\1 hour ago": [
+            "-(\\d+) h"
+        ], 
+        "in \\1 minute": [
+            "+(\\d+) min"
+        ], 
+        "\\1 minute ago": [
+            "-(\\d+) min"
+        ], 
+        "in \\1 second": [
+            "+(\\d+) s"
+        ], 
+        "\\1 second ago": [
+            "-(\\d+) s"
+        ]
+    }, 
+    "locale_specific": {
+        "teo-KE": {
+            "date_order": "DMY", 
+            "name": "teo-KE"
+        }
+    }
+}

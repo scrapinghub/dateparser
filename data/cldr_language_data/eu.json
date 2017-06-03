@@ -1,0 +1,234 @@
+{
+    "name": "eu", 
+    "date_order": "YMD", 
+    "january": [
+        "urtarrila", 
+        "urt.", 
+        "U"
+    ], 
+    "february": [
+        "Otsaila", 
+        "otsaila", 
+        "ots.", 
+        "O"
+    ], 
+    "march": [
+        "mar.", 
+        "martxoa", 
+        "M", 
+        "Martxoa"
+    ], 
+    "april": [
+        "A", 
+        "api.", 
+        "Apirila", 
+        "apirila"
+    ], 
+    "may": [
+        "M", 
+        "mai.", 
+        "Maiatza", 
+        "maiatza"
+    ], 
+    "june": [
+        "Ekaina", 
+        "E", 
+        "eka.", 
+        "ekaina"
+    ], 
+    "july": [
+        "uzt.", 
+        "Uztaila", 
+        "U", 
+        "uztaila"
+    ], 
+    "august": [
+        "abu.", 
+        "A", 
+        "Abuztua", 
+        "abuztua"
+    ], 
+    "september": [
+        "I", 
+        "ira.", 
+        "Iraila", 
+        "iraila"
+    ], 
+    "october": [
+        "U", 
+        "urr.", 
+        "Urria", 
+        "urria"
+    ], 
+    "november": [
+        "A", 
+        "aza.", 
+        "azaroa", 
+        "Azaroa"
+    ], 
+    "december": [
+        "abe.", 
+        "Abendua", 
+        "A", 
+        "abendua"
+    ], 
+    "monday": [
+        "Astelehena", 
+        "al.", 
+        "astelehena", 
+        "A"
+    ], 
+    "tuesday": [
+        "A", 
+        "asteartea", 
+        "ar.", 
+        "Asteartea"
+    ], 
+    "wednesday": [
+        "A", 
+        "Asteazkena", 
+        "az.", 
+        "asteazkena"
+    ], 
+    "thursday": [
+        "osteguna", 
+        "og.", 
+        "Osteguna", 
+        "O"
+    ], 
+    "friday": [
+        "or.", 
+        "Ostirala", 
+        "O", 
+        "ostirala"
+    ], 
+    "saturday": [
+        "Larunbata", 
+        "larunbata", 
+        "L", 
+        "lr."
+    ], 
+    "sunday": [
+        "I", 
+        "ig.", 
+        "igandea", 
+        "Igandea"
+    ], 
+    "year": [
+        "urtea"
+    ], 
+    "month": [
+        "hilabetea", 
+        "hil."
+    ], 
+    "week": [
+        "ast.", 
+        "astea"
+    ], 
+    "day": [
+        "eg.", 
+        "eguna"
+    ], 
+    "hour": [
+        "h", 
+        "ordua"
+    ], 
+    "minute": [
+        "minutua", 
+        "min"
+    ], 
+    "second": [
+        "segundoa", 
+        "s"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "aurreko urtea"
+        ], 
+        "0 year ago": [
+            "aurten"
+        ], 
+        "in 1 year": [
+            "hurrengo urtea"
+        ], 
+        "1 month ago": [
+            "aurreko hilabetea"
+        ], 
+        "0 month ago": [
+            "hilabete hau"
+        ], 
+        "in 1 month": [
+            "hurrengo hilabetea"
+        ], 
+        "1 week ago": [
+            "aurreko astea"
+        ], 
+        "0 week ago": [
+            "aste hau"
+        ], 
+        "in 1 week": [
+            "hurrengo astea"
+        ], 
+        "1 day ago": [
+            "atzo"
+        ], 
+        "0 day ago": [
+            "gaur"
+        ], 
+        "in 1 day": [
+            "bihar"
+        ], 
+        "0 hour ago": [
+            "ordu honetan"
+        ], 
+        "0 minute ago": [
+            "minutu honetan"
+        ], 
+        "0 second ago": [
+            "orain"
+        ], 
+        "in \\1 year": [
+            "(\\d+) urte barru"
+        ], 
+        "\\1 year ago": [
+            "Duela (\\d+) urte"
+        ], 
+        "in \\1 month": [
+            "(\\d+) hilabete barru"
+        ], 
+        "\\1 month ago": [
+            "Duela (\\d+) hilabete"
+        ], 
+        "in \\1 week": [
+            "(\\d+) aste barru"
+        ], 
+        "\\1 week ago": [
+            "Duela (\\d+) aste"
+        ], 
+        "in \\1 day": [
+            "(\\d+) egun barru"
+        ], 
+        "\\1 day ago": [
+            "Duela (\\d+) egun"
+        ], 
+        "in \\1 hour": [
+            "(\\d+) ordu barru"
+        ], 
+        "\\1 hour ago": [
+            "Duela (\\d+) ordu"
+        ], 
+        "in \\1 minute": [
+            "(\\d+) minutu barru"
+        ], 
+        "\\1 minute ago": [
+            "Duela (\\d+) minutu"
+        ], 
+        "in \\1 second": [
+            "(\\d+) segundo barru"
+        ], 
+        "\\1 second ago": [
+            "Duela (\\d+) segundo"
+        ]
+    }, 
+    "locale_specific": {}
+}

@@ -1,0 +1,231 @@
+{
+    "name": "kea", 
+    "date_order": "DMY", 
+    "january": [
+        "Jan", 
+        "Janeru", 
+        "J"
+    ], 
+    "february": [
+        "Feb", 
+        "Febreru", 
+        "F"
+    ], 
+    "march": [
+        "Marsu", 
+        "Mar", 
+        "M"
+    ], 
+    "april": [
+        "A", 
+        "Abr", 
+        "Abril"
+    ], 
+    "may": [
+        "Maiu", 
+        "Mai", 
+        "M"
+    ], 
+    "june": [
+        "J", 
+        "Jun", 
+        "Junhu"
+    ], 
+    "july": [
+        "J", 
+        "Julhu", 
+        "Jul"
+    ], 
+    "august": [
+        "Ago", 
+        "A", 
+        "Agostu"
+    ], 
+    "september": [
+        "S", 
+        "Set", 
+        "Setenbru"
+    ], 
+    "october": [
+        "Otubru", 
+        "O", 
+        "Otu"
+    ], 
+    "november": [
+        "Nuv", 
+        "N", 
+        "Nuvenbru"
+    ], 
+    "december": [
+        "Dizenbru", 
+        "D", 
+        "Diz"
+    ], 
+    "monday": [
+        "sig", 
+        "S", 
+        "sigunda-fera"
+    ], 
+    "tuesday": [
+        "tersa-fera", 
+        "ter", 
+        "T"
+    ], 
+    "wednesday": [
+        "kuarta-fera", 
+        "K", 
+        "kua"
+    ], 
+    "thursday": [
+        "K", 
+        "kinta-fera", 
+        "kin"
+    ], 
+    "friday": [
+        "S", 
+        "ses", 
+        "sesta-fera"
+    ], 
+    "saturday": [
+        "sábadu", 
+        "sab", 
+        "S", 
+        "sabadu"
+    ], 
+    "sunday": [
+        "dumingu", 
+        "dum", 
+        "D"
+    ], 
+    "year": [
+        "Anu", 
+        "anu"
+    ], 
+    "month": [
+        "mes", 
+        "Mes"
+    ], 
+    "week": [
+        "Simana", 
+        "sim."
+    ], 
+    "day": [
+        "Dia", 
+        "dia"
+    ], 
+    "hour": [
+        "h", 
+        "ora", 
+        "Ora"
+    ], 
+    "minute": [
+        "m", 
+        "Minutu", 
+        "min"
+    ], 
+    "second": [
+        "Sigundu", 
+        "s", 
+        "sig"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "anu pasadu"
+        ], 
+        "0 year ago": [
+            "es anu li"
+        ], 
+        "in 1 year": [
+            "prósimu anu"
+        ], 
+        "1 month ago": [
+            "mes pasadu"
+        ], 
+        "0 month ago": [
+            "es mes li"
+        ], 
+        "in 1 month": [
+            "prósimu mes"
+        ], 
+        "1 week ago": [
+            "simana pasadu"
+        ], 
+        "0 week ago": [
+            "es simana li"
+        ], 
+        "in 1 week": [
+            "prósimu simana"
+        ], 
+        "1 day ago": [
+            "onti"
+        ], 
+        "0 day ago": [
+            "oji"
+        ], 
+        "in 1 day": [
+            "manha"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "di li (\\d+) anu"
+        ], 
+        "\\1 year ago": [
+            "a ten (\\d+) anu"
+        ], 
+        "in \\1 month": [
+            "di li (\\d+) mes"
+        ], 
+        "\\1 month ago": [
+            "a ten (\\d+) mes"
+        ], 
+        "in \\1 week": [
+            "di li (\\d+) sim.", 
+            "di li (\\d+) simana"
+        ], 
+        "\\1 week ago": [
+            "a ten (\\d+) sim.", 
+            "a ten (\\d+) simana"
+        ], 
+        "in \\1 day": [
+            "di li (\\d+) dia"
+        ], 
+        "\\1 day ago": [
+            "a ten (\\d+) dia"
+        ], 
+        "in \\1 hour": [
+            "di li (\\d+) ora"
+        ], 
+        "\\1 hour ago": [
+            "a ten (\\d+) ora"
+        ], 
+        "in \\1 minute": [
+            "di li (\\d+) minutu", 
+            "di li (\\d+) m", 
+            "di li (\\d+) min"
+        ], 
+        "\\1 minute ago": [
+            "a ten (\\d+) m", 
+            "a ten (\\d+) minutu", 
+            "a ten (\\d+) min"
+        ], 
+        "in \\1 second": [
+            "di li (\\d+) s", 
+            "di li (\\d+) sigundu", 
+            "di li (\\d+) sig"
+        ], 
+        "\\1 second ago": [
+            "a ten (\\d+) sig", 
+            "a ten (\\d+) sigundu", 
+            "a ten (\\d+) s"
+        ]
+    }, 
+    "locale_specific": {}
+}

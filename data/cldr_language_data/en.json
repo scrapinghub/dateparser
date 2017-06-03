@@ -1,0 +1,6084 @@
+{
+    "name": "en", 
+    "date_order": "MDY", 
+    "january": [
+        "Jan", 
+        "January", 
+        "J"
+    ], 
+    "february": [
+        "February", 
+        "Feb", 
+        "F"
+    ], 
+    "march": [
+        "M", 
+        "Mar", 
+        "March"
+    ], 
+    "april": [
+        "Apr", 
+        "April", 
+        "A"
+    ], 
+    "may": [
+        "May", 
+        "M"
+    ], 
+    "june": [
+        "Jun", 
+        "J", 
+        "June"
+    ], 
+    "july": [
+        "July", 
+        "J", 
+        "Jul"
+    ], 
+    "august": [
+        "A", 
+        "August", 
+        "Aug"
+    ], 
+    "september": [
+        "September", 
+        "S", 
+        "Sep"
+    ], 
+    "october": [
+        "October", 
+        "Oct", 
+        "O"
+    ], 
+    "november": [
+        "November", 
+        "Nov", 
+        "N"
+    ], 
+    "december": [
+        "December", 
+        "Dec", 
+        "D"
+    ], 
+    "monday": [
+        "M", 
+        "Mon", 
+        "Monday"
+    ], 
+    "tuesday": [
+        "Tuesday", 
+        "Tue", 
+        "T"
+    ], 
+    "wednesday": [
+        "Wednesday", 
+        "W", 
+        "Wed"
+    ], 
+    "thursday": [
+        "Thu", 
+        "T", 
+        "Thursday"
+    ], 
+    "friday": [
+        "Fri", 
+        "Friday", 
+        "F"
+    ], 
+    "saturday": [
+        "S", 
+        "Saturday", 
+        "Sat"
+    ], 
+    "sunday": [
+        "Sun", 
+        "Sunday", 
+        "S"
+    ], 
+    "year": [
+        "yr.", 
+        "year"
+    ], 
+    "month": [
+        "mo.", 
+        "month"
+    ], 
+    "week": [
+        "week", 
+        "wk."
+    ], 
+    "day": [
+        "day"
+    ], 
+    "hour": [
+        "hr.", 
+        "hour"
+    ], 
+    "minute": [
+        "min.", 
+        "minute"
+    ], 
+    "second": [
+        "second", 
+        "sec."
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "last year", 
+            "last yr."
+        ], 
+        "0 year ago": [
+            "this yr.", 
+            "this year"
+        ], 
+        "in 1 year": [
+            "next yr.", 
+            "next year"
+        ], 
+        "1 month ago": [
+            "last month", 
+            "last mo."
+        ], 
+        "0 month ago": [
+            "this mo.", 
+            "this month"
+        ], 
+        "in 1 month": [
+            "next mo.", 
+            "next month"
+        ], 
+        "1 week ago": [
+            "last wk.", 
+            "last week"
+        ], 
+        "0 week ago": [
+            "this wk.", 
+            "this week"
+        ], 
+        "in 1 week": [
+            "next week", 
+            "next wk."
+        ], 
+        "1 day ago": [
+            "yesterday"
+        ], 
+        "0 day ago": [
+            "today"
+        ], 
+        "in 1 day": [
+            "tomorrow"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "in (\\d+) yr.", 
+            "in (\\d+) year", 
+            "in (\\d+) years"
+        ], 
+        "\\1 year ago": [
+            "(\\d+) year ago", 
+            "(\\d+) yr. ago", 
+            "(\\d+) years ago"
+        ], 
+        "in \\1 month": [
+            "in (\\d+) month", 
+            "in (\\d+) mo.", 
+            "in (\\d+) months"
+        ], 
+        "\\1 month ago": [
+            "(\\d+) month ago", 
+            "(\\d+) mo. ago", 
+            "(\\d+) months ago"
+        ], 
+        "in \\1 week": [
+            "in (\\d+) weeks", 
+            "in (\\d+) week", 
+            "in (\\d+) wk."
+        ], 
+        "\\1 week ago": [
+            "(\\d+) week ago", 
+            "(\\d+) wk. ago", 
+            "(\\d+) weeks ago"
+        ], 
+        "in \\1 day": [
+            "in (\\d+) days", 
+            "in (\\d+) day"
+        ], 
+        "\\1 day ago": [
+            "(\\d+) days ago", 
+            "(\\d+) day ago"
+        ], 
+        "in \\1 hour": [
+            "in (\\d+) hour", 
+            "in (\\d+) hours", 
+            "in (\\d+) hr."
+        ], 
+        "\\1 hour ago": [
+            "(\\d+) hours ago", 
+            "(\\d+) hour ago", 
+            "(\\d+) hr. ago"
+        ], 
+        "in \\1 minute": [
+            "in (\\d+) min.", 
+            "in (\\d+) minutes", 
+            "in (\\d+) minute"
+        ], 
+        "\\1 minute ago": [
+            "(\\d+) minute ago", 
+            "(\\d+) minutes ago", 
+            "(\\d+) min. ago"
+        ], 
+        "in \\1 second": [
+            "in (\\d+) second", 
+            "in (\\d+) sec.", 
+            "in (\\d+) seconds"
+        ], 
+        "\\1 second ago": [
+            "(\\d+) seconds ago", 
+            "(\\d+) sec. ago", 
+            "(\\d+) second ago"
+        ]
+    }, 
+    "locale_specific": {
+        "en-001": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-001", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-150": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-150", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-AG": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-AG", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-AI": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-AI", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-AS": {
+            "date_order": "MDY", 
+            "name": "en-AS"
+        }, 
+        "en-AT": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-AT", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-AU": {
+            "september": [
+                "Sep."
+            ], 
+            "december": [
+                "Dec."
+            ], 
+            "tuesday": [
+                "Tue.", 
+                "Tu."
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "november": [
+                "Nov."
+            ], 
+            "date_order": "DMY", 
+            "saturday": [
+                "Sa.", 
+                "Sat."
+            ], 
+            "thursday": [
+                "Thu.", 
+                "Th."
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "sunday": [
+                "Su.", 
+                "Sun."
+            ], 
+            "week": [
+                "wk"
+            ], 
+            "march": [
+                "Mar."
+            ], 
+            "august": [
+                "Aug."
+            ], 
+            "monday": [
+                "Mon.", 
+                "M."
+            ], 
+            "friday": [
+                "Fri.", 
+                "F."
+            ], 
+            "june": [
+                "Jun."
+            ], 
+            "july": [
+                "Jul."
+            ], 
+            "minute": [
+                "min"
+            ], 
+            "february": [
+                "Feb."
+            ], 
+            "october": [
+                "Oct."
+            ], 
+            "name": "en-AU", 
+            "hour": [
+                "h"
+            ], 
+            "january": [
+                "Jan."
+            ], 
+            "wednesday": [
+                "W.", 
+                "Wed."
+            ], 
+            "april": [
+                "Apr."
+            ]
+        }, 
+        "en-BB": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-BB", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-BE": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-BE", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-BI": {
+            "date_order": "MDY", 
+            "name": "en-BI"
+        }, 
+        "en-BM": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-BM", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-BS": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-BS", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-BW": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-BW", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-BZ": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-BZ", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-CA": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-CA", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk", 
+                    "in (\\d+) wks."
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago", 
+                    "(\\d+) yrs. ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) secs. ago", 
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mos."
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr", 
+                    "in (\\d+) hrs."
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mos. ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min", 
+                    "in (\\d+) mins."
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yrs.", 
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago", 
+                    "(\\d+) mins. ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wks. ago", 
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago", 
+                    "(\\d+) hrs. ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec", 
+                    "in (\\d+) secs."
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "YMD", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-CC": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-CC", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-CH": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-CH", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-CK": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-CK", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-CM": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-CM", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-CX": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-CX", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-CY": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-CY", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-DE": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-DE", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-DG": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-DG", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-DK": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-DK", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-DM": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-DM", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-ER": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-ER", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-FI": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-FI", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-FJ": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-FJ", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-FK": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-FK", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-FM": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-FM", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-GB": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-GB", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-GD": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-GD", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-GG": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-GG", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-GH": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-GH", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-GI": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-GI", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-GM": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-GM", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-GU": {
+            "date_order": "MDY", 
+            "name": "en-GU"
+        }, 
+        "en-GY": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-GY", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-HK": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-HK", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-IE": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-IE", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-IL": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-IL", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-IM": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-IM", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-IN": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-IN", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-IO": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-IO", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-JE": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-JE", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-JM": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-JM", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-KE": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-KE", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-KI": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-KI", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-KN": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-KN", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-KY": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-KY", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-LC": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-LC", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-LR": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-LR", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-LS": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-LS", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-MG": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-MG", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-MH": {
+            "date_order": "MDY", 
+            "name": "en-MH"
+        }, 
+        "en-MO": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-MO", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-MP": {
+            "date_order": "MDY", 
+            "name": "en-MP"
+        }, 
+        "en-MS": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-MS", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-MT": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-MT", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-MU": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-MU", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-MW": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-MW", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-MY": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-MY", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-NA": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-NA", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-NF": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-NF", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-NG": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-NG", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-NL": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-NL", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-NR": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-NR", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-NU": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-NU", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-NZ": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-NZ", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-PG": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-PG", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-PH": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-PH", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-PK": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-PK", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-PN": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-PN", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-PR": {
+            "date_order": "MDY", 
+            "name": "en-PR"
+        }, 
+        "en-PW": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-PW", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-RW": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-RW", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SB": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SB", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SC": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SC", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SD": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SD", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SE": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SE", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "YMD", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SG": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SG", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mth", 
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "1 year ago": [
+                    "last yr"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "in 1 year": [
+                    "next yr"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mth", 
+                    "in (\\d+) mo"
+                ], 
+                "in 1 week": [
+                    "next wk"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago", 
+                    "(\\d+) mth ago"
+                ], 
+                "0 week ago": [
+                    "this wk"
+                ], 
+                "1 week ago": [
+                    "last wk"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "0 month ago": [
+                    "this mth"
+                ], 
+                "1 month ago": [
+                    "last mth"
+                ], 
+                "in 1 month": [
+                    "next mth"
+                ], 
+                "0 year ago": [
+                    "this yr"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SH": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SH", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SI": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SI", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SL": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SL", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SS": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SS", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SX": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SX", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-SZ": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-SZ", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-TC": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-TC", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-TK": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-TK", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-TO": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-TO", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-TT": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-TT", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-TV": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-TV", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-TZ": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-TZ", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-UG": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-UG", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-UM": {
+            "date_order": "MDY", 
+            "name": "en-UM"
+        }, 
+        "en-VC": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-VC", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-VG": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-VG", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-VI": {
+            "date_order": "MDY", 
+            "name": "en-VI"
+        }, 
+        "en-VU": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-VU", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-WS": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-WS", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-ZA": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-ZA", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "YMD", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-ZM": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-ZM", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }, 
+        "en-ZW": {
+            "week": [
+                "wk"
+            ], 
+            "name": "en-ZW", 
+            "hour": [
+                "hr"
+            ], 
+            "month": [
+                "mo"
+            ], 
+            "relative-type": {
+                "in \\1 week": [
+                    "in (\\d+) wk"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) yr ago"
+                ], 
+                "\\1 second ago": [
+                    "(\\d+) sec ago"
+                ], 
+                "in \\1 month": [
+                    "in (\\d+) mo"
+                ], 
+                "in \\1 hour": [
+                    "in (\\d+) hr"
+                ], 
+                "\\1 month ago": [
+                    "(\\d+) mo ago"
+                ], 
+                "in \\1 minute": [
+                    "in (\\d+) min"
+                ], 
+                "in \\1 year": [
+                    "in (\\d+) yr"
+                ], 
+                "\\1 minute ago": [
+                    "(\\d+) min ago"
+                ], 
+                "\\1 week ago": [
+                    "(\\d+) wk ago"
+                ], 
+                "\\1 hour ago": [
+                    "(\\d+) hr ago"
+                ], 
+                "in \\1 second": [
+                    "in (\\d+) sec"
+                ]
+            }, 
+            "second": [
+                "sec"
+            ], 
+            "year": [
+                "yr"
+            ], 
+            "date_order": "DMY", 
+            "minute": [
+                "min"
+            ]
+        }
+    }
+}

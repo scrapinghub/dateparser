@@ -1,0 +1,482 @@
+{
+    "name": "fr", 
+    "date_order": "DMY", 
+    "january": [
+        "J", 
+        "janv.", 
+        "janvier"
+    ], 
+    "february": [
+        "févr.", 
+        "février", 
+        "F"
+    ], 
+    "march": [
+        "M", 
+        "mars"
+    ], 
+    "april": [
+        "A", 
+        "avril", 
+        "avr."
+    ], 
+    "may": [
+        "mai", 
+        "M"
+    ], 
+    "june": [
+        "juin", 
+        "J"
+    ], 
+    "july": [
+        "J", 
+        "juillet", 
+        "juil."
+    ], 
+    "august": [
+        "A", 
+        "août"
+    ], 
+    "september": [
+        "S", 
+        "sept.", 
+        "septembre"
+    ], 
+    "october": [
+        "oct.", 
+        "octobre", 
+        "O"
+    ], 
+    "november": [
+        "novembre", 
+        "nov.", 
+        "N"
+    ], 
+    "december": [
+        "décembre", 
+        "D", 
+        "déc."
+    ], 
+    "monday": [
+        "lundi", 
+        "L", 
+        "lun."
+    ], 
+    "tuesday": [
+        "mardi", 
+        "mar.", 
+        "M"
+    ], 
+    "wednesday": [
+        "M", 
+        "mercredi", 
+        "mer."
+    ], 
+    "thursday": [
+        "J", 
+        "jeudi", 
+        "jeu."
+    ], 
+    "friday": [
+        "V", 
+        "ven.", 
+        "vendredi"
+    ], 
+    "saturday": [
+        "samedi", 
+        "S", 
+        "sam."
+    ], 
+    "sunday": [
+        "dim.", 
+        "D", 
+        "dimanche"
+    ], 
+    "year": [
+        "a", 
+        "année", 
+        "an"
+    ], 
+    "month": [
+        "m.", 
+        "mois"
+    ], 
+    "week": [
+        "sem.", 
+        "semaine"
+    ], 
+    "day": [
+        "j", 
+        "jour"
+    ], 
+    "hour": [
+        "h", 
+        "heure"
+    ], 
+    "minute": [
+        "minute", 
+        "min"
+    ], 
+    "second": [
+        "s", 
+        "seconde"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "l’année dernière"
+        ], 
+        "0 year ago": [
+            "cette année"
+        ], 
+        "in 1 year": [
+            "l’année prochaine"
+        ], 
+        "1 month ago": [
+            "le mois dernier"
+        ], 
+        "0 month ago": [
+            "ce mois-ci"
+        ], 
+        "in 1 month": [
+            "le mois prochain"
+        ], 
+        "1 week ago": [
+            "la semaine dernière"
+        ], 
+        "0 week ago": [
+            "cette semaine"
+        ], 
+        "in 1 week": [
+            "la semaine prochaine"
+        ], 
+        "1 day ago": [
+            "hier"
+        ], 
+        "0 day ago": [
+            "aujourd’hui"
+        ], 
+        "in 1 day": [
+            "demain"
+        ], 
+        "0 hour ago": [
+            "cette heure-ci"
+        ], 
+        "0 minute ago": [
+            "cette minute-ci"
+        ], 
+        "0 second ago": [
+            "maintenant"
+        ], 
+        "in \\1 year": [
+            "dans (\\d+) an", 
+            "+(\\d+) a", 
+            "dans (\\d+) ans", 
+            "dans (\\d+) a"
+        ], 
+        "\\1 year ago": [
+            "-(\\d+) a", 
+            "il y a (\\d+) ans", 
+            "il y a (\\d+) a", 
+            "il y a (\\d+) an"
+        ], 
+        "in \\1 month": [
+            "+(\\d+) m.", 
+            "dans (\\d+) m.", 
+            "dans (\\d+) mois"
+        ], 
+        "\\1 month ago": [
+            "il y a (\\d+) mois", 
+            "il y a (\\d+) m.", 
+            "-(\\d+) m."
+        ], 
+        "in \\1 week": [
+            "+(\\d+) sem.", 
+            "dans (\\d+) sem.", 
+            "dans (\\d+) semaines", 
+            "dans (\\d+) semaine"
+        ], 
+        "\\1 week ago": [
+            "il y a (\\d+) sem.", 
+            "il y a (\\d+) semaines", 
+            "-(\\d+) sem.", 
+            "il y a (\\d+) semaine"
+        ], 
+        "in \\1 day": [
+            "+(\\d+) j", 
+            "dans (\\d+) jours", 
+            "dans (\\d+) j", 
+            "dans (\\d+) jour"
+        ], 
+        "\\1 day ago": [
+            "il y a (\\d+) jour", 
+            "-(\\d+) j", 
+            "il y a (\\d+) jours", 
+            "il y a (\\d+) j"
+        ], 
+        "in \\1 hour": [
+            "dans (\\d+) heure", 
+            "dans (\\d+)h", 
+            "dans (\\d+) h", 
+            "dans (\\d+) heures"
+        ], 
+        "\\1 hour ago": [
+            "il y a (\\d+)h", 
+            "il y a (\\d+) heures", 
+            "il y a (\\d+) heure", 
+            "il y a (\\d+) h"
+        ], 
+        "in \\1 minute": [
+            "dans (\\d+) minute", 
+            "dans (\\d+) min", 
+            "+(\\d+) min", 
+            "dans (\\d+) minutes"
+        ], 
+        "\\1 minute ago": [
+            "il y a (\\d+) minute", 
+            "il y a (\\d+) minutes", 
+            "-(\\d+) min", 
+            "il y a (\\d+)min", 
+            "il y a (\\d+) min"
+        ], 
+        "in \\1 second": [
+            "+(\\d+) s", 
+            "dans (\\d+) seconde", 
+            "dans (\\d+) secondes", 
+            "dans (\\d+) s"
+        ], 
+        "\\1 second ago": [
+            "-(\\d+) s", 
+            "il y a (\\d+) seconde", 
+            "il y a (\\d+) secondes", 
+            "il y a (\\d+) s"
+        ]
+    }, 
+    "locale_specific": {
+        "fr-BE": {
+            "date_order": "DMY", 
+            "name": "fr-BE"
+        }, 
+        "fr-BF": {
+            "date_order": "DMY", 
+            "name": "fr-BF"
+        }, 
+        "fr-BI": {
+            "date_order": "DMY", 
+            "name": "fr-BI"
+        }, 
+        "fr-BJ": {
+            "date_order": "DMY", 
+            "name": "fr-BJ"
+        }, 
+        "fr-BL": {
+            "date_order": "DMY", 
+            "name": "fr-BL"
+        }, 
+        "fr-CA": {
+            "relative-type": {
+                "in \\1 hour": [
+                    "+(\\d+) h"
+                ], 
+                "\\1 year ago": [
+                    "Il y a (\\d+) ans", 
+                    "Il y a (\\d+) an"
+                ], 
+                "\\1 hour ago": [
+                    "-(\\d+) h"
+                ], 
+                "in \\1 second": [
+                    "+ (\\d+) s"
+                ], 
+                "in \\1 year": [
+                    "Dans (\\d+) an", 
+                    "Dans (\\d+) ans"
+                ]
+            }, 
+            "july": [
+                "juill."
+            ], 
+            "date_order": "YMD", 
+            "name": "fr-CA"
+        }, 
+        "fr-CD": {
+            "date_order": "DMY", 
+            "name": "fr-CD"
+        }, 
+        "fr-CF": {
+            "date_order": "DMY", 
+            "name": "fr-CF"
+        }, 
+        "fr-CG": {
+            "date_order": "DMY", 
+            "name": "fr-CG"
+        }, 
+        "fr-CH": {
+            "date_order": "DMY", 
+            "name": "fr-CH"
+        }, 
+        "fr-CI": {
+            "date_order": "DMY", 
+            "name": "fr-CI"
+        }, 
+        "fr-CM": {
+            "date_order": "DMY", 
+            "name": "fr-CM"
+        }, 
+        "fr-DJ": {
+            "date_order": "DMY", 
+            "name": "fr-DJ"
+        }, 
+        "fr-DZ": {
+            "date_order": "DMY", 
+            "name": "fr-DZ"
+        }, 
+        "fr-GA": {
+            "date_order": "DMY", 
+            "name": "fr-GA"
+        }, 
+        "fr-GF": {
+            "date_order": "DMY", 
+            "name": "fr-GF"
+        }, 
+        "fr-GN": {
+            "date_order": "DMY", 
+            "name": "fr-GN"
+        }, 
+        "fr-GP": {
+            "date_order": "DMY", 
+            "name": "fr-GP"
+        }, 
+        "fr-GQ": {
+            "date_order": "DMY", 
+            "name": "fr-GQ"
+        }, 
+        "fr-HT": {
+            "name": "fr-HT", 
+            "hour": [
+                "hr"
+            ], 
+            "second": [
+                "sec."
+            ], 
+            "date_order": "DMY", 
+            "day": [
+                "jr."
+            ], 
+            "minute": [
+                "min."
+            ]
+        }, 
+        "fr-KM": {
+            "date_order": "DMY", 
+            "name": "fr-KM"
+        }, 
+        "fr-LU": {
+            "date_order": "DMY", 
+            "name": "fr-LU"
+        }, 
+        "fr-MA": {
+            "february": [
+                "fév."
+            ], 
+            "march": [
+                "mar."
+            ], 
+            "name": "fr-MA", 
+            "january": [
+                "jan."
+            ], 
+            "june": [
+                "jui."
+            ], 
+            "date_order": "DMY"
+        }, 
+        "fr-MC": {
+            "date_order": "DMY", 
+            "name": "fr-MC"
+        }, 
+        "fr-MF": {
+            "date_order": "DMY", 
+            "name": "fr-MF"
+        }, 
+        "fr-MG": {
+            "date_order": "DMY", 
+            "name": "fr-MG"
+        }, 
+        "fr-ML": {
+            "date_order": "DMY", 
+            "name": "fr-ML"
+        }, 
+        "fr-MQ": {
+            "date_order": "DMY", 
+            "name": "fr-MQ"
+        }, 
+        "fr-MR": {
+            "date_order": "DMY", 
+            "name": "fr-MR"
+        }, 
+        "fr-MU": {
+            "date_order": "DMY", 
+            "name": "fr-MU"
+        }, 
+        "fr-NC": {
+            "date_order": "DMY", 
+            "name": "fr-NC"
+        }, 
+        "fr-NE": {
+            "date_order": "DMY", 
+            "name": "fr-NE"
+        }, 
+        "fr-PF": {
+            "date_order": "DMY", 
+            "name": "fr-PF"
+        }, 
+        "fr-PM": {
+            "date_order": "DMY", 
+            "name": "fr-PM"
+        }, 
+        "fr-RE": {
+            "date_order": "DMY", 
+            "name": "fr-RE"
+        }, 
+        "fr-RW": {
+            "date_order": "DMY", 
+            "name": "fr-RW"
+        }, 
+        "fr-SC": {
+            "date_order": "DMY", 
+            "name": "fr-SC"
+        }, 
+        "fr-SN": {
+            "date_order": "DMY", 
+            "name": "fr-SN"
+        }, 
+        "fr-SY": {
+            "date_order": "DMY", 
+            "name": "fr-SY"
+        }, 
+        "fr-TD": {
+            "date_order": "DMY", 
+            "name": "fr-TD"
+        }, 
+        "fr-TG": {
+            "date_order": "DMY", 
+            "name": "fr-TG"
+        }, 
+        "fr-TN": {
+            "date_order": "DMY", 
+            "name": "fr-TN"
+        }, 
+        "fr-VU": {
+            "date_order": "DMY", 
+            "name": "fr-VU"
+        }, 
+        "fr-WF": {
+            "date_order": "DMY", 
+            "name": "fr-WF"
+        }, 
+        "fr-YT": {
+            "date_order": "DMY", 
+            "name": "fr-YT"
+        }
+    }
+}

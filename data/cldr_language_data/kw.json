@@ -1,0 +1,210 @@
+{
+    "name": "kw", 
+    "date_order": "YMD", 
+    "january": [
+        "mis Genver", 
+        "1", 
+        "Gen"
+    ], 
+    "february": [
+        "2", 
+        "Hwe", 
+        "mis Hwevrer"
+    ], 
+    "march": [
+        "Meu", 
+        "3", 
+        "mis Meurth"
+    ], 
+    "april": [
+        "mis Ebrel", 
+        "4", 
+        "Ebr"
+    ], 
+    "may": [
+        "Me", 
+        "5", 
+        "mis Me"
+    ], 
+    "june": [
+        "Met", 
+        "mis Metheven", 
+        "6"
+    ], 
+    "july": [
+        "mis Gortheren", 
+        "7", 
+        "Gor"
+    ], 
+    "august": [
+        "8", 
+        "Est", 
+        "mis Est"
+    ], 
+    "september": [
+        "9", 
+        "mis Gwynngala", 
+        "Gwn"
+    ], 
+    "october": [
+        "mis Hedra", 
+        "Hed", 
+        "10"
+    ], 
+    "november": [
+        "11", 
+        "Du", 
+        "mis Du"
+    ], 
+    "december": [
+        "Kev", 
+        "12", 
+        "mis Kevardhu"
+    ], 
+    "monday": [
+        "dy Lun", 
+        "M", 
+        "Lun"
+    ], 
+    "tuesday": [
+        "dy Meurth", 
+        "Mth", 
+        "T"
+    ], 
+    "wednesday": [
+        "dy Merher", 
+        "Mhr", 
+        "W"
+    ], 
+    "thursday": [
+        "dy Yow", 
+        "Yow", 
+        "T"
+    ], 
+    "friday": [
+        "dy Gwener", 
+        "Gwe", 
+        "F"
+    ], 
+    "saturday": [
+        "dy Sadorn", 
+        "S", 
+        "Sad"
+    ], 
+    "sunday": [
+        "S", 
+        "Sul", 
+        "dy Sul"
+    ], 
+    "year": [
+        "Year"
+    ], 
+    "month": [
+        "Month"
+    ], 
+    "week": [
+        "Week"
+    ], 
+    "day": [
+        "Day"
+    ], 
+    "hour": [
+        "Hour"
+    ], 
+    "minute": [
+        "Minute"
+    ], 
+    "second": [
+        "Second"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "last year"
+        ], 
+        "0 year ago": [
+            "this year"
+        ], 
+        "in 1 year": [
+            "next year"
+        ], 
+        "1 month ago": [
+            "last month"
+        ], 
+        "0 month ago": [
+            "this month"
+        ], 
+        "in 1 month": [
+            "next month"
+        ], 
+        "1 week ago": [
+            "last week"
+        ], 
+        "0 week ago": [
+            "this week"
+        ], 
+        "in 1 week": [
+            "next week"
+        ], 
+        "1 day ago": [
+            "yesterday"
+        ], 
+        "0 day ago": [
+            "today"
+        ], 
+        "in 1 day": [
+            "tomorrow"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "+(\\d+) y"
+        ], 
+        "\\1 year ago": [
+            "-(\\d+) y"
+        ], 
+        "in \\1 month": [
+            "+(\\d+) m"
+        ], 
+        "\\1 month ago": [
+            "-(\\d+) m"
+        ], 
+        "in \\1 week": [
+            "+(\\d+) w"
+        ], 
+        "\\1 week ago": [
+            "-(\\d+) w"
+        ], 
+        "in \\1 day": [
+            "+(\\d+) d"
+        ], 
+        "\\1 day ago": [
+            "-(\\d+) d"
+        ], 
+        "in \\1 hour": [
+            "+(\\d+) h"
+        ], 
+        "\\1 hour ago": [
+            "-(\\d+) h"
+        ], 
+        "in \\1 minute": [
+            "+(\\d+) min"
+        ], 
+        "\\1 minute ago": [
+            "-(\\d+) min"
+        ], 
+        "in \\1 second": [
+            "+(\\d+) s"
+        ], 
+        "\\1 second ago": [
+            "-(\\d+) s"
+        ]
+    }, 
+    "locale_specific": {}
+}

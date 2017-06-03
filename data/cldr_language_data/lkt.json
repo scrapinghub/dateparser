@@ -1,0 +1,197 @@
+{
+    "name": "lkt", 
+    "date_order": "YMD", 
+    "january": [
+        "1", 
+        "Wiótheȟika Wí"
+    ], 
+    "february": [
+        "Thiyóȟeyuŋka Wí", 
+        "2"
+    ], 
+    "march": [
+        "3", 
+        "Ištáwičhayazaŋ Wí"
+    ], 
+    "april": [
+        "Pȟežítȟo Wí", 
+        "4"
+    ], 
+    "may": [
+        "5", 
+        "Čhaŋwápetȟo Wí"
+    ], 
+    "june": [
+        "Wípazukȟa-wašté Wí", 
+        "6"
+    ], 
+    "july": [
+        "Čhaŋpȟásapa Wí", 
+        "7"
+    ], 
+    "august": [
+        "8", 
+        "Wasútȟuŋ Wí"
+    ], 
+    "september": [
+        "9", 
+        "Čhaŋwápeǧi Wí"
+    ], 
+    "october": [
+        "10", 
+        "Čhaŋwápe-kasná Wí"
+    ], 
+    "november": [
+        "11", 
+        "Waníyetu Wí"
+    ], 
+    "december": [
+        "Tȟahékapšuŋ Wí", 
+        "12"
+    ], 
+    "monday": [
+        "Aŋpétuwaŋži", 
+        "M", 
+        "W"
+    ], 
+    "tuesday": [
+        "Aŋpétunuŋpa", 
+        "T", 
+        "N"
+    ], 
+    "wednesday": [
+        "Y", 
+        "W", 
+        "Aŋpétuyamni"
+    ], 
+    "thursday": [
+        "Aŋpétutopa", 
+        "T"
+    ], 
+    "friday": [
+        "Z", 
+        "F", 
+        "Aŋpétuzaptaŋ"
+    ], 
+    "saturday": [
+        "S", 
+        "O", 
+        "Owáŋgyužažapi"
+    ], 
+    "sunday": [
+        "A", 
+        "Aŋpétuwakȟaŋ", 
+        "S"
+    ], 
+    "year": [
+        "Ómakȟa"
+    ], 
+    "month": [
+        "Wí"
+    ], 
+    "week": [
+        "Okó"
+    ], 
+    "day": [
+        "Aŋpétu"
+    ], 
+    "hour": [
+        "Owápȟe"
+    ], 
+    "minute": [
+        "Owápȟe oȟʼáŋkȟo"
+    ], 
+    "second": [
+        "Okpí"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "Ómakȟa kʼuŋ héhaŋ"
+        ], 
+        "0 year ago": [
+            "Lé ómakȟa kiŋ"
+        ], 
+        "in 1 year": [
+            "Tȟokáta ómakȟa kiŋháŋ"
+        ], 
+        "1 month ago": [
+            "Wí kʼuŋ héhaŋ"
+        ], 
+        "0 month ago": [
+            "Lé wí kiŋ"
+        ], 
+        "in 1 month": [
+            "Tȟokáta wí kiŋháŋ"
+        ], 
+        "1 week ago": [
+            "Okó kʼuŋ héhaŋ"
+        ], 
+        "0 week ago": [
+            "Lé okó kiŋ"
+        ], 
+        "in 1 week": [
+            "Tȟokáta okó kiŋháŋ"
+        ], 
+        "1 day ago": [
+            "Ȟtálehaŋ"
+        ], 
+        "0 day ago": [
+            "Lé aŋpétu kiŋ"
+        ], 
+        "in 1 day": [
+            "Híŋhaŋni kiŋháŋ"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "Letáŋhaŋ ómakȟa (\\d+) kiŋháŋ"
+        ], 
+        "\\1 year ago": [
+            "Hékta ómakȟa (\\d+) kʼuŋ héhaŋ"
+        ], 
+        "in \\1 month": [
+            "Letáŋhaŋ wíyawapi (\\d+) kiŋháŋ"
+        ], 
+        "\\1 month ago": [
+            "Hékta wíyawapi (\\d+) kʼuŋ héhaŋ"
+        ], 
+        "in \\1 week": [
+            "Letáŋhaŋ okó (\\d+) kiŋháŋ"
+        ], 
+        "\\1 week ago": [
+            "Hékta okó (\\d+) kʼuŋ héhaŋ"
+        ], 
+        "in \\1 day": [
+            "Letáŋhaŋ (\\d+)-čháŋ kiŋháŋ"
+        ], 
+        "\\1 day ago": [
+            "Hékta (\\d+)-čháŋ k’uŋ héhaŋ"
+        ], 
+        "in \\1 hour": [
+            "Letáŋhaŋ owápȟe (\\d+) kiŋháŋ"
+        ], 
+        "\\1 hour ago": [
+            "Hékta owápȟe (\\d+) kʼuŋ héhaŋ"
+        ], 
+        "in \\1 minute": [
+            "Letáŋhaŋ oȟ’áŋkȟo (\\d+) kiŋháŋ"
+        ], 
+        "\\1 minute ago": [
+            "Hékta oȟ’áŋkȟo (\\d+) k’uŋ héhaŋ"
+        ], 
+        "in \\1 second": [
+            "Letáŋhaŋ okpí (\\d+) kiŋháŋ"
+        ], 
+        "\\1 second ago": [
+            "Hékta okpí (\\d+) k’uŋ héhaŋ"
+        ]
+    }, 
+    "locale_specific": {}
+}

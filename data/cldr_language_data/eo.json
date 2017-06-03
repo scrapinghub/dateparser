@@ -1,0 +1,210 @@
+{
+    "name": "eo", 
+    "date_order": "YMD", 
+    "january": [
+        "jan", 
+        "1", 
+        "januaro"
+    ], 
+    "february": [
+        "feb", 
+        "2", 
+        "februaro"
+    ], 
+    "march": [
+        "3", 
+        "mar", 
+        "marto"
+    ], 
+    "april": [
+        "apr", 
+        "aprilo", 
+        "4"
+    ], 
+    "may": [
+        "majo", 
+        "5", 
+        "maj"
+    ], 
+    "june": [
+        "jun", 
+        "junio", 
+        "6"
+    ], 
+    "july": [
+        "julio", 
+        "7", 
+        "jul"
+    ], 
+    "august": [
+        "aŭgusto", 
+        "aŭg", 
+        "8"
+    ], 
+    "september": [
+        "9", 
+        "septembro", 
+        "sep"
+    ], 
+    "october": [
+        "10", 
+        "okt", 
+        "oktobro"
+    ], 
+    "november": [
+        "11", 
+        "novembro", 
+        "nov"
+    ], 
+    "december": [
+        "12", 
+        "dec", 
+        "decembro"
+    ], 
+    "monday": [
+        "lu", 
+        "lundo", 
+        "M"
+    ], 
+    "tuesday": [
+        "ma", 
+        "T", 
+        "mardo"
+    ], 
+    "wednesday": [
+        "me", 
+        "merkredo", 
+        "W"
+    ], 
+    "thursday": [
+        "ĵaŭdo", 
+        "ĵa", 
+        "T"
+    ], 
+    "friday": [
+        "vendredo", 
+        "ve", 
+        "F"
+    ], 
+    "saturday": [
+        "S", 
+        "sabato", 
+        "sa"
+    ], 
+    "sunday": [
+        "dimanĉo", 
+        "S", 
+        "di"
+    ], 
+    "year": [
+        "Year"
+    ], 
+    "month": [
+        "Month"
+    ], 
+    "week": [
+        "Week"
+    ], 
+    "day": [
+        "Day"
+    ], 
+    "hour": [
+        "Hour"
+    ], 
+    "minute": [
+        "Minute"
+    ], 
+    "second": [
+        "Second"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "last year"
+        ], 
+        "0 year ago": [
+            "this year"
+        ], 
+        "in 1 year": [
+            "next year"
+        ], 
+        "1 month ago": [
+            "last month"
+        ], 
+        "0 month ago": [
+            "this month"
+        ], 
+        "in 1 month": [
+            "next month"
+        ], 
+        "1 week ago": [
+            "last week"
+        ], 
+        "0 week ago": [
+            "this week"
+        ], 
+        "in 1 week": [
+            "next week"
+        ], 
+        "1 day ago": [
+            "yesterday"
+        ], 
+        "0 day ago": [
+            "today"
+        ], 
+        "in 1 day": [
+            "tomorrow"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "+(\\d+) y"
+        ], 
+        "\\1 year ago": [
+            "-(\\d+) y"
+        ], 
+        "in \\1 month": [
+            "+(\\d+) m"
+        ], 
+        "\\1 month ago": [
+            "-(\\d+) m"
+        ], 
+        "in \\1 week": [
+            "+(\\d+) w"
+        ], 
+        "\\1 week ago": [
+            "-(\\d+) w"
+        ], 
+        "in \\1 day": [
+            "+(\\d+) d"
+        ], 
+        "\\1 day ago": [
+            "-(\\d+) d"
+        ], 
+        "in \\1 hour": [
+            "+(\\d+) h"
+        ], 
+        "\\1 hour ago": [
+            "-(\\d+) h"
+        ], 
+        "in \\1 minute": [
+            "+(\\d+) min"
+        ], 
+        "\\1 minute ago": [
+            "-(\\d+) min"
+        ], 
+        "in \\1 second": [
+            "+(\\d+) s"
+        ], 
+        "\\1 second ago": [
+            "-(\\d+) s"
+        ]
+    }, 
+    "locale_specific": {}
+}

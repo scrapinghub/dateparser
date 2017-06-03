@@ -1,0 +1,227 @@
+{
+    "name": "az-Latn", 
+    "date_order": "DMY", 
+    "january": [
+        "1", 
+        "yan", 
+        "Yanvar", 
+        "yanvar"
+    ], 
+    "february": [
+        "fev", 
+        "Fevral", 
+        "2", 
+        "fevral"
+    ], 
+    "march": [
+        "Mart", 
+        "mart", 
+        "3", 
+        "mar"
+    ], 
+    "april": [
+        "apr", 
+        "aprel", 
+        "Aprel", 
+        "4"
+    ], 
+    "may": [
+        "May", 
+        "may", 
+        "5"
+    ], 
+    "june": [
+        "İyun", 
+        "iyn", 
+        "iyun", 
+        "6"
+    ], 
+    "july": [
+        "iyl", 
+        "İyul", 
+        "7", 
+        "iyul"
+    ], 
+    "august": [
+        "Avqust", 
+        "8", 
+        "avqust", 
+        "avq"
+    ], 
+    "september": [
+        "Sentyabr", 
+        "sen", 
+        "sentyabr", 
+        "9"
+    ], 
+    "october": [
+        "10", 
+        "Oktyabr", 
+        "okt", 
+        "oktyabr"
+    ], 
+    "november": [
+        "11", 
+        "noyabr", 
+        "Noyabr", 
+        "noy"
+    ], 
+    "december": [
+        "dekabr", 
+        "12", 
+        "dek", 
+        "Dekabr"
+    ], 
+    "monday": [
+        "1", 
+        "B.E.", 
+        "bazar ertəsi"
+    ], 
+    "tuesday": [
+        "2", 
+        "Ç.A.", 
+        "çərşənbə axşamı"
+    ], 
+    "wednesday": [
+        "Ç.", 
+        "3", 
+        "çərşənbə"
+    ], 
+    "thursday": [
+        "cümə axşamı", 
+        "4", 
+        "C.A."
+    ], 
+    "friday": [
+        "cümə", 
+        "5", 
+        "C."
+    ], 
+    "saturday": [
+        "şənbə", 
+        "Ş.", 
+        "6"
+    ], 
+    "sunday": [
+        "B.", 
+        "bazar", 
+        "7"
+    ], 
+    "year": [
+        "il", 
+        "İl"
+    ], 
+    "month": [
+        "Ay", 
+        "ay"
+    ], 
+    "week": [
+        "Həftə", 
+        "həftə"
+    ], 
+    "day": [
+        "Gün"
+    ], 
+    "hour": [
+        "Saat", 
+        "saat"
+    ], 
+    "minute": [
+        "dəq.", 
+        "Dəqiqə"
+    ], 
+    "second": [
+        "san.", 
+        "Saniyə"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "keçən il"
+        ], 
+        "0 year ago": [
+            "bu il"
+        ], 
+        "in 1 year": [
+            "gələn il"
+        ], 
+        "1 month ago": [
+            "keçən ay"
+        ], 
+        "0 month ago": [
+            "bu ay"
+        ], 
+        "in 1 month": [
+            "gələn ay"
+        ], 
+        "1 week ago": [
+            "keçən həftə"
+        ], 
+        "0 week ago": [
+            "bu həftə"
+        ], 
+        "in 1 week": [
+            "gələn həftə"
+        ], 
+        "1 day ago": [
+            "dünən"
+        ], 
+        "0 day ago": [
+            "bu gün"
+        ], 
+        "in 1 day": [
+            "sabah"
+        ], 
+        "0 hour ago": [
+            "bu saat"
+        ], 
+        "0 minute ago": [
+            "bu dəqiqə"
+        ], 
+        "0 second ago": [
+            "indi"
+        ], 
+        "in \\1 year": [
+            "(\\d+) il ərzində"
+        ], 
+        "\\1 year ago": [
+            "(\\d+) il öncə"
+        ], 
+        "in \\1 month": [
+            "(\\d+) ay ərzində"
+        ], 
+        "\\1 month ago": [
+            "(\\d+) ay öncə"
+        ], 
+        "in \\1 week": [
+            "(\\d+) həftə ərzində"
+        ], 
+        "\\1 week ago": [
+            "(\\d+) həftə öncə"
+        ], 
+        "in \\1 day": [
+            "(\\d+) gün ərzində"
+        ], 
+        "\\1 day ago": [
+            "(\\d+) gün öncə"
+        ], 
+        "in \\1 hour": [
+            "(\\d+) saat ərzində"
+        ], 
+        "\\1 hour ago": [
+            "(\\d+) saat öncə"
+        ], 
+        "in \\1 minute": [
+            "(\\d+) dəqiqə ərzində"
+        ], 
+        "\\1 minute ago": [
+            "(\\d+) dəqiqə öncə"
+        ], 
+        "in \\1 second": [
+            "(\\d+) saniyə ərzində"
+        ], 
+        "\\1 second ago": [
+            "(\\d+) saniyə öncə"
+        ]
+    }, 
+    "locale_specific": {}
+}

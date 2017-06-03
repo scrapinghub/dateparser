@@ -1,0 +1,210 @@
+{
+    "name": "lag", 
+    "date_order": "DMY", 
+    "january": [
+        "Kʉfúngatɨ", 
+        "Fúngatɨ", 
+        "F"
+    ], 
+    "february": [
+        "N", 
+        "Kʉnaanɨ", 
+        "Naanɨ"
+    ], 
+    "march": [
+        "Kʉkeenda", 
+        "K", 
+        "Keenda"
+    ], 
+    "april": [
+        "I", 
+        "Kwiikumi", 
+        "Ikúmi"
+    ], 
+    "may": [
+        "I", 
+        "Inyambala", 
+        "Kwiinyambála"
+    ], 
+    "june": [
+        "I", 
+        "Idwaata", 
+        "Kwiidwaata"
+    ], 
+    "july": [
+        "Mʉʉnchɨ", 
+        "M", 
+        "Kʉmʉʉnchɨ"
+    ], 
+    "august": [
+        "V", 
+        "Vɨɨrɨ", 
+        "Kʉvɨɨrɨ"
+    ], 
+    "september": [
+        "Saatʉ", 
+        "S", 
+        "Kʉsaatʉ"
+    ], 
+    "october": [
+        "I", 
+        "Inyi", 
+        "Kwiinyi"
+    ], 
+    "november": [
+        "S", 
+        "Saano", 
+        "Kʉsaano"
+    ], 
+    "december": [
+        "S", 
+        "Sasatʉ", 
+        "Kʉsasatʉ"
+    ], 
+    "monday": [
+        "Jumatátu", 
+        "Táatu", 
+        "T"
+    ], 
+    "tuesday": [
+        "Jumaíne", 
+        "E", 
+        "Íne"
+    ], 
+    "wednesday": [
+        "Jumatáano", 
+        "O", 
+        "Táano"
+    ], 
+    "thursday": [
+        "A", 
+        "Alh", 
+        "Alamíisi"
+    ], 
+    "friday": [
+        "I", 
+        "Ijumáa", 
+        "Ijm"
+    ], 
+    "saturday": [
+        "Jumamóosi", 
+        "Móosi", 
+        "M"
+    ], 
+    "sunday": [
+        "P", 
+        "Jumapíiri", 
+        "Píili"
+    ], 
+    "year": [
+        "Mwaáka"
+    ], 
+    "month": [
+        "Mweéri"
+    ], 
+    "week": [
+        "Wíiki"
+    ], 
+    "day": [
+        "Sikʉ"
+    ], 
+    "hour": [
+        "Sáa"
+    ], 
+    "minute": [
+        "Dakíka"
+    ], 
+    "second": [
+        "Sekúunde"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "last year"
+        ], 
+        "0 year ago": [
+            "this year"
+        ], 
+        "in 1 year": [
+            "next year"
+        ], 
+        "1 month ago": [
+            "last month"
+        ], 
+        "0 month ago": [
+            "this month"
+        ], 
+        "in 1 month": [
+            "next month"
+        ], 
+        "1 week ago": [
+            "last week"
+        ], 
+        "0 week ago": [
+            "this week"
+        ], 
+        "in 1 week": [
+            "next week"
+        ], 
+        "1 day ago": [
+            "Niijo"
+        ], 
+        "0 day ago": [
+            "Isikʉ"
+        ], 
+        "in 1 day": [
+            "Lamʉtoondo"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "now"
+        ], 
+        "in \\1 year": [
+            "+(\\d+) y"
+        ], 
+        "\\1 year ago": [
+            "-(\\d+) y"
+        ], 
+        "in \\1 month": [
+            "+(\\d+) m"
+        ], 
+        "\\1 month ago": [
+            "-(\\d+) m"
+        ], 
+        "in \\1 week": [
+            "+(\\d+) w"
+        ], 
+        "\\1 week ago": [
+            "-(\\d+) w"
+        ], 
+        "in \\1 day": [
+            "+(\\d+) d"
+        ], 
+        "\\1 day ago": [
+            "-(\\d+) d"
+        ], 
+        "in \\1 hour": [
+            "+(\\d+) h"
+        ], 
+        "\\1 hour ago": [
+            "-(\\d+) h"
+        ], 
+        "in \\1 minute": [
+            "+(\\d+) min"
+        ], 
+        "\\1 minute ago": [
+            "-(\\d+) min"
+        ], 
+        "in \\1 second": [
+            "+(\\d+) s"
+        ], 
+        "\\1 second ago": [
+            "-(\\d+) s"
+        ]
+    }, 
+    "locale_specific": {}
+}

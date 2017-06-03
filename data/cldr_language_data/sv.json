@@ -1,0 +1,270 @@
+{
+    "name": "sv", 
+    "date_order": "YMD", 
+    "january": [
+        "januari", 
+        "J", 
+        "jan."
+    ], 
+    "february": [
+        "februari", 
+        "F", 
+        "feb."
+    ], 
+    "march": [
+        "M", 
+        "mars"
+    ], 
+    "april": [
+        "A", 
+        "april", 
+        "apr."
+    ], 
+    "may": [
+        "maj", 
+        "M"
+    ], 
+    "june": [
+        "juni", 
+        "J"
+    ], 
+    "july": [
+        "juli", 
+        "J"
+    ], 
+    "august": [
+        "A", 
+        "aug.", 
+        "augusti"
+    ], 
+    "september": [
+        "september", 
+        "S", 
+        "sep."
+    ], 
+    "october": [
+        "okt.", 
+        "oktober", 
+        "O"
+    ], 
+    "november": [
+        "nov.", 
+        "november", 
+        "N"
+    ], 
+    "december": [
+        "december", 
+        "dec.", 
+        "D"
+    ], 
+    "monday": [
+        "mån", 
+        "M", 
+        "måndag"
+    ], 
+    "tuesday": [
+        "tisdag", 
+        "T", 
+        "tis"
+    ], 
+    "wednesday": [
+        "ons", 
+        "onsdag", 
+        "O"
+    ], 
+    "thursday": [
+        "torsdag", 
+        "tors", 
+        "T"
+    ], 
+    "friday": [
+        "fredag", 
+        "fre", 
+        "F"
+    ], 
+    "saturday": [
+        "lördag", 
+        "L", 
+        "lör"
+    ], 
+    "sunday": [
+        "sön", 
+        "S", 
+        "söndag"
+    ], 
+    "year": [
+        "år"
+    ], 
+    "month": [
+        "månad", 
+        "mån", 
+        "m"
+    ], 
+    "week": [
+        "v", 
+        "vecka"
+    ], 
+    "day": [
+        "dag"
+    ], 
+    "hour": [
+        "timme", 
+        "h", 
+        "tim"
+    ], 
+    "minute": [
+        "minut", 
+        "m", 
+        "min"
+    ], 
+    "second": [
+        "sekund", 
+        "s", 
+        "sek"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "i fjol"
+        ], 
+        "0 year ago": [
+            "i år"
+        ], 
+        "in 1 year": [
+            "nästa år"
+        ], 
+        "1 month ago": [
+            "förra mån.", 
+            "förra månaden"
+        ], 
+        "0 month ago": [
+            "denna mån.", 
+            "denna månad"
+        ], 
+        "in 1 month": [
+            "nästa månad", 
+            "nästa mån."
+        ], 
+        "1 week ago": [
+            "förra v.", 
+            "förra veckan"
+        ], 
+        "0 week ago": [
+            "denna v.", 
+            "denna vecka"
+        ], 
+        "in 1 week": [
+            "nästa v.", 
+            "nästa vecka"
+        ], 
+        "1 day ago": [
+            "i går"
+        ], 
+        "0 day ago": [
+            "i dag"
+        ], 
+        "in 1 day": [
+            "i morgon"
+        ], 
+        "0 hour ago": [
+            "denna timme"
+        ], 
+        "0 minute ago": [
+            "denna minut"
+        ], 
+        "0 second ago": [
+            "nu"
+        ], 
+        "in \\1 year": [
+            "om (\\d+) år", 
+            "+(\\d+) år"
+        ], 
+        "\\1 year ago": [
+            "för (\\d+) år sedan", 
+            "−(\\d+) år"
+        ], 
+        "in \\1 month": [
+            "om (\\d+) månad", 
+            "om (\\d+) månader", 
+            "om (\\d+) mån.", 
+            "+(\\d+) mån."
+        ], 
+        "\\1 month ago": [
+            "−(\\d+) mån", 
+            "för (\\d+) månad sedan", 
+            "för (\\d+) månader sedan", 
+            "för (\\d+) mån. sedan"
+        ], 
+        "in \\1 week": [
+            "om (\\d+) veckor", 
+            "+(\\d+) v.", 
+            "om (\\d+) vecka", 
+            "om (\\d+) v."
+        ], 
+        "\\1 week ago": [
+            "för (\\d+) vecka sedan", 
+            "för (\\d+) veckor sedan", 
+            "−(\\d+) v", 
+            "för (\\d+) v. sedan"
+        ], 
+        "in \\1 day": [
+            "om (\\d+) dag", 
+            "+(\\d+) d", 
+            "om (\\d+) d", 
+            "om (\\d+) dagar"
+        ], 
+        "\\1 day ago": [
+            "för (\\d+) dag sedan", 
+            "för (\\d+) d sedan", 
+            "för (\\d+) dagar sedan", 
+            "för (\\d+) d sedan", 
+            "−(\\d+) d"
+        ], 
+        "in \\1 hour": [
+            "+(\\d+) h", 
+            "om (\\d+) timme", 
+            "om (\\d+) timmar", 
+            "om (\\d+) tim"
+        ], 
+        "\\1 hour ago": [
+            "för (\\d+) tim sedan", 
+            "−(\\d+) h", 
+            "för (\\d+) timme sedan", 
+            "för (\\d+) timmar sedan"
+        ], 
+        "in \\1 minute": [
+            "om (\\d+) min", 
+            "om (\\d+) minut", 
+            "om (\\d+) minuter", 
+            "+(\\d+) min"
+        ], 
+        "\\1 minute ago": [
+            "−(\\d+) min", 
+            "för (\\d+) min sedan", 
+            "för (\\d+) minut sedan", 
+            "för (\\d+) minuter sedan"
+        ], 
+        "in \\1 second": [
+            "om (\\d+) sek", 
+            "om (\\d+) sekund", 
+            "+(\\d+) s", 
+            "om (\\d+) sek", 
+            "om (\\d+) sekunder"
+        ], 
+        "\\1 second ago": [
+            "för (\\d+) sekunder sedan", 
+            "−(\\d+) s", 
+            "för (\\d+) sekund sedan", 
+            "för (\\d+) sek sedan"
+        ]
+    }, 
+    "locale_specific": {
+        "sv-AX": {
+            "date_order": "YMD", 
+            "name": "sv-AX"
+        }, 
+        "sv-FI": {
+            "date_order": "DMY", 
+            "name": "sv-FI"
+        }
+    }
+}

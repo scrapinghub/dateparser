@@ -1,0 +1,209 @@
+{
+    "name": "to", 
+    "date_order": "DMY", 
+    "january": [
+        "S", 
+        "Sān", 
+        "Sānuali"
+    ], 
+    "february": [
+        "Fēp", 
+        "Fēpueli", 
+        "F"
+    ], 
+    "march": [
+        "Maʻasi", 
+        "M", 
+        "Maʻa"
+    ], 
+    "april": [
+        "E", 
+        "ʻEpeleli", 
+        "ʻEpe"
+    ], 
+    "may": [
+        "M", 
+        "Mē"
+    ], 
+    "june": [
+        "Sun", 
+        "S", 
+        "Sune"
+    ], 
+    "july": [
+        "S", 
+        "Siu", 
+        "Siulai"
+    ], 
+    "august": [
+        "A", 
+        "ʻAokosi", 
+        "ʻAok"
+    ], 
+    "september": [
+        "Sepitema", 
+        "S", 
+        "Sep"
+    ], 
+    "october": [
+        "ʻOkatopa", 
+        "O", 
+        "ʻOka"
+    ], 
+    "november": [
+        "Nōv", 
+        "Nōvema", 
+        "N"
+    ], 
+    "december": [
+        "Tīs", 
+        "T", 
+        "Tīsema"
+    ], 
+    "monday": [
+        "Mōn", 
+        "M", 
+        "Mōnite"
+    ], 
+    "tuesday": [
+        "Tūsite", 
+        "Tūs", 
+        "T"
+    ], 
+    "wednesday": [
+        "Pul", 
+        "P", 
+        "Pulelulu"
+    ], 
+    "thursday": [
+        "Tuʻapulelulu", 
+        "Tuʻa", 
+        "T"
+    ], 
+    "friday": [
+        "Falaite", 
+        "Fal", 
+        "F"
+    ], 
+    "saturday": [
+        "Tok", 
+        "Tokonaki", 
+        "T"
+    ], 
+    "sunday": [
+        "S", 
+        "Sāp", 
+        "Sāpate"
+    ], 
+    "year": [
+        "taʻu"
+    ], 
+    "month": [
+        "māhina"
+    ], 
+    "week": [
+        "uike"
+    ], 
+    "day": [
+        "ʻaho"
+    ], 
+    "hour": [
+        "houa"
+    ], 
+    "minute": [
+        "miniti"
+    ], 
+    "second": [
+        "sekoni"
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "taʻu kuoʻosi"
+        ], 
+        "0 year ago": [
+            "taʻú ni"
+        ], 
+        "in 1 year": [
+            "taʻu kahaʻu"
+        ], 
+        "1 month ago": [
+            "māhina kuoʻosi"
+        ], 
+        "0 month ago": [
+            "māhiná ni"
+        ], 
+        "in 1 month": [
+            "māhina kahaʻu"
+        ], 
+        "1 week ago": [
+            "uike kuoʻosi"
+        ], 
+        "0 week ago": [
+            "uiké ni"
+        ], 
+        "in 1 week": [
+            "uike kahaʻu"
+        ], 
+        "1 day ago": [
+            "ʻaneafi"
+        ], 
+        "0 day ago": [
+            "ʻahó ni"
+        ], 
+        "in 1 day": [
+            "ʻapongipongi"
+        ], 
+        "0 hour ago": [
+            "this hour"
+        ], 
+        "0 minute ago": [
+            "this minute"
+        ], 
+        "0 second ago": [
+            "taimí ni"
+        ], 
+        "in \\1 year": [
+            "ʻi he taʻu ʻe (\\d+)"
+        ], 
+        "\\1 year ago": [
+            "taʻu ʻe (\\d+) kuoʻosi"
+        ], 
+        "in \\1 month": [
+            "ʻi he māhina ʻe (\\d+)"
+        ], 
+        "\\1 month ago": [
+            "māhina ʻe (\\d+) kuoʻosi"
+        ], 
+        "in \\1 week": [
+            "ʻi he uike ʻe (\\d+)"
+        ], 
+        "\\1 week ago": [
+            "uike ʻe (\\d+) kuoʻosi"
+        ], 
+        "in \\1 day": [
+            "ʻi he ʻaho ʻe (\\d+)"
+        ], 
+        "\\1 day ago": [
+            "ʻaho ʻe (\\d+) kuoʻosi"
+        ], 
+        "in \\1 hour": [
+            "ʻi he houa ʻe (\\d+)"
+        ], 
+        "\\1 hour ago": [
+            "houa ʻe (\\d+) kuoʻosi"
+        ], 
+        "in \\1 minute": [
+            "ʻi he miniti ʻe (\\d+)"
+        ], 
+        "\\1 minute ago": [
+            "miniti ʻe (\\d+) kuoʻosi"
+        ], 
+        "in \\1 second": [
+            "ʻi he sekoni ʻe (\\d+)"
+        ], 
+        "\\1 second ago": [
+            "sekoni ʻe (\\d+) kuoʻosi"
+        ]
+    }, 
+    "locale_specific": {}
+}
