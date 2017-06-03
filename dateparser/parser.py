@@ -57,20 +57,6 @@ def resolve_date_order(order, lst=None):
     return chart_list[order] if lst else chart[order]
 
 
-def convert_to_dateparser_order_notation(seq):
-    order = ''
-
-    for value in seq:
-        if 'year' in value:
-            order += 'Y'
-        if 'month' in value:
-            order += 'M'
-        if 'day' in value:
-            order += 'D'
-
-    return order
-
-
 def parse(datestring, settings):
     exceptions = []
     for parser in [_parser.parse, _no_spaces_parser.parse]:
@@ -197,8 +183,6 @@ class _parser(object):
         'year': ['%y', '%Y'],
     }
 
-    def _get_component_token(self, key):
-        return getattr(self, '_token_%s' % key, None)
 
     def __init__(self, tokens, settings):
         self.settings = settings
