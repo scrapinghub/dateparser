@@ -160,7 +160,7 @@ class TestNoSpaceParser(BaseTestCase):
 
     def then_date_exactly_is(self, expected_date):
         self.assertEqual(self.result[0], expected_date)
-    
+
     def then_period_exactly_is(self, expected_period):
         self.assertEqual(self.result[1], expected_period)
 
@@ -182,6 +182,16 @@ class TestParser(BaseTestCase):
         self.given_settings(settings={'STRICT_PARSING': True})
         self.then_error_is_raised_when_date_is_parsed(date_string)
 
+    @parameterized.expand([
+    param(date_string=u"@@@##$@!@!"),
+    param(date_string=u"@-@-@"),
+    param(date_string=u"@@-#$##"),
+    ])
+    def test_completely_invalid_dates_are_not_parsed(self, date_string):
+        self.given_parser()
+        self.when_date_is_parsed(date_string)
+        self.then_date_is_not_parsed()
+
     def given_parser(self):
         self.parser = _parser
 
@@ -192,6 +202,13 @@ class TestParser(BaseTestCase):
     def then_error_is_raised_when_date_is_parsed(self, date_string):
         with self.assertRaises(ValueError):
             self.parser.parse(date_string, self.settings)
+
+    @apply_settings
+    def when_date_is_parsed(self, date_string, settings = None):
+        self.result = self.parser.parse(date_string, settings)
+
+    def then_date_is_not_parsed(self):
+        self.assertIsNone(self.result[0])
 
 
 class TestTimeParser(BaseTestCase):
