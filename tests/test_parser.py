@@ -227,6 +227,25 @@ class TestNoSpaceParser(BaseTestCase):
         self.then_period_exactly_is(expected_period)
 
     @parameterized.expand([
+        param(
+            date_string=u"10032017",
+            expected_date=datetime(2017, 10, 3),
+            expected_period='day',
+        ),
+        param(
+            date_string=u"19991215:07:08:04.54",
+            expected_date=datetime(1999, 12, 15, 7, 8, 4),
+            expected_period='day',
+        ),
+    ])
+    def test_default_order_used_if_date_order_not_supplied(self, date_string, expected_date, expected_period):
+        self.given_parser()
+        self.given_settings(settings={'DATE_ORDER': ''})
+        self.when_date_is_parsed(date_string)
+        self.then_date_exactly_is(expected_date)
+        self.then_period_exactly_is(expected_period)
+
+    @parameterized.expand([
         param(date_string=u"12345678901234567890", date_order='YMD'),
         param(date_string=u"987654321234567890123456789", date_order='DMY'),
     ])
@@ -235,6 +254,27 @@ class TestNoSpaceParser(BaseTestCase):
         self.given_settings(settings={'DATE_ORDER': date_order})
         self.when_date_is_parsed(date_string)
         self.then_error_was_raised(ValueError, ['Unable to parse date from: {}'.format(date_string)])
+
+    @parameterized.expand([
+        param(format_string="%d", expected_period="day"),
+        param(format_string="%H", expected_period="day"),
+        param(format_string="%M", expected_period="day"),
+        param(format_string="%S", expected_period="day"),
+        param(format_string="%m", expected_period="month"),
+        param(format_string="%y", expected_period="year"),
+        param(format_string="", expected_period="year"),
+        param(format_string="%m%d", expected_period="day"),
+        param(format_string="%Y%m", expected_period="month"),
+        param(format_string="%d%m%y", expected_period="day"),
+        param(format_string="%Y%m%d%H%M", expected_period="day"),
+        param(format_string='%Y%m%d%H%M%S.%f', expected_period="day"),
+        param(format_string='%H%M', expected_period="day"),
+        param(format_string='%M%S.%f', expected_period="day"),
+    ])
+    def test_get_period_function(self, format_string, expected_period):
+        self.given_parser()
+        self.when_get_period_is_called(format_string)
+        self.then_returned_period_is(expected_period)
 
     def given_parser(self):
         self.parser = _no_spaces_parser
@@ -249,6 +289,9 @@ class TestNoSpaceParser(BaseTestCase):
         except Exception as error:
             self.error = error
 
+    def when_get_period_is_called(self, format_string):
+        self.result = self.parser._get_period(format_string)
+
     def then_date_exactly_is(self, expected_date):
         self.assertEqual(self.result[0], expected_date)
 
@@ -257,6 +300,9 @@ class TestNoSpaceParser(BaseTestCase):
 
     def then_date_is_not_parsed(self):
         self.assertIsNone(self.result)
+
+    def then_returned_period_is(self, expected_period):
+        self.assertEqual(self.result, expected_period)
 
 
 class TestParser(BaseTestCase):
