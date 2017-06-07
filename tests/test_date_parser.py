@@ -14,7 +14,7 @@ import dateparser.timezone_parser
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.languages import default_language_loader
-from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.languages.detection import LanguageDetector
 from dateparser.timezone_parser import StaticTzInfo
 from dateparser.conf import settings
 from dateparser.utils import normalize_unicode
@@ -22,178 +22,55 @@ from dateparser.utils import normalize_unicode
 from tests import BaseTestCase
 
 
-class AutoDetectLanguageTest(BaseTestCase):
+class TestLanguageDetector(BaseTestCase):
     def setUp(self):
-        super(AutoDetectLanguageTest, self).setUp()
-
-        # Just a known subset so we can rely on test outcomes. Feel free to add, but not exclude or change order.
-        self.known_languages = ['en', 'fr', 'es', 'pt', 'ru', 'tr', 'cs']
-
-        self.parser = NotImplemented
-        self.detected_languages = NotImplemented
+        super(LanguageDetector, self).setUp()
 
     @parameterized.expand([
-        param(date_strings=["11 abril 2010"], expected_languages=['es', 'pt']),
-        param(date_strings=["11 junio 2010"], expected_languages=['es']),
-        param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_languages=['es']),
+        param(given_languages=['en','es','ar','pt','tr','cs'], date_string="11 abril 2010",
+              expected_languages=['es', 'pt']),
+        param(given_languages=['es','id','it','he'], date_string="11 junio 2010",
+              expected_languages=['es']),
+        param(given_languages=['pt','id','it','es','fr'], date_string="8 sept 2008",
+              expected_languages=['fr', 'id']),
+        param(given_languages=['he','pt','es','ka'], date_string="28 dezembro",
+              expected_languages=['pt']),
     ])
-    def test_detect_languages(self, date_strings, expected_languages):
-        self.given_parser(languages=self.known_languages)
-        self.when_all_languages_are_detected(date_strings)
-        self.then_detected_languages_are(expected_languages)
+    def test_detect_languages_without_try_previous_languages(self, given_languages, date_string, expected_languages):
+        self.given_language_generator(languages=given_languages)
+        self.given_language_detector()
+        self.when_languages_are_detected(date_string)
+        self.then_detected_languages_exactly_are(expected_languages)
 
     @parameterized.expand([
-        param(date_strings=["11 abril 2010"], expected_language='es'),
-        param(date_strings=["11 junio 2010"], expected_language='es'),
-        param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_language='es'),
+        param(given_languages=['en','es','ar','pt','tr','cs'], date_string="11 abril 2010",
+              previous_languages=['pt','id'], expected_languages=['pt', 'es', 'pt']),
+        param(given_languages=['es','id','it','he'], date_string="11 junio 2010",
+              previous_languages=['it','id','fr'], expected_languages=['es']),
+        param(given_languages=['ar','he','zh'], date_string="2016年3月20日",
+              previous_languages=['sv','ja'], expected_languages=['ja', 'zh']),
     ])
-    def test_exclude_ineligible_languages_with_modify(self, date_strings, expected_language):
-        self.given_parser(languages=self.known_languages)
-        self.when_one_language_is_detected(date_strings, modify=True)
-        self.then_detected_languages_are([expected_language])
-        self.then_parser_languages_are(self.known_languages[self.known_languages.index(expected_language):])
+    def test_detect_languages_with_try_previous_languages(self, given_languages, date_string, previous_languages, expected_languages):
+        self.given_language_generator(languages=given_languages)
+        self.given_language_detector(try_previous_languages=True)
+        self.when_languages_are_detected(date_string)
+        self.then_detected_languages_exactly_are(expected_languages)
 
-    @parameterized.expand([
-        param(date_strings=["11 abril 2010"], expected_language='es'),
-        param(date_strings=["11 junio 2010"], expected_language='es'),
-        param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_language='es'),
-    ])
-    def test_do_not_exclude_ineligible_languages_without_modify(self, date_strings, expected_language):
-        self.given_parser(languages=self.known_languages)
-        self.when_one_language_is_detected(date_strings, modify=False)
-        self.then_detected_languages_are([expected_language])
-        self.then_parser_languages_are(self.known_languages)
+    def given_language_generator(self, languages, strict_order=True):
+        self.language_generator = default_language_loader.get_languages(languages=languages, strict_order=strict_order)
 
-    @parameterized.expand([
-        param(date_strings=["11 abril 2010"], expected_languages=['es', 'pt']),
-        param(date_strings=["11 junio 2010"], expected_languages=['es']),
-        param(date_strings=["13 Ago, 2014", "13 Septiembre, 2014"], expected_languages=['es']),
-        param(date_strings=["13 Srpen, 2014"], expected_languages=['cs']),
-    ])
-    def test_do_not_exclude_ineligible_languages_when_all_ineligible(self, date_strings, expected_languages):
-        self.given_parser(languages=self.known_languages)
-        self.when_all_languages_are_detected(date_strings, modify=True)
-        self.then_detected_languages_are(expected_languages)
-        self.then_parser_languages_are(self.known_languages)
+    def given_language_detector(self, languages, try_previous_languages=False):
+        self.language_detector = LanguageDetector(try_previous_languages=try_previous_languages)
 
-    @parameterized.expand([
-        param(language='es', date_strings=["13 Setembro, 2014"]),
-        param(language='cs', date_strings=["'11 Ağustos, 2014'"]),
-    ])
-    def test_reject_dates_in_other_languages_without_redetection(self, language, date_strings):
-        self.given_parser(languages=self.known_languages)
-        self.given_parser_languages_are([language])
-        self.when_all_languages_are_detected(date_strings)
-        self.then_detected_languages_are([])
+    def when_languages_are_detected(self, date_string, settings=settings):
+        if settings.NORMALIZE:
+            date_string = normalize_unicode(date_string)
+        self.detected_languages = list(self.language_detector.iterate_applicable_languages(date_string,
+                                       self.language_generator, settings))
 
-    @parameterized.expand([
-        param(detected_languages=['es'], date_strings=['13 Juillet, 2014'], expected_languages=['fr']),
-        param(detected_languages=['es'], date_strings=['11 Ağustos, 2014'], expected_languages=['tr']),
-    ])
-    def test_accept_dates_in_other_languages_with_redetection_enabled(
-        self, detected_languages, date_strings, expected_languages
-    ):
-        self.given_parser(languages=self.known_languages, allow_redetection=True)
-        self.given_parser_languages_are(detected_languages)
-        self.when_all_languages_are_detected(date_strings)
-        self.then_detected_languages_are(expected_languages)
-
-    def test_accept_numeric_dates_without_redetection(self,):
-        self.given_parser(languages=self.known_languages)
-        self.given_parser_languages_are(['es'])
-        self.when_all_languages_are_detected(['13/08/2014'])
-        self.then_detected_languages_are(['es'])
-
-    def given_parser(self, languages=None, allow_redetection=False):
-        if languages is not None:
-            language_map = default_language_loader.get_language_map(languages = languages)
-            languages = list(language_map.values())
-        self.parser = AutoDetectLanguage(languages, allow_redetection=allow_redetection)
-
-    def given_parser_languages_are(self, languages):
-        language_map = default_language_loader.get_language_map(languages = languages)
-        self.parser.languages = list(language_map.values())
-
-    def when_all_languages_are_detected(self, date_strings, modify=False):
-        assert not isinstance(date_strings, six.string_types)
-        for date_string in date_strings:
-            if settings.NORMALIZE:
-                date_string = normalize_unicode(date_string)
-            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings))
-        self.detected_languages = detected_languages
-
-    def when_one_language_is_detected(self, date_strings, modify=False):
-        for date_string in date_strings:
-            detected_language = next(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings))
-        self.detected_languages = [detected_language]
-
-    def then_detected_languages_are(self, expected_languages):
+    def then_detected_languages_exactly_are(self, expected_languages):
         shortnames = map(attrgetter('shortname'), self.detected_languages)
-        six.assertCountEqual(self, expected_languages, shortnames)
-
-    def then_parser_languages_are(self, expected_languages):
-        shortnames = map(attrgetter('shortname'), self.parser.languages)
-        six.assertCountEqual(self, expected_languages, shortnames)
-
-
-class ExactLanguagesTest(BaseTestCase):
-    def setUp(self):
-        super(ExactLanguagesTest, self).setUp()
-        self.parser = NotImplemented
-        self.detected_languages = NotImplemented
-
-    def test_languages_passed_in_constructor_should_not_be_none(self):
-        self.when_parser_is_constructed(languages=None)
-        self.then_error_was_raised(ValueError, ['language cannot be None for ExactLanguages'])
-
-    @parameterized.expand([
-        param(languages=['fr'], date_strings=["04-decembre-2015", "13 aou, 2014"]),
-    ])
-    def test_missing_diacritical_marks(self, languages, date_strings):
-        settings.NORMALIZE = True
-        self.given_parser(languages)
-        self.when_languages_are_detected(date_strings)
-        self.then_detected_languages_are(languages)
-
-    @parameterized.expand([
-        param(languages=['es'], date_strings=["13 Ago, 2014"]),
-        param(languages=['es'], date_strings=["13 Septiembre, 2014"]),
-        param(languages=['es'], date_strings=["13/03/2014"]),
-        param(languages=['es'], date_strings=["11/03/2014"]),
-    ])
-    def test_parse_date_in_exact_language(self, languages, date_strings):
-        self.given_parser(languages)
-        self.when_languages_are_detected(date_strings)
-        self.then_detected_languages_are(languages)
-
-    @parameterized.expand([
-        param(languages=['es'], date_strings=["13 Setembro, 2014"]),
-    ])
-    def test_reject_dates_in_other_languages(self, languages, date_strings):
-        self.given_parser(languages=languages)
-        self.when_languages_are_detected(date_strings)
-        self.then_detected_languages_are([])
-
-    def given_parser(self, languages):
-        language_map = default_language_loader.get_language_map(languages = languages)
-        languages = list(language_map.values())
-        self.parser = ExactLanguages(languages)
-
-    def when_languages_are_detected(self, date_strings, modify=False):
-        assert not isinstance(date_strings, six.string_types)
-        for date_string in date_strings:
-            detected_languages = list(self.parser.iterate_applicable_languages(date_string, modify=modify, settings=settings))
-        self.detected_languages = detected_languages
-
-    def when_parser_is_constructed(self, languages):
-        try:
-            ExactLanguages(languages)
-        except Exception as error:
-            self.error = error
-
-    def then_detected_languages_are(self, expected_languages):
-        shortnames = map(attrgetter('shortname'), self.detected_languages)
-        six.assertCountEqual(self, expected_languages, shortnames)
+        self.assertEqual(self, expected_languages, shortnames)
 
 
 class TestDateParser(BaseTestCase):

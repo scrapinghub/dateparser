@@ -1,81 +1,63 @@
 # -*- coding: utf-8 -*-
 from pkgutil import get_data
 from collections import OrderedDict
+from ruamel.yaml.loader import SafeLoader
 
 import six
 
-from ..utils import SafeLoader
 from .language import Language
 
 
 class LanguageDataLoader(object):
     _data = {}
 
-    def __init__(self, file=None):
-        if isinstance(file, six.string_types) and file.lower().endswith('.yaml'):
-            file = open(file)
-        elif file is not None:
-            raise ValueError("Invalid file : %s" % file)
-        self.file = file
+    def __init__(self):
+        self.base_data = SafeLoader(get_data('data', 'languages.yaml')).get_data()
+        self.language_order = self.base_data.pop('languageorder')
 
-    def get_language_map(self,languages = None):
-        return self._load_data(languages = languages)
+    def get_language_map(self, languages=None):
+        return OrderedDict(self._load_data(languages=languages, strict_order=True))
 
-    def get_languages(self):
-        return self._load_data().values()
+    def get_languages(self, languages=None, strict_order=False):
+        for shortname, language in self._load_data(languages = languages, strict_order=strict_order):
+            yield language
 
     def get_language(self, shortname):
-        return self._load_data(languages = [shortname]).get(shortname)
+        return list(self.get_languages(languages = [shortname]))[0]
 
-    def _load_data(self, languages = None):
-        required_languages=OrderedDict()
-        if self.file is None:
-            language_order = ['en', 'ar', 'be', 'bg', 'bn', 'cs', 'da', 'de',
-                              'es', 'fa', 'fi', 'fr', 'he', 'hi', 'hu', 'id',
-                              'it', 'ja', 'ka', 'nl', 'pl', 'pt', 'ro', 'ru',
-                              'sv', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
-            if not languages:
-                languages=language_order
-            else:
-                unsupported_languages = set(languages)-set(language_order)
-                if unsupported_languages:
-                    raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
-                languages.sort(key = language_order.index)
-            absent_languages = set(languages)-set(self._data.keys())
-            if absent_languages:
-                data = get_data('data', 'languages.yaml')
-                data = SafeLoader(data,languages=absent_languages).get_data()
-                data = {key:value for key,value in data.items() if value}
-                base_data = data.pop('base', {'skip': []})
-                for shortname in absent_languages:
-                    language_info = data[shortname]
-                    self._update_language_info_with_base_info(language_info, base_data)
+    def _load_data(self, languages=None, strict_order=False):
+        if not languages:
+            languages = self.language_order
+        unsupported_languages = set(languages) - set(self.language_order)
+        if unsupported_languages:
+            raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
+        languages_to_load = list(set(languages) - set(self._data.keys()))
+        loaded_languages = list(set(languages) - set(languages_to_load))
+
+        if strict_order:
+            languages.sort(key = self.language_order.index)
+            for shortname in languages:
+                if shortname in loaded_languages:
+                    yield shortname, self._data[shortname]
+                else:
+                    language_info = SafeLoader(get_data('data', 'languagefiles/' + shortname + '.yaml')).get_data()
+                    self._update_language_info_with_base_info(language_info, self.base_data)
                     language = Language(shortname, language_info)
                     if language.validate_info():
                         self._data[shortname] = language
-            for shortname in languages:
-                required_languages[shortname] = self._data[shortname]
-
+                        yield shortname, language
         else:
-            data = self.file.read()
-            data = SafeLoader(data).get_data()
-            base_data = data.pop('base', {'skip': []})
-            language_order = data.pop('languageorder')
-            if not languages:
-                languages=language_order
-            else:
-                unsupported_languages = set(languages)-set(language_order)
-                if unsupported_languages:
-                    raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
-                languages.sort(key = language_order.index)
-            for shortname in languages:
-                language_info = data[shortname]
-                self._update_language_info_with_base_info(language_info, base_data)
+            languages_to_load.sort(key = self.language_order.index)
+            loaded_languages.sort(key = self.language_order.index)
+            for shortname in loaded_languages:
+                yield shortname, self._data[shortname]
+            for shortname in languages_to_load:
+                language_info = SafeLoader(get_data('data', 'languagefiles/' + shortname + '.yaml')).get_data()
+                self._update_language_info_with_base_info(language_info, self.base_data)
                 language = Language(shortname, language_info)
                 if language.validate_info():
-                    required_languages[shortname] = language
-
-        return required_languages
+                    self._data[shortname] = language
+                    yield shortname, language
 
     def _update_language_info_with_base_info(self, language_info, base_info):
         for key, values in six.iteritems(base_info):

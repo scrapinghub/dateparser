@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LanguageDataLoader
-from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.languages.detection import LanguageDetector
 from dateparser.conf import apply_settings
 from dateparser.utils import normalize_unicode, apply_timezone_from_settings
 
@@ -293,13 +293,16 @@ class DateDataParser(object):
     language_loader = None
 
     @apply_settings
-    def __init__(self, languages=None, allow_redetect_language=False, settings=None):
-        self._settings = settings
-        self.allow_redetect_language=allow_redetect_language
-        self.languages=languages
+    def __init__(self, languages=None, try_previous_languages=True, strict_language_order=False, settings=None):
         if not isinstance(languages, (list, tuple, collections.Set)) and languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
-            
+
+        self._settings = settings
+        self.try_previous_languages = try_previous_languages
+        self.strict_language_order = strict_language_order
+        self.languages = languages
+        self.previous_languages = []
+        self.language_detector = LanguageDetector(try_previous_languages=try_previous_languages)
 
     def get_date_data(self, date_string, date_formats=None):
         """
@@ -344,18 +347,11 @@ class DateDataParser(object):
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
-        language_map = self._get_language_loader().get_language_map(languages=self.languages)
-        self.language_list = list(language_map.values())
-        
-        if self.allow_redetect_language:
-            self.language_detector = AutoDetectLanguage(languages=self.language_list,allow_redetection=True)
-        elif self.languages:
-            self.language_detector = ExactLanguages(languages=self.language_list)
-        else:
-            self.language_detector = AutoDetectLanguage(languages=self.language_list,allow_redetection=False)
-        
         if not(isinstance(date_string, six.text_type) or isinstance(date_string, six.string_types)):
             raise TypeError('Input type must be str or unicode')
+
+        self.language_generator = self._get_language_loader().get_languages(languages=self.languages,
+                                                              strict_order=self.strict_language_order)
 
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:
@@ -366,12 +362,15 @@ class DateDataParser(object):
 
         date_string = sanitize_date(date_string)
 
-        for language in self.language_detector.iterate_applicable_languages(
-                date_string, modify=True, settings=self._settings):
+        for language in self.language_detector.iterate_applicable_languages(date_string,
+        language_generator=self.language_generator, previous_languages=self.previous_languages,
+        settings=self._settings):
             parsed_date = _DateLanguageParser.parse(
                 language, date_string, date_formats, settings=self._settings)
             if parsed_date:
                 parsed_date['language'] = language.shortname
+                if self.try_previous_languages:
+                    self.previous_languages.insert(0,language)
                 return parsed_date
         else:
             return {'date_obj': None, 'period': 'day', 'language': None}

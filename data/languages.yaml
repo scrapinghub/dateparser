@@ -3,35 +3,3 @@ base:
 
 
 languageorder: ['en', 'ar', 'be', 'bg', 'bn', 'cs', 'da', 'de', 'es', 'fa', 'fi', 'fr', 'he', 'hi', 'hu', 'id', 'it', 'ja', 'ka', 'nl', 'pl', 'pt', 'ro', 'ru', 'sv', 'th', 'tl', 'tr', 'uk', 'vi', 'zh']
-
-ar: !include languagefiles/ar.yaml
-be: !include languagefiles/be.yaml
-bg: !include languagefiles/bg.yaml
-bn: !include languagefiles/bn.yaml
-cs: !include languagefiles/cs.yaml
-da: !include languagefiles/da.yaml
-de: !include languagefiles/de.yaml
-en: !include languagefiles/en.yaml
-es: !include languagefiles/es.yaml
-fa: !include languagefiles/fa.yaml
-fi: !include languagefiles/fi.yaml
-fr: !include languagefiles/fr.yaml
-he: !include languagefiles/he.yaml
-hi: !include languagefiles/hi.yaml
-hu: !include languagefiles/hu.yaml
-id: !include languagefiles/id.yaml
-it: !include languagefiles/it.yaml
-ja: !include languagefiles/ja.yaml
-ka: !include languagefiles/ka.yaml
-nl: !include languagefiles/nl.yaml
-pl: !include languagefiles/pl.yaml
-pt: !include languagefiles/pt.yaml
-ro: !include languagefiles/ro.yaml
-ru: !include languagefiles/ru.yaml
-sv: !include languagefiles/sv.yaml
-th: !include languagefiles/th.yaml
-tl: !include languagefiles/tl.yaml
-tr: !include languagefiles/tr.yaml
-uk: !include languagefiles/uk.yaml
-vi: !include languagefiles/vi.yaml
-zh: !include languagefiles/zh.yaml

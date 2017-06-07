@@ -4,7 +4,7 @@ __version__ = '0.6.0'
 from .date import DateDataParser
 from .conf import apply_settings
 
-_default_parser = DateDataParser(allow_redetect_language=True)
+_default_parser = DateDataParser()
 
 @apply_settings
 def parse(date_string, date_formats=None, languages=None, settings=None):
