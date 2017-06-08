@@ -1,6 +1,6 @@
 {
     "name": "kkj", 
-    "date_order": "DD/MM Y", 
+    "date_order": "DMY", 
     "january": [
         "1", 
         "pamba"

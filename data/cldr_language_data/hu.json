@@ -1,6 +1,6 @@
 {
     "name": "hu", 
-    "date_order": "Y. MM. DD.", 
+    "date_order": "YMD", 
     "january": [
         "jan.", 
         "J", 

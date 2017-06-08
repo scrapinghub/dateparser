@@ -1,6 +1,6 @@
 {
     "name": "sr-Cyrl", 
-    "date_order": "DMY.", 
+    "date_order": "DMY", 
     "january": [
         "ј", 
         "јануар", 
@@ -292,7 +292,7 @@
             "november": [
                 "нов."
             ], 
-            "date_order": "DMY.", 
+            "date_order": "DMY", 
             "saturday": [
                 "суб."
             ], 
@@ -343,7 +343,7 @@
             "november": [
                 "нов."
             ], 
-            "date_order": "DMY.", 
+            "date_order": "DMY", 
             "saturday": [
                 "суб."
             ], 
@@ -392,7 +392,7 @@
             "november": [
                 "нов."
             ], 
-            "date_order": "DMY.", 
+            "date_order": "DMY", 
             "saturday": [
                 "суб."
             ], 

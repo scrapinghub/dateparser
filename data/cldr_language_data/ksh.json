@@ -1,6 +1,6 @@
 {
     "name": "ksh", 
-    "date_order": "D. M. Y", 
+    "date_order": "DMY", 
     "january": [
         "Jan", 
         "J", 

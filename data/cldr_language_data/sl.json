@@ -1,6 +1,6 @@
 {
     "name": "sl", 
-    "date_order": "D. MM. YY", 
+    "date_order": "DMY", 
     "january": [
         "jan.", 
         "januar", 

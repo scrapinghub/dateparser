@@ -1,6 +1,6 @@
 {
     "name": "ko", 
-    "date_order": "YY. M. D.", 
+    "date_order": "YMD", 
     "january": [
         "1월"
     ], 
@@ -177,7 +177,7 @@
     }, 
     "locale_specific": {
         "ko-KP": {
-            "date_order": "YY. M. D.", 
+            "date_order": "YMD", 
             "name": "ko-KP"
         }
     }

@@ -1,6 +1,6 @@
 {
     "name": "hr", 
-    "date_order": "DD. MM. Y.", 
+    "date_order": "DMY", 
     "january": [
         "siječanj", 
         "1.", 
@@ -287,7 +287,7 @@
     }, 
     "locale_specific": {
         "hr-BA": {
-            "date_order": "D. M. YY.", 
+            "date_order": "DMY", 
             "name": "hr-BA"
         }
     }

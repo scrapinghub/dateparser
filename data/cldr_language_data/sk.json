@@ -1,6 +1,6 @@
 {
     "name": "sk", 
-    "date_order": "D. M. Y", 
+    "date_order": "DMY", 
     "january": [
         "jan", 
         "januára", 

@@ -1,6 +1,6 @@
 {
     "name": "ar", 
-    "date_order": "D‏/M‏/Y", 
+    "date_order": "DMY", 
     "january": [
         "يناير", 
         "ي"
@@ -211,15 +211,15 @@
                     "هذه السنة"
                 ]
             }, 
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-AE"
         }, 
         "ar-BH": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-BH"
         }, 
         "ar-DJ": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-DJ"
         }, 
         "ar-DZ": {
@@ -249,7 +249,7 @@
                 "ج", 
                 "جويلية"
             ], 
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "november": [
                 "ن"
             ], 
@@ -259,19 +259,19 @@
             ]
         }, 
         "ar-EG": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-EG"
         }, 
         "ar-EH": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-EH"
         }, 
         "ar-ER": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-ER"
         }, 
         "ar-IL": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-IL"
         }, 
         "ar-IQ": {
@@ -317,7 +317,7 @@
                 "ت", 
                 "تموز"
             ], 
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "november": [
                 "تشرين الثاني", 
                 "ت"
@@ -369,7 +369,7 @@
                 "ت", 
                 "تموز"
             ], 
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "november": [
                 "تشرين الثاني", 
                 "ت"
@@ -380,11 +380,11 @@
             ]
         }, 
         "ar-KM": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-KM"
         }, 
         "ar-KW": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-KW"
         }, 
         "ar-LB": {
@@ -429,7 +429,7 @@
                 "ت", 
                 "تموز"
             ], 
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "november": [
                 "تشرين الثاني", 
                 "ت"
@@ -440,7 +440,7 @@
             ]
         }, 
         "ar-LY": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-LY"
         }, 
         "ar-MA": {
@@ -459,7 +459,7 @@
             "july": [
                 "يوليوز"
             ], 
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "november": [
                 "نونبر"
             ], 
@@ -480,13 +480,13 @@
                 "إبريل", 
                 "إ"
             ], 
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "august": [
                 "أغشت"
             ]
         }, 
         "ar-OM": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-OM"
         }, 
         "ar-PS": {
@@ -531,7 +531,7 @@
                 "ت", 
                 "تموز"
             ], 
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "november": [
                 "تشرين الثاني", 
                 "ت"
@@ -542,23 +542,23 @@
             ]
         }, 
         "ar-QA": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-QA"
         }, 
         "ar-SA": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-SA"
         }, 
         "ar-SD": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-SD"
         }, 
         "ar-SO": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-SO"
         }, 
         "ar-SS": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-SS"
         }, 
         "ar-SY": {
@@ -603,7 +603,7 @@
                 "ت", 
                 "تموز"
             ], 
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "november": [
                 "تشرين الثاني", 
                 "ت"
@@ -614,7 +614,7 @@
             ]
         }, 
         "ar-TD": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-TD"
         }, 
         "ar-TN": {
@@ -644,7 +644,7 @@
                 "ج", 
                 "جويلية"
             ], 
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "november": [
                 "ن"
             ], 
@@ -654,7 +654,7 @@
             ]
         }, 
         "ar-YE": {
-            "date_order": "D‏/M‏/Y", 
+            "date_order": "DMY", 
             "name": "ar-YE"
         }
     }

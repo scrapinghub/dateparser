@@ -10,6 +10,8 @@ OAuth_Access_Token = 'OAuth_Access_Token'       #Add OAuth_Access_Token here
 headers = {'Authorization':'token %s' % OAuth_Access_Token}
 cldr_dates_full_url = "https://api.github.com/repos/unicode-cldr/cldr-dates-full/contents/main"
 
+DATE_ORDER_PATTERN = re.compile(u'([DMY])+\u200f*[-/. \t]*([DMY])+\u200f*[-/. \t]*([DMY])+')
+
 
 def retrieve_locale_data(locale):
     cldr_gregorian_url = cldr_dates_full_url + '/' + locale + "/ca-gregorian.json?ref=master"
@@ -50,9 +52,12 @@ def retrieve_locale_data(locale):
     json_dict["name"] = locale
 
     try:
-        json_dict["date_order"] = re.sub(r'(\w)+[-/.](\w)+[-/.](\w)+',r'\1\2\3',gregorian_dict.get("dateFormats").get("short")).upper()
+        date_format_string = gregorian_dict.get("dateFormats").get("short").upper()
     except:
-        json_dict["date_order"] = re.sub(r'(\w)+[-/.](\w)+[-/.](\w)+',r'\1\2\3',gregorian_dict.get("dateFormats").get("short").get("_value")).upper()
+        date_format_string = gregorian_dict.get("dateFormats").get("short").get("_value").upper()
+
+    json_dict["date_order"] = DATE_ORDER_PATTERN.sub(r'\1\2\3', DATE_ORDER_PATTERN.search(date_format_string).group())
+
 
     json_dict["january"] = list(set([gregorian_dict.get("months").get("stand-alone").get("wide").get("1"),
                                      gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("1"),
@@ -404,6 +409,32 @@ def retrieve_locale_data(locale):
     return json_dict
 
 
+def get_language_locale_dict():
+    while(True):
+        try:
+            dates_full_response = requests.get(cldr_dates_full_url, headers=headers)
+        except requests.exceptions.ConnectionError:
+            time.sleep(5)
+            continue
+        break
+
+    if dates_full_response.status_code !=200:
+        raise RuntimeError("Bad Response " + str(dates_full_response.status_code))
+    dates_content = dates_full_response.json()
+
+    available_locale_names = [locale['name'] for locale in dates_content]
+    available_language_names = [locale_name for locale_name in available_locale_names if not re.search(r'-[A-Z0-9]+$',locale_name)]
+    language_locale_dict = {}
+    for language_name in available_language_names:
+        language_locale_dict[language_name] = []
+        for locale_name in available_locale_names:
+            if re.match(language_name + '-[A-Z0-9]+$', locale_name):
+                language_locale_dict[language_name].append(locale_name)
+    return language_locale_dict
+
+language_locale_dict = get_language_locale_dict()
+
+
 def get_dict_difference(parent_dict, child_dict):
     difference_dict = {}
     for key, value in parent_dict.items():
@@ -419,44 +450,26 @@ def get_dict_difference(parent_dict, child_dict):
     return difference_dict
 
 
+def main():
+    os.chdir(os.path.dirname(__file__))
+    foldername = "../data/cldr_language_data"
+    if os.path.isdir(foldername):
+        shutil.rmtree(foldername)
+    os.mkdir(foldername)
 
-while(True):
-    try:
-        dates_full_response = requests.get(cldr_dates_full_url, headers=headers)
-    except requests.exceptions.ConnectionError:
-        time.sleep(5)
-        continue
-    break
+    for language in language_locale_dict:
+        json_language_dict = retrieve_locale_data(language)
+        locale_specific_dict = OrderedDict()
+        locales_list = language_locale_dict[language]
+        for locale in locales_list:
+            json_locale_dict = retrieve_locale_data(locale)
+            locale_specific_dict[locale] = get_dict_difference(json_language_dict, json_locale_dict)
+        json_language_dict["locale_specific"] = locale_specific_dict
+        filename = foldername + '/' + language + ".json"
+        print "writing " + filename
+        json_string = json.dumps(json_language_dict, indent = 4, ensure_ascii = False).encode('utf-8')
+        with open(filename, 'w') as f:
+            f.write(json_string)
 
-if dates_full_response.status_code !=200:
-    raise RuntimeError("Bad Response " + str(dates_full_response.status_code))
-dates_content = dates_full_response.json()
-
-available_locale_names = [locale['name'] for locale in dates_content]
-available_language_names = [locale_name for locale_name in available_locale_names if not re.search(r'-[A-Z0-9]+$',locale_name)]
-language_locale_dict = {}
-for language_name in available_language_names:
-    language_locale_dict[language_name] = []
-    for locale_name in available_locale_names:
-        if re.match(language_name + '-[A-Z0-9]+$', locale_name):
-            language_locale_dict[language_name].append(locale_name)
-
-os.chdir(os.path.dirname(__file__))
-foldername = "../data/cldr_language_data"
-if os.path.isdir(foldername):
-    shutil.rmtree(foldername)
-os.mkdir(foldername)
-
-for language in language_locale_dict:
-    json_language_dict = retrieve_locale_data(language)
-    locale_specific_dict = OrderedDict()
-    locales_list = language_locale_dict[language]
-    for locale in locales_list:
-        json_locale_dict = retrieve_locale_data(locale)
-        locale_specific_dict[locale] = get_dict_difference(json_language_dict, json_locale_dict)
-    json_language_dict["locale_specific"] = locale_specific_dict
-    filename = foldername + '/' + language + ".json"
-    print "writing " + filename
-    json_string = json.dumps(json_language_dict, indent = 4, ensure_ascii = False).encode('utf-8')
-    with open(filename, 'w') as f:
-        f.write(json_string)
+if __name__ == '__main__':
+    main()
