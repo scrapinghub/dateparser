@@ -208,11 +208,9 @@
     }, 
     "locale_specific": {
         "ha-GH": {
-            "date_order": "DMY", 
             "name": "ha-GH"
         }, 
         "ha-NE": {
-            "date_order": "DMY", 
             "name": "ha-NE"
         }
     }

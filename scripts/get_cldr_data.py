@@ -436,14 +436,15 @@ language_locale_dict = get_language_locale_dict()
 
 
 def get_dict_difference(parent_dict, child_dict):
-    difference_dict = {}
+    difference_dict = OrderedDict()
     for key, value in parent_dict.items():
         child_value = child_dict[key]
+        child_specific_value = None
         if isinstance(value, list):
             child_specific_value = list(set(child_value)-set(value))
         elif isinstance(value, dict):
             child_specific_value = get_dict_difference(value, child_value)
-        else:
+        elif child_value != value:
             child_specific_value = child_value
         if child_specific_value:
             difference_dict[key] = child_specific_value

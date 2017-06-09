@@ -266,27 +266,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -303,10 +307,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -315,12 +315,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }, 
         "pt-CH": {
             "name": "pt-CH", 
@@ -330,27 +329,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -367,10 +370,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -379,12 +378,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }, 
         "pt-CV": {
             "name": "pt-CV", 
@@ -394,27 +392,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -431,10 +433,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -443,12 +441,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }, 
         "pt-GQ": {
             "name": "pt-GQ", 
@@ -458,27 +455,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -495,10 +496,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -507,12 +504,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }, 
         "pt-GW": {
             "name": "pt-GW", 
@@ -522,27 +518,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -559,10 +559,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -571,12 +567,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }, 
         "pt-LU": {
             "name": "pt-LU", 
@@ -586,27 +581,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -623,10 +622,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -635,12 +630,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }, 
         "pt-MO": {
             "name": "pt-MO", 
@@ -650,27 +644,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -687,10 +685,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -699,12 +693,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }, 
         "pt-MZ": {
             "name": "pt-MZ", 
@@ -714,27 +707,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -751,10 +748,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -763,12 +756,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }, 
         "pt-PT": {
             "name": "pt-PT", 
@@ -778,27 +770,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -815,10 +811,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -827,12 +819,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }, 
         "pt-ST": {
             "name": "pt-ST", 
@@ -842,27 +833,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -879,10 +874,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -891,12 +882,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }, 
         "pt-TL": {
             "name": "pt-TL", 
@@ -906,27 +896,31 @@
             "tuesday": [
                 "terça"
             ], 
-            "friday": [
-                "sexta"
-            ], 
             "wednesday": [
                 "quarta"
             ], 
             "thursday": [
                 "quinta"
             ], 
+            "friday": [
+                "sexta"
+            ], 
+            "minute": [
+                "min"
+            ], 
             "relative-type": {
-                "in \\1 week": [
-                    "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
-                ], 
-                "\\1 second ago": [
-                    "há (\\d+) s"
+                "in \\1 year": [
+                    "dentro de (\\d+) ano", 
+                    "dentro de (\\d+) anos"
                 ], 
                 "in \\1 month": [
                     "dentro de (\\d+) mês", 
                     "dentro de (\\d+) meses"
+                ], 
+                "in \\1 week": [
+                    "dentro de (\\d+) semanas", 
+                    "dentro de (\\d+) sem.", 
+                    "dentro de (\\d+) semana"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -943,10 +937,6 @@
                     "+(\\d+) min", 
                     "dentro de (\\d+) minutos"
                 ], 
-                "in \\1 year": [
-                    "dentro de (\\d+) ano", 
-                    "dentro de (\\d+) anos"
-                ], 
                 "\\1 minute ago": [
                     "há (\\d+) min", 
                     "-(\\d+) min"
@@ -955,12 +945,11 @@
                     "dentro de (\\d+) segundo", 
                     "dentro de (\\d+) s", 
                     "dentro de (\\d+) segundos"
+                ], 
+                "\\1 second ago": [
+                    "há (\\d+) s"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "minute": [
-                "min"
-            ]
+            }
         }
     }
 }

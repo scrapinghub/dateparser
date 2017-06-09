@@ -220,7 +220,6 @@
     }, 
     "locale_specific": {
         "tr-CY": {
-            "date_order": "DMY", 
             "name": "tr-CY"
         }
     }

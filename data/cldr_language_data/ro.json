@@ -267,9 +267,6 @@
                 "Mar", 
                 "Ma"
             ], 
-            "friday": [
-                "Vin"
-            ], 
             "wednesday": [
                 "Mi", 
                 "Mie"
@@ -277,12 +274,14 @@
             "thursday": [
                 "Joi"
             ], 
-            "sunday": [
-                "Dum"
+            "friday": [
+                "Vin"
             ], 
-            "date_order": "DMY", 
             "saturday": [
                 "Sâm"
+            ], 
+            "sunday": [
+                "Dum"
             ]
         }
     }

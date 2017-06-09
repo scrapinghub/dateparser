@@ -208,15 +208,12 @@
     }, 
     "locale_specific": {
         "ln-AO": {
-            "date_order": "DMY", 
             "name": "ln-AO"
         }, 
         "ln-CF": {
-            "date_order": "DMY", 
             "name": "ln-CF"
         }, 
         "ln-CG": {
-            "date_order": "DMY", 
             "name": "ln-CG"
         }
     }

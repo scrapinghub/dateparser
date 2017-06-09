@@ -208,7 +208,6 @@
     }, 
     "locale_specific": {
         "mas-TZ": {
-            "date_order": "DMY", 
             "name": "mas-TZ"
         }
     }

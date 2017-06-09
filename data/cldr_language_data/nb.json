@@ -266,7 +266,6 @@
     }, 
     "locale_specific": {
         "nb-SJ": {
-            "date_order": "DMY", 
             "name": "nb-SJ"
         }
     }

@@ -203,244 +203,230 @@
     }, 
     "locale_specific": {
         "ar-AE": {
+            "name": "ar-AE", 
             "relative-type": {
-                "in 1 year": [
-                    "السنة التالية"
-                ], 
                 "0 year ago": [
                     "هذه السنة"
+                ], 
+                "in 1 year": [
+                    "السنة التالية"
                 ]
-            }, 
-            "date_order": "DMY", 
-            "name": "ar-AE"
+            }
         }, 
         "ar-BH": {
-            "date_order": "DMY", 
             "name": "ar-BH"
         }, 
         "ar-DJ": {
-            "date_order": "DMY", 
             "name": "ar-DJ"
         }, 
         "ar-DZ": {
-            "february": [
-                "فيفري"
-            ], 
-            "october": [
-                "أ"
-            ], 
             "name": "ar-DZ", 
-            "may": [
-                "ماي", 
-                "م"
-            ], 
             "january": [
                 "جانفي", 
                 "ج"
+            ], 
+            "february": [
+                "فيفري"
+            ], 
+            "april": [
+                "أفريل"
+            ], 
+            "may": [
+                "ماي", 
+                "م"
             ], 
             "june": [
                 "جوان", 
                 "ج"
             ], 
-            "april": [
-                "أفريل"
-            ], 
             "july": [
                 "ج", 
                 "جويلية"
             ], 
-            "date_order": "DMY", 
-            "november": [
-                "ن"
-            ], 
             "august": [
                 "أوت", 
                 "أ"
+            ], 
+            "october": [
+                "أ"
+            ], 
+            "november": [
+                "ن"
             ]
         }, 
         "ar-EG": {
-            "date_order": "DMY", 
             "name": "ar-EG"
         }, 
         "ar-EH": {
-            "date_order": "DMY", 
             "name": "ar-EH"
         }, 
         "ar-ER": {
-            "date_order": "DMY", 
             "name": "ar-ER"
         }, 
         "ar-IL": {
-            "date_order": "DMY", 
             "name": "ar-IL"
         }, 
         "ar-IQ": {
+            "name": "ar-IQ", 
+            "january": [
+                "كانون الثاني", 
+                "ك"
+            ], 
             "february": [
                 "شباط", 
                 "ش"
+            ], 
+            "march": [
+                "آذار", 
+                "آ"
+            ], 
+            "april": [
+                "نيسان", 
+                "ن"
+            ], 
+            "may": [
+                "أ", 
+                "أيار"
+            ], 
+            "june": [
+                "ح", 
+                "حزيران"
+            ], 
+            "july": [
+                "ت", 
+                "تموز"
+            ], 
+            "august": [
+                "آ", 
+                "آب"
+            ], 
+            "september": [
+                "أ", 
+                "أيلول"
             ], 
             "october": [
                 "تشرین الأول", 
                 "ت", 
                 "تشرين الأول"
             ], 
-            "march": [
-                "آذار", 
-                "آ"
-            ], 
-            "name": "ar-IQ", 
-            "september": [
-                "أ", 
-                "أيلول"
-            ], 
-            "may": [
-                "أ", 
-                "أيار"
-            ], 
-            "january": [
-                "كانون الثاني", 
-                "ك"
-            ], 
-            "june": [
-                "ح", 
-                "حزيران"
-            ], 
-            "april": [
-                "نيسان", 
-                "ن"
-            ], 
-            "december": [
-                "ك", 
-                "كانون الأول"
-            ], 
-            "july": [
-                "ت", 
-                "تموز"
-            ], 
-            "date_order": "DMY", 
             "november": [
                 "تشرين الثاني", 
                 "ت"
             ], 
-            "august": [
-                "آ", 
-                "آب"
+            "december": [
+                "ك", 
+                "كانون الأول"
             ]
         }, 
         "ar-JO": {
+            "name": "ar-JO", 
+            "january": [
+                "كانون الثاني", 
+                "ك"
+            ], 
             "february": [
                 "شباط", 
                 "ش"
-            ], 
-            "october": [
-                "ت", 
-                "تشرين الأول"
             ], 
             "march": [
                 "آذار", 
                 "آ"
             ], 
-            "name": "ar-JO", 
-            "september": [
-                "أ", 
-                "أيلول"
+            "april": [
+                "نيسان", 
+                "ن"
             ], 
             "may": [
                 "أ", 
                 "أيار"
             ], 
-            "january": [
-                "كانون الثاني", 
-                "ك"
-            ], 
             "june": [
                 "ح", 
                 "حزيران"
-            ], 
-            "april": [
-                "نيسان", 
-                "ن"
-            ], 
-            "december": [
-                "ك", 
-                "كانون الأول"
             ], 
             "july": [
                 "ت", 
                 "تموز"
             ], 
-            "date_order": "DMY", 
+            "august": [
+                "آ", 
+                "آب"
+            ], 
+            "september": [
+                "أ", 
+                "أيلول"
+            ], 
+            "october": [
+                "ت", 
+                "تشرين الأول"
+            ], 
             "november": [
                 "تشرين الثاني", 
                 "ت"
             ], 
-            "august": [
-                "آ", 
-                "آب"
+            "december": [
+                "ك", 
+                "كانون الأول"
             ]
         }, 
         "ar-KM": {
-            "date_order": "DMY", 
             "name": "ar-KM"
         }, 
         "ar-KW": {
-            "date_order": "DMY", 
             "name": "ar-KW"
         }, 
         "ar-LB": {
+            "name": "ar-LB", 
+            "january": [
+                "كانون الثاني", 
+                "ك"
+            ], 
             "february": [
                 "شباط", 
                 "ش"
-            ], 
-            "october": [
-                "ت", 
-                "تشرين الأول"
             ], 
             "march": [
                 "آذار", 
                 "آ"
             ], 
-            "name": "ar-LB", 
-            "september": [
-                "أ", 
-                "أيلول"
+            "april": [
+                "نيسان", 
+                "ن"
             ], 
             "may": [
                 "أ", 
                 "أيار"
             ], 
-            "january": [
-                "كانون الثاني", 
-                "ك"
-            ], 
             "june": [
                 "ح", 
                 "حزيران"
-            ], 
-            "april": [
-                "نيسان", 
-                "ن"
-            ], 
-            "december": [
-                "ك", 
-                "كانون الأول"
             ], 
             "july": [
                 "ت", 
                 "تموز"
             ], 
-            "date_order": "DMY", 
+            "august": [
+                "آ", 
+                "آب"
+            ], 
+            "september": [
+                "أ", 
+                "أيلول"
+            ], 
+            "october": [
+                "ت", 
+                "تشرين الأول"
+            ], 
             "november": [
                 "تشرين الثاني", 
                 "ت"
             ], 
-            "august": [
-                "آ", 
-                "آب"
+            "december": [
+                "ك", 
+                "كانون الأول"
             ]
         }, 
         "ar-LY": {
-            "date_order": "DMY", 
             "name": "ar-LY"
         }, 
         "ar-MA": {
@@ -449,212 +435,199 @@
                 "ماي", 
                 "م"
             ], 
-            "december": [
-                "دجنبر"
+            "july": [
+                "يوليوز"
+            ], 
+            "august": [
+                "غشت"
             ], 
             "september": [
                 "شتنبر", 
                 "ش"
             ], 
-            "july": [
-                "يوليوز"
-            ], 
-            "date_order": "DMY", 
             "november": [
                 "نونبر"
             ], 
-            "august": [
-                "غشت"
+            "december": [
+                "دجنبر"
             ]
         }, 
         "ar-MR": {
             "name": "ar-MR", 
+            "april": [
+                "إبريل", 
+                "إ"
+            ], 
+            "august": [
+                "أغشت"
+            ], 
             "september": [
                 "شتمبر", 
                 "ش"
             ], 
             "december": [
                 "دجمبر"
-            ], 
-            "april": [
-                "إبريل", 
-                "إ"
-            ], 
-            "date_order": "DMY", 
-            "august": [
-                "أغشت"
             ]
         }, 
         "ar-OM": {
-            "date_order": "DMY", 
             "name": "ar-OM"
         }, 
         "ar-PS": {
+            "name": "ar-PS", 
+            "january": [
+                "كانون الثاني", 
+                "ك"
+            ], 
             "february": [
                 "شباط", 
                 "ش"
-            ], 
-            "october": [
-                "ت", 
-                "تشرين الأول"
             ], 
             "march": [
                 "آذار", 
                 "آ"
             ], 
-            "name": "ar-PS", 
-            "september": [
-                "أ", 
-                "أيلول"
+            "april": [
+                "نيسان", 
+                "ن"
             ], 
             "may": [
                 "أ", 
                 "أيار"
             ], 
-            "january": [
-                "كانون الثاني", 
-                "ك"
-            ], 
             "june": [
                 "ح", 
                 "حزيران"
-            ], 
-            "april": [
-                "نيسان", 
-                "ن"
-            ], 
-            "december": [
-                "ك", 
-                "كانون الأول"
             ], 
             "july": [
                 "ت", 
                 "تموز"
             ], 
-            "date_order": "DMY", 
+            "august": [
+                "آ", 
+                "آب"
+            ], 
+            "september": [
+                "أ", 
+                "أيلول"
+            ], 
+            "october": [
+                "ت", 
+                "تشرين الأول"
+            ], 
             "november": [
                 "تشرين الثاني", 
                 "ت"
             ], 
-            "august": [
-                "آ", 
-                "آب"
+            "december": [
+                "ك", 
+                "كانون الأول"
             ]
         }, 
         "ar-QA": {
-            "date_order": "DMY", 
             "name": "ar-QA"
         }, 
         "ar-SA": {
-            "date_order": "DMY", 
             "name": "ar-SA"
         }, 
         "ar-SD": {
-            "date_order": "DMY", 
             "name": "ar-SD"
         }, 
         "ar-SO": {
-            "date_order": "DMY", 
             "name": "ar-SO"
         }, 
         "ar-SS": {
-            "date_order": "DMY", 
             "name": "ar-SS"
         }, 
         "ar-SY": {
+            "name": "ar-SY", 
+            "january": [
+                "كانون الثاني", 
+                "ك"
+            ], 
             "february": [
                 "شباط", 
                 "ش"
-            ], 
-            "october": [
-                "ت", 
-                "تشرين الأول"
             ], 
             "march": [
                 "آذار", 
                 "آ"
             ], 
-            "name": "ar-SY", 
-            "september": [
-                "أ", 
-                "أيلول"
+            "april": [
+                "نيسان", 
+                "ن"
             ], 
             "may": [
                 "أ", 
                 "أيار"
             ], 
-            "january": [
-                "كانون الثاني", 
-                "ك"
-            ], 
             "june": [
                 "ح", 
                 "حزيران"
-            ], 
-            "april": [
-                "نيسان", 
-                "ن"
-            ], 
-            "december": [
-                "ك", 
-                "كانون الأول"
             ], 
             "july": [
                 "ت", 
                 "تموز"
             ], 
-            "date_order": "DMY", 
+            "august": [
+                "آ", 
+                "آب"
+            ], 
+            "september": [
+                "أ", 
+                "أيلول"
+            ], 
+            "october": [
+                "ت", 
+                "تشرين الأول"
+            ], 
             "november": [
                 "تشرين الثاني", 
                 "ت"
             ], 
-            "august": [
-                "آ", 
-                "آب"
+            "december": [
+                "ك", 
+                "كانون الأول"
             ]
         }, 
         "ar-TD": {
-            "date_order": "DMY", 
             "name": "ar-TD"
         }, 
         "ar-TN": {
-            "february": [
-                "فيفري"
-            ], 
-            "october": [
-                "أ"
-            ], 
             "name": "ar-TN", 
-            "may": [
-                "ماي", 
-                "م"
-            ], 
             "january": [
                 "جانفي", 
                 "ج"
+            ], 
+            "february": [
+                "فيفري"
+            ], 
+            "april": [
+                "أفريل"
+            ], 
+            "may": [
+                "ماي", 
+                "م"
             ], 
             "june": [
                 "جوان", 
                 "ج"
             ], 
-            "april": [
-                "أفريل"
-            ], 
             "july": [
                 "ج", 
                 "جويلية"
             ], 
-            "date_order": "DMY", 
-            "november": [
-                "ن"
-            ], 
             "august": [
                 "أوت", 
                 "أ"
+            ], 
+            "october": [
+                "أ"
+            ], 
+            "november": [
+                "ن"
             ]
         }, 
         "ar-YE": {
-            "date_order": "DMY", 
             "name": "ar-YE"
         }
     }

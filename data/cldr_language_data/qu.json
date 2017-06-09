@@ -208,11 +208,9 @@
     }, 
     "locale_specific": {
         "qu-BO": {
-            "date_order": "DMY", 
             "name": "qu-BO"
         }, 
         "qu-EC": {
-            "date_order": "DMY", 
             "name": "qu-EC"
         }
     }

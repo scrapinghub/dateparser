@@ -199,7 +199,6 @@
     }, 
     "locale_specific": {
         "bn-IN": {
-            "date_order": "DMY", 
             "name": "bn-IN"
         }
     }

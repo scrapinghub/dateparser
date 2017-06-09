@@ -265,11 +265,9 @@
     }, 
     "locale_specific": {
         "sq-MK": {
-            "date_order": "DMY", 
             "name": "sq-MK"
         }, 
         "sq-XK": {
-            "date_order": "DMY", 
             "name": "sq-XK"
         }
     }

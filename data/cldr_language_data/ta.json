@@ -249,15 +249,12 @@
     }, 
     "locale_specific": {
         "ta-LK": {
-            "date_order": "DMY", 
             "name": "ta-LK"
         }, 
         "ta-MY": {
-            "date_order": "DMY", 
             "name": "ta-MY"
         }, 
         "ta-SG": {
-            "date_order": "DMY", 
             "name": "ta-SG"
         }
     }

@@ -270,7 +270,6 @@
     }, 
     "locale_specific": {
         "el-CY": {
-            "date_order": "DMY", 
             "name": "el-CY"
         }
     }

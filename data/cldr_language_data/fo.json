@@ -265,7 +265,6 @@
     }, 
     "locale_specific": {
         "fo-DK": {
-            "date_order": "DMY", 
             "name": "fo-DK"
         }
     }

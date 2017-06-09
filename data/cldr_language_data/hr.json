@@ -287,7 +287,6 @@
     }, 
     "locale_specific": {
         "hr-BA": {
-            "date_order": "DMY", 
             "name": "hr-BA"
         }
     }

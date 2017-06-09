@@ -207,11 +207,9 @@
     }, 
     "locale_specific": {
         "gsw-FR": {
-            "date_order": "DMY", 
             "name": "gsw-FR"
         }, 
         "gsw-LI": {
-            "date_order": "DMY", 
             "name": "gsw-LI"
         }
     }

@@ -233,7 +233,6 @@
     }, 
     "locale_specific": {
         "af-NA": {
-            "date_order": "YMD", 
             "name": "af-NA"
         }
     }

@@ -208,42 +208,36 @@
     }, 
     "locale_specific": {
         "om-KE": {
+            "name": "om-KE", 
+            "january": [
+                "A"
+            ], 
             "february": [
                 "G"
             ], 
             "march": [
                 "B"
             ], 
-            "name": "om-KE", 
-            "september": [
-                "F"
+            "april": [
+                "E"
             ], 
             "may": [
                 "C"
             ], 
-            "january": [
-                "A"
-            ], 
-            "tuesday": [
-                "Q"
-            ], 
-            "friday": [
-                "J"
-            ], 
             "june": [
                 "W"
             ], 
-            "wednesday": [
-                "R"
+            "july": [
+                "A"
             ], 
-            "thursday": [
-                "K"
+            "august": [
+                "H"
             ], 
-            "april": [
-                "E"
+            "september": [
+                "F"
             ], 
-            "sunday": [
-                "D"
+            "november": [
+                "S"
             ], 
             "december": [
                 "M"
@@ -251,15 +245,20 @@
             "monday": [
                 "W"
             ], 
-            "july": [
-                "A"
+            "tuesday": [
+                "Q"
             ], 
-            "date_order": "DMY", 
-            "november": [
-                "S"
+            "wednesday": [
+                "R"
             ], 
-            "august": [
-                "H"
+            "thursday": [
+                "K"
+            ], 
+            "friday": [
+                "J"
+            ], 
+            "sunday": [
+                "D"
             ]
         }
     }

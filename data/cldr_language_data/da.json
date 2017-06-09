@@ -244,7 +244,6 @@
     }, 
     "locale_specific": {
         "da-GL": {
-            "date_order": "DMY", 
             "name": "da-GL"
         }
     }

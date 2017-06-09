@@ -220,9 +220,6 @@
     }, 
     "locale_specific": {
         "se-FI": {
-            "week": [
-                "vahkku"
-            ], 
             "name": "se-FI", 
             "monday": [
                 "M", 
@@ -232,43 +229,44 @@
                 "maŋŋebárgga", 
                 "D"
             ], 
-            "friday": [
-                "bearjadaga"
-            ], 
             "wednesday": [
                 "gaskavahku"
             ], 
             "thursday": [
                 "duorastaga"
             ], 
-            "relative-type": {
-                "1 year ago": [
-                    "mannan jagi"
-                ], 
-                "\\1 year ago": [
-                    "(\\d+) jagi árat"
-                ], 
-                "in 1 year": [
-                    "boahtte jagi"
-                ], 
-                "0 year ago": [
-                    "dán jagi"
-                ], 
-                "in \\1 year": [
-                    "(\\d+) jagi siste"
-                ]
-            }, 
+            "friday": [
+                "bearjadaga"
+            ], 
+            "saturday": [
+                "lávvardaga"
+            ], 
             "year": [
                 "jahki", 
                 "j."
             ], 
-            "date_order": "YMD", 
-            "saturday": [
-                "lávvardaga"
-            ]
+            "week": [
+                "vahkku"
+            ], 
+            "relative-type": {
+                "1 year ago": [
+                    "mannan jagi"
+                ], 
+                "0 year ago": [
+                    "dán jagi"
+                ], 
+                "in 1 year": [
+                    "boahtte jagi"
+                ], 
+                "in \\1 year": [
+                    "(\\d+) jagi siste"
+                ], 
+                "\\1 year ago": [
+                    "(\\d+) jagi árat"
+                ]
+            }
         }, 
         "se-SE": {
-            "date_order": "YMD", 
             "name": "se-SE"
         }
     }

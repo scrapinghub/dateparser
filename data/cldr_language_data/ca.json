@@ -260,15 +260,12 @@
     }, 
     "locale_specific": {
         "ca-AD": {
-            "date_order": "DMY", 
             "name": "ca-AD"
         }, 
         "ca-FR": {
-            "date_order": "DMY", 
             "name": "ca-FR"
         }, 
         "ca-IT": {
-            "date_order": "DMY", 
             "name": "ca-IT"
         }
     }

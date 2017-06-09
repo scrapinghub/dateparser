@@ -250,27 +250,36 @@
     }, 
     "locale_specific": {
         "sr-Cyrl-BA": {
+            "name": "sr-Cyrl-BA", 
+            "january": [
+                "јан."
+            ], 
             "february": [
                 "феб."
             ], 
-            "october": [
-                "окт."
+            "april": [
+                "апр."
             ], 
-            "name": "sr-Cyrl-BA", 
-            "monday": [
-                "пон."
+            "august": [
+                "авг."
             ], 
             "september": [
                 "септ."
             ], 
-            "january": [
-                "јан."
+            "october": [
+                "окт."
+            ], 
+            "november": [
+                "нов."
+            ], 
+            "december": [
+                "дец."
+            ], 
+            "monday": [
+                "пон."
             ], 
             "tuesday": [
                 "ут."
-            ], 
-            "friday": [
-                "пет."
             ], 
             "wednesday": [
                 "ср.", 
@@ -279,49 +288,48 @@
             "thursday": [
                 "чет."
             ], 
-            "april": [
-                "апр."
+            "friday": [
+                "пет."
+            ], 
+            "saturday": [
+                "суб."
             ], 
             "sunday": [
                 "недјеља", 
                 "нед."
-            ], 
-            "december": [
-                "дец."
-            ], 
-            "november": [
-                "нов."
-            ], 
-            "date_order": "DMY", 
-            "saturday": [
-                "суб."
-            ], 
-            "august": [
-                "авг."
             ]
         }, 
         "sr-Cyrl-ME": {
+            "name": "sr-Cyrl-ME", 
+            "january": [
+                "јан."
+            ], 
             "february": [
                 "феб."
             ], 
-            "october": [
-                "окт."
+            "april": [
+                "апр."
             ], 
-            "name": "sr-Cyrl-ME", 
-            "monday": [
-                "пон."
+            "august": [
+                "авг."
             ], 
             "september": [
                 "септ."
             ], 
-            "january": [
-                "јан."
+            "october": [
+                "окт."
+            ], 
+            "november": [
+                "нов."
+            ], 
+            "december": [
+                "дец."
+            ], 
+            "monday": [
+                "пон."
             ], 
             "tuesday": [
                 "ут."
-            ], 
-            "friday": [
-                "пет."
             ], 
             "wednesday": [
                 "ср.", 
@@ -330,49 +338,48 @@
             "thursday": [
                 "чет."
             ], 
-            "april": [
-                "апр."
+            "friday": [
+                "пет."
+            ], 
+            "saturday": [
+                "суб."
             ], 
             "sunday": [
                 "недјеља", 
                 "нед."
-            ], 
-            "december": [
-                "дец."
-            ], 
-            "november": [
-                "нов."
-            ], 
-            "date_order": "DMY", 
-            "saturday": [
-                "суб."
-            ], 
-            "august": [
-                "авг."
             ]
         }, 
         "sr-Cyrl-XK": {
+            "name": "sr-Cyrl-XK", 
+            "january": [
+                "јан."
+            ], 
             "february": [
                 "феб."
             ], 
-            "october": [
-                "окт."
+            "april": [
+                "апр."
             ], 
-            "name": "sr-Cyrl-XK", 
-            "monday": [
-                "пон."
+            "august": [
+                "авг."
             ], 
             "september": [
                 "септ."
             ], 
-            "january": [
-                "јан."
+            "october": [
+                "окт."
+            ], 
+            "november": [
+                "нов."
+            ], 
+            "december": [
+                "дец."
+            ], 
+            "monday": [
+                "пон."
             ], 
             "tuesday": [
                 "ут."
-            ], 
-            "friday": [
-                "пет."
             ], 
             "wednesday": [
                 "ср."
@@ -380,24 +387,14 @@
             "thursday": [
                 "чет."
             ], 
-            "april": [
-                "апр."
+            "friday": [
+                "пет."
             ], 
-            "sunday": [
-                "нед."
-            ], 
-            "december": [
-                "дец."
-            ], 
-            "november": [
-                "нов."
-            ], 
-            "date_order": "DMY", 
             "saturday": [
                 "суб."
             ], 
-            "august": [
-                "авг."
+            "sunday": [
+                "нед."
             ]
         }
     }

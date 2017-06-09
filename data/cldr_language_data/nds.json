@@ -189,7 +189,6 @@
     }, 
     "locale_specific": {
         "nds-NL": {
-            "date_order": "YMD", 
             "name": "nds-NL"
         }
     }

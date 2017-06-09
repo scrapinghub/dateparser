@@ -224,7 +224,6 @@
     }, 
     "locale_specific": {
         "ee-TG": {
-            "date_order": "MDY", 
             "name": "ee-TG"
         }
     }

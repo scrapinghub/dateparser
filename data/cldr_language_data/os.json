@@ -241,7 +241,6 @@
     }, 
     "locale_specific": {
         "os-RU": {
-            "date_order": "DMY", 
             "name": "os-RU"
         }
     }

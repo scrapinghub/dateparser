@@ -206,62 +206,24 @@
     }, 
     "locale_specific": {
         "yo-BJ": {
-            "september": [
-                "Oshù Owewe"
+            "name": "yo-BJ", 
+            "january": [
+                "Shɛ́rɛ́", 
+                "Oshù Shɛ́rɛ́"
             ], 
-            "december": [
-                "Oshù Ɔ̀pɛ̀", 
-                "Ɔ̀pɛ̀"
-            ], 
-            "tuesday": [
-                "Ɔjɔ́ Ìsɛ́gun", 
-                "Ìsɛ́gun"
-            ], 
-            "second": [
-                "Ìsɛ́jú Ààyá"
-            ], 
-            "year": [
-                "Ɔdún"
-            ], 
-            "november": [
-                "Oshù Bélú"
-            ], 
-            "date_order": "DMY", 
-            "saturday": [
-                "Ɔjɔ́ Àbámɛ́ta", 
-                "Àbámɛ́ta"
-            ], 
-            "thursday": [
-                "Ɔjɔ́bɔ"
-            ], 
-            "relative-type": {
-                "in 1 day": [
-                    "Ɔ̀la"
-                ]
-            }, 
-            "sunday": [
-                "Ɔjɔ́ Àìkú"
-            ], 
-            "week": [
-                "Ɔ̀sè"
+            "february": [
+                "Oshù Èrèlè"
             ], 
             "march": [
                 "Oshù Ɛrɛ̀nà", 
                 "Ɛrɛ̀nà"
             ], 
-            "august": [
-                "Oshù Ògún"
-            ], 
-            "monday": [
-                "Ɔjɔ́ Ajé"
+            "april": [
+                "Oshù Ìgbé"
             ], 
             "may": [
                 "Oshù Ɛ̀bibi", 
                 "Ɛ̀bibi"
-            ], 
-            "friday": [
-                "Ɛtì", 
-                "Ɔjɔ́ Ɛtì"
             ], 
             "june": [
                 "Oshù Òkúdu"
@@ -270,30 +232,67 @@
                 "Agɛmɔ", 
                 "Oshù Agɛmɔ"
             ], 
+            "august": [
+                "Oshù Ògún"
+            ], 
+            "september": [
+                "Oshù Owewe"
+            ], 
+            "october": [
+                "Ɔ̀wàrà", 
+                "Oshù Ɔ̀wàrà"
+            ], 
+            "november": [
+                "Oshù Bélú"
+            ], 
+            "december": [
+                "Oshù Ɔ̀pɛ̀", 
+                "Ɔ̀pɛ̀"
+            ], 
+            "monday": [
+                "Ɔjɔ́ Ajé"
+            ], 
+            "tuesday": [
+                "Ɔjɔ́ Ìsɛ́gun", 
+                "Ìsɛ́gun"
+            ], 
+            "wednesday": [
+                "Ɔjɔ́rú"
+            ], 
+            "thursday": [
+                "Ɔjɔ́bɔ"
+            ], 
+            "friday": [
+                "Ɛtì", 
+                "Ɔjɔ́ Ɛtì"
+            ], 
+            "saturday": [
+                "Ɔjɔ́ Àbámɛ́ta", 
+                "Àbámɛ́ta"
+            ], 
+            "sunday": [
+                "Ɔjɔ́ Àìkú"
+            ], 
+            "year": [
+                "Ɔdún"
+            ], 
+            "week": [
+                "Ɔ̀sè"
+            ], 
             "day": [
                 "Ɔjɔ́"
             ], 
             "minute": [
                 "Ìsɛ́jú"
             ], 
-            "february": [
-                "Oshù Èrèlè"
+            "second": [
+                "Ìsɛ́jú Ààyá"
             ], 
-            "october": [
-                "Ɔ̀wàrà", 
-                "Oshù Ɔ̀wàrà"
-            ], 
-            "name": "yo-BJ", 
-            "january": [
-                "Shɛ́rɛ́", 
-                "Oshù Shɛ́rɛ́"
-            ], 
-            "wednesday": [
-                "Ɔjɔ́rú"
-            ], 
-            "april": [
-                "Oshù Ìgbé"
-            ]
+            "relative-type": {
+                "in 1 day": [
+                    "Ɔ̀la"
+                ]
+            }
         }
     }
 }

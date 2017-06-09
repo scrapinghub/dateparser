@@ -259,12 +259,11 @@
     }, 
     "locale_specific": {
         "sv-AX": {
-            "date_order": "YMD", 
             "name": "sv-AX"
         }, 
         "sv-FI": {
-            "date_order": "DMY", 
-            "name": "sv-FI"
+            "name": "sv-FI", 
+            "date_order": "DMY"
         }
     }
 }

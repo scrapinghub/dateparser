@@ -253,229 +253,185 @@
     }, 
     "locale_specific": {
         "fr-BE": {
-            "date_order": "DMY", 
             "name": "fr-BE"
         }, 
         "fr-BF": {
-            "date_order": "DMY", 
             "name": "fr-BF"
         }, 
         "fr-BI": {
-            "date_order": "DMY", 
             "name": "fr-BI"
         }, 
         "fr-BJ": {
-            "date_order": "DMY", 
             "name": "fr-BJ"
         }, 
         "fr-BL": {
-            "date_order": "DMY", 
             "name": "fr-BL"
         }, 
         "fr-CA": {
+            "name": "fr-CA", 
+            "date_order": "YMD", 
+            "july": [
+                "juill."
+            ], 
             "relative-type": {
-                "in \\1 hour": [
-                    "+(\\d+) h"
+                "in \\1 year": [
+                    "Dans (\\d+) an", 
+                    "Dans (\\d+) ans"
                 ], 
                 "\\1 year ago": [
                     "Il y a (\\d+) ans", 
                     "Il y a (\\d+) an"
+                ], 
+                "in \\1 hour": [
+                    "+(\\d+) h"
                 ], 
                 "\\1 hour ago": [
                     "-(\\d+) h"
                 ], 
                 "in \\1 second": [
                     "+ (\\d+) s"
-                ], 
-                "in \\1 year": [
-                    "Dans (\\d+) an", 
-                    "Dans (\\d+) ans"
                 ]
-            }, 
-            "july": [
-                "juill."
-            ], 
-            "date_order": "YMD", 
-            "name": "fr-CA"
+            }
         }, 
         "fr-CD": {
-            "date_order": "DMY", 
             "name": "fr-CD"
         }, 
         "fr-CF": {
-            "date_order": "DMY", 
             "name": "fr-CF"
         }, 
         "fr-CG": {
-            "date_order": "DMY", 
             "name": "fr-CG"
         }, 
         "fr-CH": {
-            "date_order": "DMY", 
             "name": "fr-CH"
         }, 
         "fr-CI": {
-            "date_order": "DMY", 
             "name": "fr-CI"
         }, 
         "fr-CM": {
-            "date_order": "DMY", 
             "name": "fr-CM"
         }, 
         "fr-DJ": {
-            "date_order": "DMY", 
             "name": "fr-DJ"
         }, 
         "fr-DZ": {
-            "date_order": "DMY", 
             "name": "fr-DZ"
         }, 
         "fr-GA": {
-            "date_order": "DMY", 
             "name": "fr-GA"
         }, 
         "fr-GF": {
-            "date_order": "DMY", 
             "name": "fr-GF"
         }, 
         "fr-GN": {
-            "date_order": "DMY", 
             "name": "fr-GN"
         }, 
         "fr-GP": {
-            "date_order": "DMY", 
             "name": "fr-GP"
         }, 
         "fr-GQ": {
-            "date_order": "DMY", 
             "name": "fr-GQ"
         }, 
         "fr-HT": {
             "name": "fr-HT", 
-            "hour": [
-                "hr"
-            ], 
-            "second": [
-                "sec."
-            ], 
-            "date_order": "DMY", 
             "day": [
                 "jr."
             ], 
+            "hour": [
+                "hr"
+            ], 
             "minute": [
                 "min."
+            ], 
+            "second": [
+                "sec."
             ]
         }, 
         "fr-KM": {
-            "date_order": "DMY", 
             "name": "fr-KM"
         }, 
         "fr-LU": {
-            "date_order": "DMY", 
             "name": "fr-LU"
         }, 
         "fr-MA": {
+            "name": "fr-MA", 
+            "january": [
+                "jan."
+            ], 
             "february": [
                 "fév."
             ], 
             "march": [
                 "mar."
             ], 
-            "name": "fr-MA", 
-            "january": [
-                "jan."
-            ], 
             "june": [
                 "jui."
-            ], 
-            "date_order": "DMY"
+            ]
         }, 
         "fr-MC": {
-            "date_order": "DMY", 
             "name": "fr-MC"
         }, 
         "fr-MF": {
-            "date_order": "DMY", 
             "name": "fr-MF"
         }, 
         "fr-MG": {
-            "date_order": "DMY", 
             "name": "fr-MG"
         }, 
         "fr-ML": {
-            "date_order": "DMY", 
             "name": "fr-ML"
         }, 
         "fr-MQ": {
-            "date_order": "DMY", 
             "name": "fr-MQ"
         }, 
         "fr-MR": {
-            "date_order": "DMY", 
             "name": "fr-MR"
         }, 
         "fr-MU": {
-            "date_order": "DMY", 
             "name": "fr-MU"
         }, 
         "fr-NC": {
-            "date_order": "DMY", 
             "name": "fr-NC"
         }, 
         "fr-NE": {
-            "date_order": "DMY", 
             "name": "fr-NE"
         }, 
         "fr-PF": {
-            "date_order": "DMY", 
             "name": "fr-PF"
         }, 
         "fr-PM": {
-            "date_order": "DMY", 
             "name": "fr-PM"
         }, 
         "fr-RE": {
-            "date_order": "DMY", 
             "name": "fr-RE"
         }, 
         "fr-RW": {
-            "date_order": "DMY", 
             "name": "fr-RW"
         }, 
         "fr-SC": {
-            "date_order": "DMY", 
             "name": "fr-SC"
         }, 
         "fr-SN": {
-            "date_order": "DMY", 
             "name": "fr-SN"
         }, 
         "fr-SY": {
-            "date_order": "DMY", 
             "name": "fr-SY"
         }, 
         "fr-TD": {
-            "date_order": "DMY", 
             "name": "fr-TD"
         }, 
         "fr-TG": {
-            "date_order": "DMY", 
             "name": "fr-TG"
         }, 
         "fr-TN": {
-            "date_order": "DMY", 
             "name": "fr-TN"
         }, 
         "fr-VU": {
-            "date_order": "DMY", 
             "name": "fr-VU"
         }, 
         "fr-WF": {
-            "date_order": "DMY", 
             "name": "fr-WF"
         }, 
         "fr-YT": {
-            "date_order": "DMY", 
             "name": "fr-YT"
         }
     }

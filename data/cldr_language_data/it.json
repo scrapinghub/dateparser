@@ -248,15 +248,12 @@
     }, 
     "locale_specific": {
         "it-CH": {
-            "date_order": "DMY", 
             "name": "it-CH"
         }, 
         "it-SM": {
-            "date_order": "DMY", 
             "name": "it-SM"
         }, 
         "it-VA": {
-            "date_order": "DMY", 
             "name": "it-VA"
         }
     }

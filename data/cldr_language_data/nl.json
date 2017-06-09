@@ -229,27 +229,21 @@
     }, 
     "locale_specific": {
         "nl-AW": {
-            "date_order": "DMY", 
             "name": "nl-AW"
         }, 
         "nl-BE": {
-            "date_order": "DMY", 
             "name": "nl-BE"
         }, 
         "nl-BQ": {
-            "date_order": "DMY", 
             "name": "nl-BQ"
         }, 
         "nl-CW": {
-            "date_order": "DMY", 
             "name": "nl-CW"
         }, 
         "nl-SR": {
-            "date_order": "DMY", 
             "name": "nl-SR"
         }, 
         "nl-SX": {
-            "date_order": "DMY", 
             "name": "nl-SX"
         }
     }

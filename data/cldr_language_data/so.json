@@ -220,15 +220,12 @@
     }, 
     "locale_specific": {
         "so-DJ": {
-            "date_order": "DMY", 
             "name": "so-DJ"
         }, 
         "so-ET": {
-            "date_order": "DMY", 
             "name": "so-ET"
         }, 
         "so-KE": {
-            "date_order": "DMY", 
             "name": "so-KE"
         }
     }

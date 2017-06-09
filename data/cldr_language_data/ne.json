@@ -198,7 +198,6 @@
     }, 
     "locale_specific": {
         "ne-IN": {
-            "date_order": "YMD", 
             "name": "ne-IN"
         }
     }

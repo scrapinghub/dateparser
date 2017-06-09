@@ -250,27 +250,36 @@
     }, 
     "locale_specific": {
         "sr-Latn-BA": {
+            "name": "sr-Latn-BA", 
+            "january": [
+                "jan."
+            ], 
             "february": [
                 "feb."
             ], 
-            "october": [
-                "okt."
+            "april": [
+                "apr."
             ], 
-            "name": "sr-Latn-BA", 
-            "monday": [
-                "pon."
+            "august": [
+                "avg."
             ], 
             "september": [
                 "sept."
             ], 
-            "january": [
-                "jan."
+            "october": [
+                "okt."
+            ], 
+            "november": [
+                "nov."
+            ], 
+            "december": [
+                "dec."
+            ], 
+            "monday": [
+                "pon."
             ], 
             "tuesday": [
                 "ut."
-            ], 
-            "friday": [
-                "pet."
             ], 
             "wednesday": [
                 "srijeda", 
@@ -279,49 +288,48 @@
             "thursday": [
                 "čet."
             ], 
-            "april": [
-                "apr."
+            "friday": [
+                "pet."
+            ], 
+            "saturday": [
+                "sub."
             ], 
             "sunday": [
                 "nedjelja", 
                 "ned."
-            ], 
-            "december": [
-                "dec."
-            ], 
-            "november": [
-                "nov."
-            ], 
-            "date_order": "DMY", 
-            "saturday": [
-                "sub."
-            ], 
-            "august": [
-                "avg."
             ]
         }, 
         "sr-Latn-ME": {
+            "name": "sr-Latn-ME", 
+            "january": [
+                "jan."
+            ], 
             "february": [
                 "feb."
             ], 
-            "october": [
-                "okt."
+            "april": [
+                "apr."
             ], 
-            "name": "sr-Latn-ME", 
-            "monday": [
-                "pon."
+            "august": [
+                "avg."
             ], 
             "september": [
                 "sept."
             ], 
-            "january": [
-                "jan."
+            "october": [
+                "okt."
+            ], 
+            "november": [
+                "nov."
+            ], 
+            "december": [
+                "dec."
+            ], 
+            "monday": [
+                "pon."
             ], 
             "tuesday": [
                 "ut."
-            ], 
-            "friday": [
-                "pet."
             ], 
             "wednesday": [
                 "srijeda", 
@@ -330,49 +338,48 @@
             "thursday": [
                 "čet."
             ], 
-            "april": [
-                "apr."
+            "friday": [
+                "pet."
+            ], 
+            "saturday": [
+                "sub."
             ], 
             "sunday": [
                 "nedjelja", 
                 "ned."
-            ], 
-            "december": [
-                "dec."
-            ], 
-            "november": [
-                "nov."
-            ], 
-            "date_order": "DMY", 
-            "saturday": [
-                "sub."
-            ], 
-            "august": [
-                "avg."
             ]
         }, 
         "sr-Latn-XK": {
+            "name": "sr-Latn-XK", 
+            "january": [
+                "jan."
+            ], 
             "february": [
                 "feb."
             ], 
-            "october": [
-                "okt."
+            "april": [
+                "apr."
             ], 
-            "name": "sr-Latn-XK", 
-            "monday": [
-                "pon."
+            "august": [
+                "avg."
             ], 
             "september": [
                 "sept."
             ], 
-            "january": [
-                "jan."
+            "october": [
+                "okt."
+            ], 
+            "november": [
+                "nov."
+            ], 
+            "december": [
+                "dec."
+            ], 
+            "monday": [
+                "pon."
             ], 
             "tuesday": [
                 "ut."
-            ], 
-            "friday": [
-                "pet."
             ], 
             "wednesday": [
                 "sr."
@@ -380,24 +387,14 @@
             "thursday": [
                 "čet."
             ], 
-            "april": [
-                "apr."
+            "friday": [
+                "pet."
             ], 
-            "sunday": [
-                "ned."
-            ], 
-            "december": [
-                "dec."
-            ], 
-            "november": [
-                "nov."
-            ], 
-            "date_order": "DMY", 
             "saturday": [
                 "sub."
             ], 
-            "august": [
-                "avg."
+            "sunday": [
+                "ned."
             ]
         }
     }

@@ -256,37 +256,31 @@
     }, 
     "locale_specific": {
         "de-AT": {
+            "name": "de-AT", 
             "january": [
                 "Jänner", 
                 "Jän.", 
                 "Jän"
-            ], 
-            "date_order": "DMY", 
-            "name": "de-AT"
+            ]
         }, 
         "de-BE": {
-            "date_order": "DMY", 
             "name": "de-BE"
         }, 
         "de-CH": {
-            "date_order": "DMY", 
             "name": "de-CH"
         }, 
         "de-IT": {
+            "name": "de-IT", 
             "january": [
                 "Jänner", 
                 "Jän.", 
                 "Jän"
-            ], 
-            "date_order": "DMY", 
-            "name": "de-IT"
+            ]
         }, 
         "de-LI": {
-            "date_order": "DMY", 
             "name": "de-LI"
         }, 
         "de-LU": {
-            "date_order": "DMY", 
             "name": "de-LU"
         }
     }

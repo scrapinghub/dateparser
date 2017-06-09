@@ -189,7 +189,6 @@
     }, 
     "locale_specific": {
         "lrc-IQ": {
-            "date_order": "YMD", 
             "name": "lrc-IQ"
         }
     }

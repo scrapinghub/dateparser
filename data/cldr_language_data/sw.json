@@ -215,18 +215,15 @@
     }, 
     "locale_specific": {
         "sw-CD": {
+            "name": "sw-CD", 
             "week": [
                 "Juma"
-            ], 
-            "date_order": "DMY", 
-            "name": "sw-CD"
+            ]
         }, 
         "sw-KE": {
-            "date_order": "DMY", 
             "name": "sw-KE"
         }, 
         "sw-UG": {
-            "date_order": "DMY", 
             "name": "sw-UG"
         }
     }

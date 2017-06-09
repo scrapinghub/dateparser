@@ -275,23 +275,18 @@
     }, 
     "locale_specific": {
         "ru-BY": {
-            "date_order": "DMY", 
             "name": "ru-BY"
         }, 
         "ru-KG": {
-            "date_order": "DMY", 
             "name": "ru-KG"
         }, 
         "ru-KZ": {
-            "date_order": "DMY", 
             "name": "ru-KZ"
         }, 
         "ru-MD": {
-            "date_order": "DMY", 
             "name": "ru-MD"
         }, 
         "ru-UA": {
-            "date_order": "DMY", 
             "name": "ru-UA"
         }
     }

@@ -177,7 +177,6 @@
     }, 
     "locale_specific": {
         "ko-KP": {
-            "date_order": "YMD", 
             "name": "ko-KP"
         }
     }

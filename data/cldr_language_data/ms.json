@@ -233,11 +233,9 @@
     }, 
     "locale_specific": {
         "ms-BN": {
-            "date_order": "DMY", 
             "name": "ms-BN"
         }, 
         "ms-SG": {
-            "date_order": "DMY", 
             "name": "ms-SG"
         }
     }

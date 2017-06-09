@@ -208,15 +208,12 @@
     }, 
     "locale_specific": {
         "ff-CM": {
-            "date_order": "DMY", 
             "name": "ff-CM"
         }, 
         "ff-GN": {
-            "date_order": "DMY", 
             "name": "ff-GN"
         }, 
         "ff-MR": {
-            "date_order": "DMY", 
             "name": "ff-MR"
         }
     }

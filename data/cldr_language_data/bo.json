@@ -220,7 +220,6 @@
     }, 
     "locale_specific": {
         "bo-IN": {
-            "date_order": "YMD", 
             "name": "bo-IN"
         }
     }
