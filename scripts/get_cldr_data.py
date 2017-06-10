@@ -8,14 +8,16 @@ from collections import OrderedDict
 
 OAuth_Access_Token = 'OAuth_Access_Token'       #Add OAuth_Access_Token here
 headers = {'Authorization':'token %s' % OAuth_Access_Token}
-cldr_dates_full_url = "https://api.github.com/repos/unicode-cldr/cldr-dates-full/contents/main"
+cldr_dates_full_url = "https://api.github.com/repos/unicode-cldr/cldr-dates-full/contents/main/"
+cldr_rbnf_url = "https://api.github.com/repos/unicode-cldr/cldr-rbnf/contents/rbnf/"
 
 DATE_ORDER_PATTERN = re.compile(u'([DMY])+\u200f*[-/. \t]*([DMY])+\u200f*[-/. \t]*([DMY])+')
+DIGIT_PATTERN = re.compile('^\d*$')
 
 
 def retrieve_locale_data(locale):
-    cldr_gregorian_url = cldr_dates_full_url + '/' + locale + "/ca-gregorian.json?ref=master"
-    cldr_datefields_url = cldr_dates_full_url + '/' + locale + "/dateFields.json?ref=master"
+    cldr_gregorian_url = cldr_dates_full_url + locale + "/ca-gregorian.json?ref=master"
+    cldr_datefields_url = cldr_dates_full_url + locale + "/dateFields.json?ref=master"
 
     while(True):
         try:
@@ -409,6 +411,57 @@ def retrieve_locale_data(locale):
     return json_dict
 
 
+def get_numeral_data(language):
+    cldr_language_rbnf_url = cldr_rbnf_url + language + ".json?ref=master"
+    while(True):
+        try:
+            rbnf_response = requests.get(cldr_language_rbnf_url,headers=headers)
+        except requests.exceptions.ConnectionError:
+            print "Waiting..."
+            time.sleep(5)
+            continue
+        break
+
+    if rbnf_response.status_code !=200:
+        raise RuntimeError("Bad Response " + str(rbnf_response.status_code))
+
+    rbnf_content = rbnf_response.json()["content"].decode("base64")
+    cldr_rbnf_data = json.loads(rbnf_content)
+    spellout_dict = cldr_rbnf_data["rbnf"]["rbnf"]["SpelloutRules"]
+    spellout_keys = sorted(spellout_dict.keys())
+    numeral_dict = OrderedDict()
+    for spellout_key in spellout_keys:
+        spellout_key_dict = spellout_dict[spellout_key]
+        num_keys = sorted([int(key) for key in spellout_key_dict.keys() if DIGIT_PATTERN.match(key)])
+        numeral_dict[spellout_key] = OrderedDict()
+        for i in range(0,len(num_keys)-1):
+            if num_keys[i+1] == num_keys[i] + 1:
+                numeral_dict[spellout_key][str(num_keys[i])] = spellout_key_dict[str(num_keys[i])]
+            else:
+                num_range = (num_keys[i],num_keys[i+1]-1)
+                numeral_dict[spellout_key][str(num_range)] = spellout_key_dict[str(num_keys[i])]
+        numeral_dict[spellout_key][str((num_keys[len(num_keys)-1],"inf"))] = spellout_key_dict[str(num_keys[len(num_keys)-1])]
+    return numeral_dict
+
+
+def get_rbnf_languages():
+    while(True):
+        try:
+            cldr_rbnf_response = requests.get(cldr_rbnf_url, headers=headers)
+        except requests.exceptions.ConnectionError:
+            time.sleep(5)
+            continue
+        break
+
+    if cldr_rbnf_response.status_code !=200:
+        raise RuntimeError("Bad Response " + str(cldr_rbnf_response.status_code))
+    cldr_rbnf_content = cldr_rbnf_response.json()
+    rbnf_languages = [language['name'].replace('.json','') for language in cldr_rbnf_content]
+    return rbnf_languages
+
+rbnf_languages = get_rbnf_languages()
+
+
 def get_language_locale_dict():
     while(True):
         try:
@@ -466,6 +519,8 @@ def main():
             json_locale_dict = retrieve_locale_data(locale)
             locale_specific_dict[locale] = get_dict_difference(json_language_dict, json_locale_dict)
         json_language_dict["locale_specific"] = locale_specific_dict
+        if language in rbnf_languages:
+            json_language_dict["numeral_data"] = get_numeral_data(language)
         filename = foldername + '/' + language + ".json"
         print "writing " + filename
         json_string = json.dumps(json_language_dict, indent = 4, ensure_ascii = False).encode('utf-8')

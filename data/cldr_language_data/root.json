@@ -187,5 +187,19 @@
             "-(\\d+) s"
         ]
     }, 
-    "locale_specific": {}
+    "locale_specific": {}, 
+    "numeral_data": {
+        "%spellout-cardinal": {
+            "(0, 'inf')": "=#,##0.#=;"
+        }, 
+        "%spellout-numbering": {
+            "(0, 'inf')": "=#,##0.#=;"
+        }, 
+        "%spellout-numbering-year": {
+            "(0, 'inf')": "=0=;"
+        }, 
+        "%spellout-ordinal": {
+            "(0, 'inf')": "=#,##0.#=.;"
+        }
+    }
 }
