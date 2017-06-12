@@ -135,6 +135,32 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
         self.then_results_are(expected_results)
 
     @parameterized.expand([
+        param(low=datetime(2012, 4, 18),
+              high=datetime(2014, 9, 22),
+              expected_results=[datetime(2012, 1, 1, 0, 0), datetime(2013, 1, 1, 0, 0),datetime(2014, 1, 1, 0, 0)]),
+        param(low=datetime(2013, 8, 5),
+              high=datetime(2014, 5, 15),
+              expected_results=[datetime(2013, 1, 1, 0, 0), datetime(2014, 1, 1, 0, 0)]),
+        param(low=datetime(2008, 4, 5),
+              high=datetime(2010, 1, 1),
+              expected_results=[datetime(2008, 1, 1, 0, 0), datetime(2009, 1, 1, 0, 0)]),
+        param(low=datetime(2014, 1, 1),
+              high=datetime(2016, 8, 22),
+              expected_results=[datetime(2014, 1, 1, 0, 0), datetime(2015, 1, 1, 0, 0), datetime(2016, 1, 1, 0, 0)]),
+        param(low=datetime(2001, 7, 11),
+              high=datetime(2001, 10, 16),
+              expected_results=[datetime(2001, 1, 1, 0, 0)]),
+        param(low=datetime(2017, 1, 1),
+              high=datetime(2017, 1, 1),
+              expected_results=[]),
+    ])
+    def test_dates_in_the_intersecting_period_should_use_first_month_and_first_day_when_period_is_year(
+        self, low, high, expected_results
+    ):
+        self.when_intersecting_period_calculated(low, high, period_size='year')
+        self.then_results_are(expected_results)
+
+    @parameterized.expand([
         param(low=datetime(2014, 4, 15),
               high=datetime(2014, 5, 15),
               period_size='month',
@@ -398,6 +424,30 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_datetime_is(expected_result)
 
     @parameterized.expand([
+        param(date_string="11/09/2007", date_formats={"date_formats":["%d/%m/%Y"]}),
+        param(date_string="16.09.03 11:55", date_formats=111),
+        param(date_string="08-01-1998", date_formats=12.56),
+    ])
+    def test_parsing_date_using_invalid_type_date_format_must_raise_error(self, date_string, date_formats):
+        self.given_local_tz_offset(0)
+        self.given_parser()
+        self.when_date_string_is_parsed(date_string, date_formats)
+        self.then_error_was_raised(TypeError, ["Date formats should be list, tuple or set of strings",
+                                                "'{}' object is not iterable".format(type(date_formats).__name__)])
+
+    @parameterized.expand([
+        param(date_string={"date":"12/11/1998"}),
+        param(date_string=[2017,12,1]),
+        param(date_string=2018),
+        param(date_string=12.2000),
+        param(date_string=datetime(year=2009,month=12,day=7)),
+    ])
+    def test_parsing_date_using_invalid_type_date_string_must_raise_error(self, date_string):
+        self.given_parser()
+        self.when_date_string_is_parsed(date_string)
+        self.then_error_was_raised(TypeError, ["Input type must be str or unicode"])
+
+    @parameterized.expand([
         param(date_string="2014/11/17 14:56 EDT", expected_result=datetime(2014, 11, 17, 18, 56)),
     ])
     def test_parse_date_with_timezones_not_using_formats(self, date_string, expected_result):
@@ -431,6 +481,19 @@ class TestDateDataParser(BaseTestCase):
         self.then_period_is('day')
         self.then_parsed_datetime_is(expected_result)
 
+    @parameterized.expand([
+        param(date_string="12 jan 1876",
+              expected_result=(datetime(1876, 1, 12, 0, 0), 'day', 'en')),
+        param(date_string="02/09/16",
+              expected_result=(datetime(2016, 2, 9, 0, 0), 'day', 'en')),
+        param(date_string="10 giu 2018",
+              expected_result=(datetime(2018, 6, 10, 0, 0), 'day', 'it')),
+    ])
+    def test_get_date_tuple(self,date_string,expected_result):
+        self.given_parser()
+        self.when_get_date_tuple_is_called(date_string)
+        self.then_returned_tuple_is(expected_result)
+
     def given_now(self, year, month, day, **time):
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.utcnow = Mock(return_value=datetime(year, month, day, **time))
@@ -460,7 +523,10 @@ class TestDateDataParser(BaseTestCase):
         )
 
     def when_date_string_is_parsed(self, date_string, date_formats=None):
-        self.result = self.parser.get_date_data(date_string, date_formats)
+        try:
+            self.result = self.parser.get_date_data(date_string, date_formats)
+        except Exception as error:
+            self.error = error
 
     def when_multiple_dates_are_parsed(self, date_strings):
         self.multiple_results = []
@@ -471,6 +537,9 @@ class TestDateDataParser(BaseTestCase):
                 result = error
             finally:
                 self.multiple_results.append(result)
+
+    def when_get_date_tuple_is_called(self,date_string):
+        self.result = self.parser.get_date_tuple(date_string)
 
     def then_date_was_parsed(self):
         self.assertIsNotNone(self.result['date_obj'])
@@ -503,6 +572,9 @@ class TestDateDataParser(BaseTestCase):
 
     def then_parsed_date_has_timezone(self):
         self.assertTrue(hasattr(self.result['date_obj'], 'tzinfo'))
+
+    def then_returned_tuple_is(self,expected_tuple):
+        self.assertEqual(expected_tuple, self.result)
 
 
 class TestParserInitialization(BaseTestCase):
