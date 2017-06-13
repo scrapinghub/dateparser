@@ -58,7 +58,7 @@ class Language(object):
             list(filter(bool, words)), separator="" if keep_formatting else " ", settings=settings)
 
     def translate_search(self, search_string, keep_formatting=False, settings=None):
-        sentences = re.split('[.!?;]{1,3} ', search_string)
+        sentences = re.split('[\.!?;]+\s', search_string)
         dictionary = self._get_dictionary(settings)
         translated = []
         original = []
