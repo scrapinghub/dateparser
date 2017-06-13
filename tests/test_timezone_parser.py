@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
+from pytz import timezone
 
 from mock import Mock, patch
 from nose_parameterized import parameterized, param
 
 import dateparser.timezone_parser
-from dateparser.timezone_parser import pop_tz_offset_from_string, get_local_tz_offset
+from dateparser.timezone_parser import pop_tz_offset_from_string, get_local_tz_offset, StaticTzInfo
 from dateparser import parse
 from tests import BaseTestCase
 
@@ -159,3 +160,41 @@ class TestTimeZoneConversion(BaseTestCase):
 
     def then_date_is(self, date):
         self.assertEqual(date, self.result)
+
+class TestStaticTzInfo(BaseTestCase):
+    def setUp(self):
+        super(TestStaticTzInfo, self).setUp()
+
+    @parameterized.expand([
+        param(tz_string='UTC', given_date=datetime(2017, 10, 8), tzname='UTC'),
+        param(tz_string='Asia/Kolkata', given_date=datetime(2014, 12, 15), tzname='IST'),
+        param(tz_string='Europe/Amsterdam', given_date=datetime(2008, 7, 22), tzname='CEST'),
+        param(tz_string='Etc/GMT+2', given_date=datetime(1999, 11, 22), tzname='-02'),
+    ])
+    def test_localize(self, tz_string, given_date, tzname):
+        self.given_timezone(tz_string)
+        self.when_date_is_localized(given_date)
+        self.then_localized_date_is(given_date, tzname)
+
+    @parameterized.expand([
+        param(given_date=datetime(2007, 1, 18, tzinfo=timezone('UTC'))),
+        param(given_date=datetime(2003, 3, 31, tzinfo=timezone('US/Arizona'))),
+        param(given_date=datetime(2000, 2, 20, tzinfo=timezone('Pacific/Samoa'))),
+    ])
+    def test_localize_raises_error_if_date_has_tzinfo(self, given_date):
+        self.given_timezone('UTC')
+        self.when_date_is_localized(given_date)
+        self.then_error_was_raised(ValueError, ['Not naive datetime (tzinfo is already set)'])
+
+    def given_timezone(self, tz_string):
+        self.timezone_info = timezone(tz_string)
+
+    def when_date_is_localized(self, given_date):
+        try:
+            self.localized_date = self.timezone_info.localize(given_date)
+        except Exception as error:
+            self.error = error
+
+    def then_localized_date_is(self, expected_date, expected_tzname):
+        self.assertEqual(self.localized_date.date(), expected_date.date())
+        self.assertEqual(self.localized_date.tzname(), expected_tzname)
