@@ -57,6 +57,39 @@ class Language(object):
         return self._join(
             list(filter(bool, words)), separator="" if keep_formatting else " ", settings=settings)
 
+    def translate_search(self, search_string, keep_formatting=False, settings=None):
+        sentences = re.split('[.!?;]{1,3} ', search_string)
+        dictionary = self._get_dictionary(settings)
+        translated = []
+        original = []
+        for sentence in sentences:
+            words = sentence.split()
+            translated_chunk = []
+            original_chunk = []
+            for i, word in enumerate(words):
+                word = self._simplify(word.lower(), settings=settings)
+                if word in dictionary and word != '-':
+                    translated_chunk.append(dictionary[word])
+                    original_chunk.append(words[i])
+                elif re.search('\d+', word) is not None:
+                    translated_chunk.append(word)
+                    original_chunk.append(words[i])
+                else:
+                    if translated_chunk:
+                        translated.append(translated_chunk)
+                        translated_chunk = []
+                        original.append(original_chunk)
+                        original_chunk = []
+            if translated_chunk:
+                translated.append(translated_chunk)
+                original.append(original_chunk)
+        for i in range(len(translated)):
+            if "in" in translated[i]:
+                translated[i] = self._clear_future_words(translated[i])
+            translated[i] = ' '.join(list(filter(bool, translated[i])))
+            original[i] = ' '.join(list(filter(bool, original[i])))
+        return translated, original
+
     def _simplify(self, date_string, settings=None):
         date_string = date_string.lower()
         for simplification in self._get_simplifications(settings=settings):
@@ -122,6 +155,20 @@ class Language(object):
         return list(chain(*tokens))
 
     def _join(self, tokens, separator=" ", settings=None):
+        if not tokens:
+            return ""
+
+        capturing_splitters = self._get_splitters(settings)['capturing']
+        joined = tokens[0]
+        for i in range(1, len(tokens)):
+            left, right = tokens[i - 1], tokens[i]
+            if left not in capturing_splitters and right not in capturing_splitters:
+                joined += separator
+            joined += right
+
+        return joined
+
+    def _join_translated(self, tokens, translated, separator=" ", settings=None):
         if not tokens:
             return ""
 
