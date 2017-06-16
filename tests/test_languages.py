@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from nose_parameterized import parameterized, param
 
 from dateparser.languages import default_language_loader, Language
-from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.conf import settings
 from dateparser.utils import normalize_unicode
 from dateparser.languages.validation import LanguageValidator
@@ -466,7 +465,7 @@ class TestBundledLanguages(BaseTestCase):
               ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
         param('pl', "8 stycznia 2015 o 10:19", ['8', ' ', 'stycznia', ' ', '2015', ' ', 'o', ' ', '10', ':', '19']),
         param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015",
-              ["Thứ Năm", " ", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
+              ["Thứ Năm", "ngày", " ", "8", " tháng ", "1", " ", "năm", " ", "2015"]),
         param('tl', "Biyernes Hulyo 3 2015", ["Biyernes", " ", "Hulyo", " ", "3", " ", "2015"]),
         param('be', "3 верасня 2015 г. у 11:10",
               ['3', ' ', 'верасня', ' ', '2015', ' ', 'г.', ' ', 'у', ' ', '11', ':', '10']),
@@ -527,8 +526,8 @@ class TestBundledLanguages(BaseTestCase):
             datetime_string = normalize_unicode(datetime_string)
         self.datetime_string = datetime_string
 
-    def given_bundled_language(self, shorname):
-        self.language = default_language_loader.get_language(shorname)
+    def given_bundled_language(self, shortname):
+        self.language = default_language_loader.get_language(shortname)
 
     def when_datetime_string_translated(self):
         self.translation = self.language.translate(self.datetime_string, settings=settings)
@@ -550,134 +549,6 @@ class TestBundledLanguages(BaseTestCase):
 
     def then_language_is_not_applicable(self):
         self.assertFalse(self.result)
-
-
-class BaseLanguageDetectorTestCase(BaseTestCase):
-    __test__ = False
-
-    NOT_DETECTED = object()
-
-    def setUp(self):
-        super(BaseLanguageDetectorTestCase, self).setUp()
-        self.datetime_string = NotImplemented
-        self.detector = NotImplemented
-        self.detected_language = NotImplemented
-        self.known_languages = None
-
-    @parameterized.expand([
-        param("1 january 2015", 'en'),
-    ])
-    def test_valid_dates_detected(self, datetime_string, expected_language):
-        self.given_languages(expected_language)
-        self.given_detector()
-        self.given_string(datetime_string)
-        self.when_searching_for_first_applicable_language()
-        self.then_language_was_detected(expected_language)
-
-    @parameterized.expand([
-        param("foo"),
-    ])
-    def test_invalid_dates_not_detected(self, datetime_string):
-        self.given_languages('en')
-        self.given_detector()
-        self.given_string(datetime_string)
-        self.when_searching_for_first_applicable_language()
-        self.then_no_language_was_detected()
-
-    def test_invalid_date_after_valid_date_not_detected(self):
-        self.given_languages('en')
-        self.given_detector()
-        self.given_previosly_detected_string("1 january 2015")
-        self.given_string("foo")
-        self.when_searching_for_first_applicable_language()
-        self.then_no_language_was_detected()
-
-    def test_valid_date_after_invalid_date_detected(self):
-        self.given_languages('en')
-        self.given_detector()
-        self.given_previosly_detected_string("foo")
-        self.given_string("1 january 2015")
-        self.when_searching_for_first_applicable_language()
-        self.then_language_was_detected('en')
-
-    def given_languages(self, *shortnames):
-        self.known_languages = [default_language_loader.get_language(shortname)
-                                for shortname in shortnames]
-
-    def given_previosly_detected_string(self, datetime_string):
-        for _ in self.detector.iterate_applicable_languages(datetime_string, modify=True, settings=settings):
-            break
-
-    def given_string(self, datetime_string):
-        self.datetime_string = datetime_string
-
-    def given_detector(self):
-        raise NotImplementedError
-
-    def when_searching_for_first_applicable_language(self):
-        for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True,
-                                                                   settings=settings):
-            self.detected_language = language
-            break
-        else:
-            self.detected_language = self.NOT_DETECTED
-
-    def then_language_was_detected(self, shortname):
-        self.assertIsInstance(self.detected_language, Language, "Language was not properly detected")
-        self.assertEqual(shortname, self.detected_language.shortname)
-
-    def then_no_language_was_detected(self):
-        self.assertIs(self.detected_language, self.NOT_DETECTED)
-
-
-class TestExactLanguages(BaseLanguageDetectorTestCase):
-    __test__ = True
-
-    @parameterized.expand([
-        param("01-01-12", ['en', 'fr']),
-        param("01-01-12", ['tr', 'ar']),
-        param("01-01-12", ['ru', 'fr', 'en', 'pl']),
-        param("01-01-12", ['en']),
-    ])
-    def test_exact_languages(self, datetime_string, shortnames):
-        self.given_string(datetime_string)
-        self.given_known_languages(shortnames)
-        self.given_detector()
-        self.when_using_exact_languages()
-        self.then_exact_languages_were_filtered(shortnames)
-
-    def given_known_languages(self, shortnames):
-        self.known_languages = [default_language_loader.get_language(shortname)
-                                for shortname in shortnames]
-
-    def given_detector(self):
-        self.assertIsInstance(self.known_languages, list, "Require a list of languages to initialize")
-        self.assertGreaterEqual(len(self.known_languages), 1, "Could only be initialized with one or more languages")
-        self.detector = ExactLanguages(languages=self.known_languages)
-
-    def when_using_exact_languages(self):
-        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True,
-                                                                          settings=settings)
-
-    def then_exact_languages_were_filtered(self, shortnames):
-        self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
-
-
-class BaseAutoDetectLanguageDetectorTestCase(BaseLanguageDetectorTestCase):
-    allow_redetection = NotImplemented
-
-    def given_detector(self):
-        self.detector = AutoDetectLanguage(languages=self.known_languages, allow_redetection=self.allow_redetection)
-
-
-class TestAutoDetectLanguageDetectorWithoutRedetection(BaseAutoDetectLanguageDetectorTestCase):
-    __test__ = True
-    allow_redetection = False
-
-
-class TestAutoDetectLanguageDetectorWithRedetection(BaseAutoDetectLanguageDetectorTestCase):
-    __test__ = True
-    allow_redetection = True
 
 
 class TestLanguageValidatorWhenInvalid(BaseTestCase):
@@ -748,9 +619,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         self.assertTrue(result)
 
     @parameterized.expand([
-        param('en', {'pertain': 'it is a string', 'skip': ['']},
+        param('en', {'pertain': ['']},
               log_msg="Invalid 'pertain' token '' for 'en' language: expected not empty string"),
-        param('en', {'pertain': [''], 'skip': 'it is a string'},
+        param('en', {'pertain': 'it is a string'},
               log_msg="Invalid 'pertain' list for 'en' language: expected list type but have got str"),
     ])
     def test_validate_pertain_list_when_invalid(self, lang_id, lang_info, log_msg):

@@ -14,8 +14,6 @@ import six
 import dateparser
 from dateparser import date
 from dateparser.date import get_last_day_of_month
-from dateparser.languages.loader import LanguageDataLoader
-from dateparser.languages.loader import default_language_loader
 from dateparser.conf import settings
 
 from tests import BaseTestCase
@@ -364,20 +362,7 @@ class TestDateDataParser(BaseTestCase):
                                       (u'07.feb.2014 | 12:52', datetime(2014, 2, 7).date()),  # en, de, es, it, nl, ro
                                       (u'07.ene.2014 | 12:52', datetime(2014, 1, 7).date())])  # es
 
-        self.given_parser(restrict_to_languages=['en', 'de', 'fr', 'it', 'pt', 'nl', 'ro', 'es', 'ru'],
-                          allow_redetect_language=False)
-        self.when_multiple_dates_are_parsed(dates_to_parse.keys())
-        self.then_all_results_were_parsed()
-        self.then_parsed_dates_are(list(dates_to_parse.values()))
-
-    def test_should_enable_redetection_for_multiple_languages(self):
-        dates_to_parse = OrderedDict([(u'13 Ago, 2014', datetime(2014, 8, 13).date()),  # es, it, pt
-                                      (u'11 Marzo, 2014', datetime(2014, 3, 11).date()),  # es, it
-                                      (u'13 Septiembre, 2014', datetime(2014, 9, 13).date()),  # es
-                                      (u'13 Setembro, 2014', datetime(2014, 9, 13).date()),  # pt
-                                      (u'13 Março, 2014', datetime(2014, 3, 13).date())])  # pt
-
-        self.given_parser(restrict_to_languages=['es', 'it', 'pt'], allow_redetect_language=True)
+        self.given_parser(restrict_to_languages=['en', 'de', 'fr', 'it', 'pt', 'nl', 'ro', 'es', 'ru'])
         self.when_multiple_dates_are_parsed(dates_to_parse.keys())
         self.then_all_results_were_parsed()
         self.then_parsed_dates_are(list(dates_to_parse.values()))

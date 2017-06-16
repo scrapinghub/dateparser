@@ -1,11 +1,13 @@
 from nose_parameterized import parameterized, param
+from operator import attrgetter
+import six
+
 from dateparser.languages.loader import default_language_loader
 from tests import BaseTestCase
-from operator import attrgetter
 
-class TestLanguageDataLoader(BaseTestCase):
+class TestLoadingWithStrictOrder(BaseTestCase):
     def setUp(self):
-        super(TestLanguageDataLoader, self).setUp()
+        super(TestLoadingWithStrictOrder, self).setUp()
 
     @classmethod
     def setUpClass(cls):
@@ -28,8 +30,27 @@ class TestLanguageDataLoader(BaseTestCase):
     ])
     def test_loading_if_strict_order_is_True(self, given_languages, loaded_languages, expected_languages):
         self.load_data(given_languages, strict_order=True)
-        self.then_loaded_languages_are(loaded_languages)
         self.then_languages_are_yielded_in_order(expected_languages)
+        self.then_loaded_languages_are(loaded_languages)
+
+    def load_data(self, given_languages, strict_order):
+        self.language_generator = self.data_loader.get_languages(languages=given_languages, strict_order=strict_order)
+
+    def then_loaded_languages_are(self, loaded_languages):
+        six.assertCountEqual(self, loaded_languages, self.data_loader._data.keys())
+
+    def then_languages_are_yielded_in_order(self, expected_languages):
+        self.assertEqual(list(map(attrgetter('shortname'), list(self.language_generator))), expected_languages)
+
+
+class TestLoadingWithoutStrictOrder(BaseTestCase):
+    def setUp(self):
+        super(TestLoadingWithoutStrictOrder, self).setUp()
+
+    @classmethod
+    def setUpClass(cls):
+        cls.data_loader = default_language_loader
+        cls.data_loader._data = {}
 
     @parameterized.expand([
         param(given_languages=['es','fr','en'], loaded_languages=['en','es','fr'],
@@ -47,14 +68,14 @@ class TestLanguageDataLoader(BaseTestCase):
     ])
     def test_loading_if_strict_order_is_False(self, given_languages, loaded_languages, expected_languages):
         self.load_data(given_languages, strict_order=False)
-        self.then_loaded_languages_are(loaded_languages)
         self.then_languages_are_yielded_in_order(expected_languages)
+        self.then_loaded_languages_are(loaded_languages)
 
     def load_data(self, given_languages, strict_order):
         self.language_generator = self.data_loader.get_languages(languages=given_languages, strict_order=strict_order)
 
     def then_loaded_languages_are(self, loaded_languages):
-        self.assertEqual(set(loaded_languages),set(self.data_loader._data.keys()))
+        six.assertCountEqual(self, loaded_languages, self.data_loader._data.keys())
 
     def then_languages_are_yielded_in_order(self, expected_languages):
-        self.assertEqual(map(attrgetter(shortname), list(self.language_generator)), expected_languages)
+        self.assertEqual(list(map(attrgetter('shortname'), list(self.language_generator))), expected_languages)
