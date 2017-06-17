@@ -79,3 +79,51 @@ class TestLoadingWithoutStrictOrder(BaseTestCase):
 
     def then_languages_are_yielded_in_order(self, expected_languages):
         self.assertEqual(list(map(attrgetter('shortname'), list(self.language_generator))), expected_languages)
+
+
+class TestLanguageDataLoader(BaseTestCase):
+    def setUp(self):
+        super(TestLanguageDataLoader, self).setUp()
+        self.data_loader = default_language_loader
+        self.data_loader._data = {}
+
+    @parameterized.expand([
+        param(given_languages=['he','pt','en','es','uk']),
+        param(given_languages=['zh','uk','hi','es']),
+        param(given_languages=['ar','it','pt','uk']),
+        param(given_languages=['sv','ja','ar','fr','zh']),
+    ])
+    def test_loading_with_given_order(self, given_languages):
+        self.load_data(given_languages, strict_order=True, use_given_order=True)
+        self.then_languages_are_yielded_in_order(given_languages)
+
+    @parameterized.expand([
+        param(given_languages=['he','id','sv','ja']),
+        param(given_languages=['pt','ar','fr','es']),
+        param(given_languages=['bg','fi','cs']),
+    ])
+    def test_get_language_map_with_given_order(self, given_languages):
+        self.given_language_map(given_languages=given_languages, use_given_order=True)
+        self.then_language_map_in_order(given_languages)
+
+    @parameterized.expand([
+        param(given_languages=['cs','vi','ru','nl'], expected_languages=['cs','nl','ru','vi']),
+        param(given_languages=['uk','sv','hu','de'], expected_languages=['de','hu','sv','uk']),
+        param(given_languages=['da','th','ka','fa'], expected_languages=['da','fa','ka','th']),
+    ])
+    def test_get_language_map_without_given_order(self, given_languages, expected_languages):
+        self.given_language_map(given_languages=given_languages, use_given_order=False)
+        self.then_language_map_in_order(expected_languages)
+
+    def load_data(self, given_languages, strict_order, use_given_order):
+        self.language_generator = self.data_loader.get_languages(languages=given_languages, strict_order=strict_order,
+        use_given_order=use_given_order)
+
+    def given_language_map(self, given_languages, use_given_order):
+        self.language_map = self.data_loader.get_language_map(languages=given_languages, use_given_order=use_given_order)
+
+    def then_languages_are_yielded_in_order(self, expected_languages):
+        self.assertEqual(list(map(attrgetter('shortname'), list(self.language_generator))), expected_languages)
+
+    def then_language_map_in_order(self, expected_languages):
+        self.assertEqual(list(self.language_map.keys()), expected_languages)
