@@ -570,11 +570,81 @@ class TestDateDataParser(BaseTestCase):
         six.assertCountEqual(self, languages, [repr(l) for l in unknown_languages])
 
 
+class TestParserInitialization(BaseTestCase):
+    def setUp(self):
+        super(TestParserInitialization, self).setUp()
+        self.parser = NotImplemented
+
+    @parameterized.expand([
+        param(languages='en'),
+        param(languages={'languages':['en','he','it']}),
+    ])
+    def test_error_raised_for_invalid_languages_argument(self, languages):
+        self.when_parser_is_initialized(languages=languages)
+        self.then_error_was_raised(TypeError, ["languages argument must be a list (%r given)" % type(languages)])
+
+    @parameterized.expand([
+        param(try_previous_languages=['ar','pt','zh','uk']),
+        param(try_previous_languages='uk'),
+        param(try_previous_languages={'try_previous_languages': True}),
+        param(try_previous_languages=0),
+    ])
+    def test_error_raised_for_invalid_try_previous_languages_argument(self, try_previous_languages):
+        self.when_parser_is_initialized(try_previous_languages=try_previous_languages)
+        self.then_error_was_raised(TypeError, ["try_previous_languages must be a boolean (%r given)"
+                                    % type(try_previous_languages)])
+
+    @parameterized.expand([
+        param(strict_language_order=['ar','pt','zh','uk']),
+        param(strict_language_order='pt'),
+        param(strict_language_order={'strict_language_order': True}),
+        param(strict_language_order=1),
+    ])
+    def test_error_raised_for_invalid_strict_language_order_argument(self, strict_language_order):
+        self.when_parser_is_initialized(strict_language_order=strict_language_order)
+        self.then_error_was_raised(TypeError, ["strict_language_order must be a boolean (%r given)"
+                                    % type(strict_language_order)])
+
+    def when_parser_is_initialized(self, languages=None, try_previous_languages=True, strict_language_order=False):
+        try:
+            self.parser = date.DateDataParser(languages=languages, try_previous_languages=try_previous_languages,
+                                            strict_language_order=strict_language_order)
+        except Exception as error:
+            self.error = error
+
+
 class TestSanitizeDate(BaseTestCase):
     def test_remove_year_in_russian(self):
         self.assertEqual(date.sanitize_date(u'2005г.'), u'2005 ')
         self.assertEqual(date.sanitize_date(u'2005 г.'), u'2005 ')
         self.assertEqual(date.sanitize_date(u'Авг.'), u'Авг.')
+
+
+class TestDateLanguageParser(BaseTestCase):
+    def setUp(self):
+        super(TestDateLanguageParser, self).setUp()
+
+    @parameterized.expand([
+        param(date_obj={'date_obj': datetime(1999, 10, 1, 0, 0)}),
+        param(date_obj={'period': 'day'}),
+        param(date_obj={'date': datetime(2007, 1, 22, 0, 0), 'period': 'day'}),
+        param(date_obj={'period': 'hour'}),
+        param(date_obj=[datetime(2007, 1, 22, 0, 0), 'day']),
+        param(date_obj={'date_obj': None, 'period': 'day'}),
+    ])
+    def test_is_valid_date_obj(self, date_obj):
+        self.given_parser(language=['en'], date_string='10 jan 2000', date_formats=None, settings=settings)
+        self.when_date_object_is_validated(date_obj)
+        self.then_date_object_is_invalid()
+
+    def given_parser(self, language, date_string, date_formats, settings):
+        self.parser = date._DateLanguageParser(language, date_string, date_formats, settings)
+
+    def when_date_object_is_validated(self, date_obj):
+        self.is_valid_date_obj = self.parser._is_valid_date_obj(date_obj)
+
+    def then_date_object_is_invalid(self):
+        self.assertFalse(self.is_valid_date_obj)
 
 
 if __name__ == '__main__':

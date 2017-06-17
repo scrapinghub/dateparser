@@ -297,6 +297,12 @@ class DateDataParser(object):
         if not isinstance(languages, (list, tuple, collections.Set)) and languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
+        if not isinstance(try_previous_languages, bool):
+            raise TypeError("try_previous_languages must be a boolean (%r given)" % type(try_previous_languages))
+
+        if not isinstance(strict_language_order, bool):
+            raise TypeError("strict_language_order must be a boolean (%r given)" % type(strict_language_order))
+
         self._settings = settings
         self.try_previous_languages = try_previous_languages
         self.strict_language_order = strict_language_order
