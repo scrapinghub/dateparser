@@ -1,0 +1,288 @@
+{
+    "name": "ro", 
+    "date_order": "DMY", 
+    "january": [
+        "I", 
+        "ian.", 
+        "ianuarie"
+    ], 
+    "february": [
+        "februarie", 
+        "F", 
+        "feb."
+    ], 
+    "march": [
+        "M", 
+        "mar.", 
+        "martie"
+    ], 
+    "april": [
+        "A", 
+        "apr.", 
+        "aprilie"
+    ], 
+    "may": [
+        "mai", 
+        "M"
+    ], 
+    "june": [
+        "I", 
+        "iun.", 
+        "iunie"
+    ], 
+    "july": [
+        "iul.", 
+        "iulie", 
+        "I"
+    ], 
+    "august": [
+        "A", 
+        "august", 
+        "aug."
+    ], 
+    "september": [
+        "S", 
+        "sept.", 
+        "septembrie"
+    ], 
+    "october": [
+        "oct.", 
+        "octombrie", 
+        "O"
+    ], 
+    "november": [
+        "nov.", 
+        "noiembrie", 
+        "N"
+    ], 
+    "december": [
+        "dec.", 
+        "decembrie", 
+        "D"
+    ], 
+    "monday": [
+        "luni", 
+        "lun.", 
+        "L"
+    ], 
+    "tuesday": [
+        "mar.", 
+        "M", 
+        "marți"
+    ], 
+    "wednesday": [
+        "M", 
+        "miercuri", 
+        "mie."
+    ], 
+    "thursday": [
+        "joi", 
+        "J"
+    ], 
+    "friday": [
+        "vineri", 
+        "V", 
+        "vin."
+    ], 
+    "saturday": [
+        "sâmbătă", 
+        "S", 
+        "sâm."
+    ], 
+    "sunday": [
+        "dum.", 
+        "D", 
+        "duminică"
+    ], 
+    "year": [
+        "an"
+    ], 
+    "month": [
+        "lună"
+    ], 
+    "week": [
+        "săptămână", 
+        "săpt."
+    ], 
+    "day": [
+        "zi"
+    ], 
+    "hour": [
+        "h", 
+        "oră"
+    ], 
+    "minute": [
+        "minut", 
+        "m", 
+        "min."
+    ], 
+    "second": [
+        "s", 
+        "secundă", 
+        "sec."
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "anul trecut"
+        ], 
+        "0 year ago": [
+            "anul acesta"
+        ], 
+        "in 1 year": [
+            "anul viitor"
+        ], 
+        "1 month ago": [
+            "luna trecută"
+        ], 
+        "0 month ago": [
+            "luna aceasta"
+        ], 
+        "in 1 month": [
+            "luna viitoare"
+        ], 
+        "1 week ago": [
+            "săptămâna trecută"
+        ], 
+        "0 week ago": [
+            "săptămâna aceasta"
+        ], 
+        "in 1 week": [
+            "săptămâna viitoare"
+        ], 
+        "1 day ago": [
+            "ieri"
+        ], 
+        "0 day ago": [
+            "azi"
+        ], 
+        "in 1 day": [
+            "mâine"
+        ], 
+        "0 hour ago": [
+            "ora aceasta"
+        ], 
+        "0 minute ago": [
+            "minutul acesta"
+        ], 
+        "0 second ago": [
+            "acum"
+        ], 
+        "in \\1 year": [
+            "peste (\\d+) ani", 
+            "+(\\d+) ani", 
+            "peste (\\d+) de ani", 
+            "peste (\\d+) an", 
+            "+(\\d+) an"
+        ], 
+        "\\1 year ago": [
+            "acum (\\d+) de ani", 
+            "-(\\d+) an", 
+            "-(\\d+) ani", 
+            "acum (\\d+) an"
+        ], 
+        "in \\1 month": [
+            "+(\\d+) lună", 
+            "+(\\d+) luni", 
+            "peste (\\d+) de luni", 
+            "peste (\\d+) luni", 
+            "peste (\\d+) lună"
+        ], 
+        "\\1 month ago": [
+            "-(\\d+) luni", 
+            "acum (\\d+) lună", 
+            "-(\\d+) lună", 
+            "acum (\\d+) luni", 
+            "acum (\\d+) de luni"
+        ], 
+        "in \\1 week": [
+            "peste (\\d+) săpt.", 
+            "peste (\\d+) săptămână", 
+            "peste (\\d+) de săptămâni", 
+            "+(\\d+) săpt."
+        ], 
+        "\\1 week ago": [
+            "-(\\d+) săpt.", 
+            "acum (\\d+) săptămână", 
+            "acum (\\d+) săpt.", 
+            "acum (\\d+) de săptămâni"
+        ], 
+        "in \\1 day": [
+            "+(\\d+) zile", 
+            "+(\\d+) zi", 
+            "peste (\\d+) zi", 
+            "peste (\\d+) zile", 
+            "peste (\\d+) de zile"
+        ], 
+        "\\1 day ago": [
+            "acum (\\d+) zi", 
+            "acum (\\d+) de zile", 
+            "-(\\d+) zile", 
+            "acum (\\d+) zile", 
+            "-(\\d+) zi"
+        ], 
+        "in \\1 hour": [
+            "peste (\\d+) oră", 
+            "peste (\\d+) h", 
+            "peste (\\d+) de ore", 
+            "+(\\d+) h"
+        ], 
+        "\\1 hour ago": [
+            "acum (\\d+) h", 
+            "-(\\d+) h", 
+            "acum (\\d+) de ore", 
+            "acum (\\d+) oră"
+        ], 
+        "in \\1 minute": [
+            "+(\\d+) m", 
+            "peste (\\d+) min.", 
+            "peste (\\d+) minut", 
+            "peste (\\d+) de minute"
+        ], 
+        "\\1 minute ago": [
+            "acum (\\d+) minut", 
+            "acum (\\d+) min.", 
+            "acum (\\d+) de minute", 
+            "-(\\d+) m"
+        ], 
+        "in \\1 second": [
+            "+(\\d+) s", 
+            "peste (\\d+) de secunde", 
+            "peste (\\d+) sec.", 
+            "peste (\\d+) secundă"
+        ], 
+        "\\1 second ago": [
+            "-(\\d+) s", 
+            "acum (\\d+) de secunde", 
+            "acum (\\d+) secundă", 
+            "acum (\\d+) sec."
+        ]
+    }, 
+    "locale_specific": {
+        "ro-MD": {
+            "name": "ro-MD", 
+            "monday": [
+                "Lun"
+            ], 
+            "tuesday": [
+                "Mar", 
+                "Ma"
+            ], 
+            "wednesday": [
+                "Mi", 
+                "Mie"
+            ], 
+            "thursday": [
+                "Joi"
+            ], 
+            "friday": [
+                "Vin"
+            ], 
+            "saturday": [
+                "Sâm"
+            ], 
+            "sunday": [
+                "Dum"
+            ]
+        }
+    }
+}

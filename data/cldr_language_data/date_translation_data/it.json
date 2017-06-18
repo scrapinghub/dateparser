@@ -1,0 +1,260 @@
+{
+    "name": "it", 
+    "date_order": "DMY", 
+    "january": [
+        "gennaio", 
+        "gen", 
+        "G"
+    ], 
+    "february": [
+        "febbraio", 
+        "feb", 
+        "F"
+    ], 
+    "march": [
+        "M", 
+        "mar", 
+        "marzo"
+    ], 
+    "april": [
+        "apr", 
+        "A", 
+        "aprile"
+    ], 
+    "may": [
+        "maggio", 
+        "M", 
+        "mag"
+    ], 
+    "june": [
+        "giu", 
+        "G", 
+        "giugno"
+    ], 
+    "july": [
+        "luglio", 
+        "L", 
+        "lug"
+    ], 
+    "august": [
+        "ago", 
+        "A", 
+        "agosto"
+    ], 
+    "september": [
+        "settembre", 
+        "set", 
+        "S"
+    ], 
+    "october": [
+        "ottobre", 
+        "ott", 
+        "O"
+    ], 
+    "november": [
+        "novembre", 
+        "nov", 
+        "N"
+    ], 
+    "december": [
+        "dicembre", 
+        "D", 
+        "dic"
+    ], 
+    "monday": [
+        "lunedì", 
+        "L", 
+        "lun"
+    ], 
+    "tuesday": [
+        "mar", 
+        "M", 
+        "martedì"
+    ], 
+    "wednesday": [
+        "mercoledì", 
+        "M", 
+        "mer"
+    ], 
+    "thursday": [
+        "gio", 
+        "G", 
+        "giovedì"
+    ], 
+    "friday": [
+        "ven", 
+        "venerdì", 
+        "V"
+    ], 
+    "saturday": [
+        "sab", 
+        "sabato", 
+        "S"
+    ], 
+    "sunday": [
+        "domenica", 
+        "D", 
+        "dom"
+    ], 
+    "year": [
+        "anno"
+    ], 
+    "month": [
+        "mese"
+    ], 
+    "week": [
+        "settimana", 
+        "sett."
+    ], 
+    "day": [
+        "giorno", 
+        "g"
+    ], 
+    "hour": [
+        "h", 
+        "h.", 
+        "ora"
+    ], 
+    "minute": [
+        "m", 
+        "minuto", 
+        "min."
+    ], 
+    "second": [
+        "s", 
+        "secondo", 
+        "sec."
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "anno scorso"
+        ], 
+        "0 year ago": [
+            "quest’anno"
+        ], 
+        "in 1 year": [
+            "anno prossimo"
+        ], 
+        "1 month ago": [
+            "mese scorso"
+        ], 
+        "0 month ago": [
+            "questo mese"
+        ], 
+        "in 1 month": [
+            "mese prossimo"
+        ], 
+        "1 week ago": [
+            "settimana scorsa"
+        ], 
+        "0 week ago": [
+            "questa settimana"
+        ], 
+        "in 1 week": [
+            "settimana prossima"
+        ], 
+        "1 day ago": [
+            "ieri"
+        ], 
+        "0 day ago": [
+            "oggi"
+        ], 
+        "in 1 day": [
+            "domani"
+        ], 
+        "0 hour ago": [
+            "quest’ora"
+        ], 
+        "0 minute ago": [
+            "questo minuto"
+        ], 
+        "0 second ago": [
+            "ora"
+        ], 
+        "in \\1 year": [
+            "tra (\\d+) anni", 
+            "tra (\\d+) anno"
+        ], 
+        "\\1 year ago": [
+            "(\\d+) anni fa", 
+            "(\\d+) anno fa"
+        ], 
+        "in \\1 month": [
+            "tra (\\d+) mesi", 
+            "tra (\\d+) mese"
+        ], 
+        "\\1 month ago": [
+            "(\\d+) mese fa", 
+            "(\\d+) mesi fa"
+        ], 
+        "in \\1 week": [
+            "tra (\\d+) settimana", 
+            "tra (\\d+) sett.", 
+            "tra (\\d+) settimane"
+        ], 
+        "\\1 week ago": [
+            "(\\d+) settimana fa", 
+            "(\\d+) sett. fa", 
+            "(\\d+) settimane fa"
+        ], 
+        "in \\1 day": [
+            "tra (\\d+) g", 
+            "tra (\\d+) giorno", 
+            "tra (\\d+) gg", 
+            "tra (\\d+) giorni"
+        ], 
+        "\\1 day ago": [
+            "(\\d+) giorni fa", 
+            "(\\d+) g fa", 
+            "(\\d+) giorno fa", 
+            "(\\d+) gg fa"
+        ], 
+        "in \\1 hour": [
+            "tra (\\d+) ora", 
+            "tra (\\d+) h", 
+            "tra (\\d+) ore", 
+            "tra (\\d+) h."
+        ], 
+        "\\1 hour ago": [
+            "(\\d+) h fa", 
+            "(\\d+) h. fa", 
+            "(\\d+) ora fa", 
+            "(\\d+) ore fa"
+        ], 
+        "in \\1 minute": [
+            "tra (\\d+) minuti", 
+            "tra (\\d+) min.", 
+            "tra (\\d+) min", 
+            "tra (\\d+) minuto"
+        ], 
+        "\\1 minute ago": [
+            "(\\d+) minuti fa", 
+            "(\\d+) min. fa", 
+            "(\\d+) minuto fa", 
+            "(\\d+) min fa"
+        ], 
+        "in \\1 second": [
+            "tra (\\d+) sec.", 
+            "tra (\\d+) secondo", 
+            "tra (\\d+) s", 
+            "tra (\\d+) secondi"
+        ], 
+        "\\1 second ago": [
+            "(\\d+) secondi fa", 
+            "(\\d+) sec. fa", 
+            "(\\d+) s fa", 
+            "(\\d+) secondo fa"
+        ]
+    }, 
+    "locale_specific": {
+        "it-CH": {
+            "name": "it-CH"
+        }, 
+        "it-SM": {
+            "name": "it-SM"
+        }, 
+        "it-VA": {
+            "name": "it-VA"
+        }
+    }
+}

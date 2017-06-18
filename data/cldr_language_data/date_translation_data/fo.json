@@ -1,0 +1,271 @@
+{
+    "name": "fo", 
+    "date_order": "DMY", 
+    "january": [
+        "jan", 
+        "jan.", 
+        "J", 
+        "januar"
+    ], 
+    "february": [
+        "feb.", 
+        "feb", 
+        "februar", 
+        "F"
+    ], 
+    "march": [
+        "mar.", 
+        "mar", 
+        "M", 
+        "mars"
+    ], 
+    "april": [
+        "apr", 
+        "A", 
+        "apr.", 
+        "apríl"
+    ], 
+    "may": [
+        "mai", 
+        "M"
+    ], 
+    "june": [
+        "juni", 
+        "J", 
+        "jun", 
+        "jun."
+    ], 
+    "july": [
+        "juli", 
+        "J", 
+        "jul.", 
+        "jul"
+    ], 
+    "august": [
+        "A", 
+        "august", 
+        "aug", 
+        "aug."
+    ], 
+    "september": [
+        "september", 
+        "S", 
+        "sep.", 
+        "sep"
+    ], 
+    "october": [
+        "okt.", 
+        "oktober", 
+        "okt", 
+        "O"
+    ], 
+    "november": [
+        "nov.", 
+        "november", 
+        "nov", 
+        "N"
+    ], 
+    "december": [
+        "desember", 
+        "des.", 
+        "des", 
+        "D"
+    ], 
+    "monday": [
+        "mánadagur", 
+        "M", 
+        "mán.", 
+        "mán"
+    ], 
+    "tuesday": [
+        "týs.", 
+        "týs", 
+        "týsdagur", 
+        "T"
+    ], 
+    "wednesday": [
+        "mik.", 
+        "mik", 
+        "M", 
+        "mikudagur"
+    ], 
+    "thursday": [
+        "hós", 
+        "hósdagur", 
+        "hós.", 
+        "H"
+    ], 
+    "friday": [
+        "frí.", 
+        "fríggjadagur", 
+        "frí", 
+        "F"
+    ], 
+    "saturday": [
+        "ley", 
+        "leygardagur", 
+        "ley.", 
+        "L"
+    ], 
+    "sunday": [
+        "sunnudagur", 
+        "sun", 
+        "S", 
+        "sun."
+    ], 
+    "year": [
+        "ár"
+    ], 
+    "month": [
+        "mnð.", 
+        "mánaður"
+    ], 
+    "week": [
+        "vika", 
+        "vi.", 
+        "v."
+    ], 
+    "day": [
+        "dagur", 
+        "d.", 
+        "da."
+    ], 
+    "hour": [
+        "t.", 
+        "tími"
+    ], 
+    "minute": [
+        "minuttur", 
+        "m.", 
+        "min."
+    ], 
+    "second": [
+        "sekund", 
+        "s.", 
+        "sek."
+    ], 
+    "relative-type": {
+        "1 year ago": [
+            "í fjør"
+        ], 
+        "0 year ago": [
+            "í ár"
+        ], 
+        "in 1 year": [
+            "næsta ár"
+        ], 
+        "1 month ago": [
+            "seinasta mánað"
+        ], 
+        "0 month ago": [
+            "henda mánaðin"
+        ], 
+        "in 1 month": [
+            "næsta mánað"
+        ], 
+        "1 week ago": [
+            "seinastu viku"
+        ], 
+        "0 week ago": [
+            "hesu viku"
+        ], 
+        "in 1 week": [
+            "næstu viku"
+        ], 
+        "1 day ago": [
+            "í gjár"
+        ], 
+        "0 day ago": [
+            "í dag"
+        ], 
+        "in 1 day": [
+            "í morgin"
+        ], 
+        "0 hour ago": [
+            "hendan tíman"
+        ], 
+        "0 minute ago": [
+            "hendan minuttin"
+        ], 
+        "0 second ago": [
+            "nú"
+        ], 
+        "in \\1 year": [
+            "um (\\d+) ár"
+        ], 
+        "\\1 year ago": [
+            "(\\d+) ár síðan"
+        ], 
+        "in \\1 month": [
+            "um (\\d+) mnð.", 
+            "um (\\d+) mánaðir", 
+            "um (\\d+) mánað"
+        ], 
+        "\\1 month ago": [
+            "(\\d+) mánaðir síðan", 
+            "(\\d+) mnð. síðan", 
+            "(\\d+) mánað síðan"
+        ], 
+        "in \\1 week": [
+            "um (\\d+) viku", 
+            "um (\\d+) vi.", 
+            "um (\\d+) vikur", 
+            "um (\\d+) v."
+        ], 
+        "\\1 week ago": [
+            "(\\d+) vi. síðan", 
+            "(\\d+) vikur síðan", 
+            "(\\d+) v. síðan", 
+            "(\\d+) vika síðan"
+        ], 
+        "in \\1 day": [
+            "um (\\d+) dagar", 
+            "um (\\d+) d.", 
+            "um (\\d+) dag", 
+            "um (\\d+) da."
+        ], 
+        "\\1 day ago": [
+            "(\\d+) dagar síðan", 
+            "(\\d+) d. síðan", 
+            "(\\d+) dagur síðan", 
+            "(\\d+) da. síðan"
+        ], 
+        "in \\1 hour": [
+            "um (\\d+) tíma", 
+            "um (\\d+) tímar", 
+            "um (\\d+) t."
+        ], 
+        "\\1 hour ago": [
+            "(\\d+) tími síðan", 
+            "(\\d+) tímar síðan", 
+            "(\\d+) t. síðan"
+        ], 
+        "in \\1 minute": [
+            "um (\\d+) minutt", 
+            "um (\\d+) min.", 
+            "um (\\d+) m.", 
+            "um (\\d+) minuttir"
+        ], 
+        "\\1 minute ago": [
+            "(\\d+) minuttir síðan", 
+            "(\\d+) minutt síðan", 
+            "(\\d+) min. síðan", 
+            "(\\d+) m. síðan"
+        ], 
+        "in \\1 second": [
+            "um (\\d+) s.", 
+            "um (\\d+) sekund", 
+            "um (\\d+) sek."
+        ], 
+        "\\1 second ago": [
+            "(\\d+) s. síðan", 
+            "(\\d+) sek. síðan", 
+            "(\\d+) sekund síðan"
+        ]
+    }, 
+    "locale_specific": {
+        "fo-DK": {
+            "name": "fo-DK"
+        }
+    }
+}
