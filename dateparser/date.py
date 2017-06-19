@@ -293,19 +293,27 @@ class DateDataParser(object):
     language_loader = None
 
     @apply_settings
-    def __init__(self, languages=None, try_previous_languages=True, strict_language_order=False, settings=None):
+    def __init__(self, languages=None, try_previous_languages=True, strict_language_order=False,
+    use_given_order = False, settings=None):
         if not isinstance(languages, (list, tuple, collections.Set)) and languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
         if not isinstance(try_previous_languages, bool):
-            raise TypeError("try_previous_languages must be a boolean (%r given)" % type(try_previous_languages))
+            raise TypeError("try_previous_languages argument must be a boolean (%r given)" % type(try_previous_languages))
 
         if not isinstance(strict_language_order, bool):
-            raise TypeError("strict_language_order must be a boolean (%r given)" % type(strict_language_order))
+            raise TypeError("strict_language_order argument must be a boolean (%r given)" % type(strict_language_order))
+
+        if not isinstance(use_given_order, bool):
+            raise TypeError("use_given_order argument must be a boolean (%r given)" % type(use_given_order))
+
+        if not languages and use_given_order:
+            raise ValueError("languages must be given if use_given_order is True")
 
         self._settings = settings
         self.try_previous_languages = try_previous_languages
         self.strict_language_order = strict_language_order
+        self.use_given_order = use_given_order
         self.languages = languages
         self.previous_languages = []
         self.language_detector = LanguageDetector(try_previous_languages=try_previous_languages)
@@ -357,7 +365,7 @@ class DateDataParser(object):
             raise TypeError('Input type must be str or unicode')
 
         self.language_generator = self._get_language_loader().get_languages(languages=self.languages,
-                                                              strict_order=self.strict_language_order)
+        strict_order=self.strict_language_order, use_given_order=self.use_given_order)
 
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:

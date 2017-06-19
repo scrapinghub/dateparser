@@ -591,7 +591,7 @@ class TestParserInitialization(BaseTestCase):
     ])
     def test_error_raised_for_invalid_try_previous_languages_argument(self, try_previous_languages):
         self.when_parser_is_initialized(try_previous_languages=try_previous_languages)
-        self.then_error_was_raised(TypeError, ["try_previous_languages must be a boolean (%r given)"
+        self.then_error_was_raised(TypeError, ["try_previous_languages argument must be a boolean (%r given)"
                                     % type(try_previous_languages)])
 
     @parameterized.expand([
@@ -602,13 +602,29 @@ class TestParserInitialization(BaseTestCase):
     ])
     def test_error_raised_for_invalid_strict_language_order_argument(self, strict_language_order):
         self.when_parser_is_initialized(strict_language_order=strict_language_order)
-        self.then_error_was_raised(TypeError, ["strict_language_order must be a boolean (%r given)"
+        self.then_error_was_raised(TypeError, ["strict_language_order argument must be a boolean (%r given)"
                                     % type(strict_language_order)])
 
-    def when_parser_is_initialized(self, languages=None, try_previous_languages=True, strict_language_order=False):
+    @parameterized.expand([
+        param(use_given_order=['da','pt','ja','sv']),
+        param(use_given_order='uk'),
+        param(use_given_order={'use_given_order': True}),
+        param(use_given_order=1),
+    ])
+    def test_error_raised_for_invalid_use_given_order_argument(self, use_given_order):
+        self.when_parser_is_initialized(languages=['en','es'], use_given_order=use_given_order)
+        self.then_error_was_raised(TypeError, ["use_given_order argument must be a boolean (%r given)"
+                                    % type(use_given_order)])
+
+    def test_error_is_raised_when_use_given_order_is_True_and_languages_is_None(self):
+        self.when_parser_is_initialized(use_given_order=True)
+        self.then_error_was_raised(ValueError, ["languages must be given if use_given_order is True"])
+
+    def when_parser_is_initialized(self, languages=None, try_previous_languages=True, strict_language_order=False,
+    use_given_order=False):
         try:
             self.parser = date.DateDataParser(languages=languages, try_previous_languages=try_previous_languages,
-                                            strict_language_order=strict_language_order)
+                                    strict_language_order=strict_language_order, use_given_order=use_given_order)
         except Exception as error:
             self.error = error
 

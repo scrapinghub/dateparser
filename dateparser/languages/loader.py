@@ -35,6 +35,8 @@ class LanguageDataLoader(object):
             raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
         languages_to_load = list(set(languages) - set(self._data.keys()))
         loaded_languages = list(set(languages) - set(languages_to_load))
+        languages_to_load.sort(key = self.language_order.index)
+        loaded_languages.sort(key = self.language_order.index)
 
         if strict_order:
             if not use_given_order:
@@ -50,9 +52,9 @@ class LanguageDataLoader(object):
                         self._data[shortname] = language
                         yield shortname, language
         else:
-            if not use_given_order:
-                languages_to_load.sort(key = self.language_order.index)
-                loaded_languages.sort(key = self.language_order.index)
+            if use_given_order:
+                languages_to_load.sort(key = languages.index)
+                loaded_languages.sort(key = languages.index)
             for shortname in loaded_languages:
                 yield shortname, self._data[shortname]
             for shortname in languages_to_load:
