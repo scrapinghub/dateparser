@@ -93,9 +93,22 @@ class TestLanguageDataLoader(BaseTestCase):
         param(given_languages=['ar','it','pt','uk']),
         param(given_languages=['sv','ja','ar','fr','zh']),
     ])
-    def test_loading_with_given_order(self, given_languages):
+    def test_loading_with_given_order_with_strict_order(self, given_languages):
         self.load_data(given_languages, strict_order=True, use_given_order=True)
         self.then_languages_are_yielded_in_order(given_languages)
+
+    @parameterized.expand([
+        param(given_languages=['he','pt','id','zh'], stored_languages=['en','es','zh'],
+        expected_languages=['zh','he','pt','id']),
+        param(given_languages=['ar','it','uk','da'], stored_languages=['en','it','da','fr'],
+        expected_languages=['it','da','ar','uk']),
+        param(given_languages=['hi','fr','ja','ka'], stored_languages=['ja','es','hi','sv'],
+        expected_languages=['hi','ja','fr','ka']),
+    ])
+    def test_loading_with_given_order_without_strict_order(self, given_languages, stored_languages, expected_languages):
+        self.data_loader._data = self.data_loader.get_language_map(languages=stored_languages)
+        self.load_data(given_languages, strict_order=False, use_given_order=True)
+        self.then_languages_are_yielded_in_order(expected_languages)
 
     @parameterized.expand([
         param(given_languages=['he','id','sv','ja']),
