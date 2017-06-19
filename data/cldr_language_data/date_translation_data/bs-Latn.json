@@ -102,6 +102,12 @@
         "N", 
         "n"
     ], 
+    "am": [
+        "prijepodne"
+    ], 
+    "pm": [
+        "popodne"
+    ], 
     "year": [
         "g.", 
         "god.", 

@@ -82,6 +82,14 @@
         "Linggo", 
         "Lin"
     ], 
+    "am": [
+        "am", 
+        "AM"
+    ], 
+    "pm": [
+        "pm", 
+        "PM"
+    ], 
     "year": [
         "taon"
     ], 

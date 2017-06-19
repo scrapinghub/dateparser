@@ -96,6 +96,12 @@
         "Sande", 
         "SAN"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "Omwaka"
     ], 

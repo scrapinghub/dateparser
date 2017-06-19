@@ -93,6 +93,12 @@
         "dimans", 
         "d"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "Lane"
     ], 

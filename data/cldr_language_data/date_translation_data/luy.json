@@ -95,6 +95,12 @@
         "Jumapiri", 
         "J2"
     ], 
+    "am": [
+        "a.m."
+    ], 
+    "pm": [
+        "p.m."
+    ], 
     "year": [
         "Muhiga"
     ], 

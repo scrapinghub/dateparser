@@ -85,6 +85,12 @@
         "P", 
         "pühapäev"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "a", 
         "aasta"

@@ -127,6 +127,12 @@
         "sunnuntai", 
         "su"
     ], 
+    "am": [
+        "ap."
+    ], 
+    "pm": [
+        "ip."
+    ], 
     "year": [
         "vuosi", 
         "v"

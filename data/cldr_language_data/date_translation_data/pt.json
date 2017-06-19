@@ -96,6 +96,12 @@
         "D", 
         "dom"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "ano"
     ], 
@@ -275,6 +281,16 @@
             "friday": [
                 "sexta"
             ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
+            ], 
             "minute": [
                 "min"
             ], 
@@ -337,6 +353,16 @@
             ], 
             "friday": [
                 "sexta"
+            ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
             ], 
             "minute": [
                 "min"
@@ -401,6 +427,16 @@
             "friday": [
                 "sexta"
             ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
+            ], 
             "minute": [
                 "min"
             ], 
@@ -463,6 +499,16 @@
             ], 
             "friday": [
                 "sexta"
+            ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
             ], 
             "minute": [
                 "min"
@@ -527,6 +573,16 @@
             "friday": [
                 "sexta"
             ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
+            ], 
             "minute": [
                 "min"
             ], 
@@ -589,6 +645,16 @@
             ], 
             "friday": [
                 "sexta"
+            ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
             ], 
             "minute": [
                 "min"
@@ -653,6 +719,16 @@
             "friday": [
                 "sexta"
             ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
+            ], 
             "minute": [
                 "min"
             ], 
@@ -715,6 +791,16 @@
             ], 
             "friday": [
                 "sexta"
+            ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
             ], 
             "minute": [
                 "min"
@@ -779,6 +865,16 @@
             "friday": [
                 "sexta"
             ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
+            ], 
             "minute": [
                 "min"
             ], 
@@ -842,6 +938,16 @@
             "friday": [
                 "sexta"
             ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
+            ], 
             "minute": [
                 "min"
             ], 
@@ -904,6 +1010,16 @@
             ], 
             "friday": [
                 "sexta"
+            ], 
+            "am": [
+                "manhã", 
+                "a.m.", 
+                "da manhã"
+            ], 
+            "pm": [
+                "tarde", 
+                "da tarde", 
+                "p.m."
             ], 
             "minute": [
                 "min"

@@ -110,6 +110,14 @@
         "Sonntag", 
         "So."
     ], 
+    "am": [
+        "vm.", 
+        "vorm."
+    ], 
+    "pm": [
+        "nm.", 
+        "nachm."
+    ], 
     "year": [
         "Jahr", 
         "J"

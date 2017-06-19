@@ -96,6 +96,12 @@
         "L", 
         "Lahadi"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "Shekara"
     ], 

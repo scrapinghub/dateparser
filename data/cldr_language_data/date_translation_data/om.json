@@ -96,6 +96,12 @@
         "Dilbata", 
         "S"
     ], 
+    "am": [
+        "WD"
+    ], 
+    "pm": [
+        "WB"
+    ], 
     "year": [
         "Year"
     ], 

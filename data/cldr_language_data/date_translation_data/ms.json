@@ -93,6 +93,14 @@
         "A", 
         "Ahd"
     ], 
+    "am": [
+        "a", 
+        "PG"
+    ], 
+    "pm": [
+        "PTG", 
+        "p"
+    ], 
     "year": [
         "thn", 
         "Tahun"

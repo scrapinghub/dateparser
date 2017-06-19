@@ -120,6 +120,14 @@
         "nje", 
         "n"
     ], 
+    "am": [
+        "dop.", 
+        "dopołdnja"
+    ], 
+    "pm": [
+        "popołdnju", 
+        "pop."
+    ], 
     "year": [
         "lěto", 
         "l."

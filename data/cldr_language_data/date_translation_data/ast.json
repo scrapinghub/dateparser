@@ -120,6 +120,18 @@
         "domingu", 
         "dom"
     ], 
+    "am": [
+        "a", 
+        "AM", 
+        "mañana", 
+        "de la mañana"
+    ], 
+    "pm": [
+        "tarde", 
+        "de la tarde", 
+        "p", 
+        "PM"
+    ], 
     "year": [
         "añu"
     ], 

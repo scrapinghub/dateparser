@@ -93,6 +93,14 @@
         "nedelja", 
         "n"
     ], 
+    "am": [
+        "pre podne", 
+        "a"
+    ], 
+    "pm": [
+        "p", 
+        "po podne"
+    ], 
     "year": [
         "g.", 
         "god.", 
@@ -297,6 +305,9 @@
             "sunday": [
                 "nedjelja", 
                 "ned."
+            ], 
+            "am": [
+                "prije podne"
             ]
         }, 
         "sr-Latn-ME": {
@@ -347,6 +358,9 @@
             "sunday": [
                 "nedjelja", 
                 "ned."
+            ], 
+            "am": [
+                "prije podne"
             ]
         }, 
         "sr-Latn-XK": {

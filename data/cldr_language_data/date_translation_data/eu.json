@@ -114,6 +114,12 @@
         "igandea", 
         "Igandea"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "urtea"
     ], 

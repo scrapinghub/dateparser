@@ -88,6 +88,16 @@
         "Jumapili", 
         "S"
     ], 
+    "am": [
+        "am", 
+        "Asubuhi", 
+        "AM"
+    ], 
+    "pm": [
+        "pm", 
+        "Mchana", 
+        "PM"
+    ], 
     "year": [
         "mwaka"
     ], 

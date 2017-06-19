@@ -94,6 +94,14 @@
         "Dé Domhnaigh", 
         "D"
     ], 
+    "am": [
+        "a", 
+        "a.m."
+    ], 
+    "pm": [
+        "p", 
+        "p.m."
+    ], 
     "year": [
         "bl.", 
         "Bliain"

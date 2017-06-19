@@ -96,6 +96,14 @@
         "S", 
         "Sul"
     ], 
+    "am": [
+        "yb", 
+        "b"
+    ], 
+    "pm": [
+        "yh", 
+        "h"
+    ], 
     "year": [
         "blwyddyn", 
         "bl."

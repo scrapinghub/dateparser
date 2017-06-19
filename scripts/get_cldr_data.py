@@ -193,6 +193,19 @@ def retrieve_locale_data(locale):
                                     gregorian_dict.get("days").get("format").get("abbreviated").get("sun"),
                                     gregorian_dict.get("days").get("format").get("narrow").get("sun")]))
 
+    json_dict["am"] = list(set([gregorian_dict.get("dayPeriods").get("stand-alone").get("wide").get("am"),
+                                    gregorian_dict.get("dayPeriods").get("stand-alone").get("abbreviated").get("am"),
+                                    gregorian_dict.get("dayPeriods").get("stand-alone").get("narrow").get("am"),
+                                    gregorian_dict.get("dayPeriods").get("format").get("wide").get("am"),
+                                    gregorian_dict.get("dayPeriods").get("format").get("abbreviated").get("am"),
+                                    gregorian_dict.get("dayPeriods").get("format").get("narrow").get("am")]))
+
+    json_dict["pm"] = list(set([gregorian_dict.get("dayPeriods").get("stand-alone").get("wide").get("pm"),
+                                    gregorian_dict.get("dayPeriods").get("stand-alone").get("abbreviated").get("pm"),
+                                    gregorian_dict.get("dayPeriods").get("stand-alone").get("narrow").get("pm"),
+                                    gregorian_dict.get("dayPeriods").get("format").get("wide").get("pm"),
+                                    gregorian_dict.get("dayPeriods").get("format").get("abbreviated").get("pm"),
+                                    gregorian_dict.get("dayPeriods").get("format").get("narrow").get("pm")]))
 
     json_dict["year"] = list(set([date_fields_dict.get("year").get("displayName"),
                                   date_fields_dict.get("year-short").get("displayName"),

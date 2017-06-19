@@ -108,6 +108,17 @@
         "Svētdiena", 
         "svētd."
     ], 
+    "am": [
+        "priekšpusdienā", 
+        "priekšpusdiena", 
+        "priekšp."
+    ], 
+    "pm": [
+        "pēcpusdienā", 
+        "pēcpusd.", 
+        "pēcpusdiena", 
+        "pēcp."
+    ], 
     "year": [
         "g.", 
         "gads"

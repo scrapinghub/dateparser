@@ -96,6 +96,12 @@
         "S", 
         "sabaat"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "Year"
     ], 

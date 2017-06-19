@@ -110,6 +110,14 @@
         "sø.", 
         "søn"
     ], 
+    "am": [
+        "f.m.", 
+        "formiddag"
+    ], 
+    "pm": [
+        "e.m.", 
+        "ettermiddag"
+    ], 
     "year": [
         "år"
     ], 

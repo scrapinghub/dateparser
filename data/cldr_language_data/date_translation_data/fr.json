@@ -92,6 +92,12 @@
         "D", 
         "dimanche"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "a", 
         "année", 
@@ -273,6 +279,14 @@
             "july": [
                 "juill."
             ], 
+            "am": [
+                "a", 
+                "a.m."
+            ], 
+            "pm": [
+                "p", 
+                "p.m."
+            ], 
             "relative-type": {
                 "in \\1 year": [
                     "Dans (\\d+) an", 
@@ -309,7 +323,14 @@
             "name": "fr-CI"
         }, 
         "fr-CM": {
-            "name": "fr-CM"
+            "name": "fr-CM", 
+            "am": [
+                "mat.", 
+                "matin"
+            ], 
+            "pm": [
+                "soir"
+            ]
         }, 
         "fr-DJ": {
             "name": "fr-DJ"
@@ -366,6 +387,12 @@
             ], 
             "june": [
                 "jui."
+            ], 
+            "am": [
+                "a.m."
+            ], 
+            "pm": [
+                "p.m."
             ]
         }, 
         "fr-MC": {

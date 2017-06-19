@@ -95,6 +95,16 @@
         "S", 
         "Sunntig"
     ], 
+    "am": [
+        "Vormittag", 
+        "vorm.", 
+        "am Vormittag"
+    ], 
+    "pm": [
+        "am Namittag", 
+        "Namittag", 
+        "nam."
+    ], 
     "year": [
         "Jaar"
     ], 

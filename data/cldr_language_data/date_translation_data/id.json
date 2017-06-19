@@ -95,6 +95,12 @@
         "M", 
         "Min"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "Tahun", 
         "thn."

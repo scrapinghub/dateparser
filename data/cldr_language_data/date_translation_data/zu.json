@@ -98,6 +98,14 @@
         "ISonto", 
         "Son"
     ], 
+    "am": [
+        "a", 
+        "AM"
+    ], 
+    "pm": [
+        "p", 
+        "PM"
+    ], 
     "year": [
         "Unyaka"
     ], 

@@ -108,6 +108,14 @@
         "sekmadienis", 
         "S"
     ], 
+    "am": [
+        "pr. p.", 
+        "priešpiet"
+    ], 
+    "pm": [
+        "pop.", 
+        "popiet"
+    ], 
     "year": [
         "metai", 
         "m."

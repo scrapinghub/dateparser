@@ -92,6 +92,16 @@
         "S", 
         "söndag"
     ], 
+    "am": [
+        "förmiddag", 
+        "fm", 
+        "f.m."
+    ], 
+    "pm": [
+        "e.m.", 
+        "em", 
+        "eftermiddag"
+    ], 
     "year": [
         "år"
     ], 

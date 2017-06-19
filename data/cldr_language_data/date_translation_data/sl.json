@@ -95,6 +95,16 @@
         "nedelja", 
         "n"
     ], 
+    "am": [
+        "dop.", 
+        "dopoldne", 
+        "d"
+    ], 
+    "pm": [
+        "p", 
+        "pop.", 
+        "popoldne"
+    ], 
     "year": [
         "leto"
     ], 

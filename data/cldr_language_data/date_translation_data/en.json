@@ -95,6 +95,14 @@
         "Sunday", 
         "S"
     ], 
+    "am": [
+        "a", 
+        "AM"
+    ], 
+    "pm": [
+        "p", 
+        "PM"
+    ], 
     "year": [
         "yr.", 
         "year"
@@ -613,6 +621,12 @@
             "sunday": [
                 "Su.", 
                 "Sun."
+            ], 
+            "am": [
+                "am"
+            ], 
+            "pm": [
+                "pm"
             ], 
             "year": [
                 "yr"
@@ -2007,6 +2021,12 @@
         "en-GB": {
             "name": "en-GB", 
             "date_order": "DMY", 
+            "am": [
+                "am"
+            ], 
+            "pm": [
+                "pm"
+            ], 
             "year": [
                 "yr"
             ], 
@@ -2490,6 +2510,12 @@
         "en-IE": {
             "name": "en-IE", 
             "date_order": "DMY", 
+            "am": [
+                "a.m."
+            ], 
+            "pm": [
+                "p.m."
+            ], 
             "year": [
                 "yr"
             ], 

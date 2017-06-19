@@ -96,6 +96,12 @@
         "S", 
         "Son"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "Umnyaka"
     ], 

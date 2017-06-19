@@ -96,6 +96,12 @@
         "S", 
         "Sabbiiti"
     ], 
+    "am": [
+        "AM"
+    ], 
+    "pm": [
+        "PM"
+    ], 
     "year": [
         "Mwaka"
     ], 
