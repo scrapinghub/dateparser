@@ -2,6 +2,8 @@ name: Danish
 
 dateorder: DMY
 
+sentence_splitter_group : 1
+
 skip: ["kl", "kl.", "cirka", "d."]
 
 monday:

@@ -2,6 +2,8 @@ name: Ukrainian
 
 dateorder: DMY
 
+sentence_splitter_group : 1
+
 skip: ["близько", "о", "об", "і"]
 
 monday:

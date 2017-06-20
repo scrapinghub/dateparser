@@ -12,7 +12,7 @@ class LanguageValidator(object):
         'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
         'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august',
         'september', 'october', 'november', 'december', 'year', 'month', 'week', 'day',
-        'hour', 'minute', 'second', 'dateorder'
+        'hour', 'minute', 'second', 'dateorder', 'sentence_splitter_group'
     ]
 
     @classmethod
@@ -75,6 +75,30 @@ class LanguageValidator(object):
             cls.get_logger().error(
                 "Invalid 'no_word_spacing' value %(value)r for '%(id)s' language: "
                 "expected boolean", {'value': value, 'id': language_id})
+            result = False
+
+        return result
+
+    @classmethod
+    def _validate_sentence_splitter_group(cls, language_id, info):
+        if 'sentence_splitter_group' not in info:
+            return True  # Optional key
+
+        result = True
+
+        group = info['sentence_splitter_group']
+        if isinstance(group, int) or not group:
+            if group < 1 or group > 6:
+                cls.get_logger().error(
+                        "Invalid 'sentence_splitter_group' number %(number)r for '%(id)s' language: "
+                        "expected number from 1 to 6",
+                        {'number': group, 'id': language_id})
+                result = False
+        else:
+            cls.get_logger().error(
+                "Invalid 'sentence_splitter_group' for '%(id)s' language: "
+                "expected int type but have got %(type)s",
+                {'id': language_id, 'type': type(group).__name__})
             result = False
 
         return result

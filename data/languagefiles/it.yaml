@@ -2,6 +2,8 @@ name: Italian
 
 dateorder: DMY
 
+sentence_splitter_group : 1
+
 skip: ["circa", "e"]
 
 monday:

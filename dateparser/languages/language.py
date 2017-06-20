@@ -12,7 +12,6 @@ from .validation import LanguageValidator
 
 
 class Language(object):
-
     _dictionary = None
     _normalized_dictionary = None
     _simplifications = None
@@ -57,21 +56,22 @@ class Language(object):
         return self._join(
             list(filter(bool, words)), separator="" if keep_formatting else " ", settings=settings)
 
-    def translate_search(self, search_string, keep_formatting=False, settings=None):
-        sentences = re.split('[\.!?;]+\s', search_string)
+    def translate_search(self, search_string, settings=None):
+        dashes = ['-', '——', '—', '～']
+        sentences = self._sentence_split(search_string)
         dictionary = self._get_dictionary(settings)
         translated = []
         original = []
         for sentence in sentences:
-            words = sentence.split()
+            words = self._word_split(sentence, settings=settings)
             translated_chunk = []
             original_chunk = []
             for i, word in enumerate(words):
                 word = self._simplify(word.lower(), settings=settings)
-                if word in dictionary and word != '-':
-                    translated_chunk.append(dictionary[word])
+                if word.strip('()\"{}[],.') in dictionary and word not in dashes:
+                    translated_chunk.append(dictionary[word.strip('()\"{}[],.')])
                     original_chunk.append(words[i])
-                elif re.search('\d+', word) is not None:
+                elif self._token_with_digits_is_ok(word):
                     translated_chunk.append(word)
                     original_chunk.append(words[i])
                 else:
@@ -86,9 +86,51 @@ class Language(object):
         for i in range(len(translated)):
             if "in" in translated[i]:
                 translated[i] = self._clear_future_words(translated[i])
-            translated[i] = ' '.join(list(filter(bool, translated[i])))
-            original[i] = ' '.join(list(filter(bool, original[i])))
+            translated[i] = self._join_chunk(list(filter(bool, translated[i])), settings=settings)
+            original[i] = self._join_chunk(list(filter(bool, original[i])), settings=settings)
         return translated, original
+
+    def _sentence_split(self, string):
+        splitters_dict = {1: '[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
+                                                        # Indonesian, Vietnamese
+                          2: '(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))*',  # Spanish
+                          3: '[|!?;\r\n]+(?:\s|$)*',  # Hindi and Bangla
+                          4: '[。…‥\.!?？！;\r\n]+(?:\s|$)*',  # Japanese and Chinese
+                          5: '[\r\n]+',  # Thai
+                          6: '[\r\n؟!\.…]+(?:\s|$)*'}  # Arabic and Farsi
+        if 'sentence_splitter_group' not in self.info:
+            sentences = re.split(splitters_dict[1], string)
+        else:
+            sentences = re.split(splitters_dict[self.info['sentence_splitter_group']], string)
+        for i in sentences:
+            if not i:
+                sentences.remove(i)
+        return sentences
+
+    def _word_split(self, string, settings):
+        if 'no_word_spacing' in self.info:
+            return self._split(string, keep_formatting=True, settings=settings)
+        else:
+            return string.split()
+
+    def _join_chunk(self, chunk, settings):
+        if 'no_word_spacing' in self.info:
+            return self._join(chunk, separator="", settings=settings)
+        else:
+            return " ".join(chunk)
+
+    def _token_with_digits_is_ok(self, token):
+        if 'no_word_spacing' in self.info:
+            if re.search('[\d\.:\-/]+', token) is not None:
+                return True
+            else:
+                return False
+
+        else:
+            if re.search('\d+', token) is not None:
+                return True
+            else:
+                return False
 
     def _simplify(self, date_string, settings=None):
         date_string = date_string.lower()
@@ -155,20 +197,6 @@ class Language(object):
         return list(chain(*tokens))
 
     def _join(self, tokens, separator=" ", settings=None):
-        if not tokens:
-            return ""
-
-        capturing_splitters = self._get_splitters(settings)['capturing']
-        joined = tokens[0]
-        for i in range(1, len(tokens)):
-            left, right = tokens[i - 1], tokens[i]
-            if left not in capturing_splitters and right not in capturing_splitters:
-                joined += separator
-            joined += right
-
-        return joined
-
-    def _join_translated(self, tokens, translated, separator=" ", settings=None):
         if not tokens:
             return ""
 

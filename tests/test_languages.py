@@ -696,7 +696,6 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         text = text.replace('u\'', '\'')
         return text
 
-
     def get_log_str(self):
         return self.make_python3_msg(self.captured_logs.getvalue().split('\n')[0])
 
@@ -811,14 +810,14 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         self.assertFalse(result)
 
     @parameterized.expand([
-        param('en', {},  log_msg="No translations for 'ago' provided for 'en' language"),
+        param('en', {}, log_msg="No translations for 'ago' provided for 'en' language"),
         param('en',
-              {'ago': 1},  log_msg="Invalid 'ago' translations list for 'en' language: "
-                                   "expected list type but have got int"),
+              {'ago': 1}, log_msg="Invalid 'ago' translations list for 'en' language: "
+                                  "expected list type but have got int"),
         param('en',
-              {'ago': []},  log_msg="No translations for 'ago' provided for 'en' language"),
+              {'ago': []}, log_msg="No translations for 'ago' provided for 'en' language"),
         param('en',
-              {'ago': ['']},  log_msg="Invalid 'ago' translation '' for 'en' language: expected not empty string"),
+              {'ago': ['']}, log_msg="Invalid 'ago' translation '' for 'en' language: expected not empty string"),
     ])
     def test_validate_other_words_when_invalid(self, lang_id, lang_info, log_msg='na'):
         result = self.validator._validate_other_words(lang_id, lang_info)
@@ -868,6 +867,20 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
     ])
     def test_validate_simplifications_when_invalid(self, lang_id, lang_info, log_msg):
         result = self.validator._validate_simplifications(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {'sentence_splitter_group': 'string instead of int'},
+              log_msg="Invalid 'sentence_splitter_group' for 'en' language: "
+                      "expected int type but have got str"),
+        param('en', {'sentence_splitter_group': 48},
+              log_msg="Invalid 'sentence_splitter_group' number 48 for 'en' language: "
+                      "expected number from 1 to 6"),
+
+    ])
+    def test_validate_sentence_splitter_group_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_sentence_splitter_group(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
 

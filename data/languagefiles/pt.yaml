@@ -2,6 +2,8 @@ name: Portuguese
 
 dateorder: DMY
 
+sentence_splitter_group : 1
+
 skip: ["de", "cerca", "e", "às"]
 pertain: ["de"]
 

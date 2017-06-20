@@ -2,6 +2,8 @@ name: Indonesian
 
 dateorder: DMY
 
+sentence_splitter_group : 1
+
 skip: ["tanggal", "pukul", "yang"]
 
 monday:

@@ -1,5 +1,7 @@
 name: Bangla
 
+sentence_splitter_group : 3
+
 skip: ["টা", "লা", "শে", "ই", "প্রায়", "এবং"]
 pertain: []
 

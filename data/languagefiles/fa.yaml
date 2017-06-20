@@ -2,6 +2,8 @@ name: Persian
 
 dateorder: DMY
 
+sentence_splitter_group : 6
+ 
 monday:
     - دوشنبه
     - د.

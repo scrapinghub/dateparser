@@ -2,6 +2,8 @@ name: Belarusian
 
 dateorder: DMY
 
+sentence_splitter_group : 1
+
 skip: ["каля", "у", "ў", "і"]
 
 monday:

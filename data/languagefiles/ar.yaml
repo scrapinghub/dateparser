@@ -2,6 +2,8 @@ name: Arabic
 
 dateorder: DMY
 
+sentence_splitter_group : 6
+
 skip: ['الساعة', 'مساءً', 'في', 'هـ']
 
 monday:

@@ -2,6 +2,8 @@ name: Polish
 
 dateorder: DMY
 
+sentence_splitter_group : 1
+
 skip: ['r.', 'roku', 'w', 'o', 'i']
 
 monday:

@@ -14,6 +14,5 @@ class ExactLanguageSearch:
 
     def search(self, shortname, text):
         self.get_current_language(shortname)
-        translated, original = self.language.translate_search(text, settings=Settings())
-        return translated, original
-
+        result = self.language.translate_search(text, settings=Settings())
+        return result

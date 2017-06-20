@@ -2,6 +2,8 @@ name: Swedish
 
 dateorder: YMD
 
+sentence_splitter_group : 1
+
 skip: ["på", "den"]
 
 monday:
