@@ -2,136 +2,136 @@
     "name": "af", 
     "date_order": "YMD", 
     "january": [
-        "J", 
-        "Jan.", 
-        "Januarie"
+        "jan", 
+        "j", 
+        "januarie"
     ], 
     "february": [
-        "Februarie", 
-        "F", 
-        "Feb."
+        "februarie", 
+        "feb", 
+        "f"
     ], 
     "march": [
-        "Maart", 
-        "Mrt.", 
-        "M"
+        "maart", 
+        "mrt", 
+        "m"
     ], 
     "april": [
-        "A", 
-        "April", 
-        "Apr."
+        "apr", 
+        "april", 
+        "a"
     ], 
     "may": [
-        "M", 
-        "Mei"
+        "m", 
+        "mei"
     ], 
     "june": [
-        "J", 
-        "Junie", 
-        "Jun."
+        "jun", 
+        "j", 
+        "junie"
     ], 
     "july": [
-        "Julie", 
-        "J", 
-        "Jul."
+        "julie", 
+        "j", 
+        "jul"
     ], 
     "august": [
-        "A", 
-        "Aug.", 
-        "Augustus"
+        "a", 
+        "aug", 
+        "augustus"
     ], 
     "september": [
-        "September", 
-        "S", 
-        "Sep."
+        "september", 
+        "s", 
+        "sep"
     ], 
     "october": [
-        "Okt.", 
-        "Oktober", 
-        "O"
+        "oktober", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nov.", 
-        "November", 
-        "N"
+        "november", 
+        "nov", 
+        "n"
     ], 
     "december": [
-        "Desember", 
-        "Des.", 
-        "D"
+        "desember", 
+        "des", 
+        "d"
     ], 
     "monday": [
-        "M", 
-        "Maandag", 
-        "Ma."
+        "m", 
+        "ma", 
+        "maandag"
     ], 
     "tuesday": [
-        "Di.", 
-        "D", 
-        "Dinsdag"
+        "di", 
+        "d", 
+        "dinsdag"
     ], 
     "wednesday": [
-        "Wo.", 
-        "W", 
-        "Woensdag"
+        "wo", 
+        "w", 
+        "woensdag"
     ], 
     "thursday": [
-        "Donderdag", 
-        "Do.", 
-        "D"
+        "donderdag", 
+        "d", 
+        "do"
     ], 
     "friday": [
-        "V", 
-        "Vrydag", 
-        "Vr."
+        "vr", 
+        "vrydag", 
+        "v"
     ], 
     "saturday": [
-        "S", 
-        "Saterdag", 
-        "Sa."
+        "sa", 
+        "saterdag", 
+        "s"
     ], 
     "sunday": [
-        "Sondag", 
-        "S", 
-        "So."
+        "sondag", 
+        "so", 
+        "s"
     ], 
     "am": [
-        "vm.", 
+        "vm", 
         "v"
     ], 
     "pm": [
-        "nm.", 
+        "nm", 
         "n"
     ], 
     "year": [
         "jaar", 
-        "j."
+        "j"
     ], 
     "month": [
-        "md.", 
+        "md", 
         "maand"
     ], 
     "week": [
         "week", 
-        "wk."
+        "wk"
     ], 
     "day": [
-        "d.", 
-        "dag"
+        "dag", 
+        "d"
     ], 
     "hour": [
-        "u.", 
+        "u", 
         "uur"
     ], 
     "minute": [
         "minuut", 
-        "m.", 
-        "min."
+        "m", 
+        "min"
     ], 
     "second": [
-        "s.", 
-        "sekonde", 
-        "sek."
+        "s", 
+        "sek", 
+        "sekonde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -187,21 +187,21 @@
         ], 
         "in \\1 month": [
             "oor (\\d+) minuut", 
-            "oor (\\d+) md."
+            "oor (\\d+) md"
         ], 
         "\\1 month ago": [
-            "(\\d+) md. gelede", 
             "(\\d+) maand gelede", 
+            "(\\d+) md gelede", 
             "(\\d+) maande gelede"
         ], 
         "in \\1 week": [
-            "oor (\\d+) w.", 
+            "oor (\\d+) w", 
             "oor (\\d+) weke", 
             "oor (\\d+) week"
         ], 
         "\\1 week ago": [
+            "(\\d+) w gelede", 
             "(\\d+) week gelede", 
-            "(\\d+) w. gelede", 
             "(\\d+) weke gelede"
         ], 
         "in \\1 day": [
@@ -220,23 +220,23 @@
             "(\\d+) uur gelede"
         ], 
         "in \\1 minute": [
-            "oor (\\d+) min.", 
-            "oor (\\d+) minuut"
+            "oor (\\d+) minuut", 
+            "oor (\\d+) min"
         ], 
         "\\1 minute ago": [
             "(\\d+) minute gelede", 
-            "(\\d+) minuut gelede", 
-            "(\\d+) min. gelede"
+            "(\\d+) min gelede", 
+            "(\\d+) minuut gelede"
         ], 
         "in \\1 second": [
-            "oor (\\d+) sek.", 
             "oor (\\d+) sekonde", 
+            "oor (\\d+) sek", 
             "oor (\\d+) sekondes"
         ], 
         "\\1 second ago": [
-            "(\\d+) sek. gelede", 
             "(\\d+) sekonde gelede", 
-            "(\\d+) sekondes gelede"
+            "(\\d+) sekondes gelede", 
+            "(\\d+) sek gelede"
         ]
     }, 
     "locale_specific": {

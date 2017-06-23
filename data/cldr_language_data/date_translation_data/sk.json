@@ -106,26 +106,26 @@
         "n"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "r.", 
+        "r", 
         "rok"
     ], 
     "month": [
         "mesiac", 
-        "mes."
+        "mes"
     ], 
     "week": [
         "týždeň", 
-        "týž."
+        "týž"
     ], 
     "day": [
         "deň", 
-        "d."
+        "d"
     ], 
     "hour": [
         "h", 
@@ -186,43 +186,43 @@
             "teraz"
         ], 
         "in \\1 year": [
+            "o (\\d+) r", 
             "o (\\d+) rok", 
-            "o (\\d+) rokov", 
-            "o (\\d+) r."
+            "o (\\d+) rokov"
         ], 
         "\\1 year ago": [
+            "pred (\\d+) r", 
             "pred (\\d+) rokom", 
-            "pred (\\d+) r.", 
             "pred (\\d+) rokmi"
         ], 
         "in \\1 month": [
-            "o (\\d+) mes.", 
             "o (\\d+) mesiacov", 
-            "o (\\d+) mesiac"
+            "o (\\d+) mesiac", 
+            "o (\\d+) mes"
         ], 
         "\\1 month ago": [
             "pred (\\d+) mesiacmi", 
             "pred (\\d+) mesiacom", 
-            "pred (\\d+) mes."
+            "pred (\\d+) mes"
         ], 
         "in \\1 week": [
-            "o (\\d+) týž.", 
             "o (\\d+) týždňov", 
-            "o (\\d+) týždeň"
+            "o (\\d+) týždeň", 
+            "o (\\d+) týž"
         ], 
         "\\1 week ago": [
             "pred (\\d+) týždňami", 
             "pred (\\d+) týždňom", 
-            "pred (\\d+) týž."
+            "pred (\\d+) týž"
         ], 
         "in \\1 day": [
-            "o (\\d+) d.", 
             "o (\\d+) deň", 
+            "o (\\d+) d", 
             "o (\\d+) dní"
         ], 
         "\\1 day ago": [
             "pred (\\d+) dňom", 
-            "pred (\\d+) d.", 
+            "pred (\\d+) d", 
             "pred (\\d+) dňami"
         ], 
         "in \\1 hour": [

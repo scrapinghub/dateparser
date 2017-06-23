@@ -2,105 +2,92 @@
     "name": "br", 
     "date_order": "YMD", 
     "january": [
-        "Gen.", 
-        "01", 
-        "Genver"
+        "gen", 
+        "genver"
     ], 
     "february": [
-        "02", 
-        "Cʼhwe.", 
-        "Cʼhwevrer"
+        "cʼhwevrer", 
+        "cʼhwe"
     ], 
     "march": [
-        "03", 
-        "Meur.", 
-        "Meurzh"
+        "meur", 
+        "meurzh"
     ], 
     "april": [
-        "Ebr.", 
-        "04", 
-        "Ebrel"
+        "ebr", 
+        "ebrel"
     ], 
     "may": [
-        "Mae", 
-        "05"
+        "mae"
     ], 
     "june": [
-        "Mezheven", 
-        "06", 
-        "Mezh."
+        "mezheven", 
+        "mezh"
     ], 
     "july": [
-        "Gouere", 
-        "07", 
-        "Goue."
+        "goue", 
+        "gouere"
     ], 
     "august": [
-        "Eost", 
-        "08"
+        "eost"
     ], 
     "september": [
-        "Gwengolo", 
-        "09", 
-        "Gwen."
+        "gwengolo", 
+        "gwen"
     ], 
     "october": [
-        "10", 
-        "Here"
+        "here"
     ], 
     "november": [
-        "11", 
-        "Du"
+        "du"
     ], 
     "december": [
-        "Kerzu", 
-        "Ker.", 
-        "12", 
-        "Kzu."
+        "kerzu", 
+        "ker", 
+        "kzu"
     ], 
     "monday": [
-        "L", 
-        "Lun"
+        "l", 
+        "lun"
     ], 
     "tuesday": [
-        "Meu.", 
-        "Mz", 
-        "Meurzh"
+        "meu", 
+        "mz", 
+        "meurzh"
     ], 
     "wednesday": [
-        "Mc", 
-        "Mer.", 
-        "Mercʼher"
+        "mc", 
+        "mercʼher", 
+        "mer"
     ], 
     "thursday": [
-        "Y", 
-        "Yaou"
+        "y", 
+        "yaou"
     ], 
     "friday": [
-        "Gwe.", 
-        "Gwener", 
-        "G"
+        "gwe", 
+        "gwener", 
+        "g"
     ], 
     "saturday": [
-        "Sadorn", 
-        "Sa", 
-        "Sad."
+        "sadorn", 
+        "sa", 
+        "sad"
     ], 
     "sunday": [
-        "Sul", 
-        "Su"
+        "sul", 
+        "su"
     ], 
     "am": [
-        "am", 
-        "A.M."
+        "am"
     ], 
     "pm": [
         "gm", 
-        "G.M."
+        "g.m"
     ], 
     "year": [
-        "bloaz", 
-        "bl."
+        "bl", 
+        "bloaz"
     ], 
     "month": [
         "miz"
@@ -132,8 +119,8 @@
             "hevlene"
         ], 
         "in 1 year": [
-            "ar bl. a zeu", 
-            "ar bloaz a zeu"
+            "ar bloaz a zeu", 
+            "ar bl a zeu"
         ], 
         "1 month ago": [
             "ar miz diaraok"
@@ -169,19 +156,19 @@
             "this minute"
         ], 
         "0 second ago": [
-            "brem.", 
+            "brem", 
             "bremañ"
         ], 
         "in \\1 year": [
-            "+(\\d+) bl.", 
             "a-benn (\\d+) vloaz", 
-            "a-benn (\\d+) bl.", 
+            "+(\\d+) bl", 
+            "a-benn (\\d+) bl", 
             "a-benn (\\d+) bloaz"
         ], 
         "\\1 year ago": [
-            "-(\\d+) bl.", 
             "(\\d+) bloaz zo", 
-            "(\\d+) bl. zo", 
+            "(\\d+) bl zo", 
+            "-(\\d+) bl", 
             "(\\d+) vloaz zo"
         ], 
         "in \\1 month": [

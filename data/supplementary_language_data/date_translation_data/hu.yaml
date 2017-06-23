@@ -1,0 +1,81 @@
+skip: ["-án", "-én", "-kor", "-a", "-je", "-i", "-ji", "-ei", "-jei", "-ától", "-étől", "-ai", "-től", "-tól", "-ig", "-áig", "-éig", "-akor", "-ekor", "-e", "-es", "-ös"]
+
+sunday:
+    - vas
+
+january:
+    - I.
+february:
+    - feb.
+    - II.
+march:
+    - már.
+    - III.
+april:
+    - IV.
+may:
+    - V.
+june:
+    - VI.
+july:
+    - VII.
+august:
+    - VIII.
+september:
+    - IX.
+october:
+    - X.
+november:
+    - XI.
+december:
+    - XII.
+
+year:
+    - évek
+    - évvel
+    - éve
+month:
+    - hó
+    - hónapok
+    - hónappal
+    - hónapja
+week:
+    - hetek
+    - héttel
+    - hete
+day:
+    - napok
+    - napja
+    - nappal
+hour:
+    - ó.
+    - órák
+    - órája
+    - órával
+    - óráig
+    - órától
+minute:
+    - p.
+    - percek
+    - perce
+    - perccel
+    - percig
+    - perctől
+second:
+    - mp.
+    - másodpercek
+    - másodperce
+    - másodperccel
+    - másodpercig
+    - másodperctől
+ago:
+    - ezelőtt
+in:
+    - múlva
+
+relative-type:
+    - 2 day ago:
+        - tegnapelőtt
+
+simplifications:
+    - egy: 1

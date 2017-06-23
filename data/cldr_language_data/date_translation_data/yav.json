@@ -3,61 +3,49 @@
     "date_order": "DMY", 
     "january": [
         "pikítíkítie, oólí ú kutúan", 
-        "1", 
         "o.1"
     ], 
     "february": [
         "o.2", 
-        "2", 
         "siɛyɛ́, oóli ú kándíɛ"
     ], 
     "march": [
         "o.3", 
-        "3", 
         "ɔnsúmbɔl, oóli ú kátátúɛ"
     ], 
     "april": [
         "mesiŋ, oóli ú kénie", 
-        "4", 
         "o.4"
     ], 
     "may": [
-        "5", 
         "ensil, oóli ú kátánuɛ", 
         "o.5"
     ], 
     "june": [
         "ɔsɔn", 
-        "o.6", 
-        "6"
+        "o.6"
     ], 
     "july": [
         "efute", 
-        "o.7", 
-        "7"
+        "o.7"
     ], 
     "august": [
-        "8", 
         "o.8", 
         "pisuyú"
     ], 
     "september": [
-        "9", 
         "imɛŋ i puɔs", 
         "o.9"
     ], 
     "october": [
-        "10", 
         "o.10", 
         "imɛŋ i putúk,oóli ú kátíɛ"
     ], 
     "november": [
-        "11", 
         "o.11", 
         "makandikɛ"
     ], 
     "december": [
-        "12", 
         "o.12", 
         "pilɔndɔ́"
     ], 

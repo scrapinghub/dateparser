@@ -2,126 +2,126 @@
     "name": "saq", 
     "date_order": "DMY", 
     "january": [
-        "Lapa le obo", 
-        "Obo", 
-        "O"
+        "lapa le obo", 
+        "obo", 
+        "o"
     ], 
     "february": [
-        "Lapa le waare", 
-        "W", 
-        "Waa"
+        "lapa le waare", 
+        "w", 
+        "waa"
     ], 
     "march": [
-        "Oku", 
-        "Lapa le okuni", 
-        "O"
+        "oku", 
+        "lapa le okuni", 
+        "o"
     ], 
     "april": [
-        "Lapa le ong’wan", 
-        "Ong", 
-        "O"
+        "lapa le ong’wan", 
+        "ong", 
+        "o"
     ], 
     "may": [
-        "I", 
-        "Lapa le imet", 
-        "Ime"
+        "i", 
+        "lapa le imet", 
+        "ime"
     ], 
     "june": [
-        "I", 
-        "Ile", 
-        "Lapa le ile"
+        "i", 
+        "ile", 
+        "lapa le ile"
     ], 
     "july": [
-        "S", 
-        "Sap", 
-        "Lapa le sapa"
+        "s", 
+        "sap", 
+        "lapa le sapa"
     ], 
     "august": [
-        "I", 
-        "Lapa le isiet", 
-        "Isi"
+        "i", 
+        "lapa le isiet", 
+        "isi"
     ], 
     "september": [
-        "Lapa le saal", 
-        "Saa", 
-        "S"
+        "lapa le saal", 
+        "saa", 
+        "s"
     ], 
     "october": [
-        "Tom", 
-        "T", 
-        "Lapa le tomon"
+        "tom", 
+        "t", 
+        "lapa le tomon"
     ], 
     "november": [
-        "Tob", 
-        "Lapa le tomon obo", 
-        "T"
+        "tob", 
+        "lapa le tomon obo", 
+        "t"
     ], 
     "december": [
-        "Tow", 
-        "T", 
-        "Lapa le tomon waare"
+        "t", 
+        "tow", 
+        "lapa le tomon waare"
     ], 
     "monday": [
-        "Mderot ee kuni", 
-        "Kun", 
-        "K"
+        "mderot ee kuni", 
+        "kun", 
+        "k"
     ], 
     "tuesday": [
-        "Mderot ee ong’wan", 
-        "O", 
-        "Ong"
+        "mderot ee ong’wan", 
+        "o", 
+        "ong"
     ], 
     "wednesday": [
-        "I", 
-        "Mderot ee inet", 
-        "Ine"
+        "i", 
+        "mderot ee inet", 
+        "ine"
     ], 
     "thursday": [
-        "I", 
-        "Mderot ee ile", 
-        "Ile"
+        "i", 
+        "mderot ee ile", 
+        "ile"
     ], 
     "friday": [
-        "Mderot ee sapa", 
-        "Sap", 
-        "S"
+        "mderot ee sapa", 
+        "sap", 
+        "s"
     ], 
     "saturday": [
-        "Mderot ee kwe", 
-        "K", 
-        "Kwe"
+        "mderot ee kwe", 
+        "k", 
+        "kwe"
     ], 
     "sunday": [
-        "Mderot ee are", 
-        "A", 
-        "Are"
+        "mderot ee are", 
+        "a", 
+        "are"
     ], 
     "am": [
-        "Tesiran"
+        "tesiran"
     ], 
     "pm": [
-        "Teipa"
+        "teipa"
     ], 
     "year": [
-        "Lari"
+        "lari"
     ], 
     "month": [
-        "Lapa"
+        "lapa"
     ], 
     "week": [
-        "Saipa napo"
+        "saipa napo"
     ], 
     "day": [
-        "Mpari"
+        "mpari"
     ], 
     "hour": [
-        "Saai"
+        "saai"
     ], 
     "minute": [
-        "Idakika"
+        "idakika"
     ], 
     "second": [
-        "Isekondi"
+        "isekondi"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Ng’ole"
+            "ng’ole"
         ], 
         "0 day ago": [
-            "Duo"
+            "duo"
         ], 
         "in 1 day": [
-            "Taisere"
+            "taisere"
         ], 
         "0 hour ago": [
             "this hour"

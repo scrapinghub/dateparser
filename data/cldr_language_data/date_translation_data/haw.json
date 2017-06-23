@@ -2,125 +2,113 @@
     "name": "haw", 
     "date_order": "DMY", 
     "january": [
-        "1", 
-        "Ian.", 
-        "Ianuali"
+        "ian", 
+        "ianuali"
     ], 
     "february": [
-        "2", 
-        "Pepeluali", 
-        "Pep."
+        "pep", 
+        "pepeluali"
     ], 
     "march": [
-        "Mal.", 
-        "Malaki", 
-        "3"
+        "malaki", 
+        "mal"
     ], 
     "april": [
-        "ʻAp.", 
-        "ʻApelila", 
-        "4"
+        "ʻap", 
+        "ʻapelila"
     ], 
     "may": [
-        "5", 
-        "Mei"
+        "mei"
     ], 
     "june": [
-        "Iune", 
-        "Iun.", 
-        "6"
+        "iune", 
+        "iun"
     ], 
     "july": [
-        "Iul.", 
-        "Iulai", 
-        "7"
+        "iulai", 
+        "iul"
     ], 
     "august": [
-        "8", 
-        "ʻAu.", 
-        "ʻAukake"
+        "ʻau", 
+        "ʻaukake"
     ], 
     "september": [
-        "Kepakemapa", 
-        "9", 
-        "Kep."
+        "kepakemapa", 
+        "kep"
     ], 
     "october": [
-        "ʻOkakopa", 
-        "10", 
-        "ʻOk."
+        "ʻokakopa", 
+        "ʻok"
     ], 
     "november": [
-        "11", 
-        "Now.", 
-        "Nowemapa"
+        "now", 
+        "nowemapa"
     ], 
     "december": [
-        "12", 
-        "Kek.", 
-        "Kekemapa"
+        "kek", 
+        "kekemapa"
     ], 
     "monday": [
-        "P1", 
-        "M", 
-        "Poʻakahi"
+        "p1", 
+        "m", 
+        "poʻakahi"
     ], 
     "tuesday": [
-        "Poʻalua", 
-        "P2", 
-        "T"
+        "poʻalua", 
+        "p2", 
+        "t"
     ], 
     "wednesday": [
-        "Poʻakolu", 
-        "P3", 
-        "W"
+        "poʻakolu", 
+        "p3", 
+        "w"
     ], 
     "thursday": [
-        "Poʻahā", 
-        "T", 
-        "P4"
+        "poʻahā", 
+        "t", 
+        "p4"
     ], 
     "friday": [
-        "F", 
-        "Poʻalima", 
-        "P5"
+        "f", 
+        "poʻalima", 
+        "p5"
     ], 
     "saturday": [
-        "P6", 
-        "S", 
-        "Poʻaono"
+        "p6", 
+        "s", 
+        "poʻaono"
     ], 
     "sunday": [
-        "S", 
-        "LP", 
-        "Lāpule"
+        "s", 
+        "lp", 
+        "lāpule"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

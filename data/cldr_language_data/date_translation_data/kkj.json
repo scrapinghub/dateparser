@@ -2,51 +2,38 @@
     "name": "kkj", 
     "date_order": "DMY", 
     "january": [
-        "1", 
         "pamba"
     ], 
     "february": [
-        "wanja", 
-        "2"
+        "wanja"
     ], 
     "march": [
-        "3", 
         "mbiyɔ mɛndoŋgɔ"
     ], 
     "april": [
-        "Nyɔlɔmbɔŋgɔ", 
-        "4"
+        "nyɔlɔmbɔŋgɔ"
     ], 
     "may": [
-        "Mɔnɔ ŋgbanja", 
-        "5"
+        "mɔnɔ ŋgbanja"
     ], 
     "june": [
-        "Nyaŋgwɛ ŋgbanja", 
-        "6"
+        "nyaŋgwɛ ŋgbanja"
     ], 
     "july": [
-        "7", 
         "kuŋgwɛ"
     ], 
     "august": [
-        "8", 
         "fɛ"
     ], 
     "september": [
-        "9", 
         "njapi"
     ], 
     "october": [
-        "10", 
         "nyukul"
     ], 
-    "november": [
-        "11"
-    ], 
+    "november": [], 
     "december": [
-        "ɓulɓusɛ", 
-        "12"
+        "ɓulɓusɛ"
     ], 
     "monday": [
         "lu", 
@@ -77,31 +64,31 @@
         "so"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

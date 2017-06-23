@@ -2,178 +2,162 @@
     "name": "lb", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "J", 
-        "Januar", 
-        "Jan."
+        "jan", 
+        "januar", 
+        "j"
     ], 
     "february": [
-        "Feb.", 
-        "Feb", 
-        "Februar", 
-        "F"
+        "feb", 
+        "februar", 
+        "f"
     ], 
     "march": [
-        "M", 
-        "Mäerz", 
-        "Mäe.", 
-        "Mäe"
+        "m", 
+        "mäerz", 
+        "mäe"
     ], 
     "april": [
-        "A", 
-        "Abr.", 
-        "Abr", 
-        "Abrëll"
+        "a", 
+        "abr", 
+        "abrëll"
     ], 
     "may": [
-        "Mee", 
-        "M"
+        "mee", 
+        "m"
     ], 
     "june": [
-        "Juni", 
-        "J", 
-        "Jun"
+        "juni", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "Juli", 
-        "J", 
-        "Jul"
+        "juli", 
+        "j", 
+        "jul"
     ], 
     "august": [
-        "A", 
-        "August", 
-        "Aug", 
-        "Aug."
+        "a", 
+        "august", 
+        "aug"
     ], 
     "september": [
-        "September", 
-        "S", 
-        "Sep.", 
-        "Sep"
+        "september", 
+        "s", 
+        "sep"
     ], 
     "october": [
-        "Okt.", 
-        "Oktober", 
-        "Okt", 
-        "O"
+        "oktober", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nov.", 
-        "November", 
-        "Nov", 
-        "N"
+        "november", 
+        "nov", 
+        "n"
     ], 
     "december": [
-        "Dez.", 
-        "Dezember", 
-        "Dez", 
-        "D"
+        "dezember", 
+        "dez", 
+        "d"
     ], 
     "monday": [
-        "Méi", 
-        "Méindeg", 
-        "Méi.", 
-        "M"
+        "méi", 
+        "méindeg", 
+        "m"
     ], 
     "tuesday": [
-        "Dën", 
-        "Dën.", 
-        "Dënschdeg", 
-        "D"
+        "dën", 
+        "dënschdeg", 
+        "d"
     ], 
     "wednesday": [
-        "M", 
-        "Mët.", 
-        "Mëttwoch", 
-        "Mët"
+        "mëttwoch", 
+        "m", 
+        "mët"
     ], 
     "thursday": [
-        "Don.", 
-        "Don", 
-        "Donneschdeg", 
-        "D"
+        "don", 
+        "donneschdeg", 
+        "d"
     ], 
     "friday": [
-        "Fre.", 
-        "Freideg", 
-        "Fre", 
-        "F"
+        "freideg", 
+        "fre", 
+        "f"
     ], 
     "saturday": [
-        "Samschdeg", 
-        "S", 
-        "Sam", 
-        "Sam."
+        "samschdeg", 
+        "s", 
+        "sam"
     ], 
     "sunday": [
-        "Sonndeg", 
-        "S", 
-        "Son.", 
-        "Son"
+        "sonndeg", 
+        "s", 
+        "son"
     ], 
     "am": [
-        "moies", 
-        "mo."
+        "mo", 
+        "moies"
     ], 
     "pm": [
-        "nomë.", 
+        "nomë", 
         "nomëttes"
     ], 
     "year": [
-        "J.", 
-        "Joer"
+        "j", 
+        "joer"
     ], 
     "month": [
-        "Mount", 
-        "M."
+        "mount", 
+        "m"
     ], 
     "week": [
-        "W.", 
-        "Woch"
+        "woch", 
+        "w"
     ], 
     "day": [
-        "D.", 
-        "Dag"
+        "dag", 
+        "d"
     ], 
     "hour": [
-        "Stonn", 
-        "St."
+        "stonn", 
+        "st"
     ], 
     "minute": [
-        "Min.", 
-        "Minutt"
+        "min", 
+        "minutt"
     ], 
     "second": [
-        "Sekonn", 
-        "Sek."
+        "sekonn", 
+        "sek"
     ], 
     "relative-type": {
         "1 year ago": [
-            "lescht Joer"
+            "lescht joer"
         ], 
         "0 year ago": [
-            "dëst Joer"
+            "dëst joer"
         ], 
         "in 1 year": [
-            "nächst Joer"
+            "nächst joer"
         ], 
         "1 month ago": [
-            "leschte Mount"
+            "leschte mount"
         ], 
         "0 month ago": [
-            "dëse Mount"
+            "dëse mount"
         ], 
         "in 1 month": [
-            "nächste Mount"
+            "nächste mount"
         ], 
         "1 week ago": [
-            "lescht Woch"
+            "lescht woch"
         ], 
         "0 week ago": [
-            "dës Woch"
+            "dës woch"
         ], 
         "in 1 week": [
-            "nächst Woch"
+            "nächst woch"
         ], 
         "1 day ago": [
             "gëschter"
@@ -194,102 +178,102 @@
             "now"
         ], 
         "in \\1 year": [
-            "an (\\d+) J.", 
-            "a(n) (\\d+) J.", 
-            "a(n) (\\d+) Joer", 
-            "+(\\d+) J.", 
-            "an (\\d+) Joer"
+            "a(n) (\\d+) j", 
+            "a(n) (\\d+) joer", 
+            "+(\\d+) j", 
+            "an (\\d+) j", 
+            "an (\\d+) joer"
         ], 
         "\\1 year ago": [
-            "-(\\d+) J.", 
-            "viru(n) (\\d+) Joer", 
-            "virun (\\d+) J.", 
-            "viru(n) (\\d+) J.", 
-            "virun (\\d+) Joer"
+            "virun (\\d+) j", 
+            "viru(n) (\\d+) joer", 
+            "viru(n) (\\d+) j", 
+            "virun (\\d+) joer", 
+            "-(\\d+) j"
         ], 
         "in \\1 month": [
-            "an (\\d+) Mount", 
-            "a(n) (\\d+) M.", 
-            "+(\\d+) M.", 
-            "a(n) (\\d+) Méint", 
-            "an (\\d+) M."
+            "an (\\d+) mount", 
+            "an (\\d+) m", 
+            "+(\\d+) m", 
+            "a(n) (\\d+) méint", 
+            "a(n) (\\d+) m"
         ], 
         "\\1 month ago": [
-            "virun (\\d+) M.", 
-            "viru(n) (\\d+) M.", 
-            "virun (\\d+) Mount", 
-            "viru(n) (\\d+) Méint", 
-            "-(\\d+) M."
+            "viru(n) (\\d+) m", 
+            "-(\\d+) m", 
+            "virun (\\d+) mount", 
+            "viru(n) (\\d+) méint", 
+            "virun (\\d+) m"
         ], 
         "in \\1 week": [
-            "an (\\d+) W.", 
-            "a(n) (\\d+) W.", 
-            "a(n) (\\d+) Wochen", 
-            "an (\\d+) Woch", 
-            "+(\\d+) W."
+            "an (\\d+) w", 
+            "a(n) (\\d+) wochen", 
+            "an (\\d+) woch", 
+            "+(\\d+) w", 
+            "a(n) (\\d+) w"
         ], 
         "\\1 week ago": [
-            "viru(n) (\\d+) W.", 
-            "virun (\\d+) W.", 
-            "virun (\\d+) Woch", 
-            "-(\\d+) W.", 
-            "viru(n) (\\d+) Wochen"
+            "-(\\d+) w", 
+            "viru(n) (\\d+) w", 
+            "virun (\\d+) w", 
+            "virun (\\d+) woch", 
+            "viru(n) (\\d+) wochen"
         ], 
         "in \\1 day": [
-            "+(\\d+) D.", 
-            "a(n) (\\d+) D.", 
-            "an (\\d+) D.", 
-            "an (\\d+) Dag", 
-            "a(n) (\\d+) Deeg"
+            "an (\\d+) d", 
+            "a(n) (\\d+) d", 
+            "an (\\d+) dag", 
+            "a(n) (\\d+) deeg", 
+            "+(\\d+) d"
         ], 
         "\\1 day ago": [
-            "viru(n) (\\d+) Deeg", 
-            "viru(n) (\\d+) D.", 
-            "-(\\d+) D.", 
-            "virun (\\d+) Dag", 
-            "virun (\\d+) D."
+            "viru(n) (\\d+) d", 
+            "viru(n) (\\d+) deeg", 
+            "-(\\d+) d", 
+            "virun (\\d+) dag", 
+            "virun (\\d+) d"
         ], 
         "in \\1 hour": [
-            "an (\\d+) St.", 
-            "a(n) (\\d+) Stonnen", 
-            "an (\\d+) Stonn", 
-            "a(n) (\\d+) St.", 
-            "+(\\d+) St."
+            "+(\\d+) st", 
+            "a(n) (\\d+) stonnen", 
+            "an (\\d+) stonn", 
+            "a(n) (\\d+) st", 
+            "an (\\d+) st"
         ], 
         "\\1 hour ago": [
-            "virun (\\d+) St.", 
-            "-(\\d+) St.", 
-            "viru(n) (\\d+) St.", 
-            "virun (\\d+) Stonn", 
-            "viru(n) (\\d+) Stonnen"
+            "-(\\d+) st", 
+            "virun (\\d+) stonn", 
+            "viru(n) (\\d+) st", 
+            "virun (\\d+) st", 
+            "viru(n) (\\d+) stonnen"
         ], 
         "in \\1 minute": [
-            "a(n) (\\d+) Min.", 
-            "a(n) (\\d+) Minutten", 
-            "an (\\d+) Min.", 
-            "an (\\d+) Minutt", 
-            "+(\\d+) Min."
+            "an (\\d+) min", 
+            "a(n) (\\d+) minutten", 
+            "+(\\d+) min", 
+            "an (\\d+) minutt", 
+            "a(n) (\\d+) min"
         ], 
         "\\1 minute ago": [
-            "-(\\d+) Min.", 
-            "viru(n) (\\d+) Min.", 
-            "virun (\\d+) Min.", 
-            "virun (\\d+) Minutt", 
-            "viru(n) (\\d+) Minutten"
+            "-(\\d+) min", 
+            "virun (\\d+) min", 
+            "virun (\\d+) minutt", 
+            "viru(n) (\\d+) min", 
+            "viru(n) (\\d+) minutten"
         ], 
         "in \\1 second": [
-            "a(n) (\\d+) Sek.", 
-            "an (\\d+) Sek.", 
-            "an (\\d+) Sekonn", 
-            "+(\\d+) Sek.", 
-            "a(n) (\\d+) Sekonnen"
+            "+(\\d+) sek", 
+            "an (\\d+) sekonn", 
+            "a(n) (\\d+) sekonnen", 
+            "an (\\d+) sek", 
+            "a(n) (\\d+) sek"
         ], 
         "\\1 second ago": [
-            "viru(n) (\\d+) Sek.", 
-            "virun (\\d+) Sek.", 
-            "viru(n) (\\d+) Sekonnen", 
-            "virun (\\d+) Sekonn", 
-            "-(\\d+) Sek."
+            "virun (\\d+) sek", 
+            "viru(n) (\\d+) sekonnen", 
+            "viru(n) (\\d+) sek", 
+            "virun (\\d+) sekonn", 
+            "-(\\d+) sek"
         ]
     }, 
     "locale_specific": {}

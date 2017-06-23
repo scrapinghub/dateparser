@@ -2,105 +2,105 @@
     "name": "luo", 
     "date_order": "DMY", 
     "january": [
-        "C", 
-        "Dwe mar Achiel", 
-        "DAC"
+        "c", 
+        "dwe mar achiel", 
+        "dac"
     ], 
     "february": [
-        "R", 
-        "Dwe mar Ariyo", 
-        "DAR"
+        "r", 
+        "dwe mar ariyo", 
+        "dar"
     ], 
     "march": [
-        "DAD", 
-        "Dwe mar Adek", 
-        "D"
+        "dad", 
+        "dwe mar adek", 
+        "d"
     ], 
     "april": [
-        "DAN", 
-        "Dwe mar Ang’wen", 
-        "N"
+        "dan", 
+        "dwe mar ang’wen", 
+        "n"
     ], 
     "may": [
-        "B", 
-        "DAH", 
-        "Dwe mar Abich"
+        "b", 
+        "dah", 
+        "dwe mar abich"
     ], 
     "june": [
-        "Dwe mar Auchiel", 
-        "DAU", 
-        "U"
+        "dwe mar auchiel", 
+        "dau", 
+        "u"
     ], 
     "july": [
-        "B", 
-        "DAO", 
-        "Dwe mar Abiriyo"
+        "dao", 
+        "b", 
+        "dwe mar abiriyo"
     ], 
     "august": [
-        "B", 
-        "Dwe mar Aboro", 
-        "DAB"
+        "b", 
+        "dwe mar aboro", 
+        "dab"
     ], 
     "september": [
-        "DOC", 
-        "C", 
-        "Dwe mar Ochiko"
+        "doc", 
+        "c", 
+        "dwe mar ochiko"
     ], 
     "october": [
-        "P", 
-        "Dwe mar Apar", 
-        "DAP"
+        "p", 
+        "dwe mar apar", 
+        "dap"
     ], 
     "november": [
-        "C", 
-        "DGI", 
-        "Dwe mar gi achiel"
+        "c", 
+        "dgi", 
+        "dwe mar gi achiel"
     ], 
     "december": [
-        "Dwe mar Apar gi ariyo", 
-        "DAG", 
-        "P"
+        "dwe mar apar gi ariyo", 
+        "dag", 
+        "p"
     ], 
     "monday": [
-        "Wuok Tich", 
-        "W", 
-        "WUT"
+        "wuok tich", 
+        "w", 
+        "wut"
     ], 
     "tuesday": [
-        "Tich Ariyo", 
-        "T", 
-        "TAR"
+        "tich ariyo", 
+        "t", 
+        "tar"
     ], 
     "wednesday": [
-        "TAD", 
-        "T", 
-        "Tich Adek"
+        "tad", 
+        "t", 
+        "tich adek"
     ], 
     "thursday": [
-        "TAN", 
-        "Tich Ang’wen", 
-        "T"
+        "tan", 
+        "tich ang’wen", 
+        "t"
     ], 
     "friday": [
-        "Tich Abich", 
-        "T", 
-        "TAB"
+        "tich abich", 
+        "t", 
+        "tab"
     ], 
     "saturday": [
-        "N", 
-        "Ngeso", 
-        "NGS"
+        "n", 
+        "ngeso", 
+        "ngs"
     ], 
     "sunday": [
-        "JMP", 
-        "J", 
-        "Jumapil"
+        "jmp", 
+        "j", 
+        "jumapil"
     ], 
     "am": [
-        "OD"
+        "od"
     ], 
     "pm": [
-        "OT"
+        "ot"
     ], 
     "year": [
         "higa"

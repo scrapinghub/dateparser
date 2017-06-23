@@ -4,105 +4,105 @@
     "january": [
         "gennaio", 
         "gen", 
-        "G"
+        "g"
     ], 
     "february": [
         "febbraio", 
         "feb", 
-        "F"
+        "f"
     ], 
     "march": [
-        "M", 
+        "m", 
         "mar", 
         "marzo"
     ], 
     "april": [
         "apr", 
-        "A", 
+        "a", 
         "aprile"
     ], 
     "may": [
         "maggio", 
-        "M", 
+        "m", 
         "mag"
     ], 
     "june": [
         "giu", 
-        "G", 
+        "g", 
         "giugno"
     ], 
     "july": [
         "luglio", 
-        "L", 
+        "l", 
         "lug"
     ], 
     "august": [
         "ago", 
-        "A", 
+        "a", 
         "agosto"
     ], 
     "september": [
         "settembre", 
         "set", 
-        "S"
+        "s"
     ], 
     "october": [
         "ottobre", 
         "ott", 
-        "O"
+        "o"
     ], 
     "november": [
         "novembre", 
         "nov", 
-        "N"
+        "n"
     ], 
     "december": [
         "dicembre", 
-        "D", 
+        "d", 
         "dic"
     ], 
     "monday": [
         "lunedì", 
-        "L", 
+        "l", 
         "lun"
     ], 
     "tuesday": [
         "mar", 
-        "M", 
+        "m", 
         "martedì"
     ], 
     "wednesday": [
         "mercoledì", 
-        "M", 
+        "m", 
         "mer"
     ], 
     "thursday": [
         "gio", 
-        "G", 
+        "g", 
         "giovedì"
     ], 
     "friday": [
         "ven", 
         "venerdì", 
-        "V"
+        "v"
     ], 
     "saturday": [
         "sab", 
         "sabato", 
-        "S"
+        "s"
     ], 
     "sunday": [
         "domenica", 
-        "D", 
+        "d", 
         "dom"
     ], 
     "am": [
-        "m.", 
-        "AM"
+        "m", 
+        "am"
     ], 
     "pm": [
-        "p.", 
-        "PM"
+        "p", 
+        "pm"
     ], 
     "year": [
         "anno"
@@ -111,8 +111,8 @@
         "mese"
     ], 
     "week": [
-        "settimana", 
-        "sett."
+        "sett", 
+        "settimana"
     ], 
     "day": [
         "giorno", 
@@ -120,18 +120,17 @@
     ], 
     "hour": [
         "h", 
-        "h.", 
         "ora"
     ], 
     "minute": [
         "m", 
         "minuto", 
-        "min."
+        "min"
     ], 
     "second": [
+        "sec", 
         "s", 
-        "secondo", 
-        "sec."
+        "secondo"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -197,12 +196,12 @@
         ], 
         "in \\1 week": [
             "tra (\\d+) settimana", 
-            "tra (\\d+) sett.", 
-            "tra (\\d+) settimane"
+            "tra (\\d+) settimane", 
+            "tra (\\d+) sett"
         ], 
         "\\1 week ago": [
             "(\\d+) settimana fa", 
-            "(\\d+) sett. fa", 
+            "(\\d+) sett fa", 
             "(\\d+) settimane fa"
         ], 
         "in \\1 day": [
@@ -220,37 +219,33 @@
         "in \\1 hour": [
             "tra (\\d+) ora", 
             "tra (\\d+) h", 
-            "tra (\\d+) ore", 
-            "tra (\\d+) h."
+            "tra (\\d+) ore"
         ], 
         "\\1 hour ago": [
             "(\\d+) h fa", 
-            "(\\d+) h. fa", 
             "(\\d+) ora fa", 
             "(\\d+) ore fa"
         ], 
         "in \\1 minute": [
             "tra (\\d+) minuti", 
-            "tra (\\d+) min.", 
             "tra (\\d+) min", 
             "tra (\\d+) minuto"
         ], 
         "\\1 minute ago": [
             "(\\d+) minuti fa", 
-            "(\\d+) min. fa", 
             "(\\d+) minuto fa", 
             "(\\d+) min fa"
         ], 
         "in \\1 second": [
-            "tra (\\d+) sec.", 
             "tra (\\d+) secondo", 
             "tra (\\d+) s", 
+            "tra (\\d+) sec", 
             "tra (\\d+) secondi"
         ], 
         "\\1 second ago": [
             "(\\d+) secondi fa", 
-            "(\\d+) sec. fa", 
             "(\\d+) s fa", 
+            "(\\d+) sec fa", 
             "(\\d+) secondo fa"
         ]
     }, 

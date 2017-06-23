@@ -2,107 +2,95 @@
     "name": "ps", 
     "date_order": "YMD", 
     "january": [
-        "1", 
         "جنوري"
     ], 
     "february": [
-        "2", 
         "فبروري"
     ], 
     "march": [
-        "مارچ", 
-        "3"
+        "مارچ"
     ], 
     "april": [
-        "اپریل", 
-        "4"
+        "اپریل"
     ], 
     "may": [
-        "مۍ", 
-        "5"
+        "مۍ"
     ], 
     "june": [
-        "جون", 
-        "6"
+        "جون"
     ], 
     "july": [
-        "جولای", 
-        "7"
+        "جولای"
     ], 
     "august": [
-        "8", 
         "اګست"
     ], 
     "september": [
-        "9", 
         "سپتمبر"
     ], 
     "october": [
-        "10", 
         "اکتوبر"
     ], 
     "november": [
-        "11", 
         "نومبر"
     ], 
     "december": [
-        "12", 
         "دسمبر"
     ], 
     "monday": [
-        "M", 
+        "m", 
         "دوشنبه"
     ], 
     "tuesday": [
         "سه‌شنبه", 
-        "T"
+        "t"
     ], 
     "wednesday": [
         "چهارشنبه", 
-        "W"
+        "w"
     ], 
     "thursday": [
         "پنجشنبه", 
-        "T"
+        "t"
     ], 
     "friday": [
         "جمعه", 
-        "F"
+        "f"
     ], 
     "saturday": [
         "شنبه", 
-        "S"
+        "s"
     ], 
     "sunday": [
-        "S", 
+        "s", 
         "یکشنبه"
     ], 
     "am": [
-        "غ.م."
+        "غ.م"
     ], 
     "pm": [
-        "غ.و."
+        "غ.و"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

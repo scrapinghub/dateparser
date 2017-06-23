@@ -2,91 +2,91 @@
     "name": "fi", 
     "date_order": "DMY", 
     "january": [
-        "tammik.", 
         "tammikuu", 
+        "tammik", 
         "tammi", 
         "tammikuuta", 
-        "T"
+        "t"
     ], 
     "february": [
         "helmi", 
-        "H", 
-        "helmik.", 
+        "h", 
+        "helmik", 
         "helmikuu", 
         "helmikuuta"
     ], 
     "march": [
         "maaliskuuta", 
         "maaliskuu", 
-        "M", 
-        "maalisk.", 
+        "m", 
+        "maalisk", 
         "maalis"
     ], 
     "april": [
-        "H", 
+        "huhtik", 
+        "h", 
         "huhtikuu", 
         "huhtikuuta", 
-        "huhtik.", 
         "huhti"
     ], 
     "may": [
+        "toukok", 
         "toukokuu", 
         "toukokuuta", 
-        "T", 
-        "toukok.", 
+        "t", 
         "touko"
     ], 
     "june": [
-        "kesäk.", 
-        "K", 
+        "k", 
+        "kesäk", 
         "kesäkuu", 
         "kesäkuuta", 
         "kesä"
     ], 
     "july": [
-        "heinäk.", 
         "heinäkuu", 
+        "heinäk", 
         "heinä", 
         "heinäkuuta", 
-        "H"
+        "h"
     ], 
     "august": [
-        "elok.", 
         "elokuu", 
         "elokuuta", 
-        "E", 
-        "elo"
+        "e", 
+        "elo", 
+        "elok"
     ], 
     "september": [
-        "syysk.", 
-        "S", 
+        "s", 
+        "syysk", 
         "syys", 
         "syyskuuta", 
         "syyskuu"
     ], 
     "october": [
-        "lokak.", 
         "loka", 
         "lokakuuta", 
-        "L", 
+        "l", 
+        "lokak", 
         "lokakuu"
     ], 
     "november": [
         "marras", 
         "marraskuuta", 
-        "M", 
-        "marrask.", 
+        "m", 
+        "marrask", 
         "marraskuu"
     ], 
     "december": [
         "joulukuu", 
+        "jouluk", 
         "joulu", 
-        "J", 
-        "jouluk.", 
+        "j", 
         "joulukuuta"
     ], 
     "monday": [
-        "M", 
+        "m", 
         "maanantaina", 
         "ma", 
         "maanantai"
@@ -94,44 +94,44 @@
     "tuesday": [
         "tiistai", 
         "tiistaina", 
-        "T", 
+        "t", 
         "ti"
     ], 
     "wednesday": [
         "keskiviikko", 
-        "K", 
+        "k", 
         "keskiviikkona", 
         "ke"
     ], 
     "thursday": [
         "to", 
         "torstai", 
-        "T", 
+        "t", 
         "torstaina"
     ], 
     "friday": [
-        "P", 
+        "p", 
         "perjantaina", 
         "perjantai", 
         "pe"
     ], 
     "saturday": [
         "lauantai", 
-        "L", 
+        "l", 
         "lauantaina", 
         "la"
     ], 
     "sunday": [
         "sunnuntaina", 
-        "S", 
+        "s", 
         "sunnuntai", 
         "su"
     ], 
     "am": [
-        "ap."
+        "ap"
     ], 
     "pm": [
-        "ip."
+        "ip"
     ], 
     "year": [
         "vuosi", 
@@ -205,8 +205,8 @@
             "tänään"
         ], 
         "in 1 day": [
-            "huomenna", 
-            "huom."
+            "huom", 
+            "huomenna"
         ], 
         "0 hour ago": [
             "tämän tunnin aikana", 

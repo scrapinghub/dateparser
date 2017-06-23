@@ -2,99 +2,99 @@
     "name": "mgh", 
     "date_order": "DMY", 
     "january": [
-        "Kwa", 
-        "K", 
-        "Mweri wo kwanza"
+        "kwa", 
+        "k", 
+        "mweri wo kwanza"
     ], 
     "february": [
-        "Mweri wo unayeli", 
-        "U", 
-        "Una"
+        "mweri wo unayeli", 
+        "u", 
+        "una"
     ], 
     "march": [
-        "Mweri wo uneraru", 
-        "R", 
-        "Rar"
+        "mweri wo uneraru", 
+        "r", 
+        "rar"
     ], 
     "april": [
-        "C", 
-        "Mweri wo unecheshe", 
-        "Che"
+        "c", 
+        "mweri wo unecheshe", 
+        "che"
     ], 
     "may": [
-        "Mweri wo unethanu", 
-        "T", 
-        "Tha"
+        "mweri wo unethanu", 
+        "t", 
+        "tha"
     ], 
     "june": [
-        "Mweri wo thanu na mocha", 
-        "Moc", 
-        "M"
+        "mweri wo thanu na mocha", 
+        "moc", 
+        "m"
     ], 
     "july": [
-        "Sab", 
-        "S", 
-        "Mweri wo saba"
+        "sab", 
+        "s", 
+        "mweri wo saba"
     ], 
     "august": [
-        "Mweri wo nane", 
-        "Nan", 
-        "N"
+        "mweri wo nane", 
+        "nan", 
+        "n"
     ], 
     "september": [
-        "Mweri wo tisa", 
-        "T", 
-        "Tis"
+        "mweri wo tisa", 
+        "t", 
+        "tis"
     ], 
     "october": [
-        "Kum", 
-        "Mweri wo kumi", 
-        "K"
+        "kum", 
+        "mweri wo kumi", 
+        "k"
     ], 
     "november": [
-        "Moj", 
-        "M", 
-        "Mweri wo kumi na moja"
+        "moj", 
+        "m", 
+        "mweri wo kumi na moja"
     ], 
     "december": [
-        "Y", 
-        "Mweri wo kumi na yel’li", 
-        "Yel"
+        "y", 
+        "mweri wo kumi na yel’li", 
+        "yel"
     ], 
     "monday": [
-        "Jumatatu", 
-        "J", 
-        "Jtt"
+        "jumatatu", 
+        "j", 
+        "jtt"
     ], 
     "tuesday": [
-        "J", 
-        "Jumanne", 
-        "Jnn"
+        "j", 
+        "jumanne", 
+        "jnn"
     ], 
     "wednesday": [
-        "J", 
-        "Jtn", 
-        "Jumatano"
+        "jtn", 
+        "jumatano", 
+        "j"
     ], 
     "thursday": [
-        "A", 
-        "Ara", 
-        "Arahamisi"
+        "a", 
+        "ara", 
+        "arahamisi"
     ], 
     "friday": [
-        "I", 
-        "Ijumaa", 
-        "Iju"
+        "i", 
+        "ijumaa", 
+        "iju"
     ], 
     "saturday": [
-        "Jumamosi", 
-        "J", 
-        "Jmo"
+        "jumamosi", 
+        "j", 
+        "jmo"
     ], 
     "sunday": [
-        "Sab", 
-        "Sabato", 
-        "S"
+        "sab", 
+        "sabato", 
+        "s"
     ], 
     "am": [
         "wichishu"

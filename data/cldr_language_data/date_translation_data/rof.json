@@ -2,99 +2,92 @@
     "name": "rof", 
     "date_order": "DMY", 
     "january": [
-        "K", 
-        "M1", 
-        "Mweri wa kwanza"
+        "k", 
+        "m1", 
+        "mweri wa kwanza"
     ], 
     "february": [
-        "K", 
-        "Mweri wa kaili", 
-        "M2"
+        "k", 
+        "mweri wa kaili", 
+        "m2"
     ], 
     "march": [
-        "Mweri wa katatu", 
-        "K", 
-        "M3"
+        "mweri wa katatu", 
+        "k", 
+        "m3"
     ], 
     "april": [
-        "M4", 
-        "K", 
-        "Mweri wa kaana"
+        "m4", 
+        "k", 
+        "mweri wa kaana"
     ], 
     "may": [
-        "M5", 
-        "Mweri wa tanu", 
-        "T"
+        "m5", 
+        "mweri wa tanu", 
+        "t"
     ], 
     "june": [
-        "Mweri wa sita", 
-        "M6", 
-        "S"
+        "mweri wa sita", 
+        "m6", 
+        "s"
     ], 
     "july": [
-        "Mweri wa saba", 
-        "M7", 
-        "S"
+        "mweri wa saba", 
+        "m7", 
+        "s"
     ], 
     "august": [
-        "Mweri wa nane", 
-        "M8", 
-        "N"
+        "mweri wa nane", 
+        "m8", 
+        "n"
     ], 
     "september": [
-        "Mweri wa tisa", 
-        "M9", 
-        "T"
+        "mweri wa tisa", 
+        "m9", 
+        "t"
     ], 
     "october": [
-        "I", 
-        "M10", 
-        "Mweri wa ikumi"
+        "i", 
+        "m10", 
+        "mweri wa ikumi"
     ], 
     "november": [
-        "M11", 
-        "Mweri wa ikumi na moja", 
-        "I"
+        "m11", 
+        "mweri wa ikumi na moja", 
+        "i"
     ], 
     "december": [
-        "I", 
-        "M12", 
-        "Mweri wa ikumi na mbili"
+        "i", 
+        "m12", 
+        "mweri wa ikumi na mbili"
     ], 
     "monday": [
-        "Ijumatatu", 
-        "3", 
-        "Ijt"
+        "ijumatatu", 
+        "ijt"
     ], 
     "tuesday": [
-        "Ijumanne", 
-        "Ijn", 
-        "4"
+        "ijumanne", 
+        "ijn"
     ], 
     "wednesday": [
-        "Ijumatano", 
-        "5", 
-        "Ijtn"
+        "ijumatano", 
+        "ijtn"
     ], 
     "thursday": [
-        "Alhamisi", 
-        "Alh", 
-        "6"
+        "alhamisi", 
+        "alh"
     ], 
     "friday": [
-        "Ijumaa", 
-        "Iju", 
-        "7"
+        "ijumaa", 
+        "iju"
     ], 
     "saturday": [
-        "1", 
-        "Ijumamosi", 
-        "Ijm"
+        "ijumamosi", 
+        "ijm"
     ], 
     "sunday": [
-        "Ijp", 
-        "Ijumapili", 
-        "2"
+        "ijp", 
+        "ijumapili"
     ], 
     "am": [
         "kang’ama"
@@ -103,25 +96,25 @@
         "kingoto"
     ], 
     "year": [
-        "Muaka"
+        "muaka"
     ], 
     "month": [
-        "Mweri"
+        "mweri"
     ], 
     "week": [
-        "Iwiki"
+        "iwiki"
     ], 
     "day": [
-        "Mfiri"
+        "mfiri"
     ], 
     "hour": [
-        "Isaa"
+        "isaa"
     ], 
     "minute": [
-        "Dakika"
+        "dakika"
     ], 
     "second": [
-        "Sekunde"
+        "sekunde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +145,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Hiyo"
+            "hiyo"
         ], 
         "0 day ago": [
-            "Linu"
+            "linu"
         ], 
         "in 1 day": [
-            "Ng’ama"
+            "ng’ama"
         ], 
         "0 hour ago": [
             "this hour"

@@ -2,93 +2,91 @@
     "name": "fil", 
     "date_order": "MDY", 
     "january": [
-        "Enero", 
-        "E", 
-        "Ene"
+        "enero", 
+        "e", 
+        "ene"
     ], 
     "february": [
-        "P", 
-        "Pebrero", 
-        "Peb"
+        "p", 
+        "pebrero", 
+        "peb"
     ], 
     "march": [
-        "Marso", 
-        "M", 
-        "Mar"
+        "marso", 
+        "m", 
+        "mar"
     ], 
     "april": [
-        "A", 
-        "Abr", 
-        "Abril"
+        "a", 
+        "abr", 
+        "abril"
     ], 
     "may": [
-        "May", 
-        "Mayo", 
-        "M"
+        "may", 
+        "mayo", 
+        "m"
     ], 
     "june": [
-        "Hun", 
-        "Hunyo"
+        "hun", 
+        "hunyo"
     ], 
     "july": [
-        "Hul", 
-        "Hulyo"
+        "hul", 
+        "hulyo"
     ], 
     "august": [
-        "Ago", 
-        "Agosto"
+        "ago", 
+        "agosto"
     ], 
     "september": [
-        "Setyembre", 
-        "Set"
+        "setyembre", 
+        "set"
     ], 
     "october": [
-        "Okt", 
-        "Oktubre"
+        "okt", 
+        "oktubre"
     ], 
     "november": [
-        "Nobyembre", 
-        "Nob"
+        "nobyembre", 
+        "nob"
     ], 
     "december": [
-        "Disyembre", 
-        "Dis"
+        "disyembre", 
+        "dis"
     ], 
     "monday": [
-        "Lunes", 
-        "Lun"
+        "lunes", 
+        "lun"
     ], 
     "tuesday": [
-        "Mar", 
-        "Martes"
+        "mar", 
+        "martes"
     ], 
     "wednesday": [
-        "Miy", 
-        "Miyerkules"
+        "miy", 
+        "miyerkules"
     ], 
     "thursday": [
-        "Huwebes", 
-        "Huw"
+        "huwebes", 
+        "huw"
     ], 
     "friday": [
-        "Biyernes", 
-        "Biy"
+        "biyernes", 
+        "biy"
     ], 
     "saturday": [
-        "Sab", 
-        "Sabado"
+        "sab", 
+        "sabado"
     ], 
     "sunday": [
-        "Linggo", 
-        "Lin"
+        "linggo", 
+        "lin"
     ], 
     "am": [
-        "am", 
-        "AM"
+        "am"
     ], 
     "pm": [
-        "pm", 
-        "PM"
+        "pm"
     ], 
     "year": [
         "taon"
@@ -107,10 +105,10 @@
     ], 
     "minute": [
         "minuto", 
-        "min."
+        "min"
     ], 
     "second": [
-        "seg.", 
+        "seg", 
         "segundo"
     ], 
     "relative-type": {
@@ -204,28 +202,28 @@
             "(\\d+) oras nakalipas"
         ], 
         "in \\1 minute": [
-            "sa (\\d+) (na) min.", 
+            "sa (\\d+) min", 
             "sa (\\d+) minuto", 
             "sa (\\d+) (na) minuto", 
-            "sa (\\d+) min."
+            "sa (\\d+) (na) min"
         ], 
         "\\1 minute ago": [
-            "(\\d+) min. ang nakalipas", 
+            "(\\d+) min ang nakalipas", 
             "(\\d+) minuto ang nakalipas", 
-            "(\\d+) (na) min. ang nakalipas", 
+            "(\\d+) (na) min ang nakalipas", 
             "(\\d+) (na) minuto ang nakalipas"
         ], 
         "in \\1 second": [
             "sa (\\d+) segundo", 
-            "sa (\\d+) seg.", 
+            "sa (\\d+) (na) seg", 
             "sa (\\d+) (na) segundo", 
-            "sa (\\d+) (na) seg."
+            "sa (\\d+) seg"
         ], 
         "\\1 second ago": [
-            "(\\d+) seg. nakalipas", 
-            "(\\d+) seg. ang nakalipas", 
+            "(\\d+) (na) seg nakalipas", 
+            "(\\d+) seg ang nakalipas", 
             "(\\d+) segundo ang nakalipas", 
-            "(\\d+) (na) seg. nakalipas", 
+            "(\\d+) seg nakalipas", 
             "(\\d+) (na) segundo ang nakalipas"
         ]
     }, 

@@ -2,178 +2,167 @@
     "name": "ksh", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "J", 
-        "Jannewa", 
-        "Jan."
+        "jan", 
+        "jannewa", 
+        "j"
     ], 
     "february": [
-        "Fäbrowa", 
-        "Fäb", 
-        "Fäb.", 
-        "F"
+        "fäbrowa", 
+        "fäb", 
+        "f"
     ], 
     "march": [
-        "Mäz", 
-        "Määz", 
-        "Mäz.", 
-        "M"
+        "mäz", 
+        "määz", 
+        "m"
     ], 
     "april": [
-        "A", 
-        "Apr", 
-        "Aprell", 
-        "Apr."
+        "apr", 
+        "a", 
+        "aprell"
     ], 
     "may": [
-        "Mai", 
-        "M"
+        "mai", 
+        "m"
     ], 
     "june": [
-        "Juuni", 
-        "J", 
-        "Jun", 
-        "Jun."
+        "juuni", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "J", 
-        "Juuli", 
-        "Jul.", 
-        "Jul"
+        "j", 
+        "juuli", 
+        "jul"
     ], 
     "august": [
-        "Oujoß", 
-        "Ouj.", 
-        "O", 
-        "Ouj"
+        "oujoß", 
+        "o", 
+        "ouj"
     ], 
     "september": [
-        "Septämber", 
-        "S", 
-        "Säp", 
-        "Säp."
+        "septämber", 
+        "s", 
+        "säp"
     ], 
     "october": [
-        "Okt.", 
-        "Oktohber", 
-        "Okt", 
-        "O"
+        "oktohber", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nov.", 
-        "Nov", 
-        "Novämber", 
-        "N"
+        "nov", 
+        "novämber", 
+        "n"
     ], 
     "december": [
-        "Dez.", 
-        "Dez", 
-        "Dezämber", 
-        "D"
+        "dez", 
+        "dezämber", 
+        "d"
     ], 
     "monday": [
-        "Mohndaach", 
-        "M", 
-        "Mo."
+        "mohndaach", 
+        "mo", 
+        "m"
     ], 
     "tuesday": [
-        "Di.", 
-        "Dinnsdaach", 
-        "D"
+        "d", 
+        "dinnsdaach", 
+        "di"
     ], 
     "wednesday": [
-        "Metwoch", 
-        "Me.", 
-        "M"
+        "me", 
+        "metwoch", 
+        "m"
     ], 
     "thursday": [
-        "Dunnersdaach", 
-        "D", 
-        "Du."
+        "dunnersdaach", 
+        "du", 
+        "d"
     ], 
     "friday": [
-        "Friidaach", 
-        "Fr.", 
-        "F"
+        "fr", 
+        "friidaach", 
+        "f"
     ], 
     "saturday": [
-        "S", 
-        "Sa.", 
-        "Samsdaach"
+        "sa", 
+        "s", 
+        "samsdaach"
     ], 
     "sunday": [
-        "Su.", 
-        "Sunndaach", 
-        "S"
+        "sunndaach", 
+        "s", 
+        "su"
     ], 
     "am": [
-        "v.M.", 
-        "Vörmeddaach", 
-        "Uhr vörmiddaachs"
+        "v.m", 
+        "vörmeddaach", 
+        "uhr vörmiddaachs"
     ], 
     "pm": [
-        "n.M.", 
-        "Nommendaach", 
-        "Uhr nommendaachs"
+        "uhr nommendaachs", 
+        "n.m", 
+        "nommendaach"
     ], 
     "year": [
-        "J.", 
-        "Johr"
+        "j", 
+        "johr"
     ], 
     "month": [
-        "Mohnd", 
-        "M."
+        "mohnd", 
+        "m"
     ], 
     "week": [
-        "W.", 
-        "Woch"
+        "woch", 
+        "w"
     ], 
     "day": [
-        "D.", 
-        "Daach"
+        "d", 
+        "daach"
     ], 
     "hour": [
-        "Schtund", 
-        "Std.", 
-        "S."
+        "std", 
+        "schtund", 
+        "s"
     ], 
     "minute": [
-        "m.", 
-        "Menutt", 
-        "min."
+        "menutt", 
+        "m", 
+        "min"
     ], 
     "second": [
-        "Sekond", 
-        "s.", 
-        "sek."
+        "sekond", 
+        "sek", 
+        "s"
     ], 
     "relative-type": {
         "1 year ago": [
-            "läz Johr"
+            "läz johr"
         ], 
         "0 year ago": [
-            "diß Johr"
+            "diß johr"
         ], 
         "in 1 year": [
-            "näx Johr"
+            "näx johr"
         ], 
         "1 month ago": [
-            "lätzde Mohnd"
+            "lätzde mohnd"
         ], 
         "0 month ago": [
-            "diese Mohnd"
+            "diese mohnd"
         ], 
         "in 1 month": [
-            "nächste Mohnd"
+            "nächste mohnd"
         ], 
         "1 week ago": [
-            "läz Woch"
+            "läz woch"
         ], 
         "0 week ago": [
-            "di Woch"
+            "di woch"
         ], 
         "in 1 week": [
-            "nächste Woche"
+            "nächste woche"
         ], 
         "1 day ago": [
             "jestere"
@@ -194,12 +183,12 @@
             "now"
         ], 
         "in \\1 year": [
-            "en (\\d+) Johr", 
-            "en (\\d+) Johre"
+            "en (\\d+) johr", 
+            "en (\\d+) johre"
         ], 
         "\\1 year ago": [
-            "vör (\\d+) Johr", 
-            "vör (\\d+) Johre"
+            "vör (\\d+) johr", 
+            "vör (\\d+) johre"
         ], 
         "in \\1 month": [
             "+(\\d+) m"

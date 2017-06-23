@@ -1,0 +1,25 @@
+skip: ["circa", "e"]
+
+year:
+    - anni
+month:
+    - mesi
+week:
+    - settimane
+day:
+    - giorni
+hour:
+    - ore
+minute:
+    - minuti
+second:
+    - secondi
+
+ago:
+    - fa
+in:
+    - in
+
+relative-type:
+    - 2 day ago:
+        - altro ieri

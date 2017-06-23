@@ -5,18 +5,15 @@
         "jan", 
         "januara", 
         "januar", 
-        "jan.", 
         "j"
     ], 
     "february": [
         "februara", 
-        "feb.", 
         "feb", 
         "februar", 
         "f"
     ], 
     "march": [
-        "měr.", 
         "měrca", 
         "m", 
         "měrc", 
@@ -26,17 +23,14 @@
         "apr", 
         "apryl", 
         "apryla", 
-        "a", 
-        "apr."
+        "a"
     ], 
     "may": [
-        "maj.", 
         "maj", 
         "m", 
         "maja"
     ], 
     "june": [
-        "jun.", 
         "junij", 
         "jun", 
         "junija", 
@@ -44,7 +38,6 @@
     ], 
     "july": [
         "j", 
-        "jul.", 
         "julij", 
         "jul", 
         "julija"
@@ -52,7 +45,6 @@
     "august": [
         "awg", 
         "a", 
-        "awg.", 
         "awgusta", 
         "awgust"
     ], 
@@ -60,11 +52,9 @@
         "september", 
         "s", 
         "septembra", 
-        "sep.", 
         "sep"
     ], 
     "october": [
-        "okt.", 
         "oktobra", 
         "oktober", 
         "okt", 
@@ -72,14 +62,12 @@
     ], 
     "november": [
         "nowember", 
-        "now.", 
         "now", 
         "nowembra", 
         "n"
     ], 
     "december": [
         "december", 
-        "dec.", 
         "dec", 
         "decembra", 
         "d"
@@ -120,23 +108,23 @@
         "n"
     ], 
     "am": [
-        "dop.", 
-        "dopołdnja"
+        "dopołdnja", 
+        "dop"
     ], 
     "pm": [
         "wótpołdnja", 
-        "wótp."
+        "wótp"
     ], 
     "year": [
         "lěto", 
-        "l."
+        "l"
     ], 
     "month": [
-        "mjas.", 
+        "mjas", 
         "mjasec"
     ], 
     "week": [
-        "tyź.", 
+        "tyź", 
         "tyźeń"
     ], 
     "day": [
@@ -145,18 +133,18 @@
     ], 
     "hour": [
         "góźina", 
-        "góź.", 
+        "góź", 
         "g"
     ], 
     "minute": [
         "minuta", 
         "m", 
-        "min."
+        "min"
     ], 
     "second": [
+        "sek", 
         "s", 
-        "sekunda", 
-        "sek."
+        "sekunda"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -206,81 +194,81 @@
         ], 
         "in \\1 year": [
             "za (\\d+) lěto", 
-            "za (\\d+) l.", 
-            "za (\\d+) lět"
+            "za (\\d+) lět", 
+            "za (\\d+) l"
         ], 
         "\\1 year ago": [
+            "pśed (\\d+) l", 
             "pśed (\\d+) lětom", 
-            "pśed (\\d+) l.", 
             "pśed (\\d+) lětami"
         ], 
         "in \\1 month": [
-            "za (\\d+) mjas.", 
             "za (\\d+) mjasec", 
+            "za (\\d+) mjas", 
             "za (\\d+) mjasecow"
         ], 
         "\\1 month ago": [
             "pśed (\\d+) mjasecom", 
             "pśed (\\d+) mjasecami", 
-            "pśed (\\d+) mjas."
+            "pśed (\\d+) mjas"
         ], 
         "in \\1 week": [
-            "za (\\d+) tyź.", 
+            "za (\\d+) tyź", 
             "za (\\d+) tyźenjow", 
             "za (\\d+) tyźeń"
         ], 
         "\\1 week ago": [
+            "pśed (\\d+) tyź", 
             "pśed (\\d+) tyźenjom", 
-            "pśed (\\d+) tyź.", 
             "pśed (\\d+) tyźenjami"
         ], 
         "in \\1 day": [
             "za (\\d+) źeń", 
             "za (\\d+) dnjow", 
             "za (\\d+) ź", 
-            "za (\\d+) dnj."
+            "za (\\d+) dnj"
         ], 
         "\\1 day ago": [
             "pśed (\\d+) d", 
+            "pśed (\\d+) dnj", 
             "pśed (\\d+) dnjom", 
-            "pśed (\\d+) dnj.", 
             "pśed (\\d+) dnjami"
         ], 
         "in \\1 hour": [
             "za (\\d+) góźin", 
+            "za (\\d+) góź", 
             "za (\\d+) góźinu", 
-            "za (\\d+) g", 
-            "za (\\d+) góź."
+            "za (\\d+) g"
         ], 
         "\\1 hour ago": [
-            "pśed (\\d+) góź.", 
-            "pśed (\\d+) góźinu", 
             "pśed (\\d+) g", 
+            "pśed (\\d+) góźinu", 
+            "pśed (\\d+) góź", 
             "pśed (\\d+) góźinami"
         ], 
         "in \\1 minute": [
+            "za (\\d+) min", 
             "za (\\d+) m", 
             "za (\\d+) minutow", 
-            "za (\\d+) minutu", 
-            "za (\\d+) min."
+            "za (\\d+) minutu"
         ], 
         "\\1 minute ago": [
             "pśed (\\d+) minutu", 
+            "pśed (\\d+) min", 
             "pśed (\\d+) m", 
-            "pśed (\\d+) min.", 
             "pśed (\\d+) minutami"
         ], 
         "in \\1 second": [
+            "za (\\d+) sek", 
             "za (\\d+) sekundow", 
             "za (\\d+) s", 
-            "za (\\d+) sekundu", 
-            "za (\\d+) sek."
+            "za (\\d+) sekundu"
         ], 
         "\\1 second ago": [
             "pśed (\\d+) sekundami", 
-            "pśed (\\d+) sek.", 
+            "pśed (\\d+) s", 
             "pśed (\\d+) sekundu", 
-            "pśed (\\d+) s"
+            "pśed (\\d+) sek"
         ]
     }, 
     "locale_specific": {}

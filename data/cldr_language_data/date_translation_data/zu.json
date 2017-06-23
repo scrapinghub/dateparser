@@ -2,130 +2,130 @@
     "name": "zu", 
     "date_order": "MDY", 
     "january": [
-        "Jan", 
-        "UMasingana", 
-        "J", 
-        "Januwari"
+        "jan", 
+        "umasingana", 
+        "j", 
+        "januwari"
     ], 
     "february": [
-        "Februwari", 
-        "Feb", 
-        "F"
+        "februwari", 
+        "feb", 
+        "f"
     ], 
     "march": [
-        "Mas", 
-        "M", 
-        "Mashi"
+        "mas", 
+        "m", 
+        "mashi"
     ], 
     "april": [
-        "Ephreli", 
-        "A", 
-        "E", 
-        "Eph"
+        "ephreli", 
+        "a", 
+        "e", 
+        "eph"
     ], 
     "may": [
-        "Meyi", 
-        "M", 
-        "Mey"
+        "meyi", 
+        "m", 
+        "mey"
     ], 
     "june": [
-        "Juni", 
-        "J", 
-        "Jun"
+        "juni", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "J", 
-        "Jul", 
-        "Julayi"
+        "j", 
+        "jul", 
+        "julayi"
     ], 
     "august": [
-        "A", 
-        "Aga", 
-        "Agasti"
+        "a", 
+        "aga", 
+        "agasti"
     ], 
     "september": [
-        "S", 
-        "Septhemba", 
-        "Sep"
+        "s", 
+        "septhemba", 
+        "sep"
     ], 
     "october": [
-        "Okthoba", 
-        "O", 
-        "Okt"
+        "okthoba", 
+        "o", 
+        "okt"
     ], 
     "november": [
-        "Nov", 
-        "Novemba", 
-        "N"
+        "nov", 
+        "novemba", 
+        "n"
     ], 
     "december": [
-        "D", 
-        "Disemba", 
-        "Dis"
+        "d", 
+        "disemba", 
+        "dis"
     ], 
     "monday": [
-        "Mso", 
-        "UMsombuluko", 
-        "M"
+        "mso", 
+        "umsombuluko", 
+        "m"
     ], 
     "tuesday": [
-        "Bil", 
-        "B", 
-        "ULwesibili"
+        "bil", 
+        "b", 
+        "ulwesibili"
     ], 
     "wednesday": [
-        "ULwesithathu", 
-        "T", 
-        "Tha"
+        "ulwesithathu", 
+        "t", 
+        "tha"
     ], 
     "thursday": [
-        "ULwesine", 
-        "S", 
-        "Sin"
+        "ulwesine", 
+        "s", 
+        "sin"
     ], 
     "friday": [
-        "ULwesihlanu", 
-        "H", 
-        "Hla"
+        "ulwesihlanu", 
+        "h", 
+        "hla"
     ], 
     "saturday": [
-        "UMgqibelo", 
-        "M", 
-        "Mgq"
+        "umgqibelo", 
+        "m", 
+        "mgq"
     ], 
     "sunday": [
-        "S", 
-        "ISonto", 
-        "Son"
+        "s", 
+        "isonto", 
+        "son"
     ], 
     "am": [
         "a", 
-        "AM"
+        "am"
     ], 
     "pm": [
         "p", 
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Unyaka"
+        "unyaka"
     ], 
     "month": [
-        "Inyanga"
+        "inyanga"
     ], 
     "week": [
-        "Iviki"
+        "iviki"
     ], 
     "day": [
-        "Usuku"
+        "usuku"
     ], 
     "hour": [
-        "Ihora"
+        "ihora"
     ], 
     "minute": [
-        "Iminithi"
+        "iminithi"
     ], 
     "second": [
-        "Isekhondi"
+        "isekhondi"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -205,9 +205,9 @@
             "ezinsukwini ezingu-(\\d+) ezizayo"
         ], 
         "\\1 day ago": [
+            "ezinsukwini ezingu-(\\d+) ezedlule", 
             "(\\d+) usuku olwedlule", 
             "osukwini olungu-(\\d+) olwedlule", 
-            "ezinsukwini ezingu-(\\d+) ezedlule.", 
             "(\\d+) izinsuku ezedlule"
         ], 
         "in \\1 hour": [

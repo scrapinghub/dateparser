@@ -2,126 +2,114 @@
     "name": "sbp", 
     "date_order": "DMY", 
     "january": [
-        "Mupalangulwa", 
-        "1", 
-        "Mup"
+        "mupalangulwa", 
+        "mup"
     ], 
     "february": [
-        "Mwitope", 
-        "Mwi", 
-        "2"
+        "mwitope", 
+        "mwi"
     ], 
     "march": [
-        "3", 
-        "Msh", 
-        "Mushende"
+        "msh", 
+        "mushende"
     ], 
     "april": [
-        "Mun", 
-        "4", 
-        "Munyi"
+        "mun", 
+        "munyi"
     ], 
     "may": [
-        "5", 
-        "Mushende Magali", 
-        "Mag"
+        "mushende magali", 
+        "mag"
     ], 
     "june": [
-        "Mujimbi", 
-        "6", 
-        "Muj"
+        "mujimbi", 
+        "muj"
     ], 
     "july": [
-        "Msp", 
-        "7", 
-        "Mushipepo"
+        "msp", 
+        "mushipepo"
     ], 
     "august": [
-        "Mupuguto", 
-        "Mpg", 
-        "8"
+        "mupuguto", 
+        "mpg"
     ], 
     "september": [
-        "Munyense", 
-        "9", 
-        "Mye"
+        "munyense", 
+        "mye"
     ], 
     "october": [
-        "Mok", 
-        "10", 
-        "Mokhu"
+        "mok", 
+        "mokhu"
     ], 
     "november": [
-        "11", 
-        "Musongandembwe", 
-        "Mus"
+        "musongandembwe", 
+        "mus"
     ], 
     "december": [
-        "Muhaano", 
-        "12", 
-        "Muh"
+        "muhaano", 
+        "muh"
     ], 
     "monday": [
-        "Jumatatu", 
-        "J", 
-        "Jtt"
+        "jumatatu", 
+        "j", 
+        "jtt"
     ], 
     "tuesday": [
-        "J", 
-        "Jumanne", 
-        "Jnn"
+        "j", 
+        "jumanne", 
+        "jnn"
     ], 
     "wednesday": [
-        "J", 
-        "Jtn", 
-        "Jumatano"
+        "jtn", 
+        "jumatano", 
+        "j"
     ], 
     "thursday": [
-        "A", 
-        "Alahamisi", 
-        "Alh"
+        "a", 
+        "alahamisi", 
+        "alh"
     ], 
     "friday": [
-        "I", 
-        "Ijumaa", 
-        "Iju"
+        "i", 
+        "ijumaa", 
+        "iju"
     ], 
     "saturday": [
-        "Jumamosi", 
-        "J", 
-        "Jmo"
+        "jumamosi", 
+        "j", 
+        "jmo"
     ], 
     "sunday": [
-        "Mul", 
-        "M", 
-        "Mulungu"
+        "mul", 
+        "mulungu", 
+        "m"
     ], 
     "am": [
-        "Lwamilawu"
+        "lwamilawu"
     ], 
     "pm": [
-        "Pashamihe"
+        "pashamihe"
     ], 
     "year": [
-        "Mwakha"
+        "mwakha"
     ], 
     "month": [
-        "Mwesi"
+        "mwesi"
     ], 
     "week": [
-        "Ilijuma"
+        "ilijuma"
     ], 
     "day": [
-        "Lusiku"
+        "lusiku"
     ], 
     "hour": [
-        "Ilisala"
+        "ilisala"
     ], 
     "minute": [
-        "Idakika"
+        "idakika"
     ], 
     "second": [
-        "Isekunde"
+        "isekunde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +140,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Imehe"
+            "imehe"
         ], 
         "0 day ago": [
-            "Ineng’uni"
+            "ineng’uni"
         ], 
         "in 1 day": [
-            "Pamulaawu"
+            "pamulaawu"
         ], 
         "0 hour ago": [
             "this hour"

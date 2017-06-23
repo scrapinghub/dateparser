@@ -2,85 +2,83 @@
     "name": "hr", 
     "date_order": "DMY", 
     "january": [
+        "1", 
         "siječanj", 
-        "1.", 
         "siječnja", 
         "sij"
     ], 
     "february": [
-        "2.", 
         "veljače", 
+        "2", 
         "velj", 
         "veljača"
     ], 
     "march": [
         "ožujka", 
+        "3", 
         "ožujak", 
-        "3.", 
         "ožu"
     ], 
     "april": [
         "tra", 
-        "4.", 
         "travanj", 
+        "4", 
         "travnja"
     ], 
     "may": [
         "svibanj", 
-        "5.", 
         "svibnja", 
+        "5", 
         "svi"
     ], 
     "june": [
         "lipanj", 
         "lip", 
         "lipnja", 
-        "6."
+        "6"
     ], 
     "july": [
         "srpnja", 
-        "7.", 
         "srp", 
-        "srpanj"
+        "srpanj", 
+        "7"
     ], 
     "august": [
         "kolovoz", 
         "kolovoza", 
-        "8.", 
-        "kol"
+        "kol", 
+        "8"
     ], 
     "september": [
         "ruj", 
-        "rujna", 
+        "9", 
         "rujan", 
-        "9."
+        "rujna"
     ], 
     "october": [
+        "10", 
         "listopada", 
-        "10.", 
         "listopad", 
         "lis"
     ], 
     "november": [
-        "studenoga", 
+        "11", 
         "stu", 
         "studeni", 
-        "11."
+        "studenoga"
     ], 
     "december": [
         "prosinac", 
         "pro", 
-        "prosinca", 
-        "12."
+        "12", 
+        "prosinca"
     ], 
     "monday": [
         "pon", 
         "p", 
-        "ponedjeljak", 
-        "P"
+        "ponedjeljak"
     ], 
     "tuesday": [
-        "U", 
         "u", 
         "uto", 
         "utorak"
@@ -88,23 +86,19 @@
     "wednesday": [
         "srijeda", 
         "s", 
-        "sri", 
-        "S"
+        "sri"
     ], 
     "thursday": [
         "čet", 
         "č", 
-        "Č", 
         "četvrtak"
     ], 
     "friday": [
         "pet", 
         "p", 
-        "petak", 
-        "P"
+        "petak"
     ], 
     "saturday": [
-        "S", 
         "s", 
         "sub", 
         "subota"
@@ -112,31 +106,30 @@
     "sunday": [
         "nedjelja", 
         "ned", 
-        "N", 
         "n"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "g.", 
+        "g", 
         "godina"
     ], 
     "month": [
-        "m.", 
-        "mj.", 
-        "mjesec"
+        "mjesec", 
+        "m", 
+        "mj"
     ], 
     "week": [
-        "tjedan", 
-        "tj."
+        "tj", 
+        "tjedan"
     ], 
     "day": [
-        "d.", 
-        "dan"
+        "dan", 
+        "d"
     ], 
     "hour": [
         "h", 
@@ -152,43 +145,43 @@
     ], 
     "relative-type": {
         "1 year ago": [
-            "prošle god.", 
-            "prošle g.", 
-            "prošle godine"
+            "prošle g", 
+            "prošle godine", 
+            "prošle god"
         ], 
         "0 year ago": [
-            "ove g.", 
+            "ove god", 
             "ove godine", 
-            "ove god."
+            "ove g"
         ], 
         "in 1 year": [
-            "sljedeće god.", 
             "sljedeće godine", 
-            "sljedeće g."
+            "sljedeće god", 
+            "sljedeće g"
         ], 
         "1 month ago": [
-            "prošli mj.", 
-            "prošli mjesec"
+            "prošli mjesec", 
+            "prošli mj"
         ], 
         "0 month ago": [
-            "ovaj mj.", 
+            "ovaj mj", 
             "ovaj mjesec"
         ], 
         "in 1 month": [
-            "sljedeći mj.", 
+            "sljedeći mj", 
             "sljedeći mjesec"
         ], 
         "1 week ago": [
             "prošli tjedan", 
-            "prošli tj."
+            "prošli tj"
         ], 
         "0 week ago": [
             "ovaj tjedan", 
-            "ovaj tj."
+            "ovaj tj"
         ], 
         "in 1 week": [
-            "sljedeći tjedan", 
-            "sljedeći tj."
+            "sljedeći tj", 
+            "sljedeći tjedan"
         ], 
         "1 day ago": [
             "jučer"
@@ -209,40 +202,40 @@
             "sad"
         ], 
         "in \\1 year": [
-            "za (\\d+) g.", 
             "za (\\d+) godina", 
-            "+(\\d+) g.", 
+            "+(\\d+) g", 
+            "za (\\d+) g", 
             "za (\\d+) godinu"
         ], 
         "\\1 year ago": [
             "prije (\\d+) godina", 
-            "-(\\d+) g.", 
-            "prije (\\d+) g.", 
+            "-(\\d+) g", 
+            "prije (\\d+) g", 
             "prije (\\d+) godinu"
         ], 
         "in \\1 month": [
             "za (\\d+) mjeseci", 
-            "za (\\d+) mj.", 
-            "+(\\d+) mj.", 
+            "+(\\d+) mj", 
+            "za (\\d+) mj", 
             "za (\\d+) mjesec"
         ], 
         "\\1 month ago": [
-            "-(\\d+) mj.", 
+            "-(\\d+) mj", 
+            "prije (\\d+) mj", 
             "prije (\\d+) mjeseci", 
-            "prije (\\d+) mj.", 
             "prije (\\d+) mjesec"
         ], 
         "in \\1 week": [
+            "+(\\d+) tj", 
             "za (\\d+) tjedana", 
-            "+(\\d+) tj.", 
-            "za (\\d+) tjedan", 
-            "za (\\d+) tj."
+            "za (\\d+) tj", 
+            "za (\\d+) tjedan"
         ], 
         "\\1 week ago": [
-            "-(\\d+) tj.", 
+            "prije (\\d+) tj", 
             "prije (\\d+) tjedan", 
-            "prije (\\d+) tj.", 
-            "prije (\\d+) tjedana"
+            "prije (\\d+) tjedana", 
+            "-(\\d+) tj"
         ], 
         "in \\1 day": [
             "za (\\d+) dana", 

@@ -2,84 +2,70 @@
     "name": "vai-Latn", 
     "date_order": "DMY", 
     "january": [
-        "1", 
         "luukao kemã"
     ], 
     "february": [
-        "2", 
         "ɓandaɓu"
     ], 
     "march": [
-        "3", 
         "vɔɔ"
     ], 
     "april": [
-        "fulu", 
-        "4"
+        "fulu"
     ], 
     "may": [
-        "goo", 
-        "5"
+        "goo"
     ], 
-    "june": [
-        "6"
-    ], 
-    "july": [
-        "7"
-    ], 
+    "june": [], 
+    "july": [], 
     "august": [
-        "8", 
         "kɔnde"
     ], 
     "september": [
-        "9", 
         "saah"
     ], 
     "october": [
-        "10", 
         "galo"
     ], 
     "november": [
-        "11", 
         "kenpkato ɓololɔ"
     ], 
     "december": [
-        "12", 
         "luukao lɔma"
     ], 
     "monday": [
         "tɛɛnɛɛ", 
-        "M"
+        "m"
     ], 
     "tuesday": [
         "talata", 
-        "T"
+        "t"
     ], 
     "wednesday": [
-        "W", 
+        "w", 
         "alaba"
     ], 
     "thursday": [
-        "T", 
+        "t", 
         "aimisa"
     ], 
     "friday": [
         "aijima", 
-        "F"
+        "f"
     ], 
     "saturday": [
-        "S", 
+        "s", 
         "siɓiti"
     ], 
     "sunday": [
-        "S", 
+        "s", 
         "lahadi"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
         "saŋ"

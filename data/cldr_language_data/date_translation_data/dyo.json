@@ -2,125 +2,125 @@
     "name": "dyo", 
     "date_order": "DMY", 
     "january": [
-        "Sa", 
-        "Sanvie", 
-        "S"
+        "sa", 
+        "sanvie", 
+        "s"
     ], 
     "february": [
-        "F", 
-        "Fe", 
-        "Fébirie"
+        "f", 
+        "fe", 
+        "fébirie"
     ], 
     "march": [
-        "M", 
-        "Ma", 
-        "Mars"
+        "m", 
+        "ma", 
+        "mars"
     ], 
     "april": [
-        "A", 
-        "Aburil", 
-        "Ab"
+        "a", 
+        "aburil", 
+        "ab"
     ], 
     "may": [
-        "Mee", 
-        "Me", 
-        "M"
+        "mee", 
+        "me", 
+        "m"
     ], 
     "june": [
-        "S", 
-        "Sueŋ", 
-        "Su"
+        "s", 
+        "sueŋ", 
+        "su"
     ], 
     "july": [
-        "Sú", 
-        "S", 
-        "Súuyee"
+        "sú", 
+        "s", 
+        "súuyee"
     ], 
     "august": [
-        "Ut", 
-        "U"
+        "ut", 
+        "u"
     ], 
     "september": [
-        "Settembar", 
-        "S", 
-        "Se"
+        "settembar", 
+        "s", 
+        "se"
     ], 
     "october": [
-        "Ok", 
-        "O", 
-        "Oktobar"
+        "ok", 
+        "o", 
+        "oktobar"
     ], 
     "november": [
-        "N", 
-        "Novembar", 
-        "No"
+        "n", 
+        "novembar", 
+        "no"
     ], 
     "december": [
-        "De", 
-        "Disambar", 
-        "D"
+        "de", 
+        "disambar", 
+        "d"
     ], 
     "monday": [
-        "Teneŋ", 
-        "T", 
-        "Ten"
+        "teneŋ", 
+        "t", 
+        "ten"
     ], 
     "tuesday": [
-        "Tal", 
-        "Talata", 
-        "T"
+        "tal", 
+        "talata", 
+        "t"
     ], 
     "wednesday": [
-        "A", 
-        "Alarbay", 
-        "Ala"
+        "a", 
+        "alarbay", 
+        "ala"
     ], 
     "thursday": [
-        "A", 
-        "Aramisay", 
-        "Ara"
+        "a", 
+        "aramisay", 
+        "ara"
     ], 
     "friday": [
-        "A", 
-        "Arjuma", 
-        "Arj"
+        "a", 
+        "arjuma", 
+        "arj"
     ], 
     "saturday": [
-        "Sib", 
-        "S", 
-        "Sibiti"
+        "sib", 
+        "s", 
+        "sibiti"
     ], 
     "sunday": [
-        "Dim", 
-        "Dimas", 
-        "D"
+        "dim", 
+        "dimas", 
+        "d"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Emit"
+        "emit"
     ], 
     "month": [
-        "Fuleeŋ"
+        "fuleeŋ"
     ], 
     "week": [
-        "Lóokuŋ"
+        "lóokuŋ"
     ], 
     "day": [
-        "Funak"
+        "funak"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -151,13 +151,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Fucen"
+            "fucen"
         ], 
         "0 day ago": [
-            "Jaat"
+            "jaat"
         ], 
         "in 1 day": [
-            "Kajom"
+            "kajom"
         ], 
         "0 hour ago": [
             "this hour"

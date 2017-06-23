@@ -2,103 +2,103 @@
     "name": "fur", 
     "date_order": "DMY", 
     "january": [
-        "Zenâr", 
-        "Z", 
-        "Zen"
+        "zenâr", 
+        "z", 
+        "zen"
     ], 
     "february": [
-        "Fev", 
-        "Fevrâr", 
-        "F"
+        "fev", 
+        "fevrâr", 
+        "f"
     ], 
     "march": [
-        "Març", 
-        "M", 
-        "Mar"
+        "març", 
+        "m", 
+        "mar"
     ], 
     "april": [
-        "A", 
-        "Avrîl", 
-        "Avr"
+        "a", 
+        "avrîl", 
+        "avr"
     ], 
     "may": [
-        "Mai", 
-        "M"
+        "mai", 
+        "m"
     ], 
     "june": [
-        "Jugn", 
-        "J", 
-        "Jug"
+        "jugn", 
+        "j", 
+        "jug"
     ], 
     "july": [
-        "Lui", 
-        "L"
+        "lui", 
+        "l"
     ], 
     "august": [
-        "Avost", 
-        "A", 
-        "Avo"
+        "avost", 
+        "a", 
+        "avo"
     ], 
     "september": [
-        "S", 
-        "Set", 
-        "Setembar"
+        "s", 
+        "set", 
+        "setembar"
     ], 
     "october": [
-        "Otu", 
-        "O", 
-        "Otubar"
+        "otu", 
+        "o", 
+        "otubar"
     ], 
     "november": [
-        "Nov", 
-        "Novembar", 
-        "N"
+        "nov", 
+        "novembar", 
+        "n"
     ], 
     "december": [
-        "Dicembar", 
-        "D", 
-        "Dic"
+        "dicembar", 
+        "d", 
+        "dic"
     ], 
     "monday": [
         "lunis", 
-        "L", 
+        "l", 
         "lun"
     ], 
     "tuesday": [
         "martars", 
-        "M", 
+        "m", 
         "mar"
     ], 
     "wednesday": [
         "miercus", 
-        "M", 
-        "mie"
+        "mie", 
+        "m"
     ], 
     "thursday": [
         "joi", 
-        "J", 
+        "j", 
         "joibe"
     ], 
     "friday": [
-        "V", 
+        "v", 
         "vin", 
         "vinars"
     ], 
     "saturday": [
         "sabide", 
         "sab", 
-        "S"
+        "s"
     ], 
     "sunday": [
         "domenie", 
-        "D", 
+        "d", 
         "dom"
     ], 
     "am": [
-        "a."
+        "a"
     ], 
     "pm": [
-        "p."
+        "p"
     ], 
     "year": [
         "an"

@@ -2,94 +2,94 @@
     "name": "et", 
     "date_order": "DMY", 
     "january": [
-        "J", 
+        "j", 
         "jaanuar", 
         "jaan"
     ], 
     "february": [
         "veebr", 
         "veebruar", 
-        "V"
+        "v"
     ], 
     "march": [
         "märts", 
-        "M"
+        "m"
     ], 
     "april": [
         "apr", 
-        "A", 
+        "a", 
         "aprill"
     ], 
     "may": [
         "mai", 
-        "M"
+        "m"
     ], 
     "june": [
         "juuni", 
-        "J"
+        "j"
     ], 
     "july": [
-        "J", 
+        "j", 
         "juuli"
     ], 
     "august": [
-        "A", 
+        "a", 
         "august", 
         "aug"
     ], 
     "september": [
         "september", 
-        "S", 
+        "s", 
         "sept"
     ], 
     "october": [
         "oktoober", 
         "okt", 
-        "O"
+        "o"
     ], 
     "november": [
         "november", 
         "nov", 
-        "N"
+        "n"
     ], 
     "december": [
         "detsember", 
         "dets", 
-        "D"
+        "d"
     ], 
     "monday": [
-        "E", 
+        "e", 
         "esmaspäev"
     ], 
     "tuesday": [
-        "T", 
+        "t", 
         "teisipäev"
     ], 
     "wednesday": [
         "kolmapäev", 
-        "K"
+        "k"
     ], 
     "thursday": [
         "neljapäev", 
-        "N"
+        "n"
     ], 
     "friday": [
         "reede", 
-        "R"
+        "r"
     ], 
     "saturday": [
         "laupäev", 
-        "L"
+        "l"
     ], 
     "sunday": [
-        "P", 
+        "p", 
         "pühapäev"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
         "a", 

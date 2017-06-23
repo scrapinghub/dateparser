@@ -3,20 +3,17 @@
     "date_order": "DMY", 
     "january": [
         "styczeń", 
-        "S", 
-        "stycznia", 
         "s", 
+        "stycznia", 
         "sty"
     ], 
     "february": [
         "luty", 
         "lutego", 
         "lut", 
-        "L", 
         "l"
     ], 
     "march": [
-        "M", 
         "m", 
         "mar", 
         "marzec", 
@@ -25,19 +22,16 @@
     "april": [
         "kwi", 
         "kwietnia", 
-        "K", 
         "k", 
         "kwiecień"
     ], 
     "may": [
-        "m", 
         "maj", 
-        "M", 
+        "m", 
         "maja"
     ], 
     "june": [
         "c", 
-        "C", 
         "czerwca", 
         "czerwiec", 
         "cze"
@@ -45,35 +39,30 @@
     "july": [
         "lipca", 
         "lip", 
-        "L", 
-        "lipiec", 
-        "l"
+        "l", 
+        "lipiec"
     ], 
     "august": [
         "sierpnia", 
-        "S", 
         "s", 
         "sie", 
         "sierpień"
     ], 
     "september": [
-        "w", 
         "wrzesień", 
         "wrz", 
         "września", 
-        "W"
+        "w"
     ], 
     "october": [
-        "P", 
+        "p", 
         "październik", 
         "paź", 
-        "października", 
-        "p"
+        "października"
     ], 
     "november": [
         "listopada", 
         "l", 
-        "L", 
         "listopad", 
         "lis"
     ], 
@@ -81,88 +70,80 @@
         "grudzień", 
         "gru", 
         "g", 
-        "G", 
         "grudnia"
     ], 
     "monday": [
-        "P", 
-        "pon.", 
-        "poniedziałek", 
-        "p"
+        "pon", 
+        "p", 
+        "poniedziałek"
     ], 
     "tuesday": [
         "wtorek", 
-        "w", 
-        "W", 
-        "wt."
+        "wt", 
+        "w"
     ], 
     "wednesday": [
+        "śr", 
         "ś", 
-        "Ś", 
-        "śr.", 
         "środa"
     ], 
     "thursday": [
-        "czw.", 
         "c", 
-        "C", 
-        "czwartek"
+        "czwartek", 
+        "czw"
     ], 
     "friday": [
         "piątek", 
-        "pt.", 
         "p", 
-        "P"
+        "pt"
     ], 
     "saturday": [
         "s", 
-        "sob.", 
-        "sobota", 
-        "S"
+        "sob", 
+        "sobota"
     ], 
     "sunday": [
         "n", 
         "niedziela", 
-        "niedz.", 
-        "N"
+        "niedz"
     ], 
     "am": [
         "a", 
-        "AM"
+        "am"
     ], 
     "pm": [
         "p", 
-        "PM"
+        "pm"
     ], 
     "year": [
-        "r.", 
+        "r", 
         "rok"
     ], 
     "month": [
         "miesiąc", 
-        "mies.", 
+        "mies", 
         "mc"
     ], 
     "week": [
-        "tydz.", 
-        "tydzień"
+        "tydzień", 
+        "tydz"
     ], 
     "day": [
         "dzień"
     ], 
     "hour": [
-        "g.", 
+        "godz", 
         "godzina", 
-        "godz."
+        "g"
     ], 
     "minute": [
         "minuta", 
         "min"
     ], 
     "second": [
+        "sek", 
         "s", 
-        "sekunda", 
-        "sek."
+        "sekunda"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -221,26 +202,26 @@
         "in \\1 month": [
             "za (\\d+) miesiąc", 
             "za (\\d+) miesiąca", 
-            "za (\\d+) mies.", 
-            "+(\\d+) mies."
+            "za (\\d+) mies", 
+            "+(\\d+) mies"
         ], 
         "\\1 month ago": [
             "(\\d+) miesiąca temu", 
-            "(\\d+) mies. temu", 
             "(\\d+) miesiąc temu", 
-            "–(\\d+) mies."
+            "–(\\d+) mies", 
+            "(\\d+) mies temu"
         ], 
         "in \\1 week": [
-            "za (\\d+) tyg.", 
+            "za (\\d+) tyg", 
+            "za (\\d+) tydz", 
             "za (\\d+) tydzień", 
-            "za (\\d+) tydz.", 
             "za (\\d+) tygodnia"
         ], 
         "\\1 week ago": [
             "(\\d+) tydzień temu", 
             "(\\d+) tygodnia temu", 
-            "(\\d+) tyg. temu", 
-            "(\\d+) tydz. temu"
+            "(\\d+) tydz temu", 
+            "(\\d+) tyg temu"
         ], 
         "in \\1 day": [
             "za (\\d+) dzień", 
@@ -251,15 +232,15 @@
             "(\\d+) dzień temu"
         ], 
         "in \\1 hour": [
-            "za (\\d+) g.", 
-            "za (\\d+) godz.", 
+            "za (\\d+) godz", 
             "za (\\d+) godzinę", 
+            "za (\\d+) g", 
             "za (\\d+) godziny"
         ], 
         "\\1 hour ago": [
-            "(\\d+) g. temu", 
+            "(\\d+) g temu", 
             "(\\d+) godziny temu", 
-            "(\\d+) godz. temu", 
+            "(\\d+) godz temu", 
             "(\\d+) godzinę temu"
         ], 
         "in \\1 minute": [
@@ -276,12 +257,12 @@
             "za (\\d+) sekundę", 
             "za (\\d+) sekundy", 
             "za (\\d+) s", 
-            "za (\\d+) sek."
+            "za (\\d+) sek"
         ], 
         "\\1 second ago": [
             "(\\d+) sekundę temu", 
             "(\\d+) sekundy temu", 
-            "(\\d+) sek. temu", 
+            "(\\d+) sek temu", 
             "(\\d+) s temu"
         ]
     }, 

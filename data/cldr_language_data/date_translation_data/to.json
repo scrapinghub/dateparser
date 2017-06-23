@@ -2,108 +2,108 @@
     "name": "to", 
     "date_order": "DMY", 
     "january": [
-        "S", 
-        "Sān", 
-        "Sānuali"
+        "s", 
+        "sān", 
+        "sānuali"
     ], 
     "february": [
-        "Fēp", 
-        "Fēpueli", 
-        "F"
+        "fēp", 
+        "fēpueli", 
+        "f"
     ], 
     "march": [
-        "Maʻasi", 
-        "M", 
-        "Maʻa"
+        "maʻasi", 
+        "m", 
+        "maʻa"
     ], 
     "april": [
-        "E", 
-        "ʻEpeleli", 
-        "ʻEpe"
+        "e", 
+        "ʻepeleli", 
+        "ʻepe"
     ], 
     "may": [
-        "M", 
-        "Mē"
+        "m", 
+        "mē"
     ], 
     "june": [
-        "Sun", 
-        "S", 
-        "Sune"
+        "sun", 
+        "s", 
+        "sune"
     ], 
     "july": [
-        "S", 
-        "Siu", 
-        "Siulai"
+        "s", 
+        "siu", 
+        "siulai"
     ], 
     "august": [
-        "A", 
-        "ʻAokosi", 
-        "ʻAok"
+        "a", 
+        "ʻaokosi", 
+        "ʻaok"
     ], 
     "september": [
-        "Sepitema", 
-        "S", 
-        "Sep"
+        "sepitema", 
+        "s", 
+        "sep"
     ], 
     "october": [
-        "ʻOkatopa", 
-        "O", 
-        "ʻOka"
+        "ʻokatopa", 
+        "o", 
+        "ʻoka"
     ], 
     "november": [
-        "Nōv", 
-        "Nōvema", 
-        "N"
+        "nōv", 
+        "nōvema", 
+        "n"
     ], 
     "december": [
-        "Tīs", 
-        "T", 
-        "Tīsema"
+        "t", 
+        "tīs", 
+        "tīsema"
     ], 
     "monday": [
-        "Mōn", 
-        "M", 
-        "Mōnite"
+        "mōn", 
+        "m", 
+        "mōnite"
     ], 
     "tuesday": [
-        "Tūsite", 
-        "Tūs", 
-        "T"
+        "tūsite", 
+        "tūs", 
+        "t"
     ], 
     "wednesday": [
-        "Pul", 
-        "P", 
-        "Pulelulu"
+        "pul", 
+        "p", 
+        "pulelulu"
     ], 
     "thursday": [
-        "Tuʻapulelulu", 
-        "Tuʻa", 
-        "T"
+        "tuʻapulelulu", 
+        "tuʻa", 
+        "t"
     ], 
     "friday": [
-        "Falaite", 
-        "Fal", 
-        "F"
+        "falaite", 
+        "fal", 
+        "f"
     ], 
     "saturday": [
-        "Tok", 
-        "Tokonaki", 
-        "T"
+        "tok", 
+        "tokonaki", 
+        "t"
     ], 
     "sunday": [
-        "S", 
-        "Sāp", 
-        "Sāpate"
+        "s", 
+        "sāp", 
+        "sāpate"
     ], 
     "am": [
         "hengihengi", 
-        "HH", 
-        "AM"
+        "hh", 
+        "am"
     ], 
     "pm": [
-        "EA", 
+        "ea", 
         "efiafi", 
-        "PM"
+        "pm"
     ], 
     "year": [
         "taʻu"

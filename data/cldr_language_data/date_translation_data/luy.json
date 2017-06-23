@@ -2,125 +2,125 @@
     "name": "luy", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "Januari", 
-        "J"
+        "jan", 
+        "januari", 
+        "j"
     ], 
     "february": [
-        "Februari", 
-        "Feb", 
-        "F"
+        "februari", 
+        "feb", 
+        "f"
     ], 
     "march": [
-        "Mar", 
-        "M", 
-        "Machi"
+        "mar", 
+        "m", 
+        "machi"
     ], 
     "april": [
-        "Apr", 
-        "A", 
-        "Aprili"
+        "apr", 
+        "a", 
+        "aprili"
     ], 
     "may": [
-        "M", 
-        "Mei"
+        "m", 
+        "mei"
     ], 
     "june": [
-        "Juni", 
-        "J", 
-        "Jun"
+        "juni", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "J", 
-        "Jul", 
-        "Julai"
+        "j", 
+        "jul", 
+        "julai"
     ], 
     "august": [
-        "Ago", 
-        "Agosti", 
-        "A"
+        "ago", 
+        "agosti", 
+        "a"
     ], 
     "september": [
-        "S", 
-        "Septemba", 
-        "Sep"
+        "s", 
+        "septemba", 
+        "sep"
     ], 
     "october": [
-        "Oktoba", 
-        "Okt", 
-        "O"
+        "oktoba", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nov", 
-        "Novemba", 
-        "N"
+        "nov", 
+        "novemba", 
+        "n"
     ], 
     "december": [
-        "Desemba", 
-        "Des", 
-        "D"
+        "desemba", 
+        "des", 
+        "d"
     ], 
     "monday": [
-        "Jumatatu", 
-        "M", 
-        "J3"
+        "jumatatu", 
+        "m", 
+        "j3"
     ], 
     "tuesday": [
-        "J4", 
-        "Jumanne", 
-        "T"
+        "j4", 
+        "jumanne", 
+        "t"
     ], 
     "wednesday": [
-        "J5", 
-        "Jumatano", 
-        "W"
+        "j5", 
+        "jumatano", 
+        "w"
     ], 
     "thursday": [
-        "Murwa wa Kanne", 
-        "Al", 
-        "T"
+        "murwa wa kanne", 
+        "al", 
+        "t"
     ], 
     "friday": [
-        "F", 
-        "Ij", 
-        "Murwa wa Katano"
+        "ij", 
+        "f", 
+        "murwa wa katano"
     ], 
     "saturday": [
-        "Jumamosi", 
-        "S", 
-        "J1"
+        "jumamosi", 
+        "s", 
+        "j1"
     ], 
     "sunday": [
-        "S", 
-        "Jumapiri", 
-        "J2"
+        "s", 
+        "jumapiri", 
+        "j2"
     ], 
     "am": [
-        "a.m."
+        "am"
     ], 
     "pm": [
-        "p.m."
+        "pm"
     ], 
     "year": [
-        "Muhiga"
+        "muhiga"
     ], 
     "month": [
-        "Mweri"
+        "mweri"
     ], 
     "week": [
-        "Risiza"
+        "risiza"
     ], 
     "day": [
-        "Ridiku"
+        "ridiku"
     ], 
     "hour": [
-        "Isaa"
+        "isaa"
     ], 
     "minute": [
-        "Idagika"
+        "idagika"
     ], 
     "second": [
-        "Sekunde"
+        "sekunde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -151,13 +151,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Mgorova"
+            "mgorova"
         ], 
         "0 day ago": [
-            "Lero"
+            "lero"
         ], 
         "in 1 day": [
-            "Mgamba"
+            "mgamba"
         ], 
         "0 hour ago": [
             "this hour"

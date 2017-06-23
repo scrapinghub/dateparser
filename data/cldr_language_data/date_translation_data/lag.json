@@ -2,126 +2,126 @@
     "name": "lag", 
     "date_order": "DMY", 
     "january": [
-        "Kʉfúngatɨ", 
-        "Fúngatɨ", 
-        "F"
+        "kʉfúngatɨ", 
+        "fúngatɨ", 
+        "f"
     ], 
     "february": [
-        "N", 
-        "Kʉnaanɨ", 
-        "Naanɨ"
+        "n", 
+        "kʉnaanɨ", 
+        "naanɨ"
     ], 
     "march": [
-        "Kʉkeenda", 
-        "K", 
-        "Keenda"
+        "kʉkeenda", 
+        "k", 
+        "keenda"
     ], 
     "april": [
-        "I", 
-        "Kwiikumi", 
-        "Ikúmi"
+        "i", 
+        "kwiikumi", 
+        "ikúmi"
     ], 
     "may": [
-        "I", 
-        "Inyambala", 
-        "Kwiinyambála"
+        "i", 
+        "inyambala", 
+        "kwiinyambála"
     ], 
     "june": [
-        "I", 
-        "Idwaata", 
-        "Kwiidwaata"
+        "i", 
+        "idwaata", 
+        "kwiidwaata"
     ], 
     "july": [
-        "Mʉʉnchɨ", 
-        "M", 
-        "Kʉmʉʉnchɨ"
+        "mʉʉnchɨ", 
+        "m", 
+        "kʉmʉʉnchɨ"
     ], 
     "august": [
-        "V", 
-        "Vɨɨrɨ", 
-        "Kʉvɨɨrɨ"
+        "v", 
+        "vɨɨrɨ", 
+        "kʉvɨɨrɨ"
     ], 
     "september": [
-        "Saatʉ", 
-        "S", 
-        "Kʉsaatʉ"
+        "saatʉ", 
+        "s", 
+        "kʉsaatʉ"
     ], 
     "october": [
-        "I", 
-        "Inyi", 
-        "Kwiinyi"
+        "i", 
+        "inyi", 
+        "kwiinyi"
     ], 
     "november": [
-        "S", 
-        "Saano", 
-        "Kʉsaano"
+        "s", 
+        "saano", 
+        "kʉsaano"
     ], 
     "december": [
-        "S", 
-        "Sasatʉ", 
-        "Kʉsasatʉ"
+        "s", 
+        "sasatʉ", 
+        "kʉsasatʉ"
     ], 
     "monday": [
-        "Jumatátu", 
-        "Táatu", 
-        "T"
+        "jumatátu", 
+        "táatu", 
+        "t"
     ], 
     "tuesday": [
-        "Jumaíne", 
-        "E", 
-        "Íne"
+        "jumaíne", 
+        "e", 
+        "íne"
     ], 
     "wednesday": [
-        "Jumatáano", 
-        "O", 
-        "Táano"
+        "jumatáano", 
+        "o", 
+        "táano"
     ], 
     "thursday": [
-        "A", 
-        "Alh", 
-        "Alamíisi"
+        "a", 
+        "alh", 
+        "alamíisi"
     ], 
     "friday": [
-        "I", 
-        "Ijumáa", 
-        "Ijm"
+        "i", 
+        "ijumáa", 
+        "ijm"
     ], 
     "saturday": [
-        "Jumamóosi", 
-        "Móosi", 
-        "M"
+        "jumamóosi", 
+        "móosi", 
+        "m"
     ], 
     "sunday": [
-        "P", 
-        "Jumapíiri", 
-        "Píili"
+        "p", 
+        "jumapíiri", 
+        "píili"
     ], 
     "am": [
-        "TOO"
+        "too"
     ], 
     "pm": [
-        "MUU"
+        "muu"
     ], 
     "year": [
-        "Mwaáka"
+        "mwaáka"
     ], 
     "month": [
-        "Mweéri"
+        "mweéri"
     ], 
     "week": [
-        "Wíiki"
+        "wíiki"
     ], 
     "day": [
-        "Sikʉ"
+        "sikʉ"
     ], 
     "hour": [
-        "Sáa"
+        "sáa"
     ], 
     "minute": [
-        "Dakíka"
+        "dakíka"
     ], 
     "second": [
-        "Sekúunde"
+        "sekúunde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Niijo"
+            "niijo"
         ], 
         "0 day ago": [
-            "Isikʉ"
+            "isikʉ"
         ], 
         "in 1 day": [
-            "Lamʉtoondo"
+            "lamʉtoondo"
         ], 
         "0 hour ago": [
             "this hour"

@@ -2,126 +2,126 @@
     "name": "ha", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "Janairu", 
-        "J"
+        "jan", 
+        "janairu", 
+        "j"
     ], 
     "february": [
-        "Fab", 
-        "Faburairu", 
-        "F"
+        "fab", 
+        "faburairu", 
+        "f"
     ], 
     "march": [
-        "Mar", 
-        "M", 
-        "Maris"
+        "mar", 
+        "m", 
+        "maris"
     ], 
     "april": [
-        "A", 
-        "Afi", 
-        "Afirilu"
+        "a", 
+        "afi", 
+        "afirilu"
     ], 
     "may": [
-        "Mayu", 
-        "May", 
-        "M"
+        "mayu", 
+        "may", 
+        "m"
     ], 
     "june": [
-        "Y", 
-        "Yuni", 
-        "Yun"
+        "y", 
+        "yuni", 
+        "yun"
     ], 
     "july": [
-        "Y", 
-        "Yul", 
-        "Yuli"
+        "y", 
+        "yul", 
+        "yuli"
     ], 
     "august": [
-        "A", 
-        "Agu", 
-        "Agusta"
+        "a", 
+        "agu", 
+        "agusta"
     ], 
     "september": [
-        "S", 
-        "Satumba", 
-        "Sat"
+        "s", 
+        "satumba", 
+        "sat"
     ], 
     "october": [
-        "Oktoba", 
-        "Okt", 
-        "O"
+        "oktoba", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nuwamba", 
-        "Nuw", 
-        "N"
+        "nuwamba", 
+        "nuw", 
+        "n"
     ], 
     "december": [
-        "Disamba", 
-        "D", 
-        "Dis"
+        "disamba", 
+        "d", 
+        "dis"
     ], 
     "monday": [
-        "Litinin", 
-        "Lit", 
-        "L"
+        "litinin", 
+        "lit", 
+        "l"
     ], 
     "tuesday": [
-        "Tal", 
-        "Talata", 
-        "T"
+        "tal", 
+        "talata", 
+        "t"
     ], 
     "wednesday": [
-        "L", 
-        "Lar", 
-        "Laraba"
+        "l", 
+        "lar", 
+        "laraba"
     ], 
     "thursday": [
-        "Alhamis", 
-        "A", 
-        "Alh"
+        "alhamis", 
+        "a", 
+        "alh"
     ], 
     "friday": [
-        "Jummaʼa", 
-        "J", 
-        "Jum"
+        "jummaʼa", 
+        "j", 
+        "jum"
     ], 
     "saturday": [
-        "A", 
-        "Asabar", 
-        "Asa"
+        "a", 
+        "asabar", 
+        "asa"
     ], 
     "sunday": [
-        "Lah", 
-        "L", 
-        "Lahadi"
+        "lah", 
+        "l", 
+        "lahadi"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Shekara"
+        "shekara"
     ], 
     "month": [
-        "Wata"
+        "wata"
     ], 
     "week": [
-        "Mako"
+        "mako"
     ], 
     "day": [
-        "Kwana"
+        "kwana"
     ], 
     "hour": [
-        "Awa"
+        "awa"
     ], 
     "minute": [
-        "Minti"
+        "minti"
     ], 
     "second": [
-        "Daƙiƙa"
+        "daƙiƙa"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Jiya"
+            "jiya"
         ], 
         "0 day ago": [
-            "Yau"
+            "yau"
         ], 
         "in 1 day": [
-            "Gobe"
+            "gobe"
         ], 
         "0 hour ago": [
             "this hour"

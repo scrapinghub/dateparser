@@ -2,104 +2,104 @@
     "name": "nl", 
     "date_order": "DMY", 
     "january": [
+        "jan", 
         "januari", 
-        "J", 
-        "jan."
+        "j"
     ], 
     "february": [
         "februari", 
-        "F", 
-        "feb."
+        "feb", 
+        "f"
     ], 
     "march": [
         "maart", 
-        "mrt.", 
-        "M"
+        "mrt", 
+        "m"
     ], 
     "april": [
-        "A", 
+        "apr", 
         "april", 
-        "apr."
+        "a"
     ], 
     "may": [
-        "M", 
+        "m", 
         "mei"
     ], 
     "june": [
         "juni", 
-        "J", 
-        "jun."
+        "j", 
+        "jun"
     ], 
     "july": [
         "juli", 
-        "J", 
-        "jul."
+        "j", 
+        "jul"
     ], 
     "august": [
-        "A", 
-        "aug.", 
+        "a", 
+        "aug", 
         "augustus"
     ], 
     "september": [
         "september", 
-        "S", 
-        "sep."
+        "s", 
+        "sep"
     ], 
     "october": [
-        "okt.", 
         "oktober", 
-        "O"
+        "okt", 
+        "o"
     ], 
     "november": [
-        "nov.", 
         "november", 
-        "N"
+        "nov", 
+        "n"
     ], 
     "december": [
         "december", 
-        "dec.", 
-        "D"
+        "dec", 
+        "d"
     ], 
     "monday": [
-        "M", 
+        "m", 
         "ma", 
         "maandag"
     ], 
     "tuesday": [
         "di", 
-        "D", 
+        "d", 
         "dinsdag"
     ], 
     "wednesday": [
         "wo", 
-        "W", 
+        "w", 
         "woensdag"
     ], 
     "thursday": [
         "donderdag", 
-        "D", 
+        "d", 
         "do"
     ], 
     "friday": [
         "vr", 
         "vrijdag", 
-        "V"
+        "v"
     ], 
     "saturday": [
         "zaterdag", 
-        "Z", 
+        "z", 
         "za"
     ], 
     "sunday": [
         "zondag", 
-        "Z", 
-        "zo"
+        "zo", 
+        "z"
     ], 
     "am": [
-        "a.m."
+        "am"
     ], 
     "pm": [
-        "p.m."
+        "pm"
     ], 
     "year": [
         "jaar", 
@@ -215,22 +215,22 @@
         "in \\1 minute": [
             "over (\\d+) minuut", 
             "over (\\d+) minuten", 
-            "over (\\d+) min."
+            "over (\\d+) min"
         ], 
         "\\1 minute ago": [
             "(\\d+) minuut geleden", 
             "(\\d+) minuten geleden", 
-            "(\\d+) min. geleden"
+            "(\\d+) min geleden"
         ], 
         "in \\1 second": [
             "over (\\d+) seconde", 
-            "over (\\d+) sec.", 
-            "over (\\d+) seconden"
+            "over (\\d+) seconden", 
+            "over (\\d+) sec"
         ], 
         "\\1 second ago": [
+            "(\\d+) sec geleden", 
             "(\\d+) seconden geleden", 
-            "(\\d+) seconde geleden", 
-            "(\\d+) sec. geleden"
+            "(\\d+) seconde geleden"
         ]
     }, 
     "locale_specific": {

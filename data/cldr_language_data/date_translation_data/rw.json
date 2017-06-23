@@ -2,126 +2,114 @@
     "name": "rw", 
     "date_order": "YMD", 
     "january": [
-        "1", 
-        "Mutarama", 
-        "mut."
+        "mut", 
+        "mutarama"
     ], 
     "february": [
-        "Gashyantare", 
-        "2", 
-        "gas."
+        "gashyantare", 
+        "gas"
     ], 
     "march": [
-        "Werurwe", 
-        "3", 
-        "wer."
+        "werurwe", 
+        "wer"
     ], 
     "april": [
-        "mat.", 
-        "4", 
-        "Mata"
+        "mat", 
+        "mata"
     ], 
     "may": [
-        "5", 
-        "Gicuransi", 
-        "gic."
+        "gic", 
+        "gicuransi"
     ], 
     "june": [
-        "6", 
-        "kam.", 
-        "Kamena"
+        "kam", 
+        "kamena"
     ], 
     "july": [
-        "nya.", 
-        "7", 
-        "Nyakanga"
+        "nya", 
+        "nyakanga"
     ], 
     "august": [
-        "kan.", 
-        "8", 
-        "Kanama"
+        "kanama", 
+        "kan"
     ], 
     "september": [
-        "9", 
-        "Nzeli", 
-        "nze."
+        "nzeli", 
+        "nze"
     ], 
     "october": [
-        "10", 
-        "ukw.", 
-        "Ukwakira"
+        "ukw", 
+        "ukwakira"
     ], 
     "november": [
-        "11", 
-        "Ugushyingo", 
-        "ugu."
+        "ugushyingo", 
+        "ugu"
     ], 
     "december": [
-        "uku.", 
-        "12", 
-        "Ukuboza"
+        "uku", 
+        "ukuboza"
     ], 
     "monday": [
-        "M", 
-        "Kuwa mbere", 
-        "mbe."
+        "mbe", 
+        "kuwa mbere", 
+        "m"
     ], 
     "tuesday": [
-        "kab.", 
-        "T", 
-        "Kuwa kabiri"
+        "kab", 
+        "t", 
+        "kuwa kabiri"
     ], 
     "wednesday": [
-        "gtu.", 
-        "Kuwa gatatu", 
-        "W"
+        "kuwa gatatu", 
+        "gtu", 
+        "w"
     ], 
     "thursday": [
-        "kan.", 
-        "T", 
-        "Kuwa kane"
+        "kan", 
+        "kuwa kane", 
+        "t"
     ], 
     "friday": [
-        "Kuwa gatanu", 
-        "gnu.", 
-        "F"
+        "kuwa gatanu", 
+        "f", 
+        "gnu"
     ], 
     "saturday": [
-        "S", 
-        "gnd.", 
-        "Kuwa gatandatu"
+        "s", 
+        "gnd", 
+        "kuwa gatandatu"
     ], 
     "sunday": [
-        "S", 
-        "Ku cyumweru", 
-        "cyu."
+        "ku cyumweru", 
+        "s", 
+        "cyu"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

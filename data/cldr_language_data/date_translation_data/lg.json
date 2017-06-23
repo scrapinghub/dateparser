@@ -2,126 +2,126 @@
     "name": "lg", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "J", 
-        "Janwaliyo"
+        "jan", 
+        "j", 
+        "janwaliyo"
     ], 
     "february": [
-        "Febwaliyo", 
-        "Feb", 
-        "F"
+        "febwaliyo", 
+        "feb", 
+        "f"
     ], 
     "march": [
-        "Mar", 
-        "M", 
-        "Marisi"
+        "mar", 
+        "m", 
+        "marisi"
     ], 
     "april": [
-        "A", 
-        "Apuli", 
-        "Apu"
+        "a", 
+        "apuli", 
+        "apu"
     ], 
     "may": [
-        "Maa", 
-        "M", 
-        "Maayi"
+        "maa", 
+        "m", 
+        "maayi"
     ], 
     "june": [
-        "Juuni", 
-        "J", 
-        "Juu"
+        "juuni", 
+        "j", 
+        "juu"
     ], 
     "july": [
-        "J", 
-        "Jul", 
-        "Julaayi"
+        "j", 
+        "jul", 
+        "julaayi"
     ], 
     "august": [
-        "A", 
-        "Agu", 
-        "Agusito"
+        "a", 
+        "agu", 
+        "agusito"
     ], 
     "september": [
-        "S", 
-        "Sebuttemba", 
-        "Seb"
+        "s", 
+        "sebuttemba", 
+        "seb"
     ], 
     "october": [
-        "Oki", 
-        "Okitobba", 
-        "O"
+        "oki", 
+        "okitobba", 
+        "o"
     ], 
     "november": [
-        "Nov", 
-        "Novemba", 
-        "N"
+        "nov", 
+        "novemba", 
+        "n"
     ], 
     "december": [
-        "Desemba", 
-        "Des", 
-        "D"
+        "desemba", 
+        "des", 
+        "d"
     ], 
     "monday": [
-        "Bal", 
-        "Balaza", 
-        "B"
+        "bal", 
+        "balaza", 
+        "b"
     ], 
     "tuesday": [
-        "Lw2", 
-        "Lwakubiri", 
-        "L"
+        "lw2", 
+        "lwakubiri", 
+        "l"
     ], 
     "wednesday": [
-        "Lw3", 
-        "Lwakusatu", 
-        "L"
+        "lw3", 
+        "lwakusatu", 
+        "l"
     ], 
     "thursday": [
-        "Lwakuna", 
-        "L", 
-        "Lw4"
+        "lwakuna", 
+        "l", 
+        "lw4"
     ], 
     "friday": [
-        "Lwakutaano", 
-        "L", 
-        "Lw5"
+        "l", 
+        "lwakutaano", 
+        "lw5"
     ], 
     "saturday": [
-        "Lwamukaaga", 
-        "Lw6", 
-        "L"
+        "lwamukaaga", 
+        "lw6", 
+        "l"
     ], 
     "sunday": [
-        "Sab", 
-        "S", 
-        "Sabbiiti"
+        "sab", 
+        "s", 
+        "sabbiiti"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Mwaka"
+        "mwaka"
     ], 
     "month": [
-        "Mwezi"
+        "mwezi"
     ], 
     "week": [
-        "Sabbiiti"
+        "sabbiiti"
     ], 
     "day": [
-        "Lunaku"
+        "lunaku"
     ], 
     "hour": [
-        "Saawa"
+        "saawa"
     ], 
     "minute": [
-        "Dakiika"
+        "dakiika"
     ], 
     "second": [
-        "Kasikonda"
+        "kasikonda"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Ggulo"
+            "ggulo"
         ], 
         "0 day ago": [
-            "Lwaleero"
+            "lwaleero"
         ], 
         "in 1 day": [
-            "Nkya"
+            "nkya"
         ], 
         "0 hour ago": [
             "this hour"

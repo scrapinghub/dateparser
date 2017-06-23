@@ -2,135 +2,123 @@
     "name": "ast", 
     "date_order": "DMY", 
     "january": [
-        "X", 
+        "x", 
         "de xineru", 
         "xin", 
-        "Xin", 
         "xineru"
     ], 
     "february": [
         "de febreru", 
-        "Feb", 
         "feb", 
         "febreru", 
-        "F"
+        "f"
     ], 
     "march": [
-        "mar", 
         "de marzu", 
-        "Mar", 
-        "M", 
+        "mar", 
+        "m", 
         "marzu"
     ], 
     "april": [
-        "A", 
-        "Abr", 
+        "a", 
         "abr", 
         "d’abril", 
         "abril"
     ], 
     "may": [
         "mayu", 
-        "May", 
-        "M", 
-        "de mayu", 
-        "may"
+        "may", 
+        "m", 
+        "de mayu"
     ], 
     "june": [
-        "xun", 
-        "X", 
+        "x", 
         "xunu", 
-        "Xun", 
+        "xun", 
         "de xunu"
     ], 
     "july": [
         "de xunetu", 
         "xunetu", 
         "xnt", 
-        "Xnt", 
-        "X"
+        "x"
     ], 
     "august": [
-        "Ago", 
-        "A", 
+        "ago", 
+        "a", 
         "d’agostu", 
-        "agostu", 
-        "ago"
+        "agostu"
     ], 
     "september": [
         "setiembre", 
-        "S", 
-        "Set", 
+        "s", 
         "set", 
         "de setiembre"
     ], 
     "october": [
         "ochobre", 
         "d’ochobre", 
-        "och", 
-        "O", 
-        "Och"
+        "o", 
+        "och"
     ], 
     "november": [
         "de payares", 
-        "Pay", 
-        "payares", 
         "pay", 
-        "P"
+        "payares", 
+        "p"
     ], 
     "december": [
-        "A", 
+        "a", 
         "d’avientu", 
-        "avi", 
         "avientu", 
-        "Avi"
+        "avi"
     ], 
     "monday": [
-        "L", 
+        "l", 
         "llu", 
         "llunes"
     ], 
     "tuesday": [
         "mar", 
-        "M", 
+        "m", 
         "martes"
     ], 
     "wednesday": [
         "mié", 
         "miércoles", 
-        "M"
+        "m"
     ], 
     "thursday": [
         "xue", 
         "xueves", 
-        "X"
+        "x"
     ], 
     "friday": [
-        "V", 
         "vie", 
+        "v", 
         "vienres"
     ], 
     "saturday": [
         "sábadu", 
         "sáb", 
-        "S"
+        "s"
     ], 
     "sunday": [
-        "D", 
+        "d", 
         "domingu", 
         "dom"
     ], 
     "am": [
         "a", 
-        "AM", 
+        "am", 
         "mañana", 
-        "de la mañana"
+        "de lamañana"
     ], 
     "pm": [
         "tarde", 
         "de la tarde", 
         "p", 
-        "PM"
+        "pm"
     ], 
     "year": [
         "añu"
@@ -140,62 +128,62 @@
     ], 
     "week": [
         "selmana", 
-        "sel."
+        "sel"
     ], 
     "day": [
         "día"
     ], 
     "hour": [
         "hora", 
-        "h."
+        "h"
     ], 
     "minute": [
-        "m.", 
-        "min.", 
-        "minutu"
+        "m", 
+        "minutu", 
+        "min"
     ], 
     "second": [
-        "segundu", 
-        "s."
+        "s", 
+        "segundu"
     ], 
     "relative-type": {
         "1 year ago": [
-            "l’añu pas.", 
             "l’añu pasáu", 
-            "añu pas."
+            "añu pas", 
+            "l’añu pas"
         ], 
         "0 year ago": [
             "esti añu"
         ], 
         "in 1 year": [
-            "añu vin.", 
-            "l’añu vin.", 
+            "l’añu vin", 
+            "añu vin", 
             "l’añu viniente"
         ], 
         "1 month ago": [
             "el mes pasáu", 
-            "mes pas."
+            "mes pas"
         ], 
         "0 month ago": [
             "esti mes"
         ], 
         "in 1 month": [
-            "mes vin.", 
+            "mes vin", 
             "el mes viniente"
         ], 
         "1 week ago": [
             "la selmana pasada", 
-            "selm. pas.", 
-            "selm. pasada"
+            "selm pasada", 
+            "selm pas"
         ], 
         "0 week ago": [
-            "esta selm.", 
+            "esta selm", 
             "esta selmana"
         ], 
         "in 1 week": [
-            "selm. viniente", 
-            "selm. vin.", 
-            "la selmana viniente"
+            "la selmana viniente", 
+            "selm vin", 
+            "selm viniente"
         ], 
         "1 day ago": [
             "ayeri"
@@ -204,15 +192,15 @@
             "güei"
         ], 
         "in 1 day": [
-            "mañ.", 
+            "mañ", 
             "mañana"
         ], 
         "0 hour ago": [
             "esta hora", 
-            "esta h."
+            "esta h"
         ], 
         "0 minute ago": [
-            "esti min.", 
+            "esti min", 
             "esti minutu"
         ], 
         "0 second ago": [
@@ -220,77 +208,77 @@
         ], 
         "in \\1 year": [
             "en (\\d+) añu", 
-            "en (\\d+) años", 
-            "en (\\d+) a."
+            "en (\\d+) a", 
+            "en (\\d+) años"
         ], 
         "\\1 year ago": [
             "hai (\\d+) años", 
             "hai (\\d+) añu", 
-            "hai (\\d+) a."
+            "hai (\\d+) a"
         ], 
         "in \\1 month": [
-            "en (\\d+) m.", 
             "en (\\d+) meses", 
-            "en (\\d+) mes"
+            "en (\\d+) mes", 
+            "en (\\d+) m"
         ], 
         "\\1 month ago": [
+            "hai (\\d+) m", 
             "hai (\\d+) mes", 
-            "hai (\\d+) m.", 
             "hai (\\d+) meses"
         ], 
         "in \\1 week": [
             "en (\\d+) selmana", 
-            "en (\\d+) se.", 
-            "en (\\d+) selm.", 
-            "en (\\d+) selmanes"
+            "en (\\d+) se", 
+            "en (\\d+) selmanes", 
+            "en (\\d+) selm"
         ], 
         "\\1 week ago": [
-            "hai (\\d+) selm.", 
             "hai (\\d+) selmana", 
             "hai (\\d+) selmanes", 
-            "hai (\\d+) se."
+            "hai (\\d+) selm", 
+            "hai (\\d+) se"
         ], 
         "in \\1 day": [
-            "en (\\d+) d.", 
+            "en (\\d+) d", 
             "en (\\d+) día", 
             "en (\\d+) díes"
         ], 
         "\\1 day ago": [
             "hai (\\d+) díes", 
-            "hai (\\d+) d.", 
-            "hai (\\d+) día"
+            "hai (\\d+) día", 
+            "hai (\\d+) d"
         ], 
         "in \\1 hour": [
             "en (\\d+) hores", 
-            "en (\\d+) h.", 
+            "en (\\d+) h", 
             "en (\\d+) hora"
         ], 
         "\\1 hour ago": [
             "hai (\\d+) hora", 
-            "hai (\\d+) h.", 
-            "hai (\\d+) hores"
+            "hai (\\d+) hores", 
+            "hai (\\d+) h"
         ], 
         "in \\1 minute": [
             "en (\\d+) minutu", 
-            "en (\\d+) min.", 
-            "en (\\d+) minutos"
+            "en (\\d+) minutos", 
+            "en (\\d+) min"
         ], 
         "\\1 minute ago": [
-            "hai (\\d+) min.", 
+            "hai (\\d+) min", 
             "hai (\\d+) minutos", 
             "hai (\\d+) minutu"
         ], 
         "in \\1 second": [
-            "en (\\d+) seg.", 
+            "en (\\d+) s", 
             "en (\\d+) segundu", 
-            "en (\\d+) s.", 
+            "en (\\d+) seg", 
             "en (\\d+) segundos"
         ], 
         "\\1 second ago": [
             "hai (\\d+) segundos", 
-            "hai (\\d+) seg.", 
             "hai (\\d+) segundu", 
-            "hai (\\d+) s."
+            "hai (\\d+) s", 
+            "hai (\\d+) seg"
         ]
     }, 
     "locale_specific": {}

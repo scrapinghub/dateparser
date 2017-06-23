@@ -2,134 +2,133 @@
     "name": "id", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "Januari", 
-        "J"
+        "jan", 
+        "januari", 
+        "j"
     ], 
     "february": [
-        "Februari", 
-        "Feb", 
-        "F"
+        "februari", 
+        "feb", 
+        "f"
     ], 
     "march": [
-        "Mar", 
-        "M", 
-        "Maret"
+        "mar", 
+        "m", 
+        "maret"
     ], 
     "april": [
-        "Apr", 
-        "April", 
-        "A"
+        "apr", 
+        "april", 
+        "a"
     ], 
     "may": [
-        "M", 
-        "Mei"
+        "m", 
+        "mei"
     ], 
     "june": [
-        "Juni", 
-        "J", 
-        "Jun"
+        "juni", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "Juli", 
-        "J", 
-        "Jul"
+        "juli", 
+        "j", 
+        "jul"
     ], 
     "august": [
-        "A", 
-        "Agt", 
-        "Agustus"
+        "a", 
+        "agt", 
+        "agustus"
     ], 
     "september": [
-        "September", 
-        "S", 
-        "Sep"
+        "september", 
+        "s", 
+        "sep"
     ], 
     "october": [
-        "Oktober", 
-        "Okt", 
-        "O"
+        "oktober", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "November", 
-        "Nov", 
-        "N"
+        "november", 
+        "nov", 
+        "n"
     ], 
     "december": [
-        "Desember", 
-        "Des", 
-        "D"
+        "desember", 
+        "des", 
+        "d"
     ], 
     "monday": [
-        "Sen", 
-        "S", 
-        "Senin"
+        "sen", 
+        "s", 
+        "senin"
     ], 
     "tuesday": [
-        "S", 
-        "Sel", 
-        "Selasa"
+        "s", 
+        "sel", 
+        "selasa"
     ], 
     "wednesday": [
-        "Rab", 
-        "R", 
-        "Rabu"
+        "rab", 
+        "r", 
+        "rabu"
     ], 
     "thursday": [
-        "K", 
-        "Kamis", 
-        "Kam"
+        "k", 
+        "kamis", 
+        "kam"
     ], 
     "friday": [
-        "J", 
-        "Jumat", 
-        "Jum"
+        "j", 
+        "jumat", 
+        "jum"
     ], 
     "saturday": [
-        "Sab", 
-        "S", 
-        "Sabtu"
+        "sab", 
+        "s", 
+        "sabtu"
     ], 
     "sunday": [
-        "Minggu", 
-        "M", 
-        "Min"
+        "minggu", 
+        "m", 
+        "min"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Tahun", 
-        "thn."
+        "thn", 
+        "tahun"
     ], 
     "month": [
-        "Bulan", 
-        "bln."
+        "bulan", 
+        "bln"
     ], 
     "week": [
-        "Minggu", 
-        "mgg."
+        "minggu", 
+        "mgg"
     ], 
     "day": [
         "h", 
-        "Hari"
+        "hari"
     ], 
     "hour": [
         "jam", 
-        "Jam", 
         "j"
     ], 
     "minute": [
-        "Menit", 
         "m", 
-        "mnt."
+        "menit", 
+        "mnt"
     ], 
     "second": [
-        "Detik", 
-        "dtk.", 
+        "dtk", 
+        "detik", 
         "d"
     ], 
     "relative-type": {
@@ -149,7 +148,7 @@
             "bulan ini"
         ], 
         "in 1 month": [
-            "Bulan berikutnya"
+            "bulan berikutnya"
         ], 
         "1 week ago": [
             "minggu lalu"
@@ -180,37 +179,37 @@
         ], 
         "in \\1 year": [
             "+(\\d+) thn", 
-            "Dalam (\\d+) tahun", 
+            "dalam (\\d+) tahun", 
             "dlm (\\d+) thn"
         ], 
         "\\1 year ago": [
-            "(\\d+) thn lalu", 
             "(\\d+) tahun yang lalu", 
-            "-(\\d+) thn"
+            "-(\\d+) thn", 
+            "(\\d+) thn lalu"
         ], 
         "in \\1 month": [
-            "Dalam (\\d+) bulan", 
+            "dalam (\\d+) bulan", 
             "dlm (\\d+) bln", 
-            "+(\\d+) bln."
+            "+(\\d+) bln"
         ], 
         "\\1 month ago": [
             "(\\d+) bulan yang lalu", 
-            "-(\\d+) bln.", 
+            "-(\\d+) bln", 
             "(\\d+) bln lalu"
         ], 
         "in \\1 week": [
-            "Dalam (\\d+) minggu", 
-            "+(\\d+) mgg.", 
+            "dalam (\\d+) minggu", 
+            "+(\\d+) mgg", 
             "dlm (\\d+) mgg"
         ], 
         "\\1 week ago": [
+            "-(\\d+) mgg", 
             "(\\d+) minggu yang lalu", 
-            "-(\\d+) mgg.", 
             "(\\d+) mgg lalu"
         ], 
         "in \\1 day": [
             "dalam (\\d+) h", 
-            "Dalam (\\d+) hari", 
+            "dalam (\\d+) hari", 
             "+(\\d+) h"
         ], 
         "\\1 day ago": [
@@ -219,7 +218,7 @@
             "(\\d+) hari yang lalu"
         ], 
         "in \\1 hour": [
-            "Dalam (\\d+) jam", 
+            "dalam (\\d+) jam", 
             "+(\\d+) jam"
         ], 
         "\\1 hour ago": [
@@ -230,7 +229,7 @@
         "in \\1 minute": [
             "dlm (\\d+) mnt", 
             "+(\\d+) mnt", 
-            "Dalam (\\d+) menit"
+            "dalam (\\d+) menit"
         ], 
         "\\1 minute ago": [
             "-(\\d+) mnt", 
@@ -239,7 +238,7 @@
         ], 
         "in \\1 second": [
             "+(\\d+) dtk", 
-            "Dalam (\\d+) detik", 
+            "dalam (\\d+) detik", 
             "dlm (\\d+) dtk"
         ], 
         "\\1 second ago": [

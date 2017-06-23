@@ -1,0 +1,52 @@
+skip: ["um", "uhr", "etwa", "und"]
+
+monday:
+    - Mon
+tuesday:
+    - Die
+wednesday:
+    - Mit
+thursday:
+    - Don
+friday:
+    - Fre
+saturday:
+    - Sam
+sunday:
+    - Son
+
+year:
+    - Jahre
+month:
+    - Monate
+    - Monaten
+week:
+    - Wochen
+day:
+    - Tage
+hour:
+    - Stunden
+minute:
+    - Minuten
+second:
+    - Sekunden
+
+ago:
+    - vor
+in:
+    - in
+    - im
+
+relative-type:
+    - 2 day ago:
+        - vorgestern
+    - \\1 hour ago:
+        - vor (\d+)\s*h
+    - \\1 minute ago:
+        - vor (\d+)\s*m
+    - \\1 second ago:
+        - vor (\d+)\s*s
+
+simplifications:
+    - einer: 1
+    - einem: 1

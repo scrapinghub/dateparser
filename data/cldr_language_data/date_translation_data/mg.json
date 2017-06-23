@@ -2,125 +2,125 @@
     "name": "mg", 
     "date_order": "YMD", 
     "january": [
-        "Jan", 
-        "J", 
-        "Janoary"
+        "jan", 
+        "j", 
+        "janoary"
     ], 
     "february": [
-        "Feb", 
-        "Febroary", 
-        "F"
+        "feb", 
+        "febroary", 
+        "f"
     ], 
     "march": [
-        "Martsa", 
-        "Mar", 
-        "M"
+        "martsa", 
+        "mar", 
+        "m"
     ], 
     "april": [
-        "Apr", 
-        "A", 
-        "Aprily"
+        "apr", 
+        "a", 
+        "aprily"
     ], 
     "may": [
-        "M", 
-        "Mey"
+        "m", 
+        "mey"
     ], 
     "june": [
-        "Jona", 
-        "J", 
-        "Jon"
+        "jona", 
+        "j", 
+        "jon"
     ], 
     "july": [
-        "Jolay", 
-        "J", 
-        "Jol"
+        "jolay", 
+        "j", 
+        "jol"
     ], 
     "august": [
-        "Aog", 
-        "A", 
-        "Aogositra"
+        "aog", 
+        "a", 
+        "aogositra"
     ], 
     "september": [
-        "S", 
-        "Septambra", 
-        "Sep"
+        "s", 
+        "septambra", 
+        "sep"
     ], 
     "october": [
-        "Oktobra", 
-        "Okt", 
-        "O"
+        "oktobra", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Novambra", 
-        "Nov", 
-        "N"
+        "novambra", 
+        "nov", 
+        "n"
     ], 
     "december": [
-        "Des", 
-        "D", 
-        "Desambra"
+        "des", 
+        "d", 
+        "desambra"
     ], 
     "monday": [
-        "Alatsinainy", 
-        "A", 
-        "Alats"
+        "alatsinainy", 
+        "a", 
+        "alats"
     ], 
     "tuesday": [
-        "Tal", 
-        "Talata", 
-        "T"
+        "tal", 
+        "talata", 
+        "t"
     ], 
     "wednesday": [
-        "A", 
-        "Alar", 
-        "Alarobia"
+        "a", 
+        "alar", 
+        "alarobia"
     ], 
     "thursday": [
-        "A", 
-        "Alak", 
-        "Alakamisy"
+        "a", 
+        "alak", 
+        "alakamisy"
     ], 
     "friday": [
-        "Z", 
-        "Zom", 
-        "Zoma"
+        "z", 
+        "zom", 
+        "zoma"
     ], 
     "saturday": [
-        "Asabotsy", 
-        "A", 
-        "Asab"
+        "asabotsy", 
+        "a", 
+        "asab"
     ], 
     "sunday": [
-        "Alah", 
-        "A", 
-        "Alahady"
+        "alah", 
+        "a", 
+        "alahady"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Taona"
+        "taona"
     ], 
     "month": [
-        "Volana"
+        "volana"
     ], 
     "week": [
-        "Herinandro"
+        "herinandro"
     ], 
     "day": [
-        "Andro"
+        "andro"
     ], 
     "hour": [
-        "Ora"
+        "ora"
     ], 
     "minute": [
-        "Minitra"
+        "minitra"
     ], 
     "second": [
-        "Segondra"
+        "segondra"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -151,13 +151,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Omaly"
+            "omaly"
         ], 
         "0 day ago": [
-            "Anio"
+            "anio"
         ], 
         "in 1 day": [
-            "Rahampitso"
+            "rahampitso"
         ], 
         "0 hour ago": [
             "this hour"

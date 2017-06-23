@@ -2,147 +2,145 @@
     "name": "ga", 
     "date_order": "DMY", 
     "january": [
-        "E", 
-        "Eanáir", 
-        "Ean"
+        "e", 
+        "eanáir", 
+        "ean"
     ], 
     "february": [
-        "Feabhra", 
-        "F", 
-        "Feabh"
+        "feabhra", 
+        "f", 
+        "feabh"
     ], 
     "march": [
-        "Márta", 
-        "M"
+        "márta", 
+        "m"
     ], 
     "april": [
-        "A", 
-        "Aibreán", 
-        "Aib"
+        "a", 
+        "aibreán", 
+        "aib"
     ], 
     "may": [
-        "Beal", 
-        "B", 
-        "Bealtaine"
+        "beal", 
+        "b", 
+        "bealtaine"
     ], 
     "june": [
-        "M", 
-        "Meith", 
-        "Meitheamh"
+        "m", 
+        "meith", 
+        "meitheamh"
     ], 
     "july": [
-        "I", 
-        "Iúil"
+        "i", 
+        "iúil"
     ], 
     "august": [
-        "Lúnasa", 
-        "L", 
-        "Lún"
+        "lúnasa", 
+        "l", 
+        "lún"
     ], 
     "september": [
-        "MFómh", 
-        "M", 
-        "Meán Fómhair"
+        "mfómh", 
+        "m", 
+        "meán fómhair"
     ], 
     "october": [
-        "Deireadh Fómhair", 
-        "DFómh", 
-        "D"
+        "deireadh fómhair", 
+        "dfómh", 
+        "d"
     ], 
     "november": [
-        "S", 
-        "Samh", 
-        "Samhain"
+        "s", 
+        "samh", 
+        "samhain"
     ], 
     "december": [
-        "Nollaig", 
-        "N", 
-        "Noll"
+        "nollaig", 
+        "n", 
+        "noll"
     ], 
     "monday": [
-        "Luan", 
-        "L", 
-        "Dé Luain"
+        "luan", 
+        "l", 
+        "dé luain"
     ], 
     "tuesday": [
-        "Dé Máirt", 
-        "Máirt", 
-        "M"
+        "dé máirt", 
+        "máirt", 
+        "m"
     ], 
     "wednesday": [
-        "C", 
-        "Céad", 
-        "Dé Céadaoin"
+        "c", 
+        "céad", 
+        "dé céadaoin"
     ], 
     "thursday": [
-        "Déar", 
-        "Déardaoin", 
-        "D"
+        "déar", 
+        "déardaoin", 
+        "d"
     ], 
     "friday": [
-        "Dé hAoine", 
-        "A", 
-        "Aoine"
+        "dé haoine", 
+        "a", 
+        "aoine"
     ], 
     "saturday": [
-        "Sath", 
-        "Dé Sathairn", 
-        "S"
+        "sath", 
+        "dé sathairn", 
+        "s"
     ], 
     "sunday": [
-        "Domh", 
-        "Dé Domhnaigh", 
-        "D"
+        "domh", 
+        "dé domhnaigh", 
+        "d"
     ], 
     "am": [
         "a", 
-        "a.m."
+        "am"
     ], 
     "pm": [
         "p", 
-        "p.m."
+        "pm"
     ], 
     "year": [
-        "bl.", 
-        "Bliain"
+        "bl", 
+        "bliain"
     ], 
     "month": [
-        "Mí", 
         "mí"
     ], 
     "week": [
-        "Seachtain", 
-        "scht."
+        "seachtain", 
+        "scht"
     ], 
     "day": [
-        "Lá"
+        "lá"
     ], 
     "hour": [
-        "uair", 
         "u", 
-        "Uair"
+        "uair"
     ], 
     "minute": [
-        "Nóiméad", 
-        "nóim.", 
-        "n"
+        "nóiméad", 
+        "n", 
+        "nóim"
     ], 
     "second": [
+        "soicind", 
         "s", 
-        "Soicind", 
-        "soic."
+        "soic"
     ], 
     "relative-type": {
         "1 year ago": [
             "anuraidh"
         ], 
         "0 year ago": [
-            "an bhliain seo", 
-            "an bhl. seo"
+            "an bhl seo", 
+            "an bhliain seo"
         ], 
         "in 1 year": [
-            "an bhliain seo chugainn", 
-            "an bhl. seo chugainn"
+            "an bhl seo chugainn", 
+            "an bhliain seo chugainn"
         ], 
         "1 month ago": [
             "an mhí seo caite"
@@ -155,15 +153,15 @@
         ], 
         "1 week ago": [
             "an tseachtain seo caite", 
-            "an tscht. seo caite"
+            "an tscht seo caite"
         ], 
         "0 week ago": [
-            "an tseachtain seo", 
-            "an tscht. seo"
+            "an tscht seo", 
+            "an tseachtain seo"
         ], 
         "in 1 week": [
-            "an tseachtain seo chugainn", 
-            "an tscht. seo chugainn"
+            "an tscht seo chugainn", 
+            "an tseachtain seo chugainn"
         ], 
         "1 day ago": [
             "inné"
@@ -184,19 +182,19 @@
             "anois"
         ], 
         "in \\1 year": [
-            "+(\\d+) bhl.", 
-            "+(\\d+) bl.", 
+            "+(\\d+) bl", 
+            "i gceann (\\d+) bl", 
             "i gceann (\\d+) bhliain", 
             "i gceann (\\d+) bliain", 
-            "i gceann (\\d+) bl."
+            "+(\\d+) bhl"
         ], 
         "\\1 year ago": [
-            "(\\d+) bl. ó shin", 
-            "-(\\d+) bhl.", 
             "(\\d+) bliain ó shin", 
-            "(\\d+) bhl. ó shin", 
-            "-(\\d+) bl.", 
-            "(\\d+) bhliain ó shin"
+            "-(\\d+) bl", 
+            "-(\\d+) bhl", 
+            "(\\d+) bhl ó shin", 
+            "(\\d+) bhliain ó shin", 
+            "(\\d+) bl ó shin"
         ], 
         "in \\1 month": [
             "+(\\d+) mí", 
@@ -211,14 +209,14 @@
             "-(\\d+) mí"
         ], 
         "in \\1 week": [
-            "i gceann (\\d+) scht.", 
-            "i gceann (\\d+) seachtain", 
-            "+(\\d+) scht."
+            "i gceann (\\d+) scht", 
+            "+(\\d+) scht", 
+            "i gceann (\\d+) seachtain"
         ], 
         "\\1 week ago": [
+            "(\\d+) scht ó shin", 
             "(\\d+) seachtain ó shin", 
-            "(\\d+) scht. ó shin", 
-            "-(\\d+) scht."
+            "-(\\d+) scht"
         ], 
         "in \\1 day": [
             "i gceann (\\d+) lá", 
@@ -239,24 +237,24 @@
             "-(\\d+) u"
         ], 
         "in \\1 minute": [
-            "i gceann (\\d+) nóim.", 
             "i gceann (\\d+) nóiméad", 
+            "i gceann (\\d+) nóim", 
             "+(\\d+) n"
         ], 
         "\\1 minute ago": [
             "(\\d+) nóiméad ó shin", 
-            "-(\\d+) n", 
-            "(\\d+) nóim. ó shin"
+            "(\\d+) nóim ó shin", 
+            "-(\\d+) n"
         ], 
         "in \\1 second": [
             "i gceann (\\d+) soicind", 
-            "+(\\d+) s", 
-            "i gceann (\\d+) soic."
+            "i gceann (\\d+) soic", 
+            "+(\\d+) s"
         ], 
         "\\1 second ago": [
             "-(\\d+) s", 
-            "(\\d+) soicind ó shin", 
-            "(\\d+) soic. ó shin"
+            "(\\d+) soic ó shin", 
+            "(\\d+) soicind ó shin"
         ]
     }, 
     "locale_specific": {}

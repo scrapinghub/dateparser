@@ -2,99 +2,99 @@
     "name": "bez", 
     "date_order": "DMY", 
     "january": [
-        "Hut", 
-        "H", 
+        "hut", 
+        "h", 
         "pa mwedzi gwa hutala"
     ], 
     "february": [
-        "Vil", 
+        "vil", 
         "pa mwedzi gwa wuvili", 
-        "V"
+        "v"
     ], 
     "march": [
-        "Dat", 
+        "dat", 
         "pa mwedzi gwa wudatu", 
-        "D"
+        "d"
     ], 
     "april": [
         "pa mwedzi gwa wutai", 
-        "Tai", 
-        "T"
+        "tai", 
+        "t"
     ], 
     "may": [
-        "H", 
+        "h", 
         "pa mwedzi gwa wuhanu", 
-        "Han"
+        "han"
     ], 
     "june": [
-        "S", 
+        "s", 
         "pa mwedzi gwa sita", 
-        "Sit"
+        "sit"
     ], 
     "july": [
         "pa mwedzi gwa saba", 
-        "S", 
-        "Sab"
+        "s", 
+        "sab"
     ], 
     "august": [
-        "Nan", 
+        "nan", 
         "pa mwedzi gwa nane", 
-        "N"
+        "n"
     ], 
     "september": [
         "pa mwedzi gwa tisa", 
-        "T", 
-        "Tis"
+        "t", 
+        "tis"
     ], 
     "october": [
-        "Kum", 
+        "kum", 
         "pa mwedzi gwa kumi", 
-        "K"
+        "k"
     ], 
     "november": [
-        "K", 
+        "k", 
         "pa mwedzi gwa kumi na moja", 
-        "Kmj"
+        "kmj"
     ], 
     "december": [
-        "K", 
+        "k", 
         "pa mwedzi gwa kumi na mbili", 
-        "Kmb"
+        "kmb"
     ], 
     "monday": [
-        "J", 
         "pa shahuviluha", 
-        "Vil"
+        "vil", 
+        "j"
     ], 
     "tuesday": [
-        "H", 
+        "h", 
         "pa hivili", 
-        "Hiv"
+        "hiv"
     ], 
     "wednesday": [
-        "H", 
-        "Hid", 
+        "h", 
+        "hid", 
         "pa hidatu"
     ], 
     "thursday": [
-        "Hit", 
+        "hit", 
         "pa hitayi", 
-        "H"
+        "h"
     ], 
     "friday": [
-        "Hih", 
+        "hih", 
         "pa hihanu", 
-        "W"
+        "w"
     ], 
     "saturday": [
         "pa shahulembela", 
-        "J", 
-        "Lem"
+        "j", 
+        "lem"
     ], 
     "sunday": [
         "pa mulungu", 
-        "Mul", 
-        "M"
+        "mul", 
+        "m"
     ], 
     "am": [
         "pamilau"
@@ -103,25 +103,25 @@
         "pamunyi"
     ], 
     "year": [
-        "Mwaha"
+        "mwaha"
     ], 
     "month": [
-        "Mwedzi"
+        "mwedzi"
     ], 
     "week": [
-        "Mlungu gumamfu"
+        "mlungu gumamfu"
     ], 
     "day": [
-        "Sihu"
+        "sihu"
     ], 
     "hour": [
-        "Saa"
+        "saa"
     ], 
     "minute": [
-        "Dakika"
+        "dakika"
     ], 
     "second": [
-        "Sekunde"
+        "sekunde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Igolo"
+            "igolo"
         ], 
         "0 day ago": [
-            "Neng’u ni"
+            "neng’u ni"
         ], 
         "in 1 day": [
-            "Hilawu"
+            "hilawu"
         ], 
         "0 hour ago": [
             "this hour"

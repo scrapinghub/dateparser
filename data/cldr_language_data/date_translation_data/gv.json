@@ -2,123 +2,111 @@
     "name": "gv", 
     "date_order": "YMD", 
     "january": [
-        "Jerrey-geuree", 
-        "1", 
-        "J-guer"
+        "jerrey-geuree", 
+        "j-guer"
     ], 
     "february": [
-        "2", 
-        "Toshiaght-arree", 
-        "T-arree"
+        "toshiaght-arree", 
+        "t-arree"
     ], 
     "march": [
-        "3", 
-        "Mayrnt"
+        "mayrnt"
     ], 
     "april": [
-        "Avrril", 
-        "Averil", 
-        "4"
+        "avrril", 
+        "averil"
     ], 
     "may": [
-        "5", 
-        "Boaldyn"
+        "boaldyn"
     ], 
     "june": [
-        "Mean-souree", 
-        "M-souree", 
-        "6"
+        "mean-souree", 
+        "m-souree"
     ], 
     "july": [
-        "J-souree", 
-        "7", 
-        "Jerrey-souree"
+        "j-souree", 
+        "jerrey-souree"
     ], 
     "august": [
-        "Luanistyn", 
-        "8"
+        "luanistyn"
     ], 
     "september": [
-        "9", 
-        "Mean-fouyir", 
-        "M-fouyir"
+        "mean-fouyir", 
+        "m-fouyir"
     ], 
     "october": [
-        "Jerrey-fouyir", 
-        "10", 
-        "J-fouyir"
+        "jerrey-fouyir", 
+        "j-fouyir"
     ], 
     "november": [
-        "11", 
-        "M-Houney", 
-        "Mee Houney"
+        "m-houney", 
+        "mee houney"
     ], 
     "december": [
-        "Mee ny Nollick", 
-        "12", 
-        "M-Nollick"
+        "mee ny nollick", 
+        "m-nollick"
     ], 
     "monday": [
-        "Jelhein", 
-        "M", 
-        "Jel"
+        "jelhein", 
+        "m", 
+        "jel"
     ], 
     "tuesday": [
-        "Jemayrt", 
-        "T", 
-        "Jem"
+        "jemayrt", 
+        "t", 
+        "jem"
     ], 
     "wednesday": [
-        "Jercean", 
-        "W", 
-        "Jerc"
+        "jercean", 
+        "w", 
+        "jerc"
     ], 
     "thursday": [
-        "Jerd", 
-        "Jerdein", 
-        "T"
+        "jerd", 
+        "jerdein", 
+        "t"
     ], 
     "friday": [
-        "Jeheiney", 
-        "Jeh", 
-        "F"
+        "jeheiney", 
+        "jeh", 
+        "f"
     ], 
     "saturday": [
-        "Jes", 
-        "S", 
-        "Jesarn"
+        "jes", 
+        "s", 
+        "jesarn"
     ], 
     "sunday": [
-        "Jedoonee", 
-        "S", 
-        "Jed"
+        "jedoonee", 
+        "s", 
+        "jed"
     ], 
     "am": [
-        "a.m."
+        "am"
     ], 
     "pm": [
-        "p.m."
+        "pm"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

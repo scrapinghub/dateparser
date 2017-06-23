@@ -2,126 +2,126 @@
     "name": "sg", 
     "date_order": "DMY", 
     "january": [
-        "N", 
-        "Nyenye", 
-        "Nye"
+        "n", 
+        "nyenye", 
+        "nye"
     ], 
     "february": [
-        "Ful", 
-        "Fulundïgi", 
-        "F"
+        "ful", 
+        "fulundïgi", 
+        "f"
     ], 
     "march": [
-        "Mbä", 
-        "M", 
-        "Mbängü"
+        "mbä", 
+        "m", 
+        "mbängü"
     ], 
     "april": [
-        "Ngu", 
-        "Ngubùe", 
-        "N"
+        "ngu", 
+        "ngubùe", 
+        "n"
     ], 
     "may": [
-        "B", 
-        "Bêläwü", 
-        "Bêl"
+        "b", 
+        "bêläwü", 
+        "bêl"
     ], 
     "june": [
-        "Fön", 
-        "Föndo", 
-        "F"
+        "fön", 
+        "föndo", 
+        "f"
     ], 
     "july": [
-        "Lengua", 
-        "L", 
-        "Len"
+        "lengua", 
+        "l", 
+        "len"
     ], 
     "august": [
-        "K", 
-        "Kükürü", 
-        "Kük"
+        "k", 
+        "kükürü", 
+        "kük"
     ], 
     "september": [
-        "M", 
-        "Mvu", 
-        "Mvuka"
+        "m", 
+        "mvu", 
+        "mvuka"
     ], 
     "october": [
-        "Ngb", 
-        "Ngberere", 
-        "N"
+        "ngb", 
+        "ngberere", 
+        "n"
     ], 
     "november": [
-        "Nab", 
-        "N", 
-        "Nabändüru"
+        "nab", 
+        "n", 
+        "nabändüru"
     ], 
     "december": [
-        "Kak", 
-        "Kakauka", 
-        "K"
+        "kak", 
+        "kakauka", 
+        "k"
     ], 
     "monday": [
-        "S", 
-        "Bk2", 
-        "Bïkua-ûse"
+        "s", 
+        "bk2", 
+        "bïkua-ûse"
     ], 
     "tuesday": [
-        "Bïkua-ptâ", 
-        "T", 
-        "Bk3"
+        "bïkua-ptâ", 
+        "t", 
+        "bk3"
     ], 
     "wednesday": [
-        "Bk4", 
-        "S", 
-        "Bïkua-usïö"
+        "bk4", 
+        "s", 
+        "bïkua-usïö"
     ], 
     "thursday": [
-        "Bk5", 
-        "Bïkua-okü", 
-        "K"
+        "bk5", 
+        "bïkua-okü", 
+        "k"
     ], 
     "friday": [
-        "Lâp", 
-        "P", 
-        "Lâpôsö"
+        "lâp", 
+        "p", 
+        "lâpôsö"
     ], 
     "saturday": [
-        "Lây", 
-        "Y", 
-        "Lâyenga"
+        "lây", 
+        "y", 
+        "lâyenga"
     ], 
     "sunday": [
-        "K", 
-        "Bikua-ôko", 
-        "Bk1"
+        "k", 
+        "bikua-ôko", 
+        "bk1"
     ], 
     "am": [
-        "ND"
+        "nd"
     ], 
     "pm": [
-        "LK"
+        "lk"
     ], 
     "year": [
-        "Ngû"
+        "ngû"
     ], 
     "month": [
-        "Nze"
+        "nze"
     ], 
     "week": [
-        "Dimâsi"
+        "dimâsi"
     ], 
     "day": [
-        "Lâ"
+        "lâ"
     ], 
     "hour": [
-        "Ngbonga"
+        "ngbonga"
     ], 
     "minute": [
-        "Ndurü ngbonga"
+        "ndurü ngbonga"
     ], 
     "second": [
-        "Nzîna ngbonga"
+        "nzîna ngbonga"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Bîrï"
+            "bîrï"
         ], 
         "0 day ago": [
-            "Lâsô"
+            "lâsô"
         ], 
         "in 1 day": [
-            "Kêkerêke"
+            "kêkerêke"
         ], 
         "0 hour ago": [
             "this hour"

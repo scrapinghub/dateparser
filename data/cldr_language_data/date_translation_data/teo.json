@@ -2,126 +2,126 @@
     "name": "teo", 
     "date_order": "DMY", 
     "january": [
-        "R", 
-        "Rar", 
-        "Orara"
+        "r", 
+        "rar", 
+        "orara"
     ], 
     "february": [
-        "Omuk", 
-        "M", 
-        "Muk"
+        "omuk", 
+        "m", 
+        "muk"
     ], 
     "march": [
-        "Okwamg’", 
-        "Kwa", 
-        "K"
+        "okwamg’", 
+        "kwa", 
+        "k"
     ], 
     "april": [
-        "Odung’el", 
-        "D", 
-        "Dun"
+        "odung’el", 
+        "d", 
+        "dun"
     ], 
     "may": [
-        "Mar", 
-        "M", 
-        "Omaruk"
+        "mar", 
+        "m", 
+        "omaruk"
     ], 
     "june": [
-        "Omodok’king’ol", 
-        "M", 
-        "Mod"
+        "omodok’king’ol", 
+        "m", 
+        "mod"
     ], 
     "july": [
-        "Ojola", 
-        "J", 
-        "Jol"
+        "ojola", 
+        "j", 
+        "jol"
     ], 
     "august": [
-        "Ped", 
-        "P", 
-        "Opedel"
+        "ped", 
+        "p", 
+        "opedel"
     ], 
     "september": [
-        "S", 
-        "Osokosokoma", 
-        "Sok"
+        "s", 
+        "osokosokoma", 
+        "sok"
     ], 
     "october": [
-        "Otibar", 
-        "T", 
-        "Tib"
+        "otibar", 
+        "t", 
+        "tib"
     ], 
     "november": [
-        "Olabor", 
-        "Lab", 
-        "L"
+        "olabor", 
+        "lab", 
+        "l"
     ], 
     "december": [
-        "Poo", 
-        "Opoo", 
-        "P"
+        "poo", 
+        "opoo", 
+        "p"
     ], 
     "monday": [
-        "B", 
-        "Bar", 
-        "Nakaebarasa"
+        "b", 
+        "bar", 
+        "nakaebarasa"
     ], 
     "tuesday": [
-        "Nakaare", 
-        "A", 
-        "Aar"
+        "nakaare", 
+        "a", 
+        "aar"
     ], 
     "wednesday": [
-        "Uni", 
-        "Nakauni", 
-        "U"
+        "uni", 
+        "nakauni", 
+        "u"
     ], 
     "thursday": [
-        "Nakaung’on", 
-        "U", 
-        "Ung"
+        "nakaung’on", 
+        "u", 
+        "ung"
     ], 
     "friday": [
-        "K", 
-        "Nakakany", 
-        "Kan"
+        "k", 
+        "nakakany", 
+        "kan"
     ], 
     "saturday": [
-        "Sab", 
-        "S", 
-        "Nakasabiti"
+        "sab", 
+        "s", 
+        "nakasabiti"
     ], 
     "sunday": [
-        "J", 
-        "Nakaejuma", 
-        "Jum"
+        "j", 
+        "nakaejuma", 
+        "jum"
     ], 
     "am": [
-        "Taparachu"
+        "taparachu"
     ], 
     "pm": [
-        "Ebongi"
+        "ebongi"
     ], 
     "year": [
-        "Ekan"
+        "ekan"
     ], 
     "month": [
-        "Elap"
+        "elap"
     ], 
     "week": [
-        "Ewiki"
+        "ewiki"
     ], 
     "day": [
-        "Aparan"
+        "aparan"
     ], 
     "hour": [
-        "Esaa"
+        "esaa"
     ], 
     "minute": [
-        "Idakika"
+        "idakika"
     ], 
     "second": [
-        "Isekonde"
+        "isekonde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Jaan"
+            "jaan"
         ], 
         "0 day ago": [
-            "Lolo"
+            "lolo"
         ], 
         "in 1 day": [
-            "Moi"
+            "moi"
         ], 
         "0 hour ago": [
             "this hour"

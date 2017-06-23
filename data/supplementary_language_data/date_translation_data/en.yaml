@@ -1,0 +1,45 @@
+skip: ["at", "on", "and", "ad", "m", "of", "st", "nd", "rd", "th", "about", "the", "just"]
+pertain: ["of"]
+
+tuesday:
+    - Tues
+
+year:
+    - years
+month:
+    - months
+week:
+    - weeks
+day:
+    - days
+hour:
+    - h
+    - hours
+    - hrs
+minute:
+    - m
+    - minutes
+    - mins
+second:
+    - s
+    - seconds
+    - secs
+
+ago:
+    - ago
+in:
+    - in
+    - from now
+
+relative-type:
+    - 2 days ago:
+        - day before yesterday
+
+simplifications:
+    - an: 1
+    - a: 1
+    - (?:12\s+)?noon: '12:00'
+    - (?:12\s+)?midnight: '00:00'
+    - (\d+)h(\d+)m?: \1:\2
+    - less than 1 minute ago: 45 seconds
+    - (?<!from\s)now: 0 second

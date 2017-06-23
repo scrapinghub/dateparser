@@ -2,114 +2,114 @@
     "name": "fy", 
     "date_order": "DMY", 
     "january": [
-        "Jannewaris", 
-        "Jan", 
-        "J"
+        "jannewaris", 
+        "jan", 
+        "j"
     ], 
     "february": [
-        "Febrewaris", 
-        "Feb", 
-        "F"
+        "febrewaris", 
+        "feb", 
+        "f"
     ], 
     "march": [
-        "Maart", 
-        "Mrt", 
-        "M"
+        "maart", 
+        "mrt", 
+        "m"
     ], 
     "april": [
-        "Apr", 
-        "April", 
-        "A"
+        "apr", 
+        "april", 
+        "a"
     ], 
     "may": [
-        "Maaie", 
-        "Mai", 
-        "M"
+        "maaie", 
+        "mai", 
+        "m"
     ], 
     "june": [
-        "Juny", 
-        "J", 
-        "Jun"
+        "juny", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "July", 
-        "J", 
-        "Jul"
+        "july", 
+        "j", 
+        "jul"
     ], 
     "august": [
-        "A", 
-        "Aug", 
-        "Augustus"
+        "a", 
+        "aug", 
+        "augustus"
     ], 
     "september": [
-        "S", 
-        "Septimber", 
-        "Sep"
+        "s", 
+        "septimber", 
+        "sep"
     ], 
     "october": [
-        "Oktober", 
-        "Okt", 
-        "O"
+        "oktober", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nov", 
-        "Novimber", 
-        "N"
+        "nov", 
+        "novimber", 
+        "n"
     ], 
     "december": [
-        "Des", 
-        "Desimber", 
-        "D"
+        "des", 
+        "desimber", 
+        "d"
     ], 
     "monday": [
         "moandei", 
-        "M", 
+        "m", 
         "mo"
     ], 
     "tuesday": [
-        "T", 
+        "t", 
         "tiisdei", 
         "ti"
     ], 
     "wednesday": [
         "woansdei", 
         "wo", 
-        "W"
+        "w"
     ], 
     "thursday": [
         "to", 
         "tongersdei", 
-        "T"
+        "t"
     ], 
     "friday": [
         "fr", 
-        "F", 
+        "f", 
         "freed"
     ], 
     "saturday": [
-        "S", 
+        "s", 
         "so", 
         "sneon"
     ], 
     "sunday": [
         "snein", 
         "si", 
-        "S"
+        "s"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Jier"
+        "jier"
     ], 
     "month": [
-        "Moanne"
+        "moanne"
     ], 
     "week": [
-        "Wike"
+        "wike"
     ], 
     "day": [
         "dei"
@@ -118,10 +118,10 @@
         "oere"
     ], 
     "minute": [
-        "Minút"
+        "minút"
     ], 
     "second": [
-        "Sekonde"
+        "sekonde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -170,52 +170,52 @@
             "nu"
         ], 
         "in \\1 year": [
-            "Oer (\\d+) jier"
+            "oer (\\d+) jier"
         ], 
         "\\1 year ago": [
             "(\\d+) jier lyn"
         ], 
         "in \\1 month": [
-            "Oer (\\d+) moannen", 
-            "Oer (\\d+) moanne"
+            "oer (\\d+) moannen", 
+            "oer (\\d+) moanne"
         ], 
         "\\1 month ago": [
             "(\\d+) moanne lyn", 
             "(\\d+) moannen lyn"
         ], 
         "in \\1 week": [
-            "Oer (\\d+) wike", 
-            "Oer (\\d+) wiken"
+            "oer (\\d+) wike", 
+            "oer (\\d+) wiken"
         ], 
         "\\1 week ago": [
             "(\\d+) wiken lyn", 
             "(\\d+) wike lyn"
         ], 
         "in \\1 day": [
-            "Oer (\\d+) dei", 
-            "Oer (\\d+) deien"
+            "oer (\\d+) dei", 
+            "oer (\\d+) deien"
         ], 
         "\\1 day ago": [
             "(\\d+) deien lyn", 
             "(\\d+) dei lyn"
         ], 
         "in \\1 hour": [
-            "Oer (\\d+) oere"
+            "oer (\\d+) oere"
         ], 
         "\\1 hour ago": [
             "(\\d+) oere lyn"
         ], 
         "in \\1 minute": [
-            "Oer (\\d+) minút", 
-            "Oer (\\d+) minuten"
+            "oer (\\d+) minút", 
+            "oer (\\d+) minuten"
         ], 
         "\\1 minute ago": [
             "(\\d+) minuten lyn", 
             "(\\d+) minút lyn"
         ], 
         "in \\1 second": [
-            "Oer (\\d+) sekonden", 
-            "Oer (\\d+) sekonde"
+            "oer (\\d+) sekonden", 
+            "oer (\\d+) sekonde"
         ], 
         "\\1 second ago": [
             "(\\d+) sekonden lyn", 

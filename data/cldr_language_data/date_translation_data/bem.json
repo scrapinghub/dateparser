@@ -2,91 +2,91 @@
     "name": "bem", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "Januari", 
-        "J"
+        "jan", 
+        "januari", 
+        "j"
     ], 
     "february": [
-        "Februari", 
-        "Feb", 
-        "F"
+        "februari", 
+        "feb", 
+        "f"
     ], 
     "march": [
-        "Mac", 
-        "M", 
-        "Machi"
+        "mac", 
+        "m", 
+        "machi"
     ], 
     "april": [
-        "E", 
-        "Epreo", 
-        "Epr"
+        "e", 
+        "epreo", 
+        "epr"
     ], 
     "may": [
-        "M", 
-        "Mei"
+        "m", 
+        "mei"
     ], 
     "june": [
-        "Juni", 
-        "J", 
-        "Jun"
+        "juni", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "J", 
-        "Jul", 
-        "Julai"
+        "j", 
+        "jul", 
+        "julai"
     ], 
     "august": [
-        "Oga", 
-        "Ogasti", 
-        "O"
+        "oga", 
+        "ogasti", 
+        "o"
     ], 
     "september": [
-        "S", 
-        "Septemba", 
-        "Sep"
+        "s", 
+        "septemba", 
+        "sep"
     ], 
     "october": [
-        "Oktoba", 
-        "Okt", 
-        "O"
+        "oktoba", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nov", 
-        "Novemba", 
-        "N"
+        "nov", 
+        "novemba", 
+        "n"
     ], 
     "december": [
-        "D", 
-        "Disemba", 
-        "Dis"
+        "d", 
+        "disemba", 
+        "dis"
     ], 
     "monday": [
-        "Palichimo", 
-        "M"
+        "palichimo", 
+        "m"
     ], 
     "tuesday": [
-        "Palichibuli", 
-        "T"
+        "palichibuli", 
+        "t"
     ], 
     "wednesday": [
-        "Palichitatu", 
-        "W"
+        "palichitatu", 
+        "w"
     ], 
     "thursday": [
-        "Palichine", 
-        "T"
+        "palichine", 
+        "t"
     ], 
     "friday": [
-        "Palichisano", 
-        "F"
+        "palichisano", 
+        "f"
     ], 
     "saturday": [
-        "S", 
-        "Pachibelushi"
+        "s", 
+        "pachibelushi"
     ], 
     "sunday": [
-        "Pa Mulungu", 
-        "S"
+        "pa mulungu", 
+        "s"
     ], 
     "am": [
         "uluchelo"
@@ -95,25 +95,25 @@
         "akasuba"
     ], 
     "year": [
-        "Umwaka"
+        "umwaka"
     ], 
     "month": [
-        "Umweshi"
+        "umweshi"
     ], 
     "week": [
-        "Umulungu"
+        "umulungu"
     ], 
     "day": [
-        "Ubushiku"
+        "ubushiku"
     ], 
     "hour": [
-        "Insa"
+        "insa"
     ], 
     "minute": [
-        "Mineti"
+        "mineti"
     ], 
     "second": [
-        "Sekondi"
+        "sekondi"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -147,7 +147,7 @@
             "yesterday"
         ], 
         "0 day ago": [
-            "Lelo"
+            "lelo"
         ], 
         "in 1 day": [
             "tomorrow"

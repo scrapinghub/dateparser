@@ -3,86 +3,83 @@
     "date_order": "YMD", 
     "january": [
         "mbegtug", 
-        "M1", 
+        "m1", 
         "iməg mbegtug"
     ], 
     "february": [
         "imeg àbùbì", 
-        "A2"
+        "a2"
     ], 
     "march": [
-        "M3", 
+        "m3", 
         "imeg mbəŋchubi"
     ], 
     "april": [
         "iməg ngwə̀t", 
-        "N4"
+        "n4"
     ], 
     "may": [
         "iməg fog", 
-        "F5"
+        "f5"
     ], 
     "june": [
         "iməg ichiibɔd", 
-        "I6"
+        "i6"
     ], 
     "july": [
         "iməg àdùmbə̀ŋ", 
-        "A7"
+        "a7"
     ], 
     "august": [
         "iməg ichika", 
-        "I8"
+        "i8"
     ], 
     "september": [
         "iməg kud", 
-        "K9"
+        "k9"
     ], 
     "october": [
-        "iməg tèsiʼe", 
-        "10"
+        "iməg tèsiʼe"
     ], 
     "november": [
-        "11", 
         "iməg zò"
     ], 
     "december": [
-        "12", 
         "iməg krizmed"
     ], 
     "monday": [
-        "A2", 
-        "Aneg 2"
+        "a2", 
+        "aneg 2"
     ], 
     "tuesday": [
-        "A3", 
-        "Aneg 3"
+        "a3", 
+        "aneg 3"
     ], 
     "wednesday": [
-        "Aneg 4", 
-        "A4"
+        "aneg 4", 
+        "a4"
     ], 
     "thursday": [
-        "Aneg 5", 
-        "A5"
+        "aneg 5", 
+        "a5"
     ], 
     "friday": [
-        "Aneg 6", 
-        "A6"
+        "aneg 6", 
+        "a6"
     ], 
     "saturday": [
-        "Aneg 7", 
-        "A7"
+        "aneg 7", 
+        "a7"
     ], 
     "sunday": [
-        "A1", 
-        "Aneg 1"
+        "a1", 
+        "aneg 1"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
         "fituʼ"
@@ -97,13 +94,13 @@
         "anəg"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

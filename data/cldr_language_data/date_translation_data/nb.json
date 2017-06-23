@@ -3,132 +3,121 @@
     "date_order": "DMY", 
     "january": [
         "jan", 
-        "jan.", 
-        "J", 
-        "januar"
+        "januar", 
+        "j"
     ], 
     "february": [
-        "feb.", 
         "feb", 
         "februar", 
-        "F"
+        "f"
     ], 
     "march": [
-        "mar.", 
         "mar", 
-        "M", 
+        "m", 
         "mars"
     ], 
     "april": [
         "apr", 
         "april", 
-        "apr.", 
-        "A"
+        "a"
     ], 
     "may": [
         "mai", 
-        "M"
+        "m"
     ], 
     "june": [
         "juni", 
-        "J", 
-        "jun", 
-        "jun."
+        "j", 
+        "jun"
     ], 
     "july": [
         "juli", 
-        "J", 
-        "jul.", 
+        "j", 
         "jul"
     ], 
     "august": [
-        "A", 
+        "a", 
         "august", 
-        "aug", 
-        "aug."
+        "aug"
     ], 
     "september": [
         "september", 
-        "S", 
-        "sep.", 
+        "s", 
         "sep"
     ], 
     "october": [
-        "okt.", 
         "oktober", 
         "okt", 
-        "O"
+        "o"
     ], 
     "november": [
-        "nov.", 
         "november", 
         "nov", 
-        "N"
+        "n"
     ], 
     "december": [
         "desember", 
-        "des.", 
         "des", 
-        "D"
+        "d"
     ], 
     "monday": [
         "mandag", 
-        "M", 
-        "man."
+        "m", 
+        "man"
     ], 
     "tuesday": [
         "tirsdag", 
-        "tir.", 
-        "T"
+        "t", 
+        "tir"
     ], 
     "wednesday": [
-        "ons.", 
+        "ons", 
         "onsdag", 
-        "O"
+        "o"
     ], 
     "thursday": [
-        "tor.", 
+        "tor", 
         "torsdag", 
-        "T"
+        "t"
     ], 
     "friday": [
         "fredag", 
-        "fre.", 
-        "F"
+        "fre", 
+        "f"
     ], 
     "saturday": [
         "lørdag", 
-        "lør.", 
-        "L"
+        "lør", 
+        "l"
     ], 
     "sunday": [
         "søndag", 
-        "S", 
-        "søn."
+        "s", 
+        "søn"
     ], 
     "am": [
         "a", 
-        "a.m."
+        "am"
     ], 
     "pm": [
         "p", 
-        "p.m."
+        "pm"
     ], 
     "year": [
         "år"
     ], 
     "month": [
-        "md.", 
-        "måned", 
-        "mnd."
+        "md", 
+        "mnd", 
+        "måned"
     ], 
     "week": [
         "uke", 
-        "u."
+        "u"
     ], 
     "day": [
-        "d.", 
-        "dag"
+        "dag", 
+        "d"
     ], 
     "hour": [
         "t", 
@@ -155,15 +144,15 @@
             "neste år"
         ], 
         "1 month ago": [
-            "forrige måned", 
-            "forrige md."
+            "forrige md", 
+            "forrige måned"
         ], 
         "0 month ago": [
-            "denne md.", 
-            "denne måneden"
+            "denne måneden", 
+            "denne md"
         ], 
         "in 1 month": [
-            "neste md.", 
+            "neste md", 
             "neste måned"
         ], 
         "1 week ago": [
@@ -202,38 +191,38 @@
             "–(\\d+) år"
         ], 
         "in \\1 month": [
-            "om (\\d+) md.", 
-            "+(\\d+) md.", 
+            "om (\\d+) md", 
+            "+(\\d+) md", 
             "om (\\d+) måned", 
             "om (\\d+) måneder"
         ], 
         "\\1 month ago": [
-            "for (\\d+) md. siden", 
+            "for (\\d+) md siden", 
             "for (\\d+) måneder siden", 
             "for (\\d+) måned siden", 
-            "-(\\d+) md."
+            "-(\\d+) md"
         ], 
         "in \\1 week": [
-            "om (\\d+) u.", 
-            "+(\\d+) u.", 
+            "+(\\d+) u", 
             "om (\\d+) uker", 
-            "om (\\d+) uke"
+            "om (\\d+) uke", 
+            "om (\\d+) u"
         ], 
         "\\1 week ago": [
-            "for (\\d+) u. siden", 
             "for (\\d+) uke siden", 
-            "-(\\d+) u.", 
+            "for (\\d+) u siden", 
+            "-(\\d+) u", 
             "for (\\d+) uker siden"
         ], 
         "in \\1 day": [
-            "+(\\d+) d.", 
-            "om (\\d+) d.", 
-            "om (\\d+) døgn"
+            "om (\\d+) døgn", 
+            "+(\\d+) d", 
+            "om (\\d+) d"
         ], 
         "\\1 day ago": [
-            "for (\\d+) d. siden", 
+            "-(\\d+) d", 
             "for (\\d+) døgn siden", 
-            "-(\\d+) d."
+            "for (\\d+) d siden"
         ], 
         "in \\1 hour": [
             "+(\\d+) t", 

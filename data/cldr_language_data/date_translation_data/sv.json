@@ -2,104 +2,104 @@
     "name": "sv", 
     "date_order": "YMD", 
     "january": [
+        "jan", 
         "januari", 
-        "J", 
-        "jan."
+        "j"
     ], 
     "february": [
         "februari", 
-        "F", 
-        "feb."
+        "feb", 
+        "f"
     ], 
     "march": [
-        "M", 
+        "m", 
         "mars"
     ], 
     "april": [
-        "A", 
+        "apr", 
         "april", 
-        "apr."
+        "a"
     ], 
     "may": [
         "maj", 
-        "M"
+        "m"
     ], 
     "june": [
         "juni", 
-        "J"
+        "j"
     ], 
     "july": [
         "juli", 
-        "J"
+        "j"
     ], 
     "august": [
-        "A", 
-        "aug.", 
+        "a", 
+        "aug", 
         "augusti"
     ], 
     "september": [
         "september", 
-        "S", 
-        "sep."
+        "s", 
+        "sep"
     ], 
     "october": [
-        "okt.", 
         "oktober", 
-        "O"
+        "okt", 
+        "o"
     ], 
     "november": [
-        "nov.", 
         "november", 
-        "N"
+        "nov", 
+        "n"
     ], 
     "december": [
         "december", 
-        "dec.", 
-        "D"
+        "dec", 
+        "d"
     ], 
     "monday": [
         "mån", 
-        "M", 
+        "m", 
         "måndag"
     ], 
     "tuesday": [
         "tisdag", 
-        "T", 
+        "t", 
         "tis"
     ], 
     "wednesday": [
         "ons", 
         "onsdag", 
-        "O"
+        "o"
     ], 
     "thursday": [
         "torsdag", 
         "tors", 
-        "T"
+        "t"
     ], 
     "friday": [
         "fredag", 
         "fre", 
-        "F"
+        "f"
     ], 
     "saturday": [
         "lördag", 
-        "L", 
+        "l", 
         "lör"
     ], 
     "sunday": [
         "sön", 
-        "S", 
+        "s", 
         "söndag"
     ], 
     "am": [
         "förmiddag", 
-        "fm", 
-        "f.m."
+        "f.m", 
+        "fm"
     ], 
     "pm": [
-        "e.m.", 
         "em", 
+        "e.m", 
         "eftermiddag"
     ], 
     "year": [
@@ -143,28 +143,28 @@
             "nästa år"
         ], 
         "1 month ago": [
-            "förra mån.", 
+            "förra mån", 
             "förra månaden"
         ], 
         "0 month ago": [
-            "denna mån.", 
-            "denna månad"
+            "denna månad", 
+            "denna mån"
         ], 
         "in 1 month": [
             "nästa månad", 
-            "nästa mån."
+            "nästa mån"
         ], 
         "1 week ago": [
-            "förra v.", 
+            "förra v", 
             "förra veckan"
         ], 
         "0 week ago": [
-            "denna v.", 
+            "denna v", 
             "denna vecka"
         ], 
         "in 1 week": [
-            "nästa v.", 
-            "nästa vecka"
+            "nästa vecka", 
+            "nästa v"
         ], 
         "1 day ago": [
             "i går"
@@ -195,26 +195,26 @@
         "in \\1 month": [
             "om (\\d+) månad", 
             "om (\\d+) månader", 
-            "om (\\d+) mån.", 
-            "+(\\d+) mån."
+            "om (\\d+) mån", 
+            "+(\\d+) mån"
         ], 
         "\\1 month ago": [
+            "för (\\d+) mån sedan", 
             "−(\\d+) mån", 
             "för (\\d+) månad sedan", 
-            "för (\\d+) månader sedan", 
-            "för (\\d+) mån. sedan"
+            "för (\\d+) månader sedan"
         ], 
         "in \\1 week": [
             "om (\\d+) veckor", 
-            "+(\\d+) v.", 
+            "om (\\d+) v", 
             "om (\\d+) vecka", 
-            "om (\\d+) v."
+            "+(\\d+) v"
         ], 
         "\\1 week ago": [
             "för (\\d+) vecka sedan", 
+            "för (\\d+) v sedan", 
             "för (\\d+) veckor sedan", 
-            "−(\\d+) v", 
-            "för (\\d+) v. sedan"
+            "−(\\d+) v"
         ], 
         "in \\1 day": [
             "om (\\d+) dag", 
@@ -226,7 +226,6 @@
             "för (\\d+) dag sedan", 
             "för (\\d+) d sedan", 
             "för (\\d+) dagar sedan", 
-            "för (\\d+) d sedan", 
             "−(\\d+) d"
         ], 
         "in \\1 hour": [
@@ -242,29 +241,28 @@
             "för (\\d+) timmar sedan"
         ], 
         "in \\1 minute": [
-            "om (\\d+) min", 
+            "om (\\d+) min", 
             "om (\\d+) minut", 
             "om (\\d+) minuter", 
             "+(\\d+) min"
         ], 
         "\\1 minute ago": [
             "−(\\d+) min", 
-            "för (\\d+) min sedan", 
+            "för (\\d+) min sedan", 
             "för (\\d+) minut sedan", 
             "för (\\d+) minuter sedan"
         ], 
         "in \\1 second": [
-            "om (\\d+) sek", 
             "om (\\d+) sekund", 
             "+(\\d+) s", 
-            "om (\\d+) sek", 
+            "om (\\d+) sek", 
             "om (\\d+) sekunder"
         ], 
         "\\1 second ago": [
             "för (\\d+) sekunder sedan", 
             "−(\\d+) s", 
             "för (\\d+) sekund sedan", 
-            "för (\\d+) sek sedan"
+            "för (\\d+) sek sedan"
         ]
     }, 
     "locale_specific": {

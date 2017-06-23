@@ -94,31 +94,31 @@
         "d"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Lane"
+        "lane"
     ], 
     "month": [
-        "Mwa"
+        "mwa"
     ], 
     "week": [
-        "Semenn"
+        "semenn"
     ], 
     "day": [
-        "Zour"
+        "zour"
     ], 
     "hour": [
-        "Ler"
+        "ler"
     ], 
     "minute": [
-        "Minit"
+        "minit"
     ], 
     "second": [
-        "Segonn"
+        "segonn"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -149,13 +149,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Yer"
+            "yer"
         ], 
         "0 day ago": [
-            "Zordi"
+            "zordi"
         ], 
         "in 1 day": [
-            "Demin"
+            "demin"
         ], 
         "0 hour ago": [
             "this hour"

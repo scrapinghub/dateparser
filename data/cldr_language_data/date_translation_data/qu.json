@@ -2,126 +2,114 @@
     "name": "qu", 
     "date_order": "DMY", 
     "january": [
-        "1", 
-        "Qulla puquy", 
-        "Qul"
+        "qulla puquy", 
+        "qul"
     ], 
     "february": [
-        "Hatun puquy", 
-        "2", 
-        "Hat"
+        "hatun puquy", 
+        "hat"
     ], 
     "march": [
-        "3", 
-        "Pau", 
-        "Pauqar waray"
+        "pau", 
+        "pauqar waray"
     ], 
     "april": [
-        "Ayr", 
-        "4", 
-        "Ayriwa"
+        "ayr", 
+        "ayriwa"
     ], 
     "may": [
-        "Aym", 
-        "5", 
-        "Aymuray"
+        "aym", 
+        "aymuray"
     ], 
     "june": [
-        "Inti raymi", 
-        "Int", 
-        "6"
+        "inti raymi", 
+        "int"
     ], 
     "july": [
-        "Ant", 
-        "Anta Sitwa", 
-        "7"
+        "ant", 
+        "anta sitwa"
     ], 
     "august": [
-        "8", 
-        "Qha", 
-        "Qhapaq Sitwa"
+        "qha", 
+        "qhapaq sitwa"
     ], 
     "september": [
-        "9", 
-        "Uma", 
-        "Uma raymi"
+        "uma", 
+        "uma raymi"
     ], 
     "october": [
-        "Kantaray", 
-        "Kan", 
-        "10"
+        "kantaray", 
+        "kan"
     ], 
     "november": [
-        "11", 
-        "Aya", 
-        "Ayamarqʼa"
+        "aya", 
+        "ayamarqʼa"
     ], 
     "december": [
-        "12", 
-        "Kapaq Raymi", 
-        "Kap"
+        "kapaq raymi", 
+        "kap"
     ], 
     "monday": [
-        "Lunes", 
-        "L", 
-        "Lun"
+        "lunes", 
+        "l", 
+        "lun"
     ], 
     "tuesday": [
-        "Mar", 
-        "M", 
-        "Martes"
+        "mar", 
+        "m", 
+        "martes"
     ], 
     "wednesday": [
-        "Mié", 
-        "X", 
-        "Miércoles"
+        "mié", 
+        "x", 
+        "miércoles"
     ], 
     "thursday": [
-        "J", 
-        "Jueves", 
-        "Jue"
+        "j", 
+        "jueves", 
+        "jue"
     ], 
     "friday": [
-        "V", 
-        "Vie", 
-        "Viernes"
+        "vie", 
+        "v", 
+        "viernes"
     ], 
     "saturday": [
-        "Sab", 
-        "Sábado", 
-        "S"
+        "sab", 
+        "sábado", 
+        "s"
     ], 
     "sunday": [
-        "Domingo", 
-        "D", 
-        "Dom"
+        "domingo", 
+        "d", 
+        "dom"
     ], 
     "am": [
-        "a.m."
+        "am"
     ], 
     "pm": [
-        "p.m."
+        "pm"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

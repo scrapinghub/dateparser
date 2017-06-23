@@ -4,138 +4,96 @@
     "january": [
         "jan", 
         "j", 
-        "J", 
-        "Jan", 
-        "Janar", 
         "janar"
     ], 
     "february": [
-        "shk", 
-        "S", 
-        "shkurt", 
         "s", 
-        "Shk", 
-        "Shkurt"
+        "shk", 
+        "shkurt"
     ], 
     "march": [
-        "Mar", 
-        "m", 
-        "Mars", 
-        "M", 
         "mar", 
+        "m", 
         "mars"
     ], 
     "april": [
         "p", 
-        "pri", 
-        "Prill", 
-        "Pri", 
-        "P", 
-        "prill"
+        "prill", 
+        "pri"
     ], 
     "may": [
-        "m", 
-        "Maj", 
-        "M", 
-        "maj"
+        "maj", 
+        "m"
     ], 
     "june": [
         "q", 
         "qershor", 
-        "Q", 
-        "Qershor", 
-        "Qer", 
         "qer"
     ], 
     "july": [
-        "kor", 
-        "K", 
         "korrik", 
-        "Korrik", 
-        "Kor", 
-        "k"
+        "k", 
+        "kor"
     ], 
     "august": [
-        "Gusht", 
-        "G", 
-        "g", 
-        "gusht", 
         "gsh", 
-        "Gsh"
+        "gusht", 
+        "g"
     ], 
     "september": [
         "shtator", 
-        "Sht", 
         "s", 
-        "Shtator", 
-        "S", 
         "sht"
     ], 
     "october": [
-        "Tetor", 
         "tetor", 
-        "Tet", 
-        "t", 
         "tet", 
-        "T"
+        "t"
     ], 
     "november": [
-        "Nëntor", 
         "nën", 
-        "n", 
-        "Nën", 
         "nëntor", 
-        "N"
+        "n"
     ], 
     "december": [
         "dhjetor", 
-        "d", 
-        "Dhjetor", 
         "dhj", 
-        "D", 
-        "Dhj"
+        "d"
     ], 
     "monday": [
-        "H", 
-        "E hënë", 
-        "Hën", 
-        "e hënë"
+        "h", 
+        "e hënë", 
+        "hën"
     ], 
     "tuesday": [
-        "E martë", 
-        "Mar", 
-        "M", 
-        "e martë"
+        "e martë", 
+        "mar", 
+        "m"
     ], 
     "wednesday": [
-        "E mërkurë", 
-        "M", 
-        "Mër", 
-        "e mërkurë"
+        "e mërkurë", 
+        "m", 
+        "mër"
     ], 
     "thursday": [
-        "Enj", 
-        "E", 
-        "e enjte", 
-        "E enjte"
+        "enj", 
+        "e", 
+        "e enjte"
     ], 
     "friday": [
-        "Pre", 
-        "P", 
-        "E premte", 
+        "pre", 
+        "p", 
         "e premte"
     ], 
     "saturday": [
-        "S", 
-        "Sht", 
-        "e shtunë", 
-        "E shtunë"
+        "s", 
+        "sht", 
+        "e shtunë"
     ], 
     "sunday": [
-        "Die", 
-        "E diel", 
+        "die", 
         "e diel", 
-        "D"
+        "d"
     ], 
     "am": [
         "paradite", 
@@ -162,11 +120,11 @@
     ], 
     "minute": [
         "minutë", 
-        "min."
+        "min"
     ], 
     "second": [
         "sekondë", 
-        "sek."
+        "sek"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -252,22 +210,22 @@
         ], 
         "in \\1 minute": [
             "pas (\\d+) minute", 
-            "pas (\\d+) min.", 
+            "pas (\\d+) min", 
             "pas (\\d+) minutash"
         ], 
         "\\1 minute ago": [
-            "(\\d+) min. më parë", 
+            "(\\d+) min më parë", 
             "(\\d+) minutë më parë", 
             "(\\d+) minuta më parë"
         ], 
         "in \\1 second": [
             "pas (\\d+) sekonde", 
-            "pas (\\d+) sek.", 
+            "pas (\\d+) sek", 
             "pas (\\d+) sekondash"
         ], 
         "\\1 second ago": [
             "(\\d+) sekonda më parë", 
-            "(\\d+) sek. më parë", 
+            "(\\d+) sek më parë", 
             "(\\d+) sekondë më parë"
         ]
     }, 

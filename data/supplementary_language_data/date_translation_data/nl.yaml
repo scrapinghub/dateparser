@@ -1,0 +1,25 @@
+skip: ["om"]
+
+month:
+    - maanden
+week:
+    - weken
+day:
+    - dagen
+minute:
+    - minuten
+second:
+    - seconden
+
+ago:
+    - geleden
+in:
+    - in
+
+relative-type:
+    - 1 year ago:
+        - vorige jaar
+    - 2 day ago:
+        - eergisteren
+    - in 2 day:
+        - overmorgen

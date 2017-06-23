@@ -2,63 +2,51 @@
     "name": "nmg", 
     "date_order": "DMY", 
     "january": [
-        "1", 
         "ngwɛn matáhra", 
         "ng1"
     ], 
     "february": [
         "ngwɛn ńmba", 
-        "2", 
         "ng2"
     ], 
     "march": [
-        "3", 
         "ngwɛn ńlal", 
         "ng3"
     ], 
     "april": [
         "ng4", 
-        "ngwɛn ńna", 
-        "4"
+        "ngwɛn ńna"
     ], 
     "may": [
         "ng5", 
-        "5", 
         "ngwɛn ńtan"
     ], 
     "june": [
         "ng6", 
-        "6", 
         "ngwɛn ńtuó"
     ], 
     "july": [
         "ngwɛn hɛmbuɛrí", 
-        "ng7", 
-        "7"
+        "ng7"
     ], 
     "august": [
-        "8", 
         "ng8", 
         "ngwɛn lɔmbi"
     ], 
     "september": [
-        "9", 
         "ngwɛn rɛbvuâ", 
         "ng9"
     ], 
     "october": [
-        "10", 
         "ngwɛn wum", 
         "ng10"
     ], 
     "november": [
         "ngwɛn wum navǔr", 
-        "11", 
         "ng11"
     ], 
     "december": [
         "krísimin", 
-        "12", 
         "kris"
     ], 
     "monday": [
@@ -103,25 +91,25 @@
         "kugú"
     ], 
     "year": [
-        "Mbvu"
+        "mbvu"
     ], 
     "month": [
-        "Ngwɛn"
+        "ngwɛn"
     ], 
     "week": [
-        "Sɔ́ndɔ"
+        "sɔ́ndɔ"
     ], 
     "day": [
-        "Duö"
+        "duö"
     ], 
     "hour": [
-        "Wulā"
+        "wulā"
     ], 
     "minute": [
-        "Mpálâ"
+        "mpálâ"
     ], 
     "second": [
-        "Nyiɛl"
+        "nyiɛl"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +140,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Nakugú"
+            "nakugú"
         ], 
         "0 day ago": [
-            "Dɔl"
+            "dɔl"
         ], 
         "in 1 day": [
-            "Namáná"
+            "namáná"
         ], 
         "0 hour ago": [
             "this hour"

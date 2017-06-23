@@ -2,123 +2,123 @@
     "name": "nus", 
     "date_order": "DMY", 
     "january": [
-        "Tiop", 
-        "Tiop thar pɛt", 
-        "T"
+        "tiop", 
+        "tiop thar pɛt", 
+        "t"
     ], 
     "february": [
-        "P", 
-        "Pɛt"
+        "p", 
+        "pɛt"
     ], 
     "march": [
-        "Duɔ̱ɔ̱", 
-        "D", 
-        "Duɔ̱ɔ̱ŋ"
+        "duɔ̱ɔ̱", 
+        "d", 
+        "duɔ̱ɔ̱ŋ"
     ], 
     "april": [
-        "Guak", 
-        "G"
+        "guak", 
+        "g"
     ], 
     "may": [
-        "Duä", 
-        "Duät", 
-        "D"
+        "duä", 
+        "duät", 
+        "d"
     ], 
     "june": [
-        "Kor", 
-        "K", 
-        "Kornyoot"
+        "kor", 
+        "k", 
+        "kornyoot"
     ], 
     "july": [
-        "Pay", 
-        "Pay yie̱tni", 
-        "P"
+        "pay", 
+        "pay yie̱tni", 
+        "p"
     ], 
     "august": [
-        "Tho̱o̱r", 
-        "Thoo", 
-        "T"
+        "tho̱o̱r", 
+        "thoo", 
+        "t"
     ], 
     "september": [
-        "Tɛɛr", 
-        "Tɛɛ", 
-        "T"
+        "tɛɛr", 
+        "tɛɛ", 
+        "t"
     ], 
     "october": [
-        "Laa", 
-        "L", 
-        "Laath"
+        "l", 
+        "laa", 
+        "laath"
     ], 
     "november": [
-        "K", 
-        "Kur"
+        "k", 
+        "kur"
     ], 
     "december": [
-        "Tid", 
-        "Tio̱p in di̱i̱t", 
-        "T"
+        "tid", 
+        "tio̱p in di̱i̱t", 
+        "t"
     ], 
     "monday": [
-        "Jiec la̱t", 
-        "J", 
-        "Jiec"
+        "jiec la̱t", 
+        "j", 
+        "jiec"
     ], 
     "tuesday": [
-        "R", 
-        "Rɛw", 
-        "Rɛw lätni"
+        "r", 
+        "rɛw", 
+        "rɛw lätni"
     ], 
     "wednesday": [
-        "Diɔ̱k lätni", 
-        "D", 
-        "Diɔ̱k"
+        "diɔ̱k lätni", 
+        "d", 
+        "diɔ̱k"
     ], 
     "thursday": [
-        "Ŋuaan", 
-        "Ŋ", 
-        "Ŋuaan lätni"
+        "ŋuaan lätni", 
+        "ŋuaan", 
+        "ŋ"
     ], 
     "friday": [
-        "Dhieec lätni", 
-        "Dhieec", 
-        "D"
+        "dhieec lätni", 
+        "dhieec", 
+        "d"
     ], 
     "saturday": [
-        "B", 
-        "Bäkɛl lätni", 
-        "Bäkɛl"
+        "b", 
+        "bäkɛl lätni", 
+        "bäkɛl"
     ], 
     "sunday": [
-        "Cäŋ kuɔth", 
-        "C", 
-        "Cäŋ"
+        "cäŋ kuɔth", 
+        "c", 
+        "cäŋ"
     ], 
     "am": [
-        "RW"
+        "rw"
     ], 
     "pm": [
-        "TŊ"
+        "tŋ"
     ], 
     "year": [
-        "Ruɔ̱n"
+        "ruɔ̱n"
     ], 
     "month": [
-        "Pay"
+        "pay"
     ], 
     "week": [
-        "Jiɔk"
+        "jiɔk"
     ], 
     "day": [
-        "Cäŋ"
+        "cäŋ"
     ], 
     "hour": [
-        "Thaak"
+        "thaak"
     ], 
     "minute": [
-        "Minit"
+        "minit"
     ], 
     "second": [
-        "Thɛkɛni"
+        "thɛkɛni"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -149,13 +149,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Pan"
+            "pan"
         ], 
         "0 day ago": [
-            "Walɛ"
+            "walɛ"
         ], 
         "in 1 day": [
-            "Ruun"
+            "ruun"
         ], 
         "0 hour ago": [
             "this hour"

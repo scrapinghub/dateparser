@@ -2,52 +2,40 @@
     "name": "zh-Hant", 
     "date_order": "YMD", 
     "january": [
-        "1", 
         "1月"
     ], 
     "february": [
-        "2", 
         "2月"
     ], 
     "march": [
-        "3", 
         "3月"
     ], 
     "april": [
-        "4", 
         "4月"
     ], 
     "may": [
-        "5", 
         "5月"
     ], 
     "june": [
-        "6月", 
-        "6"
+        "6月"
     ], 
     "july": [
-        "7", 
         "7月"
     ], 
     "august": [
-        "8", 
         "8月"
     ], 
     "september": [
-        "9", 
         "9月"
     ], 
     "october": [
-        "10", 
         "10月"
     ], 
     "november": [
-        "11", 
         "11月"
     ], 
     "december": [
-        "12月", 
-        "12"
+        "12月"
     ], 
     "monday": [
         "週一", 

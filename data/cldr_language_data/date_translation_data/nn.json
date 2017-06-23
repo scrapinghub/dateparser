@@ -3,120 +3,112 @@
     "date_order": "DMY", 
     "january": [
         "jan", 
-        "jan.", 
-        "J", 
-        "januar"
+        "januar", 
+        "j"
     ], 
     "february": [
-        "feb.", 
         "feb", 
         "februar", 
-        "F"
+        "f"
     ], 
     "march": [
         "mar", 
-        "M", 
+        "m", 
         "mars"
     ], 
     "april": [
         "apr", 
         "april", 
-        "apr.", 
-        "A"
+        "a"
     ], 
     "may": [
         "mai", 
-        "M"
+        "m"
     ], 
     "june": [
         "juni", 
-        "J", 
+        "j", 
         "jun"
     ], 
     "july": [
         "juli", 
-        "J", 
+        "j", 
         "jul"
     ], 
     "august": [
-        "A", 
+        "a", 
         "august", 
-        "aug", 
-        "aug."
+        "aug"
     ], 
     "september": [
         "september", 
-        "S", 
-        "sep.", 
+        "s", 
         "sep"
     ], 
     "october": [
-        "okt.", 
         "oktober", 
         "okt", 
-        "O"
+        "o"
     ], 
     "november": [
-        "nov.", 
         "november", 
         "nov", 
-        "N"
+        "n"
     ], 
     "december": [
         "desember", 
-        "des.", 
         "des", 
-        "D"
+        "d"
     ], 
     "monday": [
-        "må.", 
+        "må", 
         "mån", 
-        "M", 
+        "m", 
         "måndag"
     ], 
     "tuesday": [
         "tysdag", 
-        "T", 
-        "ty.", 
+        "ty", 
+        "t", 
         "tys"
     ], 
     "wednesday": [
-        "on.", 
         "ons", 
         "onsdag", 
-        "O"
+        "o", 
+        "on"
     ], 
     "thursday": [
         "tor", 
-        "to.", 
+        "to", 
         "torsdag", 
-        "T"
+        "t"
     ], 
     "friday": [
         "fredag", 
-        "fr.", 
+        "fr", 
         "fre", 
-        "F"
+        "f"
     ], 
     "saturday": [
         "lau", 
-        "la.", 
         "laurdag", 
-        "L"
+        "l", 
+        "la"
     ], 
     "sunday": [
         "søndag", 
-        "S", 
-        "sø.", 
+        "s", 
+        "sø", 
         "søn"
     ], 
     "am": [
-        "f.m.", 
+        "f.m", 
         "formiddag"
     ], 
     "pm": [
-        "e.m.", 
-        "ettermiddag"
+        "ettermiddag", 
+        "e.m"
     ], 
     "year": [
         "år"

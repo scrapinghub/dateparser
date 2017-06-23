@@ -1,0 +1,48 @@
+skip: ["de", "del", "cerca", "y", "a las", "en"]
+pertain: ["de", "del"]
+
+monday:
+    - Lu
+wednesday:
+    - Mi
+thursday:
+    - Ju
+friday:
+    - Vi
+saturday:
+    - Sa
+sunday:
+    - Do
+
+september:
+    - Setiembre
+    - Sep
+    - Set
+
+year:
+    - años
+month:
+    - meses
+week:
+    - semanas
+day:
+    - días
+hour:
+    - horas
+minute:
+    - minutos
+second:
+    - segundos
+
+ago:
+    - hace
+in:
+    - en
+
+relative-type:
+    - 2 day ago:
+        - anteayer
+
+simplifications:
+    - un: 1
+    - una: 1

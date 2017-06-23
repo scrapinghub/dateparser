@@ -1,0 +1,56 @@
+tuesday:
+    - سهشنبه
+wednesday:
+    - چهار شنبه
+thursday:
+    - پنج شنبه
+saturday:
+    - روز شنبه
+    - دو شنبه
+    - د.
+
+january:
+    - جنوری
+february:
+    - فبروری
+march:
+    - مارس
+    - مارچ
+april:
+    - اپریل
+may:
+    - می
+june:
+    - جون
+july:
+    - جولای
+august:
+    - آگست
+september:
+    - سپتمبر
+october:
+    - اکتوبر
+november:
+    - نومبر
+december:
+    - دسمبر
+
+second:
+    - دوم
+
+ago:
+    - پیش
+in:
+    - در
+
+simplifications:
+    - ۰: 0
+    - ۱: 1
+    - ۲: 2
+    - ۳: 3
+    - ۴: 4
+    - ۵: 5
+    - ۶: 6
+    - ۷: 7
+    - ۸: 8
+    - ۹: 9

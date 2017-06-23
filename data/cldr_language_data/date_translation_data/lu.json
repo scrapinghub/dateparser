@@ -2,126 +2,126 @@
     "name": "lu", 
     "date_order": "DMY", 
     "january": [
-        "C", 
-        "Ciongo", 
-        "Cio"
+        "c", 
+        "ciongo", 
+        "cio"
     ], 
     "february": [
-        "Lui", 
-        "L", 
-        "Lùishi"
+        "lui", 
+        "l", 
+        "lùishi"
     ], 
     "march": [
-        "Lus", 
-        "L", 
-        "Lusòlo"
+        "lus", 
+        "l", 
+        "lusòlo"
     ], 
     "april": [
-        "Muu", 
-        "Mùuyà", 
-        "M"
+        "muu", 
+        "mùuyà", 
+        "m"
     ], 
     "may": [
-        "Lumùngùlù", 
-        "Lum", 
-        "L"
+        "lumùngùlù", 
+        "lum", 
+        "l"
     ], 
     "june": [
-        "Luf", 
-        "Lufuimi", 
-        "L"
+        "luf", 
+        "lufuimi", 
+        "l"
     ], 
     "july": [
-        "Kab", 
-        "K", 
-        "Kabàlàshìpù"
+        "kab", 
+        "k", 
+        "kabàlàshìpù"
     ], 
     "august": [
-        "Lush", 
-        "L", 
-        "Lùshìkà"
+        "lush", 
+        "l", 
+        "lùshìkà"
     ], 
     "september": [
-        "Lutongolo", 
-        "Lut", 
-        "L"
+        "lutongolo", 
+        "lut", 
+        "l"
     ], 
     "october": [
-        "Lungùdi", 
-        "L", 
-        "Lun"
+        "lungùdi", 
+        "l", 
+        "lun"
     ], 
     "november": [
-        "Kas", 
-        "K", 
-        "Kaswèkèsè"
+        "kas", 
+        "k", 
+        "kaswèkèsè"
     ], 
     "december": [
-        "Cis", 
-        "C", 
-        "Ciswà"
+        "cis", 
+        "c", 
+        "ciswà"
     ], 
     "monday": [
-        "N", 
-        "Nkodya", 
-        "Nko"
+        "n", 
+        "nkodya", 
+        "nko"
     ], 
     "tuesday": [
-        "Ndy", 
-        "Ndàayà", 
-        "N"
+        "ndy", 
+        "ndàayà", 
+        "n"
     ], 
     "wednesday": [
-        "Ndangù", 
-        "Ndg", 
-        "N"
+        "ndangù", 
+        "ndg", 
+        "n"
     ], 
     "thursday": [
-        "N", 
-        "Njw", 
-        "Njòwa"
+        "n", 
+        "njw", 
+        "njòwa"
     ], 
     "friday": [
-        "Ngòvya", 
-        "Ngv", 
-        "N"
+        "ngòvya", 
+        "ngv", 
+        "n"
     ], 
     "saturday": [
-        "Lub", 
-        "L", 
-        "Lubingu"
+        "lub", 
+        "l", 
+        "lubingu"
     ], 
     "sunday": [
-        "Lumingu", 
-        "Lum", 
-        "L"
+        "lumingu", 
+        "lum", 
+        "l"
     ], 
     "am": [
-        "Dinda"
+        "dinda"
     ], 
     "pm": [
-        "Dilolo"
+        "dilolo"
     ], 
     "year": [
-        "Tshidimu"
+        "tshidimu"
     ], 
     "month": [
-        "Ngondo"
+        "ngondo"
     ], 
     "week": [
-        "Lubingu"
+        "lubingu"
     ], 
     "day": [
-        "Dituku"
+        "dituku"
     ], 
     "hour": [
-        "Diba"
+        "diba"
     ], 
     "minute": [
-        "Kasunsu"
+        "kasunsu"
     ], 
     "second": [
-        "Kasunsukusu"
+        "kasunsukusu"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Makelela"
+            "makelela"
         ], 
         "0 day ago": [
-            "Lelu"
+            "lelu"
         ], 
         "in 1 day": [
-            "Malaba"
+            "malaba"
         ], 
         "0 hour ago": [
             "this hour"

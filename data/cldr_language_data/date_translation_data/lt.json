@@ -2,149 +2,149 @@
     "name": "lt", 
     "date_order": "YMD", 
     "january": [
+        "saus", 
         "sausis", 
-        "S", 
-        "sausio", 
-        "saus."
+        "s", 
+        "sausio"
     ], 
     "february": [
         "vasaris", 
+        "vas", 
         "vasario", 
-        "vas.", 
-        "V"
+        "v"
     ], 
     "march": [
         "kovas", 
-        "K", 
-        "kov.", 
-        "kovo"
+        "k", 
+        "kovo", 
+        "kov"
     ], 
     "april": [
         "balandžio", 
-        "bal.", 
-        "B", 
+        "bal", 
+        "b", 
         "balandis"
     ], 
     "may": [
         "gegužė", 
+        "geg", 
         "gegužės", 
-        "G", 
-        "geg."
+        "g"
     ], 
     "june": [
         "birželis", 
-        "birž.", 
-        "B", 
-        "birželio"
+        "b", 
+        "birželio", 
+        "birž"
     ], 
     "july": [
-        "liep.", 
+        "liep", 
         "liepos", 
-        "L", 
+        "l", 
         "liepa"
     ], 
     "august": [
-        "R", 
+        "r", 
         "rugpjūtis", 
-        "rugp.", 
-        "rugpjūčio"
+        "rugpjūčio", 
+        "rugp"
     ], 
     "september": [
-        "rugs.", 
         "rugsėjis", 
-        "R", 
-        "rugsėjo"
+        "r", 
+        "rugsėjo", 
+        "rugs"
     ], 
     "october": [
         "spalis", 
-        "S", 
+        "s", 
         "spalio", 
-        "spal."
+        "spal"
     ], 
     "november": [
-        "lapkr.", 
-        "L", 
+        "lapkričio", 
+        "lapkr", 
         "lapkritis", 
-        "lapkričio"
+        "l"
     ], 
     "december": [
         "gruodis", 
-        "gruod.", 
+        "gruod", 
         "gruodžio", 
-        "G"
+        "g"
     ], 
     "monday": [
         "pirmadienis", 
         "pr", 
-        "P"
+        "p"
     ], 
     "tuesday": [
-        "A", 
+        "a", 
         "antradienis", 
         "an"
     ], 
     "wednesday": [
         "tr", 
-        "T", 
+        "t", 
         "trečiadienis"
     ], 
     "thursday": [
         "ketvirtadienis", 
-        "K", 
+        "k", 
         "kt"
     ], 
     "friday": [
         "penktadienis", 
         "pn", 
-        "P"
+        "p"
     ], 
     "saturday": [
-        "Š", 
+        "š", 
         "šeštadienis", 
         "št"
     ], 
     "sunday": [
         "sk", 
         "sekmadienis", 
-        "S"
+        "s"
     ], 
     "am": [
-        "pr. p.", 
-        "priešpiet"
+        "priešpiet", 
+        "pr p"
     ], 
     "pm": [
-        "pop.", 
+        "pop", 
         "popiet"
     ], 
     "year": [
         "metai", 
-        "m."
+        "m"
     ], 
     "month": [
-        "mėn.", 
+        "mėn", 
         "mėnuo"
     ], 
     "week": [
-        "sav.", 
-        "savaitė"
+        "savaitė", 
+        "sav"
     ], 
     "day": [
-        "d.", 
-        "diena"
+        "diena", 
+        "d"
     ], 
     "hour": [
         "h", 
-        "val.", 
+        "val", 
         "valanda"
     ], 
     "minute": [
         "minutė", 
-        "min."
+        "min"
     ], 
     "second": [
         "sekundė", 
-        "s", 
-        "sek."
+        "sek", 
+        "s"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -193,74 +193,74 @@
             "dabar"
         ], 
         "in \\1 year": [
-            "po (\\d+) metų", 
-            "po (\\d+) m."
+            "po (\\d+) m", 
+            "po (\\d+) metų"
         ], 
         "\\1 year ago": [
+            "prieš (\\d+) m", 
             "prieš (\\d+) metus", 
-            "prieš (\\d+) m.", 
             "prieš (\\d+) metų"
         ], 
         "in \\1 month": [
-            "po (\\d+) mėn.", 
             "po (\\d+) mėnesio", 
-            "po (\\d+) mėnesių"
+            "po (\\d+) mėnesių", 
+            "po (\\d+) mėn"
         ], 
         "\\1 month ago": [
             "prieš (\\d+) mėnesių", 
-            "prieš (\\d+) mėn.", 
+            "prieš (\\d+) mėn", 
             "prieš (\\d+) mėnesį"
         ], 
         "in \\1 week": [
+            "po (\\d+) sav", 
             "po (\\d+) savaitės", 
-            "po (\\d+) sav.", 
             "po (\\d+) savaičių"
         ], 
         "\\1 week ago": [
-            "prieš (\\d+) sav.", 
+            "prieš (\\d+) sav", 
             "prieš (\\d+) savaičių", 
             "prieš (\\d+) savaitę"
         ], 
         "in \\1 day": [
-            "po (\\d+) d.", 
             "po (\\d+) dienų", 
-            "po (\\d+) dienos"
+            "po (\\d+) dienos", 
+            "po (\\d+) d"
         ], 
         "\\1 day ago": [
+            "prieš (\\d+) d", 
             "prieš (\\d+) dienų", 
-            "prieš (\\d+) dieną", 
-            "prieš (\\d+) d."
+            "prieš (\\d+) dieną"
         ], 
         "in \\1 hour": [
             "po (\\d+) valandų", 
-            "po (\\d+) val.", 
+            "po (\\d+) val", 
             "po (\\d+) valandos"
         ], 
         "\\1 hour ago": [
             "prieš (\\d+) valandų", 
-            "prieš (\\d+) val.", 
+            "prieš (\\d+) val", 
             "prieš (\\d+) valandą"
         ], 
         "in \\1 minute": [
             "po (\\d+) minučių", 
             "po (\\d+) minutės", 
-            "po (\\d+) min."
+            "po (\\d+) min"
         ], 
         "\\1 minute ago": [
             "prieš (\\d+) minutę", 
             "prieš (\\d+) minučių", 
-            "prieš (\\d+) min."
+            "prieš (\\d+) min"
         ], 
         "in \\1 second": [
             "po (\\d+) sekundės", 
+            "po (\\d+) sek", 
             "po (\\d+) s", 
-            "po (\\d+) sekundžių", 
-            "po (\\d+) sek."
+            "po (\\d+) sekundžių"
         ], 
         "\\1 second ago": [
-            "prieš (\\d+) sek.", 
             "prieš (\\d+) sekundę", 
             "prieš (\\d+) sekundžių", 
+            "prieš (\\d+) sek", 
             "prieš (\\d+) s"
         ]
     }, 

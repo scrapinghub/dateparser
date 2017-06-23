@@ -2,99 +2,99 @@
     "name": "kab", 
     "date_order": "DMY", 
     "january": [
-        "Y", 
-        "Yennayer", 
-        "Yen"
+        "y", 
+        "yennayer", 
+        "yen"
     ], 
     "february": [
-        "Fur", 
-        "Fuṛar", 
-        "F"
+        "fur", 
+        "fuṛar", 
+        "f"
     ], 
     "march": [
-        "Meɣres", 
-        "M", 
-        "Meɣ"
+        "meɣres", 
+        "m", 
+        "meɣ"
     ], 
     "april": [
-        "Y", 
-        "Yebrir", 
-        "Yeb"
+        "y", 
+        "yebrir", 
+        "yeb"
     ], 
     "may": [
-        "Mayyu", 
-        "May", 
-        "M"
+        "mayyu", 
+        "may", 
+        "m"
     ], 
     "june": [
-        "Y", 
-        "Yun", 
-        "Yunyu"
+        "y", 
+        "yun", 
+        "yunyu"
     ], 
     "july": [
-        "Y", 
-        "Yulyu", 
-        "Yul"
+        "y", 
+        "yulyu", 
+        "yul"
     ], 
     "august": [
-        "Ɣuct", 
-        "Ɣuc", 
-        "Ɣ"
+        "ɣ", 
+        "ɣuc", 
+        "ɣuct"
     ], 
     "september": [
-        "Ctembeṛ", 
-        "Cte", 
-        "C"
+        "ctembeṛ", 
+        "cte", 
+        "c"
     ], 
     "october": [
-        "Tub", 
-        "Tubeṛ", 
-        "T"
+        "tub", 
+        "tubeṛ", 
+        "t"
     ], 
     "november": [
-        "Nun", 
-        "Nunembeṛ", 
-        "N"
+        "nun", 
+        "nunembeṛ", 
+        "n"
     ], 
     "december": [
-        "Duǧembeṛ", 
-        "D", 
-        "Duǧ"
+        "duǧembeṛ", 
+        "d", 
+        "duǧ"
     ], 
     "monday": [
-        "S", 
-        "Sanass", 
-        "San"
+        "s", 
+        "sanass", 
+        "san"
     ], 
     "tuesday": [
-        "Kraḍ", 
-        "K", 
-        "Kraḍass"
+        "kraḍ", 
+        "k", 
+        "kraḍass"
     ], 
     "wednesday": [
-        "Kuẓass", 
-        "K", 
-        "Kuẓ"
+        "kuẓass", 
+        "k", 
+        "kuẓ"
     ], 
     "thursday": [
-        "S", 
-        "Sam", 
-        "Samass"
+        "s", 
+        "sam", 
+        "samass"
     ], 
     "friday": [
-        "Sḍisass", 
-        "Sḍis", 
-        "S"
+        "sḍisass", 
+        "sḍis", 
+        "s"
     ], 
     "saturday": [
-        "S", 
-        "Sayass", 
-        "Say"
+        "s", 
+        "sayass", 
+        "say"
     ], 
     "sunday": [
-        "Y", 
-        "Yan", 
-        "Yanass"
+        "y", 
+        "yan", 
+        "yanass"
     ], 
     "am": [
         "n tufat"
@@ -103,25 +103,25 @@
         "n tmeddit"
     ], 
     "year": [
-        "Aseggas"
+        "aseggas"
     ], 
     "month": [
-        "Aggur"
+        "aggur"
     ], 
     "week": [
-        "Ddurt"
+        "ddurt"
     ], 
     "day": [
-        "Ass"
+        "ass"
     ], 
     "hour": [
-        "Tamert"
+        "tamert"
     ], 
     "minute": [
-        "Tamrect"
+        "tamrect"
     ], 
     "second": [
-        "Tasint"
+        "tasint"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Iḍelli"
+            "iḍelli"
         ], 
         "0 day ago": [
-            "Ass-a"
+            "ass-a"
         ], 
         "in 1 day": [
-            "Azekka"
+            "azekka"
         ], 
         "0 hour ago": [
             "this hour"

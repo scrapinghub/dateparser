@@ -3,97 +3,85 @@
     "date_order": "YMD", 
     "january": [
         "jan", 
-        "1", 
         "januaro"
     ], 
     "february": [
         "feb", 
-        "2", 
         "februaro"
     ], 
     "march": [
-        "3", 
         "mar", 
         "marto"
     ], 
     "april": [
         "apr", 
-        "aprilo", 
-        "4"
+        "aprilo"
     ], 
     "may": [
         "majo", 
-        "5", 
         "maj"
     ], 
     "june": [
         "jun", 
-        "junio", 
-        "6"
+        "junio"
     ], 
     "july": [
         "julio", 
-        "7", 
         "jul"
     ], 
     "august": [
         "aŭgusto", 
-        "aŭg", 
-        "8"
+        "aŭg"
     ], 
     "september": [
-        "9", 
         "septembro", 
         "sep"
     ], 
     "october": [
-        "10", 
         "okt", 
         "oktobro"
     ], 
     "november": [
-        "11", 
         "novembro", 
         "nov"
     ], 
     "december": [
-        "12", 
         "dec", 
         "decembro"
     ], 
     "monday": [
         "lu", 
         "lundo", 
-        "M"
+        "m"
     ], 
     "tuesday": [
         "ma", 
-        "T", 
+        "t", 
         "mardo"
     ], 
     "wednesday": [
         "me", 
         "merkredo", 
-        "W"
+        "w"
     ], 
     "thursday": [
         "ĵaŭdo", 
         "ĵa", 
-        "T"
+        "t"
     ], 
     "friday": [
         "vendredo", 
         "ve", 
-        "F"
+        "f"
     ], 
     "saturday": [
-        "S", 
+        "s", 
         "sabato", 
         "sa"
     ], 
     "sunday": [
         "dimanĉo", 
-        "S", 
+        "s", 
         "di"
     ], 
     "am": [
@@ -103,25 +91,25 @@
         "ptm"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

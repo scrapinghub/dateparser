@@ -103,25 +103,25 @@
         "mpókwa"
     ], 
     "year": [
-        "Mobú"
+        "mobú"
     ], 
     "month": [
-        "Sánzá"
+        "sánzá"
     ], 
     "week": [
-        "Pɔ́sɔ"
+        "pɔ́sɔ"
     ], 
     "day": [
-        "Mokɔlɔ"
+        "mokɔlɔ"
     ], 
     "hour": [
-        "Ngonga"
+        "ngonga"
     ], 
     "minute": [
-        "Monúti"
+        "monúti"
     ], 
     "second": [
-        "Sɛkɔ́ndɛ"
+        "sɛkɔ́ndɛ"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Lóbi elékí"
+            "lóbi elékí"
         ], 
         "0 day ago": [
-            "Lɛlɔ́"
+            "lɛlɔ́"
         ], 
         "in 1 day": [
-            "Lóbi ekoyâ"
+            "lóbi ekoyâ"
         ], 
         "0 hour ago": [
             "this hour"

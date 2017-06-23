@@ -2,89 +2,77 @@
     "name": "tk", 
     "date_order": "DMY", 
     "january": [
-        "1", 
-        "M01"
+        "m01"
     ], 
     "february": [
-        "2", 
-        "M02"
+        "m02"
     ], 
     "march": [
-        "3", 
-        "M03"
+        "m03"
     ], 
     "april": [
-        "M04", 
-        "4"
+        "m04"
     ], 
     "may": [
-        "M05", 
-        "5"
+        "m05"
     ], 
     "june": [
-        "M06", 
-        "6"
+        "m06"
     ], 
     "july": [
-        "M07", 
-        "7"
+        "m07"
     ], 
     "august": [
-        "8", 
-        "M08"
+        "m08"
     ], 
     "september": [
-        "9", 
-        "M09"
+        "m09"
     ], 
     "october": [
-        "M10", 
-        "10"
+        "m10"
     ], 
     "november": [
-        "M11", 
-        "11"
+        "m11"
     ], 
     "december": [
-        "12", 
-        "M12"
+        "m12"
     ], 
     "monday": [
-        "Mon", 
-        "D"
+        "mon", 
+        "d"
     ], 
     "tuesday": [
-        "S", 
-        "Tue"
+        "s", 
+        "tue"
     ], 
     "wednesday": [
-        "Ç", 
-        "Wed"
+        "ç", 
+        "wed"
     ], 
     "thursday": [
-        "P", 
-        "Thu"
+        "p", 
+        "thu"
     ], 
     "friday": [
-        "A", 
-        "Fri"
+        "a", 
+        "fri"
     ], 
     "saturday": [
-        "Ş", 
-        "Sat"
+        "ş", 
+        "sat"
     ], 
     "sunday": [
-        "Sun", 
-        "Ý"
+        "sun", 
+        "ý"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "ý.", 
+        "ý", 
         "ýyl"
     ], 
     "month": [
@@ -92,22 +80,22 @@
     ], 
     "week": [
         "hepde", 
-        "hep."
+        "hep"
     ], 
     "day": [
         "gün"
     ], 
     "hour": [
-        "sagat", 
-        "sag."
+        "sag", 
+        "sagat"
     ], 
     "minute": [
         "minut", 
-        "min."
+        "min"
     ], 
     "second": [
         "sekunt", 
-        "sek."
+        "sek"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -160,8 +148,8 @@
             "(\\d+)ý.-dan"
         ], 
         "\\1 year ago": [
-            "(\\d+) ýyl öň", 
-            "(\\d+)ý. öň"
+            "(\\d+)ý öň", 
+            "(\\d+) ýyl öň"
         ], 
         "in \\1 month": [
             "(\\d+) aýdan"
@@ -175,16 +163,16 @@
             "(\\d+) hepdeden"
         ], 
         "\\1 week ago": [
-            "(\\d+) hep. öň", 
-            "(\\d+) h. öň", 
-            "(\\d+) hepde öň"
+            "(\\d+) h öň", 
+            "(\\d+) hepde öň", 
+            "(\\d+) hep öň"
         ], 
         "in \\1 day": [
             "(\\d+) g-den", 
             "(\\d+) günden"
         ], 
         "\\1 day ago": [
-            "(\\d+) g. öň", 
+            "(\\d+) g öň", 
             "(\\d+) gün öň"
         ], 
         "in \\1 hour": [
@@ -192,15 +180,15 @@
             "(\\d+) sagatdan"
         ], 
         "\\1 hour ago": [
-            "(\\d+) sag. öň", 
-            "(\\d+) sagat öň"
+            "(\\d+) sagat öň", 
+            "(\\d+) sag öň"
         ], 
         "in \\1 minute": [
             "(\\d+) minutdan", 
             "(\\d+) min-dan"
         ], 
         "\\1 minute ago": [
-            "(\\d+) min. öň", 
+            "(\\d+) min öň", 
             "(\\d+) minut öň"
         ], 
         "in \\1 second": [
@@ -208,7 +196,7 @@
             "(\\d+) sek-dan"
         ], 
         "\\1 second ago": [
-            "(\\d+) sek. öň", 
+            "(\\d+) sek öň", 
             "(\\d+) sekunt öň"
         ]
     }, 

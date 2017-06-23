@@ -2,101 +2,99 @@
     "name": "sw", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "Januari", 
-        "J"
+        "jan", 
+        "januari", 
+        "j"
     ], 
     "february": [
-        "Februari", 
-        "Feb", 
-        "F"
+        "februari", 
+        "feb", 
+        "f"
     ], 
     "march": [
-        "Mac", 
-        "M", 
-        "Machi"
+        "mac", 
+        "m", 
+        "machi"
     ], 
     "april": [
-        "Apr", 
-        "A", 
-        "Aprili"
+        "apr", 
+        "a", 
+        "aprili"
     ], 
     "may": [
-        "M", 
-        "Mei"
+        "m", 
+        "mei"
     ], 
     "june": [
-        "Juni", 
-        "J", 
-        "Jun"
+        "juni", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "J", 
-        "Jul", 
-        "Julai"
+        "j", 
+        "jul", 
+        "julai"
     ], 
     "august": [
-        "Ago", 
-        "Agosti", 
-        "A"
+        "ago", 
+        "agosti", 
+        "a"
     ], 
     "september": [
-        "S", 
-        "Septemba", 
-        "Sep"
+        "s", 
+        "septemba", 
+        "sep"
     ], 
     "october": [
-        "Oktoba", 
-        "Okt", 
-        "O"
+        "oktoba", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nov", 
-        "Novemba", 
-        "N"
+        "nov", 
+        "novemba", 
+        "n"
     ], 
     "december": [
-        "Desemba", 
-        "Des", 
-        "D"
+        "desemba", 
+        "des", 
+        "d"
     ], 
     "monday": [
-        "Jumatatu", 
-        "M"
+        "jumatatu", 
+        "m"
     ], 
     "tuesday": [
-        "Jumanne", 
-        "T"
+        "jumanne", 
+        "t"
     ], 
     "wednesday": [
-        "Jumatano", 
-        "W"
+        "jumatano", 
+        "w"
     ], 
     "thursday": [
-        "Alhamisi", 
-        "T"
+        "alhamisi", 
+        "t"
     ], 
     "friday": [
-        "Ijumaa", 
-        "F"
+        "ijumaa", 
+        "f"
     ], 
     "saturday": [
-        "Jumamosi", 
-        "S"
+        "jumamosi", 
+        "s"
     ], 
     "sunday": [
-        "Jumapili", 
-        "S"
+        "jumapili", 
+        "s"
     ], 
     "am": [
-        "am", 
-        "Asubuhi", 
-        "AM"
+        "asubuhi", 
+        "am"
     ], 
     "pm": [
-        "pm", 
-        "Mchana", 
-        "PM"
+        "mchana", 
+        "pm"
     ], 
     "year": [
         "mwaka"
@@ -202,9 +200,7 @@
         ], 
         "\\1 hour ago": [
             "saa (\\d+) zilizopita", 
-            "Saa (\\d+) zilizopita", 
-            "saa (\\d+) iliyopita", 
-            "Saa (\\d+) iliyopita"
+            "saa (\\d+) iliyopita"
         ], 
         "in \\1 minute": [
             "baada ya dakika (\\d+)"
@@ -217,17 +213,15 @@
             "baada ya sekunde (\\d+)"
         ], 
         "\\1 second ago": [
-            "Sekunde (\\d+) iliyopita", 
             "sekunde (\\d+) iliyopita", 
-            "sekunde (\\d+) zilizopita", 
-            "Sekunde (\\d+) zilizopita"
+            "sekunde (\\d+) zilizopita"
         ]
     }, 
     "locale_specific": {
         "sw-CD": {
             "name": "sw-CD", 
             "week": [
-                "Juma"
+                "juma"
             ]
         }, 
         "sw-KE": {

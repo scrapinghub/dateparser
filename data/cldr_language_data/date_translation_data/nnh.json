@@ -2,80 +2,68 @@
     "name": "nnh", 
     "date_order": "DMY", 
     "january": [
-        "1", 
         "saŋ tsetsɛ̀ɛ lùm"
     ], 
     "february": [
-        "saŋ kàg ngwóŋ", 
-        "2"
+        "saŋ kàg ngwóŋ"
     ], 
     "march": [
-        "3", 
         "saŋ lepyè shúm"
     ], 
     "april": [
-        "saŋ cÿó", 
-        "4"
+        "saŋ cÿó"
     ], 
     "may": [
-        "saŋ tsɛ̀ɛ cÿó", 
-        "5"
+        "saŋ tsɛ̀ɛ cÿó"
     ], 
     "june": [
-        "saŋ njÿoláʼ", 
-        "6"
+        "saŋ njÿoláʼ"
     ], 
     "july": [
-        "saŋ tyɛ̀b tyɛ̀b mbʉ̀ŋ", 
-        "7"
+        "saŋ tyɛ̀b tyɛ̀b mbʉ̀ŋ"
     ], 
     "august": [
-        "8", 
         "saŋ mbʉ̀ŋ"
     ], 
     "september": [
-        "9", 
         "saŋ ngwɔ̀ʼ mbÿɛ"
     ], 
     "october": [
-        "saŋ tàŋa tsetsáʼ", 
-        "10"
+        "saŋ tàŋa tsetsáʼ"
     ], 
     "november": [
-        "saŋ mejwoŋó", 
-        "11"
+        "saŋ mejwoŋó"
     ], 
     "december": [
-        "12", 
         "saŋ lùm"
     ], 
     "monday": [
-        "M", 
+        "m", 
         "mvfò lyɛ̌ʼ"
     ], 
     "tuesday": [
         "mbɔ́ɔntè mvfò lyɛ̌ʼ", 
-        "T"
+        "t"
     ], 
     "wednesday": [
         "tsètsɛ̀ɛ lyɛ̌ʼ", 
-        "W"
+        "w"
     ], 
     "thursday": [
         "mbɔ́ɔntè tsetsɛ̀ɛ lyɛ̌ʼ", 
-        "T"
+        "t"
     ], 
     "friday": [
-        "F", 
+        "f", 
         "mvfò màga lyɛ̌ʼ"
     ], 
     "saturday": [
         "màga lyɛ̌ʼ", 
-        "S"
+        "s"
     ], 
     "sunday": [
         "lyɛʼɛ́ sẅíŋtè", 
-        "S"
+        "s"
     ], 
     "am": [
         "mbaʼámbaʼ"
@@ -87,10 +75,10 @@
         "ngùʼ"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
         "lyɛ̌ʼ"
@@ -99,10 +87,10 @@
         "fʉ̀ʼ nèm"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

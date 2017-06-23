@@ -2,126 +2,119 @@
     "name": "kde", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "J", 
-        "Mwedi Ntandi"
+        "jan", 
+        "j", 
+        "mwedi ntandi"
     ], 
     "february": [
-        "Feb", 
-        "Mwedi wa Pili", 
-        "F"
+        "feb", 
+        "mwedi wa pili", 
+        "f"
     ], 
     "march": [
-        "Mac", 
-        "M", 
-        "Mwedi wa Tatu"
+        "mac", 
+        "m", 
+        "mwedi wa tatu"
     ], 
     "april": [
-        "Apr", 
-        "A", 
-        "Mwedi wa Nchechi"
+        "apr", 
+        "a", 
+        "mwedi wa nchechi"
     ], 
     "may": [
-        "Mwedi wa Nnyano", 
-        "M", 
-        "Mei"
+        "mwedi wa nnyano", 
+        "m", 
+        "mei"
     ], 
     "june": [
-        "Mwedi wa Nnyano na Umo", 
-        "J", 
-        "Jun"
+        "mwedi wa nnyano na umo", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "J", 
-        "Mwedi wa Nnyano na Mivili", 
-        "Jul"
+        "mwedi wa nnyano na mivili", 
+        "jul", 
+        "j"
     ], 
     "august": [
-        "Ago", 
-        "Mwedi wa Nnyano na Mitatu", 
-        "A"
+        "ago", 
+        "mwedi wa nnyano na mitatu", 
+        "a"
     ], 
     "september": [
-        "S", 
-        "Mwedi wa Nnyano na Nchechi", 
-        "Sep"
+        "s", 
+        "mwedi wa nnyano na nchechi", 
+        "sep"
     ], 
     "october": [
-        "Mwedi wa Nnyano na Nnyano", 
-        "Okt", 
-        "O"
+        "mwedi wa nnyano na nnyano", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nov", 
-        "N", 
-        "Mwedi wa Nnyano na Nnyano na U"
+        "nov", 
+        "n", 
+        "mwedi wa nnyano na nnyano na u"
     ], 
     "december": [
-        "Des", 
-        "D", 
-        "Mwedi wa Nnyano na Nnyano na M"
+        "des", 
+        "d", 
+        "mwedi wa nnyano na nnyano na m"
     ], 
     "monday": [
-        "Ll3", 
-        "3", 
-        "Liduva lyatatu"
+        "ll3", 
+        "liduva lyatatu"
     ], 
     "tuesday": [
-        "Liduva lyanchechi", 
-        "4", 
-        "Ll4"
+        "liduva lyanchechi", 
+        "ll4"
     ], 
     "wednesday": [
-        "5", 
-        "Ll5", 
-        "Liduva lyannyano"
+        "ll5", 
+        "liduva lyannyano"
     ], 
     "thursday": [
-        "Liduva lyannyano na linji", 
-        "Ll6", 
-        "6"
+        "liduva lyannyano na linji", 
+        "ll6"
     ], 
     "friday": [
-        "Ll7", 
-        "Liduva lyannyano na mavili", 
-        "7"
+        "ll7", 
+        "liduva lyannyano na mavili"
     ], 
     "saturday": [
-        "1", 
-        "Liduva litandi", 
-        "Ll1"
+        "liduva litandi", 
+        "ll1"
     ], 
     "sunday": [
-        "2", 
-        "Ll2", 
-        "Liduva lyapili"
+        "ll2", 
+        "liduva lyapili"
     ], 
     "am": [
-        "Muhi"
+        "muhi"
     ], 
     "pm": [
-        "Chilo"
+        "chilo"
     ], 
     "year": [
-        "Mwaka"
+        "mwaka"
     ], 
     "month": [
-        "Mwedi"
+        "mwedi"
     ], 
     "week": [
-        "Lijuma"
+        "lijuma"
     ], 
     "day": [
-        "Lihiku"
+        "lihiku"
     ], 
     "hour": [
-        "Saa"
+        "saa"
     ], 
     "minute": [
-        "Dakika"
+        "dakika"
     ], 
     "second": [
-        "Sekunde"
+        "sekunde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +145,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Lido"
+            "lido"
         ], 
         "0 day ago": [
-            "Nelo"
+            "nelo"
         ], 
         "in 1 day": [
-            "Nundu"
+            "nundu"
         ], 
         "0 hour ago": [
             "this hour"

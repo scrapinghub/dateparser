@@ -102,36 +102,36 @@
         "po podne"
     ], 
     "year": [
-        "g.", 
-        "god.", 
+        "god", 
+        "g", 
         "godina"
     ], 
     "month": [
         "mesec", 
-        "m.", 
-        "mes."
+        "m", 
+        "mes"
     ], 
     "week": [
-        "ned.", 
-        "n.", 
-        "nedelja"
+        "ned", 
+        "nedelja", 
+        "n"
     ], 
     "day": [
-        "d.", 
-        "dan"
+        "dan", 
+        "d"
     ], 
     "hour": [
-        "č.", 
+        "č", 
         "sat"
     ], 
     "minute": [
         "minut", 
-        "min."
+        "min"
     ], 
     "second": [
         "sekund", 
-        "s.", 
-        "sek."
+        "s", 
+        "sek"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -180,131 +180,97 @@
             "sada"
         ], 
         "in \\1 year": [
-            "za (\\d+) g.", 
+            "za (\\d+) god", 
             "za (\\d+) godina", 
-            "za (\\d+) god.", 
+            "za (\\d+) g", 
             "za (\\d+) godinu"
         ], 
         "\\1 year ago": [
             "pre (\\d+) godina", 
-            "pre (\\d+) g.", 
-            "pre (\\d+) god.", 
+            "pre (\\d+) g", 
+            "pre (\\d+) god", 
             "pre (\\d+) godine"
         ], 
         "in \\1 month": [
             "za (\\d+) mesec", 
-            "za (\\d+) mes.", 
-            "za (\\d+) meseci", 
-            "za (\\d+) m."
+            "za (\\d+) m", 
+            "za (\\d+) mes", 
+            "za (\\d+) meseci"
         ], 
         "\\1 month ago": [
+            "pre (\\d+) mes", 
             "pre (\\d+) meseci", 
-            "pre (\\d+) m.", 
-            "pre (\\d+) mes.", 
+            "pre (\\d+) m", 
             "pre (\\d+) meseca"
         ], 
         "in \\1 week": [
             "za (\\d+) nedelju", 
-            "za (\\d+) n.", 
-            "za (\\d+) ned.", 
-            "za (\\d+) nedelja"
+            "za (\\d+) ned", 
+            "za (\\d+) nedelja", 
+            "za (\\d+) n"
         ], 
         "\\1 week ago": [
-            "pre (\\d+) n.", 
-            "pre (\\d+) ned.", 
+            "pre (\\d+) n", 
             "pre (\\d+) nedelja", 
+            "pre (\\d+) ned", 
             "pre (\\d+) nedelje"
         ], 
         "in \\1 day": [
-            "za (\\d+) d.", 
             "za (\\d+) dana", 
+            "za (\\d+) d", 
             "za (\\d+) dan"
         ], 
         "\\1 day ago": [
-            "pre (\\d+) d.", 
+            "pre (\\d+) d", 
             "pre (\\d+) dana"
         ], 
         "in \\1 hour": [
             "za (\\d+) sati", 
             "za (\\d+) sat", 
-            "za (\\d+) č."
+            "za (\\d+) č"
         ], 
         "\\1 hour ago": [
-            "pre (\\d+) č.", 
+            "pre (\\d+) č", 
             "pre (\\d+) sati", 
             "pre (\\d+) sata"
         ], 
         "in \\1 minute": [
             "za (\\d+) minut", 
-            "za (\\d+) minuta", 
-            "za (\\d+) min."
+            "za (\\d+) min", 
+            "za (\\d+) minuta"
         ], 
         "\\1 minute ago": [
             "pre (\\d+) minuta", 
-            "pre (\\d+) min."
+            "pre (\\d+) min"
         ], 
         "in \\1 second": [
             "za (\\d+) sekundi", 
-            "za (\\d+) sekundu", 
-            "za (\\d+) s.", 
-            "za (\\d+) sek."
+            "za (\\d+) sek", 
+            "za (\\d+) s", 
+            "za (\\d+) sekundu"
         ], 
         "\\1 second ago": [
-            "pre (\\d+) sek.", 
             "pre (\\d+) sekunde", 
+            "pre (\\d+) s", 
             "pre (\\d+) sekundi", 
-            "pre (\\d+) s."
+            "pre (\\d+) sek"
         ]
     }, 
     "locale_specific": {
         "sr-Latn-BA": {
             "name": "sr-Latn-BA", 
-            "january": [
-                "jan."
-            ], 
-            "february": [
-                "feb."
-            ], 
-            "april": [
-                "apr."
-            ], 
-            "august": [
-                "avg."
-            ], 
             "september": [
-                "sept."
-            ], 
-            "october": [
-                "okt."
-            ], 
-            "november": [
-                "nov."
-            ], 
-            "december": [
-                "dec."
-            ], 
-            "monday": [
-                "pon."
+                "sept"
             ], 
             "tuesday": [
-                "ut."
+                "ut"
             ], 
             "wednesday": [
                 "srijeda", 
-                "sr."
-            ], 
-            "thursday": [
-                "čet."
-            ], 
-            "friday": [
-                "pet."
-            ], 
-            "saturday": [
-                "sub."
+                "sr"
             ], 
             "sunday": [
-                "nedjelja", 
-                "ned."
+                "nedjelja"
             ], 
             "am": [
                 "prije podne"
@@ -312,52 +278,18 @@
         }, 
         "sr-Latn-ME": {
             "name": "sr-Latn-ME", 
-            "january": [
-                "jan."
-            ], 
-            "february": [
-                "feb."
-            ], 
-            "april": [
-                "apr."
-            ], 
-            "august": [
-                "avg."
-            ], 
             "september": [
-                "sept."
-            ], 
-            "october": [
-                "okt."
-            ], 
-            "november": [
-                "nov."
-            ], 
-            "december": [
-                "dec."
-            ], 
-            "monday": [
-                "pon."
+                "sept"
             ], 
             "tuesday": [
-                "ut."
+                "ut"
             ], 
             "wednesday": [
                 "srijeda", 
-                "sr."
-            ], 
-            "thursday": [
-                "čet."
-            ], 
-            "friday": [
-                "pet."
-            ], 
-            "saturday": [
-                "sub."
+                "sr"
             ], 
             "sunday": [
-                "nedjelja", 
-                "ned."
+                "nedjelja"
             ], 
             "am": [
                 "prije podne"
@@ -365,50 +297,14 @@
         }, 
         "sr-Latn-XK": {
             "name": "sr-Latn-XK", 
-            "january": [
-                "jan."
-            ], 
-            "february": [
-                "feb."
-            ], 
-            "april": [
-                "apr."
-            ], 
-            "august": [
-                "avg."
-            ], 
             "september": [
-                "sept."
-            ], 
-            "october": [
-                "okt."
-            ], 
-            "november": [
-                "nov."
-            ], 
-            "december": [
-                "dec."
-            ], 
-            "monday": [
-                "pon."
+                "sept"
             ], 
             "tuesday": [
-                "ut."
+                "ut"
             ], 
             "wednesday": [
-                "sr."
-            ], 
-            "thursday": [
-                "čet."
-            ], 
-            "friday": [
-                "pet."
-            ], 
-            "saturday": [
-                "sub."
-            ], 
-            "sunday": [
-                "ned."
+                "sr"
             ]
         }
     }

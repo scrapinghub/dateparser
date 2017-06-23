@@ -2,145 +2,110 @@
     "name": "az-Latn", 
     "date_order": "DMY", 
     "january": [
-        "1", 
         "yan", 
-        "Yanvar", 
         "yanvar"
     ], 
     "february": [
         "fev", 
-        "Fevral", 
-        "2", 
         "fevral"
     ], 
     "march": [
-        "Mart", 
         "mart", 
-        "3", 
         "mar"
     ], 
     "april": [
         "apr", 
-        "aprel", 
-        "Aprel", 
-        "4"
+        "aprel"
     ], 
     "may": [
-        "May", 
-        "may", 
-        "5"
+        "may"
     ], 
     "june": [
-        "İyun", 
-        "iyn", 
         "iyun", 
-        "6"
+        "iyn"
     ], 
     "july": [
-        "iyl", 
-        "İyul", 
-        "7", 
-        "iyul"
+        "iyul", 
+        "iyl"
     ], 
     "august": [
-        "Avqust", 
-        "8", 
         "avqust", 
         "avq"
     ], 
     "september": [
-        "Sentyabr", 
-        "sen", 
         "sentyabr", 
-        "9"
+        "sen"
     ], 
     "october": [
-        "10", 
-        "Oktyabr", 
-        "okt", 
-        "oktyabr"
+        "oktyabr", 
+        "okt"
     ], 
     "november": [
-        "11", 
         "noyabr", 
-        "Noyabr", 
         "noy"
     ], 
     "december": [
-        "dekabr", 
-        "12", 
         "dek", 
-        "Dekabr"
+        "dekabr"
     ], 
     "monday": [
-        "1", 
-        "B.E.", 
+        "b.e", 
         "bazar ertəsi"
     ], 
     "tuesday": [
-        "2", 
-        "Ç.A.", 
+        "ç.a", 
         "çərşənbə axşamı"
     ], 
     "wednesday": [
-        "Ç.", 
-        "3", 
-        "çərşənbə"
+        "çərşənbə", 
+        "ç"
     ], 
     "thursday": [
         "cümə axşamı", 
-        "4", 
-        "C.A."
+        "c.a"
     ], 
     "friday": [
-        "cümə", 
-        "5", 
-        "C."
+        "c", 
+        "cümə"
     ], 
     "saturday": [
         "şənbə", 
-        "Ş.", 
-        "6"
+        "ş"
     ], 
     "sunday": [
-        "B.", 
         "bazar", 
-        "7"
+        "b"
     ], 
     "am": [
         "a", 
-        "AM"
+        "am"
     ], 
     "pm": [
         "p", 
-        "PM"
+        "pm"
     ], 
     "year": [
-        "il", 
-        "İl"
+        "il"
     ], 
     "month": [
-        "Ay", 
         "ay"
     ], 
     "week": [
-        "Həftə", 
         "həftə"
     ], 
     "day": [
-        "Gün"
+        "gün"
     ], 
     "hour": [
-        "Saat", 
         "saat"
     ], 
     "minute": [
-        "dəq.", 
-        "Dəqiqə"
+        "dəq", 
+        "dəqiqə"
     ], 
     "second": [
-        "san.", 
-        "Saniyə"
+        "san", 
+        "saniyə"
     ], 
     "relative-type": {
         "1 year ago": [

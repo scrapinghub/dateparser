@@ -2,131 +2,128 @@
     "name": "ms", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "Januari", 
-        "J"
+        "jan", 
+        "januari", 
+        "j"
     ], 
     "february": [
-        "Februari", 
-        "Feb", 
-        "F"
+        "februari", 
+        "feb", 
+        "f"
     ], 
     "march": [
-        "Mac", 
-        "M"
+        "mac", 
+        "m"
     ], 
     "april": [
-        "Apr", 
-        "April", 
-        "A"
+        "apr", 
+        "april", 
+        "a"
     ], 
     "may": [
-        "M", 
-        "Mei"
+        "m", 
+        "mei"
     ], 
     "june": [
-        "J", 
-        "Jun"
+        "j", 
+        "jun"
     ], 
     "july": [
-        "J", 
-        "Jul", 
-        "Julai"
+        "j", 
+        "jul", 
+        "julai"
     ], 
     "august": [
-        "Ogo", 
-        "Ogos", 
-        "O"
+        "ogo", 
+        "ogos", 
+        "o"
     ], 
     "september": [
-        "September", 
-        "S", 
-        "Sep"
+        "september", 
+        "s", 
+        "sep"
     ], 
     "october": [
-        "Oktober", 
-        "Okt", 
-        "O"
+        "oktober", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "November", 
-        "Nov", 
-        "N"
+        "november", 
+        "nov", 
+        "n"
     ], 
     "december": [
-        "Disember", 
-        "D", 
-        "Dis"
+        "d", 
+        "disember", 
+        "dis"
     ], 
     "monday": [
-        "I", 
-        "Isnin", 
-        "Isn"
+        "i", 
+        "isnin", 
+        "isn"
     ], 
     "tuesday": [
-        "S", 
-        "Sel", 
-        "Selasa"
+        "s", 
+        "sel", 
+        "selasa"
     ], 
     "wednesday": [
-        "Rab", 
-        "R", 
-        "Rabu"
+        "rab", 
+        "r", 
+        "rabu"
     ], 
     "thursday": [
-        "Kha", 
-        "K", 
-        "Khamis"
+        "kha", 
+        "k", 
+        "khamis"
     ], 
     "friday": [
-        "Jumaat", 
-        "J", 
-        "Jum"
+        "jumaat", 
+        "j", 
+        "jum"
     ], 
     "saturday": [
-        "Sab", 
-        "S", 
-        "Sabtu"
+        "sab", 
+        "s", 
+        "sabtu"
     ], 
     "sunday": [
-        "Ahad", 
-        "A", 
-        "Ahd"
+        "ahad", 
+        "a", 
+        "ahd"
     ], 
     "am": [
         "a", 
-        "PG"
+        "pg"
     ], 
     "pm": [
-        "PTG", 
+        "ptg", 
         "p"
     ], 
     "year": [
         "thn", 
-        "Tahun"
+        "tahun"
     ], 
     "month": [
-        "Bulan", 
+        "bulan", 
         "bln"
     ], 
     "week": [
-        "Minggu", 
+        "minggu", 
         "mgu"
     ], 
     "day": [
-        "hari", 
-        "Hari"
+        "hari"
     ], 
     "hour": [
-        "jam", 
-        "Jam"
+        "jam"
     ], 
     "minute": [
-        "Minit", 
+        "minit", 
         "min"
     ], 
     "second": [
-        "Saat", 
         "saat"
     ], 
     "relative-type": {
@@ -232,8 +229,8 @@
             "(\\d+) min lalu"
         ], 
         "in \\1 second": [
-            "dalam (\\d+) saat", 
-            "dlm (\\d+) saat"
+            "dlm (\\d+) saat", 
+            "dalam (\\d+) saat"
         ], 
         "\\1 second ago": [
             "(\\d+) saat lalu"

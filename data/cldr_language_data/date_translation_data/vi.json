@@ -2,151 +2,115 @@
     "name": "vi", 
     "date_order": "DMY", 
     "january": [
-        "1", 
-        "Tháng 1", 
-        "thg 1", 
         "tháng 1", 
-        "Thg 1"
+        "thg 1"
     ], 
     "february": [
-        "Tháng 2", 
-        "thg 2", 
-        "2", 
-        "Thg 2", 
-        "tháng 2"
+        "tháng 2", 
+        "thg 2"
     ], 
     "march": [
-        "Tháng 3", 
         "tháng 3", 
-        "3", 
-        "Thg 3", 
         "thg 3"
     ], 
     "april": [
         "thg 4", 
-        "Thg 4", 
-        "tháng 4", 
-        "4", 
-        "Tháng 4"
+        "tháng 4"
     ], 
     "may": [
         "thg 5", 
-        "Thg 5", 
-        "5", 
-        "tháng 5", 
-        "Tháng 5"
+        "tháng 5"
     ], 
     "june": [
-        "Thg 6", 
         "thg 6", 
-        "Tháng 6", 
-        "tháng 6", 
-        "6"
+        "tháng 6"
     ], 
     "july": [
-        "tháng 7", 
-        "Thg 7", 
-        "Tháng 7", 
-        "7", 
-        "thg 7"
+        "thg 7", 
+        "tháng 7"
     ], 
     "august": [
-        "8", 
         "tháng 8", 
-        "Tháng 8", 
-        "thg 8", 
-        "Thg 8"
+        "thg 8"
     ], 
     "september": [
-        "9", 
-        "Tháng 9", 
-        "thg 9", 
         "tháng 9", 
-        "Thg 9"
+        "thg 9"
     ], 
     "october": [
-        "Thg 10", 
-        "10", 
-        "tháng 10", 
         "thg 10", 
-        "Tháng 10"
+        "tháng 10"
     ], 
     "november": [
-        "11", 
-        "Thg 11", 
-        "tháng 11", 
-        "Tháng 11", 
-        "thg 11"
+        "thg 11", 
+        "tháng 11"
     ], 
     "december": [
         "thg 12", 
-        "Thg 12", 
-        "12", 
-        "Tháng 12", 
         "tháng 12"
     ], 
     "monday": [
-        "T2", 
-        "Th 2", 
-        "Thứ Hai"
+        "t2", 
+        "th 2", 
+        "thứ hai"
     ], 
     "tuesday": [
-        "Thứ Ba", 
-        "Th 3", 
-        "T3"
+        "thứ ba", 
+        "th 3", 
+        "t3"
     ], 
     "wednesday": [
-        "T4", 
-        "Th 4", 
-        "Thứ Tư"
+        "t4", 
+        "th 4", 
+        "thứ tư"
     ], 
     "thursday": [
-        "T5", 
-        "Thứ Năm", 
-        "Th 5"
+        "t5", 
+        "thứ năm", 
+        "th 5"
     ], 
     "friday": [
-        "T6", 
-        "Thứ Sáu", 
-        "Th 6"
+        "t6", 
+        "thứ sáu", 
+        "th 6"
     ], 
     "saturday": [
-        "T7", 
-        "Thứ Bảy", 
-        "Th 7"
+        "t7", 
+        "thứ bảy", 
+        "th 7"
     ], 
     "sunday": [
-        "Chủ Nhật", 
-        "CN"
+        "chủ nhật", 
+        "cn"
     ], 
     "am": [
-        "SA", 
+        "sa", 
         "s"
     ], 
     "pm": [
         "c", 
-        "CH"
+        "ch"
     ], 
     "year": [
-        "Năm"
+        "năm"
     ], 
     "month": [
-        "Tháng"
+        "tháng"
     ], 
     "week": [
-        "Tuần"
+        "tuần"
     ], 
     "day": [
-        "Ngày"
+        "ngày"
     ], 
     "hour": [
-        "Giờ"
+        "giờ"
     ], 
     "minute": [
-        "Phút"
+        "phút"
     ], 
     "second": [
-        "Giây"
+        "giây"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -177,13 +141,13 @@
             "tuần sau"
         ], 
         "1 day ago": [
-            "Hôm qua"
+            "hôm qua"
         ], 
         "0 day ago": [
-            "Hôm nay"
+            "hôm nay"
         ], 
         "in 1 day": [
-            "Ngày mai"
+            "ngày mai"
         ], 
         "0 hour ago": [
             "giờ này"

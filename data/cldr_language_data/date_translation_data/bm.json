@@ -3,102 +3,102 @@
     "date_order": "DMY", 
     "january": [
         "zan", 
-        "Z", 
+        "z", 
         "zanwuye"
     ], 
     "february": [
         "feb", 
         "feburuye", 
-        "F"
+        "f"
     ], 
     "march": [
         "mar", 
-        "M", 
+        "m", 
         "marisi"
     ], 
     "april": [
-        "A", 
+        "a", 
         "awirili", 
         "awi"
     ], 
     "may": [
-        "M", 
+        "m", 
         "mɛ"
     ], 
     "june": [
         "zuwɛn", 
-        "Z", 
+        "z", 
         "zuw"
     ], 
     "july": [
-        "Z", 
+        "z", 
         "zul", 
         "zuluye"
     ], 
     "august": [
         "uti", 
-        "U"
+        "u"
     ], 
     "september": [
         "sɛt", 
-        "S", 
+        "s", 
         "sɛtanburu"
     ], 
     "october": [
         "ɔku", 
         "ɔkutɔburu", 
-        "Ɔ"
+        "ɔ"
     ], 
     "november": [
         "nowanburu", 
         "now", 
-        "N"
+        "n"
     ], 
     "december": [
         "desanburu", 
         "des", 
-        "D"
+        "d"
     ], 
     "monday": [
         "ntɛnɛ", 
         "ntɛ", 
-        "N"
+        "n"
     ], 
     "tuesday": [
         "tarata", 
         "tar", 
-        "T"
+        "t"
     ], 
     "wednesday": [
         "araba", 
         "ara", 
-        "A"
+        "a"
     ], 
     "thursday": [
-        "A", 
+        "a", 
         "alamisa", 
         "ala"
     ], 
     "friday": [
         "juma", 
-        "J", 
+        "j", 
         "jum"
     ], 
     "saturday": [
         "sib", 
         "sibiri", 
-        "S"
+        "s"
     ], 
     "sunday": [
         "kar", 
-        "K", 
+        "k", 
         "kari"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
         "san"

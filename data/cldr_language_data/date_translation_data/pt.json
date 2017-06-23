@@ -3,104 +3,104 @@
     "date_order": "DMY", 
     "january": [
         "jan", 
-        "J", 
+        "j", 
         "janeiro"
     ], 
     "february": [
         "fev", 
         "fevereiro", 
-        "F"
+        "f"
     ], 
     "march": [
         "mar", 
-        "M", 
+        "m", 
         "março"
     ], 
     "april": [
-        "A", 
+        "a", 
         "abr", 
         "abril"
     ], 
     "may": [
         "mai", 
         "maio", 
-        "M"
+        "m"
     ], 
     "june": [
-        "J", 
+        "j", 
         "jun", 
         "junho"
     ], 
     "july": [
-        "J", 
+        "j", 
         "jul", 
         "julho"
     ], 
     "august": [
         "ago", 
-        "A", 
+        "a", 
         "agosto"
     ], 
     "september": [
-        "S", 
+        "s", 
         "set", 
         "setembro"
     ], 
     "october": [
         "outubro", 
-        "O", 
+        "o", 
         "out"
     ], 
     "november": [
         "novembro", 
         "nov", 
-        "N"
+        "n"
     ], 
     "december": [
         "dezembro", 
         "dez", 
-        "D"
+        "d"
     ], 
     "monday": [
         "seg", 
-        "S", 
+        "s", 
         "segunda-feira"
     ], 
     "tuesday": [
         "terça-feira", 
         "ter", 
-        "T"
+        "t"
     ], 
     "wednesday": [
         "qua", 
-        "Q", 
+        "q", 
         "quarta-feira"
     ], 
     "thursday": [
         "qui", 
-        "Q", 
+        "q", 
         "quinta-feira"
     ], 
     "friday": [
-        "S", 
+        "s", 
         "sexta-feira", 
         "sex"
     ], 
     "saturday": [
         "sáb", 
         "sábado", 
-        "S"
+        "s"
     ], 
     "sunday": [
         "domingo", 
-        "D", 
+        "d", 
         "dom"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
         "ano"
@@ -109,7 +109,7 @@
         "mês"
     ], 
     "week": [
-        "sem.", 
+        "sem", 
         "semana"
     ], 
     "day": [
@@ -122,11 +122,11 @@
     "minute": [
         "m", 
         "minuto", 
-        "min."
+        "min"
     ], 
     "second": [
+        "seg", 
         "s", 
-        "seg.", 
         "segundo"
     ], 
     "relative-type": {
@@ -200,14 +200,14 @@
             "há (\\d+) mês"
         ], 
         "in \\1 week": [
-            "+(\\d+) sem.", 
             "em (\\d+) semanas", 
             "em (\\d+) semana", 
-            "em (\\d+) sem."
+            "+(\\d+) sem", 
+            "em (\\d+) sem"
         ], 
         "\\1 week ago": [
-            "há (\\d+) sem.", 
-            "-(\\d+) sem.", 
+            "há (\\d+) sem", 
+            "-(\\d+) sem", 
             "há (\\d+) semana", 
             "há (\\d+) semanas"
         ], 
@@ -237,30 +237,30 @@
         ], 
         "in \\1 minute": [
             "+(\\d+) m", 
-            "em (\\d+) min.", 
+            "em (\\d+) min", 
             "em (\\d+) minuto", 
-            "em (\\d+) mins.", 
+            "em (\\d+) mins", 
             "em (\\d+) minutos"
         ], 
         "\\1 minute ago": [
-            "há (\\d+) min.", 
-            "há (\\d+) mins.", 
             "há (\\d+) minuto", 
             "há (\\d+) minutos", 
-            "-(\\d+) m"
+            "há (\\d+) min", 
+            "-(\\d+) m", 
+            "há (\\d+) mins"
         ], 
         "in \\1 second": [
-            "em (\\d+) seg.", 
-            "em (\\d+) segs.", 
-            "+(\\d+) s", 
+            "em (\\d+) segs", 
             "em (\\d+) segundos", 
+            "+(\\d+) s", 
+            "em (\\d+) seg", 
             "em (\\d+) segundo"
         ], 
         "\\1 second ago": [
             "há (\\d+) segundo", 
-            "há (\\d+) seg.", 
+            "-(\\d+) s", 
             "há (\\d+) segundos", 
-            "-(\\d+) s"
+            "há (\\d+) seg"
         ]
     }, 
     "locale_specific": {
@@ -283,16 +283,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -305,8 +300,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -324,7 +319,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [
@@ -356,16 +350,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -378,8 +367,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -397,7 +386,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [
@@ -429,16 +417,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -451,8 +434,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -470,7 +453,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [
@@ -502,16 +484,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -524,8 +501,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -543,7 +520,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [
@@ -575,16 +551,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -597,8 +568,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -616,7 +587,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [
@@ -648,16 +618,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -670,8 +635,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -689,7 +654,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [
@@ -721,16 +685,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -743,8 +702,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -762,7 +721,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [
@@ -794,16 +752,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -816,8 +769,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -835,7 +788,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [
@@ -867,16 +819,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -889,8 +836,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -908,7 +855,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [
@@ -940,16 +886,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -962,8 +903,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -981,7 +922,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [
@@ -1013,16 +953,11 @@
             ], 
             "am": [
                 "manhã", 
-                "a.m.", 
-                "da manhã"
+                "damanhã"
             ], 
             "pm": [
                 "tarde", 
-                "da tarde", 
-                "p.m."
-            ], 
-            "minute": [
-                "min"
+                "da tarde"
             ], 
             "relative-type": {
                 "in \\1 year": [
@@ -1035,8 +970,8 @@
                 ], 
                 "in \\1 week": [
                     "dentro de (\\d+) semanas", 
-                    "dentro de (\\d+) sem.", 
-                    "dentro de (\\d+) semana"
+                    "dentro de (\\d+) semana", 
+                    "dentro de (\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "dentro de (\\d+) dia", 
@@ -1054,7 +989,6 @@
                     "dentro de (\\d+) minutos"
                 ], 
                 "\\1 minute ago": [
-                    "há (\\d+) min", 
                     "-(\\d+) min"
                 ], 
                 "in \\1 second": [

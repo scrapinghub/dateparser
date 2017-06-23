@@ -2,86 +2,74 @@
     "name": "mzn", 
     "date_order": "YMD", 
     "january": [
-        "1", 
         "ژانویه"
     ], 
     "february": [
-        "2", 
         "فوریه"
     ], 
     "march": [
-        "3", 
         "مارس"
     ], 
     "april": [
-        "4", 
         "آوریل"
     ], 
     "may": [
-        "مه", 
-        "5"
+        "مه"
     ], 
     "june": [
-        "ژوئن", 
-        "6"
+        "ژوئن"
     ], 
     "july": [
-        "ژوئیه", 
-        "7"
+        "ژوئیه"
     ], 
     "august": [
-        "8", 
         "اوت"
     ], 
     "september": [
-        "9", 
         "سپتامبر"
     ], 
     "october": [
-        "10", 
         "اکتبر"
     ], 
     "november": [
-        "11", 
         "نوامبر"
     ], 
     "december": [
-        "12", 
         "دسامبر"
     ], 
     "monday": [
-        "M", 
-        "Mon"
+        "m", 
+        "mon"
     ], 
     "tuesday": [
-        "Tue", 
-        "T"
+        "tue", 
+        "t"
     ], 
     "wednesday": [
-        "W", 
-        "Wed"
+        "w", 
+        "wed"
     ], 
     "thursday": [
-        "Thu", 
-        "T"
+        "thu", 
+        "t"
     ], 
     "friday": [
-        "Fri", 
-        "F"
+        "fri", 
+        "f"
     ], 
     "saturday": [
-        "S", 
-        "Sat"
+        "s", 
+        "sat"
     ], 
     "sunday": [
-        "Sun", 
-        "S"
+        "sun", 
+        "s"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
         "سال"

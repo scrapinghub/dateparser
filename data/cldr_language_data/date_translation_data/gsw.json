@@ -2,129 +2,129 @@
     "name": "gsw", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "J", 
-        "Januar"
+        "jan", 
+        "januar", 
+        "j"
     ], 
     "february": [
-        "Feb", 
-        "Februar", 
-        "F"
+        "feb", 
+        "februar", 
+        "f"
     ], 
     "march": [
-        "Mär", 
-        "M", 
-        "März"
+        "mär", 
+        "m", 
+        "märz"
     ], 
     "april": [
-        "Apr", 
-        "April", 
-        "A"
+        "apr", 
+        "april", 
+        "a"
     ], 
     "may": [
-        "Mai", 
-        "M"
+        "mai", 
+        "m"
     ], 
     "june": [
-        "Juni", 
-        "J", 
-        "Jun"
+        "juni", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "Juli", 
-        "J", 
-        "Jul"
+        "juli", 
+        "j", 
+        "jul"
     ], 
     "august": [
-        "Auguscht", 
-        "A", 
-        "Aug"
+        "auguscht", 
+        "a", 
+        "aug"
     ], 
     "september": [
-        "Septämber", 
-        "S", 
-        "Sep"
+        "septämber", 
+        "s", 
+        "sep"
     ], 
     "october": [
-        "Oktoober", 
-        "Okt", 
-        "O"
+        "oktoober", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nov", 
-        "Novämber", 
-        "N"
+        "nov", 
+        "novämber", 
+        "n"
     ], 
     "december": [
-        "Dez", 
-        "Dezämber", 
-        "D"
+        "dez", 
+        "dezämber", 
+        "d"
     ], 
     "monday": [
-        "Mä.", 
-        "M", 
-        "Määntig"
+        "mä", 
+        "määntig", 
+        "m"
     ], 
     "tuesday": [
-        "Zi.", 
-        "Ziischtig", 
-        "D"
+        "ziischtig", 
+        "zi", 
+        "d"
     ], 
     "wednesday": [
-        "Mi.", 
-        "M", 
-        "Mittwuch"
+        "m", 
+        "mi", 
+        "mittwuch"
     ], 
     "thursday": [
-        "Du.", 
-        "Dunschtig", 
-        "D"
+        "du", 
+        "d", 
+        "dunschtig"
     ], 
     "friday": [
-        "F", 
-        "Friitig", 
-        "Fr."
+        "fr", 
+        "friitig", 
+        "f"
     ], 
     "saturday": [
-        "S", 
-        "Sa.", 
-        "Samschtig"
+        "sa", 
+        "s", 
+        "samschtig"
     ], 
     "sunday": [
-        "Su.", 
-        "S", 
-        "Sunntig"
+        "s", 
+        "su", 
+        "sunntig"
     ], 
     "am": [
-        "Vormittag", 
-        "vorm.", 
-        "am Vormittag"
+        "vormittag", 
+        "amvormittag", 
+        "vorm"
     ], 
     "pm": [
-        "am Namittag", 
-        "Namittag", 
-        "nam."
+        "am namittag", 
+        "namittag", 
+        "nam"
     ], 
     "year": [
-        "Jaar"
+        "jaar"
     ], 
     "month": [
-        "Monet"
+        "monet"
     ], 
     "week": [
-        "Wuche"
+        "wuche"
     ], 
     "day": [
-        "Tag"
+        "tag"
     ], 
     "hour": [
-        "Schtund"
+        "schtund"
     ], 
     "minute": [
-        "Minuute"
+        "minuute"
     ], 
     "second": [
-        "Sekunde"
+        "sekunde"
     ], 
     "relative-type": {
         "1 year ago": [

@@ -2,126 +2,114 @@
     "name": "kw", 
     "date_order": "YMD", 
     "january": [
-        "mis Genver", 
-        "1", 
-        "Gen"
+        "mis genver", 
+        "gen"
     ], 
     "february": [
-        "2", 
-        "Hwe", 
-        "mis Hwevrer"
+        "hwe", 
+        "mis hwevrer"
     ], 
     "march": [
-        "Meu", 
-        "3", 
-        "mis Meurth"
+        "meu", 
+        "mis meurth"
     ], 
     "april": [
-        "mis Ebrel", 
-        "4", 
-        "Ebr"
+        "mis ebrel", 
+        "ebr"
     ], 
     "may": [
-        "Me", 
-        "5", 
-        "mis Me"
+        "me", 
+        "mis me"
     ], 
     "june": [
-        "Met", 
-        "mis Metheven", 
-        "6"
+        "met", 
+        "mis metheven"
     ], 
     "july": [
-        "mis Gortheren", 
-        "7", 
-        "Gor"
+        "mis gortheren", 
+        "gor"
     ], 
     "august": [
-        "8", 
-        "Est", 
-        "mis Est"
+        "est", 
+        "mis est"
     ], 
     "september": [
-        "9", 
-        "mis Gwynngala", 
-        "Gwn"
+        "mis gwynngala", 
+        "gwn"
     ], 
     "october": [
-        "mis Hedra", 
-        "Hed", 
-        "10"
+        "mis hedra", 
+        "hed"
     ], 
     "november": [
-        "11", 
-        "Du", 
-        "mis Du"
+        "du", 
+        "mis du"
     ], 
     "december": [
-        "Kev", 
-        "12", 
-        "mis Kevardhu"
+        "kev", 
+        "mis kevardhu"
     ], 
     "monday": [
-        "dy Lun", 
-        "M", 
-        "Lun"
+        "dy lun", 
+        "m", 
+        "lun"
     ], 
     "tuesday": [
-        "dy Meurth", 
-        "Mth", 
-        "T"
+        "dy meurth", 
+        "mth", 
+        "t"
     ], 
     "wednesday": [
-        "dy Merher", 
-        "Mhr", 
-        "W"
+        "dy merher", 
+        "mhr", 
+        "w"
     ], 
     "thursday": [
-        "dy Yow", 
-        "Yow", 
-        "T"
+        "dy yow", 
+        "yow", 
+        "t"
     ], 
     "friday": [
-        "dy Gwener", 
-        "Gwe", 
-        "F"
+        "dy gwener", 
+        "gwe", 
+        "f"
     ], 
     "saturday": [
-        "dy Sadorn", 
-        "S", 
-        "Sad"
+        "dy sadorn", 
+        "s", 
+        "sad"
     ], 
     "sunday": [
-        "S", 
-        "Sul", 
-        "dy Sul"
+        "s", 
+        "sul", 
+        "dy sul"
     ], 
     "am": [
-        "a.m."
+        "am"
     ], 
     "pm": [
-        "p.m."
+        "pm"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

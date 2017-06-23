@@ -2,99 +2,99 @@
     "name": "naq", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "J", 
-        "ǃKhanni"
+        "jan", 
+        "j", 
+        "ǃkhanni"
     ], 
     "february": [
-        "F", 
-        "Feb", 
-        "ǃKhanǀgôab"
+        "f", 
+        "feb", 
+        "ǃkhanǀgôab"
     ], 
     "march": [
-        "Mar", 
-        "M", 
-        "ǀKhuuǁkhâb"
+        "mar", 
+        "m", 
+        "ǀkhuuǁkhâb"
     ], 
     "april": [
-        "Apr", 
-        "A", 
-        "ǃHôaǂkhaib"
+        "apr", 
+        "a", 
+        "ǃhôaǂkhaib"
     ], 
     "may": [
-        "May", 
-        "M", 
-        "ǃKhaitsâb"
+        "may", 
+        "m", 
+        "ǃkhaitsâb"
     ], 
     "june": [
-        "J", 
-        "Jun", 
-        "Gamaǀaeb"
+        "j", 
+        "jun", 
+        "gamaǀaeb"
     ], 
     "july": [
-        "J", 
-        "ǂKhoesaob", 
-        "Jul"
+        "j", 
+        "ǂkhoesaob", 
+        "jul"
     ], 
     "august": [
-        "A", 
-        "Aoǁkhuumûǁkhâb", 
-        "Aug"
+        "a", 
+        "aoǁkhuumûǁkhâb", 
+        "aug"
     ], 
     "september": [
-        "S", 
-        "Taraǀkhuumûǁkhâb", 
-        "Sep"
+        "s", 
+        "taraǀkhuumûǁkhâb", 
+        "sep"
     ], 
     "october": [
-        "Oct", 
-        "O", 
-        "ǂNûǁnâiseb"
+        "oct", 
+        "o", 
+        "ǂnûǁnâiseb"
     ], 
     "november": [
-        "Nov", 
-        "ǀHooǂgaeb", 
-        "N"
+        "nov", 
+        "ǀhooǂgaeb", 
+        "n"
     ], 
     "december": [
-        "Dec", 
-        "Hôasoreǁkhâb", 
-        "D"
+        "dec", 
+        "hôasoreǁkhâb", 
+        "d"
     ], 
     "monday": [
-        "M", 
-        "Mantaxtsees", 
-        "Ma"
+        "m", 
+        "mantaxtsees", 
+        "ma"
     ], 
     "tuesday": [
-        "De", 
-        "E", 
-        "Denstaxtsees"
+        "de", 
+        "e", 
+        "denstaxtsees"
     ], 
     "wednesday": [
-        "Wu", 
-        "Wunstaxtsees", 
-        "W"
+        "wu", 
+        "wunstaxtsees", 
+        "w"
     ], 
     "thursday": [
-        "Do", 
-        "Dondertaxtsees", 
-        "D"
+        "do", 
+        "dondertaxtsees", 
+        "d"
     ], 
     "friday": [
-        "Fr", 
-        "Fraitaxtsees", 
-        "F"
+        "fr", 
+        "fraitaxtsees", 
+        "f"
     ], 
     "saturday": [
-        "A", 
-        "Satertaxtsees", 
-        "Sat"
+        "a", 
+        "satertaxtsees", 
+        "sat"
     ], 
     "sunday": [
-        "Sontaxtsees", 
-        "S", 
-        "Son"
+        "sontaxtsees", 
+        "s", 
+        "son"
     ], 
     "am": [
         "ǁgoagas"
@@ -103,25 +103,25 @@
         "ǃuias"
     ], 
     "year": [
-        "Kurib"
+        "kurib"
     ], 
     "month": [
-        "ǁKhâb"
+        "ǁkhâb"
     ], 
     "week": [
-        "Wekheb"
+        "wekheb"
     ], 
     "day": [
-        "Tsees"
+        "tsees"
     ], 
     "hour": [
-        "Iiri"
+        "iiri"
     ], 
     "minute": [
-        "Haib"
+        "haib"
     ], 
     "second": [
-        "ǀGâub"
+        "ǀgâub"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -155,7 +155,7 @@
             "yesterday"
         ], 
         "0 day ago": [
-            "Neetsee"
+            "neetsee"
         ], 
         "in 1 day": [
             "tomorrow"

@@ -2,100 +2,100 @@
     "name": "hu", 
     "date_order": "YMD", 
     "january": [
-        "jan.", 
-        "J", 
-        "január"
+        "jan", 
+        "január", 
+        "j"
     ], 
     "february": [
-        "febr.", 
+        "febr", 
         "február", 
-        "F"
+        "f"
     ], 
     "march": [
-        "márc.", 
         "március", 
-        "M"
+        "m", 
+        "márc"
     ], 
     "april": [
-        "Á", 
-        "ápr.", 
+        "ápr", 
+        "á", 
         "április"
     ], 
     "may": [
         "május", 
-        "máj.", 
-        "M"
+        "máj", 
+        "m"
     ], 
     "june": [
-        "J", 
-        "jún.", 
+        "jún", 
+        "j", 
         "június"
     ], 
     "july": [
-        "júl.", 
-        "J", 
+        "júl", 
+        "j", 
         "július"
     ], 
     "august": [
-        "A", 
-        "aug.", 
+        "a", 
+        "aug", 
         "augusztus"
     ], 
     "september": [
-        "szept.", 
-        "Sz", 
-        "szeptember"
+        "sz", 
+        "szeptember", 
+        "szept"
     ], 
     "october": [
-        "okt.", 
-        "O", 
+        "okt", 
+        "o", 
         "október"
     ], 
     "november": [
-        "nov.", 
         "november", 
-        "N"
+        "nov", 
+        "n"
     ], 
     "december": [
         "december", 
-        "dec.", 
-        "D"
+        "dec", 
+        "d"
     ], 
     "monday": [
-        "H", 
+        "h", 
         "hétfő"
     ], 
     "tuesday": [
         "kedd", 
-        "K"
+        "k"
     ], 
     "wednesday": [
-        "Sz", 
+        "sz", 
         "szerda", 
-        "Sze"
+        "sze"
     ], 
     "thursday": [
-        "Cs", 
+        "cs", 
         "csütörtök"
     ], 
     "friday": [
         "péntek", 
-        "P"
+        "p"
     ], 
     "saturday": [
-        "Sz", 
-        "Szo", 
+        "sz", 
+        "szo", 
         "szombat"
     ], 
     "sunday": [
         "vasárnap", 
-        "V"
+        "v"
     ], 
     "am": [
-        "de."
+        "de"
     ], 
     "pm": [
-        "du."
+        "du"
     ], 
     "year": [
         "év"

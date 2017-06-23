@@ -2,126 +2,126 @@
     "name": "wae", 
     "date_order": "YMD", 
     "january": [
-        "Jenner", 
-        "J", 
-        "Jen"
+        "jenner", 
+        "j", 
+        "jen"
     ], 
     "february": [
-        "Hornig", 
-        "Hor", 
-        "H"
+        "hornig", 
+        "hor", 
+        "h"
     ], 
     "march": [
-        "Mär", 
-        "Märze", 
-        "M"
+        "mär", 
+        "märze", 
+        "m"
     ], 
     "april": [
-        "A", 
-        "Abr", 
-        "Abrille"
+        "a", 
+        "abr", 
+        "abrille"
     ], 
     "may": [
-        "M", 
-        "Mei", 
-        "Meije"
+        "m", 
+        "mei", 
+        "meije"
     ], 
     "june": [
-        "B", 
-        "Bráčet", 
-        "Brá"
+        "bráčet", 
+        "b", 
+        "brá"
     ], 
     "july": [
-        "H", 
-        "Heiwet", 
-        "Hei"
+        "h", 
+        "heiwet", 
+        "hei"
     ], 
     "august": [
-        "Öigšte", 
-        "Öig", 
-        "Ö"
+        "öigšte", 
+        "öig", 
+        "ö"
     ], 
     "september": [
-        "H", 
-        "Her", 
-        "Herbštmánet"
+        "h", 
+        "her", 
+        "herbštmánet"
     ], 
     "october": [
-        "Wímánet", 
-        "W", 
-        "Wím"
+        "wímánet", 
+        "w", 
+        "wím"
     ], 
     "november": [
-        "Win", 
-        "Wintermánet", 
-        "W"
+        "win", 
+        "wintermánet", 
+        "w"
     ], 
     "december": [
-        "Chr", 
-        "C", 
-        "Chrištmánet"
+        "chr", 
+        "c", 
+        "chrištmánet"
     ], 
     "monday": [
-        "M", 
-        "Män", 
-        "Mäntag"
+        "m", 
+        "män", 
+        "mäntag"
     ], 
     "tuesday": [
-        "Zištag", 
-        "Z", 
-        "Ziš"
+        "zištag", 
+        "z", 
+        "ziš"
     ], 
     "wednesday": [
-        "M", 
-        "Mittwuč", 
-        "Mit"
+        "m", 
+        "mittwuč", 
+        "mit"
     ], 
     "thursday": [
-        "Fró", 
-        "Fróntag", 
-        "F"
+        "fró", 
+        "fróntag", 
+        "f"
     ], 
     "friday": [
-        "Fri", 
-        "Fritag", 
-        "F"
+        "fri", 
+        "fritag", 
+        "f"
     ], 
     "saturday": [
-        "Samštag", 
-        "S", 
-        "Sam"
+        "samštag", 
+        "s", 
+        "sam"
     ], 
     "sunday": [
-        "Sun", 
-        "S", 
-        "Sunntag"
+        "sun", 
+        "s", 
+        "sunntag"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Jár"
+        "jár"
     ], 
     "month": [
-        "Mánet"
+        "mánet"
     ], 
     "week": [
-        "Wuča"
+        "wuča"
     ], 
     "day": [
-        "Tag"
+        "tag"
     ], 
     "hour": [
-        "Schtund"
+        "schtund"
     ], 
     "minute": [
-        "Mínütta"
+        "mínütta"
     ], 
     "second": [
-        "Sekunda"
+        "sekunda"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Gešter"
+            "gešter"
         ], 
         "0 day ago": [
-            "Hitte"
+            "hitte"
         ], 
         "in 1 day": [
-            "Móre"
+            "móre"
         ], 
         "0 hour ago": [
             "this hour"
@@ -170,14 +170,14 @@
             "now"
         ], 
         "in \\1 year": [
-            "I (\\d+) jár"
+            "i (\\d+) jár"
         ], 
         "\\1 year ago": [
             "cor (\\d+) jár", 
             "vor (\\d+) jár"
         ], 
         "in \\1 month": [
-            "I (\\d+) mánet"
+            "i (\\d+) mánet"
         ], 
         "\\1 month ago": [
             "vor (\\d+) mánet"

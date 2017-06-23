@@ -2,24 +2,24 @@
     "name": "sl", 
     "date_order": "DMY", 
     "january": [
-        "jan.", 
+        "jan", 
         "januar", 
         "j"
     ], 
     "february": [
-        "f", 
+        "feb", 
         "februar", 
-        "feb."
+        "f"
     ], 
     "march": [
         "marec", 
-        "mar.", 
+        "mar", 
         "m"
     ], 
     "april": [
-        "a", 
+        "apr", 
         "april", 
-        "apr."
+        "a"
     ], 
     "may": [
         "maj", 
@@ -27,82 +27,82 @@
     ], 
     "june": [
         "junij", 
-        "j", 
-        "jun."
+        "jun", 
+        "j"
     ], 
     "july": [
         "j", 
         "julij", 
-        "jul."
+        "jul"
     ], 
     "august": [
         "a", 
-        "avg.", 
+        "avg", 
         "avgust"
     ], 
     "september": [
         "september", 
         "s", 
-        "sep."
+        "sep"
     ], 
     "october": [
-        "okt.", 
         "oktober", 
+        "okt", 
         "o"
     ], 
     "november": [
-        "nov.", 
         "november", 
+        "nov", 
         "n"
     ], 
     "december": [
         "december", 
-        "dec.", 
+        "dec", 
         "d"
     ], 
     "monday": [
+        "pon", 
         "p", 
-        "pon.", 
         "ponedeljek"
     ], 
     "tuesday": [
+        "tor", 
         "torek", 
-        "tor.", 
         "t"
     ], 
     "wednesday": [
         "s", 
         "sreda", 
-        "sre."
+        "sre"
     ], 
     "thursday": [
-        "č", 
+        "čet", 
         "četrtek", 
-        "čet."
+        "č"
     ], 
     "friday": [
+        "pet", 
         "p", 
-        "petek", 
-        "pet."
+        "petek"
     ], 
     "saturday": [
-        "sob.", 
-        "sobota", 
-        "s"
+        "s", 
+        "sob", 
+        "sobota"
     ], 
     "sunday": [
-        "ned.", 
+        "ned", 
         "nedelja", 
         "n"
     ], 
     "am": [
-        "dop.", 
+        "dop", 
         "dopoldne", 
         "d"
     ], 
     "pm": [
         "p", 
-        "pop.", 
+        "pop", 
         "popoldne"
     ], 
     "year": [
@@ -110,11 +110,11 @@
     ], 
     "month": [
         "mesec", 
-        "mes."
+        "mes"
     ], 
     "week": [
         "teden", 
-        "ted."
+        "ted"
     ], 
     "day": [
         "dan"
@@ -125,13 +125,12 @@
     ], 
     "minute": [
         "minuta", 
-        "min.", 
         "min"
     ], 
     "second": [
+        "sek", 
         "s", 
-        "sekunda", 
-        "sek."
+        "sekunda"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -188,22 +187,22 @@
             "pred (\\d+) leti"
         ], 
         "in \\1 month": [
-            "čez (\\d+) mes.", 
+            "čez (\\d+) mes", 
             "čez (\\d+) mesecev", 
             "čez (\\d+) mesec"
         ], 
         "\\1 month ago": [
             "pred (\\d+) mesecem", 
             "pred (\\d+) meseci", 
-            "pred (\\d+) mes."
+            "pred (\\d+) mes"
         ], 
         "in \\1 week": [
             "čez (\\d+) tednov", 
-            "čez (\\d+) ted.", 
-            "čez (\\d+) teden"
+            "čez (\\d+) teden", 
+            "čez (\\d+) ted"
         ], 
         "\\1 week ago": [
-            "pred (\\d+) ted.", 
+            "pred (\\d+) ted", 
             "pred (\\d+) tednom", 
             "pred (\\d+) tedni"
         ], 
@@ -226,7 +225,6 @@
             "pred (\\d+) uro"
         ], 
         "in \\1 minute": [
-            "čez (\\d+) min.", 
             "čez (\\d+) minut", 
             "čez (\\d+) min", 
             "čez (\\d+) minuto"
@@ -234,8 +232,7 @@
         "\\1 minute ago": [
             "pred (\\d+) minuto", 
             "pred (\\d+) minutami", 
-            "pred (\\d+) min", 
-            "pred (\\d+) min."
+            "pred (\\d+) min"
         ], 
         "in \\1 second": [
             "čez (\\d+) sekundo", 

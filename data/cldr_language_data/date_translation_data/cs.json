@@ -2,66 +2,55 @@
     "name": "cs", 
     "date_order": "DMY", 
     "january": [
-        "1", 
         "leden", 
         "led", 
         "ledna"
     ], 
     "february": [
-        "2", 
+        "února", 
         "únor", 
-        "úno", 
-        "února"
+        "úno"
     ], 
     "march": [
         "březen", 
-        "3", 
         "bře", 
         "března"
     ], 
     "april": [
         "duben", 
         "dub", 
-        "dubna", 
-        "4"
+        "dubna"
     ], 
     "may": [
         "května", 
-        "5", 
         "květen", 
         "kvě"
     ], 
     "june": [
         "červen", 
-        "června", 
         "čvn", 
-        "6"
+        "června"
     ], 
     "july": [
         "červenec", 
         "čvc", 
-        "7", 
         "července"
     ], 
     "august": [
         "srpen", 
         "srp", 
-        "srpna", 
-        "8"
+        "srpna"
     ], 
     "september": [
-        "9", 
         "září", 
         "zář"
     ], 
     "october": [
-        "10", 
         "říj", 
         "říjen", 
         "října"
     ], 
     "november": [
-        "11", 
         "listopadu", 
         "listopad", 
         "lis"
@@ -69,61 +58,60 @@
     "december": [
         "prosince", 
         "pro", 
-        "12", 
         "prosinec"
     ], 
     "monday": [
-        "P", 
+        "p", 
         "pondělí", 
         "po"
     ], 
     "tuesday": [
         "út", 
         "úterý", 
-        "Ú"
+        "ú"
     ], 
     "wednesday": [
-        "S", 
+        "s", 
         "středa", 
         "st"
     ], 
     "thursday": [
         "čt", 
-        "Č", 
+        "č", 
         "čtvrtek"
     ], 
     "friday": [
-        "P", 
+        "p", 
         "pá", 
         "pátek"
     ], 
     "saturday": [
         "so", 
-        "S", 
+        "s", 
         "sobota"
     ], 
     "sunday": [
-        "N", 
+        "n", 
         "ne", 
         "neděle"
     ], 
     "am": [
-        "dop."
+        "dop"
     ], 
     "pm": [
-        "odp."
+        "odp"
     ], 
     "year": [
-        "r.", 
+        "r", 
         "rok"
     ], 
     "month": [
-        "měsíc", 
-        "měs."
+        "měs", 
+        "měsíc"
     ], 
     "week": [
         "týden", 
-        "týd."
+        "týd"
     ], 
     "day": [
         "den"
@@ -160,16 +148,16 @@
             "příští měsíc"
         ], 
         "1 week ago": [
-            "minulý týd.", 
-            "minulý týden"
+            "minulý týden", 
+            "minulý týd"
         ], 
         "0 week ago": [
-            "tento týd.", 
-            "tento týden"
+            "tento týden", 
+            "tento týd"
         ], 
         "in 1 week": [
             "příští týden", 
-            "příští týd."
+            "příští týd"
         ], 
         "1 day ago": [
             "včera"
@@ -191,35 +179,35 @@
         ], 
         "in \\1 year": [
             "za (\\d+) let", 
-            "za (\\d+) l.", 
+            "za (\\d+) r", 
             "za (\\d+) rok", 
-            "za (\\d+) r."
+            "za (\\d+) l"
         ], 
         "\\1 year ago": [
             "před (\\d+) rokem", 
-            "před (\\d+) l.", 
-            "před (\\d+) r.", 
+            "před (\\d+) l", 
+            "před (\\d+) r", 
             "před (\\d+) lety"
         ], 
         "in \\1 month": [
+            "za (\\d+) měs", 
             "za (\\d+) měsíc", 
-            "za (\\d+) měs.", 
             "za (\\d+) měsíců"
         ], 
         "\\1 month ago": [
-            "před (\\d+) měs.", 
             "před (\\d+) měsíci", 
-            "před (\\d+) měsícem"
+            "před (\\d+) měsícem", 
+            "před (\\d+) měs"
         ], 
         "in \\1 week": [
+            "za (\\d+) týd", 
             "za (\\d+) týden", 
-            "za (\\d+) týd.", 
             "za (\\d+) týdnů"
         ], 
         "\\1 week ago": [
             "před (\\d+) týdnem", 
-            "před (\\d+) týd.", 
-            "před (\\d+) týdny"
+            "před (\\d+) týdny", 
+            "před (\\d+) týd"
         ], 
         "in \\1 day": [
             "za (\\d+) dní", 

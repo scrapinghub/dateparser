@@ -63,11 +63,9 @@
     "monday": [
         "pon", 
         "p", 
-        "ponedjeljak", 
-        "P"
+        "ponedjeljak"
     ], 
     "tuesday": [
-        "U", 
         "u", 
         "uto", 
         "utorak"
@@ -75,23 +73,19 @@
     "wednesday": [
         "srijeda", 
         "s", 
-        "sri", 
-        "S"
+        "sri"
     ], 
     "thursday": [
         "čet", 
         "č", 
-        "Č", 
         "četvrtak"
     ], 
     "friday": [
         "pet", 
         "p", 
-        "petak", 
-        "P"
+        "petak"
     ], 
     "saturday": [
-        "S", 
         "s", 
         "sub", 
         "subota"
@@ -99,7 +93,6 @@
     "sunday": [
         "nedjelja", 
         "ned", 
-        "N", 
         "n"
     ], 
     "am": [
@@ -109,16 +102,16 @@
         "popodne"
     ], 
     "year": [
-        "g.", 
-        "god.", 
+        "god", 
+        "g", 
         "godina"
     ], 
     "month": [
-        "mj.", 
-        "mjesec"
+        "mjesec", 
+        "mj"
     ], 
     "week": [
-        "sed.", 
+        "sed", 
         "sedmica"
     ], 
     "day": [
@@ -130,12 +123,12 @@
     ], 
     "minute": [
         "minuta", 
-        "min."
+        "min"
     ], 
     "second": [
+        "sek", 
         "s", 
-        "sekunda", 
-        "sek."
+        "sekunda"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -184,45 +177,45 @@
             "sada"
         ], 
         "in \\1 year": [
-            "za (\\d+) g.", 
+            "za (\\d+) god", 
             "za (\\d+) godina", 
-            "za (\\d+) god.", 
+            "za (\\d+) g", 
             "za (\\d+) godinu"
         ], 
         "\\1 year ago": [
-            "prije (\\d+) god.", 
             "prije (\\d+) godina", 
-            "prije (\\d+) g.", 
+            "prije (\\d+) g", 
+            "prije (\\d+) god", 
             "prije (\\d+) godinu"
         ], 
         "in \\1 month": [
             "za (\\d+) mjeseci", 
-            "za (\\d+) mj.", 
+            "za (\\d+) mj", 
             "za (\\d+) mjesec"
         ], 
         "\\1 month ago": [
+            "prije (\\d+) mj", 
             "prije (\\d+) mjeseci", 
-            "prije (\\d+) mj.", 
             "prije (\\d+) mjesec"
         ], 
         "in \\1 week": [
             "za (\\d+) sedmicu", 
-            "za (\\d+) sed.", 
-            "za (\\d+) sedmica"
+            "za (\\d+) sedmica", 
+            "za (\\d+) sed"
         ], 
         "\\1 week ago": [
             "prije (\\d+) sedmica", 
             "prije (\\d+) sedmicu", 
-            "prije (\\d+) sed."
+            "prije (\\d+) sed"
         ], 
         "in \\1 day": [
-            "za (\\d+) d.", 
             "za (\\d+) dana", 
+            "za (\\d+) d", 
             "za (\\d+) dan"
         ], 
         "\\1 day ago": [
+            "prije (\\d+) d", 
             "prije (\\d+) dana", 
-            "prije (\\d+) d.", 
             "prije (\\d+) dan"
         ], 
         "in \\1 hour": [
@@ -235,22 +228,22 @@
         ], 
         "in \\1 minute": [
             "za (\\d+) minuta", 
-            "za (\\d+) min.", 
+            "za (\\d+) min", 
             "za (\\d+) minutu"
         ], 
         "\\1 minute ago": [
             "prije (\\d+) minutu", 
-            "prije (\\d+) min.", 
+            "prije (\\d+) min", 
             "prije (\\d+) minuta"
         ], 
         "in \\1 second": [
             "za (\\d+) sekundi", 
-            "za (\\d+) sekundu", 
-            "za (\\d+) sek."
+            "za (\\d+) sek", 
+            "za (\\d+) sekundu"
         ], 
         "\\1 second ago": [
             "prije (\\d+) sekundi", 
-            "prije (\\d+) sek.", 
+            "prije (\\d+) sek", 
             "prije (\\d+) sekundu"
         ]
     }, 

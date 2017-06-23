@@ -2,123 +2,115 @@
     "name": "ca", 
     "date_order": "DMY", 
     "january": [
-        "gen.", 
-        "GN", 
+        "gn", 
         "gener", 
-        "de gen.", 
-        "de gener"
+        "gen", 
+        "de gener", 
+        "de gen"
     ], 
     "february": [
         "de febrer", 
-        "FB", 
-        "febrer", 
-        "de febr.", 
-        "febr."
+        "de febr", 
+        "fb", 
+        "febr", 
+        "febrer"
     ], 
     "march": [
-        "MÇ", 
+        "mç", 
         "març", 
         "de març"
     ], 
     "april": [
-        "abr.", 
-        "AB", 
-        "d’abr.", 
+        "abr", 
+        "ab", 
+        "d’abr", 
         "d’abril", 
         "abril"
     ], 
     "may": [
         "de maig", 
         "maig", 
-        "MG"
+        "mg"
     ], 
     "june": [
         "juny", 
         "de juny", 
-        "JN"
+        "jn"
     ], 
     "july": [
-        "JL", 
+        "jl", 
         "de juliol", 
-        "de jul.", 
+        "de jul", 
         "juliol", 
-        "jul."
+        "jul"
     ], 
     "august": [
-        "ag.", 
+        "d’ag", 
         "d’agost", 
-        "d’ag.", 
-        "AG", 
+        "ag", 
         "agost"
     ], 
     "september": [
         "de setembre", 
-        "set.", 
-        "ST", 
-        "de set.", 
+        "de set", 
+        "set", 
+        "st", 
         "setembre"
     ], 
     "october": [
-        "oct.", 
-        "d’oct.", 
-        "OC", 
+        "d’oct", 
+        "oc", 
+        "oct", 
         "d’octubre", 
         "octubre"
     ], 
     "november": [
         "novembre", 
-        "nov.", 
+        "nov", 
         "de novembre", 
-        "NV", 
-        "de nov."
+        "de nov", 
+        "nv"
     ], 
     "december": [
-        "des.", 
         "de desembre", 
-        "DS", 
-        "de des.", 
+        "de des", 
+        "des", 
+        "ds", 
         "desembre"
     ], 
     "monday": [
         "dl", 
-        "dilluns", 
-        "dl."
+        "dilluns"
     ], 
     "tuesday": [
         "dt", 
-        "dt.", 
         "dimarts"
     ], 
     "wednesday": [
         "dimecres", 
-        "dc.", 
         "dc"
     ], 
     "thursday": [
         "dijous", 
-        "dj", 
-        "dj."
+        "dj"
     ], 
     "friday": [
         "dv", 
-        "divendres", 
-        "dv."
+        "divendres"
     ], 
     "saturday": [
-        "ds.", 
         "ds", 
         "dissabte"
     ], 
     "sunday": [
         "dg", 
-        "dg.", 
         "diumenge"
     ], 
     "am": [
-        "a. m."
+        "am"
     ], 
     "pm": [
-        "p. m."
+        "pm"
     ], 
     "year": [
         "any"
@@ -127,8 +119,8 @@
         "mes"
     ], 
     "week": [
-        "setmana", 
-        "setm."
+        "setm", 
+        "setmana"
     ], 
     "day": [
         "dia"
@@ -167,18 +159,18 @@
             "mes vinent"
         ], 
         "1 week ago": [
-            "la setm. passada", 
+            "setm passada", 
             "la setmana passada", 
-            "setm. passada"
+            "la setm passada"
         ], 
         "0 week ago": [
             "aquesta setmana", 
-            "aquesta setm."
+            "aquesta setm"
         ], 
         "in 1 week": [
+            "la setm que ve", 
             "la setmana que ve", 
-            "la setm. que ve", 
-            "setm. vinent"
+            "setm vinent"
         ], 
         "1 day ago": [
             "ahir"
@@ -216,12 +208,12 @@
         ], 
         "in \\1 week": [
             "d’aquí a (\\d+) setmana", 
-            "d’aquí a (\\d+) setm.", 
+            "d’aquí a (\\d+) setm", 
             "d’aquí a (\\d+) setmanes"
         ], 
         "\\1 week ago": [
-            "fa (\\d+) setm.", 
             "fa (\\d+) setmanes", 
+            "fa (\\d+) setm", 
             "fa (\\d+) setmana"
         ], 
         "in \\1 day": [

@@ -2,126 +2,126 @@
     "name": "cgg", 
     "date_order": "DMY", 
     "january": [
-        "KBZ", 
-        "J", 
-        "Okwokubanza"
+        "kbz", 
+        "j", 
+        "okwokubanza"
     ], 
     "february": [
-        "KBR", 
-        "Okwakabiri", 
-        "F"
+        "kbr", 
+        "okwakabiri", 
+        "f"
     ], 
     "march": [
-        "KST", 
-        "M", 
-        "Okwakashatu"
+        "kst", 
+        "m", 
+        "okwakashatu"
     ], 
     "april": [
-        "A", 
-        "Okwakana", 
-        "KKN"
+        "a", 
+        "okwakana", 
+        "kkn"
     ], 
     "may": [
-        "M", 
-        "KTN", 
-        "Okwakataana"
+        "m", 
+        "ktn", 
+        "okwakataana"
     ], 
     "june": [
-        "J", 
-        "KMK", 
-        "Okwamukaaga"
+        "j", 
+        "kmk", 
+        "okwamukaaga"
     ], 
     "july": [
-        "J", 
-        "KMS", 
-        "Okwamushanju"
+        "j", 
+        "kms", 
+        "okwamushanju"
     ], 
     "august": [
-        "Okwamunaana", 
-        "KMN", 
-        "A"
+        "okwamunaana", 
+        "kmn", 
+        "a"
     ], 
     "september": [
-        "Okwamwenda", 
-        "KMW", 
-        "S"
+        "okwamwenda", 
+        "kmw", 
+        "s"
     ], 
     "october": [
-        "KKM", 
-        "Okwaikumi", 
-        "O"
+        "kkm", 
+        "okwaikumi", 
+        "o"
     ], 
     "november": [
-        "Okwaikumi na kumwe", 
-        "KNK", 
-        "N"
+        "okwaikumi na kumwe", 
+        "knk", 
+        "n"
     ], 
     "december": [
-        "KNB", 
-        "D", 
-        "Okwaikumi na ibiri"
+        "knb", 
+        "d", 
+        "okwaikumi na ibiri"
     ], 
     "monday": [
-        "Orwokubanza", 
-        "K", 
-        "ORK"
+        "orwokubanza", 
+        "k", 
+        "ork"
     ], 
     "tuesday": [
-        "R", 
-        "OKB", 
-        "Orwakabiri"
+        "r", 
+        "okb", 
+        "orwakabiri"
     ], 
     "wednesday": [
-        "Orwakashatu", 
-        "OKS", 
-        "S"
+        "orwakashatu", 
+        "oks", 
+        "s"
     ], 
     "thursday": [
-        "N", 
-        "Orwakana", 
-        "OKN"
+        "n", 
+        "orwakana", 
+        "okn"
     ], 
     "friday": [
-        "Orwakataano", 
-        "OKT", 
-        "T"
+        "orwakataano", 
+        "okt", 
+        "t"
     ], 
     "saturday": [
-        "OMK", 
-        "M", 
-        "Orwamukaaga"
+        "omk", 
+        "m", 
+        "orwamukaaga"
     ], 
     "sunday": [
-        "S", 
-        "Sande", 
-        "SAN"
+        "s", 
+        "sande", 
+        "san"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Omwaka"
+        "omwaka"
     ], 
     "month": [
-        "Omwezi"
+        "omwezi"
     ], 
     "week": [
-        "Esande"
+        "esande"
     ], 
     "day": [
-        "Eizooba"
+        "eizooba"
     ], 
     "hour": [
-        "Shaaha"
+        "shaaha"
     ], 
     "minute": [
-        "Edakiika"
+        "edakiika"
     ], 
     "second": [
-        "Obucweka/Esekendi"
+        "obucweka/esekendi"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Nyomwabazyo"
+            "nyomwabazyo"
         ], 
         "0 day ago": [
-            "Erizooba"
+            "erizooba"
         ], 
         "in 1 day": [
-            "Nyenkyakare"
+            "nyenkyakare"
         ], 
         "0 hour ago": [
             "this hour"

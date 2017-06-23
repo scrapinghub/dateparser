@@ -3,106 +3,106 @@
     "date_order": "YMD", 
     "january": [
         "ođđajagemánnu", 
-        "O", 
+        "o", 
         "ođđj"
     ], 
     "february": [
         "guovvamánnu", 
-        "G", 
+        "g", 
         "guov"
     ], 
     "march": [
         "njuk", 
         "njukčamánnu", 
-        "N"
+        "n"
     ], 
     "april": [
         "cuo", 
-        "C", 
+        "c", 
         "cuoŋománnu"
     ], 
     "may": [
         "mies", 
-        "M", 
+        "m", 
         "miessemánnu"
     ], 
     "june": [
         "geas", 
         "geassemánnu", 
-        "G"
+        "g"
     ], 
     "july": [
-        "S", 
+        "s", 
         "suoi", 
         "suoidnemánnu"
     ], 
     "august": [
         "borg", 
-        "B", 
+        "b", 
         "borgemánnu"
     ], 
     "september": [
         "čakčamánnu", 
         "čakč", 
-        "Č"
+        "č"
     ], 
     "october": [
         "golggotmánnu", 
         "golg", 
-        "G"
+        "g"
     ], 
     "november": [
-        "S", 
+        "s", 
         "skáb", 
         "skábmamánnu"
     ], 
     "december": [
         "juov", 
-        "J", 
+        "j", 
         "juovlamánnu"
     ], 
     "monday": [
         "vuossárga", 
         "vuos", 
-        "V"
+        "v"
     ], 
     "tuesday": [
         "maŋ", 
-        "M", 
+        "m", 
         "maŋŋebárga"
     ], 
     "wednesday": [
         "gask", 
         "gaskavahkku", 
-        "G"
+        "g"
     ], 
     "thursday": [
         "duorasdat", 
         "duor", 
-        "D"
+        "d"
     ], 
     "friday": [
-        "B", 
+        "b", 
         "bearjadat", 
         "bear"
     ], 
     "saturday": [
         "lávvardat", 
         "láv", 
-        "L"
+        "l"
     ], 
     "sunday": [
         "sotn", 
-        "S", 
+        "s", 
         "sotnabeaivi"
     ], 
     "am": [
         "iđitbeaivi", 
         "iđitbeaivet", 
-        "i.b."
+        "i.b"
     ], 
     "pm": [
-        "e.b.", 
+        "e.b", 
         "eahketbeaivi", 
         "eahketbeaivet"
     ], 
@@ -232,12 +232,12 @@
         "se-FI": {
             "name": "se-FI", 
             "monday": [
-                "M", 
+                "m", 
                 "vuossárgga"
             ], 
             "tuesday": [
                 "maŋŋebárgga", 
-                "D"
+                "d"
             ], 
             "wednesday": [
                 "gaskavahku"
@@ -253,7 +253,7 @@
             ], 
             "year": [
                 "jahki", 
-                "j."
+                "j"
             ], 
             "week": [
                 "vahkku"

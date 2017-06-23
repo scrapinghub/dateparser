@@ -2,103 +2,103 @@
     "name": "ro", 
     "date_order": "DMY", 
     "january": [
-        "I", 
-        "ian.", 
+        "i", 
+        "ian", 
         "ianuarie"
     ], 
     "february": [
         "februarie", 
-        "F", 
-        "feb."
+        "feb", 
+        "f"
     ], 
     "march": [
-        "M", 
-        "mar.", 
+        "m", 
+        "mar", 
         "martie"
     ], 
     "april": [
-        "A", 
-        "apr.", 
+        "apr", 
+        "a", 
         "aprilie"
     ], 
     "may": [
         "mai", 
-        "M"
+        "m"
     ], 
     "june": [
-        "I", 
-        "iun.", 
+        "i", 
+        "iun", 
         "iunie"
     ], 
     "july": [
-        "iul.", 
+        "i", 
         "iulie", 
-        "I"
+        "iul"
     ], 
     "august": [
-        "A", 
+        "a", 
         "august", 
-        "aug."
+        "aug"
     ], 
     "september": [
-        "S", 
-        "sept.", 
+        "s", 
+        "sept", 
         "septembrie"
     ], 
     "october": [
-        "oct.", 
         "octombrie", 
-        "O"
+        "o", 
+        "oct"
     ], 
     "november": [
-        "nov.", 
+        "nov", 
         "noiembrie", 
-        "N"
+        "n"
     ], 
     "december": [
-        "dec.", 
+        "dec", 
         "decembrie", 
-        "D"
+        "d"
     ], 
     "monday": [
         "luni", 
-        "lun.", 
-        "L"
+        "l", 
+        "lun"
     ], 
     "tuesday": [
-        "mar.", 
-        "M", 
+        "mar", 
+        "m", 
         "marți"
     ], 
     "wednesday": [
-        "M", 
+        "mie", 
         "miercuri", 
-        "mie."
+        "m"
     ], 
     "thursday": [
         "joi", 
-        "J"
+        "j"
     ], 
     "friday": [
         "vineri", 
-        "V", 
-        "vin."
+        "vin", 
+        "v"
     ], 
     "saturday": [
         "sâmbătă", 
-        "S", 
-        "sâm."
+        "s", 
+        "sâm"
     ], 
     "sunday": [
-        "dum.", 
-        "D", 
-        "duminică"
+        "dum", 
+        "duminică", 
+        "d"
     ], 
     "am": [
-        "a.m."
+        "am"
     ], 
     "pm": [
-        "p.m."
+        "pm"
     ], 
     "year": [
         "an"
@@ -108,7 +108,7 @@
     ], 
     "week": [
         "săptămână", 
-        "săpt."
+        "săpt"
     ], 
     "day": [
         "zi"
@@ -120,12 +120,12 @@
     "minute": [
         "minut", 
         "m", 
-        "min."
+        "min"
     ], 
     "second": [
         "s", 
-        "secundă", 
-        "sec."
+        "sec", 
+        "secundă"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -201,15 +201,15 @@
             "acum (\\d+) de luni"
         ], 
         "in \\1 week": [
-            "peste (\\d+) săpt.", 
             "peste (\\d+) săptămână", 
+            "+(\\d+) săpt", 
             "peste (\\d+) de săptămâni", 
-            "+(\\d+) săpt."
+            "peste (\\d+) săpt"
         ], 
         "\\1 week ago": [
-            "-(\\d+) săpt.", 
             "acum (\\d+) săptămână", 
-            "acum (\\d+) săpt.", 
+            "-(\\d+) săpt", 
+            "acum (\\d+) săpt", 
             "acum (\\d+) de săptămâni"
         ], 
         "in \\1 day": [
@@ -240,54 +240,37 @@
         ], 
         "in \\1 minute": [
             "+(\\d+) m", 
-            "peste (\\d+) min.", 
+            "peste (\\d+) min", 
             "peste (\\d+) minut", 
             "peste (\\d+) de minute"
         ], 
         "\\1 minute ago": [
+            "acum (\\d+) min", 
             "acum (\\d+) minut", 
-            "acum (\\d+) min.", 
             "acum (\\d+) de minute", 
             "-(\\d+) m"
         ], 
         "in \\1 second": [
+            "peste (\\d+) sec", 
             "+(\\d+) s", 
             "peste (\\d+) de secunde", 
-            "peste (\\d+) sec.", 
             "peste (\\d+) secundă"
         ], 
         "\\1 second ago": [
             "-(\\d+) s", 
             "acum (\\d+) de secunde", 
-            "acum (\\d+) secundă", 
-            "acum (\\d+) sec."
+            "acum (\\d+) sec", 
+            "acum (\\d+) secundă"
         ]
     }, 
     "locale_specific": {
         "ro-MD": {
             "name": "ro-MD", 
-            "monday": [
-                "Lun"
-            ], 
             "tuesday": [
-                "Mar", 
-                "Ma"
+                "ma"
             ], 
             "wednesday": [
-                "Mi", 
-                "Mie"
-            ], 
-            "thursday": [
-                "Joi"
-            ], 
-            "friday": [
-                "Vin"
-            ], 
-            "saturday": [
-                "Sâm"
-            ], 
-            "sunday": [
-                "Dum"
+                "mi"
             ]
         }
     }

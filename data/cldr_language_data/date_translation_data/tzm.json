@@ -2,126 +2,126 @@
     "name": "tzm", 
     "date_order": "DMY", 
     "january": [
-        "Y", 
-        "Yennayer", 
-        "Yen"
+        "y", 
+        "yennayer", 
+        "yen"
     ], 
     "february": [
-        "Y", 
-        "Yebrayer", 
-        "Yeb"
+        "y", 
+        "yebrayer", 
+        "yeb"
     ], 
     "march": [
-        "Mar", 
-        "M", 
-        "Mars"
+        "mar", 
+        "m", 
+        "mars"
     ], 
     "april": [
-        "I", 
-        "Ibrir", 
-        "Ibr"
+        "i", 
+        "ibrir", 
+        "ibr"
     ], 
     "may": [
-        "Mayyu", 
-        "May", 
-        "M"
+        "mayyu", 
+        "may", 
+        "m"
     ], 
     "june": [
-        "Y", 
-        "Yun", 
-        "Yunyu"
+        "y", 
+        "yun", 
+        "yunyu"
     ], 
     "july": [
-        "Yulyuz", 
-        "Y", 
-        "Yul"
+        "yulyuz", 
+        "y", 
+        "yul"
     ], 
     "august": [
-        "Ɣuct", 
-        "Ɣuc", 
-        "Ɣ"
+        "ɣ", 
+        "ɣuc", 
+        "ɣuct"
     ], 
     "september": [
-        "Cutanbir", 
-        "C", 
-        "Cut"
+        "cutanbir", 
+        "c", 
+        "cut"
     ], 
     "october": [
-        "Kṭu", 
-        "K", 
-        "Kṭuber"
+        "kṭu", 
+        "k", 
+        "kṭuber"
     ], 
     "november": [
-        "Nwanbir", 
-        "Nwa", 
-        "N"
+        "nwanbir", 
+        "nwa", 
+        "n"
     ], 
     "december": [
-        "Duj", 
-        "D", 
-        "Dujanbir"
+        "duj", 
+        "d", 
+        "dujanbir"
     ], 
     "monday": [
-        "A", 
-        "Ayn", 
-        "Aynas"
+        "a", 
+        "ayn", 
+        "aynas"
     ], 
     "tuesday": [
-        "A", 
-        "Asn", 
-        "Asinas"
+        "a", 
+        "asn", 
+        "asinas"
     ], 
     "wednesday": [
-        "A", 
-        "Akr", 
-        "Akras"
+        "a", 
+        "akr", 
+        "akras"
     ], 
     "thursday": [
-        "A", 
-        "Akwas", 
-        "Akw"
+        "a", 
+        "akwas", 
+        "akw"
     ], 
     "friday": [
-        "A", 
-        "Asm", 
-        "Asimwas"
+        "a", 
+        "asm", 
+        "asimwas"
     ], 
     "saturday": [
-        "A", 
-        "Asiḍyas", 
-        "Asḍ"
+        "a", 
+        "asiḍyas", 
+        "asḍ"
     ], 
     "sunday": [
-        "A", 
-        "Asa", 
-        "Asamas"
+        "a", 
+        "asa", 
+        "asamas"
     ], 
     "am": [
-        "Zdat azal"
+        "zdat azal"
     ], 
     "pm": [
-        "Ḍeffir aza"
+        "ḍeffir aza"
     ], 
     "year": [
-        "Asseggas"
+        "asseggas"
     ], 
     "month": [
-        "Ayur"
+        "ayur"
     ], 
     "week": [
-        "Imalass"
+        "imalass"
     ], 
     "day": [
-        "Ass"
+        "ass"
     ], 
     "hour": [
-        "Tasragt"
+        "tasragt"
     ], 
     "minute": [
-        "Tusdat"
+        "tusdat"
     ], 
     "second": [
-        "Tusnat"
+        "tusnat"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Assenaṭ"
+            "assenaṭ"
         ], 
         "0 day ago": [
-            "Assa"
+            "assa"
         ], 
         "in 1 day": [
-            "Asekka"
+            "asekka"
         ], 
         "0 hour ago": [
             "this hour"

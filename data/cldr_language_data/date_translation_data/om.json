@@ -2,126 +2,126 @@
     "name": "om", 
     "date_order": "DMY", 
     "january": [
-        "Ama", 
-        "J", 
-        "Amajjii"
+        "ama", 
+        "j", 
+        "amajjii"
     ], 
     "february": [
-        "Gur", 
-        "Guraandhala", 
-        "F"
+        "gur", 
+        "guraandhala", 
+        "f"
     ], 
     "march": [
-        "Bit", 
-        "M", 
-        "Bitooteessa"
+        "bit", 
+        "m", 
+        "bitooteessa"
     ], 
     "april": [
-        "Elb", 
-        "A", 
-        "Elba"
+        "elb", 
+        "a", 
+        "elba"
     ], 
     "may": [
-        "M", 
-        "Caamsa", 
-        "Cam"
+        "m", 
+        "caamsa", 
+        "cam"
     ], 
     "june": [
-        "J", 
-        "Waxabajjii", 
-        "Wax"
+        "j", 
+        "waxabajjii", 
+        "wax"
     ], 
     "july": [
-        "Ado", 
-        "J", 
-        "Adooleessa"
+        "ado", 
+        "j", 
+        "adooleessa"
     ], 
     "august": [
-        "A", 
-        "Hag", 
-        "Hagayya"
+        "a", 
+        "hag", 
+        "hagayya"
     ], 
     "september": [
-        "Ful", 
-        "Fuulbana", 
-        "S"
+        "ful", 
+        "fuulbana", 
+        "s"
     ], 
     "october": [
-        "Onk", 
-        "O", 
-        "Onkololeessa"
+        "onk", 
+        "o", 
+        "onkololeessa"
     ], 
     "november": [
-        "N", 
-        "Sadaasa", 
-        "Sad"
+        "n", 
+        "sadaasa", 
+        "sad"
     ], 
     "december": [
-        "Mud", 
-        "Muddee", 
-        "D"
+        "mud", 
+        "muddee", 
+        "d"
     ], 
     "monday": [
-        "M", 
-        "Wiixata", 
-        "Wix"
+        "m", 
+        "wiixata", 
+        "wix"
     ], 
     "tuesday": [
-        "Qib", 
-        "T", 
-        "Qibxata"
+        "qib", 
+        "t", 
+        "qibxata"
     ], 
     "wednesday": [
-        "Rob", 
-        "W", 
-        "Roobii"
+        "rob", 
+        "w", 
+        "roobii"
     ], 
     "thursday": [
-        "Kamiisa", 
-        "T", 
-        "Kam"
+        "kamiisa", 
+        "t", 
+        "kam"
     ], 
     "friday": [
-        "Jimaata", 
-        "Jim", 
-        "F"
+        "jimaata", 
+        "jim", 
+        "f"
     ], 
     "saturday": [
-        "S", 
-        "Sanbata", 
-        "San"
+        "s", 
+        "sanbata", 
+        "san"
     ], 
     "sunday": [
-        "Dil", 
-        "Dilbata", 
-        "S"
+        "dil", 
+        "dilbata", 
+        "s"
     ], 
     "am": [
-        "WD"
+        "wd"
     ], 
     "pm": [
-        "WB"
+        "wb"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -216,55 +216,55 @@
         "om-KE": {
             "name": "om-KE", 
             "january": [
-                "A"
+                "a"
             ], 
             "february": [
-                "G"
+                "g"
             ], 
             "march": [
-                "B"
+                "b"
             ], 
             "april": [
-                "E"
+                "e"
             ], 
             "may": [
-                "C"
+                "c"
             ], 
             "june": [
-                "W"
+                "w"
             ], 
             "july": [
-                "A"
+                "a"
             ], 
             "august": [
-                "H"
+                "h"
             ], 
             "september": [
-                "F"
+                "f"
             ], 
             "november": [
-                "S"
+                "s"
             ], 
             "december": [
-                "M"
+                "m"
             ], 
             "monday": [
-                "W"
+                "w"
             ], 
             "tuesday": [
-                "Q"
+                "q"
             ], 
             "wednesday": [
-                "R"
+                "r"
             ], 
             "thursday": [
-                "K"
+                "k"
             ], 
             "friday": [
-                "J"
+                "j"
             ], 
             "sunday": [
-                "D"
+                "d"
             ]
         }
     }

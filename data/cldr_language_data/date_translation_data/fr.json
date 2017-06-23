@@ -2,101 +2,101 @@
     "name": "fr", 
     "date_order": "DMY", 
     "january": [
-        "J", 
-        "janv.", 
-        "janvier"
+        "janv", 
+        "janvier", 
+        "j"
     ], 
     "february": [
-        "févr.", 
+        "févr", 
         "février", 
-        "F"
+        "f"
     ], 
     "march": [
-        "M", 
+        "m", 
         "mars"
     ], 
     "april": [
-        "A", 
+        "a", 
         "avril", 
-        "avr."
+        "avr"
     ], 
     "may": [
         "mai", 
-        "M"
+        "m"
     ], 
     "june": [
         "juin", 
-        "J"
+        "j"
     ], 
     "july": [
-        "J", 
-        "juillet", 
-        "juil."
+        "juil", 
+        "j", 
+        "juillet"
     ], 
     "august": [
-        "A", 
+        "a", 
         "août"
     ], 
     "september": [
-        "S", 
-        "sept.", 
+        "s", 
+        "sept", 
         "septembre"
     ], 
     "october": [
-        "oct.", 
         "octobre", 
-        "O"
+        "o", 
+        "oct"
     ], 
     "november": [
         "novembre", 
-        "nov.", 
-        "N"
+        "nov", 
+        "n"
     ], 
     "december": [
         "décembre", 
-        "D", 
-        "déc."
+        "d", 
+        "déc"
     ], 
     "monday": [
         "lundi", 
-        "L", 
-        "lun."
+        "lun", 
+        "l"
     ], 
     "tuesday": [
         "mardi", 
-        "mar.", 
-        "M"
+        "mar", 
+        "m"
     ], 
     "wednesday": [
-        "M", 
+        "m", 
         "mercredi", 
-        "mer."
+        "mer"
     ], 
     "thursday": [
-        "J", 
+        "j", 
         "jeudi", 
-        "jeu."
+        "jeu"
     ], 
     "friday": [
-        "V", 
-        "ven.", 
+        "ven", 
+        "v", 
         "vendredi"
     ], 
     "saturday": [
         "samedi", 
-        "S", 
-        "sam."
+        "s", 
+        "sam"
     ], 
     "sunday": [
-        "dim.", 
-        "D", 
+        "dim", 
+        "d", 
         "dimanche"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
         "a", 
@@ -104,11 +104,11 @@
         "an"
     ], 
     "month": [
-        "m.", 
+        "m", 
         "mois"
     ], 
     "week": [
-        "sem.", 
+        "sem", 
         "semaine"
     ], 
     "day": [
@@ -186,54 +186,54 @@
             "il y a (\\d+) an"
         ], 
         "in \\1 month": [
-            "+(\\d+) m.", 
-            "dans (\\d+) m.", 
+            "dans (\\d+) m", 
+            "+(\\d+) m", 
             "dans (\\d+) mois"
         ], 
         "\\1 month ago": [
             "il y a (\\d+) mois", 
-            "il y a (\\d+) m.", 
-            "-(\\d+) m."
+            "il y a (\\d+) m", 
+            "-(\\d+) m"
         ], 
         "in \\1 week": [
-            "+(\\d+) sem.", 
-            "dans (\\d+) sem.", 
             "dans (\\d+) semaines", 
-            "dans (\\d+) semaine"
+            "+(\\d+) sem", 
+            "dans (\\d+) semaine", 
+            "dans (\\d+) sem"
         ], 
         "\\1 week ago": [
-            "il y a (\\d+) sem.", 
+            "-(\\d+) sem", 
+            "il y a (\\d+) sem", 
             "il y a (\\d+) semaines", 
-            "-(\\d+) sem.", 
             "il y a (\\d+) semaine"
         ], 
         "in \\1 day": [
             "+(\\d+) j", 
             "dans (\\d+) jours", 
-            "dans (\\d+) j", 
+            "dans (\\d+) j", 
             "dans (\\d+) jour"
         ], 
         "\\1 day ago": [
             "il y a (\\d+) jour", 
             "-(\\d+) j", 
             "il y a (\\d+) jours", 
-            "il y a (\\d+) j"
+            "il y a (\\d+) j"
         ], 
         "in \\1 hour": [
             "dans (\\d+) heure", 
             "dans (\\d+)h", 
-            "dans (\\d+) h", 
+            "dans (\\d+) h", 
             "dans (\\d+) heures"
         ], 
         "\\1 hour ago": [
             "il y a (\\d+)h", 
             "il y a (\\d+) heures", 
             "il y a (\\d+) heure", 
-            "il y a (\\d+) h"
+            "il y a (\\d+) h"
         ], 
         "in \\1 minute": [
             "dans (\\d+) minute", 
-            "dans (\\d+) min", 
+            "dans (\\d+) min", 
             "+(\\d+) min", 
             "dans (\\d+) minutes"
         ], 
@@ -242,19 +242,19 @@
             "il y a (\\d+) minutes", 
             "-(\\d+) min", 
             "il y a (\\d+)min", 
-            "il y a (\\d+) min"
+            "il y a (\\d+) min"
         ], 
         "in \\1 second": [
             "+(\\d+) s", 
             "dans (\\d+) seconde", 
             "dans (\\d+) secondes", 
-            "dans (\\d+) s"
+            "dans (\\d+) s"
         ], 
         "\\1 second ago": [
             "-(\\d+) s", 
             "il y a (\\d+) seconde", 
             "il y a (\\d+) secondes", 
-            "il y a (\\d+) s"
+            "il y a (\\d+) s"
         ]
     }, 
     "locale_specific": {
@@ -277,25 +277,15 @@
             "name": "fr-CA", 
             "date_order": "YMD", 
             "july": [
-                "juill."
+                "juill"
             ], 
             "am": [
-                "a", 
-                "a.m."
+                "a"
             ], 
             "pm": [
-                "p", 
-                "p.m."
+                "p"
             ], 
             "relative-type": {
-                "in \\1 year": [
-                    "Dans (\\d+) an", 
-                    "Dans (\\d+) ans"
-                ], 
-                "\\1 year ago": [
-                    "Il y a (\\d+) ans", 
-                    "Il y a (\\d+) an"
-                ], 
                 "in \\1 hour": [
                     "+(\\d+) h"
                 ], 
@@ -325,8 +315,8 @@
         "fr-CM": {
             "name": "fr-CM", 
             "am": [
-                "mat.", 
-                "matin"
+                "matin", 
+                "mat"
             ], 
             "pm": [
                 "soir"
@@ -356,16 +346,13 @@
         "fr-HT": {
             "name": "fr-HT", 
             "day": [
-                "jr."
+                "jr"
             ], 
             "hour": [
                 "hr"
             ], 
-            "minute": [
-                "min."
-            ], 
             "second": [
-                "sec."
+                "sec"
             ]
         }, 
         "fr-KM": {
@@ -377,22 +364,16 @@
         "fr-MA": {
             "name": "fr-MA", 
             "january": [
-                "jan."
+                "jan"
             ], 
             "february": [
-                "fév."
+                "fév"
             ], 
             "march": [
-                "mar."
+                "mar"
             ], 
             "june": [
-                "jui."
-            ], 
-            "am": [
-                "a.m."
-            ], 
-            "pm": [
-                "p.m."
+                "jui"
             ]
         }, 
         "fr-MC": {

@@ -2,138 +2,126 @@
     "name": "so", 
     "date_order": "DMY", 
     "january": [
-        "1", 
-        "K", 
-        "Kob", 
-        "Bisha Koobaad"
+        "k", 
+        "kob", 
+        "bisha koobaad"
     ], 
     "february": [
-        "2", 
-        "Bisha Labaad", 
-        "L", 
-        "Lab"
+        "bisha labaad", 
+        "l", 
+        "lab"
     ], 
     "march": [
-        "3", 
-        "Bisha Saddexaad", 
-        "S", 
-        "Sad"
+        "s", 
+        "bisha saddexaad", 
+        "sad"
     ], 
     "april": [
-        "Bisha Afraad", 
-        "A", 
-        "4", 
-        "Afr"
+        "bisha afraad", 
+        "a", 
+        "afr"
     ], 
     "may": [
-        "Sha", 
-        "S", 
-        "5", 
-        "Bisha Shanaad"
+        "sha", 
+        "s", 
+        "bisha shanaad"
     ], 
     "june": [
-        "Lix", 
-        "L", 
-        "Bisha Lixaad", 
-        "6"
+        "lix", 
+        "l", 
+        "bisha lixaad"
     ], 
     "july": [
-        "Bisha Todobaad", 
-        "7", 
-        "Tod", 
-        "T"
+        "bisha todobaad", 
+        "t", 
+        "tod"
     ], 
     "august": [
-        "8", 
-        "S", 
-        "Bisha Sideedaad", 
-        "Sid"
+        "s", 
+        "bisha sideedaad", 
+        "sid"
     ], 
     "september": [
-        "9", 
-        "S", 
-        "Sag", 
-        "Bisha Sagaalaad"
+        "s", 
+        "sag", 
+        "bisha sagaalaad"
     ], 
     "october": [
-        "Tob", 
-        "Bisha Tobnaad", 
-        "T", 
-        "10"
+        "tob", 
+        "bisha tobnaad", 
+        "t"
     ], 
     "november": [
-        "11", 
-        "K", 
-        "Bisha Kow iyo Tobnaad", 
-        "KIT"
+        "k", 
+        "bisha kow iyo tobnaad", 
+        "kit"
     ], 
     "december": [
-        "LIT", 
-        "12", 
-        "Bisha Laba iyo Tobnaad", 
-        "L"
+        "lit", 
+        "bisha laba iyo tobnaad", 
+        "l"
     ], 
     "monday": [
-        "Isniin", 
-        "I", 
-        "Isn"
+        "isniin", 
+        "i", 
+        "isn"
     ], 
     "tuesday": [
-        "Tal", 
-        "Talaado", 
-        "T"
+        "tal", 
+        "talaado", 
+        "t"
     ], 
     "wednesday": [
-        "A", 
-        "Arb", 
-        "Arbaco"
+        "a", 
+        "arb", 
+        "arbaco"
     ], 
     "thursday": [
-        "Kha", 
-        "Kh", 
-        "Khamiis"
+        "kha", 
+        "kh", 
+        "khamiis"
     ], 
     "friday": [
-        "Jim", 
-        "J", 
-        "Jimco"
+        "jim", 
+        "jimco", 
+        "j"
     ], 
     "saturday": [
-        "Sab", 
-        "Sabti", 
-        "S"
+        "sab", 
+        "sabti", 
+        "s"
     ], 
     "sunday": [
-        "Axad", 
-        "A", 
-        "Axd"
+        "axad", 
+        "a", 
+        "axd"
     ], 
     "am": [
-        "sn."
+        "sn"
     ], 
     "pm": [
-        "gn."
+        "gn"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -164,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Shalay"
+            "shalay"
         ], 
         "0 day ago": [
-            "Maanta"
+            "maanta"
         ], 
         "in 1 day": [
-            "Berri"
+            "berri"
         ], 
         "0 hour ago": [
             "this hour"

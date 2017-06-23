@@ -2,178 +2,176 @@
     "name": "mt", 
     "date_order": "DMY", 
     "january": [
-        "Jannar", 
-        "Jan", 
-        "Jn", 
-        "J"
+        "jannar", 
+        "jan", 
+        "jn", 
+        "j"
     ], 
     "february": [
-        "Fra", 
-        "Fr", 
-        "Frar", 
-        "F"
+        "fr", 
+        "fra", 
+        "frar", 
+        "f"
     ], 
     "march": [
-        "Mar", 
-        "M", 
-        "Marzu", 
-        "Mz"
+        "mar", 
+        "m", 
+        "marzu", 
+        "mz"
     ], 
     "april": [
-        "Apr", 
-        "April", 
-        "A", 
-        "Ap"
+        "apr", 
+        "april", 
+        "a", 
+        "ap"
     ], 
     "may": [
-        "Mejju", 
-        "Mj", 
-        "M", 
-        "Mej"
+        "mejju", 
+        "mj", 
+        "m", 
+        "mej"
     ], 
     "june": [
-        "Ġ", 
-        "Ġun", 
-        "Ġunju", 
-        "Ġn"
+        "ġ", 
+        "ġunju", 
+        "ġn", 
+        "ġun"
     ], 
     "july": [
-        "Lj", 
-        "Lul", 
-        "Lulju", 
-        "L"
+        "lj", 
+        "lul", 
+        "lulju", 
+        "l"
     ], 
     "august": [
-        "Aww", 
-        "A", 
-        "Awwissu", 
-        "Aw"
+        "aww", 
+        "a", 
+        "awwissu", 
+        "aw"
     ], 
     "september": [
-        "Settembru", 
-        "Set", 
-        "S", 
-        "St"
+        "settembru", 
+        "set", 
+        "s", 
+        "st"
     ], 
     "october": [
-        "O", 
-        "Ott", 
-        "Ob", 
-        "Ottubru"
+        "o", 
+        "ott", 
+        "ob", 
+        "ottubru"
     ], 
     "november": [
-        "Novembru", 
-        "Nov", 
-        "Nv", 
-        "N"
+        "novembru", 
+        "nov", 
+        "nv", 
+        "n"
     ], 
     "december": [
-        "Diċembru", 
-        "Dċ", 
-        "D", 
-        "Diċ"
+        "d", 
+        "diċembru", 
+        "dċ", 
+        "diċ"
     ], 
     "monday": [
-        "Tne", 
-        "Tn", 
-        "T", 
-        "It-Tnejn"
+        "tne", 
+        "tn", 
+        "t", 
+        "it-tnejn"
     ], 
     "tuesday": [
-        "It-Tlieta", 
-        "Tli", 
-        "Tl"
+        "it-tlieta", 
+        "tl", 
+        "tli"
     ], 
     "wednesday": [
-        "L-Erbgħa", 
-        "Erb", 
-        "Er"
+        "l-erbgħa", 
+        "erb", 
+        "er"
     ], 
     "thursday": [
-        "Il-Ħamis", 
-        "Ħm", 
-        "Ħam"
+        "ħm", 
+        "ħam", 
+        "il-ħamis"
     ], 
     "friday": [
-        "Il-Ġimgħa", 
-        "Ġim", 
-        "Ġm"
+        "ġim", 
+        "ġm", 
+        "il-ġimgħa"
     ], 
     "saturday": [
-        "Sib", 
-        "Is-Sibt", 
-        "Sb"
+        "sib", 
+        "is-sibt", 
+        "sb"
     ], 
     "sunday": [
-        "Ħd", 
-        "Il-Ħadd", 
-        "Ħad"
+        "ħad", 
+        "il-ħadd", 
+        "ħd"
     ], 
     "am": [
-        "am", 
-        "AM"
+        "am"
     ], 
     "pm": [
-        "pm", 
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Sena"
+        "sena"
     ], 
     "month": [
-        "Xahar"
+        "xahar"
     ], 
     "week": [
-        "Ġimgħa"
+        "ġimgħa"
     ], 
     "day": [
-        "Jum"
+        "jum"
     ], 
     "hour": [
-        "Siegħa"
+        "siegħa"
     ], 
     "minute": [
-        "Minuta"
+        "minuta"
     ], 
     "second": [
-        "Sekonda"
+        "sekonda"
     ], 
     "relative-type": {
         "1 year ago": [
-            "Is-sena li għaddiet"
+            "is-sena li għaddiet"
         ], 
         "0 year ago": [
             "din is-sena"
         ], 
         "in 1 year": [
-            "Is-sena d-dieħla"
+            "is-sena d-dieħla"
         ], 
         "1 month ago": [
-            "Ix-xahar li għadda"
+            "ix-xahar li għadda"
         ], 
         "0 month ago": [
-            "Dan ix-xahar"
+            "dan ix-xahar"
         ], 
         "in 1 month": [
-            "Ix-xahar id-dieħel"
+            "ix-xahar id-dieħel"
         ], 
         "1 week ago": [
-            "Il-ġimgħa li għaddiet"
+            "il-ġimgħa li għaddiet"
         ], 
         "0 week ago": [
-            "Din il-ġimgħa"
+            "din il-ġimgħa"
         ], 
         "in 1 week": [
-            "Il-ġimgħa d-dieħla"
+            "il-ġimgħa d-dieħla"
         ], 
         "1 day ago": [
-            "Ilbieraħ"
+            "ilbieraħ"
         ], 
         "0 day ago": [
-            "Illum"
+            "illum"
         ], 
         "in 1 day": [
-            "Għada"
+            "għada"
         ], 
         "0 hour ago": [
             "this hour"

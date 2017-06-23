@@ -4,137 +4,137 @@
     "january": [
         "uđđâivemáánu", 
         "uđiv", 
-        "U"
+        "u"
     ], 
     "february": [
         "kuovâ", 
-        "K", 
+        "k", 
         "kuovâmáánu"
     ], 
     "march": [
         "njuhčâmáánu", 
-        "NJ", 
+        "nj", 
         "njuhčâ"
     ], 
     "april": [
         "cuáŋuimáánu", 
-        "C", 
+        "c", 
         "cuáŋui"
     ], 
     "may": [
         "vyesi", 
         "vyesimáánu", 
-        "V"
+        "v"
     ], 
     "june": [
         "kesi", 
-        "K", 
+        "k", 
         "kesimáánu"
     ], 
     "july": [
         "syeinimáánu", 
-        "S", 
+        "s", 
         "syeini"
     ], 
     "august": [
-        "P", 
+        "p", 
         "porgemáánu", 
         "porge"
     ], 
     "september": [
         "čohčâ", 
         "čohčâmáánu", 
-        "Č"
+        "č"
     ], 
     "october": [
-        "R", 
+        "r", 
         "roovvâd", 
         "roovvâdmáánu"
     ], 
     "november": [
         "skammâmáánu", 
-        "S", 
+        "s", 
         "skammâ"
     ], 
     "december": [
         "juovlâmáánu", 
-        "J", 
+        "j", 
         "juovlâ"
     ], 
     "monday": [
         "vuo", 
         "vuossargâ", 
-        "M", 
+        "m", 
         "vuossaargâ", 
-        "V"
+        "v"
     ], 
     "tuesday": [
         "majebaargâ", 
         "maj", 
-        "M", 
-        "T", 
+        "m", 
+        "t", 
         "majebargâ"
     ], 
     "wednesday": [
         "kos", 
         "koskokko", 
-        "K", 
-        "W", 
+        "k", 
+        "w", 
         "koskoho"
     ], 
     "thursday": [
         "tuorâstuv", 
-        "T", 
+        "t", 
         "tuorâstâh", 
         "tuo"
     ], 
     "friday": [
         "vástuppeivi", 
-        "V", 
-        "F", 
+        "f", 
+        "v", 
         "vástuppeeivi", 
         "vás"
     ], 
     "saturday": [
-        "S", 
+        "s", 
         "lávurdâh", 
+        "l", 
         "láv", 
-        "L", 
         "lávurduv"
     ], 
     "sunday": [
         "pasepeeivi", 
         "p", 
-        "S", 
+        "s", 
         "pas", 
         "pasepeivi"
     ], 
     "am": [
-        "ip."
+        "ip"
     ], 
     "pm": [
-        "ep."
+        "ep"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

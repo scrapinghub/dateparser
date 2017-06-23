@@ -2,127 +2,127 @@
     "name": "guz", 
     "date_order": "DMY", 
     "january": [
-        "Chanuari", 
-        "C", 
-        "Can"
+        "chanuari", 
+        "c", 
+        "can"
     ], 
     "february": [
-        "Feb", 
-        "Feburari", 
-        "F"
+        "feb", 
+        "feburari", 
+        "f"
     ], 
     "march": [
-        "Mac", 
-        "M", 
-        "Machi"
+        "mac", 
+        "m", 
+        "machi"
     ], 
     "april": [
-        "Apr", 
-        "A", 
-        "Apiriri"
+        "apr", 
+        "a", 
+        "apiriri"
     ], 
     "may": [
-        "M", 
-        "Mei"
+        "m", 
+        "mei"
     ], 
     "june": [
-        "Juni", 
-        "J", 
-        "Jun"
+        "juni", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "C", 
-        "Cul", 
-        "Chulai"
+        "c", 
+        "cul", 
+        "chulai"
     ], 
     "august": [
-        "A", 
-        "Agosti", 
-        "Agt"
+        "a", 
+        "agosti", 
+        "agt"
     ], 
     "september": [
-        "S", 
-        "Septemba", 
-        "Sep"
+        "s", 
+        "septemba", 
+        "sep"
     ], 
     "october": [
-        "Okitoba", 
-        "Okt", 
-        "O"
+        "okitoba", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "N", 
-        "Nob", 
-        "Nobemba"
+        "n", 
+        "nob", 
+        "nobemba"
     ], 
     "december": [
-        "D", 
-        "Disemba", 
-        "Dis"
+        "d", 
+        "disemba", 
+        "dis"
     ], 
     "monday": [
-        "Ctt", 
-        "C", 
-        "Chumatato"
+        "ctt", 
+        "c", 
+        "chumatato"
     ], 
     "tuesday": [
-        "Cmn", 
-        "C", 
-        "Chumaine"
+        "cmn", 
+        "c", 
+        "chumaine"
     ], 
     "wednesday": [
-        "Chumatano", 
-        "C", 
-        "Cmt"
+        "chumatano", 
+        "c", 
+        "cmt"
     ], 
     "thursday": [
-        "A", 
-        "Ars", 
-        "Aramisi"
+        "a", 
+        "ars", 
+        "aramisi"
     ], 
     "friday": [
-        "I", 
-        "Ichuma", 
-        "Icm"
+        "i", 
+        "ichuma", 
+        "icm"
     ], 
     "saturday": [
-        "Esabato", 
-        "Est", 
-        "E"
+        "esabato", 
+        "est", 
+        "e"
     ], 
     "sunday": [
-        "Cpr", 
-        "C", 
-        "Chumapiri"
+        "cpr", 
+        "c", 
+        "chumapiri"
     ], 
     "am": [
-        "Mambia", 
-        "Ma"
+        "mambia", 
+        "ma"
     ], 
     "pm": [
-        "Mo", 
-        "Mog"
+        "mo", 
+        "mog"
     ], 
     "year": [
-        "Omwaka"
+        "omwaka"
     ], 
     "month": [
-        "Omotienyi"
+        "omotienyi"
     ], 
     "week": [
-        "Omokubio"
+        "omokubio"
     ], 
     "day": [
-        "Rituko"
+        "rituko"
     ], 
     "hour": [
-        "Ensa"
+        "ensa"
     ], 
     "minute": [
-        "Edakika"
+        "edakika"
     ], 
     "second": [
-        "Esekendi"
+        "esekendi"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -153,13 +153,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Igoro"
+            "igoro"
         ], 
         "0 day ago": [
-            "Rero"
+            "rero"
         ], 
         "in 1 day": [
-            "Mambia"
+            "mambia"
         ], 
         "0 hour ago": [
             "this hour"

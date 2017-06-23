@@ -2,167 +2,113 @@
     "name": "gl", 
     "date_order": "DMY", 
     "january": [
-        "x.", 
-        "Xaneiro", 
-        "xan.", 
-        "X", 
+        "x", 
         "xaneiro", 
-        "Xan."
+        "xan"
     ], 
     "february": [
-        "F", 
-        "Febreiro", 
+        "feb", 
         "febreiro", 
-        "Feb.", 
-        "f.", 
-        "feb."
+        "f"
     ], 
     "march": [
-        "marzo", 
-        "Mar.", 
-        "m.", 
-        "M", 
-        "Marzo", 
-        "mar."
+        "m", 
+        "mar", 
+        "marzo"
     ], 
     "april": [
-        "A", 
-        "abril", 
-        "Abril", 
-        "a.", 
-        "abr.", 
-        "Abr."
+        "a", 
+        "abr", 
+        "abril"
     ], 
     "may": [
-        "Maio", 
-        "m.", 
-        "M", 
-        "maio"
+        "maio", 
+        "m"
     ], 
     "june": [
-        "Xuño", 
         "xuño", 
-        "x.", 
-        "X"
+        "x"
     ], 
     "july": [
-        "xul.", 
-        "x.", 
-        "xullo", 
-        "X", 
-        "Xul.", 
-        "Xullo"
+        "xul", 
+        "x", 
+        "xullo"
     ], 
     "august": [
-        "A", 
-        "ago.", 
-        "agosto", 
-        "Agosto", 
-        "a.", 
-        "Ago."
+        "ago", 
+        "a", 
+        "agosto"
     ], 
     "september": [
-        "Set.", 
-        "Setembro", 
-        "S", 
-        "setembro", 
-        "s.", 
-        "set."
+        "s", 
+        "set", 
+        "setembro"
     ], 
     "october": [
-        "o.", 
         "outubro", 
-        "O", 
-        "Out.", 
-        "Outubro", 
-        "out."
+        "o", 
+        "out"
     ], 
     "november": [
-        "nov.", 
-        "Novembro", 
-        "n.", 
-        "Nov.", 
         "novembro", 
-        "N"
+        "nov", 
+        "n"
     ], 
     "december": [
-        "d.", 
-        "Dec.", 
-        "D", 
-        "dec.", 
+        "dec", 
         "decembro", 
-        "Decembro"
+        "d"
     ], 
     "monday": [
-        "Luns", 
         "luns", 
-        "l.", 
-        "L"
+        "l"
     ], 
     "tuesday": [
-        "Mar.", 
-        "m.", 
-        "M", 
-        "Martes", 
-        "mar.", 
+        "mar", 
+        "m", 
         "martes"
     ], 
     "wednesday": [
-        "Mér.", 
-        "Mércores", 
-        "m.", 
-        "M", 
-        "mér.", 
+        "m", 
+        "mér", 
         "mércores"
     ], 
     "thursday": [
-        "Xov.", 
-        "x.", 
-        "xoves", 
-        "Xoves", 
-        "xov.", 
-        "X"
+        "xov", 
+        "x", 
+        "xoves"
     ], 
     "friday": [
-        "ven.", 
+        "ven", 
         "venres", 
-        "v.", 
-        "Venres", 
-        "V", 
-        "Ven."
+        "v"
     ], 
     "saturday": [
-        "Sábado", 
+        "sáb", 
         "sábado", 
-        "S", 
-        "sáb.", 
-        "s.", 
-        "Sáb."
+        "s"
     ], 
     "sunday": [
-        "d.", 
         "domingo", 
-        "D", 
-        "dom.", 
-        "Dom.", 
-        "Domingo"
+        "d", 
+        "dom"
     ], 
     "am": [
-        "a.m."
+        "am"
     ], 
     "pm": [
-        "p.m."
+        "pm"
     ], 
     "year": [
-        "ano", 
-        "a."
+        "a", 
+        "ano"
     ], 
     "month": [
-        "m.", 
+        "m", 
         "mes"
     ], 
     "week": [
-        "sem.", 
+        "sem", 
         "semana"
     ], 
     "day": [
@@ -194,28 +140,28 @@
             "o próximo ano"
         ], 
         "1 month ago": [
-            "m. pasado", 
+            "m pasado", 
             "o mes pasado"
         ], 
         "0 month ago": [
-            "este m.", 
-            "este mes"
+            "este mes", 
+            "este m"
         ], 
         "in 1 month": [
-            "m. seguinte", 
+            "m seguinte", 
             "o próximo mes"
         ], 
         "1 week ago": [
             "a semana pasada", 
-            "sem. pasada"
+            "sem pasada"
         ], 
         "0 week ago": [
             "esta semana", 
-            "esta sem."
+            "esta sem"
         ], 
         "in 1 week": [
             "a próxima semana", 
-            "sem. seguinte"
+            "sem seguinte"
         ], 
         "1 day ago": [
             "onte"
@@ -237,34 +183,32 @@
         ], 
         "in \\1 year": [
             "en (\\d+) ano", 
-            "en (\\d+) a.", 
+            "en (\\d+) a", 
             "en (\\d+) anos"
         ], 
         "\\1 year ago": [
             "hai (\\d+) ano", 
-            "hai (\\d+) a.", 
+            "hai (\\d+) a", 
             "hai (\\d+) anos"
         ], 
         "in \\1 month": [
-            "en (\\d+) m.", 
             "en (\\d+) meses", 
-            "en (\\d+) mes.", 
-            "en (\\d+) mes"
+            "en (\\d+) mes", 
+            "en (\\d+) m"
         ], 
         "\\1 month ago": [
+            "hai (\\d+) m", 
             "hai (\\d+) mes", 
-            "hai (\\d+) m.", 
-            "hai (\\d+) meses", 
-            "hai (\\d+) mes."
+            "hai (\\d+) meses"
         ], 
         "in \\1 week": [
-            "en (\\d+) sem.", 
+            "en (\\d+) sem", 
             "en (\\d+) semana", 
             "en (\\d+) semanas"
         ], 
         "\\1 week ago": [
-            "hai (\\d+) sem.", 
             "hai (\\d+) semana", 
+            "hai (\\d+) sem", 
             "hai (\\d+) semanas"
         ], 
         "in \\1 day": [

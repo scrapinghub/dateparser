@@ -2,99 +2,99 @@
     "name": "cy", 
     "date_order": "DMY", 
     "january": [
-        "I", 
-        "Ion", 
-        "Ionawr"
+        "i", 
+        "ion", 
+        "ionawr"
     ], 
     "february": [
-        "Chwef", 
-        "Chwefror", 
-        "Ch", 
-        "Chw"
+        "chwef", 
+        "chwefror", 
+        "ch", 
+        "chw"
     ], 
     "march": [
-        "M", 
-        "Maw", 
-        "Mawrth"
+        "m", 
+        "maw", 
+        "mawrth"
     ], 
     "april": [
-        "Ebrill", 
-        "E", 
-        "Ebr"
+        "ebrill", 
+        "e", 
+        "ebr"
     ], 
     "may": [
-        "Mai", 
-        "M"
+        "mai", 
+        "m"
     ], 
     "june": [
-        "Mehefin", 
-        "M", 
-        "Meh"
+        "mehefin", 
+        "m", 
+        "meh"
     ], 
     "july": [
-        "Gorff", 
-        "G", 
-        "Gorffennaf", 
-        "Gor"
+        "gorff", 
+        "g", 
+        "gorffennaf", 
+        "gor"
     ], 
     "august": [
-        "A", 
-        "Awst"
+        "a", 
+        "awst"
     ], 
     "september": [
-        "Medi", 
-        "M"
+        "medi", 
+        "m"
     ], 
     "october": [
-        "Hydref", 
-        "H", 
-        "Hyd"
+        "hydref", 
+        "h", 
+        "hyd"
     ], 
     "november": [
-        "Tach", 
-        "Tachwedd", 
-        "T"
+        "tach", 
+        "tachwedd", 
+        "t"
     ], 
     "december": [
-        "Rhagfyr", 
-        "Rh", 
-        "Rhag"
+        "rhagfyr", 
+        "rh", 
+        "rhag"
     ], 
     "monday": [
-        "Ll", 
-        "Llun", 
-        "Dydd Llun"
+        "ll", 
+        "llun", 
+        "dydd llun"
     ], 
     "tuesday": [
-        "Dydd Mawrth", 
-        "M", 
-        "Maw"
+        "dydd mawrth", 
+        "m", 
+        "maw"
     ], 
     "wednesday": [
-        "M", 
-        "Dydd Mercher", 
-        "Mer"
+        "m", 
+        "dydd mercher", 
+        "mer"
     ], 
     "thursday": [
-        "Iau", 
-        "I", 
-        "Dydd Iau"
+        "iau", 
+        "i", 
+        "dydd iau"
     ], 
     "friday": [
-        "Gwe", 
-        "Dydd Gwener", 
-        "Gwen", 
-        "G"
+        "gwe", 
+        "dydd gwener", 
+        "gwen", 
+        "g"
     ], 
     "saturday": [
-        "S", 
-        "Dydd Sadwrn", 
-        "Sad"
+        "s", 
+        "dydd sadwrn", 
+        "sad"
     ], 
     "sunday": [
-        "Dydd Sul", 
-        "S", 
-        "Sul"
+        "dydd sul", 
+        "s", 
+        "sul"
     ], 
     "am": [
         "yb", 
@@ -105,8 +105,8 @@
         "h"
     ], 
     "year": [
-        "blwyddyn", 
-        "bl."
+        "bl", 
+        "blwyddyn"
     ], 
     "month": [
         "mis"
@@ -121,7 +121,7 @@
         "awr"
     ], 
     "minute": [
-        "mun.", 
+        "mun", 
         "munud"
     ], 
     "second": [
@@ -212,12 +212,12 @@
         ], 
         "in \\1 minute": [
             "ymhen (\\d+) munud", 
-            "ymhen (\\d+) mun.", 
+            "ymhen (\\d+) mun", 
             "ymhen munud"
         ], 
         "\\1 minute ago": [
-            "(\\d+) munud yn ôl", 
-            "(\\d+) mun. yn ôl"
+            "(\\d+) mun yn ôl", 
+            "(\\d+) munud yn ôl"
         ], 
         "in \\1 second": [
             "ymhen eiliad", 

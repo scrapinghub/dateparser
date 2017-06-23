@@ -2,127 +2,104 @@
     "name": "uz", 
     "date_order": "DMY", 
     "january": [
-        "Y", 
+        "y", 
         "yan", 
-        "Yan", 
-        "Yanvar", 
         "yanvar"
     ], 
     "february": [
-        "Fev", 
         "fev", 
-        "Fevral", 
         "fevral", 
-        "F"
+        "f"
     ], 
     "march": [
-        "Mart", 
         "mart", 
-        "Mar", 
-        "M", 
-        "mar"
+        "mar", 
+        "m"
     ], 
     "april": [
-        "Apr", 
-        "A", 
-        "Aprel", 
         "apr", 
+        "a", 
         "aprel"
     ], 
     "may": [
-        "May", 
         "may", 
-        "M"
+        "m"
     ], 
     "june": [
-        "I", 
-        "Iyn", 
-        "Iyun", 
+        "i", 
         "iyun", 
         "iyn"
     ], 
     "july": [
-        "I", 
-        "Iyul", 
-        "iyl", 
+        "i", 
         "iyul", 
-        "Iyl"
+        "iyl"
     ], 
     "august": [
-        "A", 
-        "Avg", 
+        "a", 
         "avg", 
-        "avgust", 
-        "Avgust"
+        "avgust"
     ], 
     "september": [
-        "Sentabr", 
-        "Sen", 
-        "S", 
         "sentabr", 
-        "sen"
+        "sen", 
+        "s"
     ], 
     "october": [
-        "okt", 
         "oktabr", 
-        "Oktabr", 
-        "O", 
-        "Okt"
+        "o", 
+        "okt"
     ], 
     "november": [
+        "n", 
         "noyabr", 
-        "N", 
-        "Noyabr", 
-        "noy", 
-        "Noy"
+        "noy"
     ], 
     "december": [
-        "dekabr", 
-        "Dek", 
         "dek", 
-        "D", 
-        "Dekabr"
+        "d", 
+        "dekabr"
     ], 
     "monday": [
-        "Dush", 
-        "D", 
+        "dush", 
+        "d", 
         "dushanba"
     ], 
     "tuesday": [
-        "Sesh", 
-        "S", 
+        "sesh", 
+        "s", 
         "seshanba"
     ], 
     "wednesday": [
-        "Chor", 
+        "chor", 
         "chorshanba", 
-        "C"
+        "c"
     ], 
     "thursday": [
-        "Pay", 
+        "pay", 
         "payshanba", 
-        "P"
+        "p"
     ], 
     "friday": [
         "juma", 
-        "J", 
-        "Jum"
+        "j", 
+        "jum"
     ], 
     "saturday": [
         "shanba", 
-        "S", 
-        "Shan"
+        "s", 
+        "shan"
     ], 
     "sunday": [
-        "Y", 
+        "y", 
         "yakshanba", 
-        "Yak"
+        "yak"
     ], 
     "am": [
-        "TO"
+        "to"
     ], 
     "pm": [
-        "TK"
+        "tk"
     ], 
     "year": [
         "yil"
@@ -140,12 +117,12 @@
         "soat"
     ], 
     "minute": [
-        "daq.", 
+        "daq", 
         "daqiqa"
     ], 
     "second": [
         "soniya", 
-        "son."
+        "son"
     ], 
     "relative-type": {
         "1 year ago": [

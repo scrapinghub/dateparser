@@ -2,99 +2,99 @@
     "name": "kln", 
     "date_order": "DMY", 
     "january": [
-        "Mulgul", 
-        "Mul", 
-        "M"
+        "mulgul", 
+        "mul", 
+        "m"
     ], 
     "february": [
-        "Ng’atyaato", 
-        "Ngat", 
-        "N"
+        "ng’atyaato", 
+        "ngat", 
+        "n"
     ], 
     "march": [
-        "Kiptaamo", 
-        "Taa", 
-        "T"
+        "kiptaamo", 
+        "taa", 
+        "t"
     ], 
     "april": [
-        "Iwootkuut", 
-        "Iwo", 
-        "I"
+        "iwootkuut", 
+        "iwo", 
+        "i"
     ], 
     "may": [
-        "M", 
-        "Mam", 
-        "Mamuut"
+        "m", 
+        "mam", 
+        "mamuut"
     ], 
     "june": [
-        "Paa", 
-        "P", 
-        "Paagi"
+        "paa", 
+        "p", 
+        "paagi"
     ], 
     "july": [
-        "Nge", 
-        "Ng’eiyeet", 
-        "N"
+        "nge", 
+        "ng’eiyeet", 
+        "n"
     ], 
     "august": [
-        "Rooptui", 
-        "R", 
-        "Roo"
+        "rooptui", 
+        "r", 
+        "roo"
     ], 
     "september": [
-        "Bur", 
-        "Bureet", 
-        "B"
+        "bur", 
+        "bureet", 
+        "b"
     ], 
     "october": [
-        "Epe", 
-        "E", 
-        "Epeeso"
+        "epe", 
+        "e", 
+        "epeeso"
     ], 
     "november": [
-        "K", 
-        "Kpt", 
-        "Kipsuunde ne taai"
+        "k", 
+        "kpt", 
+        "kipsuunde ne taai"
     ], 
     "december": [
-        "Kpa", 
-        "Kipsuunde nebo aeng’", 
-        "K"
+        "kpa", 
+        "kipsuunde nebo aeng’", 
+        "k"
     ], 
     "monday": [
-        "Kot", 
-        "T", 
-        "Kotaai"
+        "t", 
+        "kot", 
+        "kotaai"
     ], 
     "tuesday": [
-        "O", 
-        "Koaeng’", 
-        "Koo"
+        "o", 
+        "koaeng’", 
+        "koo"
     ], 
     "wednesday": [
-        "Kosomok", 
-        "Kos", 
-        "S"
+        "kosomok", 
+        "kos", 
+        "s"
     ], 
     "thursday": [
-        "Koa", 
-        "A", 
-        "Koang’wan"
+        "koa", 
+        "a", 
+        "koang’wan"
     ], 
     "friday": [
-        "M", 
-        "Kom", 
-        "Komuut"
+        "m", 
+        "kom", 
+        "komuut"
     ], 
     "saturday": [
-        "Kolo", 
-        "Kol", 
-        "L"
+        "kolo", 
+        "kol", 
+        "l"
     ], 
     "sunday": [
-        "Kotisap", 
-        "T", 
-        "Kts"
+        "kotisap", 
+        "t", 
+        "kts"
     ], 
     "am": [
         "karoon", 
@@ -105,25 +105,25 @@
         "kooskoliny"
     ], 
     "year": [
-        "Kenyit"
+        "kenyit"
     ], 
     "month": [
-        "Arawet"
+        "arawet"
     ], 
     "week": [
-        "Wikit"
+        "wikit"
     ], 
     "day": [
-        "Betut"
+        "betut"
     ], 
     "hour": [
-        "Sait"
+        "sait"
     ], 
     "minute": [
-        "Minitit"
+        "minitit"
     ], 
     "second": [
-        "Sekondit"
+        "sekondit"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -154,13 +154,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Amut"
+            "amut"
         ], 
         "0 day ago": [
-            "Raini"
+            "raini"
         ], 
         "in 1 day": [
-            "Mutai"
+            "mutai"
         ], 
         "0 hour ago": [
             "this hour"

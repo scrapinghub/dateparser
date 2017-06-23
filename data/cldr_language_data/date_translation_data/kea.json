@@ -2,100 +2,100 @@
     "name": "kea", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "Janeru", 
-        "J"
+        "jan", 
+        "janeru", 
+        "j"
     ], 
     "february": [
-        "Feb", 
-        "Febreru", 
-        "F"
+        "feb", 
+        "febreru", 
+        "f"
     ], 
     "march": [
-        "Marsu", 
-        "Mar", 
-        "M"
+        "marsu", 
+        "mar", 
+        "m"
     ], 
     "april": [
-        "A", 
-        "Abr", 
-        "Abril"
+        "a", 
+        "abr", 
+        "abril"
     ], 
     "may": [
-        "Maiu", 
-        "Mai", 
-        "M"
+        "maiu", 
+        "mai", 
+        "m"
     ], 
     "june": [
-        "J", 
-        "Jun", 
-        "Junhu"
+        "j", 
+        "jun", 
+        "junhu"
     ], 
     "july": [
-        "J", 
-        "Julhu", 
-        "Jul"
+        "j", 
+        "julhu", 
+        "jul"
     ], 
     "august": [
-        "Ago", 
-        "A", 
-        "Agostu"
+        "ago", 
+        "a", 
+        "agostu"
     ], 
     "september": [
-        "S", 
-        "Set", 
-        "Setenbru"
+        "s", 
+        "set", 
+        "setenbru"
     ], 
     "october": [
-        "Otubru", 
-        "O", 
-        "Otu"
+        "otubru", 
+        "o", 
+        "otu"
     ], 
     "november": [
-        "Nuv", 
-        "N", 
-        "Nuvenbru"
+        "nuv", 
+        "n", 
+        "nuvenbru"
     ], 
     "december": [
-        "Dizenbru", 
-        "D", 
-        "Diz"
+        "dizenbru", 
+        "d", 
+        "diz"
     ], 
     "monday": [
         "sig", 
-        "S", 
+        "s", 
         "sigunda-fera"
     ], 
     "tuesday": [
         "tersa-fera", 
         "ter", 
-        "T"
+        "t"
     ], 
     "wednesday": [
         "kuarta-fera", 
-        "K", 
+        "k", 
         "kua"
     ], 
     "thursday": [
-        "K", 
+        "k", 
         "kinta-fera", 
         "kin"
     ], 
     "friday": [
-        "S", 
+        "s", 
         "ses", 
         "sesta-fera"
     ], 
     "saturday": [
         "sábadu", 
         "sab", 
-        "S", 
+        "s", 
         "sabadu"
     ], 
     "sunday": [
         "dumingu", 
         "dum", 
-        "D"
+        "d"
     ], 
     "am": [
         "a", 
@@ -106,33 +106,29 @@
         "pm"
     ], 
     "year": [
-        "Anu", 
         "anu"
     ], 
     "month": [
-        "mes", 
-        "Mes"
+        "mes"
     ], 
     "week": [
-        "Simana", 
-        "sim."
+        "simana", 
+        "sim"
     ], 
     "day": [
-        "Dia", 
         "dia"
     ], 
     "hour": [
         "h", 
-        "ora", 
-        "Ora"
+        "ora"
     ], 
     "minute": [
         "m", 
-        "Minutu", 
+        "minutu", 
         "min"
     ], 
     "second": [
-        "Sigundu", 
+        "sigundu", 
         "s", 
         "sig"
     ], 
@@ -195,11 +191,11 @@
             "a ten (\\d+) mes"
         ], 
         "in \\1 week": [
-            "di li (\\d+) sim.", 
+            "di li (\\d+) sim", 
             "di li (\\d+) simana"
         ], 
         "\\1 week ago": [
-            "a ten (\\d+) sim.", 
+            "a ten (\\d+) sim", 
             "a ten (\\d+) simana"
         ], 
         "in \\1 day": [
@@ -215,9 +211,9 @@
             "a ten (\\d+) ora"
         ], 
         "in \\1 minute": [
+            "di li (\\d+) min", 
             "di li (\\d+) minutu", 
-            "di li (\\d+) m", 
-            "di li (\\d+) min"
+            "di li (\\d+) m"
         ], 
         "\\1 minute ago": [
             "a ten (\\d+) m", 

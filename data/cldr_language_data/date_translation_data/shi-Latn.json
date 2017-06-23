@@ -63,38 +63,38 @@
     ], 
     "monday": [
         "ayn", 
-        "M", 
+        "m", 
         "aynas"
     ], 
     "tuesday": [
         "asi", 
-        "T", 
+        "t", 
         "asinas"
     ], 
     "wednesday": [
         "akṛ", 
-        "W", 
+        "w", 
         "akṛas"
     ], 
     "thursday": [
         "akwas", 
         "akw", 
-        "T"
+        "t"
     ], 
     "friday": [
         "asim", 
         "asimwas", 
-        "F"
+        "f"
     ], 
     "saturday": [
         "asiḍ", 
         "asiḍyas", 
-        "S"
+        "s"
     ], 
     "sunday": [
         "asa", 
         "asamas", 
-        "S"
+        "s"
     ], 
     "am": [
         "tifawt"

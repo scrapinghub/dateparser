@@ -2,98 +2,93 @@
     "name": "ksb", 
     "date_order": "DMY", 
     "january": [
-        "Jan", 
-        "J", 
-        "Januali"
+        "jan", 
+        "j", 
+        "januali"
     ], 
     "february": [
-        "Feb", 
-        "Febluali", 
-        "F"
+        "feb", 
+        "febluali", 
+        "f"
     ], 
     "march": [
-        "Mac", 
-        "M", 
-        "Machi"
+        "mac", 
+        "m", 
+        "machi"
     ], 
     "april": [
-        "Apr", 
-        "A", 
-        "Aplili"
+        "apr", 
+        "a", 
+        "aplili"
     ], 
     "may": [
-        "M", 
-        "Mei"
+        "m", 
+        "mei"
     ], 
     "june": [
-        "Juni", 
-        "J", 
-        "Jun"
+        "juni", 
+        "j", 
+        "jun"
     ], 
     "july": [
-        "J", 
-        "Jul", 
-        "Julai"
+        "j", 
+        "jul", 
+        "julai"
     ], 
     "august": [
-        "Ago", 
-        "Agosti", 
-        "A"
+        "ago", 
+        "agosti", 
+        "a"
     ], 
     "september": [
-        "S", 
-        "Septemba", 
-        "Sep"
+        "s", 
+        "septemba", 
+        "sep"
     ], 
     "october": [
-        "Oktoba", 
-        "Okt", 
-        "O"
+        "oktoba", 
+        "okt", 
+        "o"
     ], 
     "november": [
-        "Nov", 
-        "Novemba", 
-        "N"
+        "nov", 
+        "novemba", 
+        "n"
     ], 
     "december": [
-        "Desemba", 
-        "Des", 
-        "D"
+        "desemba", 
+        "des", 
+        "d"
     ], 
     "monday": [
-        "Jtt", 
-        "3", 
-        "Jumaatatu"
+        "jtt", 
+        "jumaatatu"
     ], 
     "tuesday": [
-        "Jmn", 
-        "4", 
-        "Jumaane"
+        "jmn", 
+        "jumaane"
     ], 
     "wednesday": [
-        "5", 
-        "Jumaatano", 
-        "Jtn"
+        "jumaatano", 
+        "jtn"
     ], 
     "thursday": [
-        "A", 
-        "Alhamisi", 
-        "Alh"
+        "a", 
+        "alhamisi", 
+        "alh"
     ], 
     "friday": [
-        "I", 
-        "Ijumaa", 
-        "Iju"
+        "i", 
+        "ijumaa", 
+        "iju"
     ], 
     "saturday": [
-        "1", 
-        "Jmo", 
-        "Jumaamosi"
+        "jmo", 
+        "jumaamosi"
     ], 
     "sunday": [
-        "Jpi", 
-        "2", 
-        "Jumaapii"
+        "jpi", 
+        "jumaapii"
     ], 
     "am": [
         "makeo"
@@ -102,25 +97,25 @@
         "nyiaghuo"
     ], 
     "year": [
-        "Ng’waka"
+        "ng’waka"
     ], 
     "month": [
-        "Ng’ezi"
+        "ng’ezi"
     ], 
     "week": [
-        "Niki"
+        "niki"
     ], 
     "day": [
-        "Siku"
+        "siku"
     ], 
     "hour": [
-        "Saa"
+        "saa"
     ], 
     "minute": [
-        "Dakika"
+        "dakika"
     ], 
     "second": [
-        "Sekunde"
+        "sekunde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -151,13 +146,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Ghuo"
+            "ghuo"
         ], 
         "0 day ago": [
-            "Evi eo"
+            "evi eo"
         ], 
         "in 1 day": [
-            "Keloi"
+            "keloi"
         ], 
         "0 hour ago": [
             "this hour"

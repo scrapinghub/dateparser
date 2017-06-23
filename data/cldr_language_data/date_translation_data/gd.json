@@ -2,111 +2,111 @@
     "name": "gd", 
     "date_order": "DMY", 
     "january": [
-        "dhen Fhaoilleach", 
-        "F", 
-        "Faoi", 
-        "Am Faoilleach"
+        "dhen fhaoilleach", 
+        "faoi", 
+        "f", 
+        "am faoilleach"
     ], 
     "february": [
-        "dhen Ghearran", 
-        "An Gearran", 
-        "Gearr", 
-        "G"
+        "dhen ghearran", 
+        "an gearran", 
+        "gearr", 
+        "g"
     ], 
     "march": [
-        "Am Màrt", 
-        "dhen Mhàrt", 
-        "M", 
-        "Màrt"
+        "am màrt", 
+        "dhen mhàrt", 
+        "m", 
+        "màrt"
     ], 
     "april": [
-        "dhen Ghiblean", 
-        "Gibl", 
-        "An Giblean", 
-        "G"
+        "dhen ghiblean", 
+        "gibl", 
+        "an giblean", 
+        "g"
     ], 
     "may": [
-        "C", 
-        "dhen Chèitean", 
-        "An Cèitean", 
-        "Cèit"
+        "dhen chèitean", 
+        "c", 
+        "an cèitean", 
+        "cèit"
     ], 
     "june": [
-        "An t-Ògmhios", 
-        "dhen Ògmhios", 
-        "Ò", 
-        "Ògmh"
+        "an t-ògmhios", 
+        "dhen ògmhios", 
+        "ògmh", 
+        "ò"
     ], 
     "july": [
-        "I", 
-        "dhen Iuchar", 
-        "An t-Iuchar", 
-        "Iuch"
+        "i", 
+        "dhen iuchar", 
+        "an t-iuchar", 
+        "iuch"
     ], 
     "august": [
-        "An Lùnastal", 
-        "dhen Lùnastal", 
-        "L", 
-        "Lùna"
+        "an lùnastal", 
+        "l", 
+        "lùna", 
+        "dhen lùnastal"
     ], 
     "september": [
-        "Sult", 
-        "dhen t-Sultain", 
-        "An t-Sultain", 
-        "S"
+        "sult", 
+        "dhen t-sultain", 
+        "an t-sultain", 
+        "s"
     ], 
     "october": [
-        "An Dàmhair", 
-        "dhen Dàmhair", 
-        "D", 
-        "Dàmh"
+        "an dàmhair", 
+        "dhen dàmhair", 
+        "d", 
+        "dàmh"
     ], 
     "november": [
-        "S", 
-        "Samh", 
-        "dhen t-Samhain", 
-        "An t-Samhain"
+        "s", 
+        "samh", 
+        "dhen t-samhain", 
+        "an t-samhain"
     ], 
     "december": [
-        "An Dùbhlachd", 
-        "dhen Dùbhlachd", 
-        "Dùbh", 
-        "D"
+        "an dùbhlachd", 
+        "dhen dùbhlachd", 
+        "dùbh", 
+        "d"
     ], 
     "monday": [
-        "DiL", 
-        "DiLuain", 
-        "L"
+        "dil", 
+        "diluain", 
+        "l"
     ], 
     "tuesday": [
-        "DiM", 
-        "DiMàirt", 
-        "M"
+        "dim", 
+        "dimàirt", 
+        "m"
     ], 
     "wednesday": [
-        "C", 
-        "DiC", 
-        "DiCiadain"
+        "c", 
+        "dic", 
+        "diciadain"
     ], 
     "thursday": [
-        "A", 
-        "DiarDaoin", 
-        "Dia"
+        "a", 
+        "diardaoin", 
+        "dia"
     ], 
     "friday": [
-        "H", 
-        "Dih", 
-        "DihAoine"
+        "h", 
+        "dih", 
+        "dihaoine"
     ], 
     "saturday": [
-        "S", 
-        "DiS", 
-        "DiSathairne"
+        "s", 
+        "dis", 
+        "disathairne"
     ], 
     "sunday": [
-        "DiD", 
-        "D", 
-        "DiDòmhnaich"
+        "did", 
+        "d", 
+        "didòmhnaich"
     ], 
     "am": [
         "m"
@@ -115,18 +115,18 @@
         "f"
     ], 
     "year": [
-        "bliadhna", 
-        "bl.", 
-        "blia."
+        "blia", 
+        "bl", 
+        "bliadhna"
     ], 
     "month": [
-        "mì.", 
+        "mì", 
         "mìos"
     ], 
     "week": [
-        "sn.", 
         "seachdain", 
-        "seachd."
+        "sn", 
+        "seachd"
     ], 
     "day": [
         "là", 
@@ -138,8 +138,8 @@
         "uair a thìde"
     ], 
     "minute": [
-        "mion.", 
         "m", 
+        "mion", 
         "mionaid"
     ], 
     "second": [
@@ -149,43 +149,43 @@
     "relative-type": {
         "1 year ago": [
             "an-uiridh", 
-            "an-uir."
+            "an-uir"
         ], 
         "0 year ago": [
-            "am bl.", 
+            "am bl", 
             "am bliadhna"
         ], 
         "in 1 year": [
-            "an ath-bhliadhna", 
-            "an ath-bhl."
+            "an ath-bhl", 
+            "an ath-bhliadhna"
         ], 
         "1 month ago": [
             "am mìos seo chaidh", 
             "am mìos sa chaidh", 
-            "mì. ch."
+            "mì ch"
         ], 
         "0 month ago": [
             "am mìos seo", 
-            "am mì. seo"
+            "am mì seo"
         ], 
         "in 1 month": [
             "an ath-mhìos", 
-            "ath-mhì."
+            "ath-mhì"
         ], 
         "1 week ago": [
-            "seachd. sa chaidh", 
-            "sn. ch.", 
+            "sn ch", 
+            "seachd sa chaidh", 
             "an t-seachdain seo chaidh"
         ], 
         "0 week ago": [
-            "an t-sn. seo", 
+            "an t-sn seo", 
             "an t-seachdain seo", 
-            "an t-seachd. seo"
+            "an t-seachd seo"
         ], 
         "in 1 week": [
             "an ath-sheachdain", 
-            "an ath-sheachd.", 
-            "ath-shn."
+            "ath-shn", 
+            "an ath-sheachd"
         ], 
         "1 day ago": [
             "an-dè"
@@ -206,48 +206,48 @@
             "an-dràsta"
         ], 
         "in \\1 year": [
-            "+(\\d+) bhl.", 
-            "an (\\d+) bhlia.", 
-            "+(\\d+) bl.", 
-            "an ceann (\\d+) bliadhna", 
+            "+(\\d+) bl", 
+            "an (\\d+) bhlia", 
+            "an (\\d+) blia", 
             "an ceann (\\d+) bhliadhna", 
-            "an (\\d+) blia."
+            "an ceann (\\d+) bliadhna", 
+            "+(\\d+) bhl"
         ], 
         "\\1 year ago": [
             "(\\d+) bliadhna air ais", 
             "(\\d+) bhliadhna air ais", 
-            "-(\\d+) bhl.", 
-            "-(\\d+) bl.", 
-            "o (\\d+) bhlia.", 
-            "o (\\d+) blia."
+            "-(\\d+) bl", 
+            "-(\\d+) bhl", 
+            "o (\\d+) blia", 
+            "o (\\d+) bhlia"
         ], 
         "in \\1 month": [
-            "an ceann (\\d+) mìosa", 
-            "+(\\d+) mì.", 
-            "+(\\d+) mhì.", 
+            "an (\\d+) mhìos", 
             "an ceann (\\d+) mhìosa", 
-            "an (\\d+) mìos.", 
-            "an (\\d+) mhìos."
+            "+(\\d+) mhì", 
+            "an ceann (\\d+) mìosa", 
+            "+(\\d+) mì", 
+            "an (\\d+) mìos"
         ], 
         "\\1 month ago": [
-            "o (\\d+) mhìos.", 
+            "-(\\d+) mì", 
             "(\\d+) mhìos air ais", 
-            "-(\\d+) mì.", 
-            "-(\\d+) mhì.", 
-            "o (\\d+) mìos.", 
+            "o (\\d+) mìos", 
+            "o (\\d+) mhìos", 
+            "-(\\d+) mhì", 
             "(\\d+) mìos air ais"
         ], 
         "in \\1 week": [
             "an ceann (\\d+) seachdain", 
-            "an (\\d+) sheachd.", 
-            "+(\\d+) sn.", 
-            "an (\\d+) seachd."
+            "+(\\d+) sn", 
+            "an (\\d+) seachd", 
+            "an (\\d+) sheachd"
         ], 
         "\\1 week ago": [
-            "o (\\d+) sheachd.", 
-            "-(\\d+) sn.", 
-            "o (\\d+) seachd.", 
-            "(\\d+) seachdain air ais"
+            "o (\\d+) sheachd", 
+            "o (\\d+) seachd", 
+            "(\\d+) seachdain air ais", 
+            "-(\\d+) sn"
         ], 
         "in \\1 day": [
             "an (\\d+) là", 
@@ -262,26 +262,26 @@
         "in \\1 hour": [
             "an ceann (\\d+) uair a thìde", 
             "an (\\d+) uair", 
-            "+(\\d+) u."
+            "+(\\d+) u"
         ], 
         "\\1 hour ago": [
             "(\\d+) uair a thìde air ais", 
-            "-(\\d+) u.", 
+            "-(\\d+) u", 
             "o (\\d+) uair"
         ], 
         "in \\1 minute": [
             "+(\\d+) m", 
-            "an (\\d+) mhion.", 
+            "an (\\d+) mhion", 
+            "an (\\d+) mion", 
             "an ceann (\\d+) mhionaid", 
-            "an (\\d+) mion.", 
             "an ceann (\\d+) mionaid"
         ], 
         "\\1 minute ago": [
-            "o (\\d+) mhion.", 
+            "o (\\d+) mion", 
             "(\\d+) mhionaid air ais", 
             "(\\d+) mionaid air ais", 
             "-(\\d+) m", 
-            "o (\\d+) mion."
+            "o (\\d+) mhion"
         ], 
         "in \\1 second": [
             "an (\\d+) diog", 

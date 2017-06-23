@@ -2,107 +2,95 @@
     "name": "prg", 
     "date_order": "YMD", 
     "january": [
-        "1", 
-        "M01"
+        "m01"
     ], 
     "february": [
-        "2", 
-        "M02"
+        "m02"
     ], 
     "march": [
-        "3", 
-        "M03"
+        "m03"
     ], 
     "april": [
-        "M04", 
-        "4"
+        "m04"
     ], 
     "may": [
-        "M05", 
-        "5"
+        "m05"
     ], 
     "june": [
-        "M06", 
-        "6"
+        "m06"
     ], 
     "july": [
-        "M07", 
-        "7"
+        "m07"
     ], 
     "august": [
-        "8", 
-        "M08"
+        "m08"
     ], 
     "september": [
-        "9", 
-        "M09"
+        "m09"
     ], 
     "october": [
-        "M10", 
-        "10"
+        "m10"
     ], 
     "november": [
-        "M11", 
-        "11"
+        "m11"
     ], 
     "december": [
-        "12", 
-        "M12"
+        "m12"
     ], 
     "monday": [
-        "M", 
-        "Mon"
+        "m", 
+        "mon"
     ], 
     "tuesday": [
-        "Tue", 
-        "T"
+        "tue", 
+        "t"
     ], 
     "wednesday": [
-        "W", 
-        "Wed"
+        "w", 
+        "wed"
     ], 
     "thursday": [
-        "Thu", 
-        "T"
+        "thu", 
+        "t"
     ], 
     "friday": [
-        "Fri", 
-        "F"
+        "fri", 
+        "f"
     ], 
     "saturday": [
-        "S", 
-        "Sat"
+        "s", 
+        "sat"
     ], 
     "sunday": [
-        "Sun", 
-        "S"
+        "sun", 
+        "s"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Year"
+        "year"
     ], 
     "month": [
-        "Month"
+        "month"
     ], 
     "week": [
-        "Week"
+        "week"
     ], 
     "day": [
-        "Day"
+        "day"
     ], 
     "hour": [
-        "Hour"
+        "hour"
     ], 
     "minute": [
-        "Minute"
+        "minute"
     ], 
     "second": [
-        "Second"
+        "second"
     ], 
     "relative-type": {
         "1 year ago": [

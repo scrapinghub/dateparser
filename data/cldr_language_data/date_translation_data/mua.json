@@ -2,99 +2,99 @@
     "name": "mua", 
     "date_order": "DMY", 
     "january": [
-        "Fĩi Loo", 
-        "O", 
-        "FLO"
+        "fĩi loo", 
+        "o", 
+        "flo"
     ], 
     "february": [
-        "A", 
-        "Cokcwaklaŋne", 
-        "CLA"
+        "a", 
+        "cokcwaklaŋne", 
+        "cla"
     ], 
     "march": [
-        "I", 
-        "CKI", 
-        "Cokcwaklii"
+        "i", 
+        "cki", 
+        "cokcwaklii"
     ], 
     "april": [
-        "FMF", 
-        "Fĩi Marfoo", 
-        "F"
+        "fmf", 
+        "fĩi marfoo", 
+        "f"
     ], 
     "may": [
-        "Madǝǝuutǝbijaŋ", 
-        "MAD", 
-        "D"
+        "madǝǝuutǝbijaŋ", 
+        "mad", 
+        "d"
     ], 
     "june": [
-        "B", 
-        "Mamǝŋgwãafahbii", 
-        "MBI"
+        "b", 
+        "mamǝŋgwãafahbii", 
+        "mbi"
     ], 
     "july": [
-        "MLI", 
-        "Mamǝŋgwãalii", 
-        "L"
+        "mli", 
+        "mamǝŋgwãalii", 
+        "l"
     ], 
     "august": [
-        "MAM", 
-        "M", 
-        "Madǝmbii"
+        "mam", 
+        "madǝmbii", 
+        "m"
     ], 
     "september": [
-        "FDE", 
-        "Fĩi Dǝɓlii", 
-        "E"
+        "fde", 
+        "fĩi dǝɓlii", 
+        "e"
     ], 
     "october": [
-        "FMU", 
-        "U", 
-        "Fĩi Mundaŋ"
+        "fmu", 
+        "u", 
+        "fĩi mundaŋ"
     ], 
     "november": [
-        "Fĩi Gwahlle", 
-        "FGW", 
-        "W"
+        "fĩi gwahlle", 
+        "fgw", 
+        "w"
     ], 
     "december": [
-        "Y", 
-        "Fĩi Yuru", 
-        "FYU"
+        "y", 
+        "fĩi yuru", 
+        "fyu"
     ], 
     "monday": [
-        "Comlaaɗii", 
-        "L", 
-        "Cla"
+        "l", 
+        "comlaaɗii", 
+        "cla"
     ], 
     "tuesday": [
-        "Comzyiiɗii", 
-        "Z", 
-        "Czi"
+        "comzyiiɗii", 
+        "czi", 
+        "z"
     ], 
     "wednesday": [
-        "Comkolle", 
-        "Cko", 
-        "O"
+        "comkolle", 
+        "cko", 
+        "o"
     ], 
     "thursday": [
-        "A", 
-        "Comkaldǝɓlii", 
-        "Cka"
+        "a", 
+        "comkaldǝɓlii", 
+        "cka"
     ], 
     "friday": [
-        "Cga", 
-        "Comgaisuu", 
-        "G"
+        "cga", 
+        "comgaisuu", 
+        "g"
     ], 
     "saturday": [
-        "Comzyeɓsuu", 
-        "E", 
-        "Cze"
+        "comzyeɓsuu", 
+        "e", 
+        "cze"
     ], 
     "sunday": [
-        "Y", 
-        "Cya", 
-        "Com’yakke"
+        "y", 
+        "cya", 
+        "com’yakke"
     ], 
     "am": [
         "comme"
@@ -103,25 +103,25 @@
         "lilli"
     ], 
     "year": [
-        "Syii"
+        "syii"
     ], 
     "month": [
-        "Fĩi"
+        "fĩi"
     ], 
     "week": [
-        "Luma"
+        "luma"
     ], 
     "day": [
-        "Zah’nane/ Comme"
+        "zah’nane/ comme"
     ], 
     "hour": [
-        "Cok comme"
+        "cok comme"
     ], 
     "minute": [
-        "Cok comme ma laŋne"
+        "cok comme ma laŋne"
     ], 
     "second": [
-        "Cok comme ma laŋ tǝ biŋ"
+        "cok comme ma laŋ tǝ biŋ"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Tǝsoo"
+            "tǝsoo"
         ], 
         "0 day ago": [
-            "Tǝ’nahko"
+            "tǝ’nahko"
         ], 
         "in 1 day": [
-            "Tǝ’nane"
+            "tǝ’nane"
         ], 
         "0 hour ago": [
             "this hour"

@@ -2,123 +2,123 @@
     "name": "kam", 
     "date_order": "DMY", 
     "january": [
-        "Mbe", 
-        "M", 
-        "Mwai wa mbee"
+        "mbe", 
+        "m", 
+        "mwai wa mbee"
     ], 
     "february": [
-        "K", 
-        "Mwai wa kelĩ", 
-        "Kel"
+        "k", 
+        "mwai wa kelĩ", 
+        "kel"
     ], 
     "march": [
-        "Mwai wa katatũ", 
-        "K", 
-        "Ktũ"
+        "mwai wa katatũ", 
+        "k", 
+        "ktũ"
     ], 
     "april": [
-        "Mwai wa kana", 
-        "K", 
-        "Kan"
+        "mwai wa kana", 
+        "k", 
+        "kan"
     ], 
     "may": [
-        "Ktn", 
-        "Mwai wa katano", 
-        "K"
+        "ktn", 
+        "mwai wa katano", 
+        "k"
     ], 
     "june": [
-        "Mwai wa thanthatũ", 
-        "T", 
-        "Tha"
+        "mwai wa thanthatũ", 
+        "t", 
+        "tha"
     ], 
     "july": [
-        "M", 
-        "Mwai wa muonza", 
-        "Moo"
+        "m", 
+        "mwai wa muonza", 
+        "moo"
     ], 
     "august": [
-        "Nya", 
-        "Mwai wa nyaanya", 
-        "N"
+        "nya", 
+        "mwai wa nyaanya", 
+        "n"
     ], 
     "september": [
-        "Mwai wa kenda", 
-        "Knd", 
-        "K"
+        "mwai wa kenda", 
+        "knd", 
+        "k"
     ], 
     "october": [
-        "Ĩ", 
-        "Mwai wa ĩkumi", 
-        "Ĩku"
+        "ĩ", 
+        "mwai wa ĩkumi", 
+        "ĩku"
     ], 
     "november": [
-        "Ĩ", 
-        "Mwai wa ĩkumi na ĩmwe", 
-        "Ĩkm"
+        "ĩ", 
+        "mwai wa ĩkumi na ĩmwe", 
+        "ĩkm"
     ], 
     "december": [
-        "Ĩ", 
-        "Mwai wa ĩkumi na ilĩ", 
-        "Ĩkl"
+        "ĩ", 
+        "mwai wa ĩkumi na ilĩ", 
+        "ĩkl"
     ], 
     "monday": [
-        "Wa kwambĩlĩlya", 
-        "W", 
-        "Wkw"
+        "wa kwambĩlĩlya", 
+        "w", 
+        "wkw"
     ], 
     "tuesday": [
-        "Wa kelĩ", 
-        "E", 
-        "Wkl"
+        "wa kelĩ", 
+        "e", 
+        "wkl"
     ], 
     "wednesday": [
-        "A", 
-        "Wtũ", 
-        "Wa katatũ"
+        "a", 
+        "wtũ", 
+        "wa katatũ"
     ], 
     "thursday": [
-        "Wa kana", 
-        "A", 
-        "Wkn"
+        "wa kana", 
+        "a", 
+        "wkn"
     ], 
     "friday": [
-        "A", 
-        "Wa katano", 
-        "Wtn"
+        "a", 
+        "wa katano", 
+        "wtn"
     ], 
     "saturday": [
-        "Wth", 
-        "A", 
-        "Wa thanthatũ"
+        "wth", 
+        "a", 
+        "wa thanthatũ"
     ], 
     "sunday": [
-        "Wky", 
-        "Y", 
-        "Wa kyumwa"
+        "wky", 
+        "y", 
+        "wa kyumwa"
     ], 
     "am": [
-        "Ĩyakwakya"
+        "ĩyakwakya"
     ], 
     "pm": [
-        "Ĩyawĩoo"
+        "ĩyawĩoo"
     ], 
     "year": [
-        "Mwaka"
+        "mwaka"
     ], 
     "month": [
-        "Mwai"
+        "mwai"
     ], 
     "week": [
-        "Kyumwa"
+        "kyumwa"
     ], 
     "day": [
-        "Mũthenya"
+        "mũthenya"
     ], 
     "hour": [
-        "Saa"
+        "saa"
     ], 
     "minute": [
-        "Ndatĩka"
+        "ndatĩka"
     ], 
     "second": [
         "sekondi"
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Ĩyoo"
+            "ĩyoo"
         ], 
         "0 day ago": [
-            "Ũmũnthĩ"
+            "ũmũnthĩ"
         ], 
         "in 1 day": [
-            "Ũnĩ"
+            "ũnĩ"
         ], 
         "0 hour ago": [
             "this hour"

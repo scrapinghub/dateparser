@@ -2,126 +2,126 @@
     "name": "ki", 
     "date_order": "DMY", 
     "january": [
-        "Njenuarĩ", 
-        "J", 
-        "JEN"
+        "njenuarĩ", 
+        "j", 
+        "jen"
     ], 
     "february": [
-        "Mwere wa kerĩ", 
-        "K", 
-        "WKR"
+        "mwere wa kerĩ", 
+        "k", 
+        "wkr"
     ], 
     "march": [
-        "WGT", 
-        "Mwere wa gatatũ", 
-        "G"
+        "wgt", 
+        "mwere wa gatatũ", 
+        "g"
     ], 
     "april": [
-        "Mwere wa kana", 
-        "K", 
-        "WKN"
+        "mwere wa kana", 
+        "k", 
+        "wkn"
     ], 
     "may": [
-        "Mwere wa gatano", 
-        "G", 
-        "WTN"
+        "mwere wa gatano", 
+        "g", 
+        "wtn"
     ], 
     "june": [
-        "Mwere wa gatandatũ", 
-        "WTD", 
-        "G"
+        "mwere wa gatandatũ", 
+        "wtd", 
+        "g"
     ], 
     "july": [
-        "Mwere wa mũgwanja", 
-        "M", 
-        "WMJ"
+        "mwere wa mũgwanja", 
+        "m", 
+        "wmj"
     ], 
     "august": [
-        "K", 
-        "WNN", 
-        "Mwere wa kanana"
+        "k", 
+        "wnn", 
+        "mwere wa kanana"
     ], 
     "september": [
-        "K", 
-        "Mwere wa kenda", 
-        "WKD"
+        "k", 
+        "mwere wa kenda", 
+        "wkd"
     ], 
     "october": [
-        "I", 
-        "Mwere wa ikũmi", 
-        "WIK"
+        "i", 
+        "mwere wa ikũmi", 
+        "wik"
     ], 
     "november": [
-        "I", 
-        "WMW", 
-        "Mwere wa ikũmi na ũmwe"
+        "i", 
+        "wmw", 
+        "mwere wa ikũmi na ũmwe"
     ], 
     "december": [
-        "DIT", 
-        "D", 
-        "Ndithemba"
+        "dit", 
+        "d", 
+        "ndithemba"
     ], 
     "monday": [
-        "NTT", 
-        "Njumatatũ", 
-        "N"
+        "ntt", 
+        "njumatatũ", 
+        "n"
     ], 
     "tuesday": [
-        "NMN", 
-        "Njumaine", 
-        "N"
+        "nmn", 
+        "njumaine", 
+        "n"
     ], 
     "wednesday": [
-        "Njumatana", 
-        "NMT", 
-        "N"
+        "njumatana", 
+        "nmt", 
+        "n"
     ], 
     "thursday": [
-        "A", 
-        "ART", 
-        "Aramithi"
+        "a", 
+        "art", 
+        "aramithi"
     ], 
     "friday": [
-        "Njumaa", 
-        "N", 
-        "NMA"
+        "njumaa", 
+        "n", 
+        "nma"
     ], 
     "saturday": [
-        "Njumamothi", 
-        "NMM", 
-        "N"
+        "njumamothi", 
+        "nmm", 
+        "n"
     ], 
     "sunday": [
-        "Kiumia", 
-        "K", 
-        "KMA"
+        "kiumia", 
+        "k", 
+        "kma"
     ], 
     "am": [
-        "Kiroko"
+        "kiroko"
     ], 
     "pm": [
-        "Hwaĩ-inĩ"
+        "hwaĩ-inĩ"
     ], 
     "year": [
-        "Mwaka"
+        "mwaka"
     ], 
     "month": [
-        "Mweri"
+        "mweri"
     ], 
     "week": [
-        "Kiumia"
+        "kiumia"
     ], 
     "day": [
-        "Mũthenya"
+        "mũthenya"
     ], 
     "hour": [
-        "Ithaa"
+        "ithaa"
     ], 
     "minute": [
-        "Ndagĩka"
+        "ndagĩka"
     ], 
     "second": [
-        "Sekunde"
+        "sekunde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Ira"
+            "ira"
         ], 
         "0 day ago": [
-            "Ũmũthĩ"
+            "ũmũthĩ"
         ], 
         "in 1 day": [
-            "Rũciũ"
+            "rũciũ"
         ], 
         "0 hour ago": [
             "this hour"

@@ -2,102 +2,102 @@
     "name": "rm", 
     "date_order": "DMY", 
     "january": [
-        "S", 
-        "schaner", 
-        "schan."
+        "s", 
+        "schan", 
+        "schaner"
     ], 
     "february": [
+        "favr", 
         "favrer", 
-        "favr.", 
-        "F"
+        "f"
     ], 
     "march": [
-        "M", 
+        "m", 
         "mars"
     ], 
     "april": [
-        "A", 
+        "a", 
         "avrigl", 
-        "avr."
+        "avr"
     ], 
     "may": [
         "matg", 
-        "M"
+        "m"
     ], 
     "june": [
         "zercladur", 
-        "Z", 
-        "zercl."
+        "z", 
+        "zercl"
     ], 
     "july": [
         "fanadur", 
-        "F", 
-        "fan."
+        "fan", 
+        "f"
     ], 
     "august": [
-        "A", 
+        "a", 
         "avust"
     ], 
     "september": [
-        "S", 
-        "settember", 
-        "sett."
+        "sett", 
+        "s", 
+        "settember"
     ], 
     "october": [
-        "oct.", 
         "october", 
-        "O"
+        "oct", 
+        "o"
     ], 
     "november": [
-        "nov.", 
         "november", 
-        "N"
+        "nov", 
+        "n"
     ], 
     "december": [
         "december", 
-        "dec.", 
-        "D"
+        "dec", 
+        "d"
     ], 
     "monday": [
         "gli", 
         "glindesdi", 
-        "G"
+        "g"
     ], 
     "tuesday": [
         "mardi", 
-        "M", 
+        "m", 
         "ma"
     ], 
     "wednesday": [
         "me", 
         "mesemna", 
-        "M"
+        "m"
     ], 
     "thursday": [
         "gie", 
         "gievgia", 
-        "G"
+        "g"
     ], 
     "friday": [
         "venderdi", 
         "ve", 
-        "V"
+        "v"
     ], 
     "saturday": [
         "so", 
-        "S", 
+        "s", 
         "sonda"
     ], 
     "sunday": [
         "dumengia", 
         "du", 
-        "D"
+        "d"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
         "onn"
@@ -109,7 +109,7 @@
         "emna"
     ], 
     "day": [
-        "Tag"
+        "tag"
     ], 
     "hour": [
         "ura"

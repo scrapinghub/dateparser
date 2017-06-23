@@ -2,125 +2,113 @@
     "name": "ig", 
     "date_order": "DMY", 
     "january": [
-        "1", 
-        "Jenụwarị", 
-        "Jen"
+        "jenụwarị", 
+        "jen"
     ], 
     "february": [
-        "Febrụwarị", 
-        "2", 
-        "Feb"
+        "febrụwarị", 
+        "feb"
     ], 
     "march": [
-        "Maa", 
-        "3", 
-        "Maachị"
+        "maa", 
+        "maachị"
     ], 
     "april": [
-        "Eprel", 
-        "Epr", 
-        "4"
+        "eprel", 
+        "epr"
     ], 
     "may": [
-        "Mee", 
-        "5"
+        "mee"
     ], 
     "june": [
-        "6", 
-        "Juun", 
-        "Juu"
+        "juun", 
+        "juu"
     ], 
     "july": [
-        "Julaị", 
-        "7", 
-        "Jul"
+        "julaị", 
+        "jul"
     ], 
     "august": [
-        "8", 
-        "Ọgọọst", 
-        "Ọgọ"
+        "ọgọọst", 
+        "ọgọ"
     ], 
     "september": [
-        "9", 
-        "Septemba", 
-        "Sep"
+        "septemba", 
+        "sep"
     ], 
     "october": [
-        "10", 
-        "Ọkt", 
-        "Ọktoba"
+        "ọktoba", 
+        "ọkt"
     ], 
     "november": [
-        "11", 
-        "Nov", 
-        "Novemba"
+        "nov", 
+        "novemba"
     ], 
     "december": [
-        "12", 
-        "Disemba", 
-        "Dis"
+        "disemba", 
+        "dis"
     ], 
     "monday": [
-        "M", 
-        "Mọn", 
-        "Mọnde"
+        "m", 
+        "mọn", 
+        "mọnde"
     ], 
     "tuesday": [
-        "Tiu", 
-        "Tiuzdee", 
-        "T"
+        "tiu", 
+        "tiuzdee", 
+        "t"
     ], 
     "wednesday": [
-        "Wen", 
-        "W", 
-        "Wenezdee"
+        "wen", 
+        "w", 
+        "wenezdee"
     ], 
     "thursday": [
-        "Tọọzdee", 
-        "Tọọ", 
-        "T"
+        "tọọzdee", 
+        "tọọ", 
+        "t"
     ], 
     "friday": [
-        "Fraịdee", 
-        "Fraị", 
-        "F"
+        "fraịdee", 
+        "fraị", 
+        "f"
     ], 
     "saturday": [
-        "Satọdee", 
-        "S", 
-        "Sat"
+        "satọdee", 
+        "s", 
+        "sat"
     ], 
     "sunday": [
-        "Mbọsị Ụka", 
-        "S", 
-        "Ụka"
+        "mbọsị ụka", 
+        "s", 
+        "ụka"
     ], 
     "am": [
-        "A.M."
+        "am"
     ], 
     "pm": [
-        "P.M."
+        "pm"
     ], 
     "year": [
-        "Afọ"
+        "afọ"
     ], 
     "month": [
-        "Ọnwa"
+        "ọnwa"
     ], 
     "week": [
-        "Izu"
+        "izu"
     ], 
     "day": [
-        "Ụbọchị"
+        "ụbọchị"
     ], 
     "hour": [
-        "Elekere"
+        "elekere"
     ], 
     "minute": [
-        "Nkeji"
+        "nkeji"
     ], 
     "second": [
-        "Nkejinta"
+        "nkejinta"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -151,13 +139,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Nnyaafụ"
+            "nnyaafụ"
         ], 
         "0 day ago": [
-            "Taata"
+            "taata"
         ], 
         "in 1 day": [
-            "Echi"
+            "echi"
         ], 
         "0 hour ago": [
             "this hour"

@@ -2,133 +2,133 @@
     "name": "is", 
     "date_order": "DMY", 
     "january": [
-        "J", 
-        "jan.", 
+        "jan", 
+        "j", 
         "janúar"
     ], 
     "february": [
         "febrúar", 
-        "F", 
-        "feb."
+        "feb", 
+        "f"
     ], 
     "march": [
-        "mar.", 
-        "M", 
+        "mar", 
+        "m", 
         "mars"
     ], 
     "april": [
-        "A", 
-        "apr.", 
+        "apr", 
+        "a", 
         "apríl"
     ], 
     "may": [
-        "M", 
+        "m", 
         "maí"
     ], 
     "june": [
-        "J", 
-        "jún.", 
+        "jún", 
+        "j", 
         "júní"
     ], 
     "july": [
         "júlí", 
-        "júl.", 
-        "J"
+        "júl", 
+        "j"
     ], 
     "august": [
-        "ágú.", 
-        "Á", 
-        "ágúst"
+        "á", 
+        "ágúst", 
+        "ágú"
     ], 
     "september": [
         "september", 
-        "S", 
-        "sep."
+        "s", 
+        "sep"
     ], 
     "october": [
-        "okt.", 
-        "O", 
+        "okt", 
+        "o", 
         "október"
     ], 
     "november": [
-        "nóv.", 
+        "nóv", 
         "nóvember", 
-        "N"
+        "n"
     ], 
     "december": [
         "desember", 
-        "des.", 
-        "D"
+        "des", 
+        "d"
     ], 
     "monday": [
-        "M", 
-        "mán.", 
+        "mán", 
+        "m", 
         "mánudagur"
     ], 
     "tuesday": [
-        "þri.", 
         "þriðjudagur", 
-        "Þ"
+        "þri", 
+        "þ"
     ], 
     "wednesday": [
-        "M", 
-        "mið.", 
+        "mið", 
+        "m", 
         "miðvikudagur"
     ], 
     "thursday": [
-        "fim.", 
+        "f", 
         "fimmtudagur", 
-        "F"
+        "fim"
     ], 
     "friday": [
-        "F", 
+        "fös", 
         "föstudagur", 
-        "fös."
+        "f"
     ], 
     "saturday": [
+        "lau", 
         "laugardagur", 
-        "lau.", 
-        "L"
+        "l"
     ], 
     "sunday": [
         "sunnudagur", 
-        "S", 
-        "sun."
+        "sun", 
+        "s"
     ], 
     "am": [
-        "f.", 
-        "f.h."
+        "f", 
+        "f.h"
     ], 
     "pm": [
-        "e.h.", 
-        "e."
+        "e.h", 
+        "e"
     ], 
     "year": [
         "ár"
     ], 
     "month": [
         "mánuður", 
-        "mán."
+        "mán"
     ], 
     "week": [
         "vika", 
-        "v."
+        "v"
     ], 
     "day": [
         "dagur", 
-        "d."
+        "d"
     ], 
     "hour": [
         "klukkustund", 
-        "klst."
+        "klst"
     ], 
     "minute": [
         "mínúta", 
-        "mín."
+        "mín"
     ], 
     "second": [
         "sekúnda", 
-        "sek."
+        "sek"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -141,15 +141,15 @@
             "á næsta ári"
         ], 
         "1 month ago": [
-            "í síðasta mán.", 
-            "í síðasta mánuði"
+            "í síðasta mánuði", 
+            "í síðasta mán"
         ], 
         "0 month ago": [
-            "í þessum mán.", 
+            "í þessum mán", 
             "í þessum mánuði"
         ], 
         "in 1 month": [
-            "í næsta mán.", 
+            "í næsta mán", 
             "í næsta mánuði"
         ], 
         "1 week ago": [
@@ -189,11 +189,11 @@
         "in \\1 month": [
             "eftir (\\d+) mánuð", 
             "eftir (\\d+) mánuði", 
-            "eftir (\\d+) mán."
+            "eftir (\\d+) mán"
         ], 
         "\\1 month ago": [
             "fyrir (\\d+) mánuðum", 
-            "fyrir (\\d+) mán.", 
+            "fyrir (\\d+) mán", 
             "fyrir (\\d+) mánuði"
         ], 
         "in \\1 week": [
@@ -221,40 +221,40 @@
             "-(\\d+) degi"
         ], 
         "in \\1 hour": [
-            "+(\\d+) klst.", 
+            "+(\\d+) klst", 
+            "eftir (\\d+) klst", 
             "eftir (\\d+) klukkustundir", 
-            "eftir (\\d+) klukkustund", 
-            "eftir (\\d+) klst."
+            "eftir (\\d+) klukkustund"
         ], 
         "\\1 hour ago": [
-            "fyrir (\\d+) klst.", 
+            "-(\\d+) klst", 
             "fyrir (\\d+) klukkustund", 
             "fyrir (\\d+) klukkustundum", 
-            "-(\\d+) klst."
+            "fyrir (\\d+) klst"
         ], 
         "in \\1 minute": [
+            "eftir (\\d+) mín", 
             "eftir (\\d+) mínútur", 
             "eftir (\\d+) mínútu", 
-            "eftir (\\d+) mín.", 
-            "+(\\d+) mín."
+            "+(\\d+) mín"
         ], 
         "\\1 minute ago": [
-            "fyrir (\\d+) mín.", 
             "fyrir (\\d+) mínútum", 
-            "-(\\d+) mín.", 
+            "-(\\d+) mín", 
+            "fyrir (\\d+) mín", 
             "fyrir (\\d+) mínútu"
         ], 
         "in \\1 second": [
+            "+(\\d+) sek", 
             "eftir (\\d+) sekúndur", 
-            "+(\\d+) sek.", 
-            "eftir (\\d+) sek.", 
+            "eftir (\\d+) sek", 
             "eftir (\\d+) sekúndu"
         ], 
         "\\1 second ago": [
             "fyrir (\\d+) sekúndum", 
+            "fyrir (\\d+) sek", 
             "fyrir (\\d+) sekúndu", 
-            "-(\\d+) sek.", 
-            "fyrir (\\d+) sek."
+            "-(\\d+) sek"
         ]
     }, 
     "locale_specific": {}

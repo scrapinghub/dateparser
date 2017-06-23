@@ -2,126 +2,114 @@
     "name": "ak", 
     "date_order": "YMD", 
     "january": [
-        "1", 
-        "S-Ɔ", 
-        "Sanda-Ɔpɛpɔn"
+        "s-ɔ", 
+        "sanda-ɔpɛpɔn"
     ], 
     "february": [
-        "2", 
-        "K-Ɔ", 
-        "Kwakwar-Ɔgyefuo"
+        "k-ɔ", 
+        "kwakwar-ɔgyefuo"
     ], 
     "march": [
-        "3", 
-        "E-Ɔ", 
-        "Ebɔw-Ɔbenem"
+        "e-ɔ", 
+        "ebɔw-ɔbenem"
     ], 
     "april": [
-        "Ebɔbira-Oforisuo", 
-        "E-O", 
-        "4"
+        "ebɔbira-oforisuo", 
+        "e-o"
     ], 
     "may": [
-        "Esusow Aketseaba-Kɔtɔnimba", 
-        "5", 
-        "E-K"
+        "esusow aketseaba-kɔtɔnimba", 
+        "e-k"
     ], 
     "june": [
-        "Obirade-Ayɛwohomumu", 
-        "O-A", 
-        "6"
+        "obirade-ayɛwohomumu", 
+        "o-a"
     ], 
     "july": [
-        "Ayɛwoho-Kitawonsa", 
-        "A-K", 
-        "7"
+        "ayɛwoho-kitawonsa", 
+        "a-k"
     ], 
     "august": [
-        "8", 
-        "Difuu-Ɔsandaa", 
-        "D-Ɔ"
+        "difuu-ɔsandaa", 
+        "d-ɔ"
     ], 
     "september": [
-        "9", 
-        "Fankwa-Ɛbɔ", 
-        "F-Ɛ"
+        "f-ɛ", 
+        "fankwa-ɛbɔ"
     ], 
     "october": [
-        "10", 
-        "Ɔbɛsɛ-Ahinime", 
-        "Ɔ-A"
+        "ɔbɛsɛ-ahinime", 
+        "ɔ-a"
     ], 
     "november": [
-        "11", 
-        "Ɔ-O", 
-        "Ɔberɛfɛw-Obubuo"
+        "ɔberɛfɛw-obubuo", 
+        "ɔ-o"
     ], 
     "december": [
-        "Mumu-Ɔpɛnimba", 
-        "12", 
-        "M-Ɔ"
+        "m-ɔ", 
+        "mumu-ɔpɛnimba"
     ], 
     "monday": [
-        "Dwo", 
-        "Dwowda", 
-        "D"
+        "dwo", 
+        "dwowda", 
+        "d"
     ], 
     "tuesday": [
-        "B", 
-        "Ben", 
-        "Benada"
+        "b", 
+        "ben", 
+        "benada"
     ], 
     "wednesday": [
-        "Wuk", 
-        "W", 
-        "Wukuda"
+        "wuk", 
+        "w", 
+        "wukuda"
     ], 
     "thursday": [
-        "Y", 
-        "Yawda", 
-        "Yaw"
+        "y", 
+        "yawda", 
+        "yaw"
     ], 
     "friday": [
-        "Fida", 
-        "Fia", 
-        "F"
+        "fida", 
+        "fia", 
+        "f"
     ], 
     "saturday": [
-        "Mem", 
-        "M", 
-        "Memeneda"
+        "mem", 
+        "m", 
+        "memeneda"
     ], 
     "sunday": [
-        "Kwesida", 
-        "K", 
-        "Kwe"
+        "kwesida", 
+        "k", 
+        "kwe"
     ], 
     "am": [
-        "AN"
+        "an"
     ], 
     "pm": [
-        "EW"
+        "ew"
     ], 
     "year": [
-        "Afe"
+        "afe"
     ], 
     "month": [
-        "Bosome"
+        "bosome"
     ], 
     "week": [
-        "Dapɛn"
+        "dapɛn"
     ], 
     "day": [
-        "Da"
+        "da"
     ], 
     "hour": [
-        "Dɔnhwer"
+        "dɔnhwer"
     ], 
     "minute": [
-        "Sema"
+        "sema"
     ], 
     "second": [
-        "Sɛkɛnd"
+        "sɛkɛnd"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +140,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Ndeda"
+            "ndeda"
         ], 
         "0 day ago": [
-            "Ndɛ"
+            "ndɛ"
         ], 
         "in 1 day": [
-            "Ɔkyena"
+            "ɔkyena"
         ], 
         "0 hour ago": [
             "this hour"

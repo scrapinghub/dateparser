@@ -2,105 +2,105 @@
     "name": "es", 
     "date_order": "DMY", 
     "january": [
-        "ene.", 
         "enero", 
-        "E"
+        "e", 
+        "ene"
     ], 
     "february": [
-        "F", 
+        "feb", 
         "febrero", 
-        "feb."
+        "f"
     ], 
     "march": [
-        "M", 
-        "mar.", 
+        "m", 
+        "mar", 
         "marzo"
     ], 
     "april": [
-        "A", 
-        "abr.", 
+        "a", 
+        "abr", 
         "abril"
     ], 
     "may": [
+        "may", 
         "mayo", 
-        "may.", 
-        "M"
+        "m"
     ], 
     "june": [
-        "J", 
-        "junio", 
-        "jun."
+        "j", 
+        "jun", 
+        "junio"
     ], 
     "july": [
         "julio", 
-        "J", 
-        "jul."
+        "j", 
+        "jul"
     ], 
     "august": [
-        "A", 
-        "ago.", 
+        "ago", 
+        "a", 
         "agosto"
     ], 
     "september": [
         "septiembre", 
-        "sept.", 
-        "S"
+        "sept", 
+        "s"
     ], 
     "october": [
-        "oct.", 
-        "O", 
+        "oct", 
+        "o", 
         "octubre"
     ], 
     "november": [
-        "nov.", 
+        "nov", 
         "noviembre", 
-        "N"
+        "n"
     ], 
     "december": [
+        "d", 
         "diciembre", 
-        "dic.", 
-        "D"
+        "dic"
     ], 
     "monday": [
         "lunes", 
-        "lun.", 
-        "L"
+        "l", 
+        "lun"
     ], 
     "tuesday": [
-        "mar.", 
-        "M", 
+        "mar", 
+        "m", 
         "martes"
     ], 
     "wednesday": [
-        "X", 
-        "miércoles", 
-        "mié."
+        "mié", 
+        "x", 
+        "miércoles"
     ], 
     "thursday": [
-        "J", 
+        "j", 
         "jueves", 
-        "jue."
+        "jue"
     ], 
     "friday": [
-        "V", 
-        "vie.", 
+        "vie", 
+        "v", 
         "viernes"
     ], 
     "saturday": [
+        "sáb", 
         "sábado", 
-        "sáb.", 
-        "S"
+        "s"
     ], 
     "sunday": [
         "domingo", 
-        "D", 
-        "dom."
+        "d", 
+        "dom"
     ], 
     "am": [
-        "a. m."
+        "am"
     ], 
     "pm": [
-        "p. m."
+        "pm"
     ], 
     "year": [
         "a", 
@@ -111,7 +111,7 @@
         "mes"
     ], 
     "week": [
-        "sem.", 
+        "sem", 
         "semana"
     ], 
     "day": [
@@ -198,12 +198,12 @@
         ], 
         "in \\1 week": [
             "dentro de (\\d+) semanas", 
-            "dentro de (\\d+) sem.", 
-            "dentro de (\\d+) semana"
+            "dentro de (\\d+) semana", 
+            "dentro de (\\d+) sem"
         ], 
         "\\1 week ago": [
-            "hace (\\d+) sem.", 
             "hace (\\d+) semanas", 
+            "hace (\\d+) sem", 
             "hace (\\d+) semana"
         ], 
         "in \\1 day": [
@@ -248,603 +248,103 @@
     "locale_specific": {
         "es-419": {
             "name": "es-419", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
-            ], 
-            "am": [
-                "a.m."
-            ], 
-            "pm": [
-                "p.m."
+                "m"
             ]
         }, 
         "es-AR": {
             "name": "es-AR", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
+                "sep"
             ], 
             "wednesday": [
-                "M"
+                "m"
             ], 
             "second": [
-                "seg."
+                "seg"
             ], 
             "relative-type": {
                 "in \\1 second": [
-                    "dentro de (\\d+) seg."
+                    "dentro de (\\d+) seg"
                 ], 
                 "\\1 second ago": [
-                    "hace (\\d+) seg."
+                    "hace (\\d+) seg"
                 ]
             }
         }, 
         "es-BO": {
             "name": "es-BO", 
             "september": [
-                "sep."
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-BR": {
             "name": "es-BR", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
-            ], 
-            "am": [
-                "a.m."
-            ], 
-            "pm": [
-                "p.m."
+                "m"
             ]
         }, 
         "es-BZ": {
             "name": "es-BZ", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
-            ], 
-            "am": [
-                "a.m."
-            ], 
-            "pm": [
-                "p.m."
+                "m"
             ]
         }, 
         "es-CL": {
             "name": "es-CL", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-CO": {
             "name": "es-CO", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "M", 
                 "m"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
             ]
         }, 
         "es-CR": {
             "name": "es-CR", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-CU": {
             "name": "es-CU", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
-            ], 
-            "am": [
-                "a.m."
-            ], 
-            "pm": [
-                "p.m."
+                "m"
             ]
         }, 
         "es-DO": {
             "name": "es-DO", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
+                "sep"
             ], 
             "wednesday": [
-                "M"
-            ], 
-            "year": [
-                "Año"
-            ], 
-            "month": [
-                "Mes"
-            ], 
-            "week": [
-                "Semana"
-            ], 
-            "day": [
-                "Día"
-            ], 
-            "minute": [
-                "Minuto"
-            ], 
-            "second": [
-                "Segundo"
+                "m"
             ]
         }, 
         "es-EA": {
@@ -852,64 +352,11 @@
         }, 
         "es-EC": {
             "name": "es-EC", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-GQ": {
@@ -917,126 +364,20 @@
         }, 
         "es-GT": {
             "name": "es-GT", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-HN": {
             "name": "es-HN", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-IC": {
@@ -1044,57 +385,11 @@
         }, 
         "es-MX": {
             "name": "es-MX", 
-            "january": [
-                "e", 
-                "ene"
-            ], 
-            "february": [
-                "feb", 
-                "f"
-            ], 
-            "march": [
-                "mar", 
-                "m"
-            ], 
-            "april": [
-                "a", 
-                "abr"
-            ], 
-            "may": [
-                "may", 
-                "m"
-            ], 
-            "june": [
-                "j", 
-                "jun"
-            ], 
-            "july": [
-                "j", 
-                "jul"
-            ], 
-            "august": [
-                "ago", 
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep.", 
                 "sep"
             ], 
-            "october": [
-                "oct", 
-                "o"
-            ], 
-            "november": [
-                "nov", 
-                "n"
-            ], 
-            "december": [
-                "d", 
-                "dic"
-            ], 
             "wednesday": [
-                "M"
+                "m"
             ], 
             "relative-type": {
                 "in 1 year": [
@@ -1122,11 +417,11 @@
                     "-(\\d+) m"
                 ], 
                 "in \\1 week": [
-                    "+(\\d+) sem.", 
-                    "en (\\d+) sem."
+                    "en (\\d+) sem", 
+                    "+(\\d+) sem"
                 ], 
                 "\\1 week ago": [
-                    "-(\\d+) sem."
+                    "-(\\d+) sem"
                 ], 
                 "in \\1 day": [
                     "en (\\d+) días", 
@@ -1164,180 +459,31 @@
         }, 
         "es-NI": {
             "name": "es-NI", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-PA": {
             "name": "es-PA", 
             "date_order": "MDY", 
             "september": [
-                "sep."
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-PE": {
             "name": "es-PE", 
-            "january": [
-                "Ene.", 
-                "Enero", 
-                "e"
-            ], 
-            "february": [
-                "Feb.", 
-                "Febrero", 
-                "f"
-            ], 
-            "march": [
-                "Marzo", 
-                "Mar.", 
-                "m"
-            ], 
-            "april": [
-                "a", 
-                "Abr.", 
-                "Abril"
-            ], 
-            "may": [
-                "Mayo", 
-                "May.", 
-                "m"
-            ], 
-            "june": [
-                "j", 
-                "Junio", 
-                "Jun."
-            ], 
-            "july": [
-                "Julio", 
-                "j", 
-                "Jul."
-            ], 
-            "august": [
-                "a", 
-                "Ago.", 
-                "Agosto"
-            ], 
             "september": [
                 "setiembre", 
-                "Set.", 
-                "set.", 
-                "s", 
-                "Setiembre"
-            ], 
-            "october": [
-                "Oct.", 
-                "o", 
-                "Octubre"
-            ], 
-            "november": [
-                "Nov.", 
-                "Noviembre", 
-                "n"
-            ], 
-            "december": [
-                "Diciembre", 
-                "Dic.", 
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "set"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-PH": {
@@ -1346,372 +492,62 @@
         "es-PR": {
             "name": "es-PR", 
             "date_order": "MDY", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-PY": {
             "name": "es-PY", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
-            "september": [
-                "s"
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
-            ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ], 
             "second": [
-                "seg."
+                "seg"
             ], 
             "relative-type": {
                 "in \\1 second": [
-                    "dentro de (\\d+) seg."
+                    "dentro de (\\d+) seg"
                 ], 
                 "\\1 second ago": [
-                    "hace (\\d+) seg."
+                    "hace (\\d+) seg"
                 ]
             }
         }, 
         "es-SV": {
             "name": "es-SV", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-US": {
             "name": "es-US", 
-            "january": [
-                "e"
-            ], 
-            "february": [
-                "f"
-            ], 
-            "march": [
-                "m"
-            ], 
-            "april": [
-                "a"
-            ], 
-            "may": [
-                "m"
-            ], 
-            "june": [
-                "j"
-            ], 
-            "july": [
-                "j"
-            ], 
-            "august": [
-                "a"
-            ], 
             "september": [
-                "s", 
-                "sep."
-            ], 
-            "october": [
-                "o"
-            ], 
-            "november": [
-                "n"
-            ], 
-            "december": [
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "sep"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-UY": {
             "name": "es-UY", 
-            "january": [
-                "Ene.", 
-                "Enero", 
-                "e"
-            ], 
-            "february": [
-                "Feb.", 
-                "Febrero", 
-                "f"
-            ], 
-            "march": [
-                "Marzo", 
-                "Mar.", 
-                "m"
-            ], 
-            "april": [
-                "a", 
-                "Abr.", 
-                "Abril"
-            ], 
-            "may": [
-                "Mayo", 
-                "May.", 
-                "m"
-            ], 
-            "june": [
-                "j", 
-                "Junio", 
-                "Jun."
-            ], 
-            "july": [
-                "Julio", 
-                "j", 
-                "Jul."
-            ], 
-            "august": [
-                "a", 
-                "Ago.", 
-                "Agosto"
-            ], 
             "september": [
                 "setiembre", 
-                "Set.", 
-                "set.", 
-                "s", 
-                "Setiembre"
-            ], 
-            "october": [
-                "Oct.", 
-                "o", 
-                "Octubre"
-            ], 
-            "november": [
-                "Nov.", 
-                "Noviembre", 
-                "n"
-            ], 
-            "december": [
-                "Diciembre", 
-                "Dic.", 
-                "d"
-            ], 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
+                "set"
             ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }, 
         "es-VE": {
             "name": "es-VE", 
-            "monday": [
-                "l"
-            ], 
-            "tuesday": [
-                "m"
-            ], 
             "wednesday": [
-                "m", 
-                "M"
-            ], 
-            "thursday": [
-                "j"
-            ], 
-            "friday": [
-                "v"
-            ], 
-            "saturday": [
-                "s"
-            ], 
-            "sunday": [
-                "d"
+                "m"
             ]
         }
     }

@@ -2,86 +2,74 @@
     "name": "lrc", 
     "date_order": "YMD", 
     "january": [
-        "1", 
         "جانڤیە"
     ], 
     "february": [
-        "2", 
         "فئڤریە"
     ], 
     "march": [
-        "3", 
         "مارس"
     ], 
     "april": [
-        "آڤریل", 
-        "4"
+        "آڤریل"
     ], 
     "may": [
-        "5", 
         "مئی"
     ], 
     "june": [
-        "6", 
         "جوٙأن"
     ], 
     "july": [
-        "جوٙلا", 
-        "7"
+        "جوٙلا"
     ], 
     "august": [
-        "آگوست", 
-        "8"
+        "آگوست"
     ], 
     "september": [
-        "9", 
         "سئپتامر"
     ], 
     "october": [
-        "10", 
         "ئوکتوڤر"
     ], 
     "november": [
-        "11", 
         "نوڤامر"
     ], 
     "december": [
-        "12", 
         "دئسامر"
     ], 
     "monday": [
-        "M", 
-        "Mon"
+        "m", 
+        "mon"
     ], 
     "tuesday": [
-        "Tue", 
-        "T"
+        "tue", 
+        "t"
     ], 
     "wednesday": [
-        "W", 
-        "Wed"
+        "w", 
+        "wed"
     ], 
     "thursday": [
-        "Thu", 
-        "T"
+        "thu", 
+        "t"
     ], 
     "friday": [
-        "Fri", 
-        "F"
+        "fri", 
+        "f"
     ], 
     "saturday": [
-        "S", 
-        "Sat"
+        "s", 
+        "sat"
     ], 
     "sunday": [
-        "Sun", 
-        "S"
+        "sun", 
+        "s"
     ], 
     "am": [
-        "AM"
+        "am"
     ], 
     "pm": [
-        "PM"
+        "pm"
     ], 
     "year": [
         "سال"

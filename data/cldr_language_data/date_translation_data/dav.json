@@ -2,126 +2,126 @@
     "name": "dav", 
     "date_order": "DMY", 
     "january": [
-        "I", 
-        "Imb", 
-        "Mori ghwa imbiri"
+        "i", 
+        "imb", 
+        "mori ghwa imbiri"
     ], 
     "february": [
-        "K", 
-        "Kaw", 
-        "Mori ghwa kawi"
+        "k", 
+        "kaw", 
+        "mori ghwa kawi"
     ], 
     "march": [
-        "Mori ghwa kadadu", 
-        "K", 
-        "Kad"
+        "mori ghwa kadadu", 
+        "k", 
+        "kad"
     ], 
     "april": [
-        "Mori ghwa kana", 
-        "K", 
-        "Kan"
+        "mori ghwa kana", 
+        "k", 
+        "kan"
     ], 
     "may": [
-        "Kas", 
-        "K", 
-        "Mori ghwa kasanu"
+        "kas", 
+        "k", 
+        "mori ghwa kasanu"
     ], 
     "june": [
-        "Mori ghwa karandadu", 
-        "Kar", 
-        "K"
+        "mori ghwa karandadu", 
+        "kar", 
+        "k"
     ], 
     "july": [
-        "M", 
-        "Mfu", 
-        "Mori ghwa mfungade"
+        "m", 
+        "mfu", 
+        "mori ghwa mfungade"
     ], 
     "august": [
-        "W", 
-        "Wun", 
-        "Mori ghwa wunyanya"
+        "w", 
+        "wun", 
+        "mori ghwa wunyanya"
     ], 
     "september": [
-        "Mori ghwa ikenda", 
-        "I", 
-        "Ike"
+        "mori ghwa ikenda", 
+        "i", 
+        "ike"
     ], 
     "october": [
-        "I", 
-        "Mori ghwa ikumi", 
-        "Iku"
+        "i", 
+        "mori ghwa ikumi", 
+        "iku"
     ], 
     "november": [
-        "I", 
-        "Imw", 
-        "Mori ghwa ikumi na imweri"
+        "i", 
+        "imw", 
+        "mori ghwa ikumi na imweri"
     ], 
     "december": [
-        "I", 
-        "Mori ghwa ikumi na iwi", 
-        "Iwi"
+        "i", 
+        "mori ghwa ikumi na iwi", 
+        "iwi"
     ], 
     "monday": [
-        "J", 
-        "Jim", 
-        "Kuramuka jimweri"
+        "jim", 
+        "kuramuka jimweri", 
+        "j"
     ], 
     "tuesday": [
-        "Kuramuka kawi", 
-        "Kaw", 
-        "K"
+        "kuramuka kawi", 
+        "kaw", 
+        "k"
     ], 
     "wednesday": [
-        "K", 
-        "Kuramuka kadadu", 
-        "Kad"
+        "k", 
+        "kuramuka kadadu", 
+        "kad"
     ], 
     "thursday": [
-        "K", 
-        "Kuramuka kana", 
-        "Kan"
+        "k", 
+        "kuramuka kana", 
+        "kan"
     ], 
     "friday": [
-        "Kas", 
-        "K", 
-        "Kuramuka kasanu"
+        "kas", 
+        "k", 
+        "kuramuka kasanu"
     ], 
     "saturday": [
-        "Ngu", 
-        "Kifula nguwo", 
-        "N"
+        "ngu", 
+        "kifula nguwo", 
+        "n"
     ], 
     "sunday": [
-        "Ituku ja jumwa", 
-        "J", 
-        "Jum"
+        "ituku ja jumwa", 
+        "j", 
+        "jum"
     ], 
     "am": [
-        "Luma lwa K"
+        "luma lwa k"
     ], 
     "pm": [
         "luma lwa p"
     ], 
     "year": [
-        "Mwaka"
+        "mwaka"
     ], 
     "month": [
-        "Mori"
+        "mori"
     ], 
     "week": [
-        "Juma"
+        "juma"
     ], 
     "day": [
-        "Ituku"
+        "ituku"
     ], 
     "hour": [
-        "Saa"
+        "saa"
     ], 
     "minute": [
-        "Dakika"
+        "dakika"
     ], 
     "second": [
-        "Sekunde"
+        "sekunde"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -152,13 +152,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Iguo"
+            "iguo"
         ], 
         "0 day ago": [
-            "Idime"
+            "idime"
         ], 
         "in 1 day": [
-            "Kesho"
+            "kesho"
         ], 
         "0 hour ago": [
             "this hour"

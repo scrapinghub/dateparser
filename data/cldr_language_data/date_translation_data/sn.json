@@ -2,128 +2,128 @@
     "name": "sn", 
     "date_order": "YMD", 
     "january": [
-        "Ndi", 
-        "Ndira", 
-        "N"
+        "ndi", 
+        "ndira", 
+        "n"
     ], 
     "february": [
-        "Kukadzi", 
-        "K", 
-        "Kuk"
+        "kukadzi", 
+        "k", 
+        "kuk"
     ], 
     "march": [
-        "K", 
-        "Kurume", 
-        "Kur"
+        "k", 
+        "kurume", 
+        "kur"
     ], 
     "april": [
-        "Kubvumbi", 
-        "K", 
-        "Kub"
+        "kubvumbi", 
+        "k", 
+        "kub"
     ], 
     "may": [
-        "Chivabvu", 
-        "C", 
-        "Chv"
+        "chivabvu", 
+        "c", 
+        "chv"
     ], 
     "june": [
-        "C", 
-        "Chk", 
-        "Chikumi"
+        "c", 
+        "chk", 
+        "chikumi"
     ], 
     "july": [
-        "Chikunguru", 
-        "C", 
-        "Chg"
+        "chikunguru", 
+        "c", 
+        "chg"
     ], 
     "august": [
-        "Nyamavhuvhu", 
-        "Nya", 
-        "N"
+        "nyamavhuvhu", 
+        "nya", 
+        "n"
     ], 
     "september": [
-        "Gunyana", 
-        "Gun", 
-        "G"
+        "gunyana", 
+        "gun", 
+        "g"
     ], 
     "october": [
-        "Gumiguru", 
-        "G", 
-        "Gum"
+        "gumiguru", 
+        "g", 
+        "gum"
     ], 
     "november": [
-        "Mbu", 
-        "Mbudzi", 
-        "M"
+        "mbu", 
+        "mbudzi", 
+        "m"
     ], 
     "december": [
-        "Zvita", 
-        "Zvi", 
-        "Z"
+        "zvita", 
+        "zvi", 
+        "z"
     ], 
     "monday": [
-        "Muv", 
-        "M", 
-        "Muvhuro"
+        "muv", 
+        "m", 
+        "muvhuro"
     ], 
     "tuesday": [
-        "Chp", 
-        "C", 
-        "Chipiri"
+        "chp", 
+        "c", 
+        "chipiri"
     ], 
     "wednesday": [
-        "Chitatu", 
-        "C", 
-        "Cht"
+        "chitatu", 
+        "c", 
+        "cht"
     ], 
     "thursday": [
-        "C", 
-        "China", 
-        "Chn"
+        "c", 
+        "china", 
+        "chn"
     ], 
     "friday": [
-        "Chs", 
-        "C", 
-        "Chishanu"
+        "chs", 
+        "c", 
+        "chishanu"
     ], 
     "saturday": [
-        "Mugovera", 
-        "Mug", 
-        "M"
+        "mugovera", 
+        "mug", 
+        "m"
     ], 
     "sunday": [
-        "Svo", 
-        "S", 
-        "Svondo"
+        "svo", 
+        "s", 
+        "svondo"
     ], 
     "am": [
         "a", 
-        "AM"
+        "am"
     ], 
     "pm": [
         "p", 
-        "PM"
+        "pm"
     ], 
     "year": [
-        "Gore"
+        "gore"
     ], 
     "month": [
-        "Mwedzi"
+        "mwedzi"
     ], 
     "week": [
-        "Vhiki"
+        "vhiki"
     ], 
     "day": [
-        "Zuva"
+        "zuva"
     ], 
     "hour": [
-        "Awa"
+        "awa"
     ], 
     "minute": [
-        "Mineti"
+        "mineti"
     ], 
     "second": [
-        "Sekondi"
+        "sekondi"
     ], 
     "relative-type": {
         "1 year ago": [
@@ -154,13 +154,13 @@
             "next week"
         ], 
         "1 day ago": [
-            "Nezuro"
+            "nezuro"
         ], 
         "0 day ago": [
-            "Nhasi"
+            "nhasi"
         ], 
         "in 1 day": [
-            "Mangwana"
+            "mangwana"
         ], 
         "0 hour ago": [
             "this hour"
