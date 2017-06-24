@@ -7,6 +7,7 @@ from get_cldr_data import language_locale_dict
 
 territory_info_url = "https://api.github.com/repos/unicode-cldr/cldr-core/contents/supplemental/territoryInfo.json?ref=master"
 
+
 def get_language_order():
     territory_response = requests.get(territory_info_url)
     territory_data = territory_response.json()
@@ -26,9 +27,10 @@ def get_language_order():
         except:
             pass
 
-    language_order = sorted(language_population_dict.keys(),key=lambda x:language_population_dict[x],reverse = True)
-    for index in range(0,len(language_order)):
-        language_order[index] = re.sub(r'_',r'-',language_order[index])
+    language_order = sorted(language_population_dict.keys(),
+                            key=lambda x: language_population_dict[x], reverse=True)
+    for index in range(0, len(language_order)):
+        language_order[index] = re.sub(r'_', r'-', language_order[index])
 
     available_languages = language_locale_dict.keys()
     language_order = [shortname for shortname in language_order if shortname in available_languages]
@@ -43,6 +45,7 @@ def get_language_order():
     language_order = language_order + sorted(remaining_languages)
     return language_order
 
+
 def main():
     os.chdir(os.path.dirname(__file__))
     parent_directory = "../data/cldr_language_data/"
@@ -50,7 +53,7 @@ def main():
         os.mkdir(parent_directory)
     language_order = get_language_order()
     language_order_dict = {'language_order': language_order}
-    json_string = json.dumps(language_order_dict, indent = 4)
+    json_string = json.dumps(language_order_dict, indent=4)
     filename = parent_directory + 'language_order.json'
     with open(filename, 'w') as f:
         f.write(json_string)
