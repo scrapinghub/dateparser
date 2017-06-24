@@ -290,22 +290,26 @@ class DateDataParser(object):
     :raises:
             ValueError - Unknown Language, TypeError - Languages argument must be a list
     """
+
     language_loader = None
 
     @apply_settings
     def __init__(self, languages=None, try_previous_languages=True, strict_language_order=False,
-    use_given_order = False, settings=None):
+                 use_given_order=False, settings=None):
         if not isinstance(languages, (list, tuple, collections.Set)) and languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
         if not isinstance(try_previous_languages, bool):
-            raise TypeError("try_previous_languages argument must be a boolean (%r given)" % type(try_previous_languages))
+            raise TypeError("try_previous_languages argument must be a boolean (%r given)"
+                            % type(try_previous_languages))
 
         if not isinstance(strict_language_order, bool):
-            raise TypeError("strict_language_order argument must be a boolean (%r given)" % type(strict_language_order))
+            raise TypeError("strict_language_order argument must be a boolean (%r given)"
+                            % type(strict_language_order))
 
         if not isinstance(use_given_order, bool):
-            raise TypeError("use_given_order argument must be a boolean (%r given)" % type(use_given_order))
+            raise TypeError("use_given_order argument must be a boolean (%r given)"
+                            % type(use_given_order))
 
         if not languages and use_given_order:
             raise ValueError("languages must be given if use_given_order is True")
@@ -364,8 +368,9 @@ class DateDataParser(object):
         if not(isinstance(date_string, six.text_type) or isinstance(date_string, six.string_types)):
             raise TypeError('Input type must be str or unicode')
 
-        self.language_generator = self._get_language_loader().get_languages(languages=self.languages,
-        strict_order=self.strict_language_order, use_given_order=self.use_given_order)
+        self.language_generator = self._get_language_loader().get_languages(
+            languages=self.languages, strict_order=self.strict_language_order,
+            use_given_order=self.use_given_order)
 
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:
@@ -376,15 +381,15 @@ class DateDataParser(object):
 
         date_string = sanitize_date(date_string)
 
-        for language in self.language_detector.iterate_applicable_languages(date_string,
-        language_generator=self.language_generator, previous_languages=self.previous_languages,
-        settings=self._settings):
+        for language in self.language_detector.iterate_applicable_languages(
+                date_string, language_generator=self.language_generator,
+                previous_languages=self.previous_languages, settings=self._settings):
             parsed_date = _DateLanguageParser.parse(
                 language, date_string, date_formats, settings=self._settings)
             if parsed_date:
                 parsed_date['language'] = language.shortname
                 if self.try_previous_languages:
-                    self.previous_languages.insert(0,language)
+                    self.previous_languages.insert(0, language)
                 return parsed_date
         else:
             return {'date_obj': None, 'period': 'day', 'language': None}
@@ -393,7 +398,6 @@ class DateDataParser(object):
         date_tuple = collections.namedtuple('DateData', 'date_obj period language')
         date_data = self.get_date_data(*args, **kwargs)
         return date_tuple(**date_data)
-
 
     @classmethod
     def _get_language_loader(cls):

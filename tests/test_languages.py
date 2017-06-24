@@ -536,7 +536,8 @@ class TestBundledLanguages(BaseTestCase):
         self.tokens = self.language._split(self.datetime_string, keep_formatting, settings=settings)
 
     def when_datetime_string_checked_if_applicable(self, strip_timezone):
-        self.result = self.language.is_applicable(self.datetime_string, strip_timezone, settings=settings)
+        self.result = self.language.is_applicable(self.datetime_string,
+                                                  strip_timezone, settings=settings)
 
     def then_string_translated_to(self, expected_string):
         self.assertEqual(expected_string, self.translation)

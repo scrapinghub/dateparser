@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
 
+
 class LanguageDetector(object):
     def __init__(self, try_previous_languages=False):
         self.try_previous_languages = try_previous_languages
 
-    def iterate_applicable_languages(self, date_string, language_generator, previous_languages, settings):
+    def iterate_applicable_languages(self, date_string, language_generator,
+                                     previous_languages, settings):
         if self.try_previous_languages:
-            for language in self._filter_languages(date_string, previous_languages, settings=settings):
+            for language in self._filter_languages(date_string, previous_languages,
+                                                   settings=settings):
                 yield language
-        for language in self._filter_languages(date_string, language_generator, settings=settings):
+
+        for language in self._filter_languages(date_string, language_generator,
+                                               settings=settings):
             yield language
 
     def _filter_languages(self, date_string, languages, settings=None):

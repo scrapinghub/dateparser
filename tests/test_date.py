@@ -126,7 +126,7 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
               high=datetime(2015, 1, 1),
               expected_results=[datetime(2014, 12, 1)]),
     ])
-    def test_dates_in_the_intersecting_period_should_use_first_day_when_period_is_month(
+    def test_dates_in_intersecting_period_should_use_first_day_when_period_is_month(
         self, low, high, expected_results
     ):
         self.when_intersecting_period_calculated(low, high, period_size='month')
@@ -135,7 +135,8 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
     @parameterized.expand([
         param(low=datetime(2012, 4, 18),
               high=datetime(2014, 9, 22),
-              expected_results=[datetime(2012, 1, 1, 0, 0), datetime(2013, 1, 1, 0, 0),datetime(2014, 1, 1, 0, 0)]),
+              expected_results=[datetime(2012, 1, 1, 0, 0), datetime(2013, 1, 1, 0, 0),
+                                datetime(2014, 1, 1, 0, 0)]),
         param(low=datetime(2013, 8, 5),
               high=datetime(2014, 5, 15),
               expected_results=[datetime(2013, 1, 1, 0, 0), datetime(2014, 1, 1, 0, 0)]),
@@ -144,7 +145,8 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
               expected_results=[datetime(2008, 1, 1, 0, 0), datetime(2009, 1, 1, 0, 0)]),
         param(low=datetime(2014, 1, 1),
               high=datetime(2016, 8, 22),
-              expected_results=[datetime(2014, 1, 1, 0, 0), datetime(2015, 1, 1, 0, 0), datetime(2016, 1, 1, 0, 0)]),
+              expected_results=[datetime(2014, 1, 1, 0, 0), datetime(2015, 1, 1, 0, 0),
+                                datetime(2016, 1, 1, 0, 0)]),
         param(low=datetime(2001, 7, 11),
               high=datetime(2001, 10, 16),
               expected_results=[datetime(2001, 1, 1, 0, 0)]),
@@ -152,7 +154,7 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
               high=datetime(2017, 1, 1),
               expected_results=[]),
     ])
-    def test_dates_in_the_intersecting_period_should_use_first_month_and_first_day_when_period_is_year(
+    def test_dates_in_intersecting_period_should_use_first_month_and_first_day_when_period_is_year(
         self, low, high, expected_results
     ):
         self.when_intersecting_period_calculated(low, high, period_size='year')
@@ -272,7 +274,8 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.then_parsed_date_is(datetime(2015, expected_month, expected_day))
 
     @parameterized.expand([
-        param(date_string='August 2014', date_formats=['%B %Y'], expected_year=2014, expected_month=8),
+        param(date_string='August 2014', date_formats=['%B %Y'],
+              expected_year=2014, expected_month=8),
     ])
     def test_should_use_last_day_of_month_for_dates_without_day(
         self, date_string, date_formats, expected_year, expected_month
@@ -362,7 +365,8 @@ class TestDateDataParser(BaseTestCase):
                                       (u'07.feb.2014 | 12:52', datetime(2014, 2, 7).date()),  # en, de, es, it, nl, ro
                                       (u'07.ene.2014 | 12:52', datetime(2014, 1, 7).date())])  # es
 
-        self.given_parser(restrict_to_languages=['en', 'de', 'fr', 'it', 'pt', 'nl', 'ro', 'es', 'ru'])
+        self.given_parser(restrict_to_languages=['en', 'de', 'fr', 'it', 'pt',
+                                                 'nl', 'ro', 'es', 'ru'])
         self.when_multiple_dates_are_parsed(dates_to_parse.keys())
         self.then_all_results_were_parsed()
         self.then_parsed_dates_are(list(dates_to_parse.values()))
@@ -399,17 +403,23 @@ class TestDateDataParser(BaseTestCase):
         param(['ur', 'en'], unknown_languages=[u'ur']),
         param(['pk'], unknown_languages=[u'pk']),
         ])
-    def test_get_date_data_should_raise_error_when_unknown_language_given(self, shortnames, unknown_languages):
-        self.given_parser(restrict_to_languages = shortnames)
+    def test_get_date_data_should_raise_error_when_unknown_language_given(
+            self, shortnames, unknown_languages):
+        self.given_parser(restrict_to_languages=shortnames)
         self.when_date_string_is_parsed('11 Jan 1999 12:05')
         self.then_languages_are_unknown(unknown_languages)
 
     @parameterized.expand([
-        param(date_string="14 giu 13", date_formats=["%y %B %d"], expected_result=datetime(2014, 6, 13)),
-        param(date_string="14_luglio_15", date_formats=["%y_%B_%d"], expected_result=datetime(2014, 7, 15)),
-        param(date_string="14_LUGLIO_15", date_formats=["%y_%B_%d"], expected_result=datetime(2014, 7, 15)),
-        param(date_string="02/12/2014 \xe0 15:08", date_formats=["%d/%m/%Y \xe0 %H:%M"], expected_result=datetime(2014, 12, 2, 15, 8)),
-        param(date_string="10.01.2016, 20:35", date_formats=["%d.%m.%Y, %H:%M"], expected_result=datetime(2016, 1, 10, 20, 35)),
+        param(date_string="14 giu 13", date_formats=["%y %B %d"],
+              expected_result=datetime(2014, 6, 13)),
+        param(date_string="14_luglio_15", date_formats=["%y_%B_%d"],
+              expected_result=datetime(2014, 7, 15)),
+        param(date_string="14_LUGLIO_15", date_formats=["%y_%B_%d"],
+              expected_result=datetime(2014, 7, 15)),
+        param(date_string="02/12/2014 \xe0 15:08", date_formats=["%d/%m/%Y \xe0 %H:%M"],
+              expected_result=datetime(2014, 12, 2, 15, 8)),
+        param(date_string="10.01.2016, 20:35", date_formats=["%d.%m.%Y, %H:%M"],
+              expected_result=datetime(2016, 1, 10, 20, 35)),
     ])
     def test_parse_date_using_format(self, date_string, date_formats, expected_result):
         self.given_local_tz_offset(0)
@@ -420,23 +430,25 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_datetime_is(expected_result)
 
     @parameterized.expand([
-        param(date_string="11/09/2007", date_formats={"date_formats":["%d/%m/%Y"]}),
+        param(date_string="11/09/2007", date_formats={"date_formats": ["%d/%m/%Y"]}),
         param(date_string="16.09.03 11:55", date_formats=111),
         param(date_string="08-01-1998", date_formats=12.56),
     ])
-    def test_parsing_date_using_invalid_type_date_format_must_raise_error(self, date_string, date_formats):
+    def test_parsing_date_using_invalid_type_date_format_must_raise_error(
+            self, date_string, date_formats):
         self.given_local_tz_offset(0)
         self.given_parser()
         self.when_date_string_is_parsed(date_string, date_formats)
-        self.then_error_was_raised(TypeError, ["Date formats should be list, tuple or set of strings",
-                                                "'{}' object is not iterable".format(type(date_formats).__name__)])
+        self.then_error_was_raised(
+            TypeError, ["Date formats should be list, tuple or set of strings",
+                        "'{}' object is not iterable".format(type(date_formats).__name__)])
 
     @parameterized.expand([
-        param(date_string={"date":"12/11/1998"}),
-        param(date_string=[2017,12,1]),
+        param(date_string={"date": "12/11/1998"}),
+        param(date_string=[2017, 12, 1]),
         param(date_string=2018),
         param(date_string=12.2000),
-        param(date_string=datetime(year=2009,month=12,day=7)),
+        param(date_string=datetime(year=2009, month=12, day=7)),
     ])
     def test_parsing_date_using_invalid_type_date_string_must_raise_error(self, date_string):
         self.given_parser()
@@ -459,7 +471,8 @@ class TestDateDataParser(BaseTestCase):
               date_formats=["%Y/%m/%d %H:%M EDT"],
               expected_result=datetime(2014, 11, 17, 14, 56)),
     ])
-    def test_parse_date_with_timezones_using_formats_ignore_timezone(self, date_string, date_formats, expected_result):
+    def test_parse_date_with_timezones_using_formats_ignore_timezone(
+            self, date_string, date_formats, expected_result):
         self.given_local_tz_offset(0)
         self.given_parser()
         self.when_date_string_is_parsed(date_string, date_formats)
@@ -485,7 +498,7 @@ class TestDateDataParser(BaseTestCase):
         param(date_string="10 giu 2018",
               expected_result=(datetime(2018, 6, 10, 0, 0), 'day', 'it')),
     ])
-    def test_get_date_tuple(self,date_string,expected_result):
+    def test_get_date_tuple(self, date_string, expected_result):
         self.given_parser()
         self.when_get_date_tuple_is_called(date_string)
         self.then_returned_tuple_is(expected_result)
@@ -498,7 +511,7 @@ class TestDateDataParser(BaseTestCase):
         )
 
     def given_parser(self, restrict_to_languages=None, **params):
-        self.parser = date.DateDataParser(languages=restrict_to_languages,**params)
+        self.parser = date.DateDataParser(languages=restrict_to_languages, **params)
 
     def given_local_tz_offset(self, offset):
         self.add_patch(
@@ -523,7 +536,7 @@ class TestDateDataParser(BaseTestCase):
             finally:
                 self.multiple_results.append(result)
 
-    def when_get_date_tuple_is_called(self,date_string):
+    def when_get_date_tuple_is_called(self, date_string):
         self.result = self.parser.get_date_tuple(date_string)
 
     def then_date_was_parsed(self):
@@ -541,7 +554,8 @@ class TestDateDataParser(BaseTestCase):
         self.assertNotIn(None, self.multiple_results)
 
     def then_parsed_dates_are(self, expected_dates):
-        self.assertEqual(expected_dates, [result['date_obj'].date() for result in self.multiple_results])
+        self.assertEqual(expected_dates,
+                         [result['date_obj'].date() for result in self.multiple_results])
 
     def then_detected_language(self, language):
         self.assertEqual(language, self.result['language'])
@@ -558,9 +572,8 @@ class TestDateDataParser(BaseTestCase):
     def then_parsed_date_has_timezone(self):
         self.assertTrue(hasattr(self.result['date_obj'], 'tzinfo'))
 
-    def then_returned_tuple_is(self,expected_tuple):
+    def then_returned_tuple_is(self, expected_tuple):
         self.assertEqual(expected_tuple, self.result)
-
 
     def then_languages_are_unknown(self, unknown_languages):
         self.assertIsInstance(self.error, ValueError)
@@ -577,54 +590,60 @@ class TestParserInitialization(BaseTestCase):
 
     @parameterized.expand([
         param(languages='en'),
-        param(languages={'languages':['en','he','it']}),
+        param(languages={'languages': ['en', 'he', 'it']}),
     ])
     def test_error_raised_for_invalid_languages_argument(self, languages):
         self.when_parser_is_initialized(languages=languages)
-        self.then_error_was_raised(TypeError, ["languages argument must be a list (%r given)" % type(languages)])
+        self.then_error_was_raised(
+            TypeError, ["languages argument must be a list (%r given)" % type(languages)])
 
     @parameterized.expand([
-        param(try_previous_languages=['ar','pt','zh','uk']),
+        param(try_previous_languages=['ar', 'pt', 'zh', 'uk']),
         param(try_previous_languages='uk'),
         param(try_previous_languages={'try_previous_languages': True}),
         param(try_previous_languages=0),
     ])
     def test_error_raised_for_invalid_try_previous_languages_argument(self, try_previous_languages):
         self.when_parser_is_initialized(try_previous_languages=try_previous_languages)
-        self.then_error_was_raised(TypeError, ["try_previous_languages argument must be a boolean (%r given)"
-                                    % type(try_previous_languages)])
+        self.then_error_was_raised(
+            TypeError, ["try_previous_languages argument must be a boolean (%r given)"
+                        % type(try_previous_languages)])
 
     @parameterized.expand([
-        param(strict_language_order=['ar','pt','zh','uk']),
+        param(strict_language_order=['ar', 'pt', 'zh', 'uk']),
         param(strict_language_order='pt'),
         param(strict_language_order={'strict_language_order': True}),
         param(strict_language_order=1),
     ])
     def test_error_raised_for_invalid_strict_language_order_argument(self, strict_language_order):
         self.when_parser_is_initialized(strict_language_order=strict_language_order)
-        self.then_error_was_raised(TypeError, ["strict_language_order argument must be a boolean (%r given)"
-                                    % type(strict_language_order)])
+        self.then_error_was_raised(
+            TypeError, ["strict_language_order argument must be a boolean (%r given)"
+                        % type(strict_language_order)])
 
     @parameterized.expand([
-        param(use_given_order=['da','pt','ja','sv']),
+        param(use_given_order=['da', 'pt', 'ja', 'sv']),
         param(use_given_order='uk'),
         param(use_given_order={'use_given_order': True}),
         param(use_given_order=1),
     ])
     def test_error_raised_for_invalid_use_given_order_argument(self, use_given_order):
-        self.when_parser_is_initialized(languages=['en','es'], use_given_order=use_given_order)
-        self.then_error_was_raised(TypeError, ["use_given_order argument must be a boolean (%r given)"
-                                    % type(use_given_order)])
+        self.when_parser_is_initialized(languages=['en', 'es'], use_given_order=use_given_order)
+        self.then_error_was_raised(
+            TypeError, ["use_given_order argument must be a boolean (%r given)"
+                        % type(use_given_order)])
 
     def test_error_is_raised_when_use_given_order_is_True_and_languages_is_None(self):
         self.when_parser_is_initialized(use_given_order=True)
-        self.then_error_was_raised(ValueError, ["languages must be given if use_given_order is True"])
+        self.then_error_was_raised(
+            ValueError, ["languages must be given if use_given_order is True"])
 
-    def when_parser_is_initialized(self, languages=None, try_previous_languages=True, strict_language_order=False,
-    use_given_order=False):
+    def when_parser_is_initialized(self, languages=None, try_previous_languages=True,
+                                   strict_language_order=False, use_given_order=False):
         try:
-            self.parser = date.DateDataParser(languages=languages, try_previous_languages=try_previous_languages,
-                                    strict_language_order=strict_language_order, use_given_order=use_given_order)
+            self.parser = date.DateDataParser(
+                languages=languages, try_previous_languages=try_previous_languages,
+                strict_language_order=strict_language_order, use_given_order=use_given_order)
         except Exception as error:
             self.error = error
 
@@ -649,7 +668,8 @@ class TestDateLanguageParser(BaseTestCase):
         param(date_obj={'date_obj': None, 'period': 'day'}),
     ])
     def test_is_valid_date_obj(self, date_obj):
-        self.given_parser(language=['en'], date_string='10 jan 2000', date_formats=None, settings=settings)
+        self.given_parser(language=['en'], date_string='10 jan 2000',
+                          date_formats=None, settings=settings)
         self.when_date_object_is_validated(date_obj)
         self.then_date_object_is_invalid()
 

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from pkgutil import get_data
 import logging
 import types
 import unicodedata
@@ -26,6 +25,7 @@ def normalize_unicode(string, form='NFKD'):
     return ''.join(
         (c for c in unicodedata.normalize(form, string)
          if unicodedata.category(c) != 'Mn'))
+
 
 replacement_cache = {}
 
