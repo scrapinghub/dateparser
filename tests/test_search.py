@@ -57,7 +57,7 @@ class TestTranslateSearch(BaseTestCase):
         # Turkish
         param('tr', "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
         # Czech
-        param('cs', "22. prosinec 2014 v 2:38", "22. december 2014  2:38""22. prosinec 2014 v 2:38", "22. december 2014  2:38"),
+        param('cs', "22. prosinec 2014 v 2:38", "22. december 2014  2:38"),
         # Dutch
         param('nl', "maandag 22 december 2014 om 2:38", "monday 22 december 2014  2:38"),
         # Romanian

@@ -19,6 +19,7 @@ class Language(object):
     _normalized_simplifications = None
     _splitters = None
     _wordchars = None
+    _abbreviations = None
 
     def __init__(self, shortname, language_info):
         self.shortname = shortname
@@ -58,7 +59,7 @@ class Language(object):
 
     def translate_search(self, search_string, settings=None):
         dashes = ['-', '——', '—', '～']
-        sentences = self._sentence_split(search_string)
+        sentences = self._sentence_split(search_string, settings=settings)
         dictionary = self._get_dictionary(settings)
         translated = []
         original = []
@@ -70,6 +71,9 @@ class Language(object):
                 word = self._simplify(word.lower(), settings=settings)
                 if word.strip('()\"{}[],.') in dictionary and word not in dashes:
                     translated_chunk.append(dictionary[word.strip('()\"{}[],.')])
+                    original_chunk.append(words[i])
+                elif word in dictionary and word not in dashes:
+                    translated_chunk.append(dictionary[word])
                     original_chunk.append(words[i])
                 elif self._token_with_digits_is_ok(word):
                     translated_chunk.append(word)
@@ -90,7 +94,20 @@ class Language(object):
             original[i] = self._join_chunk(list(filter(bool, original[i])), settings=settings)
         return translated, original
 
-    def _sentence_split(self, string):
+    def _get_abbreviations(self, settings):
+        dictionary = self._get_dictionary(settings=settings)
+        abbreviations = []
+        if self._abbreviations is None:
+            for item in dictionary:
+                if item.endswith('.') and len(item) > 1:
+                    abbreviations.append(item)
+        return abbreviations
+
+    def _sentence_split(self, string, settings):
+        abbreviations = self._get_abbreviations(settings=settings)
+        abbreviation_string = ''
+        for abbreviation in abbreviations:
+            abbreviation_string += '(?<! '+abbreviation[:-1]+')'
         splitters_dict = {1: '[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
                                                         # Indonesian, Vietnamese
                           2: '(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))*',  # Spanish
@@ -99,15 +116,34 @@ class Language(object):
                           5: '[\r\n]+',  # Thai
                           6: '[\r\n؟!\.…]+(?:\s|$)*'}  # Arabic and Farsi
         if 'sentence_splitter_group' not in self.info:
-            sentences = re.split(splitters_dict[1], string)
+            split_reg = abbreviation_string + splitters_dict[1]
+            sentences = re.split(split_reg, string)
         else:
-            sentences = re.split(splitters_dict[self.info['sentence_splitter_group']], string)
+            split_reg = abbreviation_string + splitters_dict[self.info['sentence_splitter_group']]
+            sentences = re.split(split_reg, string)
+
         for i in sentences:
             if not i:
                 sentences.remove(i)
         return sentences
 
+    # def _simplify_keeping_original_tokens(self, date_string, settings=None):
+    #     new_string = date_string.lower()
+    #     replacements = []
+    #     for simplification in self._get_simplifications(settings=settings):
+    #         pattern, replacement = self._get_simplification_substitution(simplification)
+    #         new_string2 = pattern.sub(replacement, new_string).lower()
+    #         # original = [date_string[i.strat():i.end()] for i in re.finditer(pattern, new_string)
+    #         #             if re.search(pattern, new_string) is not None]
+    #         # for orig in original:
+    #         #     replacements.append((orig, replacement))
+    #         if new_string2 != new_string:
+    #             replacements.append((pattern, replacement))
+    #             new_string = new_string2
+    #     return new_string, replacements
+
     def _word_split(self, string, settings):
+
         if 'no_word_spacing' in self.info:
             return self._split(string, keep_formatting=True, settings=settings)
         else:
