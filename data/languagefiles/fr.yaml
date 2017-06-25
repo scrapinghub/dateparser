@@ -101,17 +101,29 @@ in:
     - en
 
 simplifications:
-    - maintenant: 0 seconde
     - avant-hier: 2 jour
     - hier: 1 jour
-    - aujourd'hui: 0 jours
     - demain: dans 1 jour
+    - après-demain: dans 2 jour
+    - aujourd'hui: 0 jours
     - d'une: 1
+    - d'un: 1
     - un: 1
     - une: 1
+    - deux: 2
+    - trois: 3
+    - quatre: 4
+    - cinq: 5
+    - six: 6
+    - sept: 7
+    - huit: 8
+    - neuf: 9
+    - dix: 10
+    - quinze: 15
     - (\d+)\sh\s(\d+)\smin: \1h\2m
     - (\d+)h(\d+)m?: \1:\2
     - moins\s(?:de\s)?(\d+)(\s?(?:minute|seconde|heure)): \1 \2
     - moins\s(?:de\s)?(\d+)\s?s: \1 seconde
     - moins\s(?:de\s)?(\d+)\s?m: \1 minute
     - moins\s(?:de\s)?(\d+)\s?h: \1 heure
+
