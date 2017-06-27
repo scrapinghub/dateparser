@@ -68,7 +68,7 @@ class Language(object):
             translated_chunk = []
             original_chunk = []
             for i, word in enumerate(words):
-                word = self._simplify(word.lower(), settings=settings)
+                word = normalize_unicode(self._simplify(word.lower(), settings=settings))
                 if word.strip('()\"{}[],.') in dictionary and word not in dashes:
                     translated_chunk.append(dictionary[word.strip('()\"{}[],.')])
                     original_chunk.append(words[i])
@@ -126,21 +126,6 @@ class Language(object):
             if not i:
                 sentences.remove(i)
         return sentences
-
-    # def _simplify_keeping_original_tokens(self, date_string, settings=None):
-    #     new_string = date_string.lower()
-    #     replacements = []
-    #     for simplification in self._get_simplifications(settings=settings):
-    #         pattern, replacement = self._get_simplification_substitution(simplification)
-    #         new_string2 = pattern.sub(replacement, new_string).lower()
-    #         # original = [date_string[i.strat():i.end()] for i in re.finditer(pattern, new_string)
-    #         #             if re.search(pattern, new_string) is not None]
-    #         # for orig in original:
-    #         #     replacements.append((orig, replacement))
-    #         if new_string2 != new_string:
-    #             replacements.append((pattern, replacement))
-    #             new_string = new_string2
-    #     return new_string, replacements
 
     def _word_split(self, string, settings):
 
