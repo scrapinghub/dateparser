@@ -37,7 +37,7 @@ class TestTranslateSearch(BaseTestCase):
         param('de', "29. Juni 2007", "29. june 2007"),
         param('de', "Montag 5 Januar, 2015", "monday 5 january 2015"),
         # Hungarian
-        param('hu', '2016 augusztus 11', '2016 august 11.'),
+        param('hu', '2016 augusztus 11', '2016 august 11'),
         param('hu', '2016-08-13 szombat 10:21', '2016-08-13 saturday 10:21'),
         param('hu', '2016. augusztus 14. vasárnap 10:21', '2016. august 14. sunday 10:21'),
         param('hu', 'hétfő', 'monday'),
@@ -174,8 +174,8 @@ class TestTranslateSearch(BaseTestCase):
         param('sv', "fredag, 03 september 2014", "friday 03 september 2014"),
     ])
     def test_search_date_string(self, shortname, datetime_string, expected_translation):
-        result2 = self.els.search(shortname, datetime_string)[1][0]
-        self.assertEqual(result2, datetime_string)
+        result = self.els.search(shortname, datetime_string)[1][0]
+        self.assertEqual(result, datetime_string)
 
     @parameterized.expand([
         param('en', 'Game 1 is July 12, 2017. Game 2 on July 13th. Game 3 on July 15th',

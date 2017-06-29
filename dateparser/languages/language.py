@@ -20,6 +20,7 @@ class Language(object):
     _splitters = None
     _wordchars = None
     _abbreviations = None
+    _split_dictionary = None
 
     def __init__(self, shortname, language_info):
         self.shortname = shortname
@@ -45,7 +46,6 @@ class Language(object):
     def translate(self, date_string, keep_formatting=False, settings=None):
         date_string = self._simplify(date_string, settings=settings)
         words = self._split(date_string, keep_formatting, settings=settings)
-
         dictionary = self._get_dictionary(settings)
         for i, word in enumerate(words):
             word = word.lower()
@@ -60,24 +60,26 @@ class Language(object):
     def translate_search(self, search_string, settings=None):
         dashes = ['-', '——', '—', '～']
         sentences = self._sentence_split(search_string, settings=settings)
-        dictionary = self._get_dictionary(settings)
+        dictionary = self._get_split_dictionary(settings=settings)
         translated = []
         original = []
         for sentence in sentences:
-            words = self._word_split(sentence, settings=settings)
+            original_tokens, simplified_tokens = self._simplify_split_align(sentence, settings=settings)
             translated_chunk = []
             original_chunk = []
-            for i, word in enumerate(words):
-                word = normalize_unicode(self._simplify(word.lower(), settings=settings))
-                if word.strip('()\"{}[],.') in dictionary and word not in dashes:
-                    translated_chunk.append(dictionary[word.strip('()\"{}[],.')])
-                    original_chunk.append(words[i])
+            for i, word in enumerate(simplified_tokens):
+                if word == '' or word == ' ':
+                    translated_chunk.append(word)
+                    original_chunk.append(original_tokens[i])
                 elif word in dictionary and word not in dashes:
                     translated_chunk.append(dictionary[word])
-                    original_chunk.append(words[i])
+                    original_chunk.append(original_tokens[i])
+                elif word.strip('()\"\'{}[],.،') in dictionary and word not in dashes:
+                    translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')])
+                    original_chunk.append(original_tokens[i])
                 elif self._token_with_digits_is_ok(word):
                     translated_chunk.append(word)
-                    original_chunk.append(words[i])
+                    original_chunk.append(original_tokens[i])
                 else:
                     if translated_chunk:
                         translated.append(translated_chunk)
@@ -101,7 +103,8 @@ class Language(object):
             for item in dictionary:
                 if item.endswith('.') and len(item) > 1:
                     abbreviations.append(item)
-        return abbreviations
+            self._abbreviations = abbreviations
+        return self._abbreviations
 
     def _sentence_split(self, string, settings):
         abbreviations = self._get_abbreviations(settings=settings)
@@ -126,6 +129,68 @@ class Language(object):
             if not i:
                 sentences.remove(i)
         return sentences
+
+    def _simplify_split_align(self, original, settings):
+        original_tokens = self._word_split(original, settings=settings)
+        simplified_tokens = self._word_split(self._simplify(normalize_unicode(original), settings=settings),
+                                             settings=settings)
+        if len(original_tokens) == len(simplified_tokens):
+            return original_tokens, simplified_tokens
+
+        elif len(original_tokens) < len(simplified_tokens):
+            add_empty = False
+            for i, token in enumerate(simplified_tokens):
+                if i < len(original_tokens):
+                    if token == normalize_unicode(original_tokens[i].lower()):
+                        add_empty = False
+                    else:
+                        if not add_empty:
+                            add_empty = True
+                            continue
+                        else:
+                            original_tokens.insert(i, '')
+                else:
+                    if not add_empty:
+                        add_empty = True
+                        continue
+                    else:
+                        original_tokens.insert(i, '')
+        else:
+            add_empty = False
+            for i, token in enumerate(original_tokens):
+                if i < len(simplified_tokens):
+                    if normalize_unicode(token.lower()) == simplified_tokens[i]:
+                        add_empty = False
+                    else:
+                        if not add_empty:
+                            add_empty = True
+                            continue
+                        else:
+                            simplified_tokens.insert(i, '')
+                else:
+                    if not add_empty:
+                        add_empty = True
+                        continue
+                    else:
+                        simplified_tokens.insert(i, '')
+        return original_tokens, simplified_tokens
+
+    def _get_split_dictionary(self, settings):
+        if self._split_dictionary is None:
+            dictionary = self._get_dictionary(settings=settings)
+            self._split_dictionary = self._split_dict(dictionary)
+        return self._split_dictionary
+
+    def _split_dict(self, dictionary):
+        newdict = {}
+        for item in dictionary:
+            if ' ' in item:
+                items = item.split()
+                for i in items:
+                    newdict[i] = dictionary[item]
+            else:
+                newdict[item] = dictionary[item]
+        return newdict
 
     def _word_split(self, string, settings):
 
