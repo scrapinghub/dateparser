@@ -40,9 +40,9 @@ in:
     - en
 
 relative-type:
-    - 2 day ago:
+    2 day ago:
         - anteayer
 
 simplifications:
-    - un: 1
-    - una: 1
+    un: 1
+    una: 1

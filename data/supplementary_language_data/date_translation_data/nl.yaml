@@ -17,9 +17,9 @@ in:
     - in
 
 relative-type:
-    - 1 year ago:
+    1 year ago:
         - vorige jaar
-    - 2 day ago:
+    2 day ago:
         - eergisteren
-    - in 2 day:
+    in 2 day:
         - overmorgen

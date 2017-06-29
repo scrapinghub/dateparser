@@ -31,12 +31,12 @@ am:
     - صباحاً
 
 relative-type:
-    - 1 day ago:
+    1 day ago:
         - اليوم السابق
         - الأمس
-    - 2 day ago:
+    2 day ago:
         - يومين
-    - 2 hour ago:
+    2 hour ago:
         - ساعتين
-    - 1 hour ago:
+    1 hour ago:
         - ساعة واحدة

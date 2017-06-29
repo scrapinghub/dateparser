@@ -63,14 +63,14 @@ in:
     - päästä
 
 relative-type:
-    - 2 year ago:
+    2 year ago:
         - toissa vuonna
-    - 2 month ago:
+    2 month ago:
         - toissa kuussa
-    - 2 week ago:
+    2 week ago:
         - toissa viikolla
-    - 2 day ago:
+    2 day ago:
         - toissa päivänä
 
 simplifications:
-    - (\d+) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua): \3 \1 \2
+    (\d+) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua): \3 \1 \2

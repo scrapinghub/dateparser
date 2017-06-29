@@ -61,13 +61,13 @@ in:
     - ใน
 
 relative-type:
-    - 1 day ago:
+    1 day ago:
         - เมื่อวานนี้
-    - 2 day ago:
+    2 day ago:
         - เมื่อวานซืน
-    - 0 second ago:
+    0 second ago:
         - เมื่อสักครู่นี้
 
 simplifications:
-    - 1 วันที่แล้ว: 1 วัน
-    - 2 วันที่แล้ว: 2 วัน
+    1 วันที่แล้ว: 1 วัน
+    2 วันที่แล้ว: 2 วัน

@@ -74,8 +74,8 @@ in:
     - múlva
 
 relative-type:
-    - 2 day ago:
+    2 day ago:
         - tegnapelőtt
 
 simplifications:
-    - egy: 1
+    egy: 1

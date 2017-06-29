@@ -46,17 +46,17 @@ in:
     - från nu
 
 relative-type:
-    - 1 year ago:
+    1 year ago:
         - förra året
-    - 2 day ago:
+    2 day ago:
         - förrgår
-    - 1 day ago:
+    1 day ago:
         - igår
-    - 0 day ago:
+    0 day ago:
         - idag
-    - in 1 day:
+    in 1 day:
         - imorgon
 
 simplifications:
-    - en: 1
-    - två: 2
+    en: 1
+    två: 2

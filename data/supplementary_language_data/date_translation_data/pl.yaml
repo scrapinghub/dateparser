@@ -108,10 +108,10 @@ in:
     - za
 
 relative-type:
-    - 2 day ago:
+    2 day ago:
         - onegdaj
         - przedwczoraj
-    - 0 day ago:
+    0 day ago:
         - dziś
-    - in 2 days:
+    in 2 days:
         - pojutrze

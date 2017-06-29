@@ -15,15 +15,15 @@ in:
     - মধ্যে
 
 relative-type:
-    - in 1 year:
+    in 1 year:
         - আগামী বছর
-    - in 1 month:
+    in 1 month:
         - আগামী মাস
-    - in 1 week:
+    in 1 week:
         - আগামী সপ্তাহ
-    - 2 day ago:
+    2 day ago:
         - গত পরশু
 
 simplifications:
-    - মধ্যাহ্ন: '12:00'
-    - মধ্যরাত: '00:00'
+    মধ্যাহ্ন: '12:00'
+    মধ্যরাত: '00:00'

@@ -38,15 +38,15 @@ in:
     - im
 
 relative-type:
-    - 2 day ago:
+    2 day ago:
         - vorgestern
-    - \\1 hour ago:
+    \\1 hour ago:
         - vor (\d+)\s*h
-    - \\1 minute ago:
+    \\1 minute ago:
         - vor (\d+)\s*m
-    - \\1 second ago:
+    \\1 second ago:
         - vor (\d+)\s*s
 
 simplifications:
-    - einer: 1
-    - einem: 1
+    einer: 1
+    einem: 1

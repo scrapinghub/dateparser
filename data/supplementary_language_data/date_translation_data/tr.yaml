@@ -37,14 +37,14 @@ in:
     - sonra
 
 relative-type:
-    - in 1 year:
+    in 1 year:
         - önümüzdeki yıl
-    - in 1 month:
+    in 1 month:
         - önümüzdeki ay
-    - in 1 week:
+    in 1 week:
         - haftaya
         - önümüzdeki hafta
-    - 1 day ago:
+    1 day ago:
         - geçen gün
-    - in 1 day:
+    in 1 day:
         - önümüzdeki gün

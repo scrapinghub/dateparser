@@ -29,7 +29,7 @@ in:
     - बाद
 
 relative-type:
-    - 2 day ago:
+    2 day ago:
         - परसों
-    - in 2 day:
+    in 2 day:
         - परसों

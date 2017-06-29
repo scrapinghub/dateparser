@@ -39,10 +39,10 @@ in:
     - em
 
 relative-type:
-    - 2 days ago:
+    2 days ago:
         - anteontem
 
 simplifications:
-    - um: 1
-    - uma: 1
-    - alguns segundos: 44 segundos
+    um: 1
+    uma: 1
+    alguns segundos: 44 segundos
