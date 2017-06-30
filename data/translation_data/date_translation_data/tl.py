@@ -1,124 +1,124 @@
 tl = {
-    "september": [
-        "Setyembre", 
-        "Set"
-    ], 
+    "ago": [
+        "nakaraan",
+        "nakalipas"
+    ],
+    "april": [
+        "Abril",
+        "Abr"
+    ],
+    "august": [
+        "Agosto",
+        "Ago"
+    ],
+    "day": [
+        "araw"
+    ],
     "december": [
-        "Disyembre", 
+        "Disyembre",
         "Dis"
-    ], 
-    "tuesday": [
-        "Martes"
-    ], 
+    ],
+    "february": [
+        "Pebrero",
+        "Peb"
+    ],
+    "friday": [
+        "Biyernes",
+        "Biy"
+    ],
+    "hour": [
+        "oras"
+    ],
     "in": [
         "sa"
-    ], 
+    ],
+    "january": [
+        "Enero",
+        "Ene"
+    ],
+    "july": [
+        "Hulyo",
+        "Hul"
+    ],
+    "june": [
+        "Hunyo",
+        "Hun"
+    ],
+    "march": [
+        "Marso",
+        "Mar"
+    ],
+    "may": [
+        "Mayo",
+        "May"
+    ],
+    "minute": [
+        "minuto"
+    ],
+    "monday": [
+        "Lunes",
+        "Lun"
+    ],
     "month": [
         "buwan"
-    ], 
-    "second": [
-        "segundo"
-    ], 
-    "year": [
-        "taon"
-    ], 
-    "saturday": [
-        "Sabado", 
-        "Sab"
-    ], 
-    "thursday": [
-        "Huwebes", 
-        "Huw"
-    ], 
+    ],
+    "name": "tl",
+    "november": [
+        "Nobyembre",
+        "Nob"
+    ],
+    "october": [
+        "Oktubre",
+        "Okt"
+    ],
     "relative-type": {
         "2 day ago": [
             "isang araw"
-        ], 
+        ],
         "0 second ago": [
             "ngayon"
-        ], 
+        ],
         "1 day ago": [
             "kahapon"
         ]
-    }, 
-    "sunday": [
-        "Linggo", 
-        "Lin"
-    ], 
+    },
+    "saturday": [
+        "Sabado",
+        "Sab"
+    ],
+    "second": [
+        "segundo"
+    ],
+    "september": [
+        "Setyembre",
+        "Set"
+    ],
     "skip": [
-        "noong", 
-        "noon", 
-        "sa", 
-        "ganap", 
+        "noong",
+        "noon",
+        "sa",
+        "ganap",
         "na"
-    ], 
+    ],
+    "sunday": [
+        "Linggo",
+        "Lin"
+    ],
+    "thursday": [
+        "Huwebes",
+        "Huw"
+    ],
+    "tuesday": [
+        "Martes"
+    ],
+    "wednesday": [
+        "Miyerkules",
+        "Miy"
+    ],
     "week": [
         "linggo"
-    ], 
-    "march": [
-        "Marso", 
-        "Mar"
-    ], 
-    "august": [
-        "Agosto", 
-        "Ago"
-    ], 
-    "monday": [
-        "Lunes", 
-        "Lun"
-    ], 
-    "may": [
-        "Mayo", 
-        "May"
-    ], 
-    "friday": [
-        "Biyernes", 
-        "Biy"
-    ], 
-    "june": [
-        "Hunyo", 
-        "Hun"
-    ], 
-    "november": [
-        "Nobyembre", 
-        "Nob"
-    ], 
-    "day": [
-        "araw"
-    ], 
-    "minute": [
-        "minuto"
-    ], 
-    "ago": [
-        "nakaraan", 
-        "nakalipas"
-    ], 
-    "february": [
-        "Pebrero", 
-        "Peb"
-    ], 
-    "october": [
-        "Oktubre", 
-        "Okt"
-    ], 
-    "name": "tl", 
-    "hour": [
-        "oras"
-    ], 
-    "january": [
-        "Enero", 
-        "Ene"
-    ], 
-    "july": [
-        "Hulyo", 
-        "Hul"
-    ], 
-    "wednesday": [
-        "Miyerkules", 
-        "Miy"
-    ], 
-    "april": [
-        "Abril", 
-        "Abr"
+    ],
+    "year": [
+        "taon"
     ]
 }

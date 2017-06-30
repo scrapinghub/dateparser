@@ -3,11 +3,14 @@ import re
 import json
 import os
 import time
+import base64
 
 OAuth_Access_Token = 'OAuth_Access_Token'       # Add OAuth_Access_Token here
 headers = {'Authorization': 'token %s' % OAuth_Access_Token}
 cldr_dates_full_url = "https://api.github.com/repos/unicode-cldr/cldr-dates-full/contents/main/"
 territory_info_url = "https://api.github.com/repos/unicode-cldr/cldr-core/contents/supplemental/territoryInfo.json?ref=master"
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 def _get_language_locale_dict():
@@ -54,7 +57,7 @@ def _get_language_order():
         raise RuntimeError("Bad Response " + str(territory_response.status_code))
 
     territory_data = territory_response.json()
-    territory_content = json.loads(territory_data["content"].decode('base64'))
+    territory_content = json.loads(base64.b64decode(territory_data["content"]).decode('utf-8'))
     territory_info_data = territory_content["supplemental"]["territoryInfo"]
     language_population_dict = {}
     for territory in territory_info_data:
@@ -71,14 +74,13 @@ def _get_language_order():
             pass
 
     language_order = sorted(language_population_dict.keys(),
-                            key=lambda x: language_population_dict[x], reverse=True)
+                            key=lambda x: (language_population_dict[x], x), reverse=True)
     for index in range(0, len(language_order)):
         language_order[index] = re.sub(r'_', r'-', language_order[index])
 
     cldr_languages = language_locale_dict.keys()
-    os.chdir(os.path.dirname(__file__))
     supplementary_date_directory = "../data/supplementary_language_data/date_translation_data"
-    supplementary_languages = map(lambda x: x[:-5], os.listdir(supplementary_date_directory))
+    supplementary_languages = list(map(lambda x: x[:-5], os.listdir(supplementary_date_directory)))
     available_languages = set(cldr_languages).union(set(supplementary_languages))
     language_order = [shortname for shortname in language_order if shortname in available_languages]
     absent_languages = set(available_languages) - set(language_order)
@@ -90,7 +92,7 @@ def _get_language_order():
         else:
             remaining_languages.append(language)
     language_order = language_order + sorted(remaining_languages)
-    language_order = map(str, language_order)
+    language_order = list(map(str, language_order))
     return language_order
 
 
@@ -98,11 +100,11 @@ language_order = _get_language_order()
 
 
 def main():
-    os.chdir(os.path.dirname(__file__))
     parent_directory = "../data/translation_data/"
     if not os.path.isdir(parent_directory):
         os.mkdir(parent_directory)
-    language_order_string = 'language_order = ' + json.dumps(language_order, indent=4)
+    language_order_string = 'language_order = ' + json.dumps(
+            language_order, separators=(',', ': '), indent=4)
     filename = parent_directory + 'language_order.py'
     with open(filename, 'w') as f:
         f.write(language_order_string)

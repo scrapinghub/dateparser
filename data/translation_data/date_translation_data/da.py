@@ -1,290 +1,290 @@
 da = {
-    "name": "da", 
-    "date_order": "DMY", 
+    "name": "da",
+    "date_order": "DMY",
     "january": [
-        "jan", 
-        "januar", 
+        "januar",
+        "jan",
         "j"
-    ], 
+    ],
     "february": [
-        "feb", 
-        "februar", 
+        "februar",
+        "feb",
         "f"
-    ], 
+    ],
     "march": [
-        "marts", 
-        "mar", 
+        "marts",
+        "mar",
         "m"
-    ], 
+    ],
     "april": [
-        "apr", 
-        "april", 
+        "april",
+        "apr",
         "a"
-    ], 
+    ],
     "may": [
-        "maj", 
+        "maj",
         "m"
-    ], 
+    ],
     "june": [
-        "juni", 
-        "j", 
-        "jun"
-    ], 
+        "juni",
+        "jun",
+        "j"
+    ],
     "july": [
-        "juli", 
-        "j", 
-        "jul"
-    ], 
+        "juli",
+        "jul",
+        "j"
+    ],
     "august": [
-        "a", 
-        "august", 
-        "aug"
-    ], 
+        "august",
+        "aug",
+        "a"
+    ],
     "september": [
-        "september", 
-        "s", 
-        "sep"
-    ], 
+        "september",
+        "sep",
+        "s"
+    ],
     "october": [
-        "oktober", 
-        "okt", 
+        "oktober",
+        "okt",
         "o"
-    ], 
+    ],
     "november": [
-        "november", 
-        "nov", 
+        "november",
+        "nov",
         "n"
-    ], 
+    ],
     "december": [
-        "december", 
-        "dec", 
+        "december",
+        "dec",
         "d"
-    ], 
+    ],
     "monday": [
-        "mandag", 
-        "m", 
-        "man"
-    ], 
+        "mandag",
+        "man",
+        "m"
+    ],
     "tuesday": [
-        "tirsdag", 
-        "t", 
-        "tir"
-    ], 
-    "wednesday": [
-        "ons", 
-        "onsdag", 
-        "o"
-    ], 
-    "thursday": [
-        "tor", 
-        "torsdag", 
+        "tirsdag",
+        "tir",
         "t"
-    ], 
+    ],
+    "wednesday": [
+        "onsdag",
+        "ons",
+        "o"
+    ],
+    "thursday": [
+        "torsdag",
+        "tor",
+        "t"
+    ],
     "friday": [
-        "fredag", 
-        "fre", 
+        "fredag",
+        "fre",
         "f"
-    ], 
+    ],
     "saturday": [
-        "lørdag", 
-        "lør", 
+        "lørdag",
+        "lør",
         "l"
-    ], 
+    ],
     "sunday": [
-        "søndag", 
-        "s", 
-        "søn"
-    ], 
+        "søndag",
+        "søn",
+        "s"
+    ],
     "am": [
-        "a", 
-        "am"
-    ], 
+        "am",
+        "a"
+    ],
     "pm": [
-        "p", 
-        "pm"
-    ], 
+        "pm",
+        "p"
+    ],
     "year": [
         "år"
-    ], 
+    ],
     "month": [
-        "md", 
-        "måned", 
+        "måned",
+        "md",
         "måneder"
-    ], 
+    ],
     "week": [
-        "uge", 
+        "uge",
         "uger"
-    ], 
+    ],
     "day": [
-        "dag", 
+        "dag",
         "dage"
-    ], 
+    ],
     "hour": [
-        "t", 
-        "time", 
+        "time",
+        "t",
         "timer"
-    ], 
+    ],
     "minute": [
-        "minut", 
-        "min", 
+        "minut",
+        "min",
         "minutter"
-    ], 
+    ],
     "second": [
-        "sekund", 
-        "s", 
-        "sek", 
+        "sekund",
+        "sek",
+        "s",
         "sekunder"
-    ], 
+    ],
     "relative-type": {
         "1 year ago": [
             "sidste år"
-        ], 
+        ],
         "0 year ago": [
             "i år"
-        ], 
+        ],
         "in 1 year": [
             "næste år"
-        ], 
+        ],
         "1 month ago": [
-            "sidste måned", 
+            "sidste måned",
             "sidste md"
-        ], 
+        ],
         "0 month ago": [
-            "denne md", 
-            "denne måned"
-        ], 
+            "denne måned",
+            "denne md"
+        ],
         "in 1 month": [
-            "næste md", 
-            "næste måned"
-        ], 
+            "næste måned",
+            "næste md"
+        ],
         "1 week ago": [
             "sidste uge"
-        ], 
+        ],
         "0 week ago": [
             "denne uge"
-        ], 
+        ],
         "in 1 week": [
             "næste uge"
-        ], 
+        ],
         "1 day ago": [
             "i går"
-        ], 
+        ],
         "0 day ago": [
             "i dag"
-        ], 
+        ],
         "in 1 day": [
             "i morgen"
-        ], 
+        ],
         "0 hour ago": [
             "i den kommende time"
-        ], 
+        ],
         "0 minute ago": [
             "i det kommende minut"
-        ], 
+        ],
         "0 second ago": [
             "nu"
-        ], 
+        ],
         "in \\1 year": [
             "om (\\d+) år"
-        ], 
+        ],
         "\\1 year ago": [
             "for (\\d+) år siden"
-        ], 
+        ],
         "in \\1 month": [
-            "om (\\d+) md", 
-            "om (\\d+) måned", 
-            "om (\\d+) måneder", 
+            "om (\\d+) måned",
+            "om (\\d+) måneder",
+            "om (\\d+) md",
             "om (\\d+) mdr"
-        ], 
+        ],
         "\\1 month ago": [
-            "for (\\d+) mdr siden", 
-            "for (\\d+) md siden", 
-            "for (\\d+) måneder siden", 
-            "for (\\d+) måned siden"
-        ], 
+            "for (\\d+) måned siden",
+            "for (\\d+) måneder siden",
+            "for (\\d+) md siden",
+            "for (\\d+) mdr siden"
+        ],
         "in \\1 week": [
-            "om (\\d+) uger", 
-            "om (\\d+) uge"
-        ], 
+            "om (\\d+) uge",
+            "om (\\d+) uger"
+        ],
         "\\1 week ago": [
-            "for (\\d+) uger siden", 
-            "for (\\d+) uge siden"
-        ], 
+            "for (\\d+) uge siden",
+            "for (\\d+) uger siden"
+        ],
         "in \\1 day": [
-            "om (\\d+) dage", 
-            "om (\\d+) dag"
-        ], 
+            "om (\\d+) dag",
+            "om (\\d+) dage"
+        ],
         "\\1 day ago": [
-            "for (\\d+) dage siden", 
-            "for (\\d+) dag siden"
-        ], 
+            "for (\\d+) dag siden",
+            "for (\\d+) dage siden"
+        ],
         "in \\1 hour": [
-            "om (\\d+) timer", 
-            "om (\\d+) time"
-        ], 
+            "om (\\d+) time",
+            "om (\\d+) timer"
+        ],
         "\\1 hour ago": [
-            "for (\\d+) time siden", 
+            "for (\\d+) time siden",
             "for (\\d+) timer siden"
-        ], 
+        ],
         "in \\1 minute": [
-            "om (\\d+) min", 
-            "om (\\d+) minut", 
-            "om (\\d+) minutter"
-        ], 
+            "om (\\d+) minut",
+            "om (\\d+) minutter",
+            "om (\\d+) min"
+        ],
         "\\1 minute ago": [
-            "for (\\d+) minut siden", 
-            "for (\\d+) min siden", 
-            "for (\\d+) minutter siden"
-        ], 
+            "for (\\d+) minut siden",
+            "for (\\d+) minutter siden",
+            "for (\\d+) min siden"
+        ],
         "in \\1 second": [
-            "om (\\d+) sekund", 
-            "om (\\d+) sek", 
-            "om (\\d+) sekunder"
-        ], 
+            "om (\\d+) sekund",
+            "om (\\d+) sekunder",
+            "om (\\d+) sek"
+        ],
         "\\1 second ago": [
-            "for (\\d+) sek siden", 
-            "for (\\d+) sekunder siden", 
-            "for (\\d+) sekund siden"
-        ], 
-        "\\\\1 second ago": [
-            "for (\\d+)\\s*s", 
-            "for (\\d+) sekunder"
-        ], 
+            "for (\\d+) sekund siden",
+            "for (\\d+) sekunder siden",
+            "for (\\d+) sek siden"
+        ],
         "\\\\1 hour ago": [
-            "for (\\d+)\\s*h", 
+            "for (\\d+)\\s*h",
             "for (\\d+) timer"
-        ], 
+        ],
         "\\\\1 minute ago": [
-            "for (\\d+)\\s*m", 
+            "for (\\d+)\\s*m",
             "for (\\d+) minutter"
+        ],
+        "\\\\1 second ago": [
+            "for (\\d+)\\s*s",
+            "for (\\d+) sekunder"
         ]
-    }, 
+    },
     "locale_specific": {
         "da-GL": {
             "name": "da-GL"
         }
-    }, 
+    },
     "ago": [
         "siden"
-    ], 
-    "skip": [
-        "kl", 
-        "kl.", 
-        "cirka", 
-        "d."
-    ], 
+    ],
     "in": [
         "i"
-    ], 
+    ],
     "simplifications": {
-        "middag": "12:00", 
-        "en": 1, 
-        "(\\d+)\\s*min(s?)": "\\1 minut\\2", 
-        "mindre end 1 minut siden": "45 seconds", 
-        "midnat": "00:00", 
-        "(\\d+)\\s*sec(s?)": "\\1 sekund\\2", 
-        "(\\d+)\\s*hr(s?)": "\\1 time\\2", 
-        "et": 1, 
+        "middag": "12:00",
+        "en": 1,
+        "(\\d+)\\s*min(s?)": "\\1 minut\\2",
+        "mindre end 1 minut siden": "45 seconds",
+        "midnat": "00:00",
+        "(\\d+)\\s*sec(s?)": "\\1 sekund\\2",
+        "(\\d+)\\s*hr(s?)": "\\1 time\\2",
+        "et": 1,
         "(\\d+)h(\\d+)m?": "\\1:\\2"
-    }
+    },
+    "skip": [
+        "kl",
+        "kl.",
+        "cirka",
+        "d."
+    ]
 }

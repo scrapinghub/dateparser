@@ -1,214 +1,214 @@
 {
-    "name": "twq", 
-    "date_order": "DMY", 
+    "name": "twq",
+    "date_order": "DMY",
     "january": [
-        "žan", 
-        "žanwiye", 
+        "žanwiye",
+        "žan",
         "ž"
-    ], 
+    ],
     "february": [
-        "fee", 
-        "feewiriye", 
+        "feewiriye",
+        "fee",
         "f"
-    ], 
+    ],
     "march": [
-        "mar", 
-        "m", 
-        "marsi"
-    ], 
-    "april": [
-        "awiril", 
-        "a", 
-        "awi"
-    ], 
-    "may": [
-        "me", 
+        "marsi",
+        "mar",
         "m"
-    ], 
+    ],
+    "april": [
+        "awiril",
+        "awi",
+        "a"
+    ],
+    "may": [
+        "me",
+        "m"
+    ],
     "june": [
-        "žuw", 
-        "ž", 
-        "žuweŋ"
-    ], 
+        "žuweŋ",
+        "žuw",
+        "ž"
+    ],
     "july": [
-        "žuy", 
-        "ž", 
-        "žuyye"
-    ], 
+        "žuyye",
+        "žuy",
+        "ž"
+    ],
     "august": [
-        "ut", 
+        "ut",
         "u"
-    ], 
+    ],
     "september": [
-        "sektanbur", 
-        "sek", 
+        "sektanbur",
+        "sek",
         "s"
-    ], 
+    ],
     "october": [
-        "oktoobur", 
-        "okt", 
+        "oktoobur",
+        "okt",
         "o"
-    ], 
+    ],
     "november": [
-        "noowanbur", 
-        "noo", 
+        "noowanbur",
+        "noo",
         "n"
-    ], 
+    ],
     "december": [
-        "deesanbur", 
-        "dee", 
+        "deesanbur",
+        "dee",
         "d"
-    ], 
+    ],
     "monday": [
-        "ati", 
-        "t", 
-        "atinni"
-    ], 
+        "atinni",
+        "ati",
+        "t"
+    ],
     "tuesday": [
-        "ata", 
-        "t", 
-        "atalaata"
-    ], 
+        "atalaata",
+        "ata",
+        "t"
+    ],
     "wednesday": [
-        "ala", 
-        "l", 
-        "alarba"
-    ], 
+        "alarba",
+        "ala",
+        "l"
+    ],
     "thursday": [
-        "alm", 
-        "alhamiisa", 
+        "alhamiisa",
+        "alm",
         "l"
-    ], 
+    ],
     "friday": [
-        "alzuma", 
-        "alz", 
+        "alzuma",
+        "alz",
         "l"
-    ], 
+    ],
     "saturday": [
-        "s", 
-        "asibti", 
-        "asi"
-    ], 
+        "asibti",
+        "asi",
+        "s"
+    ],
     "sunday": [
-        "h", 
-        "alhadi", 
-        "alh"
-    ], 
+        "alhadi",
+        "alh",
+        "h"
+    ],
     "am": [
         "subbaahi"
-    ], 
+    ],
     "pm": [
         "zaarikay b"
-    ], 
+    ],
     "year": [
         "jiiri"
-    ], 
+    ],
     "month": [
         "handu"
-    ], 
+    ],
     "week": [
         "hebu"
-    ], 
+    ],
     "day": [
         "zaari"
-    ], 
+    ],
     "hour": [
         "guuru"
-    ], 
+    ],
     "minute": [
         "miniti"
-    ], 
+    ],
     "second": [
         "miti"
-    ], 
+    ],
     "relative-type": {
         "1 year ago": [
             "last year"
-        ], 
+        ],
         "0 year ago": [
             "this year"
-        ], 
+        ],
         "in 1 year": [
             "next year"
-        ], 
+        ],
         "1 month ago": [
             "last month"
-        ], 
+        ],
         "0 month ago": [
             "this month"
-        ], 
+        ],
         "in 1 month": [
             "next month"
-        ], 
+        ],
         "1 week ago": [
             "last week"
-        ], 
+        ],
         "0 week ago": [
             "this week"
-        ], 
+        ],
         "in 1 week": [
             "next week"
-        ], 
+        ],
         "1 day ago": [
             "bi"
-        ], 
+        ],
         "0 day ago": [
             "hõo"
-        ], 
+        ],
         "in 1 day": [
             "suba"
-        ], 
+        ],
         "0 hour ago": [
             "this hour"
-        ], 
+        ],
         "0 minute ago": [
             "this minute"
-        ], 
+        ],
         "0 second ago": [
             "now"
-        ], 
+        ],
         "in \\1 year": [
             "+(\\d+) y"
-        ], 
+        ],
         "\\1 year ago": [
             "-(\\d+) y"
-        ], 
+        ],
         "in \\1 month": [
             "+(\\d+) m"
-        ], 
+        ],
         "\\1 month ago": [
             "-(\\d+) m"
-        ], 
+        ],
         "in \\1 week": [
             "+(\\d+) w"
-        ], 
+        ],
         "\\1 week ago": [
             "-(\\d+) w"
-        ], 
+        ],
         "in \\1 day": [
             "+(\\d+) d"
-        ], 
+        ],
         "\\1 day ago": [
             "-(\\d+) d"
-        ], 
+        ],
         "in \\1 hour": [
             "+(\\d+) h"
-        ], 
+        ],
         "\\1 hour ago": [
             "-(\\d+) h"
-        ], 
+        ],
         "in \\1 minute": [
             "+(\\d+) min"
-        ], 
+        ],
         "\\1 minute ago": [
             "-(\\d+) min"
-        ], 
+        ],
         "in \\1 second": [
             "+(\\d+) s"
-        ], 
+        ],
         "\\1 second ago": [
             "-(\\d+) s"
         ]
-    }, 
+    },
     "locale_specific": {}
 }

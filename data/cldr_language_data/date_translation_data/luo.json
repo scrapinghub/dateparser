@@ -1,216 +1,216 @@
 {
-    "name": "luo", 
-    "date_order": "DMY", 
+    "name": "luo",
+    "date_order": "DMY",
     "january": [
-        "c", 
-        "dwe mar achiel", 
-        "dac"
-    ], 
+        "dwe mar achiel",
+        "dac",
+        "c"
+    ],
     "february": [
-        "r", 
-        "dwe mar ariyo", 
-        "dar"
-    ], 
+        "dwe mar ariyo",
+        "dar",
+        "r"
+    ],
     "march": [
-        "dad", 
-        "dwe mar adek", 
+        "dwe mar adek",
+        "dad",
         "d"
-    ], 
+    ],
     "april": [
-        "dan", 
-        "dwe mar ang’wen", 
+        "dwe mar ang’wen",
+        "dan",
         "n"
-    ], 
+    ],
     "may": [
-        "b", 
-        "dah", 
-        "dwe mar abich"
-    ], 
+        "dwe mar abich",
+        "dah",
+        "b"
+    ],
     "june": [
-        "dwe mar auchiel", 
-        "dau", 
+        "dwe mar auchiel",
+        "dau",
         "u"
-    ], 
+    ],
     "july": [
-        "dao", 
-        "b", 
-        "dwe mar abiriyo"
-    ], 
+        "dwe mar abiriyo",
+        "dao",
+        "b"
+    ],
     "august": [
-        "b", 
-        "dwe mar aboro", 
-        "dab"
-    ], 
+        "dwe mar aboro",
+        "dab",
+        "b"
+    ],
     "september": [
-        "doc", 
-        "c", 
-        "dwe mar ochiko"
-    ], 
+        "dwe mar ochiko",
+        "doc",
+        "c"
+    ],
     "october": [
-        "p", 
-        "dwe mar apar", 
-        "dap"
-    ], 
-    "november": [
-        "c", 
-        "dgi", 
-        "dwe mar gi achiel"
-    ], 
-    "december": [
-        "dwe mar apar gi ariyo", 
-        "dag", 
+        "dwe mar apar",
+        "dap",
         "p"
-    ], 
+    ],
+    "november": [
+        "dwe mar gi achiel",
+        "dgi",
+        "c"
+    ],
+    "december": [
+        "dwe mar apar gi ariyo",
+        "dag",
+        "p"
+    ],
     "monday": [
-        "wuok tich", 
-        "w", 
-        "wut"
-    ], 
+        "wuok tich",
+        "wut",
+        "w"
+    ],
     "tuesday": [
-        "tich ariyo", 
-        "t", 
-        "tar"
-    ], 
-    "wednesday": [
-        "tad", 
-        "t", 
-        "tich adek"
-    ], 
-    "thursday": [
-        "tan", 
-        "tich ang’wen", 
+        "tich ariyo",
+        "tar",
         "t"
-    ], 
+    ],
+    "wednesday": [
+        "tich adek",
+        "tad",
+        "t"
+    ],
+    "thursday": [
+        "tich ang’wen",
+        "tan",
+        "t"
+    ],
     "friday": [
-        "tich abich", 
-        "t", 
-        "tab"
-    ], 
+        "tich abich",
+        "tab",
+        "t"
+    ],
     "saturday": [
-        "n", 
-        "ngeso", 
-        "ngs"
-    ], 
+        "ngeso",
+        "ngs",
+        "n"
+    ],
     "sunday": [
-        "jmp", 
-        "j", 
-        "jumapil"
-    ], 
+        "jumapil",
+        "jmp",
+        "j"
+    ],
     "am": [
         "od"
-    ], 
+    ],
     "pm": [
         "ot"
-    ], 
+    ],
     "year": [
         "higa"
-    ], 
+    ],
     "month": [
         "dwe"
-    ], 
+    ],
     "week": [
         "juma"
-    ], 
+    ],
     "day": [
         "chieng’"
-    ], 
+    ],
     "hour": [
         "saa"
-    ], 
+    ],
     "minute": [
         "dakika"
-    ], 
+    ],
     "second": [
         "nyiriri mar saa"
-    ], 
+    ],
     "relative-type": {
         "1 year ago": [
             "last year"
-        ], 
+        ],
         "0 year ago": [
             "this year"
-        ], 
+        ],
         "in 1 year": [
             "next year"
-        ], 
+        ],
         "1 month ago": [
             "last month"
-        ], 
+        ],
         "0 month ago": [
             "this month"
-        ], 
+        ],
         "in 1 month": [
             "next month"
-        ], 
+        ],
         "1 week ago": [
             "last week"
-        ], 
+        ],
         "0 week ago": [
             "this week"
-        ], 
+        ],
         "in 1 week": [
             "next week"
-        ], 
+        ],
         "1 day ago": [
             "nyoro"
-        ], 
+        ],
         "0 day ago": [
             "kawuono"
-        ], 
+        ],
         "in 1 day": [
             "kiny"
-        ], 
+        ],
         "0 hour ago": [
             "this hour"
-        ], 
+        ],
         "0 minute ago": [
             "this minute"
-        ], 
+        ],
         "0 second ago": [
             "now"
-        ], 
+        ],
         "in \\1 year": [
             "+(\\d+) y"
-        ], 
+        ],
         "\\1 year ago": [
             "-(\\d+) y"
-        ], 
+        ],
         "in \\1 month": [
             "+(\\d+) m"
-        ], 
+        ],
         "\\1 month ago": [
             "-(\\d+) m"
-        ], 
+        ],
         "in \\1 week": [
             "+(\\d+) w"
-        ], 
+        ],
         "\\1 week ago": [
             "-(\\d+) w"
-        ], 
+        ],
         "in \\1 day": [
             "+(\\d+) d"
-        ], 
+        ],
         "\\1 day ago": [
             "-(\\d+) d"
-        ], 
+        ],
         "in \\1 hour": [
             "+(\\d+) h"
-        ], 
+        ],
         "\\1 hour ago": [
             "-(\\d+) h"
-        ], 
+        ],
         "in \\1 minute": [
             "+(\\d+) min"
-        ], 
+        ],
         "\\1 minute ago": [
             "-(\\d+) min"
-        ], 
+        ],
         "in \\1 second": [
             "+(\\d+) s"
-        ], 
+        ],
         "\\1 second ago": [
             "-(\\d+) s"
         ]
-    }, 
+    },
     "locale_specific": {}
 }

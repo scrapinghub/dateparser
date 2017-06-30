@@ -1,263 +1,263 @@
 tr = {
-    "name": "tr", 
-    "date_order": "DMY", 
+    "name": "tr",
+    "date_order": "DMY",
     "january": [
-        "oca", 
-        "o", 
-        "ocak", 
+        "ocak",
+        "oca",
+        "o",
         "Oc"
-    ], 
+    ],
     "february": [
-        "şub", 
-        "şubat", 
-        "ş", 
+        "şubat",
+        "şub",
+        "ş",
         "Şu"
-    ], 
+    ],
     "march": [
-        "mart", 
-        "mar", 
+        "mart",
+        "mar",
         "m"
-    ], 
+    ],
     "april": [
-        "nis", 
-        "nisan", 
-        "n", 
+        "nisan",
+        "nis",
+        "n",
         "Ni"
-    ], 
+    ],
     "may": [
-        "may", 
-        "m", 
-        "mayıs"
-    ], 
+        "mayıs",
+        "may",
+        "m"
+    ],
     "june": [
-        "h", 
-        "haz", 
-        "haziran", 
+        "haziran",
+        "haz",
+        "h",
         "Ha"
-    ], 
+    ],
     "july": [
-        "temmuz", 
-        "tem", 
-        "t", 
+        "temmuz",
+        "tem",
+        "t",
         "Te"
-    ], 
+    ],
     "august": [
-        "a", 
-        "ağu", 
-        "ağustos", 
+        "ağustos",
+        "ağu",
+        "a",
         "Ağ"
-    ], 
+    ],
     "september": [
-        "eylül", 
-        "e", 
-        "eyl", 
+        "eylül",
+        "eyl",
+        "e",
         "Ey"
-    ], 
+    ],
     "october": [
-        "e", 
-        "eki", 
-        "ekim", 
+        "ekim",
+        "eki",
+        "e",
         "Ek"
-    ], 
+    ],
     "november": [
-        "kasım", 
-        "kas", 
-        "k", 
+        "kasım",
+        "kas",
+        "k",
         "Ka"
-    ], 
+    ],
     "december": [
-        "aralık", 
-        "ara", 
-        "a", 
+        "aralık",
+        "ara",
+        "a",
         "Ar"
-    ], 
+    ],
     "monday": [
-        "pzt", 
-        "pazartesi", 
+        "pazartesi",
+        "pzt",
         "p"
-    ], 
+    ],
     "tuesday": [
-        "salı", 
-        "s", 
-        "sal"
-    ], 
+        "salı",
+        "sal",
+        "s"
+    ],
     "wednesday": [
-        "çarşamba", 
-        "çar", 
-        "ç", 
+        "çarşamba",
+        "çar",
+        "ç",
         "Çrs"
-    ], 
+    ],
     "thursday": [
-        "perşembe", 
-        "per", 
-        "p", 
+        "perşembe",
+        "per",
+        "p",
         "Prs"
-    ], 
+    ],
     "friday": [
-        "cum", 
-        "c", 
-        "cuma"
-    ], 
+        "cuma",
+        "cum",
+        "c"
+    ],
     "saturday": [
-        "c", 
-        "cmt", 
-        "cumartesi"
-    ], 
+        "cumartesi",
+        "cmt",
+        "c"
+    ],
     "sunday": [
-        "pazar", 
-        "paz", 
+        "pazar",
+        "paz",
         "p"
-    ], 
+    ],
     "am": [
         "öö"
-    ], 
+    ],
     "pm": [
         "ös"
-    ], 
+    ],
     "year": [
-        "yıl", 
+        "yıl",
         "sene"
-    ], 
+    ],
     "month": [
         "ay"
-    ], 
+    ],
     "week": [
-        "hf", 
-        "hafta"
-    ], 
+        "hafta",
+        "hf"
+    ],
     "day": [
         "gün"
-    ], 
+    ],
     "hour": [
-        "sa", 
-        "saat"
-    ], 
+        "saat",
+        "sa"
+    ],
     "minute": [
-        "dakika", 
+        "dakika",
         "dk"
-    ], 
+    ],
     "second": [
-        "saniye", 
+        "saniye",
         "sn"
-    ], 
+    ],
     "relative-type": {
         "1 year ago": [
             "geçen yıl"
-        ], 
+        ],
         "0 year ago": [
             "bu yıl"
-        ], 
+        ],
         "in 1 year": [
-            "gelecek yıl", 
+            "gelecek yıl",
             "önümüzdeki yıl"
-        ], 
+        ],
         "1 month ago": [
             "geçen ay"
-        ], 
+        ],
         "0 month ago": [
             "bu ay"
-        ], 
+        ],
         "in 1 month": [
-            "gelecek ay", 
+            "gelecek ay",
             "önümüzdeki ay"
-        ], 
+        ],
         "1 week ago": [
             "geçen hafta"
-        ], 
+        ],
         "0 week ago": [
             "bu hafta"
-        ], 
+        ],
         "in 1 week": [
-            "gelecek hafta", 
-            "haftaya", 
+            "gelecek hafta",
+            "haftaya",
             "önümüzdeki hafta"
-        ], 
+        ],
         "1 day ago": [
-            "dün", 
+            "dün",
             "geçen gün"
-        ], 
+        ],
         "0 day ago": [
             "bugün"
-        ], 
+        ],
         "in 1 day": [
-            "yarın", 
+            "yarın",
             "önümüzdeki gün"
-        ], 
+        ],
         "0 hour ago": [
             "bu saat"
-        ], 
+        ],
         "0 minute ago": [
             "bu dakika"
-        ], 
+        ],
         "0 second ago": [
             "şimdi"
-        ], 
+        ],
         "in \\1 year": [
             "(\\d+) yıl sonra"
-        ], 
+        ],
         "\\1 year ago": [
             "(\\d+) yıl önce"
-        ], 
+        ],
         "in \\1 month": [
             "(\\d+) ay sonra"
-        ], 
+        ],
         "\\1 month ago": [
             "(\\d+) ay önce"
-        ], 
+        ],
         "in \\1 week": [
-            "(\\d+) hafta sonra", 
+            "(\\d+) hafta sonra",
             "(\\d+) hf sonra"
-        ], 
+        ],
         "\\1 week ago": [
-            "(\\d+) hafta önce", 
+            "(\\d+) hafta önce",
             "(\\d+) hf önce"
-        ], 
+        ],
         "in \\1 day": [
             "(\\d+) gün sonra"
-        ], 
+        ],
         "\\1 day ago": [
             "(\\d+) gün önce"
-        ], 
+        ],
         "in \\1 hour": [
-            "(\\d+) saat sonra", 
+            "(\\d+) saat sonra",
             "(\\d+) sa sonra"
-        ], 
+        ],
         "\\1 hour ago": [
-            "(\\d+) sa önce", 
-            "(\\d+) saat önce"
-        ], 
+            "(\\d+) saat önce",
+            "(\\d+) sa önce"
+        ],
         "in \\1 minute": [
-            "(\\d+) dakika sonra", 
+            "(\\d+) dakika sonra",
             "(\\d+) dk sonra"
-        ], 
+        ],
         "\\1 minute ago": [
-            "(\\d+) dk önce", 
-            "(\\d+) dakika önce"
-        ], 
+            "(\\d+) dakika önce",
+            "(\\d+) dk önce"
+        ],
         "in \\1 second": [
-            "(\\d+) saniye sonra", 
+            "(\\d+) saniye sonra",
             "(\\d+) sn sonra"
-        ], 
+        ],
         "\\1 second ago": [
-            "(\\d+) sn önce", 
-            "(\\d+) saniye önce"
+            "(\\d+) saniye önce",
+            "(\\d+) sn önce"
         ]
-    }, 
+    },
     "locale_specific": {
         "tr-CY": {
             "name": "tr-CY"
         }
-    }, 
+    },
     "ago": [
         "önce"
-    ], 
-    "skip": [
-        "yaklaşık", 
-        "ve"
-    ], 
+    ],
     "in": [
-        "içerisinde", 
-        "içinde", 
+        "içerisinde",
+        "içinde",
         "sonra"
+    ],
+    "skip": [
+        "yaklaşık",
+        "ve"
     ]
 }

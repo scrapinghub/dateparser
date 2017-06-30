@@ -1,212 +1,212 @@
 {
-    "name": "hu", 
-    "date_order": "YMD", 
+    "name": "hu",
+    "date_order": "YMD",
     "january": [
-        "jan", 
-        "január", 
+        "január",
+        "jan",
         "j"
-    ], 
+    ],
     "february": [
-        "febr", 
-        "február", 
+        "február",
+        "febr",
         "f"
-    ], 
+    ],
     "march": [
-        "március", 
-        "m", 
-        "márc"
-    ], 
-    "april": [
-        "ápr", 
-        "á", 
-        "április"
-    ], 
-    "may": [
-        "május", 
-        "máj", 
+        "március",
+        "márc",
         "m"
-    ], 
+    ],
+    "april": [
+        "április",
+        "ápr",
+        "á"
+    ],
+    "may": [
+        "május",
+        "máj",
+        "m"
+    ],
     "june": [
-        "jún", 
-        "j", 
-        "június"
-    ], 
+        "június",
+        "jún",
+        "j"
+    ],
     "july": [
-        "júl", 
-        "j", 
-        "július"
-    ], 
+        "július",
+        "júl",
+        "j"
+    ],
     "august": [
-        "a", 
-        "aug", 
-        "augusztus"
-    ], 
+        "augusztus",
+        "aug",
+        "a"
+    ],
     "september": [
-        "sz", 
-        "szeptember", 
-        "szept"
-    ], 
+        "szeptember",
+        "szept",
+        "sz"
+    ],
     "october": [
-        "okt", 
-        "o", 
-        "október"
-    ], 
+        "október",
+        "okt",
+        "o"
+    ],
     "november": [
-        "november", 
-        "nov", 
+        "november",
+        "nov",
         "n"
-    ], 
+    ],
     "december": [
-        "december", 
-        "dec", 
+        "december",
+        "dec",
         "d"
-    ], 
+    ],
     "monday": [
-        "h", 
-        "hétfő"
-    ], 
+        "hétfő",
+        "h"
+    ],
     "tuesday": [
-        "kedd", 
+        "kedd",
         "k"
-    ], 
+    ],
     "wednesday": [
-        "sz", 
-        "szerda", 
-        "sze"
-    ], 
+        "szerda",
+        "sze",
+        "sz"
+    ],
     "thursday": [
-        "cs", 
-        "csütörtök"
-    ], 
+        "csütörtök",
+        "cs"
+    ],
     "friday": [
-        "péntek", 
+        "péntek",
         "p"
-    ], 
+    ],
     "saturday": [
-        "sz", 
-        "szo", 
-        "szombat"
-    ], 
+        "szombat",
+        "szo",
+        "sz"
+    ],
     "sunday": [
-        "vasárnap", 
+        "vasárnap",
         "v"
-    ], 
+    ],
     "am": [
         "de"
-    ], 
+    ],
     "pm": [
         "du"
-    ], 
+    ],
     "year": [
         "év"
-    ], 
+    ],
     "month": [
         "hónap"
-    ], 
+    ],
     "week": [
         "hét"
-    ], 
+    ],
     "day": [
         "nap"
-    ], 
+    ],
     "hour": [
         "óra"
-    ], 
+    ],
     "minute": [
         "perc"
-    ], 
+    ],
     "second": [
         "másodperc"
-    ], 
+    ],
     "relative-type": {
         "1 year ago": [
             "előző év"
-        ], 
+        ],
         "0 year ago": [
             "ez az év"
-        ], 
+        ],
         "in 1 year": [
             "következő év"
-        ], 
+        ],
         "1 month ago": [
             "előző hónap"
-        ], 
+        ],
         "0 month ago": [
             "ez a hónap"
-        ], 
+        ],
         "in 1 month": [
             "következő hónap"
-        ], 
+        ],
         "1 week ago": [
             "előző hét"
-        ], 
+        ],
         "0 week ago": [
             "ez a hét"
-        ], 
+        ],
         "in 1 week": [
             "következő hét"
-        ], 
+        ],
         "1 day ago": [
             "tegnap"
-        ], 
+        ],
         "0 day ago": [
             "ma"
-        ], 
+        ],
         "in 1 day": [
             "holnap"
-        ], 
+        ],
         "0 hour ago": [
             "ebben az órában"
-        ], 
+        ],
         "0 minute ago": [
             "ebben a percben"
-        ], 
+        ],
         "0 second ago": [
             "most"
-        ], 
+        ],
         "in \\1 year": [
             "(\\d+) év múlva"
-        ], 
+        ],
         "\\1 year ago": [
             "(\\d+) évvel ezelőtt"
-        ], 
+        ],
         "in \\1 month": [
             "(\\d+) hónap múlva"
-        ], 
+        ],
         "\\1 month ago": [
             "(\\d+) hónappal ezelőtt"
-        ], 
+        ],
         "in \\1 week": [
             "(\\d+) hét múlva"
-        ], 
+        ],
         "\\1 week ago": [
             "(\\d+) héttel ezelőtt"
-        ], 
+        ],
         "in \\1 day": [
             "(\\d+) nap múlva"
-        ], 
+        ],
         "\\1 day ago": [
-            "(\\d+) napja", 
-            "(\\d+) nappal ezelőtt"
-        ], 
+            "(\\d+) nappal ezelőtt",
+            "(\\d+) napja"
+        ],
         "in \\1 hour": [
             "(\\d+) óra múlva"
-        ], 
+        ],
         "\\1 hour ago": [
             "(\\d+) órával ezelőtt"
-        ], 
+        ],
         "in \\1 minute": [
             "(\\d+) perc múlva"
-        ], 
+        ],
         "\\1 minute ago": [
             "(\\d+) perccel ezelőtt"
-        ], 
+        ],
         "in \\1 second": [
             "(\\d+) másodperc múlva"
-        ], 
+        ],
         "\\1 second ago": [
             "(\\d+) másodperccel ezelőtt"
         ]
-    }, 
+    },
     "locale_specific": {}
 }

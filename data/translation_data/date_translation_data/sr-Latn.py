@@ -1,308 +1,308 @@
 sr-Latn = {
-    "name": "sr-Latn", 
-    "date_order": "DMY", 
+    "name": "sr-Latn",
+    "date_order": "DMY",
     "january": [
-        "jan", 
-        "januar", 
+        "januar",
+        "jan",
         "j"
-    ], 
+    ],
     "february": [
-        "feb", 
-        "februar", 
+        "februar",
+        "feb",
         "f"
-    ], 
+    ],
     "march": [
-        "mart", 
-        "mar", 
+        "mart",
+        "mar",
         "m"
-    ], 
+    ],
     "april": [
-        "apr", 
-        "april", 
+        "april",
+        "apr",
         "a"
-    ], 
+    ],
     "may": [
-        "maj", 
+        "maj",
         "m"
-    ], 
+    ],
     "june": [
-        "j", 
-        "jun"
-    ], 
+        "jun",
+        "j"
+    ],
     "july": [
-        "j", 
-        "jul"
-    ], 
+        "jul",
+        "j"
+    ],
     "august": [
-        "a", 
-        "avg", 
-        "avgust"
-    ], 
-    "september": [
-        "s", 
-        "septembar", 
-        "sep"
-    ], 
-    "october": [
-        "okt", 
-        "o", 
-        "oktobar"
-    ], 
-    "november": [
-        "nov", 
-        "novembar", 
-        "n"
-    ], 
-    "december": [
-        "dec", 
-        "decembar", 
-        "d"
-    ], 
-    "monday": [
-        "pon", 
-        "ponedeljak", 
-        "p"
-    ], 
-    "tuesday": [
-        "u", 
-        "uto", 
-        "utorak"
-    ], 
-    "wednesday": [
-        "s", 
-        "sreda", 
-        "sre"
-    ], 
-    "thursday": [
-        "čet", 
-        "č", 
-        "četvrtak"
-    ], 
-    "friday": [
-        "pet", 
-        "p", 
-        "petak"
-    ], 
-    "saturday": [
-        "s", 
-        "sub", 
-        "subota"
-    ], 
-    "sunday": [
-        "ned", 
-        "nedelja", 
-        "n"
-    ], 
-    "am": [
-        "pre podne", 
+        "avgust",
+        "avg",
         "a"
-    ], 
-    "pm": [
-        "p", 
-        "po podne"
-    ], 
-    "year": [
-        "god", 
-        "g", 
-        "godina"
-    ], 
-    "month": [
-        "mesec", 
-        "m", 
-        "mes"
-    ], 
-    "week": [
-        "ned", 
-        "nedelja", 
+    ],
+    "september": [
+        "septembar",
+        "sep",
+        "s"
+    ],
+    "october": [
+        "oktobar",
+        "okt",
+        "o"
+    ],
+    "november": [
+        "novembar",
+        "nov",
         "n"
-    ], 
-    "day": [
-        "dan", 
+    ],
+    "december": [
+        "decembar",
+        "dec",
         "d"
-    ], 
+    ],
+    "monday": [
+        "ponedeljak",
+        "pon",
+        "p"
+    ],
+    "tuesday": [
+        "utorak",
+        "uto",
+        "u"
+    ],
+    "wednesday": [
+        "sreda",
+        "sre",
+        "s"
+    ],
+    "thursday": [
+        "četvrtak",
+        "čet",
+        "č"
+    ],
+    "friday": [
+        "petak",
+        "pet",
+        "p"
+    ],
+    "saturday": [
+        "subota",
+        "sub",
+        "s"
+    ],
+    "sunday": [
+        "nedelja",
+        "ned",
+        "n"
+    ],
+    "am": [
+        "pre podne",
+        "a"
+    ],
+    "pm": [
+        "po podne",
+        "p"
+    ],
+    "year": [
+        "godina",
+        "god",
+        "g"
+    ],
+    "month": [
+        "mesec",
+        "mes",
+        "m"
+    ],
+    "week": [
+        "nedelja",
+        "ned",
+        "n"
+    ],
+    "day": [
+        "dan",
+        "d"
+    ],
     "hour": [
-        "č", 
-        "sat"
-    ], 
+        "sat",
+        "č"
+    ],
     "minute": [
-        "minut", 
+        "minut",
         "min"
-    ], 
+    ],
     "second": [
-        "sekund", 
-        "s", 
-        "sek"
-    ], 
+        "sekund",
+        "sek",
+        "s"
+    ],
     "relative-type": {
         "1 year ago": [
             "prošle godine"
-        ], 
+        ],
         "0 year ago": [
             "ove godine"
-        ], 
+        ],
         "in 1 year": [
             "sledeće godine"
-        ], 
+        ],
         "1 month ago": [
             "prošlog meseca"
-        ], 
+        ],
         "0 month ago": [
             "ovog meseca"
-        ], 
+        ],
         "in 1 month": [
             "sledećeg meseca"
-        ], 
+        ],
         "1 week ago": [
             "prošle nedelje"
-        ], 
+        ],
         "0 week ago": [
             "ove nedelje"
-        ], 
+        ],
         "in 1 week": [
             "sledeće nedelje"
-        ], 
+        ],
         "1 day ago": [
             "juče"
-        ], 
+        ],
         "0 day ago": [
             "danas"
-        ], 
+        ],
         "in 1 day": [
             "sutra"
-        ], 
+        ],
         "0 hour ago": [
             "ovog sata"
-        ], 
+        ],
         "0 minute ago": [
             "ovog minuta"
-        ], 
+        ],
         "0 second ago": [
             "sada"
-        ], 
+        ],
         "in \\1 year": [
-            "za (\\d+) god", 
-            "za (\\d+) godina", 
-            "za (\\d+) g", 
-            "za (\\d+) godinu"
-        ], 
+            "za (\\d+) godinu",
+            "za (\\d+) godina",
+            "za (\\d+) god",
+            "za (\\d+) g"
+        ],
         "\\1 year ago": [
-            "pre (\\d+) godina", 
-            "pre (\\d+) g", 
-            "pre (\\d+) god", 
-            "pre (\\d+) godine"
-        ], 
+            "pre (\\d+) godine",
+            "pre (\\d+) godina",
+            "pre (\\d+) god",
+            "pre (\\d+) g"
+        ],
         "in \\1 month": [
-            "za (\\d+) mesec", 
-            "za (\\d+) m", 
-            "za (\\d+) mes", 
-            "za (\\d+) meseci"
-        ], 
+            "za (\\d+) mesec",
+            "za (\\d+) meseci",
+            "za (\\d+) mes",
+            "za (\\d+) m"
+        ],
         "\\1 month ago": [
-            "pre (\\d+) mes", 
-            "pre (\\d+) meseci", 
-            "pre (\\d+) m", 
-            "pre (\\d+) meseca"
-        ], 
+            "pre (\\d+) meseca",
+            "pre (\\d+) meseci",
+            "pre (\\d+) mes",
+            "pre (\\d+) m"
+        ],
         "in \\1 week": [
-            "za (\\d+) nedelju", 
-            "za (\\d+) ned", 
-            "za (\\d+) nedelja", 
+            "za (\\d+) nedelju",
+            "za (\\d+) nedelja",
+            "za (\\d+) ned",
             "za (\\d+) n"
-        ], 
+        ],
         "\\1 week ago": [
-            "pre (\\d+) n", 
-            "pre (\\d+) nedelja", 
-            "pre (\\d+) ned", 
-            "pre (\\d+) nedelje"
-        ], 
+            "pre (\\d+) nedelje",
+            "pre (\\d+) nedelja",
+            "pre (\\d+) ned",
+            "pre (\\d+) n"
+        ],
         "in \\1 day": [
-            "za (\\d+) dana", 
-            "za (\\d+) d", 
-            "za (\\d+) dan"
-        ], 
+            "za (\\d+) dan",
+            "za (\\d+) dana",
+            "za (\\d+) d"
+        ],
         "\\1 day ago": [
-            "pre (\\d+) d", 
-            "pre (\\d+) dana"
-        ], 
+            "pre (\\d+) dana",
+            "pre (\\d+) d"
+        ],
         "in \\1 hour": [
-            "za (\\d+) sati", 
-            "za (\\d+) sat", 
+            "za (\\d+) sat",
+            "za (\\d+) sati",
             "za (\\d+) č"
-        ], 
+        ],
         "\\1 hour ago": [
-            "pre (\\d+) č", 
-            "pre (\\d+) sati", 
-            "pre (\\d+) sata"
-        ], 
+            "pre (\\d+) sata",
+            "pre (\\d+) sati",
+            "pre (\\d+) č"
+        ],
         "in \\1 minute": [
-            "za (\\d+) minut", 
-            "za (\\d+) min", 
-            "za (\\d+) minuta"
-        ], 
+            "za (\\d+) minut",
+            "za (\\d+) minuta",
+            "za (\\d+) min"
+        ],
         "\\1 minute ago": [
-            "pre (\\d+) minuta", 
+            "pre (\\d+) minuta",
             "pre (\\d+) min"
-        ], 
+        ],
         "in \\1 second": [
-            "za (\\d+) sekundi", 
-            "za (\\d+) sek", 
-            "za (\\d+) s", 
-            "za (\\d+) sekundu"
-        ], 
+            "za (\\d+) sekundu",
+            "za (\\d+) sekundi",
+            "za (\\d+) sek",
+            "za (\\d+) s"
+        ],
         "\\1 second ago": [
-            "pre (\\d+) sekunde", 
-            "pre (\\d+) s", 
-            "pre (\\d+) sekundi", 
-            "pre (\\d+) sek"
+            "pre (\\d+) sekunde",
+            "pre (\\d+) sekundi",
+            "pre (\\d+) sek",
+            "pre (\\d+) s"
         ]
-    }, 
+    },
     "locale_specific": {
         "sr-Latn-BA": {
-            "name": "sr-Latn-BA", 
+            "name": "sr-Latn-BA",
             "september": [
                 "sept"
-            ], 
+            ],
             "tuesday": [
                 "ut"
-            ], 
+            ],
             "wednesday": [
-                "srijeda", 
-                "sr"
-            ], 
+                "sr",
+                "srijeda"
+            ],
             "sunday": [
                 "nedjelja"
-            ], 
+            ],
             "am": [
                 "prije podne"
             ]
-        }, 
+        },
         "sr-Latn-ME": {
-            "name": "sr-Latn-ME", 
+            "name": "sr-Latn-ME",
             "september": [
                 "sept"
-            ], 
+            ],
             "tuesday": [
                 "ut"
-            ], 
+            ],
             "wednesday": [
-                "srijeda", 
-                "sr"
-            ], 
+                "sr",
+                "srijeda"
+            ],
             "sunday": [
                 "nedjelja"
-            ], 
+            ],
             "am": [
                 "prije podne"
             ]
-        }, 
+        },
         "sr-Latn-XK": {
-            "name": "sr-Latn-XK", 
+            "name": "sr-Latn-XK",
             "september": [
                 "sept"
-            ], 
+            ],
             "tuesday": [
                 "ut"
-            ], 
+            ],
             "wednesday": [
                 "sr"
             ]

@@ -1,230 +1,230 @@
 {
-    "name": "br", 
-    "date_order": "YMD", 
+    "name": "br",
+    "date_order": "YMD",
     "january": [
-        "gen", 
-        "genver"
-    ], 
+        "genver",
+        "gen"
+    ],
     "february": [
-        "cʼhwevrer", 
+        "cʼhwevrer",
         "cʼhwe"
-    ], 
+    ],
     "march": [
-        "meur", 
-        "meurzh"
-    ], 
+        "meurzh",
+        "meur"
+    ],
     "april": [
-        "ebr", 
-        "ebrel"
-    ], 
+        "ebrel",
+        "ebr"
+    ],
     "may": [
         "mae"
-    ], 
+    ],
     "june": [
-        "mezheven", 
+        "mezheven",
         "mezh"
-    ], 
+    ],
     "july": [
-        "goue", 
-        "gouere"
-    ], 
+        "gouere",
+        "goue"
+    ],
     "august": [
         "eost"
-    ], 
+    ],
     "september": [
-        "gwengolo", 
+        "gwengolo",
         "gwen"
-    ], 
+    ],
     "october": [
         "here"
-    ], 
+    ],
     "november": [
         "du"
-    ], 
+    ],
     "december": [
-        "kerzu", 
-        "ker", 
+        "kerzu",
+        "ker",
         "kzu"
-    ], 
+    ],
     "monday": [
-        "l", 
-        "lun"
-    ], 
+        "lun",
+        "l"
+    ],
     "tuesday": [
-        "meu", 
-        "mz", 
-        "meurzh"
-    ], 
+        "meurzh",
+        "meu",
+        "mz"
+    ],
     "wednesday": [
-        "mc", 
-        "mercʼher", 
-        "mer"
-    ], 
+        "mercʼher",
+        "mer",
+        "mc"
+    ],
     "thursday": [
-        "y", 
-        "yaou"
-    ], 
+        "yaou",
+        "y"
+    ],
     "friday": [
-        "gwe", 
-        "gwener", 
+        "gwener",
+        "gwe",
         "g"
-    ], 
+    ],
     "saturday": [
-        "sadorn", 
-        "sa", 
-        "sad"
-    ], 
+        "sadorn",
+        "sad",
+        "sa"
+    ],
     "sunday": [
-        "sul", 
+        "sul",
         "su"
-    ], 
+    ],
     "am": [
         "am"
-    ], 
+    ],
     "pm": [
-        "gm", 
-        "g.m"
-    ], 
+        "g.m",
+        "gm"
+    ],
     "year": [
-        "bl", 
-        "bloaz"
-    ], 
+        "bloaz",
+        "bl"
+    ],
     "month": [
         "miz"
-    ], 
+    ],
     "week": [
         "sizhun"
-    ], 
+    ],
     "day": [
-        "deiz", 
+        "deiz",
         "d"
-    ], 
+    ],
     "hour": [
-        "e", 
-        "eur"
-    ], 
+        "eur",
+        "e"
+    ],
     "minute": [
-        "munut", 
+        "munut",
         "min"
-    ], 
+    ],
     "second": [
-        "eilenn", 
+        "eilenn",
         "s"
-    ], 
+    ],
     "relative-type": {
         "1 year ago": [
             "warlene"
-        ], 
+        ],
         "0 year ago": [
             "hevlene"
-        ], 
+        ],
         "in 1 year": [
-            "ar bloaz a zeu", 
+            "ar bloaz a zeu",
             "ar bl a zeu"
-        ], 
+        ],
         "1 month ago": [
             "ar miz diaraok"
-        ], 
+        ],
         "0 month ago": [
             "ar miz-mañ"
-        ], 
+        ],
         "in 1 month": [
             "ar miz a zeu"
-        ], 
+        ],
         "1 week ago": [
             "ar sizhun diaraok"
-        ], 
+        ],
         "0 week ago": [
             "ar sizhun-mañ"
-        ], 
+        ],
         "in 1 week": [
             "ar sizhun a zeu"
-        ], 
+        ],
         "1 day ago": [
             "decʼh"
-        ], 
+        ],
         "0 day ago": [
             "hiziv"
-        ], 
+        ],
         "in 1 day": [
             "warcʼhoazh"
-        ], 
+        ],
         "0 hour ago": [
             "this hour"
-        ], 
+        ],
         "0 minute ago": [
             "this minute"
-        ], 
+        ],
         "0 second ago": [
-            "brem", 
-            "bremañ"
-        ], 
+            "bremañ",
+            "brem"
+        ],
         "in \\1 year": [
-            "a-benn (\\d+) vloaz", 
-            "+(\\d+) bl", 
-            "a-benn (\\d+) bl", 
-            "a-benn (\\d+) bloaz"
-        ], 
+            "a-benn (\\d+) bloaz",
+            "a-benn (\\d+) vloaz",
+            "a-benn (\\d+) bl",
+            "+(\\d+) bl"
+        ],
         "\\1 year ago": [
-            "(\\d+) bloaz zo", 
-            "(\\d+) bl zo", 
-            "-(\\d+) bl", 
-            "(\\d+) vloaz zo"
-        ], 
+            "(\\d+) bloaz zo",
+            "(\\d+) vloaz zo",
+            "(\\d+) bl zo",
+            "-(\\d+) bl"
+        ],
         "in \\1 month": [
-            "a-benn (\\d+) miz", 
+            "a-benn (\\d+) miz",
             "+(\\d+) miz"
-        ], 
+        ],
         "\\1 month ago": [
-            "-(\\d+) miz", 
-            "(\\d+) miz zo"
-        ], 
+            "(\\d+) miz zo",
+            "-(\\d+) miz"
+        ],
         "in \\1 week": [
             "a-benn (\\d+) sizhun"
-        ], 
+        ],
         "\\1 week ago": [
             "(\\d+) sizhun zo"
-        ], 
+        ],
         "in \\1 day": [
-            "a-benn (\\d+) deiz", 
-            "+(\\d+) d", 
-            "a-benn (\\d+) d"
-        ], 
+            "a-benn (\\d+) deiz",
+            "a-benn (\\d+) d",
+            "+(\\d+) d"
+        ],
         "\\1 day ago": [
-            "(\\d+) deiz zo", 
-            "-(\\d+) d", 
-            "(\\d+) d zo"
-        ], 
+            "(\\d+) deiz zo",
+            "(\\d+) d zo",
+            "-(\\d+) d"
+        ],
         "in \\1 hour": [
-            "+(\\d+) h", 
-            "a-benn (\\d+) eur", 
-            "a-benn (\\d+) e"
-        ], 
+            "a-benn (\\d+) eur",
+            "a-benn (\\d+) e",
+            "+(\\d+) h"
+        ],
         "\\1 hour ago": [
-            "(\\d+) e zo", 
-            "(\\d+) eur zo", 
+            "(\\d+) eur zo",
+            "(\\d+) e zo",
             "-(\\d+) h"
-        ], 
+        ],
         "in \\1 minute": [
-            "+(\\d+) min", 
-            "a-benn (\\d+) munut", 
-            "a-benn (\\d+) min"
-        ], 
+            "a-benn (\\d+) munut",
+            "a-benn (\\d+) min",
+            "+(\\d+) min"
+        ],
         "\\1 minute ago": [
-            "(\\d+) min zo", 
-            "(\\d+) munut zo", 
+            "(\\d+) munut zo",
+            "(\\d+) min zo",
             "-(\\d+) min"
-        ], 
+        ],
         "in \\1 second": [
-            "a-benn (\\d+) s", 
-            "+(\\d+) s", 
-            "a-benn (\\d+) eilenn"
-        ], 
+            "a-benn (\\d+) eilenn",
+            "a-benn (\\d+) s",
+            "+(\\d+) s"
+        ],
         "\\1 second ago": [
-            "-(\\d+) s", 
-            "(\\d+) s zo", 
-            "(\\d+) eilenn zo"
+            "(\\d+) eilenn zo",
+            "(\\d+) s zo",
+            "-(\\d+) s"
         ]
-    }, 
+    },
     "locale_specific": {}
 }

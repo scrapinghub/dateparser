@@ -1,285 +1,285 @@
 ast = {
-    "name": "ast", 
-    "date_order": "DMY", 
+    "name": "ast",
+    "date_order": "DMY",
     "january": [
-        "x", 
-        "de xineru", 
-        "xin", 
-        "xineru"
-    ], 
+        "xineru",
+        "xin",
+        "x",
+        "de xineru"
+    ],
     "february": [
-        "de febreru", 
-        "feb", 
-        "febreru", 
-        "f"
-    ], 
+        "febreru",
+        "feb",
+        "f",
+        "de febreru"
+    ],
     "march": [
-        "de marzu", 
-        "mar", 
-        "m", 
-        "marzu"
-    ], 
+        "marzu",
+        "mar",
+        "m",
+        "de marzu"
+    ],
     "april": [
-        "a", 
-        "abr", 
-        "d’abril", 
-        "abril"
-    ], 
+        "abril",
+        "abr",
+        "a",
+        "d’abril"
+    ],
     "may": [
-        "mayu", 
-        "may", 
-        "m", 
+        "mayu",
+        "may",
+        "m",
         "de mayu"
-    ], 
+    ],
     "june": [
-        "x", 
-        "xunu", 
-        "xun", 
+        "xunu",
+        "xun",
+        "x",
         "de xunu"
-    ], 
+    ],
     "july": [
-        "de xunetu", 
-        "xunetu", 
-        "xnt", 
-        "x"
-    ], 
+        "xunetu",
+        "xnt",
+        "x",
+        "de xunetu"
+    ],
     "august": [
-        "ago", 
-        "a", 
-        "d’agostu", 
-        "agostu"
-    ], 
+        "agostu",
+        "ago",
+        "a",
+        "d’agostu"
+    ],
     "september": [
-        "setiembre", 
-        "s", 
-        "set", 
+        "setiembre",
+        "set",
+        "s",
         "de setiembre"
-    ], 
+    ],
     "october": [
-        "ochobre", 
-        "d’ochobre", 
-        "o", 
-        "och"
-    ], 
+        "ochobre",
+        "och",
+        "o",
+        "d’ochobre"
+    ],
     "november": [
-        "de payares", 
-        "pay", 
-        "payares", 
-        "p"
-    ], 
+        "payares",
+        "pay",
+        "p",
+        "de payares"
+    ],
     "december": [
-        "a", 
-        "d’avientu", 
-        "avientu", 
-        "avi"
-    ], 
+        "avientu",
+        "avi",
+        "a",
+        "d’avientu"
+    ],
     "monday": [
-        "l", 
-        "llu", 
-        "llunes"
-    ], 
+        "llunes",
+        "llu",
+        "l"
+    ],
     "tuesday": [
-        "mar", 
-        "m", 
-        "martes"
-    ], 
-    "wednesday": [
-        "mié", 
-        "miércoles", 
+        "martes",
+        "mar",
         "m"
-    ], 
+    ],
+    "wednesday": [
+        "miércoles",
+        "mié",
+        "m"
+    ],
     "thursday": [
-        "xue", 
-        "xueves", 
+        "xueves",
+        "xue",
         "x"
-    ], 
+    ],
     "friday": [
-        "vie", 
-        "v", 
-        "vienres"
-    ], 
+        "vienres",
+        "vie",
+        "v"
+    ],
     "saturday": [
-        "sábadu", 
-        "sáb", 
+        "sábadu",
+        "sáb",
         "s"
-    ], 
+    ],
     "sunday": [
-        "d", 
-        "domingu", 
-        "dom"
-    ], 
+        "domingu",
+        "dom",
+        "d"
+    ],
     "am": [
-        "a", 
-        "am", 
-        "mañana", 
+        "mañana",
+        "am",
+        "a",
         "de lamañana"
-    ], 
+    ],
     "pm": [
-        "tarde", 
-        "de la tarde", 
-        "p", 
-        "pm"
-    ], 
+        "tarde",
+        "pm",
+        "p",
+        "de la tarde"
+    ],
     "year": [
         "añu"
-    ], 
+    ],
     "month": [
         "mes"
-    ], 
+    ],
     "week": [
-        "selmana", 
+        "selmana",
         "sel"
-    ], 
+    ],
     "day": [
         "día"
-    ], 
+    ],
     "hour": [
-        "hora", 
+        "hora",
         "h"
-    ], 
+    ],
     "minute": [
-        "m", 
-        "minutu", 
-        "min"
-    ], 
+        "minutu",
+        "min",
+        "m"
+    ],
     "second": [
-        "s", 
-        "segundu"
-    ], 
+        "segundu",
+        "s"
+    ],
     "relative-type": {
         "1 year ago": [
-            "l’añu pasáu", 
-            "añu pas", 
-            "l’añu pas"
-        ], 
+            "l’añu pasáu",
+            "l’añu pas",
+            "añu pas"
+        ],
         "0 year ago": [
             "esti añu"
-        ], 
+        ],
         "in 1 year": [
-            "l’añu vin", 
-            "añu vin", 
-            "l’añu viniente"
-        ], 
+            "l’añu viniente",
+            "l’añu vin",
+            "añu vin"
+        ],
         "1 month ago": [
-            "el mes pasáu", 
+            "el mes pasáu",
             "mes pas"
-        ], 
+        ],
         "0 month ago": [
             "esti mes"
-        ], 
+        ],
         "in 1 month": [
-            "mes vin", 
-            "el mes viniente"
-        ], 
+            "el mes viniente",
+            "mes vin"
+        ],
         "1 week ago": [
-            "la selmana pasada", 
-            "selm pasada", 
+            "la selmana pasada",
+            "selm pasada",
             "selm pas"
-        ], 
+        ],
         "0 week ago": [
-            "esta selm", 
-            "esta selmana"
-        ], 
+            "esta selmana",
+            "esta selm"
+        ],
         "in 1 week": [
-            "la selmana viniente", 
-            "selm vin", 
-            "selm viniente"
-        ], 
+            "la selmana viniente",
+            "selm viniente",
+            "selm vin"
+        ],
         "1 day ago": [
             "ayeri"
-        ], 
+        ],
         "0 day ago": [
             "güei"
-        ], 
+        ],
         "in 1 day": [
-            "mañ", 
-            "mañana"
-        ], 
+            "mañana",
+            "mañ"
+        ],
         "0 hour ago": [
-            "esta hora", 
+            "esta hora",
             "esta h"
-        ], 
+        ],
         "0 minute ago": [
-            "esti min", 
-            "esti minutu"
-        ], 
+            "esti minutu",
+            "esti min"
+        ],
         "0 second ago": [
             "agora"
-        ], 
+        ],
         "in \\1 year": [
-            "en (\\d+) añu", 
-            "en (\\d+) a", 
-            "en (\\d+) años"
-        ], 
+            "en (\\d+) añu",
+            "en (\\d+) años",
+            "en (\\d+) a"
+        ],
         "\\1 year ago": [
-            "hai (\\d+) años", 
-            "hai (\\d+) añu", 
+            "hai (\\d+) añu",
+            "hai (\\d+) años",
             "hai (\\d+) a"
-        ], 
+        ],
         "in \\1 month": [
-            "en (\\d+) meses", 
-            "en (\\d+) mes", 
+            "en (\\d+) mes",
+            "en (\\d+) meses",
             "en (\\d+) m"
-        ], 
+        ],
         "\\1 month ago": [
-            "hai (\\d+) m", 
-            "hai (\\d+) mes", 
-            "hai (\\d+) meses"
-        ], 
+            "hai (\\d+) mes",
+            "hai (\\d+) meses",
+            "hai (\\d+) m"
+        ],
         "in \\1 week": [
-            "en (\\d+) selmana", 
-            "en (\\d+) se", 
-            "en (\\d+) selmanes", 
-            "en (\\d+) selm"
-        ], 
+            "en (\\d+) selmana",
+            "en (\\d+) selmanes",
+            "en (\\d+) selm",
+            "en (\\d+) se"
+        ],
         "\\1 week ago": [
-            "hai (\\d+) selmana", 
-            "hai (\\d+) selmanes", 
-            "hai (\\d+) selm", 
+            "hai (\\d+) selmana",
+            "hai (\\d+) selmanes",
+            "hai (\\d+) selm",
             "hai (\\d+) se"
-        ], 
+        ],
         "in \\1 day": [
-            "en (\\d+) d", 
-            "en (\\d+) día", 
-            "en (\\d+) díes"
-        ], 
+            "en (\\d+) día",
+            "en (\\d+) díes",
+            "en (\\d+) d"
+        ],
         "\\1 day ago": [
-            "hai (\\d+) díes", 
-            "hai (\\d+) día", 
+            "hai (\\d+) día",
+            "hai (\\d+) díes",
             "hai (\\d+) d"
-        ], 
+        ],
         "in \\1 hour": [
-            "en (\\d+) hores", 
-            "en (\\d+) h", 
-            "en (\\d+) hora"
-        ], 
+            "en (\\d+) hora",
+            "en (\\d+) hores",
+            "en (\\d+) h"
+        ],
         "\\1 hour ago": [
-            "hai (\\d+) hora", 
-            "hai (\\d+) hores", 
+            "hai (\\d+) hora",
+            "hai (\\d+) hores",
             "hai (\\d+) h"
-        ], 
+        ],
         "in \\1 minute": [
-            "en (\\d+) minutu", 
-            "en (\\d+) minutos", 
+            "en (\\d+) minutu",
+            "en (\\d+) minutos",
             "en (\\d+) min"
-        ], 
+        ],
         "\\1 minute ago": [
-            "hai (\\d+) min", 
-            "hai (\\d+) minutos", 
-            "hai (\\d+) minutu"
-        ], 
+            "hai (\\d+) minutu",
+            "hai (\\d+) minutos",
+            "hai (\\d+) min"
+        ],
         "in \\1 second": [
-            "en (\\d+) s", 
-            "en (\\d+) segundu", 
-            "en (\\d+) seg", 
-            "en (\\d+) segundos"
-        ], 
+            "en (\\d+) segundu",
+            "en (\\d+) segundos",
+            "en (\\d+) seg",
+            "en (\\d+) s"
+        ],
         "\\1 second ago": [
-            "hai (\\d+) segundos", 
-            "hai (\\d+) segundu", 
-            "hai (\\d+) s", 
-            "hai (\\d+) seg"
+            "hai (\\d+) segundu",
+            "hai (\\d+) segundos",
+            "hai (\\d+) seg",
+            "hai (\\d+) s"
         ]
-    }, 
+    },
     "locale_specific": {}
 }

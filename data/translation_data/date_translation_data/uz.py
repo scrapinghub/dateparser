@@ -1,219 +1,219 @@
 uz = {
-    "name": "uz", 
-    "date_order": "DMY", 
+    "name": "uz",
+    "date_order": "DMY",
     "january": [
-        "y", 
-        "yan", 
-        "yanvar"
-    ], 
+        "yanvar",
+        "yan",
+        "y"
+    ],
     "february": [
-        "fev", 
-        "fevral", 
+        "fevral",
+        "fev",
         "f"
-    ], 
+    ],
     "march": [
-        "mart", 
-        "mar", 
+        "mart",
+        "mar",
         "m"
-    ], 
+    ],
     "april": [
-        "apr", 
-        "a", 
-        "aprel"
-    ], 
+        "aprel",
+        "apr",
+        "a"
+    ],
     "may": [
-        "may", 
+        "may",
         "m"
-    ], 
+    ],
     "june": [
-        "i", 
-        "iyun", 
-        "iyn"
-    ], 
+        "iyun",
+        "iyn",
+        "i"
+    ],
     "july": [
-        "i", 
-        "iyul", 
-        "iyl"
-    ], 
+        "iyul",
+        "iyl",
+        "i"
+    ],
     "august": [
-        "a", 
-        "avg", 
-        "avgust"
-    ], 
+        "avgust",
+        "avg",
+        "a"
+    ],
     "september": [
-        "sentabr", 
-        "sen", 
+        "sentabr",
+        "sen",
         "s"
-    ], 
+    ],
     "october": [
-        "oktabr", 
-        "o", 
-        "okt"
-    ], 
+        "oktabr",
+        "okt",
+        "o"
+    ],
     "november": [
-        "n", 
-        "noyabr", 
-        "noy"
-    ], 
+        "noyabr",
+        "noy",
+        "n"
+    ],
     "december": [
-        "dek", 
-        "d", 
-        "dekabr"
-    ], 
+        "dekabr",
+        "dek",
+        "d"
+    ],
     "monday": [
-        "dush", 
-        "d", 
-        "dushanba"
-    ], 
+        "dushanba",
+        "dush",
+        "d"
+    ],
     "tuesday": [
-        "sesh", 
-        "s", 
-        "seshanba"
-    ], 
+        "seshanba",
+        "sesh",
+        "s"
+    ],
     "wednesday": [
-        "chor", 
-        "chorshanba", 
+        "chorshanba",
+        "chor",
         "c"
-    ], 
+    ],
     "thursday": [
-        "pay", 
-        "payshanba", 
+        "payshanba",
+        "pay",
         "p"
-    ], 
+    ],
     "friday": [
-        "juma", 
-        "j", 
-        "jum"
-    ], 
+        "juma",
+        "jum",
+        "j"
+    ],
     "saturday": [
-        "shanba", 
-        "s", 
-        "shan"
-    ], 
+        "shanba",
+        "shan",
+        "s"
+    ],
     "sunday": [
-        "y", 
-        "yakshanba", 
-        "yak"
-    ], 
+        "yakshanba",
+        "yak",
+        "y"
+    ],
     "am": [
         "to"
-    ], 
+    ],
     "pm": [
         "tk"
-    ], 
+    ],
     "year": [
         "yil"
-    ], 
+    ],
     "month": [
         "oy"
-    ], 
+    ],
     "week": [
         "hafta"
-    ], 
+    ],
     "day": [
         "kun"
-    ], 
+    ],
     "hour": [
         "soat"
-    ], 
+    ],
     "minute": [
-        "daq", 
-        "daqiqa"
-    ], 
+        "daqiqa",
+        "daq"
+    ],
     "second": [
-        "soniya", 
+        "soniya",
         "son"
-    ], 
+    ],
     "relative-type": {
         "1 year ago": [
-            "oʻtgan yil", 
-            "o‘tgan yil"
-        ], 
+            "o‘tgan yil",
+            "oʻtgan yil"
+        ],
         "0 year ago": [
-            "bu yil", 
-            "shu yil"
-        ], 
+            "shu yil",
+            "bu yil"
+        ],
         "in 1 year": [
             "keyingi yil"
-        ], 
+        ],
         "1 month ago": [
             "o‘tgan oy"
-        ], 
+        ],
         "0 month ago": [
             "shu oy"
-        ], 
+        ],
         "in 1 month": [
             "keyingi oy"
-        ], 
+        ],
         "1 week ago": [
             "o‘tgan hafta"
-        ], 
+        ],
         "0 week ago": [
             "shu hafta"
-        ], 
+        ],
         "in 1 week": [
             "keyingi hafta"
-        ], 
+        ],
         "1 day ago": [
             "kecha"
-        ], 
+        ],
         "0 day ago": [
             "bugun"
-        ], 
+        ],
         "in 1 day": [
             "ertaga"
-        ], 
+        ],
         "0 hour ago": [
             "shu soatda"
-        ], 
+        ],
         "0 minute ago": [
             "shu daqiqada"
-        ], 
+        ],
         "0 second ago": [
             "hozir"
-        ], 
+        ],
         "in \\1 year": [
             "(\\d+) yildan keyin"
-        ], 
+        ],
         "\\1 year ago": [
             "(\\d+) yil oldin"
-        ], 
+        ],
         "in \\1 month": [
             "(\\d+) oydan keyin"
-        ], 
+        ],
         "\\1 month ago": [
             "(\\d+) oy oldin"
-        ], 
+        ],
         "in \\1 week": [
             "(\\d+) haftadan keyin"
-        ], 
+        ],
         "\\1 week ago": [
             "(\\d+) hafta oldin"
-        ], 
+        ],
         "in \\1 day": [
             "(\\d+) kundan keyin"
-        ], 
+        ],
         "\\1 day ago": [
             "(\\d+) kun oldin"
-        ], 
+        ],
         "in \\1 hour": [
             "(\\d+) soatdan keyin"
-        ], 
+        ],
         "\\1 hour ago": [
             "(\\d+) soat oldin"
-        ], 
+        ],
         "in \\1 minute": [
             "(\\d+) daqiqadan keyin"
-        ], 
+        ],
         "\\1 minute ago": [
             "(\\d+) daqiqa oldin"
-        ], 
+        ],
         "in \\1 second": [
             "(\\d+) soniyadan keyin"
-        ], 
+        ],
         "\\1 second ago": [
             "(\\d+) soniya oldin"
         ]
-    }, 
+    },
     "locale_specific": {}
 }

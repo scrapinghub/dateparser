@@ -1,204 +1,204 @@
 rn = {
-    "name": "rn", 
-    "date_order": "DMY", 
+    "name": "rn",
+    "date_order": "DMY",
     "january": [
-        "mut", 
-        "nzero"
-    ], 
+        "nzero",
+        "mut"
+    ],
     "february": [
-        "gas", 
-        "ruhuhuma"
-    ], 
+        "ruhuhuma",
+        "gas"
+    ],
     "march": [
-        "wer", 
-        "ntwarante"
-    ], 
+        "ntwarante",
+        "wer"
+    ],
     "april": [
-        "ndamukiza", 
+        "ndamukiza",
         "mat"
-    ], 
+    ],
     "may": [
-        "gic", 
-        "rusama"
-    ], 
+        "rusama",
+        "gic"
+    ],
     "june": [
-        "kam", 
-        "ruheshi"
-    ], 
+        "ruheshi",
+        "kam"
+    ],
     "july": [
-        "mukakaro", 
+        "mukakaro",
         "nya"
-    ], 
+    ],
     "august": [
-        "nyandagaro", 
+        "nyandagaro",
         "kan"
-    ], 
+    ],
     "september": [
-        "nze", 
-        "nyakanga"
-    ], 
+        "nyakanga",
+        "nze"
+    ],
     "october": [
-        "ukw", 
-        "gitugutu"
-    ], 
+        "gitugutu",
+        "ukw"
+    ],
     "november": [
-        "munyonyo", 
+        "munyonyo",
         "ugu"
-    ], 
+    ],
     "december": [
-        "uku", 
-        "kigarama"
-    ], 
+        "kigarama",
+        "uku"
+    ],
     "monday": [
-        "mbe", 
-        "ku wa mbere", 
+        "ku wa mbere",
+        "mbe",
         "m"
-    ], 
+    ],
     "tuesday": [
-        "ku wa kabiri", 
-        "kab", 
+        "ku wa kabiri",
+        "kab",
         "t"
-    ], 
+    ],
     "wednesday": [
-        "ku wa gatatu", 
-        "gtu", 
+        "ku wa gatatu",
+        "gtu",
         "w"
-    ], 
+    ],
     "thursday": [
-        "t", 
-        "ku wa kane", 
-        "kan"
-    ], 
+        "ku wa kane",
+        "kan",
+        "t"
+    ],
     "friday": [
-        "f", 
-        "ku wa gatanu", 
-        "gnu"
-    ], 
+        "ku wa gatanu",
+        "gnu",
+        "f"
+    ],
     "saturday": [
-        "s", 
-        "gnd", 
-        "ku wa gatandatu"
-    ], 
+        "ku wa gatandatu",
+        "gnd",
+        "s"
+    ],
     "sunday": [
-        "ku w’indwi", 
-        "s", 
-        "cu"
-    ], 
+        "ku w’indwi",
+        "cu",
+        "s"
+    ],
     "am": [
         "z.mu"
-    ], 
+    ],
     "pm": [
         "z.mw"
-    ], 
+    ],
     "year": [
         "umwaka"
-    ], 
+    ],
     "month": [
         "ukwezi"
-    ], 
+    ],
     "week": [
         "indwi, iyinga"
-    ], 
+    ],
     "day": [
         "umusi"
-    ], 
+    ],
     "hour": [
         "isaha"
-    ], 
+    ],
     "minute": [
         "umunota"
-    ], 
+    ],
     "second": [
         "isegonda"
-    ], 
+    ],
     "relative-type": {
         "1 year ago": [
             "last year"
-        ], 
+        ],
         "0 year ago": [
             "this year"
-        ], 
+        ],
         "in 1 year": [
             "next year"
-        ], 
+        ],
         "1 month ago": [
             "last month"
-        ], 
+        ],
         "0 month ago": [
             "this month"
-        ], 
+        ],
         "in 1 month": [
             "next month"
-        ], 
+        ],
         "1 week ago": [
             "last week"
-        ], 
+        ],
         "0 week ago": [
             "this week"
-        ], 
+        ],
         "in 1 week": [
             "next week"
-        ], 
+        ],
         "1 day ago": [
             "ejo (haheze)"
-        ], 
+        ],
         "0 day ago": [
             "uyu musi"
-        ], 
+        ],
         "in 1 day": [
             "ejo (hazoza)"
-        ], 
+        ],
         "0 hour ago": [
             "this hour"
-        ], 
+        ],
         "0 minute ago": [
             "this minute"
-        ], 
+        ],
         "0 second ago": [
             "now"
-        ], 
+        ],
         "in \\1 year": [
             "+(\\d+) y"
-        ], 
+        ],
         "\\1 year ago": [
             "-(\\d+) y"
-        ], 
+        ],
         "in \\1 month": [
             "+(\\d+) m"
-        ], 
+        ],
         "\\1 month ago": [
             "-(\\d+) m"
-        ], 
+        ],
         "in \\1 week": [
             "+(\\d+) w"
-        ], 
+        ],
         "\\1 week ago": [
             "-(\\d+) w"
-        ], 
+        ],
         "in \\1 day": [
             "+(\\d+) d"
-        ], 
+        ],
         "\\1 day ago": [
             "-(\\d+) d"
-        ], 
+        ],
         "in \\1 hour": [
             "+(\\d+) h"
-        ], 
+        ],
         "\\1 hour ago": [
             "-(\\d+) h"
-        ], 
+        ],
         "in \\1 minute": [
             "+(\\d+) min"
-        ], 
+        ],
         "\\1 minute ago": [
             "-(\\d+) min"
-        ], 
+        ],
         "in \\1 second": [
             "+(\\d+) s"
-        ], 
+        ],
         "\\1 second ago": [
             "-(\\d+) s"
         ]
-    }, 
+    },
     "locale_specific": {}
 }

@@ -1,364 +1,364 @@
 pl = {
-    "name": "pl", 
-    "date_order": "DMY", 
+    "name": "pl",
+    "date_order": "DMY",
     "january": [
-        "styczeń", 
-        "s", 
-        "stycznia", 
-        "sty", 
-        "Styczen", 
+        "styczeń",
+        "sty",
+        "s",
+        "stycznia",
+        "Styczen",
         "Styczniu"
-    ], 
+    ],
     "february": [
-        "luty", 
-        "lutego", 
-        "lut", 
-        "l", 
+        "luty",
+        "lut",
+        "l",
+        "lutego",
         "Lutym"
-    ], 
+    ],
     "march": [
-        "m", 
-        "mar", 
-        "marzec", 
-        "marca", 
+        "marzec",
+        "mar",
+        "m",
+        "marca",
         "Marcu"
-    ], 
+    ],
     "april": [
-        "kwi", 
-        "kwietnia", 
-        "k", 
-        "kwiecień", 
-        "Kwiecien", 
-        "Kwietniu", 
+        "kwiecień",
+        "kwi",
+        "k",
+        "kwietnia",
+        "Kwiecien",
+        "Kwietniu",
         "Kwie"
-    ], 
+    ],
     "may": [
-        "maj", 
-        "m", 
-        "maja", 
+        "maj",
+        "m",
+        "maja",
         "Maju"
-    ], 
+    ],
     "june": [
-        "c", 
-        "czerwca", 
-        "czerwiec", 
-        "cze", 
+        "czerwiec",
+        "cze",
+        "c",
+        "czerwca",
         "Czerwcu"
-    ], 
+    ],
     "july": [
-        "lipca", 
-        "lip", 
-        "l", 
-        "lipiec", 
+        "lipiec",
+        "lip",
+        "l",
+        "lipca",
         "Lipcu"
-    ], 
+    ],
     "august": [
-        "sierpnia", 
-        "s", 
-        "sie", 
-        "sierpień", 
-        "Sierpien", 
+        "sierpień",
+        "sie",
+        "s",
+        "sierpnia",
+        "Sierpien",
         "Sierpniu"
-    ], 
+    ],
     "september": [
-        "wrzesień", 
-        "wrz", 
-        "września", 
-        "w", 
-        "Wrzesien", 
-        "Wrzesnia", 
-        "Wrześniu", 
+        "wrzesień",
+        "wrz",
+        "w",
+        "września",
+        "Wrzesien",
+        "Wrzesnia",
+        "Wrześniu",
         "Wrzesniu"
-    ], 
+    ],
     "october": [
-        "p", 
-        "październik", 
-        "paź", 
-        "października", 
-        "Pazdziernik", 
-        "Pazdziernika", 
-        "Październiku", 
-        "Pazdzierniku", 
+        "październik",
+        "paź",
+        "p",
+        "października",
+        "Pazdziernik",
+        "Pazdziernika",
+        "Październiku",
+        "Pazdzierniku",
         "Paz"
-    ], 
+    ],
     "november": [
-        "listopada", 
-        "l", 
-        "listopad", 
-        "lis", 
+        "listopad",
+        "lis",
+        "l",
+        "listopada",
         "Listopadzie"
-    ], 
+    ],
     "december": [
-        "grudzień", 
-        "gru", 
-        "g", 
-        "grudnia", 
-        "Grudzien", 
+        "grudzień",
+        "gru",
+        "g",
+        "grudnia",
+        "Grudzien",
         "Grudniu"
-    ], 
+    ],
     "monday": [
-        "pon", 
-        "p", 
-        "poniedziałek", 
-        "Poniedzialek", 
+        "poniedziałek",
+        "pon",
+        "p",
+        "Poniedzialek",
         "Pn"
-    ], 
+    ],
     "tuesday": [
-        "wtorek", 
-        "wt", 
-        "w", 
+        "wtorek",
+        "wt",
+        "w",
         "Wto"
-    ], 
+    ],
     "wednesday": [
-        "śr", 
-        "ś", 
-        "środa", 
-        "Sroda", 
-        "Środę", 
-        "Srode", 
-        "Śro", 
-        "Sro", 
-        "Śr", 
+        "środa",
+        "śr",
+        "ś",
+        "Sroda",
+        "Środę",
+        "Srode",
+        "Śro",
+        "Sro",
+        "Śr",
         "Sr"
-    ], 
+    ],
     "thursday": [
-        "c", 
-        "czwartek", 
-        "czw", 
+        "czwartek",
+        "czw",
+        "c",
         "Cz"
-    ], 
+    ],
     "friday": [
-        "piątek", 
-        "p", 
-        "pt", 
-        "Piatek", 
-        "Pią", 
-        "Pia", 
+        "piątek",
+        "pt",
+        "p",
+        "Piatek",
+        "Pią",
+        "Pia",
         "Pi"
-    ], 
+    ],
     "saturday": [
-        "s", 
-        "sob", 
-        "sobota", 
-        "Sobotę", 
-        "Sobote", 
-        "So", 
+        "sobota",
+        "sob",
+        "s",
+        "Sobotę",
+        "Sobote",
+        "So",
         "Sb"
-    ], 
+    ],
     "sunday": [
-        "n", 
-        "niedziela", 
-        "niedz", 
-        "Niedzielę", 
-        "Niedziele", 
-        "Nie", 
+        "niedziela",
+        "niedz",
+        "n",
+        "Niedzielę",
+        "Niedziele",
+        "Nie",
         "Nd"
-    ], 
+    ],
     "am": [
-        "a", 
-        "am"
-    ], 
+        "am",
+        "a"
+    ],
     "pm": [
-        "p", 
-        "pm"
-    ], 
+        "pm",
+        "p"
+    ],
     "year": [
-        "r", 
-        "rok", 
-        "lata", 
+        "rok",
+        "r",
+        "lata",
         "lat"
-    ], 
+    ],
     "month": [
-        "miesiąc", 
-        "mies", 
-        "mc", 
-        "miesiac", 
-        "miesięcy", 
-        "miesiąca", 
-        "miesiące", 
+        "miesiąc",
+        "mies",
+        "mc",
+        "miesiac",
+        "miesięcy",
+        "miesiąca",
+        "miesiące",
         "miesiace"
-    ], 
+    ],
     "week": [
-        "tydzień", 
-        "tydz", 
-        "tydzien", 
-        "tygodni", 
+        "tydzień",
+        "tydz",
+        "tydzien",
+        "tygodni",
         "tygodnie"
-    ], 
+    ],
     "day": [
-        "dzień", 
-        "dzien", 
-        "dnia", 
-        "dniu", 
+        "dzień",
+        "dzien",
+        "dnia",
+        "dniu",
         "dni"
-    ], 
+    ],
     "hour": [
-        "godz", 
-        "godzina", 
-        "g", 
-        "godzinę", 
-        "godzine", 
-        "godzin", 
+        "godzina",
+        "godz",
+        "g",
+        "godzinę",
+        "godzine",
+        "godzin",
         "godziny"
-    ], 
+    ],
     "minute": [
-        "minuta", 
-        "min", 
-        "minuty", 
-        "minut", 
-        "minute", 
+        "minuta",
+        "min",
+        "minuty",
+        "minut",
+        "minute",
         "minutę"
-    ], 
+    ],
     "second": [
-        "sek", 
-        "s", 
-        "sekunda", 
-        "sekundę", 
-        "sekunde", 
-        "sekundy", 
+        "sekunda",
+        "sek",
+        "s",
+        "sekundę",
+        "sekunde",
+        "sekundy",
         "sekund"
-    ], 
+    ],
     "relative-type": {
         "1 year ago": [
             "w zeszłym roku"
-        ], 
+        ],
         "0 year ago": [
             "w tym roku"
-        ], 
+        ],
         "in 1 year": [
             "w przyszłym roku"
-        ], 
+        ],
         "1 month ago": [
             "w zeszłym miesiącu"
-        ], 
+        ],
         "0 month ago": [
             "w tym miesiącu"
-        ], 
+        ],
         "in 1 month": [
             "w przyszłym miesiącu"
-        ], 
+        ],
         "1 week ago": [
             "w zeszłym tygodniu"
-        ], 
+        ],
         "0 week ago": [
             "w tym tygodniu"
-        ], 
+        ],
         "in 1 week": [
             "w przyszłym tygodniu"
-        ], 
+        ],
         "1 day ago": [
             "wczoraj"
-        ], 
+        ],
         "0 day ago": [
-            "dzisiaj", 
+            "dzisiaj",
             "dziś"
-        ], 
+        ],
         "in 1 day": [
             "jutro"
-        ], 
+        ],
         "0 hour ago": [
             "ta godzina"
-        ], 
+        ],
         "0 minute ago": [
             "ta minuta"
-        ], 
+        ],
         "0 second ago": [
             "teraz"
-        ], 
+        ],
         "in \\1 year": [
-            "za (\\d+) rok", 
+            "za (\\d+) rok",
             "za (\\d+) roku"
-        ], 
+        ],
         "\\1 year ago": [
-            "(\\d+) rok temu", 
+            "(\\d+) rok temu",
             "(\\d+) roku temu"
-        ], 
+        ],
         "in \\1 month": [
-            "za (\\d+) miesiąc", 
-            "za (\\d+) miesiąca", 
-            "za (\\d+) mies", 
+            "za (\\d+) miesiąc",
+            "za (\\d+) miesiąca",
+            "za (\\d+) mies",
             "+(\\d+) mies"
-        ], 
+        ],
         "\\1 month ago": [
-            "(\\d+) miesiąca temu", 
-            "(\\d+) miesiąc temu", 
-            "–(\\d+) mies", 
-            "(\\d+) mies temu"
-        ], 
+            "(\\d+) miesiąc temu",
+            "(\\d+) miesiąca temu",
+            "(\\d+) mies temu",
+            "–(\\d+) mies"
+        ],
         "in \\1 week": [
-            "za (\\d+) tyg", 
-            "za (\\d+) tydz", 
-            "za (\\d+) tydzień", 
-            "za (\\d+) tygodnia"
-        ], 
+            "za (\\d+) tydzień",
+            "za (\\d+) tygodnia",
+            "za (\\d+) tydz",
+            "za (\\d+) tyg"
+        ],
         "\\1 week ago": [
-            "(\\d+) tydzień temu", 
-            "(\\d+) tygodnia temu", 
-            "(\\d+) tydz temu", 
+            "(\\d+) tydzień temu",
+            "(\\d+) tygodnia temu",
+            "(\\d+) tydz temu",
             "(\\d+) tyg temu"
-        ], 
+        ],
         "in \\1 day": [
-            "za (\\d+) dzień", 
+            "za (\\d+) dzień",
             "za (\\d+) dnia"
-        ], 
+        ],
         "\\1 day ago": [
-            "(\\d+) dnia temu", 
-            "(\\d+) dzień temu"
-        ], 
+            "(\\d+) dzień temu",
+            "(\\d+) dnia temu"
+        ],
         "in \\1 hour": [
-            "za (\\d+) godz", 
-            "za (\\d+) godzinę", 
-            "za (\\d+) g", 
-            "za (\\d+) godziny"
-        ], 
+            "za (\\d+) godzinę",
+            "za (\\d+) godziny",
+            "za (\\d+) godz",
+            "za (\\d+) g"
+        ],
         "\\1 hour ago": [
-            "(\\d+) g temu", 
-            "(\\d+) godziny temu", 
-            "(\\d+) godz temu", 
-            "(\\d+) godzinę temu"
-        ], 
+            "(\\d+) godzinę temu",
+            "(\\d+) godziny temu",
+            "(\\d+) godz temu",
+            "(\\d+) g temu"
+        ],
         "in \\1 minute": [
-            "za (\\d+) minutę", 
-            "za (\\d+) min", 
-            "za (\\d+) minuty"
-        ], 
+            "za (\\d+) minutę",
+            "za (\\d+) minuty",
+            "za (\\d+) min"
+        ],
         "\\1 minute ago": [
-            "(\\d+) minutę temu", 
-            "(\\d+) minuty temu", 
+            "(\\d+) minutę temu",
+            "(\\d+) minuty temu",
             "(\\d+) min temu"
-        ], 
+        ],
         "in \\1 second": [
-            "za (\\d+) sekundę", 
-            "za (\\d+) sekundy", 
-            "za (\\d+) s", 
-            "za (\\d+) sek"
-        ], 
+            "za (\\d+) sekundę",
+            "za (\\d+) sekundy",
+            "za (\\d+) sek",
+            "za (\\d+) s"
+        ],
         "\\1 second ago": [
-            "(\\d+) sekundę temu", 
-            "(\\d+) sekundy temu", 
-            "(\\d+) sek temu", 
+            "(\\d+) sekundę temu",
+            "(\\d+) sekundy temu",
+            "(\\d+) sek temu",
             "(\\d+) s temu"
-        ], 
+        ],
+        "2 day ago": [
+            "onegdaj",
+            "przedwczoraj"
+        ],
         "in 2 days": [
             "pojutrze"
-        ], 
-        "2 day ago": [
-            "onegdaj", 
-            "przedwczoraj"
         ]
-    }, 
-    "locale_specific": {}, 
+    },
+    "locale_specific": {},
     "ago": [
         "temu"
-    ], 
-    "skip": [
-        "r.", 
-        "roku", 
-        "w", 
-        "o", 
-        "i"
-    ], 
+    ],
     "in": [
         "za"
+    ],
+    "skip": [
+        "r.",
+        "roku",
+        "w",
+        "o",
+        "i"
     ]
 }

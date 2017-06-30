@@ -1,218 +1,218 @@
 kln = {
-    "name": "kln", 
-    "date_order": "DMY", 
+    "name": "kln",
+    "date_order": "DMY",
     "january": [
-        "mulgul", 
-        "mul", 
+        "mulgul",
+        "mul",
         "m"
-    ], 
+    ],
     "february": [
-        "ng’atyaato", 
-        "ngat", 
+        "ng’atyaato",
+        "ngat",
         "n"
-    ], 
+    ],
     "march": [
-        "kiptaamo", 
-        "taa", 
+        "kiptaamo",
+        "taa",
         "t"
-    ], 
+    ],
     "april": [
-        "iwootkuut", 
-        "iwo", 
+        "iwootkuut",
+        "iwo",
         "i"
-    ], 
+    ],
     "may": [
-        "m", 
-        "mam", 
-        "mamuut"
-    ], 
+        "mamuut",
+        "mam",
+        "m"
+    ],
     "june": [
-        "paa", 
-        "p", 
-        "paagi"
-    ], 
+        "paagi",
+        "paa",
+        "p"
+    ],
     "july": [
-        "nge", 
-        "ng’eiyeet", 
+        "ng’eiyeet",
+        "nge",
         "n"
-    ], 
+    ],
     "august": [
-        "rooptui", 
-        "r", 
-        "roo"
-    ], 
+        "rooptui",
+        "roo",
+        "r"
+    ],
     "september": [
-        "bur", 
-        "bureet", 
+        "bureet",
+        "bur",
         "b"
-    ], 
+    ],
     "october": [
-        "epe", 
-        "e", 
-        "epeeso"
-    ], 
+        "epeeso",
+        "epe",
+        "e"
+    ],
     "november": [
-        "k", 
-        "kpt", 
-        "kipsuunde ne taai"
-    ], 
-    "december": [
-        "kpa", 
-        "kipsuunde nebo aeng’", 
+        "kipsuunde ne taai",
+        "kpt",
         "k"
-    ], 
+    ],
+    "december": [
+        "kipsuunde nebo aeng’",
+        "kpa",
+        "k"
+    ],
     "monday": [
-        "t", 
-        "kot", 
-        "kotaai"
-    ], 
+        "kotaai",
+        "kot",
+        "t"
+    ],
     "tuesday": [
-        "o", 
-        "koaeng’", 
-        "koo"
-    ], 
+        "koaeng’",
+        "koo",
+        "o"
+    ],
     "wednesday": [
-        "kosomok", 
-        "kos", 
+        "kosomok",
+        "kos",
         "s"
-    ], 
+    ],
     "thursday": [
-        "koa", 
-        "a", 
-        "koang’wan"
-    ], 
+        "koang’wan",
+        "koa",
+        "a"
+    ],
     "friday": [
-        "m", 
-        "kom", 
-        "komuut"
-    ], 
+        "komuut",
+        "kom",
+        "m"
+    ],
     "saturday": [
-        "kolo", 
-        "kol", 
+        "kolo",
+        "kol",
         "l"
-    ], 
+    ],
     "sunday": [
-        "kotisap", 
-        "t", 
-        "kts"
-    ], 
+        "kotisap",
+        "kts",
+        "t"
+    ],
     "am": [
-        "karoon", 
-        "krn"
-    ], 
+        "krn",
+        "karoon"
+    ],
     "pm": [
-        "koosk", 
+        "koosk",
         "kooskoliny"
-    ], 
+    ],
     "year": [
         "kenyit"
-    ], 
+    ],
     "month": [
         "arawet"
-    ], 
+    ],
     "week": [
         "wikit"
-    ], 
+    ],
     "day": [
         "betut"
-    ], 
+    ],
     "hour": [
         "sait"
-    ], 
+    ],
     "minute": [
         "minitit"
-    ], 
+    ],
     "second": [
         "sekondit"
-    ], 
+    ],
     "relative-type": {
         "1 year ago": [
             "last year"
-        ], 
+        ],
         "0 year ago": [
             "this year"
-        ], 
+        ],
         "in 1 year": [
             "next year"
-        ], 
+        ],
         "1 month ago": [
             "last month"
-        ], 
+        ],
         "0 month ago": [
             "this month"
-        ], 
+        ],
         "in 1 month": [
             "next month"
-        ], 
+        ],
         "1 week ago": [
             "last week"
-        ], 
+        ],
         "0 week ago": [
             "this week"
-        ], 
+        ],
         "in 1 week": [
             "next week"
-        ], 
+        ],
         "1 day ago": [
             "amut"
-        ], 
+        ],
         "0 day ago": [
             "raini"
-        ], 
+        ],
         "in 1 day": [
             "mutai"
-        ], 
+        ],
         "0 hour ago": [
             "this hour"
-        ], 
+        ],
         "0 minute ago": [
             "this minute"
-        ], 
+        ],
         "0 second ago": [
             "now"
-        ], 
+        ],
         "in \\1 year": [
             "+(\\d+) y"
-        ], 
+        ],
         "\\1 year ago": [
             "-(\\d+) y"
-        ], 
+        ],
         "in \\1 month": [
             "+(\\d+) m"
-        ], 
+        ],
         "\\1 month ago": [
             "-(\\d+) m"
-        ], 
+        ],
         "in \\1 week": [
             "+(\\d+) w"
-        ], 
+        ],
         "\\1 week ago": [
             "-(\\d+) w"
-        ], 
+        ],
         "in \\1 day": [
             "+(\\d+) d"
-        ], 
+        ],
         "\\1 day ago": [
             "-(\\d+) d"
-        ], 
+        ],
         "in \\1 hour": [
             "+(\\d+) h"
-        ], 
+        ],
         "\\1 hour ago": [
             "-(\\d+) h"
-        ], 
+        ],
         "in \\1 minute": [
             "+(\\d+) min"
-        ], 
+        ],
         "\\1 minute ago": [
             "-(\\d+) min"
-        ], 
+        ],
         "in \\1 second": [
             "+(\\d+) s"
-        ], 
+        ],
         "\\1 second ago": [
             "-(\\d+) s"
         ]
-    }, 
+    },
     "locale_specific": {}
 }

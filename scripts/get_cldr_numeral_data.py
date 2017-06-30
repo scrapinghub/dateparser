@@ -5,6 +5,7 @@ import os
 import shutil
 import time
 from collections import OrderedDict
+import base64
 
 OAuth_Access_Token = 'OAuth_Access_Token'       # Add OAuth_Access_Token here
 headers = {'Authorization': 'token %s' % OAuth_Access_Token}
@@ -12,8 +13,10 @@ cldr_rbnf_url = "https://api.github.com/repos/unicode-cldr/cldr-rbnf/contents/rb
 
 DIGIT_PATTERN = re.compile('^\d*$')
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-def get_numeral_data(language):
+
+def _get_numeral_data(language):
     cldr_language_rbnf_url = cldr_rbnf_url + language + ".json?ref=master"
     while(True):
         try:
@@ -27,7 +30,7 @@ def get_numeral_data(language):
     if rbnf_response.status_code != 200:
         raise RuntimeError("Bad Response " + str(rbnf_response.status_code))
 
-    rbnf_content = rbnf_response.json()["content"].decode("base64")
+    rbnf_content = base64.b64decode(rbnf_response.json()["content"]).decode("utf-8")
     cldr_rbnf_data = json.loads(rbnf_content)
     spellout_dict = cldr_rbnf_data.get("rbnf").get("rbnf").get("SpelloutRules")
     numeral_dict = OrderedDict()
@@ -51,11 +54,12 @@ def get_numeral_data(language):
     return numeral_dict
 
 
-def get_rbnf_languages():
+def _get_rbnf_languages():
     while(True):
         try:
             cldr_rbnf_response = requests.get(cldr_rbnf_url, headers=headers)
         except requests.exceptions.ConnectionError:
+            print("Waiting...")
             time.sleep(5)
             continue
         break
@@ -63,16 +67,16 @@ def get_rbnf_languages():
     if cldr_rbnf_response.status_code != 200:
         raise RuntimeError("Bad Response " + str(cldr_rbnf_response.status_code))
     cldr_rbnf_content = cldr_rbnf_response.json()
-    rbnf_languages = [language['name'].replace('.json', '') for language in cldr_rbnf_content]
+    rbnf_languages = [language['name'][:-5] for language in cldr_rbnf_content]
     return rbnf_languages
 
-rbnf_languages = get_rbnf_languages()
+
+rbnf_languages = _get_rbnf_languages()
 
 
 def main():
-    os.chdir(os.path.dirname(__file__))
     parent_directory = "../data/cldr_language_data"
-    directory = "../data/cldr_language_data/numeral_translation_data"
+    directory = "../data/cldr_language_data/numeral_translation_data/"
     if not os.path.isdir(parent_directory):
         os.mkdir(parent_directory)
     if os.path.isdir(directory):
@@ -80,13 +84,15 @@ def main():
     os.mkdir(directory)
 
     for language in rbnf_languages:
-        numeral_dict = get_numeral_data(language)
+        numeral_dict = _get_numeral_data(language)
         if numeral_dict:
-            filename = directory + '/' + language + ".json"
+            filename = directory + language + ".json"
             print("writing " + filename)
-            json_string = json.dumps(numeral_dict, indent=4, ensure_ascii=False).encode('utf-8')
-            with open(filename, 'w') as f:
+            json_string = json.dumps(numeral_dict, indent=4, separators=(',', ': '),
+                                     ensure_ascii=False).encode('utf-8')
+            with open(filename, 'wb') as f:
                 f.write(json_string)
+
 
 if __name__ == '__main__':
     main()
