@@ -108,9 +108,15 @@ class Language(object):
 
     def _sentence_split(self, string, settings):
         abbreviations = self._get_abbreviations(settings=settings)
+        digit_abbreviations = ['[0-9]']  # numeric date with full stop
         abbreviation_string = ''
+
         for abbreviation in abbreviations:
-            abbreviation_string += '(?<! '+abbreviation[:-1]+')'
+            abbreviation_string += '(?<! '+abbreviation[:-1]+')'  # negative lookbehind
+        if self.shortname in ['fi', 'cs', 'hu', 'de']:
+            for digit_abbreviation in digit_abbreviations:
+                abbreviation_string += '(?<!' + digit_abbreviation + ')'  # negative lookbehind
+
         splitters_dict = {1: '[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
                                                         # Indonesian, Vietnamese
                           2: '(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))*',  # Spanish
@@ -150,11 +156,7 @@ class Language(object):
                         else:
                             original_tokens.insert(i, '')
                 else:
-                    if not add_empty:
-                        add_empty = True
-                        continue
-                    else:
-                        original_tokens.insert(i, '')
+                    original_tokens.insert(i, '')
         else:
             add_empty = False
             for i, token in enumerate(original_tokens):
@@ -168,11 +170,13 @@ class Language(object):
                         else:
                             simplified_tokens.insert(i, '')
                 else:
-                    if not add_empty:
-                        add_empty = True
-                        continue
-                    else:
-                        simplified_tokens.insert(i, '')
+                    simplified_tokens.insert(i, '')
+
+        while len(original_tokens) != len(simplified_tokens):
+            if len(original_tokens) > len(simplified_tokens):
+                original_tokens.remove('')
+            else:
+                simplified_tokens.remove('')
         return original_tokens, simplified_tokens
 
     def _get_split_dictionary(self, settings):
