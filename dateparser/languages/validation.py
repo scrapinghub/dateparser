@@ -111,7 +111,7 @@ class LanguageValidator(object):
 
         result = True
 
-        pertain_tokens_list = info['skip']
+        pertain_tokens_list = info['pertain']
         if isinstance(pertain_tokens_list, list):
             for token in pertain_tokens_list:
                 if not isinstance(token, six.string_types) or not token:

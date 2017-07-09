@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-from pkgutil import get_data
 import logging
 import types
 import unicodedata
 
 import regex as re
-import ruamel.yaml as yaml
 from tzlocal import get_localzone
 from pytz import UTC, timezone, UnknownTimeZoneError
 
@@ -27,6 +25,7 @@ def normalize_unicode(string, form='NFKD'):
     return ''.join(
         (c for c in unicodedata.normalize(form, string)
          if unicodedata.category(c) != 'Mn'))
+
 
 replacement_cache = {}
 
@@ -187,14 +186,3 @@ def registry(cls):
 
     setattr(cls, '__new__', choose(cls.__new__))
     return cls
-
-
-class SafeLoader(yaml.loader.SafeLoader):
-    """Supports !include directive.
-    """
-    def __init__(self, *args, **kwds):
-        super(SafeLoader, self).__init__(*args, **kwds)
-        self.add_constructor('!include', self.construct_yaml_include)
-
-    def construct_yaml_include(self, loader, node):
-        return yaml.safe_load(get_data('data', node.value))

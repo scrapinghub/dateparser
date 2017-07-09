@@ -73,6 +73,7 @@ class TestStrptime(BaseTestCase):
         param('12 Dec 10 10:30:55.000011', '%d %b %y %H:%M:%S.%f', expected=datetime(2010, 12, 12, 10, 30, 55, 11)),
         param('12 Dec 10 10:30:55.000111', '%d %b %y %H:%M:%S.%f', expected=datetime(2010, 12, 12, 10, 30, 55, 111)),
         param('12 Feb 2016 11:41:23', '%d %b %Y %I:%M:%S', expected=datetime(2016, 2, 12, 11, 41, 23)),
+        param('11 Dec 10 10:30:2011.999999', '%y %b %S %H:%M:%Y.%f', expected=datetime(2011, 12, 1, 10, 30, 10, 999999)),
     ])
     def test_microseconds_are_parsed_correctly(self, date_string, fmt, expected):
         self.when_date_string_is_parsed(date_string, fmt)
