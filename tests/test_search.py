@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from nose_parameterized import parameterized, param
 from tests import BaseTestCase
 from dateparser.search import ExactLanguageSearch
