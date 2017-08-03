@@ -22,6 +22,10 @@ class FreshnessDateDataParser(object):
     def __init__(self):
         self.now = None
 
+    def remove_wrong_kwargs_from_string(self, date_string):
+        date_string = re.sub('(?:^\d+\s+)(year)$', '', date_string)
+        return date_string
+
     def _are_all_words_units(self, date_string):
         skip = [_UNITS,
                 r'ago|in|\d+',
@@ -93,7 +97,7 @@ class FreshnessDateDataParser(object):
             else:
                 self.now = datetime.now(self.get_local_tz())
 
-        date, period = self._parse_date(date_string)
+        date, period = self._parse_date(self.remove_wrong_kwargs_from_string(date_string))
 
         if date:
             date = apply_time(date, _time)
