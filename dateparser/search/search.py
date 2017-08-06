@@ -147,6 +147,3 @@ class ExactLanguageSearch:
             parsed, substrings = self.parse_found_objects(parser=parser, to_parse=original,
                                                           original=original, translated=translated, settings=settings)
         return list(zip(substrings, [i['date_obj'] for i in parsed]))
-
-els = ExactLanguageSearch()
-print(els.search_parse('fr', 'il y a un an'))
