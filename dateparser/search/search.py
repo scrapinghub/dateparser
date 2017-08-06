@@ -20,11 +20,11 @@ class ExactLanguageSearch:
         return result
 
     @staticmethod
-    def set_relative_base(pre_parsed_object, substring, already_parsed, settings):
+    def set_relative_base(pre_parsed_object, substring, already_parsed, is_relative,  settings):
         if settings:
             if "RELATIVE_BASE" in settings:
                 return substring, None
-        elif pre_parsed_object['period'] == 'year':
+        elif pre_parsed_object['period'] == 'year' and not is_relative:
             return substring, datetime.datetime(2000, 1, 1, 0)
         elif len(already_parsed) == 0:
             return substring, None
@@ -90,7 +90,7 @@ class ExactLanguageSearch:
         item = item.replace('am', '')
         pre_parsed_item = parser.get_date_data(item)
         is_relative = self.date_is_relative(translated_item)
-        item, relative_base = self.set_relative_base(pre_parsed_item, item, parsed,
+        item, relative_base = self.set_relative_base(pre_parsed_item, item, parsed, is_relative,
                                                      settings=settings)
         if relative_base:
             parser._settings.RELATIVE_BASE = relative_base
@@ -148,3 +148,5 @@ class ExactLanguageSearch:
                                                           original=original, translated=translated, settings=settings)
         return list(zip(substrings, [i['date_obj'] for i in parsed]))
 
+els = ExactLanguageSearch()
+print(els.search_parse('fr', 'il y a un an'))
