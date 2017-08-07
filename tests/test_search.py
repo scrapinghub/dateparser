@@ -1,9 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from nose_parameterized import parameterized, param
 from tests import BaseTestCase
 from dateparser.search import ExactLanguageSearch
 import datetime
-
 
 class TestTranslateSearch(BaseTestCase):
     def setUp(self):

@@ -1,4 +1,5 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from dateparser.languages.loader import LanguageDataLoader
 from dateparser.conf import Settings
 from dateparser.date import DateDataParser
@@ -52,9 +53,9 @@ class ExactLanguageSearch:
             num_substrings = len(possible_substrings_splits[i])
             not_parsed = 0
             for item in possible_parsed_splits[i]:
-                if not item['date_obj']:
+                if item['date_obj'] is None:
                     not_parsed += 1
-            rating.append([num_substrings, not_parsed/num_substrings])
+            rating.append([num_substrings, float(not_parsed)/float(num_substrings)])
             best_index, best_rating = min(enumerate(rating), key=lambda p: (p[1][1], p[1][0]))
         return possible_parsed_splits[best_index], possible_substrings_splits[best_index]
 
