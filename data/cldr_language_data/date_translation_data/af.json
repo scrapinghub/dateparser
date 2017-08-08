@@ -180,63 +180,63 @@
             "nou"
         ],
         "in \\1 year": [
-            "oor (\\d+) jaar"
+            "oor {0} jaar"
         ],
         "\\1 year ago": [
-            "(\\d+) jaar gelede"
+            "{0} jaar gelede"
         ],
         "in \\1 month": [
-            "oor (\\d+) minuut",
-            "oor (\\d+) md"
+            "oor {0} minuut",
+            "oor {0} md"
         ],
         "\\1 month ago": [
-            "(\\d+) maand gelede",
-            "(\\d+) maande gelede",
-            "(\\d+) md gelede"
+            "{0} maand gelede",
+            "{0} maande gelede",
+            "{0} md gelede"
         ],
         "in \\1 week": [
-            "oor (\\d+) week",
-            "oor (\\d+) weke",
-            "oor (\\d+) w"
+            "oor {0} week",
+            "oor {0} weke",
+            "oor {0} w"
         ],
         "\\1 week ago": [
-            "(\\d+) week gelede",
-            "(\\d+) weke gelede",
-            "(\\d+) w gelede"
+            "{0} week gelede",
+            "{0} weke gelede",
+            "{0} w gelede"
         ],
         "in \\1 day": [
-            "oor (\\d+) minuut",
-            "oor (\\d+) dag",
-            "oor (\\d+) dae"
+            "oor {0} minuut",
+            "oor {0} dag",
+            "oor {0} dae"
         ],
         "\\1 day ago": [
-            "(\\d+) dag gelede",
-            "(\\d+) dae gelede"
+            "{0} dag gelede",
+            "{0} dae gelede"
         ],
         "in \\1 hour": [
-            "oor (\\d+) uur"
+            "oor {0} uur"
         ],
         "\\1 hour ago": [
-            "(\\d+) uur gelede"
+            "{0} uur gelede"
         ],
         "in \\1 minute": [
-            "oor (\\d+) minuut",
-            "oor (\\d+) min"
+            "oor {0} minuut",
+            "oor {0} min"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuut gelede",
-            "(\\d+) minute gelede",
-            "(\\d+) min gelede"
+            "{0} minuut gelede",
+            "{0} minute gelede",
+            "{0} min gelede"
         ],
         "in \\1 second": [
-            "oor (\\d+) sekonde",
-            "oor (\\d+) sekondes",
-            "oor (\\d+) sek"
+            "oor {0} sekonde",
+            "oor {0} sekondes",
+            "oor {0} sek"
         ],
         "\\1 second ago": [
-            "(\\d+) sekonde gelede",
-            "(\\d+) sekondes gelede",
-            "(\\d+) sek gelede"
+            "{0} sekonde gelede",
+            "{0} sekondes gelede",
+            "{0} sek gelede"
         ]
     },
     "locale_specific": {

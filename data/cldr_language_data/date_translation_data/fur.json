@@ -168,58 +168,58 @@
             "now"
         ],
         "in \\1 year": [
-            "ca di (\\d+) an",
-            "ca di (\\d+) agns"
+            "ca di {0} an",
+            "ca di {0} agns"
         ],
         "\\1 year ago": [
-            "(\\d+) an indaûr",
-            "(\\d+) agns indaûr"
+            "{0} an indaûr",
+            "{0} agns indaûr"
         ],
         "in \\1 month": [
-            "ca di (\\d+) mês"
+            "ca di {0} mês"
         ],
         "\\1 month ago": [
-            "(\\d+) mês indaûr"
+            "{0} mês indaûr"
         ],
         "in \\1 week": [
-            "ca di (\\d+) setemane",
-            "ca di (\\d+) setemanis"
+            "ca di {0} setemane",
+            "ca di {0} setemanis"
         ],
         "\\1 week ago": [
-            "(\\d+) setemane indaûr",
-            "(\\d+) setemanis indaûr"
+            "{0} setemane indaûr",
+            "{0} setemanis indaûr"
         ],
         "in \\1 day": [
-            "ca di (\\d+) zornade",
-            "ca di (\\d+) zornadis"
+            "ca di {0} zornade",
+            "ca di {0} zornadis"
         ],
         "\\1 day ago": [
-            "(\\d+) zornade indaûr",
-            "(\\d+) zornadis indaûr"
+            "{0} zornade indaûr",
+            "{0} zornadis indaûr"
         ],
         "in \\1 hour": [
-            "ca di (\\d+) ore",
-            "ca di (\\d+) oris"
+            "ca di {0} ore",
+            "ca di {0} oris"
         ],
         "\\1 hour ago": [
-            "(\\d+) ore indaûr",
-            "(\\d+) oris indaûr"
+            "{0} ore indaûr",
+            "{0} oris indaûr"
         ],
         "in \\1 minute": [
-            "ca di (\\d+) minût",
-            "ca di (\\d+) minûts"
+            "ca di {0} minût",
+            "ca di {0} minûts"
         ],
         "\\1 minute ago": [
-            "(\\d+) minût indaûr",
-            "(\\d+) minûts indaûr"
+            "{0} minût indaûr",
+            "{0} minûts indaûr"
         ],
         "in \\1 second": [
-            "ca di (\\d+) secont",
-            "ca di (\\d+) seconts"
+            "ca di {0} secont",
+            "ca di {0} seconts"
         ],
         "\\1 second ago": [
-            "(\\d+) secont indaûr",
-            "(\\d+) seconts indaûr"
+            "{0} secont indaûr",
+            "{0} seconts indaûr"
         ]
     },
     "locale_specific": {}

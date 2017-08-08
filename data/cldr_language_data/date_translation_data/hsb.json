@@ -194,82 +194,82 @@
             "now"
         ],
         "in \\1 year": [
-            "za (\\d+) lěto",
-            "za (\\d+) lět",
-            "za (\\d+) l"
+            "za {0} lěto",
+            "za {0} lět",
+            "za {0} l"
         ],
         "\\1 year ago": [
-            "před (\\d+) lětom",
-            "před (\\d+) lětami",
-            "před (\\d+) l"
+            "před {0} lětom",
+            "před {0} lětami",
+            "před {0} l"
         ],
         "in \\1 month": [
-            "za (\\d+) měsac",
-            "za (\\d+) měsacow",
-            "za (\\d+) měs"
+            "za {0} měsac",
+            "za {0} měsacow",
+            "za {0} měs"
         ],
         "\\1 month ago": [
-            "před (\\d+) měsacom",
-            "před (\\d+) měsacami",
-            "před (\\d+) měs"
+            "před {0} měsacom",
+            "před {0} měsacami",
+            "před {0} měs"
         ],
         "in \\1 week": [
-            "za (\\d+) tydźeń",
-            "za (\\d+) tydźenjow",
-            "za (\\d+) tydź"
+            "za {0} tydźeń",
+            "za {0} tydźenjow",
+            "za {0} tydź"
         ],
         "\\1 week ago": [
-            "před (\\d+) tydźenjom",
-            "před (\\d+) tydźenjemi",
-            "před (\\d+) tydź"
+            "před {0} tydźenjom",
+            "před {0} tydźenjemi",
+            "před {0} tydź"
         ],
         "in \\1 day": [
-            "za (\\d+) dźeń",
-            "za (\\d+) dnjow",
-            "za (\\d+) dnj",
-            "za (\\d+) d"
+            "za {0} dźeń",
+            "za {0} dnjow",
+            "za {0} dnj",
+            "za {0} d"
         ],
         "\\1 day ago": [
-            "před (\\d+) dnjom",
-            "před (\\d+) dnjemi",
-            "před (\\d+) dnj",
-            "před (\\d+) d"
+            "před {0} dnjom",
+            "před {0} dnjemi",
+            "před {0} dnj",
+            "před {0} d"
         ],
         "in \\1 hour": [
-            "za (\\d+) hodźinu",
-            "za (\\d+) hodźin",
-            "za (\\d+) hodź",
-            "za (\\d+) h"
+            "za {0} hodźinu",
+            "za {0} hodźin",
+            "za {0} hodź",
+            "za {0} h"
         ],
         "\\1 hour ago": [
-            "před (\\d+) hodźinu",
-            "před (\\d+) hodźinami",
-            "před (\\d+) hodź",
-            "před (\\d+) h"
+            "před {0} hodźinu",
+            "před {0} hodźinami",
+            "před {0} hodź",
+            "před {0} h"
         ],
         "in \\1 minute": [
-            "za (\\d+) minutu",
-            "za (\\d+) minutow",
-            "za (\\d+) min",
-            "za (\\d+) m"
+            "za {0} minutu",
+            "za {0} minutow",
+            "za {0} min",
+            "za {0} m"
         ],
         "\\1 minute ago": [
-            "před (\\d+) minutu",
-            "před (\\d+) minutami",
-            "před (\\d+) min",
-            "před (\\d+) m"
+            "před {0} minutu",
+            "před {0} minutami",
+            "před {0} min",
+            "před {0} m"
         ],
         "in \\1 second": [
-            "za (\\d+) sekundu",
-            "za (\\d+) sekundow",
-            "za (\\d+) sek",
-            "za (\\d+) s"
+            "za {0} sekundu",
+            "za {0} sekundow",
+            "za {0} sek",
+            "za {0} s"
         ],
         "\\1 second ago": [
-            "před (\\d+) sekundu",
-            "před (\\d+) sekundami",
-            "před (\\d+) sek",
-            "před (\\d+) s"
+            "před {0} sekundu",
+            "před {0} sekundami",
+            "před {0} sek",
+            "před {0} s"
         ]
     },
     "locale_specific": {}

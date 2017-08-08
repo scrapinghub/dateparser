@@ -44,5 +44,5 @@ relative-type:
         - anteayer
 
 simplifications:
-    un: 1
-    una: 1
+    - una: 1
+    - un: 1

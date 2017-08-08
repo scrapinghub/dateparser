@@ -186,72 +186,72 @@
             "now"
         ],
         "in \\1 year": [
-            "in (\\d+) year",
-            "in (\\d+) years",
-            "in (\\d+) yr"
+            "in {0} year",
+            "in {0} years",
+            "in {0} yr"
         ],
         "\\1 year ago": [
-            "(\\d+) year ago",
-            "(\\d+) years ago",
-            "(\\d+) yr ago"
+            "{0} year ago",
+            "{0} years ago",
+            "{0} yr ago"
         ],
         "in \\1 month": [
-            "in (\\d+) month",
-            "in (\\d+) months",
-            "in (\\d+) mo"
+            "in {0} month",
+            "in {0} months",
+            "in {0} mo"
         ],
         "\\1 month ago": [
-            "(\\d+) month ago",
-            "(\\d+) months ago",
-            "(\\d+) mo ago"
+            "{0} month ago",
+            "{0} months ago",
+            "{0} mo ago"
         ],
         "in \\1 week": [
-            "in (\\d+) week",
-            "in (\\d+) weeks",
-            "in (\\d+) wk"
+            "in {0} week",
+            "in {0} weeks",
+            "in {0} wk"
         ],
         "\\1 week ago": [
-            "(\\d+) week ago",
-            "(\\d+) weeks ago",
-            "(\\d+) wk ago"
+            "{0} week ago",
+            "{0} weeks ago",
+            "{0} wk ago"
         ],
         "in \\1 day": [
-            "in (\\d+) day",
-            "in (\\d+) days"
+            "in {0} day",
+            "in {0} days"
         ],
         "\\1 day ago": [
-            "(\\d+) day ago",
-            "(\\d+) days ago"
+            "{0} day ago",
+            "{0} days ago"
         ],
         "in \\1 hour": [
-            "in (\\d+) hour",
-            "in (\\d+) hours",
-            "in (\\d+) hr"
+            "in {0} hour",
+            "in {0} hours",
+            "in {0} hr"
         ],
         "\\1 hour ago": [
-            "(\\d+) hour ago",
-            "(\\d+) hours ago",
-            "(\\d+) hr ago"
+            "{0} hour ago",
+            "{0} hours ago",
+            "{0} hr ago"
         ],
         "in \\1 minute": [
-            "in (\\d+) minute",
-            "in (\\d+) minutes",
-            "in (\\d+) min"
+            "in {0} minute",
+            "in {0} minutes",
+            "in {0} min"
         ],
         "\\1 minute ago": [
-            "(\\d+) minute ago",
-            "(\\d+) minutes ago",
-            "(\\d+) min ago"
+            "{0} minute ago",
+            "{0} minutes ago",
+            "{0} min ago"
         ],
         "in \\1 second": [
-            "in (\\d+) second",
-            "in (\\d+) seconds",
-            "in (\\d+) sec"
+            "in {0} second",
+            "in {0} seconds",
+            "in {0} sec"
         ],
         "\\1 second ago": [
-            "(\\d+) second ago",
-            "(\\d+) seconds ago",
-            "(\\d+) sec ago"
+            "{0} second ago",
+            "{0} seconds ago",
+            "{0} sec ago"
         ]
     },
     "locale_specific": {
@@ -329,40 +329,40 @@
             "date_order": "YMD",
             "relative-type": {
                 "in \\1 year": [
-                    "in (\\d+) yrs"
+                    "in {0} yrs"
                 ],
                 "\\1 year ago": [
-                    "(\\d+) yrs ago"
+                    "{0} yrs ago"
                 ],
                 "in \\1 month": [
-                    "in (\\d+) mos"
+                    "in {0} mos"
                 ],
                 "\\1 month ago": [
-                    "(\\d+) mos ago"
+                    "{0} mos ago"
                 ],
                 "in \\1 week": [
-                    "in (\\d+) wks"
+                    "in {0} wks"
                 ],
                 "\\1 week ago": [
-                    "(\\d+) wks ago"
+                    "{0} wks ago"
                 ],
                 "in \\1 hour": [
-                    "in (\\d+) hrs"
+                    "in {0} hrs"
                 ],
                 "\\1 hour ago": [
-                    "(\\d+) hrs ago"
+                    "{0} hrs ago"
                 ],
                 "in \\1 minute": [
-                    "in (\\d+) mins"
+                    "in {0} mins"
                 ],
                 "\\1 minute ago": [
-                    "(\\d+) mins ago"
+                    "{0} mins ago"
                 ],
                 "in \\1 second": [
-                    "in (\\d+) secs"
+                    "in {0} secs"
                 ],
                 "\\1 second ago": [
-                    "(\\d+) secs ago"
+                    "{0} secs ago"
                 ]
             }
         },
@@ -639,10 +639,10 @@
                     "next mth"
                 ],
                 "in \\1 month": [
-                    "in (\\d+) mth"
+                    "in {0} mth"
                 ],
                 "\\1 month ago": [
-                    "(\\d+) mth ago"
+                    "{0} mth ago"
                 ]
             }
         },

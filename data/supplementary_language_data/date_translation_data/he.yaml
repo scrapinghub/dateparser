@@ -132,5 +132,5 @@ relative-type:
         - שנתיי?ם
 
 simplifications:
-    ו(\w+): \1
-    חצות: 12 am
+    - ו(\w+): \1
+    - חצות: 12 am

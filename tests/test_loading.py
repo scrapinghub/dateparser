@@ -2,168 +2,216 @@
 from nose_parameterized import parameterized, param
 from operator import attrgetter
 import six
+import regex as re
 
-from dateparser.languages.loader import default_language_loader
+from dateparser.languages.loader import default_loader
 from tests import BaseTestCase
 
 
-class TestLoadingWithStrictOrder(BaseTestCase):
+class TestLoading(BaseTestCase):
     def setUp(self):
-        super(TestLoadingWithStrictOrder, self).setUp()
+        super(TestLoading, self).setUp()
 
     @classmethod
     def setUpClass(cls):
-        cls.data_loader = default_language_loader
-        cls.data_loader._data = {}
+        cls.data_loader = default_loader
+        cls.data_loader._loaded_locales = {}
+        cls.data_loader._loaded_languages = {}
 
     @parameterized.expand([
         param(given_languages=['es', 'fr', 'en'],
+              given_locales=None,
+              given_region=None,
               loaded_languages=['en', 'es', 'fr'],
-              expected_languages=['en', 'es', 'fr']),
-        param(given_languages=['ar', 'he'],
-              loaded_languages=['en', 'ar', 'es', 'fr', 'he'],
-              expected_languages=['ar', 'he']),
-        param(given_languages=['tl', 'zh', 'uk'],
-              loaded_languages=['en', 'ar', 'es', 'fr', 'he', 'tl', 'uk', 'zh'],
-              expected_languages=['tl', 'uk', 'zh']),
-        param(given_languages=['fr', 'zh', 'he', 'ru'],
-              loaded_languages=['en', 'ar', 'es', 'fr', 'he', 'ru', 'tl', 'uk', 'zh'],
-              expected_languages=['fr', 'he', 'ru', 'zh']),
-        param(given_languages=['en', 'tl'],
-              loaded_languages=['en', 'ar', 'es', 'fr', 'he', 'ru', 'tl', 'uk', 'zh'],
-              expected_languages=['en', 'tl']),
-        param(given_languages=['it'],
-              loaded_languages=['en', 'ar', 'es', 'fr', 'he', 'it', 'ru', 'tl', 'uk', 'zh'],
-              expected_languages=['it']),
-    ])
-    def test_loading_if_strict_order_is_True(
-            self, given_languages, loaded_languages, expected_languages):
-        self.load_data(given_languages, strict_order=True)
-        self.then_languages_are_yielded_in_order(expected_languages)
-        self.then_loaded_languages_are(loaded_languages)
+              loaded_locales=['en', 'es', 'fr'],
+              expected_locales=['es', 'fr', 'en']),
 
-    def load_data(self, given_languages, strict_order):
-        self.language_generator = self.data_loader.get_languages(languages=given_languages,
-                                                                 strict_order=strict_order)
+        param(given_languages=None,
+              given_locales=['fr-BF', 'ar-SO', 'asa'],
+              given_region=None,
+              loaded_languages=['en', 'es', 'fr', 'ar', 'asa'],
+              loaded_locales=['en', 'es', 'fr', 'fr-BF', 'ar-SO', 'asa'],
+              expected_locales=['fr-BF', 'ar-SO', 'asa']),
+
+        param(given_languages=None,
+              given_locales=['nl-CW', 'so-KE', 'sr-Latn-XK', 'zgh'],
+              given_region=None,
+              loaded_languages=['en', 'es', 'fr', 'ar', 'asa',
+                                'nl', 'so', 'sr-Latn', 'zgh'],
+              loaded_locales=['en', 'es', 'fr', 'fr-BF', 'ar-SO', 'asa',
+                              'nl-CW', 'so-KE', 'sr-Latn-XK', 'zgh'],
+              expected_locales=['nl-CW', 'so-KE', 'sr-Latn-XK', 'zgh']),
+
+        param(given_languages=['pt', 'zh-Hant', 'zh-Hans'],
+              given_locales=None,
+              given_region='MO',
+              loaded_languages=['en', 'es', 'fr', 'ar', 'asa', 'nl', 'so',
+                                'sr-Latn', 'zgh', 'pt', 'zh-Hant', 'zh-Hans'],
+              loaded_locales=['en', 'es', 'fr', 'fr-BF', 'ar-SO', 'asa',
+                              'nl-CW', 'so-KE', 'sr-Latn-XK', 'zgh',
+                              'pt-MO', 'zh-Hant-MO', 'zh-Hans-MO'],
+              expected_locales=['pt-MO', 'zh-Hant-MO', 'zh-Hans-MO']),
+
+        param(given_languages=['pt', 'he'],
+              given_locales=['ru-UA', 'ckb-IR', 'sq-XK'],
+              given_region='MO',
+              loaded_languages=['en', 'es', 'fr', 'ar', 'asa', 'nl', 'so',
+                                'sr-Latn', 'zgh', 'pt', 'zh-Hant', 'zh-Hans',
+                                'ru', 'ckb', 'sq'],
+              loaded_locales=['en', 'es', 'fr', 'fr-BF', 'ar-SO', 'asa', 'nl-CW',
+                              'so-KE', 'sr-Latn-XK', 'zgh', 'pt-MO', 'zh-Hant-MO',
+                              'zh-Hans-MO', 'ru-UA', 'ckb-IR', 'sq-XK'],
+              expected_locales=['ru-UA', 'ckb-IR', 'sq-XK']),
+
+        param(given_languages=['da', 'ja'],
+              given_locales=['shi-Latn', 'teo-KE', 'ewo', 'vun'],
+              given_region='AO',
+              loaded_languages=['en', 'es', 'fr', 'ar', 'asa', 'nl', 'so',
+                                'sr-Latn', 'zgh', 'pt', 'zh-Hant', 'zh-Hans',
+                                'ru', 'ckb', 'sq', 'shi-Latn', 'teo', 'ewo', 'vun'],
+              loaded_locales=['en', 'es', 'fr', 'fr-BF', 'ar-SO', 'asa', 'nl-CW',
+                              'so-KE', 'sr-Latn-XK', 'zgh', 'pt-MO', 'zh-Hant-MO',
+                              'zh-Hans-MO', 'ru-UA', 'ckb-IR', 'sq-XK', 'shi-Latn',
+                              'teo-KE', 'ewo', 'vun'],
+              expected_locales=['shi-Latn', 'teo-KE', 'ewo', 'vun']),
+    ])
+    def test_loading(self, given_languages, given_locales, given_region,
+                     loaded_languages, loaded_locales, expected_locales):
+        self.load_data(languages=given_languages, locales=given_locales, region=given_region)
+        self.then_locales_are_yielded_in_order(expected_locales)
+        self.then_loaded_languages_are(loaded_languages)
+        self.then_loaded_locales_are(loaded_locales)
+
+    def load_data(self, languages, locales, region):
+        self.locale_generator = self.data_loader.get_locales(
+            languages=languages, locales=locales, region=region, use_given_order=True)
 
     def then_loaded_languages_are(self, loaded_languages):
-        six.assertCountEqual(self, loaded_languages, self.data_loader._data.keys())
+        six.assertCountEqual(self, loaded_languages, self.data_loader._loaded_languages.keys())
 
-    def then_languages_are_yielded_in_order(self, expected_languages):
+    def then_loaded_locales_are(self, loaded_locales):
+        six.assertCountEqual(self, loaded_locales, self.data_loader._loaded_locales.keys())
+
+    def then_locales_are_yielded_in_order(self, expected_locales):
         self.assertEqual(list(map(attrgetter('shortname'),
-                         list(self.language_generator))), expected_languages)
+                         list(self.locale_generator))), expected_locales)
 
 
-class TestLoadingWithoutStrictOrder(BaseTestCase):
+class TestLocaleDataLoader(BaseTestCase):
+    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile(u"Unknown language\(s\): (.+)")
+    UNKNOWN_LOCALES_EXCEPTION_RE = re.compile(u"Unknown locale\(s\): (.+)")
+
     def setUp(self):
-        super(TestLoadingWithoutStrictOrder, self).setUp()
-
-    @classmethod
-    def setUpClass(cls):
-        cls.data_loader = default_language_loader
-        cls.data_loader._data = {}
+        super(TestLocaleDataLoader, self).setUp()
+        self.data_loader = default_loader
+        self.data_loader._loaded_languages = {}
+        self.data_loader._loaded_locales = {}
 
     @parameterized.expand([
-        param(given_languages=['es', 'fr', 'en'],
-              loaded_languages=['en', 'es', 'fr'],
-              expected_languages=['en', 'es', 'fr']),
-        param(given_languages=['ar', 'he', 'fr'],
-              loaded_languages=['en', 'ar', 'es', 'fr', 'he'],
-              expected_languages=['fr', 'ar', 'he']),
-        param(given_languages=['bg', 'es', 'he', 'zh', 'uk'],
-              loaded_languages=['en', 'ar', 'es', 'fr', 'he', 'bg', 'uk', 'zh'],
-              expected_languages=['es', 'he', 'bg', 'uk', 'zh']),
-        param(given_languages=['fr', 'zh', 'he', 'ru'],
-              loaded_languages=['en', 'ar', 'es', 'fr', 'he', 'bg', 'uk', 'zh', 'ru'],
-              expected_languages=['fr', 'he', 'zh', 'ru']),
-        param(given_languages=['en', 'uk', 'pt', 'ar'],
-              loaded_languages=['en', 'ar', 'es', 'fr', 'he', 'bg', 'uk', 'zh', 'ru', 'pt'],
-              expected_languages=['en', 'ar', 'uk', 'pt']),
-        param(given_languages=['it', 'id', 'bg'],
-              loaded_languages=['en', 'ar', 'es', 'fr', 'he', 'bg', 'uk',
-                                'zh', 'ru', 'pt', 'it', 'id'],
-              expected_languages=['bg', 'id', 'it']),
+        param(given_locales=['es-MX', 'ar-EG', 'fr-DJ']),
+        param(given_locales=['pt-MO', 'ru-KZ', 'es-CU']),
+        param(given_locales=['zh-Hans-HK', 'en-VG', 'my']),
+        param(given_locales=['tl', 'nl-SX', 'de-BE']),
     ])
-    def test_loading_if_strict_order_is_False(
-            self, given_languages, loaded_languages, expected_languages):
-        self.load_data(given_languages, strict_order=False)
-        self.then_languages_are_yielded_in_order(expected_languages)
-        self.then_loaded_languages_are(loaded_languages)
+    def test_loading_with_given_order(self, given_locales):
+        self.load_data(given_locales, use_given_order=True)
+        self.then_locales_are_yielded_in_order(given_locales)
 
-    def load_data(self, given_languages, strict_order):
-        self.language_generator = self.data_loader.get_languages(languages=given_languages,
-                                                                 strict_order=strict_order)
+    @parameterized.expand([
+        param(given_locales=['os-RU', 'ln-CF', 'ee-TG'],
+              expected_locales=['ee-TG', 'ln-CF', 'os-RU']),
+        param(given_locales=['khq', 'vai-Vaii', 'ff-CM'],
+              expected_locales=['ff-CM', 'khq', 'vai-Vaii']),
+        param(given_locales=['en-CC', 'fr-BE', 'ar-KW'],
+              expected_locales=['en-CC', 'ar-KW', 'fr-BE']),
+    ])
+    def test_loading_without_given_order(self, given_locales, expected_locales):
+        self.load_data(given_locales, use_given_order=False)
+        self.then_locales_are_yielded_in_order(expected_locales)
 
-    def then_loaded_languages_are(self, loaded_languages):
-        six.assertCountEqual(self, loaded_languages, self.data_loader._data.keys())
+    @parameterized.expand([
+        param(given_locales=['sw-KE', 'ru-UA', 'he']),
+        param(given_locales=['de-IT', 'ta-MY', 'pa-Arab']),
+        param(given_locales=['bn-IN', 'pt-ST', 'ko-KP', 'ta']),
+        param(given_locales=['fr-NE', 'ar-SY']),
+    ])
+    def test_get_locale_map_with_given_order(self, given_locales):
+        self.given_locale_map(locales=given_locales, use_given_order=True)
+        self.then_locale_map_in_order(given_locales)
 
-    def then_languages_are_yielded_in_order(self, expected_languages):
+    @parameterized.expand([
+        param(given_locales=['en-FJ', 'pt-CV', 'fr-RW'],
+              expected_locales=['en-FJ', 'fr-RW', 'pt-CV']),
+        param(given_locales=['pt-AO', 'hi', 'zh-Hans-SG', 'vi'],
+              expected_locales=['zh-Hans-SG', 'hi', 'pt-AO', 'vi']),
+        param(given_locales=['gsw-FR', 'es-BZ', 'ca-IT', 'qu-EC'],
+              expected_locales=['es-BZ', 'qu-EC', 'ca-IT', 'gsw-FR']),
+    ])
+    def test_get_locale_map_without_given_order(self, given_locales, expected_locales):
+        self.given_locale_map(locales=given_locales, use_given_order=False)
+        self.then_locale_map_in_order(expected_locales)
+
+    @parameterized.expand([
+        param(given_languages=['es', 'ar-001', 'xx'],
+              unknown_languages=['ar-001', 'xx']),
+        param(given_languages=['sr-Latn', 'sq', 'ii-Latn'],
+              unknown_languages=['ii-Latn']),
+        param(given_languages=['vol', 'bc', 'vai'],
+              unknown_languages=['vol', 'bc']),
+    ])
+    def test_error_raised_for_unknown_languages(self, given_languages, unknown_languages):
+        self.given_locale_map(languages=given_languages)
+        self.then_error_for_unknown_languages_raised(unknown_languages)
+
+    @parameterized.expand([
+        param(given_locales=['es-AB', 'ar-001', 'fr-DJ'],
+              unknown_locales=['es-AB', 'ar-001']),
+        param(given_locales=['ru-MD', 'my-MY', 'zz'],
+              unknown_locales=['my-MY', 'zz']),
+        param(given_locales=['nl-SX', 'be-BE', 'ca-FR'],
+              unknown_locales=['be-BE']),
+    ])
+    def test_error_raised_for_unknown_locales(self, given_locales, unknown_locales):
+        self.given_locale_map(locales=given_locales)
+        self.then_error_for_unknown_locales_raised(unknown_locales)
+
+    @parameterized.expand([
+        param(given_locales=['en-TK', 'en-TO', 'zh']),
+        param(given_locales=['es-PY', 'es-IC', 'ja', 'es-DO']),
+    ])
+    def test_error_raised_for_conflicting_locales(self, given_locales):
+        self.given_locale_map(locales=given_locales)
+        self.then_error_was_raised(
+            ValueError, "Locales should not have same language and different region")
+
+    def load_data(self, given_locales, use_given_order):
+        self.locale_generator = self.data_loader.get_locales(
+            locales=given_locales, use_given_order=use_given_order)
+
+    def given_locale_map(self, languages=None, locales=None, use_given_order=True):
+        try:
+            self.locale_map = self.data_loader.get_locale_map(
+                languages=languages, locales=locales, use_given_order=use_given_order)
+        except Exception as error:
+            self.error = error
+
+    def then_locales_are_yielded_in_order(self, expected_locales):
         self.assertEqual(list(map(attrgetter('shortname'),
-                         list(self.language_generator))), expected_languages)
+                         list(self.locale_generator))), expected_locales)
 
+    def then_locale_map_in_order(self, expected_locales):
+        self.assertEqual(list(self.locale_map.keys()), expected_locales)
 
-class TestLanguageDataLoader(BaseTestCase):
-    def setUp(self):
-        super(TestLanguageDataLoader, self).setUp()
-        self.data_loader = default_language_loader
-        self.data_loader._data = {}
+    def then_error_for_unknown_languages_raised(self, unknown_languages):
+        self.assertIsInstance(self.error, ValueError)
+        match = self.UNKNOWN_LANGUAGES_EXCEPTION_RE.match(str(self.error))
+        self.assertTrue(match)
+        languages = match.group(1).split(", ")
+        six.assertCountEqual(self, languages, [repr(l) for l in unknown_languages])
 
-    @parameterized.expand([
-        param(given_languages=['he', 'pt', 'en', 'es', 'uk']),
-        param(given_languages=['zh', 'uk', 'hi', 'es']),
-        param(given_languages=['ar', 'it', 'pt', 'uk']),
-        param(given_languages=['sv', 'ja', 'ar', 'fr', 'zh']),
-    ])
-    def test_loading_with_given_order_with_strict_order(self, given_languages):
-        self.load_data(given_languages, strict_order=True, use_given_order=True)
-        self.then_languages_are_yielded_in_order(given_languages)
-
-    @parameterized.expand([
-        param(given_languages=['he', 'pt', 'id', 'zh'], stored_languages=['en', 'es', 'zh'],
-              expected_languages=['zh', 'he', 'pt', 'id']),
-        param(given_languages=['ar', 'it', 'uk', 'da'], stored_languages=['en', 'it', 'da', 'fr'],
-              expected_languages=['it', 'da', 'ar', 'uk']),
-        param(given_languages=['hi', 'fr', 'ja', 'ka'], stored_languages=['ja', 'es', 'hi', 'sv'],
-              expected_languages=['hi', 'ja', 'fr', 'ka']),
-    ])
-    def test_loading_with_given_order_without_strict_order(
-            self, given_languages, stored_languages, expected_languages):
-        self.data_loader._data = self.data_loader.get_language_map(languages=stored_languages)
-        self.load_data(given_languages, strict_order=False, use_given_order=True)
-        self.then_languages_are_yielded_in_order(expected_languages)
-
-    @parameterized.expand([
-        param(given_languages=['he', 'id', 'sv', 'ja']),
-        param(given_languages=['pt', 'ar', 'fr', 'es']),
-        param(given_languages=['bg', 'fi', 'cs']),
-    ])
-    def test_get_language_map_with_given_order(self, given_languages):
-        self.given_language_map(given_languages=given_languages, use_given_order=True)
-        self.then_language_map_in_order(given_languages)
-
-    @parameterized.expand([
-        param(given_languages=['cs', 'vi', 'ru', 'nl'],
-              expected_languages=['cs', 'nl', 'ru', 'vi']),
-        param(given_languages=['uk', 'sv', 'hu', 'de'],
-              expected_languages=['de', 'hu', 'sv', 'uk']),
-        param(given_languages=['da', 'th', 'ka', 'fa'],
-              expected_languages=['da', 'fa', 'ka', 'th']),
-    ])
-    def test_get_language_map_without_given_order(self, given_languages, expected_languages):
-        self.given_language_map(given_languages=given_languages, use_given_order=False)
-        self.then_language_map_in_order(expected_languages)
-
-    def load_data(self, given_languages, strict_order, use_given_order):
-        self.language_generator = self.data_loader.get_languages(
-            languages=given_languages, strict_order=strict_order, use_given_order=use_given_order)
-
-    def given_language_map(self, given_languages, use_given_order):
-        self.language_map = self.data_loader.get_language_map(
-            languages=given_languages, use_given_order=use_given_order)
-
-    def then_languages_are_yielded_in_order(self, expected_languages):
-        self.assertEqual(list(map(attrgetter('shortname'),
-                         list(self.language_generator))), expected_languages)
-
-    def then_language_map_in_order(self, expected_languages):
-        self.assertEqual(list(self.language_map.keys()), expected_languages)
+    def then_error_for_unknown_locales_raised(self, unknown_locales):
+        self.assertIsInstance(self.error, ValueError)
+        match = self.UNKNOWN_LOCALES_EXCEPTION_RE.match(str(self.error))
+        self.assertTrue(match)
+        locales = match.group(1).split(", ")
+        six.assertCountEqual(self, locales, [repr(l) for l in unknown_locales])

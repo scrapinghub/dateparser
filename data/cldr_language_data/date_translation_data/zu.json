@@ -173,67 +173,29 @@
         "0 second ago": [
             "manje"
         ],
-        "in \\1 year": [
-            "onyakeni ongu-(\\d+) ozayo",
-            "eminyakeni engu-(\\d+) ezayo"
-        ],
         "\\1 year ago": [
-            "(\\d+) unyaka odlule",
-            "(\\d+) iminyaka edlule"
-        ],
-        "in \\1 month": [
-            "enyangeni engu-(\\d+)",
-            "ezinyangeni ezingu-(\\d+) ezizayo",
-            "enyangeni engu-(\\d+) ezayo"
+            "{0} unyaka odlule",
+            "{0} iminyaka edlule"
         ],
         "\\1 month ago": [
-            "(\\d+) inyanga edlule",
-            "(\\d+) izinyanga ezedlule"
-        ],
-        "in \\1 week": [
-            "evikini elingu-(\\d+)",
-            "emavikini angu-(\\d+)",
-            "evikini elingu-(\\d+) elizayo",
-            "emavikini angu-(\\d+) ezayo"
-        ],
-        "\\1 week ago": [
-            "evikini elingu-(\\d+) eledlule",
-            "amaviki angu-(\\d+) edlule"
-        ],
-        "in \\1 day": [
-            "osukwini olungu-(\\d+) oluzayo",
-            "ezinsukwini ezingu-(\\d+) ezizayo"
+            "{0} inyanga edlule",
+            "{0} izinyanga ezedlule"
         ],
         "\\1 day ago": [
-            "osukwini olungu-(\\d+) olwedlule",
-            "ezinsukwini ezingu-(\\d+) ezedlule",
-            "(\\d+) usuku olwedlule",
-            "(\\d+) izinsuku ezedlule"
-        ],
-        "in \\1 hour": [
-            "ehoreni elingu-(\\d+) elizayo",
-            "emahoreni angu-(\\d+) ezayo"
+            "{0} usuku olwedlule",
+            "{0} izinsuku ezedlule"
         ],
         "\\1 hour ago": [
-            "(\\d+) ihora eledlule",
-            "emahoreni angu-(\\d+) edlule",
-            "(\\d+) amahora edlule"
-        ],
-        "in \\1 minute": [
-            "kuminithi elingu-(\\d+) elizayo",
-            "kumaminithi angu-(\\d+) ezayo"
+            "{0} ihora eledlule",
+            "{0} amahora edlule"
         ],
         "\\1 minute ago": [
-            "(\\d+) iminithi eledlule",
-            "(\\d+) amaminithi edlule"
-        ],
-        "in \\1 second": [
-            "kusekhondi elingu-(\\d+) elizayo",
-            "kumasekhondi angu-(\\d+) ezayo"
+            "{0} iminithi eledlule",
+            "{0} amaminithi edlule"
         ],
         "\\1 second ago": [
-            "(\\d+) isekhondi eledlule",
-            "(\\d+) amasekhondi edlule"
+            "{0} isekhondi eledlule",
+            "{0} amasekhondi edlule"
         ]
     },
     "locale_specific": {}

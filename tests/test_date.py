@@ -372,22 +372,22 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_dates_are(list(dates_to_parse.values()))
 
     @parameterized.expand([
-        param(date_string=u'11 Marzo, 2014', language='es'),
-        param(date_string=u'13 Septiembre, 2014', language='es'),
-        param(date_string=u'Сегодня', language='ru'),
-        param(date_string=u'Avant-hier', language='fr'),
-        param(date_string=u'Anteontem', language='pt'),
-        param(date_string=u'ธันวาคม 11, 2014, 08:55:08 PM', language='th'),
-        param(date_string=u'Anteontem', language='pt'),
-        param(date_string=u'14 aprilie 2014', language='ro'),
-        param(date_string=u'11 Ağustos, 2014', language='tr'),
-        param(date_string=u'pon 16. čer 2014 10:07:43', language='cs'),
-        param(date_string=u'24 януари 2015г.', language='bg')
+        param(date_string=u'11 Marzo, 2014', locale='es'),
+        param(date_string=u'13 Septiembre, 2014', locale='es'),
+        param(date_string=u'Сегодня', locale='ru'),
+        param(date_string=u'Avant-hier', locale='fr'),
+        param(date_string=u'Anteontem', locale='pt'),
+        param(date_string=u'ธันวาคม 11, 2014, 08:55:08 PM', locale='th'),
+        param(date_string=u'Anteontem', locale='pt'),
+        param(date_string=u'14 aprilie 2014', locale='ro'),
+        param(date_string=u'11 Ağustos, 2014', locale='tr'),
+        param(date_string=u'pon 16. čer 2014 10:07:43', locale='cs'),
+        param(date_string=u'24 януари 2015г.', locale='bg')
     ])
-    def test_returned_detected_language_should_be(self, date_string, language):
+    def test_returned_detected_locale_should_be(self, date_string, locale):
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
-        self.then_detected_language(language)
+        self.then_detected_locale(locale)
 
     @parameterized.expand([
         param("2014-10-09T17:57:39+00:00"),
@@ -542,8 +542,8 @@ class TestDateDataParser(BaseTestCase):
     def then_date_was_parsed(self):
         self.assertIsNotNone(self.result['date_obj'])
 
-    def then_date_language(self):
-        self.assertIsNotNone(self.result['language'])
+    def then_date_locale(self):
+        self.assertIsNotNone(self.result['locale'])
 
     def then_date_is_n_days_ago(self, days):
         today = datetime.now().date()
@@ -557,8 +557,8 @@ class TestDateDataParser(BaseTestCase):
         self.assertEqual(expected_dates,
                          [result['date_obj'].date() for result in self.multiple_results])
 
-    def then_detected_language(self, language):
-        self.assertEqual(language, self.result['language'])
+    def then_detected_locale(self, locale):
+        self.assertEqual(locale, self.result['locale'])
 
     def then_period_is(self, day):
         self.assertEqual(day, self.result['period'])
@@ -598,28 +598,34 @@ class TestParserInitialization(BaseTestCase):
             TypeError, ["languages argument must be a list (%r given)" % type(languages)])
 
     @parameterized.expand([
-        param(try_previous_languages=['ar', 'pt', 'zh', 'uk']),
-        param(try_previous_languages='uk'),
-        param(try_previous_languages={'try_previous_languages': True}),
-        param(try_previous_languages=0),
+        param(locales='en-001'),
+        param(locales={'locales': ['zh-Hant-HK', 'ha-NE', 'se-SE']}),
     ])
-    def test_error_raised_for_invalid_try_previous_languages_argument(self, try_previous_languages):
-        self.when_parser_is_initialized(try_previous_languages=try_previous_languages)
+    def test_error_raised_for_invalid_locales_argument(self, locales):
+        self.when_parser_is_initialized(locales=locales)
         self.then_error_was_raised(
-            TypeError, ["try_previous_languages argument must be a boolean (%r given)"
-                        % type(try_previous_languages)])
+            TypeError, ["locales argument must be a list (%r given)" % type(locales)])
 
     @parameterized.expand([
-        param(strict_language_order=['ar', 'pt', 'zh', 'uk']),
-        param(strict_language_order='pt'),
-        param(strict_language_order={'strict_language_order': True}),
-        param(strict_language_order=1),
+        param(region=['AW', 'BE']),
+        param(region=150),
     ])
-    def test_error_raised_for_invalid_strict_language_order_argument(self, strict_language_order):
-        self.when_parser_is_initialized(strict_language_order=strict_language_order)
+    def test_error_raised_for_invalid_region_argument(self, region):
+        self.when_parser_is_initialized(region=region)
         self.then_error_was_raised(
-            TypeError, ["strict_language_order argument must be a boolean (%r given)"
-                        % type(strict_language_order)])
+            TypeError, ["region argument must be str or unicode (%r given)" % type(region)])
+
+    @parameterized.expand([
+        param(try_previous_locales=['ar-OM', 'pt-PT', 'fr-CG', 'uk']),
+        param(try_previous_locales='uk'),
+        param(try_previous_locales={'try_previous_locales': True}),
+        param(try_previous_locales=0),
+    ])
+    def test_error_raised_for_invalid_try_previous_locales_argument(self, try_previous_locales):
+        self.when_parser_is_initialized(try_previous_locales=try_previous_locales)
+        self.then_error_was_raised(
+            TypeError, ["try_previous_locales argument must be a boolean (%r given)"
+                        % type(try_previous_locales)])
 
     @parameterized.expand([
         param(use_given_order=['da', 'pt', 'ja', 'sv']),
@@ -628,15 +634,15 @@ class TestParserInitialization(BaseTestCase):
         param(use_given_order=1),
     ])
     def test_error_raised_for_invalid_use_given_order_argument(self, use_given_order):
-        self.when_parser_is_initialized(languages=['en', 'es'], use_given_order=use_given_order)
+        self.when_parser_is_initialized(locales=['en', 'es'], use_given_order=use_given_order)
         self.then_error_was_raised(
             TypeError, ["use_given_order argument must be a boolean (%r given)"
                         % type(use_given_order)])
 
-    def test_error_is_raised_when_use_given_order_is_True_and_languages_is_None(self):
+    def test_error_is_raised_when_use_given_order_is_True_and_locales_is_None(self):
         self.when_parser_is_initialized(use_given_order=True)
         self.then_error_was_raised(
-            ValueError, ["languages must be given if use_given_order is True"])
+            ValueError, ["locales must be given if use_given_order is True"])
 
     def when_parser_is_initialized(self, languages=None, try_previous_languages=True,
                                    strict_language_order=False, use_given_order=False):

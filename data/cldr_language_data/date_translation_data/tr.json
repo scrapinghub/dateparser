@@ -174,54 +174,54 @@
             "şimdi"
         ],
         "in \\1 year": [
-            "(\\d+) yıl sonra"
+            "{0} yıl sonra"
         ],
         "\\1 year ago": [
-            "(\\d+) yıl önce"
+            "{0} yıl önce"
         ],
         "in \\1 month": [
-            "(\\d+) ay sonra"
+            "{0} ay sonra"
         ],
         "\\1 month ago": [
-            "(\\d+) ay önce"
+            "{0} ay önce"
         ],
         "in \\1 week": [
-            "(\\d+) hafta sonra",
-            "(\\d+) hf sonra"
+            "{0} hafta sonra",
+            "{0} hf sonra"
         ],
         "\\1 week ago": [
-            "(\\d+) hafta önce",
-            "(\\d+) hf önce"
+            "{0} hafta önce",
+            "{0} hf önce"
         ],
         "in \\1 day": [
-            "(\\d+) gün sonra"
+            "{0} gün sonra"
         ],
         "\\1 day ago": [
-            "(\\d+) gün önce"
+            "{0} gün önce"
         ],
         "in \\1 hour": [
-            "(\\d+) saat sonra",
-            "(\\d+) sa sonra"
+            "{0} saat sonra",
+            "{0} sa sonra"
         ],
         "\\1 hour ago": [
-            "(\\d+) saat önce",
-            "(\\d+) sa önce"
+            "{0} saat önce",
+            "{0} sa önce"
         ],
         "in \\1 minute": [
-            "(\\d+) dakika sonra",
-            "(\\d+) dk sonra"
+            "{0} dakika sonra",
+            "{0} dk sonra"
         ],
         "\\1 minute ago": [
-            "(\\d+) dakika önce",
-            "(\\d+) dk önce"
+            "{0} dakika önce",
+            "{0} dk önce"
         ],
         "in \\1 second": [
-            "(\\d+) saniye sonra",
-            "(\\d+) sn sonra"
+            "{0} saniye sonra",
+            "{0} sn sonra"
         ],
         "\\1 second ago": [
-            "(\\d+) saniye önce",
-            "(\\d+) sn önce"
+            "{0} saniye önce",
+            "{0} sn önce"
         ]
     },
     "locale_specific": {

@@ -179,56 +179,56 @@
             "now"
         ],
         "in \\1 year": [
-            "di li (\\d+) anu"
+            "di li {0} anu"
         ],
         "\\1 year ago": [
-            "a ten (\\d+) anu"
+            "a ten {0} anu"
         ],
         "in \\1 month": [
-            "di li (\\d+) mes"
+            "di li {0} mes"
         ],
         "\\1 month ago": [
-            "a ten (\\d+) mes"
+            "a ten {0} mes"
         ],
         "in \\1 week": [
-            "di li (\\d+) simana",
-            "di li (\\d+) sim"
+            "di li {0} simana",
+            "di li {0} sim"
         ],
         "\\1 week ago": [
-            "a ten (\\d+) simana",
-            "a ten (\\d+) sim"
+            "a ten {0} simana",
+            "a ten {0} sim"
         ],
         "in \\1 day": [
-            "di li (\\d+) dia"
+            "di li {0} dia"
         ],
         "\\1 day ago": [
-            "a ten (\\d+) dia"
+            "a ten {0} dia"
         ],
         "in \\1 hour": [
-            "di li (\\d+) ora"
+            "di li {0} ora"
         ],
         "\\1 hour ago": [
-            "a ten (\\d+) ora"
+            "a ten {0} ora"
         ],
         "in \\1 minute": [
-            "di li (\\d+) minutu",
-            "di li (\\d+) min",
-            "di li (\\d+) m"
+            "di li {0} minutu",
+            "di li {0} min",
+            "di li {0} m"
         ],
         "\\1 minute ago": [
-            "a ten (\\d+) minutu",
-            "a ten (\\d+) min",
-            "a ten (\\d+) m"
+            "a ten {0} minutu",
+            "a ten {0} min",
+            "a ten {0} m"
         ],
         "in \\1 second": [
-            "di li (\\d+) sigundu",
-            "di li (\\d+) sig",
-            "di li (\\d+) s"
+            "di li {0} sigundu",
+            "di li {0} sig",
+            "di li {0} s"
         ],
         "\\1 second ago": [
-            "a ten (\\d+) sigundu",
-            "a ten (\\d+) sig",
-            "a ten (\\d+) s"
+            "a ten {0} sigundu",
+            "a ten {0} sig",
+            "a ten {0} s"
         ]
     },
     "locale_specific": {}

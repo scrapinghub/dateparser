@@ -167,62 +167,62 @@
             "nüüd"
         ],
         "in \\1 year": [
-            "(\\d+) aasta pärast",
-            "(\\d+) a pärast"
+            "{0} aasta pärast",
+            "{0} a pärast"
         ],
         "\\1 year ago": [
-            "(\\d+) aasta eest",
-            "(\\d+) a eest"
+            "{0} aasta eest",
+            "{0} a eest"
         ],
         "in \\1 month": [
-            "(\\d+) kuu pärast",
-            "(\\d+) k pärast"
+            "{0} kuu pärast",
+            "{0} k pärast"
         ],
         "\\1 month ago": [
-            "(\\d+) kuu eest",
-            "(\\d+) k eest"
+            "{0} kuu eest",
+            "{0} k eest"
         ],
         "in \\1 week": [
-            "(\\d+) nädala pärast",
-            "(\\d+) näd pärast"
+            "{0} nädala pärast",
+            "{0} näd pärast"
         ],
         "\\1 week ago": [
-            "(\\d+) nädala eest",
-            "(\\d+) näd eest"
+            "{0} nädala eest",
+            "{0} näd eest"
         ],
         "in \\1 day": [
-            "(\\d+) päeva pärast",
-            "(\\d+) p pärast"
+            "{0} päeva pärast",
+            "{0} p pärast"
         ],
         "\\1 day ago": [
-            "(\\d+) päeva eest",
-            "(\\d+) p eest"
+            "{0} päeva eest",
+            "{0} p eest"
         ],
         "in \\1 hour": [
-            "(\\d+) tunni pärast",
-            "(\\d+) t pärast"
+            "{0} tunni pärast",
+            "{0} t pärast"
         ],
         "\\1 hour ago": [
-            "(\\d+) tunni eest",
-            "(\\d+) t eest"
+            "{0} tunni eest",
+            "{0} t eest"
         ],
         "in \\1 minute": [
-            "(\\d+) minuti pärast",
-            "(\\d+) min pärast"
+            "{0} minuti pärast",
+            "{0} min pärast"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuti eest",
-            "(\\d+) min eest"
+            "{0} minuti eest",
+            "{0} min eest"
         ],
         "in \\1 second": [
-            "(\\d+) sekundi pärast",
-            "(\\d+) sek pärast",
-            "(\\d+) s pärast"
+            "{0} sekundi pärast",
+            "{0} sek pärast",
+            "{0} s pärast"
         ],
         "\\1 second ago": [
-            "(\\d+) sekundi eest",
-            "(\\d+) sek eest",
-            "(\\d+) s eest"
+            "{0} sekundi eest",
+            "{0} sek eest",
+            "{0} s eest"
         ]
     },
     "locale_specific": {}

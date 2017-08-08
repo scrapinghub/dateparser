@@ -154,48 +154,6 @@
         ],
         "0 second ago": [
             "now"
-        ],
-        "in \\1 year": [
-            "+(\\d+) y"
-        ],
-        "\\1 year ago": [
-            "-(\\d+) y"
-        ],
-        "in \\1 month": [
-            "+(\\d+) m"
-        ],
-        "\\1 month ago": [
-            "-(\\d+) m"
-        ],
-        "in \\1 week": [
-            "+(\\d+) w"
-        ],
-        "\\1 week ago": [
-            "-(\\d+) w"
-        ],
-        "in \\1 day": [
-            "+(\\d+) d"
-        ],
-        "\\1 day ago": [
-            "-(\\d+) d"
-        ],
-        "in \\1 hour": [
-            "+(\\d+) h"
-        ],
-        "\\1 hour ago": [
-            "-(\\d+) h"
-        ],
-        "in \\1 minute": [
-            "+(\\d+) min"
-        ],
-        "\\1 minute ago": [
-            "-(\\d+) min"
-        ],
-        "in \\1 second": [
-            "+(\\d+) s"
-        ],
-        "\\1 second ago": [
-            "-(\\d+) s"
         ]
     },
     "locale_specific": {
@@ -209,8 +167,8 @@
                 "oshù èrèlè"
             ],
             "march": [
-                "oshù ɛrɛ̀nà",
-                "ɛrɛ̀nà"
+                "ɛrɛ̀nà",
+                "oshù ɛrɛ̀nà"
             ],
             "april": [
                 "oshù ìgbé"
@@ -233,22 +191,22 @@
                 "oshù owewe"
             ],
             "october": [
-                "ɔ̀wàrà",
-                "oshù ɔ̀wàrà"
+                "oshù ɔ̀wàrà",
+                "ɔ̀wàrà"
             ],
             "november": [
                 "oshù bélú"
             ],
             "december": [
-                "oshù ɔ̀pɛ̀",
-                "ɔ̀pɛ̀"
+                "ɔ̀pɛ̀",
+                "oshù ɔ̀pɛ̀"
             ],
             "monday": [
                 "ɔjɔ́ ajé"
             ],
             "tuesday": [
-                "ìsɛ́gun",
-                "ɔjɔ́ ìsɛ́gun"
+                "ɔjɔ́ ìsɛ́gun",
+                "ìsɛ́gun"
             ],
             "wednesday": [
                 "ɔjɔ́rú"

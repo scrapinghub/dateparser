@@ -172,62 +172,62 @@
             "fifi"
         ],
         "in \\1 year": [
-            "le ƒe (\\d+) me",
-            "le ƒe (\\d+) si gbɔna me"
+            "le ƒe {0} me",
+            "le ƒe {0} si gbɔna me"
         ],
         "\\1 year ago": [
-            "ƒe (\\d+) si va yi",
-            "ƒe (\\d+) si wo va yi",
-            "le ƒe (\\d+) si va yi me",
-            "ƒe (\\d+) si va yi me"
+            "ƒe {0} si va yi",
+            "ƒe {0} si wo va yi",
+            "le ƒe {0} si va yi me",
+            "ƒe {0} si va yi me"
         ],
         "in \\1 month": [
-            "le ɣleti (\\d+) me",
-            "le ɣleti (\\d+) wo me"
+            "le ɣleti {0} me",
+            "le ɣleti {0} wo me"
         ],
         "\\1 month ago": [
-            "ɣleti (\\d+) si va yi",
-            "ɣleti (\\d+) si wo va yi"
+            "ɣleti {0} si va yi",
+            "ɣleti {0} si wo va yi"
         ],
         "in \\1 week": [
-            "le kɔsiɖa (\\d+) me",
-            "le kɔsiɖa (\\d+) wo me"
+            "le kɔsiɖa {0} me",
+            "le kɔsiɖa {0} wo me"
         ],
         "\\1 week ago": [
-            "kɔsiɖa (\\d+) si va yi",
-            "kɔsiɖa (\\d+) si wo va yi"
+            "kɔsiɖa {0} si va yi",
+            "kɔsiɖa {0} si wo va yi"
         ],
         "in \\1 day": [
-            "le ŋkeke (\\d+) me",
-            "le ŋkeke (\\d+) wo me"
+            "le ŋkeke {0} me",
+            "le ŋkeke {0} wo me"
         ],
         "\\1 day ago": [
-            "ŋkeke (\\d+) si va yi",
-            "ŋkeke (\\d+) si wo va yi"
+            "ŋkeke {0} si va yi",
+            "ŋkeke {0} si wo va yi"
         ],
         "in \\1 hour": [
-            "le gaƒoƒo (\\d+) me",
-            "le gaƒoƒo (\\d+) wo me"
+            "le gaƒoƒo {0} me",
+            "le gaƒoƒo {0} wo me"
         ],
         "\\1 hour ago": [
-            "gaƒoƒo (\\d+) si va yi",
-            "gaƒoƒo (\\d+) si wo va yi"
+            "gaƒoƒo {0} si va yi",
+            "gaƒoƒo {0} si wo va yi"
         ],
         "in \\1 minute": [
-            "le aɖabaƒoƒo (\\d+) me",
-            "le aɖabaƒoƒo (\\d+) wo me"
+            "le aɖabaƒoƒo {0} me",
+            "le aɖabaƒoƒo {0} wo me"
         ],
         "\\1 minute ago": [
-            "aɖabaƒoƒo (\\d+) si va yi",
-            "aɖabaƒoƒo (\\d+) si wo va yi"
+            "aɖabaƒoƒo {0} si va yi",
+            "aɖabaƒoƒo {0} si wo va yi"
         ],
         "in \\1 second": [
-            "le sekend (\\d+) me",
-            "le sekend (\\d+) wo me"
+            "le sekend {0} me",
+            "le sekend {0} wo me"
         ],
         "\\1 second ago": [
-            "sekend (\\d+) si va yi",
-            "sekend (\\d+) si wo va yi"
+            "sekend {0} si va yi",
+            "sekend {0} si wo va yi"
         ]
     },
     "locale_specific": {

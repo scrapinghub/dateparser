@@ -183,82 +183,69 @@
             "nå"
         ],
         "in \\1 year": [
-            "om (\\d+) år",
-            "+(\\d+) år"
+            "om {0} år"
         ],
         "\\1 year ago": [
-            "for (\\d+) år siden",
-            "–(\\d+) år"
+            "for {0} år siden",
+            "–{0} år"
         ],
         "in \\1 month": [
-            "om (\\d+) måned",
-            "om (\\d+) måneder",
-            "om (\\d+) md",
-            "+(\\d+) md"
+            "om {0} måned",
+            "om {0} måneder",
+            "om {0} md"
         ],
         "\\1 month ago": [
-            "for (\\d+) måned siden",
-            "for (\\d+) måneder siden",
-            "for (\\d+) md siden",
-            "-(\\d+) md"
+            "for {0} måned siden",
+            "for {0} måneder siden",
+            "for {0} md siden"
         ],
         "in \\1 week": [
-            "om (\\d+) uke",
-            "om (\\d+) uker",
-            "om (\\d+) u",
-            "+(\\d+) u"
+            "om {0} uke",
+            "om {0} uker",
+            "om {0} u"
         ],
         "\\1 week ago": [
-            "for (\\d+) uke siden",
-            "for (\\d+) uker siden",
-            "for (\\d+) u siden",
-            "-(\\d+) u"
+            "for {0} uke siden",
+            "for {0} uker siden",
+            "for {0} u siden"
         ],
         "in \\1 day": [
-            "om (\\d+) døgn",
-            "om (\\d+) d",
-            "+(\\d+) d"
+            "om {0} døgn",
+            "om {0} d"
         ],
         "\\1 day ago": [
-            "for (\\d+) døgn siden",
-            "for (\\d+) d siden",
-            "-(\\d+) d"
+            "for {0} døgn siden",
+            "for {0} d siden"
         ],
         "in \\1 hour": [
-            "om (\\d+) time",
-            "om (\\d+) timer",
-            "om (\\d+) t",
-            "+(\\d+) t"
+            "om {0} time",
+            "om {0} timer",
+            "om {0} t"
         ],
         "\\1 hour ago": [
-            "for (\\d+) time siden",
-            "for (\\d+) timer siden",
-            "for (\\d+) t siden",
-            "-(\\d+) t"
+            "for {0} time siden",
+            "for {0} timer siden",
+            "for {0} t siden"
         ],
         "in \\1 minute": [
-            "om (\\d+) minutt",
-            "om (\\d+) minutter",
-            "om (\\d+) min",
-            "+(\\d+) min"
+            "om {0} minutt",
+            "om {0} minutter",
+            "om {0} min"
         ],
         "\\1 minute ago": [
-            "for (\\d+) minutt siden",
-            "for (\\d+) minutter siden",
-            "for (\\d+) min siden",
-            "-(\\d+) min"
+            "for {0} minutt siden",
+            "for {0} minutter siden",
+            "for {0} min siden"
         ],
         "in \\1 second": [
-            "om (\\d+) sekund",
-            "om (\\d+) sekunder",
-            "om (\\d+) sek",
-            "+(\\d+) s"
+            "om {0} sekund",
+            "om {0} sekunder",
+            "om {0} sek"
         ],
         "\\1 second ago": [
-            "for (\\d+) sekund siden",
-            "for (\\d+) sekunder siden",
-            "for (\\d+) sek siden",
-            "-(\\d+) s"
+            "for {0} sekund siden",
+            "for {0} sekunder siden",
+            "for {0} sek siden"
         ]
     },
     "locale_specific": {

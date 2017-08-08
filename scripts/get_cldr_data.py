@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import requests
 import re
 import json
@@ -17,12 +18,18 @@ headers = {'Authorization': 'token %s' % OAuth_Access_Token}
 cldr_dates_full_url = "https://api.github.com/repos/unicode-cldr/cldr-dates-full/contents/main/"
 
 DATE_ORDER_PATTERN = re.compile(u'([DMY])+\u200f*[-/. \t]*([DMY])+\u200f*[-/. \t]*([DMY])+')
-RELATIVE_PATTERN = re.compile(r'\{0\}')
+AVOID_RELATIVE_PATTERN = re.compile(r'[\+\-]\s*\{0\}')
 AM_PATTERN = re.compile('\s*[aA]\.*\s*[mM]\.*\s*')
 PM_PATTERN = re.compile('\s*[pP]\.*\s*[mM]\.*\s*')
-DIGIT_PATTERN = re.compile(r'\d+$')
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _modify_relative_string(relative_string):
+    if isinstance(relative_string, six.string_types) and not AVOID_RELATIVE_PATTERN.search(relative_string):
+        return relative_string
+    else:
+        return None
 
 
 def _retrieve_locale_data(locale):
@@ -32,11 +39,11 @@ def _retrieve_locale_data(locale):
     while(True):
         try:
             gregorian_response = requests.get(cldr_gregorian_url, headers=headers)
-        except requests.exceptions.ConnectionError:
+        except (requests.exceptions.ConnectionError, requests.exceptions.ChunkedEncodingError):
             print("Waiting...")
             time.sleep(5)
-            continue
-        break
+        else:
+            break
 
     if gregorian_response.status_code != 200:
         raise RuntimeError("Bad Response " + str(gregorian_response.status_code))
@@ -48,11 +55,11 @@ def _retrieve_locale_data(locale):
     while(True):
         try:
             datefields_response = requests.get(cldr_datefields_url, headers=headers)
-        except requests.exceptions.ConnectionError:
+        except (requests.exceptions.ConnectionError, requests.exceptions.ChunkedEncodingError):
             print("Waiting...")
             time.sleep(5)
-            continue
-        break
+        else:
+            break
 
     if datefields_response.status_code != 200:
         raise RuntimeError("Bad Response " + str(datefields_response.status_code))
@@ -155,7 +162,6 @@ def _retrieve_locale_data(locale):
                              gregorian_dict.get("months").get("format").get("abbreviated").get("12"),
                              gregorian_dict.get("months").get("format").get("narrow").get("12")]
 
-
     json_dict["monday"] = [gregorian_dict.get("days").get("stand-alone").get("wide").get("mon"),
                            gregorian_dict.get("days").get("stand-alone").get("abbreviated").get("mon"),
                            gregorian_dict.get("days").get("stand-alone").get("narrow").get("mon"),
@@ -205,21 +211,21 @@ def _retrieve_locale_data(locale):
                            gregorian_dict.get("days").get("format").get("abbreviated").get("sun"),
                            gregorian_dict.get("days").get("format").get("narrow").get("sun")]
 
-    json_dict["am"] = list(map(lambda x: AM_PATTERN.sub('am', x),
-                               [gregorian_dict.get("dayPeriods").get("stand-alone").get("wide").get("am"),
-                               gregorian_dict.get("dayPeriods").get("stand-alone").get("abbreviated").get("am"),
-                               gregorian_dict.get("dayPeriods").get("stand-alone").get("narrow").get("am"),
-                               gregorian_dict.get("dayPeriods").get("format").get("wide").get("am"),
-                               gregorian_dict.get("dayPeriods").get("format").get("abbreviated").get("am"),
-                               gregorian_dict.get("dayPeriods").get("format").get("narrow").get("am")]))
+    json_dict["am"] = list(AM_PATTERN.sub('am', x) for x in
+                           [gregorian_dict.get("dayPeriods").get("stand-alone").get("wide").get("am"),
+                            gregorian_dict.get("dayPeriods").get("stand-alone").get("abbreviated").get("am"),
+                            gregorian_dict.get("dayPeriods").get("stand-alone").get("narrow").get("am"),
+                            gregorian_dict.get("dayPeriods").get("format").get("wide").get("am"),
+                            gregorian_dict.get("dayPeriods").get("format").get("abbreviated").get("am"),
+                            gregorian_dict.get("dayPeriods").get("format").get("narrow").get("am")])
 
-    json_dict["pm"] = list(map(lambda x: PM_PATTERN.sub('pm', x),
-                               [gregorian_dict.get("dayPeriods").get("stand-alone").get("wide").get("pm"),
-                               gregorian_dict.get("dayPeriods").get("stand-alone").get("abbreviated").get("pm"),
-                               gregorian_dict.get("dayPeriods").get("stand-alone").get("narrow").get("pm"),
-                               gregorian_dict.get("dayPeriods").get("format").get("wide").get("pm"),
-                               gregorian_dict.get("dayPeriods").get("format").get("abbreviated").get("pm"),
-                               gregorian_dict.get("dayPeriods").get("format").get("narrow").get("pm")]))
+    json_dict["pm"] = list(PM_PATTERN.sub('pm', x) for x in
+                           [gregorian_dict.get("dayPeriods").get("stand-alone").get("wide").get("pm"),
+                            gregorian_dict.get("dayPeriods").get("stand-alone").get("abbreviated").get("pm"),
+                            gregorian_dict.get("dayPeriods").get("stand-alone").get("narrow").get("pm"),
+                            gregorian_dict.get("dayPeriods").get("format").get("wide").get("pm"),
+                            gregorian_dict.get("dayPeriods").get("format").get("abbreviated").get("pm"),
+                            gregorian_dict.get("dayPeriods").get("format").get("narrow").get("pm")])
 
     json_dict["year"] = [date_fields_dict.get("year").get("displayName"),
                          date_fields_dict.get("year-short").get("displayName"),
@@ -312,142 +318,151 @@ def _retrieve_locale_data(locale):
                                                   date_fields_dict.get("second-narrow").get("relative-type-0")]
 
     json_dict["relative-type"]["in \\1 year"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("year").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("year").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("year-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("year-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("year-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("year-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("year").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("year-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("year-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("year-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("year-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["\\1 year ago"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("year").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("year").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("year-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("year-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("year-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("year-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("year").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("year-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("year-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("year-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("year-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["in \\1 month"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("month").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("month").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("month-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("month-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("month-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("month-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("month").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("month-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("month-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("month-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("month-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["\\1 month ago"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("month").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("month").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("month-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("month-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("month-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("month-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("month").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("month-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("month-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("month-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("month-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["in \\1 week"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("week").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("week").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("week-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("week-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("week-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("week-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("week").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("week-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("week-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("week-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("week-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["\\1 week ago"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("week").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("week").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("week-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("week-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("week-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("week-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("week").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("week-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("week-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("week-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("week-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["in \\1 day"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("day").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("day").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("day-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("day-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("day-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("day-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("day").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("day-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("day-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("day-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("day-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["\\1 day ago"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("day").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("day").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("day-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("day-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("day-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("day-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("day").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("day-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("day-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("day-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("day-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["in \\1 hour"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("hour").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("hour").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("hour-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("hour-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("hour-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("hour-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("hour").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("hour-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("hour-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("hour-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("hour-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["\\1 hour ago"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("hour").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("hour").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("hour-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("hour-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("hour-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("hour-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("hour").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("hour-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("hour-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("hour-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("hour-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["in \\1 minute"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("minute").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("minute").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("minute-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("minute-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("minute-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("minute-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("minute").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("minute-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("minute-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("minute-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("minute-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["\\1 minute ago"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("minute").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("minute").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("minute-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("minute-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("minute-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("minute-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("minute").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("minute-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("minute-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("minute-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("minute-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["in \\1 second"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("second").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("second").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("second-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("second-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("second-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("second-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("second").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("second-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("second-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("second-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("second-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
 
     json_dict["relative-type"]["\\1 second ago"] = (
-        list(map(lambda x: RELATIVE_PATTERN.sub(r'(\d+)', x) if isinstance(x, six.string_types) else None,
+        list(map(_modify_relative_string,
                  [date_fields_dict.get("second").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("second").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("second-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("second-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                 date_fields_dict.get("second-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                 date_fields_dict.get("second-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                  date_fields_dict.get("second").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("second-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("second-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
+                  date_fields_dict.get("second-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
+                  date_fields_dict.get("second-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
 
     return json_dict
 
 
 def _clean_dict(json_dict):
+    redundant_keys = []
     for key, value in json_dict.items():
-        if isinstance(value, list):
-            value = [i for i in value if isinstance(i, six.string_types) and not DIGIT_PATTERN.match(i)]
-            json_dict[key] = list(OrderedSet(map(
-                lambda y: ' '.join(list(map(lambda x: x.rstrip('.'), y.lower().split()))), value)))
+        if not value:
+            redundant_keys.append(key)
+        elif isinstance(value, list):
+            value = [i for i in value if isinstance(i, six.string_types) and not i.isdigit()]
+            if not value:
+                redundant_keys.append(key)
+            else:
+                json_dict[key] = list(OrderedSet(map(
+                    lambda y: ' '.join(list(map(lambda x: x.rstrip('.'), y.lower().split()))), value)))
         elif isinstance(value, dict):
             json_dict[key] = _clean_dict(value)
+
+    for key in redundant_keys:
+        del json_dict[key]
     return json_dict
 
 

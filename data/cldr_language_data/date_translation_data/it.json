@@ -179,74 +179,74 @@
             "ora"
         ],
         "in \\1 year": [
-            "tra (\\d+) anno",
-            "tra (\\d+) anni"
+            "tra {0} anno",
+            "tra {0} anni"
         ],
         "\\1 year ago": [
-            "(\\d+) anno fa",
-            "(\\d+) anni fa"
+            "{0} anno fa",
+            "{0} anni fa"
         ],
         "in \\1 month": [
-            "tra (\\d+) mese",
-            "tra (\\d+) mesi"
+            "tra {0} mese",
+            "tra {0} mesi"
         ],
         "\\1 month ago": [
-            "(\\d+) mese fa",
-            "(\\d+) mesi fa"
+            "{0} mese fa",
+            "{0} mesi fa"
         ],
         "in \\1 week": [
-            "tra (\\d+) settimana",
-            "tra (\\d+) settimane",
-            "tra (\\d+) sett"
+            "tra {0} settimana",
+            "tra {0} settimane",
+            "tra {0} sett"
         ],
         "\\1 week ago": [
-            "(\\d+) settimana fa",
-            "(\\d+) settimane fa",
-            "(\\d+) sett fa"
+            "{0} settimana fa",
+            "{0} settimane fa",
+            "{0} sett fa"
         ],
         "in \\1 day": [
-            "tra (\\d+) giorno",
-            "tra (\\d+) giorni",
-            "tra (\\d+) g",
-            "tra (\\d+) gg"
+            "tra {0} giorno",
+            "tra {0} giorni",
+            "tra {0} g",
+            "tra {0} gg"
         ],
         "\\1 day ago": [
-            "(\\d+) giorno fa",
-            "(\\d+) giorni fa",
-            "(\\d+) g fa",
-            "(\\d+) gg fa"
+            "{0} giorno fa",
+            "{0} giorni fa",
+            "{0} g fa",
+            "{0} gg fa"
         ],
         "in \\1 hour": [
-            "tra (\\d+) ora",
-            "tra (\\d+) ore",
-            "tra (\\d+) h"
+            "tra {0} ora",
+            "tra {0} ore",
+            "tra {0} h"
         ],
         "\\1 hour ago": [
-            "(\\d+) ora fa",
-            "(\\d+) ore fa",
-            "(\\d+) h fa"
+            "{0} ora fa",
+            "{0} ore fa",
+            "{0} h fa"
         ],
         "in \\1 minute": [
-            "tra (\\d+) minuto",
-            "tra (\\d+) minuti",
-            "tra (\\d+) min"
+            "tra {0} minuto",
+            "tra {0} minuti",
+            "tra {0} min"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuto fa",
-            "(\\d+) minuti fa",
-            "(\\d+) min fa"
+            "{0} minuto fa",
+            "{0} minuti fa",
+            "{0} min fa"
         ],
         "in \\1 second": [
-            "tra (\\d+) secondo",
-            "tra (\\d+) secondi",
-            "tra (\\d+) sec",
-            "tra (\\d+) s"
+            "tra {0} secondo",
+            "tra {0} secondi",
+            "tra {0} sec",
+            "tra {0} s"
         ],
         "\\1 second ago": [
-            "(\\d+) secondo fa",
-            "(\\d+) secondi fa",
-            "(\\d+) sec fa",
-            "(\\d+) s fa"
+            "{0} secondo fa",
+            "{0} secondi fa",
+            "{0} sec fa",
+            "{0} s fa"
         ]
     },
     "locale_specific": {

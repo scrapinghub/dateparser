@@ -144,60 +144,60 @@
             "now"
         ],
         "in \\1 year": [
-            "(\\d+) ýyldan",
-            "(\\d+)ý.-dan"
+            "{0} ýyldan",
+            "{0}ý.-dan"
         ],
         "\\1 year ago": [
-            "(\\d+) ýyl öň",
-            "(\\d+)ý öň"
+            "{0} ýyl öň",
+            "{0}ý öň"
         ],
         "in \\1 month": [
-            "(\\d+) aýdan"
+            "{0} aýdan"
         ],
         "\\1 month ago": [
-            "(\\d+) aý öň"
+            "{0} aý öň"
         ],
         "in \\1 week": [
-            "(\\d+) hepdeden",
-            "(\\d+) hep-den",
-            "(\\d+) h-den"
+            "{0} hepdeden",
+            "{0} hep-den",
+            "{0} h-den"
         ],
         "\\1 week ago": [
-            "(\\d+) hepde öň",
-            "(\\d+) hep öň",
-            "(\\d+) h öň"
+            "{0} hepde öň",
+            "{0} hep öň",
+            "{0} h öň"
         ],
         "in \\1 day": [
-            "(\\d+) günden",
-            "(\\d+) g-den"
+            "{0} günden",
+            "{0} g-den"
         ],
         "\\1 day ago": [
-            "(\\d+) gün öň",
-            "(\\d+) g öň"
+            "{0} gün öň",
+            "{0} g öň"
         ],
         "in \\1 hour": [
-            "(\\d+) sagatdan",
-            "(\\d+) sag-dan"
+            "{0} sagatdan",
+            "{0} sag-dan"
         ],
         "\\1 hour ago": [
-            "(\\d+) sagat öň",
-            "(\\d+) sag öň"
+            "{0} sagat öň",
+            "{0} sag öň"
         ],
         "in \\1 minute": [
-            "(\\d+) minutdan",
-            "(\\d+) min-dan"
+            "{0} minutdan",
+            "{0} min-dan"
         ],
         "\\1 minute ago": [
-            "(\\d+) minut öň",
-            "(\\d+) min öň"
+            "{0} minut öň",
+            "{0} min öň"
         ],
         "in \\1 second": [
-            "(\\d+) sekuntdan",
-            "(\\d+) sek-dan"
+            "{0} sekuntdan",
+            "{0} sek-dan"
         ],
         "\\1 second ago": [
-            "(\\d+) sekunt öň",
-            "(\\d+) sek öň"
+            "{0} sekunt öň",
+            "{0} sek öň"
         ]
     },
     "locale_specific": {}

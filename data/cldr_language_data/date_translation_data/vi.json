@@ -159,46 +159,46 @@
             "bây giờ"
         ],
         "in \\1 year": [
-            "sau (\\d+) năm nữa"
+            "sau {0} năm nữa"
         ],
         "\\1 year ago": [
-            "(\\d+) năm trước"
+            "{0} năm trước"
         ],
         "in \\1 month": [
-            "sau (\\d+) tháng nữa"
+            "sau {0} tháng nữa"
         ],
         "\\1 month ago": [
-            "(\\d+) tháng trước"
+            "{0} tháng trước"
         ],
         "in \\1 week": [
-            "sau (\\d+) tuần nữa"
+            "sau {0} tuần nữa"
         ],
         "\\1 week ago": [
-            "(\\d+) tuần trước"
+            "{0} tuần trước"
         ],
         "in \\1 day": [
-            "sau (\\d+) ngày nữa"
+            "sau {0} ngày nữa"
         ],
         "\\1 day ago": [
-            "(\\d+) ngày trước"
+            "{0} ngày trước"
         ],
         "in \\1 hour": [
-            "sau (\\d+) giờ nữa"
+            "sau {0} giờ nữa"
         ],
         "\\1 hour ago": [
-            "(\\d+) giờ trước"
+            "{0} giờ trước"
         ],
         "in \\1 minute": [
-            "sau (\\d+) phút nữa"
+            "sau {0} phút nữa"
         ],
         "\\1 minute ago": [
-            "(\\d+) phút trước"
+            "{0} phút trước"
         ],
         "in \\1 second": [
-            "sau (\\d+) giây nữa"
+            "sau {0} giây nữa"
         ],
         "\\1 second ago": [
-            "(\\d+) giây trước"
+            "{0} giây trước"
         ]
     },
     "locale_specific": {}

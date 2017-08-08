@@ -10,6 +10,6 @@ settings:
     NORMALIZE: True
     RELATIVE_BASE: False
     DATE_ORDER: MDY
-    PREFER_LANGUAGE_DATE_ORDER: True
+    PREFER_LOCALE_DATE_ORDER: True
     FUZZY: False
     STRICT_PARSING: False

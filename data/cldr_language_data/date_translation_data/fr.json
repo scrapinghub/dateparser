@@ -174,87 +174,75 @@
             "maintenant"
         ],
         "in \\1 year": [
-            "dans (\\d+) an",
-            "dans (\\d+) ans",
-            "dans (\\d+) a",
-            "+(\\d+) a"
+            "dans {0} an",
+            "dans {0} ans",
+            "dans {0} a"
         ],
         "\\1 year ago": [
-            "il y a (\\d+) an",
-            "il y a (\\d+) ans",
-            "il y a (\\d+) a",
-            "-(\\d+) a"
+            "il y a {0} an",
+            "il y a {0} ans",
+            "il y a {0} a"
         ],
         "in \\1 month": [
-            "dans (\\d+) mois",
-            "dans (\\d+) m",
-            "+(\\d+) m"
+            "dans {0} mois",
+            "dans {0} m"
         ],
         "\\1 month ago": [
-            "il y a (\\d+) mois",
-            "il y a (\\d+) m",
-            "-(\\d+) m"
+            "il y a {0} mois",
+            "il y a {0} m"
         ],
         "in \\1 week": [
-            "dans (\\d+) semaine",
-            "dans (\\d+) semaines",
-            "dans (\\d+) sem",
-            "+(\\d+) sem"
+            "dans {0} semaine",
+            "dans {0} semaines",
+            "dans {0} sem"
         ],
         "\\1 week ago": [
-            "il y a (\\d+) semaine",
-            "il y a (\\d+) semaines",
-            "il y a (\\d+) sem",
-            "-(\\d+) sem"
+            "il y a {0} semaine",
+            "il y a {0} semaines",
+            "il y a {0} sem"
         ],
         "in \\1 day": [
-            "dans (\\d+) jour",
-            "dans (\\d+) jours",
-            "dans (\\d+) j",
-            "+(\\d+) j"
+            "dans {0} jour",
+            "dans {0} jours",
+            "dans {0} j"
         ],
         "\\1 day ago": [
-            "il y a (\\d+) jour",
-            "il y a (\\d+) jours",
-            "il y a (\\d+) j",
-            "-(\\d+) j"
+            "il y a {0} jour",
+            "il y a {0} jours",
+            "il y a {0} j"
         ],
         "in \\1 hour": [
-            "dans (\\d+) heure",
-            "dans (\\d+) heures",
-            "dans (\\d+) h",
-            "dans (\\d+)h"
+            "dans {0} heure",
+            "dans {0} heures",
+            "dans {0} h",
+            "dans {0}h"
         ],
         "\\1 hour ago": [
-            "il y a (\\d+) heure",
-            "il y a (\\d+) heures",
-            "il y a (\\d+) h",
-            "il y a (\\d+)h"
+            "il y a {0} heure",
+            "il y a {0} heures",
+            "il y a {0} h",
+            "il y a {0}h"
         ],
         "in \\1 minute": [
-            "dans (\\d+) minute",
-            "dans (\\d+) minutes",
-            "dans (\\d+) min",
-            "+(\\d+) min"
+            "dans {0} minute",
+            "dans {0} minutes",
+            "dans {0} min"
         ],
         "\\1 minute ago": [
-            "il y a (\\d+) minute",
-            "il y a (\\d+) minutes",
-            "il y a (\\d+) min",
-            "il y a (\\d+)min",
-            "-(\\d+) min"
+            "il y a {0} minute",
+            "il y a {0} minutes",
+            "il y a {0} min",
+            "il y a {0}min"
         ],
         "in \\1 second": [
-            "dans (\\d+) seconde",
-            "dans (\\d+) secondes",
-            "dans (\\d+) s",
-            "+(\\d+) s"
+            "dans {0} seconde",
+            "dans {0} secondes",
+            "dans {0} s"
         ],
         "\\1 second ago": [
-            "il y a (\\d+) seconde",
-            "il y a (\\d+) secondes",
-            "il y a (\\d+) s",
-            "-(\\d+) s"
+            "il y a {0} seconde",
+            "il y a {0} secondes",
+            "il y a {0} s"
         ]
     },
     "locale_specific": {
@@ -284,18 +272,7 @@
             ],
             "pm": [
                 "p"
-            ],
-            "relative-type": {
-                "in \\1 hour": [
-                    "+(\\d+) h"
-                ],
-                "\\1 hour ago": [
-                    "-(\\d+) h"
-                ],
-                "in \\1 second": [
-                    "+ (\\d+) s"
-                ]
-            }
+            ]
         },
         "fr-CD": {
             "name": "fr-CD"
@@ -315,8 +292,8 @@
         "fr-CM": {
             "name": "fr-CM",
             "am": [
-                "mat",
-                "matin"
+                "matin",
+                "mat"
             ],
             "pm": [
                 "soir"

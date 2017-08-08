@@ -180,81 +180,67 @@
             "núna"
         ],
         "in \\1 year": [
-            "eftir (\\d+) ár"
+            "eftir {0} ár"
         ],
         "\\1 year ago": [
-            "fyrir (\\d+) ári",
-            "fyrir (\\d+) árum"
+            "fyrir {0} ári",
+            "fyrir {0} árum"
         ],
         "in \\1 month": [
-            "eftir (\\d+) mánuð",
-            "eftir (\\d+) mánuði",
-            "eftir (\\d+) mán"
+            "eftir {0} mánuð",
+            "eftir {0} mánuði",
+            "eftir {0} mán"
         ],
         "\\1 month ago": [
-            "fyrir (\\d+) mánuði",
-            "fyrir (\\d+) mánuðum",
-            "fyrir (\\d+) mán"
+            "fyrir {0} mánuði",
+            "fyrir {0} mánuðum",
+            "fyrir {0} mán"
         ],
         "in \\1 week": [
-            "eftir (\\d+) viku",
-            "eftir (\\d+) vikur",
-            "+(\\d+) viku",
-            "+(\\d+) vikur"
+            "eftir {0} viku",
+            "eftir {0} vikur"
         ],
         "\\1 week ago": [
-            "fyrir (\\d+) viku",
-            "fyrir (\\d+) vikum",
-            "-(\\d+) viku",
-            "-(\\d+) vikur"
+            "fyrir {0} viku",
+            "fyrir {0} vikum"
         ],
         "in \\1 day": [
-            "eftir (\\d+) dag",
-            "eftir (\\d+) daga",
-            "+(\\d+) dag",
-            "+(\\d+) daga"
+            "eftir {0} dag",
+            "eftir {0} daga"
         ],
         "\\1 day ago": [
-            "fyrir (\\d+) degi",
-            "fyrir (\\d+) dögum",
-            "-(\\d+) degi",
-            "-(\\d+) dögum"
+            "fyrir {0} degi",
+            "fyrir {0} dögum"
         ],
         "in \\1 hour": [
-            "eftir (\\d+) klukkustund",
-            "eftir (\\d+) klukkustundir",
-            "eftir (\\d+) klst",
-            "+(\\d+) klst"
+            "eftir {0} klukkustund",
+            "eftir {0} klukkustundir",
+            "eftir {0} klst"
         ],
         "\\1 hour ago": [
-            "fyrir (\\d+) klukkustund",
-            "fyrir (\\d+) klukkustundum",
-            "fyrir (\\d+) klst",
-            "-(\\d+) klst"
+            "fyrir {0} klukkustund",
+            "fyrir {0} klukkustundum",
+            "fyrir {0} klst"
         ],
         "in \\1 minute": [
-            "eftir (\\d+) mínútu",
-            "eftir (\\d+) mínútur",
-            "eftir (\\d+) mín",
-            "+(\\d+) mín"
+            "eftir {0} mínútu",
+            "eftir {0} mínútur",
+            "eftir {0} mín"
         ],
         "\\1 minute ago": [
-            "fyrir (\\d+) mínútu",
-            "fyrir (\\d+) mínútum",
-            "fyrir (\\d+) mín",
-            "-(\\d+) mín"
+            "fyrir {0} mínútu",
+            "fyrir {0} mínútum",
+            "fyrir {0} mín"
         ],
         "in \\1 second": [
-            "eftir (\\d+) sekúndu",
-            "eftir (\\d+) sekúndur",
-            "eftir (\\d+) sek",
-            "+(\\d+) sek"
+            "eftir {0} sekúndu",
+            "eftir {0} sekúndur",
+            "eftir {0} sek"
         ],
         "\\1 second ago": [
-            "fyrir (\\d+) sekúndu",
-            "fyrir (\\d+) sekúndum",
-            "fyrir (\\d+) sek",
-            "-(\\d+) sek"
+            "fyrir {0} sekúndu",
+            "fyrir {0} sekúndum",
+            "fyrir {0} sek"
         ]
     },
     "locale_specific": {}

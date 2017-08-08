@@ -139,46 +139,40 @@
             "now"
         ],
         "in \\1 year": [
-            "nǔu ŋguꞌ (\\d+)"
+            "nǔu ŋguꞌ {0}"
         ],
         "\\1 year ago": [
-            "ɛ́gɛ́ mɔ́ ŋguꞌ (\\d+)"
+            "ɛ́gɛ́ mɔ́ ŋguꞌ {0}"
         ],
         "in \\1 month": [
-            "nǔu (\\d+) saŋ"
+            "nǔu {0} saŋ"
         ],
         "\\1 month ago": [
-            "ɛ́ gɛ́ mɔ́ pɛsaŋ (\\d+)"
+            "ɛ́ gɛ́ mɔ́ pɛsaŋ {0}"
         ],
         "in \\1 week": [
-            "nǔu ŋgap-mbi (\\d+)"
+            "nǔu ŋgap-mbi {0}"
         ],
         "\\1 week ago": [
-            "ɛ́ gɛ́ mɔ (\\d+) ŋgap-mbi"
+            "ɛ́ gɛ́ mɔ {0} ŋgap-mbi"
         ],
         "in \\1 day": [
-            "nǔu lɛ́ꞌ (\\d+)"
+            "nǔu lɛ́ꞌ {0}"
         ],
         "\\1 day ago": [
-            "ɛ́ gɛ́ mɔ́ lɛ́ꞌ (\\d+)"
+            "ɛ́ gɛ́ mɔ́ lɛ́ꞌ {0}"
         ],
         "in \\1 hour": [
-            "nǔu háwa (\\d+)"
+            "nǔu háwa {0}"
         ],
         "\\1 hour ago": [
-            "ɛ́ gɛ mɔ́ (\\d+) háwa"
+            "ɛ́ gɛ mɔ́ {0} háwa"
         ],
         "in \\1 minute": [
-            "nǔu (\\d+) minút"
+            "nǔu {0} minút"
         ],
         "\\1 minute ago": [
-            "ɛ́ gɛ́ mɔ́ minút (\\d+)"
-        ],
-        "in \\1 second": [
-            "+(\\d+) s"
-        ],
-        "\\1 second ago": [
-            "-(\\d+) s"
+            "ɛ́ gɛ́ mɔ́ minút {0}"
         ]
     },
     "locale_specific": {}

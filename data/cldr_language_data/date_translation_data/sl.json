@@ -179,70 +179,70 @@
             "zdaj"
         ],
         "in \\1 year": [
-            "čez (\\d+) leto",
-            "čez (\\d+) let"
+            "čez {0} leto",
+            "čez {0} let"
         ],
         "\\1 year ago": [
-            "pred (\\d+) letom",
-            "pred (\\d+) leti"
+            "pred {0} letom",
+            "pred {0} leti"
         ],
         "in \\1 month": [
-            "čez (\\d+) mesec",
-            "čez (\\d+) mesecev",
-            "čez (\\d+) mes"
+            "čez {0} mesec",
+            "čez {0} mesecev",
+            "čez {0} mes"
         ],
         "\\1 month ago": [
-            "pred (\\d+) mesecem",
-            "pred (\\d+) meseci",
-            "pred (\\d+) mes"
+            "pred {0} mesecem",
+            "pred {0} meseci",
+            "pred {0} mes"
         ],
         "in \\1 week": [
-            "čez (\\d+) teden",
-            "čez (\\d+) tednov",
-            "čez (\\d+) ted"
+            "čez {0} teden",
+            "čez {0} tednov",
+            "čez {0} ted"
         ],
         "\\1 week ago": [
-            "pred (\\d+) tednom",
-            "pred (\\d+) tedni",
-            "pred (\\d+) ted"
+            "pred {0} tednom",
+            "pred {0} tedni",
+            "pred {0} ted"
         ],
         "in \\1 day": [
-            "čez (\\d+) dan",
-            "čez (\\d+) dni"
+            "čez {0} dan",
+            "čez {0} dni"
         ],
         "\\1 day ago": [
-            "pred (\\d+) dnevom",
-            "pred (\\d+) dnevi"
+            "pred {0} dnevom",
+            "pred {0} dnevi"
         ],
         "in \\1 hour": [
-            "čez (\\d+) uro",
-            "čez (\\d+) ur",
-            "čez (\\d+) h"
+            "čez {0} uro",
+            "čez {0} ur",
+            "čez {0} h"
         ],
         "\\1 hour ago": [
-            "pred (\\d+) uro",
-            "pred (\\d+) urami",
-            "pred (\\d+) h"
+            "pred {0} uro",
+            "pred {0} urami",
+            "pred {0} h"
         ],
         "in \\1 minute": [
-            "čez (\\d+) minuto",
-            "čez (\\d+) minut",
-            "čez (\\d+) min"
+            "čez {0} minuto",
+            "čez {0} minut",
+            "čez {0} min"
         ],
         "\\1 minute ago": [
-            "pred (\\d+) minuto",
-            "pred (\\d+) minutami",
-            "pred (\\d+) min"
+            "pred {0} minuto",
+            "pred {0} minutami",
+            "pred {0} min"
         ],
         "in \\1 second": [
-            "čez (\\d+) sekundo",
-            "čez (\\d+) sekund",
-            "čez (\\d+) s"
+            "čez {0} sekundo",
+            "čez {0} sekund",
+            "čez {0} s"
         ],
         "\\1 second ago": [
-            "pred (\\d+) sekundo",
-            "pred (\\d+) sekundami",
-            "pred (\\d+) s"
+            "pred {0} sekundo",
+            "pred {0} sekundami",
+            "pred {0} s"
         ]
     },
     "locale_specific": {}

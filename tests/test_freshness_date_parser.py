@@ -682,12 +682,12 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('gelecek ay', in_future={'months': 1}, period='month'),
         param('gelecek yıl', in_future={'years': 1}, period='year'),
 
-        #Hindi dates
-        #param('1 वर्ष 10 महीने में', in_future={'years': 1, 'months': 10}, period='month'),
+        # Hindi dates
+        param('1 वर्ष 10 महीने में', in_future={'years': 1, 'months': 10}, period='month'),
         param('15 घंटे बाद', in_future={'hours': 15}, period='day'),
-        #param('2 मिनट में', in_future={'minutes': 2}, period='day'),
+        param('2 मिनट में', in_future={'minutes': 2}, period='day'),
         param('17 सेकंड बाद', in_future={'seconds': 17}, period='day'),
-        #param('1 वर्ष, 5 महीने, 1 सप्ताह में', in_future={'years': 1, 'months': 5, 'weeks': 1}, period='week'),
+        param('1 वर्ष, 5 महीने, 1 सप्ताह में', in_future={'years': 1, 'months': 5, 'weeks': 1}, period='week'),
     ])
     def test_relative_future_dates(self, date_string, in_future, period):
         self.given_parser()

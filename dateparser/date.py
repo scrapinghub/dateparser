@@ -10,8 +10,7 @@ from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
-from dateparser.languages.loader import LanguageDataLoader
-from dateparser.languages.detection import LanguageDetector
+from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings
 from dateparser.utils import normalize_unicode, apply_timezone_from_settings
 
@@ -41,11 +40,11 @@ RE_SANITIZE_APOSTROPHE = re.compile(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 RE_SEARCH_TIMESTAMP = re.compile(r'^\d{10}(?![^\d.])')
 
 
-def sanitize_spaces(html_string):
-    html_string = RE_NBSP.sub(' ', html_string)
-    html_string = RE_SPACES.sub(' ', html_string)
-    html_string = RE_TRIM_SPACES.sub(r'\1', html_string)
-    return html_string
+def sanitize_spaces(date_string):
+    date_string = RE_NBSP.sub(' ', date_string)
+    date_string = RE_SPACES.sub(' ', date_string)
+    date_string = RE_TRIM_SPACES.sub(r'\1', date_string)
+    return date_string
 
 
 def date_range(begin, end, **kwargs):
@@ -153,10 +152,10 @@ def parse_with_formats(date_string, date_formats, settings):
         return {'date_obj': None, 'period': period}
 
 
-class _DateLanguageParser(object):
+class _DateLocaleParser(object):
     DATE_FORMATS_ERROR_MESSAGE = "Date formats should be list, tuple or set of strings"
 
-    def __init__(self, language, date_string, date_formats, settings=None):
+    def __init__(self, locale, date_string, date_formats, settings=None):
         self._settings = settings
         if isinstance(date_formats, six.string_types):
             warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
@@ -164,30 +163,41 @@ class _DateLanguageParser(object):
         elif not (date_formats is None or isinstance(date_formats, (list, tuple, collections.Set))):
             raise TypeError(self.DATE_FORMATS_ERROR_MESSAGE)
 
-        self.language = language
+        self.locale = locale
         self.date_string = date_string
         self.date_formats = date_formats
         self._translated_date = None
         self._translated_date_with_formatting = None
 
     @classmethod
-    def parse(cls, language, date_string, date_formats=None, settings=None):
-        instance = cls(language, date_string, date_formats, settings)
+    def parse(cls, locale, date_string, date_formats=None, settings=None):
+        instance = cls(locale, date_string, date_formats, settings)
         return instance._parse()
 
     def _parse(self):
-        for parser in (
-            self._try_timestamp,
-            self._try_freshness_parser,
-            self._try_given_formats,
-            self._try_parser,
-            self._try_hardcoded_formats,
-        ):
-            date_obj = parser()
-            if self._is_valid_date_obj(date_obj):
-                return date_obj
+        if self._is_applicable_locale():
+            for parser in (
+                self._try_timestamp,
+                self._try_freshness_parser,
+                self._try_given_formats,
+                self._try_parser,
+                self._try_hardcoded_formats,
+            ):
+                date_obj = parser()
+                if self._is_valid_date_obj(date_obj):
+                    return date_obj
+            else:
+                return None
         else:
             return None
+
+    def _is_applicable_locale(self):
+        return (
+            self.locale.is_applicable(self.date_string, strip_timezone=False,
+                                      settings=self._settings) or
+            self.locale.is_applicable(self.date_string, strip_timezone=True,
+                                      settings=self._settings)
+            )
 
     def _try_timestamp(self):
         return {
@@ -201,8 +211,8 @@ class _DateLanguageParser(object):
     def _try_parser(self):
         _order = self._settings.DATE_ORDER
         try:
-            if self._settings.PREFER_LANGUAGE_DATE_ORDER:
-                self._settings.DATE_ORDER = self.language.info.get('dateorder', _order)
+            if self._settings.PREFER_LOCALE_DATE_ORDER:
+                self._settings.DATE_ORDER = self.locale.info.get('dateorder', _order)
             date_obj, period = date_parser.parse(
                 self._get_translated_date(), settings=self._settings)
             self._settings.DATE_ORDER = _order
@@ -242,13 +252,13 @@ class _DateLanguageParser(object):
 
     def _get_translated_date(self):
         if self._translated_date is None:
-            self._translated_date = self.language.translate(
+            self._translated_date = self.locale.translate(
                 self.date_string, keep_formatting=False, settings=self._settings)
         return self._translated_date
 
     def _get_translated_date_with_formatting(self):
         if self._translated_date_with_formatting is None:
-            self._translated_date_with_formatting = self.language.translate(
+            self._translated_date_with_formatting = self.locale.translate(
                 self.date_string, keep_formatting=True, settings=self._settings)
         return self._translated_date_with_formatting
 
@@ -291,36 +301,39 @@ class DateDataParser(object):
             ValueError - Unknown Language, TypeError - Languages argument must be a list
     """
 
-    language_loader = None
+    locale_loader = None
 
     @apply_settings
-    def __init__(self, languages=None, try_previous_languages=True, strict_language_order=False,
+    def __init__(self, languages=None, locales=None, region=None, try_previous_locales=True,
                  use_given_order=False, settings=None):
+
         if not isinstance(languages, (list, tuple, collections.Set)) and languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
-        if not isinstance(try_previous_languages, bool):
-            raise TypeError("try_previous_languages argument must be a boolean (%r given)"
-                            % type(try_previous_languages))
+        if not isinstance(locales, (list, tuple, collections.Set)) and locales is not None:
+            raise TypeError("locales argument must be a list (%r given)" % type(locales))
 
-        if not isinstance(strict_language_order, bool):
-            raise TypeError("strict_language_order argument must be a boolean (%r given)"
-                            % type(strict_language_order))
+        if not isinstance(region, six.string_types) and region is not None:
+            raise TypeError("region argument must be str or unicode (%r given)" % type(region))
+
+        if not isinstance(try_previous_locales, bool):
+            raise TypeError("try_previous_locales argument must be a boolean (%r given)"
+                            % type(try_previous_locales))
 
         if not isinstance(use_given_order, bool):
             raise TypeError("use_given_order argument must be a boolean (%r given)"
                             % type(use_given_order))
 
-        if not languages and use_given_order:
-            raise ValueError("languages must be given if use_given_order is True")
+        if not locales and use_given_order:
+            raise ValueError("locales must be given if use_given_order is True")
 
         self._settings = settings
-        self.try_previous_languages = try_previous_languages
-        self.strict_language_order = strict_language_order
+        self.try_previous_locales = try_previous_locales
         self.use_given_order = use_given_order
         self.languages = languages
-        self.previous_languages = []
-        self.language_detector = LanguageDetector(try_previous_languages=try_previous_languages)
+        self.locales = locales
+        self.region = region
+        self.previous_locales = []
 
     def get_date_data(self, date_string, date_formats=None):
         """
@@ -368,10 +381,6 @@ class DateDataParser(object):
         if not(isinstance(date_string, six.text_type) or isinstance(date_string, six.string_types)):
             raise TypeError('Input type must be str or unicode')
 
-        self.language_generator = self._get_language_loader().get_languages(
-            languages=self.languages, strict_order=self.strict_language_order,
-            use_given_order=self.use_given_order)
-
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:
             return res
@@ -381,26 +390,34 @@ class DateDataParser(object):
 
         date_string = sanitize_date(date_string)
 
-        for language in self.language_detector.iterate_applicable_languages(
-                date_string, language_generator=self.language_generator,
-                previous_languages=self.previous_languages, settings=self._settings):
-            parsed_date = _DateLanguageParser.parse(
-                language, date_string, date_formats, settings=self._settings)
+        for locale in self._get_locale_generator():
+            parsed_date = _DateLocaleParser.parse(
+                locale, date_string, date_formats, settings=self._settings)
             if parsed_date:
-                parsed_date['language'] = language.shortname
-                if self.try_previous_languages:
-                    self.previous_languages.insert(0, language)
+                parsed_date['locale'] = locale.shortname
+                if self.try_previous_locales:
+                    self.previous_locales.insert(0, locale)
                 return parsed_date
         else:
-            return {'date_obj': None, 'period': 'day', 'language': None}
+            return {'date_obj': None, 'period': 'day', 'locale': None}
 
     def get_date_tuple(self, *args, **kwargs):
-        date_tuple = collections.namedtuple('DateData', 'date_obj period language')
+        date_tuple = collections.namedtuple('DateData', 'date_obj period locale')
         date_data = self.get_date_data(*args, **kwargs)
         return date_tuple(**date_data)
 
+    def _get_locale_generator(self):
+        if self.try_previous_locales:
+            for locale in self.previous_locales:
+                yield locale
+
+        for locale in self._get_locale_loader().get_locales(
+                    languages=self.languages, locales=self.locales, region=self.region,
+                    use_given_order=self.use_given_order):
+            yield locale
+
     @classmethod
-    def _get_language_loader(cls):
-        if not cls.language_loader:
-            cls.language_loader = LanguageDataLoader()
-        return cls.language_loader
+    def _get_locale_loader(cls):
+        if not cls.locale_loader:
+            cls.locale_loader = LocaleDataLoader()
+        return cls.locale_loader

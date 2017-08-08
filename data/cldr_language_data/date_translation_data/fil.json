@@ -160,71 +160,71 @@
             "ngayon"
         ],
         "in \\1 year": [
-            "sa (\\d+) taon",
-            "sa (\\d+) (na) taon"
+            "sa {0} taon",
+            "sa {0} (na) taon"
         ],
         "\\1 year ago": [
-            "(\\d+) taon ang nakalipas",
-            "(\\d+) (na) taon ang nakalipas"
+            "{0} taon ang nakalipas",
+            "{0} (na) taon ang nakalipas"
         ],
         "in \\1 month": [
-            "sa (\\d+) buwan",
-            "sa (\\d+) (na) buwan"
+            "sa {0} buwan",
+            "sa {0} (na) buwan"
         ],
         "\\1 month ago": [
-            "(\\d+) buwan ang nakalipas",
-            "(\\d+) (na) buwan ang nakalipas"
+            "{0} buwan ang nakalipas",
+            "{0} (na) buwan ang nakalipas"
         ],
         "in \\1 week": [
-            "sa (\\d+) linggo",
-            "sa (\\d+) (na) linggo"
+            "sa {0} linggo",
+            "sa {0} (na) linggo"
         ],
         "\\1 week ago": [
-            "(\\d+) linggo ang nakalipas",
-            "(\\d+) (na) linggo ang nakalipas"
+            "{0} linggo ang nakalipas",
+            "{0} (na) linggo ang nakalipas"
         ],
         "in \\1 day": [
-            "sa (\\d+) araw",
-            "sa (\\d+) (na) araw"
+            "sa {0} araw",
+            "sa {0} (na) araw"
         ],
         "\\1 day ago": [
-            "(\\d+) araw ang nakalipas",
-            "(\\d+) (na) araw ang nakalipas"
+            "{0} araw ang nakalipas",
+            "{0} (na) araw ang nakalipas"
         ],
         "in \\1 hour": [
-            "sa (\\d+) oras",
-            "sa (\\d+) (na) oras"
+            "sa {0} oras",
+            "sa {0} (na) oras"
         ],
         "\\1 hour ago": [
-            "(\\d+) oras ang nakalipas",
-            "(\\d+) (na) oras ang nakalipas",
-            "(\\d+) oras nakalipas",
-            "(\\d+) (na) oras nakalipas"
+            "{0} oras ang nakalipas",
+            "{0} (na) oras ang nakalipas",
+            "{0} oras nakalipas",
+            "{0} (na) oras nakalipas"
         ],
         "in \\1 minute": [
-            "sa (\\d+) minuto",
-            "sa (\\d+) (na) minuto",
-            "sa (\\d+) min",
-            "sa (\\d+) (na) min"
+            "sa {0} minuto",
+            "sa {0} (na) minuto",
+            "sa {0} min",
+            "sa {0} (na) min"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuto ang nakalipas",
-            "(\\d+) (na) minuto ang nakalipas",
-            "(\\d+) min ang nakalipas",
-            "(\\d+) (na) min ang nakalipas"
+            "{0} minuto ang nakalipas",
+            "{0} (na) minuto ang nakalipas",
+            "{0} min ang nakalipas",
+            "{0} (na) min ang nakalipas"
         ],
         "in \\1 second": [
-            "sa (\\d+) segundo",
-            "sa (\\d+) (na) segundo",
-            "sa (\\d+) seg",
-            "sa (\\d+) (na) seg"
+            "sa {0} segundo",
+            "sa {0} (na) segundo",
+            "sa {0} seg",
+            "sa {0} (na) seg"
         ],
         "\\1 second ago": [
-            "(\\d+) segundo ang nakalipas",
-            "(\\d+) (na) segundo ang nakalipas",
-            "(\\d+) seg ang nakalipas",
-            "(\\d+) (na) seg nakalipas",
-            "(\\d+) seg nakalipas"
+            "{0} segundo ang nakalipas",
+            "{0} (na) segundo ang nakalipas",
+            "{0} seg ang nakalipas",
+            "{0} (na) seg nakalipas",
+            "{0} seg nakalipas"
         ]
     },
     "locale_specific": {}

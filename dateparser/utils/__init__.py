@@ -6,12 +6,9 @@ import unicodedata
 import regex as re
 from tzlocal import get_localzone
 from pytz import UTC, timezone, UnknownTimeZoneError
+from collections import OrderedDict
 
 from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
-
-
-GROUPS_REGEX = re.compile(r'(?<=\\)(\d+|g<\d+>)')
-G_REGEX = re.compile(r'g<(\d+)>')
 
 
 def strip_braces(date_string):
@@ -27,36 +24,41 @@ def normalize_unicode(string, form='NFKD'):
          if unicodedata.category(c) != 'Mn'))
 
 
-replacement_cache = {}
-
-
-def wrap_replacement_for_regex(replacement, regex):
-    h = replacement + regex
-    v = replacement_cache.get(h)
-    if v:
-        return v
-
-    # prepend group to replacement
-    replacement = r"\g<1>%s" % increase_regex_replacements_group_positions(replacement, increment=1)
-
-    # append group to replacement
-    used_groups = re.compile(regex).groups
-    new_group = used_groups + 2  # Consider that we already prepended replacement with one group
-    replacement = "%s\\g<%d>" % (replacement, new_group)
-
-    replacement_cache[h] = replacement
-    return replacement
-
-
-def increase_regex_replacements_group_positions(replacement, increment):
-    splitted = GROUPS_REGEX.split(replacement)
-    for i in range(1, len(splitted), 2):
-        group = splitted[i]
-        if group.isdigit():
-            splitted[i] = str(int(group) + increment)
+def combine_dicts(primary_dict, supplementary_dict):
+    combined_dict = OrderedDict()
+    for key, value in primary_dict.items():
+        if key in supplementary_dict:
+            if isinstance(value, list):
+                combined_dict[key] = value + supplementary_dict[key]
+            elif isinstance(value, dict):
+                combined_dict[key] = combine_dicts(value, supplementary_dict[key])
+            else:
+                combined_dict[key] = supplementary_dict[key]
         else:
-            splitted[i] = "g<{}>".format(int(G_REGEX.match(group).group(1)) + increment)
-    return u"".join(splitted)
+            combined_dict[key] = primary_dict[key]
+    remaining_keys = [key for key in supplementary_dict.keys() if key not in primary_dict.keys()]
+    for key in remaining_keys:
+        combined_dict[key] = supplementary_dict[key]
+    return combined_dict
+
+
+def convert_to_unicode(info):
+    unicode_info = OrderedDict()
+    for key, value in info.items():
+        if isinstance(key, bytes):
+            key = key.decode('utf-8')
+        if isinstance(value, list):
+            for i, v in enumerate(value):
+                if isinstance(v, dict):
+                    value[i] = convert_to_unicode(v)
+                elif isinstance(v, bytes):
+                    value[i] = v.decode('utf-8')
+        elif isinstance(value, dict):
+            value = convert_to_unicode(value)
+        elif isinstance(value, bytes):
+            value = value.decode('utf-8')
+        unicode_info[key] = value
+    return unicode_info
 
 
 def setup_logging():

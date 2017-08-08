@@ -177,72 +177,72 @@
             "ahora"
         ],
         "in \\1 year": [
-            "dentro de (\\d+) año",
-            "dentro de (\\d+) años",
-            "dentro de (\\d+) a"
+            "dentro de {0} año",
+            "dentro de {0} años",
+            "dentro de {0} a"
         ],
         "\\1 year ago": [
-            "hace (\\d+) año",
-            "hace (\\d+) años",
-            "hace (\\d+) a"
+            "hace {0} año",
+            "hace {0} años",
+            "hace {0} a"
         ],
         "in \\1 month": [
-            "dentro de (\\d+) mes",
-            "dentro de (\\d+) meses",
-            "dentro de (\\d+) m"
+            "dentro de {0} mes",
+            "dentro de {0} meses",
+            "dentro de {0} m"
         ],
         "\\1 month ago": [
-            "hace (\\d+) mes",
-            "hace (\\d+) meses",
-            "hace (\\d+) m"
+            "hace {0} mes",
+            "hace {0} meses",
+            "hace {0} m"
         ],
         "in \\1 week": [
-            "dentro de (\\d+) semana",
-            "dentro de (\\d+) semanas",
-            "dentro de (\\d+) sem"
+            "dentro de {0} semana",
+            "dentro de {0} semanas",
+            "dentro de {0} sem"
         ],
         "\\1 week ago": [
-            "hace (\\d+) semana",
-            "hace (\\d+) semanas",
-            "hace (\\d+) sem"
+            "hace {0} semana",
+            "hace {0} semanas",
+            "hace {0} sem"
         ],
         "in \\1 day": [
-            "dentro de (\\d+) día",
-            "dentro de (\\d+) días"
+            "dentro de {0} día",
+            "dentro de {0} días"
         ],
         "\\1 day ago": [
-            "hace (\\d+) día",
-            "hace (\\d+) días"
+            "hace {0} día",
+            "hace {0} días"
         ],
         "in \\1 hour": [
-            "dentro de (\\d+) hora",
-            "dentro de (\\d+) horas",
-            "dentro de (\\d+) h"
+            "dentro de {0} hora",
+            "dentro de {0} horas",
+            "dentro de {0} h"
         ],
         "\\1 hour ago": [
-            "hace (\\d+) hora",
-            "hace (\\d+) horas",
-            "hace (\\d+) h"
+            "hace {0} hora",
+            "hace {0} horas",
+            "hace {0} h"
         ],
         "in \\1 minute": [
-            "dentro de (\\d+) minuto",
-            "dentro de (\\d+) minutos",
-            "dentro de (\\d+) min"
+            "dentro de {0} minuto",
+            "dentro de {0} minutos",
+            "dentro de {0} min"
         ],
         "\\1 minute ago": [
-            "hace (\\d+) minuto",
-            "hace (\\d+) minutos",
-            "hace (\\d+) min"
+            "hace {0} minuto",
+            "hace {0} minutos",
+            "hace {0} min"
         ],
         "in \\1 second": [
-            "dentro de (\\d+) segundo",
-            "dentro de (\\d+) segundos",
-            "dentro de (\\d+) s"
+            "dentro de {0} segundo",
+            "dentro de {0} segundos",
+            "dentro de {0} s"
         ],
         "\\1 second ago": [
-            "hace (\\d+) segundo",
-            "hace (\\d+) segundos",
-            "hace (\\d+) s"
+            "hace {0} segundo",
+            "hace {0} segundos",
+            "hace {0} s"
         ]
     },
     "locale_specific": {
@@ -268,10 +268,10 @@
             ],
             "relative-type": {
                 "in \\1 second": [
-                    "dentro de (\\d+) seg"
+                    "dentro de {0} seg"
                 ],
                 "\\1 second ago": [
-                    "hace (\\d+) seg"
+                    "hace {0} seg"
                 ]
             }
         },
@@ -402,58 +402,29 @@
                     "la semana próxima"
                 ],
                 "in \\1 year": [
-                    "en (\\d+) a"
-                ],
-                "\\1 year ago": [
-                    "-(\\d+) a"
+                    "en {0} a"
                 ],
                 "in \\1 month": [
-                    "+(\\d+) m",
-                    "en (\\d+) mes",
-                    "en (\\d+) m",
-                    "en (\\d+) meses"
-                ],
-                "\\1 month ago": [
-                    "-(\\d+) m"
+                    "en {0} mes",
+                    "en {0} m",
+                    "en {0} meses"
                 ],
                 "in \\1 week": [
-                    "+(\\d+) sem",
-                    "en (\\d+) sem"
-                ],
-                "\\1 week ago": [
-                    "-(\\d+) sem"
+                    "en {0} sem"
                 ],
                 "in \\1 day": [
-                    "+(\\d+) día",
-                    "+(\\d+) días",
-                    "en (\\d+) días",
-                    "en (\\d+) día"
-                ],
-                "\\1 day ago": [
-                    "-(\\d+) días",
-                    "-(\\d+) día"
+                    "en {0} día",
+                    "en {0} días"
                 ],
                 "in \\1 hour": [
-                    "+(\\d+) h",
-                    "en (\\d+) h",
-                    "en (\\d+) n"
-                ],
-                "\\1 hour ago": [
-                    "-(\\d+) h"
+                    "en {0} n",
+                    "en {0} h"
                 ],
                 "in \\1 minute": [
-                    "en (\\d+) min",
-                    "+(\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "en {0} min"
                 ],
                 "in \\1 second": [
-                    "en (\\d+) s",
-                    "+(\\d+) s"
-                ],
-                "\\1 second ago": [
-                    "-(\\d+) s"
+                    "en {0} s"
                 ]
             }
         },
@@ -479,8 +450,8 @@
         "es-PE": {
             "name": "es-PE",
             "september": [
-                "set",
-                "setiembre"
+                "setiembre",
+                "set"
             ],
             "wednesday": [
                 "m"
@@ -509,10 +480,10 @@
             ],
             "relative-type": {
                 "in \\1 second": [
-                    "dentro de (\\d+) seg"
+                    "dentro de {0} seg"
                 ],
                 "\\1 second ago": [
-                    "hace (\\d+) seg"
+                    "hace {0} seg"
                 ]
             }
         },
@@ -537,8 +508,8 @@
         "es-UY": {
             "name": "es-UY",
             "september": [
-                "set",
-                "setiembre"
+                "setiembre",
+                "set"
             ],
             "wednesday": [
                 "m"

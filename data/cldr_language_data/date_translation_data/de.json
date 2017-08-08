@@ -177,72 +177,72 @@
             "jetzt"
         ],
         "in \\1 year": [
-            "in (\\d+) jahr",
-            "in (\\d+) jahren"
+            "in {0} jahr",
+            "in {0} jahren"
         ],
         "\\1 year ago": [
-            "vor (\\d+) jahr",
-            "vor (\\d+) jahren"
+            "vor {0} jahr",
+            "vor {0} jahren"
         ],
         "in \\1 month": [
-            "in (\\d+) monat",
-            "in (\\d+) monaten"
+            "in {0} monat",
+            "in {0} monaten"
         ],
         "\\1 month ago": [
-            "vor (\\d+) monat",
-            "vor (\\d+) monaten"
+            "vor {0} monat",
+            "vor {0} monaten"
         ],
         "in \\1 week": [
-            "in (\\d+) woche",
-            "in (\\d+) wochen",
-            "in (\\d+) wo"
+            "in {0} woche",
+            "in {0} wochen",
+            "in {0} wo"
         ],
         "\\1 week ago": [
-            "vor (\\d+) woche",
-            "vor (\\d+) wochen",
-            "vor (\\d+) wo"
+            "vor {0} woche",
+            "vor {0} wochen",
+            "vor {0} wo"
         ],
         "in \\1 day": [
-            "in (\\d+) tag",
-            "in (\\d+) tagen"
+            "in {0} tag",
+            "in {0} tagen"
         ],
         "\\1 day ago": [
-            "vor (\\d+) tag",
-            "vor (\\d+) tagen"
+            "vor {0} tag",
+            "vor {0} tagen"
         ],
         "in \\1 hour": [
-            "in (\\d+) stunde",
-            "in (\\d+) stunden",
-            "in (\\d+) std"
+            "in {0} stunde",
+            "in {0} stunden",
+            "in {0} std"
         ],
         "\\1 hour ago": [
-            "vor (\\d+) stunde",
-            "vor (\\d+) stunden",
-            "vor (\\d+) std"
+            "vor {0} stunde",
+            "vor {0} stunden",
+            "vor {0} std"
         ],
         "in \\1 minute": [
-            "in (\\d+) minute",
-            "in (\\d+) minuten",
-            "in (\\d+) min",
-            "in (\\d+) m"
+            "in {0} minute",
+            "in {0} minuten",
+            "in {0} min",
+            "in {0} m"
         ],
         "\\1 minute ago": [
-            "vor (\\d+) minute",
-            "vor (\\d+) minuten",
-            "vor (\\d+) min",
-            "vor (\\d+) m"
+            "vor {0} minute",
+            "vor {0} minuten",
+            "vor {0} min",
+            "vor {0} m"
         ],
         "in \\1 second": [
-            "in (\\d+) sekunde",
-            "in (\\d+) sekunden",
-            "in (\\d+) sek",
-            "in (\\d+) s"
+            "in {0} sekunde",
+            "in {0} sekunden",
+            "in {0} sek",
+            "in {0} s"
         ],
         "\\1 second ago": [
-            "vor (\\d+) sekunde",
-            "vor (\\d+) sekunden",
-            "vor (\\d+) sek",
-            "vor (\\d+) s"
+            "vor {0} sekunde",
+            "vor {0} sekunden",
+            "vor {0} sek",
+            "vor {0} s"
         ]
     },
     "locale_specific": {

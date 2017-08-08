@@ -170,57 +170,57 @@
             "now"
         ],
         "in \\1 year": [
-            "i (\\d+) jár"
+            "i {0} jár"
         ],
         "\\1 year ago": [
-            "vor (\\d+) jár",
-            "cor (\\d+) jár"
+            "vor {0} jár",
+            "cor {0} jár"
         ],
         "in \\1 month": [
-            "i (\\d+) mánet"
+            "i {0} mánet"
         ],
         "\\1 month ago": [
-            "vor (\\d+) mánet"
+            "vor {0} mánet"
         ],
         "in \\1 week": [
-            "i (\\d+) wuča",
-            "i (\\d+) wučä"
+            "i {0} wuča",
+            "i {0} wučä"
         ],
         "\\1 week ago": [
-            "vor (\\d+) wuča",
-            "cor (\\d+) wučä"
+            "vor {0} wuča",
+            "cor {0} wučä"
         ],
         "in \\1 day": [
-            "i (\\d+) tag",
-            "i (\\d+) täg"
+            "i {0} tag",
+            "i {0} täg"
         ],
         "\\1 day ago": [
-            "vor (\\d+) tag",
-            "vor (\\d+) täg"
+            "vor {0} tag",
+            "vor {0} täg"
         ],
         "in \\1 hour": [
-            "i (\\d+) stund",
-            "i (\\d+) stunde"
+            "i {0} stund",
+            "i {0} stunde"
         ],
         "\\1 hour ago": [
-            "vor (\\d+) stund",
-            "vor (\\d+) stunde"
+            "vor {0} stund",
+            "vor {0} stunde"
         ],
         "in \\1 minute": [
-            "i (\\d+) minüta",
-            "i (\\d+) minüte"
+            "i {0} minüta",
+            "i {0} minüte"
         ],
         "\\1 minute ago": [
-            "vor (\\d+) minüta",
-            "vor (\\d+) minüte"
+            "vor {0} minüta",
+            "vor {0} minüte"
         ],
         "in \\1 second": [
-            "i (\\d+) sekund",
-            "i (\\d+) sekunde"
+            "i {0} sekund",
+            "i {0} sekunde"
         ],
         "\\1 second ago": [
-            "vor (\\d+) sekund",
-            "vor (\\d+) sekunde"
+            "vor {0} sekund",
+            "vor {0} sekunde"
         ]
     },
     "locale_specific": {}

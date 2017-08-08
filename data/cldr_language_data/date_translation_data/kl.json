@@ -158,46 +158,46 @@
             "now"
         ],
         "in \\1 year": [
-            "om (\\d+) ukioq"
+            "om {0} ukioq"
         ],
         "\\1 year ago": [
-            "for (\\d+) ukioq siden"
+            "for {0} ukioq siden"
         ],
         "in \\1 month": [
-            "om (\\d+) qaammat"
+            "om {0} qaammat"
         ],
         "\\1 month ago": [
-            "for (\\d+) qaammat siden"
+            "for {0} qaammat siden"
         ],
         "in \\1 week": [
-            "om (\\d+) sapaatip-akunnera"
+            "om {0} sapaatip-akunnera"
         ],
         "\\1 week ago": [
-            "for (\\d+) sapaatip-akunnera siden"
+            "for {0} sapaatip-akunnera siden"
         ],
         "in \\1 day": [
-            "om (\\d+) ulloq unnuarlu"
+            "om {0} ulloq unnuarlu"
         ],
         "\\1 day ago": [
-            "for (\\d+) ulloq unnuarlu siden"
+            "for {0} ulloq unnuarlu siden"
         ],
         "in \\1 hour": [
-            "om (\\d+) nalunaaquttap-akunnera"
+            "om {0} nalunaaquttap-akunnera"
         ],
         "\\1 hour ago": [
-            "for (\\d+) nalunaaquttap-akunnera siden"
+            "for {0} nalunaaquttap-akunnera siden"
         ],
         "in \\1 minute": [
-            "om (\\d+) minutsi"
+            "om {0} minutsi"
         ],
         "\\1 minute ago": [
-            "for (\\d+) minutsi siden"
+            "for {0} minutsi siden"
         ],
         "in \\1 second": [
-            "om (\\d+) sekundi"
+            "om {0} sekundi"
         ],
         "\\1 second ago": [
-            "for (\\d+) sekundi siden"
+            "for {0} sekundi siden"
         ]
     },
     "locale_specific": {}

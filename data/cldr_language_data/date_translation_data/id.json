@@ -178,73 +178,59 @@
             "sekarang"
         ],
         "in \\1 year": [
-            "dalam (\\d+) tahun",
-            "dlm (\\d+) thn",
-            "+(\\d+) thn"
+            "dalam {0} tahun",
+            "dlm {0} thn"
         ],
         "\\1 year ago": [
-            "(\\d+) tahun yang lalu",
-            "(\\d+) thn lalu",
-            "-(\\d+) thn"
+            "{0} tahun yang lalu",
+            "{0} thn lalu"
         ],
         "in \\1 month": [
-            "dalam (\\d+) bulan",
-            "dlm (\\d+) bln",
-            "+(\\d+) bln"
+            "dalam {0} bulan",
+            "dlm {0} bln"
         ],
         "\\1 month ago": [
-            "(\\d+) bulan yang lalu",
-            "(\\d+) bln lalu",
-            "-(\\d+) bln"
+            "{0} bulan yang lalu",
+            "{0} bln lalu"
         ],
         "in \\1 week": [
-            "dalam (\\d+) minggu",
-            "dlm (\\d+) mgg",
-            "+(\\d+) mgg"
+            "dalam {0} minggu",
+            "dlm {0} mgg"
         ],
         "\\1 week ago": [
-            "(\\d+) minggu yang lalu",
-            "(\\d+) mgg lalu",
-            "-(\\d+) mgg"
+            "{0} minggu yang lalu",
+            "{0} mgg lalu"
         ],
         "in \\1 day": [
-            "dalam (\\d+) hari",
-            "dalam (\\d+) h",
-            "+(\\d+) h"
+            "dalam {0} hari",
+            "dalam {0} h"
         ],
         "\\1 day ago": [
-            "(\\d+) hari yang lalu",
-            "(\\d+) h lalu",
-            "-(\\d+) h"
+            "{0} hari yang lalu",
+            "{0} h lalu"
         ],
         "in \\1 hour": [
-            "dalam (\\d+) jam",
-            "+(\\d+) jam"
+            "dalam {0} jam"
         ],
         "\\1 hour ago": [
-            "(\\d+) jam yang lalu",
-            "(\\d+) jam lalu",
-            "-(\\d+) jam"
+            "{0} jam yang lalu",
+            "{0} jam lalu"
         ],
         "in \\1 minute": [
-            "dalam (\\d+) menit",
-            "dlm (\\d+) mnt",
-            "+(\\d+) mnt"
+            "dalam {0} menit",
+            "dlm {0} mnt"
         ],
         "\\1 minute ago": [
-            "(\\d+) menit yang lalu",
-            "(\\d+) mnt lalu",
-            "-(\\d+) mnt"
+            "{0} menit yang lalu",
+            "{0} mnt lalu"
         ],
         "in \\1 second": [
-            "dalam (\\d+) detik",
-            "dlm (\\d+) dtk",
-            "+(\\d+) dtk"
+            "dalam {0} detik",
+            "dlm {0} dtk"
         ],
         "\\1 second ago": [
-            "(\\d+) detik yang lalu",
-            "(\\d+) dtk lalu",
-            "-(\\d+) dtk"
+            "{0} detik yang lalu",
+            "{0} dtk lalu"
         ]
     },
     "locale_specific": {}

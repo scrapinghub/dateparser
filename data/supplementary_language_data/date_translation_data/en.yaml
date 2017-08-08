@@ -36,10 +36,10 @@ relative-type:
         - day before yesterday
 
 simplifications:
-    an: 1
-    a: 1
-    (?:12\s+)?noon: '12:00'
-    (?:12\s+)?midnight: '00:00'
-    (\d+)h(\d+)m?: \1:\2
-    less than 1 minute ago: 45 seconds
-    (?<!from\s)now: 0 second
+    - an: 1
+    - a: 1
+    - (?:12\s+)?noon: '12:00'
+    - (?:12\s+)?midnight: '00:00'
+    - (\d+)h(\d+)m?: \1:\2
+    - less than 1 minute ago: 45 seconds
+    - (?<!from\s)now: 0 second

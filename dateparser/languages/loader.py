@@ -1,78 +1,109 @@
 # -*- coding: utf-8 -*-
-from pkgutil import get_data
+from __future__ import unicode_literals
+
 from collections import OrderedDict
-from ruamel.yaml.loader import SafeLoader
+from importlib import import_module
+from six.moves import zip_longest
+import regex as re
+from copy import deepcopy
 
-import six
+from ..data import language_order, language_locale_dict
+from .locale import Locale
+from ..utils import convert_to_unicode
 
-from .language import Language
+LOCALE_SPLIT_PATTERN = re.compile(r'-(?=[A-Z0-9]+$)')
 
 
-class LanguageDataLoader(object):
-    _data = {}
-
-    def __init__(self):
-        self.base_data = SafeLoader(get_data('data', 'languages.yaml')).get_data()
-        self.language_order = self.base_data.pop('languageorder')
-
-    def get_language_map(self, languages=None, use_given_order=False):
-        return OrderedDict(self._load_data(languages=languages, strict_order=True,
-                                           use_given_order=use_given_order))
-
-    def get_languages(self, languages=None, strict_order=False, use_given_order=False):
-        for shortname, language in self._load_data(languages=languages, strict_order=strict_order,
-                                                   use_given_order=use_given_order):
-            yield language
-
-    def get_language(self, shortname):
-        return list(self.get_languages(languages=[shortname]))[0]
-
-    def _load_data(self, languages=None, strict_order=False, use_given_order=False):
-        if not languages:
-            languages = self.language_order
-        unsupported_languages = set(languages) - set(self.language_order)
-        if unsupported_languages:
-            raise ValueError("Unknown language(s): %s"
-                             % ', '.join(map(repr, unsupported_languages)))
-        languages_to_load = list(set(languages) - set(self._data.keys()))
-        loaded_languages = list(set(languages) - set(languages_to_load))
-        languages_to_load.sort(key=self.language_order.index)
-        loaded_languages.sort(key=self.language_order.index)
-
-        if strict_order:
-            if not use_given_order:
-                languages.sort(key=self.language_order.index)
-            for shortname in languages:
-                if shortname in loaded_languages:
-                    yield shortname, self._data[shortname]
-                else:
-                    language_file = 'languagefiles/' + shortname + '.yaml'
-                    language_info = SafeLoader(get_data('data', language_file)).get_data()
-                    self._update_language_info_with_base_info(language_info, self.base_data)
-                    language = Language(shortname, language_info)
-                    if language.validate_info():
-                        self._data[shortname] = language
-                        yield shortname, language
+def _isvalidlocale(locale):
+    language = LOCALE_SPLIT_PATTERN.split(locale)[0]
+    if language not in language_order:
+        return False
+    else:
+        locales_list = language_locale_dict[language]
+        if locale == language or locale in locales_list:
+            return True
         else:
-            if use_given_order:
-                languages_to_load.sort(key=languages.index)
-                loaded_languages.sort(key=languages.index)
-            for shortname in loaded_languages:
-                yield shortname, self._data[shortname]
-            for shortname in languages_to_load:
-                language_file = 'languagefiles/' + shortname + '.yaml'
-                language_info = SafeLoader(get_data('data', language_file)).get_data()
-                self._update_language_info_with_base_info(language_info, self.base_data)
-                language = Language(shortname, language_info)
-                if language.validate_info():
-                    self._data[shortname] = language
-                    yield shortname, language
-
-    def _update_language_info_with_base_info(self, language_info, base_info):
-        for key, values in six.iteritems(base_info):
-            if isinstance(values, list):
-                extended_values = (values + language_info[key]) if key in language_info else values
-                language_info[key] = extended_values
+            return False
 
 
-default_language_loader = LanguageDataLoader()
+def _filter_valid_locales(locales):
+    return [locale for locale in locales if _isvalidlocale(locale)]
+
+
+def _construct_locales(languages, region):
+    if region:
+        possible_locales = [language + '-' + region for language in languages]
+        locales = _filter_valid_locales(possible_locales)
+    else:
+        locales = languages
+    return locales
+
+
+class LocaleDataLoader(object):
+    _loaded_languages = {}
+    _loaded_locales = {}
+
+    def get_locale_map(self, languages=None, locales=None, region=None, use_given_order=False):
+        return OrderedDict(self._load_data(languages=languages, locales=locales,
+                                           region=region, use_given_order=use_given_order))
+
+    def get_locales(self, languages=None, locales=None, region=None, use_given_order=False):
+        for _, locale in self._load_data(languages=languages, locales=locales,
+                                         region=region, use_given_order=use_given_order):
+            yield locale
+
+    def get_locale(self, shortname):
+        return list(self.get_locales(locales=[shortname]))[0]
+
+    def _load_data(self, languages=None, locales=None, region=None, use_given_order=False):
+        locale_dict = OrderedDict()
+        if locales:
+            invalid_locales = []
+            for locale in locales:
+                lang_reg = LOCALE_SPLIT_PATTERN.split(locale)
+                if len(lang_reg) == 1:
+                    lang_reg.append('')
+                locale_dict[locale] = tuple(lang_reg)
+                if not _isvalidlocale(locale):
+                    invalid_locales.append(locale)
+            if invalid_locales:
+                raise ValueError("Unknown locale(s): %s"
+                                 % ', '.join(map(repr, invalid_locales)))
+
+            if len(set(locales)) > len(set([t[0] for t in locale_dict.values()])):
+                raise ValueError("Locales should not have same language and different region")
+
+        else:
+            if languages is None:
+                languages = language_order
+            unsupported_languages = set(languages) - set(language_order)
+            if unsupported_languages:
+                raise ValueError("Unknown language(s): %s"
+                                 % ', '.join(map(repr, unsupported_languages)))
+            if region is None:
+                region = ''
+            locales = _construct_locales(languages, region)
+            locale_dict.update(zip_longest(locales,
+                               tuple(zip_longest(languages, [], fillvalue=region))))
+
+        if not use_given_order:
+            locale_dict = OrderedDict(sorted(locale_dict.items(),
+                                      key=lambda x: language_order.index(x[1][0])))
+
+        for shortname, lang_reg in locale_dict.items():
+            if shortname not in self._loaded_locales:
+                lang, reg = lang_reg
+                if lang in self._loaded_languages:
+                    locale = Locale(shortname, language_info=deepcopy(self._loaded_languages[lang]))
+                    self._loaded_locales[shortname] = locale
+                else:
+                    language_info = getattr(
+                        import_module('dateparser.data.date_translation_data.' + lang), 'info')
+                    language_info = convert_to_unicode(language_info)
+                    locale = Locale(shortname, language_info=deepcopy(language_info))
+                    self._loaded_languages[lang] = language_info
+                    self._loaded_locales[shortname] = locale
+            yield shortname, self._loaded_locales[shortname]
+
+
+default_loader = LocaleDataLoader()

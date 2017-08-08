@@ -21,14 +21,12 @@
         "may"
     ],
     "june": [
-        "i̇yun",
-        "iyn",
-        "iyun"
+        "iyun",
+        "iyn"
     ],
     "july": [
-        "i̇yul",
-        "iyl",
-        "iyul"
+        "iyul",
+        "iyl"
     ],
     "august": [
         "avqust",
@@ -87,7 +85,6 @@
         "p"
     ],
     "year": [
-        "i̇l",
         "il"
     ],
     "month": [
@@ -157,46 +154,46 @@
             "indi"
         ],
         "in \\1 year": [
-            "(\\d+) il ərzində"
+            "{0} il ərzində"
         ],
         "\\1 year ago": [
-            "(\\d+) il öncə"
+            "{0} il öncə"
         ],
         "in \\1 month": [
-            "(\\d+) ay ərzində"
+            "{0} ay ərzində"
         ],
         "\\1 month ago": [
-            "(\\d+) ay öncə"
+            "{0} ay öncə"
         ],
         "in \\1 week": [
-            "(\\d+) həftə ərzində"
+            "{0} həftə ərzində"
         ],
         "\\1 week ago": [
-            "(\\d+) həftə öncə"
+            "{0} həftə öncə"
         ],
         "in \\1 day": [
-            "(\\d+) gün ərzində"
+            "{0} gün ərzində"
         ],
         "\\1 day ago": [
-            "(\\d+) gün öncə"
+            "{0} gün öncə"
         ],
         "in \\1 hour": [
-            "(\\d+) saat ərzində"
+            "{0} saat ərzində"
         ],
         "\\1 hour ago": [
-            "(\\d+) saat öncə"
+            "{0} saat öncə"
         ],
         "in \\1 minute": [
-            "(\\d+) dəqiqə ərzində"
+            "{0} dəqiqə ərzində"
         ],
         "\\1 minute ago": [
-            "(\\d+) dəqiqə öncə"
+            "{0} dəqiqə öncə"
         ],
         "in \\1 second": [
-            "(\\d+) saniyə ərzində"
+            "{0} saniyə ərzində"
         ],
         "\\1 second ago": [
-            "(\\d+) saniyə öncə"
+            "{0} saniyə öncə"
         ]
     },
     "locale_specific": {}

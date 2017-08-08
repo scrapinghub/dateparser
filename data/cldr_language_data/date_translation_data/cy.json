@@ -175,57 +175,57 @@
         ],
         "in \\1 year": [
             "ymhen blwyddyn",
-            "ymhen (\\d+) mlynedd"
+            "ymhen {0} mlynedd"
         ],
         "\\1 year ago": [
             "blwyddyn yn ôl",
-            "(\\d+) o flynyddoedd yn ôl"
+            "{0} o flynyddoedd yn ôl"
         ],
         "in \\1 month": [
             "ymhen mis",
-            "ymhen (\\d+) mis"
+            "ymhen {0} mis"
         ],
         "\\1 month ago": [
-            "(\\d+) mis yn ôl"
+            "{0} mis yn ôl"
         ],
         "in \\1 week": [
             "ymhen wythnos",
-            "ymhen (\\d+) wythnos"
+            "ymhen {0} wythnos"
         ],
         "\\1 week ago": [
-            "(\\d+) wythnos yn ôl"
+            "{0} wythnos yn ôl"
         ],
         "in \\1 day": [
             "ymhen diwrnod",
-            "ymhen (\\d+) diwrnod"
+            "ymhen {0} diwrnod"
         ],
         "\\1 day ago": [
-            "(\\d+) diwrnod yn ôl"
+            "{0} diwrnod yn ôl"
         ],
         "in \\1 hour": [
             "ymhen awr",
-            "ymhen (\\d+) awr"
+            "ymhen {0} awr"
         ],
         "\\1 hour ago": [
             "awr yn ôl",
-            "(\\d+) awr yn ôl"
+            "{0} awr yn ôl"
         ],
         "in \\1 minute": [
             "ymhen munud",
-            "ymhen (\\d+) munud",
-            "ymhen (\\d+) mun"
+            "ymhen {0} munud",
+            "ymhen {0} mun"
         ],
         "\\1 minute ago": [
-            "(\\d+) munud yn ôl",
-            "(\\d+) mun yn ôl"
+            "{0} munud yn ôl",
+            "{0} mun yn ôl"
         ],
         "in \\1 second": [
             "ymhen eiliad",
-            "ymhen (\\d+) eiliad"
+            "ymhen {0} eiliad"
         ],
         "\\1 second ago": [
             "eiliad yn ôl",
-            "(\\d+) eiliad yn ôl"
+            "{0} eiliad yn ôl"
         ]
     },
     "locale_specific": {}

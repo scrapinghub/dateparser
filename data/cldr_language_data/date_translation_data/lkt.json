@@ -145,46 +145,46 @@
             "now"
         ],
         "in \\1 year": [
-            "letáŋhaŋ ómakȟa (\\d+) kiŋháŋ"
+            "letáŋhaŋ ómakȟa {0} kiŋháŋ"
         ],
         "\\1 year ago": [
-            "hékta ómakȟa (\\d+) kʼuŋ héhaŋ"
+            "hékta ómakȟa {0} kʼuŋ héhaŋ"
         ],
         "in \\1 month": [
-            "letáŋhaŋ wíyawapi (\\d+) kiŋháŋ"
+            "letáŋhaŋ wíyawapi {0} kiŋháŋ"
         ],
         "\\1 month ago": [
-            "hékta wíyawapi (\\d+) kʼuŋ héhaŋ"
+            "hékta wíyawapi {0} kʼuŋ héhaŋ"
         ],
         "in \\1 week": [
-            "letáŋhaŋ okó (\\d+) kiŋháŋ"
+            "letáŋhaŋ okó {0} kiŋháŋ"
         ],
         "\\1 week ago": [
-            "hékta okó (\\d+) kʼuŋ héhaŋ"
+            "hékta okó {0} kʼuŋ héhaŋ"
         ],
         "in \\1 day": [
-            "letáŋhaŋ (\\d+)-čháŋ kiŋháŋ"
+            "letáŋhaŋ {0}-čháŋ kiŋháŋ"
         ],
         "\\1 day ago": [
-            "hékta (\\d+)-čháŋ k’uŋ héhaŋ"
+            "hékta {0}-čháŋ k’uŋ héhaŋ"
         ],
         "in \\1 hour": [
-            "letáŋhaŋ owápȟe (\\d+) kiŋháŋ"
+            "letáŋhaŋ owápȟe {0} kiŋháŋ"
         ],
         "\\1 hour ago": [
-            "hékta owápȟe (\\d+) kʼuŋ héhaŋ"
+            "hékta owápȟe {0} kʼuŋ héhaŋ"
         ],
         "in \\1 minute": [
-            "letáŋhaŋ oȟ’áŋkȟo (\\d+) kiŋháŋ"
+            "letáŋhaŋ oȟ’áŋkȟo {0} kiŋháŋ"
         ],
         "\\1 minute ago": [
-            "hékta oȟ’áŋkȟo (\\d+) k’uŋ héhaŋ"
+            "hékta oȟ’áŋkȟo {0} k’uŋ héhaŋ"
         ],
         "in \\1 second": [
-            "letáŋhaŋ okpí (\\d+) kiŋháŋ"
+            "letáŋhaŋ okpí {0} kiŋháŋ"
         ],
         "\\1 second ago": [
-            "hékta okpí (\\d+) k’uŋ héhaŋ"
+            "hékta okpí {0} k’uŋ héhaŋ"
         ]
     },
     "locale_specific": {}

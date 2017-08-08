@@ -180,80 +180,80 @@
             "sada"
         ],
         "in \\1 year": [
-            "za (\\d+) godinu",
-            "za (\\d+) godina",
-            "za (\\d+) god",
-            "za (\\d+) g"
+            "za {0} godinu",
+            "za {0} godina",
+            "za {0} god",
+            "za {0} g"
         ],
         "\\1 year ago": [
-            "pre (\\d+) godine",
-            "pre (\\d+) godina",
-            "pre (\\d+) god",
-            "pre (\\d+) g"
+            "pre {0} godine",
+            "pre {0} godina",
+            "pre {0} god",
+            "pre {0} g"
         ],
         "in \\1 month": [
-            "za (\\d+) mesec",
-            "za (\\d+) meseci",
-            "za (\\d+) mes",
-            "za (\\d+) m"
+            "za {0} mesec",
+            "za {0} meseci",
+            "za {0} mes",
+            "za {0} m"
         ],
         "\\1 month ago": [
-            "pre (\\d+) meseca",
-            "pre (\\d+) meseci",
-            "pre (\\d+) mes",
-            "pre (\\d+) m"
+            "pre {0} meseca",
+            "pre {0} meseci",
+            "pre {0} mes",
+            "pre {0} m"
         ],
         "in \\1 week": [
-            "za (\\d+) nedelju",
-            "za (\\d+) nedelja",
-            "za (\\d+) ned",
-            "za (\\d+) n"
+            "za {0} nedelju",
+            "za {0} nedelja",
+            "za {0} ned",
+            "za {0} n"
         ],
         "\\1 week ago": [
-            "pre (\\d+) nedelje",
-            "pre (\\d+) nedelja",
-            "pre (\\d+) ned",
-            "pre (\\d+) n"
+            "pre {0} nedelje",
+            "pre {0} nedelja",
+            "pre {0} ned",
+            "pre {0} n"
         ],
         "in \\1 day": [
-            "za (\\d+) dan",
-            "za (\\d+) dana",
-            "za (\\d+) d"
+            "za {0} dan",
+            "za {0} dana",
+            "za {0} d"
         ],
         "\\1 day ago": [
-            "pre (\\d+) dana",
-            "pre (\\d+) d"
+            "pre {0} dana",
+            "pre {0} d"
         ],
         "in \\1 hour": [
-            "za (\\d+) sat",
-            "za (\\d+) sati",
-            "za (\\d+) č"
+            "za {0} sat",
+            "za {0} sati",
+            "za {0} č"
         ],
         "\\1 hour ago": [
-            "pre (\\d+) sata",
-            "pre (\\d+) sati",
-            "pre (\\d+) č"
+            "pre {0} sata",
+            "pre {0} sati",
+            "pre {0} č"
         ],
         "in \\1 minute": [
-            "za (\\d+) minut",
-            "za (\\d+) minuta",
-            "za (\\d+) min"
+            "za {0} minut",
+            "za {0} minuta",
+            "za {0} min"
         ],
         "\\1 minute ago": [
-            "pre (\\d+) minuta",
-            "pre (\\d+) min"
+            "pre {0} minuta",
+            "pre {0} min"
         ],
         "in \\1 second": [
-            "za (\\d+) sekundu",
-            "za (\\d+) sekundi",
-            "za (\\d+) sek",
-            "za (\\d+) s"
+            "za {0} sekundu",
+            "za {0} sekundi",
+            "za {0} sek",
+            "za {0} s"
         ],
         "\\1 second ago": [
-            "pre (\\d+) sekunde",
-            "pre (\\d+) sekundi",
-            "pre (\\d+) sek",
-            "pre (\\d+) s"
+            "pre {0} sekunde",
+            "pre {0} sekundi",
+            "pre {0} sek",
+            "pre {0} s"
         ]
     },
     "locale_specific": {
@@ -266,8 +266,8 @@
                 "ut"
             ],
             "wednesday": [
-                "sr",
-                "srijeda"
+                "srijeda",
+                "sr"
             ],
             "sunday": [
                 "nedjelja"
@@ -285,8 +285,8 @@
                 "ut"
             ],
             "wednesday": [
-                "sr",
-                "srijeda"
+                "srijeda",
+                "sr"
             ],
             "sunday": [
                 "nedjelja"

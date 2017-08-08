@@ -193,75 +193,75 @@
             "dabar"
         ],
         "in \\1 year": [
-            "po (\\d+) metų",
-            "po (\\d+) m"
+            "po {0} metų",
+            "po {0} m"
         ],
         "\\1 year ago": [
-            "prieš (\\d+) metus",
-            "prieš (\\d+) metų",
-            "prieš (\\d+) m"
+            "prieš {0} metus",
+            "prieš {0} metų",
+            "prieš {0} m"
         ],
         "in \\1 month": [
-            "po (\\d+) mėnesio",
-            "po (\\d+) mėnesių",
-            "po (\\d+) mėn"
+            "po {0} mėnesio",
+            "po {0} mėnesių",
+            "po {0} mėn"
         ],
         "\\1 month ago": [
-            "prieš (\\d+) mėnesį",
-            "prieš (\\d+) mėnesių",
-            "prieš (\\d+) mėn"
+            "prieš {0} mėnesį",
+            "prieš {0} mėnesių",
+            "prieš {0} mėn"
         ],
         "in \\1 week": [
-            "po (\\d+) savaitės",
-            "po (\\d+) savaičių",
-            "po (\\d+) sav"
+            "po {0} savaitės",
+            "po {0} savaičių",
+            "po {0} sav"
         ],
         "\\1 week ago": [
-            "prieš (\\d+) savaitę",
-            "prieš (\\d+) savaičių",
-            "prieš (\\d+) sav"
+            "prieš {0} savaitę",
+            "prieš {0} savaičių",
+            "prieš {0} sav"
         ],
         "in \\1 day": [
-            "po (\\d+) dienos",
-            "po (\\d+) dienų",
-            "po (\\d+) d"
+            "po {0} dienos",
+            "po {0} dienų",
+            "po {0} d"
         ],
         "\\1 day ago": [
-            "prieš (\\d+) dieną",
-            "prieš (\\d+) dienų",
-            "prieš (\\d+) d"
+            "prieš {0} dieną",
+            "prieš {0} dienų",
+            "prieš {0} d"
         ],
         "in \\1 hour": [
-            "po (\\d+) valandos",
-            "po (\\d+) valandų",
-            "po (\\d+) val"
+            "po {0} valandos",
+            "po {0} valandų",
+            "po {0} val"
         ],
         "\\1 hour ago": [
-            "prieš (\\d+) valandą",
-            "prieš (\\d+) valandų",
-            "prieš (\\d+) val"
+            "prieš {0} valandą",
+            "prieš {0} valandų",
+            "prieš {0} val"
         ],
         "in \\1 minute": [
-            "po (\\d+) minutės",
-            "po (\\d+) minučių",
-            "po (\\d+) min"
+            "po {0} minutės",
+            "po {0} minučių",
+            "po {0} min"
         ],
         "\\1 minute ago": [
-            "prieš (\\d+) minutę",
-            "prieš (\\d+) minučių",
-            "prieš (\\d+) min"
+            "prieš {0} minutę",
+            "prieš {0} minučių",
+            "prieš {0} min"
         ],
         "in \\1 second": [
-            "po (\\d+) sekundės",
-            "po (\\d+) sekundžių",
-            "po (\\d+) sek",
-            "po (\\d+) s"
+            "po {0} sekundės",
+            "po {0} sekundžių",
+            "po {0} sek",
+            "po {0} s"
         ],
         "\\1 second ago": [
-            "prieš (\\d+) sekundę",
-            "prieš (\\d+) sekundžių",
-            "prieš (\\d+) sek",
-            "prieš (\\d+) s"
+            "prieš {0} sekundę",
+            "prieš {0} sekundžių",
+            "prieš {0} sek",
+            "prieš {0} s"
         ]
     },
     "locale_specific": {}

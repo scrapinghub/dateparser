@@ -166,55 +166,55 @@
             "sasa hivi"
         ],
         "in \\1 year": [
-            "baada ya mwaka (\\d+)",
-            "baada ya miaka (\\d+)"
+            "baada ya mwaka {0}",
+            "baada ya miaka {0}"
         ],
         "\\1 year ago": [
-            "mwaka (\\d+) uliopita",
-            "miaka (\\d+) iliyopita"
+            "mwaka {0} uliopita",
+            "miaka {0} iliyopita"
         ],
         "in \\1 month": [
-            "baada ya mwezi (\\d+)",
-            "baada ya miezi (\\d+)"
+            "baada ya mwezi {0}",
+            "baada ya miezi {0}"
         ],
         "\\1 month ago": [
-            "mwezi (\\d+) uliopita",
-            "miezi (\\d+) iliyopita"
+            "mwezi {0} uliopita",
+            "miezi {0} iliyopita"
         ],
         "in \\1 week": [
-            "baada ya wiki (\\d+)"
+            "baada ya wiki {0}"
         ],
         "\\1 week ago": [
-            "wiki (\\d+) iliyopita",
-            "wiki (\\d+) zilizopita"
+            "wiki {0} iliyopita",
+            "wiki {0} zilizopita"
         ],
         "in \\1 day": [
-            "baada ya siku (\\d+)"
+            "baada ya siku {0}"
         ],
         "\\1 day ago": [
-            "siku (\\d+) iliyopita",
-            "siku (\\d+) zilizopita"
+            "siku {0} iliyopita",
+            "siku {0} zilizopita"
         ],
         "in \\1 hour": [
-            "baada ya saa (\\d+)"
+            "baada ya saa {0}"
         ],
         "\\1 hour ago": [
-            "saa (\\d+) iliyopita",
-            "saa (\\d+) zilizopita"
+            "saa {0} iliyopita",
+            "saa {0} zilizopita"
         ],
         "in \\1 minute": [
-            "baada ya dakika (\\d+)"
+            "baada ya dakika {0}"
         ],
         "\\1 minute ago": [
-            "dakika (\\d+) iliyopita",
-            "dakika (\\d+) zilizopita"
+            "dakika {0} iliyopita",
+            "dakika {0} zilizopita"
         ],
         "in \\1 second": [
-            "baada ya sekunde (\\d+)"
+            "baada ya sekunde {0}"
         ],
         "\\1 second ago": [
-            "sekunde (\\d+) iliyopita",
-            "sekunde (\\d+) zilizopita"
+            "sekunde {0} iliyopita",
+            "sekunde {0} zilizopita"
         ]
     },
     "locale_specific": {

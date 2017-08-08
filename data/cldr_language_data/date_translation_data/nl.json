@@ -175,62 +175,62 @@
             "nu"
         ],
         "in \\1 year": [
-            "over (\\d+) jaar"
+            "over {0} jaar"
         ],
         "\\1 year ago": [
-            "(\\d+) jaar geleden"
+            "{0} jaar geleden"
         ],
         "in \\1 month": [
-            "over (\\d+) maand",
-            "over (\\d+) maanden"
+            "over {0} maand",
+            "over {0} maanden"
         ],
         "\\1 month ago": [
-            "(\\d+) maand geleden",
-            "(\\d+) maanden geleden"
+            "{0} maand geleden",
+            "{0} maanden geleden"
         ],
         "in \\1 week": [
-            "over (\\d+) week",
-            "over (\\d+) weken"
+            "over {0} week",
+            "over {0} weken"
         ],
         "\\1 week ago": [
-            "(\\d+) week geleden",
-            "(\\d+) weken geleden"
+            "{0} week geleden",
+            "{0} weken geleden"
         ],
         "in \\1 day": [
-            "over (\\d+) dag",
-            "over (\\d+) dagen",
-            "over (\\d+) dgn"
+            "over {0} dag",
+            "over {0} dagen",
+            "over {0} dgn"
         ],
         "\\1 day ago": [
-            "(\\d+) dag geleden",
-            "(\\d+) dagen geleden",
-            "(\\d+) dgn geleden"
+            "{0} dag geleden",
+            "{0} dagen geleden",
+            "{0} dgn geleden"
         ],
         "in \\1 hour": [
-            "over (\\d+) uur"
+            "over {0} uur"
         ],
         "\\1 hour ago": [
-            "(\\d+) uur geleden"
+            "{0} uur geleden"
         ],
         "in \\1 minute": [
-            "over (\\d+) minuut",
-            "over (\\d+) minuten",
-            "over (\\d+) min"
+            "over {0} minuut",
+            "over {0} minuten",
+            "over {0} min"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuut geleden",
-            "(\\d+) minuten geleden",
-            "(\\d+) min geleden"
+            "{0} minuut geleden",
+            "{0} minuten geleden",
+            "{0} min geleden"
         ],
         "in \\1 second": [
-            "over (\\d+) seconde",
-            "over (\\d+) seconden",
-            "over (\\d+) sec"
+            "over {0} seconde",
+            "over {0} seconden",
+            "over {0} sec"
         ],
         "\\1 second ago": [
-            "(\\d+) seconde geleden",
-            "(\\d+) seconden geleden",
-            "(\\d+) sec geleden"
+            "{0} seconde geleden",
+            "{0} seconden geleden",
+            "{0} sec geleden"
         ]
     },
     "locale_specific": {

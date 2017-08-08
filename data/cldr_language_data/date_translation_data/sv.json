@@ -185,84 +185,77 @@
             "nu"
         ],
         "in \\1 year": [
-            "om (\\d+) år",
-            "+(\\d+) år"
+            "om {0} år"
         ],
         "\\1 year ago": [
-            "för (\\d+) år sedan",
-            "−(\\d+) år"
+            "för {0} år sedan",
+            "−{0} år"
         ],
         "in \\1 month": [
-            "om (\\d+) månad",
-            "om (\\d+) månader",
-            "om (\\d+) mån",
-            "+(\\d+) mån"
+            "om {0} månad",
+            "om {0} månader",
+            "om {0} mån"
         ],
         "\\1 month ago": [
-            "för (\\d+) månad sedan",
-            "för (\\d+) månader sedan",
-            "för (\\d+) mån sedan",
-            "−(\\d+) mån"
+            "för {0} månad sedan",
+            "för {0} månader sedan",
+            "för {0} mån sedan",
+            "−{0} mån"
         ],
         "in \\1 week": [
-            "om (\\d+) vecka",
-            "om (\\d+) veckor",
-            "om (\\d+) v",
-            "+(\\d+) v"
+            "om {0} vecka",
+            "om {0} veckor",
+            "om {0} v"
         ],
         "\\1 week ago": [
-            "för (\\d+) vecka sedan",
-            "för (\\d+) veckor sedan",
-            "för (\\d+) v sedan",
-            "−(\\d+) v"
+            "för {0} vecka sedan",
+            "för {0} veckor sedan",
+            "för {0} v sedan",
+            "−{0} v"
         ],
         "in \\1 day": [
-            "om (\\d+) dag",
-            "om (\\d+) dagar",
-            "om (\\d+) d",
-            "+(\\d+) d"
+            "om {0} dag",
+            "om {0} dagar",
+            "om {0} d"
         ],
         "\\1 day ago": [
-            "för (\\d+) dag sedan",
-            "för (\\d+) dagar sedan",
-            "för (\\d+) d sedan",
-            "−(\\d+) d"
+            "för {0} dag sedan",
+            "för {0} dagar sedan",
+            "för {0} d sedan",
+            "−{0} d"
         ],
         "in \\1 hour": [
-            "om (\\d+) timme",
-            "om (\\d+) timmar",
-            "om (\\d+) tim",
-            "+(\\d+) h"
+            "om {0} timme",
+            "om {0} timmar",
+            "om {0} tim"
         ],
         "\\1 hour ago": [
-            "för (\\d+) timme sedan",
-            "för (\\d+) timmar sedan",
-            "för (\\d+) tim sedan",
-            "−(\\d+) h"
+            "för {0} timme sedan",
+            "för {0} timmar sedan",
+            "för {0} tim sedan",
+            "−{0} h"
         ],
         "in \\1 minute": [
-            "om (\\d+) minut",
-            "om (\\d+) minuter",
-            "om (\\d+) min",
-            "+(\\d+) min"
+            "om {0} minut",
+            "om {0} minuter",
+            "om {0} min"
         ],
         "\\1 minute ago": [
-            "för (\\d+) minut sedan",
-            "för (\\d+) minuter sedan",
-            "för (\\d+) min sedan",
-            "−(\\d+) min"
+            "för {0} minut sedan",
+            "för {0} minuter sedan",
+            "för {0} min sedan",
+            "−{0} min"
         ],
         "in \\1 second": [
-            "om (\\d+) sekund",
-            "om (\\d+) sekunder",
-            "om (\\d+) sek",
-            "+(\\d+) s"
+            "om {0} sekund",
+            "om {0} sekunder",
+            "om {0} sek"
         ],
         "\\1 second ago": [
-            "för (\\d+) sekund sedan",
-            "för (\\d+) sekunder sedan",
-            "för (\\d+) sek sedan",
-            "−(\\d+) s"
+            "för {0} sekund sedan",
+            "för {0} sekunder sedan",
+            "för {0} sek sedan",
+            "−{0} s"
         ]
     },
     "locale_specific": {

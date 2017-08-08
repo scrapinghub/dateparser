@@ -191,69 +191,69 @@
             "ara"
         ],
         "in \\1 year": [
-            "d’aquí a (\\d+) any",
-            "d’aquí a (\\d+) anys"
+            "d’aquí a {0} any",
+            "d’aquí a {0} anys"
         ],
         "\\1 year ago": [
-            "fa (\\d+) any",
-            "fa (\\d+) anys"
+            "fa {0} any",
+            "fa {0} anys"
         ],
         "in \\1 month": [
-            "d’aquí a (\\d+) mes",
-            "d’aquí a (\\d+) mesos"
+            "d’aquí a {0} mes",
+            "d’aquí a {0} mesos"
         ],
         "\\1 month ago": [
-            "fa (\\d+) mes",
-            "fa (\\d+) mesos"
+            "fa {0} mes",
+            "fa {0} mesos"
         ],
         "in \\1 week": [
-            "d’aquí a (\\d+) setmana",
-            "d’aquí a (\\d+) setmanes",
-            "d’aquí a (\\d+) setm"
+            "d’aquí a {0} setmana",
+            "d’aquí a {0} setmanes",
+            "d’aquí a {0} setm"
         ],
         "\\1 week ago": [
-            "fa (\\d+) setmana",
-            "fa (\\d+) setmanes",
-            "fa (\\d+) setm"
+            "fa {0} setmana",
+            "fa {0} setmanes",
+            "fa {0} setm"
         ],
         "in \\1 day": [
-            "d’aquí a (\\d+) dia",
-            "d’aquí a (\\d+) dies"
+            "d’aquí a {0} dia",
+            "d’aquí a {0} dies"
         ],
         "\\1 day ago": [
-            "fa (\\d+) dia",
-            "fa (\\d+) dies"
+            "fa {0} dia",
+            "fa {0} dies"
         ],
         "in \\1 hour": [
-            "d’aquí a (\\d+) hora",
-            "d’aquí a (\\d+) hores",
-            "d’aquí a (\\d+) h",
-            "d‘aquí a (\\d+) h"
+            "d’aquí a {0} hora",
+            "d’aquí a {0} hores",
+            "d’aquí a {0} h",
+            "d‘aquí a {0} h"
         ],
         "\\1 hour ago": [
-            "fa (\\d+) hora",
-            "fa (\\d+) hores",
-            "fa (\\d+) h"
+            "fa {0} hora",
+            "fa {0} hores",
+            "fa {0} h"
         ],
         "in \\1 minute": [
-            "d’aquí a (\\d+) minut",
-            "d’aquí a (\\d+) minuts",
-            "d’aquí a (\\d+) min"
+            "d’aquí a {0} minut",
+            "d’aquí a {0} minuts",
+            "d’aquí a {0} min"
         ],
         "\\1 minute ago": [
-            "fa (\\d+) minut",
-            "fa (\\d+) minuts",
-            "fa (\\d+) min"
+            "fa {0} minut",
+            "fa {0} minuts",
+            "fa {0} min"
         ],
         "in \\1 second": [
-            "d’aquí a (\\d+) segon",
-            "d’aquí a (\\d+) segons",
-            "d’aquí a (\\d+) s"
+            "d’aquí a {0} segon",
+            "d’aquí a {0} segons",
+            "d’aquí a {0} s"
         ],
         "\\1 second ago": [
-            "fa (\\d+) segon",
-            "fa (\\d+) segons",
-            "fa (\\d+) s"
+            "fa {0} segon",
+            "fa {0} segons",
+            "fa {0} s"
         ]
     },
     "locale_specific": {

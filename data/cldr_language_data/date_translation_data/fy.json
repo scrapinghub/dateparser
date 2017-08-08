@@ -170,56 +170,56 @@
             "nu"
         ],
         "in \\1 year": [
-            "oer (\\d+) jier"
+            "oer {0} jier"
         ],
         "\\1 year ago": [
-            "(\\d+) jier lyn"
+            "{0} jier lyn"
         ],
         "in \\1 month": [
-            "oer (\\d+) moanne",
-            "oer (\\d+) moannen"
+            "oer {0} moanne",
+            "oer {0} moannen"
         ],
         "\\1 month ago": [
-            "(\\d+) moanne lyn",
-            "(\\d+) moannen lyn"
+            "{0} moanne lyn",
+            "{0} moannen lyn"
         ],
         "in \\1 week": [
-            "oer (\\d+) wike",
-            "oer (\\d+) wiken"
+            "oer {0} wike",
+            "oer {0} wiken"
         ],
         "\\1 week ago": [
-            "(\\d+) wike lyn",
-            "(\\d+) wiken lyn"
+            "{0} wike lyn",
+            "{0} wiken lyn"
         ],
         "in \\1 day": [
-            "oer (\\d+) dei",
-            "oer (\\d+) deien"
+            "oer {0} dei",
+            "oer {0} deien"
         ],
         "\\1 day ago": [
-            "(\\d+) dei lyn",
-            "(\\d+) deien lyn"
+            "{0} dei lyn",
+            "{0} deien lyn"
         ],
         "in \\1 hour": [
-            "oer (\\d+) oere"
+            "oer {0} oere"
         ],
         "\\1 hour ago": [
-            "(\\d+) oere lyn"
+            "{0} oere lyn"
         ],
         "in \\1 minute": [
-            "oer (\\d+) minút",
-            "oer (\\d+) minuten"
+            "oer {0} minút",
+            "oer {0} minuten"
         ],
         "\\1 minute ago": [
-            "(\\d+) minút lyn",
-            "(\\d+) minuten lyn"
+            "{0} minút lyn",
+            "{0} minuten lyn"
         ],
         "in \\1 second": [
-            "oer (\\d+) sekonde",
-            "oer (\\d+) sekonden"
+            "oer {0} sekonde",
+            "oer {0} sekonden"
         ],
         "\\1 second ago": [
-            "(\\d+) sekonde lyn",
-            "(\\d+) sekonden lyn"
+            "{0} sekonde lyn",
+            "{0} sekonden lyn"
         ]
     },
     "locale_specific": {}

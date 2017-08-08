@@ -173,46 +173,46 @@
             "taimí ni"
         ],
         "in \\1 year": [
-            "ʻi he taʻu ʻe (\\d+)"
+            "ʻi he taʻu ʻe {0}"
         ],
         "\\1 year ago": [
-            "taʻu ʻe (\\d+) kuoʻosi"
+            "taʻu ʻe {0} kuoʻosi"
         ],
         "in \\1 month": [
-            "ʻi he māhina ʻe (\\d+)"
+            "ʻi he māhina ʻe {0}"
         ],
         "\\1 month ago": [
-            "māhina ʻe (\\d+) kuoʻosi"
+            "māhina ʻe {0} kuoʻosi"
         ],
         "in \\1 week": [
-            "ʻi he uike ʻe (\\d+)"
+            "ʻi he uike ʻe {0}"
         ],
         "\\1 week ago": [
-            "uike ʻe (\\d+) kuoʻosi"
+            "uike ʻe {0} kuoʻosi"
         ],
         "in \\1 day": [
-            "ʻi he ʻaho ʻe (\\d+)"
+            "ʻi he ʻaho ʻe {0}"
         ],
         "\\1 day ago": [
-            "ʻaho ʻe (\\d+) kuoʻosi"
+            "ʻaho ʻe {0} kuoʻosi"
         ],
         "in \\1 hour": [
-            "ʻi he houa ʻe (\\d+)"
+            "ʻi he houa ʻe {0}"
         ],
         "\\1 hour ago": [
-            "houa ʻe (\\d+) kuoʻosi"
+            "houa ʻe {0} kuoʻosi"
         ],
         "in \\1 minute": [
-            "ʻi he miniti ʻe (\\d+)"
+            "ʻi he miniti ʻe {0}"
         ],
         "\\1 minute ago": [
-            "miniti ʻe (\\d+) kuoʻosi"
+            "miniti ʻe {0} kuoʻosi"
         ],
         "in \\1 second": [
-            "ʻi he sekoni ʻe (\\d+)"
+            "ʻi he sekoni ʻe {0}"
         ],
         "\\1 second ago": [
-            "sekoni ʻe (\\d+) kuoʻosi"
+            "sekoni ʻe {0} kuoʻosi"
         ]
     },
     "locale_specific": {}

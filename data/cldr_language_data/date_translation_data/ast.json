@@ -207,78 +207,78 @@
             "agora"
         ],
         "in \\1 year": [
-            "en (\\d+) añu",
-            "en (\\d+) años",
-            "en (\\d+) a"
+            "en {0} añu",
+            "en {0} años",
+            "en {0} a"
         ],
         "\\1 year ago": [
-            "hai (\\d+) añu",
-            "hai (\\d+) años",
-            "hai (\\d+) a"
+            "hai {0} añu",
+            "hai {0} años",
+            "hai {0} a"
         ],
         "in \\1 month": [
-            "en (\\d+) mes",
-            "en (\\d+) meses",
-            "en (\\d+) m"
+            "en {0} mes",
+            "en {0} meses",
+            "en {0} m"
         ],
         "\\1 month ago": [
-            "hai (\\d+) mes",
-            "hai (\\d+) meses",
-            "hai (\\d+) m"
+            "hai {0} mes",
+            "hai {0} meses",
+            "hai {0} m"
         ],
         "in \\1 week": [
-            "en (\\d+) selmana",
-            "en (\\d+) selmanes",
-            "en (\\d+) selm",
-            "en (\\d+) se"
+            "en {0} selmana",
+            "en {0} selmanes",
+            "en {0} selm",
+            "en {0} se"
         ],
         "\\1 week ago": [
-            "hai (\\d+) selmana",
-            "hai (\\d+) selmanes",
-            "hai (\\d+) selm",
-            "hai (\\d+) se"
+            "hai {0} selmana",
+            "hai {0} selmanes",
+            "hai {0} selm",
+            "hai {0} se"
         ],
         "in \\1 day": [
-            "en (\\d+) día",
-            "en (\\d+) díes",
-            "en (\\d+) d"
+            "en {0} día",
+            "en {0} díes",
+            "en {0} d"
         ],
         "\\1 day ago": [
-            "hai (\\d+) día",
-            "hai (\\d+) díes",
-            "hai (\\d+) d"
+            "hai {0} día",
+            "hai {0} díes",
+            "hai {0} d"
         ],
         "in \\1 hour": [
-            "en (\\d+) hora",
-            "en (\\d+) hores",
-            "en (\\d+) h"
+            "en {0} hora",
+            "en {0} hores",
+            "en {0} h"
         ],
         "\\1 hour ago": [
-            "hai (\\d+) hora",
-            "hai (\\d+) hores",
-            "hai (\\d+) h"
+            "hai {0} hora",
+            "hai {0} hores",
+            "hai {0} h"
         ],
         "in \\1 minute": [
-            "en (\\d+) minutu",
-            "en (\\d+) minutos",
-            "en (\\d+) min"
+            "en {0} minutu",
+            "en {0} minutos",
+            "en {0} min"
         ],
         "\\1 minute ago": [
-            "hai (\\d+) minutu",
-            "hai (\\d+) minutos",
-            "hai (\\d+) min"
+            "hai {0} minutu",
+            "hai {0} minutos",
+            "hai {0} min"
         ],
         "in \\1 second": [
-            "en (\\d+) segundu",
-            "en (\\d+) segundos",
-            "en (\\d+) seg",
-            "en (\\d+) s"
+            "en {0} segundu",
+            "en {0} segundos",
+            "en {0} seg",
+            "en {0} s"
         ],
         "\\1 second ago": [
-            "hai (\\d+) segundu",
-            "hai (\\d+) segundos",
-            "hai (\\d+) seg",
-            "hai (\\d+) s"
+            "hai {0} segundu",
+            "hai {0} segundos",
+            "hai {0} seg",
+            "hai {0} s"
         ]
     },
     "locale_specific": {}

@@ -13,74 +13,13 @@ from nose_parameterized import parameterized, param
 import dateparser.timezone_parser
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
-from dateparser.languages import default_language_loader
-from dateparser.languages.detection import LanguageDetector
+# from dateparser.languages import default_loader
+# from dateparser.languages.detection import LanguageDetector
 from dateparser.timezone_parser import StaticTzInfo
-from dateparser.conf import settings
+# from dateparser.conf import settings
 from dateparser.utils import normalize_unicode
 
 from tests import BaseTestCase
-
-
-class TestLanguageDetector(BaseTestCase):
-    def setUp(self):
-        super(TestLanguageDetector, self).setUp()
-        self.previous_languages = []
-
-    @parameterized.expand([
-        param(given_languages=['en', 'es', 'ar', 'pt', 'tr', 'cs'], date_string="11 abril 2010",
-              expected_languages=['es', 'pt']),
-        param(given_languages=['es', 'id', 'it', 'he'], date_string="11 junio 2010",
-              expected_languages=['es']),
-        param(given_languages=['pt', 'id', 'it', 'es', 'fr'], date_string="8 sept 2008",
-              expected_languages=['fr', 'id']),
-        param(given_languages=['he', 'pt', 'es', 'ka'], date_string="28 dezembro",
-              expected_languages=['pt']),
-    ])
-    def test_detect_languages_without_try_previous_languages(
-            self, given_languages, date_string, expected_languages):
-        self.given_language_generator(languages=given_languages)
-        self.given_language_detector()
-        self.when_languages_are_detected(date_string)
-        self.then_detected_languages_exactly_are(expected_languages)
-
-    @parameterized.expand([
-        param(given_languages=['en', 'es', 'ar', 'pt', 'tr', 'cs'], date_string="11 abril 2010",
-              previous_languages=['pt', 'id'], expected_languages=['pt', 'es', 'pt']),
-        param(given_languages=['es', 'id', 'it', 'he'], date_string="11 junio 2010",
-              previous_languages=['it', 'id', 'fr'], expected_languages=['es']),
-        param(given_languages=['ar', 'he', 'zh'], date_string="2016年3月20日",
-              previous_languages=['sv', 'ja'], expected_languages=['ja', 'zh']),
-    ])
-    def test_detect_languages_with_try_previous_languages(
-            self, given_languages, date_string, previous_languages, expected_languages):
-        self.given_language_generator(languages=given_languages)
-        self.given_language_detector(try_previous_languages=True)
-        self.get_previous_languages(previous_languages)
-        self.when_languages_are_detected(date_string)
-        self.then_detected_languages_exactly_are(expected_languages)
-
-    def given_language_generator(self, languages, strict_order=True):
-        self.language_generator = default_language_loader.get_languages(languages=languages,
-                                                                        strict_order=strict_order)
-
-    def given_language_detector(self, try_previous_languages=False):
-        self.language_detector = LanguageDetector(try_previous_languages=try_previous_languages)
-
-    def get_previous_languages(self, previous_languages):
-        self.previous_languages = default_language_loader.get_languages(
-            languages=previous_languages, strict_order=True, use_given_order=True)
-
-    def when_languages_are_detected(self, date_string, settings=settings):
-        if settings.NORMALIZE:
-            date_string = normalize_unicode(date_string)
-        self.detected_languages = list(self.language_detector.iterate_applicable_languages(
-                                       date_string, self.language_generator,
-                                       self.previous_languages, settings))
-
-    def then_detected_languages_exactly_are(self, expected_languages):
-        shortnames = list(map(attrgetter('shortname'), self.detected_languages))
-        self.assertEqual(expected_languages, shortnames)
 
 
 class TestDateParser(BaseTestCase):

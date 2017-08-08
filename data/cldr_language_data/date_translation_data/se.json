@@ -174,66 +174,66 @@
             "now"
         ],
         "in \\1 year": [
-            "(\\d+) jahki maŋŋilit",
-            "(\\d+) jahkki maŋŋilit"
+            "{0} jahki maŋŋilit",
+            "{0} jahkki maŋŋilit"
         ],
         "\\1 year ago": [
-            "(\\d+) jahki árat",
-            "(\\d+) jahkki árat"
+            "{0} jahki árat",
+            "{0} jahkki árat"
         ],
         "in \\1 month": [
-            "(\\d+) mánotbadji maŋŋilit"
+            "{0} mánotbadji maŋŋilit"
         ],
         "\\1 month ago": [
-            "(\\d+) mánotbadji árat"
+            "{0} mánotbadji árat"
         ],
         "in \\1 week": [
-            "(\\d+) vahku maŋŋilit",
-            "(\\d+) vahkku maŋŋilit"
+            "{0} vahku maŋŋilit",
+            "{0} vahkku maŋŋilit"
         ],
         "\\1 week ago": [
-            "(\\d+) vahku árat",
-            "(\\d+) vahkku árat"
+            "{0} vahku árat",
+            "{0} vahkku árat"
         ],
         "in \\1 day": [
-            "(\\d+) jándor maŋŋilit",
-            "(\\d+) jándora maŋŋilit"
+            "{0} jándor maŋŋilit",
+            "{0} jándora maŋŋilit"
         ],
         "\\1 day ago": [
-            "(\\d+) jándor árat",
-            "(\\d+) jándora árat"
+            "{0} jándor árat",
+            "{0} jándora árat"
         ],
         "in \\1 hour": [
-            "(\\d+) diibmu maŋŋilit",
-            "(\\d+) diibmur maŋŋilit"
+            "{0} diibmu maŋŋilit",
+            "{0} diibmur maŋŋilit"
         ],
         "\\1 hour ago": [
-            "(\\d+) diibmu árat",
-            "(\\d+) diibmur árat"
+            "{0} diibmu árat",
+            "{0} diibmur árat"
         ],
         "in \\1 minute": [
-            "(\\d+) minuhta maŋŋilit",
-            "(\\d+) minuhtta maŋŋilit"
+            "{0} minuhta maŋŋilit",
+            "{0} minuhtta maŋŋilit"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuhta árat",
-            "(\\d+) minuhtta árat"
+            "{0} minuhta árat",
+            "{0} minuhtta árat"
         ],
         "in \\1 second": [
-            "(\\d+) sekunda maŋŋilit",
-            "(\\d+) sekundda maŋŋilit"
+            "{0} sekunda maŋŋilit",
+            "{0} sekundda maŋŋilit"
         ],
         "\\1 second ago": [
-            "(\\d+) sekunda árat",
-            "(\\d+) sekundda árat"
+            "{0} sekunda árat",
+            "{0} sekundda árat"
         ]
     },
     "locale_specific": {
         "se-FI": {
             "name": "se-FI",
             "monday": [
-                "vuossárgga",
-                "m"
+                "m",
+                "vuossárgga"
             ],
             "tuesday": [
                 "maŋŋebárgga",
@@ -252,8 +252,8 @@
                 "lávvardaga"
             ],
             "year": [
-                "j",
-                "jahki"
+                "jahki",
+                "j"
             ],
             "week": [
                 "vahkku"
@@ -269,10 +269,10 @@
                     "boahtte jagi"
                 ],
                 "in \\1 year": [
-                    "(\\d+) jagi siste"
+                    "{0} jagi siste"
                 ],
                 "\\1 year ago": [
-                    "(\\d+) jagi árat"
+                    "{0} jagi árat"
                 ]
             }
         },

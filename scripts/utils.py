@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from collections import OrderedDict
 
 
@@ -31,7 +32,7 @@ def combine_dicts(primary_dict, supplementary_dict):
                 combined_dict[key] = supplementary_dict[key]
         else:
             combined_dict[key] = primary_dict[key]
-    remaining_keys = sorted(list(set(supplementary_dict.keys()) - set(primary_dict.keys())))
+    remaining_keys = [key for key in supplementary_dict.keys() if key not in primary_dict.keys()]
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict

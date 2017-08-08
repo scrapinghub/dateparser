@@ -192,78 +192,77 @@
             "teraz"
         ],
         "in \\1 year": [
-            "za (\\d+) rok",
-            "za (\\d+) roku"
+            "za {0} rok",
+            "za {0} roku"
         ],
         "\\1 year ago": [
-            "(\\d+) rok temu",
-            "(\\d+) roku temu"
+            "{0} rok temu",
+            "{0} roku temu"
         ],
         "in \\1 month": [
-            "za (\\d+) miesiąc",
-            "za (\\d+) miesiąca",
-            "za (\\d+) mies",
-            "+(\\d+) mies"
+            "za {0} miesiąc",
+            "za {0} miesiąca",
+            "za {0} mies"
         ],
         "\\1 month ago": [
-            "(\\d+) miesiąc temu",
-            "(\\d+) miesiąca temu",
-            "(\\d+) mies temu",
-            "–(\\d+) mies"
+            "{0} miesiąc temu",
+            "{0} miesiąca temu",
+            "{0} mies temu",
+            "–{0} mies"
         ],
         "in \\1 week": [
-            "za (\\d+) tydzień",
-            "za (\\d+) tygodnia",
-            "za (\\d+) tydz",
-            "za (\\d+) tyg"
+            "za {0} tydzień",
+            "za {0} tygodnia",
+            "za {0} tydz",
+            "za {0} tyg"
         ],
         "\\1 week ago": [
-            "(\\d+) tydzień temu",
-            "(\\d+) tygodnia temu",
-            "(\\d+) tydz temu",
-            "(\\d+) tyg temu"
+            "{0} tydzień temu",
+            "{0} tygodnia temu",
+            "{0} tydz temu",
+            "{0} tyg temu"
         ],
         "in \\1 day": [
-            "za (\\d+) dzień",
-            "za (\\d+) dnia"
+            "za {0} dzień",
+            "za {0} dnia"
         ],
         "\\1 day ago": [
-            "(\\d+) dzień temu",
-            "(\\d+) dnia temu"
+            "{0} dzień temu",
+            "{0} dnia temu"
         ],
         "in \\1 hour": [
-            "za (\\d+) godzinę",
-            "za (\\d+) godziny",
-            "za (\\d+) godz",
-            "za (\\d+) g"
+            "za {0} godzinę",
+            "za {0} godziny",
+            "za {0} godz",
+            "za {0} g"
         ],
         "\\1 hour ago": [
-            "(\\d+) godzinę temu",
-            "(\\d+) godziny temu",
-            "(\\d+) godz temu",
-            "(\\d+) g temu"
+            "{0} godzinę temu",
+            "{0} godziny temu",
+            "{0} godz temu",
+            "{0} g temu"
         ],
         "in \\1 minute": [
-            "za (\\d+) minutę",
-            "za (\\d+) minuty",
-            "za (\\d+) min"
+            "za {0} minutę",
+            "za {0} minuty",
+            "za {0} min"
         ],
         "\\1 minute ago": [
-            "(\\d+) minutę temu",
-            "(\\d+) minuty temu",
-            "(\\d+) min temu"
+            "{0} minutę temu",
+            "{0} minuty temu",
+            "{0} min temu"
         ],
         "in \\1 second": [
-            "za (\\d+) sekundę",
-            "za (\\d+) sekundy",
-            "za (\\d+) sek",
-            "za (\\d+) s"
+            "za {0} sekundę",
+            "za {0} sekundy",
+            "za {0} sek",
+            "za {0} s"
         ],
         "\\1 second ago": [
-            "(\\d+) sekundę temu",
-            "(\\d+) sekundy temu",
-            "(\\d+) sek temu",
-            "(\\d+) s temu"
+            "{0} sekundę temu",
+            "{0} sekundy temu",
+            "{0} sek temu",
+            "{0} s temu"
         ]
     },
     "locale_specific": {}

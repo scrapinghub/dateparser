@@ -220,67 +220,67 @@
             "nyt"
         ],
         "in \\1 year": [
-            "(\\d+) vuoden päästä",
-            "(\\d+) v päästä"
+            "{0} vuoden päästä",
+            "{0} v päästä"
         ],
         "\\1 year ago": [
-            "(\\d+) vuosi sitten",
-            "(\\d+) vuotta sitten",
-            "(\\d+) v sitten"
+            "{0} vuosi sitten",
+            "{0} vuotta sitten",
+            "{0} v sitten"
         ],
         "in \\1 month": [
-            "(\\d+) kuukauden päästä",
-            "(\\d+) kk päästä"
+            "{0} kuukauden päästä",
+            "{0} kk päästä"
         ],
         "\\1 month ago": [
-            "(\\d+) kuukausi sitten",
-            "(\\d+) kuukautta sitten",
-            "(\\d+) kk sitten"
+            "{0} kuukausi sitten",
+            "{0} kuukautta sitten",
+            "{0} kk sitten"
         ],
         "in \\1 week": [
-            "(\\d+) viikon päästä",
-            "(\\d+) vk päästä"
+            "{0} viikon päästä",
+            "{0} vk päästä"
         ],
         "\\1 week ago": [
-            "(\\d+) viikko sitten",
-            "(\\d+) viikkoa sitten",
-            "(\\d+) vk sitten"
+            "{0} viikko sitten",
+            "{0} viikkoa sitten",
+            "{0} vk sitten"
         ],
         "in \\1 day": [
-            "(\\d+) päivän päästä",
-            "(\\d+) pv päästä"
+            "{0} päivän päästä",
+            "{0} pv päästä"
         ],
         "\\1 day ago": [
-            "(\\d+) päivä sitten",
-            "(\\d+) päivää sitten",
-            "(\\d+) pv sitten"
+            "{0} päivä sitten",
+            "{0} päivää sitten",
+            "{0} pv sitten"
         ],
         "in \\1 hour": [
-            "(\\d+) tunnin päästä",
-            "(\\d+) t päästä"
+            "{0} tunnin päästä",
+            "{0} t päästä"
         ],
         "\\1 hour ago": [
-            "(\\d+) tunti sitten",
-            "(\\d+) tuntia sitten",
-            "(\\d+) t sitten"
+            "{0} tunti sitten",
+            "{0} tuntia sitten",
+            "{0} t sitten"
         ],
         "in \\1 minute": [
-            "(\\d+) minuutin päästä",
-            "(\\d+) min päästä"
+            "{0} minuutin päästä",
+            "{0} min päästä"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuutti sitten",
-            "(\\d+) minuuttia sitten",
-            "(\\d+) min sitten"
+            "{0} minuutti sitten",
+            "{0} minuuttia sitten",
+            "{0} min sitten"
         ],
         "in \\1 second": [
-            "(\\d+) sekunnin päästä",
-            "(\\d+) s päästä"
+            "{0} sekunnin päästä",
+            "{0} s päästä"
         ],
         "\\1 second ago": [
-            "(\\d+) sekunti sitten",
-            "(\\d+) sekuntia sitten",
-            "(\\d+) s sitten"
+            "{0} sekunti sitten",
+            "{0} sekuntia sitten",
+            "{0} s sitten"
         ]
     },
     "locale_specific": {}

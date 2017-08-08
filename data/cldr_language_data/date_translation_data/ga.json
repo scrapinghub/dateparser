@@ -182,79 +182,61 @@
             "anois"
         ],
         "in \\1 year": [
-            "i gceann (\\d+) bhliain",
-            "i gceann (\\d+) bliain",
-            "i gceann (\\d+) bl",
-            "+(\\d+) bhl",
-            "+(\\d+) bl"
+            "i gceann {0} bhliain",
+            "i gceann {0} bliain",
+            "i gceann {0} bl"
         ],
         "\\1 year ago": [
-            "(\\d+) bhliain ó shin",
-            "(\\d+) bliain ó shin",
-            "(\\d+) bhl ó shin",
-            "(\\d+) bl ó shin",
-            "-(\\d+) bhl",
-            "-(\\d+) bl"
+            "{0} bhliain ó shin",
+            "{0} bliain ó shin",
+            "{0} bhl ó shin",
+            "{0} bl ó shin"
         ],
         "in \\1 month": [
-            "i gceann (\\d+) mhí",
-            "i gceann (\\d+) mí",
-            "+(\\d+) mhí",
-            "+(\\d+) mí"
+            "i gceann {0} mhí",
+            "i gceann {0} mí"
         ],
         "\\1 month ago": [
-            "(\\d+) mhí ó shin",
-            "(\\d+) mí ó shin",
-            "-(\\d+) mhí",
-            "-(\\d+) mí"
+            "{0} mhí ó shin",
+            "{0} mí ó shin"
         ],
         "in \\1 week": [
-            "i gceann (\\d+) seachtain",
-            "i gceann (\\d+) scht",
-            "+(\\d+) scht"
+            "i gceann {0} seachtain",
+            "i gceann {0} scht"
         ],
         "\\1 week ago": [
-            "(\\d+) seachtain ó shin",
-            "(\\d+) scht ó shin",
-            "-(\\d+) scht"
+            "{0} seachtain ó shin",
+            "{0} scht ó shin"
         ],
         "in \\1 day": [
-            "i gceann (\\d+) lá",
-            "+(\\d+) lá"
+            "i gceann {0} lá"
         ],
         "\\1 day ago": [
-            "(\\d+) lá ó shin",
-            "-(\\d+) lá"
+            "{0} lá ó shin"
         ],
         "in \\1 hour": [
-            "i gceann (\\d+) uair an chloig",
-            "i gceann (\\d+) uair",
-            "+(\\d+) u"
+            "i gceann {0} uair an chloig",
+            "i gceann {0} uair"
         ],
         "\\1 hour ago": [
-            "(\\d+) uair an chloig ó shin",
-            "(\\d+) uair ó shin",
-            "-(\\d+) u"
+            "{0} uair an chloig ó shin",
+            "{0} uair ó shin"
         ],
         "in \\1 minute": [
-            "i gceann (\\d+) nóiméad",
-            "i gceann (\\d+) nóim",
-            "+(\\d+) n"
+            "i gceann {0} nóiméad",
+            "i gceann {0} nóim"
         ],
         "\\1 minute ago": [
-            "(\\d+) nóiméad ó shin",
-            "(\\d+) nóim ó shin",
-            "-(\\d+) n"
+            "{0} nóiméad ó shin",
+            "{0} nóim ó shin"
         ],
         "in \\1 second": [
-            "i gceann (\\d+) soicind",
-            "i gceann (\\d+) soic",
-            "+(\\d+) s"
+            "i gceann {0} soicind",
+            "i gceann {0} soic"
         ],
         "\\1 second ago": [
-            "(\\d+) soicind ó shin",
-            "(\\d+) soic ó shin",
-            "-(\\d+) s"
+            "{0} soicind ó shin",
+            "{0} soic ó shin"
         ]
     },
     "locale_specific": {}

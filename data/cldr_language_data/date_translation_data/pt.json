@@ -176,91 +176,71 @@
             "agora"
         ],
         "in \\1 year": [
-            "em (\\d+) ano",
-            "em (\\d+) anos",
-            "+(\\d+) ano",
-            "+(\\d+) anos"
+            "em {0} ano",
+            "em {0} anos"
         ],
         "\\1 year ago": [
-            "há (\\d+) ano",
-            "há (\\d+) anos",
-            "-(\\d+) ano",
-            "-(\\d+) anos"
+            "há {0} ano",
+            "há {0} anos"
         ],
         "in \\1 month": [
-            "em (\\d+) mês",
-            "em (\\d+) meses",
-            "+(\\d+) mês",
-            "+(\\d+) meses"
+            "em {0} mês",
+            "em {0} meses"
         ],
         "\\1 month ago": [
-            "há (\\d+) mês",
-            "há (\\d+) meses",
-            "-(\\d+) mês",
-            "-(\\d+) meses"
+            "há {0} mês",
+            "há {0} meses"
         ],
         "in \\1 week": [
-            "em (\\d+) semana",
-            "em (\\d+) semanas",
-            "em (\\d+) sem",
-            "+(\\d+) sem"
+            "em {0} semana",
+            "em {0} semanas",
+            "em {0} sem"
         ],
         "\\1 week ago": [
-            "há (\\d+) semana",
-            "há (\\d+) semanas",
-            "há (\\d+) sem",
-            "-(\\d+) sem"
+            "há {0} semana",
+            "há {0} semanas",
+            "há {0} sem"
         ],
         "in \\1 day": [
-            "em (\\d+) dia",
-            "em (\\d+) dias",
-            "+(\\d+) dia",
-            "+(\\d+) dias"
+            "em {0} dia",
+            "em {0} dias"
         ],
         "\\1 day ago": [
-            "há (\\d+) dia",
-            "há (\\d+) dias",
-            "-(\\d+) dia",
-            "-(\\d+) dias"
+            "há {0} dia",
+            "há {0} dias"
         ],
         "in \\1 hour": [
-            "em (\\d+) hora",
-            "em (\\d+) horas",
-            "em (\\d+) h",
-            "+(\\d+) h"
+            "em {0} hora",
+            "em {0} horas",
+            "em {0} h"
         ],
         "\\1 hour ago": [
-            "há (\\d+) hora",
-            "há (\\d+) horas",
-            "há (\\d+) h",
-            "-(\\d+) h"
+            "há {0} hora",
+            "há {0} horas",
+            "há {0} h"
         ],
         "in \\1 minute": [
-            "em (\\d+) minuto",
-            "em (\\d+) minutos",
-            "em (\\d+) min",
-            "em (\\d+) mins",
-            "+(\\d+) m"
+            "em {0} minuto",
+            "em {0} minutos",
+            "em {0} min",
+            "em {0} mins"
         ],
         "\\1 minute ago": [
-            "há (\\d+) minuto",
-            "há (\\d+) minutos",
-            "há (\\d+) min",
-            "há (\\d+) mins",
-            "-(\\d+) m"
+            "há {0} minuto",
+            "há {0} minutos",
+            "há {0} min",
+            "há {0} mins"
         ],
         "in \\1 second": [
-            "em (\\d+) segundo",
-            "em (\\d+) segundos",
-            "em (\\d+) seg",
-            "em (\\d+) segs",
-            "+(\\d+) s"
+            "em {0} segundo",
+            "em {0} segundos",
+            "em {0} seg",
+            "em {0} segs"
         ],
         "\\1 second ago": [
-            "há (\\d+) segundo",
-            "há (\\d+) segundos",
-            "há (\\d+) seg",
-            "-(\\d+) s"
+            "há {0} segundo",
+            "há {0} segundos",
+            "há {0} seg"
         ]
     },
     "locale_specific": {
@@ -286,48 +266,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         },
@@ -353,48 +329,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         },
@@ -420,48 +392,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         },
@@ -487,48 +455,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         },
@@ -554,48 +518,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         },
@@ -621,48 +581,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         },
@@ -688,48 +644,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         },
@@ -755,48 +707,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         },
@@ -822,48 +770,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         },
@@ -889,48 +833,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         },
@@ -956,48 +896,44 @@
                 "damanhã"
             ],
             "pm": [
-                "da tarde",
-                "tarde"
+                "tarde",
+                "da tarde"
             ],
             "relative-type": {
                 "in \\1 year": [
-                    "dentro de (\\d+) anos",
-                    "dentro de (\\d+) ano"
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
                 ],
                 "in \\1 month": [
-                    "dentro de (\\d+) mês",
-                    "dentro de (\\d+) meses"
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
                 ],
                 "in \\1 week": [
-                    "dentro de (\\d+) sem",
-                    "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
                 ],
                 "in \\1 day": [
-                    "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
                 ],
                 "in \\1 hour": [
-                    "dentro de (\\d+) horas",
-                    "dentro de (\\d+) hora",
-                    "dentro de (\\d+) h"
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
                 ],
                 "in \\1 minute": [
-                    "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos",
-                    "+(\\d+) min",
-                    "dentro de (\\d+) min"
-                ],
-                "\\1 minute ago": [
-                    "-(\\d+) min"
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
                 ],
                 "in \\1 second": [
-                    "dentro de (\\d+) segundo",
-                    "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há {0} s"
                 ]
             }
         }

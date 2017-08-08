@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 import requests
 import re
 import json
 import os
 import time
 import base64
+from collections import OrderedDict
 
 OAuth_Access_Token = 'OAuth_Access_Token'       # Add OAuth_Access_Token here
 headers = {'Authorization': 'token %s' % OAuth_Access_Token}
@@ -20,8 +22,8 @@ def _get_language_locale_dict():
         except requests.exceptions.ConnectionError:
             print("Waiting...")
             time.sleep(5)
-            continue
-        break
+        else:
+            break
 
     if dates_full_response.status_code != 200:
         raise RuntimeError("Bad Response " + str(dates_full_response.status_code))
@@ -50,8 +52,8 @@ def _get_language_order():
         except requests.exceptions.ConnectionError:
             print("Waiting...")
             time.sleep(5)
-            continue
-        break
+        else:
+            break
 
     if territory_response.status_code != 200:
         raise RuntimeError("Bad Response " + str(territory_response.status_code))
@@ -100,14 +102,26 @@ language_order = _get_language_order()
 
 
 def main():
-    parent_directory = "../data/translation_data/"
+    encoding_comment = "# -*- coding: utf-8 -*-\n"
+    parent_directory = "../dateparser/data/"
+    filename = parent_directory + 'languages_info.py'
     if not os.path.isdir(parent_directory):
         os.mkdir(parent_directory)
     language_order_string = 'language_order = ' + json.dumps(
             language_order, separators=(',', ': '), indent=4)
-    filename = parent_directory + 'language_order.py'
+
+    complete_language_locale_dict = OrderedDict()
+    for key in language_order:
+        if key in language_locale_dict.keys():
+            complete_language_locale_dict[key] = language_locale_dict[key]
+        else:
+            complete_language_locale_dict[key] = []
+
+    language_locale_dict_string = 'language_locale_dict = ' + json.dumps(
+            complete_language_locale_dict, separators=(',', ': '), indent=4)
+    languages_info_string = language_order_string + '\n\n' + language_locale_dict_string
     with open(filename, 'w') as f:
-        f.write(language_order_string)
+        f.write(encoding_comment + languages_info_string)
 
 
 if __name__ == '__main__':

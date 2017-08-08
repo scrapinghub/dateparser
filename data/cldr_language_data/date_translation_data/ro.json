@@ -174,93 +174,73 @@
             "acum"
         ],
         "in \\1 year": [
-            "peste (\\d+) an",
-            "peste (\\d+) de ani",
-            "peste (\\d+) ani",
-            "+(\\d+) an",
-            "+(\\d+) ani"
+            "peste {0} an",
+            "peste {0} de ani",
+            "peste {0} ani"
         ],
         "\\1 year ago": [
-            "acum (\\d+) an",
-            "acum (\\d+) de ani",
-            "-(\\d+) an",
-            "-(\\d+) ani"
+            "acum {0} an",
+            "acum {0} de ani"
         ],
         "in \\1 month": [
-            "peste (\\d+) lună",
-            "peste (\\d+) de luni",
-            "peste (\\d+) luni",
-            "+(\\d+) lună",
-            "+(\\d+) luni"
+            "peste {0} lună",
+            "peste {0} de luni",
+            "peste {0} luni"
         ],
         "\\1 month ago": [
-            "acum (\\d+) lună",
-            "acum (\\d+) de luni",
-            "acum (\\d+) luni",
-            "-(\\d+) lună",
-            "-(\\d+) luni"
+            "acum {0} lună",
+            "acum {0} de luni",
+            "acum {0} luni"
         ],
         "in \\1 week": [
-            "peste (\\d+) săptămână",
-            "peste (\\d+) de săptămâni",
-            "peste (\\d+) săpt",
-            "+(\\d+) săpt"
+            "peste {0} săptămână",
+            "peste {0} de săptămâni",
+            "peste {0} săpt"
         ],
         "\\1 week ago": [
-            "acum (\\d+) săptămână",
-            "acum (\\d+) de săptămâni",
-            "acum (\\d+) săpt",
-            "-(\\d+) săpt"
+            "acum {0} săptămână",
+            "acum {0} de săptămâni",
+            "acum {0} săpt"
         ],
         "in \\1 day": [
-            "peste (\\d+) zi",
-            "peste (\\d+) de zile",
-            "peste (\\d+) zile",
-            "+(\\d+) zi",
-            "+(\\d+) zile"
+            "peste {0} zi",
+            "peste {0} de zile",
+            "peste {0} zile"
         ],
         "\\1 day ago": [
-            "acum (\\d+) zi",
-            "acum (\\d+) de zile",
-            "acum (\\d+) zile",
-            "-(\\d+) zi",
-            "-(\\d+) zile"
+            "acum {0} zi",
+            "acum {0} de zile",
+            "acum {0} zile"
         ],
         "in \\1 hour": [
-            "peste (\\d+) oră",
-            "peste (\\d+) de ore",
-            "peste (\\d+) h",
-            "+(\\d+) h"
+            "peste {0} oră",
+            "peste {0} de ore",
+            "peste {0} h"
         ],
         "\\1 hour ago": [
-            "acum (\\d+) oră",
-            "acum (\\d+) de ore",
-            "acum (\\d+) h",
-            "-(\\d+) h"
+            "acum {0} oră",
+            "acum {0} de ore",
+            "acum {0} h"
         ],
         "in \\1 minute": [
-            "peste (\\d+) minut",
-            "peste (\\d+) de minute",
-            "peste (\\d+) min",
-            "+(\\d+) m"
+            "peste {0} minut",
+            "peste {0} de minute",
+            "peste {0} min"
         ],
         "\\1 minute ago": [
-            "acum (\\d+) minut",
-            "acum (\\d+) de minute",
-            "acum (\\d+) min",
-            "-(\\d+) m"
+            "acum {0} minut",
+            "acum {0} de minute",
+            "acum {0} min"
         ],
         "in \\1 second": [
-            "peste (\\d+) secundă",
-            "peste (\\d+) de secunde",
-            "peste (\\d+) sec",
-            "+(\\d+) s"
+            "peste {0} secundă",
+            "peste {0} de secunde",
+            "peste {0} sec"
         ],
         "\\1 second ago": [
-            "acum (\\d+) secundă",
-            "acum (\\d+) de secunde",
-            "acum (\\d+) sec",
-            "-(\\d+) s"
+            "acum {0} secundă",
+            "acum {0} de secunde",
+            "acum {0} sec"
         ]
     },
     "locale_specific": {

@@ -173,46 +173,46 @@
             "hozir"
         ],
         "in \\1 year": [
-            "(\\d+) yildan keyin"
+            "{0} yildan keyin"
         ],
         "\\1 year ago": [
-            "(\\d+) yil oldin"
+            "{0} yil oldin"
         ],
         "in \\1 month": [
-            "(\\d+) oydan keyin"
+            "{0} oydan keyin"
         ],
         "\\1 month ago": [
-            "(\\d+) oy oldin"
+            "{0} oy oldin"
         ],
         "in \\1 week": [
-            "(\\d+) haftadan keyin"
+            "{0} haftadan keyin"
         ],
         "\\1 week ago": [
-            "(\\d+) hafta oldin"
+            "{0} hafta oldin"
         ],
         "in \\1 day": [
-            "(\\d+) kundan keyin"
+            "{0} kundan keyin"
         ],
         "\\1 day ago": [
-            "(\\d+) kun oldin"
+            "{0} kun oldin"
         ],
         "in \\1 hour": [
-            "(\\d+) soatdan keyin"
+            "{0} soatdan keyin"
         ],
         "\\1 hour ago": [
-            "(\\d+) soat oldin"
+            "{0} soat oldin"
         ],
         "in \\1 minute": [
-            "(\\d+) daqiqadan keyin"
+            "{0} daqiqadan keyin"
         ],
         "\\1 minute ago": [
-            "(\\d+) daqiqa oldin"
+            "{0} daqiqa oldin"
         ],
         "in \\1 second": [
-            "(\\d+) soniyadan keyin"
+            "{0} soniyadan keyin"
         ],
         "\\1 second ago": [
-            "(\\d+) soniya oldin"
+            "{0} soniya oldin"
         ]
     },
     "locale_specific": {}

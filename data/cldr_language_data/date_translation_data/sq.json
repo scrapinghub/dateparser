@@ -173,60 +173,60 @@
             "tani"
         ],
         "in \\1 year": [
-            "pas (\\d+) viti",
-            "pas (\\d+) vjetësh"
+            "pas {0} viti",
+            "pas {0} vjetësh"
         ],
         "\\1 year ago": [
-            "(\\d+) vit më parë",
-            "(\\d+) vjet më parë"
+            "{0} vit më parë",
+            "{0} vjet më parë"
         ],
         "in \\1 month": [
-            "pas (\\d+) muaji",
-            "pas (\\d+) muajsh"
+            "pas {0} muaji",
+            "pas {0} muajsh"
         ],
         "\\1 month ago": [
-            "(\\d+) muaj më parë"
+            "{0} muaj më parë"
         ],
         "in \\1 week": [
-            "pas (\\d+) jave",
-            "pas (\\d+) javësh"
+            "pas {0} jave",
+            "pas {0} javësh"
         ],
         "\\1 week ago": [
-            "(\\d+) javë më parë"
+            "{0} javë më parë"
         ],
         "in \\1 day": [
-            "pas (\\d+) dite",
-            "pas (\\d+) ditësh"
+            "pas {0} dite",
+            "pas {0} ditësh"
         ],
         "\\1 day ago": [
-            "(\\d+) ditë më parë"
+            "{0} ditë më parë"
         ],
         "in \\1 hour": [
-            "pas (\\d+) ore",
-            "pas (\\d+) orësh"
+            "pas {0} ore",
+            "pas {0} orësh"
         ],
         "\\1 hour ago": [
-            "(\\d+) orë më parë"
+            "{0} orë më parë"
         ],
         "in \\1 minute": [
-            "pas (\\d+) minute",
-            "pas (\\d+) minutash",
-            "pas (\\d+) min"
+            "pas {0} minute",
+            "pas {0} minutash",
+            "pas {0} min"
         ],
         "\\1 minute ago": [
-            "(\\d+) minutë më parë",
-            "(\\d+) minuta më parë",
-            "(\\d+) min më parë"
+            "{0} minutë më parë",
+            "{0} minuta më parë",
+            "{0} min më parë"
         ],
         "in \\1 second": [
-            "pas (\\d+) sekonde",
-            "pas (\\d+) sekondash",
-            "pas (\\d+) sek"
+            "pas {0} sekonde",
+            "pas {0} sekondash",
+            "pas {0} sek"
         ],
         "\\1 second ago": [
-            "(\\d+) sekondë më parë",
-            "(\\d+) sekonda më parë",
-            "(\\d+) sek më parë"
+            "{0} sekondë më parë",
+            "{0} sekonda më parë",
+            "{0} sek më parë"
         ]
     },
     "locale_specific": {

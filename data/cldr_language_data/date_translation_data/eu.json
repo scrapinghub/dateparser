@@ -176,46 +176,46 @@
             "orain"
         ],
         "in \\1 year": [
-            "(\\d+) urte barru"
+            "{0} urte barru"
         ],
         "\\1 year ago": [
-            "duela (\\d+) urte"
+            "duela {0} urte"
         ],
         "in \\1 month": [
-            "(\\d+) hilabete barru"
+            "{0} hilabete barru"
         ],
         "\\1 month ago": [
-            "duela (\\d+) hilabete"
+            "duela {0} hilabete"
         ],
         "in \\1 week": [
-            "(\\d+) aste barru"
+            "{0} aste barru"
         ],
         "\\1 week ago": [
-            "duela (\\d+) aste"
+            "duela {0} aste"
         ],
         "in \\1 day": [
-            "(\\d+) egun barru"
+            "{0} egun barru"
         ],
         "\\1 day ago": [
-            "duela (\\d+) egun"
+            "duela {0} egun"
         ],
         "in \\1 hour": [
-            "(\\d+) ordu barru"
+            "{0} ordu barru"
         ],
         "\\1 hour ago": [
-            "duela (\\d+) ordu"
+            "duela {0} ordu"
         ],
         "in \\1 minute": [
-            "(\\d+) minutu barru"
+            "{0} minutu barru"
         ],
         "\\1 minute ago": [
-            "duela (\\d+) minutu"
+            "duela {0} minutu"
         ],
         "in \\1 second": [
-            "(\\d+) segundo barru"
+            "{0} segundo barru"
         ],
         "\\1 second ago": [
-            "duela (\\d+) segundo"
+            "duela {0} segundo"
         ]
     },
     "locale_specific": {}

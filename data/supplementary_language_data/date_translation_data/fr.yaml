@@ -53,12 +53,12 @@ relative-type:
         - avant-hier
 
 simplifications:
-    d'une: 1
-    un: 1
-    une: 1
-    (\d+)\sh\s(\d+)\smin: \1h\2m
-    (\d+)h(\d+)m?: \1:\2
-    moins\s(?:de\s)?(\d+)(\s?(?:minute|seconde|heure)): \1 \2
-    moins\s(?:de\s)?(\d+)\s?s: \1 seconde
-    moins\s(?:de\s)?(\d+)\s?m: \1 minute
-    moins\s(?:de\s)?(\d+)\s?h: \1 heure
+    - d'une: 1
+    - une: 1
+    - un: 1
+    - (\d+)\s+h\s+(\d+)\s+min: \1h\2m
+    - (\d+)h(\d+)m?: \1:\2
+    - moins\s(?:de\s)?(\d+)(\s?(?:minute|seconde|heure)): \1 \2
+    - moins\s(?:de\s)?(\d+)\s?s: \1 seconde
+    - moins\s(?:de\s)?(\d+)\s?m: \1 minute
+    - moins\s(?:de\s)?(\d+)\s?h: \1 heure

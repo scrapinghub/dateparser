@@ -160,70 +160,58 @@
             "brem"
         ],
         "in \\1 year": [
-            "a-benn (\\d+) bloaz",
-            "a-benn (\\d+) vloaz",
-            "a-benn (\\d+) bl",
-            "+(\\d+) bl"
+            "a-benn {0} bloaz",
+            "a-benn {0} vloaz",
+            "a-benn {0} bl"
         ],
         "\\1 year ago": [
-            "(\\d+) bloaz zo",
-            "(\\d+) vloaz zo",
-            "(\\d+) bl zo",
-            "-(\\d+) bl"
+            "{0} bloaz zo",
+            "{0} vloaz zo",
+            "{0} bl zo"
         ],
         "in \\1 month": [
-            "a-benn (\\d+) miz",
-            "+(\\d+) miz"
+            "a-benn {0} miz"
         ],
         "\\1 month ago": [
-            "(\\d+) miz zo",
-            "-(\\d+) miz"
+            "{0} miz zo"
         ],
         "in \\1 week": [
-            "a-benn (\\d+) sizhun"
+            "a-benn {0} sizhun"
         ],
         "\\1 week ago": [
-            "(\\d+) sizhun zo"
+            "{0} sizhun zo"
         ],
         "in \\1 day": [
-            "a-benn (\\d+) deiz",
-            "a-benn (\\d+) d",
-            "+(\\d+) d"
+            "a-benn {0} deiz",
+            "a-benn {0} d"
         ],
         "\\1 day ago": [
-            "(\\d+) deiz zo",
-            "(\\d+) d zo",
-            "-(\\d+) d"
+            "{0} deiz zo",
+            "{0} d zo"
         ],
         "in \\1 hour": [
-            "a-benn (\\d+) eur",
-            "a-benn (\\d+) e",
-            "+(\\d+) h"
+            "a-benn {0} eur",
+            "a-benn {0} e"
         ],
         "\\1 hour ago": [
-            "(\\d+) eur zo",
-            "(\\d+) e zo",
-            "-(\\d+) h"
+            "{0} eur zo",
+            "{0} e zo"
         ],
         "in \\1 minute": [
-            "a-benn (\\d+) munut",
-            "a-benn (\\d+) min",
-            "+(\\d+) min"
+            "a-benn {0} munut",
+            "a-benn {0} min"
         ],
         "\\1 minute ago": [
-            "(\\d+) munut zo",
-            "(\\d+) min zo",
-            "-(\\d+) min"
+            "{0} munut zo",
+            "{0} min zo"
         ],
         "in \\1 second": [
-            "a-benn (\\d+) eilenn",
-            "a-benn (\\d+) s",
-            "+(\\d+) s"
+            "a-benn {0} eilenn",
+            "a-benn {0} s"
         ],
         "\\1 second ago": [
-            "(\\d+) eilenn zo",
-            "(\\d+) s zo",
-            "-(\\d+) s"
+            "{0} eilenn zo",
+            "{0} s zo"
         ]
     },
     "locale_specific": {}
