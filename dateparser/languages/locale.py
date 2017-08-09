@@ -11,7 +11,7 @@ from dateutil import parser
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import normalize_unicode, combine_dicts
 
-from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS, KNOWN_WORD_TOKENS
+from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
 
 
 class Locale(object):
@@ -35,41 +35,37 @@ class Locale(object):
         if strip_timezone:
             date_string, _ = pop_tz_offset_from_string(date_string, as_offset=False)
 
-        translated_date_string = self.translate(date_string, settings=settings)
-        return self._is_valid_translated_date(translated_date_string)
-
-    def translate(self, date_string, keep_formatting=False, settings=None):
-        date_string = self._translate_numerals(date_string, keep_formatting, settings=settings)
+        date_string = self._translate_numerals(date_string)
         date_string = self._simplify(date_string, settings=settings)
-        translated, not_translated = self._relative_translate(date_string, keep_formatting,
-                                                              settings=settings)
+        date_tokens = self._get_date_tokens(date_string, settings=settings)
 
         dictionary = self._get_dictionary(settings)
-        for i, token in not_translated.items():
-            splitted_words = self._split(token, keep_formatting, settings=settings)
-            for j, word in enumerate(splitted_words):
-                word = word.lower()
-                if word in dictionary:
-                    splitted_words[j] = dictionary[word] or ''
-                if "in" in splitted_words:
-                    splitted_words = self._clear_future_words(splitted_words)
-            translated[i] = splitted_words
-        translated_values = [value for key, value in sorted(translated.items())]
-        words = list(chain(*translated_values))
-        return self._join(
-            list(filter(bool, words)), separator="" if keep_formatting else " ", settings=settings)
+        return dictionary.are_tokens_valid(date_tokens)
 
-    def _is_valid_translated_date(self, date_string):
-        tokens = filter(bool, re.split(r'[+:.-/ ]', date_string))
-        for token in tokens:
-            if (token.isdigit() or token in KNOWN_WORD_TOKENS):
-                continue
+    def translate(self, date_string, keep_formatting=False, settings=None):
+        date_string = self._translate_numerals(date_string)
+        date_string = self._simplify(date_string, settings=settings)
+        date_string_tokens = self._get_date_tokens(date_string, keep_formatting,
+                                                   settings=settings)
+
+        dictionary = self._get_dictionary(settings)
+        relative_translations = self._get_relative_translations(settings=settings)
+
+        for i, word in enumerate(date_string_tokens):
+            word = word.lower()
+            for pattern, replacement in relative_translations.items():
+                if pattern.match(word):
+                    date_string_tokens[i] = pattern.sub(replacement, word)
             else:
-                return False
-        else:
-            return True
+                if word in dictionary:
+                    date_string_tokens[i] = dictionary[word] or ''
+        if "in" in date_string_tokens:
+            date_string_tokens = self._clear_future_words(date_string_tokens)
 
-    def _translate_numerals(self, date_string, keep_formatting=False, settings=None):
+        return self._join(list(filter(bool, date_string_tokens)),
+                          separator="" if keep_formatting else " ", settings=settings)
+
+    def _translate_numerals(self, date_string):
         date_string = [date_string]
         date_string_tokens = list(self._split_tokens_with_regex(date_string, r"(\d+)"))
         for i, token in enumerate(date_string_tokens):
@@ -79,24 +75,22 @@ class Locale(object):
                     date_string_tokens[i] = date_string_tokens[i].decode('utf-8')
         return u''.join(date_string_tokens)
 
-    def _relative_translate(self, date_string, keep_formatting=False, settings=None):
+    def _get_date_tokens(self, date_string, keep_formatting=False, settings=None):
         relative_translations = self._get_relative_translations(settings=settings)
         tokens = [date_string]
         tokens = list(self._split_tokens_by_known_relative_strings(tokens, keep_formatting,
                                                                    settings=settings))
 
-        translated = {}
-        not_translated = {}
         for i, token in enumerate(tokens):
             token = token.lower()
-            for pattern, replacement in relative_translations.items():
+            for pattern, _ in relative_translations.items():
                 if pattern.match(token):
-                    translated[i] = [pattern.sub(replacement, token)]
+                    tokens[i] = [token]
                     break
             else:
-                not_translated[i] = [token]
+                tokens[i] = self._split([token], keep_formatting, settings=settings)
 
-        return translated, not_translated
+        return filter(bool, chain(*tokens))
 
     def _get_relative_translations(self, settings=None):
         if settings.NORMALIZE:
@@ -114,9 +108,9 @@ class Locale(object):
         relative_type_dictionary = OrderedDict()
         for key, value in relative_type_translations.items():
             if normalize:
-                value = [re.compile(normalize_unicode(pattern)) for pattern in value]
+                value = [re.compile(normalize_unicode(pattern + '$')) for pattern in value]
             else:
-                value = [re.compile(pattern) for pattern in value]
+                value = [re.compile(pattern + '$') for pattern in value]
             relative_type_dictionary.update(zip_longest(value, [], fillvalue=key))
         return relative_type_dictionary
 

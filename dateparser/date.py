@@ -390,7 +390,7 @@ class DateDataParser(object):
 
         date_string = sanitize_date(date_string)
 
-        for locale in self._get_locale_generator():
+        for locale in self._get_applicable_locales(date_string):
             parsed_date = _DateLocaleParser.parse(
                 locale, date_string, date_formats, settings=self._settings)
             if parsed_date:
@@ -406,15 +406,23 @@ class DateDataParser(object):
         date_data = self.get_date_data(*args, **kwargs)
         return date_tuple(**date_data)
 
-    def _get_locale_generator(self):
+    def _get_applicable_locales(self, date_string):
         if self.try_previous_locales:
             for locale in self.previous_locales:
-                yield locale
+                if self._is_applicable_locale(locale, date_string):
+                    yield locale
 
         for locale in self._get_locale_loader().get_locales(
-                    languages=self.languages, locales=self.locales, region=self.region,
-                    use_given_order=self.use_given_order):
-            yield locale
+                languages=self.languages, locales=self.locales, region=self.region,
+                use_given_order=self.use_given_order):
+            if self._is_applicable_locale(locale, date_string):
+                yield locale
+
+    def _is_applicable_locale(self, locale, date_string):
+        return (
+            locale.is_applicable(date_string, strip_timezone=False, settings=self._settings) or
+            locale.is_applicable(date_string, strip_timezone=True, settings=self._settings)
+            )
 
     @classmethod
     def _get_locale_loader(cls):

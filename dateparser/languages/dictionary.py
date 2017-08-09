@@ -30,6 +30,7 @@ class Dictionary(object):
     _sorted_words_cache = {}
     _split_relative_regex_cache = {}
     _sorted_relative_strings_cache = {}
+    _match_relative_regex_cache = {}
 
     def __init__(self, locale_info, settings=None):
         dictionary = {}
@@ -101,15 +102,19 @@ class Dictionary(object):
         if not string:
             return string
 
-        regex = self._get_split_relative_regex_cache()
-        match = regex.match(string)
-        if not match:
-            return [string]
+        split_relative_regex = self._get_split_relative_regex_cache()
+        return split_relative_regex.split(string)
 
-        unparsed, known, unknown = match.groups()
-        splitted = [unparsed, known]
-        splitted.extend(self.split_relative(unknown, keep_formatting))
-        return splitted
+    def are_tokens_valid(self, tokens):
+        match_relative_regex = self._get_match_relative_regex_cache()
+        for token in tokens:
+            if any([match_relative_regex.match(token),
+                    token in self._dictionary, token.isdigit()]):
+                continue
+            else:
+                return False
+        else:
+            return True
 
     def _should_capture(self, token, keep_formatting):
         return (
@@ -141,7 +146,7 @@ class Dictionary(object):
         if self._no_word_spacing:
             regex = r"^(.*?)({})(.*)$".format(known_words_group)
         else:
-            regex = r"^(.*?(?:\b|\W))({})((?:\b|\W).*)$".format(known_words_group)
+            regex = r"^(.*?(?:\b))({})((?:\b).*)$".format(known_words_group)
         self._split_regex_cache[self._settings.registry_key] = {
             self.info['name']: re.compile(regex, re.UNICODE | re.IGNORECASE)
         }
@@ -170,10 +175,26 @@ class Dictionary(object):
     def _construct_split_relative_regex(self):
         known_relative_strings_group = "|".join(self._get_sorted_relative_strings_from_cache())
         if self._no_word_spacing:
-            regex = "^(.*?)({})(.*)$".format(known_relative_strings_group)
+            regex = "({})".format(known_relative_strings_group)
         else:
-            regex = "^(.*?(?:\\b|\\W))({})((?:\\b|\\W).*)$".format(known_relative_strings_group)
+            regex = "(?<=\\b)({})(?=\\b)".format(known_relative_strings_group)
         self._split_relative_regex_cache[self._settings.registry_key] = {
+            self.info['name']: re.compile(regex, re.UNICODE | re.IGNORECASE)
+        }
+
+    def _get_match_relative_regex_cache(self):
+        if (
+            self._settings.registry_key not in self._match_relative_regex_cache or
+            self.info['name'] not in self._match_relative_regex_cache[self._settings.registry_key]
+           ):
+
+            self._construct_match_relative_regex()
+        return self._match_relative_regex_cache[self._settings.registry_key][self.info['name']]
+
+    def _construct_match_relative_regex(self):
+        known_relative_strings_group = "|".join(self._get_sorted_relative_strings_from_cache())
+        regex = "^({})$".format(known_relative_strings_group)
+        self._match_relative_regex_cache[self._settings.registry_key] = {
             self.info['name']: re.compile(regex, re.UNICODE | re.IGNORECASE)
         }
 
