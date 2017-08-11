@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 import regex as re
 from itertools import chain
-from six.moves import zip_longest
 from collections import OrderedDict
 
 from dateutil import parser
@@ -12,6 +11,8 @@ from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import normalize_unicode, combine_dicts
 
 from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
+
+DIGIT_GROUP_PATTERN = re.compile(r'\\d\+')
 
 
 class Locale(object):
@@ -104,15 +105,16 @@ class Locale(object):
             return self._relative_translations
 
     def _generate_relative_translations(self, normalize=False):
-        relative_type_translations = self.info.get('relative-type', {})
-        relative_type_dictionary = OrderedDict()
-        for key, value in relative_type_translations.items():
+        relative_translations = self.info.get('relative-type-regex', {})
+        relative_dictionary = OrderedDict()
+        for key, value in relative_translations.items():
             if normalize:
-                value = [re.compile(normalize_unicode(pattern + '$')) for pattern in value]
-            else:
-                value = [re.compile(pattern + '$') for pattern in value]
-            relative_type_dictionary.update(zip_longest(value, [], fillvalue=key))
-        return relative_type_dictionary
+                value = list(map(normalize_unicode, value))
+            pattern = '|'.join(sorted(value, key=len, reverse=True))
+            pattern = DIGIT_GROUP_PATTERN.sub(r'?P<n>\d+', pattern)
+            pattern = re.compile(r'^{}$'.format(pattern), re.UNICODE | re.IGNORECASE)
+            relative_dictionary[pattern] = key
+        return relative_dictionary
 
     def _simplify(self, date_string, settings=None):
         date_string = date_string.lower()

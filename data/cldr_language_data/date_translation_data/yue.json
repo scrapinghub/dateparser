@@ -144,7 +144,9 @@
         ],
         "0 second ago": [
             "宜家"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} 年後"
         ],

@@ -165,7 +165,9 @@
         ],
         "0 second ago": [
             "nüüd"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} aasta pärast",
             "{0} a pärast"

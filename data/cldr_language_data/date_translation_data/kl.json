@@ -156,7 +156,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "om {0} ukioq"
         ],

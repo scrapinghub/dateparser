@@ -24,7 +24,6 @@ all_languages = set(cldr_languages).union(set(supplementary_languages))
 cldr_numeral_languages = list(map(lambda x: x[:-5], os.listdir(cldr_numeral_directory)))
 
 RELATIVE_PATTERN = re.compile(r'\{0\}')
-SPACE_PATTERN = re.compile(r'\s+')
 
 
 def _modify_relative_data(relative_data):
@@ -32,18 +31,17 @@ def _modify_relative_data(relative_data):
     for key, value in relative_data.items():
         for i, string in enumerate(value):
             string = RELATIVE_PATTERN.sub(r'(\\d+)', string)
-            string = SPACE_PATTERN.sub(r'\\s+', string)
             value[i] = string
         modified_relative_data[key] = value
     return modified_relative_data
 
 
 def _modify_data(language_data):
-    relative_data = language_data.get("relative-type", {})
+    relative_data = language_data.get("relative-type-regex", {})
     relative_data = _modify_relative_data(relative_data)
     locale_specific_data = language_data.get("locale_specific", {})
     for _, info in locale_specific_data.items():
-        locale_relative_data = info.get("relative-type", {})
+        locale_relative_data = info.get("relative-type-regex", {})
         locale_relative_data = _modify_relative_data(locale_relative_data)
 
 

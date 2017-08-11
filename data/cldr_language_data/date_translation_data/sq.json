@@ -171,7 +171,9 @@
         ],
         "0 second ago": [
             "tani"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "pas {0} viti",
             "pas {0} vjetësh"

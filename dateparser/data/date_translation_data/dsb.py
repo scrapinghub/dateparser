@@ -158,22 +158,22 @@ info = {
             "znowa"
         ],
         "1 month ago": [
-            "slědny\\s+mjasec"
+            "slědny mjasec"
         ],
         "0 month ago": [
-            "ten\\s+mjasec"
+            "ten mjasec"
         ],
         "in 1 month": [
-            "pśiducy\\s+mjasec"
+            "pśiducy mjasec"
         ],
         "1 week ago": [
-            "slědny\\s+tyźeń"
+            "slědny tyźeń"
         ],
         "0 week ago": [
-            "ten\\s+tyźeń"
+            "ten tyźeń"
         ],
         "in 1 week": [
-            "pśiducy\\s+tyźeń"
+            "pśiducy tyźeń"
         ],
         "1 day ago": [
             "cora"
@@ -185,91 +185,93 @@ info = {
             "witśe"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "za\\s+(\\d+)\\s+lěto",
-            "za\\s+(\\d+)\\s+lět",
-            "za\\s+(\\d+)\\s+l"
+            "za (\\d+) lěto",
+            "za (\\d+) lět",
+            "za (\\d+) l"
         ],
         "\\1 year ago": [
-            "pśed\\s+(\\d+)\\s+lětom",
-            "pśed\\s+(\\d+)\\s+lětami",
-            "pśed\\s+(\\d+)\\s+l"
+            "pśed (\\d+) lětom",
+            "pśed (\\d+) lětami",
+            "pśed (\\d+) l"
         ],
         "in \\1 month": [
-            "za\\s+(\\d+)\\s+mjasec",
-            "za\\s+(\\d+)\\s+mjasecow",
-            "za\\s+(\\d+)\\s+mjas"
+            "za (\\d+) mjasec",
+            "za (\\d+) mjasecow",
+            "za (\\d+) mjas"
         ],
         "\\1 month ago": [
-            "pśed\\s+(\\d+)\\s+mjasecom",
-            "pśed\\s+(\\d+)\\s+mjasecami",
-            "pśed\\s+(\\d+)\\s+mjas"
+            "pśed (\\d+) mjasecom",
+            "pśed (\\d+) mjasecami",
+            "pśed (\\d+) mjas"
         ],
         "in \\1 week": [
-            "za\\s+(\\d+)\\s+tyźeń",
-            "za\\s+(\\d+)\\s+tyźenjow",
-            "za\\s+(\\d+)\\s+tyź"
+            "za (\\d+) tyźeń",
+            "za (\\d+) tyźenjow",
+            "za (\\d+) tyź"
         ],
         "\\1 week ago": [
-            "pśed\\s+(\\d+)\\s+tyźenjom",
-            "pśed\\s+(\\d+)\\s+tyźenjami",
-            "pśed\\s+(\\d+)\\s+tyź"
+            "pśed (\\d+) tyźenjom",
+            "pśed (\\d+) tyźenjami",
+            "pśed (\\d+) tyź"
         ],
         "in \\1 day": [
-            "za\\s+(\\d+)\\s+źeń",
-            "za\\s+(\\d+)\\s+dnjow",
-            "za\\s+(\\d+)\\s+dnj",
-            "za\\s+(\\d+)\\s+ź"
+            "za (\\d+) źeń",
+            "za (\\d+) dnjow",
+            "za (\\d+) dnj",
+            "za (\\d+) ź"
         ],
         "\\1 day ago": [
-            "pśed\\s+(\\d+)\\s+dnjom",
-            "pśed\\s+(\\d+)\\s+dnjami",
-            "pśed\\s+(\\d+)\\s+dnj",
-            "pśed\\s+(\\d+)\\s+d"
+            "pśed (\\d+) dnjom",
+            "pśed (\\d+) dnjami",
+            "pśed (\\d+) dnj",
+            "pśed (\\d+) d"
         ],
         "in \\1 hour": [
-            "za\\s+(\\d+)\\s+góźinu",
-            "za\\s+(\\d+)\\s+góźin",
-            "za\\s+(\\d+)\\s+góź",
-            "za\\s+(\\d+)\\s+g"
+            "za (\\d+) góźinu",
+            "za (\\d+) góźin",
+            "za (\\d+) góź",
+            "za (\\d+) g"
         ],
         "\\1 hour ago": [
-            "pśed\\s+(\\d+)\\s+góźinu",
-            "pśed\\s+(\\d+)\\s+góźinami",
-            "pśed\\s+(\\d+)\\s+góź",
-            "pśed\\s+(\\d+)\\s+g"
+            "pśed (\\d+) góźinu",
+            "pśed (\\d+) góźinami",
+            "pśed (\\d+) góź",
+            "pśed (\\d+) g"
         ],
         "in \\1 minute": [
-            "za\\s+(\\d+)\\s+minutu",
-            "za\\s+(\\d+)\\s+minutow",
-            "za\\s+(\\d+)\\s+min",
-            "za\\s+(\\d+)\\s+m"
+            "za (\\d+) minutu",
+            "za (\\d+) minutow",
+            "za (\\d+) min",
+            "za (\\d+) m"
         ],
         "\\1 minute ago": [
-            "pśed\\s+(\\d+)\\s+minutu",
-            "pśed\\s+(\\d+)\\s+minutami",
-            "pśed\\s+(\\d+)\\s+min",
-            "pśed\\s+(\\d+)\\s+m"
+            "pśed (\\d+) minutu",
+            "pśed (\\d+) minutami",
+            "pśed (\\d+) min",
+            "pśed (\\d+) m"
         ],
         "in \\1 second": [
-            "za\\s+(\\d+)\\s+sekundu",
-            "za\\s+(\\d+)\\s+sekundow",
-            "za\\s+(\\d+)\\s+sek",
-            "za\\s+(\\d+)\\s+s"
+            "za (\\d+) sekundu",
+            "za (\\d+) sekundow",
+            "za (\\d+) sek",
+            "za (\\d+) s"
         ],
         "\\1 second ago": [
-            "pśed\\s+(\\d+)\\s+sekundu",
-            "pśed\\s+(\\d+)\\s+sekundami",
-            "pśed\\s+(\\d+)\\s+sek",
-            "pśed\\s+(\\d+)\\s+s"
+            "pśed (\\d+) sekundu",
+            "pśed (\\d+) sekundami",
+            "pśed (\\d+) sek",
+            "pśed (\\d+) s"
         ]
     },
     "locale_specific": {},

@@ -142,31 +142,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "anno\\s+scorso"
+            "anno scorso"
         ],
         "0 year ago": [
             "quest’anno"
         ],
         "in 1 year": [
-            "anno\\s+prossimo"
+            "anno prossimo"
         ],
         "1 month ago": [
-            "mese\\s+scorso"
+            "mese scorso"
         ],
         "0 month ago": [
-            "questo\\s+mese"
+            "questo mese"
         ],
         "in 1 month": [
-            "mese\\s+prossimo"
+            "mese prossimo"
         ],
         "1 week ago": [
-            "settimana\\s+scorsa"
+            "settimana scorsa"
         ],
         "0 week ago": [
-            "questa\\s+settimana"
+            "questa settimana"
         ],
         "in 1 week": [
-            "settimana\\s+prossima"
+            "settimana prossima"
         ],
         "1 day ago": [
             "ieri"
@@ -181,83 +181,85 @@ info = {
             "quest’ora"
         ],
         "0 minute ago": [
-            "questo\\s+minuto"
+            "questo minuto"
         ],
         "0 second ago": [
             "ora"
         ],
+        "2 day ago": [
+            "altro ieri"
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "tra\\s+(\\d+)\\s+anno",
-            "tra\\s+(\\d+)\\s+anni"
+            "tra (\\d+) anno",
+            "tra (\\d+) anni"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+anno\\s+fa",
-            "(\\d+)\\s+anni\\s+fa"
+            "(\\d+) anno fa",
+            "(\\d+) anni fa"
         ],
         "in \\1 month": [
-            "tra\\s+(\\d+)\\s+mese",
-            "tra\\s+(\\d+)\\s+mesi"
+            "tra (\\d+) mese",
+            "tra (\\d+) mesi"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+mese\\s+fa",
-            "(\\d+)\\s+mesi\\s+fa"
+            "(\\d+) mese fa",
+            "(\\d+) mesi fa"
         ],
         "in \\1 week": [
-            "tra\\s+(\\d+)\\s+settimana",
-            "tra\\s+(\\d+)\\s+settimane",
-            "tra\\s+(\\d+)\\s+sett"
+            "tra (\\d+) settimana",
+            "tra (\\d+) settimane",
+            "tra (\\d+) sett"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+settimana\\s+fa",
-            "(\\d+)\\s+settimane\\s+fa",
-            "(\\d+)\\s+sett\\s+fa"
+            "(\\d+) settimana fa",
+            "(\\d+) settimane fa",
+            "(\\d+) sett fa"
         ],
         "in \\1 day": [
-            "tra\\s+(\\d+)\\s+giorno",
-            "tra\\s+(\\d+)\\s+giorni",
-            "tra\\s+(\\d+)\\s+g",
-            "tra\\s+(\\d+)\\s+gg"
+            "tra (\\d+) giorno",
+            "tra (\\d+) giorni",
+            "tra (\\d+) g",
+            "tra (\\d+) gg"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+giorno\\s+fa",
-            "(\\d+)\\s+giorni\\s+fa",
-            "(\\d+)\\s+g\\s+fa",
-            "(\\d+)\\s+gg\\s+fa"
+            "(\\d+) giorno fa",
+            "(\\d+) giorni fa",
+            "(\\d+) g fa",
+            "(\\d+) gg fa"
         ],
         "in \\1 hour": [
-            "tra\\s+(\\d+)\\s+ora",
-            "tra\\s+(\\d+)\\s+ore",
-            "tra\\s+(\\d+)\\s+h"
+            "tra (\\d+) ora",
+            "tra (\\d+) ore",
+            "tra (\\d+) h"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+ora\\s+fa",
-            "(\\d+)\\s+ore\\s+fa",
-            "(\\d+)\\s+h\\s+fa"
+            "(\\d+) ora fa",
+            "(\\d+) ore fa",
+            "(\\d+) h fa"
         ],
         "in \\1 minute": [
-            "tra\\s+(\\d+)\\s+minuto",
-            "tra\\s+(\\d+)\\s+minuti",
-            "tra\\s+(\\d+)\\s+min"
+            "tra (\\d+) minuto",
+            "tra (\\d+) minuti",
+            "tra (\\d+) min"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minuto\\s+fa",
-            "(\\d+)\\s+minuti\\s+fa",
-            "(\\d+)\\s+min\\s+fa"
+            "(\\d+) minuto fa",
+            "(\\d+) minuti fa",
+            "(\\d+) min fa"
         ],
         "in \\1 second": [
-            "tra\\s+(\\d+)\\s+secondo",
-            "tra\\s+(\\d+)\\s+secondi",
-            "tra\\s+(\\d+)\\s+sec",
-            "tra\\s+(\\d+)\\s+s"
+            "tra (\\d+) secondo",
+            "tra (\\d+) secondi",
+            "tra (\\d+) sec",
+            "tra (\\d+) s"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+secondo\\s+fa",
-            "(\\d+)\\s+secondi\\s+fa",
-            "(\\d+)\\s+sec\\s+fa",
-            "(\\d+)\\s+s\\s+fa"
-        ],
-        "2 day ago": [
-            "altro\\s+ieri"
+            "(\\d+) secondo fa",
+            "(\\d+) secondi fa",
+            "(\\d+) sec fa",
+            "(\\d+) s fa"
         ]
     },
     "locale_specific": {

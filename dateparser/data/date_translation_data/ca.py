@@ -140,38 +140,38 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "l’any\\s+passat"
+            "l’any passat"
         ],
         "0 year ago": [
             "enguany"
         ],
         "in 1 year": [
-            "l’any\\s+que\\s+ve"
+            "l’any que ve"
         ],
         "1 month ago": [
-            "el\\s+mes\\s+passat",
-            "mes\\s+passat"
+            "el mes passat",
+            "mes passat"
         ],
         "0 month ago": [
-            "aquest\\s+mes"
+            "aquest mes"
         ],
         "in 1 month": [
-            "el\\s+mes\\s+que\\s+ve",
-            "mes\\s+vinent"
+            "el mes que ve",
+            "mes vinent"
         ],
         "1 week ago": [
-            "la\\s+setmana\\s+passada",
-            "la\\s+setm\\s+passada",
-            "setm\\s+passada"
+            "la setmana passada",
+            "la setm passada",
+            "setm passada"
         ],
         "0 week ago": [
-            "aquesta\\s+setmana",
-            "aquesta\\s+setm"
+            "aquesta setmana",
+            "aquesta setm"
         ],
         "in 1 week": [
-            "la\\s+setmana\\s+que\\s+ve",
-            "la\\s+setm\\s+que\\s+ve",
-            "setm\\s+vinent"
+            "la setmana que ve",
+            "la setm que ve",
+            "setm vinent"
         ],
         "1 day ago": [
             "ahir"
@@ -183,78 +183,80 @@ info = {
             "demà"
         ],
         "0 hour ago": [
-            "aquesta\\s+hora"
+            "aquesta hora"
         ],
         "0 minute ago": [
-            "aquest\\s+minut"
+            "aquest minut"
         ],
         "0 second ago": [
             "ara"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "d’aquí\\s+a\\s+(\\d+)\\s+any",
-            "d’aquí\\s+a\\s+(\\d+)\\s+anys"
+            "d’aquí a (\\d+) any",
+            "d’aquí a (\\d+) anys"
         ],
         "\\1 year ago": [
-            "fa\\s+(\\d+)\\s+any",
-            "fa\\s+(\\d+)\\s+anys"
+            "fa (\\d+) any",
+            "fa (\\d+) anys"
         ],
         "in \\1 month": [
-            "d’aquí\\s+a\\s+(\\d+)\\s+mes",
-            "d’aquí\\s+a\\s+(\\d+)\\s+mesos"
+            "d’aquí a (\\d+) mes",
+            "d’aquí a (\\d+) mesos"
         ],
         "\\1 month ago": [
-            "fa\\s+(\\d+)\\s+mes",
-            "fa\\s+(\\d+)\\s+mesos"
+            "fa (\\d+) mes",
+            "fa (\\d+) mesos"
         ],
         "in \\1 week": [
-            "d’aquí\\s+a\\s+(\\d+)\\s+setmana",
-            "d’aquí\\s+a\\s+(\\d+)\\s+setmanes",
-            "d’aquí\\s+a\\s+(\\d+)\\s+setm"
+            "d’aquí a (\\d+) setmana",
+            "d’aquí a (\\d+) setmanes",
+            "d’aquí a (\\d+) setm"
         ],
         "\\1 week ago": [
-            "fa\\s+(\\d+)\\s+setmana",
-            "fa\\s+(\\d+)\\s+setmanes",
-            "fa\\s+(\\d+)\\s+setm"
+            "fa (\\d+) setmana",
+            "fa (\\d+) setmanes",
+            "fa (\\d+) setm"
         ],
         "in \\1 day": [
-            "d’aquí\\s+a\\s+(\\d+)\\s+dia",
-            "d’aquí\\s+a\\s+(\\d+)\\s+dies"
+            "d’aquí a (\\d+) dia",
+            "d’aquí a (\\d+) dies"
         ],
         "\\1 day ago": [
-            "fa\\s+(\\d+)\\s+dia",
-            "fa\\s+(\\d+)\\s+dies"
+            "fa (\\d+) dia",
+            "fa (\\d+) dies"
         ],
         "in \\1 hour": [
-            "d’aquí\\s+a\\s+(\\d+)\\s+hora",
-            "d’aquí\\s+a\\s+(\\d+)\\s+hores",
-            "d’aquí\\s+a\\s+(\\d+)\\s+h",
-            "d‘aquí\\s+a\\s+(\\d+)\\s+h"
+            "d’aquí a (\\d+) hora",
+            "d’aquí a (\\d+) hores",
+            "d’aquí a (\\d+) h",
+            "d‘aquí a (\\d+) h"
         ],
         "\\1 hour ago": [
-            "fa\\s+(\\d+)\\s+hora",
-            "fa\\s+(\\d+)\\s+hores",
-            "fa\\s+(\\d+)\\s+h"
+            "fa (\\d+) hora",
+            "fa (\\d+) hores",
+            "fa (\\d+) h"
         ],
         "in \\1 minute": [
-            "d’aquí\\s+a\\s+(\\d+)\\s+minut",
-            "d’aquí\\s+a\\s+(\\d+)\\s+minuts",
-            "d’aquí\\s+a\\s+(\\d+)\\s+min"
+            "d’aquí a (\\d+) minut",
+            "d’aquí a (\\d+) minuts",
+            "d’aquí a (\\d+) min"
         ],
         "\\1 minute ago": [
-            "fa\\s+(\\d+)\\s+minut",
-            "fa\\s+(\\d+)\\s+minuts",
-            "fa\\s+(\\d+)\\s+min"
+            "fa (\\d+) minut",
+            "fa (\\d+) minuts",
+            "fa (\\d+) min"
         ],
         "in \\1 second": [
-            "d’aquí\\s+a\\s+(\\d+)\\s+segon",
-            "d’aquí\\s+a\\s+(\\d+)\\s+segons",
-            "d’aquí\\s+a\\s+(\\d+)\\s+s"
+            "d’aquí a (\\d+) segon",
+            "d’aquí a (\\d+) segons",
+            "d’aquí a (\\d+) s"
         ],
         "\\1 second ago": [
-            "fa\\s+(\\d+)\\s+segon",
-            "fa\\s+(\\d+)\\s+segons",
-            "fa\\s+(\\d+)\\s+s"
+            "fa (\\d+) segon",
+            "fa (\\d+) segons",
+            "fa (\\d+) s"
         ]
     },
     "locale_specific": {

@@ -167,31 +167,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "előző\\s+év"
+            "előző év"
         ],
         "0 year ago": [
-            "ez\\s+az\\s+év"
+            "ez az év"
         ],
         "in 1 year": [
-            "következő\\s+év"
+            "következő év"
         ],
         "1 month ago": [
-            "előző\\s+hónap"
+            "előző hónap"
         ],
         "0 month ago": [
-            "ez\\s+a\\s+hónap"
+            "ez a hónap"
         ],
         "in 1 month": [
-            "következő\\s+hónap"
+            "következő hónap"
         ],
         "1 week ago": [
-            "előző\\s+hét"
+            "előző hét"
         ],
         "0 week ago": [
-            "ez\\s+a\\s+hét"
+            "ez a hét"
         ],
         "in 1 week": [
-            "következő\\s+hét"
+            "következő hét"
         ],
         "1 day ago": [
             "tegnap"
@@ -203,59 +203,61 @@ info = {
             "holnap"
         ],
         "0 hour ago": [
-            "ebben\\s+az\\s+órában"
+            "ebben az órában"
         ],
         "0 minute ago": [
-            "ebben\\s+a\\s+percben"
+            "ebben a percben"
         ],
         "0 second ago": [
             "most"
         ],
-        "in \\1 year": [
-            "(\\d+)\\s+év\\s+múlva"
-        ],
-        "\\1 year ago": [
-            "(\\d+)\\s+évvel\\s+ezelőtt"
-        ],
-        "in \\1 month": [
-            "(\\d+)\\s+hónap\\s+múlva"
-        ],
-        "\\1 month ago": [
-            "(\\d+)\\s+hónappal\\s+ezelőtt"
-        ],
-        "in \\1 week": [
-            "(\\d+)\\s+hét\\s+múlva"
-        ],
-        "\\1 week ago": [
-            "(\\d+)\\s+héttel\\s+ezelőtt"
-        ],
-        "in \\1 day": [
-            "(\\d+)\\s+nap\\s+múlva"
-        ],
-        "\\1 day ago": [
-            "(\\d+)\\s+nappal\\s+ezelőtt",
-            "(\\d+)\\s+napja"
-        ],
-        "in \\1 hour": [
-            "(\\d+)\\s+óra\\s+múlva"
-        ],
-        "\\1 hour ago": [
-            "(\\d+)\\s+órával\\s+ezelőtt"
-        ],
-        "in \\1 minute": [
-            "(\\d+)\\s+perc\\s+múlva"
-        ],
-        "\\1 minute ago": [
-            "(\\d+)\\s+perccel\\s+ezelőtt"
-        ],
-        "in \\1 second": [
-            "(\\d+)\\s+másodperc\\s+múlva"
-        ],
-        "\\1 second ago": [
-            "(\\d+)\\s+másodperccel\\s+ezelőtt"
-        ],
         "2 day ago": [
             "tegnapelőtt"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "(\\d+) év múlva"
+        ],
+        "\\1 year ago": [
+            "(\\d+) évvel ezelőtt"
+        ],
+        "in \\1 month": [
+            "(\\d+) hónap múlva"
+        ],
+        "\\1 month ago": [
+            "(\\d+) hónappal ezelőtt"
+        ],
+        "in \\1 week": [
+            "(\\d+) hét múlva"
+        ],
+        "\\1 week ago": [
+            "(\\d+) héttel ezelőtt"
+        ],
+        "in \\1 day": [
+            "(\\d+) nap múlva"
+        ],
+        "\\1 day ago": [
+            "(\\d+) nappal ezelőtt",
+            "(\\d+) napja"
+        ],
+        "in \\1 hour": [
+            "(\\d+) óra múlva"
+        ],
+        "\\1 hour ago": [
+            "(\\d+) órával ezelőtt"
+        ],
+        "in \\1 minute": [
+            "(\\d+) perc múlva"
+        ],
+        "\\1 minute ago": [
+            "(\\d+) perccel ezelőtt"
+        ],
+        "in \\1 second": [
+            "(\\d+) másodperc múlva"
+        ],
+        "\\1 second ago": [
+            "(\\d+) másodperccel ezelőtt"
         ]
     },
     "locale_specific": {},

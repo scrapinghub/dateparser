@@ -129,112 +129,114 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "tahun\\s+lalu",
-            "thn\\s+lepas"
+            "tahun lalu",
+            "thn lepas"
         ],
         "0 year ago": [
-            "tahun\\s+ini",
-            "thn\\s+ini"
+            "tahun ini",
+            "thn ini"
         ],
         "in 1 year": [
-            "tahun\\s+depan",
-            "thn\\s+depan"
+            "tahun depan",
+            "thn depan"
         ],
         "1 month ago": [
-            "bulan\\s+lalu",
-            "bln\\s+lalu"
+            "bulan lalu",
+            "bln lalu"
         ],
         "0 month ago": [
-            "bulan\\s+ini",
-            "bln\\s+ini"
+            "bulan ini",
+            "bln ini"
         ],
         "in 1 month": [
-            "bulan\\s+depan",
-            "bln\\s+depan"
+            "bulan depan",
+            "bln depan"
         ],
         "1 week ago": [
-            "minggu\\s+lalu",
-            "mng\\s+lepas"
+            "minggu lalu",
+            "mng lepas"
         ],
         "0 week ago": [
-            "minggu\\s+ini",
-            "mng\\s+ini"
+            "minggu ini",
+            "mng ini"
         ],
         "in 1 week": [
-            "minggu\\s+depan",
-            "mng\\s+depan"
+            "minggu depan",
+            "mng depan"
         ],
         "1 day ago": [
             "semalam",
             "semlm"
         ],
         "0 day ago": [
-            "hari\\s+ini"
+            "hari ini"
         ],
         "in 1 day": [
             "esok"
         ],
         "0 hour ago": [
-            "jam\\s+ini"
+            "jam ini"
         ],
         "0 minute ago": [
-            "pada\\s+minit\\s+ini"
+            "pada minit ini"
         ],
         "0 second ago": [
             "sekarang"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "dalam\\s+(\\d+)\\s+saat",
-            "dalam\\s+(\\d+)\\s+thn"
+            "dalam (\\d+) saat",
+            "dalam (\\d+) thn"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+tahun\\s+lalu",
-            "(\\d+)\\s+thn\\s+lalu"
+            "(\\d+) tahun lalu",
+            "(\\d+) thn lalu"
         ],
         "in \\1 month": [
-            "dalam\\s+(\\d+)\\s+bulan",
-            "dlm\\s+(\\d+)\\s+bln"
+            "dalam (\\d+) bulan",
+            "dlm (\\d+) bln"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+bulan\\s+lalu",
-            "(\\d+)\\s+bln\\s+lalu"
+            "(\\d+) bulan lalu",
+            "(\\d+) bln lalu"
         ],
         "in \\1 week": [
-            "dalam\\s+(\\d+)\\s+minggu",
-            "dlm\\s+(\\d+)\\s+mgu"
+            "dalam (\\d+) minggu",
+            "dlm (\\d+) mgu"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+minggu\\s+lalu",
-            "(\\d+)\\s+mgu\\s+lalu"
+            "(\\d+) minggu lalu",
+            "(\\d+) mgu lalu"
         ],
         "in \\1 day": [
-            "dalam\\s+(\\d+)\\s+hari",
-            "dlm\\s+(\\d+)\\s+hari"
+            "dalam (\\d+) hari",
+            "dlm (\\d+) hari"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+hari\\s+lalu"
+            "(\\d+) hari lalu"
         ],
         "in \\1 hour": [
-            "dalam\\s+(\\d+)\\s+jam",
-            "dlm\\s+(\\d+)\\s+jam"
+            "dalam (\\d+) jam",
+            "dlm (\\d+) jam"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+jam\\s+lalu"
+            "(\\d+) jam lalu"
         ],
         "in \\1 minute": [
-            "dalam\\s+(\\d+)\\s+minit",
-            "dlm\\s+(\\d+)\\s+min"
+            "dalam (\\d+) minit",
+            "dlm (\\d+) min"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minit\\s+lalu",
-            "(\\d+)\\s+min\\s+lalu"
+            "(\\d+) minit lalu",
+            "(\\d+) min lalu"
         ],
         "in \\1 second": [
-            "dalam\\s+(\\d+)\\s+saat",
-            "dlm\\s+(\\d+)\\s+saat"
+            "dalam (\\d+) saat",
+            "dlm (\\d+) saat"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+saat\\s+lalu"
+            "(\\d+) saat lalu"
         ]
     },
     "locale_specific": {

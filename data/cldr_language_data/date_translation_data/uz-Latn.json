@@ -171,7 +171,9 @@
         ],
         "0 second ago": [
             "hozir"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} yildan keyin"
         ],

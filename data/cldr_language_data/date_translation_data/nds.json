@@ -139,6 +139,7 @@
             "now"
         ]
     },
+    "relative-type-regex": {},
     "locale_specific": {
         "nds-NL": {
             "name": "nds-NL"

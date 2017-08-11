@@ -155,7 +155,9 @@
         ],
         "0 second ago": [
             "одоо"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} жилийн дараа"
         ],

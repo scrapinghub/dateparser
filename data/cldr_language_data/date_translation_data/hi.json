@@ -169,7 +169,9 @@
         ],
         "0 second ago": [
             "अब"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} वर्ष में"
         ],

@@ -167,7 +167,9 @@
         ],
         "0 second ago": [
             "હમણાં"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} વર્ષમાં"
         ],

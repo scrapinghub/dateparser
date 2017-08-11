@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from itertools import chain
 from operator import methodcaller
-
 import regex as re
 from six.moves import zip_longest
 
@@ -52,12 +51,11 @@ class Dictionary(object):
                                           PARSER_KNOWN_TOKENS),
                                           PARSER_KNOWN_TOKENS))
 
-        relative_dictionary = {}
-        relative_type = locale_info['relative-type']
+        relative_type = locale_info.get('relative-type', {})
         for key, value in relative_type.items():
-            relative_dictionary.update(zip_longest(value, [], fillvalue=key))
+            relative_translations = map(methodcaller('lower'), value)
+            dictionary.update(zip_longest(relative_translations, [], fillvalue=key))
 
-        self._relative_dictionary = relative_dictionary
         self._dictionary = dictionary
         self._no_word_spacing = locale_info.get('no_word_spacing')
         if self._no_word_spacing == 'True':
@@ -157,9 +155,12 @@ class Dictionary(object):
             self.info['name'] not in self._sorted_relative_strings_cache[self._settings.registry_key]
            ):
 
+            relative_type_regex = self.info.get("relative-type-regex", {})
+            relative_strings = chain(*relative_type_regex.values())
+
             self._sorted_relative_strings_cache[self._settings.registry_key] = {
                 self.info['name']: sorted([PARENTHESES_PATTERN.sub('', key) for key in
-                                          self._relative_dictionary], key=len, reverse=True)
+                                          relative_strings], key=len, reverse=True)
             }
         return self._sorted_relative_strings_cache[self._settings.registry_key][self.info['name']]
 

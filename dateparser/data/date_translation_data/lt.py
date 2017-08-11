@@ -149,31 +149,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "praėjusiais\\s+metais"
+            "praėjusiais metais"
         ],
         "0 year ago": [
-            "šiais\\s+metais"
+            "šiais metais"
         ],
         "in 1 year": [
-            "kitais\\s+metais"
+            "kitais metais"
         ],
         "1 month ago": [
-            "praėjusį\\s+mėnesį"
+            "praėjusį mėnesį"
         ],
         "0 month ago": [
-            "šį\\s+mėnesį"
+            "šį mėnesį"
         ],
         "in 1 month": [
-            "kitą\\s+mėnesį"
+            "kitą mėnesį"
         ],
         "1 week ago": [
-            "praėjusią\\s+savaitę"
+            "praėjusią savaitę"
         ],
         "0 week ago": [
-            "šią\\s+savaitę"
+            "šią savaitę"
         ],
         "in 1 week": [
-            "kitą\\s+savaitę"
+            "kitą savaitę"
         ],
         "1 day ago": [
             "vakar"
@@ -185,84 +185,86 @@ info = {
             "rytoj"
         ],
         "0 hour ago": [
-            "šią\\s+valandą"
+            "šią valandą"
         ],
         "0 minute ago": [
-            "šią\\s+minutę"
+            "šią minutę"
         ],
         "0 second ago": [
             "dabar"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "po\\s+(\\d+)\\s+metų",
-            "po\\s+(\\d+)\\s+m"
+            "po (\\d+) metų",
+            "po (\\d+) m"
         ],
         "\\1 year ago": [
-            "prieš\\s+(\\d+)\\s+metus",
-            "prieš\\s+(\\d+)\\s+metų",
-            "prieš\\s+(\\d+)\\s+m"
+            "prieš (\\d+) metus",
+            "prieš (\\d+) metų",
+            "prieš (\\d+) m"
         ],
         "in \\1 month": [
-            "po\\s+(\\d+)\\s+mėnesio",
-            "po\\s+(\\d+)\\s+mėnesių",
-            "po\\s+(\\d+)\\s+mėn"
+            "po (\\d+) mėnesio",
+            "po (\\d+) mėnesių",
+            "po (\\d+) mėn"
         ],
         "\\1 month ago": [
-            "prieš\\s+(\\d+)\\s+mėnesį",
-            "prieš\\s+(\\d+)\\s+mėnesių",
-            "prieš\\s+(\\d+)\\s+mėn"
+            "prieš (\\d+) mėnesį",
+            "prieš (\\d+) mėnesių",
+            "prieš (\\d+) mėn"
         ],
         "in \\1 week": [
-            "po\\s+(\\d+)\\s+savaitės",
-            "po\\s+(\\d+)\\s+savaičių",
-            "po\\s+(\\d+)\\s+sav"
+            "po (\\d+) savaitės",
+            "po (\\d+) savaičių",
+            "po (\\d+) sav"
         ],
         "\\1 week ago": [
-            "prieš\\s+(\\d+)\\s+savaitę",
-            "prieš\\s+(\\d+)\\s+savaičių",
-            "prieš\\s+(\\d+)\\s+sav"
+            "prieš (\\d+) savaitę",
+            "prieš (\\d+) savaičių",
+            "prieš (\\d+) sav"
         ],
         "in \\1 day": [
-            "po\\s+(\\d+)\\s+dienos",
-            "po\\s+(\\d+)\\s+dienų",
-            "po\\s+(\\d+)\\s+d"
+            "po (\\d+) dienos",
+            "po (\\d+) dienų",
+            "po (\\d+) d"
         ],
         "\\1 day ago": [
-            "prieš\\s+(\\d+)\\s+dieną",
-            "prieš\\s+(\\d+)\\s+dienų",
-            "prieš\\s+(\\d+)\\s+d"
+            "prieš (\\d+) dieną",
+            "prieš (\\d+) dienų",
+            "prieš (\\d+) d"
         ],
         "in \\1 hour": [
-            "po\\s+(\\d+)\\s+valandos",
-            "po\\s+(\\d+)\\s+valandų",
-            "po\\s+(\\d+)\\s+val"
+            "po (\\d+) valandos",
+            "po (\\d+) valandų",
+            "po (\\d+) val"
         ],
         "\\1 hour ago": [
-            "prieš\\s+(\\d+)\\s+valandą",
-            "prieš\\s+(\\d+)\\s+valandų",
-            "prieš\\s+(\\d+)\\s+val"
+            "prieš (\\d+) valandą",
+            "prieš (\\d+) valandų",
+            "prieš (\\d+) val"
         ],
         "in \\1 minute": [
-            "po\\s+(\\d+)\\s+minutės",
-            "po\\s+(\\d+)\\s+minučių",
-            "po\\s+(\\d+)\\s+min"
+            "po (\\d+) minutės",
+            "po (\\d+) minučių",
+            "po (\\d+) min"
         ],
         "\\1 minute ago": [
-            "prieš\\s+(\\d+)\\s+minutę",
-            "prieš\\s+(\\d+)\\s+minučių",
-            "prieš\\s+(\\d+)\\s+min"
+            "prieš (\\d+) minutę",
+            "prieš (\\d+) minučių",
+            "prieš (\\d+) min"
         ],
         "in \\1 second": [
-            "po\\s+(\\d+)\\s+sekundės",
-            "po\\s+(\\d+)\\s+sekundžių",
-            "po\\s+(\\d+)\\s+sek",
-            "po\\s+(\\d+)\\s+s"
+            "po (\\d+) sekundės",
+            "po (\\d+) sekundžių",
+            "po (\\d+) sek",
+            "po (\\d+) s"
         ],
         "\\1 second ago": [
-            "prieš\\s+(\\d+)\\s+sekundę",
-            "prieš\\s+(\\d+)\\s+sekundžių",
-            "prieš\\s+(\\d+)\\s+sek",
-            "prieš\\s+(\\d+)\\s+s"
+            "prieš (\\d+) sekundę",
+            "prieš (\\d+) sekundžių",
+            "prieš (\\d+) sek",
+            "prieš (\\d+) s"
         ]
     },
     "locale_specific": {},

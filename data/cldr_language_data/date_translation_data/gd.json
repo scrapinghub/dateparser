@@ -204,7 +204,9 @@
         ],
         "0 second ago": [
             "an-dràsta"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "an ceann {0} bhliadhna",
             "an ceann {0} bliadhna",

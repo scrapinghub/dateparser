@@ -158,7 +158,9 @@
         ],
         "0 second ago": [
             "ngayon"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "sa {0} taon",
             "sa {0} (na) taon"

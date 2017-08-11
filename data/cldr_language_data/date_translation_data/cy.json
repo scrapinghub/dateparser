@@ -172,7 +172,9 @@
         ],
         "0 second ago": [
             "nawr"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "ymhen blwyddyn",
             "ymhen {0} mlynedd"

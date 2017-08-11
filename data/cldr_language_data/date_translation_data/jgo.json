@@ -137,7 +137,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "nǔu ŋguꞌ {0}"
         ],

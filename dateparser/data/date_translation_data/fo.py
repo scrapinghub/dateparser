@@ -135,121 +135,123 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "í\\s+fjør"
+            "í fjør"
         ],
         "0 year ago": [
-            "í\\s+ár"
+            "í ár"
         ],
         "in 1 year": [
-            "næsta\\s+ár"
+            "næsta ár"
         ],
         "1 month ago": [
-            "seinasta\\s+mánað"
+            "seinasta mánað"
         ],
         "0 month ago": [
-            "henda\\s+mánaðin"
+            "henda mánaðin"
         ],
         "in 1 month": [
-            "næsta\\s+mánað"
+            "næsta mánað"
         ],
         "1 week ago": [
-            "seinastu\\s+viku"
+            "seinastu viku"
         ],
         "0 week ago": [
-            "hesu\\s+viku"
+            "hesu viku"
         ],
         "in 1 week": [
-            "næstu\\s+viku"
+            "næstu viku"
         ],
         "1 day ago": [
-            "í\\s+gjár"
+            "í gjár"
         ],
         "0 day ago": [
-            "í\\s+dag"
+            "í dag"
         ],
         "in 1 day": [
-            "í\\s+morgin"
+            "í morgin"
         ],
         "0 hour ago": [
-            "hendan\\s+tíman"
+            "hendan tíman"
         ],
         "0 minute ago": [
-            "hendan\\s+minuttin"
+            "hendan minuttin"
         ],
         "0 second ago": [
             "nú"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "um\\s+(\\d+)\\s+ár"
+            "um (\\d+) ár"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+ár\\s+síðan"
+            "(\\d+) ár síðan"
         ],
         "in \\1 month": [
-            "um\\s+(\\d+)\\s+mánað",
-            "um\\s+(\\d+)\\s+mánaðir",
-            "um\\s+(\\d+)\\s+mnð"
+            "um (\\d+) mánað",
+            "um (\\d+) mánaðir",
+            "um (\\d+) mnð"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+mánað\\s+síðan",
-            "(\\d+)\\s+mánaðir\\s+síðan",
-            "(\\d+)\\s+mnð\\s+síðan"
+            "(\\d+) mánað síðan",
+            "(\\d+) mánaðir síðan",
+            "(\\d+) mnð síðan"
         ],
         "in \\1 week": [
-            "um\\s+(\\d+)\\s+viku",
-            "um\\s+(\\d+)\\s+vikur",
-            "um\\s+(\\d+)\\s+vi",
-            "um\\s+(\\d+)\\s+v"
+            "um (\\d+) viku",
+            "um (\\d+) vikur",
+            "um (\\d+) vi",
+            "um (\\d+) v"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+vika\\s+síðan",
-            "(\\d+)\\s+vikur\\s+síðan",
-            "(\\d+)\\s+vi\\s+síðan",
-            "(\\d+)\\s+v\\s+síðan"
+            "(\\d+) vika síðan",
+            "(\\d+) vikur síðan",
+            "(\\d+) vi síðan",
+            "(\\d+) v síðan"
         ],
         "in \\1 day": [
-            "um\\s+(\\d+)\\s+dag",
-            "um\\s+(\\d+)\\s+dagar",
-            "um\\s+(\\d+)\\s+da",
-            "um\\s+(\\d+)\\s+d"
+            "um (\\d+) dag",
+            "um (\\d+) dagar",
+            "um (\\d+) da",
+            "um (\\d+) d"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+dagur\\s+síðan",
-            "(\\d+)\\s+dagar\\s+síðan",
-            "(\\d+)\\s+da\\s+síðan",
-            "(\\d+)\\s+d\\s+síðan"
+            "(\\d+) dagur síðan",
+            "(\\d+) dagar síðan",
+            "(\\d+) da síðan",
+            "(\\d+) d síðan"
         ],
         "in \\1 hour": [
-            "um\\s+(\\d+)\\s+tíma",
-            "um\\s+(\\d+)\\s+tímar",
-            "um\\s+(\\d+)\\s+t"
+            "um (\\d+) tíma",
+            "um (\\d+) tímar",
+            "um (\\d+) t"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+tími\\s+síðan",
-            "(\\d+)\\s+tímar\\s+síðan",
-            "(\\d+)\\s+t\\s+síðan"
+            "(\\d+) tími síðan",
+            "(\\d+) tímar síðan",
+            "(\\d+) t síðan"
         ],
         "in \\1 minute": [
-            "um\\s+(\\d+)\\s+minutt",
-            "um\\s+(\\d+)\\s+minuttir",
-            "um\\s+(\\d+)\\s+min",
-            "um\\s+(\\d+)\\s+m"
+            "um (\\d+) minutt",
+            "um (\\d+) minuttir",
+            "um (\\d+) min",
+            "um (\\d+) m"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minutt\\s+síðan",
-            "(\\d+)\\s+minuttir\\s+síðan",
-            "(\\d+)\\s+min\\s+síðan",
-            "(\\d+)\\s+m\\s+síðan"
+            "(\\d+) minutt síðan",
+            "(\\d+) minuttir síðan",
+            "(\\d+) min síðan",
+            "(\\d+) m síðan"
         ],
         "in \\1 second": [
-            "um\\s+(\\d+)\\s+sekund",
-            "um\\s+(\\d+)\\s+sek",
-            "um\\s+(\\d+)\\s+s"
+            "um (\\d+) sekund",
+            "um (\\d+) sek",
+            "um (\\d+) s"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+sekund\\s+síðan",
-            "(\\d+)\\s+sek\\s+síðan",
-            "(\\d+)\\s+s\\s+síðan"
+            "(\\d+) sekund síðan",
+            "(\\d+) sek síðan",
+            "(\\d+) s síðan"
         ]
     },
     "locale_specific": {

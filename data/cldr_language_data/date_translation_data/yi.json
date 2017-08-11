@@ -145,7 +145,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "איבער {0} יאָר",
             "איבער א יאָר"

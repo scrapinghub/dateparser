@@ -127,33 +127,33 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "o‘tgan\\s+yil",
-            "oʻtgan\\s+yil"
+            "o‘tgan yil",
+            "oʻtgan yil"
         ],
         "0 year ago": [
-            "shu\\s+yil",
-            "bu\\s+yil"
+            "shu yil",
+            "bu yil"
         ],
         "in 1 year": [
-            "keyingi\\s+yil"
+            "keyingi yil"
         ],
         "1 month ago": [
-            "o‘tgan\\s+oy"
+            "o‘tgan oy"
         ],
         "0 month ago": [
-            "shu\\s+oy"
+            "shu oy"
         ],
         "in 1 month": [
-            "keyingi\\s+oy"
+            "keyingi oy"
         ],
         "1 week ago": [
-            "o‘tgan\\s+hafta"
+            "o‘tgan hafta"
         ],
         "0 week ago": [
-            "shu\\s+hafta"
+            "shu hafta"
         ],
         "in 1 week": [
-            "keyingi\\s+hafta"
+            "keyingi hafta"
         ],
         "1 day ago": [
             "kecha"
@@ -165,55 +165,57 @@ info = {
             "ertaga"
         ],
         "0 hour ago": [
-            "shu\\s+soatda"
+            "shu soatda"
         ],
         "0 minute ago": [
-            "shu\\s+daqiqada"
+            "shu daqiqada"
         ],
         "0 second ago": [
             "hozir"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "(\\d+)\\s+yildan\\s+keyin"
+            "(\\d+) yildan keyin"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+yil\\s+oldin"
+            "(\\d+) yil oldin"
         ],
         "in \\1 month": [
-            "(\\d+)\\s+oydan\\s+keyin"
+            "(\\d+) oydan keyin"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+oy\\s+oldin"
+            "(\\d+) oy oldin"
         ],
         "in \\1 week": [
-            "(\\d+)\\s+haftadan\\s+keyin"
+            "(\\d+) haftadan keyin"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+hafta\\s+oldin"
+            "(\\d+) hafta oldin"
         ],
         "in \\1 day": [
-            "(\\d+)\\s+kundan\\s+keyin"
+            "(\\d+) kundan keyin"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+kun\\s+oldin"
+            "(\\d+) kun oldin"
         ],
         "in \\1 hour": [
-            "(\\d+)\\s+soatdan\\s+keyin"
+            "(\\d+) soatdan keyin"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+soat\\s+oldin"
+            "(\\d+) soat oldin"
         ],
         "in \\1 minute": [
-            "(\\d+)\\s+daqiqadan\\s+keyin"
+            "(\\d+) daqiqadan keyin"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+daqiqa\\s+oldin"
+            "(\\d+) daqiqa oldin"
         ],
         "in \\1 second": [
-            "(\\d+)\\s+soniyadan\\s+keyin"
+            "(\\d+) soniyadan keyin"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+soniya\\s+oldin"
+            "(\\d+) soniya oldin"
         ]
     },
     "locale_specific": {},

@@ -180,7 +180,9 @@
         ],
         "0 second ago": [
             "tagad"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "pēc {0} gada",
             "pēc {0} gadiem",

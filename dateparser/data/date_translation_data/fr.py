@@ -149,31 +149,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "l’année\\s+dernière"
+            "l’année dernière"
         ],
         "0 year ago": [
-            "cette\\s+année"
+            "cette année"
         ],
         "in 1 year": [
-            "l’année\\s+prochaine"
+            "l’année prochaine"
         ],
         "1 month ago": [
-            "le\\s+mois\\s+dernier"
+            "le mois dernier"
         ],
         "0 month ago": [
-            "ce\\s+mois-ci"
+            "ce mois-ci"
         ],
         "in 1 month": [
-            "le\\s+mois\\s+prochain"
+            "le mois prochain"
         ],
         "1 week ago": [
-            "la\\s+semaine\\s+dernière"
+            "la semaine dernière"
         ],
         "0 week ago": [
-            "cette\\s+semaine"
+            "cette semaine"
         ],
         "in 1 week": [
-            "la\\s+semaine\\s+prochaine"
+            "la semaine prochaine"
         ],
         "1 day ago": [
             "hier"
@@ -185,87 +185,89 @@ info = {
             "demain"
         ],
         "0 hour ago": [
-            "cette\\s+heure-ci"
+            "cette heure-ci"
         ],
         "0 minute ago": [
-            "cette\\s+minute-ci"
+            "cette minute-ci"
         ],
         "0 second ago": [
             "maintenant"
         ],
-        "in \\1 year": [
-            "dans\\s+(\\d+)\\s+an",
-            "dans\\s+(\\d+)\\s+ans",
-            "dans\\s+(\\d+)\\s+a"
-        ],
-        "\\1 year ago": [
-            "il\\s+y\\s+a\\s+(\\d+)\\s+an",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+ans",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+a"
-        ],
-        "in \\1 month": [
-            "dans\\s+(\\d+)\\s+mois",
-            "dans\\s+(\\d+)\\s+m"
-        ],
-        "\\1 month ago": [
-            "il\\s+y\\s+a\\s+(\\d+)\\s+mois",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+m"
-        ],
-        "in \\1 week": [
-            "dans\\s+(\\d+)\\s+semaine",
-            "dans\\s+(\\d+)\\s+semaines",
-            "dans\\s+(\\d+)\\s+sem"
-        ],
-        "\\1 week ago": [
-            "il\\s+y\\s+a\\s+(\\d+)\\s+semaine",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+semaines",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+sem"
-        ],
-        "in \\1 day": [
-            "dans\\s+(\\d+)\\s+jour",
-            "dans\\s+(\\d+)\\s+jours",
-            "dans\\s+(\\d+)\\s+j"
-        ],
-        "\\1 day ago": [
-            "il\\s+y\\s+a\\s+(\\d+)\\s+jour",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+jours",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+j"
-        ],
-        "in \\1 hour": [
-            "dans\\s+(\\d+)\\s+heure",
-            "dans\\s+(\\d+)\\s+heures",
-            "dans\\s+(\\d+)\\s+h",
-            "dans\\s+(\\d+)h"
-        ],
-        "\\1 hour ago": [
-            "il\\s+y\\s+a\\s+(\\d+)\\s+heure",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+heures",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+h",
-            "il\\s+y\\s+a\\s+(\\d+)h"
-        ],
-        "in \\1 minute": [
-            "dans\\s+(\\d+)\\s+minute",
-            "dans\\s+(\\d+)\\s+minutes",
-            "dans\\s+(\\d+)\\s+min"
-        ],
-        "\\1 minute ago": [
-            "il\\s+y\\s+a\\s+(\\d+)\\s+minute",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+minutes",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+min",
-            "il\\s+y\\s+a\\s+(\\d+)min"
-        ],
-        "in \\1 second": [
-            "dans\\s+(\\d+)\\s+seconde",
-            "dans\\s+(\\d+)\\s+secondes",
-            "dans\\s+(\\d+)\\s+s"
-        ],
-        "\\1 second ago": [
-            "il\\s+y\\s+a\\s+(\\d+)\\s+seconde",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+secondes",
-            "il\\s+y\\s+a\\s+(\\d+)\\s+s"
-        ],
         "2 days ago": [
             "avant-hier"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "dans (\\d+) an",
+            "dans (\\d+) ans",
+            "dans (\\d+) a"
+        ],
+        "\\1 year ago": [
+            "il y a (\\d+) an",
+            "il y a (\\d+) ans",
+            "il y a (\\d+) a"
+        ],
+        "in \\1 month": [
+            "dans (\\d+) mois",
+            "dans (\\d+) m"
+        ],
+        "\\1 month ago": [
+            "il y a (\\d+) mois",
+            "il y a (\\d+) m"
+        ],
+        "in \\1 week": [
+            "dans (\\d+) semaine",
+            "dans (\\d+) semaines",
+            "dans (\\d+) sem"
+        ],
+        "\\1 week ago": [
+            "il y a (\\d+) semaine",
+            "il y a (\\d+) semaines",
+            "il y a (\\d+) sem"
+        ],
+        "in \\1 day": [
+            "dans (\\d+) jour",
+            "dans (\\d+) jours",
+            "dans (\\d+) j"
+        ],
+        "\\1 day ago": [
+            "il y a (\\d+) jour",
+            "il y a (\\d+) jours",
+            "il y a (\\d+) j"
+        ],
+        "in \\1 hour": [
+            "dans (\\d+) heure",
+            "dans (\\d+) heures",
+            "dans (\\d+) h",
+            "dans (\\d+)h"
+        ],
+        "\\1 hour ago": [
+            "il y a (\\d+) heure",
+            "il y a (\\d+) heures",
+            "il y a (\\d+) h",
+            "il y a (\\d+)h"
+        ],
+        "in \\1 minute": [
+            "dans (\\d+) minute",
+            "dans (\\d+) minutes",
+            "dans (\\d+) min"
+        ],
+        "\\1 minute ago": [
+            "il y a (\\d+) minute",
+            "il y a (\\d+) minutes",
+            "il y a (\\d+) min",
+            "il y a (\\d+)min"
+        ],
+        "in \\1 second": [
+            "dans (\\d+) seconde",
+            "dans (\\d+) secondes",
+            "dans (\\d+) s"
+        ],
+        "\\1 second ago": [
+            "il y a (\\d+) seconde",
+            "il y a (\\d+) secondes",
+            "il y a (\\d+) s"
         ]
     },
     "locale_specific": {

@@ -190,7 +190,9 @@
         ],
         "0 second ago": [
             "teraz"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "za {0} rok",
             "za {0} roku"

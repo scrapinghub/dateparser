@@ -191,7 +191,9 @@
         ],
         "0 second ago": [
             "dabar"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "po {0} metų",
             "po {0} m"

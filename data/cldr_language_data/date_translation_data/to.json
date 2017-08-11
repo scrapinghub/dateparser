@@ -171,7 +171,9 @@
         ],
         "0 second ago": [
             "taimí ni"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "ʻi he taʻu ʻe {0}"
         ],

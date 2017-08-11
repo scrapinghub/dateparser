@@ -154,7 +154,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} шо даьлча",
             "{0} ш даьлча"

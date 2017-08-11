@@ -197,7 +197,9 @@
         ],
         "0 second ago": [
             "τώρα"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "σε {0} έτος",
             "σε {0} έτη"

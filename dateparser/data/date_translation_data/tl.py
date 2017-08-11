@@ -128,7 +128,7 @@ info = {
             "kahapon"
         ],
         "2 day ago": [
-            "isang\\s+araw"
+            "isang araw"
         ],
         "0 second ago": [
             "ngayon"

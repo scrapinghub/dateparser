@@ -166,7 +166,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "ca di {0} an",
             "ca di {0} agns"

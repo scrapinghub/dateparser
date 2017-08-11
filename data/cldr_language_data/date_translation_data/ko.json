@@ -139,7 +139,9 @@
         ],
         "0 second ago": [
             "지금"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0}년 후"
         ],

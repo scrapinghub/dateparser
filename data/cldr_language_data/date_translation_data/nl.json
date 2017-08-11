@@ -173,7 +173,9 @@
         ],
         "0 second ago": [
             "nu"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "over {0} jaar"
         ],

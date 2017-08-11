@@ -200,7 +200,9 @@
         ],
         "0 second ago": [
             "sad"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "za {0} godinu",
             "za {0} godina",

@@ -133,115 +133,117 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "á\\s+síðasta\\s+ári"
+            "á síðasta ári"
         ],
         "0 year ago": [
-            "á\\s+þessu\\s+ári"
+            "á þessu ári"
         ],
         "in 1 year": [
-            "á\\s+næsta\\s+ári"
+            "á næsta ári"
         ],
         "1 month ago": [
-            "í\\s+síðasta\\s+mánuði",
-            "í\\s+síðasta\\s+mán"
+            "í síðasta mánuði",
+            "í síðasta mán"
         ],
         "0 month ago": [
-            "í\\s+þessum\\s+mánuði",
-            "í\\s+þessum\\s+mán"
+            "í þessum mánuði",
+            "í þessum mán"
         ],
         "in 1 month": [
-            "í\\s+næsta\\s+mánuði",
-            "í\\s+næsta\\s+mán"
+            "í næsta mánuði",
+            "í næsta mán"
         ],
         "1 week ago": [
-            "í\\s+síðustu\\s+viku"
+            "í síðustu viku"
         ],
         "0 week ago": [
-            "í\\s+þessari\\s+viku"
+            "í þessari viku"
         ],
         "in 1 week": [
-            "í\\s+næstu\\s+viku"
+            "í næstu viku"
         ],
         "1 day ago": [
-            "í\\s+gær"
+            "í gær"
         ],
         "0 day ago": [
-            "í\\s+dag"
+            "í dag"
         ],
         "in 1 day": [
-            "á\\s+morgun"
+            "á morgun"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "núna"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "eftir\\s+(\\d+)\\s+ár"
+            "eftir (\\d+) ár"
         ],
         "\\1 year ago": [
-            "fyrir\\s+(\\d+)\\s+ári",
-            "fyrir\\s+(\\d+)\\s+árum"
+            "fyrir (\\d+) ári",
+            "fyrir (\\d+) árum"
         ],
         "in \\1 month": [
-            "eftir\\s+(\\d+)\\s+mánuð",
-            "eftir\\s+(\\d+)\\s+mánuði",
-            "eftir\\s+(\\d+)\\s+mán"
+            "eftir (\\d+) mánuð",
+            "eftir (\\d+) mánuði",
+            "eftir (\\d+) mán"
         ],
         "\\1 month ago": [
-            "fyrir\\s+(\\d+)\\s+mánuði",
-            "fyrir\\s+(\\d+)\\s+mánuðum",
-            "fyrir\\s+(\\d+)\\s+mán"
+            "fyrir (\\d+) mánuði",
+            "fyrir (\\d+) mánuðum",
+            "fyrir (\\d+) mán"
         ],
         "in \\1 week": [
-            "eftir\\s+(\\d+)\\s+viku",
-            "eftir\\s+(\\d+)\\s+vikur"
+            "eftir (\\d+) viku",
+            "eftir (\\d+) vikur"
         ],
         "\\1 week ago": [
-            "fyrir\\s+(\\d+)\\s+viku",
-            "fyrir\\s+(\\d+)\\s+vikum"
+            "fyrir (\\d+) viku",
+            "fyrir (\\d+) vikum"
         ],
         "in \\1 day": [
-            "eftir\\s+(\\d+)\\s+dag",
-            "eftir\\s+(\\d+)\\s+daga"
+            "eftir (\\d+) dag",
+            "eftir (\\d+) daga"
         ],
         "\\1 day ago": [
-            "fyrir\\s+(\\d+)\\s+degi",
-            "fyrir\\s+(\\d+)\\s+dögum"
+            "fyrir (\\d+) degi",
+            "fyrir (\\d+) dögum"
         ],
         "in \\1 hour": [
-            "eftir\\s+(\\d+)\\s+klukkustund",
-            "eftir\\s+(\\d+)\\s+klukkustundir",
-            "eftir\\s+(\\d+)\\s+klst"
+            "eftir (\\d+) klukkustund",
+            "eftir (\\d+) klukkustundir",
+            "eftir (\\d+) klst"
         ],
         "\\1 hour ago": [
-            "fyrir\\s+(\\d+)\\s+klukkustund",
-            "fyrir\\s+(\\d+)\\s+klukkustundum",
-            "fyrir\\s+(\\d+)\\s+klst"
+            "fyrir (\\d+) klukkustund",
+            "fyrir (\\d+) klukkustundum",
+            "fyrir (\\d+) klst"
         ],
         "in \\1 minute": [
-            "eftir\\s+(\\d+)\\s+mínútu",
-            "eftir\\s+(\\d+)\\s+mínútur",
-            "eftir\\s+(\\d+)\\s+mín"
+            "eftir (\\d+) mínútu",
+            "eftir (\\d+) mínútur",
+            "eftir (\\d+) mín"
         ],
         "\\1 minute ago": [
-            "fyrir\\s+(\\d+)\\s+mínútu",
-            "fyrir\\s+(\\d+)\\s+mínútum",
-            "fyrir\\s+(\\d+)\\s+mín"
+            "fyrir (\\d+) mínútu",
+            "fyrir (\\d+) mínútum",
+            "fyrir (\\d+) mín"
         ],
         "in \\1 second": [
-            "eftir\\s+(\\d+)\\s+sekúndu",
-            "eftir\\s+(\\d+)\\s+sekúndur",
-            "eftir\\s+(\\d+)\\s+sek"
+            "eftir (\\d+) sekúndu",
+            "eftir (\\d+) sekúndur",
+            "eftir (\\d+) sek"
         ],
         "\\1 second ago": [
-            "fyrir\\s+(\\d+)\\s+sekúndu",
-            "fyrir\\s+(\\d+)\\s+sekúndum",
-            "fyrir\\s+(\\d+)\\s+sek"
+            "fyrir (\\d+) sekúndu",
+            "fyrir (\\d+) sekúndum",
+            "fyrir (\\d+) sek"
         ]
     },
     "locale_specific": {},

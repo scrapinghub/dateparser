@@ -221,31 +221,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "w\\s+zeszłym\\s+roku"
+            "w zeszłym roku"
         ],
         "0 year ago": [
-            "w\\s+tym\\s+roku"
+            "w tym roku"
         ],
         "in 1 year": [
-            "w\\s+przyszłym\\s+roku"
+            "w przyszłym roku"
         ],
         "1 month ago": [
-            "w\\s+zeszłym\\s+miesiącu"
+            "w zeszłym miesiącu"
         ],
         "0 month ago": [
-            "w\\s+tym\\s+miesiącu"
+            "w tym miesiącu"
         ],
         "in 1 month": [
-            "w\\s+przyszłym\\s+miesiącu"
+            "w przyszłym miesiącu"
         ],
         "1 week ago": [
-            "w\\s+zeszłym\\s+tygodniu"
+            "w zeszłym tygodniu"
         ],
         "0 week ago": [
-            "w\\s+tym\\s+tygodniu"
+            "w tym tygodniu"
         ],
         "in 1 week": [
-            "w\\s+przyszłym\\s+tygodniu"
+            "w przyszłym tygodniu"
         ],
         "1 day ago": [
             "wczoraj"
@@ -258,86 +258,13 @@ info = {
             "jutro"
         ],
         "0 hour ago": [
-            "ta\\s+godzina"
+            "ta godzina"
         ],
         "0 minute ago": [
-            "ta\\s+minuta"
+            "ta minuta"
         ],
         "0 second ago": [
             "teraz"
-        ],
-        "in \\1 year": [
-            "za\\s+(\\d+)\\s+rok",
-            "za\\s+(\\d+)\\s+roku"
-        ],
-        "\\1 year ago": [
-            "(\\d+)\\s+rok\\s+temu",
-            "(\\d+)\\s+roku\\s+temu"
-        ],
-        "in \\1 month": [
-            "za\\s+(\\d+)\\s+miesiąc",
-            "za\\s+(\\d+)\\s+miesiąca",
-            "za\\s+(\\d+)\\s+mies"
-        ],
-        "\\1 month ago": [
-            "(\\d+)\\s+miesiąc\\s+temu",
-            "(\\d+)\\s+miesiąca\\s+temu",
-            "(\\d+)\\s+mies\\s+temu",
-            "–(\\d+)\\s+mies"
-        ],
-        "in \\1 week": [
-            "za\\s+(\\d+)\\s+tydzień",
-            "za\\s+(\\d+)\\s+tygodnia",
-            "za\\s+(\\d+)\\s+tydz",
-            "za\\s+(\\d+)\\s+tyg"
-        ],
-        "\\1 week ago": [
-            "(\\d+)\\s+tydzień\\s+temu",
-            "(\\d+)\\s+tygodnia\\s+temu",
-            "(\\d+)\\s+tydz\\s+temu",
-            "(\\d+)\\s+tyg\\s+temu"
-        ],
-        "in \\1 day": [
-            "za\\s+(\\d+)\\s+dzień",
-            "za\\s+(\\d+)\\s+dnia"
-        ],
-        "\\1 day ago": [
-            "(\\d+)\\s+dzień\\s+temu",
-            "(\\d+)\\s+dnia\\s+temu"
-        ],
-        "in \\1 hour": [
-            "za\\s+(\\d+)\\s+godzinę",
-            "za\\s+(\\d+)\\s+godziny",
-            "za\\s+(\\d+)\\s+godz",
-            "za\\s+(\\d+)\\s+g"
-        ],
-        "\\1 hour ago": [
-            "(\\d+)\\s+godzinę\\s+temu",
-            "(\\d+)\\s+godziny\\s+temu",
-            "(\\d+)\\s+godz\\s+temu",
-            "(\\d+)\\s+g\\s+temu"
-        ],
-        "in \\1 minute": [
-            "za\\s+(\\d+)\\s+minutę",
-            "za\\s+(\\d+)\\s+minuty",
-            "za\\s+(\\d+)\\s+min"
-        ],
-        "\\1 minute ago": [
-            "(\\d+)\\s+minutę\\s+temu",
-            "(\\d+)\\s+minuty\\s+temu",
-            "(\\d+)\\s+min\\s+temu"
-        ],
-        "in \\1 second": [
-            "za\\s+(\\d+)\\s+sekundę",
-            "za\\s+(\\d+)\\s+sekundy",
-            "za\\s+(\\d+)\\s+sek",
-            "za\\s+(\\d+)\\s+s"
-        ],
-        "\\1 second ago": [
-            "(\\d+)\\s+sekundę\\s+temu",
-            "(\\d+)\\s+sekundy\\s+temu",
-            "(\\d+)\\s+sek\\s+temu",
-            "(\\d+)\\s+s\\s+temu"
         ],
         "2 day ago": [
             "onegdaj",
@@ -345,6 +272,81 @@ info = {
         ],
         "in 2 day": [
             "pojutrze"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "za (\\d+) rok",
+            "za (\\d+) roku"
+        ],
+        "\\1 year ago": [
+            "(\\d+) rok temu",
+            "(\\d+) roku temu"
+        ],
+        "in \\1 month": [
+            "za (\\d+) miesiąc",
+            "za (\\d+) miesiąca",
+            "za (\\d+) mies"
+        ],
+        "\\1 month ago": [
+            "(\\d+) miesiąc temu",
+            "(\\d+) miesiąca temu",
+            "(\\d+) mies temu",
+            "–(\\d+) mies"
+        ],
+        "in \\1 week": [
+            "za (\\d+) tydzień",
+            "za (\\d+) tygodnia",
+            "za (\\d+) tydz",
+            "za (\\d+) tyg"
+        ],
+        "\\1 week ago": [
+            "(\\d+) tydzień temu",
+            "(\\d+) tygodnia temu",
+            "(\\d+) tydz temu",
+            "(\\d+) tyg temu"
+        ],
+        "in \\1 day": [
+            "za (\\d+) dzień",
+            "za (\\d+) dnia"
+        ],
+        "\\1 day ago": [
+            "(\\d+) dzień temu",
+            "(\\d+) dnia temu"
+        ],
+        "in \\1 hour": [
+            "za (\\d+) godzinę",
+            "za (\\d+) godziny",
+            "za (\\d+) godz",
+            "za (\\d+) g"
+        ],
+        "\\1 hour ago": [
+            "(\\d+) godzinę temu",
+            "(\\d+) godziny temu",
+            "(\\d+) godz temu",
+            "(\\d+) g temu"
+        ],
+        "in \\1 minute": [
+            "za (\\d+) minutę",
+            "za (\\d+) minuty",
+            "za (\\d+) min"
+        ],
+        "\\1 minute ago": [
+            "(\\d+) minutę temu",
+            "(\\d+) minuty temu",
+            "(\\d+) min temu"
+        ],
+        "in \\1 second": [
+            "za (\\d+) sekundę",
+            "za (\\d+) sekundy",
+            "za (\\d+) sek",
+            "za (\\d+) s"
+        ],
+        "\\1 second ago": [
+            "(\\d+) sekundę temu",
+            "(\\d+) sekundy temu",
+            "(\\d+) sek temu",
+            "(\\d+) s temu"
         ]
     },
     "locale_specific": {},

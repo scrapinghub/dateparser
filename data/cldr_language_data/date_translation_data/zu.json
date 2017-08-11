@@ -172,7 +172,9 @@
         ],
         "0 second ago": [
             "manje"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "\\1 year ago": [
             "{0} unyaka odlule",
             "{0} iminyaka edlule"

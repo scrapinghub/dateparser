@@ -157,7 +157,9 @@
         ],
         "0 second ago": [
             "bây giờ"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "sau {0} năm nữa"
         ],

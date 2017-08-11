@@ -173,6 +173,7 @@
             "now"
         ]
     },
+    "relative-type-regex": {},
     "locale_specific": {
         "gsw-FR": {
             "name": "gsw-FR"

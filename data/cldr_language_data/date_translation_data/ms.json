@@ -181,7 +181,9 @@
         ],
         "0 second ago": [
             "sekarang"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "dalam {0} saat",
             "dalam {0} thn"

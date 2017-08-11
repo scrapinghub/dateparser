@@ -158,7 +158,9 @@
         "0 second ago": [
             "bremañ",
             "brem"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "a-benn {0} bloaz",
             "a-benn {0} vloaz",

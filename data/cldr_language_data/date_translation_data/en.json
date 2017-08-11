@@ -184,7 +184,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "in {0} year",
             "in {0} years",
@@ -327,7 +329,7 @@
         "en-CA": {
             "name": "en-CA",
             "date_order": "YMD",
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "in {0} yrs"
                 ],
@@ -637,7 +639,9 @@
                 ],
                 "in 1 month": [
                     "next mth"
-                ],
+                ]
+            },
+            "relative-type-regex": {
                 "in \\1 month": [
                     "in {0} mth"
                 ],

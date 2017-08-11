@@ -71,377 +71,379 @@ def _retrieve_locale_data(locale):
     json_dict["name"] = locale
 
     try:
-        date_format_string = gregorian_dict.get("dateFormats").get("short").upper()
+        date_format_string = gregorian_dict["dateFormats"]["short"].upper()
     except:
-        date_format_string = gregorian_dict.get("dateFormats").get("short").get("_value").upper()
+        date_format_string = gregorian_dict["dateFormats"]["short"]["_value"].upper()
 
     json_dict["date_order"] = DATE_ORDER_PATTERN.sub(
             r'\1\2\3', DATE_ORDER_PATTERN.search(date_format_string).group())
 
-    json_dict["january"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("1"),
-                            gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("1"),
-                            gregorian_dict.get("months").get("stand-alone").get("narrow").get("1"),
-                            gregorian_dict.get("months").get("format").get("wide").get("1"),
-                            gregorian_dict.get("months").get("format").get("abbreviated").get("1"),
-                            gregorian_dict.get("months").get("format").get("narrow").get("1")]
+    json_dict["january"] = [gregorian_dict["months"]["stand-alone"]["wide"]["1"],
+                            gregorian_dict["months"]["stand-alone"]["abbreviated"]["1"],
+                            gregorian_dict["months"]["stand-alone"]["narrow"]["1"],
+                            gregorian_dict["months"]["format"]["wide"]["1"],
+                            gregorian_dict["months"]["format"]["abbreviated"]["1"],
+                            gregorian_dict["months"]["format"]["narrow"]["1"]]
 
-    json_dict["february"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("2"),
-                             gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("2"),
-                             gregorian_dict.get("months").get("stand-alone").get("narrow").get("2"),
-                             gregorian_dict.get("months").get("format").get("wide").get("2"),
-                             gregorian_dict.get("months").get("format").get("abbreviated").get("2"),
-                             gregorian_dict.get("months").get("format").get("narrow").get("2")]
+    json_dict["february"] = [gregorian_dict["months"]["stand-alone"]["wide"]["2"],
+                             gregorian_dict["months"]["stand-alone"]["abbreviated"]["2"],
+                             gregorian_dict["months"]["stand-alone"]["narrow"]["2"],
+                             gregorian_dict["months"]["format"]["wide"]["2"],
+                             gregorian_dict["months"]["format"]["abbreviated"]["2"],
+                             gregorian_dict["months"]["format"]["narrow"]["2"]]
 
-    json_dict["march"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("3"),
-                          gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("3"),
-                          gregorian_dict.get("months").get("stand-alone").get("narrow").get("3"),
-                          gregorian_dict.get("months").get("format").get("wide").get("3"),
-                          gregorian_dict.get("months").get("format").get("abbreviated").get("3"),
-                          gregorian_dict.get("months").get("format").get("narrow").get("3")]
+    json_dict["march"] = [gregorian_dict["months"]["stand-alone"]["wide"]["3"],
+                          gregorian_dict["months"]["stand-alone"]["abbreviated"]["3"],
+                          gregorian_dict["months"]["stand-alone"]["narrow"]["3"],
+                          gregorian_dict["months"]["format"]["wide"]["3"],
+                          gregorian_dict["months"]["format"]["abbreviated"]["3"],
+                          gregorian_dict["months"]["format"]["narrow"]["3"]]
 
-    json_dict["april"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("4"),
-                          gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("4"),
-                          gregorian_dict.get("months").get("stand-alone").get("narrow").get("4"),
-                          gregorian_dict.get("months").get("format").get("wide").get("4"),
-                          gregorian_dict.get("months").get("format").get("abbreviated").get("4"),
-                          gregorian_dict.get("months").get("format").get("narrow").get("4")]
+    json_dict["april"] = [gregorian_dict["months"]["stand-alone"]["wide"]["4"],
+                          gregorian_dict["months"]["stand-alone"]["abbreviated"]["4"],
+                          gregorian_dict["months"]["stand-alone"]["narrow"]["4"],
+                          gregorian_dict["months"]["format"]["wide"]["4"],
+                          gregorian_dict["months"]["format"]["abbreviated"]["4"],
+                          gregorian_dict["months"]["format"]["narrow"]["4"]]
 
-    json_dict["may"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("5"),
-                        gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("5"),
-                        gregorian_dict.get("months").get("stand-alone").get("narrow").get("5"),
-                        gregorian_dict.get("months").get("format").get("wide").get("5"),
-                        gregorian_dict.get("months").get("format").get("abbreviated").get("5"),
-                        gregorian_dict.get("months").get("format").get("narrow").get("5")]
+    json_dict["may"] = [gregorian_dict["months"]["stand-alone"]["wide"]["5"],
+                        gregorian_dict["months"]["stand-alone"]["abbreviated"]["5"],
+                        gregorian_dict["months"]["stand-alone"]["narrow"]["5"],
+                        gregorian_dict["months"]["format"]["wide"]["5"],
+                        gregorian_dict["months"]["format"]["abbreviated"]["5"],
+                        gregorian_dict["months"]["format"]["narrow"]["5"]]
 
-    json_dict["june"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("6"),
-                         gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("6"),
-                         gregorian_dict.get("months").get("stand-alone").get("narrow").get("6"),
-                         gregorian_dict.get("months").get("format").get("wide").get("6"),
-                         gregorian_dict.get("months").get("format").get("abbreviated").get("6"),
-                         gregorian_dict.get("months").get("format").get("narrow").get("6")]
+    json_dict["june"] = [gregorian_dict["months"]["stand-alone"]["wide"]["6"],
+                         gregorian_dict["months"]["stand-alone"]["abbreviated"]["6"],
+                         gregorian_dict["months"]["stand-alone"]["narrow"]["6"],
+                         gregorian_dict["months"]["format"]["wide"]["6"],
+                         gregorian_dict["months"]["format"]["abbreviated"]["6"],
+                         gregorian_dict["months"]["format"]["narrow"]["6"]]
 
-    json_dict["july"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("7"),
-                         gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("7"),
-                         gregorian_dict.get("months").get("stand-alone").get("narrow").get("7"),
-                         gregorian_dict.get("months").get("format").get("wide").get("7"),
-                         gregorian_dict.get("months").get("format").get("abbreviated").get("7"),
-                         gregorian_dict.get("months").get("format").get("narrow").get("7")]
+    json_dict["july"] = [gregorian_dict["months"]["stand-alone"]["wide"]["7"],
+                         gregorian_dict["months"]["stand-alone"]["abbreviated"]["7"],
+                         gregorian_dict["months"]["stand-alone"]["narrow"]["7"],
+                         gregorian_dict["months"]["format"]["wide"]["7"],
+                         gregorian_dict["months"]["format"]["abbreviated"]["7"],
+                         gregorian_dict["months"]["format"]["narrow"]["7"]]
 
-    json_dict["august"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("8"),
-                           gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("8"),
-                           gregorian_dict.get("months").get("stand-alone").get("narrow").get("8"),
-                           gregorian_dict.get("months").get("format").get("wide").get("8"),
-                           gregorian_dict.get("months").get("format").get("abbreviated").get("8"),
-                           gregorian_dict.get("months").get("format").get("narrow").get("8")]
+    json_dict["august"] = [gregorian_dict["months"]["stand-alone"]["wide"]["8"],
+                           gregorian_dict["months"]["stand-alone"]["abbreviated"]["8"],
+                           gregorian_dict["months"]["stand-alone"]["narrow"]["8"],
+                           gregorian_dict["months"]["format"]["wide"]["8"],
+                           gregorian_dict["months"]["format"]["abbreviated"]["8"],
+                           gregorian_dict["months"]["format"]["narrow"]["8"]]
 
-    json_dict["september"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("9"),
-                              gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("9"),
-                              gregorian_dict.get("months").get("stand-alone").get("narrow").get("9"),
-                              gregorian_dict.get("months").get("format").get("wide").get("9"),
-                              gregorian_dict.get("months").get("format").get("abbreviated").get("9"),
-                              gregorian_dict.get("months").get("format").get("narrow").get("9")]
+    json_dict["september"] = [gregorian_dict["months"]["stand-alone"]["wide"]["9"],
+                              gregorian_dict["months"]["stand-alone"]["abbreviated"]["9"],
+                              gregorian_dict["months"]["stand-alone"]["narrow"]["9"],
+                              gregorian_dict["months"]["format"]["wide"]["9"],
+                              gregorian_dict["months"]["format"]["abbreviated"]["9"],
+                              gregorian_dict["months"]["format"]["narrow"]["9"]]
 
-    json_dict["october"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("10"),
-                            gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("10"),
-                            gregorian_dict.get("months").get("stand-alone").get("narrow").get("10"),
-                            gregorian_dict.get("months").get("format").get("wide").get("10"),
-                            gregorian_dict.get("months").get("format").get("abbreviated").get("10"),
-                            gregorian_dict.get("months").get("format").get("narrow").get("10")]
+    json_dict["october"] = [gregorian_dict["months"]["stand-alone"]["wide"]["10"],
+                            gregorian_dict["months"]["stand-alone"]["abbreviated"]["10"],
+                            gregorian_dict["months"]["stand-alone"]["narrow"]["10"],
+                            gregorian_dict["months"]["format"]["wide"]["10"],
+                            gregorian_dict["months"]["format"]["abbreviated"]["10"],
+                            gregorian_dict["months"]["format"]["narrow"]["10"]]
 
-    json_dict["november"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("11"),
-                             gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("11"),
-                             gregorian_dict.get("months").get("stand-alone").get("narrow").get("11"),
-                             gregorian_dict.get("months").get("format").get("wide").get("11"),
-                             gregorian_dict.get("months").get("format").get("abbreviated").get("11"),
-                             gregorian_dict.get("months").get("format").get("narrow").get("11")]
+    json_dict["november"] = [gregorian_dict["months"]["stand-alone"]["wide"]["11"],
+                             gregorian_dict["months"]["stand-alone"]["abbreviated"]["11"],
+                             gregorian_dict["months"]["stand-alone"]["narrow"]["11"],
+                             gregorian_dict["months"]["format"]["wide"]["11"],
+                             gregorian_dict["months"]["format"]["abbreviated"]["11"],
+                             gregorian_dict["months"]["format"]["narrow"]["11"]]
 
-    json_dict["december"] = [gregorian_dict.get("months").get("stand-alone").get("wide").get("12"),
-                             gregorian_dict.get("months").get("stand-alone").get("abbreviated").get("12"),
-                             gregorian_dict.get("months").get("stand-alone").get("narrow").get("12"),
-                             gregorian_dict.get("months").get("format").get("wide").get("12"),
-                             gregorian_dict.get("months").get("format").get("abbreviated").get("12"),
-                             gregorian_dict.get("months").get("format").get("narrow").get("12")]
+    json_dict["december"] = [gregorian_dict["months"]["stand-alone"]["wide"]["12"],
+                             gregorian_dict["months"]["stand-alone"]["abbreviated"]["12"],
+                             gregorian_dict["months"]["stand-alone"]["narrow"]["12"],
+                             gregorian_dict["months"]["format"]["wide"]["12"],
+                             gregorian_dict["months"]["format"]["abbreviated"]["12"],
+                             gregorian_dict["months"]["format"]["narrow"]["12"]]
 
-    json_dict["monday"] = [gregorian_dict.get("days").get("stand-alone").get("wide").get("mon"),
-                           gregorian_dict.get("days").get("stand-alone").get("abbreviated").get("mon"),
-                           gregorian_dict.get("days").get("stand-alone").get("narrow").get("mon"),
-                           gregorian_dict.get("days").get("format").get("wide").get("mon"),
-                           gregorian_dict.get("days").get("format").get("abbreviated").get("mon"),
-                           gregorian_dict.get("days").get("format").get("narrow").get("mon")]
+    json_dict["monday"] = [gregorian_dict["days"]["stand-alone"]["wide"]["mon"],
+                           gregorian_dict["days"]["stand-alone"]["abbreviated"]["mon"],
+                           gregorian_dict["days"]["stand-alone"]["narrow"]["mon"],
+                           gregorian_dict["days"]["format"]["wide"]["mon"],
+                           gregorian_dict["days"]["format"]["abbreviated"]["mon"],
+                           gregorian_dict["days"]["format"]["narrow"]["mon"]]
 
-    json_dict["tuesday"] = [gregorian_dict.get("days").get("stand-alone").get("wide").get("tue"),
-                            gregorian_dict.get("days").get("stand-alone").get("abbreviated").get("tue"),
-                            gregorian_dict.get("days").get("stand-alone").get("narrow").get("tue"),
-                            gregorian_dict.get("days").get("format").get("wide").get("tue"),
-                            gregorian_dict.get("days").get("format").get("abbreviated").get("tue"),
-                            gregorian_dict.get("days").get("format").get("narrow").get("tue")]
+    json_dict["tuesday"] = [gregorian_dict["days"]["stand-alone"]["wide"]["tue"],
+                            gregorian_dict["days"]["stand-alone"]["abbreviated"]["tue"],
+                            gregorian_dict["days"]["stand-alone"]["narrow"]["tue"],
+                            gregorian_dict["days"]["format"]["wide"]["tue"],
+                            gregorian_dict["days"]["format"]["abbreviated"]["tue"],
+                            gregorian_dict["days"]["format"]["narrow"]["tue"]]
 
-    json_dict["wednesday"] = [gregorian_dict.get("days").get("stand-alone").get("wide").get("wed"),
-                              gregorian_dict.get("days").get("stand-alone").get("abbreviated").get("wed"),
-                              gregorian_dict.get("days").get("stand-alone").get("narrow").get("wed"),
-                              gregorian_dict.get("days").get("format").get("wide").get("wed"),
-                              gregorian_dict.get("days").get("format").get("abbreviated").get("wed"),
-                              gregorian_dict.get("days").get("format").get("narrow").get("wed")]
+    json_dict["wednesday"] = [gregorian_dict["days"]["stand-alone"]["wide"]["wed"],
+                              gregorian_dict["days"]["stand-alone"]["abbreviated"]["wed"],
+                              gregorian_dict["days"]["stand-alone"]["narrow"]["wed"],
+                              gregorian_dict["days"]["format"]["wide"]["wed"],
+                              gregorian_dict["days"]["format"]["abbreviated"]["wed"],
+                              gregorian_dict["days"]["format"]["narrow"]["wed"]]
 
-    json_dict["thursday"] = [gregorian_dict.get("days").get("stand-alone").get("wide").get("thu"),
-                             gregorian_dict.get("days").get("stand-alone").get("abbreviated").get("thu"),
-                             gregorian_dict.get("days").get("stand-alone").get("narrow").get("thu"),
-                             gregorian_dict.get("days").get("format").get("wide").get("thu"),
-                             gregorian_dict.get("days").get("format").get("abbreviated").get("thu"),
-                             gregorian_dict.get("days").get("format").get("narrow").get("thu")]
+    json_dict["thursday"] = [gregorian_dict["days"]["stand-alone"]["wide"]["thu"],
+                             gregorian_dict["days"]["stand-alone"]["abbreviated"]["thu"],
+                             gregorian_dict["days"]["stand-alone"]["narrow"]["thu"],
+                             gregorian_dict["days"]["format"]["wide"]["thu"],
+                             gregorian_dict["days"]["format"]["abbreviated"]["thu"],
+                             gregorian_dict["days"]["format"]["narrow"]["thu"]]
 
-    json_dict["friday"] = [gregorian_dict.get("days").get("stand-alone").get("wide").get("fri"),
-                           gregorian_dict.get("days").get("stand-alone").get("abbreviated").get("fri"),
-                           gregorian_dict.get("days").get("stand-alone").get("narrow").get("fri"),
-                           gregorian_dict.get("days").get("format").get("wide").get("fri"),
-                           gregorian_dict.get("days").get("format").get("abbreviated").get("fri"),
-                           gregorian_dict.get("days").get("format").get("narrow").get("fri")]
+    json_dict["friday"] = [gregorian_dict["days"]["stand-alone"]["wide"]["fri"],
+                           gregorian_dict["days"]["stand-alone"]["abbreviated"]["fri"],
+                           gregorian_dict["days"]["stand-alone"]["narrow"]["fri"],
+                           gregorian_dict["days"]["format"]["wide"]["fri"],
+                           gregorian_dict["days"]["format"]["abbreviated"]["fri"],
+                           gregorian_dict["days"]["format"]["narrow"]["fri"]]
 
-    json_dict["saturday"] = [gregorian_dict.get("days").get("stand-alone").get("wide").get("sat"),
-                             gregorian_dict.get("days").get("stand-alone").get("abbreviated").get("sat"),
-                             gregorian_dict.get("days").get("stand-alone").get("narrow").get("sat"),
-                             gregorian_dict.get("days").get("format").get("wide").get("sat"),
-                             gregorian_dict.get("days").get("format").get("abbreviated").get("sat"),
-                             gregorian_dict.get("days").get("format").get("narrow").get("sat")]
+    json_dict["saturday"] = [gregorian_dict["days"]["stand-alone"]["wide"]["sat"],
+                             gregorian_dict["days"]["stand-alone"]["abbreviated"]["sat"],
+                             gregorian_dict["days"]["stand-alone"]["narrow"]["sat"],
+                             gregorian_dict["days"]["format"]["wide"]["sat"],
+                             gregorian_dict["days"]["format"]["abbreviated"]["sat"],
+                             gregorian_dict["days"]["format"]["narrow"]["sat"]]
 
-    json_dict["sunday"] = [gregorian_dict.get("days").get("stand-alone").get("wide").get("sun"),
-                           gregorian_dict.get("days").get("stand-alone").get("abbreviated").get("sun"),
-                           gregorian_dict.get("days").get("stand-alone").get("narrow").get("sun"),
-                           gregorian_dict.get("days").get("format").get("wide").get("sun"),
-                           gregorian_dict.get("days").get("format").get("abbreviated").get("sun"),
-                           gregorian_dict.get("days").get("format").get("narrow").get("sun")]
+    json_dict["sunday"] = [gregorian_dict["days"]["stand-alone"]["wide"]["sun"],
+                           gregorian_dict["days"]["stand-alone"]["abbreviated"]["sun"],
+                           gregorian_dict["days"]["stand-alone"]["narrow"]["sun"],
+                           gregorian_dict["days"]["format"]["wide"]["sun"],
+                           gregorian_dict["days"]["format"]["abbreviated"]["sun"],
+                           gregorian_dict["days"]["format"]["narrow"]["sun"]]
 
     json_dict["am"] = list(AM_PATTERN.sub('am', x) for x in
-                           [gregorian_dict.get("dayPeriods").get("stand-alone").get("wide").get("am"),
-                            gregorian_dict.get("dayPeriods").get("stand-alone").get("abbreviated").get("am"),
-                            gregorian_dict.get("dayPeriods").get("stand-alone").get("narrow").get("am"),
-                            gregorian_dict.get("dayPeriods").get("format").get("wide").get("am"),
-                            gregorian_dict.get("dayPeriods").get("format").get("abbreviated").get("am"),
-                            gregorian_dict.get("dayPeriods").get("format").get("narrow").get("am")])
+                           [gregorian_dict["dayPeriods"]["stand-alone"]["wide"]["am"],
+                            gregorian_dict["dayPeriods"]["stand-alone"]["abbreviated"]["am"],
+                            gregorian_dict["dayPeriods"]["stand-alone"]["narrow"]["am"],
+                            gregorian_dict["dayPeriods"]["format"]["wide"]["am"],
+                            gregorian_dict["dayPeriods"]["format"]["abbreviated"]["am"],
+                            gregorian_dict["dayPeriods"]["format"]["narrow"]["am"]])
 
     json_dict["pm"] = list(PM_PATTERN.sub('pm', x) for x in
-                           [gregorian_dict.get("dayPeriods").get("stand-alone").get("wide").get("pm"),
-                            gregorian_dict.get("dayPeriods").get("stand-alone").get("abbreviated").get("pm"),
-                            gregorian_dict.get("dayPeriods").get("stand-alone").get("narrow").get("pm"),
-                            gregorian_dict.get("dayPeriods").get("format").get("wide").get("pm"),
-                            gregorian_dict.get("dayPeriods").get("format").get("abbreviated").get("pm"),
-                            gregorian_dict.get("dayPeriods").get("format").get("narrow").get("pm")])
+                           [gregorian_dict["dayPeriods"]["stand-alone"]["wide"]["pm"],
+                            gregorian_dict["dayPeriods"]["stand-alone"]["abbreviated"]["pm"],
+                            gregorian_dict["dayPeriods"]["stand-alone"]["narrow"]["pm"],
+                            gregorian_dict["dayPeriods"]["format"]["wide"]["pm"],
+                            gregorian_dict["dayPeriods"]["format"]["abbreviated"]["pm"],
+                            gregorian_dict["dayPeriods"]["format"]["narrow"]["pm"]])
 
-    json_dict["year"] = [date_fields_dict.get("year").get("displayName"),
-                         date_fields_dict.get("year-short").get("displayName"),
-                         date_fields_dict.get("year-narrow").get("displayName")]
+    json_dict["year"] = [date_fields_dict["year"]["displayName"],
+                         date_fields_dict["year-short"]["displayName"],
+                         date_fields_dict["year-narrow"]["displayName"]]
 
-    json_dict["month"] = [date_fields_dict.get("month").get("displayName"),
-                          date_fields_dict.get("month-short").get("displayName"),
-                          date_fields_dict.get("month-narrow").get("displayName")]
+    json_dict["month"] = [date_fields_dict["month"]["displayName"],
+                          date_fields_dict["month-short"]["displayName"],
+                          date_fields_dict["month-narrow"]["displayName"]]
 
-    json_dict["week"] = [date_fields_dict.get("week").get("displayName"),
-                         date_fields_dict.get("week-short").get("displayName"),
-                         date_fields_dict.get("week-narrow").get("displayName")]
+    json_dict["week"] = [date_fields_dict["week"]["displayName"],
+                         date_fields_dict["week-short"]["displayName"],
+                         date_fields_dict["week-narrow"]["displayName"]]
 
-    json_dict["day"] = [date_fields_dict.get("day").get("displayName"),
-                        date_fields_dict.get("day-short").get("displayName"),
-                        date_fields_dict.get("day-narrow").get("displayName")]
+    json_dict["day"] = [date_fields_dict["day"]["displayName"],
+                        date_fields_dict["day-short"]["displayName"],
+                        date_fields_dict["day-narrow"]["displayName"]]
 
-    json_dict["hour"] = [date_fields_dict.get("hour").get("displayName"),
-                         date_fields_dict.get("hour-short").get("displayName"),
-                         date_fields_dict.get("hour-narrow").get("displayName")]
+    json_dict["hour"] = [date_fields_dict["hour"]["displayName"],
+                         date_fields_dict["hour-short"]["displayName"],
+                         date_fields_dict["hour-narrow"]["displayName"]]
 
-    json_dict["minute"] = [date_fields_dict.get("minute").get("displayName"),
-                           date_fields_dict.get("minute-short").get("displayName"),
-                           date_fields_dict.get("minute-narrow").get("displayName")]
+    json_dict["minute"] = [date_fields_dict["minute"]["displayName"],
+                           date_fields_dict["minute-short"]["displayName"],
+                           date_fields_dict["minute-narrow"]["displayName"]]
 
-    json_dict["second"] = [date_fields_dict.get("second").get("displayName"),
-                           date_fields_dict.get("second-short").get("displayName"),
-                           date_fields_dict.get("second-narrow").get("displayName")]
+    json_dict["second"] = [date_fields_dict["second"]["displayName"],
+                           date_fields_dict["second-short"]["displayName"],
+                           date_fields_dict["second-narrow"]["displayName"]]
 
     json_dict["relative-type"] = OrderedDict()
 
-    json_dict["relative-type"]["1 year ago"] = [date_fields_dict.get("year").get("relative-type--1"),
-                                                date_fields_dict.get("year-short").get("relative-type--1"),
-                                                date_fields_dict.get("year-narrow").get("relative-type--1")]
+    json_dict["relative-type"]["1 year ago"] = [date_fields_dict["year"]["relative-type--1"],
+                                                date_fields_dict["year-short"]["relative-type--1"],
+                                                date_fields_dict["year-narrow"]["relative-type--1"]]
 
-    json_dict["relative-type"]["0 year ago"] = [date_fields_dict.get("year").get("relative-type-0"),
-                                                date_fields_dict.get("year-short").get("relative-type-0"),
-                                                date_fields_dict.get("year-narrow").get("relative-type-0")]
+    json_dict["relative-type"]["0 year ago"] = [date_fields_dict["year"]["relative-type-0"],
+                                                date_fields_dict["year-short"]["relative-type-0"],
+                                                date_fields_dict["year-narrow"]["relative-type-0"]]
 
-    json_dict["relative-type"]["in 1 year"] = [date_fields_dict.get("year").get("relative-type-1"),
-                                               date_fields_dict.get("year-short").get("relative-type-1"),
-                                               date_fields_dict.get("year-narrow").get("relative-type-1")]
+    json_dict["relative-type"]["in 1 year"] = [date_fields_dict["year"]["relative-type-1"],
+                                               date_fields_dict["year-short"]["relative-type-1"],
+                                               date_fields_dict["year-narrow"]["relative-type-1"]]
 
-    json_dict["relative-type"]["1 month ago"] = [date_fields_dict.get("month").get("relative-type--1"),
-                                                 date_fields_dict.get("month-short").get("relative-type--1"),
-                                                 date_fields_dict.get("month-narrow").get("relative-type--1")]
+    json_dict["relative-type"]["1 month ago"] = [date_fields_dict["month"]["relative-type--1"],
+                                                 date_fields_dict["month-short"]["relative-type--1"],
+                                                 date_fields_dict["month-narrow"]["relative-type--1"]]
 
-    json_dict["relative-type"]["0 month ago"] = [date_fields_dict.get("month").get("relative-type-0"),
-                                                 date_fields_dict.get("month-short").get("relative-type-0"),
-                                                 date_fields_dict.get("month-narrow").get("relative-type-0")]
+    json_dict["relative-type"]["0 month ago"] = [date_fields_dict["month"]["relative-type-0"],
+                                                 date_fields_dict["month-short"]["relative-type-0"],
+                                                 date_fields_dict["month-narrow"]["relative-type-0"]]
 
-    json_dict["relative-type"]["in 1 month"] = [date_fields_dict.get("month").get("relative-type-1"),
-                                                date_fields_dict.get("month-short").get("relative-type-1"),
-                                                date_fields_dict.get("month-narrow").get("relative-type-1")]
+    json_dict["relative-type"]["in 1 month"] = [date_fields_dict["month"]["relative-type-1"],
+                                                date_fields_dict["month-short"]["relative-type-1"],
+                                                date_fields_dict["month-narrow"]["relative-type-1"]]
 
-    json_dict["relative-type"]["1 week ago"] = [date_fields_dict.get("week").get("relative-type--1"),
-                                                date_fields_dict.get("week-short").get("relative-type--1"),
-                                                date_fields_dict.get("week-narrow").get("relative-type--1")]
+    json_dict["relative-type"]["1 week ago"] = [date_fields_dict["week"]["relative-type--1"],
+                                                date_fields_dict["week-short"]["relative-type--1"],
+                                                date_fields_dict["week-narrow"]["relative-type--1"]]
 
-    json_dict["relative-type"]["0 week ago"] = [date_fields_dict.get("week").get("relative-type-0"),
-                                                date_fields_dict.get("week-short").get("relative-type-0"),
-                                                date_fields_dict.get("week-narrow").get("relative-type-0")]
+    json_dict["relative-type"]["0 week ago"] = [date_fields_dict["week"]["relative-type-0"],
+                                                date_fields_dict["week-short"]["relative-type-0"],
+                                                date_fields_dict["week-narrow"]["relative-type-0"]]
 
-    json_dict["relative-type"]["in 1 week"] = [date_fields_dict.get("week").get("relative-type-1"),
-                                               date_fields_dict.get("week-short").get("relative-type-1"),
-                                               date_fields_dict.get("week-narrow").get("relative-type-1")]
+    json_dict["relative-type"]["in 1 week"] = [date_fields_dict["week"]["relative-type-1"],
+                                               date_fields_dict["week-short"]["relative-type-1"],
+                                               date_fields_dict["week-narrow"]["relative-type-1"]]
 
-    json_dict["relative-type"]["1 day ago"] = [date_fields_dict.get("day").get("relative-type--1"),
-                                               date_fields_dict.get("day-short").get("relative-type--1"),
-                                               date_fields_dict.get("day-narrow").get("relative-type--1")]
+    json_dict["relative-type"]["1 day ago"] = [date_fields_dict["day"]["relative-type--1"],
+                                               date_fields_dict["day-short"]["relative-type--1"],
+                                               date_fields_dict["day-narrow"]["relative-type--1"]]
 
-    json_dict["relative-type"]["0 day ago"] = [date_fields_dict.get("day").get("relative-type-0"),
-                                               date_fields_dict.get("day-short").get("relative-type-0"),
-                                               date_fields_dict.get("day-narrow").get("relative-type-0")]
+    json_dict["relative-type"]["0 day ago"] = [date_fields_dict["day"]["relative-type-0"],
+                                               date_fields_dict["day-short"]["relative-type-0"],
+                                               date_fields_dict["day-narrow"]["relative-type-0"]]
 
-    json_dict["relative-type"]["in 1 day"] = [date_fields_dict.get("day").get("relative-type-1"),
-                                              date_fields_dict.get("day-short").get("relative-type-1"),
-                                              date_fields_dict.get("day-narrow").get("relative-type-1")]
+    json_dict["relative-type"]["in 1 day"] = [date_fields_dict["day"]["relative-type-1"],
+                                              date_fields_dict["day-short"]["relative-type-1"],
+                                              date_fields_dict["day-narrow"]["relative-type-1"]]
 
-    json_dict["relative-type"]["0 hour ago"] = [date_fields_dict.get("hour").get("relative-type-0"),
-                                                date_fields_dict.get("hour-short").get("relative-type-0"),
-                                                date_fields_dict.get("hour-narrow").get("relative-type-0")]
+    json_dict["relative-type"]["0 hour ago"] = [date_fields_dict["hour"]["relative-type-0"],
+                                                date_fields_dict["hour-short"]["relative-type-0"],
+                                                date_fields_dict["hour-narrow"]["relative-type-0"]]
 
-    json_dict["relative-type"]["0 minute ago"] = [date_fields_dict.get("minute").get("relative-type-0"),
-                                                  date_fields_dict.get("minute-short").get("relative-type-0"),
-                                                  date_fields_dict.get("minute-narrow").get("relative-type-0")]
+    json_dict["relative-type"]["0 minute ago"] = [date_fields_dict["minute"]["relative-type-0"],
+                                                  date_fields_dict["minute-short"]["relative-type-0"],
+                                                  date_fields_dict["minute-narrow"]["relative-type-0"]]
 
-    json_dict["relative-type"]["0 second ago"] = [date_fields_dict.get("second").get("relative-type-0"),
-                                                  date_fields_dict.get("second-short").get("relative-type-0"),
-                                                  date_fields_dict.get("second-narrow").get("relative-type-0")]
+    json_dict["relative-type"]["0 second ago"] = [date_fields_dict["second"]["relative-type-0"],
+                                                  date_fields_dict["second-short"]["relative-type-0"],
+                                                  date_fields_dict["second-narrow"]["relative-type-0"]]
 
-    json_dict["relative-type"]["in \\1 year"] = (
+    json_dict["relative-type-regex"] = OrderedDict()
+
+    json_dict["relative-type-regex"]["in \\1 year"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("year").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("year").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("year-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("year-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("year-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("year-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["year"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["year"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["year-short"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["year-short"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["year-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["year-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["\\1 year ago"] = (
+    json_dict["relative-type-regex"]["\\1 year ago"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("year").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("year").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("year-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("year-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("year-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("year-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["year"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["year"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["year-short"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["year-short"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["year-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["year-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["in \\1 month"] = (
+    json_dict["relative-type-regex"]["in \\1 month"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("month").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("month").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("month-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("month-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("month-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("month-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["month"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["month"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["month-short"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["month-short"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["month-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["month-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["\\1 month ago"] = (
+    json_dict["relative-type-regex"]["\\1 month ago"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("month").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("month").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("month-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("month-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("month-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("month-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["month"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["month"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["month-short"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["month-short"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["month-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["month-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["in \\1 week"] = (
+    json_dict["relative-type-regex"]["in \\1 week"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("week").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("week").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("week-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("week-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("week-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("week-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["week"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["week"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["week-short"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["week-short"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["week-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["week-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["\\1 week ago"] = (
+    json_dict["relative-type-regex"]["\\1 week ago"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("week").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("week").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("week-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("week-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("week-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("week-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["week"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["week"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["week-short"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["week-short"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["week-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["week-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["in \\1 day"] = (
+    json_dict["relative-type-regex"]["in \\1 day"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("day").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("day").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("day-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("day-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("day-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("day-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["day"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["day"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["day-short"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["day-short"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["day-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["day-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["\\1 day ago"] = (
+    json_dict["relative-type-regex"]["\\1 day ago"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("day").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("day").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("day-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("day-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("day-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("day-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["day"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["day"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["day-short"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["day-short"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["day-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["day-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["in \\1 hour"] = (
+    json_dict["relative-type-regex"]["in \\1 hour"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("hour").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("hour").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("hour-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("hour-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("hour-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("hour-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["hour"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["hour"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["hour-short"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["hour-short"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["hour-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["hour-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["\\1 hour ago"] = (
+    json_dict["relative-type-regex"]["\\1 hour ago"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("hour").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("hour").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("hour-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("hour-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("hour-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("hour-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["hour"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["hour"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["hour-short"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["hour-short"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["hour-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["hour-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["in \\1 minute"] = (
+    json_dict["relative-type-regex"]["in \\1 minute"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("minute").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("minute").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("minute-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("minute-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("minute-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("minute-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["minute"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["minute"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["minute-short"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["minute-short"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["minute-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["minute-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["\\1 minute ago"] = (
+    json_dict["relative-type-regex"]["\\1 minute ago"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("minute").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("minute").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("minute-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("minute-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("minute-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("minute-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["minute"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["minute"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["minute-short"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["minute-short"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["minute-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["minute-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["in \\1 second"] = (
+    json_dict["relative-type-regex"]["in \\1 second"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("second").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("second").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("second-short").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("second-short").get("relativeTime-type-future").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("second-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("second-narrow").get("relativeTime-type-future").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["second"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["second"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["second-short"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["second-short"]["relativeTime-type-future"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["second-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["second-narrow"]["relativeTime-type-future"].get("relativeTimePattern-count-other")])))
 
-    json_dict["relative-type"]["\\1 second ago"] = (
+    json_dict["relative-type-regex"]["\\1 second ago"] = (
         list(map(_modify_relative_string,
-                 [date_fields_dict.get("second").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("second").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("second-short").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("second-short").get("relativeTime-type-past").get("relativeTimePattern-count-other"),
-                  date_fields_dict.get("second-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-one"),
-                  date_fields_dict.get("second-narrow").get("relativeTime-type-past").get("relativeTimePattern-count-other")])))
+                 [date_fields_dict["second"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["second"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["second-short"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["second-short"]["relativeTime-type-past"].get("relativeTimePattern-count-other"),
+                  date_fields_dict["second-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-one"),
+                  date_fields_dict["second-narrow"]["relativeTime-type-past"].get("relativeTimePattern-count-other")])))
 
     return json_dict
 

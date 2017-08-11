@@ -175,7 +175,9 @@
         ],
         "0 second ago": [
             "ahora"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "dentro de {0} año",
             "dentro de {0} años",
@@ -266,7 +268,7 @@
             "second": [
                 "seg"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 second": [
                     "dentro de {0} seg"
                 ],
@@ -400,7 +402,9 @@
                 ],
                 "in 1 week": [
                     "la semana próxima"
-                ],
+                ]
+            },
+            "relative-type-regex": {
                 "in \\1 year": [
                     "en {0} a"
                 ],
@@ -478,7 +482,7 @@
             "second": [
                 "seg"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 second": [
                     "dentro de {0} seg"
                 ],

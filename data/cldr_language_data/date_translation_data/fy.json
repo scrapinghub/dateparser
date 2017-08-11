@@ -168,7 +168,9 @@
         ],
         "0 second ago": [
             "nu"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "oer {0} jier"
         ],

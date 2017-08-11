@@ -129,31 +129,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "vitin\\s+e\\s+kaluar"
+            "vitin e kaluar"
         ],
         "0 year ago": [
-            "këtë\\s+vit"
+            "këtë vit"
         ],
         "in 1 year": [
-            "vitin\\s+e\\s+ardhshëm"
+            "vitin e ardhshëm"
         ],
         "1 month ago": [
-            "muajin\\s+e\\s+kaluar"
+            "muajin e kaluar"
         ],
         "0 month ago": [
-            "këtë\\s+muaj"
+            "këtë muaj"
         ],
         "in 1 month": [
-            "muajin\\s+e\\s+ardhshëm"
+            "muajin e ardhshëm"
         ],
         "1 week ago": [
-            "javën\\s+e\\s+kaluar"
+            "javën e kaluar"
         ],
         "0 week ago": [
-            "këtë\\s+javë"
+            "këtë javë"
         ],
         "in 1 week": [
-            "javën\\s+e\\s+ardhshme"
+            "javën e ardhshme"
         ],
         "1 day ago": [
             "dje"
@@ -165,69 +165,71 @@ info = {
             "nesër"
         ],
         "0 hour ago": [
-            "këtë\\s+orë"
+            "këtë orë"
         ],
         "0 minute ago": [
-            "këtë\\s+minutë"
+            "këtë minutë"
         ],
         "0 second ago": [
             "tani"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "pas\\s+(\\d+)\\s+viti",
-            "pas\\s+(\\d+)\\s+vjetësh"
+            "pas (\\d+) viti",
+            "pas (\\d+) vjetësh"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+vit\\s+më\\s+parë",
-            "(\\d+)\\s+vjet\\s+më\\s+parë"
+            "(\\d+) vit më parë",
+            "(\\d+) vjet më parë"
         ],
         "in \\1 month": [
-            "pas\\s+(\\d+)\\s+muaji",
-            "pas\\s+(\\d+)\\s+muajsh"
+            "pas (\\d+) muaji",
+            "pas (\\d+) muajsh"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+muaj\\s+më\\s+parë"
+            "(\\d+) muaj më parë"
         ],
         "in \\1 week": [
-            "pas\\s+(\\d+)\\s+jave",
-            "pas\\s+(\\d+)\\s+javësh"
+            "pas (\\d+) jave",
+            "pas (\\d+) javësh"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+javë\\s+më\\s+parë"
+            "(\\d+) javë më parë"
         ],
         "in \\1 day": [
-            "pas\\s+(\\d+)\\s+dite",
-            "pas\\s+(\\d+)\\s+ditësh"
+            "pas (\\d+) dite",
+            "pas (\\d+) ditësh"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+ditë\\s+më\\s+parë"
+            "(\\d+) ditë më parë"
         ],
         "in \\1 hour": [
-            "pas\\s+(\\d+)\\s+ore",
-            "pas\\s+(\\d+)\\s+orësh"
+            "pas (\\d+) ore",
+            "pas (\\d+) orësh"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+orë\\s+më\\s+parë"
+            "(\\d+) orë më parë"
         ],
         "in \\1 minute": [
-            "pas\\s+(\\d+)\\s+minute",
-            "pas\\s+(\\d+)\\s+minutash",
-            "pas\\s+(\\d+)\\s+min"
+            "pas (\\d+) minute",
+            "pas (\\d+) minutash",
+            "pas (\\d+) min"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minutë\\s+më\\s+parë",
-            "(\\d+)\\s+minuta\\s+më\\s+parë",
-            "(\\d+)\\s+min\\s+më\\s+parë"
+            "(\\d+) minutë më parë",
+            "(\\d+) minuta më parë",
+            "(\\d+) min më parë"
         ],
         "in \\1 second": [
-            "pas\\s+(\\d+)\\s+sekonde",
-            "pas\\s+(\\d+)\\s+sekondash",
-            "pas\\s+(\\d+)\\s+sek"
+            "pas (\\d+) sekonde",
+            "pas (\\d+) sekondash",
+            "pas (\\d+) sek"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+sekondë\\s+më\\s+parë",
-            "(\\d+)\\s+sekonda\\s+më\\s+parë",
-            "(\\d+)\\s+sek\\s+më\\s+parë"
+            "(\\d+) sekondë më parë",
+            "(\\d+) sekonda më parë",
+            "(\\d+) sek më parë"
         ]
     },
     "locale_specific": {

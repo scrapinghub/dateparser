@@ -199,40 +199,40 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "viime\\s+vuonna",
-            "viime\\s+v"
+            "viime vuonna",
+            "viime v"
         ],
         "0 year ago": [
-            "tänä\\s+vuonna",
-            "tänä\\s+v"
+            "tänä vuonna",
+            "tänä v"
         ],
         "in 1 year": [
-            "ensi\\s+vuonna",
-            "ensi\\s+v"
+            "ensi vuonna",
+            "ensi v"
         ],
         "1 month ago": [
-            "viime\\s+kuussa",
-            "viime\\s+kk"
+            "viime kuussa",
+            "viime kk"
         ],
         "0 month ago": [
-            "tässä\\s+kuussa",
-            "tässä\\s+kk"
+            "tässä kuussa",
+            "tässä kk"
         ],
         "in 1 month": [
-            "ensi\\s+kuussa",
-            "ensi\\s+kk"
+            "ensi kuussa",
+            "ensi kk"
         ],
         "1 week ago": [
-            "viime\\s+viikolla",
-            "viime\\s+vk"
+            "viime viikolla",
+            "viime vk"
         ],
         "0 week ago": [
-            "tällä\\s+viikolla",
-            "tällä\\s+vk"
+            "tällä viikolla",
+            "tällä vk"
         ],
         "in 1 week": [
-            "ensi\\s+viikolla",
-            "ensi\\s+vk"
+            "ensi viikolla",
+            "ensi vk"
         ],
         "1 day ago": [
             "eilen"
@@ -245,90 +245,92 @@ info = {
             "huom"
         ],
         "0 hour ago": [
-            "tämän\\s+tunnin\\s+aikana",
-            "tunnin\\s+sisällä"
+            "tämän tunnin aikana",
+            "tunnin sisällä"
         ],
         "0 minute ago": [
-            "tämän\\s+minuutin\\s+aikana",
-            "minuutin\\s+sisällä"
+            "tämän minuutin aikana",
+            "minuutin sisällä"
         ],
         "0 second ago": [
             "nyt"
         ],
-        "in \\1 year": [
-            "(\\d+)\\s+vuoden\\s+päästä",
-            "(\\d+)\\s+v\\s+päästä"
-        ],
-        "\\1 year ago": [
-            "(\\d+)\\s+vuosi\\s+sitten",
-            "(\\d+)\\s+vuotta\\s+sitten",
-            "(\\d+)\\s+v\\s+sitten"
-        ],
-        "in \\1 month": [
-            "(\\d+)\\s+kuukauden\\s+päästä",
-            "(\\d+)\\s+kk\\s+päästä"
-        ],
-        "\\1 month ago": [
-            "(\\d+)\\s+kuukausi\\s+sitten",
-            "(\\d+)\\s+kuukautta\\s+sitten",
-            "(\\d+)\\s+kk\\s+sitten"
-        ],
-        "in \\1 week": [
-            "(\\d+)\\s+viikon\\s+päästä",
-            "(\\d+)\\s+vk\\s+päästä"
-        ],
-        "\\1 week ago": [
-            "(\\d+)\\s+viikko\\s+sitten",
-            "(\\d+)\\s+viikkoa\\s+sitten",
-            "(\\d+)\\s+vk\\s+sitten"
-        ],
-        "in \\1 day": [
-            "(\\d+)\\s+päivän\\s+päästä",
-            "(\\d+)\\s+pv\\s+päästä"
-        ],
-        "\\1 day ago": [
-            "(\\d+)\\s+päivä\\s+sitten",
-            "(\\d+)\\s+päivää\\s+sitten",
-            "(\\d+)\\s+pv\\s+sitten"
-        ],
-        "in \\1 hour": [
-            "(\\d+)\\s+tunnin\\s+päästä",
-            "(\\d+)\\s+t\\s+päästä"
-        ],
-        "\\1 hour ago": [
-            "(\\d+)\\s+tunti\\s+sitten",
-            "(\\d+)\\s+tuntia\\s+sitten",
-            "(\\d+)\\s+t\\s+sitten"
-        ],
-        "in \\1 minute": [
-            "(\\d+)\\s+minuutin\\s+päästä",
-            "(\\d+)\\s+min\\s+päästä"
-        ],
-        "\\1 minute ago": [
-            "(\\d+)\\s+minuutti\\s+sitten",
-            "(\\d+)\\s+minuuttia\\s+sitten",
-            "(\\d+)\\s+min\\s+sitten"
-        ],
-        "in \\1 second": [
-            "(\\d+)\\s+sekunnin\\s+päästä",
-            "(\\d+)\\s+s\\s+päästä"
-        ],
-        "\\1 second ago": [
-            "(\\d+)\\s+sekunti\\s+sitten",
-            "(\\d+)\\s+sekuntia\\s+sitten",
-            "(\\d+)\\s+s\\s+sitten"
-        ],
         "2 year ago": [
-            "toissa\\s+vuonna"
+            "toissa vuonna"
         ],
         "2 month ago": [
-            "toissa\\s+kuussa"
+            "toissa kuussa"
         ],
         "2 week ago": [
-            "toissa\\s+viikolla"
+            "toissa viikolla"
         ],
         "2 day ago": [
-            "toissa\\s+päivänä"
+            "toissa päivänä"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "(\\d+) vuoden päästä",
+            "(\\d+) v päästä"
+        ],
+        "\\1 year ago": [
+            "(\\d+) vuosi sitten",
+            "(\\d+) vuotta sitten",
+            "(\\d+) v sitten"
+        ],
+        "in \\1 month": [
+            "(\\d+) kuukauden päästä",
+            "(\\d+) kk päästä"
+        ],
+        "\\1 month ago": [
+            "(\\d+) kuukausi sitten",
+            "(\\d+) kuukautta sitten",
+            "(\\d+) kk sitten"
+        ],
+        "in \\1 week": [
+            "(\\d+) viikon päästä",
+            "(\\d+) vk päästä"
+        ],
+        "\\1 week ago": [
+            "(\\d+) viikko sitten",
+            "(\\d+) viikkoa sitten",
+            "(\\d+) vk sitten"
+        ],
+        "in \\1 day": [
+            "(\\d+) päivän päästä",
+            "(\\d+) pv päästä"
+        ],
+        "\\1 day ago": [
+            "(\\d+) päivä sitten",
+            "(\\d+) päivää sitten",
+            "(\\d+) pv sitten"
+        ],
+        "in \\1 hour": [
+            "(\\d+) tunnin päästä",
+            "(\\d+) t päästä"
+        ],
+        "\\1 hour ago": [
+            "(\\d+) tunti sitten",
+            "(\\d+) tuntia sitten",
+            "(\\d+) t sitten"
+        ],
+        "in \\1 minute": [
+            "(\\d+) minuutin päästä",
+            "(\\d+) min päästä"
+        ],
+        "\\1 minute ago": [
+            "(\\d+) minuutti sitten",
+            "(\\d+) minuuttia sitten",
+            "(\\d+) min sitten"
+        ],
+        "in \\1 second": [
+            "(\\d+) sekunnin päästä",
+            "(\\d+) s päästä"
+        ],
+        "\\1 second ago": [
+            "(\\d+) sekunti sitten",
+            "(\\d+) sekuntia sitten",
+            "(\\d+) s sitten"
         ]
     },
     "locale_specific": {},

@@ -151,14 +151,16 @@ info = {
             "明天"
         ],
         "0 hour ago": [
-            "这一时间\\s+/\\s+此时"
+            "这一时间 / 此时"
         ],
         "0 minute ago": [
             "此刻"
         ],
         "0 second ago": [
             "现在"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "(\\d+)年后"
         ],

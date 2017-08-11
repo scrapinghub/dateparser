@@ -174,7 +174,9 @@
         ],
         "0 second ago": [
             "agora"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "em {0} ano",
             "em {0} anos"
@@ -269,7 +271,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"
@@ -332,7 +334,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"
@@ -395,7 +397,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"
@@ -458,7 +460,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"
@@ -521,7 +523,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"
@@ -584,7 +586,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"
@@ -647,7 +649,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"
@@ -710,7 +712,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"
@@ -773,7 +775,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"
@@ -836,7 +838,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"
@@ -899,7 +901,7 @@
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de {0} ano",
                     "dentro de {0} anos"

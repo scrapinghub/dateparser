@@ -168,7 +168,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "ལོ་འཁོར་ {0} ནང་"
         ],

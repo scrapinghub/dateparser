@@ -144,7 +144,9 @@
         ],
         "0 second ago": [
             "現在"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} 年後"
         ],
@@ -237,7 +239,9 @@
                 ],
                 "0 minute ago": [
                     "這分鐘"
-                ],
+                ]
+            },
+            "relative-type-regex": {
                 "in \\1 year": [
                     "{0}年後"
                 ],
@@ -334,7 +338,9 @@
                 ],
                 "0 minute ago": [
                     "這分鐘"
-                ],
+                ]
+            },
+            "relative-type-regex": {
                 "in \\1 year": [
                     "{0}年後"
                 ],

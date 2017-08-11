@@ -136,117 +136,119 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "i\\s+fjor"
+            "i fjor"
         ],
         "0 year ago": [
-            "i\\s+år"
+            "i år"
         ],
         "in 1 year": [
-            "neste\\s+år"
+            "neste år"
         ],
         "1 month ago": [
-            "forrige\\s+måned",
-            "forrige\\s+md"
+            "forrige måned",
+            "forrige md"
         ],
         "0 month ago": [
-            "denne\\s+måneden",
-            "denne\\s+md"
+            "denne måneden",
+            "denne md"
         ],
         "in 1 month": [
-            "neste\\s+måned",
-            "neste\\s+md"
+            "neste måned",
+            "neste md"
         ],
         "1 week ago": [
-            "forrige\\s+uke"
+            "forrige uke"
         ],
         "0 week ago": [
-            "denne\\s+uken"
+            "denne uken"
         ],
         "in 1 week": [
-            "neste\\s+uke"
+            "neste uke"
         ],
         "1 day ago": [
-            "i\\s+går"
+            "i går"
         ],
         "0 day ago": [
-            "i\\s+dag"
+            "i dag"
         ],
         "in 1 day": [
-            "i\\s+morgen"
+            "i morgen"
         ],
         "0 hour ago": [
-            "denne\\s+timen"
+            "denne timen"
         ],
         "0 minute ago": [
-            "dette\\s+minuttet"
+            "dette minuttet"
         ],
         "0 second ago": [
             "nå"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "om\\s+(\\d+)\\s+år"
+            "om (\\d+) år"
         ],
         "\\1 year ago": [
-            "for\\s+(\\d+)\\s+år\\s+siden",
-            "–(\\d+)\\s+år"
+            "for (\\d+) år siden",
+            "–(\\d+) år"
         ],
         "in \\1 month": [
-            "om\\s+(\\d+)\\s+måned",
-            "om\\s+(\\d+)\\s+måneder",
-            "om\\s+(\\d+)\\s+md"
+            "om (\\d+) måned",
+            "om (\\d+) måneder",
+            "om (\\d+) md"
         ],
         "\\1 month ago": [
-            "for\\s+(\\d+)\\s+måned\\s+siden",
-            "for\\s+(\\d+)\\s+måneder\\s+siden",
-            "for\\s+(\\d+)\\s+md\\s+siden"
+            "for (\\d+) måned siden",
+            "for (\\d+) måneder siden",
+            "for (\\d+) md siden"
         ],
         "in \\1 week": [
-            "om\\s+(\\d+)\\s+uke",
-            "om\\s+(\\d+)\\s+uker",
-            "om\\s+(\\d+)\\s+u"
+            "om (\\d+) uke",
+            "om (\\d+) uker",
+            "om (\\d+) u"
         ],
         "\\1 week ago": [
-            "for\\s+(\\d+)\\s+uke\\s+siden",
-            "for\\s+(\\d+)\\s+uker\\s+siden",
-            "for\\s+(\\d+)\\s+u\\s+siden"
+            "for (\\d+) uke siden",
+            "for (\\d+) uker siden",
+            "for (\\d+) u siden"
         ],
         "in \\1 day": [
-            "om\\s+(\\d+)\\s+døgn",
-            "om\\s+(\\d+)\\s+d"
+            "om (\\d+) døgn",
+            "om (\\d+) d"
         ],
         "\\1 day ago": [
-            "for\\s+(\\d+)\\s+døgn\\s+siden",
-            "for\\s+(\\d+)\\s+d\\s+siden"
+            "for (\\d+) døgn siden",
+            "for (\\d+) d siden"
         ],
         "in \\1 hour": [
-            "om\\s+(\\d+)\\s+time",
-            "om\\s+(\\d+)\\s+timer",
-            "om\\s+(\\d+)\\s+t"
+            "om (\\d+) time",
+            "om (\\d+) timer",
+            "om (\\d+) t"
         ],
         "\\1 hour ago": [
-            "for\\s+(\\d+)\\s+time\\s+siden",
-            "for\\s+(\\d+)\\s+timer\\s+siden",
-            "for\\s+(\\d+)\\s+t\\s+siden"
+            "for (\\d+) time siden",
+            "for (\\d+) timer siden",
+            "for (\\d+) t siden"
         ],
         "in \\1 minute": [
-            "om\\s+(\\d+)\\s+minutt",
-            "om\\s+(\\d+)\\s+minutter",
-            "om\\s+(\\d+)\\s+min"
+            "om (\\d+) minutt",
+            "om (\\d+) minutter",
+            "om (\\d+) min"
         ],
         "\\1 minute ago": [
-            "for\\s+(\\d+)\\s+minutt\\s+siden",
-            "for\\s+(\\d+)\\s+minutter\\s+siden",
-            "for\\s+(\\d+)\\s+min\\s+siden"
+            "for (\\d+) minutt siden",
+            "for (\\d+) minutter siden",
+            "for (\\d+) min siden"
         ],
         "in \\1 second": [
-            "om\\s+(\\d+)\\s+sekund",
-            "om\\s+(\\d+)\\s+sekunder",
-            "om\\s+(\\d+)\\s+sek"
+            "om (\\d+) sekund",
+            "om (\\d+) sekunder",
+            "om (\\d+) sek"
         ],
         "\\1 second ago": [
-            "for\\s+(\\d+)\\s+sekund\\s+siden",
-            "for\\s+(\\d+)\\s+sekunder\\s+siden",
-            "for\\s+(\\d+)\\s+sek\\s+siden"
+            "for (\\d+) sekund siden",
+            "for (\\d+) sekunder siden",
+            "for (\\d+) sek siden"
         ]
     },
     "locale_specific": {

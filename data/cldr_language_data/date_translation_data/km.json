@@ -152,7 +152,9 @@
         ],
         "0 second ago": [
             "ឥឡូវ"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} ឆ្នាំទៀត"
         ],

@@ -173,7 +173,9 @@
         ],
         "0 second ago": [
             "ഇപ്പോൾ"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} വർഷത്തിൽ"
         ],

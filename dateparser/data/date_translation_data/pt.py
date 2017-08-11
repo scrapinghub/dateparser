@@ -146,31 +146,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "ano\\s+passado"
+            "ano passado"
         ],
         "0 year ago": [
-            "este\\s+ano"
+            "este ano"
         ],
         "in 1 year": [
-            "próximo\\s+ano"
+            "próximo ano"
         ],
         "1 month ago": [
-            "mês\\s+passado"
+            "mês passado"
         ],
         "0 month ago": [
-            "este\\s+mês"
+            "este mês"
         ],
         "in 1 month": [
-            "próximo\\s+mês"
+            "próximo mês"
         ],
         "1 week ago": [
-            "semana\\s+passada"
+            "semana passada"
         ],
         "0 week ago": [
-            "esta\\s+semana"
+            "esta semana"
         ],
         "in 1 week": [
-            "próxima\\s+semana"
+            "próxima semana"
         ],
         "1 day ago": [
             "ontem"
@@ -182,83 +182,85 @@ info = {
             "amanhã"
         ],
         "0 hour ago": [
-            "esta\\s+hora"
+            "esta hora"
         ],
         "0 minute ago": [
-            "este\\s+minuto"
+            "este minuto"
         ],
         "0 second ago": [
             "agora"
         ],
-        "in \\1 year": [
-            "em\\s+(\\d+)\\s+ano",
-            "em\\s+(\\d+)\\s+anos"
-        ],
-        "\\1 year ago": [
-            "há\\s+(\\d+)\\s+ano",
-            "há\\s+(\\d+)\\s+anos"
-        ],
-        "in \\1 month": [
-            "em\\s+(\\d+)\\s+mês",
-            "em\\s+(\\d+)\\s+meses"
-        ],
-        "\\1 month ago": [
-            "há\\s+(\\d+)\\s+mês",
-            "há\\s+(\\d+)\\s+meses"
-        ],
-        "in \\1 week": [
-            "em\\s+(\\d+)\\s+semana",
-            "em\\s+(\\d+)\\s+semanas",
-            "em\\s+(\\d+)\\s+sem"
-        ],
-        "\\1 week ago": [
-            "há\\s+(\\d+)\\s+semana",
-            "há\\s+(\\d+)\\s+semanas",
-            "há\\s+(\\d+)\\s+sem"
-        ],
-        "in \\1 day": [
-            "em\\s+(\\d+)\\s+dia",
-            "em\\s+(\\d+)\\s+dias"
-        ],
-        "\\1 day ago": [
-            "há\\s+(\\d+)\\s+dia",
-            "há\\s+(\\d+)\\s+dias"
-        ],
-        "in \\1 hour": [
-            "em\\s+(\\d+)\\s+hora",
-            "em\\s+(\\d+)\\s+horas",
-            "em\\s+(\\d+)\\s+h"
-        ],
-        "\\1 hour ago": [
-            "há\\s+(\\d+)\\s+hora",
-            "há\\s+(\\d+)\\s+horas",
-            "há\\s+(\\d+)\\s+h"
-        ],
-        "in \\1 minute": [
-            "em\\s+(\\d+)\\s+minuto",
-            "em\\s+(\\d+)\\s+minutos",
-            "em\\s+(\\d+)\\s+min",
-            "em\\s+(\\d+)\\s+mins"
-        ],
-        "\\1 minute ago": [
-            "há\\s+(\\d+)\\s+minuto",
-            "há\\s+(\\d+)\\s+minutos",
-            "há\\s+(\\d+)\\s+min",
-            "há\\s+(\\d+)\\s+mins"
-        ],
-        "in \\1 second": [
-            "em\\s+(\\d+)\\s+segundo",
-            "em\\s+(\\d+)\\s+segundos",
-            "em\\s+(\\d+)\\s+seg",
-            "em\\s+(\\d+)\\s+segs"
-        ],
-        "\\1 second ago": [
-            "há\\s+(\\d+)\\s+segundo",
-            "há\\s+(\\d+)\\s+segundos",
-            "há\\s+(\\d+)\\s+seg"
-        ],
         "2 day ago": [
             "anteontem"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "em (\\d+) ano",
+            "em (\\d+) anos"
+        ],
+        "\\1 year ago": [
+            "há (\\d+) ano",
+            "há (\\d+) anos"
+        ],
+        "in \\1 month": [
+            "em (\\d+) mês",
+            "em (\\d+) meses"
+        ],
+        "\\1 month ago": [
+            "há (\\d+) mês",
+            "há (\\d+) meses"
+        ],
+        "in \\1 week": [
+            "em (\\d+) semana",
+            "em (\\d+) semanas",
+            "em (\\d+) sem"
+        ],
+        "\\1 week ago": [
+            "há (\\d+) semana",
+            "há (\\d+) semanas",
+            "há (\\d+) sem"
+        ],
+        "in \\1 day": [
+            "em (\\d+) dia",
+            "em (\\d+) dias"
+        ],
+        "\\1 day ago": [
+            "há (\\d+) dia",
+            "há (\\d+) dias"
+        ],
+        "in \\1 hour": [
+            "em (\\d+) hora",
+            "em (\\d+) horas",
+            "em (\\d+) h"
+        ],
+        "\\1 hour ago": [
+            "há (\\d+) hora",
+            "há (\\d+) horas",
+            "há (\\d+) h"
+        ],
+        "in \\1 minute": [
+            "em (\\d+) minuto",
+            "em (\\d+) minutos",
+            "em (\\d+) min",
+            "em (\\d+) mins"
+        ],
+        "\\1 minute ago": [
+            "há (\\d+) minuto",
+            "há (\\d+) minutos",
+            "há (\\d+) min",
+            "há (\\d+) mins"
+        ],
+        "in \\1 second": [
+            "em (\\d+) segundo",
+            "em (\\d+) segundos",
+            "em (\\d+) seg",
+            "em (\\d+) segs"
+        ],
+        "\\1 second ago": [
+            "há (\\d+) segundo",
+            "há (\\d+) segundos",
+            "há (\\d+) seg"
         ]
     },
     "locale_specific": {
@@ -287,41 +289,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         },
@@ -350,41 +352,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         },
@@ -413,41 +415,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         },
@@ -476,41 +478,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         },
@@ -539,41 +541,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         },
@@ -602,41 +604,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         },
@@ -665,41 +667,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         },
@@ -728,41 +730,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         },
@@ -791,41 +793,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         },
@@ -854,41 +856,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         },
@@ -917,41 +919,41 @@ info = {
                 "tarde",
                 "da tarde"
             ],
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "dentro\\s+de\\s+(\\d+)\\s+ano",
-                    "dentro\\s+de\\s+(\\d+)\\s+anos"
+                    "dentro de (\\d+) ano",
+                    "dentro de (\\d+) anos"
                 ],
                 "in \\1 month": [
-                    "dentro\\s+de\\s+(\\d+)\\s+meses",
-                    "dentro\\s+de\\s+(\\d+)\\s+mês"
+                    "dentro de (\\d+) meses",
+                    "dentro de (\\d+) mês"
                 ],
                 "in \\1 week": [
-                    "dentro\\s+de\\s+(\\d+)\\s+sem",
-                    "dentro\\s+de\\s+(\\d+)\\s+semana",
-                    "dentro\\s+de\\s+(\\d+)\\s+semanas"
+                    "dentro de (\\d+) sem",
+                    "dentro de (\\d+) semana",
+                    "dentro de (\\d+) semanas"
                 ],
                 "in \\1 day": [
-                    "dentro\\s+de\\s+(\\d+)\\s+dias",
-                    "dentro\\s+de\\s+(\\d+)\\s+dia"
+                    "dentro de (\\d+) dias",
+                    "dentro de (\\d+) dia"
                 ],
                 "in \\1 hour": [
-                    "dentro\\s+de\\s+(\\d+)\\s+h",
-                    "dentro\\s+de\\s+(\\d+)\\s+hora",
-                    "dentro\\s+de\\s+(\\d+)\\s+horas"
+                    "dentro de (\\d+) h",
+                    "dentro de (\\d+) hora",
+                    "dentro de (\\d+) horas"
                 ],
                 "in \\1 minute": [
-                    "dentro\\s+de\\s+(\\d+)\\s+min",
-                    "dentro\\s+de\\s+(\\d+)\\s+minuto",
-                    "dentro\\s+de\\s+(\\d+)\\s+minutos"
+                    "dentro de (\\d+) min",
+                    "dentro de (\\d+) minuto",
+                    "dentro de (\\d+) minutos"
                 ],
                 "in \\1 second": [
-                    "dentro\\s+de\\s+(\\d+)\\s+segundo",
-                    "dentro\\s+de\\s+(\\d+)\\s+segundos",
-                    "dentro\\s+de\\s+(\\d+)\\s+s"
+                    "dentro de (\\d+) segundo",
+                    "dentro de (\\d+) segundos",
+                    "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há\\s+(\\d+)\\s+s"
+                    "há (\\d+) s"
                 ]
             }
         }

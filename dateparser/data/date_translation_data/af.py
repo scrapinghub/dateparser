@@ -136,31 +136,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "verlede\\s+jaar"
+            "verlede jaar"
         ],
         "0 year ago": [
-            "hierdie\\s+jaar"
+            "hierdie jaar"
         ],
         "in 1 year": [
-            "volgende\\s+jaar"
+            "volgende jaar"
         ],
         "1 month ago": [
-            "verlede\\s+maand"
+            "verlede maand"
         ],
         "0 month ago": [
             "vandeesmaand"
         ],
         "in 1 month": [
-            "volgende\\s+maand"
+            "volgende maand"
         ],
         "1 week ago": [
-            "verlede\\s+week"
+            "verlede week"
         ],
         "0 week ago": [
             "vandeesweek"
         ],
         "in 1 week": [
-            "volgende\\s+week"
+            "volgende week"
         ],
         "1 day ago": [
             "gister"
@@ -172,72 +172,74 @@ info = {
             "môre"
         ],
         "0 hour ago": [
-            "hierdie\\s+uur"
+            "hierdie uur"
         ],
         "0 minute ago": [
-            "hierdie\\s+minuut"
+            "hierdie minuut"
         ],
         "0 second ago": [
             "nou"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "oor\\s+(\\d+)\\s+jaar"
+            "oor (\\d+) jaar"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+jaar\\s+gelede"
+            "(\\d+) jaar gelede"
         ],
         "in \\1 month": [
-            "oor\\s+(\\d+)\\s+minuut",
-            "oor\\s+(\\d+)\\s+md"
+            "oor (\\d+) minuut",
+            "oor (\\d+) md"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+maand\\s+gelede",
-            "(\\d+)\\s+maande\\s+gelede",
-            "(\\d+)\\s+md\\s+gelede"
+            "(\\d+) maand gelede",
+            "(\\d+) maande gelede",
+            "(\\d+) md gelede"
         ],
         "in \\1 week": [
-            "oor\\s+(\\d+)\\s+week",
-            "oor\\s+(\\d+)\\s+weke",
-            "oor\\s+(\\d+)\\s+w"
+            "oor (\\d+) week",
+            "oor (\\d+) weke",
+            "oor (\\d+) w"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+week\\s+gelede",
-            "(\\d+)\\s+weke\\s+gelede",
-            "(\\d+)\\s+w\\s+gelede"
+            "(\\d+) week gelede",
+            "(\\d+) weke gelede",
+            "(\\d+) w gelede"
         ],
         "in \\1 day": [
-            "oor\\s+(\\d+)\\s+minuut",
-            "oor\\s+(\\d+)\\s+dag",
-            "oor\\s+(\\d+)\\s+dae"
+            "oor (\\d+) minuut",
+            "oor (\\d+) dag",
+            "oor (\\d+) dae"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+dag\\s+gelede",
-            "(\\d+)\\s+dae\\s+gelede"
+            "(\\d+) dag gelede",
+            "(\\d+) dae gelede"
         ],
         "in \\1 hour": [
-            "oor\\s+(\\d+)\\s+uur"
+            "oor (\\d+) uur"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+uur\\s+gelede"
+            "(\\d+) uur gelede"
         ],
         "in \\1 minute": [
-            "oor\\s+(\\d+)\\s+minuut",
-            "oor\\s+(\\d+)\\s+min"
+            "oor (\\d+) minuut",
+            "oor (\\d+) min"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minuut\\s+gelede",
-            "(\\d+)\\s+minute\\s+gelede",
-            "(\\d+)\\s+min\\s+gelede"
+            "(\\d+) minuut gelede",
+            "(\\d+) minute gelede",
+            "(\\d+) min gelede"
         ],
         "in \\1 second": [
-            "oor\\s+(\\d+)\\s+sekonde",
-            "oor\\s+(\\d+)\\s+sekondes",
-            "oor\\s+(\\d+)\\s+sek"
+            "oor (\\d+) sekonde",
+            "oor (\\d+) sekondes",
+            "oor (\\d+) sek"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+sekonde\\s+gelede",
-            "(\\d+)\\s+sekondes\\s+gelede",
-            "(\\d+)\\s+sek\\s+gelede"
+            "(\\d+) sekonde gelede",
+            "(\\d+) sekondes gelede",
+            "(\\d+) sek gelede"
         ]
     },
     "locale_specific": {

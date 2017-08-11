@@ -124,31 +124,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "last\\s+year"
+            "last year"
         ],
         "0 year ago": [
-            "this\\s+year"
+            "this year"
         ],
         "in 1 year": [
-            "next\\s+year"
+            "next year"
         ],
         "1 month ago": [
-            "last\\s+month"
+            "last month"
         ],
         "0 month ago": [
-            "this\\s+month"
+            "this month"
         ],
         "in 1 month": [
-            "next\\s+month"
+            "next month"
         ],
         "1 week ago": [
-            "last\\s+week"
+            "last week"
         ],
         "0 week ago": [
-            "this\\s+week"
+            "this week"
         ],
         "in 1 week": [
-            "next\\s+week"
+            "next week"
         ],
         "1 day ago": [
             "îr"
@@ -160,67 +160,69 @@ info = {
             "doman"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "ca\\s+di\\s+(\\d+)\\s+an",
-            "ca\\s+di\\s+(\\d+)\\s+agns"
+            "ca di (\\d+) an",
+            "ca di (\\d+) agns"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+an\\s+indaûr",
-            "(\\d+)\\s+agns\\s+indaûr"
+            "(\\d+) an indaûr",
+            "(\\d+) agns indaûr"
         ],
         "in \\1 month": [
-            "ca\\s+di\\s+(\\d+)\\s+mês"
+            "ca di (\\d+) mês"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+mês\\s+indaûr"
+            "(\\d+) mês indaûr"
         ],
         "in \\1 week": [
-            "ca\\s+di\\s+(\\d+)\\s+setemane",
-            "ca\\s+di\\s+(\\d+)\\s+setemanis"
+            "ca di (\\d+) setemane",
+            "ca di (\\d+) setemanis"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+setemane\\s+indaûr",
-            "(\\d+)\\s+setemanis\\s+indaûr"
+            "(\\d+) setemane indaûr",
+            "(\\d+) setemanis indaûr"
         ],
         "in \\1 day": [
-            "ca\\s+di\\s+(\\d+)\\s+zornade",
-            "ca\\s+di\\s+(\\d+)\\s+zornadis"
+            "ca di (\\d+) zornade",
+            "ca di (\\d+) zornadis"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+zornade\\s+indaûr",
-            "(\\d+)\\s+zornadis\\s+indaûr"
+            "(\\d+) zornade indaûr",
+            "(\\d+) zornadis indaûr"
         ],
         "in \\1 hour": [
-            "ca\\s+di\\s+(\\d+)\\s+ore",
-            "ca\\s+di\\s+(\\d+)\\s+oris"
+            "ca di (\\d+) ore",
+            "ca di (\\d+) oris"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+ore\\s+indaûr",
-            "(\\d+)\\s+oris\\s+indaûr"
+            "(\\d+) ore indaûr",
+            "(\\d+) oris indaûr"
         ],
         "in \\1 minute": [
-            "ca\\s+di\\s+(\\d+)\\s+minût",
-            "ca\\s+di\\s+(\\d+)\\s+minûts"
+            "ca di (\\d+) minût",
+            "ca di (\\d+) minûts"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minût\\s+indaûr",
-            "(\\d+)\\s+minûts\\s+indaûr"
+            "(\\d+) minût indaûr",
+            "(\\d+) minûts indaûr"
         ],
         "in \\1 second": [
-            "ca\\s+di\\s+(\\d+)\\s+secont",
-            "ca\\s+di\\s+(\\d+)\\s+seconts"
+            "ca di (\\d+) secont",
+            "ca di (\\d+) seconts"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+secont\\s+indaûr",
-            "(\\d+)\\s+seconts\\s+indaûr"
+            "(\\d+) secont indaûr",
+            "(\\d+) seconts indaûr"
         ]
     },
     "locale_specific": {},

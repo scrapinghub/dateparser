@@ -139,6 +139,7 @@
             "now"
         ]
     },
+    "relative-type-regex": {},
     "locale_specific": {
         "lrc-IQ": {
             "name": "lrc-IQ"

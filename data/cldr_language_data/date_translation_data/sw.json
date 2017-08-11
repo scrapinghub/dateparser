@@ -164,7 +164,9 @@
         ],
         "0 second ago": [
             "sasa hivi"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "baada ya mwaka {0}",
             "baada ya miaka {0}"

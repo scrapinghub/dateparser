@@ -192,7 +192,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "za {0} lěto",
             "za {0} lět",

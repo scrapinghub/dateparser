@@ -122,31 +122,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "mwaka\\s+uliopita"
+            "mwaka uliopita"
         ],
         "0 year ago": [
-            "mwaka\\s+huu"
+            "mwaka huu"
         ],
         "in 1 year": [
-            "mwaka\\s+ujao"
+            "mwaka ujao"
         ],
         "1 month ago": [
-            "mwezi\\s+uliopita"
+            "mwezi uliopita"
         ],
         "0 month ago": [
-            "mwezi\\s+huu"
+            "mwezi huu"
         ],
         "in 1 month": [
-            "mwezi\\s+ujao"
+            "mwezi ujao"
         ],
         "1 week ago": [
-            "wiki\\s+iliyopita"
+            "wiki iliyopita"
         ],
         "0 week ago": [
-            "wiki\\s+hii"
+            "wiki hii"
         ],
         "in 1 week": [
-            "wiki\\s+ijayo"
+            "wiki ijayo"
         ],
         "1 day ago": [
             "jana"
@@ -158,64 +158,66 @@ info = {
             "kesho"
         ],
         "0 hour ago": [
-            "saa\\s+hii"
+            "saa hii"
         ],
         "0 minute ago": [
-            "dakika\\s+hii"
+            "dakika hii"
         ],
         "0 second ago": [
-            "sasa\\s+hivi"
-        ],
+            "sasa hivi"
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "baada\\s+ya\\s+mwaka\\s+(\\d+)",
-            "baada\\s+ya\\s+miaka\\s+(\\d+)"
+            "baada ya mwaka (\\d+)",
+            "baada ya miaka (\\d+)"
         ],
         "\\1 year ago": [
-            "mwaka\\s+(\\d+)\\s+uliopita",
-            "miaka\\s+(\\d+)\\s+iliyopita"
+            "mwaka (\\d+) uliopita",
+            "miaka (\\d+) iliyopita"
         ],
         "in \\1 month": [
-            "baada\\s+ya\\s+mwezi\\s+(\\d+)",
-            "baada\\s+ya\\s+miezi\\s+(\\d+)"
+            "baada ya mwezi (\\d+)",
+            "baada ya miezi (\\d+)"
         ],
         "\\1 month ago": [
-            "mwezi\\s+(\\d+)\\s+uliopita",
-            "miezi\\s+(\\d+)\\s+iliyopita"
+            "mwezi (\\d+) uliopita",
+            "miezi (\\d+) iliyopita"
         ],
         "in \\1 week": [
-            "baada\\s+ya\\s+wiki\\s+(\\d+)"
+            "baada ya wiki (\\d+)"
         ],
         "\\1 week ago": [
-            "wiki\\s+(\\d+)\\s+iliyopita",
-            "wiki\\s+(\\d+)\\s+zilizopita"
+            "wiki (\\d+) iliyopita",
+            "wiki (\\d+) zilizopita"
         ],
         "in \\1 day": [
-            "baada\\s+ya\\s+siku\\s+(\\d+)"
+            "baada ya siku (\\d+)"
         ],
         "\\1 day ago": [
-            "siku\\s+(\\d+)\\s+iliyopita",
-            "siku\\s+(\\d+)\\s+zilizopita"
+            "siku (\\d+) iliyopita",
+            "siku (\\d+) zilizopita"
         ],
         "in \\1 hour": [
-            "baada\\s+ya\\s+saa\\s+(\\d+)"
+            "baada ya saa (\\d+)"
         ],
         "\\1 hour ago": [
-            "saa\\s+(\\d+)\\s+iliyopita",
-            "saa\\s+(\\d+)\\s+zilizopita"
+            "saa (\\d+) iliyopita",
+            "saa (\\d+) zilizopita"
         ],
         "in \\1 minute": [
-            "baada\\s+ya\\s+dakika\\s+(\\d+)"
+            "baada ya dakika (\\d+)"
         ],
         "\\1 minute ago": [
-            "dakika\\s+(\\d+)\\s+iliyopita",
-            "dakika\\s+(\\d+)\\s+zilizopita"
+            "dakika (\\d+) iliyopita",
+            "dakika (\\d+) zilizopita"
         ],
         "in \\1 second": [
-            "baada\\s+ya\\s+sekunde\\s+(\\d+)"
+            "baada ya sekunde (\\d+)"
         ],
         "\\1 second ago": [
-            "sekunde\\s+(\\d+)\\s+iliyopita",
-            "sekunde\\s+(\\d+)\\s+zilizopita"
+            "sekunde (\\d+) iliyopita",
+            "sekunde (\\d+) zilizopita"
         ]
     },
     "locale_specific": {

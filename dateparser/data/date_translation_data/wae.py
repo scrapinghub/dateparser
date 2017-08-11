@@ -126,31 +126,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "last\\s+year"
+            "last year"
         ],
         "0 year ago": [
-            "this\\s+year"
+            "this year"
         ],
         "in 1 year": [
-            "next\\s+year"
+            "next year"
         ],
         "1 month ago": [
-            "last\\s+month"
+            "last month"
         ],
         "0 month ago": [
-            "this\\s+month"
+            "this month"
         ],
         "in 1 month": [
-            "next\\s+month"
+            "next month"
         ],
         "1 week ago": [
-            "last\\s+week"
+            "last week"
         ],
         "0 week ago": [
-            "this\\s+week"
+            "this week"
         ],
         "in 1 week": [
-            "next\\s+week"
+            "next week"
         ],
         "1 day ago": [
             "gešter"
@@ -162,66 +162,68 @@ info = {
             "móre"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "i\\s+(\\d+)\\s+jár"
+            "i (\\d+) jár"
         ],
         "\\1 year ago": [
-            "vor\\s+(\\d+)\\s+jár",
-            "cor\\s+(\\d+)\\s+jár"
+            "vor (\\d+) jár",
+            "cor (\\d+) jár"
         ],
         "in \\1 month": [
-            "i\\s+(\\d+)\\s+mánet"
+            "i (\\d+) mánet"
         ],
         "\\1 month ago": [
-            "vor\\s+(\\d+)\\s+mánet"
+            "vor (\\d+) mánet"
         ],
         "in \\1 week": [
-            "i\\s+(\\d+)\\s+wuča",
-            "i\\s+(\\d+)\\s+wučä"
+            "i (\\d+) wuča",
+            "i (\\d+) wučä"
         ],
         "\\1 week ago": [
-            "vor\\s+(\\d+)\\s+wuča",
-            "cor\\s+(\\d+)\\s+wučä"
+            "vor (\\d+) wuča",
+            "cor (\\d+) wučä"
         ],
         "in \\1 day": [
-            "i\\s+(\\d+)\\s+tag",
-            "i\\s+(\\d+)\\s+täg"
+            "i (\\d+) tag",
+            "i (\\d+) täg"
         ],
         "\\1 day ago": [
-            "vor\\s+(\\d+)\\s+tag",
-            "vor\\s+(\\d+)\\s+täg"
+            "vor (\\d+) tag",
+            "vor (\\d+) täg"
         ],
         "in \\1 hour": [
-            "i\\s+(\\d+)\\s+stund",
-            "i\\s+(\\d+)\\s+stunde"
+            "i (\\d+) stund",
+            "i (\\d+) stunde"
         ],
         "\\1 hour ago": [
-            "vor\\s+(\\d+)\\s+stund",
-            "vor\\s+(\\d+)\\s+stunde"
+            "vor (\\d+) stund",
+            "vor (\\d+) stunde"
         ],
         "in \\1 minute": [
-            "i\\s+(\\d+)\\s+minüta",
-            "i\\s+(\\d+)\\s+minüte"
+            "i (\\d+) minüta",
+            "i (\\d+) minüte"
         ],
         "\\1 minute ago": [
-            "vor\\s+(\\d+)\\s+minüta",
-            "vor\\s+(\\d+)\\s+minüte"
+            "vor (\\d+) minüta",
+            "vor (\\d+) minüte"
         ],
         "in \\1 second": [
-            "i\\s+(\\d+)\\s+sekund",
-            "i\\s+(\\d+)\\s+sekunde"
+            "i (\\d+) sekund",
+            "i (\\d+) sekunde"
         ],
         "\\1 second ago": [
-            "vor\\s+(\\d+)\\s+sekund",
-            "vor\\s+(\\d+)\\s+sekunde"
+            "vor (\\d+) sekund",
+            "vor (\\d+) sekunde"
         ]
     },
     "locale_specific": {},

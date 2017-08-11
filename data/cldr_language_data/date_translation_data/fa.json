@@ -158,7 +158,9 @@
         ],
         "0 second ago": [
             "اکنون"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} سال بعد"
         ],

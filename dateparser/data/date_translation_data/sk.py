@@ -142,31 +142,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "minulý\\s+rok"
+            "minulý rok"
         ],
         "0 year ago": [
-            "tento\\s+rok"
+            "tento rok"
         ],
         "in 1 year": [
-            "budúci\\s+rok"
+            "budúci rok"
         ],
         "1 month ago": [
-            "minulý\\s+mesiac"
+            "minulý mesiac"
         ],
         "0 month ago": [
-            "tento\\s+mesiac"
+            "tento mesiac"
         ],
         "in 1 month": [
-            "budúci\\s+mesiac"
+            "budúci mesiac"
         ],
         "1 week ago": [
-            "minulý\\s+týždeň"
+            "minulý týždeň"
         ],
         "0 week ago": [
-            "tento\\s+týždeň"
+            "tento týždeň"
         ],
         "in 1 week": [
-            "budúci\\s+týždeň"
+            "budúci týždeň"
         ],
         "1 day ago": [
             "včera"
@@ -178,83 +178,85 @@ info = {
             "zajtra"
         ],
         "0 hour ago": [
-            "v\\s+tejto\\s+hodine"
+            "v tejto hodine"
         ],
         "0 minute ago": [
-            "v\\s+tejto\\s+minúte"
+            "v tejto minúte"
         ],
         "0 second ago": [
             "teraz"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "o\\s+(\\d+)\\s+rok",
-            "o\\s+(\\d+)\\s+rokov",
-            "o\\s+(\\d+)\\s+r"
+            "o (\\d+) rok",
+            "o (\\d+) rokov",
+            "o (\\d+) r"
         ],
         "\\1 year ago": [
-            "pred\\s+(\\d+)\\s+rokom",
-            "pred\\s+(\\d+)\\s+rokmi",
-            "pred\\s+(\\d+)\\s+r"
+            "pred (\\d+) rokom",
+            "pred (\\d+) rokmi",
+            "pred (\\d+) r"
         ],
         "in \\1 month": [
-            "o\\s+(\\d+)\\s+mesiac",
-            "o\\s+(\\d+)\\s+mesiacov",
-            "o\\s+(\\d+)\\s+mes"
+            "o (\\d+) mesiac",
+            "o (\\d+) mesiacov",
+            "o (\\d+) mes"
         ],
         "\\1 month ago": [
-            "pred\\s+(\\d+)\\s+mesiacom",
-            "pred\\s+(\\d+)\\s+mesiacmi",
-            "pred\\s+(\\d+)\\s+mes"
+            "pred (\\d+) mesiacom",
+            "pred (\\d+) mesiacmi",
+            "pred (\\d+) mes"
         ],
         "in \\1 week": [
-            "o\\s+(\\d+)\\s+týždeň",
-            "o\\s+(\\d+)\\s+týždňov",
-            "o\\s+(\\d+)\\s+týž"
+            "o (\\d+) týždeň",
+            "o (\\d+) týždňov",
+            "o (\\d+) týž"
         ],
         "\\1 week ago": [
-            "pred\\s+(\\d+)\\s+týždňom",
-            "pred\\s+(\\d+)\\s+týždňami",
-            "pred\\s+(\\d+)\\s+týž"
+            "pred (\\d+) týždňom",
+            "pred (\\d+) týždňami",
+            "pred (\\d+) týž"
         ],
         "in \\1 day": [
-            "o\\s+(\\d+)\\s+deň",
-            "o\\s+(\\d+)\\s+dní",
-            "o\\s+(\\d+)\\s+d"
+            "o (\\d+) deň",
+            "o (\\d+) dní",
+            "o (\\d+) d"
         ],
         "\\1 day ago": [
-            "pred\\s+(\\d+)\\s+dňom",
-            "pred\\s+(\\d+)\\s+dňami",
-            "pred\\s+(\\d+)\\s+d"
+            "pred (\\d+) dňom",
+            "pred (\\d+) dňami",
+            "pred (\\d+) d"
         ],
         "in \\1 hour": [
-            "o\\s+(\\d+)\\s+hodinu",
-            "o\\s+(\\d+)\\s+hodín",
-            "o\\s+(\\d+)\\s+h"
+            "o (\\d+) hodinu",
+            "o (\\d+) hodín",
+            "o (\\d+) h"
         ],
         "\\1 hour ago": [
-            "pred\\s+(\\d+)\\s+hodinou",
-            "pred\\s+(\\d+)\\s+hodinami",
-            "pred\\s+(\\d+)\\s+h"
+            "pred (\\d+) hodinou",
+            "pred (\\d+) hodinami",
+            "pred (\\d+) h"
         ],
         "in \\1 minute": [
-            "o\\s+(\\d+)\\s+minútu",
-            "o\\s+(\\d+)\\s+minút",
-            "o\\s+(\\d+)\\s+min"
+            "o (\\d+) minútu",
+            "o (\\d+) minút",
+            "o (\\d+) min"
         ],
         "\\1 minute ago": [
-            "pred\\s+(\\d+)\\s+minútou",
-            "pred\\s+(\\d+)\\s+minútami",
-            "pred\\s+(\\d+)\\s+min"
+            "pred (\\d+) minútou",
+            "pred (\\d+) minútami",
+            "pred (\\d+) min"
         ],
         "in \\1 second": [
-            "o\\s+(\\d+)\\s+sekundu",
-            "o\\s+(\\d+)\\s+sekúnd",
-            "o\\s+(\\d+)\\s+s"
+            "o (\\d+) sekundu",
+            "o (\\d+) sekúnd",
+            "o (\\d+) s"
         ],
         "\\1 second ago": [
-            "pred\\s+(\\d+)\\s+sekundou",
-            "pred\\s+(\\d+)\\s+sekundami",
-            "pred\\s+(\\d+)\\s+s"
+            "pred (\\d+) sekundou",
+            "pred (\\d+) sekundami",
+            "pred (\\d+) s"
         ]
     },
     "locale_specific": {},

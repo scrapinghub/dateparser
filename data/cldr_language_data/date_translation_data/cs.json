@@ -176,7 +176,9 @@
         ],
         "0 second ago": [
             "nyní"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "za {0} rok",
             "za {0} let",

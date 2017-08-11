@@ -172,7 +172,9 @@
         ],
         "0 second ago": [
             "acum"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "peste {0} an",
             "peste {0} de ani",

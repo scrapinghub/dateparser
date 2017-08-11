@@ -177,7 +177,9 @@
         ],
         "0 second ago": [
             "zdaj"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "čez {0} leto",
             "čez {0} let"

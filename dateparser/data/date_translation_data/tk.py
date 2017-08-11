@@ -100,105 +100,107 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "geçen\\s+ýyl"
+            "geçen ýyl"
         ],
         "0 year ago": [
-            "şu\\s+ýyl"
+            "şu ýyl"
         ],
         "in 1 year": [
-            "indiki\\s+ýyl"
+            "indiki ýyl"
         ],
         "1 month ago": [
-            "geçen\\s+aý"
+            "geçen aý"
         ],
         "0 month ago": [
-            "şu\\s+aý"
+            "şu aý"
         ],
         "in 1 month": [
-            "indiki\\s+aý"
+            "indiki aý"
         ],
         "1 week ago": [
-            "geçen\\s+hepde"
+            "geçen hepde"
         ],
         "0 week ago": [
-            "şu\\s+hepde"
+            "şu hepde"
         ],
         "in 1 week": [
-            "indiki\\s+hepde"
+            "indiki hepde"
         ],
         "1 day ago": [
             "düýn"
         ],
         "0 day ago": [
-            "şu\\s+gün"
+            "şu gün"
         ],
         "in 1 day": [
             "ertir"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "(\\d+)\\s+ýyldan",
+            "(\\d+) ýyldan",
             "(\\d+)ý.-dan"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+ýyl\\s+öň",
-            "(\\d+)ý\\s+öň"
+            "(\\d+) ýyl öň",
+            "(\\d+)ý öň"
         ],
         "in \\1 month": [
-            "(\\d+)\\s+aýdan"
+            "(\\d+) aýdan"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+aý\\s+öň"
+            "(\\d+) aý öň"
         ],
         "in \\1 week": [
-            "(\\d+)\\s+hepdeden",
-            "(\\d+)\\s+hep-den",
-            "(\\d+)\\s+h-den"
+            "(\\d+) hepdeden",
+            "(\\d+) hep-den",
+            "(\\d+) h-den"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+hepde\\s+öň",
-            "(\\d+)\\s+hep\\s+öň",
-            "(\\d+)\\s+h\\s+öň"
+            "(\\d+) hepde öň",
+            "(\\d+) hep öň",
+            "(\\d+) h öň"
         ],
         "in \\1 day": [
-            "(\\d+)\\s+günden",
-            "(\\d+)\\s+g-den"
+            "(\\d+) günden",
+            "(\\d+) g-den"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+gün\\s+öň",
-            "(\\d+)\\s+g\\s+öň"
+            "(\\d+) gün öň",
+            "(\\d+) g öň"
         ],
         "in \\1 hour": [
-            "(\\d+)\\s+sagatdan",
-            "(\\d+)\\s+sag-dan"
+            "(\\d+) sagatdan",
+            "(\\d+) sag-dan"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+sagat\\s+öň",
-            "(\\d+)\\s+sag\\s+öň"
+            "(\\d+) sagat öň",
+            "(\\d+) sag öň"
         ],
         "in \\1 minute": [
-            "(\\d+)\\s+minutdan",
-            "(\\d+)\\s+min-dan"
+            "(\\d+) minutdan",
+            "(\\d+) min-dan"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minut\\s+öň",
-            "(\\d+)\\s+min\\s+öň"
+            "(\\d+) minut öň",
+            "(\\d+) min öň"
         ],
         "in \\1 second": [
-            "(\\d+)\\s+sekuntdan",
-            "(\\d+)\\s+sek-dan"
+            "(\\d+) sekuntdan",
+            "(\\d+) sek-dan"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+sekunt\\s+öň",
-            "(\\d+)\\s+sek\\s+öň"
+            "(\\d+) sekunt öň",
+            "(\\d+) sek öň"
         ]
     },
     "locale_specific": {},

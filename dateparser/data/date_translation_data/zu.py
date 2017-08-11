@@ -130,31 +130,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "onyakeni\\s+odlule"
+            "onyakeni odlule"
         ],
         "0 year ago": [
-            "kulo\\s+nyaka"
+            "kulo nyaka"
         ],
         "in 1 year": [
-            "unyaka\\s+ozayo"
+            "unyaka ozayo"
         ],
         "1 month ago": [
-            "inyanga\\s+edlule"
+            "inyanga edlule"
         ],
         "0 month ago": [
-            "le\\s+nyanga"
+            "le nyanga"
         ],
         "in 1 month": [
-            "inyanga\\s+ezayo"
+            "inyanga ezayo"
         ],
         "1 week ago": [
-            "iviki\\s+eledlule"
+            "iviki eledlule"
         ],
         "0 week ago": [
-            "leli\\s+viki"
+            "leli viki"
         ],
         "in 1 week": [
-            "iviki\\s+elizayo"
+            "iviki elizayo"
         ],
         "1 day ago": [
             "izolo"
@@ -166,37 +166,39 @@ info = {
             "kusasa"
         ],
         "0 hour ago": [
-            "leli\\s+hora"
+            "leli hora"
         ],
         "0 minute ago": [
-            "leli\\s+minithi"
+            "leli minithi"
         ],
         "0 second ago": [
             "manje"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "\\1 year ago": [
-            "(\\d+)\\s+unyaka\\s+odlule",
-            "(\\d+)\\s+iminyaka\\s+edlule"
+            "(\\d+) unyaka odlule",
+            "(\\d+) iminyaka edlule"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+inyanga\\s+edlule",
-            "(\\d+)\\s+izinyanga\\s+ezedlule"
+            "(\\d+) inyanga edlule",
+            "(\\d+) izinyanga ezedlule"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+usuku\\s+olwedlule",
-            "(\\d+)\\s+izinsuku\\s+ezedlule"
+            "(\\d+) usuku olwedlule",
+            "(\\d+) izinsuku ezedlule"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+ihora\\s+eledlule",
-            "(\\d+)\\s+amahora\\s+edlule"
+            "(\\d+) ihora eledlule",
+            "(\\d+) amahora edlule"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+iminithi\\s+eledlule",
-            "(\\d+)\\s+amaminithi\\s+edlule"
+            "(\\d+) iminithi eledlule",
+            "(\\d+) amaminithi edlule"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+isekhondi\\s+eledlule",
-            "(\\d+)\\s+amasekhondi\\s+edlule"
+            "(\\d+) isekhondi eledlule",
+            "(\\d+) amasekhondi edlule"
         ]
     },
     "locale_specific": {},

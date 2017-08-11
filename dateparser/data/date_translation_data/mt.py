@@ -139,31 +139,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "is-sena\\s+li\\s+għaddiet"
+            "is-sena li għaddiet"
         ],
         "0 year ago": [
-            "din\\s+is-sena"
+            "din is-sena"
         ],
         "in 1 year": [
-            "is-sena\\s+d-dieħla"
+            "is-sena d-dieħla"
         ],
         "1 month ago": [
-            "ix-xahar\\s+li\\s+għadda"
+            "ix-xahar li għadda"
         ],
         "0 month ago": [
-            "dan\\s+ix-xahar"
+            "dan ix-xahar"
         ],
         "in 1 month": [
-            "ix-xahar\\s+id-dieħel"
+            "ix-xahar id-dieħel"
         ],
         "1 week ago": [
-            "il-ġimgħa\\s+li\\s+għaddiet"
+            "il-ġimgħa li għaddiet"
         ],
         "0 week ago": [
-            "din\\s+il-ġimgħa"
+            "din il-ġimgħa"
         ],
         "in 1 week": [
-            "il-ġimgħa\\s+d-dieħla"
+            "il-ġimgħa d-dieħla"
         ],
         "1 day ago": [
             "ilbieraħ"
@@ -175,17 +175,19 @@ info = {
             "għada"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "\\1 year ago": [
-            "(\\d+)\\s+sena\\s+ilu",
-            "(\\d+)\\s+snin\\s+ilu"
+            "(\\d+) sena ilu",
+            "(\\d+) snin ilu"
         ]
     },
     "locale_specific": {},

@@ -136,32 +136,32 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "vorig\\s+jaar",
-            "vorige\\s+jaar"
+            "vorig jaar",
+            "vorige jaar"
         ],
         "0 year ago": [
-            "dit\\s+jaar"
+            "dit jaar"
         ],
         "in 1 year": [
-            "volgend\\s+jaar"
+            "volgend jaar"
         ],
         "1 month ago": [
-            "vorige\\s+maand"
+            "vorige maand"
         ],
         "0 month ago": [
-            "deze\\s+maand"
+            "deze maand"
         ],
         "in 1 month": [
-            "volgende\\s+maand"
+            "volgende maand"
         ],
         "1 week ago": [
-            "vorige\\s+week"
+            "vorige week"
         ],
         "0 week ago": [
-            "deze\\s+week"
+            "deze week"
         ],
         "in 1 week": [
-            "volgende\\s+week"
+            "volgende week"
         ],
         "1 day ago": [
             "gisteren"
@@ -173,77 +173,79 @@ info = {
             "morgen"
         ],
         "0 hour ago": [
-            "binnen\\s+een\\s+uur"
+            "binnen een uur"
         ],
         "0 minute ago": [
-            "binnen\\s+een\\s+minuut"
+            "binnen een minuut"
         ],
         "0 second ago": [
             "nu"
-        ],
-        "in \\1 year": [
-            "over\\s+(\\d+)\\s+jaar"
-        ],
-        "\\1 year ago": [
-            "(\\d+)\\s+jaar\\s+geleden"
-        ],
-        "in \\1 month": [
-            "over\\s+(\\d+)\\s+maand",
-            "over\\s+(\\d+)\\s+maanden"
-        ],
-        "\\1 month ago": [
-            "(\\d+)\\s+maand\\s+geleden",
-            "(\\d+)\\s+maanden\\s+geleden"
-        ],
-        "in \\1 week": [
-            "over\\s+(\\d+)\\s+week",
-            "over\\s+(\\d+)\\s+weken"
-        ],
-        "\\1 week ago": [
-            "(\\d+)\\s+week\\s+geleden",
-            "(\\d+)\\s+weken\\s+geleden"
-        ],
-        "in \\1 day": [
-            "over\\s+(\\d+)\\s+dag",
-            "over\\s+(\\d+)\\s+dagen",
-            "over\\s+(\\d+)\\s+dgn"
-        ],
-        "\\1 day ago": [
-            "(\\d+)\\s+dag\\s+geleden",
-            "(\\d+)\\s+dagen\\s+geleden",
-            "(\\d+)\\s+dgn\\s+geleden"
-        ],
-        "in \\1 hour": [
-            "over\\s+(\\d+)\\s+uur"
-        ],
-        "\\1 hour ago": [
-            "(\\d+)\\s+uur\\s+geleden"
-        ],
-        "in \\1 minute": [
-            "over\\s+(\\d+)\\s+minuut",
-            "over\\s+(\\d+)\\s+minuten",
-            "over\\s+(\\d+)\\s+min"
-        ],
-        "\\1 minute ago": [
-            "(\\d+)\\s+minuut\\s+geleden",
-            "(\\d+)\\s+minuten\\s+geleden",
-            "(\\d+)\\s+min\\s+geleden"
-        ],
-        "in \\1 second": [
-            "over\\s+(\\d+)\\s+seconde",
-            "over\\s+(\\d+)\\s+seconden",
-            "over\\s+(\\d+)\\s+sec"
-        ],
-        "\\1 second ago": [
-            "(\\d+)\\s+seconde\\s+geleden",
-            "(\\d+)\\s+seconden\\s+geleden",
-            "(\\d+)\\s+sec\\s+geleden"
         ],
         "2 day ago": [
             "eergisteren"
         ],
         "in 2 day": [
             "overmorgen"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "over (\\d+) jaar"
+        ],
+        "\\1 year ago": [
+            "(\\d+) jaar geleden"
+        ],
+        "in \\1 month": [
+            "over (\\d+) maand",
+            "over (\\d+) maanden"
+        ],
+        "\\1 month ago": [
+            "(\\d+) maand geleden",
+            "(\\d+) maanden geleden"
+        ],
+        "in \\1 week": [
+            "over (\\d+) week",
+            "over (\\d+) weken"
+        ],
+        "\\1 week ago": [
+            "(\\d+) week geleden",
+            "(\\d+) weken geleden"
+        ],
+        "in \\1 day": [
+            "over (\\d+) dag",
+            "over (\\d+) dagen",
+            "over (\\d+) dgn"
+        ],
+        "\\1 day ago": [
+            "(\\d+) dag geleden",
+            "(\\d+) dagen geleden",
+            "(\\d+) dgn geleden"
+        ],
+        "in \\1 hour": [
+            "over (\\d+) uur"
+        ],
+        "\\1 hour ago": [
+            "(\\d+) uur geleden"
+        ],
+        "in \\1 minute": [
+            "over (\\d+) minuut",
+            "over (\\d+) minuten",
+            "over (\\d+) min"
+        ],
+        "\\1 minute ago": [
+            "(\\d+) minuut geleden",
+            "(\\d+) minuten geleden",
+            "(\\d+) min geleden"
+        ],
+        "in \\1 second": [
+            "over (\\d+) seconde",
+            "over (\\d+) seconden",
+            "over (\\d+) sec"
+        ],
+        "\\1 second ago": [
+            "(\\d+) seconde geleden",
+            "(\\d+) seconden geleden",
+            "(\\d+) sec geleden"
         ]
     },
     "locale_specific": {

@@ -126,31 +126,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "last\\s+year"
+            "last year"
         ],
         "0 year ago": [
-            "this\\s+year"
+            "this year"
         ],
         "in 1 year": [
-            "next\\s+year"
+            "next year"
         ],
         "1 month ago": [
-            "last\\s+month"
+            "last month"
         ],
         "0 month ago": [
-            "this\\s+month"
+            "this month"
         ],
         "in 1 month": [
-            "next\\s+month"
+            "next month"
         ],
         "1 week ago": [
-            "last\\s+week"
+            "last week"
         ],
         "0 week ago": [
-            "this\\s+week"
+            "this week"
         ],
         "in 1 week": [
-            "next\\s+week"
+            "next week"
         ],
         "1 day ago": [
             "ཁ་ཙ་"
@@ -162,55 +162,57 @@ info = {
             "ནངས་པ་"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "ལོ་འཁོར་\\s+(\\d+)\\s+ནང་"
+            "ལོ་འཁོར་ (\\d+) ནང་"
         ],
         "\\1 year ago": [
-            "ལོ་འཁོར་\\s+(\\d+)\\s+ཧེ་མ་"
+            "ལོ་འཁོར་ (\\d+) ཧེ་མ་"
         ],
         "in \\1 month": [
-            "ཟླཝ་\\s+(\\d+)\\s+ནང་"
+            "ཟླཝ་ (\\d+) ནང་"
         ],
         "\\1 month ago": [
-            "ཟླཝ་\\s+(\\d+)\\s+ཧེ་མ་"
+            "ཟླཝ་ (\\d+) ཧེ་མ་"
         ],
         "in \\1 week": [
-            "བངུན་ཕྲག་\\s+(\\d+)\\s+ནང་"
+            "བངུན་ཕྲག་ (\\d+) ནང་"
         ],
         "\\1 week ago": [
-            "བངུན་ཕྲག་\\s+(\\d+)\\s+ཧེ་མ་"
+            "བངུན་ཕྲག་ (\\d+) ཧེ་མ་"
         ],
         "in \\1 day": [
-            "ཉིནམ་\\s+(\\d+)\\s+ནང་"
+            "ཉིནམ་ (\\d+) ནང་"
         ],
         "\\1 day ago": [
-            "ཉིནམ་\\s+(\\d+)\\s+ཧེ་མ་"
+            "ཉིནམ་ (\\d+) ཧེ་མ་"
         ],
         "in \\1 hour": [
-            "ཆུ་ཚོད་\\s+(\\d+)\\s+ནང་"
+            "ཆུ་ཚོད་ (\\d+) ནང་"
         ],
         "\\1 hour ago": [
-            "ཆུ་ཚོད་\\s+(\\d+)\\s+ཧེ་མ་"
+            "ཆུ་ཚོད་ (\\d+) ཧེ་མ་"
         ],
         "in \\1 minute": [
-            "སྐར་མ་\\s+(\\d+)\\s+ནང་"
+            "སྐར་མ་ (\\d+) ནང་"
         ],
         "\\1 minute ago": [
-            "སྐར་མ་\\s+(\\d+)\\s+ཧེ་མ་"
+            "སྐར་མ་ (\\d+) ཧེ་མ་"
         ],
         "in \\1 second": [
-            "སྐར་ཆ་\\s+(\\d+)\\s+ནང་"
+            "སྐར་ཆ་ (\\d+) ནང་"
         ],
         "\\1 second ago": [
-            "སྐར་ཆ་\\s+(\\d+)\\s+ཧེ་མ་"
+            "སྐར་ཆ་ (\\d+) ཧེ་མ་"
         ]
     },
     "locale_specific": {},

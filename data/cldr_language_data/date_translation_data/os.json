@@ -183,7 +183,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 day": [
             "{0} боны фӕстӕ"
         ],

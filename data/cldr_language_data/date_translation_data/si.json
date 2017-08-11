@@ -177,7 +177,9 @@
         ],
         "0 second ago": [
             "දැන්"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "වසර {0}කින්"
         ],

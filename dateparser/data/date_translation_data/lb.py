@@ -134,31 +134,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "lescht\\s+joer"
+            "lescht joer"
         ],
         "0 year ago": [
-            "dëst\\s+joer"
+            "dëst joer"
         ],
         "in 1 year": [
-            "nächst\\s+joer"
+            "nächst joer"
         ],
         "1 month ago": [
-            "leschte\\s+mount"
+            "leschte mount"
         ],
         "0 month ago": [
-            "dëse\\s+mount"
+            "dëse mount"
         ],
         "in 1 month": [
-            "nächste\\s+mount"
+            "nächste mount"
         ],
         "1 week ago": [
-            "lescht\\s+woch"
+            "lescht woch"
         ],
         "0 week ago": [
-            "dës\\s+woch"
+            "dës woch"
         ],
         "in 1 week": [
-            "nächst\\s+woch"
+            "nächst woch"
         ],
         "1 day ago": [
             "gëschter"
@@ -170,97 +170,99 @@ info = {
             "muer"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "an\\s+(\\d+)\\s+joer",
-            "a(n)\\s+(\\d+)\\s+joer",
-            "an\\s+(\\d+)\\s+j",
-            "a(n)\\s+(\\d+)\\s+j"
+            "an (\\d+) joer",
+            "a(n) (\\d+) joer",
+            "an (\\d+) j",
+            "a(n) (\\d+) j"
         ],
         "\\1 year ago": [
-            "virun\\s+(\\d+)\\s+joer",
-            "viru(n)\\s+(\\d+)\\s+joer",
-            "virun\\s+(\\d+)\\s+j",
-            "viru(n)\\s+(\\d+)\\s+j"
+            "virun (\\d+) joer",
+            "viru(n) (\\d+) joer",
+            "virun (\\d+) j",
+            "viru(n) (\\d+) j"
         ],
         "in \\1 month": [
-            "an\\s+(\\d+)\\s+mount",
-            "a(n)\\s+(\\d+)\\s+méint",
-            "an\\s+(\\d+)\\s+m",
-            "a(n)\\s+(\\d+)\\s+m"
+            "an (\\d+) mount",
+            "a(n) (\\d+) méint",
+            "an (\\d+) m",
+            "a(n) (\\d+) m"
         ],
         "\\1 month ago": [
-            "virun\\s+(\\d+)\\s+mount",
-            "viru(n)\\s+(\\d+)\\s+méint",
-            "virun\\s+(\\d+)\\s+m",
-            "viru(n)\\s+(\\d+)\\s+m"
+            "virun (\\d+) mount",
+            "viru(n) (\\d+) méint",
+            "virun (\\d+) m",
+            "viru(n) (\\d+) m"
         ],
         "in \\1 week": [
-            "an\\s+(\\d+)\\s+woch",
-            "a(n)\\s+(\\d+)\\s+wochen",
-            "an\\s+(\\d+)\\s+w",
-            "a(n)\\s+(\\d+)\\s+w"
+            "an (\\d+) woch",
+            "a(n) (\\d+) wochen",
+            "an (\\d+) w",
+            "a(n) (\\d+) w"
         ],
         "\\1 week ago": [
-            "virun\\s+(\\d+)\\s+woch",
-            "viru(n)\\s+(\\d+)\\s+wochen",
-            "virun\\s+(\\d+)\\s+w",
-            "viru(n)\\s+(\\d+)\\s+w"
+            "virun (\\d+) woch",
+            "viru(n) (\\d+) wochen",
+            "virun (\\d+) w",
+            "viru(n) (\\d+) w"
         ],
         "in \\1 day": [
-            "an\\s+(\\d+)\\s+dag",
-            "a(n)\\s+(\\d+)\\s+deeg",
-            "an\\s+(\\d+)\\s+d",
-            "a(n)\\s+(\\d+)\\s+d"
+            "an (\\d+) dag",
+            "a(n) (\\d+) deeg",
+            "an (\\d+) d",
+            "a(n) (\\d+) d"
         ],
         "\\1 day ago": [
-            "virun\\s+(\\d+)\\s+dag",
-            "viru(n)\\s+(\\d+)\\s+deeg",
-            "virun\\s+(\\d+)\\s+d",
-            "viru(n)\\s+(\\d+)\\s+d"
+            "virun (\\d+) dag",
+            "viru(n) (\\d+) deeg",
+            "virun (\\d+) d",
+            "viru(n) (\\d+) d"
         ],
         "in \\1 hour": [
-            "an\\s+(\\d+)\\s+stonn",
-            "a(n)\\s+(\\d+)\\s+stonnen",
-            "an\\s+(\\d+)\\s+st",
-            "a(n)\\s+(\\d+)\\s+st"
+            "an (\\d+) stonn",
+            "a(n) (\\d+) stonnen",
+            "an (\\d+) st",
+            "a(n) (\\d+) st"
         ],
         "\\1 hour ago": [
-            "virun\\s+(\\d+)\\s+stonn",
-            "viru(n)\\s+(\\d+)\\s+stonnen",
-            "virun\\s+(\\d+)\\s+st",
-            "viru(n)\\s+(\\d+)\\s+st"
+            "virun (\\d+) stonn",
+            "viru(n) (\\d+) stonnen",
+            "virun (\\d+) st",
+            "viru(n) (\\d+) st"
         ],
         "in \\1 minute": [
-            "an\\s+(\\d+)\\s+minutt",
-            "a(n)\\s+(\\d+)\\s+minutten",
-            "an\\s+(\\d+)\\s+min",
-            "a(n)\\s+(\\d+)\\s+min"
+            "an (\\d+) minutt",
+            "a(n) (\\d+) minutten",
+            "an (\\d+) min",
+            "a(n) (\\d+) min"
         ],
         "\\1 minute ago": [
-            "virun\\s+(\\d+)\\s+minutt",
-            "viru(n)\\s+(\\d+)\\s+minutten",
-            "virun\\s+(\\d+)\\s+min",
-            "viru(n)\\s+(\\d+)\\s+min"
+            "virun (\\d+) minutt",
+            "viru(n) (\\d+) minutten",
+            "virun (\\d+) min",
+            "viru(n) (\\d+) min"
         ],
         "in \\1 second": [
-            "an\\s+(\\d+)\\s+sekonn",
-            "a(n)\\s+(\\d+)\\s+sekonnen",
-            "an\\s+(\\d+)\\s+sek",
-            "a(n)\\s+(\\d+)\\s+sek"
+            "an (\\d+) sekonn",
+            "a(n) (\\d+) sekonnen",
+            "an (\\d+) sek",
+            "a(n) (\\d+) sek"
         ],
         "\\1 second ago": [
-            "virun\\s+(\\d+)\\s+sekonn",
-            "viru(n)\\s+(\\d+)\\s+sekonnen",
-            "virun\\s+(\\d+)\\s+sek",
-            "viru(n)\\s+(\\d+)\\s+sek"
+            "virun (\\d+) sekonn",
+            "viru(n) (\\d+) sekonnen",
+            "virun (\\d+) sek",
+            "viru(n) (\\d+) sek"
         ]
     },
     "locale_specific": {},

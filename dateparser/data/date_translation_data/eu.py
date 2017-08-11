@@ -132,31 +132,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "aurreko\\s+urtea"
+            "aurreko urtea"
         ],
         "0 year ago": [
             "aurten"
         ],
         "in 1 year": [
-            "hurrengo\\s+urtea"
+            "hurrengo urtea"
         ],
         "1 month ago": [
-            "aurreko\\s+hilabetea"
+            "aurreko hilabetea"
         ],
         "0 month ago": [
-            "hilabete\\s+hau"
+            "hilabete hau"
         ],
         "in 1 month": [
-            "hurrengo\\s+hilabetea"
+            "hurrengo hilabetea"
         ],
         "1 week ago": [
-            "aurreko\\s+astea"
+            "aurreko astea"
         ],
         "0 week ago": [
-            "aste\\s+hau"
+            "aste hau"
         ],
         "in 1 week": [
-            "hurrengo\\s+astea"
+            "hurrengo astea"
         ],
         "1 day ago": [
             "atzo"
@@ -168,55 +168,57 @@ info = {
             "bihar"
         ],
         "0 hour ago": [
-            "ordu\\s+honetan"
+            "ordu honetan"
         ],
         "0 minute ago": [
-            "minutu\\s+honetan"
+            "minutu honetan"
         ],
         "0 second ago": [
             "orain"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "(\\d+)\\s+urte\\s+barru"
+            "(\\d+) urte barru"
         ],
         "\\1 year ago": [
-            "duela\\s+(\\d+)\\s+urte"
+            "duela (\\d+) urte"
         ],
         "in \\1 month": [
-            "(\\d+)\\s+hilabete\\s+barru"
+            "(\\d+) hilabete barru"
         ],
         "\\1 month ago": [
-            "duela\\s+(\\d+)\\s+hilabete"
+            "duela (\\d+) hilabete"
         ],
         "in \\1 week": [
-            "(\\d+)\\s+aste\\s+barru"
+            "(\\d+) aste barru"
         ],
         "\\1 week ago": [
-            "duela\\s+(\\d+)\\s+aste"
+            "duela (\\d+) aste"
         ],
         "in \\1 day": [
-            "(\\d+)\\s+egun\\s+barru"
+            "(\\d+) egun barru"
         ],
         "\\1 day ago": [
-            "duela\\s+(\\d+)\\s+egun"
+            "duela (\\d+) egun"
         ],
         "in \\1 hour": [
-            "(\\d+)\\s+ordu\\s+barru"
+            "(\\d+) ordu barru"
         ],
         "\\1 hour ago": [
-            "duela\\s+(\\d+)\\s+ordu"
+            "duela (\\d+) ordu"
         ],
         "in \\1 minute": [
-            "(\\d+)\\s+minutu\\s+barru"
+            "(\\d+) minutu barru"
         ],
         "\\1 minute ago": [
-            "duela\\s+(\\d+)\\s+minutu"
+            "duela (\\d+) minutu"
         ],
         "in \\1 second": [
-            "(\\d+)\\s+segundo\\s+barru"
+            "(\\d+) segundo barru"
         ],
         "\\1 second ago": [
-            "duela\\s+(\\d+)\\s+segundo"
+            "duela (\\d+) segundo"
         ]
     },
     "locale_specific": {},

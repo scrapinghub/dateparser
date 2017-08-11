@@ -128,107 +128,109 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "ƒe\\s+si\\s+va\\s+yi"
+            "ƒe si va yi"
         ],
         "0 year ago": [
-            "ƒe\\s+sia"
+            "ƒe sia"
         ],
         "in 1 year": [
-            "ƒe\\s+si\\s+gbɔ\\s+na"
+            "ƒe si gbɔ na"
         ],
         "1 month ago": [
-            "ɣleti\\s+si\\s+va\\s+yi"
+            "ɣleti si va yi"
         ],
         "0 month ago": [
-            "ɣleti\\s+sia"
+            "ɣleti sia"
         ],
         "in 1 month": [
-            "ɣleti\\s+si\\s+gbɔ\\s+na"
+            "ɣleti si gbɔ na"
         ],
         "1 week ago": [
-            "kɔsiɖa\\s+si\\s+va\\s+yi"
+            "kɔsiɖa si va yi"
         ],
         "0 week ago": [
-            "kɔsiɖa\\s+sia"
+            "kɔsiɖa sia"
         ],
         "in 1 week": [
-            "kɔsiɖa\\s+si\\s+gbɔ\\s+na"
+            "kɔsiɖa si gbɔ na"
         ],
         "1 day ago": [
-            "etsɔ\\s+si\\s+va\\s+yi"
+            "etsɔ si va yi"
         ],
         "0 day ago": [
             "egbe"
         ],
         "in 1 day": [
-            "etsɔ\\s+si\\s+gbɔna"
+            "etsɔ si gbɔna"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "fifi"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "le\\s+ƒe\\s+(\\d+)\\s+me",
-            "le\\s+ƒe\\s+(\\d+)\\s+si\\s+gbɔna\\s+me"
+            "le ƒe (\\d+) me",
+            "le ƒe (\\d+) si gbɔna me"
         ],
         "\\1 year ago": [
-            "ƒe\\s+(\\d+)\\s+si\\s+va\\s+yi",
-            "ƒe\\s+(\\d+)\\s+si\\s+wo\\s+va\\s+yi",
-            "le\\s+ƒe\\s+(\\d+)\\s+si\\s+va\\s+yi\\s+me",
-            "ƒe\\s+(\\d+)\\s+si\\s+va\\s+yi\\s+me"
+            "ƒe (\\d+) si va yi",
+            "ƒe (\\d+) si wo va yi",
+            "le ƒe (\\d+) si va yi me",
+            "ƒe (\\d+) si va yi me"
         ],
         "in \\1 month": [
-            "le\\s+ɣleti\\s+(\\d+)\\s+me",
-            "le\\s+ɣleti\\s+(\\d+)\\s+wo\\s+me"
+            "le ɣleti (\\d+) me",
+            "le ɣleti (\\d+) wo me"
         ],
         "\\1 month ago": [
-            "ɣleti\\s+(\\d+)\\s+si\\s+va\\s+yi",
-            "ɣleti\\s+(\\d+)\\s+si\\s+wo\\s+va\\s+yi"
+            "ɣleti (\\d+) si va yi",
+            "ɣleti (\\d+) si wo va yi"
         ],
         "in \\1 week": [
-            "le\\s+kɔsiɖa\\s+(\\d+)\\s+me",
-            "le\\s+kɔsiɖa\\s+(\\d+)\\s+wo\\s+me"
+            "le kɔsiɖa (\\d+) me",
+            "le kɔsiɖa (\\d+) wo me"
         ],
         "\\1 week ago": [
-            "kɔsiɖa\\s+(\\d+)\\s+si\\s+va\\s+yi",
-            "kɔsiɖa\\s+(\\d+)\\s+si\\s+wo\\s+va\\s+yi"
+            "kɔsiɖa (\\d+) si va yi",
+            "kɔsiɖa (\\d+) si wo va yi"
         ],
         "in \\1 day": [
-            "le\\s+ŋkeke\\s+(\\d+)\\s+me",
-            "le\\s+ŋkeke\\s+(\\d+)\\s+wo\\s+me"
+            "le ŋkeke (\\d+) me",
+            "le ŋkeke (\\d+) wo me"
         ],
         "\\1 day ago": [
-            "ŋkeke\\s+(\\d+)\\s+si\\s+va\\s+yi",
-            "ŋkeke\\s+(\\d+)\\s+si\\s+wo\\s+va\\s+yi"
+            "ŋkeke (\\d+) si va yi",
+            "ŋkeke (\\d+) si wo va yi"
         ],
         "in \\1 hour": [
-            "le\\s+gaƒoƒo\\s+(\\d+)\\s+me",
-            "le\\s+gaƒoƒo\\s+(\\d+)\\s+wo\\s+me"
+            "le gaƒoƒo (\\d+) me",
+            "le gaƒoƒo (\\d+) wo me"
         ],
         "\\1 hour ago": [
-            "gaƒoƒo\\s+(\\d+)\\s+si\\s+va\\s+yi",
-            "gaƒoƒo\\s+(\\d+)\\s+si\\s+wo\\s+va\\s+yi"
+            "gaƒoƒo (\\d+) si va yi",
+            "gaƒoƒo (\\d+) si wo va yi"
         ],
         "in \\1 minute": [
-            "le\\s+aɖabaƒoƒo\\s+(\\d+)\\s+me",
-            "le\\s+aɖabaƒoƒo\\s+(\\d+)\\s+wo\\s+me"
+            "le aɖabaƒoƒo (\\d+) me",
+            "le aɖabaƒoƒo (\\d+) wo me"
         ],
         "\\1 minute ago": [
-            "aɖabaƒoƒo\\s+(\\d+)\\s+si\\s+va\\s+yi",
-            "aɖabaƒoƒo\\s+(\\d+)\\s+si\\s+wo\\s+va\\s+yi"
+            "aɖabaƒoƒo (\\d+) si va yi",
+            "aɖabaƒoƒo (\\d+) si wo va yi"
         ],
         "in \\1 second": [
-            "le\\s+sekend\\s+(\\d+)\\s+me",
-            "le\\s+sekend\\s+(\\d+)\\s+wo\\s+me"
+            "le sekend (\\d+) me",
+            "le sekend (\\d+) wo me"
         ],
         "\\1 second ago": [
-            "sekend\\s+(\\d+)\\s+si\\s+va\\s+yi",
-            "sekend\\s+(\\d+)\\s+si\\s+wo\\s+va\\s+yi"
+            "sekend (\\d+) si va yi",
+            "sekend (\\d+) si wo va yi"
         ]
     },
     "locale_specific": {

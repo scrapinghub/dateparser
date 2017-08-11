@@ -135,31 +135,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "anu\\s+pasadu"
+            "anu pasadu"
         ],
         "0 year ago": [
-            "es\\s+anu\\s+li"
+            "es anu li"
         ],
         "in 1 year": [
-            "prósimu\\s+anu"
+            "prósimu anu"
         ],
         "1 month ago": [
-            "mes\\s+pasadu"
+            "mes pasadu"
         ],
         "0 month ago": [
-            "es\\s+mes\\s+li"
+            "es mes li"
         ],
         "in 1 month": [
-            "prósimu\\s+mes"
+            "prósimu mes"
         ],
         "1 week ago": [
-            "simana\\s+pasadu"
+            "simana pasadu"
         ],
         "0 week ago": [
-            "es\\s+simana\\s+li"
+            "es simana li"
         ],
         "in 1 week": [
-            "prósimu\\s+simana"
+            "prósimu simana"
         ],
         "1 day ago": [
             "onti"
@@ -171,65 +171,67 @@ info = {
             "manha"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "di\\s+li\\s+(\\d+)\\s+anu"
+            "di li (\\d+) anu"
         ],
         "\\1 year ago": [
-            "a\\s+ten\\s+(\\d+)\\s+anu"
+            "a ten (\\d+) anu"
         ],
         "in \\1 month": [
-            "di\\s+li\\s+(\\d+)\\s+mes"
+            "di li (\\d+) mes"
         ],
         "\\1 month ago": [
-            "a\\s+ten\\s+(\\d+)\\s+mes"
+            "a ten (\\d+) mes"
         ],
         "in \\1 week": [
-            "di\\s+li\\s+(\\d+)\\s+simana",
-            "di\\s+li\\s+(\\d+)\\s+sim"
+            "di li (\\d+) simana",
+            "di li (\\d+) sim"
         ],
         "\\1 week ago": [
-            "a\\s+ten\\s+(\\d+)\\s+simana",
-            "a\\s+ten\\s+(\\d+)\\s+sim"
+            "a ten (\\d+) simana",
+            "a ten (\\d+) sim"
         ],
         "in \\1 day": [
-            "di\\s+li\\s+(\\d+)\\s+dia"
+            "di li (\\d+) dia"
         ],
         "\\1 day ago": [
-            "a\\s+ten\\s+(\\d+)\\s+dia"
+            "a ten (\\d+) dia"
         ],
         "in \\1 hour": [
-            "di\\s+li\\s+(\\d+)\\s+ora"
+            "di li (\\d+) ora"
         ],
         "\\1 hour ago": [
-            "a\\s+ten\\s+(\\d+)\\s+ora"
+            "a ten (\\d+) ora"
         ],
         "in \\1 minute": [
-            "di\\s+li\\s+(\\d+)\\s+minutu",
-            "di\\s+li\\s+(\\d+)\\s+min",
-            "di\\s+li\\s+(\\d+)\\s+m"
+            "di li (\\d+) minutu",
+            "di li (\\d+) min",
+            "di li (\\d+) m"
         ],
         "\\1 minute ago": [
-            "a\\s+ten\\s+(\\d+)\\s+minutu",
-            "a\\s+ten\\s+(\\d+)\\s+min",
-            "a\\s+ten\\s+(\\d+)\\s+m"
+            "a ten (\\d+) minutu",
+            "a ten (\\d+) min",
+            "a ten (\\d+) m"
         ],
         "in \\1 second": [
-            "di\\s+li\\s+(\\d+)\\s+sigundu",
-            "di\\s+li\\s+(\\d+)\\s+sig",
-            "di\\s+li\\s+(\\d+)\\s+s"
+            "di li (\\d+) sigundu",
+            "di li (\\d+) sig",
+            "di li (\\d+) s"
         ],
         "\\1 second ago": [
-            "a\\s+ten\\s+(\\d+)\\s+sigundu",
-            "a\\s+ten\\s+(\\d+)\\s+sig",
-            "a\\s+ten\\s+(\\d+)\\s+s"
+            "a ten (\\d+) sigundu",
+            "a ten (\\d+) sig",
+            "a ten (\\d+) s"
         ]
     },
     "locale_specific": {},

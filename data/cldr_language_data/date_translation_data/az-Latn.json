@@ -152,7 +152,9 @@
         ],
         "0 second ago": [
             "indi"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} il ərzində"
         ],

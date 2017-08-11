@@ -136,33 +136,33 @@ info = {
             "anuraidh"
         ],
         "0 year ago": [
-            "an\\s+bhliain\\s+seo",
-            "an\\s+bhl\\s+seo"
+            "an bhliain seo",
+            "an bhl seo"
         ],
         "in 1 year": [
-            "an\\s+bhliain\\s+seo\\s+chugainn",
-            "an\\s+bhl\\s+seo\\s+chugainn"
+            "an bhliain seo chugainn",
+            "an bhl seo chugainn"
         ],
         "1 month ago": [
-            "an\\s+mhí\\s+seo\\s+caite"
+            "an mhí seo caite"
         ],
         "0 month ago": [
-            "an\\s+mhí\\s+seo"
+            "an mhí seo"
         ],
         "in 1 month": [
-            "an\\s+mhí\\s+seo\\s+chugainn"
+            "an mhí seo chugainn"
         ],
         "1 week ago": [
-            "an\\s+tseachtain\\s+seo\\s+caite",
-            "an\\s+tscht\\s+seo\\s+caite"
+            "an tseachtain seo caite",
+            "an tscht seo caite"
         ],
         "0 week ago": [
-            "an\\s+tseachtain\\s+seo",
-            "an\\s+tscht\\s+seo"
+            "an tseachtain seo",
+            "an tscht seo"
         ],
         "in 1 week": [
-            "an\\s+tseachtain\\s+seo\\s+chugainn",
-            "an\\s+tscht\\s+seo\\s+chugainn"
+            "an tseachtain seo chugainn",
+            "an tscht seo chugainn"
         ],
         "1 day ago": [
             "inné"
@@ -174,70 +174,72 @@ info = {
             "amárach"
         ],
         "0 hour ago": [
-            "an\\s+uair\\s+seo"
+            "an uair seo"
         ],
         "0 minute ago": [
-            "an\\s+nóiméad\\s+seo"
+            "an nóiméad seo"
         ],
         "0 second ago": [
             "anois"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "i\\s+gceann\\s+(\\d+)\\s+bhliain",
-            "i\\s+gceann\\s+(\\d+)\\s+bliain",
-            "i\\s+gceann\\s+(\\d+)\\s+bl"
+            "i gceann (\\d+) bhliain",
+            "i gceann (\\d+) bliain",
+            "i gceann (\\d+) bl"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+bhliain\\s+ó\\s+shin",
-            "(\\d+)\\s+bliain\\s+ó\\s+shin",
-            "(\\d+)\\s+bhl\\s+ó\\s+shin",
-            "(\\d+)\\s+bl\\s+ó\\s+shin"
+            "(\\d+) bhliain ó shin",
+            "(\\d+) bliain ó shin",
+            "(\\d+) bhl ó shin",
+            "(\\d+) bl ó shin"
         ],
         "in \\1 month": [
-            "i\\s+gceann\\s+(\\d+)\\s+mhí",
-            "i\\s+gceann\\s+(\\d+)\\s+mí"
+            "i gceann (\\d+) mhí",
+            "i gceann (\\d+) mí"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+mhí\\s+ó\\s+shin",
-            "(\\d+)\\s+mí\\s+ó\\s+shin"
+            "(\\d+) mhí ó shin",
+            "(\\d+) mí ó shin"
         ],
         "in \\1 week": [
-            "i\\s+gceann\\s+(\\d+)\\s+seachtain",
-            "i\\s+gceann\\s+(\\d+)\\s+scht"
+            "i gceann (\\d+) seachtain",
+            "i gceann (\\d+) scht"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+seachtain\\s+ó\\s+shin",
-            "(\\d+)\\s+scht\\s+ó\\s+shin"
+            "(\\d+) seachtain ó shin",
+            "(\\d+) scht ó shin"
         ],
         "in \\1 day": [
-            "i\\s+gceann\\s+(\\d+)\\s+lá"
+            "i gceann (\\d+) lá"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+lá\\s+ó\\s+shin"
+            "(\\d+) lá ó shin"
         ],
         "in \\1 hour": [
-            "i\\s+gceann\\s+(\\d+)\\s+uair\\s+an\\s+chloig",
-            "i\\s+gceann\\s+(\\d+)\\s+uair"
+            "i gceann (\\d+) uair an chloig",
+            "i gceann (\\d+) uair"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+uair\\s+an\\s+chloig\\s+ó\\s+shin",
-            "(\\d+)\\s+uair\\s+ó\\s+shin"
+            "(\\d+) uair an chloig ó shin",
+            "(\\d+) uair ó shin"
         ],
         "in \\1 minute": [
-            "i\\s+gceann\\s+(\\d+)\\s+nóiméad",
-            "i\\s+gceann\\s+(\\d+)\\s+nóim"
+            "i gceann (\\d+) nóiméad",
+            "i gceann (\\d+) nóim"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+nóiméad\\s+ó\\s+shin",
-            "(\\d+)\\s+nóim\\s+ó\\s+shin"
+            "(\\d+) nóiméad ó shin",
+            "(\\d+) nóim ó shin"
         ],
         "in \\1 second": [
-            "i\\s+gceann\\s+(\\d+)\\s+soicind",
-            "i\\s+gceann\\s+(\\d+)\\s+soic"
+            "i gceann (\\d+) soicind",
+            "i gceann (\\d+) soic"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+soicind\\s+ó\\s+shin",
-            "(\\d+)\\s+soic\\s+ó\\s+shin"
+            "(\\d+) soicind ó shin",
+            "(\\d+) soic ó shin"
         ]
     },
     "locale_specific": {},

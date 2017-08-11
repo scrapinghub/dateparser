@@ -129,91 +129,93 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "taʻu\\s+kuoʻosi"
+            "taʻu kuoʻosi"
         ],
         "0 year ago": [
-            "taʻú\\s+ni"
+            "taʻú ni"
         ],
         "in 1 year": [
-            "taʻu\\s+kahaʻu"
+            "taʻu kahaʻu"
         ],
         "1 month ago": [
-            "māhina\\s+kuoʻosi"
+            "māhina kuoʻosi"
         ],
         "0 month ago": [
-            "māhiná\\s+ni"
+            "māhiná ni"
         ],
         "in 1 month": [
-            "māhina\\s+kahaʻu"
+            "māhina kahaʻu"
         ],
         "1 week ago": [
-            "uike\\s+kuoʻosi"
+            "uike kuoʻosi"
         ],
         "0 week ago": [
-            "uiké\\s+ni"
+            "uiké ni"
         ],
         "in 1 week": [
-            "uike\\s+kahaʻu"
+            "uike kahaʻu"
         ],
         "1 day ago": [
             "ʻaneafi"
         ],
         "0 day ago": [
-            "ʻahó\\s+ni"
+            "ʻahó ni"
         ],
         "in 1 day": [
             "ʻapongipongi"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
-            "taimí\\s+ni"
-        ],
+            "taimí ni"
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "ʻi\\s+he\\s+taʻu\\s+ʻe\\s+(\\d+)"
+            "ʻi he taʻu ʻe (\\d+)"
         ],
         "\\1 year ago": [
-            "taʻu\\s+ʻe\\s+(\\d+)\\s+kuoʻosi"
+            "taʻu ʻe (\\d+) kuoʻosi"
         ],
         "in \\1 month": [
-            "ʻi\\s+he\\s+māhina\\s+ʻe\\s+(\\d+)"
+            "ʻi he māhina ʻe (\\d+)"
         ],
         "\\1 month ago": [
-            "māhina\\s+ʻe\\s+(\\d+)\\s+kuoʻosi"
+            "māhina ʻe (\\d+) kuoʻosi"
         ],
         "in \\1 week": [
-            "ʻi\\s+he\\s+uike\\s+ʻe\\s+(\\d+)"
+            "ʻi he uike ʻe (\\d+)"
         ],
         "\\1 week ago": [
-            "uike\\s+ʻe\\s+(\\d+)\\s+kuoʻosi"
+            "uike ʻe (\\d+) kuoʻosi"
         ],
         "in \\1 day": [
-            "ʻi\\s+he\\s+ʻaho\\s+ʻe\\s+(\\d+)"
+            "ʻi he ʻaho ʻe (\\d+)"
         ],
         "\\1 day ago": [
-            "ʻaho\\s+ʻe\\s+(\\d+)\\s+kuoʻosi"
+            "ʻaho ʻe (\\d+) kuoʻosi"
         ],
         "in \\1 hour": [
-            "ʻi\\s+he\\s+houa\\s+ʻe\\s+(\\d+)"
+            "ʻi he houa ʻe (\\d+)"
         ],
         "\\1 hour ago": [
-            "houa\\s+ʻe\\s+(\\d+)\\s+kuoʻosi"
+            "houa ʻe (\\d+) kuoʻosi"
         ],
         "in \\1 minute": [
-            "ʻi\\s+he\\s+miniti\\s+ʻe\\s+(\\d+)"
+            "ʻi he miniti ʻe (\\d+)"
         ],
         "\\1 minute ago": [
-            "miniti\\s+ʻe\\s+(\\d+)\\s+kuoʻosi"
+            "miniti ʻe (\\d+) kuoʻosi"
         ],
         "in \\1 second": [
-            "ʻi\\s+he\\s+sekoni\\s+ʻe\\s+(\\d+)"
+            "ʻi he sekoni ʻe (\\d+)"
         ],
         "\\1 second ago": [
-            "sekoni\\s+ʻe\\s+(\\d+)\\s+kuoʻosi"
+            "sekoni ʻe (\\d+) kuoʻosi"
         ]
     },
     "locale_specific": {},

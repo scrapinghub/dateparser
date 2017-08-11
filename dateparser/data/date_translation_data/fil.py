@@ -114,118 +114,120 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "nakaraang\\s+taon"
+            "nakaraang taon"
         ],
         "0 year ago": [
-            "ngayong\\s+taon"
+            "ngayong taon"
         ],
         "in 1 year": [
-            "susunod\\s+na\\s+taon"
+            "susunod na taon"
         ],
         "1 month ago": [
-            "nakaraang\\s+buwan"
+            "nakaraang buwan"
         ],
         "0 month ago": [
-            "ngayong\\s+buwan"
+            "ngayong buwan"
         ],
         "in 1 month": [
-            "susunod\\s+na\\s+buwan"
+            "susunod na buwan"
         ],
         "1 week ago": [
-            "nakalipas\\s+na\\s+linggo",
-            "nakaraang\\s+linggo"
+            "nakalipas na linggo",
+            "nakaraang linggo"
         ],
         "0 week ago": [
-            "sa\\s+linggong\\s+ito",
-            "ngayong\\s+linggo"
+            "sa linggong ito",
+            "ngayong linggo"
         ],
         "in 1 week": [
-            "susunod\\s+na\\s+linggo"
+            "susunod na linggo"
         ],
         "1 day ago": [
             "kahapon"
         ],
         "0 day ago": [
-            "ngayong\\s+araw"
+            "ngayong araw"
         ],
         "in 1 day": [
             "bukas"
         ],
         "0 hour ago": [
-            "ngayong\\s+oras"
+            "ngayong oras"
         ],
         "0 minute ago": [
-            "sa\\s+minutong\\s+ito"
+            "sa minutong ito"
         ],
         "0 second ago": [
             "ngayon"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "sa\\s+(\\d+)\\s+taon",
-            "sa\\s+(\\d+)\\s+(na)\\s+taon"
+            "sa (\\d+) taon",
+            "sa (\\d+) (na) taon"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+taon\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+(na)\\s+taon\\s+ang\\s+nakalipas"
+            "(\\d+) taon ang nakalipas",
+            "(\\d+) (na) taon ang nakalipas"
         ],
         "in \\1 month": [
-            "sa\\s+(\\d+)\\s+buwan",
-            "sa\\s+(\\d+)\\s+(na)\\s+buwan"
+            "sa (\\d+) buwan",
+            "sa (\\d+) (na) buwan"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+buwan\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+(na)\\s+buwan\\s+ang\\s+nakalipas"
+            "(\\d+) buwan ang nakalipas",
+            "(\\d+) (na) buwan ang nakalipas"
         ],
         "in \\1 week": [
-            "sa\\s+(\\d+)\\s+linggo",
-            "sa\\s+(\\d+)\\s+(na)\\s+linggo"
+            "sa (\\d+) linggo",
+            "sa (\\d+) (na) linggo"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+linggo\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+(na)\\s+linggo\\s+ang\\s+nakalipas"
+            "(\\d+) linggo ang nakalipas",
+            "(\\d+) (na) linggo ang nakalipas"
         ],
         "in \\1 day": [
-            "sa\\s+(\\d+)\\s+araw",
-            "sa\\s+(\\d+)\\s+(na)\\s+araw"
+            "sa (\\d+) araw",
+            "sa (\\d+) (na) araw"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+araw\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+(na)\\s+araw\\s+ang\\s+nakalipas"
+            "(\\d+) araw ang nakalipas",
+            "(\\d+) (na) araw ang nakalipas"
         ],
         "in \\1 hour": [
-            "sa\\s+(\\d+)\\s+oras",
-            "sa\\s+(\\d+)\\s+(na)\\s+oras"
+            "sa (\\d+) oras",
+            "sa (\\d+) (na) oras"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+oras\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+(na)\\s+oras\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+oras\\s+nakalipas",
-            "(\\d+)\\s+(na)\\s+oras\\s+nakalipas"
+            "(\\d+) oras ang nakalipas",
+            "(\\d+) (na) oras ang nakalipas",
+            "(\\d+) oras nakalipas",
+            "(\\d+) (na) oras nakalipas"
         ],
         "in \\1 minute": [
-            "sa\\s+(\\d+)\\s+minuto",
-            "sa\\s+(\\d+)\\s+(na)\\s+minuto",
-            "sa\\s+(\\d+)\\s+min",
-            "sa\\s+(\\d+)\\s+(na)\\s+min"
+            "sa (\\d+) minuto",
+            "sa (\\d+) (na) minuto",
+            "sa (\\d+) min",
+            "sa (\\d+) (na) min"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minuto\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+(na)\\s+minuto\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+min\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+(na)\\s+min\\s+ang\\s+nakalipas"
+            "(\\d+) minuto ang nakalipas",
+            "(\\d+) (na) minuto ang nakalipas",
+            "(\\d+) min ang nakalipas",
+            "(\\d+) (na) min ang nakalipas"
         ],
         "in \\1 second": [
-            "sa\\s+(\\d+)\\s+segundo",
-            "sa\\s+(\\d+)\\s+(na)\\s+segundo",
-            "sa\\s+(\\d+)\\s+seg",
-            "sa\\s+(\\d+)\\s+(na)\\s+seg"
+            "sa (\\d+) segundo",
+            "sa (\\d+) (na) segundo",
+            "sa (\\d+) seg",
+            "sa (\\d+) (na) seg"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+segundo\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+(na)\\s+segundo\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+seg\\s+ang\\s+nakalipas",
-            "(\\d+)\\s+(na)\\s+seg\\s+nakalipas",
-            "(\\d+)\\s+seg\\s+nakalipas"
+            "(\\d+) segundo ang nakalipas",
+            "(\\d+) (na) segundo ang nakalipas",
+            "(\\d+) seg ang nakalipas",
+            "(\\d+) (na) seg nakalipas",
+            "(\\d+) seg nakalipas"
         ]
     },
     "locale_specific": {},

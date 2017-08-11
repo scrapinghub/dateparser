@@ -144,91 +144,93 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "năm\\s+ngoái"
+            "năm ngoái"
         ],
         "0 year ago": [
-            "năm\\s+nay"
+            "năm nay"
         ],
         "in 1 year": [
-            "năm\\s+sau"
+            "năm sau"
         ],
         "1 month ago": [
-            "tháng\\s+trước"
+            "tháng trước"
         ],
         "0 month ago": [
-            "tháng\\s+này"
+            "tháng này"
         ],
         "in 1 month": [
-            "tháng\\s+sau"
+            "tháng sau"
         ],
         "1 week ago": [
-            "tuần\\s+trước"
+            "tuần trước"
         ],
         "0 week ago": [
-            "tuần\\s+này"
+            "tuần này"
         ],
         "in 1 week": [
-            "tuần\\s+sau"
+            "tuần sau"
         ],
         "1 day ago": [
-            "hôm\\s+qua"
+            "hôm qua"
         ],
         "0 day ago": [
-            "hôm\\s+nay"
+            "hôm nay"
         ],
         "in 1 day": [
-            "ngày\\s+mai"
+            "ngày mai"
         ],
         "0 hour ago": [
-            "giờ\\s+này"
+            "giờ này"
         ],
         "0 minute ago": [
-            "phút\\s+này"
+            "phút này"
         ],
         "0 second ago": [
-            "bây\\s+giờ"
-        ],
+            "bây giờ"
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "sau\\s+(\\d+)\\s+năm\\s+nữa"
+            "sau (\\d+) năm nữa"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+năm\\s+trước"
+            "(\\d+) năm trước"
         ],
         "in \\1 month": [
-            "sau\\s+(\\d+)\\s+tháng\\s+nữa"
+            "sau (\\d+) tháng nữa"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+tháng\\s+trước"
+            "(\\d+) tháng trước"
         ],
         "in \\1 week": [
-            "sau\\s+(\\d+)\\s+tuần\\s+nữa"
+            "sau (\\d+) tuần nữa"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+tuần\\s+trước"
+            "(\\d+) tuần trước"
         ],
         "in \\1 day": [
-            "sau\\s+(\\d+)\\s+ngày\\s+nữa"
+            "sau (\\d+) ngày nữa"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+ngày\\s+trước"
+            "(\\d+) ngày trước"
         ],
         "in \\1 hour": [
-            "sau\\s+(\\d+)\\s+giờ\\s+nữa"
+            "sau (\\d+) giờ nữa"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+giờ\\s+trước"
+            "(\\d+) giờ trước"
         ],
         "in \\1 minute": [
-            "sau\\s+(\\d+)\\s+phút\\s+nữa"
+            "sau (\\d+) phút nữa"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+phút\\s+trước"
+            "(\\d+) phút trước"
         ],
         "in \\1 second": [
-            "sau\\s+(\\d+)\\s+giây\\s+nữa"
+            "sau (\\d+) giây nữa"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+giây\\s+trước"
+            "(\\d+) giây trước"
         ]
     },
     "locale_specific": {},

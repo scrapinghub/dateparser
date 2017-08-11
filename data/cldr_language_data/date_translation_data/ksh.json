@@ -181,7 +181,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "en {0} johr",
             "en {0} johre"

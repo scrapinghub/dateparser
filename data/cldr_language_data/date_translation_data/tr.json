@@ -172,7 +172,9 @@
         ],
         "0 second ago": [
             "şimdi"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} yıl sonra"
         ],

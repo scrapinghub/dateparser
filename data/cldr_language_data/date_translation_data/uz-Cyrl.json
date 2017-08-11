@@ -165,7 +165,9 @@
         ],
         "0 second ago": [
             "ҳозир"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} йилдан сўнг"
         ],

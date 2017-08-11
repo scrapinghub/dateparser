@@ -167,7 +167,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "за {0} годину",
             "за {0} година"

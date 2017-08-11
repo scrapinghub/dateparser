@@ -126,31 +126,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "foarich\\s+jier"
+            "foarich jier"
         ],
         "0 year ago": [
-            "dit\\s+jier"
+            "dit jier"
         ],
         "in 1 year": [
-            "folgjend\\s+jier"
+            "folgjend jier"
         ],
         "1 month ago": [
-            "foarige\\s+moanne"
+            "foarige moanne"
         ],
         "0 month ago": [
-            "dizze\\s+moanne"
+            "dizze moanne"
         ],
         "in 1 month": [
-            "folgjende\\s+moanne"
+            "folgjende moanne"
         ],
         "1 week ago": [
-            "foarige\\s+wike"
+            "foarige wike"
         ],
         "0 week ago": [
-            "dizze\\s+wike"
+            "dizze wike"
         ],
         "in 1 week": [
-            "folgjende\\s+wike"
+            "folgjende wike"
         ],
         "1 day ago": [
             "gisteren"
@@ -162,65 +162,67 @@ info = {
             "morgen"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "nu"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "oer\\s+(\\d+)\\s+jier"
+            "oer (\\d+) jier"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+jier\\s+lyn"
+            "(\\d+) jier lyn"
         ],
         "in \\1 month": [
-            "oer\\s+(\\d+)\\s+moanne",
-            "oer\\s+(\\d+)\\s+moannen"
+            "oer (\\d+) moanne",
+            "oer (\\d+) moannen"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+moanne\\s+lyn",
-            "(\\d+)\\s+moannen\\s+lyn"
+            "(\\d+) moanne lyn",
+            "(\\d+) moannen lyn"
         ],
         "in \\1 week": [
-            "oer\\s+(\\d+)\\s+wike",
-            "oer\\s+(\\d+)\\s+wiken"
+            "oer (\\d+) wike",
+            "oer (\\d+) wiken"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+wike\\s+lyn",
-            "(\\d+)\\s+wiken\\s+lyn"
+            "(\\d+) wike lyn",
+            "(\\d+) wiken lyn"
         ],
         "in \\1 day": [
-            "oer\\s+(\\d+)\\s+dei",
-            "oer\\s+(\\d+)\\s+deien"
+            "oer (\\d+) dei",
+            "oer (\\d+) deien"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+dei\\s+lyn",
-            "(\\d+)\\s+deien\\s+lyn"
+            "(\\d+) dei lyn",
+            "(\\d+) deien lyn"
         ],
         "in \\1 hour": [
-            "oer\\s+(\\d+)\\s+oere"
+            "oer (\\d+) oere"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+oere\\s+lyn"
+            "(\\d+) oere lyn"
         ],
         "in \\1 minute": [
-            "oer\\s+(\\d+)\\s+minút",
-            "oer\\s+(\\d+)\\s+minuten"
+            "oer (\\d+) minút",
+            "oer (\\d+) minuten"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minút\\s+lyn",
-            "(\\d+)\\s+minuten\\s+lyn"
+            "(\\d+) minút lyn",
+            "(\\d+) minuten lyn"
         ],
         "in \\1 second": [
-            "oer\\s+(\\d+)\\s+sekonde",
-            "oer\\s+(\\d+)\\s+sekonden"
+            "oer (\\d+) sekonde",
+            "oer (\\d+) sekonden"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+sekonde\\s+lyn",
-            "(\\d+)\\s+sekonden\\s+lyn"
+            "(\\d+) sekonde lyn",
+            "(\\d+) sekonden lyn"
         ]
     },
     "locale_specific": {},

@@ -172,7 +172,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} jahki maŋŋilit",
             "{0} jahkki maŋŋilit"
@@ -267,7 +269,9 @@
                 ],
                 "in 1 year": [
                     "boahtte jagi"
-                ],
+                ]
+            },
+            "relative-type-regex": {
                 "in \\1 year": [
                     "{0} jagi siste"
                 ],

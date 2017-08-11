@@ -177,7 +177,9 @@
         ],
         "0 second ago": [
             "ora"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "tra {0} anno",
             "tra {0} anni"

@@ -218,7 +218,9 @@
         ],
         "0 second ago": [
             "nyt"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} vuoden päästä",
             "{0} v päästä"

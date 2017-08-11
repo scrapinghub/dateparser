@@ -141,25 +141,25 @@ info = {
             "letos"
         ],
         "in 1 year": [
-            "naslednje\\s+leto"
+            "naslednje leto"
         ],
         "1 month ago": [
-            "prejšnji\\s+mesec"
+            "prejšnji mesec"
         ],
         "0 month ago": [
-            "ta\\s+mesec"
+            "ta mesec"
         ],
         "in 1 month": [
-            "naslednji\\s+mesec"
+            "naslednji mesec"
         ],
         "1 week ago": [
-            "prejšnji\\s+teden"
+            "prejšnji teden"
         ],
         "0 week ago": [
-            "ta\\s+teden"
+            "ta teden"
         ],
         "in 1 week": [
-            "naslednji\\s+teden"
+            "naslednji teden"
         ],
         "1 day ago": [
             "včeraj"
@@ -171,79 +171,81 @@ info = {
             "jutri"
         ],
         "0 hour ago": [
-            "v\\s+tej\\s+uri"
+            "v tej uri"
         ],
         "0 minute ago": [
-            "to\\s+minuto"
+            "to minuto"
         ],
         "0 second ago": [
             "zdaj"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "čez\\s+(\\d+)\\s+leto",
-            "čez\\s+(\\d+)\\s+let"
+            "čez (\\d+) leto",
+            "čez (\\d+) let"
         ],
         "\\1 year ago": [
-            "pred\\s+(\\d+)\\s+letom",
-            "pred\\s+(\\d+)\\s+leti"
+            "pred (\\d+) letom",
+            "pred (\\d+) leti"
         ],
         "in \\1 month": [
-            "čez\\s+(\\d+)\\s+mesec",
-            "čez\\s+(\\d+)\\s+mesecev",
-            "čez\\s+(\\d+)\\s+mes"
+            "čez (\\d+) mesec",
+            "čez (\\d+) mesecev",
+            "čez (\\d+) mes"
         ],
         "\\1 month ago": [
-            "pred\\s+(\\d+)\\s+mesecem",
-            "pred\\s+(\\d+)\\s+meseci",
-            "pred\\s+(\\d+)\\s+mes"
+            "pred (\\d+) mesecem",
+            "pred (\\d+) meseci",
+            "pred (\\d+) mes"
         ],
         "in \\1 week": [
-            "čez\\s+(\\d+)\\s+teden",
-            "čez\\s+(\\d+)\\s+tednov",
-            "čez\\s+(\\d+)\\s+ted"
+            "čez (\\d+) teden",
+            "čez (\\d+) tednov",
+            "čez (\\d+) ted"
         ],
         "\\1 week ago": [
-            "pred\\s+(\\d+)\\s+tednom",
-            "pred\\s+(\\d+)\\s+tedni",
-            "pred\\s+(\\d+)\\s+ted"
+            "pred (\\d+) tednom",
+            "pred (\\d+) tedni",
+            "pred (\\d+) ted"
         ],
         "in \\1 day": [
-            "čez\\s+(\\d+)\\s+dan",
-            "čez\\s+(\\d+)\\s+dni"
+            "čez (\\d+) dan",
+            "čez (\\d+) dni"
         ],
         "\\1 day ago": [
-            "pred\\s+(\\d+)\\s+dnevom",
-            "pred\\s+(\\d+)\\s+dnevi"
+            "pred (\\d+) dnevom",
+            "pred (\\d+) dnevi"
         ],
         "in \\1 hour": [
-            "čez\\s+(\\d+)\\s+uro",
-            "čez\\s+(\\d+)\\s+ur",
-            "čez\\s+(\\d+)\\s+h"
+            "čez (\\d+) uro",
+            "čez (\\d+) ur",
+            "čez (\\d+) h"
         ],
         "\\1 hour ago": [
-            "pred\\s+(\\d+)\\s+uro",
-            "pred\\s+(\\d+)\\s+urami",
-            "pred\\s+(\\d+)\\s+h"
+            "pred (\\d+) uro",
+            "pred (\\d+) urami",
+            "pred (\\d+) h"
         ],
         "in \\1 minute": [
-            "čez\\s+(\\d+)\\s+minuto",
-            "čez\\s+(\\d+)\\s+minut",
-            "čez\\s+(\\d+)\\s+min"
+            "čez (\\d+) minuto",
+            "čez (\\d+) minut",
+            "čez (\\d+) min"
         ],
         "\\1 minute ago": [
-            "pred\\s+(\\d+)\\s+minuto",
-            "pred\\s+(\\d+)\\s+minutami",
-            "pred\\s+(\\d+)\\s+min"
+            "pred (\\d+) minuto",
+            "pred (\\d+) minutami",
+            "pred (\\d+) min"
         ],
         "in \\1 second": [
-            "čez\\s+(\\d+)\\s+sekundo",
-            "čez\\s+(\\d+)\\s+sekund",
-            "čez\\s+(\\d+)\\s+s"
+            "čez (\\d+) sekundo",
+            "čez (\\d+) sekund",
+            "čez (\\d+) s"
         ],
         "\\1 second ago": [
-            "pred\\s+(\\d+)\\s+sekundo",
-            "pred\\s+(\\d+)\\s+sekundami",
-            "pred\\s+(\\d+)\\s+s"
+            "pred (\\d+) sekundo",
+            "pred (\\d+) sekundami",
+            "pred (\\d+) s"
         ]
     },
     "locale_specific": {},

@@ -148,31 +148,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "letztes\\s+jahr"
+            "letztes jahr"
         ],
         "0 year ago": [
-            "dieses\\s+jahr"
+            "dieses jahr"
         ],
         "in 1 year": [
-            "nächstes\\s+jahr"
+            "nächstes jahr"
         ],
         "1 month ago": [
-            "letzten\\s+monat"
+            "letzten monat"
         ],
         "0 month ago": [
-            "diesen\\s+monat"
+            "diesen monat"
         ],
         "in 1 month": [
-            "nächsten\\s+monat"
+            "nächsten monat"
         ],
         "1 week ago": [
-            "letzte\\s+woche"
+            "letzte woche"
         ],
         "0 week ago": [
-            "diese\\s+woche"
+            "diese woche"
         ],
         "in 1 week": [
-            "nächste\\s+woche"
+            "nächste woche"
         ],
         "1 day ago": [
             "gestern"
@@ -184,93 +184,95 @@ info = {
             "morgen"
         ],
         "0 hour ago": [
-            "in\\s+dieser\\s+stunde"
+            "in dieser stunde"
         ],
         "0 minute ago": [
-            "in\\s+dieser\\s+minute"
+            "in dieser minute"
         ],
         "0 second ago": [
             "jetzt"
-        ],
-        "in \\1 year": [
-            "in\\s+(\\d+)\\s+jahr",
-            "in\\s+(\\d+)\\s+jahren"
-        ],
-        "\\1 year ago": [
-            "vor\\s+(\\d+)\\s+jahr",
-            "vor\\s+(\\d+)\\s+jahren"
-        ],
-        "in \\1 month": [
-            "in\\s+(\\d+)\\s+monat",
-            "in\\s+(\\d+)\\s+monaten"
-        ],
-        "\\1 month ago": [
-            "vor\\s+(\\d+)\\s+monat",
-            "vor\\s+(\\d+)\\s+monaten"
-        ],
-        "in \\1 week": [
-            "in\\s+(\\d+)\\s+woche",
-            "in\\s+(\\d+)\\s+wochen",
-            "in\\s+(\\d+)\\s+wo"
-        ],
-        "\\1 week ago": [
-            "vor\\s+(\\d+)\\s+woche",
-            "vor\\s+(\\d+)\\s+wochen",
-            "vor\\s+(\\d+)\\s+wo"
-        ],
-        "in \\1 day": [
-            "in\\s+(\\d+)\\s+tag",
-            "in\\s+(\\d+)\\s+tagen"
-        ],
-        "\\1 day ago": [
-            "vor\\s+(\\d+)\\s+tag",
-            "vor\\s+(\\d+)\\s+tagen"
-        ],
-        "in \\1 hour": [
-            "in\\s+(\\d+)\\s+stunde",
-            "in\\s+(\\d+)\\s+stunden",
-            "in\\s+(\\d+)\\s+std"
-        ],
-        "\\1 hour ago": [
-            "vor\\s+(\\d+)\\s+stunde",
-            "vor\\s+(\\d+)\\s+stunden",
-            "vor\\s+(\\d+)\\s+std"
-        ],
-        "in \\1 minute": [
-            "in\\s+(\\d+)\\s+minute",
-            "in\\s+(\\d+)\\s+minuten",
-            "in\\s+(\\d+)\\s+min",
-            "in\\s+(\\d+)\\s+m"
-        ],
-        "\\1 minute ago": [
-            "vor\\s+(\\d+)\\s+minute",
-            "vor\\s+(\\d+)\\s+minuten",
-            "vor\\s+(\\d+)\\s+min",
-            "vor\\s+(\\d+)\\s+m"
-        ],
-        "in \\1 second": [
-            "in\\s+(\\d+)\\s+sekunde",
-            "in\\s+(\\d+)\\s+sekunden",
-            "in\\s+(\\d+)\\s+sek",
-            "in\\s+(\\d+)\\s+s"
-        ],
-        "\\1 second ago": [
-            "vor\\s+(\\d+)\\s+sekunde",
-            "vor\\s+(\\d+)\\s+sekunden",
-            "vor\\s+(\\d+)\\s+sek",
-            "vor\\s+(\\d+)\\s+s"
         ],
         "2 day ago": [
             "vorgestern"
         ],
         "\\\\1 hour ago": [
-            "vor\\s+(\\d+)\\s*h"
+            "vor (\\d+)\\s*h"
         ],
         "\\\\1 minute ago": [
-            "vor\\s+(\\d+)\\s*m"
+            "vor (\\d+)\\s*m"
         ],
         "\\\\1 second ago": [
-            "vor\\s+(\\d+)\\s*s"
+            "vor (\\d+)\\s*s"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "in (\\d+) jahr",
+            "in (\\d+) jahren"
+        ],
+        "\\1 year ago": [
+            "vor (\\d+) jahr",
+            "vor (\\d+) jahren"
+        ],
+        "in \\1 month": [
+            "in (\\d+) monat",
+            "in (\\d+) monaten"
+        ],
+        "\\1 month ago": [
+            "vor (\\d+) monat",
+            "vor (\\d+) monaten"
+        ],
+        "in \\1 week": [
+            "in (\\d+) woche",
+            "in (\\d+) wochen",
+            "in (\\d+) wo"
+        ],
+        "\\1 week ago": [
+            "vor (\\d+) woche",
+            "vor (\\d+) wochen",
+            "vor (\\d+) wo"
+        ],
+        "in \\1 day": [
+            "in (\\d+) tag",
+            "in (\\d+) tagen"
+        ],
+        "\\1 day ago": [
+            "vor (\\d+) tag",
+            "vor (\\d+) tagen"
+        ],
+        "in \\1 hour": [
+            "in (\\d+) stunde",
+            "in (\\d+) stunden",
+            "in (\\d+) std"
+        ],
+        "\\1 hour ago": [
+            "vor (\\d+) stunde",
+            "vor (\\d+) stunden",
+            "vor (\\d+) std"
+        ],
+        "in \\1 minute": [
+            "in (\\d+) minute",
+            "in (\\d+) minuten",
+            "in (\\d+) min",
+            "in (\\d+) m"
+        ],
+        "\\1 minute ago": [
+            "vor (\\d+) minute",
+            "vor (\\d+) minuten",
+            "vor (\\d+) min",
+            "vor (\\d+) m"
+        ],
+        "in \\1 second": [
+            "in (\\d+) sekunde",
+            "in (\\d+) sekunden",
+            "in (\\d+) sek",
+            "in (\\d+) s"
+        ],
+        "\\1 second ago": [
+            "vor (\\d+) sekunde",
+            "vor (\\d+) sekunden",
+            "vor (\\d+) sek",
+            "vor (\\d+) s"
         ]
     },
     "locale_specific": {

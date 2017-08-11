@@ -147,40 +147,40 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "last\\s+year",
-            "last\\s+yr"
+            "last year",
+            "last yr"
         ],
         "0 year ago": [
-            "this\\s+year",
-            "this\\s+yr"
+            "this year",
+            "this yr"
         ],
         "in 1 year": [
-            "next\\s+year",
-            "next\\s+yr"
+            "next year",
+            "next yr"
         ],
         "1 month ago": [
-            "last\\s+month",
-            "last\\s+mo"
+            "last month",
+            "last mo"
         ],
         "0 month ago": [
-            "this\\s+month",
-            "this\\s+mo"
+            "this month",
+            "this mo"
         ],
         "in 1 month": [
-            "next\\s+month",
-            "next\\s+mo"
+            "next month",
+            "next mo"
         ],
         "1 week ago": [
-            "last\\s+week",
-            "last\\s+wk"
+            "last week",
+            "last wk"
         ],
         "0 week ago": [
-            "this\\s+week",
-            "this\\s+wk"
+            "this week",
+            "this wk"
         ],
         "in 1 week": [
-            "next\\s+week",
-            "next\\s+wk"
+            "next week",
+            "next wk"
         ],
         "1 day ago": [
             "yesterday"
@@ -192,84 +192,86 @@ info = {
             "tomorrow"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "now"
         ],
+        "2 days ago": [
+            "day before yesterday"
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "in\\s+(\\d+)\\s+year",
-            "in\\s+(\\d+)\\s+years",
-            "in\\s+(\\d+)\\s+yr"
+            "in (\\d+) year",
+            "in (\\d+) years",
+            "in (\\d+) yr"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+year\\s+ago",
-            "(\\d+)\\s+years\\s+ago",
-            "(\\d+)\\s+yr\\s+ago"
+            "(\\d+) year ago",
+            "(\\d+) years ago",
+            "(\\d+) yr ago"
         ],
         "in \\1 month": [
-            "in\\s+(\\d+)\\s+month",
-            "in\\s+(\\d+)\\s+months",
-            "in\\s+(\\d+)\\s+mo"
+            "in (\\d+) month",
+            "in (\\d+) months",
+            "in (\\d+) mo"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+month\\s+ago",
-            "(\\d+)\\s+months\\s+ago",
-            "(\\d+)\\s+mo\\s+ago"
+            "(\\d+) month ago",
+            "(\\d+) months ago",
+            "(\\d+) mo ago"
         ],
         "in \\1 week": [
-            "in\\s+(\\d+)\\s+week",
-            "in\\s+(\\d+)\\s+weeks",
-            "in\\s+(\\d+)\\s+wk"
+            "in (\\d+) week",
+            "in (\\d+) weeks",
+            "in (\\d+) wk"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+week\\s+ago",
-            "(\\d+)\\s+weeks\\s+ago",
-            "(\\d+)\\s+wk\\s+ago"
+            "(\\d+) week ago",
+            "(\\d+) weeks ago",
+            "(\\d+) wk ago"
         ],
         "in \\1 day": [
-            "in\\s+(\\d+)\\s+day",
-            "in\\s+(\\d+)\\s+days"
+            "in (\\d+) day",
+            "in (\\d+) days"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+day\\s+ago",
-            "(\\d+)\\s+days\\s+ago"
+            "(\\d+) day ago",
+            "(\\d+) days ago"
         ],
         "in \\1 hour": [
-            "in\\s+(\\d+)\\s+hour",
-            "in\\s+(\\d+)\\s+hours",
-            "in\\s+(\\d+)\\s+hr"
+            "in (\\d+) hour",
+            "in (\\d+) hours",
+            "in (\\d+) hr"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+hour\\s+ago",
-            "(\\d+)\\s+hours\\s+ago",
-            "(\\d+)\\s+hr\\s+ago"
+            "(\\d+) hour ago",
+            "(\\d+) hours ago",
+            "(\\d+) hr ago"
         ],
         "in \\1 minute": [
-            "in\\s+(\\d+)\\s+minute",
-            "in\\s+(\\d+)\\s+minutes",
-            "in\\s+(\\d+)\\s+min"
+            "in (\\d+) minute",
+            "in (\\d+) minutes",
+            "in (\\d+) min"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minute\\s+ago",
-            "(\\d+)\\s+minutes\\s+ago",
-            "(\\d+)\\s+min\\s+ago"
+            "(\\d+) minute ago",
+            "(\\d+) minutes ago",
+            "(\\d+) min ago"
         ],
         "in \\1 second": [
-            "in\\s+(\\d+)\\s+second",
-            "in\\s+(\\d+)\\s+seconds",
-            "in\\s+(\\d+)\\s+sec"
+            "in (\\d+) second",
+            "in (\\d+) seconds",
+            "in (\\d+) sec"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+second\\s+ago",
-            "(\\d+)\\s+seconds\\s+ago",
-            "(\\d+)\\s+sec\\s+ago"
-        ],
-        "2 days ago": [
-            "day\\s+before\\s+yesterday"
+            "(\\d+) second ago",
+            "(\\d+) seconds ago",
+            "(\\d+) sec ago"
         ]
     },
     "locale_specific": {
@@ -345,42 +347,42 @@ info = {
         "en-CA": {
             "name": "en-CA",
             "date_order": "YMD",
-            "relative-type": {
+            "relative-type-regex": {
                 "in \\1 year": [
-                    "in\\s+(\\d+)\\s+yrs"
+                    "in (\\d+) yrs"
                 ],
                 "\\1 year ago": [
-                    "(\\d+)\\s+yrs\\s+ago"
+                    "(\\d+) yrs ago"
                 ],
                 "in \\1 month": [
-                    "in\\s+(\\d+)\\s+mos"
+                    "in (\\d+) mos"
                 ],
                 "\\1 month ago": [
-                    "(\\d+)\\s+mos\\s+ago"
+                    "(\\d+) mos ago"
                 ],
                 "in \\1 week": [
-                    "in\\s+(\\d+)\\s+wks"
+                    "in (\\d+) wks"
                 ],
                 "\\1 week ago": [
-                    "(\\d+)\\s+wks\\s+ago"
+                    "(\\d+) wks ago"
                 ],
                 "in \\1 hour": [
-                    "in\\s+(\\d+)\\s+hrs"
+                    "in (\\d+) hrs"
                 ],
                 "\\1 hour ago": [
-                    "(\\d+)\\s+hrs\\s+ago"
+                    "(\\d+) hrs ago"
                 ],
                 "in \\1 minute": [
-                    "in\\s+(\\d+)\\s+mins"
+                    "in (\\d+) mins"
                 ],
                 "\\1 minute ago": [
-                    "(\\d+)\\s+mins\\s+ago"
+                    "(\\d+) mins ago"
                 ],
                 "in \\1 second": [
-                    "in\\s+(\\d+)\\s+secs"
+                    "in (\\d+) secs"
                 ],
                 "\\1 second ago": [
-                    "(\\d+)\\s+secs\\s+ago"
+                    "(\\d+) secs ago"
                 ]
             }
         },
@@ -648,19 +650,21 @@ info = {
             ],
             "relative-type": {
                 "1 month ago": [
-                    "last\\s+mth"
+                    "last mth"
                 ],
                 "0 month ago": [
-                    "this\\s+mth"
+                    "this mth"
                 ],
                 "in 1 month": [
-                    "next\\s+mth"
-                ],
+                    "next mth"
+                ]
+            },
+            "relative-type-regex": {
                 "in \\1 month": [
-                    "in\\s+(\\d+)\\s+mth"
+                    "in (\\d+) mth"
                 ],
                 "\\1 month ago": [
-                    "(\\d+)\\s+mth\\s+ago"
+                    "(\\d+) mth ago"
                 ]
             }
         },

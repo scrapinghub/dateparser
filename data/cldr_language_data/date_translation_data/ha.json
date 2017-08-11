@@ -170,6 +170,7 @@
             "now"
         ]
     },
+    "relative-type-regex": {},
     "locale_specific": {
         "ha-GH": {
             "name": "ha-GH"

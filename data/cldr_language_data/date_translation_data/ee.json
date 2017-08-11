@@ -170,7 +170,9 @@
         ],
         "0 second ago": [
             "fifi"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "le ƒe {0} me",
             "le ƒe {0} si gbɔna me"

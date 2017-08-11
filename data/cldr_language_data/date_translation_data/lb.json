@@ -176,7 +176,9 @@
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "an {0} joer",
             "a(n) {0} joer",

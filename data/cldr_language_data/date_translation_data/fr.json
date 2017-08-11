@@ -172,7 +172,9 @@
         ],
         "0 second ago": [
             "maintenant"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "dans {0} an",
             "dans {0} ans",

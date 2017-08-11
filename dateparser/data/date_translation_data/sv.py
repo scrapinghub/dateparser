@@ -154,135 +154,137 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "i\\s+fjol",
-            "förra\\s+året"
+            "i fjol",
+            "förra året"
         ],
         "0 year ago": [
-            "i\\s+år"
+            "i år"
         ],
         "in 1 year": [
-            "nästa\\s+år"
+            "nästa år"
         ],
         "1 month ago": [
-            "förra\\s+månaden",
-            "förra\\s+mån"
+            "förra månaden",
+            "förra mån"
         ],
         "0 month ago": [
-            "denna\\s+månad",
-            "denna\\s+mån"
+            "denna månad",
+            "denna mån"
         ],
         "in 1 month": [
-            "nästa\\s+månad",
-            "nästa\\s+mån"
+            "nästa månad",
+            "nästa mån"
         ],
         "1 week ago": [
-            "förra\\s+veckan",
-            "förra\\s+v"
+            "förra veckan",
+            "förra v"
         ],
         "0 week ago": [
-            "denna\\s+vecka",
-            "denna\\s+v"
+            "denna vecka",
+            "denna v"
         ],
         "in 1 week": [
-            "nästa\\s+vecka",
-            "nästa\\s+v"
+            "nästa vecka",
+            "nästa v"
         ],
         "1 day ago": [
-            "i\\s+går",
+            "i går",
             "igår"
         ],
         "0 day ago": [
-            "i\\s+dag",
+            "i dag",
             "idag"
         ],
         "in 1 day": [
-            "i\\s+morgon",
+            "i morgon",
             "imorgon"
         ],
         "0 hour ago": [
-            "denna\\s+timme"
+            "denna timme"
         ],
         "0 minute ago": [
-            "denna\\s+minut"
+            "denna minut"
         ],
         "0 second ago": [
             "nu"
         ],
-        "in \\1 year": [
-            "om\\s+(\\d+)\\s+år"
-        ],
-        "\\1 year ago": [
-            "för\\s+(\\d+)\\s+år\\s+sedan",
-            "−(\\d+)\\s+år"
-        ],
-        "in \\1 month": [
-            "om\\s+(\\d+)\\s+månad",
-            "om\\s+(\\d+)\\s+månader",
-            "om\\s+(\\d+)\\s+mån"
-        ],
-        "\\1 month ago": [
-            "för\\s+(\\d+)\\s+månad\\s+sedan",
-            "för\\s+(\\d+)\\s+månader\\s+sedan",
-            "för\\s+(\\d+)\\s+mån\\s+sedan",
-            "−(\\d+)\\s+mån"
-        ],
-        "in \\1 week": [
-            "om\\s+(\\d+)\\s+vecka",
-            "om\\s+(\\d+)\\s+veckor",
-            "om\\s+(\\d+)\\s+v"
-        ],
-        "\\1 week ago": [
-            "för\\s+(\\d+)\\s+vecka\\s+sedan",
-            "för\\s+(\\d+)\\s+veckor\\s+sedan",
-            "för\\s+(\\d+)\\s+v\\s+sedan",
-            "−(\\d+)\\s+v"
-        ],
-        "in \\1 day": [
-            "om\\s+(\\d+)\\s+dag",
-            "om\\s+(\\d+)\\s+dagar",
-            "om\\s+(\\d+)\\s+d"
-        ],
-        "\\1 day ago": [
-            "för\\s+(\\d+)\\s+dag\\s+sedan",
-            "för\\s+(\\d+)\\s+dagar\\s+sedan",
-            "för\\s+(\\d+)\\s+d\\s+sedan",
-            "−(\\d+)\\s+d"
-        ],
-        "in \\1 hour": [
-            "om\\s+(\\d+)\\s+timme",
-            "om\\s+(\\d+)\\s+timmar",
-            "om\\s+(\\d+)\\s+tim"
-        ],
-        "\\1 hour ago": [
-            "för\\s+(\\d+)\\s+timme\\s+sedan",
-            "för\\s+(\\d+)\\s+timmar\\s+sedan",
-            "för\\s+(\\d+)\\s+tim\\s+sedan",
-            "−(\\d+)\\s+h"
-        ],
-        "in \\1 minute": [
-            "om\\s+(\\d+)\\s+minut",
-            "om\\s+(\\d+)\\s+minuter",
-            "om\\s+(\\d+)\\s+min"
-        ],
-        "\\1 minute ago": [
-            "för\\s+(\\d+)\\s+minut\\s+sedan",
-            "för\\s+(\\d+)\\s+minuter\\s+sedan",
-            "för\\s+(\\d+)\\s+min\\s+sedan",
-            "−(\\d+)\\s+min"
-        ],
-        "in \\1 second": [
-            "om\\s+(\\d+)\\s+sekund",
-            "om\\s+(\\d+)\\s+sekunder",
-            "om\\s+(\\d+)\\s+sek"
-        ],
-        "\\1 second ago": [
-            "för\\s+(\\d+)\\s+sekund\\s+sedan",
-            "för\\s+(\\d+)\\s+sekunder\\s+sedan",
-            "för\\s+(\\d+)\\s+sek\\s+sedan",
-            "−(\\d+)\\s+s"
-        ],
         "2 day ago": [
             "förrgår"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "om (\\d+) år"
+        ],
+        "\\1 year ago": [
+            "för (\\d+) år sedan",
+            "−(\\d+) år"
+        ],
+        "in \\1 month": [
+            "om (\\d+) månad",
+            "om (\\d+) månader",
+            "om (\\d+) mån"
+        ],
+        "\\1 month ago": [
+            "för (\\d+) månad sedan",
+            "för (\\d+) månader sedan",
+            "för (\\d+) mån sedan",
+            "−(\\d+) mån"
+        ],
+        "in \\1 week": [
+            "om (\\d+) vecka",
+            "om (\\d+) veckor",
+            "om (\\d+) v"
+        ],
+        "\\1 week ago": [
+            "för (\\d+) vecka sedan",
+            "för (\\d+) veckor sedan",
+            "för (\\d+) v sedan",
+            "−(\\d+) v"
+        ],
+        "in \\1 day": [
+            "om (\\d+) dag",
+            "om (\\d+) dagar",
+            "om (\\d+) d"
+        ],
+        "\\1 day ago": [
+            "för (\\d+) dag sedan",
+            "för (\\d+) dagar sedan",
+            "för (\\d+) d sedan",
+            "−(\\d+) d"
+        ],
+        "in \\1 hour": [
+            "om (\\d+) timme",
+            "om (\\d+) timmar",
+            "om (\\d+) tim"
+        ],
+        "\\1 hour ago": [
+            "för (\\d+) timme sedan",
+            "för (\\d+) timmar sedan",
+            "för (\\d+) tim sedan",
+            "−(\\d+) h"
+        ],
+        "in \\1 minute": [
+            "om (\\d+) minut",
+            "om (\\d+) minuter",
+            "om (\\d+) min"
+        ],
+        "\\1 minute ago": [
+            "för (\\d+) minut sedan",
+            "för (\\d+) minuter sedan",
+            "för (\\d+) min sedan",
+            "−(\\d+) min"
+        ],
+        "in \\1 second": [
+            "om (\\d+) sekund",
+            "om (\\d+) sekunder",
+            "om (\\d+) sek"
+        ],
+        "\\1 second ago": [
+            "för (\\d+) sekund sedan",
+            "för (\\d+) sekunder sedan",
+            "för (\\d+) sek sedan",
+            "−(\\d+) s"
         ]
     },
     "locale_specific": {

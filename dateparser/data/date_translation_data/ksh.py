@@ -139,31 +139,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "läz\\s+johr"
+            "läz johr"
         ],
         "0 year ago": [
-            "diß\\s+johr"
+            "diß johr"
         ],
         "in 1 year": [
-            "näx\\s+johr"
+            "näx johr"
         ],
         "1 month ago": [
-            "lätzde\\s+mohnd"
+            "lätzde mohnd"
         ],
         "0 month ago": [
-            "diese\\s+mohnd"
+            "diese mohnd"
         ],
         "in 1 month": [
-            "nächste\\s+mohnd"
+            "nächste mohnd"
         ],
         "1 week ago": [
-            "läz\\s+woch"
+            "läz woch"
         ],
         "0 week ago": [
-            "di\\s+woch"
+            "di woch"
         ],
         "in 1 week": [
-            "nächste\\s+woche"
+            "nächste woche"
         ],
         "1 day ago": [
             "jestere"
@@ -175,21 +175,23 @@ info = {
             "morje"
         ],
         "0 hour ago": [
-            "this\\s+hour"
+            "this hour"
         ],
         "0 minute ago": [
-            "this\\s+minute"
+            "this minute"
         ],
         "0 second ago": [
             "now"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "en\\s+(\\d+)\\s+johr",
-            "en\\s+(\\d+)\\s+johre"
+            "en (\\d+) johr",
+            "en (\\d+) johre"
         ],
         "\\1 year ago": [
-            "vör\\s+(\\d+)\\s+johr",
-            "vör\\s+(\\d+)\\s+johre"
+            "vör (\\d+) johr",
+            "vör (\\d+) johre"
         ]
     },
     "locale_specific": {},

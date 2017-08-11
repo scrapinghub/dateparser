@@ -136,25 +136,25 @@ info = {
             "eleni"
         ],
         "in 1 year": [
-            "blwyddyn\\s+nesaf"
+            "blwyddyn nesaf"
         ],
         "1 month ago": [
-            "mis\\s+diwethaf"
+            "mis diwethaf"
         ],
         "0 month ago": [
-            "y\\s+mis\\s+hwn"
+            "y mis hwn"
         ],
         "in 1 month": [
-            "mis\\s+nesaf"
+            "mis nesaf"
         ],
         "1 week ago": [
-            "wythnos\\s+ddiwethaf"
+            "wythnos ddiwethaf"
         ],
         "0 week ago": [
-            "yr\\s+wythnos\\s+hon"
+            "yr wythnos hon"
         ],
         "in 1 week": [
-            "wythnos\\s+nesaf"
+            "wythnos nesaf"
         ],
         "1 day ago": [
             "ddoe"
@@ -166,67 +166,69 @@ info = {
             "yfory"
         ],
         "0 hour ago": [
-            "yr\\s+awr\\s+hon"
+            "yr awr hon"
         ],
         "0 minute ago": [
-            "y\\s+funud\\s+hon"
+            "y funud hon"
         ],
         "0 second ago": [
             "nawr"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "ymhen\\s+blwyddyn",
-            "ymhen\\s+(\\d+)\\s+mlynedd"
+            "ymhen blwyddyn",
+            "ymhen (\\d+) mlynedd"
         ],
         "\\1 year ago": [
-            "blwyddyn\\s+yn\\s+ôl",
-            "(\\d+)\\s+o\\s+flynyddoedd\\s+yn\\s+ôl"
+            "blwyddyn yn ôl",
+            "(\\d+) o flynyddoedd yn ôl"
         ],
         "in \\1 month": [
-            "ymhen\\s+mis",
-            "ymhen\\s+(\\d+)\\s+mis"
+            "ymhen mis",
+            "ymhen (\\d+) mis"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+mis\\s+yn\\s+ôl"
+            "(\\d+) mis yn ôl"
         ],
         "in \\1 week": [
-            "ymhen\\s+wythnos",
-            "ymhen\\s+(\\d+)\\s+wythnos"
+            "ymhen wythnos",
+            "ymhen (\\d+) wythnos"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+wythnos\\s+yn\\s+ôl"
+            "(\\d+) wythnos yn ôl"
         ],
         "in \\1 day": [
-            "ymhen\\s+diwrnod",
-            "ymhen\\s+(\\d+)\\s+diwrnod"
+            "ymhen diwrnod",
+            "ymhen (\\d+) diwrnod"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+diwrnod\\s+yn\\s+ôl"
+            "(\\d+) diwrnod yn ôl"
         ],
         "in \\1 hour": [
-            "ymhen\\s+awr",
-            "ymhen\\s+(\\d+)\\s+awr"
+            "ymhen awr",
+            "ymhen (\\d+) awr"
         ],
         "\\1 hour ago": [
-            "awr\\s+yn\\s+ôl",
-            "(\\d+)\\s+awr\\s+yn\\s+ôl"
+            "awr yn ôl",
+            "(\\d+) awr yn ôl"
         ],
         "in \\1 minute": [
-            "ymhen\\s+munud",
-            "ymhen\\s+(\\d+)\\s+munud",
-            "ymhen\\s+(\\d+)\\s+mun"
+            "ymhen munud",
+            "ymhen (\\d+) munud",
+            "ymhen (\\d+) mun"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+munud\\s+yn\\s+ôl",
-            "(\\d+)\\s+mun\\s+yn\\s+ôl"
+            "(\\d+) munud yn ôl",
+            "(\\d+) mun yn ôl"
         ],
         "in \\1 second": [
-            "ymhen\\s+eiliad",
-            "ymhen\\s+(\\d+)\\s+eiliad"
+            "ymhen eiliad",
+            "ymhen (\\d+) eiliad"
         ],
         "\\1 second ago": [
-            "eiliad\\s+yn\\s+ôl",
-            "(\\d+)\\s+eiliad\\s+yn\\s+ôl"
+            "eiliad yn ôl",
+            "(\\d+) eiliad yn ôl"
         ]
     },
     "locale_specific": {},

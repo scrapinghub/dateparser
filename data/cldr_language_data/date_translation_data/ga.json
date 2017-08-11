@@ -180,7 +180,9 @@
         ],
         "0 second ago": [
             "anois"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "i gceann {0} bhliain",
             "i gceann {0} bliain",

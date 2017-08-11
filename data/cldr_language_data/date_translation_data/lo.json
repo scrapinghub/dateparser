@@ -163,7 +163,9 @@
         ],
         "0 second ago": [
             "ຕອນນີ້"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "ໃນອີກ {0} ປີ"
         ],

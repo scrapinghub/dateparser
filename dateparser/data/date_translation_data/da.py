@@ -138,126 +138,128 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "sidste\\s+år"
+            "sidste år"
         ],
         "0 year ago": [
-            "i\\s+år"
+            "i år"
         ],
         "in 1 year": [
-            "næste\\s+år"
+            "næste år"
         ],
         "1 month ago": [
-            "sidste\\s+måned",
-            "sidste\\s+md"
+            "sidste måned",
+            "sidste md"
         ],
         "0 month ago": [
-            "denne\\s+måned",
-            "denne\\s+md"
+            "denne måned",
+            "denne md"
         ],
         "in 1 month": [
-            "næste\\s+måned",
-            "næste\\s+md"
+            "næste måned",
+            "næste md"
         ],
         "1 week ago": [
-            "sidste\\s+uge"
+            "sidste uge"
         ],
         "0 week ago": [
-            "denne\\s+uge"
+            "denne uge"
         ],
         "in 1 week": [
-            "næste\\s+uge"
+            "næste uge"
         ],
         "1 day ago": [
-            "i\\s+går"
+            "i går"
         ],
         "0 day ago": [
-            "i\\s+dag"
+            "i dag"
         ],
         "in 1 day": [
-            "i\\s+morgen"
+            "i morgen"
         ],
         "0 hour ago": [
-            "i\\s+den\\s+kommende\\s+time"
+            "i den kommende time"
         ],
         "0 minute ago": [
-            "i\\s+det\\s+kommende\\s+minut"
+            "i det kommende minut"
         ],
         "0 second ago": [
             "nu"
         ],
-        "in \\1 year": [
-            "om\\s+(\\d+)\\s+år"
-        ],
-        "\\1 year ago": [
-            "for\\s+(\\d+)\\s+år\\s+siden"
-        ],
-        "in \\1 month": [
-            "om\\s+(\\d+)\\s+måned",
-            "om\\s+(\\d+)\\s+måneder",
-            "om\\s+(\\d+)\\s+md",
-            "om\\s+(\\d+)\\s+mdr"
-        ],
-        "\\1 month ago": [
-            "for\\s+(\\d+)\\s+måned\\s+siden",
-            "for\\s+(\\d+)\\s+måneder\\s+siden",
-            "for\\s+(\\d+)\\s+md\\s+siden",
-            "for\\s+(\\d+)\\s+mdr\\s+siden"
-        ],
-        "in \\1 week": [
-            "om\\s+(\\d+)\\s+uge",
-            "om\\s+(\\d+)\\s+uger"
-        ],
-        "\\1 week ago": [
-            "for\\s+(\\d+)\\s+uge\\s+siden",
-            "for\\s+(\\d+)\\s+uger\\s+siden"
-        ],
-        "in \\1 day": [
-            "om\\s+(\\d+)\\s+dag",
-            "om\\s+(\\d+)\\s+dage"
-        ],
-        "\\1 day ago": [
-            "for\\s+(\\d+)\\s+dag\\s+siden",
-            "for\\s+(\\d+)\\s+dage\\s+siden"
-        ],
-        "in \\1 hour": [
-            "om\\s+(\\d+)\\s+time",
-            "om\\s+(\\d+)\\s+timer"
-        ],
-        "\\1 hour ago": [
-            "for\\s+(\\d+)\\s+time\\s+siden",
-            "for\\s+(\\d+)\\s+timer\\s+siden"
-        ],
-        "in \\1 minute": [
-            "om\\s+(\\d+)\\s+minut",
-            "om\\s+(\\d+)\\s+minutter",
-            "om\\s+(\\d+)\\s+min"
-        ],
-        "\\1 minute ago": [
-            "for\\s+(\\d+)\\s+minut\\s+siden",
-            "for\\s+(\\d+)\\s+minutter\\s+siden",
-            "for\\s+(\\d+)\\s+min\\s+siden"
-        ],
-        "in \\1 second": [
-            "om\\s+(\\d+)\\s+sekund",
-            "om\\s+(\\d+)\\s+sekunder",
-            "om\\s+(\\d+)\\s+sek"
-        ],
-        "\\1 second ago": [
-            "for\\s+(\\d+)\\s+sekund\\s+siden",
-            "for\\s+(\\d+)\\s+sekunder\\s+siden",
-            "for\\s+(\\d+)\\s+sek\\s+siden"
-        ],
         "\\\\1 hour ago": [
-            "for\\s+(\\d+)\\s*h",
-            "for\\s+(\\d+)\\s+timer"
+            "for (\\d+)\\s*h",
+            "for (\\d+) timer"
         ],
         "\\\\1 minute ago": [
-            "for\\s+(\\d+)\\s*m",
-            "for\\s+(\\d+)\\s+minutter"
+            "for (\\d+)\\s*m",
+            "for (\\d+) minutter"
         ],
         "\\\\1 second ago": [
-            "for\\s+(\\d+)\\s*s",
-            "for\\s+(\\d+)\\s+sekunder"
+            "for (\\d+)\\s*s",
+            "for (\\d+) sekunder"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "om (\\d+) år"
+        ],
+        "\\1 year ago": [
+            "for (\\d+) år siden"
+        ],
+        "in \\1 month": [
+            "om (\\d+) måned",
+            "om (\\d+) måneder",
+            "om (\\d+) md",
+            "om (\\d+) mdr"
+        ],
+        "\\1 month ago": [
+            "for (\\d+) måned siden",
+            "for (\\d+) måneder siden",
+            "for (\\d+) md siden",
+            "for (\\d+) mdr siden"
+        ],
+        "in \\1 week": [
+            "om (\\d+) uge",
+            "om (\\d+) uger"
+        ],
+        "\\1 week ago": [
+            "for (\\d+) uge siden",
+            "for (\\d+) uger siden"
+        ],
+        "in \\1 day": [
+            "om (\\d+) dag",
+            "om (\\d+) dage"
+        ],
+        "\\1 day ago": [
+            "for (\\d+) dag siden",
+            "for (\\d+) dage siden"
+        ],
+        "in \\1 hour": [
+            "om (\\d+) time",
+            "om (\\d+) timer"
+        ],
+        "\\1 hour ago": [
+            "for (\\d+) time siden",
+            "for (\\d+) timer siden"
+        ],
+        "in \\1 minute": [
+            "om (\\d+) minut",
+            "om (\\d+) minutter",
+            "om (\\d+) min"
+        ],
+        "\\1 minute ago": [
+            "for (\\d+) minut siden",
+            "for (\\d+) minutter siden",
+            "for (\\d+) min siden"
+        ],
+        "in \\1 second": [
+            "om (\\d+) sekund",
+            "om (\\d+) sekunder",
+            "om (\\d+) sek"
+        ],
+        "\\1 second ago": [
+            "for (\\d+) sekund siden",
+            "for (\\d+) sekunder siden",
+            "for (\\d+) sek siden"
         ]
     },
     "locale_specific": {

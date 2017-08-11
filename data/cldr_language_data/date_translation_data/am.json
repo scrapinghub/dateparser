@@ -163,7 +163,9 @@
         ],
         "0 second ago": [
             "አሁን"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "በ{0} ዓመታት ውስጥ"
         ],

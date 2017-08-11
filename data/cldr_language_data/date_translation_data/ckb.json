@@ -151,6 +151,7 @@
             "now"
         ]
     },
+    "relative-type-regex": {},
     "locale_specific": {
         "ckb-IR": {
             "name": "ckb-IR"

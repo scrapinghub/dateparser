@@ -178,7 +178,9 @@
         ],
         "0 second ago": [
             "núna"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "eftir {0} ár"
         ],

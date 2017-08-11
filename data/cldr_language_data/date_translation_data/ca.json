@@ -189,7 +189,9 @@
         ],
         "0 second ago": [
             "ara"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "d’aquí a {0} any",
             "d’aquí a {0} anys"

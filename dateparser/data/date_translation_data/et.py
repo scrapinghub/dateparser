@@ -123,31 +123,31 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "eelmine\\s+aasta"
+            "eelmine aasta"
         ],
         "0 year ago": [
-            "käesolev\\s+aasta"
+            "käesolev aasta"
         ],
         "in 1 year": [
-            "järgmine\\s+aasta"
+            "järgmine aasta"
         ],
         "1 month ago": [
-            "eelmine\\s+kuu"
+            "eelmine kuu"
         ],
         "0 month ago": [
-            "käesolev\\s+kuu"
+            "käesolev kuu"
         ],
         "in 1 month": [
-            "järgmine\\s+kuu"
+            "järgmine kuu"
         ],
         "1 week ago": [
-            "eelmine\\s+nädal"
+            "eelmine nädal"
         ],
         "0 week ago": [
-            "käesolev\\s+nädal"
+            "käesolev nädal"
         ],
         "in 1 week": [
-            "järgmine\\s+nädal"
+            "järgmine nädal"
         ],
         "1 day ago": [
             "eile"
@@ -159,71 +159,73 @@ info = {
             "homme"
         ],
         "0 hour ago": [
-            "praegusel\\s+tunnil"
+            "praegusel tunnil"
         ],
         "0 minute ago": [
-            "praegusel\\s+minutil"
+            "praegusel minutil"
         ],
         "0 second ago": [
             "nüüd"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "(\\d+)\\s+aasta\\s+pärast",
-            "(\\d+)\\s+a\\s+pärast"
+            "(\\d+) aasta pärast",
+            "(\\d+) a pärast"
         ],
         "\\1 year ago": [
-            "(\\d+)\\s+aasta\\s+eest",
-            "(\\d+)\\s+a\\s+eest"
+            "(\\d+) aasta eest",
+            "(\\d+) a eest"
         ],
         "in \\1 month": [
-            "(\\d+)\\s+kuu\\s+pärast",
-            "(\\d+)\\s+k\\s+pärast"
+            "(\\d+) kuu pärast",
+            "(\\d+) k pärast"
         ],
         "\\1 month ago": [
-            "(\\d+)\\s+kuu\\s+eest",
-            "(\\d+)\\s+k\\s+eest"
+            "(\\d+) kuu eest",
+            "(\\d+) k eest"
         ],
         "in \\1 week": [
-            "(\\d+)\\s+nädala\\s+pärast",
-            "(\\d+)\\s+näd\\s+pärast"
+            "(\\d+) nädala pärast",
+            "(\\d+) näd pärast"
         ],
         "\\1 week ago": [
-            "(\\d+)\\s+nädala\\s+eest",
-            "(\\d+)\\s+näd\\s+eest"
+            "(\\d+) nädala eest",
+            "(\\d+) näd eest"
         ],
         "in \\1 day": [
-            "(\\d+)\\s+päeva\\s+pärast",
-            "(\\d+)\\s+p\\s+pärast"
+            "(\\d+) päeva pärast",
+            "(\\d+) p pärast"
         ],
         "\\1 day ago": [
-            "(\\d+)\\s+päeva\\s+eest",
-            "(\\d+)\\s+p\\s+eest"
+            "(\\d+) päeva eest",
+            "(\\d+) p eest"
         ],
         "in \\1 hour": [
-            "(\\d+)\\s+tunni\\s+pärast",
-            "(\\d+)\\s+t\\s+pärast"
+            "(\\d+) tunni pärast",
+            "(\\d+) t pärast"
         ],
         "\\1 hour ago": [
-            "(\\d+)\\s+tunni\\s+eest",
-            "(\\d+)\\s+t\\s+eest"
+            "(\\d+) tunni eest",
+            "(\\d+) t eest"
         ],
         "in \\1 minute": [
-            "(\\d+)\\s+minuti\\s+pärast",
-            "(\\d+)\\s+min\\s+pärast"
+            "(\\d+) minuti pärast",
+            "(\\d+) min pärast"
         ],
         "\\1 minute ago": [
-            "(\\d+)\\s+minuti\\s+eest",
-            "(\\d+)\\s+min\\s+eest"
+            "(\\d+) minuti eest",
+            "(\\d+) min eest"
         ],
         "in \\1 second": [
-            "(\\d+)\\s+sekundi\\s+pärast",
-            "(\\d+)\\s+sek\\s+pärast",
-            "(\\d+)\\s+s\\s+pärast"
+            "(\\d+) sekundi pärast",
+            "(\\d+) sek pärast",
+            "(\\d+) s pärast"
         ],
         "\\1 second ago": [
-            "(\\d+)\\s+sekundi\\s+eest",
-            "(\\d+)\\s+sek\\s+eest",
-            "(\\d+)\\s+s\\s+eest"
+            "(\\d+) sekundi eest",
+            "(\\d+) sek eest",
+            "(\\d+) s eest"
         ]
     },
     "locale_specific": {},

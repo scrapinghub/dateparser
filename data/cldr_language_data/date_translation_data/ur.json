@@ -152,7 +152,9 @@
         ],
         "0 second ago": [
             "اب"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
             "{0} سال میں"
         ],
@@ -226,7 +228,9 @@
                 ],
                 "1 week ago": [
                     "گزشتہ ہفتہ"
-                ],
+                ]
+            },
+            "relative-type-regex": {
                 "in \\1 year": [
                     "{0} سالوں میں"
                 ],

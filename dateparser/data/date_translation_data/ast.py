@@ -149,42 +149,42 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "l’añu\\s+pasáu",
-            "l’añu\\s+pas",
-            "añu\\s+pas"
+            "l’añu pasáu",
+            "l’añu pas",
+            "añu pas"
         ],
         "0 year ago": [
-            "esti\\s+añu"
+            "esti añu"
         ],
         "in 1 year": [
-            "l’añu\\s+viniente",
-            "l’añu\\s+vin",
-            "añu\\s+vin"
+            "l’añu viniente",
+            "l’añu vin",
+            "añu vin"
         ],
         "1 month ago": [
-            "el\\s+mes\\s+pasáu",
-            "mes\\s+pas"
+            "el mes pasáu",
+            "mes pas"
         ],
         "0 month ago": [
-            "esti\\s+mes"
+            "esti mes"
         ],
         "in 1 month": [
-            "el\\s+mes\\s+viniente",
-            "mes\\s+vin"
+            "el mes viniente",
+            "mes vin"
         ],
         "1 week ago": [
-            "la\\s+selmana\\s+pasada",
-            "selm\\s+pasada",
-            "selm\\s+pas"
+            "la selmana pasada",
+            "selm pasada",
+            "selm pas"
         ],
         "0 week ago": [
-            "esta\\s+selmana",
-            "esta\\s+selm"
+            "esta selmana",
+            "esta selm"
         ],
         "in 1 week": [
-            "la\\s+selmana\\s+viniente",
-            "selm\\s+viniente",
-            "selm\\s+vin"
+            "la selmana viniente",
+            "selm viniente",
+            "selm vin"
         ],
         "1 day ago": [
             "ayeri"
@@ -197,89 +197,91 @@ info = {
             "mañ"
         ],
         "0 hour ago": [
-            "esta\\s+hora",
-            "esta\\s+h"
+            "esta hora",
+            "esta h"
         ],
         "0 minute ago": [
-            "esti\\s+minutu",
-            "esti\\s+min"
+            "esti minutu",
+            "esti min"
         ],
         "0 second ago": [
             "agora"
-        ],
+        ]
+    },
+    "relative-type-regex": {
         "in \\1 year": [
-            "en\\s+(\\d+)\\s+añu",
-            "en\\s+(\\d+)\\s+años",
-            "en\\s+(\\d+)\\s+a"
+            "en (\\d+) añu",
+            "en (\\d+) años",
+            "en (\\d+) a"
         ],
         "\\1 year ago": [
-            "hai\\s+(\\d+)\\s+añu",
-            "hai\\s+(\\d+)\\s+años",
-            "hai\\s+(\\d+)\\s+a"
+            "hai (\\d+) añu",
+            "hai (\\d+) años",
+            "hai (\\d+) a"
         ],
         "in \\1 month": [
-            "en\\s+(\\d+)\\s+mes",
-            "en\\s+(\\d+)\\s+meses",
-            "en\\s+(\\d+)\\s+m"
+            "en (\\d+) mes",
+            "en (\\d+) meses",
+            "en (\\d+) m"
         ],
         "\\1 month ago": [
-            "hai\\s+(\\d+)\\s+mes",
-            "hai\\s+(\\d+)\\s+meses",
-            "hai\\s+(\\d+)\\s+m"
+            "hai (\\d+) mes",
+            "hai (\\d+) meses",
+            "hai (\\d+) m"
         ],
         "in \\1 week": [
-            "en\\s+(\\d+)\\s+selmana",
-            "en\\s+(\\d+)\\s+selmanes",
-            "en\\s+(\\d+)\\s+selm",
-            "en\\s+(\\d+)\\s+se"
+            "en (\\d+) selmana",
+            "en (\\d+) selmanes",
+            "en (\\d+) selm",
+            "en (\\d+) se"
         ],
         "\\1 week ago": [
-            "hai\\s+(\\d+)\\s+selmana",
-            "hai\\s+(\\d+)\\s+selmanes",
-            "hai\\s+(\\d+)\\s+selm",
-            "hai\\s+(\\d+)\\s+se"
+            "hai (\\d+) selmana",
+            "hai (\\d+) selmanes",
+            "hai (\\d+) selm",
+            "hai (\\d+) se"
         ],
         "in \\1 day": [
-            "en\\s+(\\d+)\\s+día",
-            "en\\s+(\\d+)\\s+díes",
-            "en\\s+(\\d+)\\s+d"
+            "en (\\d+) día",
+            "en (\\d+) díes",
+            "en (\\d+) d"
         ],
         "\\1 day ago": [
-            "hai\\s+(\\d+)\\s+día",
-            "hai\\s+(\\d+)\\s+díes",
-            "hai\\s+(\\d+)\\s+d"
+            "hai (\\d+) día",
+            "hai (\\d+) díes",
+            "hai (\\d+) d"
         ],
         "in \\1 hour": [
-            "en\\s+(\\d+)\\s+hora",
-            "en\\s+(\\d+)\\s+hores",
-            "en\\s+(\\d+)\\s+h"
+            "en (\\d+) hora",
+            "en (\\d+) hores",
+            "en (\\d+) h"
         ],
         "\\1 hour ago": [
-            "hai\\s+(\\d+)\\s+hora",
-            "hai\\s+(\\d+)\\s+hores",
-            "hai\\s+(\\d+)\\s+h"
+            "hai (\\d+) hora",
+            "hai (\\d+) hores",
+            "hai (\\d+) h"
         ],
         "in \\1 minute": [
-            "en\\s+(\\d+)\\s+minutu",
-            "en\\s+(\\d+)\\s+minutos",
-            "en\\s+(\\d+)\\s+min"
+            "en (\\d+) minutu",
+            "en (\\d+) minutos",
+            "en (\\d+) min"
         ],
         "\\1 minute ago": [
-            "hai\\s+(\\d+)\\s+minutu",
-            "hai\\s+(\\d+)\\s+minutos",
-            "hai\\s+(\\d+)\\s+min"
+            "hai (\\d+) minutu",
+            "hai (\\d+) minutos",
+            "hai (\\d+) min"
         ],
         "in \\1 second": [
-            "en\\s+(\\d+)\\s+segundu",
-            "en\\s+(\\d+)\\s+segundos",
-            "en\\s+(\\d+)\\s+seg",
-            "en\\s+(\\d+)\\s+s"
+            "en (\\d+) segundu",
+            "en (\\d+) segundos",
+            "en (\\d+) seg",
+            "en (\\d+) s"
         ],
         "\\1 second ago": [
-            "hai\\s+(\\d+)\\s+segundu",
-            "hai\\s+(\\d+)\\s+segundos",
-            "hai\\s+(\\d+)\\s+seg",
-            "hai\\s+(\\d+)\\s+s"
+            "hai (\\d+) segundu",
+            "hai (\\d+) segundos",
+            "hai (\\d+) seg",
+            "hai (\\d+) s"
         ]
     },
     "locale_specific": {},
