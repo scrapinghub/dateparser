@@ -58,5 +58,5 @@ relative-type:
         - imorgon
 
 simplifications:
-    - en: 1
-    - två: 2
+    - en: '1'
+    - två: '2'

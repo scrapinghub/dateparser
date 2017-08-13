@@ -150,7 +150,7 @@ info = {
         "vuosi",
         "v",
         "vuotta",
-        "vv.",
+        "vv",
         "vuonna",
         "vuoden"
     ],
@@ -171,7 +171,7 @@ info = {
         "päivä",
         "pv",
         "päivää",
-        "p.",
+        "p",
         "pvä",
         "pvää",
         "päivän"

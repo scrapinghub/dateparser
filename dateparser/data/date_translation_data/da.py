@@ -293,10 +293,10 @@ info = {
     ],
     "simplifications": [
         {
-            "en": 1
+            "en": "1"
         },
         {
-            "et": 1
+            "et": "1"
         },
         {
             "(\\d+)\\s*hr(s?)": "\\1 time\\2"

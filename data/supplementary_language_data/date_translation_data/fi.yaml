@@ -27,7 +27,7 @@ december:
 
 year:
     - vuotta
-    - vv.
+    - vv
     - vuonna
     - vuoden
 month:
@@ -39,7 +39,7 @@ week:
     - viikon
 day:
     - päivää
-    - p.
+    - p
     - pvä
     - pvää
     - päivän

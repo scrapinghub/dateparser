@@ -578,10 +578,10 @@ info = {
     ],
     "simplifications": [
         {
-            "una": 1
+            "una": "1"
         },
         {
-            "un": 1
+            "un": "1"
         }
     ]
 }

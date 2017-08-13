@@ -81,9 +81,7 @@ class Locale(object):
         tokens = [date_string]
         tokens = list(self._split_tokens_by_known_relative_strings(tokens, keep_formatting,
                                                                    settings=settings))
-
         for i, token in enumerate(tokens):
-            token = token.lower()
             for pattern, _ in relative_translations.items():
                 if pattern.match(token):
                     tokens[i] = [token]
@@ -125,15 +123,15 @@ class Locale(object):
         return date_string
 
     def _get_simplifications(self, settings=None):
-        no_word_spacing = self.info.get('no_word_spacing', 'False')
+        no_word_spacing = eval(self.info.get('no_word_spacing', 'False'))
         if settings.NORMALIZE:
             if self._normalized_simplifications is None:
                 self._normalized_simplifications = []
                 simplifications = self._generate_simplifications(normalize=True)
                 for simplification in simplifications:
                     pattern, replacement = list(simplification.items())[0]
-                    if no_word_spacing == 'False':
-                        pattern = r'(?<=\b)%s(?=\b)' % pattern
+                    if not no_word_spacing:
+                        pattern = r'(?<=\A|\W|_)%s(?=\Z|\W|_)' % pattern
                     pattern = re.compile(pattern, flags=re.I | re.U)
                     self._normalized_simplifications.append({pattern: replacement})
             return self._normalized_simplifications
@@ -144,8 +142,8 @@ class Locale(object):
                 simplifications = self._generate_simplifications(normalize=False)
                 for simplification in simplifications:
                     pattern, replacement = list(simplification.items())[0]
-                    if no_word_spacing == 'False':
-                        pattern = r'(?<=\b)%s(?=\b)' % pattern
+                    if not no_word_spacing:
+                        pattern = r'(?<=\A|\W|_)%s(?=\Z|\W|_)' % pattern
                     pattern = re.compile(pattern, flags=re.I | re.U)
                     self._simplifications.append({pattern: replacement})
             return self._simplifications

@@ -57,11 +57,12 @@ class Dictionary(object):
             dictionary.update(zip_longest(relative_translations, [], fillvalue=key))
 
         self._dictionary = dictionary
-        self._no_word_spacing = locale_info.get('no_word_spacing')
-        if self._no_word_spacing == 'True':
-            self._no_word_spacing = True
-        else:
-            self._no_word_spacing = False
+
+        no_word_spacing = locale_info.get('no_word_spacing', 'False')
+        self._no_word_spacing = bool(eval(no_word_spacing))
+
+        relative_type_regex = locale_info.get("relative-type-regex", {})
+        self._relative_strings = chain(*relative_type_regex.values())
 
     def __contains__(self, key):
         if key in self._settings.SKIP_TOKENS:
@@ -144,7 +145,7 @@ class Dictionary(object):
         if self._no_word_spacing:
             regex = r"^(.*?)({})(.*)$".format(known_words_group)
         else:
-            regex = r"^(.*?(?:\b))({})((?:\b).*)$".format(known_words_group)
+            regex = r"^(.*?(?:\A|\W|_))({})((?:\Z|\W|_).*)$".format(known_words_group)
         self._split_regex_cache[self._settings.registry_key] = {
             self.info['name']: re.compile(regex, re.UNICODE | re.IGNORECASE)
         }
@@ -155,12 +156,9 @@ class Dictionary(object):
             self.info['name'] not in self._sorted_relative_strings_cache[self._settings.registry_key]
            ):
 
-            relative_type_regex = self.info.get("relative-type-regex", {})
-            relative_strings = chain(*relative_type_regex.values())
-
             self._sorted_relative_strings_cache[self._settings.registry_key] = {
                 self.info['name']: sorted([PARENTHESES_PATTERN.sub('', key) for key in
-                                          relative_strings], key=len, reverse=True)
+                                          self._relative_strings], key=len, reverse=True)
             }
         return self._sorted_relative_strings_cache[self._settings.registry_key][self.info['name']]
 
@@ -178,7 +176,7 @@ class Dictionary(object):
         if self._no_word_spacing:
             regex = "({})".format(known_relative_strings_group)
         else:
-            regex = "(?<=\\b)({})(?=\\b)".format(known_relative_strings_group)
+            regex = "(?<=(?:\\A|\\W|_))({})(?=(?:\\Z|\\W|_))".format(known_relative_strings_group)
         self._split_relative_regex_cache[self._settings.registry_key] = {
             self.info['name']: re.compile(regex, re.UNICODE | re.IGNORECASE)
         }
@@ -220,3 +218,4 @@ class NormalizedDictionary(Dictionary):
             if key in (self.info.get('skip', []) + self.info.get('pertain', [])):
                 new_dict[normalized] = self._dictionary[key]
         self._dictionary = new_dict
+        self._relative_strings = list(map(normalize_unicode, self._relative_strings))

@@ -175,29 +175,18 @@ class _DateLocaleParser(object):
         return instance._parse()
 
     def _parse(self):
-        if self._is_applicable_locale():
-            for parser in (
-                self._try_timestamp,
-                self._try_freshness_parser,
-                self._try_given_formats,
-                self._try_parser,
-                self._try_hardcoded_formats,
-            ):
-                date_obj = parser()
-                if self._is_valid_date_obj(date_obj):
-                    return date_obj
-            else:
-                return None
+        for parser in (
+            self._try_timestamp,
+            self._try_freshness_parser,
+            self._try_given_formats,
+            self._try_parser,
+            self._try_hardcoded_formats,
+        ):
+            date_obj = parser()
+            if self._is_valid_date_obj(date_obj):
+                return date_obj
         else:
             return None
-
-    def _is_applicable_locale(self):
-        return (
-            self.locale.is_applicable(self.date_string, strip_timezone=False,
-                                      settings=self._settings) or
-            self.locale.is_applicable(self.date_string, strip_timezone=True,
-                                      settings=self._settings)
-            )
 
     def _try_timestamp(self):
         return {

@@ -43,6 +43,6 @@ relative-type:
         - anteontem
 
 simplifications:
-    - uma: 1
-    - um: 1
+    - uma: '1'
+    - um: '1'
     - alguns segundos: 44 segundos

@@ -321,10 +321,10 @@ info = {
     ],
     "simplifications": [
         {
-            "en": 1
+            "en": "1"
         },
         {
-            "två": 2
+            "två": "2"
         }
     ]
 }

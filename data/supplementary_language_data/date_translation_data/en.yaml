@@ -4,6 +4,9 @@ pertain: ["of"]
 tuesday:
     - Tues
 
+september:
+    - sept
+
 year:
     - years
 month:
@@ -32,14 +35,14 @@ in:
     - from now
 
 relative-type:
-    2 days ago:
+    2 day ago:
         - day before yesterday
 
 simplifications:
-    - an: 1
-    - a: 1
+    - an: '1'
+    - a: '1'
     - (?:12\s+)?noon: '12:00'
     - (?:12\s+)?midnight: '00:00'
     - (\d+)h(\d+)m?: \1:\2
-    - less than 1 minute ago: 45 seconds
-    - (?<!from\s)now: 0 second
+    - (?<=from\s+)now: in
+    - less than 1 minute ago: 45 second ago

@@ -137,8 +137,7 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "tahun lalu",
-            "setahun"
+            "tahun lalu"
         ],
         "0 year ago": [
             "tahun ini"
@@ -147,8 +146,7 @@ info = {
             "tahun depan"
         ],
         "1 month ago": [
-            "bulan lalu",
-            "sebulan"
+            "bulan lalu"
         ],
         "0 month ago": [
             "bulan ini"
@@ -157,8 +155,7 @@ info = {
             "bulan berikutnya"
         ],
         "1 week ago": [
-            "minggu lalu",
-            "seminggu"
+            "minggu lalu"
         ],
         "0 week ago": [
             "minggu ini"
@@ -167,8 +164,7 @@ info = {
             "minggu depan"
         ],
         "1 day ago": [
-            "kemarin",
-            "sehari"
+            "kemarin"
         ],
         "0 day ago": [
             "hari ini"
@@ -186,8 +182,20 @@ info = {
             "sekarang",
             "baru saja"
         ],
+        "1 year": [
+            "setahun"
+        ],
+        "1 month": [
+            "sebulan"
+        ],
+        "1 week": [
+            "seminggu"
+        ],
         "2 day ago": [
             "kemarin lusa"
+        ],
+        "1 day": [
+            "sehari"
         ]
     },
     "relative-type-regex": {

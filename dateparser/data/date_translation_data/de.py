@@ -330,10 +330,10 @@ info = {
     ],
     "simplifications": [
         {
-            "einer": 1
+            "einer": "1"
         },
         {
-            "einem": 1
+            "einem": "1"
         }
     ]
 }

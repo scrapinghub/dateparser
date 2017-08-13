@@ -9,4 +9,4 @@ in:
     - დღეიდან
 
 simplifications:
-    - ერთ: 1
+    - ერთ: '1'

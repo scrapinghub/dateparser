@@ -14,15 +14,15 @@ in:
     - dalam
 
 relative-type:
-    1 year ago:
+    1 year:
         - setahun
-    1 month ago:
+    1 month:
         - sebulan
-    1 week ago:
+    1 week:
         - seminggu
     2 day ago:
         - kemarin lusa
-    1 day ago:
+    1 day:
         - sehari
     0 second ago:
         - baru saja

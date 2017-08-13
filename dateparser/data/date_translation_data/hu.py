@@ -305,7 +305,7 @@ info = {
     ],
     "simplifications": [
         {
-            "egy": 1
+            "egy": "1"
         }
     ]
 }

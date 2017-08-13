@@ -988,10 +988,10 @@ info = {
     ],
     "simplifications": [
         {
-            "uma": 1
+            "uma": "1"
         },
         {
-            "um": 1
+            "um": "1"
         },
         {
             "alguns segundos": "44 segundos"

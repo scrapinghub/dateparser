@@ -48,5 +48,5 @@ relative-type:
         - vor (\d+)\s*s
 
 simplifications:
-    - einer: 1
-    - einem: 1
+    - einer: '1'
+    - einem: '1'

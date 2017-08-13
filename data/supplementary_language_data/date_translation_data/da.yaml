@@ -30,8 +30,8 @@ relative-type:
         - for (\d+) sekunder
 
 simplifications:
-    - en: 1
-    - et: 1
+    - en: '1'
+    - et: '1'
     - (\d+)\s*hr(s?): \1 time\2
     - (\d+)\s*min(s?): \1 minut\2
     - (\d+)\s*sec(s?): \1 sekund\2

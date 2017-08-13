@@ -168,10 +168,10 @@ info = {
         "0 second ago": [
             "الآن"
         ],
-        "2 day ago": [
+        "2 day": [
             "يومين"
         ],
-        "2 hour ago": [
+        "2 hour": [
             "ساعتين"
         ],
         "1 hour ago": [

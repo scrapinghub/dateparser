@@ -193,7 +193,7 @@ info = {
         "0 second ago": [
             "maintenant"
         ],
-        "2 days ago": [
+        "2 day ago": [
             "avant-hier"
         ]
     },
@@ -474,13 +474,13 @@ info = {
     ],
     "simplifications": [
         {
-            "d'une": 1
+            "d'une": "1"
         },
         {
-            "une": 1
+            "une": "1"
         },
         {
-            "un": 1
+            "un": "1"
         },
         {
             "(\\d+)\\s+h\\s+(\\d+)\\s+min": "\\1h\\2m"
@@ -489,7 +489,7 @@ info = {
             "(\\d+)h(\\d+)m?": "\\1:\\2"
         },
         {
-            "moins\\s(?:de\\s)?(\\d+)(\\s?(?:minute|seconde|heure))": "\\1 \\2"
+            "moins\\s(?:de\\s)?(\\d+)\\s?(minute|seconde|heure)": "\\1 \\2"
         },
         {
             "moins\\s(?:de\\s)?(\\d+)\\s?s": "\\1 seconde"

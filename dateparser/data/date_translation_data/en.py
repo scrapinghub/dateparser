@@ -44,7 +44,8 @@ info = {
     "september": [
         "september",
         "sep",
-        "s"
+        "s",
+        "sept"
     ],
     "october": [
         "october",
@@ -200,7 +201,7 @@ info = {
         "0 second ago": [
             "now"
         ],
-        "2 days ago": [
+        "2 day ago": [
             "day before yesterday"
         ]
     },
@@ -794,10 +795,10 @@ info = {
     ],
     "simplifications": [
         {
-            "an": 1
+            "an": "1"
         },
         {
-            "a": 1
+            "a": "1"
         },
         {
             "(?:12\\s+)?noon": "12:00"
@@ -809,10 +810,10 @@ info = {
             "(\\d+)h(\\d+)m?": "\\1:\\2"
         },
         {
-            "less than 1 minute ago": "45 seconds"
+            "(?<=from\\s+)now": "in"
         },
         {
-            "(?<!from\\s)now": "0 second"
+            "less than 1 minute ago": "45 second ago"
         }
     ]
 }
