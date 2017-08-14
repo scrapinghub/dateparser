@@ -4,127 +4,108 @@
     "january": [
         "tammikuu",
         "tammi",
-        "t",
         "tammikuuta",
         "tammik"
     ],
     "february": [
         "helmikuu",
         "helmi",
-        "h",
         "helmikuuta",
         "helmik"
     ],
     "march": [
         "maaliskuu",
         "maalis",
-        "m",
         "maaliskuuta",
         "maalisk"
     ],
     "april": [
         "huhtikuu",
         "huhti",
-        "h",
         "huhtikuuta",
         "huhtik"
     ],
     "may": [
         "toukokuu",
         "touko",
-        "t",
         "toukokuuta",
         "toukok"
     ],
     "june": [
         "kesäkuu",
         "kesä",
-        "k",
         "kesäkuuta",
         "kesäk"
     ],
     "july": [
         "heinäkuu",
         "heinä",
-        "h",
         "heinäkuuta",
         "heinäk"
     ],
     "august": [
         "elokuu",
         "elo",
-        "e",
         "elokuuta",
         "elok"
     ],
     "september": [
         "syyskuu",
         "syys",
-        "s",
         "syyskuuta",
         "syysk"
     ],
     "october": [
         "lokakuu",
         "loka",
-        "l",
         "lokakuuta",
         "lokak"
     ],
     "november": [
         "marraskuu",
         "marras",
-        "m",
         "marraskuuta",
         "marrask"
     ],
     "december": [
         "joulukuu",
         "joulu",
-        "j",
         "joulukuuta",
         "jouluk"
     ],
     "monday": [
         "maanantai",
         "ma",
-        "m",
         "maanantaina"
     ],
     "tuesday": [
         "tiistai",
         "ti",
-        "t",
         "tiistaina"
     ],
     "wednesday": [
         "keskiviikko",
         "ke",
-        "k",
         "keskiviikkona"
     ],
     "thursday": [
         "torstai",
         "to",
-        "t",
         "torstaina"
     ],
     "friday": [
         "perjantai",
         "pe",
-        "p",
         "perjantaina"
     ],
     "saturday": [
         "lauantai",
         "la",
-        "l",
         "lauantaina"
     ],
     "sunday": [
         "sunnuntai",
         "su",
-        "s",
         "sunnuntaina"
     ],
     "am": [

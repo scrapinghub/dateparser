@@ -52,38 +52,31 @@ info = {
     ],
     "monday": [
         "jumatatu",
-        "jtt",
-        "j"
+        "jtt"
     ],
     "tuesday": [
         "jumanne",
-        "jnn",
-        "j"
+        "jnn"
     ],
     "wednesday": [
         "jumatano",
-        "jtn",
-        "j"
+        "jtn"
     ],
     "thursday": [
         "alahamisi",
-        "alh",
-        "a"
+        "alh"
     ],
     "friday": [
         "ijumaa",
-        "iju",
-        "i"
+        "iju"
     ],
     "saturday": [
         "jumamosi",
-        "jmo",
-        "j"
+        "jmo"
     ],
     "sunday": [
         "mulungu",
-        "mul",
-        "m"
+        "mul"
     ],
     "am": [
         "lwamilawu"
@@ -144,7 +137,7 @@ info = {
             "imehe"
         ],
         "0 day ago": [
-            "ineng’uni"
+            "ineng'uni"
         ],
         "in 1 day": [
             "pamulaawu"
@@ -159,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

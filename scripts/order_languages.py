@@ -1,37 +1,20 @@
 # -*- coding: utf-8 -*-
-import requests
-import re
+import regex as re
 import json
 import os
-import time
-import base64
 from collections import OrderedDict
 
-OAuth_Access_Token = 'OAuth_Access_Token'       # Add OAuth_Access_Token here
-headers = {'Authorization': 'token %s' % OAuth_Access_Token}
-cldr_dates_full_url = "https://api.github.com/repos/unicode-cldr/cldr-dates-full/contents/main/"
-territory_info_url = "https://api.github.com/repos/unicode-cldr/cldr-core/contents/supplemental/territoryInfo.json?ref=master"
+from utils import get_raw_data
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+get_raw_data()
 
 
 def _get_language_locale_dict():
-    while(True):
-        try:
-            dates_full_response = requests.get(cldr_dates_full_url, headers=headers)
-        except requests.exceptions.ConnectionError:
-            print("Waiting...")
-            time.sleep(5)
-        else:
-            break
-
-    if dates_full_response.status_code != 200:
-        raise RuntimeError("Bad Response " + str(dates_full_response.status_code))
-    dates_content = dates_full_response.json()
-
-    available_locale_names = [locale['name'] for locale in dates_content]
-    available_language_names = [locale_name for locale_name in available_locale_names
-                                if not re.search(r'-[A-Z0-9]+$', locale_name)]
+    cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
+    available_locale_names = os.listdir(cldr_dates_full_dir)
+    available_language_names = [shortname for shortname in available_locale_names
+                                if not re.search(r'-[A-Z0-9]+$', shortname)]
     available_language_names.remove('root')
     language_locale_dict = {}
     for language_name in available_language_names:
@@ -46,21 +29,11 @@ language_locale_dict = _get_language_locale_dict()
 
 
 def _get_language_order():
-    while(True):
-        try:
-            territory_response = requests.get(territory_info_url, headers=headers)
-        except requests.exceptions.ConnectionError:
-            print("Waiting...")
-            time.sleep(5)
-        else:
-            break
-
-    if territory_response.status_code != 200:
-        raise RuntimeError("Bad Response " + str(territory_response.status_code))
-
-    territory_data = territory_response.json()
-    territory_content = json.loads(base64.b64decode(territory_data["content"]).decode('utf-8'))
+    territory_info_file = "../raw_data/cldr_core/supplemental/territoryInfo.json"
+    with open(territory_info_file) as f:
+        territory_content = json.load(f)
     territory_info_data = territory_content["supplemental"]["territoryInfo"]
+
     language_population_dict = {}
     for territory in territory_info_data:
         population = int(territory_info_data[territory]["_population"])
@@ -82,7 +55,7 @@ def _get_language_order():
 
     cldr_languages = language_locale_dict.keys()
     supplementary_date_directory = "../data/supplementary_language_data/date_translation_data"
-    supplementary_languages = list(map(lambda x: x[:-5], os.listdir(supplementary_date_directory)))
+    supplementary_languages = [x[:-5] for x in os.listdir(supplementary_date_directory)]
     available_languages = set(cldr_languages).union(set(supplementary_languages))
     language_order = [shortname for shortname in language_order if shortname in available_languages]
     absent_languages = set(available_languages) - set(language_order)
@@ -104,7 +77,7 @@ language_order = _get_language_order()
 def main():
     encoding_comment = "# -*- coding: utf-8 -*-\n"
     parent_directory = "../dateparser/data/"
-    filename = parent_directory + 'languages_info.py'
+    filename = "../dateparser/data/languages_info.py"
     if not os.path.isdir(parent_directory):
         os.mkdir(parent_directory)
     language_order_string = 'language_order = ' + json.dumps(
@@ -113,7 +86,7 @@ def main():
     complete_language_locale_dict = OrderedDict()
     for key in language_order:
         if key in language_locale_dict.keys():
-            complete_language_locale_dict[key] = language_locale_dict[key]
+            complete_language_locale_dict[key] = sorted(language_locale_dict[key])
         else:
             complete_language_locale_dict[key] = []
 

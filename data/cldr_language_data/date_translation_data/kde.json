@@ -3,63 +3,51 @@
     "date_order": "DMY",
     "january": [
         "mwedi ntandi",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "mwedi wa pili",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "mwedi wa tatu",
-        "mac",
-        "m"
+        "mac"
     ],
     "april": [
         "mwedi wa nchechi",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
         "mwedi wa nnyano",
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "mwedi wa nnyano na umo",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "mwedi wa nnyano na mivili",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "mwedi wa nnyano na mitatu",
-        "ago",
-        "a"
+        "ago"
     ],
     "september": [
         "mwedi wa nnyano na nchechi",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "mwedi wa nnyano na nnyano",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "mwedi wa nnyano na nnyano na u",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "mwedi wa nnyano na nnyano na m",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "liduva lyatatu",
@@ -163,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

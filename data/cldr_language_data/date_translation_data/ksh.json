@@ -3,106 +3,87 @@
     "date_order": "DMY",
     "january": [
         "jannewa",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "fäbrowa",
-        "fäb",
-        "f"
+        "fäb"
     ],
     "march": [
         "määz",
-        "mäz",
-        "m"
+        "mäz"
     ],
     "april": [
         "aprell",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "juuni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "juuli",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "oujoß",
-        "ouj",
-        "o"
+        "ouj"
     ],
     "september": [
         "septämber",
-        "säp",
-        "s"
+        "säp"
     ],
     "october": [
         "oktohber",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novämber",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "dezämber",
-        "dez",
-        "d"
+        "dez"
     ],
     "monday": [
         "mohndaach",
-        "mo",
-        "m"
+        "mo"
     ],
     "tuesday": [
         "dinnsdaach",
-        "di",
-        "d"
+        "di"
     ],
     "wednesday": [
         "metwoch",
-        "me",
-        "m"
+        "me"
     ],
     "thursday": [
         "dunnersdaach",
-        "du",
-        "d"
+        "du"
     ],
     "friday": [
         "friidaach",
-        "fr",
-        "f"
+        "fr"
     ],
     "saturday": [
         "samsdaach",
-        "sa",
-        "s"
+        "sa"
     ],
     "sunday": [
         "sunndaach",
-        "su",
-        "s"
+        "su"
     ],
     "am": [
         "vörmeddaach",
-        "v.m",
+        "vm",
         "uhr vörmiddaachs"
     ],
     "pm": [
         "nommendaach",
-        "n.m",
+        "nm",
         "uhr nommendaachs"
     ],
     "year": [

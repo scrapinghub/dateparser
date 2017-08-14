@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "amajjii",
-        "ama",
-        "j"
+        "ama"
     ],
     "february": [
         "guraandhala",
-        "gur",
-        "f"
+        "gur"
     ],
     "march": [
         "bitooteessa",
-        "bit",
-        "m"
+        "bit"
     ],
     "april": [
         "elba",
-        "elb",
-        "a"
+        "elb"
     ],
     "may": [
         "caamsa",
-        "cam",
-        "m"
+        "cam"
     ],
     "june": [
         "waxabajjii",
-        "wax",
-        "j"
+        "wax"
     ],
     "july": [
         "adooleessa",
-        "ado",
-        "j"
+        "ado"
     ],
     "august": [
         "hagayya",
-        "hag",
-        "a"
+        "hag"
     ],
     "september": [
         "fuulbana",
-        "ful",
-        "s"
+        "ful"
     ],
     "october": [
         "onkololeessa",
-        "onk",
-        "o"
+        "onk"
     ],
     "november": [
         "sadaasa",
-        "sad",
-        "n"
+        "sad"
     ],
     "december": [
         "muddee",
-        "mud",
-        "d"
+        "mud"
     ],
     "monday": [
         "wiixata",
-        "wix",
-        "m"
+        "wix"
     ],
     "tuesday": [
         "qibxata",
-        "qib",
-        "t"
+        "qib"
     ],
     "wednesday": [
         "roobii",
-        "rob",
-        "w"
+        "rob"
     ],
     "thursday": [
         "kamiisa",
-        "kam",
-        "t"
+        "kam"
     ],
     "friday": [
         "jimaata",
-        "jim",
-        "f"
+        "jim"
     ],
     "saturday": [
         "sanbata",
-        "san",
-        "s"
+        "san"
     ],
     "sunday": [
         "dilbata",
-        "dil",
-        "s"
+        "dil"
     ],
     "am": [
         "wd"
@@ -170,61 +151,9 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {
         "om-KE": {
-            "name": "om-KE",
-            "january": [
-                "a"
-            ],
-            "february": [
-                "g"
-            ],
-            "march": [
-                "b"
-            ],
-            "april": [
-                "e"
-            ],
-            "may": [
-                "c"
-            ],
-            "june": [
-                "w"
-            ],
-            "july": [
-                "a"
-            ],
-            "august": [
-                "h"
-            ],
-            "september": [
-                "f"
-            ],
-            "november": [
-                "s"
-            ],
-            "december": [
-                "m"
-            ],
-            "monday": [
-                "w"
-            ],
-            "tuesday": [
-                "q"
-            ],
-            "wednesday": [
-                "r"
-            ],
-            "thursday": [
-                "k"
-            ],
-            "friday": [
-                "j"
-            ],
-            "sunday": [
-                "d"
-            ]
+            "name": "om-KE"
         }
     }
 }

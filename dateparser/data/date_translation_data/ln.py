@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "sánzá ya yambo",
-        "yan",
-        "y"
+        "yan"
     ],
     "february": [
         "sánzá ya míbalé",
-        "fbl",
-        "f"
+        "fbl"
     ],
     "march": [
         "sánzá ya mísáto",
-        "msi",
-        "m"
+        "msi"
     ],
     "april": [
         "sánzá ya mínei",
-        "apl",
-        "a"
+        "apl"
     ],
     "may": [
         "sánzá ya mítáno",
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "sánzá ya motóbá",
-        "yun",
-        "y"
+        "yun"
     ],
     "july": [
         "sánzá ya nsambo",
-        "yul",
-        "y"
+        "yul"
     ],
     "august": [
         "sánzá ya mwambe",
-        "agt",
-        "a"
+        "agt"
     ],
     "september": [
         "sánzá ya libwa",
-        "stb",
-        "s"
+        "stb"
     ],
     "october": [
         "sánzá ya zómi",
-        "ɔtb",
-        "ɔ"
+        "ɔtb"
     ],
     "november": [
         "sánzá ya zómi na mɔ̌kɔ́",
-        "nvb",
-        "n"
+        "nvb"
     ],
     "december": [
         "sánzá ya zómi na míbalé",
-        "dsb",
-        "d"
+        "dsb"
     ],
     "monday": [
         "mokɔlɔ mwa yambo",
-        "ybo",
-        "y"
+        "ybo"
     ],
     "tuesday": [
         "mokɔlɔ mwa míbalé",
-        "mbl",
-        "m"
+        "mbl"
     ],
     "wednesday": [
         "mokɔlɔ mwa mísáto",
-        "mst",
-        "m"
+        "mst"
     ],
     "thursday": [
         "mokɔlɔ ya mínéi",
-        "min",
-        "m"
+        "min"
     ],
     "friday": [
         "mokɔlɔ ya mítáno",
-        "mtn",
-        "m"
+        "mtn"
     ],
     "saturday": [
         "mpɔ́sɔ",
-        "mps",
-        "p"
+        "mps"
     ],
     "sunday": [
         "eyenga",
-        "eye",
-        "e"
+        "eye"
     ],
     "am": [
         "ntɔ́ngɔ́"
@@ -171,16 +152,15 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {
         "ln-AO": {
             "name": "ln-AO"
         },
-        "ln-CF": {
-            "name": "ln-CF"
-        },
         "ln-CG": {
             "name": "ln-CG"
+        },
+        "ln-CF": {
+            "name": "ln-CF"
         }
     },
     "skip": [

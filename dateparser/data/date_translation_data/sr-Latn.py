@@ -4,103 +4,82 @@ info = {
     "date_order": "DMY",
     "january": [
         "januar",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februar",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "mart",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "maj",
-        "m"
+        "maj"
     ],
     "june": [
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "avgust",
-        "avg",
-        "a"
+        "avg"
     ],
     "september": [
         "septembar",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktobar",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novembar",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "decembar",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
         "ponedeljak",
-        "pon",
-        "p"
+        "pon"
     ],
     "tuesday": [
         "utorak",
-        "uto",
-        "u"
+        "uto"
     ],
     "wednesday": [
         "sreda",
-        "sre",
-        "s"
+        "sre"
     ],
     "thursday": [
         "četvrtak",
-        "čet",
-        "č"
+        "čet"
     ],
     "friday": [
         "petak",
-        "pet",
-        "p"
+        "pet"
     ],
     "saturday": [
         "subota",
-        "sub",
-        "s"
+        "sub"
     ],
     "sunday": [
         "nedelja",
-        "ned",
-        "n"
+        "ned"
     ],
     "am": [
-        "pre podne",
-        "a"
+        "pre podne"
     ],
     "pm": [
-        "po podne",
-        "p"
+        "po podne"
     ],
     "year": [
         "godina",
@@ -260,8 +239,8 @@ info = {
         ]
     },
     "locale_specific": {
-        "sr-Latn-BA": {
-            "name": "sr-Latn-BA",
+        "sr-Latn-XK": {
+            "name": "sr-Latn-XK",
             "september": [
                 "sept"
             ],
@@ -269,14 +248,7 @@ info = {
                 "ut"
             ],
             "wednesday": [
-                "srijeda",
                 "sr"
-            ],
-            "sunday": [
-                "nedjelja"
-            ],
-            "am": [
-                "prije podne"
             ]
         },
         "sr-Latn-ME": {
@@ -298,8 +270,8 @@ info = {
                 "prije podne"
             ]
         },
-        "sr-Latn-XK": {
-            "name": "sr-Latn-XK",
+        "sr-Latn-BA": {
+            "name": "sr-Latn-BA",
             "september": [
                 "sept"
             ],
@@ -307,7 +279,14 @@ info = {
                 "ut"
             ],
             "wednesday": [
+                "srijeda",
                 "sr"
+            ],
+            "sunday": [
+                "nedjelja"
+            ],
+            "am": [
+                "prije podne"
             ]
         }
     },

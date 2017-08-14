@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "janwaliyo",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "febwaliyo",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "marisi",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "apuli",
-        "apu",
-        "a"
+        "apu"
     ],
     "may": [
         "maayi",
-        "maa",
-        "m"
+        "maa"
     ],
     "june": [
         "juuni",
-        "juu",
-        "j"
+        "juu"
     ],
     "july": [
         "julaayi",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "agusito",
-        "agu",
-        "a"
+        "agu"
     ],
     "september": [
         "sebuttemba",
-        "seb",
-        "s"
+        "seb"
     ],
     "october": [
         "okitobba",
-        "oki",
-        "o"
+        "oki"
     ],
     "november": [
         "novemba",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desemba",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "balaza",
-        "bal",
-        "b"
+        "bal"
     ],
     "tuesday": [
         "lwakubiri",
-        "lw2",
-        "l"
+        "lw2"
     ],
     "wednesday": [
         "lwakusatu",
-        "lw3",
-        "l"
+        "lw3"
     ],
     "thursday": [
         "lwakuna",
-        "lw4",
-        "l"
+        "lw4"
     ],
     "friday": [
         "lwakutaano",
-        "lw5",
-        "l"
+        "lw5"
     ],
     "saturday": [
         "lwamukaaga",
-        "lw6",
-        "l"
+        "lw6"
     ],
     "sunday": [
         "sabbiiti",
-        "sab",
-        "s"
+        "sab"
     ],
     "am": [
         "am"
@@ -170,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

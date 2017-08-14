@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "ocak",
-        "oca",
-        "o"
+        "oca"
     ],
     "february": [
         "şubat",
-        "şub",
-        "ş"
+        "şub"
     ],
     "march": [
         "mart",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "nisan",
-        "nis",
-        "n"
+        "nis"
     ],
     "may": [
         "mayıs",
-        "may",
-        "m"
+        "may"
     ],
     "june": [
         "haziran",
-        "haz",
-        "h"
+        "haz"
     ],
     "july": [
         "temmuz",
-        "tem",
-        "t"
+        "tem"
     ],
     "august": [
         "ağustos",
-        "ağu",
-        "a"
+        "ağu"
     ],
     "september": [
         "eylül",
-        "eyl",
-        "e"
+        "eyl"
     ],
     "october": [
         "ekim",
-        "eki",
-        "e"
+        "eki"
     ],
     "november": [
         "kasım",
-        "kas",
-        "k"
+        "kas"
     ],
     "december": [
         "aralık",
-        "ara",
-        "a"
+        "ara"
     ],
     "monday": [
         "pazartesi",
-        "pzt",
-        "p"
+        "pzt"
     ],
     "tuesday": [
         "salı",
-        "sal",
-        "s"
+        "sal"
     ],
     "wednesday": [
         "çarşamba",
-        "çar",
-        "ç"
+        "çar"
     ],
     "thursday": [
         "perşembe",
-        "per",
-        "p"
+        "per"
     ],
     "friday": [
         "cuma",
-        "cum",
-        "c"
+        "cum"
     ],
     "saturday": [
         "cumartesi",
-        "cmt",
-        "c"
+        "cmt"
     ],
     "sunday": [
         "pazar",
-        "paz",
-        "p"
+        "paz"
     ],
     "am": [
         "öö"

@@ -51,38 +51,31 @@ info = {
     ],
     "monday": [
         "mọnde",
-        "mọn",
-        "m"
+        "mọn"
     ],
     "tuesday": [
         "tiuzdee",
-        "tiu",
-        "t"
+        "tiu"
     ],
     "wednesday": [
         "wenezdee",
-        "wen",
-        "w"
+        "wen"
     ],
     "thursday": [
         "tọọzdee",
-        "tọọ",
-        "t"
+        "tọọ"
     ],
     "friday": [
         "fraịdee",
-        "fraị",
-        "f"
+        "fraị"
     ],
     "saturday": [
         "satọdee",
-        "sat",
-        "s"
+        "sat"
     ],
     "sunday": [
         "mbọsị ụka",
-        "ụka",
-        "s"
+        "ụka"
     ],
     "am": [
         "am"
@@ -158,7 +151,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

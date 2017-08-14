@@ -4,106 +4,85 @@ info = {
     "date_order": "DMY",
     "january": [
         "gennaio",
-        "gen",
-        "g"
+        "gen"
     ],
     "february": [
         "febbraio",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "marzo",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "aprile",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
         "maggio",
-        "mag",
-        "m"
+        "mag"
     ],
     "june": [
         "giugno",
-        "giu",
-        "g"
+        "giu"
     ],
     "july": [
         "luglio",
-        "lug",
-        "l"
+        "lug"
     ],
     "august": [
         "agosto",
-        "ago",
-        "a"
+        "ago"
     ],
     "september": [
         "settembre",
-        "set",
-        "s"
+        "set"
     ],
     "october": [
         "ottobre",
-        "ott",
-        "o"
+        "ott"
     ],
     "november": [
         "novembre",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "dicembre",
-        "dic",
-        "d"
+        "dic"
     ],
     "monday": [
         "lunedì",
-        "lun",
-        "l"
+        "lun"
     ],
     "tuesday": [
         "martedì",
-        "mar",
-        "m"
+        "mar"
     ],
     "wednesday": [
         "mercoledì",
-        "mer",
-        "m"
+        "mer"
     ],
     "thursday": [
         "giovedì",
-        "gio",
-        "g"
+        "gio"
     ],
     "friday": [
         "venerdì",
-        "ven",
-        "v"
+        "ven"
     ],
     "saturday": [
         "sabato",
-        "sab",
-        "s"
+        "sab"
     ],
     "sunday": [
         "domenica",
-        "dom",
-        "d"
+        "dom"
     ],
     "am": [
-        "am",
-        "m"
+        "am"
     ],
     "pm": [
-        "pm",
-        "p"
+        "pm"
     ],
     "year": [
         "anno",
@@ -145,7 +124,7 @@ info = {
             "anno scorso"
         ],
         "0 year ago": [
-            "quest’anno"
+            "quest'anno"
         ],
         "in 1 year": [
             "anno prossimo"
@@ -178,7 +157,7 @@ info = {
             "domani"
         ],
         "0 hour ago": [
-            "quest’ora"
+            "quest'ora"
         ],
         "0 minute ago": [
             "questo minuto"

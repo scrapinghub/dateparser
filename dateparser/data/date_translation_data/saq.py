@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "lapa le obo",
-        "obo",
-        "o"
+        "obo"
     ],
     "february": [
         "lapa le waare",
-        "waa",
-        "w"
+        "waa"
     ],
     "march": [
         "lapa le okuni",
-        "oku",
-        "o"
+        "oku"
     ],
     "april": [
-        "lapa le ong’wan",
-        "ong",
-        "o"
+        "lapa le ong'wan",
+        "ong"
     ],
     "may": [
         "lapa le imet",
-        "ime",
-        "i"
+        "ime"
     ],
     "june": [
         "lapa le ile",
-        "ile",
-        "i"
+        "ile"
     ],
     "july": [
         "lapa le sapa",
-        "sap",
-        "s"
+        "sap"
     ],
     "august": [
         "lapa le isiet",
-        "isi",
-        "i"
+        "isi"
     ],
     "september": [
         "lapa le saal",
-        "saa",
-        "s"
+        "saa"
     ],
     "october": [
         "lapa le tomon",
-        "tom",
-        "t"
+        "tom"
     ],
     "november": [
         "lapa le tomon obo",
-        "tob",
-        "t"
+        "tob"
     ],
     "december": [
         "lapa le tomon waare",
-        "tow",
-        "t"
+        "tow"
     ],
     "monday": [
         "mderot ee kuni",
-        "kun",
-        "k"
+        "kun"
     ],
     "tuesday": [
-        "mderot ee ong’wan",
-        "ong",
-        "o"
+        "mderot ee ong'wan",
+        "ong"
     ],
     "wednesday": [
         "mderot ee inet",
-        "ine",
-        "i"
+        "ine"
     ],
     "thursday": [
         "mderot ee ile",
-        "ile",
-        "i"
+        "ile"
     ],
     "friday": [
         "mderot ee sapa",
-        "sap",
-        "s"
+        "sap"
     ],
     "saturday": [
         "mderot ee kwe",
-        "kwe",
-        "k"
+        "kwe"
     ],
     "sunday": [
         "mderot ee are",
-        "are",
-        "a"
+        "are"
     ],
     "am": [
         "tesiran"
@@ -153,7 +134,7 @@ info = {
             "next week"
         ],
         "1 day ago": [
-            "ng’ole"
+            "ng'ole"
         ],
         "0 day ago": [
             "duo"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

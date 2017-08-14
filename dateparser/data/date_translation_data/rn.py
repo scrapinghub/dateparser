@@ -52,44 +52,37 @@ info = {
     ],
     "monday": [
         "ku wa mbere",
-        "mbe",
-        "m"
+        "mbe"
     ],
     "tuesday": [
         "ku wa kabiri",
-        "kab",
-        "t"
+        "kab"
     ],
     "wednesday": [
         "ku wa gatatu",
-        "gtu",
-        "w"
+        "gtu"
     ],
     "thursday": [
         "ku wa kane",
-        "kan",
-        "t"
+        "kan"
     ],
     "friday": [
         "ku wa gatanu",
-        "gnu",
-        "f"
+        "gnu"
     ],
     "saturday": [
         "ku wa gatandatu",
-        "gnd",
-        "s"
+        "gnd"
     ],
     "sunday": [
-        "ku w’indwi",
-        "cu",
-        "s"
+        "ku w'indwi",
+        "cu"
     ],
     "am": [
-        "z.mu"
+        "zmu"
     ],
     "pm": [
-        "z.mw"
+        "zmw"
     ],
     "year": [
         "umwaka"
@@ -159,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

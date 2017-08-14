@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "dwe mar achiel",
-        "dac",
-        "c"
+        "dac"
     ],
     "february": [
         "dwe mar ariyo",
-        "dar",
-        "r"
+        "dar"
     ],
     "march": [
         "dwe mar adek",
-        "dad",
-        "d"
+        "dad"
     ],
     "april": [
-        "dwe mar ang’wen",
-        "dan",
-        "n"
+        "dwe mar ang'wen",
+        "dan"
     ],
     "may": [
         "dwe mar abich",
-        "dah",
-        "b"
+        "dah"
     ],
     "june": [
         "dwe mar auchiel",
-        "dau",
-        "u"
+        "dau"
     ],
     "july": [
         "dwe mar abiriyo",
-        "dao",
-        "b"
+        "dao"
     ],
     "august": [
         "dwe mar aboro",
-        "dab",
-        "b"
+        "dab"
     ],
     "september": [
         "dwe mar ochiko",
-        "doc",
-        "c"
+        "doc"
     ],
     "october": [
         "dwe mar apar",
-        "dap",
-        "p"
+        "dap"
     ],
     "november": [
         "dwe mar gi achiel",
-        "dgi",
-        "c"
+        "dgi"
     ],
     "december": [
         "dwe mar apar gi ariyo",
-        "dag",
-        "p"
+        "dag"
     ],
     "monday": [
         "wuok tich",
-        "wut",
-        "w"
+        "wut"
     ],
     "tuesday": [
         "tich ariyo",
-        "tar",
-        "t"
+        "tar"
     ],
     "wednesday": [
         "tich adek",
-        "tad",
-        "t"
+        "tad"
     ],
     "thursday": [
-        "tich ang’wen",
-        "tan",
-        "t"
+        "tich ang'wen",
+        "tan"
     ],
     "friday": [
         "tich abich",
-        "tab",
-        "t"
+        "tab"
     ],
     "saturday": [
         "ngeso",
-        "ngs",
-        "n"
+        "ngs"
     ],
     "sunday": [
         "jumapil",
-        "jmp",
-        "j"
+        "jmp"
     ],
     "am": [
         "od"
@@ -112,7 +93,7 @@
         "juma"
     ],
     "day": [
-        "chieng’"
+        "chieng'"
     ],
     "hour": [
         "saa"
@@ -170,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

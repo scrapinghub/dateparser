@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "janwaliyo",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "febwaliyo",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "marisi",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "apuli",
-        "apu",
-        "a"
+        "apu"
     ],
     "may": [
         "maayi",
-        "maa",
-        "m"
+        "maa"
     ],
     "june": [
         "juuni",
-        "juu",
-        "j"
+        "juu"
     ],
     "july": [
         "julaayi",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "agusito",
-        "agu",
-        "a"
+        "agu"
     ],
     "september": [
         "sebuttemba",
-        "seb",
-        "s"
+        "seb"
     ],
     "october": [
         "okitobba",
-        "oki",
-        "o"
+        "oki"
     ],
     "november": [
         "novemba",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desemba",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "balaza",
-        "bala",
-        "b"
+        "bala"
     ],
     "tuesday": [
         "owokubili",
-        "kubi",
-        "b"
+        "kubi"
     ],
     "wednesday": [
         "owokusatu",
-        "kusa",
-        "s"
+        "kusa"
     ],
     "thursday": [
         "olokuna",
-        "kuna",
-        "k"
+        "kuna"
     ],
     "friday": [
         "olokutaanu",
-        "kuta",
-        "k"
+        "kuta"
     ],
     "saturday": [
         "olomukaaga",
-        "muka",
-        "m"
+        "muka"
     ],
     "sunday": [
         "sabiiti",
-        "sabi",
-        "s"
+        "sabi"
     ],
     "am": [
         "munkyo"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

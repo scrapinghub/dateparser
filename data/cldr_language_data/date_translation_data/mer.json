@@ -3,97 +3,78 @@
     "date_order": "DMY",
     "january": [
         "januarĩ",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "feburuarĩ",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "machi",
-        "mac",
-        "m"
+        "mac"
     ],
     "april": [
         "ĩpurũ",
-        "ĩpu",
-        "ĩ"
+        "ĩpu"
     ],
     "may": [
-        "mĩĩ",
-        "m"
+        "mĩĩ"
     ],
     "june": [
         "njuni",
-        "nju",
-        "n"
+        "nju"
     ],
     "july": [
         "njuraĩ",
-        "njr",
-        "n"
+        "njr"
     ],
     "august": [
         "agasti",
-        "aga",
-        "a"
+        "aga"
     ],
     "september": [
         "septemba",
-        "spt",
-        "s"
+        "spt"
     ],
     "october": [
         "oktũba",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novemba",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "dicemba",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
         "muramuko",
-        "mra",
-        "m"
+        "mra"
     ],
     "tuesday": [
         "wairi",
-        "wai",
-        "w"
+        "wai"
     ],
     "wednesday": [
         "wethatu",
-        "wet",
-        "w"
+        "wet"
     ],
     "thursday": [
         "wena",
-        "wen",
-        "w"
+        "wen"
     ],
     "friday": [
         "wetano",
-        "wtn",
-        "w"
+        "wtn"
     ],
     "saturday": [
         "jumamosi",
-        "jum",
-        "j"
+        "jum"
     ],
     "sunday": [
         "kiumia",
-        "kiu",
-        "k"
+        "kiu"
     ],
     "am": [
         "rũ"
@@ -169,6 +150,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

@@ -3,97 +3,78 @@
     "date_order": "DMY",
     "january": [
         "januari",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februari",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "maart",
-        "mrt",
-        "m"
+        "mrt"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "juli",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "augustus",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "september",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "december",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
         "maandag",
-        "ma",
-        "m"
+        "ma"
     ],
     "tuesday": [
         "dinsdag",
-        "di",
-        "d"
+        "di"
     ],
     "wednesday": [
         "woensdag",
-        "wo",
-        "w"
+        "wo"
     ],
     "thursday": [
         "donderdag",
-        "do",
-        "d"
+        "do"
     ],
     "friday": [
         "vrijdag",
-        "vr",
-        "v"
+        "vr"
     ],
     "saturday": [
         "zaterdag",
-        "za",
-        "z"
+        "za"
     ],
     "sunday": [
         "zondag",
-        "zo",
-        "z"
+        "zo"
     ],
     "am": [
         "am"
@@ -236,23 +217,23 @@
         ]
     },
     "locale_specific": {
+        "nl-BQ": {
+            "name": "nl-BQ"
+        },
+        "nl-SX": {
+            "name": "nl-SX"
+        },
+        "nl-CW": {
+            "name": "nl-CW"
+        },
         "nl-AW": {
             "name": "nl-AW"
         },
         "nl-BE": {
             "name": "nl-BE"
         },
-        "nl-BQ": {
-            "name": "nl-BQ"
-        },
-        "nl-CW": {
-            "name": "nl-CW"
-        },
         "nl-SR": {
             "name": "nl-SR"
-        },
-        "nl-SX": {
-            "name": "nl-SX"
         }
     }
 }

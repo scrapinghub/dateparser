@@ -65,37 +65,31 @@ info = {
     "monday": [
         "thứ hai",
         "th 2",
-        "t2",
         "Thứ 2"
     ],
     "tuesday": [
         "thứ ba",
         "th 3",
-        "t3",
         "Thứ 3"
     ],
     "wednesday": [
         "thứ tư",
         "th 4",
-        "t4",
         "Thứ 4"
     ],
     "thursday": [
         "thứ năm",
         "th 5",
-        "t5",
         "Thứ 5"
     ],
     "friday": [
         "thứ sáu",
         "th 6",
-        "t6",
         "Thứ 6"
     ],
     "saturday": [
         "thứ bảy",
         "th 7",
-        "t7",
         "Thứ 7"
     ],
     "sunday": [
@@ -104,12 +98,10 @@ info = {
         "Thứ 1"
     ],
     "am": [
-        "sa",
-        "s"
+        "sa"
     ],
     "pm": [
-        "ch",
-        "c"
+        "ch"
     ],
     "year": [
         "năm"

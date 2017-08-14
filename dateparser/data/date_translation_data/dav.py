@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "mori ghwa imbiri",
-        "imb",
-        "i"
+        "imb"
     ],
     "february": [
         "mori ghwa kawi",
-        "kaw",
-        "k"
+        "kaw"
     ],
     "march": [
         "mori ghwa kadadu",
-        "kad",
-        "k"
+        "kad"
     ],
     "april": [
         "mori ghwa kana",
-        "kan",
-        "k"
+        "kan"
     ],
     "may": [
         "mori ghwa kasanu",
-        "kas",
-        "k"
+        "kas"
     ],
     "june": [
         "mori ghwa karandadu",
-        "kar",
-        "k"
+        "kar"
     ],
     "july": [
         "mori ghwa mfungade",
-        "mfu",
-        "m"
+        "mfu"
     ],
     "august": [
         "mori ghwa wunyanya",
-        "wun",
-        "w"
+        "wun"
     ],
     "september": [
         "mori ghwa ikenda",
-        "ike",
-        "i"
+        "ike"
     ],
     "october": [
         "mori ghwa ikumi",
-        "iku",
-        "i"
+        "iku"
     ],
     "november": [
         "mori ghwa ikumi na imweri",
-        "imw",
-        "i"
+        "imw"
     ],
     "december": [
         "mori ghwa ikumi na iwi",
-        "iwi",
-        "i"
+        "iwi"
     ],
     "monday": [
         "kuramuka jimweri",
-        "jim",
-        "j"
+        "jim"
     ],
     "tuesday": [
         "kuramuka kawi",
-        "kaw",
-        "k"
+        "kaw"
     ],
     "wednesday": [
         "kuramuka kadadu",
-        "kad",
-        "k"
+        "kad"
     ],
     "thursday": [
         "kuramuka kana",
-        "kan",
-        "k"
+        "kan"
     ],
     "friday": [
         "kuramuka kasanu",
-        "kas",
-        "k"
+        "kas"
     ],
     "saturday": [
         "kifula nguwo",
-        "ngu",
-        "n"
+        "ngu"
     ],
     "sunday": [
         "ituku ja jumwa",
-        "jum",
-        "j"
+        "jum"
     ],
     "am": [
         "luma lwa k"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

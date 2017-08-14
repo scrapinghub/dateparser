@@ -3,105 +3,84 @@
     "date_order": "DMY",
     "january": [
         "januar",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februar",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "mäerz",
-        "mäe",
-        "m"
+        "mäe"
     ],
     "april": [
         "abrëll",
-        "abr",
-        "a"
+        "abr"
     ],
     "may": [
-        "mee",
-        "m"
+        "mee"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "juli",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "august",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "september",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "dezember",
-        "dez",
-        "d"
+        "dez"
     ],
     "monday": [
         "méindeg",
-        "méi",
-        "m"
+        "méi"
     ],
     "tuesday": [
         "dënschdeg",
-        "dën",
-        "d"
+        "dën"
     ],
     "wednesday": [
         "mëttwoch",
-        "mët",
-        "m"
+        "mët"
     ],
     "thursday": [
         "donneschdeg",
-        "don",
-        "d"
+        "don"
     ],
     "friday": [
         "freideg",
-        "fre",
-        "f"
+        "fre"
     ],
     "saturday": [
         "samschdeg",
-        "sam",
-        "s"
+        "sam"
     ],
     "sunday": [
         "sonndeg",
-        "son",
-        "s"
+        "son"
     ],
     "am": [
-        "moies",
-        "mo"
+        "moies"
     ],
     "pm": [
-        "nomëttes",
-        "nomë"
+        "nomëttes"
     ],
     "year": [
         "joer",

@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "okwokubanza",
-        "kbz",
-        "j"
+        "kbz"
     ],
     "february": [
         "okwakabiri",
-        "kbr",
-        "f"
+        "kbr"
     ],
     "march": [
         "okwakashatu",
-        "kst",
-        "m"
+        "kst"
     ],
     "april": [
         "okwakana",
-        "kkn",
-        "a"
+        "kkn"
     ],
     "may": [
         "okwakataana",
-        "ktn",
-        "m"
+        "ktn"
     ],
     "june": [
         "okwamukaaga",
-        "kmk",
-        "j"
+        "kmk"
     ],
     "july": [
         "okwamushanju",
-        "kms",
-        "j"
+        "kms"
     ],
     "august": [
         "okwamunaana",
-        "kmn",
-        "a"
+        "kmn"
     ],
     "september": [
         "okwamwenda",
-        "kmw",
-        "s"
+        "kmw"
     ],
     "october": [
         "okwaikumi",
-        "kkm",
-        "o"
+        "kkm"
     ],
     "november": [
         "okwaikumi na kumwe",
-        "knk",
-        "n"
+        "knk"
     ],
     "december": [
         "okwaikumi na ibiri",
-        "knb",
-        "d"
+        "knb"
     ],
     "monday": [
         "orwokubanza",
-        "ork",
-        "k"
+        "ork"
     ],
     "tuesday": [
         "orwakabiri",
-        "okb",
-        "r"
+        "okb"
     ],
     "wednesday": [
         "orwakashatu",
-        "oks",
-        "s"
+        "oks"
     ],
     "thursday": [
         "orwakana",
-        "okn",
-        "n"
+        "okn"
     ],
     "friday": [
         "orwakataano",
-        "okt",
-        "t"
+        "okt"
     ],
     "saturday": [
         "orwamukaaga",
-        "omk",
-        "m"
+        "omk"
     ],
     "sunday": [
         "sande",
-        "san",
-        "s"
+        "san"
     ],
     "am": [
         "am"
@@ -170,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

@@ -4,107 +4,86 @@ info = {
     "date_order": "DMY",
     "january": [
         "januar",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februar",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "marec",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "maj",
-        "m"
+        "maj"
     ],
     "june": [
         "junij",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julij",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "avgust",
-        "avg",
-        "a"
+        "avg"
     ],
     "september": [
         "september",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "december",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
         "ponedeljek",
-        "pon",
-        "p"
+        "pon"
     ],
     "tuesday": [
         "torek",
-        "tor",
-        "t"
+        "tor"
     ],
     "wednesday": [
         "sreda",
-        "sre",
-        "s"
+        "sre"
     ],
     "thursday": [
         "četrtek",
-        "čet",
-        "č"
+        "čet"
     ],
     "friday": [
         "petek",
-        "pet",
-        "p"
+        "pet"
     ],
     "saturday": [
         "sobota",
-        "sob",
-        "s"
+        "sob"
     ],
     "sunday": [
         "nedelja",
-        "ned",
-        "n"
+        "ned"
     ],
     "am": [
         "dopoldne",
-        "dop",
-        "d"
+        "dop"
     ],
     "pm": [
         "popoldne",
-        "pop",
-        "p"
+        "pop"
     ],
     "year": [
         "leto"

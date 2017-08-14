@@ -43,7 +43,7 @@ info = {
         "kan"
     ],
     "november": [
-        "ayamarqʼa",
+        "ayamarq'a",
         "aya"
     ],
     "december": [
@@ -52,38 +52,31 @@ info = {
     ],
     "monday": [
         "lunes",
-        "lun",
-        "l"
+        "lun"
     ],
     "tuesday": [
         "martes",
-        "mar",
-        "m"
+        "mar"
     ],
     "wednesday": [
         "miércoles",
-        "mié",
-        "x"
+        "mié"
     ],
     "thursday": [
         "jueves",
-        "jue",
-        "j"
+        "jue"
     ],
     "friday": [
         "viernes",
-        "vie",
-        "v"
+        "vie"
     ],
     "saturday": [
         "sábado",
-        "sab",
-        "s"
+        "sab"
     ],
     "sunday": [
         "domingo",
-        "dom",
-        "d"
+        "dom"
     ],
     "am": [
         "am"
@@ -159,13 +152,12 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {
-        "qu-BO": {
-            "name": "qu-BO"
-        },
         "qu-EC": {
             "name": "qu-EC"
+        },
+        "qu-BO": {
+            "name": "qu-BO"
         }
     },
     "skip": [

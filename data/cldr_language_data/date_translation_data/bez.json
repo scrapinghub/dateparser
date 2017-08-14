@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "pa mwedzi gwa hutala",
-        "hut",
-        "h"
+        "hut"
     ],
     "february": [
         "pa mwedzi gwa wuvili",
-        "vil",
-        "v"
+        "vil"
     ],
     "march": [
         "pa mwedzi gwa wudatu",
-        "dat",
-        "d"
+        "dat"
     ],
     "april": [
         "pa mwedzi gwa wutai",
-        "tai",
-        "t"
+        "tai"
     ],
     "may": [
         "pa mwedzi gwa wuhanu",
-        "han",
-        "h"
+        "han"
     ],
     "june": [
         "pa mwedzi gwa sita",
-        "sit",
-        "s"
+        "sit"
     ],
     "july": [
         "pa mwedzi gwa saba",
-        "sab",
-        "s"
+        "sab"
     ],
     "august": [
         "pa mwedzi gwa nane",
-        "nan",
-        "n"
+        "nan"
     ],
     "september": [
         "pa mwedzi gwa tisa",
-        "tis",
-        "t"
+        "tis"
     ],
     "october": [
         "pa mwedzi gwa kumi",
-        "kum",
-        "k"
+        "kum"
     ],
     "november": [
         "pa mwedzi gwa kumi na moja",
-        "kmj",
-        "k"
+        "kmj"
     ],
     "december": [
         "pa mwedzi gwa kumi na mbili",
-        "kmb",
-        "k"
+        "kmb"
     ],
     "monday": [
         "pa shahuviluha",
-        "vil",
-        "j"
+        "vil"
     ],
     "tuesday": [
         "pa hivili",
-        "hiv",
-        "h"
+        "hiv"
     ],
     "wednesday": [
         "pa hidatu",
-        "hid",
-        "h"
+        "hid"
     ],
     "thursday": [
         "pa hitayi",
-        "hit",
-        "h"
+        "hit"
     ],
     "friday": [
         "pa hihanu",
-        "hih",
-        "w"
+        "hih"
     ],
     "saturday": [
         "pa shahulembela",
-        "lem",
-        "j"
+        "lem"
     ],
     "sunday": [
         "pa mulungu",
-        "mul",
-        "m"
+        "mul"
     ],
     "am": [
         "pamilau"
@@ -155,7 +136,7 @@
             "igolo"
         ],
         "0 day ago": [
-            "neng’u ni"
+            "neng'u ni"
         ],
         "in 1 day": [
             "hilawu"
@@ -170,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

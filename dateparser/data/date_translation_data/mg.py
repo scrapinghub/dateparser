@@ -4,97 +4,78 @@ info = {
     "date_order": "YMD",
     "january": [
         "janoary",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "febroary",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "martsa",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "aprily",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mey",
-        "m"
+        "mey"
     ],
     "june": [
         "jona",
-        "jon",
-        "j"
+        "jon"
     ],
     "july": [
         "jolay",
-        "jol",
-        "j"
+        "jol"
     ],
     "august": [
         "aogositra",
-        "aog",
-        "a"
+        "aog"
     ],
     "september": [
         "septambra",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktobra",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novambra",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desambra",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "alatsinainy",
-        "alats",
-        "a"
+        "alats"
     ],
     "tuesday": [
         "talata",
-        "tal",
-        "t"
+        "tal"
     ],
     "wednesday": [
         "alarobia",
-        "alar",
-        "a"
+        "alar"
     ],
     "thursday": [
         "alakamisy",
-        "alak",
-        "a"
+        "alak"
     ],
     "friday": [
         "zoma",
-        "zom",
-        "z"
+        "zom"
     ],
     "saturday": [
         "asabotsy",
-        "asab",
-        "a"
+        "asab"
     ],
     "sunday": [
         "alahady",
-        "alah",
-        "a"
+        "alah"
     ],
     "am": [
         "am"
@@ -170,7 +151,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

@@ -52,38 +52,31 @@ info = {
     ],
     "monday": [
         "dy lun",
-        "lun",
-        "m"
+        "lun"
     ],
     "tuesday": [
         "dy meurth",
-        "mth",
-        "t"
+        "mth"
     ],
     "wednesday": [
         "dy merher",
-        "mhr",
-        "w"
+        "mhr"
     ],
     "thursday": [
         "dy yow",
-        "yow",
-        "t"
+        "yow"
     ],
     "friday": [
         "dy gwener",
-        "gwe",
-        "f"
+        "gwe"
     ],
     "saturday": [
         "dy sadorn",
-        "sad",
-        "s"
+        "sad"
     ],
     "sunday": [
         "dy sul",
-        "sul",
-        "s"
+        "sul"
     ],
     "am": [
         "am"
@@ -159,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

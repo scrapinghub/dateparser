@@ -62,38 +62,31 @@
     ],
     "monday": [
         "pondělí",
-        "po",
-        "p"
+        "po"
     ],
     "tuesday": [
         "úterý",
-        "út",
-        "ú"
+        "út"
     ],
     "wednesday": [
         "středa",
-        "st",
-        "s"
+        "st"
     ],
     "thursday": [
         "čtvrtek",
-        "čt",
-        "č"
+        "čt"
     ],
     "friday": [
         "pátek",
-        "pá",
-        "p"
+        "pá"
     ],
     "saturday": [
         "sobota",
-        "so",
-        "s"
+        "so"
     ],
     "sunday": [
         "neděle",
-        "ne",
-        "n"
+        "ne"
     ],
     "am": [
         "dop"

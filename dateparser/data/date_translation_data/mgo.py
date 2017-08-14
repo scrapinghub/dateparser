@@ -4,43 +4,34 @@ info = {
     "date_order": "YMD",
     "january": [
         "iməg mbegtug",
-        "mbegtug",
-        "m1"
+        "mbegtug"
     ],
     "february": [
-        "imeg àbùbì",
-        "a2"
+        "imeg àbùbì"
     ],
     "march": [
-        "imeg mbəŋchubi",
-        "m3"
+        "imeg mbəŋchubi"
     ],
     "april": [
-        "iməg ngwə̀t",
-        "n4"
+        "iməg ngwə̀t"
     ],
     "may": [
-        "iməg fog",
-        "f5"
+        "iməg fog"
     ],
     "june": [
-        "iməg ichiibɔd",
-        "i6"
+        "iməg ichiibɔd"
     ],
     "july": [
-        "iməg àdùmbə̀ŋ",
-        "a7"
+        "iməg àdùmbə̀ŋ"
     ],
     "august": [
-        "iməg ichika",
-        "i8"
+        "iməg ichika"
     ],
     "september": [
-        "iməg kud",
-        "k9"
+        "iməg kud"
     ],
     "october": [
-        "iməg tèsiʼe"
+        "iməg tèsi'e"
     ],
     "november": [
         "iməg zò"
@@ -49,32 +40,25 @@ info = {
         "iməg krizmed"
     ],
     "monday": [
-        "aneg 2",
-        "a2"
+        "aneg 2"
     ],
     "tuesday": [
-        "aneg 3",
-        "a3"
+        "aneg 3"
     ],
     "wednesday": [
-        "aneg 4",
-        "a4"
+        "aneg 4"
     ],
     "thursday": [
-        "aneg 5",
-        "a5"
+        "aneg 5"
     ],
     "friday": [
-        "aneg 6",
-        "a6"
+        "aneg 6"
     ],
     "saturday": [
-        "aneg 7",
-        "a7"
+        "aneg 7"
     ],
     "sunday": [
-        "aneg 1",
-        "a1"
+        "aneg 1"
     ],
     "am": [
         "am"
@@ -83,7 +67,7 @@ info = {
         "pm"
     ],
     "year": [
-        "fituʼ"
+        "fitu'"
     ],
     "month": [
         "iməg"
@@ -150,7 +134,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

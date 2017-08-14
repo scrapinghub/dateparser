@@ -52,38 +52,31 @@ info = {
     ],
     "monday": [
         "星期一",
-        "周一",
-        "一"
+        "周一"
     ],
     "tuesday": [
         "星期二",
-        "周二",
-        "二"
+        "周二"
     ],
     "wednesday": [
         "星期三",
-        "周三",
-        "三"
+        "周三"
     ],
     "thursday": [
         "星期四",
-        "周四",
-        "四"
+        "周四"
     ],
     "friday": [
         "星期五",
-        "周五",
-        "五"
+        "周五"
     ],
     "saturday": [
         "星期六",
-        "周六",
-        "六"
+        "周六"
     ],
     "sunday": [
         "星期日",
-        "周日",
-        "日"
+        "周日"
     ],
     "am": [
         "上午"
@@ -207,16 +200,16 @@ info = {
         ]
     },
     "locale_specific": {
+        "zh-Hans-SG": {
+            "name": "zh-Hans-SG",
+            "date_order": "DMY"
+        },
         "zh-Hans-HK": {
             "name": "zh-Hans-HK",
             "date_order": "DMY"
         },
         "zh-Hans-MO": {
             "name": "zh-Hans-MO",
-            "date_order": "DMY"
-        },
-        "zh-Hans-SG": {
-            "name": "zh-Hans-SG",
             "date_order": "DMY"
         }
     },

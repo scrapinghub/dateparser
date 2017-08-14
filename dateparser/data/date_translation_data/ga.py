@@ -4,104 +4,83 @@ info = {
     "date_order": "DMY",
     "january": [
         "eanáir",
-        "ean",
-        "e"
+        "ean"
     ],
     "february": [
         "feabhra",
-        "feabh",
-        "f"
+        "feabh"
     ],
     "march": [
-        "márta",
-        "m"
+        "márta"
     ],
     "april": [
         "aibreán",
-        "aib",
-        "a"
+        "aib"
     ],
     "may": [
         "bealtaine",
-        "beal",
-        "b"
+        "beal"
     ],
     "june": [
         "meitheamh",
-        "meith",
-        "m"
+        "meith"
     ],
     "july": [
-        "iúil",
-        "i"
+        "iúil"
     ],
     "august": [
         "lúnasa",
-        "lún",
-        "l"
+        "lún"
     ],
     "september": [
         "meán fómhair",
-        "mfómh",
-        "m"
+        "mfómh"
     ],
     "october": [
         "deireadh fómhair",
-        "dfómh",
-        "d"
+        "dfómh"
     ],
     "november": [
         "samhain",
-        "samh",
-        "s"
+        "samh"
     ],
     "december": [
         "nollaig",
-        "noll",
-        "n"
+        "noll"
     ],
     "monday": [
         "dé luain",
-        "luan",
-        "l"
+        "luan"
     ],
     "tuesday": [
         "dé máirt",
-        "máirt",
-        "m"
+        "máirt"
     ],
     "wednesday": [
         "dé céadaoin",
-        "céad",
-        "c"
+        "céad"
     ],
     "thursday": [
         "déardaoin",
-        "déar",
-        "d"
+        "déar"
     ],
     "friday": [
         "dé haoine",
-        "aoine",
-        "a"
+        "aoine"
     ],
     "saturday": [
         "dé sathairn",
-        "sath",
-        "s"
+        "sath"
     ],
     "sunday": [
         "dé domhnaigh",
-        "domh",
-        "d"
+        "domh"
     ],
     "am": [
-        "am",
-        "a"
+        "am"
     ],
     "pm": [
-        "pm",
-        "p"
+        "pm"
     ],
     "year": [
         "bliain",

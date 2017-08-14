@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "janairu",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "faburairu",
-        "fab",
-        "f"
+        "fab"
     ],
     "march": [
         "maris",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "afirilu",
-        "afi",
-        "a"
+        "afi"
     ],
     "may": [
         "mayu",
-        "may",
-        "m"
+        "may"
     ],
     "june": [
         "yuni",
-        "yun",
-        "y"
+        "yun"
     ],
     "july": [
         "yuli",
-        "yul",
-        "y"
+        "yul"
     ],
     "august": [
         "agusta",
-        "agu",
-        "a"
+        "agu"
     ],
     "september": [
         "satumba",
-        "sat",
-        "s"
+        "sat"
     ],
     "october": [
         "oktoba",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "nuwamba",
-        "nuw",
-        "n"
+        "nuw"
     ],
     "december": [
         "disamba",
-        "dis",
-        "d"
+        "dis"
     ],
     "monday": [
         "litinin",
-        "lit",
-        "l"
+        "lit"
     ],
     "tuesday": [
         "talata",
-        "tal",
-        "t"
+        "tal"
     ],
     "wednesday": [
         "laraba",
-        "lar",
-        "l"
+        "lar"
     ],
     "thursday": [
         "alhamis",
-        "alh",
-        "a"
+        "alh"
     ],
     "friday": [
-        "jummaʼa",
-        "jum",
-        "j"
+        "jumma'a",
+        "jum"
     ],
     "saturday": [
         "asabar",
-        "asa",
-        "a"
+        "asa"
     ],
     "sunday": [
         "lahadi",
-        "lah",
-        "l"
+        "lah"
     ],
     "am": [
         "am"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {
         "ha-GH": {
             "name": "ha-GH"

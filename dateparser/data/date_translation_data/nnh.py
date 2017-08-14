@@ -18,7 +18,7 @@ info = {
         "saŋ tsɛ̀ɛ cÿó"
     ],
     "june": [
-        "saŋ njÿoláʼ"
+        "saŋ njÿolá'"
     ],
     "july": [
         "saŋ tyɛ̀b tyɛ̀b mbʉ̀ŋ"
@@ -27,10 +27,10 @@ info = {
         "saŋ mbʉ̀ŋ"
     ],
     "september": [
-        "saŋ ngwɔ̀ʼ mbÿɛ"
+        "saŋ ngwɔ̀' mbÿɛ"
     ],
     "october": [
-        "saŋ tàŋa tsetsáʼ"
+        "saŋ tàŋa tsetsá'"
     ],
     "november": [
         "saŋ mejwoŋó"
@@ -39,41 +39,34 @@ info = {
         "saŋ lùm"
     ],
     "monday": [
-        "mvfò lyɛ̌ʼ",
-        "m"
+        "mvfò lyɛ̌'"
     ],
     "tuesday": [
-        "mbɔ́ɔntè mvfò lyɛ̌ʼ",
-        "t"
+        "mbɔ́ɔntè mvfò lyɛ̌'"
     ],
     "wednesday": [
-        "tsètsɛ̀ɛ lyɛ̌ʼ",
-        "w"
+        "tsètsɛ̀ɛ lyɛ̌'"
     ],
     "thursday": [
-        "mbɔ́ɔntè tsetsɛ̀ɛ lyɛ̌ʼ",
-        "t"
+        "mbɔ́ɔntè tsetsɛ̀ɛ lyɛ̌'"
     ],
     "friday": [
-        "mvfò màga lyɛ̌ʼ",
-        "f"
+        "mvfò màga lyɛ̌'"
     ],
     "saturday": [
-        "màga lyɛ̌ʼ",
-        "s"
+        "màga lyɛ̌'"
     ],
     "sunday": [
-        "lyɛʼɛ́ sẅíŋtè",
-        "s"
+        "lyɛ'ɛ́ sẅíŋtè"
     ],
     "am": [
-        "mbaʼámbaʼ"
+        "mba'ámba'"
     ],
     "pm": [
         "ncwònzém"
     ],
     "year": [
-        "ngùʼ"
+        "ngù'"
     ],
     "month": [
         "month"
@@ -82,10 +75,10 @@ info = {
         "week"
     ],
     "day": [
-        "lyɛ̌ʼ"
+        "lyɛ̌'"
     ],
     "hour": [
-        "fʉ̀ʼ nèm"
+        "fʉ̀' nèm"
     ],
     "minute": [
         "minute"
@@ -125,7 +118,7 @@ info = {
             "jǔɔ gẅie à ka tɔ̌g"
         ],
         "0 day ago": [
-            "lyɛ̌ʼɔɔn"
+            "lyɛ̌'ɔɔn"
         ],
         "in 1 day": [
             "jǔɔ gẅie à ne ntóo"
@@ -140,7 +133,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

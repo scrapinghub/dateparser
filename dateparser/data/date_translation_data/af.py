@@ -4,105 +4,84 @@ info = {
     "date_order": "YMD",
     "january": [
         "januarie",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februarie",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "maart",
-        "mrt",
-        "m"
+        "mrt"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "junie",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julie",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "augustus",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "september",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desember",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "maandag",
-        "ma",
-        "m"
+        "ma"
     ],
     "tuesday": [
         "dinsdag",
-        "di",
-        "d"
+        "di"
     ],
     "wednesday": [
         "woensdag",
-        "wo",
-        "w"
+        "wo"
     ],
     "thursday": [
         "donderdag",
-        "do",
-        "d"
+        "do"
     ],
     "friday": [
         "vrydag",
-        "vr",
-        "v"
+        "vr"
     ],
     "saturday": [
         "saterdag",
-        "sa",
-        "s"
+        "sa"
     ],
     "sunday": [
         "sondag",
-        "so",
-        "s"
+        "so"
     ],
     "am": [
-        "vm",
-        "v"
+        "vm"
     ],
     "pm": [
-        "nm",
-        "n"
+        "nm"
     ],
     "year": [
         "jaar",

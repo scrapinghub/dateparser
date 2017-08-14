@@ -5,120 +5,99 @@ info = {
     "january": [
         "xineru",
         "xin",
-        "x",
         "de xineru"
     ],
     "february": [
         "febreru",
         "feb",
-        "f",
         "de febreru"
     ],
     "march": [
         "marzu",
         "mar",
-        "m",
         "de marzu"
     ],
     "april": [
         "abril",
         "abr",
-        "a",
-        "d’abril"
+        "d'abril"
     ],
     "may": [
         "mayu",
         "may",
-        "m",
         "de mayu"
     ],
     "june": [
         "xunu",
         "xun",
-        "x",
         "de xunu"
     ],
     "july": [
         "xunetu",
         "xnt",
-        "x",
         "de xunetu"
     ],
     "august": [
         "agostu",
         "ago",
-        "a",
-        "d’agostu"
+        "d'agostu"
     ],
     "september": [
         "setiembre",
         "set",
-        "s",
         "de setiembre"
     ],
     "october": [
         "ochobre",
         "och",
-        "o",
-        "d’ochobre"
+        "d'ochobre"
     ],
     "november": [
         "payares",
         "pay",
-        "p",
         "de payares"
     ],
     "december": [
         "avientu",
         "avi",
-        "a",
-        "d’avientu"
+        "d'avientu"
     ],
     "monday": [
         "llunes",
-        "llu",
-        "l"
+        "llu"
     ],
     "tuesday": [
         "martes",
-        "mar",
-        "m"
+        "mar"
     ],
     "wednesday": [
         "miércoles",
-        "mié",
-        "m"
+        "mié"
     ],
     "thursday": [
         "xueves",
-        "xue",
-        "x"
+        "xue"
     ],
     "friday": [
         "vienres",
-        "vie",
-        "v"
+        "vie"
     ],
     "saturday": [
         "sábadu",
-        "sáb",
-        "s"
+        "sáb"
     ],
     "sunday": [
         "domingu",
-        "dom",
-        "d"
+        "dom"
     ],
     "am": [
         "mañana",
         "am",
-        "a",
-        "de lamañana"
+        "de la mañana"
     ],
     "pm": [
         "tarde",
         "pm",
-        "p",
         "de la tarde"
     ],
     "year": [
@@ -149,16 +128,16 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "l’añu pasáu",
-            "l’añu pas",
+            "l'añu pasáu",
+            "l'añu pas",
             "añu pas"
         ],
         "0 year ago": [
             "esti añu"
         ],
         "in 1 year": [
-            "l’añu viniente",
-            "l’añu vin",
+            "l'añu viniente",
+            "l'añu vin",
             "añu vin"
         ],
         "1 month ago": [

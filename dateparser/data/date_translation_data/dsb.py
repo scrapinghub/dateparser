@@ -5,116 +5,95 @@ info = {
     "january": [
         "januar",
         "jan",
-        "j",
         "januara"
     ],
     "february": [
         "februar",
         "feb",
-        "f",
         "februara"
     ],
     "march": [
         "měrc",
         "měr",
-        "m",
         "měrca"
     ],
     "april": [
         "apryl",
         "apr",
-        "a",
         "apryla"
     ],
     "may": [
         "maj",
-        "m",
         "maja"
     ],
     "june": [
         "junij",
         "jun",
-        "j",
         "junija"
     ],
     "july": [
         "julij",
         "jul",
-        "j",
         "julija"
     ],
     "august": [
         "awgust",
         "awg",
-        "a",
         "awgusta"
     ],
     "september": [
         "september",
         "sep",
-        "s",
         "septembra"
     ],
     "october": [
         "oktober",
         "okt",
-        "o",
         "oktobra"
     ],
     "november": [
         "nowember",
         "now",
-        "n",
         "nowembra"
     ],
     "december": [
         "december",
         "dec",
-        "d",
         "decembra"
     ],
     "monday": [
         "pónjeźele",
-        "pón",
-        "p"
+        "pón"
     ],
     "tuesday": [
         "wałtora",
-        "wał",
-        "w"
+        "wał"
     ],
     "wednesday": [
         "srjoda",
-        "srj",
-        "s"
+        "srj"
     ],
     "thursday": [
         "stwórtk",
-        "stw",
-        "s"
+        "stw"
     ],
     "friday": [
         "pětk",
-        "pět",
-        "p"
+        "pět"
     ],
     "saturday": [
         "sobota",
-        "sob",
-        "s"
+        "sob"
     ],
     "sunday": [
         "njeźela",
-        "nje",
-        "n"
+        "nje"
     ],
     "am": [
-        "dopołdnja",
-        "dop"
+        "dopołdnja"
     ],
     "pm": [
-        "wótpołdnja",
-        "wótp"
+        "wótpołdnja"
     ],
     "year": [
         "lěto",

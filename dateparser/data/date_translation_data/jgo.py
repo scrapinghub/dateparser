@@ -39,35 +39,28 @@ info = {
         "pɛsaŋ ntsɔ̌ppá"
     ],
     "monday": [
-        "mɔ́ndi",
-        "mɔ́"
+        "mɔ́ndi"
     ],
     "tuesday": [
-        "ápta mɔ́ndi",
-        "ám"
+        "ápta mɔ́ndi"
     ],
     "wednesday": [
-        "wɛ́nɛsɛdɛ",
-        "wɛ́"
+        "wɛ́nɛsɛdɛ"
     ],
     "thursday": [
-        "tɔ́sɛdɛ",
-        "tɔ́"
+        "tɔ́sɛdɛ"
     ],
     "friday": [
-        "fɛlâyɛdɛ",
-        "fɛ"
+        "fɛlâyɛdɛ"
     ],
     "saturday": [
-        "sásidɛ",
-        "sá"
+        "sásidɛ"
     ],
     "sunday": [
-        "sɔ́ndi",
-        "sɔ́"
+        "sɔ́ndi"
     ],
     "am": [
-        "mbaꞌmbaꞌ"
+        "mba'mba'"
     ],
     "pm": [
         "ŋka mbɔ́t nji"

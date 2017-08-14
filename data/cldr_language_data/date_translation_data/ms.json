@@ -3,103 +3,82 @@
     "date_order": "DMY",
     "january": [
         "januari",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februari",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
-        "mac",
-        "m"
+        "mac"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julai",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "ogos",
-        "ogo",
-        "o"
+        "ogo"
     ],
     "september": [
         "september",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "disember",
-        "dis",
-        "d"
+        "dis"
     ],
     "monday": [
         "isnin",
-        "isn",
-        "i"
+        "isn"
     ],
     "tuesday": [
         "selasa",
-        "sel",
-        "s"
+        "sel"
     ],
     "wednesday": [
         "rabu",
-        "rab",
-        "r"
+        "rab"
     ],
     "thursday": [
         "khamis",
-        "kha",
-        "k"
+        "kha"
     ],
     "friday": [
         "jumaat",
-        "jum",
-        "j"
+        "jum"
     ],
     "saturday": [
         "sabtu",
-        "sab",
-        "s"
+        "sab"
     ],
     "sunday": [
         "ahad",
-        "ahd",
-        "a"
+        "ahd"
     ],
     "am": [
-        "pg",
-        "a"
+        "pg"
     ],
     "pm": [
-        "ptg",
-        "p"
+        "ptg"
     ],
     "year": [
         "tahun",
@@ -239,11 +218,11 @@
         ]
     },
     "locale_specific": {
-        "ms-BN": {
-            "name": "ms-BN"
-        },
         "ms-SG": {
             "name": "ms-SG"
+        },
+        "ms-BN": {
+            "name": "ms-BN"
         }
     }
 }

@@ -4,109 +4,90 @@
     "january": [
         "am faoilleach",
         "faoi",
-        "f",
         "dhen fhaoilleach"
     ],
     "february": [
         "an gearran",
         "gearr",
-        "g",
         "dhen ghearran"
     ],
     "march": [
         "am màrt",
         "màrt",
-        "m",
         "dhen mhàrt"
     ],
     "april": [
         "an giblean",
         "gibl",
-        "g",
         "dhen ghiblean"
     ],
     "may": [
         "an cèitean",
         "cèit",
-        "c",
         "dhen chèitean"
     ],
     "june": [
         "an t-ògmhios",
         "ògmh",
-        "ò",
         "dhen ògmhios"
     ],
     "july": [
         "an t-iuchar",
         "iuch",
-        "i",
         "dhen iuchar"
     ],
     "august": [
         "an lùnastal",
         "lùna",
-        "l",
         "dhen lùnastal"
     ],
     "september": [
         "an t-sultain",
         "sult",
-        "s",
         "dhen t-sultain"
     ],
     "october": [
         "an dàmhair",
         "dàmh",
-        "d",
         "dhen dàmhair"
     ],
     "november": [
         "an t-samhain",
         "samh",
-        "s",
         "dhen t-samhain"
     ],
     "december": [
         "an dùbhlachd",
         "dùbh",
-        "d",
         "dhen dùbhlachd"
     ],
     "monday": [
         "diluain",
-        "dil",
-        "l"
+        "dil"
     ],
     "tuesday": [
         "dimàirt",
-        "dim",
-        "m"
+        "dim"
     ],
     "wednesday": [
         "diciadain",
-        "dic",
-        "c"
+        "dic"
     ],
     "thursday": [
         "diardaoin",
-        "dia",
-        "a"
+        "dia"
     ],
     "friday": [
         "dihaoine",
-        "dih",
-        "h"
+        "dih"
     ],
     "saturday": [
         "disathairne",
-        "dis",
-        "s"
+        "dis"
     ],
     "sunday": [
         "didòmhnaich",
-        "did",
-        "d"
+        "did"
     ],
     "am": [
         "m"

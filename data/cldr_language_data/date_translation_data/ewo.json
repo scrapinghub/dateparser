@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "ngɔn osú",
-        "ngo",
-        "o"
+        "ngo"
     ],
     "february": [
         "ngɔn bɛ̌",
-        "ngb",
-        "b"
+        "ngb"
     ],
     "march": [
         "ngɔn lála",
-        "ngl",
-        "l"
+        "ngl"
     ],
     "april": [
         "ngɔn nyina",
-        "ngn",
-        "n"
+        "ngn"
     ],
     "may": [
         "ngɔn tána",
-        "ngt",
-        "t"
+        "ngt"
     ],
     "june": [
         "ngɔn saməna",
-        "ngs",
-        "s"
+        "ngs"
     ],
     "july": [
         "ngɔn zamgbála",
-        "ngz",
-        "z"
+        "ngz"
     ],
     "august": [
         "ngɔn mwom",
-        "ngm",
-        "m"
+        "ngm"
     ],
     "september": [
         "ngɔn ebulú",
-        "nge",
-        "e"
+        "nge"
     ],
     "october": [
         "ngɔn awóm",
-        "nga",
-        "a"
+        "nga"
     ],
     "november": [
         "ngɔn awóm ai dziá",
-        "ngad",
-        "d"
+        "ngad"
     ],
     "december": [
         "ngɔn awóm ai bɛ̌",
-        "ngab",
-        "b"
+        "ngab"
     ],
     "monday": [
         "mɔ́ndi",
-        "mɔ́n",
-        "m"
+        "mɔ́n"
     ],
     "tuesday": [
         "sɔ́ndɔ məlú mə́bɛ̌",
-        "smb",
-        "s"
+        "smb"
     ],
     "wednesday": [
         "sɔ́ndɔ məlú mə́lɛ́",
-        "sml",
-        "s"
+        "sml"
     ],
     "thursday": [
         "sɔ́ndɔ məlú mə́nyi",
-        "smn",
-        "s"
+        "smn"
     ],
     "friday": [
         "fúladé",
-        "fúl",
-        "f"
+        "fúl"
     ],
     "saturday": [
         "séradé",
-        "sér",
-        "s"
+        "sér"
     ],
     "sunday": [
         "sɔ́ndɔ",
-        "sɔ́n",
-        "s"
+        "sɔ́n"
     ],
     "am": [
         "kíkíríg"
@@ -170,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

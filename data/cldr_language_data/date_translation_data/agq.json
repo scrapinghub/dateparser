@@ -3,104 +3,85 @@
     "date_order": "DMY",
     "january": [
         "ndzɔ̀ŋɔ̀nùm",
-        "nùm",
-        "n"
+        "nùm"
     ],
     "february": [
         "ndzɔ̀ŋɔ̀kɨ̀zùʔ",
-        "kɨz",
-        "k"
+        "kɨz"
     ],
     "march": [
         "ndzɔ̀ŋɔ̀tɨ̀dʉ̀ghà",
-        "tɨd",
-        "t"
+        "tɨd"
     ],
     "april": [
         "ndzɔ̀ŋɔ̀tǎafʉ̄ghā",
-        "taa",
-        "t"
+        "taa"
     ],
     "may": [
         "ndzɔ̀ŋèsèe",
-        "see",
-        "s"
+        "see"
     ],
     "june": [
         "ndzɔ̀ŋɔ̀nzùghò",
-        "nzu",
-        "z"
+        "nzu"
     ],
     "july": [
         "ndzɔ̀ŋɔ̀dùmlo",
-        "dum",
-        "k"
+        "dum"
     ],
     "august": [
         "ndzɔ̀ŋɔ̀kwîfɔ̀e",
-        "fɔe",
-        "f"
+        "fɔe"
     ],
     "september": [
         "ndzɔ̀ŋɔ̀tɨ̀fʉ̀ghàdzughù",
-        "dzu",
-        "d"
+        "dzu"
     ],
     "october": [
         "ndzɔ̀ŋɔ̀ghǔuwelɔ̀m",
-        "lɔm",
-        "l"
+        "lɔm"
     ],
     "november": [
         "ndzɔ̀ŋɔ̀chwaʔàkaa wo",
-        "kaa",
-        "c"
+        "kaa"
     ],
     "december": [
         "ndzɔ̀ŋèfwòo",
-        "fwo",
-        "f"
+        "fwo"
     ],
     "monday": [
         "tsuʔukpà",
-        "kpa",
-        "k"
+        "kpa"
     ],
     "tuesday": [
         "tsuʔughɔe",
-        "ghɔ",
-        "g"
+        "ghɔ"
     ],
     "wednesday": [
         "tsuʔutɔ̀mlò",
-        "tɔm",
-        "t"
+        "tɔm"
     ],
     "thursday": [
         "tsuʔumè",
-        "ume",
-        "u"
+        "ume"
     ],
     "friday": [
         "tsuʔughɨ̂m",
-        "ghɨ",
-        "g"
+        "ghɨ"
     ],
     "saturday": [
         "tsuʔndzɨkɔʔɔ",
-        "dzk",
-        "d"
+        "dzk"
     ],
     "sunday": [
         "tsuʔntsɨ",
-        "nts",
-        "n"
+        "nts"
     ],
     "am": [
-        "a.g"
+        "ag"
     ],
     "pm": [
-        "a.k"
+        "ak"
     ],
     "year": [
         "kɨnûm"
@@ -170,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

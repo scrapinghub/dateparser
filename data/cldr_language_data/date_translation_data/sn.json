@@ -3,106 +3,85 @@
     "date_order": "YMD",
     "january": [
         "ndira",
-        "ndi",
-        "n"
+        "ndi"
     ],
     "february": [
         "kukadzi",
-        "kuk",
-        "k"
+        "kuk"
     ],
     "march": [
         "kurume",
-        "kur",
-        "k"
+        "kur"
     ],
     "april": [
         "kubvumbi",
-        "kub",
-        "k"
+        "kub"
     ],
     "may": [
         "chivabvu",
-        "chv",
-        "c"
+        "chv"
     ],
     "june": [
         "chikumi",
-        "chk",
-        "c"
+        "chk"
     ],
     "july": [
         "chikunguru",
-        "chg",
-        "c"
+        "chg"
     ],
     "august": [
         "nyamavhuvhu",
-        "nya",
-        "n"
+        "nya"
     ],
     "september": [
         "gunyana",
-        "gun",
-        "g"
+        "gun"
     ],
     "october": [
         "gumiguru",
-        "gum",
-        "g"
+        "gum"
     ],
     "november": [
         "mbudzi",
-        "mbu",
-        "m"
+        "mbu"
     ],
     "december": [
         "zvita",
-        "zvi",
-        "z"
+        "zvi"
     ],
     "monday": [
         "muvhuro",
-        "muv",
-        "m"
+        "muv"
     ],
     "tuesday": [
         "chipiri",
-        "chp",
-        "c"
+        "chp"
     ],
     "wednesday": [
         "chitatu",
-        "cht",
-        "c"
+        "cht"
     ],
     "thursday": [
         "china",
-        "chn",
-        "c"
+        "chn"
     ],
     "friday": [
         "chishanu",
-        "chs",
-        "c"
+        "chs"
     ],
     "saturday": [
         "mugovera",
-        "mug",
-        "m"
+        "mug"
     ],
     "sunday": [
         "svondo",
-        "svo",
-        "s"
+        "svo"
     ],
     "am": [
-        "am",
-        "a"
+        "am"
     ],
     "pm": [
-        "pm",
-        "p"
+        "pm"
     ],
     "year": [
         "gore"
@@ -172,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

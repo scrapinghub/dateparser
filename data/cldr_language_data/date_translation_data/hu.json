@@ -3,63 +3,51 @@
     "date_order": "YMD",
     "january": [
         "január",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "február",
-        "febr",
-        "f"
+        "febr"
     ],
     "march": [
         "március",
-        "márc",
-        "m"
+        "márc"
     ],
     "april": [
         "április",
-        "ápr",
-        "á"
+        "ápr"
     ],
     "may": [
         "május",
-        "máj",
-        "m"
+        "máj"
     ],
     "june": [
         "június",
-        "jún",
-        "j"
+        "jún"
     ],
     "july": [
         "július",
-        "júl",
-        "j"
+        "júl"
     ],
     "august": [
         "augusztus",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "szeptember",
-        "szept",
-        "sz"
+        "szept"
     ],
     "october": [
         "október",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "december",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
         "hétfő",
@@ -71,8 +59,7 @@
     ],
     "wednesday": [
         "szerda",
-        "sze",
-        "sz"
+        "sze"
     ],
     "thursday": [
         "csütörtök",
@@ -84,8 +71,7 @@
     ],
     "saturday": [
         "szombat",
-        "szo",
-        "sz"
+        "szo"
     ],
     "sunday": [
         "vasárnap",

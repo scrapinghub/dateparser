@@ -4,97 +4,78 @@ info = {
     "date_order": "DMY",
     "january": [
         "janar",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "shkurt",
-        "shk",
-        "s"
+        "shk"
     ],
     "march": [
         "mars",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "prill",
-        "pri",
-        "p"
+        "pri"
     ],
     "may": [
-        "maj",
-        "m"
+        "maj"
     ],
     "june": [
         "qershor",
-        "qer",
-        "q"
+        "qer"
     ],
     "july": [
         "korrik",
-        "kor",
-        "k"
+        "kor"
     ],
     "august": [
         "gusht",
-        "gsh",
-        "g"
+        "gsh"
     ],
     "september": [
         "shtator",
-        "sht",
-        "s"
+        "sht"
     ],
     "october": [
         "tetor",
-        "tet",
-        "t"
+        "tet"
     ],
     "november": [
         "nëntor",
-        "nën",
-        "n"
+        "nën"
     ],
     "december": [
         "dhjetor",
-        "dhj",
-        "d"
+        "dhj"
     ],
     "monday": [
         "e hënë",
-        "hën",
-        "h"
+        "hën"
     ],
     "tuesday": [
         "e martë",
-        "mar",
-        "m"
+        "mar"
     ],
     "wednesday": [
         "e mërkurë",
-        "mër",
-        "m"
+        "mër"
     ],
     "thursday": [
         "e enjte",
-        "enj",
-        "e"
+        "enj"
     ],
     "friday": [
         "e premte",
-        "pre",
-        "p"
+        "pre"
     ],
     "saturday": [
         "e shtunë",
-        "sht",
-        "s"
+        "sht"
     ],
     "sunday": [
         "e diel",
-        "die",
-        "d"
+        "die"
     ],
     "am": [
         "paradite",

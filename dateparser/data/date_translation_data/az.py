@@ -51,11 +51,11 @@ info = {
     ],
     "monday": [
         "bazar ertəsi",
-        "b.e"
+        "be"
     ],
     "tuesday": [
         "çərşənbə axşamı",
-        "ç.a"
+        "ça"
     ],
     "wednesday": [
         "çərşənbə",
@@ -63,7 +63,7 @@ info = {
     ],
     "thursday": [
         "cümə axşamı",
-        "c.a"
+        "ca"
     ],
     "friday": [
         "cümə",
@@ -78,12 +78,10 @@ info = {
         "b"
     ],
     "am": [
-        "am",
-        "a"
+        "am"
     ],
     "pm": [
-        "pm",
-        "p"
+        "pm"
     ],
     "year": [
         "il"

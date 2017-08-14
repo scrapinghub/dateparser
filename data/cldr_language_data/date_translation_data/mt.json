@@ -3,111 +3,79 @@
     "date_order": "DMY",
     "january": [
         "jannar",
-        "jan",
-        "jn",
-        "j"
+        "jan"
     ],
     "february": [
         "frar",
-        "fra",
-        "fr",
-        "f"
+        "fra"
     ],
     "march": [
         "marzu",
-        "mar",
-        "mz",
-        "m"
+        "mar"
     ],
     "april": [
         "april",
-        "apr",
-        "ap",
-        "a"
+        "apr"
     ],
     "may": [
         "mejju",
-        "mej",
-        "mj",
-        "m"
+        "mej"
     ],
     "june": [
         "ġunju",
-        "ġun",
-        "ġn",
-        "ġ"
+        "ġun"
     ],
     "july": [
         "lulju",
-        "lul",
-        "lj",
-        "l"
+        "lul"
     ],
     "august": [
         "awwissu",
-        "aww",
-        "aw",
-        "a"
+        "aww"
     ],
     "september": [
         "settembru",
-        "set",
-        "st",
-        "s"
+        "set"
     ],
     "october": [
         "ottubru",
-        "ott",
-        "ob",
-        "o"
+        "ott"
     ],
     "november": [
         "novembru",
-        "nov",
-        "nv",
-        "n"
+        "nov"
     ],
     "december": [
         "diċembru",
-        "diċ",
-        "dċ",
-        "d"
+        "diċ"
     ],
     "monday": [
         "it-tnejn",
-        "tne",
-        "tn",
-        "t"
+        "tne"
     ],
     "tuesday": [
         "it-tlieta",
-        "tli",
-        "tl"
+        "tli"
     ],
     "wednesday": [
         "l-erbgħa",
-        "erb",
-        "er"
+        "erb"
     ],
     "thursday": [
         "il-ħamis",
-        "ħam",
-        "ħm"
+        "ħam"
     ],
     "friday": [
         "il-ġimgħa",
-        "ġim",
-        "ġm"
+        "ġim"
     ],
     "saturday": [
         "is-sibt",
-        "sib",
-        "sb"
+        "sib"
     ],
     "sunday": [
         "il-ħadd",
-        "ħad",
-        "ħd"
+        "ħad"
     ],
     "am": [
         "am"

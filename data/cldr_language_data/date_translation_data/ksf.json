@@ -51,38 +51,31 @@
     ],
     "monday": [
         "lǝndí",
-        "lǝn",
-        "l"
+        "lǝn"
     ],
     "tuesday": [
         "maadí",
-        "maa",
-        "m"
+        "maa"
     ],
     "wednesday": [
         "mɛkrɛdí",
-        "mɛk",
-        "m"
+        "mɛk"
     ],
     "thursday": [
         "jǝǝdí",
-        "jǝǝ",
-        "j"
+        "jǝǝ"
     ],
     "friday": [
         "júmbá",
-        "júm",
-        "j"
+        "júm"
     ],
     "saturday": [
         "samdí",
-        "sam",
-        "s"
+        "sam"
     ],
     "sunday": [
         "sɔ́ndǝ",
-        "sɔ́n",
-        "s"
+        "sɔ́n"
     ],
     "am": [
         "sárúwá"
@@ -158,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

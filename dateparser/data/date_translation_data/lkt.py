@@ -39,38 +39,25 @@ info = {
         "tȟahékapšuŋ wí"
     ],
     "monday": [
-        "aŋpétuwaŋži",
-        "m",
-        "w"
+        "aŋpétuwaŋži"
     ],
     "tuesday": [
-        "aŋpétunuŋpa",
-        "t",
-        "n"
+        "aŋpétunuŋpa"
     ],
     "wednesday": [
-        "aŋpétuyamni",
-        "w",
-        "y"
+        "aŋpétuyamni"
     ],
     "thursday": [
-        "aŋpétutopa",
-        "t"
+        "aŋpétutopa"
     ],
     "friday": [
-        "aŋpétuzaptaŋ",
-        "f",
-        "z"
+        "aŋpétuzaptaŋ"
     ],
     "saturday": [
-        "owáŋgyužažapi",
-        "s",
-        "o"
+        "owáŋgyužažapi"
     ],
     "sunday": [
-        "aŋpétuwakȟaŋ",
-        "s",
-        "a"
+        "aŋpétuwakȟaŋ"
     ],
     "am": [
         "am"
@@ -94,14 +81,14 @@ info = {
         "owápȟe"
     ],
     "minute": [
-        "owápȟe oȟʼáŋkȟo"
+        "owápȟe oȟ'áŋkȟo"
     ],
     "second": [
         "okpí"
     ],
     "relative-type": {
         "1 year ago": [
-            "ómakȟa kʼuŋ héhaŋ"
+            "ómakȟa k'uŋ héhaŋ"
         ],
         "0 year ago": [
             "lé ómakȟa kiŋ"
@@ -110,7 +97,7 @@ info = {
             "tȟokáta ómakȟa kiŋháŋ"
         ],
         "1 month ago": [
-            "wí kʼuŋ héhaŋ"
+            "wí k'uŋ héhaŋ"
         ],
         "0 month ago": [
             "lé wí kiŋ"
@@ -119,7 +106,7 @@ info = {
             "tȟokáta wí kiŋháŋ"
         ],
         "1 week ago": [
-            "okó kʼuŋ héhaŋ"
+            "okó k'uŋ héhaŋ"
         ],
         "0 week ago": [
             "lé okó kiŋ"
@@ -151,43 +138,43 @@ info = {
             "letáŋhaŋ ómakȟa (\\d+) kiŋháŋ"
         ],
         "\\1 year ago": [
-            "hékta ómakȟa (\\d+) kʼuŋ héhaŋ"
+            "hékta ómakȟa (\\d+) k'uŋ héhaŋ"
         ],
         "in \\1 month": [
             "letáŋhaŋ wíyawapi (\\d+) kiŋháŋ"
         ],
         "\\1 month ago": [
-            "hékta wíyawapi (\\d+) kʼuŋ héhaŋ"
+            "hékta wíyawapi (\\d+) k'uŋ héhaŋ"
         ],
         "in \\1 week": [
             "letáŋhaŋ okó (\\d+) kiŋháŋ"
         ],
         "\\1 week ago": [
-            "hékta okó (\\d+) kʼuŋ héhaŋ"
+            "hékta okó (\\d+) k'uŋ héhaŋ"
         ],
         "in \\1 day": [
             "letáŋhaŋ (\\d+)-čháŋ kiŋháŋ"
         ],
         "\\1 day ago": [
-            "hékta (\\d+)-čháŋ k’uŋ héhaŋ"
+            "hékta (\\d+)-čháŋ k'uŋ héhaŋ"
         ],
         "in \\1 hour": [
             "letáŋhaŋ owápȟe (\\d+) kiŋháŋ"
         ],
         "\\1 hour ago": [
-            "hékta owápȟe (\\d+) kʼuŋ héhaŋ"
+            "hékta owápȟe (\\d+) k'uŋ héhaŋ"
         ],
         "in \\1 minute": [
-            "letáŋhaŋ oȟ’áŋkȟo (\\d+) kiŋháŋ"
+            "letáŋhaŋ oȟ'áŋkȟo (\\d+) kiŋháŋ"
         ],
         "\\1 minute ago": [
-            "hékta oȟ’áŋkȟo (\\d+) k’uŋ héhaŋ"
+            "hékta oȟ'áŋkȟo (\\d+) k'uŋ héhaŋ"
         ],
         "in \\1 second": [
             "letáŋhaŋ okpí (\\d+) kiŋháŋ"
         ],
         "\\1 second ago": [
-            "hékta okpí (\\d+) k’uŋ héhaŋ"
+            "hékta okpí (\\d+) k'uŋ héhaŋ"
         ]
     },
     "locale_specific": {},

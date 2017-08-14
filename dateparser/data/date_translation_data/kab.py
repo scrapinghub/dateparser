@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "yennayer",
-        "yen",
-        "y"
+        "yen"
     ],
     "february": [
         "fuṛar",
-        "fur",
-        "f"
+        "fur"
     ],
     "march": [
         "meɣres",
-        "meɣ",
-        "m"
+        "meɣ"
     ],
     "april": [
         "yebrir",
-        "yeb",
-        "y"
+        "yeb"
     ],
     "may": [
         "mayyu",
-        "may",
-        "m"
+        "may"
     ],
     "june": [
         "yunyu",
-        "yun",
-        "y"
+        "yun"
     ],
     "july": [
         "yulyu",
-        "yul",
-        "y"
+        "yul"
     ],
     "august": [
         "ɣuct",
-        "ɣuc",
-        "ɣ"
+        "ɣuc"
     ],
     "september": [
         "ctembeṛ",
-        "cte",
-        "c"
+        "cte"
     ],
     "october": [
         "tubeṛ",
-        "tub",
-        "t"
+        "tub"
     ],
     "november": [
         "nunembeṛ",
-        "nun",
-        "n"
+        "nun"
     ],
     "december": [
         "duǧembeṛ",
-        "duǧ",
-        "d"
+        "duǧ"
     ],
     "monday": [
         "sanass",
-        "san",
-        "s"
+        "san"
     ],
     "tuesday": [
         "kraḍass",
-        "kraḍ",
-        "k"
+        "kraḍ"
     ],
     "wednesday": [
         "kuẓass",
-        "kuẓ",
-        "k"
+        "kuẓ"
     ],
     "thursday": [
         "samass",
-        "sam",
-        "s"
+        "sam"
     ],
     "friday": [
         "sḍisass",
-        "sḍis",
-        "s"
+        "sḍis"
     ],
     "saturday": [
         "sayass",
-        "say",
-        "s"
+        "say"
     ],
     "sunday": [
         "yanass",
-        "yan",
-        "y"
+        "yan"
     ],
     "am": [
         "n tufat"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

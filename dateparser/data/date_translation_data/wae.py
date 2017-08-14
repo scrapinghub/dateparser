@@ -4,98 +4,79 @@ info = {
     "date_order": "YMD",
     "january": [
         "jenner",
-        "jen",
-        "j"
+        "jen"
     ],
     "february": [
         "hornig",
-        "hor",
-        "h"
+        "hor"
     ],
     "march": [
         "märze",
-        "mär",
-        "m"
+        "mär"
     ],
     "april": [
         "abrille",
-        "abr",
-        "a"
+        "abr"
     ],
     "may": [
         "meije",
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "bráčet",
-        "brá",
-        "b"
+        "brá"
     ],
     "july": [
         "heiwet",
-        "hei",
-        "h"
+        "hei"
     ],
     "august": [
         "öigšte",
-        "öig",
-        "ö"
+        "öig"
     ],
     "september": [
         "herbštmánet",
-        "her",
-        "h"
+        "her"
     ],
     "october": [
         "wímánet",
-        "wím",
-        "w"
+        "wím"
     ],
     "november": [
         "wintermánet",
-        "win",
-        "w"
+        "win"
     ],
     "december": [
         "chrištmánet",
-        "chr",
-        "c"
+        "chr"
     ],
     "monday": [
         "mäntag",
-        "män",
-        "m"
+        "män"
     ],
     "tuesday": [
         "zištag",
-        "ziš",
-        "z"
+        "ziš"
     ],
     "wednesday": [
         "mittwuč",
-        "mit",
-        "m"
+        "mit"
     ],
     "thursday": [
         "fróntag",
-        "fró",
-        "f"
+        "fró"
     ],
     "friday": [
         "fritag",
-        "fri",
-        "f"
+        "fri"
     ],
     "saturday": [
         "samštag",
-        "sam",
-        "s"
+        "sam"
     ],
     "sunday": [
         "sunntag",
-        "sun",
-        "s"
+        "sun"
     ],
     "am": [
         "am"

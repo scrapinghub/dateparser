@@ -4,95 +4,76 @@ info = {
     "date_order": "DMY",
     "january": [
         "zanvie",
-        "zan",
-        "z"
+        "zan"
     ],
     "february": [
         "fevriye",
-        "fev",
-        "f"
+        "fev"
     ],
     "march": [
         "mars",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "avril",
-        "avr",
-        "a"
+        "avr"
     ],
     "may": [
-        "me",
-        "m"
+        "me"
     ],
     "june": [
-        "zin",
-        "z"
+        "zin"
     ],
     "july": [
         "zilye",
-        "zil",
-        "z"
+        "zil"
     ],
     "august": [
-        "out",
-        "o"
+        "out"
     ],
     "september": [
         "septam",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktob",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novam",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desam",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "lindi",
-        "lin",
-        "l"
+        "lin"
     ],
     "tuesday": [
         "mardi",
-        "mar",
-        "m"
+        "mar"
     ],
     "wednesday": [
         "merkredi",
-        "mer",
-        "m"
+        "mer"
     ],
     "thursday": [
         "zedi",
-        "ze",
-        "z"
+        "ze"
     ],
     "friday": [
         "vandredi",
-        "van",
-        "v"
+        "van"
     ],
     "saturday": [
         "samdi",
-        "sam",
-        "s"
+        "sam"
     ],
     "sunday": [
         "dimans",
-        "dim",
-        "d"
+        "dim"
     ],
     "am": [
         "am"
@@ -168,7 +149,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

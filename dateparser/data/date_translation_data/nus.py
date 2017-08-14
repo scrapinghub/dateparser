@@ -4,95 +4,76 @@ info = {
     "date_order": "DMY",
     "january": [
         "tiop thar pɛt",
-        "tiop",
-        "t"
+        "tiop"
     ],
     "february": [
-        "pɛt",
-        "p"
+        "pɛt"
     ],
     "march": [
         "duɔ̱ɔ̱ŋ",
-        "duɔ̱ɔ̱",
-        "d"
+        "duɔ̱ɔ̱"
     ],
     "april": [
-        "guak",
-        "g"
+        "guak"
     ],
     "may": [
         "duät",
-        "duä",
-        "d"
+        "duä"
     ],
     "june": [
         "kornyoot",
-        "kor",
-        "k"
+        "kor"
     ],
     "july": [
         "pay yie̱tni",
-        "pay",
-        "p"
+        "pay"
     ],
     "august": [
         "tho̱o̱r",
-        "thoo",
-        "t"
+        "thoo"
     ],
     "september": [
         "tɛɛr",
-        "tɛɛ",
-        "t"
+        "tɛɛ"
     ],
     "october": [
         "laath",
-        "laa",
-        "l"
+        "laa"
     ],
     "november": [
-        "kur",
-        "k"
+        "kur"
     ],
     "december": [
         "tio̱p in di̱i̱t",
-        "tid",
-        "t"
+        "tid"
     ],
     "monday": [
         "jiec la̱t",
-        "jiec",
-        "j"
+        "jiec"
     ],
     "tuesday": [
         "rɛw lätni",
-        "rɛw",
-        "r"
+        "rɛw"
     ],
     "wednesday": [
         "diɔ̱k lätni",
-        "diɔ̱k",
-        "d"
+        "diɔ̱k"
     ],
     "thursday": [
         "ŋuaan lätni",
-        "ŋuaan",
-        "ŋ"
+        "ŋuaan"
     ],
     "friday": [
         "dhieec lätni",
-        "dhieec",
-        "d"
+        "dhieec"
     ],
     "saturday": [
         "bäkɛl lätni",
-        "bäkɛl",
-        "b"
+        "bäkɛl"
     ],
     "sunday": [
         "cäŋ kuɔth",
-        "cäŋ",
-        "c"
+        "cäŋ"
     ],
     "am": [
         "rw"
@@ -168,7 +149,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

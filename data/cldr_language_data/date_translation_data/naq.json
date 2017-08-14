@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "ǃkhanni",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "ǃkhanǀgôab",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "ǀkhuuǁkhâb",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "ǃhôaǂkhaib",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
         "ǃkhaitsâb",
-        "may",
-        "m"
+        "may"
     ],
     "june": [
         "gamaǀaeb",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "ǂkhoesaob",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "aoǁkhuumûǁkhâb",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "taraǀkhuumûǁkhâb",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "ǂnûǁnâiseb",
-        "oct",
-        "o"
+        "oct"
     ],
     "november": [
         "ǀhooǂgaeb",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "hôasoreǁkhâb",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
         "mantaxtsees",
-        "ma",
-        "m"
+        "ma"
     ],
     "tuesday": [
         "denstaxtsees",
-        "de",
-        "e"
+        "de"
     ],
     "wednesday": [
         "wunstaxtsees",
-        "wu",
-        "w"
+        "wu"
     ],
     "thursday": [
         "dondertaxtsees",
-        "do",
-        "d"
+        "do"
     ],
     "friday": [
         "fraitaxtsees",
-        "fr",
-        "f"
+        "fr"
     ],
     "saturday": [
         "satertaxtsees",
-        "sat",
-        "a"
+        "sat"
     ],
     "sunday": [
         "sontaxtsees",
-        "son",
-        "s"
+        "son"
     ],
     "am": [
         "ǁgoagas"
@@ -170,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

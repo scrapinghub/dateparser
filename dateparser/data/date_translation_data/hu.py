@@ -5,75 +5,63 @@ info = {
     "january": [
         "január",
         "jan",
-        "j",
         "I."
     ],
     "february": [
         "február",
         "febr",
-        "f",
         "feb.",
         "II."
     ],
     "march": [
         "március",
         "márc",
-        "m",
         "már.",
         "III."
     ],
     "april": [
         "április",
         "ápr",
-        "á",
         "IV."
     ],
     "may": [
         "május",
         "máj",
-        "m",
         "V."
     ],
     "june": [
         "június",
         "jún",
-        "j",
         "VI."
     ],
     "july": [
         "július",
         "júl",
-        "j",
         "VII."
     ],
     "august": [
         "augusztus",
         "aug",
-        "a",
         "VIII."
     ],
     "september": [
         "szeptember",
         "szept",
-        "sz",
         "IX."
     ],
     "october": [
         "október",
         "okt",
-        "o",
         "X."
     ],
     "november": [
         "november",
         "nov",
-        "n",
         "XI."
     ],
     "december": [
         "december",
         "dec",
-        "d",
         "XII."
     ],
     "monday": [
@@ -86,8 +74,7 @@ info = {
     ],
     "wednesday": [
         "szerda",
-        "sze",
-        "sz"
+        "sze"
     ],
     "thursday": [
         "csütörtök",
@@ -99,8 +86,7 @@ info = {
     ],
     "saturday": [
         "szombat",
-        "szo",
-        "sz"
+        "szo"
     ],
     "sunday": [
         "vasárnap",

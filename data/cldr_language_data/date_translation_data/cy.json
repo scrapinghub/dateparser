@@ -3,106 +3,85 @@
     "date_order": "DMY",
     "january": [
         "ionawr",
-        "ion",
-        "i"
+        "ion"
     ],
     "february": [
         "chwefror",
         "chw",
-        "ch",
         "chwef"
     ],
     "march": [
         "mawrth",
-        "maw",
-        "m"
+        "maw"
     ],
     "april": [
         "ebrill",
-        "ebr",
-        "e"
+        "ebr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "mehefin",
-        "meh",
-        "m"
+        "meh"
     ],
     "july": [
         "gorffennaf",
         "gor",
-        "g",
         "gorff"
     ],
     "august": [
-        "awst",
-        "a"
+        "awst"
     ],
     "september": [
-        "medi",
-        "m"
+        "medi"
     ],
     "october": [
         "hydref",
-        "hyd",
-        "h"
+        "hyd"
     ],
     "november": [
         "tachwedd",
-        "tach",
-        "t"
+        "tach"
     ],
     "december": [
         "rhagfyr",
-        "rhag",
-        "rh"
+        "rhag"
     ],
     "monday": [
         "dydd llun",
-        "llun",
-        "ll"
+        "llun"
     ],
     "tuesday": [
         "dydd mawrth",
-        "maw",
-        "m"
+        "maw"
     ],
     "wednesday": [
         "dydd mercher",
-        "mer",
-        "m"
+        "mer"
     ],
     "thursday": [
         "dydd iau",
-        "iau",
-        "i"
+        "iau"
     ],
     "friday": [
         "dydd gwener",
         "gwe",
-        "g",
         "gwen"
     ],
     "saturday": [
         "dydd sadwrn",
-        "sad",
-        "s"
+        "sad"
     ],
     "sunday": [
         "dydd sul",
-        "sul",
-        "s"
+        "sul"
     ],
     "am": [
-        "yb",
-        "b"
+        "yb"
     ],
     "pm": [
-        "yh",
-        "h"
+        "yh"
     ],
     "year": [
         "blwyddyn",
@@ -176,44 +155,36 @@
     },
     "relative-type-regex": {
         "in \\1 year": [
-            "ymhen blwyddyn",
             "ymhen {0} mlynedd"
         ],
         "\\1 year ago": [
-            "blwyddyn yn ôl",
             "{0} o flynyddoedd yn ôl"
         ],
         "in \\1 month": [
-            "ymhen mis",
             "ymhen {0} mis"
         ],
         "\\1 month ago": [
             "{0} mis yn ôl"
         ],
         "in \\1 week": [
-            "ymhen wythnos",
             "ymhen {0} wythnos"
         ],
         "\\1 week ago": [
             "{0} wythnos yn ôl"
         ],
         "in \\1 day": [
-            "ymhen diwrnod",
             "ymhen {0} diwrnod"
         ],
         "\\1 day ago": [
             "{0} diwrnod yn ôl"
         ],
         "in \\1 hour": [
-            "ymhen awr",
             "ymhen {0} awr"
         ],
         "\\1 hour ago": [
-            "awr yn ôl",
             "{0} awr yn ôl"
         ],
         "in \\1 minute": [
-            "ymhen munud",
             "ymhen {0} munud",
             "ymhen {0} mun"
         ],
@@ -222,11 +193,9 @@
             "{0} mun yn ôl"
         ],
         "in \\1 second": [
-            "ymhen eiliad",
             "ymhen {0} eiliad"
         ],
         "\\1 second ago": [
-            "eiliad yn ôl",
             "{0} eiliad yn ôl"
         ]
     },

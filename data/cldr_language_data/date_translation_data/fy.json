@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "jannewaris",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "febrewaris",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "maart",
-        "mrt",
-        "m"
+        "mrt"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
         "maaie",
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "juny",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "july",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "augustus",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "septimber",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novimber",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desimber",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "moandei",
-        "mo",
-        "m"
+        "mo"
     ],
     "tuesday": [
         "tiisdei",
-        "ti",
-        "t"
+        "ti"
     ],
     "wednesday": [
         "woansdei",
-        "wo",
-        "w"
+        "wo"
     ],
     "thursday": [
         "tongersdei",
-        "to",
-        "t"
+        "to"
     ],
     "friday": [
         "freed",
-        "fr",
-        "f"
+        "fr"
     ],
     "saturday": [
         "sneon",
-        "so",
-        "s"
+        "so"
     ],
     "sunday": [
         "snein",
-        "si",
-        "s"
+        "si"
     ],
     "am": [
         "am"

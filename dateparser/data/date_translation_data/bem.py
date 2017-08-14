@@ -4,90 +4,71 @@ info = {
     "date_order": "DMY",
     "january": [
         "januari",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februari",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "machi",
-        "mac",
-        "m"
+        "mac"
     ],
     "april": [
         "epreo",
-        "epr",
-        "e"
+        "epr"
     ],
     "may": [
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julai",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "ogasti",
-        "oga",
-        "o"
+        "oga"
     ],
     "september": [
         "septemba",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktoba",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novemba",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "disemba",
-        "dis",
-        "d"
+        "dis"
     ],
     "monday": [
-        "palichimo",
-        "m"
+        "palichimo"
     ],
     "tuesday": [
-        "palichibuli",
-        "t"
+        "palichibuli"
     ],
     "wednesday": [
-        "palichitatu",
-        "w"
+        "palichitatu"
     ],
     "thursday": [
-        "palichine",
-        "t"
+        "palichine"
     ],
     "friday": [
-        "palichisano",
-        "f"
+        "palichisano"
     ],
     "saturday": [
-        "pachibelushi",
-        "s"
+        "pachibelushi"
     ],
     "sunday": [
-        "pa mulungu",
-        "s"
+        "pa mulungu"
     ],
     "am": [
         "uluchelo"
@@ -163,7 +144,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

@@ -4,28 +4,23 @@ info = {
     "date_order": "MDY",
     "january": [
         "enero",
-        "ene",
-        "e"
+        "ene"
     ],
     "february": [
         "pebrero",
-        "peb",
-        "p"
+        "peb"
     ],
     "march": [
         "marso",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "abril",
-        "abr",
-        "a"
+        "abr"
     ],
     "may": [
         "mayo",
-        "may",
-        "m"
+        "may"
     ],
     "june": [
         "hunyo",

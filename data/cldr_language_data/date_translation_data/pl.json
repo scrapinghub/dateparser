@@ -4,116 +4,95 @@
     "january": [
         "styczeń",
         "sty",
-        "s",
         "stycznia"
     ],
     "february": [
         "luty",
         "lut",
-        "l",
         "lutego"
     ],
     "march": [
         "marzec",
         "mar",
-        "m",
         "marca"
     ],
     "april": [
         "kwiecień",
         "kwi",
-        "k",
         "kwietnia"
     ],
     "may": [
         "maj",
-        "m",
         "maja"
     ],
     "june": [
         "czerwiec",
         "cze",
-        "c",
         "czerwca"
     ],
     "july": [
         "lipiec",
         "lip",
-        "l",
         "lipca"
     ],
     "august": [
         "sierpień",
         "sie",
-        "s",
         "sierpnia"
     ],
     "september": [
         "wrzesień",
         "wrz",
-        "w",
         "września"
     ],
     "october": [
         "październik",
         "paź",
-        "p",
         "października"
     ],
     "november": [
         "listopad",
         "lis",
-        "l",
         "listopada"
     ],
     "december": [
         "grudzień",
         "gru",
-        "g",
         "grudnia"
     ],
     "monday": [
         "poniedziałek",
-        "pon",
-        "p"
+        "pon"
     ],
     "tuesday": [
         "wtorek",
-        "wt",
-        "w"
+        "wt"
     ],
     "wednesday": [
         "środa",
-        "śr",
-        "ś"
+        "śr"
     ],
     "thursday": [
         "czwartek",
-        "czw",
-        "c"
+        "czw"
     ],
     "friday": [
         "piątek",
-        "pt",
-        "p"
+        "pt"
     ],
     "saturday": [
         "sobota",
-        "sob",
-        "s"
+        "sob"
     ],
     "sunday": [
         "niedziela",
-        "niedz",
-        "n"
+        "niedz"
     ],
     "am": [
-        "am",
-        "a"
+        "am"
     ],
     "pm": [
-        "pm",
-        "p"
+        "pm"
     ],
     "year": [
         "rok",

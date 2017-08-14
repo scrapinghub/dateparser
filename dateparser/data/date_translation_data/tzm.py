@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "yennayer",
-        "yen",
-        "y"
+        "yen"
     ],
     "february": [
         "yebrayer",
-        "yeb",
-        "y"
+        "yeb"
     ],
     "march": [
         "mars",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "ibrir",
-        "ibr",
-        "i"
+        "ibr"
     ],
     "may": [
         "mayyu",
-        "may",
-        "m"
+        "may"
     ],
     "june": [
         "yunyu",
-        "yun",
-        "y"
+        "yun"
     ],
     "july": [
         "yulyuz",
-        "yul",
-        "y"
+        "yul"
     ],
     "august": [
         "ɣuct",
-        "ɣuc",
-        "ɣ"
+        "ɣuc"
     ],
     "september": [
         "cutanbir",
-        "cut",
-        "c"
+        "cut"
     ],
     "october": [
         "kṭuber",
-        "kṭu",
-        "k"
+        "kṭu"
     ],
     "november": [
         "nwanbir",
-        "nwa",
-        "n"
+        "nwa"
     ],
     "december": [
         "dujanbir",
-        "duj",
-        "d"
+        "duj"
     ],
     "monday": [
         "aynas",
-        "ayn",
-        "a"
+        "ayn"
     ],
     "tuesday": [
         "asinas",
-        "asn",
-        "a"
+        "asn"
     ],
     "wednesday": [
         "akras",
-        "akr",
-        "a"
+        "akr"
     ],
     "thursday": [
         "akwas",
-        "akw",
-        "a"
+        "akw"
     ],
     "friday": [
         "asimwas",
-        "asm",
-        "a"
+        "asm"
     ],
     "saturday": [
         "asiḍyas",
-        "asḍ",
-        "a"
+        "asḍ"
     ],
     "sunday": [
         "asamas",
-        "asa",
-        "a"
+        "asa"
     ],
     "am": [
         "zdat azal"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

@@ -1,5 +1,22 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
+from git import Repo
+import os
+
+
+def get_raw_data():
+    cldr_dates_full_url = "https://github.com/unicode-cldr/cldr-dates-full.git"
+    cldr_core_url = "https://github.com/unicode-cldr/cldr-core.git"
+    cldr_rbnf_url = "https://github.com/unicode-cldr/cldr-rbnf.git"
+    raw_data_directory = "../raw_data"
+    cldr_dates_full_dir = "../raw_data/cldr_dates_full/"
+    cldr_core_dir = "../raw_data/cldr_core/"
+    cldr_rbnf_dir = "../raw_data/cldr_rbnf/"
+    if not os.path.isdir(raw_data_directory):
+        os.mkdir(raw_data_directory)
+        Repo.clone_from(cldr_dates_full_url, cldr_dates_full_dir, branch='master')
+        Repo.clone_from(cldr_core_url, cldr_core_dir, branch='master')
+        Repo.clone_from(cldr_rbnf_url, cldr_rbnf_dir, branch='master')
 
 
 def get_dict_difference(parent_dict, child_dict):

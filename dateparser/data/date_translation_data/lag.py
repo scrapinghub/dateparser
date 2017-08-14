@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "kʉfúngatɨ",
-        "fúngatɨ",
-        "f"
+        "fúngatɨ"
     ],
     "february": [
         "kʉnaanɨ",
-        "naanɨ",
-        "n"
+        "naanɨ"
     ],
     "march": [
         "kʉkeenda",
-        "keenda",
-        "k"
+        "keenda"
     ],
     "april": [
         "kwiikumi",
-        "ikúmi",
-        "i"
+        "ikúmi"
     ],
     "may": [
         "kwiinyambála",
-        "inyambala",
-        "i"
+        "inyambala"
     ],
     "june": [
         "kwiidwaata",
-        "idwaata",
-        "i"
+        "idwaata"
     ],
     "july": [
         "kʉmʉʉnchɨ",
-        "mʉʉnchɨ",
-        "m"
+        "mʉʉnchɨ"
     ],
     "august": [
         "kʉvɨɨrɨ",
-        "vɨɨrɨ",
-        "v"
+        "vɨɨrɨ"
     ],
     "september": [
         "kʉsaatʉ",
-        "saatʉ",
-        "s"
+        "saatʉ"
     ],
     "october": [
         "kwiinyi",
-        "inyi",
-        "i"
+        "inyi"
     ],
     "november": [
         "kʉsaano",
-        "saano",
-        "s"
+        "saano"
     ],
     "december": [
         "kʉsasatʉ",
-        "sasatʉ",
-        "s"
+        "sasatʉ"
     ],
     "monday": [
         "jumatátu",
-        "táatu",
-        "t"
+        "táatu"
     ],
     "tuesday": [
         "jumaíne",
-        "íne",
-        "e"
+        "íne"
     ],
     "wednesday": [
         "jumatáano",
-        "táano",
-        "o"
+        "táano"
     ],
     "thursday": [
         "alamíisi",
-        "alh",
-        "a"
+        "alh"
     ],
     "friday": [
         "ijumáa",
-        "ijm",
-        "i"
+        "ijm"
     ],
     "saturday": [
         "jumamóosi",
-        "móosi",
-        "m"
+        "móosi"
     ],
     "sunday": [
         "jumapíiri",
-        "píili",
-        "p"
+        "píili"
     ],
     "am": [
         "too"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

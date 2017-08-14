@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "janeiro",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "fevereiro",
-        "fev",
-        "f"
+        "fev"
     ],
     "march": [
         "março",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "abril",
-        "abr",
-        "a"
+        "abr"
     ],
     "may": [
         "maio",
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "junho",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julho",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "agosto",
-        "ago",
-        "a"
+        "ago"
     ],
     "september": [
         "setembro",
-        "set",
-        "s"
+        "set"
     ],
     "october": [
         "outubro",
-        "out",
-        "o"
+        "out"
     ],
     "november": [
         "novembro",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "dezembro",
-        "dez",
-        "d"
+        "dez"
     ],
     "monday": [
         "segunda-feira",
-        "seg",
-        "s"
+        "seg"
     ],
     "tuesday": [
         "terça-feira",
-        "ter",
-        "t"
+        "ter"
     ],
     "wednesday": [
         "quarta-feira",
-        "qua",
-        "q"
+        "qua"
     ],
     "thursday": [
         "quinta-feira",
-        "qui",
-        "q"
+        "qui"
     ],
     "friday": [
         "sexta-feira",
-        "sex",
-        "s"
+        "sex"
     ],
     "saturday": [
         "sábado",
-        "sáb",
-        "s"
+        "sáb"
     ],
     "sunday": [
         "domingo",
-        "dom",
-        "d"
+        "dom"
     ],
     "am": [
         "am"
@@ -246,69 +227,6 @@
         ]
     },
     "locale_specific": {
-        "pt-AO": {
-            "name": "pt-AO",
-            "monday": [
-                "segunda"
-            ],
-            "tuesday": [
-                "terça"
-            ],
-            "wednesday": [
-                "quarta"
-            ],
-            "thursday": [
-                "quinta"
-            ],
-            "friday": [
-                "sexta"
-            ],
-            "am": [
-                "manhã",
-                "damanhã"
-            ],
-            "pm": [
-                "tarde",
-                "da tarde"
-            ],
-            "relative-type-regex": {
-                "in \\1 year": [
-                    "dentro de {0} ano",
-                    "dentro de {0} anos"
-                ],
-                "in \\1 month": [
-                    "dentro de {0} meses",
-                    "dentro de {0} mês"
-                ],
-                "in \\1 week": [
-                    "dentro de {0} sem",
-                    "dentro de {0} semana",
-                    "dentro de {0} semanas"
-                ],
-                "in \\1 day": [
-                    "dentro de {0} dias",
-                    "dentro de {0} dia"
-                ],
-                "in \\1 hour": [
-                    "dentro de {0} h",
-                    "dentro de {0} hora",
-                    "dentro de {0} horas"
-                ],
-                "in \\1 minute": [
-                    "dentro de {0} min",
-                    "dentro de {0} minuto",
-                    "dentro de {0} minutos"
-                ],
-                "in \\1 second": [
-                    "dentro de {0} segundo",
-                    "dentro de {0} segundos",
-                    "dentro de {0} s"
-                ],
-                "\\1 second ago": [
-                    "há {0} s"
-                ]
-            }
-        },
         "pt-CH": {
             "name": "pt-CH",
             "monday": [
@@ -328,133 +246,7 @@
             ],
             "am": [
                 "manhã",
-                "damanhã"
-            ],
-            "pm": [
-                "tarde",
-                "da tarde"
-            ],
-            "relative-type-regex": {
-                "in \\1 year": [
-                    "dentro de {0} ano",
-                    "dentro de {0} anos"
-                ],
-                "in \\1 month": [
-                    "dentro de {0} meses",
-                    "dentro de {0} mês"
-                ],
-                "in \\1 week": [
-                    "dentro de {0} sem",
-                    "dentro de {0} semana",
-                    "dentro de {0} semanas"
-                ],
-                "in \\1 day": [
-                    "dentro de {0} dias",
-                    "dentro de {0} dia"
-                ],
-                "in \\1 hour": [
-                    "dentro de {0} h",
-                    "dentro de {0} hora",
-                    "dentro de {0} horas"
-                ],
-                "in \\1 minute": [
-                    "dentro de {0} min",
-                    "dentro de {0} minuto",
-                    "dentro de {0} minutos"
-                ],
-                "in \\1 second": [
-                    "dentro de {0} segundo",
-                    "dentro de {0} segundos",
-                    "dentro de {0} s"
-                ],
-                "\\1 second ago": [
-                    "há {0} s"
-                ]
-            }
-        },
-        "pt-CV": {
-            "name": "pt-CV",
-            "monday": [
-                "segunda"
-            ],
-            "tuesday": [
-                "terça"
-            ],
-            "wednesday": [
-                "quarta"
-            ],
-            "thursday": [
-                "quinta"
-            ],
-            "friday": [
-                "sexta"
-            ],
-            "am": [
-                "manhã",
-                "damanhã"
-            ],
-            "pm": [
-                "tarde",
-                "da tarde"
-            ],
-            "relative-type-regex": {
-                "in \\1 year": [
-                    "dentro de {0} ano",
-                    "dentro de {0} anos"
-                ],
-                "in \\1 month": [
-                    "dentro de {0} meses",
-                    "dentro de {0} mês"
-                ],
-                "in \\1 week": [
-                    "dentro de {0} sem",
-                    "dentro de {0} semana",
-                    "dentro de {0} semanas"
-                ],
-                "in \\1 day": [
-                    "dentro de {0} dias",
-                    "dentro de {0} dia"
-                ],
-                "in \\1 hour": [
-                    "dentro de {0} h",
-                    "dentro de {0} hora",
-                    "dentro de {0} horas"
-                ],
-                "in \\1 minute": [
-                    "dentro de {0} min",
-                    "dentro de {0} minuto",
-                    "dentro de {0} minutos"
-                ],
-                "in \\1 second": [
-                    "dentro de {0} segundo",
-                    "dentro de {0} segundos",
-                    "dentro de {0} s"
-                ],
-                "\\1 second ago": [
-                    "há {0} s"
-                ]
-            }
-        },
-        "pt-GQ": {
-            "name": "pt-GQ",
-            "monday": [
-                "segunda"
-            ],
-            "tuesday": [
-                "terça"
-            ],
-            "wednesday": [
-                "quarta"
-            ],
-            "thursday": [
-                "quinta"
-            ],
-            "friday": [
-                "sexta"
-            ],
-            "am": [
-                "manhã",
-                "damanhã"
+                "da manhã"
             ],
             "pm": [
                 "tarde",
@@ -517,133 +309,7 @@
             ],
             "am": [
                 "manhã",
-                "damanhã"
-            ],
-            "pm": [
-                "tarde",
-                "da tarde"
-            ],
-            "relative-type-regex": {
-                "in \\1 year": [
-                    "dentro de {0} ano",
-                    "dentro de {0} anos"
-                ],
-                "in \\1 month": [
-                    "dentro de {0} meses",
-                    "dentro de {0} mês"
-                ],
-                "in \\1 week": [
-                    "dentro de {0} sem",
-                    "dentro de {0} semana",
-                    "dentro de {0} semanas"
-                ],
-                "in \\1 day": [
-                    "dentro de {0} dias",
-                    "dentro de {0} dia"
-                ],
-                "in \\1 hour": [
-                    "dentro de {0} h",
-                    "dentro de {0} hora",
-                    "dentro de {0} horas"
-                ],
-                "in \\1 minute": [
-                    "dentro de {0} min",
-                    "dentro de {0} minuto",
-                    "dentro de {0} minutos"
-                ],
-                "in \\1 second": [
-                    "dentro de {0} segundo",
-                    "dentro de {0} segundos",
-                    "dentro de {0} s"
-                ],
-                "\\1 second ago": [
-                    "há {0} s"
-                ]
-            }
-        },
-        "pt-LU": {
-            "name": "pt-LU",
-            "monday": [
-                "segunda"
-            ],
-            "tuesday": [
-                "terça"
-            ],
-            "wednesday": [
-                "quarta"
-            ],
-            "thursday": [
-                "quinta"
-            ],
-            "friday": [
-                "sexta"
-            ],
-            "am": [
-                "manhã",
-                "damanhã"
-            ],
-            "pm": [
-                "tarde",
-                "da tarde"
-            ],
-            "relative-type-regex": {
-                "in \\1 year": [
-                    "dentro de {0} ano",
-                    "dentro de {0} anos"
-                ],
-                "in \\1 month": [
-                    "dentro de {0} meses",
-                    "dentro de {0} mês"
-                ],
-                "in \\1 week": [
-                    "dentro de {0} sem",
-                    "dentro de {0} semana",
-                    "dentro de {0} semanas"
-                ],
-                "in \\1 day": [
-                    "dentro de {0} dias",
-                    "dentro de {0} dia"
-                ],
-                "in \\1 hour": [
-                    "dentro de {0} h",
-                    "dentro de {0} hora",
-                    "dentro de {0} horas"
-                ],
-                "in \\1 minute": [
-                    "dentro de {0} min",
-                    "dentro de {0} minuto",
-                    "dentro de {0} minutos"
-                ],
-                "in \\1 second": [
-                    "dentro de {0} segundo",
-                    "dentro de {0} segundos",
-                    "dentro de {0} s"
-                ],
-                "\\1 second ago": [
-                    "há {0} s"
-                ]
-            }
-        },
-        "pt-MO": {
-            "name": "pt-MO",
-            "monday": [
-                "segunda"
-            ],
-            "tuesday": [
-                "terça"
-            ],
-            "wednesday": [
-                "quarta"
-            ],
-            "thursday": [
-                "quinta"
-            ],
-            "friday": [
-                "sexta"
-            ],
-            "am": [
-                "manhã",
-                "damanhã"
+                "da manhã"
             ],
             "pm": [
                 "tarde",
@@ -706,7 +372,7 @@
             ],
             "am": [
                 "manhã",
-                "damanhã"
+                "da manhã"
             ],
             "pm": [
                 "tarde",
@@ -750,8 +416,8 @@
                 ]
             }
         },
-        "pt-PT": {
-            "name": "pt-PT",
+        "pt-CV": {
+            "name": "pt-CV",
             "monday": [
                 "segunda"
             ],
@@ -769,7 +435,196 @@
             ],
             "am": [
                 "manhã",
-                "damanhã"
+                "da manhã"
+            ],
+            "pm": [
+                "tarde",
+                "da tarde"
+            ],
+            "relative-type-regex": {
+                "in \\1 year": [
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
+                ],
+                "in \\1 month": [
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
+                ],
+                "in \\1 week": [
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
+                ],
+                "in \\1 day": [
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
+                ],
+                "in \\1 hour": [
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
+                ],
+                "in \\1 minute": [
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
+                ],
+                "in \\1 second": [
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
+                ],
+                "\\1 second ago": [
+                    "há {0} s"
+                ]
+            }
+        },
+        "pt-LU": {
+            "name": "pt-LU",
+            "monday": [
+                "segunda"
+            ],
+            "tuesday": [
+                "terça"
+            ],
+            "wednesday": [
+                "quarta"
+            ],
+            "thursday": [
+                "quinta"
+            ],
+            "friday": [
+                "sexta"
+            ],
+            "am": [
+                "manhã",
+                "da manhã"
+            ],
+            "pm": [
+                "tarde",
+                "da tarde"
+            ],
+            "relative-type-regex": {
+                "in \\1 year": [
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
+                ],
+                "in \\1 month": [
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
+                ],
+                "in \\1 week": [
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
+                ],
+                "in \\1 day": [
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
+                ],
+                "in \\1 hour": [
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
+                ],
+                "in \\1 minute": [
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
+                ],
+                "in \\1 second": [
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
+                ],
+                "\\1 second ago": [
+                    "há {0} s"
+                ]
+            }
+        },
+        "pt-MO": {
+            "name": "pt-MO",
+            "monday": [
+                "segunda"
+            ],
+            "tuesday": [
+                "terça"
+            ],
+            "wednesday": [
+                "quarta"
+            ],
+            "thursday": [
+                "quinta"
+            ],
+            "friday": [
+                "sexta"
+            ],
+            "am": [
+                "manhã",
+                "da manhã"
+            ],
+            "pm": [
+                "tarde",
+                "da tarde"
+            ],
+            "relative-type-regex": {
+                "in \\1 year": [
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
+                ],
+                "in \\1 month": [
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
+                ],
+                "in \\1 week": [
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
+                ],
+                "in \\1 day": [
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
+                ],
+                "in \\1 hour": [
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
+                ],
+                "in \\1 minute": [
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
+                ],
+                "in \\1 second": [
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
+                ],
+                "\\1 second ago": [
+                    "há {0} s"
+                ]
+            }
+        },
+        "pt-GQ": {
+            "name": "pt-GQ",
+            "monday": [
+                "segunda"
+            ],
+            "tuesday": [
+                "terça"
+            ],
+            "wednesday": [
+                "quarta"
+            ],
+            "thursday": [
+                "quinta"
+            ],
+            "friday": [
+                "sexta"
+            ],
+            "am": [
+                "manhã",
+                "da manhã"
             ],
             "pm": [
                 "tarde",
@@ -832,7 +687,133 @@
             ],
             "am": [
                 "manhã",
-                "damanhã"
+                "da manhã"
+            ],
+            "pm": [
+                "tarde",
+                "da tarde"
+            ],
+            "relative-type-regex": {
+                "in \\1 year": [
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
+                ],
+                "in \\1 month": [
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
+                ],
+                "in \\1 week": [
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
+                ],
+                "in \\1 day": [
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
+                ],
+                "in \\1 hour": [
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
+                ],
+                "in \\1 minute": [
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
+                ],
+                "in \\1 second": [
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
+                ],
+                "\\1 second ago": [
+                    "há {0} s"
+                ]
+            }
+        },
+        "pt-PT": {
+            "name": "pt-PT",
+            "monday": [
+                "segunda"
+            ],
+            "tuesday": [
+                "terça"
+            ],
+            "wednesday": [
+                "quarta"
+            ],
+            "thursday": [
+                "quinta"
+            ],
+            "friday": [
+                "sexta"
+            ],
+            "am": [
+                "manhã",
+                "da manhã"
+            ],
+            "pm": [
+                "tarde",
+                "da tarde"
+            ],
+            "relative-type-regex": {
+                "in \\1 year": [
+                    "dentro de {0} ano",
+                    "dentro de {0} anos"
+                ],
+                "in \\1 month": [
+                    "dentro de {0} meses",
+                    "dentro de {0} mês"
+                ],
+                "in \\1 week": [
+                    "dentro de {0} sem",
+                    "dentro de {0} semana",
+                    "dentro de {0} semanas"
+                ],
+                "in \\1 day": [
+                    "dentro de {0} dias",
+                    "dentro de {0} dia"
+                ],
+                "in \\1 hour": [
+                    "dentro de {0} h",
+                    "dentro de {0} hora",
+                    "dentro de {0} horas"
+                ],
+                "in \\1 minute": [
+                    "dentro de {0} min",
+                    "dentro de {0} minuto",
+                    "dentro de {0} minutos"
+                ],
+                "in \\1 second": [
+                    "dentro de {0} segundo",
+                    "dentro de {0} segundos",
+                    "dentro de {0} s"
+                ],
+                "\\1 second ago": [
+                    "há {0} s"
+                ]
+            }
+        },
+        "pt-AO": {
+            "name": "pt-AO",
+            "monday": [
+                "segunda"
+            ],
+            "tuesday": [
+                "terça"
+            ],
+            "wednesday": [
+                "quarta"
+            ],
+            "thursday": [
+                "quinta"
+            ],
+            "friday": [
+                "sexta"
+            ],
+            "am": [
+                "manhã",
+                "da manhã"
             ],
             "pm": [
                 "tarde",
@@ -895,7 +876,7 @@
             ],
             "am": [
                 "manhã",
-                "damanhã"
+                "da manhã"
             ],
             "pm": [
                 "tarde",

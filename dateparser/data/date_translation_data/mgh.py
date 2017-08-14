@@ -4,104 +4,85 @@ info = {
     "date_order": "DMY",
     "january": [
         "mweri wo kwanza",
-        "kwa",
-        "k"
+        "kwa"
     ],
     "february": [
         "mweri wo unayeli",
-        "una",
-        "u"
+        "una"
     ],
     "march": [
         "mweri wo uneraru",
-        "rar",
-        "r"
+        "rar"
     ],
     "april": [
         "mweri wo unecheshe",
-        "che",
-        "c"
+        "che"
     ],
     "may": [
         "mweri wo unethanu",
-        "tha",
-        "t"
+        "tha"
     ],
     "june": [
         "mweri wo thanu na mocha",
-        "moc",
-        "m"
+        "moc"
     ],
     "july": [
         "mweri wo saba",
-        "sab",
-        "s"
+        "sab"
     ],
     "august": [
         "mweri wo nane",
-        "nan",
-        "n"
+        "nan"
     ],
     "september": [
         "mweri wo tisa",
-        "tis",
-        "t"
+        "tis"
     ],
     "october": [
         "mweri wo kumi",
-        "kum",
-        "k"
+        "kum"
     ],
     "november": [
         "mweri wo kumi na moja",
-        "moj",
-        "m"
+        "moj"
     ],
     "december": [
-        "mweri wo kumi na yel’li",
-        "yel",
-        "y"
+        "mweri wo kumi na yel'li",
+        "yel"
     ],
     "monday": [
         "jumatatu",
-        "jtt",
-        "j"
+        "jtt"
     ],
     "tuesday": [
         "jumanne",
-        "jnn",
-        "j"
+        "jnn"
     ],
     "wednesday": [
         "jumatano",
-        "jtn",
-        "j"
+        "jtn"
     ],
     "thursday": [
         "arahamisi",
-        "ara",
-        "a"
+        "ara"
     ],
     "friday": [
         "ijumaa",
-        "iju",
-        "i"
+        "iju"
     ],
     "saturday": [
         "jumamosi",
-        "jmo",
-        "j"
+        "jmo"
     ],
     "sunday": [
         "sabato",
-        "sab",
-        "s"
+        "sab"
     ],
     "am": [
         "wichishu"
     ],
     "pm": [
-        "mchochil’l"
+        "mchochil'l"
     ],
     "year": [
         "yaka"
@@ -153,13 +134,13 @@ info = {
             "next week"
         ],
         "1 day ago": [
-            "n’chana"
+            "n'chana"
         ],
         "0 day ago": [
-            "lel’lo"
+            "lel'lo"
         ],
         "in 1 day": [
-            "me’llo"
+            "me'llo"
         ],
         "0 hour ago": [
             "this hour"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

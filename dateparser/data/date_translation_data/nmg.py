@@ -52,38 +52,31 @@ info = {
     ],
     "monday": [
         "mɔ́ndɔ",
-        "mɔ́n",
-        "m"
+        "mɔ́n"
     ],
     "tuesday": [
         "sɔ́ndɔ mafú mába",
-        "smb",
-        "s"
+        "smb"
     ],
     "wednesday": [
         "sɔ́ndɔ mafú málal",
-        "sml",
-        "s"
+        "sml"
     ],
     "thursday": [
         "sɔ́ndɔ mafú mána",
-        "smn",
-        "s"
+        "smn"
     ],
     "friday": [
         "mabágá má sukul",
-        "mbs",
-        "m"
+        "mbs"
     ],
     "saturday": [
         "sásadi",
-        "sas",
-        "s"
+        "sas"
     ],
     "sunday": [
         "sɔ́ndɔ",
-        "sɔ́n",
-        "s"
+        "sɔ́n"
     ],
     "am": [
         "maná"
@@ -159,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

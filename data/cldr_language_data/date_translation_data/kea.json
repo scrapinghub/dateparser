@@ -3,107 +3,86 @@
     "date_order": "DMY",
     "january": [
         "janeru",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "febreru",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "marsu",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "abril",
-        "abr",
-        "a"
+        "abr"
     ],
     "may": [
         "maiu",
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "junhu",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julhu",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "agostu",
-        "ago",
-        "a"
+        "ago"
     ],
     "september": [
         "setenbru",
-        "set",
-        "s"
+        "set"
     ],
     "october": [
         "otubru",
-        "otu",
-        "o"
+        "otu"
     ],
     "november": [
         "nuvenbru",
-        "nuv",
-        "n"
+        "nuv"
     ],
     "december": [
         "dizenbru",
-        "diz",
-        "d"
+        "diz"
     ],
     "monday": [
         "sigunda-fera",
-        "sig",
-        "s"
+        "sig"
     ],
     "tuesday": [
         "tersa-fera",
-        "ter",
-        "t"
+        "ter"
     ],
     "wednesday": [
         "kuarta-fera",
-        "kua",
-        "k"
+        "kua"
     ],
     "thursday": [
         "kinta-fera",
-        "kin",
-        "k"
+        "kin"
     ],
     "friday": [
         "sesta-fera",
-        "ses",
-        "s"
+        "ses"
     ],
     "saturday": [
         "sábadu",
         "sab",
-        "s",
         "sabadu"
     ],
     "sunday": [
         "dumingu",
-        "dum",
-        "d"
+        "dum"
     ],
     "am": [
-        "am",
-        "a"
+        "am"
     ],
     "pm": [
-        "pm",
-        "p"
+        "pm"
     ],
     "year": [
         "anu"

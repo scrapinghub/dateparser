@@ -3,98 +3,79 @@
     "date_order": "YMD",
     "january": [
         "urtarrila",
-        "urt",
-        "u"
+        "urt"
     ],
     "february": [
         "otsaila",
-        "ots",
-        "o"
+        "ots"
     ],
     "march": [
         "martxoa",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "apirila",
-        "api",
-        "a"
+        "api"
     ],
     "may": [
         "maiatza",
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "ekaina",
-        "eka",
-        "e"
+        "eka"
     ],
     "july": [
         "uztaila",
-        "uzt",
-        "u"
+        "uzt"
     ],
     "august": [
         "abuztua",
-        "abu",
-        "a"
+        "abu"
     ],
     "september": [
         "iraila",
-        "ira",
-        "i"
+        "ira"
     ],
     "october": [
         "urria",
-        "urr",
-        "u"
+        "urr"
     ],
     "november": [
         "azaroa",
-        "aza",
-        "a"
+        "aza"
     ],
     "december": [
         "abendua",
-        "abe",
-        "a"
+        "abe"
     ],
     "monday": [
         "astelehena",
-        "al",
-        "a"
+        "al"
     ],
     "tuesday": [
         "asteartea",
-        "ar",
-        "a"
+        "ar"
     ],
     "wednesday": [
         "asteazkena",
-        "az",
-        "a"
+        "az"
     ],
     "thursday": [
         "osteguna",
-        "og",
-        "o"
+        "og"
     ],
     "friday": [
         "ostirala",
-        "or",
-        "o"
+        "or"
     ],
     "saturday": [
         "larunbata",
-        "lr",
-        "l"
+        "lr"
     ],
     "sunday": [
         "igandea",
-        "ig",
-        "i"
+        "ig"
     ],
     "am": [
         "am"

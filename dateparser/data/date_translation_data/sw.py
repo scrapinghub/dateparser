@@ -4,90 +4,71 @@ info = {
     "date_order": "DMY",
     "january": [
         "januari",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februari",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "machi",
-        "mac",
-        "m"
+        "mac"
     ],
     "april": [
         "aprili",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julai",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "agosti",
-        "ago",
-        "a"
+        "ago"
     ],
     "september": [
         "septemba",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktoba",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novemba",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desemba",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
-        "jumatatu",
-        "m"
+        "jumatatu"
     ],
     "tuesday": [
-        "jumanne",
-        "t"
+        "jumanne"
     ],
     "wednesday": [
-        "jumatano",
-        "w"
+        "jumatano"
     ],
     "thursday": [
-        "alhamisi",
-        "t"
+        "alhamisi"
     ],
     "friday": [
-        "ijumaa",
-        "f"
+        "ijumaa"
     ],
     "saturday": [
-        "jumamosi",
-        "s"
+        "jumamosi"
     ],
     "sunday": [
-        "jumapili",
-        "s"
+        "jumapili"
     ],
     "am": [
         "am",
@@ -221,6 +202,9 @@ info = {
         ]
     },
     "locale_specific": {
+        "sw-UG": {
+            "name": "sw-UG"
+        },
         "sw-CD": {
             "name": "sw-CD",
             "week": [
@@ -229,9 +213,6 @@ info = {
         },
         "sw-KE": {
             "name": "sw-KE"
-        },
-        "sw-UG": {
-            "name": "sw-UG"
         }
     },
     "skip": [

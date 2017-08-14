@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "kɔndɔŋ",
-        "kɔn",
-        "k"
+        "kɔn"
     ],
     "february": [
         "màcɛ̂l",
-        "mac",
-        "m"
+        "mac"
     ],
     "march": [
         "màtùmb",
-        "mat",
-        "m"
+        "mat"
     ],
     "april": [
         "màtop",
-        "mto",
-        "m"
+        "mto"
     ],
     "may": [
         "m̀puyɛ",
-        "mpu",
-        "m"
+        "mpu"
     ],
     "june": [
         "hìlòndɛ̀",
-        "hil",
-        "h"
+        "hil"
     ],
     "july": [
         "njèbà",
-        "nje",
-        "n"
+        "nje"
     ],
     "august": [
         "hìkaŋ",
-        "hik",
-        "h"
+        "hik"
     ],
     "september": [
         "dìpɔ̀s",
-        "dip",
-        "d"
+        "dip"
     ],
     "october": [
         "bìòôm",
-        "bio",
-        "b"
+        "bio"
     ],
     "november": [
         "màyɛsèp",
-        "may",
-        "m"
+        "may"
     ],
     "december": [
         "lìbuy li ńyèe",
-        "liɓ",
-        "l"
+        "liɓ"
     ],
     "monday": [
         "ŋgwà njaŋgumba",
-        "nja",
-        "n"
+        "nja"
     ],
     "tuesday": [
         "ŋgwà ûm",
-        "uum",
-        "u"
+        "uum"
     ],
     "wednesday": [
         "ŋgwà ŋgê",
-        "ŋge",
-        "ŋ"
+        "ŋge"
     ],
     "thursday": [
         "ŋgwà mbɔk",
-        "mbɔ",
-        "m"
+        "mbɔ"
     ],
     "friday": [
         "ŋgwà kɔɔ",
-        "kɔɔ",
-        "k"
+        "kɔɔ"
     ],
     "saturday": [
         "ŋgwà jôn",
-        "jon",
-        "j"
+        "jon"
     ],
     "sunday": [
         "ŋgwà nɔ̂y",
-        "nɔy",
-        "n"
+        "nɔy"
     ],
     "am": [
         "i bikɛ̂glà"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

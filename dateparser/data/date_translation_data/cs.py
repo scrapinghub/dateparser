@@ -66,43 +66,36 @@ info = {
     "monday": [
         "pondělí",
         "po",
-        "p",
         "Pon"
     ],
     "tuesday": [
         "úterý",
         "út",
-        "ú",
         "Úte"
     ],
     "wednesday": [
         "středa",
         "st",
-        "s",
         "Stř"
     ],
     "thursday": [
         "čtvrtek",
         "čt",
-        "č",
         "Čtv"
     ],
     "friday": [
         "pátek",
         "pá",
-        "p",
         "Pát"
     ],
     "saturday": [
         "sobota",
         "so",
-        "s",
         "Sob"
     ],
     "sunday": [
         "neděle",
         "ne",
-        "n",
         "Ned"
     ],
     "am": [

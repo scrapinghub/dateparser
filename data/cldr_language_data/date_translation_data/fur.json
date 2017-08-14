@@ -3,96 +3,77 @@
     "date_order": "DMY",
     "january": [
         "zenâr",
-        "zen",
-        "z"
+        "zen"
     ],
     "february": [
         "fevrâr",
-        "fev",
-        "f"
+        "fev"
     ],
     "march": [
         "març",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "avrîl",
-        "avr",
-        "a"
+        "avr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "jugn",
-        "jug",
-        "j"
+        "jug"
     ],
     "july": [
-        "lui",
-        "l"
+        "lui"
     ],
     "august": [
         "avost",
-        "avo",
-        "a"
+        "avo"
     ],
     "september": [
         "setembar",
-        "set",
-        "s"
+        "set"
     ],
     "october": [
         "otubar",
-        "otu",
-        "o"
+        "otu"
     ],
     "november": [
         "novembar",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "dicembar",
-        "dic",
-        "d"
+        "dic"
     ],
     "monday": [
         "lunis",
-        "lun",
-        "l"
+        "lun"
     ],
     "tuesday": [
         "martars",
-        "mar",
-        "m"
+        "mar"
     ],
     "wednesday": [
         "miercus",
-        "mie",
-        "m"
+        "mie"
     ],
     "thursday": [
         "joibe",
-        "joi",
-        "j"
+        "joi"
     ],
     "friday": [
         "vinars",
-        "vin",
-        "v"
+        "vin"
     ],
     "saturday": [
         "sabide",
-        "sab",
-        "s"
+        "sab"
     ],
     "sunday": [
         "domenie",
-        "dom",
-        "d"
+        "dom"
     ],
     "am": [
         "a"

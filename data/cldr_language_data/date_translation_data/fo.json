@@ -3,97 +3,78 @@
     "date_order": "DMY",
     "january": [
         "januar",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februar",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "mars",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "apríl",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "juli",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "august",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "september",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desember",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "mánadagur",
-        "mán",
-        "m"
+        "mán"
     ],
     "tuesday": [
         "týsdagur",
-        "týs",
-        "t"
+        "týs"
     ],
     "wednesday": [
         "mikudagur",
-        "mik",
-        "m"
+        "mik"
     ],
     "thursday": [
         "hósdagur",
-        "hós",
-        "h"
+        "hós"
     ],
     "friday": [
         "fríggjadagur",
-        "frí",
-        "f"
+        "frí"
     ],
     "saturday": [
         "leygardagur",
-        "ley",
-        "l"
+        "ley"
     ],
     "sunday": [
         "sunnudagur",
-        "sun",
-        "s"
+        "sun"
     ],
     "am": [
         "am"

@@ -3,97 +3,78 @@
     "date_order": "DMY",
     "january": [
         "januari",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februari",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "machi",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "aprili",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julai",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "agosti",
-        "ago",
-        "a"
+        "ago"
     ],
     "september": [
         "septemba",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktoba",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novemba",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desemba",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "jumatatu",
-        "j3",
-        "m"
+        "j3"
     ],
     "tuesday": [
         "jumanne",
-        "j4",
-        "t"
+        "j4"
     ],
     "wednesday": [
         "jumatano",
-        "j5",
-        "w"
+        "j5"
     ],
     "thursday": [
         "murwa wa kanne",
-        "al",
-        "t"
+        "al"
     ],
     "friday": [
         "murwa wa katano",
-        "ij",
-        "f"
+        "ij"
     ],
     "saturday": [
         "jumamosi",
-        "j1",
-        "s"
+        "j1"
     ],
     "sunday": [
         "jumapiri",
-        "j2",
-        "s"
+        "j2"
     ],
     "am": [
         "am"
@@ -169,6 +150,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

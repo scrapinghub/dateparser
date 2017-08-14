@@ -5,117 +5,96 @@ info = {
     "january": [
         "sausis",
         "saus",
-        "s",
         "sausio"
     ],
     "february": [
         "vasaris",
         "vas",
-        "v",
         "vasario"
     ],
     "march": [
         "kovas",
         "kov",
-        "k",
         "kovo"
     ],
     "april": [
         "balandis",
         "bal",
-        "b",
         "balandžio"
     ],
     "may": [
         "gegužė",
         "geg",
-        "g",
         "gegužės"
     ],
     "june": [
         "birželis",
         "birž",
-        "b",
         "birželio"
     ],
     "july": [
         "liepa",
         "liep",
-        "l",
         "liepos"
     ],
     "august": [
         "rugpjūtis",
         "rugp",
-        "r",
         "rugpjūčio"
     ],
     "september": [
         "rugsėjis",
         "rugs",
-        "r",
         "rugsėjo"
     ],
     "october": [
         "spalis",
         "spal",
-        "s",
         "spalio"
     ],
     "november": [
         "lapkritis",
         "lapkr",
-        "l",
         "lapkričio"
     ],
     "december": [
         "gruodis",
         "gruod",
-        "g",
         "gruodžio"
     ],
     "monday": [
         "pirmadienis",
-        "pr",
-        "p"
+        "pr"
     ],
     "tuesday": [
         "antradienis",
-        "an",
-        "a"
+        "an"
     ],
     "wednesday": [
         "trečiadienis",
-        "tr",
-        "t"
+        "tr"
     ],
     "thursday": [
         "ketvirtadienis",
-        "kt",
-        "k"
+        "kt"
     ],
     "friday": [
         "penktadienis",
-        "pn",
-        "p"
+        "pn"
     ],
     "saturday": [
         "šeštadienis",
-        "št",
-        "š"
+        "št"
     ],
     "sunday": [
         "sekmadienis",
-        "sk",
-        "s"
+        "sk"
     ],
     "am": [
-        "priešpiet",
-        "pr p"
+        "priešpiet"
     ],
     "pm": [
-        "popiet",
-        "pop"
+        "popiet"
     ],
     "year": [
         "metai",

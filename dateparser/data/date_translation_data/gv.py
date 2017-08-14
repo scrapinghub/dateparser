@@ -49,38 +49,31 @@ info = {
     ],
     "monday": [
         "jelhein",
-        "jel",
-        "m"
+        "jel"
     ],
     "tuesday": [
         "jemayrt",
-        "jem",
-        "t"
+        "jem"
     ],
     "wednesday": [
         "jercean",
-        "jerc",
-        "w"
+        "jerc"
     ],
     "thursday": [
         "jerdein",
-        "jerd",
-        "t"
+        "jerd"
     ],
     "friday": [
         "jeheiney",
-        "jeh",
-        "f"
+        "jeh"
     ],
     "saturday": [
         "jesarn",
-        "jes",
-        "s"
+        "jes"
     ],
     "sunday": [
         "jedoonee",
-        "jed",
-        "s"
+        "jed"
     ],
     "am": [
         "am"
@@ -156,7 +149,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

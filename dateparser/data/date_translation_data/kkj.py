@@ -36,32 +36,25 @@ info = {
         "ɓulɓusɛ"
     ],
     "monday": [
-        "lundi",
-        "lu"
+        "lundi"
     ],
     "tuesday": [
-        "mardi",
-        "ma"
+        "mardi"
     ],
     "wednesday": [
-        "mɛrkɛrɛdi",
-        "mɛ"
+        "mɛrkɛrɛdi"
     ],
     "thursday": [
-        "yedi",
-        "ye"
+        "yedi"
     ],
     "friday": [
-        "vaŋdɛrɛdi",
-        "va"
+        "vaŋdɛrɛdi"
     ],
     "saturday": [
-        "mɔnɔ sɔndi",
-        "ms"
+        "mɔnɔ sɔndi"
     ],
     "sunday": [
-        "sɔndi",
-        "so"
+        "sɔndi"
     ],
     "am": [
         "am"
@@ -137,7 +130,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

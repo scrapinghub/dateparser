@@ -33,32 +33,25 @@ info = {
         "ꖨꕪꕱ ꗏꕮ"
     ],
     "monday": [
-        "ꗳꗡꘉ",
-        "m"
+        "ꗳꗡꘉ"
     ],
     "tuesday": [
-        "ꕚꕞꕚ",
-        "t"
+        "ꕚꕞꕚ"
     ],
     "wednesday": [
-        "ꕉꕞꕒ",
-        "w"
+        "ꕉꕞꕒ"
     ],
     "thursday": [
-        "ꕉꔤꕆꕢ",
-        "t"
+        "ꕉꔤꕆꕢ"
     ],
     "friday": [
-        "ꕉꔤꕀꕮ",
-        "f"
+        "ꕉꔤꕀꕮ"
     ],
     "saturday": [
-        "ꔻꔬꔳ",
-        "s"
+        "ꔻꔬꔳ"
     ],
     "sunday": [
-        "ꕞꕌꔵ",
-        "s"
+        "ꕞꕌꔵ"
     ],
     "am": [
         "am"
@@ -134,7 +127,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

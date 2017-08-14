@@ -33,32 +33,25 @@ info = {
         "luukao lɔma"
     ],
     "monday": [
-        "tɛɛnɛɛ",
-        "m"
+        "tɛɛnɛɛ"
     ],
     "tuesday": [
-        "talata",
-        "t"
+        "talata"
     ],
     "wednesday": [
-        "alaba",
-        "w"
+        "alaba"
     ],
     "thursday": [
-        "aimisa",
-        "t"
+        "aimisa"
     ],
     "friday": [
-        "aijima",
-        "f"
+        "aijima"
     ],
     "saturday": [
-        "siɓiti",
-        "s"
+        "siɓiti"
     ],
     "sunday": [
-        "lahadi",
-        "s"
+        "lahadi"
     ],
     "am": [
         "am"
@@ -134,7 +127,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

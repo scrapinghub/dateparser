@@ -5,7 +5,6 @@ info = {
     "january": [
         "tammikuu",
         "tammi",
-        "t",
         "tammikuuta",
         "tammik",
         "tammikuussa"
@@ -13,7 +12,6 @@ info = {
     "february": [
         "helmikuu",
         "helmi",
-        "h",
         "helmikuuta",
         "helmik",
         "helmikuussa"
@@ -21,7 +19,6 @@ info = {
     "march": [
         "maaliskuu",
         "maalis",
-        "m",
         "maaliskuuta",
         "maalisk",
         "maaliskuussa"
@@ -29,7 +26,6 @@ info = {
     "april": [
         "huhtikuu",
         "huhti",
-        "h",
         "huhtikuuta",
         "huhtik",
         "huhtikuussa"
@@ -37,7 +33,6 @@ info = {
     "may": [
         "toukokuu",
         "touko",
-        "t",
         "toukokuuta",
         "toukok",
         "toukokuussa"
@@ -45,7 +40,6 @@ info = {
     "june": [
         "kesäkuu",
         "kesä",
-        "k",
         "kesäkuuta",
         "kesäk",
         "kesäkuussa"
@@ -53,7 +47,6 @@ info = {
     "july": [
         "heinäkuu",
         "heinä",
-        "h",
         "heinäkuuta",
         "heinäk",
         "heinäkuussa"
@@ -61,7 +54,6 @@ info = {
     "august": [
         "elokuu",
         "elo",
-        "e",
         "elokuuta",
         "elok",
         "elokuussa"
@@ -69,7 +61,6 @@ info = {
     "september": [
         "syyskuu",
         "syys",
-        "s",
         "syyskuuta",
         "syysk",
         "Syyskuussa"
@@ -77,7 +68,6 @@ info = {
     "october": [
         "lokakuu",
         "loka",
-        "l",
         "lokakuuta",
         "lokak",
         "Lokakuussa"
@@ -85,7 +75,6 @@ info = {
     "november": [
         "marraskuu",
         "marras",
-        "m",
         "marraskuuta",
         "marrask",
         "Marraskuussa"
@@ -93,7 +82,6 @@ info = {
     "december": [
         "joulukuu",
         "joulu",
-        "j",
         "joulukuuta",
         "jouluk",
         "Joulukuussa"
@@ -101,43 +89,36 @@ info = {
     "monday": [
         "maanantai",
         "ma",
-        "m",
         "maanantaina"
     ],
     "tuesday": [
         "tiistai",
         "ti",
-        "t",
         "tiistaina"
     ],
     "wednesday": [
         "keskiviikko",
         "ke",
-        "k",
         "keskiviikkona"
     ],
     "thursday": [
         "torstai",
         "to",
-        "t",
         "torstaina"
     ],
     "friday": [
         "perjantai",
         "pe",
-        "p",
         "perjantaina"
     ],
     "saturday": [
         "lauantai",
         "la",
-        "l",
         "lauantaina"
     ],
     "sunday": [
         "sunnuntai",
         "su",
-        "s",
         "sunnuntaina"
     ],
     "am": [

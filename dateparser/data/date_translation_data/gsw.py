@@ -4,102 +4,83 @@ info = {
     "date_order": "DMY",
     "january": [
         "januar",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februar",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "märz",
-        "mär",
-        "m"
+        "mär"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "juli",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "auguscht",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "septämber",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktoober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novämber",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "dezämber",
-        "dez",
-        "d"
+        "dez"
     ],
     "monday": [
         "määntig",
-        "mä",
-        "m"
+        "mä"
     ],
     "tuesday": [
         "ziischtig",
-        "zi",
-        "d"
+        "zi"
     ],
     "wednesday": [
         "mittwuch",
-        "mi",
-        "m"
+        "mi"
     ],
     "thursday": [
         "dunschtig",
-        "du",
-        "d"
+        "du"
     ],
     "friday": [
         "friitig",
-        "fr",
-        "f"
+        "fr"
     ],
     "saturday": [
         "samschtig",
-        "sa",
-        "s"
+        "sa"
     ],
     "sunday": [
         "sunntig",
-        "su",
-        "s"
+        "su"
     ],
     "am": [
         "vormittag",
         "vorm",
-        "amvormittag"
+        "am vormittag"
     ],
     "pm": [
         "namittag",
@@ -174,13 +155,12 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {
-        "gsw-FR": {
-            "name": "gsw-FR"
-        },
         "gsw-LI": {
             "name": "gsw-LI"
+        },
+        "gsw-FR": {
+            "name": "gsw-FR"
         }
     },
     "skip": [

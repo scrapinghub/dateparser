@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "orara",
-        "rar",
-        "r"
+        "rar"
     ],
     "february": [
         "omuk",
-        "muk",
-        "m"
+        "muk"
     ],
     "march": [
-        "okwamg’",
-        "kwa",
-        "k"
+        "okwamg'",
+        "kwa"
     ],
     "april": [
-        "odung’el",
-        "dun",
-        "d"
+        "odung'el",
+        "dun"
     ],
     "may": [
         "omaruk",
-        "mar",
-        "m"
+        "mar"
     ],
     "june": [
-        "omodok’king’ol",
-        "mod",
-        "m"
+        "omodok'king'ol",
+        "mod"
     ],
     "july": [
         "ojola",
-        "jol",
-        "j"
+        "jol"
     ],
     "august": [
         "opedel",
-        "ped",
-        "p"
+        "ped"
     ],
     "september": [
         "osokosokoma",
-        "sok",
-        "s"
+        "sok"
     ],
     "october": [
         "otibar",
-        "tib",
-        "t"
+        "tib"
     ],
     "november": [
         "olabor",
-        "lab",
-        "l"
+        "lab"
     ],
     "december": [
         "opoo",
-        "poo",
-        "p"
+        "poo"
     ],
     "monday": [
         "nakaebarasa",
-        "bar",
-        "b"
+        "bar"
     ],
     "tuesday": [
         "nakaare",
-        "aar",
-        "a"
+        "aar"
     ],
     "wednesday": [
         "nakauni",
-        "uni",
-        "u"
+        "uni"
     ],
     "thursday": [
-        "nakaung’on",
-        "ung",
-        "u"
+        "nakaung'on",
+        "ung"
     ],
     "friday": [
         "nakakany",
-        "kan",
-        "k"
+        "kan"
     ],
     "saturday": [
         "nakasabiti",
-        "sab",
-        "s"
+        "sab"
     ],
     "sunday": [
         "nakaejuma",
-        "jum",
-        "j"
+        "jum"
     ],
     "am": [
         "taparachu"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {
         "teo-KE": {
             "name": "teo-KE"

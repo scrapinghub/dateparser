@@ -5,105 +5,86 @@ info = {
     "january": [
         "janvier",
         "janv",
-        "j",
         "jan"
     ],
     "february": [
         "février",
         "févr",
-        "f",
         "fév"
     ],
     "march": [
-        "mars",
-        "m"
+        "mars"
     ],
     "april": [
         "avril",
-        "avr",
-        "a"
+        "avr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "juin",
-        "j",
         "jun"
     ],
     "july": [
         "juillet",
         "juil",
-        "j",
         "jul"
     ],
     "august": [
         "août",
-        "a",
         "aoû"
     ],
     "september": [
         "septembre",
         "sept",
-        "s",
         "sep"
     ],
     "october": [
         "octobre",
-        "oct",
-        "o"
+        "oct"
     ],
     "november": [
         "novembre",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "décembre",
-        "déc",
-        "d"
+        "déc"
     ],
     "monday": [
         "lundi",
         "lun",
-        "l",
         "lu"
     ],
     "tuesday": [
         "mardi",
         "mar",
-        "m",
         "ma"
     ],
     "wednesday": [
         "mercredi",
         "mer",
-        "m",
         "me"
     ],
     "thursday": [
         "jeudi",
         "jeu",
-        "j",
         "je"
     ],
     "friday": [
         "vendredi",
         "ven",
-        "v",
         "ve"
     ],
     "saturday": [
         "samedi",
         "sam",
-        "s",
         "sa"
     ],
     "sunday": [
         "dimanche",
         "dim",
-        "d",
         "di"
     ],
     "am": [
@@ -149,13 +130,13 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "l’année dernière"
+            "l'année dernière"
         ],
         "0 year ago": [
             "cette année"
         ],
         "in 1 year": [
-            "l’année prochaine"
+            "l'année prochaine"
         ],
         "1 month ago": [
             "le mois dernier"
@@ -179,7 +160,7 @@ info = {
             "hier"
         ],
         "0 day ago": [
-            "aujourd’hui"
+            "aujourd'hui"
         ],
         "in 1 day": [
             "demain"
@@ -271,97 +252,38 @@ info = {
         ]
     },
     "locale_specific": {
-        "fr-BE": {
-            "name": "fr-BE"
+        "fr-CI": {
+            "name": "fr-CI"
         },
-        "fr-BF": {
-            "name": "fr-BF"
-        },
-        "fr-BI": {
-            "name": "fr-BI"
-        },
-        "fr-BJ": {
-            "name": "fr-BJ"
+        "fr-WF": {
+            "name": "fr-WF"
         },
         "fr-BL": {
             "name": "fr-BL"
         },
-        "fr-CA": {
-            "name": "fr-CA",
-            "date_order": "YMD",
-            "july": [
-                "juill"
-            ],
-            "am": [
-                "a"
-            ],
-            "pm": [
-                "p"
-            ]
+        "fr-PF": {
+            "name": "fr-PF"
         },
-        "fr-CD": {
-            "name": "fr-CD"
+        "fr-NC": {
+            "name": "fr-NC"
         },
-        "fr-CF": {
-            "name": "fr-CF"
+        "fr-MU": {
+            "name": "fr-MU"
         },
-        "fr-CG": {
-            "name": "fr-CG"
+        "fr-MQ": {
+            "name": "fr-MQ"
         },
         "fr-CH": {
             "name": "fr-CH"
         },
-        "fr-CI": {
-            "name": "fr-CI"
+        "fr-NE": {
+            "name": "fr-NE"
         },
-        "fr-CM": {
-            "name": "fr-CM",
-            "am": [
-                "matin",
-                "mat"
-            ],
-            "pm": [
-                "soir"
-            ]
+        "fr-BF": {
+            "name": "fr-BF"
         },
-        "fr-DJ": {
-            "name": "fr-DJ"
-        },
-        "fr-DZ": {
-            "name": "fr-DZ"
-        },
-        "fr-GA": {
-            "name": "fr-GA"
-        },
-        "fr-GF": {
-            "name": "fr-GF"
-        },
-        "fr-GN": {
-            "name": "fr-GN"
-        },
-        "fr-GP": {
-            "name": "fr-GP"
-        },
-        "fr-GQ": {
-            "name": "fr-GQ"
-        },
-        "fr-HT": {
-            "name": "fr-HT",
-            "day": [
-                "jr"
-            ],
-            "hour": [
-                "hr"
-            ],
-            "second": [
-                "sec"
-            ]
-        },
-        "fr-KM": {
-            "name": "fr-KM"
-        },
-        "fr-LU": {
-            "name": "fr-LU"
+        "fr-CG": {
+            "name": "fr-CG"
         },
         "fr-MA": {
             "name": "fr-MA",
@@ -378,50 +300,24 @@ info = {
                 "jui"
             ]
         },
-        "fr-MC": {
-            "name": "fr-MC"
-        },
-        "fr-MF": {
-            "name": "fr-MF"
-        },
-        "fr-MG": {
-            "name": "fr-MG"
-        },
-        "fr-ML": {
-            "name": "fr-ML"
-        },
-        "fr-MQ": {
-            "name": "fr-MQ"
-        },
-        "fr-MR": {
-            "name": "fr-MR"
-        },
-        "fr-MU": {
-            "name": "fr-MU"
-        },
-        "fr-NC": {
-            "name": "fr-NC"
-        },
-        "fr-NE": {
-            "name": "fr-NE"
-        },
-        "fr-PF": {
-            "name": "fr-PF"
-        },
-        "fr-PM": {
-            "name": "fr-PM"
-        },
         "fr-RE": {
             "name": "fr-RE"
         },
-        "fr-RW": {
-            "name": "fr-RW"
+        "fr-KM": {
+            "name": "fr-KM"
         },
-        "fr-SC": {
-            "name": "fr-SC"
+        "fr-BI": {
+            "name": "fr-BI"
         },
-        "fr-SN": {
-            "name": "fr-SN"
+        "fr-BE": {
+            "name": "fr-BE"
+        },
+        "fr-CA": {
+            "name": "fr-CA",
+            "date_order": "YMD",
+            "july": [
+                "juill"
+            ]
         },
         "fr-SY": {
             "name": "fr-SY"
@@ -429,20 +325,99 @@ info = {
         "fr-TD": {
             "name": "fr-TD"
         },
-        "fr-TG": {
-            "name": "fr-TG"
+        "fr-CM": {
+            "name": "fr-CM",
+            "am": [
+                "matin",
+                "mat"
+            ],
+            "pm": [
+                "soir"
+            ]
         },
-        "fr-TN": {
-            "name": "fr-TN"
+        "fr-DZ": {
+            "name": "fr-DZ"
+        },
+        "fr-MF": {
+            "name": "fr-MF"
+        },
+        "fr-RW": {
+            "name": "fr-RW"
+        },
+        "fr-MR": {
+            "name": "fr-MR"
+        },
+        "fr-GN": {
+            "name": "fr-GN"
+        },
+        "fr-ML": {
+            "name": "fr-ML"
         },
         "fr-VU": {
             "name": "fr-VU"
         },
-        "fr-WF": {
-            "name": "fr-WF"
+        "fr-SC": {
+            "name": "fr-SC"
+        },
+        "fr-MG": {
+            "name": "fr-MG"
+        },
+        "fr-SN": {
+            "name": "fr-SN"
+        },
+        "fr-LU": {
+            "name": "fr-LU"
+        },
+        "fr-HT": {
+            "name": "fr-HT",
+            "day": [
+                "jr"
+            ],
+            "hour": [
+                "hr"
+            ],
+            "second": [
+                "sec"
+            ]
+        },
+        "fr-BJ": {
+            "name": "fr-BJ"
+        },
+        "fr-DJ": {
+            "name": "fr-DJ"
+        },
+        "fr-GA": {
+            "name": "fr-GA"
+        },
+        "fr-GQ": {
+            "name": "fr-GQ"
+        },
+        "fr-CF": {
+            "name": "fr-CF"
+        },
+        "fr-TG": {
+            "name": "fr-TG"
+        },
+        "fr-GF": {
+            "name": "fr-GF"
+        },
+        "fr-PM": {
+            "name": "fr-PM"
         },
         "fr-YT": {
             "name": "fr-YT"
+        },
+        "fr-MC": {
+            "name": "fr-MC"
+        },
+        "fr-GP": {
+            "name": "fr-GP"
+        },
+        "fr-TN": {
+            "name": "fr-TN"
+        },
+        "fr-CD": {
+            "name": "fr-CD"
         }
     },
     "skip": [

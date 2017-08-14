@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "siilo",
-        "sii",
-        "s"
+        "sii"
     ],
     "february": [
         "colte",
-        "col",
-        "c"
+        "col"
     ],
     "march": [
         "mbooy",
-        "mbo",
-        "m"
+        "mbo"
     ],
     "april": [
         "seeɗto",
-        "see",
-        "s"
+        "see"
     ],
     "may": [
         "duujal",
-        "duu",
-        "d"
+        "duu"
     ],
     "june": [
         "korse",
-        "kor",
-        "k"
+        "kor"
     ],
     "july": [
         "morso",
-        "mor",
-        "m"
+        "mor"
     ],
     "august": [
         "juko",
-        "juk",
-        "j"
+        "juk"
     ],
     "september": [
         "siilto",
-        "slt",
-        "s"
+        "slt"
     ],
     "october": [
         "yarkomaa",
-        "yar",
-        "y"
+        "yar"
     ],
     "november": [
         "jolal",
-        "jol",
-        "j"
+        "jol"
     ],
     "december": [
         "bowte",
-        "bow",
-        "b"
+        "bow"
     ],
     "monday": [
         "aaɓnde",
-        "aaɓ",
-        "a"
+        "aaɓ"
     ],
     "tuesday": [
         "mawbaare",
-        "maw",
-        "m"
+        "maw"
     ],
     "wednesday": [
         "njeslaare",
-        "nje",
-        "n"
+        "nje"
     ],
     "thursday": [
         "naasaande",
-        "naa",
-        "n"
+        "naa"
     ],
     "friday": [
         "mawnde",
-        "mwd",
-        "m"
+        "mwd"
     ],
     "saturday": [
         "hoore-biir",
-        "hbi",
-        "h"
+        "hbi"
     ],
     "sunday": [
         "dewo",
-        "dew",
-        "d"
+        "dew"
     ],
     "am": [
         "subaka"
@@ -171,16 +152,15 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {
-        "ff-CM": {
-            "name": "ff-CM"
-        },
         "ff-GN": {
             "name": "ff-GN"
         },
         "ff-MR": {
             "name": "ff-MR"
+        },
+        "ff-CM": {
+            "name": "ff-CM"
         }
     },
     "skip": [

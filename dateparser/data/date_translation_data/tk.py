@@ -2,69 +2,26 @@
 info = {
     "name": "tk",
     "date_order": "DMY",
-    "january": [
-        "m01"
-    ],
-    "february": [
-        "m02"
-    ],
-    "march": [
-        "m03"
-    ],
-    "april": [
-        "m04"
-    ],
-    "may": [
-        "m05"
-    ],
-    "june": [
-        "m06"
-    ],
-    "july": [
-        "m07"
-    ],
-    "august": [
-        "m08"
-    ],
-    "september": [
-        "m09"
-    ],
-    "october": [
-        "m10"
-    ],
-    "november": [
-        "m11"
-    ],
-    "december": [
-        "m12"
-    ],
     "monday": [
-        "mon",
-        "d"
+        "mon"
     ],
     "tuesday": [
-        "tue",
-        "s"
+        "tue"
     ],
     "wednesday": [
-        "wed",
-        "ç"
+        "wed"
     ],
     "thursday": [
-        "thu",
-        "p"
+        "thu"
     ],
     "friday": [
-        "fri",
-        "a"
+        "fri"
     ],
     "saturday": [
-        "sat",
-        "ş"
+        "sat"
     ],
     "sunday": [
-        "sun",
-        "ý"
+        "sun"
     ],
     "am": [
         "am"
@@ -148,7 +105,7 @@ info = {
     "relative-type-regex": {
         "in \\1 year": [
             "(\\d+) ýyldan",
-            "(\\d+)ý.-dan"
+            "(\\d+)ý-dan"
         ],
         "\\1 year ago": [
             "(\\d+) ýyl öň",

@@ -5,7 +5,6 @@ info = {
     "january": [
         "styczeń",
         "sty",
-        "s",
         "stycznia",
         "Styczen",
         "Styczniu"
@@ -13,21 +12,18 @@ info = {
     "february": [
         "luty",
         "lut",
-        "l",
         "lutego",
         "Lutym"
     ],
     "march": [
         "marzec",
         "mar",
-        "m",
         "marca",
         "Marcu"
     ],
     "april": [
         "kwiecień",
         "kwi",
-        "k",
         "kwietnia",
         "Kwiecien",
         "Kwietniu",
@@ -35,28 +31,24 @@ info = {
     ],
     "may": [
         "maj",
-        "m",
         "maja",
         "Maju"
     ],
     "june": [
         "czerwiec",
         "cze",
-        "c",
         "czerwca",
         "Czerwcu"
     ],
     "july": [
         "lipiec",
         "lip",
-        "l",
         "lipca",
         "Lipcu"
     ],
     "august": [
         "sierpień",
         "sie",
-        "s",
         "sierpnia",
         "Sierpien",
         "Sierpniu"
@@ -64,7 +56,6 @@ info = {
     "september": [
         "wrzesień",
         "wrz",
-        "w",
         "września",
         "Wrzesien",
         "Wrzesnia",
@@ -74,7 +65,6 @@ info = {
     "october": [
         "październik",
         "paź",
-        "p",
         "października",
         "Pazdziernik",
         "Pazdziernika",
@@ -85,14 +75,12 @@ info = {
     "november": [
         "listopad",
         "lis",
-        "l",
         "listopada",
         "Listopadzie"
     ],
     "december": [
         "grudzień",
         "gru",
-        "g",
         "grudnia",
         "Grudzien",
         "Grudniu"
@@ -100,20 +88,17 @@ info = {
     "monday": [
         "poniedziałek",
         "pon",
-        "p",
         "Poniedzialek",
         "Pn"
     ],
     "tuesday": [
         "wtorek",
         "wt",
-        "w",
         "Wto"
     ],
     "wednesday": [
         "środa",
         "śr",
-        "ś",
         "Sroda",
         "Środę",
         "Srode",
@@ -125,13 +110,11 @@ info = {
     "thursday": [
         "czwartek",
         "czw",
-        "c",
         "Cz"
     ],
     "friday": [
         "piątek",
         "pt",
-        "p",
         "Piatek",
         "Pią",
         "Pia",
@@ -140,7 +123,6 @@ info = {
     "saturday": [
         "sobota",
         "sob",
-        "s",
         "Sobotę",
         "Sobote",
         "So",
@@ -149,19 +131,16 @@ info = {
     "sunday": [
         "niedziela",
         "niedz",
-        "n",
         "Niedzielę",
         "Niedziele",
         "Nie",
         "Nd"
     ],
     "am": [
-        "am",
-        "a"
+        "am"
     ],
     "pm": [
-        "pm",
-        "p"
+        "pm"
     ],
     "year": [
         "rok",

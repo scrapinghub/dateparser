@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "dimɔ́di",
-        "di",
-        "d"
+        "di"
     ],
     "february": [
         "ŋgɔndɛ",
-        "ŋgɔn",
-        "ŋ"
+        "ŋgɔn"
     ],
     "march": [
         "sɔŋɛ",
-        "sɔŋ",
-        "s"
+        "sɔŋ"
     ],
     "april": [
         "diɓáɓá",
-        "diɓ",
-        "d"
+        "diɓ"
     ],
     "may": [
         "emiasele",
-        "emi",
-        "e"
+        "emi"
     ],
     "june": [
         "esɔpɛsɔpɛ",
-        "esɔ",
-        "e"
+        "esɔ"
     ],
     "july": [
         "madiɓɛ́díɓɛ́",
-        "mad",
-        "m"
+        "mad"
     ],
     "august": [
         "diŋgindi",
-        "diŋ",
-        "d"
+        "diŋ"
     ],
     "september": [
         "nyɛtɛki",
-        "nyɛt",
-        "n"
+        "nyɛt"
     ],
     "october": [
         "mayésɛ́",
-        "may",
-        "m"
+        "may"
     ],
     "november": [
         "tiníní",
-        "tin",
-        "t"
+        "tin"
     ],
     "december": [
         "eláŋgɛ́",
-        "elá",
-        "e"
+        "elá"
     ],
     "monday": [
         "mɔ́sú",
-        "mɔ́s",
-        "m"
+        "mɔ́s"
     ],
     "tuesday": [
         "kwasú",
-        "kwa",
-        "k"
+        "kwa"
     ],
     "wednesday": [
         "mukɔ́sú",
-        "muk",
-        "m"
+        "muk"
     ],
     "thursday": [
         "ŋgisú",
-        "ŋgi",
-        "ŋ"
+        "ŋgi"
     ],
     "friday": [
         "ɗónɛsú",
-        "ɗón",
-        "ɗ"
+        "ɗón"
     ],
     "saturday": [
         "esaɓasú",
-        "esa",
-        "e"
+        "esa"
     ],
     "sunday": [
         "éti",
-        "ét",
-        "e"
+        "ét"
     ],
     "am": [
         "idiɓa"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

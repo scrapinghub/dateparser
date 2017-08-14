@@ -152,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {
         "mas-TZ": {
             "name": "mas-TZ"

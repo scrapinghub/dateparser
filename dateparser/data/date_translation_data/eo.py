@@ -52,38 +52,31 @@ info = {
     ],
     "monday": [
         "lundo",
-        "lu",
-        "m"
+        "lu"
     ],
     "tuesday": [
         "mardo",
-        "ma",
-        "t"
+        "ma"
     ],
     "wednesday": [
         "merkredo",
-        "me",
-        "w"
+        "me"
     ],
     "thursday": [
         "ĵaŭdo",
-        "ĵa",
-        "t"
+        "ĵa"
     ],
     "friday": [
         "vendredo",
-        "ve",
-        "f"
+        "ve"
     ],
     "saturday": [
         "sabato",
-        "sa",
-        "s"
+        "sa"
     ],
     "sunday": [
         "dimanĉo",
-        "di",
-        "s"
+        "di"
     ],
     "am": [
         "atm"
@@ -159,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

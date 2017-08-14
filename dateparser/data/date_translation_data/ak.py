@@ -52,38 +52,31 @@ info = {
     ],
     "monday": [
         "dwowda",
-        "dwo",
-        "d"
+        "dwo"
     ],
     "tuesday": [
         "benada",
-        "ben",
-        "b"
+        "ben"
     ],
     "wednesday": [
         "wukuda",
-        "wuk",
-        "w"
+        "wuk"
     ],
     "thursday": [
         "yawda",
-        "yaw",
-        "y"
+        "yaw"
     ],
     "friday": [
         "fida",
-        "fia",
-        "f"
+        "fia"
     ],
     "saturday": [
         "memeneda",
-        "mem",
-        "m"
+        "mem"
     ],
     "sunday": [
         "kwesida",
-        "kwe",
-        "k"
+        "kwe"
     ],
     "am": [
         "an"
@@ -159,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

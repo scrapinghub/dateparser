@@ -15,8 +15,8 @@ info = {
         "mal"
     ],
     "april": [
-        "ʻapelila",
-        "ʻap"
+        "'apelila",
+        "'ap"
     ],
     "may": [
         "mei"
@@ -30,16 +30,16 @@ info = {
         "iul"
     ],
     "august": [
-        "ʻaukake",
-        "ʻau"
+        "'aukake",
+        "'au"
     ],
     "september": [
         "kepakemapa",
         "kep"
     ],
     "october": [
-        "ʻokakopa",
-        "ʻok"
+        "'okakopa",
+        "'ok"
     ],
     "november": [
         "nowemapa",
@@ -50,39 +50,32 @@ info = {
         "kek"
     ],
     "monday": [
-        "poʻakahi",
-        "p1",
-        "m"
+        "po'akahi",
+        "p1"
     ],
     "tuesday": [
-        "poʻalua",
-        "p2",
-        "t"
+        "po'alua",
+        "p2"
     ],
     "wednesday": [
-        "poʻakolu",
-        "p3",
-        "w"
+        "po'akolu",
+        "p3"
     ],
     "thursday": [
-        "poʻahā",
-        "p4",
-        "t"
+        "po'ahā",
+        "p4"
     ],
     "friday": [
-        "poʻalima",
-        "p5",
-        "f"
+        "po'alima",
+        "p5"
     ],
     "saturday": [
-        "poʻaono",
-        "p6",
-        "s"
+        "po'aono",
+        "p6"
     ],
     "sunday": [
         "lāpule",
-        "lp",
-        "s"
+        "lp"
     ],
     "am": [
         "am"
@@ -158,7 +151,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

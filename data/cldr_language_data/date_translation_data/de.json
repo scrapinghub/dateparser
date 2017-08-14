@@ -3,105 +3,84 @@
     "date_order": "DMY",
     "january": [
         "januar",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februar",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "märz",
-        "mär",
-        "m"
+        "mär"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "juli",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "august",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "september",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "dezember",
-        "dez",
-        "d"
+        "dez"
     ],
     "monday": [
         "montag",
-        "mo",
-        "m"
+        "mo"
     ],
     "tuesday": [
         "dienstag",
-        "di",
-        "d"
+        "di"
     ],
     "wednesday": [
         "mittwoch",
-        "mi",
-        "m"
+        "mi"
     ],
     "thursday": [
         "donnerstag",
-        "do",
-        "d"
+        "do"
     ],
     "friday": [
         "freitag",
-        "fr",
-        "f"
+        "fr"
     ],
     "saturday": [
         "samstag",
-        "sa",
-        "s"
+        "sa"
     ],
     "sunday": [
         "sonntag",
-        "so",
-        "s"
+        "so"
     ],
     "am": [
-        "vorm",
-        "vm"
+        "vorm"
     ],
     "pm": [
-        "nachm",
-        "nm"
+        "nachm"
     ],
     "year": [
         "jahr",
@@ -248,6 +227,9 @@
         ]
     },
     "locale_specific": {
+        "de-LU": {
+            "name": "de-LU"
+        },
         "de-AT": {
             "name": "de-AT",
             "january": [
@@ -255,11 +237,14 @@
                 "jän"
             ]
         },
-        "de-BE": {
-            "name": "de-BE"
-        },
         "de-CH": {
             "name": "de-CH"
+        },
+        "de-LI": {
+            "name": "de-LI"
+        },
+        "de-BE": {
+            "name": "de-BE"
         },
         "de-IT": {
             "name": "de-IT",
@@ -267,12 +252,6 @@
                 "jänner",
                 "jän"
             ]
-        },
-        "de-LI": {
-            "name": "de-LI"
-        },
-        "de-LU": {
-            "name": "de-LU"
         }
     }
 }

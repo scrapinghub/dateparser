@@ -3,86 +3,79 @@
     "date_order": "DMY",
     "january": [
         "pikítíkítie, oólí ú kutúan",
-        "o.1"
+        "o1"
     ],
     "february": [
         "siɛyɛ́, oóli ú kándíɛ",
-        "o.2"
+        "o2"
     ],
     "march": [
         "ɔnsúmbɔl, oóli ú kátátúɛ",
-        "o.3"
+        "o3"
     ],
     "april": [
         "mesiŋ, oóli ú kénie",
-        "o.4"
+        "o4"
     ],
     "may": [
         "ensil, oóli ú kátánuɛ",
-        "o.5"
+        "o5"
     ],
     "june": [
         "ɔsɔn",
-        "o.6"
+        "o6"
     ],
     "july": [
         "efute",
-        "o.7"
+        "o7"
     ],
     "august": [
         "pisuyú",
-        "o.8"
+        "o8"
     ],
     "september": [
         "imɛŋ i puɔs",
-        "o.9"
+        "o9"
     ],
     "october": [
         "imɛŋ i putúk,oóli ú kátíɛ",
-        "o.10"
+        "o10"
     ],
     "november": [
         "makandikɛ",
-        "o.11"
+        "o11"
     ],
     "december": [
         "pilɔndɔ́",
-        "o.12"
+        "o12"
     ],
     "monday": [
         "móndie",
-        "md",
-        "m"
+        "md"
     ],
     "tuesday": [
         "muányáŋmóndie",
-        "mw",
-        "m"
+        "mw"
     ],
     "wednesday": [
         "metúkpíápɛ",
-        "et",
-        "e"
+        "et"
     ],
     "thursday": [
         "kúpélimetúkpiapɛ",
-        "kl",
-        "k"
+        "kl"
     ],
     "friday": [
         "feléte",
-        "fl",
-        "f"
+        "fl"
     ],
     "saturday": [
         "séselé",
-        "ss",
-        "s"
+        "ss"
     ],
     "sunday": [
         "sɔ́ndiɛ",
-        "sd",
-        "s"
+        "sd"
     ],
     "am": [
         "kiɛmɛ́ɛm"
@@ -158,6 +151,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

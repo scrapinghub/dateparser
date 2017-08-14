@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "zibandlela",
-        "zib",
-        "z"
+        "zib"
     ],
     "february": [
         "nhlolanja",
-        "nhlo",
-        "n"
+        "nhlo"
     ],
     "march": [
         "mbimbitho",
-        "mbi",
-        "m"
+        "mbi"
     ],
     "april": [
         "mabasa",
-        "mab",
-        "m"
+        "mab"
     ],
     "may": [
         "nkwenkwezi",
-        "nkw",
-        "n"
+        "nkw"
     ],
     "june": [
         "nhlangula",
-        "nhla",
-        "n"
+        "nhla"
     ],
     "july": [
         "ntulikazi",
-        "ntu",
-        "n"
+        "ntu"
     ],
     "august": [
         "ncwabakazi",
-        "ncw",
-        "n"
+        "ncw"
     ],
     "september": [
         "mpandula",
-        "mpan",
-        "m"
+        "mpan"
     ],
     "october": [
         "mfumfu",
-        "mfu",
-        "m"
+        "mfu"
     ],
     "november": [
         "lwezi",
-        "lwe",
-        "l"
+        "lwe"
     ],
     "december": [
         "mpalakazi",
-        "mpal",
-        "m"
+        "mpal"
     ],
     "monday": [
         "mvulo",
-        "mvu",
-        "m"
+        "mvu"
     ],
     "tuesday": [
         "sibili",
-        "sib",
-        "s"
+        "sib"
     ],
     "wednesday": [
         "sithathu",
-        "sit",
-        "s"
+        "sit"
     ],
     "thursday": [
         "sine",
-        "sin",
-        "s"
+        "sin"
     ],
     "friday": [
         "sihlanu",
-        "sih",
-        "s"
+        "sih"
     ],
     "saturday": [
         "mgqibelo",
-        "mgq",
-        "m"
+        "mgq"
     ],
     "sunday": [
         "sonto",
-        "son",
-        "s"
+        "son"
     ],
     "am": [
         "am"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

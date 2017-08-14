@@ -4,99 +4,80 @@ info = {
     "date_order": "DMY",
     "january": [
         "januari",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februari",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "maret",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "juli",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "agustus",
         "agt",
-        "a",
         "Agu"
     ],
     "september": [
         "september",
         "sep",
-        "s",
         "Sept"
     ],
     "october": [
         "oktober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desember",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "senin",
-        "sen",
-        "s"
+        "sen"
     ],
     "tuesday": [
         "selasa",
-        "sel",
-        "s"
+        "sel"
     ],
     "wednesday": [
         "rabu",
-        "rab",
-        "r"
+        "rab"
     ],
     "thursday": [
         "kamis",
-        "kam",
-        "k"
+        "kam"
     ],
     "friday": [
         "jumat",
-        "jum",
-        "j"
+        "jum"
     ],
     "saturday": [
         "sabtu",
-        "sab",
-        "s"
+        "sab"
     ],
     "sunday": [
         "minggu",
         "min",
-        "m",
         "Ahad"
     ],
     "am": [

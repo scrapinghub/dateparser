@@ -3,59 +3,47 @@
     "date_order": "DMY",
     "january": [
         "jaanuar",
-        "jaan",
-        "j"
+        "jaan"
     ],
     "february": [
         "veebruar",
-        "veebr",
-        "v"
+        "veebr"
     ],
     "march": [
-        "märts",
-        "m"
+        "märts"
     ],
     "april": [
         "aprill",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
-        "juuni",
-        "j"
+        "juuni"
     ],
     "july": [
-        "juuli",
-        "j"
+        "juuli"
     ],
     "august": [
         "august",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "september",
-        "sept",
-        "s"
+        "sept"
     ],
     "october": [
         "oktoober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "detsember",
-        "dets",
-        "d"
+        "dets"
     ],
     "monday": [
         "esmaspäev",

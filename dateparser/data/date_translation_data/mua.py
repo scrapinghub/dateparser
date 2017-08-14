@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "fĩi loo",
-        "flo",
-        "o"
+        "flo"
     ],
     "february": [
         "cokcwaklaŋne",
-        "cla",
-        "a"
+        "cla"
     ],
     "march": [
         "cokcwaklii",
-        "cki",
-        "i"
+        "cki"
     ],
     "april": [
         "fĩi marfoo",
-        "fmf",
-        "f"
+        "fmf"
     ],
     "may": [
         "madǝǝuutǝbijaŋ",
-        "mad",
-        "d"
+        "mad"
     ],
     "june": [
         "mamǝŋgwãafahbii",
-        "mbi",
-        "b"
+        "mbi"
     ],
     "july": [
         "mamǝŋgwãalii",
-        "mli",
-        "l"
+        "mli"
     ],
     "august": [
         "madǝmbii",
-        "mam",
-        "m"
+        "mam"
     ],
     "september": [
         "fĩi dǝɓlii",
-        "fde",
-        "e"
+        "fde"
     ],
     "october": [
         "fĩi mundaŋ",
-        "fmu",
-        "u"
+        "fmu"
     ],
     "november": [
         "fĩi gwahlle",
-        "fgw",
-        "w"
+        "fgw"
     ],
     "december": [
         "fĩi yuru",
-        "fyu",
-        "y"
+        "fyu"
     ],
     "monday": [
         "comlaaɗii",
-        "cla",
-        "l"
+        "cla"
     ],
     "tuesday": [
         "comzyiiɗii",
-        "czi",
-        "z"
+        "czi"
     ],
     "wednesday": [
         "comkolle",
-        "cko",
-        "o"
+        "cko"
     ],
     "thursday": [
         "comkaldǝɓlii",
-        "cka",
-        "a"
+        "cka"
     ],
     "friday": [
         "comgaisuu",
-        "cga",
-        "g"
+        "cga"
     ],
     "saturday": [
         "comzyeɓsuu",
-        "cze",
-        "e"
+        "cze"
     ],
     "sunday": [
-        "com’yakke",
-        "cya",
-        "y"
+        "com'yakke",
+        "cya"
     ],
     "am": [
         "comme"
@@ -113,7 +94,7 @@ info = {
         "luma"
     ],
     "day": [
-        "zah’nane/ comme"
+        "zah'nane/ comme"
     ],
     "hour": [
         "cok comme"
@@ -156,10 +137,10 @@ info = {
             "tǝsoo"
         ],
         "0 day ago": [
-            "tǝ’nahko"
+            "tǝ'nahko"
         ],
         "in 1 day": [
-            "tǝ’nane"
+            "tǝ'nane"
         ],
         "0 hour ago": [
             "this hour"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

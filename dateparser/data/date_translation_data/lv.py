@@ -4,96 +4,77 @@ info = {
     "date_order": "DMY",
     "january": [
         "janvāris",
-        "janv",
-        "j"
+        "janv"
     ],
     "february": [
         "februāris",
-        "febr",
-        "f"
+        "febr"
     ],
     "march": [
-        "marts",
-        "m"
+        "marts"
     ],
     "april": [
         "aprīlis",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "maijs",
-        "m"
+        "maijs"
     ],
     "june": [
         "jūnijs",
-        "jūn",
-        "j"
+        "jūn"
     ],
     "july": [
         "jūlijs",
-        "jūl",
-        "j"
+        "jūl"
     ],
     "august": [
         "augusts",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "septembris",
-        "sept",
-        "s"
+        "sept"
     ],
     "october": [
         "oktobris",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novembris",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "decembris",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
         "pirmdiena",
-        "pirmd",
-        "p"
+        "pirmd"
     ],
     "tuesday": [
         "otrdiena",
-        "otrd",
-        "o"
+        "otrd"
     ],
     "wednesday": [
         "trešdiena",
-        "trešd",
-        "t"
+        "trešd"
     ],
     "thursday": [
         "ceturtdiena",
-        "ceturtd",
-        "c"
+        "ceturtd"
     ],
     "friday": [
         "piektdiena",
-        "piektd",
-        "p"
+        "piektd"
     ],
     "saturday": [
         "sestdiena",
-        "sestd",
-        "s"
+        "sestd"
     ],
     "sunday": [
         "svētdiena",
-        "svētd",
-        "s"
+        "svētd"
     ],
     "am": [
         "priekšpusdiena",
@@ -103,8 +84,8 @@ info = {
     "pm": [
         "pēcpusdiena",
         "pēcpusd",
-        "pēcp",
-        "pēcpusdienā"
+        "pēcpusdienā",
+        "pēcp"
     ],
     "year": [
         "gads",

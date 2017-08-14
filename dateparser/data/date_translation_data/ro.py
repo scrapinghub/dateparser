@@ -4,101 +4,82 @@ info = {
     "date_order": "DMY",
     "january": [
         "ianuarie",
-        "ian",
-        "i"
+        "ian"
     ],
     "february": [
         "februarie",
         "feb",
-        "f",
         "Febr"
     ],
     "march": [
         "martie",
         "mar",
-        "m",
         "Mart"
     ],
     "april": [
         "aprilie",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "iunie",
-        "iun",
-        "i"
+        "iun"
     ],
     "july": [
         "iulie",
-        "iul",
-        "i"
+        "iul"
     ],
     "august": [
         "august",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "septembrie",
         "sept",
-        "s",
         "Sep"
     ],
     "october": [
         "octombrie",
-        "oct",
-        "o"
+        "oct"
     ],
     "november": [
         "noiembrie",
         "nov",
-        "n",
         "Noiem"
     ],
     "december": [
         "decembrie",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
         "luni",
-        "lun",
-        "l"
+        "lun"
     ],
     "tuesday": [
         "marți",
-        "mar",
-        "m"
+        "mar"
     ],
     "wednesday": [
         "miercuri",
         "mie",
-        "m",
         "Mi"
     ],
     "thursday": [
-        "joi",
-        "j"
+        "joi"
     ],
     "friday": [
         "vineri",
-        "vin",
-        "v"
+        "vin"
     ],
     "saturday": [
         "sâmbătă",
-        "sâm",
-        "s"
+        "sâm"
     ],
     "sunday": [
         "duminică",
-        "dum",
-        "d"
+        "dum"
     ],
     "am": [
         "am"
@@ -261,13 +242,7 @@ info = {
     },
     "locale_specific": {
         "ro-MD": {
-            "name": "ro-MD",
-            "tuesday": [
-                "ma"
-            ],
-            "wednesday": [
-                "mi"
-            ]
+            "name": "ro-MD"
         }
     },
     "skip": [

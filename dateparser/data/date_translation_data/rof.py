@@ -3,64 +3,40 @@ info = {
     "name": "rof",
     "date_order": "DMY",
     "january": [
-        "mweri wa kwanza",
-        "m1",
-        "k"
+        "mweri wa kwanza"
     ],
     "february": [
-        "mweri wa kaili",
-        "m2",
-        "k"
+        "mweri wa kaili"
     ],
     "march": [
-        "mweri wa katatu",
-        "m3",
-        "k"
+        "mweri wa katatu"
     ],
     "april": [
-        "mweri wa kaana",
-        "m4",
-        "k"
+        "mweri wa kaana"
     ],
     "may": [
-        "mweri wa tanu",
-        "m5",
-        "t"
+        "mweri wa tanu"
     ],
     "june": [
-        "mweri wa sita",
-        "m6",
-        "s"
+        "mweri wa sita"
     ],
     "july": [
-        "mweri wa saba",
-        "m7",
-        "s"
+        "mweri wa saba"
     ],
     "august": [
-        "mweri wa nane",
-        "m8",
-        "n"
+        "mweri wa nane"
     ],
     "september": [
-        "mweri wa tisa",
-        "m9",
-        "t"
+        "mweri wa tisa"
     ],
     "october": [
-        "mweri wa ikumi",
-        "m10",
-        "i"
+        "mweri wa ikumi"
     ],
     "november": [
-        "mweri wa ikumi na moja",
-        "m11",
-        "i"
+        "mweri wa ikumi na moja"
     ],
     "december": [
-        "mweri wa ikumi na mbili",
-        "m12",
-        "i"
+        "mweri wa ikumi na mbili"
     ],
     "monday": [
         "ijumatatu",
@@ -91,7 +67,7 @@ info = {
         "ijp"
     ],
     "am": [
-        "kang’ama"
+        "kang'ama"
     ],
     "pm": [
         "kingoto"
@@ -152,7 +128,7 @@ info = {
             "linu"
         ],
         "in 1 day": [
-            "ng’ama"
+            "ng'ama"
         ],
         "0 hour ago": [
             "this hour"
@@ -164,7 +140,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

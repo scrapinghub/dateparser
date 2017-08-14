@@ -4,109 +4,90 @@
     "january": [
         "siječanj",
         "sij",
-        "1",
         "siječnja"
     ],
     "february": [
         "veljača",
         "velj",
-        "2",
         "veljače"
     ],
     "march": [
         "ožujak",
         "ožu",
-        "3",
         "ožujka"
     ],
     "april": [
         "travanj",
         "tra",
-        "4",
         "travnja"
     ],
     "may": [
         "svibanj",
         "svi",
-        "5",
         "svibnja"
     ],
     "june": [
         "lipanj",
         "lip",
-        "6",
         "lipnja"
     ],
     "july": [
         "srpanj",
         "srp",
-        "7",
         "srpnja"
     ],
     "august": [
         "kolovoz",
         "kol",
-        "8",
         "kolovoza"
     ],
     "september": [
         "rujan",
         "ruj",
-        "9",
         "rujna"
     ],
     "october": [
         "listopad",
         "lis",
-        "10",
         "listopada"
     ],
     "november": [
         "studeni",
         "stu",
-        "11",
         "studenoga"
     ],
     "december": [
         "prosinac",
         "pro",
-        "12",
         "prosinca"
     ],
     "monday": [
         "ponedjeljak",
-        "pon",
-        "p"
+        "pon"
     ],
     "tuesday": [
         "utorak",
-        "uto",
-        "u"
+        "uto"
     ],
     "wednesday": [
         "srijeda",
-        "sri",
-        "s"
+        "sri"
     ],
     "thursday": [
         "četvrtak",
-        "čet",
-        "č"
+        "čet"
     ],
     "friday": [
         "petak",
-        "pet",
-        "p"
+        "pet"
     ],
     "saturday": [
         "subota",
-        "sub",
-        "s"
+        "sub"
     ],
     "sunday": [
         "nedjelja",
-        "ned",
-        "n"
+        "ned"
     ],
     "am": [
         "am"

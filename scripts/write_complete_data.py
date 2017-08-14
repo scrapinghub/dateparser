@@ -4,7 +4,7 @@ from ruamel.yaml import RoundTripLoader
 import os
 import shutil
 from collections import OrderedDict
-import re
+import regex as re
 
 from utils import combine_dicts
 

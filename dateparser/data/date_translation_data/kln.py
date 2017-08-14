@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "mulgul",
-        "mul",
-        "m"
+        "mul"
     ],
     "february": [
-        "ng’atyaato",
-        "ngat",
-        "n"
+        "ng'atyaato",
+        "ngat"
     ],
     "march": [
         "kiptaamo",
-        "taa",
-        "t"
+        "taa"
     ],
     "april": [
         "iwootkuut",
-        "iwo",
-        "i"
+        "iwo"
     ],
     "may": [
         "mamuut",
-        "mam",
-        "m"
+        "mam"
     ],
     "june": [
         "paagi",
-        "paa",
-        "p"
+        "paa"
     ],
     "july": [
-        "ng’eiyeet",
-        "nge",
-        "n"
+        "ng'eiyeet",
+        "nge"
     ],
     "august": [
         "rooptui",
-        "roo",
-        "r"
+        "roo"
     ],
     "september": [
         "bureet",
-        "bur",
-        "b"
+        "bur"
     ],
     "october": [
         "epeeso",
-        "epe",
-        "e"
+        "epe"
     ],
     "november": [
         "kipsuunde ne taai",
-        "kpt",
-        "k"
+        "kpt"
     ],
     "december": [
-        "kipsuunde nebo aeng’",
-        "kpa",
-        "k"
+        "kipsuunde nebo aeng'",
+        "kpa"
     ],
     "monday": [
         "kotaai",
-        "kot",
-        "t"
+        "kot"
     ],
     "tuesday": [
-        "koaeng’",
-        "koo",
-        "o"
+        "koaeng'",
+        "koo"
     ],
     "wednesday": [
         "kosomok",
-        "kos",
-        "s"
+        "kos"
     ],
     "thursday": [
-        "koang’wan",
-        "koa",
-        "a"
+        "koang'wan",
+        "koa"
     ],
     "friday": [
         "komuut",
-        "kom",
-        "m"
+        "kom"
     ],
     "saturday": [
         "kolo",
-        "kol",
-        "l"
+        "kol"
     ],
     "sunday": [
         "kotisap",
-        "kts",
-        "t"
+        "kts"
     ],
     "am": [
         "krn",
@@ -173,7 +154,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

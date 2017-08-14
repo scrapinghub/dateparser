@@ -51,38 +51,31 @@
     ],
     "monday": [
         "ataasinngorneq",
-        "ata",
-        "m"
+        "ata"
     ],
     "tuesday": [
         "marlunngorneq",
-        "mar",
-        "t"
+        "mar"
     ],
     "wednesday": [
         "pingasunngorneq",
-        "pin",
-        "w"
+        "pin"
     ],
     "thursday": [
         "sisamanngorneq",
-        "sis",
-        "t"
+        "sis"
     ],
     "friday": [
         "tallimanngorneq",
-        "tal",
-        "f"
+        "tal"
     ],
     "saturday": [
         "arfininngorneq",
-        "arf",
-        "s"
+        "arf"
     ],
     "sunday": [
         "sabaat",
-        "sab",
-        "s"
+        "sab"
     ],
     "am": [
         "am"

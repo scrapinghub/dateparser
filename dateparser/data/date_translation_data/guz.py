@@ -4,97 +4,78 @@ info = {
     "date_order": "DMY",
     "january": [
         "chanuari",
-        "can",
-        "c"
+        "can"
     ],
     "february": [
         "feburari",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "machi",
-        "mac",
-        "m"
+        "mac"
     ],
     "april": [
         "apiriri",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "chulai",
-        "cul",
-        "c"
+        "cul"
     ],
     "august": [
         "agosti",
-        "agt",
-        "a"
+        "agt"
     ],
     "september": [
         "septemba",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "okitoba",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "nobemba",
-        "nob",
-        "n"
+        "nob"
     ],
     "december": [
         "disemba",
-        "dis",
-        "d"
+        "dis"
     ],
     "monday": [
         "chumatato",
-        "ctt",
-        "c"
+        "ctt"
     ],
     "tuesday": [
         "chumaine",
-        "cmn",
-        "c"
+        "cmn"
     ],
     "wednesday": [
         "chumatano",
-        "cmt",
-        "c"
+        "cmt"
     ],
     "thursday": [
         "aramisi",
-        "ars",
-        "a"
+        "ars"
     ],
     "friday": [
         "ichuma",
-        "icm",
-        "i"
+        "icm"
     ],
     "saturday": [
         "esabato",
-        "est",
-        "e"
+        "est"
     ],
     "sunday": [
         "chumapiri",
-        "cpr",
-        "c"
+        "cpr"
     ],
     "am": [
         "ma",
@@ -172,7 +153,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

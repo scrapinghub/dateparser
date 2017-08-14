@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "ciongo",
-        "cio",
-        "c"
+        "cio"
     ],
     "february": [
         "lùishi",
-        "lui",
-        "l"
+        "lui"
     ],
     "march": [
         "lusòlo",
-        "lus",
-        "l"
+        "lus"
     ],
     "april": [
         "mùuyà",
-        "muu",
-        "m"
+        "muu"
     ],
     "may": [
         "lumùngùlù",
-        "lum",
-        "l"
+        "lum"
     ],
     "june": [
         "lufuimi",
-        "luf",
-        "l"
+        "luf"
     ],
     "july": [
         "kabàlàshìpù",
-        "kab",
-        "k"
+        "kab"
     ],
     "august": [
         "lùshìkà",
-        "lush",
-        "l"
+        "lush"
     ],
     "september": [
         "lutongolo",
-        "lut",
-        "l"
+        "lut"
     ],
     "october": [
         "lungùdi",
-        "lun",
-        "l"
+        "lun"
     ],
     "november": [
         "kaswèkèsè",
-        "kas",
-        "k"
+        "kas"
     ],
     "december": [
         "ciswà",
-        "cis",
-        "c"
+        "cis"
     ],
     "monday": [
         "nkodya",
-        "nko",
-        "n"
+        "nko"
     ],
     "tuesday": [
         "ndàayà",
-        "ndy",
-        "n"
+        "ndy"
     ],
     "wednesday": [
         "ndangù",
-        "ndg",
-        "n"
+        "ndg"
     ],
     "thursday": [
         "njòwa",
-        "njw",
-        "n"
+        "njw"
     ],
     "friday": [
         "ngòvya",
-        "ngv",
-        "n"
+        "ngv"
     ],
     "saturday": [
         "lubingu",
-        "lub",
-        "l"
+        "lub"
     ],
     "sunday": [
         "lumingu",
-        "lum",
-        "l"
+        "lum"
     ],
     "am": [
         "dinda"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

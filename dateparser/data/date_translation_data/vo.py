@@ -2,69 +2,26 @@
 info = {
     "name": "vo",
     "date_order": "YMD",
-    "january": [
-        "m01"
-    ],
-    "february": [
-        "m02"
-    ],
-    "march": [
-        "m03"
-    ],
-    "april": [
-        "m04"
-    ],
-    "may": [
-        "m05"
-    ],
-    "june": [
-        "m06"
-    ],
-    "july": [
-        "m07"
-    ],
-    "august": [
-        "m08"
-    ],
-    "september": [
-        "m09"
-    ],
-    "october": [
-        "m10"
-    ],
-    "november": [
-        "m11"
-    ],
-    "december": [
-        "m12"
-    ],
     "monday": [
-        "mon",
-        "m"
+        "mon"
     ],
     "tuesday": [
-        "tue",
-        "t"
+        "tue"
     ],
     "wednesday": [
-        "wed",
-        "w"
+        "wed"
     ],
     "thursday": [
-        "thu",
-        "t"
+        "thu"
     ],
     "friday": [
-        "fri",
-        "f"
+        "fri"
     ],
     "saturday": [
-        "sat",
-        "s"
+        "sat"
     ],
     "sunday": [
-        "sun",
-        "s"
+        "sun"
     ],
     "am": [
         "am"
@@ -140,7 +97,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

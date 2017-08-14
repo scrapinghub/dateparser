@@ -4,111 +4,86 @@ info = {
     "date_order": "DMY",
     "january": [
         "uđđâivemáánu",
-        "uđiv",
-        "u"
+        "uđiv"
     ],
     "february": [
         "kuovâmáánu",
-        "kuovâ",
-        "k"
+        "kuovâ"
     ],
     "march": [
         "njuhčâmáánu",
-        "njuhčâ",
-        "nj"
+        "njuhčâ"
     ],
     "april": [
         "cuáŋuimáánu",
-        "cuáŋui",
-        "c"
+        "cuáŋui"
     ],
     "may": [
         "vyesimáánu",
-        "vyesi",
-        "v"
+        "vyesi"
     ],
     "june": [
         "kesimáánu",
-        "kesi",
-        "k"
+        "kesi"
     ],
     "july": [
         "syeinimáánu",
-        "syeini",
-        "s"
+        "syeini"
     ],
     "august": [
         "porgemáánu",
-        "porge",
-        "p"
+        "porge"
     ],
     "september": [
         "čohčâmáánu",
-        "čohčâ",
-        "č"
+        "čohčâ"
     ],
     "october": [
         "roovvâdmáánu",
-        "roovvâd",
-        "r"
+        "roovvâd"
     ],
     "november": [
         "skammâmáánu",
-        "skammâ",
-        "s"
+        "skammâ"
     ],
     "december": [
         "juovlâmáánu",
-        "juovlâ",
-        "j"
+        "juovlâ"
     ],
     "monday": [
         "vuossargâ",
         "vuo",
-        "m",
-        "vuossaargâ",
-        "v"
+        "vuossaargâ"
     ],
     "tuesday": [
         "majebargâ",
         "maj",
-        "t",
-        "majebaargâ",
-        "m"
+        "majebaargâ"
     ],
     "wednesday": [
         "koskokko",
         "kos",
-        "w",
-        "koskoho",
-        "k"
+        "koskoho"
     ],
     "thursday": [
         "tuorâstâh",
         "tuo",
-        "t",
         "tuorâstuv"
     ],
     "friday": [
         "vástuppeivi",
         "vás",
-        "f",
-        "vástuppeeivi",
-        "v"
+        "vástuppeeivi"
     ],
     "saturday": [
         "lávurdâh",
         "láv",
-        "s",
-        "lávurduv",
-        "l"
+        "lávurduv"
     ],
     "sunday": [
         "pasepeivi",
         "pas",
-        "s",
-        "pasepeeivi",
-        "p"
+        "pasepeeivi"
     ],
     "am": [
         "ip"
@@ -184,7 +159,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

@@ -4,107 +4,86 @@ info = {
     "date_order": "MDY",
     "january": [
         "january",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "february",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "march",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "may",
-        "m"
+        "may"
     ],
     "june": [
         "june",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "july",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "august",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "september",
         "sep",
-        "s",
         "sept"
     ],
     "october": [
         "october",
-        "oct",
-        "o"
+        "oct"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "december",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
         "monday",
-        "mon",
-        "m"
+        "mon"
     ],
     "tuesday": [
         "tuesday",
         "tue",
-        "t",
         "Tues"
     ],
     "wednesday": [
         "wednesday",
-        "wed",
-        "w"
+        "wed"
     ],
     "thursday": [
         "thursday",
-        "thu",
-        "t"
+        "thu"
     ],
     "friday": [
         "friday",
-        "fri",
-        "f"
+        "fri"
     ],
     "saturday": [
         "saturday",
-        "sat",
-        "s"
+        "sat"
     ],
     "sunday": [
         "sunday",
-        "sun",
-        "s"
+        "sun"
     ],
     "am": [
-        "am",
-        "a"
+        "am"
     ],
     "pm": [
-        "pm",
-        "p"
+        "pm"
     ],
     "year": [
         "year",
@@ -276,73 +255,60 @@ info = {
         ]
     },
     "locale_specific": {
-        "en-001": {
-            "name": "en-001",
+        "en-SD": {
+            "name": "en-SD",
             "date_order": "DMY"
         },
-        "en-150": {
-            "name": "en-150",
-            "date_order": "DMY"
-        },
-        "en-AG": {
-            "name": "en-AG",
-            "date_order": "DMY"
-        },
-        "en-AI": {
-            "name": "en-AI",
-            "date_order": "DMY"
-        },
-        "en-AS": {
-            "name": "en-AS"
-        },
-        "en-AT": {
-            "name": "en-AT",
-            "date_order": "DMY"
-        },
-        "en-AU": {
-            "name": "en-AU",
-            "date_order": "DMY",
-            "tuesday": [
-                "tu"
-            ],
-            "thursday": [
-                "th"
-            ],
-            "saturday": [
-                "sa"
-            ],
-            "sunday": [
-                "su"
-            ],
-            "hour": [
-                "h"
-            ]
-        },
-        "en-BB": {
-            "name": "en-BB",
+        "en-TT": {
+            "name": "en-TT",
             "date_order": "DMY"
         },
         "en-BE": {
             "name": "en-BE",
             "date_order": "DMY"
         },
-        "en-BI": {
-            "name": "en-BI"
-        },
-        "en-BM": {
-            "name": "en-BM",
+        "en-CH": {
+            "name": "en-CH",
             "date_order": "DMY"
         },
-        "en-BS": {
-            "name": "en-BS",
+        "en-MG": {
+            "name": "en-MG",
+            "date_order": "DMY"
+        },
+        "en-ZM": {
+            "name": "en-ZM",
             "date_order": "DMY"
         },
         "en-BW": {
             "name": "en-BW",
             "date_order": "DMY"
         },
-        "en-BZ": {
-            "name": "en-BZ",
+        "en-DM": {
+            "name": "en-DM",
+            "date_order": "DMY"
+        },
+        "en-BS": {
+            "name": "en-BS",
+            "date_order": "DMY"
+        },
+        "en-MY": {
+            "name": "en-MY",
+            "date_order": "DMY"
+        },
+        "en-RW": {
+            "name": "en-RW",
+            "date_order": "DMY"
+        },
+        "en-UG": {
+            "name": "en-UG",
+            "date_order": "DMY"
+        },
+        "en-JM": {
+            "name": "en-JM",
+            "date_order": "DMY"
+        },
+        "en-AI": {
+            "name": "en-AI",
             "date_order": "DMY"
         },
         "en-CA": {
@@ -387,261 +353,126 @@ info = {
                 ]
             }
         },
-        "en-CC": {
-            "name": "en-CC",
-            "date_order": "DMY"
-        },
-        "en-CH": {
-            "name": "en-CH",
-            "date_order": "DMY"
-        },
-        "en-CK": {
-            "name": "en-CK",
-            "date_order": "DMY"
-        },
-        "en-CM": {
-            "name": "en-CM",
-            "date_order": "DMY"
-        },
-        "en-CX": {
-            "name": "en-CX",
-            "date_order": "DMY"
-        },
-        "en-CY": {
-            "name": "en-CY",
-            "date_order": "DMY"
-        },
-        "en-DE": {
-            "name": "en-DE",
-            "date_order": "DMY"
-        },
-        "en-DG": {
-            "name": "en-DG",
-            "date_order": "DMY"
-        },
-        "en-DK": {
-            "name": "en-DK",
-            "date_order": "DMY"
-        },
-        "en-DM": {
-            "name": "en-DM",
-            "date_order": "DMY"
-        },
-        "en-ER": {
-            "name": "en-ER",
-            "date_order": "DMY"
-        },
-        "en-FI": {
-            "name": "en-FI",
-            "date_order": "DMY"
-        },
-        "en-FJ": {
-            "name": "en-FJ",
-            "date_order": "DMY"
-        },
-        "en-FK": {
-            "name": "en-FK",
-            "date_order": "DMY"
-        },
-        "en-FM": {
-            "name": "en-FM",
-            "date_order": "DMY"
-        },
-        "en-GB": {
-            "name": "en-GB",
-            "date_order": "DMY"
-        },
-        "en-GD": {
-            "name": "en-GD",
-            "date_order": "DMY"
-        },
-        "en-GG": {
-            "name": "en-GG",
-            "date_order": "DMY"
-        },
-        "en-GH": {
-            "name": "en-GH",
-            "date_order": "DMY"
-        },
-        "en-GI": {
-            "name": "en-GI",
-            "date_order": "DMY"
-        },
-        "en-GM": {
-            "name": "en-GM",
-            "date_order": "DMY"
-        },
-        "en-GU": {
-            "name": "en-GU"
-        },
-        "en-GY": {
-            "name": "en-GY",
-            "date_order": "DMY"
-        },
-        "en-HK": {
-            "name": "en-HK",
-            "date_order": "DMY"
-        },
-        "en-IE": {
-            "name": "en-IE",
-            "date_order": "DMY"
-        },
-        "en-IL": {
-            "name": "en-IL",
-            "date_order": "DMY"
-        },
-        "en-IM": {
-            "name": "en-IM",
-            "date_order": "DMY"
-        },
-        "en-IN": {
-            "name": "en-IN",
-            "date_order": "DMY"
-        },
-        "en-IO": {
-            "name": "en-IO",
-            "date_order": "DMY"
-        },
-        "en-JE": {
-            "name": "en-JE",
-            "date_order": "DMY"
-        },
-        "en-JM": {
-            "name": "en-JM",
-            "date_order": "DMY"
-        },
-        "en-KE": {
-            "name": "en-KE",
-            "date_order": "DMY"
-        },
-        "en-KI": {
-            "name": "en-KI",
-            "date_order": "DMY"
-        },
-        "en-KN": {
-            "name": "en-KN",
-            "date_order": "DMY"
-        },
-        "en-KY": {
-            "name": "en-KY",
-            "date_order": "DMY"
-        },
-        "en-LC": {
-            "name": "en-LC",
-            "date_order": "DMY"
-        },
-        "en-LR": {
-            "name": "en-LR",
-            "date_order": "DMY"
-        },
-        "en-LS": {
-            "name": "en-LS",
-            "date_order": "DMY"
-        },
-        "en-MG": {
-            "name": "en-MG",
-            "date_order": "DMY"
-        },
-        "en-MH": {
-            "name": "en-MH"
-        },
-        "en-MO": {
-            "name": "en-MO",
-            "date_order": "DMY"
-        },
-        "en-MP": {
-            "name": "en-MP"
-        },
-        "en-MS": {
-            "name": "en-MS",
-            "date_order": "DMY"
-        },
-        "en-MT": {
-            "name": "en-MT",
-            "date_order": "DMY"
-        },
-        "en-MU": {
-            "name": "en-MU",
+        "en-SB": {
+            "name": "en-SB",
             "date_order": "DMY"
         },
         "en-MW": {
             "name": "en-MW",
             "date_order": "DMY"
         },
-        "en-MY": {
-            "name": "en-MY",
+        "en-PW": {
+            "name": "en-PW",
             "date_order": "DMY"
         },
-        "en-NA": {
-            "name": "en-NA",
+        "en-GY": {
+            "name": "en-GY",
+            "date_order": "DMY"
+        },
+        "en-150": {
+            "name": "en-150",
+            "date_order": "DMY"
+        },
+        "en-LR": {
+            "name": "en-LR",
+            "date_order": "DMY"
+        },
+        "en-GD": {
+            "name": "en-GD",
+            "date_order": "DMY"
+        },
+        "en-KE": {
+            "name": "en-KE",
             "date_order": "DMY"
         },
         "en-NF": {
             "name": "en-NF",
             "date_order": "DMY"
         },
-        "en-NG": {
-            "name": "en-NG",
+        "en-MU": {
+            "name": "en-MU",
             "date_order": "DMY"
+        },
+        "en-CY": {
+            "name": "en-CY",
+            "date_order": "DMY"
+        },
+        "en-LS": {
+            "name": "en-LS",
+            "date_order": "DMY"
+        },
+        "en-BI": {
+            "name": "en-BI"
         },
         "en-NL": {
             "name": "en-NL",
+            "date_order": "DMY"
+        },
+        "en-KI": {
+            "name": "en-KI",
+            "date_order": "DMY"
+        },
+        "en-AG": {
+            "name": "en-AG",
+            "date_order": "DMY"
+        },
+        "en-SL": {
+            "name": "en-SL",
+            "date_order": "DMY"
+        },
+        "en-VI": {
+            "name": "en-VI"
+        },
+        "en-JE": {
+            "name": "en-JE",
+            "date_order": "DMY"
+        },
+        "en-MS": {
+            "name": "en-MS",
+            "date_order": "DMY"
+        },
+        "en-GU": {
+            "name": "en-GU"
+        },
+        "en-IO": {
+            "name": "en-IO",
+            "date_order": "DMY"
+        },
+        "en-KY": {
+            "name": "en-KY",
+            "date_order": "DMY"
+        },
+        "en-ZW": {
+            "name": "en-ZW",
             "date_order": "DMY"
         },
         "en-NR": {
             "name": "en-NR",
             "date_order": "DMY"
         },
-        "en-NU": {
-            "name": "en-NU",
+        "en-PN": {
+            "name": "en-PN",
             "date_order": "DMY"
         },
-        "en-NZ": {
-            "name": "en-NZ",
+        "en-CX": {
+            "name": "en-CX",
+            "date_order": "DMY"
+        },
+        "en-ER": {
+            "name": "en-ER",
+            "date_order": "DMY"
+        },
+        "en-FK": {
+            "name": "en-FK",
             "date_order": "DMY"
         },
         "en-PG": {
             "name": "en-PG",
             "date_order": "DMY"
         },
-        "en-PH": {
-            "name": "en-PH",
+        "en-IE": {
+            "name": "en-IE",
             "date_order": "DMY"
-        },
-        "en-PK": {
-            "name": "en-PK",
-            "date_order": "DMY"
-        },
-        "en-PN": {
-            "name": "en-PN",
-            "date_order": "DMY"
-        },
-        "en-PR": {
-            "name": "en-PR"
-        },
-        "en-PW": {
-            "name": "en-PW",
-            "date_order": "DMY"
-        },
-        "en-RW": {
-            "name": "en-RW",
-            "date_order": "DMY"
-        },
-        "en-SB": {
-            "name": "en-SB",
-            "date_order": "DMY"
-        },
-        "en-SC": {
-            "name": "en-SC",
-            "date_order": "DMY"
-        },
-        "en-SD": {
-            "name": "en-SD",
-            "date_order": "DMY"
-        },
-        "en-SE": {
-            "name": "en-SE",
-            "date_order": "YMD"
         },
         "en-SG": {
             "name": "en-SG",
@@ -669,16 +500,31 @@ info = {
                 ]
             }
         },
-        "en-SH": {
-            "name": "en-SH",
+        "en-TO": {
+            "name": "en-TO",
             "date_order": "DMY"
         },
-        "en-SI": {
-            "name": "en-SI",
+        "en-AS": {
+            "name": "en-AS"
+        },
+        "en-001": {
+            "name": "en-001",
             "date_order": "DMY"
         },
-        "en-SL": {
-            "name": "en-SL",
+        "en-DE": {
+            "name": "en-DE",
+            "date_order": "DMY"
+        },
+        "en-GI": {
+            "name": "en-GI",
+            "date_order": "DMY"
+        },
+        "en-NU": {
+            "name": "en-NU",
+            "date_order": "DMY"
+        },
+        "en-VU": {
+            "name": "en-VU",
             "date_order": "DMY"
         },
         "en-SS": {
@@ -689,70 +535,191 @@ info = {
             "name": "en-SX",
             "date_order": "DMY"
         },
-        "en-SZ": {
-            "name": "en-SZ",
-            "date_order": "DMY"
-        },
         "en-TC": {
             "name": "en-TC",
             "date_order": "DMY"
         },
-        "en-TK": {
-            "name": "en-TK",
+        "en-KN": {
+            "name": "en-KN",
             "date_order": "DMY"
         },
-        "en-TO": {
-            "name": "en-TO",
+        "en-MP": {
+            "name": "en-MP"
+        },
+        "en-CC": {
+            "name": "en-CC",
             "date_order": "DMY"
         },
-        "en-TT": {
-            "name": "en-TT",
+        "en-CM": {
+            "name": "en-CM",
             "date_order": "DMY"
         },
-        "en-TV": {
-            "name": "en-TV",
+        "en-GG": {
+            "name": "en-GG",
+            "date_order": "DMY"
+        },
+        "en-SI": {
+            "name": "en-SI",
+            "date_order": "DMY"
+        },
+        "en-BM": {
+            "name": "en-BM",
+            "date_order": "DMY"
+        },
+        "en-GH": {
+            "name": "en-GH",
+            "date_order": "DMY"
+        },
+        "en-IN": {
+            "name": "en-IN",
+            "date_order": "DMY"
+        },
+        "en-SE": {
+            "name": "en-SE",
+            "date_order": "YMD"
+        },
+        "en-BB": {
+            "name": "en-BB",
+            "date_order": "DMY"
+        },
+        "en-IL": {
+            "name": "en-IL",
+            "date_order": "DMY"
+        },
+        "en-PH": {
+            "name": "en-PH",
+            "date_order": "DMY"
+        },
+        "en-FM": {
+            "name": "en-FM",
+            "date_order": "DMY"
+        },
+        "en-PK": {
+            "name": "en-PK",
             "date_order": "DMY"
         },
         "en-TZ": {
             "name": "en-TZ",
             "date_order": "DMY"
         },
-        "en-UG": {
-            "name": "en-UG",
-            "date_order": "DMY"
-        },
-        "en-UM": {
-            "name": "en-UM"
-        },
-        "en-VC": {
-            "name": "en-VC",
-            "date_order": "DMY"
-        },
-        "en-VG": {
-            "name": "en-VG",
-            "date_order": "DMY"
-        },
-        "en-VI": {
-            "name": "en-VI"
-        },
-        "en-VU": {
-            "name": "en-VU",
+        "en-GB": {
+            "name": "en-GB",
             "date_order": "DMY"
         },
         "en-WS": {
             "name": "en-WS",
             "date_order": "DMY"
         },
+        "en-MT": {
+            "name": "en-MT",
+            "date_order": "DMY"
+        },
+        "en-IM": {
+            "name": "en-IM",
+            "date_order": "DMY"
+        },
+        "en-DK": {
+            "name": "en-DK",
+            "date_order": "DMY"
+        },
+        "en-UM": {
+            "name": "en-UM"
+        },
+        "en-TK": {
+            "name": "en-TK",
+            "date_order": "DMY"
+        },
+        "en-NA": {
+            "name": "en-NA",
+            "date_order": "DMY"
+        },
+        "en-PR": {
+            "name": "en-PR"
+        },
+        "en-LC": {
+            "name": "en-LC",
+            "date_order": "DMY"
+        },
+        "en-BZ": {
+            "name": "en-BZ",
+            "date_order": "DMY"
+        },
+        "en-VG": {
+            "name": "en-VG",
+            "date_order": "DMY"
+        },
+        "en-SZ": {
+            "name": "en-SZ",
+            "date_order": "DMY"
+        },
+        "en-CK": {
+            "name": "en-CK",
+            "date_order": "DMY"
+        },
         "en-ZA": {
             "name": "en-ZA",
             "date_order": "YMD"
         },
-        "en-ZM": {
-            "name": "en-ZM",
+        "en-MH": {
+            "name": "en-MH"
+        },
+        "en-MO": {
+            "name": "en-MO",
             "date_order": "DMY"
         },
-        "en-ZW": {
-            "name": "en-ZW",
+        "en-DG": {
+            "name": "en-DG",
+            "date_order": "DMY"
+        },
+        "en-VC": {
+            "name": "en-VC",
+            "date_order": "DMY"
+        },
+        "en-NG": {
+            "name": "en-NG",
+            "date_order": "DMY"
+        },
+        "en-SH": {
+            "name": "en-SH",
+            "date_order": "DMY"
+        },
+        "en-HK": {
+            "name": "en-HK",
+            "date_order": "DMY"
+        },
+        "en-TV": {
+            "name": "en-TV",
+            "date_order": "DMY"
+        },
+        "en-FJ": {
+            "name": "en-FJ",
+            "date_order": "DMY"
+        },
+        "en-FI": {
+            "name": "en-FI",
+            "date_order": "DMY"
+        },
+        "en-SC": {
+            "name": "en-SC",
+            "date_order": "DMY"
+        },
+        "en-GM": {
+            "name": "en-GM",
+            "date_order": "DMY"
+        },
+        "en-AT": {
+            "name": "en-AT",
+            "date_order": "DMY"
+        },
+        "en-AU": {
+            "name": "en-AU",
+            "date_order": "DMY",
+            "hour": [
+                "h"
+            ]
+        },
+        "en-NZ": {
+            "name": "en-NZ",
             "date_order": "DMY"
         }
     },

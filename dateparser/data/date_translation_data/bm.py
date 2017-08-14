@@ -4,96 +4,77 @@ info = {
     "date_order": "DMY",
     "january": [
         "zanwuye",
-        "zan",
-        "z"
+        "zan"
     ],
     "february": [
         "feburuye",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "marisi",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "awirili",
-        "awi",
-        "a"
+        "awi"
     ],
     "may": [
-        "mɛ",
-        "m"
+        "mɛ"
     ],
     "june": [
         "zuwɛn",
-        "zuw",
-        "z"
+        "zuw"
     ],
     "july": [
         "zuluye",
-        "zul",
-        "z"
+        "zul"
     ],
     "august": [
-        "uti",
-        "u"
+        "uti"
     ],
     "september": [
         "sɛtanburu",
-        "sɛt",
-        "s"
+        "sɛt"
     ],
     "october": [
         "ɔkutɔburu",
-        "ɔku",
-        "ɔ"
+        "ɔku"
     ],
     "november": [
         "nowanburu",
-        "now",
-        "n"
+        "now"
     ],
     "december": [
         "desanburu",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "ntɛnɛ",
-        "ntɛ",
-        "n"
+        "ntɛ"
     ],
     "tuesday": [
         "tarata",
-        "tar",
-        "t"
+        "tar"
     ],
     "wednesday": [
         "araba",
-        "ara",
-        "a"
+        "ara"
     ],
     "thursday": [
         "alamisa",
-        "ala",
-        "a"
+        "ala"
     ],
     "friday": [
         "juma",
-        "jum",
-        "j"
+        "jum"
     ],
     "saturday": [
         "sibiri",
-        "sib",
-        "s"
+        "sib"
     ],
     "sunday": [
         "kari",
-        "kar",
-        "k"
+        "kar"
     ],
     "am": [
         "am"
@@ -169,7 +150,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

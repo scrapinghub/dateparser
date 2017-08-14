@@ -7,8 +7,8 @@ info = {
         "gen"
     ],
     "february": [
-        "cʼhwevrer",
-        "cʼhwe"
+        "c'hwevrer",
+        "c'hwe"
     ],
     "march": [
         "meurzh",
@@ -48,42 +48,34 @@ info = {
         "kzu"
     ],
     "monday": [
-        "lun",
-        "l"
+        "lun"
     ],
     "tuesday": [
         "meurzh",
-        "meu",
-        "mz"
+        "meu"
     ],
     "wednesday": [
-        "mercʼher",
-        "mer",
-        "mc"
+        "merc'her",
+        "mer"
     ],
     "thursday": [
-        "yaou",
-        "y"
+        "yaou"
     ],
     "friday": [
         "gwener",
-        "gwe",
-        "g"
+        "gwe"
     ],
     "saturday": [
         "sadorn",
-        "sad",
-        "sa"
+        "sad"
     ],
     "sunday": [
-        "sul",
-        "su"
+        "sul"
     ],
     "am": [
         "am"
     ],
     "pm": [
-        "g.m",
         "gm"
     ],
     "year": [
@@ -142,13 +134,13 @@ info = {
             "ar sizhun a zeu"
         ],
         "1 day ago": [
-            "decʼh"
+            "dec'h"
         ],
         "0 day ago": [
             "hiziv"
         ],
         "in 1 day": [
-            "warcʼhoazh"
+            "warc'hoazh"
         ],
         "0 hour ago": [
             "this hour"

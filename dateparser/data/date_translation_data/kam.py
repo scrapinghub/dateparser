@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "mwai wa mbee",
-        "mbe",
-        "m"
+        "mbe"
     ],
     "february": [
         "mwai wa kelĩ",
-        "kel",
-        "k"
+        "kel"
     ],
     "march": [
         "mwai wa katatũ",
-        "ktũ",
-        "k"
+        "ktũ"
     ],
     "april": [
         "mwai wa kana",
-        "kan",
-        "k"
+        "kan"
     ],
     "may": [
         "mwai wa katano",
-        "ktn",
-        "k"
+        "ktn"
     ],
     "june": [
         "mwai wa thanthatũ",
-        "tha",
-        "t"
+        "tha"
     ],
     "july": [
         "mwai wa muonza",
-        "moo",
-        "m"
+        "moo"
     ],
     "august": [
         "mwai wa nyaanya",
-        "nya",
-        "n"
+        "nya"
     ],
     "september": [
         "mwai wa kenda",
-        "knd",
-        "k"
+        "knd"
     ],
     "october": [
         "mwai wa ĩkumi",
-        "ĩku",
-        "ĩ"
+        "ĩku"
     ],
     "november": [
         "mwai wa ĩkumi na ĩmwe",
-        "ĩkm",
-        "ĩ"
+        "ĩkm"
     ],
     "december": [
         "mwai wa ĩkumi na ilĩ",
-        "ĩkl",
-        "ĩ"
+        "ĩkl"
     ],
     "monday": [
         "wa kwambĩlĩlya",
-        "wkw",
-        "w"
+        "wkw"
     ],
     "tuesday": [
         "wa kelĩ",
-        "wkl",
-        "e"
+        "wkl"
     ],
     "wednesday": [
         "wa katatũ",
-        "wtũ",
-        "a"
+        "wtũ"
     ],
     "thursday": [
         "wa kana",
-        "wkn",
-        "a"
+        "wkn"
     ],
     "friday": [
         "wa katano",
-        "wtn",
-        "a"
+        "wtn"
     ],
     "saturday": [
         "wa thanthatũ",
-        "wth",
-        "a"
+        "wth"
     ],
     "sunday": [
         "wa kyumwa",
-        "wky",
-        "y"
+        "wky"
     ],
     "am": [
         "ĩyakwakya"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

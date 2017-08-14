@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "innayr",
-        "inn",
-        "i"
+        "inn"
     ],
     "february": [
         "bṛayṛ",
-        "bṛa",
-        "b"
+        "bṛa"
     ],
     "march": [
         "maṛṣ",
-        "maṛ",
-        "m"
+        "maṛ"
     ],
     "april": [
         "ibrir",
-        "ibr",
-        "i"
+        "ibr"
     ],
     "may": [
         "mayyu",
-        "may",
-        "m"
+        "may"
     ],
     "june": [
         "yunyu",
-        "yun",
-        "y"
+        "yun"
     ],
     "july": [
         "yulyuz",
-        "yul",
-        "y"
+        "yul"
     ],
     "august": [
         "ɣuct",
-        "ɣuc",
-        "ɣ"
+        "ɣuc"
     ],
     "september": [
         "cutanbir",
-        "cut",
-        "c"
+        "cut"
     ],
     "october": [
         "ktubr",
-        "ktu",
-        "k"
+        "ktu"
     ],
     "november": [
         "nuwanbir",
-        "nuw",
-        "n"
+        "nuw"
     ],
     "december": [
         "dujanbir",
-        "duj",
-        "d"
+        "duj"
     ],
     "monday": [
         "aynas",
-        "ayn",
-        "m"
+        "ayn"
     ],
     "tuesday": [
         "asinas",
-        "asi",
-        "t"
+        "asi"
     ],
     "wednesday": [
         "akṛas",
-        "akṛ",
-        "w"
+        "akṛ"
     ],
     "thursday": [
         "akwas",
-        "akw",
-        "t"
+        "akw"
     ],
     "friday": [
         "asimwas",
-        "asim",
-        "f"
+        "asim"
     ],
     "saturday": [
         "asiḍyas",
-        "asiḍ",
-        "s"
+        "asiḍ"
     ],
     "sunday": [
         "asamas",
-        "asa",
-        "s"
+        "asa"
     ],
     "am": [
         "tifawt"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

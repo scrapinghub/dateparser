@@ -39,32 +39,25 @@ info = {
         "دسامبر"
     ],
     "monday": [
-        "mon",
-        "m"
+        "mon"
     ],
     "tuesday": [
-        "tue",
-        "t"
+        "tue"
     ],
     "wednesday": [
-        "wed",
-        "w"
+        "wed"
     ],
     "thursday": [
-        "thu",
-        "t"
+        "thu"
     ],
     "friday": [
-        "fri",
-        "f"
+        "fri"
     ],
     "saturday": [
-        "sat",
-        "s"
+        "sat"
     ],
     "sunday": [
-        "sun",
-        "s"
+        "sun"
     ],
     "am": [
         "am"

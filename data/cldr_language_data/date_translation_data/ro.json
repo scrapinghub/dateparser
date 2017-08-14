@@ -3,96 +3,77 @@
     "date_order": "DMY",
     "january": [
         "ianuarie",
-        "ian",
-        "i"
+        "ian"
     ],
     "february": [
         "februarie",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "martie",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "aprilie",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "iunie",
-        "iun",
-        "i"
+        "iun"
     ],
     "july": [
         "iulie",
-        "iul",
-        "i"
+        "iul"
     ],
     "august": [
         "august",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "septembrie",
-        "sept",
-        "s"
+        "sept"
     ],
     "october": [
         "octombrie",
-        "oct",
-        "o"
+        "oct"
     ],
     "november": [
         "noiembrie",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "decembrie",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
         "luni",
-        "lun",
-        "l"
+        "lun"
     ],
     "tuesday": [
         "marți",
-        "mar",
-        "m"
+        "mar"
     ],
     "wednesday": [
         "miercuri",
-        "mie",
-        "m"
+        "mie"
     ],
     "thursday": [
-        "joi",
-        "j"
+        "joi"
     ],
     "friday": [
         "vineri",
-        "vin",
-        "v"
+        "vin"
     ],
     "saturday": [
         "sâmbătă",
-        "sâm",
-        "s"
+        "sâm"
     ],
     "sunday": [
         "duminică",
-        "dum",
-        "d"
+        "dum"
     ],
     "am": [
         "am"
@@ -247,13 +228,7 @@
     },
     "locale_specific": {
         "ro-MD": {
-            "name": "ro-MD",
-            "tuesday": [
-                "ma"
-            ],
-            "wednesday": [
-                "mi"
-            ]
+            "name": "ro-MD"
         }
     }
 }

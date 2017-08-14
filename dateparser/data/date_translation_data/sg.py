@@ -4,98 +4,79 @@ info = {
     "date_order": "DMY",
     "january": [
         "nyenye",
-        "nye",
-        "n"
+        "nye"
     ],
     "february": [
         "fulundïgi",
-        "ful",
-        "f"
+        "ful"
     ],
     "march": [
         "mbängü",
-        "mbä",
-        "m"
+        "mbä"
     ],
     "april": [
         "ngubùe",
-        "ngu",
-        "n"
+        "ngu"
     ],
     "may": [
         "bêläwü",
-        "bêl",
-        "b"
+        "bêl"
     ],
     "june": [
         "föndo",
-        "fön",
-        "f"
+        "fön"
     ],
     "july": [
         "lengua",
-        "len",
-        "l"
+        "len"
     ],
     "august": [
         "kükürü",
-        "kük",
-        "k"
+        "kük"
     ],
     "september": [
         "mvuka",
-        "mvu",
-        "m"
+        "mvu"
     ],
     "october": [
         "ngberere",
-        "ngb",
-        "n"
+        "ngb"
     ],
     "november": [
         "nabändüru",
-        "nab",
-        "n"
+        "nab"
     ],
     "december": [
         "kakauka",
-        "kak",
-        "k"
+        "kak"
     ],
     "monday": [
         "bïkua-ûse",
-        "bk2",
-        "s"
+        "bk2"
     ],
     "tuesday": [
         "bïkua-ptâ",
-        "bk3",
-        "t"
+        "bk3"
     ],
     "wednesday": [
         "bïkua-usïö",
-        "bk4",
-        "s"
+        "bk4"
     ],
     "thursday": [
         "bïkua-okü",
-        "bk5",
-        "k"
+        "bk5"
     ],
     "friday": [
         "lâpôsö",
-        "lâp",
-        "p"
+        "lâp"
     ],
     "saturday": [
         "lâyenga",
-        "lây",
-        "y"
+        "lây"
     ],
     "sunday": [
         "bikua-ôko",
-        "bk1",
-        "k"
+        "bk1"
     ],
     "am": [
         "nd"
@@ -171,7 +152,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

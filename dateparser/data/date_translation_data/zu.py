@@ -5,107 +5,85 @@ info = {
     "january": [
         "januwari",
         "jan",
-        "j",
         "umasingana"
     ],
     "february": [
         "februwari",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "mashi",
-        "mas",
-        "m"
+        "mas"
     ],
     "april": [
         "ephreli",
-        "eph",
-        "a",
-        "e"
+        "eph"
     ],
     "may": [
         "meyi",
-        "mey",
-        "m"
+        "mey"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julayi",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "agasti",
-        "aga",
-        "a"
+        "aga"
     ],
     "september": [
         "septhemba",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "okthoba",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novemba",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "disemba",
-        "dis",
-        "d"
+        "dis"
     ],
     "monday": [
         "umsombuluko",
-        "mso",
-        "m"
+        "mso"
     ],
     "tuesday": [
         "ulwesibili",
-        "bil",
-        "b"
+        "bil"
     ],
     "wednesday": [
         "ulwesithathu",
-        "tha",
-        "t"
+        "tha"
     ],
     "thursday": [
         "ulwesine",
-        "sin",
-        "s"
+        "sin"
     ],
     "friday": [
         "ulwesihlanu",
-        "hla",
-        "h"
+        "hla"
     ],
     "saturday": [
         "umgqibelo",
-        "mgq",
-        "m"
+        "mgq"
     ],
     "sunday": [
         "isonto",
-        "son",
-        "s"
+        "son"
     ],
     "am": [
-        "am",
-        "a"
+        "am"
     ],
     "pm": [
-        "pm",
-        "p"
+        "pm"
     ],
     "year": [
         "unyaka"

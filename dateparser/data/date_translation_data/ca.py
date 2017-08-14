@@ -5,77 +5,66 @@ info = {
     "january": [
         "gener",
         "gen",
-        "gn",
         "de gener",
         "de gen"
     ],
     "february": [
         "febrer",
         "febr",
-        "fb",
         "de febrer",
         "de febr"
     ],
     "march": [
         "març",
-        "mç",
         "de març"
     ],
     "april": [
         "abril",
         "abr",
-        "ab",
-        "d’abril",
-        "d’abr"
+        "d'abril",
+        "d'abr"
     ],
     "may": [
         "maig",
-        "mg",
         "de maig"
     ],
     "june": [
         "juny",
-        "jn",
         "de juny"
     ],
     "july": [
         "juliol",
         "jul",
-        "jl",
         "de juliol",
         "de jul"
     ],
     "august": [
         "agost",
         "ag",
-        "d’agost",
-        "d’ag"
+        "d'agost",
+        "d'ag"
     ],
     "september": [
         "setembre",
         "set",
-        "st",
         "de setembre",
         "de set"
     ],
     "october": [
         "octubre",
         "oct",
-        "oc",
-        "d’octubre",
-        "d’oct"
+        "d'octubre",
+        "d'oct"
     ],
     "november": [
         "novembre",
         "nov",
-        "nv",
         "de novembre",
         "de nov"
     ],
     "december": [
         "desembre",
         "des",
-        "ds",
         "de desembre",
         "de des"
     ],
@@ -108,10 +97,10 @@ info = {
         "dg"
     ],
     "am": [
-        "am"
+        "a m"
     ],
     "pm": [
-        "pm"
+        "p m"
     ],
     "year": [
         "any"
@@ -140,13 +129,13 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "l’any passat"
+            "l'any passat"
         ],
         "0 year ago": [
             "enguany"
         ],
         "in 1 year": [
-            "l’any que ve"
+            "l'any que ve"
         ],
         "1 month ago": [
             "el mes passat",
@@ -194,25 +183,25 @@ info = {
     },
     "relative-type-regex": {
         "in \\1 year": [
-            "d’aquí a (\\d+) any",
-            "d’aquí a (\\d+) anys"
+            "d'aquí a (\\d+) any",
+            "d'aquí a (\\d+) anys"
         ],
         "\\1 year ago": [
             "fa (\\d+) any",
             "fa (\\d+) anys"
         ],
         "in \\1 month": [
-            "d’aquí a (\\d+) mes",
-            "d’aquí a (\\d+) mesos"
+            "d'aquí a (\\d+) mes",
+            "d'aquí a (\\d+) mesos"
         ],
         "\\1 month ago": [
             "fa (\\d+) mes",
             "fa (\\d+) mesos"
         ],
         "in \\1 week": [
-            "d’aquí a (\\d+) setmana",
-            "d’aquí a (\\d+) setmanes",
-            "d’aquí a (\\d+) setm"
+            "d'aquí a (\\d+) setmana",
+            "d'aquí a (\\d+) setmanes",
+            "d'aquí a (\\d+) setm"
         ],
         "\\1 week ago": [
             "fa (\\d+) setmana",
@@ -220,17 +209,17 @@ info = {
             "fa (\\d+) setm"
         ],
         "in \\1 day": [
-            "d’aquí a (\\d+) dia",
-            "d’aquí a (\\d+) dies"
+            "d'aquí a (\\d+) dia",
+            "d'aquí a (\\d+) dies"
         ],
         "\\1 day ago": [
             "fa (\\d+) dia",
             "fa (\\d+) dies"
         ],
         "in \\1 hour": [
-            "d’aquí a (\\d+) hora",
-            "d’aquí a (\\d+) hores",
-            "d’aquí a (\\d+) h",
+            "d'aquí a (\\d+) hora",
+            "d'aquí a (\\d+) hores",
+            "d'aquí a (\\d+) h",
             "d‘aquí a (\\d+) h"
         ],
         "\\1 hour ago": [
@@ -239,9 +228,9 @@ info = {
             "fa (\\d+) h"
         ],
         "in \\1 minute": [
-            "d’aquí a (\\d+) minut",
-            "d’aquí a (\\d+) minuts",
-            "d’aquí a (\\d+) min"
+            "d'aquí a (\\d+) minut",
+            "d'aquí a (\\d+) minuts",
+            "d'aquí a (\\d+) min"
         ],
         "\\1 minute ago": [
             "fa (\\d+) minut",
@@ -249,9 +238,9 @@ info = {
             "fa (\\d+) min"
         ],
         "in \\1 second": [
-            "d’aquí a (\\d+) segon",
-            "d’aquí a (\\d+) segons",
-            "d’aquí a (\\d+) s"
+            "d'aquí a (\\d+) segon",
+            "d'aquí a (\\d+) segons",
+            "d'aquí a (\\d+) s"
         ],
         "\\1 second ago": [
             "fa (\\d+) segon",
@@ -260,14 +249,14 @@ info = {
         ]
     },
     "locale_specific": {
-        "ca-AD": {
-            "name": "ca-AD"
-        },
         "ca-FR": {
             "name": "ca-FR"
         },
         "ca-IT": {
             "name": "ca-IT"
+        },
+        "ca-AD": {
+            "name": "ca-AD"
         }
     },
     "skip": [

@@ -3,97 +3,78 @@
     "date_order": "DMY",
     "january": [
         "januari",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februari",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "machi",
-        "mac",
-        "m"
+        "mac"
     ],
     "april": [
         "aprilyi",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "junyi",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julyai",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "agusti",
-        "ago",
-        "a"
+        "ago"
     ],
     "september": [
         "septemba",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktoba",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novemba",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desemba",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "jumatatuu",
-        "jtt",
-        "j"
+        "jtt"
     ],
     "tuesday": [
         "jumanne",
-        "jnn",
-        "j"
+        "jnn"
     ],
     "wednesday": [
         "jumatanu",
-        "jtn",
-        "j"
+        "jtn"
     ],
     "thursday": [
         "alhamisi",
-        "alh",
-        "a"
+        "alh"
     ],
     "friday": [
         "ijumaa",
-        "iju",
-        "i"
+        "iju"
     ],
     "saturday": [
         "jumamosi",
-        "jmo",
-        "j"
+        "jmo"
     ],
     "sunday": [
         "jumapilyi",
-        "jpi",
-        "j"
+        "jpi"
     ],
     "am": [
         "utuko"
@@ -169,6 +150,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }

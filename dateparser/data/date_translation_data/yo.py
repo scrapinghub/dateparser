@@ -52,36 +52,29 @@ info = {
     ],
     "monday": [
         "ọjọ́ ajé",
-        "ajé",
-        "m"
+        "ajé"
     ],
     "tuesday": [
         "ọjọ́ ìsẹ́gun",
-        "ìsẹ́gun",
-        "t"
+        "ìsẹ́gun"
     ],
     "wednesday": [
-        "ọjọ́rú",
-        "w"
+        "ọjọ́rú"
     ],
     "thursday": [
-        "ọjọ́bọ",
-        "t"
+        "ọjọ́bọ"
     ],
     "friday": [
         "ọjọ́ ẹtì",
-        "ẹtì",
-        "f"
+        "ẹtì"
     ],
     "saturday": [
         "ọjọ́ àbámẹ́ta",
-        "àbámẹ́ta",
-        "s"
+        "àbámẹ́ta"
     ],
     "sunday": [
         "ọjọ́ àìkú",
-        "àìkú",
-        "s"
+        "àìkú"
     ],
     "am": [
         "àárọ̀"
@@ -157,7 +150,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {
         "yo-BJ": {
             "name": "yo-BJ",

@@ -4,106 +4,85 @@ info = {
     "date_order": "MDY",
     "january": [
         "dzove",
-        "dzv",
-        "d"
+        "dzv"
     ],
     "february": [
         "dzodze",
-        "dzd",
-        "d"
+        "dzd"
     ],
     "march": [
         "tedoxe",
-        "ted",
-        "t"
+        "ted"
     ],
     "april": [
         "afɔfĩe",
-        "afɔ",
-        "a"
+        "afɔ"
     ],
     "may": [
         "dama",
-        "dam",
-        "d"
+        "dam"
     ],
     "june": [
         "masa",
-        "mas",
-        "m"
+        "mas"
     ],
     "july": [
         "siamlɔm",
-        "sia",
-        "s"
+        "sia"
     ],
     "august": [
         "deasiamime",
-        "dea",
-        "d"
+        "dea"
     ],
     "september": [
         "anyɔnyɔ",
-        "any",
-        "a"
+        "any"
     ],
     "october": [
         "kele",
-        "kel",
-        "k"
+        "kel"
     ],
     "november": [
         "adeɛmekpɔxe",
-        "ade",
-        "a"
+        "ade"
     ],
     "december": [
         "dzome",
-        "dzm",
-        "d"
+        "dzm"
     ],
     "monday": [
         "dzoɖa",
-        "dzo",
-        "d"
+        "dzo"
     ],
     "tuesday": [
         "blaɖa",
-        "bla",
-        "b"
+        "bla"
     ],
     "wednesday": [
         "kuɖa",
-        "kuɖ",
-        "k"
+        "kuɖ"
     ],
     "thursday": [
         "yawoɖa",
-        "yaw",
-        "y"
+        "yaw"
     ],
     "friday": [
         "fiɖa",
-        "fiɖ",
-        "f"
+        "fiɖ"
     ],
     "saturday": [
         "memleɖa",
-        "mem",
-        "m"
+        "mem"
     ],
     "sunday": [
         "kɔsiɖa",
-        "kɔs",
-        "k"
+        "kɔs"
     ],
     "am": [
-        "ŋdi",
-        "ŋ"
+        "ŋdi"
     ],
     "pm": [
-        "ɣetrɔ",
-        "ɣ"
+        "ɣetrɔ"
     ],
     "year": [
         "ƒe"

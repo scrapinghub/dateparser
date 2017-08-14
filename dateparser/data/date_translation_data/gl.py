@@ -4,95 +4,76 @@ info = {
     "date_order": "DMY",
     "january": [
         "xaneiro",
-        "xan",
-        "x"
+        "xan"
     ],
     "february": [
         "febreiro",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "marzo",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "abril",
-        "abr",
-        "a"
+        "abr"
     ],
     "may": [
-        "maio",
-        "m"
+        "maio"
     ],
     "june": [
-        "xuño",
-        "x"
+        "xuño"
     ],
     "july": [
         "xullo",
-        "xul",
-        "x"
+        "xul"
     ],
     "august": [
         "agosto",
-        "ago",
-        "a"
+        "ago"
     ],
     "september": [
         "setembro",
-        "set",
-        "s"
+        "set"
     ],
     "october": [
         "outubro",
-        "out",
-        "o"
+        "out"
     ],
     "november": [
         "novembro",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "decembro",
-        "dec",
-        "d"
+        "dec"
     ],
     "monday": [
-        "luns",
-        "l"
+        "luns"
     ],
     "tuesday": [
         "martes",
-        "mar",
-        "m"
+        "mar"
     ],
     "wednesday": [
         "mércores",
-        "mér",
-        "m"
+        "mér"
     ],
     "thursday": [
         "xoves",
-        "xov",
-        "x"
+        "xov"
     ],
     "friday": [
         "venres",
-        "ven",
-        "v"
+        "ven"
     ],
     "saturday": [
         "sábado",
-        "sáb",
-        "s"
+        "sáb"
     ],
     "sunday": [
         "domingo",
-        "dom",
-        "d"
+        "dom"
     ],
     "am": [
         "am"

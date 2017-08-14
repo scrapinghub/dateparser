@@ -4,97 +4,78 @@ info = {
     "date_order": "DMY",
     "january": [
         "yanvar",
-        "yan",
-        "y"
+        "yan"
     ],
     "february": [
         "fevral",
-        "fev",
-        "f"
+        "fev"
     ],
     "march": [
         "mart",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "aprel",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "may",
-        "m"
+        "may"
     ],
     "june": [
         "iyun",
-        "iyn",
-        "i"
+        "iyn"
     ],
     "july": [
         "iyul",
-        "iyl",
-        "i"
+        "iyl"
     ],
     "august": [
         "avgust",
-        "avg",
-        "a"
+        "avg"
     ],
     "september": [
         "sentabr",
-        "sen",
-        "s"
+        "sen"
     ],
     "october": [
         "oktabr",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "noyabr",
-        "noy",
-        "n"
+        "noy"
     ],
     "december": [
         "dekabr",
-        "dek",
-        "d"
+        "dek"
     ],
     "monday": [
         "dushanba",
-        "dush",
-        "d"
+        "dush"
     ],
     "tuesday": [
         "seshanba",
-        "sesh",
-        "s"
+        "sesh"
     ],
     "wednesday": [
         "chorshanba",
-        "chor",
-        "c"
+        "chor"
     ],
     "thursday": [
         "payshanba",
-        "pay",
-        "p"
+        "pay"
     ],
     "friday": [
         "juma",
-        "jum",
-        "j"
+        "jum"
     ],
     "saturday": [
         "shanba",
-        "shan",
-        "s"
+        "shan"
     ],
     "sunday": [
         "yakshanba",
-        "yak",
-        "y"
+        "yak"
     ],
     "am": [
         "to"
@@ -128,7 +109,7 @@ info = {
     "relative-type": {
         "1 year ago": [
             "o‘tgan yil",
-            "oʻtgan yil"
+            "o'tgan yil"
         ],
         "0 year ago": [
             "shu yil",

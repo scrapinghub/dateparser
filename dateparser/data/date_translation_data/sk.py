@@ -5,106 +5,87 @@ info = {
     "january": [
         "január",
         "jan",
-        "j",
         "januára"
     ],
     "february": [
         "február",
         "feb",
-        "f",
         "februára"
     ],
     "march": [
         "marec",
         "mar",
-        "m",
         "marca"
     ],
     "april": [
         "apríl",
         "apr",
-        "a",
         "apríla"
     ],
     "may": [
         "máj",
-        "m",
         "mája"
     ],
     "june": [
         "jún",
-        "j",
         "júna"
     ],
     "july": [
         "júl",
-        "j",
         "júla"
     ],
     "august": [
         "august",
         "aug",
-        "a",
         "augusta"
     ],
     "september": [
         "september",
         "sep",
-        "s",
         "septembra"
     ],
     "october": [
         "október",
         "okt",
-        "o",
         "októbra"
     ],
     "november": [
         "november",
         "nov",
-        "n",
         "novembra"
     ],
     "december": [
         "december",
         "dec",
-        "d",
         "decembra"
     ],
     "monday": [
         "pondelok",
-        "po",
-        "p"
+        "po"
     ],
     "tuesday": [
         "utorok",
-        "ut",
-        "u"
+        "ut"
     ],
     "wednesday": [
         "streda",
-        "st",
-        "s"
+        "st"
     ],
     "thursday": [
         "štvrtok",
-        "št",
-        "š"
+        "št"
     ],
     "friday": [
         "piatok",
-        "pi",
-        "p"
+        "pi"
     ],
     "saturday": [
         "sobota",
-        "so",
-        "s"
+        "so"
     ],
     "sunday": [
         "nedeľa",
-        "ne",
-        "n"
+        "ne"
     ],
     "am": [
         "am"

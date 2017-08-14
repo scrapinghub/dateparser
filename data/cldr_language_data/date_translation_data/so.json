@@ -3,98 +3,79 @@
     "date_order": "DMY",
     "january": [
         "bisha koobaad",
-        "kob",
-        "k"
+        "kob"
     ],
     "february": [
         "bisha labaad",
-        "lab",
-        "l"
+        "lab"
     ],
     "march": [
         "bisha saddexaad",
-        "sad",
-        "s"
+        "sad"
     ],
     "april": [
         "bisha afraad",
-        "afr",
-        "a"
+        "afr"
     ],
     "may": [
         "bisha shanaad",
-        "sha",
-        "s"
+        "sha"
     ],
     "june": [
         "bisha lixaad",
-        "lix",
-        "l"
+        "lix"
     ],
     "july": [
         "bisha todobaad",
-        "tod",
-        "t"
+        "tod"
     ],
     "august": [
         "bisha sideedaad",
-        "sid",
-        "s"
+        "sid"
     ],
     "september": [
         "bisha sagaalaad",
-        "sag",
-        "s"
+        "sag"
     ],
     "october": [
         "bisha tobnaad",
-        "tob",
-        "t"
+        "tob"
     ],
     "november": [
         "bisha kow iyo tobnaad",
-        "kit",
-        "k"
+        "kit"
     ],
     "december": [
         "bisha laba iyo tobnaad",
-        "lit",
-        "l"
+        "lit"
     ],
     "monday": [
         "isniin",
-        "isn",
-        "i"
+        "isn"
     ],
     "tuesday": [
         "talaado",
-        "tal",
-        "t"
+        "tal"
     ],
     "wednesday": [
         "arbaco",
-        "arb",
-        "a"
+        "arb"
     ],
     "thursday": [
         "khamiis",
-        "kha",
-        "kh"
+        "kha"
     ],
     "friday": [
         "jimco",
-        "jim",
-        "j"
+        "jim"
     ],
     "saturday": [
         "sabti",
-        "sab",
-        "s"
+        "sab"
     ],
     "sunday": [
         "axad",
-        "axd",
-        "a"
+        "axd"
     ],
     "am": [
         "sn"
@@ -170,16 +151,15 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {
         "so-DJ": {
             "name": "so-DJ"
         },
-        "so-ET": {
-            "name": "so-ET"
-        },
         "so-KE": {
             "name": "so-KE"
+        },
+        "so-ET": {
+            "name": "so-ET"
         }
     }
 }

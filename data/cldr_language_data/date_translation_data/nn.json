@@ -3,111 +3,92 @@
     "date_order": "DMY",
     "january": [
         "januar",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "februar",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "mars",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "april",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mai",
-        "m"
+        "mai"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "juli",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "august",
-        "aug",
-        "a"
+        "aug"
     ],
     "september": [
         "september",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktober",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "november",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desember",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "måndag",
         "mån",
-        "m",
         "må"
     ],
     "tuesday": [
         "tysdag",
         "tys",
-        "t",
         "ty"
     ],
     "wednesday": [
         "onsdag",
         "ons",
-        "o",
         "on"
     ],
     "thursday": [
         "torsdag",
         "tor",
-        "t",
         "to"
     ],
     "friday": [
         "fredag",
         "fre",
-        "f",
         "fr"
     ],
     "saturday": [
         "laurdag",
         "lau",
-        "l",
         "la"
     ],
     "sunday": [
         "søndag",
         "søn",
-        "s",
         "sø"
     ],
     "am": [
-        "f.m",
+        "fm",
         "formiddag"
     ],
     "pm": [
-        "e.m",
+        "em",
         "ettermiddag"
     ],
     "year": [

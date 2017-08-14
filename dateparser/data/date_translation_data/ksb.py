@@ -4,62 +4,50 @@ info = {
     "date_order": "DMY",
     "january": [
         "januali",
-        "jan",
-        "j"
+        "jan"
     ],
     "february": [
         "febluali",
-        "feb",
-        "f"
+        "feb"
     ],
     "march": [
         "machi",
-        "mac",
-        "m"
+        "mac"
     ],
     "april": [
         "aplili",
-        "apr",
-        "a"
+        "apr"
     ],
     "may": [
-        "mei",
-        "m"
+        "mei"
     ],
     "june": [
         "juni",
-        "jun",
-        "j"
+        "jun"
     ],
     "july": [
         "julai",
-        "jul",
-        "j"
+        "jul"
     ],
     "august": [
         "agosti",
-        "ago",
-        "a"
+        "ago"
     ],
     "september": [
         "septemba",
-        "sep",
-        "s"
+        "sep"
     ],
     "october": [
         "oktoba",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "novemba",
-        "nov",
-        "n"
+        "nov"
     ],
     "december": [
         "desemba",
-        "des",
-        "d"
+        "des"
     ],
     "monday": [
         "jumaatatu",
@@ -75,13 +63,11 @@ info = {
     ],
     "thursday": [
         "alhamisi",
-        "alh",
-        "a"
+        "alh"
     ],
     "friday": [
         "ijumaa",
-        "iju",
-        "i"
+        "iju"
     ],
     "saturday": [
         "jumaamosi",
@@ -98,10 +84,10 @@ info = {
         "nyiaghuo"
     ],
     "year": [
-        "ng’waka"
+        "ng'waka"
     ],
     "month": [
-        "ng’ezi"
+        "ng'ezi"
     ],
     "week": [
         "niki"
@@ -165,7 +151,6 @@ info = {
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {},
     "skip": [
         " ",

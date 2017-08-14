@@ -3,96 +3,77 @@
     "date_order": "DMY",
     "january": [
         "žanwiye",
-        "žan",
-        "ž"
+        "žan"
     ],
     "february": [
         "feewiriye",
-        "fee",
-        "f"
+        "fee"
     ],
     "march": [
         "marsi",
-        "mar",
-        "m"
+        "mar"
     ],
     "april": [
         "awiril",
-        "awi",
-        "a"
+        "awi"
     ],
     "may": [
-        "me",
-        "m"
+        "me"
     ],
     "june": [
         "žuweŋ",
-        "žuw",
-        "ž"
+        "žuw"
     ],
     "july": [
         "žuyye",
-        "žuy",
-        "ž"
+        "žuy"
     ],
     "august": [
-        "ut",
-        "u"
+        "ut"
     ],
     "september": [
         "sektanbur",
-        "sek",
-        "s"
+        "sek"
     ],
     "october": [
         "oktoobur",
-        "okt",
-        "o"
+        "okt"
     ],
     "november": [
         "noowanbur",
-        "noo",
-        "n"
+        "noo"
     ],
     "december": [
         "deesanbur",
-        "dee",
-        "d"
+        "dee"
     ],
     "monday": [
         "atinni",
-        "ati",
-        "t"
+        "ati"
     ],
     "tuesday": [
         "atalaata",
-        "ata",
-        "t"
+        "ata"
     ],
     "wednesday": [
         "alarba",
-        "ala",
-        "l"
+        "ala"
     ],
     "thursday": [
         "alhamiisa",
-        "alm",
-        "l"
+        "alm"
     ],
     "friday": [
         "alzuma",
-        "alz",
-        "l"
+        "alz"
     ],
     "saturday": [
         "asibti",
-        "asi",
-        "s"
+        "asi"
     ],
     "sunday": [
         "alhadi",
-        "alh",
-        "h"
+        "alh"
     ],
     "am": [
         "subbaahi"
@@ -168,6 +149,5 @@
             "now"
         ]
     },
-    "relative-type-regex": {},
     "locale_specific": {}
 }
