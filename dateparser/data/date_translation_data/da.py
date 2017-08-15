@@ -163,18 +163,6 @@ info = {
         ],
         "0 second ago": [
             "nu"
-        ],
-        "\\\\1 hour ago": [
-            "for (\\d+)\\s*h",
-            "for (\\d+) timer"
-        ],
-        "\\\\1 minute ago": [
-            "for (\\d+)\\s*m",
-            "for (\\d+) minutter"
-        ],
-        "\\\\1 second ago": [
-            "for (\\d+)\\s*s",
-            "for (\\d+) sekunder"
         ]
     },
     "relative-type-regex": {
@@ -218,7 +206,9 @@ info = {
         ],
         "\\1 hour ago": [
             "for (\\d+) time siden",
-            "for (\\d+) timer siden"
+            "for (\\d+) timer siden",
+            "for (\\d+)\\s*h",
+            "for (\\d+) timer"
         ],
         "in \\1 minute": [
             "om (\\d+) minut",
@@ -228,7 +218,9 @@ info = {
         "\\1 minute ago": [
             "for (\\d+) minut siden",
             "for (\\d+) minutter siden",
-            "for (\\d+) min siden"
+            "for (\\d+) min siden",
+            "for (\\d+)\\s*m",
+            "for (\\d+) minutter"
         ],
         "in \\1 second": [
             "om (\\d+) sekund",
@@ -238,7 +230,9 @@ info = {
         "\\1 second ago": [
             "for (\\d+) sekund siden",
             "for (\\d+) sekunder siden",
-            "for (\\d+) sek siden"
+            "for (\\d+) sek siden",
+            "for (\\d+)\\s*s",
+            "for (\\d+) sekunder"
         ]
     },
     "locale_specific": {

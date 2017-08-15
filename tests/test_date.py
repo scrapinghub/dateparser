@@ -315,7 +315,6 @@ class TestParseWithFormatsFunction(BaseTestCase):
 
 
 class TestDateDataParser(BaseTestCase):
-    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile(u"Unknown language\(s\): (.+)")
     def setUp(self):
         super(TestDateDataParser, self).setUp()
         self.parser = NotImplemented
@@ -399,25 +398,12 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_date_has_timezone()
 
     @parameterized.expand([
-        param(['ur', 'li'], unknown_languages=[u'ur', u'li']),
-        param(['ur', 'en'], unknown_languages=[u'ur']),
-        param(['pk'], unknown_languages=[u'pk']),
-        ])
-    def test_get_date_data_should_raise_error_when_unknown_language_given(
-            self, shortnames, unknown_languages):
-        self.given_parser(restrict_to_languages=shortnames)
-        self.when_date_string_is_parsed('11 Jan 1999 12:05')
-        self.then_languages_are_unknown(unknown_languages)
-
-    @parameterized.expand([
         param(date_string="14 giu 13", date_formats=["%y %B %d"],
               expected_result=datetime(2014, 6, 13)),
         param(date_string="14_luglio_15", date_formats=["%y_%B_%d"],
               expected_result=datetime(2014, 7, 15)),
         param(date_string="14_LUGLIO_15", date_formats=["%y_%B_%d"],
               expected_result=datetime(2014, 7, 15)),
-        param(date_string="02/12/2014 \xe0 15:08", date_formats=["%d/%m/%Y \xe0 %H:%M"],
-              expected_result=datetime(2014, 12, 2, 15, 8)),
         param(date_string="10.01.2016, 20:35", date_formats=["%d.%m.%Y, %H:%M"],
               expected_result=datetime(2016, 1, 10, 20, 35)),
     ])
@@ -575,13 +561,6 @@ class TestDateDataParser(BaseTestCase):
     def then_returned_tuple_is(self, expected_tuple):
         self.assertEqual(expected_tuple, self.result)
 
-    def then_languages_are_unknown(self, unknown_languages):
-        self.assertIsInstance(self.error, ValueError)
-        match = self.UNKNOWN_LANGUAGES_EXCEPTION_RE.match(str(self.error))
-        self.assertTrue(match)
-        languages = match.group(1).split(", ")
-        six.assertCountEqual(self, languages, [repr(l) for l in unknown_languages])
-
 
 class TestParserInitialization(BaseTestCase):
     def setUp(self):
@@ -644,12 +623,12 @@ class TestParserInitialization(BaseTestCase):
         self.then_error_was_raised(
             ValueError, ["locales must be given if use_given_order is True"])
 
-    def when_parser_is_initialized(self, languages=None, try_previous_languages=True,
-                                   strict_language_order=False, use_given_order=False):
+    def when_parser_is_initialized(self, languages=None, locales=None, region=None,
+                                   try_previous_locales=True, use_given_order=False):
         try:
             self.parser = date.DateDataParser(
-                languages=languages, try_previous_languages=try_previous_languages,
-                strict_language_order=strict_language_order, use_given_order=use_given_order)
+                languages=languages, locales=locales, region=region,
+                try_previous_locales=try_previous_locales, use_given_order=use_given_order)
         except Exception as error:
             self.error = error
 
@@ -658,12 +637,12 @@ class TestSanitizeDate(BaseTestCase):
     def test_remove_year_in_russian(self):
         self.assertEqual(date.sanitize_date(u'2005г.'), u'2005 ')
         self.assertEqual(date.sanitize_date(u'2005 г.'), u'2005 ')
-        self.assertEqual(date.sanitize_date(u'Авг.'), u'Авг.')
+        self.assertEqual(date.sanitize_date(u'Авг.'), u'Авг')
 
 
-class TestDateLanguageParser(BaseTestCase):
+class TestDateLocaleParser(BaseTestCase):
     def setUp(self):
-        super(TestDateLanguageParser, self).setUp()
+        super(TestDateLocaleParser, self).setUp()
 
     @parameterized.expand([
         param(date_obj={'date_obj': datetime(1999, 10, 1, 0, 0)}),
@@ -680,7 +659,7 @@ class TestDateLanguageParser(BaseTestCase):
         self.then_date_object_is_invalid()
 
     def given_parser(self, language, date_string, date_formats, settings):
-        self.parser = date._DateLanguageParser(language, date_string, date_formats, settings)
+        self.parser = date._DateLocaleParser(language, date_string, date_formats, settings)
 
     def when_date_object_is_validated(self, date_obj):
         self.is_valid_date_obj = self.parser._is_valid_date_obj(date_obj)

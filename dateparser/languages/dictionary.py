@@ -9,7 +9,7 @@ from six.moves import zip_longest
 from dateparser.utils import normalize_unicode
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
-PARSER_KNOWN_TOKENS = ["am", "pm", "a", "p", "UTC", "GMT", "Z"]
+PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z"]
 ALWAYS_KEEP_TOKENS = ["+"] + PARSER_HARDCODED_TOKENS
 KNOWN_WORD_TOKENS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
                      'saturday', 'sunday', 'january', 'february', 'march',
@@ -62,7 +62,7 @@ class Dictionary(object):
         self._no_word_spacing = bool(eval(no_word_spacing))
 
         relative_type_regex = locale_info.get("relative-type-regex", {})
-        self._relative_strings = chain(*relative_type_regex.values())
+        self._relative_strings = list(chain(*relative_type_regex.values()))
 
     def __contains__(self, key):
         if key in self._settings.SKIP_TOKENS:
@@ -96,7 +96,7 @@ class Dictionary(object):
 
         return splitted
 
-    def split_relative(self, string, keep_formatting):
+    def split_relative(self, string):
         """ Recursively splitting string by words in dictionary """
         if not string:
             return string
@@ -108,7 +108,7 @@ class Dictionary(object):
         match_relative_regex = self._get_match_relative_regex_cache()
         for token in tokens:
             if any([match_relative_regex.match(token),
-                    token in self._dictionary, token.isdigit()]):
+                    token in self, token.isdigit()]):
                 continue
             else:
                 return False

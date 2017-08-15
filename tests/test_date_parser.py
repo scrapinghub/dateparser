@@ -4,19 +4,14 @@ from __future__ import unicode_literals
 import unittest
 from datetime import datetime, timedelta
 from functools import wraps
-from operator import attrgetter
 
-import six
 from mock import patch, Mock
 from nose_parameterized import parameterized, param
 
 import dateparser.timezone_parser
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
-# from dateparser.languages import default_loader
-# from dateparser.languages.detection import LanguageDetector
 from dateparser.timezone_parser import StaticTzInfo
-# from dateparser.conf import settings
 from dateparser.utils import normalize_unicode
 
 from tests import BaseTestCase
@@ -105,7 +100,6 @@ class TestDateParser(BaseTestCase):
         param('13 iunie 2013', datetime(2013, 6, 13)),
         param('14 aprilie 2014', datetime(2014, 4, 14)),
         param('18 martie 2012', datetime(2012, 3, 18)),
-        param('S 14:14', datetime(2012, 11, 10, 14, 14)),
         param('12-Iun-2013', datetime(2013, 6, 12)),
         # German dates
         param('21. Dezember 2013', datetime(2013, 12, 21)),
@@ -155,7 +149,6 @@ class TestDateParser(BaseTestCase):
         # Miscellaneous dates
         param('1 Ni 2015', datetime(2015, 4, 1, 0, 0)),
         param('1 Mar 2015', datetime(2015, 3, 1, 0, 0)),
-        param('1 Paz 2015', datetime(2015, 10, 1, 0, 0)),
         param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
         param('2016020417:10', datetime(2016, 2, 4, 17, 10)),
         # Chinese dates
@@ -174,13 +167,13 @@ class TestDateParser(BaseTestCase):
         param('মঙ্গলবার জুলাই 22, 2014', datetime(2014, 7, 22)),
         param('শুক্রবার', datetime(2012, 11, 9)),
         param('শুক্র, 12 ডিসেম্বর 2014 10:55:50', datetime(2014, 12, 12, 10, 55, 50)),
-        param('1লা জানুয়ারী 2015', datetime(2015, 1, 1)),
+        param('1লা জানুয়ারী 2015', datetime(2015, 1, 1)),
         param('25শে মার্চ 1971', datetime(1971, 3, 25)),
         param('8ই মে 2002', datetime(2002, 5, 8)),
         param('10:06am ডিসেম্বর 11, 2014', datetime(2014, 12, 11, 10, 6)),
-        param('19 ফেব্রুয়ারী 2013 সাল 09:10', datetime(2013, 2, 19, 9, 10)),
+        param('19 ফেব্রুয়ারী 2013 সাল 09:10', datetime(2013, 2, 19, 9, 10)),
         # Hindi dates
-        param('ग्यारह जुलाई 1994, 11:12', datetime(1994, 7, 11, 11, 12)),
+        param('11 जुलाई 1994, 11:12', datetime(1994, 7, 11, 11, 12)),
         param('१७ अक्टूबर २०१८', datetime(2018, 10, 17, 0, 0)),
         param('12 जनवरी  1997 11:08 अपराह्न', datetime(1997, 1, 12, 23, 8)),
         # Georgian dates
@@ -336,7 +329,6 @@ class TestDateParser(BaseTestCase):
         # Miscellaneous dates
         param('1 Ni 2015', datetime(2015, 4, 1, 0, 0)),
         param('1 Mar 2015', datetime(2015, 3, 1, 0, 0)),
-        param('1 Paz 2015', datetime(2015, 10, 1, 0, 0)),
         param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
         # Bulgarian
         param('24 ян 2015г.', datetime(2015, 1, 24, 0, 0)),
@@ -570,12 +562,10 @@ class TestDateParser(BaseTestCase):
               expected=datetime(2015, 5, 2, 10, 20, 19)),
         param('2015-05-02T10:20:19+0000', languages=['en'],
               expected=datetime(2015, 5, 2, 10, 20, 19)),
-        param('2015-05-02T10:20:19+0000', languages=[],
-              expected=datetime(2015, 5, 2, 10, 20, 19)),
     ])
     def test_iso_datestamp_format_should_always_parse(self, date_string, languages, expected):
         self.given_local_tz_offset(0)
-        self.given_parser(languages=languages, settings={'PREFER_LANGUAGE_DATE_ORDER': False})
+        self.given_parser(languages=languages, settings={'PREFER_LOCALE_DATE_ORDER': False})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.result['date_obj'] = self.result['date_obj'].replace(tzinfo=None)

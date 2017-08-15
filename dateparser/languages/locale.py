@@ -37,6 +37,8 @@ class Locale(object):
             date_string, _ = pop_tz_offset_from_string(date_string, as_offset=False)
 
         date_string = self._translate_numerals(date_string)
+        if settings.NORMALIZE:
+            date_string = normalize_unicode(date_string)
         date_string = self._simplify(date_string, settings=settings)
         date_tokens = self._get_date_tokens(date_string, settings=settings)
 
@@ -45,6 +47,8 @@ class Locale(object):
 
     def translate(self, date_string, keep_formatting=False, settings=None):
         date_string = self._translate_numerals(date_string)
+        if settings.NORMALIZE:
+            date_string = normalize_unicode(date_string)
         date_string = self._simplify(date_string, settings=settings)
         date_string_tokens = self._get_date_tokens(date_string, keep_formatting,
                                                    settings=settings)
@@ -79,8 +83,7 @@ class Locale(object):
     def _get_date_tokens(self, date_string, keep_formatting=False, settings=None):
         relative_translations = self._get_relative_translations(settings=settings)
         tokens = [date_string]
-        tokens = list(self._split_tokens_by_known_relative_strings(tokens, keep_formatting,
-                                                                   settings=settings))
+        tokens = list(self._split_tokens_by_known_relative_strings(tokens, settings=settings))
         for i, token in enumerate(tokens):
             for pattern, _ in relative_translations.items():
                 if pattern.match(token):
@@ -110,7 +113,7 @@ class Locale(object):
                 value = list(map(normalize_unicode, value))
             pattern = '|'.join(sorted(value, key=len, reverse=True))
             pattern = DIGIT_GROUP_PATTERN.sub(r'?P<n>\d+', pattern)
-            pattern = re.compile(r'^{}$'.format(pattern), re.UNICODE | re.IGNORECASE)
+            pattern = re.compile(r'^(?:{})$'.format(pattern), re.UNICODE | re.IGNORECASE)
             relative_dictionary[pattern] = key
         return relative_dictionary
 
@@ -188,10 +191,10 @@ class Locale(object):
             tokens[i] = dictionary.split(token, keep_formatting)
         return list(chain(*tokens))
 
-    def _split_tokens_by_known_relative_strings(self, tokens, keep_formatting, settings=None):
+    def _split_tokens_by_known_relative_strings(self, tokens, settings=None):
         dictionary = self._get_dictionary(settings)
         for i, token in enumerate(tokens):
-            tokens[i] = dictionary.split_relative(token, keep_formatting)
+            tokens[i] = dictionary.split_relative(token)
         return list(chain(*tokens))
 
     def _join(self, tokens, separator=" ", settings=None):

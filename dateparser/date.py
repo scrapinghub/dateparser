@@ -12,7 +12,7 @@ from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings
-from dateparser.utils import normalize_unicode, apply_timezone_from_settings
+from dateparser.utils import apply_timezone_from_settings
 
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -33,7 +33,7 @@ RE_TRIM_SPACES = re.compile(r'^\s+(\S.*?)\s+$')
 
 RE_SANITIZE_SKIP = re.compile(r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u064e|\u064f', flags=re.M)
 RE_SANITIZE_RUSSIAN = re.compile(r'([\W\d])\u0433\.', flags=re.I | re.U)
-RE_SANITIZE_AMPM = re.compile(r'\b([ap])(\.)?m(\.)?\b', flags=re.DOTALL | re.I)
+RE_SANITIZE_PERIOD = re.compile(r'(?<=\D+)\.', flags=re.U)
 RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
 RE_SANITIZE_APOSTROPHE = re.compile(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
@@ -102,7 +102,7 @@ def sanitize_date(date_string):
     date_string = RE_SANITIZE_SKIP.sub(' ', date_string)
     date_string = RE_SANITIZE_RUSSIAN.sub(r'\1 ', date_string)  # remove u'г.' (Russian for year) but not in words
     date_string = sanitize_spaces(date_string)
-    date_string = RE_SANITIZE_AMPM.sub(r'\1m', date_string)
+    date_string = RE_SANITIZE_PERIOD.sub('', date_string)
     date_string = RE_SANITIZE_ON.sub(r'\1', date_string)
 
     date_string = RE_SANITIZE_APOSTROPHE.sub(u"'", date_string)
@@ -373,9 +373,6 @@ class DateDataParser(object):
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:
             return res
-
-        if self._settings.NORMALIZE:
-            date_string = normalize_unicode(date_string)
 
         date_string = sanitize_date(date_string)
 

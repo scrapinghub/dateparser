@@ -41,7 +41,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('about an hour ago', ago={'hours': 1}, period='day'),
         param('a day ago', ago={'days': 1}, period='day'),
         param('a week ago', ago={'weeks': 1}, period='week'),
-        param('one week ago', ago={'weeks': 1}, period='week'),
         param('2 hours ago', ago={'hours': 2}, period='day'),
         param('about 23 hours ago', ago={'hours': 23}, period='day'),
         param('1 year 2 months', ago={'years': 1, 'months': 2}, period='month'),
@@ -99,7 +98,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('vorgestern', ago={'days': 2}, period='day'),
         param('vor einem Tag', ago={'days': 1}, period='day'),
         param('vor einer Stunden', ago={'hours': 1}, period='day'),
-        param('Vor 2 Stunden', ago={'hours': 2}, period='day'),
         param('Vor 2 Stunden', ago={'hours': 2}, period='day'),
         param('vor etwa 23 Stunden', ago={'hours': 23}, period='day'),
         param('1 Jahr 2 Monate', ago={'years': 1, 'months': 2}, period='month'),
@@ -337,7 +335,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('about an hour ago', ago={'hours': 1}, period='day'),
         param('a day ago', ago={'days': 1}, period='day'),
         param('a week ago', ago={'weeks': 1}, period='week'),
-        param('one week ago', ago={'weeks': 1}, period='week'),
         param('2 hours ago', ago={'hours': 2}, period='day'),
         param('about 23 hours ago', ago={'hours': 23}, period='day'),
         param('1 year 2 months', ago={'years': 1, 'months': 2}, period='month'),
@@ -609,7 +606,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('in about an hour', in_future={'hours': 1}, period='day'),
         param('in 1 day', in_future={'days': 1}, period='day'),
         param('in a week', in_future={'weeks': 1}, period='week'),
-        param('in one week', in_future={'weeks': 1}, period='week'),
         param('in 2 hours', in_future={'hours': 2}, period='day'),
         param('in about 23 hours', in_future={'hours': 23}, period='day'),
         param('in 1 year 2 months', in_future={'years': 1, 'months': 2}, period='month'),
@@ -831,7 +827,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('about an hour ago', date(2010, 6, 4), time(12, 15)),
         param('a day ago', date(2010, 6, 3), time(13, 15)),
         param('a week ago', date(2010, 5, 28), time(13, 15)),
-        param('one week ago', date(2010, 5, 28), time(13, 15)),
         param('2 hours ago', date(2010, 6, 4), time(11, 15)),
         param('about 23 hours ago', date(2010, 6, 3), time(14, 15)),
         param('1 year 2 months', date(2009, 4, 4), time(13, 15)),
@@ -848,7 +843,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('5000 months ago', date(1593, 10, 4), time(13, 15)),
         param('{} months ago'.format(2008 * 12 + 8), date(1, 10, 4), time(13, 15)),
         param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
-            date(2009, 4, 26), time(12, 14)),
+              date(2009, 4, 26), time(12, 14)),
         param('just now', date(2010, 6, 4), time(13, 15))
     ])
     def test_freshness_date_with_relative_base(self, date_string, date, time):

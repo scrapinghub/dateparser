@@ -273,5 +273,10 @@ info = {
     ],
     "in": [
         "in"
+    ],
+    "simplifications": [
+        {
+            "(\\d+)\\s+ora": "\\1 ore"
+        }
     ]
 }

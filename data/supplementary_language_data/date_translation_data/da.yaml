@@ -18,14 +18,14 @@ ago:
 in:
     - i
 
-relative-type:
-    \\1 hour ago:
+relative-type-regex:
+    \1 hour ago:
         - for (\d+)\s*h
         - for (\d+) timer
-    \\1 minute ago:
+    \1 minute ago:
         - for (\d+)\s*m
         - for (\d+) minutter
-    \\1 second ago:
+    \1 second ago:
         - for (\d+)\s*s
         - for (\d+) sekunder
 

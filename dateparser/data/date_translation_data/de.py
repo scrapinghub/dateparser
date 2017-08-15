@@ -173,15 +173,6 @@ info = {
         ],
         "2 day ago": [
             "vorgestern"
-        ],
-        "\\\\1 hour ago": [
-            "vor (\\d+)\\s*h"
-        ],
-        "\\\\1 minute ago": [
-            "vor (\\d+)\\s*m"
-        ],
-        "\\\\1 second ago": [
-            "vor (\\d+)\\s*s"
         ]
     },
     "relative-type-regex": {
@@ -227,7 +218,8 @@ info = {
         "\\1 hour ago": [
             "vor (\\d+) stunde",
             "vor (\\d+) stunden",
-            "vor (\\d+) std"
+            "vor (\\d+) std",
+            "vor (\\d+)\\s*h"
         ],
         "in \\1 minute": [
             "in (\\d+) minute",
@@ -239,7 +231,8 @@ info = {
             "vor (\\d+) minute",
             "vor (\\d+) minuten",
             "vor (\\d+) min",
-            "vor (\\d+) m"
+            "vor (\\d+) m",
+            "vor (\\d+)\\s*m"
         ],
         "in \\1 second": [
             "in (\\d+) sekunde",
@@ -251,7 +244,8 @@ info = {
             "vor (\\d+) sekunde",
             "vor (\\d+) sekunden",
             "vor (\\d+) sek",
-            "vor (\\d+) s"
+            "vor (\\d+) s",
+            "vor (\\d+)\\s*s"
         ]
     },
     "locale_specific": {

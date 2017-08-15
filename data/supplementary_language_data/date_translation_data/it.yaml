@@ -23,3 +23,6 @@ in:
 relative-type:
     2 day ago:
         - altro ieri
+
+simplifications:
+    - (\d+)\s+ora: \1 ore 
