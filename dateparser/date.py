@@ -272,16 +272,30 @@ class DateDataParser(object):
     string representing date and/or time.
 
     :param languages:
-            A list of two letters language codes, e.g. ['en', 'es'].
-            If languages are given, it will not attempt to detect the language.
+        A list of language codes, e.g. ['en', 'es', 'zh-Hant'].
+        If locales are not given, languages and region are used to construct locales for translation.
     :type languages: list
 
-    :param allow_redetect_language:
-            Enables/disables language re-detection.
+    :param locales:
+        A list of locale codes, e.g. ['fr-PF', 'qu-EC', 'af-NA'].
+        The parser uses locales to translate date string.
+    :type locales: list
+
+    :param region:
+        A region code, e.g. 'IN', '001', 'NE'.
+        If locales are not given, languages and region are used to construct locales for translation.
+    :type region: str|unicode
+
+    :param try_previous_locales:
+        If True, locales previously used to translate date are tried first.
+    :type allow_redetect_language: bool
+
+    :param use_given_order:
+        If True, locales are tried for translation of date string in the order in which they are given.
     :type allow_redetect_language: bool
 
     :param settings:
-           Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+        Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
     :type settings: dict
 
     :return: A parser instance
