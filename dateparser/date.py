@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import calendar
 import collections
 from datetime import datetime, timedelta
@@ -383,6 +385,9 @@ class DateDataParser(object):
         """
         if not(isinstance(date_string, six.text_type) or isinstance(date_string, six.string_types)):
             raise TypeError('Input type must be str or unicode')
+
+        if isinstance(date_string, bytes):
+            date_string = date_string.decode('utf-8')
 
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:

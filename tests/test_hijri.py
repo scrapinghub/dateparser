@@ -53,3 +53,4 @@ class TestHijriParser(BaseTestCase):
         settings.DATE_ORDER = 'DMY'
         self.when_date_is_given(dt_string, date_formats, languages)
         self.then_parsed_datetime_is(dt_obj)
+        settings.DATE_ORDER = 'MDY'

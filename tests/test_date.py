@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import regex as re
 import unittest
 from collections import OrderedDict
 from datetime import datetime, timedelta
