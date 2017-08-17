@@ -92,7 +92,7 @@ class Locale(object):
             else:
                 tokens[i] = self._split([token], keep_formatting, settings=settings)
 
-        return filter(bool, chain(*tokens))
+        return list(filter(bool, chain(*tokens)))
 
     def _get_relative_translations(self, settings=None):
         if settings.NORMALIZE:
@@ -183,7 +183,7 @@ class Locale(object):
         tokens = tokens[:]
         for i, token in enumerate(tokens):
             tokens[i] = re.split(regex, token)
-        return filter(bool, chain(*tokens))
+        return list(filter(bool, chain(*tokens)))
 
     def _split_tokens_by_known_words(self, tokens, keep_formatting, settings=None):
         dictionary = self._get_dictionary(settings)

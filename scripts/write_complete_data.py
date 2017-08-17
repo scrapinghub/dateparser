@@ -90,9 +90,10 @@ def main():
         with open(numeral_translation_directory + language + '.py', 'wb') as out:
             out.write(out_text)
 
-    init_text = '\n'.join(["from languages_info import language_order, language_locale_dict",
-                           "import date_translation_data",
-                           "import numeral_translation_data"])
+    init_text = '\n'.join(
+            ["from dateparser.data import date_translation_data, numeral_translation_data",
+             "from .languages_info import language_order, language_locale_dict"]
+             )
     with open(translation_data_directory + '__init__.py', 'w') as out:
         out.write(encoding_comment + init_text)
 
