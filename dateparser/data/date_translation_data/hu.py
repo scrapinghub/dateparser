@@ -5,64 +5,64 @@ info = {
     "january": [
         "január",
         "jan",
-        "I."
+        "I"
     ],
     "february": [
         "február",
         "febr",
-        "feb.",
-        "II."
+        "feb",
+        "II"
     ],
     "march": [
         "március",
         "márc",
-        "már.",
-        "III."
+        "már",
+        "III"
     ],
     "april": [
         "április",
         "ápr",
-        "IV."
+        "IV"
     ],
     "may": [
         "május",
         "máj",
-        "V."
+        "V"
     ],
     "june": [
         "június",
         "jún",
-        "VI."
+        "VI"
     ],
     "july": [
         "július",
         "júl",
-        "VII."
+        "VII"
     ],
     "august": [
         "augusztus",
         "aug",
-        "VIII."
+        "VIII"
     ],
     "september": [
         "szeptember",
         "szept",
-        "IX."
+        "IX"
     ],
     "october": [
         "október",
         "okt",
-        "X."
+        "X"
     ],
     "november": [
         "november",
         "nov",
-        "XI."
+        "XI"
     ],
     "december": [
         "december",
         "dec",
-        "XII."
+        "XII"
     ],
     "monday": [
         "hétfő",
@@ -126,7 +126,7 @@ info = {
     ],
     "hour": [
         "óra",
-        "ó.",
+        "ó",
         "órák",
         "órája",
         "órával",
@@ -135,7 +135,7 @@ info = {
     ],
     "minute": [
         "perc",
-        "p.",
+        "p",
         "percek",
         "perce",
         "perccel",
@@ -144,7 +144,7 @@ info = {
     ],
     "second": [
         "másodperc",
-        "mp.",
+        "mp",
         "másodpercek",
         "másodperce",
         "másodperccel",

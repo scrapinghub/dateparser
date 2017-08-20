@@ -24,8 +24,10 @@ APOSTROPHE_LOOK_ALIKE_CHARS = [
 
 DATE_ORDER_PATTERN = re.compile(u'([DMY])+\u200f*[-/. \t]*([DMY])+\u200f*[-/. \t]*([DMY])+')
 RELATIVE_PATTERN = re.compile(r'(?<![\+\-]\s*)\{0\}')
-DEFAULT_MONTH_PATTERN = re.compile(r'^M?\d+$')
+DEFAULT_MONTH_PATTERN = re.compile(r'^M?\d+$', re.U)
 RE_SANITIZE_APOSTROPHE = re.compile(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
+AM_PATTERN = re.compile(r'^\s*[Aa]\s*\.?\s*[Mm]\s*\.?\s*$')
+PM_PATTERN = re.compile(r'^\s*[Pp]\s*\.?\s*[Mm]\s*\.?\s*$')
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 get_raw_data()
@@ -146,11 +148,11 @@ def _retrieve_locale_data(locale):
     json_dict["sunday"] = [gregorian_dict["days"][key1][key2]["sun"]
                            for key1 in field_keys_1 for key2 in field_keys_2]
 
-    json_dict["am"] = [x.replace('.', '').lower() for x in
+    json_dict["am"] = [AM_PATTERN.sub("am", x) for x in
                        [gregorian_dict["dayPeriods"][key1][key2]["am"]
                         for key1 in field_keys_1 for key2 in field_keys_2]]
 
-    json_dict["pm"] = [x.replace('.', '').lower() for x in
+    json_dict["pm"] = [PM_PATTERN.sub("pm", x) for x in
                        [gregorian_dict["dayPeriods"][key1][key2]["pm"]
                         for key1 in field_keys_1 for key2 in field_keys_2]]
 

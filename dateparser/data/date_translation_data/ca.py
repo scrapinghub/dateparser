@@ -97,10 +97,10 @@ info = {
         "dg"
     ],
     "am": [
-        "a m"
+        "am"
     ],
     "pm": [
-        "p m"
+        "pm"
     ],
     "year": [
         "any"

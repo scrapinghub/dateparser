@@ -43,19 +43,25 @@ class LocaleDataLoader(object):
     _loaded_languages = {}
     _loaded_locales = {}
 
-    def get_locale_map(self, languages=None, locales=None, region=None, use_given_order=False):
-        return OrderedDict(self._load_data(languages=languages, locales=locales,
-                                           region=region, use_given_order=use_given_order))
+    def get_locale_map(self, languages=None, locales=None, region=None,
+                       use_given_order=False, allow_conflicting_locales=False):
+        return OrderedDict(self._load_data(
+            languages=languages, locales=locales, region=region, use_given_order=use_given_order,
+            allow_conflicting_locales=allow_conflicting_locales))
 
-    def get_locales(self, languages=None, locales=None, region=None, use_given_order=False):
-        for _, locale in self._load_data(languages=languages, locales=locales,
-                                         region=region, use_given_order=use_given_order):
+    def get_locales(self, languages=None, locales=None, region=None,
+                    use_given_order=False, allow_conflicting_locales=False):
+        for _, locale in self._load_data(
+                languages=languages, locales=locales, region=region,
+                use_given_order=use_given_order,
+                allow_conflicting_locales=allow_conflicting_locales):
             yield locale
 
     def get_locale(self, shortname):
         return list(self.get_locales(locales=[shortname]))[0]
 
-    def _load_data(self, languages=None, locales=None, region=None, use_given_order=False):
+    def _load_data(self, languages=None, locales=None, region=None,
+                   use_given_order=False, allow_conflicting_locales=False):
         locale_dict = OrderedDict()
         if locales:
             invalid_locales = []
@@ -70,8 +76,9 @@ class LocaleDataLoader(object):
                 raise ValueError("Unknown locale(s): %s"
                                  % ', '.join(map(repr, invalid_locales)))
 
-            if len(set(locales)) > len(set([t[0] for t in locale_dict.values()])):
-                raise ValueError("Locales should not have same language and different region")
+            if not allow_conflicting_locales:
+                if len(set(locales)) > len(set([t[0] for t in locale_dict.values()])):
+                    raise ValueError("Locales should not have same language and different region")
 
         else:
             if languages is None:

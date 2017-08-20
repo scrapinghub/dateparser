@@ -88,10 +88,10 @@ info = {
         "Do"
     ],
     "am": [
-        "a m"
+        "am"
     ],
     "pm": [
-        "p m"
+        "pm"
     ],
     "year": [
         "año",
@@ -323,12 +323,6 @@ info = {
             "name": "es-CU",
             "september": [
                 "sep"
-            ],
-            "am": [
-                "am"
-            ],
-            "pm": [
-                "pm"
             ]
         },
         "es-UY": {
@@ -372,12 +366,6 @@ info = {
             "name": "es-BR",
             "september": [
                 "sep"
-            ],
-            "am": [
-                "am"
-            ],
-            "pm": [
-                "pm"
             ]
         },
         "es-EA": {
@@ -407,12 +395,6 @@ info = {
             "name": "es-BZ",
             "september": [
                 "sep"
-            ],
-            "am": [
-                "am"
-            ],
-            "pm": [
-                "pm"
             ]
         },
         "es-GT": {
@@ -435,12 +417,6 @@ info = {
             "name": "es-419",
             "september": [
                 "sep"
-            ],
-            "am": [
-                "am"
-            ],
-            "pm": [
-                "pm"
             ]
         },
         "es-AR": {

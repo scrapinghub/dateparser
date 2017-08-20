@@ -4,31 +4,31 @@ sunday:
     - vas
 
 january:
-    - I.
+    - I
 february:
-    - feb.
-    - II.
+    - feb
+    - II
 march:
-    - már.
-    - III.
+    - már
+    - III
 april:
-    - IV.
+    - IV
 may:
-    - V.
+    - V
 june:
-    - VI.
+    - VI
 july:
-    - VII.
+    - VII
 august:
-    - VIII.
+    - VIII
 september:
-    - IX.
+    - IX
 october:
-    - X.
+    - X
 november:
-    - XI.
+    - XI
 december:
-    - XII.
+    - XII
 
 year:
     - évek
@@ -48,21 +48,21 @@ day:
     - napja
     - nappal
 hour:
-    - ó.
+    - ó
     - órák
     - órája
     - órával
     - óráig
     - órától
 minute:
-    - p.
+    - p
     - percek
     - perce
     - perccel
     - percig
     - perctől
 second:
-    - mp.
+    - mp
     - másodpercek
     - másodperce
     - másodperccel

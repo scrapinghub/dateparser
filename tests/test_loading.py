@@ -11,6 +11,7 @@ from tests import BaseTestCase
 class TestLoading(BaseTestCase):
     def setUp(self):
         super(TestLoading, self).setUp()
+        self.locale_generator = NotImplemented
 
     @classmethod
     def setUpClass(cls):
@@ -120,8 +121,8 @@ class TestLocaleDataLoader(BaseTestCase):
     @parameterized.expand([
         param(given_locales=['os-RU', 'ln-CF', 'ee-TG'],
               expected_locales=['ee-TG', 'ln-CF', 'os-RU']),
-        param(given_locales=['khq', 'vai-Vaii', 'ff-CM'],
-              expected_locales=['ff-CM', 'khq', 'vai-Vaii']),
+        param(given_locales=['khq', 'ff-CM'],
+              expected_locales=['ff-CM', 'khq']),
         param(given_locales=['en-CC', 'fr-BE', 'ar-KW'],
               expected_locales=['en-CC', 'ar-KW', 'fr-BE']),
     ])
@@ -156,7 +157,7 @@ class TestLocaleDataLoader(BaseTestCase):
               unknown_languages=['ar-001', 'xx']),
         param(given_languages=['sr-Latn', 'sq', 'ii-Latn'],
               unknown_languages=['ii-Latn']),
-        param(given_languages=['vol', 'bc', 'vai'],
+        param(given_languages=['vol', 'bc'],
               unknown_languages=['vol', 'bc']),
     ])
     def test_error_raised_for_unknown_languages(self, given_languages, unknown_languages):

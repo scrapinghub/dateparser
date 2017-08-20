@@ -61,7 +61,6 @@ language_order = [
     "el",
     "sn",
     "kk",
-    "nds",
     "rw",
     "ckb",
     "qu",
@@ -89,7 +88,6 @@ language_order = [
     "hr",
     "sq",
     "sk",
-    "tk",
     "fi",
     "ks",
     "hy",
@@ -180,12 +178,9 @@ language_order = [
     "ksh",
     "saq",
     "se",
-    "kkj",
     "dua",
     "rwk",
     "mgo",
-    "vai",
-    "vai-Vaii",
     "sbp",
     "to",
     "jgo",
@@ -209,11 +204,7 @@ language_order = [
     "gv",
     "smn",
     "eo",
-    "vai-Latn",
-    "cu",
-    "prg",
-    "tl",
-    "vo"
+    "tl"
 ]
 
 language_locale_dict = {
@@ -568,9 +559,6 @@ language_locale_dict = {
     ],
     "sn": [],
     "kk": [],
-    "nds": [
-        "nds-NL"
-    ],
     "rw": [],
     "ckb": [
         "ckb-IR"
@@ -633,7 +621,6 @@ language_locale_dict = {
         "sq-XK"
     ],
     "sk": [],
-    "tk": [],
     "fi": [],
     "ks": [],
     "hy": [],
@@ -745,12 +732,9 @@ language_locale_dict = {
         "se-FI",
         "se-SE"
     ],
-    "kkj": [],
     "dua": [],
     "rwk": [],
     "mgo": [],
-    "vai": [],
-    "vai-Vaii": [],
     "sbp": [],
     "to": [],
     "jgo": [],
@@ -776,9 +760,5 @@ language_locale_dict = {
     "gv": [],
     "smn": [],
     "eo": [],
-    "vai-Latn": [],
-    "cu": [],
-    "prg": [],
-    "tl": [],
-    "vo": []
+    "tl": []
 }

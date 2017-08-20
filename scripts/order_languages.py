@@ -9,6 +9,9 @@ from utils import get_raw_data
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 get_raw_data()
 
+# Languages with insufficient translation data are excluded
+avoid_languages = ['cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo']
+
 
 def _get_language_locale_dict():
     cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
@@ -22,6 +25,9 @@ def _get_language_locale_dict():
         for locale_name in available_locale_names:
             if re.match(language_name + '-[A-Z0-9]+$', locale_name):
                 language_locale_dict[language_name].append(locale_name)
+
+    for language in avoid_languages:
+        del language_locale_dict[language]
     return language_locale_dict
 
 

@@ -78,10 +78,10 @@
         "dom"
     ],
     "am": [
-        "a m"
+        "am"
     ],
     "pm": [
-        "p m"
+        "pm"
     ],
     "year": [
         "año",
@@ -303,12 +303,6 @@
             "name": "es-CU",
             "september": [
                 "sep"
-            ],
-            "am": [
-                "am"
-            ],
-            "pm": [
-                "pm"
             ]
         },
         "es-UY": {
@@ -352,12 +346,6 @@
             "name": "es-BR",
             "september": [
                 "sep"
-            ],
-            "am": [
-                "am"
-            ],
-            "pm": [
-                "pm"
             ]
         },
         "es-EA": {
@@ -387,12 +375,6 @@
             "name": "es-BZ",
             "september": [
                 "sep"
-            ],
-            "am": [
-                "am"
-            ],
-            "pm": [
-                "pm"
             ]
         },
         "es-GT": {
@@ -415,12 +397,6 @@
             "name": "es-419",
             "september": [
                 "sep"
-            ],
-            "am": [
-                "am"
-            ],
-            "pm": [
-                "pm"
             ]
         },
         "es-AR": {
