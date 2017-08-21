@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from nose_parameterized import parameterized, param
 from operator import attrgetter
 import six
@@ -99,8 +101,8 @@ class TestLoading(BaseTestCase):
 
 
 class TestLocaleDataLoader(BaseTestCase):
-    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile(u"Unknown language\(s\): (.+)")
-    UNKNOWN_LOCALES_EXCEPTION_RE = re.compile(u"Unknown locale\(s\): (.+)")
+    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile("Unknown language\(s\): (.+)")
+    UNKNOWN_LOCALES_EXCEPTION_RE = re.compile("Unknown locale\(s\): (.+)")
 
     def setUp(self):
         super(TestLocaleDataLoader, self).setUp()
@@ -179,15 +181,26 @@ class TestLocaleDataLoader(BaseTestCase):
     @parameterized.expand([
         param(given_locales=['en-TK', 'en-TO', 'zh']),
         param(given_locales=['es-PY', 'es-IC', 'ja', 'es-DO']),
+        param(given_locales=['ca-TA', 'ca', 'fr']),
     ])
     def test_error_raised_for_conflicting_locales(self, given_locales):
         self.given_locale_map(locales=given_locales)
         self.then_error_was_raised(
             ValueError, "Locales should not have same language and different region")
 
-    def load_data(self, given_locales, use_given_order):
+    @parameterized.expand([
+        param(given_locales=['en-TK', 'en-TO', 'zh']),
+        param(given_locales=['es-PY', 'es-IC', 'ja', 'es-DO']),
+        param(given_locales=['af-NA', 'da', 'af']),
+    ])
+    def test_conflicting_locales_load_if_allow_conflicting_locales(self, given_locales):
+        self.load_data(given_locales, use_given_order=True, allow_conflicting_locales=True)
+        self.then_locales_are_yielded_in_order(given_locales)
+
+    def load_data(self, given_locales, use_given_order=False, allow_conflicting_locales=False):
         self.locale_generator = self.data_loader.get_locales(
-            locales=given_locales, use_given_order=use_given_order)
+            locales=given_locales, use_given_order=use_given_order,
+            allow_conflicting_locales=allow_conflicting_locales)
 
     def given_locale_map(self, languages=None, locales=None, use_given_order=True):
         try:

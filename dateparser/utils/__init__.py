@@ -61,39 +61,6 @@ def convert_to_unicode(info):
     return unicode_info
 
 
-def setup_logging():
-    if len(logging.root.handlers):
-        return
-
-    config = {
-        'version': 1,
-        'disable_existing_loggers': True,
-        'formatters': {
-            'console': {
-                'format': "%(asctime)s %(levelname)s: [%(name)s] %(message)s",
-            },
-        },
-        'handlers': {
-            'console': {
-                'level': logging.DEBUG,
-                'class': "logging.StreamHandler",
-                'formatter': "console",
-                'stream': "ext://sys.stdout",
-            },
-        },
-        'root': {
-            'level': logging.DEBUG,
-            'handlers': ["console"],
-        },
-    }
-    logging.config.dictConfig(config)
-
-
-def get_logger():
-    setup_logging()
-    return logging.getLogger('dateparser')
-
-
 def find_date_separator(format):
     m = re.search(r'(?:(?:%[dbBmaA])(\W))+', format)
     if m:

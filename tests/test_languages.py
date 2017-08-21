@@ -183,6 +183,134 @@ class TestBundledLanguages(BaseTestCase):
         # Swedish
         param('sv', "Sept 03 2014", "september 03 2014"),
         param('sv', "fredag, 03 september 2014", "friday 03 september 2014"),
+
+        # af
+        param('af', '5 Mei 2017', '5 may 2017'),
+        param('af', 'maandag, Augustus 15 2005 10 vm', 'monday august 15 2005 10 am'),
+
+        # agq
+        param('agq', '12 ndzɔ̀ŋɔ̀tɨ̀fʉ̀ghàdzughù 1999', '12 september 1999'),
+        param('agq', 'tsuʔndzɨkɔʔɔ 14 see 10 ak', 'saturday 14 may 10 pm'),
+
+        # ak
+        param('ak', 'esusow aketseaba-kɔtɔnimba', 'may'),
+        param('ak', '8 mumu-ɔpɛnimba ben', '8 december tuesday'),
+
+        # am
+        param('am', 'ፌብሩወሪ 22 8:00 ጥዋት', 'february 22 8:00 am'),
+        param('am', 'ኖቬም 10', 'november 10'),
+
+        # as
+        param('as', '17 জানুৱাৰী 1885', '17 january 1885'),
+        param('as', 'বৃহষ্পতিবাৰ 1 জুলাই 2009', 'thursday 1 july 2009'),
+
+        # asa
+        param('asa', '12 julai 1879 08:00 ichamthi', '12 july 1879 08:00 pm'),
+        param('asa', 'jpi 2 desemba 2007 01:00 icheheavo', 'sunday 2 december 2007 01:00 am'),
+
+        # ast
+        param('ast', "d'ochobre 11, 11:00 de la mañana", 'october 11 11:00 am'),
+        param('ast', "vienres 19 payares 1 tarde", 'friday 19 november 1 pm'),
+
+        # az-Cyrl
+        param('az-Cyrl', "7 феврал 1788 05:30 пм", '7 february 1788 05:30 pm'),
+        param('az-Cyrl', "чәршәнбә ахшамы ијл 14", 'tuesday july 14'),
+
+        # az-Latn
+        param('az-Latn', 'yanvar 13 şənbə', 'january 13 saturday'),
+        param('az-Latn', 'b noy 12', 'sunday november 12'),
+
+        # az
+        param('az', "17 iyn 2000 cümə axşamı", '17 june 2000 thursday'),
+        param('az', "22 sentyabr 2003 bazar ertəsi", '22 september 2003 monday'),
+
+        # bas
+        param('bas', '1906 6 hìlòndɛ̀ ŋgwà njaŋgumba', '1906 6 june monday'),
+        param('bas', 'ŋgwà kɔɔ, 11 màtùmb 5 i ɓugajɔp', 'friday 11 march 5 pm'),
+
+        # be
+        param('be', '13 лютага 1913', '13 february 1913'),
+        param('be', 'жнівень 12, чацвер', 'august 12 thursday'),
+
+        # bem
+        param('bem', 'palichimo 12 machi 2015 11:00 uluchelo', 'monday 12 march 2015 11:00 am'),
+        param('bem', '5 epreo 2000 pa mulungu', '5 april 2000 sunday'),
+
+        # bez
+        param('bez', '1 pa mwedzi gwa hutala 1889 10:00 pamilau', '1 january 1889 10:00 am'),
+        param('bez', '31 pa mwedzi gwa kumi na mbili hit', '31 december thursday'),
+
+        # bm
+        param('bm', '12 ɔkutɔburu 2001 araba', '12 october 2001 wednesday'),
+        param('bm', 'alamisa 15 uti 1998', 'thursday 15 august 1998'),
+
+        # bo
+        param('bo', "ཟླ་བ་བཅུ་གཅིག་པ་ 18", 'november 18'),
+        param('bo', "གཟའ་ཕུར་བུ་ 12 ཟླ་བ་བཅུ་པ་ 1879 10:15 ཕྱི་དྲོ་", 'thursday 12 october 1879 10:15 pm'),
+
+        # br
+        param('br', "merc'her c'hwevrer 12 07:32 gm", "wednesday february 12 07:32 pm"),
+        param('br', "10 gwengolo 2002 sadorn", "10 september 2002 saturday"),
+
+        # brx
+        param('brx', "6 अखथबर 2019 10:00 बेलासे", "6 october 2019 10:00 pm"),
+        param('brx', "बिसथि 8 फेब्रुवारी", "thursday 8 february"),
+
+        # bs-Cyrl
+        param('bs-Cyrl', "2 септембар 2000, четвртак", "2 september 2000 thursday"),
+        param('bs-Cyrl', "1 јули 1987 9:25 поподне", "1 july 1987 9:25 pm"),
+
+        # bs-Latn
+        param('bs-Latn', "23 septembar 1879, petak 02:27 popodne", "23 september 1879 friday 02:27 pm"),
+        param('bs-Latn', "subota 1 avg 2009", "saturday 1 august 2009"),
+
+        # bs
+        param('bs', "10 maj 2020 utorak", "10 may 2020 tuesday"),
+        param('bs', "ponedjeljak, 1989 2 januar", "monday 1989 2 january"),
+
+        # ca
+        param('ca', "14 d'abril 1980 diumenge", "14 april 1980 sunday"),
+        param('ca', "3 de novembre 2004 dj", "3 november 2004 thursday"),
+
+        # ce
+        param('ce', "6 январь 1987 пӏераскан де", "6 january 1987 friday"),
+        param('ce', "оршотан де 3 июль 1890", "monday 3 july 1890"),
+
+        # cgg
+        param('cgg', "20 okwakataana 2027 orwamukaaga", "20 may 2027 saturday"),
+        param('cgg', "okwaikumi na ibiri 12 oks", "december 12 wednesday"),
+
+        # chr
+        param('chr', "ᎤᎾᏙᏓᏉᏅᎯ 16 ᏕᎭᎷᏱ 1562 11:16 ᏒᎯᏱᎢᏗᏢ", "monday 16 june 1562 11:16 pm"),
+        param('chr', "13 ᎠᏂᏍᎬᏘ ᎤᎾᏙᏓᏈᏕᎾ 8:00 ᏌᎾᎴ", "13 may saturday 8:00 am"),
+
+        # cy
+        param('cy', "dydd sadwrn 27 chwefror 1990 9 yb", "saturday 27 february 1990 9 am"),
+        param('cy', "19 gorff 2000 dydd gwener", "19 july 2000 friday"),
+
+        # dav
+        param('dav', "mori ghwa kawi 24 kuramuka kana", "february 24 thursday"),
+        param('dav', "11 ike 4 luma lwa p", "11 september 4 pm"),
+
+        # dje
+        param('dje', "2 žuweŋ 2030 alz 11 zaarikay b", "2 june 2030 friday 11 pm"),
+        param('dje', "sektanbur 12 alarba", "september 12 wednesday"),
+
+        # dsb
+        param('dsb', "njeźela julija 15 2 wótpołdnja", "sunday july 15 2 pm"),
+        param('dsb', "awgusta 10 sob", "august 10 saturday"),
+
+        # dua
+        param('dua', "madiɓɛ́díɓɛ́ 15 ɗónɛsú 7 idiɓa", "july 15 friday 7 am"),
+        param('dua', "éti 12 tiníní", "sunday 12 november"),
+
+        # dyo
+        param('dyo', "mee 1 2000 talata", "may 1 2000 tuesday"),
+        param('dyo', "arjuma de 10", "friday december 10"),
+
+        # dz
+        param('dz', "ཟླ་བཅུ་གཅིག་པ་ 10 གཟའ་ཉི་མ་", "november 10 saturday"),
+        param('dz', "མིར་ 2 སྤྱི་ཟླ་དྲུག་པ 2009 2 ཕྱི་ཆ་", "monday 2 june 2009 2 pm"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_settings()
