@@ -1,33 +1,30 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from dateparser.languages.loader import LanguageDataLoader
-from dateparser.conf import Settings
+from dateparser.conf import apply_settings, Settings
 from dateparser.date import DateDataParser
+from dateparser.search.text_detection import FullTextLanguageDetector
 import datetime
+import collections
 
 
 class ExactLanguageSearch:
-    def __init__(self):
-        self.loader = LanguageDataLoader()
+    def __init__(self, loader):
+        self.loader = loader
         self.language = None
 
     def get_current_language(self, shortname):
         if self.language is None or self.language.shortname != shortname:
             self.language = self.loader.get_language(shortname)
 
-    def search(self, shortname, text):
+    def search(self, shortname, text, settings):
         self.get_current_language(shortname)
-        result = self.language.translate_search(text, settings=Settings())
+        result = self.language.translate_search(text, settings=settings)
         return result
 
     @staticmethod
-    def set_relative_base(pre_parsed_object, substring, already_parsed, is_relative,  settings):
-        if settings:
-            if "RELATIVE_BASE" in settings:
-                return substring, None
-        elif pre_parsed_object['period'] == 'year' and not is_relative:
-            return substring, datetime.datetime(2000, 1, 1, 0)
-        elif len(already_parsed) == 0:
+    def set_relative_base(substring, already_parsed):
+        if len(already_parsed) == 0:
             return substring, None
         else:
             i = len(already_parsed) - 1
@@ -36,7 +33,7 @@ class ExactLanguageSearch:
                 if i == -1:
                     return substring, None
             relative_base = already_parsed[i]['date_obj']
-            return substring, relative_base
+            return substring,  relative_base
 
     @staticmethod
     def date_is_relative(translation):
@@ -86,13 +83,16 @@ class ExactLanguageSearch:
                 possible_splits.extend(self.split_by(item, original, splitter))
         return possible_splits
 
-    def parse_item(self, parser, item, translated_item, settings, parsed):
+    def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
         item = item.replace('ngày', '')
         item = item.replace('am', '')
         pre_parsed_item = parser.get_date_data(item)
         is_relative = self.date_is_relative(translated_item)
-        item, relative_base = self.set_relative_base(pre_parsed_item, item, parsed, is_relative,
-                                                     settings=settings)
+        if need_relative_base:
+            item, relative_base = self.set_relative_base(item, parsed)
+        else:
+            relative_base = None
+
         if relative_base:
             parser._settings.RELATIVE_BASE = relative_base
             parsed_item = parser.get_date_data(item)
@@ -104,9 +104,13 @@ class ExactLanguageSearch:
     def parse_found_objects(self, parser, to_parse, original, translated, settings):
         parsed = []
         substrings = []
+        need_relative_base = True
+        if settings.RELATIVE_BASE:
+            print('there is relative base')
+            need_relative_base = False
         for i, item in enumerate(to_parse):
             if len(item) > 2:
-                parsed_item = self.parse_item(parser, item, translated[i], settings, parsed)
+                parsed_item = self.parse_item(parser, item, translated[i], parsed, need_relative_base)
                 if parsed_item['date_obj']:
                     parsed.append(parsed_item)
                     substrings.append(original[i].strip(' .,:()[]-'))
@@ -122,8 +126,8 @@ class ExactLanguageSearch:
                             if split_translated:
                                 for j, jtem in enumerate(split_translated):
                                     if len(jtem) > 2:
-                                        parsed_jtem = self.parse_item(parser, jtem, split_translated[j], settings,
-                                                                      current_parsed)
+                                        parsed_jtem = self.parse_item(parser, jtem, split_translated[j],
+                                                                      current_parsed, need_relative_base)
                                         current_parsed.append(parsed_jtem)
                                         current_substrings.append(split_original[j].strip(' .,:()[]-'))
                             else:
@@ -135,10 +139,12 @@ class ExactLanguageSearch:
                             if parsed_best[k]['date_obj']:
                                 parsed.append(parsed_best[k])
                                 substrings.append(substrings_best[k])
+        parser._settings.RELATIVE_BASE = None
         return parsed, substrings
 
+    @apply_settings
     def search_parse(self, shortname, text, settings=None):
-        translated, original = self.search(shortname, text)
+        translated, original = self.search(shortname, text, settings)
         if shortname not in ['vi', 'hu']:
             parser = DateDataParser(languages=['en'], settings=settings)
             parsed, substrings = self.parse_found_objects(parser=parser, to_parse=translated,
@@ -148,3 +154,36 @@ class ExactLanguageSearch:
             parsed, substrings = self.parse_found_objects(parser=parser, to_parse=original,
                                                           original=original, translated=translated, settings=settings)
         return list(zip(substrings, [i['date_obj'] for i in parsed]))
+
+
+class DateSearchWithDetection:
+    def __init__(self):
+        self.loader = LanguageDataLoader()
+        self.available_language_map = self.loader.get_language_map()
+        self.search = ExactLanguageSearch(self.loader)
+
+    def detect_language(self, text, languages):
+        if isinstance(languages, (list, tuple, collections.Set)):
+
+            if all([language in self.available_language_map for language in languages]):
+                languages = [self.available_language_map[language] for language in languages]
+            else:
+                unsupported_languages = set(languages) - set(self.available_language_map.keys())
+                raise ValueError(
+                    "Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
+        elif languages is not None:
+            raise TypeError("languages argument must be a list (%r given)" % type(languages))
+
+        if languages:
+            self.language_detector = FullTextLanguageDetector(languages=languages)
+        else:
+            self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))
+
+        return self.language_detector._best_language(text)
+
+    @apply_settings
+    def search_dates(self, text, languages=None, settings=None):
+        language_shortname = self.detect_language(text=text, languages=languages)
+        if not language_shortname:
+            return {'Language': None, 'Dates': None}
+        return {'Language': language_shortname, 'Dates': self.search.search_parse(language_shortname, text, settings)}

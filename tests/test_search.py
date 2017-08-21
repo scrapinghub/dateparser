@@ -2,13 +2,15 @@
 from __future__ import unicode_literals
 from nose_parameterized import parameterized, param
 from tests import BaseTestCase
-from dateparser.search import ExactLanguageSearch
+from dateparser.search.search import DateSearchWithDetection
+from dateparser.conf import Settings
 import datetime
 
 class TestTranslateSearch(BaseTestCase):
     def setUp(self):
         super(TestTranslateSearch, self).setUp()
-        self.els = ExactLanguageSearch()
+        self.search_with_detection = DateSearchWithDetection()
+        self.exact_language_search = self.search_with_detection.search
 
     @parameterized.expand([
         param('en', "Sep 03 2014"),
@@ -175,7 +177,7 @@ class TestTranslateSearch(BaseTestCase):
         param('sv', "fredag, 03 september 2014"),
     ])
     def test_search_date_string(self, shortname, datetime_string):
-        result = self.els.search(shortname, datetime_string)[1][0]
+        result = self.exact_language_search.search(shortname, datetime_string, settings=Settings())[1][0]
         self.assertEqual(result, datetime_string)
 
     @parameterized.expand([
@@ -345,8 +347,8 @@ class TestTranslateSearch(BaseTestCase):
                ('ngày 12 tháng 4 năm 1939', datetime.datetime(1939, 4, 12, 0, 0))]),
     ])
     def test_search_and_parse(self, shortname, string, expected):
-        result = self.els.search_parse(shortname, string,
-                                       settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)})
+        result = self.exact_language_search.search_parse(shortname, string,
+                                                         settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)})
         self.assertEqual(result, expected)
 
     @parameterized.expand([
@@ -356,8 +358,8 @@ class TestTranslateSearch(BaseTestCase):
                ('February 1st', datetime.datetime(2017, 2, 1, 0, 0))]),
         param('en', '2014 was good! November was excellent!'
                     ' Friday, 21 was especially good!',
-              [('2014', datetime.datetime(2014, 1, 1, 0, 0)),
-               ('November', datetime.datetime(2014, 11, 1, 0, 0)),
+              [('2014', datetime.datetime(2014, datetime.datetime.today().month, datetime.datetime.today().day, 0, 0)),
+               ('November', datetime.datetime(2014, 11, datetime.datetime.today().day, 0, 0)),
                ('Friday, 21', datetime.datetime(2014, 11, 21, 0, 0))]),
 
         # Russian
@@ -389,7 +391,7 @@ class TestTranslateSearch(BaseTestCase):
                ('tháng 9', datetime.datetime(1940, 9, 1, 0, 0))])
     ])
     def test_relative_base_setting(self, shortname, string, expected):
-        result = self.els.search_parse(shortname, string)
+        result = self.exact_language_search.search_parse(shortname, string)
         self.assertEqual(result, expected)
 
     @parameterized.expand([
@@ -398,7 +400,7 @@ class TestTranslateSearch(BaseTestCase):
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', '2014. July 13th July 14th',
-              [('2014', datetime.datetime(2014, 1, 1, 0, 0)),
+              [('2014', datetime.datetime(2014, datetime.datetime.today().month, datetime.datetime.today().day, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', 'July 13th 2014 July 14th 2014',
@@ -411,15 +413,16 @@ class TestTranslateSearch(BaseTestCase):
               [('July 13th, 2014', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th, 2014', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', '2014. July 12th, July 13th, July 14th',
-              [('2014', datetime.datetime(2014, 1, 1, 0, 0)),
+              [('2014', datetime.datetime(2014, datetime.datetime.today().month, datetime.datetime.today().day, 0, 0)),
                ('July 12th', datetime.datetime(2014, 7, 12, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         # Swedish
         param('sv', '1938–1939 marscherade tyska soldater i Österrike samtidigt som '
                     'österrikiska soldater marscherade i Berlin.',
-              [('1938', datetime.datetime(1938, 1, 1, 0, 0)),
-               ('1939', datetime.datetime(1939, 1, 1, 0, 0))]),
+              [('1938', datetime.datetime(1938, datetime.datetime.today().month, datetime.datetime.today().day, 0, 0)),
+               ('1939', datetime.datetime(1939,
+                                          datetime.datetime.today().month, datetime.datetime.today().day, 0, 0))]),
         # German
         param('de', 'Verteidiger der Stadt kapitulierten am 2. Mai 1945. Am 8. Mai 1945 (VE-Day) trat '
                     'bedingungslose Kapitulation der Wehrmacht in Kraft',
@@ -428,5 +431,123 @@ class TestTranslateSearch(BaseTestCase):
 
     ])
     def test_splitting_of_not_parsed(self, shortname, string, expected):
-        result = self.els.search_parse(shortname, string)
+        result = self.exact_language_search.search_parse(shortname, string)
         self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        # Arabic
+        param('ar', 'في 29 يوليو 1938 غزت القوات اليابانية الاتحاد'
+                    ' السوفييتي ووقعت أولى المعارك والتي انتصر فيها السوفييت، وعلى الرغم من ذلك رفضت'
+                    ' اليابان الاعتراف بذلك وقررت في 11 مايو 1939 تحريك الحدود المنغولية حتى نهر غول،'),
+
+        # Belarusian
+        param('be', 'Пасля апублікавання Патсдамскай дэкларацыі 26 ліпеня 1945 года і адмовы Японіі капітуляваць '
+                    'на яе ўмовах ЗША скінулі атамныя бомбы.'),
+
+        # Bulgarian
+        param('bg', 'На 16 юни 1944 г. започват въздушни '
+                    'бомбардировки срещу Япония, използувайки новозавладените острови като бази.'),
+
+        # Chinese
+        param('zh', '不過大多數人仍多把第二次世界大戰的爆發定為1939年9月1日德國入侵波蘭開始，2015年04月08日10点05。'),
+
+        # Czech
+        param('cs', 'V rok 1920 byla proto vytvořena Společnost národů, jež měla fungovat jako fórum, '
+                    'na němž měly národy mírovým způsobem urovnávat svoje spory.'),
+
+        # Danish
+        param('da', 'Krigen i Europa begyndte den 1. september 1939, da Nazi-Tyskland invaderede Polen, '
+                    'og endte med Nazi-Tysklands betingelsesløse overgivelse den 8. maj 1945.'),
+
+        # Dutch
+        param('nl', ' De meest dramatische uitbreiding van het conflict vond plaats op Maandag 22 juni 1941  met de '
+                    'Duitse aanval op de Sovjet-Unie.'),
+
+        # English
+        param('en', 'I will meet you tomorrow at noon'),
+
+        # Filipino / Tagalog
+        param('tl', 'Maraming namatay sa mga Hapon hanggang sila\'y sumuko noong Agosto 15, 1945.'),
+
+        # Finnish
+        param('fi', 'Iso-Britannia ja Ranska julistivat sodan Saksalle 3. syyskuuta 1939.'),
+
+        # French
+        param('fr', 'La Seconde Guerre mondiale, ou Deuxième Guerre mondiale4, est un conflit armé à '
+                    'l\'échelle planétaire qui dura du 1 septembre 1939 au 2 septembre 1945.'),
+
+        # Hebrew
+        param('he', 'במרץ 1938 "אוחדה" אוסטריה עם גרמניה (אנשלוס). '),
+
+        # Hindi
+        param('hi',
+              'जुलाई 1937 में, मार्को-पोलो ब्रिज हादसे का बहाना लेकर जापान ने चीन पर हमला कर दिया और चीनी साम्राज्य की राजधानी बीजिंग '
+              'पर कब्जा कर लिया,'),
+
+        # Hungarian
+        param('hu', 'A háború Európában 1945. május 8-án Németország feltétel nélküli megadásával, '
+                    'míg Ázsiában szeptember 2-án, Japán kapitulációjával fejeződött be.'),
+
+        # Georgian
+        param('ka', '1937 წელს დაიწყო იაპონია-ჩინეთის მეორე ომი.'),
+
+        # German
+        param('de', 'Die UdSSR blieb gemäß dem Neutralitätspakt '
+                    'vom 13. April 1941 gegenüber Japan vorerst neutral.'),
+
+        # Indonesian
+        param('id', 'Kekaisaran Jepang menyerah pada tanggal 15 Agustus 1945, sehingga mengakhiri perang '
+                    'di Asia dan memperkuat kemenangan total Sekutu atas Poros.'),
+
+        # Italian
+        param('it', ' Con questo il 2 ottobre 1935 prese il via la campagna '
+                    'd\'Etiopia. Il 9 maggio 1936 venne proclamato l\'Impero. '),
+
+        # Japanese
+        param('ja', '1939年9月1日、ドイツ軍がポーランドへ侵攻したことが第二次世界大戦の始まりとされている。'),
+
+        # Persian
+        param('fa', 'نگ جهانی دوم جنگ جدی بین سپتامبر 1939 و 2 سپتامبر 1945 بود.'),
+
+        # Polish
+        param('pl', 'II wojna światowa – największa wojna światowa w historii, '
+                    'trwająca od 1 września 1939 do 2 września 1945 (w Europie do 8 maja 1945)'),
+
+        # Portuguese
+        param('pt', 'Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.'),
+
+        # Romanian
+        param('ro', 'Pe 17 septembrie 1939, după semnarea unui acord de încetare a focului cu Japonia, '
+                    'sovieticii au invadat Polonia dinspre est.'),
+
+        # Russian
+        param('ru', 'Втора́я мирова́я война́ (1 сентября 1939 — 2 сентября 1945) — '
+                    'война двух мировых военно-политических коалиций, ставшая крупнейшим вооружённым '
+                    'конфликтом в истории человечества.'),
+
+        # Spanish
+        param('es', '11 junio 2010'),
+
+        # Swedish
+        param('sv', ' den 15 augusti 1945 då Kejsardömet'),
+
+        # Thai
+        param('th',
+              'และเมื่อวันที่ 11 พฤษภาคม 1939 ญี่ปุ่นตัดสินใจขยายพรมแดนญี่ปุ่น-มองโกเลียขึ้นไปถึงแม่น้ำคัลคินกอลด้วยกำลัง'),
+
+        # Turkish
+        param('tr', 'Almanya’nın Polonya’yı işgal ettiği 1 Eylül 1939 savaşın başladığı '
+                    'tarih olarak genel kabul görür.'),
+
+        # Ukrainian
+        param('uk', 'Інші дати, що розглядаються деякими авторами як дати початку війни: початок японської інтервенції '
+                    'в Маньчжурію 13 вересня 1931, початок другої японсько-китайської війни 7 липня 1937 року та '
+                    'початок угорсько-української війни 14 березня 1939 року.'),
+
+        # Vietnamese
+        param('vi', 'Ý theo gương Đức, đã tiến hành xâm lược Ethiopia năm 1935 và sát '
+                    'nhập Albania vào ngày 12 tháng 4 năm 1939.'),
+    ])
+    def test_detection(self, shortname, text):
+        result = self.search_with_detection.detect_language(text, languages=None)
+        self.assertEqual(result, shortname)

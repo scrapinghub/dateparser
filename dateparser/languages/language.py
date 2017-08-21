@@ -22,6 +22,7 @@ class Language(object):
     _wordchars = None
     _abbreviations = None
     _split_dictionary = None
+    _wordchars_for_detection = None
 
     def __init__(self, shortname, language_info):
         self.shortname = shortname
@@ -43,6 +44,45 @@ class Language(object):
             return True
         else:
             return self._are_all_words_in_the_dictionary(tokens, settings)
+
+    def count_applicability(self, text, strip_timezone=False, settings=None):
+        if strip_timezone:
+            text, _ = pop_tz_offset_from_string(text, as_offset=False)
+
+        text = self._simplify(text, settings=settings)
+        sentences = self._sentence_split(text, settings=settings)
+        tokens = []
+        for sent in sentences:
+            # tokens.extend(self._word_split(sent, settings=settings))
+            tokens.extend(self._split(sent, keep_formatting=False, settings=settings))
+        if self._is_date_consists_of_digits_only(tokens):
+            return 1
+        else:
+            return self._count_words_present_in_the_dictionary(tokens, settings)
+
+    def _count_words_present_in_the_dictionary(self, words, settings=None):
+        dictionary = self.clean_dictionary(self._get_split_dictionary(settings=settings))
+        dict_cnt = 0
+        skip_cnt = 0
+        for word in words:
+            if word in dictionary:
+                if dictionary[word]:
+                    dict_cnt += 1
+                else:
+                    skip_cnt += 1
+            elif word.isdigit():
+                skip_cnt += 1
+        return [dict_cnt, skip_cnt]
+
+    @staticmethod
+    def clean_dictionary(dictionary):
+        del_keys = []
+        for key in dictionary:
+            if len(key) < 2:
+                del_keys.append(key)
+        for del_key in del_keys:
+            del dictionary[del_key]
+        return dictionary
 
     def translate(self, date_string, keep_formatting=False, settings=None):
         date_string = self._simplify(date_string, settings=settings)
@@ -113,13 +153,13 @@ class Language(object):
         abbreviation_string = ''
 
         for abbreviation in abbreviations:
-            abbreviation_string += '(?<! '+abbreviation[:-1]+')'  # negative lookbehind
+            abbreviation_string += '(?<! ' + abbreviation[:-1] + ')'  # negative lookbehind
         if self.shortname in ['fi', 'cs', 'hu', 'de', 'da']:
             for digit_abbreviation in digit_abbreviations:
                 abbreviation_string += '(?<!' + digit_abbreviation + ')'  # negative lookbehind
 
         splitters_dict = {1: '[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
-                                                        # Indonesian, Vietnamese
+                          # Indonesian, Vietnamese
                           2: '(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))*',  # Spanish
                           3: '[|!?;\r\n]+(?:\s|$)*',  # Hindi and Bangla
                           4: '[。…‥\.!?？！;\r\n]+(?:\s|$)*',  # Japanese and Chinese
@@ -349,6 +389,18 @@ class Language(object):
                 wordchars.add(char.lower())
 
         self._wordchars = wordchars - {" "} | {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+
+    def get_wordchars_for_detection(self, settings):
+        if self._wordchars_for_detection is None:
+            wordchars = set()
+            for word in self._get_dictionary(settings):
+                if re.match(r'^[\W\d_]+$', word, re.UNICODE):
+                    continue
+                for char in word:
+                    wordchars.add(char.lower())
+            self._wordchars_for_detection = wordchars - {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                                                         ":", "(", ")", "'", "q", "a", "m", "p", " "}
+        return self._wordchars_for_detection
 
     def _generate_dictionary(self, settings=None):
         self._dictionary = Dictionary(self.info, settings=settings)
