@@ -311,6 +311,278 @@ class TestBundledLanguages(BaseTestCase):
         # dz
         param('dz', "ཟླ་བཅུ་གཅིག་པ་ 10 གཟའ་ཉི་མ་", "november 10 saturday"),
         param('dz', "མིར་ 2 སྤྱི་ཟླ་དྲུག་པ 2009 2 ཕྱི་ཆ་", "monday 2 june 2009 2 pm"),
+
+        # ebu
+        param('ebu', "mweri wa gatantatũ 11 maa 08:05 ut", "june 11 friday 08:05 pm"),
+        param('ebu', "2 igi 1998 njumamothii", "2 december 1998 saturday"),
+
+        # ee
+        param('ee', "5 afɔfĩe 2009 05:05 ɣetrɔ kɔsiɖa", "5 april 2009 05:05 pm sunday"),
+        param('ee', "yawoɖa 1890 deasiamime 23", "thursday 1890 august 23"),
+
+        # el
+        param('el', "απρίλιος 13 09:09 μμ", "april 13 09:09 pm"),
+        param('el', "1 ιούνιος 2002 07:17 πμ", "1 june 2002 07:17 am"),
+
+        # eo
+        param('eo', "12 aŭgusto 1887 06:06 atm", "12 august 1887 06:06 am"),
+        param('eo', "vendredo 10 sep 1957", "friday 10 september 1957"),
+
+        # et
+        param('et', "3 juuni 2001 neljapäev 07:09 pm", "3 june 2001 thursday 07:09 pm"),
+        param('et', "7 veebr 2004", "7 february 2004"),
+
+        # eu
+        param('eu', "1 urtarrila 1990 asteazkena", "1 january 1990 wednesday"),
+        param('eu', "ig 30 martxoa 1905", "sunday 30 march 1905"),
+
+        # ewo
+        param('ewo', "ngɔn lála 13 08:07 ngəgógəle", "march 13 08:07 pm"),
+        param('ewo', "séradé ngad 12 1915 2:00 ngəgógəle", "saturday november 12 1915 2:00 pm"),
+
+        # ff
+        param('ff', "1 colte 1976 hoore-biir 04:15 subaka", "1 february 1976 saturday 04:15 am"),
+        param('ff', "naasaande 3 yar 02:00 kikiiɗe", "thursday 3 october 02:00 pm"),
+
+        # fil
+        param('fil', "2 setyembre 1880 biyernes", "2 september 1880 friday"),
+        param('fil', "15 ago 1909 lun", "15 august 1909 monday"),
+
+        # fo
+        param('fo', "mánadagur 30 januar 1976", "monday 30 january 1976"),
+        param('fo', "2 apríl 1890 fríggjadagur", "2 april 1890 friday"),
+
+        # fur
+        param('fur', "12 avost 1990 domenie", "12 august 1990 sunday"),
+        param('fur', "miercus 5 fev 1990 10:10 p", "wednesday 5 february 1990 10:10 pm"),
+
+        # fy
+        param('fy', "febrewaris 2 1987 freed", "february 2 1987 friday"),
+        param('fy', "to 20 maaie 2010", "thursday 20 may 2010"),
+
+        # ga
+        param('ga', "1 bealtaine 2019 dé céadaoin", "1 may 2019 wednesday"),
+        param('ga', "deireadh fómhair 12 aoine 10:09 pm", "october 12 friday 10:09 pm"),
+
+        # gd
+        param('gd', "2 am faoilleach 1890 diardaoin 02:13 m", "2 january 1890 thursday 02:13 am"),
+        param('gd', "did an t-ògmhios 15 1876 08:15 f", "sunday june 15 1876 08:15 pm"),
+
+        # gl
+        param('gl', "1 xullo 2009 sáb", "1 july 2009 saturday"),
+        param('gl', "martes 15 setembro 1980", "tuesday 15 september 1980"),
+
+        # gsw
+        param('gsw', "5 auguscht 1856 10:08 am namittag", "5 august 1856 10:08 pm"),
+        param('gsw', "ziischtig 13 dezämber 03:12 vormittag", "tuesday 13 december 03:12 am"),
+
+        # gu
+        param('gu', "10 સપ્ટેમ્બર 2005 ગુરુવાર", "10 september 2005 thursday"),
+        param('gu', "સોમવાર 1 જુલાઈ 1980", "monday 1 july 1980"),
+
+        # guz
+        param('guz', "apiriri 2 1789 chumatano", "april 2 1789 wednesday"),
+        param('guz', "esabato 11 cul 2000 10:19 ma", "saturday 11 july 2000 10:19 am"),
+
+        # gv
+        param('gv', "3 toshiaght-arree 2023 jeh", "3 february 2023 friday"),
+        param('gv', "1 m-souree 1999 jedoonee", "1 june 1999 sunday"),
+
+        # ha
+        param('ha', "18 yuni 1920 laraba", "18 june 1920 wednesday"),
+        param('ha', "2 afi 1908 lit", "2 april 1908 monday"),
+
+        # haw
+        # param('haw', "1 'apelila 1968 p6", "1 april 1968 saturday"),
+        param('haw', "po'alima 29 'ok 1899", "friday 29 october 1899"),
+
+        # hr
+        param('hr', "2 ožujak 1980 pet", "2 march 1980 friday"),
+        param('hr', "nedjelja 3 lis 1879", "sunday 3 october 1879"),
+
+        # hsb
+        param('hsb', "5 měrc 1789 póndźela 11:13 popołdnju", "5 march 1789 monday 11:13 pm"),
+        param('hsb', "štwórtk 2000 awg 14", "thursday 2000 august 14"),
+
+        # hy
+        param('hy', "2 դեկտեմբերի 2006 շբթ 02:00 կա", "2 december 2006 saturday 02:00 am"),
+        param('hy', "չորեքշաբթի մյս 17, 2009", "wednesday may 17 2009"),
+
+        # ig
+        param('ig', "1 ọgọọst 2001 wenezdee", "1 august 2001 wednesday"),
+        param('ig', "mbọsị ụka 23 epr 1980", "sunday 23 april 1980"),
+
+        # ii
+        param('ii', "ꆏꊂꇖ 12 ꌕꆪ 1980", "thursday 12 march 1980"),
+        param('ii', "ꉆꆪ 1 02:05 ꁯꋒ", "august 1 02:05 pm"),
+
+        # is
+        param('is', "þriðjudagur 15 júlí 2001", "tuesday 15 july 2001"),
+        param('is', "fös 10 desember 08:17 fh", "friday 10 december 08:17 am"),
+
+        # jgo
+        param('jgo', "pɛsaŋ pɛ́nɛ́pfúꞌú 15 10:16 ŋka mbɔ́t nji", "september 15 10:16 pm"),
+        param('jgo', "ápta mɔ́ndi 10 nduŋmbi saŋ 2009", "tuesday 10 january 2009"),
+
+        # jmc
+        param('jmc', "2 aprilyi 2015 jumapilyi 03:10 kyiukonyi", "2 april 2015 sunday 03:10 pm"),
+        param('jmc', "alh 11 julyai 1987", "thursday 11 july 1987"),
+
+        # kab
+        param('kab', "3 meɣres 1999 kuẓass 11:16 n tmeddit", "3 march 1999 wednesday 11:16 pm"),
+        param('kab', "1 yennayer 2004 sḍis", "1 january 2004 friday"),
+
+        # kam
+        param('kam', "2008 mwai wa katatũ 12 wa katano 09:18 ĩyawĩoo", "2008 march 12 friday 09:18 pm"),
+        param('kam', "1 mwai wa ĩkumi na ilĩ 1789 wth", "1 december 1789 saturday"),
+
+        # kde
+        param('kde', "mwedi wa nnyano na umo 12 1907 liduva litandi", "june 12 1907 saturday"),
+        # param('kde', "2 mei 11:10 chilo ll6", "2 may 11:10 pm thursday"),
+
+        # kea
+        param('kea', "sigunda-fera 12 julhu 1902", "monday 12 july 1902"),
+        param('kea', "2 diz 2005 kua", "2 december 2005 wednesday"),
+
+        # khq
+        param('khq', "1 žanwiye 2019 ati 01:09 adduha", "1 january 2019 monday 01:09 am"),
+        param('khq', "alhamiisa 12 noowanbur 1908", "thursday 12 november 1908"),
+
+        # ki
+        param('ki', "1 mwere wa gatano 1980 09:12 hwaĩ-inĩ", "1 may 1980 09:12 pm"),
+        param('ki', "njumatana 2 wmw 2000 01:12 kiroko", "wednesday 2 november 2000 01:12 am"),
+
+        # kk
+        param('kk', "3 маусым 1956 дс", "3 june 1956 monday"),
+        param('kk', "жексенбі 12 қыркүйек 1890", "sunday 12 september 1890"),
+
+        # kl
+        param('kl', "2 martsi 2001 ataasinngorneq", "2 march 2001 monday"),
+        param('kl', "pin 1 oktoberi 1901", "wednesday 1 october 1901"),
+
+        # kln
+        param('kln', "3 ng'atyaato 2009 koang'wan 10:09 kooskoliny", "3 february 2009 thursday 10:09 pm"),
+        param('kln', "kipsuunde nebo aeng' 14 2009 kos", "december 14 2009 wednesday"),
+
+        # kok
+        param('kok', "1 नोव्हेंबर 2000 आदित्यवार 01:19 मनं", "1 november 2000 sunday 01:19 pm"),
+        param('kok', "मंगळार 2 फेब्रुवारी 2003", "tuesday 2 february 2003"),
+
+        # ksb
+        param('ksb', "jumaamosi 1 ago 09:19 makeo", "saturday 1 august 09:19 am"),
+        param('ksb', "3 febluali 1980 jmn", "3 february 1980 tuesday"),
+
+        # ksf
+        param('ksf', "ŋwíí a ntɔ́ntɔ 3 1990 09:15 cɛɛ́nko", "january 3 1990 09:15 pm"),
+        # param('ksf', "2 ŋ3 1789 jǝǝdí", "2 march 1789 thursday"),
+
+        # ksh
+        param('ksh', "mohndaach 12 fäbrowa 2001 12:18 nm", "monday 12 february 2001 12:18 pm"),
+        param('ksh', "5 oujoß 12:17 uhr vörmiddaachs", "5 august 12:17 am"),
+
+        # kw
+        param('kw', "14 mis metheven 1980 dy yow", "14 june 1980 thursday"),
+        param('kw', "mis kevardhu 2019 1 sad", "december 2019 1 saturday"),
+
+        # ky
+        param('ky', "22 февраль 2025 01:12 түштөн кийинки", "22 february 2025 01:12 pm"),
+        param('ky', "шаршемби 11 авг 1908", "wednesday 11 august 1908"),
+
+        # lag
+        param('lag', "17 kʉvɨɨrɨ 2018 ijumáa", "17 august 2018 friday"),
+        param('lag', "táatu 16 kwiinyi 1978", "monday 16 october 1978"),
+
+        # lb
+        param('lb', "2 mäerz 2034 don 02:19 moies", "2 march 2034 thursday 02:19 am"),
+        param('lb', "samschdeg 15 abrëll", "saturday 15 april"),
+
+        # lg
+        # param('lg', "sebuttemba 17 1980 lw6", "september 17 1980 saturday"),
+        param('lg', "2 okitobba 2010 lwakusatu", "2 october 2010 wednesday"),
+
+        # lkt
+        param('lkt', "18 čhaŋwápetȟo wí 2013 owáŋgyužažapi", "18 may 2013 saturday"),
+        param('lkt', "1 tȟahékapšuŋ wí 1978 aŋpétuzaptaŋ", "1 december 1978 friday"),
+
+        # ln
+        param('ln', "23 yan 2001 mokɔlɔ mwa mísáto", "23 january 2001 wednesday"),
+        param('ln', "mtn 17 sánzá ya zómi na míbalé 09:17 ntɔ́ngɔ́", "friday 17 december 09:17 am"),
+
+        # lo
+        param('lo', "18 ພຶດສະພາ 1908 ວັນອາທິດ", "18 may 1908 sunday"),
+        param('lo', "8 ກໍລະກົດ 2003 03:03 ຫຼັງທ່ຽງ", "8 july 2003 03:03 pm"),
+
+        # lt
+        param('lt', "15 gegužės 1970 trečiadienis", "15 may 1970 wednesday"),
+        param('lt', "an 2 rugsėjo 09:18 priešpiet", "tuesday 2 september 09:18 am"),
+
+        # lu
+        param('lu', "2 ciongo 2016 njw 02:16 dilolo", "2 january 2016 thursday 02:16 pm"),
+        param('lu', "16 lùshìkà 2009", "16 august 2009"),
+
+        # luo
+        param('luo', "15 dwe mar adek 1908 tan", "15 march 1908 thursday"),
+        param('luo', "jumapil 3 dao 2008 01:12 ot", "sunday 3 july 2008 01:12 pm"),
+
+        # luy
+        param('luy', "23 juni 1970 murwa wa kanne", "23 june 1970 thursday"),
+        param('luy', "jumatano, 5 aprili 1998", "wednesday 5 april 1998"),
+
+        # lv
+        param('lv', "14 jūnijs 2010 10:10 priekšpusdienā", "14 june 2010 10:10 am"),
+        param('lv', "24 okt 2000 piektdiena 11:11 pēcpusd", "24 october 2000 friday 11:11 pm"),
+
+        # mas
+        param('mas', "2 olodoyíóríê inkókúâ 1954 08:16 ɛnkakɛnyá", "2 april 1954 08:16 am"),
+        param('mas', "15 ɔɛn 2032 alaámisi 02:13 ɛndámâ", "15 march 2032 thursday 02:13 pm"),
+
+        # mer
+        param('mer', "1 mĩĩ 1924 wetano 10:05 ũg", "1 may 1924 friday 10:05 pm"),
+        param('mer', "6 njuraĩ 1895 muramuko", "6 july 1895 monday"),
+
+        # mfe
+        param('mfe', "27 zilye 1988 merkredi", "27 july 1988 wednesday"),
+        param('mfe', "lindi 3 oktob 1897", "monday 3 october 1897"),
+
+        # mg
+        param('mg', "1 martsa 1789 alakamisy", "1 march 1789 thursday"),
+        param('mg', "5 aogositra 1911 zoma", "5 august 1911 friday"),
+
+        # mgh
+        param('mgh', "sabato mweri wo unethanu 15 07:18 wichishu", "sunday may 15 07:18 am"),
+        param('mgh', "2 tis 1789 jumamosi 08:17 mchochil'l", "2 september 1789 saturday 08:17 pm"),
+
+        # mgo
+        # param('mgo', "5 iməg mbegtug aneg 5", "5 january thursday"),
+        # param('mgo', "aneg 2 iməg zò 17 1908 ", "monday november 17 1908"),
+
+        # mk
+        param('mk', "4 септември 2009 09:18 претпл", "4 september 2009 09:18 am"),
+        param('mk', "вторник 10 август 1777 01:12 попл", "tuesday 10 august 1777 01:12 pm"),
+
+        # mn
+        param('mn', "дөрөвдүгээр сар 15 баасан 10:10 үө", "april 15 friday 10:10 am"),
+        # param('mn', "12 9-р сар 2019 пүрэв", "12 september 2019 thursday"),
+
+        # mr
+        param('mr', "16 फेब्रुवारी 1908 गुरु 02:03 मउ", "16 february 1908 thursday 02:03 pm"),
+        param('mr', "शनिवार 15 सप्टें 1888", "saturday 15 september 1888"),
+
+        # ms
+        param('ms', "4 mei 1768 jumaat 09:09 ptg", "4 may 1768 friday 09:09 pm"),
+        param('ms', "isnin 14 disember 2001 11:09 pg", "monday 14 december 2001 11:09 am"),
+
+        # mt
+        param('mt', "3 frar 1998 il-ħadd", "3 february 1998 sunday"),
+        param('mt', "16 awwissu 2019 erb", "16 august 2019 wednesday"),
+
+        # mua
+        param('mua', "1 cokcwaklaŋne 2014 comzyiiɗii", "1 february 2014 tuesday"),
+        param('mua', "fĩi yuru 17 1908 cze 10:08 lilli", "december 17 1908 saturday 10:08 pm"),
+
+        # naq
+        param('naq', "20 ǂkhoesaob 1934 wunstaxtsees", "20 july 1934 wednesday"),
+        param('naq', "do 12 gamaǀaeb 1999 05:12 ǃuias", "thursday 12 june 1999 05:12 pm"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_settings()
