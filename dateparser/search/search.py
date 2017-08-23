@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from dateparser.languages.loader import LanguageDataLoader
-from dateparser.conf import apply_settings, Settings
+from dateparser.conf import apply_settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
-import datetime
+import regex as re
 import collections
 
 
@@ -37,8 +37,8 @@ class ExactLanguageSearch:
 
     @staticmethod
     def date_is_relative(translation):
-        if "ago" in translation or "in" in translation or "from now" in translation or "tomorrow" in translation \
-                or "today" in translation or "yesterday" in translation:
+        RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
+        if re.search(RELATIVE_REG, translation):
 
             return True
         else:
@@ -106,7 +106,6 @@ class ExactLanguageSearch:
         substrings = []
         need_relative_base = True
         if settings.RELATIVE_BASE:
-            print('there is relative base')
             need_relative_base = False
         for i, item in enumerate(to_parse):
             if len(item) > 2:
@@ -139,13 +138,12 @@ class ExactLanguageSearch:
                             if parsed_best[k]['date_obj']:
                                 parsed.append(parsed_best[k])
                                 substrings.append(substrings_best[k])
-        parser._settings.RELATIVE_BASE = None
         return parsed, substrings
 
-    @apply_settings
-    def search_parse(self, shortname, text, settings=None):
+    def search_parse(self, shortname, text, settings):
         translated, original = self.search(shortname, text, settings)
-        if shortname not in ['vi', 'hu']:
+        bad_translate_with_search = ['vi', 'hu']   # splitting done by spaces and some dictionary items contain spaces
+        if shortname not in bad_translate_with_search:
             parser = DateDataParser(languages=['en'], settings=settings)
             parsed, substrings = self.parse_found_objects(parser=parser, to_parse=translated,
                                                           original=original, translated=translated, settings=settings)
@@ -153,6 +151,7 @@ class ExactLanguageSearch:
             parser = DateDataParser(languages=[shortname], settings=settings)
             parsed, substrings = self.parse_found_objects(parser=parser, to_parse=original,
                                                           original=original, translated=translated, settings=settings)
+        parser._settings.RELATIVE_BASE = None
         return list(zip(substrings, [i['date_obj'] for i in parsed]))
 
 
@@ -186,4 +185,5 @@ class DateSearchWithDetection:
         language_shortname = self.detect_language(text=text, languages=languages)
         if not language_shortname:
             return {'Language': None, 'Dates': None}
-        return {'Language': language_shortname, 'Dates': self.search.search_parse(language_shortname, text, settings)}
+        return {'Language': language_shortname, 'Dates': self.search.search_parse(language_shortname, text,
+                                                                                  settings=settings)}

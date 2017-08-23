@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from dateparser.languages.detection import *
+from dateparser.languages.detection import BaseLanguageDetector
 from dateparser.conf import apply_settings
 from dateparser.utils import normalize_unicode
 
@@ -43,12 +43,10 @@ class FullTextLanguageDetector(BaseLanguageDetector):
     def _best_language(self, date_string,  settings=None):
         date_string = normalize_unicode(date_string.lower())
         self.character_check(date_string, settings)
-        print([l.shortname for l in self.languages])
         if len(self.languages) == 1:
             return self.languages[0].shortname
         applicable_languages = []
         for language in self.languages:
-            print(language.shortname)
             num_words = language.count_applicability(date_string, strip_timezone=False, settings=settings)
             if num_words[0] > 0 or num_words[1] > 0:
                 applicable_languages.append((language.shortname, num_words))
