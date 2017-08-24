@@ -12,10 +12,10 @@ tuesday:
     - Sal
 wednesday:
     - Çarşamba
-    - Çrs
+    - Çar
 thursday:
     - Perşembe
-    - Prs
+    - Per
 friday:
     - Cuma
     - Cum
@@ -24,43 +24,44 @@ saturday:
     - Cmt
 sunday:
     - Pazar
+    - Paz
 
 january:
     - Ocak
-    - Oc
+    - Oca
 february:
     - Şubat
-    - Şu
+    - Şub
 march:
     - Mart
     - Mar
 april:
     - Nisan
-    - Ni
+    - Nis
 may:
     - Mayıs
     - May
 june:
     - Haziran
-    - Ha
+    - Haz
 july:
     - Temmuz
-    - Te
+    - Tem
 august:
     - Ağustos
-    - Ağ
+    - Ağu
 september:
     - Eylül
-    - Ey
+    - Eyl
 october:
     - Ekim
-    - Ek
+    - Eki
 november:
     - Kasım
-    - Ka
+    - Kas
 december:
     - Aralık
-    - Ar
+    - Ara
 
 year:
     - yıl
