@@ -222,6 +222,7 @@ class Language(object):
 
     def _get_split_dictionary(self, settings):
         if self._split_dictionary is None:
+            settings.NORMALIZE = True
             dictionary = self._get_dictionary(settings=settings)
             self._split_dictionary = self._split_dict(dictionary)
         return self._split_dictionary
