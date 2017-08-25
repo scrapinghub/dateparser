@@ -7,6 +7,16 @@ from dateparser.search.text_detection import FullTextLanguageDetector
 import regex as re
 import collections
 
+RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
+
+
+def date_is_relative(translation):
+    if re.search(RELATIVE_REG, translation):
+
+        return True
+    else:
+        return False
+
 
 class ExactLanguageSearch:
     def __init__(self, loader):
@@ -34,15 +44,6 @@ class ExactLanguageSearch:
                     return substring, None
             relative_base = already_parsed[i]['date_obj']
             return substring,  relative_base
-
-    @staticmethod
-    def date_is_relative(translation):
-        RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
-        if re.search(RELATIVE_REG, translation):
-
-            return True
-        else:
-            return False
 
     def choose_best_split(self, possible_parsed_splits, possible_substrings_splits):
         rating = []
@@ -87,7 +88,7 @@ class ExactLanguageSearch:
         item = item.replace('ngày', '')
         item = item.replace('am', '')
         pre_parsed_item = parser.get_date_data(item)
-        is_relative = self.date_is_relative(translated_item)
+        is_relative = date_is_relative(translated_item)
         if need_relative_base:
             item, relative_base = self.set_relative_base(item, parsed)
         else:
@@ -156,6 +157,11 @@ class ExactLanguageSearch:
 
 
 class DateSearchWithDetection:
+    """
+    Class which executes language detection of string in a natural language, translation of a given string,
+    search of substrings which represent date and/or time and parsing of these substrings.
+
+    """
     def __init__(self):
         self.loader = LanguageDataLoader()
         self.available_language_map = self.loader.get_language_map()
@@ -182,6 +188,29 @@ class DateSearchWithDetection:
 
     @apply_settings
     def search_dates(self, text, languages=None, settings=None):
+        """
+        Find all substrings of the given string which represent date and/or time and parse them.
+
+        :param text:
+            A string in a natural language which may contain date and/or time expressions.
+        :type text: str|unicode
+        :param languages:
+            A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
+            to detect the language.
+        :type languages: list
+        :param settings:
+               Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+        :type settings: dict
+
+        :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
+                substring representing date expressions and corresponding :mod:`datetime.datetime` object.
+            For example:
+            {'Language': 'en', 'Dates': [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))]}
+            If language of the string isn't recognised returns:
+            {'Language': None, 'Dates': None}
+        :raises: ValueError - Unknown Language
+        """
+
         language_shortname = self.detect_language(text=text, languages=languages)
         if not language_shortname:
             return {'Language': None, 'Dates': None}
