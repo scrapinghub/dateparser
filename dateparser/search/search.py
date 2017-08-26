@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from dateparser.languages.loader import LanguageDataLoader
-from dateparser.conf import apply_settings
+from dateparser.conf import apply_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
 import regex as re
@@ -152,7 +152,7 @@ class ExactLanguageSearch:
             parser = DateDataParser(languages=[shortname], settings=settings)
             parsed, substrings = self.parse_found_objects(parser=parser, to_parse=original,
                                                           original=original, translated=translated, settings=settings)
-        parser._settings.RELATIVE_BASE = None
+        parser._settings = Settings()
         return list(zip(substrings, [i['date_obj'] for i in parsed]))
 
 
