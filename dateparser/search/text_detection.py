@@ -26,6 +26,11 @@ class FullTextLanguageDetector(BaseLanguageDetector):
             self.language_unique_chars.append(unique_chars)
 
     def character_check(self, date_string, settings):
+        date_string_set = set(date_string)
+        symbol_set = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", " ", "/", "-", ")", "(", ".", ":", "\\"}
+        if date_string_set & symbol_set == date_string_set:
+            self.languages = [self.languages[0]]
+            return
         self.get_unique_characters(settings=settings)
         for i in range(len(self.languages)):
             for char in self.language_unique_chars[i]:
@@ -34,7 +39,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
                     return
         indices_to_pop = []
         for i in range(len(self.languages)):
-            if len(set(date_string) & self.language_chars[i]) == 0:
+            if len(date_string_set & self.language_chars[i]) == 0:
                 indices_to_pop.append(i)
         self.languages = [i for j, i in enumerate(self.languages) if j not in indices_to_pop]
 

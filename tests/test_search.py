@@ -3,14 +3,33 @@ from __future__ import unicode_literals
 from nose_parameterized import parameterized, param
 from tests import BaseTestCase
 from dateparser.search.search import DateSearchWithDetection
+from dateparser.search import search_dates
 from dateparser.conf import Settings, apply_settings
 import datetime
+
 
 class TestTranslateSearch(BaseTestCase):
     def setUp(self):
         super(TestTranslateSearch, self).setUp()
         self.search_with_detection = DateSearchWithDetection()
         self.exact_language_search = self.search_with_detection.search
+
+    @staticmethod
+    def make_python3_msg(text):
+        text = text.replace('unicode', 'str')
+        text = text.replace('u\'', '\'')
+        text = text.replace('type', 'class')
+        return text
+
+    def run_search_dates_function_invalid_languages(self, text, languages, error_type):
+        try:
+            search_dates(text=text, languages=languages)
+        except Exception as error:
+            self.error = error
+            self.assertIsInstance(self.error, error_type)
+
+    def check_error_message(self, message):
+        self.assertEqual(self.make_python3_msg(str(self.error)), message)
 
     @parameterized.expand([
         param('en', "Sep 03 2014"),
@@ -581,6 +600,9 @@ class TestTranslateSearch(BaseTestCase):
         # Vietnamese
         param('vi', 'Ý theo gương Đức, đã tiến hành xâm lược Ethiopia năm 1935 và sát '
                     'nhập Albania vào ngày 12 tháng 4 năm 1939.'),
+
+        # only digits
+        param('en', '2007'),
     ])
     def test_detection(self, shortname, text):
         result = self.search_with_detection.detect_language(text, languages=None)
@@ -590,13 +612,29 @@ class TestTranslateSearch(BaseTestCase):
         # Russian
         param(text='19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
               settings=None,
-              expected={'Language': 'ru', 'Dates': [('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
-                                                    ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
-                                                    ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]}),
+              expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
+                        ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
+                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
         param(text='Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)},
-              expected={'Language': 'pt', 'Dates': [('Em outubro de 1936', datetime.datetime(1936, 10, 1, 0, 0))]}),
+              expected=[('Em outubro de 1936', datetime.datetime(1936, 10, 1, 0, 0))]),
     ])
-    def test_all_together(self, text, settings, expected):
-        result = self.search_with_detection.search_dates(text, settings=settings)
+    def test_date_search_function(self, text, settings, expected):
+        result = search_dates(text, settings=settings)
         self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param(text='19 марта 2001',
+              languages='wrong type: str instead of list'),
+    ])
+    def test_date_search_function_invalid_languages_type(self, text, languages):
+        self.run_search_dates_function_invalid_languages(text=text, languages=languages, error_type=TypeError)
+        self.check_error_message("languages argument must be a list (<class \'str\'> given)")
+
+    @parameterized.expand([
+        param(text='19 марта 2001',
+              languages=['unknown language code']),
+    ])
+    def test_date_search_function_invalid_language_code(self, text, languages):
+        self.run_search_dates_function_invalid_languages(text=text, languages=languages, error_type=ValueError)
+        self.check_error_message("Unknown language(s): 'unknown language code'")
