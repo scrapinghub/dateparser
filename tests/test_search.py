@@ -609,18 +609,26 @@ class TestTranslateSearch(BaseTestCase):
         self.assertEqual(result, shortname)
 
     @parameterized.expand([
-        # Russian
         param(text='19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
+              languages=['en', 'ru'],
               settings=None,
               expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
                         ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
                         ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+
         param(text='Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
+              languages=None,
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)},
               expected=[('Em outubro de 1936', datetime.datetime(1936, 10, 1, 0, 0))]),
+
+        # language not detected
+        param(text='',
+              languages=None,
+              settings=None,
+              expected=None)
     ])
-    def test_date_search_function(self, text, settings, expected):
-        result = search_dates(text, settings=settings)
+    def test_date_search_function(self, text, languages, settings, expected):
+        result = search_dates(text, languages=languages, settings=settings)
         self.assertEqual(result, expected)
 
     @parameterized.expand([
