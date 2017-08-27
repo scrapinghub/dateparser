@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 import regex as re
-from itertools import chain
 from collections import OrderedDict
 
 from dateutil import parser
@@ -13,7 +12,7 @@ from dateparser.utils import normalize_unicode, combine_dicts
 from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
 
 DIGIT_GROUP_PATTERN = re.compile(r'\\d\+')
-
+NUMERAL_PATTERN = re.compile(r'(\d+)', re.U)
 
 class Locale(object):
 
@@ -40,9 +39,9 @@ class Locale(object):
         if settings.NORMALIZE:
             date_string = normalize_unicode(date_string)
         date_string = self._simplify(date_string, settings=settings)
-        date_tokens = self._get_date_tokens(date_string, settings=settings)
-
         dictionary = self._get_dictionary(settings)
+        date_tokens = dictionary.split(date_string)
+
         return dictionary.are_tokens_valid(date_tokens)
 
     def translate(self, date_string, keep_formatting=False, settings=None):
@@ -50,10 +49,10 @@ class Locale(object):
         if settings.NORMALIZE:
             date_string = normalize_unicode(date_string)
         date_string = self._simplify(date_string, settings=settings)
-        date_string_tokens = self._get_date_tokens(date_string, keep_formatting,
-                                                   settings=settings)
 
         dictionary = self._get_dictionary(settings)
+        date_string_tokens = dictionary.split(date_string, keep_formatting)
+
         relative_translations = self._get_relative_translations(settings=settings)
 
         for i, word in enumerate(date_string_tokens):
@@ -71,28 +70,13 @@ class Locale(object):
                           separator="" if keep_formatting else " ", settings=settings)
 
     def _translate_numerals(self, date_string):
-        date_string = [date_string]
-        date_string_tokens = list(self._split_tokens_with_regex(date_string, r"(\d+)"))
+        date_string_tokens = NUMERAL_PATTERN.split(date_string)
         for i, token in enumerate(date_string_tokens):
             if token.isdigit():
                 date_string_tokens[i] = str(int(token)).zfill(len(token))
                 if isinstance(date_string_tokens[i], bytes):
                     date_string_tokens[i] = date_string_tokens[i].decode('utf-8')
         return u''.join(date_string_tokens)
-
-    def _get_date_tokens(self, date_string, keep_formatting=False, settings=None):
-        relative_translations = self._get_relative_translations(settings=settings)
-        tokens = [date_string]
-        tokens = list(self._split_tokens_by_known_relative_strings(tokens, settings=settings))
-        for i, token in enumerate(tokens):
-            for pattern, _ in relative_translations.items():
-                if pattern.match(token):
-                    tokens[i] = [token]
-                    break
-            else:
-                tokens[i] = self._split([token], keep_formatting, settings=settings)
-
-        return list(filter(bool, chain(*tokens)))
 
     def _get_relative_translations(self, settings=None):
         if settings.NORMALIZE:
@@ -172,30 +156,6 @@ class Locale(object):
         if set(words).isdisjoint(freshness_words):
             words.remove("in")
         return words
-
-    def _split(self, tokens, keep_formatting, settings=None):
-        tokens = list(self._split_tokens_with_regex(tokens, r"(\d+)"))
-        tokens = list(
-            self._split_tokens_by_known_words(tokens, keep_formatting, settings=settings))
-        return tokens
-
-    def _split_tokens_with_regex(self, tokens, regex):
-        tokens = tokens[:]
-        for i, token in enumerate(tokens):
-            tokens[i] = re.split(regex, token)
-        return list(filter(bool, chain(*tokens)))
-
-    def _split_tokens_by_known_words(self, tokens, keep_formatting, settings=None):
-        dictionary = self._get_dictionary(settings)
-        for i, token in enumerate(tokens):
-            tokens[i] = dictionary.split(token, keep_formatting)
-        return list(chain(*tokens))
-
-    def _split_tokens_by_known_relative_strings(self, tokens, settings=None):
-        dictionary = self._get_dictionary(settings)
-        for i, token in enumerate(tokens):
-            tokens[i] = dictionary.split_relative(token)
-        return list(chain(*tokens))
 
     def _join(self, tokens, separator=" ", settings=None):
         if not tokens:

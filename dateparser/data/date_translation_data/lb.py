@@ -161,87 +161,59 @@ info = {
     "relative-type-regex": {
         "in \\1 year": [
             "an (\\d+) joer",
-            "a(n) (\\d+) joer",
-            "an (\\d+) j",
-            "a(n) (\\d+) j"
+            "an (\\d+) j"
         ],
         "\\1 year ago": [
             "virun (\\d+) joer",
-            "viru(n) (\\d+) joer",
-            "virun (\\d+) j",
-            "viru(n) (\\d+) j"
+            "virun (\\d+) j"
         ],
         "in \\1 month": [
             "an (\\d+) mount",
-            "a(n) (\\d+) méint",
-            "an (\\d+) m",
-            "a(n) (\\d+) m"
+            "an (\\d+) m"
         ],
         "\\1 month ago": [
             "virun (\\d+) mount",
-            "viru(n) (\\d+) méint",
-            "virun (\\d+) m",
-            "viru(n) (\\d+) m"
+            "virun (\\d+) m"
         ],
         "in \\1 week": [
             "an (\\d+) woch",
-            "a(n) (\\d+) wochen",
-            "an (\\d+) w",
-            "a(n) (\\d+) w"
+            "an (\\d+) w"
         ],
         "\\1 week ago": [
             "virun (\\d+) woch",
-            "viru(n) (\\d+) wochen",
-            "virun (\\d+) w",
-            "viru(n) (\\d+) w"
+            "virun (\\d+) w"
         ],
         "in \\1 day": [
             "an (\\d+) dag",
-            "a(n) (\\d+) deeg",
-            "an (\\d+) d",
-            "a(n) (\\d+) d"
+            "an (\\d+) d"
         ],
         "\\1 day ago": [
             "virun (\\d+) dag",
-            "viru(n) (\\d+) deeg",
-            "virun (\\d+) d",
-            "viru(n) (\\d+) d"
+            "virun (\\d+) d"
         ],
         "in \\1 hour": [
             "an (\\d+) stonn",
-            "a(n) (\\d+) stonnen",
-            "an (\\d+) st",
-            "a(n) (\\d+) st"
+            "an (\\d+) st"
         ],
         "\\1 hour ago": [
             "virun (\\d+) stonn",
-            "viru(n) (\\d+) stonnen",
-            "virun (\\d+) st",
-            "viru(n) (\\d+) st"
+            "virun (\\d+) st"
         ],
         "in \\1 minute": [
             "an (\\d+) minutt",
-            "a(n) (\\d+) minutten",
-            "an (\\d+) min",
-            "a(n) (\\d+) min"
+            "an (\\d+) min"
         ],
         "\\1 minute ago": [
             "virun (\\d+) minutt",
-            "viru(n) (\\d+) minutten",
-            "virun (\\d+) min",
-            "viru(n) (\\d+) min"
+            "virun (\\d+) min"
         ],
         "in \\1 second": [
             "an (\\d+) sekonn",
-            "a(n) (\\d+) sekonnen",
-            "an (\\d+) sek",
-            "a(n) (\\d+) sek"
+            "an (\\d+) sek"
         ],
         "\\1 second ago": [
             "virun (\\d+) sekonn",
-            "viru(n) (\\d+) sekonnen",
-            "virun (\\d+) sek",
-            "viru(n) (\\d+) sek"
+            "virun (\\d+) sek"
         ]
     },
     "locale_specific": {},

@@ -28,6 +28,7 @@ DEFAULT_MONTH_PATTERN = re.compile(r'^M?\d+$', re.U)
 RE_SANITIZE_APOSTROPHE = re.compile(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 AM_PATTERN = re.compile(r'^\s*[Aa]\s*\.?\s*[Mm]\s*\.?\s*$')
 PM_PATTERN = re.compile(r'^\s*[Pp]\s*\.?\s*[Mm]\s*\.?\s*$')
+PARENTHESIS_PATTERN = re.compile(r'[\(\)]')
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 get_raw_data()
@@ -37,7 +38,8 @@ cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
 
 def _filter_relative_string(relative_string):
     return (isinstance(relative_string, six.string_types) and
-            RELATIVE_PATTERN.search(relative_string))
+            RELATIVE_PATTERN.search(relative_string) and
+            not PARENTHESIS_PATTERN.search(relative_string))
 
 
 def _filter_month_name(month_name):

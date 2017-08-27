@@ -185,6 +185,7 @@ info = {
         ]
     },
     "locale_specific": {},
+    "no_word_spacing": "True",
     "skip": [
         " ",
         ".",

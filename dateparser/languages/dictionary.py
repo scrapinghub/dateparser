@@ -18,6 +18,7 @@ KNOWN_WORD_TOKENS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
                      'day', 'hour', 'minute', 'second', 'ago', 'in', 'am', 'pm']
 
 PARENTHESES_PATTERN = re.compile(r'[\(\)]')
+NUMERAL_PATTERN = re.compile(r'(\d+)')
 
 
 class UnknownTokenError(Exception):
@@ -77,33 +78,6 @@ class Dictionary(object):
     def __iter__(self):
         return chain(self._settings.SKIP_TOKENS, iter(self._dictionary))
 
-    def split(self, string, keep_formatting):
-        """ Recursively splitting string by words in dictionary """
-        if not string:
-            return string
-
-        regex = self._get_split_regex_cache()
-        match = regex.match(string)
-        if not match:
-            return [string] if self._should_capture(string, keep_formatting) else []
-
-        unparsed, known, unknown = match.groups()
-        splitted = [known] if self._should_capture(known, keep_formatting) else []
-        if unparsed and self._should_capture(unparsed, keep_formatting):
-            splitted = [unparsed] + splitted
-        if unknown:
-            splitted.extend(self.split(unknown, keep_formatting))
-
-        return splitted
-
-    def split_relative(self, string):
-        """ Recursively splitting string by words in dictionary """
-        if not string:
-            return string
-
-        split_relative_regex = self._get_split_relative_regex_cache()
-        return split_relative_regex.split(string)
-
     def are_tokens_valid(self, tokens):
         match_relative_regex = self._get_match_relative_regex_cache()
         for token in tokens:
@@ -114,6 +88,46 @@ class Dictionary(object):
                 return False
         else:
             return True
+
+    def split(self, string, keep_formatting=False):
+        if not string:
+            return string
+
+        split_relative_regex = self._get_split_relative_regex_cache()
+        match_relative_regex = self._get_match_relative_regex_cache()
+
+        tokens = split_relative_regex.split(string)
+
+        for i, token in enumerate(tokens):
+            if match_relative_regex.match(token):
+                tokens[i] = [token]
+                continue
+            tokens[i] = self._split_by_known_words(token, keep_formatting)
+
+        return list(filter(bool, chain(*tokens)))
+
+    def _split_by_known_words(self, string, keep_formatting):
+        if not string:
+            return string
+
+        regex = self._get_split_regex_cache()
+        match = regex.match(string)
+        if not match:
+            return (self._split_by_numerals(string, keep_formatting)
+                    if self._should_capture(string, keep_formatting) else [])
+
+        unparsed, known, unknown = match.groups()
+        splitted = [known] if self._should_capture(known, keep_formatting) else []
+        if unparsed and self._should_capture(unparsed, keep_formatting):
+            splitted = self._split_by_numerals(unparsed, keep_formatting) + splitted
+        if unknown:
+            splitted.extend(self._split_by_known_words(unknown, keep_formatting))
+
+        return splitted
+
+    def _split_by_numerals(self, string, keep_formatting):
+        return [token for token in NUMERAL_PATTERN.split(string)
+                if self._should_capture(token, keep_formatting)]
 
     def _should_capture(self, token, keep_formatting):
         return (
@@ -145,7 +159,7 @@ class Dictionary(object):
         if self._no_word_spacing:
             regex = r"^(.*?)({})(.*)$".format(known_words_group)
         else:
-            regex = r"^(.*?(?:\A|\W|_))({})((?:\Z|\W|_).*)$".format(known_words_group)
+            regex = r"^(.*?(?:\A|\W|_|\d))({})((?:\Z|\W|_|\d).*)$".format(known_words_group)
         self._split_regex_cache[self._settings.registry_key] = {
             self.info['name']: re.compile(regex, re.UNICODE | re.IGNORECASE)
         }

@@ -158,70 +158,51 @@ info = {
     },
     "relative-type-regex": {
         "in \\1 year": [
-            "sa (\\d+) taon",
-            "sa (\\d+) (na) taon"
+            "sa (\\d+) taon"
         ],
         "\\1 year ago": [
-            "(\\d+) taon ang nakalipas",
-            "(\\d+) (na) taon ang nakalipas"
+            "(\\d+) taon ang nakalipas"
         ],
         "in \\1 month": [
-            "sa (\\d+) buwan",
-            "sa (\\d+) (na) buwan"
+            "sa (\\d+) buwan"
         ],
         "\\1 month ago": [
-            "(\\d+) buwan ang nakalipas",
-            "(\\d+) (na) buwan ang nakalipas"
+            "(\\d+) buwan ang nakalipas"
         ],
         "in \\1 week": [
-            "sa (\\d+) linggo",
-            "sa (\\d+) (na) linggo"
+            "sa (\\d+) linggo"
         ],
         "\\1 week ago": [
-            "(\\d+) linggo ang nakalipas",
-            "(\\d+) (na) linggo ang nakalipas"
+            "(\\d+) linggo ang nakalipas"
         ],
         "in \\1 day": [
-            "sa (\\d+) araw",
-            "sa (\\d+) (na) araw"
+            "sa (\\d+) araw"
         ],
         "\\1 day ago": [
-            "(\\d+) araw ang nakalipas",
-            "(\\d+) (na) araw ang nakalipas"
+            "(\\d+) araw ang nakalipas"
         ],
         "in \\1 hour": [
-            "sa (\\d+) oras",
-            "sa (\\d+) (na) oras"
+            "sa (\\d+) oras"
         ],
         "\\1 hour ago": [
             "(\\d+) oras ang nakalipas",
-            "(\\d+) (na) oras ang nakalipas",
-            "(\\d+) oras nakalipas",
-            "(\\d+) (na) oras nakalipas"
+            "(\\d+) oras nakalipas"
         ],
         "in \\1 minute": [
             "sa (\\d+) minuto",
-            "sa (\\d+) (na) minuto",
-            "sa (\\d+) min",
-            "sa (\\d+) (na) min"
+            "sa (\\d+) min"
         ],
         "\\1 minute ago": [
             "(\\d+) minuto ang nakalipas",
-            "(\\d+) (na) minuto ang nakalipas",
-            "(\\d+) min ang nakalipas",
-            "(\\d+) (na) min ang nakalipas"
+            "(\\d+) min ang nakalipas"
         ],
         "in \\1 second": [
             "sa (\\d+) segundo",
-            "sa (\\d+) (na) segundo",
-            "sa (\\d+) seg",
-            "sa (\\d+) (na) seg"
+            "sa (\\d+) seg"
         ],
         "\\1 second ago": [
             "(\\d+) segundo ang nakalipas",
-            "(\\d+) (na) segundo ang nakalipas",
             "(\\d+) seg ang nakalipas",
-            "(\\d+) (na) seg nakalipas",
             "(\\d+) seg nakalipas"
         ]
     },

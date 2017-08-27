@@ -157,70 +157,51 @@
     },
     "relative-type-regex": {
         "in \\1 year": [
-            "sa {0} taon",
-            "sa {0} (na) taon"
+            "sa {0} taon"
         ],
         "\\1 year ago": [
-            "{0} taon ang nakalipas",
-            "{0} (na) taon ang nakalipas"
+            "{0} taon ang nakalipas"
         ],
         "in \\1 month": [
-            "sa {0} buwan",
-            "sa {0} (na) buwan"
+            "sa {0} buwan"
         ],
         "\\1 month ago": [
-            "{0} buwan ang nakalipas",
-            "{0} (na) buwan ang nakalipas"
+            "{0} buwan ang nakalipas"
         ],
         "in \\1 week": [
-            "sa {0} linggo",
-            "sa {0} (na) linggo"
+            "sa {0} linggo"
         ],
         "\\1 week ago": [
-            "{0} linggo ang nakalipas",
-            "{0} (na) linggo ang nakalipas"
+            "{0} linggo ang nakalipas"
         ],
         "in \\1 day": [
-            "sa {0} araw",
-            "sa {0} (na) araw"
+            "sa {0} araw"
         ],
         "\\1 day ago": [
-            "{0} araw ang nakalipas",
-            "{0} (na) araw ang nakalipas"
+            "{0} araw ang nakalipas"
         ],
         "in \\1 hour": [
-            "sa {0} oras",
-            "sa {0} (na) oras"
+            "sa {0} oras"
         ],
         "\\1 hour ago": [
             "{0} oras ang nakalipas",
-            "{0} (na) oras ang nakalipas",
-            "{0} oras nakalipas",
-            "{0} (na) oras nakalipas"
+            "{0} oras nakalipas"
         ],
         "in \\1 minute": [
             "sa {0} minuto",
-            "sa {0} (na) minuto",
-            "sa {0} min",
-            "sa {0} (na) min"
+            "sa {0} min"
         ],
         "\\1 minute ago": [
             "{0} minuto ang nakalipas",
-            "{0} (na) minuto ang nakalipas",
-            "{0} min ang nakalipas",
-            "{0} (na) min ang nakalipas"
+            "{0} min ang nakalipas"
         ],
         "in \\1 second": [
             "sa {0} segundo",
-            "sa {0} (na) segundo",
-            "sa {0} seg",
-            "sa {0} (na) seg"
+            "sa {0} seg"
         ],
         "\\1 second ago": [
             "{0} segundo ang nakalipas",
-            "{0} (na) segundo ang nakalipas",
             "{0} seg ang nakalipas",
-            "{0} (na) seg nakalipas",
             "{0} seg nakalipas"
         ]
     },
