@@ -621,9 +621,15 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)},
               expected=[('Em outubro de 1936', datetime.datetime(1936, 10, 1, 0, 0))]),
 
-        # language not detected
+        # dates not found
         param(text='',
               languages=None,
+              settings=None,
+              expected=None),
+
+        # language not detected
+        param(text='Привет',
+              languages=['en'],
               settings=None,
               expected=None)
     ])
