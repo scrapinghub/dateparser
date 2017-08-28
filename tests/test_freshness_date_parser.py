@@ -5,7 +5,6 @@ import unittest
 from datetime import datetime, timedelta, date, time
 from functools import wraps
 import pytz
-import regex as re
 
 from dateutil.relativedelta import relativedelta
 from mock import Mock, patch
@@ -308,14 +307,224 @@ class TestFreshnessDateDataParser(BaseTestCase):
         # param('এখন', ago={'seconds': 0}, period='day'),
 
         # Hindi dates
-        param('1 घंटे पहले', ago={'hours': 1},period='day'),
-        param('15 मिनट पहले',ago={'minutes':15},period='day'),
-        param('25 सेकंड पूर्व',ago={'seconds':25},period='day'),
+        param('1 घंटे पहले', ago={'hours': 1}, period='day'),
+        param('15 मिनट पहले', ago={'minutes': 15}, period='day'),
+        param('25 सेकंड पूर्व', ago={'seconds': 25}, period='day'),
         param('1 वर्ष, 8 महीने, 2 सप्ताह', ago={'years': 1, 'months': 8, 'weeks': 2}, period='week'),
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
-    ])
 
+        # af
+        param("2 uur gelede", ago={'hours': 2}, period='day'),
+        param("verlede maand", ago={'months': 1}, period='month'),
+        # agq
+        param("ā zūɛɛ", ago={'days': 1}, period='day'),
+        # ak
+        param("ndeda", ago={'days': 1}, period='day'),
+        # am
+        param("ከ8 ወራት በፊት", ago={'months': 8}, period='month'),
+        param("ያለፈው ሳምንት", ago={'weeks': 1}, period='week'),
+        # as
+        param("কালি", ago={'days': 1}, period='day'),
+        param("আজি", ago={'days': 0}, period='day'),
+        # asa
+        param("ighuo", ago={'days': 1}, period='day'),
+        # ast
+        param("hai 2 selmanes hai 3 díes", ago={'weeks': 2, 'days': 3}, period='day'),
+        param("l'añu pas el mes pasáu", ago={'years': 1, 'months': 1}, period='month'),
+        # az-Latn
+        param("1 il öncə 2 ay öncə 3 həftə öncə",
+              ago={'years': 1, 'months': 2, 'weeks': 3}, period='week'),
+        param("6 saat öncə 5 dəqiqə öncə 4 saniyə öncə",
+              ago={'hours': 6, 'minutes': 5, 'seconds': 4}, period='day'),
+        # az
+        param("2 gün öncə 23 saat öncə", ago={'days': 2, 'hours': 23}, period='day'),
+        param("5 dəqiqə öncə 27 saniyə öncə", ago={'minutes': 5, 'seconds': 27}, period='day'),
+        # be
+        param("2 гадзіны таму 10 хвіліны таму", ago={'hours': 2, 'minutes': 10}, period='day'),
+        # bg
+        param("преди 3 месеца преди 2 седм", ago={'months': 3, 'weeks': 2}, period='week'),
+        # bn
+        param("8 মিনিট আগে 42 সেকেন্ড পূর্বে", ago={'minutes': 8, 'seconds': 42}, period='day'),
+        # br
+        param("7 eur zo 15 min zo 25 s zo",
+              ago={'hours': 7, 'minutes': 15, 'seconds': 25}, period='day'),
+        param("14 sizhun zo 3 deiz zo", ago={'weeks': 14, 'days': 3}, period='day'),
+        # bs-Cyrl
+        param("пре 5 година пре 7 месеци", ago={'years': 5, 'months': 7}, period='month'),
+        param("пре 5 сати пре 25 секунди", ago={'hours': 5, 'seconds': 25}, period='day'),
+        # bs-Latn
+        param("prije 20 sat 5 minuta", ago={'hours': 20, 'minutes': 5}, period='day'),
+        param("prije 13 godina prije 3 sed", ago={'years': 13, 'weeks': 3}, period='week'),
+        # bs
+        param("prije 3 mjeseci prije 12 sati", ago={'months': 3, 'hours': 12}, period='month'),
+        param("prije 3 god 4 mj 5 sed 7 dan",
+              ago={'years': 3, 'months': 4, 'weeks': 5, 'days': 7}, period='day'),
+        # ca
+        param("fa 4 setmanes fa 5 segon", ago={'weeks': 4, 'seconds': 5}, period='week'),
+        param("fa 1 hora 2 minut 3 segon",
+              ago={'hours': 1, 'minutes': 2, 'seconds': 3}, period='day'),
+        # ce
+        param("10 кӏир хьалха 3 д хьалха", ago={'weeks': 10, 'days': 3}, period='day'),
+        param("12 сахь 30 мин 30 сек хьалха",
+              ago={'hours': 12, 'minutes': 30, 'seconds': 30}, period='day'),
+        # chr
+        param("ᎾᎿ 10 ᏒᎾᏙᏓᏆᏍᏗ ᏥᎨᏒ 5 ᎢᎦ ᏥᎨᏒ", ago={'weeks': 10, 'days': 5}, period='day'),
+        # cs
+        param("před 3 rok 4 měsíc 5 den",
+              ago={'years': 3, 'months': 4, 'days': 5}, period='day'),
+        param("před 2 minutou před 45 sekundou", ago={'minutes': 2, 'seconds': 45}, period='day'),
+        # cy
+        param("5 wythnos yn ôl", ago={'weeks': 5}, period='week'),
+        param("7 munud 8 eiliad yn ôl", ago={'minutes': 7, 'seconds': 8}, period='day'),
+        # dsb
+        param("pśed 15 góźinu 10 minuta 5 sekunda",
+              ago={'hours': 15, 'minutes': 10, 'seconds': 5}, period='day'),
+        param("pśed 5 lětom, pśed 7 mjasecom", ago={'years': 5, 'months': 7}, period='month'),
+        # ee
+        param("ŋkeke 12 si wo va yi", ago={'days': 12}, period='day'),
+        param("ƒe 6 si va yi ɣleti 5 si va yi", ago={'years': 6, 'months': 5}, period='month'),
+        # el
+        param("πριν από 5 ώρα 6 λεπτό 7 δευτερόλεπτο",
+              ago={'hours': 5, 'minutes': 6, 'seconds': 7}, period='day'),
+        param("προηγούμενος μήνας", ago={'months': 1}, period='month'),
+        # es
+        param("hace 5 hora 2 minuto 3 segundo",
+              ago={'hours': 5, 'minutes': 2, 'seconds': 3}, period='day'),
+        # et
+        param("5 minut 12 sekundi eest", ago={'minutes': 5, 'seconds': 12}, period='day'),
+        param("11 aasta 11 kuu eest", ago={'years': 11, 'months': 11}, period='month'),
+        # eu
+        param("duela 3 minutu", ago={'minutes': 3}, period='day'),
+        # fil
+        param("10 oras ang nakalipas", ago={'hours': 10}, period='day'),
+        # fo
+        param("3 tími 12 minutt síðan", ago={'hours': 3, 'minutes': 12}, period='day'),
+        # fur
+        param("10 setemane 12 zornade indaûr", ago={'weeks': 10, 'days': 12}, period='day'),
+        # fy
+        param("6 moannen lyn", ago={'months': 6}, period='month'),
+        # ga
+        param("12 uair an chloig ó shin", ago={'hours': 12}, period='day'),
+        # gd
+        param("15 mhionaid air ais", ago={'minutes': 15}, period='day'),
+        # gl
+        param("hai 5 ano 7 mes", ago={'years': 5, 'months': 7}, period='month'),
+        # gu
+        param("5 કલાક પહેલાં", ago={'hours': 5}, period='day'),
+        # hr
+        param("prije 3 tjedana", ago={'weeks': 3}, period='week'),
+        # hsb
+        param("před 12 lětom 15 měsac", ago={'years': 12, 'months': 15}, period='month'),
+        # hy
+        param("15 րոպե առաջ", ago={'minutes': 15}, period='day'),
+        # is
+        param("fyrir 3 ári fyrir 2 mánuði", ago={'years': 3, 'months': 2}, period='month'),
+        # it
+        param("5 settimana fa", ago={'weeks': 5}, period='week'),
+        # jgo
+        param("ɛ́ gɛ́ mɔ́ pɛsaŋ 3", ago={'months': 3}, period='month'),
+        # ka
+        param("4 წლის წინ", ago={'years': 4}, period='year'),
+        # kk
+        param("5 сағат бұрын", ago={'hours': 5}, period='day'),
+        # kl
+        param("for 6 ulloq unnuarlu siden", ago={'days': 6}, period='day'),
+        # km
+        param("11 សប្ដាហ៍​មុន", ago={'weeks': 11}, period='week'),
+        # kn
+        param("15 ಸೆಕೆಂಡುಗಳ ಹಿಂದೆ", ago={'seconds': 15}, period='day'),
+        # ko
+        param("12개월 전", ago={'months': 12}, period='month'),
+        # ksh
+        param("vör 15 johre", ago={'years': 15}, period='year'),
+        # ky
+        param("18 секунд мурун", ago={'seconds': 18}, period='day'),
+        # lb
+        param("virun 15 stonn", ago={'hours': 15}, period='day'),
+        # lkt
+        param("hékta 8-čháŋ k'uŋ héhaŋ", ago={'days': 8}, period='day'),
+        # lt
+        param("prieš 20 minučių", ago={'minutes': 20}, period='day'),
+        # lv
+        param("pirms 10 gadiem", ago={'years': 10}, period='year'),
+        # mk
+        param("пред 13 часа", ago={'hours': 13}, period='day'),
+        # ml
+        param("3 ആഴ്ച മുമ്പ്", ago={'weeks': 3}, period='week'),
+        # mn
+        param("15 секундын өмнө", ago={'seconds': 15}, period='day'),
+        # mr
+        param("25 वर्षापूर्वी", ago={'years': 25}, period='year'),
+        # ms
+        param("10 minit lalu", ago={'minutes': 10}, period='day'),
+        # my
+        param("ပြီးခဲ့သည့် 15 နှစ်", ago={'years': 15}, period='year'),
+        # nb
+        param("for 12 måneder siden", ago={'months': 12}, period='month'),
+        # ne
+        param("23 हप्ता पहिले", ago={'weeks': 23}, period='week'),
+        # nl
+        param("32 minuten geleden", ago={'minutes': 32}, period='day'),
+        # nn
+        param("for 15 sekunder siden", ago={'seconds': 15}, period='day'),
+        # os
+        param("35 сахаты размӕ", ago={'hours': 35}, period='day'),
+        # pa-Guru
+        param("23 ਹਫ਼ਤੇ ਪਹਿਲਾਂ", ago={'weeks': 23}, period='week'),
+        # pa
+        param("7 ਸਾਲ ਪਹਿਲਾਂ", ago={'years': 7}, period='year'),
+        # ro
+        param("acum 56 de secunde", ago={'seconds': 56}, period='day'),
+        # sah
+        param("2 нэдиэлэ анараа өттүгэр", ago={'weeks': 2}, period='week'),
+        # se
+        param("8 jahkki árat", ago={'years': 8}, period='year'),
+        # si
+        param("මිනිත්තු 6කට පෙර", ago={'minutes': 6}, period='day'),
+        # sk
+        param("pred 20 hodinami 45 min", ago={'hours': 20, 'minutes': 45}, period='day'),
+        # sl
+        param("pred 15 tednom 10 dan", ago={'weeks': 15, 'days': 10}, period='day'),
+        # sq
+        param("11 minutë më parë", ago={'minutes': 11}, period='day'),
+        # sr-Cyrl
+        param("пре 8 године 3 месец", ago={'years': 8, 'months': 3}, period='month'),
+        # sr-Latn
+        param("pre 2 nedelje", ago={'weeks': 2}, period='week'),
+        # sr
+        param("пре 59 секунди", ago={'seconds': 59}, period='day'),
+        # sw
+        param("mwezi 2 uliopita", ago={'months': 2}, period='month'),
+        # ta
+        param("41 நிமிடங்களுக்கு முன்", ago={'minutes': 41}, period='day'),
+        # te
+        param("36 వారాల క్రితం", ago={'weeks': 36}, period='week'),
+        # to
+        param("houa 'e 7 kuo'osi", ago={'hours': 7}, period='day'),
+        # tr
+        param("32 dakika önce", ago={'minutes': 32}, period='day'),
+        # uk
+        param("3 року тому", ago={'years': 3}, period='year'),
+        # uz-Cyrl
+        param("10 ҳафта олдин", ago={'weeks': 10}, period='week'),
+        # uz-Latn
+        param("3 oy oldin", ago={'months': 3}, period='month'),
+        # uz
+        param("45 soniya oldin", ago={'seconds': 45}, period='day'),
+        # vi
+        param("23 ngày trước", ago={'days': 23}, period='day'),
+        # wae
+        param("vor 15 stunde", ago={'hours': 15}, period='day'),
+        # yue
+        param("5 分鐘前", ago={'minutes': 5}, period='day'),
+        # zh-Hans
+        param("3周前", ago={'weeks': 3}, period='week'),
+        # zh-Hant
+        param("2 年前", ago={'years': 2}, period='year'),
+        # zu
+        param("21 izinsuku ezedlule", ago={'days': 21}, period='day'),
+    ])
     def test_relative_past_dates(self, date_string, ago, period):
         self.given_parser(settings={'NORMALIZE': False})
         self.given_date_string(date_string)
@@ -585,6 +794,218 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 वर्ष, 8 महीने, 2 सप्ताह', ago={'years': 1, 'months': 8, 'weeks': 2}, period='week'),
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
+
+        # af
+        param("2 uur gelede", ago={'hours': 2}, period='day'),
+        param("verlede maand", ago={'months': 1}, period='month'),
+        # agq
+        param("ā zūɛɛ", ago={'days': 1}, period='day'),
+        # ak
+        param("ndeda", ago={'days': 1}, period='day'),
+        # am
+        param("ከ8 ወራት በፊት", ago={'months': 8}, period='month'),
+        param("ያለፈው ሳምንት", ago={'weeks': 1}, period='week'),
+        # as
+        param("কালি", ago={'days': 1}, period='day'),
+        param("আজি", ago={'days': 0}, period='day'),
+        # asa
+        param("ighuo", ago={'days': 1}, period='day'),
+        # ast
+        param("hai 2 selmanes hai 3 díes", ago={'weeks': 2, 'days': 3}, period='day'),
+        param("l'añu pas el mes pasáu", ago={'years': 1, 'months': 1}, period='month'),
+        # az-Latn
+        param("1 il öncə 2 ay öncə 3 həftə öncə",
+              ago={'years': 1, 'months': 2, 'weeks': 3}, period='week'),
+        param("6 saat öncə 5 dəqiqə öncə 4 saniyə öncə",
+              ago={'hours': 6, 'minutes': 5, 'seconds': 4}, period='day'),
+        # az
+        param("2 gün öncə 23 saat öncə", ago={'days': 2, 'hours': 23}, period='day'),
+        param("5 dəqiqə öncə 27 saniyə öncə", ago={'minutes': 5, 'seconds': 27}, period='day'),
+        # be
+        param("2 гадзіны таму 10 хвіліны таму", ago={'hours': 2, 'minutes': 10}, period='day'),
+        # bg
+        param("преди 3 месеца преди 2 седм", ago={'months': 3, 'weeks': 2}, period='week'),
+        # bn
+        param("8 মিনিট আগে 42 সেকেন্ড পূর্বে", ago={'minutes': 8, 'seconds': 42}, period='day'),
+        # br
+        param("7 eur zo 15 min zo 25 s zo",
+              ago={'hours': 7, 'minutes': 15, 'seconds': 25}, period='day'),
+        param("14 sizhun zo 3 deiz zo", ago={'weeks': 14, 'days': 3}, period='day'),
+        # bs-Cyrl
+        param("пре 5 година пре 7 месеци", ago={'years': 5, 'months': 7}, period='month'),
+        param("пре 5 сати пре 25 секунди", ago={'hours': 5, 'seconds': 25}, period='day'),
+        # bs-Latn
+        param("prije 20 sat 5 minuta", ago={'hours': 20, 'minutes': 5}, period='day'),
+        param("prije 13 godina prije 3 sed", ago={'years': 13, 'weeks': 3}, period='week'),
+        # bs
+        param("prije 3 mjeseci prije 12 sati", ago={'months': 3, 'hours': 12}, period='month'),
+        param("prije 3 god 4 mj 5 sed 7 dan",
+              ago={'years': 3, 'months': 4, 'weeks': 5, 'days': 7}, period='day'),
+        # ca
+        param("fa 4 setmanes fa 5 segon", ago={'weeks': 4, 'seconds': 5}, period='week'),
+        param("fa 1 hora 2 minut 3 segon",
+              ago={'hours': 1, 'minutes': 2, 'seconds': 3}, period='day'),
+        # ce
+        param("10 кӏир хьалха 3 д хьалха", ago={'weeks': 10, 'days': 3}, period='day'),
+        param("12 сахь 30 мин 30 сек хьалха",
+              ago={'hours': 12, 'minutes': 30, 'seconds': 30}, period='day'),
+        # chr
+        param("ᎾᎿ 10 ᏒᎾᏙᏓᏆᏍᏗ ᏥᎨᏒ 5 ᎢᎦ ᏥᎨᏒ", ago={'weeks': 10, 'days': 5}, period='day'),
+        # cs
+        param("před 3 rok 4 měsíc 5 den",
+              ago={'years': 3, 'months': 4, 'days': 5}, period='day'),
+        param("před 2 minutou před 45 sekundou", ago={'minutes': 2, 'seconds': 45}, period='day'),
+        # cy
+        param("5 wythnos yn ôl", ago={'weeks': 5}, period='week'),
+        param("7 munud 8 eiliad yn ôl", ago={'minutes': 7, 'seconds': 8}, period='day'),
+        # dsb
+        param("pśed 15 góźinu 10 minuta 5 sekunda",
+              ago={'hours': 15, 'minutes': 10, 'seconds': 5}, period='day'),
+        param("pśed 5 lětom, pśed 7 mjasecom", ago={'years': 5, 'months': 7}, period='month'),
+        # ee
+        param("ŋkeke 12 si wo va yi", ago={'days': 12}, period='day'),
+        param("ƒe 6 si va yi ɣleti 5 si va yi", ago={'years': 6, 'months': 5}, period='month'),
+        # el
+        param("πριν από 5 ώρα 6 λεπτό 7 δευτερόλεπτο",
+              ago={'hours': 5, 'minutes': 6, 'seconds': 7}, period='day'),
+        param("προηγούμενος μήνας", ago={'months': 1}, period='month'),
+        # es
+        param("hace 5 hora 2 minuto 3 segundo",
+              ago={'hours': 5, 'minutes': 2, 'seconds': 3}, period='day'),
+        # et
+        param("5 minut 12 sekundi eest", ago={'minutes': 5, 'seconds': 12}, period='day'),
+        param("11 aasta 11 kuu eest", ago={'years': 11, 'months': 11}, period='month'),
+        # eu
+        param("duela 3 minutu", ago={'minutes': 3}, period='day'),
+        # fil
+        param("10 oras ang nakalipas", ago={'hours': 10}, period='day'),
+        # fo
+        param("3 tími 12 minutt síðan", ago={'hours': 3, 'minutes': 12}, period='day'),
+        # fur
+        param("10 setemane 12 zornade indaûr", ago={'weeks': 10, 'days': 12}, period='day'),
+        # fy
+        param("6 moannen lyn", ago={'months': 6}, period='month'),
+        # ga
+        param("12 uair an chloig ó shin", ago={'hours': 12}, period='day'),
+        # gd
+        param("15 mhionaid air ais", ago={'minutes': 15}, period='day'),
+        # gl
+        param("hai 5 ano 7 mes", ago={'years': 5, 'months': 7}, period='month'),
+        # gu
+        param("5 કલાક પહેલાં", ago={'hours': 5}, period='day'),
+        # hr
+        param("prije 3 tjedana", ago={'weeks': 3}, period='week'),
+        # hsb
+        param("před 12 lětom 15 měsac", ago={'years': 12, 'months': 15}, period='month'),
+        # hy
+        param("15 րոպե առաջ", ago={'minutes': 15}, period='day'),
+        # is
+        param("fyrir 3 ári fyrir 2 mánuði", ago={'years': 3, 'months': 2}, period='month'),
+        # it
+        param("5 settimana fa", ago={'weeks': 5}, period='week'),
+        # jgo
+        param("ɛ́ gɛ́ mɔ́ pɛsaŋ 3", ago={'months': 3}, period='month'),
+        # ka
+        param("4 წლის წინ", ago={'years': 4}, period='year'),
+        # kk
+        param("5 сағат бұрын", ago={'hours': 5}, period='day'),
+        # kl
+        param("for 6 ulloq unnuarlu siden", ago={'days': 6}, period='day'),
+        # km
+        param("11 សប្ដាហ៍​មុន", ago={'weeks': 11}, period='week'),
+        # kn
+        param("15 ಸೆಕೆಂಡುಗಳ ಹಿಂದೆ", ago={'seconds': 15}, period='day'),
+        # ko
+        param("12개월 전", ago={'months': 12}, period='month'),
+        # ksh
+        param("vör 15 johre", ago={'years': 15}, period='year'),
+        # ky
+        param("18 секунд мурун", ago={'seconds': 18}, period='day'),
+        # lb
+        param("virun 15 stonn", ago={'hours': 15}, period='day'),
+        # lkt
+        param("hékta 8-čháŋ k'uŋ héhaŋ", ago={'days': 8}, period='day'),
+        # lt
+        param("prieš 20 minučių", ago={'minutes': 20}, period='day'),
+        # lv
+        param("pirms 10 gadiem", ago={'years': 10}, period='year'),
+        # mk
+        param("пред 13 часа", ago={'hours': 13}, period='day'),
+        # ml
+        param("3 ആഴ്ച മുമ്പ്", ago={'weeks': 3}, period='week'),
+        # mn
+        param("15 секундын өмнө", ago={'seconds': 15}, period='day'),
+        # mr
+        param("25 वर्षापूर्वी", ago={'years': 25}, period='year'),
+        # ms
+        param("10 minit lalu", ago={'minutes': 10}, period='day'),
+        # my
+        param("ပြီးခဲ့သည့် 15 နှစ်", ago={'years': 15}, period='year'),
+        # nb
+        param("for 12 måneder siden", ago={'months': 12}, period='month'),
+        # ne
+        param("23 हप्ता पहिले", ago={'weeks': 23}, period='week'),
+        # nl
+        param("32 minuten geleden", ago={'minutes': 32}, period='day'),
+        # nn
+        param("for 15 sekunder siden", ago={'seconds': 15}, period='day'),
+        # os
+        param("35 сахаты размӕ", ago={'hours': 35}, period='day'),
+        # pa-Guru
+        param("23 ਹਫ਼ਤੇ ਪਹਿਲਾਂ", ago={'weeks': 23}, period='week'),
+        # pa
+        param("7 ਸਾਲ ਪਹਿਲਾਂ", ago={'years': 7}, period='year'),
+        # ro
+        param("acum 56 de secunde", ago={'seconds': 56}, period='day'),
+        # sah
+        param("2 нэдиэлэ анараа өттүгэр", ago={'weeks': 2}, period='week'),
+        # se
+        param("8 jahkki árat", ago={'years': 8}, period='year'),
+        # si
+        param("මිනිත්තු 6කට පෙර", ago={'minutes': 6}, period='day'),
+        # sk
+        param("pred 20 hodinami 45 min", ago={'hours': 20, 'minutes': 45}, period='day'),
+        # sl
+        param("pred 15 tednom 10 dan", ago={'weeks': 15, 'days': 10}, period='day'),
+        # sq
+        param("11 minutë më parë", ago={'minutes': 11}, period='day'),
+        # sr-Cyrl
+        param("пре 8 године 3 месец", ago={'years': 8, 'months': 3}, period='month'),
+        # sr-Latn
+        param("pre 2 nedelje", ago={'weeks': 2}, period='week'),
+        # sr
+        param("пре 59 секунди", ago={'seconds': 59}, period='day'),
+        # sw
+        param("mwezi 2 uliopita", ago={'months': 2}, period='month'),
+        # ta
+        param("41 நிமிடங்களுக்கு முன்", ago={'minutes': 41}, period='day'),
+        # te
+        param("36 వారాల క్రితం", ago={'weeks': 36}, period='week'),
+        # to
+        param("houa 'e 7 kuo'osi", ago={'hours': 7}, period='day'),
+        # tr
+        param("32 dakika önce", ago={'minutes': 32}, period='day'),
+        # uk
+        param("3 року тому", ago={'years': 3}, period='year'),
+        # uz-Cyrl
+        param("10 ҳафта олдин", ago={'weeks': 10}, period='week'),
+        # uz-Latn
+        param("3 oy oldin", ago={'months': 3}, period='month'),
+        # uz
+        param("45 soniya oldin", ago={'seconds': 45}, period='day'),
+        # vi
+        param("23 ngày trước", ago={'days': 23}, period='day'),
+        # wae
+        param("vor 15 stunde", ago={'hours': 15}, period='day'),
+        # yue
+        param("5 分鐘前", ago={'minutes': 5}, period='day'),
+        # zh-Hans
+        param("3周前", ago={'weeks': 3}, period='week'),
+        # zh-Hant
+        param("2 年前", ago={'years': 2}, period='year'),
+        # zu
+        param("21 izinsuku ezedlule", ago={'days': 21}, period='day'),
+
     ])
     def test_normalized_relative_dates(self, date_string, ago, period):
         date_string = normalize_unicode(date_string)

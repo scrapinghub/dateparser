@@ -26,6 +26,20 @@ class UnknownTokenError(Exception):
 
 
 class Dictionary(object):
+    """
+    Class that modifies and stores translations and handles splitting of date string.
+
+    :param locale_info:
+        Locale info (translation data) of the locale.
+    :type language_info: dict
+
+    :param settings:
+        Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+    :type settings: dict
+
+    :return: a Dictionary instance.
+    """
+
     _split_regex_cache = {}
     _sorted_words_cache = {}
     _split_relative_regex_cache = {}
@@ -79,6 +93,15 @@ class Dictionary(object):
         return chain(self._settings.SKIP_TOKENS, iter(self._dictionary))
 
     def are_tokens_valid(self, tokens):
+        """
+        Check if tokens are valid tokens for the locale.
+
+        :param tokens:
+            a list of string or unicode tokens.
+        :type tokens: list
+
+        :return: True if tokens are valid, False otherwise.
+        """
         match_relative_regex = self._get_match_relative_regex_cache()
         for token in tokens:
             if any([match_relative_regex.match(token),
@@ -90,6 +113,20 @@ class Dictionary(object):
             return True
 
     def split(self, string, keep_formatting=False):
+        """
+        Split the date string using translations in locale info.
+
+        :param string:
+            Date string to be splitted.
+        :type string:
+            str|unicode
+
+        :param keep_formatting:
+            If True, retain formatting of the date string.
+        :type keep_formatting: bool
+
+        :return: A list of string tokens formed after splitting the date string.
+        """
         if not string:
             return string
 

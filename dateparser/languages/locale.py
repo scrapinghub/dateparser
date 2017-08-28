@@ -14,7 +14,21 @@ from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
 DIGIT_GROUP_PATTERN = re.compile(r'\\d\+')
 NUMERAL_PATTERN = re.compile(r'(\d+)', re.U)
 
+
 class Locale(object):
+    """
+    Class that deals with applicability and translation from a locale.
+
+    :param shortname:
+        A locale code, e.g. 'fr-PF', 'qu-EC', 'af-NA'.
+    :type shortname: str|unicode
+
+    :param language_info:
+        Language info (translation data) of the language the locale belongs to.
+    :type language_info: dict
+
+    :return: A Locale instance
+    """
 
     _dictionary = None
     _normalized_dictionary = None
@@ -32,6 +46,19 @@ class Locale(object):
         self.info.pop("locale_specific", None)
 
     def is_applicable(self, date_string, strip_timezone=False, settings=None):
+        """
+        Check if the locale is applicable to translate date string.
+
+        :param date_string:
+            A string representing date and/or time in a recognizably valid format.
+        :type date_string: str|unicode
+
+        :param strip_timezone:
+            If True, timezone is stripped from date string.
+        :type strip_timezone: bool
+
+        :return: boolean value representing if the locale is applicable for the date string or not.
+        """
         if strip_timezone:
             date_string, _ = pop_tz_offset_from_string(date_string, as_offset=False)
 
@@ -45,6 +72,19 @@ class Locale(object):
         return dictionary.are_tokens_valid(date_tokens)
 
     def translate(self, date_string, keep_formatting=False, settings=None):
+        """
+        Translate the date string to its English equivalent.
+
+        :param date_string:
+            A string representing date and/or time in a recognizably valid format.
+        :type date_string: str|unicode
+
+        :param keep_formatting:
+            If True, retain formatting of the date string after translation.
+        :type keep_formatting: bool
+
+        :return: translated date string.
+        """
         date_string = self._translate_numerals(date_string)
         if settings.NORMALIZE:
             date_string = normalize_unicode(date_string)

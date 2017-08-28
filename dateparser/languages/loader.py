@@ -40,17 +40,80 @@ def _construct_locales(languages, region):
 
 
 class LocaleDataLoader(object):
+    """Class that handles loading of locale instances."""
+
     _loaded_languages = {}
     _loaded_locales = {}
 
     def get_locale_map(self, languages=None, locales=None, region=None,
                        use_given_order=False, allow_conflicting_locales=False):
+        """
+        Get an ordered mapping with locale codes as keys
+        and corresponding locale instances as values.
+
+        :param languages:
+            A list of language codes, e.g. ['en', 'es', 'zh-Hant'].
+            If locales are not given, languages and region are
+            used to construct locales to load.
+        :type languages: list
+
+        :param locales:
+            A list of codes of locales which are to be loaded,
+            e.g. ['fr-PF', 'qu-EC', 'af-NA']
+        :type locales: list
+
+        :param region:
+            A region code, e.g. 'IN', '001', 'NE'.
+            If locales are not given, languages and region are
+            used to construct locales to load.
+        :type region: str|unicode
+
+        :param use_given_order:
+            If True, the returned mapping is ordered in the order locales are given.
+        :type allow_redetect_language: bool
+
+        :param allow_conflicting_locales:
+            if True, locales with same language and different region can be loaded.
+        :type allow_conflicting_locales: bool
+
+        :return: ordered locale code to locale instance mapping
+        """
         return OrderedDict(self._load_data(
             languages=languages, locales=locales, region=region, use_given_order=use_given_order,
             allow_conflicting_locales=allow_conflicting_locales))
 
     def get_locales(self, languages=None, locales=None, region=None,
                     use_given_order=False, allow_conflicting_locales=False):
+        """
+        Yield locale instances.
+
+        :param languages:
+            A list of language codes, e.g. ['en', 'es', 'zh-Hant'].
+            If locales are not given, languages and region are
+            used to construct locales to load.
+        :type languages: list
+
+        :param locales:
+            A list of codes of locales which are to be loaded,
+            e.g. ['fr-PF', 'qu-EC', 'af-NA']
+        :type locales: list
+
+        :param region:
+            A region code, e.g. 'IN', '001', 'NE'.
+            If locales are not given, languages and region are
+            used to construct locales to load.
+        :type region: str|unicode
+
+        :param use_given_order:
+            If True, the returned mapping is ordered in the order locales are given.
+        :type allow_redetect_language: bool
+
+        :param allow_conflicting_locales:
+            if True, locales with same language and different region can be loaded.
+        :type allow_conflicting_locales: bool
+
+        :yield: locale instances
+        """
         for _, locale in self._load_data(
                 languages=languages, locales=locales, region=region,
                 use_given_order=use_given_order,
@@ -58,6 +121,15 @@ class LocaleDataLoader(object):
             yield locale
 
     def get_locale(self, shortname):
+        """
+        Get a locale instance.
+
+        :param shortname:
+            A locale code, e.g. 'fr-PF', 'qu-EC', 'af-NA'.
+        :type shortname: str|unicode
+
+        :return: locale instance
+        """
         return list(self.get_locales(locales=[shortname]))[0]
 
     def _load_data(self, languages=None, locales=None, region=None,

@@ -276,7 +276,8 @@ class DateDataParser(object):
 
     :param languages:
         A list of language codes, e.g. ['en', 'es', 'zh-Hant'].
-        If locales are not given, languages and region are used to construct locales for translation.
+        If locales are not given, languages and region are
+        used to construct locales for translation.
     :type languages: list
 
     :param locales:
@@ -286,7 +287,8 @@ class DateDataParser(object):
 
     :param region:
         A region code, e.g. 'IN', '001', 'NE'.
-        If locales are not given, languages and region are used to construct locales for translation.
+        If locales are not given, languages and region are
+        used to construct locales for translation.
     :type region: str|unicode
 
     :param try_previous_locales:
@@ -294,7 +296,8 @@ class DateDataParser(object):
     :type allow_redetect_language: bool
 
     :param use_given_order:
-        If True, locales are tried for translation of date string in the order in which they are given.
+        If True, locales are tried for translation of date string
+        in the order in which they are given.
     :type allow_redetect_language: bool
 
     :param settings:
@@ -304,7 +307,7 @@ class DateDataParser(object):
     :return: A parser instance
 
     :raises:
-            ValueError - Unknown Language, TypeError - Languages argument must be a list
+        ValueError - Unknown Language, TypeError - Languages argument must be a list
     """
 
     locale_loader = None
