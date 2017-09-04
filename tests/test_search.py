@@ -621,6 +621,13 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)},
               expected=[('Em outubro de 1936', datetime.datetime(1936, 10, 1, 0, 0))]),
 
+        param(text='19 марта 2001, 20 марта, 21 марта был отличный день.',
+              languages=['en', 'ru'],
+              settings=None,
+              expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
+                        ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
+                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+
         # dates not found
         param(text='',
               languages=None,

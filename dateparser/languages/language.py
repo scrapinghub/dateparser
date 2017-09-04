@@ -116,7 +116,11 @@ class Language(object):
                     translated_chunk.append(dictionary[word])
                     original_chunk.append(original_tokens[i])
                 elif word.strip('()\"\'{}[],.،') in dictionary and word not in dashes:
-                    translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')])
+                    punct = word[len(word.strip('()\"\'{}[],.،')):]
+                    if punct and dictionary[word.strip('()\"\'{}[],.،')]:
+                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')]+punct)
+                    else:
+                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')])
                     original_chunk.append(original_tokens[i])
                 elif self._token_with_digits_is_ok(word):
                     translated_chunk.append(word)
