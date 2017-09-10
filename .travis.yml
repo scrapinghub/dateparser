@@ -1,5 +1,4 @@
 # Config file for automatic testing at travis-ci.org
-# Don't worry, little repo, I'm just testing that little pypy problem.
 
 language: python
 
