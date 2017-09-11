@@ -36,9 +36,11 @@ sunday:
 january:
     - Jan
     - Januar
+    - Jänner
 february:
     - Feb
     - Februar
+    - Feber
 march:
     - März
     - Mär
@@ -73,6 +75,7 @@ december:
 year:
     - Jahr
     - Jahre
+    - Jahren
 month:
     - Monat
     - Monate
@@ -83,6 +86,7 @@ week:
 day:
     - Tag
     - Tage
+    - Tagen
 hour:
     - Stunde
     - Stunden
