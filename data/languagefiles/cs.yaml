@@ -70,9 +70,12 @@ month:
     - měsíc
     - měsíců
     - měsíce
+    - měsícem
 week:
     - týden
     - týdnů
+    - týdny
+    - týdnem
 day:
     - den
     - dnů
@@ -82,6 +85,7 @@ hour:
     - hodin
     - hodiny
     - hodinami
+    - hodinou
 minute:
     - minuta
     - minut
@@ -96,6 +100,7 @@ in:
 
 simplifications:
     - dnes: 0 den
+    - teď: 0 sekunda
     - včera: 1 den
     - předevčírem: 2 den
 
