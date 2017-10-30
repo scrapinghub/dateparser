@@ -97,6 +97,7 @@ info = {
         "année",
         "an",
         "a",
+        "ans",
         "années"
     ],
     "month": [
