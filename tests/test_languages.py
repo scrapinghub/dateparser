@@ -95,6 +95,8 @@ class TestBundledLanguages(BaseTestCase):
         # Thai
         param('th', "เมื่อ กุมภาพันธ์ 09, 2015, 09:27:57 AM", "february 09 2015 09:27:57 am"),
         param('th', "เมื่อ กรกฎาคม 05, 2012, 01:18:06 AM", "july 05 2012 01:18:06 am"),
+        param('th', "วันเสาร์ที่ 16 ธันวาคม 2560 7:00 pm", "saturday 16 december 2560 7:00 pm"),
+        param('th', "วันอาทิตย์ที่ 17 ธันวาคม 2560 6:00 pm", "sunday 17 december 2560 6:00 pm"),
 
         # Tagalog
         param('tl', "Biyernes Hulyo 3, 2015", "friday july 3 2015"),
