@@ -89,6 +89,7 @@ hour:
 minute:
     - minuta
     - minut
+    - minutami
 second:
     - sekunda
     - sekundy
