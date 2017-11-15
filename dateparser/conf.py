@@ -3,9 +3,9 @@ import hashlib
 from pkgutil import get_data
 from functools import wraps
 import six
+from ruamel.yaml.loader import SafeLoader
 
 from .utils import registry
-from .utils import SafeLoader
 
 
 @registry

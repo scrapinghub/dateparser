@@ -1,0 +1,64 @@
+skip: ["le", "environ", "et", "à", "er"]
+
+monday:
+    - lu
+tuesday:
+    - ma
+wednesday:
+    - me
+thursday:
+    - je
+friday:
+    - ve
+saturday:
+    - sa
+sunday:
+    - di
+
+january:
+    - jan
+february:
+    - fév
+june:
+    - jun
+july:
+    - jul
+august:
+    - aoû
+september:
+    - sep
+
+year:
+    - années
+week:
+    - semaines
+day:
+    - jours
+hour:
+    - heures
+minute:
+    - minutes
+second:
+    - secondes
+
+ago:
+    - il ya
+    - il y a
+in:
+    - dans
+    - en
+
+relative-type:
+    2 day ago:
+        - avant-hier
+
+simplifications:
+    - d'une: '1'
+    - une: '1'
+    - un: '1'
+    - (\d+)\s+h\s+(\d+)\s+min: \1h\2m
+    - (\d+)h(\d+)m?: \1:\2
+    - moins\s(?:de\s)?(\d+)\s?(minute|seconde|heure): \1 \2
+    - moins\s(?:de\s)?(\d+)\s?s: \1 seconde
+    - moins\s(?:de\s)?(\d+)\s?m: \1 minute
+    - moins\s(?:de\s)?(\d+)\s?h: \1 heure

@@ -1,0 +1,34 @@
+skip: ["la", "de"]
+
+wednesday:
+    - Mi
+
+february:
+    - Febr
+march:
+    - Mart
+september:
+    - Sep
+november:
+    - Noiem
+
+year:
+    - ani
+month:
+    - luna
+    - luni
+week:
+    - săptămâni
+day:
+    - zile
+hour:
+    - ore
+minute:
+    - minute
+second:
+    - secunde
+
+ago:
+    - în urmă
+in:
+    - în

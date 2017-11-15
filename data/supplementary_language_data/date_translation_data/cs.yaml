@@ -1,0 +1,49 @@
+skip: ["přibližně", "v"]
+
+monday:
+    - Pon
+tuesday:
+    - Úte
+wednesday:
+    - Stř
+thursday:
+    - Čtv
+friday:
+    - Pát
+saturday:
+    - Sob
+sunday:
+    - Ned
+
+june:
+    - Čer
+july:
+    - Črc
+
+year:
+    - roků
+month:
+    - měsíců
+    - měsíce
+week:
+    - týdnů
+day:
+    - dnů
+    - dny
+hour:
+    - hodin
+    - hodiny
+    - hodinami
+minute:
+    - minut
+second:
+    - sekundy
+
+ago:
+    - před
+in:
+    - ve
+
+relative-type:
+    2 day ago:
+        - předevčírem

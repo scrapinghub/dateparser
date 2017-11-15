@@ -5,7 +5,7 @@ from tests import BaseTestCase
 from nose_parameterized import parameterized, param
 from dateparser.utils import (
     find_date_separator, localize_timezone, apply_timezone,
-    apply_timezone_from_settings, registry, increase_regex_replacements_group_positions
+    apply_timezone_from_settings, registry
 )
 from pytz import UnknownTimeZoneError, utc
 from dateparser.conf import settings
@@ -104,11 +104,3 @@ class TestUtils(BaseTestCase):
     def test_registry_when_get_keys_not_implemented(self):
         cl = self.make_class_without_get_keys()
         self.assertRaises(NotImplementedError, registry, cl)
-
-    @parameterized.expand([
-        param(r'\1\g<2>text', 1, r'\2\g<3>text'),
-    ])
-    def test_increase_regex_replacements_group_positions(self, repl, incr, expected):
-        result = increase_regex_replacements_group_positions(repl, incr)
-        self.assertTrue(result, expected)
-

@@ -37,8 +37,22 @@ class TestParseFunction(BaseTestCase):
         self.when_date_is_parsed(date_string, languages=languages)
         self.then_date_was_not_parsed()
 
-    def when_date_is_parsed(self, date_string, languages=None):
-        self.result = dateparser.parse(date_string, languages=languages)
+    @parameterized.expand([
+        param(date_string="24 de Janeiro de 2014", locales=['pt-TL'], expected_date=date(2014, 1, 24)),
+    ])
+    def test_dates_which_match_locales_are_parsed(self, date_string, locales, expected_date):
+        self.when_date_is_parsed(date_string, locales=locales)
+        self.then_parsed_date_is(expected_date)
+
+    @parameterized.expand([
+        param(date_string="January 24, 2014", locales=['pt-AO']),
+    ])
+    def test_dates_which_do_not_match_locales_are_not_parsed(self, date_string, locales):
+        self.when_date_is_parsed(date_string, locales=locales)
+        self.then_date_was_not_parsed()
+
+    def when_date_is_parsed(self, date_string, languages=None, locales=None):
+        self.result = dateparser.parse(date_string, languages=languages, locales=locales)
 
     def then_parsed_date_is(self, expected_date):
         self.assertEquals(self.result, datetime.combine(expected_date, datetime.min.time()))

@@ -1,0 +1,251 @@
+{
+    "name": "sv",
+    "date_order": "YMD",
+    "january": [
+        "januari",
+        "jan"
+    ],
+    "february": [
+        "februari",
+        "feb"
+    ],
+    "march": [
+        "mars"
+    ],
+    "april": [
+        "april",
+        "apr"
+    ],
+    "may": [
+        "maj"
+    ],
+    "june": [
+        "juni"
+    ],
+    "july": [
+        "juli"
+    ],
+    "august": [
+        "augusti",
+        "aug"
+    ],
+    "september": [
+        "september",
+        "sep"
+    ],
+    "october": [
+        "oktober",
+        "okt"
+    ],
+    "november": [
+        "november",
+        "nov"
+    ],
+    "december": [
+        "december",
+        "dec"
+    ],
+    "monday": [
+        "måndag",
+        "mån"
+    ],
+    "tuesday": [
+        "tisdag",
+        "tis"
+    ],
+    "wednesday": [
+        "onsdag",
+        "ons"
+    ],
+    "thursday": [
+        "torsdag",
+        "tors"
+    ],
+    "friday": [
+        "fredag",
+        "fre"
+    ],
+    "saturday": [
+        "lördag",
+        "lör"
+    ],
+    "sunday": [
+        "söndag",
+        "sön"
+    ],
+    "am": [
+        "förmiddag",
+        "fm"
+    ],
+    "pm": [
+        "eftermiddag",
+        "em"
+    ],
+    "year": [
+        "år"
+    ],
+    "month": [
+        "månad",
+        "m",
+        "mån"
+    ],
+    "week": [
+        "vecka",
+        "v"
+    ],
+    "day": [
+        "dag"
+    ],
+    "hour": [
+        "timme",
+        "tim",
+        "h"
+    ],
+    "minute": [
+        "minut",
+        "min",
+        "m"
+    ],
+    "second": [
+        "sekund",
+        "sek",
+        "s"
+    ],
+    "relative-type": {
+        "1 year ago": [
+            "i fjol"
+        ],
+        "0 year ago": [
+            "i år"
+        ],
+        "in 1 year": [
+            "nästa år"
+        ],
+        "1 month ago": [
+            "förra månaden",
+            "förra mån"
+        ],
+        "0 month ago": [
+            "denna månad",
+            "denna mån"
+        ],
+        "in 1 month": [
+            "nästa månad",
+            "nästa mån"
+        ],
+        "1 week ago": [
+            "förra veckan",
+            "förra v"
+        ],
+        "0 week ago": [
+            "denna vecka",
+            "denna v"
+        ],
+        "in 1 week": [
+            "nästa vecka",
+            "nästa v"
+        ],
+        "1 day ago": [
+            "i går"
+        ],
+        "0 day ago": [
+            "i dag"
+        ],
+        "in 1 day": [
+            "i morgon"
+        ],
+        "0 hour ago": [
+            "denna timme"
+        ],
+        "0 minute ago": [
+            "denna minut"
+        ],
+        "0 second ago": [
+            "nu"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "om {0} år"
+        ],
+        "\\1 year ago": [
+            "för {0} år sedan",
+            "−{0} år"
+        ],
+        "in \\1 month": [
+            "om {0} månad",
+            "om {0} månader",
+            "om {0} mån"
+        ],
+        "\\1 month ago": [
+            "för {0} månad sedan",
+            "för {0} månader sedan",
+            "för {0} mån sedan",
+            "−{0} mån"
+        ],
+        "in \\1 week": [
+            "om {0} vecka",
+            "om {0} veckor",
+            "om {0} v"
+        ],
+        "\\1 week ago": [
+            "för {0} vecka sedan",
+            "för {0} veckor sedan",
+            "för {0} v sedan",
+            "−{0} v"
+        ],
+        "in \\1 day": [
+            "om {0} dag",
+            "om {0} dagar",
+            "om {0} d"
+        ],
+        "\\1 day ago": [
+            "för {0} dag sedan",
+            "för {0} dagar sedan",
+            "för {0} d sedan",
+            "−{0} d"
+        ],
+        "in \\1 hour": [
+            "om {0} timme",
+            "om {0} timmar",
+            "om {0} tim"
+        ],
+        "\\1 hour ago": [
+            "för {0} timme sedan",
+            "för {0} timmar sedan",
+            "för {0} tim sedan",
+            "−{0} h"
+        ],
+        "in \\1 minute": [
+            "om {0} minut",
+            "om {0} minuter",
+            "om {0} min"
+        ],
+        "\\1 minute ago": [
+            "för {0} minut sedan",
+            "för {0} minuter sedan",
+            "för {0} min sedan",
+            "−{0} min"
+        ],
+        "in \\1 second": [
+            "om {0} sekund",
+            "om {0} sekunder",
+            "om {0} sek"
+        ],
+        "\\1 second ago": [
+            "för {0} sekund sedan",
+            "för {0} sekunder sedan",
+            "för {0} sek sedan",
+            "−{0} s"
+        ]
+    },
+    "locale_specific": {
+        "sv-AX": {
+            "name": "sv-AX"
+        },
+        "sv-FI": {
+            "name": "sv-FI",
+            "date_order": "DMY"
+        }
+    }
+}
