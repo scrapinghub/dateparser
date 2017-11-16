@@ -1770,3 +1770,346 @@ class TestBundledLanguages(BaseTestCase):
 
     def then_language_is_not_applicable(self):
         self.assertFalse(self.result)
+
+
+class BaseLanguageDetectorTestCase(BaseTestCase):
+    __test__ = False
+
+    NOT_DETECTED = object()
+
+    def setUp(self):
+        super(BaseLanguageDetectorTestCase, self).setUp()
+        self.datetime_string = NotImplemented
+        self.detector = NotImplemented
+        self.detected_language = NotImplemented
+        self.known_languages = None
+
+    @parameterized.expand([
+        param("1 january 2015", 'en'),
+    ])
+    def test_valid_dates_detected(self, datetime_string, expected_language):
+        self.given_languages(expected_language)
+        self.given_detector()
+        self.given_string(datetime_string)
+        self.when_searching_for_first_applicable_language()
+        self.then_language_was_detected(expected_language)
+
+    @parameterized.expand([
+        param("foo"),
+    ])
+    def test_invalid_dates_not_detected(self, datetime_string):
+        self.given_languages('en')
+        self.given_detector()
+        self.given_string(datetime_string)
+        self.when_searching_for_first_applicable_language()
+        self.then_no_language_was_detected()
+
+    def test_invalid_date_after_valid_date_not_detected(self):
+        self.given_languages('en')
+        self.given_detector()
+        self.given_previosly_detected_string("1 january 2015")
+        self.given_string("foo")
+        self.when_searching_for_first_applicable_language()
+        self.then_no_language_was_detected()
+
+    def test_valid_date_after_invalid_date_detected(self):
+        self.given_languages('en')
+        self.given_detector()
+        self.given_previosly_detected_string("foo")
+        self.given_string("1 january 2015")
+        self.when_searching_for_first_applicable_language()
+        self.then_language_was_detected('en')
+
+    def given_languages(self, *shortnames):
+        self.known_languages = [default_language_loader.get_language(shortname)
+                                for shortname in shortnames]
+
+    def given_previosly_detected_string(self, datetime_string):
+        for _ in self.detector.iterate_applicable_languages(datetime_string, modify=True, settings=settings):
+            break
+
+    def given_string(self, datetime_string):
+        self.datetime_string = datetime_string
+
+    def given_detector(self):
+        raise NotImplementedError
+
+    def when_searching_for_first_applicable_language(self):
+        for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True,
+                                                                   settings=settings):
+            self.detected_language = language
+            break
+        else:
+            self.detected_language = self.NOT_DETECTED
+
+    def then_language_was_detected(self, shortname):
+        self.assertIsInstance(self.detected_language, Language, "Language was not properly detected")
+        self.assertEqual(shortname, self.detected_language.shortname)
+
+    def then_no_language_was_detected(self):
+        self.assertIs(self.detected_language, self.NOT_DETECTED)
+
+
+class TestExactLanguages(BaseLanguageDetectorTestCase):
+    __test__ = True
+
+    @parameterized.expand([
+        param("01-01-12", ['en', 'fr']),
+        param("01-01-12", ['tr', 'ar']),
+        param("01-01-12", ['ru', 'fr', 'en', 'pl']),
+        param("01-01-12", ['en']),
+    ])
+    def test_exact_languages(self, datetime_string, shortnames):
+        self.given_string(datetime_string)
+        self.given_known_languages(shortnames)
+        self.given_detector()
+        self.when_using_exact_languages()
+        self.then_exact_languages_were_filtered(shortnames)
+
+    def given_known_languages(self, shortnames):
+        self.known_languages = [default_language_loader.get_language(shortname)
+                                for shortname in shortnames]
+
+    def given_detector(self):
+        self.assertIsInstance(self.known_languages, list, "Require a list of languages to initialize")
+        self.assertGreaterEqual(len(self.known_languages), 1, "Could only be initialized with one or more languages")
+        self.detector = ExactLanguages(languages=self.known_languages)
+
+    def when_using_exact_languages(self):
+        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True,
+                                                                          settings=settings)
+
+    def then_exact_languages_were_filtered(self, shortnames):
+        self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
+
+
+class BaseAutoDetectLanguageDetectorTestCase(BaseLanguageDetectorTestCase):
+    allow_redetection = NotImplemented
+
+    def given_detector(self):
+        self.detector = AutoDetectLanguage(languages=self.known_languages, allow_redetection=self.allow_redetection)
+
+
+class TestAutoDetectLanguageDetectorWithoutRedetection(BaseAutoDetectLanguageDetectorTestCase):
+    __test__ = True
+    allow_redetection = False
+
+
+class TestAutoDetectLanguageDetectorWithRedetection(BaseAutoDetectLanguageDetectorTestCase):
+    __test__ = True
+    allow_redetection = True
+
+
+class TestLanguageValidatorWhenInvalid(BaseTestCase):
+    def setUp(self):
+        super(TestLanguageValidatorWhenInvalid, self).setUp()
+        self.validator = LanguageValidator
+        self.captured_logs = StringIO()
+        self.validator.get_logger()
+        self.sh = logging.StreamHandler(self.captured_logs)
+        self.validator.logger.addHandler(self.sh)
+        self.log_list = self.captured_logs.getvalue().split('\n')[0]
+
+    @staticmethod
+    def make_python3_msg(text):
+        text = text.replace('unicode', 'str')
+        text = text.replace('u\'', '\'')
+        return text
+
+    def get_log_str(self):
+        return self.make_python3_msg(self.captured_logs.getvalue().split('\n')[0])
+
+    @parameterized.expand([
+        param('en', 'string instead of dict', log_msg="Language 'en' info expected to be dict, "
+                                                      "but have got str", ),
+    ])
+    def test_validate_info_when_invalid_type(self, lang_id, lang_info, log_msg):
+        result = self.validator.validate_info(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}, log_msg="Language 'en' does not have a name"),
+        param('en', {'name': 22}, log_msg="Language 'en' does not have a name"),
+        param('en', {'name': ''}, log_msg="Language 'en' does not have a name"),
+    ])
+    def test_validate_name_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_name(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {'no_word_spacing': 'string instead of bool'},
+              log_msg="Invalid 'no_word_spacing' value 'string instead of bool' for 'en' language: ""expected boolean"),
+    ])
+    def test_validate_word_spacing_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_word_spacing(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {'skip': 'string instead of list'}, log_msg="Invalid 'skip' list for 'en' language: "
+                                                                "expected list type but have got str"),
+        param('en', {'skip': ['']}, log_msg="Invalid 'skip' token '' for 'en' language: "
+                                            "expected not empty string"),
+    ])
+    def test_validate_skip_list_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_skip_list(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+
+    ])
+    def test_validate_skip_list_when_absent(self, lang_id, lang_info):
+        result = self.validator._validate_skip_list(lang_id, lang_info)
+        self.assertTrue(result)
+
+    @parameterized.expand([
+        param('en', {'pertain': 'it is a string', 'skip': ['']},
+              log_msg="Invalid 'pertain' token '' for 'en' language: expected not empty string"),
+        param('en', {'pertain': [''], 'skip': 'it is a string'},
+              log_msg="Invalid 'pertain' list for 'en' language: expected list type but have got str"),
+    ])
+    def test_validate_pertain_list_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_pertain_list(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+
+    ])
+    def test_validate_pertain_list_when_absent(self, lang_id, lang_info):
+        result = self.validator._validate_pertain_list(lang_id, lang_info)
+        self.assertTrue(result)
+
+    @parameterized.expand([
+        param('en', {}, log_msg="No translations for 'monday' provided for 'en' language"),
+        param('en',
+              {'monday': 1, 'tuesday': 2, 'wednesday': 3, 'thursday': 4, 'friday': 5, 'saturday': 6, 'sunday': 7},
+              log_msg="Invalid 'monday' translations list for 'en' language: expected list type but have got int"),
+        param('en', {'monday': [1], 'tuesday': [2], 'wednesday': [3], 'thursday': [4], 'friday': [5],
+                     'saturday': [6], 'sunday': [7]},
+              log_msg="Invalid 'monday' translation 1 for 'en' language: expected not empty string"),
+    ])
+    def test_validate_weekdays_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_weekdays(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}, log_msg="No translations for 'january' provided for 'en' language"),
+        param('en',
+              {'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5, 'june': 6, 'july': 7,
+               'august': 8, 'september': 9, 'october': 10, 'november': 11, 'december': 12},
+              log_msg="Invalid 'january' translations list for 'en' language: expected list type but have got int"),
+        param('en',
+              {'january': [1], 'february': [2], 'march': [3], 'april': [4], 'may': [5], 'june': [6], 'july': [7],
+               'august': [8], 'september': [9], 'october': [10], 'november': [11], 'december': [12]},
+              log_msg="Invalid 'january' translation 1 for 'en' language: expected not empty string"),
+    ])
+    def test_validate_months_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_months(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}, log_msg="No translations for 'year' provided for 'en' language"),
+        param('en',
+              {'year': 1, 'month': 2, 'week': 3, 'day': 4, 'hour': 5, 'minute': 6, 'second': 7},
+              log_msg="Invalid 'year' translations list for 'en' language: expected list type but have got int"),
+        param('en',
+              {'year': [1], 'month': [2], 'week': [3], 'day': [4], 'hour': [5], 'minute': [6], 'second': [7]},
+              log_msg="Invalid 'year' translation 1 for 'en' language: expected not empty string"),
+    ])
+    def test_validate_units_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_units(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}, log_msg="No translations for 'ago' provided for 'en' language"),
+        param('en',
+              {'ago': 1}, log_msg="Invalid 'ago' translations list for 'en' language: "
+                                  "expected list type but have got int"),
+        param('en',
+              {'ago': []}, log_msg="No translations for 'ago' provided for 'en' language"),
+        param('en',
+              {'ago': ['']}, log_msg="Invalid 'ago' translation '' for 'en' language: expected not empty string"),
+    ])
+    def test_validate_other_words_when_invalid(self, lang_id, lang_info, log_msg='na'):
+        result = self.validator._validate_other_words(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {}),
+
+    ])
+    def test_validate_simplifications_when_absent(self, lang_id, lang_info):
+        result = self.validator._validate_simplifications(lang_id, lang_info)
+        self.assertTrue(result)
+
+    @parameterized.expand([
+        param('en',
+              {'simplifications': 'string instead of list'},
+              log_msg="Invalid 'simplifications' list for 'en' language: expected list type but have got str"),
+        param('en',
+              {'simplifications': [{}]},
+              log_msg="Invalid simplification {} for 'en' language: eash simplification suppose "
+                      "to be one-to-one mapping"),
+        param('en',
+              {'simplifications': [{28: []}]},
+              log_msg="Invalid simplification {28: []} for 'en' language: each simplification suppose "
+                      "to be string-to-string-or-int mapping"),
+        param('en',
+              {'simplifications': [{'simplification': []}]},
+              log_msg="Invalid simplification {'simplification': []} for 'en' language: each simplification suppose "
+                      "to be string-to-string-or-int mapping"),
+        param('en',
+              {'simplifications': [{'(\d+)\s*hr(s?)\g<(.+?)>': r'\1 hour\2'}]},
+              log_msg="Invalid simplification {'(\\\\d+)\\\\s*hr(s?)\\\\g<(.+?)>': '\\\\1 hour\\\\2'} "
+                      "for 'en' language: groups 3 were not used"),
+        param('en',
+              {'simplifications': [{'(one)(two)(three)': r'\1\3\2\4'}]},
+              log_msg="Invalid simplification {'(one)(two)(three)': '\\\\1\\\\3\\\\2\\\\4'} for 'en' language:"
+                      " unknown groups 4"),
+        param('en',
+              {'simplifications': [{r'(?P<A>\w+)(?P<B>\w+)': '\\g<A>'}]},
+              log_msg="Invalid simplification {'(?P<A>\\\\w+)(?P<B>\\\\w+)': '\\\\g<A>'} for 'en' language:"
+                      " groups 2 were not used"),
+        param('en',
+              {'simplifications': [{r'(?P<A>\w+)': '\\g<B>(.*?)'}]},
+              log_msg="Invalid simplification {'(?P<A>\\\\w+)': '\\\\g<B>(.*?)'} for 'en' language: unknown group B"),
+
+    ])
+    def test_validate_simplifications_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_simplifications(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {'sentence_splitter_group': 'string instead of int'},
+              log_msg="Invalid 'sentence_splitter_group' for 'en' language: "
+                      "expected int type but have got str"),
+        param('en', {'sentence_splitter_group': 48},
+              log_msg="Invalid 'sentence_splitter_group' number 48 for 'en' language: "
+                      "expected number from 1 to 6"),
+
+    ])
+    def test_validate_sentence_splitter_group_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_sentence_splitter_group(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
+
+    @parameterized.expand([
+        param('en', {'invalid_key': ''},
+              log_msg="Extra keys found for 'en' language: 'invalid_key'"),
+
+    ])
+    def test_validate_extra_keys_when_invalid(self, lang_id, lang_info, log_msg):
+        result = self.validator._validate_extra_keys(lang_id, lang_info)
+        self.assertEqual(log_msg, self.get_log_str())
+        self.assertFalse(result)
