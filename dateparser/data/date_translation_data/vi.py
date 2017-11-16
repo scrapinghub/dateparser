@@ -229,6 +229,7 @@ info = {
     "pertain": [
         "lúc"
     ],
+    "sentence_splitter_group": 1,
     "ago": [
         "cách đây",
         "trước đây",

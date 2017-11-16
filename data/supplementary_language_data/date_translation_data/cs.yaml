@@ -1,5 +1,7 @@
 skip: ["přibližně", "v"]
 
+sentence_splitter_group : 1
+
 monday:
     - Pon
 tuesday:

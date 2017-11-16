@@ -1,5 +1,7 @@
 skip: ["kl", "kl.", "cirka", "d."]
 
+sentence_splitter_group : 1
+
 month:
     - måneder
 week:

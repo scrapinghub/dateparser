@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 info = {
-    "name": "tl",
+    "name": "Tagalog",
+    "sentence_splitter_group": 1,
     "skip": [
         "noong",
         "noon",
@@ -123,15 +124,15 @@ info = {
     "in": [
         "sa"
     ],
-    "relative-type": {
-        "1 day ago": [
-            "kahapon"
-        ],
-        "2 day ago": [
-            "isang araw"
-        ],
-        "0 second ago": [
-            "ngayon"
-        ]
-    }
+    "simplifications": [
+        {
+            "kahapon": "1 araw"
+        },
+        {
+            "ngayon": "0 segundo"
+        },
+        {
+            "isang araw": "2 araw"
+        }
+    ]
 }

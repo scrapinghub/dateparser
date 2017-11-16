@@ -1,5 +1,7 @@
 skip: ["la", "de"]
 
+sentence_splitter_group : 1
+
 wednesday:
     - Mi
 

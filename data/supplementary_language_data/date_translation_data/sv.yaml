@@ -1,5 +1,7 @@
 skip: ["på", "den"]
 
+sentence_splitter_group : 1
+
 monday:
     - Månd
 tuesday:

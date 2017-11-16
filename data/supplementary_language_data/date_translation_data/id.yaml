@@ -1,5 +1,7 @@
 skip: ["tanggal", "pukul", "yang"]
 
+sentence_splitter_group : 1
+
 sunday:
     - Ahad
 

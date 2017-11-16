@@ -547,6 +547,7 @@ info = {
             "name": "ar-BH"
         }
     },
+    "sentence_splitter_group": 6,
     "skip": [
         "الساعة",
         "مساءً",

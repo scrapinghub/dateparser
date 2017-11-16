@@ -155,3 +155,36 @@ def registry(cls):
 
     setattr(cls, '__new__', choose(cls.__new__))
     return cls
+
+
+def get_logger():
+    setup_logging()
+    return logging.getLogger('dateparser')
+
+
+def setup_logging():
+    if len(logging.root.handlers):
+        return
+
+    config = {
+        'version': 1,
+        'disable_existing_loggers': True,
+        'formatters': {
+            'console': {
+                'format': "%(asctime)s %(levelname)s: [%(name)s] %(message)s",
+            },
+        },
+        'handlers': {
+            'console': {
+                'level': logging.DEBUG,
+                'class': "logging.StreamHandler",
+                'formatter': "console",
+                'stream': "ext://sys.stdout",
+            },
+        },
+        'root': {
+            'level': logging.DEBUG,
+            'handlers': ["console"],
+        },
+    }
+    logging.config.dictConfig(config)

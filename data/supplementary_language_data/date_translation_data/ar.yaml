@@ -1,3 +1,5 @@
+sentence_splitter_group : 6
+
 skip: ['الساعة', 'مساءً', 'في', 'هـ']
 
 monday:

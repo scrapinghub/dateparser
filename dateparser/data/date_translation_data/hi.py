@@ -235,6 +235,7 @@ info = {
         "]",
         "，"
     ],
+    "sentence_splitter_group": 3,
     "ago": [
         "पहले",
         "पूर्व"

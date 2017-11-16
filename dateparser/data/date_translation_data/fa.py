@@ -248,6 +248,7 @@ info = {
             ]
         }
     },
+    "sentence_splitter_group": 6,
     "ago": [
         "پیش"
     ],

@@ -1,5 +1,7 @@
 skip: ["um", "uhr", "etwa", "und"]
 
+sentence_splitter_group : 1
+
 monday:
     - Mon
 tuesday:

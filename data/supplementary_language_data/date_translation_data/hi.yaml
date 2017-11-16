@@ -1,5 +1,7 @@
 skip: ["बजे" , "सन्", "को", "के","से"]
 
+sentence_splitter_group : 3
+
 september:
     - सितम्बर
 october:

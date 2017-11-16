@@ -235,6 +235,7 @@ info = {
     },
     "locale_specific": {},
     "no_word_spacing": "True",
+    "sentence_splitter_group": 4,
     "skip": [
         "約",
         " ",

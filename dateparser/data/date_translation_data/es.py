@@ -482,6 +482,7 @@ info = {
         "de",
         "del"
     ],
+    "sentence_splitter_group": 2,
     "ago": [
         "hace"
     ],

@@ -960,6 +960,7 @@ info = {
     "pertain": [
         "de"
     ],
+    "sentence_splitter_group": 1,
     "ago": [
         "atrás",
         "há"

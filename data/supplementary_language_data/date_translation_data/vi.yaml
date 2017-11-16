@@ -1,5 +1,7 @@
 pertain: ['lúc']
 
+sentence_splitter_group : 1
+
 monday:
     - Thứ 2
 tuesday:

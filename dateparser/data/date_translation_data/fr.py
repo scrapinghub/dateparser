@@ -439,6 +439,7 @@ info = {
         "]",
         "，"
     ],
+    "sentence_splitter_group": 1,
     "ago": [
         "il ya",
         "il y a"

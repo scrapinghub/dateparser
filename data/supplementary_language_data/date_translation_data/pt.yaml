@@ -1,6 +1,8 @@
 skip: ["de", "cerca", "e", "às"]
 pertain: ["de"]
 
+sentence_splitter_group : 1
+
 monday:
     - Segunda
 tuesday:

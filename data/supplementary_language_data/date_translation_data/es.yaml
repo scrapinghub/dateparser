@@ -1,6 +1,8 @@
 skip: ["de", "del", "cerca", "y", "a las", "en"]
 pertain: ["de", "del"]
 
+sentence_splitter_group : 2
+
 monday:
     - Lu
 wednesday:

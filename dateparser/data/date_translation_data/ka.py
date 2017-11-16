@@ -227,6 +227,7 @@ info = {
         "]",
         "，"
     ],
+    "sentence_splitter_group": 1,
     "ago": [
         "წინ"
     ],

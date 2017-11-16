@@ -1,104 +1,144 @@
 # -*- coding: utf-8 -*-
 info = {
-    "name": "pl",
+    "name": "Polish",
     "date_order": "DMY",
     "january": [
         "styczeń",
         "sty",
         "stycznia",
+        "Styczeń",
         "Styczen",
-        "Styczniu"
+        "Stycznia",
+        "Styczniu",
+        "Sty"
     ],
     "february": [
         "luty",
         "lut",
         "lutego",
-        "Lutym"
+        "Luty",
+        "Lutego",
+        "Lutym",
+        "Lut"
     ],
     "march": [
         "marzec",
         "mar",
         "marca",
-        "Marcu"
+        "Marzec",
+        "Marca",
+        "Marcu",
+        "Mar"
     ],
     "april": [
         "kwiecień",
         "kwi",
         "kwietnia",
+        "Kwiecień",
         "Kwiecien",
+        "Kwietnia",
         "Kwietniu",
+        "Kwi",
         "Kwie"
     ],
     "may": [
         "maj",
         "maja",
+        "Maj",
+        "Maja",
         "Maju"
     ],
     "june": [
         "czerwiec",
         "cze",
         "czerwca",
-        "Czerwcu"
+        "Czerwiec",
+        "Czerwca",
+        "Czerwcu",
+        "Cze"
     ],
     "july": [
         "lipiec",
         "lip",
         "lipca",
-        "Lipcu"
+        "Lipiec",
+        "Lipca",
+        "Lipcu",
+        "Lip"
     ],
     "august": [
         "sierpień",
         "sie",
         "sierpnia",
+        "Sierpień",
         "Sierpien",
-        "Sierpniu"
+        "Sierpnia",
+        "Sierpniu",
+        "Sie"
     ],
     "september": [
         "wrzesień",
         "wrz",
         "września",
+        "Wrzesień",
         "Wrzesien",
+        "Września",
         "Wrzesnia",
         "Wrześniu",
-        "Wrzesniu"
+        "Wrzesniu",
+        "Wrz"
     ],
     "october": [
         "październik",
         "paź",
         "października",
+        "Październik",
         "Pazdziernik",
+        "Października",
         "Pazdziernika",
         "Październiku",
         "Pazdzierniku",
+        "Paź",
         "Paz"
     ],
     "november": [
         "listopad",
         "lis",
         "listopada",
-        "Listopadzie"
+        "Listopad",
+        "Listopada",
+        "Listopadzie",
+        "Lis"
     ],
     "december": [
         "grudzień",
         "gru",
         "grudnia",
+        "Grudzień",
         "Grudzien",
-        "Grudniu"
+        "Grudnia",
+        "Grudniu",
+        "Gru"
     ],
     "monday": [
         "poniedziałek",
         "pon",
+        "Poniedziałek",
         "Poniedzialek",
+        "Pon",
         "Pn"
     ],
     "tuesday": [
         "wtorek",
         "wt",
+        "Wtorek",
+        "Wt",
         "Wto"
     ],
     "wednesday": [
         "środa",
         "śr",
+        "Środa",
         "Sroda",
         "Środę",
         "Srode",
@@ -110,27 +150,34 @@ info = {
     "thursday": [
         "czwartek",
         "czw",
+        "Czwartek",
+        "Czw",
         "Cz"
     ],
     "friday": [
         "piątek",
         "pt",
+        "Piątek",
         "Piatek",
         "Pią",
         "Pia",
-        "Pi"
+        "Pi",
+        "Pt"
     ],
     "saturday": [
         "sobota",
         "sob",
+        "Sobota",
         "Sobotę",
         "Sobote",
+        "Sob",
         "So",
         "Sb"
     ],
     "sunday": [
         "niedziela",
         "niedz",
+        "Niedziela",
         "Niedzielę",
         "Niedziele",
         "Nie",
@@ -145,6 +192,7 @@ info = {
     "year": [
         "rok",
         "r",
+        "rok",
         "lata",
         "lat"
     ],
@@ -152,6 +200,7 @@ info = {
         "miesiąc",
         "mies",
         "mc",
+        "miesiąc",
         "miesiac",
         "miesięcy",
         "miesiąca",
@@ -161,11 +210,13 @@ info = {
     "week": [
         "tydzień",
         "tydz",
+        "tydzień",
         "tydzien",
         "tygodni",
         "tygodnie"
     ],
     "day": [
+        "dzień",
         "dzień",
         "dzien",
         "dnia",
@@ -176,12 +227,16 @@ info = {
         "godzina",
         "godz",
         "g",
+        "godzina",
         "godzinę",
         "godzine",
         "godzin",
-        "godziny"
+        "godziny",
+        "godz."
     ],
     "minute": [
+        "minuta",
+        "min",
         "minuta",
         "min",
         "minuty",
@@ -193,10 +248,13 @@ info = {
         "sekunda",
         "sek",
         "s",
+        "sekunda",
         "sekundę",
         "sekunde",
         "sekundy",
-        "sekund"
+        "sekund",
+        "s",
+        "sek."
     ],
     "relative-type": {
         "1 year ago": [
@@ -230,8 +288,7 @@ info = {
             "wczoraj"
         ],
         "0 day ago": [
-            "dzisiaj",
-            "dziś"
+            "dzisiaj"
         ],
         "in 1 day": [
             "jutro"
@@ -244,13 +301,6 @@ info = {
         ],
         "0 second ago": [
             "teraz"
-        ],
-        "2 day ago": [
-            "onegdaj",
-            "przedwczoraj"
-        ],
-        "in 2 day": [
-            "pojutrze"
         ]
     },
     "relative-type-regex": {
@@ -329,6 +379,8 @@ info = {
         ]
     },
     "locale_specific": {},
+    "dateorder": "DMY",
+    "sentence_splitter_group": 1,
     "skip": [
         "r.",
         "roku",
@@ -353,5 +405,28 @@ info = {
     ],
     "in": [
         "za"
+    ],
+    "simplifications": [
+        {
+            "dziś": "0 dnia"
+        },
+        {
+            "dzisiaj": "0 dnia"
+        },
+        {
+            "onegdaj": "2 dnia"
+        },
+        {
+            "przedwczoraj": "2 dnia"
+        },
+        {
+            "wczoraj": "1 dnia"
+        },
+        {
+            "jutro": "za 1 dnia"
+        },
+        {
+            "pojutrze": "za 2 dnia"
+        }
     ]
 }

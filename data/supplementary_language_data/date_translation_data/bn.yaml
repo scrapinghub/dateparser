@@ -1,5 +1,7 @@
 skip: ["টা", "লা", "শে", "ই", "প্রায়", "এবং"]
 
+sentence_splitter_group : 3
+
 january:
     - জানুয়ারি
 february:
