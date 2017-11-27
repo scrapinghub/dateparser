@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 info = {
-    "name": "Tagalog",
+    "name": "tl",
     "sentence_splitter_group": 1,
     "skip": [
         "noong",

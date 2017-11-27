@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 info = {
-    "name": "Hebrew",
+    "name": "he",
     "date_order": "DMY",
     "january": [
         "ינואר",

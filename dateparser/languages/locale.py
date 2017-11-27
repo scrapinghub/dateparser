@@ -131,7 +131,6 @@ class Locale(object):
         if settings.NORMALIZE:
             date_string = normalize_unicode(date_string)
         date_string = self._simplify(date_string, settings=settings)
-        words = self._split(date_string, keep_formatting, settings=settings)
         dictionary = self._get_dictionary(settings)
         date_string_tokens = dictionary.split(date_string, keep_formatting)
 

@@ -19,6 +19,7 @@ numeral_translation_directory = '../dateparser/data/numeral_translation_data/'
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # Languages with insufficient translation data are excluded
+# TODO: Automate with exclusion criteria.
 avoid_languages = {'cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo'}
 
 cldr_languages = list(set(map(lambda x: x[:-5], os.listdir(cldr_date_directory))) - avoid_languages)
@@ -58,6 +59,9 @@ def _get_complete_date_translation_data(language):
     if language in supplementary_languages:
         with open(supplementary_date_directory + language + '.yaml') as g:
             supplementary_data = OrderedDict(RoundTripLoader(g).get_data())
+            # names are sometimes inconsistent
+            # if 'name' in supplementary_data:
+            #     del supplementary_data['name']
     complete_data = combine_dicts(cldr_data, supplementary_data)
     return complete_data
 
@@ -73,6 +77,8 @@ def main():
         base_data = RoundTripLoader(f).get_data()
 
     for language in all_languages:
+        if language == 'he':
+            a = True
         date_translation_data = _get_complete_date_translation_data(language)
         date_translation_data = combine_dicts(date_translation_data, base_data)
         _modify_data(date_translation_data)

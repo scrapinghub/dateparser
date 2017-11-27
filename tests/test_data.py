@@ -23,7 +23,7 @@ VALID_KEYS = [
     'in', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
     'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september',
     'october', 'november', 'december', 'year', 'month', 'week', 'day', 'hour', 'minute',
-    'second', 'am', 'pm', 'relative-type', 'relative-type-regex']
+    'second', 'am', 'pm', 'relative-type', 'relative-type-regex', 'sentence_splitter_group']
 
 NECESSARY_KEYS = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',
                   'sunday', 'january', 'february', 'march', 'april', 'may', 'june', 'july',
