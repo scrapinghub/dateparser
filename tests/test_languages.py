@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from StringIO import StringIO
+
+import logging
 from nose_parameterized import parameterized, param
 
-from dateparser.languages import default_loader
+from dateparser.languages import default_loader, Locale
+from dateparser.languages.validation import LanguageValidator
 from dateparser.conf import apply_settings
+from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.utils import normalize_unicode
 
 from tests import BaseTestCase
@@ -1788,7 +1793,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         param("1 january 2015", 'en'),
     ])
     def test_valid_dates_detected(self, datetime_string, expected_language):
-        self.given_languages(expected_language)
+        self.given_locales(expected_language)
         self.given_detector()
         self.given_string(datetime_string)
         self.when_searching_for_first_applicable_language()
@@ -1798,14 +1803,14 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         param("foo"),
     ])
     def test_invalid_dates_not_detected(self, datetime_string):
-        self.given_languages('en')
+        self.given_locales('en')
         self.given_detector()
         self.given_string(datetime_string)
         self.when_searching_for_first_applicable_language()
         self.then_no_language_was_detected()
 
     def test_invalid_date_after_valid_date_not_detected(self):
-        self.given_languages('en')
+        self.given_locales('en')
         self.given_detector()
         self.given_previosly_detected_string("1 january 2015")
         self.given_string("foo")
@@ -1813,19 +1818,25 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         self.then_no_language_was_detected()
 
     def test_valid_date_after_invalid_date_detected(self):
-        self.given_languages('en')
+        self.given_locales('en')
+        self.given_settings()
         self.given_detector()
-        self.given_previosly_detected_string("foo")
+        self.given_previously_detected_string("foo")
         self.given_string("1 january 2015")
         self.when_searching_for_first_applicable_language()
         self.then_language_was_detected('en')
 
-    def given_languages(self, *shortnames):
-        self.known_languages = [default_language_loader.get_language(shortname)
+    def given_locales(self, *shortnames):
+        self.known_languages = [default_loader.get_locale(shortname)
                                 for shortname in shortnames]
 
-    def given_previosly_detected_string(self, datetime_string):
-        for _ in self.detector.iterate_applicable_languages(datetime_string, modify=True, settings=settings):
+    @apply_settings
+    def given_settings(self, settings=None):
+        self.settings = settings
+
+    def given_previously_detected_string(self, datetime_string):
+        for _ in self.detector.iterate_applicable_languages(
+                datetime_string, modify=True, settings=self.settings):
             break
 
     def given_string(self, datetime_string):
@@ -1836,14 +1847,14 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
 
     def when_searching_for_first_applicable_language(self):
         for language in self.detector.iterate_applicable_languages(self.datetime_string, modify=True,
-                                                                   settings=settings):
+                                                                   settings=self.settings):
             self.detected_language = language
             break
         else:
             self.detected_language = self.NOT_DETECTED
 
     def then_language_was_detected(self, shortname):
-        self.assertIsInstance(self.detected_language, Language, "Language was not properly detected")
+        self.assertIsInstance(self.detected_language, Locale, "Language was not properly detected")
         self.assertEqual(shortname, self.detected_language.shortname)
 
     def then_no_language_was_detected(self):
@@ -1865,9 +1876,14 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.given_detector()
         self.when_using_exact_languages()
         self.then_exact_languages_were_filtered(shortnames)
+        self.given_settings()
+
+    @apply_settings
+    def given_settings(self, settings=None):
+        self.settings = settings
 
     def given_known_languages(self, shortnames):
-        self.known_languages = [default_language_loader.get_language(shortname)
+        self.known_languages = [default_loader.get_locale(shortname)
                                 for shortname in shortnames]
 
     def given_detector(self):
@@ -1876,8 +1892,8 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.detector = ExactLanguages(languages=self.known_languages)
 
     def when_using_exact_languages(self):
-        self.exact_languages = self.detector.iterate_applicable_languages(self.datetime_string, modify=True,
-                                                                          settings=settings)
+        self.exact_languages = self.detector.iterate_applicable_languages(
+            self.datetime_string, modify=True, settings=self.settings)
 
     def then_exact_languages_were_filtered(self, shortnames):
         self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
@@ -1887,7 +1903,8 @@ class BaseAutoDetectLanguageDetectorTestCase(BaseLanguageDetectorTestCase):
     allow_redetection = NotImplemented
 
     def given_detector(self):
-        self.detector = AutoDetectLanguage(languages=self.known_languages, allow_redetection=self.allow_redetection)
+        self.detector = AutoDetectLanguage(
+            languages=self.known_languages, allow_redetection=self.allow_redetection)
 
 
 class TestAutoDetectLanguageDetectorWithoutRedetection(BaseAutoDetectLanguageDetectorTestCase):

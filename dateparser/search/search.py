@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from dateparser.languages.loader import LanguageDataLoader
+from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
@@ -167,8 +167,8 @@ class DateSearchWithDetection:
 
     """
     def __init__(self):
-        self.loader = LanguageDataLoader()
-        self.available_language_map = self.loader.get_language_map()
+        self.loader = LocaleDataLoader()
+        self.available_language_map = self.loader.get_locale_map()
         self.search = ExactLanguageSearch(self.loader)
 
     def detect_language(self, text, languages):
