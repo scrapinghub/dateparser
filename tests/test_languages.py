@@ -9,7 +9,7 @@ from nose_parameterized import parameterized, param
 from dateparser.languages import default_loader, Locale
 from dateparser.languages.validation import LanguageValidator
 from dateparser.conf import apply_settings
-from dateparser.languages.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.search.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.utils import normalize_unicode
 
 from tests import BaseTestCase
@@ -1795,6 +1795,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
     def test_valid_dates_detected(self, datetime_string, expected_language):
         self.given_locales(expected_language)
         self.given_detector()
+        self.given_settings()
         self.given_string(datetime_string)
         self.when_searching_for_first_applicable_language()
         self.then_language_was_detected(expected_language)
@@ -1805,6 +1806,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
     def test_invalid_dates_not_detected(self, datetime_string):
         self.given_locales('en')
         self.given_detector()
+        self.given_settings()
         self.given_string(datetime_string)
         self.when_searching_for_first_applicable_language()
         self.then_no_language_was_detected()
@@ -1812,7 +1814,8 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
     def test_invalid_date_after_valid_date_not_detected(self):
         self.given_locales('en')
         self.given_detector()
-        self.given_previosly_detected_string("1 january 2015")
+        self.given_previously_detected_string("1 january 2015")
+        self.given_settings()
         self.given_string("foo")
         self.when_searching_for_first_applicable_language()
         self.then_no_language_was_detected()
@@ -1887,8 +1890,10 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
                                 for shortname in shortnames]
 
     def given_detector(self):
-        self.assertIsInstance(self.known_languages, list, "Require a list of languages to initialize")
-        self.assertGreaterEqual(len(self.known_languages), 1, "Could only be initialized with one or more languages")
+        self.assertIsInstance(self.known_languages, list,
+                              "Require a list of languages to initialize")
+        self.assertGreaterEqual(len(self.known_languages), 1,
+                                "Could only be initialized with one or more languages")
         self.detector = ExactLanguages(languages=self.known_languages)
 
     def when_using_exact_languages(self):
@@ -1905,6 +1910,10 @@ class BaseAutoDetectLanguageDetectorTestCase(BaseLanguageDetectorTestCase):
     def given_detector(self):
         self.detector = AutoDetectLanguage(
             languages=self.known_languages, allow_redetection=self.allow_redetection)
+
+    @apply_settings
+    def given_settings(self, settings=None):
+        self.settings = settings
 
 
 class TestAutoDetectLanguageDetectorWithoutRedetection(BaseAutoDetectLanguageDetectorTestCase):
@@ -1957,7 +1966,8 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
 
     @parameterized.expand([
         param('en', {'no_word_spacing': 'string instead of bool'},
-              log_msg="Invalid 'no_word_spacing' value 'string instead of bool' for 'en' language: ""expected boolean"),
+              log_msg="Invalid 'no_word_spacing' value 'string instead of bool' for 'en' language: "
+                      "expected boolean"),
     ])
     def test_validate_word_spacing_when_invalid(self, lang_id, lang_info, log_msg):
         result = self.validator._validate_word_spacing(lang_id, lang_info)
@@ -1965,8 +1975,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         self.assertFalse(result)
 
     @parameterized.expand([
-        param('en', {'skip': 'string instead of list'}, log_msg="Invalid 'skip' list for 'en' language: "
-                                                                "expected list type but have got str"),
+        param('en', {'skip': 'string instead of list'},
+              log_msg="Invalid 'skip' list for 'en' language: "
+                      "expected list type but have got str"),
         param('en', {'skip': ['']}, log_msg="Invalid 'skip' token '' for 'en' language: "
                                             "expected not empty string"),
     ])

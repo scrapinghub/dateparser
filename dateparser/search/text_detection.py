@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from dateparser.languages.detection import BaseLanguageDetector
+from dateparser.search.detection import BaseLanguageDetector
 from dateparser.conf import apply_settings
 from dateparser.utils import normalize_unicode
 
@@ -27,7 +27,8 @@ class FullTextLanguageDetector(BaseLanguageDetector):
 
     def character_check(self, date_string, settings):
         date_string_set = set(date_string)
-        symbol_set = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", " ", "/", "-", ")", "(", ".", ":", "\\"}
+        symbol_set = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                      " ", "/", "-", ")", "(", ".", ":", "\\"}
         if date_string_set & symbol_set == date_string_set:
             self.languages = [self.languages[0]]
             return
@@ -41,8 +42,8 @@ class FullTextLanguageDetector(BaseLanguageDetector):
         for i in range(len(self.languages)):
             if len(date_string_set & self.language_chars[i]) == 0:
                 indices_to_pop.append(i)
-        self.languages = [i for j, i in enumerate(self.languages) if j not in indices_to_pop]
-
+        self.languages = [i for j, i in enumerate(self.languages)
+                          if j not in indices_to_pop]
 
     @apply_settings
     def _best_language(self, date_string,  settings=None):
@@ -52,11 +53,13 @@ class FullTextLanguageDetector(BaseLanguageDetector):
             return self.languages[0].shortname
         applicable_languages = []
         for language in self.languages:
-            num_words = language.count_applicability(date_string, strip_timezone=False, settings=settings)
+            num_words = language.count_applicability(
+                date_string, strip_timezone=False, settings=settings)
             if num_words[0] > 0 or num_words[1] > 0:
                 applicable_languages.append((language.shortname, num_words))
             else:
-                num_words = language.count_applicability(date_string, strip_timezone=True, settings=settings)
+                num_words = language.count_applicability(
+                    date_string, strip_timezone=True, settings=settings)
                 if num_words[0] > 0 or num_words[1] > 0:
                     applicable_languages.append((language.shortname, num_words))
         if not applicable_languages:

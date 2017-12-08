@@ -25,7 +25,7 @@ class ExactLanguageSearch:
 
     def get_current_language(self, shortname):
         if self.language is None or self.language.shortname != shortname:
-            self.language = self.loader.get_language(shortname)
+            self.language = self.loader.get_locale(shortname)
 
     def search(self, shortname, text, settings):
         self.get_current_language(shortname)
@@ -60,7 +60,6 @@ class ExactLanguageSearch:
                            float(num_substrings_without_digits)/float(num_substrings)])
             best_index, best_rating = min(enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2]))
         return possible_parsed_splits[best_index], possible_substrings_splits[best_index]
-
 
     def split_by(self, item, original, splitter):
         if item.count(splitter) <= 2:
