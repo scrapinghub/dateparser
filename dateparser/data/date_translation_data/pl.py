@@ -232,7 +232,7 @@ info = {
         "godzine",
         "godzin",
         "godziny",
-        "godz."
+        "godz"
     ],
     "minute": [
         "minuta",
@@ -254,7 +254,7 @@ info = {
         "sekundy",
         "sekund",
         "s",
-        "sek."
+        "sek"
     ],
     "relative-type": {
         "1 year ago": [

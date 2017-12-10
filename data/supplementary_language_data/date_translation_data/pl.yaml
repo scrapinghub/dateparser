@@ -1,5 +1,3 @@
-name: Polish
-
 dateorder: DMY
 
 sentence_splitter_group : 1
@@ -149,7 +147,7 @@ hour:
     - godzine
     - godzin
     - godziny
-    - godz.
+    - godz
 minute:
     - minuta
     - min
@@ -164,7 +162,7 @@ second:
     - sekundy
     - sekund
     - s
-    - sek.
+    - sek
 
 ago:
     - temu

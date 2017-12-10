@@ -59,10 +59,9 @@ def _get_complete_date_translation_data(language):
     if language in supplementary_languages:
         with open(supplementary_date_directory + language + '.yaml') as g:
             supplementary_data = OrderedDict(RoundTripLoader(g).get_data())
-            # names are sometimes inconsistent
-            # if 'name' in supplementary_data:
-            #     del supplementary_data['name']
     complete_data = combine_dicts(cldr_data, supplementary_data)
+    if 'name' not in complete_data:
+        complete_data['name'] = language
     return complete_data
 
 
@@ -77,8 +76,6 @@ def main():
         base_data = RoundTripLoader(f).get_data()
 
     for language in all_languages:
-        if language == 'he':
-            a = True
         date_translation_data = _get_complete_date_translation_data(language)
         date_translation_data = combine_dicts(date_translation_data, base_data)
         _modify_data(date_translation_data)

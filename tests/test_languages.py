@@ -1812,10 +1812,10 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         self.then_no_language_was_detected()
 
     def test_invalid_date_after_valid_date_not_detected(self):
+        self.given_settings()
         self.given_locales('en')
         self.given_detector()
         self.given_previously_detected_string("1 january 2015")
-        self.given_settings()
         self.given_string("foo")
         self.when_searching_for_first_applicable_language()
         self.then_no_language_was_detected()
@@ -1874,12 +1874,12 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         param("01-01-12", ['en']),
     ])
     def test_exact_languages(self, datetime_string, shortnames):
+        self.given_settings()
         self.given_string(datetime_string)
         self.given_known_languages(shortnames)
         self.given_detector()
         self.when_using_exact_languages()
         self.then_exact_languages_were_filtered(shortnames)
-        self.given_settings()
 
     @apply_settings
     def given_settings(self, settings=None):

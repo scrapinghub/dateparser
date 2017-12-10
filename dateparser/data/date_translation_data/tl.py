@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 info = {
-    "name": "tl",
     "sentence_splitter_group": 1,
     "skip": [
         "noong",
@@ -134,5 +133,6 @@ info = {
         {
             "isang araw": "2 araw"
         }
-    ]
+    ],
+    "name": "tl"
 }
