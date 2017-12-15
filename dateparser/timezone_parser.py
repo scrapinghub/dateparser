@@ -28,6 +28,9 @@ class StaticTzInfo(tzinfo):
             raise ValueError('Not naive datetime (tzinfo is already set)')
         return dt.replace(tzinfo=self)
 
+    def __getinitargs__(self):
+        return self.__name, self.__offset
+
 
 def pop_tz_offset_from_string(date_string, as_offset=True):
     for name, info in _tz_offsets:
