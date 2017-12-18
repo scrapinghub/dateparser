@@ -28,44 +28,57 @@ sunday:
 
 january:
     - Leden
+    - Ledna
     - Led
 february:
     - Únor
+    - Února
     - Úno
 march:
     - Březen
+    - Března
     - Bře
 april:
     - Duben
+    - Dubna
     - Dub
 may:
     - Květen
+    - Května
     - Kvě
 june:
     - Červen
+    - Června
     - Čer
 july:
     - Červenec
+    - Července
     - Črc
 august:
     - Srpen
+    - Srpna
     - Srp
 september:
     - Září
     - Zář
 october:
     - Říjen
+    - Října
     - Říj
 november:
     - Listopad
+    - Listopadu
     - Lis
 december:
     - Prosinec
+    - Prosince
     - Pro
 
 year:
     - rok
+    - let
     - roků
+    - roky
 month:
     - měsíc
     - měsíců
@@ -73,6 +86,7 @@ month:
 week:
     - týden
     - týdnů
+    - týdny
 day:
     - den
     - dnů
@@ -85,9 +99,11 @@ hour:
 minute:
     - minuta
     - minut
+    - minuty
 second:
     - sekunda
     - sekundy
+    - sekund
 
 ago:
     - před
@@ -98,4 +114,3 @@ simplifications:
     - dnes: 0 den
     - včera: 1 den
     - předevčírem: 2 den
-
