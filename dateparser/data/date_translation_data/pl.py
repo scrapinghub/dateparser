@@ -417,10 +417,7 @@ info = {
             "onegdaj": "2 dnia"
         },
         {
-            "przedwczoraj": "2 dnia"
-        },
-        {
-            "wczoraj": "1 dnia"
+            "przedwczoraj": "2 dnia temu"
         },
         {
             "jutro": "za 1 dnia"

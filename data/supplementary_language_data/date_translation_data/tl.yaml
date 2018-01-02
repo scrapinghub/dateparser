@@ -82,7 +82,7 @@ in:
     - sa
 
 simplifications:
-    - kahapon: 1 araw
-    - ngayon: 0 segundo
+    - kahapon: 1 araw nakaraan
+    - ngayon: 0 segundo nakalipas
     - isang araw: 2 araw
 

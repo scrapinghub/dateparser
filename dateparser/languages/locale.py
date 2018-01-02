@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from itertools import chain
+
 import regex as re
 from collections import OrderedDict
 
@@ -82,18 +84,14 @@ class Locale(object):
         sentences = self._sentence_split(text, settings=settings)
         tokens = []
         for sent in sentences:
-            # tokens.extend(self._word_split(sent, settings=settings))
             tokens.extend(self._split(sent, keep_formatting=False, settings=settings))
-        if self._is_date_consists_of_digits_only(tokens):
-            return 1
-        else:
-            return self._count_words_present_in_the_dictionary(tokens, settings)
+        return self._count_words_present_in_the_dictionary(tokens, settings)
 
     def _count_words_present_in_the_dictionary(self, words, settings=None):
         dictionary = self.clean_dictionary(self._get_split_dictionary(settings=settings))
         dict_cnt = 0
         skip_cnt = 0
-        for word in words:
+        for word in set(words):
             if word in dictionary:
                 if dictionary[word]:
                     dict_cnt += 1
@@ -266,6 +264,7 @@ class Locale(object):
         return sentences
 
     def _simplify_split_align(self, original, settings):
+        # TODO: Switch to new split method.
         original_tokens = self._word_split(original, settings=settings)
         simplified_tokens = self._word_split(self._simplify(normalize_unicode(original), settings=settings),
                                              settings=settings)
@@ -333,11 +332,30 @@ class Locale(object):
         else:
             return string.split()
 
+    def _split(self, date_string, keep_formatting, settings=None):
+        tokens = [date_string]
+        tokens = list(self._split_tokens_with_regex(tokens, r"(\d+)"))
+        tokens = list(
+            self._split_tokens_by_known_words(tokens, keep_formatting, settings=settings))
+        return tokens
+
+    def _split_tokens_with_regex(self, tokens, regex):
+        tokens = tokens[:]
+        for i, token in enumerate(tokens):
+            tokens[i] = re.split(regex, token)
+        return filter(bool, chain(*tokens))
+
+    def _split_tokens_by_known_words(self, tokens, keep_formatting, settings=None):
+        dictionary = self._get_dictionary(settings)
+        for i, token in enumerate(tokens):
+            tokens[i] = dictionary.split(token, keep_formatting)
+        return list(chain(*tokens))
+
     def _join_chunk(self, chunk, settings):
         if 'no_word_spacing' in self.info:
             return self._join(chunk, separator="", settings=settings)
         else:
-            return " ".join(chunk)
+            return re.sub('\s{2,}', ' ', " ".join(chunk))
 
     def _token_with_digits_is_ok(self, token):
         if 'no_word_spacing' in self.info:
@@ -403,7 +421,7 @@ class Locale(object):
         return simplifications
 
     def _clear_future_words(self, words):
-        freshness_words = set(['day', 'week', 'month', 'year', 'hour', 'minute', 'second'])
+        freshness_words = {'day', 'week', 'month', 'year', 'hour', 'minute', 'second'}
         if set(words).isdisjoint(freshness_words):
             words.remove("in")
         return words

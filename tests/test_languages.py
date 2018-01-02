@@ -1451,8 +1451,8 @@ class TestBundledLanguages(BaseTestCase):
         param('pa', "16 ਸਕਿੰਟ ਵਿੱਚ", "in 16 second"),
         param('pa', "ਅਗਲਾ ਸਾਲ", "in 1 year"),
         # pl
-        param('pl', "6 tygodnia temu", "6 week ago"),
-        param('pl', "za 8 roku", "in 8 year"),
+        param('pl', "6 tygodni temu", "6 week ago"),
+        param('pl', "za 8 lat", "in 8 year"),
         param('pl', "ta minuta", "0 minute ago"),
         # rm
         param('rm', "damaun", "in 1 day"),

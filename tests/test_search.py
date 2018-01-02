@@ -545,7 +545,7 @@ class TestTranslateSearch(BaseTestCase):
         param('ka', '1937 წელს დაიწყო იაპონია-ჩინეთის მეორე ომი.'),
 
         # German
-        param('de', 'Die UdSSR blieb gemäß dem Neutralitätspakt '
+        param('de', 'Die UdSSR blieb dem Neutralitätspakt '
                     'vom 13. April 1941 gegenüber Japan vorerst neutral.'),
 
         # Indonesian

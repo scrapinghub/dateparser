@@ -125,10 +125,10 @@ info = {
     ],
     "simplifications": [
         {
-            "kahapon": "1 araw"
+            "kahapon": "1 araw nakaraan"
         },
         {
-            "ngayon": "0 segundo"
+            "ngayon": "0 segundo nakalipas"
         },
         {
             "isang araw": "2 araw"
