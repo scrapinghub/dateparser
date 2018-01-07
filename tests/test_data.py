@@ -53,7 +53,7 @@ def is_invalid_simplification(simplification):
     if not isinstance(simplification, dict) or len(simplification) != 1:
         return True
     key, value = list(simplification.items())[0]
-    return (not isinstance(key, six.text_type) or not isinstance(value, six.text_type))
+    return not isinstance(key, six.text_type) or not isinstance(value, six.text_type)
 
 
 def is_invalid_relative_mapping(relative_mapping):

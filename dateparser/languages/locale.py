@@ -102,10 +102,10 @@ class Locale(object):
         return [dict_cnt, skip_cnt]
 
     @staticmethod
-    def clean_dictionary(dictionary):
+    def clean_dictionary(dictionary, threshold=2):
         del_keys = []
         for key in dictionary:
-            if len(key) < 2:
+            if len(key) < threshold:
                 del_keys.append(key)
         for del_key in del_keys:
             del dictionary[del_key]
@@ -183,7 +183,7 @@ class Locale(object):
     def translate_search(self, search_string, settings=None):
         dashes = ['-', '——', '—', '～']
         sentences = self._sentence_split(search_string, settings=settings)
-        dictionary = self._get_split_dictionary(settings=settings)
+        dictionary = self._get_dictionary(settings=settings)
         translated = []
         original = []
         for sentence in sentences:
@@ -326,7 +326,6 @@ class Locale(object):
         return newdict
 
     def _word_split(self, string, settings):
-
         if 'no_word_spacing' in self.info:
             return self._split(string, keep_formatting=True, settings=settings)
         else:

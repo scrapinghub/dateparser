@@ -13,6 +13,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
         self.language_chars = []
 
     def get_unique_characters(self, settings):
+        settings = settings.replace(NORMALIZE=False)
 
         for language in self.languages:
             chars = language.get_wordchars_for_detection(settings=settings)
@@ -26,7 +27,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
             self.language_unique_chars.append(unique_chars)
 
     def character_check(self, date_string, settings):
-        date_string_set = set(date_string)
+        date_string_set = set(date_string.lower())
         symbol_set = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                       " ", "/", "-", ")", "(", ".", ":", "\\"}
         if date_string_set & symbol_set == date_string_set:
@@ -47,8 +48,8 @@ class FullTextLanguageDetector(BaseLanguageDetector):
 
     @apply_settings
     def _best_language(self, date_string,  settings=None):
-        date_string = normalize_unicode(date_string.lower())
         self.character_check(date_string, settings)
+        date_string = normalize_unicode(date_string.lower())
         if len(self.languages) == 1:
             return self.languages[0].shortname
         applicable_languages = []
