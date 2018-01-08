@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from StringIO import StringIO
+from io import StringIO
 
 import logging
 from nose_parameterized import parameterized, param
