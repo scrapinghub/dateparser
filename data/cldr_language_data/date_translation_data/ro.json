@@ -1,0 +1,234 @@
+{
+    "name": "ro",
+    "date_order": "DMY",
+    "january": [
+        "ianuarie",
+        "ian"
+    ],
+    "february": [
+        "februarie",
+        "feb"
+    ],
+    "march": [
+        "martie",
+        "mar"
+    ],
+    "april": [
+        "aprilie",
+        "apr"
+    ],
+    "may": [
+        "mai"
+    ],
+    "june": [
+        "iunie",
+        "iun"
+    ],
+    "july": [
+        "iulie",
+        "iul"
+    ],
+    "august": [
+        "august",
+        "aug"
+    ],
+    "september": [
+        "septembrie",
+        "sept"
+    ],
+    "october": [
+        "octombrie",
+        "oct"
+    ],
+    "november": [
+        "noiembrie",
+        "nov"
+    ],
+    "december": [
+        "decembrie",
+        "dec"
+    ],
+    "monday": [
+        "luni",
+        "lun"
+    ],
+    "tuesday": [
+        "marți",
+        "mar"
+    ],
+    "wednesday": [
+        "miercuri",
+        "mie"
+    ],
+    "thursday": [
+        "joi"
+    ],
+    "friday": [
+        "vineri",
+        "vin"
+    ],
+    "saturday": [
+        "sâmbătă",
+        "sâm"
+    ],
+    "sunday": [
+        "duminică",
+        "dum"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "an"
+    ],
+    "month": [
+        "lună"
+    ],
+    "week": [
+        "săptămână",
+        "săpt"
+    ],
+    "day": [
+        "zi"
+    ],
+    "hour": [
+        "oră",
+        "h"
+    ],
+    "minute": [
+        "minut",
+        "min",
+        "m"
+    ],
+    "second": [
+        "secundă",
+        "sec",
+        "s"
+    ],
+    "relative-type": {
+        "1 year ago": [
+            "anul trecut"
+        ],
+        "0 year ago": [
+            "anul acesta"
+        ],
+        "in 1 year": [
+            "anul viitor"
+        ],
+        "1 month ago": [
+            "luna trecută"
+        ],
+        "0 month ago": [
+            "luna aceasta"
+        ],
+        "in 1 month": [
+            "luna viitoare"
+        ],
+        "1 week ago": [
+            "săptămâna trecută"
+        ],
+        "0 week ago": [
+            "săptămâna aceasta"
+        ],
+        "in 1 week": [
+            "săptămâna viitoare"
+        ],
+        "1 day ago": [
+            "ieri"
+        ],
+        "0 day ago": [
+            "azi"
+        ],
+        "in 1 day": [
+            "mâine"
+        ],
+        "0 hour ago": [
+            "ora aceasta"
+        ],
+        "0 minute ago": [
+            "minutul acesta"
+        ],
+        "0 second ago": [
+            "acum"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "peste {0} an",
+            "peste {0} de ani",
+            "peste {0} ani"
+        ],
+        "\\1 year ago": [
+            "acum {0} an",
+            "acum {0} de ani"
+        ],
+        "in \\1 month": [
+            "peste {0} lună",
+            "peste {0} de luni",
+            "peste {0} luni"
+        ],
+        "\\1 month ago": [
+            "acum {0} lună",
+            "acum {0} de luni",
+            "acum {0} luni"
+        ],
+        "in \\1 week": [
+            "peste {0} săptămână",
+            "peste {0} de săptămâni",
+            "peste {0} săpt"
+        ],
+        "\\1 week ago": [
+            "acum {0} săptămână",
+            "acum {0} de săptămâni",
+            "acum {0} săpt"
+        ],
+        "in \\1 day": [
+            "peste {0} zi",
+            "peste {0} de zile",
+            "peste {0} zile"
+        ],
+        "\\1 day ago": [
+            "acum {0} zi",
+            "acum {0} de zile",
+            "acum {0} zile"
+        ],
+        "in \\1 hour": [
+            "peste {0} oră",
+            "peste {0} de ore",
+            "peste {0} h"
+        ],
+        "\\1 hour ago": [
+            "acum {0} oră",
+            "acum {0} de ore",
+            "acum {0} h"
+        ],
+        "in \\1 minute": [
+            "peste {0} minut",
+            "peste {0} de minute",
+            "peste {0} min"
+        ],
+        "\\1 minute ago": [
+            "acum {0} minut",
+            "acum {0} de minute",
+            "acum {0} min"
+        ],
+        "in \\1 second": [
+            "peste {0} secundă",
+            "peste {0} de secunde",
+            "peste {0} sec"
+        ],
+        "\\1 second ago": [
+            "acum {0} secundă",
+            "acum {0} de secunde",
+            "acum {0} sec"
+        ]
+    },
+    "locale_specific": {
+        "ro-MD": {
+            "name": "ro-MD"
+        }
+    }
+}

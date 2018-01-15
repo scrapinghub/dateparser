@@ -1,0 +1,46 @@
+sentence_splitter_group : 6
+
+tuesday:
+    - سهشنبه
+wednesday:
+    - چهار شنبه
+thursday:
+    - پنج شنبه
+saturday:
+    - روز شنبه
+    - دو شنبه
+    - د
+
+january:
+    - جنوری
+february:
+    - فبروری
+march:
+    - مارس
+    - مارچ
+april:
+    - اپریل
+may:
+    - می
+june:
+    - جون
+july:
+    - جولای
+august:
+    - آگست
+september:
+    - سپتمبر
+october:
+    - اکتوبر
+november:
+    - نومبر
+december:
+    - دسمبر
+
+second:
+    - دوم
+
+ago:
+    - پیش
+in:
+    - در

@@ -106,12 +106,14 @@ Before you submit a pull request, check that it meets these guidelines:
 4. Follow the core developers' advice which aim to ensure code's consistency regardless of variety of approaches used by many contributors.
 5. In case you are unable to continue working on a PR, please leave a short comment to notify us. We will be pleased to make any changes required to get it done.
 
-Guidelines for Adding New Languages
------------------------------------
+Guidelines for Editing Translation Data
+---------------------------------------
 English is the primary language of the dateparser. Dates in all other languages are translated into English equivalents before they are parsed.
-The language data required for parsing dates is contained in *data/languages.yml* file. It contains variable parts that can be used in dates, language by language: month and week names - and their abbreviations, prepositions, conjunctions and frequently used descriptive words and phrases (like "today").
+The language data required for parsing dates is contained in *dateparser/data/date_translation_data*.
+It contains variable parts that can be used in dates, language by language: month and week names - and their abbreviations, prepositions, conjunctions and frequently used descriptive words and phrases (like "today").
+The data in *dateparser/data/date_translation_data* is formed by supplementing data retrieved from unicode CLDR, contained in *data/cldr_language_data/date_translation_data*, with supplementary data contributed by the community, contained in *data/supplementary_language_data/date_translation_data*.
+Additional data to supplement existing data or translation data for a new language should be added to *data/supplementary_language_data/date_translation_data*.
 The chosen data format is YAML because it is readable and simple to edit.
-Language data is extracted per language from YAML with :class:`LanguageDataLoader` and validated before being put into :class:`Language` class.
 
 Refer to :ref:`language-data-template` for details about its structure and take a look at already implemented languages for examples.
 As we deal with the delicate fabric of interwoven languages, tests are essential to keep the functionality across them.
