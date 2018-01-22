@@ -1,0 +1,250 @@
+{
+    "name": "pl",
+    "date_order": "DMY",
+    "january": [
+        "styczeń",
+        "sty",
+        "stycznia"
+    ],
+    "february": [
+        "luty",
+        "lut",
+        "lutego"
+    ],
+    "march": [
+        "marzec",
+        "mar",
+        "marca"
+    ],
+    "april": [
+        "kwiecień",
+        "kwi",
+        "kwietnia"
+    ],
+    "may": [
+        "maj",
+        "maja"
+    ],
+    "june": [
+        "czerwiec",
+        "cze",
+        "czerwca"
+    ],
+    "july": [
+        "lipiec",
+        "lip",
+        "lipca"
+    ],
+    "august": [
+        "sierpień",
+        "sie",
+        "sierpnia"
+    ],
+    "september": [
+        "wrzesień",
+        "wrz",
+        "września"
+    ],
+    "october": [
+        "październik",
+        "paź",
+        "października"
+    ],
+    "november": [
+        "listopad",
+        "lis",
+        "listopada"
+    ],
+    "december": [
+        "grudzień",
+        "gru",
+        "grudnia"
+    ],
+    "monday": [
+        "poniedziałek",
+        "pon"
+    ],
+    "tuesday": [
+        "wtorek",
+        "wt"
+    ],
+    "wednesday": [
+        "środa",
+        "śr"
+    ],
+    "thursday": [
+        "czwartek",
+        "czw"
+    ],
+    "friday": [
+        "piątek",
+        "pt"
+    ],
+    "saturday": [
+        "sobota",
+        "sob"
+    ],
+    "sunday": [
+        "niedziela",
+        "niedz"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "rok",
+        "r"
+    ],
+    "month": [
+        "miesiąc",
+        "mies",
+        "mc"
+    ],
+    "week": [
+        "tydzień",
+        "tydz"
+    ],
+    "day": [
+        "dzień"
+    ],
+    "hour": [
+        "godzina",
+        "godz",
+        "g"
+    ],
+    "minute": [
+        "minuta",
+        "min"
+    ],
+    "second": [
+        "sekunda",
+        "sek",
+        "s"
+    ],
+    "relative-type": {
+        "1 year ago": [
+            "w zeszłym roku"
+        ],
+        "0 year ago": [
+            "w tym roku"
+        ],
+        "in 1 year": [
+            "w przyszłym roku"
+        ],
+        "1 month ago": [
+            "w zeszłym miesiącu"
+        ],
+        "0 month ago": [
+            "w tym miesiącu"
+        ],
+        "in 1 month": [
+            "w przyszłym miesiącu"
+        ],
+        "1 week ago": [
+            "w zeszłym tygodniu"
+        ],
+        "0 week ago": [
+            "w tym tygodniu"
+        ],
+        "in 1 week": [
+            "w przyszłym tygodniu"
+        ],
+        "1 day ago": [
+            "wczoraj"
+        ],
+        "0 day ago": [
+            "dzisiaj"
+        ],
+        "in 1 day": [
+            "jutro"
+        ],
+        "0 hour ago": [
+            "ta godzina"
+        ],
+        "0 minute ago": [
+            "ta minuta"
+        ],
+        "0 second ago": [
+            "teraz"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "za {0} rok",
+            "za {0} roku"
+        ],
+        "\\1 year ago": [
+            "{0} rok temu",
+            "{0} roku temu"
+        ],
+        "in \\1 month": [
+            "za {0} miesiąc",
+            "za {0} miesiąca",
+            "za {0} mies"
+        ],
+        "\\1 month ago": [
+            "{0} miesiąc temu",
+            "{0} miesiąca temu",
+            "{0} mies temu",
+            "–{0} mies"
+        ],
+        "in \\1 week": [
+            "za {0} tydzień",
+            "za {0} tygodnia",
+            "za {0} tydz",
+            "za {0} tyg"
+        ],
+        "\\1 week ago": [
+            "{0} tydzień temu",
+            "{0} tygodnia temu",
+            "{0} tydz temu",
+            "{0} tyg temu"
+        ],
+        "in \\1 day": [
+            "za {0} dzień",
+            "za {0} dnia"
+        ],
+        "\\1 day ago": [
+            "{0} dzień temu",
+            "{0} dnia temu"
+        ],
+        "in \\1 hour": [
+            "za {0} godzinę",
+            "za {0} godziny",
+            "za {0} godz",
+            "za {0} g"
+        ],
+        "\\1 hour ago": [
+            "{0} godzinę temu",
+            "{0} godziny temu",
+            "{0} godz temu",
+            "{0} g temu"
+        ],
+        "in \\1 minute": [
+            "za {0} minutę",
+            "za {0} minuty",
+            "za {0} min"
+        ],
+        "\\1 minute ago": [
+            "{0} minutę temu",
+            "{0} minuty temu",
+            "{0} min temu"
+        ],
+        "in \\1 second": [
+            "za {0} sekundę",
+            "za {0} sekundy",
+            "za {0} sek",
+            "za {0} s"
+        ],
+        "\\1 second ago": [
+            "{0} sekundę temu",
+            "{0} sekundy temu",
+            "{0} sek temu",
+            "{0} s temu"
+        ]
+    },
+    "locale_specific": {}
+}
