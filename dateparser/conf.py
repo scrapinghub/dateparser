@@ -52,7 +52,7 @@ class Settings(object):
             if v is None:
                 raise TypeError('Invalid {{"{}": {}}}'.format(k, v))
 
-        for x in six.iterkeys(self._get_settings_from_yaml()):
+        for x in six.iterkeys(self._get_settings_from_pyfile()):
             kwds.setdefault(x, getattr(self, x))
 
         kwds['_default'] = False

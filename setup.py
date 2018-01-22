@@ -32,7 +32,7 @@ setup(
         'tzlocal',
     ],
     extra_requires={
-        'calendars': ['convertdate', 'umalqurra', 'jdatetime'],
+        'calendars': ['convertdate', 'umalqurra', 'jdatetime', 'ruamel.yaml'],
     },
     license="BSD",
     zip_safe=False,
