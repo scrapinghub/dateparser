@@ -27,7 +27,6 @@ setup(
     include_package_data=True,
     install_requires=[
         'python-dateutil',
-        'ruamel.yaml<0.14',
         'pytz',
         'regex',
         'tzlocal',

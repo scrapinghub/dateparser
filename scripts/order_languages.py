@@ -60,7 +60,7 @@ def _get_language_order():
         language_order[index] = re.sub(r'_', r'-', language_order[index])
 
     cldr_languages = language_locale_dict.keys()
-    supplementary_date_directory = "../data/supplementary_language_data/date_translation_data"
+    supplementary_date_directory = "../dateparser_data/supplementary_language_data/date_translation_data"
     supplementary_languages = [x[:-5] for x in os.listdir(supplementary_date_directory)]
     available_languages = set(cldr_languages).union(set(supplementary_languages))
     language_order = [shortname for shortname in language_order if shortname in available_languages]

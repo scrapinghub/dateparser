@@ -311,8 +311,8 @@ def _clean_dict(json_dict):
 
 
 def main():
-    parent_directory = "../data/cldr_language_data"
-    directory = "../data/cldr_language_data/date_translation_data/"
+    parent_directory = "../dateparser_data/cldr_language_data"
+    directory = "../dateparser_data/cldr_language_data/date_translation_data/"
     if not os.path.isdir(parent_directory):
         os.mkdir(parent_directory)
     if os.path.isdir(directory):
