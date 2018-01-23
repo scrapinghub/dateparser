@@ -3,12 +3,10 @@ include CONTRIBUTING.rst
 include HISTORY.rst
 include LICENSE
 include README.rst
-include data/languages.yaml
-include data/settings.yaml
+include dateparser_data/settings.py
 include requirements.txt
 include requirements-build.txt
 
-recursive-include data/languagefiles *.yaml
 recursive-include tests *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]

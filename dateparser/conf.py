@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 import hashlib
-from pkgutil import get_data
 from functools import wraps
 import six
-from ruamel.yaml.loader import SafeLoader
 
 from .utils import registry
-
 
 @registry
 class Settings(object):
@@ -23,13 +20,13 @@ class Settings(object):
     """
 
     _default = True
-    _yaml_data = None
+    _pyfile_data = None
 
     def __init__(self, settings=None):
         if settings:
             self._updateall(settings.items())
         else:
-            self._updateall(self._get_settings_from_yaml().items())
+            self._updateall(self._get_settings_from_pyfile().items())
 
     @classmethod
     def get_key(cls, settings=None):
@@ -40,11 +37,11 @@ class Settings(object):
         return hashlib.md5(''.join(keys).encode('utf-8')).hexdigest()
 
     @classmethod
-    def _get_settings_from_yaml(cls):
-        if not cls._yaml_data:
-            data = get_data('data', 'settings.yaml')
-            cls._yaml_data = SafeLoader(data).get_data().pop('settings', {})
-        return cls._yaml_data
+    def _get_settings_from_pyfile(cls):
+        if not cls._pyfile_data:
+            from dateparser_data import settings
+            cls._pyfile_data = settings.settings
+        return cls._pyfile_data
 
     def _updateall(self, iterable):
         for key, value in iterable:
@@ -55,7 +52,7 @@ class Settings(object):
             if v is None:
                 raise TypeError('Invalid {{"{}": {}}}'.format(k, v))
 
-        for x in six.iterkeys(self._get_settings_from_yaml()):
+        for x in six.iterkeys(self._get_settings_from_pyfile()):
             kwds.setdefault(x, getattr(self, x))
 
         kwds['_default'] = False

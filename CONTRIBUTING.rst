@@ -112,8 +112,9 @@ English is the primary language of the dateparser. Dates in all other languages 
 The language data required for parsing dates is contained in *dateparser/data/date_translation_data*.
 It contains variable parts that can be used in dates, language by language: month and week names - and their abbreviations, prepositions, conjunctions and frequently used descriptive words and phrases (like "today").
 The data in *dateparser/data/date_translation_data* is formed by supplementing data retrieved from unicode CLDR, contained in *data/cldr_language_data/date_translation_data*, with supplementary data contributed by the community, contained in *data/supplementary_language_data/date_translation_data*.
-Additional data to supplement existing data or translation data for a new language should be added to *data/supplementary_language_data/date_translation_data*.
+Additional data to supplement existing data or translation data for a new language should be added to *dateparser_data/supplementary_language_data/date_translation_data*.
 The chosen data format is YAML because it is readable and simple to edit.
+After adding or changing any data in YAML files we need to move them to internal data files with *scripts/write_complete_data.py*. Otherwise the changes to YAML files will not have any effect.
 
 Refer to :ref:`language-data-template` for details about its structure and take a look at already implemented languages for examples.
 As we deal with the delicate fabric of interwoven languages, tests are essential to keep the functionality across them.

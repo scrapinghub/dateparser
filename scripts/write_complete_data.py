@@ -8,10 +8,10 @@ import regex as re
 
 from utils import combine_dicts
 
-cldr_date_directory = '../data/cldr_language_data/date_translation_data/'
-cldr_numeral_directory = '../data/cldr_language_data/numeral_translation_data/'
-supplementary_directory = '../data/supplementary_language_data/'
-supplementary_date_directory = '../data/supplementary_language_data/date_translation_data/'
+cldr_date_directory = '../dateparser_data/cldr_language_data/date_translation_data/'
+cldr_numeral_directory = '../dateparser_data/cldr_language_data/numeral_translation_data/'
+supplementary_directory = '../dateparser_data/supplementary_language_data/'
+supplementary_date_directory = '../dateparser_data/supplementary_language_data/date_translation_data/'
 translation_data_directory = '../dateparser/data/'
 date_translation_directory = '../dateparser/data/date_translation_data/'
 numeral_translation_directory = '../dateparser/data/numeral_translation_data/'

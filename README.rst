@@ -224,17 +224,16 @@ Dependencies
 `dateparser` relies on following libraries in some ways:
 
   * dateutil_'s module ``relativedelta`` for its freshness parser.
-  * ruamel.yaml_ for reading language and configuration files.
   * jdatetime_ to convert *Jalali* dates to *Gregorian*.
   * umalqurra_ to convert *Hijri* dates to *Gregorian*.
   * tzlocal_ to reliably get local timezone.
+  * ruamel.yaml_ (optional) for operations on language files.
 
 .. _dateutil: https://pypi.python.org/pypi/python-dateutil
-.. _ruamel.yaml: https://pypi.python.org/pypi/ruamel.yaml
 .. _jdatetime: https://pypi.python.org/pypi/jdatetime
 .. _umalqurra: https://pypi.python.org/pypi/umalqurra/
 .. _tzlocal: https://pypi.python.org/pypi/tzlocal
-
+.. _ruamel.yaml: https://pypi.python.org/pypi/ruamel.yaml
 
 Supported languages and locales
 ===============================
