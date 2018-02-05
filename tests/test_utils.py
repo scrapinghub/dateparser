@@ -2,7 +2,7 @@ import itertools
 
 from datetime import datetime
 from tests import BaseTestCase
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 from dateparser.utils import (
     find_date_separator, localize_timezone, apply_timezone,
     apply_timezone_from_settings, registry

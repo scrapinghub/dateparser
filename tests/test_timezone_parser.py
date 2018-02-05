@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 
 from mock import Mock, patch
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 
 import dateparser.timezone_parser
 from dateparser.timezone_parser import pop_tz_offset_from_string, get_local_tz_offset

@@ -7,7 +7,7 @@ from collections import OrderedDict
 from datetime import datetime, timedelta
 
 from mock import Mock, patch
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 import six
 
 import dateparser

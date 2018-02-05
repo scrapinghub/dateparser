@@ -1,6 +1,6 @@
 from datetime import datetime, time
 
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 from tests import BaseTestCase
 
 from dateparser.parser import tokenizer

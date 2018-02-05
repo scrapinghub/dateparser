@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 from datetime import datetime
 
 from dateparser.calendars.jalali import JalaliCalendar

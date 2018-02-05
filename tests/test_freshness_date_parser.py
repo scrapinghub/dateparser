@@ -8,7 +8,7 @@ import pytz
 
 from dateutil.relativedelta import relativedelta
 from mock import Mock, patch
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 
 import dateparser
 from dateparser.date import DateDataParser, freshness_date_parser

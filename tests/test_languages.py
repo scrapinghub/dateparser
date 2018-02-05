@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from io import StringIO
 
 import logging
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 
 from dateparser.languages import default_loader, Locale
 from dateparser.languages.validation import LanguageValidator
