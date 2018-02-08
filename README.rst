@@ -37,9 +37,10 @@ Documentation is built automatically and can be found on
 Features
 ========
 
-* Generic parsing of dates in over 200 languages plus numerous formats in a language agnostic fashion.
+* Generic parsing of dates in over 200 language locales plus numerous formats in a language agnostic fashion.
 * Generic parsing of relative dates like: ``'1 min ago'``, ``'2 weeks ago'``, ``'3 months, 1 week and 1 day ago'``, ``'in 2 days'``, ``'tomorrow'``.
 * Generic parsing of dates with time zones abbreviations or UTC offsets like: ``'August 14, 2015 EST'``, ``'July 4, 2013 PST'``, ``'21 July 2013 10:15 pm +0500'``.
+* Date lookup in longer texts.
 * Support for non-Gregorian calendar systems. See `Supported Calendars`_.
 * Extensive test coverage.
 
@@ -216,6 +217,17 @@ You can also ignore parsing incomplete dates altogether by setting `STRICT_PARSI
     None
 
 For more on handling incomplete dates, please look at `Settings`_.
+
+
+Search for Dates in Longer Chunks of Text
+-----------------------------------------
+
+You can extract dates from longer strings of text. They are returned as list of tuples with text chunk containing the date and parsed datetime object.
+
+    >>> from dateparser.search import search_dates
+    >>> search_dates("The client arrived to the office for the first time in March 3rd, 2004 and got serviced, after a couple of months, on May 6th 2004, the customer returned indicating a defect on the part")
+    [(u'in March 3rd, 2004 and', datetime.datetime(2004, 3, 3, 0, 0)),
+     (u'on May 6th 2004', datetime.datetime(2004, 5, 6, 0, 0))]
 
 
 Dependencies
