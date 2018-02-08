@@ -3,6 +3,34 @@
 History
 =======
 
+0.7.0 (2018-02-08)
+------------------
+
+Features added during Google Summer of Code 2017:
+* Harvesting language data from Unicode CLDR database (https://github.com/unicode-cldr/cldr-json), which includes over 200 locales (#321) - authored by Sarthak Maddan.
+See full currently supported locale list in README.
+* Extracting dates from longer strings of text (#324) - authored by Elena Zakharova.
+Special thanks for their awesome contributions!
+
+
+New features:
+* Added (independently from CLDR) Georgian (#308) and Swedish (#305)
+
+Improvements:
+* Improved support of Chinese (#359), Thai (#345), French (#301, #304), Russian (#302)
+* Removed ruamel.yaml from dependencies (#374). This should reduce the number of installation issues and improve performance as the result of moving away from YAML as basic data storage format.
+Note that YAML is still used as format for support language files.
+* Improved performance through using pre-compiling frequent regexes and lazy loading of data (#293, #294, #295, #315)
+* Extended tests (#316, #317, #318, #323)
+* Updated nose_parameterized to its current package, parameterized (#381)
+
+
+Planned for next release:
+* Full language and locale names
+* Performance and stability improvements
+* Documentation improvements
+
+
 0.6.0 (2017-03-13)
 ------------------
 
