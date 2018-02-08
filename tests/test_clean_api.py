@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from datetime import date, datetime
 
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 
 import dateparser
 from tests import BaseTestCase

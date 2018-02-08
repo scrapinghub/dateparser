@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from functools import wraps
 
 from mock import patch, Mock
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 
 import dateparser.timezone_parser
 from dateparser.date import DateDataParser, date_parser

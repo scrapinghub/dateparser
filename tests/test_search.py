@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 from tests import BaseTestCase
 from dateparser.search.search import DateSearchWithDetection
 from dateparser.search import search_dates

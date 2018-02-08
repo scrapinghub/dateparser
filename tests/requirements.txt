@@ -1,5 +1,5 @@
 mock
 nose
-nose-parameterized
+parameterized
 six
 coverage

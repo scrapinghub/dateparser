@@ -1,5 +1,5 @@
 import locale
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 from datetime import datetime
 
 from tests import BaseTestCase

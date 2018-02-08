@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from itertools import chain
 import regex as re
 import six
-from nose_parameterized import parameterized
+from parameterized import parameterized
 
 from dateparser.languages import default_loader
 from dateparser.data import language_locale_dict

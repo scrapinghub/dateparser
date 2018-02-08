@@ -4,7 +4,7 @@ from datetime import datetime
 import six
 import unittest
 
-from nose_parameterized import parameterized, param
+from parameterized import parameterized, param
 
 # umalqurra does not support Python3 yet
 # see https://github.com/tytkal/python-hijiri-ummalqura/pull/5
