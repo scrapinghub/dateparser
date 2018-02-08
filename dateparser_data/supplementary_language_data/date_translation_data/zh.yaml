@@ -18,6 +18,9 @@ saturday:
     - 礼拜六
 sunday:
     - 星期天
+    - 星期日
+    - 周日
+    - 礼拜天
     - 礼拜日
 
 month:
