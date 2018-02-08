@@ -137,3 +137,11 @@ class InvalidSettingsTest(BaseTestCase):
 
         with self.assertRaisesRegexp(TypeError, 'Invalid.*None\}'):
             test_func(settings={'TO_TIMEZONE': None})
+
+    def test_error_is_raised_for_invalid_type_settings(self):
+        test_func = apply_settings(test_function)
+        try:
+            test_func(settings=['current_period', False, 'current'])
+        except Exception as error:
+            self.error = error
+            self.then_error_was_raised(TypeError, ["settings can only be either dict or instance of Settings class"])
