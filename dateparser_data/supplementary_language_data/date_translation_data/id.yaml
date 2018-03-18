@@ -28,3 +28,9 @@ relative-type:
         - sehari
     0 second ago:
         - baru saja
+
+relative-type-regex:
+    \1 week ago:
+        - (\d+) minggu lalu
+    \1 week:
+        - (\d+) minggu

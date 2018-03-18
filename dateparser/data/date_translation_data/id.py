@@ -95,7 +95,6 @@ info = {
         "bln"
     ],
     "week": [
-        "minggu",
         "mgg"
     ],
     "day": [
@@ -202,7 +201,8 @@ info = {
         ],
         "\\1 week ago": [
             "(\\d+) minggu yang lalu",
-            "(\\d+) mgg lalu"
+            "(\\d+) mgg lalu",
+            "(\\d+) minggu lalu"
         ],
         "in \\1 day": [
             "dalam (\\d+) hari",
@@ -234,6 +234,9 @@ info = {
         "\\1 second ago": [
             "(\\d+) detik yang lalu",
             "(\\d+) dtk lalu"
+        ],
+        "\\1 week": [
+            "(\\d+) minggu"
         ]
     },
     "locale_specific": {},
