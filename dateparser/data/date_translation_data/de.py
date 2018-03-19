@@ -12,7 +12,8 @@ info = {
     ],
     "march": [
         "märz",
-        "mär"
+        "mär",
+        "mrz"
     ],
     "april": [
         "april",
