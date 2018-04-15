@@ -57,6 +57,8 @@ class TestDateParser(BaseTestCase):
         param('Le 11 Décembre 2014 à 09:00', datetime(2014, 12, 11, 9, 0)),
         param('fév 15, 2013', datetime(2013, 2, 15, 0, 0)),
         param('Jeu 15:12', datetime(2012, 11, 8, 15, 12)),
+        param('sep. 21, 2013, 1:56 après-midi', datetime(2013, 9, 21, 13, 56)),
+        param('avr. 10, 2013, 11:51 matin', datetime(2013, 4, 10, 11, 51)),
         # Spanish dates
         param('Martes 21 de Octubre de 2014', datetime(2014, 10, 21)),
         param('Miércoles 20 de Noviembre de 2013', datetime(2013, 11, 20)),

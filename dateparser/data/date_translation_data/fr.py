@@ -88,10 +88,12 @@ info = {
         "di"
     ],
     "am": [
-        "am"
+        "am",
+        "matin"
     ],
     "pm": [
-        "pm"
+        "pm",
+        "après-midi"
     ],
     "year": [
         "année",
