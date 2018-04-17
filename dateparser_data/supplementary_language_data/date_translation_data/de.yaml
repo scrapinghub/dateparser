@@ -17,6 +17,15 @@ saturday:
 sunday:
     - Son
 
+march:
+    - Mrz
+may:
+    - Mai
+october:
+    - Okt
+december:
+    - Dez
+
 year:
     - Jahre
 month:
