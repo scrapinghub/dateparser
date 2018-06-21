@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
-from ruamel.yaml import RoundTripLoader
+import logging
 import os
 import shutil
 from collections import OrderedDict
+
 import regex as re
+from ruamel.yaml import RoundTripLoader
 
 from utils import combine_dicts
 
@@ -17,18 +19,21 @@ date_translation_directory = '../dateparser/data/date_translation_data/'
 numeral_translation_directory = '../dateparser/data/numeral_translation_data/'
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
+log = logging.getLogger('data_scripts')
 
 # Languages with insufficient translation data are excluded
 # TODO: Automate with exclusion criteria.
 avoid_languages = {'cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo'}
 
-cldr_languages = list(set(map(lambda x: x[:-5], os.listdir(cldr_date_directory))) - avoid_languages)
-supplementary_languages = list(map(lambda x: x[:-5], os.listdir(supplementary_date_directory)))
-all_languages = set(cldr_languages).union(set(supplementary_languages))
+cldr_languages = set(map(lambda x: x[:-5], os.listdir(cldr_date_directory))) - avoid_languages
+supplementary_languages = set(map(lambda x: x[:-5], os.listdir(supplementary_date_directory)))
+all_languages = cldr_languages.union(supplementary_languages)
 
 cldr_numeral_languages = list(map(lambda x: x[:-5], os.listdir(cldr_numeral_directory)))
 
 RELATIVE_PATTERN = re.compile(r'\{0\}')
+encoding_comment = "# -*- coding: utf-8 -*-\n"
 
 
 def _modify_relative_data(relative_data):
@@ -38,16 +43,15 @@ def _modify_relative_data(relative_data):
             string = RELATIVE_PATTERN.sub(r'(\\d+)', string)
             value[i] = string
         modified_relative_data[key] = value
-    return modified_relative_data
 
 
 def _modify_data(language_data):
     relative_data = language_data.get("relative-type-regex", {})
-    relative_data = _modify_relative_data(relative_data)
+    _modify_relative_data(relative_data)
     locale_specific_data = language_data.get("locale_specific", {})
     for _, info in locale_specific_data.items():
         locale_relative_data = info.get("relative-type-regex", {})
-        locale_relative_data = _modify_relative_data(locale_relative_data)
+        _modify_relative_data(locale_relative_data)
 
 
 def _get_complete_date_translation_data(language):
@@ -66,7 +70,6 @@ def _get_complete_date_translation_data(language):
 
 
 def main():
-    encoding_comment = "# -*- coding: utf-8 -*-\n"
     if not os.path.isdir(translation_data_directory):
         os.mkdir(translation_data_directory)
     if os.path.isdir(date_translation_directory):
@@ -98,9 +101,9 @@ def main():
             out.write(out_text)
 
     init_text = '\n'.join(
-            ["from dateparser.data import date_translation_data, numeral_translation_data",
-             "from .languages_info import language_order, language_locale_dict"]
-             )
+        ["from dateparser.data import date_translation_data, numeral_translation_data",
+         "from .languages_info import language_order, language_locale_dict"]
+    )
     with open(translation_data_directory + '__init__.py', 'w') as out:
         out.write(encoding_comment + init_text)
 

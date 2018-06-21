@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from collections import OrderedDict
-from git import Repo
 import os
+from collections import OrderedDict
+
+from git import Repo
 
 
 def get_raw_data():
@@ -38,6 +39,10 @@ def get_dict_difference(parent_dict, child_dict):
 
 
 def combine_dicts(primary_dict, supplementary_dict):
+    if not primary_dict:
+        return supplementary_dict
+    elif not supplementary_dict:
+        return primary_dict
     combined_dict = OrderedDict()
     for key, value in primary_dict.items():
         if key in supplementary_dict:
