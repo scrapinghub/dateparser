@@ -14,6 +14,7 @@ from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings
+from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings
 
 
@@ -416,22 +417,42 @@ class DateDataParser(object):
         return date_tuple(**date_data)
 
     def _get_applicable_locales(self, date_string):
+        pop_tz_cache = []
+
+        def date_strings():
+            """ A generator instead of a static list to avoid calling
+            pop_tz_offset_from_string if the first locale matches on unmodified
+            date_string.
+            """
+            yield date_string
+            if not pop_tz_cache:
+                stripped_date_string, _ = pop_tz_offset_from_string(
+                    date_string, as_offset=False)
+                if stripped_date_string == date_string:
+                    stripped_date_string = None
+                pop_tz_cache[:] = [stripped_date_string]
+            stripped_date_string, = pop_tz_cache
+            if stripped_date_string is not None:
+                yield stripped_date_string
+
         if self.try_previous_locales:
             for locale in self.previous_locales:
-                if self._is_applicable_locale(locale, date_string):
-                    yield locale
+                for s in date_strings():
+                    if self._is_applicable_locale(locale, s):
+                        yield locale
 
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
                 use_given_order=self.use_given_order):
-            if self._is_applicable_locale(locale, date_string):
-                yield locale
+            for s in date_strings():
+                if self._is_applicable_locale(locale, s):
+                    yield locale
 
     def _is_applicable_locale(self, locale, date_string):
-        return (
-            locale.is_applicable(date_string, strip_timezone=False, settings=self._settings) or
-            locale.is_applicable(date_string, strip_timezone=True, settings=self._settings)
-            )
+        return locale.is_applicable(
+            date_string,
+            strip_timezone=False,  # it is stripped outside
+            settings=self._settings)
 
     @classmethod
     def _get_locale_loader(cls):
