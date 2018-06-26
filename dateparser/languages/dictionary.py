@@ -19,6 +19,7 @@ KNOWN_WORD_TOKENS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
 
 PARENTHESES_PATTERN = re.compile(r'[\(\)]')
 NUMERAL_PATTERN = re.compile(r'(\d+)')
+KEEP_TOKEN_PATTERN = re.compile(r"^.*[^\W_].*$", flags=re.U)
 
 
 class UnknownTokenError(Exception):
@@ -170,7 +171,7 @@ class Dictionary(object):
         return (
             keep_formatting or
             (token in ALWAYS_KEEP_TOKENS) or
-            re.match(r"^.*[^\W_].*$", token, re.U)
+            KEEP_TOKEN_PATTERN.match(token)
         )
 
     def _get_sorted_words_from_cache(self):
