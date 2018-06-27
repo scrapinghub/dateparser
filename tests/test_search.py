@@ -648,7 +648,13 @@ class TestTranslateSearch(BaseTestCase):
         param(text='Привет',
               languages=['en'],
               settings=None,
-              expected=None)
+              expected=None),
+
+        # ZeroDivisionError
+        param(text='01.09 – 03.09.2017',
+              languages=None,
+              settings={'STRICT_PARSING': True},
+              expected=[('03.09.2017', datetime.datetime(2017, 3, 9, 0, 0))]),
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)
