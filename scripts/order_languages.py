@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
-import regex as re
 import json
 import os
 from collections import OrderedDict
 
-from utils import get_raw_data
+import regex as re
+
+from utils import AVOID_LANGUAGES, get_raw_data
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 get_raw_data()
-
-# Languages with insufficient translation data are excluded
-avoid_languages = ['cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo']
 
 
 def _get_language_locale_dict():
@@ -26,7 +24,7 @@ def _get_language_locale_dict():
             if re.match(language_name + '-[A-Z0-9]+$', locale_name):
                 language_locale_dict[language_name].append(locale_name)
 
-    for language in avoid_languages:
+    for language in AVOID_LANGUAGES:
         del language_locale_dict[language]
     return language_locale_dict
 

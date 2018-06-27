@@ -4,6 +4,10 @@ from collections import OrderedDict
 
 from git import Repo
 
+# Languages with insufficient translation data are excluded
+# TODO: Automate with exclusion criteria.
+AVOID_LANGUAGES = {'cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo'}
+
 
 def get_raw_data():
     cldr_dates_full_url = "https://github.com/unicode-cldr/cldr-dates-full.git"
@@ -28,10 +32,11 @@ def get_dict_difference(parent_dict, child_dict):
         if not parent_value:
             child_specific_value = child_value
         elif isinstance(child_value, list):
-            child_specific_value = list(set(child_value)-set(parent_value))
+            child_specific_value = list(
+                set(map(unicode.lower, child_value)) - set(map(unicode.lower, parent_value)))
         elif isinstance(child_value, dict):
             child_specific_value = get_dict_difference(parent_value, child_value)
-        elif child_value != parent_value:
+        elif child_value.lower() != parent_value.lower():
             child_specific_value = child_value
         if child_specific_value:
             difference_dict[key] = child_specific_value
@@ -58,3 +63,7 @@ def combine_dicts(primary_dict, supplementary_dict):
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict
+
+
+def language_from_filename(filename):
+    return filename.split('.')[0]

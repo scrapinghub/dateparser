@@ -8,7 +8,7 @@ from collections import OrderedDict
 import regex as re
 from ruamel.yaml import RoundTripLoader
 
-from utils import combine_dicts
+from utils import AVOID_LANGUAGES, combine_dicts, language_from_filename
 
 cldr_date_directory = '../dateparser_data/cldr_language_data/date_translation_data/'
 cldr_numeral_directory = '../dateparser_data/cldr_language_data/numeral_translation_data/'
@@ -22,15 +22,14 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
 log = logging.getLogger('data_scripts')
 
-# Languages with insufficient translation data are excluded
-# TODO: Automate with exclusion criteria.
-avoid_languages = {'cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo'}
-
-cldr_languages = set(map(lambda x: x[:-5], os.listdir(cldr_date_directory))) - avoid_languages
-supplementary_languages = set(map(lambda x: x[:-5], os.listdir(supplementary_date_directory)))
+cldr_languages = set([language_from_filename(filename) for filename
+                      in os.listdir(cldr_date_directory)]) - AVOID_LANGUAGES
+supplementary_languages = set([language_from_filename(filename) for filename
+                               in os.listdir(supplementary_date_directory)])
 all_languages = cldr_languages.union(supplementary_languages)
 
-cldr_numeral_languages = list(map(lambda x: x[:-5], os.listdir(cldr_numeral_directory)))
+cldr_numeral_languages = [language_from_filename(filename) for filename
+                          in os.listdir(cldr_numeral_directory)]
 
 RELATIVE_PATTERN = re.compile(r'\{0\}')
 encoding_comment = "# -*- coding: utf-8 -*-\n"
@@ -41,7 +40,7 @@ def _modify_relative_data(relative_data):
     for key, value in relative_data.items():
         for i, string in enumerate(value):
             string = RELATIVE_PATTERN.sub(r'(\\d+)', string)
-            value[i] = string
+            value[i] = string  # TODO: To check: modification of looped-over value?
         modified_relative_data[key] = value
 
 
