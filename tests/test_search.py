@@ -655,6 +655,19 @@ class TestTranslateSearch(BaseTestCase):
               languages=None,
               settings={'STRICT_PARSING': True},
               expected=[('03.09.2017', datetime.datetime(2017, 3, 9, 0, 0))]),
+        param(text="DECEMBER 21 19.87 87",
+              languages=None,
+              settings=None,
+              expected=[('DECEMBER 21 19', datetime.datetime(2019, 12, 21, 0, 0))]
+              ),
+        param(text='bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41',
+              languages=None,
+              settings={'STRICT_PARSING': True},
+              expected=None),
+        param(text="a Americ",
+              languages=None,
+              settings=None,
+              expected=None)
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)
