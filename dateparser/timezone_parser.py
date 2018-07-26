@@ -30,7 +30,7 @@ class StaticTzInfo(tzinfo):
 
 
 def pop_tz_offset_from_string(date_string, as_offset=True):
-    for name, info in _tz_offsets:
+    for name, info in get_tz_offsets():
         timezone_re = info['regex']
         timezone_match = timezone_re.search(date_string)
         if timezone_match:
@@ -45,16 +45,19 @@ def convert_to_local_tz(datetime_obj, datetime_tz_offset):
     return datetime_obj - datetime_tz_offset + local_tz_offset
 
 
-def get_tz_offsets():
+def get_tz_offsets(cache={}):
 
     def get_offset(tz_obj, regex, repl='', replw=''):
-        return (
-            tz_obj[0],
-            {
-                'regex': re.compile(re.sub(repl, replw, regex % tz_obj[0]), re.IGNORECASE),
-                'offset': timedelta(seconds=tz_obj[1])
-            }
-        )
+        key = (tz_obj, regex, repl, replw)
+        if key not in cache:
+            cache[key] = (
+                tz_obj[0],
+                {
+                    'regex': re.compile(re.sub(repl, replw, regex % tz_obj[0]), re.IGNORECASE),
+                    'offset': timedelta(seconds=tz_obj[1])
+                }
+            )
+        return cache[key]
 
     for tz_info in timezone_info_list:
         for regex in tz_info['regex_patterns']:
@@ -73,5 +76,4 @@ def get_local_tz_offset():
     return offset
 
 
-_tz_offsets = list(get_tz_offsets())
 local_tz_offset = get_local_tz_offset()
