@@ -78,6 +78,7 @@ class TestDateParser(BaseTestCase):
         param('sexta-feira, 10 de junho de 2014 14:52', datetime(2014, 6, 10, 14, 52)),
         param('13 Setembro, 2014', datetime(2014, 9, 13)),
         param('Sab 3:03', datetime(2012, 11, 10, 3, 3)),
+        param('segunda 10-02-2015 4:06am', datetime(2015, 2, 10, 4, 6)),
         # Russian dates
         param('10 мая', datetime(2012, 5, 10)),  # forum.codenet.ru
         param('26 апреля', datetime(2012, 4, 26)),
