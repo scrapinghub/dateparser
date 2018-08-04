@@ -126,13 +126,10 @@ class FreshnessDateDataParser(object):
                     break
 
         td = relativedelta(**kwargs)
-        if re.search(r'\bin\b', date_string):
+        if re.search(r'\bin\b', date_string) or 'future' in prefer_dates_from:
             date = self.now + td
         else:
-            if 'future' in prefer_dates_from:
-                date = self.now + td
-            else:
-                date = self.now - td
+            date = self.now - td
         return date, period
 
     def get_kwargs(self, date_string):
