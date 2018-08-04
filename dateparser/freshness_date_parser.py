@@ -126,7 +126,11 @@ class FreshnessDateDataParser(object):
                     break
 
         td = relativedelta(**kwargs)
-        if re.search(r'\bin\b', date_string) or 'future' in prefer_dates_from:
+        if re.search(r'\bin\b', date_string):
+            date = self.now + td
+        elif re.search(r'\bago\b', date_string):
+            date = self.now - td
+        elif 'future' in prefer_dates_from:
             date = self.now + td
         else:
             date = self.now - td
