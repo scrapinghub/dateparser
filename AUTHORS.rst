@@ -38,6 +38,7 @@ Committers
 * Ján Jančár
 * Jolo Balbin
 * Joseph Kahn
+* Konstantin Lopuhin
 * Mark Baas
 * Marko Horvatić
 * Mateusz Golewski
