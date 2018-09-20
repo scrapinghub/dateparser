@@ -146,6 +146,8 @@ class _no_spaces_parser(object):
             return
 
         datestring = datestring.replace(':', '')
+        if not datestring:
+            return
         tokens = tokenizer(datestring)
         if settings.DATE_ORDER:
             order = resolve_date_order(settings.DATE_ORDER)
