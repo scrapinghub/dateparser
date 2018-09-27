@@ -421,7 +421,7 @@ class TestTranslateSearch(BaseTestCase):
                     ' Friday, 21 was especially good!',
               [('2014', datetime.datetime(2014, datetime.datetime.today().month, datetime.datetime.today().day, 0, 0)),
                ('October', datetime.datetime(2014, 10, datetime.datetime.today().day, 0, 0)),
-               ('Friday, 21', datetime.datetime(2014, 11, 21, 0, 0))]),
+               ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
 
         # Russian
         param('ru', '19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
