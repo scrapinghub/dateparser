@@ -91,6 +91,24 @@ class TestNoSpaceParser(BaseTestCase):
         self.when_date_is_parsed('2013 25 12')
         self.then_date_is_not_parsed()
 
+
+    @parameterized.expand([
+        param(
+            date_string=u":",
+        ),
+        param(
+            date_string=u"::",
+        ),
+        param(
+            date_string=u":::",
+        ),
+    ])
+    def test_colons_string_is_not_parsed(self, date_string):
+        self.given_parser()
+        self.given_settings()
+        self.when_date_is_parsed(date_string)
+        self.then_date_is_not_parsed()
+
     def test_date_with_alphabets_is_not_parsed(self):
         self.given_parser()
         self.given_settings()
