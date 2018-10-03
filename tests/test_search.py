@@ -417,11 +417,11 @@ class TestTranslateSearch(BaseTestCase):
         param('en', 'January 3, 2017 - February 1st',
               [('January 3, 2017', datetime.datetime(2017, 1, 3, 0, 0)),
                ('February 1st', datetime.datetime(2017, 2, 1, 0, 0))]),
-        param('en', '2014 was good! November was excellent!'
+        param('en', '2014 was good! October was excellent!'
                     ' Friday, 21 was especially good!',
               [('2014', datetime.datetime(2014, datetime.datetime.today().month, datetime.datetime.today().day, 0, 0)),
-               ('November', datetime.datetime(2014, 11, datetime.datetime.today().day, 0, 0)),
-               ('Friday, 21', datetime.datetime(2014, 11, 21, 0, 0))]),
+               ('October', datetime.datetime(2014, 10, datetime.datetime.today().day, 0, 0)),
+               ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
 
         # Russian
         param('ru', '19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
