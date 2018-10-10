@@ -677,12 +677,12 @@ class TestTranslateSearch(BaseTestCase):
         param(text="15 de outubro de 1936",
               add_detected_language=True,
               expected=[
-                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0), 'pt')
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0), "pt")
               ]),
         param(text="15 de outubro de 1936",
               add_detected_language=False,
               expected=[
-                  ('15 de outubro de 1936', datetime.datetime(1936, 10, 15, 0, 0))
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0))
               ]),
     ])
     def test_search_dates_returning_detected_languages_if_requested(
