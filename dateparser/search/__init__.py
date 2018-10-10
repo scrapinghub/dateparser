@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from dateparser.search.search import DateSearchWithDetection
+from dateparser.utils import normalize_unicode
 
 _search_with_detection = DateSearchWithDetection()
 
@@ -50,5 +51,5 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
     language, dates = result.get('Language'), result.get('Dates')
     if dates:
         if add_detected_language:
-            dates = [(*date, language) for date in dates]
+            dates = [date + (normalize_unicode(language), ) for date in dates]
         return dates
