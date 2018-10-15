@@ -33,16 +33,17 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
         :rtype: list
         :raises: ValueError - Unknown Language
 
-        >>> from dateparse.search import search_dates
+        >>> from dateparser.search import search_dates
         >>> search_dates('The first artificial Earth satellite was launched on 4 October 1957.')
         [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))]
 
-        >>> search_dates("The client arrived to the office for the first time in March 3rd, 2004 and got serviced, after a couple of months, on May 6th 2004, the customer returned indicating a defect on the part")
-        [(u'in March 3rd, 2004 and', datetime.datetime(2004, 3, 3, 0, 0)),
-        (u'on May 6th 2004', datetime.datetime(2004, 5, 6, 0, 0))]
-
-        >>> search_dates('The first artificial Earth satellite was launched on 4 October 1957.')
+        >>> search_dates('The first artificial Earth satellite was launched on 4 October 1957.', add_detected_language=True)
         [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0), 'en')]
+
+        >>> search_dates("The client arrived to the office for the first time in March 3rd, 2004 and got serviced, after a couple of months, on May 6th 2004, the customer returned indicating a defect on the part")
+        [('in March 3rd, 2004 and', datetime.datetime(2004, 3, 3, 0, 0)),
+         ('on May 6th 2004', datetime.datetime(2004, 5, 6, 0, 0))]
+
 
         """
     result = _search_with_detection.search_dates(
