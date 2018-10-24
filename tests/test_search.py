@@ -667,10 +667,28 @@ class TestTranslateSearch(BaseTestCase):
         param(text="a Americ",
               languages=None,
               settings=None,
-              expected=None)
+              expected=None),
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param(text="15 de outubro de 1936",
+              add_detected_language=True,
+              expected=[
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0), "pt")
+              ]),
+        param(text="15 de outubro de 1936",
+              add_detected_language=False,
+              expected=[
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0))
+              ]),
+    ])
+    def test_search_dates_returning_detected_languages_if_requested(
+        self, text, add_detected_language, expected
+    ):
+        result = search_dates(text, add_detected_language=add_detected_language)
         self.assertEqual(result, expected)
 
     @parameterized.expand([

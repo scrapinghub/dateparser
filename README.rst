@@ -224,11 +224,8 @@ Search for Dates in Longer Chunks of Text
 
 You can extract dates from longer strings of text. They are returned as list of tuples with text chunk containing the date and parsed datetime object.
 
-    >>> from dateparser.search import search_dates
-    >>> search_dates("The client arrived to the office for the first time in March 3rd, 2004 and got serviced, after a couple of months, on May 6th 2004, the customer returned indicating a defect on the part")
-    [(u'in March 3rd, 2004 and', datetime.datetime(2004, 3, 3, 0, 0)),
-     (u'on May 6th 2004', datetime.datetime(2004, 5, 6, 0, 0))]
-
+.. automodule:: dateparser.search
+   :members: search_dates
 
 Dependencies
 ============
