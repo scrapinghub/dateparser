@@ -186,6 +186,12 @@ class Locale(object):
         dictionary = self._get_dictionary(settings=settings)
         translated = []
         original = []
+
+        for item in dictionary.info['second']:
+            for i in range(1,len(sentences)):
+                if re.search('%s$'%item,sentences[i]) and re.search(r'^[0-9\w]+[ ]*[0-9]+$', sentences[i-1]) is not None:
+                    sentences[i-1:i+1]=['.'.join(sentences[i-1:i+1])]
+                    
         for sentence in sentences:
             original_tokens, simplified_tokens = self._simplify_split_align(sentence, settings=settings)
             translated_chunk = []

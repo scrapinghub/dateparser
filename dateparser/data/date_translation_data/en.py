@@ -759,7 +759,8 @@ info = {
     ],
     "in": [
         "in",
-        "from now"
+        "from now",
+        "up"
     ],
     "simplifications": [
         {
