@@ -144,8 +144,7 @@ class FreshnessDateDataParser(object):
             for num, dec, unit in d_with_decimal:
                 kwargs[unit + 's'] = int(num)
                 kwargs[next_unit[unit]] = int(dec)
-            return kwargs
-            
+            return kwargs            
         m = PATTERN.findall(date_string)
         if not m:
             return {}

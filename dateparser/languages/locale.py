@@ -196,8 +196,7 @@ class Locale(object):
                         break
                 if time_string is not None and re.search(r'^[0-9\w]+[ ]*[0-9]+$', sentences[i-1]) is not None:
                     sentences[i-1:i+1]=['.'.join(sentences[i-1:i+1])]
-                    break
-                    
+                    break                   
         for sentence in sentences:
             original_tokens, simplified_tokens = self._simplify_split_align(sentence, settings=settings)
             translated_chunk = []
