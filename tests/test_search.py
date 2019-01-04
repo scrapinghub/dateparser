@@ -675,7 +675,7 @@ class TestTranslateSearch(BaseTestCase):
               settings=None,
               expected=[('05 Jul 2018 15:13:48', datetime.datetime(2018, 7, 5, 15, 13, 48)),
                         ('Up 34.78 second', datetime.datetime(2018, 7, 5, 15, 14, 22, 78))]
-              ),        
+              ),
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)
