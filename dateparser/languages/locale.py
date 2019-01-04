@@ -187,10 +187,16 @@ class Locale(object):
         translated = []
         original = []
 
-        for item in dictionary.info['second']:
-            for i in range(1,len(sentences)):
-                if re.search('%s$'%item,sentences[i]) and re.search(r'^[0-9\w]+[ ]*[0-9]+$', sentences[i-1]) is not None:
+        for i in range(1,len(sentences)):
+            for k in ['hour','minute','second']:
+                time_string = ''
+                for item in dictionary.info[k]:
+                    time_string = re.search('%s$'%item,sentences[i])
+                    if time_string:
+                        break
+                if time_string is not None and re.search(r'^[0-9\w]+[ ]*[0-9]+$', sentences[i-1]) is not None:
                     sentences[i-1:i+1]=['.'.join(sentences[i-1:i+1])]
+                    break
                     
         for sentence in sentences:
             original_tokens, simplified_tokens = self._simplify_split_align(sentence, settings=settings)

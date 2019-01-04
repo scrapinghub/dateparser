@@ -133,6 +133,19 @@ class FreshnessDateDataParser(object):
         return date, period
 
     def get_kwargs(self, date_string):
+        d_with_decimal = re.compile(r'(\d+)\.(\d+)\s*(hour|minute|second)\b').findall(date_string)
+
+        if d_with_decimal:
+            kwargs = {}
+            next_unit = {'hour':'minutes',
+                         'minute':'seconds',
+                         'second':'microseconds'
+                        }
+            for num, dec, unit in d_with_decimal:
+                kwargs[unit + 's'] = int(num)
+                kwargs[next_unit[unit]] = int(dec)
+            return kwargs
+            
         m = PATTERN.findall(date_string)
         if not m:
             return {}

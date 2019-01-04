@@ -673,7 +673,7 @@ class TestTranslateSearch(BaseTestCase):
               languages=None,
               settings=None,
               expected=[('05 Jul 2018 15:13:48', datetime.datetime(2018, 7, 5, 15, 13, 48)),
-                        ('Up 34.78 second', datetime.datetime(2018, 7, 5, 15, 15, 6))]
+                        ('Up 34.78 second', datetime.datetime(2018, 7, 5, 15, 14, 22, 78))]
               ),
         
     ])
