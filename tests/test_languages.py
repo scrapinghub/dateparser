@@ -835,6 +835,8 @@ class TestBundledLanguages(BaseTestCase):
         param('es', "hace un horas", "1 hour ago"),
         param('es', "2 semanas", "2 week"),
         param('es', "2 año", "2 year"),
+        param('es', "mediodía", "12:00"),
+        param('es', "medianoche", "00:00"),
         # Italian
         param('it', "altro ieri", "2 day ago"),
         param('it', "ieri", "1 day ago"),
