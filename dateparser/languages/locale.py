@@ -191,7 +191,7 @@ class Locale(object):
             for k in ['hour','minute','second']:
                 time_string = ''
                 for item in dictionary.info[k]:
-                    time_string = re.search('%s$'%item,sentences[i])
+                    time_string = re.search(r'\b%s$'%item,sentences[i])
                     if time_string:
                         break
                 if time_string is not None and re.search(r'^[0-9\w]+[ ]*[0-9]+$', sentences[i-1]) is not None:
