@@ -1,5 +1,5 @@
 skip: ["at", "on", "and", "ad", "m", "of", "st", "nd", "rd", "th", "about", "the", "just"]
-pertain: ["of"]
+pertain: ["of","o'clock"]
 
 sentence_splitter_group : 1
 
@@ -39,7 +39,10 @@ in:
 relative-type:
     2 day ago:
         - day before yesterday
-
+pm:
+    - in the afternoon
+am:
+    - in the morning
 simplifications:
     - an: '1'
     - a: '1'
@@ -48,3 +51,15 @@ simplifications:
     - (\d+)h(\d+)m?: \1:\2
     - (?<=from\s+)now: in
     - less than 1 minute ago: 45 second ago
+    - one: '1:00'
+    - two: '2:00'
+    - three: '3:00'
+    - four: '4:00'
+    - five: '5:00'
+    - six: '6:00'
+    - seven: '6:00'
+    - eight: '8:00'
+    - nine: '9:00'
+    - ten: '10:00'
+    - eleven: '11:00'
+    - twelve: '12:00'
