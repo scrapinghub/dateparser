@@ -35,14 +35,15 @@ ago:
 in:
     - in
     - from now
-
-relative-type:
-    2 day ago:
-        - day before yesterday
 pm:
     - in the afternoon
 am:
     - in the morning
+
+relative-type:
+    2 day ago:
+        - day before yesterday
+
 simplifications:
     - an: '1'
     - a: '1'
