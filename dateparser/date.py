@@ -16,6 +16,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings
+from dateparser.utils import check_past_future
 
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -134,7 +135,10 @@ def parse_with_formats(date_string, date_formats, settings):
     for date_format in date_formats:
         try:
             date_obj = datetime.strptime(date_string, date_format)
+            
         except ValueError:
+            continue
+        except AssertionError:
             continue
         else:
             # If format does not include the day, use last day of the month
@@ -149,6 +153,7 @@ def parse_with_formats(date_string, date_formats, settings):
                 date_obj = date_obj.replace(year=today.year)
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
+            date_obj = check_past_future(date_obj, date_format, settings)
 
             return {'date_obj': date_obj, 'period': period}
     else:

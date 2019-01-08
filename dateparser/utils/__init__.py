@@ -7,6 +7,7 @@ import regex as re
 from tzlocal import get_localzone
 from pytz import UTC, timezone, UnknownTimeZoneError
 from collections import OrderedDict
+from datetime import datetime
 
 from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
 
@@ -188,3 +189,20 @@ def setup_logging():
         },
     }
     logging.config.dictConfig(config)
+
+def check_past_future(date_obj, date_format, settings):
+    mtp = 0
+    if(settings.PREFER_DATES_FROM == 'past'):
+        mtp = -1
+    if(settings.PREFER_DATES_FROM == 'future'):
+        mtp = 1      
+    if ('%Y' not in date_format):
+        yearr = date_obj.year + (1*mtp)
+        if '%y' in date_format:
+            yearr = date_obj.year + (100*mtp)
+        if((date_obj>datetime.today() and mtp==-1) or (date_obj<datetime.today() and mtp==1)):
+            date_obj = date_obj.replace(year=yearr)
+            
+    return date_obj
+    
+    
