@@ -24,7 +24,8 @@ class CalendarBase(object):
             date_obj, period = self.parser.parse(self.source, settings)
             return {'date_obj': date_obj, 'period': period}
         except ValueError:
-            pass
+            import traceback
+            traceback.print_exc()
 
 
 class non_gregorian_parser(_parser):
@@ -86,7 +87,7 @@ class non_gregorian_parser(_parser):
             if not(year >= 1356 and year <= 1501):
                 raise ValueError('The year must be greater than or equal to 1356 and less or equal 1501')
             if (year == 1501 and month==1 and day<31):
-                raise ValueError('The date must be less than 1501-01-30')
+                raise ValueError('The date must be less or equal than 1501-01-30')
         if (
             not(0 < day <= self.calendar_converter.month_length(year, month)) and
             not(self._token_day or hasattr(self, '_token_weekday'))
