@@ -82,6 +82,11 @@ class non_gregorian_parser(_parser):
         day = params['day']
         year = params['year']
         month = params['month']
+        if 'hijri_parser' in str(self):
+            if not(year >= 1356 and year <= 1501):
+                raise ValueError('The year must be greater than or equal to 1356 and less or equal 1501')
+            if not(year == 1501 and month==1):
+                raise ValueError('The date must be less than 1501-01-30')
         if (
             not(0 < day <= self.calendar_converter.month_length(year, month)) and
             not(self._token_day or hasattr(self, '_token_weekday'))
