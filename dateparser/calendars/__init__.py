@@ -82,11 +82,10 @@ class non_gregorian_parser(_parser):
         day = params['day']
         year = params['year']
         month = params['month']
-        if (
-            not(0 < day <= self.calendar_converter.month_length(year, month)) and
-            not(self._token_day or hasattr(self, '_token_weekday'))
-        ):
-            day = self.calendar_converter.month_length(year, month)
+        if 'hijri_parser' in str(self):
+            assert(year >= 1356 and year <=1501 ),'The year must be greater than or equal to 1356 and less or equal 1501'
+            if year == 1501 and month > 1:
+                raise AssertionError('The date must be less than 1501-01-30')
         year, month, day = self.calendar_converter.to_gregorian(year=year, month=month, day=day)
         c_params = params.copy()
         c_params.update(dict(year=year, month=month, day=day))

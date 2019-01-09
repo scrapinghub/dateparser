@@ -54,3 +54,14 @@ class TestHijriParser(BaseTestCase):
         self.when_date_is_given(dt_string, date_formats, languages)
         self.then_parsed_datetime_is(dt_obj)
         settings.DATE_ORDER = 'MDY'
+
+    @parameterized.expand([
+        param(dt_string="14-09-1502"),
+        param(dt_string="1501-02-30"),
+    ])
+    def test_datetime_out_of_range(self, dt_string, dt_obj,
+                              date_formats=None, languages=None):
+        from dateparser.conf import settings
+        settings.DATE_ORDER = 'DMY'
+        self.when_date_is_given(dt_string, date_formats, languages)
+        self.assertRaises(ValueError,HijriCalendar(dt_string).get_date)
