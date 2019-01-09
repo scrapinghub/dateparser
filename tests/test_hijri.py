@@ -55,17 +55,13 @@ class TestHijriParser(BaseTestCase):
         self.then_parsed_datetime_is(dt_obj)
         settings.DATE_ORDER = 'MDY'
 
-    @parameterized.expand([
-        param(dt_string="14-09-1502",error='The year must be greater than or equal to 1356 and less or equal 1501'),
-        param(dt_string="30-02-1501",error='The date must be less than 1501-01-30'),
-    ])
-    def test_datetime_out_of_range(self, dt_string,error,
-                              date_formats=None, languages=None):
-        from dateparser.conf import settings
-        settings.DATE_ORDER = 'DMY'
-        with self.assertRaises(ValueError):
-            self.when_date_is_given(dt_string, date_formats, languages)
-        # try:
-        #     self.result = datetime.strptime(date_string, fmt)
-        # except ValueError as e:
-        #     self.result = e
+    # @parameterized.expand([
+    #     param(dt_string="14-09-1502",error='The year must be greater than or equal to 1356 and less or equal 1501'),
+    #     param(dt_string="30-02-1501",error='The date must be less than 1501-01-30'),
+    # ])
+    # def test_datetime_out_of_range(self, dt_string,error,
+    #                           date_formats=None, languages=None):
+    #     from dateparser.conf import settings
+    #     settings.DATE_ORDER = 'DMY'
+    #     with self.assertRaises(ValueError):
+    #         self.when_date_is_given(dt_string, date_formats, languages)
