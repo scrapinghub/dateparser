@@ -195,9 +195,9 @@ def check_past_future(date_obj, date_format, settings):
     if(settings.PREFER_DATES_FROM == 'past'):
         mtp = -1
     if(settings.PREFER_DATES_FROM == 'future'):
-        mtp = 1      
+        mtp = 1
     if ('%Y' not in date_format):
-        yearr = date_obj.year + (1*mtp)
+        yearr = date_obj.year + mtp
         if '%y' in date_format:
             yearr = date_obj.year + (100*mtp)
         if((date_obj>datetime.today() and mtp==-1) or (date_obj<datetime.today() and mtp==1)):

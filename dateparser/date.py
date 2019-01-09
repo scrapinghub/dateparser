@@ -134,7 +134,7 @@ def parse_with_formats(date_string, date_formats, settings):
     period = 'day'
     for date_format in date_formats:
         try:
-            date_obj = datetime.strptime(date_string, date_format)      
+            date_obj = datetime.strptime(date_string, date_format)
         except ValueError:
             continue
         else:
