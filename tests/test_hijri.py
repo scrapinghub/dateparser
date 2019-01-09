@@ -59,7 +59,7 @@ class TestHijriParser(BaseTestCase):
         param(dt_string="14-09-1502"),
         param(dt_string="1501-02-30"),
     ])
-    def test_datetime_out_of_range(self, dt_string, dt_obj,
+    def test_datetime_out_of_range(self, dt_string,
                               date_formats=None, languages=None):
         from dateparser.conf import settings
         settings.DATE_ORDER = 'DMY'
