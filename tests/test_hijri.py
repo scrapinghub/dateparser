@@ -63,7 +63,6 @@ class TestHijriParser(BaseTestCase):
                             date_formats=None, languages=None):
         from dateparser.conf import settings
         settings.DATE_ORDER = 'DMY'
-        error=False
         try:
             self.when_date_is_given(dt_string, date_formats, languages)
         except ValueError:
