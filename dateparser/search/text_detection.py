@@ -29,7 +29,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
     def character_check(self, date_string, settings):
         date_string_set = set(date_string.lower())
         symbol_set = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                      " ", "/", "-", ")", "(", ".", ":", "\\"}
+                      " ", "/", "-", ")", "(", ".", ":", "\\",",","\'"}
         if date_string_set & symbol_set == date_string_set:
             self.languages = [self.languages[0]]
             return
