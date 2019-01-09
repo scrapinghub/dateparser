@@ -63,9 +63,8 @@ class TestHijriParser(BaseTestCase):
                               date_formats=None, languages=None):
         from dateparser.conf import settings
         settings.DATE_ORDER = 'DMY'
-        self.when_date_is_given(dt_string, date_formats, languages)
         with self.assertRaises(ValueError):
-            HijriCalendar(dt_string).get_date()
+            self.when_date_is_given(dt_string, date_formats, languages)
         # try:
         #     self.result = datetime.strptime(date_string, fmt)
         # except ValueError as e:
