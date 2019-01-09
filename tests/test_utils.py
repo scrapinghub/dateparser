@@ -118,12 +118,12 @@ class TestUtils(BaseTestCase):
         
     def test_format_settings_past_no_y(self):
         result = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'past'}, date_formats=['%d/%m'])
-        expected = dateparser.parse('15/1', settings={'PREFER_DATES_FROM': 'past'})
+        expected = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'past'})
         self.assertEqual(expected, result)
         
     def test_format_settings_future_no_y(self):
         result = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'future'}, date_formats=['%d/%m'])
-        expected = dateparser.parse('15/1', settings={'PREFER_DATES_FROM': 'future'})
+        expected = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'future'})
         self.assertEqual(expected, result)
         
         
