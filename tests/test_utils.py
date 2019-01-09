@@ -125,5 +125,3 @@ class TestUtils(BaseTestCase):
         result = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'future'}, date_formats=['%d/%m'])
         expected = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'future'})
         self.assertEqual(expected, result)
-        
-        

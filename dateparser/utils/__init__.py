@@ -203,6 +203,4 @@ def check_past_future(date_obj, date_format, settings):
         if((date_obj>datetime.today() and mtp==-1) or (date_obj<datetime.today() and mtp==1)):
             date_obj = date_obj.replace(year=yearr)
             
-    return date_obj
-    
-    
+    return date_obj    
