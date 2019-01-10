@@ -40,7 +40,7 @@ def _modify_relative_data(relative_data):
     for key, value in relative_data.items():
         for i, string in enumerate(value):
             string = RELATIVE_PATTERN.sub(r'(\\d+)', string)
-            value[i] = string  # TODO: To check: modification of looped-over value?
+            value[i] = string
         modified_relative_data[key] = value
 
 
