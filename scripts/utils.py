@@ -33,7 +33,9 @@ def get_dict_difference(parent_dict, child_dict):
             child_specific_value = child_value
         elif isinstance(child_value, list):
             child_specific_value = list(
-                set(map(unicode.lower, child_value)) - set(map(unicode.lower, parent_value)))
+                set(map(unicode.lower, map(unicode, child_value))) -
+                set(map(unicode.lower, map(unicode, parent_value)))
+            )
         elif isinstance(child_value, dict):
             child_specific_value = get_dict_difference(parent_value, child_value)
         elif child_value.lower() != parent_value.lower():
@@ -49,6 +51,7 @@ def combine_dicts(primary_dict, supplementary_dict):
     elif not supplementary_dict:
         return primary_dict
     combined_dict = OrderedDict()
+    filter_locales(primary_dict, supplementary_dict)
     for key, value in primary_dict.items():
         if key in supplementary_dict:
             if isinstance(value, list):
@@ -63,6 +66,16 @@ def combine_dicts(primary_dict, supplementary_dict):
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict
+
+
+def filter_locales(primary_dict, supplementary_dict):
+    if not primary_dict.get('locale_specific'):
+        return
+    for locale, locale_data in primary_dict['locale_specific'].items():
+        diff = get_dict_difference(supplementary_dict, locale_data)
+        primary_dict['locale_specific'][locale] = diff
+        if diff.keys() == ['name']:
+            del primary_dict['locale_specific'][locale]
 
 
 def language_from_filename(filename):
