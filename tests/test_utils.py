@@ -5,7 +5,7 @@ from tests import BaseTestCase
 from parameterized import parameterized, param
 from dateparser.utils import (
     find_date_separator, localize_timezone, apply_timezone,
-    apply_timezone_from_settings, registry, check_past_future
+    apply_timezone_from_settings, registry
 )
 from pytz import UnknownTimeZoneError, utc
 from dateparser.conf import settings
@@ -39,12 +39,11 @@ class TestUtils(BaseTestCase):
             ['%d{sep}%m{sep}%Y', '%d{sep}%m{sep}%Y %H:%M'],
             ['/', '.', '-', ':'])
     ])
-    
     def test_separator_extraction(self, date_format, expected_sep):
         self.given_date_format(date_format)
         self.when_date_seperator_is_parsed()
         self.then_date_seperator_is(expected_sep)
-     
+
     @parameterized.expand([
         param(datetime(2015, 12, 12), timezone='UTC', zone='UTC'),
         param(datetime(2015, 12, 12), timezone='Asia/Karachi', zone='Asia/Karachi'),
@@ -109,18 +108,15 @@ class TestUtils(BaseTestCase):
     def test_format_settings_past_with_y(self):
         result = dateparser.parse('1/15/64', settings={'PREFER_DATES_FROM': 'past'}, date_formats=['%m/%d/%y'])
         expected = dateparser.parse('1/15/64', settings={'PREFER_DATES_FROM': 'past'})
-        self.assertEqual(expected, result)
-        
+        self.assertEqual(expected, result)      
     def test_format_settings_future_with_y(self):
         result = dateparser.parse('1/15/64', settings={'PREFER_DATES_FROM': 'future'}, date_formats=['%m/%d/%y'])
         expected = dateparser.parse('1/15/64', settings={'PREFER_DATES_FROM': 'future'})
         self.assertEqual(expected, result)
-        
     def test_format_settings_past_no_y(self):
         result = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'past'}, date_formats=['%d/%m'])
         expected = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'past'})
         self.assertEqual(expected, result)
-        
     def test_format_settings_future_no_y(self):
         result = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'future'}, date_formats=['%d/%m'])
         expected = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'future'})
