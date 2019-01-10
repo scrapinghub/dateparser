@@ -152,11 +152,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "om-KE": {
-            "name": "om-KE"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

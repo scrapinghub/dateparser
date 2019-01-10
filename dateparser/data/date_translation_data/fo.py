@@ -235,11 +235,7 @@ info = {
             "(\\d+) s síðan"
         ]
     },
-    "locale_specific": {
-        "fo-DK": {
-            "name": "fo-DK"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

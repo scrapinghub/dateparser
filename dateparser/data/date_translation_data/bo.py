@@ -164,11 +164,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "bo-IN": {
-            "name": "bo-IN"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

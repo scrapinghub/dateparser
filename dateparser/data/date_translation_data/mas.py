@@ -152,11 +152,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "mas-TZ": {
-            "name": "mas-TZ"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

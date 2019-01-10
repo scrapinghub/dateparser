@@ -96,50 +96,59 @@ info = {
         "år"
     ],
     "month": [
-        "månad"
+        "månad",
+        "mnd",
+        "md"
     ],
     "week": [
-        "veke"
+        "veke",
+        "v"
     ],
     "day": [
-        "dag"
+        "dag",
+        "d"
     ],
     "hour": [
-        "time"
+        "time",
+        "t"
     ],
     "minute": [
-        "minutt"
+        "minutt",
+        "min",
+        "m"
     ],
     "second": [
-        "sekund"
+        "sekund",
+        "sek",
+        "s"
     ],
     "relative-type": {
         "1 year ago": [
-            "last year"
+            "i fjor"
         ],
         "0 year ago": [
-            "this year"
+            "i år"
         ],
         "in 1 year": [
-            "next year"
+            "neste år"
         ],
         "1 month ago": [
-            "last month"
+            "førre månad"
         ],
         "0 month ago": [
-            "this month"
+            "denne månaden"
         ],
         "in 1 month": [
-            "next month"
+            "neste månad"
         ],
         "1 week ago": [
-            "last week"
+            "førre veke"
         ],
         "0 week ago": [
-            "this week"
+            "denne veka"
         ],
         "in 1 week": [
-            "next week"
+            "neste veke"
         ],
         "1 day ago": [
             "i går"
@@ -151,13 +160,13 @@ info = {
             "i morgon"
         ],
         "0 hour ago": [
-            "this hour"
+            "denne timen"
         ],
         "0 minute ago": [
-            "this minute"
+            "dette minuttet"
         ],
         "0 second ago": [
-            "now"
+            "no"
         ]
     },
     "relative-type-regex": {
@@ -165,53 +174,67 @@ info = {
             "om (\\d+) år"
         ],
         "\\1 year ago": [
-            "for (\\d+) år siden"
+            "for (\\d+) år sidan"
         ],
         "in \\1 month": [
-            "om (\\d+) måned",
-            "om (\\d+) måneder"
+            "om (\\d+) månad",
+            "om (\\d+) månadar",
+            "om (\\d+) md"
         ],
         "\\1 month ago": [
-            "for (\\d+) måned siden",
-            "for (\\d+) måneder siden"
+            "for (\\d+) månad sidan",
+            "for (\\d+) månadar sidan",
+            "for (\\d+) md sidan",
+            "–(\\d+) md"
         ],
         "in \\1 week": [
-            "om (\\d+) uke",
-            "om (\\d+) uker"
+            "om (\\d+) veke",
+            "om (\\d+) veker",
+            "om (\\d+) v"
         ],
         "\\1 week ago": [
-            "for (\\d+) uke siden",
-            "for (\\d+) uker siden"
+            "for (\\d+) veke sidan",
+            "for (\\d+) veker sidan",
+            "for (\\d+) v sidan",
+            "–(\\d+) v"
         ],
         "in \\1 day": [
-            "om (\\d+) døgn"
+            "om (\\d+) døgn",
+            "om (\\d+) d"
         ],
         "\\1 day ago": [
-            "for (\\d+) døgn siden"
+            "for (\\d+) døgn sidan",
+            "for (\\d+) d sidan",
+            "–(\\d+) d"
         ],
         "in \\1 hour": [
             "om (\\d+) time",
-            "om (\\d+) timer"
+            "om (\\d+) timar",
+            "om (\\d+) t"
         ],
         "\\1 hour ago": [
-            "for (\\d+) time siden",
-            "for (\\d+) timer siden"
+            "for (\\d+) time sidan",
+            "for (\\d+) timar sidan",
+            "for (\\d+) t sidan",
+            "–(\\d+) t"
         ],
         "in \\1 minute": [
             "om (\\d+) minutt",
-            "om (\\d+) minutter"
+            "om (\\d+) min"
         ],
         "\\1 minute ago": [
-            "for (\\d+) minutt siden",
-            "for (\\d+) minutter siden"
+            "for (\\d+) minutt sidan",
+            "for (\\d+) min sidan",
+            "–(\\d+) min"
         ],
         "in \\1 second": [
             "om (\\d+) sekund",
-            "om (\\d+) sekunder"
+            "om (\\d+) sek"
         ],
         "\\1 second ago": [
-            "for (\\d+) sekund siden",
-            "for (\\d+) sekunder siden"
+            "for (\\d+) sekund sidan",
+            "for (\\d+) sek sidan",
+            "–(\\d+) s"
         ]
     },
     "locale_specific": {},

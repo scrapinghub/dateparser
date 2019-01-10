@@ -220,14 +220,12 @@ info = {
         "in \\1 hour": [
             "dans (\\d+) heure",
             "dans (\\d+) heures",
-            "dans (\\d+) h",
-            "dans (\\d+)h"
+            "dans (\\d+) h"
         ],
         "\\1 hour ago": [
             "il y a (\\d+) heure",
             "il y a (\\d+) heures",
-            "il y a (\\d+) h",
-            "il y a (\\d+)h"
+            "il y a (\\d+) h"
         ],
         "in \\1 minute": [
             "dans (\\d+) minute",
@@ -237,8 +235,7 @@ info = {
         "\\1 minute ago": [
             "il y a (\\d+) minute",
             "il y a (\\d+) minutes",
-            "il y a (\\d+) min",
-            "il y a (\\d+)min"
+            "il y a (\\d+) min"
         ],
         "in \\1 second": [
             "dans (\\d+) seconde",
@@ -252,79 +249,6 @@ info = {
         ]
     },
     "locale_specific": {
-        "fr-CI": {
-            "name": "fr-CI"
-        },
-        "fr-WF": {
-            "name": "fr-WF"
-        },
-        "fr-BL": {
-            "name": "fr-BL"
-        },
-        "fr-PF": {
-            "name": "fr-PF"
-        },
-        "fr-NC": {
-            "name": "fr-NC"
-        },
-        "fr-MU": {
-            "name": "fr-MU"
-        },
-        "fr-MQ": {
-            "name": "fr-MQ"
-        },
-        "fr-CH": {
-            "name": "fr-CH"
-        },
-        "fr-NE": {
-            "name": "fr-NE"
-        },
-        "fr-BF": {
-            "name": "fr-BF"
-        },
-        "fr-CG": {
-            "name": "fr-CG"
-        },
-        "fr-MA": {
-            "name": "fr-MA",
-            "january": [
-                "jan"
-            ],
-            "february": [
-                "fév"
-            ],
-            "march": [
-                "mar"
-            ],
-            "june": [
-                "jui"
-            ]
-        },
-        "fr-RE": {
-            "name": "fr-RE"
-        },
-        "fr-KM": {
-            "name": "fr-KM"
-        },
-        "fr-BI": {
-            "name": "fr-BI"
-        },
-        "fr-BE": {
-            "name": "fr-BE"
-        },
-        "fr-CA": {
-            "name": "fr-CA",
-            "date_order": "YMD",
-            "july": [
-                "juill"
-            ]
-        },
-        "fr-SY": {
-            "name": "fr-SY"
-        },
-        "fr-TD": {
-            "name": "fr-TD"
-        },
         "fr-CM": {
             "name": "fr-CM",
             "am": [
@@ -334,39 +258,6 @@ info = {
             "pm": [
                 "soir"
             ]
-        },
-        "fr-DZ": {
-            "name": "fr-DZ"
-        },
-        "fr-MF": {
-            "name": "fr-MF"
-        },
-        "fr-RW": {
-            "name": "fr-RW"
-        },
-        "fr-MR": {
-            "name": "fr-MR"
-        },
-        "fr-GN": {
-            "name": "fr-GN"
-        },
-        "fr-ML": {
-            "name": "fr-ML"
-        },
-        "fr-VU": {
-            "name": "fr-VU"
-        },
-        "fr-SC": {
-            "name": "fr-SC"
-        },
-        "fr-MG": {
-            "name": "fr-MG"
-        },
-        "fr-SN": {
-            "name": "fr-SN"
-        },
-        "fr-LU": {
-            "name": "fr-LU"
         },
         "fr-HT": {
             "name": "fr-HT",
@@ -380,44 +271,21 @@ info = {
                 "sec"
             ]
         },
-        "fr-BJ": {
-            "name": "fr-BJ"
+        "fr-MA": {
+            "name": "fr-MA",
+            "march": [
+                "mar"
+            ],
+            "june": [
+                "jui"
+            ]
         },
-        "fr-DJ": {
-            "name": "fr-DJ"
-        },
-        "fr-GA": {
-            "name": "fr-GA"
-        },
-        "fr-GQ": {
-            "name": "fr-GQ"
-        },
-        "fr-CF": {
-            "name": "fr-CF"
-        },
-        "fr-TG": {
-            "name": "fr-TG"
-        },
-        "fr-GF": {
-            "name": "fr-GF"
-        },
-        "fr-PM": {
-            "name": "fr-PM"
-        },
-        "fr-YT": {
-            "name": "fr-YT"
-        },
-        "fr-MC": {
-            "name": "fr-MC"
-        },
-        "fr-GP": {
-            "name": "fr-GP"
-        },
-        "fr-TN": {
-            "name": "fr-TN"
-        },
-        "fr-CD": {
-            "name": "fr-CD"
+        "fr-CA": {
+            "name": "fr-CA",
+            "date_order": "YMD",
+            "july": [
+                "juill"
+            ]
         }
     },
     "skip": [

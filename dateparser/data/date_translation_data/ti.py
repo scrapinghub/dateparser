@@ -85,78 +85,120 @@ info = {
         "ድሕር ሰዓት"
     ],
     "year": [
-        "year"
+        "ዓመት"
     ],
     "month": [
-        "month"
+        "ወርሒ"
     ],
     "week": [
-        "week"
+        "ሰሙን"
     ],
     "day": [
-        "day"
+        "መዓልቲ"
     ],
     "hour": [
-        "hour"
+        "ሰዓት"
     ],
     "minute": [
-        "minute"
+        "ደቒቕ",
+        "ደቒ"
     ],
     "second": [
-        "second"
+        "ካልኢት"
     ],
     "relative-type": {
         "1 year ago": [
-            "last year"
+            "ዓሚ"
         ],
         "0 year ago": [
-            "this year"
+            "ሎሚ ዓመት"
         ],
         "in 1 year": [
-            "next year"
+            "ንዓመታ"
         ],
         "1 month ago": [
             "last month"
         ],
         "0 month ago": [
-            "this month"
+            "ህሉው ወርሒ"
         ],
         "in 1 month": [
-            "next month"
+            "ዝመጽእ ወርሒ"
         ],
         "1 week ago": [
-            "last week"
+            "ዝሓለፈ ሰሙን"
         ],
         "0 week ago": [
-            "this week"
+            "ህሉው ሰሙን"
         ],
         "in 1 week": [
-            "next week"
+            "ዝመጽእ ሰሙን"
         ],
         "1 day ago": [
-            "yesterday"
+            "ትማሊ"
         ],
         "0 day ago": [
-            "today"
+            "ሎሚ"
         ],
         "in 1 day": [
-            "tomorrow"
+            "ጽባሕ"
         ],
         "0 hour ago": [
-            "this hour"
+            "ኣብዚ ሰዓት"
         ],
         "0 minute ago": [
-            "this minute"
+            "ኣብዚ ደቒቕ"
         ],
         "0 second ago": [
-            "now"
+            "ሕጂ"
         ]
     },
-    "locale_specific": {
-        "ti-ER": {
-            "name": "ti-ER"
-        }
+    "relative-type-regex": {
+        "in \\1 year": [
+            "ኣብ (\\d+) ዓ"
+        ],
+        "\\1 year ago": [
+            "ቅድሚ (\\d+) ዓ"
+        ],
+        "in \\1 month": [
+            "ኣብ (\\d+) ወርሒ"
+        ],
+        "\\1 month ago": [
+            "ቅድሚ (\\d+) ወርሒ"
+        ],
+        "in \\1 week": [
+            "ኣብ (\\d+) ሰሙን"
+        ],
+        "\\1 week ago": [
+            "ቅድሚ (\\d+) ሰሙን"
+        ],
+        "in \\1 day": [
+            "ኣብ (\\d+) መዓልቲ"
+        ],
+        "\\1 day ago": [
+            "ቅድሚ (\\d+) መዓልቲ",
+            "ኣብ (\\d+) መዓልቲ"
+        ],
+        "in \\1 hour": [
+            "ኣብ (\\d+) ሰዓት"
+        ],
+        "\\1 hour ago": [
+            "ቅድሚ (\\d+) ሰዓት"
+        ],
+        "in \\1 minute": [
+            "ኣብ (\\d+) ደቒቕ"
+        ],
+        "\\1 minute ago": [
+            "ቅድሚ (\\d+) ደቒቕ"
+        ],
+        "in \\1 second": [
+            "ኣብ (\\d+) ካልኢት"
+        ],
+        "\\1 second ago": [
+            "ቅድሚ (\\d+) ካልኢት"
+        ]
     },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

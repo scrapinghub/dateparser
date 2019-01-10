@@ -165,7 +165,7 @@ info = {
     },
     "relative-type-regex": {
         "in \\1 year": [
-            "dalam (\\d+) saat",
+            "dalam (\\d+) tahun",
             "dalam (\\d+) thn"
         ],
         "\\1 year ago": [
@@ -218,14 +218,7 @@ info = {
             "(\\d+) saat lalu"
         ]
     },
-    "locale_specific": {
-        "ms-SG": {
-            "name": "ms-SG"
-        },
-        "ms-BN": {
-            "name": "ms-BN"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

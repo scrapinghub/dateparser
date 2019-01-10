@@ -133,11 +133,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "lrc-IQ": {
-            "name": "lrc-IQ"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

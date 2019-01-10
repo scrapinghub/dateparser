@@ -249,27 +249,15 @@ info = {
         ]
     },
     "locale_specific": {
-        "de-LU": {
-            "name": "de-LU"
-        },
-        "de-AT": {
-            "name": "de-AT",
+        "de-IT": {
+            "name": "de-IT",
             "january": [
                 "jänner",
                 "jän"
             ]
         },
-        "de-CH": {
-            "name": "de-CH"
-        },
-        "de-LI": {
-            "name": "de-LI"
-        },
-        "de-BE": {
-            "name": "de-BE"
-        },
-        "de-IT": {
-            "name": "de-IT",
+        "de-AT": {
+            "name": "de-AT",
             "january": [
                 "jänner",
                 "jän"

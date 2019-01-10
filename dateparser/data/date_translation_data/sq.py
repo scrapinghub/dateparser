@@ -27,11 +27,11 @@ info = {
     ],
     "july": [
         "korrik",
-        "kor"
+        "korr"
     ],
     "august": [
         "gusht",
-        "gsh"
+        "gush"
     ],
     "september": [
         "shtator",
@@ -213,14 +213,7 @@ info = {
             "(\\d+) sek më parë"
         ]
     },
-    "locale_specific": {
-        "sq-MK": {
-            "name": "sq-MK"
-        },
-        "sq-XK": {
-            "name": "sq-XK"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

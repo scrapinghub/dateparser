@@ -153,12 +153,17 @@ info = {
         "(11, 'inf')": "ERROR-=0=;"
     },
     "%spellout-cardinal-feminine": {
+        "(0, 1)": "=%spellout-numbering=;",
+        "2": "שתי;",
+        "(3, 'inf')": "=%spellout-numbering=;"
+    },
+    "%spellout-cardinal-feminine-standalone": {
         "(0, 'inf')": "=%spellout-numbering=;"
     },
     "%spellout-cardinal-masculine": {
         "0": "אפס;",
         "1": "אחד;",
-        "2": "שניים;",
+        "2": "שני;",
         "3": "שלושה;",
         "4": "ארבעה;",
         "5": "חמישה;",
@@ -197,6 +202,11 @@ info = {
         "(2000000000000000, 2999999999999999)": "שני טריליון[ >%%and-masculine>];",
         "(3000000000000000, 999999999999999999)": "<%%spellout-numbering-m< טריליון[ >%%and-masculine>];",
         "(1000000000000000000, 'inf')": "=#,##0=;"
+    },
+    "%spellout-cardinal-masculine-standalone": {
+        "(0, 1)": "=%spellout-cardinal-masculine=;",
+        "2": "שניים;",
+        "(3, 'inf')": "=%spellout-cardinal-masculine=;"
     },
     "%spellout-construct-feminine": {
         "(0, 1)": "=%spellout-cardinal-feminine=;",

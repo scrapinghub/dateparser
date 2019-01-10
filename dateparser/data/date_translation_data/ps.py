@@ -6,6 +6,7 @@ info = {
         "جنوري"
     ],
     "february": [
+        "فېبروري",
         "فبروري"
     ],
     "march": [
@@ -24,10 +25,11 @@ info = {
         "جولای"
     ],
     "august": [
-        "اګست"
+        "اگست"
     ],
     "september": [
-        "سپتمبر"
+        "سپتمبر",
+        "سېپتمبر"
     ],
     "october": [
         "اکتوبر"
@@ -39,25 +41,25 @@ info = {
         "دسمبر"
     ],
     "monday": [
-        "دوشنبه"
+        "دونۍ"
     ],
     "tuesday": [
-        "سه‌شنبه"
+        "درېنۍ"
     ],
     "wednesday": [
-        "چهارشنبه"
+        "څلرنۍ"
     ],
     "thursday": [
-        "پنجشنبه"
+        "پينځنۍ"
     ],
     "friday": [
         "جمعه"
     ],
     "saturday": [
-        "شنبه"
+        "اونۍ"
     ],
     "sunday": [
-        "یکشنبه"
+        "يونۍ"
     ],
     "am": [
         "غم"
@@ -66,35 +68,35 @@ info = {
         "غو"
     ],
     "year": [
-        "year"
+        "کال"
     ],
     "month": [
-        "month"
+        "مياشت"
     ],
     "week": [
-        "week"
+        "اونۍ"
     ],
     "day": [
-        "day"
+        "ورځ"
     ],
     "hour": [
-        "hour"
+        "ساعت"
     ],
     "minute": [
-        "minute"
+        "دقيقه"
     ],
     "second": [
-        "second"
+        "ثانيه"
     ],
     "relative-type": {
         "1 year ago": [
-            "last year"
+            "پروسږکال"
         ],
         "0 year ago": [
-            "this year"
+            "سږکال"
         ],
         "in 1 year": [
-            "next year"
+            "بل کال"
         ],
         "1 month ago": [
             "last month"
@@ -131,6 +133,16 @@ info = {
         ],
         "0 second ago": [
             "now"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "په (\\d+) کال کې",
+            "په (\\d+) کالونو کې"
+        ],
+        "\\1 year ago": [
+            "(\\d+) کال مخکې",
+            "(\\d+) کاله مخکې"
         ]
     },
     "locale_specific": {},

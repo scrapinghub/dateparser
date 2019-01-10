@@ -155,14 +155,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "gsw-LI": {
-            "name": "gsw-LI"
-        },
-        "gsw-FR": {
-            "name": "gsw-FR"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

@@ -71,12 +71,10 @@ info = {
         "jumapili"
     ],
     "am": [
-        "am",
-        "asubuhi"
+        "am"
     ],
     "pm": [
-        "pm",
-        "mchana"
+        "pm"
     ],
     "year": [
         "mwaka"
@@ -202,17 +200,11 @@ info = {
         ]
     },
     "locale_specific": {
-        "sw-UG": {
-            "name": "sw-UG"
-        },
         "sw-CD": {
             "name": "sw-CD",
             "week": [
                 "juma"
             ]
-        },
-        "sw-KE": {
-            "name": "sw-KE"
         }
     },
     "skip": [

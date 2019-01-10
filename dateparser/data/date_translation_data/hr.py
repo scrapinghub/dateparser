@@ -256,11 +256,7 @@ info = {
             "prije (\\d+) s"
         ]
     },
-    "locale_specific": {
-        "hr-BA": {
-            "name": "hr-BA"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

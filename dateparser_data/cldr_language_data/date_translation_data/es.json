@@ -229,11 +229,86 @@
         ]
     },
     "locale_specific": {
-        "es-CO": {
-            "name": "es-CO",
+        "es-AR": {
+            "name": "es-AR",
+            "september": [
+                "sep"
+            ],
+            "second": [
+                "seg"
+            ],
+            "relative-type-regex": {
+                "in \\1 second": [
+                    "dentro de {0} seg"
+                ],
+                "\\1 second ago": [
+                    "hace {0} seg"
+                ]
+            }
+        },
+        "es-GQ": {
+            "name": "es-GQ"
+        },
+        "es-VE": {
+            "name": "es-VE"
+        },
+        "es-US": {
+            "name": "es-US",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "in 1 year": [
+                    "el año próximo"
+                ],
+                "in 1 month": [
+                    "el mes próximo"
+                ],
+                "in 1 week": [
+                    "la semana próxima"
+                ]
+            }
+        },
+        "es-DO": {
+            "name": "es-DO",
             "september": [
                 "sep"
             ]
+        },
+        "es-HN": {
+            "name": "es-HN",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-PY": {
+            "name": "es-PY",
+            "second": [
+                "seg"
+            ],
+            "relative-type-regex": {
+                "in \\1 second": [
+                    "dentro de {0} seg"
+                ],
+                "\\1 second ago": [
+                    "hace {0} seg"
+                ]
+            }
+        },
+        "es-CR": {
+            "name": "es-CR",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-CL": {
+            "name": "es-CL",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-IC": {
+            "name": "es-IC"
         },
         "es-MX": {
             "name": "es-MX",
@@ -279,21 +354,57 @@
                 ]
             }
         },
+        "es-CO": {
+            "name": "es-CO",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-BR": {
+            "name": "es-BR",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-EA": {
+            "name": "es-EA"
+        },
+        "es-UY": {
+            "name": "es-UY",
+            "september": [
+                "setiembre",
+                "set"
+            ]
+        },
+        "es-PH": {
+            "name": "es-PH"
+        },
+        "es-BZ": {
+            "name": "es-BZ",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-BO": {
+            "name": "es-BO",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-GT": {
+            "name": "es-GT",
+            "september": [
+                "sep"
+            ]
+        },
+        "es-SV": {
+            "name": "es-SV",
+            "september": [
+                "sep"
+            ]
+        },
         "es-PA": {
             "name": "es-PA",
-            "date_order": "MDY",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-CR": {
-            "name": "es-CR",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-PR": {
-            "name": "es-PR",
             "date_order": "MDY",
             "september": [
                 "sep"
@@ -305,24 +416,15 @@
                 "sep"
             ]
         },
-        "es-UY": {
-            "name": "es-UY",
-            "september": [
-                "setiembre",
-                "set"
-            ]
-        },
-        "es-EC": {
-            "name": "es-EC",
+        "es-PR": {
+            "name": "es-PR",
+            "date_order": "MDY",
             "september": [
                 "sep"
             ]
         },
-        "es-GQ": {
-            "name": "es-GQ"
-        },
-        "es-BO": {
-            "name": "es-BO",
+        "es-419": {
+            "name": "es-419",
             "september": [
                 "sep"
             ]
@@ -333,59 +435,6 @@
                 "sep"
             ]
         },
-        "es-HN": {
-            "name": "es-HN",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-IC": {
-            "name": "es-IC"
-        },
-        "es-BR": {
-            "name": "es-BR",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-EA": {
-            "name": "es-EA"
-        },
-        "es-PY": {
-            "name": "es-PY",
-            "second": [
-                "seg"
-            ],
-            "relative-type-regex": {
-                "in \\1 second": [
-                    "dentro de {0} seg"
-                ],
-                "\\1 second ago": [
-                    "hace {0} seg"
-                ]
-            }
-        },
-        "es-SV": {
-            "name": "es-SV",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-BZ": {
-            "name": "es-BZ",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-GT": {
-            "name": "es-GT",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-PH": {
-            "name": "es-PH"
-        },
         "es-PE": {
             "name": "es-PE",
             "september": [
@@ -393,46 +442,8 @@
                 "set"
             ]
         },
-        "es-419": {
-            "name": "es-419",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-AR": {
-            "name": "es-AR",
-            "september": [
-                "sep"
-            ],
-            "second": [
-                "seg"
-            ],
-            "relative-type-regex": {
-                "in \\1 second": [
-                    "dentro de {0} seg"
-                ],
-                "\\1 second ago": [
-                    "hace {0} seg"
-                ]
-            }
-        },
-        "es-VE": {
-            "name": "es-VE"
-        },
-        "es-DO": {
-            "name": "es-DO",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-US": {
-            "name": "es-US",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-CL": {
-            "name": "es-CL",
+        "es-EC": {
+            "name": "es-EC",
             "september": [
                 "sep"
             ]

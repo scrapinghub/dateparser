@@ -179,11 +179,92 @@
         ]
     },
     "locale_specific": {
-        "ar-QA": {
-            "name": "ar-QA"
+        "ar-LB": {
+            "name": "ar-LB",
+            "january": [
+                "كانون الثاني"
+            ],
+            "february": [
+                "شباط"
+            ],
+            "march": [
+                "آذار"
+            ],
+            "april": [
+                "نيسان"
+            ],
+            "may": [
+                "أيار"
+            ],
+            "june": [
+                "حزيران"
+            ],
+            "july": [
+                "تموز"
+            ],
+            "august": [
+                "آب"
+            ],
+            "september": [
+                "أيلول"
+            ],
+            "october": [
+                "تشرين الأول"
+            ],
+            "november": [
+                "تشرين الثاني"
+            ],
+            "december": [
+                "كانون الأول"
+            ]
         },
-        "ar-SO": {
-            "name": "ar-SO"
+        "ar-LY": {
+            "name": "ar-LY"
+        },
+        "ar-KW": {
+            "name": "ar-KW"
+        },
+        "ar-IQ": {
+            "name": "ar-IQ",
+            "january": [
+                "كانون الثاني"
+            ],
+            "february": [
+                "شباط"
+            ],
+            "march": [
+                "آذار"
+            ],
+            "april": [
+                "نيسان"
+            ],
+            "may": [
+                "أيار"
+            ],
+            "june": [
+                "حزيران"
+            ],
+            "july": [
+                "تموز"
+            ],
+            "august": [
+                "آب"
+            ],
+            "september": [
+                "أيلول"
+            ],
+            "october": [
+                "تشرين الأول"
+            ],
+            "november": [
+                "تشرين الثاني"
+            ],
+            "december": [
+                "كانون الأول"
+            ]
+        },
+        "ar-BH": {
+            "name": "ar-BH"
         },
         "ar-SY": {
             "name": "ar-SY",
@@ -224,45 +305,8 @@
                 "كانون الأول"
             ]
         },
-        "ar-IQ": {
-            "name": "ar-IQ",
-            "january": [
-                "كانون الثاني"
-            ],
-            "february": [
-                "شباط"
-            ],
-            "march": [
-                "آذار"
-            ],
-            "april": [
-                "نيسان"
-            ],
-            "may": [
-                "أيار"
-            ],
-            "june": [
-                "حزيران"
-            ],
-            "july": [
-                "تموز"
-            ],
-            "august": [
-                "آب"
-            ],
-            "september": [
-                "أيلول"
-            ],
-            "october": [
-                "تشرین الأول",
-                "تشرين الأول"
-            ],
-            "november": [
-                "تشرين الثاني"
-            ],
-            "december": [
-                "كانون الأول"
-            ]
+        "ar-SD": {
+            "name": "ar-SD"
         },
         "ar-DZ": {
             "name": "ar-DZ",
@@ -288,6 +332,68 @@
                 "أوت"
             ]
         },
+        "ar-YE": {
+            "name": "ar-YE"
+        },
+        "ar-AE": {
+            "name": "ar-AE",
+            "relative-type": {
+                "0 year ago": [
+                    "هذه السنة"
+                ],
+                "in 1 year": [
+                    "السنة التالية"
+                ]
+            }
+        },
+        "ar-MA": {
+            "name": "ar-MA",
+            "may": [
+                "ماي"
+            ],
+            "july": [
+                "يوليوز"
+            ],
+            "august": [
+                "غشت"
+            ],
+            "september": [
+                "شتنبر"
+            ],
+            "november": [
+                "نونبر"
+            ],
+            "december": [
+                "دجنبر"
+            ]
+        },
+        "ar-SS": {
+            "name": "ar-SS"
+        },
+        "ar-IL": {
+            "name": "ar-IL"
+        },
+        "ar-EG": {
+            "name": "ar-EG"
+        },
+        "ar-MR": {
+            "name": "ar-MR",
+            "april": [
+                "إبريل"
+            ],
+            "august": [
+                "أغشت"
+            ],
+            "september": [
+                "شتمبر"
+            ],
+            "december": [
+                "دجمبر"
+            ]
+        },
+        "ar-OM": {
+            "name": "ar-OM"
+        },
         "ar-TN": {
             "name": "ar-TN",
             "january": [
@@ -312,89 +418,14 @@
                 "أوت"
             ]
         },
-        "ar-EG": {
-            "name": "ar-EG"
+        "ar-KM": {
+            "name": "ar-KM"
         },
-        "ar-OM": {
-            "name": "ar-OM"
+        "ar-SA": {
+            "name": "ar-SA"
         },
-        "ar-LB": {
-            "name": "ar-LB",
-            "january": [
-                "كانون الثاني"
-            ],
-            "february": [
-                "شباط"
-            ],
-            "march": [
-                "آذار"
-            ],
-            "april": [
-                "نيسان"
-            ],
-            "may": [
-                "أيار"
-            ],
-            "june": [
-                "حزيران"
-            ],
-            "july": [
-                "تموز"
-            ],
-            "august": [
-                "آب"
-            ],
-            "september": [
-                "أيلول"
-            ],
-            "october": [
-                "تشرين الأول"
-            ],
-            "november": [
-                "تشرين الثاني"
-            ],
-            "december": [
-                "كانون الأول"
-            ]
-        },
-        "ar-DJ": {
-            "name": "ar-DJ"
-        },
-        "ar-MA": {
-            "name": "ar-MA",
-            "may": [
-                "ماي"
-            ],
-            "july": [
-                "يوليوز"
-            ],
-            "august": [
-                "غشت"
-            ],
-            "september": [
-                "شتنبر"
-            ],
-            "november": [
-                "نونبر"
-            ],
-            "december": [
-                "دجنبر"
-            ]
-        },
-        "ar-MR": {
-            "name": "ar-MR",
-            "april": [
-                "إبريل"
-            ],
-            "august": [
-                "أغشت"
-            ],
-            "september": [
-                "شتمبر"
-            ],
-            "december": [
-                "دجمبر"
-            ]
+        "ar-ER": {
+            "name": "ar-ER"
         },
         "ar-JO": {
             "name": "ar-JO",
@@ -435,9 +466,6 @@
                 "كانون الأول"
             ]
         },
-        "ar-TD": {
-            "name": "ar-TD"
-        },
         "ar-PS": {
             "name": "ar-PS",
             "january": [
@@ -477,49 +505,20 @@
                 "كانون الأول"
             ]
         },
-        "ar-AE": {
-            "name": "ar-AE",
-            "relative-type": {
-                "0 year ago": [
-                    "هذه السنة"
-                ],
-                "in 1 year": [
-                    "السنة التالية"
-                ]
-            }
-        },
-        "ar-ER": {
-            "name": "ar-ER"
-        },
-        "ar-SD": {
-            "name": "ar-SD"
-        },
-        "ar-SS": {
-            "name": "ar-SS"
-        },
-        "ar-KM": {
-            "name": "ar-KM"
-        },
-        "ar-LY": {
-            "name": "ar-LY"
-        },
-        "ar-YE": {
-            "name": "ar-YE"
-        },
-        "ar-IL": {
-            "name": "ar-IL"
-        },
         "ar-EH": {
             "name": "ar-EH"
         },
-        "ar-KW": {
-            "name": "ar-KW"
+        "ar-DJ": {
+            "name": "ar-DJ"
         },
-        "ar-SA": {
-            "name": "ar-SA"
+        "ar-TD": {
+            "name": "ar-TD"
         },
-        "ar-BH": {
-            "name": "ar-BH"
+        "ar-QA": {
+            "name": "ar-QA"
+        },
+        "ar-SO": {
+            "name": "ar-SO"
         }
     }
 }

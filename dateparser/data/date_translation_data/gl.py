@@ -155,10 +155,10 @@ info = {
             "mañá"
         ],
         "0 hour ago": [
-            "nesta hora"
+            "esta hora"
         ],
         "0 minute ago": [
-            "neste minuto"
+            "este minuto"
         ],
         "0 second ago": [
             "agora"
@@ -166,8 +166,8 @@ info = {
     },
     "relative-type-regex": {
         "in \\1 year": [
-            "en (\\d+) ano",
-            "en (\\d+) anos",
+            "dentro de (\\d+) ano",
+            "dentro de (\\d+) anos",
             "en (\\d+) a"
         ],
         "\\1 year ago": [
@@ -176,8 +176,8 @@ info = {
             "hai (\\d+) a"
         ],
         "in \\1 month": [
-            "en (\\d+) mes",
-            "en (\\d+) meses",
+            "dentro de (\\d+) mes",
+            "dentro de (\\d+) meses",
             "en (\\d+) m"
         ],
         "\\1 month ago": [
@@ -186,8 +186,9 @@ info = {
             "hai (\\d+) m"
         ],
         "in \\1 week": [
-            "en (\\d+) semana",
-            "en (\\d+) semanas",
+            "dentro de (\\d+) semana",
+            "dentro de (\\d+) semanas",
+            "dentro de (\\d+) sem",
             "en (\\d+) sem"
         ],
         "\\1 week ago": [
@@ -196,8 +197,8 @@ info = {
             "hai (\\d+) sem"
         ],
         "in \\1 day": [
-            "en (\\d+) día",
-            "en (\\d+) días",
+            "dentro de (\\d+) día",
+            "dentro de (\\d+) días",
             "en (\\d+) d"
         ],
         "\\1 day ago": [
@@ -206,8 +207,9 @@ info = {
             "hai (\\d+) d"
         ],
         "in \\1 hour": [
-            "en (\\d+) hora",
-            "en (\\d+) horas",
+            "dentro de (\\d+) hora",
+            "dentro de (\\d+) horas",
+            "dentro de (\\d+) h",
             "en (\\d+) h"
         ],
         "\\1 hour ago": [
@@ -216,8 +218,9 @@ info = {
             "hai (\\d+) h"
         ],
         "in \\1 minute": [
-            "en (\\d+) minuto",
-            "en (\\d+) minutos",
+            "dentro de (\\d+) minuto",
+            "dentro de (\\d+) minutos",
+            "dentro de (\\d+) min",
             "en (\\d+) min"
         ],
         "\\1 minute ago": [
@@ -226,8 +229,9 @@ info = {
             "hai (\\d+) min"
         ],
         "in \\1 second": [
-            "en (\\d+) segundo",
-            "en (\\d+) segundos",
+            "dentro de (\\d+) segundo",
+            "dentro de (\\d+) segundos",
+            "dentro de (\\d+) s",
             "en (\\d+) s"
         ],
         "\\1 second ago": [

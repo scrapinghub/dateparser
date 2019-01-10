@@ -152,17 +152,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "so-DJ": {
-            "name": "so-DJ"
-        },
-        "so-KE": {
-            "name": "so-KE"
-        },
-        "so-ET": {
-            "name": "so-ET"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

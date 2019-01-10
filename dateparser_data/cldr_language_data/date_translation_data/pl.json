@@ -188,8 +188,7 @@
         "\\1 month ago": [
             "{0} miesiąc temu",
             "{0} miesiąca temu",
-            "{0} mies temu",
-            "–{0} mies"
+            "{0} mies temu"
         ],
         "in \\1 week": [
             "za {0} tydzień",

@@ -77,10 +77,12 @@ info = {
         "domh"
     ],
     "am": [
-        "am"
+        "am",
+        "rn"
     ],
     "pm": [
-        "pm"
+        "pm",
+        "in"
     ],
     "year": [
         "bliain",

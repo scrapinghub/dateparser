@@ -320,8 +320,7 @@ info = {
         "\\1 month ago": [
             "(\\d+) miesiąc temu",
             "(\\d+) miesiąca temu",
-            "(\\d+) mies temu",
-            "–(\\d+) mies"
+            "(\\d+) mies temu"
         ],
         "in \\1 week": [
             "za (\\d+) tydzień",

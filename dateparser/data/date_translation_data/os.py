@@ -182,11 +182,7 @@ info = {
             "(\\d+) сахаты размӕ"
         ]
     },
-    "locale_specific": {
-        "os-RU": {
-            "name": "os-RU"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

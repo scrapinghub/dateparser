@@ -70,12 +70,10 @@
         "jumapili"
     ],
     "am": [
-        "am",
-        "asubuhi"
+        "am"
     ],
     "pm": [
-        "pm",
-        "mchana"
+        "pm"
     ],
     "year": [
         "mwaka"
@@ -201,6 +199,9 @@
         ]
     },
     "locale_specific": {
+        "sw-KE": {
+            "name": "sw-KE"
+        },
         "sw-UG": {
             "name": "sw-UG"
         },
@@ -209,9 +210,6 @@
             "week": [
                 "juma"
             ]
-        },
-        "sw-KE": {
-            "name": "sw-KE"
         }
     }
 }

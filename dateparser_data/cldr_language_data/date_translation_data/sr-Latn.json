@@ -114,31 +114,49 @@
     ],
     "relative-type": {
         "1 year ago": [
-            "prošle godine"
+            "prošle godine",
+            "prošle god",
+            "prošle g"
         ],
         "0 year ago": [
-            "ove godine"
+            "ove godine",
+            "ove god",
+            "ove g"
         ],
         "in 1 year": [
-            "sledeće godine"
+            "sledeće godine",
+            "sledeće god",
+            "sledeće g"
         ],
         "1 month ago": [
-            "prošlog meseca"
+            "prošlog meseca",
+            "prošlog mes",
+            "prošlog m"
         ],
         "0 month ago": [
-            "ovog meseca"
+            "ovog meseca",
+            "ovog mes",
+            "ovog m"
         ],
         "in 1 month": [
-            "sledećeg meseca"
+            "sledećeg meseca",
+            "sledećeg mes",
+            "sledećeg m"
         ],
         "1 week ago": [
-            "prošle nedelje"
+            "prošle nedelje",
+            "prošle ned",
+            "prošle n"
         ],
         "0 week ago": [
-            "ove nedelje"
+            "ove nedelje",
+            "ove ned",
+            "ove n"
         ],
         "in 1 week": [
-            "sledeće nedelje"
+            "sledeće nedelje",
+            "sledeće ned",
+            "sledeće n"
         ],
         "1 day ago": [
             "juče"
@@ -238,20 +256,8 @@
         ]
     },
     "locale_specific": {
-        "sr-Latn-XK": {
-            "name": "sr-Latn-XK",
-            "september": [
-                "sept"
-            ],
-            "tuesday": [
-                "ut"
-            ],
-            "wednesday": [
-                "sr"
-            ]
-        },
-        "sr-Latn-ME": {
-            "name": "sr-Latn-ME",
+        "sr-Latn-BA": {
+            "name": "sr-Latn-BA",
             "september": [
                 "sept"
             ],
@@ -269,8 +275,20 @@
                 "prije podne"
             ]
         },
-        "sr-Latn-BA": {
-            "name": "sr-Latn-BA",
+        "sr-Latn-XK": {
+            "name": "sr-Latn-XK",
+            "september": [
+                "sept"
+            ],
+            "tuesday": [
+                "ut"
+            ],
+            "wednesday": [
+                "sr"
+            ]
+        },
+        "sr-Latn-ME": {
+            "name": "sr-Latn-ME",
             "september": [
                 "sept"
             ],

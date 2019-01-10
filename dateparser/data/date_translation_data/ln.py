@@ -152,17 +152,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "ln-AO": {
-            "name": "ln-AO"
-        },
-        "ln-CG": {
-            "name": "ln-CG"
-        },
-        "ln-CF": {
-            "name": "ln-CF"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

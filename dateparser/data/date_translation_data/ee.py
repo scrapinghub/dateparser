@@ -212,11 +212,7 @@ info = {
             "sekend (\\d+) si wo va yi"
         ]
     },
-    "locale_specific": {
-        "ee-TG": {
-            "name": "ee-TG"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

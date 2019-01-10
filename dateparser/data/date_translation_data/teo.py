@@ -152,11 +152,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "teo-KE": {
-            "name": "teo-KE"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

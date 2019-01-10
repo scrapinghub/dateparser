@@ -146,13 +146,16 @@
             "nästa v"
         ],
         "1 day ago": [
-            "i går"
+            "i går",
+            "igår"
         ],
         "0 day ago": [
-            "i dag"
+            "i dag",
+            "idag"
         ],
         "in 1 day": [
-            "i morgon"
+            "i morgon",
+            "imorgon"
         ],
         "0 hour ago": [
             "denna timme"
@@ -170,6 +173,7 @@
         ],
         "\\1 year ago": [
             "för {0} år sedan",
+            "för {0} år sen",
             "−{0} år"
         ],
         "in \\1 month": [
@@ -180,7 +184,7 @@
         "\\1 month ago": [
             "för {0} månad sedan",
             "för {0} månader sedan",
-            "för {0} mån sedan",
+            "för {0} mån sen",
             "−{0} mån"
         ],
         "in \\1 week": [
@@ -224,7 +228,7 @@
         "\\1 minute ago": [
             "för {0} minut sedan",
             "för {0} minuter sedan",
-            "för {0} min sedan",
+            "för {0} min sen",
             "−{0} min"
         ],
         "in \\1 second": [
@@ -235,17 +239,17 @@
         "\\1 second ago": [
             "för {0} sekund sedan",
             "för {0} sekunder sedan",
-            "för {0} sek sedan",
+            "för {0} s sen",
             "−{0} s"
         ]
     },
     "locale_specific": {
-        "sv-AX": {
-            "name": "sv-AX"
-        },
         "sv-FI": {
             "name": "sv-FI",
             "date_order": "DMY"
+        },
+        "sv-AX": {
+            "name": "sv-AX"
         }
     }
 }

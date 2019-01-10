@@ -152,17 +152,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "ff-GN": {
-            "name": "ff-GN"
-        },
-        "ff-MR": {
-            "name": "ff-MR"
-        },
-        "ff-CM": {
-            "name": "ff-CM"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

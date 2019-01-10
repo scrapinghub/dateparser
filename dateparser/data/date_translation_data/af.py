@@ -187,7 +187,6 @@ info = {
             "(\\d+) w gelede"
         ],
         "in \\1 day": [
-            "oor (\\d+) minuut",
             "oor (\\d+) dag",
             "oor (\\d+) dae"
         ],
@@ -221,11 +220,7 @@ info = {
             "(\\d+) sek gelede"
         ]
     },
-    "locale_specific": {
-        "af-NA": {
-            "name": "af-NA"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

@@ -235,11 +235,7 @@ info = {
             "for (\\d+) sekunder"
         ]
     },
-    "locale_specific": {
-        "da-GL": {
-            "name": "da-GL"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         "kl",
         "kl.",

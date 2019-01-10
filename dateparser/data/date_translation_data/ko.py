@@ -186,11 +186,7 @@ info = {
             "(\\d+)초 전"
         ]
     },
-    "locale_specific": {
-        "ko-KP": {
-            "name": "ko-KP"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

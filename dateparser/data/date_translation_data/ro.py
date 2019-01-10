@@ -172,8 +172,7 @@ info = {
     "relative-type-regex": {
         "in \\1 year": [
             "peste (\\d+) an",
-            "peste (\\d+) de ani",
-            "peste (\\d+) ani"
+            "peste (\\d+) de ani"
         ],
         "\\1 year ago": [
             "acum (\\d+) an",
@@ -201,13 +200,11 @@ info = {
         ],
         "in \\1 day": [
             "peste (\\d+) zi",
-            "peste (\\d+) de zile",
-            "peste (\\d+) zile"
+            "peste (\\d+) de zile"
         ],
         "\\1 day ago": [
             "acum (\\d+) zi",
-            "acum (\\d+) de zile",
-            "acum (\\d+) zile"
+            "acum (\\d+) de zile"
         ],
         "in \\1 hour": [
             "peste (\\d+) oră",
@@ -240,11 +237,7 @@ info = {
             "acum (\\d+) sec"
         ]
     },
-    "locale_specific": {
-        "ro-MD": {
-            "name": "ro-MD"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         "la",
         "de",

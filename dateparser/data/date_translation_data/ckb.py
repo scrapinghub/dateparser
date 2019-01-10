@@ -133,11 +133,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "ckb-IR": {
-            "name": "ckb-IR"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

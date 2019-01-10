@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 info = {
     "name": "br",
-    "date_order": "YMD",
+    "date_order": "DMY",
     "january": [
         "genver",
         "gen"
@@ -44,7 +44,6 @@ info = {
     ],
     "december": [
         "kerzu",
-        "ker",
         "kzu"
     ],
     "monday": [
@@ -143,7 +142,7 @@ info = {
             "warc'hoazh"
         ],
         "0 hour ago": [
-            "this hour"
+            "d'an eur-mañ"
         ],
         "0 minute ago": [
             "this minute"

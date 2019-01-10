@@ -230,11 +230,7 @@ info = {
             "for (\\d+) sek siden"
         ]
     },
-    "locale_specific": {
-        "nb-SJ": {
-            "name": "nb-SJ"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

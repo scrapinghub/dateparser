@@ -229,26 +229,7 @@ info = {
             "(\\d+) sec geleden"
         ]
     },
-    "locale_specific": {
-        "nl-BQ": {
-            "name": "nl-BQ"
-        },
-        "nl-SX": {
-            "name": "nl-SX"
-        },
-        "nl-CW": {
-            "name": "nl-CW"
-        },
-        "nl-AW": {
-            "name": "nl-AW"
-        },
-        "nl-BE": {
-            "name": "nl-BE"
-        },
-        "nl-SR": {
-            "name": "nl-SR"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         "om",
         " ",

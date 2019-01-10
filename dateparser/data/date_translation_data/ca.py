@@ -248,17 +248,7 @@ info = {
             "fa (\\d+) s"
         ]
     },
-    "locale_specific": {
-        "ca-FR": {
-            "name": "ca-FR"
-        },
-        "ca-IT": {
-            "name": "ca-IT"
-        },
-        "ca-AD": {
-            "name": "ca-AD"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

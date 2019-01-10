@@ -227,11 +227,7 @@ info = {
             "(\\d+) sn önce"
         ]
     },
-    "locale_specific": {
-        "tr-CY": {
-            "name": "tr-CY"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         "yaklaşık",
         "ve",

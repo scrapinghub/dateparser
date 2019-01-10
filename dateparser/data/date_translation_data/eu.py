@@ -113,31 +113,33 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
+            "iaz",
             "aurreko urtea"
         ],
         "0 year ago": [
             "aurten"
         ],
         "in 1 year": [
+            "hurrengo urtean",
             "hurrengo urtea"
         ],
         "1 month ago": [
-            "aurreko hilabetea"
+            "aurreko hilabetean"
         ],
         "0 month ago": [
-            "hilabete hau"
+            "hilabete honetan"
         ],
         "in 1 month": [
-            "hurrengo hilabetea"
+            "hurrengo hilabetean"
         ],
         "1 week ago": [
-            "aurreko astea"
+            "aurreko astean"
         ],
         "0 week ago": [
-            "aste hau"
+            "aste honetan"
         ],
         "in 1 week": [
-            "hurrengo astea"
+            "hurrengo astean"
         ],
         "1 day ago": [
             "atzo"

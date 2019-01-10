@@ -152,14 +152,14 @@
         ]
     },
     "locale_specific": {
-        "ln-AO": {
-            "name": "ln-AO"
-        },
         "ln-CG": {
             "name": "ln-CG"
         },
         "ln-CF": {
             "name": "ln-CF"
+        },
+        "ln-AO": {
+            "name": "ln-AO"
         }
     }
 }

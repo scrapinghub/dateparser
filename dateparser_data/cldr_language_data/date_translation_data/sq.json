@@ -26,11 +26,11 @@
     ],
     "july": [
         "korrik",
-        "kor"
+        "korr"
     ],
     "august": [
         "gusht",
-        "gsh"
+        "gush"
     ],
     "september": [
         "shtator",
@@ -213,11 +213,11 @@
         ]
     },
     "locale_specific": {
-        "sq-MK": {
-            "name": "sq-MK"
-        },
         "sq-XK": {
             "name": "sq-XK"
+        },
+        "sq-MK": {
+            "name": "sq-MK"
         }
     }
 }

@@ -152,14 +152,7 @@ info = {
             "now"
         ]
     },
-    "locale_specific": {
-        "ha-GH": {
-            "name": "ha-GH"
-        },
-        "ha-NE": {
-            "name": "ha-NE"
-        }
-    },
+    "locale_specific": {},
     "skip": [
         " ",
         ".",

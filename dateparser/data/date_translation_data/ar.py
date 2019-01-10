@@ -204,14 +204,8 @@ info = {
         ]
     },
     "locale_specific": {
-        "ar-QA": {
-            "name": "ar-QA"
-        },
-        "ar-SO": {
-            "name": "ar-SO"
-        },
-        "ar-SY": {
-            "name": "ar-SY",
+        "ar-LB": {
+            "name": "ar-LB",
             "january": [
                 "كانون الثاني"
             ],
@@ -279,7 +273,6 @@ info = {
                 "أيلول"
             ],
             "october": [
-                "تشرین الأول",
                 "تشرين الأول"
             ],
             "november": [
@@ -289,62 +282,8 @@ info = {
                 "كانون الأول"
             ]
         },
-        "ar-DZ": {
-            "name": "ar-DZ",
-            "january": [
-                "جانفي"
-            ],
-            "february": [
-                "فيفري"
-            ],
-            "april": [
-                "أفريل"
-            ],
-            "may": [
-                "ماي"
-            ],
-            "june": [
-                "جوان"
-            ],
-            "july": [
-                "جويلية"
-            ],
-            "august": [
-                "أوت"
-            ]
-        },
-        "ar-TN": {
-            "name": "ar-TN",
-            "january": [
-                "جانفي"
-            ],
-            "february": [
-                "فيفري"
-            ],
-            "april": [
-                "أفريل"
-            ],
-            "may": [
-                "ماي"
-            ],
-            "june": [
-                "جوان"
-            ],
-            "july": [
-                "جويلية"
-            ],
-            "august": [
-                "أوت"
-            ]
-        },
-        "ar-EG": {
-            "name": "ar-EG"
-        },
-        "ar-OM": {
-            "name": "ar-OM"
-        },
-        "ar-LB": {
-            "name": "ar-LB",
+        "ar-SY": {
+            "name": "ar-SY",
             "january": [
                 "كانون الثاني"
             ],
@@ -382,8 +321,40 @@ info = {
                 "كانون الأول"
             ]
         },
-        "ar-DJ": {
-            "name": "ar-DJ"
+        "ar-DZ": {
+            "name": "ar-DZ",
+            "january": [
+                "جانفي"
+            ],
+            "february": [
+                "فيفري"
+            ],
+            "april": [
+                "أفريل"
+            ],
+            "may": [
+                "ماي"
+            ],
+            "june": [
+                "جوان"
+            ],
+            "july": [
+                "جويلية"
+            ],
+            "august": [
+                "أوت"
+            ]
+        },
+        "ar-AE": {
+            "name": "ar-AE",
+            "relative-type": {
+                "0 year ago": [
+                    "هذه السنة"
+                ],
+                "in 1 year": [
+                    "السنة التالية"
+                ]
+            }
         },
         "ar-MA": {
             "name": "ar-MA",
@@ -419,6 +390,30 @@ info = {
             ],
             "december": [
                 "دجمبر"
+            ]
+        },
+        "ar-TN": {
+            "name": "ar-TN",
+            "january": [
+                "جانفي"
+            ],
+            "february": [
+                "فيفري"
+            ],
+            "april": [
+                "أفريل"
+            ],
+            "may": [
+                "ماي"
+            ],
+            "june": [
+                "جوان"
+            ],
+            "july": [
+                "جويلية"
+            ],
+            "august": [
+                "أوت"
             ]
         },
         "ar-JO": {
@@ -460,9 +455,6 @@ info = {
                 "كانون الأول"
             ]
         },
-        "ar-TD": {
-            "name": "ar-TD"
-        },
         "ar-PS": {
             "name": "ar-PS",
             "january": [
@@ -501,50 +493,6 @@ info = {
             "december": [
                 "كانون الأول"
             ]
-        },
-        "ar-AE": {
-            "name": "ar-AE",
-            "relative-type": {
-                "0 year ago": [
-                    "هذه السنة"
-                ],
-                "in 1 year": [
-                    "السنة التالية"
-                ]
-            }
-        },
-        "ar-ER": {
-            "name": "ar-ER"
-        },
-        "ar-SD": {
-            "name": "ar-SD"
-        },
-        "ar-SS": {
-            "name": "ar-SS"
-        },
-        "ar-KM": {
-            "name": "ar-KM"
-        },
-        "ar-LY": {
-            "name": "ar-LY"
-        },
-        "ar-YE": {
-            "name": "ar-YE"
-        },
-        "ar-IL": {
-            "name": "ar-IL"
-        },
-        "ar-EH": {
-            "name": "ar-EH"
-        },
-        "ar-KW": {
-            "name": "ar-KW"
-        },
-        "ar-SA": {
-            "name": "ar-SA"
-        },
-        "ar-BH": {
-            "name": "ar-BH"
         }
     },
     "sentence_splitter_group": 6,
