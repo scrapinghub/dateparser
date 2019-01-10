@@ -44,6 +44,9 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
     :rtype: :class:`datetime <datetime.datetime>`.
     :raises: ValueError - Unknown Language
     """
+    if not(date_string.replace(" ","")):
+        return
+
     parser = _default_parser
 
     if any([languages, locales, region, not settings._default]):
