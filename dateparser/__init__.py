@@ -3,6 +3,7 @@ __version__ = '0.7.0'
 
 from .date import DateDataParser
 from .conf import apply_settings
+import regex as re
 
 _default_parser = DateDataParser()
 
@@ -44,7 +45,8 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
     :rtype: :class:`datetime <datetime.datetime>`.
     :raises: ValueError - Unknown Language
     """
-    if not(date_string.replace(" ","")):
+
+    if not(re.compile('\S').search(date_string)):
         return
 
     parser = _default_parser
