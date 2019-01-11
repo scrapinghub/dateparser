@@ -668,6 +668,15 @@ class TestTranslateSearch(BaseTestCase):
               languages=None,
               settings=None,
               expected=None),
+        # Date With comma and apostrophe
+        param(text="9/3/2017  , ",
+              languages=['en'],
+              settings=None,
+              expected=[('9/3/2017', datetime.datetime(2017, 9, 3, 0, 0))]),
+        param(text="9/3/2017  ' ",
+              languages=['en'],
+              settings=None,
+              expected=[('9/3/2017', datetime.datetime(2017, 9, 3, 0, 0))]),
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)
