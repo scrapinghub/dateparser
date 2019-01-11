@@ -92,11 +92,8 @@ class TestDateParser(BaseTestCase):
         param('13 авг. 2005г. 19:13', datetime(2005, 8, 13, 19, 13)),
         param('13 авг. 2005 г. 19:13', datetime(2005, 8, 13, 19, 13)),
         param('Пнд, 07 янв. 2019 г. 12:15', datetime(2019, 1, 7, 12, 15)),
-        param('Вт, 08 янв. 2019 г. 12:15', datetime(2019, 1, 8, 12, 15)),
         param('Срд, 09 янв. 2019 г. 12:15', datetime(2019, 1, 9, 12, 15)),
-        param('Чт, 10 янв. 2019 г. 12:15', datetime(2019, 1, 10, 12, 15)),
         param('Птн, 11 янв. 2019 г. 12:15', datetime(2019, 1, 11, 12, 15)),
-        param('Сб, 12 янв. 2019 г. 12:15', datetime(2019, 1, 12, 12, 15)),
         # Turkish dates
         param('11 Ağustos, 2014', datetime(2014, 8, 11)),
         param('08.Haziran.2014, 11:07', datetime(2014, 6, 8, 11, 7)),  # forum.andronova.net
