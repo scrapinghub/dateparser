@@ -128,7 +128,9 @@ info = {
     "relative-type": {
         "1 year ago": [
             "last year",
-            "last yr"
+            "last yr",
+            "year ago",
+            "ago year"
         ],
         "0 year ago": [
             "this year",
@@ -136,11 +138,13 @@ info = {
         ],
         "in 1 year": [
             "next year",
-            "next yr"
+            "next yr",
+            "in year"
         ],
         "1 month ago": [
             "last month",
-            "last mo"
+            "last mo",
+            "month ago"
         ],
         "0 month ago": [
             "this month",
@@ -148,11 +152,13 @@ info = {
         ],
         "in 1 month": [
             "next month",
-            "next mo"
+            "next mo",
+            "in month"
         ],
         "1 week ago": [
             "last week",
-            "last wk"
+            "last wk",
+            "week ago"
         ],
         "0 week ago": [
             "this week",
@@ -160,16 +166,19 @@ info = {
         ],
         "in 1 week": [
             "next week",
-            "next wk"
+            "next wk",
+            "in week"
         ],
         "1 day ago": [
-            "yesterday"
+            "yesterday",
+            "day ago"
         ],
         "0 day ago": [
             "today"
         ],
         "in 1 day": [
-            "tomorrow"
+            "tomorrow",
+            "in day"
         ],
         "0 hour ago": [
             "this hour"
@@ -193,7 +202,7 @@ info = {
         "\\1 year ago": [
             "(\\d+) year ago",
             "(\\d+) years ago",
-            "(\\d+) yr ago"
+            "(\\d+) yr ago",
         ],
         "in \\1 month": [
             "in (\\d+) month",
