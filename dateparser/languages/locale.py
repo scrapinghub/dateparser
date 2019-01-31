@@ -246,11 +246,11 @@ class Locale(object):
 
         splitters_dict = {1: '[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
                           # Indonesian, Vietnamese
-                          2: '(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))*',  # Spanish
-                          3: '[|!?;\r\n]+(?:\s|$)*',  # Hindi and Bangla
-                          4: '[。…‥\.!?？！;\r\n]+(?:\s|$)*',  # Japanese and Chinese
+                          2: '(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))+',  # Spanish
+                          3: '[|!?;\r\n]+(?:\s|$)+',  # Hindi and Bangla
+                          4: '[。…‥\.!?？！;\r\n]+(?:\s|$)+',  # Japanese and Chinese
                           5: '[\r\n]+',  # Thai
-                          6: '[\r\n؟!\.…]+(?:\s|$)*'}  # Arabic and Farsi
+                          6: '[\r\n؟!\.…]+(?:\s|$)+'}  # Arabic and Farsi
         if 'sentence_splitter_group' not in self.info:
             split_reg = abbreviation_string + splitters_dict[1]
             sentences = re.split(split_reg, string)
