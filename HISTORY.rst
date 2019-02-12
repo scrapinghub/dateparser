@@ -3,6 +3,25 @@
 History
 =======
 
+0.7.1 (2019-02-12)
+------------------
+
+Features/news:
+
+* Added detected language to return value of `search_dates()`
+* Performance improvements
+* Refreshed versions of dependencies
+
+Improvements:
+
+* Fixed unpickleable `DateTime` objects with timezones
+* Fixed regex pattern to avoid new behaviour of re.split in Python 3.7
+* Fixed an exception thrown when parsing colons
+* Fixed tests failing on days with number greater than 30
+* Fixed `ZeroDivisionError` exceptions
+
+
+
 0.7.0 (2018-02-08)
 ------------------
 
