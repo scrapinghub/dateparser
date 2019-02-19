@@ -14,7 +14,6 @@ from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings
-from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings
 
 
@@ -360,7 +359,9 @@ class DateDataParser(object):
         :type date_formats: list
 
         :return: a dict mapping keys to :mod:`datetime.datetime` object and *period*. For example:
-            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': u'day'}
+            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0),
+             'period': u'day', 'date_begin': datetime.datetime(2015, 6, 1, 0, 0),
+             'date_end': datetime.datetime(2015, 6, 1, 0, 0)}
 
         :raises: ValueError - Unknown Language
 
@@ -407,9 +408,60 @@ class DateDataParser(object):
                 parsed_date['locale'] = locale.shortname
                 if self.try_previous_locales:
                     self.previous_locales.insert(0, locale)
+
                 return parsed_date
         else:
             return {'date_obj': None, 'period': 'day', 'locale': None}
+
+    def get_date_data_interval(self, date_string, date_formats=None):
+        """
+        Parse string representing date and/or time in recognizable localized formats.
+        Supports parsing multiple languages and timezones.
+        Supports further parsing of time intervals.
+
+        :param date_string:
+            A string representing date and/or time in a recognizably valid format.
+        :type date_string: str|unicode
+        :param date_formats:
+            A list of format strings using directives as given
+            `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
+            The parser applies formats one by one, taking into account the detected languages.
+        :type date_formats: list
+
+        :return: a dict mapping keys to :mod:`datetime.datetime` object, *period*, is_range, date_begin and date_end.
+
+        :raises: ValueError - Unknown Language
+
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year'.
+
+        *Period* represents the granularity of date parsed from the given string.
+
+        """
+        if not(isinstance(date_string, six.text_type) or isinstance(date_string, six.string_types)):
+            raise TypeError('Input type must be str or unicode')
+
+        if isinstance(date_string, bytes):
+            date_string = date_string.decode('utf-8')
+
+        res = parse_with_formats(date_string, date_formats or [], self._settings)
+        if res['date_obj']:
+            return res
+
+        date_string = sanitize_date(date_string)
+
+        for locale in self._get_applicable_locales(date_string):
+            parsed_date = _DateLocaleParser.parse(
+                locale, date_string, date_formats, settings=self._settings)
+            if parsed_date:
+                parsed_date['locale'] = locale.shortname
+                if self.try_previous_locales:
+                    self.previous_locales.insert(0, locale)
+                parsed_date['is_range'] = False
+                parsed_date['date_begin']=None
+                parsed_date['date_end']=None
+                return parsed_date
+        else:
+            return {'date_obj':None, 'period':'day', 'locale':None,'is_range':False,'date_begin':None,'date_end':None}
 
     def get_date_tuple(self, *args, **kwargs):
         date_tuple = collections.namedtuple('DateData', 'date_obj period locale')
@@ -417,42 +469,22 @@ class DateDataParser(object):
         return date_tuple(**date_data)
 
     def _get_applicable_locales(self, date_string):
-        pop_tz_cache = []
-
-        def date_strings():
-            """ A generator instead of a static list to avoid calling
-            pop_tz_offset_from_string if the first locale matches on unmodified
-            date_string.
-            """
-            yield date_string
-            if not pop_tz_cache:
-                stripped_date_string, _ = pop_tz_offset_from_string(
-                    date_string, as_offset=False)
-                if stripped_date_string == date_string:
-                    stripped_date_string = None
-                pop_tz_cache[:] = [stripped_date_string]
-            stripped_date_string, = pop_tz_cache
-            if stripped_date_string is not None:
-                yield stripped_date_string
-
         if self.try_previous_locales:
             for locale in self.previous_locales:
-                for s in date_strings():
-                    if self._is_applicable_locale(locale, s):
-                        yield locale
+                if self._is_applicable_locale(locale, date_string):
+                    yield locale
 
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
                 use_given_order=self.use_given_order):
-            for s in date_strings():
-                if self._is_applicable_locale(locale, s):
-                    yield locale
+            if self._is_applicable_locale(locale, date_string):
+                yield locale
 
     def _is_applicable_locale(self, locale, date_string):
-        return locale.is_applicable(
-            date_string,
-            strip_timezone=False,  # it is stripped outside
-            settings=self._settings)
+        return (
+            locale.is_applicable(date_string, strip_timezone=False, settings=self._settings) or
+            locale.is_applicable(date_string, strip_timezone=True, settings=self._settings)
+            )
 
     @classmethod
     def _get_locale_loader(cls):

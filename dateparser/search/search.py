@@ -4,8 +4,10 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
+from dateparser.date import get_last_day_of_month
 import regex as re
 import collections
+from datetime import date
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 
@@ -56,11 +58,8 @@ class ExactLanguageSearch:
                     not_parsed += 1
                 if not any(char.isdigit() for char in possible_substrings_splits[i][j]):
                     num_substrings_without_digits += 1
-            rating.append([
-                num_substrings,
-                0 if not_parsed == 0 else (float(not_parsed)/float(num_substrings)),
-                0 if num_substrings_without_digits == 0 else (
-                    float(num_substrings_without_digits)/float(num_substrings))])
+            rating.append([num_substrings, float(not_parsed)/float(num_substrings),
+                           float(num_substrings_without_digits)/float(num_substrings)])
             best_index, best_rating = min(enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2]))
         return possible_parsed_splits[best_index], possible_substrings_splits[best_index]
 
@@ -93,7 +92,7 @@ class ExactLanguageSearch:
     def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
         item = item.replace('ngày', '')
         item = item.replace('am', '')
-        pre_parsed_item = parser.get_date_data(item)
+        pre_parsed_item = parser.get_date_data_interval(item)
         is_relative = date_is_relative(translated_item)
         if need_relative_base:
             item, relative_base = self.set_relative_base(item, parsed)
@@ -106,6 +105,58 @@ class ExactLanguageSearch:
         else:
             parsed_item = pre_parsed_item
         parsed_item['is_relative'] = is_relative
+        return parsed_item
+
+    def parse_item_interval(self, parser, item, translated_item, parsed, need_relative_base):
+        item = item.replace('ngày', '')
+        item = item.replace('am', '')
+        pre_parsed_item = parser.get_date_data_interval(item)
+        is_relative = date_is_relative(translated_item)
+        if need_relative_base and pre_parsed_item['date_obj'] is None:#If more than one date to parse interval, relative_base must be none
+            item, relative_base = self.set_relative_base(item, parsed)
+        else:
+            relative_base = None
+
+        if relative_base:
+            parser._settings.RELATIVE_BASE = relative_base
+            parsed_item = parser.get_date_data(item)
+        else:
+            parsed_item = pre_parsed_item
+        parsed_item['is_relative'] = is_relative
+        future='in' in item
+        past='ago' in item
+        period=parsed_item['period']
+        if period=='year':
+            if is_relative and future:
+                parsed_item['date_begin']=date.today()
+                parsed_item['date_end']=parsed_item['date_obj']
+            elif is_relative and past:
+                parsed_item['date_begin']=parsed_item['date_obj']
+                parsed_item['date_end']=date.today()
+            else:
+                parsed_item['date_begin'] = parsed_item['date_obj'].replace(day=1)
+                parsed_item['date_end'] = parsed_item['date_obj'].replace(month=12,day=31)
+            parsed_item['is_range']=True
+        if period=='month':
+            if is_relative and future:
+                parsed_item['date_begin']=date.today()
+                parsed_item['date_end']=parsed_item['date_obj']
+            elif is_relative and past:
+                parsed_item['date_begin']=parsed_item['date_obj']
+                parsed_item['date_end']=date.today()
+            else:
+                parsed_item['date_begin'] = parsed_item['date_obj'].replace(day=1)
+                last_day = get_last_day_of_month(parsed_item['date_obj'].year, parsed_item['date_obj'].month)
+                parsed_item['date_end'] = parsed_item['date_obj'].replace(day=last_day)
+            parsed_item['is_range']=True
+        if period=='week':
+            if is_relative and future:
+                parsed_item['date_begin']=date.today()
+                parsed_item['date_end']=parsed_item['date_obj']
+            else:
+                parsed_item['date_begin']=parsed_item['date_obj']
+                parsed_item['date_end']=date.today()
+            parsed_item['is_range']=True
         return parsed_item
 
     def parse_found_objects(self, parser, to_parse, original, translated, settings):
@@ -147,6 +198,45 @@ class ExactLanguageSearch:
                                 substrings.append(substrings_best[k])
         return parsed, substrings
 
+    def parse_found_objects_interval(self, parser, to_parse, original, translated, settings):
+        parsed = []
+        substrings = []
+        need_relative_base = True
+        if settings.RELATIVE_BASE:
+            need_relative_base = False
+        for i, item in enumerate(to_parse):
+            if len(item) > 2:
+                parsed_item = self.parse_item_interval(parser, item, translated[i], parsed, need_relative_base)
+                if parsed_item['date_obj']:
+                    parsed.append(parsed_item)
+                    substrings.append(original[i].strip(' .,:()[]-'))
+                    pass
+                else:
+                    possible_splits = self.split_if_not_parsed(item, original[i])
+                    if possible_splits:
+                        possible_parsed = []
+                        possible_substrings = []
+                        for split_translated, split_original in possible_splits:
+                            current_parsed = []
+                            current_substrings = []
+                            if split_translated:
+                                for j, jtem in enumerate(split_translated):
+                                    if len(jtem) > 2:
+                                        parsed_jtem = self.parse_item_interval(parser, jtem, split_translated[j],
+                                                                      current_parsed, need_relative_base)
+                                        current_parsed.append(parsed_jtem)
+                                        current_substrings.append(split_original[j].strip(' .,:()[]-'))
+                            else:
+                                pass
+                            possible_parsed.append(current_parsed)
+                            possible_substrings.append(current_substrings)
+                        parsed_best, substrings_best = self.choose_best_split(possible_parsed, possible_substrings)
+                        for k in range(len(parsed_best)):
+                            if parsed_best[k]['date_obj']:
+                                parsed.append(parsed_best[k])
+                                substrings.append(substrings_best[k])
+        return parsed, substrings
+
     def search_parse(self, shortname, text, settings):
         translated, original = self.search(shortname, text, settings)
         bad_translate_with_search = ['vi', 'hu']   # splitting done by spaces and some dictionary items contain spaces
@@ -160,6 +250,21 @@ class ExactLanguageSearch:
                                                           original=original, translated=translated, settings=settings)
         parser._settings = Settings()
         return list(zip(substrings, [i['date_obj'] for i in parsed]))
+
+    def search_parse_interval(self, shortname, text, settings):
+        translated, original = self.search(shortname, text, settings)
+        bad_translate_with_search = ['vi', 'hu']   # splitting done by spaces and some dictionary items contain spaces
+        if shortname not in bad_translate_with_search:
+            parser = DateDataParser(languages=['en'], settings=settings)
+            parsed, substrings = self.parse_found_objects_interval(parser=parser, to_parse=translated,
+                                                          original=original, translated=translated, settings=settings)
+        else:
+            parser = DateDataParser(languages=[shortname], settings=settings)
+            parsed, substrings = self.parse_found_objects_interval(parser=parser, to_parse=original,
+                                                          original=original, translated=translated, settings=settings)
+        parser._settings = Settings()
+        return list(zip(substrings, [{'date_obj': i['date_obj'], 'date_begin':i['date_begin'],
+                                      'date_end':i['date_end'], 'is_range':i['is_range']} for i in parsed]))
 
 
 class DateSearchWithDetection:
@@ -222,3 +327,35 @@ class DateSearchWithDetection:
             return {'Language': None, 'Dates': None}
         return {'Language': language_shortname, 'Dates': self.search.search_parse(language_shortname, text,
                                                                                   settings=settings)}
+
+    @apply_settings
+    def search_dates_interval(self, text, languages=None, settings=None):
+        """
+        Find all substrings of the given string which represent date and/or time and parse them. Parsing includes 
+        dates and time intervals.
+
+        :param text:
+            A string in a natural language which may contain date and/or time expressions.
+        :type text: str|unicode
+        :param languages:
+            A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
+            to detect the language.
+        :type languages: list
+        :param settings:
+               Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+        :type settings: dict
+
+        :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
+                substring representing date expressions and corresponding :mod:`datetime.datetime` object.
+            For example:
+            {'Language': 'en', 'Dates': [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))]}
+            If language of the string isn't recognised returns:
+            {'Language': None, 'Dates': None}
+        :raises: ValueError - Unknown Language
+        """
+
+        language_shortname = self.detect_language(text=text, languages=languages)
+        if not language_shortname:
+            return {'Language': None, 'Dates': None}
+        return {'Language': language_shortname, 'Dates': self.search.search_parse_interval(language_shortname, text,
+                                                                                           settings=settings)}
