@@ -1,5 +1,5 @@
 import sys
-if sys.versioninfo[0:2] < (3, 3):
+if sys.version_info[0:2] < (3, 3):
     import imp
 else:
     import importlib
@@ -25,7 +25,7 @@ def patch_strptime():
     For example, if system's locale is set to fr_FR. Parser won't recognize
     any date since all languages are translated to english dates.
     """
-    if sys.versioninfo[0:2] < (3, 3):
+    if sys.version_info[0:2] < (3, 3):
         _strptime = imp.load_module(
             'strptime_patched', *imp.find_module('_strptime')
         )
