@@ -1,4 +1,8 @@
-import imp
+import sys
+if sys.versioninfo[0:2] < (3, 3):
+    import imp
+else:
+    import importlib
 import regex as re
 
 from datetime import datetime
@@ -21,14 +25,17 @@ def patch_strptime():
     For example, if system's locale is set to fr_FR. Parser won't recognize
     any date since all languages are translated to english dates.
     """
+    if sys.versioninfo[0:2] < (3, 3):
+        _strptime = imp.load_module(
+            'strptime_patched', *imp.find_module('_strptime')
+        )
 
-    _strptime = imp.load_module(
-        'strptime_patched', *imp.find_module('_strptime')
-    )
-
-    _calendar = imp.load_module(
-        'calendar_patched', *imp.find_module('_strptime')
-    )
+        _calendar = imp.load_module(
+            'calendar_patched', *imp.find_module('_strptime')
+        )
+    else:
+        _strptime = importlib.import_module('_strptime')
+        _calendar = importlib.import_module('_strptime')
 
     _strptime._getlang = lambda: ('en_US', 'UTF-8')
     _strptime.calendar = _calendar
