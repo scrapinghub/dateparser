@@ -244,13 +244,13 @@ class Locale(object):
             for digit_abbreviation in digit_abbreviations:
                 abbreviation_string += '(?<!' + digit_abbreviation + ')'  # negative lookbehind
 
-        splitters_dict = {1: '[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
+        splitters_dict = {1: r'[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
                           # Indonesian, Vietnamese
-                          2: '(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))+',  # Spanish
-                          3: '[|!?;\r\n]+(?:\s|$)+',  # Hindi and Bangla
-                          4: '[。…‥\.!?？！;\r\n]+(?:\s|$)+',  # Japanese and Chinese
-                          5: '[\r\n]+',  # Thai
-                          6: '[\r\n؟!\.…]+(?:\s|$)+'}  # Arabic and Farsi
+                          2: r'(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))+',  # Spanish
+                          3: r'[|!?;\r\n]+(?:\s|$)+',  # Hindi and Bangla
+                          4: r'[。…‥\.!?？！;\r\n]+(?:\s|$)+',  # Japanese and Chinese
+                          5: r'[\r\n]+',  # Thai
+                          6: r'[\r\n؟!\.…]+(?:\s|$)+'}  # Arabic and Farsi
         if 'sentence_splitter_group' not in self.info:
             split_reg = abbreviation_string + splitters_dict[1]
             sentences = re.split(split_reg, string)
@@ -354,17 +354,17 @@ class Locale(object):
         if 'no_word_spacing' in self.info:
             return self._join(chunk, separator="", settings=settings)
         else:
-            return re.sub('\s{2,}', ' ', " ".join(chunk))
+            return re.sub(r'\s{2,}', ' ', " ".join(chunk))
 
     def _token_with_digits_is_ok(self, token):
         if 'no_word_spacing' in self.info:
-            if re.search('[\d\.:\-/]+', token) is not None:
+            if re.search(r'[\d\.:\-/]+', token) is not None:
                 return True
             else:
                 return False
 
         else:
-            if re.search('\d+', token) is not None:
+            if re.search(r'\d+', token) is not None:
                 return True
             else:
                 return False

@@ -61,7 +61,7 @@ class TestUtils(BaseTestCase):
         self.assertRaises(UnknownTimeZoneError, localize_timezone, date, timezone)
 
     @parameterized.expand([
-        param(datetime(2015, 12, 12), timezone='UTC+3', zone='UTC\+03:00'),
+        param(datetime(2015, 12, 12), timezone='UTC+3', zone=r'UTC\+03:00'),
     ])
     def test_localize_timezone_function_exception(self, date, timezone, zone):
         tzaware_dt = localize_timezone(date, timezone)

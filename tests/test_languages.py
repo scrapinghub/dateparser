@@ -2097,7 +2097,7 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
               log_msg="Invalid simplification {'simplification': []} for 'en' language: each simplification suppose "
                       "to be string-to-string-or-int mapping"),
         param('en',
-              {'simplifications': [{'(\d+)\s*hr(s?)\g<(.+?)>': r'\1 hour\2'}]},
+              {'simplifications': [{r'(\d+)\s*hr(s?)\g<(.+?)>': r'\1 hour\2'}]},
               log_msg="Invalid simplification {'(\\\\d+)\\\\s*hr(s?)\\\\g<(.+?)>': '\\\\1 hour\\\\2'} "
                       "for 'en' language: groups 3 were not used"),
         param('en',
