@@ -19,10 +19,9 @@ matrix:
       env: TOXENV=py38
       dist: xenial
 
-install:
-- pip install -U wheel
-- pip install -U tox
-- pip install -U codecov
+install: pip install -U wheel tox codecov
+
+cache: pip
 
 # command to run tests, e.g. python setup.py test
 script: tox
