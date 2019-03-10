@@ -96,8 +96,8 @@ New features:
 
 * `DateDataParser` now also returns detected language in the result dictionary.
 * Explicit and lucid timezone conversion for a given datestring using `TIMEZONE`, `TO_TIMEZONE` settings.
-* Added Hungarian langauge.
-* Added setting, `STRICT_PARSING` to ignore imcomplete dates.
+* Added Hungarian language.
+* Added setting, `STRICT_PARSING` to ignore incomplete dates.
 
 Improvements:
 
@@ -179,7 +179,7 @@ Improvements:
 
 * Fixed problem with caching :func:`datetime.now` in :class:`FreshnessDateDataParser`.
 * Added month names and week day names abbreviations to several languages.
-* More simplifications for Russian and Ukranian languages.
+* More simplifications for Russian and Ukrainian languages.
 * Fixed problem with parsing time component of date strings with several kinds of apostrophes.
 
 

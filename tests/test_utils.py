@@ -20,10 +20,10 @@ class TestUtils(BaseTestCase):
     def given_date_format(self, date_format):
         self.date_format = date_format
 
-    def when_date_seperator_is_parsed(self):
+    def when_date_separator_is_parsed(self):
         self.result = find_date_separator(self.date_format)
 
-    def then_date_seperator_is(self, sep):
+    def then_date_separator_is(self, sep):
         self.assertEqual(self.result, sep)
 
     @staticmethod
@@ -41,8 +41,8 @@ class TestUtils(BaseTestCase):
     ])
     def test_separator_extraction(self, date_format, expected_sep):
         self.given_date_format(date_format)
-        self.when_date_seperator_is_parsed()
-        self.then_date_seperator_is(expected_sep)
+        self.when_date_separator_is_parsed()
+        self.then_date_separator_is(expected_sep)
 
     @parameterized.expand([
         param(datetime(2015, 12, 12), timezone='UTC', zone='UTC'),

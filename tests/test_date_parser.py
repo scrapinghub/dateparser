@@ -490,7 +490,7 @@ class TestDateParser(BaseTestCase):
         param('April 2015', today=datetime(2015, 2, 28), expected=datetime(2015, 4, 28)),
         param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 15)),
     ])
-    def test_dates_with_day_missing_prefering_current_day_of_month(
+    def test_dates_with_day_missing_preferring_current_day_of_month(
             self, date_string, today=None, expected=None):
         self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'current', 'RELATIVE_BASE': today})
         self.when_date_is_parsed(date_string)
@@ -505,7 +505,7 @@ class TestDateParser(BaseTestCase):
         param('April 2015', today=datetime(2015, 2, 28), expected=datetime(2015, 4, 30)),
         param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 31)),
     ])
-    def test_dates_with_day_missing_prefering_last_day_of_month(
+    def test_dates_with_day_missing_preferring_last_day_of_month(
             self, date_string, today=None, expected=None):
         self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'last', 'RELATIVE_BASE': today})
         self.when_date_is_parsed(date_string)
@@ -520,7 +520,7 @@ class TestDateParser(BaseTestCase):
         param('April 2015', today=datetime(2015, 2, 28), expected=datetime(2015, 4, 1)),
         param('December 2014', today=datetime(2015, 2, 15), expected=datetime(2014, 12, 1)),
     ])
-    def test_dates_with_day_missing_prefering_first_day_of_month(
+    def test_dates_with_day_missing_preferring_first_day_of_month(
             self, date_string, today=None, expected=None):
         self.given_parser(settings={'PREFER_DAY_OF_MONTH': 'first', 'RELATIVE_BASE': today})
         self.when_date_is_parsed(date_string)
