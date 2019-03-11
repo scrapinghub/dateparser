@@ -2,7 +2,7 @@ import sys
 if sys.version_info[0:2] < (3, 3):
     import imp
 else:
-    import importlib
+    import importlib.util
 import regex as re
 
 from datetime import datetime
@@ -34,8 +34,15 @@ def patch_strptime():
             'calendar_patched', *imp.find_module('_strptime')
         )
     else:
-        _strptime = importlib.import_module('_strptime')
-        _calendar = importlib.import_module('_strptime')
+        _strptime_spec = importlib.util.find_spec('_strptime')
+
+        _strptime = importlib.util.module_from_spec(_strptime_spec)
+        _strptime_spec.loader.exec_module(_strptime)
+        sys.modules['strptime_patched'] = _strptime
+
+        _calendar = importlib.util.module_from_spec(_strptime_spec)
+        _strptime_spec.loader.exec_module(_calendar)
+        sys.modules['calendar_patched'] = _calendar
 
     _strptime._getlang = lambda: ('en_US', 'UTF-8')
     _strptime.calendar = _calendar
