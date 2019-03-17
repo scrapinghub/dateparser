@@ -13,10 +13,12 @@ Committers
 * Ammar Azif
 * Andrés Portillo
 * Andrey Zhelnin
+* Andrey Rahmatullin
 * Artur Sadurski
 * Artur Gaspar
 * atchoum31
 * Benjamin Bach
+* Bruno Alla
 * Cesar Flores
 * CJStuart
 * Claudio Salazar
@@ -44,6 +46,7 @@ Committers
 * Mateusz Golewski
 * Mats Gustafsson
 * Michael Palumbo
+* msopko81
 * nanolab
 * Opp Lieamsiriwong
 * Paul Tremberth
@@ -51,6 +54,7 @@ Committers
 * phuslu
 * Rajat Goyal
 * Raul Gallegos
+* Renne Rocha
 * Robert Schütz
 * Roman
 * Sakari Vaelma
