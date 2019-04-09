@@ -121,7 +121,7 @@ class TestNoSpaceParser(BaseTestCase):
     ])
     def test_min_input_date_is_not_parsed(self, date_string):
         self.given_parser()
-        self.given_settings(settings={'DATE_ORDER': ''})
+        self.given_settings()
         self.when_date_is_parsed(date_string)
         self.then_date_is_not_parsed()
 
