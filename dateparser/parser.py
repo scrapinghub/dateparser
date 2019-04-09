@@ -11,11 +11,17 @@ from dateparser.utils.strptime import strptime
 
 
 NSP_COMPATIBLE = re.compile(r'\D+')
+NSP_DIGITS = re.compile(r'\d+')
 MERIDIAN = re.compile(r'am|pm')
 MICROSECOND = re.compile(r'\d{1,6}')
+NSP_MIN_DIGITS = 6
 
 
 def no_space_parser_eligibile(datestring):
+    src = NSP_DIGITS.search(datestring)
+    if not src or len(src.group()) < NSP_MIN_DIGITS:
+        return False
+
     src = NSP_COMPATIBLE.search(datestring)
     if not src or ':' == src.group():
         return True
