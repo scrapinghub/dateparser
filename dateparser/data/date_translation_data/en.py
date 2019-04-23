@@ -784,37 +784,37 @@ info = {
             "less than 1 minute ago": "45 second ago"
         },
         {
-            "two": 2
+            "two": "2"
         },
         {
-            "three": 3
+            "three": "3"
         },
         {
-            "four": 4
+            "four": "4"
         },
         {
-            "five": 5
+            "five": "5"
         },
         {
-            "six": 6
+            "six": "6"
         },
         {
-            "seven": 7
+            "seven": "7"
         },
         {
-            "eight": 8
+            "eight": "8"
         },
         {
-            "nine": 9
+            "nine": "9"
         },
         {
-            "ten": 10
+            "ten": "10"
         },
         {
-            "eleven": 11
+            "eleven": "11"
         },
         {
-            "twelve": 12
+            "twelve": "12"
         }
     ]
 }
