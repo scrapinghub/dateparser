@@ -116,16 +116,6 @@ class TestNoSpaceParser(BaseTestCase):
         self.then_date_is_not_parsed()
 
     @parameterized.expand([
-        param(date_string=u"11117"),
-        param(date_string=u"2011"),
-    ])
-    def test_min_input_date_is_not_parsed(self, date_string):
-        self.given_parser()
-        self.given_settings()
-        self.when_date_is_parsed(date_string)
-        self.then_date_is_not_parsed()
-
-    @parameterized.expand([
         param(
             date_string=u"201115",
             expected_date=datetime(2015, 11, 20),
@@ -169,6 +159,12 @@ class TestNoSpaceParser(BaseTestCase):
             expected_period='day',
         ),
         param(
+            date_string=u"12595",
+            expected_date=datetime(1995, 12, 5),
+            date_order='MDY',
+            expected_period='day',
+        ),
+        param(
             date_string=u"459712:15:07.54",
             expected_date=datetime(4597, 12, 15, 0, 7),
             date_order='MDY',
@@ -187,6 +183,12 @@ class TestNoSpaceParser(BaseTestCase):
             expected_period='day',
         ),
         param(
+            date_string=u"21813",
+            expected_date=datetime(2018, 2, 13),
+            date_order='MYD',
+            expected_period='day',
+        ),
+        param(
             date_string=u"12937886",
             expected_date=datetime(2937, 1, 8, 8, 6),
             date_order='MYD',
@@ -195,6 +197,12 @@ class TestNoSpaceParser(BaseTestCase):
         param(
             date_string=u"20151211",
             expected_date=datetime(2015, 12, 11),
+            date_order='YMD',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"18216",
+            expected_date=datetime(2018, 2, 16),
             date_order='YMD',
             expected_period='day',
         ),
@@ -211,8 +219,20 @@ class TestNoSpaceParser(BaseTestCase):
             expected_period='day',
         ),
         param(
+            date_string=u"14271",
+            expected_date=datetime(2014, 1, 27),
+            date_order='YDM',
+            expected_period='day',
+        ),
+        param(
             date_string=u"2010111110:11",
             expected_date=datetime(2010, 11, 11, 10, 1, 1),
+            date_order='YDM',
+            expected_period='day',
+        ),
+        param(
+            date_string=u"10:11:2",
+            expected_date=datetime(2010, 2, 11, 0, 0),
             date_order='YDM',
             expected_period='day',
         ),
