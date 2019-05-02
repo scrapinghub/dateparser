@@ -131,6 +131,12 @@ class _no_spaces_parser(object):
             '%d%y%m': sorted(self._all, key=lambda x: x.lower().startswith('%d%y%m'), reverse=True),
         }
 
+    def _filter_datetime_format(self, date_order):
+        return filter(
+            lambda dt: dt.lower().startswith(date_order),
+            self.date_formats
+        )
+
     @classmethod
     def _get_period(cls, format_string):
         for pname, pdrv in sorted(cls.period.items(), key=lambda x: x[0]):
@@ -154,9 +160,13 @@ class _no_spaces_parser(object):
         else:
             order = cls._default_order
         nsp = cls()
+        if settings.STRICT_PARSING:
+            date_formats = nsp._filter_datetime_format(order)
+        else:
+            date_formats = nsp.date_formats[order]
         ambiguous_date = None
         for token, _ in tokens.tokenize():
-            for fmt in nsp.date_formats[order]:
+            for fmt in date_formats:
                 try:
                     dt = strptime(token, fmt), cls._get_period(fmt)
                     if len(str(dt[0].year)) < 4:
