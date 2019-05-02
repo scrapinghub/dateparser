@@ -117,6 +117,19 @@ class TestNoSpaceParser(BaseTestCase):
 
     @parameterized.expand([
         param(
+            date_string=u"2017",
+        ),
+        param(
+            date_string=u"2011",
+        ),
+    ])
+    def test_error_is_raised_when_incomplete_dates_given(self, date_string):
+        self.given_parser()
+        self.given_settings(settings={'STRICT_PARSING': True})
+        self.then_error_is_raised_when_date_is_parsed(date_string)
+
+    @parameterized.expand([
+        param(
             date_string=u"201115",
             expected_date=datetime(2015, 11, 20),
             date_order='DMY',
@@ -321,6 +334,10 @@ class TestNoSpaceParser(BaseTestCase):
 
     def then_returned_period_is(self, expected_period):
         self.assertEqual(self.result, expected_period)
+
+    def then_error_is_raised_when_date_is_parsed(self, date_string):
+        with self.assertRaises(ValueError):
+            self.parser.parse(date_string, self.settings)
 
 
 class TestParser(BaseTestCase):
