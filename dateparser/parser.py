@@ -134,7 +134,7 @@ class _no_spaces_parser(object):
     def _filter_datetime_format(self, date_order):
         return filter(
             lambda dt: dt.lower().startswith(date_order),
-            self.date_formats
+            self.date_formats[date_order]
         )
 
     @classmethod
