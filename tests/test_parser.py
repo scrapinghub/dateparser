@@ -307,6 +307,27 @@ class TestNoSpaceParser(BaseTestCase):
         self.when_get_period_is_called(format_string)
         self.then_returned_period_is(expected_period)
 
+    @parameterized.expand([
+        param(
+            date_order="%m%d%y",
+            expected_formats=[
+                '%m%d%Y', '%m%d%y', '%m%d%Y%H%M%S.%f', '%m%d%Y%H%M%S', '%m%d%Y%H%M',
+                '%m%d%Y%H', '%m%d%y%H%M%S.%f', '%m%d%y%H%M%S', '%m%d%y%H%M', '%m%d%y%H'
+            ]
+        ),
+        param(
+            date_order="%d%m%y",
+            expected_formats=[
+                '%d%m%Y', '%d%m%y', '%d%m%Y%H%M%S.%f', '%d%m%Y%H%M%S', '%d%m%Y%H%M',
+                '%d%m%Y%H', '%d%m%y%H%M%S.%f', '%d%m%y%H%M%S', '%d%m%y%H%M', '%d%m%y%H'
+            ]
+        ),
+    ])
+    def test_filter_datetime_format_function(self, date_order, expected_formats):
+        self.given_parser()
+        self.when_filter_datetime_format_is_called(date_order)
+        self.then_filtered_date_formats_are(expected_formats)
+
     def given_parser(self):
         self.parser = _no_spaces_parser
 
@@ -323,11 +344,17 @@ class TestNoSpaceParser(BaseTestCase):
     def when_get_period_is_called(self, format_string):
         self.result = self.parser._get_period(format_string)
 
+    def when_filter_datetime_format_is_called(self, date_order):
+        self.result = self.parser()._filter_datetime_format(date_order)
+
     def then_date_exactly_is(self, expected_date):
         self.assertEqual(self.result[0], expected_date)
 
     def then_period_exactly_is(self, expected_period):
         self.assertEqual(self.result[1], expected_period)
+
+    def then_filtered_date_formats_are(self, expected_formats):
+        self.assertEqual(self.result, expected_formats)
 
     def then_date_is_not_parsed(self):
         self.assertIsNone(self.result)
