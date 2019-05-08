@@ -354,7 +354,7 @@ class TestNoSpaceParser(BaseTestCase):
         self.assertEqual(self.result[1], expected_period)
 
     def then_filtered_date_formats_are(self, expected_formats):
-        self.assertEqual(self.result, expected_formats)
+        self.assertEqual([x for x in self.result], expected_formats)
 
     def then_date_is_not_parsed(self):
         self.assertIsNone(self.result)
