@@ -59,6 +59,12 @@ class TestFreshnessDateDataParser(BaseTestCase):
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         param('just now', ago={'seconds': 0}, period='day'),
+        # Fix for #291, work till one to twelve only
+        param('nine hours ago', ago={'hours': 9}, period='day'),
+        param('three week ago', ago={'weeks': 3}, period='week'),
+        param('eight months ago', ago={'months': 8}, period='month'),
+        param('six days ago', ago={'days': 6}, period='day'),
+        param('five years ago', ago={'years': 5}, period='year'),
 
         # French dates
         param("Aujourd'hui", ago={'days': 0}, period='day'),
@@ -176,6 +182,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 rok 11 měsíců', ago={'years': 1, 'months': 11}, period='month'),
         param('3 dny', ago={'days': 3}, period='day'),
         param('3 hodiny', ago={'hours': 3}, period='day'),
+        param('2 roky, 2 týdny, 1 den, 1 hodinu, 5 vteřin před',
+              ago={'years': 2, 'weeks': 2, 'days': 1, 'hours': 1, 'seconds': 5},
+              period='day'),
         param('1 rok, 1 měsíc, 1 týden, 1 den, 1 hodina, 1 minuta před',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
