@@ -12,5 +12,6 @@ settings = {
     'DATE_ORDER': 'MDY',
     'PREFER_LOCALE_DATE_ORDER': True,
     'FUZZY': False,
-    'STRICT_PARSING': False
+    'STRICT_PARSING': False,
+    'REQUIRE_PARTS': None,
 }
