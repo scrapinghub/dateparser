@@ -334,7 +334,7 @@ class _parser(object):
                 errors.append('Year')
             if errors:
                 raise ValueError('%s not found in the date string' % ''.join(errors))
-        elif self.settings.REQUIRE_PARTSq:
+        elif self.settings.REQUIRE_PARTS:
             errors = []
             if 'day' in self.settings.REQUIRE_PARTS and not self.day:
                 errors.append('Day')
