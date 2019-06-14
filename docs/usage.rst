@@ -126,7 +126,7 @@ For example, assuming current date is `June 16, 2015`:
 
     >>> from dateparser import parse
     >>> parse(u'14:30')
-    datetime.datetime(2015, 3, 16, 14, 30)
+    datetime.datetime(2015, 6, 16, 14, 30)
     >>> parse(u'14:30', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
     datetime.datetime(2020, 1, 1, 14, 30)
     >>> parse(u'tomorrow', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
@@ -138,6 +138,21 @@ When set to `True` if missing any of `day`, `month` or `year` parts, it does not
 
     >>> parse(u'March', settings={'STRICT_PARSING': True})
     None
+
+``REQUIRE_PARTS`` This option ensures results are dates that have some specified part. It defaults to `None` and can include ``day``, ``month`` and/or ``year``.
+
+For example, assuming current date is `June 16, 2019`:
+
+    >>> parse(u'2012') # default behavior
+    datetime.datetime(2012, 6, 16, 0, 0)
+    >>> parse(u'2012', settings={'REQUIRE_PARTS': 'month'})
+    None
+    >>> parse(u'March 2012', settings={'REQUIRE_PARTS': 'day'})
+    None
+    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': 'day'})
+    datetime.datetime(2012, 3, 12, 0, 0)
+    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': 'day,month,year'})
+    datetime.datetime(2012, 3, 12, 0, 0)
 
 
 Language Detection
