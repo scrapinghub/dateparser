@@ -1553,10 +1553,35 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('{} months ago'.format(2008 * 12 + 8), date(1, 10, 4), time(13, 15)),
         param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
               date(2009, 4, 26), time(12, 14)),
-        param('just now', date(2010, 6, 4), time(13, 15))
+        param('just now', date(2010, 6, 4), time(13, 15)),
+        param('2.5 hours ago', date(2010, 6, 4), time(10, 45))
     ])
     def test_freshness_date_with_relative_base(self, date_string, date, time):
         self.given_parser(settings={'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
+    @parameterized.expand([
+        param('3 days', date(2010, 6, 1), time(13, 15)),
+        param('2 years', date(2008, 6, 4), time(13, 15)),
+    ])
+    def test_freshness_date_with_relative_base_past(self, date_string, date, time):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'past',
+                          'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
+    @parameterized.expand([
+        param('3 days', date(2010, 6, 7), time(13, 15)),
+        param('2 years', date(2012, 6, 4), time(13, 15)),
+    ])
+    def test_freshness_date_with_relative_base_future(self, date_string, date, time):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'future',
+                          'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_date_is(date)
