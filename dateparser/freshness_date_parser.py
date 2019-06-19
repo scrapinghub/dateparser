@@ -93,7 +93,7 @@ class FreshnessDateDataParser(object):
             else:
                 self.now = datetime.now(self.get_local_tz())
 
-        date, period = self._parse_date(date_string, settings.PREFER_DATES_FROM)
+        date, period = self._parse_date(date_string)
 
         if date:
             date = apply_time(date, _time)
@@ -110,7 +110,7 @@ class FreshnessDateDataParser(object):
         self.now = None
         return date, period
 
-    def _parse_date(self, date_string, prefer_dates_from):
+    def _parse_date(self, date_string):
         if not self._are_all_words_units(date_string):
             return None, None
 
