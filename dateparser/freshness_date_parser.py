@@ -133,7 +133,10 @@ class FreshnessDateDataParser(object):
         elif 'future' in prefer_dates_from:
             date = self.now + td
         else:
-            date = self.now - td
+            if 'future' in prefer_dates_from:
+                date = self.now + td
+            else:
+                date = self.now - td
         return date, period
 
     def get_kwargs(self, date_string):
