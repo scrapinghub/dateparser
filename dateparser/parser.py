@@ -271,7 +271,6 @@ class _parser(object):
             for token, type, _ in self.unset_tokens:
                 if type == 0:
                     params.update({attr: int(token)})
-                    datetime(**params)
                     setattr(self, '_token_%s' % attr, token)
                     setattr(self, attr, int(token))
 
