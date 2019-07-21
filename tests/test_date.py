@@ -342,15 +342,16 @@ class TestDateDataParser(BaseTestCase):
         param(' Yesterday \n', days_ago=1),
         param('Ontem', days_ago=1),
         param('Ieri', days_ago=1),
+        param(u'вчера', days_ago=1),
+        param(u'снощи', days_ago=1),
         # Day before yesterday
         param('the day before yesterday', days_ago=2),
         param('The DAY before Yesterday', days_ago=2),
         param('Anteontem', days_ago=2),
-        param('Avant-hier', days_ago=2),
-        param(u'вчера', days_ago=1),
-        param(u'снощи', days_ago=1)
+        param('Avant-hier', days_ago=2)
     ])
     def test_temporal_nouns_are_parsed(self, date_string, days_ago):
+        self.given_now(2019, 7, 21)
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
@@ -489,11 +490,12 @@ class TestDateDataParser(BaseTestCase):
         self.then_returned_tuple_is(expected_result)
 
     def given_now(self, year, month, day, **time):
+        now = datetime(year, month, day, **time)
         datetime_mock = Mock(wraps=datetime)
-        datetime_mock.utcnow = Mock(return_value=datetime(year, month, day, **time))
-        self.add_patch(
-            patch('dateparser.date_parser.datetime', new=datetime_mock)
-        )
+        datetime_mock.utcnow = Mock(return_value=now)
+        datetime_mock.now = Mock(return_value=now)
+        datetime_mock.today = Mock(return_value=now)
+        self.add_patch(patch('dateparser.date.datetime', new=datetime_mock))
 
     def given_parser(self, restrict_to_languages=None, **params):
         self.parser = date.DateDataParser(languages=restrict_to_languages, **params)
