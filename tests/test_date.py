@@ -650,6 +650,7 @@ class TestDateLocaleParser(BaseTestCase):
         param(date_obj={'period': 'hour'}),
         param(date_obj=[datetime(2007, 1, 22, 0, 0), 'day']),
         param(date_obj={'date_obj': None, 'period': 'day'}),
+        param(date_obj={'date': datetime(2018, 1, 10, 2, 0), 'period': 'time'}),
     ])
     def test_is_valid_date_obj(self, date_obj):
         self.given_parser(language=['en'], date_string='10 jan 2000',
