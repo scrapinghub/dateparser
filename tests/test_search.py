@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from parameterized import parameterized, param
 from tests import BaseTestCase
+from dateparser.timezone_parser import StaticTzInfo
 from dateparser.search.search import DateSearchWithDetection
 from dateparser.search import search_dates
 from dateparser.conf import Settings, apply_settings
@@ -34,6 +35,7 @@ class TestTranslateSearch(BaseTestCase):
     @parameterized.expand([
         param('en', "Sep 03 2014"),
         param('en', "friday, 03 september 2014"),
+        param('en', 'Aug 06, 2018 05:05 PM CDT'),
         # Chinese
         param('zh', "1年11个月"),
         param('zh', "1年11個月"),
@@ -250,9 +252,8 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Dutch
-        param('nl', ' De meest dramatische uitbreiding van het conflict vond plaats op 22 juni 1941 met de '
-                    'Duitse aanval op de Sovjet-Unie.',
-              [('22 juni 1941', datetime.datetime(1941, 6, 22, 0, 0))],
+        param('nl', 'Sinds 1 juli 2014 is hij burgemeester van Changwon geweest',
+              [('1 juli 2014', datetime.datetime(2014, 7, 1, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # English
@@ -267,6 +268,11 @@ class TestTranslateSearch(BaseTestCase):
               [('July 13th', datetime.datetime(2000, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2000, 7, 14, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+        param('en', 'last updated Aug 06, 2018 05:05 PM CDT',
+              [(
+                  'Aug 06, 2018 05:05 PM CDT',
+                  datetime.datetime(2018, 8, 6, 17, 5, tzinfo=StaticTzInfo('CDT', datetime.timedelta(seconds=-18000))))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Filipino / Tagalog
         param('tl', 'Maraming namatay sa mga Hapon hanggang sila\'y sumuko noong Agosto 15, 1945.',
@@ -279,10 +285,8 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # French
-        param('fr', 'La 2e Guerre mondiale, ou Deuxième Guerre mondiale4, est un conflit armé à '
-                    'l\'échelle planétaire qui dura du 1 septembre 1939 au 2 septembre 1945.',
-              [('1 septembre 1939', datetime.datetime(1939, 9, 1, 0, 0)),
-               ('2 septembre 1945', datetime.datetime(1945, 9, 2, 0, 0))],
+        param('fr', 'Consultez tous les articles et vidéos publiés le 15 septembre 2002 sur Le Monde ou parus dans le journal',
+              [('le 15 septembre 2002', datetime.datetime(2002, 9, 15, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Hebrew

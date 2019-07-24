@@ -8,7 +8,7 @@ from collections import OrderedDict
 
 from dateutil import parser
 
-from dateparser.timezone_parser import pop_tz_offset_from_string
+from dateparser.timezone_parser import pop_tz_offset_from_string, is_word_match_any_tz
 from dateparser.utils import normalize_unicode, combine_dicts
 
 from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
@@ -205,6 +205,9 @@ class Locale(object):
                         translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')])
                     original_chunk.append(original_tokens[i])
                 elif self._token_with_digits_is_ok(word):
+                    translated_chunk.append(word)
+                    original_chunk.append(original_tokens[i])
+                elif translated_chunk and is_word_match_any_tz(word):
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
                 else:

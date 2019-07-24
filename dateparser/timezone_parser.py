@@ -44,6 +44,16 @@ def pop_tz_offset_from_string(date_string, as_offset=True):
         return date_string, None
 
 
+def is_word_match_any_tz(word):
+    # The regex only interests in timezone not at the beginning
+    word = ' ' + word
+    for name, info in _tz_offsets:
+        timezone_re = info['regex']
+        if timezone_re.match(word):
+            return True
+    return False
+
+
 def convert_to_local_tz(datetime_obj, datetime_tz_offset):
     return datetime_obj - datetime_tz_offset + local_tz_offset
 
