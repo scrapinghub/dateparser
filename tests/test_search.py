@@ -252,8 +252,9 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Dutch
-        param('nl', 'Sinds 1 juli 2014 is hij burgemeester van Changwon geweest',
-              [('1 juli 2014', datetime.datetime(2014, 7, 1, 0, 0))],
+        param('nl', ' De meest dramatische uitbreiding van het conflict vond plaats op 22 juni 1941 met de '
+                    'Duitse aanval op de Sovjet-Unie.',
+              [('22 juni 1941', datetime.datetime(1941, 6, 22, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # English
@@ -285,8 +286,10 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # French
-        param('fr', 'Consultez tous les articles et vidéos publiés le 15 septembre 2002 sur Le Monde ou parus dans le journal',
-              [('le 15 septembre 2002', datetime.datetime(2002, 9, 15, 0, 0))],
+        param('fr', 'La 2e Guerre mondiale, ou Deuxième Guerre mondiale4, est un conflit armé à '
+                    'l\'échelle planétaire qui dura du 1 septembre 1939 au 2 septembre 1945.',
+              [('1 septembre 1939', datetime.datetime(1939, 9, 1, 0, 0)),
+               ('2 septembre 1945', datetime.datetime(1945, 9, 2, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Hebrew

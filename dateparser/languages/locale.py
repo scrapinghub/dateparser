@@ -207,7 +207,8 @@ class Locale(object):
                 elif self._token_with_digits_is_ok(word):
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
-                elif translated_chunk and is_word_match_any_tz(word):
+                # Use original token because is_word_match_any_tz is case sensitive
+                elif translated_chunk and is_word_match_any_tz(original_tokens[i]):
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
                 else:

@@ -45,20 +45,14 @@ def pop_tz_offset_from_string(date_string, as_offset=True):
 
 
 def is_word_match_any_tz(word):
-    # The regex only interests in timezone not at the beginning
-    word = ' ' + word
-    for name, info in _tz_offsets:
-        timezone_re = info['regex']
-        if timezone_re.match(word):
-            return True
-    return False
+    return bool(_search_regex.match(word))
 
 
 def convert_to_local_tz(datetime_obj, datetime_tz_offset):
     return datetime_obj - datetime_tz_offset + local_tz_offset
 
 
-def get_tz_offsets():
+def build_tz_offsets(search_regex_parts):
 
     def get_offset(tz_obj, regex, repl='', replw=''):
         return (
@@ -72,11 +66,13 @@ def get_tz_offsets():
     for tz_info in timezone_info_list:
         for regex in tz_info['regex_patterns']:
             for tz_obj in tz_info['timezones']:
+                search_regex_parts.append(tz_obj[0])
                 yield get_offset(tz_obj, regex)
 
             # alternate patterns
             for replace, replacewith in tz_info.get('replace', []):
                 for tz_obj in tz_info['timezones']:
+                    search_regex_parts.append(re.sub(replace, replacewith, tz_obj[0]))
                     yield get_offset(tz_obj, regex, repl=replace, replw=replacewith)
 
 
@@ -86,5 +82,7 @@ def get_local_tz_offset():
     return offset
 
 
-_tz_offsets = list(get_tz_offsets())
+_search_regex_parts = []
+_tz_offsets = list(build_tz_offsets(_search_regex_parts))
+_search_regex = re.compile('|'.join(_search_regex_parts))
 local_tz_offset = get_local_tz_offset()
