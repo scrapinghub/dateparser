@@ -39,6 +39,7 @@ APOSTROPHE_LOOK_ALIKE_CHARS = [
 RE_NBSP = re.compile(u'\xa0', flags=re.UNICODE)
 RE_SPACES = re.compile(r'\s+')
 RE_TRIM_SPACES = re.compile(r'^\s+(\S.*?)\s+$')
+RE_TRIM_COLONS = re.compile(r':*(\S.*?):*$')
 
 RE_SANITIZE_SKIP = re.compile(r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u064e|\u064f', flags=re.M)
 RE_SANITIZE_RUSSIAN = re.compile(r'([\W\d])\u0433\.', flags=re.I | re.U)
@@ -113,6 +114,7 @@ def sanitize_date(date_string):
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub('', date_string)
     date_string = RE_SANITIZE_ON.sub(r'\1', date_string)
+    date_string = RE_TRIM_COLONS.sub(r'\1', date_string)
 
     date_string = RE_SANITIZE_APOSTROPHE.sub(u"'", date_string)
 

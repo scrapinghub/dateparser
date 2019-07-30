@@ -637,6 +637,7 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date(u'2005г.'), u'2005 ')
         self.assertEqual(date.sanitize_date(u'2005 г.'), u'2005 ')
         self.assertEqual(date.sanitize_date(u'Авг.'), u'Авг')
+        self.assertEqual(date.sanitize_date(u'2019:'), u'2019')
 
 
 class TestDateLocaleParser(BaseTestCase):
