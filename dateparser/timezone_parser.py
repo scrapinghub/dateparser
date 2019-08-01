@@ -44,7 +44,7 @@ def pop_tz_offset_from_string(date_string, as_offset=True):
         return date_string, None
 
 
-def is_word_match_any_tz(word):
+def word_is_tz(word):
     return bool(_search_regex.match(word))
 
 
