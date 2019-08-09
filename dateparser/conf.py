@@ -17,6 +17,8 @@ class Settings(object):
     * `TIMEZONE`: defaults to `UTC`. Can be timezone abbreviation or any of `tz database name as given here <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>`_.
     * `RETURN_AS_TIMEZONE_AWARE`: return tz aware datetime objects in case timezone is detected in the date string.
     * `RELATIVE_BASE`: count relative date from this base date. Should be datetime object.
+    * `RETURN_TIME_AS_PERIOD`: returns period as `time` in case time component is detected in the date string.
+    Default: False.
     """
 
     _default = True
