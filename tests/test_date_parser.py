@@ -606,6 +606,60 @@ class TestDateParser(BaseTestCase):
         self.then_period_is(period)
 
     @parameterized.expand([
+        param('12th December 2019 19:00', expected=datetime(2019, 12, 12, 19, 0), period='time'),
+        param('9 Jan 11 0:00', expected=datetime(2011, 1, 9, 0, 0), period='time'),
+    ])
+    def test_period_is_time_if_return_time_as_period_setting_applied_and_time_component_present(
+        self, date_string, expected=None, period=None
+    ):
+        self.given_parser(settings={'RETURN_TIME_AS_PERIOD': True})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+        self.then_period_is(period)
+
+    @parameterized.expand([
+        param('16:00', expected=datetime(2018, 12, 13, 16, 0), period='time'),
+        param('Monday 7:15 AM', expected=datetime(2018, 12, 10, 7, 15), period='time'),
+    ])
+    def test_period_is_time_if_return_time_as_period_and_relative_base_settings_applied_and_time_component_present(
+        self, date_string, expected=None, period=None
+    ):
+        self.given_parser(settings={'RETURN_TIME_AS_PERIOD': True,
+                                    'RELATIVE_BASE': datetime(2018, 12, 13, 15, 15)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+        self.then_period_is(period)
+
+    @parameterized.expand([
+        param('12th March 2010', expected=datetime(2010, 3, 12, 0, 0), period='day'),
+        param('21-12-19', expected=datetime(2019, 12, 21, 0, 0), period='day'),
+    ])
+    def test_period_is_day_if_return_time_as_period_setting_applied_and_time_component_is_not_present(
+        self, date_string, expected=None, period=None
+    ):
+        self.given_parser(settings={'RETURN_TIME_AS_PERIOD': True})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+        self.then_period_is(period)
+
+    @parameterized.expand([
+        param('16:00', expected=datetime(2017, 1, 10, 16, 0), period='day'),
+        param('Monday 7:15 AM', expected=datetime(2017, 1, 9, 7, 15), period='day'),
+    ])
+    def test_period_is_day_if_return_time_as_period_setting_not_applied(
+        self, date_string, expected=None, period=None
+    ):
+        self.given_parser(settings={'RETURN_TIME_AS_PERIOD': False,
+                                    'RELATIVE_BASE': datetime(2017, 1, 10, 15, 15)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+        self.then_period_is(period)
+
+    @parameterized.expand([
         param('15-12-18 06:00', expected=datetime(2015, 12, 18, 6, 0), order='YMD'),
         param('15-18-12 06:00', expected=datetime(2015, 12, 18, 6, 0), order='YDM'),
         param('10-11-12 06:00', expected=datetime(2012, 10, 11, 6, 0), order='MDY'),

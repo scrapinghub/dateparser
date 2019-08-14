@@ -276,6 +276,10 @@ class _parser(object):
                     setattr(self, attr, int(token))
 
     def _get_period(self):
+        if self.settings.RETURN_TIME_AS_PERIOD:
+            if getattr(self, 'time', None):
+                return 'time'
+
         for period in ['time', 'day']:
             if getattr(self, period, None):
                 return 'day'
@@ -445,8 +449,9 @@ class _parser(object):
 
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
+        period = po._get_period()
 
-        return dateobj, po._get_period()
+        return dateobj, period
 
     def _parse(self, type, token, fuzzy, skip_component=None):
 
