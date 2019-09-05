@@ -53,4 +53,6 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
     data = parser.get_date_data(date_string, date_formats)
 
     if data:
+        if settings.DEBUG_INFO:
+            print('Used locale: %s' % data['locale'])
         return data['date_obj']

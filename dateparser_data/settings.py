@@ -13,5 +13,6 @@ settings = {
     'PREFER_LOCALE_DATE_ORDER': True,
     'FUZZY': False,
     'STRICT_PARSING': False,
+    'DEBUG_INFO': False,
     'RETURN_TIME_AS_PERIOD': False,
 }
