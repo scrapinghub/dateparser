@@ -433,6 +433,7 @@ class TestDateParser(BaseTestCase):
         param('March', datetime(2014, 3, 15)),
         param('Friday', datetime(2015, 2, 13)),
         param('Monday', datetime(2015, 2, 9)),
+        param('Sunday', datetime(2015, 2, 8)),  # current day
         param('10:00PM', datetime(2015, 2, 14, 22, 0)),
         param('16:10', datetime(2015, 2, 14, 16, 10)),
         param('14:05', datetime(2015, 2, 15, 14, 5)),
@@ -451,6 +452,7 @@ class TestDateParser(BaseTestCase):
         param('10 December', datetime(2015, 12, 10)),
         param('March', datetime(2015, 3, 15)),
         param('Friday', datetime(2015, 2, 20)),
+        param('Sunday', datetime(2015, 2, 22)),  # current day
         param('Monday', datetime(2015, 2, 16)),
         param('10:00PM', datetime(2015, 2, 15, 22, 0)),
         param('16:10', datetime(2015, 2, 15, 16, 10)),
