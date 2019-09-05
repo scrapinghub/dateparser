@@ -212,8 +212,7 @@ class _DateLocaleParser(object):
         _order = self._settings.DATE_ORDER
         try:
             if self._settings.PREFER_LOCALE_DATE_ORDER:
-                if self._settings._default:
-                    self._settings.DATE_ORDER = self.locale.info.get('date_order', _order)
+                self._settings.DATE_ORDER = self.locale.info.get('date_order', _order)
             date_obj, period = date_parser.parse(
                 self._get_translated_date(), settings=self._settings)
             self._settings.DATE_ORDER = _order
