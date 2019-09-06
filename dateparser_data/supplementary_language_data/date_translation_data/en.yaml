@@ -11,6 +11,7 @@ september:
 
 year:
     - years
+    - y
 month:
     - months
 week:
