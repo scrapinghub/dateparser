@@ -210,9 +210,10 @@ class _DateLocaleParser(object):
 
     def _try_parser(self):
         _order = self._settings.DATE_ORDER
+        _default_date_order = self._settings._pyfile_data.get('DATE_ORDER')
         try:
             if self._settings.PREFER_LOCALE_DATE_ORDER:
-                if self._settings._pyfile_data.get('DATE_ORDER') != _order:
+                if _order == _default_date_order:
                     self._settings.DATE_ORDER = self.locale.info.get('date_order', _order)
             date_obj, period = date_parser.parse(
                 self._get_translated_date(), settings=self._settings)
