@@ -121,7 +121,7 @@ class TestDateParser(BaseTestCase):
         # Vietnamese dates
         param('Thứ năm', datetime(2012, 11, 8)),  # Thursday
         param('Thứ sáu', datetime(2012, 11, 9)),  # Friday
-        param('Tháng Mười Hai 29, 2013, 14:14', datetime(2013, 12, 29, 14, 14)),  # bpsosrcs.wordpress.com
+        param('Tháng Mười Hai 29, 2013, 14:14', datetime(2013, 12, 29, 14, 14)),  # bpsosrcs.wordpress.com  # NOQA
         param('05 Tháng một 2015 - 03:54 AM', datetime(2015, 1, 5, 3, 54)),
         # Belarusian dates
         param('11 траўня', datetime(2012, 5, 11)),
@@ -291,7 +291,7 @@ class TestDateParser(BaseTestCase):
         # Vietnamese dates
         param('Thứ năm', datetime(2012, 11, 8)),  # Thursday
         param('Thứ sáu', datetime(2012, 11, 9)),  # Friday
-        param('Tháng Mười Hai 29, 2013, 14:14', datetime(2013, 12, 29, 14, 14)),  # bpsosrcs.wordpress.com
+        param('Tháng Mười Hai 29, 2013, 14:14', datetime(2013, 12, 29, 14, 14)),  # bpsosrcs.wordpress.com  # NOQA
         param('05 Tháng một 2015 - 03:54 AM', datetime(2015, 1, 5, 3, 54)),
         # Belarusian dates
         param('11 траўня', datetime(2012, 5, 11)),
@@ -681,6 +681,21 @@ class TestDateParser(BaseTestCase):
     ])
     def test_order(self, date_string, expected=None, order=None):
         self.given_parser(settings={'DATE_ORDER': order})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('10.1.2019', expected=datetime(2019, 1, 10, 0, 0), languages=['de'],
+              settings={'PREFER_DAY_OF_MONTH': 'first'}),
+        param('10.1.2019', expected=datetime(2019, 1, 10, 0, 0), languages=['de']),
+        param('10.1.2019', expected=datetime(2019, 10, 1, 0, 0),
+              settings={'DATE_ORDER': 'MDY'}),
+    ])
+    def test_if_settings_provided_date_order_is_retained(
+        self, date_string, expected=None, languages=None, settings=None
+    ):
+        self.given_parser(languages=languages, settings=settings)
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
