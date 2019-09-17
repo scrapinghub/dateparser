@@ -138,6 +138,9 @@ def parse_with_formats(date_string, date_formats, settings):
     :returns: :class:`datetime.datetime`, dict or None
 
     """
+    if isinstance(date_formats, six.string_types):
+        warn(_DateLocaleParser.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
+        date_formats = [date_formats]
     period = 'day'
     for date_format in date_formats:
         try:
