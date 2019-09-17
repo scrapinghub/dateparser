@@ -380,7 +380,10 @@ class _parser(object):
                 delta = timedelta(days=steps)
             else:
                 if days[day_index] == day:
-                    steps = 7
+                    if self.settings.PREFER_DATES_FROM == 'past':
+                        steps = 7
+                    else:
+                        steps = 0
                 else:
                     while days[day_index] != day:
                         day_index -= 1

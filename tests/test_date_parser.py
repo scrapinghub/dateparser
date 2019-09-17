@@ -133,7 +133,7 @@ class TestDateParser(BaseTestCase):
         param('2015-кві-12', datetime(2015, 4, 12)),
         param('21 чер 2013 3:13', datetime(2013, 6, 21, 3, 13)),
         param('12 лютого 2012, 13:12:23', datetime(2012, 2, 12, 13, 12, 23)),
-        param('вів о 14:04', datetime(2012, 11, 6, 14, 4)),
+        param('вів о 14:04', datetime(2012, 11, 13, 14, 4)),
         # Tagalog dates
         param('12 Hulyo 2003 13:01', datetime(2003, 7, 12, 13, 1)),
         param('1978, 1 Peb, 7:05 PM', datetime(1978, 2, 1, 19, 5)),
@@ -303,7 +303,7 @@ class TestDateParser(BaseTestCase):
         param('2015-кві-12', datetime(2015, 4, 12)),
         param('21 чер 2013 3:13', datetime(2013, 6, 21, 3, 13)),
         param('12 лютого 2012, 13:12:23', datetime(2012, 2, 12, 13, 12, 23)),
-        param('вів о 14:04', datetime(2012, 11, 6, 14, 4)),
+        param('вів о 14:04', datetime(2012, 11, 13, 14, 4)),
         # Filipino dates
         param('12 Hulyo 2003 13:01', datetime(2003, 7, 12, 13, 1)),
         param('1978, 1 Peb, 7:05 PM', datetime(1978, 2, 1, 19, 5)),
@@ -433,6 +433,7 @@ class TestDateParser(BaseTestCase):
         param('March', datetime(2014, 3, 15)),
         param('Friday', datetime(2015, 2, 13)),
         param('Monday', datetime(2015, 2, 9)),
+        param('Sunday', datetime(2015, 2, 8)),  # current day
         param('10:00PM', datetime(2015, 2, 14, 22, 0)),
         param('16:10', datetime(2015, 2, 14, 16, 10)),
         param('14:05', datetime(2015, 2, 15, 14, 5)),
@@ -451,6 +452,7 @@ class TestDateParser(BaseTestCase):
         param('10 December', datetime(2015, 12, 10)),
         param('March', datetime(2015, 3, 15)),
         param('Friday', datetime(2015, 2, 20)),
+        param('Sunday', datetime(2015, 2, 22)),  # current day
         param('Monday', datetime(2015, 2, 16)),
         param('10:00PM', datetime(2015, 2, 15, 22, 0)),
         param('16:10', datetime(2015, 2, 15, 16, 10)),
@@ -470,6 +472,7 @@ class TestDateParser(BaseTestCase):
         param('10 December', datetime(2015, 12, 10)),
         param('March', datetime(2015, 3, 15)),
         param('Friday', datetime(2015, 2, 13)),
+        param('Sunday', datetime(2015, 2, 15)),  # current weekday
         param('10:00PM', datetime(2015, 2, 15, 22, 00)),
         param('16:10', datetime(2015, 2, 15, 16, 10)),
         param('14:05', datetime(2015, 2, 15, 14, 5)),
