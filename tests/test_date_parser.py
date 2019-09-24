@@ -703,6 +703,20 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
+    @parameterized.expand([
+        param('::', None),
+        param('..', None),
+        param('  ', None),
+        param('--', None),
+        param('//', None),
+        param('++', None),
+    ])
+    def test_parsing_strings_containing_only_separator_tokens(self, date_string, expected):
+        self.given_parser()
+        self.when_date_is_parsed(date_string)
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
+
     def given_local_tz_offset(self, offset):
         self.add_patch(
             patch.object(dateparser.timezone_parser,
