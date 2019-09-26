@@ -33,15 +33,17 @@ class StaticTzInfo(tzinfo):
 
 
 def pop_tz_offset_from_string(date_string, as_offset=True):
-    for name, info in _tz_offsets:
-        timezone_re = info['regex']
-        timezone_match = timezone_re.search(date_string)
-        if timezone_match:
-            start, stop = timezone_match.span()
-            date_string = date_string[:start + 1] + date_string[stop:]
-            return date_string, StaticTzInfo(name, info['offset']) if as_offset else name
-    else:
-        return date_string, None
+    if _search_regex_ignorecase.search(date_string):
+        for name, info in _tz_offsets:
+            timezone_re = info['regex']
+            timezone_match = timezone_re.search(date_string)
+            if timezone_match:
+                start, stop = timezone_match.span()
+                date_string = date_string[:start + 1] + date_string[stop:]
+                return (
+                    date_string,
+                    StaticTzInfo(name, info['offset']) if as_offset else name)
+    return date_string, None
 
 
 def word_is_tz(word):
@@ -85,4 +87,6 @@ def get_local_tz_offset():
 _search_regex_parts = []
 _tz_offsets = list(build_tz_offsets(_search_regex_parts))
 _search_regex = re.compile('|'.join(_search_regex_parts))
+_search_regex_ignorecase = re.compile(
+    '|'.join(_search_regex_parts), re.IGNORECASE)
 local_tz_offset = get_local_tz_offset()
