@@ -681,5 +681,16 @@ class TestDateLocaleParser(BaseTestCase):
         self.assertFalse(self.is_valid_date_obj)
 
 
+class TestTimestampParser(BaseTestCase):
+    def setUp(self):
+        super(TestTimestampParser, self).setUp()
+
+    def test_timestamp_millis(self):
+        self.assertEqual(
+            date.get_date_from_timestamp(u'1570308760263', None),
+            datetime(2019, 10, 5, 23, 52, 40, 263)
+        )
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -124,6 +124,10 @@ def sanitize_date(date_string):
 def get_date_from_timestamp(date_string, settings):
     if RE_SEARCH_TIMESTAMP.search(date_string):
         date_obj = datetime.fromtimestamp(int(date_string[:10]))
+        try:
+            date_obj = date_obj.replace(microsecond=int(date_string[10:]))
+        except ValueError:
+            pass
         date_obj = apply_timezone_from_settings(date_obj, settings)
         return date_obj
 
