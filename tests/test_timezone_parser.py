@@ -28,6 +28,7 @@ class TestTZPopping(BaseTestCase):
         param('Nov 25 2014 | 10:17 pm -0930', -9.5),
         param('20 Oct 2014 | 05:17 am -1200', -12),
         param('20 Oct 2014 | 05:17 am +0000', 0),
+        param('20 Oct 2014 | 05:17 am -0000', 0),
         param('15 May 2004', None),
         param('Wed Aug 05 12:00:00 EDTERR 2015', None),
         param('Wed Aug 05 12:00:00 EDT 2015', -4),
