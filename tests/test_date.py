@@ -682,13 +682,28 @@ class TestDateLocaleParser(BaseTestCase):
 
 
 class TestTimestampParser(BaseTestCase):
-    def setUp(self):
-        super(TestTimestampParser, self).setUp()
 
-    def test_timestamp_millis(self):
+    def test_timestamp_in_milliseconds(self):
         self.assertEqual(
             date.get_date_from_timestamp(u'1570308760263', None),
-            datetime(2019, 10, 5, 23, 52, 40, 263)
+            datetime(2019, 10, 5, 23, 52, 40, 263000)
+        )
+
+    def test_timestamp_in_microseconds(self):
+        self.assertEqual(
+            date.get_date_from_timestamp(u'1570308760263111', None),
+            datetime(2019, 10, 5, 23, 52, 40, 263111)
+        )
+
+    @parameterized.expand([
+        param(date_string=u'15703087602631'),
+        param(date_string=u'157030876026311'),
+        param(date_string=u'15703087602631111'),
+    ])
+    def test_timestamp_with_wrong_length(self, date_string):
+        self.assertEqual(
+            date.get_date_from_timestamp(date_string, None),
+            None
         )
 
 

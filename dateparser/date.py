@@ -121,14 +121,30 @@ def sanitize_date(date_string):
     return date_string
 
 
+def apply_microsecond(date_obj, date_string):
+    digits = len(date_string)
+    if digits == 10:
+        return date_obj
+    elif digits == 13:
+        try:
+            return date_obj.replace(microsecond=int(date_string[10:]) * 1000)
+        except ValueError:
+            return None
+    elif digits == 16:
+        try:
+            return date_obj.replace(microsecond=int(date_string[10:]))
+        except ValueError:
+            return None
+    else:
+        return None
+
+
 def get_date_from_timestamp(date_string, settings):
     if RE_SEARCH_TIMESTAMP.search(date_string):
         date_obj = datetime.fromtimestamp(int(date_string[:10]))
-        try:
-            date_obj = date_obj.replace(microsecond=int(date_string[10:]))
-        except ValueError:
-            pass
-        date_obj = apply_timezone_from_settings(date_obj, settings)
+        date_obj = apply_microsecond(date_obj, date_string)
+        if date_obj:
+            date_obj = apply_timezone_from_settings(date_obj, settings)
         return date_obj
 
 
