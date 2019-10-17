@@ -697,8 +697,11 @@ class TestTimestampParser(BaseTestCase):
 
     @parameterized.expand([
         param(date_string=u'15703087602631'),
+        param(date_string=u'1570308760263x'),
         param(date_string=u'157030876026311'),
+        param(date_string=u'15703087602631x'),
         param(date_string=u'15703087602631111'),
+        param(date_string=u'1570308760263111x'),
     ])
     def test_timestamp_with_wrong_length(self, date_string):
         self.assertEqual(
