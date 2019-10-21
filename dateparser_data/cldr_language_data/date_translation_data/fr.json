@@ -160,6 +160,9 @@
             "dans {0} an",
             "dans {0} ans",
             "dans {0} a"
+            "après {0} an",
+            "après {0} ans",
+            "après {0} a"
         ],
         "\\1 year ago": [
             "il y a {0} an",
@@ -169,6 +172,8 @@
         "in \\1 month": [
             "dans {0} mois",
             "dans {0} m"
+            "après {0} mois",
+            "après {0} m"
         ],
         "\\1 month ago": [
             "il y a {0} mois",
@@ -178,6 +183,9 @@
             "dans {0} semaine",
             "dans {0} semaines",
             "dans {0} sem"
+            "après {0} semaine",
+            "après {0} semaines",
+            "après {0} sem"
         ],
         "\\1 week ago": [
             "il y a {0} semaine",
@@ -188,6 +196,9 @@
             "dans {0} jour",
             "dans {0} jours",
             "dans {0} j"
+            "après {0} jour",
+            "après {0} jours",
+            "après {0} j"
         ],
         "\\1 day ago": [
             "il y a {0} jour",
@@ -199,6 +210,10 @@
             "dans {0} heures",
             "dans {0} h",
             "dans {0}h"
+            "après {0} heure",
+            "après {0} heures",
+            "après {0} h",
+            "après {0}h"
         ],
         "\\1 hour ago": [
             "il y a {0} heure",
@@ -210,6 +225,9 @@
             "dans {0} minute",
             "dans {0} minutes",
             "dans {0} min"
+            "après {0} minute",
+            "après {0} minutes",
+            "après {0} min"
         ],
         "\\1 minute ago": [
             "il y a {0} minute",
@@ -221,6 +239,9 @@
             "dans {0} seconde",
             "dans {0} secondes",
             "dans {0} s"
+            "après {0} seconde",
+            "après {0} secondes",
+            "après {0} s"
         ],
         "\\1 second ago": [
             "il y a {0} seconde",
