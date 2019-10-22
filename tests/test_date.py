@@ -686,13 +686,13 @@ class TestTimestampParser(BaseTestCase):
     def test_timestamp_in_milliseconds(self):
         self.assertEqual(
             date.get_date_from_timestamp(u'1570308760263', None),
-            datetime(2019, 10, 5, 20, 52, 40, 263000)
+            datetime.utcfromtimestamp(1570308760263)
         )
 
     def test_timestamp_in_microseconds(self):
         self.assertEqual(
             date.get_date_from_timestamp(u'1570308760263111', None),
-            datetime(2019, 10, 5, 20, 52, 40, 263111)
+            datetime.utcfromtimestamp(1570308760263)
         )
 
     @parameterized.expand([

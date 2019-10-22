@@ -47,7 +47,7 @@ RE_SANITIZE_PERIOD = re.compile(r'(?<=\D+)\.', flags=re.U)
 RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
 RE_SANITIZE_APOSTROPHE = re.compile(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
-RE_SEARCH_TIMESTAMP = re.compile(r'^\d{10}(?![^\d.])')
+RE_SEARCH_TIMESTAMP = re.compile(r'^(\d{10})(\d{3})?(\d{3})?$')
 
 
 def sanitize_spaces(date_string):
@@ -121,28 +121,14 @@ def sanitize_date(date_string):
     return date_string
 
 
-def apply_microsecond(date_obj, date_string):
-    digits = len(date_string)
-    if digits == 10:
-        return date_obj
-    elif digits == 13:
-        try:
-            return date_obj.replace(microsecond=int(date_string[10:]) * 1000)
-        except ValueError:
-            return None
-    elif digits == 16:
-        try:
-            return date_obj.replace(microsecond=int(date_string[10:]))
-        except ValueError:
-            return None
-    else:
-        return None
-
-
 def get_date_from_timestamp(date_string, settings):
-    if RE_SEARCH_TIMESTAMP.search(date_string):
-        date_obj = datetime.fromtimestamp(int(date_string[:10]))
-        date_obj = apply_microsecond(date_obj, date_string)
+    match = RE_SEARCH_TIMESTAMP.search(date_string)
+    if match:
+        seconds = int(match.group(1))
+        millis = int(match.group(2) or 0)
+        micros = int(match.group(3) or 0)
+        date_obj = datetime.fromtimestamp(seconds)
+        date_obj = date_obj.replace(microsecond=millis * 1000 + micros)
         if date_obj:
             date_obj = apply_timezone_from_settings(date_obj, settings)
         return date_obj
