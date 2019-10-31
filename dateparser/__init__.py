@@ -46,7 +46,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
     :raises: ValueError - Unknown Language
     """
 
-    if not(re.compile('\S').search(date_string)):
+    if not(re.compile('\S').search(date_string.replace('\x00',''))):
         return
 
     parser = _default_parser

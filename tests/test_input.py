@@ -7,5 +7,5 @@ class InputTest(BaseTestCase):
         self.assertFalse(result)
 
     def whitespace_input_test(self):
-        result = parse(' \t\n\r\f\v')
+        result = parse(' \t\n\r\f\v\x00')
         self.assertFalse(result)
