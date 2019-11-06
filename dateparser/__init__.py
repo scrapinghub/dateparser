@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 __version__ = '0.7.0'
 
+import regex as re
 from .date import DateDataParser
 from .conf import apply_settings
-import regex as re
 
 _default_parser = DateDataParser()
 
@@ -46,7 +46,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
     :raises: ValueError - Unknown Language
     """
 
-    if not(re.compile('\S').search(date_string.replace('\x00',''))):
+    if not re.search('[^\\s\x00]', date_string):
         return
 
     parser = _default_parser

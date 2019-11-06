@@ -1,4 +1,4 @@
-from dateparser.__init__ import parse
+from dateparser import parse
 from tests import BaseTestCase
 
 class InputTest(BaseTestCase):
