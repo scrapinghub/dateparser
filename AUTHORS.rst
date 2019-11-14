@@ -7,16 +7,19 @@ Committers
 ----------
 
 * Adam LeVasseur
+* Adrián Chaves
 * Ahmad Musaffa
 * Alec Koumjian
 * Alexis Svinartchouk
 * Ammar Azif
+* Anderson Berg
 * Andrés Portillo
-* Andrey Zhelnin
 * Andrey Rahmatullin
+* Andrey Zhelnin
 * Artur Sadurski
 * Artur Gaspar
 * atchoum31
+* Atul Krishna
 * Benjamin Bach
 * Bruno Alla
 * Cesar Flores
@@ -26,6 +29,8 @@ Committers
 * David Beitey
 * Dawid Wolski
 * demelziraptor
+* Derek Schmidt
+* Dongkuo Ma
 * Edwin Zhang
 * Elena Zakharova
 * Elias Dorneles
@@ -34,13 +39,18 @@ Committers
 * Fernando Tricas García
 * Georgi Valkov
 * Hristo Vrigazov
+* Hugo van Kemenade
 * ishirav
 * Ismael Carnales
 * James M. Allen
 * Ján Jančár
+* Jan Rygl
+* Jakub Kukul
 * Jolo Balbin
 * Joseph Kahn
+* Kishan Mehta
 * Konstantin Lopuhin
+* Marc Hernández
 * Mark Baas
 * Marko Horvatić
 * Mateusz Golewski

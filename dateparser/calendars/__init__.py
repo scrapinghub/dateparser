@@ -115,7 +115,7 @@ class non_gregorian_parser(_parser):
             directive == '%m' and
             token_len <= 2 and
             is_digit and
-            int(token) >= 1 and int(token) <= 12
+            1 <= int(token) <= 12
         ):
             month = int(token)
         elif directive == '%B' and self._months and token in self._months:

@@ -3,16 +3,16 @@ dateparser -- python parser for human readable dates
 ====================================================
 
 .. image:: https://img.shields.io/travis/scrapinghub/dateparser/master.svg?style=flat-square
-    :target: https://travis-ci.org/scrapinghub/dateparser
-    :alt: travis build status
+   :target: https://travis-ci.org/scrapinghub/dateparser
+   :alt: travis build status
 
 .. image:: https://img.shields.io/pypi/v/dateparser.svg?style=flat-square
-    :target: https://pypi.python.org/pypi/dateparser
-    :alt: pypi version
+   :target: https://pypi.python.org/pypi/dateparser
+   :alt: pypi version
 
 .. image:: https://readthedocs.org/projects/dateparser/badge/?version=latest
-    :target: http://dateparser.readthedocs.org/en/latest/?badge=latest
-    :alt: Documentation Status
+   :target: http://dateparser.readthedocs.org/en/latest/?badge=latest
+   :alt: Documentation Status
 
 .. image:: https://codecov.io/gh/scrapinghub/dateparser/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/scrapinghub/dateparser
@@ -466,13 +466,13 @@ Supported Calendars
 
 * Hijri/Islamic Calendar. For more information, refer to `Hijri Calendar <https://en.wikipedia.org/wiki/Islamic_calendar>`_.
 
-	>>> from dateparser.calendars.jalali import JalaliCalendar
-	>>> JalaliCalendar(u'جمعه سی ام اسفند ۱۳۸۷').get_date()
-	{'date_obj': datetime.datetime(2009, 3, 20, 0, 0), 'period': 'day'}
+    >>> from dateparser.calendars.jalali import JalaliCalendar
+    >>> JalaliCalendar(u'جمعه سی ام اسفند ۱۳۸۷').get_date()
+    {'date_obj': datetime.datetime(2009, 3, 20, 0, 0), 'period': 'day'}
 
-        >>> from dateparser.calendars.hijri import HijriCalendar
-        >>> HijriCalendar(u'17-01-1437 هـ 08:30 مساءً').get_date()
-        {'date_obj': datetime.datetime(2015, 10, 30, 20, 30), 'period': 'day'}
+    >>> from dateparser.calendars.hijri import HijriCalendar
+    >>> HijriCalendar(u'17-01-1437 هـ 08:30 مساءً').get_date()
+    {'date_obj': datetime.datetime(2015, 10, 30, 20, 30), 'period': 'day'}
 
 .. note:: `HijriCalendar` has some limitations with Python 3.
 .. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.

@@ -3,6 +3,30 @@
 History
 =======
 
+0.7.2 (2019-09-17)
+------------------
+
+Features:
+
+* Extended Czech support
+* Added `time` to valid periods
+* Added timezone information to dates found with `search_dates()`
+* Support strings as date formats
+
+
+Improvements:
+
+* Fixed Collections ABCs depreciation warning
+* Fixed dates with trailing colons not being parsed
+* Fixed date format override on any settings change
+* Fixed parsing current weekday as past date, regardless of settings
+* Added UTC -2:30 as a valid offset
+* Added Python 3.7 to supported versions, dropped support for Python 3.3 and 3.4
+* Moved to importlib from imp where possible
+* Improved support for Catalan
+* Documentation improvements
+
+
 0.7.1 (2019-02-12)
 ------------------
 

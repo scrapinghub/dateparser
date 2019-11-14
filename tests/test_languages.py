@@ -1107,6 +1107,10 @@ class TestBundledLanguages(BaseTestCase):
         param('ca', "d'aquí a 22 hores", "in 22 hour"),
         param('ca', "fa 17 anys", "17 year ago"),
         param('ca', "el mes passat", "1 month ago"),
+        param('ca', "la pròxima setmana", "in 1 week"),
+        param('ca', "despús-ahir", "2 day ago"),
+        param('ca', "en un dia", "in 1 day"),
+        param('ca', "demà passat", "in 2 day"),
         # ce
         param('ce', "72 сахьт даьлча", "in 72 hour"),
         param('ce', "42 шо хьалха", "42 year ago"),

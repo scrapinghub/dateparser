@@ -39,6 +39,7 @@ APOSTROPHE_LOOK_ALIKE_CHARS = [
 RE_NBSP = re.compile(u'\xa0', flags=re.UNICODE)
 RE_SPACES = re.compile(r'\s+')
 RE_TRIM_SPACES = re.compile(r'^\s+(\S.*?)\s+$')
+RE_TRIM_COLONS = re.compile(r'(\S.*?):*$')
 
 RE_SANITIZE_SKIP = re.compile(r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u064e|\u064f', flags=re.M)
 RE_SANITIZE_RUSSIAN = re.compile(r'([\W\d])\u0433\.', flags=re.I | re.U)
@@ -113,6 +114,7 @@ def sanitize_date(date_string):
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub('', date_string)
     date_string = RE_SANITIZE_ON.sub(r'\1', date_string)
+    date_string = RE_TRIM_COLONS.sub(r'\1', date_string)
 
     date_string = RE_SANITIZE_APOSTROPHE.sub(u"'", date_string)
 
@@ -136,6 +138,9 @@ def parse_with_formats(date_string, date_formats, settings):
     :returns: :class:`datetime.datetime`, dict or None
 
     """
+    if isinstance(date_formats, six.string_types):
+        warn(_DateLocaleParser.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
+        date_formats = [date_formats]
     period = 'day'
     for date_format in date_formats:
         try:
@@ -208,9 +213,10 @@ class _DateLocaleParser(object):
 
     def _try_parser(self):
         _order = self._settings.DATE_ORDER
+        _default_date_order = self._settings._pyfile_data.get('DATE_ORDER')
         try:
             if self._settings.PREFER_LOCALE_DATE_ORDER:
-                if self._settings._default:
+                if _order == _default_date_order:
                     self._settings.DATE_ORDER = self.locale.info.get('date_order', _order)
             date_obj, period = date_parser.parse(
                 self._get_translated_date(), settings=self._settings)
@@ -270,7 +276,7 @@ class _DateLocaleParser(object):
             return False
         if not date_obj['date_obj']:
             return False
-        if date_obj['period'] not in ('day', 'week', 'month', 'year'):
+        if date_obj['period'] not in ('time', 'day', 'week', 'month', 'year'):
             return False
 
         return True
