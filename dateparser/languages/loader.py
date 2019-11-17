@@ -70,7 +70,7 @@ class LocaleDataLoader(object):
 
         :param use_given_order:
             If True, the returned mapping is ordered in the order locales are given.
-        :type allow_redetect_language: bool
+        :type use_given_order: bool
 
         :param allow_conflicting_locales:
             if True, locales with same language and different region can be loaded.
@@ -106,7 +106,7 @@ class LocaleDataLoader(object):
 
         :param use_given_order:
             If True, the returned mapping is ordered in the order locales are given.
-        :type allow_redetect_language: bool
+        :type use_given_order: bool
 
         :param allow_conflicting_locales:
             if True, locales with same language and different region can be loaded.

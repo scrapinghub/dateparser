@@ -103,6 +103,10 @@ class Dictionary(object):
 
         :return: True if tokens are valid, False otherwise.
         """
+        has_only_keep_tokens = not set(tokens) - set(ALWAYS_KEEP_TOKENS)
+        if has_only_keep_tokens:
+            return False
+
         match_relative_regex = self._get_match_relative_regex_cache()
         for token in tokens:
             if any([match_relative_regex.match(token),

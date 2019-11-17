@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from parameterized import parameterized, param
 from tests import BaseTestCase
+from dateparser.timezone_parser import StaticTzInfo
 from dateparser.search.search import DateSearchWithDetection
 from dateparser.search import search_dates
 from dateparser.conf import Settings, apply_settings
@@ -34,6 +35,7 @@ class TestTranslateSearch(BaseTestCase):
     @parameterized.expand([
         param('en', "Sep 03 2014"),
         param('en', "friday, 03 september 2014"),
+        param('en', 'Aug 06, 2018 05:05 PM CDT'),
         # Chinese
         param('zh', "1年11个月"),
         param('zh', "1年11個月"),
@@ -266,6 +268,11 @@ class TestTranslateSearch(BaseTestCase):
         param('en', 'July 13th.\r\n July 14th',
               [('July 13th', datetime.datetime(2000, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2000, 7, 14, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+        param('en', 'last updated Aug 06, 2018 05:05 PM CDT',
+              [(
+                  'Aug 06, 2018 05:05 PM CDT',
+                  datetime.datetime(2018, 8, 6, 17, 5, tzinfo=StaticTzInfo('CDT', datetime.timedelta(seconds=-18000))))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
         param('en', 'in 2.5 hours',
               [('in 2.5 hours', datetime.datetime(2000, 1, 1, 2, 30))],

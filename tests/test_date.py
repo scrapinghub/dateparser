@@ -287,6 +287,15 @@ class TestParseWithFormatsFunction(BaseTestCase):
                                           month=expected_month,
                                           day=get_last_day_of_month(expected_year, expected_month)))
 
+    @parameterized.expand([
+        param(date_string='25-03-14', date_formats='%d-%m-%y', expected_result=datetime(2014, 3, 25)),
+    ])
+    def test_should_support_a_string_as_date_formats(self, date_string, date_formats, expected_result):
+        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        self.then_date_was_parsed()
+        self.then_parsed_period_is('day')
+        self.then_parsed_date_is(expected_result)
+
     def given_now(self, year, month, day, **time):
         now = datetime(year, month, day, **time)
         datetime_mock = Mock(wraps=datetime)
@@ -638,6 +647,10 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date(u'2005 г.'), u'2005 ')
         self.assertEqual(date.sanitize_date(u'Авг.'), u'Авг')
 
+    def test_sanitize_date_colons(self):
+        self.assertEqual(date.sanitize_date(u'2019:'), u'2019')
+        self.assertEqual(date.sanitize_date(u'31/07/2019:'), u'31/07/2019')
+
 
 class TestDateLocaleParser(BaseTestCase):
     def setUp(self):
@@ -650,6 +663,7 @@ class TestDateLocaleParser(BaseTestCase):
         param(date_obj={'period': 'hour'}),
         param(date_obj=[datetime(2007, 1, 22, 0, 0), 'day']),
         param(date_obj={'date_obj': None, 'period': 'day'}),
+        param(date_obj={'date': datetime(2018, 1, 10, 2, 0), 'period': 'time'}),
     ])
     def test_is_valid_date_obj(self, date_obj):
         self.given_parser(language=['en'], date_string='10 jan 2000',

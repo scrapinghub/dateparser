@@ -139,6 +139,13 @@ When set to `True` if missing any of `day`, `month` or `year` parts, it does not
     >>> parse(u'March', settings={'STRICT_PARSING': True})
     None
 
+``RETURN_TIME_AS_PERIOD`` returns `time` as period in date object, if time component was present in date string.
+Defaults to `False`.
+
+    >>> ddp = DateDataParser(settings={'RETURN_TIME_AS_PERIOD': True})
+    >>> ddp.get_date_data(u'vr jan 24, 2014 12:49')
+    {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': 'time', 'locale': 'nl'}
+
 
 Language Detection
 ++++++++++++++++++
