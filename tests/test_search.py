@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from parameterized import parameterized, param
 from tests import BaseTestCase
@@ -266,6 +266,9 @@ class TestTranslateSearch(BaseTestCase):
         param('en', 'July 13th.\r\n July 14th',
               [('July 13th', datetime.datetime(2000, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2000, 7, 14, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+        param('en', 'in 2.5 hours',
+              [('in 2.5 hours', datetime.datetime(2000, 1, 1, 2, 30))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Filipino / Tagalog
@@ -658,7 +661,8 @@ class TestTranslateSearch(BaseTestCase):
         param(text="DECEMBER 21 19.87 87",
               languages=None,
               settings=None,
-              expected=[('DECEMBER 21 19', datetime.datetime(2019, 12, 21, 0, 0))]
+              expected=[('DECEMBER', datetime.datetime(2019, 12, 21, 0, 0)),
+                        ('19.87', datetime.datetime(1987, 12, 19, 0, 0))]
               ),
         param(text='bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41',
               languages=None,
