@@ -1404,6 +1404,54 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_period_is(period)
 
     @parameterized.expand([
+        # English dates
+        param('an hour', in_future={'hours': 1}, period='day'),
+        param('about an hour', in_future={'hours': 1}, period='day'),
+        param('1 day', in_future={'days': 1}, period='day'),
+        param('a week', in_future={'weeks': 1}, period='week'),
+        param('2 hours', in_future={'hours': 2}, period='day'),
+        param('about 23 hours', in_future={'hours': 23}, period='day'),
+        param('1 year 2 months', in_future={'years': 1, 'months': 2}, period='month'),
+        param('1 year, 09 months,01 weeks',
+              in_future={'years': 1, 'months': 9, 'weeks': 1}, period='week'),
+        param('1 year 11 months', in_future={'years': 1, 'months': 11}, period='month'),
+        param('1 year 12 months', in_future={'years': 1, 'months': 12}, period='month'),
+        param('15 hr', in_future={'hours': 15}, period='day'),
+        param('15 hrs', in_future={'hours': 15}, period='day'),
+        param('2 min', in_future={'minutes': 2}, period='day'),
+        param('2 mins', in_future={'minutes': 2}, period='day'),
+        param('3 sec', in_future={'seconds': 3}, period='day'),
+        param('1000 years', in_future={'years': 1000}, period='year'),
+        param('5000 months', in_future={'years': 416, 'months': 8}, period='month'),
+        param('{} months'.format(2013 * 12 + 8),
+              in_future={'years': 2013, 'months': 8}, period='month'),
+        param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute',
+              in_future={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+              period='day'),
+
+        # German dates
+        param('einem Tag', in_future={'days': 1}, period='day'),
+        param('einer Stunde', in_future={'hours': 1}, period='day'),
+        param('2 Stunden', in_future={'hours': 2}, period='day'),
+        param('etwa 23 Stunden', in_future={'hours': 23}, period='day'),
+        param('im 1 Jahr 2 Monate', in_future={'years': 1, 'months': 2}, period='month'),
+        param('im 1 Jahr, 09 Monate, 01 Wochen',
+              in_future={'years': 1, 'months': 9, 'weeks': 1}, period='week'),
+        param('im 1 Jahr 11 Monate', in_future={'years': 1, 'months': 11}, period='month'),
+        param('im 1 Jahr, 1 Monat, 1 Woche, 1 Tag, 1 Stunde und 1 Minute',
+              in_future={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
+              period='day'),
+    ])
+    def test_relative_future_dates_via_settings(self, date_string, in_future, period):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'future'})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_was_parsed_by_freshness_parser()
+        self.then_date_obj_is_exactly_this_time_in_future(in_future)
+        self.then_period_is(period)
+
+    @parameterized.expand([
         param('15th of Aug, 2014 Diane Bennett'),
     ])
     def test_insane_dates(self, date_string):
