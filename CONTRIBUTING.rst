@@ -156,3 +156,16 @@ language, you must:
     copy-and-paste to create the corresponding new test.
 
     If in doubt, ask Dateparser maintainers for help.
+
+Updating the List of Supported Languages and Locales
+----------------------------------------------------
+
+Whenever the contents of
+``dateparser.data.languages_info.language_locale_dict`` is modified, use
+``scripts/update_supported_languages_and_locales.py`` to update the
+corresponding documentation table::
+
+    python3 -m venv venv
+    . venv/bin/activate
+    pip install -e .
+    scripts/update_supported_languages_and_locales.py
