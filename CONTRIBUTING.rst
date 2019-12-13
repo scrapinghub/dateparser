@@ -160,7 +160,7 @@ language, you must:
 Updating the List of Supported Languages and Locales
 ----------------------------------------------------
 
-Whenever the contents of
+Whenever the content of
 ``dateparser.data.languages_info.language_locale_dict`` is modified, use
 ``scripts/update_supported_languages_and_locales.py`` to update the
 corresponding documentation table::
