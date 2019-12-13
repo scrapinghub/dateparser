@@ -26,14 +26,7 @@ dateparser -- python parser for human readable dates
 `dateparser` provides modules to easily parse localized dates in almost
 any string formats commonly found on web pages.
 
-
-.. toctree::
-   :maxdepth: 2
-
-   Documentation
-   Features
-   Usage
-
+.. contents::
 
 Documentation
 =============
