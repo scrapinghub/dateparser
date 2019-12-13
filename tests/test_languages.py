@@ -70,6 +70,7 @@ class TestBundledLanguages(BaseTestCase):
         param('pt', "22 de dezembro de 2014 às 02:38", "22  december  2014  02:38"),
         # Russian
         param('ru', "5 августа 2014 г. в 12:00", "5 august 2014 year.  12:00"),
+        param('ru', "5 августа 2014 г. во 12:00", "5 august 2014 year.  12:00"),
         # Turkish
         param('tr', "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
         # Czech
@@ -1472,6 +1473,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ru', "12 секунды назад", "12 second ago"),
         param('ru', "через 8 месяца", "in 8 month"),
         param('ru', "в прошлом году", "1 year ago"),
+        param('ru', "во прошлом году", "1 year ago"),
         # rwk
         param('rwk', "ukou", "1 day ago"),
         param('rwk', "ngama", "in 1 day"),
@@ -1654,6 +1656,8 @@ class TestBundledLanguages(BaseTestCase):
               ['Donnerstag', ' ', '8', '.', ' ', 'Januar', ' ', '2015', ' ', 'um', ' ', '07', ':', '17']),
         param('ru', "8 января 2015 г. в 9:10",
               ['8', ' ', 'января', ' ', '2015', ' ', 'г', '.', ' ', 'в', ' ', '9', ':', '10']),
+        param('ru', "8 января 2015 г. во 9:10",
+              ['8', ' ', 'января', ' ', '2015', ' ', 'г', '.', ' ', 'во', ' ', '9', ':', '10']),
         param('cs', "6. leden 2015 v 22:29",
               ['6', '.', ' ', 'leden', ' ', '2015', ' ', 'v', ' ', '22', ':', '29']),
         param('nl', "woensdag 7 januari 2015 om 21:32",
@@ -1711,6 +1715,7 @@ class TestBundledLanguages(BaseTestCase):
         param('de', "Donnerstag, 8. Januar 2015 um 07:17", strip_timezone=False),
         param('da', "Torsdag, 8. januar 2015 kl. 07:17", strip_timezone=False),
         param('ru', "8 января 2015 г. в 9:10", strip_timezone=False),
+        param('ru', "8 января 2015 г. во 9:10", strip_timezone=False),
         param('cs', "Pondělí v 22:29", strip_timezone=False),
         param('nl', "woensdag 7 januari om 21:32", strip_timezone=False),
         param('ro', "8 Ianuarie 2015 la 13:33", strip_timezone=False),

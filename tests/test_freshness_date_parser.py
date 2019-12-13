@@ -158,6 +158,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         # Russian dates
         param('сегодня', ago={'days': 0}, period='day'),
         param('Вчера в', ago={'days': 1}, period='day'),
+        param('Вчера во', ago={'days': 1}, period='day'),
         param('вчера', ago={'days': 1}, period='day'),
         param('2 часа назад', ago={'hours': 2}, period='day'),
         param('час назад', ago={'hours': 1}, period='day'),
@@ -660,6 +661,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         # Russian dates
         param('сегодня', ago={'days': 0}, period='day'),
         param('Вчера в', ago={'days': 1}, period='day'),
+        param('Вчера во', ago={'days': 1}, period='day'),
         param('вчера', ago={'days': 1}, period='day'),
         param('2 часа назад', ago={'hours': 2}, period='day'),
         param('час назад', ago={'hours': 1}, period='day'),

@@ -79,6 +79,8 @@ class TestTranslateSearch(BaseTestCase):
         # Russian
         param('ru', "5 августа 2014 г в 12:00"),
         # Real: param('ru', "5 августа 2014 г. в 12:00"),
+        param('ru', "5 августа 2014 г во 12:00"),
+        # Real: param('ru', "5 августа 2014 г. во 12:00"),
         # Turkish
         param('tr', "2 Ocak 2015 Cuma, 16:49"),
         # Czech
@@ -373,6 +375,12 @@ class TestTranslateSearch(BaseTestCase):
               [('1 сентября 1939', datetime.datetime(1939, 9, 1, 0, 0)),
                ('2 сентября 1945', datetime.datetime(1945, 9, 2, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+        param('ru', 'Втора́я мирова́я война́ (1 сентября 1939 — 2 сентября 1945) — '
+                    'война двух мировых военно-политических коалиций, ставшая крупнейшим вооружённым '
+                    'конфликтом во истории человечества.',
+              [('1 сентября 1939', datetime.datetime(1939, 9, 1, 0, 0)),
+               ('2 сентября 1945', datetime.datetime(1945, 9, 2, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Spanish
         param('es', 'Desde finales de 1939 hasta inicios de 1941 Alemania conquistó o sometió '
@@ -594,6 +602,9 @@ class TestTranslateSearch(BaseTestCase):
         param('ru', 'Втора́я мирова́я война́ (1 сентября 1939 — 2 сентября 1945) — '
                     'война двух мировых военно-политических коалиций, ставшая крупнейшим вооружённым '
                     'конфликтом в истории человечества.'),
+        param('ru', 'Втора́я мирова́я война́ (1 сентября 1939 — 2 сентября 1945) — '
+                    'война двух мировых военно-политических коалиций, ставшая крупнейшим вооружённым '
+                    'конфликтом во истории человечества.'),
 
         # Spanish
         param('es', '11 junio 2010'),
