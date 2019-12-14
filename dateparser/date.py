@@ -326,7 +326,7 @@ class DateDataParser(object):
     locale_loader = None
 
     @apply_settings
-    def __init__(self, languages=None, locales=None, region=None, try_previous_locales=False, #jayongg updated
+    def __init__(self, languages=None, locales=None, region=None, try_previous_locales=True,
                  use_given_order=False, settings=None):
 
         if not isinstance(languages, (list, tuple, Set)) and languages is not None:
