@@ -13,7 +13,7 @@ from dateutil.relativedelta import relativedelta
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.conf import apply_settings
+from dateparser.conf import apply_settings, settings
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings
 
@@ -188,16 +188,21 @@ class _DateLocaleParser(object):
         instance = cls(locale, date_string, date_formats, settings)
         return instance._parse()
 
+    def _get_parsers(self):
+        return {
+            'timestamp': self._try_timestamp,
+            'freshness': self._try_freshness_parser,
+            'given formats': self._try_given_formats,
+            'date parser': self._try_parser,
+            'hardcoded formats': self._try_hardcoded_formats
+        }
+
     def _parse(self):
-        for parser in (
-            self._try_timestamp,
-            self._try_freshness_parser,
-            self._try_given_formats,
-            self._try_parser,
-            self._try_hardcoded_formats,
-        ):
+        for name, parser in self._get_parsers().items():
             date_obj = parser()
             if self._is_valid_date_obj(date_obj):
+                if settings.DEBUG_INFO:
+                    print('Used parser: %s' % name)
                 return date_obj
         else:
             return None

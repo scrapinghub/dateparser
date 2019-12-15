@@ -340,7 +340,8 @@ class _parser(object):
                 print('Missing: %s' % ', '.join(missing))
             interpretation = [token[0] for token in self.filtered_tokens]
             print('Interpretation: %s' % ' - '.join(interpretation))
-            print('Order: %s' % ', '.join(self.auto_order))
+            if self.auto_order:
+                print('Order: %s' % ', '.join(self.auto_order))
 
         if self.settings.STRICT_PARSING and missing:
             raise ValueError('%s not found in the date string' % ', '.join(missing))
