@@ -6,6 +6,7 @@ from dateparser.timezone_parser import StaticTzInfo
 from dateparser.search.search import DateSearchWithDetection
 from dateparser.search import search_dates
 from dateparser.conf import Settings, apply_settings
+from dateparser_data.settings import default_parsers
 import datetime
 
 
@@ -273,6 +274,14 @@ class TestTranslateSearch(BaseTestCase):
               [(
                   'Aug 06, 2018 05:05 PM CDT',
                   datetime.datetime(2018, 8, 6, 17, 5, tzinfo=StaticTzInfo('CDT', datetime.timedelta(seconds=-18000))))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+        param('en', '25th march 2015 , i need this report today.',
+              [('25th march 2015', datetime.datetime(2015, 3, 25))],
+              settings={'PARSERS': [parser for parser in default_parsers
+                                    if parser != 'relative-time']}),
+        param('en', '25th march 2015 , i need this report today.',
+              [('25th march 2015', datetime.datetime(2015, 3, 25)),
+               ('today', datetime.datetime(2000, 1, 1))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Filipino / Tagalog

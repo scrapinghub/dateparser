@@ -146,6 +146,13 @@ Defaults to `False`.
     >>> ddp.get_date_data(u'vr jan 24, 2014 12:49')
     {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': 'time', 'locale': 'nl'}
 
+``PARSERS`` allows customizing the order in which different date parsers are
+tried, and even disabling specific parsers. For example, to ignore relative
+times:
+
+>>> from dateparser.settings import default_parsers
+>>> parsers = [parser for parser in default_parsers if parser != 'relative-time']
+>>> parse('today', settings={'PARSERS': parsers})
 
 Language Detection
 ++++++++++++++++++

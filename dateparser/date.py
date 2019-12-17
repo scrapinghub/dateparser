@@ -182,6 +182,13 @@ class _DateLocaleParser(object):
         self.date_formats = date_formats
         self._translated_date = None
         self._translated_date_with_formatting = None
+        self._parsers = {
+            'timestamp': self._try_timestamp,
+            'relative-time': self._try_freshness_parser,
+            'custom-formats': self._try_given_formats,
+            'absolute-time': self._try_parser,
+            'base-formats': self._try_hardcoded_formats,
+        }
 
     @classmethod
     def parse(cls, locale, date_string, date_formats=None, settings=None):
@@ -189,14 +196,8 @@ class _DateLocaleParser(object):
         return instance._parse()
 
     def _parse(self):
-        for parser in (
-            self._try_timestamp,
-            self._try_freshness_parser,
-            self._try_given_formats,
-            self._try_parser,
-            self._try_hardcoded_formats,
-        ):
-            date_obj = parser()
+        for parser in self._settings.PARSERS:
+            date_obj = self._parsers[parser]()
             if self._is_valid_date_obj(date_obj):
                 return date_obj
         else:
