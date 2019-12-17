@@ -1,6 +1,7 @@
 import locale
 from parameterized import parameterized, param
 from datetime import datetime
+from unittest import SkipTest
 
 from tests import BaseTestCase
 from dateparser.utils.strptime import strptime
@@ -11,7 +12,10 @@ class TestStrptime(BaseTestCase):
         super(TestStrptime, self).setUp()
 
     def given_system_locale_is(self, locale_str):
-        locale.setlocale(locale.LC_ALL, locale_str)
+        try:
+            locale.setlocale(locale.LC_ALL, locale_str)
+        except locale.Error:
+            raise SkipTest('Locale {} is not installed'.format(locale_str))
 
     def when_date_string_is_parsed(self, date_string, fmt):
         try:
