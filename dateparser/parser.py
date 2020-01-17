@@ -7,6 +7,7 @@ from collections import OrderedDict
 from datetime import datetime
 from datetime import timedelta
 
+from dateparser.utils import set_correct_day_from_settings
 from dateparser.utils.strptime import strptime
 
 
@@ -430,16 +431,11 @@ class _parser(object):
             return dateobj
 
         _, tail = calendar.monthrange(dateobj.year, dateobj.month)
-        options = {
-            'first': 1,
-            'last': tail,
-            'current': self.now.day
-        }
 
-        try:
-            return dateobj.replace(day=options[self.settings.PREFER_DAY_OF_MONTH])
-        except ValueError:
-            return dateobj.replace(day=options['last'])
+        dateobj = set_correct_day_from_settings(
+            dateobj, self.settings, last_day=tail, current_day=self.now.day
+        )
+        return dateobj
 
     @classmethod
     def parse(cls, datestring, settings):
