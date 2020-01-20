@@ -139,11 +139,11 @@ def get_last_day_of_month(year, month):
     return calendar.monthrange(year, month)[1]
 
 
-def set_correct_day_from_settings(date_obj, settings, last_day=None, current_day=None):
+def set_correct_day_from_settings(date_obj, settings, current_day=None):
     """ Set correct day attending the `PREFER_DAY_OF_MONTH` setting."""
     options = {
         'first': 1,
-        'last': last_day or get_last_day_of_month(date_obj.year, date_obj.month),
+        'last': get_last_day_of_month(date_obj.year, date_obj.month),
         'current': current_day or datetime.now().day
     }
 

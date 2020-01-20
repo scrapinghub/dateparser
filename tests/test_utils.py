@@ -5,8 +5,8 @@ from tests import BaseTestCase
 from parameterized import parameterized, param
 from dateparser.utils import (
     find_date_separator, localize_timezone, apply_timezone,
-    apply_timezone_from_settings, registry
-)
+    apply_timezone_from_settings, registry,
+    get_last_day_of_month)
 from pytz import UnknownTimeZoneError, utc
 from dateparser.conf import settings
 
@@ -104,3 +104,23 @@ class TestUtils(BaseTestCase):
     def test_registry_when_get_keys_not_implemented(self):
         cl = self.make_class_without_get_keys()
         self.assertRaises(NotImplementedError, registry, cl)
+
+    @parameterized.expand([
+        param(2111, 1, 31),
+        param(1999, 2, 28),  # normal year
+        param(1996, 2, 29),  # leap and not centurial year
+        param(2000, 2, 29),  # leap and centurial year
+        param(1700, 2, 28),  # no leap and centurial year (exception)
+        param(2020, 3, 31),
+        param(1987, 4, 30),
+        param(1000, 5, 31),
+        param(1534, 6, 30),
+        param(1777, 7, 31),
+        param(1234, 8, 31),
+        param(1678, 9, 30),
+        param(1947, 10, 31),
+        param(2015, 11, 30),
+        param(2300, 12, 31),
+    ])
+    def test_get_last_day_of_month(self, year, month, expected_last_day):
+        assert get_last_day_of_month(year, month) == expected_last_day

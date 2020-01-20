@@ -7,7 +7,8 @@ from collections import OrderedDict
 from datetime import datetime
 from datetime import timedelta
 
-from dateparser.utils import set_correct_day_from_settings
+from dateparser.utils import set_correct_day_from_settings, \
+    get_last_day_of_month
 from dateparser.utils.strptime import strptime
 
 
@@ -302,8 +303,7 @@ class _parser(object):
                 (error_msgs[0] in error_text or error_msgs[1] in error_text) and
                 not(self._token_day or hasattr(self, '_token_weekday'))
             ):
-                _, tail = calendar.monthrange(params['year'], params['month'])
-                params['day'] = tail
+                params['day'] = get_last_day_of_month(params['year'], params['month'])
                 return datetime(**params)
             else:
                 raise e
@@ -430,10 +430,8 @@ class _parser(object):
         ):
             return dateobj
 
-        _, tail = calendar.monthrange(dateobj.year, dateobj.month)
-
         dateobj = set_correct_day_from_settings(
-            dateobj, self.settings, last_day=tail, current_day=self.now.day
+            dateobj, self.settings, current_day=self.now.day
         )
         return dateobj
 
