@@ -41,6 +41,13 @@ DateParser could always use more documentation, whether as part of the
 official DateParser docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
+After you make local changes to the documentation, build it with ``tox``::
+
+    tox -e docs
+
+Then open ``.tox/docs/tmp/html/index.html`` in a web browser to see your local
+build of the documentation.
+
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
