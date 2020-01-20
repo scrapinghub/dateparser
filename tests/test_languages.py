@@ -1415,6 +1415,13 @@ class TestBundledLanguages(BaseTestCase):
         param('nb', "om 6 timer", "in 6 hour"),
         param('nb', "om 2 måneder", "in 2 month"),
         param('nb', "forrige uke", "1 week ago"),
+        param('nb', "for 3 dager siden", "3 day ago"),
+        param('nb', "for 3 timer siden", "3 hour ago"),
+        param('nb', '3 dager siden', '3 day ago'),
+        param('nb', "3 mnd siden", "3 month ago"),
+        param('nb', "2 uker siden", "2 week ago"),
+        param('nb', "1 uke siden", "1 week ago"),
+        param('nb', "10 timer siden", "10 hour ago"),
         # nd
         param('nd', "kusasa", "in 1 day"),
         param('nd', "izolo", "1 day ago"),

@@ -93,15 +93,18 @@ info = {
     ],
     "week": [
         "uke",
-        "u"
+        "u",
+        "uker"
     ],
     "day": [
         "dag",
-        "d"
+        "d",
+        "dager"
     ],
     "hour": [
         "time",
-        "t"
+        "t",
+        "timer"
     ],
     "minute": [
         "minutt",
@@ -197,7 +200,8 @@ info = {
         ],
         "\\1 day ago": [
             "for (\\d+) døgn siden",
-            "for (\\d+) d siden"
+            "for (\\d+) d siden",
+            "for (\\d+) dager siden"
         ],
         "in \\1 hour": [
             "om (\\d+) time",
@@ -235,6 +239,12 @@ info = {
             "name": "nb-SJ"
         }
     },
+    "ago": [
+        "siden"
+    ],
+    "in": [
+        "om"
+    ],
     "skip": [
         " ",
         ".",
