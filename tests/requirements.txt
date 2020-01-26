@@ -3,3 +3,4 @@ nose
 parameterized
 six
 coverage
+flake8
