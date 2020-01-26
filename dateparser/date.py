@@ -129,8 +129,7 @@ def get_date_from_timestamp(date_string, settings):
         micros = int(match.group(3) or 0)
         date_obj = datetime.fromtimestamp(seconds)
         date_obj = date_obj.replace(microsecond=millis * 1000 + micros)
-        if date_obj:
-            date_obj = apply_timezone_from_settings(date_obj, settings)
+        date_obj = apply_timezone_from_settings(date_obj, settings)
         return date_obj
 
 
