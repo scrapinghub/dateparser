@@ -189,7 +189,7 @@ class _parser(object):
     def __init__(self, tokens, settings):
         self.settings = settings
         self.tokens = list(tokens)
-        self.filtered_tokens = [t for t in self.tokens if t[1] <= 1]
+        self.filtered_tokens = [t for t in self.tokens if isinstance(t[1],int) and t[1] <= 1]
 
         self.unset_tokens = []
 
