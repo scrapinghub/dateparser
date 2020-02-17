@@ -146,9 +146,41 @@ Defaults to `False`.
     >>> ddp.get_date_data(u'vr jan 24, 2014 12:49')
     {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': 'time', 'locale': 'nl'}
 
-``PARSERS`` allows customizing the order in which different date parsers are
-tried, and even disabling specific parsers. For example, to ignore relative
-times:
+``PARSERS`` is a list of names of parsers to try, allowing to customize which
+parsers are tried against the input date string, and in which order they are
+tried.
+
+The following parsers exist:
+
+-   ``'timestamp'``: If the input string starts with 10 digits, optionally
+    followed by additional digits or a period (``.``), those first 10 digits
+    are interpreted as `Unix time <https://en.wikipedia.org/wiki/Unix_time>`_.
+
+-   ``'relative-time'``: Parses dates and times expressed in relation to the
+    current date and time (e.g. “1 day ago”, “in 2 weeks”).
+
+-   ``'custom-formats'``: Parses dates that match one of the date formats in
+    the list of the ``date_formats`` parameter of :func:`dateparser.parse` or
+    :meth:`DateDataParser.get_date_data
+    <dateparser.date.DateDataParser.get_date_data>`.
+
+-   ``'absolute-time'``: Parses dates and times expressed in absolute form
+    (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as
+    ``DATE_ORDER`` or ``PREFER_LOCALE_DATE_ORDER``.
+
+-   ``'base-formats'``: Parses dates that match one of the following date
+    formats::
+
+    %B %d, %Y, %I:%M:%S %p
+    %b %d, %Y at %I:%M %p
+    %d %B %Y %H:%M:%S
+    %A, %B %d, %Y
+    %Y-%m-%dT%H:%M:%S.%fZ
+
+:data:`dateparser.settings.default_parsers` contains the default value of
+``PARSERS`` (the list above, in that order) and can be used to write code that
+changes the parsers to try without skipping parsers that may be added to
+Dateparser in the future. For example, to ignore relative times:
 
 >>> from dateparser.settings import default_parsers
 >>> parsers = [parser for parser in default_parsers if parser != 'relative-time']
