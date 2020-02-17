@@ -1445,8 +1445,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('the day before yesterday 16:50', date(2014, 8, 30), time(16, 50)),
         param('2 Tage 18:50', date(2014, 8, 30), time(18, 50)),
         param('1 day ago at 2 PM', date(2014, 8, 31), time(14, 0)),
+        param('one day ago at 2 PM', date(2014, 8, 31), time(14, 0)),
         param('Dnes v 12:40', date(2014, 9, 1), time(12, 40)),
         param('1 week ago at 12:00 am', date(2014, 8, 25), time(0, 0)),
+        param('one week ago at 12:00 am', date(2014, 8, 25), time(0, 0)),
         param('tomorrow at 2 PM', date(2014, 9, 2), time(14, 0)),
     ])
     def test_freshness_date_with_time(self, date_string, date, time):
@@ -1557,6 +1559,30 @@ class TestFreshnessDateDataParser(BaseTestCase):
     ])
     def test_freshness_date_with_relative_base(self, date_string, date, time):
         self.given_parser(settings={'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
+    @parameterized.expand([
+        param('3 days', date(2010, 6, 1), time(13, 15)),
+        param('2 years', date(2008, 6, 4), time(13, 15)),
+    ])
+    def test_freshness_date_with_relative_base_past(self, date_string, date, time):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'past',
+                          'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
+    @parameterized.expand([
+        param('3 days', date(2010, 6, 7), time(13, 15)),
+        param('2 years', date(2012, 6, 4), time(13, 15)),
+    ])
+    def test_freshness_date_with_relative_base_future(self, date_string, date, time):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'future',
+                          'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_date_is(date)
