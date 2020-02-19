@@ -189,6 +189,13 @@ class _DateLocaleParser(object):
             'absolute-time': self._try_parser,
             'base-formats': self._try_hardcoded_formats,
         }
+        unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
+        if unknown_parsers:
+            raise ValueError(
+                'Unknown parsers: {}'.format(
+                    ', '.join(sorted(unknown_parsers))
+                )
+            )
 
     @classmethod
     def parse(cls, locale, date_string, date_formats=None, settings=None):
@@ -196,8 +203,8 @@ class _DateLocaleParser(object):
         return instance._parse()
 
     def _parse(self):
-        for parser in self._settings.PARSERS:
-            date_obj = self._parsers[parser]()
+        for parser_name in self._settings.PARSERS:
+            date_obj = self._parsers[parser_name]()
             if self._is_valid_date_obj(date_obj):
                 return date_obj
         else:
