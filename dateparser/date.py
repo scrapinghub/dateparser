@@ -192,7 +192,7 @@ class _DateLocaleParser(object):
         unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
         if unknown_parsers:
             raise ValueError(
-                'Unknown parsers: {}'.format(
+                'Unknown parsers found in the PARSERS setting: {}'.format(
                     ', '.join(sorted(unknown_parsers))
                 )
             )

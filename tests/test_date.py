@@ -441,7 +441,7 @@ class TestDateDataParser(BaseTestCase):
         self.given_parser(settings={'PARSERS': ['foo']})
         self.when_date_string_is_parsed('2020-02-19')
         self.then_error_was_raised(
-            ValueError, ["Unknown parsers: foo"])
+            ValueError, ["Unknown parsers found in the PARSERS setting: foo"])
 
     @parameterized.expand([
         param(date_string={"date": "12/11/1998"}),
