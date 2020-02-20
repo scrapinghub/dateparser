@@ -1,5 +1,5 @@
 import itertools
-
+import dateparser
 from datetime import datetime
 from tests import BaseTestCase
 from parameterized import parameterized, param
@@ -104,3 +104,20 @@ class TestUtils(BaseTestCase):
     def test_registry_when_get_keys_not_implemented(self):
         cl = self.make_class_without_get_keys()
         self.assertRaises(NotImplementedError, registry, cl)
+
+    def test_format_settings_past_with_y(self):
+        result = dateparser.parse('1/15/64', settings={'PREFER_DATES_FROM': 'past'}, date_formats=['%m/%d/%y'])
+        expected = dateparser.parse('1/15/64', settings={'PREFER_DATES_FROM': 'past'})
+        self.assertEqual(expected, result)
+    def test_format_settings_future_with_y(self):
+        result = dateparser.parse('1/15/64', settings={'PREFER_DATES_FROM': 'future'}, date_formats=['%m/%d/%y'])
+        expected = dateparser.parse('1/15/64', settings={'PREFER_DATES_FROM': 'future'})
+        self.assertEqual(expected, result)
+    def test_format_settings_past_no_y(self):
+        result = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'past'}, date_formats=['%d/%m'])
+        expected = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'past'})
+        self.assertEqual(expected, result)
+    def test_format_settings_future_no_y(self):
+        result = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'future'}, date_formats=['%d/%m'])
+        expected = dateparser.parse('30/1', settings={'PREFER_DATES_FROM': 'future'})
+        self.assertEqual(expected, result)
