@@ -531,11 +531,10 @@ class tokenizer(object):
         if self._isdigit(chara):
             return 0, not self._isdigit(charb)
 
-        elif self._isletter(chara):
+        if self._isletter(chara):
             return 1, not self._isletter(charb)
 
-        else:
-            return 2, self._isdigit(charb) or self._isletter(charb)
+        return 2, self._isdigit(charb) or self._isletter(charb)
 
     def tokenize(self):
         token = ''
