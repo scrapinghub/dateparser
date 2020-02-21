@@ -524,7 +524,7 @@ class _parser(object):
 class tokenizer(object):
     digits = u'0123456789:'
     letters = u'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    nonwords = u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-     "
+    nonwords = u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     "
 
     def _isletter(self, tkn): return tkn in self.letters
 

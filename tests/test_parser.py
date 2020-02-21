@@ -49,6 +49,11 @@ class TestTokenizer(BaseTestCase):
             expected_types=[1, 2, 0, 2, 0, 2, 0, 2, 1],
         ),
         param(
+            date_string=u"Oct 1 2018 4:40 PM EST —",
+            expected_tokens=['Oct', ' ', '1', ' ', '2018', ' ', '4:40', ' ', 'PM', ' ', 'EST', ' —'],
+            expected_types=[1, 2, 0, 2, 0, 2, 0, 2, 1, 2, 1, 2],
+        ),
+        param(
             date_string=tokenizer.digits,
             expected_tokens=[tokenizer.digits],
             expected_types=[0],
