@@ -187,7 +187,6 @@ class _parser(object):
         'year': ['%y', '%Y'],
     }
 
-
     def __init__(self, tokens, settings):
         self.settings = settings
         self.tokens = list(tokens)
@@ -539,7 +538,7 @@ class tokenizer(object):
         if self._isnonword(chara):
             return 2, not self._isnonword(charb)
 
-        return '', True
+        return 3, True
 
     def tokenize(self):
         token = ''

@@ -68,6 +68,11 @@ class TestTokenizer(BaseTestCase):
             expected_tokens=[tokenizer.nonwords],
             expected_types=[2],
         ),
+        param(
+            date_string='😊',  # unrecognized character
+            expected_tokens=['😊'],
+            expected_types=[3],
+        ),
     ])
     def test_tokenization(self, date_string, expected_tokens, expected_types):
         self.given_tokenizer(date_string)
