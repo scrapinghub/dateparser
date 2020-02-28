@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 __version__ = '0.7.2'
 
+from datetime import datetime
+
 from .date import DateDataParser
 from .conf import apply_settings
 
@@ -54,3 +56,9 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
 
     if data:
         return data['date_obj']
+
+
+def parse_timedelta(*args, **kwargs):
+    date_obj = parse(*args, **kwargs)
+    if date_obj:
+        return datetime.now() - date_obj
