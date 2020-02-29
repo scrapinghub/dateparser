@@ -185,7 +185,6 @@ class _parser(object):
         'year': ['%y', '%Y'],
     }
 
-
     def __init__(self, tokens, settings):
         self.settings = settings
         self.tokens = list(tokens)
@@ -327,16 +326,24 @@ class _parser(object):
         return strptime(token, directive)
 
     def _results(self):
-        if self.settings.STRICT_PARSING:
-            errors = []
-            if not self.day:
-                errors.append('Day')
-            if not self.month:
-                errors.append('Month')
-            if not self.year:
-                errors.append('Year')
-            if errors:
-                raise ValueError('%s not found in the date string' % ''.join(errors))
+        missing = []
+        if not self.day:
+            missing.append('Day')
+        if not self.month:
+            missing.append('Month')
+        if not self.year:
+            missing.append('Year')
+
+        if self.settings.DEBUG_INFO:
+            if missing:
+                print('Missing: %s' % ', '.join(missing))
+            interpretation = [token[0] for token in self.filtered_tokens]
+            print('Interpretation: %s' % ' - '.join(interpretation))
+            if self.auto_order:
+                print('Order: %s' % ', '.join(self.auto_order))
+
+        if self.settings.STRICT_PARSING and missing:
+            raise ValueError('%s not found in the date string' % ', '.join(missing))
 
         self._set_relative_base()
 

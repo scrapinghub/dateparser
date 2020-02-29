@@ -13,4 +13,5 @@ settings = {
     'FUZZY': False,
     'STRICT_PARSING': False,
     'RETURN_TIME_AS_PERIOD': False,
+    'DEBUG_INFO': True,
 }
