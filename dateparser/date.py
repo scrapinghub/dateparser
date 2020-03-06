@@ -9,6 +9,7 @@ import six
 import regex as re
 from dateutil.relativedelta import relativedelta
 
+from dateparser.calendars.jalali import JalaliCalendar
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
@@ -179,6 +180,7 @@ class _DateLocaleParser(object):
             'custom-formats': self._try_given_formats,
             'absolute-time': self._try_parser,
             'base-formats': self._try_hardcoded_formats,
+            'jalali': self._try_jalali_calendar,
         }
         unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
         if unknown_parsers:
@@ -255,6 +257,9 @@ class _DateLocaleParser(object):
             )
         except TypeError:
             return None
+
+    def _try_jalali_calendar(self):
+        return JalaliCalendar(self.date_string).get_date()
 
     def _get_translated_date(self):
         if self._translated_date is None:
