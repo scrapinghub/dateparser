@@ -694,6 +694,10 @@ class TestDateParser(BaseTestCase):
         param('10.1.2019', expected=datetime(2019, 1, 10, 0, 0), languages=['de']),
         param('10.1.2019', expected=datetime(2019, 10, 1, 0, 0),
               settings={'DATE_ORDER': 'MDY'}),
+        param('03/11/2559 05:13', datetime(2559, 3, 11, 5, 13), languages=["th"],
+              settings={"DATE_ORDER": "MDY"}),
+        param('03/15/2559 05:13', datetime(2559, 3, 15, 5, 13), languages=["th"],
+              settings={"DATE_ORDER": "MDY"})
     ])
     def test_if_settings_provided_date_order_is_retained(
         self, date_string, expected=None, languages=None, settings=None
