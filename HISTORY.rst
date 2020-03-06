@@ -3,6 +3,31 @@
 History
 =======
 
+0.7.3 (2020-03-06)
+------------------
+
+New features:
+
+* Extended Norwegian support (see https://github.com/scrapinghub/dateparser/pull/598)
+* Implement a PARSERS setting (see https://github.com/scrapinghub/dateparser/pull/603)
+
+
+Improvements:
+
+* Add support for `PREFER_DATES_FROM` in relative/freshness parser (https://github.com/scrapinghub/dateparser/pull/414)
+* Add support for `PREFER_DAY_OF_MONTH` in base-formats parser (see https://github.com/scrapinghub/dateparser/pull/611)
+* Added UTC -00:00 as a valid offset (see https://github.com/scrapinghub/dateparser/pull/574)
+* Fix support for “one” (see https://github.com/scrapinghub/dateparser/pull/593)
+* Fix TypeError when parsing some invalid dates (see https://github.com/scrapinghub/dateparser/pull/536)
+* Fix tokenizer for non recognized characters (see https://github.com/scrapinghub/dateparser/pull/622)
+* Prevent installing regex 2019.02.19 (https://github.com/scrapinghub/dateparser/pull/600)
+* Resolve DeprecationWarning related to raw string escape sequences (see https://github.com/scrapinghub/dateparser/pull/596)
+* Implement a tox environment to build the documentation (https://github.com/scrapinghub/dateparser/pull/604)
+* Improve tests stability (see https://github.com/scrapinghub/dateparser/pull/591, https://github.com/scrapinghub/dateparser/pull/605)
+* Documentation improvements (see https://github.com/scrapinghub/dateparser/pull/510, https://github.com/scrapinghub/dateparser/pull/578, https://github.com/scrapinghub/dateparser/pull/619, https://github.com/scrapinghub/dateparser/pull/614, https://github.com/scrapinghub/dateparser/pull/620)
+* Performance improvements (see https://github.com/scrapinghub/dateparser/pull/570, https://github.com/scrapinghub/dateparser/pull/569, https://github.com/scrapinghub/dateparser/pull/625)
+
+
 0.7.2 (2019-09-17)
 ------------------
 
