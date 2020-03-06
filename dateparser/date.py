@@ -356,7 +356,7 @@ class DateDataParser(object):
         self.languages = languages
         self.locales = locales
         self.region = region
-        self.previous_locales = []
+        self.previous_locales = set()
 
     def get_date_data(self, date_string, date_formats=None):
         """
@@ -419,7 +419,7 @@ class DateDataParser(object):
             if parsed_date:
                 parsed_date['locale'] = locale.shortname
                 if self.try_previous_locales:
-                    self.previous_locales.insert(0, locale)
+                    self.previous_locales.add(locale)
                 return parsed_date
         else:
             return {'date_obj': None, 'period': 'day', 'locale': None}
