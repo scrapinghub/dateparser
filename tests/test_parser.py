@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from datetime import datetime, time
 
 from parameterized import parameterized, param
@@ -50,7 +52,7 @@ class TestTokenizer(BaseTestCase):
         ),
         param(
             date_string=u"Oct 1 2018 4:40 PM EST —",
-            expected_tokens=['Oct', ' ', '1', ' ', '2018', ' ', '4:40', ' ', 'PM', ' ', 'EST', ' —'],
+            expected_tokens=['Oct', ' ', '1', ' ', '2018', ' ', '4:40', ' ', 'PM', ' ', 'EST', u' —'],
             expected_types=[1, 2, 0, 2, 0, 2, 0, 2, 1, 2, 1, 2],
         ),
         param(
@@ -64,8 +66,8 @@ class TestTokenizer(BaseTestCase):
             expected_types=[1],
         ),
         param(
-            date_string= "./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊",  # unrecognized characters
-            expected_tokens=["./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊"],
+            date_string=u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊",  # unrecognized characters
+            expected_tokens=[u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊"],
             expected_types=[2],
         ),
     ])
