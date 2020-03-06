@@ -187,7 +187,6 @@ class _parser(object):
         'year': ['%y', '%Y'],
     }
 
-
     def __init__(self, tokens, settings):
         self.settings = settings
         self.tokens = list(tokens)
@@ -518,13 +517,12 @@ class _parser(object):
 class tokenizer(object):
     digits = u'0123456789:'
     letters = u'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    nonwords = u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-     "
 
-    def _isletter(self, tkn): return tkn in self.letters
+    def _isletter(self, tkn):
+        return tkn in self.letters
 
-    def _isdigit(self, tkn): return tkn in self.digits
-
-    def _isnonword(self, tkn): return tkn in self.nonwords
+    def _isdigit(self, tkn):
+        return tkn in self.digits
 
     def __init__(self, ds):
         self.instream = StringIO(ds)
@@ -536,10 +534,7 @@ class tokenizer(object):
         if self._isletter(chara):
             return 1, not self._isletter(charb)
 
-        if self._isnonword(chara):
-            return 2, not self._isnonword(charb)
-
-        return '', True
+        return 2, self._isdigit(charb) or self._isletter(charb)
 
     def tokenize(self):
         token = ''
