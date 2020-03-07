@@ -2,7 +2,7 @@
 __version__ = '0.7.6'
 
 from .date import DateDataParser
-from .conf import apply_settings
+from .conf import apply_settings, _check_settings
 
 _default_parser = DateDataParser()
 
@@ -47,6 +47,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
     parser = _default_parser
 
     if languages or locales or region or not settings._default:
+        _check_settings(settings)
         parser = DateDataParser(languages=languages, locales=locales,
                                 region=region, settings=settings)
 

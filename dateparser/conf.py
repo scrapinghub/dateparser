@@ -5,6 +5,7 @@ import six
 
 from .utils import registry
 
+
 @registry
 class Settings(object):
     """Control and configure default parsing behavior of dateparser.
@@ -84,3 +85,40 @@ def apply_settings(f):
 
         return f(*args, **kwargs)
     return wrapper
+
+
+def _check_settings(settings):
+    valid_values = {
+        'PREFER_DATES_FROM': {
+            'values': ('past', 'future', 'current_period'),
+            'default': 'current_period',
+            'raise_error': False
+        },
+        'PREFER_DAY_OF_MONTH': {
+            'values': ('current', 'first', 'last'),
+            'default': 'current',
+            'raise_error': False
+        },
+        'DATE_ORDER': {
+            'values': ('MDY', 'MYD', 'DMY', 'DYM', 'YDM', 'YMD'),
+            # TODO: extract from parser.py --> resolve_date_order --> chart?
+            'default': 'MDY',
+            'raise_error': True
+        }
+    }
+
+    for setting, val in valid_values.items():
+        if getattr(settings, setting) not in valid_values[setting]['values']:
+            message = \
+                "\"{}\" is not a valid value for {}, it should be: '{}' " \
+                "or '{}'. Using default behaviour: '{}'".format(
+                    getattr(settings, setting),
+                    setting,
+                    "', '".join(val['values'][:-1]),
+                    val['values'][-1],
+                    val['default']
+                )
+
+            if val['raise_error']:
+                raise ValueError(message)
+            print(message)  # TODO: change to logger
