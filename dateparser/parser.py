@@ -81,6 +81,7 @@ class _time_parser(object):
         '%I %p',
         '%H:%M:%S.%f',
         '%I:%M:%S.%f %p',
+        '%H:%M %p'
     ]
 
     def __call__(self, timestring):
