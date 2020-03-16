@@ -1,3 +1,11 @@
+default_parsers = [
+    'timestamp',
+    'relative-time',
+    'custom-formats',
+    'absolute-time',
+    'base-formats',
+]
+
 settings = {
     'PREFER_DATES_FROM': 'current_period',
     'PREFER_DAY_OF_MONTH': 'current',
@@ -13,4 +21,5 @@ settings = {
     'FUZZY': False,
     'STRICT_PARSING': False,
     'RETURN_TIME_AS_PERIOD': False,
+    'PARSERS': default_parsers,
 }
