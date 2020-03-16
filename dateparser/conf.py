@@ -18,6 +18,8 @@ class Settings(object):
     * `RELATIVE_BASE`: count relative date from this base date. Should be datetime object.
     * `RETURN_TIME_AS_PERIOD`: returns period as `time` in case time component is detected in the date string.
     Default: False.
+    * `PARSERS`: list of date parsers to use, in order of preference. Default:
+    :attr:`dateparser.settings.default_parsers`.
     """
 
     _default = True

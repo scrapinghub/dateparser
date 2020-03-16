@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import calendar
 import collections
 from datetime import datetime, timedelta
 from warnings import warn
@@ -15,7 +14,8 @@ from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings
 from dateparser.timezone_parser import pop_tz_offset_from_string
-from dateparser.utils import apply_timezone_from_settings
+from dateparser.utils import apply_timezone_from_settings, \
+    set_correct_day_from_settings
 
 try:
     # Python 3
@@ -128,10 +128,6 @@ def get_date_from_timestamp(date_string, settings):
         return date_obj
 
 
-def get_last_day_of_month(year, month):
-    return calendar.monthrange(year, month)[1]
-
-
 def parse_with_formats(date_string, date_formats, settings):
     """ Parse with formats and return a dictionary with 'period' and 'obj_date'.
 
@@ -148,12 +144,9 @@ def parse_with_formats(date_string, date_formats, settings):
         except ValueError:
             continue
         else:
-            # If format does not include the day, use last day of the month
-            # instead of first, because the first is usually out of range.
             if '%d' not in date_format:
                 period = 'month'
-                date_obj = date_obj.replace(
-                    day=get_last_day_of_month(date_obj.year, date_obj.month))
+                date_obj = set_correct_day_from_settings(date_obj, settings)
 
             if not ('%y' in date_format or '%Y' in date_format):
                 today = datetime.today()
@@ -182,6 +175,20 @@ class _DateLocaleParser(object):
         self.date_formats = date_formats
         self._translated_date = None
         self._translated_date_with_formatting = None
+        self._parsers = {
+            'timestamp': self._try_timestamp,
+            'relative-time': self._try_freshness_parser,
+            'custom-formats': self._try_given_formats,
+            'absolute-time': self._try_parser,
+            'base-formats': self._try_hardcoded_formats,
+        }
+        unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
+        if unknown_parsers:
+            raise ValueError(
+                'Unknown parsers found in the PARSERS setting: {}'.format(
+                    ', '.join(sorted(unknown_parsers))
+                )
+            )
 
     @classmethod
     def parse(cls, locale, date_string, date_formats=None, settings=None):
@@ -189,14 +196,8 @@ class _DateLocaleParser(object):
         return instance._parse()
 
     def _parse(self):
-        for parser in (
-            self._try_timestamp,
-            self._try_freshness_parser,
-            self._try_given_formats,
-            self._try_parser,
-            self._try_hardcoded_formats,
-        ):
-            date_obj = parser()
+        for parser_name in self._settings.PARSERS:
+            date_obj = self._parsers[parser_name]()
             if self._is_valid_date_obj(date_obj):
                 return date_obj
         else:
@@ -355,7 +356,7 @@ class DateDataParser(object):
         self.languages = languages
         self.locales = locales
         self.region = region
-        self.previous_locales = []
+        self.previous_locales = set()
 
     def get_date_data(self, date_string, date_formats=None):
         """
@@ -418,7 +419,7 @@ class DateDataParser(object):
             if parsed_date:
                 parsed_date['locale'] = locale.shortname
                 if self.try_previous_locales:
-                    self.previous_locales.insert(0, locale)
+                    self.previous_locales.add(locale)
                 return parsed_date
         else:
             return {'date_obj': None, 'period': 'day', 'locale': None}
