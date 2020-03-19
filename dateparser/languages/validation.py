@@ -8,7 +8,7 @@ class LanguageValidator(object):
     logger = None
 
     VALID_KEYS = [
-        'name', 'skip', 'pertain', 'simplifications', 'no_word_spacing', 'ago', 'in',
+        'name', 'skip', 'pertain', 'simplifications', 'no_word_spacing', 'ago', 'in', 'next', 'after',
         'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
         'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august',
         'september', 'october', 'november', 'december', 'year', 'month', 'week', 'day',

@@ -142,7 +142,7 @@ class Locale(object):
             else:
                 if word in dictionary:
                     date_string_tokens[i] = dictionary[word] or ''
-        if "in" in date_string_tokens:
+        if "in" in date_string_tokens or "next" in date_string_tokens or "after" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
 
         return self._join(list(filter(bool, date_string_tokens)),
@@ -221,7 +221,7 @@ class Locale(object):
                 translated.append(translated_chunk)
                 original.append(original_chunk)
         for i in range(len(translated)):
-            if "in" in translated[i]:
+            if "in" in translated[i] or "next" in translated[i] or "after" in translated[i]:
                 translated[i] = self._clear_future_words(translated[i])
             translated[i] = self._join_chunk(list(filter(bool, translated[i])), settings=settings)
             original[i] = self._join_chunk(list(filter(bool, original[i])), settings=settings)
@@ -426,7 +426,9 @@ class Locale(object):
     def _clear_future_words(self, words):
         freshness_words = {'day', 'week', 'month', 'year', 'hour', 'minute', 'second'}
         if set(words).isdisjoint(freshness_words):
-            words.remove("in")
+            for wrd in ["in", "next", "after"]:
+                if wrd in words:
+                    words.remove(wrd)
         return words
 
     def _join(self, tokens, separator=" ", settings=None):

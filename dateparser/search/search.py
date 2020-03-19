@@ -13,7 +13,7 @@ except ImportError:
     # Python 2.7
     from collections import Set
 
-RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
+RELATIVE_REG = re.compile("(ago|in|next|after|from now|tomorrow|today|yesterday)")
 
 
 def date_is_relative(translation):

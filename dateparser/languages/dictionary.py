@@ -11,11 +11,11 @@ from dateparser.utils import normalize_unicode
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
 PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z"]
 ALWAYS_KEEP_TOKENS = ["+"] + PARSER_HARDCODED_TOKENS
-KNOWN_WORD_TOKENS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
-                     'saturday', 'sunday', 'january', 'february', 'march',
-                     'april', 'may', 'june', 'july', 'august', 'september',
-                     'october', 'november', 'december', 'year', 'month', 'week',
-                     'day', 'hour', 'minute', 'second', 'ago', 'in', 'am', 'pm']
+KNOWN_WORD_TOKENS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 
+                     'sunday', 'january', 'february', 'march', 'april', 'may', 'june', 
+                     'july', 'august', 'september', 'october', 'november', 'december', 
+                     'year', 'month', 'week', 'day', 'hour', 'minute', 'second', 'ago', 
+                     'in', 'next', 'after', 'am', 'pm']
 
 PARENTHESES_PATTERN = re.compile(r'[\(\)]')
 NUMERAL_PATTERN = re.compile(r'(\d+)')
