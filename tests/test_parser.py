@@ -98,7 +98,6 @@ class TestNoSpaceParser(BaseTestCase):
         self.when_date_is_parsed('2013 25 12')
         self.then_date_is_not_parsed()
 
-
     @parameterized.expand([
         param(
             date_string=u":",
@@ -270,7 +269,6 @@ class TestNoSpaceParser(BaseTestCase):
         self.then_date_exactly_is(expected_date)
         self.then_period_exactly_is(expected_period)
 
-
     @parameterized.expand([
         param(
             date_string=u"20110101",
@@ -290,6 +288,16 @@ class TestNoSpaceParser(BaseTestCase):
         param(
             date_string=u"20202001",
             expected_date=datetime(2020, 1, 20),
+            expected_period='day',
+        ),
+        param(
+            date_string=u"20202020",
+            expected_date=datetime(2002, 2, 2, 0, 2),
+            expected_period='day',
+        ),
+        param(
+            date_string=u"12345678",
+            expected_date=datetime(1234, 5, 6, 7, 8),
             expected_period='day',
         ),
     ])
