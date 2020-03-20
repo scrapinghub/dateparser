@@ -25,11 +25,6 @@ def no_space_parser_eligibile(datestring):
 
     return False
 
-def is_8_digit_number(datestring):
-    if EIGHT_DIGIT.match(datestring) is None:
-        return False
-    return True
-
 def get_unresolved_attrs(parser_object):
     attrs = ['year', 'month', 'day']
     seen = []
@@ -153,7 +148,7 @@ class _no_spaces_parser(object):
     def _find_best_matching_date(cls, datestring):
         for fmt in cls._preferred_formats_ordered_8_digit:
             try:
-                dt = strptime(datestring, fmt), cls._get_period(fmt)
+                dt = strptime(datestring, fmt), cls._get_period(fmt)                
                 if len(str(dt[0].year)) == 4:
                     return dt
             except:
@@ -173,7 +168,7 @@ class _no_spaces_parser(object):
             order = resolve_date_order(settings.DATE_ORDER)
         else:
             order = cls._default_order
-            if is_8_digit_number(datestring):
+            if bool(EIGHT_DIGIT.match(datestring)):
                 dt = cls._find_best_matching_date(datestring)
                 if dt is not None:    
                     return dt               
