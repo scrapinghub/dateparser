@@ -170,7 +170,7 @@ class _no_spaces_parser(object):
             order = resolve_date_order(settings.DATE_ORDER)
         else:
             order = cls._default_order
-            if bool(EIGHT_DIGIT.match(datestring)):
+            if EIGHT_DIGIT.match(datestring):
                 dt = cls._find_best_matching_date(datestring)
                 if dt is not None:
                     return dt
