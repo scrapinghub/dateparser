@@ -142,7 +142,7 @@ class Locale(object):
             else:
                 if word in dictionary:
                     date_string_tokens[i] = dictionary[word] or ''
-        if "in" in date_string_tokens or "next" in date_string_tokens or "after" in date_string_tokens:
+        if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
 
         return self._join(list(filter(bool, date_string_tokens)),

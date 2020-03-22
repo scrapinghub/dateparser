@@ -865,6 +865,9 @@ info = {
         "in",
         "from now"
     ],
+    "next": [
+        "next"
+    ],
     "simplifications": [
         {
             "an": "1"

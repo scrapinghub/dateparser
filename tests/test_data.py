@@ -24,7 +24,7 @@ VALID_KEYS = [
     'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september',
     'october', 'november', 'december', 'year', 'month', 'week', 'day', 'hour', 'minute',
     'second', 'am', 'pm', 'relative-type', 'relative-type-regex', 'sentence_splitter_group',
-    'dateorder']
+    'dateorder', 'next', 'after']
 
 NECESSARY_KEYS = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',
                   'sunday', 'january', 'february', 'march', 'april', 'may', 'june', 'july',

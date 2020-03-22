@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import regex as re
+import calendar as cal
 from datetime import datetime
 from datetime import time
 from tzlocal import get_localzone
@@ -15,6 +16,7 @@ from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r'year|month|week|day|hour|minute|second'
 PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
+_WEEKDAYS = r'monday|tuesday|wednesday|thursday|friday|saturday|sunday'
 
 
 class FreshnessDateDataParser(object):
@@ -111,21 +113,34 @@ class FreshnessDateDataParser(object):
         return date, period
 
     def _parse_date(self, date_string, prefer_dates_from):
-        if not self._are_all_words_units(date_string):
+
+        _weekday = self.get_weekday_data(date_string)
+
+        if not self._are_all_words_units(date_string) and not _weekday:
             return None, None
 
         kwargs = self.get_kwargs(date_string)
-        if not kwargs:
+
+        if not kwargs and not _weekday:
             return None, None
 
         period = 'day'
-        if 'days' not in kwargs:
-            for k in ['weeks', 'months', 'years']:
-                if k in kwargs:
-                    period = k[:-1]
-                    break
+        if _weekday:
+            day = "cal." + _weekday.upper()
+            day_ahead = eval(day) - datetime.now().weekday()
+            if day_ahead <= 0:
+                day_ahead += 7
 
-        td = relativedelta(**kwargs)
+            td = relativedelta(days=day_ahead)
+
+        else:
+            if 'days' not in kwargs:
+                for k in ['weeks', 'months', 'years']:
+                    if k in kwargs:
+                        period = k[:-1]
+                        break
+
+            td = relativedelta(**kwargs)
         if (
             re.search(r'\bin\b', date_string) or
             re.search(r'\bnext\b', date_string) or
@@ -152,6 +167,15 @@ class FreshnessDateDataParser(object):
     def get_date_data(self, date_string, settings=None):
         date, period = self.parse(date_string, settings)
         return dict(date_obj=date, period=period)
+
+    def get_weekday_data(self, date_string):
+        words = re.split(r"\s+", date_string)
+        for word in words:
+            if word in _WEEKDAYS and len(word)>4 and "next" in date_string:
+                return word
+
+        else:
+            return None
 
 
 freshness_date_parser = FreshnessDateDataParser()
