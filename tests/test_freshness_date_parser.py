@@ -1054,6 +1054,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
               in_future={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         param('just now', in_future={'seconds': 0}, period='day'),
+        param('after 15 days', in_future={'days': 15}, period='day'),
+        param('next 10 days', in_future={'days': 10}, period='day'),
 
         # French dates
         param("Aujourd'hui", in_future={'days': 0}, period='day'),
@@ -1579,6 +1581,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
     @parameterized.expand([
         param('3 days', date(2010, 6, 7), time(13, 15)),
         param('2 years', date(2012, 6, 4), time(13, 15)),
+        param('next monday', date(2010, 6, 7), time(13, 15)),
+        param('next friday', date(2010, 6, 11), time(13, 15)),
+        param('next saturday', date(2010, 6, 5), time(13, 15))
     ])
     def test_freshness_date_with_relative_base_future(self, date_string, date, time):
         self.given_parser(settings={'PREFER_DATES_FROM': 'future',
