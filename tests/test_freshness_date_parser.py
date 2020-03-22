@@ -1054,6 +1054,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
               in_future={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         param('just now', in_future={'seconds': 0}, period='day'),
+        param('10 days from now', in_future={'days': 10}, period='day'),
 
         # French dates
         param("Aujourd'hui", in_future={'days': 0}, period='day'),
