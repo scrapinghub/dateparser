@@ -126,8 +126,8 @@ class FreshnessDateDataParser(object):
 
         period = 'day'
         if _weekday:
-            day = "cal." + _weekday.upper()
-            day_ahead = eval(day) - self.now.weekday()
+            day = getattr(cal, _weekday.upper())
+            day_ahead = day - self.now.weekday()
             if day_ahead <= 0:
                 day_ahead += 7
 
