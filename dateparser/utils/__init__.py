@@ -140,7 +140,7 @@ def get_last_day_of_month(year, month):
 
 
 def set_correct_day_from_settings(date_obj, settings, current_day=None):
-    """ Set correct day attending the `PREFER_DAY_OF_MONTH` setting."""
+    """ Set correct day according to `PREFER_DAY_OF_MONTH` setting."""
     options = {
         'first': 1,
         'last': get_last_day_of_month(date_obj.year, date_obj.month),
@@ -152,6 +152,19 @@ def set_correct_day_from_settings(date_obj, settings, current_day=None):
     except ValueError:
         return date_obj.replace(day=options['last'])
 
+
+def set_correct_month_from_settings(date_obj, settings, current_month=None):
+    """ Set correct day according to `PREFER_MONTH` setting."""
+    options = {
+        'first': 1,
+        'last': 12,
+        'current': current_month or datetime.now().month
+    }
+
+    try:
+        return date_obj.replace(month=options[settings.PREFER_MONTH])
+    except ValueError:
+        return date_obj.replace(month=options['last'])
 
 def registry(cls):
     def choose(creator):

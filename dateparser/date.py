@@ -15,7 +15,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
-    set_correct_day_from_settings
+    set_correct_day_from_settings, set_correct_month_from_settings
 
 try:
     # Python 3
@@ -147,6 +147,10 @@ def parse_with_formats(date_string, date_formats, settings):
             if '%d' not in date_format:
                 period = 'month'
                 date_obj = set_correct_day_from_settings(date_obj, settings)
+            
+            if '%m' not in date_format:
+                period = 'year'
+                date_obj = set_correct_month_from_settings(date_obj, settings)
 
             if not ('%y' in date_format or '%Y' in date_format):
                 today = datetime.today()
