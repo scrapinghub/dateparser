@@ -171,7 +171,7 @@ class FreshnessDateDataParser(object):
     def get_weekday_data(self, date_string):
         words = re.split(r"\s+", date_string)
         for word in words:
-            if word in _WEEKDAYS and len(word)>4 and "next" in date_string:
+            if re.search(r'\b'+word, _WEEKDAYS) and 'next' in date_string:
                 return word
 
         else:
