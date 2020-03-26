@@ -1407,6 +1407,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         param('15th of Aug, 2014 Diane Bennett'),
+        param('nextdoor monday'),
+        param('nextdoor'),
     ])
     def test_insane_dates(self, date_string):
         self.given_parser()
