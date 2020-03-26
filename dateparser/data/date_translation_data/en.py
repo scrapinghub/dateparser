@@ -182,6 +182,9 @@ info = {
         ],
         "2 day ago": [
             "day before yesterday"
+        ],
+        "in 2 day": [
+            "day after tomorrow"
         ]
     },
     "relative-type-regex": {
