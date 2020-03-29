@@ -12,6 +12,7 @@ Committers
 * Alec Koumjian
 * Alexis Svinartchouk
 * Ammar Azif
+* Anarcat
 * Anderson Berg
 * Andrés Portillo
 * Andrey Rahmatullin
@@ -38,6 +39,7 @@ Committers
 * Faisal Anees
 * Fernando Tricas García
 * Georgi Valkov
+* Håkan W
 * Hristo Vrigazov
 * Hugo van Kemenade
 * ishirav
@@ -48,14 +50,17 @@ Committers
 * Jakub Kukul
 * Jolo Balbin
 * Joseph Kahn
+* Kamil Nematli
 * Kishan Mehta
 * Konstantin Lopuhin
+* Lucas Dutra Ferreira do Nascimento
 * Marc Hernández
 * Mark Baas
 * Marko Horvatić
 * Mateusz Golewski
 * Mats Gustafsson
 * Michael Palumbo
+* Mike Shriver
 * msopko81
 * nanolab
 * Opp Lieamsiriwong
@@ -81,6 +86,8 @@ Committers
 * tkisme
 * Tom Russell
 * Umair Ashraf
+* Ville Skyttä
 * Waqas Shabir
+* Watchful1
 * Xavier Barbosa
 * Yongwen Zhuang
