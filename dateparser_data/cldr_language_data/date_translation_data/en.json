@@ -171,6 +171,16 @@
             "in {0} years",
             "in {0} yr"
         ],
+        "next \\1 year": [
+            "next {0} year",
+            "next {0} years",
+            "next {0} yr"
+        ],
+        "after \\1 year": [
+            "after {0} year",
+            "after {0} years",
+            "after {0} yr"
+        ],
         "\\1 year ago": [
             "{0} year ago",
             "{0} years ago",
@@ -180,6 +190,16 @@
             "in {0} month",
             "in {0} months",
             "in {0} mo"
+        ],
+        "next \\1 month": [
+            "next {0} month",
+            "next {0} months",
+            "next {0} mo"
+        ],
+        "after \\1 month": [
+            "after {0} month",
+            "after {0} months",
+            "after {0} mo"
         ],
         "\\1 month ago": [
             "{0} month ago",
@@ -191,6 +211,16 @@
             "in {0} weeks",
             "in {0} wk"
         ],
+        "next \\1 week": [
+            "next {0} week",
+            "next {0} weeks",
+            "next {0} wk"
+        ],
+        "after \\1 week": [
+            "after {0} week",
+            "after {0} weeks",
+            "after {0} wk"
+        ],
         "\\1 week ago": [
             "{0} week ago",
             "{0} weeks ago",
@@ -200,6 +230,14 @@
             "in {0} day",
             "in {0} days"
         ],
+        "next \\1 day": [
+            "next {0} day",
+            "next {0} days"
+        ],
+        "after \\1 day": [
+            "after {0} day",
+            "after {0} days"
+        ],
         "\\1 day ago": [
             "{0} day ago",
             "{0} days ago"
@@ -208,6 +246,16 @@
             "in {0} hour",
             "in {0} hours",
             "in {0} hr"
+        ],
+        "next \\1 hour": [
+            "next {0} hour",
+            "next {0} hours",
+            "next {0} hr"
+        ],
+        "after \\1 hour": [
+            "after {0} hour",
+            "after {0} hours",
+            "after {0} hr"
         ],
         "\\1 hour ago": [
             "{0} hour ago",
@@ -219,6 +267,16 @@
             "in {0} minutes",
             "in {0} min"
         ],
+        "next \\1 minute": [
+            "next {0} minute",
+            "next {0} minutes",
+            "next {0} min"
+        ],
+        "after \\1 minute": [
+            "after {0} minute",
+            "after {0} minutes",
+            "after {0} min"
+        ],
         "\\1 minute ago": [
             "{0} minute ago",
             "{0} minutes ago",
@@ -228,6 +286,16 @@
             "in {0} second",
             "in {0} seconds",
             "in {0} sec"
+        ],
+        "next \\1 second": [
+            "next {0} second",
+            "next {0} seconds",
+            "next {0} sec"
+        ],
+        "after \\1 second": [
+            "after {0} second",
+            "after {0} seconds",
+            "after {0} sec"
         ],
         "\\1 second ago": [
             "{0} second ago",
@@ -299,11 +367,23 @@
                 "in \\1 year": [
                     "in {0} yrs"
                 ],
+                "next \\1 year": [
+                    "next {0} yrs"
+                ],
+                "after \\1 year": [
+                    "after {0} yrs"
+                ],
                 "\\1 year ago": [
                     "{0} yrs ago"
                 ],
                 "in \\1 month": [
                     "in {0} mos"
+                ],
+                 "next \\1 month": [
+                    "next {0} mos"
+                ],
+                "after \\1 month": [
+                    "after {0} mos"
                 ],
                 "\\1 month ago": [
                     "{0} mos ago"
@@ -311,11 +391,23 @@
                 "in \\1 week": [
                     "in {0} wks"
                 ],
+                "next \\1 week": [
+                    "next {0} wks"
+                ],
+                "after \\1 week": [
+                    "after {0} wks"
+                ],
                 "\\1 week ago": [
                     "{0} wks ago"
                 ],
                 "in \\1 hour": [
                     "in {0} hrs"
+                ],
+                "next \\1 hour": [
+                    "next {0} hrs"
+                ],
+                "after \\1 hour": [
+                    "after {0} hrs"
                 ],
                 "\\1 hour ago": [
                     "{0} hrs ago"
@@ -323,11 +415,23 @@
                 "in \\1 minute": [
                     "in {0} mins"
                 ],
+                "next \\1 minute": [
+                    "next {0} mins"
+                ],
+                "after \\1 minute": [
+                    "after {0} mins"
+                ],
                 "\\1 minute ago": [
                     "{0} mins ago"
                 ],
                 "in \\1 second": [
                     "in {0} secs"
+                ],
+                "next \\1 second": [
+                    "next {0} secs"
+                ],
+                "after \\1 second": [
+                    "after {0} secs"
                 ],
                 "\\1 second ago": [
                     "{0} secs ago"

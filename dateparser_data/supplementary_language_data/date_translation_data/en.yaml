@@ -35,6 +35,8 @@ ago:
 in:
     - in
     - from now
+next:
+    - next
 
 relative-type:
     2 day ago:
