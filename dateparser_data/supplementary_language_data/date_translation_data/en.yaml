@@ -39,6 +39,8 @@ in:
 relative-type:
     2 day ago:
         - day before yesterday
+    in 2 day:
+        - day after tomorrow
 
 simplifications:
     - an: '1'

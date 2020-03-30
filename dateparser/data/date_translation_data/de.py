@@ -93,8 +93,8 @@ info = {
     "year": [
         "jahr",
         "j",
-        "Jahre",
-        "jahren"
+        "jahren",
+        "Jahre"
     ],
     "month": [
         "monat",
@@ -109,8 +109,8 @@ info = {
     ],
     "day": [
         "tag",
-        "Tage",
-        "Tagen"
+        "Tagen",
+        "Tage"
     ],
     "hour": [
         "stunde",

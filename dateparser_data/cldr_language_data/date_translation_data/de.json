@@ -84,7 +84,8 @@
     ],
     "year": [
         "jahr",
-        "j"
+        "j",
+        "jahren"
     ],
     "month": [
         "monat",
@@ -95,7 +96,8 @@
         "w"
     ],
     "day": [
-        "tag"
+        "tag",
+        "Tagen"
     ],
     "hour": [
         "stunde",
@@ -135,7 +137,8 @@
             "diese woche"
         ],
         "in 1 week": [
-            "nächste woche"
+            "nächste woche",
+            "einer Woche"
         ],
         "1 day ago": [
             "gestern"
@@ -144,7 +147,11 @@
             "heute"
         ],
         "in 1 day": [
-            "morgen"
+            "morgen",
+            "in einem Tag"
+        ],
+        "in 2 day": [
+            "übermorgen"
         ],
         "0 hour ago": [
             "in dieser stunde"
