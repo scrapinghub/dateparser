@@ -37,8 +37,103 @@ in:
     - from now
 
 relative-type:
+    1 year ago:
+        - last year
+        - last yr
+    0 year ago:
+        - this year
+        - this yr
+    in 1 year:
+        - next year
+        - next yr
+    1 month ago:
+        - last month
+        - last mo
+    0 month ago:
+        - this month
+        - this mo
+    in 1 month:
+        - next month
+        - next mo
+    1 week ago:
+        - last week
+        - last wk
+    0 week ago:
+        - this week
+        - this wk
+    in 1 week:
+        - next week
+        - next wk
     2 day ago:
         - day before yesterday
+    1 day ago:
+        - yesterday
+    0 day ago:
+        - today
+    in 1 day:
+        - tomorrow
+    0 hour ago:
+        - this hour
+    0 minute ago:
+        - this minute
+    0 second ago:
+        - now
+
+relative-type-regex:
+    in \1 year:
+        - 'in {0} year'
+        - 'in {0} years'
+        - 'in {0} yr'
+    \1 year ago:
+        - '{0} year ago'
+        - '{0} years ago'
+        - '{0} yr ago'
+    in \1 month:
+        - 'in {0} month'
+        - 'in {0} months'
+        - 'in {0} mo'
+    \1 month ago:
+        - '{0} month ago'
+        - '{0} months ago'
+        - '{0} mo ago'
+    in \1 week:
+        - 'in {0} week'
+        - 'in {0} weeks'
+        - 'in {0} wk'
+    \1 week ago:
+        - '{0} week ago'
+        - '{0} weeks ago'
+        - '{0} wk ago'
+    in \1 day:
+        - 'in {0} day'
+        - 'in {0} days'
+    \1 day ago:
+        - '{0} day ago'
+        - '{0} days ago'
+    in \1 hour:
+        - 'in {0} hour'
+        - 'in {0} hours'
+        - 'in {0} hr'
+    \1 hour ago:
+        - '{0} hour ago'
+        - '{0} hours ago'
+        - '{0} hr ago'
+    in \1 minute:
+        - 'in {0} minute'
+        - 'in {0} minutes'
+        - 'in {0} min'
+    \1 minute ago:
+        - '{0} minute ago'
+        - '{0} minutes ago'
+        - '{0} min ago'
+    in \1 second:
+        - 'in {0} second'
+        - 'in {0} seconds'
+        - 'in {0} sec'
+    \1 second ago:
+        - '{0} second ago'
+        - '{0} seconds ago'
+        - '{0} sec ago'
 
 simplifications:
     - an: '1'

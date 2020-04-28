@@ -125,135 +125,6 @@ info = {
         "seconds",
         "secs"
     ],
-    "relative-type": {
-        "1 year ago": [
-            "last year",
-            "last yr"
-        ],
-        "0 year ago": [
-            "this year",
-            "this yr"
-        ],
-        "in 1 year": [
-            "next year",
-            "next yr"
-        ],
-        "1 month ago": [
-            "last month",
-            "last mo"
-        ],
-        "0 month ago": [
-            "this month",
-            "this mo"
-        ],
-        "in 1 month": [
-            "next month",
-            "next mo"
-        ],
-        "1 week ago": [
-            "last week",
-            "last wk"
-        ],
-        "0 week ago": [
-            "this week",
-            "this wk"
-        ],
-        "in 1 week": [
-            "next week",
-            "next wk"
-        ],
-        "1 day ago": [
-            "yesterday"
-        ],
-        "0 day ago": [
-            "today"
-        ],
-        "in 1 day": [
-            "tomorrow"
-        ],
-        "0 hour ago": [
-            "this hour"
-        ],
-        "0 minute ago": [
-            "this minute"
-        ],
-        "0 second ago": [
-            "now"
-        ],
-        "2 day ago": [
-            "day before yesterday"
-        ]
-    },
-    "relative-type-regex": {
-        "in \\1 year": [
-            "in (\\d+) year",
-            "in (\\d+) years",
-            "in (\\d+) yr"
-        ],
-        "\\1 year ago": [
-            "(\\d+) year ago",
-            "(\\d+) years ago",
-            "(\\d+) yr ago"
-        ],
-        "in \\1 month": [
-            "in (\\d+) month",
-            "in (\\d+) months",
-            "in (\\d+) mo"
-        ],
-        "\\1 month ago": [
-            "(\\d+) month ago",
-            "(\\d+) months ago",
-            "(\\d+) mo ago"
-        ],
-        "in \\1 week": [
-            "in (\\d+) week",
-            "in (\\d+) weeks",
-            "in (\\d+) wk"
-        ],
-        "\\1 week ago": [
-            "(\\d+) week ago",
-            "(\\d+) weeks ago",
-            "(\\d+) wk ago"
-        ],
-        "in \\1 day": [
-            "in (\\d+) day",
-            "in (\\d+) days"
-        ],
-        "\\1 day ago": [
-            "(\\d+) day ago",
-            "(\\d+) days ago"
-        ],
-        "in \\1 hour": [
-            "in (\\d+) hour",
-            "in (\\d+) hours",
-            "in (\\d+) hr"
-        ],
-        "\\1 hour ago": [
-            "(\\d+) hour ago",
-            "(\\d+) hours ago",
-            "(\\d+) hr ago"
-        ],
-        "in \\1 minute": [
-            "in (\\d+) minute",
-            "in (\\d+) minutes",
-            "in (\\d+) min"
-        ],
-        "\\1 minute ago": [
-            "(\\d+) minute ago",
-            "(\\d+) minutes ago",
-            "(\\d+) min ago"
-        ],
-        "in \\1 second": [
-            "in (\\d+) second",
-            "in (\\d+) seconds",
-            "in (\\d+) sec"
-        ],
-        "\\1 second ago": [
-            "(\\d+) second ago",
-            "(\\d+) seconds ago",
-            "(\\d+) sec ago"
-        ]
-    },
     "locale_specific": {
         "en-SD": {
             "name": "en-SD",
@@ -761,6 +632,135 @@ info = {
         "in",
         "from now"
     ],
+    "relative-type": {
+        "1 year ago": [
+            "last year",
+            "last yr"
+        ],
+        "0 year ago": [
+            "this year",
+            "this yr"
+        ],
+        "in 1 year": [
+            "next year",
+            "next yr"
+        ],
+        "1 month ago": [
+            "last month",
+            "last mo"
+        ],
+        "0 month ago": [
+            "this month",
+            "this mo"
+        ],
+        "in 1 month": [
+            "next month",
+            "next mo"
+        ],
+        "1 week ago": [
+            "last week",
+            "last wk"
+        ],
+        "0 week ago": [
+            "this week",
+            "this wk"
+        ],
+        "in 1 week": [
+            "next week",
+            "next wk"
+        ],
+        "2 day ago": [
+            "day before yesterday"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "0 day ago": [
+            "today"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "0 hour ago": [
+            "this hour"
+        ],
+        "0 minute ago": [
+            "this minute"
+        ],
+        "0 second ago": [
+            "now"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "in (\\d+) year",
+            "in (\\d+) years",
+            "in (\\d+) yr"
+        ],
+        "\\1 year ago": [
+            "(\\d+) year ago",
+            "(\\d+) years ago",
+            "(\\d+) yr ago"
+        ],
+        "in \\1 month": [
+            "in (\\d+) month",
+            "in (\\d+) months",
+            "in (\\d+) mo"
+        ],
+        "\\1 month ago": [
+            "(\\d+) month ago",
+            "(\\d+) months ago",
+            "(\\d+) mo ago"
+        ],
+        "in \\1 week": [
+            "in (\\d+) week",
+            "in (\\d+) weeks",
+            "in (\\d+) wk"
+        ],
+        "\\1 week ago": [
+            "(\\d+) week ago",
+            "(\\d+) weeks ago",
+            "(\\d+) wk ago"
+        ],
+        "in \\1 day": [
+            "in (\\d+) day",
+            "in (\\d+) days"
+        ],
+        "\\1 day ago": [
+            "(\\d+) day ago",
+            "(\\d+) days ago"
+        ],
+        "in \\1 hour": [
+            "in (\\d+) hour",
+            "in (\\d+) hours",
+            "in (\\d+) hr"
+        ],
+        "\\1 hour ago": [
+            "(\\d+) hour ago",
+            "(\\d+) hours ago",
+            "(\\d+) hr ago"
+        ],
+        "in \\1 minute": [
+            "in (\\d+) minute",
+            "in (\\d+) minutes",
+            "in (\\d+) min"
+        ],
+        "\\1 minute ago": [
+            "(\\d+) minute ago",
+            "(\\d+) minutes ago",
+            "(\\d+) min ago"
+        ],
+        "in \\1 second": [
+            "in (\\d+) second",
+            "in (\\d+) seconds",
+            "in (\\d+) sec"
+        ],
+        "\\1 second ago": [
+            "(\\d+) second ago",
+            "(\\d+) seconds ago",
+            "(\\d+) sec ago"
+        ]
+    },
     "simplifications": [
         {
             "an": "1"
