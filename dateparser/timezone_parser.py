@@ -33,22 +33,28 @@ class StaticTzInfo(tzinfo):
 
 
 def pop_tz_offset_from_string(date_string, as_offset=True):
-    for name, info in _tz_offsets:
-        timezone_re = info['regex']
-        timezone_match = timezone_re.search(date_string)
-        if timezone_match:
-            start, stop = timezone_match.span()
-            date_string = date_string[:start + 1] + date_string[stop:]
-            return date_string, StaticTzInfo(name, info['offset']) if as_offset else name
-    else:
-        return date_string, None
+    if _search_regex_ignorecase.search(date_string):
+        for name, info in _tz_offsets:
+            timezone_re = info['regex']
+            timezone_match = timezone_re.search(date_string)
+            if timezone_match:
+                start, stop = timezone_match.span()
+                date_string = date_string[:start + 1] + date_string[stop:]
+                return (
+                    date_string,
+                    StaticTzInfo(name, info['offset']) if as_offset else name)
+    return date_string, None
+
+
+def word_is_tz(word):
+    return bool(_search_regex.match(word))
 
 
 def convert_to_local_tz(datetime_obj, datetime_tz_offset):
     return datetime_obj - datetime_tz_offset + local_tz_offset
 
 
-def get_tz_offsets():
+def build_tz_offsets(search_regex_parts):
 
     def get_offset(tz_obj, regex, repl='', replw=''):
         return (
@@ -62,11 +68,13 @@ def get_tz_offsets():
     for tz_info in timezone_info_list:
         for regex in tz_info['regex_patterns']:
             for tz_obj in tz_info['timezones']:
+                search_regex_parts.append(tz_obj[0])
                 yield get_offset(tz_obj, regex)
 
             # alternate patterns
             for replace, replacewith in tz_info.get('replace', []):
                 for tz_obj in tz_info['timezones']:
+                    search_regex_parts.append(re.sub(replace, replacewith, tz_obj[0]))
                     yield get_offset(tz_obj, regex, repl=replace, replw=replacewith)
 
 
@@ -76,5 +84,9 @@ def get_local_tz_offset():
     return offset
 
 
-_tz_offsets = list(get_tz_offsets())
+_search_regex_parts = []
+_tz_offsets = list(build_tz_offsets(_search_regex_parts))
+_search_regex = re.compile('|'.join(_search_regex_parts))
+_search_regex_ignorecase = re.compile(
+    '|'.join(_search_regex_parts), re.IGNORECASE)
 local_tz_offset = get_local_tz_offset()

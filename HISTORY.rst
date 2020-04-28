@@ -3,6 +3,63 @@
 History
 =======
 
+0.7.4 (2020-03-06)
+------------------
+
+Improvements:
+
+* Fixed Python 2.7 tests
+
+
+0.7.3 (2020-03-06)
+------------------
+
+New features:
+
+* Extended Norwegian support (see https://github.com/scrapinghub/dateparser/pull/598)
+* Implement a PARSERS setting (see https://github.com/scrapinghub/dateparser/pull/603)
+
+
+Improvements:
+
+* Add support for `PREFER_DATES_FROM` in relative/freshness parser (https://github.com/scrapinghub/dateparser/pull/414)
+* Add support for `PREFER_DAY_OF_MONTH` in base-formats parser (see https://github.com/scrapinghub/dateparser/pull/611)
+* Added UTC -00:00 as a valid offset (see https://github.com/scrapinghub/dateparser/pull/574)
+* Fix support for “one” (see https://github.com/scrapinghub/dateparser/pull/593)
+* Fix TypeError when parsing some invalid dates (see https://github.com/scrapinghub/dateparser/pull/536)
+* Fix tokenizer for non recognized characters (see https://github.com/scrapinghub/dateparser/pull/622)
+* Prevent installing regex 2019.02.19 (https://github.com/scrapinghub/dateparser/pull/600)
+* Resolve DeprecationWarning related to raw string escape sequences (see https://github.com/scrapinghub/dateparser/pull/596)
+* Implement a tox environment to build the documentation (https://github.com/scrapinghub/dateparser/pull/604)
+* Improve tests stability (see https://github.com/scrapinghub/dateparser/pull/591, https://github.com/scrapinghub/dateparser/pull/605)
+* Documentation improvements (see https://github.com/scrapinghub/dateparser/pull/510, https://github.com/scrapinghub/dateparser/pull/578, https://github.com/scrapinghub/dateparser/pull/619, https://github.com/scrapinghub/dateparser/pull/614, https://github.com/scrapinghub/dateparser/pull/620)
+* Performance improvements (see https://github.com/scrapinghub/dateparser/pull/570, https://github.com/scrapinghub/dateparser/pull/569, https://github.com/scrapinghub/dateparser/pull/625)
+
+
+0.7.2 (2019-09-17)
+------------------
+
+Features:
+
+* Extended Czech support
+* Added `time` to valid periods
+* Added timezone information to dates found with `search_dates()`
+* Support strings as date formats
+
+
+Improvements:
+
+* Fixed Collections ABCs depreciation warning
+* Fixed dates with trailing colons not being parsed
+* Fixed date format override on any settings change
+* Fixed parsing current weekday as past date, regardless of settings
+* Added UTC -2:30 as a valid offset
+* Added Python 3.7 to supported versions, dropped support for Python 3.3 and 3.4
+* Moved to importlib from imp where possible
+* Improved support for Catalan
+* Documentation improvements
+
+
 0.7.1 (2019-02-12)
 ------------------
 
@@ -96,8 +153,8 @@ New features:
 
 * `DateDataParser` now also returns detected language in the result dictionary.
 * Explicit and lucid timezone conversion for a given datestring using `TIMEZONE`, `TO_TIMEZONE` settings.
-* Added Hungarian langauge.
-* Added setting, `STRICT_PARSING` to ignore imcomplete dates.
+* Added Hungarian language.
+* Added setting, `STRICT_PARSING` to ignore incomplete dates.
 
 Improvements:
 
@@ -179,7 +236,7 @@ Improvements:
 
 * Fixed problem with caching :func:`datetime.now` in :class:`FreshnessDateDataParser`.
 * Added month names and week day names abbreviations to several languages.
-* More simplifications for Russian and Ukranian languages.
+* More simplifications for Russian and Ukrainian languages.
 * Fixed problem with parsing time component of date strings with several kinds of apostrophes.
 
 

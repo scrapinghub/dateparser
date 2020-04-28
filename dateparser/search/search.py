@@ -5,7 +5,13 @@ from dateparser.conf import apply_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
 import regex as re
-import collections
+
+try:
+    # Python 3
+    from collections.abc import Set
+except ImportError:
+    # Python 2.7
+    from collections import Set
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 
@@ -174,7 +180,7 @@ class DateSearchWithDetection:
         self.search = ExactLanguageSearch(self.loader)
 
     def detect_language(self, text, languages):
-        if isinstance(languages, (list, tuple, collections.Set)):
+        if isinstance(languages, (list, tuple, Set)):
 
             if all([language in self.available_language_map for language in languages]):
                 languages = [self.available_language_map[language] for language in languages]

@@ -1,4 +1,8 @@
-import imp
+import sys
+if sys.version_info[0:2] < (3, 3):
+    import imp
+else:
+    import importlib.util
 import regex as re
 
 from datetime import datetime
@@ -6,9 +10,9 @@ from datetime import datetime
 TIME_MATCHER = re.compile(
     r'.*?'
     r'(?P<hour>2[0-3]|[0-1]\d|\d):'
-    '(?P<minute>[0-5]\d|\d):'
-    '(?P<second>6[0-1]|[0-5]\d|\d)'
-    '\.(?P<microsecond>[0-9]{1,6})'
+    r'(?P<minute>[0-5]\d|\d):'
+    r'(?P<second>6[0-1]|[0-5]\d|\d)'
+    r'\.(?P<microsecond>[0-9]{1,6})'
 )
 
 MS_SEARCHER = re.compile(r'\.(?P<microsecond>[0-9]{1,6})')
@@ -21,14 +25,24 @@ def patch_strptime():
     For example, if system's locale is set to fr_FR. Parser won't recognize
     any date since all languages are translated to english dates.
     """
+    if sys.version_info[0:2] < (3, 3):
+        _strptime = imp.load_module(
+            'strptime_patched', *imp.find_module('_strptime')
+        )
 
-    _strptime = imp.load_module(
-        'strptime_patched', *imp.find_module('_strptime')
-    )
+        _calendar = imp.load_module(
+            'calendar_patched', *imp.find_module('_strptime')
+        )
+    else:
+        _strptime_spec = importlib.util.find_spec('_strptime')
 
-    _calendar = imp.load_module(
-        'calendar_patched', *imp.find_module('_strptime')
-    )
+        _strptime = importlib.util.module_from_spec(_strptime_spec)
+        _strptime_spec.loader.exec_module(_strptime)
+        sys.modules['strptime_patched'] = _strptime
+
+        _calendar = importlib.util.module_from_spec(_strptime_spec)
+        _strptime_spec.loader.exec_module(_calendar)
+        sys.modules['calendar_patched'] = _calendar
 
     _strptime._getlang = lambda: ('en_US', 'UTF-8')
     _strptime.calendar = _calendar
