@@ -33,8 +33,8 @@ def get_dict_difference(parent_dict, child_dict):
             child_specific_value = child_value
         elif isinstance(child_value, list):
             child_specific_value = list(
-                set(map(unicode.lower, map(unicode, child_value))) -
-                set(map(unicode.lower, map(unicode, parent_value)))
+                set(map(str.lower, map(str, child_value))) -
+                set(map(str.lower, map(str, parent_value)))
             )
         elif isinstance(child_value, dict):
             child_specific_value = get_dict_difference(parent_value, child_value)
