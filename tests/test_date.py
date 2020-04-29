@@ -699,5 +699,38 @@ class TestDateLocaleParser(BaseTestCase):
         self.assertFalse(self.is_valid_date_obj)
 
 
+class TestTimestampParser(BaseTestCase):
+
+    def test_timestamp_in_milliseconds(self):
+        self.assertEqual(
+            date.get_date_from_timestamp(u'1570308760263', None),
+            datetime.utcfromtimestamp(1570308760).replace(microsecond=263000)
+        )
+
+    def test_timestamp_in_microseconds(self):
+        self.assertEqual(
+            date.get_date_from_timestamp(u'1570308760263111', None),
+            datetime.utcfromtimestamp(1570308760).replace(microsecond=263111)
+        )
+
+    @parameterized.expand([
+        param(date_string=u'15703087602631'),
+        param(date_string=u'157030876026xx'),
+        param(date_string=u'1570308760263x'),
+        param(date_string=u'157030876026311'),
+        param(date_string=u'15703087602631x'),
+        param(date_string=u'15703087602631xx'),
+        param(date_string=u'15703087602631111'),
+        param(date_string=u'1570308760263111x'),
+        param(date_string=u'1570308760263111xx'),
+        param(date_string=u'1570308760263111222'),
+    ])
+    def test_timestamp_with_wrong_length(self, date_string):
+        self.assertEqual(
+            date.get_date_from_timestamp(date_string, None),
+            None
+        )
+
+
 if __name__ == '__main__':
     unittest.main()
