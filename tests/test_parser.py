@@ -98,7 +98,6 @@ class TestNoSpaceParser(BaseTestCase):
         self.when_date_is_parsed('2013 25 12')
         self.then_date_is_not_parsed()
 
-
     @parameterized.expand([
         param(
             date_string=u":",
@@ -264,6 +263,45 @@ class TestNoSpaceParser(BaseTestCase):
         ),
     ])
     def test_default_order_used_if_date_order_not_supplied(self, date_string, expected_date, expected_period):
+        self.given_parser()
+        self.given_settings(settings={'DATE_ORDER': ''})
+        self.when_date_is_parsed(date_string)
+        self.then_date_exactly_is(expected_date)
+        self.then_period_exactly_is(expected_period)
+
+    @parameterized.expand([
+        param(
+            date_string=u"20110101",
+            expected_date=datetime(2011, 1, 1),
+            expected_period='day',
+        ),
+        param(
+            date_string=u"01201702",
+            expected_date=datetime(1702, 1, 20),
+            expected_period='day',
+        ),
+        param(
+            date_string=u"01202020",
+            expected_date=datetime(2020, 1, 20),
+            expected_period='day',
+        ),
+        param(
+            date_string=u"20202001",
+            expected_date=datetime(2020, 1, 20),
+            expected_period='day',
+        ),
+        param(
+            date_string=u"20202020",
+            expected_date=datetime(2002, 2, 2, 0, 2),
+            expected_period='day',
+        ),
+        param(
+            date_string=u"12345678",
+            expected_date=datetime(1234, 5, 6, 7, 8),
+            expected_period='day',
+        ),
+    ])
+    def test_best_order_used_if_date_order_not_supplied_to_8_digit_numbers(self, date_string, expected_date, expected_period):
         self.given_parser()
         self.given_settings(settings={'DATE_ORDER': ''})
         self.when_date_is_parsed(date_string)

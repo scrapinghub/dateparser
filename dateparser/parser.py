@@ -15,6 +15,7 @@ from dateparser.utils.strptime import strptime
 NSP_COMPATIBLE = re.compile(r'\D+')
 MERIDIAN = re.compile(r'am|pm')
 MICROSECOND = re.compile(r'\d{1,6}')
+EIGHT_DIGIT = re.compile(r'^\d{8}$')
 
 
 def no_space_parser_eligibile(datestring):
@@ -93,6 +94,7 @@ class _time_parser(object):
         else:
             raise ValueError('%s does not seem to be a valid time string' % _timestring)
 
+
 time_parser = _time_parser()
 
 
@@ -105,6 +107,8 @@ class _no_spaces_parser(object):
     ]
 
     _preferred_formats = ['%Y%m%d%H%M', '%Y%m%d%H%M%S', '%Y%m%d%H%M%S.%f']
+
+    _preferred_formats_ordered_8_digit = ['%m%d%Y', '%d%m%Y', '%Y%m%d', '%Y%d%m', '%m%Y%d', '%d%Y%m']
 
     _timeformats = ['%H%M%S.%f', '%H%M%S', '%H%M', '%H']
 
@@ -143,6 +147,17 @@ class _no_spaces_parser(object):
             return 'year'
 
     @classmethod
+    def _find_best_matching_date(cls, datestring):
+        for fmt in cls._preferred_formats_ordered_8_digit:
+            try:
+                dt = strptime(datestring, fmt), cls._get_period(fmt)
+                if len(str(dt[0].year)) == 4:
+                    return dt
+            except:
+                pass
+        return None
+
+    @classmethod
     def parse(cls, datestring, settings):
         if not no_space_parser_eligibile(datestring):
             return
@@ -155,6 +170,10 @@ class _no_spaces_parser(object):
             order = resolve_date_order(settings.DATE_ORDER)
         else:
             order = cls._default_order
+            if EIGHT_DIGIT.match(datestring):
+                dt = cls._find_best_matching_date(datestring)
+                if dt is not None:
+                    return dt
         nsp = cls()
         ambiguous_date = None
         for token, _ in tokens.tokenize():
