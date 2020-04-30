@@ -224,10 +224,10 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             self.error = error
 
     def then_results_are(self, expected_results):
-        self.assertEquals(expected_results, self.result)
+        self.assertEqual(expected_results, self.result)
 
     def then_date_range_length_is(self, size):
-        self.assertEquals(size, len(self.result))
+        self.assertEqual(size, len(self.result))
 
     def then_all_dates_in_range_are_present(self, begin, end):
         date_under_test = begin
@@ -236,7 +236,7 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             date_under_test += timedelta(days=1)
 
     def then_period_is_empty(self):
-        self.assertEquals([], self.result)
+        self.assertEqual([], self.result)
 
 
 class TestParseWithFormatsFunction(BaseTestCase):
@@ -328,10 +328,10 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.assertIsNotNone(self.result['date_obj'])
 
     def then_parsed_date_is(self, date_obj):
-        self.assertEquals(date_obj.date(), self.result['date_obj'].date())
+        self.assertEqual(date_obj.date(), self.result['date_obj'].date())
 
     def then_parsed_period_is(self, period):
-        self.assertEquals(period, self.result['period'])
+        self.assertEqual(period, self.result['period'])
 
 
 class TestDateDataParser(BaseTestCase):
