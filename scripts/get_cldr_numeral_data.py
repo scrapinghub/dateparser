@@ -7,7 +7,7 @@ from collections import OrderedDict
 
 from utils import get_raw_data
 
-DIGIT_PATTERN = re.compile('^\d*$')
+DIGIT_PATTERN = re.compile(r'^\d*$')
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 get_raw_data()
