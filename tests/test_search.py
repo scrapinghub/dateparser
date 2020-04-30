@@ -684,6 +684,32 @@ class TestTranslateSearch(BaseTestCase):
               languages=None,
               settings=None,
               expected=None),
+
+        # Search date with fractional seconds
+        param(text="'init-local' at secs Thu, 05 Jul 2018 15:13:48. Up 34.78 second.",
+              languages=None,
+              settings=None,
+              expected=[('05 Jul 2018 15:13:48', datetime.datetime(2018, 7, 5, 15, 13, 48)),
+                        ('Up 34.78 second', datetime.datetime(2018, 7, 5, 15, 14, 22, 780000))]
+              ),
+        param(text="Cloud-init v. 0.7.6 running 'init-local' at Thu, 05 Jul 2018 15:13:48. Up 1.3 secs.",
+              languages=None,
+              settings=None,
+              expected=[('at Thu, 05 Jul 2018 15:13:48', datetime.datetime(2018, 7, 5, 15, 13, 48)),
+                        ('Up 1.3 secs', datetime.datetime(2018, 7, 5, 15, 13, 49, 300000))]
+              ),
+        param(text="Cloud-init v. 0.7.6 running 'init-local' at Thu, 05 Jul 2018 15:13:48. in 1.1 min.",
+              languages=None,
+              settings=None,
+              expected=[('at Thu, 05 Jul 2018 15:13:48', datetime.datetime(2018, 7, 5, 15, 13, 48)),
+                        ('in 1.1 min', datetime.datetime(2018, 7, 5, 15, 14, 54))]
+              ),
+        param(text="Cloud-init v. 0.7.6 running 'init-local' at Thu, 05 Jul 2018 15:13:48. in 1.11 hrs.",
+              languages=None,
+              settings=None,
+              expected=[('at Thu, 05 Jul 2018 15:13:48', datetime.datetime(2018, 7, 5, 15, 13, 48)),
+                        ('in 1.11 hrs', datetime.datetime(2018, 7, 5, 16, 20, 24))]
+              ),
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)
