@@ -601,6 +601,7 @@ info = {
         "ad",
         "m",
         "of",
+        "from",
         "st",
         "nd",
         "rd",
@@ -631,6 +632,9 @@ info = {
     "in": [
         "in",
         "from now"
+    ],
+    "next": [
+        "next"
     ],
     "relative-type": {
         "1 year ago": [
@@ -669,6 +673,9 @@ info = {
             "next week",
             "next wk"
         ],
+        "in 2 day": [
+            "day after tomorrow"
+        ],
         "2 day ago": [
             "day before yesterday"
         ],
@@ -697,6 +704,16 @@ info = {
             "in (\\d+) years",
             "in (\\d+) yr"
         ],
+        "next \\\\1 year": [
+            "next (\\d+) year",
+            "next (\\d+) years",
+            "next (\\d+) yr"
+        ],
+        "after \\\\1 year": [
+            "after (\\d+) year",
+            "after (\\d+) years",
+            "after (\\d+) yr"
+        ],
         "\\1 year ago": [
             "(\\d+) year ago",
             "(\\d+) years ago",
@@ -706,6 +723,16 @@ info = {
             "in (\\d+) month",
             "in (\\d+) months",
             "in (\\d+) mo"
+        ],
+        "next \\\\1 month": [
+            "next (\\d+) month",
+            "next (\\d+) months",
+            "next (\\d+) mo"
+        ],
+        "after \\\\1 month": [
+            "after (\\d+) month",
+            "after (\\d+) months",
+            "after (\\d+) mo"
         ],
         "\\1 month ago": [
             "(\\d+) month ago",
@@ -717,6 +744,16 @@ info = {
             "in (\\d+) weeks",
             "in (\\d+) wk"
         ],
+        "next \\\\1 week": [
+            "next (\\d+) week",
+            "next (\\d+) weeks",
+            "next (\\d+) wk"
+        ],
+        "after \\\\1 week": [
+            "after (\\d+) week",
+            "after (\\d+) weeks",
+            "after (\\d+) wk"
+        ],
         "\\1 week ago": [
             "(\\d+) week ago",
             "(\\d+) weeks ago",
@@ -726,6 +763,14 @@ info = {
             "in (\\d+) day",
             "in (\\d+) days"
         ],
+        "next \\\\1 day": [
+            "next (\\d+) day",
+            "next (\\d+) days"
+        ],
+        "after \\\\1 day": [
+            "after (\\d+) day",
+            "after (\\d+) days"
+        ],
         "\\1 day ago": [
             "(\\d+) day ago",
             "(\\d+) days ago"
@@ -734,6 +779,16 @@ info = {
             "in (\\d+) hour",
             "in (\\d+) hours",
             "in (\\d+) hr"
+        ],
+        "next \\\\1 hour": [
+            "next (\\d+) hour",
+            "next (\\d+) hours",
+            "next (\\d+) hr"
+        ],
+        "after \\\\1 hour": [
+            "after (\\d+) hour",
+            "after (\\d+) hours",
+            "after (\\d+) hr"
         ],
         "\\1 hour ago": [
             "(\\d+) hour ago",
@@ -745,6 +800,16 @@ info = {
             "in (\\d+) minutes",
             "in (\\d+) min"
         ],
+        "next \\\\1 minute": [
+            "next (\\d+) minute",
+            "next (\\d+) minutes",
+            "next (\\d+) min"
+        ],
+        "after \\\\1 minute": [
+            "after (\\d+) minute",
+            "after (\\d+) minutes",
+            "after (\\d+) min"
+        ],
         "\\1 minute ago": [
             "(\\d+) minute ago",
             "(\\d+) minutes ago",
@@ -754,6 +819,16 @@ info = {
             "in (\\d+) second",
             "in (\\d+) seconds",
             "in (\\d+) sec"
+        ],
+        "next \\\\1 second": [
+            "next (\\d+) second",
+            "next (\\d+) seconds",
+            "next (\\d+) sec"
+        ],
+        "after \\\\1 second": [
+            "after (\\d+) second",
+            "after (\\d+) seconds",
+            "after (\\d+) sec"
         ],
         "\\1 second ago": [
             "(\\d+) second ago",

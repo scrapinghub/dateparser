@@ -93,7 +93,8 @@ info = {
     "year": [
         "jahr",
         "j",
-        "Jahre"
+        "Jahre",
+        "jahren"
     ],
     "month": [
         "monat",
@@ -108,7 +109,8 @@ info = {
     ],
     "day": [
         "tag",
-        "Tage"
+        "Tage",
+        "Tagen"
     ],
     "hour": [
         "stunde",
@@ -151,7 +153,8 @@ info = {
             "diese woche"
         ],
         "in 1 week": [
-            "nächste woche"
+            "nächste woche",
+            "einer Woche"
         ],
         "1 day ago": [
             "gestern"
@@ -160,7 +163,8 @@ info = {
             "heute"
         ],
         "in 1 day": [
-            "morgen"
+            "morgen",
+            "in einem Tag"
         ],
         "0 hour ago": [
             "in dieser stunde"
@@ -173,6 +177,9 @@ info = {
         ],
         "2 day ago": [
             "vorgestern"
+        ],
+        "in 2 day": [
+            "übermorgen"
         ]
     },
     "relative-type-regex": {
@@ -308,6 +315,33 @@ info = {
         },
         {
             "einem": "1"
+        },
+        {
+            "zwei": "2"
+        },
+        {
+            "drei": "3"
+        },
+        {
+            "vier": "4"
+        },
+        {
+            "fünf": "5"
+        },
+        {
+            "sechs": "6"
+        },
+        {
+            "sieben": "7"
+        },
+        {
+            "acht": "8"
+        },
+        {
+            "neun": "9"
+        },
+        {
+            "zehn": "10"
         }
     ]
 }

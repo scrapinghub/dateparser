@@ -19,6 +19,7 @@ sunday:
 
 year:
     - Jahre
+    - jahren
 month:
     - Monate
     - Monaten
@@ -26,6 +27,7 @@ week:
     - Wochen
 day:
     - Tage
+    - Tagen
 hour:
     - Stunden
 minute:
@@ -42,6 +44,12 @@ in:
 relative-type:
     2 day ago:
         - vorgestern
+    in 1 week:
+        - einer Woche
+    in 2 day:
+        - übermorgen
+    in 1 day:
+        - in einem Tag
 
 relative-type-regex:
     \1 hour ago:
@@ -54,3 +62,12 @@ relative-type-regex:
 simplifications:
     - einer: '1'
     - einem: '1'
+    - zwei: '2'
+    - drei: '3'
+    - vier: '4'
+    - fünf: '5'
+    - sechs: '6'
+    - sieben: '7'
+    - acht: '8'
+    - neun: '9'
+    - zehn: '10'
