@@ -17,13 +17,6 @@ from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
     set_correct_day_from_settings
 
-try:
-    # Python 3
-    from collections.abc import Set
-except ImportError:
-    # Python 2.7
-    from collections import Set
-
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     u'\N{RIGHT SINGLE QUOTATION MARK}',     # u'\u2019'
     u'\N{MODIFIER LETTER APOSTROPHE}',      # u'\u02bc'
@@ -172,7 +165,7 @@ class _DateLocaleParser(object):
         if isinstance(date_formats, six.string_types):
             warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
             date_formats = [date_formats]
-        elif not (date_formats is None or isinstance(date_formats, (list, tuple, Set))):
+        elif not (date_formats is None or isinstance(date_formats, (list, tuple, set))):
             raise TypeError(self.DATE_FORMATS_ERROR_MESSAGE)
 
         self.locale = locale
@@ -334,10 +327,10 @@ class DateDataParser(object):
     def __init__(self, languages=None, locales=None, region=None, try_previous_locales=True,
                  use_given_order=False, settings=None):
 
-        if not isinstance(languages, (list, tuple, Set)) and languages is not None:
+        if not isinstance(languages, (list, tuple, set)) and languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
-        if not isinstance(locales, (list, tuple, Set)) and locales is not None:
+        if not isinstance(locales, (list, tuple, set)) and locales is not None:
             raise TypeError("locales argument must be a list (%r given)" % type(locales))
 
         if not isinstance(region, six.string_types) and region is not None:
