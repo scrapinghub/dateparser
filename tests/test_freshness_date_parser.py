@@ -31,6 +31,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         settings.TIMEZONE = 'utc'
 
+    def now_with_timezone(self, tzinfo):
+        now = self.now
+        return datetime(now.year, now.month, now.day, now.hour, now.minute, tzinfo=tzinfo)
+
     @parameterized.expand([
         # English dates
         param('yesterday', ago={'days': 1}, period='day'),
@@ -1458,6 +1462,14 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_is(date)
         self.then_time_is(time)
 
+    def test_freshness_date_with_time_and_timezone(self):
+        self.given_parser(settings={'TIMEZONE': 'local'})
+        self.given_date_string('tomorrow 8:30 CST')
+        self.when_date_is_parsed()
+        self.then_date_is(date(2014, 9, 2))
+        self.then_time_is(time(8, 30))
+        self.then_timezone_is('CST')
+
     @parameterized.expand([
         param('2 hours ago', 'Asia/Karachi', date(2014, 9, 1), time(13, 30)),
         param('3 hours ago', 'Europe/Paris', date(2014, 9, 1), time(9, 30)),
@@ -1608,6 +1620,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         dt_mock = Mock(wraps=dateparser.freshness_date_parser.datetime)
         dt_mock.utcnow = Mock(return_value=self.now)
+        dt_mock.now = Mock(side_effect=self.now_with_timezone)
         self.add_patch(patch('dateparser.freshness_date_parser.datetime', new=dt_mock))
         self.add_patch(patch('dateparser.date.freshness_date_parser', new=self.freshness_parser))
         self.parser = DateDataParser(settings=settings)
@@ -1623,6 +1636,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     def then_time_is(self, time):
         self.assertEqual(time, self.result['date_obj'].time())
+
+    def then_timezone_is(self, timezone):
+        self.assertEqual(timezone, self.result['date_obj'].tzname())
 
     def then_period_is(self, period):
         self.assertEqual(period, self.result['period'])
