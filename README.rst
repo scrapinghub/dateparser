@@ -26,6 +26,7 @@ dateparser -- python parser for human readable dates
 `dateparser` provides modules to easily parse localized dates in almost
 any string formats commonly found on web pages.
 
+.. contents::
 
 Documentation
 =============
@@ -113,7 +114,7 @@ OOTB Language Based Date Order Preference
 
    >>> # parsing ambiguous date
    >>> parse('02-03-2016')  # assumes english language, uses MDY date order
-   datetime.datetime(2016, 3, 2, 0, 0)
+   datetime.datetime(2016, 2, 3, 0, 0)
    >>> parse('le 02-03-2016')  # detects french, uses DMY date order
    datetime.datetime(2016, 3, 2, 0, 0)
 

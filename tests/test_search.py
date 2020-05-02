@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from parameterized import parameterized, param
 from tests import BaseTestCase
@@ -6,6 +6,7 @@ from dateparser.timezone_parser import StaticTzInfo
 from dateparser.search.search import DateSearchWithDetection
 from dateparser.search import search_dates
 from dateparser.conf import Settings, apply_settings
+from dateparser_data.settings import default_parsers
 import datetime
 
 
@@ -274,6 +275,14 @@ class TestTranslateSearch(BaseTestCase):
                   'Aug 06, 2018 05:05 PM CDT',
                   datetime.datetime(2018, 8, 6, 17, 5, tzinfo=StaticTzInfo('CDT', datetime.timedelta(seconds=-18000))))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+        param('en', '25th march 2015 , i need this report today.',
+              [('25th march 2015', datetime.datetime(2015, 3, 25))],
+              settings={'PARSERS': [parser for parser in default_parsers
+                                    if parser != 'relative-time']}),
+        param('en', '25th march 2015 , i need this report today.',
+              [('25th march 2015', datetime.datetime(2015, 3, 25)),
+               ('today', datetime.datetime(2000, 1, 1))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
         param('en', 'in 2.5 hours',
               [('in 2.5 hours', datetime.datetime(2000, 1, 1, 2, 30))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
@@ -429,8 +438,8 @@ class TestTranslateSearch(BaseTestCase):
                ('February 1st', datetime.datetime(2017, 2, 1, 0, 0))]),
         param('en', '2014 was good! October was excellent!'
                     ' Friday, 21 was especially good!',
-              [('2014', datetime.datetime(2014, datetime.datetime.today().month, datetime.datetime.today().day, 0, 0)),
-               ('October', datetime.datetime(2014, 10, datetime.datetime.today().day, 0, 0)),
+              [('2014', datetime.datetime(2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)),
+               ('October', datetime.datetime(2014, 10, datetime.datetime.utcnow().day, 0, 0)),
                ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
 
         # Russian
@@ -472,7 +481,7 @@ class TestTranslateSearch(BaseTestCase):
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', '2014. July 13th July 14th',
-              [('2014', datetime.datetime(2014, datetime.datetime.today().month, datetime.datetime.today().day, 0, 0)),
+              [('2014', datetime.datetime(2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', 'July 13th 2014 July 14th 2014',
@@ -485,16 +494,16 @@ class TestTranslateSearch(BaseTestCase):
               [('July 13th, 2014', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th, 2014', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', '2014. July 12th, July 13th, July 14th',
-              [('2014', datetime.datetime(2014, datetime.datetime.today().month, datetime.datetime.today().day, 0, 0)),
+              [('2014', datetime.datetime(2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)),
                ('July 12th', datetime.datetime(2014, 7, 12, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         # Swedish
         param('sv', '1938–1939 marscherade tyska soldater i Österrike samtidigt som '
                     'österrikiska soldater marscherade i Berlin.',
-              [('1938', datetime.datetime(1938, datetime.datetime.today().month, datetime.datetime.today().day, 0, 0)),
+              [('1938', datetime.datetime(1938, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)),
                ('1939', datetime.datetime(1939,
-                                          datetime.datetime.today().month, datetime.datetime.today().day, 0, 0))]),
+                                          datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0))]),
         # German
         param('de', 'Verteidiger der Stadt kapitulierten am 2. Mai 1945. Am 8. Mai 1945 (VE-Day) trat '
                     'bedingungslose Kapitulation der Wehrmacht in Kraft',
@@ -679,6 +688,15 @@ class TestTranslateSearch(BaseTestCase):
               languages=None,
               settings=None,
               expected=None),
+        # Date With comma and apostrophe
+        param(text="9/3/2017  , ",
+              languages=['en'],
+              settings=None,
+              expected=[('9/3/2017', datetime.datetime(2017, 9, 3, 0, 0))]),
+        param(text="9/3/2017  ' ",
+              languages=['en'],
+              settings=None,
+              expected=[('9/3/2017', datetime.datetime(2017, 9, 3, 0, 0))]),
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)

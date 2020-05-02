@@ -7,12 +7,15 @@ from collections import OrderedDict
 from datetime import datetime
 from datetime import timedelta
 
+from dateparser.utils import set_correct_day_from_settings, \
+    get_last_day_of_month
 from dateparser.utils.strptime import strptime
 
 
 NSP_COMPATIBLE = re.compile(r'\D+')
 MERIDIAN = re.compile(r'am|pm')
 MICROSECOND = re.compile(r'\d{1,6}')
+EIGHT_DIGIT = re.compile(r'^\d{8}$')
 
 
 def no_space_parser_eligibile(datestring):
@@ -91,6 +94,7 @@ class _time_parser(object):
         else:
             raise ValueError('%s does not seem to be a valid time string' % _timestring)
 
+
 time_parser = _time_parser()
 
 
@@ -103,6 +107,8 @@ class _no_spaces_parser(object):
     ]
 
     _preferred_formats = ['%Y%m%d%H%M', '%Y%m%d%H%M%S', '%Y%m%d%H%M%S.%f']
+
+    _preferred_formats_ordered_8_digit = ['%m%d%Y', '%d%m%Y', '%Y%m%d', '%Y%d%m', '%m%Y%d', '%d%Y%m']
 
     _timeformats = ['%H%M%S.%f', '%H%M%S', '%H%M', '%H']
 
@@ -141,6 +147,17 @@ class _no_spaces_parser(object):
             return 'year'
 
     @classmethod
+    def _find_best_matching_date(cls, datestring):
+        for fmt in cls._preferred_formats_ordered_8_digit:
+            try:
+                dt = strptime(datestring, fmt), cls._get_period(fmt)
+                if len(str(dt[0].year)) == 4:
+                    return dt
+            except:
+                pass
+        return None
+
+    @classmethod
     def parse(cls, datestring, settings):
         if not no_space_parser_eligibile(datestring):
             return
@@ -153,6 +170,10 @@ class _no_spaces_parser(object):
             order = resolve_date_order(settings.DATE_ORDER)
         else:
             order = cls._default_order
+            if EIGHT_DIGIT.match(datestring):
+                dt = cls._find_best_matching_date(datestring)
+                if dt is not None:
+                    return dt
         nsp = cls()
         ambiguous_date = None
         for token, _ in tokens.tokenize():
@@ -184,7 +205,6 @@ class _parser(object):
         'day': ['%d'],
         'year': ['%y', '%Y'],
     }
-
 
     def __init__(self, tokens, settings):
         self.settings = settings
@@ -271,7 +291,6 @@ class _parser(object):
             for token, type, _ in self.unset_tokens:
                 if type == 0:
                     params.update({attr: int(token)})
-                    datetime(**params)
                     setattr(self, '_token_%s' % attr, token)
                     setattr(self, attr, int(token))
 
@@ -301,8 +320,7 @@ class _parser(object):
                 (error_msgs[0] in error_text or error_msgs[1] in error_text) and
                 not(self._token_day or hasattr(self, '_token_weekday'))
             ):
-                _, tail = calendar.monthrange(params['year'], params['month'])
-                params['day'] = tail
+                params['day'] = get_last_day_of_month(params['year'], params['month'])
                 return datetime(**params)
             else:
                 raise e
@@ -429,17 +447,10 @@ class _parser(object):
         ):
             return dateobj
 
-        _, tail = calendar.monthrange(dateobj.year, dateobj.month)
-        options = {
-            'first': 1,
-            'last': tail,
-            'current': self.now.day
-        }
-
-        try:
-            return dateobj.replace(day=options[self.settings.PREFER_DAY_OF_MONTH])
-        except ValueError:
-            return dateobj.replace(day=options['last'])
+        dateobj = set_correct_day_from_settings(
+            dateobj, self.settings, current_day=self.now.day
+        )
+        return dateobj
 
     @classmethod
     def parse(cls, datestring, settings):
@@ -525,13 +536,12 @@ class _parser(object):
 class tokenizer(object):
     digits = u'0123456789:'
     letters = u'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    nonwords = u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-     "
 
-    def _isletter(self, tkn): return tkn in self.letters
+    def _isletter(self, tkn):
+        return tkn in self.letters
 
-    def _isdigit(self, tkn): return tkn in self.digits
-
-    def _isnonword(self, tkn): return tkn in self.nonwords
+    def _isdigit(self, tkn):
+        return tkn in self.digits
 
     def __init__(self, ds):
         self.instream = StringIO(ds)
@@ -543,10 +553,7 @@ class tokenizer(object):
         if self._isletter(chara):
             return 1, not self._isletter(charb)
 
-        if self._isnonword(chara):
-            return 2, not self._isnonword(charb)
-
-        return '', True
+        return 2, self._isdigit(charb) or self._isletter(charb)
 
     def tokenize(self):
         token = ''

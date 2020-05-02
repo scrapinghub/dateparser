@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 open_as_utf = lambda x: io.open(x, encoding='utf-8')
 
-(__version__, ) = re.findall("__version__.*\s*=\s*[']([^']+)[']",
+(__version__, ) = re.findall(r"__version__.*\s*=\s*[']([^']+)[']",
                              open('dateparser/__init__.py').read())
 
 readme = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:', '', open_as_utf('README.rst').read())
@@ -28,7 +28,8 @@ setup(
     install_requires=[
         'python-dateutil',
         'pytz',
-        'regex',
+        # https://bitbucket.org/mrabarnett/mrab-regex/issues/314/import-error-no-module-named
+        'regex !=2019.02.19',
         'tzlocal',
     ],
     extra_requires={
