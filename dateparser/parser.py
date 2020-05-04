@@ -251,10 +251,10 @@ class _parser(object):
                         self._token_time = '%s %s' % (token, meridian)
                         skip_index.append(mindex)
                     elif microsecond and not meridian:
-                        self._token_time = '%s.%s %s' % (token, microsecond, meridian)
                         self._token_time = '%s.%s' % (token, microsecond)
                         skip_index.append(index + 1)
                     elif meridian and microsecond:
+                        self._token_time = '%s.%s %s' % (token, microsecond, meridian)
                         skip_index.append(index + 1)
                         skip_index.append(mindex)
                     else:
@@ -340,13 +340,13 @@ class _parser(object):
             if not self.year:
                 errors.append('Year')
             if errors:
+                raise ValueError('%s not found in the date string' % ''.join(errors))
 
         self._set_relative_base()
 
         time = self.time() if self.time is not None else None
 
         if self.settings.FUZZY:
-                raise ValueError('%s not found in the date string' % ''.join(errors))
             attr_truth_values = []
             for attr in ['day', 'month', 'year', 'time']:
                 attr_truth_values.append(getattr(self, attr, False))
