@@ -87,7 +87,6 @@ Ready to contribute? Here's how to set up `dateparser` for local development.
     $ pip install -r tests/requirements.txt # install test dependencies
     $ pip install -r scripts/requirements.txt # install script dependencies
     $ flake8 dateparser tests
-    $ nosetests
     $ tox
 
    To get flake8 and tox, just pip install them into your virtualenv. (Note that we use ``max-line-length = 100`` for flake8, this is configured in ``setup.cfg`` file.)
