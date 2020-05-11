@@ -66,8 +66,8 @@ class TestTokenizer(BaseTestCase):
             expected_types=[1],
         ),
         param(
-            date_string=u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊",  # unrecognized characters
-            expected_tokens=[u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊"],
+            date_string=u"./\\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊",  # unrecognized characters
+            expected_tokens=[u"./\\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊"],
             expected_types=[2],
         ),
     ])

@@ -5,7 +5,7 @@ import os
 import shutil
 from collections import OrderedDict
 
-from utils import get_raw_data
+from .utils import get_raw_data
 
 DIGIT_PATTERN = re.compile(r'^\d*$')
 

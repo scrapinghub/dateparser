@@ -314,7 +314,7 @@ class _parser(object):
         try:
             return datetime(**params)
         except ValueError as e:
-            error_text = getattr(e, 'message', None) or e.__str__()
+            error_text = e.__str__()
             error_msgs = ['day is out of range', 'day must be in']
             if (
                 (error_msgs[0] in error_text or error_msgs[1] in error_text) and
