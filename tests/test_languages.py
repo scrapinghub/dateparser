@@ -827,6 +827,7 @@ class TestBundledLanguages(BaseTestCase):
         param('fr', "avant-hier", "2 day ago"),
         param('fr', "hier", "1 day ago"),
         param('fr', "aujourd'hui", "0 day ago"),
+        param('fr', "après dix ans", "in 10 year"),
         # Spanish
         param('es', "anteayer", "2 day ago"),
         param('es', "ayer", "1 day ago"),
