@@ -4,15 +4,18 @@ info = {
     "date_order": "DMY",
     "january": [
         "januar",
-        "jan"
+        "jan",
+        "Jänner"
     ],
     "february": [
         "februar",
-        "feb"
+        "feb",
+        "Feber"
     ],
     "march": [
         "märz",
-        "mär"
+        "mär",
+        "Mrz"
     ],
     "april": [
         "april",
@@ -93,7 +96,8 @@ info = {
     "year": [
         "jahr",
         "j",
-        "Jahre"
+        "Jahre",
+        "Jahren"
     ],
     "month": [
         "monat",
@@ -108,7 +112,8 @@ info = {
     ],
     "day": [
         "tag",
-        "Tage"
+        "Tage",
+        "Tagen"
     ],
     "hour": [
         "stunde",
@@ -173,6 +178,9 @@ info = {
         ],
         "2 day ago": [
             "vorgestern"
+        ],
+        "in 2 day": [
+            "übermorgen"
         ]
     },
     "relative-type-regex": {
@@ -308,6 +316,42 @@ info = {
         },
         {
             "einem": "1"
+        },
+        {
+            "ein": "1"
+        },
+        {
+            "zwei": "2"
+        },
+        {
+            "drei": "3"
+        },
+        {
+            "vier": "4"
+        },
+        {
+            "fünf": "5"
+        },
+        {
+            "sechs": "6"
+        },
+        {
+            "sieben": "7"
+        },
+        {
+            "acht": "8"
+        },
+        {
+            "neun": "9"
+        },
+        {
+            "zehn": "10"
+        },
+        {
+            "elf": "11"
+        },
+        {
+            "zwölf": "12"
         }
     ]
 }
