@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
-from collections import OrderedDict
-from git import Repo
 import os
+from collections import OrderedDict
+
+from git import Repo
+
+# Languages with insufficient translation data are excluded
+# TODO: Automate with exclusion criteria.
+AVOID_LANGUAGES = {'cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo'}
 
 
 def get_raw_data():
@@ -27,10 +32,13 @@ def get_dict_difference(parent_dict, child_dict):
         if not parent_value:
             child_specific_value = child_value
         elif isinstance(child_value, list):
-            child_specific_value = list(set(child_value)-set(parent_value))
+            child_specific_value = list(
+                set(map(str.lower, map(str, child_value))) -
+                set(map(str.lower, map(str, parent_value)))
+            )
         elif isinstance(child_value, dict):
             child_specific_value = get_dict_difference(parent_value, child_value)
-        elif child_value != parent_value:
+        elif child_value.lower() != parent_value.lower():
             child_specific_value = child_value
         if child_specific_value:
             difference_dict[key] = child_specific_value
@@ -38,7 +46,12 @@ def get_dict_difference(parent_dict, child_dict):
 
 
 def combine_dicts(primary_dict, supplementary_dict):
+    if not primary_dict:
+        return supplementary_dict
+    elif not supplementary_dict:
+        return primary_dict
     combined_dict = OrderedDict()
+    filter_locales(primary_dict, supplementary_dict)
     for key, value in primary_dict.items():
         if key in supplementary_dict:
             if isinstance(value, list):
@@ -53,3 +66,17 @@ def combine_dicts(primary_dict, supplementary_dict):
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict
+
+
+def filter_locales(primary_dict, supplementary_dict):
+    if not primary_dict.get('locale_specific'):
+        return
+    for locale, locale_data in primary_dict['locale_specific'].items():
+        diff = get_dict_difference(supplementary_dict, locale_data)
+        primary_dict['locale_specific'][locale] = diff
+        if diff.keys() == ['name']:
+            del primary_dict['locale_specific'][locale]
+
+
+def language_from_filename(filename):
+    return filename.split('.')[0]
