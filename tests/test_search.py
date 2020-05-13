@@ -628,7 +628,6 @@ class TestTranslateSearch(BaseTestCase):
                     'nhập Albania vào ngày 12 tháng 4 năm 1939.'),
 
         # only digits
-        # TODO: change to en once sentence splitting bug is fixed
         param('en', '2007'),
     ])
     def test_detection(self, shortname, text):
