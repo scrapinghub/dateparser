@@ -628,6 +628,7 @@ class TestTranslateSearch(BaseTestCase):
                     'nhập Albania vào ngày 12 tháng 4 năm 1939.'),
 
         # only digits
+        # TODO: change to en once sentence splitting bug is fixed
         param('en', '2007'),
     ])
     def test_detection(self, shortname, text):
@@ -641,6 +642,12 @@ class TestTranslateSearch(BaseTestCase):
               expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
                         ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
                         ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+
+        param(text='july 2018 - december 2020',
+              languages=['en', 'fr'],
+              settings={'PREFER_DAY_OF_MONTH': 'first'},
+              expected=[('july 2018', datetime.datetime(2018, 7, 1, 0, 0)),
+                        ('20 марта', datetime.datetime(2020, 8, 1, 0, 0))]),
 
         param(text='Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
               languages=None,
