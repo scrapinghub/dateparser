@@ -6,7 +6,7 @@ import shutil
 from collections import OrderedDict
 import regex as re
 
-from utils import combine_dicts
+from .utils import combine_dicts
 
 cldr_date_directory = '../dateparser_data/cldr_language_data/date_translation_data/'
 cldr_numeral_directory = '../dateparser_data/cldr_language_data/numeral_translation_data/'
