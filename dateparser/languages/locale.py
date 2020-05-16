@@ -151,7 +151,7 @@ class Locale(object):
     def _translate_numerals(self, date_string):
         date_string_tokens = NUMERAL_PATTERN.split(date_string)
         for i, token in enumerate(date_string_tokens):
-            if token.isdigit():
+            if token.isdecimal():
                 date_string_tokens[i] = str(int(token)).zfill(len(token))
                 if isinstance(date_string_tokens[i], bytes):
                     date_string_tokens[i] = date_string_tokens[i].decode('utf-8')
