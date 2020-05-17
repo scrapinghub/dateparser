@@ -208,7 +208,10 @@ class _DateLocaleParser(object):
         }
 
     def _try_freshness_parser(self):
-        return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings)
+        try:
+            return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings)
+        except (OverflowError, ValueError):
+            return None
 
     def _try_parser(self):
         _order = self._settings.DATE_ORDER
