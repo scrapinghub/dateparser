@@ -599,6 +599,11 @@ class TestDateParser(BaseTestCase):
         param('16:10', expected=datetime(2015, 2, 15, 16, 10), period='day'),
         param('2014', expected=datetime(2014, 2, 15), period='year'),
         param('2008', expected=datetime(2008, 2, 15), period='year'),
+        # subscript and superscript dates
+        param('²⁰¹⁵', expected=datetime(2015, 2, 15), period='year'),
+        param('²⁹/⁰⁵/²⁰¹⁵', expected=datetime(2015, 5, 29), period='day'),
+        param('₁₅/₀₂/₂₀₂₀', expected=datetime(2020, 2, 15), period='day'),
+        param('₃₁ December', expected=datetime(2015, 12, 31), period='day'),
     ])
     def test_extracted_period(self, date_string, expected=None, period=None):
         self.given_local_tz_offset(0)
