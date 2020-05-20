@@ -6,7 +6,7 @@ import shutil
 from collections import OrderedDict
 import regex as re
 
-from .utils import combine_dicts
+from scripts.utils import combine_dicts
 
 cldr_date_directory = '../dateparser_data/cldr_language_data/date_translation_data/'
 cldr_numeral_directory = '../dateparser_data/cldr_language_data/numeral_translation_data/'
@@ -125,9 +125,6 @@ def write_complete_data(in_memory=False):
     _write_file(translation_data_directory + '__init__.py', encoding_comment + init_text, 'w', False, in_memory_result)
     _write_file(date_translation_directory + '__init__.py', encoding_comment, 'w', False, in_memory_result)
     _write_file(numeral_translation_directory + '__init__.py', encoding_comment, 'w', False, in_memory_result)
-
-    if not in_memory:
-        os.mkdir(numeral_translation_directory)
 
     return in_memory_result
 
