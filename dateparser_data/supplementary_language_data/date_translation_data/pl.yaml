@@ -1,5 +1,3 @@
-dateorder: DMY
-
 sentence_splitter_group : 1
 
 skip: ['r.', 'roku', 'w', 'o', 'i']
@@ -120,49 +118,38 @@ december:
     - Gru
 
 year:
-    - rok
     - lata
     - lat
 month:
-    - miesiąc
     - miesiac
     - miesięcy
     - miesiąca
     - miesiące
     - miesiace
 week:
-    - tydzień
     - tydzien
     - tygodni
     - tygodnie
 day:
-    - dzień
     - dzien
     - dnia
     - dniu
     - dni
 hour:
-    - godzina
     - godzinę
     - godzine
     - godzin
     - godziny
-    - godz
 minute:
-    - minuta
-    - min
     - minuty
     - minut
     - minute
     - minutę
 second:
-    - sekunda
     - sekundę
     - sekunde
     - sekundy
     - sekund
-    - s
-    - sek
 
 ago:
     - temu

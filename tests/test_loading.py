@@ -101,8 +101,8 @@ class TestLoading(BaseTestCase):
 
 
 class TestLocaleDataLoader(BaseTestCase):
-    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile("Unknown language\(s\): (.+)")
-    UNKNOWN_LOCALES_EXCEPTION_RE = re.compile("Unknown locale\(s\): (.+)")
+    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile(r"Unknown language\(s\): (.+)")
+    UNKNOWN_LOCALES_EXCEPTION_RE = re.compile(r"Unknown locale\(s\): (.+)")
 
     def setUp(self):
         super(TestLocaleDataLoader, self).setUp()

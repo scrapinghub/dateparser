@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 open_as_utf = lambda x: io.open(x, encoding='utf-8')
 
-(__version__, ) = re.findall("__version__.*\s*=\s*[']([^']+)[']",
+(__version__, ) = re.findall(r"__version__.*\s*=\s*[']([^']+)[']",
                              open('dateparser/__init__.py').read())
 
 readme = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:', '', open_as_utf('README.rst').read())
@@ -23,6 +23,9 @@ setup(
     author='Scrapinghub',
     author_email='info@scrapinghub.com',
     url='https://github.com/scrapinghub/dateparser',
+    project_urls={
+        'History': 'https://dateparser.readthedocs.io/en/latest/history.html',
+    },
     packages=find_packages(exclude=('tests', 'tests.*')),
     include_package_data=True,
     install_requires=[
@@ -44,15 +47,14 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
-    test_suite='nose.collector',
-    tests_require=test_requirements
 )

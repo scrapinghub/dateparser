@@ -46,11 +46,9 @@ class FreshnessDateDataParser(object):
         return get_localzone()
 
     def parse(self, date_string, settings):
-
-        _time = self._parse_time(date_string, settings)
-
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
+        _time = self._parse_time(date_string, settings)
 
         _settings_tz = settings.TIMEZONE.lower()
 
@@ -128,8 +126,8 @@ class FreshnessDateDataParser(object):
         td = relativedelta(**kwargs)
         if (
             re.search(r'\bin\b', date_string) or
-            ('future' in prefer_dates_from and
-             not re.search(r'\bago\b', date_string))
+            re.search(r'\bfuture\b', prefer_dates_from) and
+            not re.search(r'\bago\b', date_string)
         ):
             date = self.now + td
         else:

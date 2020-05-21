@@ -52,6 +52,10 @@ class TestBundledLanguages(BaseTestCase):
         # German
         param('de', "29. Juni 2007", "29. june 2007"),
         param('de', "Montag 5 Januar, 2015", "monday 5 january 2015"),
+        param('de', "vor einer Woche", "1 week ago"),
+        param('de', "in zwei Monaten", "in 2 month"),
+        param('de', "übermorgen", "in 2 day"),
+        param('de', "3 mrz 1999", "3 march 1999"),
         # Hungarian
         param('hu', '2016 augusztus 11.', '2016 august 11.'),
         param('hu', '2016-08-13 szombat 10:21', '2016-08-13 saturday 10:21'),
@@ -827,6 +831,7 @@ class TestBundledLanguages(BaseTestCase):
         param('fr', "avant-hier", "2 day ago"),
         param('fr', "hier", "1 day ago"),
         param('fr', "aujourd'hui", "0 day ago"),
+        param('fr', "après dix ans", "in 10 year"),
         # Spanish
         param('es', "anteayer", "2 day ago"),
         param('es', "ayer", "1 day ago"),
@@ -2108,7 +2113,7 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
               log_msg="Invalid simplification {'simplification': []} for 'en' language: each simplification suppose "
                       "to be string-to-string-or-int mapping"),
         param('en',
-              {'simplifications': [{'(\d+)\s*hr(s?)\g<(.+?)>': r'\1 hour\2'}]},
+              {'simplifications': [{r'(\d+)\s*hr(s?)\g<(.+?)>': r'\1 hour\2'}]},
               log_msg="Invalid simplification {'(\\\\d+)\\\\s*hr(s?)\\\\g<(.+?)>': '\\\\1 hour\\\\2'} "
                       "for 'en' language: groups 3 were not used"),
         param('en',

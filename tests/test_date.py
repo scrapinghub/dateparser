@@ -224,10 +224,10 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             self.error = error
 
     def then_results_are(self, expected_results):
-        self.assertEquals(expected_results, self.result)
+        self.assertEqual(expected_results, self.result)
 
     def then_date_range_length_is(self, size):
-        self.assertEquals(size, len(self.result))
+        self.assertEqual(size, len(self.result))
 
     def then_all_dates_in_range_are_present(self, begin, end):
         date_under_test = begin
@@ -236,7 +236,7 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             date_under_test += timedelta(days=1)
 
     def then_period_is_empty(self):
-        self.assertEquals([], self.result)
+        self.assertEqual([], self.result)
 
 
 class TestParseWithFormatsFunction(BaseTestCase):
@@ -328,10 +328,10 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.assertIsNotNone(self.result['date_obj'])
 
     def then_parsed_date_is(self, date_obj):
-        self.assertEquals(date_obj.date(), self.result['date_obj'].date())
+        self.assertEqual(date_obj.date(), self.result['date_obj'].date())
 
     def then_parsed_period_is(self, period):
-        self.assertEquals(period, self.result['period'])
+        self.assertEqual(period, self.result['period'])
 
 
 class TestDateDataParser(BaseTestCase):
@@ -697,6 +697,39 @@ class TestDateLocaleParser(BaseTestCase):
 
     def then_date_object_is_invalid(self):
         self.assertFalse(self.is_valid_date_obj)
+
+
+class TestTimestampParser(BaseTestCase):
+
+    def test_timestamp_in_milliseconds(self):
+        self.assertEqual(
+            date.get_date_from_timestamp(u'1570308760263', None),
+            datetime.fromtimestamp(1570308760).replace(microsecond=263000)
+        )
+
+    def test_timestamp_in_microseconds(self):
+        self.assertEqual(
+            date.get_date_from_timestamp(u'1570308760263111', None),
+            datetime.fromtimestamp(1570308760).replace(microsecond=263111)
+        )
+
+    @parameterized.expand([
+        param(date_string=u'15703087602631'),
+        param(date_string=u'157030876026xx'),
+        param(date_string=u'1570308760263x'),
+        param(date_string=u'157030876026311'),
+        param(date_string=u'15703087602631x'),
+        param(date_string=u'15703087602631xx'),
+        param(date_string=u'15703087602631111'),
+        param(date_string=u'1570308760263111x'),
+        param(date_string=u'1570308760263111xx'),
+        param(date_string=u'1570308760263111222'),
+    ])
+    def test_timestamp_with_wrong_length(self, date_string):
+        self.assertEqual(
+            date.get_date_from_timestamp(date_string, None),
+            None
+        )
 
 
 if __name__ == '__main__':

@@ -17,13 +17,6 @@ from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
     set_correct_day_from_settings
 
-try:
-    # Python 3
-    from collections.abc import Set
-except ImportError:
-    # Python 2.7
-    from collections import Set
-
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     u'\N{RIGHT SINGLE QUOTATION MARK}',     # u'\u2019'
     u'\N{MODIFIER LETTER APOSTROPHE}',      # u'\u02bc'
@@ -47,7 +40,7 @@ RE_SANITIZE_PERIOD = re.compile(r'(?<=\D+)\.', flags=re.U)
 RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
 RE_SANITIZE_APOSTROPHE = re.compile(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
-RE_SEARCH_TIMESTAMP = re.compile(r'^\d{10}(?![^\d.])')
+RE_SEARCH_TIMESTAMP = re.compile(r'^(\d{10})(\d{3})?(\d{3})?(?![^.])')
 
 
 def sanitize_spaces(date_string):
@@ -122,8 +115,13 @@ def sanitize_date(date_string):
 
 
 def get_date_from_timestamp(date_string, settings):
-    if RE_SEARCH_TIMESTAMP.search(date_string):
-        date_obj = datetime.fromtimestamp(int(date_string[:10]))
+    match = RE_SEARCH_TIMESTAMP.search(date_string)
+    if match:
+        seconds = int(match.group(1))
+        millis = int(match.group(2) or 0)
+        micros = int(match.group(3) or 0)
+        date_obj = datetime.fromtimestamp(seconds)
+        date_obj = date_obj.replace(microsecond=millis * 1000 + micros)
         date_obj = apply_timezone_from_settings(date_obj, settings)
         return date_obj
 
@@ -167,7 +165,7 @@ class _DateLocaleParser(object):
         if isinstance(date_formats, six.string_types):
             warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
             date_formats = [date_formats]
-        elif not (date_formats is None or isinstance(date_formats, (list, tuple, Set))):
+        elif not (date_formats is None or isinstance(date_formats, (list, tuple, set))):
             raise TypeError(self.DATE_FORMATS_ERROR_MESSAGE)
 
         self.locale = locale
@@ -210,7 +208,10 @@ class _DateLocaleParser(object):
         }
 
     def _try_freshness_parser(self):
-        return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings)
+        try:
+            return freshness_date_parser.get_date_data(self._get_translated_date(), self._settings)
+        except (OverflowError, ValueError):
+            return None
 
     def _try_parser(self):
         _order = self._settings.DATE_ORDER
@@ -329,10 +330,10 @@ class DateDataParser(object):
     def __init__(self, languages=None, locales=None, region=None, try_previous_locales=True,
                  use_given_order=False, settings=None):
 
-        if not isinstance(languages, (list, tuple, Set)) and languages is not None:
+        if not isinstance(languages, (list, tuple, set)) and languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
-        if not isinstance(locales, (list, tuple, Set)) and locales is not None:
+        if not isinstance(locales, (list, tuple, set)) and locales is not None:
             raise TypeError("locales argument must be a list (%r given)" % type(locales))
 
         if not isinstance(region, six.string_types) and region is not None:

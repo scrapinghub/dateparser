@@ -125,7 +125,7 @@ class ExactLanguageSearch:
                 parsed_item = self.parse_item(parser, item, translated[i], parsed, need_relative_base)
                 if parsed_item['date_obj']:
                     parsed.append(parsed_item)
-                    substrings.append(original[i].strip(' .,:()[]-'))
+                    substrings.append(original[i].strip(" .,:()[]-'"))
                     pass
                 else:
                     possible_splits = self.split_if_not_parsed(item, original[i])
