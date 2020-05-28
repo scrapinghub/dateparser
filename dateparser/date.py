@@ -307,12 +307,12 @@ class DateDataParser(object):
 
     :param try_previous_locales:
         If True, locales previously used to translate date are tried first.
-    :type allow_redetect_language: bool
+    :type try_previous_locales: bool
 
     :param use_given_order:
         If True, locales are tried for translation of date string
         in the order in which they are given.
-    :type allow_redetect_language: bool
+    :type use_given_order: bool
 
     :param settings:
         Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
