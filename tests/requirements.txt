@@ -6,3 +6,4 @@ coverage
 flake8
 pytest
 pytest-cov
+tox
