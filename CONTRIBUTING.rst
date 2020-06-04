@@ -88,8 +88,6 @@ Ready to contribute? Here's how to set up `dateparser` for local development.
 
 5. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox::
 
-    $ pip install -r tests/requirements.txt # install test dependencies
-    $ pip install -r scripts/requirements.txt # install script dependencies
     $ flake8 dateparser tests
     $ tox
 
