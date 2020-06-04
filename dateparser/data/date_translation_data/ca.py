@@ -160,13 +160,17 @@ info = {
         "in 1 week": [
             "la setmana que ve",
             "la setm que ve",
-            "setm vinent"
+            "setm vinent",
+            "la setmana vinent",
+            "la pròxima setmana",
+            "la propera setmana"
         ],
         "1 day ago": [
             "ahir"
         ],
         "0 day ago": [
-            "avui"
+            "avui",
+            "hui"
         ],
         "in 1 day": [
             "demà"
@@ -179,6 +183,21 @@ info = {
         ],
         "0 second ago": [
             "ara"
+        ],
+        "2 day ago": [
+            "despús-ahir",
+            "abans-d’ahir",
+            "dellà-ahir"
+        ],
+        "in 2 day": [
+            "endemà",
+            "sendemà",
+            "despús-demà",
+            "demà passat",
+            "passat demà"
+        ],
+        "in 3 day": [
+            "endemà passat"
         ]
     },
     "relative-type-regex": {
@@ -260,6 +279,10 @@ info = {
         }
     },
     "skip": [
+        "de",
+        "del",
+        "l'",
+        "i",
         " ",
         ".",
         ",",
@@ -272,5 +295,20 @@ info = {
         "[",
         "]",
         "，"
+    ],
+    "pertain": [
+        "de",
+        "del"
+    ],
+    "in": [
+        "en"
+    ],
+    "simplifications": [
+        {
+            "una": "1"
+        },
+        {
+            "un": "1"
+        }
     ]
 }

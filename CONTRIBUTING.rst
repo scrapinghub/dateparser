@@ -41,6 +41,13 @@ DateParser could always use more documentation, whether as part of the
 official DateParser docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
+After you make local changes to the documentation, build it with ``tox``::
+
+    tox -e docs
+
+Then open ``.tox/docs/tmp/html/index.html`` in a web browser to see your local
+build of the documentation.
+
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
@@ -80,7 +87,6 @@ Ready to contribute? Here's how to set up `dateparser` for local development.
     $ pip install -r tests/requirements.txt # install test dependencies
     $ pip install -r scripts/requirements.txt # install script dependencies
     $ flake8 dateparser tests
-    $ nosetests
     $ tox
 
    To get flake8 and tox, just pip install them into your virtualenv. (Note that we use ``max-line-length = 100`` for flake8, this is configured in ``setup.cfg`` file.)
@@ -109,16 +115,44 @@ Before you submit a pull request, check that it meets these guidelines:
 
 Guidelines for Editing Translation Data
 ---------------------------------------
-English is the primary language of the dateparser. Dates in all other languages are translated into English equivalents before they are parsed.
-The language data required for parsing dates is contained in *dateparser/data/date_translation_data*.
-It contains variable parts that can be used in dates, language by language: month and week names - and their abbreviations, prepositions, conjunctions and frequently used descriptive words and phrases (like "today").
-The data in *dateparser/data/date_translation_data* is formed by supplementing data retrieved from unicode CLDR, contained in *data/cldr_language_data/date_translation_data*, with supplementary data contributed by the community, contained in *data/supplementary_language_data/date_translation_data*.
-Additional data to supplement existing data or translation data for a new language should be added to *dateparser_data/supplementary_language_data/date_translation_data*.
-The chosen data format is YAML because it is readable and simple to edit.
-After adding or changing any data in YAML files we need to move them to internal data files with *scripts/write_complete_data.py*. Otherwise the changes to YAML files will not have any effect.
 
-Refer to :ref:`language-data-template` for details about its structure and take a look at already implemented languages for examples.
-As we deal with the delicate fabric of interwoven languages, tests are essential to keep the functionality across them.
-Therefore any addition or change should be reflected in tests.
-However, there is nothing to be afraid of: our tests are highly parameterized and in most cases a test fits in one declarative line of data.
-Alternatively, you can provide required information and ask the maintainers to create the tests for you.
+English is the primary language of Dateparser. Dates in all other languages are
+translated into English equivalents before they are parsed.
+
+The language data that Dateparser uses to parse dates is in
+``dateparser/data/date_translation_data``. For each supported language, there
+is a Python file containing translation data.
+
+Each translation data Python files contains different kinds of translation data
+for date parsing: month and week names - and their abbreviations, prepositions,
+conjunctions, frequently used descriptive words and phrases (like “today”),
+etc.
+
+Translation data Python files are generated from the following sources:
+
+-   `Unicode CLDR <http://cldr.unicode.org/>`_ data in JSON format, located at
+    ``dateparser_data/cldr_language_data/date_translation_data``
+
+-   Additional data from the Dateparser community in YAML format, located at
+    ``dateparser_data/supplementary_language_data/date_translation_data``
+
+If you wish to extend the data of an existing language, or add data for a new
+language, you must:
+
+#.  Edit or create the corresponding file within
+    ``dateparser_data/supplementary_language_data/date_translation_data``
+
+    See existing files to learn how they are defined, and see
+    :ref:`language-data-template` for details.
+
+#.  Regenerate the corresponding file within
+    ``dateparser/data/date_translation_data`` running the following script::
+
+        scripts/write_complete_data.py
+
+#.  Write tests that cover your changes
+
+    You should be able to find tests that cover the affected data, and use
+    copy-and-paste to create the corresponding new test.
+
+    If in doubt, ask Dateparser maintainers for help.

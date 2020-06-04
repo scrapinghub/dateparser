@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import six
 from parameterized import parameterized, param
 from datetime import datetime, tzinfo
 
@@ -25,7 +26,7 @@ class TimeZoneSettingsTest(BaseTestCase):
         self.confs = NotImplemented
 
     @parameterized.expand([
-        param('12 Feb 2015 10:30 PM +0100', datetime(2015, 2, 12, 22, 30), 'UTC\+01:00'),
+        param('12 Feb 2015 10:30 PM +0100', datetime(2015, 2, 12, 22, 30), r'UTC\+01:00'),
         param('12 Feb 2015 4:30 PM EST', datetime(2015, 2, 12, 16, 30), 'EST'),
         param('12 Feb 2015 8:30 PM PKT', datetime(2015, 2, 12, 20, 30), 'PKT'),
         param('12 Feb 2015 8:30 PM ACT', datetime(2015, 2, 12, 20, 30), 'ACT'),
@@ -129,13 +130,13 @@ class InvalidSettingsTest(BaseTestCase):
 
     def test_error_is_raised_when_none_is_passed_in_settings(self):
         test_func = apply_settings(test_function)
-        with self.assertRaisesRegexp(TypeError, 'Invalid.*None\}'):
+        with six.assertRaisesRegex(self, TypeError, r'Invalid.*None\}'):
             test_func(settings={'PREFER_DATES_FROM': None})
 
-        with self.assertRaisesRegexp(TypeError, 'Invalid.*None\}'):
+        with six.assertRaisesRegex(self, TypeError, r'Invalid.*None\}'):
             test_func(settings={'TIMEZONE': None})
 
-        with self.assertRaisesRegexp(TypeError, 'Invalid.*None\}'):
+        with six.assertRaisesRegex(self, TypeError, r'Invalid.*None\}'):
             test_func(settings={'TO_TIMEZONE': None})
 
     def test_error_is_raised_for_invalid_type_settings(self):

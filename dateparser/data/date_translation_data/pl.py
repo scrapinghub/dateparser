@@ -192,7 +192,6 @@ info = {
     "year": [
         "rok",
         "r",
-        "rok",
         "lata",
         "lat"
     ],
@@ -200,7 +199,6 @@ info = {
         "miesiąc",
         "mies",
         "mc",
-        "miesiąc",
         "miesiac",
         "miesięcy",
         "miesiąca",
@@ -210,13 +208,11 @@ info = {
     "week": [
         "tydzień",
         "tydz",
-        "tydzień",
         "tydzien",
         "tygodni",
         "tygodnie"
     ],
     "day": [
-        "dzień",
         "dzień",
         "dzien",
         "dnia",
@@ -227,16 +223,12 @@ info = {
         "godzina",
         "godz",
         "g",
-        "godzina",
         "godzinę",
         "godzine",
         "godzin",
-        "godziny",
-        "godz"
+        "godziny"
     ],
     "minute": [
-        "minuta",
-        "min",
         "minuta",
         "min",
         "minuty",
@@ -248,13 +240,10 @@ info = {
         "sekunda",
         "sek",
         "s",
-        "sekunda",
         "sekundę",
         "sekunde",
         "sekundy",
-        "sekund",
-        "s",
-        "sek"
+        "sekund"
     ],
     "relative-type": {
         "1 year ago": [
@@ -379,7 +368,6 @@ info = {
         ]
     },
     "locale_specific": {},
-    "dateorder": "DMY",
     "sentence_splitter_group": 1,
     "skip": [
         "r.",

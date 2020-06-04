@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 import unittest
 from collections import OrderedDict
+from copy import copy
 from datetime import datetime, timedelta
 
 from mock import Mock, patch
@@ -12,7 +13,6 @@ import six
 
 import dateparser
 from dateparser import date
-from dateparser.date import get_last_day_of_month
 from dateparser.conf import settings
 
 from tests import BaseTestCase
@@ -224,10 +224,10 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             self.error = error
 
     def then_results_are(self, expected_results):
-        self.assertEquals(expected_results, self.result)
+        self.assertEqual(expected_results, self.result)
 
     def then_date_range_length_is(self, size):
-        self.assertEquals(size, len(self.result))
+        self.assertEqual(size, len(self.result))
 
     def then_all_dates_in_range_are_present(self, begin, end):
         date_under_test = begin
@@ -236,7 +236,7 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             date_under_test += timedelta(days=1)
 
     def then_period_is_empty(self):
-        self.assertEquals([], self.result)
+        self.assertEqual([], self.result)
 
 
 class TestParseWithFormatsFunction(BaseTestCase):
@@ -274,18 +274,38 @@ class TestParseWithFormatsFunction(BaseTestCase):
 
     @parameterized.expand([
         param(date_string='August 2014', date_formats=['%B %Y'],
-              expected_year=2014, expected_month=8),
+              expected_year=2014, expected_month=8, today_day=12,
+              prefer_day_of_month='first', expected_day=1),
+        param(date_string='August 2014', date_formats=['%B %Y'],
+              expected_year=2014, expected_month=8, today_day=12,
+              prefer_day_of_month='last', expected_day=31),
+        param(date_string='August 2014', date_formats=['%B %Y'],
+              expected_year=2014, expected_month=8, today_day=12,
+              prefer_day_of_month='current', expected_day=12),
     ])
-    def test_should_use_last_day_of_month_for_dates_without_day(
-        self, date_string, date_formats, expected_year, expected_month
+    def test_should_use_correct_day_from_settings_for_dates_without_day(
+        self, date_string, date_formats, expected_year, expected_month,
+        today_day, prefer_day_of_month, expected_day
     ):
-        self.given_now(2014, 8, 12)
-        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        self.given_now(2014, 8, today_day)
+        settings_mod = copy(settings)
+        settings_mod.PREFER_DAY_OF_MONTH = prefer_day_of_month
+        self.when_date_is_parsed_with_formats(date_string, date_formats, settings_mod)
         self.then_date_was_parsed()
         self.then_parsed_period_is('month')
         self.then_parsed_date_is(datetime(year=expected_year,
                                           month=expected_month,
-                                          day=get_last_day_of_month(expected_year, expected_month)))
+                                          day=expected_day))
+
+
+    @parameterized.expand([
+        param(date_string='25-03-14', date_formats='%d-%m-%y', expected_result=datetime(2014, 3, 25)),
+    ])
+    def test_should_support_a_string_as_date_formats(self, date_string, date_formats, expected_result):
+        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        self.then_date_was_parsed()
+        self.then_parsed_period_is('day')
+        self.then_parsed_date_is(expected_result)
 
     def given_now(self, year, month, day, **time):
         now = datetime(year, month, day, **time)
@@ -294,9 +314,10 @@ class TestParseWithFormatsFunction(BaseTestCase):
         datetime_mock.now = Mock(return_value=now)
         datetime_mock.today = Mock(return_value=now)
         self.add_patch(patch('dateparser.date.datetime', new=datetime_mock))
+        self.add_patch(patch('dateparser.utils.datetime', new=datetime_mock))
 
-    def when_date_is_parsed_with_formats(self, date_string, date_formats):
-        self.result = date.parse_with_formats(date_string, date_formats, settings)
+    def when_date_is_parsed_with_formats(self, date_string, date_formats, custom_settings=None):
+        self.result = date.parse_with_formats(date_string, date_formats, custom_settings or settings)
 
     def then_date_was_not_parsed(self):
         self.assertIsNotNone(self.result)
@@ -307,10 +328,10 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.assertIsNotNone(self.result['date_obj'])
 
     def then_parsed_date_is(self, date_obj):
-        self.assertEquals(date_obj.date(), self.result['date_obj'].date())
+        self.assertEqual(date_obj.date(), self.result['date_obj'].date())
 
     def then_parsed_period_is(self, period):
-        self.assertEquals(period, self.result['period'])
+        self.assertEqual(period, self.result['period'])
 
 
 class TestDateDataParser(BaseTestCase):
@@ -427,6 +448,12 @@ class TestDateDataParser(BaseTestCase):
         self.then_error_was_raised(
             TypeError, ["Date formats should be list, tuple or set of strings",
                         "'{}' object is not iterable".format(type(date_formats).__name__)])
+
+    def test_parsing_date_using_unknown_parsers_must_raise_error(self):
+        self.given_parser(settings={'PARSERS': ['foo']})
+        self.when_date_string_is_parsed('2020-02-19')
+        self.then_error_was_raised(
+            ValueError, ["Unknown parsers found in the PARSERS setting: foo"])
 
     @parameterized.expand([
         param(date_string={"date": "12/11/1998"}),
@@ -638,6 +665,10 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date(u'2005 г.'), u'2005 ')
         self.assertEqual(date.sanitize_date(u'Авг.'), u'Авг')
 
+    def test_sanitize_date_colons(self):
+        self.assertEqual(date.sanitize_date(u'2019:'), u'2019')
+        self.assertEqual(date.sanitize_date(u'31/07/2019:'), u'31/07/2019')
+
 
 class TestDateLocaleParser(BaseTestCase):
     def setUp(self):
@@ -650,6 +681,7 @@ class TestDateLocaleParser(BaseTestCase):
         param(date_obj={'period': 'hour'}),
         param(date_obj=[datetime(2007, 1, 22, 0, 0), 'day']),
         param(date_obj={'date_obj': None, 'period': 'day'}),
+        param(date_obj={'date': datetime(2018, 1, 10, 2, 0), 'period': 'time'}),
     ])
     def test_is_valid_date_obj(self, date_obj):
         self.given_parser(language=['en'], date_string='10 jan 2000',
@@ -665,6 +697,39 @@ class TestDateLocaleParser(BaseTestCase):
 
     def then_date_object_is_invalid(self):
         self.assertFalse(self.is_valid_date_obj)
+
+
+class TestTimestampParser(BaseTestCase):
+
+    def test_timestamp_in_milliseconds(self):
+        self.assertEqual(
+            date.get_date_from_timestamp(u'1570308760263', None),
+            datetime.fromtimestamp(1570308760).replace(microsecond=263000)
+        )
+
+    def test_timestamp_in_microseconds(self):
+        self.assertEqual(
+            date.get_date_from_timestamp(u'1570308760263111', None),
+            datetime.fromtimestamp(1570308760).replace(microsecond=263111)
+        )
+
+    @parameterized.expand([
+        param(date_string=u'15703087602631'),
+        param(date_string=u'157030876026xx'),
+        param(date_string=u'1570308760263x'),
+        param(date_string=u'157030876026311'),
+        param(date_string=u'15703087602631x'),
+        param(date_string=u'15703087602631xx'),
+        param(date_string=u'15703087602631111'),
+        param(date_string=u'1570308760263111x'),
+        param(date_string=u'1570308760263111xx'),
+        param(date_string=u'1570308760263111222'),
+    ])
+    def test_timestamp_with_wrong_length(self, date_string):
+        self.assertEqual(
+            date.get_date_from_timestamp(date_string, None),
+            None
+        )
 
 
 if __name__ == '__main__':

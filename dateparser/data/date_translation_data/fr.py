@@ -97,7 +97,8 @@ info = {
         "année",
         "an",
         "a",
-        "années"
+        "années",
+        "ans"
     ],
     "month": [
         "mois",
@@ -176,6 +177,9 @@ info = {
         ],
         "2 day ago": [
             "avant-hier"
+        ],
+        "in 2 day": [
+            "après-demain"
         ]
     },
     "relative-type-regex": {
@@ -446,11 +450,15 @@ info = {
     ],
     "in": [
         "dans",
-        "en"
+        "en",
+        "après"
     ],
     "simplifications": [
         {
             "d'une": "1"
+        },
+        {
+            "d'un": "1"
         },
         {
             "une": "1"
@@ -475,6 +483,39 @@ info = {
         },
         {
             "moins\\s(?:de\\s)?(\\d+)\\s?h": "\\1 heure"
+        },
+        {
+            "deux": "2"
+        },
+        {
+            "trois": "3"
+        },
+        {
+            "quatre": "4"
+        },
+        {
+            "cinq": "5"
+        },
+        {
+            "six": "6"
+        },
+        {
+            "sept": "7"
+        },
+        {
+            "huit": "8"
+        },
+        {
+            "neuf": "9"
+        },
+        {
+            "dix": "10"
+        },
+        {
+            "onze": "11"
+        },
+        {
+            "douze": "12"
         }
     ]
 }

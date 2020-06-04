@@ -5,8 +5,8 @@ from tests import BaseTestCase
 from parameterized import parameterized, param
 from dateparser.utils import (
     find_date_separator, localize_timezone, apply_timezone,
-    apply_timezone_from_settings, registry
-)
+    apply_timezone_from_settings, registry,
+    get_last_day_of_month)
 from pytz import UnknownTimeZoneError, utc
 from dateparser.conf import settings
 
@@ -20,10 +20,10 @@ class TestUtils(BaseTestCase):
     def given_date_format(self, date_format):
         self.date_format = date_format
 
-    def when_date_seperator_is_parsed(self):
+    def when_date_separator_is_parsed(self):
         self.result = find_date_separator(self.date_format)
 
-    def then_date_seperator_is(self, sep):
+    def then_date_separator_is(self, sep):
         self.assertEqual(self.result, sep)
 
     @staticmethod
@@ -41,8 +41,8 @@ class TestUtils(BaseTestCase):
     ])
     def test_separator_extraction(self, date_format, expected_sep):
         self.given_date_format(date_format)
-        self.when_date_seperator_is_parsed()
-        self.then_date_seperator_is(expected_sep)
+        self.when_date_separator_is_parsed()
+        self.then_date_separator_is(expected_sep)
 
     @parameterized.expand([
         param(datetime(2015, 12, 12), timezone='UTC', zone='UTC'),
@@ -61,7 +61,7 @@ class TestUtils(BaseTestCase):
         self.assertRaises(UnknownTimeZoneError, localize_timezone, date, timezone)
 
     @parameterized.expand([
-        param(datetime(2015, 12, 12), timezone='UTC+3', zone='UTC\+03:00'),
+        param(datetime(2015, 12, 12), timezone='UTC+3', zone=r'UTC\+03:00'),
     ])
     def test_localize_timezone_function_exception(self, date, timezone, zone):
         tzaware_dt = localize_timezone(date, timezone)
@@ -104,3 +104,23 @@ class TestUtils(BaseTestCase):
     def test_registry_when_get_keys_not_implemented(self):
         cl = self.make_class_without_get_keys()
         self.assertRaises(NotImplementedError, registry, cl)
+
+    @parameterized.expand([
+        param(2111, 1, 31),
+        param(1999, 2, 28),  # normal year
+        param(1996, 2, 29),  # leap and not centurial year
+        param(2000, 2, 29),  # leap and centurial year
+        param(1700, 2, 28),  # no leap and centurial year (exception)
+        param(2020, 3, 31),
+        param(1987, 4, 30),
+        param(1000, 5, 31),
+        param(1534, 6, 30),
+        param(1777, 7, 31),
+        param(1234, 8, 31),
+        param(1678, 9, 30),
+        param(1947, 10, 31),
+        param(2015, 11, 30),
+        param(2300, 12, 31),
+    ])
+    def test_get_last_day_of_month(self, year, month, expected_last_day):
+        assert get_last_day_of_month(year, month) == expected_last_day

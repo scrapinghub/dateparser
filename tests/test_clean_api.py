@@ -55,7 +55,7 @@ class TestParseFunction(BaseTestCase):
         self.result = dateparser.parse(date_string, languages=languages, locales=locales)
 
     def then_parsed_date_is(self, expected_date):
-        self.assertEquals(self.result, datetime.combine(expected_date, datetime.min.time()))
+        self.assertEqual(self.result, datetime.combine(expected_date, datetime.min.time()))
 
     def then_date_was_not_parsed(self):
         self.assertIsNone(self.result)

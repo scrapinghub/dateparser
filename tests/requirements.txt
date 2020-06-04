@@ -3,3 +3,6 @@ nose
 parameterized
 six
 coverage
+flake8
+pytest
+pytest-cov

@@ -1,6 +1,13 @@
+default_parsers = [
+    'timestamp',
+    'relative-time',
+    'custom-formats',
+    'absolute-time',
+    'base-formats',
+]
+
 settings = {
     'PREFER_DATES_FROM': 'current_period',
-    'SUPPORT_BEFORE_COMMON_ERA': False,
     'PREFER_DAY_OF_MONTH': 'current',
     'SKIP_TOKENS': ["t"],
     'SKIP_TOKENS_PARSER': ["t", "year", "hour", "minute"],
@@ -13,5 +20,7 @@ settings = {
     'PREFER_LOCALE_DATE_ORDER': True,
     'FUZZY': False,
     'STRICT_PARSING': False,
-    'REQUIRE_PARTS': None,
+    'RETURN_TIME_AS_PERIOD': False,
+    'PARSERS': default_parsers,
+    'REQUIRE_PARTS': [],
 }
