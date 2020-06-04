@@ -44,14 +44,14 @@ All supported `settings` with their usage examples are given below:
 Date Order
 ++++++++++
 
-``DATE_ORDER`` specifies the order in which date components `year`, `month` and `day` are expected while parsing ambiguous dates. It defaults to `MDY` which translates to `month` first, `day` second and `year` last order. Characters `M`, `D` or `Y` can be shuffled to meet required order. For example, `DMY` specifies `day` first, `month` second and `year` last order:
+``DATE_ORDER`` specifies the order in which date components `year`, `month` and `day` are expected while parsing ambiguous dates. It defaults to ``MDY`` which translates to `month` first, `day` second and `year` last order. Characters `M`, `D` or `Y` can be shuffled to meet required order. For example, ``DMY`` specifies `day` first, `month` second and `year` last order:
 
     >>> parse('15-12-18 06:00')  # assumes default order: MDY
     datetime.datetime(2018, 12, 15, 6, 0)  # since 15 is not a valid value for Month, it is swapped with Day's
     >>> parse('15-12-18 06:00', settings={'DATE_ORDER': 'YMD'})
     datetime.datetime(2015, 12, 18, 6, 0)
 
-``PREFER_LANGUAGE_DATE_ORDER`` defaults to `True`. Most languages have a default `DATE_ORDER` specified for them. For example, for French it is `DMY`:
+``PREFER_LANGUAGE_DATE_ORDER`` defaults to ``True``. Most languages have a default ``DATE_ORDER`` specified for them. For example, for French it is ``DMY``:
 
    >>> # parsing ambiguous date
    >>> parse('02-03-2016')  # assumes english language, uses MDY date order
@@ -59,7 +59,7 @@ Date Order
    >>> parse('le 02-03-2016')  # detects french, hence, uses DMY date order
    datetime.datetime(2016, 3, 2, 0, 0)
 
-.. note:: There's no language level default `DATE_ORDER` associated with `en` language. That's why it assumes `MDY` which is :obj:``settings <dateparser.conf.settings>`` default. If the language has a default `DATE_ORDER` associated, supplying custom date order will not be applied unless we set `PREFER_LANGUAGE_DATE_ORDER` to `False`:
+.. note:: There's no language level default ``DATE_ORDER`` associated with `en` language. That's why it assumes ``MDY`` which is :obj:``settings <dateparser.conf.settings>`` default. If the language has a default `DATE_ORDER` associated, supplying custom date order will not be applied unless we set `PREFER_LANGUAGE_DATE_ORDER` to `False`:
 
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY'})
     datetime.datetime(2016, 3, 2, 0, 0)  # MDY didn't apply
@@ -106,9 +106,9 @@ Handling Incomplete Dates
     >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
     datetime.datetime(2015, 12, 1, 0, 0)
 
-``PREFER_DATES_FROM`` defaults to `current_period` and can have `past` and `future` as values.
+``PREFER_DATES_FROM`` defaults to ``current_period`` and can have ``past`` and ``future`` as values.
 
-If date string is missing some part, this option ensures consistent results depending on the `past` or `future` preference, for example, assuming current date is `June 16, 2015`:
+If date string is missing some part, this option ensures consistent results depending on the ``past`` or ``future`` preference, for example, assuming current date is `June 16, 2015`:
 
     >>> from dateparser import parse
     >>> parse(u'March')
@@ -132,15 +132,15 @@ For example, assuming current date is `June 16, 2015`:
     >>> parse(u'tomorrow', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
     datetime.datetime(2020, 1, 2, 0, 0)
 
-``STRICT_PARSING`` defaults to `False`.
+``STRICT_PARSING`` defaults to ``False``.
 
-When set to `True` if missing any of `day`, `month` or `year` parts, it does not return any result altogether.:
+When set to ``True`` if missing any of ``day``, ``month`` or ``year`` parts, it does not return any result altogether.:
 
     >>> parse(u'March', settings={'STRICT_PARSING': True})
     None
 
 ``RETURN_TIME_AS_PERIOD`` returns `time` as period in date object, if time component was present in date string.
-Defaults to `False`.
+Defaults to ``False``.
 
     >>> ddp = DateDataParser(settings={'RETURN_TIME_AS_PERIOD': True})
     >>> ddp.get_date_data(u'vr jan 24, 2014 12:49')
@@ -182,24 +182,24 @@ The following parsers exist:
 changes the parsers to try without skipping parsers that may be added to
 Dateparser in the future. For example, to ignore relative times:
 
->>> from dateparser.settings import default_parsers
->>> parsers = [parser for parser in default_parsers if parser != 'relative-time']
->>> parse('today', settings={'PARSERS': parsers})
+    >>> from dateparser.settings import default_parsers
+    >>> parsers = [parser for parser in default_parsers if parser != 'relative-time']
+    >>> parse('today', settings={'PARSERS': parsers})
 
 
-``REQUIRE_PARTS`` This option ensures results are dates that have some specified part. It defaults to `None` and can include ``day``, ``month`` and/or ``year``.
+``REQUIRE_PARTS`` This option ensures results are dates that have some specified part. It defaults to ``[]`` and can include ``day``, ``month`` and/or ``year``.
 
 For example, assuming current date is `June 16, 2019`:
 
     >>> parse(u'2012') # default behavior
     datetime.datetime(2012, 6, 16, 0, 0)
-    >>> parse(u'2012', settings={'REQUIRE_PARTS': 'month'})
+    >>> parse(u'2012', settings={'REQUIRE_PARTS': ['month']})
     None
-    >>> parse(u'March 2012', settings={'REQUIRE_PARTS': 'day'})
+    >>> parse(u'March 2012', settings={'REQUIRE_PARTS': ['day']})
     None
-    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': 'day'})
+    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': ['day']})
     datetime.datetime(2012, 3, 12, 0, 0)
-    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': 'day,month,year'})
+    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
     datetime.datetime(2012, 3, 12, 0, 0)
 
 Language Detection
