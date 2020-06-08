@@ -7,8 +7,8 @@ from collections import OrderedDict
 from orderedset import OrderedSet
 import six
 
-from .utils import get_dict_difference, get_raw_data
-from .order_languages import language_locale_dict
+from scripts.utils import get_dict_difference, get_raw_data
+from scripts.order_languages import language_locale_dict
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     u'\N{RIGHT SINGLE QUOTATION MARK}',     # u'\u2019'
