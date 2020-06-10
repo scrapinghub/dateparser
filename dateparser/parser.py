@@ -346,13 +346,8 @@ class _parser(object):
         return strptime(token, directive)
 
     def _results(self):
-        missing = []
-        if not self.day:
-            missing.append('day')
-        if not self.month:
-            missing.append('month')
-        if not self.year:
-            missing.append('year')
+        missing = [field for field in ('day, 'month', 'year')
+                   if not getattr(self, field)]
 
         if self.settings.STRICT_PARSING and missing:
             raise ValueError('%s not found in the date string' % ', '.join(missing))
