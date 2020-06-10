@@ -345,16 +345,21 @@ class _parser(object):
     def _get_date_obj(self, token, directive):
         return strptime(token, directive)
 
+    def _missing_error(self, missing):
+        return ValueError(
+            'Fields missing from the date string: {}'.format(', '.join(missing))
+        )
+
     def _results(self):
-        missing = [field for field in ('day, 'month', 'year')
+        missing = [field for field in ('day', 'month', 'year')
                    if not getattr(self, field)]
 
         if self.settings.STRICT_PARSING and missing:
-            raise ValueError('%s not found in the date string' % ', '.join(missing))
+            raise self._missing_error(missing)
         elif self.settings.REQUIRE_PARTS and missing:
             errors = [part for part in self.settings.REQUIRE_PARTS if part in missing]
             if errors:
-                raise ValueError('%s not found in the date string' % ', '.join(errors))
+                raise self._missing_error(errors)
 
         self._set_relative_base()
 
