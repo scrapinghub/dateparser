@@ -187,7 +187,7 @@ Dateparser in the future. For example, to ignore relative times:
     >>> parse('today', settings={'PARSERS': parsers})
 
 
-``REQUIRE_PARTS`` This option ensures results are dates that have some specified part. It defaults to ``[]`` and can include ``day``, ``month`` and/or ``year``.
+``REQUIRE_PARTS`` This option ensures results are dates that have all specified parts. It defaults to ``[]`` and can include ``day``, ``month`` and/or ``year``.
 
 For example, assuming current date is `June 16, 2019`:
 
