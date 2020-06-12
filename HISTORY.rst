@@ -3,6 +3,13 @@
 History
 =======
 
+0.7.6 (2020-06-12)
+------------------
+
+Improvements:
+
+* Rename ``scripts`` to ``dateparser_scripts`` to avoid name collisions with modules from other packages or projects (see #707)
+
 
 0.7.5 (2020-06-10)
 ------------------
