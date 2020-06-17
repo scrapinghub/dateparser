@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import collections
 from datetime import datetime, timedelta
 from warnings import warn
+from number_parser import parser
 
 import six
 import regex as re
@@ -407,6 +408,7 @@ class DateDataParser(object):
         if isinstance(date_string, bytes):
             date_string = date_string.decode('utf-8')
 
+        date_string = parser.parse(date_string)
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:
             return res
