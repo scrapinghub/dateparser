@@ -346,13 +346,13 @@ class Locale(object):
         tokens = tokens[:]
         for i, token in enumerate(tokens):
             tokens[i] = re.split(regex, token)
-        return filter(bool, chain(*tokens))
+        return filter(bool, chain.from_iterable(tokens))
 
     def _split_tokens_by_known_words(self, tokens, keep_formatting, settings=None):
         dictionary = self._get_dictionary(settings)
         for i, token in enumerate(tokens):
             tokens[i] = dictionary.split(token, keep_formatting)
-        return list(chain(*tokens))
+        return list(chain.from_iterable(tokens))
 
     def _join_chunk(self, chunk, settings):
         if 'no_word_spacing' in self.info:
