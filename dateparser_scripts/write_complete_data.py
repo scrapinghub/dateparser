@@ -6,7 +6,7 @@ import shutil
 from collections import OrderedDict
 import regex as re
 
-from utils import combine_dicts
+from dateparser_scripts.utils import combine_dicts
 
 cldr_date_directory = '../dateparser_data/cldr_language_data/date_translation_data/'
 cldr_numeral_directory = '../dateparser_data/cldr_language_data/numeral_translation_data/'
@@ -65,13 +65,32 @@ def _get_complete_date_translation_data(language):
     return complete_data
 
 
-def main():
+def _write_file(filename, text, mode, in_memory, in_memory_result):
+    if in_memory:
+        in_memory_result[filename] = text
+    else:
+        with open(filename, mode) as out:
+            out.write(text)
+
+
+def write_complete_data(in_memory=False):
+    """
+    This function is responsible of generating the needed py files from the
+    CLDR files (JSON format) and supplementary language data (YAML format).
+
+    Use it with in_memory=True to avoid writing real files and getting a
+    dictionary containing the file names and their content (used when testing).
+    """
+    in_memory_result = {}
+
     encoding_comment = "# -*- coding: utf-8 -*-\n"
-    if not os.path.isdir(translation_data_directory):
-        os.mkdir(translation_data_directory)
-    if os.path.isdir(date_translation_directory):
-        shutil.rmtree(date_translation_directory)
-    os.mkdir(date_translation_directory)
+    if not in_memory:
+        if not os.path.isdir(translation_data_directory):
+            os.mkdir(translation_data_directory)
+        if os.path.isdir(date_translation_directory):
+            shutil.rmtree(date_translation_directory)
+        os.mkdir(date_translation_directory)
+
     with open(supplementary_directory + 'base_data.yaml') as f:
         base_data = RoundTripLoader(f).get_data()
 
@@ -81,35 +100,34 @@ def main():
         _modify_data(date_translation_data)
         translation_data = json.dumps(date_translation_data, indent=4, separators=(',', ': '),
                                       ensure_ascii=False)
-        out_text = (encoding_comment + 'info = ' + translation_data).encode('utf-8')
-        with open(date_translation_directory + language + '.py', 'wb') as out:
-            out.write(out_text)
+        out_text = (encoding_comment + 'info = ' + translation_data + '\n').encode('utf-8')
+        _write_file(date_translation_directory + language + '.py', out_text, 'wb', in_memory, in_memory_result)
 
-    if os.path.isdir(numeral_translation_directory):
+    if not in_memory and os.path.isdir(numeral_translation_directory):
         shutil.rmtree(numeral_translation_directory)
-    os.mkdir(numeral_translation_directory)
+
+    if not in_memory:
+        os.mkdir(numeral_translation_directory)
+
     for language in cldr_numeral_languages:
         with open(cldr_numeral_directory + language + '.json') as f:
             numeral_translation_data = json.load(f, object_pairs_hook=OrderedDict)
         numeral_data = json.dumps(numeral_translation_data, indent=4, separators=(',', ': '),
                                   ensure_ascii=False)
-        out_text = (encoding_comment + 'info = ' + numeral_data).encode('utf-8')
-        with open(numeral_translation_directory + language + '.py', 'wb') as out:
-            out.write(out_text)
+        out_text = (encoding_comment + 'info = ' + numeral_data + '\n').encode('utf-8')
+        _write_file(numeral_translation_directory + language + '.py', out_text, 'wb', in_memory, in_memory_result)
 
     init_text = '\n'.join(
             ["from dateparser.data import date_translation_data, numeral_translation_data",
              "from .languages_info import language_order, language_locale_dict"]
              )
-    with open(translation_data_directory + '__init__.py', 'w') as out:
-        out.write(encoding_comment + init_text)
 
-    with open(date_translation_directory + '__init__.py', 'w') as out:
-        out.write(encoding_comment)
+    _write_file(translation_data_directory + '__init__.py', encoding_comment + init_text, 'w', False, in_memory_result)
+    _write_file(date_translation_directory + '__init__.py', encoding_comment, 'w', False, in_memory_result)
+    _write_file(numeral_translation_directory + '__init__.py', encoding_comment, 'w', False, in_memory_result)
 
-    with open(numeral_translation_directory + '__init__.py', 'w') as out:
-        out.write(encoding_comment)
+    return in_memory_result
 
 
 if __name__ == '__main__':
-    main()
+    write_complete_data()

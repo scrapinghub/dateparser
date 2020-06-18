@@ -224,10 +224,10 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             self.error = error
 
     def then_results_are(self, expected_results):
-        self.assertEquals(expected_results, self.result)
+        self.assertEqual(expected_results, self.result)
 
     def then_date_range_length_is(self, size):
-        self.assertEquals(size, len(self.result))
+        self.assertEqual(size, len(self.result))
 
     def then_all_dates_in_range_are_present(self, begin, end):
         date_under_test = begin
@@ -236,7 +236,7 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             date_under_test += timedelta(days=1)
 
     def then_period_is_empty(self):
-        self.assertEquals([], self.result)
+        self.assertEqual([], self.result)
 
 
 class TestParseWithFormatsFunction(BaseTestCase):
@@ -302,7 +302,10 @@ class TestParseWithFormatsFunction(BaseTestCase):
         param(date_string='25-03-14', date_formats='%d-%m-%y', expected_result=datetime(2014, 3, 25)),
     ])
     def test_should_support_a_string_as_date_formats(self, date_string, date_formats, expected_result):
-        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        if six.PY2:
+            self.when_date_is_parsed_with_formats(date_string, date_formats)
+        else:
+            self.when_date_is_parsed_with_formats_and_raise_warn(date_string, date_formats)
         self.then_date_was_parsed()
         self.then_parsed_period_is('day')
         self.then_parsed_date_is(expected_result)
@@ -319,6 +322,11 @@ class TestParseWithFormatsFunction(BaseTestCase):
     def when_date_is_parsed_with_formats(self, date_string, date_formats, custom_settings=None):
         self.result = date.parse_with_formats(date_string, date_formats, custom_settings or settings)
 
+    def when_date_is_parsed_with_formats_and_raise_warn(self, date_string, date_formats, custom_settings=None):
+        # Just available for Python 3
+        with self.assertWarns(FutureWarning):
+            self.result = date.parse_with_formats(date_string, date_formats, custom_settings or settings)
+
     def then_date_was_not_parsed(self):
         self.assertIsNotNone(self.result)
         self.assertIsNone(self.result['date_obj'])
@@ -328,10 +336,10 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.assertIsNotNone(self.result['date_obj'])
 
     def then_parsed_date_is(self, date_obj):
-        self.assertEquals(date_obj.date(), self.result['date_obj'].date())
+        self.assertEqual(date_obj.date(), self.result['date_obj'].date())
 
     def then_parsed_period_is(self, period):
-        self.assertEquals(period, self.result['period'])
+        self.assertEqual(period, self.result['period'])
 
 
 class TestDateDataParser(BaseTestCase):

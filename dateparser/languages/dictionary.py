@@ -78,7 +78,7 @@ class Dictionary(object):
         self._no_word_spacing = bool(eval(no_word_spacing))
 
         relative_type_regex = locale_info.get("relative-type-regex", {})
-        self._relative_strings = list(chain(*relative_type_regex.values()))
+        self._relative_strings = list(chain.from_iterable(relative_type_regex.values()))
 
     def __contains__(self, key):
         if key in self._settings.SKIP_TOKENS:
@@ -146,7 +146,7 @@ class Dictionary(object):
                 continue
             tokens[i] = self._split_by_known_words(token, keep_formatting)
 
-        return list(filter(bool, chain(*tokens)))
+        return list(filter(bool, chain.from_iterable(tokens)))
 
     def _split_by_known_words(self, string, keep_formatting):
         if not string:

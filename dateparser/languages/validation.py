@@ -12,7 +12,7 @@ class LanguageValidator(object):
         'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
         'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august',
         'september', 'october', 'november', 'december', 'year', 'month', 'week', 'day',
-        'hour', 'minute', 'second', 'dateorder', 'sentence_splitter_group'
+        'hour', 'minute', 'second', 'sentence_splitter_group'
     ]
 
     @classmethod

@@ -22,4 +22,5 @@ settings = {
     'STRICT_PARSING': False,
     'RETURN_TIME_AS_PERIOD': False,
     'PARSERS': default_parsers,
+    'REQUIRE_PARTS': [],
 }

@@ -66,8 +66,8 @@ class TestTokenizer(BaseTestCase):
             expected_types=[1],
         ),
         param(
-            date_string=u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊",  # unrecognized characters
-            expected_tokens=[u"./\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊"],
+            date_string=u"./\\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊",  # unrecognized characters
+            expected_tokens=[u"./\\()\"',.;<>~!@#$%^&*|+=[]{}`~?-—–     😊"],
             expected_types=[2],
         ),
     ])
@@ -380,6 +380,46 @@ class TestParser(BaseTestCase):
     def test_error_is_raised_when_incomplete_dates_given(self, date_string):
         self.given_parser()
         self.given_settings(settings={'STRICT_PARSING': True})
+        self.then_error_is_raised_when_date_is_parsed(date_string)
+
+    @parameterized.expand([
+        param(date_string=u"april 2010"),
+        param(date_string=u"11 March"),
+        param(date_string=u"March"),
+        param(date_string=u"31 2010"),
+        param(date_string=u"31/2010"),
+    ])
+    def test_error_is_raised_when_partially_complete_dates_given(self, date_string):
+        self.given_parser()
+        self.given_settings(settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
+        self.then_error_is_raised_when_date_is_parsed(date_string)
+
+    @parameterized.expand([
+        param(date_string=u"april 2010"),
+        param(date_string=u"March"),
+        param(date_string=u"2010"),
+    ])
+    def test_error_is_raised_when_day_part_missing(self, date_string):
+        self.given_parser()
+        self.given_settings(settings={'REQUIRE_PARTS': ['day']})
+        self.then_error_is_raised_when_date_is_parsed(date_string)
+
+    @parameterized.expand([
+        param(date_string=u"31 2010"),
+        param(date_string=u"31/2010"),
+    ])
+    def test_error_is_raised_when_month_part_missing(self, date_string):
+        self.given_parser()
+        self.given_settings(settings={'REQUIRE_PARTS': ['month']})
+        self.then_error_is_raised_when_date_is_parsed(date_string)
+
+    @parameterized.expand([
+        param(date_string=u"11 March"),
+        param(date_string=u"March"),
+    ])
+    def test_error_is_raised_when_year_part_missing(self, date_string):
+        self.given_parser()
+        self.given_settings(settings={'REQUIRE_PARTS': ['year']})
         self.then_error_is_raised_when_date_is_parsed(date_string)
 
     @parameterized.expand([
