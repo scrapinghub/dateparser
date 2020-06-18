@@ -109,8 +109,7 @@ class Dictionary(object):
 
         match_relative_regex = self._get_match_relative_regex_cache()
         for token in tokens:
-            if any([match_relative_regex.match(token),
-                    token in self, token.isdigit()]):
+            if token.isdigit() or match_relative_regex.match(token) or token in self:
                 continue
             else:
                 return False
