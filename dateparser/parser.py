@@ -98,6 +98,24 @@ class _time_parser(object):
 time_parser = _time_parser()
 
 
+def _get_missing_parts(fmt):
+    """
+    Return a list containing missing parts (day, month, year)
+    from a date format checking its directives
+    """
+    directive_mapping = {
+        'day': ['%d', '%-d', '%j', '%-j'],
+        'month': ['%b', '%B', '%m', '%-m'],
+        'year': ['%y', '%-y', '%Y']
+    }
+
+    missing = [
+        field for field in ('day', 'month', 'year')
+        if not any(directive in fmt for directive in directive_mapping[field])
+    ]
+    return missing
+
+
 class _no_spaces_parser(object):
     _dateformats = [
         '%Y%m%d', '%Y%d%m', '%m%Y%d',
@@ -183,6 +201,9 @@ class _no_spaces_parser(object):
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
                         continue
+
+                    missing = _get_missing_parts(fmt)
+                    _check_strict_parsing(missing, settings)
                     return dt
                 except:
                     pass
@@ -191,6 +212,21 @@ class _no_spaces_parser(object):
                 return ambiguous_date
             else:
                 raise ValueError('Unable to parse date from: %s' % datestring)
+
+
+def _get_missing_exception(missing):
+    return ValueError(
+        'Fields missing from the date string: {}'.format(', '.join(missing))
+    )
+
+
+def _check_strict_parsing(missing, settings):
+    if settings.STRICT_PARSING and missing:
+        raise _get_missing_exception(missing)
+    elif settings.REQUIRE_PARTS and missing:
+        errors = [part for part in settings.REQUIRE_PARTS if part in missing]
+        if errors:
+            raise _get_missing_exception(errors)
 
 
 class _parser(object):
@@ -345,22 +381,12 @@ class _parser(object):
     def _get_date_obj(self, token, directive):
         return strptime(token, directive)
 
-    def _missing_error(self, missing):
-        return ValueError(
-            'Fields missing from the date string: {}'.format(', '.join(missing))
-        )
-
     def _results(self):
-        missing = [field for field in ('day', 'month', 'year')
-                   if not getattr(self, field)]
-
-        if self.settings.STRICT_PARSING and missing:
-            raise self._missing_error(missing)
-        elif self.settings.REQUIRE_PARTS and missing:
-            errors = [part for part in self.settings.REQUIRE_PARTS if part in missing]
-            if errors:
-                raise self._missing_error(errors)
-
+        missing = [
+            field for field in ('day', 'month', 'year')
+            if not getattr(self, field)
+        ]
+        _check_strict_parsing(missing, self.settings)
         self._set_relative_base()
 
         time = self.time() if self.time is not None else None
