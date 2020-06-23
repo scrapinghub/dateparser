@@ -235,13 +235,13 @@ Dependencies
 
   * dateutil_'s module ``relativedelta`` for its freshness parser.
   * convertdate_ to convert *Jalali* dates to *Gregorian*.
-  * umalqurra_ to convert *Hijri* dates to *Gregorian*.
+  * hijri-converter_ to convert *Hijri* dates to *Gregorian*.
   * tzlocal_ to reliably get local timezone.
   * ruamel.yaml_ (optional) for operations on language files.
 
 .. _dateutil: https://pypi.python.org/pypi/python-dateutil
 .. _convertdate: https://pypi.python.org/pypi/convertdate
-.. _umalqurra: https://pypi.python.org/pypi/umalqurra
+.. _hijri-converter: https://pypi.python.org/pypi/hijri-converter
 .. _tzlocal: https://pypi.python.org/pypi/tzlocal
 .. _ruamel.yaml: https://pypi.python.org/pypi/ruamel.yaml
 

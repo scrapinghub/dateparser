@@ -4,4 +4,4 @@ python-dateutil==2.7.5
 pytz==2018.9
 regex==2019.01.24
 tzlocal==1.5.1
-umalqurra==0.2
+hijri-converter==2.1.1; python_version > '3.5'
