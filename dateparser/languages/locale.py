@@ -141,7 +141,8 @@ class Locale(object):
                     date_string_tokens[i] = pattern.sub(replacement, word)
             else:
                 if word in dictionary:
-                    date_string_tokens[i] = dictionary[word] or ''
+                    fallback = word if keep_formatting and not word.isalpha() else ''
+                    date_string_tokens[i] = dictionary[word] or fallback
         if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
 
