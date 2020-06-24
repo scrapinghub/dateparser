@@ -4,18 +4,15 @@ from __future__ import unicode_literals
 import sys
 import unittest
 from datetime import datetime
-import six
 
 from parameterized import parameterized, param
 
-is_python_supported = six.PY3 and sys.version_info.minor > 5
+is_python_supported = sys.version_info >= (3, 6)
 
 try:
     from dateparser.calendars.hijri import HijriCalendar
 except ImportError:
-    if not is_python_supported:
-        pass
-    else:
+    if is_python_supported:
         raise
 
 from tests import BaseTestCase

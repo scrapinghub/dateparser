@@ -465,17 +465,18 @@ Supported Calendars
 
 * Persian Jalali calendar. For more information, refer to `Persian Jalali Calendar <https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>`_.
 
-* Hijri/Islamic Calendar. For more information, refer to `Hijri Calendar <https://en.wikipedia.org/wiki/Islamic_calendar>`_.
-
     >>> from dateparser.calendars.jalali import JalaliCalendar
     >>> JalaliCalendar(u'جمعه سی ام اسفند ۱۳۸۷').get_date()
     {'date_obj': datetime.datetime(2009, 3, 20, 0, 0), 'period': 'day'}
+
+
+* Hijri/Islamic Calendar. For more information, refer to `Hijri Calendar <https://en.wikipedia.org/wiki/Islamic_calendar>`_.
 
     >>> from dateparser.calendars.hijri import HijriCalendar
     >>> HijriCalendar(u'17-01-1437 هـ 08:30 مساءً').get_date()
     {'date_obj': datetime.datetime(2015, 10, 30, 20, 30), 'period': 'day'}
 
-.. note:: `HijriCalendar` has some limitations with Python 3.
+.. note:: `HijriCalendar` only works with Python > 3.6.
 .. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.
 
 
