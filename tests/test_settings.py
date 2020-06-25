@@ -140,6 +140,7 @@ class InvalidSettingsTest(BaseTestCase):
             test_func(settings={'TO_TIMEZONE': None})
 
     def test_error_is_raised_for_invalid_type_settings(self):
+        # TODO: check
         test_func = apply_settings(test_function)
         try:
             test_func(settings=['current_period', False, 'current'])

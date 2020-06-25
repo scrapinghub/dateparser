@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import hashlib
+from datetime import datetime
 from functools import wraps
 import six
 
@@ -45,6 +46,7 @@ class Settings(object):
     def _get_settings_from_pyfile(cls):
         if not cls._pyfile_data:
             from dateparser_data import settings
+
             cls._pyfile_data = settings.settings
         return cls._pyfile_data
 
@@ -77,48 +79,126 @@ def apply_settings(f):
         kwargs['settings'] = mod_settings or settings
 
         if isinstance(kwargs['settings'], dict):
-            kwargs['settings'] = settings.replace(mod_settings=mod_settings, **kwargs['settings'])
+            kwargs['settings'] = settings.replace(
+                mod_settings=mod_settings, **kwargs['settings']
+            )
 
         if not isinstance(kwargs['settings'], Settings):
             raise TypeError(
-                "settings can only be either dict or instance of Settings class")
+                "settings can only be either dict or instance of Settings class"
+            )
 
         return f(*args, **kwargs)
+
     return wrapper
 
 
-def _check_settings(settings):
-    valid_values = {
-        'PREFER_DATES_FROM': {
-            'values': ('past', 'future', 'current_period'),
-            'default': 'current_period',
-            'raise_error': False
-        },
-        'PREFER_DAY_OF_MONTH': {
-            'values': ('current', 'first', 'last'),
-            'default': 'current',
-            'raise_error': False
-        },
+class SettingValidationError(ValueError):
+    pass
+
+
+def check_settings(settings):
+    # move this checks to be performed inside DateDataParser constructor??
+
+    settings_values = {
+        # Date order
         'DATE_ORDER': {
             'values': ('MDY', 'MYD', 'DMY', 'DYM', 'YDM', 'YMD'),
             # TODO: extract from parser.py --> resolve_date_order --> chart?
-            'default': 'MDY',
-            'raise_error': True
-        }
+            'type': str,
+        },
+
+        # Timezone related
+        'TIMEZONE': {
+            'values': (),  # undetermined number of valid values  # TODO: Should we check invalid strings in anywhere in the code?
+            'type': str,
+        },
+        'TO_TIMEZONE': {
+            # defaults to None. When specified, resultant :class:`datetime <datetime.datetime>` converts according to the supplied timezone:
+            'values': (True, False),  # TODO: change!
+            'type': bool  # TODO: change!
+        },
+
+        #     'RETURN_AS_TIMEZONE_AWARE': 'default',  # should be True/False but they needed to check if it was per default [_mod_settings ]
+
+
+        # INCOMPLETE DATES
+        'PREFER_DAY_OF_MONTH': {
+            'values': ('current', 'first', 'last'),
+            'type': str
+        },
+        'PREFER_DATES_FROM': {
+            'values': ('current_period', 'past', 'future'),
+            'type': str,
+        },
+        'RELATIVE_BASE': {
+            'values': (),  # undetermined number of valid values  # TODO: Should we check invalid strings in anywhere in the code?
+            'type': datetime
+        },
+        'STRICT_PARSING': {
+            'values': (True, False),
+            'type': bool
+        },
+        # 'REQUIRE_PARTS': [],
+
+        # Language detection
+        # 'SKIP_TOKENS': ["t"],
+        'NORMALIZE': {
+            'values': (True, False),
+            'type': bool
+        },
+
+        # Other settings
+        'RETURN_TIME_AS_PERIOD': {
+            'values': (True, False),
+            'type': bool
+        },
+
+        #     'PARSERS': default_parsers,
+
+
+        # Not documented
+
+        #     'SKIP_TOKENS_PARSER': ["t", "year", "hour", "minute"],
+
+        'FUZZY': {
+            'values': (True, False),
+            'type': bool
+        },
+        'PREFER_LOCALE_DATE_ORDER': {
+            'values': (True, False),
+            'type': bool
+        },
+
+
     }
 
-    for setting, val in valid_values.items():
-        if getattr(settings, setting) not in valid_values[setting]['values']:
-            message = \
-                "\"{}\" is not a valid value for {}, it should be: '{}' " \
-                "or '{}'. Using default behaviour: '{}'".format(
-                    getattr(settings, setting),
-                    setting,
-                    "', '".join(val['values'][:-1]),
-                    val['values'][-1],
-                    val['default']
-                )
+    modified_settings = settings._mod_settings # check only modified settings
 
-            if val['raise_error']:
-                raise ValueError(message)
-            print(message)  # TODO: change to logger
+    # check settings keys:
+    for setting in modified_settings:
+        if setting not in settings_values:
+            raise SettingValidationError('"{}" is not a valid setting'.format(setting))
+
+    for setting_name, setting_value in modified_settings.items():
+        setting_type = type(setting_value)
+        setting_props = settings_values[setting_name]
+
+        # check type:
+        if not setting_type == setting_props['type']:
+            raise SettingValidationError(
+                "'{}' must be '{}', not '{}'.".format(
+                    setting_name, setting_props['type'].__name__, setting_type.__name__
+                )
+            )
+
+        # check values:
+        if setting_props['values'] and setting_value not in setting_props['values']:
+            raise SettingValidationError(
+                "\"{}\" is not a valid value for {}, it should be: '{}' or '{}'.".format(
+                    setting_value,
+                    setting_name,
+                    "', '".join(setting_props['values'][:-1]),
+                    setting_props['values'][-1],
+                )
+            )
