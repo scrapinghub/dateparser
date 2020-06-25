@@ -232,6 +232,8 @@ class _parser(object):
 
         skip_index = []
         skip_component = None
+        skip_tokens = ["t", "year", "hour", "minute"]
+
         for index, token_type in enumerate(self.filtered_tokens):
 
             if index in skip_index:
@@ -239,7 +241,7 @@ class _parser(object):
 
             token, type = token_type
 
-            if token in settings.SKIP_TOKENS_PARSER:
+            if token in skip_tokens:
                 continue
 
             if self.time is None:
