@@ -476,7 +476,7 @@ Supported Calendars
     >>> HijriCalendar(u'17-01-1437 هـ 08:30 مساءً').get_date()
     {'date_obj': datetime.datetime(2015, 10, 30, 20, 30), 'period': 'day'}
 
-.. note:: `HijriCalendar` only works with Python > 3.6.
+.. note:: `HijriCalendar` only works with Python ≥ 3.6.
 .. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.
 
 
