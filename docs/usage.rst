@@ -92,7 +92,6 @@ Timezone Related Configurations
     datetime.datetime(2015, 2, 12, 22, 56)
 
 
-
 Handling Incomplete Dates
 +++++++++++++++++++++++++
 
@@ -138,6 +137,43 @@ When set to ``True`` if missing any of ``day``, ``month`` or ``year`` parts, it 
 
     >>> parse(u'March', settings={'STRICT_PARSING': True})
     None
+
+``REQUIRE_PARTS`` This option ensures results are dates that have all specified parts. It defaults to ``[]`` and can include ``day``, ``month`` and/or ``year``.
+
+For example, assuming current date is `June 16, 2019`:
+
+    >>> parse(u'2012') # default behavior
+    datetime.datetime(2012, 6, 16, 0, 0)
+    >>> parse(u'2012', settings={'REQUIRE_PARTS': ['month']})
+    None
+    >>> parse(u'March 2012', settings={'REQUIRE_PARTS': ['day']})
+    None
+    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': ['day']})
+    datetime.datetime(2012, 3, 12, 0, 0)
+    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
+    datetime.datetime(2012, 3, 12, 0, 0)
+
+
+Language Detection
+++++++++++++++++++
+
+``SKIP_TOKENS`` is a ``list`` of tokens to discard while detecting language. Defaults to ``['t']`` which skips T in iso format datetime string .e.g. ``2015-05-02T10:20:19+0000``.:
+
+    >>> from dateparser.date import DateDataParser
+    >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
+    {'date_obj': datetime.datetime(1981, 6, 27, 0, 0), 'period': 'day'}
+
+``NORMALIZE`` Applies unicode normalization (removing accents, diacritics...) when parsing the words. Defaults to True.
+
+    >>> dateparser.parse('4 decembre 2015', settings={'NORMALIZE': False})
+    # It doesn't work as the expected input should be '4 décembre 2015'
+
+    >>> dateparser.parse('4 decembre 2015', settings={'NORMALIZE': True})
+    datetime.datetime(2015, 12, 4, 0, 0)
+
+
+Other settings
+++++++++++++++
 
 ``RETURN_TIME_AS_PERIOD`` returns `time` as period in date object, if time component was present in date string.
 Defaults to ``False``.
@@ -185,28 +221,3 @@ Dateparser in the future. For example, to ignore relative times:
     >>> from dateparser.settings import default_parsers
     >>> parsers = [parser for parser in default_parsers if parser != 'relative-time']
     >>> parse('today', settings={'PARSERS': parsers})
-
-
-``REQUIRE_PARTS`` This option ensures results are dates that have all specified parts. It defaults to ``[]`` and can include ``day``, ``month`` and/or ``year``.
-
-For example, assuming current date is `June 16, 2019`:
-
-    >>> parse(u'2012') # default behavior
-    datetime.datetime(2012, 6, 16, 0, 0)
-    >>> parse(u'2012', settings={'REQUIRE_PARTS': ['month']})
-    None
-    >>> parse(u'March 2012', settings={'REQUIRE_PARTS': ['day']})
-    None
-    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': ['day']})
-    datetime.datetime(2012, 3, 12, 0, 0)
-    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
-    datetime.datetime(2012, 3, 12, 0, 0)
-
-Language Detection
-++++++++++++++++++
-
-``SKIP_TOKENS`` is a ``list`` of tokens to discard while detecting language. Defaults to ``['t']`` which skips T in iso format datetime string .e.g. ``2015-05-02T10:20:19+0000``.:
-
-    >>> from dateparser.date import DateDataParser
-    >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
-    {'date_obj': datetime.datetime(1981, 6, 27, 0, 0), 'period': 'day'}
