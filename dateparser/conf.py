@@ -98,8 +98,6 @@ class SettingValidationError(ValueError):
 
 
 def check_settings(settings):
-    # move this checks to be performed inside DateDataParser constructor??
-
     settings_values = {
         # Date order
         'DATE_ORDER': {
