@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 import collections
 from datetime import datetime, timedelta
-from warnings import warn
 
 import six
 import regex as re
@@ -132,9 +131,6 @@ def parse_with_formats(date_string, date_formats, settings):
     :returns: :class:`datetime.datetime`, dict or None
 
     """
-    if isinstance(date_formats, six.string_types):
-        warn(_DateLocaleParser.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
-        date_formats = [date_formats]
     period = 'day'
     for date_format in date_formats:
         try:
@@ -158,15 +154,11 @@ def parse_with_formats(date_string, date_formats, settings):
 
 
 class _DateLocaleParser(object):
-    DATE_FORMATS_ERROR_MESSAGE = "Date formats should be list, tuple or set of strings"
 
     def __init__(self, locale, date_string, date_formats, settings=None):
         self._settings = settings
-        if isinstance(date_formats, six.string_types):
-            warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
-            date_formats = [date_formats]
-        elif not (date_formats is None or isinstance(date_formats, (list, tuple, set))):
-            raise TypeError(self.DATE_FORMATS_ERROR_MESSAGE)
+        if not (date_formats is None or isinstance(date_formats, (list, tuple, set))):
+            raise TypeError("Date formats should be list, tuple or set of strings")
 
         self.locale = locale
         self.date_string = date_string

@@ -297,19 +297,6 @@ class TestParseWithFormatsFunction(BaseTestCase):
                                           month=expected_month,
                                           day=expected_day))
 
-
-    @parameterized.expand([
-        param(date_string='25-03-14', date_formats='%d-%m-%y', expected_result=datetime(2014, 3, 25)),
-    ])
-    def test_should_support_a_string_as_date_formats(self, date_string, date_formats, expected_result):
-        if six.PY2:
-            self.when_date_is_parsed_with_formats(date_string, date_formats)
-        else:
-            self.when_date_is_parsed_with_formats_and_raise_warn(date_string, date_formats)
-        self.then_date_was_parsed()
-        self.then_parsed_period_is('day')
-        self.then_parsed_date_is(expected_result)
-
     def given_now(self, year, month, day, **time):
         now = datetime(year, month, day, **time)
         datetime_mock = Mock(wraps=datetime)
@@ -321,11 +308,6 @@ class TestParseWithFormatsFunction(BaseTestCase):
 
     def when_date_is_parsed_with_formats(self, date_string, date_formats, custom_settings=None):
         self.result = date.parse_with_formats(date_string, date_formats, custom_settings or settings)
-
-    def when_date_is_parsed_with_formats_and_raise_warn(self, date_string, date_formats, custom_settings=None):
-        # Just available for Python 3
-        with self.assertWarns(FutureWarning):
-            self.result = date.parse_with_formats(date_string, date_formats, custom_settings or settings)
 
     def then_date_was_not_parsed(self):
         self.assertIsNotNone(self.result)
