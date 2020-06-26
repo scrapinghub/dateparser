@@ -5,6 +5,7 @@ import six
 
 from .utils import registry
 
+
 @registry
 class Settings(object):
     """Control and configure default parsing behavior of dateparser.

@@ -297,7 +297,6 @@ class TestParseWithFormatsFunction(BaseTestCase):
                                           month=expected_month,
                                           day=expected_day))
 
-
     @parameterized.expand([
         param(date_string='25-03-14', date_formats='%d-%m-%y', expected_result=datetime(2014, 3, 25)),
     ])
