@@ -6,7 +6,7 @@
 timezone_info_list = [
     {
         'regex_patterns':
-            [r'(.)%s$',],
+            [r'(.)%s$'],
         'replace':
             [
              (r'(?:UTC|GMT)\\(\+|\-)0(\d):00', r'(?:UTC|GMT)\\\1\2'),   # UTC+n, UTC-n, GMT+n, GMT-n

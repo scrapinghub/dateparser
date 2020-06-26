@@ -42,9 +42,9 @@ class DateParser(object):
             date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
         if (
-            not settings.RETURN_AS_TIMEZONE_AWARE or
-            (settings.RETURN_AS_TIMEZONE_AWARE and
-             'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
+            not settings.RETURN_AS_TIMEZONE_AWARE
+            or (settings.RETURN_AS_TIMEZONE_AWARE
+                and 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
         ):
             date_obj = date_obj.replace(tzinfo=None)
 
