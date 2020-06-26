@@ -161,7 +161,7 @@ class Locale(object):
         if settings.NORMALIZE:
             if self._normalized_relative_translations is None:
                 self._normalized_relative_translations = (
-                        self._generate_relative_translations(normalize=True))
+                    self._generate_relative_translations(normalize=True))
             return self._normalized_relative_translations
         else:
             if self._relative_translations is None:

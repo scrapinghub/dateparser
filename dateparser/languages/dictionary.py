@@ -65,7 +65,7 @@ class Dictionary(object):
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(zip_longest(map(methodcaller('lower'),
                                           PARSER_KNOWN_TOKENS),
-                                          PARSER_KNOWN_TOKENS))
+                                      PARSER_KNOWN_TOKENS))
 
         relative_type = locale_info.get('relative-type', {})
         for key, value in relative_type.items():
@@ -181,7 +181,7 @@ class Dictionary(object):
         if (
                 self._settings.registry_key not in self._sorted_words_cache or
                 self.info['name'] not in self._sorted_words_cache[self._settings.registry_key]
-           ):
+        ):
             self._sorted_words_cache.setdefault(
                 self._settings.registry_key, {})[self.info['name']] = \
                 sorted([key for key in self], key=len, reverse=True)
@@ -191,7 +191,7 @@ class Dictionary(object):
         if (
                 self._settings.registry_key not in self._split_regex_cache or
                 self.info['name'] not in self._split_regex_cache[self._settings.registry_key]
-           ):
+        ):
             self._construct_split_regex()
         return self._split_regex_cache[self._settings.registry_key][self.info['name']]
 
@@ -209,8 +209,7 @@ class Dictionary(object):
         if (
             self._settings.registry_key not in self._sorted_relative_strings_cache or
             self.info['name'] not in self._sorted_relative_strings_cache[self._settings.registry_key]
-           ):
-
+        ):
             self._sorted_relative_strings_cache.setdefault(
                 self._settings.registry_key, {})[self.info['name']] = \
                 sorted([PARENTHESES_PATTERN.sub('', key) for key in
@@ -221,8 +220,7 @@ class Dictionary(object):
         if (
             self._settings.registry_key not in self._split_relative_regex_cache or
             self.info['name'] not in self._split_relative_regex_cache[self._settings.registry_key]
-           ):
-
+        ):
             self._construct_split_relative_regex()
         return self._split_relative_regex_cache[self._settings.registry_key][self.info['name']]
 
@@ -240,8 +238,7 @@ class Dictionary(object):
         if (
             self._settings.registry_key not in self._match_relative_regex_cache or
             self.info['name'] not in self._match_relative_regex_cache[self._settings.registry_key]
-           ):
-
+        ):
             self._construct_match_relative_regex()
         return self._match_relative_regex_cache[self._settings.registry_key][self.info['name']]
 
