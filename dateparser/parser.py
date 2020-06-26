@@ -225,6 +225,8 @@ class _parser(object):
         self._token_year = None
         self._token_time = None
 
+        self.missing = None
+
         self.ordered_num_directives = OrderedDict(
             (k, self.num_directives[k])
             for k in (resolve_date_order(settings.DATE_ORDER, lst=True))
@@ -345,19 +347,22 @@ class _parser(object):
     def _get_date_obj(self, token, directive):
         return strptime(token, directive)
 
+    def _get_missing(self):
+        return self.missing
+
     def _missing_error(self, missing):
         return ValueError(
             'Fields missing from the date string: {}'.format(', '.join(missing))
         )
 
     def _results(self):
-        missing = [field for field in ('day', 'month', 'year')
+        self.missing = [field for field in ('day', 'month', 'year')
                    if not getattr(self, field)]
 
-        if self.settings.STRICT_PARSING and missing:
-            raise self._missing_error(missing)
-        elif self.settings.REQUIRE_PARTS and missing:
-            errors = [part for part in self.settings.REQUIRE_PARTS if part in missing]
+        if self.settings.STRICT_PARSING and self.missing:
+            raise self._missing_error(self.missing)
+        elif self.settings.REQUIRE_PARTS and self.missing:
+            errors = [part for part in self.settings.REQUIRE_PARTS if part in self.missing]
             if errors:
                 raise self._missing_error(errors)
 
@@ -468,8 +473,10 @@ class _parser(object):
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
         period = po._get_period()
+        missing = po._get_missing()
+        extra = {'missing': missing} if missing else {}
 
-        return dateobj, period
+        return dateobj, period, extra
 
     def _parse(self, type, token, fuzzy, skip_component=None):
 
