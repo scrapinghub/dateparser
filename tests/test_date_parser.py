@@ -388,7 +388,9 @@ class TestDateParser(BaseTestCase):
         param('Fri, 09 Sep 2005 13:51:39 -0700', 'GMT', datetime(2005, 9, 9, 20, 51, 39)),
         param('Fri, 09 Sep 2005 13:51:39 +0000', 'GMT', datetime(2005, 9, 9, 13, 51, 39)),
     ])
-    def test_dateparser_should_return_date_in_setting_timezone_if_timezone_info_present_both_in_datestring_and_given_in_settings(self, date_string, setting_timezone, expected):
+    def test_dateparser_should_return_date_in_setting_timezone_if_timezone_info_present_in_datestring_and_in_settings(
+        self, date_string, setting_timezone, expected
+    ):
         self.given_parser(settings={'TIMEZONE': setting_timezone})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()

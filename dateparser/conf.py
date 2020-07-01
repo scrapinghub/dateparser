@@ -21,7 +21,7 @@ class Settings(object):
     Default: False.
     * `PARSERS`: list of date parsers to use, in order of preference. Default:
     :attr:`dateparser.settings.default_parsers`.
-    """
+    """ # noqa E501
 
     _default = True
     _pyfile_data = None

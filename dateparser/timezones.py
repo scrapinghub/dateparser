@@ -10,9 +10,11 @@ timezone_info_list = [
         'replace':
             [
                 (r'(?:UTC|GMT)\\(\+|\-)0(\d):00', r'(?:UTC|GMT)\\\1\2'),  # UTC+n, UTC-n, GMT+n, GMT-n
-                (r'(?:UTC|GMT)\\(\+|\-)0(\d):(\d{2})', r'(?:UTC|GMT)\\\1\2:\3'),  # UTC+n:mm, UTC-n:mm,GMT+n:mm, GMT-n:mm
+                (r'(?:UTC|GMT)\\(\+|\-)0(\d):(\d{2})', r'(?:UTC|GMT)\\\1\2:\3'),
+                # UTC+n:mm, UTC-n:mm, GMT+n:mm, GMT-n:mm
                 (r'(?:UTC|GMT)\\(\+|\-)(\d{2}):00', r'(?:UTC|GMT)\\\1\2'),  # UTC+nn, UTC-nn, GMT+nn, GMT-nn
-                (r'(?:UTC|GMT)(\\[+-])(\d{2}):(\d{2})', r'(?:UTC|GMT)\1\2:?\3.*'),  # UTC+nnmm, , UTC-nnmm, GMT+nnmm, GMT-nnmm
+                (r'(?:UTC|GMT)(\\[+-])(\d{2}):(\d{2})', r'(?:UTC|GMT)\1\2:?\3.*'),
+                # UTC+nnmm, UTC-nnmm, GMT+nnmm, GMT-nnmm
                 (r'UTC', r''),
                 (r':', r''),
                 (r':|UTC', r''),
