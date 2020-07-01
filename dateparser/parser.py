@@ -4,7 +4,7 @@ import regex as re
 
 from io import StringIO
 from collections import OrderedDict
-from datetime import datetime
+from datetime import datetime, timezone
 from datetime import timedelta
 
 from dateparser.utils import set_correct_day_from_settings, \
@@ -386,6 +386,11 @@ class _parser(object):
     def _correct_for_time_frame(self, dateobj):
         days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
 
+        if not dateobj.tzinfo:
+            now = self.now.replace(tzinfo=None)
+        else:
+            now = self.now
+
         token_weekday, _ = getattr(self, '_token_weekday', (None, None))
 
         if token_weekday and not(self._token_year or self._token_month or self._token_day):
@@ -415,7 +420,7 @@ class _parser(object):
             dateobj = dateobj + delta
 
         if self.month and not self.year:
-            if self.now < dateobj:
+            if now < dateobj:
                 if 'past' in self.settings.PREFER_DATES_FROM:
                     dateobj = dateobj.replace(year=dateobj.year - 1)
             else:
@@ -423,7 +428,7 @@ class _parser(object):
                     dateobj = dateobj.replace(year=dateobj.year + 1)
 
         if self._token_year and len(self._token_year[0]) == 2:
-            if self.now < dateobj:
+            if now < dateobj:
                 if 'past' in self.settings.PREFER_DATES_FROM:
                     dateobj = dateobj.replace(year=dateobj.year - 100)
             else:
@@ -435,10 +440,10 @@ class _parser(object):
                                          self._token_day,
                                          hasattr(self, '_token_weekday')]):
             if 'past' in self.settings.PREFER_DATES_FROM:
-                if self.now.time() < dateobj.time():
+                if now.time() < dateobj.time():
                     dateobj = dateobj + timedelta(days=-1)
             if 'future' in self.settings.PREFER_DATES_FROM:
-                if self.now.time() > dateobj.time():
+                if now.time() > dateobj.time():
                     dateobj = dateobj + timedelta(days=1)
 
         return dateobj
