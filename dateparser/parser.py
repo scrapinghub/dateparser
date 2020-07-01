@@ -122,7 +122,7 @@ class _no_spaces_parser(object):
     def __init__(self, *args, **kwargs):
 
         self._all = (self._dateformats +
-                     [x+y for x in self._dateformats for y in self._timeformats] +
+                     [x + y for x in self._dateformats for y in self._timeformats] +
                      self._timeformats)
 
         self.date_formats = {
@@ -244,7 +244,7 @@ class _parser(object):
 
             if self.time is None:
                 try:
-                    microsecond = MICROSECOND.search(self.filtered_tokens[index+1][0]).group()
+                    microsecond = MICROSECOND.search(self.filtered_tokens[index + 1][0]).group()
                     _is_after_time_token = token.index(":")
                     _is_after_period = self.tokens[
                         self.tokens.index((token, 0)) + 1][0].index('.')

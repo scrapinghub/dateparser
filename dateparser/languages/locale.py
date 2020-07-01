@@ -200,7 +200,7 @@ class Locale(object):
                 elif word.strip('()\"\'{}[],.،') in dictionary and word not in dashes:
                     punct = word[len(word.strip('()\"\'{}[],.،')):]
                     if punct and dictionary[word.strip('()\"\'{}[],.،')]:
-                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')]+punct)
+                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')] + punct)
                     else:
                         translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')])
                     original_chunk.append(original_tokens[i])

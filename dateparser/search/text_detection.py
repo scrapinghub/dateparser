@@ -47,7 +47,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
                           if j not in indices_to_pop]
 
     @apply_settings
-    def _best_language(self, date_string,  settings=None):
+    def _best_language(self, date_string, settings=None):
         self.character_check(date_string, settings)
         date_string = normalize_unicode(date_string.lower())
         if len(self.languages) == 1:

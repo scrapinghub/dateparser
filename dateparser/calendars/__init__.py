@@ -83,8 +83,8 @@ class non_gregorian_parser(_parser):
         year = params['year']
         month = params['month']
         if (
-            not(0 < day <= self.calendar_converter.month_length(year, month)) and
-            not(self._token_day or hasattr(self, '_token_weekday'))
+            not(0 < day <= self.calendar_converter.month_length(year, month))
+            and not(self._token_day or hasattr(self, '_token_weekday'))
         ):
             day = self.calendar_converter.month_length(year, month)
         year, month, day = self.calendar_converter.to_gregorian(year=year, month=month, day=day)
@@ -96,7 +96,7 @@ class non_gregorian_parser(_parser):
         if not self.now:
             self._set_relative_base()
         now_year, now_month, now_day = self.calendar_converter.from_gregorian(
-                self.now.year, self.now.month, self.now.day)
+            self.now.year, self.now.month, self.now.day)
         params = {
             'day': self.day or now_day,
             'month': self.month or now_month,
@@ -112,19 +112,19 @@ class non_gregorian_parser(_parser):
         if directive == '%A' and self._weekdays and token.title() in self._weekdays:
             pass
         elif (
-            directive == '%m' and
-            token_len <= 2 and
-            is_digit and
-            1 <= int(token) <= 12
+            directive == '%m'
+            and token_len <= 2
+            and is_digit
+            and 1 <= int(token) <= 12
         ):
             month = int(token)
         elif directive == '%B' and self._months and token in self._months:
             month = list(self._months.keys()).index(token) + 1
         elif (
-            directive == '%d' and
-            token_len <= 2 and
-            is_digit and
-            0 < int(token) <= self.calendar_converter.month_length(year, month)
+            directive == '%d'
+            and token_len <= 2
+            and is_digit
+            and 0 < int(token) <= self.calendar_converter.month_length(year, month)
         ):
             day = int(token)
         elif directive == '%Y' and token_len == 4 and is_digit:
