@@ -8,7 +8,7 @@ from datetime import datetime
 from datetime import timedelta
 
 from dateparser.utils import set_correct_day_from_settings, \
-    get_last_day_of_month
+    get_last_day_of_month, get_previous_leap_year, get_next_leap_year
 from dateparser.utils.strptime import strptime
 
 
@@ -316,14 +316,26 @@ class _parser(object):
         except ValueError as e:
             error_text = e.__str__()
             error_msgs = ['day is out of range', 'day must be in']
-            if (
-                (error_msgs[0] in error_text or error_msgs[1] in error_text) and
-                not(self._token_day or hasattr(self, '_token_weekday'))
-            ):
-                params['day'] = get_last_day_of_month(params['year'], params['month'])
-                return datetime(**params)
-            else:
-                raise e
+            if (error_msgs[0] in error_text or error_msgs[1] in error_text):
+                if not(self._token_day or hasattr(self, '_token_weekday')):
+                    # if day is not available put last day of the month
+                    params['day'] = get_last_day_of_month(params['year'], params['month'])
+                    return datetime(**params)
+                elif not self._token_year and not calendar.isleap(params['year']):
+                    # if it refers to 29 of february fix the year
+                    current_year = params['year']
+                    if self.settings.PREFER_DATES_FROM == 'future':
+                        params['year'] = get_next_leap_year(current_year)
+                    elif self.settings.PREFER_DATES_FROM == 'past':
+                        params['year'] = get_previous_leap_year(current_year)
+                    elif self.settings.PREFER_DATES_FROM == 'current_period':
+                        next_leap_year = get_next_leap_year(current_year)
+                        previous_leap_year = get_previous_leap_year(current_year)
+                        params['year'] = next_leap_year \
+                            if next_leap_year - current_year < current_year - previous_leap_year \
+                            else previous_leap_year
+                    return datetime(**params)
+            raise e
 
     def _set_relative_base(self):
         self.now = self.settings.RELATIVE_BASE
@@ -415,12 +427,27 @@ class _parser(object):
             dateobj = dateobj + delta
 
         if self.month and not self.year:
+            # if self.settings.PREFER_DATES_FROM == 'current_period' and not calendar.isleap(dateobj.year) and dateobj.day == 29:
             if self.now < dateobj:
-                if 'past' in self.settings.PREFER_DATES_FROM:
-                    dateobj = dateobj.replace(year=dateobj.year - 1)
+                if self.settings.PREFER_DATES_FROM == 'past':
+                    try:
+                        dateobj = dateobj.replace(year=dateobj.year - 1)
+                    except ValueError as e:
+                        if calendar.isleap(dateobj.year) and dateobj.day == 29:
+                            valid_year = get_previous_leap_year(dateobj.year)
+                            dateobj = dateobj.replace(year=valid_year)
+                        else:
+                            raise e
             else:
-                if 'future' in self.settings.PREFER_DATES_FROM:
-                    dateobj = dateobj.replace(year=dateobj.year + 1)
+                if self.settings.PREFER_DATES_FROM == 'future':
+                    try:
+                        dateobj = dateobj.replace(year=dateobj.year + 1)
+                    except ValueError as e:
+                        if calendar.isleap(dateobj.year) and dateobj.day == 29:
+                            valid_year = get_next_leap_year(dateobj.year)
+                            dateobj = dateobj.replace(year=valid_year)
+                        else:
+                            raise e
 
         if self._token_year and len(self._token_year[0]) == 2:
             if self.now < dateobj:

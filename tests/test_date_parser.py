@@ -486,6 +486,45 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
+        param('29 Feb', datetime(2020, 1, 1), datetime(2016, 2, 29)),
+        param('29/02', datetime(2020, 3, 30), datetime(2020, 2, 29)),
+        param('29 Feb', datetime(1702, 1, 1), datetime(1696, 2, 29)),
+    ])
+    def test_preferably_past_dates_leap_year(self, date_string, relative_base, expected):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'past',
+                          'RELATIVE_BASE': relative_base})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('29 Feb', datetime(2020, 1, 1), datetime(2020, 2, 29)),
+        param('29/02', datetime(2020, 3, 30), datetime(2024, 2, 29)),
+        param('29 Feb', datetime(1696, 3, 1), datetime(1704, 2, 29)),
+    ])
+    def test_preferably_future_dates_leap_year(self, date_string, relative_base, expected):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'future',
+                                    'RELATIVE_BASE': relative_base})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('29 Feb', datetime(2020, 1, 1), datetime(2020, 2, 29)),
+        param('29/02', datetime(2020, 3, 30), datetime(2020, 2, 29)),
+        param('29 Feb', datetime(1702, 3, 1), datetime(1704, 2, 29)),
+        param('29 Feb', datetime(1699, 3, 1), datetime(1696, 2, 29)),
+    ])
+    def test_dates_without_preference_leap_year(self, date_string, relative_base, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser(settings={'PREFER_DATES_FROM': 'current_period',
+                                    'RELATIVE_BASE': relative_base})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+
+    @parameterized.expand([
         param('February 2015', today=datetime(2015, 1, 31), expected=datetime(2015, 2, 28)),
         param('February 2012', today=datetime(2015, 1, 31), expected=datetime(2012, 2, 29)),
         param('March 2015', today=datetime(2015, 1, 25), expected=datetime(2015, 3, 25)),
