@@ -219,13 +219,17 @@ class _DateLocaleParser(object):
             if self._settings.PREFER_LOCALE_DATE_ORDER:
                 if 'DATE_ORDER' not in self._settings._mod_settings:
                     self._settings.DATE_ORDER = self.locale.info.get('date_order', _order)
-            date_obj, period = date_parser.parse(
+            date_obj, period, extra = date_parser.parse(
                 self._get_translated_date(), settings=self._settings)
             self._settings.DATE_ORDER = _order
-            return {
+            result = {
                 'date_obj': date_obj,
                 'period': period,
             }
+            if extra:
+                result['extra'] = extra
+            return result
+
         except ValueError:
             self._settings.DATE_ORDER = _order
             return None
@@ -271,7 +275,7 @@ class _DateLocaleParser(object):
     def _is_valid_date_obj(self, date_obj):
         if not isinstance(date_obj, dict):
             return False
-        if len(date_obj) != 2:
+        if len(date_obj) != 2 and len(date_obj) != 3:
             return False
         if 'date_obj' not in date_obj or 'period' not in date_obj:
             return False

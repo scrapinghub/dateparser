@@ -23,7 +23,7 @@ class DateParser(object):
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
 
-        date_obj, period = parse(date_string, settings=settings)
+        date_obj, period, extra = parse(date_string, settings=settings)
 
         _settings_tz = settings.TIMEZONE.lower()
 
@@ -48,7 +48,7 @@ class DateParser(object):
         ):
             date_obj = date_obj.replace(tzinfo=None)
 
-        return date_obj, period
+        return date_obj, period, extra
 
 
 date_parser = DateParser()
