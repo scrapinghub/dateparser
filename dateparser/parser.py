@@ -322,7 +322,7 @@ class _parser(object):
                     params['day'] = get_last_day_of_month(params['year'], params['month'])
                     return datetime(**params)
                 elif not self._token_year and params['day'] == 29 and params['month'] == 2 and not calendar.isleap(params['year']):
-                    # if it refers to 29 of february fix the year
+                    # fix the year when year is not present and it is 29 of February
                     params['year'] = self._get_correct_leap_year(self.settings.PREFER_DATES_FROM, params['year'])
                     return datetime(**params)
             raise e
@@ -332,7 +332,7 @@ class _parser(object):
             year = get_next_leap_year(current_year)
         elif prefer_dates_from == 'past':
             year = get_previous_leap_year(current_year)
-        else:  # PREFER_DATES_FROM == 'current_period'
+        else:  # 'current_period': return closer leap year
             next_leap_year = get_next_leap_year(current_year)
             previous_leap_year = get_previous_leap_year(current_year)
             year = next_leap_year \
