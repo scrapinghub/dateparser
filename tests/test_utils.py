@@ -130,7 +130,7 @@ class TestUtils(BaseTestCase):
 
 
 @pytest.mark.parametrize(
-    "year,expected_previous_leap_year",[
+    "year,expected_previous_leap_year", [
         (2020, 2016),
         (2000, 1996),  # leap and centurial year
         (2104, 2096),  # missing no leap centurial year
@@ -143,7 +143,7 @@ def test_get_previous_leap_year(year, expected_previous_leap_year):
 
 
 @pytest.mark.parametrize(
-    "year,expected_next_leap_year",[
+    "year,expected_next_leap_year", [
         (2020, 2024),
         (1996, 2000),  # leap and centurial year
         (2096, 2104),  # missing no leap centurial year
