@@ -144,8 +144,10 @@ class FreshnessDateDataParser:
         return kwargs
 
     def get_date_data(self, date_string, settings=None):
+        from dateparser.date import DateData
+
         date, period = self.parse(date_string, settings)
-        return dict(date_obj=date, period=period)
+        return DateData(date_obj=date, period=period)
 
 
 freshness_date_parser = FreshnessDateDataParser()

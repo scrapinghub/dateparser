@@ -9,6 +9,7 @@ from unittest.mock import Mock, patch
 from parameterized import parameterized, param
 
 import dateparser
+from dateparser.date import DateData
 from dateparser import date
 from dateparser.conf import settings
 
@@ -505,11 +506,11 @@ class TestDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         param(date_string="12 jan 1876",
-              expected_result=(datetime(1876, 1, 12, 0, 0), 'day', 'en')),
+              expected_result=(datetime(1876, 1, 12, 0, 0), 'day', 'en', None)),
         param(date_string="02/09/16",
-              expected_result=(datetime(2016, 2, 9, 0, 0), 'day', 'en')),
+              expected_result=(datetime(2016, 2, 9, 0, 0), 'day', 'en', None)),
         param(date_string="10 giu 2018",
-              expected_result=(datetime(2018, 6, 10, 0, 0), 'day', 'it')),
+              expected_result=(datetime(2018, 6, 10, 0, 0), 'day', 'it', None)),
     ])
     def test_get_date_tuple(self, date_string, expected_result):
         self.given_parser()
@@ -676,12 +677,12 @@ class TestDateLocaleParser(BaseTestCase):
         super().setUp()
 
     @parameterized.expand([
-        param(date_obj={'date_obj': datetime(1999, 10, 1, 0, 0)}),
-        param(date_obj={'period': 'day'}),
+        param(date_obj=DateData(**{'date_obj': datetime(1999, 10, 1, 0, 0)})),
+        param(date_obj=DateData(**{'period': 'day'})),
         param(date_obj={'date': datetime(2007, 1, 22, 0, 0), 'period': 'day'}),
-        param(date_obj={'period': 'hour'}),
+        param(date_obj=DateData(**{'period': 'hour'})),
         param(date_obj=[datetime(2007, 1, 22, 0, 0), 'day']),
-        param(date_obj={'date_obj': None, 'period': 'day'}),
+        param(date_obj=DateData(**{'date_obj': None, 'period': 'day'})),
         param(date_obj={'date': datetime(2018, 1, 10, 2, 0), 'period': 'time'}),
     ])
     def test_is_valid_date_obj(self, date_obj):

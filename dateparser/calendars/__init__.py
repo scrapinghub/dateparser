@@ -1,3 +1,4 @@
+from dateparser.date import DateData
 from dateparser.parser import _parser
 from dateparser.conf import settings
 from datetime import datetime
@@ -19,7 +20,7 @@ class CalendarBase:
     def get_date(self):
         try:
             date_obj, period = self.parser.parse(self.source, settings)
-            return {'date_obj': date_obj, 'period': period}
+            return DateData(**{'date_obj': date_obj, 'period': period})
         except ValueError:
             pass
 
