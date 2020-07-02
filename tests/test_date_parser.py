@@ -589,6 +589,16 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
+        # Jalali dates
+        param(u'جمعه سی ام اسفند ۱۳۸۷', expected=datetime(2009, 3, 20, 0, 0)),
+        param(u'۱۳۹۸/۰۶/۳۱ در ۱۴:۵۲', expected=datetime(2019, 9, 22, 14, 52)),
+    ])
+    def test_jalali_parser(self, date_string, expected):
+        self.given_parser(settings={'PARSERS': ['jalali']})
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
         param('10 December', expected=datetime(2015, 12, 10), period='day'),
         param('March', expected=datetime(2015, 3, 15), period='month'),
         param('April', expected=datetime(2015, 4, 15), period='month'),

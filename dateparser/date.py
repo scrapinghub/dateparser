@@ -9,6 +9,7 @@ import six
 import regex as re
 from dateutil.relativedelta import relativedelta
 
+from dateparser.calendars.jalali import JalaliCalendar
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
@@ -179,6 +180,7 @@ class _DateLocaleParser(object):
             'custom-formats': self._try_given_formats,
             'absolute-time': self._try_parser,
             'base-formats': self._try_hardcoded_formats,
+            'jalali': self._try_jalali_calendar,
         }
         unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
         if unknown_parsers:
@@ -255,6 +257,9 @@ class _DateLocaleParser(object):
             )
         except TypeError:
             return None
+
+    def _try_jalali_calendar(self):
+        return JalaliCalendar(self.date_string).get_date()
 
     def _get_translated_date(self):
         if self._translated_date is None:
@@ -357,6 +362,7 @@ class DateDataParser(object):
         self.locales = locales
         self.region = region
         self.previous_locales = set()
+        self.default_locales = None
 
     def get_date_data(self, date_string, date_formats=None):
         """
@@ -413,6 +419,11 @@ class DateDataParser(object):
 
         date_string = sanitize_date(date_string)
 
+        if 'jalali' in self._settings.PARSERS:
+            # add 'fa' as a default locale when using the jalali parser
+            locale_loader = self._get_locale_loader()
+            self.default_locales = [locale_loader.get_locale('fa')]
+
         for locale in self._get_applicable_locales(date_string):
             parsed_date = _DateLocaleParser.parse(
                 locale, date_string, date_formats, settings=self._settings)
@@ -453,6 +464,10 @@ class DateDataParser(object):
                 for s in date_strings():
                     if self._is_applicable_locale(locale, s):
                         yield locale
+
+        if self.default_locales:
+            for locale in self.default_locales:
+                yield locale
 
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
