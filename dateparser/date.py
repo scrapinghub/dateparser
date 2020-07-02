@@ -362,6 +362,7 @@ class DateDataParser(object):
         self.locales = locales
         self.region = region
         self.previous_locales = set()
+        self.default_locales = None
 
     def get_date_data(self, date_string, date_formats=None):
         """
@@ -418,6 +419,11 @@ class DateDataParser(object):
 
         date_string = sanitize_date(date_string)
 
+        if 'jalali' in self._settings.PARSERS:
+            # add 'fa' as a default locale when using the jalali parser
+            locale_loader = self._get_locale_loader()
+            self.default_locales = [locale_loader.get_locale('fa')]
+
         for locale in self._get_applicable_locales(date_string):
             parsed_date = _DateLocaleParser.parse(
                 locale, date_string, date_formats, settings=self._settings)
@@ -458,6 +464,10 @@ class DateDataParser(object):
                 for s in date_strings():
                     if self._is_applicable_locale(locale, s):
                         yield locale
+
+        if self.default_locales:
+            for locale in self.default_locales:
+                yield locale
 
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
