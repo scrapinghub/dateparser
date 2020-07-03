@@ -8,8 +8,6 @@ matrix:
       env: TOXENV=flake8
     - python: 2.7
       env: TOXENV=py27
-    - python: pypy3
-      env: TOXENV=pypy3
     - python: pypy
       env: TOXENV=pypy
     - python: 3.5
