@@ -35,8 +35,9 @@ setup(
         'regex !=2019.02.19',
         'tzlocal',
     ],
-    extra_requires={
-        'calendars': ['convertdate', 'umalqurra', 'jdatetime', 'ruamel.yaml'],
+    extras_require={
+        'calendars:python_version<="2.7"': ['umalqurra', 'convertdate'],
+        'calendars:python_version>"2.7"': ['convertdate']
     },
     license="BSD",
     zip_safe=False,
