@@ -30,7 +30,7 @@ class TimeZoneSettingsTest(BaseTestCase):
         param('12 Feb 2015 4:30 PM EST', datetime(2015, 2, 12, 16, 30), 'EST'),
         param('12 Feb 2015 8:30 PM PKT', datetime(2015, 2, 12, 20, 30), 'PKT'),
         param('12 Feb 2015 8:30 PM ACT', datetime(2015, 2, 12, 20, 30), 'ACT'),
-        ])
+    ])
     def test_should_return_and_assert_tz(self, ds, dt, tz):
         self.given(ds)
         self.given_configurations({})
@@ -44,7 +44,7 @@ class TimeZoneSettingsTest(BaseTestCase):
         param('12 Feb 2015 8:30 PM PKT', datetime(2015, 2, 12, 20, 30), 'PKT'),
         param('12 Feb 2015 8:30 PM ACT', datetime(2015, 2, 12, 20, 30), 'ACT'),
         param('12 Feb 2015 8:30 PM', datetime(2015, 2, 12, 20, 30), ''),
-        ])
+    ])
     def test_only_return_explicit_timezone(self, ds, dt, tz):
         self.given(ds)
         self.given_configurations({})
@@ -61,7 +61,7 @@ class TimeZoneSettingsTest(BaseTestCase):
         param('12 Feb 2015 8:30 PM PKT', datetime(2015, 2, 12, 20, 30),),
         param('12 Feb 2015 8:30 PM ACT', datetime(2015, 2, 12, 20, 30),),
         param('12 Feb 2015 8:30 PM +0100', datetime(2015, 2, 12, 20, 30),),
-        ])
+    ])
     def test_should_return_naive_if_RETURN_AS_TIMEZONE_AWARE_IS_FALSE(self, ds, dt):
         self.given(ds)
         self.given_configurations({'RETURN_AS_TIMEZONE_AWARE': False})

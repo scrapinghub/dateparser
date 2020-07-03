@@ -161,7 +161,7 @@ class Locale(object):
         if settings.NORMALIZE:
             if self._normalized_relative_translations is None:
                 self._normalized_relative_translations = (
-                        self._generate_relative_translations(normalize=True))
+                    self._generate_relative_translations(normalize=True))
             return self._normalized_relative_translations
         else:
             if self._relative_translations is None:
@@ -200,7 +200,7 @@ class Locale(object):
                 elif word.strip('()\"\'{}[],.،') in dictionary and word not in dashes:
                     punct = word[len(word.strip('()\"\'{}[],.،')):]
                     if punct and dictionary[word.strip('()\"\'{}[],.،')]:
-                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')]+punct)
+                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')] + punct)
                     else:
                         translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')])
                     original_chunk.append(original_tokens[i])
@@ -346,13 +346,13 @@ class Locale(object):
         tokens = tokens[:]
         for i, token in enumerate(tokens):
             tokens[i] = re.split(regex, token)
-        return filter(bool, chain(*tokens))
+        return filter(bool, chain.from_iterable(tokens))
 
     def _split_tokens_by_known_words(self, tokens, keep_formatting, settings=None):
         dictionary = self._get_dictionary(settings)
         for i, token in enumerate(tokens):
             tokens[i] = dictionary.split(token, keep_formatting)
-        return list(chain(*tokens))
+        return list(chain.from_iterable(tokens))
 
     def _join_chunk(self, chunk, settings):
         if 'no_word_spacing' in self.info:

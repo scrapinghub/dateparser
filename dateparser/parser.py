@@ -122,7 +122,7 @@ class _no_spaces_parser(object):
     def __init__(self, *args, **kwargs):
 
         self._all = (self._dateformats +
-                     [x+y for x in self._dateformats for y in self._timeformats] +
+                     [x + y for x in self._dateformats for y in self._timeformats] +
                      self._timeformats)
 
         self.date_formats = {
@@ -244,7 +244,7 @@ class _parser(object):
 
             if self.time is None:
                 try:
-                    microsecond = MICROSECOND.search(self.filtered_tokens[index+1][0]).group()
+                    microsecond = MICROSECOND.search(self.filtered_tokens[index + 1][0]).group()
                     _is_after_time_token = token.index(":")
                     _is_after_period = self.tokens[
                         self.tokens.index((token, 0)) + 1][0].index('.')
@@ -345,17 +345,21 @@ class _parser(object):
     def _get_date_obj(self, token, directive):
         return strptime(token, directive)
 
+    def _missing_error(self, missing):
+        return ValueError(
+            'Fields missing from the date string: {}'.format(', '.join(missing))
+        )
+
     def _results(self):
-        if self.settings.STRICT_PARSING:
-            errors = []
-            if not self.day:
-                errors.append('Day')
-            if not self.month:
-                errors.append('Month')
-            if not self.year:
-                errors.append('Year')
+        missing = [field for field in ('day', 'month', 'year')
+                   if not getattr(self, field)]
+
+        if self.settings.STRICT_PARSING and missing:
+            raise self._missing_error(missing)
+        elif self.settings.REQUIRE_PARTS and missing:
+            errors = [part for part in self.settings.REQUIRE_PARTS if part in missing]
             if errors:
-                raise ValueError('%s not found in the date string' % ''.join(errors))
+                raise self._missing_error(errors)
 
         self._set_relative_base()
 

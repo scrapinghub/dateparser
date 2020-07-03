@@ -152,7 +152,7 @@ language, you must:
 #.  Regenerate the corresponding file within
     ``dateparser/data/date_translation_data`` running the following script::
 
-        scripts/write_complete_data.py
+        dateparser_scripts/write_complete_data.py
 
 #.  Write tests that cover your changes
 

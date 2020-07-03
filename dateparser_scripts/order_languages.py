@@ -4,7 +4,7 @@ import json
 import os
 from collections import OrderedDict
 
-from .utils import get_raw_data
+from dateparser_scripts.utils import get_raw_data
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 get_raw_data()
