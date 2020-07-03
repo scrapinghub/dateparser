@@ -37,7 +37,7 @@ setup(
     ],
     extras_require={
         'calendars:python_version<="2.7"': ['umalqurra', 'convertdate'],
-        'calendars:python_version>"2.7"': ['convertdate']
+        'calendars:python_version>"2.7"': ['convertdate'],
     },
     license="BSD",
     zip_safe=False,
