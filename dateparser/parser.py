@@ -4,7 +4,7 @@ import regex as re
 
 from io import StringIO
 from collections import OrderedDict
-from datetime import datetime, timezone
+from datetime import datetime
 from datetime import timedelta
 
 from dateparser.utils import set_correct_day_from_settings, \
