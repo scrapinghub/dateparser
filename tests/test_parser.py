@@ -380,7 +380,7 @@ class TestTimeParser(BaseTestCase):
         param(date_string=u"11:30", timeobj=time(11, 30)),
         param(date_string=u"11:30 PM", timeobj=time(23, 30)),
         param(date_string=u"13:30 PM", timeobj=time(13, 30)),
-        param(date_string=u"16:14 AM", timeobj=time(13, 30)),  # accepted as valid even when it's not valid
+        param(date_string=u"16:14 AM", timeobj=time(16, 14)),  # accepted as valid even when it's not valid
         param(date_string=u"23:30 AM", timeobj=time(23, 30)),
         param(date_string=u"1:30 AM", timeobj=time(1, 30)),
         param(date_string=u"1:30:15.330 AM", timeobj=time(1, 30, 15, 330000)),
