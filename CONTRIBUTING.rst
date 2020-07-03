@@ -41,16 +41,19 @@ DateParser could always use more documentation, whether as part of the
 official DateParser docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
-After you make local changes to the documentation, you should install ``tox``::
-
-    pip install tox
-
-Then, you will be able to build the project running::
+After you make local changes to the documentation, you will be able to build the
+project running::
 
     tox -e docs
 
+
 Then open ``.tox/docs/tmp/html/index.html`` in a web browser to see your local
 build of the documentation.
+
+.. note::
+
+    If you don't have `tox` installed, you need to install ir first using
+    `pip install tox`
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
