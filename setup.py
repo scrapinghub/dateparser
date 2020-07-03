@@ -33,6 +33,7 @@ setup(
         'pytz',
         # https://bitbucket.org/mrabarnett/mrab-regex/issues/314/import-error-no-module-named
         'regex !=2019.02.19',
+        'regex==2019.01.24; implementation_name == "PyPy"',
         'tzlocal',
     ],
     extras_require={
