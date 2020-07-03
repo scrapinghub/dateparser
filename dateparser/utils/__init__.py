@@ -152,10 +152,10 @@ def _get_leap_year(year, future):
     Iterate through previous or next years until it gets a valid leap year
     This is performed to avoid missing or including centurial leap years
     """
-    difference = 1 if future else -1
-    leap_year = year + difference
+    step = 1 if future else -1
+    leap_year = year + step
     while not calendar.isleap(leap_year):
-        leap_year = leap_year + difference
+        leap_year += step
     return leap_year
 
 

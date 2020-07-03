@@ -329,16 +329,15 @@ class _parser(object):
 
     def _get_correct_leap_year(self, prefer_dates_from, current_year):
         if prefer_dates_from == 'future':
-            year = get_next_leap_year(current_year)
-        elif prefer_dates_from == 'past':
-            year = get_previous_leap_year(current_year)
-        else:  # 'current_period': return closer leap year
-            next_leap_year = get_next_leap_year(current_year)
-            previous_leap_year = get_previous_leap_year(current_year)
-            year = next_leap_year \
-                if next_leap_year - current_year < current_year - previous_leap_year \
-                else previous_leap_year
-        return year
+            return get_next_leap_year(current_year)
+        if prefer_dates_from == 'past':
+            return get_previous_leap_year(current_year)
+
+        # Default case ('current_period'): return closer leap year
+        next_leap_year = get_next_leap_year(current_year)
+        previous_leap_year = get_previous_leap_year(current_year)
+        next_leap_year_is_closer = next_leap_year - current_year < current_year - previous_leap_year
+        return next_leap_year if next_leap_year_is_closer else previous_leap_year
 
     def _set_relative_base(self):
         self.now = self.settings.RELATIVE_BASE
@@ -430,8 +429,6 @@ class _parser(object):
             dateobj = dateobj + delta
 
         if self.month and not self.year:
-            is_leap_date = dateobj.day == 29 and dateobj.month == 2
-
             try:
                 if self.now < dateobj:
                     if self.settings.PREFER_DATES_FROM == 'past':
@@ -440,7 +437,7 @@ class _parser(object):
                     if self.settings.PREFER_DATES_FROM == 'future':
                         dateobj = dateobj.replace(year=dateobj.year + 1)
             except ValueError as e:
-                if is_leap_date:
+                if dateobj.day == 29 and dateobj.month == 2:
                     valid_year = self._get_correct_leap_year(
                         self.settings.PREFER_DATES_FROM, dateobj.year)
                     dateobj = dateobj.replace(year=valid_year)
