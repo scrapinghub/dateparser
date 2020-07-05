@@ -52,7 +52,7 @@ build of the documentation.
 
 .. note::
 
-    If you don't have `tox` installed, you need to install ir first using
+    If you don't have `tox` installed, you need to install it first using
     `pip install tox`
 
 Submit Feedback
