@@ -1,12 +1,15 @@
 import itertools
 
 from datetime import datetime
+
+import pytest
+
 from tests import BaseTestCase
 from parameterized import parameterized, param
 from dateparser.utils import (
     find_date_separator, localize_timezone, apply_timezone,
     apply_timezone_from_settings, registry,
-    get_last_day_of_month)
+    get_last_day_of_month, get_previous_leap_year, get_next_leap_year)
 from pytz import UnknownTimeZoneError, utc
 from dateparser.conf import settings
 
@@ -124,3 +127,29 @@ class TestUtils(BaseTestCase):
     ])
     def test_get_last_day_of_month(self, year, month, expected_last_day):
         assert get_last_day_of_month(year, month) == expected_last_day
+
+
+@pytest.mark.parametrize(
+    "year,expected_previous_leap_year", [
+        (2020, 2016),
+        (2000, 1996),  # leap and centurial year
+        (2104, 2096),  # missing no leap centurial year
+        (1704, 1696),
+        (2396, 2392),
+        (0, -4),  # even if this is not a valid year, it is the expected result
+    ])
+def test_get_previous_leap_year(year, expected_previous_leap_year):
+    assert get_previous_leap_year(year) == expected_previous_leap_year
+
+
+@pytest.mark.parametrize(
+    "year,expected_next_leap_year", [
+        (2020, 2024),
+        (1996, 2000),  # leap and centurial year
+        (2096, 2104),  # missing no leap centurial year
+        (1696, 1704),
+        (2396, 2400),
+        (0, 4)
+    ])
+def test_get_next_leap_year(year, expected_next_leap_year):
+    assert get_next_leap_year(year) == expected_next_leap_year
