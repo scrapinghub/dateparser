@@ -642,6 +642,12 @@ class TestTranslateSearch(BaseTestCase):
                         ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
                         ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
 
+        param(text='july 2018 - december 2020',
+              languages=['en', 'fr'],
+              settings={'PREFER_DAY_OF_MONTH': 'first'},
+              expected=[('july 2018', datetime.datetime(2018, 7, 1, 0, 0)),
+                        ('december 2020', datetime.datetime(2020, 12, 1, 0, 0))]),
+
         param(text='Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
               languages=None,
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)},
