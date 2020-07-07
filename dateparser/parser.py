@@ -323,7 +323,7 @@ class _parser(object):
                     params['day'] = get_last_day_of_month(params['year'], params['month'])
                     return datetime(**params)
                 elif not self._token_year and params['day'] == 29 and params['month'] == 2 and \
-                    not calendar.isleap(params['year']):
+                        not calendar.isleap(params['year']):
                     # fix the year when year is not present and it is 29 of February
                     params['year'] = self._get_correct_leap_year(self.settings.PREFER_DATES_FROM, params['year'])
                     return datetime(**params)
