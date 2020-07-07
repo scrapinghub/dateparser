@@ -14,7 +14,7 @@ from .timezone_parser import pop_tz_offset_from_string
 
 
 _UNITS = r'year|month|week|day|hour|minute|second'
-PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
+PATTERN = re.compile(r'(\d+\.?\d*)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
 
 
 class FreshnessDateDataParser(object):
@@ -141,7 +141,7 @@ class FreshnessDateDataParser(object):
 
         kwargs = {}
         for num, unit in m:
-            kwargs[unit + 's'] = int(num)
+            kwargs[unit + 's'] = float(num)
 
         return kwargs
 

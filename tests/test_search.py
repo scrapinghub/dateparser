@@ -283,6 +283,9 @@ class TestTranslateSearch(BaseTestCase):
               [('25th march 2015', datetime.datetime(2015, 3, 25)),
                ('today', datetime.datetime(2000, 1, 1))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+        param('en', 'in 2.5 hours',
+              [('in 2.5 hours', datetime.datetime(2000, 1, 1, 2, 30))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Filipino / Tagalog
         param('tl', 'Maraming namatay sa mga Hapon hanggang sila\'y sumuko noong Agosto 15, 1945.',
@@ -674,7 +677,8 @@ class TestTranslateSearch(BaseTestCase):
         param(text="DECEMBER 21 19.87 87",
               languages=None,
               settings=None,
-              expected=[('DECEMBER 21 19', datetime.datetime(2019, 12, 21, 0, 0))]
+              expected=[('DECEMBER', datetime.datetime(2019, 12, 21, 0, 0)),
+                        ('19.87', datetime.datetime(1987, 12, 19, 0, 0))]
               ),
         param(text='bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41',
               languages=None,
