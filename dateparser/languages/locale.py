@@ -467,9 +467,10 @@ class Locale(object):
 
     def _set_splitters(self, settings=None):
         splitters = {
-            'wordchars': set(),  # The ones that split string only if they are not surrounded
-            # by letters from both sides
-            'capturing': set(),  # The ones that are not filtered out from tokens after split
+            # The ones that split string only if they are not surrounded by letters from both sides:
+            'wordchars': set(),
+            # The ones that are not filtered out from tokens after split:
+            'capturing': set(),
         }
         splitters['capturing'] |= set(ALWAYS_KEEP_TOKENS)
 
