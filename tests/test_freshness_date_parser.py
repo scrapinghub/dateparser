@@ -1496,7 +1496,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('Today', 'US/Mountain', 'UTC', date(2014, 9, 1), time(16, 30)),
     ])
     def test_freshness_date_with_timezone_conversion(self, date_string, timezone, to_timezone, date, time):
-        self.given_parser(settings={'TIMEZONE': timezone, 'TO_TIMEZONE': to_timezone, 'RELATIVE_BASE': datetime(2014, 9, 1, 10, 30)})
+        self.given_parser(settings={
+            'TIMEZONE': timezone,
+            'TO_TIMEZONE': to_timezone,
+            'RELATIVE_BASE': datetime(2014, 9, 1, 10, 30)
+        })
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_date_is(date)

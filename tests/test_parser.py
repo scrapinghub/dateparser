@@ -301,7 +301,9 @@ class TestNoSpaceParser(BaseTestCase):
             expected_period='day',
         ),
     ])
-    def test_best_order_used_if_date_order_not_supplied_to_8_digit_numbers(self, date_string, expected_date, expected_period):
+    def test_best_order_used_if_date_order_not_supplied_to_8_digit_numbers(
+        self, date_string, expected_date, expected_period
+    ):
         self.given_parser()
         self.given_settings(settings={'DATE_ORDER': ''})
         self.when_date_is_parsed(date_string)
