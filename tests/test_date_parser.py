@@ -182,7 +182,7 @@ class TestDateParser(BaseTestCase):
         # Georgian dates
         param('2011 წლის 17 მარტი, ოთხშაბათი', datetime(2011, 3, 17, 0, 0)),
         param('2015 წ. 12 ივნ, 15:34', datetime(2015, 6, 12, 15, 34)),
-        # Finish dates
+        # Finnish dates
         param('5.7.2018 5.45 ip.', datetime(2018, 7, 5, 17, 45))
     ])
     def test_dates_parsing(self, date_string, expected):
