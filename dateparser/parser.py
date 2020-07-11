@@ -16,6 +16,7 @@ NSP_COMPATIBLE = re.compile(r'\D+')
 MERIDIAN = re.compile(r'am|pm')
 MICROSECOND = re.compile(r'\d{1,6}')
 EIGHT_DIGIT = re.compile(r'^\d{8}$')
+HOUR_MINUTE_REGEX = re.compile(r'^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$')
 
 
 def no_space_parser_eligibile(datestring):
@@ -210,7 +211,7 @@ class _parser(object):
     def __init__(self, tokens, settings):
         self.settings = settings
         self.tokens = list(tokens)
-        self.filtered_tokens = [t for t in self.tokens if t[1] <= 1]
+        self.filtered_tokens = [(t[0], t[1], i) for i, t in enumerate(self.tokens) if t[1] <= 1]
 
         self.unset_tokens = []
 
@@ -233,46 +234,65 @@ class _parser(object):
 
         skip_index = []
         skip_component = None
-        for index, token_type in enumerate(self.filtered_tokens):
+        for index, token_type_original_index in enumerate(self.filtered_tokens):
 
             if index in skip_index:
                 continue
 
-            token, type = token_type
+            token, type, original_index = token_type_original_index
 
             if token in settings.SKIP_TOKENS_PARSER:
                 continue
 
             if self.time is None:
+                meridian_index = index + 1
+
+                try:
+                    # try case where hours and minutes are separated by a period. Example: 13.20.
+                    _is_before_period = self.tokens[original_index + 1][0] == '.'
+                    _is_after_period = original_index != 0 and self.tokens[original_index - 1][0] == '.'
+
+                    if _is_before_period and not _is_after_period:
+                        index_next_token = index + 1
+                        next_token = self.filtered_tokens[index_next_token][0]
+                        index_in_tokens_for_next_token = self.filtered_tokens[index_next_token][2]
+
+                        next_token_is_last = index_next_token == len(self.filtered_tokens) - 1
+                        if next_token_is_last or self.tokens[index_in_tokens_for_next_token + 1][0] != '.':
+                            new_token = token + ':' + next_token
+                            if re.match(HOUR_MINUTE_REGEX, new_token):
+                                token = new_token
+                                skip_index.append(index + 1)
+                                meridian_index += 1
+                except Exception:
+                    pass
+
                 try:
                     microsecond = MICROSECOND.search(self.filtered_tokens[index + 1][0]).group()
                     _is_after_time_token = token.index(":")
-                    _is_after_period = self.tokens[
-                        self.tokens.index((token, 0)) + 1][0].index('.')
+                    _is_after_period = self.tokens[self.tokens.index((token, 0)) + 1][0].index('.')
                 except:
                     microsecond = None
 
                 if microsecond:
-                    mindex = index + 2
-                else:
-                    mindex = index + 1
+                    meridian_index += 1
 
                 try:
-                    meridian = MERIDIAN.search(self.filtered_tokens[mindex][0]).group()
+                    meridian = MERIDIAN.search(self.filtered_tokens[meridian_index][0]).group()
                 except:
                     meridian = None
 
                 if any([':' in token, meridian, microsecond]):
                     if meridian and not microsecond:
                         self._token_time = '%s %s' % (token, meridian)
-                        skip_index.append(mindex)
+                        skip_index.append(meridian_index)
                     elif microsecond and not meridian:
                         self._token_time = '%s.%s' % (token, microsecond)
                         skip_index.append(index + 1)
                     elif meridian and microsecond:
                         self._token_time = '%s.%s %s' % (token, microsecond, meridian)
                         skip_index.append(index + 1)
-                        skip_index.append(mindex)
+                        skip_index.append(meridian_index)
                     else:
                         self._token_time = token
                     self.time = lambda: time_parser(self._token_time)
