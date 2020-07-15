@@ -1,26 +1,24 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from datetime import datetime
-import six
+
+import sys
 import unittest
+from datetime import datetime
 
 from parameterized import parameterized, param
 
-# umalqurra does not support Python3 yet
-# see https://github.com/tytkal/python-hijiri-ummalqura/pull/5
-# let's skip these tests under Python3 for now
+from tests import BaseTestCase
+
+is_python_supported = sys.version_info >= (3, 6)
+
 try:
     from dateparser.calendars.hijri import HijriCalendar
 except ImportError:
-    if not six.PY2:
-        pass
-    else:
+    if is_python_supported:
         raise
 
-from tests import BaseTestCase
 
-
-@unittest.skipUnless(six.PY2, "umalqurra does not work under Python3 yet.")
+@unittest.skipUnless(is_python_supported, "hijri-converter doesn't support Python<3.6")
 class TestHijriParser(BaseTestCase):
 
     def setUp(self):
