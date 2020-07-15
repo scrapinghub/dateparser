@@ -139,6 +139,26 @@ def get_last_day_of_month(year, month):
     return calendar.monthrange(year, month)[1]
 
 
+def get_previous_leap_year(year):
+    return _get_leap_year(year, future=False)
+
+
+def get_next_leap_year(year):
+    return _get_leap_year(year, future=True)
+
+
+def _get_leap_year(year, future):
+    """
+    Iterate through previous or next years until it gets a valid leap year
+    This is performed to avoid missing or including centurial leap years
+    """
+    step = 1 if future else -1
+    leap_year = year + step
+    while not calendar.isleap(leap_year):
+        leap_year += step
+    return leap_year
+
+
 def set_correct_day_from_settings(date_obj, settings, current_day=None):
     """ Set correct day attending the `PREFER_DAY_OF_MONTH` setting."""
     options = {
