@@ -168,14 +168,6 @@ The following parsers exist:
     (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as
     ``DATE_ORDER`` or ``PREFER_LOCALE_DATE_ORDER``.
 
--   ``'base-formats'``: Parses dates that match one of the following date
-    formats::
-
-    %B %d, %Y, %I:%M:%S %p
-    %b %d, %Y at %I:%M %p
-    %d %B %Y %H:%M:%S
-    %A, %B %d, %Y
-    %Y-%m-%dT%H:%M:%S.%fZ
 
 :data:`dateparser.settings.default_parsers` contains the default value of
 ``PARSERS`` (the list above, in that order) and can be used to write code that

@@ -47,6 +47,8 @@ class TestDateParser(BaseTestCase):
         param('19 February 2013 year 09:10', datetime(2013, 2, 19, 9, 10)),
         param('21 January 2012 13:11:23.678', datetime(2012, 1, 21, 13, 11, 23, 678000)),
         param('1/1/16 9:02:43.1', datetime(2016, 1, 1, 9, 2, 43, 100000)),
+        param('29.02.2020 13.12', datetime(2020, 2, 29, 13, 12)),
+        param('Wednesday, 22nd June, 2016, 12.16 pm.', datetime(2016, 6, 22, 12, 16)),
         # French dates
         param('11 Mai 2014', datetime(2014, 5, 11)),
         param('dimanche, 11 Mai 2014', datetime(2014, 5, 11)),
@@ -108,6 +110,7 @@ class TestDateParser(BaseTestCase):
         param('18.10.14 um 22:56 Uhr', datetime(2014, 10, 18, 22, 56)),
         param('12-Mär-2014', datetime(2014, 3, 12)),
         param('Mit 13:14', datetime(2012, 11, 7, 13, 14)),
+        param('23. März 18.37 Uhr', datetime(2012, 3, 23, 18, 37)),
         # Czech dates
         param('pon 16. čer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
         param('13 Srpen, 2014', datetime(2014, 8, 13)),
@@ -178,7 +181,9 @@ class TestDateParser(BaseTestCase):
         param('12 जनवरी  1997 11:08 अपराह्न', datetime(1997, 1, 12, 23, 8)),
         # Georgian dates
         param('2011 წლის 17 მარტი, ოთხშაბათი', datetime(2011, 3, 17, 0, 0)),
-        param('2015 წ. 12 ივნ, 15:34', datetime(2015, 6, 12, 15, 34))
+        param('2015 წ. 12 ივნ, 15:34', datetime(2015, 6, 12, 15, 34)),
+        # Finnish dates
+        param('5.7.2018 5.45 ip.', datetime(2018, 7, 5, 17, 45))
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,
@@ -388,7 +393,9 @@ class TestDateParser(BaseTestCase):
         param('Fri, 09 Sep 2005 13:51:39 -0700', 'GMT', datetime(2005, 9, 9, 20, 51, 39)),
         param('Fri, 09 Sep 2005 13:51:39 +0000', 'GMT', datetime(2005, 9, 9, 13, 51, 39)),
     ])
-    def test_dateparser_should_return_date_in_setting_timezone_if_timezone_info_present_both_in_datestring_and_given_in_settings(self, date_string, setting_timezone, expected):
+    def test_dateparser_should_return_date_in_setting_timezone_if_timezone_info_present_in_datestring_and_in_settings(
+        self, date_string, setting_timezone, expected
+    ):
         self.given_parser(settings={'TIMEZONE': setting_timezone})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
@@ -481,6 +488,44 @@ class TestDateParser(BaseTestCase):
         self.given_local_tz_offset(0)
         self.given_parser(settings={'PREFER_DATES_FROM': 'current_period',
                           'RELATIVE_BASE': datetime(2015, 2, 15, 15, 30)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('29 Feb', datetime(2020, 1, 1), datetime(2016, 2, 29)),
+        param('29/02', datetime(2020, 3, 30), datetime(2020, 2, 29)),
+        param('02/29', datetime(1702, 1, 1), datetime(1696, 2, 29)),
+    ])
+    def test_preferably_past_dates_leap_year(self, date_string, relative_base, expected):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'past',
+                          'RELATIVE_BASE': relative_base})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('29 Feb', datetime(2020, 1, 1), datetime(2020, 2, 29)),
+        param('29/02', datetime(2020, 3, 30), datetime(2024, 2, 29)),
+        param('02/29', datetime(1696, 3, 1), datetime(1704, 2, 29)),
+    ])
+    def test_preferably_future_dates_leap_year(self, date_string, relative_base, expected):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'future',
+                                    'RELATIVE_BASE': relative_base})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('29 Feb', datetime(2020, 1, 1), datetime(2020, 2, 29)),
+        param('29/02', datetime(2020, 3, 30), datetime(2020, 2, 29)),
+        param('29 Feb', datetime(1702, 3, 1), datetime(1704, 2, 29)),
+        param('02/29', datetime(1699, 3, 1), datetime(1696, 2, 29)),
+    ])
+    def test_dates_without_preference_leap_year(self, date_string, relative_base, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser(settings={'PREFER_DATES_FROM': 'current_period',
+                                    'RELATIVE_BASE': relative_base})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)

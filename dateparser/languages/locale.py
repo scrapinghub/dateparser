@@ -161,7 +161,7 @@ class Locale(object):
         if settings.NORMALIZE:
             if self._normalized_relative_translations is None:
                 self._normalized_relative_translations = (
-                        self._generate_relative_translations(normalize=True))
+                    self._generate_relative_translations(normalize=True))
             return self._normalized_relative_translations
         else:
             if self._relative_translations is None:
@@ -200,7 +200,7 @@ class Locale(object):
                 elif word.strip('()\"\'{}[],.،') in dictionary and word not in dashes:
                     punct = word[len(word.strip('()\"\'{}[],.،')):]
                     if punct and dictionary[word.strip('()\"\'{}[],.،')]:
-                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')]+punct)
+                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')] + punct)
                     else:
                         translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')])
                     original_chunk.append(original_tokens[i])
@@ -467,8 +467,10 @@ class Locale(object):
 
     def _set_splitters(self, settings=None):
         splitters = {
-            'wordchars': set(),  # The ones that split string only if they are not surrounded by letters from both sides
-            'capturing': set(),  # The ones that are not filtered out from tokens after split
+            # The ones that split string only if they are not surrounded by letters from both sides:
+            'wordchars': set(),
+            # The ones that are not filtered out from tokens after split:
+            'capturing': set(),
         }
         splitters['capturing'] |= set(ALWAYS_KEEP_TOKENS)
 

@@ -301,7 +301,9 @@ class TestNoSpaceParser(BaseTestCase):
             expected_period='day',
         ),
     ])
-    def test_best_order_used_if_date_order_not_supplied_to_8_digit_numbers(self, date_string, expected_date, expected_period):
+    def test_best_order_used_if_date_order_not_supplied_to_8_digit_numbers(
+        self, date_string, expected_date, expected_period
+    ):
         self.given_parser()
         self.given_settings(settings={'DATE_ORDER': ''})
         self.when_date_is_parsed(date_string)
@@ -457,6 +459,9 @@ class TestTimeParser(BaseTestCase):
         param(date_string=u"11:30:14", timeobj=time(11, 30, 14)),
         param(date_string=u"11:30", timeobj=time(11, 30)),
         param(date_string=u"11:30 PM", timeobj=time(23, 30)),
+        param(date_string=u"13:30 PM", timeobj=time(13, 30)),
+        param(date_string=u"16:14 AM", timeobj=time(16, 14)),  # accepted as valid even when it's not valid
+        param(date_string=u"23:30 AM", timeobj=time(23, 30)),
         param(date_string=u"1:30 AM", timeobj=time(1, 30)),
         param(date_string=u"1:30:15.330 AM", timeobj=time(1, 30, 15, 330000)),
         param(date_string=u"1:30:15.330 PM", timeobj=time(13, 30, 15, 330000)),
@@ -473,7 +478,6 @@ class TestTimeParser(BaseTestCase):
         param(date_string=u"11"),
         param(date_string=u"22:12:12 PM"),
         param(date_string=u"22:12:10:16"),
-        param(date_string=u"16:14 AM"),
         param(date_string=u"10:14.123 PM"),
         param(date_string=u"2:13:88"),
         param(date_string=u"23:01:56.34 PM"),

@@ -32,11 +32,14 @@ setup(
         'python-dateutil',
         'pytz',
         # https://bitbucket.org/mrabarnett/mrab-regex/issues/314/import-error-no-module-named
-        'regex !=2019.02.19',
+        'regex !=2019.02.19; platform.python_implementation != "PyPy"',
+        # temporary workaround for: https://github.com/scrapinghub/dateparser/issues/565
+        'regex==2019.01.24; platform.python_implementation == "PyPy"',
         'tzlocal',
     ],
-    extra_requires={
-        'calendars': ['convertdate', 'umalqurra', 'jdatetime', 'ruamel.yaml'],
+    extras_require={
+        'calendars:python_version<="2.7"': ['umalqurra', 'convertdate'],
+        'calendars:python_version>"2.7"': ['convertdate'],
     },
     license="BSD",
     zip_safe=False,
@@ -54,6 +57,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],

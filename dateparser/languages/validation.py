@@ -90,9 +90,10 @@ class LanguageValidator(object):
         if isinstance(group, int) or not group:
             if group < 1 or group > 6:
                 cls.get_logger().error(
-                        "Invalid 'sentence_splitter_group' number %(number)r for '%(id)s' language: "
-                        "expected number from 1 to 6",
-                        {'number': group, 'id': language_id})
+                    "Invalid 'sentence_splitter_group' number %(number)r for '%(id)s' language: "
+                    "expected number from 1 to 6",
+                    {'number': group, 'id': language_id}
+                )
                 result = False
         else:
             cls.get_logger().error(
