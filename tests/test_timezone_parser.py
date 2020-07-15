@@ -168,6 +168,7 @@ class TestTimeZoneConversion(BaseTestCase):
     def then_date_is(self, date):
         self.assertEqual(date, self.result)
 
+
 class TestStaticTzInfo(BaseTestCase):
     def setUp(self):
         super(TestStaticTzInfo, self).setUp()

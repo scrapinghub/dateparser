@@ -234,13 +234,13 @@ Dependencies
 `dateparser` relies on following libraries in some ways:
 
   * dateutil_'s module ``relativedelta`` for its freshness parser.
-  * jdatetime_ to convert *Jalali* dates to *Gregorian*.
+  * convertdate_ to convert *Jalali* dates to *Gregorian*.
   * hijri-converter_ to convert *Hijri* dates to *Gregorian*.
   * tzlocal_ to reliably get local timezone.
   * ruamel.yaml_ (optional) for operations on language files.
 
 .. _dateutil: https://pypi.python.org/pypi/python-dateutil
-.. _jdatetime: https://pypi.python.org/pypi/jdatetime
+.. _convertdate: https://pypi.python.org/pypi/convertdate
 .. _hijri-converter: https://pypi.python.org/pypi/hijri-converter
 .. _tzlocal: https://pypi.python.org/pypi/tzlocal
 .. _ruamel.yaml: https://pypi.python.org/pypi/ruamel.yaml
@@ -476,7 +476,7 @@ Supported Calendars
     >>> HijriCalendar(u'17-01-1437 هـ 08:30 مساءً').get_date()
     {'date_obj': datetime.datetime(2015, 10, 30, 20, 30), 'period': 'day'}
 
-.. note:: `HijriCalendar` only works with Python > 3.6.
+.. note:: `HijriCalendar` only works with Python >= 3.6.
 .. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.
 
 

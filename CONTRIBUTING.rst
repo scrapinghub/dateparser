@@ -41,12 +41,19 @@ DateParser could always use more documentation, whether as part of the
 official DateParser docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
-After you make local changes to the documentation, build it with ``tox``::
+After you make local changes to the documentation, you will be able to build the
+project running::
 
     tox -e docs
 
+
 Then open ``.tox/docs/tmp/html/index.html`` in a web browser to see your local
 build of the documentation.
+
+.. note::
+
+    If you don't have ``tox`` installed, you need to install it first using
+    ``pip install tox``.
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
@@ -84,9 +91,6 @@ Ready to contribute? Here's how to set up `dateparser` for local development.
 
 5. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox::
 
-    $ pip install -r tests/requirements.txt # install test dependencies
-    $ pip install -r dateparser_scripts/requirements.txt # install script dependencies
-    $ flake8 dateparser tests
     $ tox
 
    To get flake8 and tox, just pip install them into your virtualenv. (Note that we use ``max-line-length = 100`` for flake8, this is configured in ``setup.cfg`` file.)
