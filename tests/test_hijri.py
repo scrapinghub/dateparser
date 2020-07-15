@@ -7,6 +7,8 @@ from datetime import datetime
 
 from parameterized import parameterized, param
 
+from tests import BaseTestCase
+
 is_python_supported = sys.version_info >= (3, 6)
 
 try:
@@ -14,8 +16,6 @@ try:
 except ImportError:
     if is_python_supported:
         raise
-
-from tests import BaseTestCase
 
 
 @unittest.skipUnless(is_python_supported, "hijri-converter doesn't support Python<3.6")
