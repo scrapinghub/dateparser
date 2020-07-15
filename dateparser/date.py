@@ -178,7 +178,6 @@ class _DateLocaleParser(object):
             'relative-time': self._try_freshness_parser,
             'custom-formats': self._try_given_formats,
             'absolute-time': self._try_parser,
-            'base-formats': self._try_hardcoded_formats,
         }
         unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
         if unknown_parsers:
@@ -238,23 +237,6 @@ class _DateLocaleParser(object):
             self._get_translated_date_with_formatting(),
             self.date_formats, settings=self._settings
         )
-
-    def _try_hardcoded_formats(self):
-        hardcoded_date_formats = [
-            '%B %d, %Y, %I:%M:%S %p',
-            '%b %d, %Y at %I:%M %p',
-            '%d %B %Y %H:%M:%S',
-            '%A, %B %d, %Y',
-            '%Y-%m-%dT%H:%M:%S.%fZ'
-        ]
-        try:
-            return parse_with_formats(
-                self._get_translated_date_with_formatting(),
-                hardcoded_date_formats,
-                settings=self._settings
-            )
-        except TypeError:
-            return None
 
     def _get_translated_date(self):
         if self._translated_date is None:
