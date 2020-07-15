@@ -38,8 +38,8 @@ setup(
         'tzlocal',
     ],
     extras_require={
-        'calendars:python_version>="3.6"': ['hijri-converter', 'convertdate'],
         'calendars:python_version<"3.6"': ['convertdate'],
+        'calendars:python_version>="3.6"': ['hijri-converter', 'convertdate'],
     },
     license="BSD",
     zip_safe=False,
