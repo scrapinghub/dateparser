@@ -149,7 +149,7 @@ class LocaleDataLoader(object):
                                  % ', '.join(map(repr, invalid_locales)))
 
             if not allow_conflicting_locales:
-                if len(set(locales)) > len(set([t[0] for t in locale_dict.values()])):
+                if len(set(locales)) > len({t[0] for t in locale_dict.values()}):
                     raise ValueError("Locales should not have same language and different region")
 
         else:

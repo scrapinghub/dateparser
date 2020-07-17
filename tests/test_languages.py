@@ -1917,7 +1917,7 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
             self.datetime_string, modify=True, settings=self.settings)
 
     def then_exact_languages_were_filtered(self, shortnames):
-        self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
+        self.assertEqual(set(shortnames), {lang.shortname for lang in self.exact_languages})
 
 
 class BaseAutoDetectLanguageDetectorTestCase(BaseLanguageDetectorTestCase):
