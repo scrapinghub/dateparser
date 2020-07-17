@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from itertools import chain
 import regex as re
@@ -13,7 +13,7 @@ from tests import BaseTestCase
 DEFAULT_MONTH_PATTERN = re.compile(r'^M?\d+$', re.U)
 INVALID_AM_PM_PATTERN = re.compile(r'^[AaPp]\.?\s+[Mm]$')
 
-all_locale_shortnames = list(chain(language_locale_dict.keys(), *language_locale_dict.values()))
+all_locale_shortnames = list(chain(list(language_locale_dict.keys()), *list(language_locale_dict.values())))
 all_locales = list(default_loader.get_locales(locales=all_locale_shortnames,
                                               allow_conflicting_locales=True))
 all_locale_params = [[locale] for locale in all_locales]
@@ -402,7 +402,7 @@ class TestLocaleInfo(BaseTestCase):
                     type(relative_type_dict).__name__, self.shortname)
             )
             invalid_relative_type = list(filter(is_invalid_relative_mapping,
-                                                relative_type_dict.items()))
+                                                list(relative_type_dict.items())))
             self.assertFalse(
                 invalid_relative_type, 'Invalid relative-type mappings {} for locale {}'.format(
                     ', '.join(map(repr, invalid_relative_type)), self.shortname
@@ -418,7 +418,7 @@ class TestLocaleInfo(BaseTestCase):
                 )
             )
             invalid_relative_type_regex = list(filter(is_invalid_relative_regex_mapping,
-                                                      relative_type_dict.items()))
+                                                      list(relative_type_dict.items())))
             self.assertFalse(
                 invalid_relative_type_regex, 'Invalid relative-type-regex mappings {} for locale {}'.format(
                     ', '.join(map(repr, invalid_relative_type_regex)), self.shortname
