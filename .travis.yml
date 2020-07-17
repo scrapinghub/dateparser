@@ -16,6 +16,8 @@ matrix:
       env: TOXENV=py38
     - python: 3.9-dev
       env: TOXENV=py39
+    - python: pypy3
+      env: TOXENV=pypy3
 
 install: pip install -U wheel tox codecov
 
