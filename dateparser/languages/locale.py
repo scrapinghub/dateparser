@@ -149,8 +149,6 @@ class Locale(object):
         for i, token in enumerate(date_string_tokens):
             if token.isdecimal():
                 date_string_tokens[i] = str(int(token)).zfill(len(token))
-                if isinstance(date_string_tokens[i], bytes):
-                    date_string_tokens[i] = date_string_tokens[i].decode('utf-8')
         return ''.join(date_string_tokens)
 
     def _get_relative_translations(self, settings=None):

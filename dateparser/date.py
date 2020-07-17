@@ -1,4 +1,5 @@
 import collections
+from collections import Set
 from datetime import datetime, timedelta
 
 import regex as re
@@ -153,7 +154,7 @@ class _DateLocaleParser(object):
 
     def __init__(self, locale, date_string, date_formats, settings=None):
         self._settings = settings
-        if not (date_formats is None or isinstance(date_formats, (list, tuple, set))):
+        if not (date_formats is None or isinstance(date_formats, (list, tuple, Set))):
             raise TypeError("Date formats should be list, tuple or set of strings")
 
         self.locale = locale
@@ -300,10 +301,10 @@ class DateDataParser(object):
     def __init__(self, languages=None, locales=None, region=None, try_previous_locales=True,
                  use_given_order=False, settings=None):
 
-        if not isinstance(languages, (list, tuple, set)) and languages is not None:
+        if not isinstance(languages, (list, tuple, Set)) and languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
-        if not isinstance(locales, (list, tuple, set)) and locales is not None:
+        if not isinstance(locales, (list, tuple, Set)) and locales is not None:
             raise TypeError("locales argument must be a list (%r given)" % type(locales))
 
         if not isinstance(region, str) and region is not None:
@@ -373,9 +374,6 @@ class DateDataParser(object):
         """
         if not(isinstance(date_string, str) or isinstance(date_string, str)):
             raise TypeError('Input type must be str or unicode')
-
-        if isinstance(date_string, bytes):
-            date_string = date_string.decode('utf-8')
 
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:

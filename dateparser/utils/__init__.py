@@ -17,9 +17,6 @@ def strip_braces(date_string):
 
 
 def normalize_unicode(string, form='NFKD'):
-    if isinstance(string, bytes):
-        string = string.decode('utf-8')
-
     return ''.join(
         (c for c in unicodedata.normalize(form, string)
          if unicodedata.category(c) != 'Mn'))
@@ -41,25 +38,6 @@ def combine_dicts(primary_dict, supplementary_dict):
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict
-
-
-def convert_to_unicode(info):
-    unicode_info = OrderedDict()
-    for key, value in info.items():
-        if isinstance(key, bytes):
-            key = key.decode('utf-8')
-        if isinstance(value, list):
-            for i, v in enumerate(value):
-                if isinstance(v, dict):
-                    value[i] = convert_to_unicode(v)
-                elif isinstance(v, bytes):
-                    value[i] = v.decode('utf-8')
-        elif isinstance(value, dict):
-            value = convert_to_unicode(value)
-        elif isinstance(value, bytes):
-            value = value.decode('utf-8')
-        unicode_info[key] = value
-    return unicode_info
 
 
 def find_date_separator(format):

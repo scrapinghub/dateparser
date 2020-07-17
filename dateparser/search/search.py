@@ -1,15 +1,11 @@
+from collections import Set
+
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
 import regex as re
 
-try:
-    # Python 3
-    from collections.abc import Set
-except ImportError:
-    # Python 2.7
-    from collections import Set
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 
