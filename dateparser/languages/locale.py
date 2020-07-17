@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from itertools import chain
 
@@ -155,7 +155,7 @@ class Locale(object):
                 date_string_tokens[i] = str(int(token)).zfill(len(token))
                 if isinstance(date_string_tokens[i], bytes):
                     date_string_tokens[i] = date_string_tokens[i].decode('utf-8')
-        return u''.join(date_string_tokens)
+        return ''.join(date_string_tokens)
 
     def _get_relative_translations(self, settings=None):
         if settings.NORMALIZE:

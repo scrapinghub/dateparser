@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 from dateparser.search.search import DateSearchWithDetection
 from dateparser.utils import normalize_unicode
 

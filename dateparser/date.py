@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 import collections
 from datetime import datetime, timedelta
@@ -17,18 +17,18 @@ from dateparser.utils import apply_timezone_from_settings, \
     set_correct_day_from_settings
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
-    u'\N{RIGHT SINGLE QUOTATION MARK}',     # u'\u2019'
-    u'\N{MODIFIER LETTER APOSTROPHE}',      # u'\u02bc'
-    u'\N{MODIFIER LETTER TURNED COMMA}',    # u'\u02bb'
-    u'\N{ARMENIAN APOSTROPHE}',             # u'\u055a'
-    u'\N{LATIN SMALL LETTER SALTILLO}',     # u'\ua78c'
-    u'\N{PRIME}',                           # u'\u2032'
-    u'\N{REVERSED PRIME}',                  # u'\u2035'
-    u'\N{MODIFIER LETTER PRIME}',           # u'\u02b9'
-    u'\N{FULLWIDTH APOSTROPHE}',            # u'\uff07'
+    '\N{RIGHT SINGLE QUOTATION MARK}',     # '\u2019'
+    '\N{MODIFIER LETTER APOSTROPHE}',      # '\u02bc'
+    '\N{MODIFIER LETTER TURNED COMMA}',    # '\u02bb'
+    '\N{ARMENIAN APOSTROPHE}',             # '\u055a'
+    '\N{LATIN SMALL LETTER SALTILLO}',     # '\ua78c'
+    '\N{PRIME}',                           # '\u2032'
+    '\N{REVERSED PRIME}',                  # '\u2035'
+    '\N{MODIFIER LETTER PRIME}',           # '\u02b9'
+    '\N{FULLWIDTH APOSTROPHE}',            # '\uff07'
 ]
 
-RE_NBSP = re.compile(u'\xa0', flags=re.UNICODE)
+RE_NBSP = re.compile('\xa0', flags=re.UNICODE)
 RE_SPACES = re.compile(r'\s+')
 RE_TRIM_SPACES = re.compile(r'^\s+(\S.*?)\s+$')
 RE_TRIM_COLONS = re.compile(r'(\S.*?):*$')
@@ -37,7 +37,7 @@ RE_SANITIZE_SKIP = re.compile(r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u0
 RE_SANITIZE_RUSSIAN = re.compile(r'([\W\d])\u0433\.', flags=re.I | re.U)
 RE_SANITIZE_PERIOD = re.compile(r'(?<=\D+)\.', flags=re.U)
 RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
-RE_SANITIZE_APOSTROPHE = re.compile(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
+RE_SANITIZE_APOSTROPHE = re.compile('|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
 RE_SEARCH_TIMESTAMP = re.compile(r'^(\d{10})(\d{3})?(\d{3})?(?![^.])')
 
@@ -108,7 +108,7 @@ def sanitize_date(date_string):
     date_string = RE_SANITIZE_ON.sub(r'\1', date_string)
     date_string = RE_TRIM_COLONS.sub(r'\1', date_string)
 
-    date_string = RE_SANITIZE_APOSTROPHE.sub(u"'", date_string)
+    date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
 
     return date_string
 

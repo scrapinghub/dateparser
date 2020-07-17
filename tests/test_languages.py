@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from io import StringIO
 
@@ -917,8 +917,8 @@ class TestBundledLanguages(BaseTestCase):
         # French
         param('fr', "maintenant", "0 second ago"),
         param('fr', "demain", "in 1 day"),
-        param('fr', u"Il y a moins d'une minute", "1 minute ago"),
-        param('fr', u"Il y a moins de 30s", "30 second ago"),
+        param('fr', "Il y a moins d'une minute", "1 minute ago"),
+        param('fr', "Il y a moins de 30s", "30 second ago"),
         # Tagalog
         param('tl', "kahapon", "1 day ago"),
         param('tl', "ngayon", "0 second ago"),
