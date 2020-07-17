@@ -32,9 +32,7 @@ setup(
         'python-dateutil',
         'pytz',
         # https://bitbucket.org/mrabarnett/mrab-regex/issues/314/import-error-no-module-named
-        'regex !=2019.02.19; platform.python_implementation != "PyPy"',
-        # temporary workaround for: https://github.com/scrapinghub/dateparser/issues/565
-        'regex==2019.01.24; platform.python_implementation == "PyPy"',
+        'regex !=2019.02.19',
         'tzlocal',
     ],
     extras_require={
