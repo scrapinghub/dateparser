@@ -102,7 +102,7 @@ def get_intersecting_periods(low, high, period='day'):
 
 def sanitize_date(date_string):
     date_string = RE_SANITIZE_SKIP.sub(' ', date_string)
-    date_string = RE_SANITIZE_RUSSIAN.sub(r'\1 ', date_string)  # remove u'г.' (Russian for year) but not in words
+    date_string = RE_SANITIZE_RUSSIAN.sub(r'\1 ', date_string)  # remove 'г.' (Russian for year) but not in words
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub('', date_string)
     date_string = RE_SANITIZE_ON.sub(r'\1', date_string)
@@ -347,7 +347,7 @@ class DateDataParser(object):
         :type date_formats: list
 
         :return: a dict mapping keys to :mod:`datetime.datetime` object and *period*. For example:
-            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': u'day'}
+            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': 'day'}
 
         :raises: ValueError - Unknown Language
 
@@ -359,19 +359,19 @@ class DateDataParser(object):
         day ``16`` from *current date* (which is June 16, 2015, at the moment of writing this).
         Hence, the level of precision is ``month``:
 
-            >>> DateDataParser().get_date_data(u'March 2015')
-            {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': u'month'}
+            >>> DateDataParser().get_date_data('March 2015')
+            {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': 'month'}
 
         Similarly, for date strings with no day and month information present, level of precision
         is ``year`` and day ``16`` and month ``6`` are from *current_date*.
 
-            >>> DateDataParser().get_date_data(u'2014')
-            {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
+            >>> DateDataParser().get_date_data('2014')
+            {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': 'year'}
 
         Dates with time zone indications or UTC offsets are returned in UTC time unless
         specified using `Settings`_.
 
-            >>> DateDataParser().get_date_data(u'23 March 2000, 1:21 PM CET')
+            >>> DateDataParser().get_date_data('23 March 2000, 1:21 PM CET')
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
