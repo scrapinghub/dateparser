@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from itertools import chain
 import regex as re
-import six
 from parameterized import parameterized
 
 from dateparser.languages import default_loader
