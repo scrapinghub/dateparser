@@ -5,7 +5,6 @@ import os
 import shutil
 from collections import OrderedDict
 from orderedset import OrderedSet
-import six
 
 from dateparser_scripts.order_languages import language_locale_dict
 from dateparser_scripts.utils import get_dict_difference, get_raw_data
@@ -37,7 +36,7 @@ cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
 
 
 def _filter_relative_string(relative_string):
-    return (isinstance(relative_string, six.string_types) and
+    return (isinstance(relative_string, str) and
             RELATIVE_PATTERN.search(relative_string) and
             not PARENTHESIS_PATTERN.search(relative_string))
 

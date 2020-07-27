@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 import collections
 from datetime import datetime, timedelta
 
-import six
 import regex as re
 from dateutil.relativedelta import relativedelta
 
@@ -310,7 +309,7 @@ class DateDataParser(object):
         if not isinstance(locales, (list, tuple, set)) and locales is not None:
             raise TypeError("locales argument must be a list (%r given)" % type(locales))
 
-        if not isinstance(region, six.string_types) and region is not None:
+        if not isinstance(region, str) and region is not None:
             raise TypeError("region argument must be str or unicode (%r given)" % type(region))
 
         if not isinstance(try_previous_locales, bool):
@@ -375,7 +374,7 @@ class DateDataParser(object):
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
-        if not(isinstance(date_string, six.text_type) or isinstance(date_string, six.string_types)):
+        if not(isinstance(date_string, str) or isinstance(date_string, str)):
             raise TypeError('Input type must be str or unicode')
 
         if isinstance(date_string, bytes):

@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from collections import OrderedDict
 from importlib import import_module
-from six.moves import zip_longest
+from itertools import zip_longest
 import regex as re
 from copy import deepcopy
 
