@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import six
 from parameterized import parameterized, param
 from datetime import datetime, tzinfo
 
@@ -138,13 +137,13 @@ class InvalidSettingsTest(BaseTestCase):
 
     def test_error_is_raised_when_none_is_passed_in_settings(self):
         test_func = apply_settings(test_function)
-        with six.assertRaisesRegex(self, TypeError, r'Invalid.*None\}'):
+        with self.assertRaisesRegex(TypeError, r'Invalid.*None\}'):
             test_func(settings={'PREFER_DATES_FROM': None})
 
-        with six.assertRaisesRegex(self, TypeError, r'Invalid.*None\}'):
+        with self.assertRaisesRegex(TypeError, r'Invalid.*None\}'):
             test_func(settings={'TIMEZONE': None})
 
-        with six.assertRaisesRegex(self, TypeError, r'Invalid.*None\}'):
+        with self.assertRaisesRegex(TypeError, r'Invalid.*None\}'):
             test_func(settings={'TO_TIMEZONE': None})
 
     def test_error_is_raised_for_invalid_type_settings(self):

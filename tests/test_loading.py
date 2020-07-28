@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from parameterized import parameterized, param
 from operator import attrgetter
-import six
 import regex as re
 
 from dateparser.languages.loader import default_loader
@@ -90,10 +89,10 @@ class TestLoading(BaseTestCase):
             languages=languages, locales=locales, region=region, use_given_order=True)
 
     def then_loaded_languages_are(self, loaded_languages):
-        six.assertCountEqual(self, loaded_languages, self.data_loader._loaded_languages.keys())
+        self.assertCountEqual(loaded_languages, self.data_loader._loaded_languages.keys())
 
     def then_loaded_locales_are(self, loaded_locales):
-        six.assertCountEqual(self, loaded_locales, self.data_loader._loaded_locales.keys())
+        self.assertCountEqual(loaded_locales, self.data_loader._loaded_locales.keys())
 
     def then_locales_are_yielded_in_order(self, expected_locales):
         self.assertEqual(list(map(attrgetter('shortname'),
@@ -221,11 +220,11 @@ class TestLocaleDataLoader(BaseTestCase):
         match = self.UNKNOWN_LANGUAGES_EXCEPTION_RE.match(str(self.error))
         self.assertTrue(match)
         languages = match.group(1).split(", ")
-        six.assertCountEqual(self, languages, [repr(l) for l in unknown_languages])
+        self.assertCountEqual(languages, [repr(l) for l in unknown_languages])
 
     def then_error_for_unknown_locales_raised(self, unknown_locales):
         self.assertIsInstance(self.error, ValueError)
         match = self.UNKNOWN_LOCALES_EXCEPTION_RE.match(str(self.error))
         self.assertTrue(match)
         locales = match.group(1).split(", ")
-        six.assertCountEqual(self, locales, [repr(l) for l in unknown_locales])
+        self.assertCountEqual(locales, [repr(l) for l in unknown_locales])
