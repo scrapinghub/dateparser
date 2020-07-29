@@ -13,8 +13,9 @@ ALWAYS_KEEP_TOKENS = ["+"] + PARSER_HARDCODED_TOKENS
 KNOWN_WORD_TOKENS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
                      'saturday', 'sunday', 'january', 'february', 'march',
                      'april', 'may', 'june', 'july', 'august', 'september',
-                     'october', 'november', 'december', 'year', 'month', 'week',
-                     'day', 'hour', 'minute', 'second', 'ago', 'in', 'am', 'pm']
+                     'october', 'november', 'december', 'decade', 'year',
+                     'month', 'week', 'day', 'hour', 'minute', 'second', 'ago',
+                     'in', 'am', 'pm']
 
 PARENTHESES_PATTERN = re.compile(r'[\(\)]')
 NUMERAL_PATTERN = re.compile(r'(\d+)')
@@ -105,7 +106,6 @@ class Dictionary(object):
         has_only_keep_tokens = not set(tokens) - set(ALWAYS_KEEP_TOKENS)
         if has_only_keep_tokens:
             return False
-
         match_relative_regex = self._get_match_relative_regex_cache()
         for token in tokens:
             if token.isdigit() or match_relative_regex.match(token) or token in self:

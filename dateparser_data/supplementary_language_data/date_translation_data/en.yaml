@@ -9,6 +9,9 @@ tuesday:
 september:
     - sept
 
+decade:
+    - decade
+    - decades
 year:
     - years
 month:
@@ -39,6 +42,19 @@ in:
 relative-type:
     2 day ago:
         - day before yesterday
+    1 decade ago:
+        - last decade
+        - this decade
+    in 1 decade:
+        - next decade
+
+relative-type-regex:
+    in \1 decade:
+        - in (\d+) decade
+        - in (\d+) decades
+    \1 decade ago:
+        - (\d+) decade ago
+        - (\d+) decades ago
 
 simplifications:
     - an: '1'
