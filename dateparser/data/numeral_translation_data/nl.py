@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 info = {
     "%%2d-year": {
         "0": "honderd;",

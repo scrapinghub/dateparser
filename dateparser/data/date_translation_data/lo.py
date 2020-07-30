@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 info = {
     "name": "lo",
     "date_order": "DMY",

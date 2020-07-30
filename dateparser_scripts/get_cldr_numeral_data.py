@@ -1,8 +1,9 @@
-import regex as re
 import json
 import os
 import shutil
 from collections import OrderedDict
+
+import regex as re
 
 from dateparser_scripts.utils import get_raw_data
 

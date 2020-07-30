@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 import regex as re
 from dateparser.utils import get_logger
 

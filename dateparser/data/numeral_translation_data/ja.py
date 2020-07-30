@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 info = {
     "%%spellout-numbering-year-digits": {
         "(0, 9)": "=%spellout-numbering=;",

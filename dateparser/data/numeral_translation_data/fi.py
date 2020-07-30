@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 info = {
     "%%spellout-ordinal-ablative-larger": {
         "(0, 1)": ";",

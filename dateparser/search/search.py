@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, Settings

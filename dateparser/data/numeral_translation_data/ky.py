@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 info = {
     "%%and": {
         "(0, 99)": "' жана =%spellout-cardinal-verbose=;",

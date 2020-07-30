@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 info = {
     "%%spellout-cardinal-initial": {
         "1": "egy;",

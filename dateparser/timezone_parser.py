@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 import regex as re
 from datetime import datetime, timedelta, tzinfo
 
