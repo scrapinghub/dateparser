@@ -9,7 +9,6 @@ from datetime import datetime, timedelta
 
 from mock import Mock, patch
 from parameterized import parameterized, param
-import six
 
 import dateparser
 from dateparser import date
@@ -85,7 +84,7 @@ class TestDateRangeFunction(BaseTestCase):
             date_under_test += timedelta(days=1)
 
     def then_range_is_in_ascending_order(self):
-        for i in six.moves.range(len(self.result) - 1):
+        for i in range(len(self.result) - 1):
             self.assertLess(self.result[i], self.result[i + 1])
 
     def then_period_was_rejected(self, period):

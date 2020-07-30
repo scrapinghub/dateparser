@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from itertools import chain
+from itertools import chain, zip_longest
 from operator import methodcaller
 import regex as re
-from six.moves import zip_longest
 
 from dateparser.utils import normalize_unicode
 
