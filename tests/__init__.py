@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 from unittest import TestCase
 from dateparser.conf import settings
 

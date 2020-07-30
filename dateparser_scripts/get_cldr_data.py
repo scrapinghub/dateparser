@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
-import regex as re
 import json
 import os
 import shutil
 from collections import OrderedDict
-from orderedset import OrderedSet
+
+import regex as re
 import six
+from orderedset import OrderedSet
 
 from dateparser_scripts.order_languages import language_locale_dict
 from dateparser_scripts.utils import get_dict_difference, get_raw_data
