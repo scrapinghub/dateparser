@@ -29,7 +29,7 @@ class FreshnessDateDataParser(object):
 
         date_string = re.sub(r'\s+', ' ', date_string.strip())
 
-        words = [x for x in re.split(r'\W', date_string) if (x if x else False)]
+        words = [x for x in re.split(r'\W', date_string) if x]
         words = [x for x in words if not re.match(r'%s' % '|'.join(skip), x)]
         return not words
 
