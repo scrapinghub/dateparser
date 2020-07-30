@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from parameterized import parameterized, param
 from datetime import datetime
@@ -173,40 +173,40 @@ class TestJalaliCalendar(BaseTestCase):
         self.assertEqual(datetime, self.result['date_obj'])
 
     @parameterized.expand([
-        param(date_string=u'سه شنبه سوم شهریور ۱۳۹۴', dt=datetime(2015, 8, 25, 0, 0)),
-        param(date_string=u'پنجشنبه چهارم تیر ۱۳۹۴', dt=datetime(2015, 6, 25, 0, 0)),
-        param(date_string=u'شنبه یکم فروردین ۱۳۹۴', dt=datetime(2015, 3, 21, 0, 0)),
-        param(date_string=u'یکشنبه شانزدهم آذر ۱۳۹۳', dt=datetime(2014, 12, 7, 0, 0)),
-        param(date_string=u'دوشنبه دوازدهم آبان ۱۳۹۳', dt=datetime(2014, 11, 3, 0, 0)),
-        param(date_string=u'یکشنبه سیزدهم مهر ۱۳۹۳', dt=datetime(2014, 10, 5, 0, 0)),
-        param(date_string=u'دوشنبه دوم تیر ۱۳۹۳', dt=datetime(2014, 6, 23, 0, 0)),
-        param(date_string=u'یکشنبه سوم فروردین ۱۳۹۳', dt=datetime(2014, 3, 23, 0, 0)),
-        param(date_string=u'پنجشنبه دهم بهمن ۱۳۹۲', dt=datetime(2014, 1, 30, 0, 0)),
-        param(date_string=u'شنبه چهاردهم دی ۱۳۹۲', dt=datetime(2014, 1, 4, 0, 0)),
-        param(date_string=u'جمعه بیستم خرداد ۱۳۹۰', dt=datetime(2011, 6, 10, 0, 0)),
-        param(date_string=u'شنبه نهم مرداد ۱۳۸۹', dt=datetime(2010, 7, 31, 0, 0)),
-        param(date_string=u'پنجشنبه بیست و سوم اردیبهشت ۱۳۸۹', dt=datetime(2010, 5, 13, 0, 0)),
-        param(date_string=u'جمعه سی ام اسفند ۱۳۸۷', dt=datetime(2009, 3, 20, 0, 0)),
+        param(date_string='سه شنبه سوم شهریور ۱۳۹۴', dt=datetime(2015, 8, 25, 0, 0)),
+        param(date_string='پنجشنبه چهارم تیر ۱۳۹۴', dt=datetime(2015, 6, 25, 0, 0)),
+        param(date_string='شنبه یکم فروردین ۱۳۹۴', dt=datetime(2015, 3, 21, 0, 0)),
+        param(date_string='یکشنبه شانزدهم آذر ۱۳۹۳', dt=datetime(2014, 12, 7, 0, 0)),
+        param(date_string='دوشنبه دوازدهم آبان ۱۳۹۳', dt=datetime(2014, 11, 3, 0, 0)),
+        param(date_string='یکشنبه سیزدهم مهر ۱۳۹۳', dt=datetime(2014, 10, 5, 0, 0)),
+        param(date_string='دوشنبه دوم تیر ۱۳۹۳', dt=datetime(2014, 6, 23, 0, 0)),
+        param(date_string='یکشنبه سوم فروردین ۱۳۹۳', dt=datetime(2014, 3, 23, 0, 0)),
+        param(date_string='پنجشنبه دهم بهمن ۱۳۹۲', dt=datetime(2014, 1, 30, 0, 0)),
+        param(date_string='شنبه چهاردهم دی ۱۳۹۲', dt=datetime(2014, 1, 4, 0, 0)),
+        param(date_string='جمعه بیستم خرداد ۱۳۹۰', dt=datetime(2011, 6, 10, 0, 0)),
+        param(date_string='شنبه نهم مرداد ۱۳۸۹', dt=datetime(2010, 7, 31, 0, 0)),
+        param(date_string='پنجشنبه بیست و سوم اردیبهشت ۱۳۸۹', dt=datetime(2010, 5, 13, 0, 0)),
+        param(date_string='جمعه سی ام اسفند ۱۳۸۷', dt=datetime(2009, 3, 20, 0, 0)),
         # dates with time component
-        param(date_string=u'پنجشنبه ۲۶ شهريور ۱۳۹۴ ساعت ۹:۳۲', dt=datetime(2015, 9, 17, 9, 32)),
-        param(date_string=u'دوشنبه ۲۳ شهريور ۱۳۹۴ ساعت ۱۹:۱۱', dt=datetime(2015, 9, 14, 19, 11)),
-        param(date_string=u'جمعه سی ام اسفند ۱۳۸۷ساعت 19:47', dt=datetime(2009, 3, 20, 19, 47)),
-        param(date_string=u'شنبه چهاردهم دی ۱۳۹۲ساعت 12:1', dt=datetime(2014, 1, 4, 12, 1)),
+        param(date_string='پنجشنبه ۲۶ شهريور ۱۳۹۴ ساعت ۹:۳۲', dt=datetime(2015, 9, 17, 9, 32)),
+        param(date_string='دوشنبه ۲۳ شهريور ۱۳۹۴ ساعت ۱۹:۱۱', dt=datetime(2015, 9, 14, 19, 11)),
+        param(date_string='جمعه سی ام اسفند ۱۳۸۷ساعت 19:47', dt=datetime(2009, 3, 20, 19, 47)),
+        param(date_string='شنبه چهاردهم دی ۱۳۹۲ساعت 12:1', dt=datetime(2014, 1, 4, 12, 1)),
         param(
-            date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه و 47 ثانیه',
+            date_string='پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه و 47 ثانیه',
             dt=datetime(2015, 9, 17, 11, 1, 47)
         ),
         param(
-            date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 10 و 58 دقیقه و 04 ثانیه',
+            date_string='پنجشنبه 26 شهریور 1394 ساعت ساعت 10 و 58 دقیقه و 04 ثانیه',
             dt=datetime(2015, 9, 17, 10, 58, 4)
         ),
         param(
-            date_string=u'سه شنبه 17 شهریور 1394 ساعت ساعت 18 و 21 دقیقه و 44 ثانیه',
+            date_string='سه شنبه 17 شهریور 1394 ساعت ساعت 18 و 21 دقیقه و 44 ثانیه',
             dt=datetime(2015, 9, 8, 18, 21, 44)
         ),
-        param(date_string=u'پنجشنبه 11 تیر 1394', dt=datetime(2015, 7, 2, 0, 0)),
+        param(date_string='پنجشنبه 11 تیر 1394', dt=datetime(2015, 7, 2, 0, 0)),
         param(
-            date_string=u'پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه',
+            date_string='پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه',
             dt=datetime(2015, 9, 17, 11, 1)
         ),
     ])

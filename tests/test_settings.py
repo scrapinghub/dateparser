@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from parameterized import parameterized, param
 from datetime import datetime, tzinfo

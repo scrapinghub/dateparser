@@ -62,15 +62,15 @@ Popular Formats
     >>> import dateparser
     >>> dateparser.parse('12/12/12')
     datetime.datetime(2012, 12, 12, 0, 0)
-    >>> dateparser.parse(u'Fri, 12 Dec 2014 10:55:50')
+    >>> dateparser.parse('Fri, 12 Dec 2014 10:55:50')
     datetime.datetime(2014, 12, 12, 10, 55, 50)
-    >>> dateparser.parse(u'Martes 21 de Octubre de 2014')  # Spanish (Tuesday 21 October 2014)
+    >>> dateparser.parse('Martes 21 de Octubre de 2014')  # Spanish (Tuesday 21 October 2014)
     datetime.datetime(2014, 10, 21, 0, 0)
-    >>> dateparser.parse(u'Le 11 Décembre 2014 à 09:00')  # French (11 December 2014 at 09:00)
+    >>> dateparser.parse('Le 11 Décembre 2014 à 09:00')  # French (11 December 2014 at 09:00)
     datetime.datetime(2014, 12, 11, 9, 0)
-    >>> dateparser.parse(u'13 января 2015 г. в 13:34')  # Russian (13 January 2015 at 13:34)
+    >>> dateparser.parse('13 января 2015 г. в 13:34')  # Russian (13 January 2015 at 13:34)
     datetime.datetime(2015, 1, 13, 13, 34)
-    >>> dateparser.parse(u'1 เดือนตุลาคม 2005, 1:00 AM')  # Thai (1 October 2005, 1:00 AM)
+    >>> dateparser.parse('1 เดือนตุลาคม 2005, 1:00 AM')  # Thai (1 October 2005, 1:00 AM)
     datetime.datetime(2005, 10, 1, 1, 0)
 
 This will try to parse a date from the given string, attempting to
@@ -84,7 +84,7 @@ You can specify the language(s), if known, using ``languages`` argument. In this
 If you know the possible formats of the dates, you can
 use the ``date_formats`` argument:
 
-    >>> dateparser.parse(u'22 Décembre 2010', date_formats=['%d %B %Y'])
+    >>> dateparser.parse('22 Décembre 2010', date_formats=['%d %B %Y'])
     datetime.datetime(2010, 12, 22, 0, 0)
 
 
@@ -93,15 +93,15 @@ Relative Dates
 
     >>> parse('1 hour ago')
     datetime.datetime(2015, 5, 31, 23, 0)
-    >>> parse(u'Il ya 2 heures')  # French (2 hours ago)
+    >>> parse('Il ya 2 heures')  # French (2 hours ago)
     datetime.datetime(2015, 5, 31, 22, 0)
-    >>> parse(u'1 anno 2 mesi')  # Italian (1 year 2 months)
+    >>> parse('1 anno 2 mesi')  # Italian (1 year 2 months)
     datetime.datetime(2014, 4, 1, 0, 0)
-    >>> parse(u'yaklaşık 23 saat önce')  # Turkish (23 hours ago)
+    >>> parse('yaklaşık 23 saat önce')  # Turkish (23 hours ago)
     datetime.datetime(2015, 5, 31, 1, 0)
-    >>> parse(u'Hace una semana')  # Spanish (a week ago)
+    >>> parse('Hace una semana')  # Spanish (a week ago)
     datetime.datetime(2015, 5, 25, 0, 0)
-    >>> parse(u'2小时前')  # Chinese (2 hours ago)
+    >>> parse('2小时前')  # Chinese (2 hours ago)
     datetime.datetime(2015, 5, 31, 22, 0)
 
 .. note:: Testing above code might return different values for you depending on your environment's current date and time.
@@ -197,16 +197,16 @@ Incomplete Dates
 ----------------
 
     >>> from dateparser import parse
-    >>> parse(u'December 2015')  # default behavior
+    >>> parse('December 2015')  # default behavior
     datetime.datetime(2015, 12, 16, 0, 0)
-    >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'last'})
+    >>> parse('December 2015', settings={'PREFER_DAY_OF_MONTH': 'last'})
     datetime.datetime(2015, 12, 31, 0, 0)
-    >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
+    >>> parse('December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
     datetime.datetime(2015, 12, 1, 0, 0)
 
-    >>> parse(u'March')
+    >>> parse('March')
     datetime.datetime(2015, 3, 16, 0, 0)
-    >>> parse(u'March', settings={'PREFER_DATES_FROM': 'future'})
+    >>> parse('March', settings={'PREFER_DATES_FROM': 'future'})
     datetime.datetime(2016, 3, 16, 0, 0)
     >>> # parsing with preference set for 'past'
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
@@ -214,7 +214,7 @@ Incomplete Dates
 
 You can also ignore parsing incomplete dates altogether by setting `STRICT_PARSING` flag as follows:
 
-    >>> parse(u'December 2015', settings={'STRICT_PARSING': True})
+    >>> parse('December 2015', settings={'STRICT_PARSING': True})
     None
 
 For more on handling incomplete dates, please look at `Settings`_.
@@ -466,14 +466,14 @@ Supported Calendars
 * Persian Jalali calendar. For more information, refer to `Persian Jalali Calendar <https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>`_.
 
     >>> from dateparser.calendars.jalali import JalaliCalendar
-    >>> JalaliCalendar(u'جمعه سی ام اسفند ۱۳۸۷').get_date()
+    >>> JalaliCalendar('جمعه سی ام اسفند ۱۳۸۷').get_date()
     {'date_obj': datetime.datetime(2009, 3, 20, 0, 0), 'period': 'day'}
 
 
 * Hijri/Islamic Calendar. For more information, refer to `Hijri Calendar <https://en.wikipedia.org/wiki/Islamic_calendar>`_.
 
     >>> from dateparser.calendars.hijri import HijriCalendar
-    >>> HijriCalendar(u'17-01-1437 هـ 08:30 مساءً').get_date()
+    >>> HijriCalendar('17-01-1437 هـ 08:30 مساءً').get_date()
     {'date_obj': datetime.datetime(2015, 10, 30, 20, 30), 'period': 'day'}
 
 .. note:: `HijriCalendar` only works with Python ≥ 3.6.

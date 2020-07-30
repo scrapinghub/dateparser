@@ -44,8 +44,8 @@ class hijri_parser(non_gregorian_parser):
     non_gregorian_date_cls = HijriDate
 
     _time_conventions = {
-        'am': [u"صباحاً"],
-        'pm': [u"مساءً"],
+        'am': ["صباحاً"],
+        'pm': ["مساءً"],
     }
 
     @classmethod
