@@ -8,7 +8,7 @@ from tests import BaseTestCase
 
 class TestParseFunction(BaseTestCase):
     def setUp(self):
-        super(TestParseFunction, self).setUp()
+        super().setUp()
         self.result = NotImplemented
 
     @parameterized.expand([

@@ -149,7 +149,7 @@ def parse_with_formats(date_string, date_formats, settings):
         return {'date_obj': None, 'period': period}
 
 
-class _DateLocaleParser(object):
+class _DateLocaleParser:
 
     def __init__(self, locale, date_string, date_formats, settings=None):
         self._settings = settings
@@ -253,7 +253,7 @@ class _DateLocaleParser(object):
         return True
 
 
-class DateDataParser(object):
+class DateDataParser:
     """
     Class which handles language detection, translation and subsequent generic parsing of
     string representing date and/or time.

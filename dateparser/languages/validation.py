@@ -2,7 +2,7 @@ import regex as re
 from dateparser.utils import get_logger
 
 
-class LanguageValidator(object):
+class LanguageValidator:
     logger = None
 
     VALID_KEYS = [

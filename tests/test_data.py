@@ -70,7 +70,7 @@ def is_invalid_relative_regex_mapping(relative_regex_mapping):
 
 class TestLocaleInfo(BaseTestCase):
     def setUp(self):
-        super(TestLocaleInfo, self).setUp()
+        super().setUp()
         self.info = NotImplemented
         self.shortname = NotImplemented
 

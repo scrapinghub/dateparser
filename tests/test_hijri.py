@@ -19,7 +19,7 @@ except ImportError:
 class TestHijriParser(BaseTestCase):
 
     def setUp(self):
-        super(TestHijriParser, self).setUp()
+        super().setUp()
         self.result = NotImplemented
         self.date_string = NotImplemented
         self.parser = NotImplemented

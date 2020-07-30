@@ -3,7 +3,7 @@ from hijri_converter import convert
 from dateparser.calendars import non_gregorian_parser
 
 
-class hijri(object):
+class hijri:
 
     @classmethod
     def to_gregorian(cls, year=None, month=None, day=None):
@@ -21,7 +21,7 @@ class hijri(object):
         return h.month_length()
 
 
-class HijriDate(object):
+class HijriDate:
     def __init__(self, year, month, day):
         self.year = year
         self.month = month

@@ -15,7 +15,7 @@ def test_function(settings=None):
 
 class TimeZoneSettingsTest(BaseTestCase):
     def setUp(self):
-        super(TimeZoneSettingsTest, self).setUp()
+        super().setUp()
         self.given_ds = NotImplemented
         self.result = NotImplemented
         self.timezone = NotImplemented
@@ -94,7 +94,7 @@ class TimeZoneSettingsTest(BaseTestCase):
 class SettingsTest(BaseTestCase):
 
     def setUp(self):
-        super(SettingsTest, self).setUp()
+        super().setUp()
         self.default_settings = settings
 
     def test_apply_settings_should_return_default_settings_when_no_settings_are_supplied_to_the_decorated_function(
@@ -130,7 +130,7 @@ class SettingsTest(BaseTestCase):
 class InvalidSettingsTest(BaseTestCase):
 
     def setUp(self):
-        super(InvalidSettingsTest, self).setUp()
+        super().setUp()
 
     def test_error_is_raised_when_none_is_passed_in_settings(self):
         test_func = apply_settings(test_function)

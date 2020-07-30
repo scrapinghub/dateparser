@@ -17,7 +17,7 @@ from tests import BaseTestCase
 
 class TestDateRangeFunction(BaseTestCase):
     def setUp(self):
-        super(TestDateRangeFunction, self).setUp()
+        super().setUp()
         self.result = NotImplemented
 
     @parameterized.expand([
@@ -91,7 +91,7 @@ class TestDateRangeFunction(BaseTestCase):
 
 class TestGetIntersectingPeriodsFunction(BaseTestCase):
     def setUp(self):
-        super(TestGetIntersectingPeriodsFunction, self).setUp()
+        super().setUp()
         self.result = NotImplemented
 
     @parameterized.expand([
@@ -238,7 +238,7 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
 
 class TestParseWithFormatsFunction(BaseTestCase):
     def setUp(self):
-        super(TestParseWithFormatsFunction, self).setUp()
+        super().setUp()
         self.result = NotImplemented
 
     @parameterized.expand([
@@ -323,7 +323,7 @@ class TestParseWithFormatsFunction(BaseTestCase):
 
 class TestDateDataParser(BaseTestCase):
     def setUp(self):
-        super(TestDateDataParser, self).setUp()
+        super().setUp()
         self.parser = NotImplemented
         self.result = NotImplemented
         self.multiple_results = NotImplemented
@@ -577,7 +577,7 @@ class TestDateDataParser(BaseTestCase):
 
 class TestParserInitialization(BaseTestCase):
     def setUp(self):
-        super(TestParserInitialization, self).setUp()
+        super().setUp()
         self.parser = NotImplemented
 
     @parameterized.expand([
@@ -659,7 +659,7 @@ class TestSanitizeDate(BaseTestCase):
 
 class TestDateLocaleParser(BaseTestCase):
     def setUp(self):
-        super(TestDateLocaleParser, self).setUp()
+        super().setUp()
 
     @parameterized.expand([
         param(date_obj={'date_obj': datetime(1999, 10, 1, 0, 0)}),

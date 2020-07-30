@@ -12,7 +12,7 @@ from tests import BaseTestCase
 
 class TestTZPopping(BaseTestCase):
     def setUp(self):
-        super(TestTZPopping, self).setUp()
+        super().setUp()
         self.initial_string = self.datetime_string = self.timezone_offset = NotImplemented
 
     @parameterized.expand([
@@ -98,7 +98,7 @@ class TestTZPopping(BaseTestCase):
 
 class TestLocalTZOffset(BaseTestCase):
     def setUp(self):
-        super(TestLocalTZOffset, self).setUp()
+        super().setUp()
         self.timezone_offset = NotImplemented
 
     @parameterized.expand([
@@ -140,7 +140,7 @@ class TestLocalTZOffset(BaseTestCase):
 
 class TestTimeZoneConversion(BaseTestCase):
     def setUp(self):
-        super(TestTimeZoneConversion, self).setUp()
+        super().setUp()
         self.settings = {}
         self.parser = parse
         self.result = NotImplemented
@@ -170,7 +170,7 @@ class TestTimeZoneConversion(BaseTestCase):
 
 class TestStaticTzInfo(BaseTestCase):
     def setUp(self):
-        super(TestStaticTzInfo, self).setUp()
+        super().setUp()
 
     @parameterized.expand([
         param(given_date=datetime(2007, 1, 18, tzinfo=timezone('UTC'))),

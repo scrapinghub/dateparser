@@ -13,7 +13,7 @@ def _restore_languages_on_generator_exit(method):
     return wrapped
 
 
-class BaseLanguageDetector(object):
+class BaseLanguageDetector:
     def __init__(self, languages):
         self.languages = languages[:]
 
@@ -37,7 +37,7 @@ class BaseLanguageDetector(object):
 
 class AutoDetectLanguage(BaseLanguageDetector):
     def __init__(self, languages, allow_redetection=False):
-        super(AutoDetectLanguage, self).__init__(languages=languages[:])
+        super().__init__(languages=languages[:])
         self.language_pool = languages[:]
         self.allow_redetection = allow_redetection
 
@@ -66,11 +66,9 @@ class ExactLanguages(BaseLanguageDetector):
     def __init__(self, languages):
         if languages is None:
             raise ValueError("language cannot be None for ExactLanguages")
-        super(ExactLanguages, self).__init__(languages=languages)
+        super().__init__(languages=languages)
 
     @_restore_languages_on_generator_exit
     def iterate_applicable_languages(self, date_string, modify=False, settings=None):
-        for language in super(
-                ExactLanguages, self).iterate_applicable_languages(
-                    date_string, modify=False, settings=settings):
+        for language in super().iterate_applicable_languages(date_string, modify=False, settings=settings):
             yield language
