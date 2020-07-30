@@ -540,4 +540,4 @@ class Locale(object):
                     self.info['second']],
         }
         name = '{language}ParserInfo'.format(language=self.info['name'])
-        return type(name, bases=[base_cls], dict=attributes)
+        return type(name, (base_cls,), attributes)
