@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%after-hundred": {
         "(0, 9)": "lẻ =%spellout-cardinal=;",

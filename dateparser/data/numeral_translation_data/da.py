@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%and-small": {
         "(0, 99)": "og =%spellout-cardinal-common=;",
