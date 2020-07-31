@@ -1,4 +1,3 @@
-
 from unittest import TestCase
 from dateparser.conf import settings
 

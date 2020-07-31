@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from collections import OrderedDict
 from importlib import import_module
 from itertools import zip_longest

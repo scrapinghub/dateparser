@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 from parameterized import parameterized, param
 from tests import BaseTestCase
 from dateparser.timezone_parser import StaticTzInfo

@@ -1,4 +1,3 @@
-
 language_order = [
     "en",
     "zh",

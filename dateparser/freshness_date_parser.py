@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import regex as re
 from datetime import datetime
 from datetime import time

@@ -1,6 +1,3 @@
-
-
-
 import re
 
 from dateparser.calendars import non_gregorian_parser

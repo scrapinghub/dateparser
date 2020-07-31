@@ -1,6 +1,3 @@
-
-
-
 from . import CalendarBase
 from dateparser.calendars.jalali_parser import jalali_parser
 
