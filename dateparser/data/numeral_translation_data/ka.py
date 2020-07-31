@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 info = {
     "%%hundred": {
         "0": "ი;",

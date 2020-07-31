@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 info = {
     "%%alt-ones": {
         "1": "ເອັດ;",

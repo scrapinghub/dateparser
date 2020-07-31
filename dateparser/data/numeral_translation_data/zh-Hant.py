@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 info = {
     "%%cardinal-alternate2-13": {
         "(10, 19)": "零一=%spellout-cardinal-alternate2=;",

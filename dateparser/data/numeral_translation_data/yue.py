@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 info = {
     "%%cardinal-twenties": {
         "1": ";",

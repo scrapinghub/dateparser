@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 info = {
     "%%spellout-cardinal-feminine-ones": {
         "1": "jeden;",

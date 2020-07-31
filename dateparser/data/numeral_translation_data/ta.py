@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 info = {
     "%spellout-cardinal": {
         "0": "பூஜ்யம்;",

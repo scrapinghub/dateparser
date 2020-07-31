@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 info = {
     "%%spellout-ordinal-native-count-larger": {
         "0": "영;",
