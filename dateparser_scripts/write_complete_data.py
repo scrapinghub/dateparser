@@ -23,10 +23,10 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 avoid_languages = {'cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo'}
 
 cldr_languages = list(set(map(lambda x: x[:-5], os.listdir(cldr_date_directory))) - avoid_languages)
-supplementary_languages = list(map(lambda x: x[:-5], os.listdir(supplementary_date_directory)))
+supplementary_languages = [x[:-5] for x in os.listdir(supplementary_date_directory)]
 all_languages = set(cldr_languages).union(set(supplementary_languages))
 
-cldr_numeral_languages = list(map(lambda x: x[:-5], os.listdir(cldr_numeral_directory)))
+cldr_numeral_languages = [x[:-5] for x in os.listdir(cldr_numeral_directory)]
 
 RELATIVE_PATTERN = re.compile(r'\{0\}')
 

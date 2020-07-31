@@ -1,4 +1,3 @@
-
 from __future__ import unicode_literals
 
 import regex as re
@@ -29,9 +28,9 @@ class FreshnessDateDataParser(object):
 
         date_string = re.sub(r'\s+', ' ', date_string.strip())
 
-        words = filter(lambda x: x if x else False, re.split(r'\W', date_string))
-        words = filter(lambda x: not re.match(r'%s' % '|'.join(skip), x), words)
-        return not list(words)
+        words = [x for x in re.split(r'\W', date_string) if x]
+        words = [x for x in words if not re.match(r'%s' % '|'.join(skip), x)]
+        return not words
 
     def _parse_time(self, date_string, settings):
         """Attempts to parse time part of date strings like '1 day ago, 2 PM' """
