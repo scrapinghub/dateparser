@@ -261,12 +261,10 @@ info = {
             "(\\d+) sec ago"
         ],
         "in \\1 decade": [
-            "in (\\d+) decade",
-            "in (\\d+) decades"
+            "in (\\d+) decades?"
         ],
         "\\1 decade ago": [
-            "(\\d+) decade ago",
-            "(\\d+) decades ago"
+            "(\\d+) decades? ago"
         ]
     },
     "locale_specific": {
