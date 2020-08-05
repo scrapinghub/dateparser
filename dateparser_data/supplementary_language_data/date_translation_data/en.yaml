@@ -50,11 +50,9 @@ relative-type:
 
 relative-type-regex:
     in \1 decade:
-        - in (\d+) decade
-        - in (\d+) decades
+        - in (\d+) decades?
     \1 decade ago:
-        - (\d+) decade ago
-        - (\d+) decades ago
+        - (\d+) decades? ago
 
 simplifications:
     - an: '1'
