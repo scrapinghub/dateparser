@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%spellout-cardinal": {
         "0": "शून्य;",
