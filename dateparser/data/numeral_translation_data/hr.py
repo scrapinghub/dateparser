@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%spellout-ordinal-base": {
         "0": "nula;",

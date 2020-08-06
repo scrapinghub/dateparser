@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%and-feminine": {
         "1": "ו=%spellout-numbering=;",

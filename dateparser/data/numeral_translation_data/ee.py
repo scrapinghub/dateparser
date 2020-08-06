@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%after-billions": {
         "(0, 999)": "' kpakple =%spellout-cardinal=;",
