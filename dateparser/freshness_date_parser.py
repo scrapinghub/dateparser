@@ -13,7 +13,7 @@ from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
 
-_UNITS = r'year|month|week|day|hour|minute|second'
+_UNITS = r'decade|year|month|week|day|hour|minute|second'
 PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
 
 
@@ -115,15 +115,14 @@ class FreshnessDateDataParser(object):
         kwargs = self.get_kwargs(date_string)
         if not kwargs:
             return None, None
-
         period = 'day'
         if 'days' not in kwargs:
             for k in ['weeks', 'months', 'years']:
                 if k in kwargs:
                     period = k[:-1]
                     break
-
         td = relativedelta(**kwargs)
+
         if (
             re.search(r'\bin\b', date_string) or
             re.search(r'\bfuture\b', prefer_dates_from) and
@@ -142,7 +141,9 @@ class FreshnessDateDataParser(object):
         kwargs = {}
         for num, unit in m:
             kwargs[unit + 's'] = int(num)
-
+        if 'decades' in kwargs:
+            kwargs['years'] = 10 * kwargs['decades'] + kwargs.get('years', 0)
+            del kwargs['decades']
         return kwargs
 
     def get_date_data(self, date_string, settings=None):

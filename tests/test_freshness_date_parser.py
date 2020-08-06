@@ -37,6 +37,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param("1 decade", ago={'years': 10}, period='year'),
+        param("1 decade 2 years", ago={'years': 12}, period='year'),
+        param("1 decade 12 months", ago={'years': 10, 'months': 12}, period='month'),
+        param("1 decade and 11 months", ago={'years': 10, 'months': 11}, period='month'),
+        param("last decade", ago={'years': 10}, period='year'),
+        param("a decade ago", ago={'years': 10}, period='year'),
+        param("100 decades", ago={'years': 1000}, period='year'),
         param('yesterday', ago={'days': 1}, period='day'),
         param('the day before yesterday', ago={'days': 2}, period='day'),
         param('today', ago={'days': 0}, period='day'),
@@ -549,6 +556,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param("1 decade", ago={'years': 10}, period='year'),
+        param("1 decade 2 years", ago={'years': 12}, period='year'),
+        param("1 decade 12 months", ago={'years': 10, 'months': 12}, period='month'),
+        param("1 decade and 11 months", ago={'years': 10, 'months': 11}, period='month'),
+        param("last decade", ago={'years': 10}, period='year'),
+        param("a decade ago", ago={'years': 10}, period='year'),
+        param("100 decades", ago={'years': 1000}, period='year'),
         param('yesterday', ago={'days': 1}, period='day'),
         param('the day before yesterday', ago={'days': 2}, period='day'),
         param('today', ago={'days': 0}, period='day'),
@@ -1032,6 +1046,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param('in 1 decade 2 months', in_future={'years': 10, 'months': 2}, period='month'),
+        param('in 100 decades', in_future={'years': 1000}, period='year'),
+        param('in 1 decade 12 years', in_future={'years': 22}, period='year'),
+        param('next decade', in_future={'years': 10}, period='year'),
+        param('in a decade', in_future={'years': 10}, period='year'),
         param('tomorrow', in_future={'days': 1}, period='day'),
         param('today', in_future={'days': 0}, period='day'),
         param('in an hour', in_future={'hours': 1}, period='day'),

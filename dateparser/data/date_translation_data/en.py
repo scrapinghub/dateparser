@@ -181,6 +181,13 @@ info = {
         ],
         "2 day ago": [
             "day before yesterday"
+        ],
+        "1 decade ago": [
+            "last decade",
+            "this decade"
+        ],
+        "in 1 decade": [
+            "next decade"
         ]
     },
     "relative-type-regex": {
@@ -251,6 +258,12 @@ info = {
             "(\\d+) second ago",
             "(\\d+) seconds ago",
             "(\\d+) sec ago"
+        ],
+        "in \\1 decade": [
+            "in (\\d+) decades?"
+        ],
+        "\\1 decade ago": [
+            "(\\d+) decades? ago"
         ]
     },
     "locale_specific": {
@@ -753,6 +766,10 @@ info = {
         "of"
     ],
     "sentence_splitter_group": 1,
+    "decade": [
+        "decade",
+        "decades"
+    ],
     "ago": [
         "ago"
     ],
