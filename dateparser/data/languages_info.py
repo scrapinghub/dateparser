@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 language_order = [
     "en",
     "zh",
