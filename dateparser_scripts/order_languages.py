@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import regex as re
->>>>>>> e767f408f1c3fa859bd10fdc1d44c18bdf9853de
 import json
 import os
 from collections import OrderedDict
