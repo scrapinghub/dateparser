@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%numbertimes": {
         "1": "ataaseq;",

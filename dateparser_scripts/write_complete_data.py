@@ -83,7 +83,6 @@ def write_complete_data(in_memory=False):
     """
     in_memory_result = {}
 
-    encoding_comment = "# -*- coding: utf-8 -*-\n"
     if not in_memory:
         if not os.path.isdir(translation_data_directory):
             os.mkdir(translation_data_directory)
@@ -100,7 +99,7 @@ def write_complete_data(in_memory=False):
         _modify_data(date_translation_data)
         translation_data = json.dumps(date_translation_data, indent=4, separators=(',', ': '),
                                       ensure_ascii=False)
-        out_text = (encoding_comment + 'info = ' + translation_data + '\n').encode('utf-8')
+        out_text = ('info = ' + translation_data + '\n').encode('utf-8')
         _write_file(date_translation_directory + language + '.py', out_text, 'wb', in_memory, in_memory_result)
 
     if not in_memory and os.path.isdir(numeral_translation_directory):
@@ -114,7 +113,7 @@ def write_complete_data(in_memory=False):
             numeral_translation_data = json.load(f, object_pairs_hook=OrderedDict)
         numeral_data = json.dumps(numeral_translation_data, indent=4, separators=(',', ': '),
                                   ensure_ascii=False)
-        out_text = (encoding_comment + 'info = ' + numeral_data + '\n').encode('utf-8')
+        out_text = ('info = ' + numeral_data + '\n').encode('utf-8')
         _write_file(numeral_translation_directory + language + '.py', out_text, 'wb', in_memory, in_memory_result)
 
     init_text = '\n'.join(
@@ -122,9 +121,9 @@ def write_complete_data(in_memory=False):
              "from .languages_info import language_order, language_locale_dict"]
              )
 
-    _write_file(translation_data_directory + '__init__.py', encoding_comment + init_text, 'w', False, in_memory_result)
-    _write_file(date_translation_directory + '__init__.py', encoding_comment, 'w', False, in_memory_result)
-    _write_file(numeral_translation_directory + '__init__.py', encoding_comment, 'w', False, in_memory_result)
+    _write_file(translation_data_directory + '__init__.py', init_text, 'w', False, in_memory_result)
+    _write_file(date_translation_directory + '__init__.py', '', 'w', False, in_memory_result)
+    _write_file(numeral_translation_directory + '__init__.py', '', 'w', False, in_memory_result)
 
     return in_memory_result
 

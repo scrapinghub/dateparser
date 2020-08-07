@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%spellout-prefixed": {
         "0": "ERROR;",

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%spellout-cardinal-feminine": {
         "0": "dim;",
