@@ -1,6 +1,3 @@
-# coding: utf-8
-
-
 import unittest
 from datetime import datetime, timedelta
 from functools import wraps

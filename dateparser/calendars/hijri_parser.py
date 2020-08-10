@@ -1,4 +1,3 @@
-# coding: utf-8
 from hijri_converter import convert
 
 from dateparser.calendars import non_gregorian_parser

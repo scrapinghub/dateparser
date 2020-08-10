@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from dateparser.search.detection import BaseLanguageDetector
 from dateparser.conf import apply_settings
 from dateparser.utils import normalize_unicode

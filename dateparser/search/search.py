@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, Settings
 from dateparser.date import DateDataParser

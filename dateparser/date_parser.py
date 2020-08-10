@@ -1,6 +1,3 @@
-# coding: utf-8
-
-
 from tzlocal import get_localzone
 
 from .timezone_parser import pop_tz_offset_from_string

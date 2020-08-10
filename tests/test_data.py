@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 from itertools import chain
 import regex as re
 from parameterized import parameterized

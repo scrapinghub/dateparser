@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 from itertools import chain, zip_longest
 from operator import methodcaller
 import regex as re

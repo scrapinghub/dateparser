@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
-import regex as re
 import json
 import os
 import shutil
 from collections import OrderedDict
+
+import regex as re
 from orderedset import OrderedSet
 
 from dateparser_scripts.order_languages import language_locale_dict

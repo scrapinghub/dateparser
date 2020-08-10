@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 from parameterized import parameterized, param
 from operator import attrgetter
 import regex as re

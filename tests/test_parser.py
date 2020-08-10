@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from datetime import datetime, time
 
 from parameterized import parameterized, param

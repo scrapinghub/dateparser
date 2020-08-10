@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 from parameterized import parameterized, param
 from datetime import datetime
 

@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 import sys
 import unittest
 from datetime import datetime

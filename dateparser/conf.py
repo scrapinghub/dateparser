@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import hashlib
 from functools import wraps
 

@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 import json
-from ruamel.yaml import RoundTripLoader
 import os
 import shutil
 from collections import OrderedDict
+
 import regex as re
+from ruamel.yaml import RoundTripLoader
 
 from dateparser_scripts.utils import combine_dicts
 

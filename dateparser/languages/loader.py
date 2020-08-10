@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 from collections import OrderedDict
 from importlib import import_module
 from itertools import zip_longest
