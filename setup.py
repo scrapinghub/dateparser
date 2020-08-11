@@ -44,7 +44,7 @@ setup(
     license="BSD",
     zip_safe=False,
     keywords='dateparser',
-    python_requires='!=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
+    python_requires='>=3.5',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
