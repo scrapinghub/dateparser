@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%lenient-parse": {
         "(0, 'inf')": "&[last primary ignorable ] << ' ' << ',' << '-' << '­';"

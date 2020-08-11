@@ -42,8 +42,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'DateParser'
-copyright = u'2014, Scrapinghub'
+project = 'DateParser'
+copyright = '2014, Scrapinghub'
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -87,8 +87,8 @@ latex_elements = {}
 # [howto/manual]).
 latex_documents = [
     ('index', 'dateparser.tex',
-     u'DateParser Documentation',
-     u'Scrapinghub', 'manual'),
+     'DateParser Documentation',
+     'Scrapinghub', 'manual'),
 ]
 
 
@@ -98,8 +98,8 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'dateparser',
-     u'DateParser Documentation',
-     [u'Scrapinghub'], 1)
+     'DateParser Documentation',
+     ['Scrapinghub'], 1)
 ]
 
 
@@ -110,8 +110,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'dateparser',
-     u'DateParser Documentation',
-     u'Scrapinghub',
+     'DateParser Documentation',
+     'Scrapinghub',
      'dateparser',
      'One line description of project.',
      'Miscellaneous'),

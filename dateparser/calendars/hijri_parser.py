@@ -1,4 +1,3 @@
-# coding: utf-8
 from hijri_converter import convert
 
 from dateparser.calendars import non_gregorian_parser
@@ -44,8 +43,8 @@ class hijri_parser(non_gregorian_parser):
     non_gregorian_date_cls = HijriDate
 
     _time_conventions = {
-        'am': [u"صباحاً"],
-        'pm': [u"مساءً"],
+        'am': ["صباحاً"],
+        'pm': ["مساءً"],
     }
 
     @classmethod

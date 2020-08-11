@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from itertools import chain
 import regex as re
-import six
 from parameterized import parameterized
 
 from dateparser.languages import default_loader
@@ -22,7 +18,7 @@ VALID_KEYS = [
     'name', 'date_order', 'skip', 'pertain', 'simplifications', 'no_word_spacing', 'ago',
     'in', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
     'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september',
-    'october', 'november', 'december', 'year', 'month', 'week', 'day', 'hour', 'minute',
+    'october', 'november', 'december', 'decade', 'year', 'month', 'week', 'day', 'hour', 'minute',
     'second', 'am', 'pm', 'relative-type', 'relative-type-regex', 'sentence_splitter_group']
 
 NECESSARY_KEYS = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',
@@ -35,16 +31,16 @@ MONTH_NAMES = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
 
 
 def is_invalid_translation(translation):
-    return (not (translation and isinstance(translation, six.text_type))) or '.' in translation
+    return (not (translation and isinstance(translation, str))) or '.' in translation
 
 
 def is_invalid_month_translation(translation):
-    return ((not (translation and isinstance(translation, six.text_type))) or
+    return ((not (translation and isinstance(translation, str))) or
             '.' in translation or DEFAULT_MONTH_PATTERN.match(translation))
 
 
 def is_invalid_am_pm_translation(translation):
-    return ((not (translation and isinstance(translation, six.text_type))) or
+    return ((not (translation and isinstance(translation, str))) or
             '.' in translation or INVALID_AM_PM_PATTERN.match(translation))
 
 
@@ -52,23 +48,23 @@ def is_invalid_simplification(simplification):
     if not isinstance(simplification, dict) or len(simplification) != 1:
         return True
     key, value = list(simplification.items())[0]
-    return not isinstance(key, six.text_type) or not isinstance(value, six.text_type)
+    return not isinstance(key, str) or not isinstance(value, str)
 
 
 def is_invalid_relative_mapping(relative_mapping):
     key, value = relative_mapping
-    if not (key and value and isinstance(key, six.text_type) and isinstance(value, list)):
+    if not (key and value and isinstance(key, str) and isinstance(value, list)):
         return True
-    return not all([isinstance(x, six.text_type) for x in value])
+    return not all([isinstance(x, str) for x in value])
 
 
 def is_invalid_relative_regex_mapping(relative_regex_mapping):
     key, value = relative_regex_mapping
-    if not (key and value and isinstance(key, six.text_type) and isinstance(value, list)):
+    if not (key and value and isinstance(key, str) and isinstance(value, list)):
         return True
     if '\\1' not in key:
         return True
-    return not (all([isinstance(x, six.text_type) for x in value]) and
+    return not (all([isinstance(x, str) for x in value]) and
                 all(['(\\d+)' in x for x in value]))
 
 
@@ -301,7 +297,7 @@ class TestLocaleInfo(BaseTestCase):
 
     def then_name_is_valid(self):
         name = self.info['name']
-        self.assertIsInstance(name, six.text_type,
+        self.assertIsInstance(name, str,
                               'Invalid type for name: {} for locale {}'.format(
                                   type(name).__name__, self.shortname))
         self.assertEqual(name, self.shortname,
@@ -311,7 +307,7 @@ class TestLocaleInfo(BaseTestCase):
         if 'date_order' in self.info:
             date_order = self.info['date_order']
             self.assertIsInstance(
-                date_order, six.text_type,
+                date_order, str,
                 'Invalid type for date_order: {} for locale {}'.format(
                     type(date_order).__name__, self.shortname)
             )
@@ -373,7 +369,7 @@ class TestLocaleInfo(BaseTestCase):
                     key, type(tokens_list).__name__, self.shortname)
             )
             invalid_tokens = [token for token in tokens_list if not token or
-                              not isinstance(token, six.text_type)]
+                              not isinstance(token, str)]
             self.assertFalse(
                 invalid_tokens, 'Invalid tokens for {}: {} for locale {}'.format(
                     key, ', '.join(map(repr, invalid_tokens)), self.shortname
@@ -429,7 +425,7 @@ class TestLocaleInfo(BaseTestCase):
         if 'no_word_spacing' in self.info:
             no_word_spacing = self.info['no_word_spacing']
             self.assertIsInstance(
-                no_word_spacing, six.text_type, 'Invalid type for no_word_spacing: {} for locale {}'.format(
+                no_word_spacing, str, 'Invalid type for no_word_spacing: {} for locale {}'.format(
                     type(no_word_spacing).__name__, self.shortname)
             )
             self.assertIn(

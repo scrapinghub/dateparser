@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%cents-f": {
         "0": "s;",

@@ -1,4 +1,3 @@
-# coding: utf-8
 import calendar
 import regex as re
 
@@ -584,8 +583,8 @@ class _parser(object):
 
 
 class tokenizer(object):
-    digits = u'0123456789:'
-    letters = u'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    digits = '0123456789:'
+    letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
     def _isletter(self, tkn):
         return tkn in self.letters

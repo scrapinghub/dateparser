@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 import hashlib
 from functools import wraps
-import six
 
 from .utils import registry
 
@@ -54,11 +52,11 @@ class Settings(object):
             setattr(self, key, value)
 
     def replace(self, mod_settings=None, **kwds):
-        for k, v in six.iteritems(kwds):
+        for k, v in kwds.items():
             if v is None:
                 raise TypeError('Invalid {{"{}": {}}}'.format(k, v))
 
-        for x in six.iterkeys(self._get_settings_from_pyfile()):
+        for x in self._get_settings_from_pyfile().keys():
             kwds.setdefault(x, getattr(self, x))
 
         kwds['_default'] = False
