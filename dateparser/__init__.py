@@ -2,6 +2,7 @@
 __version__ = '0.7.0'
 
 import regex as re
+
 from .date import DateDataParser
 from .conf import apply_settings
 
