@@ -1,5 +1,3 @@
-﻿# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from parameterized import parameterized, param
 from tests import BaseTestCase
 from dateparser.timezone_parser import StaticTzInfo
@@ -273,7 +271,11 @@ class TestTranslateSearch(BaseTestCase):
         param('en', 'last updated Aug 06, 2018 05:05 PM CDT',
               [(
                   'Aug 06, 2018 05:05 PM CDT',
-                  datetime.datetime(2018, 8, 6, 17, 5, tzinfo=StaticTzInfo('CDT', datetime.timedelta(seconds=-18000))))],
+                  datetime.datetime(
+                      2018, 8, 6, 17, 5, tzinfo=StaticTzInfo(
+                          'CDT', datetime.timedelta(seconds=-18000)
+                      ))
+              )],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
         param('en', '25th march 2015 , i need this report today.',
               [('25th march 2015', datetime.datetime(2015, 3, 25))],
@@ -308,8 +310,8 @@ class TestTranslateSearch(BaseTestCase):
 
         # Hindi
         param('hi',
-              'जुलाई 1937 में, मार्को-पोलो ब्रिज हादसे का बहाना लेकर जापान ने चीन पर हमला कर दिया और चीनी साम्राज्य की राजधानी बीजिंग '
-              'पर कब्जा कर लिया,',
+              'जुलाई 1937 में, मार्को-पोलो ब्रिज हादसे का बहाना लेकर जापान ने चीन पर हमला कर दिया और चीनी साम्राज्य '
+              'की राजधानी बीजिंग पर कब्जा कर लिया,',
               [('जुलाई 1937 में', datetime.datetime(1937, 7, 1, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
@@ -397,7 +399,8 @@ class TestTranslateSearch(BaseTestCase):
 
         # Thai
         param('th',
-              'และเมื่อวันที่ 11 พฤษภาคม 1939 ญี่ปุ่นตัดสินใจขยายพรมแดนญี่ปุ่น-มองโกเลียขึ้นไปถึงแม่น้ำคัลคินกอลด้วยกำลัง',
+              'และเมื่อวันที่ 11 พฤษภาคม 1939 '
+              'ญี่ปุ่นตัดสินใจขยายพรมแดนญี่ปุ่น-มองโกเลียขึ้นไปถึงแม่น้ำคัลคินกอลด้วยกำลัง',
               [('11 พฤษภาคม 1939', datetime.datetime(1939, 5, 11, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
@@ -408,9 +411,9 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Ukrainian
-        param('uk', 'Інші дати, що розглядаються деякими авторами як дати початку війни: початок японської інтервенції '
-                    'в Маньчжурію 13 вересня 1931, початок другої японсько-китайської війни 7 липня 1937 року та '
-                    'початок угорсько-української війни 14 березня 1939 року.',
+        param('uk', 'Інші дати, що розглядаються деякими авторами як дати початку війни: початок японської '
+                    'інтервенції в Маньчжурію 13 вересня 1931, початок другої японсько-китайської війни 7 '
+                    'липня 1937 року та початок угорсько-української війни 14 березня 1939 року.',
               [('13 вересня 1931', datetime.datetime(1931, 9, 13, 0, 0)),
                ('7 липня 1937', datetime.datetime(1937, 7, 7, 0, 0)),
                ('14 березня 1939', datetime.datetime(1939, 3, 14, 0, 0))],
@@ -435,7 +438,9 @@ class TestTranslateSearch(BaseTestCase):
                ('February 1st', datetime.datetime(2017, 2, 1, 0, 0))]),
         param('en', '2014 was good! October was excellent!'
                     ' Friday, 21 was especially good!',
-              [('2014', datetime.datetime(2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)),
+              [('2014', datetime.datetime(
+                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
+                ),
                ('October', datetime.datetime(2014, 10, datetime.datetime.utcnow().day, 0, 0)),
                ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
 
@@ -460,8 +465,8 @@ class TestTranslateSearch(BaseTestCase):
                ('2 hónappal ezelőtt', datetime.datetime(1962, 6, 11, 0, 0))]),
 
         # Vietnamese
-        param('vi', '1/1/1940. Vào tháng 8 năm 1940, với lực lượng lớn của Pháp tại Bắc Phi chính thức trung lập trong '
-                    'cuộc chiến, Ý mở một cuộc tấn công vào thuộc địa Somalia của Anh tại Đông Phi. '
+        param('vi', '1/1/1940. Vào tháng 8 năm 1940, với lực lượng lớn của Pháp tại Bắc Phi chính thức trung lập '
+                    'trong cuộc chiến, Ý mở một cuộc tấn công vào thuộc địa Somalia của Anh tại Đông Phi. '
                     'Đến tháng 9 quân Ý vào đến Ai Cập (cũng đang dưới sự kiểm soát của Anh). ',
               [('1/1/1940', datetime.datetime(1940, 1, 1, 0, 0)),
                ('tháng 8 năm 1940', datetime.datetime(1940, 8, 1, 0, 0)),
@@ -478,7 +483,9 @@ class TestTranslateSearch(BaseTestCase):
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', '2014. July 13th July 14th',
-              [('2014', datetime.datetime(2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)),
+              [('2014', datetime.datetime(
+                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
+                ),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', 'July 13th 2014 July 14th 2014',
@@ -491,16 +498,21 @@ class TestTranslateSearch(BaseTestCase):
               [('July 13th, 2014', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th, 2014', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', '2014. July 12th, July 13th, July 14th',
-              [('2014', datetime.datetime(2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)),
+              [('2014', datetime.datetime(
+                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
+                ),
                ('July 12th', datetime.datetime(2014, 7, 12, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         # Swedish
         param('sv', '1938–1939 marscherade tyska soldater i Österrike samtidigt som '
                     'österrikiska soldater marscherade i Berlin.',
-              [('1938', datetime.datetime(1938, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)),
-               ('1939', datetime.datetime(1939,
-                                          datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0))]),
+              [('1938', datetime.datetime(
+                  1938, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
+                ),
+               ('1939', datetime.datetime(
+                   1939, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
+                )]),
         # German
         param('de', 'Verteidiger der Stadt kapitulierten am 2. Mai 1945. Am 8. Mai 1945 (VE-Day) trat '
                     'bedingungslose Kapitulation der Wehrmacht in Kraft',
@@ -560,8 +572,8 @@ class TestTranslateSearch(BaseTestCase):
 
         # Hindi
         param('hi',
-              'जुलाई 1937 में, मार्को-पोलो ब्रिज हादसे का बहाना लेकर जापान ने चीन पर हमला कर दिया और चीनी साम्राज्य की राजधानी बीजिंग '
-              'पर कब्जा कर लिया,'),
+              'जुलाई 1937 में, मार्को-पोलो ब्रिज हादसे का बहाना लेकर जापान ने चीन पर हमला कर दिया और चीनी साम्राज्य '
+              'की राजधानी बीजिंग पर कब्जा कर लिया,'),
 
         # Hungarian
         param('hu', 'A háború Európában 1945. május 8-án Németország feltétel nélküli megadásával, '
@@ -612,16 +624,17 @@ class TestTranslateSearch(BaseTestCase):
 
         # Thai
         param('th',
-              'และเมื่อวันที่ 11 พฤษภาคม 1939 ญี่ปุ่นตัดสินใจขยายพรมแดนญี่ปุ่น-มองโกเลียขึ้นไปถึงแม่น้ำคัลคินกอลด้วยกำลัง'),
+              'และเมื่อวันที่ 11 พฤษภาคม 1939 '
+              'ญี่ปุ่นตัดสินใจขยายพรมแดนญี่ปุ่น-มองโกเลียขึ้นไปถึงแม่น้ำคัลคินกอลด้วยกำลัง'),
 
         # Turkish
         param('tr', 'Almanya’nın Polonya’yı işgal ettiği 1 Eylül 1939 savaşın başladığı '
                     'tarih olarak genel kabul görür.'),
 
         # Ukrainian
-        param('uk', 'Інші дати, що розглядаються деякими авторами як дати початку війни: початок японської інтервенції '
-                    'в Маньчжурію 13 вересня 1931, початок другої японсько-китайської війни 7 липня 1937 року та '
-                    'початок угорсько-української війни 14 березня 1939 року.'),
+        param('uk', 'Інші дати, що розглядаються деякими авторами як дати початку війни: початок японської '
+                    'інтервенції в Маньчжурію 13 вересня 1931, початок другої японсько-китайської війни 7 '
+                    'липня 1937 року та початок угорсько-української війни 14 березня 1939 року.'),
 
         # Vietnamese
         param('vi', 'Ý theo gương Đức, đã tiến hành xâm lược Ethiopia năm 1935 và sát '

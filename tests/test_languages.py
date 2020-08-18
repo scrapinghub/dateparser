@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from io import StringIO
 
 import logging
@@ -917,8 +914,8 @@ class TestBundledLanguages(BaseTestCase):
         # French
         param('fr', "maintenant", "0 second ago"),
         param('fr', "demain", "in 1 day"),
-        param('fr', u"Il y a moins d'une minute", "1 minute ago"),
-        param('fr', u"Il y a moins de 30s", "30 second ago"),
+        param('fr', "Il y a moins d'une minute", "1 minute ago"),
+        param('fr', "Il y a moins de 30s", "30 second ago"),
         # Tagalog
         param('tl', "kahapon", "1 day ago"),
         param('tl', "ngayon", "0 second ago"),
@@ -1673,7 +1670,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ro', "8 Ianuarie 2015 la 13:33",
               ['8', ' ', 'Ianuarie', ' ', '2015', ' ', 'la', ' ', '13', ':', '33']),
         param('ar', "8 يناير، 2015، الساعة 10:01 صباحاً",
-              ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01',  ' ','صباحاً']),
+              ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01', ' ', 'صباحاً']),
         param('th', "8 มกราคม 2015 เวลา 12:22 น.",
               ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
         param('pl', "8 stycznia 2015 o 10:19",
@@ -1917,7 +1914,7 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
             self.datetime_string, modify=True, settings=self.settings)
 
     def then_exact_languages_were_filtered(self, shortnames):
-        self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
+        self.assertEqual(set(shortnames), {lang.shortname for lang in self.exact_languages})
 
 
 class BaseAutoDetectLanguageDetectorTestCase(BaseLanguageDetectorTestCase):

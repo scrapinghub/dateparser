@@ -1,7 +1,3 @@
-# coding: utf-8
-
-from __future__ import unicode_literals
-
 import re
 
 from dateparser.calendars import non_gregorian_parser

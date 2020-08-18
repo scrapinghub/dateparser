@@ -1,4 +1,3 @@
-# coding: utf-8
 import calendar
 import regex as re
 
@@ -8,7 +7,7 @@ from datetime import datetime
 from datetime import timedelta
 
 from dateparser.utils import set_correct_day_from_settings, \
-    get_last_day_of_month
+    get_last_day_of_month, get_previous_leap_year, get_next_leap_year
 from dateparser.utils.strptime import strptime
 
 
@@ -16,6 +15,7 @@ NSP_COMPATIBLE = re.compile(r'\D+')
 MERIDIAN = re.compile(r'am|pm')
 MICROSECOND = re.compile(r'\d{1,6}')
 EIGHT_DIGIT = re.compile(r'^\d{8}$')
+HOUR_MINUTE_REGEX = re.compile(r'^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$')
 
 
 def no_space_parser_eligibile(datestring):
@@ -82,6 +82,7 @@ class _time_parser(object):
         '%I %p',
         '%H:%M:%S.%f',
         '%I:%M:%S.%f %p',
+        '%H:%M %p'
     ]
 
     def __call__(self, timestring):
@@ -122,7 +123,7 @@ class _no_spaces_parser(object):
     def __init__(self, *args, **kwargs):
 
         self._all = (self._dateformats +
-                     [x+y for x in self._dateformats for y in self._timeformats] +
+                     [x + y for x in self._dateformats for y in self._timeformats] +
                      self._timeformats)
 
         self.date_formats = {
@@ -209,7 +210,7 @@ class _parser(object):
     def __init__(self, tokens, settings):
         self.settings = settings
         self.tokens = list(tokens)
-        self.filtered_tokens = [t for t in self.tokens if t[1] <= 1]
+        self.filtered_tokens = [(t[0], t[1], i) for i, t in enumerate(self.tokens) if t[1] <= 1]
 
         self.unset_tokens = []
 
@@ -232,46 +233,67 @@ class _parser(object):
 
         skip_index = []
         skip_component = None
-        for index, token_type in enumerate(self.filtered_tokens):
+        skip_tokens = ["t", "year", "hour", "minute"]
+
+        for index, token_type_original_index in enumerate(self.filtered_tokens):
 
             if index in skip_index:
                 continue
 
-            token, type = token_type
+            token, type, original_index = token_type_original_index
 
-            if token in settings.SKIP_TOKENS_PARSER:
+            if token in skip_tokens:
                 continue
 
             if self.time is None:
+                meridian_index = index + 1
+
                 try:
-                    microsecond = MICROSECOND.search(self.filtered_tokens[index+1][0]).group()
+                    # try case where hours and minutes are separated by a period. Example: 13.20.
+                    _is_before_period = self.tokens[original_index + 1][0] == '.'
+                    _is_after_period = original_index != 0 and self.tokens[original_index - 1][0] == '.'
+
+                    if _is_before_period and not _is_after_period:
+                        index_next_token = index + 1
+                        next_token = self.filtered_tokens[index_next_token][0]
+                        index_in_tokens_for_next_token = self.filtered_tokens[index_next_token][2]
+
+                        next_token_is_last = index_next_token == len(self.filtered_tokens) - 1
+                        if next_token_is_last or self.tokens[index_in_tokens_for_next_token + 1][0] != '.':
+                            new_token = token + ':' + next_token
+                            if re.match(HOUR_MINUTE_REGEX, new_token):
+                                token = new_token
+                                skip_index.append(index + 1)
+                                meridian_index += 1
+                except Exception:
+                    pass
+
+                try:
+                    microsecond = MICROSECOND.search(self.filtered_tokens[index + 1][0]).group()
                     _is_after_time_token = token.index(":")
-                    _is_after_period = self.tokens[
-                        self.tokens.index((token, 0)) + 1][0].index('.')
+                    _is_after_period = self.tokens[self.tokens.index((token, 0)) + 1][0].index('.')
                 except:
                     microsecond = None
 
                 if microsecond:
-                    mindex = index + 2
-                else:
-                    mindex = index + 1
+                    meridian_index += 1
 
                 try:
-                    meridian = MERIDIAN.search(self.filtered_tokens[mindex][0]).group()
+                    meridian = MERIDIAN.search(self.filtered_tokens[meridian_index][0]).group()
                 except:
                     meridian = None
 
                 if any([':' in token, meridian, microsecond]):
                     if meridian and not microsecond:
                         self._token_time = '%s %s' % (token, meridian)
-                        skip_index.append(mindex)
+                        skip_index.append(meridian_index)
                     elif microsecond and not meridian:
                         self._token_time = '%s.%s' % (token, microsecond)
                         skip_index.append(index + 1)
                     elif meridian and microsecond:
                         self._token_time = '%s.%s %s' % (token, microsecond, meridian)
                         skip_index.append(index + 1)
-                        skip_index.append(mindex)
+                        skip_index.append(meridian_index)
                     else:
                         self._token_time = token
                     self.time = lambda: time_parser(self._token_time)
@@ -316,14 +338,29 @@ class _parser(object):
         except ValueError as e:
             error_text = e.__str__()
             error_msgs = ['day is out of range', 'day must be in']
-            if (
-                (error_msgs[0] in error_text or error_msgs[1] in error_text) and
-                not(self._token_day or hasattr(self, '_token_weekday'))
-            ):
-                params['day'] = get_last_day_of_month(params['year'], params['month'])
-                return datetime(**params)
-            else:
-                raise e
+            if (error_msgs[0] in error_text or error_msgs[1] in error_text):
+                if not(self._token_day or hasattr(self, '_token_weekday')):
+                    # if day is not available put last day of the month
+                    params['day'] = get_last_day_of_month(params['year'], params['month'])
+                    return datetime(**params)
+                elif not self._token_year and params['day'] == 29 and params['month'] == 2 and \
+                        not calendar.isleap(params['year']):
+                    # fix the year when year is not present and it is 29 of February
+                    params['year'] = self._get_correct_leap_year(self.settings.PREFER_DATES_FROM, params['year'])
+                    return datetime(**params)
+            raise e
+
+    def _get_correct_leap_year(self, prefer_dates_from, current_year):
+        if prefer_dates_from == 'future':
+            return get_next_leap_year(current_year)
+        if prefer_dates_from == 'past':
+            return get_previous_leap_year(current_year)
+
+        # Default case ('current_period'): return closer leap year
+        next_leap_year = get_next_leap_year(current_year)
+        previous_leap_year = get_previous_leap_year(current_year)
+        next_leap_year_is_closer = next_leap_year - current_year < current_year - previous_leap_year
+        return next_leap_year if next_leap_year_is_closer else previous_leap_year
 
     def _set_relative_base(self):
         self.now = self.settings.RELATIVE_BASE
@@ -345,17 +382,21 @@ class _parser(object):
     def _get_date_obj(self, token, directive):
         return strptime(token, directive)
 
+    def _missing_error(self, missing):
+        return ValueError(
+            'Fields missing from the date string: {}'.format(', '.join(missing))
+        )
+
     def _results(self):
-        if self.settings.STRICT_PARSING:
-            errors = []
-            if not self.day:
-                errors.append('Day')
-            if not self.month:
-                errors.append('Month')
-            if not self.year:
-                errors.append('Year')
+        missing = [field for field in ('day', 'month', 'year')
+                   if not getattr(self, field)]
+
+        if self.settings.STRICT_PARSING and missing:
+            raise self._missing_error(missing)
+        elif self.settings.REQUIRE_PARTS and missing:
+            errors = [part for part in self.settings.REQUIRE_PARTS if part in missing]
             if errors:
-                raise ValueError('%s not found in the date string' % ''.join(errors))
+                raise self._missing_error(errors)
 
         self._set_relative_base()
 
@@ -411,12 +452,20 @@ class _parser(object):
             dateobj = dateobj + delta
 
         if self.month and not self.year:
-            if self.now < dateobj:
-                if 'past' in self.settings.PREFER_DATES_FROM:
-                    dateobj = dateobj.replace(year=dateobj.year - 1)
-            else:
-                if 'future' in self.settings.PREFER_DATES_FROM:
-                    dateobj = dateobj.replace(year=dateobj.year + 1)
+            try:
+                if self.now < dateobj:
+                    if self.settings.PREFER_DATES_FROM == 'past':
+                        dateobj = dateobj.replace(year=dateobj.year - 1)
+                else:
+                    if self.settings.PREFER_DATES_FROM == 'future':
+                        dateobj = dateobj.replace(year=dateobj.year + 1)
+            except ValueError as e:
+                if dateobj.day == 29 and dateobj.month == 2:
+                    valid_year = self._get_correct_leap_year(
+                        self.settings.PREFER_DATES_FROM, dateobj.year)
+                    dateobj = dateobj.replace(year=valid_year)
+                else:
+                    raise e
 
         if self._token_year and len(self._token_year[0]) == 2:
             if self.now < dateobj:
@@ -534,8 +583,8 @@ class _parser(object):
 
 
 class tokenizer(object):
-    digits = u'0123456789:'
-    letters = u'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    digits = '0123456789:'
+    letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
     def _isletter(self, tkn):
         return tkn in self.letters

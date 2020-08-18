@@ -1,31 +1,30 @@
-# -*- coding: utf-8 -*-
-import regex as re
 import json
 import os
 import shutil
 from collections import OrderedDict
-from orderedset import OrderedSet
-import six
 
-from .utils import get_dict_difference, get_raw_data
-from .order_languages import language_locale_dict
+import regex as re
+from orderedset import OrderedSet
+
+from dateparser_scripts.order_languages import language_locale_dict
+from dateparser_scripts.utils import get_dict_difference, get_raw_data
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
-    u'\N{RIGHT SINGLE QUOTATION MARK}',     # u'\u2019'
-    u'\N{MODIFIER LETTER APOSTROPHE}',      # u'\u02bc'
-    u'\N{MODIFIER LETTER TURNED COMMA}',    # u'\u02bb'
-    u'\N{ARMENIAN APOSTROPHE}',             # u'\u055a'
-    u'\N{LATIN SMALL LETTER SALTILLO}',     # u'\ua78c'
-    u'\N{PRIME}',                           # u'\u2032'
-    u'\N{REVERSED PRIME}',                  # u'\u2035'
-    u'\N{MODIFIER LETTER PRIME}',           # u'\u02b9'
-    u'\N{FULLWIDTH APOSTROPHE}',            # u'\uff07'
+    '\N{RIGHT SINGLE QUOTATION MARK}',     # '\u2019'
+    '\N{MODIFIER LETTER APOSTROPHE}',      # '\u02bc'
+    '\N{MODIFIER LETTER TURNED COMMA}',    # '\u02bb'
+    '\N{ARMENIAN APOSTROPHE}',             # '\u055a'
+    '\N{LATIN SMALL LETTER SALTILLO}',     # '\ua78c'
+    '\N{PRIME}',                           # '\u2032'
+    '\N{REVERSED PRIME}',                  # '\u2035'
+    '\N{MODIFIER LETTER PRIME}',           # '\u02b9'
+    '\N{FULLWIDTH APOSTROPHE}',            # '\uff07'
 ]
 
-DATE_ORDER_PATTERN = re.compile(u'([DMY])+\u200f*[-/. \t]*([DMY])+\u200f*[-/. \t]*([DMY])+')
+DATE_ORDER_PATTERN = re.compile('([DMY])+\u200f*[-/. \t]*([DMY])+\u200f*[-/. \t]*([DMY])+')
 RELATIVE_PATTERN = re.compile(r'(?<![\+\-]\s*)\{0\}')
 DEFAULT_MONTH_PATTERN = re.compile(r'^M?\d+$', re.U)
-RE_SANITIZE_APOSTROPHE = re.compile(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
+RE_SANITIZE_APOSTROPHE = re.compile('|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 AM_PATTERN = re.compile(r'^\s*[Aa]\s*\.?\s*[Mm]\s*\.?\s*$')
 PM_PATTERN = re.compile(r'^\s*[Pp]\s*\.?\s*[Mm]\s*\.?\s*$')
 PARENTHESIS_PATTERN = re.compile(r'[\(\)]')
@@ -37,7 +36,7 @@ cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
 
 
 def _filter_relative_string(relative_string):
-    return (isinstance(relative_string, six.string_types) and
+    return (isinstance(relative_string, str) and
             RELATIVE_PATTERN.search(relative_string) and
             not PARENTHESIS_PATTERN.search(relative_string))
 
@@ -295,7 +294,7 @@ def _retrieve_locale_data(locale):
 
 
 def _clean_string(given_string):
-    given_string = RE_SANITIZE_APOSTROPHE.sub(u"'", given_string)
+    given_string = RE_SANITIZE_APOSTROPHE.sub("'", given_string)
     given_string = given_string.replace('.', '')
     given_string = given_string.lower()
     return ' '.join(given_string.split())

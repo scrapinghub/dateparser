@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 from pytz import timezone
 
@@ -167,6 +166,7 @@ class TestTimeZoneConversion(BaseTestCase):
 
     def then_date_is(self, date):
         self.assertEqual(date, self.result)
+
 
 class TestStaticTzInfo(BaseTestCase):
     def setUp(self):

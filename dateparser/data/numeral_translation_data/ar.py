@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%ordinal-ones-feminine": {
         "1": "الحادية ;",

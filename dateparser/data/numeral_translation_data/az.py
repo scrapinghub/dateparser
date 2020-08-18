@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%inci": {
         "0": "inci;",
