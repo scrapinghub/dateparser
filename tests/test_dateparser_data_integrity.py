@@ -1,4 +1,4 @@
-from scripts.write_complete_data import write_complete_data
+from dateparser_scripts.write_complete_data import write_complete_data
 
 
 def test_dateparser_data_integrity():

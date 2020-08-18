@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%ordi": {
         "0": "i;",

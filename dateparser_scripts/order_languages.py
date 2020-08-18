@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
-import regex as re
 import json
 import os
 from collections import OrderedDict
 
-from .utils import get_raw_data
+import regex as re
+
+from dateparser_scripts.utils import get_raw_data
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 get_raw_data()
@@ -81,7 +81,6 @@ language_order = _get_language_order()
 
 
 def main():
-    encoding_comment = "# -*- coding: utf-8 -*-\n"
     parent_directory = "../dateparser/data/"
     filename = "../dateparser/data/languages_info.py"
     if not os.path.isdir(parent_directory):
@@ -100,7 +99,7 @@ def main():
             complete_language_locale_dict, separators=(',', ': '), indent=4)
     languages_info_string = language_order_string + '\n\n' + language_locale_dict_string
     with open(filename, 'w') as f:
-        f.write(encoding_comment + languages_info_string)
+        f.write(languages_info_string)
 
 
 if __name__ == '__main__':

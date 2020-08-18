@@ -1,8 +1,3 @@
-# coding: utf-8
-from __future__ import unicode_literals
-
-import six
-
 from tzlocal import get_localzone
 
 from .timezone_parser import pop_tz_offset_from_string
@@ -15,7 +10,7 @@ class DateParser(object):
 
     @apply_settings
     def parse(self, date_string, settings=None):
-        date_string = six.text_type(date_string)
+        date_string = str(date_string)
 
         if not date_string.strip():
             raise ValueError("Empty string")
@@ -42,9 +37,9 @@ class DateParser(object):
             date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
         if (
-            not settings.RETURN_AS_TIMEZONE_AWARE or
-            (settings.RETURN_AS_TIMEZONE_AWARE and
-             'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
+            not settings.RETURN_AS_TIMEZONE_AWARE
+            or (settings.RETURN_AS_TIMEZONE_AWARE
+                and 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
         ):
             date_obj = date_obj.replace(tzinfo=None)
 

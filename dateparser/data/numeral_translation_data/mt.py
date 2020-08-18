@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%and-type-a-feminine": {
         "0": ";",

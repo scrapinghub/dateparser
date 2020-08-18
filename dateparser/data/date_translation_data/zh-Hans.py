@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "zh-Hans",
     "date_order": "YMD",

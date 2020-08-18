@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%ste": {
         "0": "ste;",

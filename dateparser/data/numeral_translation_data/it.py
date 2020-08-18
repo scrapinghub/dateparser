@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "%%fem-with-a": {
         "0": "a;",

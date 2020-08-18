@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
-import regex as re
 import json
 import os
 import shutil
 from collections import OrderedDict
 
-from .utils import get_raw_data
+import regex as re
+
+from dateparser_scripts.utils import get_raw_data
 
 DIGIT_PATTERN = re.compile(r'^\d*$')
 
