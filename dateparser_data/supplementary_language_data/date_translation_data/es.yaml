@@ -44,7 +44,3 @@ in:
 relative-type:
     2 day ago:
         - anteayer
-
-simplifications:
-    - una: '1'
-    - un: '1'
