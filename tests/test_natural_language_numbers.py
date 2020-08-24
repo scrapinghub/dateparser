@@ -1,4 +1,3 @@
-import pytest
 import unittest
 from datetime import datetime, timedelta
 from functools import wraps
@@ -9,8 +8,6 @@ from parameterized import parameterized, param
 import dateparser.timezone_parser
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
-from dateparser.timezone_parser import StaticTzInfo
-from dateparser.utils import normalize_unicode
 
 from tests import BaseTestCase
 
