@@ -40,7 +40,6 @@ class TestNaturalLanguageParser(BaseTestCase):
         param('ग्यारह जुलाई 1994', datetime(1994, 7, 11,)),
         param('21 अक्टूबर दो हज़ार अठारह', datetime(2018, 10, 21, 0, 0)),
         param('तेरह जनवरी 1997 11:08', datetime(1997, 1, 13, 11, 8))
-        # Failing testcase whitespace issue with number-parser using hindi.
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,
