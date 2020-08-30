@@ -32,9 +32,7 @@ setup(
         'python-dateutil',
         'pytz',
         # https://bitbucket.org/mrabarnett/mrab-regex/issues/314/import-error-no-module-named
-        'regex !=2019.02.19; platform.python_implementation != "PyPy"',
-        # temporary workaround for: https://github.com/scrapinghub/dateparser/issues/565
-        'regex==2019.01.24; platform.python_implementation == "PyPy"',
+        'regex !=2019.02.19',
         'tzlocal',
     ],
     extras_require={
@@ -44,14 +42,12 @@ setup(
     license="BSD",
     zip_safe=False,
     keywords='dateparser',
-    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
+    python_requires='>=3.5',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
@@ -59,6 +55,5 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy'
     ],
 )
