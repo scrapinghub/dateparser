@@ -16,7 +16,7 @@ from dateparser.conf import settings
 
 class TestFreshnessDateDataParser(BaseTestCase):
     def setUp(self):
-        super(TestFreshnessDateDataParser, self).setUp()
+        super().setUp()
         self.now = datetime(2014, 9, 1, 10, 30)
         self.date_string = NotImplemented
         self.parser = NotImplemented

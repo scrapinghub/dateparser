@@ -16,7 +16,7 @@ from dateparser.conf import settings
 
 class TestUtils(BaseTestCase):
     def setUp(self):
-        super(TestUtils, self).setUp()
+        super().setUp()
         self.date_format = None
         self.result = None
 

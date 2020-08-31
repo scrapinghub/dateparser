@@ -8,7 +8,7 @@ from tests import BaseTestCase
 
 class TestLoading(BaseTestCase):
     def setUp(self):
-        super(TestLoading, self).setUp()
+        super().setUp()
         self.locale_generator = NotImplemented
 
     @classmethod
@@ -101,7 +101,7 @@ class TestLocaleDataLoader(BaseTestCase):
     UNKNOWN_LOCALES_EXCEPTION_RE = re.compile(r"Unknown locale\(s\): (.+)")
 
     def setUp(self):
-        super(TestLocaleDataLoader, self).setUp()
+        super().setUp()
         self.data_loader = default_loader
         self.data_loader._loaded_languages = {}
         self.data_loader._loaded_locales = {}

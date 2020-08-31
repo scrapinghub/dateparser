@@ -14,7 +14,7 @@ _UNITS = r'decade|year|month|week|day|hour|minute|second'
 PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
 
 
-class FreshnessDateDataParser(object):
+class FreshnessDateDataParser:
     """ Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago" """
     def __init__(self):
         self.now = None

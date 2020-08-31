@@ -14,7 +14,7 @@ DIGIT_GROUP_PATTERN = re.compile(r'\\d\+')
 NUMERAL_PATTERN = re.compile(r'(\d+)', re.U)
 
 
-class Locale(object):
+class Locale:
     """
     Class that deals with applicability and translation from a locale.
 

@@ -16,7 +16,7 @@ from tests import BaseTestCase
 
 class TestDateParser(BaseTestCase):
     def setUp(self):
-        super(TestDateParser, self).setUp()
+        super().setUp()
         self.parser = NotImplemented
         self.result = NotImplemented
         self.date_parser = NotImplemented

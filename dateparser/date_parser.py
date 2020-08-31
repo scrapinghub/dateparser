@@ -6,7 +6,7 @@ from .conf import apply_settings
 from .parser import parse
 
 
-class DateParser(object):
+class DateParser:
 
     @apply_settings
     def parse(self, date_string, settings=None):

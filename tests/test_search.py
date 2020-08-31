@@ -10,7 +10,7 @@ import datetime
 
 class TestTranslateSearch(BaseTestCase):
     def setUp(self):
-        super(TestTranslateSearch, self).setUp()
+        super().setUp()
         self.search_with_detection = DateSearchWithDetection()
         self.exact_language_search = self.search_with_detection.search
 

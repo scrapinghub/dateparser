@@ -6,7 +6,7 @@ from collections import OrderedDict
 from functools import reduce
 
 
-class PersianDate(object):
+class PersianDate:
     def __init__(self, year, month, day):
         self.year = year
         self.month = month

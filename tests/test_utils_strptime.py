@@ -9,7 +9,7 @@ from dateparser.utils.strptime import strptime
 
 class TestStrptime(BaseTestCase):
     def setUp(self):
-        super(TestStrptime, self).setUp()
+        super().setUp()
 
     def given_system_locale_is(self, locale_str):
         try:

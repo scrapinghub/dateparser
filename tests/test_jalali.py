@@ -8,7 +8,7 @@ from tests import BaseTestCase
 
 class TestPersianDate(BaseTestCase):
     def setUp(self):
-        super(TestPersianDate, self).setUp()
+        super().setUp()
         self.persian_date = NotImplemented
 
     def when_date_is_given(self, year, month, day):
@@ -30,7 +30,7 @@ class TestPersianDate(BaseTestCase):
 
 class TestJalaliParser(BaseTestCase):
     def setUp(self):
-        super(TestJalaliParser, self).setUp()
+        super().setUp()
         self.translated = NotImplemented
 
     def when_date_is_given(self, date_string):
@@ -156,7 +156,7 @@ class TestJalaliParser(BaseTestCase):
 class TestJalaliCalendar(BaseTestCase):
 
     def setUp(self):
-        super(TestJalaliCalendar, self).setUp()
+        super().setUp()
         self.result = NotImplemented
         self.date_string = NotImplemented
         self.calendar = NotImplemented

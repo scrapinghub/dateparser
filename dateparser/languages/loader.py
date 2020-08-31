@@ -36,7 +36,7 @@ def _construct_locales(languages, region):
     return locales
 
 
-class LocaleDataLoader(object):
+class LocaleDataLoader:
     """Class that handles loading of locale instances."""
 
     _loaded_languages = {}

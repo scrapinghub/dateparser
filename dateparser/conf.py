@@ -5,7 +5,7 @@ from .utils import registry
 
 
 @registry
-class Settings(object):
+class Settings:
     """Control and configure default parsing behavior of dateparser.
     Currently, supported settings are:
 

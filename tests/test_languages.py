@@ -14,7 +14,7 @@ from tests import BaseTestCase
 
 class TestBundledLanguages(BaseTestCase):
     def setUp(self):
-        super(TestBundledLanguages, self).setUp()
+        super().setUp()
         self.language = NotImplemented
         self.datetime_string = NotImplemented
         self.translation = NotImplemented
@@ -1796,7 +1796,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
     NOT_DETECTED = object()
 
     def setUp(self):
-        super(BaseLanguageDetectorTestCase, self).setUp()
+        super().setUp()
         self.datetime_string = NotImplemented
         self.detector = NotImplemented
         self.detected_language = NotImplemented
@@ -1941,7 +1941,7 @@ class TestAutoDetectLanguageDetectorWithRedetection(BaseAutoDetectLanguageDetect
 
 class TestLanguageValidatorWhenInvalid(BaseTestCase):
     def setUp(self):
-        super(TestLanguageValidatorWhenInvalid, self).setUp()
+        super().setUp()
         self.validator = LanguageValidator
         self.captured_logs = StringIO()
         self.validator.get_logger()

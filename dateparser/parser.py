@@ -73,7 +73,7 @@ def parse(datestring, settings):
         raise exceptions.pop(-1)
 
 
-class _time_parser(object):
+class _time_parser:
     time_directives = [
         '%H:%M:%S',
         '%I:%M:%S %p',
@@ -99,7 +99,7 @@ class _time_parser(object):
 time_parser = _time_parser()
 
 
-class _no_spaces_parser(object):
+class _no_spaces_parser:
     _dateformats = [
         '%Y%m%d', '%Y%d%m', '%m%Y%d',
         '%m%d%Y', '%d%Y%m', '%d%m%Y',
@@ -194,7 +194,7 @@ class _no_spaces_parser(object):
                 raise ValueError('Unable to parse date from: %s' % datestring)
 
 
-class _parser(object):
+class _parser:
 
     alpha_directives = OrderedDict([
         ('weekday', ['%A', '%a']),
@@ -582,7 +582,7 @@ class _parser(object):
         return handlers[type](token, skip_component)
 
 
-class tokenizer(object):
+class tokenizer:
     digits = '0123456789:'
     letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 

@@ -3,7 +3,7 @@ from dateparser.conf import settings
 from datetime import datetime
 
 
-class CalendarBase(object):
+class CalendarBase:
     """Base setup class for non-Gregorian calendar system.
 
     :param source:
@@ -133,4 +133,4 @@ class non_gregorian_parser(_parser):
     @classmethod
     def parse(cls, datestring, settings):
         datestring = cls.to_latin(datestring)
-        return super(non_gregorian_parser, cls).parse(datestring, settings)
+        return super().parse(datestring, settings)

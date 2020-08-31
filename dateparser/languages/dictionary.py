@@ -23,7 +23,7 @@ class UnknownTokenError(Exception):
     pass
 
 
-class Dictionary(object):
+class Dictionary:
     """
     Class that modifies and stores translations and handles splitting of date string.
 
@@ -249,7 +249,7 @@ class Dictionary(object):
 class NormalizedDictionary(Dictionary):
 
     def __init__(self, locale_info, settings=None):
-        super(NormalizedDictionary, self).__init__(locale_info, settings)
+        super().__init__(locale_info, settings)
         self._normalize()
 
     def _normalize(self):
