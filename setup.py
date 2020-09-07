@@ -2,7 +2,7 @@ import re
 import io
 from setuptools import setup, find_packages
 
-open_as_utf = lambda x: io.open(x, encoding='utf-8')
+open_as_utf = lambda x: open(x, encoding='utf-8')
 
 (__version__, ) = re.findall(r"__version__.*\s*=\s*[']([^']+)[']",
                              open('dateparser/__init__.py').read())
