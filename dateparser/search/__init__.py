@@ -1,5 +1,4 @@
 from dateparser.search.search import DateSearchWithDetection
-from dateparser.utils import normalize_unicode
 
 _search_with_detection = DateSearchWithDetection()
 

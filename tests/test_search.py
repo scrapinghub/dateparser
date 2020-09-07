@@ -518,7 +518,9 @@ class TestTranslateSearch(BaseTestCase):
                     'bedingungslose Kapitulation der Wehrmacht in Kraft',
               [('am 2. Mai 1945', datetime.datetime(1945, 5, 2, 0, 0)),
                ('Am 8. Mai 1945', datetime.datetime(1945, 5, 8, 0, 0))]),
-
+        param('de', ' 13.07.2016. 24.05.2020, 13:45',
+              [('13.07.2016', datetime.datetime(2016, 7, 13, 0, 0)),
+               ('24.05.2020, 13:45', datetime.datetime(2020, 5, 24, 13, 45))])
     ])
     @apply_settings
     def test_splitting_of_not_parsed(self, shortname, string, expected, settings=None):

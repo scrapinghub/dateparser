@@ -242,8 +242,9 @@ class Locale:
             for digit_abbreviation in digit_abbreviations:
                 abbreviation_string += '(?<!' + digit_abbreviation + ')'  # negative lookbehind
 
-        splitters_dict = {1: r'[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
-                          # Indonesian, Vietnamese
+        splitters_dict = {1: r'(?:\.(?!\d)|(?<!\d)\.)|[!?;…\r\n]+(?:\s|$)*',
+                          # most European, Tagalog, Hebrew, Georgian, Indonesian, Vietnamese.
+                          # Note that we avoid separating points when they are preceded AND followed by a number
                           2: r'(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))+',  # Spanish
                           3: r'[|!?;\r\n]+(?:\s|$)+',  # Hindi and Bangla
                           4: r'[。…‥\.!?？！;\r\n]+(?:\s|$)+',  # Japanese and Chinese
