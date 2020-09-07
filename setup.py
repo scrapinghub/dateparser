@@ -1,5 +1,4 @@
 import re
-import io
 from setuptools import setup, find_packages
 
 open_as_utf = lambda x: open(x, encoding='utf-8')
