@@ -1,5 +1,5 @@
 import collections
-from collections import Set
+from collections.abc import Set
 from datetime import datetime, timedelta
 
 import regex as re

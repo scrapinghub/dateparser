@@ -1,4 +1,4 @@
-from collections import Set
+from collections.abc import Set
 
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, Settings
