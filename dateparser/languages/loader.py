@@ -6,7 +6,6 @@ from copy import deepcopy
 
 from ..data import language_order, language_locale_dict
 from .locale import Locale
-from ..utils import convert_to_unicode
 
 LOCALE_SPLIT_PATTERN = re.compile(r'-(?=[A-Z0-9]+$)')
 
@@ -175,7 +174,6 @@ class LocaleDataLoader:
                 else:
                     language_info = getattr(
                         import_module('dateparser.data.date_translation_data.' + lang), 'info')
-                    language_info = convert_to_unicode(language_info)
                     locale = Locale(shortname, language_info=deepcopy(language_info))
                     self._loaded_languages[lang] = language_info
                     self._loaded_locales[shortname] = locale
