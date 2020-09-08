@@ -19,7 +19,8 @@ def strip_braces(date_string):
 def normalize_unicode(string, form='NFKD'):
     return ''.join(
         c for c in unicodedata.normalize(form, string)
-         if unicodedata.category(c) != 'Mn')
+        if unicodedata.category(c) != 'Mn'
+    )
 
 
 def combine_dicts(primary_dict, supplementary_dict):
