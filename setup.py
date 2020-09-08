@@ -1,16 +1,10 @@
 import re
 from setuptools import setup, find_packages
 
-open_as_utf = lambda x: open(x, encoding='utf-8')
+__version__ = re.match(r"__version__.*\s*=\s*[']([^']+)[']", open('dateparser/__init__.py').read())[1]
 
-(__version__, ) = re.findall(r"__version__.*\s*=\s*[']([^']+)[']",
-                             open('dateparser/__init__.py').read())
-
-readme = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:', '', open_as_utf('README.rst').read())
-readme = re.sub(r'`Settings`_', '`Settings`', readme)
-readme = re.sub(r'`Contributing`_', '`Contributing`', readme)
-history = re.sub(r':mod:|:class:|:func:', '', open_as_utf('HISTORY.rst').read())
-
+introduction = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:|:ref:', '', open('docs/introduction.rst').read())
+history = re.sub(r':mod:|:class:|:func:', '', open('HISTORY.rst').read())
 
 test_requirements = open('tests/requirements.txt').read().splitlines()
 
@@ -18,7 +12,7 @@ setup(
     name='dateparser',
     version=__version__,
     description='Date parsing library designed to parse dates from HTML pages',
-    long_description=readme + '\n\n' + history,
+    long_description=introduction + '\n\n' + history,
     author='Scrapinghub',
     author_email='info@scrapinghub.com',
     url='https://github.com/scrapinghub/dateparser',
