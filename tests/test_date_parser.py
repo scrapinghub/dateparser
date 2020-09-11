@@ -8,6 +8,7 @@ from parameterized import parameterized, param
 import dateparser.timezone_parser
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
+from dateparser.parser import _parse_absolute
 from dateparser.timezone_parser import StaticTzInfo
 from dateparser.utils import normalize_unicode
 
@@ -796,7 +797,7 @@ class TestDateParser(BaseTestCase):
 
     def when_date_is_parsed_by_date_parser(self, date_string):
         try:
-            self.result = DateParser().parse(date_string)
+            self.result = DateParser().parse(date_string, parse_method=_parse_absolute)
         except Exception as error:
             self.error = error
 

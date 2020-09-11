@@ -91,15 +91,27 @@ class TestTokenizer(BaseTestCase):
 class TestNoSpaceParser(BaseTestCase):
 
     def test_date_with_spaces_is_not_parsed(self):
+        datestring = '2013 25 12'
         self.given_parser()
         self.given_settings()
-        self.when_date_is_parsed('2013 25 12')
-        self.then_date_is_not_parsed()
+        self.when_date_is_parsed(datestring)
+        self.then_error_was_raised(ValueError, ['Unable to parse date from: %s' % datestring])
 
     @parameterized.expand([
         param(
+            date_string="",
+        ),
+        param(
             date_string=":",
         ),
+    ])
+    def test_empty_string_is_not_parsed(self, date_string):
+        self.given_parser()
+        self.given_settings()
+        self.when_date_is_parsed(date_string)
+        self.then_error_was_raised(ValueError, ['Empty string'])
+
+    @parameterized.expand([
         param(
             date_string="::",
         ),
@@ -111,13 +123,14 @@ class TestNoSpaceParser(BaseTestCase):
         self.given_parser()
         self.given_settings()
         self.when_date_is_parsed(date_string)
-        self.then_date_is_not_parsed()
+        self.then_error_was_raised(ValueError, ['Unable to parse date from: %s' % date_string])
 
     def test_date_with_alphabets_is_not_parsed(self):
+        datestring = '12AUG2015'
         self.given_parser()
         self.given_settings()
-        self.when_date_is_parsed('12AUG2015')
-        self.then_date_is_not_parsed()
+        self.when_date_is_parsed(datestring)
+        self.then_error_was_raised(ValueError, ['Unable to parse date from: %s' % datestring])
 
     @parameterized.expand([
         param(
