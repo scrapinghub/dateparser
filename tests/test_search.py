@@ -14,13 +14,6 @@ class TestTranslateSearch(BaseTestCase):
         self.search_with_detection = DateSearchWithDetection()
         self.exact_language_search = self.search_with_detection.search
 
-    @staticmethod
-    def make_python3_msg(text):
-        text = text.replace('unicode', 'str')
-        text = text.replace('u\'', '\'')
-        text = text.replace('type', 'class')
-        return text
-
     def run_search_dates_function_invalid_languages(self, text, languages, error_type):
         try:
             search_dates(text=text, languages=languages)
@@ -29,7 +22,7 @@ class TestTranslateSearch(BaseTestCase):
             self.assertIsInstance(self.error, error_type)
 
     def check_error_message(self, message):
-        self.assertEqual(self.make_python3_msg(str(self.error)), message)
+        self.assertEqual(str(self.error), message)
 
     @parameterized.expand([
         param('en', "Sep 03 2014"),

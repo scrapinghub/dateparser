@@ -62,7 +62,7 @@ class LocaleDataLoader:
             A region code, e.g. 'IN', '001', 'NE'.
             If locales are not given, languages and region are
             used to construct locales to load.
-        :type region: str|unicode
+        :type region: str
 
         :param use_given_order:
             If True, the returned mapping is ordered in the order locales are given.
@@ -98,7 +98,7 @@ class LocaleDataLoader:
             A region code, e.g. 'IN', '001', 'NE'.
             If locales are not given, languages and region are
             used to construct locales to load.
-        :type region: str|unicode
+        :type region: str
 
         :param use_given_order:
             If True, the returned mapping is ordered in the order locales are given.
@@ -122,7 +122,7 @@ class LocaleDataLoader:
 
         :param shortname:
             A locale code, e.g. 'fr-PF', 'qu-EC', 'af-NA'.
-        :type shortname: str|unicode
+        :type shortname: str
 
         :return: locale instance
         """

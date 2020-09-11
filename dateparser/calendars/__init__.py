@@ -8,7 +8,7 @@ class CalendarBase:
 
     :param source:
         Date string passed to calendar parser.
-    :type source: str|unicode
+    :type source: str
     """
 
     parser = NotImplemented

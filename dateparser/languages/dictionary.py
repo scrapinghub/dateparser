@@ -95,7 +95,7 @@ class Dictionary:
         Check if tokens are valid tokens for the locale.
 
         :param tokens:
-            a list of string or unicode tokens.
+            a list of string tokens.
         :type tokens: list
 
         :return: True if tokens are valid, False otherwise.
@@ -119,7 +119,7 @@ class Dictionary:
         :param string:
             Date string to be splitted.
         :type string:
-            str|unicode
+            str
 
         :param keep_formatting:
             If True, retain formatting of the date string.

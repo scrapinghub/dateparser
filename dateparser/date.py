@@ -274,7 +274,7 @@ class DateDataParser:
         A region code, e.g. 'IN', '001', 'NE'.
         If locales are not given, languages and region are
         used to construct locales for translation.
-    :type region: str|unicode
+    :type region: str
 
     :param try_previous_locales:
         If True, locales previously used to translate date are tried first.
@@ -308,7 +308,7 @@ class DateDataParser:
             raise TypeError("locales argument must be a list (%r given)" % type(locales))
 
         if region is not None and not isinstance(region, str):
-            raise TypeError("region argument must be str or unicode (%r given)" % type(region))
+            raise TypeError("region argument must be str (%r given)" % type(region))
 
         if not isinstance(try_previous_locales, bool):
             raise TypeError("try_previous_locales argument must be a boolean (%r given)"
@@ -336,7 +336,7 @@ class DateDataParser:
 
         :param date_string:
             A string representing date and/or time in a recognizably valid format.
-        :type date_string: str|unicode
+        :type date_string: str
         :param date_formats:
             A list of format strings using directives as given
             `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
@@ -373,7 +373,7 @@ class DateDataParser:
 
         """
         if not(isinstance(date_string, str) or isinstance(date_string, str)):
-            raise TypeError('Input type must be str or unicode')
+            raise TypeError('Input type must be str')
 
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:

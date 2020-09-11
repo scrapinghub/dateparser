@@ -1,5 +1,5 @@
 from dateparser.search.search import DateSearchWithDetection
-from dateparser.utils import normalize_unicode
+
 
 _search_with_detection = DateSearchWithDetection()
 
@@ -9,7 +9,7 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
 
         :param text:
             A string in a natural language which may contain date and/or time expressions.
-        :type text: str|unicode
+        :type text: str
 
         :param languages:
             A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will
