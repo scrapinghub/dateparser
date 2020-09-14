@@ -5,7 +5,7 @@ from collections import OrderedDict
 from copy import copy
 from datetime import datetime, timedelta
 
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 from parameterized import parameterized, param
 
 import dateparser
