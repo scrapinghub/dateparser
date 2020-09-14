@@ -298,16 +298,16 @@ class DateDataParser:
     locale_loader = None
 
     @apply_settings
-    def __init__(self, languages=None, locales=None, region=None, try_previous_locales=True,
+    def __init__(self, languages=None, locales=None, region=None, try_previous_locales=False,
                  use_given_order=False, settings=None):
 
-        if not isinstance(languages, (list, tuple, Set)) and languages is not None:
+        if languages is not None and not isinstance(languages, (list, tuple, Set)):
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
-        if not isinstance(locales, (list, tuple, Set)) and locales is not None:
+        if locales is not None and not isinstance(locales, (list, tuple, Set)):
             raise TypeError("locales argument must be a list (%r given)" % type(locales))
 
-        if not isinstance(region, str) and region is not None:
+        if region is not None and not isinstance(region, str):
             raise TypeError("region argument must be str or unicode (%r given)" % type(region))
 
         if not isinstance(try_previous_locales, bool):

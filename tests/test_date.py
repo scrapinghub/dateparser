@@ -395,6 +395,20 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed(date_string)
         self.then_detected_locale(locale)
 
+    def test_try_previous_locales_false(self):
+        self.given_parser(try_previous_locales=False)
+        self.when_date_string_is_parsed('Mañana')  # es
+        self.then_detected_locale('es')
+        self.when_date_string_is_parsed('2020-05-01')
+        self.then_detected_locale('en')
+
+    def test_try_previous_locales_true(self):
+        self.given_parser(try_previous_locales=True)
+        self.when_date_string_is_parsed('Mañana')  # es
+        self.then_detected_locale('es')
+        self.when_date_string_is_parsed('2020-05-01')
+        self.then_detected_locale('es')
+
     @parameterized.expand([
         param("2014-10-09T17:57:39+00:00"),
     ])
