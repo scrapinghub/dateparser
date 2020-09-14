@@ -387,7 +387,7 @@ class TestLocaleInfo(BaseTestCase):
             self.assertFalse(
                 invalid_simplifications, 'Invalid simplifications {} for locale {}'.format(
                     ', '.join(map(repr, invalid_simplifications)), self.shortname
-                ) + ', each simplification must be a single unicode to unicode mapping'
+                ) + ', each simplification must be a single string to string mapping'
             )
 
     def then_relative_type_is_valid(self):
@@ -402,7 +402,7 @@ class TestLocaleInfo(BaseTestCase):
             self.assertFalse(
                 invalid_relative_type, 'Invalid relative-type mappings {} for locale {}'.format(
                     ', '.join(map(repr, invalid_relative_type)), self.shortname
-                ) + ', each mapping must be a unicode to list (of unicode) mapping'
+                ) + ', each mapping must be a string to list (of strings) mapping'
             )
 
     def then_relative_type_regex_is_valid(self):
@@ -418,7 +418,7 @@ class TestLocaleInfo(BaseTestCase):
             self.assertFalse(
                 invalid_relative_type_regex, 'Invalid relative-type-regex mappings {} for locale {}'.format(
                     ', '.join(map(repr, invalid_relative_type_regex)), self.shortname
-                ) + ', each mapping must be a unicode to list (of unicode) mapping'
+                ) + ', each mapping must be a string to list (of strings) mapping'
             )
 
     def then_no_word_spacing_is_valid(self):

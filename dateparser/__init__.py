@@ -12,7 +12,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
 
     :param date_string:
         A string representing date and/or time in a recognizably valid format.
-    :type date_string: str|unicode
+    :type date_string: str
 
     :param date_formats:
         A list of format strings using directives as given
@@ -33,7 +33,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
     :param region:
         A region code, e.g. 'IN', '001', 'NE'.
         If locales are not given, languages and region are used to construct locales for translation.
-    :type region: str|unicode
+    :type region: str
 
     :param settings:
         Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
