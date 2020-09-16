@@ -174,7 +174,7 @@ The following parsers exist:
 changes the parsers to try without skipping parsers that may be added to
 Dateparser in the future. For example, to ignore relative times:
 
-    >>> from dateparser.settings import default_parsers
+    >>> from dateparser_data.settings import default_parsers
     >>> parsers = [parser for parser in default_parsers if parser != 'relative-time']
     >>> parse('today', settings={'PARSERS': parsers})
 
