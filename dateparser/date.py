@@ -1,4 +1,5 @@
 import collections
+from collections import MutableMapping
 from collections.abc import Set
 from datetime import datetime, timedelta
 
@@ -252,7 +253,7 @@ class _DateLocaleParser:
         return True
 
 
-class DateData:
+class DateData(MutableMapping):
     """
     Class that represents the parsed data with useful information.
     It can be accessed like a dict object.
@@ -282,8 +283,22 @@ class DateData:
             return True
         return False
 
+    def __len__(self):
+        return len(self.keys())
+
+    def __iter__(self):
+        yield from self.__dict__.keys()
+
+    def __delitem__(self, v):
+        if not hasattr(self, v):
+            raise KeyError(v)
+        setattr(self, v, None)
+
     def keys(self):
         return self.__dict__.keys()
+
+    def values(self):
+        return self.__dict__.values()
 
 
 class DateDataParser:
