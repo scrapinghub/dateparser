@@ -151,7 +151,6 @@ class TestDateParser(BaseTestCase):
         param('1 Ni 2015', datetime(2015, 4, 1, 0, 0)),
         param('1 Mar 2015', datetime(2015, 3, 1, 0, 0)),
         param('1 сер 2015', datetime(2015, 8, 1, 0, 0)),
-        param('2016020417:10', datetime(2016, 2, 4, 17, 10)),
         # Chinese dates
         param('2015年04月08日10:05', datetime(2015, 4, 8, 10, 5)),
         param('2012年12月20日10:35', datetime(2012, 12, 20, 10, 35)),
@@ -186,6 +185,18 @@ class TestDateParser(BaseTestCase):
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,
                                     'RELATIVE_BASE': datetime(2012, 11, 13)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('2016020417:10', datetime(2016, 2, 4, 17, 10)),
+    ])
+    def test_dates_parsing_no_spaces(self, date_string, expected):
+        self.given_parser(settings={'NORMALIZE': False,
+                                    'RELATIVE_BASE': datetime(2012, 11, 13),
+                                    'PARSERS': ['no-spaces-time']})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
@@ -722,9 +733,6 @@ class TestDateParser(BaseTestCase):
         param('10/9/1914 03:07:09.788888 pm', expected=datetime(1914, 10, 9, 15, 7, 9, 788888),
               order='MDY'),
         param('1-8-09 07:12:49 AM', expected=datetime(2009, 1, 8, 7, 12, 49), order='MDY'),
-        param('201508', expected=datetime(2015, 8, 20, 0, 0), order='DYM'),
-        param('201508', expected=datetime(2020, 8, 15, 0, 0), order='YDM'),
-        param('201108', expected=datetime(2008, 11, 20, 0, 0), order='DMY'),
         param('2016 july 13.', expected=datetime(2016, 7, 13, 0, 0), order='YMD'),
         param('16 july 13.', expected=datetime(2016, 7, 13, 0, 0), order='YMD'),
         param('Sunday 23 May 1856 12:09:08 AM', expected=datetime(1856, 5, 23, 0, 9, 8),
@@ -732,6 +740,17 @@ class TestDateParser(BaseTestCase):
     ])
     def test_order(self, date_string, expected=None, order=None):
         self.given_parser(settings={'DATE_ORDER': order})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('201508', expected=datetime(2015, 8, 20, 0, 0), order='DYM'),
+        param('201508', expected=datetime(2020, 8, 15, 0, 0), order='YDM'),
+        param('201108', expected=datetime(2008, 11, 20, 0, 0), order='DMY'),
+    ])
+    def test_order_no_spaces(self, date_string, expected=None, order=None):
+        self.given_parser(settings={'DATE_ORDER': order, 'PARSERS': ['no-spaces-time']})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)

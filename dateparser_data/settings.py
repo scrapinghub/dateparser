@@ -3,7 +3,6 @@ default_parsers = [
     'relative-time',
     'custom-formats',
     'absolute-time',
-    'no-spaces-time',
 ]
 
 settings = {

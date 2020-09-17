@@ -168,6 +168,11 @@ The following parsers exist:
     (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as
     ``DATE_ORDER`` or ``PREFER_LOCALE_DATE_ORDER``.
 
+-   ``'no-spaces-time'``: Parses dates and times that consist in only digits or
+    a combination of digits and non-digits where the first non-digit it's a colon
+    (e.g. “121994”, “11:052020”). It's not included in the default parsers and it
+    can produce false positives frequently.
+
 
 :data:`dateparser.settings.default_parsers` contains the default value of
 ``PARSERS`` (the list above, in that order) and can be used to write code that
