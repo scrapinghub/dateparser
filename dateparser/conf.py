@@ -32,6 +32,7 @@ class Settings:
     * `DEFAULT_DAYS_IN_MONTH`
     * `PARSERS`
     * `DEFAULT_LANGUAGES`
+    * `USE_GIVEN_LANGUAGE_ORDER`
     * `LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`
     * `CACHE_SIZE_LIMIT`
     """
@@ -227,6 +228,7 @@ def check_settings(settings):
         "FUZZY": {"type": bool},
         "PREFER_LOCALE_DATE_ORDER": {"type": bool},
         "DEFAULT_LANGUAGES": {"type": list, "extra_check": _check_default_languages},
+        "USE_GIVEN_LANGUAGE_ORDER": {"type": bool},
         "LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": {
             "type": float,
             "extra_check": _check_between_0_and_1,
