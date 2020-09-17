@@ -411,7 +411,9 @@ class DateDataParser:
 
     :param use_given_order:
         If True, locales are tried for translation of date string
-        in the order in which they are given.
+        in the order in which they are given. This is equivalent to the
+        ``USE_GIVEN_LANGUAGE_ORDER`` setting; the given order is preserved if
+        either is enabled.
     :type use_given_order: bool
 
     :param settings:
@@ -556,6 +558,15 @@ class DateDataParser:
         return date_tuple(**date_data.__dict__)
 
     def _get_applicable_locales(self, date_string):
+        # The given order is preserved if requested either through the
+        # ``use_given_order`` constructor argument or the
+        # ``USE_GIVEN_LANGUAGE_ORDER`` setting (which also reaches the
+        # top-level :func:`dateparser.parse`). When no languages or locales are
+        # given there is nothing to order, so the default order is used.
+        use_given_order = (
+            self.use_given_order or self._settings.USE_GIVEN_LANGUAGE_ORDER
+        )
+
         pop_tz_cache = []
 
         def date_strings():
@@ -593,7 +604,7 @@ class DateDataParser:
             languages=self.languages,
             locales=self.locales,
             region=self.region,
-            use_given_order=self.use_given_order,
+            use_given_order=use_given_order,
         ):
             for s in date_strings():
                 if self._is_applicable_locale(locale, s):
@@ -604,7 +615,7 @@ class DateDataParser:
                 languages=self._settings.DEFAULT_LANGUAGES,
                 locales=None,
                 region=self.region,
-                use_given_order=self.use_given_order,
+                use_given_order=use_given_order,
             ):
                 yield locale
 
