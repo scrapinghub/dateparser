@@ -280,11 +280,6 @@ class DateDataParser:
         If True, locales previously used to translate date are tried first.
     :type try_previous_locales: bool
 
-    :param use_given_order:
-        If True, locales are tried for translation of date string
-        in the order in which they are given.
-    :type use_given_order: bool
-
     :param settings:
         Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
     :type settings: dict
@@ -299,7 +294,7 @@ class DateDataParser:
 
     @apply_settings
     def __init__(self, languages=None, locales=None, region=None, try_previous_locales=False,
-                 use_given_order=False, settings=None):
+                 settings=None):
 
         if languages is not None and not isinstance(languages, (list, tuple, Set)):
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
@@ -314,16 +309,11 @@ class DateDataParser:
             raise TypeError("try_previous_locales argument must be a boolean (%r given)"
                             % type(try_previous_locales))
 
-        if not isinstance(use_given_order, bool):
-            raise TypeError("use_given_order argument must be a boolean (%r given)"
-                            % type(use_given_order))
-
-        if not locales and use_given_order:
-            raise ValueError("locales must be given if use_given_order is True")
+        if not (locales or languages) and settings.USE_GIVEN_LANGUAGE_ORDER:
+            raise ValueError("locales or languages must be given if USE_GIVEN_LANGUAGE_ORDER is True")
 
         self._settings = settings
         self.try_previous_locales = try_previous_locales
-        self.use_given_order = use_given_order
         self.languages = languages
         self.locales = locales
         self.region = region
@@ -424,7 +414,7 @@ class DateDataParser:
 
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
-                use_given_order=self.use_given_order):
+                use_given_order=self._settings.USE_GIVEN_LANGUAGE_ORDER):
             for s in date_strings():
                 if self._is_applicable_locale(locale, s):
                     yield locale
