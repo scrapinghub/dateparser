@@ -20,7 +20,7 @@ class Locale:
 
     :param shortname:
         A locale code, e.g. 'fr-PF', 'qu-EC', 'af-NA'.
-    :type shortname: str|unicode
+    :type shortname: str
 
     :param language_info:
         Language info (translation data) of the language the locale belongs to.
@@ -53,7 +53,7 @@ class Locale:
 
         :param date_string:
             A string representing date and/or time in a recognizably valid format.
-        :type date_string: str|unicode
+        :type date_string: str
 
         :param strip_timezone:
             If True, timezone is stripped from date string.
@@ -113,7 +113,7 @@ class Locale:
 
         :param date_string:
             A string representing date and/or time in a recognizably valid format.
-        :type date_string: str|unicode
+        :type date_string: str
 
         :param keep_formatting:
             If True, retain formatting of the date string after translation.

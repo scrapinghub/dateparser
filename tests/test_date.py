@@ -5,7 +5,7 @@ from collections import OrderedDict
 from copy import copy
 from datetime import datetime, timedelta
 
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 from parameterized import parameterized, param
 
 import dateparser
@@ -395,6 +395,20 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed(date_string)
         self.then_detected_locale(locale)
 
+    def test_try_previous_locales_false(self):
+        self.given_parser(try_previous_locales=False)
+        self.when_date_string_is_parsed('Mañana')  # es
+        self.then_detected_locale('es')
+        self.when_date_string_is_parsed('2020-05-01')
+        self.then_detected_locale('en')
+
+    def test_try_previous_locales_true(self):
+        self.given_parser(try_previous_locales=True)
+        self.when_date_string_is_parsed('Mañana')  # es
+        self.then_detected_locale('es')
+        self.when_date_string_is_parsed('2020-05-01')
+        self.then_detected_locale('es')
+
     @parameterized.expand([
         param("2014-10-09T17:57:39+00:00"),
     ])
@@ -452,7 +466,7 @@ class TestDateDataParser(BaseTestCase):
     def test_parsing_date_using_invalid_type_date_string_must_raise_error(self, date_string):
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
-        self.then_error_was_raised(TypeError, ["Input type must be str or unicode"])
+        self.then_error_was_raised(TypeError, ["Input type must be str"])
 
     @parameterized.expand([
         param(date_string="2014/11/17 14:56 EDT", expected_result=datetime(2014, 11, 17, 18, 56)),
@@ -605,7 +619,7 @@ class TestParserInitialization(BaseTestCase):
     def test_error_raised_for_invalid_region_argument(self, region):
         self.when_parser_is_initialized(region=region)
         self.then_error_was_raised(
-            TypeError, ["region argument must be str or unicode (%r given)" % type(region)])
+            TypeError, ["region argument must be str (%r given)" % type(region)])
 
     @parameterized.expand([
         param(try_previous_locales=['ar-OM', 'pt-PT', 'fr-CG', 'uk']),

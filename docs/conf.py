@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # dateparser documentation build configuration file, created by
 # sphinx-quickstart on Tue Jul  9 22:26:36 2013.

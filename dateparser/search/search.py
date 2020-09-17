@@ -199,7 +199,7 @@ class DateSearchWithDetection:
 
         :param text:
             A string in a natural language which may contain date and/or time expressions.
-        :type text: str|unicode
+        :type text: str
         :param languages:
             A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
             to detect the language.

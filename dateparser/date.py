@@ -282,7 +282,7 @@ class DateDataParser:
         A region code, e.g. 'IN', '001', 'NE'.
         If locales are not given, languages and region are
         used to construct locales for translation.
-    :type region: str|unicode
+    :type region: str
 
     :param try_previous_locales:
         If True, locales previously used to translate date are tried first.
@@ -306,17 +306,17 @@ class DateDataParser:
     locale_loader = None
 
     @apply_settings
-    def __init__(self, languages=None, locales=None, region=None, try_previous_locales=True,
+    def __init__(self, languages=None, locales=None, region=None, try_previous_locales=False,
                  use_given_order=False, settings=None):
 
-        if not isinstance(languages, (list, tuple, Set)) and languages is not None:
+        if languages is not None and not isinstance(languages, (list, tuple, Set)):
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
-        if not isinstance(locales, (list, tuple, Set)) and locales is not None:
+        if locales is not None and not isinstance(locales, (list, tuple, Set)):
             raise TypeError("locales argument must be a list (%r given)" % type(locales))
 
-        if not isinstance(region, str) and region is not None:
-            raise TypeError("region argument must be str or unicode (%r given)" % type(region))
+        if region is not None and not isinstance(region, str):
+            raise TypeError("region argument must be str (%r given)" % type(region))
 
         if not isinstance(try_previous_locales, bool):
             raise TypeError("try_previous_locales argument must be a boolean (%r given)"
@@ -344,7 +344,7 @@ class DateDataParser:
 
         :param date_string:
             A string representing date and/or time in a recognizably valid format.
-        :type date_string: str|unicode
+        :type date_string: str
         :param date_formats:
             A list of format strings using directives as given
             `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
@@ -381,7 +381,7 @@ class DateDataParser:
 
         """
         if not(isinstance(date_string, str) or isinstance(date_string, str)):
-            raise TypeError('Input type must be str or unicode')
+            raise TypeError('Input type must be str')
 
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:

@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from pytz import timezone
 
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 from parameterized import parameterized, param
 
 import dateparser.timezone_parser

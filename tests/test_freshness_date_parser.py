@@ -4,7 +4,7 @@ from functools import wraps
 import pytz
 
 from dateutil.relativedelta import relativedelta
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 from parameterized import parameterized, param
 
 import dateparser
