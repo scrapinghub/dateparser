@@ -194,6 +194,15 @@ For example, assuming current date is `June 16, 2019`:
     >>> parse('March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
     datetime.datetime(2012, 3, 12, 0, 0)
 
+
+``USE_GIVEN_LANGUAGE_ORDER`` Choose whether to preserve or not the order given in ``languages`` or ``locales``. It is ``False`` by default so dateparser will choose the most common language from the given list for efficiency.
+
+    >>> dateparser.parse("11/12", locales=['es', 'en'])
+    datetime.datetime(2020, 11, 12, 0, 0)
+    >>> dateparser.parse("11/12", locales=['es', 'en'], settings={'USE_GIVEN_LANGUAGE_ORDER': True})
+    datetime.datetime(2020, 12, 11, 0, 0)
+
+
 Language Detection
 ++++++++++++++++++
 
