@@ -372,7 +372,7 @@ class DateDataParser:
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
-        if not(isinstance(date_string, str) or isinstance(date_string, str)):
+        if not isinstance(date_string, str):
             raise TypeError('Input type must be str')
 
         res = parse_with_formats(date_string, date_formats or [], self._settings)
