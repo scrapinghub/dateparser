@@ -20,6 +20,8 @@ class Settings:
     Default: False.
     * `PARSERS`: list of date parsers to use, in order of preference. Default:
     :attr:`dateparser.settings.default_parsers`.
+    * `USE_GIVEN_LANGUAGE_ORDER`: If True, locales and languages are tried for translation of date string in the order in which they are given.
+    Default: False.
     """
 
     _default = True
