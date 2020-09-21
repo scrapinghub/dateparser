@@ -22,7 +22,6 @@ def no_space_parser_eligibile(datestring):
     src = NSP_COMPATIBLE.search(datestring)
     if not src or ':' == src.group():
         return True
-
     return False
 
 
@@ -60,17 +59,12 @@ def resolve_date_order(order, lst=None):
     return chart_list[order] if lst else chart[order]
 
 
-def parse(datestring, settings):
-    exceptions = []
-    for parser in [_parser.parse, _no_spaces_parser.parse]:
-        try:
-            res = parser(datestring, settings)
-            if res:
-                return res
-        except Exception as e:
-            exceptions.append(e)
-    else:
-        raise exceptions.pop(-1)
+def _parse_absolute(datestring, settings):
+    return _parser.parse(datestring, settings)
+
+
+def _parse_nospaces(datestring, settings):
+    return _no_spaces_parser.parse(datestring, settings)
 
 
 class _time_parser:
@@ -161,11 +155,11 @@ class _no_spaces_parser:
     @classmethod
     def parse(cls, datestring, settings):
         if not no_space_parser_eligibile(datestring):
-            return
+            raise ValueError('Unable to parse date from: %s' % datestring)
 
         datestring = datestring.replace(':', '')
         if not datestring:
-            return
+            raise ValueError("Empty string")
         tokens = tokenizer(datestring)
         if settings.DATE_ORDER:
             order = resolve_date_order(settings.DATE_ORDER)

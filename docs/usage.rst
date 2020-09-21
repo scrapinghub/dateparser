@@ -168,13 +168,18 @@ The following parsers exist:
     (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as
     ``DATE_ORDER`` or ``PREFER_LOCALE_DATE_ORDER``.
 
+-   ``'no-spaces-time'``: Parses dates and times that consist in only digits or
+    a combination of digits and non-digits where the first non-digit it's a colon
+    (e.g. “121994”, “11:052020”). It's not included in the default parsers and it
+    can produce false positives frequently.
+
 
 :data:`dateparser.settings.default_parsers` contains the default value of
 ``PARSERS`` (the list above, in that order) and can be used to write code that
 changes the parsers to try without skipping parsers that may be added to
 Dateparser in the future. For example, to ignore relative times:
 
-    >>> from dateparser.settings import default_parsers
+    >>> from dateparser_data.settings import default_parsers
     >>> parsers = [parser for parser in default_parsers if parser != 'relative-time']
     >>> parse('today', settings={'PARSERS': parsers})
 

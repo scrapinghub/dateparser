@@ -9,6 +9,7 @@ from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings
+from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
     set_correct_day_from_settings
@@ -166,7 +167,8 @@ class _DateLocaleParser:
             'timestamp': self._try_timestamp,
             'relative-time': self._try_freshness_parser,
             'custom-formats': self._try_given_formats,
-            'absolute-time': self._try_parser,
+            'absolute-time': self._try_absolute_parser,
+            'no-spaces-time': self._try_nospaces_parser,
         }
         unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
         if unknown_parsers:
@@ -201,14 +203,20 @@ class _DateLocaleParser:
         except (OverflowError, ValueError):
             return None
 
-    def _try_parser(self):
+    def _try_absolute_parser(self):
+        return self._try_parser(parse_method=_parse_absolute)
+
+    def _try_nospaces_parser(self):
+        return self._try_parser(parse_method=_parse_nospaces)
+
+    def _try_parser(self, parse_method):
         _order = self._settings.DATE_ORDER
         try:
             if self._settings.PREFER_LOCALE_DATE_ORDER:
                 if 'DATE_ORDER' not in self._settings._mod_settings:
                     self._settings.DATE_ORDER = self.locale.info.get('date_order', _order)
             date_obj, period = date_parser.parse(
-                self._get_translated_date(), settings=self._settings)
+                self._get_translated_date(), parse_method=parse_method, settings=self._settings)
             self._settings.DATE_ORDER = _order
             return {
                 'date_obj': date_obj,
