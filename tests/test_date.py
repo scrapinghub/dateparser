@@ -633,29 +633,12 @@ class TestParserInitialization(BaseTestCase):
             TypeError, ["try_previous_locales argument must be a boolean (%r given)"
                         % type(try_previous_locales)])
 
-    @parameterized.expand([
-        param(use_given_order=['da', 'pt', 'ja', 'sv']),
-        param(use_given_order='uk'),
-        param(use_given_order={'use_given_order': True}),
-        param(use_given_order=1),
-    ])
-    def test_error_raised_for_invalid_use_given_order_argument(self, use_given_order):
-        self.when_parser_is_initialized(locales=['en', 'es'], use_given_order=use_given_order)
-        self.then_error_was_raised(
-            TypeError, ["use_given_order argument must be a boolean (%r given)"
-                        % type(use_given_order)])
-
-    def test_error_is_raised_when_use_given_order_is_True_and_locales_is_None(self):
-        self.when_parser_is_initialized(use_given_order=True)
-        self.then_error_was_raised(
-            ValueError, ["locales must be given if use_given_order is True"])
-
     def when_parser_is_initialized(self, languages=None, locales=None, region=None,
-                                   try_previous_locales=True, use_given_order=False):
+                                   try_previous_locales=True):
         try:
             self.parser = date.DateDataParser(
                 languages=languages, locales=locales, region=region,
-                try_previous_locales=try_previous_locales, use_given_order=use_given_order)
+                try_previous_locales=try_previous_locales)
         except Exception as error:
             self.error = error
 
