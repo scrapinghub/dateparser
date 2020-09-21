@@ -149,7 +149,7 @@ class LocaleDataLoader:
                     raise ValueError("Locales should not have same language and different region")
 
         else:
-            if languages is None:
+            if not languages:
                 languages = language_order
             unsupported_languages = set(languages) - set(language_order)
             if unsupported_languages:
