@@ -201,6 +201,8 @@ For example, assuming current date is `June 16, 2019`:
     datetime.datetime(2020, 11, 12, 0, 0)
     >>> dateparser.parse("11/12", locales=['es', 'en'], settings={'USE_GIVEN_LANGUAGE_ORDER': True})
     datetime.datetime(2020, 12, 11, 0, 0)
+    >>> dateparser.parse("11/12", locales=[], settings={'USE_GIVEN_LANGUAGE_ORDER': True})
+    datetime.datetime(2020, 11, 12, 0, 0)
 
 
 Language Detection
