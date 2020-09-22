@@ -3,6 +3,7 @@ default_parsers = [
     'relative-time',
     'custom-formats',
     'absolute-time',
+    'iso',
 ]
 
 settings = {
