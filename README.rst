@@ -1,41 +1,43 @@
+.. Note that we use raw HTML in the header section because centering images and paragraphs is not supported in Github (https://github.com/github/markup/issues/163)
 
-.. image:: https://raw.githubusercontent.com/scrapinghub/dateparser/master/artwork/dateparser-logo.png
-    :width: 400px
-    :align: center
-    :alt: Dateparser
-    :target: https://github.com/scrapinghub/dateparser
+.. raw:: html
 
-.. class:: center
+    <h1 align="center">
+        <br/>
+        <a href="https://github.com/scrapinghub/dateparser">
+            <img src="https://raw.githubusercontent.com/scrapinghub/dateparser/master/artwork/dateparser-logo.png" alt="Dateparser" width="500">
+        </a>
+        <br/>
+    </h1>
 
-Python parser for human readable dates
---------------------------------------
+    <h3 align="center">Python parser for human readable dates</h4>
 
-.. class:: center
+    <p align="center">
+        <a href="https://pypi.python.org/pypi/dateparser">
+            <img src="https://img.shields.io/pypi/dm/dateparser.svg" alt="PyPI - Downloads">
+        </a>
+        <a href="https://pypi.python.org/pypi/dateparser">
+            <img src="https://img.shields.io/pypi/v/dateparser.svg" alt="PypI - Version">
+        </a>
+        <a href="https://codecov.io/gh/scrapinghub/dateparser">
+            <img src="https://codecov.io/gh/scrapinghub/dateparser/branch/master/graph/badge.svg" alt="Code Coverage">
+        </a>
+        <a href="https://travis-ci.com/scrapinghub/dateparser">
+            <img src="https://img.shields.io/travis/scrapinghub/dateparser/master.svg" alt="Travis - Build">
+        </a>
+        <a href="https://dateparser.readthedocs.org/en/latest/?badge=latest">
+            <img src="https://readthedocs.org/projects/dateparser/badge/?version=latest" alt="Readthedocs - Docs">
+        </a>
+    </p>
 
-.. image:: https://img.shields.io/pypi/dm/dateparser.svg
-   :target: https://pypi.python.org/pypi/dateparser
-   :alt: PyPI - Downloads
-
-.. image:: https://img.shields.io/pypi/v/dateparser.svg
-   :target: https://pypi.python.org/pypi/dateparser
-   :alt: Pypi - Version
-
-.. image:: https://codecov.io/gh/scrapinghub/dateparser/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/scrapinghub/dateparser
-   :alt: Code Coverage
-
-.. image:: https://img.shields.io/travis/scrapinghub/dateparser/master.svg
-   :target: https://travis-ci.com/scrapinghub/dateparser
-   :alt: Travis - Build
-
-.. image:: https://readthedocs.org/projects/dateparser/badge/?version=latest
-   :target: https://dateparser.readthedocs.org/en/latest/?badge=latest
-   :alt: Readthedocs - Docs
-
-
-.. class:: center
-
-`Key Features <#key-features>`_ • `How To Use <#how-to-use>`_ • `Installation <#installation>`_ • `Common use cases <#common-use-cases>`_ • `You may also like... <#you-may-also-like>`_ • `License <#license>`_ •
+    <p align="center">
+        <a href="#key-features">Key Features</a> •
+        <a href="#how-to-use">How To Use</a> •
+        <a href="#installation">Installation</a> •
+        <a href="#common-use-cases">Common use cases</a> •
+        <a href="#you-may-also-like">You may also like...</a> •
+        <a href="#license">License</a>
+    </p>
 
 
 Key Features
