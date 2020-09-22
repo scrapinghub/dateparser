@@ -13,7 +13,7 @@ matrix:
     - python: 3.7
       env: TOXENV=py37
     - python: 3.8
-      env: TOXENV=py38
+      env: TOXENV=py38 PYPI_RELEASE_JOB=true
     - python: 3.9-dev
       env: TOXENV=py39
 
@@ -41,4 +41,4 @@ deploy:
   on:
     tags: true
     repo: scrapinghub/dateparser
-    condition: "$TOXENV == py27"
+    condition: "$PYPI_RELEASE_JOB == true
