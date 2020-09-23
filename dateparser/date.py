@@ -154,6 +154,7 @@ def parse_with_formats(date_string, date_formats, settings):
 
 def _parse_iso_date(date_string):
     patterns = (
+        # extended format
         (
             r'''
             (?x)
@@ -163,9 +164,20 @@ def _parse_iso_date(date_string):
             (?P<month>\d\d)
             -
             (?P<day>\d\d)
+            (?:
+                [T\s]
+                (?P<hour>\d\d)
+                :
+                (?P<minute>\d\d)
+                (?:
+                    :
+                    (?P<second>\d\d(?:[.,]\d*)?)
+                )?
+            )?
             $
             '''
         ),
+        # basic format
         (
             r'''
             (?x)
@@ -173,6 +185,14 @@ def _parse_iso_date(date_string):
             (?P<year>\d{4}|\+\d{5,})
             (?P<month>\d\d)
             (?P<day>\d\d)
+            (?:
+                T
+                (?P<hour>\d\d)
+                (?P<minute>\d\d)
+                (?:
+                    (?P<second>\d\d(?:[.,]\d*)?)
+                )?
+            )?
             $
             '''
         ),
@@ -181,17 +201,28 @@ def _parse_iso_date(date_string):
         match = re.search(pattern, date_string)
         if not match:
             continue
-        components = {
-            k: int(v)
-            for k, v in match.groupdict().items()
-            if v is not None
-        }
+        components = match.groupdict()
+        period = 'day' if components.get('hour', None) is None else 'time'
+        for k in list(components):
+            if components[k] is None:
+                components[k] = 0
+                continue
+            if k in {'year', 'month', 'day', 'hour', 'minute'}:
+                components[k] = int(components[k])
+            elif k == 'second':
+                seconds_float = float(components[k].replace(',', '.'))
+                components[k] = int(seconds_float // 1)
+                components['microsecond'] = min(
+                    int(round((seconds_float % 1) * 1000000)),
+                    999999,
+                )
+        # TODO: Set the right values for missing components based on settings
         try:
             date_object = datetime(**components)
         except ValueError:
             return None
         else:
-            return {'date_obj': date_object, 'period': 'day', 'locale': None}
+            return {'date_obj': date_object, 'period': period, 'locale': None}
     return None
 
 
