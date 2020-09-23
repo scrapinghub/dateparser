@@ -158,10 +158,20 @@ def _parse_iso_date(date_string):
             r'''
             (?x)
             ^
-            (?P<year>\d{4}|\+?\d{4,})
+            (?P<year>\d{4}|\+\d{5,})
             -
             (?P<month>\d\d)
             -
+            (?P<day>\d\d)
+            $
+            '''
+        ),
+        (
+            r'''
+            (?x)
+            ^
+            (?P<year>\d{4}|\+\d{5,})
+            (?P<month>\d\d)
             (?P<day>\d\d)
             $
             '''
@@ -171,7 +181,11 @@ def _parse_iso_date(date_string):
         match = re.search(pattern, date_string)
         if not match:
             continue
-        components = {k: int(v) for k, v in match.groupdict().items()}
+        components = {
+            k: int(v)
+            for k, v in match.groupdict().items()
+            if v is not None
+        }
         try:
             date_object = datetime(**components)
         except ValueError:
