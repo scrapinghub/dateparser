@@ -293,7 +293,7 @@ class _parser:
                     self.time = lambda: time_parser(self._token_time)
                     continue
 
-            results = self._parse(type, token, settings.FUZZY, skip_component=skip_component)
+            results = self._parse(type, token, skip_component=skip_component)
             for res in results:
                 if len(token) == 4 and res[0] == 'year':
                     skip_component = 'year'
@@ -395,15 +395,6 @@ class _parser:
         self._set_relative_base()
 
         time = self.time() if self.time is not None else None
-
-        if self.settings.FUZZY:
-            attr_truth_values = []
-            for attr in ['day', 'month', 'year', 'time']:
-                attr_truth_values.append(getattr(self, attr, False))
-
-            if not any(attr_truth_values):
-                raise ValueError('Nothing date like found')
-
         params = self._get_datetime_obj_params()
 
         if time:
@@ -510,7 +501,7 @@ class _parser:
 
         return dateobj, period
 
-    def _parse(self, type, token, fuzzy, skip_component=None):
+    def _parse(self, type, token, skip_component=None):
 
         def set_and_return(token, type, component, dateobj, skip_date_order=False):
             if not skip_date_order:
@@ -541,10 +532,7 @@ class _parser:
                     except ValueError:
                         pass
             else:
-                if not fuzzy:
-                    raise ValueError('Unable to parse: %s' % token)
-                else:
-                    return []
+                raise ValueError('Unable to parse: %s' % token)
 
         def parse_alpha(token, skip_component=None):
             type = 1
@@ -567,10 +555,7 @@ class _parser:
                     except:
                         pass
             else:
-                if not fuzzy:
-                    raise ValueError('Unable to parse: %s' % token)
-                else:
-                    return []
+                raise ValueError('Unable to parse: %s' % token)
 
         handlers = {0: parse_number, 1: parse_alpha}
         return handlers[type](token, skip_component)
