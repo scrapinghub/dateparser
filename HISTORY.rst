@@ -3,6 +3,38 @@
 History
 =======
 
+
+1.0.0 (2020-10-XX)
+------------------
+
+Breaking changes:
+
+* Drop support for Python 2.7 and pypy (see #727, #744, #748, #749, #754, #755, #758, #761, #763, #764, #777, #783)
+* Now ``dateparser.parse()`` is deterministic and don't try previous locales. On the other hand, ``DateDataParser.get_date_data()`` don't try the previous locales by default (see #781)
+* Remove the ``'base-formats'`` parser (see #721)
+* Extract the ``'no-spaces-time'`` parser from the ``'absolute-time'`` parser and make it an optional parser (see #786)
+* Remove ``numeral_translation_data`` (see #782)
+* Remove the ``SKIP_TOKENS_PARSER`` setting (see #728)
+* Remove support for using strings in ``date_formats`` (see #726)
+* Changes in ``dateparser.utils``: ``normalize_unicode()`` doesn't accept `bytes` as input and ``convert_to_unicode`` has been deprecated.
+
+New features:
+
+* Add Python 3.9 support (see #732)
+* Detect hours with separated with period/dot (see #741)
+* Add support for the "decade" (see #762)
+* Add support for the hijri calendar in Python ≥ 3.6 (see #718)
+
+Improvements:
+
+* New logo! (see #719)
+* Improve README and docs (see #779)
+* Fix the "calendars" extra (see #740)
+* Fix leap years when ``PREFER_DATES_FROM`` is set (see #738)
+* Parse 24hr time format with meridian info (see #634)
+* Other small improvements (see #698, #709, #712, #730, #731, #735, #739, #784, #788)
+
+
 0.7.6 (2020-06-12)
 ------------------
 
