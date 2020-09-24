@@ -425,7 +425,10 @@ class TestDateParser(BaseTestCase):
         param('Aug 7, 2014Aug 7, 2014', 'Unable to parse: Aug'),
         param('24h ago', 'Unable to parse: h'),
         param('2015-03-17t16:37:51+00:002015-03-17t15:24:37+00:00', 'Unable to parse: 00:002015'),
-        param('8 enero 2013 martes 7:03 AM EST 8 enero 2013 martes 7:03 AM EST', 'Unable to parse: 8'),
+        param(
+            '8 enero 2013 martes 7:03 AM EST 8 enero 2013 martes 7:03 AM EST',
+            'Unable to parse: 8'
+        ),
         param('12/09/18567', 'Unable to parse: 18567'),
     ])
     def test_dates_not_parsed(self, date_string, message):
@@ -598,7 +601,9 @@ class TestDateParser(BaseTestCase):
         param('31 June 2015', 'day must be in 1..30'),
         param('31 September 2015', 'day must be in 1..30'),
     ])
-    def test_error_should_be_raised_for_invalid_dates_with_too_large_day_number(self, date_string, message):
+    def test_error_should_be_raised_for_invalid_dates_with_too_large_day_number(
+        self, date_string, message
+    ):
         self.when_date_is_parsed_by_date_parser(date_string)
         self.then_error_was_raised(ValueError, ['day is out of range for month', message])
 
@@ -804,24 +809,24 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand([
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=[],
-               languages=[], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+              languages=[], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=None,
-               languages=None, settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+              languages=None, settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
 
         param('11/12/2020', expected=datetime(2020, 12, 11, 0, 0), locales=['es', 'en'],
-               languages=[], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+              languages=[], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
         param('11/12/2020', expected=datetime(2020, 12, 11, 0, 0), locales=[],
-               languages=['es', 'en'], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+              languages=['es', 'en'], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
 
         param('11/12/2020', expected=datetime(2020, 12, 11, 0, 0), locales=['es', 'en'],
-               languages=['es', 'en'], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+              languages=['es', 'en'], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=['en', 'es'],
-               languages=['en', 'es'], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+              languages=['en', 'es'], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
 
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=['en', 'es'],
-               languages=['es', 'en'], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+              languages=['es', 'en'], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
         param('11/12/2020', expected=datetime(2020, 12, 11, 0, 0), locales=['es', 'en'],
-               languages=['en', 'es'], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+              languages=['en', 'es'], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
     ])
     def test_mixed_locales_and_languages_parsing_order_if_use_given_language_order_is_set(
         self, date_string, expected=None, locales=None, languages=None, settings=None

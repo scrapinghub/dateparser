@@ -249,7 +249,8 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.then_date_was_not_parsed()
 
     @parameterized.expand([
-        param(date_string='25-03-14', date_formats=['%d-%m-%y'], expected_result=datetime(2014, 3, 25)),
+        param(date_string='25-03-14', date_formats=['%d-%m-%y'],
+              expected_result=datetime(2014, 3, 25)),
     ])
     def test_should_parse_date(self, date_string, date_formats, expected_result):
         self.when_date_is_parsed_with_formats(date_string, date_formats)
@@ -304,7 +305,8 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.add_patch(patch('dateparser.utils.datetime', new=datetime_mock))
 
     def when_date_is_parsed_with_formats(self, date_string, date_formats, custom_settings=None):
-        self.result = date.parse_with_formats(date_string, date_formats, custom_settings or settings)
+        self.result = date.parse_with_formats(date_string, date_formats,
+                                              custom_settings or settings)
 
     def then_date_was_not_parsed(self):
         self.assertIsNotNone(self.result)
@@ -365,11 +367,28 @@ class TestDateDataParser(BaseTestCase):
         self.then_date_is_n_days_ago(days=days_ago)
 
     def test_should_not_assume_language_too_early(self):
-        dates_to_parse = OrderedDict([('07/07/2014', datetime(2014, 7, 7).date()),  # any language
-                                      ('07.jul.2014 | 12:52', datetime(2014, 7, 7).date()),  # en, es, pt, nl
-                                      ('07.ago.2014 | 12:52', datetime(2014, 8, 7).date()),  # es, it, pt
-                                      ('07.feb.2014 | 12:52', datetime(2014, 2, 7).date()),  # en, de, es, it, nl, ro
-                                      ('07.ene.2014 | 12:52', datetime(2014, 1, 7).date())])  # es
+        dates_to_parse = OrderedDict([
+            (
+                '07/07/2014',
+                datetime(2014, 7, 7).date()
+            ),  # any language
+            (
+                '07.jul.2014 | 12:52',
+                datetime(2014, 7, 7).date()
+            ),  # en, es, pt, nl
+            (
+                '07.ago.2014 | 12:52',
+                datetime(2014, 8, 7).date()
+            ),  # es, it, pt
+            (
+                '07.feb.2014 | 12:52',
+                datetime(2014, 2, 7).date()
+            ),  # en, de, es, it, nl, ro
+            (
+                '07.ene.2014 | 12:52',
+                datetime(2014, 1, 7).date()
+            )   # es
+        ])
 
         self.given_parser(restrict_to_languages=['en', 'de', 'fr', 'it', 'pt',
                                                  'nl', 'ro', 'es', 'ru'])
