@@ -37,15 +37,17 @@ def get_unresolved_attrs(parser_object):
     return seen, unseen
 
 
+date_order_chart = {
+    'MDY': '%m%d%y',
+    'MYD': '%m%y%d',
+    'YMD': '%y%m%d',
+    'YDM': '%y%d%m',
+    'DMY': '%d%m%y',
+    'DYM': '%d%y%m',
+}
+
+
 def resolve_date_order(order, lst=None):
-    chart = {
-        'MDY': '%m%d%y',
-        'MYD': '%m%y%d',
-        'YMD': '%y%m%d',
-        'YDM': '%y%d%m',
-        'DMY': '%d%m%y',
-        'DYM': '%d%y%m',
-    }
 
     chart_list = {
         'MDY': ['month', 'day', 'year'],
@@ -56,7 +58,7 @@ def resolve_date_order(order, lst=None):
         'DYM': ['day', 'year', 'month'],
     }
 
-    return chart_list[order] if lst else chart[order]
+    return chart_list[order] if lst else date_order_chart[order]
 
 
 def _parse_absolute(datestring, settings):
