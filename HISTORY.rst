@@ -16,7 +16,7 @@ Breaking changes:
 * Remove ``numeral_translation_data`` (see #782)
 * Remove the ``SKIP_TOKENS_PARSER`` setting (see #728)
 * Remove support for using strings in ``date_formats`` (see #726)
-* Changes in ``dateparser.utils``: ``normalize_unicode()`` doesn't accept `bytes` as input and ``convert_to_unicode`` has been deprecated.
+* Changes in ``dateparser.utils``: ``normalize_unicode()`` doesn't accept ``bytes`` as input and ``convert_to_unicode`` has been deprecated.
 
 New features:
 
