@@ -31,7 +31,7 @@ Improvements:
 * Improve the README and docs (see #779)
 * Fix the "calendars" extra (see #740)
 * Fix leap years when ``PREFER_DATES_FROM`` is set (see #738)
-* Parse 24hr time format with meridian info (see #634)
+* Parse the 24hr time format with meridian info (see #634)
 * Other small improvements (see #698, #709, #712, #730, #731, #735, #739, #784, #788)
 
 
