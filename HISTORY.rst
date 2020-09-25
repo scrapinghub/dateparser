@@ -21,7 +21,7 @@ Breaking changes:
 New features:
 
 * Add Python 3.9 support (see #732)
-* Detect hours with separated with period/dot (see #741)
+* Detect hours separated with a period/dot (see #741)
 * Add support for "decade" (see #762)
 * Add support for the hijri calendar in Python ≥ 3.6 (see #718)
 
