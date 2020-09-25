@@ -1,7 +1,7 @@
 import re
 from setuptools import setup, find_packages
 
-__version__ = re.match(r"__version__.*\s*=\s*[']([^']+)[']", open('dateparser/__init__.py').read())[1]
+__version__ = re.search(r"__version__.*\s*=\s*[']([^']+)[']", open('dateparser/__init__.py').read()).group(1)
 
 introduction = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:|:ref:', '', open('docs/introduction.rst').read())
 history = re.sub(r':mod:|:class:|:func:', '', open('HISTORY.rst').read())
