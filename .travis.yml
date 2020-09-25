@@ -41,4 +41,4 @@ deploy:
   on:
     tags: true
     repo: scrapinghub/dateparser
-    condition: "$PYPI_RELEASE_JOB == true
+    condition: "$PYPI_RELEASE_JOB == true"
