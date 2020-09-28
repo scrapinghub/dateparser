@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from itertools import chain
 
 import regex as re
@@ -17,13 +14,13 @@ DIGIT_GROUP_PATTERN = re.compile(r'\\d\+')
 NUMERAL_PATTERN = re.compile(r'(\d+)', re.U)
 
 
-class Locale(object):
+class Locale:
     """
     Class that deals with applicability and translation from a locale.
 
     :param shortname:
         A locale code, e.g. 'fr-PF', 'qu-EC', 'af-NA'.
-    :type shortname: str|unicode
+    :type shortname: str
 
     :param language_info:
         Language info (translation data) of the language the locale belongs to.
@@ -56,7 +53,7 @@ class Locale(object):
 
         :param date_string:
             A string representing date and/or time in a recognizably valid format.
-        :type date_string: str|unicode
+        :type date_string: str
 
         :param strip_timezone:
             If True, timezone is stripped from date string.
@@ -73,7 +70,6 @@ class Locale(object):
         date_string = self._simplify(date_string, settings=settings)
         dictionary = self._get_dictionary(settings)
         date_tokens = dictionary.split(date_string)
-
         return dictionary.are_tokens_valid(date_tokens)
 
     def count_applicability(self, text, strip_timezone=False, settings=None):
@@ -117,7 +113,7 @@ class Locale(object):
 
         :param date_string:
             A string representing date and/or time in a recognizably valid format.
-        :type date_string: str|unicode
+        :type date_string: str
 
         :param keep_formatting:
             If True, retain formatting of the date string after translation.
@@ -153,15 +149,13 @@ class Locale(object):
         for i, token in enumerate(date_string_tokens):
             if token.isdecimal():
                 date_string_tokens[i] = str(int(token)).zfill(len(token))
-                if isinstance(date_string_tokens[i], bytes):
-                    date_string_tokens[i] = date_string_tokens[i].decode('utf-8')
-        return u''.join(date_string_tokens)
+        return ''.join(date_string_tokens)
 
     def _get_relative_translations(self, settings=None):
         if settings.NORMALIZE:
             if self._normalized_relative_translations is None:
                 self._normalized_relative_translations = (
-                        self._generate_relative_translations(normalize=True))
+                    self._generate_relative_translations(normalize=True))
             return self._normalized_relative_translations
         else:
             if self._relative_translations is None:
@@ -200,7 +194,7 @@ class Locale(object):
                 elif word.strip('()\"\'{}[],.،') in dictionary and word not in dashes:
                     punct = word[len(word.strip('()\"\'{}[],.،')):]
                     if punct and dictionary[word.strip('()\"\'{}[],.،')]:
-                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')]+punct)
+                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')] + punct)
                     else:
                         translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')])
                     original_chunk.append(original_tokens[i])
@@ -467,8 +461,10 @@ class Locale(object):
 
     def _set_splitters(self, settings=None):
         splitters = {
-            'wordchars': set(),  # The ones that split string only if they are not surrounded by letters from both sides
-            'capturing': set(),  # The ones that are not filtered out from tokens after split
+            # The ones that split string only if they are not surrounded by letters from both sides:
+            'wordchars': set(),
+            # The ones that are not filtered out from tokens after split:
+            'capturing': set(),
         }
         splitters['capturing'] |= set(ALWAYS_KEEP_TOKENS)
 

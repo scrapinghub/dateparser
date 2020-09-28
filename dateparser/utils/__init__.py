@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import calendar
 import logging
 import types
@@ -18,12 +17,10 @@ def strip_braces(date_string):
 
 
 def normalize_unicode(string, form='NFKD'):
-    if isinstance(string, bytes):
-        string = string.decode('utf-8')
-
     return ''.join(
-        (c for c in unicodedata.normalize(form, string)
-         if unicodedata.category(c) != 'Mn'))
+        c for c in unicodedata.normalize(form, string)
+        if unicodedata.category(c) != 'Mn'
+    )
 
 
 def combine_dicts(primary_dict, supplementary_dict):
@@ -42,25 +39,6 @@ def combine_dicts(primary_dict, supplementary_dict):
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict
-
-
-def convert_to_unicode(info):
-    unicode_info = OrderedDict()
-    for key, value in info.items():
-        if isinstance(key, bytes):
-            key = key.decode('utf-8')
-        if isinstance(value, list):
-            for i, v in enumerate(value):
-                if isinstance(v, dict):
-                    value[i] = convert_to_unicode(v)
-                elif isinstance(v, bytes):
-                    value[i] = v.decode('utf-8')
-        elif isinstance(value, dict):
-            value = convert_to_unicode(value)
-        elif isinstance(value, bytes):
-            value = value.decode('utf-8')
-        unicode_info[key] = value
-    return unicode_info
 
 
 def find_date_separator(format):
@@ -137,6 +115,26 @@ def apply_timezone_from_settings(date_obj, settings):
 
 def get_last_day_of_month(year, month):
     return calendar.monthrange(year, month)[1]
+
+
+def get_previous_leap_year(year):
+    return _get_leap_year(year, future=False)
+
+
+def get_next_leap_year(year):
+    return _get_leap_year(year, future=True)
+
+
+def _get_leap_year(year, future):
+    """
+    Iterate through previous or next years until it gets a valid leap year
+    This is performed to avoid missing or including centurial leap years
+    """
+    step = 1 if future else -1
+    leap_year = year + step
+    while not calendar.isleap(leap_year):
+        leap_year += step
+    return leap_year
 
 
 def set_correct_day_from_settings(date_obj, settings, current_day=None):

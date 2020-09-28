@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-import six
 from parameterized import parameterized, param
 from datetime import datetime, tzinfo
 
@@ -19,7 +15,7 @@ def test_function(settings=None):
 
 class TimeZoneSettingsTest(BaseTestCase):
     def setUp(self):
-        super(TimeZoneSettingsTest, self).setUp()
+        super().setUp()
         self.given_ds = NotImplemented
         self.result = NotImplemented
         self.timezone = NotImplemented
@@ -30,7 +26,7 @@ class TimeZoneSettingsTest(BaseTestCase):
         param('12 Feb 2015 4:30 PM EST', datetime(2015, 2, 12, 16, 30), 'EST'),
         param('12 Feb 2015 8:30 PM PKT', datetime(2015, 2, 12, 20, 30), 'PKT'),
         param('12 Feb 2015 8:30 PM ACT', datetime(2015, 2, 12, 20, 30), 'ACT'),
-        ])
+    ])
     def test_should_return_and_assert_tz(self, ds, dt, tz):
         self.given(ds)
         self.given_configurations({})
@@ -44,7 +40,7 @@ class TimeZoneSettingsTest(BaseTestCase):
         param('12 Feb 2015 8:30 PM PKT', datetime(2015, 2, 12, 20, 30), 'PKT'),
         param('12 Feb 2015 8:30 PM ACT', datetime(2015, 2, 12, 20, 30), 'ACT'),
         param('12 Feb 2015 8:30 PM', datetime(2015, 2, 12, 20, 30), ''),
-        ])
+    ])
     def test_only_return_explicit_timezone(self, ds, dt, tz):
         self.given(ds)
         self.given_configurations({})
@@ -61,7 +57,7 @@ class TimeZoneSettingsTest(BaseTestCase):
         param('12 Feb 2015 8:30 PM PKT', datetime(2015, 2, 12, 20, 30),),
         param('12 Feb 2015 8:30 PM ACT', datetime(2015, 2, 12, 20, 30),),
         param('12 Feb 2015 8:30 PM +0100', datetime(2015, 2, 12, 20, 30),),
-        ])
+    ])
     def test_should_return_naive_if_RETURN_AS_TIMEZONE_AWARE_IS_FALSE(self, ds, dt):
         self.given(ds)
         self.given_configurations({'RETURN_AS_TIMEZONE_AWARE': False})
@@ -98,24 +94,32 @@ class TimeZoneSettingsTest(BaseTestCase):
 class SettingsTest(BaseTestCase):
 
     def setUp(self):
-        super(SettingsTest, self).setUp()
+        super().setUp()
         self.default_settings = settings
 
-    def test_apply_settings_should_return_default_settings_when_no_settings_are_supplied_to_the_decorated_function(self):
+    def test_apply_settings_should_return_default_settings_when_no_settings_are_supplied_to_the_decorated_function(
+        self
+    ):
         test_func = apply_settings(test_function)
         self.assertEqual(test_func(), self.default_settings)
 
-    def test_apply_settings_should_return_non_default_settings_when_settings_are_supplied_to_the_decorated_function(self):
+    def test_apply_settings_should_return_non_default_settings_when_settings_are_supplied_to_the_decorated_function(
+        self
+    ):
         test_func = apply_settings(test_function)
         self.assertNotEqual(test_func(settings={'PREFER_DATES_FROM': 'past'}), self.default_settings)
 
-    def test_apply_settings_should_not_create_new_settings_when_same_settings_are_supplied_to_the_decorated_function_more_than_once(self):
+    def test_apply_settings_shouldnt_create_new_settings_when_same_settings_are_supplied_to_the_decorated_function_more_than_once(  # noqa E501
+        self
+    ):
         test_func = apply_settings(test_function)
         settings_once = test_func(settings={'PREFER_DATES_FROM': 'past'})
         settings_twice = test_func(settings={'PREFER_DATES_FROM': 'past'})
         self.assertEqual(settings_once, settings_twice)
 
-    def test_apply_settings_should_return_default_settings_when_called_with_no_settings_after_once_called_with_settings_supplied_to_the_decorated_function(self):
+    def test_apply_settings_should_return_default_settings_when_called_with_no_settings_after_once_called_with_settings_supplied_to_the_decorated_function( # noqa E501
+        self
+    ):
         test_func = apply_settings(test_function)
         settings_once = test_func(settings={'PREFER_DATES_FROM': 'past'})
         settings_twice = test_func()
@@ -126,17 +130,17 @@ class SettingsTest(BaseTestCase):
 class InvalidSettingsTest(BaseTestCase):
 
     def setUp(self):
-        super(InvalidSettingsTest, self).setUp()
+        super().setUp()
 
     def test_error_is_raised_when_none_is_passed_in_settings(self):
         test_func = apply_settings(test_function)
-        with six.assertRaisesRegex(self, TypeError, r'Invalid.*None\}'):
+        with self.assertRaisesRegex(TypeError, r'Invalid.*None\}'):
             test_func(settings={'PREFER_DATES_FROM': None})
 
-        with six.assertRaisesRegex(self, TypeError, r'Invalid.*None\}'):
+        with self.assertRaisesRegex(TypeError, r'Invalid.*None\}'):
             test_func(settings={'TIMEZONE': None})
 
-        with six.assertRaisesRegex(self, TypeError, r'Invalid.*None\}'):
+        with self.assertRaisesRegex(TypeError, r'Invalid.*None\}'):
             test_func(settings={'TO_TIMEZONE': None})
 
     def test_error_is_raised_for_invalid_type_settings(self):

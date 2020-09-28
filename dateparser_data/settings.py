@@ -3,7 +3,6 @@ default_parsers = [
     'relative-time',
     'custom-formats',
     'absolute-time',
-    'base-formats',
 ]
 
 settings = {
@@ -24,7 +23,7 @@ settings = {
     'REQUIRE_PARTS': [],
 
     # Language detection
-    'SKIP_TOKENS': ["t"],
+    'SKIP_TOKENS': ['t'],
     'NORMALIZE': True,
 
     # Other settings

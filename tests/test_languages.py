@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from io import StringIO
 
 import logging
@@ -17,7 +14,7 @@ from tests import BaseTestCase
 
 class TestBundledLanguages(BaseTestCase):
     def setUp(self):
-        super(TestBundledLanguages, self).setUp()
+        super().setUp()
         self.language = NotImplemented
         self.datetime_string = NotImplemented
         self.translation = NotImplemented
@@ -917,8 +914,8 @@ class TestBundledLanguages(BaseTestCase):
         # French
         param('fr', "maintenant", "0 second ago"),
         param('fr', "demain", "in 1 day"),
-        param('fr', u"Il y a moins d'une minute", "1 minute ago"),
-        param('fr', u"Il y a moins de 30s", "30 second ago"),
+        param('fr', "Il y a moins d'une minute", "1 minute ago"),
+        param('fr', "Il y a moins de 30s", "30 second ago"),
         # Tagalog
         param('tl', "kahapon", "1 day ago"),
         param('tl', "ngayon", "0 second ago"),
@@ -1673,7 +1670,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ro', "8 Ianuarie 2015 la 13:33",
               ['8', ' ', 'Ianuarie', ' ', '2015', ' ', 'la', ' ', '13', ':', '33']),
         param('ar', "8 يناير، 2015، الساعة 10:01 صباحاً",
-              ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01',  ' ','صباحاً']),
+              ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01', ' ', 'صباحاً']),
         param('th', "8 มกราคม 2015 เวลา 12:22 น.",
               ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
         param('pl', "8 stycznia 2015 o 10:19",
@@ -1799,7 +1796,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
     NOT_DETECTED = object()
 
     def setUp(self):
-        super(BaseLanguageDetectorTestCase, self).setUp()
+        super().setUp()
         self.datetime_string = NotImplemented
         self.detector = NotImplemented
         self.detected_language = NotImplemented
@@ -1917,7 +1914,7 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
             self.datetime_string, modify=True, settings=self.settings)
 
     def then_exact_languages_were_filtered(self, shortnames):
-        self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
+        self.assertEqual(set(shortnames), {lang.shortname for lang in self.exact_languages})
 
 
 class BaseAutoDetectLanguageDetectorTestCase(BaseLanguageDetectorTestCase):
@@ -1944,7 +1941,7 @@ class TestAutoDetectLanguageDetectorWithRedetection(BaseAutoDetectLanguageDetect
 
 class TestLanguageValidatorWhenInvalid(BaseTestCase):
     def setUp(self):
-        super(TestLanguageValidatorWhenInvalid, self).setUp()
+        super().setUp()
         self.validator = LanguageValidator
         self.captured_logs = StringIO()
         self.validator.get_logger()
@@ -1952,14 +1949,8 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         self.validator.logger.addHandler(self.sh)
         self.log_list = self.captured_logs.getvalue().split('\n')[0]
 
-    @staticmethod
-    def make_python3_msg(text):
-        text = text.replace('unicode', 'str')
-        text = text.replace('u\'', '\'')
-        return text
-
     def get_log_str(self):
-        return self.make_python3_msg(self.captured_logs.getvalue().split('\n')[0])
+        return self.captured_logs.getvalue().split('\n')[0]
 
     @parameterized.expand([
         param('en', 'string instead of dict', log_msg="Language 'en' info expected to be dict, "

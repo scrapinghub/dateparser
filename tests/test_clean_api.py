@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from datetime import date, datetime
 
 from parameterized import parameterized, param
@@ -11,7 +8,7 @@ from tests import BaseTestCase
 
 class TestParseFunction(BaseTestCase):
     def setUp(self):
-        super(TestParseFunction, self).setUp()
+        super().setUp()
         self.result = NotImplemented
 
     @parameterized.expand([

@@ -1,21 +1,15 @@
-# coding: utf-8
-from __future__ import unicode_literals
-
-import six
-
 from tzlocal import get_localzone
 
 from .timezone_parser import pop_tz_offset_from_string
 from .utils import strip_braces, apply_timezone, localize_timezone
 from .conf import apply_settings
-from .parser import parse
 
 
-class DateParser(object):
+class DateParser:
 
     @apply_settings
-    def parse(self, date_string, settings=None):
-        date_string = six.text_type(date_string)
+    def parse(self, date_string, parse_method, settings=None):
+        date_string = str(date_string)
 
         if not date_string.strip():
             raise ValueError("Empty string")
@@ -23,7 +17,7 @@ class DateParser(object):
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
 
-        date_obj, period = parse(date_string, settings=settings)
+        date_obj, period = parse_method(date_string, settings=settings)
 
         _settings_tz = settings.TIMEZONE.lower()
 
@@ -42,9 +36,9 @@ class DateParser(object):
             date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
         if (
-            not settings.RETURN_AS_TIMEZONE_AWARE or
-            (settings.RETURN_AS_TIMEZONE_AWARE and
-             'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
+            not settings.RETURN_AS_TIMEZONE_AWARE
+            or (settings.RETURN_AS_TIMEZONE_AWARE
+                and 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
         ):
             date_obj = date_obj.replace(tzinfo=None)
 
