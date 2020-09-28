@@ -1,3 +1,4 @@
+import pytest
 from parameterized import parameterized, param
 from datetime import datetime, tzinfo
 
@@ -6,7 +7,7 @@ from tests import BaseTestCase
 from dateparser.conf import settings
 from dateparser.conf import apply_settings
 
-from dateparser import parse
+from dateparser import parse, DateDataParser
 
 
 def test_function(settings=None):
@@ -150,3 +151,19 @@ class InvalidSettingsTest(BaseTestCase):
         except Exception as error:
             self.error = error
             self.then_error_was_raised(TypeError, ["settings can only be either dict or instance of Settings class"])
+
+
+@pytest.mark.parametrize(
+    "date_string,expected_result", [
+        # Note that these results are "valid" but probably they shouldn't be considered
+        ('2020', datetime(1900, 1, 1, 20, 2)),
+        ('333', datetime(1900, 1, 1, 3, 3, 3)),
+        ('1000', datetime(1900, 1, 1, 10, 0)),
+        ('100000', datetime(1900, 1, 1, 10, 0)),
+    ])
+def test_no_spaces_strict_parsing(date_string, expected_result):
+    parser = DateDataParser(settings={'PARSERS': ['no-spaces-time'], 'STRICT_PARSING': False})
+    assert parser.get_date_data(date_string)['date_obj'] == expected_result
+
+    parser = DateDataParser(settings={'PARSERS': ['no-spaces-time'], 'STRICT_PARSING': True})
+    assert parser.get_date_data(date_string)['date_obj'] is None
