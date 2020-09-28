@@ -146,9 +146,9 @@ def parse_with_formats(date_string, date_formats, settings):
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
-            return DateData(**{'date_obj': date_obj, 'period': period})
+            return DateData(date_obj=date_obj, period=period)
     else:
-        return DateData(**{'date_obj': None, 'period': period})
+        return DateData(date_obj=None, period=period)
 
 
 class _DateLocaleParser:
@@ -191,10 +191,10 @@ class _DateLocaleParser:
             return None
 
     def _try_timestamp(self):
-        return DateData(**{
-            'date_obj': get_date_from_timestamp(self.date_string, self._settings),
-            'period': 'day',
-        })
+        return DateData(
+            date_obj=get_date_from_timestamp(self.date_string, self._settings),
+            period='day',
+        )
 
     def _try_freshness_parser(self):
         try:
@@ -211,10 +211,10 @@ class _DateLocaleParser:
             date_obj, period = date_parser.parse(
                 self._get_translated_date(), settings=self._settings)
             self._settings.DATE_ORDER = _order
-            return DateData(**{
-                'date_obj': date_obj,
-                'period': period,
-            })
+            return DateData(
+                date_obj=date_obj,
+                period=period,
+            )
         except ValueError:
             self._settings.DATE_ORDER = _order
             return None
@@ -279,9 +279,7 @@ class DateData(MutableMapping):
         return str(self.__dict__)
 
     def __contains__(self, item):
-        if hasattr(self, item) and getattr(self, item):
-            return True
-        return False
+        return hasattr(self, item) and getattr(self, item)
 
     def __len__(self):
         return len(self.keys())
@@ -437,7 +435,7 @@ class DateDataParser:
                     self.previous_locales.add(locale)
                 return parsed_date
         else:
-            return DateData(**{'date_obj': None, 'period': 'day', 'locale': None})
+            return DateData(date_obj=None, period='day', locale=None)
 
     def get_date_tuple(self, *args, **kwargs):
         date_tuple = collections.namedtuple('DateData', DateData().keys())
