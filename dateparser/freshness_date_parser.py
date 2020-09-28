@@ -96,9 +96,9 @@ class FreshnessDateDataParser:
                 date = apply_timezone(date, settings.TO_TIMEZONE)
 
             if (
-                not settings.RETURN_AS_TIMEZONE_AWARE or
-                (settings.RETURN_AS_TIMEZONE_AWARE and
-                 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
+                not settings.RETURN_AS_TIMEZONE_AWARE
+                or (settings.RETURN_AS_TIMEZONE_AWARE
+                    and 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
             ):
                 date = date.replace(tzinfo=None)
 
@@ -121,9 +121,9 @@ class FreshnessDateDataParser:
         td = relativedelta(**kwargs)
 
         if (
-            re.search(r'\bin\b', date_string) or
-            re.search(r'\bfuture\b', prefer_dates_from) and
-            not re.search(r'\bago\b', date_string)
+            re.search(r'\bin\b', date_string)
+            or re.search(r'\bfuture\b', prefer_dates_from)
+            and not re.search(r'\bago\b', date_string)
         ):
             date = self.now + td
         else:

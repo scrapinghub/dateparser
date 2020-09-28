@@ -167,16 +167,12 @@ class Dictionary:
                 if self._should_capture(token, keep_formatting)]
 
     def _should_capture(self, token, keep_formatting):
-        return (
-            keep_formatting or
-            (token in ALWAYS_KEEP_TOKENS) or
-            KEEP_TOKEN_PATTERN.match(token)
-        )
+        return keep_formatting or (token in ALWAYS_KEEP_TOKENS) or KEEP_TOKEN_PATTERN.match(token)
 
     def _get_sorted_words_from_cache(self):
         if (
-                self._settings.registry_key not in self._sorted_words_cache or
-                self.info['name'] not in self._sorted_words_cache[self._settings.registry_key]
+            self._settings.registry_key not in self._sorted_words_cache
+            or self.info['name'] not in self._sorted_words_cache[self._settings.registry_key]
         ):
             self._sorted_words_cache.setdefault(
                 self._settings.registry_key, {})[self.info['name']] = \
@@ -185,8 +181,8 @@ class Dictionary:
 
     def _get_split_regex_cache(self):
         if (
-                self._settings.registry_key not in self._split_regex_cache or
-                self.info['name'] not in self._split_regex_cache[self._settings.registry_key]
+            self._settings.registry_key not in self._split_regex_cache
+            or self.info['name'] not in self._split_regex_cache[self._settings.registry_key]
         ):
             self._construct_split_regex()
         return self._split_regex_cache[self._settings.registry_key][self.info['name']]
@@ -203,8 +199,8 @@ class Dictionary:
 
     def _get_sorted_relative_strings_from_cache(self):
         if (
-            self._settings.registry_key not in self._sorted_relative_strings_cache or
-            self.info['name'] not in self._sorted_relative_strings_cache[self._settings.registry_key]
+            self._settings.registry_key not in self._sorted_relative_strings_cache
+            or self.info['name'] not in self._sorted_relative_strings_cache[self._settings.registry_key]
         ):
             self._sorted_relative_strings_cache.setdefault(
                 self._settings.registry_key, {})[self.info['name']] = \
@@ -214,8 +210,8 @@ class Dictionary:
 
     def _get_split_relative_regex_cache(self):
         if (
-            self._settings.registry_key not in self._split_relative_regex_cache or
-            self.info['name'] not in self._split_relative_regex_cache[self._settings.registry_key]
+            self._settings.registry_key not in self._split_relative_regex_cache
+            or self.info['name'] not in self._split_relative_regex_cache[self._settings.registry_key]
         ):
             self._construct_split_relative_regex()
         return self._split_relative_regex_cache[self._settings.registry_key][self.info['name']]
@@ -232,8 +228,8 @@ class Dictionary:
 
     def _get_match_relative_regex_cache(self):
         if (
-            self._settings.registry_key not in self._match_relative_regex_cache or
-            self.info['name'] not in self._match_relative_regex_cache[self._settings.registry_key]
+            self._settings.registry_key not in self._match_relative_regex_cache
+            or self.info['name'] not in self._match_relative_regex_cache[self._settings.registry_key]
         ):
             self._construct_match_relative_regex()
         return self._match_relative_regex_cache[self._settings.registry_key][self.info['name']]

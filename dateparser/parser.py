@@ -116,14 +116,14 @@ class _no_spaces_parser:
 
     def __init__(self, *args, **kwargs):
 
-        self._all = (self._dateformats +
-                     [x + y for x in self._dateformats for y in self._timeformats] +
-                     self._timeformats)
+        self._all = (
+            self._dateformats + [x + y for x in self._dateformats for y in self._timeformats] + self._timeformats
+        )
 
         self.date_formats = {
             '%m%d%y': (
-                self._preferred_formats +
-                sorted(self._all, key=lambda x: x.lower().startswith('%m%d%y'), reverse=True)
+                self._preferred_formats
+                + sorted(self._all, key=lambda x: x.lower().startswith('%m%d%y'), reverse=True)
             ),
             '%m%y%d': sorted(self._all, key=lambda x: x.lower().startswith('%m%y%d'), reverse=True),
             '%y%m%d': sorted(self._all, key=lambda x: x.lower().startswith('%y%m%d'), reverse=True),
@@ -484,9 +484,9 @@ class _parser:
 
     def _correct_for_day(self, dateobj):
         if (
-            getattr(self, '_token_day', None) or
-            getattr(self, '_token_weekday', None) or
-            getattr(self, '_token_time', None)
+            getattr(self, '_token_day', None)
+            or getattr(self, '_token_weekday', None)
+            or getattr(self, '_token_time', None)
         ):
             return dateobj
 
