@@ -25,8 +25,7 @@ settings = {
 
     # Language detection
     'SKIP_TOKENS': ["t"],
-    'SKIP_TOKENS_PARSER': ["t", "year", "hour", "minute"],  # TODO: Delete?
-    'NORMALIZE': True,  # TODO: Delete?
+    'NORMALIZE': True,
 
     # Other settings
     'RETURN_TIME_AS_PERIOD': False,
