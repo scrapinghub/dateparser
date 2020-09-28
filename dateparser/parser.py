@@ -7,7 +7,8 @@ from datetime import datetime
 from datetime import timedelta
 
 from dateparser.utils import set_correct_day_from_settings, \
-    get_last_day_of_month, get_previous_leap_year, get_next_leap_year
+    get_last_day_of_month, get_previous_leap_year, get_next_leap_year, \
+    _get_missing_parts
 from dateparser.utils.strptime import strptime
 
 
@@ -91,24 +92,6 @@ class _time_parser:
 
 
 time_parser = _time_parser()
-
-
-def _get_missing_parts(fmt):
-    """
-    Return a list containing missing parts (day, month, year)
-    from a date format checking its directives
-    """
-    directive_mapping = {
-        'day': ['%d', '%-d', '%j', '%-j'],
-        'month': ['%b', '%B', '%m', '%-m'],
-        'year': ['%y', '%-y', '%Y']
-    }
-
-    missing = [
-        field for field in ('day', 'month', 'year')
-        if not any(directive in fmt for directive in directive_mapping[field])
-    ]
-    return missing
 
 
 class _no_spaces_parser:
