@@ -84,7 +84,6 @@ def apply_settings(f):
             raise TypeError("settings can only be either dict or instance of Settings class")
 
         return f(*args, **kwargs)
-
     return wrapper
 
 
@@ -92,20 +91,23 @@ class SettingValidationError(ValueError):
     pass
 
 
-def _check_combination(element, valid_values):
-    return all(part in valid_values for part in element) and len(set(element)) == len(element)
+def _check_require_part(provided_list):
+    """Returns `True` if the provided list of parts is valid"""
+    return not set(provided_list) - {'day', 'month', 'year'}
 
 
-def _check_require_part(element):
-    return _check_combination(element, ['day', 'month', 'year'])
-
-
-# def _check_parsers(element):
-#     # change from "default parsers" to "existing parsers"
-#     return _check_combination(element, default_parsers)
+def _check_parsers(provided_list):
+    """Returns `True` if the provided list of parsers is valid"""
+    existing_parsers = ['timestamp', 'relative-time', 'custom-formats', 'absolute-time', 'no-spaces-time']
+    unknown_parsers = set(provided_list) - set(existing_parsers)
+    return not unknown_parsers
 
 
 def check_settings(settings):
+    """
+    Check if provided settings are valid, if not it raises `SettingValidationError`.
+    Only checks for the modified settings.
+    """
     settings_values = {
         'DATE_ORDER': {
             'values': tuple(date_order_chart.keys()),
@@ -116,12 +118,13 @@ def check_settings(settings):
             'type': str,
         },
         'TO_TIMEZONE': {
-            # It defaults to None, however, it's not allowed to use None, so it's ok to leave it as-is.
+            # It defaults to None, but it's not allowed to use it directly
             'values': (),
             'type': str
         },
         'RETURN_AS_TIMEZONE_AWARE': {
-            'values': (True, False),  # should we accept "default" as a non default value?
+            # It defaults to 'default', but it's not allowed to use it directly
+            'values': (True, False),
             'type': bool
         },
         'PREFER_DAY_OF_MONTH': {
@@ -145,8 +148,6 @@ def check_settings(settings):
             'type': list,
             'extra_check': _check_require_part
         },
-
-        # Language detection
         'SKIP_TOKENS': {
             'values': (),
             'type': list,
@@ -162,7 +163,7 @@ def check_settings(settings):
         'PARSERS': {
             'values': (),  # covered by the 'extra_check'
             'type': list,
-            # 'extra_check': _check_parsers  # TODO: Activate when fixing _check_parsers
+            'extra_check': _check_parsers
         },
         'FUZZY': {
             'values': (True, False),
@@ -199,7 +200,7 @@ def check_settings(settings):
                 '"{}" is not a valid value for "{}", it should be: "{}" or "{}".'.format(
                     setting_value,
                     setting_name,
-                    "', '".join(setting_props['values'][:-1]),
+                    '", "'.join(setting_props['values'][:-1]),
                     setting_props['values'][-1],
                 )
             )

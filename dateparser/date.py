@@ -170,13 +170,6 @@ class _DateLocaleParser:
             'absolute-time': self._try_absolute_parser,
             'no-spaces-time': self._try_nospaces_parser,
         }
-        unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
-        if unknown_parsers:
-            raise ValueError(
-                'Unknown parsers found in the PARSERS setting: {}'.format(
-                    ', '.join(sorted(unknown_parsers))
-                )
-            )
 
     @classmethod
     def parse(cls, locale, date_string, date_formats=None, settings=None):

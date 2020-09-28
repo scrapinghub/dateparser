@@ -156,26 +156,24 @@ class InvalidSettingsTest(BaseTestCase):
             DateDataParser(settings={'AAAAA': 'foo'})
 
     @parameterized.expand([
-        param('DATE_ORDER', 2, 'YYY', 'MDY', ''),
-        param('TIMEZONE', False, '', 'Europe/Madrid', ''),  # should we check valid timezones?
-        param('TO_TIMEZONE', True, '', 'Europe/Madrid', ''),  # should we check valid timezones?
-        param('RETURN_AS_TIMEZONE_AWARE', 'false', '', True, ''),
-        param('PREFER_DAY_OF_MONTH', False, 'current_period', 'current', ''),
-        param('PREFER_DATES_FROM', True, 'current', 'current_period', ''),
-        param('RELATIVE_BASE', 'yesterday', '', datetime.now(), ''),
-        # wrong value not tested because it's a boolean and can't have a wrong value without wrong type:
-        param('STRICT_PARSING', 'true', '', True, ''),
-        param('REQUIRE_PARTS', 'day', '', ['month', 'day'], ['time', 'day']),
-        param('RETURN_TIME_AS_PERIOD', 'false', '', True, ''),
-        param('PREFER_LOCALE_DATE_ORDER', 'true', '', False, ''),
-        param('NORMALIZE', 'true', '', True, ''),
-        param('SKIP_TOKENS', 'foo', '', ['foo'], ''),
-        param('FUZZY', 'true', '', False, ''),
-        param('PREFER_LOCALE_DATE_ORDER', 'false', '', True, ''),
-        # add extra_check_value like "['absolute-time', 'no-spaces']":
-        param('PARSERS', 'absolute-time', '', ['absolute-time', 'no-spaces-time'], ''),
+        param('DATE_ORDER', 2, 'YYY', '', 'MDY'),
+        param('TIMEZONE', False, '', '', 'Europe/Madrid'),  # should we check valid timezones?
+        param('TO_TIMEZONE', True, '', '', 'Europe/Madrid'),  # should we check valid timezones?
+        param('RETURN_AS_TIMEZONE_AWARE', 'false', '', '', True),
+        param('PREFER_DAY_OF_MONTH', False, 'current_period', '', 'current'),
+        param('PREFER_DATES_FROM', True, 'current', '', 'current_period'),
+        param('RELATIVE_BASE', 'yesterday', '', '', datetime.now()),
+        param('SKIP_TOKENS', 'foo', '', '', ['foo']),
+        param('REQUIRE_PARTS', 'day', '', ['time', 'day'], ['month', 'day']),
+        param('PARSERS', 'absolute-time', '', ['absolute-time', 'no-spaces'], ['absolute-time', 'no-spaces-time']),
+        param('STRICT_PARSING', 'true', '', '', True),
+        param('RETURN_TIME_AS_PERIOD', 'false', '', '', True),
+        param('PREFER_LOCALE_DATE_ORDER', 'true', '', '', False),
+        param('NORMALIZE', 'true', '', '', True),
+        param('FUZZY', 'true', '', '', False),
+        param('PREFER_LOCALE_DATE_ORDER', 'false', '', '', True),
     ])
-    def test_check_settings(self, setting, wrong_type, wrong_value, valid_value, extra_check_value):
+    def test_check_settings(self, setting, wrong_type, wrong_value, extra_check_value, valid_value):
 
         with self.assertRaisesRegex(
             SettingValidationError, r'"{}" must be .*, not "{}".'.format(setting, type(wrong_type).__name__)
@@ -190,9 +188,6 @@ class InvalidSettingsTest(BaseTestCase):
             ):
                 DateDataParser(settings={setting: wrong_value})
 
-        # check that a valid value doesn't raise an error
-        assert DateDataParser(settings={setting: valid_value})
-
         if extra_check_value:
             with self.assertRaisesRegex(
                 SettingValidationError, r'"{}" is not a valid value for "{}"'.format(
@@ -200,3 +195,6 @@ class InvalidSettingsTest(BaseTestCase):
                 )
             ):
                 DateDataParser(settings={setting: extra_check_value})
+
+        # check that a valid value doesn't raise an error
+        assert DateDataParser(settings={setting: valid_value})
