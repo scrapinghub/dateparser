@@ -9,8 +9,8 @@ History
 
 Breaking changes:
 
-* Drop support for Python 2.7 and pypy (see #727, #744, #748, #749, #754, #755, #758, #761, #763, #764, #777, #783)
-* Now ``dateparser.parse()`` is deterministic and don't try previous locales. On the other hand, ``DateDataParser.get_date_data()`` don't try the previous locales by default (see #781)
+* Drop support for Python 2.7 and pypy (see #727, #744, #748, #749, #754, #755, #758, #761, #763, #764, #777 and #783)
+* Now ``dateparser.parse()`` is deterministic and doesn't try previous locales. Also, ``DateDataParser.get_date_data()`` doesn't try the previous locales by default (see #781)
 * Remove the ``'base-formats'`` parser (see #721)
 * Extract the ``'no-spaces-time'`` parser from the ``'absolute-time'`` parser and make it an optional parser (see #786)
 * Remove ``numeral_translation_data`` (see #782)
@@ -32,7 +32,7 @@ Improvements:
 * Fix the "calendars" extra (see #740)
 * Fix leap years when ``PREFER_DATES_FROM`` is set (see #738)
 * Parse the 24hr time format with meridian info (see #634)
-* Other small improvements (see #698, #709, #712, #730, #731, #735, #739, #784, #788)
+* Other small improvements (see #698, #709, #712, #730, #731, #735, #739, #784, #788 and #795)
 
 
 0.7.6 (2020-06-12)
