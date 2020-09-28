@@ -217,11 +217,11 @@ class TestLocaleDataLoader(BaseTestCase):
         match = self.UNKNOWN_LANGUAGES_EXCEPTION_RE.match(str(self.error))
         self.assertTrue(match)
         languages = match.group(1).split(", ")
-        self.assertCountEqual(languages, [repr(l) for l in unknown_languages])
+        self.assertCountEqual(languages, [repr(unknown_language) for unknown_language in unknown_languages])
 
     def then_error_for_unknown_locales_raised(self, unknown_locales):
         self.assertIsInstance(self.error, ValueError)
         match = self.UNKNOWN_LOCALES_EXCEPTION_RE.match(str(self.error))
         self.assertTrue(match)
         locales = match.group(1).split(", ")
-        self.assertCountEqual(locales, [repr(l) for l in unknown_locales])
+        self.assertCountEqual(locales, [repr(unknown_locale) for unknown_locale in unknown_locales])
