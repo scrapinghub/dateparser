@@ -7,8 +7,7 @@ from datetime import datetime
 from datetime import timedelta
 
 from dateparser.utils import set_correct_day_from_settings, \
-    get_last_day_of_month, get_previous_leap_year, get_next_leap_year, \
-    _get_missing_parts
+    get_last_day_of_month, get_previous_leap_year, get_next_leap_year
 from dateparser.utils.strptime import strptime
 
 
@@ -192,19 +191,17 @@ class _no_spaces_parser:
                 raise ValueError('Unable to parse date from: %s' % datestring)
 
 
-def _get_missing_exception(missing):
-    return ValueError(
-        'Fields missing from the date string: {}'.format(', '.join(missing))
-    )
+def _get_missing_error(missing):
+    return 'Fields missing from the date string: {}'.format(', '.join(missing))
 
 
 def _check_strict_parsing(missing, settings):
     if settings.STRICT_PARSING and missing:
-        raise _get_missing_exception(missing)
+        raise ValueError(_get_missing_error(missing))
     elif settings.REQUIRE_PARTS and missing:
         errors = [part for part in settings.REQUIRE_PARTS if part in missing]
         if errors:
-            raise _get_missing_exception(errors)
+            raise ValueError(_get_missing_error(errors))
 
 
 class _parser:
