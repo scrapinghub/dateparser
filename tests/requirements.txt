@@ -1,8 +1,4 @@
-mock
-nose
-parameterized
-six
-coverage
 flake8
+parameterized
 pytest
 pytest-cov

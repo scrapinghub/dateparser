@@ -1,17 +1,11 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from collections.abc import Set
+
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
 import regex as re
 
-try:
-    # Python 3
-    from collections.abc import Set
-except ImportError:
-    # Python 2.7
-    from collections import Set
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 
@@ -49,7 +43,7 @@ class ExactLanguageSearch:
                 if i == -1:
                     return substring, None
             relative_base = already_parsed[i]['date_obj']
-            return substring,  relative_base
+            return substring, relative_base
 
     def choose_best_split(self, possible_parsed_splits, possible_substrings_splits):
         rating = []
@@ -64,9 +58,9 @@ class ExactLanguageSearch:
                     num_substrings_without_digits += 1
             rating.append([
                 num_substrings,
-                0 if not_parsed == 0 else (float(not_parsed)/float(num_substrings)),
+                0 if not_parsed == 0 else (float(not_parsed) / float(num_substrings)),
                 0 if num_substrings_without_digits == 0 else (
-                    float(num_substrings_without_digits)/float(num_substrings))])
+                    float(num_substrings_without_digits) / float(num_substrings))])
             best_index, best_rating = min(enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2]))
         return possible_parsed_splits[best_index], possible_substrings_splits[best_index]
 
@@ -81,8 +75,8 @@ class ExactLanguageSearch:
                 item_partially_split = []
                 original_partially_split = []
                 for j in range(0, len(item_all_split), i):
-                    item_join = splitter.join(item_all_split[j:j+i])
-                    original_join = splitter.join(original_all_split[j:j+i])
+                    item_join = splitter.join(item_all_split[j:j + i])
+                    original_join = splitter.join(original_all_split[j:j + i])
                     item_partially_split.append(item_join)
                     original_partially_split.append(original_join)
                 all_possible_splits.append([item_partially_split, original_partially_split])
@@ -205,7 +199,7 @@ class DateSearchWithDetection:
 
         :param text:
             A string in a natural language which may contain date and/or time expressions.
-        :type text: str|unicode
+        :type text: str
         :param languages:
             A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
             to detect the language.

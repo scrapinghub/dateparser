@@ -3,14 +3,12 @@ default_parsers = [
     'relative-time',
     'custom-formats',
     'absolute-time',
-    'base-formats',
 ]
 
 settings = {
     'PREFER_DATES_FROM': 'current_period',
     'PREFER_DAY_OF_MONTH': 'current',
     'SKIP_TOKENS': ["t"],
-    'SKIP_TOKENS_PARSER': ["t", "year", "hour", "minute"],
     'TIMEZONE': 'local',
     'TO_TIMEZONE': False,
     'RETURN_AS_TIMEZONE_AWARE': 'default',

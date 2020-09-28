@@ -1,7 +1,3 @@
-# coding: utf-8
-
-from __future__ import unicode_literals
-
 import re
 
 from dateparser.calendars import non_gregorian_parser
@@ -10,7 +6,7 @@ from collections import OrderedDict
 from functools import reduce
 
 
-class PersianDate(object):
+class PersianDate:
     def __init__(self, year, month, day):
         self.year = year
         self.month = month

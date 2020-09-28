@@ -27,10 +27,10 @@ assumes that all of the dates fed to it are in the same language.
 :class:`dateparser.date.DateDataParser` can also be initialized with known languages:
 
     >>> ddp = DateDataParser(languages=['de', 'nl'])
-    >>> ddp.get_date_data(u'vr jan 24, 2014 12:49')
-    {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': u'day'}
-    >>> ddp.get_date_data(u'18.10.14 um 22:56 Uhr')
-    {'date_obj': datetime.datetime(2014, 10, 18, 22, 56), 'period': u'day'}
+    >>> ddp.get_date_data('vr jan 24, 2014 12:49')
+    {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': 'day'}
+    >>> ddp.get_date_data('18.10.14 um 22:56 Uhr')
+    {'date_obj': datetime.datetime(2014, 10, 18, 22, 56), 'period': 'day'}
 
 
 Settings
@@ -99,11 +99,11 @@ Handling Incomplete Dates
 ``PREFER_DAY_OF_MONTH`` This option comes handy when the date string is missing the day part. It defaults to ``current`` and can have ``first`` and ``last`` denoting first and last day of months respectively as values:
 
     >>> from dateparser import parse
-    >>> parse(u'December 2015')  # default behavior
+    >>> parse('December 2015')  # default behavior
     datetime.datetime(2015, 12, 16, 0, 0)
-    >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'last'})
+    >>> parse('December 2015', settings={'PREFER_DAY_OF_MONTH': 'last'})
     datetime.datetime(2015, 12, 31, 0, 0)
-    >>> parse(u'December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
+    >>> parse('December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
     datetime.datetime(2015, 12, 1, 0, 0)
 
 ``PREFER_DATES_FROM`` defaults to ``current_period`` and can have ``past`` and ``future`` as values.
@@ -111,9 +111,9 @@ Handling Incomplete Dates
 If date string is missing some part, this option ensures consistent results depending on the ``past`` or ``future`` preference, for example, assuming current date is `June 16, 2015`:
 
     >>> from dateparser import parse
-    >>> parse(u'March')
+    >>> parse('March')
     datetime.datetime(2015, 3, 16, 0, 0)
-    >>> parse(u'March', settings={'PREFER_DATES_FROM': 'future'})
+    >>> parse('March', settings={'PREFER_DATES_FROM': 'future'})
     datetime.datetime(2016, 3, 16, 0, 0)
     >>> # parsing with preference set for 'past'
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
@@ -125,25 +125,25 @@ Defaults to the current date and time.
 For example, assuming current date is `June 16, 2015`:
 
     >>> from dateparser import parse
-    >>> parse(u'14:30')
+    >>> parse('14:30')
     datetime.datetime(2015, 6, 16, 14, 30)
-    >>> parse(u'14:30', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
+    >>> parse('14:30', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
     datetime.datetime(2020, 1, 1, 14, 30)
-    >>> parse(u'tomorrow', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
+    >>> parse('tomorrow', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
     datetime.datetime(2020, 1, 2, 0, 0)
 
 ``STRICT_PARSING`` defaults to ``False``.
 
 When set to ``True`` if missing any of ``day``, ``month`` or ``year`` parts, it does not return any result altogether.:
 
-    >>> parse(u'March', settings={'STRICT_PARSING': True})
+    >>> parse('March', settings={'STRICT_PARSING': True})
     None
 
 ``RETURN_TIME_AS_PERIOD`` returns `time` as period in date object, if time component was present in date string.
 Defaults to ``False``.
 
     >>> ddp = DateDataParser(settings={'RETURN_TIME_AS_PERIOD': True})
-    >>> ddp.get_date_data(u'vr jan 24, 2014 12:49')
+    >>> ddp.get_date_data('vr jan 24, 2014 12:49')
     {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': 'time', 'locale': 'nl'}
 
 ``PARSERS`` is a list of names of parsers to try, allowing to customize which
@@ -168,21 +168,18 @@ The following parsers exist:
     (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as
     ``DATE_ORDER`` or ``PREFER_LOCALE_DATE_ORDER``.
 
--   ``'base-formats'``: Parses dates that match one of the following date
-    formats::
+-   ``'no-spaces-time'``: Parses dates and times that consist in only digits or
+    a combination of digits and non-digits where the first non-digit it's a colon
+    (e.g. “121994”, “11:052020”). It's not included in the default parsers and it
+    can produce false positives frequently.
 
-    %B %d, %Y, %I:%M:%S %p
-    %b %d, %Y at %I:%M %p
-    %d %B %Y %H:%M:%S
-    %A, %B %d, %Y
-    %Y-%m-%dT%H:%M:%S.%fZ
 
 :data:`dateparser.settings.default_parsers` contains the default value of
 ``PARSERS`` (the list above, in that order) and can be used to write code that
 changes the parsers to try without skipping parsers that may be added to
 Dateparser in the future. For example, to ignore relative times:
 
-    >>> from dateparser.settings import default_parsers
+    >>> from dateparser_data.settings import default_parsers
     >>> parsers = [parser for parser in default_parsers if parser != 'relative-time']
     >>> parse('today', settings={'PARSERS': parsers})
 
@@ -191,15 +188,15 @@ Dateparser in the future. For example, to ignore relative times:
 
 For example, assuming current date is `June 16, 2019`:
 
-    >>> parse(u'2012') # default behavior
+    >>> parse('2012') # default behavior
     datetime.datetime(2012, 6, 16, 0, 0)
-    >>> parse(u'2012', settings={'REQUIRE_PARTS': ['month']})
+    >>> parse('2012', settings={'REQUIRE_PARTS': ['month']})
     None
-    >>> parse(u'March 2012', settings={'REQUIRE_PARTS': ['day']})
+    >>> parse('March 2012', settings={'REQUIRE_PARTS': ['day']})
     None
-    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': ['day']})
+    >>> parse('March 12, 2012', settings={'REQUIRE_PARTS': ['day']})
     datetime.datetime(2012, 3, 12, 0, 0)
-    >>> parse(u'March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
+    >>> parse('March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
     datetime.datetime(2012, 3, 12, 0, 0)
 
 Language Detection

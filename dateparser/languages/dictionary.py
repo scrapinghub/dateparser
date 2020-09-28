@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-from itertools import chain
+from itertools import chain, zip_longest
 from operator import methodcaller
 import regex as re
-from six.moves import zip_longest
 
 from dateparser.utils import normalize_unicode
 
@@ -14,8 +10,9 @@ ALWAYS_KEEP_TOKENS = ["+"] + PARSER_HARDCODED_TOKENS
 KNOWN_WORD_TOKENS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
                      'saturday', 'sunday', 'january', 'february', 'march',
                      'april', 'may', 'june', 'july', 'august', 'september',
-                     'october', 'november', 'december', 'year', 'month', 'week',
-                     'day', 'hour', 'minute', 'second', 'ago', 'in', 'am', 'pm']
+                     'october', 'november', 'december', 'decade', 'year',
+                     'month', 'week', 'day', 'hour', 'minute', 'second', 'ago',
+                     'in', 'am', 'pm']
 
 PARENTHESES_PATTERN = re.compile(r'[\(\)]')
 NUMERAL_PATTERN = re.compile(r'(\d+)')
@@ -26,7 +23,7 @@ class UnknownTokenError(Exception):
     pass
 
 
-class Dictionary(object):
+class Dictionary:
     """
     Class that modifies and stores translations and handles splitting of date string.
 
@@ -65,7 +62,7 @@ class Dictionary(object):
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(zip_longest(map(methodcaller('lower'),
                                           PARSER_KNOWN_TOKENS),
-                                          PARSER_KNOWN_TOKENS))
+                                      PARSER_KNOWN_TOKENS))
 
         relative_type = locale_info.get('relative-type', {})
         for key, value in relative_type.items():
@@ -98,7 +95,7 @@ class Dictionary(object):
         Check if tokens are valid tokens for the locale.
 
         :param tokens:
-            a list of string or unicode tokens.
+            a list of string tokens.
         :type tokens: list
 
         :return: True if tokens are valid, False otherwise.
@@ -106,7 +103,6 @@ class Dictionary(object):
         has_only_keep_tokens = not set(tokens) - set(ALWAYS_KEEP_TOKENS)
         if has_only_keep_tokens:
             return False
-
         match_relative_regex = self._get_match_relative_regex_cache()
         for token in tokens:
             if token.isdigit() or match_relative_regex.match(token) or token in self:
@@ -123,7 +119,7 @@ class Dictionary(object):
         :param string:
             Date string to be splitted.
         :type string:
-            str|unicode
+            str
 
         :param keep_formatting:
             If True, retain formatting of the date string.
@@ -181,7 +177,7 @@ class Dictionary(object):
         if (
                 self._settings.registry_key not in self._sorted_words_cache or
                 self.info['name'] not in self._sorted_words_cache[self._settings.registry_key]
-           ):
+        ):
             self._sorted_words_cache.setdefault(
                 self._settings.registry_key, {})[self.info['name']] = \
                 sorted([key for key in self], key=len, reverse=True)
@@ -191,7 +187,7 @@ class Dictionary(object):
         if (
                 self._settings.registry_key not in self._split_regex_cache or
                 self.info['name'] not in self._split_regex_cache[self._settings.registry_key]
-           ):
+        ):
             self._construct_split_regex()
         return self._split_regex_cache[self._settings.registry_key][self.info['name']]
 
@@ -209,8 +205,7 @@ class Dictionary(object):
         if (
             self._settings.registry_key not in self._sorted_relative_strings_cache or
             self.info['name'] not in self._sorted_relative_strings_cache[self._settings.registry_key]
-           ):
-
+        ):
             self._sorted_relative_strings_cache.setdefault(
                 self._settings.registry_key, {})[self.info['name']] = \
                 sorted([PARENTHESES_PATTERN.sub('', key) for key in
@@ -221,8 +216,7 @@ class Dictionary(object):
         if (
             self._settings.registry_key not in self._split_relative_regex_cache or
             self.info['name'] not in self._split_relative_regex_cache[self._settings.registry_key]
-           ):
-
+        ):
             self._construct_split_relative_regex()
         return self._split_relative_regex_cache[self._settings.registry_key][self.info['name']]
 
@@ -240,8 +234,7 @@ class Dictionary(object):
         if (
             self._settings.registry_key not in self._match_relative_regex_cache or
             self.info['name'] not in self._match_relative_regex_cache[self._settings.registry_key]
-           ):
-
+        ):
             self._construct_match_relative_regex()
         return self._match_relative_regex_cache[self._settings.registry_key][self.info['name']]
 
@@ -256,7 +249,7 @@ class Dictionary(object):
 class NormalizedDictionary(Dictionary):
 
     def __init__(self, locale_info, settings=None):
-        super(NormalizedDictionary, self).__init__(locale_info, settings)
+        super().__init__(locale_info, settings)
         self._normalize()
 
     def _normalize(self):

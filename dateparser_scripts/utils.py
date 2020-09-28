@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
-from collections import OrderedDict
-from git import Repo
 import os
+from collections import OrderedDict
+
+from git import Repo
 
 
 def get_raw_data():

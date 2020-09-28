@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
 from unittest import TestCase
-from dateparser.conf import settings
 
 
 class BaseTestCase(TestCase):
     def setUp(self):
-        super(BaseTestCase, self).setUp()
+        super().setUp()
         self.__patches = []
 
         self.error = NotImplemented
@@ -15,7 +13,7 @@ class BaseTestCase(TestCase):
         self.__patches.append(patch)
 
     def tearDown(self):
-        super(BaseTestCase, self).tearDown()
+        super().tearDown()
         for patch in reversed(self.__patches):
             patch.stop()
 

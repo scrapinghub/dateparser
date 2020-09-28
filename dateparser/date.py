@@ -1,11 +1,7 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import collections
+from collections.abc import Set
 from datetime import datetime, timedelta
-from warnings import warn
 
-import six
 import regex as re
 from dateutil.relativedelta import relativedelta
 
@@ -13,23 +9,24 @@ from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings
+from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
     set_correct_day_from_settings
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
-    u'\N{RIGHT SINGLE QUOTATION MARK}',     # u'\u2019'
-    u'\N{MODIFIER LETTER APOSTROPHE}',      # u'\u02bc'
-    u'\N{MODIFIER LETTER TURNED COMMA}',    # u'\u02bb'
-    u'\N{ARMENIAN APOSTROPHE}',             # u'\u055a'
-    u'\N{LATIN SMALL LETTER SALTILLO}',     # u'\ua78c'
-    u'\N{PRIME}',                           # u'\u2032'
-    u'\N{REVERSED PRIME}',                  # u'\u2035'
-    u'\N{MODIFIER LETTER PRIME}',           # u'\u02b9'
-    u'\N{FULLWIDTH APOSTROPHE}',            # u'\uff07'
+    '\N{RIGHT SINGLE QUOTATION MARK}',     # '\u2019'
+    '\N{MODIFIER LETTER APOSTROPHE}',      # '\u02bc'
+    '\N{MODIFIER LETTER TURNED COMMA}',    # '\u02bb'
+    '\N{ARMENIAN APOSTROPHE}',             # '\u055a'
+    '\N{LATIN SMALL LETTER SALTILLO}',     # '\ua78c'
+    '\N{PRIME}',                           # '\u2032'
+    '\N{REVERSED PRIME}',                  # '\u2035'
+    '\N{MODIFIER LETTER PRIME}',           # '\u02b9'
+    '\N{FULLWIDTH APOSTROPHE}',            # '\uff07'
 ]
 
-RE_NBSP = re.compile(u'\xa0', flags=re.UNICODE)
+RE_NBSP = re.compile('\xa0', flags=re.UNICODE)
 RE_SPACES = re.compile(r'\s+')
 RE_TRIM_SPACES = re.compile(r'^\s+(\S.*?)\s+$')
 RE_TRIM_COLONS = re.compile(r'(\S.*?):*$')
@@ -38,7 +35,7 @@ RE_SANITIZE_SKIP = re.compile(r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u0
 RE_SANITIZE_RUSSIAN = re.compile(r'([\W\d])\u0433\.', flags=re.I | re.U)
 RE_SANITIZE_PERIOD = re.compile(r'(?<=\D+)\.', flags=re.U)
 RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
-RE_SANITIZE_APOSTROPHE = re.compile(u'|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
+RE_SANITIZE_APOSTROPHE = re.compile('|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
 RE_SEARCH_TIMESTAMP = re.compile(r'^(\d{10})(\d{3})?(\d{3})?(?![^.])')
 
@@ -103,13 +100,13 @@ def get_intersecting_periods(low, high, period='day'):
 
 def sanitize_date(date_string):
     date_string = RE_SANITIZE_SKIP.sub(' ', date_string)
-    date_string = RE_SANITIZE_RUSSIAN.sub(r'\1 ', date_string)  # remove u'г.' (Russian for year) but not in words
+    date_string = RE_SANITIZE_RUSSIAN.sub(r'\1 ', date_string)  # remove 'г.' (Russian for year) but not in words
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub('', date_string)
     date_string = RE_SANITIZE_ON.sub(r'\1', date_string)
     date_string = RE_TRIM_COLONS.sub(r'\1', date_string)
 
-    date_string = RE_SANITIZE_APOSTROPHE.sub(u"'", date_string)
+    date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
 
     return date_string
 
@@ -132,9 +129,6 @@ def parse_with_formats(date_string, date_formats, settings):
     :returns: :class:`datetime.datetime`, dict or None
 
     """
-    if isinstance(date_formats, six.string_types):
-        warn(_DateLocaleParser.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
-        date_formats = [date_formats]
     period = 'day'
     for date_format in date_formats:
         try:
@@ -157,16 +151,12 @@ def parse_with_formats(date_string, date_formats, settings):
         return {'date_obj': None, 'period': period}
 
 
-class _DateLocaleParser(object):
-    DATE_FORMATS_ERROR_MESSAGE = "Date formats should be list, tuple or set of strings"
+class _DateLocaleParser:
 
     def __init__(self, locale, date_string, date_formats, settings=None):
         self._settings = settings
-        if isinstance(date_formats, six.string_types):
-            warn(self.DATE_FORMATS_ERROR_MESSAGE, FutureWarning)
-            date_formats = [date_formats]
-        elif not (date_formats is None or isinstance(date_formats, (list, tuple, set))):
-            raise TypeError(self.DATE_FORMATS_ERROR_MESSAGE)
+        if not (date_formats is None or isinstance(date_formats, (list, tuple, Set))):
+            raise TypeError("Date formats should be list, tuple or set of strings")
 
         self.locale = locale
         self.date_string = date_string
@@ -177,8 +167,8 @@ class _DateLocaleParser(object):
             'timestamp': self._try_timestamp,
             'relative-time': self._try_freshness_parser,
             'custom-formats': self._try_given_formats,
-            'absolute-time': self._try_parser,
-            'base-formats': self._try_hardcoded_formats,
+            'absolute-time': self._try_absolute_parser,
+            'no-spaces-time': self._try_nospaces_parser,
         }
         unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
         if unknown_parsers:
@@ -213,14 +203,20 @@ class _DateLocaleParser(object):
         except (OverflowError, ValueError):
             return None
 
-    def _try_parser(self):
+    def _try_absolute_parser(self):
+        return self._try_parser(parse_method=_parse_absolute)
+
+    def _try_nospaces_parser(self):
+        return self._try_parser(parse_method=_parse_nospaces)
+
+    def _try_parser(self, parse_method):
         _order = self._settings.DATE_ORDER
         try:
             if self._settings.PREFER_LOCALE_DATE_ORDER:
                 if 'DATE_ORDER' not in self._settings._mod_settings:
                     self._settings.DATE_ORDER = self.locale.info.get('date_order', _order)
             date_obj, period = date_parser.parse(
-                self._get_translated_date(), settings=self._settings)
+                self._get_translated_date(), parse_method=parse_method, settings=self._settings)
             self._settings.DATE_ORDER = _order
             return {
                 'date_obj': date_obj,
@@ -238,23 +234,6 @@ class _DateLocaleParser(object):
             self._get_translated_date_with_formatting(),
             self.date_formats, settings=self._settings
         )
-
-    def _try_hardcoded_formats(self):
-        hardcoded_date_formats = [
-            '%B %d, %Y, %I:%M:%S %p',
-            '%b %d, %Y at %I:%M %p',
-            '%d %B %Y %H:%M:%S',
-            '%A, %B %d, %Y',
-            '%Y-%m-%dT%H:%M:%S.%fZ'
-        ]
-        try:
-            return parse_with_formats(
-                self._get_translated_date_with_formatting(),
-                hardcoded_date_formats,
-                settings=self._settings
-            )
-        except TypeError:
-            return None
 
     def _get_translated_date(self):
         if self._translated_date is None:
@@ -283,7 +262,7 @@ class _DateLocaleParser(object):
         return True
 
 
-class DateDataParser(object):
+class DateDataParser:
     """
     Class which handles language detection, translation and subsequent generic parsing of
     string representing date and/or time.
@@ -303,7 +282,7 @@ class DateDataParser(object):
         A region code, e.g. 'IN', '001', 'NE'.
         If locales are not given, languages and region are
         used to construct locales for translation.
-    :type region: str|unicode
+    :type region: str
 
     :param try_previous_locales:
         If True, locales previously used to translate date are tried first.
@@ -327,17 +306,17 @@ class DateDataParser(object):
     locale_loader = None
 
     @apply_settings
-    def __init__(self, languages=None, locales=None, region=None, try_previous_locales=True,
+    def __init__(self, languages=None, locales=None, region=None, try_previous_locales=False,
                  use_given_order=False, settings=None):
 
-        if not isinstance(languages, (list, tuple, set)) and languages is not None:
+        if languages is not None and not isinstance(languages, (list, tuple, Set)):
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
-        if not isinstance(locales, (list, tuple, set)) and locales is not None:
+        if locales is not None and not isinstance(locales, (list, tuple, Set)):
             raise TypeError("locales argument must be a list (%r given)" % type(locales))
 
-        if not isinstance(region, six.string_types) and region is not None:
-            raise TypeError("region argument must be str or unicode (%r given)" % type(region))
+        if region is not None and not isinstance(region, str):
+            raise TypeError("region argument must be str (%r given)" % type(region))
 
         if not isinstance(try_previous_locales, bool):
             raise TypeError("try_previous_locales argument must be a boolean (%r given)"
@@ -365,7 +344,7 @@ class DateDataParser(object):
 
         :param date_string:
             A string representing date and/or time in a recognizably valid format.
-        :type date_string: str|unicode
+        :type date_string: str
         :param date_formats:
             A list of format strings using directives as given
             `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
@@ -373,7 +352,7 @@ class DateDataParser(object):
         :type date_formats: list
 
         :return: a dict mapping keys to :mod:`datetime.datetime` object and *period*. For example:
-            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': u'day'}
+            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': 'day'}
 
         :raises: ValueError - Unknown Language
 
@@ -385,27 +364,24 @@ class DateDataParser(object):
         day ``16`` from *current date* (which is June 16, 2015, at the moment of writing this).
         Hence, the level of precision is ``month``:
 
-            >>> DateDataParser().get_date_data(u'March 2015')
-            {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': u'month'}
+            >>> DateDataParser().get_date_data('March 2015')
+            {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': 'month'}
 
         Similarly, for date strings with no day and month information present, level of precision
         is ``year`` and day ``16`` and month ``6`` are from *current_date*.
 
-            >>> DateDataParser().get_date_data(u'2014')
-            {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': u'year'}
+            >>> DateDataParser().get_date_data('2014')
+            {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': 'year'}
 
         Dates with time zone indications or UTC offsets are returned in UTC time unless
         specified using `Settings`_.
 
-            >>> DateDataParser().get_date_data(u'23 March 2000, 1:21 PM CET')
+            >>> DateDataParser().get_date_data('23 March 2000, 1:21 PM CET')
             {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
 
         """
-        if not(isinstance(date_string, six.text_type) or isinstance(date_string, six.string_types)):
-            raise TypeError('Input type must be str or unicode')
-
-        if isinstance(date_string, bytes):
-            date_string = date_string.decode('utf-8')
+        if not isinstance(date_string, str):
+            raise TypeError('Input type must be str')
 
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res['date_obj']:
