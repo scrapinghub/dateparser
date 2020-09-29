@@ -51,7 +51,7 @@ Date Order
     >>> parse('15-12-18 06:00', settings={'DATE_ORDER': 'YMD'})
     datetime.datetime(2015, 12, 18, 6, 0)
 
-``PREFER_LANGUAGE_DATE_ORDER`` defaults to ``True``. Most languages have a default ``DATE_ORDER`` specified for them. For example, for French it is ``DMY``:
+``PREFER_LOCALE_DATE_ORDER`` defaults to ``True``. Most languages have a default ``DATE_ORDER`` specified for them. For example, for French it is ``DMY``:
 
    >>> # parsing ambiguous date
    >>> parse('02-03-2016')  # assumes english language, uses MDY date order
@@ -59,12 +59,12 @@ Date Order
    >>> parse('le 02-03-2016')  # detects french, hence, uses DMY date order
    datetime.datetime(2016, 3, 2, 0, 0)
 
-.. note:: There's no language level default ``DATE_ORDER`` associated with `en` language. That's why it assumes ``MDY`` which is :obj:``settings <dateparser.conf.settings>`` default. If the language has a default `DATE_ORDER` associated, supplying custom date order will not be applied unless we set `PREFER_LANGUAGE_DATE_ORDER` to `False`:
+.. note:: There's no language level default ``DATE_ORDER`` associated with `en` language. That's why it assumes ``MDY`` which is :obj:``settings <dateparser.conf.settings>`` default. If the language has a default `DATE_ORDER` associated, supplying custom date order will not be applied unless we set `PREFER_LOCALE_DATE_ORDER` to `False`:
 
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY'})
     datetime.datetime(2016, 3, 2, 0, 0)  # MDY didn't apply
 
-    >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY', 'PREFER_LANGUAGE_DATE_ORDER': False})
+    >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY', 'PREFER_LOCALE_DATE_ORDER': False})
     datetime.datetime(2016, 2, 3, 0, 0)  # MDY worked!
 
 
