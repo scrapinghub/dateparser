@@ -7,7 +7,8 @@ from datetime import datetime
 from datetime import timedelta
 
 from dateparser.utils import set_correct_day_from_settings, \
-    get_last_day_of_month, get_previous_leap_year, get_next_leap_year
+    get_last_day_of_month, get_previous_leap_year, get_next_leap_year, \
+    _get_missing_parts
 from dateparser.utils.strptime import strptime
 
 
@@ -178,6 +179,9 @@ class _no_spaces_parser:
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
                         continue
+
+                    missing = _get_missing_parts(fmt)
+                    _check_strict_parsing(missing, settings)
                     return dt
                 except:
                     pass
@@ -186,6 +190,19 @@ class _no_spaces_parser:
                 return ambiguous_date
             else:
                 raise ValueError('Unable to parse date from: %s' % datestring)
+
+
+def _get_missing_error(missing):
+    return 'Fields missing from the date string: {}'.format(', '.join(missing))
+
+
+def _check_strict_parsing(missing, settings):
+    if settings.STRICT_PARSING and missing:
+        raise ValueError(_get_missing_error(missing))
+    elif settings.REQUIRE_PARTS and missing:
+        errors = [part for part in settings.REQUIRE_PARTS if part in missing]
+        if errors:
+            raise ValueError(_get_missing_error(errors))
 
 
 class _parser:
@@ -376,22 +393,12 @@ class _parser:
     def _get_date_obj(self, token, directive):
         return strptime(token, directive)
 
-    def _missing_error(self, missing):
-        return ValueError(
-            'Fields missing from the date string: {}'.format(', '.join(missing))
-        )
-
     def _results(self):
-        missing = [field for field in ('day', 'month', 'year')
-                   if not getattr(self, field)]
-
-        if self.settings.STRICT_PARSING and missing:
-            raise self._missing_error(missing)
-        elif self.settings.REQUIRE_PARTS and missing:
-            errors = [part for part in self.settings.REQUIRE_PARTS if part in missing]
-            if errors:
-                raise self._missing_error(errors)
-
+        missing = [
+            field for field in ('day', 'month', 'year')
+            if not getattr(self, field)
+        ]
+        _check_strict_parsing(missing, self.settings)
         self._set_relative_base()
 
         time = self.time() if self.time is not None else None
