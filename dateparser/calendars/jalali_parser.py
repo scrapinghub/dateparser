@@ -147,8 +147,8 @@ class jalali_parser(non_gregorian_parser):
         day_pairs[-14] = thirty
         day_pairs[1] = thirteen
 
-        for pers, number in reduce(
+        for persian_number, number in reduce(
                 lambda a, b: a + b,
-                [[(val, repl) for val in pers] for repl, pers in day_pairs]):
-            result = result.replace(pers, str(number))
+                [[(val, repl) for val in persian_word] for repl, persian_word in day_pairs]):
+            result = result.replace(persian_number, str(number))
         return result
