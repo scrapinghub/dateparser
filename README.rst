@@ -131,16 +131,13 @@ in the docs.
 False positives
 ^^^^^^^^^^^^^^^
 
-.. warning::
-    **dateparser** will do its best to return a date, dealing with multiple formats and different
-    locales. For that reason it is important that the input is a valid date, otherwise it could
-    return false positives.
-
+**dateparser** will do its best to return a date, dealing with multiple formats and different locales.
+For that reason it is important that the input is a valid date, otherwise it could return false positives.
 
 To reduce the possibility of receiving false positives, make sure that:
 
 - The input string it's a valid date and it doesn't contain any other words or numbers.
-- If you know the language or languages beforehand you add them through the ``languages`` or ``locales`` settings.
+- If you know the language or languages beforehand you add them through the ``languages`` or ``locales`` properties.
 
 
 On the other hand, if you want to exclude any of the default parsers
@@ -205,5 +202,4 @@ You may also like...
 License
 -------
 
-`BSD
-3-Clause <https://github.com/scrapinghub/dateparser/blob/master/LICENSE>`__
+`BSD3-Clause <https://github.com/scrapinghub/dateparser/blob/master/LICENSE>`__

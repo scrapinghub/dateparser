@@ -167,7 +167,7 @@ class Dictionary:
                 if self._should_capture(token, keep_formatting)]
 
     def _should_capture(self, token, keep_formatting):
-        return keep_formatting or (token in ALWAYS_KEEP_TOKENS) or KEEP_TOKEN_PATTERN.match(token)
+        return keep_formatting or token in ALWAYS_KEEP_TOKENS or KEEP_TOKEN_PATTERN.match(token)
 
     def _get_sorted_words_from_cache(self):
         if (

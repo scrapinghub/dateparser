@@ -16,7 +16,6 @@ settings = {
     'RELATIVE_BASE': False,
     'DATE_ORDER': 'MDY',
     'PREFER_LOCALE_DATE_ORDER': True,
-    'FUZZY': False,
     'STRICT_PARSING': False,
     'RETURN_TIME_AS_PERIOD': False,
     'PARSERS': default_parsers,

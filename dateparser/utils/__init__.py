@@ -47,6 +47,24 @@ def find_date_separator(format):
         return m.group(1)
 
 
+def _get_missing_parts(fmt):
+    """
+    Return a list containing missing parts (day, month, year)
+    from a date format checking its directives
+    """
+    directive_mapping = {
+        'day': ['%d', '%-d', '%j', '%-j'],
+        'month': ['%b', '%B', '%m', '%-m'],
+        'year': ['%y', '%-y', '%Y']
+    }
+
+    missing = [
+        field for field in ('day', 'month', 'year')
+        if not any(directive in fmt for directive in directive_mapping[field])
+    ]
+    return missing
+
+
 def localize_timezone(date_time, tz_string):
     if date_time.tzinfo:
         return date_time
