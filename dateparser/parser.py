@@ -281,8 +281,10 @@ class _parser:
 
                 try:
                     microsecond = MICROSECOND.search(self.filtered_tokens[index + 1][0]).group()
-                    _is_after_time_token = token.index(":")
-                    _is_after_period = self.tokens[self.tokens.index((token, 0)) + 1][0].index('.')
+                    # Is after time token? raise ValueError if ':' can't be found:
+                    token.index(":")
+                    # Is after period? raise ValueError if '.' can't be found:
+                    self.tokens[self.tokens.index((token, 0)) + 1][0].index('.')
                 except:
                     microsecond = None
 

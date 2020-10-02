@@ -82,10 +82,10 @@ class TestTokenizer(BaseTestCase):
         self.result = list(self.tokenizer.tokenize())
 
     def then_tokens_were(self, expected_tokens):
-        self.assertEqual([l[0] for l in self.result], expected_tokens)
+        self.assertEqual([token_type[0] for token_type in self.result], expected_tokens)
 
     def then_token_types_were(self, expected_types):
-        self.assertEqual([l[1] for l in self.result], expected_types)
+        self.assertEqual([token_type[1] for token_type in self.result], expected_types)
 
 
 class TestNoSpaceParser(BaseTestCase):
