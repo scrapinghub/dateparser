@@ -11,6 +11,9 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 # Languages with insufficient translation data are excluded
 avoid_languages = ['cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo']
 
+# Order from https://w3techs.com/technologies/overview/content_language
+most_common_locales = ['en', 'ru', 'es', 'tr', 'fa', 'fr', 'de', 'ja', 'pt', 'vi', 'zh', 'ar', 'it', 'pl', 'in', 'el', 'nl', 'ko', 'th', 'iw', 'uk', 'cs', 'sv', 'ro', 'hu', 'da', 'sr', 'sk', 'fi', 'bg', 'hr', 'lt', 'hi', 'no_NO', 'sl', 'no', 'et', 'lv']
+
 
 def _get_language_locale_dict():
     cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
@@ -50,7 +53,7 @@ def _get_language_order(language_locale_dict):
         except:
             pass
 
-    language_order = sorted(language_population_dict.keys(),
+    language_order = most_common_locales + sorted(language_population_dict.keys(),
                             key=lambda x: (language_population_dict[x], x), reverse=True)
     for index in range(0, len(language_order)):
         language_order[index] = re.sub(r'_', r'-', language_order[index])
