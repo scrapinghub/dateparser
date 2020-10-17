@@ -1,7 +1,16 @@
 import unittest
 from datetime import datetime, timedelta, date, time
 from functools import wraps
+
 import pytz
+
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:
+    try:
+        from backports.zoneinfo import ZoneInfo  # Python < 3.9 + tzlocal >= 3
+    except ImportError:
+        ZoneInfo = None  # Python < 3.9
 
 from dateutil.relativedelta import relativedelta
 from unittest.mock import Mock, patch
@@ -1530,7 +1539,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         })
 
         parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
-        parser.get_local_tz = Mock(return_value=pytz.timezone('US/Eastern'))
+        timezone = ZoneInfo(key='US/Eastern') if ZoneInfo else pytz.timezone('US/Eastern')
+        parser.get_local_tz = Mock(return_value=timezone)
         result = parser.get_date_data('1 minute ago', _settings)
         result = result['date_obj']
         self.assertEqual(result.date(), date(2014, 9, 1))

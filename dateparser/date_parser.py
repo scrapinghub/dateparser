@@ -22,13 +22,19 @@ class DateParser:
         _settings_tz = settings.TIMEZONE.lower()
 
         if ptz:
-            date_obj = ptz.localize(date_obj)
+            if hasattr(ptz, 'localize'):
+                date_obj = ptz.localize(date_obj)
+            else:
+                date_obj = date_obj.replace(tzinfo=ptz)
             if 'local' not in _settings_tz:
                 date_obj = apply_timezone(date_obj, settings.TIMEZONE)
         else:
             if 'local' in _settings_tz:
                 stz = get_localzone()
-                date_obj = stz.localize(date_obj)
+                if hasattr(stz, 'localize'):
+                    date_obj = stz.localize(date_obj)
+                else:
+                    date_obj = date_obj.replace(tzinfo=stz)
             else:
                 date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 
