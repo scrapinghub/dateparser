@@ -7,10 +7,12 @@ info = {
     ],
     "february": [
         "fevereiro",
-        "fev"
+        "fev",
+        "fevreiro"
     ],
     "march": [
         "março",
+        "marco",
         "mar"
     ],
     "april": [
@@ -36,7 +38,7 @@ info = {
     "september": [
         "setembro",
         "set",
-        "Septembro"
+        "septembro"
     ],
     "october": [
         "outubro",
@@ -53,32 +55,33 @@ info = {
     "monday": [
         "segunda-feira",
         "seg",
-        "Segunda"
+        "segunda"
     ],
     "tuesday": [
         "terça-feira",
         "ter",
-        "Terça"
+        "terça"
     ],
     "wednesday": [
         "quarta-feira",
         "qua",
-        "Quarta"
+        "quarta"
     ],
     "thursday": [
         "quinta-feira",
         "qui",
-        "Quinta"
+        "quinta"
     ],
     "friday": [
         "sexta-feira",
         "sex",
-        "Sexta"
+        "sexta"
     ],
     "saturday": [
         "sábado",
+        "sabado",
         "sáb",
-        "Sab"
+        "sab"
     ],
     "sunday": [
         "domingo",
@@ -96,6 +99,7 @@ info = {
     ],
     "month": [
         "mês",
+        "mes",
         "meses"
     ],
     "week": [
@@ -129,19 +133,28 @@ info = {
             "ano passado"
         ],
         "0 year ago": [
-            "este ano"
+            "este ano",
+            "deste ano"
         ],
         "in 1 year": [
-            "próximo ano"
+            "próximo ano",
+            "proximo ano",
+            "daqui a 1 ano",
+            "daqui a um ano"
         ],
         "1 month ago": [
-            "mês passado"
+            "mês passado",
+            "mes passado"
         ],
         "0 month ago": [
-            "este mês"
+            "este mês",
+            "este mes"
         ],
         "in 1 month": [
-            "próximo mês"
+            "próximo mês",
+            "proximo mes",
+            "daqui a 1 mês",
+            "daqui a um mês"
         ],
         "1 week ago": [
             "semana passada"
@@ -150,7 +163,10 @@ info = {
             "esta semana"
         ],
         "in 1 week": [
-            "próxima semana"
+            "próxima semana",
+            "proxima semana",
+            "daqui a uma semana",
+            "daqui a 1 semana"
         ],
         "1 day ago": [
             "ontem"
@@ -159,7 +175,8 @@ info = {
             "hoje"
         ],
         "in 1 day": [
-            "amanhã"
+            "amanhã",
+            "amanha"
         ],
         "0 hour ago": [
             "esta hora"
@@ -177,70 +194,149 @@ info = {
     "relative-type-regex": {
         "in \\1 year": [
             "em (\\d+) ano",
-            "em (\\d+) anos"
+            "em (\\d+) anos",
+            "daqui a (\\d+) ano",
+            "daqui a (\\d+) anos",
+            "próximo (\\d+) ano",
+            "próximos (\\d+) anos",
+            "proximo (\\d+) ano",
+            "proximos (\\d+) anos"
         ],
         "\\1 year ago": [
             "há (\\d+) ano",
-            "há (\\d+) anos"
+            "há (\\d+) anos",
+            "ha (\\d+) ano",
+            "ha (\\d+) anos"
         ],
         "in \\1 month": [
             "em (\\d+) mês",
-            "em (\\d+) meses"
+            "em (\\d+) mes",
+            "em (\\d+) meses",
+            "daqui a (\\d+) meses",
+            "daqui a (\\d+) mês",
+            "daqui a (\\d+) mes",
+            "próximo (\\d+) mês",
+            "próximos (\\d+) meses",
+            "proximo (\\d+) mês",
+            "próximo (\\d+) mes",
+            "proximo (\\d+) mes",
+            "proximos (\\d+) meses"
         ],
         "\\1 month ago": [
             "há (\\d+) mês",
-            "há (\\d+) meses"
+            "há (\\d+) mes",
+            "há (\\d+) meses",
+            "ha (\\d+) mês",
+            "ha (\\d+) mes",
+            "ha (\\d+) meses"
         ],
         "in \\1 week": [
             "em (\\d+) semana",
             "em (\\d+) semanas",
-            "em (\\d+) sem"
+            "em (\\d+) sem",
+            "daqui a (\\d+) sem",
+            "daqui a (\\d+) semana",
+            "daqui a (\\d+) semanas",
+            "próxima (\\d+) semana",
+            "próximas (\\d+) semanas"
+            "proxima (\\d+) semana",
+            "proximas (\\d+) semanas"
         ],
         "\\1 week ago": [
             "há (\\d+) semana",
             "há (\\d+) semanas",
-            "há (\\d+) sem"
+            "há (\\d+) sem",
+            "ha (\\d+) semana",
+            "ha (\\d+) semanas",
+            "ha (\\d+) sem"
         ],
         "in \\1 day": [
             "em (\\d+) dia",
-            "em (\\d+) dias"
+            "em (\\d+) dias",
+            "daqui a (\\d+) dias",
+            "daqui a (\\d+) dia",
+            "próximo (\\d+) dia",
+            "próximos (\\d+) dias",
+            "proximo (\\d+) dia",
+            "proximos (\\d+) dias"
         ],
         "\\1 day ago": [
             "há (\\d+) dia",
-            "há (\\d+) dias"
+            "há (\\d+) dias",
+            "ha (\\d+) dia",
+            "ha (\\d+) dias"
         ],
         "in \\1 hour": [
             "em (\\d+) hora",
             "em (\\d+) horas",
-            "em (\\d+) h"
+            "em (\\d+) h",
+            "daqui a (\\d+) hora",
+            "daqui a (\\d+) horas",
+            "próxima (\\d+) hora",
+            "próximas (\\d+) horas",
+            "proxima (\\d+) hora",
+            "proximas (\\d+) horas"
         ],
         "\\1 hour ago": [
             "há (\\d+) hora",
             "há (\\d+) horas",
-            "há (\\d+) h"
+            "há (\\d+) h",
+            "ha (\\d+) hora",
+            "ha (\\d+) horas",
+            "ha (\\d+) h"
         ],
         "in \\1 minute": [
             "em (\\d+) minuto",
             "em (\\d+) minutos",
             "em (\\d+) min",
-            "em (\\d+) mins"
+            "em (\\d+) mins",
+            "daqui a (\\d+) minuto",
+            "daqui a (\\d+) minutos",
+            "daqui a (\\d+) min",
+            "daqui a (\\d+) mins",
+            "próximo (\\d+) minuto",
+            "próximos (\\d+) minutos",
+            "proximo (\\d+) minuto",
+            "proximos (\\d+) minutos",
+            "proximos (\\d+) min",
+            "próximos (\\d+) min",
+            "proximos (\\d+) mins",
+            "próximos (\\d+) mins"
         ],
         "\\1 minute ago": [
             "há (\\d+) minuto",
             "há (\\d+) minutos",
             "há (\\d+) min",
-            "há (\\d+) mins"
+            "há (\\d+) mins",
+            "ha (\\d+) minuto",
+            "ha (\\d+) minutos",
+            "ha (\\d+) min",
+            "ha (\\d+) mins"
         ],
         "in \\1 second": [
             "em (\\d+) segundo",
             "em (\\d+) segundos",
             "em (\\d+) seg",
-            "em (\\d+) segs"
+            "em (\\d+) segs",
+            "daqui a (\\d+) segundo",
+            "daqui a (\\d+) segundos",
+            "daqui a (\\d+) s",
+            "próximo (\\d+) segundo",
+            "próximos (\\d+) segundos",
+            "proximo (\\d+) segundo",
+            "proximos (\\d+) segundos",
+            "próximo (\\d+) s",
+            "próximos (\\d+) s"
+            "proximo (\\d+) s",
+            "proximos (\\d+) s"
         ],
         "\\1 second ago": [
             "há (\\d+) segundo",
             "há (\\d+) segundos",
-            "há (\\d+) seg"
+            "há (\\d+) seg",
+            "ha (\\d+) segundo",
+            "ha (\\d+) segundos",
+            "ha (\\d+) seg"
         ]
     },
     "locale_specific": {
@@ -767,7 +863,9 @@ info = {
             ],
             "am": [
                 "manhã",
-                "da manhã"
+                "manha",
+                "da manhã",
+                "da manha"
             ],
             "pm": [
                 "tarde",
@@ -776,38 +874,57 @@ info = {
             "relative-type-regex": {
                 "in \\1 year": [
                     "dentro de (\\d+) ano",
-                    "dentro de (\\d+) anos"
+                    "dentro de (\\d+) anos",
+                    "daqui a (\\d+) anos",
+                    "daqui a (\\d+) ano"
                 ],
                 "in \\1 month": [
                     "dentro de (\\d+) meses",
-                    "dentro de (\\d+) mês"
+                    "dentro de (\\d+) mês",
+                    "dentro de (\\d+) mes",
+                    "daqui a (\\d+) meses",
+                    "daqui a (\\d+) mês",
+                    "daqui a (\\d+) mes"
                 ],
                 "in \\1 week": [
                     "dentro de (\\d+) sem",
                     "dentro de (\\d+) semana",
-                    "dentro de (\\d+) semanas"
+                    "dentro de (\\d+) semanas",
+                    "daqui a (\\d+) semanas",
+                    "daqui a (\\d+) semana"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dias",
-                    "dentro de (\\d+) dia"
+                    "dentro de (\\d+) dia",
+                    "daqui a (\\d+) dias",
+                    "daqui a (\\d+) dia"
                 ],
                 "in \\1 hour": [
                     "dentro de (\\d+) h",
                     "dentro de (\\d+) hora",
-                    "dentro de (\\d+) horas"
+                    "dentro de (\\d+) horas",
+                    "daqui a (\\d+) hora",
+                    "daqui a (\\d+) hotas"
                 ],
                 "in \\1 minute": [
                     "dentro de (\\d+) min",
                     "dentro de (\\d+) minuto",
-                    "dentro de (\\d+) minutos"
+                    "dentro de (\\d+) minutos",
+                    "daqui a (\\d+) minutos",
+                    "daqui a (\\d+) minuto",
+                    "daqui a (\\d+) min"
                 ],
                 "in \\1 second": [
                     "dentro de (\\d+) segundo",
                     "dentro de (\\d+) segundos",
-                    "dentro de (\\d+) s"
+                    "dentro de (\\d+) s",
+                    "daqui a (\\d+) segundos",
+                    "daqui a (\\d+) segundo",
+                    "daqui a (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "ha (\\d+) s"
                 ]
             }
         },
@@ -933,7 +1050,8 @@ info = {
                     "dentro de (\\d+) s"
                 ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "ha (\\d+) s"
                 ]
             }
         }
@@ -943,6 +1061,7 @@ info = {
         "cerca",
         "e",
         "às",
+        "as",
         " ",
         ".",
         ",",
@@ -962,10 +1081,30 @@ info = {
     "sentence_splitter_group": 1,
     "ago": [
         "atrás",
-        "há"
+        "atras",
+        "há",
+        "ha",
+        "passado",
+        "passada",
+        "passadas",
+        "passados",
+        "ultimo",
+        "último",
+        "ultima",
+        "última"
     ],
     "in": [
-        "em"
+        "em",
+        "daqui",
+        "daqui a",
+        "próximo",
+        "próximos",
+        "proximo",
+        "proximos",
+        "próxima",
+        "próximas",
+        "proxima",
+        "proximas"
     ],
     "simplifications": [
         {
