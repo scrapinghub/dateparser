@@ -272,7 +272,7 @@ info = {
         "\\1 decade ago": [
             "(\\d+) decades? ago"
         ]
-         "in \\1 century": [
+        "in \\1 century": [
             "in (\\d+) century",
             "in (\\d+) centuries"
         ],
