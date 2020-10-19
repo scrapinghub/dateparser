@@ -188,7 +188,7 @@ info = {
         ],
         "in 1 decade": [
             "next decade"
-        ]
+        ],
           "1 century ago": [
             "last century",
             "this century"
