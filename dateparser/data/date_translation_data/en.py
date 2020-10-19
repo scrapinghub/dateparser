@@ -189,13 +189,13 @@ info = {
         "in 1 decade": [
             "next decade"
         ],
-          "1 century ago": [
+        "1 century ago": [
             "last century",
             "this century"
         ],
         "in 1 century": [
             "next century"
-        ]	        ]
+        ]	        
     },
     "relative-type-regex": {
         "in \\1 year": [
@@ -279,7 +279,7 @@ info = {
         "\\1 century ago": [
             "(\\d+) century ago",
             "(\\d+) centuries ago"
-        ]	        ]
+        ]	        
     },
     "locale_specific": {
         "en-SD": {
