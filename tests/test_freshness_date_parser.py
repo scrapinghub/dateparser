@@ -1057,13 +1057,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
-        param("1 century", ago={'years': 100}, period='year'),
-        param("1 century 2 years", ago={'years': 102}, period='year'),
-        param("1 century 12 months", ago={'years': 100, 'months': 12}, period='month'),
-        param("1 century and 11 months", ago={'years': 100, 'months': 11}, period='month'),
-        param("last century", ago={'years': 100}, period='year'),
-        param("a century ago", ago={'years': 100}, period='year'),
-        param("100 centuries", ago={'years': 10000}, period='year'),
+        param("1 century", in_future={'years': 100}, period='year'),
+        param("1 century 2 years", in_future={'years': 102}, period='year'),
+        param("1 century 12 months", in_future={'years': 100, 'months': 12}, period='month'),
+        param("1 century and 11 months", in_future={'years': 100, 'months': 11}, period='month'),
+        param("last century", in_future={'years': 100}, period='year'),
+        param("a century ago", in_future={'years': 100}, period='year'),
+        param("100 centuries", in_future={'years': 10000}, period='year'),
         param('in 1 decade 2 months', in_future={'years': 10, 'months': 2}, period='month'),
         param('in 100 decades', in_future={'years': 1000}, period='year'),
         param('in 1 decade 12 years', in_future={'years': 22}, period='year'),
