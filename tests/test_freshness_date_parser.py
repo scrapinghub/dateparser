@@ -561,7 +561,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
     @parameterized.expand([
         # English dates
         param("1 century", ago={'years': 100}, period='year'),
-        param("1 century 2 years", ago={'years': 112}, period='year'),
+        param("1 century 2 years", ago={'years': 102}, period='year'),
         param("1 century 12 months", ago={'years': 100, 'months': 12}, period='month'),
         param("1 century and 11 months", ago={'years': 100, 'months': 11}, period='month'),
         param("last century", ago={'years': 100}, period='year'),
