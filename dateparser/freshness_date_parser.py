@@ -114,7 +114,7 @@ class FreshnessDateDataParser:
             return None, None
         period = 'day'
         if 'days' not in kwargs:
-            for k in ['weeks', 'months', 'years','century']:
+            for k in ['weeks', 'months', 'years']:
                 if k in kwargs:
                     period = k[:-1]
                     break
@@ -142,7 +142,7 @@ class FreshnessDateDataParser:
             kwargs['years'] = 10 * kwargs['decades'] + kwargs.get('years', 0)
             del kwargs['decades']
         if 'century' in kwargs:
-            kwargs['years'] = 100 * kwargs['decades'] + kwargs.get('years', 0)
+            kwargs['years'] = 100 * kwargs['century'] + kwargs.get('years', 0)
            
         return kwargs
 
