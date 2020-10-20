@@ -141,8 +141,8 @@ class FreshnessDateDataParser:
         if 'decades' in kwargs:
             kwargs['years'] = 10 * kwargs['decades'] + kwargs.get('years', 0)
             del kwargs['decades']
-        if 'century' in kwargs:
-            kwargs['years'] = 100 * kwargs['century'] + kwargs.get('years', 0)
+        if 'centurys' in kwargs:
+            kwargs['years'] = 100 * kwargs['centurys'] + kwargs.get('years', 0)
            
         return kwargs
 
