@@ -98,6 +98,7 @@ def _check_repeated_values(setting_name, setting_value):
         )
     return
 
+
 def _check_require_part(setting_name, setting_value):
     """Returns `True` if the provided list of parts contains valid values"""
     invalid_values = set(setting_value) - {'day', 'month', 'year'}
