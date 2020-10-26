@@ -7,7 +7,8 @@ from datetime import datetime
 from datetime import timedelta
 
 from dateparser.utils import set_correct_day_from_settings, \
-    get_last_day_of_month, get_previous_leap_year, get_next_leap_year
+    get_last_day_of_month, get_previous_leap_year, get_next_leap_year, \
+    _get_missing_parts
 from dateparser.utils.strptime import strptime
 
 
@@ -118,14 +119,14 @@ class _no_spaces_parser:
 
     def __init__(self, *args, **kwargs):
 
-        self._all = (self._dateformats +
-                     [x + y for x in self._dateformats for y in self._timeformats] +
-                     self._timeformats)
+        self._all = (
+            self._dateformats + [x + y for x in self._dateformats for y in self._timeformats] + self._timeformats
+        )
 
         self.date_formats = {
             '%m%d%y': (
-                self._preferred_formats +
-                sorted(self._all, key=lambda x: x.lower().startswith('%m%d%y'), reverse=True)
+                self._preferred_formats
+                + sorted(self._all, key=lambda x: x.lower().startswith('%m%d%y'), reverse=True)
             ),
             '%m%y%d': sorted(self._all, key=lambda x: x.lower().startswith('%m%y%d'), reverse=True),
             '%y%m%d': sorted(self._all, key=lambda x: x.lower().startswith('%y%m%d'), reverse=True),
@@ -180,6 +181,9 @@ class _no_spaces_parser:
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
                         continue
+
+                    missing = _get_missing_parts(fmt)
+                    _check_strict_parsing(missing, settings)
                     return dt
                 except:
                     pass
@@ -188,6 +192,19 @@ class _no_spaces_parser:
                 return ambiguous_date
             else:
                 raise ValueError('Unable to parse date from: %s' % datestring)
+
+
+def _get_missing_error(missing):
+    return 'Fields missing from the date string: {}'.format(', '.join(missing))
+
+
+def _check_strict_parsing(missing, settings):
+    if settings.STRICT_PARSING and missing:
+        raise ValueError(_get_missing_error(missing))
+    elif settings.REQUIRE_PARTS and missing:
+        errors = [part for part in settings.REQUIRE_PARTS if part in missing]
+        if errors:
+            raise ValueError(_get_missing_error(errors))
 
 
 class _parser:
@@ -266,8 +283,10 @@ class _parser:
 
                 try:
                     microsecond = MICROSECOND.search(self.filtered_tokens[index + 1][0]).group()
-                    _is_after_time_token = token.index(":")
-                    _is_after_period = self.tokens[self.tokens.index((token, 0)) + 1][0].index('.')
+                    # Is after time token? raise ValueError if ':' can't be found:
+                    token.index(":")
+                    # Is after period? raise ValueError if '.' can't be found:
+                    self.tokens[self.tokens.index((token, 0)) + 1][0].index('.')
                 except:
                     microsecond = None
 
@@ -378,22 +397,12 @@ class _parser:
     def _get_date_obj(self, token, directive):
         return strptime(token, directive)
 
-    def _missing_error(self, missing):
-        return ValueError(
-            'Fields missing from the date string: {}'.format(', '.join(missing))
-        )
-
     def _results(self):
-        missing = [field for field in ('day', 'month', 'year')
-                   if not getattr(self, field)]
-
-        if self.settings.STRICT_PARSING and missing:
-            raise self._missing_error(missing)
-        elif self.settings.REQUIRE_PARTS and missing:
-            errors = [part for part in self.settings.REQUIRE_PARTS if part in missing]
-            if errors:
-                raise self._missing_error(errors)
-
+        missing = [
+            field for field in ('day', 'month', 'year')
+            if not getattr(self, field)
+        ]
+        _check_strict_parsing(missing, self.settings)
         self._set_relative_base()
 
         time = self.time() if self.time is not None else None
@@ -477,9 +486,9 @@ class _parser:
 
     def _correct_for_day(self, dateobj):
         if (
-            getattr(self, '_token_day', None) or
-            getattr(self, '_token_weekday', None) or
-            getattr(self, '_token_time', None)
+            getattr(self, '_token_day', None)
+            or getattr(self, '_token_weekday', None)
+            or getattr(self, '_token_time', None)
         ):
             return dateobj
 

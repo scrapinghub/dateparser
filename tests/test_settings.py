@@ -1,3 +1,4 @@
+import pytest
 from parameterized import parameterized, param
 from datetime import datetime, tzinfo
 
@@ -210,3 +211,19 @@ class InvalidSettingsTest(BaseTestCase):
             SettingValidationError, r'There are repeated values in the "PARSERS" setting'
         ):
             DateDataParser(settings={'PARSERS': ['absolute-time', 'timestamp', 'absolute-time']})
+
+
+@pytest.mark.parametrize(
+    "date_string,expected_result", [
+        # Note that these results are "valid" but probably they shouldn't be considered
+        ('2020', datetime(1900, 1, 1, 20, 2)),
+        ('333', datetime(1900, 1, 1, 3, 3, 3)),
+        ('1000', datetime(1900, 1, 1, 10, 0)),
+        ('100000', datetime(1900, 1, 1, 10, 0)),
+    ])
+def test_no_spaces_strict_parsing(date_string, expected_result):
+    parser = DateDataParser(settings={'PARSERS': ['no-spaces-time'], 'STRICT_PARSING': False})
+    assert parser.get_date_data(date_string)['date_obj'] == expected_result
+
+    parser = DateDataParser(settings={'PARSERS': ['no-spaces-time'], 'STRICT_PARSING': True})
+    assert parser.get_date_data(date_string)['date_obj'] is None
