@@ -20,4 +20,5 @@ settings = {
     'RETURN_TIME_AS_PERIOD': False,
     'PARSERS': default_parsers,
     'REQUIRE_PARTS': [],
+    'USE_GIVEN_LANGUAGE_ORDER': False
 }
