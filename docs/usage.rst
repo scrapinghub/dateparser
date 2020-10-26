@@ -18,19 +18,16 @@ assumes that all of the dates fed to it are in the same language.
 .. autoclass:: dateparser.date.DateDataParser
    :members: get_date_data
 
-.. warning:: It fails to parse *English* dates in the example below, because *Spanish* was detected and stored with the ``ddp`` instance:
-
-    >>> ddp.get_date_data('11 August 2012')
-    {'date_obj': None, 'period': 'day'}
-
 
 :class:`dateparser.date.DateDataParser` can also be initialized with known languages:
 
     >>> ddp = DateDataParser(languages=['de', 'nl'])
     >>> ddp.get_date_data('vr jan 24, 2014 12:49')
-    {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': 'day'}
+    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='day', locale='nl', is_relative=None)
     >>> ddp.get_date_data('18.10.14 um 22:56 Uhr')
-    {'date_obj': datetime.datetime(2014, 10, 18, 22, 56), 'period': 'day'}
+    DateData(date_obj=datetime.datetime(2014, 10, 18, 22, 56), period='day', locale='de', is_relative=None)
+    >>> ddp.get_date_data('11 July 2012')
+    DateData(date_obj=None, period='day', locale=None, is_relative=None)
 
 
 Settings
@@ -144,7 +141,7 @@ Defaults to ``False``.
 
     >>> ddp = DateDataParser(settings={'RETURN_TIME_AS_PERIOD': True})
     >>> ddp.get_date_data('vr jan 24, 2014 12:49')
-    {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': 'time', 'locale': 'nl'}
+    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl', is_relative=None)
 
 ``PARSERS`` is a list of names of parsers to try, allowing to customize which
 parsers are tried against the input date string, and in which order they are
@@ -200,5 +197,5 @@ Language Detection
 ``SKIP_TOKENS`` is a ``list`` of tokens to discard while detecting language. Defaults to ``['t']`` which skips T in iso format datetime string .e.g. ``2015-05-02T10:20:19+0000``.:
 
     >>> from dateparser.date import DateDataParser
-    >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
-    {'date_obj': datetime.datetime(1981, 6, 27, 0, 0), 'period': 'day'}
+    >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data('27 Haziran 1981 de')  # Turkish (at 27 June 1981)
+    DateData(date_obj=datetime.datetime(1981, 6, 27, 0, 0), period='day', locale='tr', is_relative=None)

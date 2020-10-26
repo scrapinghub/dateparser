@@ -1,5 +1,4 @@
 import collections
-from collections import MutableMapping
 from collections.abc import Set
 from datetime import datetime, timedelta
 
@@ -243,17 +242,16 @@ class _DateLocaleParser:
     def _is_valid_date_obj(self, date_obj):
         if not isinstance(date_obj, DateData):
             return False
-        if 'date_obj' not in date_obj or 'period' not in date_obj:
+        if not date_obj['date_obj'] or not date_obj['period']:
             return False
         if not date_obj['date_obj']:
             return False
         if date_obj['period'] not in ('time', 'day', 'week', 'month', 'year'):
             return False
-
         return True
 
 
-class DateData(MutableMapping):
+class DateData:
     """
     Class that represents the parsed data with useful information.
     It can be accessed like a dict object.
@@ -276,27 +274,10 @@ class DateData(MutableMapping):
         setattr(self, key, value)
 
     def __repr__(self):
-        return str(self.__dict__)
-
-    def __contains__(self, item):
-        return hasattr(self, item) and getattr(self, item)
-
-    def __len__(self):
-        return len(self.keys())
-
-    def __iter__(self):
-        yield from self.__dict__.keys()
-
-    def __delitem__(self, v):
-        if not hasattr(self, v):
-            raise KeyError(v)
-        setattr(self, v, None)
-
-    def keys(self):
-        return self.__dict__.keys()
-
-    def values(self):
-        return self.__dict__.values()
+        return '{}({})'.format(
+            self.__class__.__name__,
+            ', '.join('{}={}'.format(prop, val.__repr__()) for prop, val in self.__dict__.items())
+        )
 
 
 class DateDataParser:
@@ -388,8 +369,7 @@ class DateDataParser:
             The parser applies formats one by one, taking into account the detected languages.
         :type date_formats: list
 
-        :return: a dict mapping keys to :mod:`datetime.datetime` object and *period*. For example:
-            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': 'day'}
+        :return: a ``DateData`` object.
 
         :raises: ValueError - Unknown Language
 
@@ -402,19 +382,20 @@ class DateDataParser:
         Hence, the level of precision is ``month``:
 
             >>> DateDataParser().get_date_data('March 2015')
-            {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': 'month', 'locale': 'en', 'is_relative': None}
+            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en', is_relative=None)
 
         Similarly, for date strings with no day and month information present, level of precision
         is ``year`` and day ``16`` and month ``6`` are from *current_date*.
 
             >>> DateDataParser().get_date_data('2014')
-            {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': 'year', 'locale': 'en', 'is_relative': None}
+            DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en', is_relative=None)
 
         Dates with time zone indications or UTC offsets are returned in UTC time unless
         specified using `Settings`_.
 
             >>> DateDataParser().get_date_data('23 March 2000, 1:21 PM CET')
-            {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
+            DateData(date_obj=datetime.datetime(2000, 3, 23, 13, 21, tzinfo=<StaticTzInfo 'CET'>),
+            period='day', locale='en', is_relative=None)
 
         """
         if not(isinstance(date_string, str) or isinstance(date_string, str)):
@@ -438,9 +419,9 @@ class DateDataParser:
             return DateData(date_obj=None, period='day', locale=None)
 
     def get_date_tuple(self, *args, **kwargs):
-        date_tuple = collections.namedtuple('DateData', DateData().keys())
         date_data = self.get_date_data(*args, **kwargs)
-        return date_tuple(**date_data)
+        date_tuple = collections.namedtuple('DateData', date_data.__dict__.keys())
+        return date_tuple(**date_data.__dict__)
 
     def _get_applicable_locales(self, date_string):
         pop_tz_cache = []
