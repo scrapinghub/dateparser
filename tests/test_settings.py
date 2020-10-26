@@ -156,25 +156,24 @@ class InvalidSettingsTest(BaseTestCase):
             DateDataParser(settings={'AAAAA': 'foo'})
 
     @parameterized.expand([
-        param('DATE_ORDER', 2, 'YYY', '', 'MDY'),
-        param('TIMEZONE', False, '', '', 'Europe/Madrid'),  # should we check valid timezones?
-        param('TO_TIMEZONE', True, '', '', 'Europe/Madrid'),  # should we check valid timezones?
-        param('RETURN_AS_TIMEZONE_AWARE', 'false', '', '', True),
-        param('PREFER_DAY_OF_MONTH', False, 'current_period', '', 'current'),
-        param('PREFER_DATES_FROM', True, 'current', '', 'current_period'),
-        param('RELATIVE_BASE', 'yesterday', '', '', datetime.now()),
-        param('SKIP_TOKENS', 'foo', '', '', ['foo']),
-        param('REQUIRE_PARTS', 'day', '', ['time', 'day'], ['month', 'day']),
-        param('PARSERS', 'absolute-time', '', ['absolute-time', 'no-spaces'], ['absolute-time', 'no-spaces-time']),
-        param('STRICT_PARSING', 'true', '', '', True),
-        param('RETURN_TIME_AS_PERIOD', 'false', '', '', True),
-        param('PREFER_LOCALE_DATE_ORDER', 'true', '', '', False),
-        param('NORMALIZE', 'true', '', '', True),
-        param('FUZZY', 'true', '', '', False),
-        param('PREFER_LOCALE_DATE_ORDER', 'false', '', '', True),
+        param('DATE_ORDER', 2, 'YYY', 'MDY'),
+        param('TIMEZONE', False, '', 'Europe/Madrid'),  # should we check valid timezones?
+        param('TO_TIMEZONE', True, '', 'Europe/Madrid'),  # should we check valid timezones?
+        param('RETURN_AS_TIMEZONE_AWARE', 'false', '', True),
+        param('PREFER_DAY_OF_MONTH', False, 'current_period', 'current'),
+        param('PREFER_DATES_FROM', True, 'current', 'current_period'),
+        param('RELATIVE_BASE', 'yesterday', '', datetime.now()),
+        param('SKIP_TOKENS', 'foo', '', ['foo']),
+        param('REQUIRE_PARTS', 'day', '', ['month', 'day']),
+        param('PARSERS', 'absolute-time', '', ['absolute-time', 'no-spaces-time']),
+        param('STRICT_PARSING', 'true', '', True),
+        param('RETURN_TIME_AS_PERIOD', 'false', '', True),
+        param('PREFER_LOCALE_DATE_ORDER', 'true', '', False),
+        param('NORMALIZE', 'true', '', True),
+        param('FUZZY', 'true', '', False),
+        param('PREFER_LOCALE_DATE_ORDER', 'false', '', True),
     ])
-    def test_check_settings(self, setting, wrong_type, wrong_value, extra_check_value, valid_value):
-
+    def test_check_settings(self, setting, wrong_type, wrong_value, valid_value):
         with self.assertRaisesRegex(
             SettingValidationError, r'"{}" must be .*, not "{}".'.format(setting, type(wrong_type).__name__)
         ):
@@ -188,13 +187,26 @@ class InvalidSettingsTest(BaseTestCase):
             ):
                 DateDataParser(settings={setting: wrong_value})
 
-        if extra_check_value:
-            with self.assertRaisesRegex(
-                SettingValidationError, r'"{}" is not a valid value for "{}"'.format(
-                    str(extra_check_value).replace('[', '\\[').replace(']', '\\]'), setting
-                )
-            ):
-                DateDataParser(settings={setting: extra_check_value})
-
         # check that a valid value doesn't raise an error
         assert DateDataParser(settings={setting: valid_value})
+
+    def test_check_settings_extra_check_require_parts(self):
+        with self.assertRaisesRegex(
+            SettingValidationError, r'"REQUIRE_PARTS" setting contains invalid values: time'
+        ):
+            DateDataParser(settings={'REQUIRE_PARTS': ['time', 'day']})
+        with self.assertRaisesRegex(
+            SettingValidationError, r'There are repeated values in the "REQUIRE_PARTS" setting'
+        ):
+            DateDataParser(settings={'REQUIRE_PARTS': ['month', 'day', 'month']})
+
+    def test_check_settings_extra_check_parsers(self):
+        with self.assertRaisesRegex(
+            SettingValidationError, r'Found unknown parsers in the "PARSERS" setting: no-spaces'
+        ):
+            DateDataParser(settings={'PARSERS': ['absolute-time', 'no-spaces']})
+
+        with self.assertRaisesRegex(
+            SettingValidationError, r'There are repeated values in the "PARSERS" setting'
+        ):
+            DateDataParser(settings={'PARSERS': ['absolute-time', 'timestamp', 'absolute-time']})

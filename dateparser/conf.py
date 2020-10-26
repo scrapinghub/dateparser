@@ -91,16 +91,38 @@ class SettingValidationError(ValueError):
     pass
 
 
-def _check_require_part(provided_list):
-    """Returns `True` if the provided list of parts is valid"""
-    return not set(provided_list) - {'day', 'month', 'year'}
+def _check_repeated_values(setting_name, setting_value):
+    if len(setting_value) != len(set(setting_value)):
+        raise SettingValidationError(
+            'There are repeated values in the "{}" setting'.format(setting_name)
+        )
+    return
+
+def _check_require_part(setting_name, setting_value):
+    """Returns `True` if the provided list of parts contains valid values"""
+    invalid_values = set(setting_value) - {'day', 'month', 'year'}
+    if invalid_values:
+        raise SettingValidationError(
+            '"{}" setting contains invalid values: {}'.format(
+                setting_name, ', '.join(invalid_values)
+            )
+        )
+    _check_repeated_values(setting_name, setting_value)
 
 
-def _check_parsers(provided_list):
-    """Returns `True` if the provided list of parsers is valid"""
-    existing_parsers = ['timestamp', 'relative-time', 'custom-formats', 'absolute-time', 'no-spaces-time']
-    unknown_parsers = set(provided_list) - set(existing_parsers)
-    return not unknown_parsers
+def _check_parsers(setting_name, setting_value):
+    """Returns `True` if the provided list of parsers contains valid values"""
+    existing_parsers = [
+        'timestamp', 'relative-time', 'custom-formats', 'absolute-time', 'no-spaces-time'
+    ]  # FIXME: Extract the list of existing parsers from another place (#798)
+    unknown_parsers = set(setting_value) - set(existing_parsers)
+    if unknown_parsers:
+        raise SettingValidationError(
+            'Found unknown parsers in the "{}" setting: {}'.format(
+                setting_name, ', '.join(unknown_parsers)
+            )
+        )
+    _check_repeated_values(setting_name, setting_value)
 
 
 def check_settings(settings):
@@ -114,17 +136,16 @@ def check_settings(settings):
             'type': str,
         },
         'TIMEZONE': {
-            'values': (),  # we don't check invalid Timezones as they raise an error
+            # we don't check invalid Timezones as they raise an error
             'type': str,
         },
         'TO_TIMEZONE': {
             # It defaults to None, but it's not allowed to use it directly
-            'values': (),
+            # "values" can take unlimited options
             'type': str
         },
         'RETURN_AS_TIMEZONE_AWARE': {
             # It defaults to 'default', but it's not allowed to use it directly
-            'values': (True, False),
             'type': bool
         },
         'PREFER_DAY_OF_MONTH': {
@@ -136,41 +157,36 @@ def check_settings(settings):
             'type': str,
         },
         'RELATIVE_BASE': {
-            'values': (),  # unlimited options
+            # "values" can take unlimited options
             'type': datetime
         },
         'STRICT_PARSING': {
-            'values': (True, False),
             'type': bool
         },
         'REQUIRE_PARTS': {
-            'values': (),  # covered by the 'extra_check'
+            # "values" covered by the 'extra_check'
             'type': list,
             'extra_check': _check_require_part
         },
         'SKIP_TOKENS': {
-            'values': (),
+            # "values" can take unlimited options
             'type': list,
         },
         'NORMALIZE': {
-            'values': (True, False),
             'type': bool
         },
         'RETURN_TIME_AS_PERIOD': {
-            'values': (True, False),
             'type': bool
         },
         'PARSERS': {
-            'values': (),  # covered by the 'extra_check'
+            # "values" covered by the 'extra_check'
             'type': list,
             'extra_check': _check_parsers
         },
         'FUZZY': {
-            'values': (True, False),
             'type': bool
         },
         'PREFER_LOCALE_DATE_ORDER': {
-            'values': (True, False),
             'type': bool
         },
     }
@@ -195,9 +211,9 @@ def check_settings(settings):
             )
 
         # check values:
-        if setting_props['values'] and setting_value not in setting_props['values']:
+        if setting_props.get('values') and setting_value not in setting_props['values']:
             raise SettingValidationError(
-                '"{}" is not a valid value for "{}", it should be: "{}" or "{}".'.format(
+                '"{}" is not a valid value for "{}", it should be: "{}" or "{}"'.format(
                     setting_value,
                     setting_name,
                     '", "'.join(setting_props['values'][:-1]),
@@ -207,7 +223,5 @@ def check_settings(settings):
 
         # specific checks
         extra_check = setting_props.get('extra_check')
-        if extra_check and not extra_check(setting_value):
-            raise SettingValidationError(
-                '"{}" is not a valid value for "{}"'.format(setting_value, setting_name)
-            )
+        if extra_check:
+            extra_check(setting_name, setting_value)
