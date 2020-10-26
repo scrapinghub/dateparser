@@ -97,7 +97,11 @@ class FreshnessDateDataParser:
         date, period = self._parse_date(date_string, settings.PREFER_DATES_FROM)
 
         if date:
+            old_date = date
             date = apply_time(date, _time)
+            if settings.RETURN_TIME_AS_PERIOD and old_date != date:
+                period = 'time'
+
             if settings.TO_TIMEZONE:
                 date = apply_timezone(date, settings.TO_TIMEZONE)
 

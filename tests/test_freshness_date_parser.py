@@ -43,6 +43,20 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param("yesterday", ago={'days': 1}, period='day'),
+        param("yesterday at 11:30", ago={'hours': 23}, period='time'),
+    ])
+    def test_relative_past_dates_with_time_as_period(self, date_string, ago, period):
+        self.given_parser(settings={'NORMALIZE': False, 'RETURN_TIME_AS_PERIOD': True})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_was_parsed_by_freshness_parser()
+        self.then_date_obj_is_exactly_this_time_ago(ago)
+        self.then_period_is(period)
+
+    @parameterized.expand([
+        # English dates
         param("1 decade", ago={'years': 10}, period='year'),
         param("1 decade 2 years", ago={'years': 12}, period='year'),
         param("1 decade 12 months", ago={'years': 10, 'months': 12}, period='month'),
