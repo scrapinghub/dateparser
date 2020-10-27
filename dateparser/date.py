@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.conf import apply_settings
+from dateparser.conf import apply_settings, check_settings
 from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
@@ -170,13 +170,6 @@ class _DateLocaleParser:
             'absolute-time': self._try_absolute_parser,
             'no-spaces-time': self._try_nospaces_parser,
         }
-        unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
-        if unknown_parsers:
-            raise ValueError(
-                'Unknown parsers found in the PARSERS setting: {}'.format(
-                    ', '.join(sorted(unknown_parsers))
-                )
-            )
 
     @classmethod
     def parse(cls, locale, date_string, date_formats=None, settings=None):
@@ -328,6 +321,8 @@ class DateDataParser:
 
         if not locales and use_given_order:
             raise ValueError("locales must be given if use_given_order is True")
+
+        check_settings(settings)
 
         self._settings = settings
         self.try_previous_locales = try_previous_locales

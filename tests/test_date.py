@@ -450,12 +450,6 @@ class TestDateDataParser(BaseTestCase):
             TypeError, ["Date formats should be list, tuple or set of strings",
                         "'{}' object is not iterable".format(type(date_formats).__name__)])
 
-    def test_parsing_date_using_unknown_parsers_must_raise_error(self):
-        self.given_parser(settings={'PARSERS': ['foo']})
-        self.when_date_string_is_parsed('2020-02-19')
-        self.then_error_was_raised(
-            ValueError, ["Unknown parsers found in the PARSERS setting: foo"])
-
     @parameterized.expand([
         param(date_string={"date": "12/11/1998"}),
         param(date_string=[2017, 12, 1]),
