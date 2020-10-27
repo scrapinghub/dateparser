@@ -5,6 +5,9 @@ Settings
 
 `dateparser`'s parsing behavior can be configured by supplying settings as a dictionary to `settings` argument in :func:`dateparser.parse` or :class:`DateDataParser <dateparser.date.DateDataParser>` constructor.
 
+.. note:: From `dateparser 1.0.0` when a setting with a wrong value is provided, a ``SettingValidationError`` is raised.
+
+
 All supported `settings` with their usage examples are given below:
 
 
