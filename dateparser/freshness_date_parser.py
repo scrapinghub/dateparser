@@ -10,7 +10,7 @@ from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
 
-_UNITS = r'decade|year|month|week|day|hour|minute|second'
+_UNITS = r'century|decade|year|month|week|day|hour|minute|second'
 PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
 
 
@@ -147,6 +147,10 @@ class FreshnessDateDataParser:
         if 'decades' in kwargs:
             kwargs['years'] = 10 * kwargs['decades'] + kwargs.get('years', 0)
             del kwargs['decades']
+        return kwargs
+        if 'centurys' in kwargs:
+            kwargs['centurys'] = 100 * kwargs['centurys'] + kwargs.get('years', 0)
+            del kwargs['centurys']
         return kwargs
 
     def get_date_data(self, date_string, settings=None):

@@ -9,6 +9,10 @@ tuesday:
 september:
     - sept
 
+century:
+    - century
+    - centuries
+
 decade:
     - decade
     - decades
@@ -47,12 +51,21 @@ relative-type:
         - this decade
     in 1 decade:
         - next decade
+    1 century ago:
+        - last century
+        - this century
+    in 1 century:
+        - next century
 
 relative-type-regex:
     in \1 decade:
         - in (\d+) decades?
     \1 decade ago:
         - (\d+) decades? ago
+    in \1 century:
+        - in (\d+) centuries?
+    \1 century ago:
+        - (\d+) centuries? ago
 
 simplifications:
     - an: '1'
