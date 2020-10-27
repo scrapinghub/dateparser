@@ -47,6 +47,24 @@ def find_date_separator(format):
         return m.group(1)
 
 
+def _get_missing_parts(fmt):
+    """
+    Return a list containing missing parts (day, month, year)
+    from a date format checking its directives
+    """
+    directive_mapping = {
+        'day': ['%d', '%-d', '%j', '%-j'],
+        'month': ['%b', '%B', '%m', '%-m'],
+        'year': ['%y', '%-y', '%Y']
+    }
+
+    missing = [
+        field for field in ('day', 'month', 'year')
+        if not any(directive in fmt for directive in directive_mapping[field])
+    ]
+    return missing
+
+
 def localize_timezone(date_time, tz_string):
     if date_time.tzinfo:
         return date_time
@@ -63,7 +81,12 @@ def localize_timezone(date_time, tz_string):
         else:
             raise e
 
-    return tz.localize(date_time)
+    if hasattr(tz, 'localize'):
+        date_time = tz.localize(date_time)
+    else:
+        date_time = date_time.replace(tzinfo=tz)
+
+    return date_time
 
 
 def apply_tzdatabase_timezone(date_time, pytz_string):
@@ -84,7 +107,10 @@ def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
 
 def apply_timezone(date_time, tz_string):
     if not date_time.tzinfo:
-        date_time = UTC.localize(date_time)
+        if hasattr(UTC, 'localize'):
+            date_time = UTC.localize(date_time)
+        else:
+            date_time = date_time.replace(tzinfo=UTC)
 
     new_datetime = apply_dateparser_timezone(date_time, tz_string)
 
@@ -100,7 +126,10 @@ def apply_timezone_from_settings(date_obj, settings):
         return date_obj
 
     if 'local' in settings.TIMEZONE.lower():
-        date_obj = tz.localize(date_obj)
+        if hasattr(tz, 'localize'):
+            date_obj = tz.localize(date_obj)
+        else:
+            date_obj = date_obj.replace(tzinfo=tz)
     else:
         date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 

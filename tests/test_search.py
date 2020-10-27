@@ -449,6 +449,12 @@ class TestTranslateSearch(BaseTestCase):
                ('Сегодня', datetime.datetime(2001, 3, 19, 0, 0)),
                ('2 дня назад', datetime.datetime(2001, 3, 17, 0, 0)),
                ('Вчера', datetime.datetime(2001, 3, 18, 0, 0))]),
+        param('ru', '19 марта 2001. Сегодня был хороший день. Два дня назад был хороший день. Хорошая была неделя. '
+                    'Думаю, через неделю будет еще лучше.',
+              [('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
+               ('Сегодня', datetime.datetime(2001, 3, 19, 0, 0)),
+               ('Два дня назад', datetime.datetime(2001, 3, 17, 0, 0)),
+               ('через неделю', datetime.datetime(2001, 3, 26, 0, 0))]),
 
         # Hungarian
         param('hu', '1962 augusztus 11 Föld körüli pályára bocsátották a szovjet Vosztok-3 űrhajót, '

@@ -29,5 +29,4 @@ settings = {
     # Other settings
     'RETURN_TIME_AS_PERIOD': False,
     'PARSERS': default_parsers,
-    'FUZZY': False,  # TODO: delete?
 }
