@@ -1,4 +1,5 @@
 import collections
+import sys
 from collections.abc import Set
 from datetime import datetime, timedelta
 
@@ -420,7 +421,11 @@ class DateDataParser:
 
     def get_date_tuple(self, *args, **kwargs):
         date_data = self.get_date_data(*args, **kwargs)
-        date_tuple = collections.namedtuple('DateData', date_data.__dict__.keys())
+        if sys.version_info < (3, 6):  # python 3.5 compatibility
+            fields = ['date_obj', 'period', 'locale', 'is_relative']
+        else:
+            fields = date_data.__dict__.keys()
+        date_tuple = collections.namedtuple('DateData', fields)
         return date_tuple(**date_data.__dict__)
 
     def _get_applicable_locales(self, date_string):
