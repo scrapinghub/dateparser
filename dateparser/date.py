@@ -293,7 +293,8 @@ class DateDataParser:
     :return: A parser instance
 
     :raises:
-         ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list, ``SettingValidationError``: A provided setting is not valid.
+         ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list,
+         ``SettingValidationError``: A provided setting is not valid.
     """
 
     locale_loader = None

@@ -41,7 +41,9 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
 
     :return: Returns :class:`datetime <datetime.datetime>` representing parsed date if successful, else returns None
     :rtype: :class:`datetime <datetime.datetime>`.
-    :raises: ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list, ``SettingValidationError``: A provided setting is not valid.
+    :raises:
+        ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list,
+        ``SettingValidationError``: A provided setting is not valid.
     """
     parser = _default_parser
 
