@@ -126,6 +126,7 @@ info = {
     "hour": [
         "óra",
         "ó",
+        "ó",
         "órák",
         "órája",
         "órával",
@@ -135,6 +136,7 @@ info = {
     "minute": [
         "perc",
         "p",
+        "p",
         "percek",
         "perce",
         "perccel",
@@ -143,6 +145,7 @@ info = {
     ],
     "second": [
         "másodperc",
+        "mp",
         "mp",
         "másodpercek",
         "másodperce",

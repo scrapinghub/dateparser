@@ -21,12 +21,14 @@ info = {
         "may"
     ],
     "june": [
-        "iyun",
-        "iyn"
+        "i̇yun",
+        "iyn",
+        "iyun"
     ],
     "july": [
-        "iyul",
-        "iyl"
+        "i̇yul",
+        "iyl",
+        "iyul"
     ],
     "august": [
         "avqust",
@@ -83,6 +85,7 @@ info = {
         "pm"
     ],
     "year": [
+        "i̇l",
         "il"
     ],
     "month": [

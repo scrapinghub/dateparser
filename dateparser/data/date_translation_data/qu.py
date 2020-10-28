@@ -2,52 +2,52 @@ info = {
     "name": "qu",
     "date_order": "DMY",
     "january": [
-        "qulla puquy",
-        "qul"
+        "enero",
+        "ene"
     ],
     "february": [
-        "hatun puquy",
-        "hat"
+        "febrero",
+        "feb"
     ],
     "march": [
-        "pauqar waray",
-        "pau"
+        "marzo",
+        "mar"
     ],
     "april": [
-        "ayriwa",
-        "ayr"
+        "abril",
+        "abr"
     ],
     "may": [
-        "aymuray",
-        "aym"
+        "mayo",
+        "may"
     ],
     "june": [
-        "inti raymi",
-        "int"
+        "junio",
+        "jun"
     ],
     "july": [
-        "anta sitwa",
-        "ant"
+        "julio",
+        "jul"
     ],
     "august": [
-        "qhapaq sitwa",
-        "qha"
+        "agosto",
+        "ago"
     ],
     "september": [
-        "uma raymi",
-        "uma"
+        "setiembre",
+        "set"
     ],
     "october": [
-        "kantaray",
-        "kan"
+        "octubre",
+        "oct"
     ],
     "november": [
-        "ayamarq'a",
-        "aya"
+        "noviembre",
+        "nov"
     ],
     "december": [
-        "kapaq raymi",
-        "kap"
+        "diciembre",
+        "dic"
     ],
     "monday": [
         "lunes",
@@ -106,57 +106,57 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "last year"
+            "qayna wata"
         ],
         "0 year ago": [
-            "this year"
+            "kunan wata"
         ],
         "in 1 year": [
-            "next year"
+            "hamuq wata"
         ],
         "1 month ago": [
-            "last month"
+            "qayna killa"
         ],
         "0 month ago": [
-            "this month"
+            "kunan killa"
         ],
         "in 1 month": [
-            "next month"
+            "hamuq killa"
         ],
         "1 week ago": [
-            "last week"
+            "qayna semana"
         ],
         "0 week ago": [
-            "this week"
+            "kunan semana"
         ],
         "in 1 week": [
-            "next week"
+            "hamuq semana"
         ],
         "1 day ago": [
-            "yesterday"
+            "qayna punchaw"
         ],
         "0 day ago": [
-            "today"
+            "kunan punchaw"
         ],
         "in 1 day": [
-            "tomorrow"
+            "paqarin"
         ],
         "0 hour ago": [
-            "this hour"
+            "kay hora"
         ],
         "0 minute ago": [
-            "this minute"
+            "kay minuto"
         ],
         "0 second ago": [
             "now"
         ]
     },
     "locale_specific": {
-        "qu-EC": {
-            "name": "qu-EC"
-        },
         "qu-BO": {
             "name": "qu-BO"
+        },
+        "qu-EC": {
+            "name": "qu-EC"
         }
     },
     "skip": [

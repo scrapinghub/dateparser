@@ -109,12 +109,10 @@ info = {
     "minute": [
         "minuto",
         "min",
-        "m",
         "minuti"
     ],
     "second": [
         "secondo",
-        "sec",
         "s",
         "secondi"
     ],
@@ -230,25 +228,25 @@ info = {
         "in \\1 second": [
             "tra (\\d+) secondo",
             "tra (\\d+) secondi",
-            "tra (\\d+) sec",
-            "tra (\\d+) s"
+            "tra (\\d+) s",
+            "tra (\\d+) sec"
         ],
         "\\1 second ago": [
             "(\\d+) secondo fa",
             "(\\d+) secondi fa",
-            "(\\d+) sec fa",
-            "(\\d+) s fa"
+            "(\\d+) s fa",
+            "(\\d+) sec fa"
         ]
     },
     "locale_specific": {
-        "it-CH": {
-            "name": "it-CH"
+        "it-VA": {
+            "name": "it-VA"
         },
         "it-SM": {
             "name": "it-SM"
         },
-        "it-VA": {
-            "name": "it-VA"
+        "it-CH": {
+            "name": "it-CH"
         }
     },
     "skip": [

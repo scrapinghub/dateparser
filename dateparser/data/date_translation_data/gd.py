@@ -178,10 +178,14 @@ info = {
             "a-màireach"
         ],
         "0 hour ago": [
-            "this hour"
+            "am broinn uair a thìde",
+            "am broinn uair",
+            "san uair"
         ],
         "0 minute ago": [
-            "this minute"
+            "am broinn mionaid",
+            "am broinn mion",
+            "sa mhion"
         ],
         "0 second ago": [
             "an-dràsta"

@@ -143,13 +143,16 @@ info = {
             "önümüzdeki ay"
         ],
         "1 week ago": [
-            "geçen hafta"
+            "geçen hafta",
+            "geçen hf"
         ],
         "0 week ago": [
-            "bu hafta"
+            "bu hafta",
+            "bu hf"
         ],
         "in 1 week": [
             "gelecek hafta",
+            "gelecek hf",
             "haftaya",
             "önümüzdeki hafta"
         ],

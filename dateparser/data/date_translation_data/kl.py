@@ -2,52 +2,64 @@ info = {
     "name": "kl",
     "date_order": "YMD",
     "january": [
-        "januari",
-        "jan"
+        "januaari",
+        "jan",
+        "januaarip"
     ],
     "february": [
-        "februari",
-        "feb"
+        "februaari",
+        "febr",
+        "februaarip"
     ],
     "march": [
-        "martsi",
-        "mar"
+        "marsi",
+        "mar",
+        "marsip"
     ],
     "april": [
-        "aprili",
-        "apr"
+        "apriili",
+        "apr",
+        "apriilip"
     ],
     "may": [
-        "maji",
-        "maj"
+        "maaji",
+        "maj",
+        "maajip"
     ],
     "june": [
-        "juni",
-        "jun"
+        "juuni",
+        "jun",
+        "juunip"
     ],
     "july": [
-        "juli",
-        "jul"
+        "juuli",
+        "jul",
+        "juulip"
     ],
     "august": [
-        "augustusi",
-        "aug"
+        "aggusti",
+        "aug",
+        "aggustip"
     ],
     "september": [
-        "septemberi",
-        "sep"
+        "septembari",
+        "sept",
+        "septembarip"
     ],
     "october": [
-        "oktoberi",
-        "okt"
+        "oktobari",
+        "okt",
+        "oktobarip"
     ],
     "november": [
-        "novemberi",
-        "nov"
+        "novembari",
+        "nov",
+        "novembarip"
     ],
     "december": [
-        "decemberi",
-        "dec"
+        "decembari",
+        "dec",
+        "decembarip"
     ],
     "monday": [
         "ataasinngorneq",
@@ -74,8 +86,8 @@ info = {
         "arf"
     ],
     "sunday": [
-        "sabaat",
-        "sab"
+        "sapaat",
+        "sap"
     ],
     "am": [
         "am"

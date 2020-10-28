@@ -124,22 +124,31 @@ info = {
             "næsta ár"
         ],
         "1 month ago": [
-            "seinasta mánað"
+            "seinasta mánað",
+            "seinasta mnð"
         ],
         "0 month ago": [
-            "henda mánaðin"
+            "henda mánaðin",
+            "henda mnð"
         ],
         "in 1 month": [
-            "næsta mánað"
+            "næsta mánað",
+            "næsta mnð"
         ],
         "1 week ago": [
-            "seinastu viku"
+            "seinastu viku",
+            "seinastu vi",
+            "seinastu v"
         ],
         "0 week ago": [
-            "hesu viku"
+            "hesu viku",
+            "hesu vi",
+            "hesu v"
         ],
         "in 1 week": [
-            "næstu viku"
+            "næstu viku",
+            "næstu vi",
+            "næstu v"
         ],
         "1 day ago": [
             "í gjár"

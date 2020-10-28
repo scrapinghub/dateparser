@@ -199,16 +199,16 @@ info = {
         ]
     },
     "locale_specific": {
-        "zh-Hans-SG": {
-            "name": "zh-Hans-SG",
-            "date_order": "DMY"
-        },
         "zh-Hans-HK": {
             "name": "zh-Hans-HK",
             "date_order": "DMY"
         },
         "zh-Hans-MO": {
             "name": "zh-Hans-MO",
+            "date_order": "DMY"
+        },
+        "zh-Hans-SG": {
+            "name": "zh-Hans-SG",
             "date_order": "DMY"
         }
     },

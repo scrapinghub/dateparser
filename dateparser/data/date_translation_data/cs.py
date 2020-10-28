@@ -163,13 +163,16 @@ info = {
             "příští rok"
         ],
         "1 month ago": [
-            "minulý měsíc"
+            "minulý měsíc",
+            "minulý měs"
         ],
         "0 month ago": [
-            "tento měsíc"
+            "tento měsíc",
+            "tento měs"
         ],
         "in 1 month": [
-            "příští měsíc"
+            "příští měsíc",
+            "příští měs"
         ],
         "1 week ago": [
             "minulý týden",

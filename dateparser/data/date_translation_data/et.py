@@ -110,31 +110,49 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "eelmine aasta"
+            "eelmine aasta",
+            "eelmine a",
+            "eelm a"
         ],
         "0 year ago": [
-            "käesolev aasta"
+            "käesolev aasta",
+            "käesolev a",
+            "see a"
         ],
         "in 1 year": [
-            "järgmine aasta"
+            "järgmine aasta",
+            "järgmine a",
+            "järgm a"
         ],
         "1 month ago": [
-            "eelmine kuu"
+            "eelmine kuu",
+            "eelm kuu",
+            "eelm k"
         ],
         "0 month ago": [
-            "käesolev kuu"
+            "käesolev kuu",
+            "see kuu",
+            "see k"
         ],
         "in 1 month": [
-            "järgmine kuu"
+            "järgmine kuu",
+            "järgm kuu",
+            "järgm k"
         ],
         "1 week ago": [
-            "eelmine nädal"
+            "eelmine nädal",
+            "eelm näd",
+            "eelm n"
         ],
         "0 week ago": [
-            "käesolev nädal"
+            "käesolev nädal",
+            "see näd",
+            "see n"
         ],
         "in 1 week": [
-            "järgmine nädal"
+            "järgmine nädal",
+            "järgm näd",
+            "järgm n"
         ],
         "1 day ago": [
             "eile"

@@ -3,48 +3,60 @@ info = {
     "date_order": "DMY",
     "january": [
         "schaner",
-        "schan"
+        "schan",
+        "da schaner"
     ],
     "february": [
         "favrer",
-        "favr"
+        "favr",
+        "da favrer"
     ],
     "march": [
-        "mars"
+        "mars",
+        "da mars"
     ],
     "april": [
         "avrigl",
-        "avr"
+        "avr",
+        "d'avrigl"
     ],
     "may": [
-        "matg"
+        "matg",
+        "da matg"
     ],
     "june": [
         "zercladur",
-        "zercl"
+        "zercl",
+        "da zercladur"
     ],
     "july": [
         "fanadur",
-        "fan"
+        "fan",
+        "da fanadur"
     ],
     "august": [
-        "avust"
+        "avust",
+        "d'avust"
     ],
     "september": [
         "settember",
-        "sett"
+        "sett",
+        "da settember"
     ],
     "october": [
         "october",
-        "oct"
+        "oct",
+        "d'october"
     ],
     "november": [
         "november",
-        "nov"
+        "nov",
+        "da november"
     ],
     "december": [
         "december",
-        "dec"
+        "dec",
+        "da december"
     ],
     "monday": [
         "glindesdi",

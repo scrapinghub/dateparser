@@ -26,11 +26,11 @@ info = {
     ],
     "july": [
         "korrik",
-        "kor"
+        "korr"
     ],
     "august": [
         "gusht",
-        "gsh"
+        "gush"
     ],
     "september": [
         "shtator",
@@ -78,10 +78,12 @@ info = {
     ],
     "am": [
         "paradite",
+        "pd",
         "e paradites"
     ],
     "pm": [
         "pasdite",
+        "md",
         "e pasdites"
     ],
     "year": [
@@ -109,12 +111,15 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
+            "vjet",
             "vitin e kaluar"
         ],
         "0 year ago": [
+            "sivjet",
             "këtë vit"
         ],
         "in 1 year": [
+            "mot",
             "vitin e ardhshëm"
         ],
         "1 month ago": [

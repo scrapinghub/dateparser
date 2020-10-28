@@ -213,6 +213,8 @@ info = {
     ],
     "day": [
         "dzień",
+        "dz",
+        "d",
         "dzien",
         "dnia",
         "dniu",
@@ -255,28 +257,36 @@ info = {
             "w przyszłym roku"
         ],
         "1 month ago": [
-            "w zeszłym miesiącu"
+            "w zeszłym miesiącu",
+            "w zeszłym mies"
         ],
         "0 month ago": [
-            "w tym miesiącu"
+            "w tym miesiącu",
+            "w tym mies"
         ],
         "in 1 month": [
-            "w przyszłym miesiącu"
+            "w przyszłym miesiącu",
+            "w przyszłym mies"
         ],
         "1 week ago": [
-            "w zeszłym tygodniu"
+            "w zeszłym tygodniu",
+            "w zeszłym tyg"
         ],
         "0 week ago": [
-            "w tym tygodniu"
+            "w tym tygodniu",
+            "w tym tyg"
         ],
         "in 1 week": [
-            "w przyszłym tygodniu"
+            "w przyszłym tygodniu",
+            "w przyszłym tyg"
         ],
         "1 day ago": [
-            "wczoraj"
+            "wczoraj",
+            "wcz"
         ],
         "0 day ago": [
-            "dzisiaj"
+            "dzisiaj",
+            "dziś"
         ],
         "in 1 day": [
             "jutro"
@@ -308,8 +318,7 @@ info = {
         "\\1 month ago": [
             "(\\d+) miesiąc temu",
             "(\\d+) miesiąca temu",
-            "(\\d+) mies temu",
-            "–(\\d+) mies"
+            "(\\d+) mies temu"
         ],
         "in \\1 week": [
             "za (\\d+) tydzień",

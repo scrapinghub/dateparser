@@ -147,13 +147,16 @@ info = {
             "el próximo mes"
         ],
         "1 week ago": [
-            "la semana pasada"
+            "la semana pasada",
+            "sem ant"
         ],
         "0 week ago": [
-            "esta semana"
+            "esta semana",
+            "esta sem"
         ],
         "in 1 week": [
-            "la próxima semana"
+            "la próxima semana",
+            "próx sem"
         ],
         "1 day ago": [
             "ayer"
@@ -248,11 +251,285 @@ info = {
         ]
     },
     "locale_specific": {
+        "es-VE": {
+            "name": "es-VE",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-EC": {
+            "name": "es-EC",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
         "es-CO": {
             "name": "es-CO",
             "september": [
                 "sep"
-            ]
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-HN": {
+            "name": "es-HN",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-IC": {
+            "name": "es-IC"
+        },
+        "es-CL": {
+            "name": "es-CL",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-GT": {
+            "name": "es-GT",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-419": {
+            "name": "es-419",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-AR": {
+            "name": "es-AR",
+            "september": [
+                "sep"
+            ],
+            "second": [
+                "seg"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
+            "relative-type-regex": {
+                "in \\1 second": [
+                    "dentro de (\\d+) seg"
+                ],
+                "\\1 second ago": [
+                    "hace (\\d+) seg"
+                ]
+            }
+        },
+        "es-PR": {
+            "name": "es-PR",
+            "date_order": "MDY",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-UY": {
+            "name": "es-UY",
+            "september": [
+                "set",
+                "setiembre"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-GQ": {
+            "name": "es-GQ"
+        },
+        "es-PE": {
+            "name": "es-PE",
+            "september": [
+                "set",
+                "setiembre"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-PH": {
+            "name": "es-PH"
+        },
+        "es-NI": {
+            "name": "es-NI",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-BZ": {
+            "name": "es-BZ",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-SV": {
+            "name": "es-SV",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-BO": {
+            "name": "es-BO",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-PY": {
+            "name": "es-PY",
+            "second": [
+                "seg"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
+            "relative-type-regex": {
+                "in \\1 second": [
+                    "dentro de (\\d+) seg"
+                ],
+                "\\1 second ago": [
+                    "hace (\\d+) seg"
+                ]
+            }
+        },
+        "es-CU": {
+            "name": "es-CU",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-PA": {
+            "name": "es-PA",
+            "date_order": "MDY",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-BR": {
+            "name": "es-BR",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-CR": {
+            "name": "es-CR",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
+        },
+        "es-US": {
+            "name": "es-US",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "in 1 year": [
+                    "el año próximo"
+                ],
+                "in 1 month": [
+                    "el mes próximo"
+                ],
+                "1 week ago": [
+                    "sem pas"
+                ],
+                "in 1 week": [
+                    "la semana próxima"
+                ]
+            }
+        },
+        "es-DO": {
+            "name": "es-DO",
+            "september": [
+                "sep"
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
         },
         "es-MX": {
             "name": "es-MX",
@@ -266,6 +543,9 @@ info = {
                 "in 1 month": [
                     "el mes próximo"
                 ],
+                "1 week ago": [
+                    "sem pas"
+                ],
                 "in 1 week": [
                     "la semana próxima"
                 ]
@@ -275,9 +555,9 @@ info = {
                     "en (\\d+) a"
                 ],
                 "in \\1 month": [
-                    "en (\\d+) mes",
                     "en (\\d+) m",
-                    "en (\\d+) meses"
+                    "en (\\d+) meses",
+                    "en (\\d+) mes"
                 ],
                 "in \\1 week": [
                     "en (\\d+) sem"
@@ -287,8 +567,8 @@ info = {
                     "en (\\d+) días"
                 ],
                 "in \\1 hour": [
-                    "en (\\d+) n",
-                    "en (\\d+) h"
+                    "en (\\d+) h",
+                    "en (\\d+) n"
                 ],
                 "in \\1 minute": [
                     "en (\\d+) min"
@@ -298,163 +578,8 @@ info = {
                 ]
             }
         },
-        "es-PA": {
-            "name": "es-PA",
-            "date_order": "MDY",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-CR": {
-            "name": "es-CR",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-PR": {
-            "name": "es-PR",
-            "date_order": "MDY",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-CU": {
-            "name": "es-CU",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-UY": {
-            "name": "es-UY",
-            "september": [
-                "setiembre",
-                "set"
-            ]
-        },
-        "es-EC": {
-            "name": "es-EC",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-GQ": {
-            "name": "es-GQ"
-        },
-        "es-BO": {
-            "name": "es-BO",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-NI": {
-            "name": "es-NI",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-HN": {
-            "name": "es-HN",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-IC": {
-            "name": "es-IC"
-        },
-        "es-BR": {
-            "name": "es-BR",
-            "september": [
-                "sep"
-            ]
-        },
         "es-EA": {
             "name": "es-EA"
-        },
-        "es-PY": {
-            "name": "es-PY",
-            "second": [
-                "seg"
-            ],
-            "relative-type-regex": {
-                "in \\1 second": [
-                    "dentro de (\\d+) seg"
-                ],
-                "\\1 second ago": [
-                    "hace (\\d+) seg"
-                ]
-            }
-        },
-        "es-SV": {
-            "name": "es-SV",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-BZ": {
-            "name": "es-BZ",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-GT": {
-            "name": "es-GT",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-PH": {
-            "name": "es-PH"
-        },
-        "es-PE": {
-            "name": "es-PE",
-            "september": [
-                "setiembre",
-                "set"
-            ]
-        },
-        "es-419": {
-            "name": "es-419",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-AR": {
-            "name": "es-AR",
-            "september": [
-                "sep"
-            ],
-            "second": [
-                "seg"
-            ],
-            "relative-type-regex": {
-                "in \\1 second": [
-                    "dentro de (\\d+) seg"
-                ],
-                "\\1 second ago": [
-                    "hace (\\d+) seg"
-                ]
-            }
-        },
-        "es-VE": {
-            "name": "es-VE"
-        },
-        "es-DO": {
-            "name": "es-DO",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-US": {
-            "name": "es-US",
-            "september": [
-                "sep"
-            ]
-        },
-        "es-CL": {
-            "name": "es-CL",
-            "september": [
-                "sep"
-            ]
         }
     },
     "skip": [

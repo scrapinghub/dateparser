@@ -131,22 +131,28 @@ info = {
             "budúci rok"
         ],
         "1 month ago": [
-            "minulý mesiac"
+            "minulý mesiac",
+            "minulý mes"
         ],
         "0 month ago": [
-            "tento mesiac"
+            "tento mesiac",
+            "tento mes"
         ],
         "in 1 month": [
-            "budúci mesiac"
+            "budúci mesiac",
+            "budúci mes"
         ],
         "1 week ago": [
-            "minulý týždeň"
+            "minulý týždeň",
+            "minulý týž"
         ],
         "0 week ago": [
-            "tento týždeň"
+            "tento týždeň",
+            "tento týž"
         ],
         "in 1 week": [
-            "budúci týždeň"
+            "budúci týždeň",
+            "budúci týž"
         ],
         "1 day ago": [
             "včera"

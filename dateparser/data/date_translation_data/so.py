@@ -2,52 +2,63 @@ info = {
     "name": "so",
     "date_order": "DMY",
     "january": [
-        "bisha koobaad",
-        "kob"
+        "jannaayo",
+        "jan",
+        "bisha koobaad"
     ],
     "february": [
-        "bisha labaad",
-        "lab"
+        "febraayo",
+        "feb",
+        "bisha labaad"
     ],
     "march": [
-        "bisha saddexaad",
-        "sad"
+        "maarso",
+        "mar",
+        "bisha saddexaad"
     ],
     "april": [
-        "bisha afraad",
-        "afr"
+        "abriil",
+        "abr",
+        "bisha afraad"
     ],
     "may": [
-        "bisha shanaad",
-        "sha"
+        "may",
+        "bisha shanaad"
     ],
     "june": [
-        "bisha lixaad",
-        "lix"
+        "juun",
+        "jun",
+        "bisha lixaad"
     ],
     "july": [
-        "bisha todobaad",
-        "tod"
+        "luuliyo",
+        "lul",
+        "bisha todobaad"
     ],
     "august": [
-        "bisha sideedaad",
-        "sid"
+        "ogost",
+        "ogs",
+        "bisha sideedaad"
     ],
     "september": [
-        "bisha sagaalaad",
-        "sag"
+        "sebtembar",
+        "seb",
+        "bisha sagaalaad"
     ],
     "october": [
-        "bisha tobnaad",
-        "tob"
+        "oktoobar",
+        "okt",
+        "bisha tobnaad"
     ],
     "november": [
-        "bisha kow iyo tobnaad",
-        "kit"
+        "nofembar",
+        "nof",
+        "bisha kow iyo tobnaad"
     ],
     "december": [
-        "bisha laba iyo tobnaad",
-        "lit"
+        "desembar",
+        "dis",
+        "bisha laba iyo tobnaad"
     ],
     "monday": [
         "isniin",
@@ -55,82 +66,91 @@ info = {
     ],
     "tuesday": [
         "talaado",
-        "tal"
+        "tldo"
     ],
     "wednesday": [
         "arbaco",
-        "arb"
+        "arbc"
     ],
     "thursday": [
         "khamiis",
-        "kha"
+        "khms"
     ],
     "friday": [
         "jimco",
-        "jim"
+        "jmc"
     ],
     "saturday": [
         "sabti",
-        "sab"
+        "sbti"
     ],
     "sunday": [
         "axad",
         "axd"
     ],
     "am": [
-        "sn"
+        "gh"
     ],
     "pm": [
-        "gn"
+        "gd"
     ],
     "year": [
-        "year"
+        "sannad",
+        "snd"
     ],
     "month": [
-        "month"
+        "bil"
     ],
     "week": [
-        "week"
+        "toddobaad",
+        "tdbd"
     ],
     "day": [
-        "day"
+        "maalin",
+        "mln"
     ],
     "hour": [
-        "hour"
+        "saacad",
+        "scd"
     ],
     "minute": [
-        "minute"
+        "daqiiqad",
+        "dqqd"
     ],
     "second": [
-        "second"
+        "ilbiriqsi",
+        "ilbrqsi"
     ],
     "relative-type": {
         "1 year ago": [
-            "last year"
+            "sannadkii hore",
+            "sannadkii la soo dhaafay"
         ],
         "0 year ago": [
-            "this year"
+            "sannadkan"
         ],
         "in 1 year": [
-            "next year"
+            "sannadka danbe",
+            "sannadka xiga"
         ],
         "1 month ago": [
-            "last month"
+            "bishii hore"
         ],
         "0 month ago": [
-            "this month"
+            "bishan"
         ],
         "in 1 month": [
-            "next month"
+            "bisha danbe"
         ],
         "1 week ago": [
-            "last week"
+            "toddobaadkii hore"
         ],
         "0 week ago": [
-            "this week"
+            "usbuucan",
+            "toddobaadkan"
         ],
         "in 1 week": [
-            "next week"
+            "toddobaadka danbe"
         ],
         "1 day ago": [
             "shalay"
@@ -142,24 +162,94 @@ info = {
             "berri"
         ],
         "0 hour ago": [
-            "this hour"
+            "saacadan"
         ],
         "0 minute ago": [
-            "this minute"
+            "daqiiqadan"
         ],
         "0 second ago": [
-            "now"
+            "imika",
+            "iminka"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 year": [
+            "(\\d+) sannad",
+            "(\\d+) sannadood",
+            "(\\d+) snd"
+        ],
+        "\\1 year ago": [
+            "(\\d+) sannad kahor",
+            "(\\d+) sannadood kahor",
+            "(\\d+) snd khr"
+        ],
+        "in \\1 month": [
+            "(\\d+) bil",
+            "(\\d+) bilood"
+        ],
+        "\\1 month ago": [
+            "(\\d+) bil kahor",
+            "(\\d+) bilood kahor",
+            "(\\d+) bil khr"
+        ],
+        "in \\1 week": [
+            "(\\d+) toddobaad",
+            "(\\d+) tdbd"
+        ],
+        "\\1 week ago": [
+            "(\\d+) toddobaad kahor",
+            "(\\d+) tdbd khr"
+        ],
+        "in \\1 day": [
+            "(\\d+) maalin",
+            "(\\d+) maalmood",
+            "(\\d+) mln",
+            "(\\d+) mlmd"
+        ],
+        "\\1 day ago": [
+            "(\\d+) maalin kahor",
+            "(\\d+) maalmood kahor",
+            "(\\d+) mln khr",
+            "(\\d+) mlmd khr"
+        ],
+        "in \\1 hour": [
+            "(\\d+) saacad",
+            "(\\d+) saacadood",
+            "(\\d+) scd"
+        ],
+        "\\1 hour ago": [
+            "(\\d+) saacad kahor",
+            "(\\d+) saacadood kahor",
+            "(\\d+) scd khr"
+        ],
+        "in \\1 minute": [
+            "(\\d+) daqiiqad",
+            "(\\d+) daqiidadood",
+            "(\\d+) dqqd"
+        ],
+        "\\1 minute ago": [
+            "(\\d+) daqiiqad kahor",
+            "(\\d+) daqiiqadood kahor",
+            "(\\d+) dqqd khr"
+        ],
+        "in \\1 second": [
+            "(\\d+) ilbiriqsi",
+            "(\\d+) ilbrqsi"
+        ],
+        "\\1 second ago": [
+            "(\\d+) ilbiriqsi kahor",
+            "(\\d+) ilbrqsi khr"
         ]
     },
     "locale_specific": {
         "so-DJ": {
             "name": "so-DJ"
         },
-        "so-KE": {
-            "name": "so-KE"
-        },
         "so-ET": {
             "name": "so-ET"
+        },
+        "so-KE": {
+            "name": "so-KE"
         }
     },
     "skip": [

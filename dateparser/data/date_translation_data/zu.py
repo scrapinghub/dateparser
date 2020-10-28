@@ -3,8 +3,7 @@ info = {
     "date_order": "MDY",
     "january": [
         "januwari",
-        "jan",
-        "umasingana"
+        "jan"
     ],
     "february": [
         "februwari",

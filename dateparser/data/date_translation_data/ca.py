@@ -137,20 +137,17 @@ info = {
             "l'any que ve"
         ],
         "1 month ago": [
-            "el mes passat",
-            "mes passat"
+            "el mes passat"
         ],
         "0 month ago": [
             "aquest mes"
         ],
         "in 1 month": [
-            "el mes que ve",
-            "mes vinent"
+            "el mes que ve"
         ],
         "1 week ago": [
             "la setmana passada",
-            "la setm passada",
-            "setm passada"
+            "la setm passada"
         ],
         "0 week ago": [
             "aquesta setmana",
@@ -159,7 +156,6 @@ info = {
         "in 1 week": [
             "la setmana que ve",
             "la setm que ve",
-            "setm vinent",
             "la setmana vinent",
             "la pròxima setmana",
             "la propera setmana"
@@ -267,14 +263,14 @@ info = {
         ]
     },
     "locale_specific": {
-        "ca-FR": {
-            "name": "ca-FR"
+        "ca-AD": {
+            "name": "ca-AD"
         },
         "ca-IT": {
             "name": "ca-IT"
         },
-        "ca-AD": {
-            "name": "ca-AD"
+        "ca-FR": {
+            "name": "ca-FR"
         }
     },
     "skip": [

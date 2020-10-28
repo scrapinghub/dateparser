@@ -76,10 +76,10 @@ info = {
         "domh"
     ],
     "am": [
-        "am"
+        "rn"
     ],
     "pm": [
-        "pm"
+        "in"
     ],
     "year": [
         "bliain",
@@ -220,7 +220,11 @@ info = {
             "(\\d+) soic ó shin"
         ]
     },
-    "locale_specific": {},
+    "locale_specific": {
+        "ga-GB": {
+            "name": "ga-GB"
+        }
+    },
     "skip": [
         " ",
         ".",

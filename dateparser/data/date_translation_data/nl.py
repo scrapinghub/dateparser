@@ -101,7 +101,8 @@ info = {
         "dagen"
     ],
     "hour": [
-        "uur"
+        "uur",
+        "u"
     ],
     "minute": [
         "minuut",
@@ -229,23 +230,23 @@ info = {
         ]
     },
     "locale_specific": {
-        "nl-BQ": {
-            "name": "nl-BQ"
+        "nl-AW": {
+            "name": "nl-AW"
         },
         "nl-SX": {
             "name": "nl-SX"
         },
-        "nl-CW": {
-            "name": "nl-CW"
-        },
-        "nl-AW": {
-            "name": "nl-AW"
+        "nl-SR": {
+            "name": "nl-SR"
         },
         "nl-BE": {
             "name": "nl-BE"
         },
-        "nl-SR": {
-            "name": "nl-SR"
+        "nl-CW": {
+            "name": "nl-CW"
+        },
+        "nl-BQ": {
+            "name": "nl-BQ"
         }
     },
     "skip": [

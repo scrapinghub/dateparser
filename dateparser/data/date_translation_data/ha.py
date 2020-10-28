@@ -78,10 +78,12 @@ info = {
         "lah"
     ],
     "am": [
-        "am"
+        "am",
+        "safiya"
     ],
     "pm": [
-        "pm"
+        "pm",
+        "yamma"
     ],
     "year": [
         "shekara"
@@ -106,31 +108,32 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "last year"
+            "bara"
         ],
         "0 year ago": [
-            "this year"
+            "bana"
         ],
         "in 1 year": [
-            "next year"
+            "badi"
         ],
         "1 month ago": [
-            "last month"
+            "watan daya gabata",
+            "watan da ya gabata"
         ],
         "0 month ago": [
-            "this month"
+            "wannan watan"
         ],
         "in 1 month": [
-            "next month"
+            "wata na gaba"
         ],
         "1 week ago": [
-            "last week"
+            "satin da ya gabata"
         ],
         "0 week ago": [
-            "this week"
+            "wannan satin"
         ],
         "in 1 week": [
-            "next week"
+            "sati na gaba"
         ],
         "1 day ago": [
             "jiya"
@@ -142,21 +145,41 @@ info = {
             "gobe"
         ],
         "0 hour ago": [
-            "this hour"
+            "wannan awa"
         ],
         "0 minute ago": [
-            "this minute"
+            "wannan mintin"
         ],
         "0 second ago": [
-            "now"
+            "yanzu"
+        ]
+    },
+    "relative-type-regex": {
+        "in \\1 hour": [
+            "cikin (\\d+) awa"
+        ],
+        "\\1 hour ago": [
+            "(\\d+) awa da ya gabata"
+        ],
+        "in \\1 minute": [
+            "cikin (\\d+) minti"
+        ],
+        "\\1 minute ago": [
+            "(\\d+) minti da ya gabata"
+        ],
+        "in \\1 second": [
+            "cikin (\\d+) dakika"
+        ],
+        "\\1 second ago": [
+            "(\\d+) dakika da ya gabata"
         ]
     },
     "locale_specific": {
-        "ha-GH": {
-            "name": "ha-GH"
-        },
         "ha-NE": {
             "name": "ha-NE"
+        },
+        "ha-GH": {
+            "name": "ha-GH"
         }
     },
     "skip": [

@@ -94,8 +94,7 @@ info = {
         "v"
     ],
     "day": [
-        "dagur",
-        "d"
+        "dagur"
     ],
     "hour": [
         "klukkustund",
@@ -150,10 +149,10 @@ info = {
             "á morgun"
         ],
         "0 hour ago": [
-            "this hour"
+            "þessa stundina"
         ],
         "0 minute ago": [
-            "this minute"
+            "á þessari mínútu"
         ],
         "0 second ago": [
             "núna"

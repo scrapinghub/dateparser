@@ -167,14 +167,17 @@ info = {
         ],
         "1 day ago": [
             "i går",
+            "igår",
             "igår"
         ],
         "0 day ago": [
             "i dag",
+            "idag",
             "idag"
         ],
         "in 1 day": [
             "i morgon",
+            "imorgon",
             "imorgon"
         ],
         "0 hour ago": [
@@ -196,6 +199,7 @@ info = {
         ],
         "\\1 year ago": [
             "för (\\d+) år sedan",
+            "för (\\d+) år sen",
             "−(\\d+) år"
         ],
         "in \\1 month": [
@@ -206,7 +210,7 @@ info = {
         "\\1 month ago": [
             "för (\\d+) månad sedan",
             "för (\\d+) månader sedan",
-            "för (\\d+) mån sedan",
+            "för (\\d+) mån sen",
             "−(\\d+) mån"
         ],
         "in \\1 week": [
@@ -250,7 +254,7 @@ info = {
         "\\1 minute ago": [
             "för (\\d+) minut sedan",
             "för (\\d+) minuter sedan",
-            "för (\\d+) min sedan",
+            "för (\\d+) min sen",
             "−(\\d+) min"
         ],
         "in \\1 second": [
@@ -261,17 +265,16 @@ info = {
         "\\1 second ago": [
             "för (\\d+) sekund sedan",
             "för (\\d+) sekunder sedan",
-            "för (\\d+) sek sedan",
+            "för (\\d+) s sen",
             "−(\\d+) s"
         ]
     },
     "locale_specific": {
+        "sv-FI": {
+            "name": "sv-FI"
+        },
         "sv-AX": {
             "name": "sv-AX"
-        },
-        "sv-FI": {
-            "name": "sv-FI",
-            "date_order": "DMY"
         }
     },
     "skip": [

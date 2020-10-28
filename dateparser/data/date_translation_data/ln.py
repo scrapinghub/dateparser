@@ -152,11 +152,11 @@ info = {
         ]
     },
     "locale_specific": {
-        "ln-AO": {
-            "name": "ln-AO"
-        },
         "ln-CG": {
             "name": "ln-CG"
+        },
+        "ln-AO": {
+            "name": "ln-AO"
         },
         "ln-CF": {
             "name": "ln-CF"

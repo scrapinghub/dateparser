@@ -118,31 +118,40 @@ info = {
     ],
     "relative-type": {
         "1 year ago": [
-            "pagājušajā gadā"
+            "pagājušajā gadā",
+            "pag gadā"
         ],
         "0 year ago": [
-            "šajā gadā"
+            "šajā gadā",
+            "šajā g"
         ],
         "in 1 year": [
-            "nākamajā gadā"
+            "nākamajā gadā",
+            "nāk gadā"
         ],
         "1 month ago": [
-            "pagājušajā mēnesī"
+            "pagājušajā mēnesī",
+            "pag mēn"
         ],
         "0 month ago": [
-            "šajā mēnesī"
+            "šajā mēnesī",
+            "šajā mēn"
         ],
         "in 1 month": [
-            "nākamajā mēnesī"
+            "nākamajā mēnesī",
+            "nāk mēn"
         ],
         "1 week ago": [
-            "pagājušajā nedēļā"
+            "pagājušajā nedēļā",
+            "pag ned"
         ],
         "0 week ago": [
-            "šajā nedēļā"
+            "šajā nedēļā",
+            "šajā ned"
         ],
         "in 1 week": [
-            "nākamajā nedēļā"
+            "nākamajā nedēļā",
+            "nāk ned"
         ],
         "1 day ago": [
             "vakar"

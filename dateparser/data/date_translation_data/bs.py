@@ -29,8 +29,8 @@ info = {
         "jul"
     ],
     "august": [
-        "avgust",
-        "avg"
+        "august",
+        "aug"
     ],
     "september": [
         "septembar",
@@ -77,10 +77,12 @@ info = {
         "ned"
     ],
     "am": [
-        "prijepodne"
+        "prijepodne",
+        "am"
     ],
     "pm": [
-        "popodne"
+        "popodne",
+        "pm"
     ],
     "year": [
         "godina",
