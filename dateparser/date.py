@@ -257,11 +257,10 @@ class DateData:
     It can be accessed like a dict object.
     """
 
-    def __init__(self, date_obj=None, period=None, locale=None, is_relative=None):
+    def __init__(self, date_obj=None, period=None, locale=None):
         self.date_obj = date_obj
         self.period = period
         self.locale = locale
-        self.is_relative = is_relative
 
     def __getitem__(self, item):
         if not hasattr(self, item):
@@ -385,20 +384,20 @@ class DateDataParser:
         Hence, the level of precision is ``month``:
 
             >>> DateDataParser().get_date_data('March 2015')
-            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en', is_relative=None)
+            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en')
 
         Similarly, for date strings with no day and month information present, level of precision
         is ``year`` and day ``16`` and month ``6`` are from *current_date*.
 
             >>> DateDataParser().get_date_data('2014')
-            DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en', is_relative=None)
+            DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en')
 
         Dates with time zone indications or UTC offsets are returned in UTC time unless
         specified using `Settings`_.
 
             >>> DateDataParser().get_date_data('23 March 2000, 1:21 PM CET')
             DateData(date_obj=datetime.datetime(2000, 3, 23, 13, 21, tzinfo=<StaticTzInfo 'CET'>),
-            period='day', locale='en', is_relative=None)
+            period='day', locale='en')
 
         """
         if not isinstance(date_string, str):
@@ -424,7 +423,7 @@ class DateDataParser:
     def get_date_tuple(self, *args, **kwargs):
         date_data = self.get_date_data(*args, **kwargs)
         if sys.version_info < (3, 6):  # python 3.5 compatibility
-            fields = ['date_obj', 'period', 'locale', 'is_relative']
+            fields = ['date_obj', 'period', 'locale']
         else:
             fields = date_data.__dict__.keys()
         date_tuple = collections.namedtuple('DateData', fields)

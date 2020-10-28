@@ -241,13 +241,13 @@ To be able to use them you need to install the `calendar` extra by typing:
 
     >>> from dateparser.calendars.jalali import JalaliCalendar
     >>> JalaliCalendar('جمعه سی ام اسفند ۱۳۸۷').get_date()
-    DateData(date_obj=datetime.datetime(2009, 3, 20, 0, 0), period='day', locale=None, is_relative=None)
+    DateData(date_obj=datetime.datetime(2009, 3, 20, 0, 0), period='day', locale=None)
 
 
 * Example using the `Hijri/Islamic Calendar`. For more information, refer to `Hijri Calendar <https://en.wikipedia.org/wiki/Islamic_calendar>`_.
 
     >>> from dateparser.calendars.hijri import HijriCalendar
     >>> HijriCalendar('17-01-1437 هـ 08:30 مساءً').get_date()
-    DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None, is_relative=None)
+    DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None)
 
 .. note:: `HijriCalendar` only works with Python ≥ 3.6.
