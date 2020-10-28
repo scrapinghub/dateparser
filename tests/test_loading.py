@@ -119,10 +119,8 @@ class TestLocaleDataLoader(BaseTestCase):
     @parameterized.expand([
         param(given_locales=['os-RU', 'ln-CF', 'ee-TG'],
               expected_locales=['ee-TG', 'ln-CF', 'os-RU']),
-        param(given_locales=['khq', 'ff-CM'],
-              expected_locales=['ff-CM', 'khq']),
         param(given_locales=['en-CC', 'fr-BE', 'ar-KW'],
-              expected_locales=['en-CC', 'ar-KW', 'fr-BE']),
+              expected_locales=['en-CC', 'fr-BE', 'ar-KW']),
     ])
     def test_loading_without_given_order(self, given_locales, expected_locales):
         self.load_data(given_locales, use_given_order=False)
@@ -142,7 +140,7 @@ class TestLocaleDataLoader(BaseTestCase):
         param(given_locales=['en-FJ', 'pt-CV', 'fr-RW'],
               expected_locales=['en-FJ', 'fr-RW', 'pt-CV']),
         param(given_locales=['pt-AO', 'hi', 'zh-Hans-SG', 'vi'],
-              expected_locales=['zh-Hans-SG', 'hi', 'pt-AO', 'vi']),
+              expected_locales=['pt-AO', 'vi', 'zh-Hans-SG', 'hi']),
         param(given_locales=['gsw-FR', 'es-BZ', 'ca-IT', 'qu-EC'],
               expected_locales=['es-BZ', 'qu-EC', 'ca-IT', 'gsw-FR']),
     ])
