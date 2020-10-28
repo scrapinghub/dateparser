@@ -268,7 +268,7 @@ class DateDataParser:
 
     :param locales:
         A list of locale codes, e.g. ['fr-PF', 'qu-EC', 'af-NA'].
-        The parser uses locales to translate date string.
+        The parser uses only these locales to translate date string.
     :type locales: list
 
     :param region:
@@ -293,7 +293,8 @@ class DateDataParser:
     :return: A parser instance
 
     :raises:
-        ValueError - Unknown Language, TypeError - Languages argument must be a list
+         ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list,
+         ``SettingValidationError``: A provided setting is not valid.
     """
 
     locale_loader = None

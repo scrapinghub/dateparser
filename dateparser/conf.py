@@ -11,17 +11,20 @@ class Settings:
     """Control and configure default parsing behavior of dateparser.
     Currently, supported settings are:
 
-    * `PREFER_DATES_FROM`: defaults to `current_period`. Options are `future` or `past`.
-    * `PREFER_DAY_OF_MONTH`: defaults to `current`. Could be `first` and `last` day of month.
-    * `SKIP_TOKENS`: defaults to `['t']`. Can be any string.
-    * `TIMEZONE`: defaults to `UTC`. Can be timezone abbreviation or any of
-      `tz database name as given here <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>`_.
-    * `RETURN_AS_TIMEZONE_AWARE`: return tz aware datetime objects in case timezone is detected in the date string.
-    * `RELATIVE_BASE`: count relative date from this base date. Should be datetime object.
-    * `RETURN_TIME_AS_PERIOD`: returns period as `time` in case time component is detected in the date string.
-    Default: False.
-    * `PARSERS`: list of date parsers to use, in order of preference. Default:
-    :attr:`dateparser.settings.default_parsers`.
+    * `DATE_ORDER`
+    * `PREFER_LOCALE_DATE_ORDER`
+    * `TIMEZONE`
+    * `TO_TIMEZONE`
+    * `RETURN_AS_TIMEZONE_AWARE`
+    * `PREFER_DAY_OF_MONTH`
+    * `PREFER_DATES_FROM`
+    * `RELATIVE_BASE`
+    * `STRICT_PARSING`
+    * `REQUIRE_PARTS`
+    * `SKIP_TOKENS`
+    * `NORMALIZE`
+    * `RETURN_TIME_AS_PERIOD`
+    * `PARSERS`
     """
 
     _default = True

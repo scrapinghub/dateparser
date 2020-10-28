@@ -48,6 +48,7 @@ Contents:
    introduction
    installation
    usage
+   settings
    supported_locales
    contributing
    authors
