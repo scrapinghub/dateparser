@@ -16,14 +16,15 @@ matrix:
       env: TOXENV=py PYPI_RELEASE_JOB=true
     - python: 3.8
       env: TOXENV=latest
-    - python: 3.9-dev
+    - python: 3.9
+      env: TOXENV=latest
+    - python: 3.10-dev
       env: TOXENV=latest
 
 install: pip install -U wheel tox codecov
 
 cache: pip
 
-# command to run tests, e.g. python setup.py test
 script: tox
 
 addons:
