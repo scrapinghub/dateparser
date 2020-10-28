@@ -68,10 +68,16 @@ class FreshnessDateDataParser:
                 if self.now.tzinfo:
                     self.now = self.now.astimezone(ptz)
                 else:
-                    self.now = ptz.localize(self.now)
+                    if hasattr(ptz, 'localize'):
+                        self.now = ptz.localize(self.now)
+                    else:
+                        self.now = self.now.replace(tzinfo=ptz)
 
             if not self.now.tzinfo:
-                self.now = self.get_local_tz().localize(self.now)
+                if hasattr(self.get_local_tz(), 'localize'):
+                    self.now = self.get_local_tz().localize(self.now)
+                else:
+                    self.now = self.now.replace(tzinfo=self.get_local_tz())
 
         elif ptz:
             _now = datetime.now(ptz)
@@ -91,14 +97,18 @@ class FreshnessDateDataParser:
         date, period = self._parse_date(date_string, settings.PREFER_DATES_FROM)
 
         if date:
+            old_date = date
             date = apply_time(date, _time)
+            if settings.RETURN_TIME_AS_PERIOD and old_date != date:
+                period = 'time'
+
             if settings.TO_TIMEZONE:
                 date = apply_timezone(date, settings.TO_TIMEZONE)
 
             if (
-                not settings.RETURN_AS_TIMEZONE_AWARE or
-                (settings.RETURN_AS_TIMEZONE_AWARE and
-                 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
+                not settings.RETURN_AS_TIMEZONE_AWARE
+                or (settings.RETURN_AS_TIMEZONE_AWARE
+                    and 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
             ):
                 date = date.replace(tzinfo=None)
 
@@ -121,9 +131,9 @@ class FreshnessDateDataParser:
         td = relativedelta(**kwargs)
 
         if (
-            re.search(r'\bin\b', date_string) or
-            re.search(r'\bfuture\b', prefer_dates_from) and
-            not re.search(r'\bago\b', date_string)
+            re.search(r'\bin\b', date_string)
+            or re.search(r'\bfuture\b', prefer_dates_from)
+            and not re.search(r'\bago\b', date_string)
         ):
             date = self.now + td
         else:

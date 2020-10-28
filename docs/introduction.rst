@@ -74,8 +74,7 @@ Relative Dates
 
 .. note:: Testing above code might return different values for you depending on your environment's current date and time.
 
-.. note:: Support for relative dates in future needs a lot of improvement, we look forward to community's contribution to get better on that part. See ":ref:`contributing`".
-
+.. note:: For `Finnish` language, please specify ``settings={'SKIP_TOKENS': []}`` to correctly parse relative dates.
 
 OOTB Language Based Date Order Preference
 -----------------------------------------
@@ -86,13 +85,12 @@ OOTB Language Based Date Order Preference
    >>> parse('le 02-03-2016')  # detects french, uses DMY date order
    datetime.datetime(2016, 3, 2, 0, 0)
 
-.. note:: Ordering is not locale based, that's why do not expect `DMY` order for UK/Australia English. You can specify date order in that case as follows using `settings`:
+.. note:: Ordering is not locale based, that's why do not expect `DMY` order for UK/Australia English. You can specify date order in that case as follows using :ref:`settings`:
 
     >>> parse('18-12-15 06:00', settings={'DATE_ORDER': 'DMY'})
     datetime.datetime(2015, 12, 18, 6, 0)
 
-For more on date order, please look at Settings.
-
+For more on date order, please look at :ref:`settings`.
 
 
 Timezone and UTC Offset
@@ -120,8 +118,8 @@ By default, `dateparser` returns tzaware `datetime` if timezone is present in da
     >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': '+0500'})
     datetime.datetime(2012, 1, 12, 22, 0)
 
-`TIMEZONE` option may not be useful alone as it only attaches given timezone to
-resultant `datetime` object. But can be useful in cases where you want conversions from and to different
+``TIMEZONE`` option may not be useful alone as it only attaches given timezone to
+resultant ``datetime`` object. But can be useful in cases where you want conversions from and to different
 timezones or when simply want a tzaware date with given timezone info attached.
 
     >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': 'US/Eastern', 'RETURN_AS_TIMEZONE_AWARE': True})
@@ -139,8 +137,8 @@ Some more use cases for conversion of timezones.
     >>> parse('now EST', settings={'TO_TIMEZONE': 'UTC'})  # relative dates
     datetime.datetime(2017, 3, 10, 23, 24, 47, 371823, tzinfo=<StaticTzInfo 'UTC'>)
 
-In case, no timezone is present in date string or defined in `settings`. You can still
-return tzaware `datetime`. It is especially useful in case of relative dates when uncertain
+In case, no timezone is present in date string or defined in :ref:`settings`. You can still
+return tzaware ``datetime``. It is especially useful in case of relative dates when uncertain
 what timezone is relative base.
 
     >>> parse('2 minutes ago', settings={'RETURN_AS_TIMEZONE_AWARE': True})
@@ -151,7 +149,7 @@ In case, you want to compute relative dates in UTC instead of default system's l
     >>> parse('4 minutes ago', settings={'TIMEZONE': 'UTC'})
     datetime.datetime(2017, 3, 10, 23, 27, 59, 647248, tzinfo=<StaticTzInfo 'UTC'>)
 
-.. note:: In case, when timezone is present both in string and also specified using `settings`, string is parsed into tzaware representation and then converted to timezone specified in `settings`.
+.. note:: In case, when timezone is present both in string and also specified using :ref:`settings`, string is parsed into tzaware representation and then converted to timezone specified in :ref:`settings`.
 
    >>> parse('10:40 pm PKT', settings={'TIMEZONE': 'UTC'})
    datetime.datetime(2017, 3, 12, 17, 40, tzinfo=<StaticTzInfo 'UTC'>)
@@ -159,7 +157,7 @@ In case, you want to compute relative dates in UTC instead of default system's l
    >>> parse('20 mins ago EST', settings={'TIMEZONE': 'UTC'})
    datetime.datetime(2017, 3, 12, 21, 16, 0, 885091, tzinfo=<StaticTzInfo 'UTC'>)
 
-For more on timezones, please look at Settings.
+For more on timezones, please look at :ref:`settings`.
 
 
 Incomplete Dates
@@ -186,16 +184,26 @@ You can also ignore parsing incomplete dates altogether by setting `STRICT_PARSI
     >>> parse('December 2015', settings={'STRICT_PARSING': True})
     None
 
-For more on handling incomplete dates, please look at Settings.
+For more on handling incomplete dates, please look at :ref:`settings`.
 
 
 Search for Dates in Longer Chunks of Text
 -----------------------------------------
 
+.. warning:: Support for searching dates is really limited and needs a lot of improvement, we look forward to community's contribution to get better on that part. See ":ref:`contributing`".
+
+
 You can extract dates from longer strings of text. They are returned as list of tuples with text chunk containing the date and parsed datetime object.
+
 
 .. automodule:: dateparser.search
    :members: search_dates
+
+
+Advanced Usage
+==============
+If you need more control over what is being parser check the :ref:`settings` section as well as the :ref:`using-datedataparser` section.
+
 
 Dependencies
 ============
@@ -221,26 +229,25 @@ You can check the supported locales by visiting the ":ref:`supported-locales`" s
 
 Supported Calendars
 ===================
-* Gregorian calendar.
 
-* Persian Jalali calendar. For more information, refer to `Persian Jalali Calendar <https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>`_.
+Apart from the Georgian calendar, `dateparser` supports the `Persian Jalali calendar` and the `Hijri/Islami calendar`
+
+To be able to use them you need to install the `calendar` extra by typing:
+
+    pip install dateparser[calendars]
+
+
+* Example using the `Persian Jalali calendar`. For more information, refer to `Persian Jalali Calendar <https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>`_.
 
     >>> from dateparser.calendars.jalali import JalaliCalendar
     >>> JalaliCalendar('جمعه سی ام اسفند ۱۳۸۷').get_date()
     {'date_obj': datetime.datetime(2009, 3, 20, 0, 0), 'period': 'day'}
 
 
-* Hijri/Islamic Calendar. For more information, refer to `Hijri Calendar <https://en.wikipedia.org/wiki/Islamic_calendar>`_.
+* Example using the `Hijri/Islamic Calendar`. For more information, refer to `Hijri Calendar <https://en.wikipedia.org/wiki/Islamic_calendar>`_.
 
     >>> from dateparser.calendars.hijri import HijriCalendar
     >>> HijriCalendar('17-01-1437 هـ 08:30 مساءً').get_date()
     {'date_obj': datetime.datetime(2015, 10, 30, 20, 30), 'period': 'day'}
 
 .. note:: `HijriCalendar` only works with Python ≥ 3.6.
-.. note:: For `Finnish` language, please specify `settings={'SKIP_TOKENS': []}` to correctly parse freshness dates.
-
-
-Install using following command to use calendars.
-
-.. tip::
-   pip install dateparser[calendars]

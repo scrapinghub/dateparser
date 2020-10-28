@@ -27,7 +27,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
 
     :param locales:
         A list of locale codes, e.g. ['fr-PF', 'qu-EC', 'af-NA'].
-        The parser uses locales to translate date string.
+        The parser uses only these locales to translate date string.
     :type locales: list
 
     :param region:
@@ -41,7 +41,9 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
 
     :return: Returns :class:`datetime <datetime.datetime>` representing parsed date if successful, else returns None
     :rtype: :class:`datetime <datetime.datetime>`.
-    :raises: ValueError - Unknown Language
+    :raises:
+        ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list,
+        ``SettingValidationError``: A provided setting is not valid.
     """
     parser = _default_parser
 
