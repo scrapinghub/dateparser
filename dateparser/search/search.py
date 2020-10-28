@@ -17,7 +17,7 @@ def date_is_relative(translation):
         return False
 
 
-class ExactLanguageSearch:
+class _ExactLanguageSearch:
     def __init__(self, loader):
         self.loader = loader
         self.language = None
@@ -169,7 +169,7 @@ class DateSearchWithDetection:
     def __init__(self):
         self.loader = LocaleDataLoader()
         self.available_language_map = self.loader.get_locale_map()
-        self.search = ExactLanguageSearch(self.loader)
+        self.search = _ExactLanguageSearch(self.loader)
 
     def detect_language(self, text, languages):
         if isinstance(languages, (list, tuple, Set)):
