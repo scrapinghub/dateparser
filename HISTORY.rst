@@ -16,9 +16,9 @@ Breaking changes:
 * Remove the ``'base-formats'`` parser (see #721)
 * Extract the ``'no-spaces-time'`` parser from the ``'absolute-time'`` parser and make it an optional parser (see #786)
 * Remove ``numeral_translation_data`` (see #782)
-* Remove the ``SKIP_TOKENS_PARSER`` and ``FUZZY`` settings (see #728, #794)
+* Remove the undocumented ``SKIP_TOKENS_PARSER`` and ``FUZZY`` settings (see #728, #794)
 * Remove support for using strings in ``date_formats`` (see #726)
-* The undocumented ``ExactLanguageSearch`` class has been moved to the private scope and some internal methods has changed (see #778)
+* The undocumented ``ExactLanguageSearch`` class has been moved to the private scope and some internal methods have changed (see #778)
 * Changes in ``dateparser.utils``: ``normalize_unicode()`` doesn't accept ``bytes`` as input and ``convert_to_unicode`` has been deprecated (see #749)
 
 New features:
