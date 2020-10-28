@@ -246,8 +246,6 @@ class _DateLocaleParser:
             return False
         if not date_obj['date_obj'] or not date_obj['period']:
             return False
-        if date_obj['period'] not in ('time', 'day', 'week', 'month', 'year'):
-            return False
         return True
 
 
@@ -273,9 +271,15 @@ class DateData:
         setattr(self, key, value)
 
     def __repr__(self):
+        if sys.version_info < (3, 6):  # python 3.5 compatibility
+            properties_text = "date_obj={}, period='{}', locale='{}'".format(
+                self.date_obj.__repr__(), self.period, self.locale
+            )
+        else:
+            properties_text = ', '.join('{}={}'.format(prop, val.__repr__()) for prop, val in self.__dict__.items())
+
         return '{}({})'.format(
-            self.__class__.__name__,
-            ', '.join('{}={}'.format(prop, val.__repr__()) for prop, val in self.__dict__.items())
+            self.__class__.__name__, properties_text
         )
 
 
