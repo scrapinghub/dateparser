@@ -130,8 +130,8 @@ class _ExactLanguageSearch:
                             if split_translated:
                                 for j, jtem in enumerate(split_translated):
                                     if len(jtem) > 2:
-                                        parsed_jtem, is_relative_jtem = self.parse_item(parser, jtem, split_translated[j],
-                                                                      current_parsed, need_relative_base)
+                                        parsed_jtem, is_relative_jtem = self.parse_item(
+                                            parser, jtem, split_translated[j], current_parsed, need_relative_base)
                                         current_parsed.append((parsed_jtem, is_relative_jtem))
                                         current_substrings.append(split_original[j].strip(' .,:()[]-'))
                             else:

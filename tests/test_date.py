@@ -500,11 +500,11 @@ class TestDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         param(date_string="12 jan 1876",
-              expected_result=(datetime(1876, 1, 12, 0, 0), 'day', 'en', None)),
+              expected_result=(datetime(1876, 1, 12, 0, 0), 'day', 'en')),
         param(date_string="02/09/16",
-              expected_result=(datetime(2016, 2, 9, 0, 0), 'day', 'en', None)),
+              expected_result=(datetime(2016, 2, 9, 0, 0), 'day', 'en')),
         param(date_string="10 giu 2018",
-              expected_result=(datetime(2018, 6, 10, 0, 0), 'day', 'it', None)),
+              expected_result=(datetime(2018, 6, 10, 0, 0), 'day', 'it')),
     ])
     def test_get_date_tuple(self, date_string, expected_result):
         self.given_parser()
