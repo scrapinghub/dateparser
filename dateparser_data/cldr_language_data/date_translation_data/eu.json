@@ -3,51 +3,63 @@
     "date_order": "YMD",
     "january": [
         "urtarrila",
-        "urt"
+        "urt",
+        "urtarrilak"
     ],
     "february": [
         "otsaila",
-        "ots"
+        "ots",
+        "otsailak"
     ],
     "march": [
         "martxoa",
-        "mar"
+        "mar",
+        "martxoak"
     ],
     "april": [
         "apirila",
-        "api"
+        "api",
+        "apirilak"
     ],
     "may": [
         "maiatza",
-        "mai"
+        "mai",
+        "maiatzak"
     ],
     "june": [
         "ekaina",
-        "eka"
+        "eka",
+        "ekainak"
     ],
     "july": [
         "uztaila",
-        "uzt"
+        "uzt",
+        "uztailak"
     ],
     "august": [
         "abuztua",
-        "abu"
+        "abu",
+        "abuztuak"
     ],
     "september": [
         "iraila",
-        "ira"
+        "ira",
+        "irailak"
     ],
     "october": [
         "urria",
-        "urr"
+        "urr",
+        "urriak"
     ],
     "november": [
         "azaroa",
-        "aza"
+        "aza",
+        "azaroak"
     ],
     "december": [
         "abendua",
-        "abe"
+        "abe",
+        "abenduak"
     ],
     "monday": [
         "astelehena",
@@ -112,31 +124,33 @@
     ],
     "relative-type": {
         "1 year ago": [
+            "iaz",
             "aurreko urtea"
         ],
         "0 year ago": [
             "aurten"
         ],
         "in 1 year": [
+            "hurrengo urtean",
             "hurrengo urtea"
         ],
         "1 month ago": [
-            "aurreko hilabetea"
+            "aurreko hilabetean"
         ],
         "0 month ago": [
-            "hilabete hau"
+            "hilabete honetan"
         ],
         "in 1 month": [
-            "hurrengo hilabetea"
+            "hurrengo hilabetean"
         ],
         "1 week ago": [
-            "aurreko astea"
+            "aurreko astean"
         ],
         "0 week ago": [
-            "aste hau"
+            "aste honetan"
         ],
         "in 1 week": [
-            "hurrengo astea"
+            "hurrengo astean"
         ],
         "1 day ago": [
             "atzo"

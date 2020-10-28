@@ -1,6 +1,6 @@
 {
     "name": "br",
-    "date_order": "YMD",
+    "date_order": "DMY",
     "january": [
         "genver",
         "gen"
@@ -43,7 +43,6 @@
     ],
     "december": [
         "kerzu",
-        "ker",
         "kzu"
     ],
     "monday": [
@@ -79,13 +78,16 @@
     ],
     "year": [
         "bloaz",
-        "bl"
+        "bl",
+        "b"
     ],
     "month": [
-        "miz"
+        "miz",
+        "m"
     ],
     "week": [
-        "sizhun"
+        "sizhun",
+        "sizh"
     ],
     "day": [
         "deiz",
@@ -115,22 +117,28 @@
             "ar bl a zeu"
         ],
         "1 month ago": [
-            "ar miz diaraok"
+            "ar miz diaraok",
+            "ar m diaraok"
         ],
         "0 month ago": [
-            "ar miz-mañ"
+            "ar miz-mañ",
+            "ar m-mañ"
         ],
         "in 1 month": [
-            "ar miz a zeu"
+            "ar miz a zeu",
+            "ar m a zeu"
         ],
         "1 week ago": [
-            "ar sizhun diaraok"
+            "ar sizhun diaraok",
+            "ar sizh diaraok"
         ],
         "0 week ago": [
-            "ar sizhun-mañ"
+            "ar sizhun-mañ",
+            "ar sizh-mañ"
         ],
         "in 1 week": [
-            "ar sizhun a zeu"
+            "ar sizhun a zeu",
+            "ar sizh a zeu"
         ],
         "1 day ago": [
             "dec'h"
@@ -142,7 +150,7 @@
             "warc'hoazh"
         ],
         "0 hour ago": [
-            "this hour"
+            "d'an eur-mañ"
         ],
         "0 minute ago": [
             "this minute"
@@ -170,10 +178,12 @@
             "{0} miz zo"
         ],
         "in \\1 week": [
-            "a-benn {0} sizhun"
+            "a-benn {0} sizhun",
+            "a-benn {0} sizh"
         ],
         "\\1 week ago": [
-            "{0} sizhun zo"
+            "{0} sizhun zo",
+            "{0} sizh zo"
         ],
         "in \\1 day": [
             "a-benn {0} deiz",

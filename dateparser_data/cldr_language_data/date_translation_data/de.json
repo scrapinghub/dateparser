@@ -34,7 +34,8 @@
     ],
     "september": [
         "september",
-        "sep"
+        "sep",
+        "sept"
     ],
     "october": [
         "oktober",
@@ -77,10 +78,10 @@
         "so"
     ],
     "am": [
-        "vorm"
+        "am"
     ],
     "pm": [
-        "nachm"
+        "pm"
     ],
     "year": [
         "jahr",

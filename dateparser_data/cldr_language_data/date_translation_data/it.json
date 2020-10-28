@@ -103,12 +103,10 @@
     ],
     "minute": [
         "minuto",
-        "min",
-        "m"
+        "min"
     ],
     "second": [
         "secondo",
-        "sec",
         "s"
     ],
     "relative-type": {
@@ -220,25 +218,25 @@
         "in \\1 second": [
             "tra {0} secondo",
             "tra {0} secondi",
-            "tra {0} sec",
-            "tra {0} s"
+            "tra {0} s",
+            "tra {0} sec"
         ],
         "\\1 second ago": [
             "{0} secondo fa",
             "{0} secondi fa",
-            "{0} sec fa",
-            "{0} s fa"
+            "{0} s fa",
+            "{0} sec fa"
         ]
     },
     "locale_specific": {
-        "it-CH": {
-            "name": "it-CH"
+        "it-VA": {
+            "name": "it-VA"
         },
         "it-SM": {
             "name": "it-SM"
         },
-        "it-VA": {
-            "name": "it-VA"
+        "it-CH": {
+            "name": "it-CH"
         }
     }
 }

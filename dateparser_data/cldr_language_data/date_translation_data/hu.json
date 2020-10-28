@@ -96,13 +96,16 @@
         "nap"
     ],
     "hour": [
-        "óra"
+        "óra",
+        "ó"
     ],
     "minute": [
-        "perc"
+        "perc",
+        "p"
     ],
     "second": [
-        "másodperc"
+        "másodperc",
+        "mp"
     ],
     "relative-type": {
         "1 year ago": [

@@ -109,36 +109,44 @@
     ],
     "second": [
         "sekonde",
-        "sek",
         "s"
     ],
     "relative-type": {
         "1 year ago": [
-            "verlede jaar"
+            "verlede jaar",
+            "verlede j"
         ],
         "0 year ago": [
-            "hierdie jaar"
+            "hierdie jaar",
+            "hierdie j"
         ],
         "in 1 year": [
-            "volgende jaar"
+            "volgende jaar",
+            "volgende j"
         ],
         "1 month ago": [
-            "verlede maand"
+            "verlede maand",
+            "verlede md"
         ],
         "0 month ago": [
-            "vandeesmaand"
+            "vandeesmaand",
+            "hierdie md"
         ],
         "in 1 month": [
-            "volgende maand"
+            "volgende maand",
+            "volgende md"
         ],
         "1 week ago": [
-            "verlede week"
+            "verlede week",
+            "verlede w"
         ],
         "0 week ago": [
-            "vandeesweek"
+            "hierdie week",
+            "hierdie w"
         ],
         "in 1 week": [
-            "volgende week"
+            "volgende week",
+            "volgende w"
         ],
         "1 day ago": [
             "gister"
@@ -161,13 +169,16 @@
     },
     "relative-type-regex": {
         "in \\1 year": [
-            "oor {0} jaar"
+            "oor {0} jaar",
+            "oor {0} j"
         ],
         "\\1 year ago": [
-            "{0} jaar gelede"
+            "{0} jaar gelede",
+            "{0} j gelede"
         ],
         "in \\1 month": [
-            "oor {0} minuut",
+            "oor {0} maand",
+            "oor {0} maande",
             "oor {0} md"
         ],
         "\\1 month ago": [
@@ -186,7 +197,6 @@
             "{0} w gelede"
         ],
         "in \\1 day": [
-            "oor {0} minuut",
             "oor {0} dag",
             "oor {0} dae"
         ],
@@ -195,13 +205,16 @@
             "{0} dae gelede"
         ],
         "in \\1 hour": [
-            "oor {0} uur"
+            "oor {0} uur",
+            "oor {0} u"
         ],
         "\\1 hour ago": [
-            "{0} uur gelede"
+            "{0} uur gelede",
+            "{0} u gelede"
         ],
         "in \\1 minute": [
             "oor {0} minuut",
+            "oor {0} minute",
             "oor {0} min"
         ],
         "\\1 minute ago": [
@@ -212,12 +225,12 @@
         "in \\1 second": [
             "oor {0} sekonde",
             "oor {0} sekondes",
-            "oor {0} sek"
+            "oor {0} s"
         ],
         "\\1 second ago": [
             "{0} sekonde gelede",
             "{0} sekondes gelede",
-            "{0} sek gelede"
+            "{0} s gelede"
         ]
     },
     "locale_specific": {

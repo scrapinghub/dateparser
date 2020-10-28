@@ -108,7 +108,7 @@
     "relative-type": {
         "1 year ago": [
             "o‘tgan yil",
-            "o'tgan yil"
+            "o‘'tgan yil"
         ],
         "0 year ago": [
             "shu yil",
@@ -121,7 +121,8 @@
             "o‘tgan oy"
         ],
         "0 month ago": [
-            "shu oy"
+            "shu oy",
+            "bu oy"
         ],
         "in 1 month": [
             "keyingi oy"
@@ -130,7 +131,8 @@
             "o‘tgan hafta"
         ],
         "0 week ago": [
-            "shu hafta"
+            "shu hafta",
+            "bu hafta"
         ],
         "in 1 week": [
             "keyingi hafta"

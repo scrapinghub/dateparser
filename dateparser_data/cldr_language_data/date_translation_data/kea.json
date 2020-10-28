@@ -146,16 +146,16 @@
             "oji"
         ],
         "in 1 day": [
-            "manha"
+            "manhan"
         ],
         "0 hour ago": [
-            "this hour"
+            "es ora li"
         ],
         "0 minute ago": [
-            "this minute"
+            "es minutu li"
         ],
         "0 second ago": [
-            "now"
+            "agora"
         ]
     },
     "relative-type-regex": {

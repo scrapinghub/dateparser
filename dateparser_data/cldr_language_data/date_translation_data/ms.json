@@ -132,15 +132,15 @@
         ],
         "1 week ago": [
             "minggu lalu",
-            "mng lepas"
+            "mgu lepas"
         ],
         "0 week ago": [
             "minggu ini",
-            "mng ini"
+            "mgu ini"
         ],
         "in 1 week": [
             "minggu depan",
-            "mng depan"
+            "mgu depan"
         ],
         "1 day ago": [
             "semalam",
@@ -164,7 +164,7 @@
     },
     "relative-type-regex": {
         "in \\1 year": [
-            "dalam {0} saat",
+            "dalam {0} tahun",
             "dalam {0} thn"
         ],
         "\\1 year ago": [
@@ -218,11 +218,11 @@
         ]
     },
     "locale_specific": {
-        "ms-SG": {
-            "name": "ms-SG"
-        },
         "ms-BN": {
             "name": "ms-BN"
+        },
+        "ms-SG": {
+            "name": "ms-SG"
         }
     }
 }

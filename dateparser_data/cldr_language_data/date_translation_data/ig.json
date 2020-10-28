@@ -14,7 +14,7 @@
         "maa"
     ],
     "april": [
-        "eprel",
+        "epreel",
         "epr"
     ],
     "may": [
@@ -73,14 +73,16 @@
         "sat"
     ],
     "sunday": [
-        "mbọsị ụka",
+        "sọndee",
         "ụka"
     ],
     "am": [
-        "am"
+        "am",
+        "n'ụtụtụ"
     ],
     "pm": [
-        "pm"
+        "pm",
+        "n'abali"
     ],
     "year": [
         "afọ"
@@ -101,40 +103,41 @@
         "nkeji"
     ],
     "second": [
-        "nkejinta"
+        "tịm kọm"
     ],
     "relative-type": {
         "1 year ago": [
-            "last year"
+            "afọ gara aga"
         ],
         "0 year ago": [
-            "this year"
+            "afọ a"
         ],
         "in 1 year": [
-            "next year"
+            "afọ ọzọ"
         ],
         "1 month ago": [
-            "last month"
+            "ọnwa gara aga"
         ],
         "0 month ago": [
-            "this month"
+            "ọnwa a"
         ],
         "in 1 month": [
-            "next month"
+            "ọnwa ọzọ"
         ],
         "1 week ago": [
-            "last week"
+            "izu gara aga"
         ],
         "0 week ago": [
-            "this week"
+            "izu a"
         ],
         "in 1 week": [
-            "next week"
+            "izu na-esote"
         ],
         "1 day ago": [
-            "nnyaafụ"
+            "ụnyaahụ"
         ],
         "0 day ago": [
+            "taa",
             "taata"
         ],
         "in 1 day": [

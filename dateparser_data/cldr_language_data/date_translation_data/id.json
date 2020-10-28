@@ -30,7 +30,7 @@
     ],
     "august": [
         "agustus",
-        "agt"
+        "agu"
     ],
     "september": [
         "september",
@@ -114,31 +114,40 @@
     ],
     "relative-type": {
         "1 year ago": [
-            "tahun lalu"
+            "tahun lalu",
+            "thn lalu"
         ],
         "0 year ago": [
-            "tahun ini"
+            "tahun ini",
+            "thn ini"
         ],
         "in 1 year": [
-            "tahun depan"
+            "tahun depan",
+            "thn depan"
         ],
         "1 month ago": [
-            "bulan lalu"
+            "bulan lalu",
+            "bln lalu"
         ],
         "0 month ago": [
-            "bulan ini"
+            "bulan ini",
+            "bln ini"
         ],
         "in 1 month": [
-            "bulan berikutnya"
+            "bulan berikutnya",
+            "bln berikutnya"
         ],
         "1 week ago": [
-            "minggu lalu"
+            "minggu lalu",
+            "mgg lalu"
         ],
         "0 week ago": [
-            "minggu ini"
+            "minggu ini",
+            "mgg ini"
         ],
         "in 1 week": [
-            "minggu depan"
+            "minggu depan",
+            "mgg depan"
         ],
         "1 day ago": [
             "kemarin"

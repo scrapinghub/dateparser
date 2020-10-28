@@ -128,13 +128,16 @@
             "luna viitoare"
         ],
         "1 week ago": [
-            "săptămâna trecută"
+            "săptămâna trecută",
+            "săpt trecută"
         ],
         "0 week ago": [
-            "săptămâna aceasta"
+            "săptămâna aceasta",
+            "săpt aceasta"
         ],
         "in 1 week": [
-            "săptămâna viitoare"
+            "săptămâna viitoare",
+            "săpt viitoare"
         ],
         "1 day ago": [
             "ieri"
@@ -158,8 +161,7 @@
     "relative-type-regex": {
         "in \\1 year": [
             "peste {0} an",
-            "peste {0} de ani",
-            "peste {0} ani"
+            "peste {0} de ani"
         ],
         "\\1 year ago": [
             "acum {0} an",
@@ -187,13 +189,11 @@
         ],
         "in \\1 day": [
             "peste {0} zi",
-            "peste {0} de zile",
-            "peste {0} zile"
+            "peste {0} de zile"
         ],
         "\\1 day ago": [
             "acum {0} zi",
-            "acum {0} de zile",
-            "acum {0} zile"
+            "acum {0} de zile"
         ],
         "in \\1 hour": [
             "peste {0} oră",

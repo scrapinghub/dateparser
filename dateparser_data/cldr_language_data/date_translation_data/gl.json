@@ -81,20 +81,17 @@
         "pm"
     ],
     "year": [
-        "ano",
-        "a"
+        "ano"
     ],
     "month": [
-        "mes",
-        "m"
+        "mes"
     ],
     "week": [
         "semana",
         "sem"
     ],
     "day": [
-        "día",
-        "d"
+        "día"
     ],
     "hour": [
         "hora",
@@ -111,30 +108,30 @@
     "relative-type": {
         "1 year ago": [
             "o ano pasado",
-            "ano pasado"
+            "o ano pas"
         ],
         "0 year ago": [
             "este ano"
         ],
         "in 1 year": [
             "o próximo ano",
-            "seguinte ano"
+            "o próx ano"
         ],
         "1 month ago": [
             "o mes pasado",
-            "m pasado"
+            "o mes pas"
         ],
         "0 month ago": [
-            "este mes",
-            "este m"
+            "este mes"
         ],
         "in 1 month": [
             "o próximo mes",
-            "m seguinte"
+            "o próx mes"
         ],
         "1 week ago": [
             "a semana pasada",
-            "sem pasada"
+            "a sem pasada",
+            "a sem pas"
         ],
         "0 week ago": [
             "esta semana",
@@ -142,7 +139,8 @@
         ],
         "in 1 week": [
             "a próxima semana",
-            "sem seguinte"
+            "a próxima sem",
+            "a próx sem"
         ],
         "1 day ago": [
             "onte"
@@ -154,10 +152,10 @@
             "mañá"
         ],
         "0 hour ago": [
-            "nesta hora"
+            "esta hora"
         ],
         "0 minute ago": [
-            "neste minuto"
+            "este minuto"
         ],
         "0 second ago": [
             "agora"
@@ -166,23 +164,19 @@
     "relative-type-regex": {
         "in \\1 year": [
             "en {0} ano",
-            "en {0} anos",
-            "en {0} a"
+            "en {0} anos"
         ],
         "\\1 year ago": [
             "hai {0} ano",
-            "hai {0} anos",
-            "hai {0} a"
+            "hai {0} anos"
         ],
         "in \\1 month": [
             "en {0} mes",
-            "en {0} meses",
-            "en {0} m"
+            "en {0} meses"
         ],
         "\\1 month ago": [
             "hai {0} mes",
-            "hai {0} meses",
-            "hai {0} m"
+            "hai {0} meses"
         ],
         "in \\1 week": [
             "en {0} semana",
@@ -196,13 +190,11 @@
         ],
         "in \\1 day": [
             "en {0} día",
-            "en {0} días",
-            "en {0} d"
+            "en {0} días"
         ],
         "\\1 day ago": [
             "hai {0} día",
-            "hai {0} días",
-            "hai {0} d"
+            "hai {0} días"
         ],
         "in \\1 hour": [
             "en {0} hora",
