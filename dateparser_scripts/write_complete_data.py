@@ -98,10 +98,10 @@ def write_complete_data(in_memory=False):
         out_text = ('info = ' + translation_data + '\n').encode('utf-8')
         _write_file(date_translation_directory + language + '.py', out_text, 'wb', in_memory, in_memory_result)
 
-    init_text = '\n'.join(
-            ["from dateparser.data import date_translation_data",
-             "from .languages_info import language_order, language_locale_dict"]
-             )
+    init_text = (
+        "from dateparser.data import date_translation_data\n"
+        "from .languages_info import language_order, language_locale_dict\n"
+    )
 
     _write_file(translation_data_directory + '__init__.py', init_text, 'w', False, in_memory_result)
     _write_file(date_translation_directory + '__init__.py', '', 'w', False, in_memory_result)

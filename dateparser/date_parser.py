@@ -3,13 +3,12 @@ from tzlocal import get_localzone
 from .timezone_parser import pop_tz_offset_from_string
 from .utils import strip_braces, apply_timezone, localize_timezone
 from .conf import apply_settings
-from .parser import parse
 
 
 class DateParser:
 
     @apply_settings
-    def parse(self, date_string, settings=None):
+    def parse(self, date_string, parse_method, settings=None):
         date_string = str(date_string)
 
         if not date_string.strip():
@@ -18,18 +17,24 @@ class DateParser:
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
 
-        date_obj, period = parse(date_string, settings=settings)
+        date_obj, period = parse_method(date_string, settings=settings)
 
         _settings_tz = settings.TIMEZONE.lower()
 
         if ptz:
-            date_obj = ptz.localize(date_obj)
+            if hasattr(ptz, 'localize'):
+                date_obj = ptz.localize(date_obj)
+            else:
+                date_obj = date_obj.replace(tzinfo=ptz)
             if 'local' not in _settings_tz:
                 date_obj = apply_timezone(date_obj, settings.TIMEZONE)
         else:
             if 'local' in _settings_tz:
                 stz = get_localzone()
-                date_obj = stz.localize(date_obj)
+                if hasattr(stz, 'localize'):
+                    date_obj = stz.localize(date_obj)
+                else:
+                    date_obj = date_obj.replace(tzinfo=stz)
             else:
                 date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 

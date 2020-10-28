@@ -35,13 +35,13 @@ def is_invalid_translation(translation):
 
 
 def is_invalid_month_translation(translation):
-    return ((not (translation and isinstance(translation, str))) or
-            '.' in translation or DEFAULT_MONTH_PATTERN.match(translation))
+    return ((not (translation and isinstance(translation, str)))
+            or '.' in translation or DEFAULT_MONTH_PATTERN.match(translation))
 
 
 def is_invalid_am_pm_translation(translation):
-    return ((not (translation and isinstance(translation, str))) or
-            '.' in translation or INVALID_AM_PM_PATTERN.match(translation))
+    return ((not (translation and isinstance(translation, str)))
+            or '.' in translation or INVALID_AM_PM_PATTERN.match(translation))
 
 
 def is_invalid_simplification(simplification):
@@ -64,8 +64,8 @@ def is_invalid_relative_regex_mapping(relative_regex_mapping):
         return True
     if '\\1' not in key:
         return True
-    return not (all([isinstance(x, str) for x in value]) and
-                all(['(\\d+)' in x for x in value]))
+    return not (all([isinstance(x, str) for x in value])
+                and all(['(\\d+)' in x for x in value]))
 
 
 class TestLocaleInfo(BaseTestCase):
@@ -368,8 +368,8 @@ class TestLocaleInfo(BaseTestCase):
                 tokens_list, list, 'Invalid type for {}: {} for locale {}'.format(
                     key, type(tokens_list).__name__, self.shortname)
             )
-            invalid_tokens = [token for token in tokens_list if not token or
-                              not isinstance(token, str)]
+            invalid_tokens = [token for token in tokens_list if not token
+                              or not isinstance(token, str)]
             self.assertFalse(
                 invalid_tokens, 'Invalid tokens for {}: {} for locale {}'.format(
                     key, ', '.join(map(repr, invalid_tokens)), self.shortname

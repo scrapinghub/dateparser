@@ -9,7 +9,8 @@ from dateutil.relativedelta import relativedelta
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.conf import apply_settings
+from dateparser.conf import apply_settings, check_settings
+from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
     set_correct_day_from_settings
@@ -167,15 +168,9 @@ class _DateLocaleParser:
             'timestamp': self._try_timestamp,
             'relative-time': self._try_freshness_parser,
             'custom-formats': self._try_given_formats,
-            'absolute-time': self._try_parser,
+            'absolute-time': self._try_absolute_parser,
+            'no-spaces-time': self._try_nospaces_parser,
         }
-        unknown_parsers = set(self._settings.PARSERS) - set(self._parsers.keys())
-        if unknown_parsers:
-            raise ValueError(
-                'Unknown parsers found in the PARSERS setting: {}'.format(
-                    ', '.join(sorted(unknown_parsers))
-                )
-            )
 
     @classmethod
     def parse(cls, locale, date_string, date_formats=None, settings=None):
@@ -202,14 +197,20 @@ class _DateLocaleParser:
         except (OverflowError, ValueError):
             return None
 
-    def _try_parser(self):
+    def _try_absolute_parser(self):
+        return self._try_parser(parse_method=_parse_absolute)
+
+    def _try_nospaces_parser(self):
+        return self._try_parser(parse_method=_parse_nospaces)
+
+    def _try_parser(self, parse_method):
         _order = self._settings.DATE_ORDER
         try:
             if self._settings.PREFER_LOCALE_DATE_ORDER:
                 if 'DATE_ORDER' not in self._settings._mod_settings:
                     self._settings.DATE_ORDER = self.locale.info.get('date_order', _order)
             date_obj, period = date_parser.parse(
-                self._get_translated_date(), settings=self._settings)
+                self._get_translated_date(), parse_method=parse_method, settings=self._settings)
             self._settings.DATE_ORDER = _order
             return DateData(
                 date_obj=date_obj,
@@ -294,7 +295,7 @@ class DateDataParser:
 
     :param locales:
         A list of locale codes, e.g. ['fr-PF', 'qu-EC', 'af-NA'].
-        The parser uses locales to translate date string.
+        The parser uses only these locales to translate date string.
     :type locales: list
 
     :param region:
@@ -319,7 +320,8 @@ class DateDataParser:
     :return: A parser instance
 
     :raises:
-        ValueError - Unknown Language, TypeError - Languages argument must be a list
+         ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list,
+         ``SettingValidationError``: A provided setting is not valid.
     """
 
     locale_loader = None
@@ -347,6 +349,8 @@ class DateDataParser:
 
         if not locales and use_given_order:
             raise ValueError("locales must be given if use_given_order is True")
+
+        check_settings(settings)
 
         self._settings = settings
         self.try_previous_locales = try_previous_locales
@@ -399,7 +403,7 @@ class DateDataParser:
             period='day', locale='en', is_relative=None)
 
         """
-        if not(isinstance(date_string, str) or isinstance(date_string, str)):
+        if not isinstance(date_string, str):
             raise TypeError('Input type must be str')
 
         res = parse_with_formats(date_string, date_formats or [], self._settings)
