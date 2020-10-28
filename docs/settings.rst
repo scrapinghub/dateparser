@@ -64,7 +64,7 @@ Timezone Related Configurations
 Handling Incomplete Dates
 +++++++++++++++++++++++++
 
-``PREFER_DAY_OF_MONTH``: It comes handy when the date string is missing the day part. It defaults to ``current`` and can be ``first`` and ``last`` denoting first and last day of months respectively as values:
+``PREFER_DAY_OF_MONTH``: it comes handy when the date string is missing the day part. It defaults to ``current`` and can be ``first`` and ``last`` denoting first and last day of months respectively as values:
 
     >>> from dateparser import parse
     >>> parse('December 2015')  # default behavior
@@ -130,7 +130,7 @@ Language Detection
 
     >>> from dateparser.date import DateDataParser
     >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
-    {'date_obj': datetime.datetime(1981, 6, 27, 0, 0), 'period': 'day'}
+    DateData(date_obj=datetime.datetime(1981, 6, 27, 0, 0), period='day', locale='tr', is_relative=None)
 
 ``NORMALIZE``: applies unicode normalization (removing accents, diacritics...) when parsing the words. Defaults to True.
 
@@ -149,7 +149,7 @@ Defaults to ``False``.
 
     >>> ddp = DateDataParser(settings={'RETURN_TIME_AS_PERIOD': True})
     >>> ddp.get_date_data('vr jan 24, 2014 12:49')
-    {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': 'time', 'locale': 'nl'}
+    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl', is_relative=None)
 
 ``PARSERS``: it is a list of names of parsers to try, allowing to customize which
 parsers are tried against the input date string, and in which order they are
