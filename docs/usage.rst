@@ -18,6 +18,8 @@ languages and will prioritize them when trying to parse the next string.
 
     >>> ddp = DateDataParser(languages=['de', 'nl'])
     >>> ddp.get_date_data('vr jan 24, 2014 12:49')
-    {'date_obj': datetime.datetime(2014, 1, 24, 12, 49), 'period': 'day'}
+    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='day', locale='nl')
     >>> ddp.get_date_data('18.10.14 um 22:56 Uhr')
-    {'date_obj': datetime.datetime(2014, 10, 18, 22, 56), 'period': 'day'}
+    DateData(date_obj=datetime.datetime(2014, 10, 18, 22, 56), period='day', locale='de')
+    >>> ddp.get_date_data('11 July 2012')
+    DateData(date_obj=None, period='day', locale=None)

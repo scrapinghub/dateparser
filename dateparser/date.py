@@ -1,4 +1,5 @@
 import collections
+import sys
 from collections.abc import Set
 from datetime import datetime, timedelta
 
@@ -146,9 +147,9 @@ def parse_with_formats(date_string, date_formats, settings):
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
-            return {'date_obj': date_obj, 'period': period}
+            return DateData(date_obj=date_obj, period=period)
     else:
-        return {'date_obj': None, 'period': period}
+        return DateData(date_obj=None, period=period)
 
 
 class _DateLocaleParser:
@@ -178,17 +179,17 @@ class _DateLocaleParser:
 
     def _parse(self):
         for parser_name in self._settings.PARSERS:
-            date_obj = self._parsers[parser_name]()
-            if self._is_valid_date_obj(date_obj):
-                return date_obj
+            date_data = self._parsers[parser_name]()
+            if self._is_valid_date_data(date_data):
+                return date_data
         else:
             return None
 
     def _try_timestamp(self):
-        return {
-            'date_obj': get_date_from_timestamp(self.date_string, self._settings),
-            'period': 'day',
-        }
+        return DateData(
+            date_obj=get_date_from_timestamp(self.date_string, self._settings),
+            period='day',
+        )
 
     def _try_freshness_parser(self):
         try:
@@ -211,10 +212,10 @@ class _DateLocaleParser:
             date_obj, period = date_parser.parse(
                 self._get_translated_date(), parse_method=parse_method, settings=self._settings)
             self._settings.DATE_ORDER = _order
-            return {
-                'date_obj': date_obj,
-                'period': period,
-            }
+            return DateData(
+                date_obj=date_obj,
+                period=period,
+            )
         except ValueError:
             self._settings.DATE_ORDER = _order
             return None
@@ -240,19 +241,50 @@ class _DateLocaleParser:
                 self.date_string, keep_formatting=True, settings=self._settings)
         return self._translated_date_with_formatting
 
-    def _is_valid_date_obj(self, date_obj):
-        if not isinstance(date_obj, dict):
+    def _is_valid_date_data(self, date_data):
+        if not isinstance(date_data, DateData):
             return False
-        if len(date_obj) != 2:
+        if not date_data['date_obj'] or not date_data['period']:
             return False
-        if 'date_obj' not in date_obj or 'period' not in date_obj:
+        if date_data['date_obj'] and not isinstance(date_data['date_obj'], datetime):
             return False
-        if not date_obj['date_obj']:
+        if date_data['period'] not in ('time', 'day', 'week', 'month', 'year'):
             return False
-        if date_obj['period'] not in ('time', 'day', 'week', 'month', 'year'):
-            return False
-
         return True
+
+
+class DateData:
+    """
+    Class that represents the parsed data with useful information.
+    It can be accessed with square brackets like a dict object.
+    """
+
+    def __init__(self, *, date_obj=None, period=None, locale=None):
+        self.date_obj = date_obj
+        self.period = period
+        self.locale = locale
+
+    def __getitem__(self, k):
+        if not hasattr(self, k):
+            raise KeyError(k)
+        return getattr(self, k)
+
+    def __setitem__(self, k, v):
+        if not hasattr(self, k):
+            raise KeyError(k)
+        setattr(self, k, v)
+
+    def __repr__(self):
+        if sys.version_info < (3, 6):  # python 3.5 compatibility
+            properties_text = "date_obj={}, period={}, locale={}".format(
+                self.date_obj.__repr__(), self.period.__repr__(), self.locale.__repr__()
+            )
+        else:
+            properties_text = ', '.join('{}={}'.format(prop, val.__repr__()) for prop, val in self.__dict__.items())
+
+        return '{}({})'.format(
+            self.__class__.__name__, properties_text
+        )
 
 
 class DateDataParser:
@@ -347,12 +379,11 @@ class DateDataParser:
             The parser applies formats one by one, taking into account the detected languages.
         :type date_formats: list
 
-        :return: a dict mapping keys to :mod:`datetime.datetime` object and *period*. For example:
-            {'date_obj': datetime.datetime(2015, 6, 1, 0, 0), 'period': 'day'}
+        :return: a ``DateData`` object.
 
         :raises: ValueError - Unknown Language
 
-        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year'.
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time'.
 
         *Period* represents the granularity of date parsed from the given string.
 
@@ -361,19 +392,20 @@ class DateDataParser:
         Hence, the level of precision is ``month``:
 
             >>> DateDataParser().get_date_data('March 2015')
-            {'date_obj': datetime.datetime(2015, 3, 16, 0, 0), 'period': 'month'}
+            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en')
 
         Similarly, for date strings with no day and month information present, level of precision
         is ``year`` and day ``16`` and month ``6`` are from *current_date*.
 
             >>> DateDataParser().get_date_data('2014')
-            {'date_obj': datetime.datetime(2014, 6, 16, 0, 0), 'period': 'year'}
+            DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en')
 
         Dates with time zone indications or UTC offsets are returned in UTC time unless
         specified using `Settings`_.
 
             >>> DateDataParser().get_date_data('23 March 2000, 1:21 PM CET')
-            {'date_obj': datetime.datetime(2000, 3, 23, 14, 21), 'period': 'day'}
+            DateData(date_obj=datetime.datetime(2000, 3, 23, 13, 21, tzinfo=<StaticTzInfo 'CET'>),
+            period='day', locale='en')
 
         """
         if not isinstance(date_string, str):
@@ -394,12 +426,16 @@ class DateDataParser:
                     self.previous_locales.add(locale)
                 return parsed_date
         else:
-            return {'date_obj': None, 'period': 'day', 'locale': None}
+            return DateData(date_obj=None, period='day', locale=None)
 
     def get_date_tuple(self, *args, **kwargs):
-        date_tuple = collections.namedtuple('DateData', 'date_obj period locale')
         date_data = self.get_date_data(*args, **kwargs)
-        return date_tuple(**date_data)
+        if sys.version_info < (3, 6):  # python 3.5 compatibility
+            fields = ['date_obj', 'period', 'locale']
+        else:
+            fields = date_data.__dict__.keys()
+        date_tuple = collections.namedtuple('DateData', fields)
+        return date_tuple(**date_data.__dict__)
 
     def _get_applicable_locales(self, date_string):
         pop_tz_cache = []
