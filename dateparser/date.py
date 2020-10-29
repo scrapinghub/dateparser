@@ -276,8 +276,8 @@ class DateData:
 
     def __repr__(self):
         if sys.version_info < (3, 6):  # python 3.5 compatibility
-            properties_text = "date_obj={}, period='{}', locale='{}'".format(
-                self.date_obj.__repr__(), self.period, self.locale
+            properties_text = "date_obj={}, period={}, locale={}".format(
+                self.date_obj.__repr__(), self.period.__repr__(), self.locale.__repr__()
             )
         else:
             properties_text = ', '.join('{}={}'.format(prop, val.__repr__()) for prop, val in self.__dict__.items())
