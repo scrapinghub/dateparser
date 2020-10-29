@@ -252,23 +252,23 @@ class _DateLocaleParser:
 class DateData:
     """
     Class that represents the parsed data with useful information.
-    It can be accessed like a dict object.
+    It can be accessed with square brackets like a dict object.
     """
 
-    def __init__(self, date_obj=None, period=None, locale=None):
+    def __init__(self, *, date_obj=None, period=None, locale=None):
         self.date_obj = date_obj
         self.period = period
         self.locale = locale
 
-    def __getitem__(self, item):
-        if not hasattr(self, item):
-            raise KeyError(item)
-        return getattr(self, item)
+    def __getitem__(self, k):
+        if not hasattr(self, k):
+            raise KeyError(k)
+        return getattr(self, k)
 
-    def __setitem__(self, key, value):
-        if not hasattr(self, key):
-            raise KeyError(key)
-        setattr(self, key, value)
+    def __setitem__(self, k, v):
+        if not hasattr(self, k):
+            raise KeyError(k)
+        setattr(self, k, v)
 
     def __repr__(self):
         if sys.version_info < (3, 6):  # python 3.5 compatibility
@@ -379,7 +379,7 @@ class DateDataParser:
 
         :raises: ValueError - Unknown Language
 
-        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year'.
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time'.
 
         *Period* represents the granularity of date parsed from the given string.
 
