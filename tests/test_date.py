@@ -674,7 +674,7 @@ class TestDateLocaleParser(BaseTestCase):
         param(date_obj=DateData(date_obj=datetime(1999, 10, 1, 0, 0))),
         param(date_obj=DateData(period='day')),
         param(date_obj={'date': datetime(2007, 1, 22, 0, 0), 'period': 'day'}),
-        param(date_obj=DateData(period='hour')),
+        param(date_obj=DateData(date_obj=datetime(2020, 10, 29, 0, 0), period='hour')),
         param(date_obj=[datetime(2007, 1, 22, 0, 0), 'day']),
         param(date_obj=DateData(date_obj=None, period='day')),
         param(date_obj={'date': datetime(2018, 1, 10, 2, 0), 'period': 'time'}),

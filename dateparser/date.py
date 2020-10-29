@@ -246,6 +246,8 @@ class _DateLocaleParser:
             return False
         if not date_obj['date_obj'] or not date_obj['period']:
             return False
+        if date_obj['period'] not in ('time', 'day', 'week', 'month', 'year'):
+            return False
         return True
 
 
