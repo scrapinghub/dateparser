@@ -3,6 +3,43 @@
 History
 =======
 
+
+1.0.0 (2020-10-29)
+------------------
+
+Breaking changes:
+
+* Drop support for Python 2.7 and pypy (see #727, #744, #748, #749, #754, #755, #758, #761, #763, #764, #777 and #783)
+* Now ``DateDataParser.get_date_data()`` returns a ``DateData`` object instead of a ``dict`` (see #778).
+* From now wrong ``settings`` are not silenced and raise ``SettingValidationError`` (see #797)
+* Now ``dateparser.parse()`` is deterministic and doesn't try previous locales. Also, ``DateDataParser.get_date_data()`` doesn't try the previous locales by default (see #781)
+* Remove the ``'base-formats'`` parser (see #721)
+* Extract the ``'no-spaces-time'`` parser from the ``'absolute-time'`` parser and make it an optional parser (see #786)
+* Remove ``numeral_translation_data`` (see #782)
+* Remove the undocumented ``SKIP_TOKENS_PARSER`` and ``FUZZY`` settings (see #728, #794)
+* Remove support for using strings in ``date_formats`` (see #726)
+* The undocumented ``ExactLanguageSearch`` class has been moved to the private scope and some internal methods have changed (see #778)
+* Changes in ``dateparser.utils``: ``normalize_unicode()`` doesn't accept ``bytes`` as input and ``convert_to_unicode`` has been deprecated (see #749)
+
+New features:
+
+* Add Python 3.9 support (see #732, #823)
+* Detect hours separated with a period/dot (see #741)
+* Add support for "decade" (see #762)
+* Add support for the hijri calendar in Python ≥ 3.6 (see #718)
+
+Improvements:
+
+* New logo! (see #719)
+* Improve the README and docs (see #779, #722)
+* Fix the "calendars" extra (see #740)
+* Fix leap years when ``PREFER_DATES_FROM`` is set (see #738)
+* Fix ``STRICT_PARSING`` setting in ``no-spaces-time`` parser (see #715)
+* Consider ``RETURN_AS_TIME_PERIOD`` setting for ``relative-time`` parser (see #807)
+* Parse the 24hr time format with meridian info (see #634)
+* Other small improvements (see #698, #709, #710, #712, #730, #731, #735, #739, #784, #788, #795 and #801)
+
+
 0.7.6 (2020-06-12)
 ------------------
 
