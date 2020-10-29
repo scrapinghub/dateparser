@@ -671,25 +671,25 @@ class TestDateLocaleParser(BaseTestCase):
         super().setUp()
 
     @parameterized.expand([
-        param(date_obj=DateData(date_obj=datetime(1999, 10, 1, 0, 0))),
-        param(date_obj=DateData(period='day')),
-        param(date_obj={'date': datetime(2007, 1, 22, 0, 0), 'period': 'day'}),
-        param(date_obj=DateData(date_obj=datetime(2020, 10, 29, 0, 0), period='hour')),
-        param(date_obj=[datetime(2007, 1, 22, 0, 0), 'day']),
-        param(date_obj=DateData(date_obj=None, period='day')),
-        param(date_obj={'date': datetime(2018, 1, 10, 2, 0), 'period': 'time'}),
+        param(date_data=DateData(date_obj=datetime(1999, 10, 1, 0, 0))),  # missing period
+        param(date_data=DateData(period='day')),  # missing date_obj
+        param(date_data={'date': datetime(2007, 1, 22, 0, 0), 'period': 'day'}),  # wrong format (dict)
+        param(date_data=DateData(date_obj=datetime(2020, 10, 29, 0, 0), period='hour')),  # wrong period
+        param(date_data=[datetime(2007, 1, 22, 0, 0), 'day']),  # wrong format (list)
+        param(date_data=DateData(date_obj=None, period='day')),  # date_obj is None
+        param(date_data=DateData(date_obj='29/05/1994', period='day')),  # wrong date_obj format
     ])
-    def test_is_valid_date_obj(self, date_obj):
+    def test_is_valid_date_data(self, date_data):
         self.given_parser(language=['en'], date_string='10 jan 2000',
                           date_formats=None, settings=settings)
-        self.when_date_object_is_validated(date_obj)
+        self.when_date_object_is_validated(date_data)
         self.then_date_object_is_invalid()
 
     def given_parser(self, language, date_string, date_formats, settings):
         self.parser = date._DateLocaleParser(language, date_string, date_formats, settings)
 
-    def when_date_object_is_validated(self, date_obj):
-        self.is_valid_date_obj = self.parser._is_valid_date_obj(date_obj)
+    def when_date_object_is_validated(self, date_data):
+        self.is_valid_date_obj = self.parser._is_valid_date_data(date_data)
 
     def then_date_object_is_invalid(self):
         self.assertFalse(self.is_valid_date_obj)

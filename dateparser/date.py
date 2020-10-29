@@ -179,9 +179,9 @@ class _DateLocaleParser:
 
     def _parse(self):
         for parser_name in self._settings.PARSERS:
-            date_obj = self._parsers[parser_name]()
-            if self._is_valid_date_obj(date_obj):
-                return date_obj
+            date_data = self._parsers[parser_name]()
+            if self._is_valid_date_data(date_data):
+                return date_data
         else:
             return None
 
@@ -241,12 +241,14 @@ class _DateLocaleParser:
                 self.date_string, keep_formatting=True, settings=self._settings)
         return self._translated_date_with_formatting
 
-    def _is_valid_date_obj(self, date_obj):
-        if not isinstance(date_obj, DateData):
+    def _is_valid_date_data(self, date_data):
+        if not isinstance(date_data, DateData):
             return False
-        if not date_obj['date_obj'] or not date_obj['period']:
+        if not date_data['date_obj'] or not date_data['period']:
             return False
-        if date_obj['period'] not in ('time', 'day', 'week', 'month', 'year'):
+        if date_data['date_obj'] and not isinstance(date_data['date_obj'], datetime):
+            return False
+        if date_data['period'] not in ('time', 'day', 'week', 'month', 'year'):
             return False
         return True
 
