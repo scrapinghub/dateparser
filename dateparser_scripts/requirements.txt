@@ -1,3 +1,2 @@
 gitpython
-orderedset
 ruamel.yaml

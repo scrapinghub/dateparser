@@ -4,9 +4,8 @@ import shutil
 from collections import OrderedDict
 
 import regex as re
-from orderedset import OrderedSet
 
-from dateparser_scripts.order_languages import language_locale_dict
+from dateparser_scripts.order_languages import _get_language_locale_dict
 from dateparser_scripts.utils import get_dict_difference, get_raw_data
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -29,9 +28,6 @@ AM_PATTERN = re.compile(r'^\s*[Aa]\s*\.?\s*[Mm]\s*\.?\s*$')
 PM_PATTERN = re.compile(r'^\s*[Pp]\s*\.?\s*[Mm]\s*\.?\s*$')
 PARENTHESIS_PATTERN = re.compile(r'[\(\)]')
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-get_raw_data()
-
 cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
 
 
@@ -49,10 +45,10 @@ def _retrieve_locale_data(locale):
     ca_gregorian_file = cldr_dates_full_dir + locale + '/ca-gregorian.json'
     dateFields_file = cldr_dates_full_dir + locale + '/dateFields.json'
     with open(ca_gregorian_file) as f:
-        cldr_gregorian_data = json.load(f)
+        cldr_gregorian_data = json.load(f, object_pairs_hook=OrderedDict)
 
     with open(dateFields_file) as g:
-        cldr_datefields_data = json.load(g)
+        cldr_datefields_data = json.load(g, object_pairs_hook=OrderedDict)
 
     gregorian_dict = cldr_gregorian_data["main"][locale]["dates"]["calendars"]["gregorian"]
     date_fields_dict = cldr_datefields_data["main"][locale]["dates"]["fields"]
@@ -301,15 +297,19 @@ def _clean_string(given_string):
 
 
 def _clean_dict(json_dict):
+    """Remove duplicates and sort"""
     for key, value in json_dict.items():
         if isinstance(value, list):
-            json_dict[key] = list(OrderedSet(map(_clean_string, value)))
+            json_dict[key] = sorted(OrderedDict.fromkeys(map(_clean_string, value)))
         elif isinstance(value, dict):
-            json_dict[key] = _clean_dict(value)
+            json_dict[key] = OrderedDict(sorted(value.items()))
+            json_dict[key] = _clean_dict(json_dict[key])
     return OrderedDict(filter(lambda x: x[1], json_dict.items()))
 
 
 def main():
+    get_raw_data()
+    language_locale_dict = _get_language_locale_dict()
     parent_directory = "../dateparser_data/cldr_language_data"
     directory = "../dateparser_data/cldr_language_data/date_translation_data/"
     if not os.path.isdir(parent_directory):
@@ -324,8 +324,8 @@ def main():
         locales_list = language_locale_dict[language]
         for locale in locales_list:
             json_locale_dict = _clean_dict(_retrieve_locale_data(locale))
-            locale_specific_dict[locale] = get_dict_difference(json_language_dict, json_locale_dict)
-        json_language_dict["locale_specific"] = locale_specific_dict
+            locale_specific_dict[locale] = _clean_dict(get_dict_difference(json_language_dict, json_locale_dict))
+        json_language_dict["locale_specific"] = OrderedDict(sorted(locale_specific_dict.items()))
         filename = directory + language + ".json"
         print("writing " + filename)
         json_string = json.dumps(json_language_dict, indent=4, separators=(',', ': '),
