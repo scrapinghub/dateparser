@@ -2,78 +2,78 @@ info = {
     "name": "bm",
     "date_order": "DMY",
     "january": [
-        "zanwuye",
-        "zan"
+        "zan",
+        "zanwuye"
     ],
     "february": [
-        "feburuye",
-        "feb"
+        "feb",
+        "feburuye"
     ],
     "march": [
-        "marisi",
-        "mar"
+        "mar",
+        "marisi"
     ],
     "april": [
-        "awirili",
-        "awi"
+        "awi",
+        "awirili"
     ],
     "may": [
         "mɛ"
     ],
     "june": [
-        "zuwɛn",
-        "zuw"
+        "zuw",
+        "zuwɛn"
     ],
     "july": [
-        "zuluye",
-        "zul"
+        "zul",
+        "zuluye"
     ],
     "august": [
         "uti"
     ],
     "september": [
-        "sɛtanburu",
-        "sɛt"
+        "sɛt",
+        "sɛtanburu"
     ],
     "october": [
-        "ɔkutɔburu",
-        "ɔku"
+        "ɔku",
+        "ɔkutɔburu"
     ],
     "november": [
-        "nowanburu",
-        "now"
+        "now",
+        "nowanburu"
     ],
     "december": [
-        "desanburu",
-        "des"
+        "des",
+        "desanburu"
     ],
     "monday": [
-        "ntɛnɛ",
-        "ntɛ"
+        "ntɛ",
+        "ntɛnɛ"
     ],
     "tuesday": [
-        "tarata",
-        "tar"
+        "tar",
+        "tarata"
     ],
     "wednesday": [
-        "araba",
-        "ara"
+        "ara",
+        "araba"
     ],
     "thursday": [
-        "alamisa",
-        "ala"
+        "ala",
+        "alamisa"
     ],
     "friday": [
-        "juma",
-        "jum"
+        "jum",
+        "juma"
     ],
     "saturday": [
-        "sibiri",
-        "sib"
+        "sib",
+        "sibiri"
     ],
     "sunday": [
-        "kari",
-        "kar"
+        "kar",
+        "kari"
     ],
     "am": [
         "am"
@@ -103,41 +103,8 @@ info = {
         "sekondi"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "kunu"
-        ],
         "0 day ago": [
             "bi"
-        ],
-        "in 1 day": [
-            "sini"
         ],
         "0 hour ago": [
             "this hour"
@@ -145,8 +112,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "kunu"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "sini"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

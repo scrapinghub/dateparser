@@ -7,7 +7,6 @@ import regex as re
 from dateparser_scripts.utils import get_raw_data
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-get_raw_data()
 
 # Languages with insufficient translation data are excluded
 avoid_languages = ['cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo']
@@ -31,10 +30,7 @@ def _get_language_locale_dict():
     return language_locale_dict
 
 
-language_locale_dict = _get_language_locale_dict()
-
-
-def _get_language_order():
+def _get_language_order(language_locale_dict):
     territory_info_file = "../raw_data/cldr_core/supplemental/territoryInfo.json"
     with open(territory_info_file) as f:
         territory_content = json.load(f)
@@ -77,10 +73,11 @@ def _get_language_order():
     return language_order
 
 
-language_order = _get_language_order()
-
-
 def main():
+    get_raw_data()
+    language_locale_dict = _get_language_locale_dict()
+    language_order = _get_language_order(language_locale_dict)
+
     parent_directory = "../dateparser/data/"
     filename = "../dateparser/data/languages_info.py"
     if not os.path.isdir(parent_directory):
@@ -97,7 +94,7 @@ def main():
 
     language_locale_dict_string = 'language_locale_dict = ' + json.dumps(
             complete_language_locale_dict, separators=(',', ': '), indent=4)
-    languages_info_string = language_order_string + '\n\n' + language_locale_dict_string
+    languages_info_string = language_order_string + '\n\n' + language_locale_dict_string + '\n'
     with open(filename, 'w') as f:
         f.write(languages_info_string)
 

@@ -2,79 +2,79 @@ info = {
     "name": "haw",
     "date_order": "DMY",
     "january": [
-        "ianuali",
-        "ian"
+        "ian",
+        "ianuali"
     ],
     "february": [
-        "pepeluali",
-        "pep"
+        "pep",
+        "pepeluali"
     ],
     "march": [
-        "malaki",
-        "mal"
+        "mal",
+        "malaki"
     ],
     "april": [
-        "'apelila",
-        "'ap"
+        "'ap",
+        "'apelila"
     ],
     "may": [
         "mei"
     ],
     "june": [
-        "iune",
-        "iun"
+        "iun",
+        "iune"
     ],
     "july": [
-        "iulai",
-        "iul"
+        "iul",
+        "iulai"
     ],
     "august": [
-        "'aukake",
-        "'au"
+        "'au",
+        "'aukake"
     ],
     "september": [
-        "kepakemapa",
-        "kep"
+        "kep",
+        "kepakemapa"
     ],
     "october": [
-        "'okakopa",
-        "'ok"
+        "'ok",
+        "'okakopa"
     ],
     "november": [
-        "nowemapa",
-        "now"
+        "now",
+        "nowemapa"
     ],
     "december": [
-        "kekemapa",
-        "kek"
+        "kek",
+        "kekemapa"
     ],
     "monday": [
-        "po'akahi",
-        "p1"
+        "p1",
+        "po'akahi"
     ],
     "tuesday": [
-        "po'alua",
-        "p2"
+        "p2",
+        "po'alua"
     ],
     "wednesday": [
-        "po'akolu",
-        "p3"
+        "p3",
+        "po'akolu"
     ],
     "thursday": [
-        "po'ahā",
-        "p4"
+        "p4",
+        "po'ahā"
     ],
     "friday": [
-        "po'alima",
-        "p5"
+        "p5",
+        "po'alima"
     ],
     "saturday": [
-        "po'aono",
-        "p6"
+        "p6",
+        "po'aono"
     ],
     "sunday": [
-        "lāpule",
-        "lp"
+        "lp",
+        "lāpule"
     ],
     "am": [
         "am"
@@ -104,41 +104,8 @@ info = {
         "second"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "yesterday"
-        ],
         "0 day ago": [
             "today"
-        ],
-        "in 1 day": [
-            "tomorrow"
         ],
         "0 hour ago": [
             "this hour"
@@ -146,8 +113,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

@@ -2,75 +2,75 @@ info = {
     "name": "ig",
     "date_order": "DMY",
     "january": [
-        "jenụwarị",
-        "jen"
+        "jen",
+        "jenụwarị"
     ],
     "february": [
-        "febrụwarị",
-        "feb"
+        "feb",
+        "febrụwarị"
     ],
     "march": [
-        "maachị",
-        "maa"
+        "maa",
+        "maachị"
     ],
     "april": [
-        "eprel",
-        "epr"
+        "epr",
+        "eprel"
     ],
     "may": [
         "mee"
     ],
     "june": [
-        "juun",
-        "juu"
+        "juu",
+        "juun"
     ],
     "july": [
-        "julaị",
-        "jul"
+        "jul",
+        "julaị"
     ],
     "august": [
-        "ọgọọst",
-        "ọgọ"
+        "ọgọ",
+        "ọgọọst"
     ],
     "september": [
-        "septemba",
-        "sep"
+        "sep",
+        "septemba"
     ],
     "october": [
-        "ọktoba",
-        "ọkt"
+        "ọkt",
+        "ọktoba"
     ],
     "november": [
-        "novemba",
-        "nov"
+        "nov",
+        "novemba"
     ],
     "december": [
-        "disemba",
-        "dis"
+        "dis",
+        "disemba"
     ],
     "monday": [
-        "mọnde",
-        "mọn"
+        "mọn",
+        "mọnde"
     ],
     "tuesday": [
-        "tiuzdee",
-        "tiu"
+        "tiu",
+        "tiuzdee"
     ],
     "wednesday": [
-        "wenezdee",
-        "wen"
+        "wen",
+        "wenezdee"
     ],
     "thursday": [
-        "tọọzdee",
-        "tọọ"
+        "tọọ",
+        "tọọzdee"
     ],
     "friday": [
-        "fraịdee",
-        "fraị"
+        "fraị",
+        "fraịdee"
     ],
     "saturday": [
-        "satọdee",
-        "sat"
+        "sat",
+        "satọdee"
     ],
     "sunday": [
         "mbọsị ụka",
@@ -104,41 +104,8 @@ info = {
         "nkejinta"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "nnyaafụ"
-        ],
         "0 day ago": [
             "taata"
-        ],
-        "in 1 day": [
-            "echi"
         ],
         "0 hour ago": [
             "this hour"
@@ -146,8 +113,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "nnyaafụ"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "echi"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

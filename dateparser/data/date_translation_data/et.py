@@ -2,19 +2,19 @@ info = {
     "name": "et",
     "date_order": "DMY",
     "january": [
-        "jaanuar",
-        "jaan"
+        "jaan",
+        "jaanuar"
     ],
     "february": [
-        "veebruar",
-        "veebr"
+        "veebr",
+        "veebruar"
     ],
     "march": [
         "märts"
     ],
     "april": [
-        "aprill",
-        "apr"
+        "apr",
+        "aprill"
     ],
     "may": [
         "mai"
@@ -26,52 +26,52 @@ info = {
         "juuli"
     ],
     "august": [
-        "august",
-        "aug"
+        "aug",
+        "august"
     ],
     "september": [
-        "september",
-        "sept"
+        "sept",
+        "september"
     ],
     "october": [
-        "oktoober",
-        "okt"
+        "okt",
+        "oktoober"
     ],
     "november": [
-        "november",
-        "nov"
+        "nov",
+        "november"
     ],
     "december": [
-        "detsember",
-        "dets"
+        "dets",
+        "detsember"
     ],
     "monday": [
-        "esmaspäev",
-        "e"
+        "e",
+        "esmaspäev"
     ],
     "tuesday": [
-        "teisipäev",
-        "t"
+        "t",
+        "teisipäev"
     ],
     "wednesday": [
-        "kolmapäev",
-        "k"
+        "k",
+        "kolmapäev"
     ],
     "thursday": [
-        "neljapäev",
-        "n"
+        "n",
+        "neljapäev"
     ],
     "friday": [
-        "reede",
-        "r"
+        "r",
+        "reede"
     ],
     "saturday": [
-        "laupäev",
-        "l"
+        "l",
+        "laupäev"
     ],
     "sunday": [
-        "pühapäev",
-        "p"
+        "p",
+        "pühapäev"
     ],
     "am": [
         "am"
@@ -80,70 +80,37 @@ info = {
         "pm"
     ],
     "year": [
-        "aasta",
-        "a"
+        "a",
+        "aasta"
     ],
     "month": [
-        "kuu",
-        "k"
+        "k",
+        "kuu"
     ],
     "week": [
-        "nädal",
-        "näd"
+        "näd",
+        "nädal"
     ],
     "day": [
-        "päev",
-        "p"
+        "p",
+        "päev"
     ],
     "hour": [
-        "tund",
-        "t"
+        "t",
+        "tund"
     ],
     "minute": [
-        "minut",
-        "min"
+        "min",
+        "minut"
     ],
     "second": [
-        "sekund",
+        "s",
         "sek",
-        "s"
+        "sekund"
     ],
     "relative-type": {
-        "1 year ago": [
-            "eelmine aasta"
-        ],
-        "0 year ago": [
-            "käesolev aasta"
-        ],
-        "in 1 year": [
-            "järgmine aasta"
-        ],
-        "1 month ago": [
-            "eelmine kuu"
-        ],
-        "0 month ago": [
-            "käesolev kuu"
-        ],
-        "in 1 month": [
-            "järgmine kuu"
-        ],
-        "1 week ago": [
-            "eelmine nädal"
-        ],
-        "0 week ago": [
-            "käesolev nädal"
-        ],
-        "in 1 week": [
-            "järgmine nädal"
-        ],
-        "1 day ago": [
-            "eile"
-        ],
         "0 day ago": [
             "täna"
-        ],
-        "in 1 day": [
-            "homme"
         ],
         "0 hour ago": [
             "praegusel tunnil"
@@ -151,68 +118,101 @@ info = {
         "0 minute ago": [
             "praegusel minutil"
         ],
+        "0 month ago": [
+            "käesolev kuu"
+        ],
         "0 second ago": [
             "nüüd"
+        ],
+        "0 week ago": [
+            "käesolev nädal"
+        ],
+        "0 year ago": [
+            "käesolev aasta"
+        ],
+        "1 day ago": [
+            "eile"
+        ],
+        "1 month ago": [
+            "eelmine kuu"
+        ],
+        "1 week ago": [
+            "eelmine nädal"
+        ],
+        "1 year ago": [
+            "eelmine aasta"
+        ],
+        "in 1 day": [
+            "homme"
+        ],
+        "in 1 month": [
+            "järgmine kuu"
+        ],
+        "in 1 week": [
+            "järgmine nädal"
+        ],
+        "in 1 year": [
+            "järgmine aasta"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "(\\d+) aasta pärast",
-            "(\\d+) a pärast"
-        ],
-        "\\1 year ago": [
-            "(\\d+) aasta eest",
-            "(\\d+) a eest"
-        ],
-        "in \\1 month": [
-            "(\\d+) kuu pärast",
-            "(\\d+) k pärast"
-        ],
-        "\\1 month ago": [
-            "(\\d+) kuu eest",
-            "(\\d+) k eest"
-        ],
-        "in \\1 week": [
-            "(\\d+) nädala pärast",
-            "(\\d+) näd pärast"
-        ],
-        "\\1 week ago": [
-            "(\\d+) nädala eest",
-            "(\\d+) näd eest"
-        ],
-        "in \\1 day": [
-            "(\\d+) päeva pärast",
-            "(\\d+) p pärast"
-        ],
         "\\1 day ago": [
-            "(\\d+) päeva eest",
-            "(\\d+) p eest"
-        ],
-        "in \\1 hour": [
-            "(\\d+) tunni pärast",
-            "(\\d+) t pärast"
+            "(\\d+) p eest",
+            "(\\d+) päeva eest"
         ],
         "\\1 hour ago": [
-            "(\\d+) tunni eest",
-            "(\\d+) t eest"
-        ],
-        "in \\1 minute": [
-            "(\\d+) minuti pärast",
-            "(\\d+) min pärast"
+            "(\\d+) t eest",
+            "(\\d+) tunni eest"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuti eest",
-            "(\\d+) min eest"
+            "(\\d+) min eest",
+            "(\\d+) minuti eest"
         ],
-        "in \\1 second": [
-            "(\\d+) sekundi pärast",
-            "(\\d+) sek pärast",
-            "(\\d+) s pärast"
+        "\\1 month ago": [
+            "(\\d+) k eest",
+            "(\\d+) kuu eest"
         ],
         "\\1 second ago": [
-            "(\\d+) sekundi eest",
+            "(\\d+) s eest",
             "(\\d+) sek eest",
-            "(\\d+) s eest"
+            "(\\d+) sekundi eest"
+        ],
+        "\\1 week ago": [
+            "(\\d+) näd eest",
+            "(\\d+) nädala eest"
+        ],
+        "\\1 year ago": [
+            "(\\d+) a eest",
+            "(\\d+) aasta eest"
+        ],
+        "in \\1 day": [
+            "(\\d+) p pärast",
+            "(\\d+) päeva pärast"
+        ],
+        "in \\1 hour": [
+            "(\\d+) t pärast",
+            "(\\d+) tunni pärast"
+        ],
+        "in \\1 minute": [
+            "(\\d+) min pärast",
+            "(\\d+) minuti pärast"
+        ],
+        "in \\1 month": [
+            "(\\d+) k pärast",
+            "(\\d+) kuu pärast"
+        ],
+        "in \\1 second": [
+            "(\\d+) s pärast",
+            "(\\d+) sek pärast",
+            "(\\d+) sekundi pärast"
+        ],
+        "in \\1 week": [
+            "(\\d+) näd pärast",
+            "(\\d+) nädala pärast"
+        ],
+        "in \\1 year": [
+            "(\\d+) a pärast",
+            "(\\d+) aasta pärast"
         ]
     },
     "locale_specific": {},

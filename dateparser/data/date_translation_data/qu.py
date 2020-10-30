@@ -2,80 +2,80 @@ info = {
     "name": "qu",
     "date_order": "DMY",
     "january": [
-        "qulla puquy",
-        "qul"
+        "qul",
+        "qulla puquy"
     ],
     "february": [
-        "hatun puquy",
-        "hat"
+        "hat",
+        "hatun puquy"
     ],
     "march": [
-        "pauqar waray",
-        "pau"
+        "pau",
+        "pauqar waray"
     ],
     "april": [
-        "ayriwa",
-        "ayr"
+        "ayr",
+        "ayriwa"
     ],
     "may": [
-        "aymuray",
-        "aym"
+        "aym",
+        "aymuray"
     ],
     "june": [
-        "inti raymi",
-        "int"
+        "int",
+        "inti raymi"
     ],
     "july": [
-        "anta sitwa",
-        "ant"
+        "ant",
+        "anta sitwa"
     ],
     "august": [
-        "qhapaq sitwa",
-        "qha"
+        "qha",
+        "qhapaq sitwa"
     ],
     "september": [
-        "uma raymi",
-        "uma"
+        "uma",
+        "uma raymi"
     ],
     "october": [
-        "kantaray",
-        "kan"
+        "kan",
+        "kantaray"
     ],
     "november": [
-        "ayamarq'a",
-        "aya"
+        "aya",
+        "ayamarq'a"
     ],
     "december": [
-        "kapaq raymi",
-        "kap"
+        "kap",
+        "kapaq raymi"
     ],
     "monday": [
-        "lunes",
-        "lun"
+        "lun",
+        "lunes"
     ],
     "tuesday": [
-        "martes",
-        "mar"
+        "mar",
+        "martes"
     ],
     "wednesday": [
-        "miércoles",
-        "mié"
+        "mié",
+        "miércoles"
     ],
     "thursday": [
-        "jueves",
-        "jue"
+        "jue",
+        "jueves"
     ],
     "friday": [
-        "viernes",
-        "vie"
+        "vie",
+        "viernes"
     ],
     "saturday": [
-        "sábado",
-        "sab"
+        "sab",
+        "sábado"
     ],
     "sunday": [
-        "domingo",
-        "dom"
+        "dom",
+        "domingo"
     ],
     "am": [
         "am"
@@ -105,41 +105,8 @@ info = {
         "second"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "yesterday"
-        ],
         "0 day ago": [
             "today"
-        ],
-        "in 1 day": [
-            "tomorrow"
         ],
         "0 hour ago": [
             "this hour"
@@ -147,16 +114,49 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {
-        "qu-EC": {
-            "name": "qu-EC"
-        },
         "qu-BO": {
             "name": "qu-BO"
+        },
+        "qu-EC": {
+            "name": "qu-EC"
         }
     },
     "skip": [

@@ -2,36 +2,36 @@ info = {
     "name": "rn",
     "date_order": "DMY",
     "january": [
-        "nzero",
-        "mut"
+        "mut",
+        "nzero"
     ],
     "february": [
-        "ruhuhuma",
-        "gas"
+        "gas",
+        "ruhuhuma"
     ],
     "march": [
         "ntwarante",
         "wer"
     ],
     "april": [
-        "ndamukiza",
-        "mat"
+        "mat",
+        "ndamukiza"
     ],
     "may": [
-        "rusama",
-        "gic"
+        "gic",
+        "rusama"
     ],
     "june": [
-        "ruheshi",
-        "kam"
+        "kam",
+        "ruheshi"
     ],
     "july": [
         "mukakaro",
         "nya"
     ],
     "august": [
-        "nyandagaro",
-        "kan"
+        "kan",
+        "nyandagaro"
     ],
     "september": [
         "nyakanga",
@@ -54,28 +54,28 @@ info = {
         "mbe"
     ],
     "tuesday": [
-        "ku wa kabiri",
-        "kab"
+        "kab",
+        "ku wa kabiri"
     ],
     "wednesday": [
-        "ku wa gatatu",
-        "gtu"
+        "gtu",
+        "ku wa gatatu"
     ],
     "thursday": [
-        "ku wa kane",
-        "kan"
+        "kan",
+        "ku wa kane"
     ],
     "friday": [
-        "ku wa gatanu",
-        "gnu"
+        "gnu",
+        "ku wa gatanu"
     ],
     "saturday": [
-        "ku wa gatandatu",
-        "gnd"
+        "gnd",
+        "ku wa gatandatu"
     ],
     "sunday": [
-        "ku w'indwi",
-        "cu"
+        "cu",
+        "ku w'indwi"
     ],
     "am": [
         "zmu"
@@ -105,41 +105,8 @@ info = {
         "isegonda"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "ejo (haheze)"
-        ],
         "0 day ago": [
             "uyu musi"
-        ],
-        "in 1 day": [
-            "ejo (hazoza)"
         ],
         "0 hour ago": [
             "this hour"
@@ -147,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "ejo (haheze)"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "ejo (hazoza)"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

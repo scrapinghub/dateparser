@@ -2,23 +2,23 @@
     "name": "sk",
     "date_order": "DMY",
     "january": [
-        "január",
         "jan",
+        "január",
         "januára"
     ],
     "february": [
-        "február",
         "feb",
+        "február",
         "februára"
     ],
     "march": [
-        "marec",
         "mar",
-        "marca"
+        "marca",
+        "marec"
     ],
     "april": [
-        "apríl",
         "apr",
+        "apríl",
         "apríla"
     ],
     "may": [
@@ -34,57 +34,57 @@
         "júla"
     ],
     "august": [
-        "august",
         "aug",
+        "august",
         "augusta"
     ],
     "september": [
-        "september",
         "sep",
+        "september",
         "septembra"
     ],
     "october": [
-        "október",
         "okt",
+        "október",
         "októbra"
     ],
     "november": [
-        "november",
         "nov",
+        "november",
         "novembra"
     ],
     "december": [
-        "december",
         "dec",
+        "december",
         "decembra"
     ],
     "monday": [
-        "pondelok",
-        "po"
+        "po",
+        "pondelok"
     ],
     "tuesday": [
-        "utorok",
-        "ut"
+        "ut",
+        "utorok"
     ],
     "wednesday": [
-        "streda",
-        "st"
+        "st",
+        "streda"
     ],
     "thursday": [
-        "štvrtok",
-        "št"
+        "št",
+        "štvrtok"
     ],
     "friday": [
-        "piatok",
-        "pi"
+        "pi",
+        "piatok"
     ],
     "saturday": [
-        "sobota",
-        "so"
+        "so",
+        "sobota"
     ],
     "sunday": [
-        "nedeľa",
-        "ne"
+        "ne",
+        "nedeľa"
     ],
     "am": [
         "am"
@@ -93,69 +93,36 @@
         "pm"
     ],
     "year": [
-        "rok",
-        "r"
+        "r",
+        "rok"
     ],
     "month": [
-        "mesiac",
-        "mes"
+        "mes",
+        "mesiac"
     ],
     "week": [
-        "týždeň",
-        "týž"
+        "týž",
+        "týždeň"
     ],
     "day": [
-        "deň",
-        "d"
+        "d",
+        "deň"
     ],
     "hour": [
-        "hodina",
-        "h"
+        "h",
+        "hodina"
     ],
     "minute": [
-        "minúta",
-        "min"
+        "min",
+        "minúta"
     ],
     "second": [
-        "sekunda",
-        "s"
+        "s",
+        "sekunda"
     ],
     "relative-type": {
-        "1 year ago": [
-            "minulý rok"
-        ],
-        "0 year ago": [
-            "tento rok"
-        ],
-        "in 1 year": [
-            "budúci rok"
-        ],
-        "1 month ago": [
-            "minulý mesiac"
-        ],
-        "0 month ago": [
-            "tento mesiac"
-        ],
-        "in 1 month": [
-            "budúci mesiac"
-        ],
-        "1 week ago": [
-            "minulý týždeň"
-        ],
-        "0 week ago": [
-            "tento týždeň"
-        ],
-        "in 1 week": [
-            "budúci týždeň"
-        ],
-        "1 day ago": [
-            "včera"
-        ],
         "0 day ago": [
             "dnes"
-        ],
-        "in 1 day": [
-            "zajtra"
         ],
         "0 hour ago": [
             "v tejto hodine"
@@ -163,80 +130,113 @@
         "0 minute ago": [
             "v tejto minúte"
         ],
+        "0 month ago": [
+            "tento mesiac"
+        ],
         "0 second ago": [
             "teraz"
+        ],
+        "0 week ago": [
+            "tento týždeň"
+        ],
+        "0 year ago": [
+            "tento rok"
+        ],
+        "1 day ago": [
+            "včera"
+        ],
+        "1 month ago": [
+            "minulý mesiac"
+        ],
+        "1 week ago": [
+            "minulý týždeň"
+        ],
+        "1 year ago": [
+            "minulý rok"
+        ],
+        "in 1 day": [
+            "zajtra"
+        ],
+        "in 1 month": [
+            "budúci mesiac"
+        ],
+        "in 1 week": [
+            "budúci týždeň"
+        ],
+        "in 1 year": [
+            "budúci rok"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "o {0} rok",
-            "o {0} rokov",
-            "o {0} r"
-        ],
-        "\\1 year ago": [
-            "pred {0} rokom",
-            "pred {0} rokmi",
-            "pred {0} r"
-        ],
-        "in \\1 month": [
-            "o {0} mesiac",
-            "o {0} mesiacov",
-            "o {0} mes"
-        ],
-        "\\1 month ago": [
-            "pred {0} mesiacom",
-            "pred {0} mesiacmi",
-            "pred {0} mes"
-        ],
-        "in \\1 week": [
-            "o {0} týždeň",
-            "o {0} týždňov",
-            "o {0} týž"
-        ],
-        "\\1 week ago": [
-            "pred {0} týždňom",
-            "pred {0} týždňami",
-            "pred {0} týž"
-        ],
-        "in \\1 day": [
-            "o {0} deň",
-            "o {0} dní",
-            "o {0} d"
-        ],
         "\\1 day ago": [
-            "pred {0} dňom",
+            "pred {0} d",
             "pred {0} dňami",
-            "pred {0} d"
-        ],
-        "in \\1 hour": [
-            "o {0} hodinu",
-            "o {0} hodín",
-            "o {0} h"
+            "pred {0} dňom"
         ],
         "\\1 hour ago": [
-            "pred {0} hodinou",
+            "pred {0} h",
             "pred {0} hodinami",
-            "pred {0} h"
-        ],
-        "in \\1 minute": [
-            "o {0} minútu",
-            "o {0} minút",
-            "o {0} min"
+            "pred {0} hodinou"
         ],
         "\\1 minute ago": [
-            "pred {0} minútou",
+            "pred {0} min",
             "pred {0} minútami",
-            "pred {0} min"
+            "pred {0} minútou"
         ],
-        "in \\1 second": [
-            "o {0} sekundu",
-            "o {0} sekúnd",
-            "o {0} s"
+        "\\1 month ago": [
+            "pred {0} mes",
+            "pred {0} mesiacmi",
+            "pred {0} mesiacom"
         ],
         "\\1 second ago": [
-            "pred {0} sekundou",
+            "pred {0} s",
             "pred {0} sekundami",
-            "pred {0} s"
+            "pred {0} sekundou"
+        ],
+        "\\1 week ago": [
+            "pred {0} týž",
+            "pred {0} týždňami",
+            "pred {0} týždňom"
+        ],
+        "\\1 year ago": [
+            "pred {0} r",
+            "pred {0} rokmi",
+            "pred {0} rokom"
+        ],
+        "in \\1 day": [
+            "o {0} d",
+            "o {0} deň",
+            "o {0} dní"
+        ],
+        "in \\1 hour": [
+            "o {0} h",
+            "o {0} hodinu",
+            "o {0} hodín"
+        ],
+        "in \\1 minute": [
+            "o {0} min",
+            "o {0} minút",
+            "o {0} minútu"
+        ],
+        "in \\1 month": [
+            "o {0} mes",
+            "o {0} mesiac",
+            "o {0} mesiacov"
+        ],
+        "in \\1 second": [
+            "o {0} s",
+            "o {0} sekundu",
+            "o {0} sekúnd"
+        ],
+        "in \\1 week": [
+            "o {0} týž",
+            "o {0} týždeň",
+            "o {0} týždňov"
+        ],
+        "in \\1 year": [
+            "o {0} r",
+            "o {0} rok",
+            "o {0} rokov"
         ]
     },
     "locale_specific": {}

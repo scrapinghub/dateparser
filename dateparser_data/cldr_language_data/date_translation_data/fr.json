@@ -2,19 +2,19 @@
     "name": "fr",
     "date_order": "DMY",
     "january": [
-        "janvier",
-        "janv"
+        "janv",
+        "janvier"
     ],
     "february": [
-        "février",
-        "févr"
+        "févr",
+        "février"
     ],
     "march": [
         "mars"
     ],
     "april": [
-        "avril",
-        "avr"
+        "avr",
+        "avril"
     ],
     "may": [
         "mai"
@@ -23,55 +23,55 @@
         "juin"
     ],
     "july": [
-        "juillet",
-        "juil"
+        "juil",
+        "juillet"
     ],
     "august": [
         "août"
     ],
     "september": [
-        "septembre",
-        "sept"
+        "sept",
+        "septembre"
     ],
     "october": [
-        "octobre",
-        "oct"
+        "oct",
+        "octobre"
     ],
     "november": [
-        "novembre",
-        "nov"
+        "nov",
+        "novembre"
     ],
     "december": [
-        "décembre",
-        "déc"
+        "déc",
+        "décembre"
     ],
     "monday": [
-        "lundi",
-        "lun"
+        "lun",
+        "lundi"
     ],
     "tuesday": [
-        "mardi",
-        "mar"
+        "mar",
+        "mardi"
     ],
     "wednesday": [
-        "mercredi",
-        "mer"
+        "mer",
+        "mercredi"
     ],
     "thursday": [
-        "jeudi",
-        "jeu"
+        "jeu",
+        "jeudi"
     ],
     "friday": [
-        "vendredi",
-        "ven"
+        "ven",
+        "vendredi"
     ],
     "saturday": [
-        "samedi",
-        "sam"
+        "sam",
+        "samedi"
     ],
     "sunday": [
-        "dimanche",
-        "dim"
+        "dim",
+        "dimanche"
     ],
     "am": [
         "am"
@@ -80,70 +80,37 @@
         "pm"
     ],
     "year": [
-        "année",
+        "a",
         "an",
-        "a"
+        "année"
     ],
     "month": [
-        "mois",
-        "m"
+        "m",
+        "mois"
     ],
     "week": [
-        "semaine",
-        "sem"
+        "sem",
+        "semaine"
     ],
     "day": [
-        "jour",
-        "j"
+        "j",
+        "jour"
     ],
     "hour": [
-        "heure",
-        "h"
+        "h",
+        "heure"
     ],
     "minute": [
-        "minute",
-        "min"
+        "min",
+        "minute"
     ],
     "second": [
-        "seconde",
-        "s"
+        "s",
+        "seconde"
     ],
     "relative-type": {
-        "1 year ago": [
-            "l'année dernière"
-        ],
-        "0 year ago": [
-            "cette année"
-        ],
-        "in 1 year": [
-            "l'année prochaine"
-        ],
-        "1 month ago": [
-            "le mois dernier"
-        ],
-        "0 month ago": [
-            "ce mois-ci"
-        ],
-        "in 1 month": [
-            "le mois prochain"
-        ],
-        "1 week ago": [
-            "la semaine dernière"
-        ],
-        "0 week ago": [
-            "cette semaine"
-        ],
-        "in 1 week": [
-            "la semaine prochaine"
-        ],
-        "1 day ago": [
-            "hier"
-        ],
         "0 day ago": [
             "aujourd'hui"
-        ],
-        "in 1 day": [
-            "demain"
         ],
         "0 hour ago": [
             "cette heure-ci"
@@ -151,116 +118,202 @@
         "0 minute ago": [
             "cette minute-ci"
         ],
+        "0 month ago": [
+            "ce mois-ci"
+        ],
         "0 second ago": [
             "maintenant"
+        ],
+        "0 week ago": [
+            "cette semaine"
+        ],
+        "0 year ago": [
+            "cette année"
+        ],
+        "1 day ago": [
+            "hier"
+        ],
+        "1 month ago": [
+            "le mois dernier"
+        ],
+        "1 week ago": [
+            "la semaine dernière"
+        ],
+        "1 year ago": [
+            "l'année dernière"
+        ],
+        "in 1 day": [
+            "demain"
+        ],
+        "in 1 month": [
+            "le mois prochain"
+        ],
+        "in 1 week": [
+            "la semaine prochaine"
+        ],
+        "in 1 year": [
+            "l'année prochaine"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "dans {0} an",
-            "dans {0} ans",
-            "dans {0} a"
-        ],
-        "\\1 year ago": [
-            "il y a {0} an",
-            "il y a {0} ans",
-            "il y a {0} a"
-        ],
-        "in \\1 month": [
-            "dans {0} mois",
-            "dans {0} m"
-        ],
-        "\\1 month ago": [
-            "il y a {0} mois",
-            "il y a {0} m"
-        ],
-        "in \\1 week": [
-            "dans {0} semaine",
-            "dans {0} semaines",
-            "dans {0} sem"
-        ],
-        "\\1 week ago": [
-            "il y a {0} semaine",
-            "il y a {0} semaines",
-            "il y a {0} sem"
-        ],
-        "in \\1 day": [
-            "dans {0} jour",
-            "dans {0} jours",
-            "dans {0} j"
-        ],
         "\\1 day ago": [
+            "il y a {0} j",
             "il y a {0} jour",
-            "il y a {0} jours",
-            "il y a {0} j"
-        ],
-        "in \\1 hour": [
-            "dans {0} heure",
-            "dans {0} heures",
-            "dans {0} h",
-            "dans {0}h"
+            "il y a {0} jours"
         ],
         "\\1 hour ago": [
+            "il y a {0} h",
             "il y a {0} heure",
             "il y a {0} heures",
-            "il y a {0} h",
             "il y a {0}h"
         ],
-        "in \\1 minute": [
-            "dans {0} minute",
-            "dans {0} minutes",
-            "dans {0} min"
-        ],
         "\\1 minute ago": [
+            "il y a {0} min",
             "il y a {0} minute",
             "il y a {0} minutes",
-            "il y a {0} min",
             "il y a {0}min"
         ],
-        "in \\1 second": [
-            "dans {0} seconde",
-            "dans {0} secondes",
-            "dans {0} s"
+        "\\1 month ago": [
+            "il y a {0} m",
+            "il y a {0} mois"
         ],
         "\\1 second ago": [
+            "il y a {0} s",
             "il y a {0} seconde",
-            "il y a {0} secondes",
-            "il y a {0} s"
+            "il y a {0} secondes"
+        ],
+        "\\1 week ago": [
+            "il y a {0} sem",
+            "il y a {0} semaine",
+            "il y a {0} semaines"
+        ],
+        "\\1 year ago": [
+            "il y a {0} a",
+            "il y a {0} an",
+            "il y a {0} ans"
+        ],
+        "in \\1 day": [
+            "dans {0} j",
+            "dans {0} jour",
+            "dans {0} jours"
+        ],
+        "in \\1 hour": [
+            "dans {0} h",
+            "dans {0} heure",
+            "dans {0} heures",
+            "dans {0}h"
+        ],
+        "in \\1 minute": [
+            "dans {0} min",
+            "dans {0} minute",
+            "dans {0} minutes"
+        ],
+        "in \\1 month": [
+            "dans {0} m",
+            "dans {0} mois"
+        ],
+        "in \\1 second": [
+            "dans {0} s",
+            "dans {0} seconde",
+            "dans {0} secondes"
+        ],
+        "in \\1 week": [
+            "dans {0} sem",
+            "dans {0} semaine",
+            "dans {0} semaines"
+        ],
+        "in \\1 year": [
+            "dans {0} a",
+            "dans {0} an",
+            "dans {0} ans"
         ]
     },
     "locale_specific": {
-        "fr-CI": {
-            "name": "fr-CI"
-        },
-        "fr-WF": {
-            "name": "fr-WF"
-        },
-        "fr-BL": {
-            "name": "fr-BL"
-        },
-        "fr-PF": {
-            "name": "fr-PF"
-        },
-        "fr-NC": {
-            "name": "fr-NC"
-        },
-        "fr-MU": {
-            "name": "fr-MU"
-        },
-        "fr-MQ": {
-            "name": "fr-MQ"
-        },
-        "fr-CH": {
-            "name": "fr-CH"
-        },
-        "fr-NE": {
-            "name": "fr-NE"
+        "fr-BE": {
+            "name": "fr-BE"
         },
         "fr-BF": {
             "name": "fr-BF"
         },
+        "fr-BI": {
+            "name": "fr-BI"
+        },
+        "fr-BJ": {
+            "name": "fr-BJ"
+        },
+        "fr-BL": {
+            "name": "fr-BL"
+        },
+        "fr-CA": {
+            "name": "fr-CA",
+            "date_order": "YMD",
+            "july": [
+                "juill"
+            ]
+        },
+        "fr-CD": {
+            "name": "fr-CD"
+        },
+        "fr-CF": {
+            "name": "fr-CF"
+        },
         "fr-CG": {
             "name": "fr-CG"
+        },
+        "fr-CH": {
+            "name": "fr-CH"
+        },
+        "fr-CI": {
+            "name": "fr-CI"
+        },
+        "fr-CM": {
+            "name": "fr-CM",
+            "am": [
+                "mat",
+                "matin"
+            ],
+            "pm": [
+                "soir"
+            ]
+        },
+        "fr-DJ": {
+            "name": "fr-DJ"
+        },
+        "fr-DZ": {
+            "name": "fr-DZ"
+        },
+        "fr-GA": {
+            "name": "fr-GA"
+        },
+        "fr-GF": {
+            "name": "fr-GF"
+        },
+        "fr-GN": {
+            "name": "fr-GN"
+        },
+        "fr-GP": {
+            "name": "fr-GP"
+        },
+        "fr-GQ": {
+            "name": "fr-GQ"
+        },
+        "fr-HT": {
+            "name": "fr-HT",
+            "day": [
+                "jr"
+            ],
+            "hour": [
+                "hr"
+            ],
+            "second": [
+                "sec"
+            ]
+        },
+        "fr-KM": {
+            "name": "fr-KM"
+        },
+        "fr-LU": {
+            "name": "fr-LU"
         },
         "fr-MA": {
             "name": "fr-MA",
@@ -277,24 +330,50 @@
                 "jui"
             ]
         },
+        "fr-MC": {
+            "name": "fr-MC"
+        },
+        "fr-MF": {
+            "name": "fr-MF"
+        },
+        "fr-MG": {
+            "name": "fr-MG"
+        },
+        "fr-ML": {
+            "name": "fr-ML"
+        },
+        "fr-MQ": {
+            "name": "fr-MQ"
+        },
+        "fr-MR": {
+            "name": "fr-MR"
+        },
+        "fr-MU": {
+            "name": "fr-MU"
+        },
+        "fr-NC": {
+            "name": "fr-NC"
+        },
+        "fr-NE": {
+            "name": "fr-NE"
+        },
+        "fr-PF": {
+            "name": "fr-PF"
+        },
+        "fr-PM": {
+            "name": "fr-PM"
+        },
         "fr-RE": {
             "name": "fr-RE"
         },
-        "fr-KM": {
-            "name": "fr-KM"
+        "fr-RW": {
+            "name": "fr-RW"
         },
-        "fr-BI": {
-            "name": "fr-BI"
+        "fr-SC": {
+            "name": "fr-SC"
         },
-        "fr-BE": {
-            "name": "fr-BE"
-        },
-        "fr-CA": {
-            "name": "fr-CA",
-            "date_order": "YMD",
-            "july": [
-                "juill"
-            ]
+        "fr-SN": {
+            "name": "fr-SN"
         },
         "fr-SY": {
             "name": "fr-SY"
@@ -302,99 +381,20 @@
         "fr-TD": {
             "name": "fr-TD"
         },
-        "fr-CM": {
-            "name": "fr-CM",
-            "am": [
-                "matin",
-                "mat"
-            ],
-            "pm": [
-                "soir"
-            ]
-        },
-        "fr-DZ": {
-            "name": "fr-DZ"
-        },
-        "fr-MF": {
-            "name": "fr-MF"
-        },
-        "fr-RW": {
-            "name": "fr-RW"
-        },
-        "fr-MR": {
-            "name": "fr-MR"
-        },
-        "fr-GN": {
-            "name": "fr-GN"
-        },
-        "fr-ML": {
-            "name": "fr-ML"
-        },
-        "fr-VU": {
-            "name": "fr-VU"
-        },
-        "fr-SC": {
-            "name": "fr-SC"
-        },
-        "fr-MG": {
-            "name": "fr-MG"
-        },
-        "fr-SN": {
-            "name": "fr-SN"
-        },
-        "fr-LU": {
-            "name": "fr-LU"
-        },
-        "fr-HT": {
-            "name": "fr-HT",
-            "day": [
-                "jr"
-            ],
-            "hour": [
-                "hr"
-            ],
-            "second": [
-                "sec"
-            ]
-        },
-        "fr-BJ": {
-            "name": "fr-BJ"
-        },
-        "fr-DJ": {
-            "name": "fr-DJ"
-        },
-        "fr-GA": {
-            "name": "fr-GA"
-        },
-        "fr-GQ": {
-            "name": "fr-GQ"
-        },
-        "fr-CF": {
-            "name": "fr-CF"
-        },
         "fr-TG": {
             "name": "fr-TG"
-        },
-        "fr-GF": {
-            "name": "fr-GF"
-        },
-        "fr-PM": {
-            "name": "fr-PM"
-        },
-        "fr-YT": {
-            "name": "fr-YT"
-        },
-        "fr-MC": {
-            "name": "fr-MC"
-        },
-        "fr-GP": {
-            "name": "fr-GP"
         },
         "fr-TN": {
             "name": "fr-TN"
         },
-        "fr-CD": {
-            "name": "fr-CD"
+        "fr-VU": {
+            "name": "fr-VU"
+        },
+        "fr-WF": {
+            "name": "fr-WF"
+        },
+        "fr-YT": {
+            "name": "fr-YT"
         }
     }
 }

@@ -2,80 +2,80 @@ info = {
     "name": "eo",
     "date_order": "YMD",
     "january": [
-        "januaro",
-        "jan"
+        "jan",
+        "januaro"
     ],
     "february": [
-        "februaro",
-        "feb"
+        "feb",
+        "februaro"
     ],
     "march": [
-        "marto",
-        "mar"
+        "mar",
+        "marto"
     ],
     "april": [
-        "aprilo",
-        "apr"
+        "apr",
+        "aprilo"
     ],
     "may": [
-        "majo",
-        "maj"
+        "maj",
+        "majo"
     ],
     "june": [
-        "junio",
-        "jun"
+        "jun",
+        "junio"
     ],
     "july": [
-        "julio",
-        "jul"
+        "jul",
+        "julio"
     ],
     "august": [
-        "aŭgusto",
-        "aŭg"
+        "aŭg",
+        "aŭgusto"
     ],
     "september": [
-        "septembro",
-        "sep"
+        "sep",
+        "septembro"
     ],
     "october": [
-        "oktobro",
-        "okt"
+        "okt",
+        "oktobro"
     ],
     "november": [
-        "novembro",
-        "nov"
+        "nov",
+        "novembro"
     ],
     "december": [
-        "decembro",
-        "dec"
+        "dec",
+        "decembro"
     ],
     "monday": [
-        "lundo",
-        "lu"
+        "lu",
+        "lundo"
     ],
     "tuesday": [
-        "mardo",
-        "ma"
+        "ma",
+        "mardo"
     ],
     "wednesday": [
-        "merkredo",
-        "me"
+        "me",
+        "merkredo"
     ],
     "thursday": [
-        "ĵaŭdo",
-        "ĵa"
+        "ĵa",
+        "ĵaŭdo"
     ],
     "friday": [
-        "vendredo",
-        "ve"
+        "ve",
+        "vendredo"
     ],
     "saturday": [
-        "sabato",
-        "sa"
+        "sa",
+        "sabato"
     ],
     "sunday": [
-        "dimanĉo",
-        "di"
+        "di",
+        "dimanĉo"
     ],
     "am": [
         "atm"
@@ -105,41 +105,8 @@ info = {
         "second"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "yesterday"
-        ],
         "0 day ago": [
             "today"
-        ],
-        "in 1 day": [
-            "tomorrow"
         ],
         "0 hour ago": [
             "this hour"
@@ -147,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

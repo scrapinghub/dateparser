@@ -1,22 +1,38 @@
 import os
+import shutil
 from collections import OrderedDict
 
 from git import Repo
 
 
 def get_raw_data():
-    cldr_dates_full_url = "https://github.com/unicode-cldr/cldr-dates-full.git"
-    cldr_core_url = "https://github.com/unicode-cldr/cldr-core.git"
-    cldr_rbnf_url = "https://github.com/unicode-cldr/cldr-rbnf.git"
+    cldr_version = '31.0.1'
     raw_data_directory = "../raw_data"
-    cldr_dates_full_dir = "../raw_data/cldr_dates_full/"
-    cldr_core_dir = "../raw_data/cldr_core/"
-    cldr_rbnf_dir = "../raw_data/cldr_rbnf/"
-    if not os.path.isdir(raw_data_directory):
-        os.mkdir(raw_data_directory)
-        Repo.clone_from(cldr_dates_full_url, cldr_dates_full_dir, branch='master')
-        Repo.clone_from(cldr_core_url, cldr_core_dir, branch='master')
-        Repo.clone_from(cldr_rbnf_url, cldr_rbnf_dir, branch='master')
+
+    cldr_data = {
+       'dates_full': {
+           'url': 'https://github.com/unicode-cldr/cldr-dates-full.git',
+           'dir': "{}/cldr_dates_full/".format(raw_data_directory)
+       },
+       'core': {
+           'url': 'https://github.com/unicode-cldr/cldr-core.git',
+           'dir': "{}/cldr_core/".format(raw_data_directory)
+       },
+       'rbnf': {
+           'url': 'https://github.com/unicode-cldr/cldr-rbnf.git',
+           'dir': "{}/cldr_rbnf/".format(raw_data_directory)
+       },
+    }
+
+    if os.path.isdir(raw_data_directory):
+        # remove current raw data
+        shutil.rmtree(raw_data_directory)
+    os.mkdir(raw_data_directory)
+
+    for name, data in cldr_data.items():
+        print('Clonning "{}" from: {}'.format(name, data['url']))
+        repo = Repo.clone_from(data['url'], data['dir'], branch='master')
+        repo.git.co(cldr_version)
 
 
 def get_dict_difference(parent_dict, child_dict):
@@ -27,7 +43,7 @@ def get_dict_difference(parent_dict, child_dict):
         if not parent_value:
             child_specific_value = child_value
         elif isinstance(child_value, list):
-            child_specific_value = list(set(child_value)-set(parent_value))
+            child_specific_value = sorted(set(child_value)-set(parent_value))
         elif isinstance(child_value, dict):
             child_specific_value = get_dict_difference(parent_value, child_value)
         elif child_value != parent_value:

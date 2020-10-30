@@ -2,20 +2,20 @@ info = {
     "name": "mfe",
     "date_order": "DMY",
     "january": [
-        "zanvie",
-        "zan"
+        "zan",
+        "zanvie"
     ],
     "february": [
-        "fevriye",
-        "fev"
+        "fev",
+        "fevriye"
     ],
     "march": [
-        "mars",
-        "mar"
+        "mar",
+        "mars"
     ],
     "april": [
-        "avril",
-        "avr"
+        "avr",
+        "avril"
     ],
     "may": [
         "me"
@@ -24,55 +24,55 @@ info = {
         "zin"
     ],
     "july": [
-        "zilye",
-        "zil"
+        "zil",
+        "zilye"
     ],
     "august": [
         "out"
     ],
     "september": [
-        "septam",
-        "sep"
+        "sep",
+        "septam"
     ],
     "october": [
-        "oktob",
-        "okt"
+        "okt",
+        "oktob"
     ],
     "november": [
-        "novam",
-        "nov"
+        "nov",
+        "novam"
     ],
     "december": [
-        "desam",
-        "des"
+        "des",
+        "desam"
     ],
     "monday": [
-        "lindi",
-        "lin"
+        "lin",
+        "lindi"
     ],
     "tuesday": [
-        "mardi",
-        "mar"
+        "mar",
+        "mardi"
     ],
     "wednesday": [
-        "merkredi",
-        "mer"
+        "mer",
+        "merkredi"
     ],
     "thursday": [
-        "zedi",
-        "ze"
+        "ze",
+        "zedi"
     ],
     "friday": [
-        "vandredi",
-        "van"
+        "van",
+        "vandredi"
     ],
     "saturday": [
-        "samdi",
-        "sam"
+        "sam",
+        "samdi"
     ],
     "sunday": [
-        "dimans",
-        "dim"
+        "dim",
+        "dimans"
     ],
     "am": [
         "am"
@@ -102,41 +102,8 @@ info = {
         "segonn"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "yer"
-        ],
         "0 day ago": [
             "zordi"
-        ],
-        "in 1 day": [
-            "demin"
         ],
         "0 hour ago": [
             "this hour"
@@ -144,8 +111,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yer"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "demin"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

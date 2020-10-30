@@ -2,19 +2,19 @@
     "name": "ms",
     "date_order": "DMY",
     "january": [
-        "januari",
-        "jan"
+        "jan",
+        "januari"
     ],
     "february": [
-        "februari",
-        "feb"
+        "feb",
+        "februari"
     ],
     "march": [
         "mac"
     ],
     "april": [
-        "april",
-        "apr"
+        "apr",
+        "april"
     ],
     "may": [
         "mei"
@@ -23,52 +23,52 @@
         "jun"
     ],
     "july": [
-        "julai",
-        "jul"
+        "jul",
+        "julai"
     ],
     "august": [
-        "ogos",
-        "ogo"
+        "ogo",
+        "ogos"
     ],
     "september": [
-        "september",
-        "sep"
+        "sep",
+        "september"
     ],
     "october": [
-        "oktober",
-        "okt"
+        "okt",
+        "oktober"
     ],
     "november": [
-        "november",
-        "nov"
+        "nov",
+        "november"
     ],
     "december": [
-        "disember",
-        "dis"
+        "dis",
+        "disember"
     ],
     "monday": [
-        "isnin",
-        "isn"
+        "isn",
+        "isnin"
     ],
     "tuesday": [
-        "selasa",
-        "sel"
+        "sel",
+        "selasa"
     ],
     "wednesday": [
-        "rabu",
-        "rab"
+        "rab",
+        "rabu"
     ],
     "thursday": [
-        "khamis",
-        "kha"
+        "kha",
+        "khamis"
     ],
     "friday": [
-        "jumaat",
-        "jum"
+        "jum",
+        "jumaat"
     ],
     "saturday": [
-        "sabtu",
-        "sab"
+        "sab",
+        "sabtu"
     ],
     "sunday": [
         "ahad",
@@ -85,12 +85,12 @@
         "thn"
     ],
     "month": [
-        "bulan",
-        "bln"
+        "bln",
+        "bulan"
     ],
     "week": [
-        "minggu",
-        "mgu"
+        "mgu",
+        "minggu"
     ],
     "day": [
         "hari"
@@ -99,58 +99,15 @@
         "jam"
     ],
     "minute": [
-        "minit",
-        "min"
+        "min",
+        "minit"
     ],
     "second": [
         "saat"
     ],
     "relative-type": {
-        "1 year ago": [
-            "tahun lalu",
-            "thn lepas"
-        ],
-        "0 year ago": [
-            "tahun ini",
-            "thn ini"
-        ],
-        "in 1 year": [
-            "tahun depan",
-            "thn depan"
-        ],
-        "1 month ago": [
-            "bulan lalu",
-            "bln lalu"
-        ],
-        "0 month ago": [
-            "bulan ini",
-            "bln ini"
-        ],
-        "in 1 month": [
-            "bulan depan",
-            "bln depan"
-        ],
-        "1 week ago": [
-            "minggu lalu",
-            "mng lepas"
-        ],
-        "0 week ago": [
-            "minggu ini",
-            "mng ini"
-        ],
-        "in 1 week": [
-            "minggu depan",
-            "mng depan"
-        ],
-        "1 day ago": [
-            "semalam",
-            "semlm"
-        ],
         "0 day ago": [
             "hari ini"
-        ],
-        "in 1 day": [
-            "esok"
         ],
         "0 hour ago": [
             "jam ini"
@@ -158,71 +115,114 @@
         "0 minute ago": [
             "pada minit ini"
         ],
+        "0 month ago": [
+            "bln ini",
+            "bulan ini"
+        ],
         "0 second ago": [
             "sekarang"
+        ],
+        "0 week ago": [
+            "minggu ini",
+            "mng ini"
+        ],
+        "0 year ago": [
+            "tahun ini",
+            "thn ini"
+        ],
+        "1 day ago": [
+            "semalam",
+            "semlm"
+        ],
+        "1 month ago": [
+            "bln lalu",
+            "bulan lalu"
+        ],
+        "1 week ago": [
+            "minggu lalu",
+            "mng lepas"
+        ],
+        "1 year ago": [
+            "tahun lalu",
+            "thn lepas"
+        ],
+        "in 1 day": [
+            "esok"
+        ],
+        "in 1 month": [
+            "bln depan",
+            "bulan depan"
+        ],
+        "in 1 week": [
+            "minggu depan",
+            "mng depan"
+        ],
+        "in 1 year": [
+            "tahun depan",
+            "thn depan"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "dalam {0} saat",
-            "dalam {0} thn"
+        "\\1 day ago": [
+            "{0} hari lalu"
+        ],
+        "\\1 hour ago": [
+            "{0} jam lalu"
+        ],
+        "\\1 minute ago": [
+            "{0} min lalu",
+            "{0} minit lalu"
+        ],
+        "\\1 month ago": [
+            "{0} bln lalu",
+            "{0} bulan lalu"
+        ],
+        "\\1 second ago": [
+            "{0} saat lalu"
+        ],
+        "\\1 week ago": [
+            "{0} mgu lalu",
+            "{0} minggu lalu"
         ],
         "\\1 year ago": [
             "{0} tahun lalu",
             "{0} thn lalu"
         ],
-        "in \\1 month": [
-            "dalam {0} bulan",
-            "dlm {0} bln"
-        ],
-        "\\1 month ago": [
-            "{0} bulan lalu",
-            "{0} bln lalu"
-        ],
-        "in \\1 week": [
-            "dalam {0} minggu",
-            "dlm {0} mgu"
-        ],
-        "\\1 week ago": [
-            "{0} minggu lalu",
-            "{0} mgu lalu"
-        ],
         "in \\1 day": [
             "dalam {0} hari",
             "dlm {0} hari"
-        ],
-        "\\1 day ago": [
-            "{0} hari lalu"
         ],
         "in \\1 hour": [
             "dalam {0} jam",
             "dlm {0} jam"
         ],
-        "\\1 hour ago": [
-            "{0} jam lalu"
-        ],
         "in \\1 minute": [
             "dalam {0} minit",
             "dlm {0} min"
         ],
-        "\\1 minute ago": [
-            "{0} minit lalu",
-            "{0} min lalu"
+        "in \\1 month": [
+            "dalam {0} bulan",
+            "dlm {0} bln"
         ],
         "in \\1 second": [
             "dalam {0} saat",
             "dlm {0} saat"
         ],
-        "\\1 second ago": [
-            "{0} saat lalu"
+        "in \\1 week": [
+            "dalam {0} minggu",
+            "dlm {0} mgu"
+        ],
+        "in \\1 year": [
+            "dalam {0} saat",
+            "dalam {0} thn"
         ]
     },
     "locale_specific": {
-        "ms-SG": {
-            "name": "ms-SG"
-        },
         "ms-BN": {
             "name": "ms-BN"
+        },
+        "ms-SG": {
+            "name": "ms-SG"
         }
     }
 }
