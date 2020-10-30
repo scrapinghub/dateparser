@@ -2,33 +2,33 @@
     "name": "cy",
     "date_order": "DMY",
     "january": [
-        "ionawr",
-        "ion"
+        "ion",
+        "ionawr"
     ],
     "february": [
-        "chwefror",
         "chw",
-        "chwef"
+        "chwef",
+        "chwefror"
     ],
     "march": [
-        "mawrth",
-        "maw"
+        "maw",
+        "mawrth"
     ],
     "april": [
-        "ebrill",
-        "ebr"
+        "ebr",
+        "ebrill"
     ],
     "may": [
         "mai"
     ],
     "june": [
-        "mehefin",
-        "meh"
+        "meh",
+        "mehefin"
     ],
     "july": [
-        "gorffennaf",
         "gor",
-        "gorff"
+        "gorff",
+        "gorffennaf"
     ],
     "august": [
         "awst"
@@ -37,16 +37,16 @@
         "medi"
     ],
     "october": [
-        "hydref",
-        "hyd"
+        "hyd",
+        "hydref"
     ],
     "november": [
-        "tachwedd",
-        "tach"
+        "tach",
+        "tachwedd"
     ],
     "december": [
-        "rhagfyr",
-        "rhag"
+        "rhag",
+        "rhagfyr"
     ],
     "monday": [
         "dydd llun",
@@ -84,8 +84,8 @@
         "yh"
     ],
     "year": [
-        "blwyddyn",
-        "bl"
+        "bl",
+        "blwyddyn"
     ],
     "month": [
         "mis"
@@ -100,48 +100,15 @@
         "awr"
     ],
     "minute": [
-        "munud",
-        "mun"
+        "mun",
+        "munud"
     ],
     "second": [
         "eiliad"
     ],
     "relative-type": {
-        "1 year ago": [
-            "llynedd"
-        ],
-        "0 year ago": [
-            "eleni"
-        ],
-        "in 1 year": [
-            "blwyddyn nesaf"
-        ],
-        "1 month ago": [
-            "mis diwethaf"
-        ],
-        "0 month ago": [
-            "y mis hwn"
-        ],
-        "in 1 month": [
-            "mis nesaf"
-        ],
-        "1 week ago": [
-            "wythnos ddiwethaf"
-        ],
-        "0 week ago": [
-            "yr wythnos hon"
-        ],
-        "in 1 week": [
-            "wythnos nesaf"
-        ],
-        "1 day ago": [
-            "ddoe"
-        ],
         "0 day ago": [
             "heddiw"
-        ],
-        "in 1 day": [
-            "yfory"
         ],
         "0 hour ago": [
             "yr awr hon"
@@ -149,54 +116,87 @@
         "0 minute ago": [
             "y funud hon"
         ],
+        "0 month ago": [
+            "y mis hwn"
+        ],
         "0 second ago": [
             "nawr"
+        ],
+        "0 week ago": [
+            "yr wythnos hon"
+        ],
+        "0 year ago": [
+            "eleni"
+        ],
+        "1 day ago": [
+            "ddoe"
+        ],
+        "1 month ago": [
+            "mis diwethaf"
+        ],
+        "1 week ago": [
+            "wythnos ddiwethaf"
+        ],
+        "1 year ago": [
+            "llynedd"
+        ],
+        "in 1 day": [
+            "yfory"
+        ],
+        "in 1 month": [
+            "mis nesaf"
+        ],
+        "in 1 week": [
+            "wythnos nesaf"
+        ],
+        "in 1 year": [
+            "blwyddyn nesaf"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "ymhen {0} mlynedd"
-        ],
-        "\\1 year ago": [
-            "{0} o flynyddoedd yn ôl"
-        ],
-        "in \\1 month": [
-            "ymhen {0} mis"
-        ],
-        "\\1 month ago": [
-            "{0} mis yn ôl"
-        ],
-        "in \\1 week": [
-            "ymhen {0} wythnos"
-        ],
-        "\\1 week ago": [
-            "{0} wythnos yn ôl"
-        ],
-        "in \\1 day": [
-            "ymhen {0} diwrnod"
-        ],
         "\\1 day ago": [
             "{0} diwrnod yn ôl"
-        ],
-        "in \\1 hour": [
-            "ymhen {0} awr"
         ],
         "\\1 hour ago": [
             "{0} awr yn ôl"
         ],
-        "in \\1 minute": [
-            "ymhen {0} munud",
-            "ymhen {0} mun"
-        ],
         "\\1 minute ago": [
-            "{0} munud yn ôl",
-            "{0} mun yn ôl"
+            "{0} mun yn ôl",
+            "{0} munud yn ôl"
+        ],
+        "\\1 month ago": [
+            "{0} mis yn ôl"
+        ],
+        "\\1 second ago": [
+            "{0} eiliad yn ôl"
+        ],
+        "\\1 week ago": [
+            "{0} wythnos yn ôl"
+        ],
+        "\\1 year ago": [
+            "{0} o flynyddoedd yn ôl"
+        ],
+        "in \\1 day": [
+            "ymhen {0} diwrnod"
+        ],
+        "in \\1 hour": [
+            "ymhen {0} awr"
+        ],
+        "in \\1 minute": [
+            "ymhen {0} mun",
+            "ymhen {0} munud"
+        ],
+        "in \\1 month": [
+            "ymhen {0} mis"
         ],
         "in \\1 second": [
             "ymhen {0} eiliad"
         ],
-        "\\1 second ago": [
-            "{0} eiliad yn ôl"
+        "in \\1 week": [
+            "ymhen {0} wythnos"
+        ],
+        "in \\1 year": [
+            "ymhen {0} mlynedd"
         ]
     },
     "locale_specific": {}
