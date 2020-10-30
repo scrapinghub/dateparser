@@ -2,151 +2,118 @@ info = {
     "name": "sl",
     "date_order": "DMY",
     "january": [
-        "januar",
-        "jan"
+        "jan",
+        "januar"
     ],
     "february": [
-        "februar",
-        "feb"
+        "feb",
+        "februar"
     ],
     "march": [
-        "marec",
-        "mar"
+        "mar",
+        "marec"
     ],
     "april": [
-        "april",
-        "apr"
+        "apr",
+        "april"
     ],
     "may": [
         "maj"
     ],
     "june": [
-        "junij",
-        "jun"
+        "jun",
+        "junij"
     ],
     "july": [
-        "julij",
-        "jul"
+        "jul",
+        "julij"
     ],
     "august": [
-        "avgust",
-        "avg"
+        "avg",
+        "avgust"
     ],
     "september": [
-        "september",
-        "sep"
+        "sep",
+        "september"
     ],
     "october": [
-        "oktober",
-        "okt"
+        "okt",
+        "oktober"
     ],
     "november": [
-        "november",
-        "nov"
+        "nov",
+        "november"
     ],
     "december": [
-        "december",
-        "dec"
+        "dec",
+        "december"
     ],
     "monday": [
-        "ponedeljek",
-        "pon"
+        "pon",
+        "ponedeljek"
     ],
     "tuesday": [
-        "torek",
-        "tor"
+        "tor",
+        "torek"
     ],
     "wednesday": [
-        "sreda",
-        "sre"
+        "sre",
+        "sreda"
     ],
     "thursday": [
-        "četrtek",
-        "čet"
+        "čet",
+        "četrtek"
     ],
     "friday": [
-        "petek",
-        "pet"
+        "pet",
+        "petek"
     ],
     "saturday": [
-        "sobota",
-        "sob"
+        "sob",
+        "sobota"
     ],
     "sunday": [
-        "nedelja",
-        "ned"
+        "ned",
+        "nedelja"
     ],
     "am": [
-        "dopoldne",
-        "dop"
+        "dop",
+        "dopoldne"
     ],
     "pm": [
-        "popoldne",
-        "pop"
+        "pop",
+        "popoldne"
     ],
     "year": [
         "leto"
     ],
     "month": [
-        "mesec",
-        "mes"
+        "mes",
+        "mesec"
     ],
     "week": [
-        "teden",
-        "ted"
+        "ted",
+        "teden"
     ],
     "day": [
         "dan"
     ],
     "hour": [
-        "ura",
-        "h"
+        "h",
+        "ura"
     ],
     "minute": [
-        "minuta",
-        "min"
+        "min",
+        "minuta"
     ],
     "second": [
-        "sekunda",
+        "s",
         "sek",
-        "s"
+        "sekunda"
     ],
     "relative-type": {
-        "1 year ago": [
-            "lani"
-        ],
-        "0 year ago": [
-            "letos"
-        ],
-        "in 1 year": [
-            "naslednje leto"
-        ],
-        "1 month ago": [
-            "prejšnji mesec"
-        ],
-        "0 month ago": [
-            "ta mesec"
-        ],
-        "in 1 month": [
-            "naslednji mesec"
-        ],
-        "1 week ago": [
-            "prejšnji teden"
-        ],
-        "0 week ago": [
-            "ta teden"
-        ],
-        "in 1 week": [
-            "naslednji teden"
-        ],
-        "1 day ago": [
-            "včeraj"
-        ],
         "0 day ago": [
             "danes"
-        ],
-        "in 1 day": [
-            "jutri"
         ],
         "0 hour ago": [
             "v tej uri"
@@ -154,76 +121,109 @@ info = {
         "0 minute ago": [
             "to minuto"
         ],
+        "0 month ago": [
+            "ta mesec"
+        ],
         "0 second ago": [
             "zdaj"
+        ],
+        "0 week ago": [
+            "ta teden"
+        ],
+        "0 year ago": [
+            "letos"
+        ],
+        "1 day ago": [
+            "včeraj"
+        ],
+        "1 month ago": [
+            "prejšnji mesec"
+        ],
+        "1 week ago": [
+            "prejšnji teden"
+        ],
+        "1 year ago": [
+            "lani"
+        ],
+        "in 1 day": [
+            "jutri"
+        ],
+        "in 1 month": [
+            "naslednji mesec"
+        ],
+        "in 1 week": [
+            "naslednji teden"
+        ],
+        "in 1 year": [
+            "naslednje leto"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "čez (\\d+) leto",
-            "čez (\\d+) let"
+        "\\1 day ago": [
+            "pred (\\d+) dnevi",
+            "pred (\\d+) dnevom"
         ],
-        "\\1 year ago": [
-            "pred (\\d+) letom",
-            "pred (\\d+) leti"
+        "\\1 hour ago": [
+            "pred (\\d+) h",
+            "pred (\\d+) urami",
+            "pred (\\d+) uro"
         ],
-        "in \\1 month": [
-            "čez (\\d+) mesec",
-            "čez (\\d+) mesecev",
-            "čez (\\d+) mes"
+        "\\1 minute ago": [
+            "pred (\\d+) min",
+            "pred (\\d+) minutami",
+            "pred (\\d+) minuto"
         ],
         "\\1 month ago": [
+            "pred (\\d+) mes",
             "pred (\\d+) mesecem",
-            "pred (\\d+) meseci",
-            "pred (\\d+) mes"
+            "pred (\\d+) meseci"
         ],
-        "in \\1 week": [
-            "čez (\\d+) teden",
-            "čez (\\d+) tednov",
-            "čez (\\d+) ted"
+        "\\1 second ago": [
+            "pred (\\d+) s",
+            "pred (\\d+) sekundami",
+            "pred (\\d+) sekundo"
         ],
         "\\1 week ago": [
-            "pred (\\d+) tednom",
+            "pred (\\d+) ted",
             "pred (\\d+) tedni",
-            "pred (\\d+) ted"
+            "pred (\\d+) tednom"
+        ],
+        "\\1 year ago": [
+            "pred (\\d+) leti",
+            "pred (\\d+) letom"
         ],
         "in \\1 day": [
             "čez (\\d+) dan",
             "čez (\\d+) dni"
         ],
-        "\\1 day ago": [
-            "pred (\\d+) dnevom",
-            "pred (\\d+) dnevi"
-        ],
         "in \\1 hour": [
-            "čez (\\d+) uro",
+            "čez (\\d+) h",
             "čez (\\d+) ur",
-            "čez (\\d+) h"
-        ],
-        "\\1 hour ago": [
-            "pred (\\d+) uro",
-            "pred (\\d+) urami",
-            "pred (\\d+) h"
+            "čez (\\d+) uro"
         ],
         "in \\1 minute": [
-            "čez (\\d+) minuto",
+            "čez (\\d+) min",
             "čez (\\d+) minut",
-            "čez (\\d+) min"
+            "čez (\\d+) minuto"
         ],
-        "\\1 minute ago": [
-            "pred (\\d+) minuto",
-            "pred (\\d+) minutami",
-            "pred (\\d+) min"
+        "in \\1 month": [
+            "čez (\\d+) mes",
+            "čez (\\d+) mesec",
+            "čez (\\d+) mesecev"
         ],
         "in \\1 second": [
-            "čez (\\d+) sekundo",
+            "čez (\\d+) s",
             "čez (\\d+) sekund",
-            "čez (\\d+) s"
+            "čez (\\d+) sekundo"
         ],
-        "\\1 second ago": [
-            "pred (\\d+) sekundo",
-            "pred (\\d+) sekundami",
-            "pred (\\d+) s"
+        "in \\1 week": [
+            "čez (\\d+) ted",
+            "čez (\\d+) teden",
+            "čez (\\d+) tednov"
+        ],
+        "in \\1 year": [
+            "čez (\\d+) let",
+            "čez (\\d+) leto"
         ]
     },
     "locale_specific": {},

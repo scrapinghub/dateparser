@@ -93,41 +93,8 @@ info = {
         "秒"
     ],
     "relative-type": {
-        "1 year ago": [
-            "舊年"
-        ],
-        "0 year ago": [
-            "今年"
-        ],
-        "in 1 year": [
-            "下年"
-        ],
-        "1 month ago": [
-            "上個月"
-        ],
-        "0 month ago": [
-            "今個月"
-        ],
-        "in 1 month": [
-            "下個月"
-        ],
-        "1 week ago": [
-            "上星期"
-        ],
-        "0 week ago": [
-            "今個星期"
-        ],
-        "in 1 week": [
-            "下星期"
-        ],
-        "1 day ago": [
-            "尋日"
-        ],
         "0 day ago": [
             "今日"
-        ],
-        "in 1 day": [
-            "聽日"
         ],
         "0 hour ago": [
             "呢個小時"
@@ -135,52 +102,85 @@ info = {
         "0 minute ago": [
             "呢分鐘"
         ],
+        "0 month ago": [
+            "今個月"
+        ],
         "0 second ago": [
             "宜家"
+        ],
+        "0 week ago": [
+            "今個星期"
+        ],
+        "0 year ago": [
+            "今年"
+        ],
+        "1 day ago": [
+            "尋日"
+        ],
+        "1 month ago": [
+            "上個月"
+        ],
+        "1 week ago": [
+            "上星期"
+        ],
+        "1 year ago": [
+            "舊年"
+        ],
+        "in 1 day": [
+            "聽日"
+        ],
+        "in 1 month": [
+            "下個月"
+        ],
+        "in 1 week": [
+            "下星期"
+        ],
+        "in 1 year": [
+            "下年"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "(\\d+) 年後"
-        ],
-        "\\1 year ago": [
-            "(\\d+) 年前"
-        ],
-        "in \\1 month": [
-            "(\\d+) 個月後"
-        ],
-        "\\1 month ago": [
-            "(\\d+) 個月前"
-        ],
-        "in \\1 week": [
-            "(\\d+) 個星期後"
-        ],
-        "\\1 week ago": [
-            "(\\d+) 個星期前"
-        ],
-        "in \\1 day": [
-            "(\\d+) 日後"
-        ],
         "\\1 day ago": [
             "(\\d+) 日前"
-        ],
-        "in \\1 hour": [
-            "(\\d+) 小時後"
         ],
         "\\1 hour ago": [
             "(\\d+) 小時前"
         ],
+        "\\1 minute ago": [
+            "(\\d+) 分鐘前"
+        ],
+        "\\1 month ago": [
+            "(\\d+) 個月前"
+        ],
+        "\\1 second ago": [
+            "(\\d+) 秒前"
+        ],
+        "\\1 week ago": [
+            "(\\d+) 個星期前"
+        ],
+        "\\1 year ago": [
+            "(\\d+) 年前"
+        ],
+        "in \\1 day": [
+            "(\\d+) 日後"
+        ],
+        "in \\1 hour": [
+            "(\\d+) 小時後"
+        ],
         "in \\1 minute": [
             "(\\d+) 分鐘後"
         ],
-        "\\1 minute ago": [
-            "(\\d+) 分鐘前"
+        "in \\1 month": [
+            "(\\d+) 個月後"
         ],
         "in \\1 second": [
             "(\\d+) 秒後"
         ],
-        "\\1 second ago": [
-            "(\\d+) 秒前"
+        "in \\1 week": [
+            "(\\d+) 個星期後"
+        ],
+        "in \\1 year": [
+            "(\\d+) 年後"
         ]
     },
     "locale_specific": {},

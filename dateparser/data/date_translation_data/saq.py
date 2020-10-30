@@ -18,20 +18,20 @@ info = {
         "ong"
     ],
     "may": [
-        "lapa le imet",
-        "ime"
+        "ime",
+        "lapa le imet"
     ],
     "june": [
-        "lapa le ile",
-        "ile"
+        "ile",
+        "lapa le ile"
     ],
     "july": [
         "lapa le sapa",
         "sap"
     ],
     "august": [
-        "lapa le isiet",
-        "isi"
+        "isi",
+        "lapa le isiet"
     ],
     "september": [
         "lapa le saal",
@@ -50,32 +50,32 @@ info = {
         "tow"
     ],
     "monday": [
-        "mderot ee kuni",
-        "kun"
+        "kun",
+        "mderot ee kuni"
     ],
     "tuesday": [
         "mderot ee ong'wan",
         "ong"
     ],
     "wednesday": [
-        "mderot ee inet",
-        "ine"
+        "ine",
+        "mderot ee inet"
     ],
     "thursday": [
-        "mderot ee ile",
-        "ile"
+        "ile",
+        "mderot ee ile"
     ],
     "friday": [
         "mderot ee sapa",
         "sap"
     ],
     "saturday": [
-        "mderot ee kwe",
-        "kwe"
+        "kwe",
+        "mderot ee kwe"
     ],
     "sunday": [
-        "mderot ee are",
-        "are"
+        "are",
+        "mderot ee are"
     ],
     "am": [
         "tesiran"
@@ -105,41 +105,8 @@ info = {
         "isekondi"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "ng'ole"
-        ],
         "0 day ago": [
             "duo"
-        ],
-        "in 1 day": [
-            "taisere"
         ],
         "0 hour ago": [
             "this hour"
@@ -147,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "ng'ole"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "taisere"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

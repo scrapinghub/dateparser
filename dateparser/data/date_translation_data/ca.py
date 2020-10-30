@@ -2,70 +2,70 @@ info = {
     "name": "ca",
     "date_order": "DMY",
     "january": [
-        "gener",
-        "gen",
+        "de gen",
         "de gener",
-        "de gen"
+        "gen",
+        "gener"
     ],
     "february": [
-        "febrer",
-        "febr",
+        "de febr",
         "de febrer",
-        "de febr"
+        "febr",
+        "febrer"
     ],
     "march": [
-        "març",
-        "de març"
+        "de març",
+        "març"
     ],
     "april": [
-        "abril",
         "abr",
-        "d'abril",
-        "d'abr"
+        "abril",
+        "d'abr",
+        "d'abril"
     ],
     "may": [
-        "maig",
-        "de maig"
+        "de maig",
+        "maig"
     ],
     "june": [
-        "juny",
-        "de juny"
+        "de juny",
+        "juny"
     ],
     "july": [
-        "juliol",
-        "jul",
+        "de jul",
         "de juliol",
-        "de jul"
+        "jul",
+        "juliol"
     ],
     "august": [
-        "agost",
         "ag",
-        "d'agost",
-        "d'ag"
+        "agost",
+        "d'ag",
+        "d'agost"
     ],
     "september": [
-        "setembre",
-        "set",
+        "de set",
         "de setembre",
-        "de set"
+        "set",
+        "setembre"
     ],
     "october": [
-        "octubre",
-        "oct",
+        "d'oct",
         "d'octubre",
-        "d'oct"
+        "oct",
+        "octubre"
     ],
     "november": [
-        "novembre",
-        "nov",
+        "de nov",
         "de novembre",
-        "de nov"
+        "nov",
+        "novembre"
     ],
     "december": [
-        "desembre",
-        "des",
+        "de des",
         "de desembre",
-        "de des"
+        "des",
+        "desembre"
     ],
     "monday": [
         "dilluns",
@@ -76,8 +76,8 @@ info = {
         "dt"
     ],
     "wednesday": [
-        "dimecres",
-        "dc"
+        "dc",
+        "dimecres"
     ],
     "thursday": [
         "dijous",
@@ -92,8 +92,8 @@ info = {
         "ds"
     ],
     "sunday": [
-        "diumenge",
-        "dg"
+        "dg",
+        "diumenge"
     ],
     "am": [
         "am"
@@ -108,71 +108,28 @@ info = {
         "mes"
     ],
     "week": [
-        "setmana",
-        "setm"
+        "setm",
+        "setmana"
     ],
     "day": [
         "dia"
     ],
     "hour": [
-        "hora",
-        "h"
+        "h",
+        "hora"
     ],
     "minute": [
-        "minut",
-        "min"
+        "min",
+        "minut"
     ],
     "second": [
-        "segon",
-        "s"
+        "s",
+        "segon"
     ],
     "relative-type": {
-        "1 year ago": [
-            "l'any passat"
-        ],
-        "0 year ago": [
-            "enguany"
-        ],
-        "in 1 year": [
-            "l'any que ve"
-        ],
-        "1 month ago": [
-            "el mes passat",
-            "mes passat"
-        ],
-        "0 month ago": [
-            "aquest mes"
-        ],
-        "in 1 month": [
-            "el mes que ve",
-            "mes vinent"
-        ],
-        "1 week ago": [
-            "la setmana passada",
-            "la setm passada",
-            "setm passada"
-        ],
-        "0 week ago": [
-            "aquesta setmana",
-            "aquesta setm"
-        ],
-        "in 1 week": [
-            "la setmana que ve",
-            "la setm que ve",
-            "setm vinent",
-            "la setmana vinent",
-            "la pròxima setmana",
-            "la propera setmana"
-        ],
-        "1 day ago": [
-            "ahir"
-        ],
         "0 day ago": [
             "avui",
             "hui"
-        ],
-        "in 1 day": [
-            "demà"
         ],
         "0 hour ago": [
             "aquesta hora"
@@ -180,8 +137,51 @@ info = {
         "0 minute ago": [
             "aquest minut"
         ],
+        "0 month ago": [
+            "aquest mes"
+        ],
         "0 second ago": [
             "ara"
+        ],
+        "0 week ago": [
+            "aquesta setm",
+            "aquesta setmana"
+        ],
+        "0 year ago": [
+            "enguany"
+        ],
+        "1 day ago": [
+            "ahir"
+        ],
+        "1 month ago": [
+            "el mes passat",
+            "mes passat"
+        ],
+        "1 week ago": [
+            "la setm passada",
+            "la setmana passada",
+            "setm passada"
+        ],
+        "1 year ago": [
+            "l'any passat"
+        ],
+        "in 1 day": [
+            "demà"
+        ],
+        "in 1 month": [
+            "el mes que ve",
+            "mes vinent"
+        ],
+        "in 1 week": [
+            "la setm que ve",
+            "la setmana que ve",
+            "setm vinent",
+            "la setmana vinent",
+            "la pròxima setmana",
+            "la propera setmana"
+        ],
+        "in 1 year": [
+            "l'any que ve"
         ],
         "2 day ago": [
             "despús-ahir",
@@ -200,81 +200,81 @@ info = {
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "d'aquí a (\\d+) any",
-            "d'aquí a (\\d+) anys"
+        "\\1 day ago": [
+            "fa (\\d+) dia",
+            "fa (\\d+) dies"
         ],
-        "\\1 year ago": [
-            "fa (\\d+) any",
-            "fa (\\d+) anys"
+        "\\1 hour ago": [
+            "fa (\\d+) h",
+            "fa (\\d+) hora",
+            "fa (\\d+) hores"
         ],
-        "in \\1 month": [
-            "d'aquí a (\\d+) mes",
-            "d'aquí a (\\d+) mesos"
+        "\\1 minute ago": [
+            "fa (\\d+) min",
+            "fa (\\d+) minut",
+            "fa (\\d+) minuts"
         ],
         "\\1 month ago": [
             "fa (\\d+) mes",
             "fa (\\d+) mesos"
         ],
-        "in \\1 week": [
-            "d'aquí a (\\d+) setmana",
-            "d'aquí a (\\d+) setmanes",
-            "d'aquí a (\\d+) setm"
+        "\\1 second ago": [
+            "fa (\\d+) s",
+            "fa (\\d+) segon",
+            "fa (\\d+) segons"
         ],
         "\\1 week ago": [
+            "fa (\\d+) setm",
             "fa (\\d+) setmana",
-            "fa (\\d+) setmanes",
-            "fa (\\d+) setm"
+            "fa (\\d+) setmanes"
+        ],
+        "\\1 year ago": [
+            "fa (\\d+) any",
+            "fa (\\d+) anys"
         ],
         "in \\1 day": [
             "d'aquí a (\\d+) dia",
             "d'aquí a (\\d+) dies"
         ],
-        "\\1 day ago": [
-            "fa (\\d+) dia",
-            "fa (\\d+) dies"
-        ],
         "in \\1 hour": [
+            "d'aquí a (\\d+) h",
             "d'aquí a (\\d+) hora",
             "d'aquí a (\\d+) hores",
-            "d'aquí a (\\d+) h",
             "d‘aquí a (\\d+) h"
         ],
-        "\\1 hour ago": [
-            "fa (\\d+) hora",
-            "fa (\\d+) hores",
-            "fa (\\d+) h"
-        ],
         "in \\1 minute": [
+            "d'aquí a (\\d+) min",
             "d'aquí a (\\d+) minut",
-            "d'aquí a (\\d+) minuts",
-            "d'aquí a (\\d+) min"
+            "d'aquí a (\\d+) minuts"
         ],
-        "\\1 minute ago": [
-            "fa (\\d+) minut",
-            "fa (\\d+) minuts",
-            "fa (\\d+) min"
+        "in \\1 month": [
+            "d'aquí a (\\d+) mes",
+            "d'aquí a (\\d+) mesos"
         ],
         "in \\1 second": [
+            "d'aquí a (\\d+) s",
             "d'aquí a (\\d+) segon",
-            "d'aquí a (\\d+) segons",
-            "d'aquí a (\\d+) s"
+            "d'aquí a (\\d+) segons"
         ],
-        "\\1 second ago": [
-            "fa (\\d+) segon",
-            "fa (\\d+) segons",
-            "fa (\\d+) s"
+        "in \\1 week": [
+            "d'aquí a (\\d+) setm",
+            "d'aquí a (\\d+) setmana",
+            "d'aquí a (\\d+) setmanes"
+        ],
+        "in \\1 year": [
+            "d'aquí a (\\d+) any",
+            "d'aquí a (\\d+) anys"
         ]
     },
     "locale_specific": {
+        "ca-AD": {
+            "name": "ca-AD"
+        },
         "ca-FR": {
             "name": "ca-FR"
         },
         "ca-IT": {
             "name": "ca-IT"
-        },
-        "ca-AD": {
-            "name": "ca-AD"
         }
     },
     "skip": [

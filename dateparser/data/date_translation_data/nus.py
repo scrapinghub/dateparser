@@ -2,77 +2,77 @@ info = {
     "name": "nus",
     "date_order": "DMY",
     "january": [
-        "tiop thar pɛt",
-        "tiop"
+        "tiop",
+        "tiop thar pɛt"
     ],
     "february": [
         "pɛt"
     ],
     "march": [
-        "duɔ̱ɔ̱ŋ",
-        "duɔ̱ɔ̱"
+        "duɔ̱ɔ̱",
+        "duɔ̱ɔ̱ŋ"
     ],
     "april": [
         "guak"
     ],
     "may": [
-        "duät",
-        "duä"
+        "duä",
+        "duät"
     ],
     "june": [
-        "kornyoot",
-        "kor"
+        "kor",
+        "kornyoot"
     ],
     "july": [
-        "pay yie̱tni",
-        "pay"
+        "pay",
+        "pay yie̱tni"
     ],
     "august": [
-        "tho̱o̱r",
-        "thoo"
+        "thoo",
+        "tho̱o̱r"
     ],
     "september": [
-        "tɛɛr",
-        "tɛɛ"
+        "tɛɛ",
+        "tɛɛr"
     ],
     "october": [
-        "laath",
-        "laa"
+        "laa",
+        "laath"
     ],
     "november": [
         "kur"
     ],
     "december": [
-        "tio̱p in di̱i̱t",
-        "tid"
+        "tid",
+        "tio̱p in di̱i̱t"
     ],
     "monday": [
-        "jiec la̱t",
-        "jiec"
+        "jiec",
+        "jiec la̱t"
     ],
     "tuesday": [
-        "rɛw lätni",
-        "rɛw"
+        "rɛw",
+        "rɛw lätni"
     ],
     "wednesday": [
-        "diɔ̱k lätni",
-        "diɔ̱k"
+        "diɔ̱k",
+        "diɔ̱k lätni"
     ],
     "thursday": [
-        "ŋuaan lätni",
-        "ŋuaan"
+        "ŋuaan",
+        "ŋuaan lätni"
     ],
     "friday": [
-        "dhieec lätni",
-        "dhieec"
+        "dhieec",
+        "dhieec lätni"
     ],
     "saturday": [
-        "bäkɛl lätni",
-        "bäkɛl"
+        "bäkɛl",
+        "bäkɛl lätni"
     ],
     "sunday": [
-        "cäŋ kuɔth",
-        "cäŋ"
+        "cäŋ",
+        "cäŋ kuɔth"
     ],
     "am": [
         "rw"
@@ -102,41 +102,8 @@ info = {
         "thɛkɛni"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "pan"
-        ],
         "0 day ago": [
             "walɛ"
-        ],
-        "in 1 day": [
-            "ruun"
         ],
         "0 hour ago": [
             "this hour"
@@ -144,8 +111,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "pan"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "ruun"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

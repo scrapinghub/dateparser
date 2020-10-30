@@ -2,80 +2,80 @@ info = {
     "name": "nmg",
     "date_order": "DMY",
     "january": [
-        "ngwɛn matáhra",
-        "ng1"
+        "ng1",
+        "ngwɛn matáhra"
     ],
     "february": [
-        "ngwɛn ńmba",
-        "ng2"
+        "ng2",
+        "ngwɛn ńmba"
     ],
     "march": [
-        "ngwɛn ńlal",
-        "ng3"
+        "ng3",
+        "ngwɛn ńlal"
     ],
     "april": [
-        "ngwɛn ńna",
-        "ng4"
+        "ng4",
+        "ngwɛn ńna"
     ],
     "may": [
-        "ngwɛn ńtan",
-        "ng5"
+        "ng5",
+        "ngwɛn ńtan"
     ],
     "june": [
-        "ngwɛn ńtuó",
-        "ng6"
+        "ng6",
+        "ngwɛn ńtuó"
     ],
     "july": [
-        "ngwɛn hɛmbuɛrí",
-        "ng7"
+        "ng7",
+        "ngwɛn hɛmbuɛrí"
     ],
     "august": [
-        "ngwɛn lɔmbi",
-        "ng8"
+        "ng8",
+        "ngwɛn lɔmbi"
     ],
     "september": [
-        "ngwɛn rɛbvuâ",
-        "ng9"
+        "ng9",
+        "ngwɛn rɛbvuâ"
     ],
     "october": [
-        "ngwɛn wum",
-        "ng10"
+        "ng10",
+        "ngwɛn wum"
     ],
     "november": [
-        "ngwɛn wum navǔr",
-        "ng11"
+        "ng11",
+        "ngwɛn wum navǔr"
     ],
     "december": [
-        "krísimin",
-        "kris"
+        "kris",
+        "krísimin"
     ],
     "monday": [
-        "mɔ́ndɔ",
-        "mɔ́n"
+        "mɔ́n",
+        "mɔ́ndɔ"
     ],
     "tuesday": [
-        "sɔ́ndɔ mafú mába",
-        "smb"
+        "smb",
+        "sɔ́ndɔ mafú mába"
     ],
     "wednesday": [
-        "sɔ́ndɔ mafú málal",
-        "sml"
+        "sml",
+        "sɔ́ndɔ mafú málal"
     ],
     "thursday": [
-        "sɔ́ndɔ mafú mána",
-        "smn"
+        "smn",
+        "sɔ́ndɔ mafú mána"
     ],
     "friday": [
         "mabágá má sukul",
         "mbs"
     ],
     "saturday": [
-        "sásadi",
-        "sas"
+        "sas",
+        "sásadi"
     ],
     "sunday": [
-        "sɔ́ndɔ",
-        "sɔ́n"
+        "sɔ́n",
+        "sɔ́ndɔ"
     ],
     "am": [
         "maná"
@@ -105,41 +105,8 @@ info = {
         "nyiɛl"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "nakugú"
-        ],
         "0 day ago": [
             "dɔl"
-        ],
-        "in 1 day": [
-            "namáná"
         ],
         "0 hour ago": [
             "this hour"
@@ -147,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "nakugú"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "namáná"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

@@ -2,77 +2,77 @@ info = {
     "name": "rm",
     "date_order": "DMY",
     "january": [
-        "schaner",
-        "schan"
+        "schan",
+        "schaner"
     ],
     "february": [
-        "favrer",
-        "favr"
+        "favr",
+        "favrer"
     ],
     "march": [
         "mars"
     ],
     "april": [
-        "avrigl",
-        "avr"
+        "avr",
+        "avrigl"
     ],
     "may": [
         "matg"
     ],
     "june": [
-        "zercladur",
-        "zercl"
+        "zercl",
+        "zercladur"
     ],
     "july": [
-        "fanadur",
-        "fan"
+        "fan",
+        "fanadur"
     ],
     "august": [
         "avust"
     ],
     "september": [
-        "settember",
-        "sett"
+        "sett",
+        "settember"
     ],
     "october": [
-        "october",
-        "oct"
+        "oct",
+        "october"
     ],
     "november": [
-        "november",
-        "nov"
+        "nov",
+        "november"
     ],
     "december": [
-        "december",
-        "dec"
+        "dec",
+        "december"
     ],
     "monday": [
-        "glindesdi",
-        "gli"
+        "gli",
+        "glindesdi"
     ],
     "tuesday": [
-        "mardi",
-        "ma"
+        "ma",
+        "mardi"
     ],
     "wednesday": [
-        "mesemna",
-        "me"
+        "me",
+        "mesemna"
     ],
     "thursday": [
-        "gievgia",
-        "gie"
+        "gie",
+        "gievgia"
     ],
     "friday": [
-        "venderdi",
-        "ve"
+        "ve",
+        "venderdi"
     ],
     "saturday": [
-        "sonda",
-        "so"
+        "so",
+        "sonda"
     ],
     "sunday": [
-        "dumengia",
-        "du"
+        "du",
+        "dumengia"
     ],
     "am": [
         "am"
@@ -102,41 +102,8 @@ info = {
         "secunda"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "ier"
-        ],
         "0 day ago": [
             "oz"
-        ],
-        "in 1 day": [
-            "damaun"
         ],
         "0 hour ago": [
             "this hour"
@@ -144,8 +111,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "ier"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "damaun"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},
