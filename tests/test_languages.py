@@ -1910,6 +1910,10 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.when_using_exact_languages()
         self.then_exact_languages_were_filtered(shortnames)
 
+    def test_none_raises_value_error(self):
+        with self.assertRaisesRegex(ValueError, r'language cannot be None for ExactLanguages'):
+            ExactLanguages(None)
+
     @apply_settings
     def given_settings(self, settings=None):
         self.settings = settings
