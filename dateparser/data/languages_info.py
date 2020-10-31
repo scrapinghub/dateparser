@@ -42,9 +42,7 @@ language_order = [
     "pa-Arab",
     "te",
     "mr",
-    "jv",
     "ta",
-    "yue-Hans",
     "fil",
     "gu",
     "kn",
@@ -59,12 +57,10 @@ language_order = [
     "om",
     "ha",
     "ms",
-    "sd",
     "yo",
     "ig",
     "uz",
     "uz-Latn",
-    "ceb",
     "mg",
     "ne",
     "as",
@@ -78,14 +74,11 @@ language_order = [
     "qu",
     "ak",
     "rw",
-    "wo",
     "be",
     "ti",
-    "xh",
     "az",
     "az-Latn",
     "af",
-    "tg",
     "ca",
     "bm",
     "he",
@@ -97,11 +90,8 @@ language_order = [
     "zgh",
     "rn",
     "ff",
-    "ff-Latn",
     "sq",
-    "ku",
     "yue",
-    "yue-Hant",
     "ks",
     "hy",
     "nb",
@@ -136,7 +126,6 @@ language_order = [
     "guz",
     "cgg",
     "xog",
-    "tt",
     "lrc",
     "lu",
     "teo",
@@ -161,7 +150,6 @@ language_order = [
     "ewo",
     "fy",
     "ebu",
-    "ccp",
     "asa",
     "ast",
     "ses",
@@ -188,7 +176,6 @@ language_order = [
     "mua",
     "ksh",
     "saq",
-    "mi",
     "dua",
     "rwk",
     "mgo",
@@ -216,7 +203,6 @@ language_order = [
     "gv",
     "smn",
     "eo",
-    "ia",
     "tl"
 ]
 
@@ -540,13 +526,11 @@ language_locale_dict = {
     "pa-Arab": [],
     "te": [],
     "mr": [],
-    "jv": [],
     "ta": [
         "ta-LK",
         "ta-MY",
         "ta-SG"
     ],
-    "yue-Hans": [],
     "fil": [],
     "gu": [],
     "kn": [],
@@ -574,14 +558,12 @@ language_locale_dict = {
         "ms-BN",
         "ms-SG"
     ],
-    "sd": [],
     "yo": [
         "yo-BJ"
     ],
     "ig": [],
     "uz": [],
     "uz-Latn": [],
-    "ceb": [],
     "mg": [],
     "ne": [
         "ne-IN"
@@ -606,18 +588,15 @@ language_locale_dict = {
     ],
     "ak": [],
     "rw": [],
-    "wo": [],
     "be": [],
     "ti": [
         "ti-ER"
     ],
-    "xh": [],
     "az": [],
     "az-Latn": [],
     "af": [
         "af-NA"
     ],
-    "tg": [],
     "ca": [
         "ca-AD",
         "ca-FR",
@@ -640,26 +619,11 @@ language_locale_dict = {
     "zgh": [],
     "rn": [],
     "ff": [],
-    "ff-Latn": [
-        "ff-Latn-BF",
-        "ff-Latn-CM",
-        "ff-Latn-GH",
-        "ff-Latn-GM",
-        "ff-Latn-GN",
-        "ff-Latn-GW",
-        "ff-Latn-LR",
-        "ff-Latn-MR",
-        "ff-Latn-NE",
-        "ff-Latn-NG",
-        "ff-Latn-SL"
-    ],
     "sq": [
         "sq-MK",
         "sq-XK"
     ],
-    "ku": [],
     "yue": [],
-    "yue-Hant": [],
     "ks": [],
     "hy": [],
     "nb": [
@@ -704,7 +668,6 @@ language_locale_dict = {
     "guz": [],
     "cgg": [],
     "xog": [],
-    "tt": [],
     "lrc": [
         "lrc-IQ"
     ],
@@ -737,9 +700,6 @@ language_locale_dict = {
     "ewo": [],
     "fy": [],
     "ebu": [],
-    "ccp": [
-        "ccp-IN"
-    ],
     "asa": [],
     "ast": [],
     "ses": [],
@@ -768,7 +728,6 @@ language_locale_dict = {
     "mua": [],
     "ksh": [],
     "saq": [],
-    "mi": [],
     "dua": [],
     "rwk": [],
     "mgo": [],
@@ -801,6 +760,5 @@ language_locale_dict = {
     "gv": [],
     "smn": [],
     "eo": [],
-    "ia": [],
     "tl": []
 }
