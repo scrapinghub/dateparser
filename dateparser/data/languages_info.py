@@ -210,7 +210,7 @@ language_locale_dict = {
     "en": [
         "en-001",
         "en-150",
-        "en-AE",
+        # "en-AE",
         "en-AG",
         "en-AI",
         "en-AS",
@@ -535,7 +535,7 @@ language_locale_dict = {
     "gu": [],
     "kn": [],
     "ps": [
-        "ps-PK"
+        # "ps-PK"
     ],
     "zh-Hant": [
         "zh-Hant-HK",
@@ -689,7 +689,7 @@ language_locale_dict = {
     "mfe": [],
     "mgh": [],
     "ga": [
-        "ga-GB"
+        # "ga-GB"
     ],
     "az-Cyrl": [],
     "eu": [],
