@@ -213,7 +213,7 @@ info = {
             "dlm (\\d+) mgu"
         ],
         "in \\1 year": [
-            "dalam (\\d+) saat",
+            "dalam (\\d+) tahun",
             "dalam (\\d+) thn"
         ]
     },

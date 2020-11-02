@@ -76,9 +76,11 @@ info = {
         "dé domhnaigh"
     ],
     "am": [
-        "am"
+        "am",
+        "rn"
     ],
     "pm": [
+        "in",
         "pm"
     ],
     "year": [

@@ -113,10 +113,10 @@
             "hoxe"
         ],
         "0 hour ago": [
-            "nesta hora"
+            "esta hora"
         ],
         "0 minute ago": [
-            "neste minuto"
+            "este minuto"
         ],
         "0 month ago": [
             "este m",
@@ -200,39 +200,43 @@
             "hai {0} anos"
         ],
         "in \\1 day": [
-            "en {0} d",
-            "en {0} día",
-            "en {0} días"
+            "dentro de {0} día",
+            "dentro de {0} días",
+            "en {0} d"
         ],
         "in \\1 hour": [
-            "en {0} h",
-            "en {0} hora",
-            "en {0} horas"
+            "dentro de {0} h",
+            "dentro de {0} hora",
+            "dentro de {0} horas",
+            "en {0} h"
         ],
         "in \\1 minute": [
-            "en {0} min",
-            "en {0} minuto",
-            "en {0} minutos"
+            "dentro de {0} min",
+            "dentro de {0} minuto",
+            "dentro de {0} minutos",
+            "en {0} min"
         ],
         "in \\1 month": [
-            "en {0} m",
-            "en {0} mes",
-            "en {0} meses"
+            "dentro de {0} mes",
+            "dentro de {0} meses",
+            "en {0} m"
         ],
         "in \\1 second": [
-            "en {0} s",
-            "en {0} segundo",
-            "en {0} segundos"
+            "dentro de {0} s",
+            "dentro de {0} segundo",
+            "dentro de {0} segundos",
+            "en {0} s"
         ],
         "in \\1 week": [
-            "en {0} sem",
-            "en {0} semana",
-            "en {0} semanas"
+            "dentro de {0} sem",
+            "dentro de {0} semana",
+            "dentro de {0} semanas",
+            "en {0} sem"
         ],
         "in \\1 year": [
-            "en {0} a",
-            "en {0} ano",
-            "en {0} anos"
+            "dentro de {0} ano",
+            "dentro de {0} anos",
+            "en {0} a"
         ]
     },
     "locale_specific": {}

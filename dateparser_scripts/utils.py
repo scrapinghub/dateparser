@@ -6,7 +6,7 @@ from git import Repo
 
 
 def get_raw_data():
-    cldr_version = '31.0.1'
+    cldr_version = '32.0.0'
     raw_data_directory = "../raw_data"
 
     cldr_data = {

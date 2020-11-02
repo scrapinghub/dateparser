@@ -102,13 +102,11 @@
         "ora"
     ],
     "minute": [
-        "m",
         "min",
         "minuto"
     ],
     "second": [
         "s",
-        "sec",
         "secondo"
     ],
     "relative-type": {

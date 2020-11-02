@@ -107,14 +107,12 @@ info = {
         "ore"
     ],
     "minute": [
-        "m",
         "min",
         "minuto",
         "minuti"
     ],
     "second": [
         "s",
-        "sec",
         "secondo",
         "secondi"
     ],

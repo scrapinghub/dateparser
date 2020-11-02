@@ -133,6 +133,7 @@ info = {
     "relative-type": {
         "0 day ago": [
             "i dag",
+            "idag",
             "idag"
         ],
         "0 hour ago": [
@@ -157,6 +158,7 @@ info = {
         ],
         "1 day ago": [
             "i går",
+            "igår",
             "igår"
         ],
         "1 month ago": [
@@ -173,6 +175,7 @@ info = {
         ],
         "in 1 day": [
             "i morgon",
+            "imorgon",
             "imorgon"
         ],
         "in 1 month": [
@@ -204,19 +207,19 @@ info = {
             "−(\\d+) h"
         ],
         "\\1 minute ago": [
-            "för (\\d+) min sedan",
+            "för (\\d+) min sen",
             "för (\\d+) minut sedan",
             "för (\\d+) minuter sedan",
             "−(\\d+) min"
         ],
         "\\1 month ago": [
-            "för (\\d+) mån sedan",
+            "för (\\d+) mån sen",
             "för (\\d+) månad sedan",
             "för (\\d+) månader sedan",
             "−(\\d+) mån"
         ],
         "\\1 second ago": [
-            "för (\\d+) sek sedan",
+            "för (\\d+) s sen",
             "för (\\d+) sekund sedan",
             "för (\\d+) sekunder sedan",
             "−(\\d+) s"
@@ -229,6 +232,7 @@ info = {
         ],
         "\\1 year ago": [
             "för (\\d+) år sedan",
+            "för (\\d+) år sen",
             "−(\\d+) år"
         ],
         "in \\1 day": [

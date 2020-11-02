@@ -425,7 +425,18 @@
             "name": "es-US",
             "september": [
                 "sep"
-            ]
+            ],
+            "relative-type": {
+                "in 1 month": [
+                    "el mes próximo"
+                ],
+                "in 1 week": [
+                    "la semana próxima"
+                ],
+                "in 1 year": [
+                    "el año próximo"
+                ]
+            }
         },
         "es-UY": {
             "name": "es-UY",

@@ -25,11 +25,11 @@ info = {
         "qershor"
     ],
     "july": [
-        "kor",
+        "korr",
         "korrik"
     ],
     "august": [
-        "gsh",
+        "gush",
         "gusht"
     ],
     "september": [

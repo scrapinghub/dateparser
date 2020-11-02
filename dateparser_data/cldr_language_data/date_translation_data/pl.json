@@ -190,8 +190,7 @@
         "\\1 month ago": [
             "{0} mies temu",
             "{0} miesiąc temu",
-            "{0} miesiąca temu",
-            "–{0} mies"
+            "{0} miesiąca temu"
         ],
         "\\1 second ago": [
             "{0} s temu",

@@ -192,8 +192,7 @@ info = {
         ],
         "in \\1 day": [
             "oor (\\d+) dae",
-            "oor (\\d+) dag",
-            "oor (\\d+) minuut"
+            "oor (\\d+) dag"
         ],
         "in \\1 hour": [
             "oor (\\d+) uur"
