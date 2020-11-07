@@ -6,8 +6,8 @@ from collections import OrderedDict
 import regex as re
 from ruamel.yaml import RoundTripLoader
 
-from dateparser_scripts.utils import combine_dicts
 from dateparser_scripts.order_languages import avoid_languages
+from dateparser_scripts.utils import combine_dicts
 
 cldr_date_directory = '../dateparser_data/cldr_language_data/date_translation_data/'
 supplementary_directory = '../dateparser_data/supplementary_language_data/'
