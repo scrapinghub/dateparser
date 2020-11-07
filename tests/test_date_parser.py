@@ -767,11 +767,7 @@ class TestDateParser(BaseTestCase):
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), languages=['es', 'en'],
               settings={'USE_GIVEN_LANGUAGE_ORDER': False}),
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), languages=[],
-              settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
-        param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), languages=[],
               settings={'USE_GIVEN_LANGUAGE_ORDER': False}),
-        param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), languages=None,
-              settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), languages=None,
               settings={'USE_GIVEN_LANGUAGE_ORDER': False}),
     ])
@@ -784,6 +780,17 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
+        param('11/12/2020', languages=[], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+        param('11/12/2020', languages=None, settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+    ])
+    def test_missing_languages_parsing_order_if_use_given_language_order_is_set(
+        self, date_string, languages=None, settings=None
+    ):
+        re_string = r'locales or languages must be given if USE_GIVEN_LANGUAGE_ORDER is True'
+        with self.assertRaisesRegex(ValueError, re_string):
+            self.given_parser(languages=languages, settings=settings)
+
+    @parameterized.expand([
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=['en', 'es'],
               settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
         param('11/12/2020', expected=datetime(2020, 12, 11, 0, 0), locales=['es', 'en'],
@@ -791,11 +798,7 @@ class TestDateParser(BaseTestCase):
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=['es', 'en'],
               settings={'USE_GIVEN_LANGUAGE_ORDER': False}),
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=[],
-              settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
-        param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=[],
               settings={'USE_GIVEN_LANGUAGE_ORDER': False}),
-        param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=None,
-              settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
         param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=None,
               settings={'USE_GIVEN_LANGUAGE_ORDER': False}),
     ])
@@ -808,11 +811,17 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
-        param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=[],
-              languages=[], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
-        param('11/12/2020', expected=datetime(2020, 11, 12, 0, 0), locales=None,
-              languages=None, settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+        param('11/12/2020', locales=[], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+        param('11/12/2020', locales=None, settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+    ])
+    def test_missing_locales_parsing_order_if_use_given_language_order_is_set(
+        self, date_string, locales=None, settings=None
+    ):
+        re_string = r'locales or languages must be given if USE_GIVEN_LANGUAGE_ORDER is True'
+        with self.assertRaisesRegex(ValueError, re_string):
+            self.given_parser(locales=locales, settings=settings)
 
+    @parameterized.expand([
         param('11/12/2020', expected=datetime(2020, 12, 11, 0, 0), locales=['es', 'en'],
               languages=[], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
         param('11/12/2020', expected=datetime(2020, 12, 11, 0, 0), locales=[],
@@ -835,6 +844,18 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('11/12/2020', locales=[], languages=[], settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+        param('11/12/2020', locales=None, languages=None,
+              settings={'USE_GIVEN_LANGUAGE_ORDER': True}),
+    ])
+    def test_mixed_missing_locales_and_languages_parsing_order_if_use_given_language_order_is_set(
+        self, date_string, expected=None, locales=None, languages=None, settings=None
+    ):
+        re_string = r'locales or languages must be given if USE_GIVEN_LANGUAGE_ORDER is True'
+        with self.assertRaisesRegex(ValueError, re_string):
+            self.given_parser(locales=locales, languages=languages, settings=settings)
 
     @parameterized.expand([
         param('::', None),

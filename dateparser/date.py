@@ -309,6 +309,9 @@ class DateDataParser:
             raise TypeError("try_previous_locales argument must be a boolean (%r given)"
                             % type(try_previous_locales))
 
+        if not (locales or languages) and settings.USE_GIVEN_LANGUAGE_ORDER:
+            raise ValueError("locales or languages must be given if USE_GIVEN_LANGUAGE_ORDER is True")
+
         self._settings = settings
         self.try_previous_locales = try_previous_locales
         self.languages = languages
