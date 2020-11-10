@@ -113,7 +113,11 @@ class FreshnessDateDataParser:
                 date = date.replace(tzinfo=None)
 
         # self.now = None
+
         # This ^ causes issues with threading.
+        # I think we're OK to take this "reset" out here.
+        # self.now = None gets set in the init of this class.
+
         # Issue:
         # https://github.com/scrapinghub/dateparser/issues/276#issuecomment-290427553
 
