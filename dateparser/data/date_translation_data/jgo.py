@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "jgo",
     "date_order": "YMD",
@@ -87,41 +86,8 @@ info = {
         "second"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "yesterday"
-        ],
         "0 day ago": [
             "lɔꞌɔ"
-        ],
-        "in 1 day": [
-            "tomorrow"
         ],
         "0 hour ago": [
             "this hour"
@@ -129,46 +95,79 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "nǔu ŋguꞌ (\\d+)"
-        ],
-        "\\1 year ago": [
-            "ɛ́gɛ́ mɔ́ ŋguꞌ (\\d+)"
-        ],
-        "in \\1 month": [
-            "nǔu (\\d+) saŋ"
-        ],
-        "\\1 month ago": [
-            "ɛ́ gɛ́ mɔ́ pɛsaŋ (\\d+)"
-        ],
-        "in \\1 week": [
-            "nǔu ŋgap-mbi (\\d+)"
-        ],
-        "\\1 week ago": [
-            "ɛ́ gɛ́ mɔ (\\d+) ŋgap-mbi"
-        ],
-        "in \\1 day": [
-            "nǔu lɛ́ꞌ (\\d+)"
-        ],
         "\\1 day ago": [
             "ɛ́ gɛ́ mɔ́ lɛ́ꞌ (\\d+)"
-        ],
-        "in \\1 hour": [
-            "nǔu háwa (\\d+)"
         ],
         "\\1 hour ago": [
             "ɛ́ gɛ mɔ́ (\\d+) háwa"
         ],
+        "\\1 minute ago": [
+            "ɛ́ gɛ́ mɔ́ minút (\\d+)"
+        ],
+        "\\1 month ago": [
+            "ɛ́ gɛ́ mɔ́ pɛsaŋ (\\d+)"
+        ],
+        "\\1 week ago": [
+            "ɛ́ gɛ́ mɔ (\\d+) ŋgap-mbi"
+        ],
+        "\\1 year ago": [
+            "ɛ́gɛ́ mɔ́ ŋguꞌ (\\d+)"
+        ],
+        "in \\1 day": [
+            "nǔu lɛ́ꞌ (\\d+)"
+        ],
+        "in \\1 hour": [
+            "nǔu háwa (\\d+)"
+        ],
         "in \\1 minute": [
             "nǔu (\\d+) minút"
         ],
-        "\\1 minute ago": [
-            "ɛ́ gɛ́ mɔ́ minút (\\d+)"
+        "in \\1 month": [
+            "nǔu (\\d+) saŋ"
+        ],
+        "in \\1 week": [
+            "nǔu ŋgap-mbi (\\d+)"
+        ],
+        "in \\1 year": [
+            "nǔu ŋguꞌ (\\d+)"
         ]
     },
     "locale_specific": {},

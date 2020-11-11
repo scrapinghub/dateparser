@@ -3,37 +3,104 @@
 History
 =======
 
-0.7.4 (2020-03-06)
+
+1.0.0 (2020-10-29)
+------------------
+
+Breaking changes:
+
+* Drop support for Python 2.7 and pypy (see #727, #744, #748, #749, #754, #755, #758, #761, #763, #764, #777 and #783)
+* Now ``DateDataParser.get_date_data()`` returns a ``DateData`` object instead of a ``dict`` (see #778).
+* From now wrong ``settings`` are not silenced and raise ``SettingValidationError`` (see #797)
+* Now ``dateparser.parse()`` is deterministic and doesn't try previous locales. Also, ``DateDataParser.get_date_data()`` doesn't try the previous locales by default (see #781)
+* Remove the ``'base-formats'`` parser (see #721)
+* Extract the ``'no-spaces-time'`` parser from the ``'absolute-time'`` parser and make it an optional parser (see #786)
+* Remove ``numeral_translation_data`` (see #782)
+* Remove the undocumented ``SKIP_TOKENS_PARSER`` and ``FUZZY`` settings (see #728, #794)
+* Remove support for using strings in ``date_formats`` (see #726)
+* The undocumented ``ExactLanguageSearch`` class has been moved to the private scope and some internal methods have changed (see #778)
+* Changes in ``dateparser.utils``: ``normalize_unicode()`` doesn't accept ``bytes`` as input and ``convert_to_unicode`` has been deprecated (see #749)
+
+New features:
+
+* Add Python 3.9 support (see #732, #823)
+* Detect hours separated with a period/dot (see #741)
+* Add support for "decade" (see #762)
+* Add support for the hijri calendar in Python ≥ 3.6 (see #718)
+
+Improvements:
+
+* New logo! (see #719)
+* Improve the README and docs (see #779, #722)
+* Fix the "calendars" extra (see #740)
+* Fix leap years when ``PREFER_DATES_FROM`` is set (see #738)
+* Fix ``STRICT_PARSING`` setting in ``no-spaces-time`` parser (see #715)
+* Consider ``RETURN_AS_TIME_PERIOD`` setting for ``relative-time`` parser (see #807)
+* Parse the 24hr time format with meridian info (see #634)
+* Other small improvements (see #698, #709, #710, #712, #730, #731, #735, #739, #784, #788, #795 and #801)
+
+
+0.7.6 (2020-06-12)
 ------------------
 
 Improvements:
 
-* Fixed Python 2.7 tests
+* Rename ``scripts`` to ``dateparser_scripts`` to avoid name collisions with modules from other packages or projects (see #707)
 
 
-0.7.3 (2020-03-06)
+0.7.5 (2020-06-10)
 ------------------
 
 New features:
 
-* Extended Norwegian support (see https://github.com/scrapinghub/dateparser/pull/598)
-* Implement a PARSERS setting (see https://github.com/scrapinghub/dateparser/pull/603)
+* Add Python 3.8 support (see #664)
+* Implement a ``REQUIRE_PARTS`` setting (see #703)
+* Add support for subscript and superscript numbers (see #684)
+* Extended French support (see #672)
+* Extended German support (see #673)
 
 
 Improvements:
 
-* Add support for `PREFER_DATES_FROM` in relative/freshness parser (https://github.com/scrapinghub/dateparser/pull/414)
-* Add support for `PREFER_DAY_OF_MONTH` in base-formats parser (see https://github.com/scrapinghub/dateparser/pull/611)
-* Added UTC -00:00 as a valid offset (see https://github.com/scrapinghub/dateparser/pull/574)
-* Fix support for “one” (see https://github.com/scrapinghub/dateparser/pull/593)
-* Fix TypeError when parsing some invalid dates (see https://github.com/scrapinghub/dateparser/pull/536)
-* Fix tokenizer for non recognized characters (see https://github.com/scrapinghub/dateparser/pull/622)
-* Prevent installing regex 2019.02.19 (https://github.com/scrapinghub/dateparser/pull/600)
-* Resolve DeprecationWarning related to raw string escape sequences (see https://github.com/scrapinghub/dateparser/pull/596)
-* Implement a tox environment to build the documentation (https://github.com/scrapinghub/dateparser/pull/604)
-* Improve tests stability (see https://github.com/scrapinghub/dateparser/pull/591, https://github.com/scrapinghub/dateparser/pull/605)
-* Documentation improvements (see https://github.com/scrapinghub/dateparser/pull/510, https://github.com/scrapinghub/dateparser/pull/578, https://github.com/scrapinghub/dateparser/pull/619, https://github.com/scrapinghub/dateparser/pull/614, https://github.com/scrapinghub/dateparser/pull/620)
-* Performance improvements (see https://github.com/scrapinghub/dateparser/pull/570, https://github.com/scrapinghub/dateparser/pull/569, https://github.com/scrapinghub/dateparser/pull/625)
+* Migrate test suite to Pytest (see #662)
+* Add test to check the `yaml` and `json` files content (see #663 and #692)
+* Add flake8 pipeline with pytest-flake8 (see #665)
+* Add partial support for 8-digit dates without separators (see #639)
+* Fix possible ``OverflowError`` errors and explicitly avoid to raise ``ValueError`` when parsing relative dates (see #686)
+* Fix double-digit GMT and UTC parsing (see #632)
+* Fix bug when using ``DATE_ORDER`` (see #628)
+* Fix bug when parsing relative time with timezone (see #503)
+* Fix milliseconds parsing (see #572 and #661)
+* Fix wrong values to be interpreted as ``'future'`` in ``PREFER_DATES_FROM`` (see #629)
+* Other small improvements (see #667, #675, #511, #626, #512, #509, #696, #702 and #699)
+
+
+0.7.4 (2020-03-06)
+------------------
+New features:
+
+* Extended Norwegian support (see #598)
+* Implement a ``PARSERS`` setting (see #603)
+
+Improvements:
+
+* Add support for ``PREFER_DATES_FROM`` in relative/freshness parser (see #414)
+* Add support for ``PREFER_DAY_OF_MONTH`` in base-formats parser (see #611)
+* Added UTC -00:00 as a valid offset (see #574)
+* Fix support for “one” (see #593)
+* Fix TypeError when parsing some invalid dates (see #536)
+* Fix tokenizer for non recognized characters (see #622)
+* Prevent installing regex 2019.02.19 (see #600)
+* Resolve DeprecationWarning related to raw string escape sequences (see #596)
+* Implement a tox environment to build the documentation (see #604)
+* Improve tests stability (see #591, #605)
+* Documentation improvements (see #510, #578, #619, #614, #620)
+* Performance improvements (see #570, #569, #625)
+
+
+0.7.3 (2020-03-06)
+------------------
+* Broken version
 
 
 0.7.2 (2019-09-17)
@@ -42,8 +109,8 @@ Improvements:
 Features:
 
 * Extended Czech support
-* Added `time` to valid periods
-* Added timezone information to dates found with `search_dates()`
+* Added ``time`` to valid periods
+* Added timezone information to dates found with ``search_dates()``
 * Support strings as date formats
 
 
@@ -65,17 +132,17 @@ Improvements:
 
 Features/news:
 
-* Added detected language to return value of `search_dates()`
+* Added detected language to return value of ``search_dates()``
 * Performance improvements
 * Refreshed versions of dependencies
 
 Improvements:
 
-* Fixed unpickleable `DateTime` objects with timezones
+* Fixed unpickleable ``DateTime`` objects with timezones
 * Fixed regex pattern to avoid new behaviour of re.split in Python 3.7
 * Fixed an exception thrown when parsing colons
 * Fixed tests failing on days with number greater than 30
-* Fixed `ZeroDivisionError` exceptions
+* Fixed ``ZeroDivisionError`` exceptions
 
 
 
@@ -151,10 +218,10 @@ Improvements:
 
 New features:
 
-* `DateDataParser` now also returns detected language in the result dictionary.
-* Explicit and lucid timezone conversion for a given datestring using `TIMEZONE`, `TO_TIMEZONE` settings.
+* ``DateDataParser`` now also returns detected language in the result dictionary.
+* Explicit and lucid timezone conversion for a given datestring using ``TIMEZONE``, ``TO_TIMEZONE`` settings.
 * Added Hungarian language.
-* Added setting, `STRICT_PARSING` to ignore incomplete dates.
+* Added setting, ``STRICT_PARSING`` to ignore incomplete dates.
 
 Improvements:
 
@@ -170,17 +237,17 @@ New features:
 
 * Support for Language based date order preference while parsing ambiguous dates.
 * Support for parsing dates with no spaces in between components.
-* Support for custom date order preference using `settings`.
-* Support for parsing generic relative dates in future.e.g. `tomorrow`, `in two weeks`, etc.
-* Added `RELATIVE_BASE` settings to set date context to any datetime in past or future.
-* Replaced dateutil.parser.parse with dateparser's own parser.
+* Support for custom date order preference using ``settings``.
+* Support for parsing generic relative dates in future.e.g. "tomorrow", "in two weeks", etc.
+* Added ``RELATIVE_BASE`` settings to set date context to any datetime in past or future.
+* Replaced ``dateutil.parser.parse`` with dateparser's own parser.
 
 Improvements:
 
-* Added simplifications for `12 noon` and `12 midnight`.
+* Added simplifications for "12 noon" and "12 midnight".
 * Fixed several bugs
 * Replaced PyYAML library by its active fork `ruamel.yaml` which also fixed the issues with installation on windows using python35.
-* More predictable `date_formats` handling.
+* More predictable ``date_formats`` handling.
 
 
 0.3.5 (2016-04-27)
@@ -220,7 +287,7 @@ New features:
 Improvements:
 
 * Faster parsing with switching to regex module.
-* `RETURN_AS_TIMEZONE_AWARE` setting to return tz aware date object.
+* ``RETURN_AS_TIMEZONE_AWARE`` setting to return tz aware date object.
 * Fixed conflicts with month/weekday names similarity across languages.
 
 0.3.2 (2016-01-25)
@@ -281,7 +348,7 @@ Improvements:
 0.2.0 (2015-06-17)
 ------------------
 
-* Easy to use `parse` function
+* Easy to use ``parse`` function
 * Languages definitions using YAML.
 * Using translation based approach for parsing non-english languages. Previously, :mod:`dateutil.parserinfo` was used for language definitions.
 * Better period extraction.

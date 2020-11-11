@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from io import StringIO
 
 import logging
@@ -17,7 +14,7 @@ from tests import BaseTestCase
 
 class TestBundledLanguages(BaseTestCase):
     def setUp(self):
-        super(TestBundledLanguages, self).setUp()
+        super().setUp()
         self.language = NotImplemented
         self.datetime_string = NotImplemented
         self.translation = NotImplemented
@@ -52,6 +49,10 @@ class TestBundledLanguages(BaseTestCase):
         # German
         param('de', "29. Juni 2007", "29. june 2007"),
         param('de', "Montag 5 Januar, 2015", "monday 5 january 2015"),
+        param('de', "vor einer Woche", "1 week ago"),
+        param('de', "in zwei Monaten", "in 2 month"),
+        param('de', "übermorgen", "in 2 day"),
+        param('de', "3 mrz 1999", "3 march 1999"),
         # Hungarian
         param('hu', '2016 augusztus 11.', '2016 august 11.'),
         param('hu', '2016-08-13 szombat 10:21', '2016-08-13 saturday 10:21'),
@@ -827,6 +828,7 @@ class TestBundledLanguages(BaseTestCase):
         param('fr', "avant-hier", "2 day ago"),
         param('fr', "hier", "1 day ago"),
         param('fr', "aujourd'hui", "0 day ago"),
+        param('fr', "après dix ans", "in 10 year"),
         # Spanish
         param('es', "anteayer", "2 day ago"),
         param('es', "ayer", "1 day ago"),
@@ -851,8 +853,8 @@ class TestBundledLanguages(BaseTestCase):
         param('pt', "1 segundo atrás", "1 second ago"),
         # Russian
         param('ru', "9 месяцев", "9 month"),
-        param('ru', "8 недели", "8 week"),
-        param('ru', "7 года", "7 year"),
+        param('ru', "8 недель", "8 week"),
+        param('ru', "7 лет", "7 year"),
         param('ru', "позавчера", "2 day ago"),
         param('ru', "сейчас", "0 second ago"),
         param('ru', "спустя 2 дня", "in 2 day"),
@@ -860,7 +862,23 @@ class TestBundledLanguages(BaseTestCase):
         param('ru', "сегодня", "0 day ago"),
         param('ru', "завтра", "in 1 day"),
         param('ru', "послезавтра", "in 2 day"),
+        param('ru', "во вторник", " tuesday"),
+        param('ru', "в воскресенье", " sunday"),
         param('ru', "несколько секунд", "44 second"),
+        param('ru', "через пару секунд", "in 2 second"),
+        param('ru', "одну минуту назад", "1 minute ago"),
+        param('ru', "через полчаса", "in 30 minute"),
+        param('ru', "сорок минут назад", "40 minute ago"),
+        param('ru', "в течение пары часов", "in 2 hour"),
+        param('ru', "через четыре часа", "in 4 hour"),
+        param('ru', "в течение суток", "in 1 day"),
+        param('ru', "двое суток назад", "2 day ago"),
+        param('ru', "неделю назад", "1 week ago"),
+        param('ru', "две недели назад", "2 week ago"),
+        param('ru', "три месяца назад", "3 month ago"),
+        param('ru', "спустя полгода", "in 6 month"),
+        param('ru', "через год", "in 1 year"),
+        param('ru', "через полтора года", "in 18 month"),
         # Turkish
         param('tr', "dün", "1 day ago"),
         param('tr', "22 dakika", "22 minute"),
@@ -912,8 +930,8 @@ class TestBundledLanguages(BaseTestCase):
         # French
         param('fr', "maintenant", "0 second ago"),
         param('fr', "demain", "in 1 day"),
-        param('fr', u"Il y a moins d'une minute", "1 minute ago"),
-        param('fr', u"Il y a moins de 30s", "30 second ago"),
+        param('fr', "Il y a moins d'une minute", "1 minute ago"),
+        param('fr', "Il y a moins de 30s", "30 second ago"),
         # Tagalog
         param('tl', "kahapon", "1 day ago"),
         param('tl', "ngayon", "0 second ago"),
@@ -1476,8 +1494,8 @@ class TestBundledLanguages(BaseTestCase):
         param('rof', "linu", "0 day ago"),
         param('rof', "ng'ama", "in 1 day"),
         # ru
-        param('ru', "12 секунды назад", "12 second ago"),
-        param('ru', "через 8 месяца", "in 8 month"),
+        param('ru', "12 секунд назад", "12 second ago"),
+        param('ru', "через 8 месяцев", "in 8 month"),
         param('ru', "в прошлом году", "1 year ago"),
         # rwk
         param('rwk', "ukou", "1 day ago"),
@@ -1668,7 +1686,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ro', "8 Ianuarie 2015 la 13:33",
               ['8', ' ', 'Ianuarie', ' ', '2015', ' ', 'la', ' ', '13', ':', '33']),
         param('ar', "8 يناير، 2015، الساعة 10:01 صباحاً",
-              ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01',  ' ','صباحاً']),
+              ['8', ' ', 'يناير', ' ', '2015', 'الساعة', ' ', '10', ':', '01', ' ', 'صباحاً']),
         param('th', "8 มกราคม 2015 เวลา 12:22 น.",
               ['8', ' ', 'มกราคม', ' ', '2015', ' ', 'เวลา', ' ', '12', ':', '22', ' ', 'น.']),
         param('pl', "8 stycznia 2015 o 10:19",
@@ -1794,7 +1812,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
     NOT_DETECTED = object()
 
     def setUp(self):
-        super(BaseLanguageDetectorTestCase, self).setUp()
+        super().setUp()
         self.datetime_string = NotImplemented
         self.detector = NotImplemented
         self.detected_language = NotImplemented
@@ -1892,6 +1910,10 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.when_using_exact_languages()
         self.then_exact_languages_were_filtered(shortnames)
 
+    def test_none_raises_value_error(self):
+        with self.assertRaisesRegex(ValueError, r'language cannot be None for ExactLanguages'):
+            ExactLanguages(None)
+
     @apply_settings
     def given_settings(self, settings=None):
         self.settings = settings
@@ -1912,7 +1934,7 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
             self.datetime_string, modify=True, settings=self.settings)
 
     def then_exact_languages_were_filtered(self, shortnames):
-        self.assertEqual(set(shortnames), set([lang.shortname for lang in self.exact_languages]))
+        self.assertEqual(set(shortnames), {lang.shortname for lang in self.exact_languages})
 
 
 class BaseAutoDetectLanguageDetectorTestCase(BaseLanguageDetectorTestCase):
@@ -1939,7 +1961,7 @@ class TestAutoDetectLanguageDetectorWithRedetection(BaseAutoDetectLanguageDetect
 
 class TestLanguageValidatorWhenInvalid(BaseTestCase):
     def setUp(self):
-        super(TestLanguageValidatorWhenInvalid, self).setUp()
+        super().setUp()
         self.validator = LanguageValidator
         self.captured_logs = StringIO()
         self.validator.get_logger()
@@ -1947,14 +1969,8 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         self.validator.logger.addHandler(self.sh)
         self.log_list = self.captured_logs.getvalue().split('\n')[0]
 
-    @staticmethod
-    def make_python3_msg(text):
-        text = text.replace('unicode', 'str')
-        text = text.replace('u\'', '\'')
-        return text
-
     def get_log_str(self):
-        return self.make_python3_msg(self.captured_logs.getvalue().split('\n')[0])
+        return self.captured_logs.getvalue().split('\n')[0]
 
     @parameterized.expand([
         param('en', 'string instead of dict', log_msg="Language 'en' info expected to be dict, "

@@ -1,78 +1,77 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "sg",
     "date_order": "DMY",
     "january": [
-        "nyenye",
-        "nye"
+        "nye",
+        "nyenye"
     ],
     "february": [
-        "fulundïgi",
-        "ful"
+        "ful",
+        "fulundïgi"
     ],
     "march": [
-        "mbängü",
-        "mbä"
+        "mbä",
+        "mbängü"
     ],
     "april": [
-        "ngubùe",
-        "ngu"
+        "ngu",
+        "ngubùe"
     ],
     "may": [
-        "bêläwü",
-        "bêl"
+        "bêl",
+        "bêläwü"
     ],
     "june": [
-        "föndo",
-        "fön"
+        "fön",
+        "föndo"
     ],
     "july": [
-        "lengua",
-        "len"
+        "len",
+        "lengua"
     ],
     "august": [
-        "kükürü",
-        "kük"
+        "kük",
+        "kükürü"
     ],
     "september": [
-        "mvuka",
-        "mvu"
+        "mvu",
+        "mvuka"
     ],
     "october": [
-        "ngberere",
-        "ngb"
+        "ngb",
+        "ngberere"
     ],
     "november": [
-        "nabändüru",
-        "nab"
+        "nab",
+        "nabändüru"
     ],
     "december": [
-        "kakauka",
-        "kak"
+        "kak",
+        "kakauka"
     ],
     "monday": [
-        "bïkua-ûse",
-        "bk2"
+        "bk2",
+        "bïkua-ûse"
     ],
     "tuesday": [
-        "bïkua-ptâ",
-        "bk3"
+        "bk3",
+        "bïkua-ptâ"
     ],
     "wednesday": [
-        "bïkua-usïö",
-        "bk4"
+        "bk4",
+        "bïkua-usïö"
     ],
     "thursday": [
-        "bïkua-okü",
-        "bk5"
+        "bk5",
+        "bïkua-okü"
     ],
     "friday": [
-        "lâpôsö",
-        "lâp"
+        "lâp",
+        "lâpôsö"
     ],
     "saturday": [
-        "lâyenga",
-        "lây"
+        "lây",
+        "lâyenga"
     ],
     "sunday": [
         "bikua-ôko",
@@ -106,41 +105,8 @@ info = {
         "nzîna ngbonga"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "bîrï"
-        ],
         "0 day ago": [
             "lâsô"
-        ],
-        "in 1 day": [
-            "kêkerêke"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "bîrï"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "kêkerêke"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

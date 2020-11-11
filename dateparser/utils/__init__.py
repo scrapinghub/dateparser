@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import calendar
 import logging
 import types
@@ -18,12 +17,10 @@ def strip_braces(date_string):
 
 
 def normalize_unicode(string, form='NFKD'):
-    if isinstance(string, bytes):
-        string = string.decode('utf-8')
-
     return ''.join(
-        (c for c in unicodedata.normalize(form, string)
-         if unicodedata.category(c) != 'Mn'))
+        c for c in unicodedata.normalize(form, string)
+        if unicodedata.category(c) != 'Mn'
+    )
 
 
 def combine_dicts(primary_dict, supplementary_dict):
@@ -44,29 +41,28 @@ def combine_dicts(primary_dict, supplementary_dict):
     return combined_dict
 
 
-def convert_to_unicode(info):
-    unicode_info = OrderedDict()
-    for key, value in info.items():
-        if isinstance(key, bytes):
-            key = key.decode('utf-8')
-        if isinstance(value, list):
-            for i, v in enumerate(value):
-                if isinstance(v, dict):
-                    value[i] = convert_to_unicode(v)
-                elif isinstance(v, bytes):
-                    value[i] = v.decode('utf-8')
-        elif isinstance(value, dict):
-            value = convert_to_unicode(value)
-        elif isinstance(value, bytes):
-            value = value.decode('utf-8')
-        unicode_info[key] = value
-    return unicode_info
-
-
 def find_date_separator(format):
     m = re.search(r'(?:(?:%[dbBmaA])(\W))+', format)
     if m:
         return m.group(1)
+
+
+def _get_missing_parts(fmt):
+    """
+    Return a list containing missing parts (day, month, year)
+    from a date format checking its directives
+    """
+    directive_mapping = {
+        'day': ['%d', '%-d', '%j', '%-j'],
+        'month': ['%b', '%B', '%m', '%-m'],
+        'year': ['%y', '%-y', '%Y']
+    }
+
+    missing = [
+        field for field in ('day', 'month', 'year')
+        if not any(directive in fmt for directive in directive_mapping[field])
+    ]
+    return missing
 
 
 def localize_timezone(date_time, tz_string):
@@ -85,7 +81,12 @@ def localize_timezone(date_time, tz_string):
         else:
             raise e
 
-    return tz.localize(date_time)
+    if hasattr(tz, 'localize'):
+        date_time = tz.localize(date_time)
+    else:
+        date_time = date_time.replace(tzinfo=tz)
+
+    return date_time
 
 
 def apply_tzdatabase_timezone(date_time, pytz_string):
@@ -106,7 +107,10 @@ def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
 
 def apply_timezone(date_time, tz_string):
     if not date_time.tzinfo:
-        date_time = UTC.localize(date_time)
+        if hasattr(UTC, 'localize'):
+            date_time = UTC.localize(date_time)
+        else:
+            date_time = date_time.replace(tzinfo=UTC)
 
     new_datetime = apply_dateparser_timezone(date_time, tz_string)
 
@@ -122,7 +126,10 @@ def apply_timezone_from_settings(date_obj, settings):
         return date_obj
 
     if 'local' in settings.TIMEZONE.lower():
-        date_obj = tz.localize(date_obj)
+        if hasattr(tz, 'localize'):
+            date_obj = tz.localize(date_obj)
+        else:
+            date_obj = date_obj.replace(tzinfo=tz)
     else:
         date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 
@@ -137,6 +144,26 @@ def apply_timezone_from_settings(date_obj, settings):
 
 def get_last_day_of_month(year, month):
     return calendar.monthrange(year, month)[1]
+
+
+def get_previous_leap_year(year):
+    return _get_leap_year(year, future=False)
+
+
+def get_next_leap_year(year):
+    return _get_leap_year(year, future=True)
+
+
+def _get_leap_year(year, future):
+    """
+    Iterate through previous or next years until it gets a valid leap year
+    This is performed to avoid missing or including centurial leap years
+    """
+    step = 1 if future else -1
+    leap_year = year + step
+    while not calendar.isleap(leap_year):
+        leap_year += step
+    return leap_year
 
 
 def set_correct_day_from_settings(date_obj, settings, current_day=None):

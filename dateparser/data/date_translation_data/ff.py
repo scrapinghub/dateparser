@@ -1,82 +1,81 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "ff",
     "date_order": "DMY",
     "january": [
-        "siilo",
-        "sii"
+        "sii",
+        "siilo"
     ],
     "february": [
-        "colte",
-        "col"
+        "col",
+        "colte"
     ],
     "march": [
-        "mbooy",
-        "mbo"
+        "mbo",
+        "mbooy"
     ],
     "april": [
-        "seeɗto",
-        "see"
+        "see",
+        "seeɗto"
     ],
     "may": [
-        "duujal",
-        "duu"
+        "duu",
+        "duujal"
     ],
     "june": [
-        "korse",
-        "kor"
+        "kor",
+        "korse"
     ],
     "july": [
-        "morso",
-        "mor"
+        "mor",
+        "morso"
     ],
     "august": [
-        "juko",
-        "juk"
+        "juk",
+        "juko"
     ],
     "september": [
         "siilto",
         "slt"
     ],
     "october": [
-        "yarkomaa",
-        "yar"
+        "yar",
+        "yarkomaa"
     ],
     "november": [
-        "jolal",
-        "jol"
+        "jol",
+        "jolal"
     ],
     "december": [
-        "bowte",
-        "bow"
+        "bow",
+        "bowte"
     ],
     "monday": [
-        "aaɓnde",
-        "aaɓ"
+        "aaɓ",
+        "aaɓnde"
     ],
     "tuesday": [
-        "mawbaare",
-        "maw"
+        "maw",
+        "mawbaare"
     ],
     "wednesday": [
-        "njeslaare",
-        "nje"
+        "nje",
+        "njeslaare"
     ],
     "thursday": [
-        "naasaande",
-        "naa"
+        "naa",
+        "naasaande"
     ],
     "friday": [
         "mawnde",
         "mwd"
     ],
     "saturday": [
-        "hoore-biir",
-        "hbi"
+        "hbi",
+        "hoore-biir"
     ],
     "sunday": [
-        "dewo",
-        "dew"
+        "dew",
+        "dewo"
     ],
     "am": [
         "subaka"
@@ -106,41 +105,8 @@ info = {
         "majaango"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "haŋki"
-        ],
         "0 day ago": [
             "hannde"
-        ],
-        "in 1 day": [
-            "jaŋngo"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,19 +114,52 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "haŋki"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "jaŋngo"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {
+        "ff-CM": {
+            "name": "ff-CM"
+        },
         "ff-GN": {
             "name": "ff-GN"
         },
         "ff-MR": {
             "name": "ff-MR"
-        },
-        "ff-CM": {
-            "name": "ff-CM"
         }
     },
     "skip": [

@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import regex as re
 from datetime import datetime
 from datetime import time
@@ -13,11 +10,11 @@ from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
 
-_UNITS = r'year|month|week|day|hour|minute|second'
+_UNITS = r'decade|year|month|week|day|hour|minute|second'
 PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
 
 
-class FreshnessDateDataParser(object):
+class FreshnessDateDataParser:
     """ Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago" """
     def __init__(self):
         self.now = None
@@ -29,9 +26,9 @@ class FreshnessDateDataParser(object):
 
         date_string = re.sub(r'\s+', ' ', date_string.strip())
 
-        words = filter(lambda x: x if x else False, re.split(r'\W', date_string))
-        words = filter(lambda x: not re.match(r'%s' % '|'.join(skip), x), words)
-        return not list(words)
+        words = [x for x in re.split(r'\W', date_string) if x]
+        words = [x for x in words if not re.match(r'%s' % '|'.join(skip), x)]
+        return not words
 
     def _parse_time(self, date_string, settings):
         """Attempts to parse time part of date strings like '1 day ago, 2 PM' """
@@ -71,10 +68,16 @@ class FreshnessDateDataParser(object):
                 if self.now.tzinfo:
                     self.now = self.now.astimezone(ptz)
                 else:
-                    self.now = ptz.localize(self.now)
+                    if hasattr(ptz, 'localize'):
+                        self.now = ptz.localize(self.now)
+                    else:
+                        self.now = self.now.replace(tzinfo=ptz)
 
             if not self.now.tzinfo:
-                self.now = self.get_local_tz().localize(self.now)
+                if hasattr(self.get_local_tz(), 'localize'):
+                    self.now = self.get_local_tz().localize(self.now)
+                else:
+                    self.now = self.now.replace(tzinfo=self.get_local_tz())
 
         elif ptz:
             _now = datetime.now(ptz)
@@ -94,14 +97,18 @@ class FreshnessDateDataParser(object):
         date, period = self._parse_date(date_string, settings.PREFER_DATES_FROM)
 
         if date:
+            old_date = date
             date = apply_time(date, _time)
+            if settings.RETURN_TIME_AS_PERIOD and old_date != date:
+                period = 'time'
+
             if settings.TO_TIMEZONE:
                 date = apply_timezone(date, settings.TO_TIMEZONE)
 
             if (
-                not settings.RETURN_AS_TIMEZONE_AWARE or
-                (settings.RETURN_AS_TIMEZONE_AWARE and
-                 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
+                not settings.RETURN_AS_TIMEZONE_AWARE
+                or (settings.RETURN_AS_TIMEZONE_AWARE
+                    and 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
             ):
                 date = date.replace(tzinfo=None)
 
@@ -115,19 +122,18 @@ class FreshnessDateDataParser(object):
         kwargs = self.get_kwargs(date_string)
         if not kwargs:
             return None, None
-
         period = 'day'
         if 'days' not in kwargs:
             for k in ['weeks', 'months', 'years']:
                 if k in kwargs:
                     period = k[:-1]
                     break
-
         td = relativedelta(**kwargs)
+
         if (
-            re.search(r'\bin\b', date_string) or
-            re.search(r'\bfuture\b', prefer_dates_from) and
-            not re.search(r'\bago\b', date_string)
+            re.search(r'\bin\b', date_string)
+            or re.search(r'\bfuture\b', prefer_dates_from)
+            and not re.search(r'\bago\b', date_string)
         ):
             date = self.now + td
         else:
@@ -142,12 +148,16 @@ class FreshnessDateDataParser(object):
         kwargs = {}
         for num, unit in m:
             kwargs[unit + 's'] = int(num)
-
+        if 'decades' in kwargs:
+            kwargs['years'] = 10 * kwargs['decades'] + kwargs.get('years', 0)
+            del kwargs['decades']
         return kwargs
 
     def get_date_data(self, date_string, settings=None):
+        from dateparser.date import DateData
+
         date, period = self.parse(date_string, settings)
-        return dict(date_obj=date, period=period)
+        return DateData(date_obj=date, period=period)
 
 
 freshness_date_parser = FreshnessDateDataParser()

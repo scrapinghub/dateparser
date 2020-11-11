@@ -1,159 +1,125 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "ksh",
     "date_order": "DMY",
     "january": [
-        "jannewa",
-        "jan"
+        "jan",
+        "jannewa"
     ],
     "february": [
-        "fäbrowa",
-        "fäb"
+        "fäb",
+        "fäbrowa"
     ],
     "march": [
-        "määz",
-        "mäz"
+        "mäz",
+        "määz"
     ],
     "april": [
-        "aprell",
-        "apr"
+        "apr",
+        "aprell"
     ],
     "may": [
         "mai"
     ],
     "june": [
-        "juuni",
-        "jun"
+        "jun",
+        "juuni"
     ],
     "july": [
-        "juuli",
-        "jul"
+        "jul",
+        "juuli"
     ],
     "august": [
-        "oujoß",
-        "ouj"
+        "ouj",
+        "oujoß"
     ],
     "september": [
         "septämber",
         "säp"
     ],
     "october": [
-        "oktohber",
-        "okt"
+        "okt",
+        "oktohber"
     ],
     "november": [
-        "novämber",
-        "nov"
+        "nov",
+        "novämber"
     ],
     "december": [
-        "dezämber",
-        "dez"
+        "dez",
+        "dezämber"
     ],
     "monday": [
-        "mohndaach",
-        "mo"
+        "mo",
+        "mohndaach"
     ],
     "tuesday": [
-        "dinnsdaach",
-        "di"
+        "di",
+        "dinnsdaach"
     ],
     "wednesday": [
-        "metwoch",
-        "me"
+        "me",
+        "metwoch"
     ],
     "thursday": [
-        "dunnersdaach",
-        "du"
+        "du",
+        "dunnersdaach"
     ],
     "friday": [
-        "friidaach",
-        "fr"
+        "fr",
+        "friidaach"
     ],
     "saturday": [
-        "samsdaach",
-        "sa"
+        "sa",
+        "samsdaach"
     ],
     "sunday": [
-        "sunndaach",
-        "su"
+        "su",
+        "sunndaach"
     ],
     "am": [
-        "vörmeddaach",
+        "uhr vörmiddaachs",
         "vm",
-        "uhr vörmiddaachs"
+        "vörmeddaach"
     ],
     "pm": [
-        "nommendaach",
         "nm",
+        "nommendaach",
         "uhr nommendaachs"
     ],
     "year": [
-        "johr",
-        "j"
+        "j",
+        "johr"
     ],
     "month": [
-        "mohnd",
-        "m"
+        "m",
+        "mohnd"
     ],
     "week": [
-        "woch",
-        "w"
+        "w",
+        "woch"
     ],
     "day": [
-        "daach",
-        "d"
+        "d",
+        "daach"
     ],
     "hour": [
+        "s",
         "schtund",
-        "std",
-        "s"
+        "std"
     ],
     "minute": [
+        "m",
         "menutt",
-        "min",
-        "m"
+        "min"
     ],
     "second": [
-        "sekond",
+        "s",
         "sek",
-        "s"
+        "sekond"
     ],
     "relative-type": {
-        "1 year ago": [
-            "läz johr"
-        ],
-        "0 year ago": [
-            "diß johr"
-        ],
-        "in 1 year": [
-            "näx johr"
-        ],
-        "1 month ago": [
-            "lätzde mohnd"
-        ],
-        "0 month ago": [
-            "diese mohnd"
-        ],
-        "in 1 month": [
-            "nächste mohnd"
-        ],
-        "1 week ago": [
-            "läz woch"
-        ],
-        "0 week ago": [
-            "di woch"
-        ],
-        "in 1 week": [
-            "nächste woche"
-        ],
-        "1 day ago": [
-            "jestere"
-        ],
         "0 day ago": [
             "hück"
-        ],
-        "in 1 day": [
-            "morje"
         ],
         "0 hour ago": [
             "this hour"
@@ -161,18 +127,51 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "diese mohnd"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "di woch"
+        ],
+        "0 year ago": [
+            "diß johr"
+        ],
+        "1 day ago": [
+            "jestere"
+        ],
+        "1 month ago": [
+            "lätzde mohnd"
+        ],
+        "1 week ago": [
+            "läz woch"
+        ],
+        "1 year ago": [
+            "läz johr"
+        ],
+        "in 1 day": [
+            "morje"
+        ],
+        "in 1 month": [
+            "nächste mohnd"
+        ],
+        "in 1 week": [
+            "nächste woche"
+        ],
+        "in 1 year": [
+            "näx johr"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "en (\\d+) johr",
-            "en (\\d+) johre"
-        ],
         "\\1 year ago": [
             "vör (\\d+) johr",
             "vör (\\d+) johre"
+        ],
+        "in \\1 year": [
+            "en (\\d+) johr",
+            "en (\\d+) johre"
         ]
     },
     "locale_specific": {},

@@ -2,70 +2,70 @@
     "name": "ca",
     "date_order": "DMY",
     "january": [
-        "gener",
-        "gen",
+        "de gen",
         "de gener",
-        "de gen"
+        "gen",
+        "gener"
     ],
     "february": [
-        "febrer",
-        "febr",
+        "de febr",
         "de febrer",
-        "de febr"
+        "febr",
+        "febrer"
     ],
     "march": [
-        "març",
-        "de març"
+        "de març",
+        "març"
     ],
     "april": [
-        "abril",
         "abr",
-        "d'abril",
-        "d'abr"
+        "abril",
+        "d'abr",
+        "d'abril"
     ],
     "may": [
-        "maig",
-        "de maig"
+        "de maig",
+        "maig"
     ],
     "june": [
-        "juny",
-        "de juny"
+        "de juny",
+        "juny"
     ],
     "july": [
-        "juliol",
-        "jul",
+        "de jul",
         "de juliol",
-        "de jul"
+        "jul",
+        "juliol"
     ],
     "august": [
-        "agost",
         "ag",
-        "d'agost",
-        "d'ag"
+        "agost",
+        "d'ag",
+        "d'agost"
     ],
     "september": [
-        "setembre",
-        "set",
+        "de set",
         "de setembre",
-        "de set"
+        "set",
+        "setembre"
     ],
     "october": [
-        "octubre",
-        "oct",
+        "d'oct",
         "d'octubre",
-        "d'oct"
+        "oct",
+        "octubre"
     ],
     "november": [
-        "novembre",
-        "nov",
+        "de nov",
         "de novembre",
-        "de nov"
+        "nov",
+        "novembre"
     ],
     "december": [
-        "desembre",
-        "des",
+        "de des",
         "de desembre",
-        "de des"
+        "des",
+        "desembre"
     ],
     "monday": [
         "dilluns",
@@ -76,8 +76,8 @@
         "dt"
     ],
     "wednesday": [
-        "dimecres",
-        "dc"
+        "dc",
+        "dimecres"
     ],
     "thursday": [
         "dijous",
@@ -92,8 +92,8 @@
         "ds"
     ],
     "sunday": [
-        "diumenge",
-        "dg"
+        "dg",
+        "diumenge"
     ],
     "am": [
         "am"
@@ -108,67 +108,27 @@
         "mes"
     ],
     "week": [
-        "setmana",
-        "setm"
+        "setm",
+        "setmana"
     ],
     "day": [
         "dia"
     ],
     "hour": [
-        "hora",
-        "h"
+        "h",
+        "hora"
     ],
     "minute": [
-        "minut",
-        "min"
+        "min",
+        "minut"
     ],
     "second": [
-        "segon",
-        "s"
+        "s",
+        "segon"
     ],
     "relative-type": {
-        "1 year ago": [
-            "l'any passat"
-        ],
-        "0 year ago": [
-            "enguany"
-        ],
-        "in 1 year": [
-            "l'any que ve"
-        ],
-        "1 month ago": [
-            "el mes passat",
-            "mes passat"
-        ],
-        "0 month ago": [
-            "aquest mes"
-        ],
-        "in 1 month": [
-            "el mes que ve",
-            "mes vinent"
-        ],
-        "1 week ago": [
-            "la setmana passada",
-            "la setm passada",
-            "setm passada"
-        ],
-        "0 week ago": [
-            "aquesta setmana",
-            "aquesta setm"
-        ],
-        "in 1 week": [
-            "la setmana que ve",
-            "la setm que ve",
-            "setm vinent"
-        ],
-        "1 day ago": [
-            "ahir"
-        ],
         "0 day ago": [
             "avui"
-        ],
-        "in 1 day": [
-            "demà"
         ],
         "0 hour ago": [
             "aquesta hora"
@@ -176,86 +136,126 @@
         "0 minute ago": [
             "aquest minut"
         ],
+        "0 month ago": [
+            "aquest mes"
+        ],
         "0 second ago": [
             "ara"
+        ],
+        "0 week ago": [
+            "aquesta setm",
+            "aquesta setmana"
+        ],
+        "0 year ago": [
+            "enguany"
+        ],
+        "1 day ago": [
+            "ahir"
+        ],
+        "1 month ago": [
+            "el mes passat",
+            "mes passat"
+        ],
+        "1 week ago": [
+            "la setm passada",
+            "la setmana passada",
+            "setm passada"
+        ],
+        "1 year ago": [
+            "l'any passat"
+        ],
+        "in 1 day": [
+            "demà"
+        ],
+        "in 1 month": [
+            "el mes que ve",
+            "mes vinent"
+        ],
+        "in 1 week": [
+            "la setm que ve",
+            "la setmana que ve",
+            "setm vinent"
+        ],
+        "in 1 year": [
+            "l'any que ve"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "d'aquí a {0} any",
-            "d'aquí a {0} anys"
+        "\\1 day ago": [
+            "fa {0} dia",
+            "fa {0} dies"
         ],
-        "\\1 year ago": [
-            "fa {0} any",
-            "fa {0} anys"
+        "\\1 hour ago": [
+            "fa {0} h",
+            "fa {0} hora",
+            "fa {0} hores"
         ],
-        "in \\1 month": [
-            "d'aquí a {0} mes",
-            "d'aquí a {0} mesos"
+        "\\1 minute ago": [
+            "fa {0} min",
+            "fa {0} minut",
+            "fa {0} minuts"
         ],
         "\\1 month ago": [
             "fa {0} mes",
             "fa {0} mesos"
         ],
-        "in \\1 week": [
-            "d'aquí a {0} setmana",
-            "d'aquí a {0} setmanes",
-            "d'aquí a {0} setm"
+        "\\1 second ago": [
+            "fa {0} s",
+            "fa {0} segon",
+            "fa {0} segons"
         ],
         "\\1 week ago": [
+            "fa {0} setm",
             "fa {0} setmana",
-            "fa {0} setmanes",
-            "fa {0} setm"
+            "fa {0} setmanes"
+        ],
+        "\\1 year ago": [
+            "fa {0} any",
+            "fa {0} anys"
         ],
         "in \\1 day": [
             "d'aquí a {0} dia",
             "d'aquí a {0} dies"
         ],
-        "\\1 day ago": [
-            "fa {0} dia",
-            "fa {0} dies"
-        ],
         "in \\1 hour": [
+            "d'aquí a {0} h",
             "d'aquí a {0} hora",
             "d'aquí a {0} hores",
-            "d'aquí a {0} h",
             "d‘aquí a {0} h"
         ],
-        "\\1 hour ago": [
-            "fa {0} hora",
-            "fa {0} hores",
-            "fa {0} h"
-        ],
         "in \\1 minute": [
+            "d'aquí a {0} min",
             "d'aquí a {0} minut",
-            "d'aquí a {0} minuts",
-            "d'aquí a {0} min"
+            "d'aquí a {0} minuts"
         ],
-        "\\1 minute ago": [
-            "fa {0} minut",
-            "fa {0} minuts",
-            "fa {0} min"
+        "in \\1 month": [
+            "d'aquí a {0} mes",
+            "d'aquí a {0} mesos"
         ],
         "in \\1 second": [
+            "d'aquí a {0} s",
             "d'aquí a {0} segon",
-            "d'aquí a {0} segons",
-            "d'aquí a {0} s"
+            "d'aquí a {0} segons"
         ],
-        "\\1 second ago": [
-            "fa {0} segon",
-            "fa {0} segons",
-            "fa {0} s"
+        "in \\1 week": [
+            "d'aquí a {0} setm",
+            "d'aquí a {0} setmana",
+            "d'aquí a {0} setmanes"
+        ],
+        "in \\1 year": [
+            "d'aquí a {0} any",
+            "d'aquí a {0} anys"
         ]
     },
     "locale_specific": {
+        "ca-AD": {
+            "name": "ca-AD"
+        },
         "ca-FR": {
             "name": "ca-FR"
         },
         "ca-IT": {
             "name": "ca-IT"
-        },
-        "ca-AD": {
-            "name": "ca-AD"
         }
     }
 }

@@ -1,82 +1,81 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "ak",
     "date_order": "YMD",
     "january": [
-        "sanda-ɔpɛpɔn",
-        "s-ɔ"
+        "s-ɔ",
+        "sanda-ɔpɛpɔn"
     ],
     "february": [
-        "kwakwar-ɔgyefuo",
-        "k-ɔ"
+        "k-ɔ",
+        "kwakwar-ɔgyefuo"
     ],
     "march": [
-        "ebɔw-ɔbenem",
-        "e-ɔ"
+        "e-ɔ",
+        "ebɔw-ɔbenem"
     ],
     "april": [
-        "ebɔbira-oforisuo",
-        "e-o"
+        "e-o",
+        "ebɔbira-oforisuo"
     ],
     "may": [
-        "esusow aketseaba-kɔtɔnimba",
-        "e-k"
+        "e-k",
+        "esusow aketseaba-kɔtɔnimba"
     ],
     "june": [
-        "obirade-ayɛwohomumu",
-        "o-a"
+        "o-a",
+        "obirade-ayɛwohomumu"
     ],
     "july": [
-        "ayɛwoho-kitawonsa",
-        "a-k"
+        "a-k",
+        "ayɛwoho-kitawonsa"
     ],
     "august": [
-        "difuu-ɔsandaa",
-        "d-ɔ"
+        "d-ɔ",
+        "difuu-ɔsandaa"
     ],
     "september": [
-        "fankwa-ɛbɔ",
-        "f-ɛ"
+        "f-ɛ",
+        "fankwa-ɛbɔ"
     ],
     "october": [
-        "ɔbɛsɛ-ahinime",
-        "ɔ-a"
+        "ɔ-a",
+        "ɔbɛsɛ-ahinime"
     ],
     "november": [
-        "ɔberɛfɛw-obubuo",
-        "ɔ-o"
+        "ɔ-o",
+        "ɔberɛfɛw-obubuo"
     ],
     "december": [
-        "mumu-ɔpɛnimba",
-        "m-ɔ"
+        "m-ɔ",
+        "mumu-ɔpɛnimba"
     ],
     "monday": [
-        "dwowda",
-        "dwo"
+        "dwo",
+        "dwowda"
     ],
     "tuesday": [
-        "benada",
-        "ben"
+        "ben",
+        "benada"
     ],
     "wednesday": [
-        "wukuda",
-        "wuk"
+        "wuk",
+        "wukuda"
     ],
     "thursday": [
-        "yawda",
-        "yaw"
+        "yaw",
+        "yawda"
     ],
     "friday": [
-        "fida",
-        "fia"
+        "fia",
+        "fida"
     ],
     "saturday": [
-        "memeneda",
-        "mem"
+        "mem",
+        "memeneda"
     ],
     "sunday": [
-        "kwesida",
-        "kwe"
+        "kwe",
+        "kwesida"
     ],
     "am": [
         "an"
@@ -106,41 +105,8 @@ info = {
         "sɛkɛnd"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "ndeda"
-        ],
         "0 day ago": [
             "ndɛ"
-        ],
-        "in 1 day": [
-            "ɔkyena"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "ndeda"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "ɔkyena"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

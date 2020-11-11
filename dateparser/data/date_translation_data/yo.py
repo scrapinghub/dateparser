@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "yo",
     "date_order": "DMY",
@@ -27,36 +26,36 @@ info = {
         "òkúdu"
     ],
     "july": [
-        "oṣù agẹmọ",
-        "agẹmọ"
+        "agẹmọ",
+        "oṣù agẹmọ"
     ],
     "august": [
         "oṣù ògún",
         "ògún"
     ],
     "september": [
-        "oṣù owewe",
-        "owewe"
+        "owewe",
+        "oṣù owewe"
     ],
     "october": [
         "oṣù ọ̀wàrà",
         "ọ̀wàrà"
     ],
     "november": [
-        "oṣù bélú",
-        "bélú"
+        "bélú",
+        "oṣù bélú"
     ],
     "december": [
         "oṣù ọ̀pẹ̀",
         "ọ̀pẹ̀"
     ],
     "monday": [
-        "ọjọ́ ajé",
-        "ajé"
+        "ajé",
+        "ọjọ́ ajé"
     ],
     "tuesday": [
-        "ọjọ́ ìsẹ́gun",
-        "ìsẹ́gun"
+        "ìsẹ́gun",
+        "ọjọ́ ìsẹ́gun"
     ],
     "wednesday": [
         "ọjọ́rú"
@@ -65,16 +64,16 @@ info = {
         "ọjọ́bọ"
     ],
     "friday": [
-        "ọjọ́ ẹtì",
-        "ẹtì"
+        "ẹtì",
+        "ọjọ́ ẹtì"
     ],
     "saturday": [
-        "ọjọ́ àbámẹ́ta",
-        "àbámẹ́ta"
+        "àbámẹ́ta",
+        "ọjọ́ àbámẹ́ta"
     ],
     "sunday": [
-        "ọjọ́ àìkú",
-        "àìkú"
+        "àìkú",
+        "ọjọ́ àìkú"
     ],
     "am": [
         "àárọ̀"
@@ -104,41 +103,8 @@ info = {
         "ìsẹ́jú ààyá"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "àná"
-        ],
         "0 day ago": [
             "òní"
-        ],
-        "in 1 day": [
-            "ọ̀la"
         ],
         "0 hour ago": [
             "this hour"
@@ -146,8 +112,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "àná"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "ọ̀la"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {
@@ -161,8 +160,8 @@ info = {
                 "oshù èrèlè"
             ],
             "march": [
-                "ɛrɛ̀nà",
-                "oshù ɛrɛ̀nà"
+                "oshù ɛrɛ̀nà",
+                "ɛrɛ̀nà"
             ],
             "april": [
                 "oshù ìgbé"
@@ -192,15 +191,15 @@ info = {
                 "oshù bélú"
             ],
             "december": [
-                "ɔ̀pɛ̀",
-                "oshù ɔ̀pɛ̀"
+                "oshù ɔ̀pɛ̀",
+                "ɔ̀pɛ̀"
             ],
             "monday": [
                 "ɔjɔ́ ajé"
             ],
             "tuesday": [
-                "ɔjɔ́ ìsɛ́gun",
-                "ìsɛ́gun"
+                "ìsɛ́gun",
+                "ɔjɔ́ ìsɛ́gun"
             ],
             "wednesday": [
                 "ɔjɔ́rú"
@@ -213,8 +212,8 @@ info = {
                 "ɛtì"
             ],
             "saturday": [
-                "ɔjɔ́ àbámɛ́ta",
-                "àbámɛ́ta"
+                "àbámɛ́ta",
+                "ɔjɔ́ àbámɛ́ta"
             ],
             "sunday": [
                 "ɔjɔ́ àìkú"

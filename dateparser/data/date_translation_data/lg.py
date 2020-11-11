@@ -1,82 +1,81 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "lg",
     "date_order": "DMY",
     "january": [
-        "janwaliyo",
-        "jan"
+        "jan",
+        "janwaliyo"
     ],
     "february": [
-        "febwaliyo",
-        "feb"
+        "feb",
+        "febwaliyo"
     ],
     "march": [
-        "marisi",
-        "mar"
+        "mar",
+        "marisi"
     ],
     "april": [
-        "apuli",
-        "apu"
+        "apu",
+        "apuli"
     ],
     "may": [
-        "maayi",
-        "maa"
+        "maa",
+        "maayi"
     ],
     "june": [
-        "juuni",
-        "juu"
+        "juu",
+        "juuni"
     ],
     "july": [
-        "julaayi",
-        "jul"
+        "jul",
+        "julaayi"
     ],
     "august": [
-        "agusito",
-        "agu"
+        "agu",
+        "agusito"
     ],
     "september": [
-        "sebuttemba",
-        "seb"
+        "seb",
+        "sebuttemba"
     ],
     "october": [
-        "okitobba",
-        "oki"
+        "oki",
+        "okitobba"
     ],
     "november": [
-        "novemba",
-        "nov"
+        "nov",
+        "novemba"
     ],
     "december": [
-        "desemba",
-        "des"
+        "des",
+        "desemba"
     ],
     "monday": [
-        "balaza",
-        "bal"
+        "bal",
+        "balaza"
     ],
     "tuesday": [
-        "lwakubiri",
-        "lw2"
+        "lw2",
+        "lwakubiri"
     ],
     "wednesday": [
-        "lwakusatu",
-        "lw3"
+        "lw3",
+        "lwakusatu"
     ],
     "thursday": [
-        "lwakuna",
-        "lw4"
+        "lw4",
+        "lwakuna"
     ],
     "friday": [
-        "lwakutaano",
-        "lw5"
+        "lw5",
+        "lwakutaano"
     ],
     "saturday": [
-        "lwamukaaga",
-        "lw6"
+        "lw6",
+        "lwamukaaga"
     ],
     "sunday": [
-        "sabbiiti",
-        "sab"
+        "sab",
+        "sabbiiti"
     ],
     "am": [
         "am"
@@ -106,41 +105,8 @@ info = {
         "kasikonda"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "ggulo"
-        ],
         "0 day ago": [
             "lwaleero"
-        ],
-        "in 1 day": [
-            "nkya"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "ggulo"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "nkya"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

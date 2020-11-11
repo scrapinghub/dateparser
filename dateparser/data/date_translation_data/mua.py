@@ -1,26 +1,25 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "mua",
     "date_order": "DMY",
     "january": [
-        "fĩi loo",
-        "flo"
+        "flo",
+        "fĩi loo"
     ],
     "february": [
-        "cokcwaklaŋne",
-        "cla"
+        "cla",
+        "cokcwaklaŋne"
     ],
     "march": [
-        "cokcwaklii",
-        "cki"
+        "cki",
+        "cokcwaklii"
     ],
     "april": [
-        "fĩi marfoo",
-        "fmf"
+        "fmf",
+        "fĩi marfoo"
     ],
     "may": [
-        "madǝǝuutǝbijaŋ",
-        "mad"
+        "mad",
+        "madǝǝuutǝbijaŋ"
     ],
     "june": [
         "mamǝŋgwãafahbii",
@@ -35,40 +34,40 @@ info = {
         "mam"
     ],
     "september": [
-        "fĩi dǝɓlii",
-        "fde"
+        "fde",
+        "fĩi dǝɓlii"
     ],
     "october": [
-        "fĩi mundaŋ",
-        "fmu"
+        "fmu",
+        "fĩi mundaŋ"
     ],
     "november": [
-        "fĩi gwahlle",
-        "fgw"
+        "fgw",
+        "fĩi gwahlle"
     ],
     "december": [
-        "fĩi yuru",
-        "fyu"
+        "fyu",
+        "fĩi yuru"
     ],
     "monday": [
-        "comlaaɗii",
-        "cla"
+        "cla",
+        "comlaaɗii"
     ],
     "tuesday": [
         "comzyiiɗii",
         "czi"
     ],
     "wednesday": [
-        "comkolle",
-        "cko"
+        "cko",
+        "comkolle"
     ],
     "thursday": [
-        "comkaldǝɓlii",
-        "cka"
+        "cka",
+        "comkaldǝɓlii"
     ],
     "friday": [
-        "comgaisuu",
-        "cga"
+        "cga",
+        "comgaisuu"
     ],
     "saturday": [
         "comzyeɓsuu",
@@ -106,41 +105,8 @@ info = {
         "cok comme ma laŋ tǝ biŋ"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "tǝsoo"
-        ],
         "0 day ago": [
             "tǝ'nahko"
-        ],
-        "in 1 day": [
-            "tǝ'nane"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "tǝsoo"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tǝ'nane"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from dateparser.search.detection import BaseLanguageDetector
 from dateparser.conf import apply_settings
 from dateparser.utils import normalize_unicode
@@ -47,7 +45,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
                           if j not in indices_to_pop]
 
     @apply_settings
-    def _best_language(self, date_string,  settings=None):
+    def _best_language(self, date_string, settings=None):
         self.character_check(date_string, settings)
         date_string = normalize_unicode(date_string.lower())
         if len(self.languages) == 1:

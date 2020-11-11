@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "as",
     "date_order": "YMD",
     "january": [
-        "জানুৱাৰী",
-        "জানু"
+        "জানু",
+        "জানুৱাৰী"
     ],
     "february": [
-        "ফেব্ৰুৱাৰী",
-        "ফেব্ৰু"
+        "ফেব্ৰু",
+        "ফেব্ৰুৱাৰী"
     ],
     "march": [
         "মাৰ্চ"
@@ -26,48 +25,48 @@ info = {
         "জুলাই"
     ],
     "august": [
-        "আগষ্ট",
-        "আগ"
+        "আগ",
+        "আগষ্ট"
     ],
     "september": [
         "ছেপ্তেম্বৰ",
         "সেপ্ট"
     ],
     "october": [
-        "অক্টোবৰ",
-        "অক্টো"
+        "অক্টো",
+        "অক্টোবৰ"
     ],
     "november": [
-        "নৱেম্বৰ",
-        "নভে"
+        "নভে",
+        "নৱেম্বৰ"
     ],
     "december": [
         "ডিচেম্বৰ",
         "ডিসে"
     ],
     "monday": [
-        "সোমবাৰ",
-        "সোম"
+        "সোম",
+        "সোমবাৰ"
     ],
     "tuesday": [
-        "মঙ্গলবাৰ",
-        "মঙ্গল"
+        "মঙ্গল",
+        "মঙ্গলবাৰ"
     ],
     "wednesday": [
-        "বুধবাৰ",
-        "বুধ"
+        "বুধ",
+        "বুধবাৰ"
     ],
     "thursday": [
-        "বৃহষ্পতিবাৰ",
-        "বৃহষ্পতি"
+        "বৃহষ্পতি",
+        "বৃহষ্পতিবাৰ"
     ],
     "friday": [
-        "শুক্ৰবাৰ",
-        "শুক্ৰ"
+        "শুক্ৰ",
+        "শুক্ৰবাৰ"
     ],
     "saturday": [
-        "শনিবাৰ",
-        "শনি"
+        "শনি",
+        "শনিবাৰ"
     ],
     "sunday": [
         "দেওবাৰ",
@@ -101,41 +100,8 @@ info = {
         "ছেকেণ্ড"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "কালি"
-        ],
         "0 day ago": [
             "আজি"
-        ],
-        "in 1 day": [
-            "কাইলৈ"
         ],
         "0 hour ago": [
             "this hour"
@@ -143,8 +109,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "কালি"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "কাইলৈ"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

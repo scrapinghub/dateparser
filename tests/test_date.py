@@ -1,17 +1,15 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
 import unittest
 from collections import OrderedDict
 from copy import copy
 from datetime import datetime, timedelta
 
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 from parameterized import parameterized, param
-import six
 
 import dateparser
+from dateparser.date import DateData
 from dateparser import date
 from dateparser.conf import settings
 
@@ -20,7 +18,7 @@ from tests import BaseTestCase
 
 class TestDateRangeFunction(BaseTestCase):
     def setUp(self):
-        super(TestDateRangeFunction, self).setUp()
+        super().setUp()
         self.result = NotImplemented
 
     @parameterized.expand([
@@ -85,7 +83,7 @@ class TestDateRangeFunction(BaseTestCase):
             date_under_test += timedelta(days=1)
 
     def then_range_is_in_ascending_order(self):
-        for i in six.moves.range(len(self.result) - 1):
+        for i in range(len(self.result) - 1):
             self.assertLess(self.result[i], self.result[i + 1])
 
     def then_period_was_rejected(self, period):
@@ -94,7 +92,7 @@ class TestDateRangeFunction(BaseTestCase):
 
 class TestGetIntersectingPeriodsFunction(BaseTestCase):
     def setUp(self):
-        super(TestGetIntersectingPeriodsFunction, self).setUp()
+        super().setUp()
         self.result = NotImplemented
 
     @parameterized.expand([
@@ -241,7 +239,7 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
 
 class TestParseWithFormatsFunction(BaseTestCase):
     def setUp(self):
-        super(TestParseWithFormatsFunction, self).setUp()
+        super().setUp()
         self.result = NotImplemented
 
     @parameterized.expand([
@@ -297,16 +295,6 @@ class TestParseWithFormatsFunction(BaseTestCase):
                                           month=expected_month,
                                           day=expected_day))
 
-
-    @parameterized.expand([
-        param(date_string='25-03-14', date_formats='%d-%m-%y', expected_result=datetime(2014, 3, 25)),
-    ])
-    def test_should_support_a_string_as_date_formats(self, date_string, date_formats, expected_result):
-        self.when_date_is_parsed_with_formats(date_string, date_formats)
-        self.then_date_was_parsed()
-        self.then_parsed_period_is('day')
-        self.then_parsed_date_is(expected_result)
-
     def given_now(self, year, month, day, **time):
         now = datetime(year, month, day, **time)
         datetime_mock = Mock(wraps=datetime)
@@ -336,7 +324,7 @@ class TestParseWithFormatsFunction(BaseTestCase):
 
 class TestDateDataParser(BaseTestCase):
     def setUp(self):
-        super(TestDateDataParser, self).setUp()
+        super().setUp()
         self.parser = NotImplemented
         self.result = NotImplemented
         self.multiple_results = NotImplemented
@@ -368,8 +356,8 @@ class TestDateDataParser(BaseTestCase):
         param('The DAY before Yesterday', days_ago=2),
         param('Anteontem', days_ago=2),
         param('Avant-hier', days_ago=2),
-        param(u'вчера', days_ago=1),
-        param(u'снощи', days_ago=1)
+        param('вчера', days_ago=1),
+        param('снощи', days_ago=1)
     ])
     def test_temporal_nouns_are_parsed(self, date_string, days_ago):
         self.given_parser()
@@ -378,11 +366,11 @@ class TestDateDataParser(BaseTestCase):
         self.then_date_is_n_days_ago(days=days_ago)
 
     def test_should_not_assume_language_too_early(self):
-        dates_to_parse = OrderedDict([(u'07/07/2014', datetime(2014, 7, 7).date()),  # any language
-                                      (u'07.jul.2014 | 12:52', datetime(2014, 7, 7).date()),  # en, es, pt, nl
-                                      (u'07.ago.2014 | 12:52', datetime(2014, 8, 7).date()),  # es, it, pt
-                                      (u'07.feb.2014 | 12:52', datetime(2014, 2, 7).date()),  # en, de, es, it, nl, ro
-                                      (u'07.ene.2014 | 12:52', datetime(2014, 1, 7).date())])  # es
+        dates_to_parse = OrderedDict([('07/07/2014', datetime(2014, 7, 7).date()),  # any language
+                                      ('07.jul.2014 | 12:52', datetime(2014, 7, 7).date()),  # en, es, pt, nl
+                                      ('07.ago.2014 | 12:52', datetime(2014, 8, 7).date()),  # es, it, pt
+                                      ('07.feb.2014 | 12:52', datetime(2014, 2, 7).date()),  # en, de, es, it, nl, ro
+                                      ('07.ene.2014 | 12:52', datetime(2014, 1, 7).date())])  # es
 
         self.given_parser(restrict_to_languages=['en', 'de', 'fr', 'it', 'pt',
                                                  'nl', 'ro', 'es', 'ru'])
@@ -391,22 +379,36 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_dates_are(list(dates_to_parse.values()))
 
     @parameterized.expand([
-        param(date_string=u'11 Marzo, 2014', locale='es'),
-        param(date_string=u'13 Septiembre, 2014', locale='es'),
-        param(date_string=u'Сегодня', locale='ru'),
-        param(date_string=u'Avant-hier', locale='fr'),
-        param(date_string=u'Anteontem', locale='pt'),
-        param(date_string=u'ธันวาคม 11, 2014, 08:55:08 PM', locale='th'),
-        param(date_string=u'Anteontem', locale='pt'),
-        param(date_string=u'14 aprilie 2014', locale='ro'),
-        param(date_string=u'11 Ağustos, 2014', locale='tr'),
-        param(date_string=u'pon 16. čer 2014 10:07:43', locale='cs'),
-        param(date_string=u'24 януари 2015г.', locale='bg')
+        param(date_string='11 Marzo, 2014', locale='es'),
+        param(date_string='13 Septiembre, 2014', locale='es'),
+        param(date_string='Сегодня', locale='ru'),
+        param(date_string='Avant-hier', locale='fr'),
+        param(date_string='Anteontem', locale='pt'),
+        param(date_string='ธันวาคม 11, 2014, 08:55:08 PM', locale='th'),
+        param(date_string='Anteontem', locale='pt'),
+        param(date_string='14 aprilie 2014', locale='ro'),
+        param(date_string='11 Ağustos, 2014', locale='tr'),
+        param(date_string='pon 16. čer 2014 10:07:43', locale='cs'),
+        param(date_string='24 януари 2015г.', locale='bg')
     ])
     def test_returned_detected_locale_should_be(self, date_string, locale):
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
         self.then_detected_locale(locale)
+
+    def test_try_previous_locales_false(self):
+        self.given_parser(try_previous_locales=False)
+        self.when_date_string_is_parsed('Mañana')  # es
+        self.then_detected_locale('es')
+        self.when_date_string_is_parsed('2020-05-01')
+        self.then_detected_locale('en')
+
+    def test_try_previous_locales_true(self):
+        self.given_parser(try_previous_locales=True)
+        self.when_date_string_is_parsed('Mañana')  # es
+        self.then_detected_locale('es')
+        self.when_date_string_is_parsed('2020-05-01')
+        self.then_detected_locale('es')
 
     @parameterized.expand([
         param("2014-10-09T17:57:39+00:00"),
@@ -449,12 +451,6 @@ class TestDateDataParser(BaseTestCase):
             TypeError, ["Date formats should be list, tuple or set of strings",
                         "'{}' object is not iterable".format(type(date_formats).__name__)])
 
-    def test_parsing_date_using_unknown_parsers_must_raise_error(self):
-        self.given_parser(settings={'PARSERS': ['foo']})
-        self.when_date_string_is_parsed('2020-02-19')
-        self.then_error_was_raised(
-            ValueError, ["Unknown parsers found in the PARSERS setting: foo"])
-
     @parameterized.expand([
         param(date_string={"date": "12/11/1998"}),
         param(date_string=[2017, 12, 1]),
@@ -465,7 +461,7 @@ class TestDateDataParser(BaseTestCase):
     def test_parsing_date_using_invalid_type_date_string_must_raise_error(self, date_string):
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
-        self.then_error_was_raised(TypeError, ["Input type must be str or unicode"])
+        self.then_error_was_raised(TypeError, ["Input type must be str"])
 
     @parameterized.expand([
         param(date_string="2014/11/17 14:56 EDT", expected_result=datetime(2014, 11, 17, 18, 56)),
@@ -590,7 +586,7 @@ class TestDateDataParser(BaseTestCase):
 
 class TestParserInitialization(BaseTestCase):
     def setUp(self):
-        super(TestParserInitialization, self).setUp()
+        super().setUp()
         self.parser = NotImplemented
 
     @parameterized.expand([
@@ -618,7 +614,7 @@ class TestParserInitialization(BaseTestCase):
     def test_error_raised_for_invalid_region_argument(self, region):
         self.when_parser_is_initialized(region=region)
         self.then_error_was_raised(
-            TypeError, ["region argument must be str or unicode (%r given)" % type(region)])
+            TypeError, ["region argument must be str (%r given)" % type(region)])
 
     @parameterized.expand([
         param(try_previous_locales=['ar-OM', 'pt-PT', 'fr-CG', 'uk']),
@@ -661,39 +657,39 @@ class TestParserInitialization(BaseTestCase):
 
 class TestSanitizeDate(BaseTestCase):
     def test_remove_year_in_russian(self):
-        self.assertEqual(date.sanitize_date(u'2005г.'), u'2005 ')
-        self.assertEqual(date.sanitize_date(u'2005 г.'), u'2005 ')
-        self.assertEqual(date.sanitize_date(u'Авг.'), u'Авг')
+        self.assertEqual(date.sanitize_date('2005г.'), '2005 ')
+        self.assertEqual(date.sanitize_date('2005 г.'), '2005 ')
+        self.assertEqual(date.sanitize_date('Авг.'), 'Авг')
 
     def test_sanitize_date_colons(self):
-        self.assertEqual(date.sanitize_date(u'2019:'), u'2019')
-        self.assertEqual(date.sanitize_date(u'31/07/2019:'), u'31/07/2019')
+        self.assertEqual(date.sanitize_date('2019:'), '2019')
+        self.assertEqual(date.sanitize_date('31/07/2019:'), '31/07/2019')
 
 
 class TestDateLocaleParser(BaseTestCase):
     def setUp(self):
-        super(TestDateLocaleParser, self).setUp()
+        super().setUp()
 
     @parameterized.expand([
-        param(date_obj={'date_obj': datetime(1999, 10, 1, 0, 0)}),
-        param(date_obj={'period': 'day'}),
-        param(date_obj={'date': datetime(2007, 1, 22, 0, 0), 'period': 'day'}),
-        param(date_obj={'period': 'hour'}),
-        param(date_obj=[datetime(2007, 1, 22, 0, 0), 'day']),
-        param(date_obj={'date_obj': None, 'period': 'day'}),
-        param(date_obj={'date': datetime(2018, 1, 10, 2, 0), 'period': 'time'}),
+        param(date_data=DateData(date_obj=datetime(1999, 10, 1, 0, 0))),  # missing period
+        param(date_data=DateData(period='day')),  # missing date_obj
+        param(date_data={'date': datetime(2007, 1, 22, 0, 0), 'period': 'day'}),  # wrong format (dict)
+        param(date_data=DateData(date_obj=datetime(2020, 10, 29, 0, 0), period='hour')),  # wrong period
+        param(date_data=[datetime(2007, 1, 22, 0, 0), 'day']),  # wrong format (list)
+        param(date_data=DateData(date_obj=None, period='day')),  # date_obj is None
+        param(date_data=DateData(date_obj='29/05/1994', period='day')),  # wrong date_obj format
     ])
-    def test_is_valid_date_obj(self, date_obj):
+    def test_is_valid_date_data(self, date_data):
         self.given_parser(language=['en'], date_string='10 jan 2000',
                           date_formats=None, settings=settings)
-        self.when_date_object_is_validated(date_obj)
+        self.when_date_object_is_validated(date_data)
         self.then_date_object_is_invalid()
 
     def given_parser(self, language, date_string, date_formats, settings):
         self.parser = date._DateLocaleParser(language, date_string, date_formats, settings)
 
-    def when_date_object_is_validated(self, date_obj):
-        self.is_valid_date_obj = self.parser._is_valid_date_obj(date_obj)
+    def when_date_object_is_validated(self, date_data):
+        self.is_valid_date_obj = self.parser._is_valid_date_data(date_data)
 
     def then_date_object_is_invalid(self):
         self.assertFalse(self.is_valid_date_obj)
@@ -703,27 +699,27 @@ class TestTimestampParser(BaseTestCase):
 
     def test_timestamp_in_milliseconds(self):
         self.assertEqual(
-            date.get_date_from_timestamp(u'1570308760263', None),
+            date.get_date_from_timestamp('1570308760263', None),
             datetime.fromtimestamp(1570308760).replace(microsecond=263000)
         )
 
     def test_timestamp_in_microseconds(self):
         self.assertEqual(
-            date.get_date_from_timestamp(u'1570308760263111', None),
+            date.get_date_from_timestamp('1570308760263111', None),
             datetime.fromtimestamp(1570308760).replace(microsecond=263111)
         )
 
     @parameterized.expand([
-        param(date_string=u'15703087602631'),
-        param(date_string=u'157030876026xx'),
-        param(date_string=u'1570308760263x'),
-        param(date_string=u'157030876026311'),
-        param(date_string=u'15703087602631x'),
-        param(date_string=u'15703087602631xx'),
-        param(date_string=u'15703087602631111'),
-        param(date_string=u'1570308760263111x'),
-        param(date_string=u'1570308760263111xx'),
-        param(date_string=u'1570308760263111222'),
+        param(date_string='15703087602631'),
+        param(date_string='157030876026xx'),
+        param(date_string='1570308760263x'),
+        param(date_string='157030876026311'),
+        param(date_string='15703087602631x'),
+        param(date_string='15703087602631xx'),
+        param(date_string='15703087602631111'),
+        param(date_string='1570308760263111x'),
+        param(date_string='1570308760263111xx'),
+        param(date_string='1570308760263111222'),
     ])
     def test_timestamp_with_wrong_length(self, date_string):
         self.assertEqual(

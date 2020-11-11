@@ -2,79 +2,79 @@
     "name": "nl",
     "date_order": "DMY",
     "january": [
-        "januari",
-        "jan"
+        "jan",
+        "januari"
     ],
     "february": [
-        "februari",
-        "feb"
+        "feb",
+        "februari"
     ],
     "march": [
         "maart",
         "mrt"
     ],
     "april": [
-        "april",
-        "apr"
+        "apr",
+        "april"
     ],
     "may": [
         "mei"
     ],
     "june": [
-        "juni",
-        "jun"
+        "jun",
+        "juni"
     ],
     "july": [
-        "juli",
-        "jul"
+        "jul",
+        "juli"
     ],
     "august": [
-        "augustus",
-        "aug"
+        "aug",
+        "augustus"
     ],
     "september": [
-        "september",
-        "sep"
+        "sep",
+        "september"
     ],
     "october": [
-        "oktober",
-        "okt"
+        "okt",
+        "oktober"
     ],
     "november": [
-        "november",
-        "nov"
+        "nov",
+        "november"
     ],
     "december": [
-        "december",
-        "dec"
+        "dec",
+        "december"
     ],
     "monday": [
-        "maandag",
-        "ma"
+        "ma",
+        "maandag"
     ],
     "tuesday": [
-        "dinsdag",
-        "di"
+        "di",
+        "dinsdag"
     ],
     "wednesday": [
-        "woensdag",
-        "wo"
+        "wo",
+        "woensdag"
     ],
     "thursday": [
-        "donderdag",
-        "do"
+        "do",
+        "donderdag"
     ],
     "friday": [
-        "vrijdag",
-        "vr"
+        "vr",
+        "vrijdag"
     ],
     "saturday": [
-        "zaterdag",
-        "za"
+        "za",
+        "zaterdag"
     ],
     "sunday": [
-        "zondag",
-        "zo"
+        "zo",
+        "zondag"
     ],
     "am": [
         "am"
@@ -101,50 +101,17 @@
         "uur"
     ],
     "minute": [
-        "minuut",
-        "min"
+        "min",
+        "minuut"
     ],
     "second": [
-        "seconde",
+        "s",
         "sec",
-        "s"
+        "seconde"
     ],
     "relative-type": {
-        "1 year ago": [
-            "vorig jaar"
-        ],
-        "0 year ago": [
-            "dit jaar"
-        ],
-        "in 1 year": [
-            "volgend jaar"
-        ],
-        "1 month ago": [
-            "vorige maand"
-        ],
-        "0 month ago": [
-            "deze maand"
-        ],
-        "in 1 month": [
-            "volgende maand"
-        ],
-        "1 week ago": [
-            "vorige week"
-        ],
-        "0 week ago": [
-            "deze week"
-        ],
-        "in 1 week": [
-            "volgende week"
-        ],
-        "1 day ago": [
-            "gisteren"
-        ],
         "0 day ago": [
             "vandaag"
-        ],
-        "in 1 day": [
-            "morgen"
         ],
         "0 hour ago": [
             "binnen een uur"
@@ -152,88 +119,121 @@
         "0 minute ago": [
             "binnen een minuut"
         ],
+        "0 month ago": [
+            "deze maand"
+        ],
         "0 second ago": [
             "nu"
+        ],
+        "0 week ago": [
+            "deze week"
+        ],
+        "0 year ago": [
+            "dit jaar"
+        ],
+        "1 day ago": [
+            "gisteren"
+        ],
+        "1 month ago": [
+            "vorige maand"
+        ],
+        "1 week ago": [
+            "vorige week"
+        ],
+        "1 year ago": [
+            "vorig jaar"
+        ],
+        "in 1 day": [
+            "morgen"
+        ],
+        "in 1 month": [
+            "volgende maand"
+        ],
+        "in 1 week": [
+            "volgende week"
+        ],
+        "in 1 year": [
+            "volgend jaar"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "over {0} jaar"
+        "\\1 day ago": [
+            "{0} dag geleden",
+            "{0} dagen geleden",
+            "{0} dgn geleden"
         ],
-        "\\1 year ago": [
-            "{0} jaar geleden"
+        "\\1 hour ago": [
+            "{0} uur geleden"
         ],
-        "in \\1 month": [
-            "over {0} maand",
-            "over {0} maanden"
+        "\\1 minute ago": [
+            "{0} min geleden",
+            "{0} minuten geleden",
+            "{0} minuut geleden"
         ],
         "\\1 month ago": [
             "{0} maand geleden",
             "{0} maanden geleden"
         ],
-        "in \\1 week": [
-            "over {0} week",
-            "over {0} weken"
+        "\\1 second ago": [
+            "{0} sec geleden",
+            "{0} seconde geleden",
+            "{0} seconden geleden"
         ],
         "\\1 week ago": [
             "{0} week geleden",
             "{0} weken geleden"
+        ],
+        "\\1 year ago": [
+            "{0} jaar geleden"
         ],
         "in \\1 day": [
             "over {0} dag",
             "over {0} dagen",
             "over {0} dgn"
         ],
-        "\\1 day ago": [
-            "{0} dag geleden",
-            "{0} dagen geleden",
-            "{0} dgn geleden"
-        ],
         "in \\1 hour": [
             "over {0} uur"
         ],
-        "\\1 hour ago": [
-            "{0} uur geleden"
-        ],
         "in \\1 minute": [
-            "over {0} minuut",
+            "over {0} min",
             "over {0} minuten",
-            "over {0} min"
+            "over {0} minuut"
         ],
-        "\\1 minute ago": [
-            "{0} minuut geleden",
-            "{0} minuten geleden",
-            "{0} min geleden"
+        "in \\1 month": [
+            "over {0} maand",
+            "over {0} maanden"
         ],
         "in \\1 second": [
+            "over {0} sec",
             "over {0} seconde",
-            "over {0} seconden",
-            "over {0} sec"
+            "over {0} seconden"
         ],
-        "\\1 second ago": [
-            "{0} seconde geleden",
-            "{0} seconden geleden",
-            "{0} sec geleden"
+        "in \\1 week": [
+            "over {0} week",
+            "over {0} weken"
+        ],
+        "in \\1 year": [
+            "over {0} jaar"
         ]
     },
     "locale_specific": {
-        "nl-BQ": {
-            "name": "nl-BQ"
-        },
-        "nl-SX": {
-            "name": "nl-SX"
-        },
-        "nl-CW": {
-            "name": "nl-CW"
-        },
         "nl-AW": {
             "name": "nl-AW"
         },
         "nl-BE": {
             "name": "nl-BE"
         },
+        "nl-BQ": {
+            "name": "nl-BQ"
+        },
+        "nl-CW": {
+            "name": "nl-CW"
+        },
         "nl-SR": {
             "name": "nl-SR"
+        },
+        "nl-SX": {
+            "name": "nl-SX"
         }
     }
 }

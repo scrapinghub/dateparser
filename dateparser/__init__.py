@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-__version__ = '0.7.4'
+__version__ = '1.0.0'
 
 from .date import DateDataParser
 from .conf import apply_settings
@@ -13,7 +12,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
 
     :param date_string:
         A string representing date and/or time in a recognizably valid format.
-    :type date_string: str|unicode
+    :type date_string: str
 
     :param date_formats:
         A list of format strings using directives as given
@@ -28,13 +27,13 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
 
     :param locales:
         A list of locale codes, e.g. ['fr-PF', 'qu-EC', 'af-NA'].
-        The parser uses locales to translate date string.
+        The parser uses only these locales to translate date string.
     :type locales: list
 
     :param region:
         A region code, e.g. 'IN', '001', 'NE'.
         If locales are not given, languages and region are used to construct locales for translation.
-    :type region: str|unicode
+    :type region: str
 
     :param settings:
         Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
@@ -42,11 +41,13 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
 
     :return: Returns :class:`datetime <datetime.datetime>` representing parsed date if successful, else returns None
     :rtype: :class:`datetime <datetime.datetime>`.
-    :raises: ValueError - Unknown Language
+    :raises:
+        ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list,
+        ``SettingValidationError``: A provided setting is not valid.
     """
     parser = _default_parser
 
-    if any([languages, locales, region, not settings._default]):
+    if languages or locales or region or not settings._default:
         parser = DateDataParser(languages=languages, locales=locales,
                                 region=region, settings=settings)
 
