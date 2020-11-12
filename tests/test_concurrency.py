@@ -21,7 +21,7 @@ TEST_DATA = [
     {'ds': '07.01.2020', 'expected': datetime(2020, 1, 7, 0, 0), 'loc': 'ru'},
     {'ds': 'yesterday 11:00', 'expected': datetime(2014, 9, 14, 11), 'loc': 'en', 'extra': RELATIVE},
     {'ds': '13 days ago', 'expected': datetime(2014, 9, 2, 10, 30), 'loc': 'en', 'extra': RELATIVE},
-           ] * 180
+] * 180
 
 random.shuffle(TEST_DATA)
 
