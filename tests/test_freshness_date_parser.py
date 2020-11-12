@@ -1666,7 +1666,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
                                     collecting_get_date_data(freshness_date_parser.get_date_data)))
 
         self.freshness_parser = Mock(wraps=freshness_date_parser)
-        self.add_patch(patch.object(self.freshness_parser, 'now', self.now))
 
         dt_mock = Mock(wraps=dateparser.freshness_date_parser.datetime)
         dt_mock.utcnow = Mock(return_value=self.now)
