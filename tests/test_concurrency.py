@@ -33,13 +33,14 @@ class TestConcurrency(BaseTestCase):
 
             results = list(executor.map(self.concurrency_test, TEST_DATA))
             results_with_error = [(r['ds'], r['error']) for r in results if r['error']]
+            msg = '{}Threads failed with errors:\n{}'
             self.assertEqual([], results_with_error,
-                             f'{len(results_with_error)} Threads failed with errors:\n{set(results_with_error)}')
+                             msg.format(len(results_with_error), set(results_with_error)))
 
             wrong_results = [str(r) for r in results if (r['expected'] != r['date'])]
-            w_r_output = '\n'.join(wrong_results)
+            msg = '{} Threads returned wrong date time:\n{}'
             self.assertEqual([], wrong_results,
-                             f'{len(wrong_results)} Threads returned wrong date time:\n{w_r_output}')
+                             msg.format(len(wrong_results), '\n'.join(wrong_results)))
 
     @staticmethod
     def concurrency_test(data_for_test):

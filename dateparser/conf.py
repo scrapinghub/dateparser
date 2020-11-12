@@ -41,8 +41,8 @@ class Settings:
     @classmethod
     def get_key(cls, **kwargs):
         if kwargs:
-            keys = [f'{key}-{val}' for key, val in kwargs.pop('settings').items()]
-            keys.extend([f'{key}-{val}' for key, val in kwargs.items() if val])
+            keys = sorted('{}-{}'.format(key, val) for key, val in kwargs.pop('settings').items())
+            keys.extend(sorted('{}-{}'.format(key, val) for key, val in kwargs.items() if val))
             return hashlib.md5(''.join(sorted(keys)).encode('utf-8')).hexdigest()
 
         return 'default'
