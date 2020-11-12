@@ -76,7 +76,7 @@ class TimeZoneSettingsTest(BaseTestCase):
         if 'TIMEZONE' not in confs:
             confs.update({'TIMEZONE': 'local'})
 
-        self.confs = settings.replace(**confs)
+        self.confs = settings.replace(settings=confs)
 
     def when_date_is_parsed(self):
         self.result = parse(self.given_ds, settings=(self.confs or {}))

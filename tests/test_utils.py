@@ -84,7 +84,9 @@ class TestUtils(BaseTestCase):
         param(datetime(2015, 12, 12, 10, 12), timezone='-0500', expected=datetime(2015, 12, 12, 5, 12)),
     ])
     def test_apply_timezone_from_settings_function(self, date, timezone, expected):
-        result = apply_timezone_from_settings(date, settings.replace(**{'TO_TIMEZONE': timezone, 'TIMEZONE': 'UTC'}))
+        result = apply_timezone_from_settings(date,
+                                              settings.replace(settings={'TO_TIMEZONE': timezone, 'TIMEZONE': 'UTC'})
+                                              )
         self.assertEqual(expected, result)
 
     @parameterized.expand([
@@ -101,7 +103,7 @@ class TestUtils(BaseTestCase):
         param(datetime(2015, 12, 12, 10, 12),),
     ])
     def test_apply_timezone_from_settings_function_should_return_tz(self, date):
-        result = apply_timezone_from_settings(date, settings.replace(**{'RETURN_AS_TIMEZONE_AWARE': True}))
+        result = apply_timezone_from_settings(date, settings.replace(settings={'RETURN_AS_TIMEZONE_AWARE': True}))
         self.assertTrue(bool(result.tzinfo))
 
     def test_registry_when_get_keys_not_implemented(self):

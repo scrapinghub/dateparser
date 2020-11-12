@@ -31,19 +31,21 @@ class Settings:
     _pyfile_data = None
     _mod_settings = dict()
 
-    def __init__(self, settings=None):
-        if settings:
-            self._updateall(settings.items())
-        else:
+    def __init__(self, **kwargs):
+        if not kwargs.get('settings'):
             self._updateall(self._get_settings_from_pyfile().items())
 
-    @classmethod
-    def get_key(cls, settings=None):
-        if not settings:
-            return 'default'
+        elif len(self.__dict__) == 1:
+            self._updateall(kwargs['settings'].items())
 
-        keys = sorted(['%s-%s' % (key, str(settings[key])) for key in settings])
-        return hashlib.md5(''.join(keys).encode('utf-8')).hexdigest()
+    @classmethod
+    def get_key(cls, **kwargs):
+        if kwargs:
+            keys = [f'{key}-{val}' for key, val in kwargs.pop('settings').items()]
+            keys.extend([f'{key}-{val}' for key, val in kwargs.items() if val])
+            return hashlib.md5(''.join(sorted(keys)).encode('utf-8')).hexdigest()
+
+        return 'default'
 
     @classmethod
     def _get_settings_from_pyfile(cls):
@@ -57,18 +59,21 @@ class Settings:
             setattr(self, key, value)
 
     def replace(self, mod_settings=None, **kwds):
-        for k, v in kwds.items():
+        _settings = kwds.get('settings', {}).copy()
+        for k, v in _settings.items():
             if v is None:
                 raise TypeError('Invalid {{"{}": {}}}'.format(k, v))
 
-        for x in self._get_settings_from_pyfile().keys():
-            kwds.setdefault(x, getattr(self, x))
+        z = self._get_settings_from_pyfile().keys()
+        for x in z:
+            _settings.setdefault(x, getattr(self, x))
 
-        kwds['_default'] = False
+        _settings['_default'] = False
         if mod_settings:
-            kwds['_mod_settings'] = mod_settings
+            _settings['_mod_settings'] = mod_settings
 
-        return self.__class__(settings=kwds)
+        kwds['settings'] = _settings
+        return self.__class__(**kwds)
 
 
 settings = Settings()
@@ -77,11 +82,15 @@ settings = Settings()
 def apply_settings(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
-        mod_settings = kwargs.get('settings')
-        kwargs['settings'] = mod_settings or settings
+        mod_settings = kwargs.get('settings', {})
+        if mod_settings is None:
+            kwargs['settings'] = mod_settings = {}
 
-        if isinstance(kwargs['settings'], dict):
-            kwargs['settings'] = settings.replace(mod_settings=mod_settings, **kwargs['settings'])
+        if kwargs:
+            if isinstance(mod_settings, dict):
+                kwargs['settings'] = settings.replace(mod_settings=mod_settings.copy(), **kwargs)
+        else:
+            kwargs['settings'] = settings
 
         if not isinstance(kwargs['settings'], Settings):
             raise TypeError("settings can only be either dict or instance of Settings class")

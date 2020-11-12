@@ -1546,7 +1546,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_time_is(time)
 
     def test_freshness_date_with_to_timezone_setting(self):
-        _settings = settings.replace(**{
+        _settings = settings.replace(settings={
             'TIMEZONE': 'local',
             'TO_TIMEZONE': 'UTC',
             'RELATIVE_BASE': datetime(2014, 9, 1, 10, 30)
