@@ -64,9 +64,8 @@ class Settings:
             if v is None:
                 raise TypeError('Invalid {{"{}": {}}}'.format(k, v))
 
-        z = self._get_settings_from_pyfile().keys()
-        for x in z:
-            _settings.setdefault(x, getattr(self, x))
+        for key in self._get_settings_from_pyfile().keys():
+            _settings.setdefault(key, getattr(self, key))
 
         _settings['_default'] = False
         if mod_settings:
