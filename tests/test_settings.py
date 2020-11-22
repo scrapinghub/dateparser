@@ -227,3 +227,166 @@ def test_no_spaces_strict_parsing(date_string, expected_result):
 
     parser = DateDataParser(settings={'PARSERS': ['no-spaces-time'], 'STRICT_PARSING': True})
     assert parser.get_date_data(date_string)['date_obj'] is None
+
+
+# From here: test that each existing setting applies correctly to each existing parser
+
+# DATE_ORDER
+# It doesn't make sense for: timestamp, relative-time, 'custom-formats'
+@pytest.mark.parametrize(
+    "date_string,expected_result", [
+        ('2020', datetime(1900, 1, 1, 20, 2)),
+    ])
+def test_DATE_ORDER_absolute_time(date_string, expected_result):
+    parser = DateDataParser(settings={'PARSERS': ['absolute-time'], 'DATE_ORDER': 'MDY'})
+    assert parser.get_date_data(date_string)['date_obj'] == expected_result
+
+# @pytest.mark.parametrize(
+#     "date_string,expected_result", [
+#     ])
+# def test_DATE_ORDER_no_spaces_time(date_string, expected_result):
+#     parser = DateDataParser(settings={'PARSERS': ['no_spaces_time'], 'STRICT_PARSING': False})
+#     assert parser.get_date_data(date_string)['date_obj'] == expected_result
+
+
+# PREFER_LOCALE_DATE_ORDER
+# It doesn't make sense for: timestamp, relative-time, 'custom-formats'
+
+def test_PREFER_LOCALE_DATE_ORDER_absolute_time():
+    assert True
+
+# def test_PREFER_LOCALE_DATE_ORDER_no_spaces_time():
+#     assert True
+
+
+# # TIMEZONE
+# def test_TIMEZONE_timestamp():
+#     assert True
+#
+# def test_TIMEZONE_relative_time():
+#     assert True
+#
+# def test_TIMEZONE_custom_formats():
+#     assert True
+#
+# def test_TIMEZONE_absolute_time():
+#     assert True
+#
+# def test_TIMEZONE_no_spaces_time():
+#     assert True
+#
+# # TO_TIMEZONE
+# def test_TO_TIMEZONE_timestamp():
+#     assert True
+#
+# def test_TO_TIMEZONE_relative_time():
+#     assert True
+#
+# def test_TO_TIMEZONE_custom_formats():
+#     assert True
+#
+# def test_TO_TIMEZONE_absolute_time():
+#     assert True
+#
+# def test_TO_TIMEZONE_no_spaces_time():
+#     assert True
+
+
+# # RETURN_AS_TIMEZONE_AWARE
+# def test_RETURN_AS_TIMEZONE_AWARE_timestamp():
+#     assert True
+#
+# def test_RETURN_AS_TIMEZONE_AWARE_relative_time():
+#     assert True
+#
+# def test_RETURN_AS_TIMEZONE_AWARE_custom_formats():
+#     assert True
+#
+# def test_RETURN_AS_TIMEZONE_AWARE_absolute_time():
+#     assert True
+#
+# def test_RETURN_AS_TIMEZONE_AWARE_no_spaces_time():
+#     assert True
+
+
+# PREFER_DAY_OF_MONTH
+# It doesn't make sense for: timestamp
+# 'custom-formats'??
+
+def test_PREFER_DAY_OF_MONTH_custom_formats():
+    assert True  # CHECK AS THIS IS APPLIED IN TWO DIFFERENT PLACES
+
+def test_PREFER_DAY_OF_MONTH_absolute_time():
+    assert True
+
+# def test_PREFER_DAY_OF_MONTH_no_spaces_time():
+#     assert True
+
+
+# PREFER_DATES_FROM
+# It doesn't make sense for: timestamp
+
+def test_PREFER_DATES_FROM_relative_time():
+    assert True
+
+def test_PREFER_DATES_FROM_custom_formats():
+    assert True
+
+def test_PREFER_DATES_FROM_absolute_time():
+    assert True
+
+# def test_PREFER_DATES_FROM_no_spaces_time():
+#     assert True
+
+# RELATIVE_BASE
+# It doesn't make sense for: timestamp
+
+def test_RELATIVE_BASE_relative_time():
+    assert True
+
+def test_RELATIVE_BASE_custom_formats():
+    assert True
+
+def test_RELATIVE_BASE_absolute_time():
+    assert True
+
+# def test_RELATIVE_BASE_no_spaces_time():
+#     assert True
+
+
+# STRICT_PARSING
+# Intentionally decided to not apply this to: timestamp, custom-formats and relative-time
+def test_STRICT_PARSING_absolute_time():
+    assert True
+
+# def test_STRICT_PARSING_no_spaces_time():
+#     assert True
+
+
+# REQUIRE_PARTS
+# It doesn't make sense for: timestamp, custom-formats, relative-time
+def test_REQUIRE_PARTS_absolute_time():
+    assert True
+
+# def test_REQUIRE_PARTS_no_spaces_time():
+#     assert True
+
+
+# RETURN_TIME_AS_PERIOD
+def test_RETURN_TIME_AS_PERIOD_timestamp():
+    assert True
+
+def test_RETURN_TIME_AS_PERIOD_relative_time():
+    assert True
+
+def test_RETURN_TIME_AS_PERIOD_custom_formats():
+    assert True
+
+def test_RETURN_TIME_AS_PERIOD_absolute_time():
+    assert True
+
+# def test_RETURN_TIME_AS_PERIOD_no_spaces_time():
+#     assert True
+
+# PARSERS --> I doesn't make sense
+# NORMALIZE, SKIP_TOKENS --> They are applied before?

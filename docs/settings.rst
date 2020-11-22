@@ -21,6 +21,8 @@ Date Order
     >>> parse('15-12-18 06:00', settings={'DATE_ORDER': 'YMD'})
     datetime.datetime(2015, 12, 18, 6, 0)
 
+It applies to the next parsers: ``absolute-time`` and ``no-spaces-time``.
+
 ``PREFER_LOCALE_DATE_ORDER``: defaults to ``True``. Most languages have a default ``DATE_ORDER`` specified for them. For example, for French it is ``DMY``:
 
    >>> # parsing ambiguous date
@@ -37,6 +39,8 @@ Date Order
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY', 'PREFER_LOCALE_DATE_ORDER': False})
     datetime.datetime(2016, 2, 3, 0, 0)  # MDY worked!
 
+It applies to the next parsers: ``absolute-time`` and ``no-spaces-time``.
+
 
 Timezone Related Configurations
 +++++++++++++++++++++++++++++++
@@ -46,11 +50,15 @@ Timezone Related Configurations
     >>> parse('January 12, 2012 10:00 PM', settings={'TIMEZONE': 'US/Eastern'})
     datetime.datetime(2012, 1, 12, 22, 0)
 
+It applies to the next parsers: ...
+
 ``TO_TIMEZONE``: defaults to None. When specified, resultant :class:`datetime <datetime.datetime>` converts according to the supplied timezone:
 
     >>> settings = {'TIMEZONE': 'UTC', 'TO_TIMEZONE': 'US/Eastern'}
     >>> parse('January 12, 2012 10:00 PM', settings=settings)
     datetime.datetime(2012, 1, 12, 17, 0)
+
+It applies to the next parsers: ...
 
 ``RETURN_AS_TIMEZONE_AWARE``: if ``True`` returns tz aware datetime objects in case timezone is detected in the date string.
 
@@ -59,6 +67,8 @@ Timezone Related Configurations
 
     >>> parse('12 Feb 2015 10:56 PM EST', settings={'RETURN_AS_TIMEZONE_AWARE': False})
     datetime.datetime(2015, 2, 12, 22, 56)
+
+It applies to the next parsers: ...
 
 
 Handling Incomplete Dates
@@ -74,6 +84,8 @@ Handling Incomplete Dates
     >>> parse('December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
     datetime.datetime(2015, 12, 1, 0, 0)
 
+It applies to the next parsers: ``custom-formats``, ``absolute-time`` and ``no-spaces-time``.
+
 ``PREFER_DATES_FROM``: defaults to ``current_period`` and can have ``past`` and ``future`` as values.
 
 If date string is missing some part, this option ensures consistent results depending on the ``past`` or ``future`` preference, for example, assuming current date is `June 16, 2015`:
@@ -86,6 +98,8 @@ If date string is missing some part, this option ensures consistent results depe
     >>> # parsing with preference set for 'past'
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
     datetime.datetime(2015, 8, 15, 0, 0)
+
+It applies to the next parsers: ``relative-time``, ``custom-formats``, ``absolute-time`` and ``no-spaces-time``.
 
 ``RELATIVE_BASE``: allows setting the base datetime to use for interpreting partial or relative date strings.
 Defaults to the current date and time.
@@ -100,12 +114,16 @@ For example, assuming current date is `June 16, 2015`:
     >>> parse('tomorrow', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
     datetime.datetime(2020, 1, 2, 0, 0)
 
+It applies to the next parsers: ``relative-time``, ``custom-formats``, ``absolute-time`` and ``no-spaces-time``.
+
 ``STRICT_PARSING``: defaults to ``False``.
 
 When set to ``True`` if missing any of ``day``, ``month`` or ``year`` parts, it does not return any result altogether.:
 
     >>> parse('March', settings={'STRICT_PARSING': True})
     None
+
+It applies to the next parsers: ``absolute-time`` and ``no-spaces-time``.
 
 ``REQUIRE_PARTS``: ensures results are dates that have all specified parts. It defaults to ``[]`` and can include ``day``, ``month`` and/or ``year``.
 
@@ -122,6 +140,7 @@ For example, assuming current date is `June 16, 2019`:
     >>> parse('March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
     datetime.datetime(2012, 3, 12, 0, 0)
 
+It applies to the next parsers: ``absolute-time`` and ``no-spaces-time``.
 
 Language Detection
 ++++++++++++++++++
@@ -150,6 +169,8 @@ Defaults to ``False``.
     >>> ddp = DateDataParser(settings={'RETURN_TIME_AS_PERIOD': True})
     >>> ddp.get_date_data('vr jan 24, 2014 12:49')
     DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl')
+
+It applies to the next parsers: ``timestamp``, ``relative-time``, ``custom-formats``, ``absolute-time`` and ``no-spaces-time``.
 
 ``PARSERS``: it is a list of names of parsers to try, allowing to customize which
 parsers are tried against the input date string, and in which order they are
