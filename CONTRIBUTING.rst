@@ -166,8 +166,8 @@ Updating the List of Supported Languages and Locales
 
 Whenever the content of
 ``dateparser.data.languages_info.language_locale_dict`` is modified, use
-``scripts/update_supported_languages_and_locales.py`` to update the
-corresponding documentation table::
+``dateparser_scripts/update_supported_languages_and_locales.py`` to update 
+the corresponding documentation table::
 
     python3 -m venv venv
     . venv/bin/activate
