@@ -160,3 +160,13 @@ language, you must:
     copy-and-paste to create the corresponding new test.
 
     If in doubt, ask Dateparser maintainers for help.
+
+Updating the List of Supported Languages and Locales
+----------------------------------------------------
+
+Whenever the content of
+``dateparser.data.languages_info.language_locale_dict`` is modified, use
+``dateparser_scripts/update_supported_languages_and_locales.py`` to update 
+the corresponding documentation table::
+
+    dateparser_scripts/update_supported_languages_and_locales.py
