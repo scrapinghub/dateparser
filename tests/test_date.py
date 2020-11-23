@@ -264,10 +264,11 @@ class TestParseWithFormatsFunction(BaseTestCase):
               expected_result=datetime(2018, 1, 26, 16, 32, 21)),
         param(date_string='15/04/1904 14:05 +0004', date_formats=['%d/%m/%Y %H:%M %z'],
               expected_result=datetime(1904, 4, 15, 14, 5, tzinfo=timezone(timedelta(0, 240)))),
-        param(date_string='20-05-1994 23:00 GMT', date_formats=['%d-%m-%Y %H:%M %Z'],
-              expected_result=datetime(
-                  1994, 5, 20, 23, 0, tzinfo=StaticTzInfo('GMT', timedelta(seconds=0))
-              )),
+        param(
+            date_string='20-05-1994 23:00 GMT', date_formats=['%d-%m-%Y %H:%M %Z'], expected_result=datetime(
+                1994, 5, 20, 23, 0, tzinfo=StaticTzInfo('GMT', timedelta(seconds=0))
+            )
+        ),
     ])
     def test_should_parse_localized_dates(self, date_string, date_formats, expected_result):
         self.when_date_is_parsed_with_formats(date_string, date_formats)
