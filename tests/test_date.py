@@ -657,8 +657,10 @@ class TestParserInitialization(BaseTestCase):
 
 class TestSanitizeDate(BaseTestCase):
     def test_remove_year_in_russian(self):
-        self.assertEqual(date.sanitize_date('2005г.'), '2005 ')
-        self.assertEqual(date.sanitize_date('2005 г.'), '2005 ')
+        self.assertEqual(date.sanitize_date('2005г.'), '2005')
+        self.assertEqual(date.sanitize_date('2005г. 20:37'), '2005 20:37')
+        self.assertEqual(date.sanitize_date('2005 г.'), '2005')
+        self.assertEqual(date.sanitize_date('2005 г. 15:24'), '2005 15:24')
         self.assertEqual(date.sanitize_date('Авг.'), 'Авг')
 
     def test_sanitize_date_colons(self):

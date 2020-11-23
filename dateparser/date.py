@@ -106,9 +106,8 @@ def sanitize_date(date_string):
     date_string = RE_SANITIZE_PERIOD.sub('', date_string)
     date_string = RE_SANITIZE_ON.sub(r'\1', date_string)
     date_string = RE_TRIM_COLONS.sub(r'\1', date_string)
-
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
-
+    date_string = date_string.strip()
     return date_string
 
 

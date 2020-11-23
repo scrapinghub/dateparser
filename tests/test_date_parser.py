@@ -385,6 +385,7 @@ class TestDateParser(BaseTestCase):
         param('1999-12-31 19:00:00 +0500', '+05:00', datetime(1999, 12, 31, 19, 0)),
         param('Fri, 09 Sep 2005 13:51:39 -0700', '-07:00', datetime(2005, 9, 9, 13, 51, 39)),
         param('Fri, 09 Sep 2005 13:51:39 +0000', '+00:00', datetime(2005, 9, 9, 13, 51, 39)),
+        param('Mon, 25 Jun 2018 10:37:47 +0530 ', '+05:30', datetime(2018, 6, 25, 10, 37, 47)),  # Trailing space
     ])
     def test_dateparser_should_return_tzaware_date_when_tz_info_present_in_date_string(
             self, date_string, timezone_str, expected):
