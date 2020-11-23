@@ -121,22 +121,29 @@ def apply_timezone(date_time, tz_string):
 
 
 def apply_timezone_from_settings(date_obj, settings):
-    tz = get_localzone()
     if settings is None:
         return date_obj
 
-    if 'local' in settings.TIMEZONE.lower():
-        if hasattr(tz, 'localize'):
-            date_obj = tz.localize(date_obj)
+    is_originally_aware = is_aware(date_obj)
+
+    if not is_originally_aware:
+        if 'local' in settings.TIMEZONE.lower():
+            tz = get_localzone()
+            if hasattr(tz, 'localize'):
+                date_obj = tz.localize(date_obj)
+            else:
+                date_obj = date_obj.replace(tzinfo=tz)
         else:
-            date_obj = date_obj.replace(tzinfo=tz)
-    else:
-        date_obj = localize_timezone(date_obj, settings.TIMEZONE)
+            date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 
     if settings.TO_TIMEZONE:
         date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
-    if settings.RETURN_AS_TIMEZONE_AWARE is not True:
+    if (
+        not settings.RETURN_AS_TIMEZONE_AWARE
+        or (settings.RETURN_AS_TIMEZONE_AWARE
+            and 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not is_originally_aware)
+    ):
         date_obj = date_obj.replace(tzinfo=None)
 
     return date_obj
@@ -235,3 +242,15 @@ def setup_logging():
         },
     }
     logging.config.dictConfig(config)
+
+
+def is_aware(date_obj):
+    """
+    From Python docs (https://docs.python.org/3/library/datetime.html#determining-if-an-object-is-aware-or-naive):
+
+    A datetime object d is aware if both of the following hold:
+    1. d.tzinfo is not None
+    2. d.tzinfo.utcoffset(d) does not return None
+
+    """
+    return date_obj.tzinfo is not None and date_obj.tzinfo.utcoffset(date_obj) is not None
