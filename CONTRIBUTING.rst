@@ -169,7 +169,4 @@ Whenever the content of
 ``dateparser_scripts/update_supported_languages_and_locales.py`` to update 
 the corresponding documentation table::
 
-    python3 -m venv venv
-    . venv/bin/activate
-    pip install -e .
     dateparser_scripts/update_supported_languages_and_locales.py
