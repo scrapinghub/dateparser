@@ -1,4 +1,4 @@
-skip: ["at", "by", "on", "and", "ad", "m", "of", "st", "nd", "rd", "th", "about", "the", "just"]
+skip: ["about", "ad", "and", "at", "by", "just", "m", "nd", "of", "on", "rd", "st", "th", "the"]
 pertain: ["of"]
 
 sentence_splitter_group : 1

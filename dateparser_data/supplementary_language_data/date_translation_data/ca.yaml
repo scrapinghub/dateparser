@@ -1,4 +1,4 @@
-skip: ["de", "del", "l'", "i"]
+skip: ["de", "del", "i", "l'"]
 pertain: ["de", "del"]
 
 in:
