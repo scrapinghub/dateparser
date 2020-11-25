@@ -9,11 +9,7 @@ from dateparser_scripts.utils import get_raw_data
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # Languages with insufficient translation data are excluded
-avoid_languages = {
-    'ccp', 'ceb', 'cu', 'ff-Latn', 'ia', 'jv', 'kkj', 'ku', 'mi', 'nds', 'prg',
-    'sd', 'tg', 'tk', 'tt', 'vai', 'vai-Latn', 'vai-Vaii', 'vo', 'wo', 'xh',
-    'yue-Hans', 'yue-Hant'
-}
+avoid_languages = {'cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo'}
 
 # Order from https://w3techs.com/technologies/overview/content_language
 # Last updated on 30.10.2020
