@@ -1,158 +1,124 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "lv",
     "date_order": "DMY",
     "january": [
-        "janvāris",
-        "janv"
+        "janv",
+        "janvāris"
     ],
     "february": [
-        "februāris",
-        "febr"
+        "febr",
+        "februāris"
     ],
     "march": [
         "marts"
     ],
     "april": [
-        "aprīlis",
-        "apr"
+        "apr",
+        "aprīlis"
     ],
     "may": [
         "maijs"
     ],
     "june": [
-        "jūnijs",
-        "jūn"
+        "jūn",
+        "jūnijs"
     ],
     "july": [
-        "jūlijs",
-        "jūl"
+        "jūl",
+        "jūlijs"
     ],
     "august": [
-        "augusts",
-        "aug"
+        "aug",
+        "augusts"
     ],
     "september": [
-        "septembris",
-        "sept"
+        "sept",
+        "septembris"
     ],
     "october": [
-        "oktobris",
-        "okt"
+        "okt",
+        "oktobris"
     ],
     "november": [
-        "novembris",
-        "nov"
+        "nov",
+        "novembris"
     ],
     "december": [
-        "decembris",
-        "dec"
+        "dec",
+        "decembris"
     ],
     "monday": [
-        "pirmdiena",
-        "pirmd"
+        "pirmd",
+        "pirmdiena"
     ],
     "tuesday": [
-        "otrdiena",
-        "otrd"
+        "otrd",
+        "otrdiena"
     ],
     "wednesday": [
-        "trešdiena",
-        "trešd"
+        "trešd",
+        "trešdiena"
     ],
     "thursday": [
-        "ceturtdiena",
-        "ceturtd"
+        "ceturtd",
+        "ceturtdiena"
     ],
     "friday": [
-        "piektdiena",
-        "piektd"
+        "piektd",
+        "piektdiena"
     ],
     "saturday": [
-        "sestdiena",
-        "sestd"
+        "sestd",
+        "sestdiena"
     ],
     "sunday": [
-        "svētdiena",
-        "svētd"
+        "svētd",
+        "svētdiena"
     ],
     "am": [
-        "priekšpusdiena",
         "priekšp",
+        "priekšpusdiena",
         "priekšpusdienā"
     ],
     "pm": [
-        "pēcpusdiena",
+        "pēcp",
         "pēcpusd",
-        "pēcpusdienā",
-        "pēcp"
+        "pēcpusdiena",
+        "pēcpusdienā"
     ],
     "year": [
-        "gads",
-        "g"
+        "g",
+        "gads"
     ],
     "month": [
-        "mēnesis",
-        "mēn"
+        "mēn",
+        "mēnesis"
     ],
     "week": [
-        "nedēļa",
-        "ned"
+        "ned",
+        "nedēļa"
     ],
     "day": [
-        "diena",
-        "d"
+        "d",
+        "diena"
     ],
     "hour": [
-        "stundas",
+        "h",
         "st",
-        "h"
+        "stundas"
     ],
     "minute": [
-        "minūtes",
-        "min"
+        "min",
+        "minūtes"
     ],
     "second": [
-        "sekundes",
+        "s",
         "sek",
-        "s"
+        "sekundes"
     ],
     "relative-type": {
-        "1 year ago": [
-            "pagājušajā gadā"
-        ],
-        "0 year ago": [
-            "šajā gadā"
-        ],
-        "in 1 year": [
-            "nākamajā gadā"
-        ],
-        "1 month ago": [
-            "pagājušajā mēnesī"
-        ],
-        "0 month ago": [
-            "šajā mēnesī"
-        ],
-        "in 1 month": [
-            "nākamajā mēnesī"
-        ],
-        "1 week ago": [
-            "pagājušajā nedēļā"
-        ],
-        "0 week ago": [
-            "šajā nedēļā"
-        ],
-        "in 1 week": [
-            "nākamajā nedēļā"
-        ],
-        "1 day ago": [
-            "vakar"
-        ],
         "0 day ago": [
             "šodien"
-        ],
-        "in 1 day": [
-            "rīt"
         ],
         "0 hour ago": [
             "šajā stundā"
@@ -160,84 +126,117 @@ info = {
         "0 minute ago": [
             "šajā minūtē"
         ],
+        "0 month ago": [
+            "šajā mēnesī"
+        ],
         "0 second ago": [
             "tagad"
+        ],
+        "0 week ago": [
+            "šajā nedēļā"
+        ],
+        "0 year ago": [
+            "šajā gadā"
+        ],
+        "1 day ago": [
+            "vakar"
+        ],
+        "1 month ago": [
+            "pagājušajā mēnesī"
+        ],
+        "1 week ago": [
+            "pagājušajā nedēļā"
+        ],
+        "1 year ago": [
+            "pagājušajā gadā"
+        ],
+        "in 1 day": [
+            "rīt"
+        ],
+        "in 1 month": [
+            "nākamajā mēnesī"
+        ],
+        "in 1 week": [
+            "nākamajā nedēļā"
+        ],
+        "in 1 year": [
+            "nākamajā gadā"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "pēc (\\d+) gada",
-            "pēc (\\d+) gadiem",
-            "pēc (\\d+) g"
-        ],
-        "\\1 year ago": [
-            "pirms (\\d+) gada",
-            "pirms (\\d+) gadiem",
-            "pirms (\\d+) g"
-        ],
-        "in \\1 month": [
-            "pēc (\\d+) mēneša",
-            "pēc (\\d+) mēnešiem",
-            "pēc (\\d+) mēn"
-        ],
-        "\\1 month ago": [
-            "pirms (\\d+) mēneša",
-            "pirms (\\d+) mēnešiem",
-            "pirms (\\d+) mēn"
-        ],
-        "in \\1 week": [
-            "pēc (\\d+) nedēļas",
-            "pēc (\\d+) nedēļām",
-            "pēc (\\d+) ned"
-        ],
-        "\\1 week ago": [
-            "pirms (\\d+) nedēļas",
-            "pirms (\\d+) nedēļām",
-            "pirms (\\d+) ned"
-        ],
-        "in \\1 day": [
-            "pēc (\\d+) dienas",
-            "pēc (\\d+) dienām",
-            "pēc (\\d+) d"
-        ],
         "\\1 day ago": [
+            "pirms (\\d+) d",
             "pirms (\\d+) dienas",
-            "pirms (\\d+) dienām",
-            "pirms (\\d+) d"
-        ],
-        "in \\1 hour": [
-            "pēc (\\d+) stundas",
-            "pēc (\\d+) stundām",
-            "pēc (\\d+) st",
-            "pēc (\\d+) h"
+            "pirms (\\d+) dienām"
         ],
         "\\1 hour ago": [
-            "pirms (\\d+) stundas",
-            "pirms (\\d+) stundām",
+            "pirms (\\d+) h",
             "pirms (\\d+) st",
-            "pirms (\\d+) h"
-        ],
-        "in \\1 minute": [
-            "pēc (\\d+) minūtes",
-            "pēc (\\d+) minūtēm",
-            "pēc (\\d+) min"
+            "pirms (\\d+) stundas",
+            "pirms (\\d+) stundām"
         ],
         "\\1 minute ago": [
+            "pirms (\\d+) min",
             "pirms (\\d+) minūtes",
-            "pirms (\\d+) minūtēm",
-            "pirms (\\d+) min"
+            "pirms (\\d+) minūtēm"
         ],
-        "in \\1 second": [
-            "pēc (\\d+) sekundes",
-            "pēc (\\d+) sekundēm",
-            "pēc (\\d+) sek",
-            "pēc (\\d+) s"
+        "\\1 month ago": [
+            "pirms (\\d+) mēn",
+            "pirms (\\d+) mēneša",
+            "pirms (\\d+) mēnešiem"
         ],
         "\\1 second ago": [
-            "pirms (\\d+) sekundes",
-            "pirms (\\d+) sekundēm",
+            "pirms (\\d+) s",
             "pirms (\\d+) sek",
-            "pirms (\\d+) s"
+            "pirms (\\d+) sekundes",
+            "pirms (\\d+) sekundēm"
+        ],
+        "\\1 week ago": [
+            "pirms (\\d+) ned",
+            "pirms (\\d+) nedēļas",
+            "pirms (\\d+) nedēļām"
+        ],
+        "\\1 year ago": [
+            "pirms (\\d+) g",
+            "pirms (\\d+) gada",
+            "pirms (\\d+) gadiem"
+        ],
+        "in \\1 day": [
+            "pēc (\\d+) d",
+            "pēc (\\d+) dienas",
+            "pēc (\\d+) dienām"
+        ],
+        "in \\1 hour": [
+            "pēc (\\d+) h",
+            "pēc (\\d+) st",
+            "pēc (\\d+) stundas",
+            "pēc (\\d+) stundām"
+        ],
+        "in \\1 minute": [
+            "pēc (\\d+) min",
+            "pēc (\\d+) minūtes",
+            "pēc (\\d+) minūtēm"
+        ],
+        "in \\1 month": [
+            "pēc (\\d+) mēn",
+            "pēc (\\d+) mēneša",
+            "pēc (\\d+) mēnešiem"
+        ],
+        "in \\1 second": [
+            "pēc (\\d+) s",
+            "pēc (\\d+) sek",
+            "pēc (\\d+) sekundes",
+            "pēc (\\d+) sekundēm"
+        ],
+        "in \\1 week": [
+            "pēc (\\d+) ned",
+            "pēc (\\d+) nedēļas",
+            "pēc (\\d+) nedēļām"
+        ],
+        "in \\1 year": [
+            "pēc (\\d+) g",
+            "pēc (\\d+) gada",
+            "pēc (\\d+) gadiem"
         ]
     },
     "locale_specific": {},

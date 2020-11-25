@@ -1,82 +1,81 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "ewo",
     "date_order": "DMY",
     "january": [
-        "ngɔn osú",
-        "ngo"
+        "ngo",
+        "ngɔn osú"
     ],
     "february": [
-        "ngɔn bɛ̌",
-        "ngb"
+        "ngb",
+        "ngɔn bɛ̌"
     ],
     "march": [
-        "ngɔn lála",
-        "ngl"
+        "ngl",
+        "ngɔn lála"
     ],
     "april": [
-        "ngɔn nyina",
-        "ngn"
+        "ngn",
+        "ngɔn nyina"
     ],
     "may": [
-        "ngɔn tána",
-        "ngt"
+        "ngt",
+        "ngɔn tána"
     ],
     "june": [
-        "ngɔn saməna",
-        "ngs"
+        "ngs",
+        "ngɔn saməna"
     ],
     "july": [
-        "ngɔn zamgbála",
-        "ngz"
+        "ngz",
+        "ngɔn zamgbála"
     ],
     "august": [
-        "ngɔn mwom",
-        "ngm"
+        "ngm",
+        "ngɔn mwom"
     ],
     "september": [
-        "ngɔn ebulú",
-        "nge"
+        "nge",
+        "ngɔn ebulú"
     ],
     "october": [
-        "ngɔn awóm",
-        "nga"
+        "nga",
+        "ngɔn awóm"
     ],
     "november": [
-        "ngɔn awóm ai dziá",
-        "ngad"
+        "ngad",
+        "ngɔn awóm ai dziá"
     ],
     "december": [
-        "ngɔn awóm ai bɛ̌",
-        "ngab"
+        "ngab",
+        "ngɔn awóm ai bɛ̌"
     ],
     "monday": [
-        "mɔ́ndi",
-        "mɔ́n"
+        "mɔ́n",
+        "mɔ́ndi"
     ],
     "tuesday": [
-        "sɔ́ndɔ məlú mə́bɛ̌",
-        "smb"
+        "smb",
+        "sɔ́ndɔ məlú mə́bɛ̌"
     ],
     "wednesday": [
-        "sɔ́ndɔ məlú mə́lɛ́",
-        "sml"
+        "sml",
+        "sɔ́ndɔ məlú mə́lɛ́"
     ],
     "thursday": [
-        "sɔ́ndɔ məlú mə́nyi",
-        "smn"
+        "smn",
+        "sɔ́ndɔ məlú mə́nyi"
     ],
     "friday": [
-        "fúladé",
-        "fúl"
+        "fúl",
+        "fúladé"
     ],
     "saturday": [
-        "séradé",
-        "sér"
+        "sér",
+        "séradé"
     ],
     "sunday": [
-        "sɔ́ndɔ",
-        "sɔ́n"
+        "sɔ́n",
+        "sɔ́ndɔ"
     ],
     "am": [
         "kíkíríg"
@@ -106,41 +105,8 @@ info = {
         "akábəga"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "angogé"
-        ],
         "0 day ago": [
             "aná"
-        ],
-        "in 1 day": [
-            "okírí"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "angogé"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "okírí"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

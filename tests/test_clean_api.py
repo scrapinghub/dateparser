@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from datetime import date, datetime
 
 from parameterized import parameterized, param
@@ -11,7 +8,7 @@ from tests import BaseTestCase
 
 class TestParseFunction(BaseTestCase):
     def setUp(self):
-        super(TestParseFunction, self).setUp()
+        super().setUp()
         self.result = NotImplemented
 
     @parameterized.expand([
@@ -55,7 +52,7 @@ class TestParseFunction(BaseTestCase):
         self.result = dateparser.parse(date_string, languages=languages, locales=locales)
 
     def then_parsed_date_is(self, expected_date):
-        self.assertEquals(self.result, datetime.combine(expected_date, datetime.min.time()))
+        self.assertEqual(self.result, datetime.combine(expected_date, datetime.min.time()))
 
     def then_date_was_not_parsed(self):
         self.assertIsNone(self.result)

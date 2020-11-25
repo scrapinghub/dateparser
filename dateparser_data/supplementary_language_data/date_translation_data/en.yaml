@@ -1,4 +1,4 @@
-skip: ["at", "on", "and", "ad", "m", "of", "st", "nd", "rd", "th", "about", "the", "just"]
+skip: ["at", "by", "on", "and", "ad", "m", "of", "st", "nd", "rd", "th", "about", "the", "just"]
 pertain: ["of"]
 
 sentence_splitter_group : 1
@@ -9,6 +9,9 @@ tuesday:
 september:
     - sept
 
+decade:
+    - decade
+    - decades
 year:
     - years
 month:
@@ -39,6 +42,17 @@ in:
 relative-type:
     2 day ago:
         - day before yesterday
+    1 decade ago:
+        - last decade
+        - this decade
+    in 1 decade:
+        - next decade
+
+relative-type-regex:
+    in \1 decade:
+        - in (\d+) decades?
+    \1 decade ago:
+        - (\d+) decades? ago
 
 simplifications:
     - an: '1'
@@ -48,3 +62,15 @@ simplifications:
     - (\d+)h(\d+)m?: \1:\2
     - (?<=from\s+)now: in
     - less than 1 minute ago: 45 second ago
+    - one: '1'
+    - two: '2'
+    - three: '3'
+    - four: '4'
+    - five: '5'
+    - six: '6'
+    - seven: '7'
+    - eight: '8'
+    - nine: '9'
+    - ten: '10'
+    - eleven: '11'
+    - twelve: '12'

@@ -1,24 +1,23 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from collections.abc import Set
+
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
 import regex as re
-import collections
+
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 
 
 def date_is_relative(translation):
     if re.search(RELATIVE_REG, translation):
-
         return True
     else:
         return False
 
 
-class ExactLanguageSearch:
+class _ExactLanguageSearch:
     def __init__(self, loader):
         self.loader = loader
         self.language = None
@@ -38,12 +37,12 @@ class ExactLanguageSearch:
             return substring, None
         else:
             i = len(already_parsed) - 1
-            while already_parsed[i]['is_relative']:
+            while already_parsed[i][1]:
                 i -= 1
                 if i == -1:
                     return substring, None
-            relative_base = already_parsed[i]['date_obj']
-            return substring,  relative_base
+            relative_base = already_parsed[i][0]['date_obj']
+            return substring, relative_base
 
     def choose_best_split(self, possible_parsed_splits, possible_substrings_splits):
         rating = []
@@ -52,15 +51,15 @@ class ExactLanguageSearch:
             num_substrings_without_digits = 0
             not_parsed = 0
             for j, item in enumerate(possible_parsed_splits[i]):
-                if item['date_obj'] is None:
+                if item[0]['date_obj'] is None:
                     not_parsed += 1
                 if not any(char.isdigit() for char in possible_substrings_splits[i][j]):
                     num_substrings_without_digits += 1
             rating.append([
                 num_substrings,
-                0 if not_parsed == 0 else (float(not_parsed)/float(num_substrings)),
+                0 if not_parsed == 0 else (float(not_parsed) / float(num_substrings)),
                 0 if num_substrings_without_digits == 0 else (
-                    float(num_substrings_without_digits)/float(num_substrings))])
+                    float(num_substrings_without_digits) / float(num_substrings))])
             best_index, best_rating = min(enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2]))
         return possible_parsed_splits[best_index], possible_substrings_splits[best_index]
 
@@ -75,8 +74,8 @@ class ExactLanguageSearch:
                 item_partially_split = []
                 original_partially_split = []
                 for j in range(0, len(item_all_split), i):
-                    item_join = splitter.join(item_all_split[j:j+i])
-                    original_join = splitter.join(original_all_split[j:j+i])
+                    item_join = splitter.join(item_all_split[j:j + i])
+                    original_join = splitter.join(original_all_split[j:j + i])
                     item_partially_split.append(item_join)
                     original_partially_split.append(original_join)
                 all_possible_splits.append([item_partially_split, original_partially_split])
@@ -105,8 +104,7 @@ class ExactLanguageSearch:
             parsed_item = parser.get_date_data(item)
         else:
             parsed_item = pre_parsed_item
-        parsed_item['is_relative'] = is_relative
-        return parsed_item
+        return parsed_item, is_relative
 
     def parse_found_objects(self, parser, to_parse, original, translated, settings):
         parsed = []
@@ -116,10 +114,10 @@ class ExactLanguageSearch:
             need_relative_base = False
         for i, item in enumerate(to_parse):
             if len(item) > 2:
-                parsed_item = self.parse_item(parser, item, translated[i], parsed, need_relative_base)
+                parsed_item, is_relative = self.parse_item(parser, item, translated[i], parsed, need_relative_base)
                 if parsed_item['date_obj']:
-                    parsed.append(parsed_item)
-                    substrings.append(original[i].strip(' .,:()[]-'))
+                    parsed.append((parsed_item, is_relative))
+                    substrings.append(original[i].strip(" .,:()[]-'"))
                     pass
                 else:
                     possible_splits = self.split_if_not_parsed(item, original[i])
@@ -132,9 +130,9 @@ class ExactLanguageSearch:
                             if split_translated:
                                 for j, jtem in enumerate(split_translated):
                                     if len(jtem) > 2:
-                                        parsed_jtem = self.parse_item(parser, jtem, split_translated[j],
-                                                                      current_parsed, need_relative_base)
-                                        current_parsed.append(parsed_jtem)
+                                        parsed_jtem, is_relative_jtem = self.parse_item(
+                                            parser, jtem, split_translated[j], current_parsed, need_relative_base)
+                                        current_parsed.append((parsed_jtem, is_relative_jtem))
                                         current_substrings.append(split_original[j].strip(' .,:()[]-'))
                             else:
                                 pass
@@ -142,7 +140,7 @@ class ExactLanguageSearch:
                             possible_substrings.append(current_substrings)
                         parsed_best, substrings_best = self.choose_best_split(possible_parsed, possible_substrings)
                         for k in range(len(parsed_best)):
-                            if parsed_best[k]['date_obj']:
+                            if parsed_best[k][0]['date_obj']:
                                 parsed.append(parsed_best[k])
                                 substrings.append(substrings_best[k])
         return parsed, substrings
@@ -159,7 +157,7 @@ class ExactLanguageSearch:
             parsed, substrings = self.parse_found_objects(parser=parser, to_parse=original,
                                                           original=original, translated=translated, settings=settings)
         parser._settings = Settings()
-        return list(zip(substrings, [i['date_obj'] for i in parsed]))
+        return list(zip(substrings, [i[0]['date_obj'] for i in parsed]))
 
 
 class DateSearchWithDetection:
@@ -171,10 +169,10 @@ class DateSearchWithDetection:
     def __init__(self):
         self.loader = LocaleDataLoader()
         self.available_language_map = self.loader.get_locale_map()
-        self.search = ExactLanguageSearch(self.loader)
+        self.search = _ExactLanguageSearch(self.loader)
 
     def detect_language(self, text, languages):
-        if isinstance(languages, (list, tuple, collections.Set)):
+        if isinstance(languages, (list, tuple, Set)):
 
             if all([language in self.available_language_map for language in languages]):
                 languages = [self.available_language_map[language] for language in languages]
@@ -199,7 +197,7 @@ class DateSearchWithDetection:
 
         :param text:
             A string in a natural language which may contain date and/or time expressions.
-        :type text: str|unicode
+        :type text: str
         :param languages:
             A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
             to detect the language.

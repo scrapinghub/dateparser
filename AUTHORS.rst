@@ -2,71 +2,16 @@
 Credits
 =======
 
+Currently, more than 100 committers have contributed to this project, making this
+contributors list really hard to maintain, so we have decided to stop updating
+this list.
 
-Committers
-----------
+To see the people behind this code, you can run ``git shortlog -s -n`` or visit the
+contributions section in Github: https://github.com/scrapinghub/dateparser/graphs/contributors
 
-* Adam LeVasseur
-* Ahmad Musaffa
-* Alec Koumjian
-* Alexis Svinartchouk
-* Ammar Azif
-* Andrés Portillo
-* Andrey Zhelnin
-* Artur Sadurski
-* Artur Gaspar
-* atchoum31
-* Benjamin Bach
-* Cesar Flores
-* CJStuart
-* Claudio Salazar
-* conanca
-* David Beitey
-* Dawid Wolski
-* demelziraptor
-* Edwin Zhang
-* Elena Zakharova
-* Elias Dorneles
-* Eugene Amirov
-* Faisal Anees
-* Fernando Tricas García
-* Georgi Valkov
-* Hristo Vrigazov
-* ishirav
-* Ismael Carnales
-* James M. Allen
-* Ján Jančár
-* Jolo Balbin
-* Joseph Kahn
-* Konstantin Lopuhin
-* Mark Baas
-* Marko Horvatić
-* Mateusz Golewski
-* Mats Gustafsson
-* Michael Palumbo
-* nanolab
-* Opp Lieamsiriwong
-* Paul Tremberth
-* Pengyu Chen
-* phuslu
-* Rajat Goyal
-* Raul Gallegos
-* Robert Schütz
-* Roman
-* Sakari Vaelma
-* samoylovfp
-* Sarthak Madaan
-* Shuai Lin
-* Sigit Dewanto
-* Sinan Nalkaya
-* Sviatoslav Sydorenko
-* Taito Horiuchi
-* Takahiro Kamatani
-* Thomas Steinacher
-* Timothy Allen
-* tkisme
-* Tom Russell
-* Umair Ashraf
-* Waqas Shabir
-* Xavier Barbosa
-* Yongwen Zhuang
+We really appreciate **all the people that has contributed to this project with their
+time and ideas**. Special mention to **Waqas Shabir** (waqasshabbir), **Eugene Amirov**
+(Allactaga) and **Artur Sadurski** (asadurski) for creating and maintaining this awesome
+project.
+
+To all of you... thank you for building and improving this!

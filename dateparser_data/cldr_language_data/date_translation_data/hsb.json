@@ -2,92 +2,92 @@
     "name": "hsb",
     "date_order": "DMY",
     "january": [
-        "januar",
         "jan",
+        "januar",
         "januara"
     ],
     "february": [
-        "februar",
         "feb",
+        "februar",
         "februara"
     ],
     "march": [
-        "měrc",
         "měr",
+        "měrc",
         "měrca"
     ],
     "april": [
-        "apryl",
         "apr",
+        "apryl",
         "apryla"
     ],
     "may": [
-        "meja",
         "mej",
+        "meja",
         "meje"
     ],
     "june": [
-        "junij",
         "jun",
+        "junij",
         "junija"
     ],
     "july": [
-        "julij",
         "jul",
+        "julij",
         "julija"
     ],
     "august": [
-        "awgust",
         "awg",
+        "awgust",
         "awgusta"
     ],
     "september": [
-        "september",
         "sep",
+        "september",
         "septembra"
     ],
     "october": [
-        "oktober",
         "okt",
+        "oktober",
         "oktobra"
     ],
     "november": [
-        "nowember",
         "now",
+        "nowember",
         "nowembra"
     ],
     "december": [
-        "december",
         "dec",
+        "december",
         "decembra"
     ],
     "monday": [
-        "póndźela",
-        "pón"
+        "pón",
+        "póndźela"
     ],
     "tuesday": [
-        "wutora",
-        "wut"
+        "wut",
+        "wutora"
     ],
     "wednesday": [
-        "srjeda",
-        "srj"
+        "srj",
+        "srjeda"
     ],
     "thursday": [
-        "štwórtk",
-        "štw"
+        "štw",
+        "štwórtk"
     ],
     "friday": [
-        "pjatk",
-        "pja"
+        "pja",
+        "pjatk"
     ],
     "saturday": [
-        "sobota",
-        "sob"
+        "sob",
+        "sobota"
     ],
     "sunday": [
-        "njedźela",
-        "nje"
+        "nje",
+        "njedźela"
     ],
     "am": [
         "dopołdnja"
@@ -96,72 +96,39 @@
         "popołdnju"
     ],
     "year": [
-        "lěto",
-        "l"
+        "l",
+        "lěto"
     ],
     "month": [
-        "měsac",
-        "měs"
+        "měs",
+        "měsac"
     ],
     "week": [
-        "tydźeń",
-        "tydź"
+        "tydź",
+        "tydźeń"
     ],
     "day": [
-        "dźeń",
-        "d"
+        "d",
+        "dźeń"
     ],
     "hour": [
-        "hodźina",
+        "h",
         "hodź",
-        "h"
+        "hodźina"
     ],
     "minute": [
-        "minuta",
+        "m",
         "min",
-        "m"
+        "minuta"
     ],
     "second": [
-        "sekunda",
+        "s",
         "sek",
-        "s"
+        "sekunda"
     ],
     "relative-type": {
-        "1 year ago": [
-            "loni"
-        ],
-        "0 year ago": [
-            "lětsa"
-        ],
-        "in 1 year": [
-            "klětu"
-        ],
-        "1 month ago": [
-            "zašły měsac"
-        ],
-        "0 month ago": [
-            "tutón měsac"
-        ],
-        "in 1 month": [
-            "přichodny měsac"
-        ],
-        "1 week ago": [
-            "zašły tydźeń"
-        ],
-        "0 week ago": [
-            "tutón tydźeń"
-        ],
-        "in 1 week": [
-            "přichodny tydźeń"
-        ],
-        "1 day ago": [
-            "wčera"
-        ],
         "0 day ago": [
             "dźensa"
-        ],
-        "in 1 day": [
-            "jutře"
         ],
         "0 hour ago": [
             "this hour"
@@ -169,88 +136,121 @@
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "tutón měsac"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "tutón tydźeń"
+        ],
+        "0 year ago": [
+            "lětsa"
+        ],
+        "1 day ago": [
+            "wčera"
+        ],
+        "1 month ago": [
+            "zašły měsac"
+        ],
+        "1 week ago": [
+            "zašły tydźeń"
+        ],
+        "1 year ago": [
+            "loni"
+        ],
+        "in 1 day": [
+            "jutře"
+        ],
+        "in 1 month": [
+            "přichodny měsac"
+        ],
+        "in 1 week": [
+            "přichodny tydźeń"
+        ],
+        "in 1 year": [
+            "klětu"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "za {0} lěto",
-            "za {0} lět",
-            "za {0} l"
-        ],
-        "\\1 year ago": [
-            "před {0} lětom",
-            "před {0} lětami",
-            "před {0} l"
-        ],
-        "in \\1 month": [
-            "za {0} měsac",
-            "za {0} měsacow",
-            "za {0} měs"
-        ],
-        "\\1 month ago": [
-            "před {0} měsacom",
-            "před {0} měsacami",
-            "před {0} měs"
-        ],
-        "in \\1 week": [
-            "za {0} tydźeń",
-            "za {0} tydźenjow",
-            "za {0} tydź"
-        ],
-        "\\1 week ago": [
-            "před {0} tydźenjom",
-            "před {0} tydźenjemi",
-            "před {0} tydź"
-        ],
-        "in \\1 day": [
-            "za {0} dźeń",
-            "za {0} dnjow",
-            "za {0} dnj",
-            "za {0} d"
-        ],
         "\\1 day ago": [
-            "před {0} dnjom",
-            "před {0} dnjemi",
+            "před {0} d",
             "před {0} dnj",
-            "před {0} d"
-        ],
-        "in \\1 hour": [
-            "za {0} hodźinu",
-            "za {0} hodźin",
-            "za {0} hodź",
-            "za {0} h"
+            "před {0} dnjemi",
+            "před {0} dnjom"
         ],
         "\\1 hour ago": [
-            "před {0} hodźinu",
-            "před {0} hodźinami",
+            "před {0} h",
             "před {0} hodź",
-            "před {0} h"
-        ],
-        "in \\1 minute": [
-            "za {0} minutu",
-            "za {0} minutow",
-            "za {0} min",
-            "za {0} m"
+            "před {0} hodźinami",
+            "před {0} hodźinu"
         ],
         "\\1 minute ago": [
-            "před {0} minutu",
-            "před {0} minutami",
+            "před {0} m",
             "před {0} min",
-            "před {0} m"
+            "před {0} minutami",
+            "před {0} minutu"
         ],
-        "in \\1 second": [
-            "za {0} sekundu",
-            "za {0} sekundow",
-            "za {0} sek",
-            "za {0} s"
+        "\\1 month ago": [
+            "před {0} měs",
+            "před {0} měsacami",
+            "před {0} měsacom"
         ],
         "\\1 second ago": [
-            "před {0} sekundu",
-            "před {0} sekundami",
+            "před {0} s",
             "před {0} sek",
-            "před {0} s"
+            "před {0} sekundami",
+            "před {0} sekundu"
+        ],
+        "\\1 week ago": [
+            "před {0} tydź",
+            "před {0} tydźenjemi",
+            "před {0} tydźenjom"
+        ],
+        "\\1 year ago": [
+            "před {0} l",
+            "před {0} lětami",
+            "před {0} lětom"
+        ],
+        "in \\1 day": [
+            "za {0} d",
+            "za {0} dnj",
+            "za {0} dnjow",
+            "za {0} dźeń"
+        ],
+        "in \\1 hour": [
+            "za {0} h",
+            "za {0} hodź",
+            "za {0} hodźin",
+            "za {0} hodźinu"
+        ],
+        "in \\1 minute": [
+            "za {0} m",
+            "za {0} min",
+            "za {0} minutow",
+            "za {0} minutu"
+        ],
+        "in \\1 month": [
+            "za {0} měs",
+            "za {0} měsac",
+            "za {0} měsacow"
+        ],
+        "in \\1 second": [
+            "za {0} s",
+            "za {0} sek",
+            "za {0} sekundow",
+            "za {0} sekundu"
+        ],
+        "in \\1 week": [
+            "za {0} tydź",
+            "za {0} tydźenjow",
+            "za {0} tydźeń"
+        ],
+        "in \\1 year": [
+            "za {0} l",
+            "za {0} lět",
+            "za {0} lěto"
         ]
     },
     "locale_specific": {}

@@ -1,53 +1,52 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "sq",
     "date_order": "DMY",
     "january": [
-        "janar",
-        "jan"
+        "jan",
+        "janar"
     ],
     "february": [
-        "shkurt",
-        "shk"
+        "shk",
+        "shkurt"
     ],
     "march": [
-        "mars",
-        "mar"
+        "mar",
+        "mars"
     ],
     "april": [
-        "prill",
-        "pri"
+        "pri",
+        "prill"
     ],
     "may": [
         "maj"
     ],
     "june": [
-        "qershor",
-        "qer"
+        "qer",
+        "qershor"
     ],
     "july": [
-        "korrik",
-        "kor"
+        "kor",
+        "korrik"
     ],
     "august": [
-        "gusht",
-        "gsh"
+        "gsh",
+        "gusht"
     ],
     "september": [
-        "shtator",
-        "sht"
+        "sht",
+        "shtator"
     ],
     "october": [
-        "tetor",
-        "tet"
+        "tet",
+        "tetor"
     ],
     "november": [
-        "nëntor",
-        "nën"
+        "nën",
+        "nëntor"
     ],
     "december": [
-        "dhjetor",
-        "dhj"
+        "dhj",
+        "dhjetor"
     ],
     "monday": [
         "e hënë",
@@ -74,16 +73,16 @@ info = {
         "sht"
     ],
     "sunday": [
-        "e diel",
-        "die"
+        "die",
+        "e diel"
     ],
     "am": [
-        "paradite",
-        "e paradites"
+        "e paradites",
+        "paradite"
     ],
     "pm": [
-        "pasdite",
-        "e pasdites"
+        "e pasdites",
+        "pasdite"
     ],
     "year": [
         "vit"
@@ -101,49 +100,16 @@ info = {
         "orë"
     ],
     "minute": [
-        "minutë",
-        "min"
+        "min",
+        "minutë"
     ],
     "second": [
-        "sekondë",
-        "sek"
+        "sek",
+        "sekondë"
     ],
     "relative-type": {
-        "1 year ago": [
-            "vitin e kaluar"
-        ],
-        "0 year ago": [
-            "këtë vit"
-        ],
-        "in 1 year": [
-            "vitin e ardhshëm"
-        ],
-        "1 month ago": [
-            "muajin e kaluar"
-        ],
-        "0 month ago": [
-            "këtë muaj"
-        ],
-        "in 1 month": [
-            "muajin e ardhshëm"
-        ],
-        "1 week ago": [
-            "javën e kaluar"
-        ],
-        "0 week ago": [
-            "këtë javë"
-        ],
-        "in 1 week": [
-            "javën e ardhshme"
-        ],
-        "1 day ago": [
-            "dje"
-        ],
         "0 day ago": [
             "sot"
-        ],
-        "in 1 day": [
-            "nesër"
         ],
         "0 hour ago": [
             "këtë orë"
@@ -151,66 +117,99 @@ info = {
         "0 minute ago": [
             "këtë minutë"
         ],
+        "0 month ago": [
+            "këtë muaj"
+        ],
         "0 second ago": [
             "tani"
+        ],
+        "0 week ago": [
+            "këtë javë"
+        ],
+        "0 year ago": [
+            "këtë vit"
+        ],
+        "1 day ago": [
+            "dje"
+        ],
+        "1 month ago": [
+            "muajin e kaluar"
+        ],
+        "1 week ago": [
+            "javën e kaluar"
+        ],
+        "1 year ago": [
+            "vitin e kaluar"
+        ],
+        "in 1 day": [
+            "nesër"
+        ],
+        "in 1 month": [
+            "muajin e ardhshëm"
+        ],
+        "in 1 week": [
+            "javën e ardhshme"
+        ],
+        "in 1 year": [
+            "vitin e ardhshëm"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "pas (\\d+) viti",
-            "pas (\\d+) vjetësh"
+        "\\1 day ago": [
+            "(\\d+) ditë më parë"
+        ],
+        "\\1 hour ago": [
+            "(\\d+) orë më parë"
+        ],
+        "\\1 minute ago": [
+            "(\\d+) min më parë",
+            "(\\d+) minuta më parë",
+            "(\\d+) minutë më parë"
+        ],
+        "\\1 month ago": [
+            "(\\d+) muaj më parë"
+        ],
+        "\\1 second ago": [
+            "(\\d+) sek më parë",
+            "(\\d+) sekonda më parë",
+            "(\\d+) sekondë më parë"
+        ],
+        "\\1 week ago": [
+            "(\\d+) javë më parë"
         ],
         "\\1 year ago": [
             "(\\d+) vit më parë",
             "(\\d+) vjet më parë"
         ],
-        "in \\1 month": [
-            "pas (\\d+) muaji",
-            "pas (\\d+) muajsh"
-        ],
-        "\\1 month ago": [
-            "(\\d+) muaj më parë"
-        ],
-        "in \\1 week": [
-            "pas (\\d+) jave",
-            "pas (\\d+) javësh"
-        ],
-        "\\1 week ago": [
-            "(\\d+) javë më parë"
-        ],
         "in \\1 day": [
             "pas (\\d+) dite",
             "pas (\\d+) ditësh"
-        ],
-        "\\1 day ago": [
-            "(\\d+) ditë më parë"
         ],
         "in \\1 hour": [
             "pas (\\d+) ore",
             "pas (\\d+) orësh"
         ],
-        "\\1 hour ago": [
-            "(\\d+) orë më parë"
-        ],
         "in \\1 minute": [
-            "pas (\\d+) minute",
+            "pas (\\d+) min",
             "pas (\\d+) minutash",
-            "pas (\\d+) min"
+            "pas (\\d+) minute"
         ],
-        "\\1 minute ago": [
-            "(\\d+) minutë më parë",
-            "(\\d+) minuta më parë",
-            "(\\d+) min më parë"
+        "in \\1 month": [
+            "pas (\\d+) muaji",
+            "pas (\\d+) muajsh"
         ],
         "in \\1 second": [
-            "pas (\\d+) sekonde",
+            "pas (\\d+) sek",
             "pas (\\d+) sekondash",
-            "pas (\\d+) sek"
+            "pas (\\d+) sekonde"
         ],
-        "\\1 second ago": [
-            "(\\d+) sekondë më parë",
-            "(\\d+) sekonda më parë",
-            "(\\d+) sek më parë"
+        "in \\1 week": [
+            "pas (\\d+) jave",
+            "pas (\\d+) javësh"
+        ],
+        "in \\1 year": [
+            "pas (\\d+) viti",
+            "pas (\\d+) vjetësh"
         ]
     },
     "locale_specific": {

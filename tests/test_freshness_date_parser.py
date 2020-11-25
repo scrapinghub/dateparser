@@ -1,13 +1,19 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import unittest
 from datetime import datetime, timedelta, date, time
 from functools import wraps
+
 import pytz
 
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:
+    try:
+        from backports.zoneinfo import ZoneInfo  # Python < 3.9 + tzlocal >= 3
+    except ImportError:
+        ZoneInfo = None  # Python < 3.9
+
 from dateutil.relativedelta import relativedelta
-from mock import Mock, patch
+from unittest.mock import Mock, patch
 from parameterized import parameterized, param
 
 import dateparser
@@ -19,7 +25,7 @@ from dateparser.conf import settings
 
 class TestFreshnessDateDataParser(BaseTestCase):
     def setUp(self):
-        super(TestFreshnessDateDataParser, self).setUp()
+        super().setUp()
         self.now = datetime(2014, 9, 1, 10, 30)
         self.date_string = NotImplemented
         self.parser = NotImplemented
@@ -31,8 +37,33 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         settings.TIMEZONE = 'utc'
 
+    def now_with_timezone(self, tzinfo):
+        now = self.now
+        return datetime(now.year, now.month, now.day, now.hour, now.minute, tzinfo=tzinfo)
+
     @parameterized.expand([
         # English dates
+        param("yesterday", ago={'days': 1}, period='day'),
+        param("yesterday at 11:30", ago={'hours': 23}, period='time'),
+    ])
+    def test_relative_past_dates_with_time_as_period(self, date_string, ago, period):
+        self.given_parser(settings={'NORMALIZE': False, 'RETURN_TIME_AS_PERIOD': True})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_was_parsed_by_freshness_parser()
+        self.then_date_obj_is_exactly_this_time_ago(ago)
+        self.then_period_is(period)
+
+    @parameterized.expand([
+        # English dates
+        param("1 decade", ago={'years': 10}, period='year'),
+        param("1 decade 2 years", ago={'years': 12}, period='year'),
+        param("1 decade 12 months", ago={'years': 10, 'months': 12}, period='month'),
+        param("1 decade and 11 months", ago={'years': 10, 'months': 11}, period='month'),
+        param("last decade", ago={'years': 10}, period='year'),
+        param("a decade ago", ago={'years': 10}, period='year'),
+        param("100 decades", ago={'years': 1000}, period='year'),
         param('yesterday', ago={'days': 1}, period='day'),
         param('the day before yesterday', ago={'days': 2}, period='day'),
         param('today', ago={'days': 0}, period='day'),
@@ -59,6 +90,12 @@ class TestFreshnessDateDataParser(BaseTestCase):
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         param('just now', ago={'seconds': 0}, period='day'),
+        # Fix for #291, work till one to twelve only
+        param('nine hours ago', ago={'hours': 9}, period='day'),
+        param('three week ago', ago={'weeks': 3}, period='week'),
+        param('eight months ago', ago={'months': 8}, period='month'),
+        param('six days ago', ago={'days': 6}, period='day'),
+        param('five years ago', ago={'years': 5}, period='year'),
 
         # French dates
         param("Aujourd'hui", ago={'days': 0}, period='day'),
@@ -176,6 +213,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 rok 11 měsíců', ago={'years': 1, 'months': 11}, period='month'),
         param('3 dny', ago={'days': 3}, period='day'),
         param('3 hodiny', ago={'hours': 3}, period='day'),
+        param('2 roky, 2 týdny, 1 den, 1 hodinu, 5 vteřin před',
+              ago={'years': 2, 'weeks': 2, 'days': 1, 'hours': 1, 'seconds': 5},
+              period='day'),
         param('1 rok, 1 měsíc, 1 týden, 1 den, 1 hodina, 1 minuta před',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
@@ -239,7 +279,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('2 tuần 3 ngày', ago={'weeks': 2, 'days': 3}, period='day'),
         # following test unsupported, refer to discussion at:
         # http://github.com/scrapinghub/dateparser/issues/33
-        #param('1 năm 1 tháng 1 tuần 1 ngày 1 giờ 1 chút',
+        # param('1 năm 1 tháng 1 tuần 1 ngày 1 giờ 1 chút',
         #      ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
         #      period='day'),
 
@@ -536,6 +576,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param("1 decade", ago={'years': 10}, period='year'),
+        param("1 decade 2 years", ago={'years': 12}, period='year'),
+        param("1 decade 12 months", ago={'years': 10, 'months': 12}, period='month'),
+        param("1 decade and 11 months", ago={'years': 10, 'months': 11}, period='month'),
+        param("last decade", ago={'years': 10}, period='year'),
+        param("a decade ago", ago={'years': 10}, period='year'),
+        param("100 decades", ago={'years': 1000}, period='year'),
         param('yesterday', ago={'days': 1}, period='day'),
         param('the day before yesterday', ago={'days': 2}, period='day'),
         param('today', ago={'days': 0}, period='day'),
@@ -788,9 +835,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
         # param('এখন', ago={'seconds': 0}, period='day'),
 
         # Hindi dates
-        param('1 घंटे पहले', ago={'hours': 1},period='day'),
-        param('15 मिनट पहले',ago={'minutes':15},period='day'),
-        param('25 सेकंड पूर्व',ago={'seconds':25},period='day'),
+        param('1 घंटे पहले', ago={'hours': 1}, period='day'),
+        param('15 मिनट पहले', ago={'minutes': 15}, period='day'),
+        param('25 सेकंड पूर्व', ago={'seconds': 25}, period='day'),
         param('1 वर्ष, 8 महीने, 2 सप्ताह', ago={'years': 1, 'months': 8, 'weeks': 2}, period='week'),
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
@@ -1019,6 +1066,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param('in 1 decade 2 months', in_future={'years': 10, 'months': 2}, period='month'),
+        param('in 100 decades', in_future={'years': 1000}, period='year'),
+        param('in 1 decade 12 years', in_future={'years': 22}, period='year'),
+        param('next decade', in_future={'years': 10}, period='year'),
+        param('in a decade', in_future={'years': 10}, period='year'),
         param('tomorrow', in_future={'days': 1}, period='day'),
         param('today', in_future={'days': 0}, period='day'),
         param('in an hour', in_future={'hours': 1}, period='day'),
@@ -1408,13 +1460,19 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('5000 years ago'),
         param('2014 years ago'),  # We've fixed .now in setUp
         param('{} months ago'.format(2013 * 12 + 9)),
+        param('123456789 hour'),
+        param('123456789123 hour'),
+        param('1234567 days'),
+        param('1234567891 days'),
+        param('12345678912 days'),
+        param('123455678976543 month'),
     ])
     def test_dates_not_supported_by_date_time(self, date_string):
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
-        self.then_error_was_raised(ValueError, ['is out of range',
-                                                "('year must be in 1..9999'"])
+        self.then_error_was_not_raised()
+        self.assertEqual(None, self.result['date_obj'])
 
     @parameterized.expand([
         param('несколько секунд назад', boundary={'seconds': 45}, period='day'),
@@ -1433,11 +1491,14 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('Today at 9 pm', date(2014, 9, 1), time(21, 0)),
         param('Today at 11:20 am', date(2014, 9, 1), time(11, 20)),
         param('Yesterday 1:20 pm', date(2014, 8, 31), time(13, 20)),
+        param('Yesterday by 13:20', date(2014, 8, 31), time(13, 20)),
         param('the day before yesterday 16:50', date(2014, 8, 30), time(16, 50)),
         param('2 Tage 18:50', date(2014, 8, 30), time(18, 50)),
         param('1 day ago at 2 PM', date(2014, 8, 31), time(14, 0)),
+        param('one day ago at 2 PM', date(2014, 8, 31), time(14, 0)),
         param('Dnes v 12:40', date(2014, 9, 1), time(12, 40)),
         param('1 week ago at 12:00 am', date(2014, 8, 25), time(0, 0)),
+        param('one week ago at 12:00 am', date(2014, 8, 25), time(0, 0)),
         param('tomorrow at 2 PM', date(2014, 9, 2), time(14, 0)),
     ])
     def test_freshness_date_with_time(self, date_string, date, time):
@@ -1447,10 +1508,18 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_is(date)
         self.then_time_is(time)
 
+    def test_freshness_date_with_time_and_timezone(self):
+        self.given_parser(settings={'TIMEZONE': 'local'})
+        self.given_date_string('tomorrow 8:30 CST')
+        self.when_date_is_parsed()
+        self.then_date_is(date(2014, 9, 2))
+        self.then_time_is(time(8, 30))
+        self.then_timezone_is('CST')
+
     @parameterized.expand([
         param('2 hours ago', 'Asia/Karachi', date(2014, 9, 1), time(13, 30)),
         param('3 hours ago', 'Europe/Paris', date(2014, 9, 1), time(9, 30)),
-        param('5 hours ago', 'US/Eastern', date(2014, 9, 1), time(1, 30)), # date in DST range
+        param('5 hours ago', 'US/Eastern', date(2014, 9, 1), time(1, 30)),  # date in DST range
         param('Today at 9 pm', 'Asia/Karachi', date(2014, 9, 1), time(21, 0)),
     ])
     def test_freshness_date_with_pytz_timezones(self, date_string, timezone, date, time):
@@ -1467,7 +1536,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('Today', 'US/Mountain', 'UTC', date(2014, 9, 1), time(16, 30)),
     ])
     def test_freshness_date_with_timezone_conversion(self, date_string, timezone, to_timezone, date, time):
-        self.given_parser(settings={'TIMEZONE': timezone, 'TO_TIMEZONE': to_timezone, 'RELATIVE_BASE': datetime(2014, 9, 1, 10, 30)})
+        self.given_parser(settings={
+            'TIMEZONE': timezone,
+            'TO_TIMEZONE': to_timezone,
+            'RELATIVE_BASE': datetime(2014, 9, 1, 10, 30)
+        })
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_date_is(date)
@@ -1481,7 +1554,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         })
 
         parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
-        parser.get_local_tz = Mock(return_value=pytz.timezone('US/Eastern'))
+        timezone = ZoneInfo(key='US/Eastern') if ZoneInfo else pytz.timezone('US/Eastern')
+        parser.get_local_tz = Mock(return_value=timezone)
         result = parser.get_date_data('1 minute ago', _settings)
         result = result['date_obj']
         self.assertEqual(result.date(), date(2014, 9, 1))
@@ -1553,6 +1627,30 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_is(date)
         self.then_time_is(time)
 
+    @parameterized.expand([
+        param('3 days', date(2010, 6, 1), time(13, 15)),
+        param('2 years', date(2008, 6, 4), time(13, 15)),
+    ])
+    def test_freshness_date_with_relative_base_past(self, date_string, date, time):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'past',
+                          'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
+    @parameterized.expand([
+        param('3 days', date(2010, 6, 7), time(13, 15)),
+        param('2 years', date(2012, 6, 4), time(13, 15)),
+    ])
+    def test_freshness_date_with_relative_base_future(self, date_string, date, time):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'future',
+                          'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time)
+
     def given_date_string(self, date_string):
         self.date_string = date_string
 
@@ -1573,6 +1671,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         dt_mock = Mock(wraps=dateparser.freshness_date_parser.datetime)
         dt_mock.utcnow = Mock(return_value=self.now)
+        dt_mock.now = Mock(side_effect=self.now_with_timezone)
         self.add_patch(patch('dateparser.freshness_date_parser.datetime', new=dt_mock))
         self.add_patch(patch('dateparser.date.freshness_date_parser', new=self.freshness_parser))
         self.parser = DateDataParser(settings=settings)
@@ -1588,6 +1687,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     def then_time_is(self, time):
         self.assertEqual(time, self.result['date_obj'].time())
+
+    def then_timezone_is(self, timezone):
+        self.assertEqual(timezone, self.result['date_obj'].tzname())
 
     def then_period_is(self, period):
         self.assertEqual(period, self.result['period'])

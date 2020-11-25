@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "mgh",
     "date_order": "DMY",
     "january": [
-        "mweri wo kwanza",
-        "kwa"
+        "kwa",
+        "mweri wo kwanza"
     ],
     "february": [
         "mweri wo unayeli",
@@ -15,16 +14,16 @@ info = {
         "rar"
     ],
     "april": [
-        "mweri wo unecheshe",
-        "che"
+        "che",
+        "mweri wo unecheshe"
     ],
     "may": [
         "mweri wo unethanu",
         "tha"
     ],
     "june": [
-        "mweri wo thanu na mocha",
-        "moc"
+        "moc",
+        "mweri wo thanu na mocha"
     ],
     "july": [
         "mweri wo saba",
@@ -39,44 +38,44 @@ info = {
         "tis"
     ],
     "october": [
-        "mweri wo kumi",
-        "kum"
+        "kum",
+        "mweri wo kumi"
     ],
     "november": [
-        "mweri wo kumi na moja",
-        "moj"
+        "moj",
+        "mweri wo kumi na moja"
     ],
     "december": [
         "mweri wo kumi na yel'li",
         "yel"
     ],
     "monday": [
-        "jumatatu",
-        "jtt"
+        "jtt",
+        "jumatatu"
     ],
     "tuesday": [
-        "jumanne",
-        "jnn"
+        "jnn",
+        "jumanne"
     ],
     "wednesday": [
-        "jumatano",
-        "jtn"
+        "jtn",
+        "jumatano"
     ],
     "thursday": [
-        "arahamisi",
-        "ara"
+        "ara",
+        "arahamisi"
     ],
     "friday": [
-        "ijumaa",
-        "iju"
+        "iju",
+        "ijumaa"
     ],
     "saturday": [
-        "jumamosi",
-        "jmo"
+        "jmo",
+        "jumamosi"
     ],
     "sunday": [
-        "sabato",
-        "sab"
+        "sab",
+        "sabato"
     ],
     "am": [
         "wichishu"
@@ -106,41 +105,8 @@ info = {
         "isekunde"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "n'chana"
-        ],
         "0 day ago": [
             "lel'lo"
-        ],
-        "in 1 day": [
-            "me'llo"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "n'chana"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "me'llo"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

@@ -4,25 +4,24 @@ language: python
 
 matrix:
   include:
-    - python: 2.7
-      env: TOXENV=py27
-    - python: pypy
-      env: TOXENV=pypy
-    - python: 3.4
-      env: TOXENV=py34
+    - python: 3.8
+      env: TOXENV=flake8
     - python: 3.5
-      env: TOXENV=py35
+      env: TOXENV=py
     - python: 3.6
-      env: TOXENV=py36
+      env: TOXENV=py
     - python: 3.7
-      env: TOXENV=py37
-      dist: xenial
-      sudo: true
+      env: TOXENV=py
+    - python: 3.8
+      env: TOXENV=py PYPI_RELEASE_JOB=true
+    - python: 3.8
+      env: TOXENV=latest
+    - python: 3.9
+      env: TOXENV=latest
 
-install:
-- pip install -U wheel
-- pip install -U tox
-- pip install -U codecov
+install: pip install -U wheel tox codecov
+
+cache: pip
 
 # command to run tests, e.g. python setup.py test
 script: tox
@@ -44,4 +43,4 @@ deploy:
   on:
     tags: true
     repo: scrapinghub/dateparser
-    condition: "$TOXENV == py27"
+    condition: "$PYPI_RELEASE_JOB == true"

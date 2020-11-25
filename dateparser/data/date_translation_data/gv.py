@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "gv",
     "date_order": "YMD",
     "january": [
-        "jerrey-geuree",
-        "j-guer"
+        "j-guer",
+        "jerrey-geuree"
     ],
     "february": [
-        "toshiaght-arree",
-        "t-arree"
+        "t-arree",
+        "toshiaght-arree"
     ],
     "march": [
         "mayrnt"
@@ -21,59 +20,59 @@ info = {
         "boaldyn"
     ],
     "june": [
-        "mean-souree",
-        "m-souree"
+        "m-souree",
+        "mean-souree"
     ],
     "july": [
-        "jerrey-souree",
-        "j-souree"
+        "j-souree",
+        "jerrey-souree"
     ],
     "august": [
         "luanistyn"
     ],
     "september": [
-        "mean-fouyir",
-        "m-fouyir"
+        "m-fouyir",
+        "mean-fouyir"
     ],
     "october": [
-        "jerrey-fouyir",
-        "j-fouyir"
+        "j-fouyir",
+        "jerrey-fouyir"
     ],
     "november": [
-        "mee houney",
-        "m-houney"
+        "m-houney",
+        "mee houney"
     ],
     "december": [
-        "mee ny nollick",
-        "m-nollick"
+        "m-nollick",
+        "mee ny nollick"
     ],
     "monday": [
-        "jelhein",
-        "jel"
+        "jel",
+        "jelhein"
     ],
     "tuesday": [
-        "jemayrt",
-        "jem"
+        "jem",
+        "jemayrt"
     ],
     "wednesday": [
-        "jercean",
-        "jerc"
+        "jerc",
+        "jercean"
     ],
     "thursday": [
-        "jerdein",
-        "jerd"
+        "jerd",
+        "jerdein"
     ],
     "friday": [
-        "jeheiney",
-        "jeh"
+        "jeh",
+        "jeheiney"
     ],
     "saturday": [
-        "jesarn",
-        "jes"
+        "jes",
+        "jesarn"
     ],
     "sunday": [
-        "jedoonee",
-        "jed"
+        "jed",
+        "jedoonee"
     ],
     "am": [
         "am"
@@ -103,41 +102,8 @@ info = {
         "second"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "yesterday"
-        ],
         "0 day ago": [
             "today"
-        ],
-        "in 1 day": [
-            "tomorrow"
         ],
         "0 hour ago": [
             "this hour"
@@ -145,8 +111,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

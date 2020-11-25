@@ -8,14 +8,17 @@ tuesday:
     - Úte
 wednesday:
     - Stř
+    - Středu
 thursday:
     - Čtv
 friday:
     - Pát
 saturday:
     - Sob
+    - Sobotu
 sunday:
     - Ned
+    - Neděli
 
 june:
     - Čer
@@ -24,27 +27,36 @@ july:
 
 year:
     - roků
+    - roky
 month:
     - měsíců
     - měsíce
 week:
     - týdnů
+    - týdny
 day:
     - dnů
     - dny
 hour:
     - hodin
     - hodiny
+    - hodinu
     - hodinami
 minute:
     - minut
+    - minuty
 second:
     - sekundy
+    - sekund
+    - vteřina
+    - vteřin
+    - vteřiny
 
 ago:
     - před
 in:
     - ve
+    - v
 
 relative-type:
     2 day ago:

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "se",
     "date_order": "YMD",
@@ -7,86 +6,86 @@ info = {
         "ođđj"
     ],
     "february": [
-        "guovvamánnu",
-        "guov"
+        "guov",
+        "guovvamánnu"
     ],
     "march": [
-        "njukčamánnu",
-        "njuk"
+        "njuk",
+        "njukčamánnu"
     ],
     "april": [
-        "cuoŋománnu",
-        "cuo"
+        "cuo",
+        "cuoŋománnu"
     ],
     "may": [
-        "miessemánnu",
-        "mies"
+        "mies",
+        "miessemánnu"
     ],
     "june": [
-        "geassemánnu",
-        "geas"
+        "geas",
+        "geassemánnu"
     ],
     "july": [
-        "suoidnemánnu",
-        "suoi"
+        "suoi",
+        "suoidnemánnu"
     ],
     "august": [
-        "borgemánnu",
-        "borg"
+        "borg",
+        "borgemánnu"
     ],
     "september": [
-        "čakčamánnu",
-        "čakč"
+        "čakč",
+        "čakčamánnu"
     ],
     "october": [
-        "golggotmánnu",
-        "golg"
+        "golg",
+        "golggotmánnu"
     ],
     "november": [
-        "skábmamánnu",
-        "skáb"
+        "skáb",
+        "skábmamánnu"
     ],
     "december": [
-        "juovlamánnu",
-        "juov"
+        "juov",
+        "juovlamánnu"
     ],
     "monday": [
-        "vuossárga",
-        "vuos"
+        "vuos",
+        "vuossárga"
     ],
     "tuesday": [
-        "maŋŋebárga",
-        "maŋ"
+        "maŋ",
+        "maŋŋebárga"
     ],
     "wednesday": [
-        "gaskavahkku",
-        "gask"
+        "gask",
+        "gaskavahkku"
     ],
     "thursday": [
-        "duorasdat",
-        "duor"
+        "duor",
+        "duorasdat"
     ],
     "friday": [
-        "bearjadat",
-        "bear"
+        "bear",
+        "bearjadat"
     ],
     "saturday": [
-        "lávvardat",
-        "láv"
+        "láv",
+        "lávvardat"
     ],
     "sunday": [
-        "sotnabeaivi",
-        "sotn"
+        "sotn",
+        "sotnabeaivi"
     ],
     "am": [
-        "iđitbeaivi",
         "ib",
-        "iđitbeaivet"
+        "iđitbeaivet",
+        "iđitbeaivi"
     ],
     "pm": [
+        "eahketbeaivet",
         "eahketbeaivi",
-        "eb",
-        "eahketbeaivet"
+        "eb"
     ],
     "year": [
         "jáhki"
@@ -110,41 +109,8 @@ info = {
         "sekunda"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "ikte"
-        ],
         "0 day ago": [
             "odne"
-        ],
-        "in 1 day": [
-            "ihttin"
         ],
         "0 hour ago": [
             "this hour"
@@ -152,64 +118,97 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "ikte"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "ihttin"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "(\\d+) jahki maŋŋilit",
-            "(\\d+) jahkki maŋŋilit"
-        ],
-        "\\1 year ago": [
-            "(\\d+) jahki árat",
-            "(\\d+) jahkki árat"
-        ],
-        "in \\1 month": [
-            "(\\d+) mánotbadji maŋŋilit"
-        ],
-        "\\1 month ago": [
-            "(\\d+) mánotbadji árat"
-        ],
-        "in \\1 week": [
-            "(\\d+) vahku maŋŋilit",
-            "(\\d+) vahkku maŋŋilit"
-        ],
-        "\\1 week ago": [
-            "(\\d+) vahku árat",
-            "(\\d+) vahkku árat"
-        ],
-        "in \\1 day": [
-            "(\\d+) jándor maŋŋilit",
-            "(\\d+) jándora maŋŋilit"
-        ],
         "\\1 day ago": [
             "(\\d+) jándor árat",
             "(\\d+) jándora árat"
-        ],
-        "in \\1 hour": [
-            "(\\d+) diibmu maŋŋilit",
-            "(\\d+) diibmur maŋŋilit"
         ],
         "\\1 hour ago": [
             "(\\d+) diibmu árat",
             "(\\d+) diibmur árat"
         ],
+        "\\1 minute ago": [
+            "(\\d+) minuhta árat",
+            "(\\d+) minuhtta árat"
+        ],
+        "\\1 month ago": [
+            "(\\d+) mánotbadji árat"
+        ],
+        "\\1 second ago": [
+            "(\\d+) sekunda árat",
+            "(\\d+) sekundda árat"
+        ],
+        "\\1 week ago": [
+            "(\\d+) vahkku árat",
+            "(\\d+) vahku árat"
+        ],
+        "\\1 year ago": [
+            "(\\d+) jahki árat",
+            "(\\d+) jahkki árat"
+        ],
+        "in \\1 day": [
+            "(\\d+) jándor maŋŋilit",
+            "(\\d+) jándora maŋŋilit"
+        ],
+        "in \\1 hour": [
+            "(\\d+) diibmu maŋŋilit",
+            "(\\d+) diibmur maŋŋilit"
+        ],
         "in \\1 minute": [
             "(\\d+) minuhta maŋŋilit",
             "(\\d+) minuhtta maŋŋilit"
         ],
-        "\\1 minute ago": [
-            "(\\d+) minuhta árat",
-            "(\\d+) minuhtta árat"
+        "in \\1 month": [
+            "(\\d+) mánotbadji maŋŋilit"
         ],
         "in \\1 second": [
             "(\\d+) sekunda maŋŋilit",
             "(\\d+) sekundda maŋŋilit"
         ],
-        "\\1 second ago": [
-            "(\\d+) sekunda árat",
-            "(\\d+) sekundda árat"
+        "in \\1 week": [
+            "(\\d+) vahkku maŋŋilit",
+            "(\\d+) vahku maŋŋilit"
+        ],
+        "in \\1 year": [
+            "(\\d+) jahki maŋŋilit",
+            "(\\d+) jahkki maŋŋilit"
         ]
     },
     "locale_specific": {
@@ -234,29 +233,29 @@ info = {
                 "lávvardaga"
             ],
             "year": [
-                "jahki",
-                "j"
+                "j",
+                "jahki"
             ],
             "week": [
                 "vahkku"
             ],
             "relative-type": {
-                "1 year ago": [
-                    "mannan jagi"
-                ],
                 "0 year ago": [
                     "dán jagi"
+                ],
+                "1 year ago": [
+                    "mannan jagi"
                 ],
                 "in 1 year": [
                     "boahtte jagi"
                 ]
             },
             "relative-type-regex": {
-                "in \\1 year": [
-                    "(\\d+) jagi siste"
-                ],
                 "\\1 year ago": [
                     "(\\d+) jagi árat"
+                ],
+                "in \\1 year": [
+                    "(\\d+) jagi siste"
                 ]
             }
         },

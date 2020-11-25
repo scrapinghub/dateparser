@@ -1,82 +1,81 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "ha",
     "date_order": "DMY",
     "january": [
-        "janairu",
-        "jan"
+        "jan",
+        "janairu"
     ],
     "february": [
-        "faburairu",
-        "fab"
+        "fab",
+        "faburairu"
     ],
     "march": [
-        "maris",
-        "mar"
+        "mar",
+        "maris"
     ],
     "april": [
-        "afirilu",
-        "afi"
+        "afi",
+        "afirilu"
     ],
     "may": [
-        "mayu",
-        "may"
+        "may",
+        "mayu"
     ],
     "june": [
-        "yuni",
-        "yun"
+        "yun",
+        "yuni"
     ],
     "july": [
-        "yuli",
-        "yul"
+        "yul",
+        "yuli"
     ],
     "august": [
-        "agusta",
-        "agu"
+        "agu",
+        "agusta"
     ],
     "september": [
-        "satumba",
-        "sat"
+        "sat",
+        "satumba"
     ],
     "october": [
-        "oktoba",
-        "okt"
+        "okt",
+        "oktoba"
     ],
     "november": [
-        "nuwamba",
-        "nuw"
+        "nuw",
+        "nuwamba"
     ],
     "december": [
-        "disamba",
-        "dis"
+        "dis",
+        "disamba"
     ],
     "monday": [
-        "litinin",
-        "lit"
+        "lit",
+        "litinin"
     ],
     "tuesday": [
-        "talata",
-        "tal"
+        "tal",
+        "talata"
     ],
     "wednesday": [
-        "laraba",
-        "lar"
+        "lar",
+        "laraba"
     ],
     "thursday": [
-        "alhamis",
-        "alh"
+        "alh",
+        "alhamis"
     ],
     "friday": [
-        "jumma'a",
-        "jum"
+        "jum",
+        "jumma'a"
     ],
     "saturday": [
-        "asabar",
-        "asa"
+        "asa",
+        "asabar"
     ],
     "sunday": [
-        "lahadi",
-        "lah"
+        "lah",
+        "lahadi"
     ],
     "am": [
         "am"
@@ -106,41 +105,8 @@ info = {
         "daƙiƙa"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "jiya"
-        ],
         "0 day ago": [
             "yau"
-        ],
-        "in 1 day": [
-            "gobe"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "jiya"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "gobe"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {

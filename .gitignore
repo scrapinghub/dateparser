@@ -5,6 +5,7 @@
 
 # Packages
 *.egg
+*.eggs
 *.egg-info
 dist
 build
@@ -42,7 +43,9 @@ output/*/index.html
 # Sphinx
 docs/_build
 
-# Vim temp files
+# Editors
 *.swp
-
 .idea
+
+# Other
+raw_data

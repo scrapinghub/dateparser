@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 from dateparser.search.search import DateSearchWithDetection
-from dateparser.utils import normalize_unicode
+
 
 _search_with_detection = DateSearchWithDetection()
 
@@ -11,7 +9,7 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
 
         :param text:
             A string in a natural language which may contain date and/or time expressions.
-        :type text: str|unicode
+        :type text: str
 
         :param languages:
             A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will
@@ -37,13 +35,15 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
         >>> search_dates('The first artificial Earth satellite was launched on 4 October 1957.')
         [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))]
 
-        >>> search_dates('The first artificial Earth satellite was launched on 4 October 1957.', add_detected_language=True)
+        >>> search_dates('The first artificial Earth satellite was launched on 4 October 1957.',
+        >>>              add_detected_language=True)
         [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0), 'en')]
 
-        >>> search_dates("The client arrived to the office for the first time in March 3rd, 2004 and got serviced, after a couple of months, on May 6th 2004, the customer returned indicating a defect on the part")
+        >>> search_dates("The client arrived to the office for the first time in March 3rd, 2004 "
+        >>>              "and got serviced, after a couple of months, on May 6th 2004, the customer "
+        >>>              "returned indicating a defect on the part")
         [('in March 3rd, 2004 and', datetime.datetime(2004, 3, 3, 0, 0)),
          ('on May 6th 2004', datetime.datetime(2004, 5, 6, 0, 0))]
-
 
         """
     result = _search_with_detection.search_dates(

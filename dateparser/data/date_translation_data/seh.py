@@ -1,54 +1,53 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "seh",
     "date_order": "DMY",
     "january": [
-        "janeiro",
-        "jan"
+        "jan",
+        "janeiro"
     ],
     "february": [
-        "fevreiro",
-        "fev"
+        "fev",
+        "fevreiro"
     ],
     "march": [
-        "marco",
-        "mar"
+        "mar",
+        "marco"
     ],
     "april": [
-        "abril",
-        "abr"
+        "abr",
+        "abril"
     ],
     "may": [
-        "maio",
-        "mai"
+        "mai",
+        "maio"
     ],
     "june": [
-        "junho",
-        "jun"
+        "jun",
+        "junho"
     ],
     "july": [
-        "julho",
-        "jul"
+        "jul",
+        "julho"
     ],
     "august": [
-        "augusto",
-        "aug"
+        "aug",
+        "augusto"
     ],
     "september": [
-        "setembro",
-        "set"
+        "set",
+        "setembro"
     ],
     "october": [
-        "otubro",
-        "otu"
+        "otu",
+        "otubro"
     ],
     "november": [
-        "novembro",
-        "nov"
+        "nov",
+        "novembro"
     ],
     "december": [
-        "decembro",
-        "dec"
+        "dec",
+        "decembro"
     ],
     "monday": [
         "chiposi",
@@ -71,12 +70,12 @@ info = {
         "sha"
     ],
     "saturday": [
-        "sabudu",
-        "sab"
+        "sab",
+        "sabudu"
     ],
     "sunday": [
-        "dimingu",
-        "dim"
+        "dim",
+        "dimingu"
     ],
     "am": [
         "am"
@@ -106,41 +105,8 @@ info = {
         "segundo"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "zuro"
-        ],
         "0 day ago": [
             "lero"
-        ],
-        "in 1 day": [
-            "manguana"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,8 +114,41 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "zuro"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "manguana"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},

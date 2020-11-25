@@ -1,83 +1,82 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "kea",
     "date_order": "DMY",
     "january": [
-        "janeru",
-        "jan"
+        "jan",
+        "janeru"
     ],
     "february": [
-        "febreru",
-        "feb"
+        "feb",
+        "febreru"
     ],
     "march": [
-        "marsu",
-        "mar"
+        "mar",
+        "marsu"
     ],
     "april": [
-        "abril",
-        "abr"
+        "abr",
+        "abril"
     ],
     "may": [
-        "maiu",
-        "mai"
+        "mai",
+        "maiu"
     ],
     "june": [
-        "junhu",
-        "jun"
+        "jun",
+        "junhu"
     ],
     "july": [
-        "julhu",
-        "jul"
+        "jul",
+        "julhu"
     ],
     "august": [
-        "agostu",
-        "ago"
+        "ago",
+        "agostu"
     ],
     "september": [
-        "setenbru",
-        "set"
+        "set",
+        "setenbru"
     ],
     "october": [
-        "otubru",
-        "otu"
+        "otu",
+        "otubru"
     ],
     "november": [
-        "nuvenbru",
-        "nuv"
+        "nuv",
+        "nuvenbru"
     ],
     "december": [
-        "dizenbru",
-        "diz"
+        "diz",
+        "dizenbru"
     ],
     "monday": [
-        "sigunda-fera",
-        "sig"
+        "sig",
+        "sigunda-fera"
     ],
     "tuesday": [
-        "tersa-fera",
-        "ter"
+        "ter",
+        "tersa-fera"
     ],
     "wednesday": [
-        "kuarta-fera",
-        "kua"
+        "kua",
+        "kuarta-fera"
     ],
     "thursday": [
-        "kinta-fera",
-        "kin"
+        "kin",
+        "kinta-fera"
     ],
     "friday": [
-        "sesta-fera",
-        "ses"
+        "ses",
+        "sesta-fera"
     ],
     "saturday": [
-        "sábadu",
         "sab",
-        "sabadu"
+        "sabadu",
+        "sábadu"
     ],
     "sunday": [
-        "dumingu",
-        "dum"
+        "dum",
+        "dumingu"
     ],
     "am": [
         "am"
@@ -92,62 +91,29 @@ info = {
         "mes"
     ],
     "week": [
-        "simana",
-        "sim"
+        "sim",
+        "simana"
     ],
     "day": [
         "dia"
     ],
     "hour": [
-        "ora",
-        "h"
+        "h",
+        "ora"
     ],
     "minute": [
-        "minutu",
+        "m",
         "min",
-        "m"
+        "minutu"
     ],
     "second": [
-        "sigundu",
+        "s",
         "sig",
-        "s"
+        "sigundu"
     ],
     "relative-type": {
-        "1 year ago": [
-            "anu pasadu"
-        ],
-        "0 year ago": [
-            "es anu li"
-        ],
-        "in 1 year": [
-            "prósimu anu"
-        ],
-        "1 month ago": [
-            "mes pasadu"
-        ],
-        "0 month ago": [
-            "es mes li"
-        ],
-        "in 1 month": [
-            "prósimu mes"
-        ],
-        "1 week ago": [
-            "simana pasadu"
-        ],
-        "0 week ago": [
-            "es simana li"
-        ],
-        "in 1 week": [
-            "prósimu simana"
-        ],
-        "1 day ago": [
-            "onti"
-        ],
         "0 day ago": [
             "oji"
-        ],
-        "in 1 day": [
-            "manha"
         ],
         "0 hour ago": [
             "this hour"
@@ -155,62 +121,95 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "es mes li"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "es simana li"
+        ],
+        "0 year ago": [
+            "es anu li"
+        ],
+        "1 day ago": [
+            "onti"
+        ],
+        "1 month ago": [
+            "mes pasadu"
+        ],
+        "1 week ago": [
+            "simana pasadu"
+        ],
+        "1 year ago": [
+            "anu pasadu"
+        ],
+        "in 1 day": [
+            "manha"
+        ],
+        "in 1 month": [
+            "prósimu mes"
+        ],
+        "in 1 week": [
+            "prósimu simana"
+        ],
+        "in 1 year": [
+            "prósimu anu"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "di li (\\d+) anu"
-        ],
-        "\\1 year ago": [
-            "a ten (\\d+) anu"
-        ],
-        "in \\1 month": [
-            "di li (\\d+) mes"
-        ],
-        "\\1 month ago": [
-            "a ten (\\d+) mes"
-        ],
-        "in \\1 week": [
-            "di li (\\d+) simana",
-            "di li (\\d+) sim"
-        ],
-        "\\1 week ago": [
-            "a ten (\\d+) simana",
-            "a ten (\\d+) sim"
-        ],
-        "in \\1 day": [
-            "di li (\\d+) dia"
-        ],
         "\\1 day ago": [
             "a ten (\\d+) dia"
-        ],
-        "in \\1 hour": [
-            "di li (\\d+) ora"
         ],
         "\\1 hour ago": [
             "a ten (\\d+) ora"
         ],
-        "in \\1 minute": [
-            "di li (\\d+) minutu",
-            "di li (\\d+) min",
-            "di li (\\d+) m"
-        ],
         "\\1 minute ago": [
-            "a ten (\\d+) minutu",
+            "a ten (\\d+) m",
             "a ten (\\d+) min",
-            "a ten (\\d+) m"
+            "a ten (\\d+) minutu"
         ],
-        "in \\1 second": [
-            "di li (\\d+) sigundu",
-            "di li (\\d+) sig",
-            "di li (\\d+) s"
+        "\\1 month ago": [
+            "a ten (\\d+) mes"
         ],
         "\\1 second ago": [
-            "a ten (\\d+) sigundu",
+            "a ten (\\d+) s",
             "a ten (\\d+) sig",
-            "a ten (\\d+) s"
+            "a ten (\\d+) sigundu"
+        ],
+        "\\1 week ago": [
+            "a ten (\\d+) sim",
+            "a ten (\\d+) simana"
+        ],
+        "\\1 year ago": [
+            "a ten (\\d+) anu"
+        ],
+        "in \\1 day": [
+            "di li (\\d+) dia"
+        ],
+        "in \\1 hour": [
+            "di li (\\d+) ora"
+        ],
+        "in \\1 minute": [
+            "di li (\\d+) m",
+            "di li (\\d+) min",
+            "di li (\\d+) minutu"
+        ],
+        "in \\1 month": [
+            "di li (\\d+) mes"
+        ],
+        "in \\1 second": [
+            "di li (\\d+) s",
+            "di li (\\d+) sig",
+            "di li (\\d+) sigundu"
+        ],
+        "in \\1 week": [
+            "di li (\\d+) sim",
+            "di li (\\d+) simana"
+        ],
+        "in \\1 year": [
+            "di li (\\d+) anu"
         ]
     },
     "locale_specific": {},
