@@ -83,7 +83,7 @@ def apply_settings(f):
     def wrapper(*args, **kwargs):
         mod_settings = kwargs.get('settings', {})
         if mod_settings is None:
-            kwargs['settings'] = mod_settings = {}
+            kwargs['settings'], mod_settings = {}, {}
 
         if kwargs:
             if isinstance(mod_settings, dict):
