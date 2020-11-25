@@ -1,4 +1,4 @@
-skip: ["de", "del", "cerca", "y", "a las", "en"]
+skip: ["de", "del", "cerca", "y", "a las", "en", "al", "a la", "el"]
 pertain: ["de", "del"]
 
 sentence_splitter_group : 2
@@ -48,3 +48,5 @@ relative-type:
 simplifications:
     - una: '1'
     - un: '1'
+    - (\\s+)?mediodía: '12:00'
+    - (\\s+)?medianoche: '00:00'
