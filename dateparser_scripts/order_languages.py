@@ -15,8 +15,8 @@ avoid_languages = {'cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii
 # Last updated on 30.10.2020
 most_common_locales = [
     'en', 'ru', 'es', 'tr', 'fa', 'fr', 'de', 'ja', 'pt', 'vi', 'zh', 'ar', 'it', 'pl', 'in', 'el',
-    'nl', 'ko', 'th', 'iw', 'uk', 'cs', 'sv', 'ro', 'hu', 'da', 'sr', 'sk', 'fi', 'bg', 'hr', 'lt',
-    'hi', 'no_NO', 'sl', 'no', 'et', 'lv'
+    'nl', 'ko', 'th', 'he', 'uk', 'cs', 'sv', 'ro', 'hu', 'da', 'sr', 'sk', 'fi', 'bg', 'hr', 'lt',
+    'hi', 'nb', 'sl', 'nn', 'et', 'lv'
 ]
 
 
