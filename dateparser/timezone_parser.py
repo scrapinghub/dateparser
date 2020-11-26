@@ -49,10 +49,6 @@ def word_is_tz(word):
     return bool(_search_regex.match(word))
 
 
-def convert_to_local_tz(datetime_obj, datetime_tz_offset):
-    return datetime_obj - datetime_tz_offset + local_tz_offset
-
-
 def build_tz_offsets(search_regex_parts):
 
     def get_offset(tz_obj, regex, repl='', replw=''):
