@@ -1,4 +1,4 @@
-skip: ["um", "uhr", "etwa", "und"]
+skip: ["etwa", "uhr", "um", "und"]
 
 sentence_splitter_group : 1
 
