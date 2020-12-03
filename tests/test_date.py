@@ -410,6 +410,14 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed('2020-05-01')
         self.then_detected_locale('es')
 
+    def test_try_previous_locales_order_deterministic(self):
+        self.given_parser(try_previous_locales=True)
+        self.when_date_string_is_parsed('Mañana')  # es
+        self.then_detected_locale('es')
+        self.when_date_string_is_parsed('Понедельник')  # ru
+        self.then_detected_locale('ru')
+        self.then_previous_locales_is(["es", "ru"])
+
     @parameterized.expand([
         param("2014-10-09T17:57:39+00:00"),
     ])
@@ -582,6 +590,10 @@ class TestDateDataParser(BaseTestCase):
 
     def then_returned_tuple_is(self, expected_tuple):
         self.assertEqual(expected_tuple, self.result)
+
+    def then_previous_locales_is(self, expected_list):
+        self.assertEqual(expected_list,
+                         [locale.shortname for locale in self.parser.previous_locales])
 
 
 class TestParserInitialization(BaseTestCase):

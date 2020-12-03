@@ -363,7 +363,7 @@ class DateDataParser:
         self.languages = languages
         self.locales = locales
         self.region = region
-        self.previous_locales = set()
+        self.previous_locales = collections.OrderedDict()
 
     def get_date_data(self, date_string, date_formats=None):
         """
@@ -423,7 +423,7 @@ class DateDataParser:
             if parsed_date:
                 parsed_date['locale'] = locale.shortname
                 if self.try_previous_locales:
-                    self.previous_locales.add(locale)
+                    self.previous_locales[locale] = None
                 return parsed_date
         else:
             return DateData(date_obj=None, period='day', locale=None)
@@ -457,7 +457,7 @@ class DateDataParser:
                 yield stripped_date_string
 
         if self.try_previous_locales:
-            for locale in self.previous_locales:
+            for locale in self.previous_locales.keys():
                 for s in date_strings():
                     if self._is_applicable_locale(locale, s):
                         yield locale
