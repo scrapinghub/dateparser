@@ -14,10 +14,12 @@ language_order = [
     "ar",
     "it",
     "pl",
+    "id",
     "el",
     "nl",
     "ko",
     "th",
+    "he",
     "uk",
     "cs",
     "sv",
@@ -32,12 +34,13 @@ language_order = [
     "hr",
     "lt",
     "hi",
+    "nb",
     "sl",
+    "nn",
     "et",
     "lv",
     "bn",
     "ur",
-    "id",
     "sw",
     "pa-Arab",
     "te",
@@ -83,7 +86,6 @@ language_order = [
     "ca",
     "sr-Latn",
     "ii",
-    "he",
     "bm",
     "ki",
     "gsw",
@@ -94,7 +96,6 @@ language_order = [
     "sq",
     "ks",
     "hy",
-    "nb",
     "luy",
     "lg",
     "lo",
@@ -135,7 +136,6 @@ language_order = [
     "mk",
     "uz-Arab",
     "mas",
-    "nn",
     "kde",
     "mfe",
     "seh",
@@ -465,6 +465,7 @@ language_locale_dict = {
         "it-VA"
     ],
     "pl": [],
+    "id": [],
     "el": [
         "el-CY"
     ],
@@ -480,6 +481,7 @@ language_locale_dict = {
         "ko-KP"
     ],
     "th": [],
+    "he": [],
     "uk": [],
     "cs": [],
     "sv": [
@@ -507,7 +509,11 @@ language_locale_dict = {
     ],
     "lt": [],
     "hi": [],
+    "nb": [
+        "nb-SJ"
+    ],
     "sl": [],
+    "nn": [],
     "et": [],
     "lv": [],
     "bn": [
@@ -516,7 +522,6 @@ language_locale_dict = {
     "ur": [
         "ur-IN"
     ],
-    "id": [],
     "sw": [
         "sw-CD",
         "sw-KE",
@@ -606,7 +611,6 @@ language_locale_dict = {
         "sr-Latn-XK"
     ],
     "ii": [],
-    "he": [],
     "bm": [],
     "ki": [],
     "gsw": [
@@ -627,9 +631,6 @@ language_locale_dict = {
     ],
     "ks": [],
     "hy": [],
-    "nb": [
-        "nb-SJ"
-    ],
     "luy": [],
     "lg": [],
     "lo": [],
@@ -684,7 +685,6 @@ language_locale_dict = {
     "mas": [
         "mas-TZ"
     ],
-    "nn": [],
     "kde": [],
     "mfe": [],
     "seh": [],
