@@ -1,4 +1,4 @@
-skip: ["kl", "kl.", "cirka", "d."]
+skip: ["cirka", "d.", "kl", "kl."]
 
 sentence_splitter_group : 1
 

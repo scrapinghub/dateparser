@@ -1,4 +1,4 @@
-skip: ["каля", "у", "ў", "і"]
+skip: ["каля", "у", "і", "ў"]
 
 sentence_splitter_group : 1
 

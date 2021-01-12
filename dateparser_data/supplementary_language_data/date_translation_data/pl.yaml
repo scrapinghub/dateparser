@@ -1,6 +1,6 @@
 sentence_splitter_group : 1
 
-skip: ['r.', 'roku', 'w', 'o', 'i']
+skip: ["i", "o", "r.", "roku", "w"]
 
 monday:
     - Poniedziałek

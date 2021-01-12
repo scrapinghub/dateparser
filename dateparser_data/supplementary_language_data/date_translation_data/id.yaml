@@ -1,4 +1,4 @@
-skip: ["tanggal", "pukul", "yang"]
+skip: ["pukul", "tanggal", "yang"]
 
 sentence_splitter_group : 1
 

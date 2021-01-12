@@ -1,4 +1,4 @@
-skip: ["le", "environ", "et", "à", "er"]
+skip: ["environ", "er", "et", "le", "à"]
 
 sentence_splitter_group : 1
 

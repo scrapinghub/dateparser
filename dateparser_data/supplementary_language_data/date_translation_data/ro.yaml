@@ -1,4 +1,4 @@
-skip: ["la", "de"]
+skip: ["de", "la"]
 
 sentence_splitter_group : 1
 
