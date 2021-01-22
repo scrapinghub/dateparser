@@ -408,8 +408,8 @@ class TestTranslateSearch(BaseTestCase):
                     'інтервенції в Маньчжурію 13 вересня 1931, початок другої японсько-китайської війни 7 '
                     'липня 1937 року та початок угорсько-української війни 14 березня 1939 року.',
               [('13 вересня 1931', datetime.datetime(1931, 9, 13, 0, 0)),
-               ('7 липня 1937', datetime.datetime(1937, 7, 7, 0, 0)),
-               ('14 березня 1939', datetime.datetime(1939, 3, 14, 0, 0))],
+               ('7 липня 1937 року', datetime.datetime(1937, 7, 7, 0, 0)),
+               ('14 березня 1939 року', datetime.datetime(1939, 3, 14, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Vietnamese
