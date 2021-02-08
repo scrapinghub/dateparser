@@ -157,52 +157,52 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) araw ang nakalipas"
+            "(\\d+[.,]?\\d*) araw ang nakalipas"
         ],
         "\\1 hour ago": [
-            "(\\d+) oras ang nakalipas",
-            "(\\d+) oras nakalipas"
+            "(\\d+[.,]?\\d*) oras ang nakalipas",
+            "(\\d+[.,]?\\d*) oras nakalipas"
         ],
         "\\1 minute ago": [
-            "(\\d+) min ang nakalipas",
-            "(\\d+) minuto ang nakalipas"
+            "(\\d+[.,]?\\d*) min ang nakalipas",
+            "(\\d+[.,]?\\d*) minuto ang nakalipas"
         ],
         "\\1 month ago": [
-            "(\\d+) buwan ang nakalipas"
+            "(\\d+[.,]?\\d*) buwan ang nakalipas"
         ],
         "\\1 second ago": [
-            "(\\d+) seg ang nakalipas",
-            "(\\d+) seg nakalipas",
-            "(\\d+) segundo ang nakalipas"
+            "(\\d+[.,]?\\d*) seg ang nakalipas",
+            "(\\d+[.,]?\\d*) seg nakalipas",
+            "(\\d+[.,]?\\d*) segundo ang nakalipas"
         ],
         "\\1 week ago": [
-            "(\\d+) linggo ang nakalipas"
+            "(\\d+[.,]?\\d*) linggo ang nakalipas"
         ],
         "\\1 year ago": [
-            "(\\d+) taon ang nakalipas"
+            "(\\d+[.,]?\\d*) taon ang nakalipas"
         ],
         "in \\1 day": [
-            "sa (\\d+) araw"
+            "sa (\\d+[.,]?\\d*) araw"
         ],
         "in \\1 hour": [
-            "sa (\\d+) oras"
+            "sa (\\d+[.,]?\\d*) oras"
         ],
         "in \\1 minute": [
-            "sa (\\d+) min",
-            "sa (\\d+) minuto"
+            "sa (\\d+[.,]?\\d*) min",
+            "sa (\\d+[.,]?\\d*) minuto"
         ],
         "in \\1 month": [
-            "sa (\\d+) buwan"
+            "sa (\\d+[.,]?\\d*) buwan"
         ],
         "in \\1 second": [
-            "sa (\\d+) seg",
-            "sa (\\d+) segundo"
+            "sa (\\d+[.,]?\\d*) seg",
+            "sa (\\d+[.,]?\\d*) segundo"
         ],
         "in \\1 week": [
-            "sa (\\d+) linggo"
+            "sa (\\d+[.,]?\\d*) linggo"
         ],
         "in \\1 year": [
-            "sa (\\d+) taon"
+            "sa (\\d+[.,]?\\d*) taon"
         ]
     },
     "locale_specific": {},
