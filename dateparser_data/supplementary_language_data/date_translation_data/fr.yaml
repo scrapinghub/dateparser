@@ -65,10 +65,10 @@ simplifications:
     - un: '1'
     - (\d+)\s+h\s+(\d+)\s+min: \1h\2m
     - (\d+)h(\d+)m?: \1:\2
-    - moins\s(?:de\s)?(\d+)\s?(minute|seconde|heure): \1 \2
-    - moins\s(?:de\s)?(\d+)\s?s: \1 seconde
-    - moins\s(?:de\s)?(\d+)\s?m: \1 minute
-    - moins\s(?:de\s)?(\d+)\s?h: \1 heure
+    - moins\s(?:de\s)?(\d+[.,]?\d*)\s?(minute|seconde|heure): \1 \2
+    - moins\s(?:de\s)?(\d+[.,]?\d*)\s?s: \1 seconde
+    - moins\s(?:de\s)?(\d+[.,]?\d*)\s?m: \1 minute
+    - moins\s(?:de\s)?(\d+[.,]?\d*)\s?h: \1 heure
     - deux: '2'
     - trois: '3'
     - quatre: '4'

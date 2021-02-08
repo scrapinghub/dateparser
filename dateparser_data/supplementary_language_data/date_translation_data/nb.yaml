@@ -12,4 +12,4 @@ in:
 
 relative-type-regex:
   \1 day ago:
-      - for (\d+) dager siden
+      - for (\d+[.,]?\d*) dager siden
