@@ -6,6 +6,7 @@ from collections import OrderedDict
 import regex as re
 from ruamel.yaml import RoundTripLoader
 
+from dateparser_scripts.order_languages import avoid_languages
 from dateparser_scripts.utils import combine_dicts
 
 cldr_date_directory = '../dateparser_data/cldr_language_data/date_translation_data/'
@@ -15,10 +16,6 @@ translation_data_directory = '../dateparser/data/'
 date_translation_directory = '../dateparser/data/date_translation_data/'
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
-# Languages with insufficient translation data are excluded
-# TODO: Automate with exclusion criteria.
-avoid_languages = {'cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo'}
 
 cldr_languages = list(set(map(lambda x: x[:-5], os.listdir(cldr_date_directory))) - avoid_languages)
 supplementary_languages = [x[:-5] for x in os.listdir(supplementary_date_directory)]

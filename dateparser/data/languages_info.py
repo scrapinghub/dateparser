@@ -1,52 +1,70 @@
 language_order = [
     "en",
-    "zh",
-    "zh-Hans",
-    "hi",
-    "es",
-    "ar",
-    "bn",
-    "fr",
-    "ur",
-    "pt",
     "ru",
-    "id",
-    "sw",
-    "pa-Arab",
+    "es",
+    "tr",
+    "fa",
+    "fr",
     "de",
     "ja",
+    "pt",
+    "vi",
+    "zh",
+    "zh-Hans",
+    "ar",
+    "it",
+    "pl",
+    "id",
+    "el",
+    "nl",
+    "ko",
+    "th",
+    "he",
+    "uk",
+    "cs",
+    "sv",
+    "ro",
+    "hu",
+    "da",
+    "sr",
+    "sr-Cyrl",
+    "sk",
+    "fi",
+    "bg",
+    "hr",
+    "lt",
+    "hi",
+    "nb",
+    "sl",
+    "nn",
+    "et",
+    "lv",
+    "bn",
+    "ur",
+    "sw",
+    "pa-Arab",
     "te",
     "mr",
-    "vi",
-    "fa",
     "ta",
-    "tr",
     "yue",
-    "ko",
-    "it",
     "fil",
     "gu",
-    "th",
     "kn",
     "ps",
     "zh-Hant",
     "ml",
     "or",
-    "pl",
     "my",
     "pa",
     "pa-Guru",
     "am",
     "om",
     "ha",
-    "nl",
-    "uk",
     "uz",
     "uz-Latn",
     "yo",
     "ms",
     "ig",
-    "ro",
     "mg",
     "ne",
     "as",
@@ -54,10 +72,6 @@ language_order = [
     "si",
     "km",
     "zu",
-    "cs",
-    "sv",
-    "hu",
-    "el",
     "sn",
     "kk",
     "rw",
@@ -72,25 +86,16 @@ language_order = [
     "ca",
     "sr-Latn",
     "ii",
-    "he",
-    "bg",
     "bm",
     "ki",
     "gsw",
-    "sr",
-    "sr-Cyrl",
     "ug",
     "zgh",
     "ff",
     "rn",
-    "da",
-    "hr",
     "sq",
-    "sk",
-    "fi",
     "ks",
     "hy",
-    "nb",
     "luy",
     "lg",
     "lo",
@@ -118,7 +123,6 @@ language_order = [
     "ln",
     "ky",
     "sg",
-    "lt",
     "nyn",
     "guz",
     "cgg",
@@ -126,17 +130,14 @@ language_order = [
     "lrc",
     "mer",
     "lu",
-    "sl",
     "teo",
     "brx",
     "nd",
     "mk",
     "uz-Arab",
     "mas",
-    "nn",
     "kde",
     "mfe",
-    "lv",
     "seh",
     "mgh",
     "az-Cyrl",
@@ -144,7 +145,6 @@ language_order = [
     "eu",
     "yi",
     "ce",
-    "et",
     "ksb",
     "bez",
     "ewo",
@@ -312,13 +312,13 @@ language_locale_dict = {
         "en-ZM",
         "en-ZW"
     ],
-    "zh": [],
-    "zh-Hans": [
-        "zh-Hans-HK",
-        "zh-Hans-MO",
-        "zh-Hans-SG"
+    "ru": [
+        "ru-BY",
+        "ru-KG",
+        "ru-KZ",
+        "ru-MD",
+        "ru-UA"
     ],
-    "hi": [],
     "es": [
         "es-419",
         "es-AR",
@@ -348,37 +348,11 @@ language_locale_dict = {
         "es-UY",
         "es-VE"
     ],
-    "ar": [
-        "ar-AE",
-        "ar-BH",
-        "ar-DJ",
-        "ar-DZ",
-        "ar-EG",
-        "ar-EH",
-        "ar-ER",
-        "ar-IL",
-        "ar-IQ",
-        "ar-JO",
-        "ar-KM",
-        "ar-KW",
-        "ar-LB",
-        "ar-LY",
-        "ar-MA",
-        "ar-MR",
-        "ar-OM",
-        "ar-PS",
-        "ar-QA",
-        "ar-SA",
-        "ar-SD",
-        "ar-SO",
-        "ar-SS",
-        "ar-SY",
-        "ar-TD",
-        "ar-TN",
-        "ar-YE"
+    "tr": [
+        "tr-CY"
     ],
-    "bn": [
-        "bn-IN"
+    "fa": [
+        "fa-AF"
     ],
     "fr": [
         "fr-BE",
@@ -427,9 +401,15 @@ language_locale_dict = {
         "fr-WF",
         "fr-YT"
     ],
-    "ur": [
-        "ur-IN"
+    "de": [
+        "de-AT",
+        "de-BE",
+        "de-CH",
+        "de-IT",
+        "de-LI",
+        "de-LU"
     ],
+    "ja": [],
     "pt": [
         "pt-AO",
         "pt-CH",
@@ -443,55 +423,121 @@ language_locale_dict = {
         "pt-ST",
         "pt-TL"
     ],
-    "ru": [
-        "ru-BY",
-        "ru-KG",
-        "ru-KZ",
-        "ru-MD",
-        "ru-UA"
-    ],
-    "id": [],
-    "sw": [
-        "sw-CD",
-        "sw-KE",
-        "sw-UG"
-    ],
-    "pa-Arab": [],
-    "de": [
-        "de-AT",
-        "de-BE",
-        "de-CH",
-        "de-IT",
-        "de-LI",
-        "de-LU"
-    ],
-    "ja": [],
-    "te": [],
-    "mr": [],
     "vi": [],
-    "fa": [
-        "fa-AF"
+    "zh": [],
+    "zh-Hans": [
+        "zh-Hans-HK",
+        "zh-Hans-MO",
+        "zh-Hans-SG"
     ],
-    "ta": [
-        "ta-LK",
-        "ta-MY",
-        "ta-SG"
-    ],
-    "tr": [
-        "tr-CY"
-    ],
-    "yue": [],
-    "ko": [
-        "ko-KP"
+    "ar": [
+        "ar-AE",
+        "ar-BH",
+        "ar-DJ",
+        "ar-DZ",
+        "ar-EG",
+        "ar-EH",
+        "ar-ER",
+        "ar-IL",
+        "ar-IQ",
+        "ar-JO",
+        "ar-KM",
+        "ar-KW",
+        "ar-LB",
+        "ar-LY",
+        "ar-MA",
+        "ar-MR",
+        "ar-OM",
+        "ar-PS",
+        "ar-QA",
+        "ar-SA",
+        "ar-SD",
+        "ar-SO",
+        "ar-SS",
+        "ar-SY",
+        "ar-TD",
+        "ar-TN",
+        "ar-YE"
     ],
     "it": [
         "it-CH",
         "it-SM",
         "it-VA"
     ],
+    "pl": [],
+    "id": [],
+    "el": [
+        "el-CY"
+    ],
+    "nl": [
+        "nl-AW",
+        "nl-BE",
+        "nl-BQ",
+        "nl-CW",
+        "nl-SR",
+        "nl-SX"
+    ],
+    "ko": [
+        "ko-KP"
+    ],
+    "th": [],
+    "he": [],
+    "uk": [],
+    "cs": [],
+    "sv": [
+        "sv-AX",
+        "sv-FI"
+    ],
+    "ro": [
+        "ro-MD"
+    ],
+    "hu": [],
+    "da": [
+        "da-GL"
+    ],
+    "sr": [],
+    "sr-Cyrl": [
+        "sr-Cyrl-BA",
+        "sr-Cyrl-ME",
+        "sr-Cyrl-XK"
+    ],
+    "sk": [],
+    "fi": [],
+    "bg": [],
+    "hr": [
+        "hr-BA"
+    ],
+    "lt": [],
+    "hi": [],
+    "nb": [
+        "nb-SJ"
+    ],
+    "sl": [],
+    "nn": [],
+    "et": [],
+    "lv": [],
+    "bn": [
+        "bn-IN"
+    ],
+    "ur": [
+        "ur-IN"
+    ],
+    "sw": [
+        "sw-CD",
+        "sw-KE",
+        "sw-UG"
+    ],
+    "pa-Arab": [],
+    "te": [],
+    "mr": [],
+    "ta": [
+        "ta-LK",
+        "ta-MY",
+        "ta-SG"
+    ],
+    "yue": [],
     "fil": [],
     "gu": [],
-    "th": [],
     "kn": [],
     "ps": [],
     "zh-Hant": [
@@ -500,7 +546,6 @@ language_locale_dict = {
     ],
     "ml": [],
     "or": [],
-    "pl": [],
     "my": [],
     "pa": [],
     "pa-Guru": [],
@@ -512,15 +557,6 @@ language_locale_dict = {
         "ha-GH",
         "ha-NE"
     ],
-    "nl": [
-        "nl-AW",
-        "nl-BE",
-        "nl-BQ",
-        "nl-CW",
-        "nl-SR",
-        "nl-SX"
-    ],
-    "uk": [],
     "uz": [],
     "uz-Latn": [],
     "yo": [
@@ -531,9 +567,6 @@ language_locale_dict = {
         "ms-SG"
     ],
     "ig": [],
-    "ro": [
-        "ro-MD"
-    ],
     "mg": [],
     "ne": [
         "ne-IN"
@@ -547,15 +580,6 @@ language_locale_dict = {
     "si": [],
     "km": [],
     "zu": [],
-    "cs": [],
-    "sv": [
-        "sv-AX",
-        "sv-FI"
-    ],
-    "hu": [],
-    "el": [
-        "el-CY"
-    ],
     "sn": [],
     "kk": [],
     "rw": [],
@@ -587,19 +611,11 @@ language_locale_dict = {
         "sr-Latn-XK"
     ],
     "ii": [],
-    "he": [],
-    "bg": [],
     "bm": [],
     "ki": [],
     "gsw": [
         "gsw-FR",
         "gsw-LI"
-    ],
-    "sr": [],
-    "sr-Cyrl": [
-        "sr-Cyrl-BA",
-        "sr-Cyrl-ME",
-        "sr-Cyrl-XK"
     ],
     "ug": [],
     "zgh": [],
@@ -609,23 +625,12 @@ language_locale_dict = {
         "ff-MR"
     ],
     "rn": [],
-    "da": [
-        "da-GL"
-    ],
-    "hr": [
-        "hr-BA"
-    ],
     "sq": [
         "sq-MK",
         "sq-XK"
     ],
-    "sk": [],
-    "fi": [],
     "ks": [],
     "hy": [],
-    "nb": [
-        "nb-SJ"
-    ],
     "luy": [],
     "lg": [],
     "lo": [],
@@ -661,7 +666,6 @@ language_locale_dict = {
     ],
     "ky": [],
     "sg": [],
-    "lt": [],
     "nyn": [],
     "guz": [],
     "cgg": [],
@@ -671,7 +675,6 @@ language_locale_dict = {
     ],
     "mer": [],
     "lu": [],
-    "sl": [],
     "teo": [
         "teo-KE"
     ],
@@ -682,10 +685,8 @@ language_locale_dict = {
     "mas": [
         "mas-TZ"
     ],
-    "nn": [],
     "kde": [],
     "mfe": [],
-    "lv": [],
     "seh": [],
     "mgh": [],
     "az-Cyrl": [],
@@ -693,7 +694,6 @@ language_locale_dict = {
     "eu": [],
     "yi": [],
     "ce": [],
-    "et": [],
     "ksb": [],
     "bez": [],
     "ewo": [],
