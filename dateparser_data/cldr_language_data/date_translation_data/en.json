@@ -264,7 +264,39 @@
             "date_order": "DMY",
             "hour": [
                 "h"
-            ]
+            ],
+            "relative-type-regex": {
+                "\\1 hour ago": [
+                    "{0} hrs ago"
+                ],
+                "\\1 minute ago": [
+                    "{0} mins ago"
+                ],
+                "\\1 second ago": [
+                    "{0} secs ago"
+                ],
+                "\\1 week ago": [
+                    "{0} wks ago"
+                ],
+                "\\1 year ago": [
+                    "{0} yrs ago"
+                ],
+                "in \\1 hour": [
+                    "in {0} hrs"
+                ],
+                "in \\1 minute": [
+                    "in {0} mins"
+                ],
+                "in \\1 second": [
+                    "in {0} secs"
+                ],
+                "in \\1 week": [
+                    "in {0} wks"
+                ],
+                "in \\1 year": [
+                    "in {0} yrs"
+                ]
+            }
         },
         "en-BB": {
             "name": "en-BB",

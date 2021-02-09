@@ -164,14 +164,12 @@
         "\\1 hour ago": [
             "il y a {0} h",
             "il y a {0} heure",
-            "il y a {0} heures",
-            "il y a {0}h"
+            "il y a {0} heures"
         ],
         "\\1 minute ago": [
             "il y a {0} min",
             "il y a {0} minute",
-            "il y a {0} minutes",
-            "il y a {0}min"
+            "il y a {0} minutes"
         ],
         "\\1 month ago": [
             "il y a {0} m",
@@ -200,8 +198,7 @@
         "in \\1 hour": [
             "dans {0} h",
             "dans {0} heure",
-            "dans {0} heures",
-            "dans {0}h"
+            "dans {0} heures"
         ],
         "in \\1 minute": [
             "dans {0} min",

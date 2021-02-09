@@ -171,8 +171,7 @@ info = {
     "relative-type-regex": {
         "\\1 day ago": [
             "acum (\\d+) de zile",
-            "acum (\\d+) zi",
-            "acum (\\d+) zile"
+            "acum (\\d+) zi"
         ],
         "\\1 hour ago": [
             "acum (\\d+) de ore",
@@ -205,8 +204,7 @@ info = {
         ],
         "in \\1 day": [
             "peste (\\d+) de zile",
-            "peste (\\d+) zi",
-            "peste (\\d+) zile"
+            "peste (\\d+) zi"
         ],
         "in \\1 hour": [
             "peste (\\d+) de ore",
@@ -235,7 +233,6 @@ info = {
         ],
         "in \\1 year": [
             "peste (\\d+) an",
-            "peste (\\d+) ani",
             "peste (\\d+) de ani"
         ]
     },

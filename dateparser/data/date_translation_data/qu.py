@@ -2,52 +2,52 @@ info = {
     "name": "qu",
     "date_order": "DMY",
     "january": [
-        "qul",
-        "qulla puquy"
+        "ene",
+        "enero"
     ],
     "february": [
-        "hat",
-        "hatun puquy"
+        "feb",
+        "febrero"
     ],
     "march": [
-        "pau",
-        "pauqar waray"
+        "mar",
+        "marzo"
     ],
     "april": [
-        "ayr",
-        "ayriwa"
+        "abr",
+        "abril"
     ],
     "may": [
-        "aym",
-        "aymuray"
+        "may",
+        "mayo"
     ],
     "june": [
-        "int",
-        "inti raymi"
+        "jun",
+        "junio"
     ],
     "july": [
-        "ant",
-        "anta sitwa"
+        "jul",
+        "julio"
     ],
     "august": [
-        "qha",
-        "qhapaq sitwa"
+        "ago",
+        "agosto"
     ],
     "september": [
-        "uma",
-        "uma raymi"
+        "set",
+        "setiembre"
     ],
     "october": [
-        "kan",
-        "kantaray"
+        "oct",
+        "octubre"
     ],
     "november": [
-        "aya",
-        "ayamarq'a"
+        "nov",
+        "noviembre"
     ],
     "december": [
-        "kap",
-        "kapaq raymi"
+        "dic",
+        "diciembre"
     ],
     "monday": [
         "lun",

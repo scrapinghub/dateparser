@@ -123,39 +123,57 @@ info = {
             "ovog minuta"
         ],
         "0 month ago": [
+            "ovog m",
+            "ovog mes",
             "ovog meseca"
         ],
         "0 second ago": [
             "sada"
         ],
         "0 week ago": [
+            "ove n",
+            "ove ned",
             "ove nedelje"
         ],
         "0 year ago": [
+            "ove g",
+            "ove god",
             "ove godine"
         ],
         "1 day ago": [
             "juče"
         ],
         "1 month ago": [
+            "prošlog m",
+            "prošlog mes",
             "prošlog meseca"
         ],
         "1 week ago": [
+            "prošle n",
+            "prošle ned",
             "prošle nedelje"
         ],
         "1 year ago": [
+            "prošle g",
+            "prošle god",
             "prošle godine"
         ],
         "in 1 day": [
             "sutra"
         ],
         "in 1 month": [
+            "sledećeg m",
+            "sledećeg mes",
             "sledećeg meseca"
         ],
         "in 1 week": [
+            "sledeće n",
+            "sledeće ned",
             "sledeće nedelje"
         ],
         "in 1 year": [
+            "sledeće g",
+            "sledeće god",
             "sledeće godine"
         ]
     },

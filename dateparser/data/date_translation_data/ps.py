@@ -5,7 +5,8 @@ info = {
         "جنوري"
     ],
     "february": [
-        "فبروري"
+        "فبروري",
+        "فېبروري"
     ],
     "march": [
         "مارچ"
@@ -23,10 +24,11 @@ info = {
         "جولای"
     ],
     "august": [
-        "اګست"
+        "اگست"
     ],
     "september": [
-        "سپتمبر"
+        "سپتمبر",
+        "سېپتمبر"
     ],
     "october": [
         "اکتوبر"
@@ -38,25 +40,25 @@ info = {
         "دسمبر"
     ],
     "monday": [
-        "دوشنبه"
+        "دونۍ"
     ],
     "tuesday": [
-        "سه‌شنبه"
+        "درېنۍ"
     ],
     "wednesday": [
-        "چهارشنبه"
+        "څلرنۍ"
     ],
     "thursday": [
-        "پنجشنبه"
+        "پينځنۍ"
     ],
     "friday": [
         "جمعه"
     ],
     "saturday": [
-        "شنبه"
+        "اونۍ"
     ],
     "sunday": [
-        "یکشنبه"
+        "يونۍ"
     ],
     "am": [
         "غم"
@@ -65,25 +67,25 @@ info = {
         "غو"
     ],
     "year": [
-        "year"
+        "کال"
     ],
     "month": [
-        "month"
+        "مياشت"
     ],
     "week": [
-        "week"
+        "اونۍ"
     ],
     "day": [
-        "day"
+        "ورځ"
     ],
     "hour": [
-        "hour"
+        "ساعت"
     ],
     "minute": [
-        "minute"
+        "دقيقه"
     ],
     "second": [
-        "second"
+        "ثانيه"
     ],
     "relative-type": {
         "0 day ago": [
@@ -105,7 +107,7 @@ info = {
             "this week"
         ],
         "0 year ago": [
-            "this year"
+            "سږکال"
         ],
         "1 day ago": [
             "yesterday"
@@ -117,7 +119,7 @@ info = {
             "last week"
         ],
         "1 year ago": [
-            "last year"
+            "پروسږکال"
         ],
         "in 1 day": [
             "tomorrow"
@@ -129,7 +131,17 @@ info = {
             "next week"
         ],
         "in 1 year": [
-            "next year"
+            "بل کال"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 year ago": [
+            "(\\d+) کال مخکې",
+            "(\\d+) کاله مخکې"
+        ],
+        "in \\1 year": [
+            "په (\\d+) کال کې",
+            "په (\\d+) کالونو کې"
         ]
     },
     "locale_specific": {},

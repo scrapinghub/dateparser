@@ -310,8 +310,7 @@ info = {
         "\\1 month ago": [
             "(\\d+) mies temu",
             "(\\d+) miesiąc temu",
-            "(\\d+) miesiąca temu",
-            "–(\\d+) mies"
+            "(\\d+) miesiąca temu"
         ],
         "\\1 second ago": [
             "(\\d+) s temu",

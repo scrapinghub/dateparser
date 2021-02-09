@@ -113,13 +113,11 @@ info = {
         "horas"
     ],
     "minute": [
-        "m",
         "min",
         "minuto",
         "minutos"
     ],
     "second": [
-        "s",
         "seg",
         "segundo",
         "segundos"
@@ -176,37 +174,36 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "há (\\d+) dia",
-            "há (\\d+) dias"
+            "(\\d+) dia atrás",
+            "(\\d+) dias atrás"
         ],
         "\\1 hour ago": [
-            "há (\\d+) h",
-            "há (\\d+) hora",
-            "há (\\d+) horas"
+            "(\\d+) h atrás",
+            "(\\d+) hora atrás",
+            "(\\d+) horas atrás"
         ],
         "\\1 minute ago": [
-            "há (\\d+) min",
-            "há (\\d+) mins",
-            "há (\\d+) minuto",
-            "há (\\d+) minutos"
+            "(\\d+) min atrás",
+            "(\\d+) minuto atrás",
+            "(\\d+) minutos atrás"
         ],
         "\\1 month ago": [
-            "há (\\d+) meses",
-            "há (\\d+) mês"
+            "(\\d+) meses atrás",
+            "(\\d+) mês atrás"
         ],
         "\\1 second ago": [
-            "há (\\d+) seg",
-            "há (\\d+) segundo",
-            "há (\\d+) segundos"
+            "(\\d+) seg atrás",
+            "(\\d+) segundo atrás",
+            "(\\d+) segundos atrás"
         ],
         "\\1 week ago": [
-            "há (\\d+) sem",
-            "há (\\d+) semana",
-            "há (\\d+) semanas"
+            "(\\d+) sem atrás",
+            "(\\d+) semana atrás",
+            "(\\d+) semanas atrás"
         ],
         "\\1 year ago": [
-            "há (\\d+) ano",
-            "há (\\d+) anos"
+            "(\\d+) ano atrás",
+            "(\\d+) anos atrás"
         ],
         "in \\1 day": [
             "em (\\d+) dia",
@@ -219,7 +216,6 @@ info = {
         ],
         "in \\1 minute": [
             "em (\\d+) min",
-            "em (\\d+) mins",
             "em (\\d+) minuto",
             "em (\\d+) minutos"
         ],
@@ -229,7 +225,6 @@ info = {
         ],
         "in \\1 second": [
             "em (\\d+) seg",
-            "em (\\d+) segs",
             "em (\\d+) segundo",
             "em (\\d+) segundos"
         ],
@@ -269,9 +264,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",
@@ -332,9 +359,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",
@@ -395,9 +454,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",
@@ -458,9 +549,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",
@@ -521,9 +644,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",
@@ -584,9 +739,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",
@@ -647,9 +834,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",
@@ -710,9 +929,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",
@@ -773,9 +1024,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",
@@ -836,9 +1119,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",
@@ -899,9 +1214,41 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
+                "\\1 day ago": [
+                    "há (\\d+) dia",
+                    "há (\\d+) dias"
+                ],
+                "\\1 hour ago": [
+                    "há (\\d+) h",
+                    "há (\\d+) hora",
+                    "há (\\d+) horas"
+                ],
+                "\\1 minute ago": [
+                    "há (\\d+) min",
+                    "há (\\d+) minuto",
+                    "há (\\d+) minutos"
+                ],
+                "\\1 month ago": [
+                    "há (\\d+) meses",
+                    "há (\\d+) mês"
+                ],
                 "\\1 second ago": [
-                    "há (\\d+) s"
+                    "há (\\d+) s",
+                    "há (\\d+) segundo",
+                    "há (\\d+) segundos"
+                ],
+                "\\1 week ago": [
+                    "há (\\d+) sem",
+                    "há (\\d+) semana",
+                    "há (\\d+) semanas"
+                ],
+                "\\1 year ago": [
+                    "há (\\d+) ano",
+                    "há (\\d+) anos"
                 ],
                 "in \\1 day": [
                     "dentro de (\\d+) dia",

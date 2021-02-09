@@ -192,8 +192,7 @@
         ],
         "in \\1 day": [
             "oor {0} dae",
-            "oor {0} dag",
-            "oor {0} minuut"
+            "oor {0} dag"
         ],
         "in \\1 hour": [
             "oor {0} uur"
