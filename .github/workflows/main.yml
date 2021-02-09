@@ -50,4 +50,6 @@ jobs:
         run: pip install tox
       - name: tox
         run: tox -e py
-      - uses: codecov/codecov-action@v1
+      - name: Upload coverage.xml to codecov
+        if: ${{ matrix.python-version == '3.9' && matrix.env.TOXENV == 'latest'}}
+        uses: codecov/codecov-action@v1
