@@ -34,6 +34,21 @@ class TestParseFunction(BaseTestCase):
         self.then_parsed_date_and_time_is(expected_date)
 
     @parameterized.expand([
+        param(date_string="May 5, 2000 13:00",
+              expected_date=datetime(2000, 5, 5, 13, 0),
+              relative=datetime(2000, 1, 1, 0, 0, tzinfo=utc)),
+        param(date_string="August 8, 2018 5 PM",
+              expected_date=datetime(2018, 8, 8, 17, 0),
+              relative=datetime(1900, 5, 5, 0, 0, tzinfo=utc)),
+        param(date_string="February 26, 1981 5 am UTC",
+              expected_date=datetime(1981, 2, 26, 5, 0, tzinfo=utc),
+              relative=datetime(1981, 2, 26, 5, 0, tzinfo=utc)),
+    ])
+    def test_parse_dates_with_specific_time_and_settings(self, date_string, expected_date, relative):
+        self.when_date_is_parsed_with_settings(date_string, settings={'RELATIVE_BASE': relative})
+        self.then_parsed_date_and_time_is(expected_date)
+
+    @parameterized.expand([
         param(date_string="24 de Janeiro de 2014", languages=['pt'], expected_date=date(2014, 1, 24)),
     ])
     def test_dates_which_match_languages_are_parsed(self, date_string, languages, expected_date):
@@ -66,6 +81,9 @@ class TestParseFunction(BaseTestCase):
 
     def when_date_is_parsed(self, date_string, languages=None, locales=None):
         self.result = dateparser.parse(date_string, languages=languages, locales=locales)
+
+    def when_date_is_parsed_with_settings(self, date_string, settings=None):
+        self.result = dateparser.parse(date_string, settings=settings)
 
     def then_parsed_date_is(self, expected_date):
         self.assertEqual(self.result, datetime.combine(expected_date, datetime.min.time()))
