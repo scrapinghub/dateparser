@@ -5,6 +5,7 @@ from io import StringIO
 from collections import OrderedDict
 from datetime import datetime
 from datetime import timedelta
+from pytz import utc
 
 from dateparser.utils import set_correct_day_from_settings, \
     get_last_day_of_month, get_previous_leap_year, get_next_leap_year, \
@@ -447,6 +448,18 @@ class _parser:
 
             dateobj = dateobj + delta
 
+        # Store the original self.now and dateobj values so that upon subsequent parsing
+        # everything is not treated as offset-aware if offset awareness is changed.
+        self.original_now = self.now
+        original_dateobj = dateobj
+
+        # Since date comparisons must be either offset-naive or offset-aware, normalize both
+        # self.now and dateobj to be offset-aware if one or the other is already offset-aware.
+        if self.now.tzinfo is not None and dateobj.tzinfo is None:
+            dateobj = utc.localize(dateobj)
+        elif self.now.tzinfo is None and dateobj.tzinfo is not None:
+            self.now = utc.localize(self.now)
+
         if self.month and not self.year:
             try:
                 if self.now < dateobj:
@@ -481,6 +494,11 @@ class _parser:
             if 'future' in self.settings.PREFER_DATES_FROM:
                 if self.now.time() > dateobj.time():
                     dateobj = dateobj + timedelta(days=1)
+
+        # Reset self.now and dateobj to the original value, thus removing any offset awareness
+        # that may have been set earlier.
+        self.now = self.original_now
+        dateobj = dateobj.replace(tzinfo=original_dateobj.tzinfo)
 
         return dateobj
 
