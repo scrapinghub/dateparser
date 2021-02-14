@@ -448,17 +448,18 @@ class _parser:
 
             dateobj = dateobj + delta
 
-        # Store the original self.now and dateobj values so that upon subsequent parsing
-        # everything is not treated as offset-aware if offset awareness is changed.
-        self.original_now = self.now
+        # NOTE: If this assert fires, self.now needs to be made offset-aware in a similar
+        # way that dateobj is temporarily made offset-aware.
+        assert not (self.now.tzinfo is None and dateobj.tzinfo is not None), "Review comment for details."
+
+        # Store the original dateobj values so that upon subsequent parsing everything is not
+        # treated as offset-aware if offset awareness is changed.
         original_dateobj = dateobj
 
-        # Since date comparisons must be either offset-naive or offset-aware, normalize both
-        # self.now and dateobj to be offset-aware if one or the other is already offset-aware.
+        # Since date comparisons must be either offset-naive or offset-aware, normalize dateobj
+        # to be offset-aware if one or the other is already offset-aware.
         if self.now.tzinfo is not None and dateobj.tzinfo is None:
             dateobj = utc.localize(dateobj)
-        elif self.now.tzinfo is None and dateobj.tzinfo is not None:
-            self.now = utc.localize(self.now)
 
         if self.month and not self.year:
             try:
@@ -495,9 +496,8 @@ class _parser:
                 if self.now.time() > dateobj.time():
                     dateobj = dateobj + timedelta(days=1)
 
-        # Reset self.now and dateobj to the original value, thus removing any offset awareness
-        # that may have been set earlier.
-        self.now = self.original_now
+        # Reset dateobj to the original value, thus removing any offset awareness that may
+        # have been set earlier.
         dateobj = dateobj.replace(tzinfo=original_dateobj.tzinfo)
 
         return dateobj
