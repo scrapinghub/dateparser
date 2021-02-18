@@ -22,8 +22,8 @@
         <a href="https://codecov.io/gh/scrapinghub/dateparser">
             <img src="https://codecov.io/gh/scrapinghub/dateparser/branch/master/graph/badge.svg" alt="Code Coverage">
         </a>
-        <a href="https://travis-ci.com/scrapinghub/dateparser">
-            <img src="https://img.shields.io/travis/scrapinghub/dateparser/master.svg" alt="Travis - Build">
+        <a href="https://github.com/scrapinghub/dateparser/actions">
+            <img src="https://github.com/scrapinghub/dateparser/workflows/Build/badge.svg" alt="Github - Build">
         </a>
         <a href="https://dateparser.readthedocs.org/en/latest/?badge=latest">
             <img src="https://readthedocs.org/projects/dateparser/badge/?version=latest" alt="Readthedocs - Docs">
