@@ -6,6 +6,7 @@ from dateparser.search import search_dates
 from dateparser.conf import Settings, apply_settings
 from dateparser_data.settings import default_parsers
 import datetime
+import pytz
 
 
 class TestTranslateSearch(BaseTestCase):
@@ -25,9 +26,11 @@ class TestTranslateSearch(BaseTestCase):
         self.assertEqual(str(self.error), message)
 
     @parameterized.expand([
+        # English
         param('en', "Sep 03 2014"),
         param('en', "friday, 03 september 2014"),
         param('en', 'Aug 06, 2018 05:05 PM CDT'),
+
         # Chinese
         param('zh', "1年11个月"),
         param('zh', "1年11個月"),
@@ -45,13 +48,16 @@ class TestTranslateSearch(BaseTestCase):
         param('zh', "下午3:30"),
         param('zh', "凌晨3:30"),
         param('zh', "中午"),
+
         # French
         param('fr', "20 Février 2012"),
         param('fr', "Mercredi 19 Novembre 2013"),
         param('fr', "18 octobre 2012 à 19 h 21 min"),
+
         # German
         param('de', "29. Juni 2007"),
         param('de', "Montag 5 Januar, 2015"),
+
         # Hungarian
         param('hu', '2016 augusztus 11'),
         param('hu', '2016-08-13 szombat 10:21'),
@@ -61,29 +67,40 @@ class TestTranslateSearch(BaseTestCase):
         param('hu', 'ma'),
         param('hu', '2 hónappal ezelőtt'),
         param('hu', '2016-08-13 szombat 10:21 GMT'),
+
         # Spanish
         param('es', "Miércoles 31 Diciembre 2014"),
+
         # Italian
         param('it', "Giovedi Maggio 29 2013"),
         param('it', "19 Luglio 2013"),
+
         # Portuguese
         param('pt', "22 de dezembro de 2014 às 02:38"),
+
         # Russian
         param('ru', "5 августа 2014 г в 12:00"),
         # Real: param('ru', "5 августа 2014 г. в 12:00"),
+
         # Turkish
         param('tr', "2 Ocak 2015 Cuma, 16:49"),
+
         # Czech
         param('cs', "22. prosinec 2014 v 2:38"),
+
         # Dutch
         param('nl', "maandag 22 december 2014 om 2:38"),
+
         # Romanian
         param('ro', "22 Decembrie 2014 la 02:38"),
+
         # Polish
         param('pl', "4 stycznia o 13:50"),
         param('pl', "29 listopada 2014 o 08:40"),
+
         # Ukrainian
         param('uk', "30 листопада 2013 о 04:27"),
+
         # Belarusian
         param('be', "5 снежня 2015 г у 12:00"),
         # Real: param('be', "5 снежня 2015 г. у 12:00"), Issue: Abbreviation segmentation.
@@ -91,15 +108,18 @@ class TestTranslateSearch(BaseTestCase):
         # Real: param('be', "11 верасня 2015 г. у 12:11"),
         param('be', "3 стд 2015 г у 10:33"),
         # Real: param('be', "3 стд 2015 г. у 10:33"),
+
         # Arabic
         param('ar', "6 يناير، 2015، الساعة 05:16 مساءً"),
         param('ar', "7 يناير، 2015، الساعة 11:00 صباحاً"),
+
         # Vietnamese
         # Disabled - wrong segmentation at "Thứ Năm"
         # param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015"),
         # Disabled - wrong segmentation at "Thứ Tư"
         # param('vi', "Thứ Tư, 07/01/2015 | 22:34"),
         param('vi', "9 Tháng 1 2015 lúc 15:08"),
+
         # Thai
         # Disabled - spacing differences
         # param('th', "เมื่อ กุมภาพันธ์ 09, 2015, 09:27:57 AM"),
@@ -118,7 +138,6 @@ class TestTranslateSearch(BaseTestCase):
         param('en', "28 Oct 2014 16:39:01 +0000"),
         # Disabled - wrong split at "a las".
         # param('es', "13 Febrero 2015 a las 23:00"),
-
 
         # Danish
         param('da', "Sep 03 2014"),
@@ -436,6 +455,21 @@ class TestTranslateSearch(BaseTestCase):
                 ),
                ('October', datetime.datetime(2014, 10, datetime.datetime.utcnow().day, 0, 0)),
                ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
+        param('en', """May 2020
+                    June 2020
+                    2023
+                    January UTC
+                    June 5 am utc
+                    June 23th 5 pm EST
+                    May 31, 8am UTC""",
+              [('May 2020', datetime.datetime(2020, 5, datetime.datetime.utcnow().day, 0, 0)),
+               ('June 2020', datetime.datetime(2020, 6, datetime.datetime.utcnow().day, 0, 0)),
+               ('2023', datetime.datetime(2023, 6, datetime.datetime.utcnow().day, 0, 0)),
+               ('January UTC', datetime.datetime(2023, 1, datetime.datetime.utcnow().day, 0, 0, tzinfo=pytz.utc)),
+               ('June 5 am utc', datetime.datetime(2023, 6, 5, 0, 0, tzinfo=pytz.utc)),
+               ('June 23th 5 pm EST', datetime.datetime(2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST"))),
+               ('May 31', datetime.datetime(2023, 5, 31, 0, 0)),
+               ('8am UTC', datetime.datetime(2023, 8, 31, 0, 0, tzinfo=pytz.utc))]),
 
         # Russian
         param('ru', '19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
@@ -477,6 +511,7 @@ class TestTranslateSearch(BaseTestCase):
         self.assertEqual(result, expected)
 
     @parameterized.expand([
+        # English
         param('en', 'July 12th, 2014. July 13th, July 14th',
               [('July 12th, 2014', datetime.datetime(2014, 7, 12, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
@@ -503,6 +538,7 @@ class TestTranslateSearch(BaseTestCase):
                ('July 12th', datetime.datetime(2014, 7, 12, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
+
         # Swedish
         param('sv', '1938–1939 marscherade tyska soldater i Österrike samtidigt som '
                     'österrikiska soldater marscherade i Berlin.',
@@ -512,6 +548,7 @@ class TestTranslateSearch(BaseTestCase):
                ('1939', datetime.datetime(
                    1939, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
                 )]),
+
         # German
         param('de', 'Verteidiger der Stadt kapitulierten am 2. Mai 1945. Am 8. Mai 1945 (VE-Day) trat '
                     'bedingungslose Kapitulation der Wehrmacht in Kraft',
@@ -639,7 +676,7 @@ class TestTranslateSearch(BaseTestCase):
         param('vi', 'Ý theo gương Đức, đã tiến hành xâm lược Ethiopia năm 1935 và sát '
                     'nhập Albania vào ngày 12 tháng 4 năm 1939.'),
 
-        # only digits
+        # Only digits
         param('en', '2007'),
     ])
     def test_detection(self, shortname, text):
@@ -666,13 +703,13 @@ class TestTranslateSearch(BaseTestCase):
                         ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
                         ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
 
-        # dates not found
+        # Dates not found
         param(text='',
               languages=None,
               settings=None,
               expected=None),
 
-        # language not detected
+        # Language not detected
         param(text='Привет',
               languages=['en'],
               settings=None,
@@ -692,7 +729,8 @@ class TestTranslateSearch(BaseTestCase):
               languages=None,
               settings=None,
               expected=None),
-        # Date With comma and apostrophe
+
+        # Date with comma and apostrophe
         param(text="9/3/2017  , ",
               languages=['en'],
               settings=None,
