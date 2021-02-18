@@ -450,7 +450,8 @@ class _parser:
 
         # NOTE: If this assert fires, self.now needs to be made offset-aware in a similar
         # way that dateobj is temporarily made offset-aware.
-        assert not (self.now.tzinfo is None and dateobj.tzinfo is not None), "Review comment for details."
+        assert not (self.now.tzinfo is None and dateobj.tzinfo is not None),\
+            "`self.now` doesn't have `tzinfo`. Review comment in code for details."
 
         # Store the original dateobj values so that upon subsequent parsing everything is not
         # treated as offset-aware if offset awareness is changed.
