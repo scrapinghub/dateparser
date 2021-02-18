@@ -11,7 +11,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
         self.language_chars = []
 
     def get_unique_characters(self, settings):
-        settings = settings.replace(NORMALIZE=False)
+        settings = settings.replace(settings={'NORMALIZE': False})
 
         for language in self.languages:
             chars = language.get_wordchars_for_detection(settings=settings)

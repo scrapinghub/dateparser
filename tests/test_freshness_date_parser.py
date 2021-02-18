@@ -1547,7 +1547,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_time_is(time)
 
     def test_freshness_date_with_to_timezone_setting(self):
-        _settings = settings.replace(**{
+        _settings = settings.replace(settings={
             'TIMEZONE': 'local',
             'TO_TIMEZONE': 'UTC',
             'RELATIVE_BASE': datetime(2014, 9, 1, 10, 30)
@@ -1667,7 +1667,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
                                     collecting_get_date_data(freshness_date_parser.get_date_data)))
 
         self.freshness_parser = Mock(wraps=freshness_date_parser)
-        self.add_patch(patch.object(self.freshness_parser, 'now', self.now))
 
         dt_mock = Mock(wraps=dateparser.freshness_date_parser.datetime)
         dt_mock.utcnow = Mock(return_value=self.now)
