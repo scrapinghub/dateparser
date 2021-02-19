@@ -14,9 +14,9 @@ dateparser -- python parser for human readable dates
    :target: https://codecov.io/gh/scrapinghub/dateparser
    :alt: Code Coverage
 
-.. image:: https://img.shields.io/travis/scrapinghub/dateparser/master.svg
-   :target: https://travis-ci.org/scrapinghub/dateparser
-   :alt: travis build status
+.. image:: https://github.com/scrapinghub/dateparser/workflows/Build/badge.svg
+   :target: https://github.com/scrapinghub/dateparser/actions
+   :alt: Github Build
 
 .. image:: https://readthedocs.org/projects/dateparser/badge/?version=latest
    :target: http://dateparser.readthedocs.org/en/latest/?badge=latest
