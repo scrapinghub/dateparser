@@ -49,8 +49,9 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
     result = _search_with_detection.search_dates(
         text=text, languages=languages, settings=settings
     )
-    language, dates = result.get('Language'), result.get('Dates')
+    dates = result.get('Dates')
     if dates:
         if add_detected_language:
+            language = result.get('Language')
             dates = [date + (language, ) for date in dates]
         return dates

@@ -1491,6 +1491,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('Today at 9 pm', date(2014, 9, 1), time(21, 0)),
         param('Today at 11:20 am', date(2014, 9, 1), time(11, 20)),
         param('Yesterday 1:20 pm', date(2014, 8, 31), time(13, 20)),
+        param('Yesterday by 13:20', date(2014, 8, 31), time(13, 20)),
         param('the day before yesterday 16:50', date(2014, 8, 30), time(16, 50)),
         param('2 Tage 18:50', date(2014, 8, 30), time(18, 50)),
         param('1 day ago at 2 PM', date(2014, 8, 31), time(14, 0)),
@@ -1666,7 +1667,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
                                     collecting_get_date_data(freshness_date_parser.get_date_data)))
 
         self.freshness_parser = Mock(wraps=freshness_date_parser)
-        self.add_patch(patch.object(self.freshness_parser, 'now', self.now))
 
         dt_mock = Mock(wraps=dateparser.freshness_date_parser.datetime)
         dt_mock.utcnow = Mock(return_value=self.now)
