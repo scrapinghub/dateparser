@@ -1,4 +1,4 @@
-.. _language-data-template:
+:orphan: .. _language-data-template:
 
 Language Data Template
 ----------------------

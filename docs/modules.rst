@@ -1,5 +1,5 @@
-dateparser
-==========
+Modules
+=======
 
 .. toctree::
    :maxdepth: 4
