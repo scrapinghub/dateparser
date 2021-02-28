@@ -59,3 +59,11 @@ dist: clean
 	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist
+
+venv:
+	# Create a virtual environment which can be used to run the build package.
+	python3 -m venv venv && \
+	source venv/bin/activate && \
+	pip3 install -r requirements-build.txt && \
+	pip3 install -r dateparser_scripts/requirements.txt && \
+	pip3 install -r tests/requirements.txt
