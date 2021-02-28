@@ -47,6 +47,10 @@ docs/_build
 # Editors
 *.swp
 .idea
+.vscode
 
 # Other
 raw_data
+
+# Virtual environment
+venv/
