@@ -1,4 +1,4 @@
- .. _language-data-template:
+.. _language-data-template:
 
 Language Data Template
 ----------------------
