@@ -59,6 +59,14 @@ Key Features
    dates <https://dateparser.readthedocs.io/en/latest/introduction.html#search-for-dates-in-longer-chunks-of-text>`__
    in longer texts.
 
+Online demo
+-----------
+
+Do you want to try it out without installing any dependency? Now you can test
+it quickly by visiting `this online demo <https://dateparser-demo.netlify.app/>`__!
+
+
+
 How To Use
 ----------
 
