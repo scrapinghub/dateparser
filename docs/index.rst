@@ -51,6 +51,7 @@ Contents:
    settings
    supported_locales
    contributing
+   modules
    authors
    history
 

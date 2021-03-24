@@ -22,6 +22,7 @@ that wraps around most of the functionality in the module.
 
 .. automodule:: dateparser
    :members: parse
+   :noindex:
 
 
 Popular Formats
@@ -198,7 +199,7 @@ You can extract dates from longer strings of text. They are returned as list of 
 
 .. automodule:: dateparser.search
    :members: search_dates
-
+   :noindex:
 
 Advanced Usage
 ==============

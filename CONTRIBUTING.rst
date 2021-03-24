@@ -164,6 +164,12 @@ language, you must:
 
     If in doubt, ask Dateparser maintainers for help.
 
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   template
+   
 Updating the List of Supported Languages and Locales
 ----------------------------------------------------
 

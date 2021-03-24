@@ -400,7 +400,7 @@ class DateDataParser:
             DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en')
 
         Dates with time zone indications or UTC offsets are returned in UTC time unless
-        specified using `Settings`_.
+        specified using `Settings <https://dateparser.readthedocs.io/en/latest/settings.html#settings>`__.
 
             >>> DateDataParser().get_date_data('23 March 2000, 1:21 PM CET')
             DateData(date_obj=datetime.datetime(2000, 3, 23, 13, 21, tzinfo=<StaticTzInfo 'CET'>),
