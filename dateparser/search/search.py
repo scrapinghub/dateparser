@@ -86,8 +86,15 @@ class _ExactLanguageSearch:
                 possible_splits.extend(self.split_by(item, original, splitter))
         return possible_splits
 
-    def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
+    def parse_item(self, parser, item, translated_item, parsed, need_relative_base, language):
         relative_base = None
+
+        if language != "en":
+            item = item.replace('ngày', '')
+            item = item.replace('am', '')
+
+
+        #CHANGE HERE
         parsed_item = parser.get_date_data(item)
         is_relative = date_is_relative(translated_item)
 
@@ -99,7 +106,7 @@ class _ExactLanguageSearch:
             parsed_item = parser.get_date_data(item)
         return parsed_item, is_relative
 
-    def parse_found_objects(self, parser, to_parse, original, translated, settings):
+    def parse_found_objects(self, parser, to_parse, original, translated, settings, language):
         parsed = []
         substrings = []
         need_relative_base = True
@@ -109,7 +116,7 @@ class _ExactLanguageSearch:
             if len(item) <= 2:
                 continue
 
-            parsed_item, is_relative = self.parse_item(parser, item, translated[i], parsed, need_relative_base)
+            parsed_item, is_relative = self.parse_item(parser, item, translated[i], parsed, need_relative_base, language)
             if parsed_item['date_obj']:
                 parsed.append((parsed_item, is_relative))
                 substrings.append(original[i].strip(" .,:()[]-'"))
@@ -129,7 +136,7 @@ class _ExactLanguageSearch:
                         if len(jtem) <= 2:
                             continue
                         parsed_jtem, is_relative_jtem = self.parse_item(
-                            parser, jtem, split_translated[j], current_parsed, need_relative_base)
+                            parser, jtem, split_translated[j], current_parsed, need_relative_base, language)
                         current_parsed.append((parsed_jtem, is_relative_jtem))
                         current_substrings.append(split_original[j].strip(' .,:()[]-'))
                 possible_parsed.append(current_parsed)
@@ -151,9 +158,12 @@ class _ExactLanguageSearch:
             languages = [shortname]
             to_parse = original
 
+        
+
+
         parser = DateDataParser(languages=languages, settings=settings)
         parsed, substrings = self.parse_found_objects(parser=parser, to_parse=to_parse,
-                                                      original=original, translated=translated, settings=settings)
+                                                      original=original, translated=translated, settings=settings, language=shortname)
         parser._settings = Settings()
         return list(zip(substrings, [i[0]['date_obj'] for i in parsed]))
 
