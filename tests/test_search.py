@@ -461,15 +461,16 @@ class TestTranslateSearch(BaseTestCase):
                     January UTC
                     June 5 am utc
                     June 23th 5 pm EST
-                    May 31, 8am UTC""",
+                    May 31
+                    8am UTC""",
               [('May 2020', datetime.datetime(2020, 5, datetime.datetime.utcnow().day, 0, 0)),
                ('June 2020', datetime.datetime(2020, 6, datetime.datetime.utcnow().day, 0, 0)),
                ('2023', datetime.datetime(2023, 6, datetime.datetime.utcnow().day, 0, 0)),
                ('January UTC', datetime.datetime(2023, 1, datetime.datetime.utcnow().day, 0, 0, tzinfo=pytz.utc)),
-               ('June 5 am utc', datetime.datetime(2023, 6, 5, 0, 0, tzinfo=pytz.utc)),
+               ('June 5 am utc', datetime.datetime(2023, 6, datetime.datetime.utcnow().day, 5, 0, tzinfo=pytz.utc)),
                ('June 23th 5 pm EST', datetime.datetime(2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST"))),
                ('May 31', datetime.datetime(2023, 5, 31, 0, 0)),
-               ('8am UTC', datetime.datetime(2023, 8, 31, 0, 0, tzinfo=pytz.utc))]),
+               ('8am UTC', datetime.datetime(2023, 5, 31, 8, 0, tzinfo=pytz.utc))]),
 
         # Russian
         param('ru', '19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
