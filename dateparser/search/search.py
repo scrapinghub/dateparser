@@ -89,8 +89,7 @@ class _ExactLanguageSearch:
     def parse_item(self, parser, item, translated_item, parsed, need_relative_base, language):
         relative_base = None
 
-        if language != "en":
-            item = item.replace('ngày', '')
+        if language == "de":
             item = item.replace('am', '')
 
         parsed_item = parser.get_date_data(item)
