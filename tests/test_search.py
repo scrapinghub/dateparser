@@ -1,227 +1,780 @@
-from collections.abc import Set
-
-from dateparser.languages.loader import LocaleDataLoader
-from dateparser.conf import apply_settings, Settings
-from dateparser.date import DateDataParser
-from dateparser.search.text_detection import FullTextLanguageDetector
-import regex as re
-
-
-RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
-
-
-def date_is_relative(translation):
-    return re.search(RELATIVE_REG, translation) is not None
+from parameterized import parameterized, param
+from tests import BaseTestCase
+from dateparser.timezone_parser import StaticTzInfo
+from dateparser.search.search import DateSearchWithDetection
+from dateparser.search import search_dates
+from dateparser.conf import Settings, apply_settings
+from dateparser_data.settings import default_parsers
+import datetime
+import pytz
 
 
-class _ExactLanguageSearch:
-    def __init__(self, loader):
-        self.loader = loader
-        self.language = None
+class TestTranslateSearch(BaseTestCase):
+    def setUp(self):
+        super().setUp()
+        self.search_with_detection = DateSearchWithDetection()
+        self.exact_language_search = self.search_with_detection.search
 
-    def get_current_language(self, shortname):
-        if self.language is None or self.language.shortname != shortname:
-            self.language = self.loader.get_locale(shortname)
+    def run_search_dates_function_invalid_languages(self, text, languages, error_type):
+        try:
+            search_dates(text=text, languages=languages)
+        except Exception as error:
+            self.error = error
+            self.assertIsInstance(self.error, error_type)
 
-    def search(self, shortname, text, settings):
-        self.get_current_language(shortname)
-        result = self.language.translate_search(text, settings=settings)
-        return result
+    def check_error_message(self, message):
+        self.assertEqual(str(self.error), message)
 
-    @staticmethod
-    def set_relative_base(substring, already_parsed):
-        if len(already_parsed) == 0:
-            return substring, None
+    @parameterized.expand([
+        # English
+        param('en', "Sep 03 2014"),
+        param('en', "friday, 03 september 2014"),
+        param('en', 'Aug 06, 2018 05:05 PM CDT'),
 
-        i = len(already_parsed) - 1
-        while already_parsed[i][1]:
-            i -= 1
-            if i == -1:
-                return substring, None
-        relative_base = already_parsed[i][0]['date_obj']
-        return substring, relative_base
+        # Chinese
+        param('zh', "1年11个月"),
+        param('zh', "1年11個月"),
+        param('zh', "2015年04月08日10点05"),
+        param('zh', "2015年04月08日10:05"),
+        param('zh', "2013年04月08日"),
+        param('zh', "周一"),
+        param('zh', "礼拜一"),
+        param('zh', "周二"),
+        param('zh', "礼拜二"),
+        param('zh', "周三"),
+        param('zh', "礼拜三"),
+        param('zh', "星期日 2015年04月08日10:05"),
+        param('zh', "周六 2013年04月08日"),
+        param('zh', "下午3:30"),
+        param('zh', "凌晨3:30"),
+        param('zh', "中午"),
 
-    def choose_best_split(self, possible_parsed_splits, possible_substrings_splits):
-        rating = []
-        for i in range(len(possible_parsed_splits)):
-            num_substrings = len(possible_substrings_splits[i])
-            num_substrings_without_digits = 0
-            not_parsed = 0
-            for j, item in enumerate(possible_parsed_splits[i]):
-                if item[0]['date_obj'] is None:
-                    not_parsed += 1
-                if not any(char.isdigit() for char in possible_substrings_splits[i][j]):
-                    num_substrings_without_digits += 1
-            rating.append([
-                num_substrings,
-                0 if not_parsed == 0 else (float(not_parsed) / float(num_substrings)),
-                0 if num_substrings_without_digits == 0 else (
-                    float(num_substrings_without_digits) / float(num_substrings))])
-            best_index, best_rating = min(enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2]))
-        return possible_parsed_splits[best_index], possible_substrings_splits[best_index]
+        # French
+        param('fr', "20 Février 2012"),
+        param('fr', "Mercredi 19 Novembre 2013"),
+        param('fr', "18 octobre 2012 à 19 h 21 min"),
 
-    def split_by(self, item, original, splitter):
-        if item.count(splitter) <= 2:
-            return [[item.split(splitter), original.split(splitter)]]
+        # German
+        param('de', "29. Juni 2007"),
+        param('de', "Montag 5 Januar, 2015"),
 
-        item_all_split = item.split(splitter)
-        original_all_split = original.split(splitter)
-        all_possible_splits = [[item_all_split, original_all_split]]
-        for i in range(2, 4):
-            item_partially_split = []
-            original_partially_split = []
-            for j in range(0, len(item_all_split), i):
-                item_join = splitter.join(item_all_split[j:j + i])
-                original_join = splitter.join(original_all_split[j:j + i])
-                item_partially_split.append(item_join)
-                original_partially_split.append(original_join)
-            all_possible_splits.append([item_partially_split, original_partially_split])
-        return all_possible_splits
+        # Hungarian
+        param('hu', '2016 augusztus 11'),
+        param('hu', '2016-08-13 szombat 10:21'),
+        param('hu', '2016. augusztus 14. vasárnap 10:21'),
+        param('hu', 'hétfő'),
+        param('hu', 'tegnapelőtt'),
+        param('hu', 'ma'),
+        param('hu', '2 hónappal ezelőtt'),
+        param('hu', '2016-08-13 szombat 10:21 GMT'),
 
-    def split_if_not_parsed(self, item, original):
-        splitters = [',', '،', '——', '—', '–', '.', ' ']
-        possible_splits = []
-        for splitter in splitters:
-            if splitter in item and item.count(splitter) == original.count(splitter):
-                possible_splits.extend(self.split_by(item, original, splitter))
-        return possible_splits
+        # Spanish
+        param('es', "Miércoles 31 Diciembre 2014"),
 
-    def parse_item(self, parser, item, translated_item, parsed, need_relative_base, language):
-        relative_base = None
+        # Italian
+        param('it', "Giovedi Maggio 29 2013"),
+        param('it', "19 Luglio 2013"),
 
-        if language == "de":
-            item = item.replace('am', '')
+        # Portuguese
+        param('pt', "22 de dezembro de 2014 às 02:38"),
 
-        parsed_item = parser.get_date_data(item)
-        is_relative = date_is_relative(translated_item)
+        # Russian
+        param('ru', "5 августа 2014 г в 12:00"),
+        # Real: param('ru', "5 августа 2014 г. в 12:00"),
 
-        if need_relative_base:
-            item, relative_base = self.set_relative_base(item, parsed)
+        # Turkish
+        param('tr', "2 Ocak 2015 Cuma, 16:49"),
 
-        if relative_base:
-            parser._settings.RELATIVE_BASE = relative_base
-            parsed_item = parser.get_date_data(item)
-        return parsed_item, is_relative
+        # Czech
+        param('cs', "22. prosinec 2014 v 2:38"),
 
-    def parse_found_objects(self, parser, to_parse, original, translated, settings, language):
-        parsed = []
-        substrings = []
-        need_relative_base = True
-        if settings.RELATIVE_BASE:
-            need_relative_base = False
-        for i, item in enumerate(to_parse):
-            if len(item) <= 2:
-                continue
+        # Dutch
+        param('nl', "maandag 22 december 2014 om 2:38"),
 
-            parsed_item, is_relative = self.parse_item(parser, item, translated[i], parsed, need_relative_base, language)
-            if parsed_item['date_obj']:
-                parsed.append((parsed_item, is_relative))
-                substrings.append(original[i].strip(" .,:()[]-'"))
-                continue
+        # Romanian
+        param('ro', "22 Decembrie 2014 la 02:38"),
 
-            possible_splits = self.split_if_not_parsed(item, original[i])
-            if not possible_splits:
-                continue
+        # Polish
+        param('pl', "4 stycznia o 13:50"),
+        param('pl', "29 listopada 2014 o 08:40"),
 
-            possible_parsed = []
-            possible_substrings = []
-            for split_translated, split_original in possible_splits:
-                current_parsed = []
-                current_substrings = []
-                if split_translated:
-                    for j, jtem in enumerate(split_translated):
-                        if len(jtem) <= 2:
-                            continue
-                        parsed_jtem, is_relative_jtem = self.parse_item(
-                            parser, jtem, split_translated[j], current_parsed, need_relative_base, language)
-                        current_parsed.append((parsed_jtem, is_relative_jtem))
-                        current_substrings.append(split_original[j].strip(' .,:()[]-'))
-                possible_parsed.append(current_parsed)
-                possible_substrings.append(current_substrings)
-            parsed_best, substrings_best = self.choose_best_split(possible_parsed, possible_substrings)
-            for k in range(len(parsed_best)):
-                if parsed_best[k][0]['date_obj']:
-                    parsed.append(parsed_best[k])
-                    substrings.append(substrings_best[k])
-        return parsed, substrings
+        # Ukrainian
+        param('uk', "30 листопада 2013 о 04:27"),
 
-    def search_parse(self, shortname, text, settings):
-        translated, original = self.search(shortname, text, settings)
-        bad_translate_with_search = ['vi', 'hu']   # splitting done by spaces and some dictionary items contain spaces
-        if shortname not in bad_translate_with_search:
-            languages = ['en']
-            to_parse = translated
-        else:
-            languages = [shortname]
-            to_parse = original
+        # Belarusian
+        param('be', "5 снежня 2015 г у 12:00"),
+        # Real: param('be', "5 снежня 2015 г. у 12:00"), Issue: Abbreviation segmentation.
+        param('be', "11 верасня 2015 г у 12:11"),
+        # Real: param('be', "11 верасня 2015 г. у 12:11"),
+        param('be', "3 стд 2015 г у 10:33"),
+        # Real: param('be', "3 стд 2015 г. у 10:33"),
 
-        
+        # Arabic
+        param('ar', "6 يناير، 2015، الساعة 05:16 مساءً"),
+        param('ar', "7 يناير، 2015، الساعة 11:00 صباحاً"),
 
+        # Vietnamese
+        # Disabled - wrong segmentation at "Thứ Năm"
+        # param('vi', "Thứ Năm, ngày 8 tháng 1 năm 2015"),
+        # Disabled - wrong segmentation at "Thứ Tư"
+        # param('vi', "Thứ Tư, 07/01/2015 | 22:34"),
+        param('vi', "9 Tháng 1 2015 lúc 15:08"),
 
-        parser = DateDataParser(languages=languages, settings=settings)
-        parsed, substrings = self.parse_found_objects(parser=parser, to_parse=to_parse,
-                                                      original=original, translated=translated, settings=settings, language=shortname)
-        parser._settings = Settings()
-        return list(zip(substrings, [i[0]['date_obj'] for i in parsed]))
+        # Thai
+        # Disabled - spacing differences
+        # param('th', "เมื่อ กุมภาพันธ์ 09, 2015, 09:27:57 AM"),
+        # param('th', "เมื่อ กรกฎาคม 05, 2012, 01:18:06 AM"),
 
+        # Tagalog
+        param('tl', "Biyernes Hulyo 3, 2015"),
+        param('tl', "Pebrero 5, 2015 7:00 pm"),
+        # Indonesian
+        param('id', "06 Sep 2015"),
+        param('id', "07 Feb 2015 20:15"),
 
-class DateSearchWithDetection:
-    """
-    Class which executes language detection of string in a natural language, translation of a given string,
-    search of substrings which represent date and/or time and parsing of these substrings.
+        # Miscellaneous
+        param('en', "2014-12-12T12:33:39-08:00"),
+        param('en', "2014-10-15T16:12:20+00:00"),
+        param('en', "28 Oct 2014 16:39:01 +0000"),
+        # Disabled - wrong split at "a las".
+        # param('es', "13 Febrero 2015 a las 23:00"),
 
-    """
-    def __init__(self):
-        self.loader = LocaleDataLoader()
-        self.available_language_map = self.loader.get_locale_map()
-        self.search = _ExactLanguageSearch(self.loader)
+        # Danish
+        param('da', "Sep 03 2014"),
+        param('da', "fredag, 03 september 2014"),
+        param('da', "fredag d. 3 september 2014"),
 
-    def detect_language(self, text, languages):
-        if isinstance(languages, (list, tuple, Set)):
+        # Finnish
+        param('fi', "maanantai tammikuu 16, 2015"),
+        param('fi', "ma tammi 16, 2015"),
+        param('fi', "tiistai helmikuu 16, 2015"),
+        param('fi', "ti helmi 16, 2015"),
+        param('fi', "keskiviikko maaliskuu 16, 2015"),
+        param('fi', "ke maalis 16, 2015"),
+        param('fi', "torstai huhtikuu 16, 2015"),
+        param('fi', "to huhti 16, 2015"),
+        param('fi', "perjantai toukokuu 16, 2015"),
+        param('fi', "pe touko 16, 2015"),
+        param('fi', "lauantai kesäkuu 16, 2015"),
+        param('fi', "la kesä 16, 2015"),
+        param('fi', "sunnuntai heinäkuu 16, 2015"),
+        param('fi', "su heinä 16, 2015"),
+        param('fi', "su elokuu 16, 2015"),
+        param('fi', "su elo 16, 2015"),
+        param('fi', "su syyskuu 16, 2015"),
+        param('fi', "su syys 16, 2015"),
+        param('fi', "su lokakuu 16, 2015"),
+        param('fi', "su loka 16, 2015"),
+        param('fi', "su marraskuu 16, 2015"),
+        param('fi', "su marras 16, 2015"),
+        param('fi', "su joulukuu 16, 2015"),
+        param('fi', "su joulu 16, 2015"),
+        param('fi', "1. tammikuuta, 2016"),
+        param('fi', "tiistaina, 27. lokakuuta 2015"),
 
-            if all([language in self.available_language_map for language in languages]):
-                languages = [self.available_language_map[language] for language in languages]
-            else:
-                unsupported_languages = set(languages) - set(self.available_language_map.keys())
-                raise ValueError(
-                    "Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
-        elif languages is not None:
-            raise TypeError("languages argument must be a list (%r given)" % type(languages))
+        # Japanese
+        param('ja', "午後3時"),
+        param('ja', "2時"),
+        param('ja', "11時42分"),
+        param('ja', "3ヶ月"),
+        param('ja', "約53か月前"),
+        param('ja', "3月"),
+        param('ja', "十二月"),
+        param('ja', "2月10日"),
+        param('ja', "2013年2月"),
+        param('ja', "2013年04月08日"),
+        param('ja', "2016年03月24日 木曜日 10時05分"),
+        param('ja', "2016年3月20日 21時40分"),
+        param('ja', "2016年03月21日 23時05分11秒"),
+        param('ja', "2016年3月21日(月) 14時48分"),
+        param('ja', "2016年3月20日(日) 21時40分"),
+        param('ja', "2016年3月20日 (日) 21時40分"),
 
-        if languages:
-            self.language_detector = FullTextLanguageDetector(languages=languages)
-        else:
-            self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))
+        # Hebrew
+        param('he', "20 לאפריל 2012"),
+        param('he', "יום רביעי ה-19 בנובמבר 2013"),
+        param('he', "18 לאוקטובר 2012 בשעה 19:21"),
+        # Disabled - wrong split at "יום ה'".
+        # param('he', "יום ה' 6/10/2016"),
+        param('he', "חצות"),
+        param('he', "1 אחר חצות"),
+        param('he', "3 לפנות בוקר"),
+        param('he', "3 בבוקר"),
+        param('he', "3 בצהריים"),
+        param('he', "6 לפנות ערב"),
+        param('he', "6 אחרי הצהריים"),
+        param('he', "6 אחרי הצהרים"),
 
-        return self.language_detector._best_language(text)
+        # Bangla
+        param('bn', "সেপ্টেম্বর 03 2014"),
+        param('bn', "শুক্রবার, 03 সেপ্টেম্বর 2014"),
 
+        # Hindi
+        param('hi', 'सोमवार 13 जून 1998'),
+        param('hi', 'मंगल 16 1786 12:18'),
+        param('hi', 'शनि 11 अप्रैल 2002 03:09'),
+
+        # Swedish
+        param('sv', "Sept 03 2014"),
+        param('sv', "fredag, 03 september 2014"),
+    ])
+    def test_search_date_string(self, shortname, datetime_string):
+        result = self.exact_language_search.search(shortname, datetime_string, settings=Settings())[1][0]
+        self.assertEqual(result, datetime_string)
+
+    @parameterized.expand([
+        # Arabic
+        param('ar', 'في 29 يوليو 1938 غزت القوات اليابانية الاتحاد'
+                    ' السوفييتي ووقعت أولى المعارك والتي انتصر فيها السوفييت، وعلى الرغم من ذلك رفضت'
+                    ' اليابان الاعتراف بذلك وقررت في 11 مايو 1939 تحريك الحدود المنغولية حتى نهر غول،'
+                    ' حيث وقعت معركة خالخين غول والتي انتصر فيها الجيش الأحمر على جيش كوانتونغ',
+              [('في 29 يوليو 1938', datetime.datetime(1938, 7, 29, 0, 0)),
+               ('في 11 مايو 1939', datetime.datetime(1939, 5, 11, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Belarusian
+        param('be', 'Пасля апублікавання Патсдамскай дэкларацыі 26 ліпеня 1945 года і адмовы Японіі капітуляваць '
+                    'на яе ўмовах ЗША скінулі атамныя бомбы.',
+              [('26 ліпеня 1945 года і', datetime.datetime(1945, 7, 26, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Bulgarian
+        param('bg', 'На 16 юни 1944 г. започват въздушни '
+                    'бомбардировки срещу Япония, използувайки новозавладените острови като бази.',
+              [('На 16 юни 1944 г', datetime.datetime(1944, 6, 16, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Chinese
+        param('zh', '不過大多數人仍多把第二次世界大戰的爆發定為1939年9月1日德國入侵波蘭開始，這次入侵行動隨即導致英國與法國向德國宣戰。',
+              [('1939年9月1', datetime.datetime(1939, 9, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Czech
+        param('cs', 'V roce 1920 byla proto vytvořena Společnost národů, jež měla fungovat jako fórum, '
+                    'na němž měly národy mírovým způsobem urovnávat svoje spory.',
+              [('1920', datetime.datetime(1920, 1, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Danish
+        param('da', 'Krigen i Europa begyndte den 1. september 1939, da Nazi-Tyskland invaderede Polen, '
+                    'og endte med Nazi-Tysklands betingelsesløse overgivelse den 8. maj 1945.',
+              [('1. september 1939', datetime.datetime(1939, 9, 1, 0, 0)),
+               ('8. maj 1945', datetime.datetime(1945, 5, 8, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Dutch
+        param('nl', ' De meest dramatische uitbreiding van het conflict vond plaats op 22 juni 1941 met de '
+                    'Duitse aanval op de Sovjet-Unie.',
+              [('22 juni 1941', datetime.datetime(1941, 6, 22, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # English
+        param('en', 'I will meet you tomorrow at noon',
+              [('tomorrow at noon', datetime.datetime(2000, 1, 2, 12, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        param('en', 'in a minute',
+              [('in a minute', datetime.datetime(2000, 1, 1, 0, 1))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+        param('en', 'July 13th.\r\n July 14th',
+              [('July 13th', datetime.datetime(2000, 7, 13, 0, 0)),
+               ('July 14th', datetime.datetime(2000, 7, 14, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+        param('en', 'last updated Aug 06, 2018 05:05 PM CDT',
+              [(
+                  'Aug 06, 2018 05:05 PM CDT',
+                  datetime.datetime(
+                      2018, 8, 6, 17, 5, tzinfo=StaticTzInfo(
+                          'CDT', datetime.timedelta(seconds=-18000)
+                      ))
+              )],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+        param('en', '25th march 2015 , i need this report today.',
+              [('25th march 2015', datetime.datetime(2015, 3, 25))],
+              settings={'PARSERS': [parser for parser in default_parsers
+                                    if parser != 'relative-time']}),
+        param('en', '25th march 2015 , i need this report today.',
+              [('25th march 2015', datetime.datetime(2015, 3, 25)),
+               ('today', datetime.datetime(2000, 1, 1))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Filipino / Tagalog
+        param('tl', 'Maraming namatay sa mga Hapon hanggang sila\'y sumuko noong Agosto 15, 1945.',
+              [('noong Agosto 15, 1945', datetime.datetime(1945, 8, 15, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Finnish
+        param('fi', 'Iso-Britannia ja Ranska julistivat sodan Saksalle 3. syyskuuta 1939.',
+              [('3. syyskuuta 1939', datetime.datetime(1939, 9, 3, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # French
+        param('fr', 'La 2e Guerre mondiale, ou Deuxième Guerre mondiale4, est un conflit armé à '
+                    'l\'échelle planétaire qui dura du 1 septembre 1939 au 2 septembre 1945.',
+              [('1 septembre 1939', datetime.datetime(1939, 9, 1, 0, 0)),
+               ('2 septembre 1945', datetime.datetime(1945, 9, 2, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Hebrew
+        param('he', 'במרץ 1938 "אוחדה" אוסטריה עם גרמניה (אנשלוס). ',
+              [('במרץ 1938', datetime.datetime(1938, 3, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Hindi
+        param('hi',
+              'जुलाई 1937 में, मार्को-पोलो ब्रिज हादसे का बहाना लेकर जापान ने चीन पर हमला कर दिया और चीनी साम्राज्य '
+              'की राजधानी बीजिंग पर कब्जा कर लिया,',
+              [('जुलाई 1937 में', datetime.datetime(1937, 7, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Hungarian
+        param('hu', 'A háború Európában 1945. május 8-án Németország feltétel nélküli megadásával, '
+                    'míg Ázsiában szeptember 2-án, Japán kapitulációjával fejeződött be.',
+              [('1945. május 8-án', datetime.datetime(1945, 5, 8, 0, 0)),
+               ('szeptember 2-án', datetime.datetime(2000, 9, 2, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Georgian
+        param('ka', '1937 წელს დაიწყო იაპონია-ჩინეთის მეორე ომი.',
+              [('1937', datetime.datetime(1937, 1, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # German
+        param('de', 'Die UdSSR blieb gemäß dem Neutralitätspakt '
+                    'vom 13. April 1941 gegenüber Japan vorerst neutral.',
+              [('Die', datetime.datetime(1999, 12, 28, 0, 0)),
+               ('13. April 1941', datetime.datetime(1941, 4, 13, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Indonesian
+        param('id', 'Kekaisaran Jepang menyerah pada tanggal 15 Agustus 1945, sehingga mengakhiri perang '
+                    'di Asia dan memperkuat kemenangan total Sekutu atas Poros.',
+              [('tanggal 15 Agustus 1945', datetime.datetime(1945, 8, 15, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Italian
+        param('it', ' Con questo il 2 ottobre 1935 prese il via la campagna '
+                    'd\'Etiopia. Il 9 maggio 1936 venne proclamato l\'Impero. ',
+              [('2 ottobre 1935', datetime.datetime(1935, 10, 2, 0, 0)),
+               ('9 maggio 1936', datetime.datetime(1936, 5, 9, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Japanese
+        param('ja', '1939年9月1日、ドイツ軍がポーランドへ侵攻したことが第二次世界大戦の始まりとされている。',
+              [('1939年9月1', datetime.datetime(1939, 9, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Persian
+        param('fa', 'نگ جهانی دوم جنگ جدی بین سپتامبر 1939 و 2 سپتامبر 1945 بود.',
+              [('سپتامبر 1939', datetime.datetime(1939, 9, 1, 0, 0)),
+               ('2 سپتامبر 1945', datetime.datetime(1945, 9, 2, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Polish
+        param('pl', 'II wojna światowa – największa wojna światowa w historii, '
+                    'trwająca od 1 września 1939 do 2 września 1945 (w Europie do 8 maja 1945)',
+              [('1 września 1939', datetime.datetime(1939, 9, 1, 0, 0)),
+               ('2 września 1945 (w', datetime.datetime(1945, 9, 2, 0, 0)),
+               ('8 maja 1945', datetime.datetime(1945, 5, 8, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Portuguese
+        param('pt', 'Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
+              [('Em outubro de 1936', datetime.datetime(1936, 10, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Romanian
+        param('ro', 'Pe 17 septembrie 1939, după semnarea unui acord de încetare a focului cu Japonia, '
+                    'sovieticii au invadat Polonia dinspre est.',
+              [('17 septembrie 1939', datetime.datetime(1939, 9, 17, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Russian
+        param('ru', 'Втора́я мирова́я война́ (1 сентября 1939 — 2 сентября 1945) — '
+                    'война двух мировых военно-политических коалиций, ставшая крупнейшим вооружённым '
+                    'конфликтом в истории человечества.',
+              [('1 сентября 1939', datetime.datetime(1939, 9, 1, 0, 0)),
+               ('2 сентября 1945', datetime.datetime(1945, 9, 2, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Spanish
+        param('es', 'Desde finales de 1939 hasta inicios de 1941 Alemania conquistó o sometió '
+                    'gran parte de la Europa continental.',
+              [('de 1939', datetime.datetime(1939, 1, 1, 0, 0)),
+               ('de 1941', datetime.datetime(1941, 1, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Swedish
+        param('sv', 'Efter kommunisternas seger 1922 drog de allierade och Japan bort sina trupper.',
+              [('1922', datetime.datetime(1922, 1, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Thai
+        param('th',
+              'และเมื่อวันที่ 11 พฤษภาคม 1939 '
+              'ญี่ปุ่นตัดสินใจขยายพรมแดนญี่ปุ่น-มองโกเลียขึ้นไปถึงแม่น้ำคัลคินกอลด้วยกำลัง',
+              [('11 พฤษภาคม 1939', datetime.datetime(1939, 5, 11, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Turkish
+        param('tr', 'Almanya’nın Polonya’yı işgal ettiği 1 Eylül 1939 savaşın başladığı '
+                    'tarih olarak genel kabul görür.',
+              [('1 Eylül 1939', datetime.datetime(1939, 9, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Ukrainian
+        param('uk', 'Інші дати, що розглядаються деякими авторами як дати початку війни: початок японської '
+                    'інтервенції в Маньчжурію 13 вересня 1931, початок другої японсько-китайської війни 7 '
+                    'липня 1937 року та початок угорсько-української війни 14 березня 1939 року.',
+              [('13 вересня 1931', datetime.datetime(1931, 9, 13, 0, 0)),
+               ('7 липня 1937', datetime.datetime(1937, 7, 7, 0, 0)),
+               ('14 березня 1939', datetime.datetime(1939, 3, 14, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        # Vietnamese
+        param('vi', 'Ý theo gương Đức, đã tiến hành xâm lược Ethiopia năm 1935 và sát '
+                    'nhập Albania vào ngày 12 tháng 4 năm 1939.',
+              [('năm 1935', datetime.datetime(1935, 1, 1, 0, 0)),
+               ('ngày 12 tháng 4 năm 1939', datetime.datetime(1939, 4, 12, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+    ])
     @apply_settings
-    def search_dates(self, text, languages=None, settings=None):
-        """
-        Find all substrings of the given string which represent date and/or time and parse them.
+    def test_search_and_parse(self, shortname, string, expected, settings=None):
+        result = self.exact_language_search.search_parse(shortname, string, settings=settings)
+        self.assertEqual(result, expected)
 
-        :param text:
-            A string in a natural language which may contain date and/or time expressions.
-        :type text: str
-        :param languages:
-            A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
-            to detect the language.
-        :type languages: list
-        :param settings:
-               Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
-        :type settings: dict
+    @parameterized.expand([
+        # English
+        param('en', 'January 3, 2017 - February 1st',
+              [('January 3, 2017', datetime.datetime(2017, 1, 3, 0, 0)),
+               ('February 1st', datetime.datetime(2017, 2, 1, 0, 0))]),
+        param('en', '2014 was good! October was excellent!'
+                    ' Friday, 21 was especially good!',
+              [('2014', datetime.datetime(
+                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
+                ),
+               ('October', datetime.datetime(2014, 10, datetime.datetime.utcnow().day, 0, 0)),
+               ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
+        param('en', """May 2020
+                    June 2020
+                    2023
+                    January UTC
+                    June 5 am utc
+                    June 23th 5 pm EST
+                    May 31
+                    8am UTC""",
+              [('May 2020', datetime.datetime(2020, 5, datetime.datetime.utcnow().day, 0, 0)),
+               ('June 2020', datetime.datetime(2020, 6, 30, 0, 0)),
+               ('2023', datetime.datetime(2023, 6, 30, 0, 0)),
+               ('January UTC', datetime.datetime(2023, 1, 30, 0, 0, tzinfo=pytz.utc)),
+               ('June 5 am utc', datetime.datetime(2023, 6, 30, 5, 0, tzinfo=pytz.utc)),
+               ('June 23th 5 pm EST', datetime.datetime(2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST"))),
+               ('May 31', datetime.datetime(2023, 5, 31, 0, 0)),
+               ('8am UTC', datetime.datetime(2023, 5, 31, 8, 0, tzinfo=pytz.utc))]),
 
-        :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
-                substring representing date expressions and corresponding :mod:`datetime.datetime` object.
-            For example:
-            {'Language': 'en', 'Dates': [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))]}
-            If language of the string isn't recognised returns:
-            {'Language': None, 'Dates': None}
-        :raises: ValueError - Unknown Language
-        """
+        # Russian
+        param('ru', '19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
+              [('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
+               ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
+               ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+        # relative dates
+        param('ru', '19 марта 2001. Сегодня был хороший день. 2 дня назад был хороший день. '
+                    'Вчера тоже был хороший день.',
+              [('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
+               ('Сегодня', datetime.datetime(2001, 3, 19, 0, 0)),
+               ('2 дня назад', datetime.datetime(2001, 3, 17, 0, 0)),
+               ('Вчера', datetime.datetime(2001, 3, 18, 0, 0))]),
+        param('ru', '19 марта 2001. Сегодня был хороший день. Два дня назад был хороший день. Хорошая была неделя. '
+                    'Думаю, через неделю будет еще лучше.',
+              [('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
+               ('Сегодня', datetime.datetime(2001, 3, 19, 0, 0)),
+               ('Два дня назад', datetime.datetime(2001, 3, 17, 0, 0)),
+               ('через неделю', datetime.datetime(2001, 3, 26, 0, 0))]),
 
-        language_shortname = self.detect_language(text=text, languages=languages)
-        if not language_shortname:
-            return {'Language': None, 'Dates': None}
-        return {'Language': language_shortname, 'Dates': self.search.search_parse(language_shortname, text,
-                                                                                  settings=settings)}
+        # Hungarian
+        param('hu', '1962 augusztus 11 Föld körüli pályára bocsátották a szovjet Vosztok-3 űrhajót, '
+                    'mely páros űrrepülést hajtott végre a másnap föld körüli pályára bocsátott Vosztok-4-gyel.'
+                    '2 hónappal ezelőtt furcsa, nem forgó jellegű szédülést tapasztaltam.',
+              [('1962 augusztus 11', datetime.datetime(1962, 8, 11, 0, 0)),
+               ('2 hónappal ezelőtt', datetime.datetime(1962, 6, 11, 0, 0))]),
+
+        # Vietnamese
+        param('vi', '1/1/1940. Vào tháng 8 năm 1940, với lực lượng lớn của Pháp tại Bắc Phi chính thức trung lập '
+                    'trong cuộc chiến, Ý mở một cuộc tấn công vào thuộc địa Somalia của Anh tại Đông Phi. '
+                    'Đến tháng 9 quân Ý vào đến Ai Cập (cũng đang dưới sự kiểm soát của Anh). ',
+              [('1/1/1940', datetime.datetime(1940, 1, 1, 0, 0)),
+               ('tháng 8 năm 1940', datetime.datetime(1940, 8, 1, 0, 0)),
+               ('tháng 9', datetime.datetime(1940, 9, 1, 0, 0))])
+    ])
+    @apply_settings
+    def test_relative_base_setting(self, shortname, string, expected, settings=None):
+        result = self.exact_language_search.search_parse(shortname, string, settings=settings)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        # English
+        param('en', 'July 12th, 2014. July 13th, July 14th',
+              [('July 12th, 2014', datetime.datetime(2014, 7, 12, 0, 0)),
+               ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
+               ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
+        param('en', '2014. July 13th July 14th',
+              [('2014', datetime.datetime(
+                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
+                ),
+               ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
+               ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
+        param('en', 'July 13th 2014 July 14th 2014',
+              [('July 13th 2014', datetime.datetime(2014, 7, 13, 0, 0)),
+               ('July 14th 2014', datetime.datetime(2014, 7, 14, 0, 0))]),
+        param('en', 'July 13th 2014 July 14th',
+              [('July 13th 2014', datetime.datetime(2014, 7, 13, 0, 0)),
+               ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
+        param('en', 'July 13th, 2014 July 14th, 2014',
+              [('July 13th, 2014', datetime.datetime(2014, 7, 13, 0, 0)),
+               ('July 14th, 2014', datetime.datetime(2014, 7, 14, 0, 0))]),
+        param('en', '2014. July 12th, July 13th, July 14th',
+              [('2014', datetime.datetime(
+                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
+                ),
+               ('July 12th', datetime.datetime(2014, 7, 12, 0, 0)),
+               ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
+               ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
+
+        # Swedish
+        param('sv', '1938–1939 marscherade tyska soldater i Österrike samtidigt som '
+                    'österrikiska soldater marscherade i Berlin.',
+              [('1938', datetime.datetime(
+                  1938, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
+                ),
+               ('1939', datetime.datetime(
+                   1939, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
+                )]),
+
+        # German
+        param('de', 'Verteidiger der Stadt kapitulierten am 2. Mai 1945. Am 8. Mai 1945 (VE-Day) trat '
+                    'bedingungslose Kapitulation der Wehrmacht in Kraft',
+              [('am 2. Mai 1945', datetime.datetime(1945, 5, 2, 0, 0)),
+               ('Am 8. Mai 1945', datetime.datetime(1945, 5, 8, 0, 0))]),
+
+    ])
+    @apply_settings
+    def test_splitting_of_not_parsed(self, shortname, string, expected, settings=None):
+        result = self.exact_language_search.search_parse(shortname, string, settings=settings)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        # Arabic
+        param('ar', 'في 29 يوليو 1938 غزت القوات اليابانية الاتحاد'
+                    ' السوفييتي ووقعت أولى المعارك والتي انتصر فيها السوفييت، وعلى الرغم من ذلك رفضت'
+                    ' اليابان الاعتراف بذلك وقررت في 11 مايو 1939 تحريك الحدود المنغولية حتى نهر غول،'),
+
+        # Belarusian
+        param('be', 'Пасля апублікавання Патсдамскай дэкларацыі 26 ліпеня 1945 года і адмовы Японіі капітуляваць '
+                    'на яе ўмовах ЗША скінулі атамныя бомбы.'),
+
+        # Bulgarian
+        param('bg', 'На 16 юни 1944 г. започват въздушни '
+                    'бомбардировки срещу Япония, използувайки новозавладените острови като бази.'),
+
+        # Chinese
+        param('zh', '不過大多數人仍多把第二次世界大戰的爆發定為1939年9月1日德國入侵波蘭開始，2015年04月08日10点05。'),
+
+        # Czech
+        param('cs', 'V rok 1920 byla proto vytvořena Společnost národů, jež měla fungovat jako fórum, '
+                    'na němž měly národy mírovým způsobem urovnávat svoje spory.'),
+
+        # Danish
+        param('da', 'Krigen i Europa begyndte den 1. september 1939, da Nazi-Tyskland invaderede Polen, '
+                    'og endte med Nazi-Tysklands betingelsesløse overgivelse den 8. marts 1945.'),
+
+        # Dutch
+        param('nl', ' De meest dramatische uitbreiding van het conflict vond plaats op Maandag 22 juni 1941  met de '
+                    'Duitse aanval op de Sovjet-Unie.'),
+
+        # English
+        param('en', 'I will meet you tomorrow at noon'),
+
+        # Filipino / Tagalog
+        param('tl', 'Maraming namatay sa mga Hapon hanggang sila\'y sumuko noong Agosto 15, 1945.'),
+
+        # Finnish
+        param('fi', 'Iso-Britannia ja Ranska julistivat sodan Saksalle 3. syyskuuta 1939.'),
+
+        # French
+        param('fr', 'La Seconde Guerre mondiale, ou Deuxième Guerre mondiale4, est un conflit armé à '
+                    'l\'échelle planétaire qui dura du 1 septembre 1939 au 2 septembre 1945.'),
+
+        # Hebrew
+        param('he', 'במרץ 1938 "אוחדה" אוסטריה עם גרמניה (אנשלוס). '),
+
+        # Hindi
+        param('hi',
+              'जुलाई 1937 में, मार्को-पोलो ब्रिज हादसे का बहाना लेकर जापान ने चीन पर हमला कर दिया और चीनी साम्राज्य '
+              'की राजधानी बीजिंग पर कब्जा कर लिया,'),
+
+        # Hungarian
+        param('hu', 'A háború Európában 1945. május 8-án Németország feltétel nélküli megadásával, '
+                    'míg Ázsiában szeptember 2-án, Japán kapitulációjával fejeződött be.'),
+
+        # Georgian
+        param('ka', '1937 წელს დაიწყო იაპონია-ჩინეთის მეორე ომი.'),
+
+        # German
+        param('de', 'Die UdSSR blieb dem Neutralitätspakt '
+                    'vom 13. April 1941 gegenüber Japan vorerst neutral.'),
+
+        # Indonesian
+        param('id', 'Kekaisaran Jepang menyerah pada tanggal 15 Agustus 1945, sehingga mengakhiri perang '
+                    'di Asia dan memperkuat kemenangan total Sekutu atas Poros.'),
+
+        # Italian
+        param('it', ' Con questo il 2 ottobre 1935 prese il via la campagna '
+                    'd\'Etiopia. Il 9 maggio 1936 venne proclamato l\'Impero. '),
+
+        # Japanese
+        param('ja', '1933年（昭和8年）12月23日午前6時39分、宮城（現：皇居）内の産殿にて誕生。'),
+
+        # Persian
+        param('fa', 'نگ جهانی دوم جنگ جدی بین سپتامبر 1939 و 2 سپتامبر 1945 بود.'),
+
+        # Polish
+        param('pl', 'II wojna światowa – największa wojna światowa w historii, '
+                    'trwająca od 1 września 1939 do 2 września 1945 (w Europie do 8 maja 1945)'),
+
+        # Portuguese
+        param('pt', 'Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.'),
+
+        # Romanian
+        param('ro', 'Pe 17 septembrie 1939, după semnarea unui acord de încetare a focului cu Japonia, '
+                    'sovieticii au invadat Polonia dinspre est.'),
+
+        # Russian
+        param('ru', 'Втора́я мирова́я война́ (1 сентября 1939 — 2 сентября 1945) — '
+                    'война двух мировых военно-политических коалиций, ставшая крупнейшим вооружённым '
+                    'конфликтом в истории человечества.'),
+
+        # Spanish
+        param('es', '11 junio 2010'),
+
+        # Swedish
+        param('sv', ' den 15 augusti 1945 då Kejsardömet'),
+
+        # Thai
+        param('th',
+              'และเมื่อวันที่ 11 พฤษภาคม 1939 '
+              'ญี่ปุ่นตัดสินใจขยายพรมแดนญี่ปุ่น-มองโกเลียขึ้นไปถึงแม่น้ำคัลคินกอลด้วยกำลัง'),
+
+        # Turkish
+        param('tr', 'Almanya’nın Polonya’yı işgal ettiği 1 Eylül 1939 savaşın başladığı '
+                    'tarih olarak genel kabul görür.'),
+
+        # Ukrainian
+        param('uk', 'Інші дати, що розглядаються деякими авторами як дати початку війни: початок японської '
+                    'інтервенції в Маньчжурію 13 вересня 1931, початок другої японсько-китайської війни 7 '
+                    'липня 1937 року та початок угорсько-української війни 14 березня 1939 року.'),
+
+        # Vietnamese
+        param('vi', 'Ý theo gương Đức, đã tiến hành xâm lược Ethiopia năm 1935 và sát '
+                    'nhập Albania vào ngày 12 tháng 4 năm 1939.'),
+
+        # Only digits
+        param('en', '2007'),
+    ])
+    def test_detection(self, shortname, text):
+        result = self.search_with_detection.detect_language(text, languages=None)
+        self.assertEqual(result, shortname)
+
+    @parameterized.expand([
+        param(text='19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
+              languages=['en', 'ru'],
+              settings=None,
+              expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
+                        ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
+                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+
+        param(text='Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
+              languages=None,
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)},
+              expected=[('Em outubro de 1936', datetime.datetime(1936, 10, 1, 0, 0))]),
+
+        param(text='19 марта 2001, 20 марта, 21 марта был отличный день.',
+              languages=['en', 'ru'],
+              settings=None,
+              expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
+                        ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
+                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+
+        # Dates not found
+        param(text='',
+              languages=None,
+              settings=None,
+              expected=None),
+
+        # Language not detected
+        param(text='Привет',
+              languages=['en'],
+              settings=None,
+              expected=None),
+
+        # ZeroDivisionError
+        param(text="DECEMBER 21 19.87 87",
+              languages=None,
+              settings=None,
+              expected=[('DECEMBER 21 19', datetime.datetime(2019, 12, 21, 0, 0))]
+              ),
+        param(text='bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41',
+              languages=None,
+              settings={'STRICT_PARSING': True},
+              expected=None),
+        param(text="a Americ",
+              languages=None,
+              settings=None,
+              expected=None),
+
+        # Date with comma and apostrophe
+        param(text="9/3/2017  , ",
+              languages=['en'],
+              settings=None,
+              expected=[('9/3/2017', datetime.datetime(2017, 9, 3, 0, 0))]),
+        param(text="9/3/2017  ' ",
+              languages=['en'],
+              settings=None,
+              expected=[('9/3/2017', datetime.datetime(2017, 9, 3, 0, 0))]),
+    ])
+    def test_date_search_function(self, text, languages, settings, expected):
+        result = search_dates(text, languages=languages, settings=settings)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param(text="15 de outubro de 1936",
+              add_detected_language=True,
+              expected=[
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0), "pt")
+              ]),
+        param(text="15 de outubro de 1936",
+              add_detected_language=False,
+              expected=[
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0))
+              ]),
+    ])
+    def test_search_dates_returning_detected_languages_if_requested(
+        self, text, add_detected_language, expected
+    ):
+        result = search_dates(text, add_detected_language=add_detected_language)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param(text='19 марта 2001',
+              languages='wrong type: str instead of list'),
+    ])
+    def test_date_search_function_invalid_languages_type(self, text, languages):
+        self.run_search_dates_function_invalid_languages(text=text, languages=languages, error_type=TypeError)
+        self.check_error_message("languages argument must be a list (<class \'str\'> given)")
+
+    @parameterized.expand([
+        param(text='19 марта 2001',
+              languages=['unknown language code']),
+    ])
+    def test_date_search_function_invalid_language_code(self, text, languages):
+        self.run_search_dates_function_invalid_languages(text=text, languages=languages, error_type=ValueError)
+        self.check_error_message("Unknown language(s): 'unknown language code'")
