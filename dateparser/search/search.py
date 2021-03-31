@@ -93,8 +93,6 @@ class _ExactLanguageSearch:
             item = item.replace('ngày', '')
             item = item.replace('am', '')
 
-
-        #CHANGE HERE
         parsed_item = parser.get_date_data(item)
         is_relative = date_is_relative(translated_item)
 
