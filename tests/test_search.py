@@ -464,7 +464,7 @@ class TestTranslateSearch(BaseTestCase):
                     May 31
                     8am UTC""",
               [('May 2020', datetime.datetime(2020, 5, datetime.datetime.utcnow().day, 0, 0)),
-               ('June 2020', datetime.datetime(2020, 6, 30, 0, 0)),
+               ('June 2020', datetime.datetime(2020, 6, datetime.datetime.utcnow().day, 0, 0)),
                ('2023', datetime.datetime(2023, 6, 30, 0, 0)),
                ('January UTC', datetime.datetime(2023, 1, 30, 0, 0, tzinfo=pytz.utc)),
                ('June 5 am utc', datetime.datetime(2023, 6, 30, 5, 0, tzinfo=pytz.utc)),
