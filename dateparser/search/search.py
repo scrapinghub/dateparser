@@ -154,10 +154,6 @@ class _ExactLanguageSearch:
         else:
             languages = [shortname]
             to_parse = original
-
-        
-
-
         parser = DateDataParser(languages=languages, settings=settings)
         parsed, substrings = self.parse_found_objects(parser=parser, to_parse=to_parse,
                                                       original=original, translated=translated, settings=settings, language=shortname)
