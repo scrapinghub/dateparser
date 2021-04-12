@@ -103,7 +103,7 @@ class _ExactLanguageSearch:
             parsed_item = parser.get_date_data(item)
         return parsed_item, is_relative
 
-    def parse_found_objects(self, parser, to_parse, original, translated, settings, language):
+    def parse_found_objects(self, parser, to_parse, original, translated, settings, language=None):
         parsed = []
         substrings = []
         need_relative_base = True
