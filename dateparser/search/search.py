@@ -86,7 +86,7 @@ class _ExactLanguageSearch:
                 possible_splits.extend(self.split_by(item, original, splitter))
         return possible_splits
 
-    def parse_item(self, parser, item, translated_item, parsed, need_relative_base, language):
+    def parse_item(self, parser, item, translated_item, parsed, need_relative_base, language=None):
         relative_base = None
 
         if language == "de":
