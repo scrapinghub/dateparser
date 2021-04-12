@@ -89,8 +89,11 @@ class _ExactLanguageSearch:
     def parse_item(self, parser, item, translated_item, parsed, need_relative_base, language=None):
         relative_base = None
 
+        # Replacing language specific words with special meaning
         if language == "de":
             item = item.replace('am', '')
+        if language == "vi":
+            item = item.replace('ngày', '')
 
         parsed_item = parser.get_date_data(item)
         is_relative = date_is_relative(translated_item)
