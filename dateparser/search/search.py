@@ -91,9 +91,9 @@ class _ExactLanguageSearch:
 
         # Replacing language specific words with special meaning
         if language == "de":
-            item = item.replace('am', '')
+            item = re.sub(r'am (?=\d)', '', item)
         if language == "vi":
-            item = item.replace('ngày', '')
+            item = re.sub(r'ngày (?=\d)', '', item)
 
         parsed_item = parser.get_date_data(item)
         is_relative = date_is_relative(translated_item)
