@@ -1638,6 +1638,7 @@ class TestBundledLanguages(BaseTestCase):
         param('yue', "13 個星期後", "in 13 week"),
         param('yue', "2 小時前", "2 hour ago"),
         param('yue', "上個月", "1 month ago"),
+        param('yue', "2分鐘前", "2 minute ago"),
         # zgh
         param('zgh', "ⴰⵙⵙⴰ", "0 day ago"),
         param('zgh', "ⵉⴹⵍⵍⵉ", "1 day ago"),

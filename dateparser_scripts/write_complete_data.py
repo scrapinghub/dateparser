@@ -24,23 +24,27 @@ all_languages = set(cldr_languages).union(set(supplementary_languages))
 RELATIVE_PATTERN = re.compile(r'\{0\}')
 
 
-def _modify_relative_data(relative_data):
+def _modify_relative_data(relative_data, replace_spaces=False):
     modified_relative_data = OrderedDict()
     for key, value in relative_data.items():
         for i, string in enumerate(value):
             string = RELATIVE_PATTERN.sub(r'(\\d+)', string)
+            if replace_spaces:
+                string = re.sub(r'\s+', '\\s?', string)
             value[i] = string
         modified_relative_data[key] = value
     return modified_relative_data
 
 
 def _modify_data(language_data):
+    replace_spaces = eval(language_data.get('no_word_spacing', 'False'))
+
     relative_data = language_data.get("relative-type-regex", {})
-    relative_data = _modify_relative_data(relative_data)
+    relative_data = _modify_relative_data(relative_data, replace_spaces=replace_spaces)
     locale_specific_data = language_data.get("locale_specific", {})
     for _, info in locale_specific_data.items():
         locale_relative_data = info.get("relative-type-regex", {})
-        locale_relative_data = _modify_relative_data(locale_relative_data)
+        locale_relative_data = _modify_relative_data(locale_relative_data, replace_spaces=replace_spaces)
 
 
 def _get_complete_date_translation_data(language):
