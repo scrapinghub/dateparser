@@ -187,7 +187,7 @@ class _DateLocaleParser:
     def _try_timestamp(self):
         return DateData(
             date_obj=get_date_from_timestamp(self.date_string, self._settings),
-            period='day',
+            period='time' if self._settings.RETURN_TIME_AS_PERIOD else 'day',
         )
 
     def _try_freshness_parser(self):
