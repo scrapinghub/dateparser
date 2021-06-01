@@ -642,6 +642,22 @@ class TestDateParser(BaseTestCase):
         self.given_parser(settings={'TO_TIMEZONE': 'UTC'})
         self.when_date_is_parsed(date_string)
         self.then_date_obj_exactly_is(expected)
+        self.then_period_is('day')
+
+    @parameterized.expand([
+        # Epoch timestamps.
+        param('1484823450', expected=datetime(2017, 1, 19, 10, 57, 30)),
+        param('1436745600000', expected=datetime(2015, 7, 13, 0, 0)),
+        param('1015673450', expected=datetime(2002, 3, 9, 11, 30, 50)),
+        param('2016-09-23T02:54:32.845Z', expected=datetime(2016, 9, 23, 2, 54, 32, 845000,
+              tzinfo=StaticTzInfo('Z', timedelta(0))))
+    ])
+    def test_parse_timestamp_with_time_as_period(self, date_string, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser(settings={'TO_TIMEZONE': 'UTC', 'RETURN_TIME_AS_PERIOD': True})
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+        self.then_period_is('time')
 
     @parameterized.expand([
         param('10 December', expected=datetime(2015, 12, 10), period='day'),
