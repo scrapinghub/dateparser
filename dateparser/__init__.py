@@ -3,6 +3,8 @@ __version__ = '1.0.0'
 from .date import DateDataParser
 from .conf import apply_settings
 
+from language.fast_text import language_parser
+
 _default_parser = DateDataParser()
 
 
