@@ -1,26 +1,21 @@
-try:
-    from langdetect import detect_langs
-except:
-    import sys
-    import subprocess
-    print("Installing fast_text library")
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install','langdetect'])
-    from langdetect import detect_langs
+import langdetect
 
-
-from langdetect import DetectorFactory
-DetectorFactory.seed = 0
+langdetect.DetectorFactory.seed = 0
 
 
 _CONFIDENCE_THRESHOLD = 0.5
 
 
-def language_parser(text):
-    parser_data = str(detect_langs(text)[0]).split(":")
-    language_codes = ["en"]
-    confidence_score = float(parser_data[1])
+def detect_languages(text):
+    language_codes = ["en"] 
 
-    if confidence_score > _CONFIDENCE_THRESHOLD:
-        language_codes = [parser_data[0]]
+    try:
+        parser_data = str(langdetect.detect_langs(text)[0]).split(":")
+        confidence_score = float(parser_data[1])
+        
+        if confidence_score > _CONFIDENCE_THRESHOLD:
+            language_codes = [parser_data[0]]
+    except langdetect.lang_detect_exception.LangDetectException:
+        print("langdetect parsing error")
 
     return language_codes

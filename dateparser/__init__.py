@@ -8,7 +8,7 @@ _default_parser = DateDataParser()
 
 
 @apply_settings
-def parse(date_string, date_formats=None, languages=None, locales=None, region=None, settings=None, use_custom_language_parser=True, default_custom_language_parser="lang_detect"):
+def parse(date_string, date_formats=None, languages=None, locales=None, region=None, settings=None, lang_settings=None):
     """Parse date and time from given date string.
 
     :param date_string:
@@ -48,14 +48,14 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
     """
     parser = _default_parser
 
-    if use_custom_language_parser:
-        from .custom_lang_detect import language_parser
-        language_parser = language_parser()
+    if lang_settings["LANGUAGE_DETECTION_ENABLED"]:
+        from .custom_lang_detect import detect_languages
+        detect_languages = detect_languages(lang_settings["LANGUAGE_DETECTION_METHOD"])
 
         if languages:
-            languages += language_parser(date_string)
+            languages += detect_languages(date_string)
         else:
-            languages = language_parser(date_string)
+            languages = detect_languages(date_string)
 
 
     if languages or locales or region or not settings._default:
