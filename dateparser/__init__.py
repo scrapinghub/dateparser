@@ -50,7 +50,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None, region=N
 
     if lang_settings["LANGUAGE_DETECTION_ENABLED"]:
         from .custom_lang_detect import detect_languages
-        detect_languages = detect_languages(lang_settings["LANGUAGE_DETECTION_METHOD"])
+        detect_languages = detect_languages(lang_settings["LANGUAGE_DETECTION_METHOD"], is_external=lang_settings["LANGUAGE_DETECTION_EXTERNAL"])
 
         if languages:
             languages += detect_languages(date_string)
