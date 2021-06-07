@@ -29,4 +29,14 @@ settings = {
     # Other settings
     'RETURN_TIME_AS_PERIOD': False,
     'PARSERS': default_parsers,
+
+    'DEFAULT_LANGUAGE': ["en"],
+
+    # Optional langhuage detect
+    'LANGUAGE_DETECTION_ENABLED': False,
+    'LANGUAGE_DETECTION_EXTERNAL': False,
+    'LANGUAGE_DETECTION_METHOD': 'fast_text',
+    'LANGUAGE_DETECTION_STRICT_USE' : False,
+    'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD' : 0.5
+
 }
