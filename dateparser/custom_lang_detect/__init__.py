@@ -9,7 +9,6 @@ class CustomLanguageDetectCache:
 @apply_settings
 def detect_languages(settings=None):
   if not CustomLanguageDetectCache.loaded_parser:
-    print("custom loader init")
     if settings.LANGUAGE_DETECTION_EXTERNAL:
       paser_module = importlib.import_module(settings.LANGUAGE_DETECTION_METHOD)
       CustomLanguageDetectCache.detect_languages_module = paser_module.detect_languages
