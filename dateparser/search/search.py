@@ -1,7 +1,7 @@
 from collections.abc import Set
 
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.conf import apply_settings, Settings
+from dateparser.conf import apply_settings, check_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
 import regex as re
@@ -170,10 +170,14 @@ class DateSearchWithDetection:
         self.loader = LocaleDataLoader()
         self.available_language_map = self.loader.get_locale_map()
         self.search = _ExactLanguageSearch(self.loader)
-
-    def detect_language(self, text, languages):
+    
+    @apply_settings
+    def detect_language(self, text, languages, settings=None):
         language = ""
-        if self.settings.LANGUAGE_DETECTION_ENABLED:
+
+        print(settings.LANGUAGE_DETECTION_ENABLED)
+
+        if settings.LANGUAGE_DETECTION_ENABLED:
             from dateparser.custom_lang_detect import detect_languages
             detect_languages = detect_languages()
             language = detect_languages(text)[0]
@@ -191,10 +195,7 @@ class DateSearchWithDetection:
             if languages:
                 self.language_detector = FullTextLanguageDetector(languages=languages)
             else:
-                self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))
-            
-            print(self.language_detector )
-            
+                self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))     
             language = self.language_detector._best_language(text)
         return language
 
@@ -223,9 +224,9 @@ class DateSearchWithDetection:
         :raises: ValueError - Unknown Language
         """
 
-        self.settings = settings
+        check_settings(settings)
 
-        language_shortname = self.detect_language(text=text, languages=languages)
+        language_shortname = self.detect_language(text=text, languages=languages, settings=settings)
         if not language_shortname:
             return {'Language': None, 'Dates': None}
         return {'Language': language_shortname, 'Dates': self.search.search_parse(language_shortname, text,

@@ -1,4 +1,4 @@
-from dateparser import parse
+from dateparser.search import search_dates
 
 settings={
     'LANGUAGE_DETECTION_ENABLED': True,
@@ -7,4 +7,4 @@ settings={
 }
 
 for x in range(5):
-    print(parse("2 ottobre 1935", languages=['en'], settings=settings))
+    print(search_dates("2 ottobre 1935", settings=settings))
