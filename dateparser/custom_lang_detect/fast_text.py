@@ -1,5 +1,6 @@
 import fasttext
-import os 
+import os
+
 from dateparser.conf import apply_settings
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -17,10 +18,14 @@ _language_parser = fasttext.load_model(_model_path)
 
 @apply_settings
 def detect_languages(text, settings=None):
-    parser_data = _language_parser.predict(text)
-    language_codes = ["en"]
-    confidence_score = parser_data[1][0]
-    if confidence_score > settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD:
-        language_codes = [parser_data[0][0].replace("__label__", "")]
+    language_codes = []
+    parser_data = _language_parser.predict(text, k=5)
+    for idx, langauge_candidate in enumerate(parser_data[1]):
+        if langauge_candidate > settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD:
+            _language_code = parser_data[0][idx].replace("__label__", "")
+            language_codes.append(_language_code)
 
+    if not language_codes:
+        language_codes = settings.DEFAULT_LANGUAGE
+        
     return language_codes

@@ -465,9 +465,9 @@ class DateDataParser:
             from dateparser.custom_lang_detect import detect_languages
             detect_languages = detect_languages(settings=self._settings)
             if self.languages and not self._settings.LANGUAGE_DETECTION_STRICT_USE :
-                self.languages += detect_languages(date_string)
+                self.languages += detect_languages(date_string, settings=self._settings)
             else:
-                self.languages = detect_languages(date_string)
+                self.languages = detect_languages(date_string, settings=self._settings)
         
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,

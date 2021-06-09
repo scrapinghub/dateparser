@@ -5,15 +5,17 @@ langdetect.DetectorFactory.seed = 0
 
 @apply_settings
 def detect_languages(text, settings=None):
-    language_codes = ["en"] 
-
+    language_codes = []
     try:
-        parser_data = str(langdetect.detect_langs(text)[0]).split(":")
-        confidence_score = float(parser_data[1])
-        
-        if confidence_score > settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD:
-            language_codes = [parser_data[0]]
+        parser_data = langdetect.detect_langs(text)
+        for langauge_candidate in parser_data:
+            if langauge_candidate.prob > settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD:
+                language_codes.append(langauge_candidate.lang)
+
     except langdetect.lang_detect_exception.LangDetectException:
         print("langdetect parsing error")
 
+    if not language_codes:
+        language_codes = settings.DEFAULT_LANGUAGE
+        
     return language_codes
