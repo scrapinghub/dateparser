@@ -25,9 +25,12 @@ class Settings:
     * `NORMALIZE`
     * `RETURN_TIME_AS_PERIOD`
     * `PARSERS`
+    * `DEFAULT_LANGUAGE`
     * `LANGUAGE_DETECTION_ENABLED`
     * `LANGUAGE_DETECTION_EXTERNAL`
     * `LANGUAGE_DETECTION_METHOD`
+    * `LANGUAGE_DETECTION_STRICT_USE`
+    * `LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`
     """
 
     _default = True
@@ -196,11 +199,9 @@ def check_settings(settings):
         'PREFER_LOCALE_DATE_ORDER': {
             'type': bool
         },
-
         'DEFAULT_LANGUAGE': {
             'type': list
         },
-
         'LANGUAGE_DETECTION_ENABLED': {
             'type': bool
         },
@@ -210,7 +211,6 @@ def check_settings(settings):
         'LANGUAGE_DETECTION_METHOD': {
             'type': str
         },
-
         'LANGUAGE_DETECTION_STRICT_USE': {
             'type': bool
         },

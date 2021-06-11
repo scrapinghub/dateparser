@@ -173,7 +173,7 @@ class DateSearchWithDetection:
     
     @apply_settings
     def detect_language(self, text, languages, settings=None):
-        language = str
+        language = str()
         
         if settings.LANGUAGE_DETECTION_ENABLED:
             from dateparser.custom_lang_detect import detect_languages
