@@ -26,9 +26,6 @@ class Settings:
     * `RETURN_TIME_AS_PERIOD`
     * `PARSERS`
     * `DEFAULT_LANGUAGE`
-    * `LANGUAGE_DETECTION_ENABLED`
-    * `LANGUAGE_DETECTION_EXTERNAL`
-    * `LANGUAGE_DETECTION_METHOD`
     * `LANGUAGE_DETECTION_STRICT_USE`
     * `LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`
     """
@@ -201,15 +198,6 @@ def check_settings(settings):
         },
         'DEFAULT_LANGUAGE': {
             'type': list
-        },
-        'LANGUAGE_DETECTION_ENABLED': {
-            'type': bool
-        },
-        'LANGUAGE_DETECTION_EXTERNAL': {
-            'type': bool
-        },
-        'LANGUAGE_DETECTION_METHOD': {
-            'type': str
         },
         'LANGUAGE_DETECTION_STRICT_USE': {
             'type': bool

@@ -4,7 +4,7 @@ from dateparser.search.search import DateSearchWithDetection
 _search_with_detection = DateSearchWithDetection()
 
 
-def search_dates(text, languages=None, settings=None, add_detected_language=False):
+def search_dates(text, languages=None, settings=None, add_detected_language=False, detect_languages_func=None):
     """Find all substrings of the given string which represent date and/or time and parse them.
 
         :param text:
@@ -47,7 +47,7 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
 
         """
     result = _search_with_detection.search_dates(
-        text=text, languages=languages, settings=settings
+        text=text, languages=languages, settings=settings, detect_languages_func=detect_languages_func
     )
     dates = result.get('Dates')
     if dates:

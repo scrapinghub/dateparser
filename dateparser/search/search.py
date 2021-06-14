@@ -172,12 +172,12 @@ class DateSearchWithDetection:
         self.search = _ExactLanguageSearch(self.loader)
     
     @apply_settings
-    def detect_language(self, text, languages, settings=None):        
-        if settings.LANGUAGE_DETECTION_ENABLED:
-            from dateparser.custom_lang_detect import detect_languages
-            detect_languages = detect_languages(settings=settings)
-            return detect_languages(text)[0]
-
+    def detect_language(self, text, languages, settings=None, detect_languages_func=None):        
+        if detect_languages_func:
+            detected_languages = detect_languages_func(text, settings=settings)
+            if not detected_languages:
+                detected_languages = settings.DEFAULT_LANGUAGE
+            return detected_languages[0]
 
         if isinstance(languages, (list, tuple, Set)):
             if all([language in self.available_language_map for language in languages]):
@@ -192,11 +192,15 @@ class DateSearchWithDetection:
         if languages:
             self.language_detector = FullTextLanguageDetector(languages=languages)
         else:
-            self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))     
-        return self.language_detector._best_language(text)
+            self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))    
+
+        detected_language = self.language_detector._best_language(text)
+        if not detected_language:
+            detected_languages = settings.DEFAULT_LANGUAGE[0]
+        return detected_languages
 
     @apply_settings
-    def search_dates(self, text, languages=None, settings=None):
+    def search_dates(self, text, languages=None, settings=None, detect_languages_func=None):
         """
         Find all substrings of the given string which represent date and/or time and parse them.
 
@@ -222,7 +226,7 @@ class DateSearchWithDetection:
 
         check_settings(settings)
 
-        language_shortname = self.detect_language(text=text, languages=languages, settings=settings)
+        language_shortname = self.detect_language(text=text, languages=languages, settings=settings, detect_languages_func=detect_languages_func)
         if not language_shortname:
             return {'Language': None, 'Dates': None}
         return {'Language': language_shortname, 'Dates': self.search.search_parse(language_shortname, text,

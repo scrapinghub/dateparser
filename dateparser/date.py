@@ -332,7 +332,7 @@ class DateDataParser:
 
     @apply_settings
     def __init__(self, languages=None, locales=None, region=None, try_previous_locales=False,
-                 use_given_order=False, settings=None):
+                 use_given_order=False, settings=None, detect_languages_func=None):
 
         if languages is not None and not isinstance(languages, (list, tuple, Set)):
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
@@ -362,6 +362,7 @@ class DateDataParser:
         self.languages = languages
         self.locales = locales
         self.region = region
+        self.detect_languages_func = detect_languages_func
         self.previous_locales = collections.OrderedDict()
 
     def get_date_data(self, date_string, date_formats=None):
@@ -461,13 +462,14 @@ class DateDataParser:
                     if self._is_applicable_locale(locale, s):
                         yield locale
 
-        if self._settings.LANGUAGE_DETECTION_ENABLED:
-            from dateparser.custom_lang_detect import detect_languages
-            detect_languages = detect_languages(settings=self._settings)
+        if self.detect_languages_func:
             if self.languages and not self._settings.LANGUAGE_DETECTION_STRICT_USE:
-                self.languages += detect_languages(date_string, settings=self._settings)
+                self.languages += self.detect_languages_func(date_string, settings=self._settings)
             else:
-                self.languages = detect_languages(date_string, settings=self._settings)
+                self.languages = self.detect_languages_func(date_string, settings=self._settings)
+        
+        if not self.languages:
+            self.languages = self._settings.DEFAULT_LANGUAGE
         
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
