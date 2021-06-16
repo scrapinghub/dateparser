@@ -1,9 +1,11 @@
 import re
 from setuptools import setup, find_packages
 
-__version__ = re.search(r"__version__.*\s*=\s*[']([^']+)[']", open('dateparser/__init__.py').read()).group(1)
+__version__ = re.search(r"__version__.*\s*=\s*[']([^']+)[']",
+                        open('dateparser/__init__.py').read()).group(1)
 
-introduction = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:|:ref:', '', open('docs/introduction.rst').read())
+introduction = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:|:ref:',
+                      '', open('docs/introduction.rst').read())
 history = re.sub(r':mod:|:class:|:func:', '', open('HISTORY.rst').read())
 
 test_requirements = open('tests/requirements.txt').read().splitlines()
@@ -31,6 +33,9 @@ setup(
     extras_require={
         'calendars:python_version<"3.6"': ['convertdate'],
         'calendars:python_version>="3.6"': ['hijri-converter', 'convertdate'],
+        'fasttext': ['fasttext'],
+        'langdetect': ['langdetect'],
+
     },
     license="BSD",
     zip_safe=False,

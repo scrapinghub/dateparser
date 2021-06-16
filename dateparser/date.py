@@ -466,11 +466,10 @@ class DateDataParser:
             if self.languages and not self._settings.LANGUAGE_DETECTION_STRICT_USE:
                 self.languages += self.detect_languages_func(date_string, settings=self._settings)
             else:
-                self.languages = self.detect_languages_func(date_string, settings=self._settings)
-        
+                self.languages = self.detect_languages_func(date_string, settings=self._settings)        
         if not self.languages:
-            self.languages = self._settings.DEFAULT_LANGUAGE
-        
+            # self.languages = self._settings.DEFAULT_LANGUAGE 
+            pass
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
                 use_given_order=self.use_given_order):

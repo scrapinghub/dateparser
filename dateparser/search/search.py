@@ -170,9 +170,9 @@ class DateSearchWithDetection:
         self.loader = LocaleDataLoader()
         self.available_language_map = self.loader.get_locale_map()
         self.search = _ExactLanguageSearch(self.loader)
-    
+
     @apply_settings
-    def detect_language(self, text, languages, settings=None, detect_languages_func=None):        
+    def detect_language(self, text, languages, settings=None, detect_languages_func=None):  
         if detect_languages_func:
             detected_languages = detect_languages_func(text, settings=settings)
             if not detected_languages:
@@ -188,7 +188,6 @@ class DateSearchWithDetection:
                         "Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
         elif languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
-            
         if languages:
             self.language_detector = FullTextLanguageDetector(languages=languages)
         else:
@@ -196,8 +195,8 @@ class DateSearchWithDetection:
 
         detected_language = self.language_detector._best_language(text)
         if not detected_language:
-            detected_languages = settings.DEFAULT_LANGUAGE[0]
-        return detected_languages
+            detected_language = settings.DEFAULT_LANGUAGE[0]
+        return detected_language
 
     @apply_settings
     def search_dates(self, text, languages=None, settings=None, detect_languages_func=None):
