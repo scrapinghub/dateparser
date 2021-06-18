@@ -4,7 +4,7 @@ from datetime import datetime
 from tests import BaseTestCase
 
 from dateparser.custom_lang_detect.fast_text import detect_languages as fast_text_detect_languages
-from dateparser.custom_lang_detect.lang_detect import detect_languages as lang_detect
+from dateparser.custom_lang_detect.lang_detect import detect_languages as lang_detect_detect_languages
 from dateparser import parse
 from dateparser.date import DateDataParser
 from dateparser.search import search_dates
