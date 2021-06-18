@@ -26,14 +26,14 @@ class CustomLangDetectParser(BaseTestCase):
         param(dt_string="14 June 2020"),
     ])
     def test_custom_language_detect_fast_text(self, dt_string):
-        self.result = fast_text(dt_string)
+        self.result = fast_text_detect_languages(dt_string)
         self.check_is_returned_list()
 
     @parameterized.expand([
         param(dt_string="14 June 2020"),
     ])
     def test_custom_language_detect_lang_detect(self, dt_string):
-        self.result = lang_detect(dt_string)
+        self.result = lang_detect_detect_languages(dt_string)
         self.check_is_returned_list()
 
     # Mock test for parse, search_dates and DateDataParser
@@ -41,7 +41,7 @@ class CustomLangDetectParser(BaseTestCase):
     # parse
 
     def when_date_is_parsed_using_fast_text_parse(self, dt_string):
-        self.result = parse(dt_string, detect_languages_func=fast_text)
+        self.result = parse(dt_string, detect_languages_func=fast_text_detect_languages)
 
     def then_date_obj_exactly_is(self, expected_date_obj):
         self.assertEqual(expected_date_obj, self.result)
@@ -57,7 +57,7 @@ class CustomLangDetectParser(BaseTestCase):
     # DateDataParser
 
     def when_date_is_parsed_using_fast_text_with_datedataparser(self, dt_string):
-        ddp = DateDataParser(detect_languages_func=fast_text)
+        ddp = DateDataParser(detect_languages_func=fast_text_detect_languages)
         self.result = ddp.get_date_data(dt_string)["date_obj"]
 
     @parameterized.expand([
@@ -72,7 +72,7 @@ class CustomLangDetectParser(BaseTestCase):
     # FAST TEXT
 
     def when_date_is_parsed_using_fast_text_with_search_dates(self, dt_string):
-        self.result = search_dates(dt_string, detect_languages_func=fast_text)
+        self.result = search_dates(dt_string, detect_languages_func=fast_text_detect_languages)
 
     @parameterized.expand([
         param('January 3, 2017 - February 1st',
