@@ -7,7 +7,8 @@ _default_parser = DateDataParser()
 
 
 @apply_settings
-def parse(date_string, date_formats=None, languages=None, locales=None, region=None, settings=None, detect_languages_func=None):
+def parse(date_string, date_formats=None, languages=None, locales=None,
+          region=None, settings=None, detect_languages_func=None):
     """Parse date and time from given date string.
 
     :param date_string:

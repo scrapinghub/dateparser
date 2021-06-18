@@ -3,11 +3,12 @@ from datetime import datetime
 
 from tests import BaseTestCase
 
-from dateparser.custom_lang_detect.fast_text import detect_languages as fast_text_detect_languages
-from dateparser.custom_lang_detect.lang_detect import detect_languages as lang_detect_detect_languages
+from dateparser.custom_lang_detect.fasttext import detect_languages as fast_text_detect_languages
+from dateparser.custom_lang_detect.langdetect import detect_languages as lang_detect_detect_languages
 from dateparser import parse
 from dateparser.date import DateDataParser
 from dateparser.search import search_dates
+
 
 class CustomLangDetectParser(BaseTestCase):
     def setUp(self):
@@ -50,7 +51,6 @@ class CustomLangDetectParser(BaseTestCase):
     def test_custom_language_detect_mock_fast_text_parse(self, dt_string, expected_date_obj):
         self.when_date_is_parsed_using_fast_text_parse(dt_string)
         self.then_date_obj_exactly_is(expected_date_obj)
-
 
     # DateDataParser
 
