@@ -35,7 +35,6 @@ setup(
         'calendars:python_version>="3.6"': ['hijri-converter', 'convertdate'],
         'fasttext': ['fasttext'],
         'langdetect': ['langdetect'],
-
     },
     license="BSD",
     zip_safe=False,

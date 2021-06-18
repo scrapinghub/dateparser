@@ -2,5 +2,3 @@ flake8
 parameterized
 pytest
 pytest-cov
-fasttext
-langdetect
