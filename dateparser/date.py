@@ -463,13 +463,14 @@ class DateDataParser:
                         yield locale
 
         if self.detect_languages_func:
-            if self.languages and not self._settings.LANGUAGE_DETECTION_STRICT_USE:
-                self.languages += self.detect_languages_func(date_string, settings=self._settings)
+            detected_languages = self.detect_languages_func(
+                date_string, settings=self._settings
+            ) or self._settings.DEFAULT_LANGUAGE
+        
+            if self._settings.LANGUAGE_DETECTION_STRICT_USE or not self.languages:
+                self.languages = detected_languages
             else:
-                self.languages = self.detect_languages_func(date_string, settings=self._settings)        
-        if not self.languages:
-            # self.languages = self._settings.DEFAULT_LANGUAGE 
-            pass
+                self.languages += detected_languages
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
                 use_given_order=self.use_given_order):
