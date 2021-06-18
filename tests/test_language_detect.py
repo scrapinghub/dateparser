@@ -3,7 +3,7 @@ from datetime import datetime
 
 from tests import BaseTestCase
 
-from dateparser.custom_lang_detect.fast_text import detect_languages as fast_text
+from dateparser.custom_lang_detect.fast_text import detect_languages as fast_text_detect_languages
 from dateparser.custom_lang_detect.lang_detect import detect_languages as lang_detect
 from dateparser import parse
 from dateparser.date import DateDataParser
