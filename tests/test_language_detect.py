@@ -18,7 +18,7 @@ class CustomLangDetectParser(BaseTestCase):
         self.translated = NotImplemented
 
     def check_is_returned_list(self):
-        self.assertEqual(type(self.result), type([]))
+        self.assertEqual(type(self.result), list)
 
     # Unit test for internally supported fasttext and langdetect.
 
