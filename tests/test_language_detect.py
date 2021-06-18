@@ -20,8 +20,6 @@ class CustomLangDetectParser(BaseTestCase):
     def check_is_returned_list(self):
         self.assertEqual(type(self.result), list)
 
-    # Unit test for internally supported fasttext and langdetect.
-
     @parameterized.expand([
         param(dt_string="14 June 2020"),
     ])
