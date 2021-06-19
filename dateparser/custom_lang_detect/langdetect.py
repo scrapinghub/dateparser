@@ -13,5 +13,5 @@ def detect_languages(text, settings=None):
             if langauge_candidate.prob > settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD:
                 language_codes.append(langauge_candidate.lang)
     except langdetect.lang_detect_exception.LangDetectException:
-        print("langdetect parsing error")
+        pass
     return language_codes
