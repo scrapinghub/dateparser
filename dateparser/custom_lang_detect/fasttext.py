@@ -28,6 +28,6 @@ def detect_languages(text, settings=None):
     parser_data = _language_parser.predict(text, k=5)
     for idx, langauge_candidate in enumerate(parser_data[1]):
         if langauge_candidate > settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD:
-            _language_code = parser_data[0][idx].replace("__label__", "")
-            language_codes.append(_language_code)
+            language_code = parser_data[0][idx].replace("__label__", "")
+            language_codes.append(language_code)
     return language_codes

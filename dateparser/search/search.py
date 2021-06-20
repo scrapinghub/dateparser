@@ -190,6 +190,7 @@ class DateSearchWithDetection:
                 raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
         elif languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
+
         if languages:
             self.language_detector = FullTextLanguageDetector(languages=languages)
         else:
