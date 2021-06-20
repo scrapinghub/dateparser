@@ -196,9 +196,7 @@ class DateSearchWithDetection:
         else:
             self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))
 
-        detected_language = self.language_detector._best_language(text)
-        if not detected_language:
-            detected_language = settings.DEFAULT_LANGUAGES[0]
+        detected_language = self.language_detector._best_language(text) or settings.DEFAULT_LANGUAGES[0]
         return detected_language
 
     @apply_settings
