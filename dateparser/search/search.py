@@ -174,7 +174,12 @@ class DateSearchWithDetection:
     @apply_settings
     def detect_language(self, text, languages, settings=None, detect_languages_func=None):
         if detect_languages_func:
-            detected_languages = detect_languages_func(text, settings=settings) or settings.DEFAULT_LANGUAGES
+            detected_languages = detect_languages_func(text, settings=settings)
+            detected_languages = detected_languages or None
+            if not detected_languages:
+                if not settings.LANGUAGE_DETECTION_STRICT_USE:
+                    detected_languages = settings.DEFAULT_LANGUAGES or None
+                return detected_languages
             return detected_languages[0]
 
         if isinstance(languages, (list, tuple, Set)):

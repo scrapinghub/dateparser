@@ -23,6 +23,7 @@ _language_parser = fasttext.load_model(_model_path)
 
 @apply_settings
 def detect_languages(text, settings=None):
+    text = text.replace('\n', ' ').replace('\r', '')
     language_codes = []
     parser_data = _language_parser.predict(text, k=5)
     for idx, langauge_candidate in enumerate(parser_data[1]):

@@ -1,10 +1,13 @@
 from parameterized import parameterized, param
 from datetime import datetime
 
+from unittest.mock import Mock
+
 from tests import BaseTestCase
 
 from dateparser.custom_lang_detect.fasttext import detect_languages as fast_text_detect_languages
 from dateparser.custom_lang_detect.langdetect import detect_languages as lang_detect_detect_languages
+from dateparser.custom_lang_detect.fasttext import detect_languages
 from dateparser import parse
 from dateparser.date import DateDataParser
 from dateparser.search import search_dates
@@ -37,10 +40,13 @@ class CustomLangDetectParser(BaseTestCase):
 
     # Mock test for parse, search_dates and DateDataParser
 
+    detect_languages = Mock()
+    detect_languages.return_value = ["en"]
+
     # parse
 
-    def when_date_is_parsed_using_fast_text_parse(self, dt_string):
-        self.result = parse(dt_string, detect_languages_func=fast_text_detect_languages)
+    def when_date_is_parsed_using_parse(self, dt_string):
+        self.result = parse(dt_string, detect_languages_func=detect_languages)
 
     def then_date_obj_exactly_is(self, expected_date_obj):
         self.assertEqual(expected_date_obj, self.result)
@@ -48,35 +54,33 @@ class CustomLangDetectParser(BaseTestCase):
     @parameterized.expand([
         param("Tuesday Jul 22, 2014", datetime(2014, 7, 22, 0, 0, 0)),
     ])
-    def test_custom_language_detect_mock_fast_text_parse(self, dt_string, expected_date_obj):
-        self.when_date_is_parsed_using_fast_text_parse(dt_string)
+    def test_custom_language_detect_mock_parse(self, dt_string, expected_date_obj):
+        self.when_date_is_parsed_using_parse(dt_string)
         self.then_date_obj_exactly_is(expected_date_obj)
 
     # DateDataParser
 
-    def when_date_is_parsed_using_fast_text_with_datedataparser(self, dt_string):
-        ddp = DateDataParser(detect_languages_func=fast_text_detect_languages)
+    def when_date_is_parsed_using_with_datedataparser(self, dt_string):
+        ddp = DateDataParser(detect_languages_func=detect_languages)
         self.result = ddp.get_date_data(dt_string)["date_obj"]
 
     @parameterized.expand([
         param("Tuesday Jul 22, 2014", datetime(2014, 7, 22, 0, 0, 0)),
     ])
-    def test_custom_language_detect_mock_fast_text_datedataparser(self, dt_string, expected_date_obj):
-        self.when_date_is_parsed_using_fast_text_with_datedataparser(dt_string)
+    def test_custom_language_detect_mock_datedataparser(self, dt_string, expected_date_obj):
+        self.when_date_is_parsed_using_with_datedataparser(dt_string)
         self.then_date_obj_exactly_is(expected_date_obj)
 
     # search_date
 
-    # FAST TEXT
-
-    def when_date_is_parsed_using_fast_text_with_search_dates(self, dt_string):
-        self.result = search_dates(dt_string, detect_languages_func=fast_text_detect_languages)
+    def when_date_is_parsed_using_with_search_dates(self, dt_string):
+        self.result = search_dates(dt_string, detect_languages_func=detect_languages)
 
     @parameterized.expand([
         param('January 3, 2017 - February 1st',
               [('January 3, 2017', datetime(2017, 1, 3, 0, 0)),
                ('February 1st', datetime(2017, 2, 1, 0, 0))]),
     ])
-    def test_custom_language_detect_mock_fast_text_search_dates(self, dt_string, expected_date_obj):
-        self.when_date_is_parsed_using_fast_text_with_search_dates(dt_string)
+    def test_custom_language_detect_mock_search_dates(self, dt_string, expected_date_obj):
+        self.when_date_is_parsed_using_with_search_dates(dt_string)
         self.then_date_obj_exactly_is(expected_date_obj)
