@@ -176,8 +176,8 @@ class DateSearchWithDetection:
         if detect_languages_func:
             detected_languages = detect_languages_func(text, settings=settings) or None
             if not detected_languages:
-                if not settings.LANGUAGE_DETECTION_STRICT_USE:
-                    detected_languages = settings.DEFAULT_LANGUAGES or None
+                if not settings.LANGUAGE_DETECTION_STRICT_USE and settings.DEFAULT_LANGUAGES:
+                    detected_languages = settings.DEFAULT_LANGUAGES[0]
                 return detected_languages
             return detected_languages[0]
 

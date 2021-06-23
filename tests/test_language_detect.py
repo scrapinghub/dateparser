@@ -3,7 +3,7 @@ from datetime import datetime
 
 from unittest.mock import Mock
 
-from tests import BaseTestCase
+import unittest
 
 from dateparser.custom_lang_detect.fasttext import detect_languages as fast_text_detect_languages
 from dateparser.custom_lang_detect.langdetect import detect_languages as lang_detect_detect_languages
@@ -13,14 +13,7 @@ from dateparser.date import DateDataParser
 from dateparser.search import search_dates
 
 
-class CustomLangDetectParser(BaseTestCase):
-    def setUp(self):
-        super().setUp()
-        self.result = NotImplemented
-        self.date_string = NotImplemented
-        self.parser = NotImplemented
-        self.translated = NotImplemented
-
+class CustomLangDetectParser(unittest.TestCase):
     def check_is_returned_list(self):
         self.assertEqual(type(self.result), list)
 
