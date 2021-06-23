@@ -14,6 +14,7 @@ from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
     set_correct_day_from_settings
+from dateparser_data.language_maps import map_language
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     '\N{RIGHT SINGLE QUOTATION MARK}',     # '\u2019'
@@ -465,11 +466,16 @@ class DateDataParser:
         if self.detect_languages_func:
             detected_languages = self.detect_languages_func(
                 date_string, settings=self._settings
-            ) or self._settings.DEFAULT_LANGUAGES
-            if self._settings.LANGUAGE_DETECTION_STRICT_USE or not self.languages:
-                self.languages = detected_languages
+            )
+
+            if self._settings.LANGUAGE_DETECTION_STRICT_USE:
+                self.languages = map_language(detected_languages)
             else:
-                self.languages += detected_languages
+                if self.languages:
+                    self.languages += map_language(detected_languages) or self._settings.DEFAULT_LANGUAGES
+                else:
+                    self.languages = map_language(detected_languages) or self._settings.DEFAULT_LANGUAGES
+
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
                 use_given_order=self.use_given_order):
