@@ -3,6 +3,13 @@
 History
 =======
 
+1.0.1 (2020-06-12)
+------------------
+
+New features:
+
+* New language detect function
+
 
 1.0.0 (2020-10-29)
 ------------------

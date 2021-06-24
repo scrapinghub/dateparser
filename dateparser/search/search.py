@@ -4,7 +4,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, check_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
-from dateparser_data.language_maps import map_language
+from dateparser.custom_lang_detect.map_languages import map_languages
 import regex as re
 
 
@@ -176,7 +176,7 @@ class DateSearchWithDetection:
     def detect_language(self, text, languages, settings=None, detect_languages_func=None):
         if detect_languages_func:
             detected_languages = detect_languages_func(text, settings=settings) or None
-            detected_languages = map_language(detected_languages)
+            detected_languages = map_languages(detected_languages)
             if not detected_languages:
                 if not settings.LANGUAGE_DETECTION_STRICT_USE and settings.DEFAULT_LANGUAGES:
                     detected_languages = settings.DEFAULT_LANGUAGES[0]
