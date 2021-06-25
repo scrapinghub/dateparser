@@ -19,7 +19,7 @@ def main():
             if not micro_data:
                 micro_data.append(obj)
             else:
-                if micro_data[0] == obj[:len(micro_data[0])] and "-" in obj:
+                if obj.startswith(micro_data[0] + '-'):
                     micro_data.append(obj)
         for x in micro_data:
             all_language_code.remove(x)
