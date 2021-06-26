@@ -1,16 +1,15 @@
 import langdetect
-from dateparser.conf import apply_settings
+
 
 langdetect.DetectorFactory.seed = 0
 
 
-@apply_settings
-def detect_languages(text, settings=None):
+def detect_languages(text, confidence_treshold=0.5):
     language_codes = []
     try:
         parser_data = langdetect.detect_langs(text)
         for langauge_candidate in parser_data:
-            if langauge_candidate.prob > settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD:
+            if langauge_candidate.prob > confidence_treshold:
                 language_codes.append(langauge_candidate.lang)
     except langdetect.lang_detect_exception.LangDetectException:
         pass

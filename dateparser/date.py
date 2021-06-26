@@ -465,7 +465,7 @@ class DateDataParser:
 
         if self.detect_languages_func:
             detected_languages = self.detect_languages_func(
-                date_string, settings=self._settings
+                date_string, confidence_treshold=self._settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             )
 
             if self._settings.LANGUAGE_DETECTION_STRICT_USE:
