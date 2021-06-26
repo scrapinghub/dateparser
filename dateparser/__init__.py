@@ -40,6 +40,10 @@ def parse(date_string, date_formats=None, languages=None, locales=None,
         Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
     :type settings: dict
 
+    :param detect_languages_func:
+        A function for language detection accepts text and confidence threshold, returns list of language codes.
+    :type detect_languages_func: function
+
     :return: Returns :class:`datetime <datetime.datetime>` representing parsed date if successful, else returns None
     :rtype: :class:`datetime <datetime.datetime>`.
     :raises:

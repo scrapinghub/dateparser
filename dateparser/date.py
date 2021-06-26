@@ -322,6 +322,10 @@ class DateDataParser:
         Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
     :type settings: dict
 
+    :param detect_languages_func:
+        A function for language detection accepts text and confidence threshold, returns list of language codes.
+    :type detect_languages_func: function
+
     :return: A parser instance
 
     :raises:
