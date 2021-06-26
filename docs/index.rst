@@ -48,6 +48,7 @@ Contents:
    introduction
    installation
    usage
+   custom_detect_languages_func
    settings
    supported_locales
    contributing

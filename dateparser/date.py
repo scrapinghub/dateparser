@@ -469,7 +469,7 @@ class DateDataParser:
 
         if self.detect_languages_func:
             detected_languages = self.detect_languages_func(
-                date_string, confidence_treshold=self._settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
+                date_string, confidence_threshold=self._settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             )
 
             languages = map_languages(detected_languages) or self._settings.DEFAULT_LANGUAGES
