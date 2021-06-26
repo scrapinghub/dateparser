@@ -318,13 +318,13 @@ class DateDataParser:
         in the order in which they are given.
     :type use_given_order: bool
 
-    :param settings:
-        Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
-    :type settings: dict
-
     :param detect_languages_func:
         A function for language detection accepts text and confidence threshold, returns list of language codes.
     :type detect_languages_func: function
+
+    :param settings:
+        Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+    :type settings: dict
 
     :return: A parser instance
 
@@ -337,7 +337,7 @@ class DateDataParser:
 
     @apply_settings
     def __init__(self, languages=None, locales=None, region=None, try_previous_locales=False,
-                 use_given_order=False, settings=None, detect_languages_func=None):
+                 use_given_order=False, detect_languages_func=None, settings=None):
 
         if languages is not None and not isinstance(languages, (list, tuple, Set)):
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
@@ -472,13 +472,12 @@ class DateDataParser:
                 date_string, confidence_treshold=self._settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             )
 
-            if self._settings.LANGUAGE_DETECTION_STRICT_USE:
-                self.languages = map_languages(detected_languages)
+            languages = map_languages(detected_languages) or self._settings.DEFAULT_LANGUAGES
+
+            if self._settings.LANGUAGE_DETECTION_STRICT_USE or not self.languages:
+                self.languages = languages
             else:
-                if self.languages:
-                    self.languages += map_languages(detected_languages) or self._settings.DEFAULT_LANGUAGES
-                else:
-                    self.languages = map_languages(detected_languages) or self._settings.DEFAULT_LANGUAGES
+                self.languages += languages
 
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,

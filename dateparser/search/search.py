@@ -178,11 +178,7 @@ class DateSearchWithDetection:
             detected_languages = detect_languages_func(
                 text, confidence_treshold=settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             ) or None
-            detected_languages = map_languages(detected_languages)
-            if not detected_languages:
-                if not settings.LANGUAGE_DETECTION_STRICT_USE and settings.DEFAULT_LANGUAGES:
-                    detected_languages = settings.DEFAULT_LANGUAGES[0]
-                return detected_languages
+            detected_languages = map_languages(detected_languages) or settings.DEFAULT_LANGUAGES
             return detected_languages[0]
 
         if isinstance(languages, (list, tuple, Set)):
@@ -203,7 +199,7 @@ class DateSearchWithDetection:
         return detected_language
 
     @apply_settings
-    def search_dates(self, text, languages=None, settings=None, detect_languages_func=None):
+    def search_dates(self, text, languages=None, detect_languages_func=None, settings=None):
         """
         Find all substrings of the given string which represent date and/or time and parse them.
 
@@ -214,12 +210,12 @@ class DateSearchWithDetection:
             A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
             to detect the language.
         :type languages: list
-        :param settings:
-               Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
-        :type settings: dict
         :param detect_languages_func:
                A function for language detection accepts text and confidence threshold, returns list of language codes.
         :type detect_languages_func: function
+        :param settings:
+               Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+        :type settings: dict
 
         :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
                 substring representing date expressions and corresponding :mod:`datetime.datetime` object.
