@@ -1,13 +1,29 @@
+from langdetect.detector_factory import DetectorFactory, PROFILES_DIRECTORY
 import langdetect
 
 
-langdetect.DetectorFactory.seed = 0
+class Factory:
+    data = None
+
+
+def init_factory():
+    if Factory.data is None:
+        Factory.data = DetectorFactory()
+        Factory.data.load_profile(PROFILES_DIRECTORY)
+        Factory.data.seed = 0
+
+
+def detect_langs(text):
+    init_factory()
+    detector = Factory.data.create()
+    detector.append(text)
+    return detector.get_probabilities()
 
 
 def detect_languages(text, confidence_threshold=0.5):
     language_codes = []
     try:
-        parser_data = langdetect.detect_langs(text)
+        parser_data = detect_langs(text)
         for langauge_candidate in parser_data:
             if langauge_candidate.prob > confidence_threshold:
                 language_codes.append(langauge_candidate.lang)
