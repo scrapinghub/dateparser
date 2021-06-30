@@ -206,6 +206,630 @@ language_order = [
     "tl"
 ]
 
+language_map = {
+    "af": [
+        "af"
+    ],
+    "agq": [
+        "agq"
+    ],
+    "ak": [
+        "ak"
+    ],
+    "am": [
+        "am"
+    ],
+    "ar": [
+        "ar"
+    ],
+    "as": [
+        "as"
+    ],
+    "asa": [
+        "asa"
+    ],
+    "ast": [
+        "ast"
+    ],
+    "az": [
+        "az",
+        "az-Cyrl",
+        "az-Latn"
+    ],
+    "bas": [
+        "bas"
+    ],
+    "be": [
+        "be"
+    ],
+    "bem": [
+        "bem"
+    ],
+    "bez": [
+        "bez"
+    ],
+    "bg": [
+        "bg"
+    ],
+    "bm": [
+        "bm"
+    ],
+    "bn": [
+        "bn"
+    ],
+    "bo": [
+        "bo"
+    ],
+    "br": [
+        "br"
+    ],
+    "brx": [
+        "brx"
+    ],
+    "bs": [
+        "bs",
+        "bs-Cyrl",
+        "bs-Latn"
+    ],
+    "ca": [
+        "ca"
+    ],
+    "ccp": [
+        "ccp"
+    ],
+    "ce": [
+        "ce"
+    ],
+    "ceb": [
+        "ceb"
+    ],
+    "cgg": [
+        "cgg"
+    ],
+    "chr": [
+        "chr"
+    ],
+    "ckb": [
+        "ckb"
+    ],
+    "cs": [
+        "cs"
+    ],
+    "cy": [
+        "cy"
+    ],
+    "da": [
+        "da"
+    ],
+    "dav": [
+        "dav"
+    ],
+    "de": [
+        "de"
+    ],
+    "dje": [
+        "dje"
+    ],
+    "dsb": [
+        "dsb"
+    ],
+    "dua": [
+        "dua"
+    ],
+    "dyo": [
+        "dyo"
+    ],
+    "dz": [
+        "dz"
+    ],
+    "ebu": [
+        "ebu"
+    ],
+    "ee": [
+        "ee"
+    ],
+    "el": [
+        "el"
+    ],
+    "en": [
+        "en"
+    ],
+    "eo": [
+        "eo"
+    ],
+    "es": [
+        "es"
+    ],
+    "et": [
+        "et"
+    ],
+    "eu": [
+        "eu"
+    ],
+    "ewo": [
+        "ewo"
+    ],
+    "fa": [
+        "fa"
+    ],
+    "ff": [
+        "ff",
+        "ff-Latn"
+    ],
+    "fi": [
+        "fi"
+    ],
+    "fil": [
+        "fil"
+    ],
+    "fo": [
+        "fo"
+    ],
+    "fr": [
+        "fr"
+    ],
+    "fur": [
+        "fur"
+    ],
+    "fy": [
+        "fy"
+    ],
+    "ga": [
+        "ga"
+    ],
+    "gd": [
+        "gd"
+    ],
+    "gl": [
+        "gl"
+    ],
+    "gsw": [
+        "gsw"
+    ],
+    "gu": [
+        "gu"
+    ],
+    "guz": [
+        "guz"
+    ],
+    "gv": [
+        "gv"
+    ],
+    "ha": [
+        "ha"
+    ],
+    "haw": [
+        "haw"
+    ],
+    "he": [
+        "he"
+    ],
+    "hi": [
+        "hi"
+    ],
+    "hr": [
+        "hr"
+    ],
+    "hsb": [
+        "hsb"
+    ],
+    "hu": [
+        "hu"
+    ],
+    "hy": [
+        "hy"
+    ],
+    "ia": [
+        "ia"
+    ],
+    "id": [
+        "id"
+    ],
+    "ig": [
+        "ig"
+    ],
+    "ii": [
+        "ii"
+    ],
+    "is": [
+        "is"
+    ],
+    "it": [
+        "it"
+    ],
+    "ja": [
+        "ja"
+    ],
+    "jgo": [
+        "jgo"
+    ],
+    "jmc": [
+        "jmc"
+    ],
+    "jv": [
+        "jv"
+    ],
+    "ka": [
+        "ka"
+    ],
+    "kab": [
+        "kab"
+    ],
+    "kam": [
+        "kam"
+    ],
+    "kde": [
+        "kde"
+    ],
+    "kea": [
+        "kea"
+    ],
+    "khq": [
+        "khq"
+    ],
+    "ki": [
+        "ki"
+    ],
+    "kk": [
+        "kk"
+    ],
+    "kl": [
+        "kl"
+    ],
+    "kln": [
+        "kln"
+    ],
+    "km": [
+        "km"
+    ],
+    "kn": [
+        "kn"
+    ],
+    "ko": [
+        "ko"
+    ],
+    "kok": [
+        "kok"
+    ],
+    "ks": [
+        "ks"
+    ],
+    "ksb": [
+        "ksb"
+    ],
+    "ksf": [
+        "ksf"
+    ],
+    "ksh": [
+        "ksh"
+    ],
+    "ku": [
+        "ku"
+    ],
+    "kw": [
+        "kw"
+    ],
+    "ky": [
+        "ky"
+    ],
+    "lag": [
+        "lag"
+    ],
+    "lb": [
+        "lb"
+    ],
+    "lg": [
+        "lg"
+    ],
+    "lkt": [
+        "lkt"
+    ],
+    "ln": [
+        "ln"
+    ],
+    "lo": [
+        "lo"
+    ],
+    "lrc": [
+        "lrc"
+    ],
+    "lt": [
+        "lt"
+    ],
+    "lu": [
+        "lu"
+    ],
+    "luo": [
+        "luo"
+    ],
+    "luy": [
+        "luy"
+    ],
+    "lv": [
+        "lv"
+    ],
+    "mas": [
+        "mas"
+    ],
+    "mer": [
+        "mer"
+    ],
+    "mfe": [
+        "mfe"
+    ],
+    "mg": [
+        "mg"
+    ],
+    "mgh": [
+        "mgh"
+    ],
+    "mgo": [
+        "mgo"
+    ],
+    "mi": [
+        "mi"
+    ],
+    "mk": [
+        "mk"
+    ],
+    "ml": [
+        "ml"
+    ],
+    "mn": [
+        "mn"
+    ],
+    "mr": [
+        "mr"
+    ],
+    "ms": [
+        "ms"
+    ],
+    "mt": [
+        "mt"
+    ],
+    "mua": [
+        "mua"
+    ],
+    "my": [
+        "my"
+    ],
+    "mzn": [
+        "mzn"
+    ],
+    "naq": [
+        "naq"
+    ],
+    "nb": [
+        "nb"
+    ],
+    "nd": [
+        "nd"
+    ],
+    "ne": [
+        "ne"
+    ],
+    "nl": [
+        "nl"
+    ],
+    "nmg": [
+        "nmg"
+    ],
+    "nn": [
+        "nn"
+    ],
+    "nnh": [
+        "nnh"
+    ],
+    "nus": [
+        "nus"
+    ],
+    "nyn": [
+        "nyn"
+    ],
+    "om": [
+        "om"
+    ],
+    "or": [
+        "or"
+    ],
+    "os": [
+        "os"
+    ],
+    "pa": [
+        "pa",
+        "pa-Arab",
+        "pa-Guru"
+    ],
+    "pl": [
+        "pl"
+    ],
+    "ps": [
+        "ps"
+    ],
+    "pt": [
+        "pt"
+    ],
+    "qu": [
+        "qu"
+    ],
+    "rm": [
+        "rm"
+    ],
+    "rn": [
+        "rn"
+    ],
+    "ro": [
+        "ro"
+    ],
+    "rof": [
+        "rof"
+    ],
+    "ru": [
+        "ru"
+    ],
+    "rw": [
+        "rw"
+    ],
+    "rwk": [
+        "rwk"
+    ],
+    "sah": [
+        "sah"
+    ],
+    "saq": [
+        "saq"
+    ],
+    "sbp": [
+        "sbp"
+    ],
+    "sd": [
+        "sd"
+    ],
+    "se": [
+        "se"
+    ],
+    "seh": [
+        "seh"
+    ],
+    "ses": [
+        "ses"
+    ],
+    "sg": [
+        "sg"
+    ],
+    "shi": [
+        "shi",
+        "shi-Latn",
+        "shi-Tfng"
+    ],
+    "si": [
+        "si"
+    ],
+    "sk": [
+        "sk"
+    ],
+    "sl": [
+        "sl"
+    ],
+    "smn": [
+        "smn"
+    ],
+    "sn": [
+        "sn"
+    ],
+    "so": [
+        "so"
+    ],
+    "sq": [
+        "sq"
+    ],
+    "sr": [
+        "sr",
+        "sr-Cyrl",
+        "sr-Latn"
+    ],
+    "sv": [
+        "sv"
+    ],
+    "sw": [
+        "sw"
+    ],
+    "ta": [
+        "ta"
+    ],
+    "te": [
+        "te"
+    ],
+    "teo": [
+        "teo"
+    ],
+    "tg": [
+        "tg"
+    ],
+    "th": [
+        "th"
+    ],
+    "ti": [
+        "ti"
+    ],
+    "tl": [
+        "tl"
+    ],
+    "to": [
+        "to"
+    ],
+    "tr": [
+        "tr"
+    ],
+    "tt": [
+        "tt"
+    ],
+    "twq": [
+        "twq"
+    ],
+    "tzm": [
+        "tzm"
+    ],
+    "ug": [
+        "ug"
+    ],
+    "uk": [
+        "uk"
+    ],
+    "ur": [
+        "ur"
+    ],
+    "uz": [
+        "uz",
+        "uz-Arab",
+        "uz-Cyrl",
+        "uz-Latn"
+    ],
+    "vi": [
+        "vi"
+    ],
+    "vun": [
+        "vun"
+    ],
+    "wae": [
+        "wae"
+    ],
+    "wo": [
+        "wo"
+    ],
+    "xh": [
+        "xh"
+    ],
+    "xog": [
+        "xog"
+    ],
+    "yav": [
+        "yav"
+    ],
+    "yi": [
+        "yi"
+    ],
+    "yo": [
+        "yo"
+    ],
+    "yue": [
+        "yue",
+        "yue-Hans",
+        "yue-Hant"
+    ],
+    "zgh": [
+        "zgh"
+    ],
+    "zh": [
+        "zh",
+        "zh-Hans",
+        "zh-Hant"
+    ],
+    "zu": [
+        "zu"
+    ]
+}
+
 language_locale_dict = {
     "en": [
         "en-001",
