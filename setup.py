@@ -30,6 +30,9 @@ setup(
         'regex !=2019.02.19',
         'tzlocal',
     ],
+    entry_points={
+        'console_scripts': ['dateparser = dateparser_download.cli:entrance'],
+    },
     extras_require={
         'calendars:python_version<"3.6"': ['convertdate'],
         'calendars:python_version>="3.6"': ['hijri-converter', 'convertdate'],
