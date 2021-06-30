@@ -1,16 +1,5 @@
-import os
-import glob
-from pathlib import Path
-import json
-
 
 def main():
-    dateparser_data_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-    all_files_name = glob.glob(dateparser_data_dir + "/cldr_language_data/date_translation_data/*.json")
-
-    all_language_code = [Path(file_name).stem for file_name in all_files_name]
-    all_language_code.sort()
-
     data = {}
 
     while all_language_code:

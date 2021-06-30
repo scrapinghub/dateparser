@@ -92,6 +92,23 @@ def _get_language_order(language_locale_dict):
     return language_order
 
 
+def create_language_maps(language_order):
+    language_order.sort()
+    data = {}
+    while language_order:
+        micro_data = []
+        for obj in language_order:
+            if not micro_data:
+                micro_data.append(obj)
+            else:
+                if obj.startswith(micro_data[0] + '-'):
+                    micro_data.append(obj)
+        for x in micro_data:
+            language_order.remove(x)
+        data[micro_data[0]] = micro_data
+    return data
+
+
 def main():
     get_raw_data()
     language_locale_dict = _get_language_locale_dict()
@@ -113,7 +130,12 @@ def main():
 
     language_locale_dict_string = 'language_locale_dict = ' + json.dumps(
             complete_language_locale_dict, separators=(',', ': '), indent=4)
-    languages_info_string = language_order_string + '\n\n' + language_locale_dict_string + '\n'
+        
+    language_map_data = create_language_maps(language_order)
+    language_map_data_string = 'language_map = ' + json.dumps(
+            language_map_data, separators=(',', ': '), indent=4)
+
+    languages_info_string = language_order_string + '\n\n' + language_map_data_string + '\n\n' + language_locale_dict_string + '\n'
     with open(filename, 'w') as f:
         f.write(languages_info_string)
 
