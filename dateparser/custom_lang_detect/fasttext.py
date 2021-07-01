@@ -1,21 +1,23 @@
 import fasttext
 import os
+from pathlib import Path
+
+from dateparser_cli.fasttext_manager import fasttext_downloader
 
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
+_supported_models = ["large.bin", "small.bin"]
+_data_dir_path = str(Path(os.path.dirname(os.path.realpath(__file__))).parent.parent.absolute()) \
+    + "/dateparser_data/language_detection_models"
+_downloaded_models = os.listdir(_data_dir_path)
 
-_model = "lid.176.ftz"
-_model_path = dir_path + '/' + _model
+_model_path = None
 
-if not os.path.exists(_model_path):
-    import urllib.request
-    print("Downloading model", _model)
-    url = "https://dl.fbaipublicfiles.com/fasttext/supervised-models/" + _model
-    try:
-        urllib.request.urlretrieve(url, _model_path)
-    except urllib.error.HTTPError:
-        print("Fasttext model", _model, "cannot be downloaded due to HTTP error")
-        raise urllib.error.HTTPError
+for downloaded_model in _downloaded_models:
+    if downloaded_model in _supported_models:
+        _model_path = _data_dir_path + "/" + downloaded_model
+
+if not _model_path:
+    fasttext_downloader()
 
 _language_parser = fasttext.load_model(_model_path)
 
