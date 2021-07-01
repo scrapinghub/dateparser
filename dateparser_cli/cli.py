@@ -10,5 +10,6 @@ def download(args):
     if args[0] == "fasttext":
         fasttext(args[1])
 
-def fasttext(model):
+def fasttext(model=""):
+
     print(model)

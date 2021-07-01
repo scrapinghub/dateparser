@@ -31,7 +31,7 @@ setup(
         'tzlocal',
     ],
     entry_points={
-        'console_scripts': ['dateparser = dateparser_download.cli:entrance'],
+        'console_scripts': ['dateparser = dateparser_cli.cli:entrance'],
     },
     extras_require={
         'calendars:python_version<"3.6"': ['convertdate'],
