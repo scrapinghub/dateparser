@@ -6,21 +6,12 @@ from git import Repo
 
 
 def get_raw_data():
-    cldr_version = '31.0.1'
     raw_data_directory = "../raw_data"
 
     cldr_data = {
-       'dates_full': {
-           'url': 'https://github.com/unicode-cldr/cldr-dates-full.git',
-           'dir': "{}/cldr_dates_full/".format(raw_data_directory)
-       },
-       'core': {
-           'url': 'https://github.com/unicode-cldr/cldr-core.git',
-           'dir': "{}/cldr_core/".format(raw_data_directory)
-       },
-       'rbnf': {
-           'url': 'https://github.com/unicode-cldr/cldr-rbnf.git',
-           'dir': "{}/cldr_rbnf/".format(raw_data_directory)
+       'all_data': {
+           'url': 'https://github.com/unicode-org/cldr-json.git',
+           'dir': "{}/all_data/".format(raw_data_directory)
        },
     }
 
@@ -31,8 +22,7 @@ def get_raw_data():
 
     for name, data in cldr_data.items():
         print('Clonning "{}" from: {}'.format(name, data['url']))
-        repo = Repo.clone_from(data['url'], data['dir'], branch='master')
-        repo.git.co(cldr_version)
+        Repo.clone_from(data['url'], data['dir'], branch='master')
 
 
 def get_dict_difference(parent_dict, child_dict):

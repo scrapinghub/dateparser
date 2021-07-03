@@ -15,7 +15,7 @@ info = {
     ],
     "april": [
         "epr",
-        "eprel"
+        "epreel"
     ],
     "may": [
         "mee"
@@ -73,13 +73,15 @@ info = {
         "satọdee"
     ],
     "sunday": [
-        "mbọsị ụka",
-        "ụka"
+        "sọn",
+        "sọndee"
     ],
     "am": [
-        "am"
+        "am",
+        "n'ụtụtụ"
     ],
     "pm": [
+        "n'abali",
         "pm"
     ],
     "year": [
@@ -101,53 +103,54 @@ info = {
         "nkeji"
     ],
     "second": [
-        "nkejinta"
+        "tịm kọm"
     ],
     "relative-type": {
         "0 day ago": [
+            "taa",
             "taata"
         ],
         "0 hour ago": [
-            "this hour"
+            "elekere a"
         ],
         "0 minute ago": [
-            "this minute"
+            "nkejị a"
         ],
         "0 month ago": [
-            "this month"
+            "ọnwa a"
         ],
         "0 second ago": [
-            "now"
+            "ụgbụa"
         ],
         "0 week ago": [
-            "this week"
+            "izu a"
         ],
         "0 year ago": [
-            "this year"
+            "afọ a"
         ],
         "1 day ago": [
-            "nnyaafụ"
+            "ụnyaahụ"
         ],
         "1 month ago": [
-            "last month"
+            "ọnwa gara aga"
         ],
         "1 week ago": [
-            "last week"
+            "izu gara aga"
         ],
         "1 year ago": [
-            "last year"
+            "afọ gara aga"
         ],
         "in 1 day": [
             "echi"
         ],
         "in 1 month": [
-            "next month"
+            "ọnwa ọzọ"
         ],
         "in 1 week": [
-            "next week"
+            "izu na-esote"
         ],
         "in 1 year": [
-            "next year"
+            "afọ ọzọ"
         ]
     },
     "locale_specific": {},

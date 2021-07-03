@@ -21,7 +21,7 @@ most_common_locales = [
 
 
 def _get_language_locale_dict():
-    cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
+    cldr_dates_full_dir = "../raw_data/all_data/cldr-json/cldr-dates-full/main/"
     available_locale_names = os.listdir(cldr_dates_full_dir)
     available_language_names = [shortname for shortname in available_locale_names
                                 if not re.search(r'-[A-Z0-9]+$', shortname)]
@@ -40,7 +40,7 @@ def _get_language_locale_dict():
 
 
 def _get_language_order(language_locale_dict):
-    territory_info_file = "../raw_data/cldr_core/supplemental/territoryInfo.json"
+    territory_info_file = "../raw_data/all_data/cldr-json/cldr_core/supplemental/territoryInfo.json"
     with open(territory_info_file) as f:
         territory_content = json.load(f)
     territory_info_data = territory_content["supplemental"]["territoryInfo"]
