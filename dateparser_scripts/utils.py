@@ -2,15 +2,16 @@ import os
 import shutil
 from collections import OrderedDict
 
-from git import Repo
-
+import urllib.request
+import zipfile
 
 def get_raw_data():
+    cldr_version = '39.0.0'
     raw_data_directory = "../raw_data"
 
     cldr_data = {
        'all_data': {
-           'url': 'https://github.com/unicode-org/cldr-json.git',
+           'url': 'https://github.com/unicode-org/cldr-json/releases/download/' + cldr_version + '/cldr-' + cldr_version + '-json-full.zip',
            'dir': "{}/all_data/".format(raw_data_directory)
        },
     }
@@ -22,7 +23,14 @@ def get_raw_data():
 
     for name, data in cldr_data.items():
         print('Clonning "{}" from: {}'.format(name, data['url']))
-        Repo.clone_from(data['url'], data['dir'], branch='master')
+
+        
+        from pathlib import Path
+        destination_file = str(Path(__file__).resolve().parents[1]) + "/raw_data/cldr_data.zip"
+
+        zip_path, _ = urllib.request.urlretrieve(data['url'], destination_file)
+        with zipfile.ZipFile(zip_path, "r") as f:
+            f.extractall(data['dir'])
 
 
 def get_dict_difference(parent_dict, child_dict):
