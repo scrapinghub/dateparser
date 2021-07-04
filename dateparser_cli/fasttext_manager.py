@@ -24,8 +24,7 @@ def fasttext_downloader(model=[]):
         print("Downloading model", model_name)
         try:
             urllib.request.urlretrieve(model_url, models_directory_path)
-        except urllib.error.HTTPError:
-            print("Fasttext model cannot be downloaded due to HTTP error")
-            raise urllib.error.HTTPError
+        except urllib.error.HTTPError as e:
+            raise Exception("Fasttext model cannot be downloaded due to HTTP error") from e
     else:
         print("The model is already downloaded")
