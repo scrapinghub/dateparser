@@ -52,11 +52,21 @@ list of detected language codes.
 Wrapper for boilerplate for implementing custom language detections::
 
     def detect_languages(text, confidence_threshold):
-        language_codes = []
-        parser_data = languages_dectetion_function(text)
-        for language_candidate in parser_data:
-            if language_candidate > confidence_threshold:
-                language_codes.append(language_code)
+        """
+        Takes two variables: `text` and `confidence_treshold` and returns
+        a list of `languages codes`.
+        
+        * `text` is a string containing from where the language codes are 
+        derived.
+        
+        * `confidence_treshold` is a number between 0 and 1 that can be 
+        used to decide if the confidence is enough. It can be also ignored.
+        This value comes from the dateparser setting: 
+        `LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`
+        
+        The result must be a list of languages codes (strings).
+        """
+        # here you can apply your own logic
         return language_codes
 
 .. note::
