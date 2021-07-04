@@ -61,5 +61,4 @@ Wrapper for boilerplate for implementing custom language detections::
 
 .. note::
 
-    ``confidence_threshold`` is the float that can be used to
-    filter the results.
+    ``confidence_threshold`` is a float between 0 and 1 that can be used to filter the results. It comes from the ``LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`` setting.
