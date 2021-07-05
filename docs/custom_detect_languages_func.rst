@@ -19,10 +19,20 @@ parameter with::
     >>> dateparser.parse('12/12/12', detect_languages_function=detect_languages)
 
 fastText supports currently supports fastText - large and small model you can
-download your model of choice using 
+download your model of choice using ``dateparser-download``.
 
-`Read more <https://fasttext.cc/blog/2017/10/02/blog-post.html>`_ about models.
+Downloading small model::
 
+    >>> dateparser-download fasttext small
+
+Downloading large model::
+
+    >>> dateparser-download fasttext large
+
+.. note::
+
+    ``fastText`` used ``small`` as default so it will download and use if no model
+    is already cached.
 
 langdetect
 ~~~~~~~~
