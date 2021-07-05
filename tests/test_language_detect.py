@@ -39,7 +39,7 @@ class CustomLangDetectParser(unittest.TestCase):
     # parse
 
     def when_date_is_parsed_using_parse(self, dt_string):
-        self.result = parse(dt_string, detect_languages_func=detect_languages)
+        self.result = parse(dt_string, detect_languages_function=detect_languages)
 
     def then_date_obj_exactly_is(self, expected_date_obj):
         self.assertEqual(expected_date_obj, self.result)
@@ -54,7 +54,7 @@ class CustomLangDetectParser(unittest.TestCase):
     # DateDataParser
 
     def when_date_is_parsed_using_with_datedataparser(self, dt_string):
-        ddp = DateDataParser(detect_languages_func=detect_languages)
+        ddp = DateDataParser(detect_languages_function=detect_languages)
         self.result = ddp.get_date_data(dt_string)["date_obj"]
 
     @parameterized.expand([
@@ -67,7 +67,7 @@ class CustomLangDetectParser(unittest.TestCase):
     # search_date
 
     def when_date_is_parsed_using_with_search_dates(self, dt_string):
-        self.result = search_dates(dt_string, detect_languages_func=detect_languages)
+        self.result = search_dates(dt_string, detect_languages_function=detect_languages)
 
     @parameterized.expand([
         param('January 3, 2017 - February 1st',

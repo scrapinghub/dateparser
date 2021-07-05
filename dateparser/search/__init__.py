@@ -4,7 +4,7 @@ from dateparser.search.search import DateSearchWithDetection
 _search_with_detection = DateSearchWithDetection()
 
 
-def search_dates(text, languages=None, settings=None, add_detected_language=False, detect_languages_func=None):
+def search_dates(text, languages=None, settings=None, add_detected_language=False, detect_languages_function=None):
     """Find all substrings of the given string which represent date and/or time and parse them.
 
         :param text:
@@ -23,6 +23,10 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
         :param add_detected_language:
                Indicates if we want the detected language returned in the tuple.
         :type add_detected_language: bool
+
+        :param detect_languages_function:
+            A function for language detection accepts text and confidence threshold, returns list of language codes.
+        :type detect_languages_function: function
 
         :return: Returns list of tuples containing:
                  substrings representing date and/or time, corresponding :mod:`datetime.datetime`
@@ -47,7 +51,7 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
 
         """
     result = _search_with_detection.search_dates(
-        text=text, languages=languages, settings=settings, detect_languages_func=detect_languages_func
+        text=text, languages=languages, settings=settings, detect_languages_function=detect_languages_function
     )
     dates = result.get('Dates')
     if dates:

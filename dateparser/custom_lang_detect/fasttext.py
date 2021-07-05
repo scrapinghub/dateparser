@@ -1,6 +1,5 @@
 import fasttext
 import os
-from pathlib import Path
 
 from dateparser_cli.fasttext_manager import fasttext_downloader
 from dateparser_cli.utils import date_parser_model_home

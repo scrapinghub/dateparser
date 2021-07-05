@@ -173,9 +173,9 @@ class DateSearchWithDetection:
         self.search = _ExactLanguageSearch(self.loader)
 
     @apply_settings
-    def detect_language(self, text, languages, settings=None, detect_languages_func=None):
-        if detect_languages_func:
-            detected_languages = detect_languages_func(
+    def detect_language(self, text, languages, settings=None, detect_languages_function=None):
+        if detect_languages_function:
+            detected_languages = detect_languages_function(
                 text, confidence_threshold=settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             ) or None
             detected_languages = map_languages(detected_languages) or settings.DEFAULT_LANGUAGES
@@ -199,23 +199,26 @@ class DateSearchWithDetection:
         return detected_language
 
     @apply_settings
-    def search_dates(self, text, languages=None, detect_languages_func=None, settings=None):
+    def search_dates(self, text, languages=None, settings=None, detect_languages_function=None):
         """
         Find all substrings of the given string which represent date and/or time and parse them.
 
         :param text:
             A string in a natural language which may contain date and/or time expressions.
         :type text: str
+
         :param languages:
             A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
             to detect the language.
         :type languages: list
-        :param detect_languages_func:
-               A function for language detection accepts text and confidence threshold, returns list of language codes.
-        :type detect_languages_func: function
+
         :param settings:
                Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
         :type settings: dict
+
+        :param detect_languages_function:
+               A function for language detection accepts text and confidence threshold, returns list of language codes.
+        :type detect_languages_function: function
 
         :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
                 substring representing date expressions and corresponding :mod:`datetime.datetime` object.
@@ -229,7 +232,7 @@ class DateSearchWithDetection:
         check_settings(settings)
 
         language_shortname = self.detect_language(
-            text=text, languages=languages, settings=settings, detect_languages_func=detect_languages_func
+            text=text, languages=languages, settings=settings, detect_languages_function=detect_languages_function
         )
         if not language_shortname:
             return {'Language': None, 'Dates': None}

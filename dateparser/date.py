@@ -318,13 +318,13 @@ class DateDataParser:
         in the order in which they are given.
     :type use_given_order: bool
 
-    :param detect_languages_func:
-        A function for language detection accepts text and confidence threshold, returns list of language codes.
-    :type detect_languages_func: function
-
     :param settings:
         Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
     :type settings: dict
+
+    :param detect_languages_function:
+        A function for language detection accepts text and confidence threshold, returns list of language codes.
+    :type detect_languages_function: function
 
     :return: A parser instance
 
@@ -337,7 +337,7 @@ class DateDataParser:
 
     @apply_settings
     def __init__(self, languages=None, locales=None, region=None, try_previous_locales=False,
-                 use_given_order=False, detect_languages_func=None, settings=None):
+                 use_given_order=False, settings=None, detect_languages_function=None):
 
         if languages is not None and not isinstance(languages, (list, tuple, Set)):
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
@@ -367,7 +367,7 @@ class DateDataParser:
         self.languages = languages
         self.locales = locales
         self.region = region
-        self.detect_languages_func = detect_languages_func
+        self.detect_languages_function = detect_languages_function
         self.previous_locales = collections.OrderedDict()
 
     def get_date_data(self, date_string, date_formats=None):
@@ -467,8 +467,8 @@ class DateDataParser:
                     if self._is_applicable_locale(locale, s):
                         yield locale
 
-        if self.detect_languages_func:
-            detected_languages = self.detect_languages_func(
+        if self.detect_languages_function:
+            detected_languages = self.detect_languages_function(
                 text=date_string, confidence_threshold=self._settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             )
 

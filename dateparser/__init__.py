@@ -8,7 +8,7 @@ _default_parser = DateDataParser()
 
 @apply_settings
 def parse(date_string, date_formats=None, languages=None, locales=None,
-          region=None, detect_languages_func=None, settings=None):
+          region=None, settings=None, detect_languages_function=None):
     """Parse date and time from given date string.
 
     :param date_string:
@@ -36,13 +36,13 @@ def parse(date_string, date_formats=None, languages=None, locales=None,
         If locales are not given, languages and region are used to construct locales for translation.
     :type region: str
 
-    :param detect_languages_func:
-        A function for language detection accepts text and confidence threshold, returns list of language codes.
-    :type detect_languages_func: function
-
     :param settings:
         Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
     :type settings: dict
+
+    :param detect_languages_function:
+        A function for language detection accepts text and confidence threshold, returns list of language codes.
+    :type detect_languages_function: function
 
     :return: Returns :class:`datetime <datetime.datetime>` representing parsed date if successful, else returns None
     :rtype: :class:`datetime <datetime.datetime>`.
@@ -52,9 +52,9 @@ def parse(date_string, date_formats=None, languages=None, locales=None,
     """
     parser = _default_parser
 
-    if languages or locales or region or not settings._default or detect_languages_func:
+    if languages or locales or region or not settings._default or detect_languages_function:
         parser = DateDataParser(languages=languages, locales=locales,
-                                region=region, detect_languages_func=detect_languages_func, settings=settings)
+                                region=region, settings=settings, detect_languages_function=detect_languages_function)
 
     data = parser.get_date_data(date_string, date_formats)
 
