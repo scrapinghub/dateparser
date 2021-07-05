@@ -3,18 +3,17 @@ import os
 from pathlib import Path
 
 from dateparser_cli.fasttext_manager import fasttext_downloader
+from dateparser_cli.utils import date_parser_model_home
 
 
 _supported_models = ["large.bin", "small.bin"]
-_data_dir_path = str(Path(os.path.dirname(os.path.realpath(__file__))).parent.parent.absolute()) \
-    + "/dateparser_data/language_detection_models"
-_downloaded_models = os.listdir(_data_dir_path)
+_downloaded_models = os.listdir(date_parser_model_home)
 
 _model_path = None
 
 for downloaded_model in _downloaded_models:
     if downloaded_model in _supported_models:
-        _model_path = _data_dir_path + "/" + downloaded_model
+        _model_path = date_parser_model_home + "/" + downloaded_model
 
 if not _model_path:
     fasttext_downloader()

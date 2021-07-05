@@ -2,8 +2,7 @@ import os
 from pathlib import Path
 import urllib.request
 
-
-_data_dir_path = str(Path(os.path.dirname(os.path.realpath(__file__))).parent.absolute()) + "/dateparser_data"
+from .utils import date_parser_model_home
 
 
 def fasttext_downloader(model=[]):
@@ -17,7 +16,7 @@ def fasttext_downloader(model=[]):
         if model[0] == "large":
             model_name = "large"
 
-    models_directory_path = _data_dir_path + "/language_detection_models/" + model_name + ".bin"
+    models_directory_path = date_parser_model_home + "/" + model_name + ".bin"
 
     if not Path(models_directory_path).is_file():
         model_url = model_url[model_name]
