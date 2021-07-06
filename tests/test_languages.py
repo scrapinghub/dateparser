@@ -573,7 +573,7 @@ class TestBundledLanguages(BaseTestCase):
         param('mn', "12 9-р сар 2019 пүрэв", "12 september 2019 thursday"),
 
         # mr
-        param('mr', "16 फेब्रुवारी 1908 गुरु 02:03 मउ", "16 february 1908 thursday 02:03 pm"),
+        param('mr', "16 फेब्रुवारी 1908 गुरु 02:03", "16 february 1908 thursday 02:03"),
         param('mr', "शनिवार 15 सप्टें 1888", "saturday 15 september 1888"),
 
         # ms
@@ -802,7 +802,7 @@ class TestBundledLanguages(BaseTestCase):
 
         # zu
         param('zu', "3 mashi 2007 ulwesibili 10:08", "3 march 2007 tuesday 10:08"),
-        param('zu', "son 23 umasingana 1996", "sunday 23 january 1996"),
+        param('zu', "isonto 23 Januwari 1996", "sunday 23 january 1996"),
     ])
     def test_translation(self, shortname, datetime_string, expected_translation):
         self.given_settings()
