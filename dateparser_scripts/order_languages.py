@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 import regex as re
 
-from utils import get_raw_data
+from dateparser_scripts.utils import get_raw_data
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,7 +40,7 @@ def _get_language_locale_dict():
 
 
 def _get_language_order(language_locale_dict):
-    territory_info_file = "../raw_data/all_data/cldr_core/supplemental/territoryInfo.json"
+    territory_info_file = "../raw_data/all_data/cldr-core/supplemental/territoryInfo.json"
     with open(territory_info_file) as f:
         territory_content = json.load(f)
     territory_info_data = territory_content["supplemental"]["territoryInfo"]

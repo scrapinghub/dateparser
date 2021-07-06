@@ -5,8 +5,8 @@ from collections import OrderedDict
 
 import regex as re
 
-from order_languages import _get_language_locale_dict
-from utils import get_dict_difference, get_raw_data
+from dateparser_scripts.order_languages import _get_language_locale_dict
+from dateparser_scripts.utils import get_dict_difference, get_raw_data
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     '\N{RIGHT SINGLE QUOTATION MARK}',     # '\u2019'
