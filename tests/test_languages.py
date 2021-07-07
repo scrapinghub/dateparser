@@ -1159,7 +1159,7 @@ class TestBundledLanguages(BaseTestCase):
         param('dav', "15 juma", "15 week"),
         # de
         param('de', "nächstes jahr", "in 1 year"),
-        param('de', "vor einer Woche 04:25 nachm", "1 week ago 04:25 pm"),
+        param('de', "vor einer Woche 04:25 pm", "1 week ago 04:25 pm"),
         # dje
         param('dje', "hõo 08:08 subbaahi", "0 day ago 08:08 am"),
         param('dje', "suba", "in 1 day"),
@@ -1707,7 +1707,6 @@ class TestBundledLanguages(BaseTestCase):
               ['13', ' ', 'मार्च', ' ', '2013', ' ', '11', ':', '15', ':', '09']),
         param('mgo', "aneg 5 12 iməg àdùmbə̀ŋ 2001 09:14 pm",
               ['aneg 5', ' ', '12', ' ', 'iməg àdùmbə̀ŋ', ' ', '2001', ' ', '09', ':', '14', ' ', 'pm']),
-        param('qu', "2 kapaq raymi 1998 domingo", ['2', ' ', 'kapaq raymi', ' ', '1998', ' ', 'domingo']),
         param('os', "24 сахаты размӕ 10:09 ӕмбисбоны размӕ",
               ['24 сахаты размӕ', ' ', '10', ':', '09', ' ', 'ӕмбисбоны размӕ']),
         param('pa', "25 ਘੰਟੇ ਪਹਿਲਾਂ 10:08 ਬਾਦੁ",
