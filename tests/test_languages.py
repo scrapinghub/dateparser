@@ -1110,9 +1110,9 @@ class TestBundledLanguages(BaseTestCase):
         param('brx', "मैया 11:58 फुं", "1 day ago 11:58 am"),
         param('brx', "17 मिनिथ", "17 minute"),
         # bs-Cyrl
-        param('bs-Cyrl', "следећег месеца", "in 1 month"),
+        param('bs-Cyrl', "сљ мјес", "in 1 month"),
         param('bs-Cyrl', "прошле године 10:05 пре подне", "1 year ago 10:05 am"),
-        param('bs-Cyrl', "пре 28 недеља", "28 week ago"),
+        param('bs-Cyrl', "прије 28 седм", "28 week ago"),
         # bs-Latn
         param('bs-Latn', "sljedeće godine", "in 1 year"),
         param('bs-Latn', "prije 4 mjeseci", "4 month ago"),
@@ -1139,7 +1139,7 @@ class TestBundledLanguages(BaseTestCase):
         param('cgg', "5 omwaka", "5 year"),
         # chr
         param('chr', "ᎯᎠ ᎢᏯᏔᏬᏍᏔᏅ", "0 minute ago"),
-        param('chr', "ᎾᎿ 8 ᎧᎸᎢ ᏥᎨᏒ", "8 month ago"),
+        param('chr', "8 ꭷꮈ ꮵꭸꮢ", "8 month ago"),
         param('chr', "ᎾᎿ 22 ᎢᏯᏔᏬᏍᏔᏅ", "in 22 minute"),
         # cs
         param('cs', "za 3 rok", "in 3 year"),

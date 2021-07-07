@@ -14,7 +14,7 @@ def given_settings(settings=None):
     if settings.NORMALIZE:
             text = normalize_unicode(text)
 
-    trst = default_loader.get_locale("as")
+    trst = default_loader.get_locale("bs-Cyrl")
     print(trst.translate(text, settings=settings))
 
 given_settings()
