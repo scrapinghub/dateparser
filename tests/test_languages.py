@@ -49,7 +49,7 @@ class TestBundledLanguages(BaseTestCase):
         # German
         param('de', "29. Juni 2007", "29. june 2007"),
         param('de', "Montag 5 Januar, 2015", "monday 5 january 2015"),
-        param('de', "letzte woche", "1 week ago"),
+        param('de', "vor einer Woche", "1 week ago"),
         param('de', "in zwei Monaten", "in 2 month"),
         param('de', "übermorgen", "in 2 day"),
         param('de', "3 mrz 1999", "3 march 1999"),
@@ -282,7 +282,7 @@ class TestBundledLanguages(BaseTestCase):
 
         # ce
         param('ce', "6 январь 1987 пӏераска", "6 january 1987 friday"),
-        param('ce', "оршот де 3 июль 1890", "monday 3 july 1890"),
+        param('ce', "оршот 3 июль 1890", "monday 3 july 1890"),
 
         # cgg
         param('cgg', "20 okwakataana 2027 orwamukaaga", "20 may 2027 saturday"),
@@ -1159,7 +1159,7 @@ class TestBundledLanguages(BaseTestCase):
         param('dav', "15 juma", "15 week"),
         # de
         param('de', "nächstes jahr", "in 1 year"),
-        param('de', "letzte woche 04:25 nachm", "1 week ago 04:25 pm"),
+        param('de', "vor einer Woche 04:25 nachm", "1 week ago 04:25 pm"),
         # dje
         param('dje', "hõo 08:08 subbaahi", "0 day ago 08:08 am"),
         param('dje', "suba", "in 1 day"),
@@ -1197,7 +1197,7 @@ class TestBundledLanguages(BaseTestCase):
         param('et', "1 a pärast", "in 1 year"),
         param('et', "4 tunni eest", "4 hour ago"),
         # eu
-        param('eu', "aurreko hilabetea", "1 month ago"),
+        param('eu', "aurreko hilabetean", "1 month ago"),
         param('eu', "duela 15 segundo", "15 second ago"),
         param('eu', "2 hilabete barru", "in 2 month"),
         # ewo
@@ -1240,7 +1240,7 @@ class TestBundledLanguages(BaseTestCase):
         param('gsw', "moorn", "in 1 day"),
         param('gsw', "geschter", "1 day ago"),
         # gu
-        param('gu', "2 વર્ષ પહેલા", "2 year ago"),
+        param('gu', "2 વર્ષ પહેલાં", "2 year ago"),
         param('gu', "આવતા મહિને", "in 1 month"),
         param('gu', "22 કલાક પહેલાં", "22 hour ago"),
         # guz
@@ -1266,7 +1266,7 @@ class TestBundledLanguages(BaseTestCase):
         param('id', "dalam 43 menit", "in 43 minute"),
         param('id', "dlm 23 dtk", "in 23 second"),
         # ig
-        param('ig', "nnyaafụ", "1 day ago"),
+        param('ig', "ụnyaahụ", "1 day ago"),
         param('ig', "taata", "0 day ago"),
         # is
         param('is', "í næstu viku", "in 1 week"),
@@ -1420,7 +1420,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ms', "bulan depan", "in 1 month"),
         # mt
         param('mt', "ix-xahar li għadda", "1 month ago"),
-        param('mt', "2 sena ilu", "2 year ago"),
+        param('mt', "2 snin ilu", "2 year ago"),
         param('mt', "il-ġimgħa d-dieħla", "in 1 week"),
         # mua
         param('mua', "tǝ'nahko", "0 day ago"),
@@ -1455,8 +1455,8 @@ class TestBundledLanguages(BaseTestCase):
         param('nmg', "nakugú", "1 day ago"),
         param('nmg', "namáná", "in 1 day"),
         # nn
-        param('nn', "for 5 minutter siden", "5 minute ago"),
-        param('nn', "om 3 uker", "in 3 week"),
+        param('nn', "for 5 min sidan", "5 minute ago"),
+        param('nn', "om 3 veke", "in 3 week"),
         param('nn', "i morgon", "in 1 day"),
         # nnh
         param('nnh', "jǔɔ gẅie à ne ntóo", "in 1 day"),
