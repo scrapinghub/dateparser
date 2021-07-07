@@ -49,7 +49,7 @@ class TestBundledLanguages(BaseTestCase):
         # German
         param('de', "29. Juni 2007", "29. june 2007"),
         param('de', "Montag 5 Januar, 2015", "monday 5 january 2015"),
-        param('de', "vor einer Woche", "1 week ago"),
+        param('de', "letzte woche", "1 week ago"),
         param('de', "in zwei Monaten", "in 2 month"),
         param('de', "übermorgen", "in 2 day"),
         param('de', "3 mrz 1999", "3 march 1999"),
