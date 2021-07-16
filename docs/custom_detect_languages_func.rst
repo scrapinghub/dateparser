@@ -2,11 +2,19 @@
 Custom language detection
 ============
 
+``dateparser`` supports integration of custom language detection. 
+ 
+``dateparser.parse`` and ``dateparser.search.search_dates`` out of the box
+supports two language detection libraries 
+`fasttext <https://github.com/facebookresearch/fastText>`_ 
+and `langdetect <https://github.com/Mimino666/langdetect>`_.
+
+You can impliment your own custom language detection by using the 
+boilerplate code below.
+
+
 Usage
 =====
-:func:`dateparser.parse` supports two language detection
-libraries `fasttext <https://github.com/facebookresearch/fastText>`_ 
-and `langdetect <https://github.com/Mimino666/langdetect>`_.
 
 fastText
 ~~~~~~~~
@@ -53,10 +61,10 @@ parameter with::
 Custom implementation
 =====================
 
-dateparser allows the integration of any library
+``dateparser`` allows the integration of any library
 you can implement any language detection library by wrapping it with a 
 function accepting ``text`` and ``confidence_threshold`` and returning
-list of detected language codes.
+list of detected language codes in ISO 639 standards.
 
 
 Wrapper for boilerplate for implementing custom language detections::
