@@ -23,7 +23,7 @@ Language detection with fastText.
 Import fasttext wrapper and pass it as ``detect_languages_function``
 parameter with::
 
-    >>> from dateparser.custom_lang_detect.fasttext import detect_languages
+    >>> from dateparser.custom_language_detection.fasttext import detect_languages
     >>> dateparser.parse('12/12/12', detect_languages_function=detect_languages)
 
 fastText supports currently supports fastText - large and small model you can
@@ -49,7 +49,7 @@ Language detection with langdetect.
 Import langdetect wrapper and pass it as ``detect_languages_function``
 parameter with::
 
-    >>> from dateparser.custom_lang_detect.langdetect import detect_languages
+    >>> from dateparser.custom_language_detection.langdetect import detect_languages
     >>> dateparser.parse('12/12/12', detect_languages_function=detect_languages)
 
 

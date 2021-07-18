@@ -4,7 +4,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, check_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
-from dateparser.custom_lang_detect.map_languages import map_languages
+from dateparser.custom_language_detection.map_languages import map_languages
 import regex as re
 
 

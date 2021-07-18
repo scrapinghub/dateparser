@@ -1,13 +1,16 @@
 import sys
 from .fasttext_manager import fasttext_downloader
+from .utils import clear_cache
+
 
 _cli_functions_map = {
-    "fasttext": fasttext_downloader
+    "fasttext": fasttext_downloader,
+    "clear_cache": clear_cache
 }
 
 
 def no_matching_command_found():
-    print("No dateparser-download command found")
+    print("dateparser-download: No command found")
 
 
 def entrance():
