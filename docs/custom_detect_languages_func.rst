@@ -37,6 +37,10 @@ Downloading large model::
 
     >>> dateparser-download fasttext large
 
+Deleting all cached models::
+
+    >>> dateparser-download clear_cache
+
 .. note::
 
     ``fastText`` used ``small`` as default so it will download and use if no model
