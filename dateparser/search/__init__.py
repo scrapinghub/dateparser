@@ -25,7 +25,7 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
         :type add_detected_language: bool
 
         :param detect_languages_function:
-            A function for language detection accepts text and confidence threshold, returns list of language codes.
+                    A function for language detection that takes as input a `text` and a `confidence_threshold`, and returns a list of detected language codes.
         :type detect_languages_function: function
 
         :return: Returns list of tuples containing:
