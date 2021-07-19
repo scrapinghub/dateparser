@@ -48,8 +48,8 @@ Contents:
    introduction
    installation
    usage
-   custom_detect_languages_func
    settings
+   custom_language_detection
    supported_locales
    contributing
    modules

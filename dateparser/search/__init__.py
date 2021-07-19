@@ -17,21 +17,22 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
         :type languages: list
 
         :param settings:
-               Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+            Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
         :type settings: dict
 
         :param add_detected_language:
-               Indicates if we want the detected language returned in the tuple.
+            Indicates if we want the detected language returned in the tuple.
         :type add_detected_language: bool
 
         :param detect_languages_function:
-                    A function for language detection that takes as input a `text` and a `confidence_threshold`, and returns a list of detected language codes.
+            A function for language detection that takes as input a `text` and a `confidence_threshold`,
+            and returns a list of detected language codes.
         :type detect_languages_function: function
 
         :return: Returns list of tuples containing:
-                 substrings representing date and/or time, corresponding :mod:`datetime.datetime`
-                 object and detected language if *add_detected_language* is True.
-                 Returns None if no dates that can be parsed are found.
+            substrings representing date and/or time, corresponding :mod:`datetime.datetime`
+            object and detected language if *add_detected_language* is True.
+            Returns None if no dates that can be parsed are found.
         :rtype: list
         :raises: ValueError - Unknown Language
 

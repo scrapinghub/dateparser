@@ -179,7 +179,7 @@ class DateSearchWithDetection:
                 text, confidence_threshold=settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             )
             detected_languages = map_languages(detected_languages) or settings.DEFAULT_LANGUAGES
-            return detected_languages[0]  if detected_languages else []
+            return detected_languages[0] if detected_languages else []
 
         if isinstance(languages, (list, tuple, Set)):
             if all([language in self.available_language_map for language in languages]):
@@ -217,7 +217,8 @@ class DateSearchWithDetection:
         :type settings: dict
 
         :param detect_languages_function:
-               A function for language detection that takes as input a `text` and a `confidence_threshold`, and returns a list of detected language codes.
+               A function for language detection that takes as input a `text` and a `confidence_threshold`,
+               toxand returns a list of detected language codes.
         :type detect_languages_function: function
 
         :return: a dict mapping keys to two letter language code and a list of tuples of pairs:

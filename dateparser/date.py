@@ -323,7 +323,8 @@ class DateDataParser:
     :type settings: dict
 
     :param detect_languages_function:
-        A function for language detection that takes as input a `text` and a `confidence_threshold`, and returns a list of detected language codes.
+        A function for language detection that takes as input a `text` and a `confidence_threshold`,
+        and returns a list of detected language codes.
     :type detect_languages_function: function
 
     :return: A parser instance
