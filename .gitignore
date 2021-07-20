@@ -50,6 +50,3 @@ docs/_build
 
 # Other
 raw_data
-
-# Language detection models binary data
-*.bin

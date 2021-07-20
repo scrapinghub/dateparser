@@ -9,8 +9,9 @@ _cli_functions_map = {
 }
 
 
-def no_matching_command_found():
-    print("dateparser-download: No command found")
+def no_matching_command_found(msg=None):
+    msg = msg or "No matching command found"
+    print("dateparser-download: {}".format(msg))
 
 
 def entrance():
@@ -22,4 +23,4 @@ def entrance():
         else:
             no_matching_command_found()
     else:
-        no_matching_command_found()
+        no_matching_command_found(msg="To use dateparser-download you have to specify the integration and the model")
