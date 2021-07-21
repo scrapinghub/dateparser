@@ -12,6 +12,8 @@ def search_dates(text, languages=None, settings=None):
     )
 
     dates = result.get('Dates')
+    if not dates:
+        return None
     return dates
 
 
@@ -21,4 +23,6 @@ def search_first_date(text, languages=None, settings=None):
         text=text, languages=languages, limit_date_search_results=1, settings=settings
     )
     dates = result.get('Dates')
+    if not dates:
+        return None
     return dates

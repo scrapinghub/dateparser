@@ -342,8 +342,7 @@ class TestTranslateSearch(BaseTestCase):
         # German
         param('de', 'Die UdSSR blieb gemäß dem Neutralitätspakt '
                     'vom 13. April 1941 gegenüber Japan vorerst neutral.',
-              [('Die', datetime.datetime(1999, 12, 28, 0, 0)),
-               ('13. April 1941', datetime.datetime(1941, 4, 13, 0, 0))],
+              [('13. April 1941', datetime.datetime(1941, 4, 13, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Indonesian
@@ -688,8 +687,8 @@ class TestTranslateSearch(BaseTestCase):
               languages=['en', 'ru'],
               settings=None,
               expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
-                        ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
-                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+                        ('20 марта', datetime.datetime(2021, 3, 20, 0, 0)),
+                        ('21 марта', datetime.datetime(2021, 3, 21, 0, 0))]),
 
         param(text='Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
               languages=None,
@@ -700,8 +699,8 @@ class TestTranslateSearch(BaseTestCase):
               languages=['en', 'ru'],
               settings=None,
               expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
-                        ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
-                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+                        ('20 марта', datetime.datetime(2021, 3, 20, 0, 0)),
+                        ('21 марта', datetime.datetime(2021, 3, 21, 0, 0))]),
 
         # Dates not found
         param(text='',
