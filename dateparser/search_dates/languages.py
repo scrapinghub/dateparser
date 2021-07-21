@@ -4,7 +4,7 @@ from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.languages.loader import LocaleDataLoader
 
 
-class DetectLanguage:
+class SearchLanguages:
     def __init__(self) -> None:
         self.loader = LocaleDataLoader()
         self.available_language_map = self.loader.get_locale_map()
@@ -14,7 +14,7 @@ class DetectLanguage:
         if self.language is None or self.language.shortname != language_shortname:
             self.language = self.loader.get_locale(language_shortname)
 
-    def translate_objects(self, text, language_shortname, settings):
+    def translate_objects(self, language_shortname, text, settings):
         self.get_current_language(language_shortname)
         result = self.language.translate_search(text, settings=settings)
         return result
