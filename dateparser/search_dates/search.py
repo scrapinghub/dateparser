@@ -31,13 +31,20 @@ def _final_text_clean(parsed_objects):
     for candidate in parsed_objects:
         original_object, date_obj = candidate
 
-        first_two_chars = re.sub(r'['+_excape_chars+']', ' ', original_object[:2])
-        last_two_chars = re.sub(r'['+_excape_chars+']', ' ', original_object[-2:])
+        first_two_chars = re.sub(r'[' + _excape_chars + ']', '', original_object[:2])
+        last_two_chars = re.sub(r'[' + _excape_chars + ']', '', original_object[-2:])
 
-        original_object = first_two_chars + original_object[4:-2] + last_two_chars
+        if original_object[0].isdigit():
+            first_two_chars = original_object[:2]
+
+        if original_object[-1].isdigit():
+            last_two_chars = last_two_chars[:2]
+
+
+        original_object = first_two_chars + original_object[2:-2] + last_two_chars
 
         final_returnable_objects.append(
-            (original_object, date_obj)
+            (original_object.strip(), date_obj)
         )
 
     return final_returnable_objects
@@ -60,6 +67,7 @@ def _create_joined_parse(text, max_join=7, sort_ascending=False):
 
     return joint_objects
 
+
 def _get_accurate_return_text(text, parser, datetime_object):
     # THIS METHOD IS STILL BEING TESTED
     text_candidates = _create_joined_parse(text=text, sort_ascending=True)
@@ -71,10 +79,10 @@ def _get_accurate_return_text(text, parser, datetime_object):
 def _joint_parse(text, parser, deep_search=True, accurate_return_text=False, data_carry=None):
     if not text:
         return data_carry or []
-    
+
     if not len(text) >= 4:
         return data_carry or []
-    
+
     reduced_text_candidate = None
     returnable_objects = data_carry or []
     joint_based_search_dates = _create_joined_parse(text)
@@ -82,7 +90,9 @@ def _joint_parse(text, parser, deep_search=True, accurate_return_text=False, dat
         parsed_date_object = parser.get_date_data(date_object_candidate)
         if parsed_date_object.date_obj:
             if accurate_return_text:
-                date_object_candidate = _get_accurate_return_text(date_object_candidate, parser, parsed_date_object.date_obj)
+                date_object_candidate = _get_accurate_return_text(
+                    date_object_candidate, parser, parsed_date_object.date_obj
+                )
 
             returnable_objects.append(
                 (date_object_candidate, parsed_date_object.date_obj)
@@ -123,7 +133,6 @@ class DateSearch:
         )
 
         for original_object in original:
-            parsed_date_object = None
             if limit_date_search_results and returnable_objects:
                 if len(returnable_objects) == limit_date_search_results:
                     return [returnable_objects]
@@ -143,11 +152,10 @@ class DateSearch:
                     returnable_objects.append(
                         (original_object, parsed_date_object.date_obj)
                     )
-        
+
         if final_clean:
-            #returnable_objects = _final_text_clean(returnable_objects)
+            returnable_objects = _final_text_clean(returnable_objects)
             pass
-        
 
         return returnable_objects
 

@@ -111,15 +111,11 @@ class _ExactLanguageSearch:
             if len(item) <= 2:
                 continue
 
-            print(item)
-
             parsed_item, is_relative = self.parse_item(parser, item, translated[i], parsed, need_relative_base)
             if parsed_item['date_obj']:
                 parsed.append((parsed_item, is_relative))
                 substrings.append(original[i].strip(" .,:()[]-'"))
                 continue
-
-            print(1111111)
 
             possible_splits = self.split_if_not_parsed(item, original[i])
             if not possible_splits:

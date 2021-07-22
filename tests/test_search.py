@@ -373,7 +373,7 @@ class TestTranslateSearch(BaseTestCase):
         param('pl', 'II wojna światowa – największa wojna światowa w historii, '
                     'trwająca od 1 września 1939 do 2 września 1945 (w Europie do 8 maja 1945)',
               [('1 września 1939', datetime.datetime(1939, 9, 1, 0, 0)),
-               ('2 września 1945 (w', datetime.datetime(1945, 9, 2, 0, 0)),
+               ('2 września 1945 w', datetime.datetime(1945, 9, 2, 0, 0)),
                ('8 maja 1945', datetime.datetime(1945, 5, 8, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
