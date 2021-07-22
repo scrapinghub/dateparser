@@ -26,15 +26,15 @@ download your model of choice using ``dateparser-download``.
 
 Downloading small model::
 
-    >>> dateparser-download fasttext small
+    >>> dateparser-download --fasttext small
 
 Downloading large model::
 
-    >>> dateparser-download fasttext large
+    >>> dateparser-download --fasttext large
 
 Deleting all cached models::
 
-    >>> dateparser-download clear_cache
+    >>> dateparser-download --clear_cache
 
 .. note::
 
