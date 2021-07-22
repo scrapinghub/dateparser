@@ -7,7 +7,7 @@ from .utils import date_parser_model_home, check_data_model_home_existance
 from .exceptions import FastTextModelNotFoundException
 
 
-def fasttext_downloader(model=None):
+def fasttext_downloader(model):
     check_data_model_home_existance()
 
     model_url = {
@@ -15,14 +15,11 @@ def fasttext_downloader(model=None):
         "large": "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin"
     }
 
-    if not model:
-        message = "No model name passed Supported models are: {}".join(model_url.keys())
-        raise FastTextModelNotFoundException(message)
-    elif model[0] in model_url:
-        model_name = model[0]
+    if model in model_url:
+        model_name = model
     else:
         message = "Couldn't find a model called \"{}\". Supported models are: {}".format(
-            model, "in ".join(model[0], model_url.keys())
+            model, "in ".join(model, model_url.keys())
         )
         raise FastTextModelNotFoundException(message)
 

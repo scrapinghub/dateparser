@@ -16,7 +16,7 @@ for downloaded_model in _downloaded_models:
         _model_path = date_parser_model_home + "/" + downloaded_model
 
 if not _model_path:
-    fasttext_downloader(["small"])
+    fasttext_downloader("small")
 
 _language_parser = fasttext.load_model(_model_path)
 
