@@ -26,7 +26,6 @@ class Settings:
     * `RETURN_TIME_AS_PERIOD`
     * `PARSERS`
     * `DEFAULT_LANGUAGES`
-    * `LANGUAGE_DETECTION_STRICT_USE`
     * `LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`
     """
 
@@ -198,9 +197,6 @@ def check_settings(settings):
         },
         'DEFAULT_LANGUAGES': {
             'type': list
-        },
-        'LANGUAGE_DETECTION_STRICT_USE': {
-            'type': bool
         },
         'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': {
             'type': float

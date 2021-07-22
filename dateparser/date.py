@@ -473,12 +473,13 @@ class DateDataParser:
                 text=date_string, confidence_threshold=self._settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             )
 
-            languages = map_languages(detected_languages) or self._settings.DEFAULT_LANGUAGES
-
-            if self._settings.LANGUAGE_DETECTION_STRICT_USE or not self.languages:
-                self.languages = languages
+            if self.languages:
+                self.languages += map_languages(detected_languages)
             else:
-                self.languages += languages
+                self.languages = map_languages(detected_languages)
+
+        if self.languages:
+            self.languages += self._settings.DEFAULT_LANGUAGES
 
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,

@@ -1,9 +1,8 @@
-from parameterized import parameterized, param
 from datetime import datetime
-
 from unittest.mock import Mock
-
 import unittest
+
+from parameterized import parameterized, param
 
 # from dateparser.custom_language_detection.fasttext import detect_languages as fast_text_detect_languages
 from dateparser.custom_language_detection.langdetect import detect_languages as lang_detect_detect_languages

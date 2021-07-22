@@ -1,8 +1,8 @@
 import sys
-import logging
 
 from .fasttext_manager import fasttext_downloader
 from .utils import clear_cache
+from .exceptions import CommandNotFound
 
 
 _cli_functions_map = {
@@ -13,7 +13,7 @@ _cli_functions_map = {
 
 def no_matching_command_found(msg=None):
     msg = msg or "No matching command found"
-    logging.error("dateparser-download: {}".format(msg))
+    raise CommandNotFound(msg)
 
 
 def entrance():

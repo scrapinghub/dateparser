@@ -30,9 +30,8 @@ settings = {
     'RETURN_TIME_AS_PERIOD': False,
     'PARSERS': default_parsers,
 
-    'DEFAULT_LANGUAGES': ["en"],
+    'DEFAULT_LANGUAGES': [],
 
     # Optional language detect
-    'LANGUAGE_DETECTION_STRICT_USE' : False,
     'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD' : 0.5
 }

@@ -4,9 +4,10 @@ import os
 import logging
 
 from .utils import date_parser_model_home, check_if_date_parser_model_home_exists_else_create
+from .exceptions import FastTextModelNotFoundException
 
 
-def fasttext_downloader(model=[]):
+def fasttext_downloader(model=None):
     check_if_date_parser_model_home_exists_else_create()
 
     model_url = {
@@ -15,15 +16,15 @@ def fasttext_downloader(model=[]):
     }
 
     if not model:
-        model_name = "small"
-    elif model and model[0] == "large":
-        model_name = "large"
+        message = "No model name passed Supported models are: {}".join(model_url.keys())
+        raise FastTextModelNotFoundException(message)
+    elif model[0] in model_url:
+        model_name = model[0]
     else:
-        logging.error(
-            "Couldn't find a model called \"{}\". Supported models are:"
-            " {}".format(model[0], ", ".join(model_url.keys()))
+        message = "Couldn't find a model called \"{}\". Supported models are: {}".format(
+            model, "in ".join(model[0], model_url.keys())
         )
-        return 0
+        raise FastTextModelNotFoundException(message)
 
     models_directory_path = os.path.join(date_parser_model_home, (model_name + ".bin"))
 
