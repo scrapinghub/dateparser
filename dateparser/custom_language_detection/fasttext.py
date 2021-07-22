@@ -2,8 +2,9 @@ import fasttext
 import os
 
 from dateparser_cli.fasttext_manager import fasttext_downloader
-from dateparser_cli.utils import date_parser_model_home
+from dateparser_cli.utils import date_parser_model_home, check_data_model_home_existance
 
+check_data_model_home_existance()
 
 _supported_models = ["large.bin", "small.bin"]
 _downloaded_models = os.listdir(date_parser_model_home)

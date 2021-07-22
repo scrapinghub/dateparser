@@ -3,12 +3,12 @@ import urllib.request
 import os
 import logging
 
-from .utils import date_parser_model_home, check_if_date_parser_model_home_exists_else_create
+from .utils import date_parser_model_home, check_data_model_home_existance
 from .exceptions import FastTextModelNotFoundException
 
 
 def fasttext_downloader(model=None):
-    check_if_date_parser_model_home_exists_else_create()
+    check_data_model_home_existance()
 
     model_url = {
         "small": "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.ftz",
