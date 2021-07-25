@@ -342,7 +342,8 @@ class TestTranslateSearch(BaseTestCase):
         # German
         param('de', 'Die UdSSR blieb gemäß dem Neutralitätspakt '
                     'vom 13. April 1941 gegenüber Japan vorerst neutral.',
-              [('13. April 1941', datetime.datetime(1941, 4, 13, 0, 0))],
+              [('Die', datetime.datetime(1999, 12, 28, 0, 0)),
+              ('13. April 1941', datetime.datetime(1941, 4, 13, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Indonesian
@@ -687,8 +688,8 @@ class TestTranslateSearch(BaseTestCase):
               languages=['en', 'ru'],
               settings=None,
               expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
-                        ('20 марта', datetime.datetime(2021, 3, 20, 0, 0)),
-                        ('21 марта', datetime.datetime(2021, 3, 21, 0, 0))]),
+                        ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
+                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
 
         param(text='Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
               languages=None,
@@ -699,8 +700,8 @@ class TestTranslateSearch(BaseTestCase):
               languages=['en', 'ru'],
               settings=None,
               expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
-                        ('20 марта', datetime.datetime(2021, 3, 20, 0, 0)),
-                        ('21 марта', datetime.datetime(2021, 3, 21, 0, 0))]),
+                        ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
+                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
 
         # Dates not found
         param(text='',
@@ -741,24 +742,6 @@ class TestTranslateSearch(BaseTestCase):
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)
-        self.assertEqual(result, expected)
-
-    @parameterized.expand([
-        param(text="15 de outubro de 1936",
-              add_detected_language=True,
-              expected=[
-                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0), "pt")
-              ]),
-        param(text="15 de outubro de 1936",
-              add_detected_language=False,
-              expected=[
-                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0))
-              ]),
-    ])
-    def test_search_dates_returning_detected_languages_if_requested(
-        self, text, add_detected_language, expected
-    ):
-        result = search_dates(text, add_detected_language=add_detected_language)
         self.assertEqual(result, expected)
 
     @parameterized.expand([

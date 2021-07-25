@@ -4,11 +4,11 @@ from dateparser import parse
 
 # THIS IS TEMPORARY FILE FOR TESTS
 
-text = """July 12th, 2014. July 13th, July 14th"""
+text = """19 марта 2001, 20 марта, 21 марта был отличный день."""
 
-out = search_dates(text, languages=["en"])
+out = search_dates(text, languages=["ru"])
 print(out)
 
-print(sd(text, languages=["en"]))
+print(sd("19 марта 2001, 20 марта, 21 марта был отличный день."))
 
 # tox -e py -- tests/test_search.py
