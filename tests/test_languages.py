@@ -2184,10 +2184,10 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         assert result is None
 
     @parameterized.expand([
-        param(date_string='12/12/2000', settings={
+        param(date_string='12/12/2000', languages=["es"], settings={
             "DEFAULT_LANGUAGES": ["en"]
         }),
     ])
-    def test_parse_settings_default_languages_with_detected_language(self, date_string, settings):
-        result = parse(date_string, settings=settings)
+    def test_parse_settings_default_languages_with_detected_language(self, date_string, languages, settings):
+        result = parse(date_string, languages=languages, settings=settings)
         assert type(result) == datetime

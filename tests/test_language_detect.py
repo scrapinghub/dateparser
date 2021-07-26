@@ -26,7 +26,7 @@ class CustomLangDetectParserTest(unittest.TestCase):
         )
     ])
     def test_custom_language_detect_with_languages(self, dt_string, languages, detect_languages_function):
-        self.result = parse(dt_string, languages, detect_languages_function=detect_languages_function)
+        self.result = parse(dt_string, languages=languages, detect_languages_function=detect_languages_function)
         assert type(self.result) == datetime
 
     @parameterized.expand([
