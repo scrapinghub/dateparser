@@ -141,6 +141,25 @@ Language Detection
     datetime.datetime(2015, 12, 4, 0, 0)
 
 
+Default Languages
++++++++++++++++++
+
+``DEFAULT_LANGUAGES``: It is a ``list`` of language codes in ISO 639 which is used as default 
+languages in which are to be parsed. eg. "en":
+
+    >>> from dateparser import parse
+    >>> parse(settings={'DEFAULT_LANGUAGES': ["en", "es"]})
+
+
+Optional language detect
+++++++++++++++++++++++++
+
+``LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD``: defaults to ``0.5``. It is a ``float`` of minimum required confidence for the custom language detection.:
+
+    >>> from dateparser import parse
+    >>> parse(settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 0.5})
+
+
 Other settings
 ++++++++++++++
 
