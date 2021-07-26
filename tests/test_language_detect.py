@@ -10,6 +10,8 @@ from dateparser import parse
 from dateparser.date import DateDataParser
 from dateparser.search import search_dates
 
+detect_languages = Mock()
+detect_languages.return_value = ["en"]
 
 class CustomLangDetectParserTest(unittest.TestCase):
     def check_is_returned_list(self):
