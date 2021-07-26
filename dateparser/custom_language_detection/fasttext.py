@@ -21,10 +21,10 @@ if not _model_path:
 _language_parser = fasttext.load_model(_model_path)
 
 
-def detect_languages(text, confidence_threshold=0.5):
+def detect_languages(text, confidence_threshold):
     text = text.replace('\n', ' ').replace('\r', '')
     language_codes = []
-    parser_data = _language_parser.predict(text, k=5)
+    parser_data = _language_parser.predict(text)
     for idx, langauge_candidate in enumerate(parser_data[1]):
         if langauge_candidate > confidence_threshold:
             language_code = parser_data[0][idx].replace("__label__", "")
