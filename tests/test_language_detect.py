@@ -4,7 +4,7 @@ import unittest
 
 from parameterized import parameterized, param
 
-from dateparser.custom_language_detection.fasttext import detect_languages as fast_text_detect_languages
+# from dateparser.custom_language_detection.fasttext import detect_languages as fast_text_detect_languages
 from dateparser.custom_language_detection.langdetect import detect_languages as lang_detect_detect_languages
 from dateparser import parse
 from dateparser.date import DateDataParser
@@ -13,16 +13,17 @@ from dateparser.search import search_dates
 detect_languages = Mock()
 detect_languages.return_value = ["en"]
 
+
 class CustomLangDetectParserTest(unittest.TestCase):
     def check_is_returned_list(self):
         self.assertEqual(type(self.result), list)
 
-    #@parameterized.expand([
-    #    param(dt_string="14 June 2020"),
-    #])
-    #def test_custom_language_detect_fast_text(self, dt_string):
-    #    self.result = fast_text_detect_languages(dt_string)
-    #    self.check_is_returned_list()
+    # @parameterized.expand([
+    #     param(dt_string="14 June 2020"),
+    # ])
+    # def test_custom_language_detect_fast_text(self, dt_string):
+    #     self.result = fast_text_detect_languages(dt_string)
+    #     self.check_is_returned_list()
 
     @parameterized.expand([
         param(dt_string="14 June 2020"),

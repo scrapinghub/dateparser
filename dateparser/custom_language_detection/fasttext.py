@@ -1,27 +1,41 @@
-import fasttext
 import os
+
+import fasttext
 
 from dateparser_cli.fasttext_manager import fasttext_downloader
 from dateparser_cli.utils import date_parser_model_home, check_data_model_home_existance
 
-check_data_model_home_existance()
 
 _supported_models = ["large.bin", "small.bin"]
-_downloaded_models = os.listdir(date_parser_model_home)
 
-_model_path = None
 
-for downloaded_model in _downloaded_models:
-    if downloaded_model in _supported_models:
-        _model_path = date_parser_model_home + "/" + downloaded_model
+class FastTextCache:
+    model = None
 
-if not _model_path:
-    fasttext_downloader("small")
 
-_language_parser = fasttext.load_model(_model_path)
+def _load_fasttext_model():
+
+    if FastTextCache.model:
+        return FastTextCache.model
+
+    check_data_model_home_existance()
+    model_path = None
+    downloaded_models = os.listdir(date_parser_model_home)
+
+    for downloaded_model in downloaded_models:
+        if downloaded_model in _supported_models:
+            model_path = date_parser_model_home + "/" + downloaded_model
+
+    if not model_path:
+        fasttext_downloader("large")
+        model_path = date_parser_model_home + "/" + "large.bin"
+
+    FastTextCache.model = fasttext.load_model(model_path)
+    return FastTextCache.model
 
 
 def detect_languages(text, confidence_threshold):
+    _language_parser = _load_fasttext_model()
     text = text.replace('\n', ' ').replace('\r', '')
     language_codes = []
     parser_data = _language_parser.predict(text)
