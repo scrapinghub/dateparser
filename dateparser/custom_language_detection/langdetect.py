@@ -2,6 +2,10 @@ from langdetect.detector_factory import DetectorFactory, PROFILES_DIRECTORY
 import langdetect
 
 
+# The below Factory is set to prevent setting global state of the library
+# but still getting consistent results.
+# Refer - https://github.com/Mimino666/langdetect
+
 class Factory:
     data = None
 
@@ -20,7 +24,7 @@ def detect_langs(text):
     return detector.get_probabilities()
 
 
-def detect_languages(text, confidence_threshold=0.5):
+def detect_languages(text, confidence_threshold):
     language_codes = []
     try:
         parser_data = detect_langs(text)
