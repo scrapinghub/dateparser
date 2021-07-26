@@ -8,6 +8,9 @@ from dateparser.languages.validation import LanguageValidator
 from dateparser.conf import apply_settings
 from dateparser.search.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.utils import normalize_unicode
+from dateparser import parse
+
+from datetime import datetime
 
 from tests import BaseTestCase
 
@@ -2168,3 +2171,23 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         result = self.validator._validate_extra_keys(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
+
+    # BELOW TESTS ARE NOT ACCURATE & WIP
+
+    @parameterized.expand([
+        param(date_string='RANDOM_WORD ', settings={
+            "DEFAULT_LANGUAGES": ["en"]
+        })
+    ])
+    def test_parse_settings_default_languages_no_language_detect(self, date_string, settings):
+        result = parse(date_string, settings=settings)
+        assert result is None
+
+    @parameterized.expand([
+        param(date_string='12/12/2000', settings={
+            "DEFAULT_LANGUAGES": ["en"]
+        }),
+    ])
+    def test_parse_settings_default_languages_with_detected_language(self, date_string, settings):
+        result = parse(date_string, settings=settings)
+        assert type(result) == datetime

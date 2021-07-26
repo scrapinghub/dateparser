@@ -145,7 +145,7 @@ Default Languages
 +++++++++++++++++
 
 ``DEFAULT_LANGUAGES``: It is a ``list`` of language codes in ISO 639 which is used as default 
-languages in which are to be parsed. eg. "en":
+languages and are to be parsed. eg. "en":
 
     >>> from dateparser import parse
     >>> parse(settings={'DEFAULT_LANGUAGES': ["en", "es"]})

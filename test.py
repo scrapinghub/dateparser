@@ -1,3 +1,3 @@
-from dateparser.search import search_dates
+from dateparser import parse
 
-print(search_dates("wbhtw5yhjw5he5he5567e", settings={"DEFAULT_LANGUAGES":["en"]}))
+print(type(None))

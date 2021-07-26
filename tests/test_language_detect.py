@@ -19,10 +19,14 @@ class CustomLangDetectParserTest(unittest.TestCase):
         self.assertEqual(type(self.result), list)
 
     @parameterized.expand([
-        param(dt_string="14 June 2020", languages=["es"])
+        param(
+            dt_string="14 June 2020",
+            languages=["es"],
+            detect_languages_function=fast_text_detect_languages
+        )
     ])
-    def test_custom_language_detect_with_languages(self, dt_string, languages):
-        self.result = parse(dt_string, languages)
+    def test_custom_language_detect_with_languages(self, dt_string, languages, detect_languages_function):
+        self.result = parse(dt_string, languages, detect_languages_function=detect_languages_function)
         assert type(self.result) == datetime
 
     @parameterized.expand([

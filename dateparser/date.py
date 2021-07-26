@@ -482,7 +482,7 @@ class DateDataParser:
             if self.languages:
                 self.languages += self._settings.DEFAULT_LANGUAGES
             else:
-                self.languages = self._settings.DEFAULT_LANGUAGES            
+                self.languages = self._settings.DEFAULT_LANGUAGES
 
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
