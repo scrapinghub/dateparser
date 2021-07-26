@@ -27,8 +27,8 @@ def _load_fasttext_model():
             model_path = date_parser_model_home + "/" + downloaded_model
 
     if not model_path:
-        fasttext_downloader("large")
-        model_path = date_parser_model_home + "/" + "large.bin"
+        fasttext_downloader("small")
+        model_path = date_parser_model_home + "/" + "small.bin"
 
     FastTextCache.model = fasttext.load_model(model_path)
     return FastTextCache.model
