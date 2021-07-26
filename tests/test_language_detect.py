@@ -15,12 +15,12 @@ class CustomLangDetectParserTest(unittest.TestCase):
     def check_is_returned_list(self):
         self.assertEqual(type(self.result), list)
 
-    @parameterized.expand([
-        param(dt_string="14 June 2020"),
-    ])
-    def test_custom_language_detect_fast_text(self, dt_string):
-        self.result = fast_text_detect_languages(dt_string)
-        self.check_is_returned_list()
+    #@parameterized.expand([
+    #    param(dt_string="14 June 2020"),
+    #])
+    #def test_custom_language_detect_fast_text(self, dt_string):
+    #    self.result = fast_text_detect_languages(dt_string)
+    #    self.check_is_returned_list()
 
     @parameterized.expand([
         param(dt_string="14 June 2020"),
