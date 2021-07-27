@@ -4,6 +4,7 @@ from collections.abc import Set
 from datetime import datetime, timedelta
 
 import regex as re
+from tzlocal import get_localzone
 from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
@@ -13,7 +14,8 @@ from dateparser.conf import apply_settings, check_settings
 from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
-    set_correct_day_from_settings
+    set_correct_day_from_settings, \
+    get_timezone_from_tz_string
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     '\N{RIGHT SINGLE QUOTATION MARK}',     # '\u2019'
@@ -114,11 +116,18 @@ def sanitize_date(date_string):
 def get_date_from_timestamp(date_string, settings):
     match = RE_SEARCH_TIMESTAMP.search(date_string)
     if match:
+        if settings is not None and settings.TIMEZONE is not None and 'local' not in settings.TIMEZONE.lower():
+            local_timezone = get_timezone_from_tz_string(settings.TIMEZONE)
+        else:
+            local_timezone = get_localzone()
+
         seconds = int(match.group(1))
         millis = int(match.group(2) or 0)
         micros = int(match.group(3) or 0)
-        date_obj = datetime.fromtimestamp(seconds)
-        date_obj = date_obj.replace(microsecond=millis * 1000 + micros)
+        date_obj = (datetime
+                    .fromtimestamp(seconds, local_timezone)
+                    .replace(microsecond=millis * 1000 + micros, tzinfo=None)
+                    )
         date_obj = apply_timezone_from_settings(date_obj, settings)
         return date_obj
 
