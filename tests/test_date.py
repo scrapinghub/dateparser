@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
+import os
 import unittest
 from collections import OrderedDict
 from copy import copy
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone as dttz
+from itertools import product
+from time import tzset
 
 from unittest.mock import Mock, patch
 from parameterized import parameterized, param
@@ -710,12 +713,73 @@ class TestDateLocaleParser(BaseTestCase):
 
 
 class TestTimestampParser(BaseTestCase):
+    def given_parser(self, **params):
+        self.parser = date.DateDataParser(**params)
+
+    def given_tzstr(self, tzstr):
+        # Save the existing value
+        self.old_tzstr = os.environ['TZ'] if 'TZ' in os.environ else None
+
+        # Overwrite the value, or remove it
+        if tzstr is not None:
+            os.environ['TZ'] = tzstr
+        elif 'TZ' in os.environ:
+            del os.environ['TZ']
+
+        # Call tzset
+        tzset()
+
+    def reset_tzstr(self):
+        # If we never set it with given_tzstr, don't bother resetting it
+        if not hasattr(self, 'old_tzstr'):
+            return
+
+        # Restore the old value, or remove it if null
+        if self.old_tzstr is not None:
+            os.environ['TZ'] = self.old_tzstr
+        elif 'TZ' in os.environ:
+            del os.environ['TZ']
+
+        # Remove the local attribute
+        del self.old_tzstr
+
+        # Restore the old timezone behavior
+        tzset()
 
     def test_timestamp_in_milliseconds(self):
         self.assertEqual(
             date.get_date_from_timestamp('1570308760263', None),
             datetime.fromtimestamp(1570308760).replace(microsecond=263000)
         )
+
+    @parameterized.expand(
+        product(
+            ['1570308760'],
+            ['EDT', 'EST', 'PDT', 'PST', 'UTC', 'local'],
+            [None, 'EDT', 'EST', 'PDT', 'PST', 'UTC'],
+            ['EST5EDT4', 'UTC0', 'PST8PDT7', None],
+        )
+    )
+    def test_timestamp_with_different_timestr(self, timestamp, timezone, to_timezone, tzstr):
+        settings = {
+            'RETURN_AS_TIMEZONE_AWARE': True,
+            'TIMEZONE': timezone,
+        }
+
+        # is TO_TIMEZONE supposed to be allowed to be False, or None ???
+        if to_timezone is not None:
+            settings['TO_TIMEZONE'] = to_timezone
+
+        self.given_parser(settings=settings)
+
+        self.given_tzstr(tzstr)
+
+        self.assertEqual(
+            self.parser.get_date_data(timestamp)['date_obj'],
+            datetime.fromtimestamp(int(timestamp), dttz.utc)
+        )
+
+        self.reset_tzstr()
 
     def test_timestamp_in_microseconds(self):
         self.assertEqual(
