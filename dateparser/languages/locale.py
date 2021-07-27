@@ -188,7 +188,7 @@ class Locale:
             last_token_index = len(simplified_tokens) - 1
             skip_next_token = False
             for i, word in enumerate(simplified_tokens):
-                next_word = simplified_tokens[i + 1] if i < (simplified_tokens_length - 1) else ""
+                next_word = simplified_tokens[i + 1] if i < last_token_index else ""
                 current_and_next_joined = self._join_chunk([word, next_word], settings=settings)
                 if skip_next_token:
                     skip_next_token = False
