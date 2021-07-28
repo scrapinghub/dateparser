@@ -1,6 +1,5 @@
 import re
 from typing import List, Dict
-import string
 
 from dateparser.conf import apply_settings, Settings
 from dateparser.date import DateDataParser
@@ -23,15 +22,18 @@ _bad_date_re = re.compile(
     + ")$"
 )
 
+
 def _get_relative_base(already_parsed):
     if already_parsed:
         return already_parsed[-1][1]
     return None
 
+
 def _create_splits(text):
     splited_objects = text.split()
     splited_objects = [p for p in splited_objects if p and p not in _drop_words]
     return splited_objects
+
 
 def _create_joined_parse(text, max_join=7, sort_ascending=False):
     split_objects = _create_splits(text)
@@ -69,7 +71,7 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
     if translated:
         if len(translated) <= 2:
             return data_carry or []
-    
+
     reduced_text_candidate = None
     returnable_objects = data_carry or []
     joint_based_search_dates = _create_joined_parse(text)
@@ -127,7 +129,6 @@ class DateSearch:
                 relative_base = _get_relative_base(returnable_objects)
                 if relative_base:
                     parser._settings.RELATIVE_BASE = relative_base
-                #WORKING HERE
 
             if self.make_joints_parse:
                 joint_based_search_dates = _joint_parse(
@@ -144,7 +145,7 @@ class DateSearch:
         parser._settings = Settings()
 
         return returnable_objects
- 
+
     @apply_settings
     def search_dates(
         self, text, languages=None, limit_date_search_results=None, settings=None
