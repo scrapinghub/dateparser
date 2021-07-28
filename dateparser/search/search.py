@@ -215,6 +215,7 @@ class DateSearchWithDetection:
         :raises: ValueError - Unknown Language
         """
 
+
         language_shortname = self.detect_language(text=text, languages=languages)
         if not language_shortname:
             return {'Language': None, 'Dates': None}

@@ -1,14 +1,29 @@
 from dateparser.search_dates import search_dates
-from dateparser.search import search_dates as sd
-from dateparser import parse
 
 # THIS IS TEMPORARY FILE FOR TESTS
 
-text = """19 марта 2001, 20 марта, 21 марта был отличный день."""
+text = """19 July 2001, 20 July 21 July"""
 
-out = search_dates(text, languages=["ru"])
-print(out)
+out1 = search_dates(text)
+print(out1)
 
-print(sd("19 марта 2001, 20 марта, 21 марта был отличный день."))
 
-# tox -e py -- tests/test_search.py
+"""
+
+print("123456789")
+from dateparser.search import search_dates, DateSearchWithDetection
+from dateparser.conf import apply_settings
+
+# THIS IS TEMPORARY FILE FOR TESTS
+
+text = "2014. July 12th, July 13th, July 14th"
+
+@apply_settings
+def main(settings):
+    print(DateSearchWithDetection().search.search_parse(shortname="en",text=text, settings=settings))
+
+main()
+
+"""
+
+# tox -e py -- tests/test_search_dates.py
