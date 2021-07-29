@@ -179,7 +179,7 @@ class DateSearchWithDetection:
                 text, confidence_threshold=settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             )
             detected_languages = map_languages(detected_languages) or settings.DEFAULT_LANGUAGES
-            return detected_languages[0] if detected_languages else []
+            return detected_languages[0] if detected_languages else None
 
         if isinstance(languages, (list, tuple, Set)):
             if all([language in self.available_language_map for language in languages]):
