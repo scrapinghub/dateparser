@@ -4,7 +4,7 @@ from pathlib import Path
 import logging
 
 DEFAULT_UNIX_CACHE_DIR = os.environ.get("DEFAULT_CACHE_DIR", '~/.cache')
-DEFAULT_WIXDOWS_CACHE_DIR = os.environ.get("DEFAULT_CACHE_DIR", os.path.join("AppData", "Roaming"))
+DEFAULT_WIXDOWS_CACHE_DIR = os.environ.get("DEFAULT_CACHE_DIR", os.path.join(Path.home(), "AppData", "Roaming"))
 DEFAULT_DIR_NAME = os.environ.get("DEFAULT_DIR_NAME", 'date_parser_models')
 
 date_parser_model_home = None
