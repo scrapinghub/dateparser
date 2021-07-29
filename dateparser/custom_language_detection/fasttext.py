@@ -31,6 +31,9 @@ def _load_fasttext_model():
         fasttext_downloader("small")
         return _load_fasttext_model()
 
+    if not os.path.isfile(model_path):
+        raise Exception('Fasttext model file not found')
+
     FastTextCache.model = fasttext.load_model(model_path)
     return FastTextCache.model
 
