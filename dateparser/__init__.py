@@ -41,7 +41,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None,
     :type settings: dict
 
     :param detect_languages_function:
-        A function for language detection that takes as input a `text` (the `date_string`) and
+        A function for language detection that takes as input a string (the `date_string`) and
         a `confidence_threshold`, and returns a list of detected language codes.
     :type detect_languages_function: function
 

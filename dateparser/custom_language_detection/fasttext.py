@@ -7,6 +7,7 @@ from dateparser_cli.utils import date_parser_model_home, check_data_model_home_e
 
 
 _supported_models = ["large.bin", "small.bin"]
+_DEFAULT_MODEL = "small.bin"
 
 
 class FastTextCache:
@@ -24,11 +25,11 @@ def _load_fasttext_model():
 
     for downloaded_model in downloaded_models:
         if downloaded_model in _supported_models:
-            model_path = date_parser_model_home + "/" + downloaded_model
+            model_path = os.path.join(date_parser_model_home, downloaded_model)
 
     if not model_path:
         fasttext_downloader("small")
-        model_path = date_parser_model_home + "/" + "small.bin"
+        _load_fasttext_model()
 
     FastTextCache.model = fasttext.load_model(model_path)
     return FastTextCache.model
