@@ -2,12 +2,6 @@ import argparse
 
 from .fasttext_manager import fasttext_downloader
 from .utils import clear_cache
-from .exceptions import CommandNotFound
-
-
-def no_matching_command_found(msg=None):
-    msg = msg or "No matching command found"
-    raise CommandNotFound(msg)
 
 
 def entrance():
@@ -32,5 +26,3 @@ def entrance():
         fasttext_downloader(args.fasttext)
     elif args.clear:
         clear_cache()
-    else:
-        no_matching_command_found(msg="To use dateparser-download you have to specify the integration and the model")

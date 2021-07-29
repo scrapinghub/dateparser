@@ -10,32 +10,26 @@ _supported_models = ["large.bin", "small.bin"]
 _DEFAULT_MODEL = "small.bin"
 
 
-class FastTextCache:
+class _FastTextCache:
     model = None
 
 
 def _load_fasttext_model():
-
-    if FastTextCache.model:
-        return FastTextCache.model
-
+    if _FastTextCache.model:
+        return _FastTextCache.model
     check_data_model_home_existance()
     model_path = None
     downloaded_models = os.listdir(date_parser_model_home)
-
     for downloaded_model in downloaded_models:
         if downloaded_model in _supported_models:
             model_path = os.path.join(date_parser_model_home, downloaded_model)
-
     if not model_path:
         fasttext_downloader("small")
         return _load_fasttext_model()
-
     if not os.path.isfile(model_path):
         raise Exception('Fasttext model file not found')
-
-    FastTextCache.model = fasttext.load_model(model_path)
-    return FastTextCache.model
+    _FastTextCache.model = fasttext.load_model(model_path)
+    return _FastTextCache.model
 
 
 def detect_languages(text, confidence_threshold):

@@ -18,8 +18,8 @@ def fasttext_downloader(model):
     if model in model_url:
         model_name = model
     else:
-        message = "Couldn't find a model called \"{}\". Supported models are: {}".format(
-            model, "in ".join(model, model_url.keys())
+        message = "dateparser-download: Couldn't find a model called \"{}\". Supported models are: {}".format(
+            model, ", ".join(model_url.keys())
         )
         raise FastTextModelNotFoundException(message)
 
