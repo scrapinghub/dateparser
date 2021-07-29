@@ -29,7 +29,7 @@ def _load_fasttext_model():
 
     if not model_path:
         fasttext_downloader("small")
-        _load_fasttext_model()
+        return _load_fasttext_model()
 
     FastTextCache.model = fasttext.load_model(model_path)
     return FastTextCache.model
