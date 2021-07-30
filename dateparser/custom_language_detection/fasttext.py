@@ -3,7 +3,7 @@ import os
 import fasttext
 
 from dateparser_cli.fasttext_manager import fasttext_downloader
-from dateparser_cli.utils import date_parser_model_home, check_data_model_home_existance
+from dateparser_cli.utils import dateparser_model_home, create_data_model_home
 
 
 _supported_models = ["large.bin", "small.bin"]
@@ -17,12 +17,12 @@ class _FastTextCache:
 def _load_fasttext_model():
     if _FastTextCache.model:
         return _FastTextCache.model
-    check_data_model_home_existance()
+    create_data_model_home()
     model_path = None
-    downloaded_models = os.listdir(date_parser_model_home)
+    downloaded_models = os.listdir(dateparser_model_home)
     for downloaded_model in downloaded_models:
         if downloaded_model in _supported_models:
-            model_path = os.path.join(date_parser_model_home, downloaded_model)
+            model_path = os.path.join(dateparser_model_home, downloaded_model)
     if not model_path:
         fasttext_downloader("small")
         return _load_fasttext_model()

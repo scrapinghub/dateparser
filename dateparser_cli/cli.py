@@ -1,4 +1,5 @@
 import argparse
+import logging
 
 from .fasttext_manager import fasttext_downloader
 from .utils import clear_cache
@@ -26,3 +27,4 @@ def entrance():
         fasttext_downloader(args.fasttext)
     elif args.clear:
         clear_cache()
+        logging.info("dateparser-download: All cache deleted")
