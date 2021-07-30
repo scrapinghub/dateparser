@@ -173,6 +173,8 @@ class InvalidSettingsTest(BaseTestCase):
         param('NORMALIZE', 'true', '', True),
         param('FUZZY', 'true', '', False),
         param('PREFER_LOCALE_DATE_ORDER', 'false', '', True),
+        param('DEFAULT_LANGUAGES', 'en', '', ['en']),
+        param('LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD', '1', '', 0.5),
     ])
     def test_check_settings(self, setting, wrong_type, wrong_value, valid_value):
         with self.assertRaisesRegex(
