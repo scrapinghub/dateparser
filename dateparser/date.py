@@ -474,13 +474,13 @@ class DateDataParser:
             )
 
             if self.languages:
-                self.languages += map_languages(detected_languages)
+                self.languages.extend(map_languages(detected_languages))
             else:
                 self.languages = map_languages(detected_languages)
 
         if self._settings.DEFAULT_LANGUAGES:
             if self.languages:
-                self.languages += self._settings.DEFAULT_LANGUAGES
+                self.languages.extend(self._settings.DEFAULT_LANGUAGES)
             else:
                 self.languages = self._settings.DEFAULT_LANGUAGES
 
