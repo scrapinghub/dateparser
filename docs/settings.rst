@@ -157,7 +157,7 @@ Optional language detect
 ``LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD``: defaults to ``0.5``. It is a ``float`` of minimum required confidence for the custom language detection.:
 
     >>> from dateparser import parse
-    >>> parse(settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 0.5})
+    >>> parse('3 de marzo de 2020', settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 0.5}, detect_languages_function=detect_languages)
 
 
 Other settings
