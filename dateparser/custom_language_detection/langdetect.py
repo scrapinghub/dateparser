@@ -6,20 +6,20 @@ import langdetect
 # but still get consistent results.
 # Refer - https://github.com/Mimino666/langdetect
 
-class Factory:
+class _Factory:
     data = None
 
 
 def _init_factory():
-    if Factory.data is None:
-        Factory.data = DetectorFactory()
-        Factory.data.load_profile(PROFILES_DIRECTORY)
-        Factory.data.seed = 0
+    if _Factory.data is None:
+        _Factory.data = DetectorFactory()
+        _Factory.data.load_profile(PROFILES_DIRECTORY)
+        _Factory.data.seed = 0
 
 
 def _get_language_probablities(text):
     _init_factory()
-    detector = Factory.data.create()
+    detector = _Factory.data.create()
     detector.append(text)
     return detector.get_probabilities()
 
