@@ -6,8 +6,6 @@ DEFAULT_UNIX_CACHE_DIR = os.environ.get("DEFAULT_CACHE_DIR", '~/.cache')
 DEFAULT_WIXDOWS_CACHE_DIR = os.environ.get("DEFAULT_CACHE_DIR", os.path.join(str(Path.home()), "AppData", "Roaming"))
 DEFAULT_DIR_NAME = os.environ.get("DEFAULT_DIR_NAME", 'dateparser_models')
 
-dateparser_model_home = None
-_cache_dir = None
 
 if sys.platform.startswith('win'):
     # For Windows :

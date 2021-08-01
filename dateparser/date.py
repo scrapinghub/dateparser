@@ -365,7 +365,7 @@ class DateDataParser:
         self._settings = settings
         self.try_previous_locales = try_previous_locales
         self.use_given_order = use_given_order
-        self.languages = languages
+        self.languages = list(languages) if languages else None
         self.locales = locales
         self.region = region
         self.detect_languages_function = detect_languages_function
