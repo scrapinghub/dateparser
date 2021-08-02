@@ -131,6 +131,17 @@ def _check_parsers(setting_name, setting_value):
     _check_repeated_values(setting_name, setting_value)
 
 
+def _check_between_0_and_1(setting_name, setting_value):
+    is_valid = 0 <= setting_value <= 1
+    if not is_valid:
+        raise SettingValidationError(
+            '{} is not a valid value for {}. It can take values between 0 and '
+            '1.'.format(
+                setting_value, setting_name,
+            )
+        )
+
+
 def check_settings(settings):
     """
     Check if provided settings are valid, if not it raises `SettingValidationError`.
@@ -199,7 +210,8 @@ def check_settings(settings):
             'type': list
         },
         'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': {
-            'type': float
+            'type': float,
+            'extra_check': _check_between_0_and_1
         },
     }
 
