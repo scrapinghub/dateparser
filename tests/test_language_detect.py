@@ -44,6 +44,14 @@ class CustomLangDetectParserTest(unittest.TestCase):
         self.result = lang_detect_detect_languages(dt_string, confidence_threshold)
         self.check_is_returned_list()
 
+    @parameterized.expand([
+        param(dt_string="10-10-2021", confidence_threshold=0.5),
+    ])
+    def test_lang_detect_doesnt_raise_error(self, dt_string, confidence_threshold):
+        result = lang_detect_detect_languages(dt_string, confidence_threshold)
+        print(result)
+        assert result == []
+
     # Mock test for parse, search_dates and DateDataParser
 
     detect_languages = Mock()

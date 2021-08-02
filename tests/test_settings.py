@@ -214,14 +214,15 @@ class InvalidSettingsTest(BaseTestCase):
         ):
             DateDataParser(settings={'PARSERS': ['absolute-time', 'timestamp', 'absolute-time']})
 
-def test_check_settings_extra_check_confidence_treshold(self):
-    with self.assertRaisesRegex(
-        SettingValidationError,
-        r'1.1 is not a valid value for '
-        r'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD. It can take values '
-        r'between 0 and 1'
-    ):
-        DateDataParser(settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 1.1})
+    def test_check_settings_extra_check_confidence_treshold(self):
+        with self.assertRaisesRegex(
+            SettingValidationError,
+            r'1.1 is not a valid value for '
+            r'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD. It can take values '
+            r'between 0 and 1'
+        ):
+            DateDataParser(settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 1.1})
+
 
 @pytest.mark.parametrize(
     "date_string,expected_result", [
