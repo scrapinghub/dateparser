@@ -22,6 +22,8 @@ _bad_date_re = re.compile(
     + ")$"
 )
 
+_secondary_splitters = [',', '،', '——', '—', '–', '.', ' ']
+
 
 def _get_relative_base(already_parsed):
     if already_parsed:
@@ -65,14 +67,14 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
     if not text:
         return data_carry or []
 
-    if not len(text) > 2:
+    elif not len(text) > 2:
         return data_carry or []
 
-    if translated:
-        if len(translated) <= 2:
-            return data_carry or []
+    elif translated and len(translated) <= 2:
+        return data_carry or []
 
     reduced_text_candidate = None
+    secondary_split_made = False
     returnable_objects = data_carry or []
     joint_based_search_dates = _create_joined_parse(text)
     for date_object_candidate in joint_based_search_dates:
@@ -92,9 +94,16 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
                 break
             reduced_text_candidate = text[:start_index] + text[end_index:]
             break
+        else:
+            for splitter in _secondary_splitters:
+                secondary_split = re.split('(?<! )[' + splitter + ']+(?! )', date_object_candidate)
+                if secondary_split and len(secondary_split) > 1:
+                    reduced_text_candidate = " ".join(secondary_split)
+                    secondary_split_made = True
 
-    if deep_search:
-        _joint_parse(reduced_text_candidate, parser, data_carry=returnable_objects)
+    if (deep_search or secondary_split_made) and not text == reduced_text_candidate:
+        if reduced_text_candidate and len(reduced_text_candidate) > 2:
+            returnable_objects = _joint_parse(reduced_text_candidate, parser, data_carry=returnable_objects)
 
     return returnable_objects
 
@@ -120,7 +129,7 @@ class DateSearch:
         for index, original_object in enumerate(original):
             if limit_date_search_results and returnable_objects:
                 if len(returnable_objects) == limit_date_search_results:
-                    return [returnable_objects]
+                    break
 
             if not len(original_object) > 2:
                 continue
@@ -142,14 +151,15 @@ class DateSearch:
                     returnable_objects.append(
                         (original_object.strip(" .,:()[]-'"), parsed_date_object.date_obj)
                     )
-        parser._settings = Settings()
 
+        parser._settings = Settings()
         return returnable_objects
 
     @apply_settings
     def search_dates(
         self, text, languages=None, limit_date_search_results=None, settings=None
     ) -> Dict:
+
 
         language_shortname = (
             self.search_languages.detect_language(text=text, languages=languages)

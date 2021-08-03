@@ -454,7 +454,7 @@ class TestTranslateSearch(BaseTestCase):
                   2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
                 ),
                ('October', datetime.datetime(2014, 10, datetime.datetime.utcnow().day, 0, 0)),
-               ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
+               ('Friday, 21', datetime.datetime(2014, datetime.datetime.utcnow().month, 21, 0, 0))]),
         param('en', """May 2020
                     June 2020
                     2023
@@ -464,12 +464,12 @@ class TestTranslateSearch(BaseTestCase):
                     May 31, 8am UTC""",
               [('May 2020', datetime.datetime(2020, 5, datetime.datetime.utcnow().day, 0, 0)),
                ('June 2020', datetime.datetime(2020, 6, datetime.datetime.utcnow().day, 0, 0)),
-               ('2023', datetime.datetime(2023, 6, datetime.datetime.utcnow().day, 0, 0)),
+               ('2023', datetime.datetime(2023, 5, datetime.datetime.utcnow().day, 0, 0)),
                ('January UTC', datetime.datetime(2023, 1, datetime.datetime.utcnow().day, 0, 0, tzinfo=pytz.utc)),
-               ('June 5 am utc', datetime.datetime(2023, 6, 5, 0, 0, tzinfo=pytz.utc)),
+               ('June 5 am utc', datetime.datetime(2023, 6, 5, 0, 0, tzinfo=datetime.timezone.utc)),
                ('June 23th 5 pm EST', datetime.datetime(2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST"))),
                ('May 31', datetime.datetime(2023, 5, 31, 0, 0)),
-               ('8am UTC', datetime.datetime(2023, 8, 31, 0, 0, tzinfo=pytz.utc))]),
+               ('8am UTC', datetime.datetime(2023, 8, 31, 0, 0, tzinfo=datetime.timezone.utc))]),
 
         # Russian
         param('ru', '19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
@@ -696,12 +696,11 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)},
               expected=[('Em outubro de 1936', datetime.datetime(1936, 10, 1, 0, 0))]),
 
-        param(text='19 марта 2001, 20 марта. 21 марта был отличный день.',
+        param(text='19 марта 2001, 20 марта 2005',
               languages=['en', 'ru'],
               settings=None,
               expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
-                        ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
-                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+                        ('20 марта 2005', datetime.datetime(2005, 3, 20, 0, 0))]),
 
         # Dates not found
         param(text='',

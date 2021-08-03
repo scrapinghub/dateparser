@@ -2,9 +2,9 @@ from dateparser.search_dates import search_dates
 
 # THIS IS TEMPORARY FILE FOR TESTS
 
-text = """19 July 2001, 20 July 21 July"""
+text = """DECEMBER 21 19.87 87"""
 
-out1 = search_dates(text)
+out1 = search_dates(text, languages=['en'])
 print(out1)
 
 
