@@ -22,7 +22,7 @@ _bad_date_re = re.compile(
     + ")$"
 )
 
-_secondary_splitters = [',', '،', '——', '—', '–', '.', ' ']  # are used if no date object is found
+_secondary_splitters = [',', '،', '——', '—', '–', '.']  # are used if no date object is found
 
 
 def _get_relative_base(already_parsed):
@@ -87,12 +87,14 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
             returnable_objects.append(
                 (date_object_candidate.strip(" .,:()[]-'"), parsed_date_object.date_obj)
             )
-            start_index = text.find(date_object_candidate)
-            end_index = start_index + len(date_object_candidate)
-            if start_index < 0:
+
+            if deep_search:
+                start_index = text.find(date_object_candidate)
+                end_index = start_index + len(date_object_candidate)
+                if start_index < 0:
+                    break
+                reduced_text_candidate = text[:start_index] + text[end_index:]
                 break
-            reduced_text_candidate = text[:start_index] + text[end_index:]
-            break
         else:
             for splitter in _secondary_splitters:
                 secondary_split = re.split('(?<! )[' + splitter + ']+(?! )', date_object_candidate)

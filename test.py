@@ -2,9 +2,9 @@ from dateparser.search_dates import search_dates
 
 # THIS IS TEMPORARY FILE FOR TESTS
 
-text = """The following isn't a correct date 100M"""
+text = """of 629"""
 
-out1 = search_dates(text, languages=['en'])
+out1 = search_dates(text)
 print(out1)
 
 
