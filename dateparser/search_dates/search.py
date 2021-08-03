@@ -22,7 +22,7 @@ _bad_date_re = re.compile(
     + ")$"
 )
 
-_secondary_splitters = [',', '،', '——', '—', '–', '.', ' ']
+_secondary_splitters = [',', '،', '——', '—', '–', '.', ' ']  # are used if no date object is found
 
 
 def _get_relative_base(already_parsed):
@@ -38,7 +38,7 @@ def _create_splits(text):
 
 
 def _create_joined_parse(text, max_join=7, sort_ascending=False):
-    split_objects = _create_splits(text)
+    split_objects = _create_splits(text=text)
     joint_objects = []
     for i in range(len(split_objects)):
         for j in reversed(range(min(max_join, len(split_objects) - i))):
@@ -56,7 +56,6 @@ def _create_joined_parse(text, max_join=7, sort_ascending=False):
 
 
 def _get_accurate_return_text(text, parser, datetime_object):
-    # THIS METHOD IS STILL BEING TESTED
     text_candidates = _create_joined_parse(text=text, sort_ascending=True)
     for text_candidate in text_candidates:
         if parser.get_date_data(text_candidate).date_obj == datetime_object:
@@ -65,24 +64,24 @@ def _get_accurate_return_text(text, parser, datetime_object):
 
 def _joint_parse(text, parser, translated=None, deep_search=True, accurate_return_text=False, data_carry=None):
     if not text:
-        return data_carry or []
+        return data_carry
 
     elif not len(text) > 2:
-        return data_carry or []
+        return data_carry
 
     elif translated and len(translated) <= 2:
-        return data_carry or []
+        return data_carry
 
     reduced_text_candidate = None
     secondary_split_made = False
     returnable_objects = data_carry or []
-    joint_based_search_dates = _create_joined_parse(text)
+    joint_based_search_dates = _create_joined_parse(text=text)
     for date_object_candidate in joint_based_search_dates:
         parsed_date_object = parser.get_date_data(date_object_candidate)
         if parsed_date_object.date_obj:
             if accurate_return_text:
                 date_object_candidate = _get_accurate_return_text(
-                    date_object_candidate, parser, parsed_date_object.date_obj
+                    text=date_object_candidate, parser=parser, datetime_object=parsed_date_object.date_obj
                 )
 
             returnable_objects.append(
@@ -103,7 +102,11 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
 
     if (deep_search or secondary_split_made) and not text == reduced_text_candidate:
         if reduced_text_candidate and len(reduced_text_candidate) > 2:
-            returnable_objects = _joint_parse(reduced_text_candidate, parser, data_carry=returnable_objects)
+            returnable_objects = _joint_parse(
+                text=reduced_text_candidate,
+                parser=parser,
+                data_carry=returnable_objects
+            )
 
     return returnable_objects
 
@@ -135,13 +138,13 @@ class DateSearch:
                 continue
 
             if not settings.RELATIVE_BASE:
-                relative_base = _get_relative_base(returnable_objects)
+                relative_base = _get_relative_base(already_parsed=returnable_objects)
                 if relative_base:
                     parser._settings.RELATIVE_BASE = relative_base
 
             if self.make_joints_parse:
                 joint_based_search_dates = _joint_parse(
-                    original_object, parser, translated[index]
+                    text=original_object, parser=parser, translated=translated[index]
                 )
                 if joint_based_search_dates:
                     returnable_objects.extend(joint_based_search_dates)
@@ -159,7 +162,34 @@ class DateSearch:
     def search_dates(
         self, text, languages=None, limit_date_search_results=None, settings=None
     ) -> Dict:
+        """
+        Find all substrings of the given string which represent date and/or time and parse them.
 
+        :param text:
+            A string in a natural language which may contain date and/or time expressions.
+        :type text: str
+
+        :param languages:
+            A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
+            to detect the language.
+        :type languages: list
+
+        :param limit_date_search_results:
+            A int which sets maximum results to be returned.
+        :type limit_date_search_results: int
+
+        :param settings:
+               Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+        :type settings: dict
+
+        :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
+                substring representing date expressions and corresponding :mod:`datetime.datetime` object.
+            For example:
+            {'Language': 'en', 'Dates': [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))]}
+            If language of the string isn't recognised returns:
+            {'Language': None, 'Dates': None}
+        :raises: ValueError - Unknown Language
+        """
 
         language_shortname = (
             self.search_languages.detect_language(text=text, languages=languages)
