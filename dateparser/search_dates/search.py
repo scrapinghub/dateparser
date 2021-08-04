@@ -1,5 +1,6 @@
 import re
 from typing import List, Dict
+from string import punctuation
 
 from dateparser.conf import apply_settings, check_settings, Settings
 from dateparser.date import DateDataParser
@@ -23,7 +24,7 @@ _bad_date_re = re.compile(
 )
 
 _secondary_splitters = [',', '،', '——', '—', '–', '.']  # are used if no date object is found
-
+_punctuations = list(set(punctuation))
 
 def _get_relative_base(already_parsed):
     if already_parsed:
@@ -72,6 +73,8 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
     elif translated and len(translated) <= 2:
         return data_carry
 
+    text = text.strip(" .,:()[]-'")
+
     reduced_text_candidate = None
     secondary_split_made = False
     returnable_objects = data_carry or []
@@ -101,6 +104,24 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
                 if secondary_split and len(secondary_split) > 1:
                     reduced_text_candidate = " ".join(secondary_split)
                     secondary_split_made = True
+            
+            if not reduced_text_candidate:
+                _punctuations
+                
+                is_previous_punctuation = False
+                for index, char in enumerate(date_object_candidate):
+                    if char in punctuation:
+                        if is_previous_punctuation:
+                            double_punctuation_split = [ text[:index - 1], text[index - 1:] ]
+                            reduced_text_candidate = " ".join(double_punctuation_split)
+                            break
+                        is_previous_punctuation = True
+                    else:
+                        is_previous_punctuation = False
+
+    if reduced_text_candidate:
+        reduced_text_candidate = reduced_text_candidate.strip(" .,:()[]-'")
+
 
     if (deep_search or secondary_split_made) and not text == reduced_text_candidate:
         if reduced_text_candidate and len(reduced_text_candidate) > 2:
@@ -114,16 +135,40 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
 
 
 class DateSearch:
-    def __init__(self, make_joints_parse=True, default_language="en"):
-        self.make_joints_parse = make_joints_parse
-        self.default_language = default_language
+    """
+    Class which handles language detection, translation and subsequent generic parsing of
+    string representing date and/or time.
 
+    :param make_joints_parse:
+        If True, make_joints_parse method is used.
+    :type locales: bool
+
+    :return: A date search instance
+    """
+    def __init__(self, make_joints_parse=True):
+        self.make_joints_parse = make_joints_parse
         self.search_languages = SearchLanguages()
 
     @apply_settings
     def search_parse(
         self, text, language_shortname, settings, limit_date_search_results=None
     ) -> List[tuple]:
+
+        """
+        Search parse string representing date and/or time in recognizable text.
+        Supports parsing multiple languages and timezones.
+
+        :param text:
+            A string containing dates.
+        :type text: str
+
+        :param language_shortname:
+            A list of format strings using directives as given
+            The parser applies formats one by one, taking into account the detected languages.
+        :type language_shortname: list
+
+        :return: a ``DateData`` object.
+        """
 
         check_settings(settings)
 
@@ -194,10 +239,7 @@ class DateSearch:
         :raises: ValueError - Unknown Language
         """
 
-        language_shortname = (
-            self.search_languages.detect_language(text=text, languages=languages)
-            or self.default_language
-        )
+        language_shortname = self.search_languages.detect_language(text=text, languages=languages)
 
         if not language_shortname:
             return {"Language": None, "Dates": None}
