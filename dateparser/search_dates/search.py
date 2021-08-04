@@ -1,7 +1,7 @@
 import re
 from typing import List, Dict
 
-from dateparser.conf import apply_settings, Settings
+from dateparser.conf import apply_settings, check_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search_dates.languages import SearchLanguages
 
@@ -125,6 +125,8 @@ class DateSearch:
         self, text, language_shortname, settings, limit_date_search_results=None
     ) -> List[tuple]:
 
+        check_settings(settings)
+
         returnable_objects = []
         parser = DateDataParser(languages=[language_shortname], settings=settings)
         translated, original = self.search_languages.translate_objects(
@@ -160,7 +162,6 @@ class DateSearch:
         parser._settings = Settings()
         return returnable_objects
 
-    @apply_settings
     def search_dates(
         self, text, languages=None, limit_date_search_results=None, settings=None
     ) -> Dict:
