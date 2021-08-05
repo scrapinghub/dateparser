@@ -37,8 +37,8 @@ def detect_languages(text, confidence_threshold):
     text = text.replace('\n', ' ').replace('\r', '')
     language_codes = []
     parser_data = _language_parser.predict(text)
-    for idx, langauge_candidate in enumerate(parser_data[1]):
-        if langauge_candidate > confidence_threshold:
+    for idx, language_probability in enumerate(parser_data[1]):
+        if language_probability > confidence_threshold:
             language_code = parser_data[0][idx].replace("__label__", "")
             language_codes.append(language_code)
     return language_codes

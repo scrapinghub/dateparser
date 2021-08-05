@@ -148,7 +148,7 @@ Default Languages
 languages to be used for translation and parsing. eg. "en":
 
     >>> from dateparser import parse
-    >>> parse(settings={'3 de marzo de 2020','DEFAULT_LANGUAGES': ["es"]})
+    >>> parse('3 de marzo de 2020', settings={'DEFAULT_LANGUAGES': ["es"]})
 
 
 Optional language detect

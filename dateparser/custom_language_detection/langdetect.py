@@ -28,9 +28,9 @@ def detect_languages(text, confidence_threshold):
     language_codes = []
     try:
         parser_data = _get_language_probablities(text)
-        for langauge_candidate in parser_data:
-            if langauge_candidate.prob > confidence_threshold:
-                language_codes.append(langauge_candidate.lang)
+        for language_candidate in parser_data:
+            if language_candidate.prob > confidence_threshold:
+                language_codes.append(language_candidate.lang)
     except langdetect.lang_detect_exception.LangDetectException:
         # This exception can be produced with empty strings or inputs without letters like `10-10-2021`.
         # As this could be really common, we ignore them.

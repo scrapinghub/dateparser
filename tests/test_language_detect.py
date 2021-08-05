@@ -49,7 +49,6 @@ class CustomLangDetectParserTest(unittest.TestCase):
     ])
     def test_lang_detect_doesnt_raise_error(self, dt_string, confidence_threshold):
         result = lang_detect_detect_languages(dt_string, confidence_threshold)
-        print(result)
         assert result == []
 
     # Mock test for parse, search_dates and DateDataParser

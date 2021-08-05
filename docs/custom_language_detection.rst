@@ -68,13 +68,13 @@ Wrapper for boilerplate for implementing custom language detections::
 
     def detect_languages(text, confidence_threshold):
         """
-        Takes two variables: `text` and `confidence_treshold` and returns
+        Takes two variables: `text` and `confidence_threshold` and returns
         a list of `languages codes`.
         
         * `text` is a string containing from where the language codes are 
         derived.
         
-        * `confidence_treshold` is a number between 0 and 1 that can be 
+        * `confidence_threshold` is a number between 0 and 1 that can be 
         used to decide if the confidence is enough. It can be also ignored.
         This value comes from the dateparser setting: 
         `LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`

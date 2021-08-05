@@ -8,10 +8,10 @@ DEFAULT_DIR_NAME = os.environ.get("DEFAULT_DIR_NAME", 'dateparser_models')
 
 
 if sys.platform.startswith('win'):
-    # For Windows :
+    # For Windows:
     _cache_dir = DEFAULT_WIXDOWS_CACHE_DIR
 else:
-    # UNIX & OS X :
+    # UNIX & OS X:
     _cache_dir = DEFAULT_UNIX_CACHE_DIR
 
 dateparser_model_home = os.path.expanduser(

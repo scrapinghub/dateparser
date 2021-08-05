@@ -2,12 +2,11 @@ from dateparser.data.languages_info import language_map
 
 
 def map_languages(language_codes):
-    """Returnes language supported candidates.
-
+    """
+    Returns the candidates from the supported languages codes.
     :param languages:
         A list of language codes, e.g. ['en', 'es'] in ISO 639 Standard
     :type languages: list
-
     :return: Returns list[str] representing supported languages, else returns None
     :rtype: list[str]
     """
