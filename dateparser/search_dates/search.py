@@ -26,6 +26,7 @@ _bad_date_re = re.compile(
 _secondary_splitters = [',', '،', '——', '—', '–', '.']  # are used if no date object is found
 _punctuations = list(set(punctuation))
 
+
 def _get_relative_base(already_parsed):
     if already_parsed:
         return already_parsed[-1][1]
@@ -104,15 +105,13 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
                 if secondary_split and len(secondary_split) > 1:
                     reduced_text_candidate = " ".join(secondary_split)
                     secondary_split_made = True
-            
+
             if not reduced_text_candidate:
-                _punctuations
-                
                 is_previous_punctuation = False
                 for index, char in enumerate(date_object_candidate):
-                    if char in punctuation:
+                    if char in _punctuations:
                         if is_previous_punctuation:
-                            double_punctuation_split = [ text[:index - 1], text[index - 1:] ]
+                            double_punctuation_split = [text[:index - 1], text[index - 1:]]
                             reduced_text_candidate = " ".join(double_punctuation_split)
                             break
                         is_previous_punctuation = True
@@ -121,7 +120,6 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
 
     if reduced_text_candidate:
         reduced_text_candidate = reduced_text_candidate.strip(" .,:()[]-'")
-
 
     if (deep_search or secondary_split_made) and not text == reduced_text_candidate:
         if reduced_text_candidate and len(reduced_text_candidate) > 2:
@@ -140,7 +138,7 @@ class DateSearch:
     string representing date and/or time.
 
     :param make_joints_parse:
-        If True, make_joints_parse method is used.
+        If True, make_joints_parse method is used. Deafult: True
     :type locales: bool
 
     :return: A date search instance
@@ -166,6 +164,14 @@ class DateSearch:
             A list of format strings using directives as given
             The parser applies formats one by one, taking into account the detected languages.
         :type language_shortname: list
+
+        :param settings:
+            Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+        :type settings: dict
+
+        :param limit_date_search_results:
+            A int which sets maximum results to be returned.
+        :type limit_date_search_results: int
 
         :return: a ``DateData`` object.
         """
@@ -210,34 +216,6 @@ class DateSearch:
     def search_dates(
         self, text, languages=None, limit_date_search_results=None, settings=None
     ) -> Dict:
-        """
-        Find all substrings of the given string which represent date and/or time and parse them.
-
-        :param text:
-            A string in a natural language which may contain date and/or time expressions.
-        :type text: str
-
-        :param languages:
-            A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
-            to detect the language.
-        :type languages: list
-
-        :param limit_date_search_results:
-            A int which sets maximum results to be returned.
-        :type limit_date_search_results: int
-
-        :param settings:
-               Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
-        :type settings: dict
-
-        :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
-                substring representing date expressions and corresponding :mod:`datetime.datetime` object.
-            For example:
-            {'Language': 'en', 'Dates': [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))]}
-            If language of the string isn't recognised returns:
-            {'Language': None, 'Dates': None}
-        :raises: ValueError - Unknown Language
-        """
 
         language_shortname = self.search_languages.detect_language(text=text, languages=languages)
 
@@ -248,7 +226,7 @@ class DateSearch:
             "Dates": self.search_parse(
                 text=text,
                 language_shortname=language_shortname,
-                limit_date_search_results=limit_date_search_results,
                 settings=settings,
+                limit_date_search_results=limit_date_search_results,
             ),
         }

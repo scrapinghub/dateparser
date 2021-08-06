@@ -45,7 +45,7 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
         [('in March 3rd, 2004 and', datetime.datetime(2004, 3, 3, 0, 0)),
          ('on May 6th 2004', datetime.datetime(2004, 5, 6, 0, 0))]
 
-        """
+    """
     result = _search_with_detection.search_dates(
         text=text, languages=languages, settings=settings
     )
