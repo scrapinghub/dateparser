@@ -1,10 +1,11 @@
-from dateparser.search_dates import search_dates
+from dateparser.search_dates import DateSearch, search_dates
 
 # THIS IS TEMPORARY for Debugging
 
-text = """2021-08-04T14:21:37&#x2B;05:30"""
+text = """15 de outubro de 1936"""
 
-out1 = search_dates(text)
+search_dates = DateSearch()
+out1 = search_dates.search_parse(text, "pt", settings=None)
 print(out1)
 
 

@@ -214,7 +214,6 @@ class Locale:
             if translated_chunk:
                 translated.append(translated_chunk)
                 original.append(original_chunk)
-
         for i in range(len(translated)):
             if "in" in translated[i]:
                 translated[i] = self._clear_future_words(translated[i])
@@ -267,7 +266,6 @@ class Locale:
         original_tokens = self._word_split(original, settings=settings)
         simplified_tokens = self._word_split(self._simplify(normalize_unicode(original), settings=settings),
                                              settings=settings)
-
         if len(original_tokens) == len(simplified_tokens):
             return original_tokens, simplified_tokens
 

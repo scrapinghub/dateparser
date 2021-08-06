@@ -2,7 +2,7 @@ from parameterized import parameterized, param
 from tests import BaseTestCase
 from dateparser.timezone_parser import StaticTzInfo
 from dateparser.search_dates.search import DateSearch
-from dateparser.search_dates import search_dates
+from dateparser.search_dates import search_dates, search_first_date
 from dateparser.conf import Settings, apply_settings
 from dateparser_data.settings import default_parsers
 import datetime
@@ -724,6 +724,24 @@ class TestTranslateSearch(BaseTestCase):
         self.assertEqual(result, expected)
 
     @parameterized.expand([
+        param(text="15 de outubro de 1936",
+              add_detected_language=True,
+              expected=[
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0), "pt")
+              ]),
+        param(text="15 de outubro de 1936",
+              add_detected_language=False,
+              expected=[
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0))
+              ]),
+    ])
+    def test_search_dates_returning_detected_languages_if_requested(
+        self, text, add_detected_language, expected
+    ):
+        result = search_dates(text, add_detected_language=add_detected_language)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
         param(text='19 марта 2001',
               languages='wrong type: str instead of list'),
     ])
@@ -738,3 +756,48 @@ class TestTranslateSearch(BaseTestCase):
     def test_date_search_function_invalid_language_code(self, text, languages):
         self.run_search_dates_function_invalid_languages(text=text, languages=languages, error_type=ValueError)
         self.check_error_message("Unknown language(s): 'unknown language code'")
+
+    @parameterized.expand([
+        param(text="15 de outubro de 1936",
+              shortname='pt',
+              expected=[
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0))
+              ]),
+    ])
+    def test_search_date_without_make_joints_parse(
+        self, text, shortname, expected, settings=None
+    ):
+        result = self.search_dates.search_parse(text, shortname, settings=settings, make_joints_parse=False)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param(text="15 de outubro de 1936",
+              add_detected_language=True,
+              expected=[
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0), "pt")
+              ]),
+    ])
+    def test_search_first_date_returning_detected_languages_if_requested(
+        self, text, add_detected_language, expected
+    ):
+        result = search_first_date(text, add_detected_language=add_detected_language)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param('pt', 'Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
+              [('outubro de 1936', datetime.datetime(1936, 10, datetime.datetime.utcnow().day, 0, 0))]),
+    ])
+    @apply_settings
+    def test_search_date_accurate_return_text(self, shortname, string, expected, settings=None):
+        result = self.search_dates.search_parse(string, shortname, settings=settings, accurate_return_text=True)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param('2021-08-04T14:21:37&#x2B;05:30',
+              [('2021-08-04T14:21:37', datetime.datetime(2021, 8, 4, 14, 21, 37)),
+               ('05:30', datetime.datetime(2021, 8, 4, 5, 30))]),
+    ])
+    @apply_settings
+    def test_search_date_is_previous_punctuation(self, string, expected, settings=None):
+        result = search_dates(string)
+        self.assertEqual(result, expected)

@@ -65,13 +65,8 @@ def _get_accurate_return_text(text, parser, datetime_object):
 
 
 def _joint_parse(text, parser, translated=None, deep_search=True, accurate_return_text=False, data_carry=None):
-    if not text:
-        return data_carry
 
-    elif not len(text) > 2:
-        return data_carry
-
-    elif translated and len(translated) <= 2:
+    if translated and len(translated) <= 2:
         return data_carry
 
     text = text.strip(" .,:()[]-'")
@@ -95,8 +90,6 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
             if deep_search:
                 start_index = text.find(date_object_candidate)
                 end_index = start_index + len(date_object_candidate)
-                if start_index < 0:
-                    break
                 reduced_text_candidate = text[:start_index] + text[end_index:]
                 break
         else:
@@ -137,19 +130,21 @@ class DateSearch:
     Class which handles language detection, translation and subsequent generic parsing of
     string representing date and/or time.
 
-    :param make_joints_parse:
-        If True, make_joints_parse method is used. Deafult: True
-    :type locales: bool
-
     :return: A date search instance
     """
-    def __init__(self, make_joints_parse=True):
-        self.make_joints_parse = make_joints_parse
+    def __init__(self):
         self.search_languages = SearchLanguages()
 
     @apply_settings
     def search_parse(
-        self, text, language_shortname, settings, limit_date_search_results=None
+        self,
+        text,
+        language_shortname,
+        settings,
+        limit_date_search_results=None,
+        make_joints_parse=True,
+        deep_search=True,
+        accurate_return_text=False
     ) -> List[tuple]:
 
         """
@@ -172,6 +167,18 @@ class DateSearch:
         :param limit_date_search_results:
             A int which sets maximum results to be returned.
         :type limit_date_search_results: int
+
+        :param make_joints_parse:
+        If True, make_joints_parse method is used. Deafult: True
+        :type locales: bool
+
+        :param deep_search:
+            Indicates if we want deep search the text for date and/or time. Deafult: True
+        :type deep_search: bool
+
+        :param accurate_return_text:
+            Indicates if we want accurate text contining the date and/or time. Deafult: True
+        :type accurate_return_text: bool
 
         :return: a ``DateData`` object.
         """
@@ -197,9 +204,13 @@ class DateSearch:
                 if relative_base:
                     parser._settings.RELATIVE_BASE = relative_base
 
-            if self.make_joints_parse:
+            if make_joints_parse:
                 joint_based_search_dates = _joint_parse(
-                    text=original_object, parser=parser, translated=translated[index]
+                    text=original_object,
+                    parser=parser,
+                    translated=translated[index],
+                    deep_search=deep_search,
+                    accurate_return_text=accurate_return_text
                 )
                 if joint_based_search_dates:
                     returnable_objects.extend(joint_based_search_dates)
