@@ -4,6 +4,7 @@ import fasttext
 
 from dateparser_cli.fasttext_manager import fasttext_downloader
 from dateparser_cli.utils import dateparser_model_home, create_data_model_home
+from dateparser_cli.exceptions import FastTextModelNotFoundException
 
 
 _supported_models = ["large.bin", "small.bin"]
@@ -20,14 +21,15 @@ def _load_fasttext_model():
     create_data_model_home()
     model_path = None
     downloaded_models = os.listdir(dateparser_model_home)
-    for downloaded_model in downloaded_models:
-        if downloaded_model in _supported_models:
+    for downloaded_model in _supported_models:
+        if downloaded_model in downloaded_models:
             model_path = os.path.join(dateparser_model_home, downloaded_model)
+            break
     if not model_path:
         fasttext_downloader("small")
         return _load_fasttext_model()
     if not os.path.isfile(model_path):
-        raise Exception('Fasttext model file not found')
+        raise FastTextModelNotFoundException('Fasttext model file not found')
     _FastTextCache.model = fasttext.load_model(model_path)
     return _FastTextCache.model
 

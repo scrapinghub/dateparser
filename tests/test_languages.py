@@ -2172,7 +2172,14 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
 
-    # BELOW TESTS ARE NOT ACCURATE & WIP
+    @parameterized.expand([
+        param(date_string='3 de marzo 2019', languages=["en"], settings={
+            "DEFAULT_LANGUAGES": ["es"]
+        }, expected=datetime(2019, 3, 3, 0, 0)),
+    ])
+    def test_parse_settings_default_languages(self, date_string, languages, settings, expected):
+        result = parse(date_string, languages=languages, settings=settings)
+        assert result == expected
 
     @parameterized.expand([
         param(date_string='RANDOM_WORD ', settings={

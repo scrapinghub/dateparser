@@ -2,8 +2,8 @@
 Custom language detection
 =========================
 
-`dateparser` allows to customize the language detection behavior. It currently supports two
- language detection libraries out of the box: `fasttext <https://github.com/facebookresearch/fastText>`_ 
+`dateparser` allows to customize the language detection behavior by using the ``detect_languages_function`` parameter. 
+It currently supports two language detection libraries out of the box: `fasttext <https://github.com/facebookresearch/fastText>`_ 
 and `langdetect <https://github.com/Mimino666/langdetect>`_, and allows you to implement your own custom language detection.
 
 
