@@ -10,8 +10,9 @@ def map_languages(language_codes):
     :return: Returns list[str] representing supported languages
     :rtype: list[str]
     """
-    return_language_codes = []
-    for language_code in language_codes:
-        if language_code in language_map:
-            return_language_codes.extend(language_map[language_code])
-    return return_language_codes
+    return [
+        language_code
+        for language_code_key in language_codes
+        if language_code_key in language_map
+        for language_code in language_map[language_code_key]
+    ]
