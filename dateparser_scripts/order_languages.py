@@ -127,7 +127,8 @@ def main():
     )
     language_map_data = generate_language_map(language_order)
     language_map_data_string = 'language_map = ' + json.dumps(
-            language_map_data, separators=(',', ': '), indent=4)
+        language_map_data, separators=(',', ': '), indent=4
+    )
 
     languages_info_string = language_order_string + '\n\n' + language_map_data_string + '\n\n' + language_locale_dict_string + '\n'
     with open(filename, 'w') as f:

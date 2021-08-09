@@ -175,6 +175,7 @@ class InvalidSettingsTest(BaseTestCase):
         param('PREFER_LOCALE_DATE_ORDER', 'false', '', True),
         param('DEFAULT_LANGUAGES', 'en', '', ['en']),
         param('LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD', '1', '', 0.5),
+        param('DEFAULT_LANGUAGES', '1', '', ['en']),
     ])
     def test_check_settings(self, setting, wrong_type, wrong_value, valid_value):
         with self.assertRaisesRegex(
@@ -222,6 +223,14 @@ class InvalidSettingsTest(BaseTestCase):
             r'between 0 and 1'
         ):
             DateDataParser(settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 1.1})
+
+    def test_check_settings_extra_check_default_languages(self):
+        with self.assertRaisesRegex(
+            SettingValidationError,
+            "Given list is not a valid value for DEFAULT_LANGUAGES. It can take languages supported by"
+            " dateparser."
+        ):
+            DateDataParser(settings={'DEFAULT_LANGUAGES': ["abcd"]})
 
 
 @pytest.mark.parametrize(
