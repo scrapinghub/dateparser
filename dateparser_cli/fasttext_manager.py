@@ -23,7 +23,7 @@ def fasttext_downloader(model_name):
 
     if not Path(models_directory_path).is_file():
         model_url = models[model_name]
-        logging.info("dateparser-download: Downloading model {}...".format(model_name))
+        logging.info("dateparser-download: Downloading model \"{}\" from \"{}\"...".format(model_name, model_url))
         try:
             urllib.request.urlretrieve(model_url, models_directory_path)
         except urllib.error.HTTPError as e:

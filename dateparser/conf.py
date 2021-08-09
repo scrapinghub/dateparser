@@ -5,7 +5,7 @@ from functools import wraps
 from .parser import date_order_chart
 from .utils import registry
 
-from dateparser.custom_language_detection.language_mapping import map_languages
+from dateparser.data.languages_info import language_order
 
 
 @registry
@@ -134,14 +134,14 @@ def _check_parsers(setting_name, setting_value):
 
 
 def _check_default_languages(setting_name, setting_value):
-    is_valid = True if map_languages(setting_value) else False
-    if not is_valid:
+    unsupported_languages = set(setting_value) - set(language_order)
+    if unsupported_languages:
         raise SettingValidationError(
-            'Given list is not a valid value for {}. It can take languages supported by'
-            ' dateparser.'.format(
-                setting_name,
+            "Found invalid languages in the '{}' setting: {}".format(
+                setting_name, ', '.join(map(repr, unsupported_languages))
             )
         )
+    _check_repeated_values(setting_name, setting_value)
 
 
 def _check_between_0_and_1(setting_name, setting_value):

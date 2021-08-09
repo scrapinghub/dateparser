@@ -325,7 +325,7 @@ class DateDataParser:
     :param detect_languages_function:
         A function for language detection that takes as input a `text` and a `confidence_threshold`,
         and returns a list of detected language codes.
-        Note: detect_languages_function is only uses if `languages` and `locales` are not provided.
+        Note: this function is only used if ``languages`` and ``locales`` are not provided.
     :type detect_languages_function: function
 
     :return: A parser instance

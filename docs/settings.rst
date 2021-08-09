@@ -150,8 +150,7 @@ languages to be used for translation and parsing. eg. "en":
     >>> from dateparser import parse
     >>> parse('3 de marzo de 2020', settings={'DEFAULT_LANGUAGES': ["es"]})
 
-.. note:: When using this setting, the languages will be added after the detected languages. It is specially useful when using the `detect_languages_function`.
-
+.. note:: When using this setting, these languages will be tried after trying with the detected languages with no success. It is especially useful when using the ``detect_languages_function`.
 Optional language detect
 ++++++++++++++++++++++++
 

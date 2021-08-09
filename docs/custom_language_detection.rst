@@ -6,7 +6,7 @@ Custom language detection
 It currently supports two language detection libraries out of the box: `fasttext <https://github.com/facebookresearch/fastText>`_ 
 and `langdetect <https://github.com/Mimino666/langdetect>`_, and allows you to implement your own custom language detection.
 
-.. note::
+.. warning::
 
     For short strings the language detection could fail, so it's highly recommended to use ``detect_languages_function``
     along with in ``DEFAULT_LANGUAGES``.

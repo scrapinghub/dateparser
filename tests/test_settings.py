@@ -227,8 +227,7 @@ class InvalidSettingsTest(BaseTestCase):
     def test_check_settings_extra_check_default_languages(self):
         with self.assertRaisesRegex(
             SettingValidationError,
-            "Given list is not a valid value for DEFAULT_LANGUAGES. It can take languages supported by"
-            " dateparser."
+            "Found invalid languages in the 'DEFAULT_LANGUAGES' setting: 'abcd'"
         ):
             DateDataParser(settings={'DEFAULT_LANGUAGES': ["abcd"]})
 
