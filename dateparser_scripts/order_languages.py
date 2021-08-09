@@ -56,12 +56,12 @@ def _get_language_order(language_locale_dict):
                     language_population_dict[language] += language_population
                 else:
                     language_population_dict[language] = language_population
-        except:
+        except Exception:
             pass
 
     language_order_with_duplicates = (
-        most_common_locales +
-        sorted(
+        most_common_locales
+        + sorted(
             language_population_dict.keys(),
             key=lambda x: (language_population_dict[x], x), reverse=True
         )
@@ -112,7 +112,8 @@ def main():
     if not os.path.isdir(parent_directory):
         os.mkdir(parent_directory)
     language_order_string = 'language_order = ' + json.dumps(
-            language_order, separators=(',', ': '), indent=4)
+        language_order, separators=(',', ': '), indent=4
+    )
 
     complete_language_locale_dict = OrderedDict()
     for key in language_order:

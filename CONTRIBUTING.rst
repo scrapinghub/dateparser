@@ -89,7 +89,7 @@ tests, including testing other Python versions with tox::
 
     $ tox
 
-   To get flake8 and tox, just pip install them into your virtualenv. (Note that we use ``max-line-length = 100`` for flake8, this is configured in ``setup.cfg`` file.)
+   To get ``tox``, just ``pip install`` it into your virtualenv. In addition to tests, ``tox`` checks for code style and maximum line length (119 characters).
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -169,7 +169,7 @@ language, you must:
    :hidden:
 
    template
-   
+
 Updating the List of Supported Languages and Locales
 ----------------------------------------------------
 

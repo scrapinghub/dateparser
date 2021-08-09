@@ -10,18 +10,18 @@ def get_raw_data():
     raw_data_directory = "../raw_data"
 
     cldr_data = {
-       'dates_full': {
+        'dates_full': {
             'url': 'https://github.com/unicode-cldr/cldr-dates-full.git',
             'dir': "{}/cldr_dates_full/".format(raw_data_directory)
-       },
-       'core': {
+        },
+        'core': {
             'url': 'https://github.com/unicode-cldr/cldr-core.git',
             'dir': "{}/cldr_core/".format(raw_data_directory)
-       },
-       'rbnf': {
+        },
+        'rbnf': {
             'url': 'https://github.com/unicode-cldr/cldr-rbnf.git',
             'dir': "{}/cldr_rbnf/".format(raw_data_directory)
-       },
+        },
     }
 
     if os.path.isdir(raw_data_directory):

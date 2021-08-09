@@ -276,6 +276,11 @@ class TestTranslateSearch(BaseTestCase):
         param('en', 'in a minute',
               [('in a minute', datetime.datetime(2000, 1, 1, 0, 1))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        param('en', 'last decade',
+              [('last decade', datetime.datetime(1990, 1, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
         param('en', 'July 13th.\r\n July 14th',
               [('July 13th', datetime.datetime(2000, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2000, 7, 14, 0, 0))],
