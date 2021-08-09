@@ -468,15 +468,12 @@ class DateDataParser:
                     if self._is_applicable_locale(locale, s):
                         yield locale
 
-        if self.detect_languages_function:
+        if self.detect_languages_function and not self.languages and not self.locales:
             detected_languages = self.detect_languages_function(
                 text=date_string, confidence_threshold=self._settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             )
 
-            if self.languages:
-                self.languages.extend(map_languages(detected_languages))
-            else:
-                self.languages = map_languages(detected_languages)
+            self.languages = map_languages(detected_languages)
 
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
@@ -488,7 +485,7 @@ class DateDataParser:
         if self._settings.DEFAULT_LANGUAGES:
             for locale in self._get_locale_loader().get_locales(
                 languages=self._settings.DEFAULT_LANGUAGES, locales=None,
-                region=None, use_given_order=self.use_given_order
+                region=self.region, use_given_order=self.use_given_order
             ):
                 yield locale
 
