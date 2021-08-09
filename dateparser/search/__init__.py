@@ -27,6 +27,7 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
         :param detect_languages_function:
             A function for language detection that takes as input a `text` and a `confidence_threshold`,
             and returns a list of detected language codes.
+            Note: detect_languages_function is only uses if `languages` are not provided.
         :type detect_languages_function: function
 
         :return: Returns list of tuples containing:

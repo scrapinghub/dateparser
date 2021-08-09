@@ -43,6 +43,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None,
     :param detect_languages_function:
         A function for language detection that takes as input a string (the `date_string`) and
         a `confidence_threshold`, and returns a list of detected language codes.
+        Note: detect_languages_function is only uses if `languages` and `locales` are not provided.
     :type detect_languages_function: function
 
     :return: Returns :class:`datetime <datetime.datetime>` representing parsed date if successful, else returns None
