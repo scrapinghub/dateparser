@@ -176,6 +176,7 @@ class Locale:
 
     def translate_search(self, search_string, settings=None):
         dashes = ['-', '——', '—', '～']
+        word_joint_unsupported_languages = ["zh", "ja"]
         sentences = self._sentence_split(search_string, settings=settings)
         dictionary = self._get_dictionary(settings=settings)
         translated = []
@@ -184,10 +185,28 @@ class Locale:
             original_tokens, simplified_tokens = self._simplify_split_align(sentence, settings=settings)
             translated_chunk = []
             original_chunk = []
+            last_token_index = len(simplified_tokens) - 1
+            skip_next_token = False
             for i, word in enumerate(simplified_tokens):
+                next_word = simplified_tokens[i + 1] if i < last_token_index else ""
+                current_and_next_joined = self._join_chunk([word, next_word], settings=settings)
+                if skip_next_token:
+                    skip_next_token = False
+                    continue
+
                 if word == '' or word == ' ':
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
+                elif (
+                    current_and_next_joined in dictionary
+                    and word not in dashes
+                    and self.shortname not in word_joint_unsupported_languages
+                ):
+                    translated_chunk.append(dictionary[current_and_next_joined])
+                    original_chunk.append(
+                        self._join_chunk([original_tokens[i], original_tokens[i + 1]], settings=settings)
+                    )
+                    skip_next_token = True
                 elif word in dictionary and word not in dashes:
                     translated_chunk.append(dictionary[word])
                     original_chunk.append(original_tokens[i])
