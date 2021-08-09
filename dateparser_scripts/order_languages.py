@@ -122,8 +122,8 @@ def main():
             complete_language_locale_dict[key] = []
 
     language_locale_dict_string = 'language_locale_dict = ' + json.dumps(
-            complete_language_locale_dict, separators=(',', ': '), indent=4)
-        
+        complete_language_locale_dict, separators=(',', ': '), indent=4
+    )
     language_map_data = generate_language_map(language_order)
     language_map_data_string = 'language_map = ' + json.dumps(
             language_map_data, separators=(',', ': '), indent=4)
