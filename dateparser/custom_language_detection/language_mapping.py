@@ -12,7 +12,7 @@ def map_languages(language_codes):
     """
     return [
         language_code
-        for language_code_key in language_codes
-        if language_code_key in language_map
-        for language_code in language_map[language_code_key]
+        for language in language_codes
+        if language in language_map
+        for language_code in language_map[language]
     ]
