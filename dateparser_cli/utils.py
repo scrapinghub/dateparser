@@ -2,9 +2,9 @@ import sys
 import os
 from pathlib import Path
 
-DEFAULT_UNIX_CACHE_DIR = os.environ.get("DEFAULT_CACHE_DIR", '~/.cache')
-DEFAULT_WIXDOWS_CACHE_DIR = os.environ.get("DEFAULT_CACHE_DIR", os.path.join(str(Path.home()), "AppData", "Roaming"))
-DEFAULT_DIR_NAME = os.environ.get("DEFAULT_DIR_NAME", 'dateparser_models')
+DEFAULT_UNIX_CACHE_DIR = os.environ.get("DATEPARSER_MODELS_CACHE_DIR", '~/.cache')
+DEFAULT_WIXDOWS_CACHE_DIR = os.environ.get("DATEPARSER_MODELS_CACHE_DIR", os.path.join(Path.home(), "AppData", "Roaming"))
+DEFAULT_DIR_NAME = os.environ.get("DATEPARSER_MODELS_DIR_NAME", 'dateparser_models')
 
 
 if sys.platform.startswith('win'):
