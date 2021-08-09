@@ -92,20 +92,13 @@ def _get_language_order(language_locale_dict):
     return language_order
 
 
-def create_language_maps(language_order):
-    sorted_language_order = sorted(language_order)
+def generate_language_map(language_order):
     data = {}
-    while sorted_language_order:
-        micro_data = []
-        for obj in sorted_language_order:
-            if not micro_data:
-                micro_data.append(obj)
-            else:
-                if obj.startswith(micro_data[0] + '-'):
-                    micro_data.append(obj)
-        for x in micro_data:
-            sorted_language_order.remove(x)
-        data[micro_data[0]] = micro_data
+    for lang in sorted(language_order):
+        if '-' not in lang:
+            data[lang] = [lang]
+        else:
+            data[lang.split('-')[0]].append(lang)
     return data
 
 
@@ -131,7 +124,7 @@ def main():
     language_locale_dict_string = 'language_locale_dict = ' + json.dumps(
             complete_language_locale_dict, separators=(',', ': '), indent=4)
         
-    language_map_data = create_language_maps(language_order)
+    language_map_data = generate_language_map(language_order)
     language_map_data_string = 'language_map = ' + json.dumps(
             language_map_data, separators=(',', ': '), indent=4)
 
