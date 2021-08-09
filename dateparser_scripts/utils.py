@@ -11,16 +11,16 @@ def get_raw_data():
 
     cldr_data = {
        'dates_full': {
-           'url': 'https://github.com/unicode-cldr/cldr-dates-full.git',
-           'dir': "{}/cldr_dates_full/".format(raw_data_directory)
+            'url': 'https://github.com/unicode-cldr/cldr-dates-full.git',
+            'dir': "{}/cldr_dates_full/".format(raw_data_directory)
        },
        'core': {
-           'url': 'https://github.com/unicode-cldr/cldr-core.git',
-           'dir': "{}/cldr_core/".format(raw_data_directory)
+            'url': 'https://github.com/unicode-cldr/cldr-core.git',
+            'dir': "{}/cldr_core/".format(raw_data_directory)
        },
        'rbnf': {
-           'url': 'https://github.com/unicode-cldr/cldr-rbnf.git',
-           'dir': "{}/cldr_rbnf/".format(raw_data_directory)
+            'url': 'https://github.com/unicode-cldr/cldr-rbnf.git',
+            'dir': "{}/cldr_rbnf/".format(raw_data_directory)
        },
     }
 
@@ -43,7 +43,7 @@ def get_dict_difference(parent_dict, child_dict):
         if not parent_value:
             child_specific_value = child_value
         elif isinstance(child_value, list):
-            child_specific_value = sorted(set(child_value)-set(parent_value))
+            child_specific_value = sorted(set(child_value) - set(parent_value))
         elif isinstance(child_value, dict):
             child_specific_value = get_dict_difference(parent_value, child_value)
         elif child_value != parent_value:
