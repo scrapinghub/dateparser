@@ -771,6 +771,18 @@ class TestTranslateSearch(BaseTestCase):
         self.assertEqual(result, expected)
 
     @parameterized.expand([
+        param(text="January 3, 2017 - February 1st",
+              expected=[
+                  ('January 3, 2017', datetime.datetime(2017, 1, 3, 0, 0))
+              ]),
+    ])
+    def test_search_first_date(
+        self, text, expected
+    ):
+        result = search_first_date(text)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
         param(text="15 de outubro de 1936",
               add_detected_language=True,
               expected=[
