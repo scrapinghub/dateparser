@@ -54,7 +54,7 @@ def parse(date_string, date_formats=None, languages=None, locales=None,
     """
     parser = _default_parser
 
-    if languages or locales or region or not settings._default or detect_languages_function:
+    if languages or locales or region or detect_languages_function or not settings._default:
         parser = DateDataParser(languages=languages, locales=locales,
                                 region=region, settings=settings, detect_languages_function=detect_languages_function)
 

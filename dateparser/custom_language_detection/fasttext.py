@@ -26,7 +26,7 @@ def _load_fasttext_model():
             model_path = os.path.join(dateparser_model_home, downloaded_model)
             break
     if not model_path:
-        fasttext_downloader("small")
+        fasttext_downloader(_DEFAULT_MODEL)
         return _load_fasttext_model()
     if not os.path.isfile(model_path):
         raise FastTextModelNotFoundException('Fasttext model file not found')

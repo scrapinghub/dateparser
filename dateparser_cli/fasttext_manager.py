@@ -3,8 +3,8 @@ import urllib.request
 import os
 import logging
 
-from .utils import dateparser_model_home, create_data_model_home
 from .exceptions import FastTextModelNotFoundException
+from .utils import dateparser_model_home, create_data_model_home
 
 
 def fasttext_downloader(model_name):

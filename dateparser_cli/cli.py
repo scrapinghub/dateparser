@@ -7,7 +7,7 @@ from .utils import clear_cache
 
 def entrance():
     dateparser_argparse = argparse.ArgumentParser(
-        description='dateparser-download menager.', usage="dateparser-download [-h] [--fasttext] [--clear-cache]"
+        description='dateparser-download manager.', usage="dateparser-download [-h] [--fasttext] [--clear-cache]"
     )
     dateparser_argparse.add_argument(
         '--fasttext',
