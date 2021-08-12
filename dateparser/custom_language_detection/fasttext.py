@@ -8,7 +8,7 @@ from dateparser_cli.exceptions import FastTextModelNotFoundException
 
 
 _supported_models = ["large.bin", "small.bin"]
-_DEFAULT_MODEL = "small.bin"
+_DEFAULT_MODEL = "small"
 
 
 class _FastTextCache:
