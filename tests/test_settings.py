@@ -175,7 +175,6 @@ class InvalidSettingsTest(BaseTestCase):
         param('PREFER_LOCALE_DATE_ORDER', 'false', '', True),
         param('DEFAULT_LANGUAGES', 'en', '', ['en']),
         param('LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD', '1', '', 0.5),
-        param('DEFAULT_LANGUAGES', '1', '', ['en']),
     ])
     def test_check_settings(self, setting, wrong_type, wrong_value, valid_value):
         with self.assertRaisesRegex(
