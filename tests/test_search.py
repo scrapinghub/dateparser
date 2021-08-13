@@ -744,6 +744,16 @@ class TestTranslateSearch(BaseTestCase):
               languages=['en'],
               settings=None,
               expected=[('9/3/2017', datetime.datetime(2017, 9, 3, 0, 0))]),
+
+        # Test dates with period. i.e "."
+        param(text="12.12.2000",
+              languages=None,
+              settings=None,
+              expected=[('12.12.2000', datetime.datetime(2000, 12, 12, 0, 0))]),
+        param(text="1973.02.16",
+              languages=None,
+              settings=None,
+              expected=[('1973.02.16', datetime.datetime(1973, 2, 16, 0, 0))]),
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)

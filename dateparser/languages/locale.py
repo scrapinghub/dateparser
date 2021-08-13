@@ -268,12 +268,20 @@ class Locale:
                           4: r'[。…‥\.!?？！;\r\n]+(?:\s|$)+',  # Japanese and Chinese
                           5: r'[\r\n]+',  # Thai
                           6: r'[\r\n؟!\.…]+(?:\s|$)+'}  # Arabic and Farsi
+
+        sentences = []
+        re_dot_date = r'(\d+\.\d+\.\d+)'
+        for dot_date_object in reversed(list(re.finditer(re_dot_date, string))):
+            start_index, end_index = dot_date_object.span()
+            string = string[:start_index] + string[end_index:]
+            sentences.append(dot_date_object.group())
+
         if 'sentence_splitter_group' not in self.info:
             split_reg = abbreviation_string + splitters_dict[1]
-            sentences = re.split(split_reg, string)
+            sentences.extend(re.split(split_reg, string))
         else:
             split_reg = abbreviation_string + splitters_dict[self.info['sentence_splitter_group']]
-            sentences = re.split(split_reg, string)
+            sentences.extend(re.split(split_reg, string))
 
         for i in sentences:
             if not i:
