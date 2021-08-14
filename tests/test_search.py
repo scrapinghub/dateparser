@@ -762,6 +762,18 @@ class TestTranslateSearch(BaseTestCase):
               languages=None,
               settings=None,
               expected=[('13.07.2016', datetime.datetime(2016, 7, 13, 0, 0))]),
+        param(text="Date:22.06.2020",
+              languages=["de"],
+              settings={'DATE_ORDER': 'DMY'},
+              expected=[('22.06.2020', datetime.datetime(2020, 6, 22, 0, 0))]),
+        param(text="Date :22.06.2020",
+              languages=["de"],
+              settings={'DATE_ORDER': 'DMY'},
+              expected=[('22.06.2020', datetime.datetime(2020, 6, 22, 0, 0))]),
+        param(text="Hello-Date 26.09.2019",
+              languages=["de", "fr"],
+              settings={'DATE_ORDER': 'DMY'},
+              expected=[('26.09.2019', datetime.datetime(2019, 9, 26, 0, 0))]),
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)
