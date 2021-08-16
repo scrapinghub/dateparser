@@ -91,16 +91,20 @@ def search_first_date(text, languages=None, settings=None, add_detected_language
 
         >>> from dateparser.search import search_first_date
         >>> search_first_date('The first artificial Earth satellite was launched on 4 October 1957.')
-        [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))]
+        ('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))
+
+        >>> from dateparser.search import search_first_date
+        >>> search_first_date('Caesar Augustus, also known as Octavian')
+        None
 
         >>> search_first_date('The first artificial Earth satellite was launched on 4 October 1957.',
         >>>              add_detected_language=True)
-        [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0), 'en')]
+        ('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0), 'en')
 
         >>> search_first_date("The client arrived to the office for the first time in March 3rd, 2004 "
         >>>              "and got serviced, after a couple of months, on May 6th 2004, the customer "
         >>>              "returned indicating a defect on the part")
-        [('in March 3rd, 2004 and', datetime.datetime(2004, 3, 3, 0, 0))]
+        ('in March 3rd, 2004 and', datetime.datetime(2004, 3, 3, 0, 0))
 
     """
 
@@ -112,4 +116,4 @@ def search_first_date(text, languages=None, settings=None, add_detected_language
         if add_detected_language:
             language = result.get('Language')
             dates = [date + (language, ) for date in dates]
-        return dates
+        return dates[0]

@@ -787,9 +787,7 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand([
         param(text="January 3, 2017 - February 1st",
-              expected=[
-                  ('January 3, 2017', datetime.datetime(2017, 1, 3, 0, 0))
-              ]),
+              expected=('January 3, 2017', datetime.datetime(2017, 1, 3, 0, 0))),
     ])
     def test_search_first_date(
         self, text, expected
@@ -800,9 +798,7 @@ class TestTranslateSearch(BaseTestCase):
     @parameterized.expand([
         param(text="15 de outubro de 1936",
               add_detected_language=True,
-              expected=[
-                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0), "pt")
-              ]),
+              expected=("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0), "pt")),
     ])
     def test_search_first_date_returning_detected_languages_if_requested(
         self, text, add_detected_language, expected

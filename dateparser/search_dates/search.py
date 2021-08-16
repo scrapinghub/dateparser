@@ -6,7 +6,7 @@ from dateparser.conf import apply_settings, check_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search_dates.languages import SearchLanguages
 
-_drop_words = {'ON', 'OF', 'THE'}  # cause annoying false positives
+_drop_words = {'on', 'of', 'The'}  # cause annoying false positives
 _bad_date_re = re.compile(
     # whole dates we black-list (can still be parts of valid dates)
     "^("
@@ -35,7 +35,7 @@ def _get_relative_base(already_parsed):
 
 def _create_splits(text):
     splited_objects = text.split()
-    splited_objects = [p for p in splited_objects if p and p.upper() not in _drop_words]
+    splited_objects = [p for p in splited_objects if p and p not in _drop_words]
     return splited_objects
 
 
@@ -49,6 +49,7 @@ def _create_joined_parse(text, max_join=7, sort_ascending=False):
                 continue
             if not len(x) > 2:
                 continue
+
             joint_objects.append(x)
 
     if sort_ascending:
@@ -117,7 +118,7 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
     if reduced_text_candidate:
         reduced_text_candidate = reduced_text_candidate.strip(" .,:()[]-'")
 
-    if (deep_search or secondary_split_made) and not (text == reduced_text_candidate or is_recursion_call):
+    if (deep_search or secondary_split_made) and not (text == reduced_text_candidate and is_recursion_call):
         if reduced_text_candidate and len(reduced_text_candidate) > 2:
             returnable_objects = _joint_parse(
                 text=reduced_text_candidate,
