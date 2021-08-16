@@ -1,12 +1,12 @@
-from dateparser.search_dates import DateSearch, search_dates
+from dateparser.search_dates import search_dates
+#from dateparser.search import search_dates
 
 # THIS IS TEMPORARY for Debugging
 
-text = """need of -43.4 30"""
+x = "May 31, 8AM UTC"
 
-out1 = search_dates(text, languages=["en"], settings=None)
+
+out1 = search_dates(x)
 print(out1)
-
-
 
 # tox -e py -- tests/test_search_dates.py
