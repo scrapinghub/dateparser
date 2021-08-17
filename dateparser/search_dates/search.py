@@ -6,7 +6,7 @@ from dateparser.conf import apply_settings, check_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search_dates.languages import SearchLanguages
 
-_drop_words = {'on', 'of', 'The'}  # cause annoying false positives
+_drop_words = {"on", "of", "The"}  # cause annoying false positives
 _bad_date_re = re.compile(
     # whole dates we black-list (can still be parts of valid dates)
     "^("
@@ -23,7 +23,14 @@ _bad_date_re = re.compile(
     + ")$"
 )
 
-_secondary_splitters = [',', '،', '——', '—', '–', '.']  # are used if no date object is found
+_secondary_splitters = [
+    ",",
+    "،",
+    "——",
+    "—",
+    "–",
+    ".",
+]  # are used if no date object is found
 _punctuations = list(set(punctuation))
 
 
@@ -44,7 +51,7 @@ def _create_joined_parse(text, max_join=7, sort_ascending=False):
     joint_objects = []
     for i in range(len(split_objects)):
         for j in reversed(range(min(max_join, len(split_objects) - i))):
-            x = " ".join(split_objects[i:i + j + 1])
+            x = " ".join(split_objects[i : i + j + 1])
             if _bad_date_re.match(x):
                 continue
             if not len(x) > 2:
@@ -65,7 +72,15 @@ def _get_accurate_return_text(text, parser, datetime_object):
             return text_candidate
 
 
-def _joint_parse(text, parser, translated=None, deep_search=True, accurate_return_text=False, data_carry=None, is_recursion_call=False):
+def _joint_parse(
+    text,
+    parser,
+    translated=None,
+    deep_search=True,
+    accurate_return_text=False,
+    data_carry=None,
+    is_recursion_call=False,
+):
 
     if translated and len(translated) <= 2:
         return data_carry
@@ -81,7 +96,9 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
         if parsed_date_object.date_obj:
             if accurate_return_text:
                 date_object_candidate = _get_accurate_return_text(
-                    text=date_object_candidate, parser=parser, datetime_object=parsed_date_object.date_obj
+                    text=date_object_candidate,
+                    parser=parser,
+                    datetime_object=parsed_date_object.date_obj,
                 )
 
             returnable_objects.append(
@@ -98,7 +115,9 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
             break
         else:
             for splitter in _secondary_splitters:
-                secondary_split = re.split('(?<! )[' + splitter + ']+(?! )', date_object_candidate)
+                secondary_split = re.split(
+                    "(?<! )[" + splitter + "]+(?! )", date_object_candidate
+                )
                 if secondary_split and len(secondary_split) > 1:
                     reduced_text_candidate = " ".join(secondary_split)
                     secondary_split_made = True
@@ -108,7 +127,10 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
                 for index, char in enumerate(date_object_candidate):
                     if char in _punctuations:
                         if is_previous_punctuation:
-                            double_punctuation_split = [text[:index - 1], text[index - 1:]]
+                            double_punctuation_split = [
+                                text[: index - 1],
+                                text[index - 1 :],
+                            ]
                             reduced_text_candidate = " ".join(double_punctuation_split)
                             break
                         is_previous_punctuation = True
@@ -118,13 +140,15 @@ def _joint_parse(text, parser, translated=None, deep_search=True, accurate_retur
     if reduced_text_candidate:
         reduced_text_candidate = reduced_text_candidate.strip(" .,:()[]-'")
 
-    if (deep_search or secondary_split_made) and not (text == reduced_text_candidate and is_recursion_call):
+    if (deep_search or secondary_split_made) and not (
+        text == reduced_text_candidate and is_recursion_call
+    ):
         if reduced_text_candidate and len(reduced_text_candidate) > 2:
             returnable_objects = _joint_parse(
                 text=reduced_text_candidate,
                 parser=parser,
                 data_carry=returnable_objects,
-                is_recursion_call=True
+                is_recursion_call=True,
             )
 
     return returnable_objects
@@ -137,6 +161,7 @@ class DateSearch:
 
     :return: A date search instance
     """
+
     def __init__(self):
         self.search_languages = SearchLanguages()
 
@@ -149,7 +174,7 @@ class DateSearch:
         limit_date_search_results=None,
         make_joints_parse=True,
         deep_search=True,
-        accurate_return_text=False
+        accurate_return_text=False,
     ) -> List[tuple]:
 
         """
@@ -215,7 +240,7 @@ class DateSearch:
                     parser=parser,
                     translated=translated[index],
                     deep_search=deep_search,
-                    accurate_return_text=accurate_return_text
+                    accurate_return_text=accurate_return_text,
                 )
                 if joint_based_search_dates:
                     returnable_objects.extend(joint_based_search_dates)
@@ -223,7 +248,10 @@ class DateSearch:
                 parsed_date_object = parser.get_date_data(original_object)
                 if parsed_date_object.date_obj:
                     returnable_objects.append(
-                        (original_object.strip(" .,:()[]-'"), parsed_date_object.date_obj)
+                        (
+                            original_object.strip(" .,:()[]-'"),
+                            parsed_date_object.date_obj,
+                        )
                     )
 
         parser._settings = Settings()
@@ -233,7 +261,9 @@ class DateSearch:
         self, text, languages=None, limit_date_search_results=None, settings=None
     ) -> Dict:
 
-        language_shortname = self.search_languages.detect_language(text=text, languages=languages)
+        language_shortname = self.search_languages.detect_language(
+            text=text, languages=languages
+        )
 
         if not language_shortname:
             return {"Language": None, "Dates": None}

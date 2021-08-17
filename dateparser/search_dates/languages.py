@@ -23,17 +23,27 @@ class SearchLanguages:
         if isinstance(languages, (list, tuple, Set)):
 
             if all([language in self.available_language_map for language in languages]):
-                languages = [self.available_language_map[language] for language in languages]
+                languages = [
+                    self.available_language_map[language] for language in languages
+                ]
             else:
-                unsupported_languages = set(languages) - set(self.available_language_map.keys())
+                unsupported_languages = set(languages) - set(
+                    self.available_language_map.keys()
+                )
                 raise ValueError(
-                    "Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
+                    "Unknown language(s): %s"
+                    % ", ".join(map(repr, unsupported_languages))
+                )
         elif languages is not None:
-            raise TypeError("languages argument must be a list (%r given)" % type(languages))
+            raise TypeError(
+                "languages argument must be a list (%r given)" % type(languages)
+            )
 
         if languages:
             self.language_detector = FullTextLanguageDetector(languages=languages)
         else:
-            self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))
+            self.language_detector = FullTextLanguageDetector(
+                list(self.available_language_map.values())
+            )
 
         return self.language_detector._best_language(text)
