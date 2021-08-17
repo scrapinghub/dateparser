@@ -51,7 +51,7 @@ def _create_joined_parse(text, max_join=7, sort_ascending=False):
     joint_objects = []
     for i in range(len(split_objects)):
         for j in reversed(range(min(max_join, len(split_objects) - i))):
-            x = " ".join(split_objects[i : i + j + 1])
+            x = " ".join(split_objects[i:i + j + 1])
             if _bad_date_re.match(x):
                 continue
             if not len(x) > 2:
@@ -129,7 +129,7 @@ def _joint_parse(
                         if is_previous_punctuation:
                             double_punctuation_split = [
                                 text[: index - 1],
-                                text[index - 1 :],
+                                text[index - 1:],
                             ]
                             reduced_text_candidate = " ".join(double_punctuation_split)
                             break
