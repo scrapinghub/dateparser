@@ -1,7 +1,9 @@
+from typing import List
+
 from dateparser.data.languages_info import language_map
 
 
-def map_languages(language_codes):
+def map_languages(language_codes) -> List[str]:
     """
     Returns the candidates from the supported languages codes.
     :param language_codes:
