@@ -28,3 +28,7 @@ def entrance():
     elif args.clear:
         clear_cache()
         logging.info("dateparser-download: All cache deleted")
+    else:
+        logging.info(
+            "dateparser-download: You need to specify the command (i.e.: --fasttext or --clear)"
+        )

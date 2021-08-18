@@ -19,15 +19,14 @@ def _load_fasttext_model():
     if _FastTextCache.model:
         return _FastTextCache.model
     create_data_model_home()
-    model_path = None
-    downloaded_models = os.listdir(dateparser_model_home)
-    for downloaded_model in _supported_models:
-        if downloaded_model in downloaded_models:
-            model_path = os.path.join(dateparser_model_home, downloaded_model)
-            break
-    if not model_path:
+    downloaded_models = [
+        file for file in os.listdir(dateparser_model_home)
+        if file in _supported_models
+    ]
+    if not downloaded_models:
         fasttext_downloader(_DEFAULT_MODEL)
         return _load_fasttext_model()
+    model_path = os.path.join(dateparser_model_home, downloaded_models[0])
     if not os.path.isfile(model_path):
         raise FastTextModelNotFoundException('Fasttext model file not found')
     _FastTextCache.model = fasttext.load_model(model_path)

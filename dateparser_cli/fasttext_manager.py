@@ -29,4 +29,4 @@ def fasttext_downloader(model_name):
         except urllib.error.HTTPError as e:
             raise Exception("dateparser-download: Fasttext model cannot be downloaded due to HTTP error") from e
     else:
-        logging.info("dateparser-download: The model is already downloaded")
+        logging.info("dateparser-download: The model \"{}\" is already downloaded".format(model_name))
