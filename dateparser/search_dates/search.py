@@ -1,12 +1,11 @@
 import re
-from typing import List, Dict
 from string import punctuation
 
 from dateparser.conf import apply_settings, check_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search_dates.languages import SearchLanguages
 
-_drop_words = {"on", "of", "The"}  # cause annoying false positives
+_drop_words = {"on", "of", "the"}  # cause annoying false positives
 _bad_date_re = re.compile(
     # whole dates we black-list (can still be parts of valid dates)
     "^("
@@ -42,7 +41,6 @@ def _get_relative_base(already_parsed):
 
 def _create_splits(text):
     splited_objects = text.split()
-    splited_objects = [p for p in splited_objects if p and p not in _drop_words]
     return splited_objects
 
 
@@ -175,7 +173,7 @@ class DateSearch:
         make_joints_parse=True,
         deep_search=True,
         accurate_return_text=False,
-    ) -> List[tuple]:
+    ):
 
         """
         Search parse string representing date and/or time in recognizable text.
@@ -229,6 +227,9 @@ class DateSearch:
             if not len(original_object) > 2:
                 continue
 
+            if any(drop_word in original_object.lower().split() for drop_word in _drop_words):
+                continue
+
             if not settings.RELATIVE_BASE:
                 relative_base = _get_relative_base(already_parsed=returnable_objects)
                 if relative_base:
@@ -259,7 +260,7 @@ class DateSearch:
 
     def search_dates(
         self, text, languages=None, limit_date_search_results=None, settings=None
-    ) -> Dict:
+    ):
 
         language_shortname = self.search_languages.detect_language(
             text=text, languages=languages

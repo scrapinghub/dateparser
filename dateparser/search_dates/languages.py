@@ -5,7 +5,7 @@ from dateparser.languages.loader import LocaleDataLoader
 
 
 class SearchLanguages:
-    def __init__(self) -> None:
+    def __init__(self):
         self.loader = LocaleDataLoader()
         self.available_language_map = self.loader.get_locale_map()
         self.language = None

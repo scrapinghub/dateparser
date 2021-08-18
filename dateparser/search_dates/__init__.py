@@ -10,7 +10,7 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
     """Find all substrings of the given string which represent date and/or time and parse them.
 
     :param text:
-        A string in a natural language which may contain date and/or time expressions.
+        A string in a natural language which may contain the date and/or time expressions.
     :type text: str
 
     :param languages:
@@ -63,10 +63,10 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
 
 @apply_settings
 def search_first_date(text, languages=None, settings=None, add_detected_language=False):
-    """Find first substrings of the given string which represent date and/or time and parse them.
+    """Find first substring of the given string which represent date and/or time and parse it.
 
     :param text:
-        A string in a natural language which may contain date and/or time expressions.
+        A string in a natural language which may contain the date and/or time expression.
     :type text: str
 
     :param languages:
