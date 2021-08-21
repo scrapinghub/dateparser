@@ -277,9 +277,6 @@ language_map = {
     "ce": [
         "ce"
     ],
-    "ceb": [
-        "ceb"
-    ],
     "cgg": [
         "cgg"
     ],
@@ -350,8 +347,7 @@ language_map = {
         "fa"
     ],
     "ff": [
-        "ff",
-        "ff-Latn"
+        "ff"
     ],
     "fi": [
         "fi"
@@ -416,9 +412,6 @@ language_map = {
     "hy": [
         "hy"
     ],
-    "ia": [
-        "ia"
-    ],
     "id": [
         "id"
     ],
@@ -442,9 +435,6 @@ language_map = {
     ],
     "jmc": [
         "jmc"
-    ],
-    "jv": [
-        "jv"
     ],
     "ka": [
         "ka"
@@ -499,9 +489,6 @@ language_map = {
     ],
     "ksh": [
         "ksh"
-    ],
-    "ku": [
-        "ku"
     ],
     "kw": [
         "kw"
@@ -562,9 +549,6 @@ language_map = {
     ],
     "mgo": [
         "mgo"
-    ],
-    "mi": [
-        "mi"
     ],
     "mk": [
         "mk"
@@ -679,9 +663,6 @@ language_map = {
     "sbp": [
         "sbp"
     ],
-    "sd": [
-        "sd"
-    ],
     "se": [
         "se"
     ],
@@ -740,9 +721,6 @@ language_map = {
     "teo": [
         "teo"
     ],
-    "tg": [
-        "tg"
-    ],
     "th": [
         "th"
     ],
@@ -791,12 +769,6 @@ language_map = {
     "wae": [
         "wae"
     ],
-    "wo": [
-        "wo"
-    ],
-    "xh": [
-        "xh"
-    ],
     "xog": [
         "xog"
     ],
@@ -810,9 +782,7 @@ language_map = {
         "yo"
     ],
     "yue": [
-        "yue",
-        "yue-Hans",
-        "yue-Hant"
+        "yue"
     ],
     "zgh": [
         "zgh"
