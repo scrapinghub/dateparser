@@ -274,9 +274,6 @@ language_map = {
     "ca": [
         "ca"
     ],
-    "ccp": [
-        "ccp"
-    ],
     "ce": [
         "ce"
     ],
