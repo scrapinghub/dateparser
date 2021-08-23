@@ -106,9 +106,8 @@ def _joint_parse(
             if deep_search:
                 start_index = text.find(date_object_candidate)
                 end_index = start_index + len(date_object_candidate)
-                if start_index < 0:
-                    reduced_text_candidate = None
-                else:
+                reduced_text_candidate = None
+                if start_index >= 0:
                     reduced_text_candidate = text[:start_index] + text[end_index:]
             break
         else:
@@ -227,7 +226,8 @@ class DateSearch:
             if not len(original_object) > 2:
                 continue
 
-            if any(drop_word in original_object.lower().split() for drop_word in _drop_words):
+            lowered_word_list = original_object.lower().split()
+            if any(drop_word in lowered_word_list for drop_word in _drop_words):
                 continue
 
             if not settings.RELATIVE_BASE:

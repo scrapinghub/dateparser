@@ -733,6 +733,10 @@ class TestTranslateSearch(BaseTestCase):
               languages=['en'],
               settings=None,
               expected=[('9/3/2017', datetime.datetime(2017, 9, 3, 0, 0))]),
+        param(text="Year of the Four Emperors",
+              languages=['en'],
+              settings=None,
+              expected=None),
     ])
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)
