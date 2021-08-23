@@ -24,8 +24,9 @@ parameter. Example::
     >>> from dateparser.custom_language_detection.fasttext import detect_languages
     >>> dateparser.parse('12/12/12', detect_languages_function=detect_languages)
 
-The fastText integration currently supports the large and the small models. You can
-download your model of choice using ``dateparser-download``.
+The fastText integration currently supports the large and the small models.
+Find more information about `fasttext <https://fasttext.cc/blog/2017/10/02/blog-post.html>`_ models.
+You can download your model of choice using ``dateparser-download``.
 
 Downloading small model::
 
@@ -93,6 +94,3 @@ Wrapper for boilerplate for implementing custom language detections::
         # here you can apply your own logic
         return language_codes
 
-.. note::
-
-    ``confidence_threshold`` is a float between 0 and 1 that can be used to filter the results. It comes from the ``LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`` setting.
