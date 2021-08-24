@@ -245,3 +245,18 @@ def test_no_spaces_strict_parsing(date_string, expected_result):
 
     parser = DateDataParser(settings={'PARSERS': ['no-spaces-time'], 'STRICT_PARSING': True})
     assert parser.get_date_data(date_string)['date_obj'] is None
+
+
+def detect_languages(text, confidence_threshold):
+    if confidence_threshold > 0.5:
+        return ['en']
+    else:
+        return ['fr']
+
+
+def test_confidence_threshold_setting_is_applied():
+    ddp = DateDataParser(detect_languages_function=detect_languages, settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 0.6})
+    assert ddp.get_date_data('21/06/2020').locale == 'en'
+
+    ddp2 = DateDataParser(detect_languages_function=detect_languages, settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 0.4})
+    assert ddp2.get_date_data('21/06/2020').locale == 'fr'
