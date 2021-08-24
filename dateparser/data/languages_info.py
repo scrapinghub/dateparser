@@ -736,9 +736,6 @@ language_map = {
     "tr": [
         "tr"
     ],
-    "tt": [
-        "tt"
-    ],
     "twq": [
         "twq"
     ],
