@@ -1,4 +1,3 @@
-from langdetect.detector_factory import DetectorFactory, PROFILES_DIRECTORY
 import langdetect
 
 
@@ -12,8 +11,8 @@ class _Factory:
 
 def _init_factory():
     if _Factory.data is None:
-        _Factory.data = DetectorFactory()
-        _Factory.data.load_profile(PROFILES_DIRECTORY)
+        _Factory.data = langdetect.detector_factory.DetectorFactory()
+        _Factory.data.load_profile(langdetect.detector_factory.PROFILES_DIRECTORY)
         _Factory.data.seed = 0
 
 
