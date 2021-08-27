@@ -82,11 +82,11 @@ def search_first_date(text, languages=None, settings=None, add_detected_language
            Indicates if we want the detected language returned in the tuple.
     :type add_detected_language: bool
 
-    :return: Returns list of tuples containing:
+    :return: Returns tuples containing:
              substrings representing date and/or time, corresponding :mod:`datetime.datetime`
              object and detected language if *add_detected_language* is True.
              Returns None if no dates that can be parsed are found.
-    :rtype: list
+    :rtype: tuple
     :raises: ValueError - Unknown Language
 
     >>> from dateparser.search import search_first_date
