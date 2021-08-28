@@ -534,6 +534,9 @@ class TestTranslateSearch(BaseTestCase):
         param('en', 'July 13th 2014 July 14th 2014',
               [('July 13th 2014', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th 2014', datetime.datetime(2014, 7, 14, 0, 0))]),
+        param('en', 'July 13th 2014 July 14th',
+              [('July 13th 2014', datetime.datetime(2014, 7, 13, 0, 0)),
+               ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))], xfail=True),
         param('en', 'July 13th 2014. July 14th',
               [('July 13th 2014', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
@@ -566,7 +569,9 @@ class TestTranslateSearch(BaseTestCase):
 
     ])
     @apply_settings
-    def test_splitting_of_not_parsed(self, shortname, string, expected, settings=None):
+    def test_splitting_of_not_parsed(self, shortname, string, expected, settings=None, xfail=False):
+        if xfail:
+            pytest.xfail()
         result = search_dates(string, [shortname], settings=settings)
         self.assertEqual(result, expected)
 
