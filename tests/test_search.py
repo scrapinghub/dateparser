@@ -527,7 +527,7 @@ class TestTranslateSearch(BaseTestCase):
                 ),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
-        param('en', 'July 13th 2014. July 14th 2014',
+        param('en', 'July 13th 2014 July 14th 2014',
               [('July 13th 2014', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th 2014', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', 'July 13th 2014 July 14th',
