@@ -1,4 +1,6 @@
 from parameterized import parameterized, param
+import pytest
+import pytz
 from tests import BaseTestCase
 from dateparser.timezone_parser import StaticTzInfo
 from dateparser.search.search import DateSearch
@@ -460,6 +462,22 @@ class TestTranslateSearch(BaseTestCase):
                ('October', datetime.datetime(2014, 10, datetime.datetime.utcnow().day, 0, 0)),
                ('Friday, 21', datetime.datetime(2014, datetime.datetime.utcnow().month, 21, 0, 0))]),
 
+        param('en', """May 2020
+                    June 2020
+                    2023
+                    January UTC
+                    June 5 am utc
+                    June 23th 5 pm EST
+                    May 31, 8am UTC""",
+              [('May 2020', datetime.datetime(2020, 5, datetime.datetime.utcnow().day, 0, 0)),
+               ('June 2020', datetime.datetime(2020, 6, datetime.datetime.utcnow().day, 0, 0)),
+               ('2023', datetime.datetime(2023, 6, datetime.datetime.utcnow().day, 0, 0)),
+               ('January UTC', datetime.datetime(2023, 1, datetime.datetime.utcnow().day, 0, 0, tzinfo=pytz.utc)),
+               ('June 5 am utc', datetime.datetime(2023, 6, 5, 0, 0, tzinfo=pytz.utc)),
+               ('June 23th 5 pm EST', datetime.datetime(2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST"))),
+               ('May 31', datetime.datetime(2023, 5, 31, 0, 0)),
+               ('8am UTC', datetime.datetime(2023, 8, 31, 0, 0, tzinfo=pytz.utc))], xfail=True),
+
         # Russian
         param('ru', '19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
               [('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
@@ -495,7 +513,9 @@ class TestTranslateSearch(BaseTestCase):
                ('tháng 9', datetime.datetime(1940, 9, 1, 0, 0))])
     ])
     @apply_settings
-    def test_relative_base(self, shortname, string, expected, settings=None):
+    def test_relative_base(self, shortname, string, expected, settings=None, xfail=False):
+        if xfail:
+            pytest.xfail()
         result = self.search_dates.search_parse(string, shortname, settings=settings)
         self.assertEqual(result, expected)
 
@@ -685,13 +705,14 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)},
               expected=[('Em outubro de 1936', datetime.datetime(1936, 10, 1, 0, 0))]),
 
-        # Disabled - "20 марта, 21" and "марта" is parsed instead of "20 марта" and "21 марта"
-        # param(text='19 марта 2001, 20 марта, 21 марта был отличный день.',
-        #     languages=['en', 'ru'],
-        #      settings=None,
-        #      expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
-        #                ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
-        #                ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+        # xfail - "20 марта, 21" and "марта" is parsed instead of "20 марта" and "21 марта"
+        param(text='19 марта 2001, 20 марта, 21 марта был отличный день.',
+              languages=['en', 'ru'],
+              settings=None,
+              expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
+                        ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
+                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))],
+              xfail=True),
 
         # Dates not found
         param(text='',
@@ -712,12 +733,12 @@ class TestTranslateSearch(BaseTestCase):
               expected=[('DECEMBER 21 19', datetime.datetime(2019, 12, 21, 0, 0))]
               ),
 
-        # Disabled - "08 11 58" in parsed as datetime object by dateparser.parse
-        # param(text='bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41',
-        #      languages=None,
-        #      settings={'STRICT_PARSING': True},
-        #      expected=None,
-        #      marks=pytest.mark.xfail(reason='some bug')),
+        # xfail - "08 11 58" in parsed as datetime object by dateparser.parse
+        param(text='bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41',
+              languages=None,
+              settings={'STRICT_PARSING': True},
+              expected=None,
+              xfail=True),
 
         param(text="a Americ",
               languages=None,
@@ -738,7 +759,9 @@ class TestTranslateSearch(BaseTestCase):
               settings=None,
               expected=None),
     ])
-    def test_date_search_function(self, text, languages, settings, expected):
+    def test_date_search_function(self, text, languages, settings, expected, xfail=False):
+        if xfail:
+            pytest.xfail()
         result = search_dates(text, languages=languages, settings=settings)
         self.assertEqual(result, expected)
 
