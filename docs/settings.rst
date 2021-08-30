@@ -151,8 +151,9 @@ languages for parsing when language detection fails. eg. ["en", "fr"]:
     >>> parse('3 de marzo de 2020', settings={'DEFAULT_LANGUAGES': ["es"]})
 
 .. note:: When using this setting, these languages will be tried after trying with the detected languages with no success. It is especially useful when using the ``detect_languages_function`.
-Optional language detect
-++++++++++++++++++++++++
+
+Optional language detection
++++++++++++++++++++++++++++
 
 ``LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD``: defaults to ``0.5``. It is a ``float`` of minimum required confidence for the custom language detection:
 

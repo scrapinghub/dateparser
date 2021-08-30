@@ -7,7 +7,7 @@ from .utils import clear_cache
 
 def entrance():
     dateparser_argparse = argparse.ArgumentParser(
-        description='dateparser-download manager.', usage="dateparser-download [-h] [--fasttext] [--clear-cache]"
+        description='dateparser download manager.'"
     )
     dateparser_argparse.add_argument(
         '--fasttext',
@@ -25,10 +25,6 @@ def entrance():
 
     if args.fasttext:
         fasttext_downloader(args.fasttext)
-    elif args.clear:
+    if args.clear:
         clear_cache()
-        logging.info("dateparser-download: All cache deleted")
-    else:
-        logging.info(
-            "dateparser-download: You need to specify the command (i.e.: --fasttext or --clear)"
-        )
+        dateparser_argparse.error("dateparser-download: All cache deleted")
