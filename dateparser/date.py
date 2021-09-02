@@ -14,6 +14,7 @@ from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
     set_correct_day_from_settings
+from number_parser import parser
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     '\N{RIGHT SINGLE QUOTATION MARK}',     # '\u2019'
@@ -415,6 +416,7 @@ class DateDataParser:
             return res
 
         date_string = sanitize_date(date_string)
+        date_string = parser.parse(date_string)
 
         for locale in self._get_applicable_locales(date_string):
             parsed_date = _DateLocaleParser.parse(

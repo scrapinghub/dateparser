@@ -487,13 +487,5 @@ info = {
     ],
     "in": [
         "en"
-    ],
-    "simplifications": [
-        {
-            "una": "1"
-        },
-        {
-            "un": "1"
-        }
     ]
 }
