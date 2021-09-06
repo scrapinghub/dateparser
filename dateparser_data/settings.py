@@ -25,6 +25,10 @@ settings = {
     # Language detection
     'SKIP_TOKENS': ['t'],
     'NORMALIZE': True,
+    'DEFAULT_LANGUAGES': [],
+
+    # Optional language detection
+    'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 0.5,
 
     # Other settings
     'RETURN_TIME_AS_PERIOD': False,

@@ -1,9 +1,10 @@
 from collections.abc import Set
 
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.conf import apply_settings, Settings
+from dateparser.conf import apply_settings, check_settings, Settings
 from dateparser.date import DateDataParser
 from dateparser.search.text_detection import FullTextLanguageDetector
+from dateparser.custom_language_detection.language_mapping import map_languages
 import regex as re
 
 
@@ -171,15 +172,21 @@ class DateSearchWithDetection:
         self.available_language_map = self.loader.get_locale_map()
         self.search = _ExactLanguageSearch(self.loader)
 
-    def detect_language(self, text, languages):
-        if isinstance(languages, (list, tuple, Set)):
+    @apply_settings
+    def detect_language(self, text, languages, settings=None, detect_languages_function=None):
+        if detect_languages_function and not languages:
+            detected_languages = detect_languages_function(
+                text, confidence_threshold=settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
+            )
+            detected_languages = map_languages(detected_languages) or settings.DEFAULT_LANGUAGES
+            return detected_languages[0] if detected_languages else None
 
+        if isinstance(languages, (list, tuple, Set)):
             if all([language in self.available_language_map for language in languages]):
                 languages = [self.available_language_map[language] for language in languages]
             else:
                 unsupported_languages = set(languages) - set(self.available_language_map.keys())
-                raise ValueError(
-                    "Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
+                raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
         elif languages is not None:
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
@@ -188,23 +195,33 @@ class DateSearchWithDetection:
         else:
             self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))
 
-        return self.language_detector._best_language(text)
+        detected_language = self.language_detector._best_language(text) or (
+            settings.DEFAULT_LANGUAGES[0] if settings.DEFAULT_LANGUAGES else None
+        )
+        return detected_language
 
     @apply_settings
-    def search_dates(self, text, languages=None, settings=None):
+    def search_dates(self, text, languages=None, settings=None, detect_languages_function=None):
         """
         Find all substrings of the given string which represent date and/or time and parse them.
 
         :param text:
             A string in a natural language which may contain date and/or time expressions.
         :type text: str
+
         :param languages:
             A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
             to detect the language.
         :type languages: list
+
         :param settings:
                Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
         :type settings: dict
+
+        :param detect_languages_function:
+               A function for language detection that takes as input a `text` and a `confidence_threshold`,
+               returns a list of detected language codes.
+        :type detect_languages_function: function
 
         :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
                 substring representing date expressions and corresponding :mod:`datetime.datetime` object.
@@ -215,7 +232,11 @@ class DateSearchWithDetection:
         :raises: ValueError - Unknown Language
         """
 
-        language_shortname = self.detect_language(text=text, languages=languages)
+        check_settings(settings)
+
+        language_shortname = self.detect_language(
+            text=text, languages=languages, settings=settings, detect_languages_function=detect_languages_function
+        )
         if not language_shortname:
             return {'Language': None, 'Dates': None}
         return {'Language': language_shortname, 'Dates': self.search.search_parse(language_shortname, text,
