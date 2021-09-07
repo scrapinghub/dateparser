@@ -6,7 +6,7 @@ _search_dates = DateSearch()
 
 
 @apply_settings
-def search_dates(text, languages=None, settings=None, add_detected_language=False):
+def search_dates(text, languages=None, settings=None, add_detected_language=False, detect_languages_function=None):
     """Find all substrings of the given string which represent date and/or time and parse them.
 
     :param text:
@@ -50,7 +50,7 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
     """
 
     result = _search_dates.search_dates(
-        text=text, languages=languages, settings=settings
+        text=text, languages=languages, settings=settings, detect_languages_function=detect_languages_function
     )
 
     dates = result.get("Dates")
@@ -109,7 +109,7 @@ def search_first_date(text, languages=None, settings=None, add_detected_language
     """
 
     result = _search_dates.search_dates(
-        text=text, languages=languages, limit_date_search_results=1, settings=settings
+        text=text, languages=languages, limit_date_search_results=1, settings=settings, detect_languages_function=detect_languages_function
     )
     dates = result.get("Dates")
     if dates:

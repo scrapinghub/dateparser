@@ -14,6 +14,7 @@ from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
     set_correct_day_from_settings
+from dateparser.custom_language_detection.language_mapping import map_languages
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     '\N{RIGHT SINGLE QUOTATION MARK}',     # '\u2019'
@@ -321,6 +322,12 @@ class DateDataParser:
         Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
     :type settings: dict
 
+    :param detect_languages_function:
+        A function for language detection that takes as input a `text` and a `confidence_threshold`,
+        and returns a list of detected language codes.
+        Note: this function is only used if ``languages`` and ``locales`` are not provided.
+    :type detect_languages_function: function
+
     :return: A parser instance
 
     :raises:
@@ -332,7 +339,7 @@ class DateDataParser:
 
     @apply_settings
     def __init__(self, languages=None, locales=None, region=None, try_previous_locales=False,
-                 use_given_order=False, settings=None):
+                 use_given_order=False, settings=None, detect_languages_function=None):
 
         if languages is not None and not isinstance(languages, (list, tuple, Set)):
             raise TypeError("languages argument must be a list (%r given)" % type(languages))
@@ -359,9 +366,10 @@ class DateDataParser:
         self._settings = settings
         self.try_previous_locales = try_previous_locales
         self.use_given_order = use_given_order
-        self.languages = languages
+        self.languages = list(languages) if languages else None
         self.locales = locales
         self.region = region
+        self.detect_languages_function = detect_languages_function
         self.previous_locales = collections.OrderedDict()
 
     def get_date_data(self, date_string, date_formats=None):
@@ -461,12 +469,26 @@ class DateDataParser:
                     if self._is_applicable_locale(locale, s):
                         yield locale
 
+        if self.detect_languages_function and not self.languages and not self.locales:
+            detected_languages = self.detect_languages_function(
+                text=date_string, confidence_threshold=self._settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
+            )
+
+            self.languages = map_languages(detected_languages)
+
         for locale in self._get_locale_loader().get_locales(
                 languages=self.languages, locales=self.locales, region=self.region,
                 use_given_order=self.use_given_order):
             for s in date_strings():
                 if self._is_applicable_locale(locale, s):
                     yield locale
+
+        if self._settings.DEFAULT_LANGUAGES:
+            for locale in self._get_locale_loader().get_locales(
+                languages=self._settings.DEFAULT_LANGUAGES, locales=None,
+                region=self.region, use_given_order=self.use_given_order
+            ):
+                yield locale
 
     def _is_applicable_locale(self, locale, date_string):
         return locale.is_applicable(

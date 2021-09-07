@@ -50,6 +50,9 @@ def _create_joined_parse(text, max_join=7, sort_ascending=False):
     for i in range(len(split_objects)):
         for j in reversed(range(min(max_join, len(split_objects) - i))):
             x = " ".join(split_objects[i:i + j + 1])
+            if x.isdigit():
+                joint_objects.append(x)
+                continue
             if _bad_date_re.match(x):
                 continue
             if not len(x) > 2:
@@ -166,7 +169,7 @@ class DateSearch:
     def search_parse(
         self,
         text,
-        language_shortname,
+        languages,
         settings,
         limit_date_search_results=None,
         make_joints_parse=True,
@@ -182,10 +185,10 @@ class DateSearch:
             A string containing dates.
         :type text: str
 
-        :param language_shortname:
-            A list of format strings using directives as given
-            The parser applies formats one by one, taking into account the detected languages.
-        :type language_shortname: list
+        :param languages:
+            A list of two letters language codes.e.g. ['en', 'es']. If languages are given, it will not attempt
+            to detect the language.
+        :type languages: list
 
         :param settings:
             Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
@@ -207,7 +210,18 @@ class DateSearch:
             Indicates if we want accurate text contining the date and/or time. Deafult: True
         :type accurate_return_text: bool
 
-        :return: a ``DateData`` object.
+        :param detect_languages_function:
+               A function for language detection that takes as input a `text` and a `confidence_threshold`,
+               returns a list of detected language codes.
+        :type detect_languages_function: function
+
+        :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
+                substring representing date expressions and corresponding :mod:`datetime.datetime` object.
+            For example:
+            {'Language': 'en', 'Dates': [('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))]}
+            If language of the string isn't recognised returns:
+            {'Language': None, 'Dates': None}
+        :raises: ValueError - Unknown Language
         """
 
         check_settings(settings)
@@ -257,13 +271,14 @@ class DateSearch:
 
         parser._settings = Settings()
         return returnable_objects
-
+      
+    @apply_settings
     def search_dates(
-        self, text, languages=None, limit_date_search_results=None, settings=None
+        self, text, languages=None, limit_date_search_results=None, settings=None, detect_languages_function=None
     ):
 
         language_shortname = self.search_languages.detect_language(
-            text=text, languages=languages
+            text=text, languages=languages, settings=settings, detect_languages_function=detect_languages_function
         )
 
         if not language_shortname:
@@ -272,7 +287,7 @@ class DateSearch:
             "Language": language_shortname,
             "Dates": self.search_parse(
                 text=text,
-                language_shortname=language_shortname,
+                languages=languages,
                 settings=settings,
                 limit_date_search_results=limit_date_search_results,
             ),
