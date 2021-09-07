@@ -62,7 +62,7 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
 
 
 @apply_settings
-def search_first_date(text, languages=None, settings=None, add_detected_language=False):
+def search_first_date(text, languages=None, settings=None, add_detected_language=False, detect_languages_function=None):
     """Find first substring of the given string which represent date and/or time and parse it.
 
     :param text:

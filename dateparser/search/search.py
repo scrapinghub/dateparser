@@ -50,9 +50,6 @@ def _create_joined_parse(text, max_join=7, sort_ascending=False):
     for i in range(len(split_objects)):
         for j in reversed(range(min(max_join, len(split_objects) - i))):
             x = " ".join(split_objects[i:i + j + 1])
-            if x.isdigit():
-                joint_objects.append(x)
-                continue
             if _bad_date_re.match(x):
                 continue
             if not len(x) > 2:
@@ -227,9 +224,9 @@ class DateSearch:
         check_settings(settings)
 
         returnable_objects = []
-        parser = DateDataParser(languages=[language_shortname], settings=settings)
+        parser = DateDataParser(languages=[languages], settings=settings)
         translated, original = self.search_languages.translate_objects(
-            language_shortname, text, settings
+            languages, text, settings
         )
 
         for index, original_object in enumerate(original):
@@ -271,20 +268,20 @@ class DateSearch:
 
         parser._settings = Settings()
         return returnable_objects
-      
+
     @apply_settings
     def search_dates(
         self, text, languages=None, limit_date_search_results=None, settings=None, detect_languages_function=None
     ):
 
-        language_shortname = self.search_languages.detect_language(
+        languages = self.search_languages.detect_language(
             text=text, languages=languages, settings=settings, detect_languages_function=detect_languages_function
         )
 
-        if not language_shortname:
+        if not languages:
             return {"Language": None, "Dates": None}
         return {
-            "Language": language_shortname,
+            "Language": languages,
             "Dates": self.search_parse(
                 text=text,
                 languages=languages,
