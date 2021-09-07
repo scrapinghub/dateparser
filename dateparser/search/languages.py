@@ -2,6 +2,7 @@ from collections.abc import Set
 
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.languages.loader import LocaleDataLoader
+from dateparser.custom_language_detection.language_mapping import map_languages
 
 
 class SearchLanguages:
@@ -19,31 +20,29 @@ class SearchLanguages:
         result = self.language.translate_search(text, settings=settings)
         return result
 
-    def detect_language(self, text, languages):
-        if isinstance(languages, (list, tuple, Set)):
-
-            if all([language in self.available_language_map for language in languages]):
-                languages = [
-                    self.available_language_map[language] for language in languages
-                ]
-            else:
-                unsupported_languages = set(languages) - set(
-                    self.available_language_map.keys()
-                )
-                raise ValueError(
-                    "Unknown language(s): %s"
-                    % ", ".join(map(repr, unsupported_languages))
-                )
-        elif languages is not None:
-            raise TypeError(
-                "languages argument must be a list (%r given)" % type(languages)
+    def detect_language(self, text, languages, settings=None, detect_languages_function=None):
+        if detect_languages_function and not languages:
+            detected_languages = detect_languages_function(
+                text, confidence_threshold=settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
             )
+            detected_languages = map_languages(detected_languages) or settings.DEFAULT_LANGUAGES
+            return detected_languages[0] if detected_languages else None
+
+        if isinstance(languages, (list, tuple, Set)):
+            if all([language in self.available_language_map for language in languages]):
+                languages = [self.available_language_map[language] for language in languages]
+            else:
+                unsupported_languages = set(languages) - set(self.available_language_map.keys())
+                raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
+        elif languages is not None:
+            raise TypeError("languages argument must be a list (%r given)" % type(languages))
 
         if languages:
             self.language_detector = FullTextLanguageDetector(languages=languages)
         else:
-            self.language_detector = FullTextLanguageDetector(
-                list(self.available_language_map.values())
-            )
+            self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))
 
-        return self.language_detector._best_language(text)
+        detected_language = self.language_detector._best_language(text) or (
+            settings.DEFAULT_LANGUAGES[0] if settings.DEFAULT_LANGUAGES else None
+        )
+        return detected_language
