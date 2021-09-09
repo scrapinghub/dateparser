@@ -1,8 +1,8 @@
-from dateparser.search.search import DateSearch
+from dateparser.search.search import DateSearchWithDetection
 from dateparser.conf import apply_settings
 
 
-_search_dates = DateSearch()
+_search_dates = DateSearchWithDetection()
 
 
 @apply_settings

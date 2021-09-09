@@ -151,7 +151,7 @@ def _joint_parse(
     return returnable_objects
 
 
-class DateSearch:
+class DateSearchWithDetection:
     """
     Class which handles language detection, translation and subsequent generic parsing of
     string representing date and/or time.

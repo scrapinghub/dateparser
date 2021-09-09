@@ -3,7 +3,7 @@ import pytest
 import pytz
 from tests import BaseTestCase
 from dateparser.timezone_parser import StaticTzInfo
-from dateparser.search.search import DateSearch
+from dateparser.search.search import DateSearchWithDetection
 from dateparser.search import search_dates, search_first_date
 from dateparser.conf import Settings, apply_settings
 from dateparser_data.settings import default_parsers
@@ -13,7 +13,7 @@ import datetime
 class TestTranslateSearch(BaseTestCase):
     def setUp(self):
         super().setUp()
-        self.search_dates = DateSearch()
+        self.search_dates = DateSearchWithDetection()
         self.exact_language_search = self.search_dates.search_languages
 
     def run_search_dates_function_invalid_languages(self, text, languages, error_type):
