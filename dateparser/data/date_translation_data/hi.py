@@ -193,7 +193,7 @@ info = {
         "in \\1 decade": [
             "(\\d+) दशक में"
         ],
-        "1 decade ago": [
+        "\\1 decade ago": [
             "(\\d+) दशक पहले"
         ],
         "\\1 week ago": [
