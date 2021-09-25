@@ -10,3 +10,4 @@ def test_dateparser_data_integrity():
                 f.read().strip() == files[filename].strip()
             ), "The content of the file \"{}\" doesn't match the content" \
                " of the generated file.".format(filename)
+
