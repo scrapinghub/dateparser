@@ -37,8 +37,13 @@ relative-type:
         - परसों
     1 decade ago:
         - पिछला दशक
-        - यह दशक
     in 1 decade:
-        - अगले दशक
+        - अगला दशक
+
+relative-type-regex:
+    in \1 decade:
+        - (\d+) दशक में
+    \1 decade ago:
+        - (\d+) दशक पहले
 
 
