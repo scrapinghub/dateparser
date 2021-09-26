@@ -1,6 +1,5 @@
 from dateparser_scripts.write_complete_data import write_complete_data
 
-
 def test_dateparser_data_integrity():
     files = write_complete_data(in_memory=True)
 

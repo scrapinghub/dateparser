@@ -148,6 +148,12 @@
         ],
         "in 1 year": [
             "अगला वर्ष"
+        ],
+        "1 decade ago": [
+            "पिछला दशक"
+        ],
+        "in 1 decade": [
+            "अगला दशक"
         ]
     },
     "relative-type-regex": {
@@ -198,6 +204,12 @@
         ],
         "in \\1 year": [
             "{0} वर्ष में"
+        ],
+        "\\1 decade ago": [
+            "{0} दशक पहले"
+        ],
+        "in \\1 decade": [
+            "{0} दशक में"
         ]
     },
     "locale_specific": {}
