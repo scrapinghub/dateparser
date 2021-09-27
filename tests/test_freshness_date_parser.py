@@ -1165,7 +1165,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
               in_future={'years': 1, 'months': 5, 'weeks': 1}, period='week'),
         param('1 दशक में', in_future={'years': 10}, period='year'),
 
-
         # af
         param("oor 10 jaar", in_future={'years': 10}, period='year'),
         param("oor 5 min 3 sek", in_future={'minutes': 5, 'seconds': 3}, period='day'),
