@@ -10,7 +10,7 @@ ALWAYS_KEEP_TOKENS = ["+"] + PARSER_HARDCODED_TOKENS
 KNOWN_WORD_TOKENS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday',
                      'saturday', 'sunday', 'january', 'february', 'march',
                      'april', 'may', 'june', 'july', 'august', 'september',
-                     'october', 'november', 'december', 'decade', 'year',
+                     'october', 'november', 'december', 'decade', 'century', 'fortnight', 'year',
                      'month', 'week', 'day', 'hour', 'minute', 'second', 'ago',
                      'in', 'am', 'pm']
 

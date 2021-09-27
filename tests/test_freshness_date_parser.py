@@ -57,6 +57,18 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param('1 fortnight', ago={'days': 14}, period='day'),
+        param('last fortnight', ago={'days': 14}, period='day'),
+        param('14 fortnight', ago={'days': 196}, period='day'),
+        param('a fortnight ago', ago={'days': 14}, period='day'),
+        param('last fortnight', ago={'days': 14}, period='day'),
+        param("1 century", ago={'years': 100}, period='year'),
+        param("1 century 2 years", ago={'years': 102}, period='year'),
+        param("1 century 12 months", ago={'years': 100, 'months': 12}, period='month'),
+        param("1 century and 11 months", ago={'years': 100, 'months': 11}, period='month'),
+        param("last century", ago={'years': 100}, period='year'),
+        param("a century ago", ago={'years': 100}, period='year'),
+        param("10 century", ago={'years': 1000}, period='year'),
         param("1 decade", ago={'years': 10}, period='year'),
         param("1 decade 2 years", ago={'years': 12}, period='year'),
         param("1 decade 12 months", ago={'years': 10, 'months': 12}, period='month'),
@@ -578,6 +590,18 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param('1 fortnight', ago={'days': 14}, period='day'),
+        param('last fortnight', ago={'days': 14}, period='day'),
+        param('14 fortnight', ago={'days': 196}, period='day'),
+        param('a fortnight ago', ago={'days': 14}, period='day'),
+        param('last fortnight', ago={'days': 14}, period='day'),
+        param("1 century", ago={'years': 100}, period='year'),
+        param("1 century 2 years", ago={'years': 102}, period='year'),
+        param("1 century 12 months", ago={'years': 100, 'months': 12}, period='month'),
+        param("1 century and 11 months", ago={'years': 100, 'months': 11}, period='month'),
+        param("last century", ago={'years': 100}, period='year'),
+        param("a century ago", ago={'years': 100}, period='year'),
+        param("10 century", ago={'years': 1000}, period='year'),
         param("1 decade", ago={'years': 10}, period='year'),
         param("1 decade 2 years", ago={'years': 12}, period='year'),
         param("1 decade 12 months", ago={'years': 10, 'months': 12}, period='month'),
@@ -1069,6 +1093,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param('in a fortnight', in_future={'days': 14}, period='day'),
+        param('next fortnight', in_future={'days': 14}, period='day'),
+        param('in 1 century 2 months', in_future={'years': 100, 'months': 2}, period='month'),
+        param('in 10 century', in_future={'years': 1000}, period='year'),
+        param('in 1 century 12 years', in_future={'years': 112}, period='year'),
+        param('next century', in_future={'years': 100}, period='year'),
+        param('in a century', in_future={'years': 100}, period='year'),
         param('in 1 decade 2 months', in_future={'years': 10, 'months': 2}, period='month'),
         param('in 100 decades', in_future={'years': 1000}, period='year'),
         param('in 1 decade 12 years', in_future={'years': 22}, period='year'),
