@@ -1102,6 +1102,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('in 1 century 12 years', in_future={'years': 112}, period='year'),
         param('next century', in_future={'years': 100}, period='year'),
         param('in a century', in_future={'years': 100}, period='year'),
+        param('in 3 centurys', in_future={'years': 300}, period='year'),
         param('in 1 decade 2 months', in_future={'years': 10, 'months': 2}, period='month'),
         param('in 100 decades', in_future={'years': 1000}, period='year'),
         param('in 1 decade 12 years', in_future={'years': 22}, period='year'),
