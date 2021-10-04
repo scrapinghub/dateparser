@@ -49,6 +49,7 @@ Contents:
    installation
    usage
    settings
+   custom_language_detection
    supported_locales
    contributing
    modules
