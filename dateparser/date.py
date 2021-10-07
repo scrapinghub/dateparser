@@ -358,8 +358,8 @@ class DateDataParser:
             raise TypeError("use_given_order argument must be a boolean (%r given)"
                             % type(use_given_order))
 
-        if not locales and use_given_order:
-            raise ValueError("locales must be given if use_given_order is True")
+        if not locales and not languages and use_given_order:
+            raise ValueError("locales or locales must be given if use_given_order is True")
 
         check_settings(settings)
 
