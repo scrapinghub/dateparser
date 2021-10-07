@@ -840,7 +840,7 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand([
         param('pt', 'Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
-              [('Em outubro de 1936', datetime.datetime(1936, 10, datetime.datetime.utcnow().day, 0, 0))], True),
+              [('Em outubro de 1936', datetime.datetime(1936, 10, datetime.datetime.utcnow().day, 0, 0))], xfail=True),
     ])
     @apply_settings
     def test_search_date_accurate_return_text(self, shortname, string, expected, settings=None, xfail=False):
