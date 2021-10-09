@@ -123,39 +123,57 @@ info = {
             "ovog minuta"
         ],
         "0 month ago": [
+            "ovog m",
+            "ovog mes",
             "ovog meseca"
         ],
         "0 second ago": [
             "sada"
         ],
         "0 week ago": [
+            "ove n",
+            "ove ned",
             "ove nedelje"
         ],
         "0 year ago": [
+            "ove g",
+            "ove god",
             "ove godine"
         ],
         "1 day ago": [
             "juče"
         ],
         "1 month ago": [
+            "prošlog m",
+            "prošlog mes",
             "prošlog meseca"
         ],
         "1 week ago": [
+            "prošle n",
+            "prošle ned",
             "prošle nedelje"
         ],
         "1 year ago": [
+            "prošle g",
+            "prošle god",
             "prošle godine"
         ],
         "in 1 day": [
             "sutra"
         ],
         "in 1 month": [
+            "sledećeg m",
+            "sledećeg mes",
             "sledećeg meseca"
         ],
         "in 1 week": [
+            "sledeće n",
+            "sledeće ned",
             "sledeće nedelje"
         ],
         "in 1 year": [
+            "sledeće g",
+            "sledeće god",
             "sledeće godine"
         ]
     },
@@ -240,14 +258,11 @@ info = {
     "locale_specific": {
         "sr-Latn-BA": {
             "name": "sr-Latn-BA",
-            "september": [
-                "sept"
-            ],
-            "tuesday": [
-                "ut"
+            "monday": [
+                "ponedjeljak"
             ],
             "wednesday": [
-                "sr",
+                "sri",
                 "srijeda"
             ],
             "sunday": [
@@ -255,18 +270,99 @@ info = {
             ],
             "am": [
                 "prije podne"
-            ]
+            ],
+            "month": [
+                "mjes",
+                "mjesec"
+            ],
+            "week": [
+                "nedjelja"
+            ],
+            "relative-type": {
+                "0 month ago": [
+                    "ovog mjes",
+                    "ovog mjeseca"
+                ],
+                "0 week ago": [
+                    "ove nedjelje"
+                ],
+                "1 month ago": [
+                    "prošlog mjes",
+                    "prošlog mjeseca"
+                ],
+                "1 week ago": [
+                    "prethodne nedelje"
+                ],
+                "in 1 month": [
+                    "sljedećeg m",
+                    "sljedećeg mjes",
+                    "sljedećeg mjeseca"
+                ],
+                "in 1 week": [
+                    "naredne nedelje",
+                    "sljedeće n"
+                ],
+                "in 1 year": [
+                    "sljedeće g",
+                    "sljedeće god",
+                    "sljedeće godine"
+                ]
+            },
+            "relative-type-regex": {
+                "\\1 day ago": [
+                    "prije (\\d+) d",
+                    "prije (\\d+) dana"
+                ],
+                "\\1 hour ago": [
+                    "prije (\\d+) sata",
+                    "prije (\\d+) sati",
+                    "prije (\\d+) č"
+                ],
+                "\\1 minute ago": [
+                    "prije (\\d+) min",
+                    "prije (\\d+) minuta"
+                ],
+                "\\1 month ago": [
+                    "prije (\\d+) m",
+                    "prije (\\d+) mjes",
+                    "prije (\\d+) mjeseca",
+                    "prije (\\d+) mjeseci"
+                ],
+                "\\1 second ago": [
+                    "prije (\\d+) s",
+                    "prije (\\d+) sek",
+                    "prije (\\d+) sekunde",
+                    "prije (\\d+) sekundi"
+                ],
+                "\\1 week ago": [
+                    "prije (\\d+) n",
+                    "prije (\\d+) ned",
+                    "prije (\\d+) nedjelja",
+                    "prije (\\d+) nedjelje"
+                ],
+                "\\1 year ago": [
+                    "prije (\\d+) g",
+                    "prije (\\d+) god",
+                    "prije (\\d+) godina",
+                    "prije (\\d+) godine"
+                ],
+                "in \\1 month": [
+                    "za (\\d+) mjes",
+                    "za (\\d+) mjesec",
+                    "za (\\d+) mjeseci"
+                ],
+                "in \\1 week": [
+                    "za (\\d+) nedjelja",
+                    "za (\\d+) nedjelju"
+                ]
+            }
         },
         "sr-Latn-ME": {
             "name": "sr-Latn-ME",
             "september": [
                 "sept"
             ],
-            "tuesday": [
-                "ut"
-            ],
             "wednesday": [
-                "sr",
                 "srijeda"
             ],
             "sunday": [
@@ -280,12 +376,6 @@ info = {
             "name": "sr-Latn-XK",
             "september": [
                 "sept"
-            ],
-            "tuesday": [
-                "ut"
-            ],
-            "wednesday": [
-                "sr"
             ]
         }
     },

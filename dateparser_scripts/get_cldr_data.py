@@ -28,7 +28,7 @@ AM_PATTERN = re.compile(r'^\s*[Aa]\s*\.?\s*[Mm]\s*\.?\s*$')
 PM_PATTERN = re.compile(r'^\s*[Pp]\s*\.?\s*[Mm]\s*\.?\s*$')
 PARENTHESIS_PATTERN = re.compile(r'[\(\)]')
 
-cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
+cldr_dates_full_dir = "../raw_data/all_data/cldr-dates-full/main/"
 
 
 def _filter_relative_string(relative_string):

@@ -3,51 +3,63 @@
     "date_order": "YMD",
     "january": [
         "urt",
-        "urtarrila"
+        "urtarrila",
+        "urtarrilak"
     ],
     "february": [
         "ots",
-        "otsaila"
+        "otsaila",
+        "otsailak"
     ],
     "march": [
         "mar",
-        "martxoa"
+        "martxoa",
+        "martxoak"
     ],
     "april": [
         "api",
-        "apirila"
+        "apirila",
+        "apirilak"
     ],
     "may": [
         "mai",
-        "maiatza"
+        "maiatza",
+        "maiatzak"
     ],
     "june": [
         "eka",
-        "ekaina"
+        "ekaina",
+        "ekainak"
     ],
     "july": [
         "uzt",
-        "uztaila"
+        "uztaila",
+        "uztailak"
     ],
     "august": [
         "abu",
-        "abuztua"
+        "abuztua",
+        "abuztuak"
     ],
     "september": [
         "ira",
-        "iraila"
+        "iraila",
+        "irailak"
     ],
     "october": [
         "urr",
-        "urria"
+        "urria",
+        "urriak"
     ],
     "november": [
         "aza",
-        "azaroa"
+        "azaroa",
+        "azaroak"
     ],
     "december": [
         "abe",
-        "abendua"
+        "abendua",
+        "abenduak"
     ],
     "monday": [
         "al",
@@ -121,13 +133,13 @@
             "minutu honetan"
         ],
         "0 month ago": [
-            "hilabete hau"
+            "hilabete honetan"
         ],
         "0 second ago": [
             "orain"
         ],
         "0 week ago": [
-            "aste hau"
+            "aste honetan"
         ],
         "0 year ago": [
             "aurten"
@@ -136,25 +148,27 @@
             "atzo"
         ],
         "1 month ago": [
-            "aurreko hilabetea"
+            "aurreko hilabetean"
         ],
         "1 week ago": [
-            "aurreko astea"
+            "aurreko astean"
         ],
         "1 year ago": [
-            "aurreko urtea"
+            "aurreko urtea",
+            "iaz"
         ],
         "in 1 day": [
             "bihar"
         ],
         "in 1 month": [
-            "hurrengo hilabetea"
+            "hurrengo hilabetean"
         ],
         "in 1 week": [
-            "hurrengo astea"
+            "hurrengo astean"
         ],
         "in 1 year": [
-            "hurrengo urtea"
+            "hurrengo urtea",
+            "hurrengo urtean"
         ]
     },
     "relative-type-regex": {

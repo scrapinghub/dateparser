@@ -76,10 +76,10 @@
         "dé domhnaigh"
     ],
     "am": [
-        "am"
+        "rn"
     ],
     "pm": [
-        "pm"
+        "in"
     ],
     "year": [
         "bl",
@@ -130,8 +130,8 @@
             "an tseachtain seo"
         ],
         "0 year ago": [
-            "an bhl seo",
-            "an bhliain seo"
+            "i mbl",
+            "i mbliana"
         ],
         "1 day ago": [
             "inné"
@@ -220,5 +220,9 @@
             "i gceann {0} bliain"
         ]
     },
-    "locale_specific": {}
+    "locale_specific": {
+        "ga-GB": {
+            "name": "ga-GB"
+        }
+    }
 }

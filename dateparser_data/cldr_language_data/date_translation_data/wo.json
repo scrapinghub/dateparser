@@ -1,0 +1,215 @@
+{
+    "name": "wo",
+    "date_order": "DMY",
+    "january": [
+        "sam",
+        "samwiyee"
+    ],
+    "february": [
+        "few",
+        "fewriyee"
+    ],
+    "march": [
+        "mar",
+        "mars"
+    ],
+    "april": [
+        "awr",
+        "awril"
+    ],
+    "may": [
+        "mee"
+    ],
+    "june": [
+        "suw",
+        "suwe"
+    ],
+    "july": [
+        "sul",
+        "sulet"
+    ],
+    "august": [
+        "ut"
+    ],
+    "september": [
+        "sàt",
+        "sàttumbar"
+    ],
+    "october": [
+        "okt",
+        "oktoobar"
+    ],
+    "november": [
+        "now",
+        "nowàmbar"
+    ],
+    "december": [
+        "des",
+        "desàmbar"
+    ],
+    "monday": [
+        "alt",
+        "altine"
+    ],
+    "tuesday": [
+        "tal",
+        "talaata"
+    ],
+    "wednesday": [
+        "àla",
+        "àlarba"
+    ],
+    "thursday": [
+        "alx",
+        "alxamis"
+    ],
+    "friday": [
+        "àjj",
+        "àjjuma"
+    ],
+    "saturday": [
+        "ase",
+        "aseer"
+    ],
+    "sunday": [
+        "dib",
+        "dibéer"
+    ],
+    "am": [
+        "sub"
+    ],
+    "pm": [
+        "ngo"
+    ],
+    "year": [
+        "at"
+    ],
+    "month": [
+        "we",
+        "weer"
+    ],
+    "week": [
+        "ayu-b",
+        "ayu-bis"
+    ],
+    "day": [
+        "fan"
+    ],
+    "hour": [
+        "waxt",
+        "wxt"
+    ],
+    "minute": [
+        "sim",
+        "simili"
+    ],
+    "second": [
+        "saa"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "tay"
+        ],
+        "0 hour ago": [
+            "ci waxtu wii"
+        ],
+        "0 minute ago": [
+            "ci simili bii"
+        ],
+        "0 month ago": [
+            "we wii",
+            "weer wii"
+        ],
+        "0 second ago": [
+            "leegi"
+        ],
+        "0 week ago": [
+            "ayu-b bii",
+            "ayu-bis bii"
+        ],
+        "0 year ago": [
+            "ren"
+        ],
+        "1 day ago": [
+            "démb"
+        ],
+        "1 month ago": [
+            "we wi wees",
+            "weer wi weesu"
+        ],
+        "1 week ago": [
+            "ayu-b bi wees",
+            "ayu-bis bi weesu"
+        ],
+        "1 year ago": [
+            "daaw"
+        ],
+        "in 1 day": [
+            "suba"
+        ],
+        "in 1 month": [
+            "we wiy ñëw",
+            "weer wiy ñëw"
+        ],
+        "in 1 week": [
+            "ayu-b ñëw",
+            "ayu-bis biy ñëw"
+        ],
+        "in 1 year": [
+            "dewen"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "{0} fan ci ginaaw"
+        ],
+        "\\1 hour ago": [
+            "{0} wax ci ginaaw",
+            "{0} waxtu ci ginaaw"
+        ],
+        "\\1 minute ago": [
+            "{0} sim ci ginaaw",
+            "{0} simili ci ginaaw"
+        ],
+        "\\1 month ago": [
+            "{0} we ci ginaaw",
+            "{0} weer ci ginaaw"
+        ],
+        "\\1 second ago": [
+            "{0} saa ci ginaaw"
+        ],
+        "\\1 week ago": [
+            "{0} ayi-b ci ginaaw",
+            "{0} ayi-bis ci ginaaw"
+        ],
+        "\\1 year ago": [
+            "{0} at ci ginaaw"
+        ],
+        "in \\1 day": [
+            "fileek {0} fan"
+        ],
+        "in \\1 hour": [
+            "fileek {0} wax",
+            "fileek {0} waxtu"
+        ],
+        "in \\1 minute": [
+            "fileek {0} sim",
+            "fileek {0} simili"
+        ],
+        "in \\1 month": [
+            "fileek {0} we",
+            "fileek {0} weer"
+        ],
+        "in \\1 second": [
+            "fileek {0} saa"
+        ],
+        "in \\1 week": [
+            "fileek {0} ayi-b",
+            "fileek {0} ayi-bis"
+        ],
+        "in \\1 year": [
+            "fileek {0} at"
+        ]
+    },
+    "locale_specific": {}
+}
