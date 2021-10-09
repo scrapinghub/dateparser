@@ -78,12 +78,10 @@ info = {
         "lahadi"
     ],
     "am": [
-        "safiya",
-        "sf"
+        "am"
     ],
     "pm": [
-        "yamma",
-        "ym"
+        "pm"
     ],
     "year": [
         "shekara"
@@ -111,98 +109,46 @@ info = {
             "yau"
         ],
         "0 hour ago": [
-            "wannan awa"
+            "this hour"
         ],
         "0 minute ago": [
-            "wannan mintin"
+            "this minute"
         ],
         "0 month ago": [
-            "wannan watan"
+            "this month"
         ],
         "0 second ago": [
-            "yanzu"
+            "now"
         ],
         "0 week ago": [
-            "wannan satin"
+            "this week"
         ],
         "0 year ago": [
-            "bana"
+            "this year"
         ],
         "1 day ago": [
             "jiya"
         ],
         "1 month ago": [
-            "watan da ya gabata"
+            "last month"
         ],
         "1 week ago": [
-            "satin da ya gabata"
+            "last week"
         ],
         "1 year ago": [
-            "bara"
+            "last year"
         ],
         "in 1 day": [
             "gobe"
         ],
         "in 1 month": [
-            "wata na gaba"
+            "next month"
         ],
         "in 1 week": [
-            "sati na gaba"
+            "next week"
         ],
         "in 1 year": [
-            "badi"
-        ]
-    },
-    "relative-type-regex": {
-        "\\1 day ago": [
-            "kwanaki da suka gabata (\\d+)",
-            "rana da ya gabata (\\d+)"
-        ],
-        "\\1 hour ago": [
-            "(\\d+) awa da ya gabata"
-        ],
-        "\\1 minute ago": [
-            "(\\d+) minti da ya gabata"
-        ],
-        "\\1 month ago": [
-            "watan da ya gabata (\\d+)",
-            "watanni da suka gabata (\\d+)}"
-        ],
-        "\\1 second ago": [
-            "(\\d+) dakika da ya gabata"
-        ],
-        "\\1 week ago": [
-            "mako da suka gabata (\\d+)",
-            "mako da ya gabata (\\d+)",
-            "makonni da suka gabata (\\d+)"
-        ],
-        "\\1 year ago": [
-            "shekara da suka gabata (\\d+)"
-        ],
-        "in \\1 day": [
-            "a cikin kwanaki (\\d+)",
-            "a cikin rana (\\d+)"
-        ],
-        "in \\1 hour": [
-            "cikin (\\d+) awa"
-        ],
-        "in \\1 minute": [
-            "cikin (\\d+) minti"
-        ],
-        "in \\1 month": [
-            "a cikin watan (\\d+)",
-            "a cikin watanni (\\d+)"
-        ],
-        "in \\1 second": [
-            "cikin (\\d+) dakika"
-        ],
-        "in \\1 week": [
-            "a cikin mako (\\d+)",
-            "a cikin makonni (\\d+)"
-        ],
-        "in \\1 year": [
-            "a shekarar (\\d+)",
-            "a shekaru (\\d+)"
+            "next year"
         ]
     },
     "locale_specific": {

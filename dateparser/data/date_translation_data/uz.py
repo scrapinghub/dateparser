@@ -116,14 +116,12 @@ info = {
             "shu daqiqada"
         ],
         "0 month ago": [
-            "bu oy",
             "shu oy"
         ],
         "0 second ago": [
             "hozir"
         ],
         "0 week ago": [
-            "bu hafta",
             "shu hafta"
         ],
         "0 year ago": [
@@ -140,7 +138,7 @@ info = {
             "o‘tgan hafta"
         ],
         "1 year ago": [
-            "o‘'tgan yil",
+            "o'tgan yil",
             "o‘tgan yil"
         ],
         "in 1 day": [

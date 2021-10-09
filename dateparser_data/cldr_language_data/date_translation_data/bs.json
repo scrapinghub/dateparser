@@ -29,8 +29,8 @@
         "juli"
     ],
     "august": [
-        "aug",
-        "august"
+        "avg",
+        "avgust"
     ],
     "september": [
         "sep",
@@ -77,11 +77,9 @@
         "nedjelja"
     ],
     "am": [
-        "am",
         "prijepodne"
     ],
     "pm": [
-        "pm",
         "popodne"
     ],
     "year": [

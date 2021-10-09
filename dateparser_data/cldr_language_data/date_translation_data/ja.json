@@ -130,13 +130,13 @@
             "明日"
         ],
         "in 1 month": [
-            "来月"
+            "翌月"
         ],
         "in 1 week": [
-            "来週"
+            "翌週"
         ],
         "in 1 year": [
-            "来年"
+            "翌年"
         ]
     },
     "relative-type-regex": {

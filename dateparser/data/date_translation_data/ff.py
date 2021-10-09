@@ -151,7 +151,17 @@ info = {
             "next year"
         ]
     },
-    "locale_specific": {},
+    "locale_specific": {
+        "ff-CM": {
+            "name": "ff-CM"
+        },
+        "ff-GN": {
+            "name": "ff-GN"
+        },
+        "ff-MR": {
+            "name": "ff-MR"
+        }
+    },
     "skip": [
         " ",
         "'",

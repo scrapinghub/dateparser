@@ -22,11 +22,13 @@ info = {
     ],
     "june": [
         "iyn",
-        "iyun"
+        "iyun",
+        "i̇yun"
     ],
     "july": [
         "iyl",
-        "iyul"
+        "iyul",
+        "i̇yul"
     ],
     "august": [
         "avq",

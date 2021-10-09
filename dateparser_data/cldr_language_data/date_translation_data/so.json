@@ -3,242 +3,152 @@
     "date_order": "DMY",
     "january": [
         "bisha koobaad",
-        "jan",
-        "jannaayo"
+        "kob"
     ],
     "february": [
         "bisha labaad",
-        "feb",
-        "febraayo"
+        "lab"
     ],
     "march": [
         "bisha saddexaad",
-        "maarso",
-        "mar"
+        "sad"
     ],
     "april": [
-        "abr",
-        "abriil",
+        "afr",
         "bisha afraad"
     ],
     "may": [
         "bisha shanaad",
-        "may"
+        "sha"
     ],
     "june": [
         "bisha lixaad",
-        "jun",
-        "juun"
+        "lix"
     ],
     "july": [
         "bisha todobaad",
-        "lul",
-        "luuliyo"
+        "tod"
     ],
     "august": [
         "bisha sideedaad",
-        "ogost",
-        "ogs"
+        "sid"
     ],
     "september": [
         "bisha sagaalaad",
-        "seb",
-        "sebtembar"
+        "sag"
     ],
     "october": [
         "bisha tobnaad",
-        "okt",
-        "oktoobar"
+        "tob"
     ],
     "november": [
         "bisha kow iyo tobnaad",
-        "nof",
-        "nofembar"
+        "kit"
     ],
     "december": [
         "bisha laba iyo tobnaad",
-        "desembar",
-        "dis"
+        "lit"
     ],
     "monday": [
         "isn",
         "isniin"
     ],
     "tuesday": [
-        "talaado",
-        "tldo"
+        "tal",
+        "talaado"
     ],
     "wednesday": [
-        "arbaco",
-        "arbc"
+        "arb",
+        "arbaco"
     ],
     "thursday": [
-        "khamiis",
-        "khms"
+        "kha",
+        "khamiis"
     ],
     "friday": [
-        "jimco",
-        "jmc"
+        "jim",
+        "jimco"
     ],
     "saturday": [
-        "sabti",
-        "sbti"
+        "sab",
+        "sabti"
     ],
     "sunday": [
         "axad",
         "axd"
     ],
     "am": [
-        "gh"
+        "sn"
     ],
     "pm": [
-        "gd"
+        "gn"
     ],
     "year": [
-        "sannad",
-        "snd"
+        "year"
     ],
     "month": [
-        "bil"
+        "month"
     ],
     "week": [
-        "tdbd",
-        "toddobaad"
+        "week"
     ],
     "day": [
-        "maalin",
-        "mln"
+        "day"
     ],
     "hour": [
-        "saacad",
-        "scd"
+        "hour"
     ],
     "minute": [
-        "daqiiqad",
-        "dqqd"
+        "minute"
     ],
     "second": [
-        "ilbiriqsi",
-        "ilbrqsi"
+        "second"
     ],
     "relative-type": {
         "0 day ago": [
             "maanta"
         ],
         "0 hour ago": [
-            "saacadan"
+            "this hour"
         ],
         "0 minute ago": [
-            "daqiiqadan"
+            "this minute"
         ],
         "0 month ago": [
-            "bishan"
+            "this month"
         ],
         "0 second ago": [
-            "imika",
-            "iminka"
+            "now"
         ],
         "0 week ago": [
-            "toddobaadkan",
-            "usbuucan"
+            "this week"
         ],
         "0 year ago": [
-            "sannadkan"
+            "this year"
         ],
         "1 day ago": [
             "shalay"
         ],
         "1 month ago": [
-            "bishii hore"
+            "last month"
         ],
         "1 week ago": [
-            "toddobaadkii hore"
+            "last week"
         ],
         "1 year ago": [
-            "sannadkii hore",
-            "sannadkii la soo dhaafay"
+            "last year"
         ],
         "in 1 day": [
             "berri"
         ],
         "in 1 month": [
-            "bisha danbe"
+            "next month"
         ],
         "in 1 week": [
-            "toddobaadka danbe"
+            "next week"
         ],
         "in 1 year": [
-            "sannadka danbe",
-            "sannadka xiga"
-        ]
-    },
-    "relative-type-regex": {
-        "\\1 day ago": [
-            "{0} maalin kahor",
-            "{0} maalmood kahor",
-            "{0} mlmd khr",
-            "{0} mln khr"
-        ],
-        "\\1 hour ago": [
-            "{0} saacad kahor",
-            "{0} saacadood kahor",
-            "{0} scd khr"
-        ],
-        "\\1 minute ago": [
-            "{0} daqiiqad kahor",
-            "{0} daqiiqadood kahor",
-            "{0} dqqd khr"
-        ],
-        "\\1 month ago": [
-            "{0} bil kahor",
-            "{0} bil khr",
-            "{0} bilood kahor"
-        ],
-        "\\1 second ago": [
-            "{0} ilbiriqsi kahor",
-            "{0} ilbrqsi khr"
-        ],
-        "\\1 week ago": [
-            "{0} tdbd khr",
-            "{0} toddobaad kahor"
-        ],
-        "\\1 year ago": [
-            "{0} sannad kahor",
-            "{0} sannadood kahor",
-            "{0} snd khr"
-        ],
-        "in \\1 day": [
-            "{0} maalin",
-            "{0} maalmood",
-            "{0} mlmd",
-            "{0} mln"
-        ],
-        "in \\1 hour": [
-            "{0} saacad",
-            "{0} saacadood",
-            "{0} scd"
-        ],
-        "in \\1 minute": [
-            "{0} daqiidadood",
-            "{0} daqiiqad",
-            "{0} dqqd"
-        ],
-        "in \\1 month": [
-            "{0} bil",
-            "{0} bilood"
-        ],
-        "in \\1 second": [
-            "{0} ilbiriqsi",
-            "{0} ilbrqsi"
-        ],
-        "in \\1 week": [
-            "{0} tdbd",
-            "{0} toddobaad"
-        ],
-        "in \\1 year": [
-            "{0} sannad",
-            "{0} sannadood",
-            "{0} snd"
+            "next year"
         ]
     },
     "locale_specific": {

@@ -78,11 +78,9 @@ info = {
         "sul"
     ],
     "am": [
-        "am",
         "yb"
     ],
     "pm": [
-        "pm",
         "yh"
     ],
     "year": [
@@ -96,7 +94,7 @@ info = {
         "wythnos"
     ],
     "day": [
-        "diwrnod"
+        "dydd"
     ],
     "hour": [
         "awr"
@@ -125,7 +123,6 @@ info = {
             "nawr"
         ],
         "0 week ago": [
-            "yr ws hon",
             "yr wythnos hon"
         ],
         "0 year ago": [
@@ -138,7 +135,6 @@ info = {
             "mis diwethaf"
         ],
         "1 week ago": [
-            "ws ddiwethaf",
             "wythnos ddiwethaf"
         ],
         "1 year ago": [
@@ -151,11 +147,9 @@ info = {
             "mis nesaf"
         ],
         "in 1 week": [
-            "ws nesaf",
             "wythnos nesaf"
         ],
         "in 1 year": [
-            "bl nesaf",
             "blwyddyn nesaf"
         ]
     },
@@ -174,15 +168,12 @@ info = {
             "(\\d+) mis yn ôl"
         ],
         "\\1 second ago": [
-            "(\\d+) eil yn ôl",
             "(\\d+) eiliad yn ôl"
         ],
         "\\1 week ago": [
-            "(\\d+) ws yn ôl",
             "(\\d+) wythnos yn ôl"
         ],
         "\\1 year ago": [
-            "(\\d+) bl yn ôl",
             "(\\d+) o flynyddoedd yn ôl"
         ],
         "in \\1 day": [
@@ -199,11 +190,9 @@ info = {
             "ymhen (\\d+) mis"
         ],
         "in \\1 second": [
-            "ymhen (\\d+) eil",
             "ymhen (\\d+) eiliad"
         ],
         "in \\1 week": [
-            "ymhen (\\d+) ws",
             "ymhen (\\d+) wythnos"
         ],
         "in \\1 year": [

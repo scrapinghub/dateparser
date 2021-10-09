@@ -138,8 +138,7 @@ info = {
             "şimdi"
         ],
         "0 week ago": [
-            "bu hafta",
-            "bu hf"
+            "bu hafta"
         ],
         "0 year ago": [
             "bu yıl"
@@ -152,8 +151,7 @@ info = {
             "geçen ay"
         ],
         "1 week ago": [
-            "geçen hafta",
-            "geçen hf"
+            "geçen hafta"
         ],
         "1 year ago": [
             "geçen yıl"
@@ -168,7 +166,6 @@ info = {
         ],
         "in 1 week": [
             "gelecek hafta",
-            "gelecek hf",
             "haftaya",
             "önümüzdeki hafta"
         ],
