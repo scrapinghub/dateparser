@@ -173,6 +173,8 @@ class InvalidSettingsTest(BaseTestCase):
         param('NORMALIZE', 'true', '', True),
         param('FUZZY', 'true', '', False),
         param('PREFER_LOCALE_DATE_ORDER', 'false', '', True),
+        param('DEFAULT_LANGUAGES', 'en', '', ['en']),
+        param('LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD', '1', '', 0.5),
     ])
     def test_check_settings(self, setting, wrong_type, wrong_value, valid_value):
         with self.assertRaisesRegex(
@@ -212,6 +214,22 @@ class InvalidSettingsTest(BaseTestCase):
         ):
             DateDataParser(settings={'PARSERS': ['absolute-time', 'timestamp', 'absolute-time']})
 
+    def test_check_settings_extra_check_confidence_threshold(self):
+        with self.assertRaisesRegex(
+            SettingValidationError,
+            r'1.1 is not a valid value for '
+            r'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD. It can take values '
+            r'between 0 and 1'
+        ):
+            DateDataParser(settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 1.1})
+
+    def test_check_settings_extra_check_default_languages(self):
+        with self.assertRaisesRegex(
+            SettingValidationError,
+            "Found invalid languages in the 'DEFAULT_LANGUAGES' setting: 'abcd'"
+        ):
+            DateDataParser(settings={'DEFAULT_LANGUAGES': ["abcd"]})
+
 
 @pytest.mark.parametrize(
     "date_string,expected_result", [
@@ -227,3 +245,18 @@ def test_no_spaces_strict_parsing(date_string, expected_result):
 
     parser = DateDataParser(settings={'PARSERS': ['no-spaces-time'], 'STRICT_PARSING': True})
     assert parser.get_date_data(date_string)['date_obj'] is None
+
+
+def detect_languages(text, confidence_threshold):
+    if confidence_threshold > 0.5:
+        return ['en']
+    else:
+        return ['fr']
+
+
+def test_confidence_threshold_setting_is_applied():
+    ddp = DateDataParser(detect_languages_function=detect_languages, settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 0.6})
+    assert ddp.get_date_data('21/06/2020').locale == 'en'
+
+    ddp2 = DateDataParser(detect_languages_function=detect_languages, settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 0.4})
+    assert ddp2.get_date_data('21/06/2020').locale == 'fr'
