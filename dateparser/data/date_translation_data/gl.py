@@ -81,11 +81,9 @@ info = {
         "pm"
     ],
     "year": [
-        "a",
         "ano"
     ],
     "month": [
-        "m",
         "mes"
     ],
     "week": [
@@ -93,7 +91,6 @@ info = {
         "semana"
     ],
     "day": [
-        "d",
         "día"
     ],
     "hour": [
@@ -113,13 +110,12 @@ info = {
             "hoxe"
         ],
         "0 hour ago": [
-            "nesta hora"
+            "esta hora"
         ],
         "0 minute ago": [
-            "neste minuto"
+            "este minuto"
         ],
         "0 month ago": [
-            "este m",
             "este mes"
         ],
         "0 second ago": [
@@ -136,36 +132,37 @@ info = {
             "onte"
         ],
         "1 month ago": [
-            "m pasado",
+            "o mes pas",
             "o mes pasado"
         ],
         "1 week ago": [
-            "a semana pasada",
-            "sem pasada"
+            "a sem pas",
+            "a sem pasada",
+            "a semana pasada"
         ],
         "1 year ago": [
-            "ano pasado",
+            "o ano pas",
             "o ano pasado"
         ],
         "in 1 day": [
             "mañá"
         ],
         "in 1 month": [
-            "m seguinte",
+            "o próx mes",
             "o próximo mes"
         ],
         "in 1 week": [
-            "a próxima semana",
-            "sem seguinte"
+            "a próx sem",
+            "a próxima sem",
+            "a próxima semana"
         ],
         "in 1 year": [
-            "o próximo ano",
-            "seguinte ano"
+            "o próx ano",
+            "o próximo ano"
         ]
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "hai (\\d+) d",
             "hai (\\d+) día",
             "hai (\\d+) días"
         ],
@@ -180,7 +177,6 @@ info = {
             "hai (\\d+) minutos"
         ],
         "\\1 month ago": [
-            "hai (\\d+) m",
             "hai (\\d+) mes",
             "hai (\\d+) meses"
         ],
@@ -195,12 +191,10 @@ info = {
             "hai (\\d+) semanas"
         ],
         "\\1 year ago": [
-            "hai (\\d+) a",
             "hai (\\d+) ano",
             "hai (\\d+) anos"
         ],
         "in \\1 day": [
-            "en (\\d+) d",
             "en (\\d+) día",
             "en (\\d+) días"
         ],
@@ -215,7 +209,6 @@ info = {
             "en (\\d+) minutos"
         ],
         "in \\1 month": [
-            "en (\\d+) m",
             "en (\\d+) mes",
             "en (\\d+) meses"
         ],
@@ -230,7 +223,6 @@ info = {
             "en (\\d+) semanas"
         ],
         "in \\1 year": [
-            "en (\\d+) a",
             "en (\\d+) ano",
             "en (\\d+) anos"
         ]

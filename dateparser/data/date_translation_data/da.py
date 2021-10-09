@@ -119,10 +119,10 @@ info = {
             "i dag"
         ],
         "0 hour ago": [
-            "i den kommende time"
+            "denne time"
         ],
         "0 minute ago": [
-            "i det kommende minut"
+            "dette minut"
         ],
         "0 month ago": [
             "denne md",
@@ -167,40 +167,47 @@ info = {
     "relative-type-regex": {
         "\\1 day ago": [
             "for (\\d+) dag siden",
-            "for (\\d+) dage siden"
+            "for (\\d+) dage siden",
+            "(\\d+) dag siden",
+            "(\\d+) dage siden"
         ],
         "\\1 hour ago": [
             "for (\\d+) time siden",
             "for (\\d+) timer siden",
+            "(\\d+) time siden",
+            "(\\d+) timer siden",
             "for (\\d+)\\s*h",
             "for (\\d+) timer"
         ],
         "\\1 minute ago": [
-            "for (\\d+) min siden",
             "for (\\d+) minut siden",
             "for (\\d+) minutter siden",
+            "(\\d+) min siden",
             "for (\\d+)\\s*m",
             "for (\\d+) minutter"
         ],
         "\\1 month ago": [
-            "for (\\d+) md siden",
-            "for (\\d+) mdr siden",
             "for (\\d+) måned siden",
-            "for (\\d+) måneder siden"
+            "for (\\d+) måneder siden",
+            "(\\d+) md siden",
+            "(\\d+) mdr siden"
         ],
         "\\1 second ago": [
-            "for (\\d+) sek siden",
             "for (\\d+) sekund siden",
             "for (\\d+) sekunder siden",
+            "(\\d+) sek siden",
             "for (\\d+)\\s*s",
             "for (\\d+) sekunder"
         ],
         "\\1 week ago": [
             "for (\\d+) uge siden",
-            "for (\\d+) uger siden"
+            "for (\\d+) uger siden",
+            "(\\d+) uge siden",
+            "(\\d+) uger siden"
         ],
         "\\1 year ago": [
-            "for (\\d+) år siden"
+            "for (\\d+) år siden",
+            "(\\d+) år siden"
         ],
         "in \\1 day": [
             "om (\\d+) dag",

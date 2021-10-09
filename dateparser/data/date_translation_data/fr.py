@@ -190,14 +190,12 @@ info = {
         "\\1 hour ago": [
             "il y a (\\d+) h",
             "il y a (\\d+) heure",
-            "il y a (\\d+) heures",
-            "il y a (\\d+)h"
+            "il y a (\\d+) heures"
         ],
         "\\1 minute ago": [
             "il y a (\\d+) min",
             "il y a (\\d+) minute",
-            "il y a (\\d+) minutes",
-            "il y a (\\d+)min"
+            "il y a (\\d+) minutes"
         ],
         "\\1 month ago": [
             "il y a (\\d+) m",
@@ -226,8 +224,7 @@ info = {
         "in \\1 hour": [
             "dans (\\d+) h",
             "dans (\\d+) heure",
-            "dans (\\d+) heures",
-            "dans (\\d+)h"
+            "dans (\\d+) heures"
         ],
         "in \\1 minute": [
             "dans (\\d+) min",

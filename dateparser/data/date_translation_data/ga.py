@@ -76,10 +76,10 @@ info = {
         "dé domhnaigh"
     ],
     "am": [
-        "am"
+        "rn"
     ],
     "pm": [
-        "pm"
+        "in"
     ],
     "year": [
         "bl",
@@ -130,8 +130,8 @@ info = {
             "an tseachtain seo"
         ],
         "0 year ago": [
-            "an bhl seo",
-            "an bhliain seo"
+            "i mbl",
+            "i mbliana"
         ],
         "1 day ago": [
             "inné"
@@ -220,7 +220,11 @@ info = {
             "i gceann (\\d+) bliain"
         ]
     },
-    "locale_specific": {},
+    "locale_specific": {
+        "ga-GB": {
+            "name": "ga-GB"
+        }
+    },
     "skip": [
         " ",
         "'",

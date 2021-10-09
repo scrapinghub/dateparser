@@ -613,8 +613,7 @@ class TestTranslateSearch(BaseTestCase):
 
         # Hindi
         param('hi',
-              'जुलाई 1937 में, मार्को-पोलो ब्रिज हादसे का बहाना लेकर जापान ने चीन पर हमला कर दिया और चीनी साम्राज्य '
-              'की राजधानी बीजिंग पर कब्जा कर लिया,'),
+              'जुलाई 1937 में, मार्को-पोलो ब्रिज हादसे का बहाना की राजधानी बीजिंग पर कब्जा कर लिया. '),
 
         # Hungarian
         param('hu', 'A háború Európában 1945. május 8-án Németország feltétel nélküli megadásával, '

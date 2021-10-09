@@ -124,12 +124,15 @@ info = {
             "hendan minuttin"
         ],
         "0 month ago": [
+            "henda mnð",
             "henda mánaðin"
         ],
         "0 second ago": [
             "nú"
         ],
         "0 week ago": [
+            "hesu v",
+            "hesu vi",
             "hesu viku"
         ],
         "0 year ago": [
@@ -139,9 +142,12 @@ info = {
             "í gjár"
         ],
         "1 month ago": [
+            "seinasta mnð",
             "seinasta mánað"
         ],
         "1 week ago": [
+            "seinastu v",
+            "seinastu vi",
             "seinastu viku"
         ],
         "1 year ago": [
@@ -151,9 +157,12 @@ info = {
             "í morgin"
         ],
         "in 1 month": [
+            "næsta mnð",
             "næsta mánað"
         ],
         "in 1 week": [
+            "næstu v",
+            "næstu vi",
             "næstu viku"
         ],
         "in 1 year": [

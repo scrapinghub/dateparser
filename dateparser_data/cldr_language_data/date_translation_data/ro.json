@@ -125,6 +125,7 @@
             "acum"
         ],
         "0 week ago": [
+            "săpt aceasta",
             "săptămâna aceasta"
         ],
         "0 year ago": [
@@ -137,6 +138,7 @@
             "luna trecută"
         ],
         "1 week ago": [
+            "săpt trecută",
             "săptămâna trecută"
         ],
         "1 year ago": [
@@ -149,6 +151,7 @@
             "luna viitoare"
         ],
         "in 1 week": [
+            "săpt viitoare",
             "săptămâna viitoare"
         ],
         "in 1 year": [
@@ -158,8 +161,7 @@
     "relative-type-regex": {
         "\\1 day ago": [
             "acum {0} de zile",
-            "acum {0} zi",
-            "acum {0} zile"
+            "acum {0} zi"
         ],
         "\\1 hour ago": [
             "acum {0} de ore",
@@ -192,8 +194,7 @@
         ],
         "in \\1 day": [
             "peste {0} de zile",
-            "peste {0} zi",
-            "peste {0} zile"
+            "peste {0} zi"
         ],
         "in \\1 hour": [
             "peste {0} de ore",
@@ -222,7 +223,6 @@
         ],
         "in \\1 year": [
             "peste {0} an",
-            "peste {0} ani",
             "peste {0} de ani"
         ]
     },

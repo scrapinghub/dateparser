@@ -102,13 +102,11 @@
         "ora"
     ],
     "minute": [
-        "m",
         "min",
         "minuto"
     ],
     "second": [
         "s",
-        "sec",
         "secondo"
     ],
     "relative-type": {
@@ -128,6 +126,7 @@
             "ora"
         ],
         "0 week ago": [
+            "questa sett",
             "questa settimana"
         ],
         "0 year ago": [
@@ -140,6 +139,7 @@
             "mese scorso"
         ],
         "1 week ago": [
+            "sett scorsa",
             "settimana scorsa"
         ],
         "1 year ago": [
@@ -152,6 +152,7 @@
             "mese prossimo"
         ],
         "in 1 week": [
+            "sett prossima",
             "settimana prossima"
         ],
         "in 1 year": [

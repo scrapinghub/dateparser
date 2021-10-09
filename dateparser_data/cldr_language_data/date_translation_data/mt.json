@@ -99,9 +99,13 @@
         "siegħa"
     ],
     "minute": [
+        "m",
+        "min",
         "minuta"
     ],
     "second": [
+        "s",
+        "sek",
         "sekonda"
     ],
     "relative-type": {
@@ -109,16 +113,16 @@
             "illum"
         ],
         "0 hour ago": [
-            "this hour"
+            "din is-siegħa"
         ],
         "0 minute ago": [
-            "this minute"
+            "din il-minuta"
         ],
         "0 month ago": [
             "dan ix-xahar"
         ],
         "0 second ago": [
-            "now"
+            "issa"
         ],
         "0 week ago": [
             "din il-ġimgħa"
@@ -127,7 +131,7 @@
             "din is-sena"
         ],
         "1 day ago": [
-            "ilbieraħ"
+            "lbieraħ"
         ],
         "1 month ago": [
             "ix-xahar li għadda"
@@ -136,7 +140,7 @@
             "il-ġimgħa li għaddiet"
         ],
         "1 year ago": [
-            "is-sena li għaddiet"
+            "is-sena l-oħra"
         ],
         "in 1 day": [
             "għada"
@@ -152,9 +156,53 @@
         ]
     },
     "relative-type-regex": {
+        "\\1 day ago": [
+            "{0}-il ġurnata ilu"
+        ],
+        "\\1 hour ago": [
+            "{0} sigħat ilu"
+        ],
+        "\\1 minute ago": [
+            "{0} min ilu",
+            "{0} minuti ilu"
+        ],
+        "\\1 month ago": [
+            "{0} xahar ilu",
+            "{0} xhur ilu"
+        ],
+        "\\1 second ago": [
+            "{0} sek ilu",
+            "{0} sekondi ilu"
+        ],
+        "\\1 week ago": [
+            "{0} ġimgħat ilu"
+        ],
         "\\1 year ago": [
-            "{0} sena ilu",
             "{0} snin ilu"
+        ],
+        "in \\1 day": [
+            "fi żmien {0} ġurnata oħra"
+        ],
+        "in \\1 hour": [
+            "fi żmien {0} sigħat"
+        ],
+        "in \\1 minute": [
+            "sa {0} min oħra",
+            "sa {0} minuti oħra"
+        ],
+        "in \\1 month": [
+            "fi {0} xhur oħra",
+            "sa {0} xhur oħra"
+        ],
+        "in \\1 second": [
+            "sa {0} sek oħra",
+            "sa {0} sekondi oħra"
+        ],
+        "in \\1 week": [
+            "sa {0} ġimgħat oħra"
+        ],
+        "in \\1 year": [
+            "fi żmien {0} snin oħra"
         ]
     },
     "locale_specific": {}
