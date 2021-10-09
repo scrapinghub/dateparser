@@ -354,7 +354,7 @@ class _parser:
         except ValueError as e:
             error_text = e.__str__()
             error_msgs = ['day is out of range', 'day must be in']
-            if (error_msgs[0] in error_text or error_msgs[1] in error_text):
+            if error_msgs[0] in error_text or error_msgs[1] in error_text:
                 if not(self._token_day or hasattr(self, '_token_weekday')):
                     # if day is not available put last day of the month
                     params['day'] = get_last_day_of_month(params['year'], params['month'])

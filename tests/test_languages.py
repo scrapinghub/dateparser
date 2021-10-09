@@ -8,6 +8,11 @@ from dateparser.languages.validation import LanguageValidator
 from dateparser.conf import apply_settings
 from dateparser.search.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.utils import normalize_unicode
+from dateparser import parse
+from dateparser.date import DateDataParser
+from dateparser.search import search_dates
+
+from datetime import datetime
 
 from tests import BaseTestCase
 
@@ -2167,3 +2172,49 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         result = self.validator._validate_extra_keys(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
+
+    @parameterized.expand([
+        param(date_string='3 de marzo 2019', languages=["en"], settings={
+            "DEFAULT_LANGUAGES": ["es"]
+        }, expected=datetime(2019, 3, 3, 0, 0)),
+    ])
+    def test_parse_settings_default_languages(self, date_string, languages, settings, expected):
+        result = parse(date_string, languages=languages, settings=settings)
+        assert result == expected
+
+    @parameterized.expand([
+        param(date_string='3 de marzo 2019', languages=["en"], settings={
+            "DEFAULT_LANGUAGES": ["es"]
+        }, expected=datetime(2019, 3, 3, 0, 0)),
+    ])
+    def test_date_data_parser_settings_default_languages(self, date_string, languages, settings, expected):
+        ddp = DateDataParser(languages=languages, settings=settings)
+        result = ddp.get_date_data(date_string)
+        assert result.date_obj == expected
+
+    @parameterized.expand([
+        param(date_string='3 de marzo 2019', settings={
+            "DEFAULT_LANGUAGES": ["es"]
+        }, expected=[('3 de marzo 2019', datetime(2019, 3, 3, 0, 0))]),
+    ])
+    def test_search_dates_settings_default_languages(self, date_string, settings, expected):
+        result = search_dates(date_string, settings=settings)
+        assert result == expected
+
+    @parameterized.expand([
+        param(date_string='RANDOM_WORD ', settings={
+            "DEFAULT_LANGUAGES": ["en"]
+        })
+    ])
+    def test_parse_settings_default_languages_no_language_detect(self, date_string, settings):
+        result = parse(date_string, settings=settings)
+        assert result is None
+
+    @parameterized.expand([
+        param(date_string='29 mai 2021', languages=["fr"], expected=datetime(2021, 5, 29, 0, 0), settings={
+            "DEFAULT_LANGUAGES": ["en", "es"]
+        }),
+    ])
+    def test_parse_settings_default_languages_with_detected_language(self, date_string, languages, expected, settings):
+        result = parse(date_string, languages=languages, settings=settings)
+        assert result == expected
