@@ -214,151 +214,47 @@
     "locale_specific": {
         "se-FI": {
             "name": "se-FI",
-            "date_order": "DMY",
-            "april": [
-                "cuoŋ"
-            ],
             "monday": [
-                "má",
-                "mánnodat"
+                "vuossárgga"
             ],
             "tuesday": [
-                "di",
-                "disdat"
+                "maŋŋebárgga"
             ],
             "wednesday": [
-                "ga"
+                "gaskavahku"
             ],
             "thursday": [
-                "du",
-                "duorastat"
+                "duorastaga"
             ],
             "friday": [
-                "be"
+                "bearjadaga"
             ],
             "saturday": [
-                "lá",
-                "lávvordat"
-            ],
-            "sunday": [
-                "so"
+                "lávvardaga"
             ],
             "year": [
                 "j",
                 "jahki"
             ],
-            "month": [
-                "m"
-            ],
             "week": [
-                "v(k)",
                 "vahkku"
             ],
-            "day": [
-                "b"
-            ],
-            "hour": [
-                "dmu"
-            ],
-            "minute": [
-                "min"
-            ],
-            "second": [
-                "sek"
-            ],
             "relative-type": {
-                "0 hour ago": [
-                    "dán diimmu"
-                ],
-                "0 minute ago": [
-                    "dán minuhta"
-                ],
-                "0 month ago": [
-                    "dán mánu"
-                ],
-                "0 second ago": [
-                    "dál"
-                ],
-                "0 week ago": [
-                    "dán vahku"
-                ],
                 "0 year ago": [
                     "dán jagi"
                 ],
-                "1 month ago": [
-                    "mannan mánu"
-                ],
-                "1 week ago": [
-                    "mannan vahku"
-                ],
                 "1 year ago": [
-                    "diibmá"
-                ],
-                "in 1 month": [
-                    "boahtte mánu"
-                ],
-                "in 1 week": [
-                    "boahtte vahku"
+                    "mannan jagi"
                 ],
                 "in 1 year": [
                     "boahtte jagi"
                 ]
             },
             "relative-type-regex": {
-                "\\1 day ago": [
-                    "{0} beaivve dás ovdal"
-                ],
-                "\\1 hour ago": [
-                    "{0} diibmu áigi",
-                    "{0} diimmu áigi",
-                    "{0} dmu áigi"
-                ],
-                "\\1 minute ago": [
-                    "{0} min áigi",
-                    "{0} minuhta áigi",
-                    "{0} minuhtta áigi"
-                ],
-                "\\1 month ago": [
-                    "{0} mánnu dás ovdal",
-                    "{0} mánu dás ovdal"
-                ],
-                "\\1 second ago": [
-                    "{0} sek áigi",
-                    "{0} sekunda áigi",
-                    "{0} sekundda áigi"
-                ],
-                "\\1 week ago": [
-                    "{0} vahkku dás ovdal",
-                    "{0} vahku dás ovdal"
-                ],
                 "\\1 year ago": [
-                    "{0} j dás ovdal",
-                    "{0} jagi dás ovdal"
-                ],
-                "in \\1 day": [
-                    "{0} beaivve siste"
-                ],
-                "in \\1 hour": [
-                    "{0} diimmu siste",
-                    "{0} dmu siste"
-                ],
-                "in \\1 minute": [
-                    "{0} min siste",
-                    "{0} minuhta siste"
-                ],
-                "in \\1 month": [
-                    "{0} mánu geahčen",
-                    "{0} mánu siste"
-                ],
-                "in \\1 second": [
-                    "{0} sek siste",
-                    "{0} sekundda siste"
-                ],
-                "in \\1 week": [
-                    "{0} vahku geahčen"
+                    "{0} jagi árat"
                 ],
                 "in \\1 year": [
-                    "{0} j siste",
                     "{0} jagi siste"
                 ]
             }

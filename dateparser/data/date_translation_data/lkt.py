@@ -1,6 +1,6 @@
 info = {
     "name": "lkt",
-    "date_order": "MDY",
+    "date_order": "YMD",
     "january": [
         "wiótheȟika wí"
     ],

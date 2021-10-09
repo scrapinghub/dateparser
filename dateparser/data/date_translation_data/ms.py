@@ -123,8 +123,8 @@ info = {
             "sekarang"
         ],
         "0 week ago": [
-            "mgu ini",
-            "minggu ini"
+            "minggu ini",
+            "mng ini"
         ],
         "0 year ago": [
             "tahun ini",
@@ -139,8 +139,8 @@ info = {
             "bulan lalu"
         ],
         "1 week ago": [
-            "mgu lepas",
-            "minggu lalu"
+            "minggu lalu",
+            "mng lepas"
         ],
         "1 year ago": [
             "tahun lalu",
@@ -154,8 +154,8 @@ info = {
             "bulan depan"
         ],
         "in 1 week": [
-            "mgu depan",
-            "minggu depan"
+            "minggu depan",
+            "mng depan"
         ],
         "in 1 year": [
             "tahun depan",
@@ -213,16 +213,13 @@ info = {
             "dlm (\\d+) mgu"
         ],
         "in \\1 year": [
-            "dalam (\\d+) tahun",
+            "dalam (\\d+) saat",
             "dalam (\\d+) thn"
         ]
     },
     "locale_specific": {
         "ms-BN": {
             "name": "ms-BN"
-        },
-        "ms-ID": {
-            "name": "ms-ID"
         },
         "ms-SG": {
             "name": "ms-SG"

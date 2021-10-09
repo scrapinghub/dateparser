@@ -124,7 +124,6 @@ info = {
         "nappal"
     ],
     "hour": [
-        "ó",
         "óra",
         "ó",
         "órák",
@@ -134,7 +133,6 @@ info = {
         "órától"
     ],
     "minute": [
-        "p",
         "perc",
         "p",
         "percek",
@@ -144,7 +142,6 @@ info = {
         "perctől"
     ],
     "second": [
-        "mp",
         "másodperc",
         "mp",
         "másodpercek",

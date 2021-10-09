@@ -25,11 +25,11 @@
         "qershor"
     ],
     "july": [
-        "korr",
+        "kor",
         "korrik"
     ],
     "august": [
-        "gush",
+        "gsh",
         "gusht"
     ],
     "september": [
@@ -78,12 +78,10 @@
     ],
     "am": [
         "e paradites",
-        "paradite",
-        "pd"
+        "paradite"
     ],
     "pm": [
         "e pasdites",
-        "md",
         "pasdite"
     ],
     "year": [
@@ -129,8 +127,7 @@
             "këtë javë"
         ],
         "0 year ago": [
-            "këtë vit",
-            "sivjet"
+            "këtë vit"
         ],
         "1 day ago": [
             "dje"
@@ -142,8 +139,7 @@
             "javën e kaluar"
         ],
         "1 year ago": [
-            "vitin e kaluar",
-            "vjet"
+            "vitin e kaluar"
         ],
         "in 1 day": [
             "nesër"
@@ -155,7 +151,6 @@
             "javën e ardhshme"
         ],
         "in 1 year": [
-            "mot",
             "vitin e ardhshëm"
         ]
     },

@@ -95,29 +95,21 @@ info = {
         "år"
     ],
     "month": [
-        "md",
         "månad"
     ],
     "week": [
-        "v",
         "veke"
     ],
     "day": [
-        "d",
         "dag"
     ],
     "hour": [
-        "t",
         "time"
     ],
     "minute": [
-        "m",
-        "min",
         "minutt"
     ],
     "second": [
-        "s",
-        "sek",
         "sekund"
     ],
     "relative-type": {
@@ -125,119 +117,97 @@ info = {
             "i dag"
         ],
         "0 hour ago": [
-            "denne timen"
+            "this hour"
         ],
         "0 minute ago": [
-            "dette minuttet"
+            "this minute"
         ],
         "0 month ago": [
-            "denne md",
-            "denne månaden"
+            "this month"
         ],
         "0 second ago": [
-            "no",
-            "nå"
+            "now"
         ],
         "0 week ago": [
-            "denne uken",
-            "denne veka"
+            "this week"
         ],
         "0 year ago": [
-            "i år"
+            "this year"
         ],
         "1 day ago": [
             "i går"
         ],
         "1 month ago": [
-            "forrige md",
-            "førre månad"
+            "last month"
         ],
         "1 week ago": [
-            "forrige uke",
-            "førre veke"
+            "last week"
         ],
         "1 year ago": [
-            "i fjor"
+            "last year"
         ],
         "in 1 day": [
-            "i morgen",
             "i morgon"
         ],
         "in 1 month": [
-            "neste md",
-            "neste månad"
+            "next month"
         ],
         "in 1 week": [
-            "neste uke",
-            "neste veke"
+            "next week"
         ],
         "in 1 year": [
-            "neste år"
+            "next year"
         ]
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "for (\\d+) d sidan",
-            "for (\\d+) døgn sidan",
-            "–(\\d+) d"
+            "for (\\d+) døgn siden"
         ],
         "\\1 hour ago": [
-            "for (\\d+) t sidan",
-            "for (\\d+) timar sidan",
-            "for (\\d+) time sidan",
-            "–(\\d+) t"
+            "for (\\d+) time siden",
+            "for (\\d+) timer siden"
         ],
         "\\1 minute ago": [
-            "for (\\d+) min sidan",
-            "for (\\d+) minutt sidan",
-            "–(\\d+) min"
+            "for (\\d+) minutt siden",
+            "for (\\d+) minutter siden"
         ],
         "\\1 month ago": [
-            "for (\\d+) md sidan",
-            "for (\\d+) månad sidan",
-            "for (\\d+) månadar sidan",
-            "–(\\d+) md"
+            "for (\\d+) måned siden",
+            "for (\\d+) måneder siden"
         ],
         "\\1 second ago": [
-            "for (\\d+) sek sidan",
-            "for (\\d+) sekund sidan",
-            "–(\\d+) s"
+            "for (\\d+) sekund siden",
+            "for (\\d+) sekunder siden"
         ],
         "\\1 week ago": [
-            "for (\\d+) v sidan",
-            "for (\\d+) veke sidan",
-            "for (\\d+) veker sidan",
-            "–(\\d+) v"
+            "for (\\d+) uke siden",
+            "for (\\d+) uker siden"
         ],
         "\\1 year ago": [
-            "for (\\d+) år sidan"
+            "for (\\d+) år siden"
         ],
         "in \\1 day": [
-            "om (\\d+) d",
             "om (\\d+) døgn"
         ],
         "in \\1 hour": [
-            "om (\\d+) t",
-            "om (\\d+) timar",
-            "om (\\d+) time"
+            "om (\\d+) time",
+            "om (\\d+) timer"
         ],
         "in \\1 minute": [
-            "om (\\d+) min",
-            "om (\\d+) minutt"
+            "om (\\d+) minutt",
+            "om (\\d+) minutter"
         ],
         "in \\1 month": [
-            "om (\\d+) md",
-            "om (\\d+) månad",
-            "om (\\d+) månadar"
+            "om (\\d+) måned",
+            "om (\\d+) måneder"
         ],
         "in \\1 second": [
-            "om (\\d+) sek",
-            "om (\\d+) sekund"
+            "om (\\d+) sekund",
+            "om (\\d+) sekunder"
         ],
         "in \\1 week": [
-            "om (\\d+) v",
-            "om (\\d+) veke",
-            "om (\\d+) veker"
+            "om (\\d+) uke",
+            "om (\\d+) uker"
         ],
         "in \\1 year": [
             "om (\\d+) år"

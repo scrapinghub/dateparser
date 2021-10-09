@@ -123,8 +123,8 @@
             "sekarang"
         ],
         "0 week ago": [
-            "mgu ini",
-            "minggu ini"
+            "minggu ini",
+            "mng ini"
         ],
         "0 year ago": [
             "tahun ini",
@@ -139,8 +139,8 @@
             "bulan lalu"
         ],
         "1 week ago": [
-            "mgu lepas",
-            "minggu lalu"
+            "minggu lalu",
+            "mng lepas"
         ],
         "1 year ago": [
             "tahun lalu",
@@ -154,8 +154,8 @@
             "bulan depan"
         ],
         "in 1 week": [
-            "mgu depan",
-            "minggu depan"
+            "minggu depan",
+            "mng depan"
         ],
         "in 1 year": [
             "tahun depan",
@@ -213,16 +213,13 @@
             "dlm {0} mgu"
         ],
         "in \\1 year": [
-            "dalam {0} tahun",
+            "dalam {0} saat",
             "dalam {0} thn"
         ]
     },
     "locale_specific": {
         "ms-BN": {
             "name": "ms-BN"
-        },
-        "ms-ID": {
-            "name": "ms-ID"
         },
         "ms-SG": {
             "name": "ms-SG"

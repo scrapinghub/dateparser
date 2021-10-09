@@ -127,48 +127,39 @@
             "šajā minūtē"
         ],
         "0 month ago": [
-            "šajā mēn",
             "šajā mēnesī"
         ],
         "0 second ago": [
             "tagad"
         ],
         "0 week ago": [
-            "šajā ned",
             "šajā nedēļā"
         ],
         "0 year ago": [
-            "šajā g",
             "šajā gadā"
         ],
         "1 day ago": [
             "vakar"
         ],
         "1 month ago": [
-            "pag mēn",
             "pagājušajā mēnesī"
         ],
         "1 week ago": [
-            "pag ned",
             "pagājušajā nedēļā"
         ],
         "1 year ago": [
-            "pag gadā",
             "pagājušajā gadā"
         ],
         "in 1 day": [
             "rīt"
         ],
         "in 1 month": [
-            "nāk mēn",
             "nākamajā mēnesī"
         ],
         "in 1 week": [
-            "nāk ned",
             "nākamajā nedēļā"
         ],
         "in 1 year": [
-            "nāk gadā",
             "nākamajā gadā"
         ]
     },

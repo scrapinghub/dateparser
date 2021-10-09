@@ -94,6 +94,7 @@ info = {
         "vika"
     ],
     "day": [
+        "d",
         "dagur"
     ],
     "hour": [
@@ -113,10 +114,10 @@ info = {
             "í dag"
         ],
         "0 hour ago": [
-            "þessa stundina"
+            "this hour"
         ],
         "0 minute ago": [
-            "á þessari mínútu"
+            "this minute"
         ],
         "0 month ago": [
             "í þessum mán",

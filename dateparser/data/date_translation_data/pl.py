@@ -212,8 +212,6 @@ info = {
         "tygodnie"
     ],
     "day": [
-        "d",
-        "dz",
         "dzień",
         "dzien",
         "dnia",
@@ -248,8 +246,7 @@ info = {
     ],
     "relative-type": {
         "0 day ago": [
-            "dzisiaj",
-            "dziś"
+            "dzisiaj"
         ],
         "0 hour ago": [
             "ta godzina"
@@ -258,29 +255,24 @@ info = {
             "ta minuta"
         ],
         "0 month ago": [
-            "w tym mies",
             "w tym miesiącu"
         ],
         "0 second ago": [
             "teraz"
         ],
         "0 week ago": [
-            "w tym tyg",
             "w tym tygodniu"
         ],
         "0 year ago": [
             "w tym roku"
         ],
         "1 day ago": [
-            "wcz",
             "wczoraj"
         ],
         "1 month ago": [
-            "w zeszłym mies",
             "w zeszłym miesiącu"
         ],
         "1 week ago": [
-            "w zeszłym tyg",
             "w zeszłym tygodniu"
         ],
         "1 year ago": [
@@ -290,11 +282,9 @@ info = {
             "jutro"
         ],
         "in 1 month": [
-            "w przyszłym mies",
             "w przyszłym miesiącu"
         ],
         "in 1 week": [
-            "w przyszłym tyg",
             "w przyszłym tygodniu"
         ],
         "in 1 year": [
@@ -320,7 +310,8 @@ info = {
         "\\1 month ago": [
             "(\\d+) mies temu",
             "(\\d+) miesiąc temu",
-            "(\\d+) miesiąca temu"
+            "(\\d+) miesiąca temu",
+            "–(\\d+) mies"
         ],
         "\\1 second ago": [
             "(\\d+) s temu",

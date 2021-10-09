@@ -2,59 +2,47 @@ info = {
     "name": "rm",
     "date_order": "DMY",
     "january": [
-        "da schaner",
         "schan",
         "schaner"
     ],
     "february": [
-        "da favrer",
         "favr",
         "favrer"
     ],
     "march": [
-        "da mars",
         "mars"
     ],
     "april": [
         "avr",
-        "avrigl",
-        "d'avrigl"
+        "avrigl"
     ],
     "may": [
-        "da matg",
         "matg"
     ],
     "june": [
-        "da zercladur",
         "zercl",
         "zercladur"
     ],
     "july": [
-        "da fanadur",
         "fan",
         "fanadur"
     ],
     "august": [
-        "avust",
-        "d'avust"
+        "avust"
     ],
     "september": [
-        "da settember",
         "sett",
         "settember"
     ],
     "october": [
-        "d'october",
         "oct",
         "october"
     ],
     "november": [
-        "da november",
         "nov",
         "november"
     ],
     "december": [
-        "da december",
         "dec",
         "december"
     ],
@@ -102,8 +90,7 @@ info = {
         "emna"
     ],
     "day": [
-        "d",
-        "di"
+        "tag"
     ],
     "hour": [
         "ura"
@@ -134,7 +121,7 @@ info = {
             "this week"
         ],
         "0 year ago": [
-            "quest onn"
+            "this year"
         ],
         "1 day ago": [
             "ier"
@@ -146,7 +133,7 @@ info = {
             "last week"
         ],
         "1 year ago": [
-            "l'onn passà"
+            "last year"
         ],
         "in 1 day": [
             "damaun"
@@ -158,7 +145,7 @@ info = {
             "next week"
         ],
         "in 1 year": [
-            "l'onn proxim"
+            "next year"
         ]
     },
     "locale_specific": {},
