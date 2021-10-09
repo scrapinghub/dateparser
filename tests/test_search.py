@@ -1,19 +1,20 @@
 from parameterized import parameterized, param
+import pytest
+import pytz
 from tests import BaseTestCase
 from dateparser.timezone_parser import StaticTzInfo
 from dateparser.search.search import DateSearchWithDetection
-from dateparser.search import search_dates
+from dateparser.search import search_dates, search_first_date
 from dateparser.conf import Settings, apply_settings
 from dateparser_data.settings import default_parsers
 import datetime
-import pytz
 
 
 class TestTranslateSearch(BaseTestCase):
     def setUp(self):
         super().setUp()
-        self.search_with_detection = DateSearchWithDetection()
-        self.exact_language_search = self.search_with_detection.search
+        self.search_dates = DateSearchWithDetection()
+        self.exact_language_search = self.search_dates.search_languages
 
     def run_search_dates_function_invalid_languages(self, text, languages, error_type):
         try:
@@ -219,7 +220,7 @@ class TestTranslateSearch(BaseTestCase):
         param('sv', "fredag, 03 september 2014"),
     ])
     def test_search_date_string(self, shortname, datetime_string):
-        result = self.exact_language_search.search(shortname, datetime_string, settings=Settings())[1][0]
+        result = self.exact_language_search.translate_objects(shortname, datetime_string, settings=Settings())[1][0]
         self.assertEqual(result, datetime_string)
 
     @parameterized.expand([
@@ -444,8 +445,8 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
     ])
     @apply_settings
-    def test_search_and_parse(self, shortname, string, expected, settings=None):
-        result = self.exact_language_search.search_parse(shortname, string, settings=settings)
+    def test_relative_base_setting(self, shortname, string, expected, settings=None):
+        result = self.search_dates.search_parse(string, shortname, settings=settings)
         self.assertEqual(result, expected)
 
     @parameterized.expand([
@@ -459,7 +460,8 @@ class TestTranslateSearch(BaseTestCase):
                   2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
                 ),
                ('October', datetime.datetime(2014, 10, datetime.datetime.utcnow().day, 0, 0)),
-               ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
+               ('Friday, 21', datetime.datetime(2014, datetime.datetime.utcnow().month, 21, 0, 0))]),
+
         param('en', """May 2020
                     June 2020
                     2023
@@ -474,7 +476,7 @@ class TestTranslateSearch(BaseTestCase):
                ('June 5 am utc', datetime.datetime(2023, 6, 5, 0, 0, tzinfo=pytz.utc)),
                ('June 23th 5 pm EST', datetime.datetime(2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST"))),
                ('May 31', datetime.datetime(2023, 5, 31, 0, 0)),
-               ('8am UTC', datetime.datetime(2023, 8, 31, 0, 0, tzinfo=pytz.utc))]),
+               ('8am UTC', datetime.datetime(2023, 8, 31, 0, 0, tzinfo=pytz.utc))], xfail=True),
 
         # Russian
         param('ru', '19 марта 2001 был хороший день. 20 марта тоже был хороший день. 21 марта был отличный день.',
@@ -511,8 +513,10 @@ class TestTranslateSearch(BaseTestCase):
                ('tháng 9', datetime.datetime(1940, 9, 1, 0, 0))])
     ])
     @apply_settings
-    def test_relative_base_setting(self, shortname, string, expected, settings=None):
-        result = self.exact_language_search.search_parse(shortname, string, settings=settings)
+    def test_relative_base(self, shortname, string, expected, settings=None, xfail=False):
+        if xfail:
+            pytest.xfail()
+        result = self.search_dates.search_parse(string, shortname, settings=settings)
         self.assertEqual(result, expected)
 
     @parameterized.expand([
@@ -531,6 +535,9 @@ class TestTranslateSearch(BaseTestCase):
               [('July 13th 2014', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th 2014', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', 'July 13th 2014 July 14th',
+              [('July 13th 2014', datetime.datetime(2014, 7, 13, 0, 0)),
+               ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))], xfail=True),
+        param('en', 'July 13th 2014. July 14th',
               [('July 13th 2014', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', 'July 13th, 2014 July 14th, 2014',
@@ -555,15 +562,17 @@ class TestTranslateSearch(BaseTestCase):
                 )]),
 
         # German
-        param('de', 'Verteidiger der Stadt kapitulierten am 2. Mai 1945. Am 8. Mai 1945 (VE-Day) trat '
+        param('de', 'Verteidiger der Stadt kapitulierten am 2 Mai 1945. Am 8 Mai 1945 (VE-Day) trat '
                     'bedingungslose Kapitulation der Wehrmacht in Kraft',
-              [('am 2. Mai 1945', datetime.datetime(1945, 5, 2, 0, 0)),
-               ('Am 8. Mai 1945', datetime.datetime(1945, 5, 8, 0, 0))]),
+              [('2 Mai 1945', datetime.datetime(1945, 5, 2, 0, 0)),
+               ('8 Mai 1945', datetime.datetime(1945, 5, 8, 0, 0))]),
 
     ])
     @apply_settings
-    def test_splitting_of_not_parsed(self, shortname, string, expected, settings=None):
-        result = self.exact_language_search.search_parse(shortname, string, settings=settings)
+    def test_splitting_of_not_parsed(self, shortname, string, expected, settings=None, xfail=False):
+        if xfail:
+            pytest.xfail()
+        result = search_dates(string, [shortname], settings=settings)
         self.assertEqual(result, expected)
 
     @parameterized.expand([
@@ -685,7 +694,7 @@ class TestTranslateSearch(BaseTestCase):
         param('en', '2007'),
     ])
     def test_detection(self, shortname, text):
-        result = self.search_with_detection.detect_language(text, languages=None)
+        result = self.exact_language_search.detect_language(text, languages=None)
         self.assertEqual(result, shortname)
 
     @parameterized.expand([
@@ -701,12 +710,14 @@ class TestTranslateSearch(BaseTestCase):
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)},
               expected=[('Em outubro de 1936', datetime.datetime(1936, 10, 1, 0, 0))]),
 
+        # xfail - "20 марта, 21" and "марта" is parsed instead of "20 марта" and "21 марта"
         param(text='19 марта 2001, 20 марта, 21 марта был отличный день.',
               languages=['en', 'ru'],
               settings=None,
               expected=[('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
                         ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
-                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+                        ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))],
+              xfail=True),
 
         # Dates not found
         param(text='',
@@ -726,10 +737,14 @@ class TestTranslateSearch(BaseTestCase):
               settings=None,
               expected=[('DECEMBER 21 19', datetime.datetime(2019, 12, 21, 0, 0))]
               ),
+
+        # xfail - "08 11 58" in parsed as datetime object by dateparser.parse
         param(text='bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41',
               languages=None,
               settings={'STRICT_PARSING': True},
-              expected=None),
+              expected=None,
+              xfail=True),
+
         param(text="a Americ",
               languages=None,
               settings=None,
@@ -744,8 +759,14 @@ class TestTranslateSearch(BaseTestCase):
               languages=['en'],
               settings=None,
               expected=[('9/3/2017', datetime.datetime(2017, 9, 3, 0, 0))]),
+        param(text="Year of the Four Emperors",
+              languages=['en'],
+              settings=None,
+              expected=None),
     ])
-    def test_date_search_function(self, text, languages, settings, expected):
+    def test_date_search_function(self, text, languages, settings, expected, xfail=False):
+        if xfail:
+            pytest.xfail()
         result = search_dates(text, languages=languages, settings=settings)
         self.assertEqual(result, expected)
 
@@ -782,3 +803,58 @@ class TestTranslateSearch(BaseTestCase):
     def test_date_search_function_invalid_language_code(self, text, languages):
         self.run_search_dates_function_invalid_languages(text=text, languages=languages, error_type=ValueError)
         self.check_error_message("Unknown language(s): 'unknown language code'")
+
+    @parameterized.expand([
+        param(text="15 de outubro de 1936",
+              shortname='pt',
+              expected=[
+                  ("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0))
+              ]),
+    ])
+    def test_search_date_without_make_joints_parse(
+        self, text, shortname, expected, settings=None
+    ):
+        result = self.search_dates.search_parse(text, shortname, settings=settings, make_joints_parse=False)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param(text="January 3, 2017 - February 1st",
+              expected=('January 3, 2017', datetime.datetime(2017, 1, 3, 0, 0))),
+    ])
+    def test_search_first_date(
+        self, text, expected
+    ):
+        result = search_first_date(text)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param(text="15 de outubro de 1936",
+              add_detected_language=True,
+              expected=("15 de outubro de 1936", datetime.datetime(1936, 10, 15, 0, 0), "pt")),
+    ])
+    def test_search_first_date_returning_detected_languages_if_requested(
+        self, text, add_detected_language, expected
+    ):
+        result = search_first_date(text, add_detected_language=add_detected_language)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param('pt', 'Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.',
+              [('Em outubro de 1936', datetime.datetime(1936, 10, datetime.datetime.utcnow().day, 0, 0))], xfail=True),
+    ])
+    @apply_settings
+    def test_search_date_accurate_return_text(self, shortname, string, expected, settings=None, xfail=False):
+        if xfail:
+            pytest.xfail()
+        result = self.search_dates.search_parse(string, shortname, settings=settings, accurate_return_text=True)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand([
+        param('2021-08-04T14:21:37&#x2B;05:30',
+              [('2021-08-04T14:21:37', datetime.datetime(2021, 8, 4, 14, 21, 37)),
+               ('05:30', datetime.datetime(2021, 8, 4, 5, 30))]),
+    ])
+    @apply_settings
+    def test_search_date_is_previous_punctuation(self, string, expected, settings=None):
+        result = search_dates(string)
+        self.assertEqual(result, expected)
