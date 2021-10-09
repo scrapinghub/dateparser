@@ -1,212 +1,185 @@
-from collections.abc import Set
+import re
+from string import punctuation
 
-from dateparser.languages.loader import LocaleDataLoader
 from dateparser.conf import apply_settings, check_settings, Settings
 from dateparser.date import DateDataParser
-from dateparser.search.text_detection import FullTextLanguageDetector
-from dateparser.custom_language_detection.language_mapping import map_languages
-import regex as re
+from dateparser.search.languages import SearchLanguages
+
+_drop_words = {"on", "of", "the"}  # cause annoying false positives
+_bad_date_re = re.compile(
+    # whole dates we black-list (can still be parts of valid dates)
+    "^("
+    + "|".join(
+        [
+            r"\d{1,3}",  # less than 4 digits
+            r"#\d+",  # this is a sequence number
+            # some common false positives below
+            r"[-/.]+",  # bare separators parsed as current date
+            r"\w\.?",  # one letter (with optional dot)
+            "an",
+        ]
+    )
+    + ")$"
+)
+
+_secondary_splitters = [
+    ",",
+    "،",
+    "——",
+    "—",
+    "–",
+    ".",
+]  # are used if no date object is found
+_punctuations = list(set(punctuation))
 
 
-RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
+def _get_relative_base(already_parsed):
+    if already_parsed:
+        return already_parsed[-1][1]
+    return None
 
 
-def date_is_relative(translation):
-    return re.search(RELATIVE_REG, translation) is not None
+def _create_splits(text):
+    splited_objects = text.split()
+    return splited_objects
 
 
-class _ExactLanguageSearch:
-    def __init__(self, loader):
-        self.loader = loader
-        self.language = None
-
-    def get_current_language(self, shortname):
-        if self.language is None or self.language.shortname != shortname:
-            self.language = self.loader.get_locale(shortname)
-
-    def search(self, shortname, text, settings):
-        self.get_current_language(shortname)
-        result = self.language.translate_search(text, settings=settings)
-        return result
-
-    @staticmethod
-    def set_relative_base(substring, already_parsed):
-        if len(already_parsed) == 0:
-            return substring, None
-
-        i = len(already_parsed) - 1
-        while already_parsed[i][1]:
-            i -= 1
-            if i == -1:
-                return substring, None
-        relative_base = already_parsed[i][0]['date_obj']
-        return substring, relative_base
-
-    def choose_best_split(self, possible_parsed_splits, possible_substrings_splits):
-        rating = []
-        for i in range(len(possible_parsed_splits)):
-            num_substrings = len(possible_substrings_splits[i])
-            num_substrings_without_digits = 0
-            not_parsed = 0
-            for j, item in enumerate(possible_parsed_splits[i]):
-                if item[0]['date_obj'] is None:
-                    not_parsed += 1
-                if not any(char.isdigit() for char in possible_substrings_splits[i][j]):
-                    num_substrings_without_digits += 1
-            rating.append([
-                num_substrings,
-                0 if not_parsed == 0 else (float(not_parsed) / float(num_substrings)),
-                0 if num_substrings_without_digits == 0 else (
-                    float(num_substrings_without_digits) / float(num_substrings))])
-            best_index, best_rating = min(enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2]))
-        return possible_parsed_splits[best_index], possible_substrings_splits[best_index]
-
-    def split_by(self, item, original, splitter):
-        if item.count(splitter) <= 2:
-            return [[item.split(splitter), original.split(splitter)]]
-
-        item_all_split = item.split(splitter)
-        original_all_split = original.split(splitter)
-        all_possible_splits = [[item_all_split, original_all_split]]
-        for i in range(2, 4):
-            item_partially_split = []
-            original_partially_split = []
-            for j in range(0, len(item_all_split), i):
-                item_join = splitter.join(item_all_split[j:j + i])
-                original_join = splitter.join(original_all_split[j:j + i])
-                item_partially_split.append(item_join)
-                original_partially_split.append(original_join)
-            all_possible_splits.append([item_partially_split, original_partially_split])
-        return all_possible_splits
-
-    def split_if_not_parsed(self, item, original):
-        splitters = [',', '،', '——', '—', '–', '.', ' ']
-        possible_splits = []
-        for splitter in splitters:
-            if splitter in item and item.count(splitter) == original.count(splitter):
-                possible_splits.extend(self.split_by(item, original, splitter))
-        return possible_splits
-
-    def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
-        relative_base = None
-        item = item.replace('ngày', '')
-        item = item.replace('am', '')
-        parsed_item = parser.get_date_data(item)
-        is_relative = date_is_relative(translated_item)
-
-        if need_relative_base:
-            item, relative_base = self.set_relative_base(item, parsed)
-
-        if relative_base:
-            parser._settings.RELATIVE_BASE = relative_base
-            parsed_item = parser.get_date_data(item)
-        return parsed_item, is_relative
-
-    def parse_found_objects(self, parser, to_parse, original, translated, settings):
-        parsed = []
-        substrings = []
-        need_relative_base = True
-        if settings.RELATIVE_BASE:
-            need_relative_base = False
-        for i, item in enumerate(to_parse):
-            if len(item) <= 2:
+def _create_joined_parse(text, max_join=7, sort_ascending=False):
+    split_objects = _create_splits(text=text)
+    joint_objects = []
+    for i in range(len(split_objects)):
+        for j in reversed(range(min(max_join, len(split_objects) - i))):
+            x = " ".join(split_objects[i:i + j + 1])
+            if _bad_date_re.match(x):
+                continue
+            if not len(x) > 2:
                 continue
 
-            parsed_item, is_relative = self.parse_item(parser, item, translated[i], parsed, need_relative_base)
-            if parsed_item['date_obj']:
-                parsed.append((parsed_item, is_relative))
-                substrings.append(original[i].strip(" .,:()[]-'"))
-                continue
+            joint_objects.append(x)
 
-            possible_splits = self.split_if_not_parsed(item, original[i])
-            if not possible_splits:
-                continue
+    if sort_ascending:
+        joint_objects = sorted(joint_objects, key=len)
 
-            possible_parsed = []
-            possible_substrings = []
-            for split_translated, split_original in possible_splits:
-                current_parsed = []
-                current_substrings = []
-                if split_translated:
-                    for j, jtem in enumerate(split_translated):
-                        if len(jtem) <= 2:
-                            continue
-                        parsed_jtem, is_relative_jtem = self.parse_item(
-                            parser, jtem, split_translated[j], current_parsed, need_relative_base)
-                        current_parsed.append((parsed_jtem, is_relative_jtem))
-                        current_substrings.append(split_original[j].strip(' .,:()[]-'))
-                possible_parsed.append(current_parsed)
-                possible_substrings.append(current_substrings)
-            parsed_best, substrings_best = self.choose_best_split(possible_parsed, possible_substrings)
-            for k in range(len(parsed_best)):
-                if parsed_best[k][0]['date_obj']:
-                    parsed.append(parsed_best[k])
-                    substrings.append(substrings_best[k])
-        return parsed, substrings
+    return joint_objects
 
-    def search_parse(self, shortname, text, settings):
-        translated, original = self.search(shortname, text, settings)
-        bad_translate_with_search = ['vi', 'hu']   # splitting done by spaces and some dictionary items contain spaces
-        if shortname not in bad_translate_with_search:
-            languages = ['en']
-            to_parse = translated
+
+def _get_accurate_return_text(text, parser, datetime_object):
+    text_candidates = _create_joined_parse(text=text, sort_ascending=True)
+    for text_candidate in text_candidates:
+        if parser.get_date_data(text_candidate).date_obj == datetime_object:
+            return text_candidate
+
+
+def _joint_parse(
+    text,
+    parser,
+    translated=None,
+    deep_search=True,
+    accurate_return_text=False,
+    data_carry=None,
+    is_recursion_call=False,
+):
+
+    if translated and len(translated) <= 2:
+        return data_carry
+
+    text = text.strip(" .,:()[]-'")
+
+    reduced_text_candidate = None
+    secondary_split_made = False
+    returnable_objects = data_carry or []
+    joint_based_search_dates = _create_joined_parse(text=text)
+    for date_object_candidate in joint_based_search_dates:
+        parsed_date_object = parser.get_date_data(date_object_candidate)
+        if parsed_date_object.date_obj:
+            if accurate_return_text:
+                date_object_candidate = _get_accurate_return_text(
+                    text=date_object_candidate,
+                    parser=parser,
+                    datetime_object=parsed_date_object.date_obj,
+                )
+
+            returnable_objects.append(
+                (date_object_candidate.strip(" .,:()[]-'"), parsed_date_object.date_obj)
+            )
+
+            if deep_search:
+                start_index = text.find(date_object_candidate)
+                end_index = start_index + len(date_object_candidate)
+                reduced_text_candidate = None
+                if start_index >= 0:
+                    reduced_text_candidate = text[:start_index] + text[end_index:]
+            break
         else:
-            languages = [shortname]
-            to_parse = original
+            for splitter in _secondary_splitters:
+                secondary_split = re.split(
+                    "(?<! )[" + splitter + "]+(?! )", date_object_candidate
+                )
+                if secondary_split and len(secondary_split) > 1:
+                    reduced_text_candidate = " ".join(secondary_split)
+                    secondary_split_made = True
 
-        parser = DateDataParser(languages=languages, settings=settings)
-        parsed, substrings = self.parse_found_objects(parser=parser, to_parse=to_parse,
-                                                      original=original, translated=translated, settings=settings)
-        parser._settings = Settings()
-        return list(zip(substrings, [i[0]['date_obj'] for i in parsed]))
+            if not reduced_text_candidate:
+                is_previous_punctuation = False
+                for index, char in enumerate(date_object_candidate):
+                    if char in _punctuations:
+                        if is_previous_punctuation:
+                            double_punctuation_split = [
+                                text[: index - 1],
+                                text[index - 1:],
+                            ]
+                            reduced_text_candidate = " ".join(double_punctuation_split)
+                            break
+                        is_previous_punctuation = True
+                    else:
+                        is_previous_punctuation = False
+
+    if reduced_text_candidate:
+        reduced_text_candidate = reduced_text_candidate.strip(" .,:()[]-'")
+
+    if (deep_search or secondary_split_made) and not (
+        text == reduced_text_candidate and is_recursion_call
+    ):
+        if reduced_text_candidate and len(reduced_text_candidate) > 2:
+            returnable_objects = _joint_parse(
+                text=reduced_text_candidate,
+                parser=parser,
+                data_carry=returnable_objects,
+                is_recursion_call=True,
+            )
+
+    return returnable_objects
 
 
 class DateSearchWithDetection:
     """
-    Class which executes language detection of string in a natural language, translation of a given string,
-    search of substrings which represent date and/or time and parsing of these substrings.
+    Class which handles language detection, translation and subsequent generic parsing of
+    string representing date and/or time.
 
+    :return: A date search instance
     """
+
     def __init__(self):
-        self.loader = LocaleDataLoader()
-        self.available_language_map = self.loader.get_locale_map()
-        self.search = _ExactLanguageSearch(self.loader)
+        self.search_languages = SearchLanguages()
 
     @apply_settings
-    def detect_language(self, text, languages, settings=None, detect_languages_function=None):
-        if detect_languages_function and not languages:
-            detected_languages = detect_languages_function(
-                text, confidence_threshold=settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD
-            )
-            detected_languages = map_languages(detected_languages) or settings.DEFAULT_LANGUAGES
-            return detected_languages[0] if detected_languages else None
+    def search_parse(
+        self,
+        text,
+        languages,
+        settings,
+        limit_date_search_results=None,
+        make_joints_parse=True,
+        deep_search=True,
+        accurate_return_text=False,
+    ):
 
-        if isinstance(languages, (list, tuple, Set)):
-            if all([language in self.available_language_map for language in languages]):
-                languages = [self.available_language_map[language] for language in languages]
-            else:
-                unsupported_languages = set(languages) - set(self.available_language_map.keys())
-                raise ValueError("Unknown language(s): %s" % ', '.join(map(repr, unsupported_languages)))
-        elif languages is not None:
-            raise TypeError("languages argument must be a list (%r given)" % type(languages))
-
-        if languages:
-            self.language_detector = FullTextLanguageDetector(languages=languages)
-        else:
-            self.language_detector = FullTextLanguageDetector(list(self.available_language_map.values()))
-
-        detected_language = self.language_detector._best_language(text) or (
-            settings.DEFAULT_LANGUAGES[0] if settings.DEFAULT_LANGUAGES else None
-        )
-        return detected_language
-
-    @apply_settings
-    def search_dates(self, text, languages=None, settings=None, detect_languages_function=None):
         """
-        Find all substrings of the given string which represent date and/or time and parse them.
+        Search parse string representing date and/or time in recognizable text.
+        Supports parsing multiple languages and timezones.
 
         :param text:
-            A string in a natural language which may contain date and/or time expressions.
+            A string containing dates.
         :type text: str
 
         :param languages:
@@ -215,8 +188,24 @@ class DateSearchWithDetection:
         :type languages: list
 
         :param settings:
-               Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+            Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
         :type settings: dict
+
+        :param limit_date_search_results:
+            A int which sets maximum results to be returned.
+        :type limit_date_search_results: int
+
+        :param make_joints_parse:
+        If True, make_joints_parse method is used. Deafult: True
+        :type locales: bool
+
+        :param deep_search:
+            Indicates if we want deep search the text for date and/or time. Deafult: True
+        :type deep_search: bool
+
+        :param accurate_return_text:
+            Indicates if we want accurate text contining the date and/or time. Deafult: True
+        :type accurate_return_text: bool
 
         :param detect_languages_function:
                A function for language detection that takes as input a `text` and a `confidence_threshold`,
@@ -234,10 +223,69 @@ class DateSearchWithDetection:
 
         check_settings(settings)
 
-        language_shortname = self.detect_language(
+        returnable_objects = []
+        parser = DateDataParser(languages=[languages], settings=settings)
+        translated, original = self.search_languages.translate_objects(
+            languages, text, settings
+        )
+
+        for index, original_object in enumerate(original):
+            if limit_date_search_results and returnable_objects:
+                if len(returnable_objects) == limit_date_search_results:
+                    break
+
+            if not len(original_object) > 2:
+                continue
+
+            lowered_word_list = original_object.lower().split()
+            if any(drop_word in lowered_word_list for drop_word in _drop_words):
+                continue
+
+            if not settings.RELATIVE_BASE:
+                relative_base = _get_relative_base(already_parsed=returnable_objects)
+                if relative_base:
+                    parser._settings.RELATIVE_BASE = relative_base
+
+            if make_joints_parse:
+                joint_based_search_dates = _joint_parse(
+                    text=original_object,
+                    parser=parser,
+                    translated=translated[index],
+                    deep_search=deep_search,
+                    accurate_return_text=accurate_return_text,
+                )
+                if joint_based_search_dates:
+                    returnable_objects.extend(joint_based_search_dates)
+            else:
+                parsed_date_object = parser.get_date_data(original_object)
+                if parsed_date_object.date_obj:
+                    returnable_objects.append(
+                        (
+                            original_object.strip(" .,:()[]-'"),
+                            parsed_date_object.date_obj,
+                        )
+                    )
+
+        parser._settings = Settings()
+        return returnable_objects
+
+    @apply_settings
+    def search_dates(
+        self, text, languages=None, limit_date_search_results=None, settings=None, detect_languages_function=None
+    ):
+
+        languages = self.search_languages.detect_language(
             text=text, languages=languages, settings=settings, detect_languages_function=detect_languages_function
         )
-        if not language_shortname:
-            return {'Language': None, 'Dates': None}
-        return {'Language': language_shortname, 'Dates': self.search.search_parse(language_shortname, text,
-                                                                                  settings=settings)}
+
+        if not languages:
+            return {"Language": None, "Dates": None}
+        return {
+            "Language": languages,
+            "Dates": self.search_parse(
+                text=text,
+                languages=languages,
+                settings=settings,
+                limit_date_search_results=limit_date_search_results,
+            ),
+        }
