@@ -652,10 +652,13 @@ class TestParserInitialization(BaseTestCase):
             TypeError, ["use_given_order argument must be a boolean (%r given)"
                         % type(use_given_order)])
 
-    def test_error_is_raised_when_use_given_order_is_True_and_locales_is_None(self):
+    def test_error_is_raised_when_use_given_order_is_True_and_locales_and_languages_is_None(self):
         self.when_parser_is_initialized(use_given_order=True)
         self.then_error_was_raised(
             ValueError, ["locales or languages must be given if use_given_order is True"])
+
+    def test_no_error_for_order_with_languages_without_locales(self):
+        self.when_parser_is_initialized(languages=['en', 'fr'], use_given_order=True)
 
     def when_parser_is_initialized(self, languages=None, locales=None, region=None,
                                    try_previous_locales=True, use_given_order=False):
