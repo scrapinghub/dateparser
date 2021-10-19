@@ -63,11 +63,11 @@ def resolve_date_order(order, lst=None):
     return chart_list[order] if lst else date_order_chart[order]
 
 
-def _parse_absolute(datestring, settings, ptz=None):
-    return _parser.parse(datestring, settings, ptz)
+def _parse_absolute(datestring, settings, tz=None):
+    return _parser.parse(datestring, settings, tz)
 
 
-def _parse_nospaces(datestring, settings, ptz=None):
+def _parse_nospaces(datestring, settings, tz=None):
     return _no_spaces_parser.parse(datestring, settings)
 
 
@@ -417,7 +417,7 @@ class _parser:
 
         return self._get_datetime_obj(**params)
 
-    def _correct_for_time_frame(self, dateobj):
+    def _correct_for_time_frame(self, dateobj, tz):
         days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
 
         token_weekday, _ = getattr(self, '_token_weekday', (None, None))
@@ -490,11 +490,16 @@ class _parser:
                                          self._token_month,
                                          self._token_day,
                                          hasattr(self, '_token_weekday')]):
+            # Convert dateobj to utc time to compare with self.now
+            if tz:
+                dateobj_time = (dateobj - tz.utcoffset(dateobj)).time()
+            else:
+                dateobj_time = dateobj.time()
             if 'past' in self.settings.PREFER_DATES_FROM:
-                if self.now.time() < dateobj.time():
+                if self.now.time() < dateobj_time:
                     dateobj = dateobj + timedelta(days=-1)
             if 'future' in self.settings.PREFER_DATES_FROM:
-                if self.now.time() > dateobj.time():
+                if self.now.time() > dateobj_time:
                     dateobj = dateobj + timedelta(days=1)
 
         # Reset dateobj to the original value, thus removing any offset awareness that may
@@ -517,17 +522,13 @@ class _parser:
         return dateobj
 
     @classmethod
-    def parse(cls, datestring, settings, ptz=None):
+    def parse(cls, datestring, settings, tz=None):
         tokens = tokenizer(datestring)
         po = cls(tokens.tokenize(), settings)
         dateobj = po._results()
 
-        if ptz:  # Shift naive time by utc offset before comparing to utc during corrections
-            dateobj = dateobj - ptz.utcoffset(None)  # This argument does nothing?
         # correction for past, future if applicable
-        dateobj = po._correct_for_time_frame(dateobj)
-        if ptz:  # Shift time back by utc offset
-            dateobj = dateobj + ptz.utcoffset(None)  # This argument does nothing?
+        dateobj = po._correct_for_time_frame(dateobj, tz)
 
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
