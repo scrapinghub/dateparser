@@ -63,11 +63,11 @@ def resolve_date_order(order, lst=None):
     return chart_list[order] if lst else date_order_chart[order]
 
 
-def _parse_absolute(datestring, settings):
-    return _parser.parse(datestring, settings)
+def _parse_absolute(datestring, settings, ptz=None):
+    return _parser.parse(datestring, settings, ptz)
 
 
-def _parse_nospaces(datestring, settings):
+def _parse_nospaces(datestring, settings, ptz=None):
     return _no_spaces_parser.parse(datestring, settings)
 
 
@@ -517,13 +517,17 @@ class _parser:
         return dateobj
 
     @classmethod
-    def parse(cls, datestring, settings):
+    def parse(cls, datestring, settings, ptz=None):
         tokens = tokenizer(datestring)
         po = cls(tokens.tokenize(), settings)
         dateobj = po._results()
 
+        if ptz:  # Shift naive time by utc offset before comparing to utc during corrections
+            dateobj = dateobj - ptz.utcoffset(None)  # This argument does nothing?
         # correction for past, future if applicable
         dateobj = po._correct_for_time_frame(dateobj)
+        if ptz:  # Shift time back by utc offset
+            dateobj = dateobj + ptz.utcoffset(None)  # This argument does nothing?
 
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
