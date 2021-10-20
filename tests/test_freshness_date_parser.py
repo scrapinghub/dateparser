@@ -458,6 +458,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("před 12 lětom 15 měsac", ago={'years': 12, 'months': 15}, period='month'),
         # hy
         param("15 րոպե առաջ", ago={'minutes': 15}, period='day'),
+        # id
+        param("4 tahun lalu", ago={'years': 4}, period='year'),
+        param("4 thn lalu", ago={'years': 4}, period='year'),
+        param("4 bulan lalu", ago={'months': 4}, period='month'),
+        param("4 bln lalu", ago={'months': 4}, period='month'),
         # is
         param("fyrir 3 ári fyrir 2 mánuði", ago={'years': 3, 'months': 2}, period='month'),
         # it
