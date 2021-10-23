@@ -47,6 +47,8 @@ relative-type:
         - this decade
     in 1 decade:
         - next decade
+    0 day ago:
+        - till date
 
 relative-type-regex:
     in \1 decade:

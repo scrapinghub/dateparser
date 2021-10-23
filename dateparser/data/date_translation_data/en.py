@@ -126,7 +126,8 @@ info = {
     ],
     "relative-type": {
         "0 day ago": [
-            "today"
+            "today",
+            "till date"
         ],
         "0 hour ago": [
             "this hour"
