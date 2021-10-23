@@ -28,7 +28,7 @@ setup(
         'pytz',
         # https://bitbucket.org/mrabarnett/mrab-regex/issues/314/import-error-no-module-named
         'regex !=2019.02.19,!=2021.8.27',
-        'tzlocal',
+        'tzlocal >4',
     ],
     entry_points={
         'console_scripts': ['dateparser-download = dateparser_cli.cli:entrance'],
