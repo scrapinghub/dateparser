@@ -188,6 +188,9 @@ info = {
         ],
         "in 1 decade": [
             "next decade"
+        ],
+        "in 2 day": [
+            "day after tomorrow"
         ]
     },
     "relative-type-regex": {
@@ -772,11 +775,13 @@ info = {
         "decades"
     ],
     "ago": [
-        "ago"
+        "ago",
+        "before"
     ],
     "in": [
         "in",
-        "from now"
+        "from now",
+        "after"
     ],
     "simplifications": [
         {
