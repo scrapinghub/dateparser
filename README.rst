@@ -131,6 +131,15 @@ You can control multiple behaviors by using the ``settings`` parameter:
 
     >>> dateparser.parse('tomorrow', settings={'RELATIVE_BASE': datetime.datetime(1992, 1, 1)})
     datetime.datetime(1992, 1, 2, 0, 0)
+    
+You can control the language locale by using the ``region`` parameter, second part of string correlates to region (en-AU --> region = AU (Australia)):
+
+.. code:: python
+
+    >>> dateparser.parse("March 29, 1961 6:24pm", region='AU')
+    1961-03-29 18:24:00
+    
+    
 
 To see more examples on how to use the ``settings``, check the `settings
 section <https://dateparser.readthedocs.io/en/latest/usage.html#settings>`__
