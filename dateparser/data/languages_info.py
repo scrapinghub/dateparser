@@ -1066,7 +1066,8 @@ language_locale_dict = {
         "nl-SX"
     ],
     "ko": [
-        "ko-KP"
+        "ko-KP",
+        "ko-KR"
     ],
     "th": [],
     "he": [],

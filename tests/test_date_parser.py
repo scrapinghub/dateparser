@@ -144,6 +144,9 @@ class TestDateParser(BaseTestCase):
         # Japanese dates
         param('2016年3月20日(日) 21時40分', datetime(2016, 3, 20, 21, 40)),
         param("2016年3月20日 21時40分", datetime(2016, 3, 20, 21, 40)),
+        # Korean dates
+        param('2016년 3월 20일(일) 21시 40분', datetime(2016, 3, 20, 21, 40)),
+        param("2016년 3월 20일 21시 40분", datetime(2016, 3, 20, 21, 40)),
         # Numeric dates
         param('06-17-2014', datetime(2014, 6, 17)),
         param('13/03/2014', datetime(2014, 3, 13)),

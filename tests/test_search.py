@@ -190,6 +190,24 @@ class TestTranslateSearch(BaseTestCase):
         param('ja', "2016年3月20日(日) 21時40分"),
         param('ja', "2016年3月20日 (日) 21時40分"),
 
+        # Korean
+        param('ko', "오후 3시"),
+        param('ko', "2시"),
+        param('ko', "11시 42분"),
+        param('ko', "3개월"),
+        param('ko', "약 53개월 전"),
+        param('ko', "3월"),
+        param('ko', "십이월"),
+        param('ko', "2월 10일"),
+        param('ko', "2013년 2월"),
+        param('ko', "2013년 04월 08일"),
+        param('ko', "2016년 03월 24일 목요일 10시 05분"),
+        param('ko', "2016년 3월 20일 21시 40분"),
+        param('ko', "2016년 03월 21일 23시 05분 11초"),
+        param('ko', "2016년 3월 21일(월) 14시 48분"),
+        param('ko', "2016년 3월 20일(일) 21시 40분"),
+        param('ko', "2016년 3월 20일 (일) 21시 40분"),
+
         # Hebrew
         param('he', "20 לאפריל 2012"),
         param('he', "יום רביעי ה-19 בנובמבר 2013"),

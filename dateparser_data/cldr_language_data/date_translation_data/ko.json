@@ -188,6 +188,9 @@
     "locale_specific": {
         "ko-KP": {
             "name": "ko-KP"
+        },
+        "ko-KR": {
+            "name": "ko-KR"
         }
     }
 }
