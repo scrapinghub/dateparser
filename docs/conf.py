@@ -23,7 +23,7 @@ project_root = os.path.dirname(cwd)
 # version is used.
 sys.path.insert(0, project_root)
 
-import dateparser
+import dateparser  # noqa: E402
 
 # -- General configuration ---------------------------------------------
 
