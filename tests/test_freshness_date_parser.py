@@ -70,6 +70,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("a century ago", ago={'years': 100}, period='year'),
         param("6 centurys", ago={'years': 600}, period='year'),
         param("10 centuries", ago={'years': 1000}, period='year'),
+        param("2 century ago", ago={'years': 200}, period='year'),
+        param("two centuries ago", ago={'years': 200}, period='year'),
         param("1 decade", ago={'years': 10}, period='year'),
         param("1 decade 2 years", ago={'years': 12}, period='year'),
         param("1 decade 12 months", ago={'years': 10, 'months': 12}, period='month'),
