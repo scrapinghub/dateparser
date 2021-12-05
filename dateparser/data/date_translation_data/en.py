@@ -280,7 +280,8 @@ info = {
             "(\\d+) decades? ago"
         ],
         "in \\1 century": [
-            "in (\\d+) centurys?"
+            "in (\\d+) centurys?",
+            "in (\\d+) centur(?:ys?|ies)"
         ],
         "\\1 century ago": [
             "(\\d+) centurys? ago"
