@@ -211,11 +211,12 @@ class Locale:
                     translated_chunk.append(dictionary[word])
                     original_chunk.append(original_tokens[i])
                 elif word.strip('()\"\'{}[],.،') in dictionary and word not in dashes:
-                    punct = word[len(word.strip('()\"\'{}[],.،')):]
-                    if punct and dictionary[word.strip('()\"\'{}[],.،')]:
-                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')] + punct)
+                    cleaned_word = word.strip('()\"\'{}[],.،')
+                    punct = word[len(cleaned_word):]
+                    if punct and dictionary[cleaned_word]:
+                        translated_chunk.append(dictionary[cleaned_word] + punct)
                     else:
-                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')])
+                        translated_chunk.append(dictionary[cleaned_word])
                     original_chunk.append(original_tokens[i])
                 elif self._token_with_digits_is_ok(word):
                     translated_chunk.append(word)
