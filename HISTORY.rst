@@ -3,6 +3,19 @@
 History
 =======
 
+1.1.1 (2022-03-17)
+------------------
+
+Improvements:
+
+- Fixed issue with regex library by pinning dependencies to an earlier version (< 2022.3.15, #1046).
+- Extended support for Russian language dates starting with lowercase (#999).
+- Allowed to use_given_order for languages too (#997).
+- Fixed link to settings section (#1018).
+- Defined UTF-8 encoding for Windows (#998).
+- Fixed directories creation error in CLI utils (#1022).
+
+
 1.1.0 (2021-10-04)
 ------------------
 
