@@ -40,6 +40,8 @@ RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
 RE_SANITIZE_APOSTROPHE = re.compile('|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
 RE_SEARCH_TIMESTAMP = re.compile(r'^(\d{10})(\d{3})?(\d{3})?(?![^.])')
+RE_AMBIGUOUS_SINGLE_WORDS = re.compile('|'.join(['year', 'month', 'week', 'day', 
+                                        'hour', 'minute', 'second', 'microsecond']))
 
 
 def sanitize_spaces(date_string):
@@ -47,7 +49,6 @@ def sanitize_spaces(date_string):
     date_string = RE_SPACES.sub(' ', date_string)
     date_string = RE_TRIM_SPACES.sub(r'\1', date_string)
     return date_string
-
 
 def date_range(begin, end, **kwargs):
     dateutil_error_prone_args = ['year', 'month', 'week', 'day', 'hour',
@@ -423,6 +424,8 @@ class DateDataParser:
             return res
 
         date_string = sanitize_date(date_string)
+        if re.match(RE_AMBIGUOUS_SINGLE_WORDS, date_string):
+            return DateData(date_obj=None, period='day', locale=None)
 
         for locale in self._get_applicable_locales(date_string):
             parsed_date = _DateLocaleParser.parse(

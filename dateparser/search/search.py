@@ -7,9 +7,9 @@ from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.custom_language_detection.language_mapping import map_languages
 import regex as re
 
-
-RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
-
+RELATIVE_WORDS = ["ago", "in", "next", "from now", "tomorrow",
+                "today", "yesterday", "last", "previous"]
+RELATIVE_REG = re.compile("|".join(RELATIVE_WORDS))
 
 def date_is_relative(translation):
     return re.search(RELATIVE_REG, translation) is not None
