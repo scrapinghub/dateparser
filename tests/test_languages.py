@@ -72,6 +72,8 @@ class TestBundledLanguages(BaseTestCase):
         # Italian
         param('it', "Giovedi Maggio 29 2013", "thursday may 29 2013"),
         param('it', "19 Luglio 2013", "19 july 2013"),
+        param('it', "19 Luglio 2013", "19 july 2013"),
+
         # Portuguese
         param('pt', "22 de dezembro de 2014 às 02:38", "22  december  2014  02:38"),
         # Russian
@@ -848,6 +850,10 @@ class TestBundledLanguages(BaseTestCase):
         param('it', "oggi", "0 day ago"),
         param('it', "2 settimana fa", "2 week ago"),
         param('it', "2 anno fa", "2 year ago"),
+        param('it', "un ora fa", "1 hour ago"),
+        param('it', "un'ora fa", "1 hour ago"),
+        param('it', "oggi alle 11:00", "0 day ago  11:00"),
+        param('it', "oggi 11:00", "0 day ago 11:00"),
         # Portuguese
         param('pt', "anteontem", "2 day ago"),
         param('pt', "ontem", "1 day ago"),

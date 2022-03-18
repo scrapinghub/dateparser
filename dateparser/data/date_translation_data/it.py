@@ -254,6 +254,7 @@ info = {
     "skip": [
         "circa",
         "e",
+        "alle",
         " ",
         "'",
         ",",
@@ -277,6 +278,9 @@ info = {
     "simplifications": [
         {
             "(\\d+)\\s+ora": "\\1 ore"
+        },
+        {
+            "un[' ]ora": "1 ore"
         }
     ]
 }
