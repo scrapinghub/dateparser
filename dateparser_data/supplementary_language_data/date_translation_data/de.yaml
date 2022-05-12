@@ -1,21 +1,6 @@
-skip: ["etwa", "uhr", "um", "und"]
+skip: ["etwa", "uhr", "um", "und", "am"]
 
 sentence_splitter_group : 1
-
-monday:
-    - Mon
-tuesday:
-    - Die
-wednesday:
-    - Mit
-thursday:
-    - Don
-friday:
-    - Fre
-saturday:
-    - Sam
-sunday:
-    - Son
 
 january:
     - Jänner
@@ -23,6 +8,8 @@ february:
     - Feber
 march:
     - Mrz
+september:
+    - Sept
 
 year:
     - Jahre
@@ -49,10 +36,21 @@ in:
     - im
 
 relative-type:
+    1 day ago:
+        - am vortag
     2 day ago:
         - vorgestern
     in 2 day:
         - übermorgen
+    1 month ago:
+        - vorherigen Monat
+        - vor einem Monat
+    1 week ago:
+        - vorherige Woche
+        - vor einer woche
+    1 year ago:
+        - vor einem Jahr
+        - vorheriges Jahr
 
 relative-type-regex:
     \1 hour ago:
@@ -66,14 +64,28 @@ simplifications:
     - einer: '1'
     - einem: '1'
     - ein: '1'
+    - eins: '1'
+    - ersten: '1'
     - zwei: '2'
+    - zweiten: '2'
     - drei: '3'
+    - dritten: '3'
     - vier: '4'
+    - vierten: '4'
     - fünf: '5'
+    - fünften : '5'
     - sechs: '6'
+    - sechsten: '6'
     - sieben: '7'
+    - siebten: '7'
     - acht: '8'
+    - achten: '8'
     - neun: '9'
+    - neunten: '9'
     - zehn: '10'
+    - zehnten: '10'
     - elf: '11'
+    - elften: '11'
     - zwölf: '12'
+    - zwölften: '12'
+

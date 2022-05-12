@@ -37,7 +37,8 @@ info = {
     ],
     "september": [
         "sep",
-        "september"
+        "september",
+        "Sept"
     ],
     "october": [
         "okt",
@@ -53,38 +54,31 @@ info = {
     ],
     "monday": [
         "mo",
-        "montag",
-        "Mon"
+        "montag"
     ],
     "tuesday": [
         "di",
-        "dienstag",
-        "Die"
+        "dienstag"
     ],
     "wednesday": [
         "mi",
-        "mittwoch",
-        "Mit"
+        "mittwoch"
     ],
     "thursday": [
         "do",
-        "donnerstag",
-        "Don"
+        "donnerstag"
     ],
     "friday": [
         "fr",
-        "freitag",
-        "Fre"
+        "freitag"
     ],
     "saturday": [
         "sa",
-        "samstag",
-        "Sam"
+        "samstag"
     ],
     "sunday": [
         "so",
-        "sonntag",
-        "Son"
+        "sonntag"
     ],
     "am": [
         "vorm"
@@ -152,16 +146,23 @@ info = {
             "dieses jahr"
         ],
         "1 day ago": [
-            "gestern"
+            "gestern",
+            "am vortag"
         ],
         "1 month ago": [
-            "letzten monat"
+            "letzten monat",
+            "vorherigen Monat",
+            "vor einem Monat"
         ],
         "1 week ago": [
-            "letzte woche"
+            "letzte woche",
+            "vorherige Woche",
+            "vor einer woche"
         ],
         "1 year ago": [
-            "letztes jahr"
+            "letztes jahr",
+            "vor einem Jahr",
+            "vorheriges Jahr"
         ],
         "in 1 day": [
             "morgen"
@@ -288,6 +289,7 @@ info = {
         "uhr",
         "um",
         "und",
+        "am",
         " ",
         "'",
         ",",
@@ -320,37 +322,76 @@ info = {
             "ein": "1"
         },
         {
+            "eins": "1"
+        },
+        {
+            "ersten": "1"
+        },
+        {
             "zwei": "2"
+        },
+        {
+            "zweiten": "2"
         },
         {
             "drei": "3"
         },
         {
+            "dritten": "3"
+        },
+        {
             "vier": "4"
+        },
+        {
+            "vierten": "4"
         },
         {
             "fünf": "5"
         },
         {
+            "fünften": "5"
+        },
+        {
             "sechs": "6"
+        },
+        {
+            "sechsten": "6"
         },
         {
             "sieben": "7"
         },
         {
+            "siebten": "7"
+        },
+        {
             "acht": "8"
+        },
+        {
+            "achten": "8"
         },
         {
             "neun": "9"
         },
         {
+            "neunten": "9"
+        },
+        {
             "zehn": "10"
+        },
+        {
+            "zehnten": "10"
         },
         {
             "elf": "11"
         },
         {
+            "elften": "11"
+        },
+        {
             "zwölf": "12"
+        },
+        {
+            "zwölften": "12"
         }
     ]
 }
