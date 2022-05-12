@@ -829,11 +829,11 @@ class TestBundledLanguages(BaseTestCase):
         param('de', "vor 3 Stunden", "3 hour ago"),
         param('de', "vor 2 Monaten", "2 month ago"),
         param('de', "vor 2 Monaten, 2 Wochen", "2 month ago 2 week"),
-        param('de', "4 Sept. 2022", "4 september 2022"),
+        param('de', "4 Sept 2022", "4 september 2022"),
         param('de', "am Vortag", "1 day ago"),
         param('de', "vorherigen Monat", "1 month ago"),
         param('de', "vor einem Monat", "1 month ago"),
-        param('de', "am Ersten Dezember 2022", "1 december 2022"),
+        param('de', "Ersten Dezember 2022", "1 december 2022"),
         # French
         param('fr', "avant-hier", "2 day ago"),
         param('fr', "hier", "1 day ago"),
