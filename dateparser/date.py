@@ -40,6 +40,7 @@ RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
 RE_SANITIZE_APOSTROPHE = re.compile('|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
 RE_SEARCH_TIMESTAMP = re.compile(r'^(\d{10})(\d{3})?(\d{3})?(?![^.])')
+RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r'^([-]?\d{10})(\d{3})?(\d{3})?(?![^.])')
 
 
 def sanitize_spaces(date_string):
@@ -113,7 +114,7 @@ def sanitize_date(date_string):
 
 
 def get_date_from_timestamp(date_string, settings):
-    match = RE_SEARCH_TIMESTAMP.search(date_string)
+    match = RE_SEARCH_NEGATIVE_TIMESTAMP.search(date_string)
     if match:
         seconds = int(match.group(1))
         millis = int(match.group(2) or 0)
