@@ -646,6 +646,18 @@ class TestDateParser(BaseTestCase):
         self.then_period_is('day')
 
     @parameterized.expand([
+        param('-1484823450', expected=datetime(1922, 12, 13, 13, 2, 30)),
+        param('-1436745600000', expected=datetime(1924, 6, 22, 0, 0)),
+        param('-1015673450000001', expected=datetime(1937, 10, 25, 12, 29, 10, 1))
+    ])
+    def test_parse_negative_timestamp(self, date_string, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser(settings={'TO_TIMEZONE': 'UTC', 'PARSERS': ['negative-timestamp']})
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+        self.then_period_is('day')
+
+    @parameterized.expand([
         # Epoch timestamps.
         param('1484823450', expected=datetime(2017, 1, 19, 10, 57, 30)),
         param('1436745600000', expected=datetime(2015, 7, 13, 0, 0)),
