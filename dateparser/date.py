@@ -114,9 +114,10 @@ def sanitize_date(date_string):
 
 
 def get_date_from_timestamp(date_string, settings, negative=False):
-    match = RE_SEARCH_TIMESTAMP.search(date_string)
     if negative:
         match = RE_SEARCH_NEGATIVE_TIMESTAMP.search(date_string)
+    else:
+         match = RE_SEARCH_TIMESTAMP.search(date_string)
 
     if match:
         seconds = int(match.group(1))

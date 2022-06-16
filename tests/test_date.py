@@ -729,28 +729,28 @@ class TestTimestampParser(BaseTestCase):
     @parameterized.expand([
         param(
             input_timestamp='-1570308760',
-            negative_allowed=True,
+            negative=True,
             result=datetime.fromtimestamp(-1570308760)
         ),
         param(
             input_timestamp='-1570308760',
-            negative_allowed=False,
+            negative=False,
             result=None
         ),
         param(
             input_timestamp='1570308760',
-            negative_allowed=True,
+            negative=True,
             result=None
         ),
         param(
             input_timestamp='1570308760',
-            negative_allowed=False,
+            negative=False,
             result=datetime.fromtimestamp(1570308760)
         )
     ])
-    def test_timestamp_with_negative(self, input_timestamp, negative_allowed, result):
+    def test_timestamp_with_negative(self, input_timestamp, negative, result):
         self.assertEqual(
-            date.get_date_from_timestamp(input_timestamp, None, negative=negative_allowed),
+            date.get_date_from_timestamp(input_timestamp, None, negative=negative),
             result
         )
 

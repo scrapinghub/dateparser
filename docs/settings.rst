@@ -181,8 +181,8 @@ The following parsers exist:
     followed by additional digits or a period (``.``), those first 10 digits
     are interpreted as `Unix time <https://en.wikipedia.org/wiki/Unix_time>`_.
 
--    ``'negative-timestamp'``: It is similar to ``'timestamp'``, but parses the
-    negative timestamp.
+-    ``'negative-timestamp'``: ``'timestamp'`` for negative timestamps. For
+    example, parses ``-186454800000`` as ``1964-02-03T23:00:00``.
 
 -   ``'relative-time'``: Parses dates and times expressed in relation to the
     current date and time (e.g. “1 day ago”, “in 2 weeks”).
