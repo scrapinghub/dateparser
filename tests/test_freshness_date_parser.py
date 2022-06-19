@@ -61,7 +61,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('last fortnight', ago={'days': 14}, period='day'),
         param('14 fortnight', ago={'days': 196}, period='day'),
         param('a fortnight ago', ago={'days': 14}, period='day'),
-        param('last fortnight', ago={'days': 14}, period='day'),
         param("1 century", ago={'years': 100}, period='year'),
         param("1 century 2 years", ago={'years': 102}, period='year'),
         param("1 century 12 months", ago={'years': 100, 'months': 12}, period='month'),
