@@ -870,6 +870,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
         param('1 दशक पहले', ago={'years': 10}, period='year'),
+        param('1 दशक पूर्व', ago={'years': 10}, period='year'),
+        param('दो दशक पहले', ago={'years': 20}, period='year'),
+        param('10 दशकों पहले', ago={'years': 100}, period='year'),
 
         # af
         param("2 uur gelede", ago={'hours': 2}, period='day'),
