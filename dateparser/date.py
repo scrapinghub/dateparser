@@ -33,13 +33,14 @@ RE_SPACES = re.compile(r'\s+')
 RE_TRIM_SPACES = re.compile(r'^\s+(\S.*?)\s+$')
 RE_TRIM_COLONS = re.compile(r'(\S.*?):*$')
 
-RE_SANITIZE_SKIP = re.compile(r'\t|\n|\r|\u00bb|,\s\u0432|\u200e|\xb7|\u200f|\u064e|\u064f', flags=re.M)
+RE_SANITIZE_SKIP = re.compile(r'\t|\n|\r|\u00bb|,\s\u0432\b|\u200e|\xb7|\u200f|\u064e|\u064f', flags=re.M)
 RE_SANITIZE_RUSSIAN = re.compile(r'([\W\d])\u0433\.', flags=re.I | re.U)
 RE_SANITIZE_PERIOD = re.compile(r'(?<=\D+)\.', flags=re.U)
 RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
 RE_SANITIZE_APOSTROPHE = re.compile('|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
 RE_SEARCH_TIMESTAMP = re.compile(r'^(\d{10})(\d{3})?(\d{3})?(?![^.])')
+RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r'^([-]\d{10})(\d{3})?(\d{3})?(?![^.])')
 
 
 def sanitize_spaces(date_string):
@@ -112,8 +113,12 @@ def sanitize_date(date_string):
     return date_string
 
 
-def get_date_from_timestamp(date_string, settings):
-    match = RE_SEARCH_TIMESTAMP.search(date_string)
+def get_date_from_timestamp(date_string, settings, negative=False):
+    if negative:
+        match = RE_SEARCH_NEGATIVE_TIMESTAMP.search(date_string)
+    else:
+         match = RE_SEARCH_TIMESTAMP.search(date_string)
+
     if match:
         seconds = int(match.group(1))
         millis = int(match.group(2) or 0)
@@ -166,6 +171,7 @@ class _DateLocaleParser:
         self._translated_date_with_formatting = None
         self._parsers = {
             'timestamp': self._try_timestamp,
+            'negative-timestamp': self._try_negative_timestamp,
             'relative-time': self._try_freshness_parser,
             'custom-formats': self._try_given_formats,
             'absolute-time': self._try_absolute_parser,
@@ -185,11 +191,17 @@ class _DateLocaleParser:
         else:
             return None
 
-    def _try_timestamp(self):
+    def _try_timestamp_parser(self, negative=False):
         return DateData(
-            date_obj=get_date_from_timestamp(self.date_string, self._settings),
+            date_obj=get_date_from_timestamp(self.date_string, self._settings, negative=negative),
             period='time' if self._settings.RETURN_TIME_AS_PERIOD else 'day',
         )
+
+    def _try_timestamp(self):
+        return self._try_timestamp_parser()
+
+    def _try_negative_timestamp(self):
+        return self._try_timestamp_parser(negative=True)
 
     def _try_freshness_parser(self):
         try:
@@ -358,8 +370,8 @@ class DateDataParser:
             raise TypeError("use_given_order argument must be a boolean (%r given)"
                             % type(use_given_order))
 
-        if not locales and use_given_order:
-            raise ValueError("locales must be given if use_given_order is True")
+        if not locales and not languages and use_given_order:
+            raise ValueError("locales or languages must be given if use_given_order is True")
 
         check_settings(settings)
 

@@ -5,8 +5,8 @@ __version__ = re.search(r"__version__.*\s*=\s*[']([^']+)[']",
                         open('dateparser/__init__.py').read()).group(1)
 
 introduction = re.sub(r':members:.+|..\sautomodule::.+|:class:|:func:|:ref:',
-                      '', open('docs/introduction.rst').read())
-history = re.sub(r':mod:|:class:|:func:', '', open('HISTORY.rst').read())
+                      '', open('docs/introduction.rst', encoding='utf-8').read())
+history = re.sub(r':mod:|:class:|:func:', '', open('HISTORY.rst', encoding='utf-8').read())
 
 test_requirements = open('tests/requirements.txt').read().splitlines()
 
@@ -27,7 +27,7 @@ setup(
         'python-dateutil',
         'pytz',
         # https://bitbucket.org/mrabarnett/mrab-regex/issues/314/import-error-no-module-named
-        'regex !=2019.02.19,!=2021.8.27',
+        'regex !=2019.02.19,!=2021.8.27,<2022.3.15',
         'tzlocal',
     ],
     entry_points={

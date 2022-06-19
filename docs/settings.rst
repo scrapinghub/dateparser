@@ -144,7 +144,7 @@ Language Detection
 Default Languages
 +++++++++++++++++
 
-``DEFAULT_LANGUAGES``: It is a ``list`` of language codes in ISO 639 that will be used as default 
+``DEFAULT_LANGUAGES``: It is a ``list`` of language codes in ISO 639 that will be used as default
 languages for parsing when language detection fails. eg. ["en", "fr"]:
 
     >>> from dateparser import parse
@@ -180,6 +180,9 @@ The following parsers exist:
 -   ``'timestamp'``: If the input string starts with 10 digits, optionally
     followed by additional digits or a period (``.``), those first 10 digits
     are interpreted as `Unix time <https://en.wikipedia.org/wiki/Unix_time>`_.
+
+-    ``'negative-timestamp'``: ``'timestamp'`` for negative timestamps. For
+    example, parses ``-186454800000`` as ``1964-02-03T23:00:00``.
 
 -   ``'relative-time'``: Parses dates and times expressed in relation to the
     current date and time (e.g. “1 day ago”, “in 2 weeks”).
