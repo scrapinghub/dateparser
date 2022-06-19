@@ -50,3 +50,6 @@ docs/_build
 
 # Other
 raw_data
+
+#venv
+dateparserenv
