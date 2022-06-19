@@ -248,7 +248,8 @@ info = {
     ],
     "sentence_splitter_group": 3,
     "decade": [
-        "दशक"
+        "दशक",
+        "दशकों"
     ],
     "ago": [
         "पहले",
