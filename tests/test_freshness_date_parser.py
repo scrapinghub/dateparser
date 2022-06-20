@@ -1202,7 +1202,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
               in_future={'years': 1, 'months': 5, 'weeks': 1}, period='week'),
         param('1 दशक में', in_future={'years': 10}, period='year'),
         param('पांच दशक बाद', in_future={'years': 50}, period='year'),
-      #   param('दश दशक पश्चात', in_future={'years': 100}, period='year'),
+        param('दश दशक पश्चात', in_future={'years': 100}, period='year'),
         param('9 दशकों मे', in_future={'years': 90}, period='year'),
 
 
