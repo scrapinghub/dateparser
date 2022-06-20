@@ -1100,6 +1100,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         # English dates
         param('in a fortnight', in_future={'days': 14}, period='day'),
         param('next fortnight', in_future={'days': 14}, period='day'),
+        param('coming fortnight', in_future={'days': 14}, period='day'),
+        param('in coming fortnight', in_future={'days': 14}, period='day'),
         param('in 1 century 2 months', in_future={'years': 100, 'months': 2}, period='month'),
         param('in 10 century', in_future={'years': 1000}, period='year'),
         param('in 1 century 12 years', in_future={'years': 112}, period='year'),
