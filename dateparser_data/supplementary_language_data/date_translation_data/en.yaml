@@ -64,6 +64,7 @@ relative-type:
         - this fortnight
     in 1 fortnight:
         - next fortnight
+        - coming fortnight
 
 relative-type-regex:
     in \1 decade:

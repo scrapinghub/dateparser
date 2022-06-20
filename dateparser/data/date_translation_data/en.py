@@ -201,7 +201,8 @@ info = {
             "this fortnight"
         ],
         "in 1 fortnight": [
-            "next fortnight"
+            "next fortnight",
+            "coming fortnight"
         ]
     },
     "relative-type-regex": {
