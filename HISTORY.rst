@@ -3,6 +3,50 @@
 History
 =======
 
+1.1.1 (2022-03-17)
+------------------
+
+Improvements:
+
+- Fixed issue with regex library by pinning dependencies to an earlier version (< 2022.3.15, #1046).
+- Extended support for Russian language dates starting with lowercase (#999).
+- Allowed to use_given_order for languages too (#997).
+- Fixed link to settings section (#1018).
+- Defined UTF-8 encoding for Windows (#998).
+- Fixed directories creation error in CLI utils (#1022).
+
+
+1.1.0 (2021-10-04)
+------------------
+
+New features:
+
+* Support language detection based on ``langdetect``, ``fastText``, or a
+  custom implementation (see #932)
+* Add support for 'by <time>' (see #839)
+* Sort default language list by internet usage (see #805)
+
+Improvements:
+
+* Improved support of Chinese (#910), Czech (#977)
+* Improvements in ``search_dates`` (see #953)
+* Make order of previous locales deterministic (see #851)
+* Fix parsing with trailing space (see #841)
+* Consider ``RETURN_TIME_AS_PERIOD`` for timestamp times (see #922)
+* Exclude failing regex version (see #974)
+* Ongoing work multithreading support (see #881, #885)
+* Add demo URL (see #883)
+
+QA:
+
+* Migrate pipelines from Travis CI to Github Actions (see #859, #879, #884,
+  #886, #911, #966)
+* Use versioned CLDR data (see #825)
+* Add a script to update table of supported languages and locales (see #601)
+* Sort 'skip' keys in yaml files (see #844)
+* Improve test coverage (see #827)
+* Code cleanup (see #888, #907, #951, #958, #957)
+
 
 1.0.0 (2020-10-29)
 ------------------
