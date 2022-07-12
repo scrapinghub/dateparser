@@ -68,7 +68,8 @@ info = {
     ],
     "wednesday": [
         "st",
-        "streda"
+        "streda",
+        "stredu"
     ],
     "thursday": [
         "št",
@@ -80,11 +81,13 @@ info = {
     ],
     "saturday": [
         "so",
-        "sobota"
+        "sobota",
+        "sobotu"
     ],
     "sunday": [
         "ne",
-        "nedeľa"
+        "nedeľa",
+        "nedeľu"
     ],
     "am": [
         "am"
@@ -165,6 +168,12 @@ info = {
         ],
         "in 1 year": [
             "budúci rok"
+        ],
+        "2 day ago": [
+            "predvčerom"
+        ],
+        "in 2 days": [
+            "pozajtra"
         ]
     },
     "relative-type-regex": {
@@ -206,41 +215,50 @@ info = {
         "in \\1 day": [
             "o (\\d+) d",
             "o (\\d+) deň",
-            "o (\\d+) dní"
+            "o (\\d+) dní",
+            "o (\\d+) dni"
         ],
         "in \\1 hour": [
             "o (\\d+) h",
             "o (\\d+) hodinu",
-            "o (\\d+) hodín"
+            "o (\\d+) hodín",
+            "o (\\d+) hodiny"
         ],
         "in \\1 minute": [
             "o (\\d+) min",
             "o (\\d+) minút",
-            "o (\\d+) minútu"
+            "o (\\d+) minútu",
+            "o (\\d+) minúty"
         ],
         "in \\1 month": [
             "o (\\d+) mes",
             "o (\\d+) mesiac",
-            "o (\\d+) mesiacov"
+            "o (\\d+) mesiacov",
+            "o (\\d+) mesiace"
         ],
         "in \\1 second": [
             "o (\\d+) s",
             "o (\\d+) sekundu",
-            "o (\\d+) sekúnd"
+            "o (\\d+) sekúnd",
+            "o (\\d+) sekundy"
         ],
         "in \\1 week": [
             "o (\\d+) týž",
             "o (\\d+) týždeň",
-            "o (\\d+) týždňov"
+            "o (\\d+) týždňov",
+            "o (\\d+) týždne"
         ],
         "in \\1 year": [
             "o (\\d+) r",
             "o (\\d+) rok",
-            "o (\\d+) rokov"
+            "o (\\d+) rokov",
+            "o (\\d+) roky"
         ]
     },
     "locale_specific": {},
     "skip": [
+        "v",
+        "vo",
         " ",
         "'",
         ",",
@@ -253,5 +271,57 @@ info = {
         "]",
         "|",
         "，"
+    ],
+    "sentence_splitter_group": 1,
+    "ago": [
+        "pred"
+    ],
+    "in": [
+        "o",
+        "za"
+    ],
+    "simplifications": [
+        {
+            "pred sekundou": "pred 1 sekundou"
+        },
+        {
+            "pred minútou": "pred 1 minútou"
+        },
+        {
+            "pred hodinou": "pred 1 hodinou"
+        },
+        {
+            "pred týždňom": "pred 1 týždňom"
+        },
+        {
+            "pred mesiacom": "pred 1 mesiacom"
+        },
+        {
+            "pred rokom": "pred 1 rokom"
+        },
+        {
+            "pred pol rokom": "pred 6 mesiacmi"
+        },
+        {
+            "o sekundu": "o 1 sekundu"
+        },
+        {
+            "o minútu": "o 1 minútu"
+        },
+        {
+            "o hodinu": "o 1 hodinu"
+        },
+        {
+            "o týždeň": "o 1 týždeň"
+        },
+        {
+            "o mesiace": "o 1 mesiac"
+        },
+        {
+            "o rok": "o 1 rok"
+        },
+        {
+            "o pol roka": "o 6 mesiacov"
+        }
     ]
 }
