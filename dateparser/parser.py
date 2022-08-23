@@ -223,7 +223,7 @@ class _parser:
 
     def __init__(self, tokens, settings):
         self.settings = settings
-        self.tokens = list(tokens)
+        self.tokens = [(t[0].strip(), t[1]) for t in list(tokens)]
         self.filtered_tokens = [(t[0], t[1], i) for i, t in enumerate(self.tokens) if t[1] <= 1]
 
         self.unset_tokens = []
