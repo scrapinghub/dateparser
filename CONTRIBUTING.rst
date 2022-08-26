@@ -21,24 +21,18 @@ If you are reporting a bug, please include:
 * Any details about your local setup that might be helpful in troubleshooting.
 * Detailed steps to reproduce the bug.
 
-Fix Bugs
-~~~~~~~~
+Fix Bugs and Implement Features
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Look through the GitHub issues for bugs. Anything tagged with "bug"
-is open to whoever wants to implement it.
-
-Implement Features
-~~~~~~~~~~~~~~~~~~
-
-Look through the GitHub issues for features. Anything tagged with "feature"
-is open to whoever wants to implement it.
-We encourage you to add new languages to existing stack.
+Look through the GitHub issues for bugs and feature requests. To avoid
+duplicate efforts, try to choose issues without related PRs or with staled PRs.
+We also encourage you to add new languages to the existing stack.
 
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-DateParser could always use more documentation, whether as part of the
-official DateParser docs, in docstrings, or even on the web in blog posts,
+Dateparser could always use more documentation, whether as part of the
+official Dateparser docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 After you make local changes to the documentation, you will be able to build the
@@ -77,7 +71,8 @@ Ready to contribute? Here's how to set up `dateparser` for local development.
 
     $ git clone git@github.com:your_name_here/dateparser.git
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper
+installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv dateparser
     $ cd dateparser/
@@ -89,11 +84,12 @@ Ready to contribute? Here's how to set up `dateparser` for local development.
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox::
+5. When you're done making changes, check that your changes pass flake8 and the
+tests, including testing other Python versions with tox::
 
     $ tox
 
-   To get flake8 and tox, just pip install them into your virtualenv. (Note that we use ``max-line-length = 100`` for flake8, this is configured in ``setup.cfg`` file.)
+   To get ``tox``, just ``pip install`` it into your virtualenv. In addition to tests, ``tox`` checks for code style and maximum line length (119 characters).
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -112,10 +108,17 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in *README.rst*.
-3. Check https://travis-ci.org/scrapinghub/dateparser/pull_requests
-   and make sure that the tests pass for all supported Python versions.
-4. Follow the core developers' advice which aim to ensure code's consistency regardless of variety of approaches used by many contributors.
-5. In case you are unable to continue working on a PR, please leave a short comment to notify us. We will be pleased to make any changes required to get it done.
+3. Check the pipelines (Github Actions) in the PR comments (or in
+   https://github.com/scrapinghub/dateparser/actions) and make sure that the
+   tests pass for all supported Python versions.
+4. Check the new project coverage in the PR comments (or in
+   https://app.codecov.io/gh/scrapinghub/dateparser/pulls) and make sure that
+   it remained equal or higher than previously.
+5. Follow the core developers' advice which aims to ensure code's consistency
+   regardless of the variety of approaches used by many contributors.
+6. In case you are unable to continue working on a PR, please leave a short
+   comment to notify us. We will be pleased to make any changes required to get
+   it done.
 
 Guidelines for Editing Translation Data
 ---------------------------------------
@@ -161,12 +164,18 @@ language, you must:
 
     If in doubt, ask Dateparser maintainers for help.
 
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   template
+
 Updating the List of Supported Languages and Locales
 ----------------------------------------------------
 
 Whenever the content of
 ``dateparser.data.languages_info.language_locale_dict`` is modified, use
-``dateparser_scripts/update_supported_languages_and_locales.py`` to update 
+``dateparser_scripts/update_supported_languages_and_locales.py`` to update
 the corresponding documentation table::
 
     dateparser_scripts/update_supported_languages_and_locales.py
