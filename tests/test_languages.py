@@ -89,6 +89,8 @@ class TestBundledLanguages(BaseTestCase):
         param('pl', "29 listopada 2014 o 08:40", "29 november 2014  08:40"),
         # Ukrainian
         param('uk', "30 листопада 2013 о 04:27", "30 november 2013  04:27"),
+        param('uk', "28 лютого 2020 року об 11:57", "28 february 2020 year  11:57"),
+        param('uk', "середу, 28 лютого 2020 року об 11:57", "wednesday 28 february 2020 year  11:57"),
         # Belarusian
         param('be', "5 снежня 2015 г. у 12:00", "5 december 2015 year.  12:00"),
         param('be', "11 верасня 2015 г. у 12:11", "11 september 2015 year.  12:11"),
@@ -942,6 +944,13 @@ class TestBundledLanguages(BaseTestCase):
         param('tl', "ngayon", "0 second ago"),
         # Ukrainian
         param('uk', "позавчора", "2 day ago"),
+        param('uk', "післязавтра", "in 2 day"),
+        param('uk', "через 2 дні", "in 2 day"),
+        param('uk', "через 2 доби", "in 2 day"),
+        param('uk', "через 5 діб", "in 5 day"),
+        param('uk', "через п'ять діб", "in 5 day"),
+        param('uk', "за вісім днів", "in 8 day"),
+        param('uk', "2 роки", "2 year"),
         # Belarusian
         param('be', "9 месяцаў", "9 month"),
         param('be', "8 тыдняў", "8 week"),
@@ -1562,6 +1571,8 @@ class TestBundledLanguages(BaseTestCase):
         param('sr-Cyrl', "пре 5 година", "5 year ago"),
         param('sr-Cyrl', "за 52 нед", "in 52 week"),
         param('sr-Cyrl', "данас", "0 day ago"),
+        param('sr-Cyrl', "за 3 годину", "in 3 year"),
+
         # sr-Latn
         param('sr-Latn', "za 120 sekundi", "in 120 second"),
         param('sr-Latn', "pre 365 dana", "365 day ago"),
@@ -1604,9 +1615,13 @@ class TestBundledLanguages(BaseTestCase):
         param('tzm', "assenaṭ", "1 day ago"),
         param('tzm', "asekka", "in 1 day"),
         # uk
-        param('uk', "18 хвилину тому", "18 minute ago"),
-        param('uk', "через 22 року", "in 22 year"),
+        param('uk', "18 хвилин тому", "18 minute ago"),
+        param('uk', "через 22 роки", "in 22 year"),
         param('uk', "цього тижня", "0 week ago"),
+        param('uk', "півгодини тому", "30 minute ago"),
+        param('uk', "пів години тому", "30 minute ago"),
+        param('uk', "півроку тому", "6 month ago"),
+        param('uk', "за півтора року", "in 18 month"),
         # uz-Cyrl
         param('uz-Cyrl', "кейинги ой", "in 1 month"),
         param('uz-Cyrl', "30 йил аввал", "30 year ago"),

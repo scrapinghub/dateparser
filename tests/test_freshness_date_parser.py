@@ -1380,7 +1380,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("pas 2 muajsh", in_future={'months': 2}, period='month'),
         param("pas 15 ditësh", in_future={'days': 15}, period='day'),
         # sr-Cyrl
-        param("за 3 годину", in_future={'years': 3}, period='year'),
         param("за 10 мин 20 сек", in_future={'minutes': 10, 'seconds': 20}, period='day'),
         # sr-Latn
         param("za 2 god 6 mes", in_future={'years': 2, 'months': 6}, period='month'),
