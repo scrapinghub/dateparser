@@ -1571,6 +1571,8 @@ class TestBundledLanguages(BaseTestCase):
         param('sr-Cyrl', "пре 5 година", "5 year ago"),
         param('sr-Cyrl', "за 52 нед", "in 52 week"),
         param('sr-Cyrl', "данас", "0 day ago"),
+        param('sr-Cyrl', "за 3 годину", "in 3 year"),
+
         # sr-Latn
         param('sr-Latn', "za 120 sekundi", "in 120 second"),
         param('sr-Latn', "pre 365 dana", "365 day ago"),
