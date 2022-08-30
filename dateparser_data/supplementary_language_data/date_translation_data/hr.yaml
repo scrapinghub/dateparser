@@ -1,0 +1,133 @@
+in:
+    - u
+
+january:
+    - siječnju
+february:
+    - veljači
+march:
+    - ožujku
+april:
+    - travnju
+may:
+    - svibnju
+june:
+    - lipnju
+july:
+    - srpnju
+august:
+    - kolovozu
+september:
+    - rujnu
+october:
+    - listopadu
+november:
+    - studenom
+    - studenomu
+    - studenome
+    - studenog
+december:
+    - prosincu
+
+relative-type:
+    in 1 year:
+        - sljedeća g
+        - sljedeća god
+        - sljedeća godina
+        - sljedećoj godini
+
+        - iduća g
+        - iduće g
+        - idućoj g
+        - iduća god
+        - iduće god
+        - idućoj god
+        - iduća godina
+        - iduće godine
+        - idućoj godini
+        
+        - dogodine
+        - nagodinu
+
+    in 1 month:
+        - sljedećeg mjeseca
+        - sljedećem mjesecu
+
+        - idući mj
+        - idućeg mj
+        - idućem mj
+        - idući mjesec
+        - idućeg mjeseca
+        - idućem mjesecu
+
+    in 1 week:
+        - sljedećeg tjedna
+        - sljedećem tjednu
+
+        - idući tj
+        - idućeg tj
+        - idućem tj
+        - idući tjedan
+        - idućeg tjedna
+        - idućem tjednu
+
+    in 1 day:
+        - sutra
+
+    in 2 day:
+        - prekosutra
+
+    1 year ago:
+        - prošla godina
+        - prošloj godini
+        - lani
+
+    2 year ago:
+        - preklani
+
+    1 month ago:
+        - prošlog mjeseca
+        - prošlom mjesecu
+
+    1 week ago:
+        - prošlog tjedna
+        - prošlom tjednu
+
+    1 day ago:
+        - jučer
+
+    2 day ago:
+        - prekjučer
+
+relative-type-regex:
+    \1 year ago:
+        - prije (\d+) godine
+    \1 month ago:
+        - prije (\d+) mjeseca
+    \1 week ago:
+        - prije (\d+) tjedna
+    \1 hour ago:
+        - prije (\d+) sata
+    \1 minute ago:
+        - prije (\d+) minute
+    \1 second ago:
+        - prije (\d+) sekunde
+        - prije (\d+) sekundu
+
+    in \1 year:
+        - za (\d+) godine
+    in \1 month:
+        - za (\d+) mjeseca
+    in \1 week:
+        - za (\d+) tjedna
+    in \1 hour:
+        - za (\d+) sata
+    in \1 minute:
+        - za (\d+) minute
+    in \1 second:
+        - za (\d+) sekunde
+        - za (\d+) sekundu
+
+simplifications:
+    - podne: '12:00'
+    - ponoć: '00:00'

@@ -187,8 +187,19 @@ class TestDateParser(BaseTestCase):
         param('2015 წ. 12 ივნ, 15:34', datetime(2015, 6, 12, 15, 34)),
         # Finnish dates
         param('5.7.2018 5.45 ip.', datetime(2018, 7, 5, 17, 45)),
-        param('5 .7 .2018 5.45 ip.', datetime(2018, 7, 5, 17, 45))
-
+        param('5 .7 .2018 5.45 ip.', datetime(2018, 7, 5, 17, 45)),
+        # Croatian dates
+        param('06. travnja 2021.', datetime(2021, 4, 6, 0, 0)),
+        param('13. svibanj 2022.', datetime(2022, 5, 13, 0, 0)),
+        param('24.03.2019. u 22:22', datetime(2019, 3, 24, 22, 22)),
+        param('20. studenoga 2010. @ 07:28', datetime(2010, 11, 20, 7, 28)),
+        param('13. studenog 1989.', datetime(1989, 11, 13, 0, 0)),
+        param('29.01.2008. 00:00', datetime(2008, 1, 29, 0, 0)),
+        param('02/10/2016 u 17:20', datetime(2016, 10, 2, 17, 20)),
+        param('27. 05. 2022. u 14:34', datetime(2022, 5, 27, 14, 34)),
+        param('28. u studenom 2017.', datetime(2017, 11, 28, 0, 0)),
+        param('13. veljače 1999. u podne', datetime(1999, 2, 13, 12, 0)),
+        param('27. siječnja 1994. u ponoć', datetime(1994, 1, 27, 0, 0))
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,
