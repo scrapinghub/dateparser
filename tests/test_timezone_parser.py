@@ -52,6 +52,10 @@ class TestTZPopping(BaseTestCase):
         param('Fri Sep 23 2016 10:34:51 UTC+1245', 12.75),
         param('2019-07-17T12:30:00.000-03:30', -3.5),
         param('2019-07-17T12:30:00.000-02:30', -2.5),
+        param('16. srpna 2021 9:59:44 SELČ', 2),
+        param('16. srpna 2021 9:59:44 SEČ', 1),
+        param('16. srpna 2021 9:59:44 ZEČ', 0),
+        param('16. srpna 2021 9:59:44 VEČ', 2),
     ])
     def test_extracting_valid_offset(self, initial_string, expected_offset):
         self.given_string(initial_string)

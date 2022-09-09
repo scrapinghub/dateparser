@@ -2,6 +2,7 @@ import hashlib
 from datetime import datetime
 from functools import wraps
 
+from dateparser.data.languages_info import language_order
 from .parser import date_order_chart
 from .utils import registry
 
@@ -25,6 +26,8 @@ class Settings:
     * `NORMALIZE`
     * `RETURN_TIME_AS_PERIOD`
     * `PARSERS`
+    * `DEFAULT_LANGUAGES`
+    * `LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`
     """
 
     _default = True
@@ -117,7 +120,7 @@ def _check_require_part(setting_name, setting_value):
 def _check_parsers(setting_name, setting_value):
     """Returns `True` if the provided list of parsers contains valid values"""
     existing_parsers = [
-        'timestamp', 'relative-time', 'custom-formats', 'absolute-time', 'no-spaces-time'
+        'timestamp', 'relative-time', 'custom-formats', 'absolute-time', 'no-spaces-time', 'negative-timestamp'
     ]  # FIXME: Extract the list of existing parsers from another place (#798)
     unknown_parsers = set(setting_value) - set(existing_parsers)
     if unknown_parsers:
@@ -127,6 +130,28 @@ def _check_parsers(setting_name, setting_value):
             )
         )
     _check_repeated_values(setting_name, setting_value)
+
+
+def _check_default_languages(setting_name, setting_value):
+    unsupported_languages = set(setting_value) - set(language_order)
+    if unsupported_languages:
+        raise SettingValidationError(
+            "Found invalid languages in the '{}' setting: {}".format(
+                setting_name, ', '.join(map(repr, unsupported_languages))
+            )
+        )
+    _check_repeated_values(setting_name, setting_value)
+
+
+def _check_between_0_and_1(setting_name, setting_value):
+    is_valid = 0 <= setting_value <= 1
+    if not is_valid:
+        raise SettingValidationError(
+            '{} is not a valid value for {}. It can take values between 0 and '
+            '1.'.format(
+                setting_value, setting_name,
+            )
+        )
 
 
 def check_settings(settings):
@@ -192,6 +217,14 @@ def check_settings(settings):
         },
         'PREFER_LOCALE_DATE_ORDER': {
             'type': bool
+        },
+        'DEFAULT_LANGUAGES': {
+            'type': list,
+            'extra_check': _check_default_languages
+        },
+        'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': {
+            'type': float,
+            'extra_check': _check_between_0_and_1
         },
     }
 

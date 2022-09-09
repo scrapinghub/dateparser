@@ -276,6 +276,11 @@ class TestTranslateSearch(BaseTestCase):
         param('en', 'in a minute',
               [('in a minute', datetime.datetime(2000, 1, 1, 0, 1))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
+        param('en', 'last decade',
+              [('last decade', datetime.datetime(1990, 1, 1, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
         param('en', 'July 13th.\r\n July 14th',
               [('July 13th', datetime.datetime(2000, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2000, 7, 14, 0, 0))],
@@ -427,8 +432,8 @@ class TestTranslateSearch(BaseTestCase):
                     'інтервенції в Маньчжурію 13 вересня 1931, початок другої японсько-китайської війни 7 '
                     'липня 1937 року та початок угорсько-української війни 14 березня 1939 року.',
               [('13 вересня 1931', datetime.datetime(1931, 9, 13, 0, 0)),
-               ('7 липня 1937', datetime.datetime(1937, 7, 7, 0, 0)),
-               ('14 березня 1939', datetime.datetime(1939, 3, 14, 0, 0))],
+               ('7 липня 1937 року', datetime.datetime(1937, 7, 7, 0, 0)),
+               ('14 березня 1939 року', datetime.datetime(1939, 3, 14, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Vietnamese

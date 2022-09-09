@@ -46,6 +46,11 @@ class TestDateParser(BaseTestCase):
         param('21 January 2012 13:11:23.678', datetime(2012, 1, 21, 13, 11, 23, 678000)),
         param('1/1/16 9:02:43.1', datetime(2016, 1, 1, 9, 2, 43, 100000)),
         param('29.02.2020 13.12', datetime(2020, 2, 29, 13, 12)),
+        param('26. 10.21', datetime(2021, 10, 26, 0, 0)),
+        param('26. 10.21 14.12', datetime(2021, 10, 26, 14, 12)),
+        param('26 . 10.21', datetime(2021, 10, 26, 0, 0)),
+        param('30 . 09 . 22 12.12', datetime(2022, 9, 30, 12, 12)),
+        param('1 a.m 20.07.2021', datetime(2021, 7, 20, 1, 0)),
         param('Wednesday, 22nd June, 2016, 12.16 pm.', datetime(2016, 6, 22, 12, 16)),
         # French dates
         param('11 Mai 2014', datetime(2014, 5, 11)),
@@ -91,6 +96,7 @@ class TestDateParser(BaseTestCase):
         param('13 авг. 2005 19:13', datetime(2005, 8, 13, 19, 13)),
         param('13 авг. 2005г. 19:13', datetime(2005, 8, 13, 19, 13)),
         param('13 авг. 2005 г. 19:13', datetime(2005, 8, 13, 19, 13)),
+        param('21 сентября 2021г., вторник', datetime(2021, 9, 21, 0, 0)),
         # Turkish dates
         param('11 Ağustos, 2014', datetime(2014, 8, 11)),
         param('08.Haziran.2014, 11:07', datetime(2014, 6, 8, 11, 7)),  # forum.andronova.net
@@ -180,7 +186,9 @@ class TestDateParser(BaseTestCase):
         param('2011 წლის 17 მარტი, ოთხშაბათი', datetime(2011, 3, 17, 0, 0)),
         param('2015 წ. 12 ივნ, 15:34', datetime(2015, 6, 12, 15, 34)),
         # Finnish dates
-        param('5.7.2018 5.45 ip.', datetime(2018, 7, 5, 17, 45))
+        param('5.7.2018 5.45 ip.', datetime(2018, 7, 5, 17, 45)),
+        param('5 .7 .2018 5.45 ip.', datetime(2018, 7, 5, 17, 45))
+
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,
@@ -642,6 +650,34 @@ class TestDateParser(BaseTestCase):
         self.given_parser(settings={'TO_TIMEZONE': 'UTC'})
         self.when_date_is_parsed(date_string)
         self.then_date_obj_exactly_is(expected)
+        self.then_period_is('day')
+
+    @parameterized.expand([
+        param('-1484823450', expected=datetime(1922, 12, 13, 13, 2, 30)),
+        param('-1436745600000', expected=datetime(1924, 6, 22, 0, 0)),
+        param('-1015673450000001', expected=datetime(1937, 10, 25, 12, 29, 10, 1))
+    ])
+    def test_parse_negative_timestamp(self, date_string, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser(settings={'TO_TIMEZONE': 'UTC', 'PARSERS': ['negative-timestamp']})
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+        self.then_period_is('day')
+
+    @parameterized.expand([
+        # Epoch timestamps.
+        param('1484823450', expected=datetime(2017, 1, 19, 10, 57, 30)),
+        param('1436745600000', expected=datetime(2015, 7, 13, 0, 0)),
+        param('1015673450', expected=datetime(2002, 3, 9, 11, 30, 50)),
+        param('2016-09-23T02:54:32.845Z', expected=datetime(2016, 9, 23, 2, 54, 32, 845000,
+              tzinfo=StaticTzInfo('Z', timedelta(0))))
+    ])
+    def test_parse_timestamp_with_time_as_period(self, date_string, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser(settings={'TO_TIMEZONE': 'UTC', 'RETURN_TIME_AS_PERIOD': True})
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+        self.then_period_is('time')
 
     @parameterized.expand([
         param('10 December', expected=datetime(2015, 12, 10), period='day'),
