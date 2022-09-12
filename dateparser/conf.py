@@ -46,7 +46,7 @@ class Settings:
             return 'default'
 
         keys = sorted(['%s-%s' % (key, str(settings[key])) for key in settings])
-        return hashlib.md5(''.join(keys).encode('utf-8')).hexdigest()
+        return hashlib.sha512(''.join(keys).encode('utf-8')).hexdigest()
 
     @classmethod
     def _get_settings_from_pyfile(cls):
