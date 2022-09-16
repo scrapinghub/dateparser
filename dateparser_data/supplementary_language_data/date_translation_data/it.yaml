@@ -1,4 +1,4 @@
-skip: ["circa", "e", "alle", "alla", "all'", "all", "a", "il", "di", "del", "della", "dell'"]
+skip: ["circa", "e", "alle", "alla", "all'", "all", "a", "il", "l'", "l", "lo", "la", "di", "del", "della", "dell'"]
 pertain: ["di", "del", "della", "dell'"]
 
 sentence_splitter_group : 1
