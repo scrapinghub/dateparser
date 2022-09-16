@@ -272,7 +272,8 @@ info = {
         "fa"
     ],
     "in": [
-        "in"
+        "in",
+        "tra"
     ],
     "simplifications": [
         {
