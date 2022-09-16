@@ -276,7 +276,7 @@ info = {
         "di",
         "del",
         "della",
-        "dell'
+        "dell'",
         " ",
         "'",
         ",",
