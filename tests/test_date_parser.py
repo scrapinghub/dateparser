@@ -138,8 +138,11 @@ class TestDateParser(BaseTestCase):
         param('5 жніўня 2015 года у 13:34', datetime(2015, 8, 5, 13, 34)),
         # Ukrainian dates
         param('2015-кві-12', datetime(2015, 4, 12)),
+        param('2020-берез-11', datetime(2020, 3, 11)),
         param('21 чер 2013 3:13', datetime(2013, 6, 21, 3, 13)),
+        param('17 верес 2015 6:17', datetime(2015, 9, 17, 6, 17)),
         param('12 лютого 2012, 13:12:23', datetime(2012, 2, 12, 13, 12, 23)),
+        param('10 листоп 2017, 10:00:00', datetime(2017, 11, 10, 10, 00, 00)),
         param('вів о 14:04', datetime(2012, 11, 13, 14, 4)),
         # Tagalog dates
         param('12 Hulyo 2003 13:01', datetime(2003, 7, 12, 13, 1)),
@@ -323,8 +326,11 @@ class TestDateParser(BaseTestCase):
         param('5 жніўня 2015 года у 13:34', datetime(2015, 8, 5, 13, 34)),
         # Ukrainian dates
         param('2015-кві-12', datetime(2015, 4, 12)),
+        param('2020-берез-11', datetime(2020, 3, 11)),
         param('21 чер 2013 3:13', datetime(2013, 6, 21, 3, 13)),
+        param('17 верес 2015 6:17', datetime(2015, 9, 17, 6, 17)),
         param('12 лютого 2012, 13:12:23', datetime(2012, 2, 12, 13, 12, 23)),
+        param('10 листоп 2017, 10:00:00', datetime(2017, 11, 10, 10, 00, 00)),
         param('вів о 14:04', datetime(2012, 11, 13, 14, 4)),
         # Filipino dates
         param('12 Hulyo 2003 13:01', datetime(2003, 7, 12, 13, 1)),

@@ -546,6 +546,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("32 dakika önce", ago={'minutes': 32}, period='day'),
         # uk
         param("3 року тому", ago={'years': 3}, period='year'),
+        param("5 років тому", ago={'years': 5}, period='year'),
         # uz-Cyrl
         param("10 ҳафта олдин", ago={'weeks': 10}, period='week'),
         # uz-Latn
@@ -1034,6 +1035,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("32 dakika önce", ago={'minutes': 32}, period='day'),
         # uk
         param("3 року тому", ago={'years': 3}, period='year'),
+        param("5 років тому", ago={'years': 5}, period='year'),
         # uz-Cyrl
         param("10 ҳафта олдин", ago={'weeks': 10}, period='week'),
         # uz-Latn
@@ -1411,6 +1413,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         # uk
         param("через 8 хвилини", in_future={'minutes': 8}, period='day'),
         param("через 10 тижня", in_future={'weeks': 10}, period='week'),
+        param("через 10 днів", in_future={'days': 10}, period='day'),
         # uz-Cyrl
         param("12 кундан сўнг", in_future={'days': 12}, period='day'),
         param("10 дақиқадан сўнг", in_future={'minutes': 10}, period='day'),
