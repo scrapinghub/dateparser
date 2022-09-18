@@ -32,9 +32,9 @@ cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
 
 
 def _filter_relative_string(relative_string):
-    return (isinstance(relative_string, str) and
-            RELATIVE_PATTERN.search(relative_string) and
-            not PARENTHESIS_PATTERN.search(relative_string))
+    return (isinstance(relative_string, str)
+            and RELATIVE_PATTERN.search(relative_string)
+            and not PARENTHESIS_PATTERN.search(relative_string))
 
 
 def _filter_month_name(month_name):
@@ -70,11 +70,12 @@ def _retrieve_locale_data(locale):
 
     try:
         date_format_string = gregorian_dict["dateFormats"]["short"].upper()
-    except:
+    except AttributeError:
         date_format_string = gregorian_dict["dateFormats"]["short"]["_value"].upper()
 
     json_dict["date_order"] = DATE_ORDER_PATTERN.sub(
-            r'\1\2\3', DATE_ORDER_PATTERN.search(date_format_string).group())
+        r'\1\2\3', DATE_ORDER_PATTERN.search(date_format_string).group()
+    )
 
     json_dict["january"] = list(filter(_filter_month_name,
                                        [gregorian_dict["months"][key1][key2]["1"]
