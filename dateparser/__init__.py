@@ -1,5 +1,7 @@
 __version__ = '1.1.1'
 
+import regex as re
+
 from .date import DateDataParser
 from .conf import apply_settings
 
@@ -52,6 +54,10 @@ def parse(date_string, date_formats=None, languages=None, locales=None,
         ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list,
         ``SettingValidationError``: A provided setting is not valid.
     """
+
+    if not re.search('[^\\s\x00]', date_string):
+        return
+
     parser = _default_parser
 
     if languages or locales or region or detect_languages_function or not settings._default:
