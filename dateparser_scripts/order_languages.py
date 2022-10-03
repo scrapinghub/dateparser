@@ -90,6 +90,8 @@ def _get_language_order(language_locale_dict):
                 print(e)
                 print("The website could have changed, please update the code")
                 return old_common_locales
+        else:
+            return old_common_locales
         return new_most_common_locales
 
     territory_info_file = "../raw_data/cldr_core/supplemental/territoryInfo.json"
