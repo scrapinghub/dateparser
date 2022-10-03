@@ -5,19 +5,13 @@ from collections import OrderedDict
 import regex as re
 
 from dateparser_scripts.utils import get_raw_data
+from parsel import Selector
+import requests
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # Languages with insufficient translation data are excluded
 avoid_languages = {'cu', 'kkj', 'nds', 'prg', 'tk', 'vai', 'vai-Latn', 'vai-Vaii', 'vo'}
-
-# Order from https://w3techs.com/technologies/overview/content_language
-# Last updated on 30.10.2020
-most_common_locales = [
-    'en', 'ru', 'es', 'tr', 'fa', 'fr', 'de', 'ja', 'pt', 'vi', 'zh', 'ar', 'it', 'pl', 'id', 'el',
-    'nl', 'ko', 'th', 'he', 'uk', 'cs', 'sv', 'ro', 'hu', 'da', 'sr', 'sk', 'fi', 'bg', 'hr', 'lt',
-    'hi', 'nb', 'sl', 'nn', 'et', 'lv'
-]
 
 
 def _get_language_locale_dict():
@@ -40,6 +34,64 @@ def _get_language_locale_dict():
 
 
 def _get_language_order(language_locale_dict):
+    def get_most_common_locales():
+        # Order from https://w3techs.com/technologies/overview/content_language
+        # Last updated on 03.10.2022
+        old_common_locales = ['en',
+                               'ru',
+                               'es',
+                               'de',
+                               'tr',
+                               'fr',
+                               'fa',
+                               'ja',
+                               'zh',
+                               'vi',
+                               'it',
+                               'nl',
+                               'pt',
+                               'ar',
+                               'pl',
+                               'id',
+                               'ko',
+                               'uk',
+                               'th',
+                               'he',
+                               'cs',
+                               'sv',
+                               'ro',
+                               'el',
+                               'da',
+                               'hu',
+                               'fi',
+                               'sr',
+                               'sk',
+                               'bg',
+                               'nb',
+                               'hr',
+                               'lt',
+                               'no',
+                               'hi',
+                               'sl',
+                               'ca',
+                               'et']
+
+        response = requests.get('https://w3techs.com/technologies/overview/content_language')
+        sel = Selector(text=response.text)
+        if response.ok:
+            try:
+                bars = sel.xpath("//table[@class='bars']//a/@href").getall()
+                if not bars:
+                    raise ValueError("No bars found")
+                new_most_common_locales = [i.replace('https://w3techs.com/technologies/details/cl', '').strip('-') for i in bars]
+                if new_most_common_locales[0] != 'en':
+                    raise ValueError("English is not the first language")
+            except Exception as e:
+                print(e)
+                print("The website could have changed, please update the code")
+                return old_common_locales
+        return new_most_common_locales
+
     territory_info_file = "../raw_data/cldr_core/supplemental/territoryInfo.json"
     with open(territory_info_file) as f:
         territory_content = json.load(f)
@@ -59,6 +111,7 @@ def _get_language_order(language_locale_dict):
         except Exception:
             pass
 
+    most_common_locales = get_most_common_locales()
     language_order_with_duplicates = (
         most_common_locales
         + sorted(
