@@ -1,7 +1,25 @@
-skip: ["circa", "e"]
+skip: ["circa", "e", "alle", "alla", "all'", "all", "a", "il", "l'", "l", "lo", "la", "di", "del", "della", "dell'"]
+pertain: ["di", "del", "della", "dell'"]
 
 sentence_splitter_group : 1
 
+monday:
+    - lun
+tuesday:
+    - mar
+wednesday:
+    - mer
+thursday:
+    - gio
+friday:
+    - ven
+saturday:
+    - sab
+sunday:
+    - dom
+    
+decade:
+    - decade
 year:
     - anni
 month:
@@ -12,21 +30,50 @@ day:
     - giorni
 hour:
     - ore
+    - h
 minute:
     - minuti
+    - min
+    - m
 second:
     - secondi
+    - s
 
 ago:
     - fa
+    - scorsa
+    - scorso
 in:
     - in
-    - tra
     - fra
+    - tra
+    - da ora
 
 relative-type:
     2 day ago:
         - altro ieri
+    in 2 days:
+        - dopodomani
 
 simplifications:
     - (\d+)\s+ora: \1 ore 
+    - un[']ora: 1 ore 
+    - (?:12\s+)?mezzogiorno: '12:00'
+    - (?:12\s+)?una: '13:00'
+    - (?:12\s+)?mezzanotte: '00:00'
+    - (?:12\s+)?una di notte: '01:00'
+    - (\d+)h(\d+)m?: \1:\2
+    - (?<=from\s+)now: tra
+    - less than 1 minute ago: pochi secondi fa
+    - un: '1'
+    - due: '2'
+    - tre: '3'
+    - quattro: '4'
+    - cinque: '5'
+    - sei: '6'
+    - sette: '7'
+    - otto: '8'
+    - nove: '9'
+    - dieci: '10'
+    - undici: '11'
+    - dodici: '12'

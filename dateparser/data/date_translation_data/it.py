@@ -78,10 +78,15 @@ info = {
         "domenica"
     ],
     "am": [
-        "am"
+        "am",
+        "mattina"
     ],
     "pm": [
-        "pm"
+        "pm",
+        "pomeriggio"
+    ],
+    "decade": [
+        "decade",
     ],
     "year": [
         "anno",
@@ -133,6 +138,7 @@ info = {
         ],
         "0 second ago": [
             "ora"
+            "adesso"
         ],
         "0 week ago": [
             "questa settimana"
@@ -166,6 +172,9 @@ info = {
         ],
         "2 day ago": [
             "altro ieri"
+        ]
+        "in 2 days": [
+            "dopodomani"
         ]
     },
     "relative-type-regex": {
@@ -254,6 +263,20 @@ info = {
     "skip": [
         "circa",
         "e",
+        "alle",
+        "alla",
+        "all'",
+        "all",
+        "a",
+        "il",
+        "l'", 
+        "l", 
+        "lo",
+        "la",
+        "di",
+        "del",
+        "della",
+        "dell'",
         " ",
         "'",
         ",",
@@ -267,18 +290,87 @@ info = {
         "|",
         "，"
     ],
+    "pertain": [
+        "di",
+        "del",
+        "della",
+        "dell'"
+    ]
     "sentence_splitter_group": 1,
     "ago": [
         "fa"
+        "scorsa"
+        "scorso"
     ],
     "in": [
         "in"
-        "tra"
         "fra"
+        "tra"
+        "da ora"
     ],
     "simplifications": [
         {
-            "(\\d+)\\s+ora": "\\1 ore"
-        }
+            "(\\d+)\\s+ora": "\\1 ore"       
+        },
+        {
+            "un[']ora": "1 ore"
+        },
+        {
+            "(?:12\\s+)?mezzogiorno": "12:00"
+        },
+        {
+            "(?:12\\s+)?una": "13:00"
+        },
+        { 
+            "(?:12\\s+)?mezzanotte": "00:00"
+        },
+        { 
+            "(?:12\\s+)?una di notte": "01:00"
+        },
+        { 
+            "(\\d+)h(\\d+)m?": "\\1:\\2"
+        },
+        { 
+            "(?<=from\\s+)now": "tra"
+        },
+        { 
+            "less than 1 minute ago": "pochi secondi fa"
+        },
+        { 
+            "un": "1"
+        },    
+        { 
+            "due": "2"
+        },
+        { 
+            "tre": "3"
+        },
+        { 
+            "quattro": "4"
+        },  
+        { 
+            "cinque": "5"
+        },   
+        { 
+            "sei": "6"
+        },  
+        { 
+            "sette": "7"
+        },   
+        { 
+            "otto": "8"
+        },  
+        { 
+            "nove": "9"
+        },  
+        { 
+            "dieci": "10"
+        },   
+        { 
+            "undici": "11"
+        },  
+        { 
+            "dodici": "12"
+        },    
     ]
 }
