@@ -273,6 +273,8 @@ info = {
     ],
     "in": [
         "in"
+        "tra"
+        "fra"
     ],
     "simplifications": [
         {
