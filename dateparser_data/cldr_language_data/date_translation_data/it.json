@@ -198,36 +198,78 @@
             "tra {0} g",
             "tra {0} gg",
             "tra {0} giorni",
-            "tra {0} giorno"
+            "tra {0} giorno",
+            "fra {0} g",
+            "fra {0} gg",
+            "fra {0} giorni",
+            "fra {0} giorno",
+            "{0} g a partire da ora",
+            "{0} gg a partire da ora",
+            "{0} giorni a partire da ora",
+            "{0} giorno a partire da ora"
         ],
         "in \\1 hour": [
             "tra {0} h",
             "tra {0} ora",
-            "tra {0} ore"
+            "tra {0} ore",
+            "fra {0} h",
+            "fra {0} ora",
+            "fra {0} ore",
+            "{0} h a partire da ora",
+            "{0} ora a partire da ora",
+            "{0} ore a partire da ora"
         ],
         "in \\1 minute": [
             "tra {0} min",
             "tra {0} minuti",
-            "tra {0} minuto"
+            "tra {0} minuto",
+            "fra {0} min",
+            "fra {0} minuti",
+            "fra {0} minuto",
+            "{0} min a partire da ora",
+            "{0} minuto a partire da ora",
+            "{0} minuti a partire da ora"
         ],
         "in \\1 month": [
             "tra {0} mese",
-            "tra {0} mesi"
+            "tra {0} mesi",
+            "fra {0} mese",
+            "fra {0} mesi",
+            "{0} mese a partire da ora",
+            "{0} mesi a partire da ora",
         ],
         "in \\1 second": [
             "tra {0} s",
             "tra {0} sec",
             "tra {0} secondi",
-            "tra {0} secondo"
+            "tra {0} secondo",
+            "fra {0} s",
+            "fra {0} sec",
+            "fra {0} secondi",
+            "fra {0} secondo",
+            "{0} s a partire da ora",
+            "{0} sec a partire da ora",
+            "{0} secondi a partire da ora",
+            "{0} secondo a partire da ora"
         ],
         "in \\1 week": [
             "tra {0} sett",
             "tra {0} settimana",
-            "tra {0} settimane"
+            "tra {0} settimane",
+            "fra {0} sett",
+            "fra {0} settimana",
+            "fra {0} settimane",
+            "{0} sett a partire da ora",
+            "{0} settimana a partire da ora",
+            "{0} settimane a partire da ora"
         ],
         "in \\1 year": [
             "tra {0} anni",
-            "tra {0} anno"
+            "tra {0} anno",
+            "fra {0} anni",
+            "fra {0} anno",
+            "{0} anni a partire da ora",
+            "{0} anno a partire da ora"
         ]
     },
     "locale_specific": {

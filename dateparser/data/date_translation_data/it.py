@@ -172,7 +172,7 @@ info = {
         ],
         "2 day ago": [
             "altro ieri"
-        ]
+        ],
         "in 2 days": [
             "dopodomani"
         ]
@@ -218,35 +218,77 @@ info = {
             "tra (\\d+) gg",
             "tra (\\d+) giorni",
             "tra (\\d+) giorno"
+            "fra (\\d+) g",
+            "fra (\\d+) gg",
+            "fra (\\d+) giorni",
+            "fra (\\d+) giorno",
+            "(\\d+) g a partire da ora",
+            "(\\d+) gg a partire da ora",
+            "(\\d+) giorni a partire da ora",
+            "(\\d+) giorno a partire da ora"
         ],
         "in \\1 hour": [
             "tra (\\d+) h",
             "tra (\\d+) ora",
-            "tra (\\d+) ore"
+            "tra (\\d+) ore",
+            "fra (\\d+) h",
+            "fra (\\d+) ora",
+            "fra (\\d+) ore",
+            "(\\d+) h a partire da ora",
+            "(\\d+) ora a partire da ora",
+            "(\\d+) ore a partire da ora",
         ],
         "in \\1 minute": [
             "tra (\\d+) min",
-            "tra (\\d+) minuti",
-            "tra (\\d+) minuto"
+            "tra (\\d+) minuto",
+            "tra (\\d+) minuti"
+            "fra (\\d+) min",
+            "fra (\\d+) minuto",
+            "fra (\\d+) minuti",
+            "(\\d+) min a partire da ora",
+            "(\\d+) minuto a partire da ora",
+            "(\\d+) minuti a partire da ora",
         ],
         "in \\1 month": [
             "tra (\\d+) mese",
             "tra (\\d+) mesi"
+            "fra (\\d+) mese",
+            "fra (\\d+) mesi",
+            "(\\d+) mese a partire da ora",
+            "(\\d+) mesi a partire da ora",
         ],
         "in \\1 second": [
             "tra (\\d+) s",
             "tra (\\d+) sec",
-            "tra (\\d+) secondi",
-            "tra (\\d+) secondo"
+            "tra (\\d+) secondo",
+            "tra (\\d+) secondi"
+            "fra (\\d+) s",
+            "fra (\\d+) sec",
+            "fra (\\d+) secondo",
+            "fra (\\d+) secondi",
+            "(\\d+) s a partire da ora",
+            "(\\d+) sec a partire da ora",
+            "(\\d+) secondo a partire da ora",
+            "(\\d+) secondi a partire da ora",
         ],
         "in \\1 week": [
             "tra (\\d+) sett",
             "tra (\\d+) settimana",
             "tra (\\d+) settimane"
+            "fra (\\d+) sett",
+            "fra (\\d+) settimana",
+            "fra (\\d+) settimane",
+            "(\\d+) sett a partire da ora",
+            "(\\d+) settimana a partire da ora",
+            "(\\d+) settimane a partire da ora",
         ],
         "in \\1 year": [
             "tra (\\d+) anni",
             "tra (\\d+) anno"
+            "fra (\\d+) anni",
+            "fra (\\d+) anno",
+            "(\\d+) anni a partire da ora",
+            "(\\d+) anno a partire da ora",
         ]
     },
     "locale_specific": {
@@ -269,8 +311,8 @@ info = {
         "all",
         "a",
         "il",
-        "l'", 
-        "l", 
+        "l'",
+        "l",
         "lo",
         "la",
         "di",
@@ -295,7 +337,7 @@ info = {
         "del",
         "della",
         "dell'"
-    ]
+    ],
     "sentence_splitter_group": 1,
     "ago": [
         "fa"
@@ -310,7 +352,7 @@ info = {
     ],
     "simplifications": [
         {
-            "(\\d+)\\s+ora": "\\1 ore"       
+            "(\\d+)\\s+ora": "\\1 ore"
         },
         {
             "un[']ora": "1 ore"
@@ -321,56 +363,56 @@ info = {
         {
             "(?:12\\s+)?una": "13:00"
         },
-        { 
+        {
             "(?:12\\s+)?mezzanotte": "00:00"
         },
-        { 
+        {
             "(?:12\\s+)?una di notte": "01:00"
         },
-        { 
+        {
             "(\\d+)h(\\d+)m?": "\\1:\\2"
         },
-        { 
+        {
             "(?<=from\\s+)now": "tra"
         },
-        { 
+        {
             "less than 1 minute ago": "pochi secondi fa"
         },
-        { 
+        {
             "un": "1"
-        },    
-        { 
+        },
+        {
             "due": "2"
         },
-        { 
+        {
             "tre": "3"
         },
-        { 
+        {
             "quattro": "4"
-        },  
-        { 
+        },
+        {
             "cinque": "5"
-        },   
-        { 
+        },
+        {
             "sei": "6"
-        },  
-        { 
+        },
+        {
             "sette": "7"
-        },   
-        { 
+        },
+        {
             "otto": "8"
-        },  
-        { 
+        },
+        {
             "nove": "9"
-        },  
-        { 
+        },
+        {
             "dieci": "10"
-        },   
-        { 
+        },
+        {
             "undici": "11"
-        },  
-        { 
+        },
+        {
             "dodici": "12"
-        },    
+        },
     ]
 }

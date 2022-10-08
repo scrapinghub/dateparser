@@ -17,9 +17,9 @@ saturday:
     - sab
 sunday:
     - dom
-    
+
 decade:
-    - decade
+    - decadi
 year:
     - anni
 month:
@@ -44,7 +44,6 @@ ago:
     - scorsa
     - scorso
 in:
-    - in
     - fra
     - tra
     - da ora
@@ -56,8 +55,8 @@ relative-type:
         - dopodomani
 
 simplifications:
-    - (\d+)\s+ora: \1 ore 
-    - un[']ora: 1 ore 
+    - (\d+)\s+ora: \1 ore
+    - un[']ora: 1 ore
     - (?:12\s+)?mezzogiorno: '12:00'
     - (?:12\s+)?una: '13:00'
     - (?:12\s+)?mezzanotte: '00:00'
