@@ -2,14 +2,24 @@ skip: ["в", "во", "и", "около", "примерно"]
 
 sentence_splitter_group : 1
 
+monday:
+    - пнд
+tuesday:
+    - втр
 wednesday:
-    - Среду
+    - срд
+    - среду
+thursday:
+    - чтв
 friday:
-    - Пятницу
+    - птн
+    - пятницу
 saturday:
-    - Субботу
+    - сбт
+    - субботу
 sunday:
-    - Воскресение
+    - вск
+    - воскресение
 
 february:
     - Фев
