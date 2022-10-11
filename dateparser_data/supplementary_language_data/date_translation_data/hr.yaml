@@ -3,31 +3,43 @@ in:
 
 january:
     - siječnju
+    - siječnjem
 february:
     - veljači
+    - veljačom
 march:
     - ožujku
+    - ožujkom
 april:
     - travnju
+    - travnjem
 may:
     - svibnju
+    - svibnjem
 june:
     - lipnju
+    - lipnjem
 july:
     - srpnju
+    - srpnjem
 august:
     - kolovozu
+    - kolovozom
 september:
     - rujnu
+    - rujnom
 october:
     - listopadu
+    - listopadom
 november:
     - studenom
     - studenomu
     - studenome
     - studenog
+    - studenim
 december:
     - prosincu
+    - prosincem
 
 relative-type:
     in 1 year:

@@ -5,61 +5,71 @@ info = {
         "sij",
         "siječanj",
         "siječnja",
-        "siječnju"
+        "siječnju",
+        "siječnjem"
     ],
     "february": [
         "velj",
         "veljača",
         "veljače",
-        "veljači"
+        "veljači",
+        "veljačom"
     ],
     "march": [
         "ožu",
         "ožujak",
         "ožujka",
-        "ožujku"
+        "ožujku",
+        "ožujkom"
     ],
     "april": [
         "tra",
         "travanj",
         "travnja",
-        "travnju"
+        "travnju",
+        "travnjem"
     ],
     "may": [
         "svi",
         "svibanj",
         "svibnja",
-        "svibnju"
+        "svibnju",
+        "svibnjem"
     ],
     "june": [
         "lip",
         "lipanj",
         "lipnja",
-        "lipnju"
+        "lipnju",
+        "lipnjem"
     ],
     "july": [
         "srp",
         "srpanj",
         "srpnja",
-        "srpnju"
+        "srpnju",
+        "srpnjem"
     ],
     "august": [
         "kol",
         "kolovoz",
         "kolovoza",
-        "kolovozu"
+        "kolovozu",
+        "kolovozom"
     ],
     "september": [
         "ruj",
         "rujan",
         "rujna",
-        "rujnu"
+        "rujnu",
+        "rujnom"
     ],
     "october": [
         "lis",
         "listopad",
         "listopada",
-        "listopadu"
+        "listopadu",
+        "listopadom"
     ],
     "november": [
         "stu",
@@ -68,13 +78,15 @@ info = {
         "studenom",
         "studenomu",
         "studenome",
-        "studenog"
+        "studenog",
+        "studenim"
     ],
     "december": [
         "pro",
         "prosinac",
         "prosinca",
-        "prosincu"
+        "prosincu",
+        "prosincem"
     ],
     "monday": [
         "pon",
