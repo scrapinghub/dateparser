@@ -263,7 +263,7 @@ class Locale:
 
         splitters_dict = {1: r'[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
                           # Indonesian, Vietnamese
-                          2: r'(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))+',  # Spanish
+                          2: r'[\.!?;…\r\n]+(\s+[¡¿]*|$)|[¡¿]+',  # Spanish
                           3: r'[|!?;\r\n]+(?:\s|$)+',  # Hindi and Bangla
                           4: r'[。…‥\.!?？！;\r\n]+(?:\s|$)+',  # Japanese and Chinese
                           5: r'[\r\n]+',  # Thai
