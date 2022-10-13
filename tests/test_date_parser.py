@@ -204,7 +204,6 @@ class TestDateParser(BaseTestCase):
         param('20. studenoga 2010. @ 07:28', datetime(2010, 11, 20, 7, 28)),
         param('13. studenog 1989.', datetime(1989, 11, 13, 0, 0)),
         param('29.01.2008. 00:00', datetime(2008, 1, 29, 0, 0)),
-        param('02/10/2016 u 17:20', datetime(2016, 10, 2, 17, 20)),
         param('27. 05. 2022. u 14:34', datetime(2022, 5, 27, 14, 34)),
         param('28. u studenom 2017.', datetime(2017, 11, 28, 0, 0)),
         param('13. veljače 1999. u podne', datetime(1999, 2, 13, 12, 0)),
@@ -213,6 +212,22 @@ class TestDateParser(BaseTestCase):
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,
                                     'RELATIVE_BASE': datetime(2012, 11, 13)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('hr', '02/10/2016 u 17:20', datetime(2016, 10, 2, 17, 20)),
+    ])
+    def test_dates_parsing_with_language(self, language, date_string, expected):
+        self.given_parser(
+            languages=[language],
+            settings={
+                'NORMALIZE': False,
+                'RELATIVE_BASE': datetime(2012, 11, 13),
+            },
+        )
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
