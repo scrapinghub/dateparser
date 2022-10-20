@@ -11,7 +11,7 @@ Improvements:
 - Added support for negative timestamp (#1060)
 - Fixed PytzUsageWarning for Python versions >= 3.6 (#1062)
 - Added support for dates with dots and spaces (#1028)
-- Improved support for Ukrainian, Croatian and Russian (#1072, #1074, #1079, #1082, #1073, #1083 
+- Improved support for Ukrainian, Croatian and Russian (#1072, #1074, #1079, #1082, #1073, #1083)
 - Added support for parsing Unix timestamps consistently regardless of timezones (#954)
 - Improved tests (#1086)
 
