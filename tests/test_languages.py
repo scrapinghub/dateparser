@@ -1694,6 +1694,13 @@ class TestBundledLanguages(BaseTestCase):
         # teo
         param('teo', "moi", "in 1 day"),
         param('teo', "lolo", "0 day ago"),
+        # th
+        param('th', "2 เดือน ที่ผ่านมา", "2 month ago"),
+        param('th', "2 เดือนที่ผ่านมา", "2 month ago"),
+        param('th', "3สัปดาห์ที่ผ่านมา", "3 week ago"),
+        param('th', "20 ปี ที่ผ่านมา", "20 year ago"),
+        param('th', "6เดือน ที่ผ่านมา", "6 month ago"),
+        param('th', "3 นาที ที่ผ่านมา", "3 minute ago"),
         # to
         param('to', "miniti 'e 5 kuo'osi", "5 minute ago"),
         param('to', "'i he ta'u 'e 6", "in 6 year"),
@@ -1752,6 +1759,7 @@ class TestBundledLanguages(BaseTestCase):
         param('yue', "13 個星期後", "in 13 week"),
         param('yue', "2 小時前", "2 hour ago"),
         param('yue', "上個月", "1 month ago"),
+        param('yue', "2分鐘前", "2 minute ago"),
         # zgh
         param('zgh', "ⴰⵙⵙⴰ", "0 day ago"),
         param('zgh', "ⵉⴹⵍⵍⵉ", "1 day ago"),
