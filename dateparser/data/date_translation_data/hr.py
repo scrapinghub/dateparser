@@ -266,41 +266,41 @@ info = {
             "prije (\\d+[.,]?\\d*) dana"
         ],
         "\\1 hour ago": [
-            "prije (\d+[.,]?\d*) h",
-            "prije (\d+[.,]?\d*) sat",
-            "prije (\d+[.,]?\d*) sati",
-            "prije (\d+[.,]?\d*) sata"
+            "prije (\\d+[.,]?\\d*) h",
+            "prije (\\d+[.,]?\\d*) sat",
+            "prije (\\d+[.,]?\\d*) sati",
+            "prije (\\d+) sata"
         ],
         "\\1 minute ago": [
-            "prije (\d+[.,]?\d*) min",
-            "prije (\d+[.,]?\d*) minuta",
-            "prije (\d+[.,]?\d*) minutu",
-            "prije (\d+[.,]?\d*) minute"
+            "prije (\\d+[.,]?\\d*) min",
+            "prije (\\d+[.,]?\\d*) minuta",
+            "prije (\\d+[.,]?\\d*) minutu",
+            "prije (\\d+) minute"
         ],
         "\\1 month ago": [
-            "prije (\d+[.,]?\d*) mj",
-            "prije (\d+[.,]?\d*) mjesec",
-            "prije (\d+[.,]?\d*) mjeseci",
-            "prije (\d+[.,]?\d*) mjeseca"
+            "prije (\\d+[.,]?\\d*) mj",
+            "prije (\\d+[.,]?\\d*) mjesec",
+            "prije (\\d+[.,]?\\d*) mjeseci",
+            "prije (\\d+) mjeseca"
         ],
         "\\1 second ago": [
-            "prije (\d+[.,]?\d*) s",
-            "prije (\d+[.,]?\d*) sekundi",
-            "prije (\d+[.,]?\d*) sekundu",
-            "prije (\d+[.,]?\d*) sekunde",
-            "prije (\d+[.,]?\d*) sekundu"
+            "prije (\\d+[.,]?\\d*) s",
+            "prije (\\d+[.,]?\\d*) sekundi",
+            "prije (\\d+[.,]?\\d*) sekundu",
+            "prije (\\d+) sekunde",
+            "prije (\\d+) sekundu"
         ],
         "\\1 week ago": [
-            "prije (\d+[.,]?\d*) tj",
-            "prije (\d+[.,]?\d*) tjedan",
-            "prije (\d+[.,]?\d*) tjedana",
-            "prije (\d+[.,]?\d*) tjedna"
+            "prije (\\d+[.,]?\\d*) tj",
+            "prije (\\d+[.,]?\\d*) tjedan",
+            "prije (\\d+[.,]?\\d*) tjedana",
+            "prije (\\d+) tjedna"
         ],
         "\\1 year ago": [
-            "prije (\d+[.,]?\d*) g",
-            "prije (\d+[.,]?\d*) godina",
-            "prije (\d+[.,]?\d*) godinu",
-            "prije (\d+[.,]?\d*) godine"
+            "prije (\\d+[.,]?\\d*) g",
+            "prije (\\d+[.,]?\\d*) godina",
+            "prije (\\d+[.,]?\\d*) godinu",
+            "prije (\\d+) godine"
         ],
         "in \\1 day": [
             "za (\\d+[.,]?\\d*) d",
@@ -308,41 +308,41 @@ info = {
             "za (\\d+[.,]?\\d*) dana"
         ],
         "in \\1 hour": [
-            "za (\d+[.,]?\d*) h",
-            "za (\d+[.,]?\d*) sat",
-            "za (\d+[.,]?\d*) sati",
-            "za (\d+[.,]?\d*) sata"
+            "za (\\d+[.,]?\\d*) h",
+            "za (\\d+[.,]?\\d*) sat",
+            "za (\\d+[.,]?\\d*) sati",
+            "za (\\d+) sata"
         ],
         "in \\1 minute": [
-            "za (\d+[.,]?\d*) min",
-            "za (\d+[.,]?\d*) minuta",
-            "za (\d+[.,]?\d*) minutu",
-            "za (\d+[.,]?\d*) minute"
+            "za (\\d+[.,]?\\d*) min",
+            "za (\\d+[.,]?\\d*) minuta",
+            "za (\\d+[.,]?\\d*) minutu",
+            "za (\\d+) minute"
         ],
         "in \\1 month": [
-            "za (\d+[.,]?\d*) mj",
-            "za (\d+[.,]?\d*) mjesec",
-            "za (\d+[.,]?\d*) mjeseci",
-            "za (\d+[.,]?\d*) mjeseca"
+            "za (\\d+[.,]?\\d*) mj",
+            "za (\\d+[.,]?\\d*) mjesec",
+            "za (\\d+[.,]?\\d*) mjeseci",
+            "za (\\d+) mjeseca"
         ],
         "in \\1 second": [
-            "za (\d+[.,]?\d*) s",
-            "za (\d+[.,]?\d*) sekundi",
-            "za (\d+[.,]?\d*) sekundu",
-            "za (\d+[.,]?\d*) sekunde",
-            "za (\d+[.,]?\d*) sekundu"
+            "za (\\d+[.,]?\\d*) s",
+            "za (\\d+[.,]?\\d*) sekundi",
+            "za (\\d+[.,]?\\d*) sekundu",
+            "za (\\d+) sekunde",
+            "za (\\d+) sekundu"
         ],
         "in \\1 week": [
-            "za (\d+[.,]?\d*) tj",
-            "za (\d+[.,]?\d*) tjedan",
-            "za (\d+[.,]?\d*) tjedana",
-            "za (\d+[.,]?\d*) tjedna"
+            "za (\\d+[.,]?\\d*) tj",
+            "za (\\d+[.,]?\\d*) tjedan",
+            "za (\\d+[.,]?\\d*) tjedana",
+            "za (\\d+) tjedna"
         ],
         "in \\1 year": [
-            "za (\d+[.,]?\d*) g",
-            "za (\d+[.,]?\d*) godina",
-            "za (\d+[.,]?\d*) godinu",
-            "za (\d+[.,]?\d*) godine"
+            "za (\\d+[.,]?\\d*) g",
+            "za (\\d+[.,]?\\d*) godina",
+            "za (\\d+[.,]?\\d*) godinu",
+            "za (\\d+) godine"
         ]
     },
     "locale_specific": {
