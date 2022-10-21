@@ -4,7 +4,7 @@ from dateparser.search.search import DateSearchWithDetection
 _search_with_detection = DateSearchWithDetection()
 
 
-def search_dates(text, languages=None, settings=None, add_detected_language=False):
+def search_dates(text, languages=None, settings=None, add_detected_language=False, detect_languages_function=None):
     """Find all substrings of the given string which represent date and/or time and parse them.
 
         :param text:
@@ -17,17 +17,23 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
         :type languages: list
 
         :param settings:
-               Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
+            Configure customized behavior using settings defined in :mod:`dateparser.conf.Settings`.
         :type settings: dict
 
         :param add_detected_language:
-               Indicates if we want the detected language returned in the tuple.
+            Indicates if we want the detected language returned in the tuple.
         :type add_detected_language: bool
 
+        :param detect_languages_function:
+            A function for language detection that takes as input a `text` and a `confidence_threshold`,
+            and returns a list of detected language codes.
+            Note: detect_languages_function is only uses if `languages` are not provided.
+        :type detect_languages_function: function
+
         :return: Returns list of tuples containing:
-                 substrings representing date and/or time, corresponding :mod:`datetime.datetime`
-                 object and detected language if *add_detected_language* is True.
-                 Returns None if no dates that can be parsed are found.
+            substrings representing date and/or time, corresponding :mod:`datetime.datetime`
+            object and detected language if *add_detected_language* is True.
+            Returns None if no dates that can be parsed are found.
         :rtype: list
         :raises: ValueError - Unknown Language
 
@@ -47,10 +53,11 @@ def search_dates(text, languages=None, settings=None, add_detected_language=Fals
 
         """
     result = _search_with_detection.search_dates(
-        text=text, languages=languages, settings=settings
+        text=text, languages=languages, settings=settings, detect_languages_function=detect_languages_function
     )
-    language, dates = result.get('Language'), result.get('Dates')
+    dates = result.get('Dates')
     if dates:
         if add_detected_language:
+            language = result.get('Language')
             dates = [date + (language, ) for date in dates]
         return dates

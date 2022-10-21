@@ -141,6 +141,26 @@ Language Detection
     datetime.datetime(2015, 12, 4, 0, 0)
 
 
+Default Languages
++++++++++++++++++
+
+``DEFAULT_LANGUAGES``: It is a ``list`` of language codes in ISO 639 that will be used as default
+languages for parsing when language detection fails. eg. ["en", "fr"]:
+
+    >>> from dateparser import parse
+    >>> parse('3 de marzo de 2020', settings={'DEFAULT_LANGUAGES': ["es"]})
+
+.. note:: When using this setting, these languages will be tried after trying with the detected languages with no success. It is especially useful when using the ``detect_languages_function`.
+
+Optional language detection
++++++++++++++++++++++++++++
+
+``LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD``: defaults to ``0.5``. It is a ``float`` of minimum required confidence for the custom language detection:
+
+    >>> from dateparser import parse
+    >>> parse('3 de marzo de 2020', settings={'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 0.5}, detect_languages_function=detect_languages)
+
+
 Other settings
 ++++++++++++++
 
@@ -160,6 +180,9 @@ The following parsers exist:
 -   ``'timestamp'``: If the input string starts with 10 digits, optionally
     followed by additional digits or a period (``.``), those first 10 digits
     are interpreted as `Unix time <https://en.wikipedia.org/wiki/Unix_time>`_.
+
+-    ``'negative-timestamp'``: ``'timestamp'`` for negative timestamps. For
+    example, parses ``-186454800000`` as ``1964-02-03T23:00:00``.
 
 -   ``'relative-time'``: Parses dates and times expressed in relation to the
     current date and time (e.g. “1 day ago”, “in 2 weeks”).

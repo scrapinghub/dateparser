@@ -22,8 +22,8 @@
         <a href="https://codecov.io/gh/scrapinghub/dateparser">
             <img src="https://codecov.io/gh/scrapinghub/dateparser/branch/master/graph/badge.svg" alt="Code Coverage">
         </a>
-        <a href="https://travis-ci.com/scrapinghub/dateparser">
-            <img src="https://img.shields.io/travis/scrapinghub/dateparser/master.svg" alt="Travis - Build">
+        <a href="https://github.com/scrapinghub/dateparser/actions">
+            <img src="https://github.com/scrapinghub/dateparser/workflows/Build/badge.svg" alt="Github - Build">
         </a>
         <a href="https://dateparser.readthedocs.org/en/latest/?badge=latest">
             <img src="https://readthedocs.org/projects/dateparser/badge/?version=latest" alt="Readthedocs - Docs">
@@ -58,6 +58,14 @@ Key Features
 -  `Search
    dates <https://dateparser.readthedocs.io/en/latest/introduction.html#search-for-dates-in-longer-chunks-of-text>`__
    in longer texts.
+
+Online demo
+-----------
+
+Do you want to try it out without installing any dependency? Now you can test
+it quickly by visiting `this online demo <https://dateparser-demo.netlify.app/>`__!
+
+
 
 How To Use
 ----------
@@ -125,7 +133,7 @@ You can control multiple behaviors by using the ``settings`` parameter:
     datetime.datetime(1992, 1, 2, 0, 0)
 
 To see more examples on how to use the ``settings``, check the `settings
-section <https://dateparser.readthedocs.io/en/latest/usage.html#settings>`__
+section <https://dateparser.readthedocs.io/en/latest/settings.html>`__
 in the docs.
 
 False positives

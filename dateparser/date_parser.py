@@ -1,3 +1,5 @@
+import sys
+
 from tzlocal import get_localzone
 
 from .timezone_parser import pop_tz_offset_from_string
@@ -31,7 +33,7 @@ class DateParser:
         else:
             if 'local' in _settings_tz:
                 stz = get_localzone()
-                if hasattr(stz, 'localize'):
+                if hasattr(stz, 'localize') and sys.version_info < (3, 6):
                     date_obj = stz.localize(date_obj)
                 else:
                     date_obj = date_obj.replace(tzinfo=stz)

@@ -16,8 +16,6 @@ PATTERN = re.compile(r'(\d+[.,]?\d*)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
 
 class FreshnessDateDataParser:
     """ Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago" """
-    def __init__(self):
-        self.now = None
 
     def _are_all_words_units(self, date_string):
         skip = [_UNITS,
@@ -59,42 +57,42 @@ class FreshnessDateDataParser:
             )
 
         if settings.RELATIVE_BASE:
-            self.now = settings.RELATIVE_BASE
+            now = settings.RELATIVE_BASE
 
             if 'local' not in _settings_tz:
-                self.now = localize_timezone(self.now, settings.TIMEZONE)
+                now = localize_timezone(now, settings.TIMEZONE)
 
             if ptz:
-                if self.now.tzinfo:
-                    self.now = self.now.astimezone(ptz)
+                if now.tzinfo:
+                    now = now.astimezone(ptz)
                 else:
                     if hasattr(ptz, 'localize'):
-                        self.now = ptz.localize(self.now)
+                        now = ptz.localize(now)
                     else:
-                        self.now = self.now.replace(tzinfo=ptz)
+                        now = now.replace(tzinfo=ptz)
 
-            if not self.now.tzinfo:
+            if not now.tzinfo:
                 if hasattr(self.get_local_tz(), 'localize'):
-                    self.now = self.get_local_tz().localize(self.now)
+                    now = self.get_local_tz().localize(now)
                 else:
-                    self.now = self.now.replace(tzinfo=self.get_local_tz())
+                    now = now.replace(tzinfo=self.get_local_tz())
 
         elif ptz:
-            _now = datetime.now(ptz)
+            localized_now = datetime.now(ptz)
 
             if 'local' in _settings_tz:
-                self.now = _now
+                now = localized_now
             else:
-                self.now = apply_timezone(_now, settings.TIMEZONE)
+                now = apply_timezone(localized_now, settings.TIMEZONE)
 
         else:
             if 'local' not in _settings_tz:
                 utc_dt = datetime.utcnow()
-                self.now = apply_timezone(utc_dt, settings.TIMEZONE)
+                now = apply_timezone(utc_dt, settings.TIMEZONE)
             else:
-                self.now = datetime.now(self.get_local_tz())
+                now = datetime.now(self.get_local_tz())
 
-        date, period = self._parse_date(date_string, settings.PREFER_DATES_FROM)
+        date, period = self._parse_date(date_string, now, settings.PREFER_DATES_FROM)
 
         if date:
             old_date = date
@@ -112,10 +110,9 @@ class FreshnessDateDataParser:
             ):
                 date = date.replace(tzinfo=None)
 
-        self.now = None
         return date, period
 
-    def _parse_date(self, date_string, prefer_dates_from):
+    def _parse_date(self, date_string, now, prefer_dates_from):
         if not self._are_all_words_units(date_string):
             return None, None
 
@@ -135,9 +132,9 @@ class FreshnessDateDataParser:
             or re.search(r'\bfuture\b', prefer_dates_from)
             and not re.search(r'\bago\b', date_string)
         ):
-            date = self.now + td
+            date = now + td
         else:
-            date = self.now - td
+            date = now - td
         return date, period
 
     def get_kwargs(self, date_string):
