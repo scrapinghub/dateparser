@@ -236,7 +236,7 @@ info = {
             "fra (\\d+) ore",
             "(\\d+) h a partire da ora",
             "(\\d+) ora a partire da ora",
-            "(\\d+) ore a partire da ora",
+            "(\\d+) ore a partire da ora"
         ],
         "in \\1 minute": [
             "tra (\\d+) min",
@@ -247,7 +247,7 @@ info = {
             "fra (\\d+) minuti",
             "(\\d+) min a partire da ora",
             "(\\d+) minuto a partire da ora",
-            "(\\d+) minuti a partire da ora",
+            "(\\d+) minuti a partire da ora"
         ],
         "in \\1 month": [
             "tra (\\d+) mese",
@@ -255,7 +255,7 @@ info = {
             "fra (\\d+) mese",
             "fra (\\d+) mesi",
             "(\\d+) mese a partire da ora",
-            "(\\d+) mesi a partire da ora",
+            "(\\d+) mesi a partire da ora"
         ],
         "in \\1 second": [
             "tra (\\d+) s",
@@ -269,7 +269,7 @@ info = {
             "(\\d+) s a partire da ora",
             "(\\d+) sec a partire da ora",
             "(\\d+) secondo a partire da ora",
-            "(\\d+) secondi a partire da ora",
+            "(\\d+) secondi a partire da ora"
         ],
         "in \\1 week": [
             "tra (\\d+) sett",
@@ -280,7 +280,7 @@ info = {
             "fra (\\d+) settimane",
             "(\\d+) sett a partire da ora",
             "(\\d+) settimana a partire da ora",
-            "(\\d+) settimane a partire da ora",
+            "(\\d+) settimane a partire da ora"
         ],
         "in \\1 year": [
             "tra (\\d+) anni",
@@ -288,7 +288,7 @@ info = {
             "fra (\\d+) anni",
             "fra (\\d+) anno",
             "(\\d+) anni a partire da ora",
-            "(\\d+) anno a partire da ora",
+            "(\\d+) anno a partire da ora"
         ]
     },
     "locale_specific": {
