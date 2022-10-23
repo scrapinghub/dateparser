@@ -113,32 +113,32 @@ relative-type:
 
 relative-type-regex:
     \1 year ago:
-        - prije (\d+) godine
+        - prije (\d+[.,]?\d*) godine
     \1 month ago:
-        - prije (\d+) mjeseca
+        - prije (\d+[.,]?\d*) mjeseca
     \1 week ago:
-        - prije (\d+) tjedna
+        - prije (\d+[.,]?\d*) tjedna
     \1 hour ago:
-        - prije (\d+) sata
+        - prije (\d+[.,]?\d*) sata
     \1 minute ago:
-        - prije (\d+) minute
+        - prije (\d+[.,]?\d*) minute
     \1 second ago:
-        - prije (\d+) sekunde
-        - prije (\d+) sekundu
+        - prije (\d+[.,]?\d*) sekunde
+        - prije (\d+[.,]?\d*) sekundu
 
     in \1 year:
-        - za (\d+) godine
+        - za (\d+[.,]?\d*) godine
     in \1 month:
-        - za (\d+) mjeseca
+        - za (\d+[.,]?\d*) mjeseca
     in \1 week:
-        - za (\d+) tjedna
+        - za (\d+[.,]?\d*) tjedna
     in \1 hour:
-        - za (\d+) sata
+        - za (\d+[.,]?\d*) sata
     in \1 minute:
-        - za (\d+) minute
+        - za (\d+[.,]?\d*) minute
     in \1 second:
-        - za (\d+) sekunde
-        - za (\d+) sekundu
+        - za (\d+[.,]?\d*) sekunde
+        - za (\d+[.,]?\d*) sekundu
 
 simplifications:
     - podne: '12:00'

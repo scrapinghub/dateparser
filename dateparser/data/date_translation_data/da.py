@@ -287,7 +287,7 @@ info = {
             "midnat": "00:00"
         },
         {
-            "(\\d+)h(\\d+)m?": "\\1:\\2"
+            "(\\d+[.,]?\\d*)h(\\d+[.,]?\\d*)m?": "\\1:\\2"
         },
         {
             "mindre end 1 minut siden": "45 seconds"
