@@ -340,14 +340,14 @@ info = {
     ],
     "sentence_splitter_group": 1,
     "ago": [
-        "fa"
-        "scorsa"
+        "fa",
+        "scorsa",
         "scorso"
     ],
     "in": [
-        "in"
-        "fra"
-        "tra"
+        "in",
+        "fra",
+        "tra",
         "da ora"
     ],
     "simplifications": [
