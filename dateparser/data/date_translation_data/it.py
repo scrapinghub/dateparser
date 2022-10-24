@@ -3,125 +3,125 @@ info = {
     "date_order": "DMY",
     "january": [
         "gen",
-        "gennaio"
+        "gennaio",
     ],
     "february": [
         "feb",
-        "febbraio"
+        "febbraio",
     ],
     "march": [
         "mar",
-        "marzo"
+        "marzo",
     ],
     "april": [
         "apr",
-        "aprile"
+        "aprile",
     ],
     "may": [
         "mag",
-        "maggio"
+        "maggio",
     ],
     "june": [
         "giu",
-        "giugno"
+        "giugno",
     ],
     "july": [
         "lug",
-        "luglio"
+        "luglio",
     ],
     "august": [
         "ago",
-        "agosto"
+        "agosto",
     ],
     "september": [
         "set",
-        "settembre"
+        "settembre",
     ],
     "october": [
         "ott",
-        "ottobre"
+        "ottobre",
     ],
     "november": [
         "nov",
-        "novembre"
+        "novembre",
     ],
     "december": [
         "dic",
-        "dicembre"
+        "dicembre",
     ],
     "monday": [
         "lun",
-        "lunedì"
+        "lunedì",
     ],
     "tuesday": [
         "mar",
-        "martedì"
+        "martedì",
     ],
     "wednesday": [
         "mer",
-        "mercoledì"
+        "mercoledì",
     ],
     "thursday": [
         "gio",
-        "giovedì"
+        "giovedì",
     ],
     "friday": [
         "ven",
-        "venerdì"
+        "venerdì",
     ],
     "saturday": [
         "sab",
-        "sabato"
+        "sabato",
     ],
     "sunday": [
         "dom",
-        "domenica"
+        "domenica",
     ],
     "am": [
         "am",
-        "mattina"
+        "mattina",
     ],
     "pm": [
         "pm",
-        "pomeriggio"
+        "pomeriggio",
     ],
     "decade": [
         "decade",
     ],
     "year": [
         "anno",
-        "anni"
+        "anni",
     ],
     "month": [
         "mese",
-        "mesi"
+        "mesi",
     ],
     "week": [
         "sett",
         "settimana",
-        "settimane"
+        "settimane",
     ],
     "day": [
         "g",
         "giorno",
-        "giorni"
+        "giorni",
     ],
     "hour": [
         "h",
         "ora",
-        "ore"
+        "ore",
     ],
     "minute": [
         "m",
         "min",
         "minuto",
-        "minuti"
+        "minuti",
     ],
     "second": [
         "s",
         "sec",
         "secondo",
-        "secondi"
+        "secondi",
     ],
     "relative-type": {
         "0 day ago": [
@@ -182,36 +182,36 @@ info = {
             "(\\d+) g fa",
             "(\\d+) gg fa",
             "(\\d+) giorni fa",
-            "(\\d+) giorno fa"
+            "(\\d+) giorno fa",
         ],
         "\\1 hour ago": [
             "(\\d+) h fa",
             "(\\d+) ora fa",
-            "(\\d+) ore fa"
+            "(\\d+) ore fa",
         ],
         "\\1 minute ago": [
             "(\\d+) min fa",
             "(\\d+) minuti fa",
-            "(\\d+) minuto fa"
+            "(\\d+) minuto fa",
         ],
         "\\1 month ago": [
             "(\\d+) mese fa",
-            "(\\d+) mesi fa"
+            "(\\d+) mesi fa",
         ],
         "\\1 second ago": [
             "(\\d+) s fa",
             "(\\d+) sec fa",
             "(\\d+) secondi fa",
-            "(\\d+) secondo fa"
+            "(\\d+) secondo fa",
         ],
         "\\1 week ago": [
             "(\\d+) sett fa",
             "(\\d+) settimana fa",
-            "(\\d+) settimane fa"
+            "(\\d+) settimane fa",
         ],
         "\\1 year ago": [
             "(\\d+) anni fa",
-            "(\\d+) anno fa"
+            "(\\d+) anno fa",
         ],
         "in \\1 day": [
             "tra (\\d+) g",
@@ -225,7 +225,7 @@ info = {
             "(\\d+) g a partire da ora",
             "(\\d+) gg a partire da ora",
             "(\\d+) giorni a partire da ora",
-            "(\\d+) giorno a partire da ora"
+            "(\\d+) giorno a partire da ora",
         ],
         "in \\1 hour": [
             "tra (\\d+) h",
@@ -330,25 +330,25 @@ info = {
         "[",
         "]",
         "|",
-        "，"
+        "，",
     ],
     "pertain": [
         "di",
         "del",
         "della",
-        "dell'"
+        "dell'",
     ],
     "sentence_splitter_group": 1,
     "ago": [
         "fa",
         "scorsa",
-        "scorso"
+        "scorso",
     ],
     "in": [
         "in",
         "fra",
         "tra",
-        "da ora"
+        "da ora",
     ],
     "simplifications": [
         {
