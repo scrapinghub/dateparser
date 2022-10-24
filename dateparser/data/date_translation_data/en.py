@@ -188,6 +188,21 @@ info = {
         ],
         "in 1 decade": [
             "next decade"
+        ],
+        "1 century ago": [
+            "last century",
+            "this century"
+        ],
+        "in 1 century": [
+            "next century"
+        ],
+        "1 fortnight ago": [
+            "last fortnight",
+            "this fortnight"
+        ],
+        "in 1 fortnight": [
+            "next fortnight",
+            "coming fortnight"
         ]
     },
     "relative-type-regex": {
@@ -264,6 +279,19 @@ info = {
         ],
         "\\1 decade ago": [
             "(\\d+) decades? ago"
+        ],
+        "in \\1 century": [
+            "in (\\d+) centurys?",
+            "in (\\d+) centuries?"
+        ],
+        "\\1 century ago": [
+            "(\\d+) centurys? ago"
+        ],
+        "in \\1 fortnight": [
+            "in (\\d+) fortnight?"
+        ],
+        "\\1 fortnight ago": [
+            "(\\d+) fortnight? ago"
         ]
     },
     "locale_specific": {
@@ -770,6 +798,15 @@ info = {
     "decade": [
         "decade",
         "decades"
+    ],
+    "century": [
+        "century",
+        "centurys",
+        "centuries"
+    ],
+    "fortnight": [
+        "fortnight",
+        "fortnights"
     ],
     "ago": [
         "ago"

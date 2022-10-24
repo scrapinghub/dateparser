@@ -57,6 +57,20 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param('1 fortnight', ago={'days': 14}, period='day'),
+        param('last fortnight', ago={'days': 14}, period='day'),
+        param('14 fortnight', ago={'days': 196}, period='day'),
+        param('a fortnight ago', ago={'days': 14}, period='day'),
+        param("1 century", ago={'years': 100}, period='year'),
+        param("1 century 2 years", ago={'years': 102}, period='year'),
+        param("1 century 12 months", ago={'years': 100, 'months': 12}, period='month'),
+        param("1 century and 11 months", ago={'years': 100, 'months': 11}, period='month'),
+        param("last century", ago={'years': 100}, period='year'),
+        param("a century ago", ago={'years': 100}, period='year'),
+        param("6 centurys", ago={'years': 600}, period='year'),
+        param("10 centuries", ago={'years': 1000}, period='year'),
+        param("2 century ago", ago={'years': 200}, period='year'),
+        param("two centuries ago", ago={'years': 200}, period='year'),
         param("1 decade", ago={'years': 10}, period='year'),
         param("1 decade 2 years", ago={'years': 12}, period='year'),
         param("1 decade 12 months", ago={'years': 10, 'months': 12}, period='month'),
@@ -353,6 +367,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 वर्ष, 8 महीने, 2 सप्ताह', ago={'years': 1, 'months': 8, 'weeks': 2}, period='week'),
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
+        param('1 दशक', ago={'years': 10}, period='year'),
+        param('1 दशक पहले', ago={'years': 10}, period='year'),
 
         # af
         param("2 uur gelede", ago={'hours': 2}, period='day'),
@@ -577,6 +593,18 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param('1 fortnight', ago={'days': 14}, period='day'),
+        param('last fortnight', ago={'days': 14}, period='day'),
+        param('14 fortnight', ago={'days': 196}, period='day'),
+        param('a fortnight ago', ago={'days': 14}, period='day'),
+        param("1 century", ago={'years': 100}, period='year'),
+        param("1 century 2 years", ago={'years': 102}, period='year'),
+        param("1 century 12 months", ago={'years': 100, 'months': 12}, period='month'),
+        param("1 century and 11 months", ago={'years': 100, 'months': 11}, period='month'),
+        param("last century", ago={'years': 100}, period='year'),
+        param("a century ago", ago={'years': 100}, period='year'),
+        param("6 centurys", ago={'years': 600}, period='year'),
+        param("10 centuries", ago={'years': 1000}, period='year'),
         param("1 decade", ago={'years': 10}, period='year'),
         param("1 decade 2 years", ago={'years': 12}, period='year'),
         param("1 decade 12 months", ago={'years': 10, 'months': 12}, period='month'),
@@ -842,6 +870,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 वर्ष, 8 महीने, 2 सप्ताह', ago={'years': 1, 'months': 8, 'weeks': 2}, period='week'),
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
+        param('1 दशक पहले', ago={'years': 10}, period='year'),
+        param('1 दशक पूर्व', ago={'years': 10}, period='year'),
+        param('दो दशक पहले', ago={'years': 20}, period='year'),
+        param('10 दशकों पहले', ago={'years': 100}, period='year'),
 
         # af
         param("2 uur gelede", ago={'hours': 2}, period='day'),
@@ -1068,6 +1100,18 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand([
         # English dates
+        param('in a fortnight', in_future={'days': 14}, period='day'),
+        param('next fortnight', in_future={'days': 14}, period='day'),
+        param('coming fortnight', in_future={'days': 14}, period='day'),
+        param('in coming fortnight', in_future={'days': 14}, period='day'),
+        param('in 1 century 2 months', in_future={'years': 100, 'months': 2}, period='month'),
+        param('in 10 century', in_future={'years': 1000}, period='year'),
+        param('in 1 century 12 years', in_future={'years': 112}, period='year'),
+        param('next century', in_future={'years': 100}, period='year'),
+        param('in a century', in_future={'years': 100}, period='year'),
+        param('in 3 centurys', in_future={'years': 300}, period='year'),
+        param('in 3 centuries', in_future={'years': 300}, period='year'),
+        param('in 10 centuries', in_future={'years': 1000}, period='year'),
         param('in 1 decade 2 months', in_future={'years': 10, 'months': 2}, period='month'),
         param('in 100 decades', in_future={'years': 1000}, period='year'),
         param('in 1 decade 12 years', in_future={'years': 22}, period='year'),
@@ -1162,6 +1206,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('17 सेकंड बाद', in_future={'seconds': 17}, period='day'),
         param('1 वर्ष, 5 महीने, 1 सप्ताह में',
               in_future={'years': 1, 'months': 5, 'weeks': 1}, period='week'),
+        param('1 दशक में', in_future={'years': 10}, period='year'),
+        param('पांच दशक बाद', in_future={'years': 50}, period='year'),
+        param('दश दशक पश्चात', in_future={'years': 100}, period='year'),
+        param('9 दशकों मे', in_future={'years': 90}, period='year'),
+
 
         # af
         param("oor 10 jaar", in_future={'years': 10}, period='year'),
