@@ -37,6 +37,7 @@ RE_TRIM_COLONS = re.compile(r'(\S.*?):*$')
 
 RE_SANITIZE_SKIP = re.compile(r'\t|\n|\r|\u00bb|,\s\u0432\b|\u200e|\xb7|\u200f|\u064e|\u064f', flags=re.M)
 RE_SANITIZE_RUSSIAN = re.compile(r'([\W\d])\u0433\.', flags=re.I | re.U)
+RE_SANITIZE_CROATIAN = re.compile(r'(\d+)\.\s?(\d+)\.\s?(\d+)\.( u)?', flags=re.U)
 RE_SANITIZE_PERIOD = re.compile(r'(?<=[^0-9\s])\.', flags=re.U)
 RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
 RE_SANITIZE_APOSTROPHE = re.compile('|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
@@ -106,6 +107,7 @@ def get_intersecting_periods(low, high, period='day'):
 def sanitize_date(date_string):
     date_string = RE_SANITIZE_SKIP.sub(' ', date_string)
     date_string = RE_SANITIZE_RUSSIAN.sub(r'\1 ', date_string)  # remove 'г.' (Russian for year) but not in words
+    date_string = RE_SANITIZE_CROATIAN.sub(r'\1.\2.\3 ', date_string)  # extra '.' and 'u' interferes with parsing relative fractional dates
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub('', date_string)
     date_string = RE_SANITIZE_ON.sub(r'\1', date_string)
