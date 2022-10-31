@@ -1,11 +1,13 @@
 from io import StringIO
 
 import logging
+
+import pytest
 from parameterized import parameterized, param
 
 from dateparser.languages import default_loader, Locale
 from dateparser.languages.validation import LanguageValidator
-from dateparser.conf import apply_settings
+from dateparser.conf import apply_settings, settings
 from dateparser.search.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.utils import normalize_unicode
 from dateparser import parse
@@ -15,6 +17,22 @@ from dateparser.search import search_dates
 from datetime import datetime
 
 from tests import BaseTestCase
+
+
+class TestLocaleTranslation:
+
+    @pytest.mark.parametrize("date_string,expected,locale,keep_formatting", [
+        ('December 04, 1999, 11:04:59 PM', 'december 04, 1999, 11:04:59 pm', 'en', True),
+        ('December 04, 1999, 11:04:59 PM', 'december 04 1999 11:04:59 pm', 'en', False),
+        ('23 März, 18:37', '23 march, 18:37', 'de', True),
+        ('23 März 18:37', '23 march 18:37', 'de', False),
+    ])
+    def test_keep_formatting(self, date_string, expected, locale, keep_formatting):
+        result = default_loader.get_locale(locale).translate(
+            date_string=date_string, keep_formatting=keep_formatting, settings=settings
+        )
+        print(result)
+        assert expected == result
 
 
 class TestBundledLanguages(BaseTestCase):
