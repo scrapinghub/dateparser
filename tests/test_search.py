@@ -302,7 +302,9 @@ class TestTranslateSearch(BaseTestCase):
               [('25th march 2015', datetime.datetime(2015, 3, 25)),
                ('today', datetime.datetime(2000, 1, 1))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
-
+        param('en', 'The employee has not submitted their documents till date',
+              [('till date', datetime.datetime(2000, 1, 1))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
         # Filipino / Tagalog
         param('tl', 'Maraming namatay sa mga Hapon hanggang sila\'y sumuko noong Agosto 15, 1945.',
               [('noong Agosto 15, 1945', datetime.datetime(1945, 8, 15, 0, 0))],
