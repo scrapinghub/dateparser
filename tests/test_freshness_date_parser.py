@@ -96,6 +96,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('eight months ago', ago={'months': 8}, period='month'),
         param('six days ago', ago={'days': 6}, period='day'),
         param('five years ago', ago={'years': 5}, period='year'),
+        # Fractional units
+        param('2.5 hours', ago={'hours': 2.5}, period='day'),
+        param('10.75 minutes', ago={'minutes': 10.75}, period='day'),
+        param('1.5 days', ago={'days': 1.5}, period='day'),
 
         # French dates
         param("Aujourd'hui", ago={'days': 0}, period='day'),
@@ -610,6 +614,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         param('just now', ago={'seconds': 0}, period='day'),
+        # Fractional units
+        param('2.5 hours', ago={'hours': 2.5}, period='day'),
+        param('10.75 minutes', ago={'minutes': 10.75}, period='day'),
+        param('1.5 days', ago={'days': 1.5}, period='day'),
 
         # French dates
         param("Aujourd'hui", ago={'days': 0}, period='day'),
@@ -1099,6 +1107,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
               in_future={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         param('just now', in_future={'seconds': 0}, period='day'),
+        # Fractional units
+        param('in 2.5 hours', in_future={'hours': 2.5}, period='day'),
+        param('in 10.75 minutes', in_future={'minutes': 10.75}, period='day'),
+        param('in 1.5 days', in_future={'days': 1.5}, period='day'),
+        param('in 0,5 hours', in_future={'hours': 0.5}, period='day'),
 
         # French dates
         param("Aujourd'hui", in_future={'days': 0}, period='day'),
@@ -1620,7 +1633,12 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('{} months ago'.format(2008 * 12 + 8), date(1, 10, 4), time(13, 15)),
         param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
               date(2009, 4, 26), time(12, 14)),
-        param('just now', date(2010, 6, 4), time(13, 15))
+        param('just now', date(2010, 6, 4), time(13, 15)),
+        # Fractional units
+        param('2.5 hours ago', date(2010, 6, 4), time(10, 45)),
+        param('in 10.75 minutes', date(2010, 6, 4), time(13, 25, 45)),
+        param('in 1.5 days', date(2010, 6, 6), time(1, 15)),
+        param('0,5 hours ago', date(2010, 6, 4), time(12, 45)),
     ])
     def test_freshness_date_with_relative_base(self, date_string, date, time):
         self.given_parser(settings={'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})

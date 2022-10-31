@@ -28,7 +28,7 @@ def _modify_relative_data(relative_data):
     modified_relative_data = OrderedDict()
     for key, value in relative_data.items():
         for i, string in enumerate(value):
-            string = RELATIVE_PATTERN.sub(r'(\\d+)', string)
+            string = RELATIVE_PATTERN.sub(r'(\\d+[.,]?\\d*)', string)
             value[i] = string
         modified_relative_data[key] = value
     return modified_relative_data

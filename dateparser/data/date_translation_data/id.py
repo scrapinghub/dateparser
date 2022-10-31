@@ -180,59 +180,59 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) h lalu",
-            "(\\d+) hari yang lalu"
+            "(\\d+[.,]?\\d*) h lalu",
+            "(\\d+[.,]?\\d*) hari yang lalu"
         ],
         "\\1 hour ago": [
-            "(\\d+) jam lalu",
-            "(\\d+) jam yang lalu"
+            "(\\d+[.,]?\\d*) jam lalu",
+            "(\\d+[.,]?\\d*) jam yang lalu"
         ],
         "\\1 minute ago": [
-            "(\\d+) menit yang lalu",
-            "(\\d+) mnt lalu"
+            "(\\d+[.,]?\\d*) menit yang lalu",
+            "(\\d+[.,]?\\d*) mnt lalu"
         ],
         "\\1 month ago": [
-            "(\\d+) bln lalu",
-            "(\\d+) bulan yang lalu"
+            "(\\d+[.,]?\\d*) bln lalu",
+            "(\\d+[.,]?\\d*) bulan yang lalu"
         ],
         "\\1 second ago": [
-            "(\\d+) detik yang lalu",
-            "(\\d+) dtk lalu"
+            "(\\d+[.,]?\\d*) detik yang lalu",
+            "(\\d+[.,]?\\d*) dtk lalu"
         ],
         "\\1 week ago": [
-            "(\\d+) mgg lalu",
-            "(\\d+) minggu yang lalu"
+            "(\\d+[.,]?\\d*) mgg lalu",
+            "(\\d+[.,]?\\d*) minggu yang lalu"
         ],
         "\\1 year ago": [
-            "(\\d+) tahun yang lalu",
-            "(\\d+) thn lalu"
+            "(\\d+[.,]?\\d*) tahun yang lalu",
+            "(\\d+[.,]?\\d*) thn lalu"
         ],
         "in \\1 day": [
-            "dalam (\\d+) h",
-            "dalam (\\d+) hari"
+            "dalam (\\d+[.,]?\\d*) h",
+            "dalam (\\d+[.,]?\\d*) hari"
         ],
         "in \\1 hour": [
-            "dalam (\\d+) jam"
+            "dalam (\\d+[.,]?\\d*) jam"
         ],
         "in \\1 minute": [
-            "dalam (\\d+) menit",
-            "dlm (\\d+) mnt"
+            "dalam (\\d+[.,]?\\d*) menit",
+            "dlm (\\d+[.,]?\\d*) mnt"
         ],
         "in \\1 month": [
-            "dalam (\\d+) bulan",
-            "dlm (\\d+) bln"
+            "dalam (\\d+[.,]?\\d*) bulan",
+            "dlm (\\d+[.,]?\\d*) bln"
         ],
         "in \\1 second": [
-            "dalam (\\d+) detik",
-            "dlm (\\d+) dtk"
+            "dalam (\\d+[.,]?\\d*) detik",
+            "dlm (\\d+[.,]?\\d*) dtk"
         ],
         "in \\1 week": [
-            "dalam (\\d+) minggu",
-            "dlm (\\d+) mgg"
+            "dalam (\\d+[.,]?\\d*) minggu",
+            "dlm (\\d+[.,]?\\d*) mgg"
         ],
         "in \\1 year": [
-            "dalam (\\d+) tahun",
-            "dlm (\\d+) thn"
+            "dalam (\\d+[.,]?\\d*) tahun",
+            "dlm (\\d+[.,]?\\d*) thn"
         ]
     },
     "locale_specific": {},
