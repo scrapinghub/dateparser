@@ -2,14 +2,24 @@ skip: ["в", "во", "и", "около", "примерно"]
 
 sentence_splitter_group : 1
 
+monday:
+    - пнд
+tuesday:
+    - втр
 wednesday:
-    - Среду
+    - срд
+    - среду
+thursday:
+    - чтв
 friday:
-    - Пятницу
+    - птн
+    - пятницу
 saturday:
-    - Субботу
+    - сбт
+    - субботу
 sunday:
-    - Воскресение
+    - воскресение
+    - вск
 
 february:
     - Фев
@@ -20,6 +30,7 @@ november:
 
 year:
     - года
+    - году
     - лет
 month:
     - месяца
@@ -57,6 +68,8 @@ relative-type:
         - позавчера
     in 2 day:
         - послезавтра
+    in 3 day:
+        - послепослезавтра
 
 simplifications:
     - од(на|ну|ни|ной|ин): '1'

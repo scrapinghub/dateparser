@@ -75,4 +75,4 @@ relative-type:
         - toissa päivänä
 
 simplifications:
-    - (\d+) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua): \3 \1 \2
+    - (\d+[.,]?\d*) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua): \3 \1 \2
