@@ -151,58 +151,58 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) zornade indaûr",
-            "(\\d+) zornadis indaûr"
+            "(\\d+[.,]?\\d*) zornade indaûr",
+            "(\\d+[.,]?\\d*) zornadis indaûr"
         ],
         "\\1 hour ago": [
-            "(\\d+) ore indaûr",
-            "(\\d+) oris indaûr"
+            "(\\d+[.,]?\\d*) ore indaûr",
+            "(\\d+[.,]?\\d*) oris indaûr"
         ],
         "\\1 minute ago": [
-            "(\\d+) minût indaûr",
-            "(\\d+) minûts indaûr"
+            "(\\d+[.,]?\\d*) minût indaûr",
+            "(\\d+[.,]?\\d*) minûts indaûr"
         ],
         "\\1 month ago": [
-            "(\\d+) mês indaûr"
+            "(\\d+[.,]?\\d*) mês indaûr"
         ],
         "\\1 second ago": [
-            "(\\d+) secont indaûr",
-            "(\\d+) seconts indaûr"
+            "(\\d+[.,]?\\d*) secont indaûr",
+            "(\\d+[.,]?\\d*) seconts indaûr"
         ],
         "\\1 week ago": [
-            "(\\d+) setemane indaûr",
-            "(\\d+) setemanis indaûr"
+            "(\\d+[.,]?\\d*) setemane indaûr",
+            "(\\d+[.,]?\\d*) setemanis indaûr"
         ],
         "\\1 year ago": [
-            "(\\d+) agns indaûr",
-            "(\\d+) an indaûr"
+            "(\\d+[.,]?\\d*) agns indaûr",
+            "(\\d+[.,]?\\d*) an indaûr"
         ],
         "in \\1 day": [
-            "ca di (\\d+) zornade",
-            "ca di (\\d+) zornadis"
+            "ca di (\\d+[.,]?\\d*) zornade",
+            "ca di (\\d+[.,]?\\d*) zornadis"
         ],
         "in \\1 hour": [
-            "ca di (\\d+) ore",
-            "ca di (\\d+) oris"
+            "ca di (\\d+[.,]?\\d*) ore",
+            "ca di (\\d+[.,]?\\d*) oris"
         ],
         "in \\1 minute": [
-            "ca di (\\d+) minût",
-            "ca di (\\d+) minûts"
+            "ca di (\\d+[.,]?\\d*) minût",
+            "ca di (\\d+[.,]?\\d*) minûts"
         ],
         "in \\1 month": [
-            "ca di (\\d+) mês"
+            "ca di (\\d+[.,]?\\d*) mês"
         ],
         "in \\1 second": [
-            "ca di (\\d+) secont",
-            "ca di (\\d+) seconts"
+            "ca di (\\d+[.,]?\\d*) secont",
+            "ca di (\\d+[.,]?\\d*) seconts"
         ],
         "in \\1 week": [
-            "ca di (\\d+) setemane",
-            "ca di (\\d+) setemanis"
+            "ca di (\\d+[.,]?\\d*) setemane",
+            "ca di (\\d+[.,]?\\d*) setemanis"
         ],
         "in \\1 year": [
-            "ca di (\\d+) agns",
-            "ca di (\\d+) an"
+            "ca di (\\d+[.,]?\\d*) agns",
+            "ca di (\\d+[.,]?\\d*) an"
         ]
     },
     "locale_specific": {},

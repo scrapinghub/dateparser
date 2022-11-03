@@ -250,67 +250,67 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) pv sitten",
-            "(\\d+) päivä sitten",
-            "(\\d+) päivää sitten"
+            "(\\d+[.,]?\\d*) pv sitten",
+            "(\\d+[.,]?\\d*) päivä sitten",
+            "(\\d+[.,]?\\d*) päivää sitten"
         ],
         "\\1 hour ago": [
-            "(\\d+) t sitten",
-            "(\\d+) tunti sitten",
-            "(\\d+) tuntia sitten"
+            "(\\d+[.,]?\\d*) t sitten",
+            "(\\d+[.,]?\\d*) tunti sitten",
+            "(\\d+[.,]?\\d*) tuntia sitten"
         ],
         "\\1 minute ago": [
-            "(\\d+) min sitten",
-            "(\\d+) minuutti sitten",
-            "(\\d+) minuuttia sitten"
+            "(\\d+[.,]?\\d*) min sitten",
+            "(\\d+[.,]?\\d*) minuutti sitten",
+            "(\\d+[.,]?\\d*) minuuttia sitten"
         ],
         "\\1 month ago": [
-            "(\\d+) kk sitten",
-            "(\\d+) kuukausi sitten",
-            "(\\d+) kuukautta sitten"
+            "(\\d+[.,]?\\d*) kk sitten",
+            "(\\d+[.,]?\\d*) kuukausi sitten",
+            "(\\d+[.,]?\\d*) kuukautta sitten"
         ],
         "\\1 second ago": [
-            "(\\d+) s sitten",
-            "(\\d+) sekunti sitten",
-            "(\\d+) sekuntia sitten"
+            "(\\d+[.,]?\\d*) s sitten",
+            "(\\d+[.,]?\\d*) sekunti sitten",
+            "(\\d+[.,]?\\d*) sekuntia sitten"
         ],
         "\\1 week ago": [
-            "(\\d+) viikko sitten",
-            "(\\d+) viikkoa sitten",
-            "(\\d+) vk sitten"
+            "(\\d+[.,]?\\d*) viikko sitten",
+            "(\\d+[.,]?\\d*) viikkoa sitten",
+            "(\\d+[.,]?\\d*) vk sitten"
         ],
         "\\1 year ago": [
-            "(\\d+) v sitten",
-            "(\\d+) vuosi sitten",
-            "(\\d+) vuotta sitten"
+            "(\\d+[.,]?\\d*) v sitten",
+            "(\\d+[.,]?\\d*) vuosi sitten",
+            "(\\d+[.,]?\\d*) vuotta sitten"
         ],
         "in \\1 day": [
-            "(\\d+) pv päästä",
-            "(\\d+) päivän päästä"
+            "(\\d+[.,]?\\d*) pv päästä",
+            "(\\d+[.,]?\\d*) päivän päästä"
         ],
         "in \\1 hour": [
-            "(\\d+) t päästä",
-            "(\\d+) tunnin päästä"
+            "(\\d+[.,]?\\d*) t päästä",
+            "(\\d+[.,]?\\d*) tunnin päästä"
         ],
         "in \\1 minute": [
-            "(\\d+) min päästä",
-            "(\\d+) minuutin päästä"
+            "(\\d+[.,]?\\d*) min päästä",
+            "(\\d+[.,]?\\d*) minuutin päästä"
         ],
         "in \\1 month": [
-            "(\\d+) kk päästä",
-            "(\\d+) kuukauden päästä"
+            "(\\d+[.,]?\\d*) kk päästä",
+            "(\\d+[.,]?\\d*) kuukauden päästä"
         ],
         "in \\1 second": [
-            "(\\d+) s päästä",
-            "(\\d+) sekunnin päästä"
+            "(\\d+[.,]?\\d*) s päästä",
+            "(\\d+[.,]?\\d*) sekunnin päästä"
         ],
         "in \\1 week": [
-            "(\\d+) viikon päästä",
-            "(\\d+) vk päästä"
+            "(\\d+[.,]?\\d*) viikon päästä",
+            "(\\d+[.,]?\\d*) vk päästä"
         ],
         "in \\1 year": [
-            "(\\d+) v päästä",
-            "(\\d+) vuoden päästä"
+            "(\\d+[.,]?\\d*) v päästä",
+            "(\\d+[.,]?\\d*) vuoden päästä"
         ]
     },
     "locale_specific": {},
@@ -339,7 +339,7 @@ info = {
     ],
     "simplifications": [
         {
-            "(\\d+) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua)": "\\3 \\1 \\2"
+            "(\\d+[.,]?\\d*) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua)": "\\3 \\1 \\2"
         }
     ]
 }

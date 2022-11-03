@@ -163,61 +163,61 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) lá ó shin"
+            "(\\d+[.,]?\\d*) lá ó shin"
         ],
         "\\1 hour ago": [
-            "(\\d+) uair an chloig ó shin",
-            "(\\d+) uair ó shin"
+            "(\\d+[.,]?\\d*) uair an chloig ó shin",
+            "(\\d+[.,]?\\d*) uair ó shin"
         ],
         "\\1 minute ago": [
-            "(\\d+) nóim ó shin",
-            "(\\d+) nóiméad ó shin"
+            "(\\d+[.,]?\\d*) nóim ó shin",
+            "(\\d+[.,]?\\d*) nóiméad ó shin"
         ],
         "\\1 month ago": [
-            "(\\d+) mhí ó shin",
-            "(\\d+) mí ó shin"
+            "(\\d+[.,]?\\d*) mhí ó shin",
+            "(\\d+[.,]?\\d*) mí ó shin"
         ],
         "\\1 second ago": [
-            "(\\d+) soic ó shin",
-            "(\\d+) soicind ó shin"
+            "(\\d+[.,]?\\d*) soic ó shin",
+            "(\\d+[.,]?\\d*) soicind ó shin"
         ],
         "\\1 week ago": [
-            "(\\d+) scht ó shin",
-            "(\\d+) seachtain ó shin"
+            "(\\d+[.,]?\\d*) scht ó shin",
+            "(\\d+[.,]?\\d*) seachtain ó shin"
         ],
         "\\1 year ago": [
-            "(\\d+) bhl ó shin",
-            "(\\d+) bhliain ó shin",
-            "(\\d+) bl ó shin",
-            "(\\d+) bliain ó shin"
+            "(\\d+[.,]?\\d*) bhl ó shin",
+            "(\\d+[.,]?\\d*) bhliain ó shin",
+            "(\\d+[.,]?\\d*) bl ó shin",
+            "(\\d+[.,]?\\d*) bliain ó shin"
         ],
         "in \\1 day": [
-            "i gceann (\\d+) lá"
+            "i gceann (\\d+[.,]?\\d*) lá"
         ],
         "in \\1 hour": [
-            "i gceann (\\d+) uair",
-            "i gceann (\\d+) uair an chloig"
+            "i gceann (\\d+[.,]?\\d*) uair",
+            "i gceann (\\d+[.,]?\\d*) uair an chloig"
         ],
         "in \\1 minute": [
-            "i gceann (\\d+) nóim",
-            "i gceann (\\d+) nóiméad"
+            "i gceann (\\d+[.,]?\\d*) nóim",
+            "i gceann (\\d+[.,]?\\d*) nóiméad"
         ],
         "in \\1 month": [
-            "i gceann (\\d+) mhí",
-            "i gceann (\\d+) mí"
+            "i gceann (\\d+[.,]?\\d*) mhí",
+            "i gceann (\\d+[.,]?\\d*) mí"
         ],
         "in \\1 second": [
-            "i gceann (\\d+) soic",
-            "i gceann (\\d+) soicind"
+            "i gceann (\\d+[.,]?\\d*) soic",
+            "i gceann (\\d+[.,]?\\d*) soicind"
         ],
         "in \\1 week": [
-            "i gceann (\\d+) scht",
-            "i gceann (\\d+) seachtain"
+            "i gceann (\\d+[.,]?\\d*) scht",
+            "i gceann (\\d+[.,]?\\d*) seachtain"
         ],
         "in \\1 year": [
-            "i gceann (\\d+) bhliain",
-            "i gceann (\\d+) bl",
-            "i gceann (\\d+) bliain"
+            "i gceann (\\d+[.,]?\\d*) bhliain",
+            "i gceann (\\d+[.,]?\\d*) bl",
+            "i gceann (\\d+[.,]?\\d*) bliain"
         ]
     },
     "locale_specific": {},

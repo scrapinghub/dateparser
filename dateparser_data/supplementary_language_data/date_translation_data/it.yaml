@@ -27,4 +27,4 @@ relative-type:
         - altro ieri
 
 simplifications:
-    - (\d+)\s+ora: \1 ore 
+    - (\d+[.,]?\d*)\s+ora: \1 ore 
