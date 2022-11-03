@@ -12,12 +12,15 @@ New features:
 
 Improvements:
 
-- Update workflow versions (#1088)
-- Fix returned datetime skips a day with time+timezone input and PREFER_DATES_FROM = 'future' (#1002)
-- Fix Ukrainian supplemental data to be in the YAML and restore CLDR data (#1090)
-- Fix translate keep_formatting (#720)
-- Add support for the text "till date" for the language English (#1005)
-- Added support for after and before relative dates (#1008)
+- Fix the returned datetime skipping a day with time+timezone input and PREFER_DATES_FROM = 'future' (#1002)
+- Fix input translatation breaking keep_formatting (#720)
+- English: support "till date" (#1005)
+- English: support “after” and “before” in relative dates (#1008)
+
+Cleanups:
+
+- Reorganize internal data (#1090)
+- CI updates (#1088)
 
 
 1.1.2 (2022-10-20)
