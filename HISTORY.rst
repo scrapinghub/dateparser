@@ -3,6 +3,23 @@
 History
 =======
 
+1.1.3 (2022-11-03)
+------------------
+
+New features:
+
+- Add support for fractional units (#876)
+
+Improvements:
+
+- Update workflow versions (#1088)
+- Fix returned datetime skips a day with time+timezone input and PREFER_DATES_FROM = 'future' (#1002)
+- Fix Ukrainian supplemental data to be in the YAML and restore CLDR data (#1090)
+- Fix translate keep_formatting (#720)
+- Add support for the text "till date" for the language English (#1005)
+- Added support for after and before relative dates (#1008)
+
+
 1.1.2 (2022-10-20)
 ------------------
 
