@@ -133,7 +133,7 @@ You can control multiple behaviors by using the ``settings`` parameter:
     datetime.datetime(1992, 1, 2, 0, 0)
 
 To see more examples on how to use the ``settings``, check the `settings
-section <https://dateparser.readthedocs.io/en/latest/usage.html#settings>`__
+section <https://dateparser.readthedocs.io/en/latest/settings.html>`__
 in the docs.
 
 False positives

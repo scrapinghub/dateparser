@@ -161,80 +161,80 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "pre (\\d+) d",
-            "pre (\\d+) dana"
+            "pre (\\d+[.,]?\\d*) d",
+            "pre (\\d+[.,]?\\d*) dana"
         ],
         "\\1 hour ago": [
-            "pre (\\d+) sata",
-            "pre (\\d+) sati",
-            "pre (\\d+) č"
+            "pre (\\d+[.,]?\\d*) sata",
+            "pre (\\d+[.,]?\\d*) sati",
+            "pre (\\d+[.,]?\\d*) č"
         ],
         "\\1 minute ago": [
-            "pre (\\d+) min",
-            "pre (\\d+) minuta"
+            "pre (\\d+[.,]?\\d*) min",
+            "pre (\\d+[.,]?\\d*) minuta"
         ],
         "\\1 month ago": [
-            "pre (\\d+) m",
-            "pre (\\d+) mes",
-            "pre (\\d+) meseca",
-            "pre (\\d+) meseci"
+            "pre (\\d+[.,]?\\d*) m",
+            "pre (\\d+[.,]?\\d*) mes",
+            "pre (\\d+[.,]?\\d*) meseca",
+            "pre (\\d+[.,]?\\d*) meseci"
         ],
         "\\1 second ago": [
-            "pre (\\d+) s",
-            "pre (\\d+) sek",
-            "pre (\\d+) sekunde",
-            "pre (\\d+) sekundi"
+            "pre (\\d+[.,]?\\d*) s",
+            "pre (\\d+[.,]?\\d*) sek",
+            "pre (\\d+[.,]?\\d*) sekunde",
+            "pre (\\d+[.,]?\\d*) sekundi"
         ],
         "\\1 week ago": [
-            "pre (\\d+) n",
-            "pre (\\d+) ned",
-            "pre (\\d+) nedelja",
-            "pre (\\d+) nedelje"
+            "pre (\\d+[.,]?\\d*) n",
+            "pre (\\d+[.,]?\\d*) ned",
+            "pre (\\d+[.,]?\\d*) nedelja",
+            "pre (\\d+[.,]?\\d*) nedelje"
         ],
         "\\1 year ago": [
-            "pre (\\d+) g",
-            "pre (\\d+) god",
-            "pre (\\d+) godina",
-            "pre (\\d+) godine"
+            "pre (\\d+[.,]?\\d*) g",
+            "pre (\\d+[.,]?\\d*) god",
+            "pre (\\d+[.,]?\\d*) godina",
+            "pre (\\d+[.,]?\\d*) godine"
         ],
         "in \\1 day": [
-            "za (\\d+) d",
-            "za (\\d+) dan",
-            "za (\\d+) dana"
+            "za (\\d+[.,]?\\d*) d",
+            "za (\\d+[.,]?\\d*) dan",
+            "za (\\d+[.,]?\\d*) dana"
         ],
         "in \\1 hour": [
-            "za (\\d+) sat",
-            "za (\\d+) sati",
-            "za (\\d+) č"
+            "za (\\d+[.,]?\\d*) sat",
+            "za (\\d+[.,]?\\d*) sati",
+            "za (\\d+[.,]?\\d*) č"
         ],
         "in \\1 minute": [
-            "za (\\d+) min",
-            "za (\\d+) minut",
-            "za (\\d+) minuta"
+            "za (\\d+[.,]?\\d*) min",
+            "za (\\d+[.,]?\\d*) minut",
+            "za (\\d+[.,]?\\d*) minuta"
         ],
         "in \\1 month": [
-            "za (\\d+) m",
-            "za (\\d+) mes",
-            "za (\\d+) mesec",
-            "za (\\d+) meseci"
+            "za (\\d+[.,]?\\d*) m",
+            "za (\\d+[.,]?\\d*) mes",
+            "za (\\d+[.,]?\\d*) mesec",
+            "za (\\d+[.,]?\\d*) meseci"
         ],
         "in \\1 second": [
-            "za (\\d+) s",
-            "za (\\d+) sek",
-            "za (\\d+) sekundi",
-            "za (\\d+) sekundu"
+            "za (\\d+[.,]?\\d*) s",
+            "za (\\d+[.,]?\\d*) sek",
+            "za (\\d+[.,]?\\d*) sekundi",
+            "za (\\d+[.,]?\\d*) sekundu"
         ],
         "in \\1 week": [
-            "za (\\d+) n",
-            "za (\\d+) ned",
-            "za (\\d+) nedelja",
-            "za (\\d+) nedelju"
+            "za (\\d+[.,]?\\d*) n",
+            "za (\\d+[.,]?\\d*) ned",
+            "za (\\d+[.,]?\\d*) nedelja",
+            "za (\\d+[.,]?\\d*) nedelju"
         ],
         "in \\1 year": [
-            "za (\\d+) g",
-            "za (\\d+) god",
-            "za (\\d+) godina",
-            "za (\\d+) godinu"
+            "za (\\d+[.,]?\\d*) g",
+            "za (\\d+[.,]?\\d*) god",
+            "za (\\d+[.,]?\\d*) godina",
+            "za (\\d+[.,]?\\d*) godinu"
         ]
     },
     "locale_specific": {

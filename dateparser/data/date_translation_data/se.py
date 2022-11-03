@@ -157,58 +157,58 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) jándor árat",
-            "(\\d+) jándora árat"
+            "(\\d+[.,]?\\d*) jándor árat",
+            "(\\d+[.,]?\\d*) jándora árat"
         ],
         "\\1 hour ago": [
-            "(\\d+) diibmu árat",
-            "(\\d+) diibmur árat"
+            "(\\d+[.,]?\\d*) diibmu árat",
+            "(\\d+[.,]?\\d*) diibmur árat"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuhta árat",
-            "(\\d+) minuhtta árat"
+            "(\\d+[.,]?\\d*) minuhta árat",
+            "(\\d+[.,]?\\d*) minuhtta árat"
         ],
         "\\1 month ago": [
-            "(\\d+) mánotbadji árat"
+            "(\\d+[.,]?\\d*) mánotbadji árat"
         ],
         "\\1 second ago": [
-            "(\\d+) sekunda árat",
-            "(\\d+) sekundda árat"
+            "(\\d+[.,]?\\d*) sekunda árat",
+            "(\\d+[.,]?\\d*) sekundda árat"
         ],
         "\\1 week ago": [
-            "(\\d+) vahkku árat",
-            "(\\d+) vahku árat"
+            "(\\d+[.,]?\\d*) vahkku árat",
+            "(\\d+[.,]?\\d*) vahku árat"
         ],
         "\\1 year ago": [
-            "(\\d+) jahki árat",
-            "(\\d+) jahkki árat"
+            "(\\d+[.,]?\\d*) jahki árat",
+            "(\\d+[.,]?\\d*) jahkki árat"
         ],
         "in \\1 day": [
-            "(\\d+) jándor maŋŋilit",
-            "(\\d+) jándora maŋŋilit"
+            "(\\d+[.,]?\\d*) jándor maŋŋilit",
+            "(\\d+[.,]?\\d*) jándora maŋŋilit"
         ],
         "in \\1 hour": [
-            "(\\d+) diibmu maŋŋilit",
-            "(\\d+) diibmur maŋŋilit"
+            "(\\d+[.,]?\\d*) diibmu maŋŋilit",
+            "(\\d+[.,]?\\d*) diibmur maŋŋilit"
         ],
         "in \\1 minute": [
-            "(\\d+) minuhta maŋŋilit",
-            "(\\d+) minuhtta maŋŋilit"
+            "(\\d+[.,]?\\d*) minuhta maŋŋilit",
+            "(\\d+[.,]?\\d*) minuhtta maŋŋilit"
         ],
         "in \\1 month": [
-            "(\\d+) mánotbadji maŋŋilit"
+            "(\\d+[.,]?\\d*) mánotbadji maŋŋilit"
         ],
         "in \\1 second": [
-            "(\\d+) sekunda maŋŋilit",
-            "(\\d+) sekundda maŋŋilit"
+            "(\\d+[.,]?\\d*) sekunda maŋŋilit",
+            "(\\d+[.,]?\\d*) sekundda maŋŋilit"
         ],
         "in \\1 week": [
-            "(\\d+) vahkku maŋŋilit",
-            "(\\d+) vahku maŋŋilit"
+            "(\\d+[.,]?\\d*) vahkku maŋŋilit",
+            "(\\d+[.,]?\\d*) vahku maŋŋilit"
         ],
         "in \\1 year": [
-            "(\\d+) jahki maŋŋilit",
-            "(\\d+) jahkki maŋŋilit"
+            "(\\d+[.,]?\\d*) jahki maŋŋilit",
+            "(\\d+[.,]?\\d*) jahkki maŋŋilit"
         ]
     },
     "locale_specific": {
@@ -252,10 +252,10 @@ info = {
             },
             "relative-type-regex": {
                 "\\1 year ago": [
-                    "(\\d+) jagi árat"
+                    "(\\d+[.,]?\\d*) jagi árat"
                 ],
                 "in \\1 year": [
-                    "(\\d+) jagi siste"
+                    "(\\d+[.,]?\\d*) jagi siste"
                 ]
             }
         },

@@ -176,54 +176,54 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) gün önce"
+            "(\\d+[.,]?\\d*) gün önce"
         ],
         "\\1 hour ago": [
-            "(\\d+) sa önce",
-            "(\\d+) saat önce"
+            "(\\d+[.,]?\\d*) sa önce",
+            "(\\d+[.,]?\\d*) saat önce"
         ],
         "\\1 minute ago": [
-            "(\\d+) dakika önce",
-            "(\\d+) dk önce"
+            "(\\d+[.,]?\\d*) dakika önce",
+            "(\\d+[.,]?\\d*) dk önce"
         ],
         "\\1 month ago": [
-            "(\\d+) ay önce"
+            "(\\d+[.,]?\\d*) ay önce"
         ],
         "\\1 second ago": [
-            "(\\d+) saniye önce",
-            "(\\d+) sn önce"
+            "(\\d+[.,]?\\d*) saniye önce",
+            "(\\d+[.,]?\\d*) sn önce"
         ],
         "\\1 week ago": [
-            "(\\d+) hafta önce",
-            "(\\d+) hf önce"
+            "(\\d+[.,]?\\d*) hafta önce",
+            "(\\d+[.,]?\\d*) hf önce"
         ],
         "\\1 year ago": [
-            "(\\d+) yıl önce"
+            "(\\d+[.,]?\\d*) yıl önce"
         ],
         "in \\1 day": [
-            "(\\d+) gün sonra"
+            "(\\d+[.,]?\\d*) gün sonra"
         ],
         "in \\1 hour": [
-            "(\\d+) sa sonra",
-            "(\\d+) saat sonra"
+            "(\\d+[.,]?\\d*) sa sonra",
+            "(\\d+[.,]?\\d*) saat sonra"
         ],
         "in \\1 minute": [
-            "(\\d+) dakika sonra",
-            "(\\d+) dk sonra"
+            "(\\d+[.,]?\\d*) dakika sonra",
+            "(\\d+[.,]?\\d*) dk sonra"
         ],
         "in \\1 month": [
-            "(\\d+) ay sonra"
+            "(\\d+[.,]?\\d*) ay sonra"
         ],
         "in \\1 second": [
-            "(\\d+) saniye sonra",
-            "(\\d+) sn sonra"
+            "(\\d+[.,]?\\d*) saniye sonra",
+            "(\\d+[.,]?\\d*) sn sonra"
         ],
         "in \\1 week": [
-            "(\\d+) hafta sonra",
-            "(\\d+) hf sonra"
+            "(\\d+[.,]?\\d*) hafta sonra",
+            "(\\d+[.,]?\\d*) hf sonra"
         ],
         "in \\1 year": [
-            "(\\d+) yıl sonra"
+            "(\\d+[.,]?\\d*) yıl sonra"
         ]
     },
     "locale_specific": {

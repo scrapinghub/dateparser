@@ -25,7 +25,7 @@ dateparser_model_home = os.path.expanduser(
 
 def create_data_model_home():
     if not os.path.isdir(dateparser_model_home):
-        os.mkdir(dateparser_model_home)
+        os.makedirs(dateparser_model_home, exist_ok=True)
 
 
 def clear_cache(*args):
