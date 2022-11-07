@@ -117,6 +117,7 @@ class TestDateParser(BaseTestCase):
         param('21. Dezember 2013', datetime(2013, 12, 21)),
         param('19. Februar 2012', datetime(2012, 2, 19)),
         param('26. Juli 2014', datetime(2014, 7, 26)),
+        param('1. Sept 2000', datetime(2000, 9, 1)),
         param('18.10.14 um 22:56 Uhr', datetime(2014, 10, 18, 22, 56)),
         param('12-Mär-2014', datetime(2014, 3, 12)),
         param('Mit 13:14', datetime(2012, 11, 7, 13, 14)),
