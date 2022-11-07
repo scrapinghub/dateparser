@@ -97,7 +97,7 @@ kl
 kln
 km
 kn
-ko                'ko-KP'
+ko                'ko-KP', 'ko-KR'
 kok
 ks
 ksb

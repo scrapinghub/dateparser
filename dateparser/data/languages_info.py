@@ -1063,7 +1063,8 @@ language_locale_dict = {
     "pl": [],
     "id": [],
     "ko": [
-        "ko-KP"
+        "ko-KP",
+        "ko-KR"
     ],
     "uk": [],
     "th": [],
