@@ -161,63 +161,63 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) dae gelede",
-            "(\\d+) dag gelede"
+            "(\\d+[.,]?\\d*) dae gelede",
+            "(\\d+[.,]?\\d*) dag gelede"
         ],
         "\\1 hour ago": [
-            "(\\d+) uur gelede"
+            "(\\d+[.,]?\\d*) uur gelede"
         ],
         "\\1 minute ago": [
-            "(\\d+) min gelede",
-            "(\\d+) minute gelede",
-            "(\\d+) minuut gelede"
+            "(\\d+[.,]?\\d*) min gelede",
+            "(\\d+[.,]?\\d*) minute gelede",
+            "(\\d+[.,]?\\d*) minuut gelede"
         ],
         "\\1 month ago": [
-            "(\\d+) maand gelede",
-            "(\\d+) maande gelede",
-            "(\\d+) md gelede"
+            "(\\d+[.,]?\\d*) maand gelede",
+            "(\\d+[.,]?\\d*) maande gelede",
+            "(\\d+[.,]?\\d*) md gelede"
         ],
         "\\1 second ago": [
-            "(\\d+) sek gelede",
-            "(\\d+) sekonde gelede",
-            "(\\d+) sekondes gelede"
+            "(\\d+[.,]?\\d*) sek gelede",
+            "(\\d+[.,]?\\d*) sekonde gelede",
+            "(\\d+[.,]?\\d*) sekondes gelede"
         ],
         "\\1 week ago": [
-            "(\\d+) w gelede",
-            "(\\d+) week gelede",
-            "(\\d+) weke gelede"
+            "(\\d+[.,]?\\d*) w gelede",
+            "(\\d+[.,]?\\d*) week gelede",
+            "(\\d+[.,]?\\d*) weke gelede"
         ],
         "\\1 year ago": [
-            "(\\d+) jaar gelede"
+            "(\\d+[.,]?\\d*) jaar gelede"
         ],
         "in \\1 day": [
-            "oor (\\d+) dae",
-            "oor (\\d+) dag",
-            "oor (\\d+) minuut"
+            "oor (\\d+[.,]?\\d*) dae",
+            "oor (\\d+[.,]?\\d*) dag",
+            "oor (\\d+[.,]?\\d*) minuut"
         ],
         "in \\1 hour": [
-            "oor (\\d+) uur"
+            "oor (\\d+[.,]?\\d*) uur"
         ],
         "in \\1 minute": [
-            "oor (\\d+) min",
-            "oor (\\d+) minuut"
+            "oor (\\d+[.,]?\\d*) min",
+            "oor (\\d+[.,]?\\d*) minuut"
         ],
         "in \\1 month": [
-            "oor (\\d+) md",
-            "oor (\\d+) minuut"
+            "oor (\\d+[.,]?\\d*) md",
+            "oor (\\d+[.,]?\\d*) minuut"
         ],
         "in \\1 second": [
-            "oor (\\d+) sek",
-            "oor (\\d+) sekonde",
-            "oor (\\d+) sekondes"
+            "oor (\\d+[.,]?\\d*) sek",
+            "oor (\\d+[.,]?\\d*) sekonde",
+            "oor (\\d+[.,]?\\d*) sekondes"
         ],
         "in \\1 week": [
-            "oor (\\d+) w",
-            "oor (\\d+) week",
-            "oor (\\d+) weke"
+            "oor (\\d+[.,]?\\d*) w",
+            "oor (\\d+[.,]?\\d*) week",
+            "oor (\\d+[.,]?\\d*) weke"
         ],
         "in \\1 year": [
-            "oor (\\d+) jaar"
+            "oor (\\d+[.,]?\\d*) jaar"
         ]
     },
     "locale_specific": {

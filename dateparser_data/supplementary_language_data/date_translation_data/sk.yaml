@@ -23,19 +23,19 @@ relative-type:
 
 relative-type-regex:
     in \1 day:
-        - o (\d+) dni
+        - o (\d+[.,]?\d*) dni
     in \1 hour:
-        - o (\d+) hodiny
+        - o (\d+[.,]?\d*) hodiny
     in \1 minute:
-        - o (\d+) minúty
+        - o (\d+[.,]?\d*) minúty
     in \1 month:
-        - o (\d+) mesiace
+        - o (\d+[.,]?\d*) mesiace
     in \1 second:
-        - o (\d+) sekundy
+        - o (\d+[.,]?\d*) sekundy
     in \1 week:
-        - o (\d+) týždne
+        - o (\d+[.,]?\d*) týždne
     in \1 year:
-        - o (\d+) roky
+        - o (\d+[.,]?\d*) roky
 
 simplifications:
     - pred sekundou: pred 1 sekundou

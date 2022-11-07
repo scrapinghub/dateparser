@@ -3,6 +3,39 @@
 History
 =======
 
+1.1.3 (2022-11-03)
+------------------
+
+New features:
+
+- Add support for fractional units (#876)
+
+Improvements:
+
+- Fix the returned datetime skipping a day with time+timezone input and PREFER_DATES_FROM = 'future' (#1002)
+- Fix input translatation breaking keep_formatting (#720)
+- English: support "till date" (#1005)
+- English: support “after” and “before” in relative dates (#1008)
+
+Cleanups:
+
+- Reorganize internal data (#1090)
+- CI updates (#1088)
+
+
+1.1.2 (2022-10-20)
+------------------
+
+Improvements:
+
+- Added support for negative timestamp (#1060)
+- Fixed PytzUsageWarning for Python versions >= 3.6 (#1062)
+- Added support for dates with dots and spaces (#1028)
+- Improved support for Ukrainian, Croatian and Russian (#1072, #1074, #1079, #1082, #1073, #1083)
+- Added support for parsing Unix timestamps consistently regardless of timezones (#954)
+- Improved tests (#1086)
+
+
 1.1.1 (2022-03-17)
 ------------------
 

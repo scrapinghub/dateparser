@@ -142,9 +142,9 @@ class TestLocaleDataLoader(BaseTestCase):
         param(given_locales=['en-FJ', 'pt-CV', 'fr-RW'],
               expected_locales=['en-FJ', 'fr-RW', 'pt-CV']),
         param(given_locales=['pt-AO', 'hi', 'zh-Hans-SG', 'vi'],
-              expected_locales=['pt-AO', 'vi', 'zh-Hans-SG', 'hi']),
+              expected_locales=['zh-Hans-SG', 'vi', 'pt-AO', 'hi']),
         param(given_locales=['gsw-FR', 'es-BZ', 'ca-IT', 'qu-EC'],
-              expected_locales=['es-BZ', 'qu-EC', 'ca-IT', 'gsw-FR']),
+              expected_locales=['es-BZ', 'ca-IT', 'qu-EC', 'gsw-FR']),
     ])
     def test_get_locale_map_without_given_order(self, given_locales, expected_locales):
         self.given_locale_map(locales=given_locales, use_given_order=False)

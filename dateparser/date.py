@@ -4,6 +4,7 @@ from collections.abc import Set
 from datetime import datetime, timedelta
 
 import regex as re
+from tzlocal import get_localzone
 from dateutil.relativedelta import relativedelta
 
 from dateparser.date_parser import date_parser
@@ -13,7 +14,8 @@ from dateparser.conf import apply_settings, check_settings
 from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
-    set_correct_day_from_settings
+    set_correct_day_from_settings, \
+    get_timezone_from_tz_string
 from dateparser.custom_language_detection.language_mapping import map_languages
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -35,7 +37,8 @@ RE_TRIM_COLONS = re.compile(r'(\S.*?):*$')
 
 RE_SANITIZE_SKIP = re.compile(r'\t|\n|\r|\u00bb|,\s\u0432\b|\u200e|\xb7|\u200f|\u064e|\u064f', flags=re.M)
 RE_SANITIZE_RUSSIAN = re.compile(r'([\W\d])\u0433\.', flags=re.I | re.U)
-RE_SANITIZE_PERIOD = re.compile(r'(?<=\D+)\.', flags=re.U)
+RE_SANITIZE_CROATIAN = re.compile(r'(\d+)\.\s?(\d+)\.\s?(\d+)\.( u)?', flags=re.I | re.U)
+RE_SANITIZE_PERIOD = re.compile(r'(?<=[^0-9\s])\.', flags=re.U)
 RE_SANITIZE_ON = re.compile(r'^.*?on:\s+(.*)')
 RE_SANITIZE_APOSTROPHE = re.compile('|'.join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
@@ -104,6 +107,7 @@ def get_intersecting_periods(low, high, period='day'):
 def sanitize_date(date_string):
     date_string = RE_SANITIZE_SKIP.sub(' ', date_string)
     date_string = RE_SANITIZE_RUSSIAN.sub(r'\1 ', date_string)  # remove 'г.' (Russian for year) but not in words
+    date_string = RE_SANITIZE_CROATIAN.sub(r'\1.\2.\3 ', date_string)  # extra '.' and 'u' interferes with parsing relative fractional dates
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub('', date_string)
     date_string = RE_SANITIZE_ON.sub(r'\1', date_string)
@@ -117,14 +121,26 @@ def get_date_from_timestamp(date_string, settings, negative=False):
     if negative:
         match = RE_SEARCH_NEGATIVE_TIMESTAMP.search(date_string)
     else:
-         match = RE_SEARCH_TIMESTAMP.search(date_string)
+        match = RE_SEARCH_TIMESTAMP.search(date_string)
 
     if match:
+        if (settings is None or
+            settings.TIMEZONE is None or
+            'local' in settings.TIMEZONE.lower()):
+            # If the timezone in settings is unset, or it's 'local', use the
+            # local timezone
+            timezone = get_localzone()
+        else:
+            # Otherwise, use the timezone given in settings
+            timezone = get_timezone_from_tz_string(settings.TIMEZONE)
+
         seconds = int(match.group(1))
         millis = int(match.group(2) or 0)
         micros = int(match.group(3) or 0)
-        date_obj = datetime.fromtimestamp(seconds)
-        date_obj = date_obj.replace(microsecond=millis * 1000 + micros)
+        date_obj = (datetime
+                    .fromtimestamp(seconds, timezone)
+                    .replace(microsecond=millis * 1000 + micros, tzinfo=None)
+                    )
         date_obj = apply_timezone_from_settings(date_obj, settings)
         return date_obj
 
