@@ -738,6 +738,10 @@ class TestBundledLanguages(BaseTestCase):
         # sk
         param('sk', "15 marec 1987 utorok", "15 march 1987 tuesday"),
         param('sk', "streda 17 mája 2003", "wednesday 17 may 2003"),
+        param('sk', "o 2 mesiace", "in 2 month"),
+        param('sk', "o týždeň", "in 1 week"),
+        param('sk', "predvčerom", "2 day ago"),
+        param('sk', "v sobotu", " saturday"),
 
         # sl
         param('sl', "12 junij 2003 petek 10:09 pop", "12 june 2003 friday 10:09 pm"),

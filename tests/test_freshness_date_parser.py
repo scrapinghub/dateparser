@@ -530,6 +530,14 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("මිනිත්තු 6කට පෙර", ago={'minutes': 6}, period='day'),
         # sk
         param("pred 20 hodinami 45 min", ago={'hours': 20, 'minutes': 45}, period='day'),
+        param('dnes', ago={'days': 0}, period='day'),
+        param('včera', ago={'days': 1}, period='day'),
+        param('predvčerom', ago={'days': 2}, period='day'),
+        param('pred 2 hodinami', ago={'hours': 2}, period='day'),
+        param('pred rokom', ago={'years': 1}, period='year'),
+        param('pred týždňom', ago={'weeks': 1}, period='week'),
+        param('pred 3 dňami', ago={'days': 3}, period='day'),
+        param('pred hodinou', ago={'hours': 1}, period='day'),
         # sl
         param("pred 15 tednom 10 dan", ago={'weeks': 15, 'days': 10}, period='day'),
         # sq
