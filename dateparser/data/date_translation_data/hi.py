@@ -162,6 +162,12 @@ info = {
         ],
         "2 day ago": [
             "परसों"
+        ],
+        "1 decade ago": [
+            "पिछला दशक"
+        ],
+        "in 1 decade": [
+            "अगला दशक"
         ]
     },
     "relative-type-regex": {
@@ -212,6 +218,12 @@ info = {
         ],
         "in \\1 year": [
             "(\\d+[.,]?\\d*) वर्ष में"
+        ],
+        "in \\1 decade": [
+            "(\\d+[.,]?\\d*) दशक में"
+        ],
+        "\\1 decade ago": [
+            "(\\d+[.,]?\\d*) दशक पहले"
         ]
     },
     "locale_specific": {},
@@ -235,6 +247,9 @@ info = {
         "，"
     ],
     "sentence_splitter_group": 3,
+    "decade": [
+        "दशक"
+    ],
     "ago": [
         "पहले",
         "पूर्व"

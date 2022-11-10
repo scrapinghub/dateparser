@@ -359,6 +359,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 वर्ष, 8 महीने, 2 सप्ताह', ago={'years': 1, 'months': 8, 'weeks': 2}, period='week'),
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
+        param('1 दशक', ago={'years': 10}, period='year'),
+        param('1 दशक पहले', ago={'years': 10}, period='year'),
 
         # af
         param("2 uur gelede", ago={'hours': 2}, period='day'),
@@ -867,6 +869,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 वर्ष, 8 महीने, 2 सप्ताह', ago={'years': 1, 'months': 8, 'weeks': 2}, period='week'),
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
+        param('1 दशक पहले', ago={'years': 10}, period='year'),
 
         # af
         param("2 uur gelede", ago={'hours': 2}, period='day'),
@@ -1195,6 +1198,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('17 सेकंड बाद', in_future={'seconds': 17}, period='day'),
         param('1 वर्ष, 5 महीने, 1 सप्ताह में',
               in_future={'years': 1, 'months': 5, 'weeks': 1}, period='week'),
+        param('1 दशक में', in_future={'years': 10}, period='year'),
 
         # af
         param("oor 10 jaar", in_future={'years': 10}, period='year'),
