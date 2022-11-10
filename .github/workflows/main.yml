@@ -39,9 +39,9 @@ jobs:
             env:
               TOXENV: latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: 'Set up Python ${{ matrix.python-version }}'
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '${{ matrix.python-version }}'
       - name: Install language-pack-fr
@@ -52,4 +52,4 @@ jobs:
         run: tox -e py
       - name: Upload coverage.xml to codecov
         if: ${{ matrix.python-version == '3.9' && matrix.env.TOXENV == 'latest'}}
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3

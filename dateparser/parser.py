@@ -63,11 +63,11 @@ def resolve_date_order(order, lst=None):
     return chart_list[order] if lst else date_order_chart[order]
 
 
-def _parse_absolute(datestring, settings):
-    return _parser.parse(datestring, settings)
+def _parse_absolute(datestring, settings, tz=None):
+    return _parser.parse(datestring, settings, tz)
 
 
-def _parse_nospaces(datestring, settings):
+def _parse_nospaces(datestring, settings, tz=None):
     return _no_spaces_parser.parse(datestring, settings)
 
 
@@ -223,7 +223,7 @@ class _parser:
 
     def __init__(self, tokens, settings):
         self.settings = settings
-        self.tokens = list(tokens)
+        self.tokens = [(t[0].strip(), t[1]) for t in list(tokens)]
         self.filtered_tokens = [(t[0], t[1], i) for i, t in enumerate(self.tokens) if t[1] <= 1]
 
         self.unset_tokens = []
@@ -417,7 +417,7 @@ class _parser:
 
         return self._get_datetime_obj(**params)
 
-    def _correct_for_time_frame(self, dateobj):
+    def _correct_for_time_frame(self, dateobj, tz):
         days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
 
         token_weekday, _ = getattr(self, '_token_weekday', (None, None))
@@ -490,11 +490,16 @@ class _parser:
                                          self._token_month,
                                          self._token_day,
                                          hasattr(self, '_token_weekday')]):
+            # Convert dateobj to utc time to compare with self.now
+            if tz:
+                dateobj_time = (dateobj - tz.utcoffset(dateobj)).time()
+            else:
+                dateobj_time = dateobj.time()
             if 'past' in self.settings.PREFER_DATES_FROM:
-                if self.now.time() < dateobj.time():
+                if self.now.time() < dateobj_time:
                     dateobj = dateobj + timedelta(days=-1)
             if 'future' in self.settings.PREFER_DATES_FROM:
-                if self.now.time() > dateobj.time():
+                if self.now.time() > dateobj_time:
                     dateobj = dateobj + timedelta(days=1)
 
         # Reset dateobj to the original value, thus removing any offset awareness that may
@@ -517,13 +522,13 @@ class _parser:
         return dateobj
 
     @classmethod
-    def parse(cls, datestring, settings):
+    def parse(cls, datestring, settings, tz=None):
         tokens = tokenizer(datestring)
         po = cls(tokens.tokenize(), settings)
         dateobj = po._results()
 
         # correction for past, future if applicable
-        dateobj = po._correct_for_time_frame(dateobj)
+        dateobj = po._correct_for_time_frame(dateobj, tz)
 
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
