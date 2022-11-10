@@ -42,8 +42,8 @@ relative-type:
 
 relative-type-regex:
     in \1 decade:
-        - (\d+) दशक में
+        - (\d+[.,]?\d*) दशक में
     \1 decade ago:
-        - (\d+) दशक पहले
+        - (\d+[.,]?\d*) दशक पहले
 
 
