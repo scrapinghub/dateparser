@@ -31,9 +31,7 @@ relative-type:
 
 relative-type-regex:
     \1 month ago:
-        - (\d+) bulan lalu
+        - (\d+[.,]?\d*) bulan lalu
     
     \1 year ago:
-        - (\d+) tahun lalu
-
-        
+        - (\d+[.,]?\d*) tahun lalu
