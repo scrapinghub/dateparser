@@ -14,6 +14,7 @@ decade:
     - decades
 year:
     - years
+    - y
 month:
     - months
 week:

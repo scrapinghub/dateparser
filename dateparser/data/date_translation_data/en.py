@@ -87,7 +87,8 @@ info = {
     "year": [
         "year",
         "yr",
-        "years"
+        "years",
+        "y"
     ],
     "month": [
         "mo",
