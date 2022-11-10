@@ -193,7 +193,8 @@ info = {
         ],
         "\\1 month ago": [
             "(\\d+[.,]?\\d*) bln lalu",
-            "(\\d+[.,]?\\d*) bulan yang lalu"
+            "(\\d+[.,]?\\d*) bulan yang lalu",
+            "(\\d+[.,]?\\d*) bulan lalu"
         ],
         "\\1 second ago": [
             "(\\d+[.,]?\\d*) detik yang lalu",
@@ -205,7 +206,8 @@ info = {
         ],
         "\\1 year ago": [
             "(\\d+[.,]?\\d*) tahun yang lalu",
-            "(\\d+[.,]?\\d*) thn lalu"
+            "(\\d+[.,]?\\d*) thn lalu",
+            "(\\d+[.,]?\\d*) tahun lalu"
         ],
         "in \\1 day": [
             "dalam (\\d+[.,]?\\d*) h",
