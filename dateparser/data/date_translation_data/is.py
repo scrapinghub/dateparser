@@ -161,67 +161,67 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "fyrir (\\d+) degi",
-            "fyrir (\\d+) dögum"
+            "fyrir (\\d+[.,]?\\d*) degi",
+            "fyrir (\\d+[.,]?\\d*) dögum"
         ],
         "\\1 hour ago": [
-            "fyrir (\\d+) klst",
-            "fyrir (\\d+) klukkustund",
-            "fyrir (\\d+) klukkustundum"
+            "fyrir (\\d+[.,]?\\d*) klst",
+            "fyrir (\\d+[.,]?\\d*) klukkustund",
+            "fyrir (\\d+[.,]?\\d*) klukkustundum"
         ],
         "\\1 minute ago": [
-            "fyrir (\\d+) mín",
-            "fyrir (\\d+) mínútu",
-            "fyrir (\\d+) mínútum"
+            "fyrir (\\d+[.,]?\\d*) mín",
+            "fyrir (\\d+[.,]?\\d*) mínútu",
+            "fyrir (\\d+[.,]?\\d*) mínútum"
         ],
         "\\1 month ago": [
-            "fyrir (\\d+) mán",
-            "fyrir (\\d+) mánuði",
-            "fyrir (\\d+) mánuðum"
+            "fyrir (\\d+[.,]?\\d*) mán",
+            "fyrir (\\d+[.,]?\\d*) mánuði",
+            "fyrir (\\d+[.,]?\\d*) mánuðum"
         ],
         "\\1 second ago": [
-            "fyrir (\\d+) sek",
-            "fyrir (\\d+) sekúndu",
-            "fyrir (\\d+) sekúndum"
+            "fyrir (\\d+[.,]?\\d*) sek",
+            "fyrir (\\d+[.,]?\\d*) sekúndu",
+            "fyrir (\\d+[.,]?\\d*) sekúndum"
         ],
         "\\1 week ago": [
-            "fyrir (\\d+) viku",
-            "fyrir (\\d+) vikum"
+            "fyrir (\\d+[.,]?\\d*) viku",
+            "fyrir (\\d+[.,]?\\d*) vikum"
         ],
         "\\1 year ago": [
-            "fyrir (\\d+) ári",
-            "fyrir (\\d+) árum"
+            "fyrir (\\d+[.,]?\\d*) ári",
+            "fyrir (\\d+[.,]?\\d*) árum"
         ],
         "in \\1 day": [
-            "eftir (\\d+) dag",
-            "eftir (\\d+) daga"
+            "eftir (\\d+[.,]?\\d*) dag",
+            "eftir (\\d+[.,]?\\d*) daga"
         ],
         "in \\1 hour": [
-            "eftir (\\d+) klst",
-            "eftir (\\d+) klukkustund",
-            "eftir (\\d+) klukkustundir"
+            "eftir (\\d+[.,]?\\d*) klst",
+            "eftir (\\d+[.,]?\\d*) klukkustund",
+            "eftir (\\d+[.,]?\\d*) klukkustundir"
         ],
         "in \\1 minute": [
-            "eftir (\\d+) mín",
-            "eftir (\\d+) mínútu",
-            "eftir (\\d+) mínútur"
+            "eftir (\\d+[.,]?\\d*) mín",
+            "eftir (\\d+[.,]?\\d*) mínútu",
+            "eftir (\\d+[.,]?\\d*) mínútur"
         ],
         "in \\1 month": [
-            "eftir (\\d+) mán",
-            "eftir (\\d+) mánuð",
-            "eftir (\\d+) mánuði"
+            "eftir (\\d+[.,]?\\d*) mán",
+            "eftir (\\d+[.,]?\\d*) mánuð",
+            "eftir (\\d+[.,]?\\d*) mánuði"
         ],
         "in \\1 second": [
-            "eftir (\\d+) sek",
-            "eftir (\\d+) sekúndu",
-            "eftir (\\d+) sekúndur"
+            "eftir (\\d+[.,]?\\d*) sek",
+            "eftir (\\d+[.,]?\\d*) sekúndu",
+            "eftir (\\d+[.,]?\\d*) sekúndur"
         ],
         "in \\1 week": [
-            "eftir (\\d+) viku",
-            "eftir (\\d+) vikur"
+            "eftir (\\d+[.,]?\\d*) viku",
+            "eftir (\\d+[.,]?\\d*) vikur"
         ],
         "in \\1 year": [
-            "eftir (\\d+) ár"
+            "eftir (\\d+[.,]?\\d*) ár"
         ]
     },
     "locale_specific": {},

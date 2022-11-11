@@ -16,7 +16,7 @@ setup(
     description='Date parsing library designed to parse dates from HTML pages',
     long_description=introduction + '\n\n' + history,
     author='Scrapinghub',
-    author_email='info@scrapinghub.com',
+    author_email='opensource@zyte.com',
     url='https://github.com/scrapinghub/dateparser',
     project_urls={
         'History': 'https://dateparser.readthedocs.io/en/latest/history.html',

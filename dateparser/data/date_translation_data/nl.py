@@ -170,62 +170,62 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) dag geleden",
-            "(\\d+) dagen geleden",
-            "(\\d+) dgn geleden"
+            "(\\d+[.,]?\\d*) dag geleden",
+            "(\\d+[.,]?\\d*) dagen geleden",
+            "(\\d+[.,]?\\d*) dgn geleden"
         ],
         "\\1 hour ago": [
-            "(\\d+) uur geleden"
+            "(\\d+[.,]?\\d*) uur geleden"
         ],
         "\\1 minute ago": [
-            "(\\d+) min geleden",
-            "(\\d+) minuten geleden",
-            "(\\d+) minuut geleden"
+            "(\\d+[.,]?\\d*) min geleden",
+            "(\\d+[.,]?\\d*) minuten geleden",
+            "(\\d+[.,]?\\d*) minuut geleden"
         ],
         "\\1 month ago": [
-            "(\\d+) maand geleden",
-            "(\\d+) maanden geleden"
+            "(\\d+[.,]?\\d*) maand geleden",
+            "(\\d+[.,]?\\d*) maanden geleden"
         ],
         "\\1 second ago": [
-            "(\\d+) sec geleden",
-            "(\\d+) seconde geleden",
-            "(\\d+) seconden geleden"
+            "(\\d+[.,]?\\d*) sec geleden",
+            "(\\d+[.,]?\\d*) seconde geleden",
+            "(\\d+[.,]?\\d*) seconden geleden"
         ],
         "\\1 week ago": [
-            "(\\d+) week geleden",
-            "(\\d+) weken geleden"
+            "(\\d+[.,]?\\d*) week geleden",
+            "(\\d+[.,]?\\d*) weken geleden"
         ],
         "\\1 year ago": [
-            "(\\d+) jaar geleden"
+            "(\\d+[.,]?\\d*) jaar geleden"
         ],
         "in \\1 day": [
-            "over (\\d+) dag",
-            "over (\\d+) dagen",
-            "over (\\d+) dgn"
+            "over (\\d+[.,]?\\d*) dag",
+            "over (\\d+[.,]?\\d*) dagen",
+            "over (\\d+[.,]?\\d*) dgn"
         ],
         "in \\1 hour": [
-            "over (\\d+) uur"
+            "over (\\d+[.,]?\\d*) uur"
         ],
         "in \\1 minute": [
-            "over (\\d+) min",
-            "over (\\d+) minuten",
-            "over (\\d+) minuut"
+            "over (\\d+[.,]?\\d*) min",
+            "over (\\d+[.,]?\\d*) minuten",
+            "over (\\d+[.,]?\\d*) minuut"
         ],
         "in \\1 month": [
-            "over (\\d+) maand",
-            "over (\\d+) maanden"
+            "over (\\d+[.,]?\\d*) maand",
+            "over (\\d+[.,]?\\d*) maanden"
         ],
         "in \\1 second": [
-            "over (\\d+) sec",
-            "over (\\d+) seconde",
-            "over (\\d+) seconden"
+            "over (\\d+[.,]?\\d*) sec",
+            "over (\\d+[.,]?\\d*) seconde",
+            "over (\\d+[.,]?\\d*) seconden"
         ],
         "in \\1 week": [
-            "over (\\d+) week",
-            "over (\\d+) weken"
+            "over (\\d+[.,]?\\d*) week",
+            "over (\\d+[.,]?\\d*) weken"
         ],
         "in \\1 year": [
-            "over (\\d+) jaar"
+            "over (\\d+[.,]?\\d*) jaar"
         ]
     },
     "locale_specific": {

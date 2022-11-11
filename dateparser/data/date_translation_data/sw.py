@@ -149,55 +149,55 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "siku (\\d+) iliyopita",
-            "siku (\\d+) zilizopita"
+            "siku (\\d+[.,]?\\d*) iliyopita",
+            "siku (\\d+[.,]?\\d*) zilizopita"
         ],
         "\\1 hour ago": [
-            "saa (\\d+) iliyopita",
-            "saa (\\d+) zilizopita"
+            "saa (\\d+[.,]?\\d*) iliyopita",
+            "saa (\\d+[.,]?\\d*) zilizopita"
         ],
         "\\1 minute ago": [
-            "dakika (\\d+) iliyopita",
-            "dakika (\\d+) zilizopita"
+            "dakika (\\d+[.,]?\\d*) iliyopita",
+            "dakika (\\d+[.,]?\\d*) zilizopita"
         ],
         "\\1 month ago": [
-            "miezi (\\d+) iliyopita",
-            "mwezi (\\d+) uliopita"
+            "miezi (\\d+[.,]?\\d*) iliyopita",
+            "mwezi (\\d+[.,]?\\d*) uliopita"
         ],
         "\\1 second ago": [
-            "sekunde (\\d+) iliyopita",
-            "sekunde (\\d+) zilizopita"
+            "sekunde (\\d+[.,]?\\d*) iliyopita",
+            "sekunde (\\d+[.,]?\\d*) zilizopita"
         ],
         "\\1 week ago": [
-            "wiki (\\d+) iliyopita",
-            "wiki (\\d+) zilizopita"
+            "wiki (\\d+[.,]?\\d*) iliyopita",
+            "wiki (\\d+[.,]?\\d*) zilizopita"
         ],
         "\\1 year ago": [
-            "miaka (\\d+) iliyopita",
-            "mwaka (\\d+) uliopita"
+            "miaka (\\d+[.,]?\\d*) iliyopita",
+            "mwaka (\\d+[.,]?\\d*) uliopita"
         ],
         "in \\1 day": [
-            "baada ya siku (\\d+)"
+            "baada ya siku (\\d+[.,]?\\d*)"
         ],
         "in \\1 hour": [
-            "baada ya saa (\\d+)"
+            "baada ya saa (\\d+[.,]?\\d*)"
         ],
         "in \\1 minute": [
-            "baada ya dakika (\\d+)"
+            "baada ya dakika (\\d+[.,]?\\d*)"
         ],
         "in \\1 month": [
-            "baada ya miezi (\\d+)",
-            "baada ya mwezi (\\d+)"
+            "baada ya miezi (\\d+[.,]?\\d*)",
+            "baada ya mwezi (\\d+[.,]?\\d*)"
         ],
         "in \\1 second": [
-            "baada ya sekunde (\\d+)"
+            "baada ya sekunde (\\d+[.,]?\\d*)"
         ],
         "in \\1 week": [
-            "baada ya wiki (\\d+)"
+            "baada ya wiki (\\d+[.,]?\\d*)"
         ],
         "in \\1 year": [
-            "baada ya miaka (\\d+)",
-            "baada ya mwaka (\\d+)"
+            "baada ya miaka (\\d+[.,]?\\d*)",
+            "baada ya mwaka (\\d+[.,]?\\d*)"
         ]
     },
     "locale_specific": {

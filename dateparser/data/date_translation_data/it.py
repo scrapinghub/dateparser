@@ -170,74 +170,74 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) g fa",
-            "(\\d+) gg fa",
-            "(\\d+) giorni fa",
-            "(\\d+) giorno fa"
+            "(\\d+[.,]?\\d*) g fa",
+            "(\\d+[.,]?\\d*) gg fa",
+            "(\\d+[.,]?\\d*) giorni fa",
+            "(\\d+[.,]?\\d*) giorno fa"
         ],
         "\\1 hour ago": [
-            "(\\d+) h fa",
-            "(\\d+) ora fa",
-            "(\\d+) ore fa"
+            "(\\d+[.,]?\\d*) h fa",
+            "(\\d+[.,]?\\d*) ora fa",
+            "(\\d+[.,]?\\d*) ore fa"
         ],
         "\\1 minute ago": [
-            "(\\d+) min fa",
-            "(\\d+) minuti fa",
-            "(\\d+) minuto fa"
+            "(\\d+[.,]?\\d*) min fa",
+            "(\\d+[.,]?\\d*) minuti fa",
+            "(\\d+[.,]?\\d*) minuto fa"
         ],
         "\\1 month ago": [
-            "(\\d+) mese fa",
-            "(\\d+) mesi fa"
+            "(\\d+[.,]?\\d*) mese fa",
+            "(\\d+[.,]?\\d*) mesi fa"
         ],
         "\\1 second ago": [
-            "(\\d+) s fa",
-            "(\\d+) sec fa",
-            "(\\d+) secondi fa",
-            "(\\d+) secondo fa"
+            "(\\d+[.,]?\\d*) s fa",
+            "(\\d+[.,]?\\d*) sec fa",
+            "(\\d+[.,]?\\d*) secondi fa",
+            "(\\d+[.,]?\\d*) secondo fa"
         ],
         "\\1 week ago": [
-            "(\\d+) sett fa",
-            "(\\d+) settimana fa",
-            "(\\d+) settimane fa"
+            "(\\d+[.,]?\\d*) sett fa",
+            "(\\d+[.,]?\\d*) settimana fa",
+            "(\\d+[.,]?\\d*) settimane fa"
         ],
         "\\1 year ago": [
-            "(\\d+) anni fa",
-            "(\\d+) anno fa"
+            "(\\d+[.,]?\\d*) anni fa",
+            "(\\d+[.,]?\\d*) anno fa"
         ],
         "in \\1 day": [
-            "tra (\\d+) g",
-            "tra (\\d+) gg",
-            "tra (\\d+) giorni",
-            "tra (\\d+) giorno"
+            "tra (\\d+[.,]?\\d*) g",
+            "tra (\\d+[.,]?\\d*) gg",
+            "tra (\\d+[.,]?\\d*) giorni",
+            "tra (\\d+[.,]?\\d*) giorno"
         ],
         "in \\1 hour": [
-            "tra (\\d+) h",
-            "tra (\\d+) ora",
-            "tra (\\d+) ore"
+            "tra (\\d+[.,]?\\d*) h",
+            "tra (\\d+[.,]?\\d*) ora",
+            "tra (\\d+[.,]?\\d*) ore"
         ],
         "in \\1 minute": [
-            "tra (\\d+) min",
-            "tra (\\d+) minuti",
-            "tra (\\d+) minuto"
+            "tra (\\d+[.,]?\\d*) min",
+            "tra (\\d+[.,]?\\d*) minuti",
+            "tra (\\d+[.,]?\\d*) minuto"
         ],
         "in \\1 month": [
-            "tra (\\d+) mese",
-            "tra (\\d+) mesi"
+            "tra (\\d+[.,]?\\d*) mese",
+            "tra (\\d+[.,]?\\d*) mesi"
         ],
         "in \\1 second": [
-            "tra (\\d+) s",
-            "tra (\\d+) sec",
-            "tra (\\d+) secondi",
-            "tra (\\d+) secondo"
+            "tra (\\d+[.,]?\\d*) s",
+            "tra (\\d+[.,]?\\d*) sec",
+            "tra (\\d+[.,]?\\d*) secondi",
+            "tra (\\d+[.,]?\\d*) secondo"
         ],
         "in \\1 week": [
-            "tra (\\d+) sett",
-            "tra (\\d+) settimana",
-            "tra (\\d+) settimane"
+            "tra (\\d+[.,]?\\d*) sett",
+            "tra (\\d+[.,]?\\d*) settimana",
+            "tra (\\d+[.,]?\\d*) settimane"
         ],
         "in \\1 year": [
-            "tra (\\d+) anni",
-            "tra (\\d+) anno"
+            "tra (\\d+[.,]?\\d*) anni",
+            "tra (\\d+[.,]?\\d*) anno"
         ]
     },
     "locale_specific": {
@@ -276,7 +276,7 @@ info = {
     ],
     "simplifications": [
         {
-            "(\\d+)\\s+ora": "\\1 ore"
+            "(\\d+[.,]?\\d*)\\s+ora": "\\1 ore"
         }
     ]
 }

@@ -67,4 +67,4 @@ in:
     - trong
 
 simplifications:
-    - (?:ngày|năm)\s(\d+): \1
+    - (?:ngày|năm)\s(\d+[.,]?\d*): \1
