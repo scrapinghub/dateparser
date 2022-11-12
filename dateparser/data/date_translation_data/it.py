@@ -175,7 +175,7 @@ info = {
         ],
         "in 2 days": [
             "dopodomani"
-        ]
+        ],
     },
     "relative-type-regex": {
         "\\1 day ago": [
@@ -289,7 +289,7 @@ info = {
             "fra (\\d+) anno",
             "(\\d+) anni a partire da ora",
             "(\\d+) anno a partire da ora",
-        ]
+        ],
     },
     "locale_specific": {
         "it-CH": {

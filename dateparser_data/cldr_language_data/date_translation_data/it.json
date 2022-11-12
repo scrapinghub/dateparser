@@ -236,7 +236,7 @@
             "fra {0} mese",
             "fra {0} mesi",
             "{0} mese a partire da ora",
-            "{0} mesi a partire da ora",
+            "{0} mesi a partire da ora"
         ],
         "in \\1 second": [
             "tra {0} s",
