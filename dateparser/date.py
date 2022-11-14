@@ -303,12 +303,7 @@ class DateData:
         setattr(self, k, v)
 
     def __repr__(self):
-        if sys.version_info < (3, 6):  # python 3.5 compatibility
-            properties_text = "date_obj={}, period={}, locale={}".format(
-                self.date_obj.__repr__(), self.period.__repr__(), self.locale.__repr__()
-            )
-        else:
-            properties_text = ', '.join('{}={}'.format(prop, val.__repr__()) for prop, val in self.__dict__.items())
+        properties_text = ', '.join('{}={}'.format(prop, val.__repr__()) for prop, val in self.__dict__.items())
 
         return '{}({})'.format(
             self.__class__.__name__, properties_text
@@ -465,10 +460,7 @@ class DateDataParser:
 
     def get_date_tuple(self, *args, **kwargs):
         date_data = self.get_date_data(*args, **kwargs)
-        if sys.version_info < (3, 6):  # python 3.5 compatibility
-            fields = ['date_obj', 'period', 'locale']
-        else:
-            fields = date_data.__dict__.keys()
+        fields = date_data.__dict__.keys()
         date_tuple = collections.namedtuple('DateData', fields)
         return date_tuple(**date_data.__dict__)
 
