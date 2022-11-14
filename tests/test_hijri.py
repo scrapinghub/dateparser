@@ -6,16 +6,9 @@ from parameterized import parameterized, param
 
 from tests import BaseTestCase
 
-is_python_supported = sys.version_info >= (3, 6)
-
-try:
-    from dateparser.calendars.hijri import HijriCalendar
-except ImportError:
-    if is_python_supported:
-        raise
+from dateparser.calendars.hijri import HijriCalendar
 
 
-@unittest.skipUnless(is_python_supported, "hijri-converter doesn't support Python<3.6")
 class TestHijriParser(BaseTestCase):
 
     def setUp(self):

@@ -17,12 +17,6 @@ jobs:
           - python-version: 3.8
             env:
               TOXENV: flake8
-          - python-version: 3.5
-            env:
-              TOXENV: py
-          - python-version: 3.6
-            env:
-              TOXENV: py
           - python-version: 3.7
             env:
               TOXENV: py

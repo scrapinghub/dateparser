@@ -5,10 +5,7 @@ from pathlib import Path
 DEFAULT_DIR_NAME = 'dateparser_models'
 DEFAULT_UNIX_CACHE_DIR = '~/.cache'
 
-if sys.version_info < (3, 6):  # python 3.5 compatibility
-    DEFAULT_WINDOWS_CACHE_DIR = os.path.join(str(Path.home()), "AppData", "Roaming")
-else:
-    DEFAULT_WINDOWS_CACHE_DIR = os.path.join(Path.home(), "AppData", "Roaming")
+DEFAULT_WINDOWS_CACHE_DIR = os.path.join(Path.home(), "AppData", "Roaming")
 
 
 if sys.platform.startswith('win'):
