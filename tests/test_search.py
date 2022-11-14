@@ -189,6 +189,9 @@ class TestTranslateSearch(BaseTestCase):
         param('ja', "2016年3月21日(月) 14時48分"),
         param('ja', "2016年3月20日(日) 21時40分"),
         param('ja', "2016年3月20日 (日) 21時40分"),
+        param('ja', "正午"),
+        param('ja', "明後日"),
+        param('ja', "明後日の正午"),
 
         # Hebrew
         param('he', "20 לאפריל 2012"),
@@ -302,7 +305,9 @@ class TestTranslateSearch(BaseTestCase):
               [('25th march 2015', datetime.datetime(2015, 3, 25)),
                ('today', datetime.datetime(2000, 1, 1))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
-
+        param('en', 'The employee has not submitted their documents till date',
+              [('till date', datetime.datetime(2000, 1, 1))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
         # Filipino / Tagalog
         param('tl', 'Maraming namatay sa mga Hapon hanggang sila\'y sumuko noong Agosto 15, 1945.',
               [('noong Agosto 15, 1945', datetime.datetime(1945, 8, 15, 0, 0))],
@@ -461,15 +466,15 @@ class TestTranslateSearch(BaseTestCase):
                ('October', datetime.datetime(2014, 10, datetime.datetime.utcnow().day, 0, 0)),
                ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
         param('en', """May 2020
-                    June 2020
+                    July 2020
                     2023
                     January UTC
                     June 5 am utc
                     June 23th 5 pm EST
                     May 31, 8am UTC""",
               [('May 2020', datetime.datetime(2020, 5, datetime.datetime.utcnow().day, 0, 0)),
-               ('June 2020', datetime.datetime(2020, 6, datetime.datetime.utcnow().day, 0, 0)),
-               ('2023', datetime.datetime(2023, 6, datetime.datetime.utcnow().day, 0, 0)),
+               ('July 2020', datetime.datetime(2020, 7, datetime.datetime.utcnow().day, 0, 0)),
+               ('2023', datetime.datetime(2023, 7, datetime.datetime.utcnow().day, 0, 0)),
                ('January UTC', datetime.datetime(2023, 1, datetime.datetime.utcnow().day, 0, 0, tzinfo=pytz.utc)),
                ('June 5 am utc', datetime.datetime(2023, 6, 5, 0, 0, tzinfo=pytz.utc)),
                ('June 23th 5 pm EST', datetime.datetime(2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST"))),
@@ -481,6 +486,8 @@ class TestTranslateSearch(BaseTestCase):
               [('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
                ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
                ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+        param('ru', 'Андрей Дмитриевич Сахаров скончался 14 декабря в 1989 году от внезапной остановки сердца.',
+              [('14 декабря в 1989 году', datetime.datetime(1989, 12, 14, 0, 0))]),
         # relative dates
         param('ru', '19 марта 2001. Сегодня был хороший день. 2 дня назад был хороший день. '
                     'Вчера тоже был хороший день.',

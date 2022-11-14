@@ -66,7 +66,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("100 decades", ago={'years': 1000}, period='year'),
         param('yesterday', ago={'days': 1}, period='day'),
         param('the day before yesterday', ago={'days': 2}, period='day'),
+        param('4 days before', ago={'days': 4}, period='day'),
         param('today', ago={'days': 0}, period='day'),
+        param('till date', ago={'days': 0}, period='day'),
         param('an hour ago', ago={'hours': 1}, period='day'),
         param('about an hour ago', ago={'hours': 1}, period='day'),
         param('a day ago', ago={'days': 1}, period='day'),
@@ -96,6 +98,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('eight months ago', ago={'months': 8}, period='month'),
         param('six days ago', ago={'days': 6}, period='day'),
         param('five years ago', ago={'years': 5}, period='year'),
+        # Fractional units
+        param('2.5 hours', ago={'hours': 2.5}, period='day'),
+        param('10.75 minutes', ago={'minutes': 10.75}, period='day'),
+        param('1.5 days', ago={'days': 1.5}, period='day'),
 
         # French dates
         param("Aujourd'hui", ago={'days': 0}, period='day'),
@@ -353,6 +359,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 वर्ष, 8 महीने, 2 सप्ताह', ago={'years': 1, 'months': 8, 'weeks': 2}, period='week'),
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
+        param('1 दशक', ago={'years': 10}, period='year'),
+        param('1 दशक पहले', ago={'years': 10}, period='year'),
 
         # af
         param("2 uur gelede", ago={'hours': 2}, period='day'),
@@ -458,6 +466,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("před 12 lětom 15 měsac", ago={'years': 12, 'months': 15}, period='month'),
         # hy
         param("15 րոպե առաջ", ago={'minutes': 15}, period='day'),
+        # id
+        param("4 tahun lalu", ago={'years': 4}, period='year'),
+        param("4 thn lalu", ago={'years': 4}, period='year'),
+        param("4 bulan lalu", ago={'months': 4}, period='month'),
+        param("4 bln lalu", ago={'months': 4}, period='month'),
         # is
         param("fyrir 3 ári fyrir 2 mánuði", ago={'years': 3, 'months': 2}, period='month'),
         # it
@@ -524,6 +537,14 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("මිනිත්තු 6කට පෙර", ago={'minutes': 6}, period='day'),
         # sk
         param("pred 20 hodinami 45 min", ago={'hours': 20, 'minutes': 45}, period='day'),
+        param('dnes', ago={'days': 0}, period='day'),
+        param('včera', ago={'days': 1}, period='day'),
+        param('predvčerom', ago={'days': 2}, period='day'),
+        param('pred 2 hodinami', ago={'hours': 2}, period='day'),
+        param('pred rokom', ago={'years': 1}, period='year'),
+        param('pred týždňom', ago={'weeks': 1}, period='week'),
+        param('pred 3 dňami', ago={'days': 3}, period='day'),
+        param('pred hodinou', ago={'hours': 1}, period='day'),
         # sl
         param("pred 15 tednom 10 dan", ago={'weeks': 15, 'days': 10}, period='day'),
         # sq
@@ -586,7 +607,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param("100 decades", ago={'years': 1000}, period='year'),
         param('yesterday', ago={'days': 1}, period='day'),
         param('the day before yesterday', ago={'days': 2}, period='day'),
+        param('10 days before', ago={'days': 10}, period='day'),
         param('today', ago={'days': 0}, period='day'),
+        param('till date', ago={'days': 0}, period='day'),
         param('an hour ago', ago={'hours': 1}, period='day'),
         param('about an hour ago', ago={'hours': 1}, period='day'),
         param('a day ago', ago={'days': 1}, period='day'),
@@ -610,6 +633,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         param('just now', ago={'seconds': 0}, period='day'),
+        # Fractional units
+        param('2.5 hours', ago={'hours': 2.5}, period='day'),
+        param('10.75 minutes', ago={'minutes': 10.75}, period='day'),
+        param('1.5 days', ago={'days': 1.5}, period='day'),
 
         # French dates
         param("Aujourd'hui", ago={'days': 0}, period='day'),
@@ -842,6 +869,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 वर्ष, 8 महीने, 2 सप्ताह', ago={'years': 1, 'months': 8, 'weeks': 2}, period='week'),
         param('1 वर्ष 7 महीने', ago={'years': 1, 'months': 7}, period='month'),
         param('आज', ago={'days': 0}, period='day'),
+        param('1 दशक पहले', ago={'years': 10}, period='year'),
 
         # af
         param("2 uur gelede", ago={'hours': 2}, period='day'),
@@ -1074,7 +1102,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('next decade', in_future={'years': 10}, period='year'),
         param('in a decade', in_future={'years': 10}, period='year'),
         param('tomorrow', in_future={'days': 1}, period='day'),
+        param('day after tomorrow', in_future={'days': 2}, period='day'),
+        param('after 4 days', in_future={'days': 4}, period='day'),
         param('today', in_future={'days': 0}, period='day'),
+        param('till date', in_future={'days': 0}, period='day'),
         param('in an hour', in_future={'hours': 1}, period='day'),
         param('in about an hour', in_future={'hours': 1}, period='day'),
         param('in 1 day', in_future={'days': 1}, period='day'),
@@ -1099,6 +1130,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
               in_future={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         param('just now', in_future={'seconds': 0}, period='day'),
+        # Fractional units
+        param('in 2.5 hours', in_future={'hours': 2.5}, period='day'),
+        param('in 10.75 minutes', in_future={'minutes': 10.75}, period='day'),
+        param('in 1.5 days', in_future={'days': 1.5}, period='day'),
+        param('in 0,5 hours', in_future={'hours': 0.5}, period='day'),
 
         # French dates
         param("Aujourd'hui", in_future={'days': 0}, period='day'),
@@ -1162,6 +1198,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('17 सेकंड बाद', in_future={'seconds': 17}, period='day'),
         param('1 वर्ष, 5 महीने, 1 सप्ताह में',
               in_future={'years': 1, 'months': 5, 'weeks': 1}, period='week'),
+        param('1 दशक में', in_future={'years': 10}, period='year'),
 
         # af
         param("oor 10 jaar", in_future={'years': 10}, period='year'),
@@ -1620,7 +1657,12 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('{} months ago'.format(2008 * 12 + 8), date(1, 10, 4), time(13, 15)),
         param('1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago',
               date(2009, 4, 26), time(12, 14)),
-        param('just now', date(2010, 6, 4), time(13, 15))
+        param('just now', date(2010, 6, 4), time(13, 15)),
+        # Fractional units
+        param('2.5 hours ago', date(2010, 6, 4), time(10, 45)),
+        param('in 10.75 minutes', date(2010, 6, 4), time(13, 25, 45)),
+        param('in 1.5 days', date(2010, 6, 6), time(1, 15)),
+        param('0,5 hours ago', date(2010, 6, 4), time(12, 45)),
     ])
     def test_freshness_date_with_relative_base(self, date_string, date, time):
         self.given_parser(settings={'RELATIVE_BASE': datetime(2010, 6, 4, 13, 15)})

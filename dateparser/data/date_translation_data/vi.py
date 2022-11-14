@@ -182,46 +182,46 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) ngày trước"
+            "(\\d+[.,]?\\d*) ngày trước"
         ],
         "\\1 hour ago": [
-            "(\\d+) giờ trước"
+            "(\\d+[.,]?\\d*) giờ trước"
         ],
         "\\1 minute ago": [
-            "(\\d+) phút trước"
+            "(\\d+[.,]?\\d*) phút trước"
         ],
         "\\1 month ago": [
-            "(\\d+) tháng trước"
+            "(\\d+[.,]?\\d*) tháng trước"
         ],
         "\\1 second ago": [
-            "(\\d+) giây trước"
+            "(\\d+[.,]?\\d*) giây trước"
         ],
         "\\1 week ago": [
-            "(\\d+) tuần trước"
+            "(\\d+[.,]?\\d*) tuần trước"
         ],
         "\\1 year ago": [
-            "(\\d+) năm trước"
+            "(\\d+[.,]?\\d*) năm trước"
         ],
         "in \\1 day": [
-            "sau (\\d+) ngày nữa"
+            "sau (\\d+[.,]?\\d*) ngày nữa"
         ],
         "in \\1 hour": [
-            "sau (\\d+) giờ nữa"
+            "sau (\\d+[.,]?\\d*) giờ nữa"
         ],
         "in \\1 minute": [
-            "sau (\\d+) phút nữa"
+            "sau (\\d+[.,]?\\d*) phút nữa"
         ],
         "in \\1 month": [
-            "sau (\\d+) tháng nữa"
+            "sau (\\d+[.,]?\\d*) tháng nữa"
         ],
         "in \\1 second": [
-            "sau (\\d+) giây nữa"
+            "sau (\\d+[.,]?\\d*) giây nữa"
         ],
         "in \\1 week": [
-            "sau (\\d+) tuần nữa"
+            "sau (\\d+[.,]?\\d*) tuần nữa"
         ],
         "in \\1 year": [
-            "sau (\\d+) năm nữa"
+            "sau (\\d+[.,]?\\d*) năm nữa"
         ]
     },
     "locale_specific": {},
@@ -240,7 +240,7 @@ info = {
     ],
     "simplifications": [
         {
-            "(?:ngày|năm)\\s(\\d+)": "\\1"
+            "(?:ngày|năm)\\s(\\d+[.,]?\\d*)": "\\1"
         }
     ],
     "skip": [

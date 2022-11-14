@@ -55,7 +55,7 @@ relative-type:
         - dopodomani
 
 simplifications:
-    - (\d+)\s+ora: \1 ore
+    - (\d+[.,]?\d*)\s+ora: \1 ore 
     - un[']ora: 1 ore
     - (?:12\s+)?mezzogiorno: '12:00'
     - (?:12\s+)?una: '13:00'

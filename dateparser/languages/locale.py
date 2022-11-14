@@ -10,7 +10,6 @@ from dateparser.utils import normalize_unicode, combine_dicts
 
 from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
 
-DIGIT_GROUP_PATTERN = re.compile(r'\\d\+')
 NUMERAL_PATTERN = re.compile(r'(\d+)', re.U)
 
 
@@ -137,7 +136,8 @@ class Locale:
                     date_string_tokens[i] = pattern.sub(replacement, word)
             else:
                 if word in dictionary:
-                    date_string_tokens[i] = dictionary[word] or ''
+                    fallback = word if keep_formatting and not word.isalpha() else ''
+                    date_string_tokens[i] = dictionary[word] or fallback
         if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
 
@@ -169,7 +169,7 @@ class Locale:
             if normalize:
                 value = list(map(normalize_unicode, value))
             pattern = '|'.join(sorted(value, key=len, reverse=True))
-            pattern = DIGIT_GROUP_PATTERN.sub(r'?P<n>\d+', pattern)
+            pattern = pattern.replace(r'(\d+', r'(?P<n>\d+')
             pattern = re.compile(r'^(?:{})$'.format(pattern), re.UNICODE | re.IGNORECASE)
             relative_dictionary[pattern] = key
         return relative_dictionary

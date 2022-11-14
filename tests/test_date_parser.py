@@ -97,6 +97,12 @@ class TestDateParser(BaseTestCase):
         param('13 авг. 2005г. 19:13', datetime(2005, 8, 13, 19, 13)),
         param('13 авг. 2005 г. 19:13', datetime(2005, 8, 13, 19, 13)),
         param('21 сентября 2021г., вторник', datetime(2021, 9, 21, 0, 0)),
+        param('Пнд, 07 янв. 2019 г. 12:15', datetime(2019, 1, 7, 12, 15)),
+        param('Срд, 09 янв. 2019 г. 12:15', datetime(2019, 1, 9, 12, 15)),
+        param('чтв, 1 сентября 2022 г. 09:00', datetime(2022, 9, 1, 9, 00)),
+        param('Птн, 11 янв. 2019 г. 12:15', datetime(2019, 1, 11, 12, 15)),
+        param('сбт, 1 окт. 2022 г. 10:22', datetime(2022, 10, 1, 10, 22)),
+        param('вск, 2 окт. 2022 г. 11:17', datetime(2022, 10, 2, 11, 17)),
         # Turkish dates
         param('11 Ağustos, 2014', datetime(2014, 8, 11)),
         param('08.Haziran.2014, 11:07', datetime(2014, 6, 8, 11, 7)),  # forum.andronova.net
@@ -111,6 +117,7 @@ class TestDateParser(BaseTestCase):
         param('21. Dezember 2013', datetime(2013, 12, 21)),
         param('19. Februar 2012', datetime(2012, 2, 19)),
         param('26. Juli 2014', datetime(2014, 7, 26)),
+        param('1. Sept 2000', datetime(2000, 9, 1)),
         param('18.10.14 um 22:56 Uhr', datetime(2014, 10, 18, 22, 56)),
         param('12-Mär-2014', datetime(2014, 3, 12)),
         param('Mit 13:14', datetime(2012, 11, 7, 13, 14)),
@@ -190,12 +197,38 @@ class TestDateParser(BaseTestCase):
         param('2015 წ. 12 ივნ, 15:34', datetime(2015, 6, 12, 15, 34)),
         # Finnish dates
         param('5.7.2018 5.45 ip.', datetime(2018, 7, 5, 17, 45)),
-        param('5 .7 .2018 5.45 ip.', datetime(2018, 7, 5, 17, 45))
-
+        param('5 .7 .2018 5.45 ip.', datetime(2018, 7, 5, 17, 45)),
+        # Croatian dates
+        param('06. travnja 2021.', datetime(2021, 4, 6, 0, 0)),
+        param('13. svibanj 2022.', datetime(2022, 5, 13, 0, 0)),
+        param('24.03.2019. u 22:22', datetime(2019, 3, 24, 22, 22)),
+        param('20. studenoga 2010. @ 07:28', datetime(2010, 11, 20, 7, 28)),
+        param('13. studenog 1989.', datetime(1989, 11, 13, 0, 0)),
+        param('29.01.2008. 00:00', datetime(2008, 1, 29, 0, 0)),
+        param('27. 05. 2022. u 14:34', datetime(2022, 5, 27, 14, 34)),
+        param('28. u studenom 2017.', datetime(2017, 11, 28, 0, 0)),
+        param('13. veljače 1999. u podne', datetime(1999, 2, 13, 12, 0)),
+        param('27. siječnja 1994. u ponoć', datetime(1994, 1, 27, 0, 0))
     ])
     def test_dates_parsing(self, date_string, expected):
         self.given_parser(settings={'NORMALIZE': False,
                                     'RELATIVE_BASE': datetime(2012, 11, 13)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('hr', '02/10/2016 u 17:20', datetime(2016, 10, 2, 17, 20)),
+    ])
+    def test_dates_parsing_with_language(self, language, date_string, expected):
+        self.given_parser(
+            languages=[language],
+            settings={
+                'NORMALIZE': False,
+                'RELATIVE_BASE': datetime(2012, 11, 13),
+            },
+        )
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_period_is('day')
@@ -829,6 +862,32 @@ class TestDateParser(BaseTestCase):
         self.given_parser()
         self.when_date_is_parsed(date_string)
         self.then_period_is('day')
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('4pm EDT', datetime(2021, 10, 19, 20, 0)),
+    ])
+    def test_date_skip_ahead(self, date_string, expected):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'future',
+                                    'TO_TIMEZONE': 'etc/utc',
+                                    'RETURN_AS_TIMEZONE_AWARE': False,
+                                    'RELATIVE_BASE': datetime(2021, 10, 19, 18, 0),
+                                    })
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand([
+        param('11pm AEDT', datetime(2021, 10, 19, 12, 0)),
+    ])
+    def test_date_step_back(self, date_string, expected):
+        self.given_parser(settings={'PREFER_DATES_FROM': 'past',
+                                    'TO_TIMEZONE': 'etc/utc',
+                                    'RETURN_AS_TIMEZONE_AWARE': False,
+                                    'RELATIVE_BASE': datetime(2021, 10, 19, 18, 0),
+                                    })
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
     def given_local_tz_offset(self, offset):
