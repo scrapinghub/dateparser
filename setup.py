@@ -34,7 +34,7 @@ setup(
         'console_scripts': ['dateparser-download = dateparser_cli.cli:entrance'],
     },
     extras_require={
-        'calendars:python_version': ['hijri-converter', 'convertdate'],
+        'calendars': ['hijri-converter', 'convertdate'],
         'fasttext': ['fasttext'],
         'langdetect': ['langdetect'],
     },
