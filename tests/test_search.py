@@ -189,6 +189,9 @@ class TestTranslateSearch(BaseTestCase):
         param('ja', "2016年3月21日(月) 14時48分"),
         param('ja', "2016年3月20日(日) 21時40分"),
         param('ja', "2016年3月20日 (日) 21時40分"),
+        param('ja', "正午"),
+        param('ja', "明後日"),
+        param('ja', "明後日の正午"),
 
         # Hebrew
         param('he', "20 לאפריל 2012"),

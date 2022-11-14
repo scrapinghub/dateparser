@@ -191,6 +191,8 @@ class TestBundledLanguages(BaseTestCase):
         param('ja', "2016年3月21日(月) 14時48分", "2016-3-21 monday 14:48"),
         param('ja', "2016年3月20日(日) 21時40分", "2016-3-20 sunday 21:40"),
         param('ja', "2016年3月20日 (日) 21時40分", "2016-3-20 sunday 21:40"),
+        param('ja', "正午", "12:00"),
+        param('ja', "明日の13時20分", "in 1 day 13:20"),
 
         # Hebrew
         param('he', "20 לאפריל 2012", "20 april 2012"),
@@ -1070,6 +1072,7 @@ class TestBundledLanguages(BaseTestCase):
         param('ja', "60秒", "60 second"),
         param('ja', "3秒前", "3 second ago"),
         param('ja', "現在", "0 second ago"),
+        param('ja', "明後日", "in 2 day"),
         # Hebrew
         param('he', "אתמול", "1 day ago"),
         param('he', "אתמול בשעה 3", "1 day ago  3"),
