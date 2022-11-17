@@ -1,53 +1,52 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "sw",
     "date_order": "DMY",
     "january": [
-        "januari",
-        "jan"
+        "jan",
+        "januari"
     ],
     "february": [
-        "februari",
-        "feb"
+        "feb",
+        "februari"
     ],
     "march": [
-        "machi",
-        "mac"
+        "mac",
+        "machi"
     ],
     "april": [
-        "aprili",
-        "apr"
+        "apr",
+        "aprili"
     ],
     "may": [
         "mei"
     ],
     "june": [
-        "juni",
-        "jun"
+        "jun",
+        "juni"
     ],
     "july": [
-        "julai",
-        "jul"
+        "jul",
+        "julai"
     ],
     "august": [
-        "agosti",
-        "ago"
+        "ago",
+        "agosti"
     ],
     "september": [
-        "septemba",
-        "sep"
+        "sep",
+        "septemba"
     ],
     "october": [
-        "oktoba",
-        "okt"
+        "okt",
+        "oktoba"
     ],
     "november": [
-        "novemba",
-        "nov"
+        "nov",
+        "novemba"
     ],
     "december": [
-        "desemba",
-        "des"
+        "des",
+        "desemba"
     ],
     "monday": [
         "jumatatu"
@@ -75,8 +74,8 @@ info = {
         "asubuhi"
     ],
     "pm": [
-        "pm",
-        "mchana"
+        "mchana",
+        "pm"
     ],
     "year": [
         "mwaka"
@@ -94,49 +93,16 @@ info = {
         "saa"
     ],
     "minute": [
-        "dakika",
-        "dak"
+        "dak",
+        "dakika"
     ],
     "second": [
-        "sekunde",
-        "sek"
+        "sek",
+        "sekunde"
     ],
     "relative-type": {
-        "1 year ago": [
-            "mwaka uliopita"
-        ],
-        "0 year ago": [
-            "mwaka huu"
-        ],
-        "in 1 year": [
-            "mwaka ujao"
-        ],
-        "1 month ago": [
-            "mwezi uliopita"
-        ],
-        "0 month ago": [
-            "mwezi huu"
-        ],
-        "in 1 month": [
-            "mwezi ujao"
-        ],
-        "1 week ago": [
-            "wiki iliyopita"
-        ],
-        "0 week ago": [
-            "wiki hii"
-        ],
-        "in 1 week": [
-            "wiki ijayo"
-        ],
-        "1 day ago": [
-            "jana"
-        ],
         "0 day ago": [
             "leo"
-        ],
-        "in 1 day": [
-            "kesho"
         ],
         "0 hour ago": [
             "saa hii"
@@ -144,67 +110,97 @@ info = {
         "0 minute ago": [
             "dakika hii"
         ],
+        "0 month ago": [
+            "mwezi huu"
+        ],
         "0 second ago": [
             "sasa hivi"
+        ],
+        "0 week ago": [
+            "wiki hii"
+        ],
+        "0 year ago": [
+            "mwaka huu"
+        ],
+        "1 day ago": [
+            "jana"
+        ],
+        "1 month ago": [
+            "mwezi uliopita"
+        ],
+        "1 week ago": [
+            "wiki iliyopita"
+        ],
+        "1 year ago": [
+            "mwaka uliopita"
+        ],
+        "in 1 day": [
+            "kesho"
+        ],
+        "in 1 month": [
+            "mwezi ujao"
+        ],
+        "in 1 week": [
+            "wiki ijayo"
+        ],
+        "in 1 year": [
+            "mwaka ujao"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "baada ya mwaka (\\d+)",
-            "baada ya miaka (\\d+)"
-        ],
-        "\\1 year ago": [
-            "mwaka (\\d+) uliopita",
-            "miaka (\\d+) iliyopita"
-        ],
-        "in \\1 month": [
-            "baada ya mwezi (\\d+)",
-            "baada ya miezi (\\d+)"
-        ],
-        "\\1 month ago": [
-            "mwezi (\\d+) uliopita",
-            "miezi (\\d+) iliyopita"
-        ],
-        "in \\1 week": [
-            "baada ya wiki (\\d+)"
-        ],
-        "\\1 week ago": [
-            "wiki (\\d+) iliyopita",
-            "wiki (\\d+) zilizopita"
-        ],
-        "in \\1 day": [
-            "baada ya siku (\\d+)"
-        ],
         "\\1 day ago": [
-            "siku (\\d+) iliyopita",
-            "siku (\\d+) zilizopita"
-        ],
-        "in \\1 hour": [
-            "baada ya saa (\\d+)"
+            "siku (\\d+[.,]?\\d*) iliyopita",
+            "siku (\\d+[.,]?\\d*) zilizopita"
         ],
         "\\1 hour ago": [
-            "saa (\\d+) iliyopita",
-            "saa (\\d+) zilizopita"
-        ],
-        "in \\1 minute": [
-            "baada ya dakika (\\d+)"
+            "saa (\\d+[.,]?\\d*) iliyopita",
+            "saa (\\d+[.,]?\\d*) zilizopita"
         ],
         "\\1 minute ago": [
-            "dakika (\\d+) iliyopita",
-            "dakika (\\d+) zilizopita"
+            "dakika (\\d+[.,]?\\d*) iliyopita",
+            "dakika (\\d+[.,]?\\d*) zilizopita"
         ],
-        "in \\1 second": [
-            "baada ya sekunde (\\d+)"
+        "\\1 month ago": [
+            "miezi (\\d+[.,]?\\d*) iliyopita",
+            "mwezi (\\d+[.,]?\\d*) uliopita"
         ],
         "\\1 second ago": [
-            "sekunde (\\d+) iliyopita",
-            "sekunde (\\d+) zilizopita"
+            "sekunde (\\d+[.,]?\\d*) iliyopita",
+            "sekunde (\\d+[.,]?\\d*) zilizopita"
+        ],
+        "\\1 week ago": [
+            "wiki (\\d+[.,]?\\d*) iliyopita",
+            "wiki (\\d+[.,]?\\d*) zilizopita"
+        ],
+        "\\1 year ago": [
+            "miaka (\\d+[.,]?\\d*) iliyopita",
+            "mwaka (\\d+[.,]?\\d*) uliopita"
+        ],
+        "in \\1 day": [
+            "baada ya siku (\\d+[.,]?\\d*)"
+        ],
+        "in \\1 hour": [
+            "baada ya saa (\\d+[.,]?\\d*)"
+        ],
+        "in \\1 minute": [
+            "baada ya dakika (\\d+[.,]?\\d*)"
+        ],
+        "in \\1 month": [
+            "baada ya miezi (\\d+[.,]?\\d*)",
+            "baada ya mwezi (\\d+[.,]?\\d*)"
+        ],
+        "in \\1 second": [
+            "baada ya sekunde (\\d+[.,]?\\d*)"
+        ],
+        "in \\1 week": [
+            "baada ya wiki (\\d+[.,]?\\d*)"
+        ],
+        "in \\1 year": [
+            "baada ya miaka (\\d+[.,]?\\d*)",
+            "baada ya mwaka (\\d+[.,]?\\d*)"
         ]
     },
     "locale_specific": {
-        "sw-UG": {
-            "name": "sw-UG"
-        },
         "sw-CD": {
             "name": "sw-CD",
             "week": [
@@ -213,20 +209,23 @@ info = {
         },
         "sw-KE": {
             "name": "sw-KE"
+        },
+        "sw-UG": {
+            "name": "sw-UG"
         }
     },
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

@@ -1,82 +1,81 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "fy",
     "date_order": "DMY",
     "january": [
-        "jannewaris",
-        "jan"
+        "jan",
+        "jannewaris"
     ],
     "february": [
-        "febrewaris",
-        "feb"
+        "feb",
+        "febrewaris"
     ],
     "march": [
         "maart",
         "mrt"
     ],
     "april": [
-        "april",
-        "apr"
+        "apr",
+        "april"
     ],
     "may": [
         "maaie",
         "mai"
     ],
     "june": [
-        "juny",
-        "jun"
+        "jun",
+        "juny"
     ],
     "july": [
-        "july",
-        "jul"
+        "jul",
+        "july"
     ],
     "august": [
-        "augustus",
-        "aug"
+        "aug",
+        "augustus"
     ],
     "september": [
-        "septimber",
-        "sep"
+        "sep",
+        "septimber"
     ],
     "october": [
-        "oktober",
-        "okt"
+        "okt",
+        "oktober"
     ],
     "november": [
-        "novimber",
-        "nov"
+        "nov",
+        "novimber"
     ],
     "december": [
-        "desimber",
-        "des"
+        "des",
+        "desimber"
     ],
     "monday": [
-        "moandei",
-        "mo"
+        "mo",
+        "moandei"
     ],
     "tuesday": [
-        "tiisdei",
-        "ti"
+        "ti",
+        "tiisdei"
     ],
     "wednesday": [
-        "woansdei",
-        "wo"
+        "wo",
+        "woansdei"
     ],
     "thursday": [
-        "tongersdei",
-        "to"
+        "to",
+        "tongersdei"
     ],
     "friday": [
-        "freed",
-        "fr"
+        "fr",
+        "freed"
     ],
     "saturday": [
         "sneon",
         "so"
     ],
     "sunday": [
-        "snein",
-        "si"
+        "si",
+        "snein"
     ],
     "am": [
         "am"
@@ -106,41 +105,8 @@ info = {
         "sekonde"
     ],
     "relative-type": {
-        "1 year ago": [
-            "foarich jier"
-        ],
-        "0 year ago": [
-            "dit jier"
-        ],
-        "in 1 year": [
-            "folgjend jier"
-        ],
-        "1 month ago": [
-            "foarige moanne"
-        ],
-        "0 month ago": [
-            "dizze moanne"
-        ],
-        "in 1 month": [
-            "folgjende moanne"
-        ],
-        "1 week ago": [
-            "foarige wike"
-        ],
-        "0 week ago": [
-            "dizze wike"
-        ],
-        "in 1 week": [
-            "folgjende wike"
-        ],
-        "1 day ago": [
-            "gisteren"
-        ],
         "0 day ago": [
             "vandaag"
-        ],
-        "in 1 day": [
-            "morgen"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,77 +114,110 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "dizze moanne"
+        ],
         "0 second ago": [
             "nu"
+        ],
+        "0 week ago": [
+            "dizze wike"
+        ],
+        "0 year ago": [
+            "dit jier"
+        ],
+        "1 day ago": [
+            "gisteren"
+        ],
+        "1 month ago": [
+            "foarige moanne"
+        ],
+        "1 week ago": [
+            "foarige wike"
+        ],
+        "1 year ago": [
+            "foarich jier"
+        ],
+        "in 1 day": [
+            "morgen"
+        ],
+        "in 1 month": [
+            "folgjende moanne"
+        ],
+        "in 1 week": [
+            "folgjende wike"
+        ],
+        "in 1 year": [
+            "folgjend jier"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "oer (\\d+) jier"
-        ],
-        "\\1 year ago": [
-            "(\\d+) jier lyn"
-        ],
-        "in \\1 month": [
-            "oer (\\d+) moanne",
-            "oer (\\d+) moannen"
-        ],
-        "\\1 month ago": [
-            "(\\d+) moanne lyn",
-            "(\\d+) moannen lyn"
-        ],
-        "in \\1 week": [
-            "oer (\\d+) wike",
-            "oer (\\d+) wiken"
-        ],
-        "\\1 week ago": [
-            "(\\d+) wike lyn",
-            "(\\d+) wiken lyn"
-        ],
-        "in \\1 day": [
-            "oer (\\d+) dei",
-            "oer (\\d+) deien"
-        ],
         "\\1 day ago": [
-            "(\\d+) dei lyn",
-            "(\\d+) deien lyn"
-        ],
-        "in \\1 hour": [
-            "oer (\\d+) oere"
+            "(\\d+[.,]?\\d*) dei lyn",
+            "(\\d+[.,]?\\d*) deien lyn"
         ],
         "\\1 hour ago": [
-            "(\\d+) oere lyn"
-        ],
-        "in \\1 minute": [
-            "oer (\\d+) minút",
-            "oer (\\d+) minuten"
+            "(\\d+[.,]?\\d*) oere lyn"
         ],
         "\\1 minute ago": [
-            "(\\d+) minút lyn",
-            "(\\d+) minuten lyn"
+            "(\\d+[.,]?\\d*) minuten lyn",
+            "(\\d+[.,]?\\d*) minút lyn"
         ],
-        "in \\1 second": [
-            "oer (\\d+) sekonde",
-            "oer (\\d+) sekonden"
+        "\\1 month ago": [
+            "(\\d+[.,]?\\d*) moanne lyn",
+            "(\\d+[.,]?\\d*) moannen lyn"
         ],
         "\\1 second ago": [
-            "(\\d+) sekonde lyn",
-            "(\\d+) sekonden lyn"
+            "(\\d+[.,]?\\d*) sekonde lyn",
+            "(\\d+[.,]?\\d*) sekonden lyn"
+        ],
+        "\\1 week ago": [
+            "(\\d+[.,]?\\d*) wike lyn",
+            "(\\d+[.,]?\\d*) wiken lyn"
+        ],
+        "\\1 year ago": [
+            "(\\d+[.,]?\\d*) jier lyn"
+        ],
+        "in \\1 day": [
+            "oer (\\d+[.,]?\\d*) dei",
+            "oer (\\d+[.,]?\\d*) deien"
+        ],
+        "in \\1 hour": [
+            "oer (\\d+[.,]?\\d*) oere"
+        ],
+        "in \\1 minute": [
+            "oer (\\d+[.,]?\\d*) minuten",
+            "oer (\\d+[.,]?\\d*) minút"
+        ],
+        "in \\1 month": [
+            "oer (\\d+[.,]?\\d*) moanne",
+            "oer (\\d+[.,]?\\d*) moannen"
+        ],
+        "in \\1 second": [
+            "oer (\\d+[.,]?\\d*) sekonde",
+            "oer (\\d+[.,]?\\d*) sekonden"
+        ],
+        "in \\1 week": [
+            "oer (\\d+[.,]?\\d*) wike",
+            "oer (\\d+[.,]?\\d*) wiken"
+        ],
+        "in \\1 year": [
+            "oer (\\d+[.,]?\\d*) jier"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

@@ -1,22 +1,21 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "uz-Arab",
     "date_order": "YMD",
     "january": [
-        "جنوری",
-        "جنو"
+        "جنو",
+        "جنوری"
     ],
     "february": [
-        "فبروری",
-        "فبر"
+        "فبر",
+        "فبروری"
     ],
     "march": [
-        "مارچ",
-        "مار"
+        "مار",
+        "مارچ"
     ],
     "april": [
-        "اپریل",
-        "اپر"
+        "اپر",
+        "اپریل"
     ],
     "may": [
         "می"
@@ -25,56 +24,56 @@ info = {
         "جون"
     ],
     "july": [
-        "جولای",
-        "جول"
+        "جول",
+        "جولای"
     ],
     "august": [
-        "اگست",
-        "اگس"
+        "اگس",
+        "اگست"
     ],
     "september": [
-        "سپتمبر",
-        "سپت"
+        "سپت",
+        "سپتمبر"
     ],
     "october": [
-        "اکتوبر",
-        "اکت"
+        "اکت",
+        "اکتوبر"
     ],
     "november": [
-        "نومبر",
-        "نوم"
+        "نوم",
+        "نومبر"
     ],
     "december": [
-        "دسمبر",
-        "دسم"
+        "دسم",
+        "دسمبر"
     ],
     "monday": [
-        "دوشنبه",
-        "د"
+        "د",
+        "دوشنبه"
     ],
     "tuesday": [
-        "سه‌شنبه",
-        "س"
+        "س",
+        "سه‌شنبه"
     ],
     "wednesday": [
-        "چهارشنبه",
-        "چ"
+        "چ",
+        "چهارشنبه"
     ],
     "thursday": [
-        "پنجشنبه",
-        "پ"
+        "پ",
+        "پنجشنبه"
     ],
     "friday": [
-        "جمعه",
-        "ج"
+        "ج",
+        "جمعه"
     ],
     "saturday": [
-        "شنبه",
-        "ش"
+        "ش",
+        "شنبه"
     ],
     "sunday": [
-        "یکشنبه",
-        "ی"
+        "ی",
+        "یکشنبه"
     ],
     "am": [
         "am"
@@ -104,41 +103,8 @@ info = {
         "second"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "yesterday"
-        ],
         "0 day ago": [
             "today"
-        ],
-        "in 1 day": [
-            "tomorrow"
         ],
         "0 hour ago": [
             "this hour"
@@ -146,23 +112,56 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

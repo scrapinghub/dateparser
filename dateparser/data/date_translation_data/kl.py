@@ -1,82 +1,81 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "kl",
     "date_order": "YMD",
     "january": [
-        "januari",
-        "jan"
+        "jan",
+        "januari"
     ],
     "february": [
-        "februari",
-        "feb"
+        "feb",
+        "februari"
     ],
     "march": [
-        "martsi",
-        "mar"
+        "mar",
+        "martsi"
     ],
     "april": [
-        "aprili",
-        "apr"
+        "apr",
+        "aprili"
     ],
     "may": [
-        "maji",
-        "maj"
+        "maj",
+        "maji"
     ],
     "june": [
-        "juni",
-        "jun"
+        "jun",
+        "juni"
     ],
     "july": [
-        "juli",
-        "jul"
+        "jul",
+        "juli"
     ],
     "august": [
-        "augustusi",
-        "aug"
+        "aug",
+        "augustusi"
     ],
     "september": [
-        "septemberi",
-        "sep"
+        "sep",
+        "septemberi"
     ],
     "october": [
-        "oktoberi",
-        "okt"
+        "okt",
+        "oktoberi"
     ],
     "november": [
-        "novemberi",
-        "nov"
+        "nov",
+        "novemberi"
     ],
     "december": [
-        "decemberi",
-        "dec"
+        "dec",
+        "decemberi"
     ],
     "monday": [
-        "ataasinngorneq",
-        "ata"
+        "ata",
+        "ataasinngorneq"
     ],
     "tuesday": [
-        "marlunngorneq",
-        "mar"
+        "mar",
+        "marlunngorneq"
     ],
     "wednesday": [
-        "pingasunngorneq",
-        "pin"
+        "pin",
+        "pingasunngorneq"
     ],
     "thursday": [
-        "sisamanngorneq",
-        "sis"
+        "sis",
+        "sisamanngorneq"
     ],
     "friday": [
-        "tallimanngorneq",
-        "tal"
+        "tal",
+        "tallimanngorneq"
     ],
     "saturday": [
-        "arfininngorneq",
-        "arf"
+        "arf",
+        "arfininngorneq"
     ],
     "sunday": [
-        "sabaat",
-        "sab"
+        "sab",
+        "sabaat"
     ],
     "am": [
         "am"
@@ -106,41 +105,8 @@ info = {
         "second"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "yesterday"
-        ],
         "0 day ago": [
             "today"
-        ],
-        "in 1 day": [
-            "tomorrow"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,67 +114,100 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "om (\\d+) ukioq"
-        ],
-        "\\1 year ago": [
-            "for (\\d+) ukioq siden"
-        ],
-        "in \\1 month": [
-            "om (\\d+) qaammat"
-        ],
-        "\\1 month ago": [
-            "for (\\d+) qaammat siden"
-        ],
-        "in \\1 week": [
-            "om (\\d+) sapaatip-akunnera"
-        ],
-        "\\1 week ago": [
-            "for (\\d+) sapaatip-akunnera siden"
-        ],
-        "in \\1 day": [
-            "om (\\d+) ulloq unnuarlu"
-        ],
         "\\1 day ago": [
-            "for (\\d+) ulloq unnuarlu siden"
-        ],
-        "in \\1 hour": [
-            "om (\\d+) nalunaaquttap-akunnera"
+            "for (\\d+[.,]?\\d*) ulloq unnuarlu siden"
         ],
         "\\1 hour ago": [
-            "for (\\d+) nalunaaquttap-akunnera siden"
-        ],
-        "in \\1 minute": [
-            "om (\\d+) minutsi"
+            "for (\\d+[.,]?\\d*) nalunaaquttap-akunnera siden"
         ],
         "\\1 minute ago": [
-            "for (\\d+) minutsi siden"
+            "for (\\d+[.,]?\\d*) minutsi siden"
         ],
-        "in \\1 second": [
-            "om (\\d+) sekundi"
+        "\\1 month ago": [
+            "for (\\d+[.,]?\\d*) qaammat siden"
         ],
         "\\1 second ago": [
-            "for (\\d+) sekundi siden"
+            "for (\\d+[.,]?\\d*) sekundi siden"
+        ],
+        "\\1 week ago": [
+            "for (\\d+[.,]?\\d*) sapaatip-akunnera siden"
+        ],
+        "\\1 year ago": [
+            "for (\\d+[.,]?\\d*) ukioq siden"
+        ],
+        "in \\1 day": [
+            "om (\\d+[.,]?\\d*) ulloq unnuarlu"
+        ],
+        "in \\1 hour": [
+            "om (\\d+[.,]?\\d*) nalunaaquttap-akunnera"
+        ],
+        "in \\1 minute": [
+            "om (\\d+[.,]?\\d*) minutsi"
+        ],
+        "in \\1 month": [
+            "om (\\d+[.,]?\\d*) qaammat"
+        ],
+        "in \\1 second": [
+            "om (\\d+[.,]?\\d*) sekundi"
+        ],
+        "in \\1 week": [
+            "om (\\d+[.,]?\\d*) sapaatip-akunnera"
+        ],
+        "in \\1 year": [
+            "om (\\d+[.,]?\\d*) ukioq"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

@@ -1,15 +1,11 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from collections import OrderedDict
 from importlib import import_module
-from six.moves import zip_longest
+from itertools import zip_longest
 import regex as re
 from copy import deepcopy
 
 from ..data import language_order, language_locale_dict
 from .locale import Locale
-from ..utils import convert_to_unicode
 
 LOCALE_SPLIT_PATTERN = re.compile(r'-(?=[A-Z0-9]+$)')
 
@@ -39,7 +35,7 @@ def _construct_locales(languages, region):
     return locales
 
 
-class LocaleDataLoader(object):
+class LocaleDataLoader:
     """Class that handles loading of locale instances."""
 
     _loaded_languages = {}
@@ -66,11 +62,11 @@ class LocaleDataLoader(object):
             A region code, e.g. 'IN', '001', 'NE'.
             If locales are not given, languages and region are
             used to construct locales to load.
-        :type region: str|unicode
+        :type region: str
 
         :param use_given_order:
             If True, the returned mapping is ordered in the order locales are given.
-        :type allow_redetect_language: bool
+        :type use_given_order: bool
 
         :param allow_conflicting_locales:
             if True, locales with same language and different region can be loaded.
@@ -102,11 +98,11 @@ class LocaleDataLoader(object):
             A region code, e.g. 'IN', '001', 'NE'.
             If locales are not given, languages and region are
             used to construct locales to load.
-        :type region: str|unicode
+        :type region: str
 
         :param use_given_order:
             If True, the returned mapping is ordered in the order locales are given.
-        :type allow_redetect_language: bool
+        :type use_given_order: bool
 
         :param allow_conflicting_locales:
             if True, locales with same language and different region can be loaded.
@@ -126,7 +122,7 @@ class LocaleDataLoader(object):
 
         :param shortname:
             A locale code, e.g. 'fr-PF', 'qu-EC', 'af-NA'.
-        :type shortname: str|unicode
+        :type shortname: str
 
         :return: locale instance
         """
@@ -149,7 +145,7 @@ class LocaleDataLoader(object):
                                  % ', '.join(map(repr, invalid_locales)))
 
             if not allow_conflicting_locales:
-                if len(set(locales)) > len(set([t[0] for t in locale_dict.values()])):
+                if len(set(locales)) > len({t[0] for t in locale_dict.values()}):
                     raise ValueError("Locales should not have same language and different region")
 
         else:
@@ -178,7 +174,6 @@ class LocaleDataLoader(object):
                 else:
                     language_info = getattr(
                         import_module('dateparser.data.date_translation_data.' + lang), 'info')
-                    language_info = convert_to_unicode(language_info)
                     locale = Locale(shortname, language_info=deepcopy(language_info))
                     self._loaded_languages[lang] = language_info
                     self._loaded_locales[shortname] = locale

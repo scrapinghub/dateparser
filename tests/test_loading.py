@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from parameterized import parameterized, param
 from operator import attrgetter
-import six
 import regex as re
 
 from dateparser.languages.loader import default_loader
@@ -12,7 +8,7 @@ from tests import BaseTestCase
 
 class TestLoading(BaseTestCase):
     def setUp(self):
-        super(TestLoading, self).setUp()
+        super().setUp()
         self.locale_generator = NotImplemented
 
     @classmethod
@@ -90,10 +86,10 @@ class TestLoading(BaseTestCase):
             languages=languages, locales=locales, region=region, use_given_order=True)
 
     def then_loaded_languages_are(self, loaded_languages):
-        six.assertCountEqual(self, loaded_languages, self.data_loader._loaded_languages.keys())
+        self.assertCountEqual(loaded_languages, self.data_loader._loaded_languages.keys())
 
     def then_loaded_locales_are(self, loaded_locales):
-        six.assertCountEqual(self, loaded_locales, self.data_loader._loaded_locales.keys())
+        self.assertCountEqual(loaded_locales, self.data_loader._loaded_locales.keys())
 
     def then_locales_are_yielded_in_order(self, expected_locales):
         self.assertEqual(list(map(attrgetter('shortname'),
@@ -101,11 +97,11 @@ class TestLoading(BaseTestCase):
 
 
 class TestLocaleDataLoader(BaseTestCase):
-    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile("Unknown language\(s\): (.+)")
-    UNKNOWN_LOCALES_EXCEPTION_RE = re.compile("Unknown locale\(s\): (.+)")
+    UNKNOWN_LANGUAGES_EXCEPTION_RE = re.compile(r"Unknown language\(s\): (.+)")
+    UNKNOWN_LOCALES_EXCEPTION_RE = re.compile(r"Unknown locale\(s\): (.+)")
 
     def setUp(self):
-        super(TestLocaleDataLoader, self).setUp()
+        super().setUp()
         self.data_loader = default_loader
         self.data_loader._loaded_languages = {}
         self.data_loader._loaded_locales = {}
@@ -123,10 +119,10 @@ class TestLocaleDataLoader(BaseTestCase):
     @parameterized.expand([
         param(given_locales=['os-RU', 'ln-CF', 'ee-TG'],
               expected_locales=['ee-TG', 'ln-CF', 'os-RU']),
-        param(given_locales=['khq', 'ff-CM'],
-              expected_locales=['ff-CM', 'khq']),
+        param(given_locales=['fo-DK', 'khq'],
+              expected_locales=['khq', 'fo-DK']),
         param(given_locales=['en-CC', 'fr-BE', 'ar-KW'],
-              expected_locales=['en-CC', 'ar-KW', 'fr-BE']),
+              expected_locales=['en-CC', 'fr-BE', 'ar-KW']),
     ])
     def test_loading_without_given_order(self, given_locales, expected_locales):
         self.load_data(given_locales, use_given_order=False)
@@ -146,9 +142,9 @@ class TestLocaleDataLoader(BaseTestCase):
         param(given_locales=['en-FJ', 'pt-CV', 'fr-RW'],
               expected_locales=['en-FJ', 'fr-RW', 'pt-CV']),
         param(given_locales=['pt-AO', 'hi', 'zh-Hans-SG', 'vi'],
-              expected_locales=['zh-Hans-SG', 'hi', 'pt-AO', 'vi']),
+              expected_locales=['zh-Hans-SG', 'vi', 'pt-AO', 'hi']),
         param(given_locales=['gsw-FR', 'es-BZ', 'ca-IT', 'qu-EC'],
-              expected_locales=['es-BZ', 'qu-EC', 'ca-IT', 'gsw-FR']),
+              expected_locales=['es-BZ', 'ca-IT', 'qu-EC', 'gsw-FR']),
     ])
     def test_get_locale_map_without_given_order(self, given_locales, expected_locales):
         self.given_locale_map(locales=given_locales, use_given_order=False)
@@ -221,11 +217,11 @@ class TestLocaleDataLoader(BaseTestCase):
         match = self.UNKNOWN_LANGUAGES_EXCEPTION_RE.match(str(self.error))
         self.assertTrue(match)
         languages = match.group(1).split(", ")
-        six.assertCountEqual(self, languages, [repr(l) for l in unknown_languages])
+        self.assertCountEqual(languages, [repr(unknown_language) for unknown_language in unknown_languages])
 
     def then_error_for_unknown_locales_raised(self, unknown_locales):
         self.assertIsInstance(self.error, ValueError)
         match = self.UNKNOWN_LOCALES_EXCEPTION_RE.match(str(self.error))
         self.assertTrue(match)
         locales = match.group(1).split(", ")
-        six.assertCountEqual(self, locales, [repr(l) for l in unknown_locales])
+        self.assertCountEqual(locales, [repr(unknown_locale) for unknown_locale in unknown_locales])

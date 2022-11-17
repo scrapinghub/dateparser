@@ -21,25 +21,33 @@ If you are reporting a bug, please include:
 * Any details about your local setup that might be helpful in troubleshooting.
 * Detailed steps to reproduce the bug.
 
-Fix Bugs
-~~~~~~~~
+Fix Bugs and Implement Features
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Look through the GitHub issues for bugs. Anything tagged with "bug"
-is open to whoever wants to implement it.
-
-Implement Features
-~~~~~~~~~~~~~~~~~~
-
-Look through the GitHub issues for features. Anything tagged with "feature"
-is open to whoever wants to implement it.
-We encourage you to add new languages to existing stack.
+Look through the GitHub issues for bugs and feature requests. To avoid
+duplicate efforts, try to choose issues without related PRs or with staled PRs.
+We also encourage you to add new languages to the existing stack.
 
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-DateParser could always use more documentation, whether as part of the
-official DateParser docs, in docstrings, or even on the web in blog posts,
+Dateparser could always use more documentation, whether as part of the
+official Dateparser docs, in docstrings, or even on the web in blog posts,
 articles, and such.
+
+After you make local changes to the documentation, you will be able to build the
+project running::
+
+    tox -e docs
+
+
+Then open ``.tox/docs/tmp/html/index.html`` in a web browser to see your local
+build of the documentation.
+
+.. note::
+
+    If you don't have ``tox`` installed, you need to install it first using
+    ``pip install tox``.
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
@@ -63,7 +71,8 @@ Ready to contribute? Here's how to set up `dateparser` for local development.
 
     $ git clone git@github.com:your_name_here/dateparser.git
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper
+installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv dateparser
     $ cd dateparser/
@@ -75,15 +84,12 @@ Ready to contribute? Here's how to set up `dateparser` for local development.
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox::
+5. When you're done making changes, check that your changes pass flake8 and the
+tests, including testing other Python versions with tox::
 
-    $ pip install -r tests/requirements.txt # install test dependencies
-    $ pip install -r scripts/requirements.txt # install script dependencies
-    $ flake8 dateparser tests
-    $ nosetests
     $ tox
 
-   To get flake8 and tox, just pip install them into your virtualenv. (Note that we use ``max-line-length = 100`` for flake8, this is configured in ``setup.cfg`` file.)
+   To get ``tox``, just ``pip install`` it into your virtualenv. In addition to tests, ``tox`` checks for code style and maximum line length (119 characters).
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -102,23 +108,74 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in *README.rst*.
-3. Check https://travis-ci.org/scrapinghub/dateparser/pull_requests
-   and make sure that the tests pass for all supported Python versions.
-4. Follow the core developers' advice which aim to ensure code's consistency regardless of variety of approaches used by many contributors.
-5. In case you are unable to continue working on a PR, please leave a short comment to notify us. We will be pleased to make any changes required to get it done.
+3. Check the pipelines (Github Actions) in the PR comments (or in
+   https://github.com/scrapinghub/dateparser/actions) and make sure that the
+   tests pass for all supported Python versions.
+4. Check the new project coverage in the PR comments (or in
+   https://app.codecov.io/gh/scrapinghub/dateparser/pulls) and make sure that
+   it remained equal or higher than previously.
+5. Follow the core developers' advice which aims to ensure code's consistency
+   regardless of the variety of approaches used by many contributors.
+6. In case you are unable to continue working on a PR, please leave a short
+   comment to notify us. We will be pleased to make any changes required to get
+   it done.
 
 Guidelines for Editing Translation Data
 ---------------------------------------
-English is the primary language of the dateparser. Dates in all other languages are translated into English equivalents before they are parsed.
-The language data required for parsing dates is contained in *dateparser/data/date_translation_data*.
-It contains variable parts that can be used in dates, language by language: month and week names - and their abbreviations, prepositions, conjunctions and frequently used descriptive words and phrases (like "today").
-The data in *dateparser/data/date_translation_data* is formed by supplementing data retrieved from unicode CLDR, contained in *data/cldr_language_data/date_translation_data*, with supplementary data contributed by the community, contained in *data/supplementary_language_data/date_translation_data*.
-Additional data to supplement existing data or translation data for a new language should be added to *dateparser_data/supplementary_language_data/date_translation_data*.
-The chosen data format is YAML because it is readable and simple to edit.
-After adding or changing any data in YAML files we need to move them to internal data files with *scripts/write_complete_data.py*. Otherwise the changes to YAML files will not have any effect.
 
-Refer to :ref:`language-data-template` for details about its structure and take a look at already implemented languages for examples.
-As we deal with the delicate fabric of interwoven languages, tests are essential to keep the functionality across them.
-Therefore any addition or change should be reflected in tests.
-However, there is nothing to be afraid of: our tests are highly parameterized and in most cases a test fits in one declarative line of data.
-Alternatively, you can provide required information and ask the maintainers to create the tests for you.
+English is the primary language of Dateparser. Dates in all other languages are
+translated into English equivalents before they are parsed.
+
+The language data that Dateparser uses to parse dates is in
+``dateparser/data/date_translation_data``. For each supported language, there
+is a Python file containing translation data.
+
+Each translation data Python files contains different kinds of translation data
+for date parsing: month and week names - and their abbreviations, prepositions,
+conjunctions, frequently used descriptive words and phrases (like “today”),
+etc.
+
+Translation data Python files are generated from the following sources:
+
+-   `Unicode CLDR <http://cldr.unicode.org/>`_ data in JSON format, located at
+    ``dateparser_data/cldr_language_data/date_translation_data``
+
+-   Additional data from the Dateparser community in YAML format, located at
+    ``dateparser_data/supplementary_language_data/date_translation_data``
+
+If you wish to extend the data of an existing language, or add data for a new
+language, you must:
+
+#.  Edit or create the corresponding file within
+    ``dateparser_data/supplementary_language_data/date_translation_data``
+
+    See existing files to learn how they are defined, and see
+    :ref:`language-data-template` for details.
+
+#.  Regenerate the corresponding file within
+    ``dateparser/data/date_translation_data`` running the following script::
+
+        dateparser_scripts/write_complete_data.py
+
+#.  Write tests that cover your changes
+
+    You should be able to find tests that cover the affected data, and use
+    copy-and-paste to create the corresponding new test.
+
+    If in doubt, ask Dateparser maintainers for help.
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   template
+
+Updating the List of Supported Languages and Locales
+----------------------------------------------------
+
+Whenever the content of
+``dateparser.data.languages_info.language_locale_dict`` is modified, use
+``dateparser_scripts/update_supported_languages_and_locales.py`` to update
+the corresponding documentation table::
+
+    dateparser_scripts/update_supported_languages_and_locales.py

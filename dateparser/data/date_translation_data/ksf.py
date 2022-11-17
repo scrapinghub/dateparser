@@ -1,82 +1,81 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "ksf",
     "date_order": "DMY",
     "january": [
-        "ŋwíí a ntɔ́ntɔ",
-        "ŋ1"
+        "ŋ1",
+        "ŋwíí a ntɔ́ntɔ"
     ],
     "february": [
-        "ŋwíí akǝ bɛ́ɛ",
-        "ŋ2"
+        "ŋ2",
+        "ŋwíí akǝ bɛ́ɛ"
     ],
     "march": [
-        "ŋwíí akǝ ráá",
-        "ŋ3"
+        "ŋ3",
+        "ŋwíí akǝ ráá"
     ],
     "april": [
-        "ŋwíí akǝ nin",
-        "ŋ4"
+        "ŋ4",
+        "ŋwíí akǝ nin"
     ],
     "may": [
-        "ŋwíí akǝ táan",
-        "ŋ5"
+        "ŋ5",
+        "ŋwíí akǝ táan"
     ],
     "june": [
-        "ŋwíí akǝ táafɔk",
-        "ŋ6"
+        "ŋ6",
+        "ŋwíí akǝ táafɔk"
     ],
     "july": [
-        "ŋwíí akǝ táabɛɛ",
-        "ŋ7"
+        "ŋ7",
+        "ŋwíí akǝ táabɛɛ"
     ],
     "august": [
-        "ŋwíí akǝ táaraa",
-        "ŋ8"
+        "ŋ8",
+        "ŋwíí akǝ táaraa"
     ],
     "september": [
-        "ŋwíí akǝ táanin",
-        "ŋ9"
+        "ŋ9",
+        "ŋwíí akǝ táanin"
     ],
     "october": [
-        "ŋwíí akǝ ntɛk",
-        "ŋ10"
+        "ŋ10",
+        "ŋwíí akǝ ntɛk"
     ],
     "november": [
-        "ŋwíí akǝ ntɛk di bɔ́k",
-        "ŋ11"
+        "ŋ11",
+        "ŋwíí akǝ ntɛk di bɔ́k"
     ],
     "december": [
-        "ŋwíí akǝ ntɛk di bɛ́ɛ",
-        "ŋ12"
+        "ŋ12",
+        "ŋwíí akǝ ntɛk di bɛ́ɛ"
     ],
     "monday": [
-        "lǝndí",
-        "lǝn"
+        "lǝn",
+        "lǝndí"
     ],
     "tuesday": [
-        "maadí",
-        "maa"
+        "maa",
+        "maadí"
     ],
     "wednesday": [
-        "mɛkrɛdí",
-        "mɛk"
+        "mɛk",
+        "mɛkrɛdí"
     ],
     "thursday": [
-        "jǝǝdí",
-        "jǝǝ"
+        "jǝǝ",
+        "jǝǝdí"
     ],
     "friday": [
-        "júmbá",
-        "júm"
+        "júm",
+        "júmbá"
     ],
     "saturday": [
-        "samdí",
-        "sam"
+        "sam",
+        "samdí"
     ],
     "sunday": [
-        "sɔ́ndǝ",
-        "sɔ́n"
+        "sɔ́n",
+        "sɔ́ndǝ"
     ],
     "am": [
         "sárúwá"
@@ -106,41 +105,8 @@ info = {
         "háu"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "rinkɔɔ́"
-        ],
         "0 day ago": [
             "gɛ́ɛnǝ"
-        ],
-        "in 1 day": [
-            "ridúrǝ́"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,23 +114,56 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "rinkɔɔ́"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "ridúrǝ́"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

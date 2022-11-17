@@ -1,82 +1,81 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "shi-Tfng",
     "date_order": "DMY",
     "january": [
-        "ⵉⵏⵏⴰⵢⵔ",
-        "ⵉⵏⵏ"
+        "ⵉⵏⵏ",
+        "ⵉⵏⵏⴰⵢⵔ"
     ],
     "february": [
-        "ⴱⵕⴰⵢⵕ",
-        "ⴱⵕⴰ"
+        "ⴱⵕⴰ",
+        "ⴱⵕⴰⵢⵕ"
     ],
     "march": [
-        "ⵎⴰⵕⵚ",
-        "ⵎⴰⵕ"
+        "ⵎⴰⵕ",
+        "ⵎⴰⵕⵚ"
     ],
     "april": [
-        "ⵉⴱⵔⵉⵔ",
-        "ⵉⴱⵔ"
+        "ⵉⴱⵔ",
+        "ⵉⴱⵔⵉⵔ"
     ],
     "may": [
-        "ⵎⴰⵢⵢⵓ",
-        "ⵎⴰⵢ"
+        "ⵎⴰⵢ",
+        "ⵎⴰⵢⵢⵓ"
     ],
     "june": [
-        "ⵢⵓⵏⵢⵓ",
-        "ⵢⵓⵏ"
+        "ⵢⵓⵏ",
+        "ⵢⵓⵏⵢⵓ"
     ],
     "july": [
-        "ⵢⵓⵍⵢⵓⵣ",
-        "ⵢⵓⵍ"
+        "ⵢⵓⵍ",
+        "ⵢⵓⵍⵢⵓⵣ"
     ],
     "august": [
-        "ⵖⵓⵛⵜ",
-        "ⵖⵓⵛ"
+        "ⵖⵓⵛ",
+        "ⵖⵓⵛⵜ"
     ],
     "september": [
-        "ⵛⵓⵜⴰⵏⴱⵉⵔ",
-        "ⵛⵓⵜ"
+        "ⵛⵓⵜ",
+        "ⵛⵓⵜⴰⵏⴱⵉⵔ"
     ],
     "october": [
-        "ⴽⵜⵓⴱⵔ",
-        "ⴽⵜⵓ"
+        "ⴽⵜⵓ",
+        "ⴽⵜⵓⴱⵔ"
     ],
     "november": [
-        "ⵏⵓⵡⴰⵏⴱⵉⵔ",
-        "ⵏⵓⵡ"
+        "ⵏⵓⵡ",
+        "ⵏⵓⵡⴰⵏⴱⵉⵔ"
     ],
     "december": [
-        "ⴷⵓⵊⴰⵏⴱⵉⵔ",
-        "ⴷⵓⵊ"
+        "ⴷⵓⵊ",
+        "ⴷⵓⵊⴰⵏⴱⵉⵔ"
     ],
     "monday": [
-        "ⴰⵢⵏⴰⵙ",
-        "ⴰⵢⵏ"
+        "ⴰⵢⵏ",
+        "ⴰⵢⵏⴰⵙ"
     ],
     "tuesday": [
-        "ⴰⵙⵉⵏⴰⵙ",
-        "ⴰⵙⵉ"
+        "ⴰⵙⵉ",
+        "ⴰⵙⵉⵏⴰⵙ"
     ],
     "wednesday": [
-        "ⴰⴽⵕⴰⵙ",
-        "ⴰⴽⵕ"
+        "ⴰⴽⵕ",
+        "ⴰⴽⵕⴰⵙ"
     ],
     "thursday": [
-        "ⴰⴽⵡⴰⵙ",
-        "ⴰⴽⵡ"
+        "ⴰⴽⵡ",
+        "ⴰⴽⵡⴰⵙ"
     ],
     "friday": [
-        "ⵙⵉⵎⵡⴰⵙ",
-        "ⴰⵙⵉⵎ"
+        "ⴰⵙⵉⵎ",
+        "ⵙⵉⵎⵡⴰⵙ"
     ],
     "saturday": [
-        "ⴰⵙⵉⴹⵢⴰⵙ",
-        "ⴰⵙⵉⴹ"
+        "ⴰⵙⵉⴹ",
+        "ⴰⵙⵉⴹⵢⴰⵙ"
     ],
     "sunday": [
-        "ⴰⵙⴰⵎⴰⵙ",
-        "ⴰⵙⴰ"
+        "ⴰⵙⴰ",
+        "ⴰⵙⴰⵎⴰⵙ"
     ],
     "am": [
         "ⵜⵉⴼⴰⵡⵜ"
@@ -106,41 +105,8 @@ info = {
         "ⵜⴰⵙⵉⵏⵜ"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "ⵉⴹⵍⵍⵉ"
-        ],
         "0 day ago": [
             "ⴰⵙⵙⴰ"
-        ],
-        "in 1 day": [
-            "ⴰⵙⴽⴽⴰ"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,23 +114,56 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "ⵉⴹⵍⵍⵉ"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "ⴰⵙⴽⴽⴰ"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

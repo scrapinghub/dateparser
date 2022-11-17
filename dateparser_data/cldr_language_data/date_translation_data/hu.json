@@ -2,80 +2,80 @@
     "name": "hu",
     "date_order": "YMD",
     "january": [
-        "január",
-        "jan"
+        "jan",
+        "január"
     ],
     "february": [
-        "február",
-        "febr"
+        "febr",
+        "február"
     ],
     "march": [
-        "március",
-        "márc"
+        "márc",
+        "március"
     ],
     "april": [
-        "április",
-        "ápr"
+        "ápr",
+        "április"
     ],
     "may": [
-        "május",
-        "máj"
+        "máj",
+        "május"
     ],
     "june": [
-        "június",
-        "jún"
+        "jún",
+        "június"
     ],
     "july": [
-        "július",
-        "júl"
+        "júl",
+        "július"
     ],
     "august": [
-        "augusztus",
-        "aug"
+        "aug",
+        "augusztus"
     ],
     "september": [
-        "szeptember",
-        "szept"
+        "szept",
+        "szeptember"
     ],
     "october": [
-        "október",
-        "okt"
+        "okt",
+        "október"
     ],
     "november": [
-        "november",
-        "nov"
+        "nov",
+        "november"
     ],
     "december": [
-        "december",
-        "dec"
+        "dec",
+        "december"
     ],
     "monday": [
-        "hétfő",
-        "h"
+        "h",
+        "hétfő"
     ],
     "tuesday": [
-        "kedd",
-        "k"
+        "k",
+        "kedd"
     ],
     "wednesday": [
-        "szerda",
-        "sze"
+        "sze",
+        "szerda"
     ],
     "thursday": [
-        "csütörtök",
-        "cs"
+        "cs",
+        "csütörtök"
     ],
     "friday": [
-        "péntek",
-        "p"
+        "p",
+        "péntek"
     ],
     "saturday": [
-        "szombat",
-        "szo"
+        "szo",
+        "szombat"
     ],
     "sunday": [
-        "vasárnap",
-        "v"
+        "v",
+        "vasárnap"
     ],
     "am": [
         "de"
@@ -105,41 +105,8 @@
         "másodperc"
     ],
     "relative-type": {
-        "1 year ago": [
-            "előző év"
-        ],
-        "0 year ago": [
-            "ez az év"
-        ],
-        "in 1 year": [
-            "következő év"
-        ],
-        "1 month ago": [
-            "előző hónap"
-        ],
-        "0 month ago": [
-            "ez a hónap"
-        ],
-        "in 1 month": [
-            "következő hónap"
-        ],
-        "1 week ago": [
-            "előző hét"
-        ],
-        "0 week ago": [
-            "ez a hét"
-        ],
-        "in 1 week": [
-            "következő hét"
-        ],
-        "1 day ago": [
-            "tegnap"
-        ],
         "0 day ago": [
             "ma"
-        ],
-        "in 1 day": [
-            "holnap"
         ],
         "0 hour ago": [
             "ebben az órában"
@@ -147,53 +114,86 @@
         "0 minute ago": [
             "ebben a percben"
         ],
+        "0 month ago": [
+            "ez a hónap"
+        ],
         "0 second ago": [
             "most"
+        ],
+        "0 week ago": [
+            "ez a hét"
+        ],
+        "0 year ago": [
+            "ez az év"
+        ],
+        "1 day ago": [
+            "tegnap"
+        ],
+        "1 month ago": [
+            "előző hónap"
+        ],
+        "1 week ago": [
+            "előző hét"
+        ],
+        "1 year ago": [
+            "előző év"
+        ],
+        "in 1 day": [
+            "holnap"
+        ],
+        "in 1 month": [
+            "következő hónap"
+        ],
+        "in 1 week": [
+            "következő hét"
+        ],
+        "in 1 year": [
+            "következő év"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "{0} év múlva"
-        ],
-        "\\1 year ago": [
-            "{0} évvel ezelőtt"
-        ],
-        "in \\1 month": [
-            "{0} hónap múlva"
-        ],
-        "\\1 month ago": [
-            "{0} hónappal ezelőtt"
-        ],
-        "in \\1 week": [
-            "{0} hét múlva"
-        ],
-        "\\1 week ago": [
-            "{0} héttel ezelőtt"
-        ],
-        "in \\1 day": [
-            "{0} nap múlva"
-        ],
         "\\1 day ago": [
-            "{0} nappal ezelőtt",
-            "{0} napja"
-        ],
-        "in \\1 hour": [
-            "{0} óra múlva"
+            "{0} napja",
+            "{0} nappal ezelőtt"
         ],
         "\\1 hour ago": [
             "{0} órával ezelőtt"
         ],
+        "\\1 minute ago": [
+            "{0} perccel ezelőtt"
+        ],
+        "\\1 month ago": [
+            "{0} hónappal ezelőtt"
+        ],
+        "\\1 second ago": [
+            "{0} másodperccel ezelőtt"
+        ],
+        "\\1 week ago": [
+            "{0} héttel ezelőtt"
+        ],
+        "\\1 year ago": [
+            "{0} évvel ezelőtt"
+        ],
+        "in \\1 day": [
+            "{0} nap múlva"
+        ],
+        "in \\1 hour": [
+            "{0} óra múlva"
+        ],
         "in \\1 minute": [
             "{0} perc múlva"
         ],
-        "\\1 minute ago": [
-            "{0} perccel ezelőtt"
+        "in \\1 month": [
+            "{0} hónap múlva"
         ],
         "in \\1 second": [
             "{0} másodperc múlva"
         ],
-        "\\1 second ago": [
-            "{0} másodperccel ezelőtt"
+        "in \\1 week": [
+            "{0} hét múlva"
+        ],
+        "in \\1 year": [
+            "{0} év múlva"
         ]
     },
     "locale_specific": {}

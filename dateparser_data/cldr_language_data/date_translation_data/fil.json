@@ -2,80 +2,80 @@
     "name": "fil",
     "date_order": "MDY",
     "january": [
-        "enero",
-        "ene"
+        "ene",
+        "enero"
     ],
     "february": [
-        "pebrero",
-        "peb"
+        "peb",
+        "pebrero"
     ],
     "march": [
-        "marso",
-        "mar"
+        "mar",
+        "marso"
     ],
     "april": [
-        "abril",
-        "abr"
+        "abr",
+        "abril"
     ],
     "may": [
-        "mayo",
-        "may"
+        "may",
+        "mayo"
     ],
     "june": [
-        "hunyo",
-        "hun"
+        "hun",
+        "hunyo"
     ],
     "july": [
-        "hulyo",
-        "hul"
+        "hul",
+        "hulyo"
     ],
     "august": [
-        "agosto",
-        "ago"
+        "ago",
+        "agosto"
     ],
     "september": [
-        "setyembre",
-        "set"
+        "set",
+        "setyembre"
     ],
     "october": [
-        "oktubre",
-        "okt"
+        "okt",
+        "oktubre"
     ],
     "november": [
-        "nobyembre",
-        "nob"
+        "nob",
+        "nobyembre"
     ],
     "december": [
-        "disyembre",
-        "dis"
+        "dis",
+        "disyembre"
     ],
     "monday": [
-        "lunes",
-        "lun"
+        "lun",
+        "lunes"
     ],
     "tuesday": [
-        "martes",
-        "mar"
+        "mar",
+        "martes"
     ],
     "wednesday": [
-        "miyerkules",
-        "miy"
+        "miy",
+        "miyerkules"
     ],
     "thursday": [
-        "huwebes",
-        "huw"
+        "huw",
+        "huwebes"
     ],
     "friday": [
-        "biyernes",
-        "biy"
+        "biy",
+        "biyernes"
     ],
     "saturday": [
-        "sabado",
-        "sab"
+        "sab",
+        "sabado"
     ],
     "sunday": [
-        "linggo",
-        "lin"
+        "lin",
+        "linggo"
     ],
     "am": [
         "am"
@@ -99,51 +99,16 @@
         "oras"
     ],
     "minute": [
-        "minuto",
-        "min"
+        "min",
+        "minuto"
     ],
     "second": [
-        "segundo",
-        "seg"
+        "seg",
+        "segundo"
     ],
     "relative-type": {
-        "1 year ago": [
-            "nakaraang taon"
-        ],
-        "0 year ago": [
-            "ngayong taon"
-        ],
-        "in 1 year": [
-            "susunod na taon"
-        ],
-        "1 month ago": [
-            "nakaraang buwan"
-        ],
-        "0 month ago": [
-            "ngayong buwan"
-        ],
-        "in 1 month": [
-            "susunod na buwan"
-        ],
-        "1 week ago": [
-            "nakalipas na linggo",
-            "nakaraang linggo"
-        ],
-        "0 week ago": [
-            "sa linggong ito",
-            "ngayong linggo"
-        ],
-        "in 1 week": [
-            "susunod na linggo"
-        ],
-        "1 day ago": [
-            "kahapon"
-        ],
         "0 day ago": [
             "ngayong araw"
-        ],
-        "in 1 day": [
-            "bukas"
         ],
         "0 hour ago": [
             "ngayong oras"
@@ -151,58 +116,93 @@
         "0 minute ago": [
             "sa minutong ito"
         ],
+        "0 month ago": [
+            "ngayong buwan"
+        ],
         "0 second ago": [
             "ngayon"
+        ],
+        "0 week ago": [
+            "ngayong linggo",
+            "sa linggong ito"
+        ],
+        "0 year ago": [
+            "ngayong taon"
+        ],
+        "1 day ago": [
+            "kahapon"
+        ],
+        "1 month ago": [
+            "nakaraang buwan"
+        ],
+        "1 week ago": [
+            "nakalipas na linggo",
+            "nakaraang linggo"
+        ],
+        "1 year ago": [
+            "nakaraang taon"
+        ],
+        "in 1 day": [
+            "bukas"
+        ],
+        "in 1 month": [
+            "susunod na buwan"
+        ],
+        "in 1 week": [
+            "susunod na linggo"
+        ],
+        "in 1 year": [
+            "susunod na taon"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "sa {0} taon"
-        ],
-        "\\1 year ago": [
-            "{0} taon ang nakalipas"
-        ],
-        "in \\1 month": [
-            "sa {0} buwan"
-        ],
-        "\\1 month ago": [
-            "{0} buwan ang nakalipas"
-        ],
-        "in \\1 week": [
-            "sa {0} linggo"
-        ],
-        "\\1 week ago": [
-            "{0} linggo ang nakalipas"
-        ],
-        "in \\1 day": [
-            "sa {0} araw"
-        ],
         "\\1 day ago": [
             "{0} araw ang nakalipas"
-        ],
-        "in \\1 hour": [
-            "sa {0} oras"
         ],
         "\\1 hour ago": [
             "{0} oras ang nakalipas",
             "{0} oras nakalipas"
         ],
-        "in \\1 minute": [
-            "sa {0} minuto",
-            "sa {0} min"
-        ],
         "\\1 minute ago": [
-            "{0} minuto ang nakalipas",
-            "{0} min ang nakalipas"
+            "{0} min ang nakalipas",
+            "{0} minuto ang nakalipas"
         ],
-        "in \\1 second": [
-            "sa {0} segundo",
-            "sa {0} seg"
+        "\\1 month ago": [
+            "{0} buwan ang nakalipas"
         ],
         "\\1 second ago": [
-            "{0} segundo ang nakalipas",
             "{0} seg ang nakalipas",
-            "{0} seg nakalipas"
+            "{0} seg nakalipas",
+            "{0} segundo ang nakalipas"
+        ],
+        "\\1 week ago": [
+            "{0} linggo ang nakalipas"
+        ],
+        "\\1 year ago": [
+            "{0} taon ang nakalipas"
+        ],
+        "in \\1 day": [
+            "sa {0} araw"
+        ],
+        "in \\1 hour": [
+            "sa {0} oras"
+        ],
+        "in \\1 minute": [
+            "sa {0} min",
+            "sa {0} minuto"
+        ],
+        "in \\1 month": [
+            "sa {0} buwan"
+        ],
+        "in \\1 second": [
+            "sa {0} seg",
+            "sa {0} segundo"
+        ],
+        "in \\1 week": [
+            "sa {0} linggo"
+        ],
+        "in \\1 year": [
+            "sa {0} taon"
         ]
     },
     "locale_specific": {}

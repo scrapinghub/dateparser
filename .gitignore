@@ -1,10 +1,12 @@
 *.py[cod]
+.python-version
 
 # C extensions
 *.so
 
 # Packages
 *.egg
+*.eggs
 *.egg-info
 dist
 build
@@ -26,6 +28,7 @@ pip-log.txt
 .tox
 nosetests.xml
 htmlcov
+coverage.xml
 
 # Translations
 *.mo
@@ -42,7 +45,10 @@ output/*/index.html
 # Sphinx
 docs/_build
 
-# Vim temp files
+# Editors
 *.swp
-
 .idea
+.vscode/
+
+# Other
+raw_data

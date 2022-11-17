@@ -1,81 +1,80 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "dyo",
     "date_order": "DMY",
     "january": [
-        "sanvie",
-        "sa"
+        "sa",
+        "sanvie"
     ],
     "february": [
-        "fébirie",
-        "fe"
+        "fe",
+        "fébirie"
     ],
     "march": [
-        "mars",
-        "ma"
+        "ma",
+        "mars"
     ],
     "april": [
-        "aburil",
-        "ab"
+        "ab",
+        "aburil"
     ],
     "may": [
-        "mee",
-        "me"
+        "me",
+        "mee"
     ],
     "june": [
-        "sueŋ",
-        "su"
+        "su",
+        "sueŋ"
     ],
     "july": [
-        "súuyee",
-        "sú"
+        "sú",
+        "súuyee"
     ],
     "august": [
         "ut"
     ],
     "september": [
-        "settembar",
-        "se"
+        "se",
+        "settembar"
     ],
     "october": [
-        "oktobar",
-        "ok"
+        "ok",
+        "oktobar"
     ],
     "november": [
-        "novembar",
-        "no"
+        "no",
+        "novembar"
     ],
     "december": [
-        "disambar",
-        "de"
+        "de",
+        "disambar"
     ],
     "monday": [
-        "teneŋ",
-        "ten"
+        "ten",
+        "teneŋ"
     ],
     "tuesday": [
-        "talata",
-        "tal"
+        "tal",
+        "talata"
     ],
     "wednesday": [
-        "alarbay",
-        "ala"
+        "ala",
+        "alarbay"
     ],
     "thursday": [
-        "aramisay",
-        "ara"
+        "ara",
+        "aramisay"
     ],
     "friday": [
-        "arjuma",
-        "arj"
+        "arj",
+        "arjuma"
     ],
     "saturday": [
-        "sibiti",
-        "sib"
+        "sib",
+        "sibiti"
     ],
     "sunday": [
-        "dimas",
-        "dim"
+        "dim",
+        "dimas"
     ],
     "am": [
         "am"
@@ -105,41 +104,8 @@ info = {
         "second"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "fucen"
-        ],
         "0 day ago": [
             "jaat"
-        ],
-        "in 1 day": [
-            "kajom"
         ],
         "0 hour ago": [
             "this hour"
@@ -147,23 +113,56 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "fucen"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "kajom"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

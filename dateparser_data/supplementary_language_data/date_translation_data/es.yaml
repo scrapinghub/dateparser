@@ -1,4 +1,4 @@
-skip: ["de", "del", "cerca", "y", "a las", "en"]
+skip: ["a las", "cerca", "de", "del", "en", "y"]
 pertain: ["de", "del"]
 
 sentence_splitter_group : 2

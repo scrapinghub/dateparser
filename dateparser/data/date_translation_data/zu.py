@@ -1,79 +1,78 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "zu",
     "date_order": "MDY",
     "january": [
-        "januwari",
         "jan",
+        "januwari",
         "umasingana"
     ],
     "february": [
-        "februwari",
-        "feb"
+        "feb",
+        "februwari"
     ],
     "march": [
-        "mashi",
-        "mas"
+        "mas",
+        "mashi"
     ],
     "april": [
-        "ephreli",
-        "eph"
+        "eph",
+        "ephreli"
     ],
     "may": [
-        "meyi",
-        "mey"
+        "mey",
+        "meyi"
     ],
     "june": [
-        "juni",
-        "jun"
+        "jun",
+        "juni"
     ],
     "july": [
-        "julayi",
-        "jul"
+        "jul",
+        "julayi"
     ],
     "august": [
-        "agasti",
-        "aga"
+        "aga",
+        "agasti"
     ],
     "september": [
-        "septhemba",
-        "sep"
+        "sep",
+        "septhemba"
     ],
     "october": [
-        "okthoba",
-        "okt"
+        "okt",
+        "okthoba"
     ],
     "november": [
-        "novemba",
-        "nov"
+        "nov",
+        "novemba"
     ],
     "december": [
-        "disemba",
-        "dis"
+        "dis",
+        "disemba"
     ],
     "monday": [
-        "umsombuluko",
-        "mso"
+        "mso",
+        "umsombuluko"
     ],
     "tuesday": [
-        "ulwesibili",
-        "bil"
+        "bil",
+        "ulwesibili"
     ],
     "wednesday": [
-        "ulwesithathu",
-        "tha"
+        "tha",
+        "ulwesithathu"
     ],
     "thursday": [
-        "ulwesine",
-        "sin"
+        "sin",
+        "ulwesine"
     ],
     "friday": [
-        "ulwesihlanu",
-        "hla"
+        "hla",
+        "ulwesihlanu"
     ],
     "saturday": [
-        "umgqibelo",
-        "mgq"
+        "mgq",
+        "umgqibelo"
     ],
     "sunday": [
         "isonto",
@@ -107,41 +106,8 @@ info = {
         "isekhondi"
     ],
     "relative-type": {
-        "1 year ago": [
-            "onyakeni odlule"
-        ],
-        "0 year ago": [
-            "kulo nyaka"
-        ],
-        "in 1 year": [
-            "unyaka ozayo"
-        ],
-        "1 month ago": [
-            "inyanga edlule"
-        ],
-        "0 month ago": [
-            "le nyanga"
-        ],
-        "in 1 month": [
-            "inyanga ezayo"
-        ],
-        "1 week ago": [
-            "iviki eledlule"
-        ],
-        "0 week ago": [
-            "leli viki"
-        ],
-        "in 1 week": [
-            "iviki elizayo"
-        ],
-        "1 day ago": [
-            "izolo"
-        ],
         "0 day ago": [
             "namhlanje"
-        ],
-        "in 1 day": [
-            "kusasa"
         ],
         "0 hour ago": [
             "leli hora"
@@ -149,49 +115,82 @@ info = {
         "0 minute ago": [
             "leli minithi"
         ],
+        "0 month ago": [
+            "le nyanga"
+        ],
         "0 second ago": [
             "manje"
+        ],
+        "0 week ago": [
+            "leli viki"
+        ],
+        "0 year ago": [
+            "kulo nyaka"
+        ],
+        "1 day ago": [
+            "izolo"
+        ],
+        "1 month ago": [
+            "inyanga edlule"
+        ],
+        "1 week ago": [
+            "iviki eledlule"
+        ],
+        "1 year ago": [
+            "onyakeni odlule"
+        ],
+        "in 1 day": [
+            "kusasa"
+        ],
+        "in 1 month": [
+            "inyanga ezayo"
+        ],
+        "in 1 week": [
+            "iviki elizayo"
+        ],
+        "in 1 year": [
+            "unyaka ozayo"
         ]
     },
     "relative-type-regex": {
-        "\\1 year ago": [
-            "(\\d+) unyaka odlule",
-            "(\\d+) iminyaka edlule"
-        ],
-        "\\1 month ago": [
-            "(\\d+) inyanga edlule",
-            "(\\d+) izinyanga ezedlule"
-        ],
         "\\1 day ago": [
-            "(\\d+) usuku olwedlule",
-            "(\\d+) izinsuku ezedlule"
+            "(\\d+[.,]?\\d*) izinsuku ezedlule",
+            "(\\d+[.,]?\\d*) usuku olwedlule"
         ],
         "\\1 hour ago": [
-            "(\\d+) ihora eledlule",
-            "(\\d+) amahora edlule"
+            "(\\d+[.,]?\\d*) amahora edlule",
+            "(\\d+[.,]?\\d*) ihora eledlule"
         ],
         "\\1 minute ago": [
-            "(\\d+) iminithi eledlule",
-            "(\\d+) amaminithi edlule"
+            "(\\d+[.,]?\\d*) amaminithi edlule",
+            "(\\d+[.,]?\\d*) iminithi eledlule"
+        ],
+        "\\1 month ago": [
+            "(\\d+[.,]?\\d*) inyanga edlule",
+            "(\\d+[.,]?\\d*) izinyanga ezedlule"
         ],
         "\\1 second ago": [
-            "(\\d+) isekhondi eledlule",
-            "(\\d+) amasekhondi edlule"
+            "(\\d+[.,]?\\d*) amasekhondi edlule",
+            "(\\d+[.,]?\\d*) isekhondi eledlule"
+        ],
+        "\\1 year ago": [
+            "(\\d+[.,]?\\d*) iminyaka edlule",
+            "(\\d+[.,]?\\d*) unyaka odlule"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

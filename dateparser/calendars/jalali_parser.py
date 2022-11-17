@@ -1,7 +1,3 @@
-# coding: utf-8
-
-from __future__ import unicode_literals
-
 import re
 
 from dateparser.calendars import non_gregorian_parser
@@ -10,7 +6,7 @@ from collections import OrderedDict
 from functools import reduce
 
 
-class PersianDate(object):
+class PersianDate:
     def __init__(self, year, month, day):
         self.year = year
         self.month = month
@@ -151,8 +147,8 @@ class jalali_parser(non_gregorian_parser):
         day_pairs[-14] = thirty
         day_pairs[1] = thirteen
 
-        for persian, number in reduce(
+        for persian_number, number in reduce(
                 lambda a, b: a + b,
-                [[(val, repl) for val in persian] for repl, persian in day_pairs]):
-            result = result.replace(persian, str(number))
+                [[(val, repl) for val in persian_word] for repl, persian_word in day_pairs]):
+            result = result.replace(persian_number, str(number))
         return result
