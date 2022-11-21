@@ -3,6 +3,18 @@
 History
 =======
 
+1.1.4 (2022-11-21)
+------------------
+
+Improvements:
+
+- Improved support for languages such as Slovak, Indonesian, Hindi, German and Japanese (#1064, #1094, #986, #1071, #1068)
+- Recursively create a model home (#996)
+- Replace regex sub with simple string replace (#1095)
+- Add Python 3.10, 3.11 support (#1096)
+- Drop support for Python 3.5, 3.6 versions (#1097)
+
+
 1.1.3 (2022-11-03)
 ------------------
 
