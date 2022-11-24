@@ -13,12 +13,15 @@ decade:
     - decade
     - decades
 year:
+    - y
     - years
 month:
+    - mon
     - months
 week:
     - weeks
 day:
+    - d
     - days
 hour:
     - h

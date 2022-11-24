@@ -87,11 +87,13 @@ info = {
     "year": [
         "year",
         "yr",
+        "y",
         "years"
     ],
     "month": [
         "mo",
         "month",
+        "mon",
         "months"
     ],
     "week": [
@@ -101,6 +103,7 @@ info = {
     ],
     "day": [
         "day",
+        "d",
         "days"
     ],
     "hour": [

@@ -72,6 +72,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('an hour ago', ago={'hours': 1}, period='day'),
         param('about an hour ago', ago={'hours': 1}, period='day'),
         param('a day ago', ago={'days': 1}, period='day'),
+        param('1d ago', ago={'days': 1}, period='day'),
         param('a week ago', ago={'weeks': 1}, period='week'),
         param('2 hours ago', ago={'hours': 2}, period='day'),
         param('about 23 hours ago', ago={'hours': 23}, period='day'),
@@ -96,8 +97,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('nine hours ago', ago={'hours': 9}, period='day'),
         param('three week ago', ago={'weeks': 3}, period='week'),
         param('eight months ago', ago={'months': 8}, period='month'),
+        param('1mon ago', ago={'months': 1}, period='month'),
         param('six days ago', ago={'days': 6}, period='day'),
         param('five years ago', ago={'years': 5}, period='year'),
+        param('2y ago', ago={'years': 2}, period='year'),
         # Fractional units
         param('2.5 hours', ago={'hours': 2.5}, period='day'),
         param('10.75 minutes', ago={'minutes': 10.75}, period='day'),
