@@ -1112,6 +1112,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('in an hour', in_future={'hours': 1}, period='day'),
         param('in about an hour', in_future={'hours': 1}, period='day'),
         param('in 1 day', in_future={'days': 1}, period='day'),
+        param('in 1d', in_future={'days': 1}, period='day'),
         param('in a week', in_future={'weeks': 1}, period='week'),
         param('in 2 hours', in_future={'hours': 2}, period='day'),
         param('in about 23 hours', in_future={'hours': 23}, period='day'),
