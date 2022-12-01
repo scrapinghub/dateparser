@@ -3,27 +3,27 @@ language_order = [
     "ru",
     "es",
     "de",
-    "tr",
     "fr",
-    "fa",
     "ja",
+    "tr",
+    "fa",
     "zh",
     "zh-Hans",
-    "vi",
     "it",
-    "nl",
+    "vi",
     "pt",
-    "ar",
+    "nl",
     "pl",
-    "id",
+    "ar",
     "ko",
+    "id",
     "uk",
+    "cs",
     "th",
     "he",
-    "cs",
     "sv",
-    "ro",
     "el",
+    "ro",
     "da",
     "hu",
     "fi",
@@ -34,10 +34,11 @@ language_order = [
     "nb",
     "hr",
     "lt",
-    "hi",
     "sl",
+    "hi",
     "ca",
     "et",
+    "lv",
     "bn",
     "ur",
     "sw",
@@ -137,7 +138,6 @@ language_order = [
     "nn",
     "kde",
     "mfe",
-    "lv",
     "seh",
     "mgh",
     "az-Cyrl",
@@ -944,9 +944,6 @@ language_locale_dict = {
         "de-LI",
         "de-LU"
     ],
-    "tr": [
-        "tr-CY"
-    ],
     "fr": [
         "fr-BE",
         "fr-BF",
@@ -994,30 +991,25 @@ language_locale_dict = {
         "fr-WF",
         "fr-YT"
     ],
+    "ja": [],
+    "tr": [
+        "tr-CY"
+    ],
     "fa": [
         "fa-AF"
     ],
-    "ja": [],
     "zh": [],
     "zh-Hans": [
         "zh-Hans-HK",
         "zh-Hans-MO",
         "zh-Hans-SG"
     ],
-    "vi": [],
     "it": [
         "it-CH",
         "it-SM",
         "it-VA"
     ],
-    "nl": [
-        "nl-AW",
-        "nl-BE",
-        "nl-BQ",
-        "nl-CW",
-        "nl-SR",
-        "nl-SX"
-    ],
+    "vi": [],
     "pt": [
         "pt-AO",
         "pt-CH",
@@ -1031,6 +1023,15 @@ language_locale_dict = {
         "pt-ST",
         "pt-TL"
     ],
+    "nl": [
+        "nl-AW",
+        "nl-BE",
+        "nl-BQ",
+        "nl-CW",
+        "nl-SR",
+        "nl-SX"
+    ],
+    "pl": [],
     "ar": [
         "ar-AE",
         "ar-BH",
@@ -1060,24 +1061,23 @@ language_locale_dict = {
         "ar-TN",
         "ar-YE"
     ],
-    "pl": [],
-    "id": [],
     "ko": [
         "ko-KP"
     ],
+    "id": [],
     "uk": [],
+    "cs": [],
     "th": [],
     "he": [],
-    "cs": [],
     "sv": [
         "sv-AX",
         "sv-FI"
     ],
-    "ro": [
-        "ro-MD"
-    ],
     "el": [
         "el-CY"
+    ],
+    "ro": [
+        "ro-MD"
     ],
     "da": [
         "da-GL"
@@ -1099,14 +1099,15 @@ language_locale_dict = {
         "hr-BA"
     ],
     "lt": [],
-    "hi": [],
     "sl": [],
+    "hi": [],
     "ca": [
         "ca-AD",
         "ca-FR",
         "ca-IT"
     ],
     "et": [],
+    "lv": [],
     "bn": [
         "bn-IN"
     ],
@@ -1274,7 +1275,6 @@ language_locale_dict = {
     "nn": [],
     "kde": [],
     "mfe": [],
-    "lv": [],
     "seh": [],
     "mgh": [],
     "az-Cyrl": [],
