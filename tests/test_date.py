@@ -365,7 +365,6 @@ class TestDateDataParser(BaseTestCase):
         param('снощи', days_ago=1)
     ])
     def test_temporal_nouns_are_parsed(self, date_string, days_ago):
-        self.given_now(2019, 7, 21)
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
