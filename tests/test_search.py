@@ -8,6 +8,8 @@ from dateparser_data.settings import default_parsers
 import datetime
 import pytz
 
+today = datetime.datetime.today()
+
 
 class TestTranslateSearch(BaseTestCase):
     def setUp(self):
@@ -460,10 +462,8 @@ class TestTranslateSearch(BaseTestCase):
                ('February 1st', datetime.datetime(2017, 2, 1, 0, 0))]),
         param('en', '2014 was good! October was excellent!'
                     ' Friday, 21 was especially good!',
-              [('2014', datetime.datetime(
-                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
-                ),
-               ('October', datetime.datetime(2014, 10, datetime.datetime.utcnow().day, 0, 0)),
+              [('2014', datetime.datetime(2014, today.month, today.day, 0, 0)),
+               ('October', datetime.datetime(2014, 10, today.day, 0, 0)),
                ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
         param('en', """May 2020
                     July 2020
@@ -529,9 +529,7 @@ class TestTranslateSearch(BaseTestCase):
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', '2014. July 13th July 14th',
-              [('2014', datetime.datetime(
-                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
-                ),
+              [('2014', datetime.datetime(2014, today.month, today.day, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', 'July 13th 2014 July 14th 2014',
@@ -544,9 +542,7 @@ class TestTranslateSearch(BaseTestCase):
               [('July 13th, 2014', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th, 2014', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', '2014. July 12th, July 13th, July 14th',
-              [('2014', datetime.datetime(
-                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
-                ),
+              [('2014', datetime.datetime(2014, today.month, today.day, 0, 0)),
                ('July 12th', datetime.datetime(2014, 7, 12, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
@@ -554,13 +550,8 @@ class TestTranslateSearch(BaseTestCase):
         # Swedish
         param('sv', '1938–1939 marscherade tyska soldater i Österrike samtidigt som '
                     'österrikiska soldater marscherade i Berlin.',
-              [('1938', datetime.datetime(
-                  1938, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
-                ),
-               ('1939', datetime.datetime(
-                   1939, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
-                )]),
-
+              [('1938', datetime.datetime(1938, today.month, today.day, 0, 0)),
+               ('1939', datetime.datetime(1939, today.month, today.day, 0, 0))]),
         # German
         param('de', 'Verteidiger der Stadt kapitulierten am 2. Mai 1945. Am 8. Mai 1945 (VE-Day) trat '
                     'bedingungslose Kapitulation der Wehrmacht in Kraft',
