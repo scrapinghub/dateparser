@@ -154,58 +154,58 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+) d zo",
-            "(\\d+) deiz zo"
+            "(\\d+[.,]?\\d*) d zo",
+            "(\\d+[.,]?\\d*) deiz zo"
         ],
         "\\1 hour ago": [
-            "(\\d+) e zo",
-            "(\\d+) eur zo"
+            "(\\d+[.,]?\\d*) e zo",
+            "(\\d+[.,]?\\d*) eur zo"
         ],
         "\\1 minute ago": [
-            "(\\d+) min zo",
-            "(\\d+) munut zo"
+            "(\\d+[.,]?\\d*) min zo",
+            "(\\d+[.,]?\\d*) munut zo"
         ],
         "\\1 month ago": [
-            "(\\d+) miz zo"
+            "(\\d+[.,]?\\d*) miz zo"
         ],
         "\\1 second ago": [
-            "(\\d+) eilenn zo",
-            "(\\d+) s zo"
+            "(\\d+[.,]?\\d*) eilenn zo",
+            "(\\d+[.,]?\\d*) s zo"
         ],
         "\\1 week ago": [
-            "(\\d+) sizhun zo"
+            "(\\d+[.,]?\\d*) sizhun zo"
         ],
         "\\1 year ago": [
-            "(\\d+) bl zo",
-            "(\\d+) bloaz zo",
-            "(\\d+) vloaz zo"
+            "(\\d+[.,]?\\d*) bl zo",
+            "(\\d+[.,]?\\d*) bloaz zo",
+            "(\\d+[.,]?\\d*) vloaz zo"
         ],
         "in \\1 day": [
-            "a-benn (\\d+) d",
-            "a-benn (\\d+) deiz"
+            "a-benn (\\d+[.,]?\\d*) d",
+            "a-benn (\\d+[.,]?\\d*) deiz"
         ],
         "in \\1 hour": [
-            "a-benn (\\d+) e",
-            "a-benn (\\d+) eur"
+            "a-benn (\\d+[.,]?\\d*) e",
+            "a-benn (\\d+[.,]?\\d*) eur"
         ],
         "in \\1 minute": [
-            "a-benn (\\d+) min",
-            "a-benn (\\d+) munut"
+            "a-benn (\\d+[.,]?\\d*) min",
+            "a-benn (\\d+[.,]?\\d*) munut"
         ],
         "in \\1 month": [
-            "a-benn (\\d+) miz"
+            "a-benn (\\d+[.,]?\\d*) miz"
         ],
         "in \\1 second": [
-            "a-benn (\\d+) eilenn",
-            "a-benn (\\d+) s"
+            "a-benn (\\d+[.,]?\\d*) eilenn",
+            "a-benn (\\d+[.,]?\\d*) s"
         ],
         "in \\1 week": [
-            "a-benn (\\d+) sizhun"
+            "a-benn (\\d+[.,]?\\d*) sizhun"
         ],
         "in \\1 year": [
-            "a-benn (\\d+) bl",
-            "a-benn (\\d+) bloaz",
-            "a-benn (\\d+) vloaz"
+            "a-benn (\\d+[.,]?\\d*) bl",
+            "a-benn (\\d+[.,]?\\d*) bloaz",
+            "a-benn (\\d+[.,]?\\d*) vloaz"
         ]
     },
     "locale_specific": {},

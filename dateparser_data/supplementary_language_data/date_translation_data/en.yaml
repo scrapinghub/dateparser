@@ -13,12 +13,15 @@ decade:
     - decade
     - decades
 year:
+    - y
     - years
 month:
+    - mon
     - months
 week:
     - weeks
 day:
+    - d
     - days
 hour:
     - h
@@ -35,9 +38,11 @@ second:
 
 ago:
     - ago
+    - before
 in:
     - in
     - from now
+    - after
 
 relative-type:
     2 day ago:
@@ -47,19 +52,23 @@ relative-type:
         - this decade
     in 1 decade:
         - next decade
+    in 2 day:
+        - day after tomorrow
+    0 day ago:
+        - till date
 
 relative-type-regex:
     in \1 decade:
-        - in (\d+) decades?
+        - in (\d+[.,]?\d*) decades?
     \1 decade ago:
-        - (\d+) decades? ago
+        - (\d+[.,]?\d*) decades? ago
 
 simplifications:
     - an: '1'
     - a: '1'
     - (?:12\s+)?noon: '12:00'
     - (?:12\s+)?midnight: '00:00'
-    - (\d+)h(\d+)m?: \1:\2
+    - (\d+[.,]?\d*)h(\d+[.,]?\d*)m?: \1:\2
     - (?<=from\s+)now: in
     - less than 1 minute ago: 45 second ago
     - one: '1'

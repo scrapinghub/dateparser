@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
+import os
 import unittest
 from collections import OrderedDict
 from copy import copy
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone as dttz
+from itertools import product
+from time import tzset
 
 from unittest.mock import Mock, patch
 from parameterized import parameterized, param
@@ -351,6 +354,8 @@ class TestDateDataParser(BaseTestCase):
         param(' Yesterday \n', days_ago=1),
         param('Ontem', days_ago=1),
         param('Ieri', days_ago=1),
+        param(u'вчера', days_ago=1),
+        param(u'снощи', days_ago=1),
         # Day before yesterday
         param('the day before yesterday', days_ago=2),
         param('The DAY before Yesterday', days_ago=2),
@@ -520,11 +525,12 @@ class TestDateDataParser(BaseTestCase):
         self.then_returned_tuple_is(expected_result)
 
     def given_now(self, year, month, day, **time):
+        now = datetime(year, month, day, **time)
         datetime_mock = Mock(wraps=datetime)
-        datetime_mock.utcnow = Mock(return_value=datetime(year, month, day, **time))
-        self.add_patch(
-            patch('dateparser.date_parser.datetime', new=datetime_mock)
-        )
+        datetime_mock.utcnow = Mock(return_value=now)
+        datetime_mock.now = Mock(return_value=now)
+        datetime_mock.today = Mock(return_value=now)
+        self.add_patch(patch('dateparser.date.datetime', new=datetime_mock))
 
     def given_parser(self, restrict_to_languages=None, **params):
         self.parser = date.DateDataParser(languages=restrict_to_languages, **params)
@@ -652,10 +658,13 @@ class TestParserInitialization(BaseTestCase):
             TypeError, ["use_given_order argument must be a boolean (%r given)"
                         % type(use_given_order)])
 
-    def test_error_is_raised_when_use_given_order_is_True_and_locales_is_None(self):
+    def test_error_is_raised_when_use_given_order_is_True_and_locales_and_languages_is_None(self):
         self.when_parser_is_initialized(use_given_order=True)
         self.then_error_was_raised(
-            ValueError, ["locales must be given if use_given_order is True"])
+            ValueError, ["locales or languages must be given if use_given_order is True"])
+
+    def test_no_error_for_order_with_languages_without_locales(self):
+        self.when_parser_is_initialized(languages=['en', 'fr'], use_given_order=True)
 
     def when_parser_is_initialized(self, languages=None, locales=None, region=None,
                                    try_previous_locales=True, use_given_order=False):
@@ -710,6 +719,38 @@ class TestDateLocaleParser(BaseTestCase):
 
 
 class TestTimestampParser(BaseTestCase):
+    def given_parser(self, **params):
+        self.parser = date.DateDataParser(**params)
+
+    def given_tzstr(self, tzstr):
+        # Save the existing value
+        self.old_tzstr = os.environ['TZ'] if 'TZ' in os.environ else None
+
+        # Overwrite the value, or remove it
+        if tzstr is not None:
+            os.environ['TZ'] = tzstr
+        elif 'TZ' in os.environ:
+            del os.environ['TZ']
+
+        # Call tzset
+        tzset()
+
+    def reset_tzstr(self):
+        # If we never set it with given_tzstr, don't bother resetting it
+        if not hasattr(self, 'old_tzstr'):
+            return
+
+        # Restore the old value, or remove it if null
+        if self.old_tzstr is not None:
+            os.environ['TZ'] = self.old_tzstr
+        elif 'TZ' in os.environ:
+            del os.environ['TZ']
+
+        # Remove the local attribute
+        del self.old_tzstr
+
+        # Restore the old timezone behavior
+        tzset()
 
     def test_timestamp_in_milliseconds(self):
         self.assertEqual(
@@ -717,10 +758,67 @@ class TestTimestampParser(BaseTestCase):
             datetime.fromtimestamp(1570308760).replace(microsecond=263000)
         )
 
+    @parameterized.expand(
+        product(
+            ['1570308760'],
+            ['EDT', 'EST', 'PDT', 'PST', 'UTC', 'local'],
+            [None, 'EDT', 'EST', 'PDT', 'PST', 'UTC'],
+            ['EST5EDT4', 'UTC0', 'PST8PDT7', None],
+        )
+    )
+    def test_timestamp_with_different_timestr(self, timestamp, timezone, to_timezone, tzstr):
+        settings = {
+            'RETURN_AS_TIMEZONE_AWARE': True,
+            'TIMEZONE': timezone,
+        }
+
+        # is TO_TIMEZONE supposed to be allowed to be False, or None ???
+        if to_timezone is not None:
+            settings['TO_TIMEZONE'] = to_timezone
+
+        self.given_parser(settings=settings)
+
+        self.given_tzstr(tzstr)
+
+        self.assertEqual(
+            self.parser.get_date_data(timestamp)['date_obj'],
+            datetime.fromtimestamp(int(timestamp), dttz.utc)
+        )
+
+        self.reset_tzstr()
+
     def test_timestamp_in_microseconds(self):
         self.assertEqual(
             date.get_date_from_timestamp('1570308760263111', None),
             datetime.fromtimestamp(1570308760).replace(microsecond=263111)
+        )
+
+    @parameterized.expand([
+        param(
+            input_timestamp='-1570308760',
+            negative=True,
+            result=datetime.fromtimestamp(-1570308760)
+        ),
+        param(
+            input_timestamp='-1570308760',
+            negative=False,
+            result=None
+        ),
+        param(
+            input_timestamp='1570308760',
+            negative=True,
+            result=None
+        ),
+        param(
+            input_timestamp='1570308760',
+            negative=False,
+            result=datetime.fromtimestamp(1570308760)
+        )
+    ])
+    def test_timestamp_with_negative(self, input_timestamp, negative, result):
+        self.assertEqual(
+            date.get_date_from_timestamp(input_timestamp, None, negative=negative),
+            result
         )
 
     @parameterized.expand([

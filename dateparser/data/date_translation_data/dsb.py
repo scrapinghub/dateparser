@@ -174,82 +174,82 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "pśed (\\d+) d",
-            "pśed (\\d+) dnj",
-            "pśed (\\d+) dnjami",
-            "pśed (\\d+) dnjom"
+            "pśed (\\d+[.,]?\\d*) d",
+            "pśed (\\d+[.,]?\\d*) dnj",
+            "pśed (\\d+[.,]?\\d*) dnjami",
+            "pśed (\\d+[.,]?\\d*) dnjom"
         ],
         "\\1 hour ago": [
-            "pśed (\\d+) g",
-            "pśed (\\d+) góź",
-            "pśed (\\d+) góźinami",
-            "pśed (\\d+) góźinu"
+            "pśed (\\d+[.,]?\\d*) g",
+            "pśed (\\d+[.,]?\\d*) góź",
+            "pśed (\\d+[.,]?\\d*) góźinami",
+            "pśed (\\d+[.,]?\\d*) góźinu"
         ],
         "\\1 minute ago": [
-            "pśed (\\d+) m",
-            "pśed (\\d+) min",
-            "pśed (\\d+) minutami",
-            "pśed (\\d+) minutu"
+            "pśed (\\d+[.,]?\\d*) m",
+            "pśed (\\d+[.,]?\\d*) min",
+            "pśed (\\d+[.,]?\\d*) minutami",
+            "pśed (\\d+[.,]?\\d*) minutu"
         ],
         "\\1 month ago": [
-            "pśed (\\d+) mjas",
-            "pśed (\\d+) mjasecami",
-            "pśed (\\d+) mjasecom"
+            "pśed (\\d+[.,]?\\d*) mjas",
+            "pśed (\\d+[.,]?\\d*) mjasecami",
+            "pśed (\\d+[.,]?\\d*) mjasecom"
         ],
         "\\1 second ago": [
-            "pśed (\\d+) s",
-            "pśed (\\d+) sek",
-            "pśed (\\d+) sekundami",
-            "pśed (\\d+) sekundu"
+            "pśed (\\d+[.,]?\\d*) s",
+            "pśed (\\d+[.,]?\\d*) sek",
+            "pśed (\\d+[.,]?\\d*) sekundami",
+            "pśed (\\d+[.,]?\\d*) sekundu"
         ],
         "\\1 week ago": [
-            "pśed (\\d+) tyź",
-            "pśed (\\d+) tyźenjami",
-            "pśed (\\d+) tyźenjom"
+            "pśed (\\d+[.,]?\\d*) tyź",
+            "pśed (\\d+[.,]?\\d*) tyźenjami",
+            "pśed (\\d+[.,]?\\d*) tyźenjom"
         ],
         "\\1 year ago": [
-            "pśed (\\d+) l",
-            "pśed (\\d+) lětami",
-            "pśed (\\d+) lětom"
+            "pśed (\\d+[.,]?\\d*) l",
+            "pśed (\\d+[.,]?\\d*) lětami",
+            "pśed (\\d+[.,]?\\d*) lětom"
         ],
         "in \\1 day": [
-            "za (\\d+) dnj",
-            "za (\\d+) dnjow",
-            "za (\\d+) ź",
-            "za (\\d+) źeń"
+            "za (\\d+[.,]?\\d*) dnj",
+            "za (\\d+[.,]?\\d*) dnjow",
+            "za (\\d+[.,]?\\d*) ź",
+            "za (\\d+[.,]?\\d*) źeń"
         ],
         "in \\1 hour": [
-            "za (\\d+) g",
-            "za (\\d+) góź",
-            "za (\\d+) góźin",
-            "za (\\d+) góźinu"
+            "za (\\d+[.,]?\\d*) g",
+            "za (\\d+[.,]?\\d*) góź",
+            "za (\\d+[.,]?\\d*) góźin",
+            "za (\\d+[.,]?\\d*) góźinu"
         ],
         "in \\1 minute": [
-            "za (\\d+) m",
-            "za (\\d+) min",
-            "za (\\d+) minutow",
-            "za (\\d+) minutu"
+            "za (\\d+[.,]?\\d*) m",
+            "za (\\d+[.,]?\\d*) min",
+            "za (\\d+[.,]?\\d*) minutow",
+            "za (\\d+[.,]?\\d*) minutu"
         ],
         "in \\1 month": [
-            "za (\\d+) mjas",
-            "za (\\d+) mjasec",
-            "za (\\d+) mjasecow"
+            "za (\\d+[.,]?\\d*) mjas",
+            "za (\\d+[.,]?\\d*) mjasec",
+            "za (\\d+[.,]?\\d*) mjasecow"
         ],
         "in \\1 second": [
-            "za (\\d+) s",
-            "za (\\d+) sek",
-            "za (\\d+) sekundow",
-            "za (\\d+) sekundu"
+            "za (\\d+[.,]?\\d*) s",
+            "za (\\d+[.,]?\\d*) sek",
+            "za (\\d+[.,]?\\d*) sekundow",
+            "za (\\d+[.,]?\\d*) sekundu"
         ],
         "in \\1 week": [
-            "za (\\d+) tyź",
-            "za (\\d+) tyźenjow",
-            "za (\\d+) tyźeń"
+            "za (\\d+[.,]?\\d*) tyź",
+            "za (\\d+[.,]?\\d*) tyźenjow",
+            "za (\\d+[.,]?\\d*) tyźeń"
         ],
         "in \\1 year": [
-            "za (\\d+) l",
-            "za (\\d+) lět",
-            "za (\\d+) lěto"
+            "za (\\d+[.,]?\\d*) l",
+            "za (\\d+[.,]?\\d*) lět",
+            "za (\\d+[.,]?\\d*) lěto"
         ]
     },
     "locale_specific": {},

@@ -65,7 +65,7 @@ def is_invalid_relative_regex_mapping(relative_regex_mapping):
     if '\\1' not in key:
         return True
     return not (all([isinstance(x, str) for x in value])
-                and all(['(\\d+)' in x for x in value]))
+                and all(['(\\d+[.,]?\\d*)' in x for x in value]))
 
 
 class TestLocaleInfo(BaseTestCase):

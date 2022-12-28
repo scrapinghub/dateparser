@@ -10,6 +10,8 @@ november:
     - नवम्बर
 december:
     - दिसम्बर
+decade:
+    - दशक
 
 year:
     - साल
@@ -33,3 +35,15 @@ in:
 relative-type:
     2 day ago:
         - परसों
+    1 decade ago:
+        - पिछला दशक
+    in 1 decade:
+        - अगला दशक
+
+relative-type-regex:
+    in \1 decade:
+        - (\d+[.,]?\d*) दशक में
+    \1 decade ago:
+        - (\d+[.,]?\d*) दशक पहले
+
+

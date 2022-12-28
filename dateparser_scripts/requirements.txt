@@ -1,2 +1,4 @@
 gitpython
+parsel
+requests
 ruamel.yaml

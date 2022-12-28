@@ -9,6 +9,8 @@ from dateparser.conf import Settings, apply_settings
 from dateparser_data.settings import default_parsers
 import datetime
 
+today = datetime.datetime.today()
+
 
 class TestTranslateSearch(BaseTestCase):
     def setUp(self):
@@ -190,6 +192,9 @@ class TestTranslateSearch(BaseTestCase):
         param('ja', "2016年3月21日(月) 14時48分"),
         param('ja', "2016年3月20日(日) 21時40分"),
         param('ja', "2016年3月20日 (日) 21時40分"),
+        param('ja', "正午"),
+        param('ja', "明後日"),
+        param('ja', "明後日の正午"),
 
         # Hebrew
         param('he', "20 לאפריל 2012"),
@@ -303,7 +308,9 @@ class TestTranslateSearch(BaseTestCase):
               [('25th march 2015', datetime.datetime(2015, 3, 25)),
                ('today', datetime.datetime(2000, 1, 1))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
-
+        param('en', 'The employee has not submitted their documents till date',
+              [('till date', datetime.datetime(2000, 1, 1))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
         # Filipino / Tagalog
         param('tl', 'Maraming namatay sa mga Hapon hanggang sila\'y sumuko noong Agosto 15, 1945.',
               [('noong Agosto 15, 1945', datetime.datetime(1945, 8, 15, 0, 0))],
@@ -433,8 +440,8 @@ class TestTranslateSearch(BaseTestCase):
                     'інтервенції в Маньчжурію 13 вересня 1931, початок другої японсько-китайської війни 7 '
                     'липня 1937 року та початок угорсько-української війни 14 березня 1939 року.',
               [('13 вересня 1931', datetime.datetime(1931, 9, 13, 0, 0)),
-               ('7 липня 1937', datetime.datetime(1937, 7, 7, 0, 0)),
-               ('14 березня 1939', datetime.datetime(1939, 3, 14, 0, 0))],
+               ('7 липня 1937 року', datetime.datetime(1937, 7, 7, 0, 0)),
+               ('14 березня 1939 року', datetime.datetime(1939, 3, 14, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
         # Vietnamese
@@ -456,22 +463,19 @@ class TestTranslateSearch(BaseTestCase):
                ('February 1st', datetime.datetime(2017, 2, 1, 0, 0))]),
         param('en', '2014 was good! October was excellent!'
                     ' Friday, 21 was especially good!',
-              [('2014', datetime.datetime(
-                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
-                ),
-               ('October', datetime.datetime(2014, 10, datetime.datetime.utcnow().day, 0, 0)),
-               ('Friday, 21', datetime.datetime(2014, datetime.datetime.utcnow().month, 21, 0, 0))]),
-
+              [('2014', datetime.datetime(2014, today.month, today.day, 0, 0)),
+               ('October', datetime.datetime(2014, 10, today.day, 0, 0)),
+               ('Friday, 21', datetime.datetime(2014, 10, 21, 0, 0))]),
         param('en', """May 2020
-                    June 2020
+                    July 2020
                     2023
                     January UTC
                     June 5 am utc
                     June 23th 5 pm EST
                     May 31, 8am UTC""",
               [('May 2020', datetime.datetime(2020, 5, datetime.datetime.utcnow().day, 0, 0)),
-               ('June 2020', datetime.datetime(2020, 6, datetime.datetime.utcnow().day, 0, 0)),
-               ('2023', datetime.datetime(2023, 6, datetime.datetime.utcnow().day, 0, 0)),
+               ('July 2020', datetime.datetime(2020, 7, datetime.datetime.utcnow().day, 0, 0)),
+               ('2023', datetime.datetime(2023, 7, datetime.datetime.utcnow().day, 0, 0)),
                ('January UTC', datetime.datetime(2023, 1, datetime.datetime.utcnow().day, 0, 0, tzinfo=pytz.utc)),
                ('June 5 am utc', datetime.datetime(2023, 6, 5, 0, 0, tzinfo=pytz.utc)),
                ('June 23th 5 pm EST', datetime.datetime(2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST"))),
@@ -483,6 +487,8 @@ class TestTranslateSearch(BaseTestCase):
               [('19 марта 2001', datetime.datetime(2001, 3, 19, 0, 0)),
                ('20 марта', datetime.datetime(2001, 3, 20, 0, 0)),
                ('21 марта', datetime.datetime(2001, 3, 21, 0, 0))]),
+        param('ru', 'Андрей Дмитриевич Сахаров скончался 14 декабря в 1989 году от внезапной остановки сердца.',
+              [('14 декабря в 1989 году', datetime.datetime(1989, 12, 14, 0, 0))]),
         # relative dates
         param('ru', '19 марта 2001. Сегодня был хороший день. 2 дня назад был хороший день. '
                     'Вчера тоже был хороший день.',
@@ -526,9 +532,7 @@ class TestTranslateSearch(BaseTestCase):
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', '2014. July 13th July 14th',
-              [('2014', datetime.datetime(
-                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
-                ),
+              [('2014', datetime.datetime(2014, today.month, today.day, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', 'July 13th 2014 July 14th 2014',
@@ -544,9 +548,7 @@ class TestTranslateSearch(BaseTestCase):
               [('July 13th, 2014', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th, 2014', datetime.datetime(2014, 7, 14, 0, 0))]),
         param('en', '2014. July 12th, July 13th, July 14th',
-              [('2014', datetime.datetime(
-                  2014, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
-                ),
+              [('2014', datetime.datetime(2014, today.month, today.day, 0, 0)),
                ('July 12th', datetime.datetime(2014, 7, 12, 0, 0)),
                ('July 13th', datetime.datetime(2014, 7, 13, 0, 0)),
                ('July 14th', datetime.datetime(2014, 7, 14, 0, 0))]),
@@ -554,13 +556,8 @@ class TestTranslateSearch(BaseTestCase):
         # Swedish
         param('sv', '1938–1939 marscherade tyska soldater i Österrike samtidigt som '
                     'österrikiska soldater marscherade i Berlin.',
-              [('1938', datetime.datetime(
-                  1938, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
-                ),
-               ('1939', datetime.datetime(
-                   1939, datetime.datetime.utcnow().month, datetime.datetime.utcnow().day, 0, 0)
-                )]),
-
+              [('1938', datetime.datetime(1938, today.month, today.day, 0, 0)),
+               ('1939', datetime.datetime(1939, today.month, today.day, 0, 0))]),
         # German
         param('de', 'Verteidiger der Stadt kapitulierten am 2 Mai 1945. Am 8 Mai 1945 (VE-Day) trat '
                     'bedingungslose Kapitulation der Wehrmacht in Kraft',
