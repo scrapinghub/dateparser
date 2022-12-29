@@ -13,7 +13,7 @@ Improvements:
 - Update languages_info (#1107)
 - Add a workaround for zipimporter not having exec_module before Python 3.10 (#1069)
 - Stabilize tests at midnight (#1111)
-- Add test case for French (#1110)
+- Add a test case for French (#1110)
 
 Cleanups:
 
