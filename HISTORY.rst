@@ -17,7 +17,7 @@ Improvements:
 
 Cleanups:
 
-- Remove requirements-build file (#1113)
+- Remove the requirements-build file (#1113)
 
 
 1.1.4 (2022-11-21)
