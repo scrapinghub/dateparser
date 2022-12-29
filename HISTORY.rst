@@ -9,7 +9,7 @@ History
 Improvements:
 
 - Parse short versions of day, month, and year (#1103)
-- Add test for in 1d (#1104)
+- Add a test for “in 1d” (#1104)
 - Update languages_info (#1107)
 - Workaround for zipimporter not having exec_module before Python 3.10 (#1069)
 - Stabilize tests at midnight (#1111)
