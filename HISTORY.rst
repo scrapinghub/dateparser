@@ -3,6 +3,23 @@
 History
 =======
 
+1.1.5 (2022-12-29)
+------------------
+
+Improvements:
+
+- Parse short versions of day, month, and year (#1103)
+- Add a test for “in 1d” (#1104)
+- Update languages_info (#1107)
+- Add a workaround for zipimporter not having exec_module before Python 3.10 (#1069)
+- Stabilize tests at midnight (#1111)
+- Add a test case for French (#1110)
+
+Cleanups:
+
+- Remove the requirements-build file (#1113)
+
+
 1.1.4 (2022-11-21)
 ------------------
 
