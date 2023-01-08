@@ -1,7 +1,7 @@
 import collections
 import sys
 from collections.abc import Set
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import regex as re
 from tzlocal import get_localzone
@@ -124,21 +124,22 @@ def get_date_from_timestamp(date_string, settings, negative=False):
         match = RE_SEARCH_TIMESTAMP.search(date_string)
 
     if match:
-        if (settings is None or
-            settings.TIMEZONE is None or
-            'local' in settings.TIMEZONE.lower()):
+        if isinstance(settings.TIMEZONE, timezone):
+            # Use the timezone provided in settings
+            tz = settings.TIMEZONE
+        elif settings is None or settings.TIMEZONE is None or 'local' in settings.TIMEZONE.lower():
             # If the timezone in settings is unset, or it's 'local', use the
             # local timezone
-            timezone = get_localzone()
+            tz = get_localzone()
         else:
             # Otherwise, use the timezone given in settings
-            timezone = get_timezone_from_tz_string(settings.TIMEZONE)
+            tz = get_timezone_from_tz_string(settings.TIMEZONE)
 
         seconds = int(match.group(1))
         millis = int(match.group(2) or 0)
         micros = int(match.group(3) or 0)
         date_obj = (datetime
-                    .fromtimestamp(seconds, timezone)
+                    .fromtimestamp(seconds, tz)
                     .replace(microsecond=millis * 1000 + micros, tzinfo=None)
                     )
         date_obj = apply_timezone_from_settings(date_obj, settings)
@@ -379,7 +380,7 @@ class DateDataParser:
 
         if not isinstance(use_given_order, bool):
             raise TypeError("use_given_order argument must be a boolean (%r given)"
-                            % type(use_given_order))
+                             % type(use_given_order))
 
         if not locales and not languages and use_given_order:
             raise ValueError("locales or languages must be given if use_given_order is True")
@@ -497,7 +498,7 @@ class DateDataParser:
             self.languages = map_languages(detected_languages)
 
         for locale in self._get_locale_loader().get_locales(
-                languages=self.languages, locales=self.locales, region=self.region,
+            languages=self.languages, locales=self.locales, region=self.region,
                 use_given_order=self.use_given_order):
             for s in date_strings():
                 if self._is_applicable_locale(locale, s):

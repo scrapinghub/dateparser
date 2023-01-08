@@ -1,6 +1,6 @@
 import regex as re
 from datetime import datetime
-from datetime import time
+from datetime import time, timezone
 from tzlocal import get_localzone
 
 from dateutil.relativedelta import relativedelta
@@ -45,8 +45,6 @@ class FreshnessDateDataParser:
         date_string, ptz = pop_tz_offset_from_string(date_string)
         _time = self._parse_time(date_string, settings)
 
-        _settings_tz = settings.TIMEZONE.lower()
-
         def apply_time(dateobj, timeobj):
             if not isinstance(_time, time):
                 return dateobj
@@ -56,41 +54,46 @@ class FreshnessDateDataParser:
                 second=timeobj.second, microsecond=timeobj.microsecond
             )
 
-        if settings.RELATIVE_BASE:
+        if isinstance(settings.RELATIVE_BASE, datetime):
             now = settings.RELATIVE_BASE
 
-            if 'local' not in _settings_tz:
+            if isinstance(settings.TIMEZONE, timezone):
+                now = now.astimezone(settings.TIMEZONE)
+            elif isinstance(settings.TIMEZONE, str) and 'local' not in settings.TIMEZONE:
                 now = localize_timezone(now, settings.TIMEZONE)
 
             if ptz:
                 if now.tzinfo:
                     now = now.astimezone(ptz)
+                elif hasattr(ptz, 'localize'):
+                    now = ptz.localize(now)
                 else:
-                    if hasattr(ptz, 'localize'):
-                        now = ptz.localize(now)
-                    else:
-                        now = now.replace(tzinfo=ptz)
+                    now = now.replace(tzinfo=ptz)
 
             if not now.tzinfo:
                 if hasattr(self.get_local_tz(), 'localize'):
                     now = self.get_local_tz().localize(now)
                 else:
                     now = now.replace(tzinfo=self.get_local_tz())
-
         elif ptz:
-            localized_now = datetime.now(ptz)
-
-            if 'local' in _settings_tz:
-                now = localized_now
-            else:
-                now = apply_timezone(localized_now, settings.TIMEZONE)
-
-        else:
-            if 'local' not in _settings_tz:
+            now = localized_now = datetime.now(ptz)
+            if isinstance(settings.TIMEZONE, timezone):
+                now = localized_now.astimezone(settings.TIMEZONE)
+            elif isinstance(settings.TIMEZONE, str):
+                if 'local' in settings.TIMEZONE:
+                    now = localized_now
+                else:
+                    now = apply_timezone(localized_now, settings.TIMEZONE)
+        elif isinstance(settings.TIMEZONE, timezone):
+            now = datetime.now(settings.TIMEZONE)
+        elif isinstance(settings.TIMEZONE, str):
+            if 'local' not in settings.TIMEZONE:
                 utc_dt = datetime.utcnow()
                 now = apply_timezone(utc_dt, settings.TIMEZONE)
             else:
                 now = datetime.now(self.get_local_tz())
+        else:
+            now = datetime.now(self.get_local_tz())
 
         date, period = self._parse_date(date_string, now, settings.PREFER_DATES_FROM)
 

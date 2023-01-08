@@ -1,5 +1,5 @@
 import hashlib
-from datetime import datetime
+from datetime import datetime, timezone
 from functools import wraps
 
 from dateparser.data.languages_info import language_order
@@ -166,12 +166,12 @@ def check_settings(settings):
         },
         'TIMEZONE': {
             # we don't check invalid Timezones as they raise an error
-            'type': str,
+            'type': (str, timezone),
         },
         'TO_TIMEZONE': {
             # It defaults to None, but it's not allowed to use it directly
             # "values" can take unlimited options
-            'type': str
+            'type': (str, timezone),
         },
         'RETURN_AS_TIMEZONE_AWARE': {
             # It defaults to 'default', but it's not allowed to use it directly
@@ -236,14 +236,13 @@ def check_settings(settings):
             raise SettingValidationError('"{}" is not a valid setting'.format(setting))
 
     for setting_name, setting_value in modified_settings.items():
-        setting_type = type(setting_value)
         setting_props = settings_values[setting_name]
 
         # check type:
-        if not setting_type == setting_props['type']:
+        if not isinstance(setting_value, setting_props['type']):
             raise SettingValidationError(
                 '"{}" must be "{}", not "{}".'.format(
-                    setting_name, setting_props['type'].__name__, setting_type.__name__
+                    setting_name, setting_props['type'], type(setting_value).__name__
                 )
             )
 
