@@ -426,7 +426,7 @@ class _parser:
             day_index = calendar.weekday(dateobj.year, dateobj.month, dateobj.day)
             day = token_weekday[:3].lower()
             steps = 0
-            if 'future' in self.settings.PREFER_DATES_FROM:
+            if self.settings.PREFER_DATES_FROM == 'future':
                 if days[day_index] == day:
                     steps = 7
                 else:
@@ -434,17 +434,23 @@ class _parser:
                         day_index = (day_index + 1) % 7
                         steps += 1
                 delta = timedelta(days=steps)
-            else:
+            elif self.settings.PREFER_DATES_FROM == 'past':
                 if days[day_index] == day:
-                    if self.settings.PREFER_DATES_FROM == 'past':
-                        steps = 7
-                    else:
-                        steps = 0
+                    steps = 7
                 else:
                     while days[day_index] != day:
                         day_index -= 1
                         steps += 1
                 delta = timedelta(days=-steps)
+            else:
+                while days[day_index] != day:
+                    day_index -= 1
+                    steps += 1
+                if day_index < 0:
+                    steps = 7 + day_index
+                    delta = timedelta(days=+steps)
+                else:
+                    delta = timedelta(days=-steps)
 
             dateobj = dateobj + delta
 
