@@ -97,7 +97,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('nine hours ago', ago={'hours': 9}, period='day'),
         param('three week ago', ago={'weeks': 3}, period='week'),
         param('eight months ago', ago={'months': 8}, period='month'),
-        param('1mon ago', ago={'months': 1}, period='month'),
         param('six days ago', ago={'days': 6}, period='day'),
         param('five years ago', ago={'years': 5}, period='year'),
         param('2y ago', ago={'years': 2}, period='year'),

@@ -497,6 +497,7 @@ class TestDateParser(BaseTestCase):
         param('March', datetime(2014, 3, 15)),
         param('Friday', datetime(2015, 2, 13)),
         param('Monday', datetime(2015, 2, 9)),
+        param('Mon', datetime(2015, 2, 9)),
         param('Sunday', datetime(2015, 2, 8)),  # current day
         param('10:00PM', datetime(2015, 2, 14, 22, 0)),
         param('16:10', datetime(2015, 2, 14, 16, 10)),
@@ -759,6 +760,7 @@ class TestDateParser(BaseTestCase):
     @parameterized.expand([
         param('16:00', expected=datetime(2018, 12, 13, 16, 0), period='time'),
         param('Monday 7:15 AM', expected=datetime(2018, 12, 10, 7, 15), period='time'),
+        param('Mon 19:43', expected=datetime(2018, 12, 10, 19, 43), period='time'),
     ])
     def test_period_is_time_if_return_time_as_period_and_relative_base_settings_applied_and_time_component_present(
         self, date_string, expected=None, period=None
