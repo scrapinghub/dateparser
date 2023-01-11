@@ -16,7 +16,6 @@ year:
     - y
     - years
 month:
-    - mon
     - months
 week:
     - weeks
