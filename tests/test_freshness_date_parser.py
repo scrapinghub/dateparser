@@ -1518,6 +1518,16 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.assertEqual(None, self.result['date_obj'])
 
     @parameterized.expand([
+            param('1mon ago'), #1116
+      ])
+    def test_known_issues(self, date_string):
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.assertEqual(None, self.result['date_obj'])
+
+    @parameterized.expand([
         param('несколько секунд назад', boundary={'seconds': 45}, period='day'),
         param('há alguns segundos', boundary={'seconds': 45}, period='day'),
     ])
