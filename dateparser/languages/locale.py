@@ -275,9 +275,7 @@ class Locale:
             split_reg = abbreviation_string + splitters_dict[self.info['sentence_splitter_group']]
             sentences = re.split(split_reg, string)
 
-        for i in sentences:
-            if not i:
-                sentences.remove(i)
+        sentences = filter(None, sentences)
         return sentences
 
     def _simplify_split_align(self, original, settings):
