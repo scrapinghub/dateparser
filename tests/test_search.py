@@ -416,6 +416,10 @@ class TestTranslateSearch(BaseTestCase):
                ('de 1941', datetime.datetime(1941, 1, 1, 0, 0))],
               settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
 
+        param('es', '¡¡Ay!! En Madrid, a 17 de marzo de 1615. ¿Vos bueno?',
+              [('a 17 de marzo de 1615', datetime.datetime(1615, 3, 17, 0, 0))],
+              settings={'RELATIVE_BASE': datetime.datetime(2000, 1, 1)}),
+
         # Swedish
         param('sv', 'Efter kommunisternas seger 1922 drog de allierade och Japan bort sina trupper.',
               [('1922', datetime.datetime(1922, 1, 1, 0, 0))],
@@ -657,6 +661,7 @@ class TestTranslateSearch(BaseTestCase):
 
         # Spanish
         param('es', '11 junio 2010'),
+        param('es', '¡¡Ay!! En Madrid, a 17 de marzo de 1615. ¿Vos bueno?'),
 
         # Swedish
         param('sv', ' den 15 augusti 1945 då Kejsardömet'),
