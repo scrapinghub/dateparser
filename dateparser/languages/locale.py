@@ -263,7 +263,7 @@ class Locale:
 
         splitters_dict = {1: r'[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
                           # Indonesian, Vietnamese
-                          2: r'(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))+',  # Spanish
+                          2: r'[\.!?;…\r\n]+(\s*[¡¿]*|$)|[¡¿]+',  # Spanish
                           3: r'[|!?;\r\n]+(?:\s|$)+',  # Hindi and Bangla
                           4: r'[。…‥\.!?？！;\r\n]+(?:\s|$)+',  # Japanese and Chinese
                           5: r'[\r\n]+',  # Thai
@@ -275,9 +275,7 @@ class Locale:
             split_reg = abbreviation_string + splitters_dict[self.info['sentence_splitter_group']]
             sentences = re.split(split_reg, string)
 
-        for i in sentences:
-            if not i:
-                sentences.remove(i)
+        sentences = filter(None, sentences)
         return sentences
 
     def _simplify_split_align(self, original, settings):

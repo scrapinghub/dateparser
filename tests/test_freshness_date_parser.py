@@ -97,7 +97,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('nine hours ago', ago={'hours': 9}, period='day'),
         param('three week ago', ago={'weeks': 3}, period='week'),
         param('eight months ago', ago={'months': 8}, period='month'),
-        param('1mon ago', ago={'months': 1}, period='month'),
         param('six days ago', ago={'days': 6}, period='day'),
         param('five years ago', ago={'years': 5}, period='year'),
         param('2y ago', ago={'years': 2}, period='year'),
@@ -1512,6 +1511,16 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('123455678976543 month'),
     ])
     def test_dates_not_supported_by_date_time(self, date_string):
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.assertEqual(None, self.result['date_obj'])
+
+    @parameterized.expand([
+            param('1mon ago'), #1116
+      ])
+    def test_known_issues(self, date_string):
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()

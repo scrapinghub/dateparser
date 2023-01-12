@@ -93,7 +93,6 @@ info = {
     "month": [
         "mo",
         "month",
-        "mon",
         "months"
     ],
     "week": [
