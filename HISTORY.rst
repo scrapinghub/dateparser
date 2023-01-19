@@ -3,6 +3,15 @@
 History
 =======
 
+1.1.6 (2022-01-12)
+------------------
+
+Improvements:
+
+- Fix the bug where Monday is parsed as a month (#1121)
+- Prevent ReDoS in Spanish sentence splitting regex (#1084)
+
+
 1.1.5 (2022-12-29)
 ------------------
 
