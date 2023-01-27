@@ -31,19 +31,23 @@ year:
 month:
     - měsíců
     - měsíce
+    - měsícem
 week:
     - týdnů
     - týdny
+    - týdnem
 day:
     - dnů
     - dny
 hour:
     - hodin
     - hodiny
+    - hodinou
     - hodinu
     - hodinami
 minute:
     - minut
+    - minutami
     - minuty
 second:
     - sekundy
@@ -61,3 +65,6 @@ in:
 relative-type:
     2 day ago:
         - předevčírem
+
+simplifications:
+    - teď: 0 sekunda

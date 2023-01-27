@@ -116,13 +116,15 @@ info = {
         "měs",
         "měsíc",
         "měsíců",
-        "měsíce"
+        "měsíce",
+        "měsícem"
     ],
     "week": [
         "týd",
         "týden",
         "týdnů",
-        "týdny"
+        "týdny",
+        "týdnem"
     ],
     "day": [
         "den",
@@ -134,6 +136,7 @@ info = {
         "hodina",
         "hodin",
         "hodiny",
+        "hodinou",
         "hodinu",
         "hodinami"
     ],
@@ -141,6 +144,7 @@ info = {
         "min",
         "minuta",
         "minut",
+        "minutami",
         "minuty"
     ],
     "second": [
@@ -301,5 +305,10 @@ info = {
     "in": [
         "ve",
         "v"
+    ],
+    "simplifications": [
+        {
+            "teď": "0 sekunda"
+        }
     ]
 }
