@@ -1,89 +1,88 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "smn",
     "date_order": "DMY",
     "january": [
-        "uđđâivemáánu",
-        "uđiv"
+        "uđiv",
+        "uđđâivemáánu"
     ],
     "february": [
-        "kuovâmáánu",
-        "kuovâ"
+        "kuovâ",
+        "kuovâmáánu"
     ],
     "march": [
-        "njuhčâmáánu",
-        "njuhčâ"
+        "njuhčâ",
+        "njuhčâmáánu"
     ],
     "april": [
-        "cuáŋuimáánu",
-        "cuáŋui"
+        "cuáŋui",
+        "cuáŋuimáánu"
     ],
     "may": [
-        "vyesimáánu",
-        "vyesi"
+        "vyesi",
+        "vyesimáánu"
     ],
     "june": [
-        "kesimáánu",
-        "kesi"
+        "kesi",
+        "kesimáánu"
     ],
     "july": [
-        "syeinimáánu",
-        "syeini"
+        "syeini",
+        "syeinimáánu"
     ],
     "august": [
-        "porgemáánu",
-        "porge"
+        "porge",
+        "porgemáánu"
     ],
     "september": [
-        "čohčâmáánu",
-        "čohčâ"
+        "čohčâ",
+        "čohčâmáánu"
     ],
     "october": [
-        "roovvâdmáánu",
-        "roovvâd"
+        "roovvâd",
+        "roovvâdmáánu"
     ],
     "november": [
-        "skammâmáánu",
-        "skammâ"
+        "skammâ",
+        "skammâmáánu"
     ],
     "december": [
-        "juovlâmáánu",
-        "juovlâ"
+        "juovlâ",
+        "juovlâmáánu"
     ],
     "monday": [
-        "vuossargâ",
         "vuo",
-        "vuossaargâ"
+        "vuossaargâ",
+        "vuossargâ"
     ],
     "tuesday": [
-        "majebargâ",
         "maj",
-        "majebaargâ"
+        "majebaargâ",
+        "majebargâ"
     ],
     "wednesday": [
-        "koskokko",
         "kos",
-        "koskoho"
+        "koskoho",
+        "koskokko"
     ],
     "thursday": [
-        "tuorâstâh",
         "tuo",
-        "tuorâstuv"
+        "tuorâstuv",
+        "tuorâstâh"
     ],
     "friday": [
-        "vástuppeivi",
         "vás",
-        "vástuppeeivi"
+        "vástuppeeivi",
+        "vástuppeivi"
     ],
     "saturday": [
-        "lávurdâh",
         "láv",
-        "lávurduv"
+        "lávurduv",
+        "lávurdâh"
     ],
     "sunday": [
-        "pasepeivi",
         "pas",
-        "pasepeeivi"
+        "pasepeeivi",
+        "pasepeivi"
     ],
     "am": [
         "ip"
@@ -113,41 +112,8 @@ info = {
         "second"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "yesterday"
-        ],
         "0 day ago": [
             "today"
-        ],
-        "in 1 day": [
-            "tomorrow"
         ],
         "0 hour ago": [
             "this hour"
@@ -155,23 +121,56 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

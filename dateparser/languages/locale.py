@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from itertools import chain
 
 import regex as re
@@ -8,22 +5,21 @@ from collections import OrderedDict
 
 from dateutil import parser
 
-from dateparser.timezone_parser import pop_tz_offset_from_string
+from dateparser.timezone_parser import pop_tz_offset_from_string, word_is_tz
 from dateparser.utils import normalize_unicode, combine_dicts
 
 from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
 
-DIGIT_GROUP_PATTERN = re.compile(r'\\d\+')
 NUMERAL_PATTERN = re.compile(r'(\d+)', re.U)
 
 
-class Locale(object):
+class Locale:
     """
     Class that deals with applicability and translation from a locale.
 
     :param shortname:
         A locale code, e.g. 'fr-PF', 'qu-EC', 'af-NA'.
-    :type shortname: str|unicode
+    :type shortname: str
 
     :param language_info:
         Language info (translation data) of the language the locale belongs to.
@@ -56,7 +52,7 @@ class Locale(object):
 
         :param date_string:
             A string representing date and/or time in a recognizably valid format.
-        :type date_string: str|unicode
+        :type date_string: str
 
         :param strip_timezone:
             If True, timezone is stripped from date string.
@@ -73,7 +69,6 @@ class Locale(object):
         date_string = self._simplify(date_string, settings=settings)
         dictionary = self._get_dictionary(settings)
         date_tokens = dictionary.split(date_string)
-
         return dictionary.are_tokens_valid(date_tokens)
 
     def count_applicability(self, text, strip_timezone=False, settings=None):
@@ -117,7 +112,7 @@ class Locale(object):
 
         :param date_string:
             A string representing date and/or time in a recognizably valid format.
-        :type date_string: str|unicode
+        :type date_string: str
 
         :param keep_formatting:
             If True, retain formatting of the date string after translation.
@@ -141,7 +136,8 @@ class Locale(object):
                     date_string_tokens[i] = pattern.sub(replacement, word)
             else:
                 if word in dictionary:
-                    date_string_tokens[i] = dictionary[word] or ''
+                    fallback = word if keep_formatting and not word.isalpha() else ''
+                    date_string_tokens[i] = dictionary[word] or fallback
         if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
 
@@ -151,17 +147,15 @@ class Locale(object):
     def _translate_numerals(self, date_string):
         date_string_tokens = NUMERAL_PATTERN.split(date_string)
         for i, token in enumerate(date_string_tokens):
-            if token.isdigit():
+            if token.isdecimal():
                 date_string_tokens[i] = str(int(token)).zfill(len(token))
-                if isinstance(date_string_tokens[i], bytes):
-                    date_string_tokens[i] = date_string_tokens[i].decode('utf-8')
-        return u''.join(date_string_tokens)
+        return ''.join(date_string_tokens)
 
     def _get_relative_translations(self, settings=None):
         if settings.NORMALIZE:
             if self._normalized_relative_translations is None:
                 self._normalized_relative_translations = (
-                        self._generate_relative_translations(normalize=True))
+                    self._generate_relative_translations(normalize=True))
             return self._normalized_relative_translations
         else:
             if self._relative_translations is None:
@@ -175,13 +169,14 @@ class Locale(object):
             if normalize:
                 value = list(map(normalize_unicode, value))
             pattern = '|'.join(sorted(value, key=len, reverse=True))
-            pattern = DIGIT_GROUP_PATTERN.sub(r'?P<n>\d+', pattern)
+            pattern = pattern.replace(r'(\d+', r'(?P<n>\d+')
             pattern = re.compile(r'^(?:{})$'.format(pattern), re.UNICODE | re.IGNORECASE)
             relative_dictionary[pattern] = key
         return relative_dictionary
 
     def translate_search(self, search_string, settings=None):
         dashes = ['-', '——', '—', '～']
+        word_joint_unsupported_languages = ["zh", "ja"]
         sentences = self._sentence_split(search_string, settings=settings)
         dictionary = self._get_dictionary(settings=settings)
         translated = []
@@ -190,21 +185,43 @@ class Locale(object):
             original_tokens, simplified_tokens = self._simplify_split_align(sentence, settings=settings)
             translated_chunk = []
             original_chunk = []
+            last_token_index = len(simplified_tokens) - 1
+            skip_next_token = False
             for i, word in enumerate(simplified_tokens):
+                next_word = simplified_tokens[i + 1] if i < last_token_index else ""
+                current_and_next_joined = self._join_chunk([word, next_word], settings=settings)
+                if skip_next_token:
+                    skip_next_token = False
+                    continue
+
                 if word == '' or word == ' ':
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
+                elif (
+                    current_and_next_joined in dictionary
+                    and word not in dashes
+                    and self.shortname not in word_joint_unsupported_languages
+                ):
+                    translated_chunk.append(dictionary[current_and_next_joined])
+                    original_chunk.append(
+                        self._join_chunk([original_tokens[i], original_tokens[i + 1]], settings=settings)
+                    )
+                    skip_next_token = True
                 elif word in dictionary and word not in dashes:
                     translated_chunk.append(dictionary[word])
                     original_chunk.append(original_tokens[i])
                 elif word.strip('()\"\'{}[],.،') in dictionary and word not in dashes:
                     punct = word[len(word.strip('()\"\'{}[],.،')):]
                     if punct and dictionary[word.strip('()\"\'{}[],.،')]:
-                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')]+punct)
+                        translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')] + punct)
                     else:
                         translated_chunk.append(dictionary[word.strip('()\"\'{}[],.،')])
                     original_chunk.append(original_tokens[i])
                 elif self._token_with_digits_is_ok(word):
+                    translated_chunk.append(word)
+                    original_chunk.append(original_tokens[i])
+                # Use original token because word_is_tz is case sensitive
+                elif translated_chunk and word_is_tz(original_tokens[i]):
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
                 else:
@@ -244,13 +261,13 @@ class Locale(object):
             for digit_abbreviation in digit_abbreviations:
                 abbreviation_string += '(?<!' + digit_abbreviation + ')'  # negative lookbehind
 
-        splitters_dict = {1: '[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
+        splitters_dict = {1: r'[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
                           # Indonesian, Vietnamese
-                          2: '(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))*',  # Spanish
-                          3: '[|!?;\r\n]+(?:\s|$)*',  # Hindi and Bangla
-                          4: '[。…‥\.!?？！;\r\n]+(?:\s|$)*',  # Japanese and Chinese
-                          5: '[\r\n]+',  # Thai
-                          6: '[\r\n؟!\.…]+(?:\s|$)*'}  # Arabic and Farsi
+                          2: r'[\.!?;…\r\n]+(\s*[¡¿]*|$)|[¡¿]+',  # Spanish
+                          3: r'[|!?;\r\n]+(?:\s|$)+',  # Hindi and Bangla
+                          4: r'[。…‥\.!?？！;\r\n]+(?:\s|$)+',  # Japanese and Chinese
+                          5: r'[\r\n]+',  # Thai
+                          6: r'[\r\n؟!\.…]+(?:\s|$)+'}  # Arabic and Farsi
         if 'sentence_splitter_group' not in self.info:
             split_reg = abbreviation_string + splitters_dict[1]
             sentences = re.split(split_reg, string)
@@ -258,9 +275,7 @@ class Locale(object):
             split_reg = abbreviation_string + splitters_dict[self.info['sentence_splitter_group']]
             sentences = re.split(split_reg, string)
 
-        for i in sentences:
-            if not i:
-                sentences.remove(i)
+        sentences = filter(None, sentences)
         return sentences
 
     def _simplify_split_align(self, original, settings):
@@ -342,29 +357,29 @@ class Locale(object):
         tokens = tokens[:]
         for i, token in enumerate(tokens):
             tokens[i] = re.split(regex, token)
-        return filter(bool, chain(*tokens))
+        return filter(bool, chain.from_iterable(tokens))
 
     def _split_tokens_by_known_words(self, tokens, keep_formatting, settings=None):
         dictionary = self._get_dictionary(settings)
         for i, token in enumerate(tokens):
             tokens[i] = dictionary.split(token, keep_formatting)
-        return list(chain(*tokens))
+        return list(chain.from_iterable(tokens))
 
     def _join_chunk(self, chunk, settings):
         if 'no_word_spacing' in self.info:
             return self._join(chunk, separator="", settings=settings)
         else:
-            return re.sub('\s{2,}', ' ', " ".join(chunk))
+            return re.sub(r'\s{2,}', ' ', " ".join(chunk))
 
     def _token_with_digits_is_ok(self, token):
         if 'no_word_spacing' in self.info:
-            if re.search('[\d\.:\-/]+', token) is not None:
+            if re.search(r'[\d\.:\-/]+', token) is not None:
                 return True
             else:
                 return False
 
         else:
-            if re.search('\d+', token) is not None:
+            if re.search(r'\d+', token) is not None:
                 return True
             else:
                 return False
@@ -463,8 +478,10 @@ class Locale(object):
 
     def _set_splitters(self, settings=None):
         splitters = {
-            'wordchars': set(),  # The ones that split string only if they are not surrounded by letters from both sides
-            'capturing': set(),  # The ones that are not filtered out from tokens after split
+            # The ones that split string only if they are not surrounded by letters from both sides:
+            'wordchars': set(),
+            # The ones that are not filtered out from tokens after split:
+            'capturing': set(),
         }
         splitters['capturing'] |= set(ALWAYS_KEEP_TOKENS)
 

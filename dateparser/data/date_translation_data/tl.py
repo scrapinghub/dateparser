@@ -1,23 +1,22 @@
-# -*- coding: utf-8 -*-
 info = {
     "sentence_splitter_group": 1,
     "skip": [
-        "noong",
-        "noon",
-        "sa",
         "ganap",
         "na",
+        "noon",
+        "noong",
+        "sa",
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ],
     "monday": [

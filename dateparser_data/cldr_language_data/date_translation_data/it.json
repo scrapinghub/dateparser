@@ -2,80 +2,80 @@
     "name": "it",
     "date_order": "DMY",
     "january": [
-        "gennaio",
-        "gen"
+        "gen",
+        "gennaio"
     ],
     "february": [
-        "febbraio",
-        "feb"
+        "feb",
+        "febbraio"
     ],
     "march": [
-        "marzo",
-        "mar"
+        "mar",
+        "marzo"
     ],
     "april": [
-        "aprile",
-        "apr"
+        "apr",
+        "aprile"
     ],
     "may": [
-        "maggio",
-        "mag"
+        "mag",
+        "maggio"
     ],
     "june": [
-        "giugno",
-        "giu"
+        "giu",
+        "giugno"
     ],
     "july": [
-        "luglio",
-        "lug"
+        "lug",
+        "luglio"
     ],
     "august": [
-        "agosto",
-        "ago"
+        "ago",
+        "agosto"
     ],
     "september": [
-        "settembre",
-        "set"
+        "set",
+        "settembre"
     ],
     "october": [
-        "ottobre",
-        "ott"
+        "ott",
+        "ottobre"
     ],
     "november": [
-        "novembre",
-        "nov"
+        "nov",
+        "novembre"
     ],
     "december": [
-        "dicembre",
-        "dic"
+        "dic",
+        "dicembre"
     ],
     "monday": [
-        "lunedì",
-        "lun"
+        "lun",
+        "lunedì"
     ],
     "tuesday": [
-        "martedì",
-        "mar"
+        "mar",
+        "martedì"
     ],
     "wednesday": [
-        "mercoledì",
-        "mer"
+        "mer",
+        "mercoledì"
     ],
     "thursday": [
-        "giovedì",
-        "gio"
+        "gio",
+        "giovedì"
     ],
     "friday": [
-        "venerdì",
-        "ven"
+        "ven",
+        "venerdì"
     ],
     "saturday": [
-        "sabato",
-        "sab"
+        "sab",
+        "sabato"
     ],
     "sunday": [
-        "domenica",
-        "dom"
+        "dom",
+        "domenica"
     ],
     "am": [
         "am"
@@ -90,63 +90,30 @@
         "mese"
     ],
     "week": [
-        "settimana",
-        "sett"
+        "sett",
+        "settimana"
     ],
     "day": [
-        "giorno",
-        "g"
+        "g",
+        "giorno"
     ],
     "hour": [
-        "ora",
-        "h"
+        "h",
+        "ora"
     ],
     "minute": [
-        "minuto",
+        "m",
         "min",
-        "m"
+        "minuto"
     ],
     "second": [
-        "secondo",
+        "s",
         "sec",
-        "s"
+        "secondo"
     ],
     "relative-type": {
-        "1 year ago": [
-            "anno scorso"
-        ],
-        "0 year ago": [
-            "quest'anno"
-        ],
-        "in 1 year": [
-            "anno prossimo"
-        ],
-        "1 month ago": [
-            "mese scorso"
-        ],
-        "0 month ago": [
-            "questo mese"
-        ],
-        "in 1 month": [
-            "mese prossimo"
-        ],
-        "1 week ago": [
-            "settimana scorsa"
-        ],
-        "0 week ago": [
-            "questa settimana"
-        ],
-        "in 1 week": [
-            "settimana prossima"
-        ],
-        "1 day ago": [
-            "ieri"
-        ],
         "0 day ago": [
             "oggi"
-        ],
-        "in 1 day": [
-            "domani"
         ],
         "0 hour ago": [
             "quest'ora"
@@ -154,80 +121,113 @@
         "0 minute ago": [
             "questo minuto"
         ],
+        "0 month ago": [
+            "questo mese"
+        ],
         "0 second ago": [
             "ora"
+        ],
+        "0 week ago": [
+            "questa settimana"
+        ],
+        "0 year ago": [
+            "quest'anno"
+        ],
+        "1 day ago": [
+            "ieri"
+        ],
+        "1 month ago": [
+            "mese scorso"
+        ],
+        "1 week ago": [
+            "settimana scorsa"
+        ],
+        "1 year ago": [
+            "anno scorso"
+        ],
+        "in 1 day": [
+            "domani"
+        ],
+        "in 1 month": [
+            "mese prossimo"
+        ],
+        "in 1 week": [
+            "settimana prossima"
+        ],
+        "in 1 year": [
+            "anno prossimo"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "tra {0} anno",
-            "tra {0} anni"
+        "\\1 day ago": [
+            "{0} g fa",
+            "{0} gg fa",
+            "{0} giorni fa",
+            "{0} giorno fa"
         ],
-        "\\1 year ago": [
-            "{0} anno fa",
-            "{0} anni fa"
+        "\\1 hour ago": [
+            "{0} h fa",
+            "{0} ora fa",
+            "{0} ore fa"
         ],
-        "in \\1 month": [
-            "tra {0} mese",
-            "tra {0} mesi"
+        "\\1 minute ago": [
+            "{0} min fa",
+            "{0} minuti fa",
+            "{0} minuto fa"
         ],
         "\\1 month ago": [
             "{0} mese fa",
             "{0} mesi fa"
         ],
-        "in \\1 week": [
-            "tra {0} settimana",
-            "tra {0} settimane",
-            "tra {0} sett"
+        "\\1 second ago": [
+            "{0} s fa",
+            "{0} sec fa",
+            "{0} secondi fa",
+            "{0} secondo fa"
         ],
         "\\1 week ago": [
+            "{0} sett fa",
             "{0} settimana fa",
-            "{0} settimane fa",
-            "{0} sett fa"
+            "{0} settimane fa"
+        ],
+        "\\1 year ago": [
+            "{0} anni fa",
+            "{0} anno fa"
         ],
         "in \\1 day": [
-            "tra {0} giorno",
-            "tra {0} giorni",
             "tra {0} g",
-            "tra {0} gg"
-        ],
-        "\\1 day ago": [
-            "{0} giorno fa",
-            "{0} giorni fa",
-            "{0} g fa",
-            "{0} gg fa"
+            "tra {0} gg",
+            "tra {0} giorni",
+            "tra {0} giorno"
         ],
         "in \\1 hour": [
+            "tra {0} h",
             "tra {0} ora",
-            "tra {0} ore",
-            "tra {0} h"
-        ],
-        "\\1 hour ago": [
-            "{0} ora fa",
-            "{0} ore fa",
-            "{0} h fa"
+            "tra {0} ore"
         ],
         "in \\1 minute": [
-            "tra {0} minuto",
+            "tra {0} min",
             "tra {0} minuti",
-            "tra {0} min"
+            "tra {0} minuto"
         ],
-        "\\1 minute ago": [
-            "{0} minuto fa",
-            "{0} minuti fa",
-            "{0} min fa"
+        "in \\1 month": [
+            "tra {0} mese",
+            "tra {0} mesi"
         ],
         "in \\1 second": [
-            "tra {0} secondo",
-            "tra {0} secondi",
+            "tra {0} s",
             "tra {0} sec",
-            "tra {0} s"
+            "tra {0} secondi",
+            "tra {0} secondo"
         ],
-        "\\1 second ago": [
-            "{0} secondo fa",
-            "{0} secondi fa",
-            "{0} sec fa",
-            "{0} s fa"
+        "in \\1 week": [
+            "tra {0} sett",
+            "tra {0} settimana",
+            "tra {0} settimane"
+        ],
+        "in \\1 year": [
+            "tra {0} anni",
+            "tra {0} anno"
         ]
     },
     "locale_specific": {

@@ -1,82 +1,81 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "eu",
     "date_order": "YMD",
     "january": [
-        "urtarrila",
-        "urt"
+        "urt",
+        "urtarrila"
     ],
     "february": [
-        "otsaila",
-        "ots"
+        "ots",
+        "otsaila"
     ],
     "march": [
-        "martxoa",
-        "mar"
+        "mar",
+        "martxoa"
     ],
     "april": [
-        "apirila",
-        "api"
+        "api",
+        "apirila"
     ],
     "may": [
-        "maiatza",
-        "mai"
+        "mai",
+        "maiatza"
     ],
     "june": [
-        "ekaina",
-        "eka"
+        "eka",
+        "ekaina"
     ],
     "july": [
-        "uztaila",
-        "uzt"
+        "uzt",
+        "uztaila"
     ],
     "august": [
-        "abuztua",
-        "abu"
+        "abu",
+        "abuztua"
     ],
     "september": [
-        "iraila",
-        "ira"
+        "ira",
+        "iraila"
     ],
     "october": [
-        "urria",
-        "urr"
+        "urr",
+        "urria"
     ],
     "november": [
-        "azaroa",
-        "aza"
+        "aza",
+        "azaroa"
     ],
     "december": [
-        "abendua",
-        "abe"
+        "abe",
+        "abendua"
     ],
     "monday": [
-        "astelehena",
-        "al"
+        "al",
+        "astelehena"
     ],
     "tuesday": [
-        "asteartea",
-        "ar"
+        "ar",
+        "asteartea"
     ],
     "wednesday": [
         "asteazkena",
         "az"
     ],
     "thursday": [
-        "osteguna",
-        "og"
+        "og",
+        "osteguna"
     ],
     "friday": [
-        "ostirala",
-        "or"
+        "or",
+        "ostirala"
     ],
     "saturday": [
         "larunbata",
         "lr"
     ],
     "sunday": [
-        "igandea",
-        "ig"
+        "ig",
+        "igandea"
     ],
     "am": [
         "am"
@@ -88,65 +87,32 @@ info = {
         "urtea"
     ],
     "month": [
-        "hilabetea",
-        "hil"
+        "hil",
+        "hilabetea"
     ],
     "week": [
-        "astea",
-        "ast"
+        "ast",
+        "astea"
     ],
     "day": [
-        "eguna",
-        "eg"
+        "eg",
+        "eguna"
     ],
     "hour": [
-        "ordua",
-        "h"
+        "h",
+        "ordua"
     ],
     "minute": [
-        "minutua",
-        "min"
+        "min",
+        "minutua"
     ],
     "second": [
-        "segundoa",
-        "s"
+        "s",
+        "segundoa"
     ],
     "relative-type": {
-        "1 year ago": [
-            "aurreko urtea"
-        ],
-        "0 year ago": [
-            "aurten"
-        ],
-        "in 1 year": [
-            "hurrengo urtea"
-        ],
-        "1 month ago": [
-            "aurreko hilabetea"
-        ],
-        "0 month ago": [
-            "hilabete hau"
-        ],
-        "in 1 month": [
-            "hurrengo hilabetea"
-        ],
-        "1 week ago": [
-            "aurreko astea"
-        ],
-        "0 week ago": [
-            "aste hau"
-        ],
-        "in 1 week": [
-            "hurrengo astea"
-        ],
-        "1 day ago": [
-            "atzo"
-        ],
         "0 day ago": [
             "gaur"
-        ],
-        "in 1 day": [
-            "bihar"
         ],
         "0 hour ago": [
             "ordu honetan"
@@ -154,67 +120,100 @@ info = {
         "0 minute ago": [
             "minutu honetan"
         ],
+        "0 month ago": [
+            "hilabete hau"
+        ],
         "0 second ago": [
             "orain"
+        ],
+        "0 week ago": [
+            "aste hau"
+        ],
+        "0 year ago": [
+            "aurten"
+        ],
+        "1 day ago": [
+            "atzo"
+        ],
+        "1 month ago": [
+            "aurreko hilabetea"
+        ],
+        "1 week ago": [
+            "aurreko astea"
+        ],
+        "1 year ago": [
+            "aurreko urtea"
+        ],
+        "in 1 day": [
+            "bihar"
+        ],
+        "in 1 month": [
+            "hurrengo hilabetea"
+        ],
+        "in 1 week": [
+            "hurrengo astea"
+        ],
+        "in 1 year": [
+            "hurrengo urtea"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "(\\d+) urte barru"
-        ],
-        "\\1 year ago": [
-            "duela (\\d+) urte"
-        ],
-        "in \\1 month": [
-            "(\\d+) hilabete barru"
-        ],
-        "\\1 month ago": [
-            "duela (\\d+) hilabete"
-        ],
-        "in \\1 week": [
-            "(\\d+) aste barru"
-        ],
-        "\\1 week ago": [
-            "duela (\\d+) aste"
-        ],
-        "in \\1 day": [
-            "(\\d+) egun barru"
-        ],
         "\\1 day ago": [
-            "duela (\\d+) egun"
-        ],
-        "in \\1 hour": [
-            "(\\d+) ordu barru"
+            "duela (\\d+[.,]?\\d*) egun"
         ],
         "\\1 hour ago": [
-            "duela (\\d+) ordu"
-        ],
-        "in \\1 minute": [
-            "(\\d+) minutu barru"
+            "duela (\\d+[.,]?\\d*) ordu"
         ],
         "\\1 minute ago": [
-            "duela (\\d+) minutu"
+            "duela (\\d+[.,]?\\d*) minutu"
         ],
-        "in \\1 second": [
-            "(\\d+) segundo barru"
+        "\\1 month ago": [
+            "duela (\\d+[.,]?\\d*) hilabete"
         ],
         "\\1 second ago": [
-            "duela (\\d+) segundo"
+            "duela (\\d+[.,]?\\d*) segundo"
+        ],
+        "\\1 week ago": [
+            "duela (\\d+[.,]?\\d*) aste"
+        ],
+        "\\1 year ago": [
+            "duela (\\d+[.,]?\\d*) urte"
+        ],
+        "in \\1 day": [
+            "(\\d+[.,]?\\d*) egun barru"
+        ],
+        "in \\1 hour": [
+            "(\\d+[.,]?\\d*) ordu barru"
+        ],
+        "in \\1 minute": [
+            "(\\d+[.,]?\\d*) minutu barru"
+        ],
+        "in \\1 month": [
+            "(\\d+[.,]?\\d*) hilabete barru"
+        ],
+        "in \\1 second": [
+            "(\\d+[.,]?\\d*) segundo barru"
+        ],
+        "in \\1 week": [
+            "(\\d+[.,]?\\d*) aste barru"
+        ],
+        "in \\1 year": [
+            "(\\d+[.,]?\\d*) urte barru"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

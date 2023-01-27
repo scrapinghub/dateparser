@@ -1,81 +1,80 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "az-Cyrl",
     "date_order": "DMY",
     "january": [
-        "јанвар",
-        "јан"
+        "јан",
+        "јанвар"
     ],
     "february": [
-        "феврал",
-        "фев"
+        "фев",
+        "феврал"
     ],
     "march": [
-        "март",
-        "мар"
+        "мар",
+        "март"
     ],
     "april": [
-        "апрел",
-        "апр"
+        "апр",
+        "апрел"
     ],
     "may": [
         "май"
     ],
     "june": [
-        "ијун",
-        "ијн"
+        "ијн",
+        "ијун"
     ],
     "july": [
-        "ијул",
-        "ијл"
+        "ијл",
+        "ијул"
     ],
     "august": [
-        "август",
-        "авг"
+        "авг",
+        "август"
     ],
     "september": [
-        "сентјабр",
-        "сен"
+        "сен",
+        "сентјабр"
     ],
     "october": [
-        "октјабр",
-        "окт"
+        "окт",
+        "октјабр"
     ],
     "november": [
-        "нојабр",
-        "ној"
+        "ној",
+        "нојабр"
     ],
     "december": [
-        "декабр",
-        "дек"
+        "дек",
+        "декабр"
     ],
     "monday": [
         "базар ертәси",
         "бе"
     ],
     "tuesday": [
-        "чәршәнбә ахшамы",
-        "ча"
+        "ча",
+        "чәршәнбә ахшамы"
     ],
     "wednesday": [
-        "чәршәнбә",
-        "ч"
+        "ч",
+        "чәршәнбә"
     ],
     "thursday": [
-        "ҹүмә ахшамы",
-        "ҹа"
+        "ҹа",
+        "ҹүмә ахшамы"
     ],
     "friday": [
-        "ҹүмә",
-        "ҹ"
+        "ҹ",
+        "ҹүмә"
     ],
     "saturday": [
-        "шәнбә",
-        "ш"
+        "ш",
+        "шәнбә"
     ],
     "sunday": [
-        "базар",
-        "б"
+        "б",
+        "базар"
     ],
     "am": [
         "ам"
@@ -105,41 +104,8 @@ info = {
         "second"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "yesterday"
-        ],
         "0 day ago": [
             "today"
-        ],
-        "in 1 day": [
-            "tomorrow"
         ],
         "0 hour ago": [
             "this hour"
@@ -147,23 +113,56 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

@@ -1,96 +1,95 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "hu",
     "date_order": "YMD",
     "january": [
-        "január",
         "jan",
+        "január",
         "I"
     ],
     "february": [
-        "február",
         "febr",
+        "február",
         "feb",
         "II"
     ],
     "march": [
-        "március",
         "márc",
+        "március",
         "már",
         "III"
     ],
     "april": [
-        "április",
         "ápr",
+        "április",
         "IV"
     ],
     "may": [
-        "május",
         "máj",
+        "május",
         "V"
     ],
     "june": [
-        "június",
         "jún",
+        "június",
         "VI"
     ],
     "july": [
-        "július",
         "júl",
+        "július",
         "VII"
     ],
     "august": [
-        "augusztus",
         "aug",
+        "augusztus",
         "VIII"
     ],
     "september": [
-        "szeptember",
         "szept",
+        "szeptember",
         "IX"
     ],
     "october": [
-        "október",
         "okt",
+        "október",
         "X"
     ],
     "november": [
-        "november",
         "nov",
+        "november",
         "XI"
     ],
     "december": [
-        "december",
         "dec",
+        "december",
         "XII"
     ],
     "monday": [
-        "hétfő",
-        "h"
+        "h",
+        "hétfő"
     ],
     "tuesday": [
-        "kedd",
-        "k"
+        "k",
+        "kedd"
     ],
     "wednesday": [
-        "szerda",
-        "sze"
+        "sze",
+        "szerda"
     ],
     "thursday": [
-        "csütörtök",
-        "cs"
+        "cs",
+        "csütörtök"
     ],
     "friday": [
-        "péntek",
-        "p"
+        "p",
+        "péntek"
     ],
     "saturday": [
-        "szombat",
-        "szo"
+        "szo",
+        "szombat"
     ],
     "sunday": [
-        "vasárnap",
         "v",
+        "vasárnap",
         "vas"
     ],
     "am": [
@@ -152,41 +151,8 @@ info = {
         "másodperctől"
     ],
     "relative-type": {
-        "1 year ago": [
-            "előző év"
-        ],
-        "0 year ago": [
-            "ez az év"
-        ],
-        "in 1 year": [
-            "következő év"
-        ],
-        "1 month ago": [
-            "előző hónap"
-        ],
-        "0 month ago": [
-            "ez a hónap"
-        ],
-        "in 1 month": [
-            "következő hónap"
-        ],
-        "1 week ago": [
-            "előző hét"
-        ],
-        "0 week ago": [
-            "ez a hét"
-        ],
-        "in 1 week": [
-            "következő hét"
-        ],
-        "1 day ago": [
-            "tegnap"
-        ],
         "0 day ago": [
             "ma"
-        ],
-        "in 1 day": [
-            "holnap"
         ],
         "0 hour ago": [
             "ebben az órában"
@@ -194,93 +160,126 @@ info = {
         "0 minute ago": [
             "ebben a percben"
         ],
+        "0 month ago": [
+            "ez a hónap"
+        ],
         "0 second ago": [
             "most"
+        ],
+        "0 week ago": [
+            "ez a hét"
+        ],
+        "0 year ago": [
+            "ez az év"
+        ],
+        "1 day ago": [
+            "tegnap"
+        ],
+        "1 month ago": [
+            "előző hónap"
+        ],
+        "1 week ago": [
+            "előző hét"
+        ],
+        "1 year ago": [
+            "előző év"
+        ],
+        "in 1 day": [
+            "holnap"
+        ],
+        "in 1 month": [
+            "következő hónap"
+        ],
+        "in 1 week": [
+            "következő hét"
+        ],
+        "in 1 year": [
+            "következő év"
         ],
         "2 day ago": [
             "tegnapelőtt"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "(\\d+) év múlva"
-        ],
-        "\\1 year ago": [
-            "(\\d+) évvel ezelőtt"
-        ],
-        "in \\1 month": [
-            "(\\d+) hónap múlva"
-        ],
-        "\\1 month ago": [
-            "(\\d+) hónappal ezelőtt"
-        ],
-        "in \\1 week": [
-            "(\\d+) hét múlva"
-        ],
-        "\\1 week ago": [
-            "(\\d+) héttel ezelőtt"
-        ],
-        "in \\1 day": [
-            "(\\d+) nap múlva"
-        ],
         "\\1 day ago": [
-            "(\\d+) nappal ezelőtt",
-            "(\\d+) napja"
-        ],
-        "in \\1 hour": [
-            "(\\d+) óra múlva"
+            "(\\d+[.,]?\\d*) napja",
+            "(\\d+[.,]?\\d*) nappal ezelőtt"
         ],
         "\\1 hour ago": [
-            "(\\d+) órával ezelőtt"
-        ],
-        "in \\1 minute": [
-            "(\\d+) perc múlva"
+            "(\\d+[.,]?\\d*) órával ezelőtt"
         ],
         "\\1 minute ago": [
-            "(\\d+) perccel ezelőtt"
+            "(\\d+[.,]?\\d*) perccel ezelőtt"
         ],
-        "in \\1 second": [
-            "(\\d+) másodperc múlva"
+        "\\1 month ago": [
+            "(\\d+[.,]?\\d*) hónappal ezelőtt"
         ],
         "\\1 second ago": [
-            "(\\d+) másodperccel ezelőtt"
+            "(\\d+[.,]?\\d*) másodperccel ezelőtt"
+        ],
+        "\\1 week ago": [
+            "(\\d+[.,]?\\d*) héttel ezelőtt"
+        ],
+        "\\1 year ago": [
+            "(\\d+[.,]?\\d*) évvel ezelőtt"
+        ],
+        "in \\1 day": [
+            "(\\d+[.,]?\\d*) nap múlva"
+        ],
+        "in \\1 hour": [
+            "(\\d+[.,]?\\d*) óra múlva"
+        ],
+        "in \\1 minute": [
+            "(\\d+[.,]?\\d*) perc múlva"
+        ],
+        "in \\1 month": [
+            "(\\d+[.,]?\\d*) hónap múlva"
+        ],
+        "in \\1 second": [
+            "(\\d+[.,]?\\d*) másodperc múlva"
+        ],
+        "in \\1 week": [
+            "(\\d+[.,]?\\d*) hét múlva"
+        ],
+        "in \\1 year": [
+            "(\\d+[.,]?\\d*) év múlva"
         ]
     },
     "locale_specific": {},
     "skip": [
-        "-án",
-        "-én",
-        "-kor",
         "-a",
-        "-je",
-        "-i",
-        "-ji",
-        "-ei",
-        "-jei",
-        "-ától",
-        "-étől",
         "-ai",
-        "-től",
-        "-tól",
-        "-ig",
-        "-áig",
-        "-éig",
         "-akor",
-        "-ekor",
         "-e",
+        "-ei",
+        "-ekor",
         "-es",
+        "-i",
+        "-ig",
+        "-je",
+        "-jei",
+        "-ji",
+        "-kor",
+        "-tól",
+        "-től",
+        "-áig",
+        "-án",
+        "-ától",
+        "-éig",
+        "-én",
+        "-étől",
         "-ös",
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ],
     "sentence_splitter_group": 1,

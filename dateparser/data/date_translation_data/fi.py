@@ -1,124 +1,123 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "fi",
     "date_order": "DMY",
     "january": [
-        "tammikuu",
         "tammi",
-        "tammikuuta",
         "tammik",
+        "tammikuu",
+        "tammikuuta",
         "tammikuussa"
     ],
     "february": [
-        "helmikuu",
         "helmi",
-        "helmikuuta",
         "helmik",
+        "helmikuu",
+        "helmikuuta",
         "helmikuussa"
     ],
     "march": [
-        "maaliskuu",
         "maalis",
-        "maaliskuuta",
         "maalisk",
+        "maaliskuu",
+        "maaliskuuta",
         "maaliskuussa"
     ],
     "april": [
-        "huhtikuu",
         "huhti",
-        "huhtikuuta",
         "huhtik",
+        "huhtikuu",
+        "huhtikuuta",
         "huhtikuussa"
     ],
     "may": [
-        "toukokuu",
         "touko",
-        "toukokuuta",
         "toukok",
+        "toukokuu",
+        "toukokuuta",
         "toukokuussa"
     ],
     "june": [
-        "kesäkuu",
         "kesä",
-        "kesäkuuta",
         "kesäk",
+        "kesäkuu",
+        "kesäkuuta",
         "kesäkuussa"
     ],
     "july": [
-        "heinäkuu",
         "heinä",
-        "heinäkuuta",
         "heinäk",
+        "heinäkuu",
+        "heinäkuuta",
         "heinäkuussa"
     ],
     "august": [
-        "elokuu",
         "elo",
-        "elokuuta",
         "elok",
+        "elokuu",
+        "elokuuta",
         "elokuussa"
     ],
     "september": [
-        "syyskuu",
         "syys",
-        "syyskuuta",
         "syysk",
+        "syyskuu",
+        "syyskuuta",
         "Syyskuussa"
     ],
     "october": [
-        "lokakuu",
         "loka",
-        "lokakuuta",
         "lokak",
+        "lokakuu",
+        "lokakuuta",
         "Lokakuussa"
     ],
     "november": [
-        "marraskuu",
         "marras",
-        "marraskuuta",
         "marrask",
+        "marraskuu",
+        "marraskuuta",
         "Marraskuussa"
     ],
     "december": [
-        "joulukuu",
         "joulu",
-        "joulukuuta",
         "jouluk",
+        "joulukuu",
+        "joulukuuta",
         "Joulukuussa"
     ],
     "monday": [
-        "maanantai",
         "ma",
+        "maanantai",
         "maanantaina"
     ],
     "tuesday": [
-        "tiistai",
         "ti",
+        "tiistai",
         "tiistaina"
     ],
     "wednesday": [
-        "keskiviikko",
         "ke",
+        "keskiviikko",
         "keskiviikkona"
     ],
     "thursday": [
-        "torstai",
         "to",
+        "torstai",
         "torstaina"
     ],
     "friday": [
-        "perjantai",
         "pe",
+        "perjantai",
         "perjantaina"
     ],
     "saturday": [
-        "lauantai",
         "la",
+        "lauantai",
         "lauantaina"
     ],
     "sunday": [
-        "sunnuntai",
         "su",
+        "sunnuntai",
         "sunnuntaina"
     ],
     "am": [
@@ -128,16 +127,16 @@ info = {
         "ip"
     ],
     "year": [
-        "vuosi",
         "v",
+        "vuosi",
         "vuotta",
         "vv",
         "vuonna",
         "vuoden"
     ],
     "month": [
-        "kuukausi",
         "kk",
+        "kuukausi",
         "kuukautta",
         "kuukauden"
     ],
@@ -149,8 +148,8 @@ info = {
         "viikon"
     ],
     "day": [
-        "päivä",
         "pv",
+        "päivä",
         "päivää",
         "p",
         "pvä",
@@ -158,20 +157,20 @@ info = {
         "päivän"
     ],
     "hour": [
-        "tunti",
         "t",
+        "tunti",
         "tuntia",
         "tunnin"
     ],
     "minute": [
-        "minuutti",
         "min",
+        "minuutti",
         "minuuttia",
         "minuutin"
     ],
     "second": [
-        "sekunti",
         "s",
+        "sekunti",
         "sekuntia",
         "sekuntti",
         "sekunttia",
@@ -179,62 +178,62 @@ info = {
         "sekunnin"
     ],
     "relative-type": {
-        "1 year ago": [
-            "viime vuonna",
-            "viime v"
+        "0 day ago": [
+            "tänään"
         ],
-        "0 year ago": [
-            "tänä vuonna",
-            "tänä v"
+        "0 hour ago": [
+            "tunnin sisällä",
+            "tämän tunnin aikana"
         ],
-        "in 1 year": [
-            "ensi vuonna",
-            "ensi v"
-        ],
-        "1 month ago": [
-            "viime kuussa",
-            "viime kk"
+        "0 minute ago": [
+            "minuutin sisällä",
+            "tämän minuutin aikana"
         ],
         "0 month ago": [
-            "tässä kuussa",
-            "tässä kk"
+            "tässä kk",
+            "tässä kuussa"
         ],
-        "in 1 month": [
-            "ensi kuussa",
-            "ensi kk"
-        ],
-        "1 week ago": [
-            "viime viikolla",
-            "viime vk"
+        "0 second ago": [
+            "nyt"
         ],
         "0 week ago": [
             "tällä viikolla",
             "tällä vk"
         ],
-        "in 1 week": [
-            "ensi viikolla",
-            "ensi vk"
+        "0 year ago": [
+            "tänä v",
+            "tänä vuonna"
         ],
         "1 day ago": [
             "eilen"
         ],
-        "0 day ago": [
-            "tänään"
+        "1 month ago": [
+            "viime kk",
+            "viime kuussa"
+        ],
+        "1 week ago": [
+            "viime viikolla",
+            "viime vk"
+        ],
+        "1 year ago": [
+            "viime v",
+            "viime vuonna"
         ],
         "in 1 day": [
-            "huomenna",
-            "huom"
+            "huom",
+            "huomenna"
         ],
-        "0 hour ago": [
-            "tämän tunnin aikana",
-            "tunnin sisällä"
+        "in 1 month": [
+            "ensi kk",
+            "ensi kuussa"
         ],
-        "0 minute ago": [
-            "tämän minuutin aikana",
-            "minuutin sisällä"
+        "in 1 week": [
+            "ensi viikolla",
+            "ensi vk"
         ],
-        "0 second ago": [
-            "nyt"
+        "in 1 year": [
+            "ensi v",
+            "ensi vuonna"
         ],
         "2 year ago": [
             "toissa vuonna"
@@ -250,84 +249,84 @@ info = {
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "(\\d+) vuoden päästä",
-            "(\\d+) v päästä"
-        ],
-        "\\1 year ago": [
-            "(\\d+) vuosi sitten",
-            "(\\d+) vuotta sitten",
-            "(\\d+) v sitten"
-        ],
-        "in \\1 month": [
-            "(\\d+) kuukauden päästä",
-            "(\\d+) kk päästä"
-        ],
-        "\\1 month ago": [
-            "(\\d+) kuukausi sitten",
-            "(\\d+) kuukautta sitten",
-            "(\\d+) kk sitten"
-        ],
-        "in \\1 week": [
-            "(\\d+) viikon päästä",
-            "(\\d+) vk päästä"
-        ],
-        "\\1 week ago": [
-            "(\\d+) viikko sitten",
-            "(\\d+) viikkoa sitten",
-            "(\\d+) vk sitten"
-        ],
-        "in \\1 day": [
-            "(\\d+) päivän päästä",
-            "(\\d+) pv päästä"
-        ],
         "\\1 day ago": [
-            "(\\d+) päivä sitten",
-            "(\\d+) päivää sitten",
-            "(\\d+) pv sitten"
-        ],
-        "in \\1 hour": [
-            "(\\d+) tunnin päästä",
-            "(\\d+) t päästä"
+            "(\\d+[.,]?\\d*) pv sitten",
+            "(\\d+[.,]?\\d*) päivä sitten",
+            "(\\d+[.,]?\\d*) päivää sitten"
         ],
         "\\1 hour ago": [
-            "(\\d+) tunti sitten",
-            "(\\d+) tuntia sitten",
-            "(\\d+) t sitten"
-        ],
-        "in \\1 minute": [
-            "(\\d+) minuutin päästä",
-            "(\\d+) min päästä"
+            "(\\d+[.,]?\\d*) t sitten",
+            "(\\d+[.,]?\\d*) tunti sitten",
+            "(\\d+[.,]?\\d*) tuntia sitten"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuutti sitten",
-            "(\\d+) minuuttia sitten",
-            "(\\d+) min sitten"
+            "(\\d+[.,]?\\d*) min sitten",
+            "(\\d+[.,]?\\d*) minuutti sitten",
+            "(\\d+[.,]?\\d*) minuuttia sitten"
         ],
-        "in \\1 second": [
-            "(\\d+) sekunnin päästä",
-            "(\\d+) s päästä"
+        "\\1 month ago": [
+            "(\\d+[.,]?\\d*) kk sitten",
+            "(\\d+[.,]?\\d*) kuukausi sitten",
+            "(\\d+[.,]?\\d*) kuukautta sitten"
         ],
         "\\1 second ago": [
-            "(\\d+) sekunti sitten",
-            "(\\d+) sekuntia sitten",
-            "(\\d+) s sitten"
+            "(\\d+[.,]?\\d*) s sitten",
+            "(\\d+[.,]?\\d*) sekunti sitten",
+            "(\\d+[.,]?\\d*) sekuntia sitten"
+        ],
+        "\\1 week ago": [
+            "(\\d+[.,]?\\d*) viikko sitten",
+            "(\\d+[.,]?\\d*) viikkoa sitten",
+            "(\\d+[.,]?\\d*) vk sitten"
+        ],
+        "\\1 year ago": [
+            "(\\d+[.,]?\\d*) v sitten",
+            "(\\d+[.,]?\\d*) vuosi sitten",
+            "(\\d+[.,]?\\d*) vuotta sitten"
+        ],
+        "in \\1 day": [
+            "(\\d+[.,]?\\d*) pv päästä",
+            "(\\d+[.,]?\\d*) päivän päästä"
+        ],
+        "in \\1 hour": [
+            "(\\d+[.,]?\\d*) t päästä",
+            "(\\d+[.,]?\\d*) tunnin päästä"
+        ],
+        "in \\1 minute": [
+            "(\\d+[.,]?\\d*) min päästä",
+            "(\\d+[.,]?\\d*) minuutin päästä"
+        ],
+        "in \\1 month": [
+            "(\\d+[.,]?\\d*) kk päästä",
+            "(\\d+[.,]?\\d*) kuukauden päästä"
+        ],
+        "in \\1 second": [
+            "(\\d+[.,]?\\d*) s päästä",
+            "(\\d+[.,]?\\d*) sekunnin päästä"
+        ],
+        "in \\1 week": [
+            "(\\d+[.,]?\\d*) viikon päästä",
+            "(\\d+[.,]?\\d*) vk päästä"
+        ],
+        "in \\1 year": [
+            "(\\d+[.,]?\\d*) v päästä",
+            "(\\d+[.,]?\\d*) vuoden päästä"
         ]
     },
     "locale_specific": {},
     "skip": [
         ":n",
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ],
     "sentence_splitter_group": 1,
@@ -340,7 +339,7 @@ info = {
     ],
     "simplifications": [
         {
-            "(\\d+) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua)": "\\3 \\1 \\2"
+            "(\\d+[.,]?\\d*) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua)": "\\3 \\1 \\2"
         }
     ]
 }

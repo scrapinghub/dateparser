@@ -2,24 +2,24 @@
     "name": "mas",
     "date_order": "DMY",
     "january": [
-        "oladalʉ́",
-        "dal"
+        "dal",
+        "oladalʉ́"
     ],
     "february": [
-        "arát",
-        "ará"
+        "ará",
+        "arát"
     ],
     "march": [
-        "ɔɛnɨ́ɔɨŋɔk",
-        "ɔɛn"
+        "ɔɛn",
+        "ɔɛnɨ́ɔɨŋɔk"
     ],
     "april": [
-        "olodoyíóríê inkókúâ",
-        "doy"
+        "doy",
+        "olodoyíóríê inkókúâ"
     ],
     "may": [
-        "oloilépūnyīē inkókúâ",
-        "lép"
+        "lép",
+        "oloilépūnyīē inkókúâ"
     ],
     "june": [
         "kújúɔrɔk",
@@ -30,52 +30,52 @@
         "sás"
     ],
     "august": [
-        "ɔlɔ́ɨ́bɔ́rárɛ",
-        "bɔ́r"
+        "bɔ́r",
+        "ɔlɔ́ɨ́bɔ́rárɛ"
     ],
     "september": [
-        "kúshîn",
-        "kús"
+        "kús",
+        "kúshîn"
     ],
     "october": [
-        "olgísan",
-        "gís"
+        "gís",
+        "olgísan"
     ],
     "november": [
         "pʉshʉ́ka",
         "shʉ́"
     ],
     "december": [
-        "ntʉ́ŋʉ́s",
-        "ntʉ́"
+        "ntʉ́",
+        "ntʉ́ŋʉ́s"
     ],
     "monday": [
-        "jumatátu",
-        "jtt"
+        "jtt",
+        "jumatátu"
     ],
     "tuesday": [
-        "jumane",
-        "jnn"
+        "jnn",
+        "jumane"
     ],
     "wednesday": [
-        "jumatánɔ",
-        "jtn"
+        "jtn",
+        "jumatánɔ"
     ],
     "thursday": [
         "alaámisi",
         "alh"
     ],
     "friday": [
-        "jumáa",
-        "iju"
+        "iju",
+        "jumáa"
     ],
     "saturday": [
-        "jumamósi",
-        "jmo"
+        "jmo",
+        "jumamósi"
     ],
     "sunday": [
-        "jumapílí",
-        "jpi"
+        "jpi",
+        "jumapílí"
     ],
     "am": [
         "ɛnkakɛnyá"
@@ -105,41 +105,8 @@
         "sekunde"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "ŋolé"
-        ],
         "0 day ago": [
             "táatá"
-        ],
-        "in 1 day": [
-            "tááisérè"
         ],
         "0 hour ago": [
             "this hour"
@@ -147,8 +114,41 @@
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "ŋolé"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tááisérè"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {

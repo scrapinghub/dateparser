@@ -1,0 +1,55 @@
+name: Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python-version: 3.8
+            env:
+              TOXENV: flake8
+          - python-version: 3.7
+            env:
+              TOXENV: py
+          - python-version: 3.8
+            env:
+              TOXENV: py
+          - python-version: 3.9
+            env:
+              TOXENV: py
+          - python-version: "3.10"
+            env:
+              TOXENV: py
+          - python-version: "3.10"
+            env:
+              TOXENV: latest
+          - python-version: "3.11"
+            env:
+              TOXENV: py
+          - python-version: "3.11"
+            env:
+              TOXENV: latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Set up Python ${{ matrix.python-version }}'
+        uses: actions/setup-python@v4
+        with:
+          python-version: '${{ matrix.python-version }}'
+      - name: Install language-pack-fr
+        run: sudo apt-get update && sudo apt-get install language-pack-fr
+      - name: Install python dependencies
+        run: pip install tox
+      - name: tox
+        run: tox -e py
+      - name: Upload coverage.xml to codecov
+        if: ${{ matrix.python-version == '3.9' && matrix.env.TOXENV == 'latest'}}
+        uses: codecov/codecov-action@v3

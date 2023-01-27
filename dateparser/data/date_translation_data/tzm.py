@@ -1,70 +1,69 @@
-# -*- coding: utf-8 -*-
 info = {
     "name": "tzm",
     "date_order": "DMY",
     "january": [
-        "yennayer",
-        "yen"
+        "yen",
+        "yennayer"
     ],
     "february": [
-        "yebrayer",
-        "yeb"
+        "yeb",
+        "yebrayer"
     ],
     "march": [
-        "mars",
-        "mar"
+        "mar",
+        "mars"
     ],
     "april": [
-        "ibrir",
-        "ibr"
+        "ibr",
+        "ibrir"
     ],
     "may": [
-        "mayyu",
-        "may"
+        "may",
+        "mayyu"
     ],
     "june": [
-        "yunyu",
-        "yun"
+        "yun",
+        "yunyu"
     ],
     "july": [
-        "yulyuz",
-        "yul"
+        "yul",
+        "yulyuz"
     ],
     "august": [
-        "ɣuct",
-        "ɣuc"
+        "ɣuc",
+        "ɣuct"
     ],
     "september": [
-        "cutanbir",
-        "cut"
+        "cut",
+        "cutanbir"
     ],
     "october": [
-        "kṭuber",
-        "kṭu"
+        "kṭu",
+        "kṭuber"
     ],
     "november": [
-        "nwanbir",
-        "nwa"
+        "nwa",
+        "nwanbir"
     ],
     "december": [
-        "dujanbir",
-        "duj"
+        "duj",
+        "dujanbir"
     ],
     "monday": [
-        "aynas",
-        "ayn"
+        "ayn",
+        "aynas"
     ],
     "tuesday": [
         "asinas",
         "asn"
     ],
     "wednesday": [
-        "akras",
-        "akr"
+        "akr",
+        "akras"
     ],
     "thursday": [
-        "akwas",
-        "akw"
+        "akw",
+        "akwas"
     ],
     "friday": [
         "asimwas",
@@ -75,8 +74,8 @@ info = {
         "asḍ"
     ],
     "sunday": [
-        "asamas",
-        "asa"
+        "asa",
+        "asamas"
     ],
     "am": [
         "zdat azal"
@@ -106,41 +105,8 @@ info = {
         "tusnat"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "assenaṭ"
-        ],
         "0 day ago": [
             "assa"
-        ],
-        "in 1 day": [
-            "asekka"
         ],
         "0 hour ago": [
             "this hour"
@@ -148,23 +114,56 @@ info = {
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "assenaṭ"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "asekka"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

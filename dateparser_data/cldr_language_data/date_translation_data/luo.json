@@ -2,80 +2,80 @@
     "name": "luo",
     "date_order": "DMY",
     "january": [
-        "dwe mar achiel",
-        "dac"
+        "dac",
+        "dwe mar achiel"
     ],
     "february": [
-        "dwe mar ariyo",
-        "dar"
+        "dar",
+        "dwe mar ariyo"
     ],
     "march": [
-        "dwe mar adek",
-        "dad"
+        "dad",
+        "dwe mar adek"
     ],
     "april": [
-        "dwe mar ang'wen",
-        "dan"
+        "dan",
+        "dwe mar ang'wen"
     ],
     "may": [
-        "dwe mar abich",
-        "dah"
+        "dah",
+        "dwe mar abich"
     ],
     "june": [
-        "dwe mar auchiel",
-        "dau"
+        "dau",
+        "dwe mar auchiel"
     ],
     "july": [
-        "dwe mar abiriyo",
-        "dao"
+        "dao",
+        "dwe mar abiriyo"
     ],
     "august": [
-        "dwe mar aboro",
-        "dab"
+        "dab",
+        "dwe mar aboro"
     ],
     "september": [
-        "dwe mar ochiko",
-        "doc"
+        "doc",
+        "dwe mar ochiko"
     ],
     "october": [
-        "dwe mar apar",
-        "dap"
+        "dap",
+        "dwe mar apar"
     ],
     "november": [
-        "dwe mar gi achiel",
-        "dgi"
+        "dgi",
+        "dwe mar gi achiel"
     ],
     "december": [
-        "dwe mar apar gi ariyo",
-        "dag"
+        "dag",
+        "dwe mar apar gi ariyo"
     ],
     "monday": [
         "wuok tich",
         "wut"
     ],
     "tuesday": [
-        "tich ariyo",
-        "tar"
+        "tar",
+        "tich ariyo"
     ],
     "wednesday": [
-        "tich adek",
-        "tad"
+        "tad",
+        "tich adek"
     ],
     "thursday": [
-        "tich ang'wen",
-        "tan"
+        "tan",
+        "tich ang'wen"
     ],
     "friday": [
-        "tich abich",
-        "tab"
+        "tab",
+        "tich abich"
     ],
     "saturday": [
         "ngeso",
         "ngs"
     ],
     "sunday": [
-        "jumapil",
-        "jmp"
+        "jmp",
+        "jumapil"
     ],
     "am": [
         "od"
@@ -105,41 +105,8 @@
         "nyiriri mar saa"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
-        ],
-        "0 year ago": [
-            "this year"
-        ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
-        ],
-        "0 month ago": [
-            "this month"
-        ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
-        ],
-        "0 week ago": [
-            "this week"
-        ],
-        "in 1 week": [
-            "next week"
-        ],
-        "1 day ago": [
-            "nyoro"
-        ],
         "0 day ago": [
             "kawuono"
-        ],
-        "in 1 day": [
-            "kiny"
         ],
         "0 hour ago": [
             "this hour"
@@ -147,8 +114,41 @@
         "0 minute ago": [
             "this minute"
         ],
+        "0 month ago": [
+            "this month"
+        ],
         "0 second ago": [
             "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "nyoro"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "kiny"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
         ]
     },
     "locale_specific": {}

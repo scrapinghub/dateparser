@@ -1,5 +1,4 @@
-mock
-nose
+flake8
 parameterized
-six
-coverage
+pytest
+pytest-cov

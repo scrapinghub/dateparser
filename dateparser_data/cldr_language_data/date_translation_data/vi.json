@@ -2,76 +2,76 @@
     "name": "vi",
     "date_order": "DMY",
     "january": [
-        "tháng 1",
-        "thg 1"
+        "thg 1",
+        "tháng 1"
     ],
     "february": [
-        "tháng 2",
-        "thg 2"
+        "thg 2",
+        "tháng 2"
     ],
     "march": [
-        "tháng 3",
-        "thg 3"
+        "thg 3",
+        "tháng 3"
     ],
     "april": [
-        "tháng 4",
-        "thg 4"
+        "thg 4",
+        "tháng 4"
     ],
     "may": [
-        "tháng 5",
-        "thg 5"
+        "thg 5",
+        "tháng 5"
     ],
     "june": [
-        "tháng 6",
-        "thg 6"
+        "thg 6",
+        "tháng 6"
     ],
     "july": [
-        "tháng 7",
-        "thg 7"
+        "thg 7",
+        "tháng 7"
     ],
     "august": [
-        "tháng 8",
-        "thg 8"
+        "thg 8",
+        "tháng 8"
     ],
     "september": [
-        "tháng 9",
-        "thg 9"
+        "thg 9",
+        "tháng 9"
     ],
     "october": [
-        "tháng 10",
-        "thg 10"
+        "thg 10",
+        "tháng 10"
     ],
     "november": [
-        "tháng 11",
-        "thg 11"
+        "thg 11",
+        "tháng 11"
     ],
     "december": [
-        "tháng 12",
-        "thg 12"
+        "thg 12",
+        "tháng 12"
     ],
     "monday": [
-        "thứ hai",
-        "th 2"
+        "th 2",
+        "thứ hai"
     ],
     "tuesday": [
-        "thứ ba",
-        "th 3"
+        "th 3",
+        "thứ ba"
     ],
     "wednesday": [
-        "thứ tư",
-        "th 4"
+        "th 4",
+        "thứ tư"
     ],
     "thursday": [
-        "thứ năm",
-        "th 5"
+        "th 5",
+        "thứ năm"
     ],
     "friday": [
-        "thứ sáu",
-        "th 6"
+        "th 6",
+        "thứ sáu"
     ],
     "saturday": [
-        "thứ bảy",
-        "th 7"
+        "th 7",
+        "thứ bảy"
     ],
     "sunday": [
         "chủ nhật",
@@ -105,41 +105,8 @@
         "giây"
     ],
     "relative-type": {
-        "1 year ago": [
-            "năm ngoái"
-        ],
-        "0 year ago": [
-            "năm nay"
-        ],
-        "in 1 year": [
-            "năm sau"
-        ],
-        "1 month ago": [
-            "tháng trước"
-        ],
-        "0 month ago": [
-            "tháng này"
-        ],
-        "in 1 month": [
-            "tháng sau"
-        ],
-        "1 week ago": [
-            "tuần trước"
-        ],
-        "0 week ago": [
-            "tuần này"
-        ],
-        "in 1 week": [
-            "tuần sau"
-        ],
-        "1 day ago": [
-            "hôm qua"
-        ],
         "0 day ago": [
             "hôm nay"
-        ],
-        "in 1 day": [
-            "ngày mai"
         ],
         "0 hour ago": [
             "giờ này"
@@ -147,52 +114,85 @@
         "0 minute ago": [
             "phút này"
         ],
+        "0 month ago": [
+            "tháng này"
+        ],
         "0 second ago": [
             "bây giờ"
+        ],
+        "0 week ago": [
+            "tuần này"
+        ],
+        "0 year ago": [
+            "năm nay"
+        ],
+        "1 day ago": [
+            "hôm qua"
+        ],
+        "1 month ago": [
+            "tháng trước"
+        ],
+        "1 week ago": [
+            "tuần trước"
+        ],
+        "1 year ago": [
+            "năm ngoái"
+        ],
+        "in 1 day": [
+            "ngày mai"
+        ],
+        "in 1 month": [
+            "tháng sau"
+        ],
+        "in 1 week": [
+            "tuần sau"
+        ],
+        "in 1 year": [
+            "năm sau"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "sau {0} năm nữa"
-        ],
-        "\\1 year ago": [
-            "{0} năm trước"
-        ],
-        "in \\1 month": [
-            "sau {0} tháng nữa"
-        ],
-        "\\1 month ago": [
-            "{0} tháng trước"
-        ],
-        "in \\1 week": [
-            "sau {0} tuần nữa"
-        ],
-        "\\1 week ago": [
-            "{0} tuần trước"
-        ],
-        "in \\1 day": [
-            "sau {0} ngày nữa"
-        ],
         "\\1 day ago": [
             "{0} ngày trước"
-        ],
-        "in \\1 hour": [
-            "sau {0} giờ nữa"
         ],
         "\\1 hour ago": [
             "{0} giờ trước"
         ],
+        "\\1 minute ago": [
+            "{0} phút trước"
+        ],
+        "\\1 month ago": [
+            "{0} tháng trước"
+        ],
+        "\\1 second ago": [
+            "{0} giây trước"
+        ],
+        "\\1 week ago": [
+            "{0} tuần trước"
+        ],
+        "\\1 year ago": [
+            "{0} năm trước"
+        ],
+        "in \\1 day": [
+            "sau {0} ngày nữa"
+        ],
+        "in \\1 hour": [
+            "sau {0} giờ nữa"
+        ],
         "in \\1 minute": [
             "sau {0} phút nữa"
         ],
-        "\\1 minute ago": [
-            "{0} phút trước"
+        "in \\1 month": [
+            "sau {0} tháng nữa"
         ],
         "in \\1 second": [
             "sau {0} giây nữa"
         ],
-        "\\1 second ago": [
-            "{0} giây trước"
+        "in \\1 week": [
+            "sau {0} tuần nữa"
+        ],
+        "in \\1 year": [
+            "sau {0} năm nữa"
         ]
     },
     "locale_specific": {}

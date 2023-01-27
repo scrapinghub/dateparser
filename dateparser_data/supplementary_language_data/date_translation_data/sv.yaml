@@ -1,4 +1,4 @@
-skip: ["på", "den"]
+skip: ["den", "på"]
 
 sentence_splitter_group : 1
 

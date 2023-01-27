@@ -1,4 +1,4 @@
-skip: ["tanggal", "pukul", "yang"]
+skip: ["pukul", "tanggal", "yang"]
 
 sentence_splitter_group : 1
 
@@ -34,3 +34,8 @@ relative-type-regex:
         - (\d+) minggu lalu
     \1 week:
         - (\d+) minggu
+    \1 month ago:
+        - (\d+[.,]?\d*) bulan lalu
+    
+    \1 year ago:
+        - (\d+[.,]?\d*) tahun lalu
