@@ -4,12 +4,12 @@ info = {
     "january": [
         "oca",
         "ocak",
-        "Oc"
+        "Oca"
     ],
     "february": [
         "şub",
         "şubat",
-        "Şu"
+        "Şub"
     ],
     "march": [
         "mar",
@@ -18,7 +18,7 @@ info = {
     "april": [
         "nis",
         "nisan",
-        "Ni"
+        "Nis"
     ],
     "may": [
         "may",
@@ -27,37 +27,37 @@ info = {
     "june": [
         "haz",
         "haziran",
-        "Ha"
+        "Haz"
     ],
     "july": [
         "tem",
         "temmuz",
-        "Te"
+        "Tem"
     ],
     "august": [
         "ağu",
         "ağustos",
-        "Ağ"
+        "Ağu"
     ],
     "september": [
         "eyl",
         "eylül",
-        "Ey"
+        "Eyl"
     ],
     "october": [
         "eki",
         "ekim",
-        "Ek"
+        "Eki"
     ],
     "november": [
         "kas",
         "kasım",
-        "Ka"
+        "Kas"
     ],
     "december": [
         "ara",
         "aralık",
-        "Ar"
+        "Ara"
     ],
     "monday": [
         "pazartesi",
@@ -70,12 +70,12 @@ info = {
     "wednesday": [
         "çar",
         "çarşamba",
-        "Çrs"
+        "Çar"
     ],
     "thursday": [
         "per",
         "perşembe",
-        "Prs"
+        "Per"
     ],
     "friday": [
         "cum",

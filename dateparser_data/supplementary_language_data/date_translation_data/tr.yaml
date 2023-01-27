@@ -3,30 +3,30 @@ skip: ["ve", "yaklaşık"]
 sentence_splitter_group : 1
 
 wednesday:
-    - Çrs
+    - Çar
 thursday:
-    - Prs
+    - Per
 
 january:
-    - Oc
+    - Oca
 february:
-    - Şu
+    - Şub
 april:
-    - Ni
+    - Nis
 june:
-    - Ha
+    - Haz
 july:
-    - Te
+    - Tem
 august:
-    - Ağ
+    - Ağu
 september:
-    - Ey
+    - Eyl
 october:
-    - Ek
+    - Eki
 november:
-    - Ka
+    - Kas
 december:
-    - Ar
+    - Ara
 
 year:
     - sene
