@@ -236,6 +236,12 @@ info = {
         "in \\1 year": [
             "dalam (\\d+[.,]?\\d*) tahun",
             "dlm (\\d+[.,]?\\d*) thn"
+        ],
+        "\\1 week": [
+            "(\\d+[.,]?\\d*) minggu"
+        ],
+        "sunday": [
+            "minggu"
         ]
     },
     "locale_specific": {},

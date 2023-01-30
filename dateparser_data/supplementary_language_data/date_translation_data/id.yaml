@@ -36,3 +36,7 @@ relative-type-regex:
         - (\d+[.,]?\d*) bulan lalu
     \1 year ago:
         - (\d+[.,]?\d*) tahun lalu
+    \1 week:
+        - (\d+[.,]?\d*) minggu
+    sunday:
+        - minggu
