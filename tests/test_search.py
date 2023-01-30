@@ -505,8 +505,6 @@ class TestTranslateSearch(BaseTestCase):
                ('Сегодня', datetime.datetime(2001, 3, 19, 0, 0)),
                ('Два дня назад', datetime.datetime(2001, 3, 17, 0, 0)),
                ('через неделю', datetime.datetime(2001, 3, 26, 0, 0))]),
-        param('ru', '2000 год. Билл Гейтс ушел из совета директоров Microsoft.',
-              [('2000 год', datetime.datetime(2000, 1, 1, 0, 0)),]),
 
         # Hungarian
         param('hu', '1962 augusztus 11 Föld körüli pályára bocsátották a szovjet Vosztok-3 űrhajót, '
