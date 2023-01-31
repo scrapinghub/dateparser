@@ -134,6 +134,7 @@ class Locale:
             for pattern, replacement in relative_translations.items():
                 if pattern.match(word):
                     date_string_tokens[i] = pattern.sub(replacement, word)
+                    break
             else:
                 if word in dictionary:
                     fallback = word if keep_formatting and not word.isalpha() else ''

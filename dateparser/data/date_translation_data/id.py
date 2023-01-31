@@ -202,7 +202,8 @@ info = {
         ],
         "\\1 week ago": [
             "(\\d+[.,]?\\d*) mgg lalu",
-            "(\\d+[.,]?\\d*) minggu yang lalu"
+            "(\\d+[.,]?\\d*) minggu yang lalu",
+            "(\\d+[.,]?\\d*) minggu lalu"
         ],
         "\\1 year ago": [
             "(\\d+[.,]?\\d*) tahun yang lalu",
@@ -235,6 +236,12 @@ info = {
         "in \\1 year": [
             "dalam (\\d+[.,]?\\d*) tahun",
             "dlm (\\d+[.,]?\\d*) thn"
+        ],
+        "\\1 week": [
+            "(\\d+[.,]?\\d*) minggu"
+        ],
+        "sunday": [
+            "minggu"
         ]
     },
     "locale_specific": {},
