@@ -3,7 +3,17 @@
 History
 =======
 
-1.1.6 (2022-01-12)
+1.1.7 (2023-02-02)
+------------------
+
+Improvements:
+
+- Add an “ago” synonym for Arabic (#1128)
+- Improved date parsing for Czech (#1131)
+- Improved date parsing for Indonesian (#1134)
+
+
+1.1.6 (2023-01-12)
 ------------------
 
 Improvements:
