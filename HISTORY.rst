@@ -13,7 +13,7 @@ Improvements:
 - Improved date parsing for Indonesian (#1134)
 
 
-1.1.6 (2022-01-12)
+1.1.6 (2023-01-12)
 ------------------
 
 Improvements:
