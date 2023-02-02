@@ -8,7 +8,7 @@ History
 
 Improvements:
 
-- Add ago synonym for arabic language (#1128)
+- Add an “ago” synonym for Arabic (#1128)
 - Improved date parsing for Czech (#1131)
 - Improved date parsing for Indonesian (#1134)
 
