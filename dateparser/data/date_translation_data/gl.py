@@ -165,74 +165,74 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "hai (\\d+[.,]?\\d*) d",
-            "hai (\\d+[.,]?\\d*) día",
-            "hai (\\d+[.,]?\\d*) días"
+            "hai (\\d+) d",
+            "hai (\\d+) día",
+            "hai (\\d+) días"
         ],
         "\\1 hour ago": [
-            "hai (\\d+[.,]?\\d*) h",
-            "hai (\\d+[.,]?\\d*) hora",
-            "hai (\\d+[.,]?\\d*) horas"
+            "hai (\\d+) h",
+            "hai (\\d+) hora",
+            "hai (\\d+) horas"
         ],
         "\\1 minute ago": [
-            "hai (\\d+[.,]?\\d*) min",
-            "hai (\\d+[.,]?\\d*) minuto",
-            "hai (\\d+[.,]?\\d*) minutos"
+            "hai (\\d+) min",
+            "hai (\\d+) minuto",
+            "hai (\\d+) minutos"
         ],
         "\\1 month ago": [
-            "hai (\\d+[.,]?\\d*) m",
-            "hai (\\d+[.,]?\\d*) mes",
-            "hai (\\d+[.,]?\\d*) meses"
+            "hai (\\d+) m",
+            "hai (\\d+) mes",
+            "hai (\\d+) meses"
         ],
         "\\1 second ago": [
-            "hai (\\d+[.,]?\\d*) s",
-            "hai (\\d+[.,]?\\d*) segundo",
-            "hai (\\d+[.,]?\\d*) segundos"
+            "hai (\\d+) s",
+            "hai (\\d+) segundo",
+            "hai (\\d+) segundos"
         ],
         "\\1 week ago": [
-            "hai (\\d+[.,]?\\d*) sem",
-            "hai (\\d+[.,]?\\d*) semana",
-            "hai (\\d+[.,]?\\d*) semanas"
+            "hai (\\d+) sem",
+            "hai (\\d+) semana",
+            "hai (\\d+) semanas"
         ],
         "\\1 year ago": [
-            "hai (\\d+[.,]?\\d*) a",
-            "hai (\\d+[.,]?\\d*) ano",
-            "hai (\\d+[.,]?\\d*) anos"
+            "hai (\\d+) a",
+            "hai (\\d+) ano",
+            "hai (\\d+) anos"
         ],
         "in \\1 day": [
-            "en (\\d+[.,]?\\d*) d",
-            "en (\\d+[.,]?\\d*) día",
-            "en (\\d+[.,]?\\d*) días"
+            "en (\\d+) d",
+            "en (\\d+) día",
+            "en (\\d+) días"
         ],
         "in \\1 hour": [
-            "en (\\d+[.,]?\\d*) h",
-            "en (\\d+[.,]?\\d*) hora",
-            "en (\\d+[.,]?\\d*) horas"
+            "en (\\d+) h",
+            "en (\\d+) hora",
+            "en (\\d+) horas"
         ],
         "in \\1 minute": [
-            "en (\\d+[.,]?\\d*) min",
-            "en (\\d+[.,]?\\d*) minuto",
-            "en (\\d+[.,]?\\d*) minutos"
+            "en (\\d+) min",
+            "en (\\d+) minuto",
+            "en (\\d+) minutos"
         ],
         "in \\1 month": [
-            "en (\\d+[.,]?\\d*) m",
-            "en (\\d+[.,]?\\d*) mes",
-            "en (\\d+[.,]?\\d*) meses"
+            "en (\\d+) m",
+            "en (\\d+) mes",
+            "en (\\d+) meses"
         ],
         "in \\1 second": [
-            "en (\\d+[.,]?\\d*) s",
-            "en (\\d+[.,]?\\d*) segundo",
-            "en (\\d+[.,]?\\d*) segundos"
+            "en (\\d+) s",
+            "en (\\d+) segundo",
+            "en (\\d+) segundos"
         ],
         "in \\1 week": [
-            "en (\\d+[.,]?\\d*) sem",
-            "en (\\d+[.,]?\\d*) semana",
-            "en (\\d+[.,]?\\d*) semanas"
+            "en (\\d+) sem",
+            "en (\\d+) semana",
+            "en (\\d+) semanas"
         ],
         "in \\1 year": [
-            "en (\\d+[.,]?\\d*) a",
-            "en (\\d+[.,]?\\d*) ano",
-            "en (\\d+[.,]?\\d*) anos"
+            "en (\\d+) a",
+            "en (\\d+) ano",
+            "en (\\d+) anos"
         ]
     },
     "locale_specific": {},

@@ -10,6 +10,7 @@ from dateparser.utils import normalize_unicode, combine_dicts
 
 from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
 
+DIGIT_GROUP_PATTERN = re.compile(r'\\d\+')
 NUMERAL_PATTERN = re.compile(r'(\d+)', re.U)
 
 
@@ -134,11 +135,9 @@ class Locale:
             for pattern, replacement in relative_translations.items():
                 if pattern.match(word):
                     date_string_tokens[i] = pattern.sub(replacement, word)
-                    break
             else:
                 if word in dictionary:
-                    fallback = word if keep_formatting and not word.isalpha() else ''
-                    date_string_tokens[i] = dictionary[word] or fallback
+                    date_string_tokens[i] = dictionary[word] or ''
         if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
 
@@ -170,7 +169,7 @@ class Locale:
             if normalize:
                 value = list(map(normalize_unicode, value))
             pattern = '|'.join(sorted(value, key=len, reverse=True))
-            pattern = pattern.replace(r'(\d+', r'(?P<n>\d+')
+            pattern = DIGIT_GROUP_PATTERN.sub(r'?P<n>\d+', pattern)
             pattern = re.compile(r'^(?:{})$'.format(pattern), re.UNICODE | re.IGNORECASE)
             relative_dictionary[pattern] = key
         return relative_dictionary
@@ -264,7 +263,7 @@ class Locale:
 
         splitters_dict = {1: r'[\.!?;…\r\n]+(?:\s|$)*',  # most European, Tagalog, Hebrew, Georgian,
                           # Indonesian, Vietnamese
-                          2: r'[\.!?;…\r\n]+(\s*[¡¿]*|$)|[¡¿]+',  # Spanish
+                          2: r'(?:[¡¿]+|[\.!?;…\r\n]+(?:\s|$))+',  # Spanish
                           3: r'[|!?;\r\n]+(?:\s|$)+',  # Hindi and Bangla
                           4: r'[。…‥\.!?？！;\r\n]+(?:\s|$)+',  # Japanese and Chinese
                           5: r'[\r\n]+',  # Thai
@@ -276,7 +275,9 @@ class Locale:
             split_reg = abbreviation_string + splitters_dict[self.info['sentence_splitter_group']]
             sentences = re.split(split_reg, string)
 
-        sentences = filter(None, sentences)
+        for i in sentences:
+            if not i:
+                sentences.remove(i)
         return sentences
 
     def _simplify_split_align(self, original, settings):

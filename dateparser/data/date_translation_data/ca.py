@@ -201,69 +201,69 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "fa (\\d+[.,]?\\d*) dia",
-            "fa (\\d+[.,]?\\d*) dies"
+            "fa (\\d+) dia",
+            "fa (\\d+) dies"
         ],
         "\\1 hour ago": [
-            "fa (\\d+[.,]?\\d*) h",
-            "fa (\\d+[.,]?\\d*) hora",
-            "fa (\\d+[.,]?\\d*) hores"
+            "fa (\\d+) h",
+            "fa (\\d+) hora",
+            "fa (\\d+) hores"
         ],
         "\\1 minute ago": [
-            "fa (\\d+[.,]?\\d*) min",
-            "fa (\\d+[.,]?\\d*) minut",
-            "fa (\\d+[.,]?\\d*) minuts"
+            "fa (\\d+) min",
+            "fa (\\d+) minut",
+            "fa (\\d+) minuts"
         ],
         "\\1 month ago": [
-            "fa (\\d+[.,]?\\d*) mes",
-            "fa (\\d+[.,]?\\d*) mesos"
+            "fa (\\d+) mes",
+            "fa (\\d+) mesos"
         ],
         "\\1 second ago": [
-            "fa (\\d+[.,]?\\d*) s",
-            "fa (\\d+[.,]?\\d*) segon",
-            "fa (\\d+[.,]?\\d*) segons"
+            "fa (\\d+) s",
+            "fa (\\d+) segon",
+            "fa (\\d+) segons"
         ],
         "\\1 week ago": [
-            "fa (\\d+[.,]?\\d*) setm",
-            "fa (\\d+[.,]?\\d*) setmana",
-            "fa (\\d+[.,]?\\d*) setmanes"
+            "fa (\\d+) setm",
+            "fa (\\d+) setmana",
+            "fa (\\d+) setmanes"
         ],
         "\\1 year ago": [
-            "fa (\\d+[.,]?\\d*) any",
-            "fa (\\d+[.,]?\\d*) anys"
+            "fa (\\d+) any",
+            "fa (\\d+) anys"
         ],
         "in \\1 day": [
-            "d'aquí a (\\d+[.,]?\\d*) dia",
-            "d'aquí a (\\d+[.,]?\\d*) dies"
+            "d'aquí a (\\d+) dia",
+            "d'aquí a (\\d+) dies"
         ],
         "in \\1 hour": [
-            "d'aquí a (\\d+[.,]?\\d*) h",
-            "d'aquí a (\\d+[.,]?\\d*) hora",
-            "d'aquí a (\\d+[.,]?\\d*) hores",
-            "d‘aquí a (\\d+[.,]?\\d*) h"
+            "d'aquí a (\\d+) h",
+            "d'aquí a (\\d+) hora",
+            "d'aquí a (\\d+) hores",
+            "d‘aquí a (\\d+) h"
         ],
         "in \\1 minute": [
-            "d'aquí a (\\d+[.,]?\\d*) min",
-            "d'aquí a (\\d+[.,]?\\d*) minut",
-            "d'aquí a (\\d+[.,]?\\d*) minuts"
+            "d'aquí a (\\d+) min",
+            "d'aquí a (\\d+) minut",
+            "d'aquí a (\\d+) minuts"
         ],
         "in \\1 month": [
-            "d'aquí a (\\d+[.,]?\\d*) mes",
-            "d'aquí a (\\d+[.,]?\\d*) mesos"
+            "d'aquí a (\\d+) mes",
+            "d'aquí a (\\d+) mesos"
         ],
         "in \\1 second": [
-            "d'aquí a (\\d+[.,]?\\d*) s",
-            "d'aquí a (\\d+[.,]?\\d*) segon",
-            "d'aquí a (\\d+[.,]?\\d*) segons"
+            "d'aquí a (\\d+) s",
+            "d'aquí a (\\d+) segon",
+            "d'aquí a (\\d+) segons"
         ],
         "in \\1 week": [
-            "d'aquí a (\\d+[.,]?\\d*) setm",
-            "d'aquí a (\\d+[.,]?\\d*) setmana",
-            "d'aquí a (\\d+[.,]?\\d*) setmanes"
+            "d'aquí a (\\d+) setm",
+            "d'aquí a (\\d+) setmana",
+            "d'aquí a (\\d+) setmanes"
         ],
         "in \\1 year": [
-            "d'aquí a (\\d+[.,]?\\d*) any",
-            "d'aquí a (\\d+[.,]?\\d*) anys"
+            "d'aquí a (\\d+) any",
+            "d'aquí a (\\d+) anys"
         ]
     },
     "locale_specific": {

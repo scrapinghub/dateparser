@@ -162,76 +162,76 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) d síðan",
-            "(\\d+[.,]?\\d*) da síðan",
-            "(\\d+[.,]?\\d*) dagar síðan",
-            "(\\d+[.,]?\\d*) dagur síðan"
+            "(\\d+) d síðan",
+            "(\\d+) da síðan",
+            "(\\d+) dagar síðan",
+            "(\\d+) dagur síðan"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) t síðan",
-            "(\\d+[.,]?\\d*) tímar síðan",
-            "(\\d+[.,]?\\d*) tími síðan"
+            "(\\d+) t síðan",
+            "(\\d+) tímar síðan",
+            "(\\d+) tími síðan"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) m síðan",
-            "(\\d+[.,]?\\d*) min síðan",
-            "(\\d+[.,]?\\d*) minutt síðan",
-            "(\\d+[.,]?\\d*) minuttir síðan"
+            "(\\d+) m síðan",
+            "(\\d+) min síðan",
+            "(\\d+) minutt síðan",
+            "(\\d+) minuttir síðan"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) mnð síðan",
-            "(\\d+[.,]?\\d*) mánað síðan",
-            "(\\d+[.,]?\\d*) mánaðir síðan"
+            "(\\d+) mnð síðan",
+            "(\\d+) mánað síðan",
+            "(\\d+) mánaðir síðan"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) s síðan",
-            "(\\d+[.,]?\\d*) sek síðan",
-            "(\\d+[.,]?\\d*) sekund síðan"
+            "(\\d+) s síðan",
+            "(\\d+) sek síðan",
+            "(\\d+) sekund síðan"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) v síðan",
-            "(\\d+[.,]?\\d*) vi síðan",
-            "(\\d+[.,]?\\d*) vika síðan",
-            "(\\d+[.,]?\\d*) vikur síðan"
+            "(\\d+) v síðan",
+            "(\\d+) vi síðan",
+            "(\\d+) vika síðan",
+            "(\\d+) vikur síðan"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) ár síðan"
+            "(\\d+) ár síðan"
         ],
         "in \\1 day": [
-            "um (\\d+[.,]?\\d*) d",
-            "um (\\d+[.,]?\\d*) da",
-            "um (\\d+[.,]?\\d*) dag",
-            "um (\\d+[.,]?\\d*) dagar"
+            "um (\\d+) d",
+            "um (\\d+) da",
+            "um (\\d+) dag",
+            "um (\\d+) dagar"
         ],
         "in \\1 hour": [
-            "um (\\d+[.,]?\\d*) t",
-            "um (\\d+[.,]?\\d*) tíma",
-            "um (\\d+[.,]?\\d*) tímar"
+            "um (\\d+) t",
+            "um (\\d+) tíma",
+            "um (\\d+) tímar"
         ],
         "in \\1 minute": [
-            "um (\\d+[.,]?\\d*) m",
-            "um (\\d+[.,]?\\d*) min",
-            "um (\\d+[.,]?\\d*) minutt",
-            "um (\\d+[.,]?\\d*) minuttir"
+            "um (\\d+) m",
+            "um (\\d+) min",
+            "um (\\d+) minutt",
+            "um (\\d+) minuttir"
         ],
         "in \\1 month": [
-            "um (\\d+[.,]?\\d*) mnð",
-            "um (\\d+[.,]?\\d*) mánað",
-            "um (\\d+[.,]?\\d*) mánaðir"
+            "um (\\d+) mnð",
+            "um (\\d+) mánað",
+            "um (\\d+) mánaðir"
         ],
         "in \\1 second": [
-            "um (\\d+[.,]?\\d*) s",
-            "um (\\d+[.,]?\\d*) sek",
-            "um (\\d+[.,]?\\d*) sekund"
+            "um (\\d+) s",
+            "um (\\d+) sek",
+            "um (\\d+) sekund"
         ],
         "in \\1 week": [
-            "um (\\d+[.,]?\\d*) v",
-            "um (\\d+[.,]?\\d*) vi",
-            "um (\\d+[.,]?\\d*) viku",
-            "um (\\d+[.,]?\\d*) vikur"
+            "um (\\d+) v",
+            "um (\\d+) vi",
+            "um (\\d+) viku",
+            "um (\\d+) vikur"
         ],
         "in \\1 year": [
-            "um (\\d+[.,]?\\d*) ár"
+            "um (\\d+) ár"
         ]
     },
     "locale_specific": {

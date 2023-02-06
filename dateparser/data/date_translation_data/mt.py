@@ -153,8 +153,8 @@ info = {
     },
     "relative-type-regex": {
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) sena ilu",
-            "(\\d+[.,]?\\d*) snin ilu"
+            "(\\d+) sena ilu",
+            "(\\d+) snin ilu"
         ]
     },
     "locale_specific": {},

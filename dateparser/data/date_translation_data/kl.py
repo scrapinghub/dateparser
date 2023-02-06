@@ -153,46 +153,46 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "for (\\d+[.,]?\\d*) ulloq unnuarlu siden"
+            "for (\\d+) ulloq unnuarlu siden"
         ],
         "\\1 hour ago": [
-            "for (\\d+[.,]?\\d*) nalunaaquttap-akunnera siden"
+            "for (\\d+) nalunaaquttap-akunnera siden"
         ],
         "\\1 minute ago": [
-            "for (\\d+[.,]?\\d*) minutsi siden"
+            "for (\\d+) minutsi siden"
         ],
         "\\1 month ago": [
-            "for (\\d+[.,]?\\d*) qaammat siden"
+            "for (\\d+) qaammat siden"
         ],
         "\\1 second ago": [
-            "for (\\d+[.,]?\\d*) sekundi siden"
+            "for (\\d+) sekundi siden"
         ],
         "\\1 week ago": [
-            "for (\\d+[.,]?\\d*) sapaatip-akunnera siden"
+            "for (\\d+) sapaatip-akunnera siden"
         ],
         "\\1 year ago": [
-            "for (\\d+[.,]?\\d*) ukioq siden"
+            "for (\\d+) ukioq siden"
         ],
         "in \\1 day": [
-            "om (\\d+[.,]?\\d*) ulloq unnuarlu"
+            "om (\\d+) ulloq unnuarlu"
         ],
         "in \\1 hour": [
-            "om (\\d+[.,]?\\d*) nalunaaquttap-akunnera"
+            "om (\\d+) nalunaaquttap-akunnera"
         ],
         "in \\1 minute": [
-            "om (\\d+[.,]?\\d*) minutsi"
+            "om (\\d+) minutsi"
         ],
         "in \\1 month": [
-            "om (\\d+[.,]?\\d*) qaammat"
+            "om (\\d+) qaammat"
         ],
         "in \\1 second": [
-            "om (\\d+[.,]?\\d*) sekundi"
+            "om (\\d+) sekundi"
         ],
         "in \\1 week": [
-            "om (\\d+[.,]?\\d*) sapaatip-akunnera"
+            "om (\\d+) sapaatip-akunnera"
         ],
         "in \\1 year": [
-            "om (\\d+[.,]?\\d*) ukioq"
+            "om (\\d+) ukioq"
         ]
     },
     "locale_specific": {},

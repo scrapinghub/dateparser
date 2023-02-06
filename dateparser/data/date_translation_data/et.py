@@ -157,62 +157,62 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) p eest",
-            "(\\d+[.,]?\\d*) päeva eest"
+            "(\\d+) p eest",
+            "(\\d+) päeva eest"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) t eest",
-            "(\\d+[.,]?\\d*) tunni eest"
+            "(\\d+) t eest",
+            "(\\d+) tunni eest"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) min eest",
-            "(\\d+[.,]?\\d*) minuti eest"
+            "(\\d+) min eest",
+            "(\\d+) minuti eest"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) k eest",
-            "(\\d+[.,]?\\d*) kuu eest"
+            "(\\d+) k eest",
+            "(\\d+) kuu eest"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) s eest",
-            "(\\d+[.,]?\\d*) sek eest",
-            "(\\d+[.,]?\\d*) sekundi eest"
+            "(\\d+) s eest",
+            "(\\d+) sek eest",
+            "(\\d+) sekundi eest"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) näd eest",
-            "(\\d+[.,]?\\d*) nädala eest"
+            "(\\d+) näd eest",
+            "(\\d+) nädala eest"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) a eest",
-            "(\\d+[.,]?\\d*) aasta eest"
+            "(\\d+) a eest",
+            "(\\d+) aasta eest"
         ],
         "in \\1 day": [
-            "(\\d+[.,]?\\d*) p pärast",
-            "(\\d+[.,]?\\d*) päeva pärast"
+            "(\\d+) p pärast",
+            "(\\d+) päeva pärast"
         ],
         "in \\1 hour": [
-            "(\\d+[.,]?\\d*) t pärast",
-            "(\\d+[.,]?\\d*) tunni pärast"
+            "(\\d+) t pärast",
+            "(\\d+) tunni pärast"
         ],
         "in \\1 minute": [
-            "(\\d+[.,]?\\d*) min pärast",
-            "(\\d+[.,]?\\d*) minuti pärast"
+            "(\\d+) min pärast",
+            "(\\d+) minuti pärast"
         ],
         "in \\1 month": [
-            "(\\d+[.,]?\\d*) k pärast",
-            "(\\d+[.,]?\\d*) kuu pärast"
+            "(\\d+) k pärast",
+            "(\\d+) kuu pärast"
         ],
         "in \\1 second": [
-            "(\\d+[.,]?\\d*) s pärast",
-            "(\\d+[.,]?\\d*) sek pärast",
-            "(\\d+[.,]?\\d*) sekundi pärast"
+            "(\\d+) s pärast",
+            "(\\d+) sek pärast",
+            "(\\d+) sekundi pärast"
         ],
         "in \\1 week": [
-            "(\\d+[.,]?\\d*) näd pärast",
-            "(\\d+[.,]?\\d*) nädala pärast"
+            "(\\d+) näd pärast",
+            "(\\d+) nädala pärast"
         ],
         "in \\1 year": [
-            "(\\d+[.,]?\\d*) a pärast",
-            "(\\d+[.,]?\\d*) aasta pärast"
+            "(\\d+) a pärast",
+            "(\\d+) aasta pärast"
         ]
     },
     "locale_specific": {},

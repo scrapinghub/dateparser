@@ -156,46 +156,46 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "'aho 'e (\\d+[.,]?\\d*) kuo'osi"
+            "'aho 'e (\\d+) kuo'osi"
         ],
         "\\1 hour ago": [
-            "houa 'e (\\d+[.,]?\\d*) kuo'osi"
+            "houa 'e (\\d+) kuo'osi"
         ],
         "\\1 minute ago": [
-            "miniti 'e (\\d+[.,]?\\d*) kuo'osi"
+            "miniti 'e (\\d+) kuo'osi"
         ],
         "\\1 month ago": [
-            "māhina 'e (\\d+[.,]?\\d*) kuo'osi"
+            "māhina 'e (\\d+) kuo'osi"
         ],
         "\\1 second ago": [
-            "sekoni 'e (\\d+[.,]?\\d*) kuo'osi"
+            "sekoni 'e (\\d+) kuo'osi"
         ],
         "\\1 week ago": [
-            "uike 'e (\\d+[.,]?\\d*) kuo'osi"
+            "uike 'e (\\d+) kuo'osi"
         ],
         "\\1 year ago": [
-            "ta'u 'e (\\d+[.,]?\\d*) kuo'osi"
+            "ta'u 'e (\\d+) kuo'osi"
         ],
         "in \\1 day": [
-            "'i he 'aho 'e (\\d+[.,]?\\d*)"
+            "'i he 'aho 'e (\\d+)"
         ],
         "in \\1 hour": [
-            "'i he houa 'e (\\d+[.,]?\\d*)"
+            "'i he houa 'e (\\d+)"
         ],
         "in \\1 minute": [
-            "'i he miniti 'e (\\d+[.,]?\\d*)"
+            "'i he miniti 'e (\\d+)"
         ],
         "in \\1 month": [
-            "'i he māhina 'e (\\d+[.,]?\\d*)"
+            "'i he māhina 'e (\\d+)"
         ],
         "in \\1 second": [
-            "'i he sekoni 'e (\\d+[.,]?\\d*)"
+            "'i he sekoni 'e (\\d+)"
         ],
         "in \\1 week": [
-            "'i he uike 'e (\\d+[.,]?\\d*)"
+            "'i he uike 'e (\\d+)"
         ],
         "in \\1 year": [
-            "'i he ta'u 'e (\\d+[.,]?\\d*)"
+            "'i he ta'u 'e (\\d+)"
         ]
     },
     "locale_specific": {},

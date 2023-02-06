@@ -293,77 +293,77 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) dnia temu",
-            "(\\d+[.,]?\\d*) dzień temu"
+            "(\\d+) dnia temu",
+            "(\\d+) dzień temu"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) g temu",
-            "(\\d+[.,]?\\d*) godz temu",
-            "(\\d+[.,]?\\d*) godziny temu",
-            "(\\d+[.,]?\\d*) godzinę temu"
+            "(\\d+) g temu",
+            "(\\d+) godz temu",
+            "(\\d+) godziny temu",
+            "(\\d+) godzinę temu"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) min temu",
-            "(\\d+[.,]?\\d*) minuty temu",
-            "(\\d+[.,]?\\d*) minutę temu"
+            "(\\d+) min temu",
+            "(\\d+) minuty temu",
+            "(\\d+) minutę temu"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) mies temu",
-            "(\\d+[.,]?\\d*) miesiąc temu",
-            "(\\d+[.,]?\\d*) miesiąca temu",
-            "–(\\d+[.,]?\\d*) mies"
+            "(\\d+) mies temu",
+            "(\\d+) miesiąc temu",
+            "(\\d+) miesiąca temu",
+            "–(\\d+) mies"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) s temu",
-            "(\\d+[.,]?\\d*) sek temu",
-            "(\\d+[.,]?\\d*) sekundy temu",
-            "(\\d+[.,]?\\d*) sekundę temu"
+            "(\\d+) s temu",
+            "(\\d+) sek temu",
+            "(\\d+) sekundy temu",
+            "(\\d+) sekundę temu"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) tydz temu",
-            "(\\d+[.,]?\\d*) tydzień temu",
-            "(\\d+[.,]?\\d*) tyg temu",
-            "(\\d+[.,]?\\d*) tygodnia temu"
+            "(\\d+) tydz temu",
+            "(\\d+) tydzień temu",
+            "(\\d+) tyg temu",
+            "(\\d+) tygodnia temu"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) rok temu",
-            "(\\d+[.,]?\\d*) roku temu"
+            "(\\d+) rok temu",
+            "(\\d+) roku temu"
         ],
         "in \\1 day": [
-            "za (\\d+[.,]?\\d*) dnia",
-            "za (\\d+[.,]?\\d*) dzień"
+            "za (\\d+) dnia",
+            "za (\\d+) dzień"
         ],
         "in \\1 hour": [
-            "za (\\d+[.,]?\\d*) g",
-            "za (\\d+[.,]?\\d*) godz",
-            "za (\\d+[.,]?\\d*) godziny",
-            "za (\\d+[.,]?\\d*) godzinę"
+            "za (\\d+) g",
+            "za (\\d+) godz",
+            "za (\\d+) godziny",
+            "za (\\d+) godzinę"
         ],
         "in \\1 minute": [
-            "za (\\d+[.,]?\\d*) min",
-            "za (\\d+[.,]?\\d*) minuty",
-            "za (\\d+[.,]?\\d*) minutę"
+            "za (\\d+) min",
+            "za (\\d+) minuty",
+            "za (\\d+) minutę"
         ],
         "in \\1 month": [
-            "za (\\d+[.,]?\\d*) mies",
-            "za (\\d+[.,]?\\d*) miesiąc",
-            "za (\\d+[.,]?\\d*) miesiąca"
+            "za (\\d+) mies",
+            "za (\\d+) miesiąc",
+            "za (\\d+) miesiąca"
         ],
         "in \\1 second": [
-            "za (\\d+[.,]?\\d*) s",
-            "za (\\d+[.,]?\\d*) sek",
-            "za (\\d+[.,]?\\d*) sekundy",
-            "za (\\d+[.,]?\\d*) sekundę"
+            "za (\\d+) s",
+            "za (\\d+) sek",
+            "za (\\d+) sekundy",
+            "za (\\d+) sekundę"
         ],
         "in \\1 week": [
-            "za (\\d+[.,]?\\d*) tydz",
-            "za (\\d+[.,]?\\d*) tydzień",
-            "za (\\d+[.,]?\\d*) tyg",
-            "za (\\d+[.,]?\\d*) tygodnia"
+            "za (\\d+) tydz",
+            "za (\\d+) tydzień",
+            "za (\\d+) tyg",
+            "za (\\d+) tygodnia"
         ],
         "in \\1 year": [
-            "za (\\d+[.,]?\\d*) rok",
-            "za (\\d+[.,]?\\d*) roku"
+            "za (\\d+) rok",
+            "za (\\d+) roku"
         ]
     },
     "locale_specific": {},

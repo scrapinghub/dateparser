@@ -65,22 +65,21 @@ def _get_missing_parts(fmt):
     return missing
 
 
-def get_timezone_from_tz_string(tz_string):
-    try:
-        return timezone(tz_string)
-    except UnknownTimeZoneError as e:
-        for name, info in _tz_offsets:
-            if info['regex'].search(' %s' % tz_string):
-                return StaticTzInfo(name, info['offset'])
-        else:
-            raise e
-
-
 def localize_timezone(date_time, tz_string):
     if date_time.tzinfo:
         return date_time
 
-    tz = get_timezone_from_tz_string(tz_string)
+    tz = None
+
+    try:
+        tz = timezone(tz_string)
+    except UnknownTimeZoneError as e:
+        for name, info in _tz_offsets:
+            if info['regex'].search(' %s' % tz_string):
+                tz = StaticTzInfo(name, info['offset'])
+                break
+        else:
+            raise e
 
     if hasattr(tz, 'localize'):
         date_time = tz.localize(date_time)

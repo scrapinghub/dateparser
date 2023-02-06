@@ -14,14 +14,6 @@ TIME_MATCHER = re.compile(
 
 MS_SEARCHER = re.compile(r'\.(?P<microsecond>[0-9]{1,6})')
 
-def _exec_module(spec, module):
-    if hasattr(spec.loader, "exec_module"):
-        spec.loader.exec_module(module)
-    else:
-        # This can happen before Python 3.10
-        # if spec.loader is a zipimporter and the Python runtime is in a zipfile
-        code = spec.loader.get_code(module.__name__)
-        exec(code, module.__dict__)
 
 def patch_strptime():
     """Monkey patching _strptime to avoid problems related with non-english
@@ -31,12 +23,13 @@ def patch_strptime():
     any date since all languages are translated to english dates.
     """
     _strptime_spec = importlib.util.find_spec('_strptime')
+
     _strptime = importlib.util.module_from_spec(_strptime_spec)
-    _exec_module(_strptime_spec, _strptime)
+    _strptime_spec.loader.exec_module(_strptime)
     sys.modules['strptime_patched'] = _strptime
 
     _calendar = importlib.util.module_from_spec(_strptime_spec)
-    _exec_module(_strptime_spec, _calendar)
+    _strptime_spec.loader.exec_module(_calendar)
     sys.modules['calendar_patched'] = _calendar
 
     _strptime._getlang = lambda: ('en_US', 'UTF-8')

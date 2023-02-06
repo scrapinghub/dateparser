@@ -134,40 +134,40 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "ɛ́ gɛ́ mɔ́ lɛ́ꞌ (\\d+[.,]?\\d*)"
+            "ɛ́ gɛ́ mɔ́ lɛ́ꞌ (\\d+)"
         ],
         "\\1 hour ago": [
-            "ɛ́ gɛ mɔ́ (\\d+[.,]?\\d*) háwa"
+            "ɛ́ gɛ mɔ́ (\\d+) háwa"
         ],
         "\\1 minute ago": [
-            "ɛ́ gɛ́ mɔ́ minút (\\d+[.,]?\\d*)"
+            "ɛ́ gɛ́ mɔ́ minút (\\d+)"
         ],
         "\\1 month ago": [
-            "ɛ́ gɛ́ mɔ́ pɛsaŋ (\\d+[.,]?\\d*)"
+            "ɛ́ gɛ́ mɔ́ pɛsaŋ (\\d+)"
         ],
         "\\1 week ago": [
-            "ɛ́ gɛ́ mɔ (\\d+[.,]?\\d*) ŋgap-mbi"
+            "ɛ́ gɛ́ mɔ (\\d+) ŋgap-mbi"
         ],
         "\\1 year ago": [
-            "ɛ́gɛ́ mɔ́ ŋguꞌ (\\d+[.,]?\\d*)"
+            "ɛ́gɛ́ mɔ́ ŋguꞌ (\\d+)"
         ],
         "in \\1 day": [
-            "nǔu lɛ́ꞌ (\\d+[.,]?\\d*)"
+            "nǔu lɛ́ꞌ (\\d+)"
         ],
         "in \\1 hour": [
-            "nǔu háwa (\\d+[.,]?\\d*)"
+            "nǔu háwa (\\d+)"
         ],
         "in \\1 minute": [
-            "nǔu (\\d+[.,]?\\d*) minút"
+            "nǔu (\\d+) minút"
         ],
         "in \\1 month": [
-            "nǔu (\\d+[.,]?\\d*) saŋ"
+            "nǔu (\\d+) saŋ"
         ],
         "in \\1 week": [
-            "nǔu ŋgap-mbi (\\d+[.,]?\\d*)"
+            "nǔu ŋgap-mbi (\\d+)"
         ],
         "in \\1 year": [
-            "nǔu ŋguꞌ (\\d+[.,]?\\d*)"
+            "nǔu ŋguꞌ (\\d+)"
         ]
     },
     "locale_specific": {},

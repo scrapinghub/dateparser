@@ -155,48 +155,48 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) diwrnod yn ôl"
+            "(\\d+) diwrnod yn ôl"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) awr yn ôl"
+            "(\\d+) awr yn ôl"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) mun yn ôl",
-            "(\\d+[.,]?\\d*) munud yn ôl"
+            "(\\d+) mun yn ôl",
+            "(\\d+) munud yn ôl"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) mis yn ôl"
+            "(\\d+) mis yn ôl"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) eiliad yn ôl"
+            "(\\d+) eiliad yn ôl"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) wythnos yn ôl"
+            "(\\d+) wythnos yn ôl"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) o flynyddoedd yn ôl"
+            "(\\d+) o flynyddoedd yn ôl"
         ],
         "in \\1 day": [
-            "ymhen (\\d+[.,]?\\d*) diwrnod"
+            "ymhen (\\d+) diwrnod"
         ],
         "in \\1 hour": [
-            "ymhen (\\d+[.,]?\\d*) awr"
+            "ymhen (\\d+) awr"
         ],
         "in \\1 minute": [
-            "ymhen (\\d+[.,]?\\d*) mun",
-            "ymhen (\\d+[.,]?\\d*) munud"
+            "ymhen (\\d+) mun",
+            "ymhen (\\d+) munud"
         ],
         "in \\1 month": [
-            "ymhen (\\d+[.,]?\\d*) mis"
+            "ymhen (\\d+) mis"
         ],
         "in \\1 second": [
-            "ymhen (\\d+[.,]?\\d*) eiliad"
+            "ymhen (\\d+) eiliad"
         ],
         "in \\1 week": [
-            "ymhen (\\d+[.,]?\\d*) wythnos"
+            "ymhen (\\d+) wythnos"
         ],
         "in \\1 year": [
-            "ymhen (\\d+[.,]?\\d*) mlynedd"
+            "ymhen (\\d+) mlynedd"
         ]
     },
     "locale_specific": {},

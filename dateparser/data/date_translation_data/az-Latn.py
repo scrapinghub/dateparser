@@ -157,46 +157,46 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) gün öncə"
+            "(\\d+) gün öncə"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) saat öncə"
+            "(\\d+) saat öncə"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) dəqiqə öncə"
+            "(\\d+) dəqiqə öncə"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) ay öncə"
+            "(\\d+) ay öncə"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) saniyə öncə"
+            "(\\d+) saniyə öncə"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) həftə öncə"
+            "(\\d+) həftə öncə"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) il öncə"
+            "(\\d+) il öncə"
         ],
         "in \\1 day": [
-            "(\\d+[.,]?\\d*) gün ərzində"
+            "(\\d+) gün ərzində"
         ],
         "in \\1 hour": [
-            "(\\d+[.,]?\\d*) saat ərzində"
+            "(\\d+) saat ərzində"
         ],
         "in \\1 minute": [
-            "(\\d+[.,]?\\d*) dəqiqə ərzində"
+            "(\\d+) dəqiqə ərzində"
         ],
         "in \\1 month": [
-            "(\\d+[.,]?\\d*) ay ərzində"
+            "(\\d+) ay ərzində"
         ],
         "in \\1 second": [
-            "(\\d+[.,]?\\d*) saniyə ərzində"
+            "(\\d+) saniyə ərzində"
         ],
         "in \\1 week": [
-            "(\\d+[.,]?\\d*) həftə ərzində"
+            "(\\d+) həftə ərzində"
         ],
         "in \\1 year": [
-            "(\\d+[.,]?\\d*) il ərzində"
+            "(\\d+) il ərzində"
         ]
     },
     "locale_specific": {},

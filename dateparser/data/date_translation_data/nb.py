@@ -167,70 +167,70 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "for (\\d+[.,]?\\d*) d siden",
-            "for (\\d+[.,]?\\d*) døgn siden",
-            "for (\\d+[.,]?\\d*) dager siden"
+            "for (\\d+) d siden",
+            "for (\\d+) døgn siden",
+            "for (\\d+) dager siden"
         ],
         "\\1 hour ago": [
-            "for (\\d+[.,]?\\d*) t siden",
-            "for (\\d+[.,]?\\d*) time siden",
-            "for (\\d+[.,]?\\d*) timer siden"
+            "for (\\d+) t siden",
+            "for (\\d+) time siden",
+            "for (\\d+) timer siden"
         ],
         "\\1 minute ago": [
-            "for (\\d+[.,]?\\d*) min siden",
-            "for (\\d+[.,]?\\d*) minutt siden",
-            "for (\\d+[.,]?\\d*) minutter siden"
+            "for (\\d+) min siden",
+            "for (\\d+) minutt siden",
+            "for (\\d+) minutter siden"
         ],
         "\\1 month ago": [
-            "for (\\d+[.,]?\\d*) md siden",
-            "for (\\d+[.,]?\\d*) måned siden",
-            "for (\\d+[.,]?\\d*) måneder siden"
+            "for (\\d+) md siden",
+            "for (\\d+) måned siden",
+            "for (\\d+) måneder siden"
         ],
         "\\1 second ago": [
-            "for (\\d+[.,]?\\d*) sek siden",
-            "for (\\d+[.,]?\\d*) sekund siden",
-            "for (\\d+[.,]?\\d*) sekunder siden"
+            "for (\\d+) sek siden",
+            "for (\\d+) sekund siden",
+            "for (\\d+) sekunder siden"
         ],
         "\\1 week ago": [
-            "for (\\d+[.,]?\\d*) u siden",
-            "for (\\d+[.,]?\\d*) uke siden",
-            "for (\\d+[.,]?\\d*) uker siden"
+            "for (\\d+) u siden",
+            "for (\\d+) uke siden",
+            "for (\\d+) uker siden"
         ],
         "\\1 year ago": [
-            "for (\\d+[.,]?\\d*) år siden",
-            "–(\\d+[.,]?\\d*) år"
+            "for (\\d+) år siden",
+            "–(\\d+) år"
         ],
         "in \\1 day": [
-            "om (\\d+[.,]?\\d*) d",
-            "om (\\d+[.,]?\\d*) døgn"
+            "om (\\d+) d",
+            "om (\\d+) døgn"
         ],
         "in \\1 hour": [
-            "om (\\d+[.,]?\\d*) t",
-            "om (\\d+[.,]?\\d*) time",
-            "om (\\d+[.,]?\\d*) timer"
+            "om (\\d+) t",
+            "om (\\d+) time",
+            "om (\\d+) timer"
         ],
         "in \\1 minute": [
-            "om (\\d+[.,]?\\d*) min",
-            "om (\\d+[.,]?\\d*) minutt",
-            "om (\\d+[.,]?\\d*) minutter"
+            "om (\\d+) min",
+            "om (\\d+) minutt",
+            "om (\\d+) minutter"
         ],
         "in \\1 month": [
-            "om (\\d+[.,]?\\d*) md",
-            "om (\\d+[.,]?\\d*) måned",
-            "om (\\d+[.,]?\\d*) måneder"
+            "om (\\d+) md",
+            "om (\\d+) måned",
+            "om (\\d+) måneder"
         ],
         "in \\1 second": [
-            "om (\\d+[.,]?\\d*) sek",
-            "om (\\d+[.,]?\\d*) sekund",
-            "om (\\d+[.,]?\\d*) sekunder"
+            "om (\\d+) sek",
+            "om (\\d+) sekund",
+            "om (\\d+) sekunder"
         ],
         "in \\1 week": [
-            "om (\\d+[.,]?\\d*) u",
-            "om (\\d+[.,]?\\d*) uke",
-            "om (\\d+[.,]?\\d*) uker"
+            "om (\\d+) u",
+            "om (\\d+) uke",
+            "om (\\d+) uker"
         ],
         "in \\1 year": [
-            "om (\\d+[.,]?\\d*) år"
+            "om (\\d+) år"
         ]
     },
     "locale_specific": {

@@ -165,78 +165,78 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "pirms (\\d+[.,]?\\d*) d",
-            "pirms (\\d+[.,]?\\d*) dienas",
-            "pirms (\\d+[.,]?\\d*) dienām"
+            "pirms (\\d+) d",
+            "pirms (\\d+) dienas",
+            "pirms (\\d+) dienām"
         ],
         "\\1 hour ago": [
-            "pirms (\\d+[.,]?\\d*) h",
-            "pirms (\\d+[.,]?\\d*) st",
-            "pirms (\\d+[.,]?\\d*) stundas",
-            "pirms (\\d+[.,]?\\d*) stundām"
+            "pirms (\\d+) h",
+            "pirms (\\d+) st",
+            "pirms (\\d+) stundas",
+            "pirms (\\d+) stundām"
         ],
         "\\1 minute ago": [
-            "pirms (\\d+[.,]?\\d*) min",
-            "pirms (\\d+[.,]?\\d*) minūtes",
-            "pirms (\\d+[.,]?\\d*) minūtēm"
+            "pirms (\\d+) min",
+            "pirms (\\d+) minūtes",
+            "pirms (\\d+) minūtēm"
         ],
         "\\1 month ago": [
-            "pirms (\\d+[.,]?\\d*) mēn",
-            "pirms (\\d+[.,]?\\d*) mēneša",
-            "pirms (\\d+[.,]?\\d*) mēnešiem"
+            "pirms (\\d+) mēn",
+            "pirms (\\d+) mēneša",
+            "pirms (\\d+) mēnešiem"
         ],
         "\\1 second ago": [
-            "pirms (\\d+[.,]?\\d*) s",
-            "pirms (\\d+[.,]?\\d*) sek",
-            "pirms (\\d+[.,]?\\d*) sekundes",
-            "pirms (\\d+[.,]?\\d*) sekundēm"
+            "pirms (\\d+) s",
+            "pirms (\\d+) sek",
+            "pirms (\\d+) sekundes",
+            "pirms (\\d+) sekundēm"
         ],
         "\\1 week ago": [
-            "pirms (\\d+[.,]?\\d*) ned",
-            "pirms (\\d+[.,]?\\d*) nedēļas",
-            "pirms (\\d+[.,]?\\d*) nedēļām"
+            "pirms (\\d+) ned",
+            "pirms (\\d+) nedēļas",
+            "pirms (\\d+) nedēļām"
         ],
         "\\1 year ago": [
-            "pirms (\\d+[.,]?\\d*) g",
-            "pirms (\\d+[.,]?\\d*) gada",
-            "pirms (\\d+[.,]?\\d*) gadiem"
+            "pirms (\\d+) g",
+            "pirms (\\d+) gada",
+            "pirms (\\d+) gadiem"
         ],
         "in \\1 day": [
-            "pēc (\\d+[.,]?\\d*) d",
-            "pēc (\\d+[.,]?\\d*) dienas",
-            "pēc (\\d+[.,]?\\d*) dienām"
+            "pēc (\\d+) d",
+            "pēc (\\d+) dienas",
+            "pēc (\\d+) dienām"
         ],
         "in \\1 hour": [
-            "pēc (\\d+[.,]?\\d*) h",
-            "pēc (\\d+[.,]?\\d*) st",
-            "pēc (\\d+[.,]?\\d*) stundas",
-            "pēc (\\d+[.,]?\\d*) stundām"
+            "pēc (\\d+) h",
+            "pēc (\\d+) st",
+            "pēc (\\d+) stundas",
+            "pēc (\\d+) stundām"
         ],
         "in \\1 minute": [
-            "pēc (\\d+[.,]?\\d*) min",
-            "pēc (\\d+[.,]?\\d*) minūtes",
-            "pēc (\\d+[.,]?\\d*) minūtēm"
+            "pēc (\\d+) min",
+            "pēc (\\d+) minūtes",
+            "pēc (\\d+) minūtēm"
         ],
         "in \\1 month": [
-            "pēc (\\d+[.,]?\\d*) mēn",
-            "pēc (\\d+[.,]?\\d*) mēneša",
-            "pēc (\\d+[.,]?\\d*) mēnešiem"
+            "pēc (\\d+) mēn",
+            "pēc (\\d+) mēneša",
+            "pēc (\\d+) mēnešiem"
         ],
         "in \\1 second": [
-            "pēc (\\d+[.,]?\\d*) s",
-            "pēc (\\d+[.,]?\\d*) sek",
-            "pēc (\\d+[.,]?\\d*) sekundes",
-            "pēc (\\d+[.,]?\\d*) sekundēm"
+            "pēc (\\d+) s",
+            "pēc (\\d+) sek",
+            "pēc (\\d+) sekundes",
+            "pēc (\\d+) sekundēm"
         ],
         "in \\1 week": [
-            "pēc (\\d+[.,]?\\d*) ned",
-            "pēc (\\d+[.,]?\\d*) nedēļas",
-            "pēc (\\d+[.,]?\\d*) nedēļām"
+            "pēc (\\d+) ned",
+            "pēc (\\d+) nedēļas",
+            "pēc (\\d+) nedēļām"
         ],
         "in \\1 year": [
-            "pēc (\\d+[.,]?\\d*) g",
-            "pēc (\\d+[.,]?\\d*) gada",
-            "pēc (\\d+[.,]?\\d*) gadiem"
+            "pēc (\\d+) g",
+            "pēc (\\d+) gada",
+            "pēc (\\d+) gadiem"
         ]
     },
     "locale_specific": {},

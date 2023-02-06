@@ -116,15 +116,13 @@ info = {
         "měs",
         "měsíc",
         "měsíců",
-        "měsíce",
-        "měsícem"
+        "měsíce"
     ],
     "week": [
         "týd",
         "týden",
         "týdnů",
-        "týdny",
-        "týdnem"
+        "týdny"
     ],
     "day": [
         "den",
@@ -136,7 +134,6 @@ info = {
         "hodina",
         "hodin",
         "hodiny",
-        "hodinou",
         "hodinu",
         "hodinami"
     ],
@@ -144,7 +141,6 @@ info = {
         "min",
         "minuta",
         "minut",
-        "minutami",
         "minuty"
     ],
     "second": [
@@ -211,74 +207,74 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "před (\\d+[.,]?\\d*) dnem",
-            "před (\\d+[.,]?\\d*) dny"
+            "před (\\d+) dnem",
+            "před (\\d+) dny"
         ],
         "\\1 hour ago": [
-            "před (\\d+[.,]?\\d*) h",
-            "před (\\d+[.,]?\\d*) hodinami",
-            "před (\\d+[.,]?\\d*) hodinou"
+            "před (\\d+) h",
+            "před (\\d+) hodinami",
+            "před (\\d+) hodinou"
         ],
         "\\1 minute ago": [
-            "před (\\d+[.,]?\\d*) min",
-            "před (\\d+[.,]?\\d*) minutami",
-            "před (\\d+[.,]?\\d*) minutou"
+            "před (\\d+) min",
+            "před (\\d+) minutami",
+            "před (\\d+) minutou"
         ],
         "\\1 month ago": [
-            "před (\\d+[.,]?\\d*) měs",
-            "před (\\d+[.,]?\\d*) měsícem",
-            "před (\\d+[.,]?\\d*) měsíci"
+            "před (\\d+) měs",
+            "před (\\d+) měsícem",
+            "před (\\d+) měsíci"
         ],
         "\\1 second ago": [
-            "před (\\d+[.,]?\\d*) s",
-            "před (\\d+[.,]?\\d*) sekundami",
-            "před (\\d+[.,]?\\d*) sekundou"
+            "před (\\d+) s",
+            "před (\\d+) sekundami",
+            "před (\\d+) sekundou"
         ],
         "\\1 week ago": [
-            "před (\\d+[.,]?\\d*) týd",
-            "před (\\d+[.,]?\\d*) týdnem",
-            "před (\\d+[.,]?\\d*) týdny"
+            "před (\\d+) týd",
+            "před (\\d+) týdnem",
+            "před (\\d+) týdny"
         ],
         "\\1 year ago": [
-            "před (\\d+[.,]?\\d*) l",
-            "před (\\d+[.,]?\\d*) lety",
-            "před (\\d+[.,]?\\d*) r",
-            "před (\\d+[.,]?\\d*) rokem"
+            "před (\\d+) l",
+            "před (\\d+) lety",
+            "před (\\d+) r",
+            "před (\\d+) rokem"
         ],
         "in \\1 day": [
-            "za (\\d+[.,]?\\d*) den",
-            "za (\\d+[.,]?\\d*) dní"
+            "za (\\d+) den",
+            "za (\\d+) dní"
         ],
         "in \\1 hour": [
-            "za (\\d+[.,]?\\d*) h",
-            "za (\\d+[.,]?\\d*) hodin",
-            "za (\\d+[.,]?\\d*) hodinu"
+            "za (\\d+) h",
+            "za (\\d+) hodin",
+            "za (\\d+) hodinu"
         ],
         "in \\1 minute": [
-            "za (\\d+[.,]?\\d*) min",
-            "za (\\d+[.,]?\\d*) minut",
-            "za (\\d+[.,]?\\d*) minutu"
+            "za (\\d+) min",
+            "za (\\d+) minut",
+            "za (\\d+) minutu"
         ],
         "in \\1 month": [
-            "za (\\d+[.,]?\\d*) měs",
-            "za (\\d+[.,]?\\d*) měsíc",
-            "za (\\d+[.,]?\\d*) měsíců"
+            "za (\\d+) měs",
+            "za (\\d+) měsíc",
+            "za (\\d+) měsíců"
         ],
         "in \\1 second": [
-            "za (\\d+[.,]?\\d*) s",
-            "za (\\d+[.,]?\\d*) sekund",
-            "za (\\d+[.,]?\\d*) sekundu"
+            "za (\\d+) s",
+            "za (\\d+) sekund",
+            "za (\\d+) sekundu"
         ],
         "in \\1 week": [
-            "za (\\d+[.,]?\\d*) týd",
-            "za (\\d+[.,]?\\d*) týden",
-            "za (\\d+[.,]?\\d*) týdnů"
+            "za (\\d+) týd",
+            "za (\\d+) týden",
+            "za (\\d+) týdnů"
         ],
         "in \\1 year": [
-            "za (\\d+[.,]?\\d*) l",
-            "za (\\d+[.,]?\\d*) let",
-            "za (\\d+[.,]?\\d*) r",
-            "za (\\d+[.,]?\\d*) rok"
+            "za (\\d+) l",
+            "za (\\d+) let",
+            "za (\\d+) r",
+            "za (\\d+) rok"
         ]
     },
     "locale_specific": {},
@@ -305,10 +301,5 @@ info = {
     "in": [
         "ve",
         "v"
-    ],
-    "simplifications": [
-        {
-            "teď": "0 sekunda"
-        }
     ]
 }

@@ -4,89 +4,62 @@ info = {
     "january": [
         "sij",
         "siječanj",
-        "siječnja",
-        "siječnju",
-        "siječnjem"
+        "siječnja"
     ],
     "february": [
         "velj",
         "veljača",
-        "veljače",
-        "veljači",
-        "veljačom"
+        "veljače"
     ],
     "march": [
         "ožu",
         "ožujak",
-        "ožujka",
-        "ožujku",
-        "ožujkom"
+        "ožujka"
     ],
     "april": [
         "tra",
         "travanj",
-        "travnja",
-        "travnju",
-        "travnjem"
+        "travnja"
     ],
     "may": [
         "svi",
         "svibanj",
-        "svibnja",
-        "svibnju",
-        "svibnjem"
+        "svibnja"
     ],
     "june": [
         "lip",
         "lipanj",
-        "lipnja",
-        "lipnju",
-        "lipnjem"
+        "lipnja"
     ],
     "july": [
         "srp",
         "srpanj",
-        "srpnja",
-        "srpnju",
-        "srpnjem"
+        "srpnja"
     ],
     "august": [
         "kol",
         "kolovoz",
-        "kolovoza",
-        "kolovozu",
-        "kolovozom"
+        "kolovoza"
     ],
     "september": [
         "ruj",
         "rujan",
-        "rujna",
-        "rujnu",
-        "rujnom"
+        "rujna"
     ],
     "october": [
         "lis",
         "listopad",
-        "listopada",
-        "listopadu",
-        "listopadom"
+        "listopada"
     ],
     "november": [
         "stu",
         "studeni",
-        "studenoga",
-        "studenom",
-        "studenomu",
-        "studenome",
-        "studenog",
-        "studenim"
+        "studenoga"
     ],
     "december": [
         "pro",
         "prosinac",
-        "prosinca",
-        "prosincu",
-        "prosincem"
+        "prosinca"
     ],
     "monday": [
         "pon",
@@ -178,171 +151,108 @@ info = {
             "ove godine"
         ],
         "1 day ago": [
-            "jučer",
             "jučer"
         ],
         "1 month ago": [
             "prošli mj",
-            "prošli mjesec",
-            "prošlog mjeseca",
-            "prošlom mjesecu"
+            "prošli mjesec"
         ],
         "1 week ago": [
             "prošli tj",
-            "prošli tjedan",
-            "prošlog tjedna",
-            "prošlom tjednu"
+            "prošli tjedan"
         ],
         "1 year ago": [
             "prošle g",
             "prošle god",
-            "prošle godine",
-            "prošla godina",
-            "prošloj godini",
-            "lani"
+            "prošle godine"
         ],
         "in 1 day": [
-            "sutra",
             "sutra"
         ],
         "in 1 month": [
             "sljedeći mj",
-            "sljedeći mjesec",
-            "sljedećeg mjeseca",
-            "sljedećem mjesecu",
-            "idući mj",
-            "idućeg mj",
-            "idućem mj",
-            "idući mjesec",
-            "idućeg mjeseca",
-            "idućem mjesecu"
+            "sljedeći mjesec"
         ],
         "in 1 week": [
             "sljedeći tj",
-            "sljedeći tjedan",
-            "sljedećeg tjedna",
-            "sljedećem tjednu",
-            "idući tj",
-            "idućeg tj",
-            "idućem tj",
-            "idući tjedan",
-            "idućeg tjedna",
-            "idućem tjednu"
+            "sljedeći tjedan"
         ],
         "in 1 year": [
             "sljedeće g",
             "sljedeće god",
-            "sljedeće godine",
-            "sljedeća g",
-            "sljedeća god",
-            "sljedeća godina",
-            "sljedećoj godini",
-            "iduća g",
-            "iduće g",
-            "idućoj g",
-            "iduća god",
-            "iduće god",
-            "idućoj god",
-            "iduća godina",
-            "iduće godine",
-            "idućoj godini",
-            "dogodine",
-            "nagodinu"
-        ],
-        "in 2 day": [
-            "prekosutra"
-        ],
-        "2 year ago": [
-            "preklani"
-        ],
-        "2 day ago": [
-            "prekjučer"
+            "sljedeće godine"
         ]
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "prije (\\d+[.,]?\\d*) d",
-            "prije (\\d+[.,]?\\d*) dan",
-            "prije (\\d+[.,]?\\d*) dana"
+            "prije (\\d+) d",
+            "prije (\\d+) dan",
+            "prije (\\d+) dana"
         ],
         "\\1 hour ago": [
-            "prije (\\d+[.,]?\\d*) h",
-            "prije (\\d+[.,]?\\d*) sat",
-            "prije (\\d+[.,]?\\d*) sati",
-            "prije (\\d+[.,]?\\d*) sata"
+            "prije (\\d+) h",
+            "prije (\\d+) sat",
+            "prije (\\d+) sati"
         ],
         "\\1 minute ago": [
-            "prije (\\d+[.,]?\\d*) min",
-            "prije (\\d+[.,]?\\d*) minuta",
-            "prije (\\d+[.,]?\\d*) minutu",
-            "prije (\\d+[.,]?\\d*) minute"
+            "prije (\\d+) min",
+            "prije (\\d+) minuta",
+            "prije (\\d+) minutu"
         ],
         "\\1 month ago": [
-            "prije (\\d+[.,]?\\d*) mj",
-            "prije (\\d+[.,]?\\d*) mjesec",
-            "prije (\\d+[.,]?\\d*) mjeseci",
-            "prije (\\d+[.,]?\\d*) mjeseca"
+            "prije (\\d+) mj",
+            "prije (\\d+) mjesec",
+            "prije (\\d+) mjeseci"
         ],
         "\\1 second ago": [
-            "prije (\\d+[.,]?\\d*) s",
-            "prije (\\d+[.,]?\\d*) sekundi",
-            "prije (\\d+[.,]?\\d*) sekundu",
-            "prije (\\d+[.,]?\\d*) sekunde",
-            "prije (\\d+[.,]?\\d*) sekundu"
+            "prije (\\d+) s",
+            "prije (\\d+) sekundi",
+            "prije (\\d+) sekundu"
         ],
         "\\1 week ago": [
-            "prije (\\d+[.,]?\\d*) tj",
-            "prije (\\d+[.,]?\\d*) tjedan",
-            "prije (\\d+[.,]?\\d*) tjedana",
-            "prije (\\d+[.,]?\\d*) tjedna"
+            "prije (\\d+) tj",
+            "prije (\\d+) tjedan",
+            "prije (\\d+) tjedana"
         ],
         "\\1 year ago": [
-            "prije (\\d+[.,]?\\d*) g",
-            "prije (\\d+[.,]?\\d*) godina",
-            "prije (\\d+[.,]?\\d*) godinu",
-            "prije (\\d+[.,]?\\d*) godine"
+            "prije (\\d+) g",
+            "prije (\\d+) godina",
+            "prije (\\d+) godinu"
         ],
         "in \\1 day": [
-            "za (\\d+[.,]?\\d*) d",
-            "za (\\d+[.,]?\\d*) dan",
-            "za (\\d+[.,]?\\d*) dana"
+            "za (\\d+) d",
+            "za (\\d+) dan",
+            "za (\\d+) dana"
         ],
         "in \\1 hour": [
-            "za (\\d+[.,]?\\d*) h",
-            "za (\\d+[.,]?\\d*) sat",
-            "za (\\d+[.,]?\\d*) sati",
-            "za (\\d+[.,]?\\d*) sata"
+            "za (\\d+) h",
+            "za (\\d+) sat",
+            "za (\\d+) sati"
         ],
         "in \\1 minute": [
-            "za (\\d+[.,]?\\d*) min",
-            "za (\\d+[.,]?\\d*) minuta",
-            "za (\\d+[.,]?\\d*) minutu",
-            "za (\\d+[.,]?\\d*) minute"
+            "za (\\d+) min",
+            "za (\\d+) minuta",
+            "za (\\d+) minutu"
         ],
         "in \\1 month": [
-            "za (\\d+[.,]?\\d*) mj",
-            "za (\\d+[.,]?\\d*) mjesec",
-            "za (\\d+[.,]?\\d*) mjeseci",
-            "za (\\d+[.,]?\\d*) mjeseca"
+            "za (\\d+) mj",
+            "za (\\d+) mjesec",
+            "za (\\d+) mjeseci"
         ],
         "in \\1 second": [
-            "za (\\d+[.,]?\\d*) s",
-            "za (\\d+[.,]?\\d*) sekundi",
-            "za (\\d+[.,]?\\d*) sekundu",
-            "za (\\d+[.,]?\\d*) sekunde",
-            "za (\\d+[.,]?\\d*) sekundu"
+            "za (\\d+) s",
+            "za (\\d+) sekundi",
+            "za (\\d+) sekundu"
         ],
         "in \\1 week": [
-            "za (\\d+[.,]?\\d*) tj",
-            "za (\\d+[.,]?\\d*) tjedan",
-            "za (\\d+[.,]?\\d*) tjedana",
-            "za (\\d+[.,]?\\d*) tjedna"
+            "za (\\d+) tj",
+            "za (\\d+) tjedan",
+            "za (\\d+) tjedana"
         ],
         "in \\1 year": [
-            "za (\\d+[.,]?\\d*) g",
-            "za (\\d+[.,]?\\d*) godina",
-            "za (\\d+[.,]?\\d*) godinu",
-            "za (\\d+[.,]?\\d*) godine"
+            "za (\\d+) g",
+            "za (\\d+) godina",
+            "za (\\d+) godinu"
         ]
     },
     "locale_specific": {
@@ -350,17 +260,6 @@ info = {
             "name": "hr-BA"
         }
     },
-    "in": [
-        "u"
-    ],
-    "simplifications": [
-        {
-            "podne": "12:00"
-        },
-        {
-            "ponoć": "00:00"
-        }
-    ],
     "skip": [
         " ",
         "'",

@@ -159,60 +159,60 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "virun (\\d+[.,]?\\d*) d",
-            "virun (\\d+[.,]?\\d*) dag"
+            "virun (\\d+) d",
+            "virun (\\d+) dag"
         ],
         "\\1 hour ago": [
-            "virun (\\d+[.,]?\\d*) st",
-            "virun (\\d+[.,]?\\d*) stonn"
+            "virun (\\d+) st",
+            "virun (\\d+) stonn"
         ],
         "\\1 minute ago": [
-            "virun (\\d+[.,]?\\d*) min",
-            "virun (\\d+[.,]?\\d*) minutt"
+            "virun (\\d+) min",
+            "virun (\\d+) minutt"
         ],
         "\\1 month ago": [
-            "virun (\\d+[.,]?\\d*) m",
-            "virun (\\d+[.,]?\\d*) mount"
+            "virun (\\d+) m",
+            "virun (\\d+) mount"
         ],
         "\\1 second ago": [
-            "virun (\\d+[.,]?\\d*) sek",
-            "virun (\\d+[.,]?\\d*) sekonn"
+            "virun (\\d+) sek",
+            "virun (\\d+) sekonn"
         ],
         "\\1 week ago": [
-            "virun (\\d+[.,]?\\d*) w",
-            "virun (\\d+[.,]?\\d*) woch"
+            "virun (\\d+) w",
+            "virun (\\d+) woch"
         ],
         "\\1 year ago": [
-            "virun (\\d+[.,]?\\d*) j",
-            "virun (\\d+[.,]?\\d*) joer"
+            "virun (\\d+) j",
+            "virun (\\d+) joer"
         ],
         "in \\1 day": [
-            "an (\\d+[.,]?\\d*) d",
-            "an (\\d+[.,]?\\d*) dag"
+            "an (\\d+) d",
+            "an (\\d+) dag"
         ],
         "in \\1 hour": [
-            "an (\\d+[.,]?\\d*) st",
-            "an (\\d+[.,]?\\d*) stonn"
+            "an (\\d+) st",
+            "an (\\d+) stonn"
         ],
         "in \\1 minute": [
-            "an (\\d+[.,]?\\d*) min",
-            "an (\\d+[.,]?\\d*) minutt"
+            "an (\\d+) min",
+            "an (\\d+) minutt"
         ],
         "in \\1 month": [
-            "an (\\d+[.,]?\\d*) m",
-            "an (\\d+[.,]?\\d*) mount"
+            "an (\\d+) m",
+            "an (\\d+) mount"
         ],
         "in \\1 second": [
-            "an (\\d+[.,]?\\d*) sek",
-            "an (\\d+[.,]?\\d*) sekonn"
+            "an (\\d+) sek",
+            "an (\\d+) sekonn"
         ],
         "in \\1 week": [
-            "an (\\d+[.,]?\\d*) w",
-            "an (\\d+[.,]?\\d*) woch"
+            "an (\\d+) w",
+            "an (\\d+) woch"
         ],
         "in \\1 year": [
-            "an (\\d+[.,]?\\d*) j",
-            "an (\\d+[.,]?\\d*) joer"
+            "an (\\d+) j",
+            "an (\\d+) joer"
         ]
     },
     "locale_specific": {},

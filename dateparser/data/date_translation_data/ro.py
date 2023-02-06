@@ -170,73 +170,73 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "acum (\\d+[.,]?\\d*) de zile",
-            "acum (\\d+[.,]?\\d*) zi",
-            "acum (\\d+[.,]?\\d*) zile"
+            "acum (\\d+) de zile",
+            "acum (\\d+) zi",
+            "acum (\\d+) zile"
         ],
         "\\1 hour ago": [
-            "acum (\\d+[.,]?\\d*) de ore",
-            "acum (\\d+[.,]?\\d*) h",
-            "acum (\\d+[.,]?\\d*) oră"
+            "acum (\\d+) de ore",
+            "acum (\\d+) h",
+            "acum (\\d+) oră"
         ],
         "\\1 minute ago": [
-            "acum (\\d+[.,]?\\d*) de minute",
-            "acum (\\d+[.,]?\\d*) min",
-            "acum (\\d+[.,]?\\d*) minut"
+            "acum (\\d+) de minute",
+            "acum (\\d+) min",
+            "acum (\\d+) minut"
         ],
         "\\1 month ago": [
-            "acum (\\d+[.,]?\\d*) de luni",
-            "acum (\\d+[.,]?\\d*) luni",
-            "acum (\\d+[.,]?\\d*) lună"
+            "acum (\\d+) de luni",
+            "acum (\\d+) luni",
+            "acum (\\d+) lună"
         ],
         "\\1 second ago": [
-            "acum (\\d+[.,]?\\d*) de secunde",
-            "acum (\\d+[.,]?\\d*) sec",
-            "acum (\\d+[.,]?\\d*) secundă"
+            "acum (\\d+) de secunde",
+            "acum (\\d+) sec",
+            "acum (\\d+) secundă"
         ],
         "\\1 week ago": [
-            "acum (\\d+[.,]?\\d*) de săptămâni",
-            "acum (\\d+[.,]?\\d*) săpt",
-            "acum (\\d+[.,]?\\d*) săptămână"
+            "acum (\\d+) de săptămâni",
+            "acum (\\d+) săpt",
+            "acum (\\d+) săptămână"
         ],
         "\\1 year ago": [
-            "acum (\\d+[.,]?\\d*) an",
-            "acum (\\d+[.,]?\\d*) de ani"
+            "acum (\\d+) an",
+            "acum (\\d+) de ani"
         ],
         "in \\1 day": [
-            "peste (\\d+[.,]?\\d*) de zile",
-            "peste (\\d+[.,]?\\d*) zi",
-            "peste (\\d+[.,]?\\d*) zile"
+            "peste (\\d+) de zile",
+            "peste (\\d+) zi",
+            "peste (\\d+) zile"
         ],
         "in \\1 hour": [
-            "peste (\\d+[.,]?\\d*) de ore",
-            "peste (\\d+[.,]?\\d*) h",
-            "peste (\\d+[.,]?\\d*) oră"
+            "peste (\\d+) de ore",
+            "peste (\\d+) h",
+            "peste (\\d+) oră"
         ],
         "in \\1 minute": [
-            "peste (\\d+[.,]?\\d*) de minute",
-            "peste (\\d+[.,]?\\d*) min",
-            "peste (\\d+[.,]?\\d*) minut"
+            "peste (\\d+) de minute",
+            "peste (\\d+) min",
+            "peste (\\d+) minut"
         ],
         "in \\1 month": [
-            "peste (\\d+[.,]?\\d*) de luni",
-            "peste (\\d+[.,]?\\d*) luni",
-            "peste (\\d+[.,]?\\d*) lună"
+            "peste (\\d+) de luni",
+            "peste (\\d+) luni",
+            "peste (\\d+) lună"
         ],
         "in \\1 second": [
-            "peste (\\d+[.,]?\\d*) de secunde",
-            "peste (\\d+[.,]?\\d*) sec",
-            "peste (\\d+[.,]?\\d*) secundă"
+            "peste (\\d+) de secunde",
+            "peste (\\d+) sec",
+            "peste (\\d+) secundă"
         ],
         "in \\1 week": [
-            "peste (\\d+[.,]?\\d*) de săptămâni",
-            "peste (\\d+[.,]?\\d*) săpt",
-            "peste (\\d+[.,]?\\d*) săptămână"
+            "peste (\\d+) de săptămâni",
+            "peste (\\d+) săpt",
+            "peste (\\d+) săptămână"
         ],
         "in \\1 year": [
-            "peste (\\d+[.,]?\\d*) an",
-            "peste (\\d+[.,]?\\d*) ani",
-            "peste (\\d+[.,]?\\d*) de ani"
+            "peste (\\d+) an",
+            "peste (\\d+) ani",
+            "peste (\\d+) de ani"
         ]
     },
     "locale_specific": {

@@ -156,46 +156,46 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) kun oldin"
+            "(\\d+) kun oldin"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) soat oldin"
+            "(\\d+) soat oldin"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) daqiqa oldin"
+            "(\\d+) daqiqa oldin"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) oy oldin"
+            "(\\d+) oy oldin"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) soniya oldin"
+            "(\\d+) soniya oldin"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) hafta oldin"
+            "(\\d+) hafta oldin"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) yil oldin"
+            "(\\d+) yil oldin"
         ],
         "in \\1 day": [
-            "(\\d+[.,]?\\d*) kundan keyin"
+            "(\\d+) kundan keyin"
         ],
         "in \\1 hour": [
-            "(\\d+[.,]?\\d*) soatdan keyin"
+            "(\\d+) soatdan keyin"
         ],
         "in \\1 minute": [
-            "(\\d+[.,]?\\d*) daqiqadan keyin"
+            "(\\d+) daqiqadan keyin"
         ],
         "in \\1 month": [
-            "(\\d+[.,]?\\d*) oydan keyin"
+            "(\\d+) oydan keyin"
         ],
         "in \\1 second": [
-            "(\\d+[.,]?\\d*) soniyadan keyin"
+            "(\\d+) soniyadan keyin"
         ],
         "in \\1 week": [
-            "(\\d+[.,]?\\d*) haftadan keyin"
+            "(\\d+) haftadan keyin"
         ],
         "in \\1 year": [
-            "(\\d+[.,]?\\d*) yildan keyin"
+            "(\\d+) yildan keyin"
         ]
     },
     "locale_specific": {},

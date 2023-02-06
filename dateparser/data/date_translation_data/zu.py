@@ -154,28 +154,28 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) izinsuku ezedlule",
-            "(\\d+[.,]?\\d*) usuku olwedlule"
+            "(\\d+) izinsuku ezedlule",
+            "(\\d+) usuku olwedlule"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) amahora edlule",
-            "(\\d+[.,]?\\d*) ihora eledlule"
+            "(\\d+) amahora edlule",
+            "(\\d+) ihora eledlule"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) amaminithi edlule",
-            "(\\d+[.,]?\\d*) iminithi eledlule"
+            "(\\d+) amaminithi edlule",
+            "(\\d+) iminithi eledlule"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) inyanga edlule",
-            "(\\d+[.,]?\\d*) izinyanga ezedlule"
+            "(\\d+) inyanga edlule",
+            "(\\d+) izinyanga ezedlule"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) amasekhondi edlule",
-            "(\\d+[.,]?\\d*) isekhondi eledlule"
+            "(\\d+) amasekhondi edlule",
+            "(\\d+) isekhondi eledlule"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) iminyaka edlule",
-            "(\\d+[.,]?\\d*) unyaka odlule"
+            "(\\d+) iminyaka edlule",
+            "(\\d+) unyaka odlule"
         ]
     },
     "locale_specific": {},

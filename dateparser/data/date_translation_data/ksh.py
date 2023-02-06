@@ -166,12 +166,12 @@ info = {
     },
     "relative-type-regex": {
         "\\1 year ago": [
-            "vör (\\d+[.,]?\\d*) johr",
-            "vör (\\d+[.,]?\\d*) johre"
+            "vör (\\d+) johr",
+            "vör (\\d+) johre"
         ],
         "in \\1 year": [
-            "en (\\d+[.,]?\\d*) johr",
-            "en (\\d+[.,]?\\d*) johre"
+            "en (\\d+) johr",
+            "en (\\d+) johre"
         ]
     },
     "locale_specific": {},

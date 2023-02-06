@@ -134,46 +134,46 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "hékta (\\d+[.,]?\\d*)-čháŋ k'uŋ héhaŋ"
+            "hékta (\\d+)-čháŋ k'uŋ héhaŋ"
         ],
         "\\1 hour ago": [
-            "hékta owápȟe (\\d+[.,]?\\d*) k'uŋ héhaŋ"
+            "hékta owápȟe (\\d+) k'uŋ héhaŋ"
         ],
         "\\1 minute ago": [
-            "hékta oȟ'áŋkȟo (\\d+[.,]?\\d*) k'uŋ héhaŋ"
+            "hékta oȟ'áŋkȟo (\\d+) k'uŋ héhaŋ"
         ],
         "\\1 month ago": [
-            "hékta wíyawapi (\\d+[.,]?\\d*) k'uŋ héhaŋ"
+            "hékta wíyawapi (\\d+) k'uŋ héhaŋ"
         ],
         "\\1 second ago": [
-            "hékta okpí (\\d+[.,]?\\d*) k'uŋ héhaŋ"
+            "hékta okpí (\\d+) k'uŋ héhaŋ"
         ],
         "\\1 week ago": [
-            "hékta okó (\\d+[.,]?\\d*) k'uŋ héhaŋ"
+            "hékta okó (\\d+) k'uŋ héhaŋ"
         ],
         "\\1 year ago": [
-            "hékta ómakȟa (\\d+[.,]?\\d*) k'uŋ héhaŋ"
+            "hékta ómakȟa (\\d+) k'uŋ héhaŋ"
         ],
         "in \\1 day": [
-            "letáŋhaŋ (\\d+[.,]?\\d*)-čháŋ kiŋháŋ"
+            "letáŋhaŋ (\\d+)-čháŋ kiŋháŋ"
         ],
         "in \\1 hour": [
-            "letáŋhaŋ owápȟe (\\d+[.,]?\\d*) kiŋháŋ"
+            "letáŋhaŋ owápȟe (\\d+) kiŋháŋ"
         ],
         "in \\1 minute": [
-            "letáŋhaŋ oȟ'áŋkȟo (\\d+[.,]?\\d*) kiŋháŋ"
+            "letáŋhaŋ oȟ'áŋkȟo (\\d+) kiŋháŋ"
         ],
         "in \\1 month": [
-            "letáŋhaŋ wíyawapi (\\d+[.,]?\\d*) kiŋháŋ"
+            "letáŋhaŋ wíyawapi (\\d+) kiŋháŋ"
         ],
         "in \\1 second": [
-            "letáŋhaŋ okpí (\\d+[.,]?\\d*) kiŋháŋ"
+            "letáŋhaŋ okpí (\\d+) kiŋháŋ"
         ],
         "in \\1 week": [
-            "letáŋhaŋ okó (\\d+[.,]?\\d*) kiŋháŋ"
+            "letáŋhaŋ okó (\\d+) kiŋháŋ"
         ],
         "in \\1 year": [
-            "letáŋhaŋ ómakȟa (\\d+[.,]?\\d*) kiŋháŋ"
+            "letáŋhaŋ ómakȟa (\\d+) kiŋháŋ"
         ]
     },
     "locale_specific": {},
