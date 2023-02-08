@@ -28,6 +28,7 @@ class Settings:
     * `PARSERS`
     * `DEFAULT_LANGUAGES`
     * `LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`
+    * `CACHE_SIZE_LIMIT`
     """
 
     _default = True
@@ -225,6 +226,9 @@ def check_settings(settings):
         'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': {
             'type': float,
             'extra_check': _check_between_0_and_1
+        },
+        'CACHE_SIZE_LIMIT': {
+            'type': int,
         },
     }
 

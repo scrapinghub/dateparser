@@ -143,6 +143,13 @@ class Dictionary:
 
         return list(filter(bool, chain.from_iterable(tokens)))
 
+    def _add_to_cache(self, value, cache):
+        cache.setdefault(
+            self._settings.registry_key, {}
+        )[self.info['name']] = value
+        if self._settings.CACHE_SIZE_LIMIT and len(cache) > self._settings.CACHE_SIZE_LIMIT:
+            cache.pop(list(cache.keys())[0])
+
     def _split_by_known_words(self, string, keep_formatting):
         if not string:
             return string
@@ -174,9 +181,10 @@ class Dictionary:
             self._settings.registry_key not in self._sorted_words_cache
             or self.info['name'] not in self._sorted_words_cache[self._settings.registry_key]
         ):
-            self._sorted_words_cache.setdefault(
-                self._settings.registry_key, {})[self.info['name']] = \
-                sorted([key for key in self], key=len, reverse=True)
+            self._add_to_cache(
+                cache=self._sorted_words_cache,
+                value=sorted([key for key in self], key=len, reverse=True),
+            )
         return self._sorted_words_cache[self._settings.registry_key][self.info['name']]
 
     def _get_split_regex_cache(self):
@@ -193,19 +201,21 @@ class Dictionary:
             regex = r"^(.*?)({})(.*)$".format(known_words_group)
         else:
             regex = r"^(.*?(?:\A|\W|_|\d))({})((?:\Z|\W|_|\d).*)$".format(known_words_group)
-        self._split_regex_cache.setdefault(
-            self._settings.registry_key, {})[self.info['name']] = \
-            re.compile(regex, re.UNICODE | re.IGNORECASE)
+        self._add_to_cache(
+            cache=self._split_regex_cache,
+            value=re.compile(regex, re.UNICODE | re.IGNORECASE),
+        )
 
     def _get_sorted_relative_strings_from_cache(self):
         if (
             self._settings.registry_key not in self._sorted_relative_strings_cache
             or self.info['name'] not in self._sorted_relative_strings_cache[self._settings.registry_key]
         ):
-            self._sorted_relative_strings_cache.setdefault(
-                self._settings.registry_key, {})[self.info['name']] = \
-                sorted([PARENTHESES_PATTERN.sub('', key) for key in
-                        self._relative_strings], key=len, reverse=True)
+            self._add_to_cache(
+                cache=self._sorted_relative_strings_cache,
+                value=sorted([PARENTHESES_PATTERN.sub('', key) for key in
+                              self._relative_strings], key=len, reverse=True),
+            )
         return self._sorted_relative_strings_cache[self._settings.registry_key][self.info['name']]
 
     def _get_split_relative_regex_cache(self):
@@ -222,9 +232,10 @@ class Dictionary:
             regex = "({})".format(known_relative_strings_group)
         else:
             regex = "(?<=(?:\\A|\\W|_))({})(?=(?:\\Z|\\W|_))".format(known_relative_strings_group)
-        self._split_relative_regex_cache.setdefault(
-            self._settings.registry_key, {})[self.info['name']] = \
-            re.compile(regex, re.UNICODE | re.IGNORECASE)
+        self._add_to_cache(
+            cache=self._split_relative_regex_cache,
+            value=re.compile(regex, re.UNICODE | re.IGNORECASE),
+        )
 
     def _get_match_relative_regex_cache(self):
         if (
@@ -237,9 +248,10 @@ class Dictionary:
     def _construct_match_relative_regex(self):
         known_relative_strings_group = "|".join(self._get_sorted_relative_strings_from_cache())
         regex = "^({})$".format(known_relative_strings_group)
-        self._match_relative_regex_cache.setdefault(
-            self._settings.registry_key, {})[self.info['name']] = \
-            re.compile(regex, re.UNICODE | re.IGNORECASE)
+        self._add_to_cache(
+            cache=self._match_relative_regex_cache,
+            value=re.compile(regex, re.UNICODE | re.IGNORECASE),
+        )
 
 
 class NormalizedDictionary(Dictionary):
