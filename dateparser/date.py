@@ -438,6 +438,9 @@ class DateDataParser:
             period='day', locale='en')
 
         """
+        if any(datetime.strptime(date_string, format) for format in date_formats):
+            raise TypeError('Input is of unknown format')
+        
         if not isinstance(date_string, str):
             raise TypeError('Input type must be str')
 
