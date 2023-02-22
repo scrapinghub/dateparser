@@ -135,9 +135,6 @@ info = {
         "0 day ago": [
             "today"
         ],
-        "morning": [
-            "06:00"
-        ],
         "0 hour ago": [
             "this hour",
             "this hr",
@@ -952,16 +949,16 @@ info = {
         {"fifty nine":"59"},
         {"sixty":"60"},
         {
-            "tonight":"today 10:00 pm"
+            "tonight":"10:00 pm"
         },
         {
-            "morning":"today 06:00 am"
+            "morning":"06:00 am"
         },
         {
-            "afternoon":"today 12:00 am"
+            "afternoon":"12:00 am"
         },
         {
-            "evening":"today 06:00 pm"
+            "evening":"06:00 pm"
         },
         {
             "day before yesterday":"2 days ago"
