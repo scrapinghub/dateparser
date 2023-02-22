@@ -90,7 +90,7 @@ class _ExactLanguageSearch:
     def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
         relative_base = None
         item = item.replace('ngày', '')
-        item = item.replace('am', '')
+        #item = item.replace('am', '')
         parsed_item = parser.get_date_data(item)
         is_relative = date_is_relative(translated_item)
 
