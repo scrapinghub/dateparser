@@ -79,15 +79,18 @@ info = {
         "sunday"
     ],
     "am": [
-        "am"
+        "am",
+        "a.m.",
+        "a.m",
     ],
     "pm": [
-        "pm"
+        "pm",
+        "p.m.",
+        "p.m"
     ],
     "year": [
         "year",
         "yr",
-        "y",
         "years"
     ],
     "month": [
@@ -102,7 +105,6 @@ info = {
     ],
     "day": [
         "day",
-        "d",
         "days"
     ],
     "hour": [
@@ -124,63 +126,87 @@ info = {
         "second",
         "s",
         "seconds",
-        "secs"
+        "secs",
+        "microseconds",
+        "ns",
+        "ms"
     ],
     "relative-type": {
         "0 day ago": [
-            "today",
-            "till date"
+            "today"
         ],
         "0 hour ago": [
-            "this hour"
+            "this hour",
+            "this hr",
+            "this h",
+            "this hours",
+            "this hrs",
+
         ],
         "0 minute ago": [
-            "this minute"
+            "this min",
+            "this minute",
+            "this m",
+            "this minutes",
+            "this mins",
         ],
         "0 month ago": [
             "this mo",
-            "this month"
+            "this month",
+            "this months",
         ],
         "0 second ago": [
+            "present",
+            "current",
             "now"
         ],
         "0 week ago": [
             "this week",
-            "this wk"
+            "this wk",
+            "this weeks",
         ],
         "0 year ago": [
             "this year",
-            "this yr"
+            "this yr",
+            "this years",
         ],
         "1 day ago": [
-            "yesterday"
+            "yesterday",
+            "day before today"
         ],
         "1 month ago": [
             "last mo",
-            "last month"
+            "last month",
+            "last months",
         ],
         "1 week ago": [
             "last week",
-            "last wk"
+            "last wk",
+            "last weeks",
+
         ],
         "1 year ago": [
             "last year",
-            "last yr"
+            "last yr",
+            "last years",
         ],
         "in 1 day": [
             "tomorrow"
         ],
         "in 1 month": [
             "next mo",
-            "next month"
+            "next month",
+            "next months",
         ],
         "in 1 week": [
             "next week",
-            "next wk"
+            "next wk",
+            "next weeks",
         ],
         "in 1 year": [
             "next year",
-            "next yr"
+            "next yr",
+            "next years",
         ],
         "2 day ago": [
             "day before yesterday"
@@ -191,85 +217,103 @@ info = {
         ],
         "in 1 decade": [
             "next decade"
-        ],
-        "in 2 day": [
-            "day after tomorrow"
         ]
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) day ago",
-            "(\\d+[.,]?\\d*) days ago"
+            "(\\d+) day ago",
+            "(\\d+) days ago"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) hour ago",
-            "(\\d+[.,]?\\d*) hours ago",
-            "(\\d+[.,]?\\d*) hr ago"
+           "(\\d+) hour ago ",
+            "(\\d+) hr ago ",
+            "(\\d+) h ago ",
+            "(\\d+) hours ago ",
+            "(\\d+) hrs ago ",
+
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) min ago",
-            "(\\d+[.,]?\\d*) minute ago",
-            "(\\d+[.,]?\\d*) minutes ago"
+            "(\\d+) min ago ",
+            "(\\d+) minute ago ",
+            "(\\d+) m ago ",
+            "(\\d+) minutes ago ",
+            "(\\d+) mins ago ",
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) mo ago",
-            "(\\d+[.,]?\\d*) month ago",
-            "(\\d+[.,]?\\d*) months ago"
+            "(\\d+) mo ago",
+            "(\\d+) month ago",
+            "(\\d+) months ago"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) sec ago",
-            "(\\d+[.,]?\\d*) second ago",
-            "(\\d+[.,]?\\d*) seconds ago"
+            "(\\d+) sec ago ",
+            "(\\d+) second ago ",
+            "(\\d+) s ago ",
+            "(\\d+) seconds ago ",
+            "(\\d+) secs ago ",
+            "(\\d+) microseconds ago ",
+            "(\\d+) ns ago ",
+            "(\\d+) ms ago ",
+
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) week ago",
-            "(\\d+[.,]?\\d*) weeks ago",
-            "(\\d+[.,]?\\d*) wk ago"
+            "(\\d+) week ago",
+            "(\\d+) weeks ago",
+            "(\\d+) wk ago"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) year ago",
-            "(\\d+[.,]?\\d*) years ago",
-            "(\\d+[.,]?\\d*) yr ago"
+            "(\\d+) year ago",
+            "(\\d+) years ago",
+            "(\\d+) yr ago"
         ],
         "in \\1 day": [
-            "in (\\d+[.,]?\\d*) day",
-            "in (\\d+[.,]?\\d*) days"
+            "in (\\d+) day",
+            "in (\\d+) days"
         ],
         "in \\1 hour": [
-            "in (\\d+[.,]?\\d*) hour",
-            "in (\\d+[.,]?\\d*) hours",
-            "in (\\d+[.,]?\\d*) hr"
+            "in  (\\d+) hour ",
+            "in  (\\d+) hr ",
+            "in  (\\d+) h ",
+            "in  (\\d+) hours ",
+            "in  (\\d+) hrs ",
         ],
         "in \\1 minute": [
-            "in (\\d+[.,]?\\d*) min",
-            "in (\\d+[.,]?\\d*) minute",
-            "in (\\d+[.,]?\\d*) minutes"
+           "in  (\\d+) min ",
+            "in  (\\d+) minute ",
+            "in  (\\d+) m ",
+            "in  (\\d+) minutes ",
+            "in  (\\d+) mins ",
         ],
         "in \\1 month": [
-            "in (\\d+[.,]?\\d*) mo",
-            "in (\\d+[.,]?\\d*) month",
-            "in (\\d+[.,]?\\d*) months"
+            "in (\\d+) mo",
+            "in (\\d+) month",
+            "in (\\d+) months"
         ],
         "in \\1 second": [
-            "in (\\d+[.,]?\\d*) sec",
-            "in (\\d+[.,]?\\d*) second",
-            "in (\\d+[.,]?\\d*) seconds"
+            "in  (\\d+) sec ",
+            "in  (\\d+) second ",
+            "in  (\\d+) s ",
+            "in  (\\d+) seconds ",
+            "in  (\\d+) secs ",
+            "in  (\\d+) microseconds ",
+            "in  (\\d+) ns ",
+            "in  (\\d+) ms ",
+
         ],
         "in \\1 week": [
-            "in (\\d+[.,]?\\d*) week",
-            "in (\\d+[.,]?\\d*) weeks",
-            "in (\\d+[.,]?\\d*) wk"
+            "in (\\d+) week",
+            "in (\\d+) weeks",
+            "in (\\d+) wk"
         ],
         "in \\1 year": [
-            "in (\\d+[.,]?\\d*) year",
-            "in (\\d+[.,]?\\d*) years",
-            "in (\\d+[.,]?\\d*) yr"
+            "in (\\d+) year",
+            "in (\\d+) years",
+            "in (\\d+) yr"
         ],
         "in \\1 decade": [
-            "in (\\d+[.,]?\\d*) decades?"
+            "in (\\d+) decades?"
         ],
         "\\1 decade ago": [
-            "(\\d+[.,]?\\d*) decades? ago"
+            "(\\d+) decades? ago"
         ]
     },
     "locale_specific": {
@@ -335,40 +379,40 @@ info = {
             "date_order": "YMD",
             "relative-type-regex": {
                 "\\1 hour ago": [
-                    "(\\d+[.,]?\\d*) hrs ago"
+                    "(\\d+) hrs ago"
                 ],
                 "\\1 minute ago": [
-                    "(\\d+[.,]?\\d*) mins ago"
+                    "(\\d+) mins ago"
                 ],
                 "\\1 month ago": [
-                    "(\\d+[.,]?\\d*) mos ago"
+                    "(\\d+) mos ago"
                 ],
                 "\\1 second ago": [
-                    "(\\d+[.,]?\\d*) secs ago"
+                    "(\\d+) secs ago"
                 ],
                 "\\1 week ago": [
-                    "(\\d+[.,]?\\d*) wks ago"
+                    "(\\d+) wks ago"
                 ],
                 "\\1 year ago": [
-                    "(\\d+[.,]?\\d*) yrs ago"
+                    "(\\d+) yrs ago"
                 ],
                 "in \\1 hour": [
-                    "in (\\d+[.,]?\\d*) hrs"
+                    "in (\\d+) hrs"
                 ],
                 "in \\1 minute": [
-                    "in (\\d+[.,]?\\d*) mins"
+                    "in (\\d+) mins"
                 ],
                 "in \\1 month": [
-                    "in (\\d+[.,]?\\d*) mos"
+                    "in (\\d+) mos"
                 ],
                 "in \\1 second": [
-                    "in (\\d+[.,]?\\d*) secs"
+                    "in (\\d+) secs"
                 ],
                 "in \\1 week": [
-                    "in (\\d+[.,]?\\d*) wks"
+                    "in (\\d+) wks"
                 ],
                 "in \\1 year": [
-                    "in (\\d+[.,]?\\d*) yrs"
+                    "in (\\d+) yrs"
                 ]
             }
         },
@@ -647,10 +691,10 @@ info = {
             },
             "relative-type-regex": {
                 "\\1 month ago": [
-                    "(\\d+[.,]?\\d*) mth ago"
+                    "(\\d+) mth ago"
                 ],
                 "in \\1 month": [
-                    "in (\\d+[.,]?\\d*) mth"
+                    "in (\\d+) mth"
                 ]
             }
         },
@@ -779,12 +823,15 @@ info = {
     ],
     "ago": [
         "ago",
-        "before"
+        "before",
+        "previous",
+        "last"
     ],
     "in": [
         "in",
-        "from now",
-        "after"
+        "after", 
+        "next",
+        "coming","upcoming"
     ],
     "simplifications": [
         {
@@ -794,19 +841,28 @@ info = {
             "a": "1"
         },
         {
+            "afternoon": "today 12:00"
+        },
+        {
             "(?:12\\s+)?noon": "12:00"
         },
         {
             "(?:12\\s+)?midnight": "00:00"
         },
         {
-            "(\\d+[.,]?\\d*)h(\\d+[.,]?\\d*)m?": "\\1:\\2"
+            "(\\d+)h(\\d+)m?": "\\1:\\2"
         },
         {
             "(?<=from\\s+)now": "in"
         },
         {
             "less than 1 minute ago": "45 second ago"
+        },
+        {
+            "zero":"0"
+        },
+        {
+            "half hour":"30 min"
         },
         {
             "one": "1"
@@ -843,6 +899,72 @@ info = {
         },
         {
             "twelve": "12"
-        }
+        },
+        {"thirteen":"13"},
+        {"fourteen":"14"},
+        {"fifteen":"15"},
+        {"sixteen":"16"},
+        {"seventeen":"17"},
+        {"eighteen":"18"},
+        {"nineteen":"19"},
+        {"twenty":"20"},
+        {"twenty one":"21"},
+        {"twenty two":"22"},
+        {"twenty three":"23"},
+        {"twenty four":"24"},
+        {"twenty five":"25"},
+        {"twenty six":"26"},
+        {"twenty seven":"27"},
+        {"twenty eight":"28"},
+        {"twenty nine":"29"},
+        {"thirty":"30"},
+        {"thirty one":"31"},
+        {"thirty two":"32"},
+        {"thirty three":"33"},
+        {"thirty four":"34"},
+        {"thirty five":"35"},
+        {"thirty six":"36"},
+        {"thirty seven":"37"},
+        {"thirty eight":"38"},
+        {"thirty nine":"39"},
+        {"forty":"40"},
+        {"forty one ":"41"},
+        {"forty two":"42"},
+        {"forty three":"43"},
+        {" forty four":"44"},
+        {"forty five":"45"},
+        {"forty six":"46"},
+        {"forty seven":"47"},
+        {"forty eight":"48"},
+        {"forty nine":"49"},
+        {"fifty":"50"},
+        {"fifty one":"51"},
+        {"fifty two":"52"},
+        {"fifty three":"53"},
+        {"fifty four":"54"},
+        {"fifty five":"55"},
+        {"fifty six":"56"},
+        {"fifty seven":"57"},
+        {"fifty eight":"58"},
+        {"fifty nine":"59"},
+        {"sixty":"60"},
+        {
+            "tonight":"10:00 pm"
+        },
+        {
+            "morning":"06:00 am"
+        },
+        {
+            "afternoon":"12:00 am"
+        },
+        {
+            "evening":"06:00 pm"
+        },
+        {
+            "day before yesterday":"2 days ago"
+        },
+        {
+            "day after tomorrow":"in 2 days"
+        },
     ]
 }
