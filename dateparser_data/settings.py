@@ -16,6 +16,7 @@ settings = {
     'RETURN_AS_TIMEZONE_AWARE': 'default',
 
     # Incomplete dates
+    'PREFER_MONTH_OF_YEAR': 'current',
     'PREFER_DAY_OF_MONTH': 'current',
     'PREFER_DATES_FROM': 'current_period',
     'RELATIVE_BASE': False,

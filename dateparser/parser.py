@@ -9,7 +9,7 @@ from pytz import utc
 
 from dateparser.utils import set_correct_day_from_settings, \
     get_last_day_of_month, get_previous_leap_year, get_next_leap_year, \
-    _get_missing_parts
+    _get_missing_parts, set_correct_month_from_settings
 from dateparser.utils.strptime import strptime
 
 
@@ -521,6 +521,10 @@ class _parser:
         )
         return dateobj
 
+    def _correct_for_month(self, dateobj):
+        dateobj = set_correct_month_from_settings(dateobj, self.settings)
+        return dateobj
+
     @classmethod
     def parse(cls, datestring, settings, tz=None):
         tokens = tokenizer(datestring)
@@ -532,6 +536,9 @@ class _parser:
 
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
+
+        # correction for preference of month: beginning, current, end
+        dateobj = po._correct_for_month(dateobj)
         period = po._get_period()
 
         return dateobj, period

@@ -15,7 +15,7 @@ from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import apply_timezone_from_settings, \
     set_correct_day_from_settings, \
-    get_timezone_from_tz_string
+    get_timezone_from_tz_string, set_correct_month_from_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -158,7 +158,11 @@ def parse_with_formats(date_string, date_formats, settings):
         except ValueError:
             continue
         else:
-            if '%d' not in date_format:
+            if not any(m in date_format for m in ["%m", "%b", "%B"]):
+                period = "year"
+                date_obj = set_correct_month_from_settings(date_obj, settings)
+
+            elif '%d' not in date_format:
                 period = 'month'
                 date_obj = set_correct_day_from_settings(date_obj, settings)
 
