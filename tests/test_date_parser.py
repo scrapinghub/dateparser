@@ -736,12 +736,12 @@ class TestDateParser(BaseTestCase):
         param('₁₅/₀₂/₂₀₂₀', expected=datetime(2020, 2, 15), period='day'),
         param('₃₁ December', expected=datetime(2015, 12, 31), period='day'),
         # Russian
-        param('2000 год', expected=datetime(2000, 3, 3), period='year'),
-        param('2000год', expected=datetime(2000, 3, 3), period='year'),
-        param('год2000', expected=datetime(2000, 3, 3), period='year'),
-        param('год 2000', expected=datetime(2000, 3, 3), period='year'),
-        param('2000г.', expected=datetime(2000, 3, 3), period='year'),
-        param('2000 г.', expected=datetime(2000, 3, 3), period='year'),
+        param('2000 год', expected=datetime(2000, 2, 15), period='year'),
+        param('2000год', expected=datetime(2000, 2, 15), period='year'),
+        param('год2000', expected=datetime(2000, 2, 15), period='year'),
+        param('год 2000', expected=datetime(2000, 2, 15), period='year'),
+        param('2000г.', expected=datetime(2000, 2, 15), period='year'),
+        param('2000 г.', expected=datetime(2000, 2, 15), period='year'),
     ])
     def test_extracted_period(self, date_string, expected=None, period=None):
         self.given_local_tz_offset(0)
