@@ -8,6 +8,7 @@ info = {
     ],
     "february": [
         "úno",
+        "únr",
         "únor",
         "února"
     ],

@@ -340,6 +340,8 @@ class TestDateParser(BaseTestCase):
         param('pon 16. čer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
         param('13 Srpen, 2014', datetime(2014, 8, 13)),
         param('čtv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
+        param('14Unr\'21', datetime(2021, 2, 14)),
+        param('02Bre\'21', datetime(2021, 3, 2)),
         # Thai dates
         param('ธันวาคม 11, 2014, 08:55:08 PM', datetime(2014, 12, 11, 20, 55, 8)),
         param('22 พฤษภาคม 2012, 22:12', datetime(2012, 5, 22, 22, 12)),
