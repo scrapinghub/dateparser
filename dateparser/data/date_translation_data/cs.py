@@ -37,7 +37,8 @@ info = {
         "července",
         "červenec",
         "čvc",
-        "Črc"
+        "črv",
+        "Črc",
     ],
     "august": [
         "srp",
