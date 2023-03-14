@@ -142,7 +142,7 @@ class TestLocaleDataLoader(BaseTestCase):
         param(given_locales=['en-FJ', 'pt-CV', 'fr-RW'],
               expected_locales=['en-FJ', 'fr-RW', 'pt-CV']),
         param(given_locales=['pt-AO', 'hi', 'zh-Hans-SG', 'vi'],
-              expected_locales=['zh-Hans-SG', 'vi', 'pt-AO', 'hi']),
+              expected_locales=['pt-AO', 'zh-Hans-SG', 'vi', 'hi']),
         param(given_locales=['gsw-FR', 'es-BZ', 'ca-IT', 'qu-EC'],
               expected_locales=['es-BZ', 'ca-IT', 'qu-EC', 'gsw-FR']),
     ])

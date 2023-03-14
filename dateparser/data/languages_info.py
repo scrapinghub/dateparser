@@ -2,43 +2,43 @@ language_order = [
     "en",
     "ru",
     "es",
-    "de",
     "fr",
+    "de",
     "ja",
     "tr",
+    "pt",
     "fa",
+    "it",
     "zh",
     "zh-Hans",
-    "it",
-    "vi",
-    "pt",
     "nl",
+    "vi",
     "pl",
     "ar",
     "ko",
+    "cs",
     "id",
     "uk",
-    "cs",
-    "th",
-    "he",
-    "sv",
     "el",
+    "he",
+    "th",
+    "sv",
     "ro",
-    "da",
     "hu",
+    "da",
     "fi",
-    "sr",
-    "sr-Cyrl",
     "sk",
     "bg",
+    "sr",
+    "sr-Cyrl",
     "nb",
     "hr",
     "lt",
     "sl",
-    "hi",
     "ca",
     "et",
     "lv",
+    "hi",
     "bn",
     "ur",
     "sw",
@@ -936,14 +936,6 @@ language_locale_dict = {
         "es-UY",
         "es-VE"
     ],
-    "de": [
-        "de-AT",
-        "de-BE",
-        "de-CH",
-        "de-IT",
-        "de-LI",
-        "de-LU"
-    ],
     "fr": [
         "fr-BE",
         "fr-BF",
@@ -991,25 +983,18 @@ language_locale_dict = {
         "fr-WF",
         "fr-YT"
     ],
+    "de": [
+        "de-AT",
+        "de-BE",
+        "de-CH",
+        "de-IT",
+        "de-LI",
+        "de-LU"
+    ],
     "ja": [],
     "tr": [
         "tr-CY"
     ],
-    "fa": [
-        "fa-AF"
-    ],
-    "zh": [],
-    "zh-Hans": [
-        "zh-Hans-HK",
-        "zh-Hans-MO",
-        "zh-Hans-SG"
-    ],
-    "it": [
-        "it-CH",
-        "it-SM",
-        "it-VA"
-    ],
-    "vi": [],
     "pt": [
         "pt-AO",
         "pt-CH",
@@ -1023,6 +1008,20 @@ language_locale_dict = {
         "pt-ST",
         "pt-TL"
     ],
+    "fa": [
+        "fa-AF"
+    ],
+    "it": [
+        "it-CH",
+        "it-SM",
+        "it-VA"
+    ],
+    "zh": [],
+    "zh-Hans": [
+        "zh-Hans-HK",
+        "zh-Hans-MO",
+        "zh-Hans-SG"
+    ],
     "nl": [
         "nl-AW",
         "nl-BE",
@@ -1031,6 +1030,7 @@ language_locale_dict = {
         "nl-SR",
         "nl-SX"
     ],
+    "vi": [],
     "pl": [],
     "ar": [
         "ar-AE",
@@ -1064,34 +1064,34 @@ language_locale_dict = {
     "ko": [
         "ko-KP"
     ],
+    "cs": [],
     "id": [],
     "uk": [],
-    "cs": [],
-    "th": [],
+    "el": [
+        "el-CY"
+    ],
     "he": [],
+    "th": [],
     "sv": [
         "sv-AX",
         "sv-FI"
     ],
-    "el": [
-        "el-CY"
-    ],
     "ro": [
         "ro-MD"
     ],
+    "hu": [],
     "da": [
         "da-GL"
     ],
-    "hu": [],
     "fi": [],
+    "sk": [],
+    "bg": [],
     "sr": [],
     "sr-Cyrl": [
         "sr-Cyrl-BA",
         "sr-Cyrl-ME",
         "sr-Cyrl-XK"
     ],
-    "sk": [],
-    "bg": [],
     "nb": [
         "nb-SJ"
     ],
@@ -1100,7 +1100,6 @@ language_locale_dict = {
     ],
     "lt": [],
     "sl": [],
-    "hi": [],
     "ca": [
         "ca-AD",
         "ca-FR",
@@ -1108,6 +1107,7 @@ language_locale_dict = {
     ],
     "et": [],
     "lv": [],
+    "hi": [],
     "bn": [
         "bn-IN"
     ],
