@@ -20,10 +20,13 @@ sunday:
     - Ned
     - Neděli
 
+february:
+    - únr
 june:
     - Čer
 july:
     - Črc
+    - črv
 
 year:
     - roků
