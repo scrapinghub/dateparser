@@ -9,7 +9,8 @@ info = {
     "february": [
         "úno",
         "únor",
-        "února"
+        "února",
+        "únr"
     ],
     "march": [
         "bře",
@@ -36,7 +37,8 @@ info = {
         "července",
         "červenec",
         "čvc",
-        "Črc"
+        "Črc",
+        "črv"
     ],
     "august": [
         "srp",
