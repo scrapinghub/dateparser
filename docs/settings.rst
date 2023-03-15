@@ -210,3 +210,6 @@ Dateparser in the future. For example, to ignore relative times:
     >>> from dateparser_data.settings import default_parsers
     >>> parsers = [parser for parser in default_parsers if parser != 'relative-time']
     >>> parse('today', settings={'PARSERS': parsers})
+
+``CACHE_SIZE_LIMIT``: limits the size of caches, that store data for already processed dates.
+Default to ``1000``, but you can set ``0`` for turning off the limit.
