@@ -809,6 +809,9 @@ info = {
             "less than 1 minute ago": "45 second ago"
         },
         {
+            "(\\d+[.,]?\\d*) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
+        },
+        {
             "one": "1"
         },
         {

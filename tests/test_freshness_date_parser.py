@@ -1133,11 +1133,21 @@ class TestFreshnessDateDataParser(BaseTestCase):
               in_future={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
         param('just now', in_future={'seconds': 0}, period='day'),
+        param('1 decade later', in_future={'years': 10}, period='year'),
+        param('2 years later', in_future={'years': 2}, period='year'),
+        param('3 months later', in_future={'months': 3}, period='month'),
+        param('1 week later', in_future={'weeks': 1}, period='week'),
+        param('2 days later', in_future={'days': 2}, period='day'),
+        param('3 hours later', in_future={'hours': 3}, period='day'),
+        param('4 minutes later', in_future={'minutes': 4}, period='day'),
+        param('5 seconds later', in_future={'seconds': 5}, period='day'),
         # Fractional units
         param('in 2.5 hours', in_future={'hours': 2.5}, period='day'),
         param('in 10.75 minutes', in_future={'minutes': 10.75}, period='day'),
         param('in 1.5 days', in_future={'days': 1.5}, period='day'),
         param('in 0,5 hours', in_future={'hours': 0.5}, period='day'),
+        param('1.5 days later', in_future={'days': 1.5}, period='day'),
+        param('0,5 hours later', in_future={'hours': 0.5}, period='day'),
 
         # French dates
         param("Aujourd'hui", in_future={'days': 0}, period='day'),
