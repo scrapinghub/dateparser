@@ -869,27 +869,20 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
-        param('4pm EDT', datetime(2021, 10, 19, 20, 0)),
+        param('4pm EST', datetime(2021, 10, 19, 21, 0), {'PREFER_DATES_FROM': 'future'}),
+        param('11pm AEDT', datetime(2021, 10, 19, 12, 0), {'PREFER_DATES_FROM': 'past'}),
+        param('4pm', datetime(2021, 10, 19, 21, 0), {'PREFER_DATES_FROM': 'future', 'TIMEZONE': 'EST'}),
+        param('11pm', datetime(2021, 10, 19, 12, 0), {'PREFER_DATES_FROM': 'past', 'TIMEZONE': 'Australia/Sydney'}),
     ])
-    def test_date_skip_ahead(self, date_string, expected):
-        self.given_parser(settings={'PREFER_DATES_FROM': 'future',
-                                    'TO_TIMEZONE': 'etc/utc',
-                                    'RETURN_AS_TIMEZONE_AWARE': False,
-                                    'RELATIVE_BASE': datetime(2021, 10, 19, 18, 0),
-                                    })
-        self.when_date_is_parsed(date_string)
-        self.then_date_was_parsed_by_date_parser()
-        self.then_date_obj_exactly_is(expected)
-
-    @parameterized.expand([
-        param('11pm AEDT', datetime(2021, 10, 19, 12, 0)),
-    ])
-    def test_date_step_back(self, date_string, expected):
-        self.given_parser(settings={'PREFER_DATES_FROM': 'past',
-                                    'TO_TIMEZONE': 'etc/utc',
-                                    'RETURN_AS_TIMEZONE_AWARE': False,
-                                    'RELATIVE_BASE': datetime(2021, 10, 19, 18, 0),
-                                    })
+    def test_prefer_dates_from_with_timezone(self, date_string, expected, test_settings):
+        self.given_parser(
+            settings={
+                'TO_TIMEZONE': 'etc/utc',
+                'RETURN_AS_TIMEZONE_AWARE': False,
+                'RELATIVE_BASE': datetime(2021, 10, 19, 18, 0),
+                **test_settings
+            }
+        )
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
