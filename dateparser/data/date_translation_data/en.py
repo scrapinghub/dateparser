@@ -846,6 +846,15 @@ info = {
         },
         {
             "twelve": "12"
+        },
+        {
+            "(\\d+)(\\s*)o'clock": "\\1:00"
+        },
+        {
+            "(?:in)?\\s*(?:the)?\\s*morning": "am"
+        },
+        {
+            "(?:in)?\\s*(?:the)?\\s*afternoon": "pm"
         }
     ]
 }
