@@ -3,6 +3,19 @@
 History
 =======
 
+1.1.8 (2023-03-22)
+------------------
+
+Improvements:
+- Improved date parsing for Chinese (#1148)
+- Improved date parsing for Czech (#1151)
+- Reorder language by popularity (#1152)
+- Fix leak of memory in cache (#1140)
+- Add support for "\d units later" (#1154)
+- Move modification in CLDR data to yaml (#1153)
+- Use timezone via settings to get PREFER_DATES_FROM result (#1155)
+
+
 1.1.7 (2023-02-02)
 ------------------
 

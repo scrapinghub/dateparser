@@ -1,4 +1,4 @@
-__version__ = '1.1.7'
+__version__ = '1.1.8'
 
 from .date import DateDataParser
 from .conf import apply_settings
