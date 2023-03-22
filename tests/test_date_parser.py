@@ -869,10 +869,10 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
-        param('4pm EST', datetime(2021, 10, 19, 21, 0), {'PREFER_DATES_FROM': 'future'}),
+        param('4pm EDT', datetime(2021, 10, 19, 20, 0), {'PREFER_DATES_FROM': 'future'}),
         param('11pm AEDT', datetime(2021, 10, 19, 12, 0), {'PREFER_DATES_FROM': 'past'}),
-        param('4pm', datetime(2021, 10, 19, 21, 0), {'PREFER_DATES_FROM': 'future', 'TIMEZONE': 'EST'}),
-        param('11pm', datetime(2021, 10, 19, 12, 0), {'PREFER_DATES_FROM': 'past', 'TIMEZONE': 'Australia/Sydney'}),
+        param('4pm', datetime(2021, 10, 19, 20, 0), {'PREFER_DATES_FROM': 'future', 'TIMEZONE': 'EDT'}),
+        param('11pm', datetime(2021, 10, 19, 12, 0), {'PREFER_DATES_FROM': 'past', 'TIMEZONE': 'AEDT'}),
     ])
     def test_prefer_dates_from_with_timezone(self, date_string, expected, test_settings):
         self.given_parser(

@@ -9,7 +9,7 @@ from datetime import timedelta
 
 from dateparser.utils import set_correct_day_from_settings, \
     get_last_day_of_month, get_previous_leap_year, get_next_leap_year, \
-    _get_missing_parts
+    _get_missing_parts, get_timezone_from_tz_string
 from dateparser.utils.strptime import strptime
 
 
@@ -492,7 +492,7 @@ class _parser:
                                          hasattr(self, '_token_weekday')]):
             # Convert dateobj to utc time to compare with self.now
             try:
-                tz = tz or pytz.timezone(self.settings.TIMEZONE)
+                tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
             except pytz.UnknownTimeZoneError:
                 tz = None
 
