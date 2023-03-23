@@ -209,6 +209,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
         param('1 год, 1 месяц, 1 неделя, 1 день, 1 час и 1 минуту назад',
               ago={'years': 1, 'months': 1, 'weeks': 1, 'days': 1, 'hours': 1, 'minutes': 1},
               period='day'),
+        param('2000 лет', ago={'years': 2000}, period='year'),
+        param('2001 год 2 месяца', ago={'years': 2001, 'months': 2}, period='month'),
+        param('2001 год назад', ago={'years': 2001}, period='year'),
 
         # Czech dates
         param('Dnes', ago={'days': 0}, period='day'),
