@@ -182,7 +182,7 @@ def set_correct_day_from_settings(date_obj, settings, current_day=None):
 
 
 def set_correct_month_from_settings(date_obj, settings, current_month=None):
-    """ Set correct day attending the `PREFER_MONTH_OF_YEAR` setting."""
+    """ Set correct month attending the `PREFER_MONTH_OF_YEAR` setting."""
     options = {
         'first': 1,
         'last': 12,
