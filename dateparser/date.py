@@ -14,9 +14,11 @@ from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
-from dateparser.utils import (apply_timezone_from_settings,
-                              get_timezone_from_tz_string,
-                              set_correct_day_from_settings)
+from dateparser.utils import (
+    apply_timezone_from_settings,
+    get_timezone_from_tz_string,
+    set_correct_day_from_settings,
+)
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     "\N{RIGHT SINGLE QUOTATION MARK}",  # '\u2019'

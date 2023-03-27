@@ -6,8 +6,11 @@ from pytz import timezone
 
 import dateparser.timezone_parser
 from dateparser import parse
-from dateparser.timezone_parser import (StaticTzInfo, get_local_tz_offset,
-                                        pop_tz_offset_from_string)
+from dateparser.timezone_parser import (
+    StaticTzInfo,
+    get_local_tz_offset,
+    pop_tz_offset_from_string,
+)
 from tests import BaseTestCase
 
 

@@ -6,10 +6,16 @@ from parameterized import param, parameterized
 from pytz import UnknownTimeZoneError, utc
 
 from dateparser.conf import settings
-from dateparser.utils import (apply_timezone, apply_timezone_from_settings,
-                              find_date_separator, get_last_day_of_month,
-                              get_next_leap_year, get_previous_leap_year,
-                              localize_timezone, registry)
+from dateparser.utils import (
+    apply_timezone,
+    apply_timezone_from_settings,
+    find_date_separator,
+    get_last_day_of_month,
+    get_next_leap_year,
+    get_previous_leap_year,
+    localize_timezone,
+    registry,
+)
 from tests import BaseTestCase
 
 

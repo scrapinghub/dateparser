@@ -6,10 +6,14 @@ from io import StringIO
 import pytz
 import regex as re
 
-from dateparser.utils import (_get_missing_parts, get_last_day_of_month,
-                              get_next_leap_year, get_previous_leap_year,
-                              get_timezone_from_tz_string,
-                              set_correct_day_from_settings)
+from dateparser.utils import (
+    _get_missing_parts,
+    get_last_day_of_month,
+    get_next_leap_year,
+    get_previous_leap_year,
+    get_timezone_from_tz_string,
+    set_correct_day_from_settings,
+)
 from dateparser.utils.strptime import strptime
 
 NSP_COMPATIBLE = re.compile(r"\D+")
