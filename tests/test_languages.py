@@ -131,9 +131,13 @@ class TestBundledLanguages(BaseTestCase):
         # Tagalog
         param('tl', "Biyernes Hulyo 3, 2015", "friday july 3 2015"),
         param('tl', "Pebrero 5, 2015 7:00 pm", "february 5 2015 7:00 pm"),
+
         # Indonesian
         param('id', "06 Sep 2015", "06 september 2015"),
         param('id', "07 Feb 2015 20:15", "07 february 2015 20:15"),
+        param('id', "Minggu, 18 Mar 2018 07:30", "sunday 18 march 2018 07:30"),
+        param('id', "3 minggu yang lalu", "3 week ago"),
+        param('id', "5 minggu", "5 week"),
 
         # Miscellaneous
         param('en', "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),

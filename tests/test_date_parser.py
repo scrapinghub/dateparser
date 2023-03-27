@@ -340,6 +340,8 @@ class TestDateParser(BaseTestCase):
         param('pon 16. čer 2014 10:07:43', datetime(2014, 6, 16, 10, 7, 43)),
         param('13 Srpen, 2014', datetime(2014, 8, 13)),
         param('čtv 14. lis 2013 12:38:43', datetime(2013, 11, 14, 12, 38, 43)),
+        param('14Unr\'21', datetime(2021, 2, 14)),
+        param('02Bre\'21', datetime(2021, 3, 2)),
         # Thai dates
         param('ธันวาคม 11, 2014, 08:55:08 PM', datetime(2014, 12, 11, 20, 55, 8)),
         param('22 พฤษภาคม 2012, 22:12', datetime(2012, 5, 22, 22, 12)),
@@ -867,27 +869,20 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand([
-        param('4pm EDT', datetime(2021, 10, 19, 20, 0)),
+        param('4pm EDT', datetime(2021, 10, 19, 20, 0), {'PREFER_DATES_FROM': 'future'}),
+        param('11pm AEDT', datetime(2021, 10, 19, 12, 0), {'PREFER_DATES_FROM': 'past'}),
+        param('4pm', datetime(2021, 10, 19, 20, 0), {'PREFER_DATES_FROM': 'future', 'TIMEZONE': 'EDT'}),
+        param('11pm', datetime(2021, 10, 19, 12, 0), {'PREFER_DATES_FROM': 'past', 'TIMEZONE': 'AEDT'}),
     ])
-    def test_date_skip_ahead(self, date_string, expected):
-        self.given_parser(settings={'PREFER_DATES_FROM': 'future',
-                                    'TO_TIMEZONE': 'etc/utc',
-                                    'RETURN_AS_TIMEZONE_AWARE': False,
-                                    'RELATIVE_BASE': datetime(2021, 10, 19, 18, 0),
-                                    })
-        self.when_date_is_parsed(date_string)
-        self.then_date_was_parsed_by_date_parser()
-        self.then_date_obj_exactly_is(expected)
-
-    @parameterized.expand([
-        param('11pm AEDT', datetime(2021, 10, 19, 12, 0)),
-    ])
-    def test_date_step_back(self, date_string, expected):
-        self.given_parser(settings={'PREFER_DATES_FROM': 'past',
-                                    'TO_TIMEZONE': 'etc/utc',
-                                    'RETURN_AS_TIMEZONE_AWARE': False,
-                                    'RELATIVE_BASE': datetime(2021, 10, 19, 18, 0),
-                                    })
+    def test_prefer_dates_from_with_timezone(self, date_string, expected, test_settings):
+        self.given_parser(
+            settings={
+                'TO_TIMEZONE': 'etc/utc',
+                'RETURN_AS_TIMEZONE_AWARE': False,
+                'RELATIVE_BASE': datetime(2021, 10, 19, 18, 0),
+                **test_settings
+            }
+        )
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)

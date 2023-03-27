@@ -1,15 +1,15 @@
 import calendar
 import regex as re
 
+import pytz
 from io import StringIO
 from collections import OrderedDict
 from datetime import datetime
 from datetime import timedelta
-from pytz import utc
 
 from dateparser.utils import set_correct_day_from_settings, \
     get_last_day_of_month, get_previous_leap_year, get_next_leap_year, \
-    _get_missing_parts, set_correct_month_from_settings
+    _get_missing_parts, get_timezone_from_tz_string, set_correct_month_from_settings
 from dateparser.utils.strptime import strptime
 
 
@@ -460,7 +460,7 @@ class _parser:
         # Since date comparisons must be either offset-naive or offset-aware, normalize dateobj
         # to be offset-aware if one or the other is already offset-aware.
         if self.now.tzinfo is not None and dateobj.tzinfo is None:
-            dateobj = utc.localize(dateobj)
+            dateobj = pytz.utc.localize(dateobj)
 
         if self.month and not self.year:
             try:
@@ -491,6 +491,11 @@ class _parser:
                                          self._token_day,
                                          hasattr(self, '_token_weekday')]):
             # Convert dateobj to utc time to compare with self.now
+            try:
+                tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
+            except pytz.UnknownTimeZoneError:
+                tz = None
+
             if tz:
                 dateobj_time = (dateobj - tz.utcoffset(dateobj)).time()
             else:

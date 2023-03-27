@@ -37,8 +37,13 @@ in:
 relative-type:
     2 day ago:
         - 前天
-    "0 second ago":
+    0 second ago:
         - 刚刚
+    0 hour ago:
+        - 这一时间
+        - 此时
+    in 2 days:
+        - 后天
 
 simplifications:
     - 半小时前: 30分前
