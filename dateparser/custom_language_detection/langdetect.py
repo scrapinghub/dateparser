@@ -5,6 +5,7 @@ import langdetect
 # but still get consistent results.
 # Refer : https://github.com/Mimino666/langdetect
 
+
 class _Factory:
     data = None
 

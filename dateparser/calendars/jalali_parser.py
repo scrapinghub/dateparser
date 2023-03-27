@@ -20,41 +20,54 @@ class PersianDate:
 
 
 class jalali_parser(non_gregorian_parser):
-
     calendar_converter = persian
     default_year = 1348
     default_month = 1
     default_day = 1
     non_gregorian_date_cls = PersianDate
 
-    _digits = {"۰": 0, "۱": 1, "۲": 2, "۳": 3, "۴": 4,
-               "۵": 5, "۶": 6, "۷": 7, "۸": 8, "۹": 9}
+    _digits = {
+        "۰": 0,
+        "۱": 1,
+        "۲": 2,
+        "۳": 3,
+        "۴": 4,
+        "۵": 5,
+        "۶": 6,
+        "۷": 7,
+        "۸": 8,
+        "۹": 9,
+    }
 
-    _months = OrderedDict([
-        # pinglish : (persian literals, month index, number of days)
-        ("Farvardin", (1, 31, ["فروردین"])),
-        ("Ordibehesht", (2, 31, ["اردیبهشت"])),
-        ("Khordad", (3, 31, ["خرداد"])),
-        ("Tir", (4, 31, ["تیر"])),
-        ("Mordad", (5, 31, ["امرداد", "مرداد"])),
-        ("Shahrivar", (6, 31, ["شهریور", "شهريور"])),
-        ("Mehr", (7, 30, ["مهر"])),
-        ("Aban", (8, 30, ["آبان"])),
-        ("Azar", (9, 30, ["آذر"])),
-        ("Dey", (10, 30, ["دی"])),
-        ("Bahman", (11, 30, ["بهمن", "بهن"])),
-        ("Esfand", (12, 29, ["اسفند"])),
-    ])
+    _months = OrderedDict(
+        [
+            # pinglish : (persian literals, month index, number of days)
+            ("Farvardin", (1, 31, ["فروردین"])),
+            ("Ordibehesht", (2, 31, ["اردیبهشت"])),
+            ("Khordad", (3, 31, ["خرداد"])),
+            ("Tir", (4, 31, ["تیر"])),
+            ("Mordad", (5, 31, ["امرداد", "مرداد"])),
+            ("Shahrivar", (6, 31, ["شهریور", "شهريور"])),
+            ("Mehr", (7, 30, ["مهر"])),
+            ("Aban", (8, 30, ["آبان"])),
+            ("Azar", (9, 30, ["آذر"])),
+            ("Dey", (10, 30, ["دی"])),
+            ("Bahman", (11, 30, ["بهمن", "بهن"])),
+            ("Esfand", (12, 29, ["اسفند"])),
+        ]
+    )
 
-    _weekdays = OrderedDict([
-        ("Sunday", ["یکشنبه"]),
-        ("Monday", ["دوشنبه"]),
-        ("Tuesday", ["سهشنبه", "سه شنبه"]),
-        ("Wednesday", ["چهارشنبه", "چهار شنبه"]),
-        ("Thursday", ["پنجشنبه", "پنج شنبه"]),
-        ("Friday", ["جمعه"]),
-        ("Saturday", ["روز شنبه", "شنبه"]),
-    ])
+    _weekdays = OrderedDict(
+        [
+            ("Sunday", ["یکشنبه"]),
+            ("Monday", ["دوشنبه"]),
+            ("Tuesday", ["سهشنبه", "سه شنبه"]),
+            ("Wednesday", ["چهارشنبه", "چهار شنبه"]),
+            ("Thursday", ["پنجشنبه", "پنج شنبه"]),
+            ("Friday", ["جمعه"]),
+            ("Saturday", ["روز شنبه", "شنبه"]),
+        ]
+    )
 
     _number_letters = {
         0: ["صفر"],
@@ -103,7 +116,10 @@ class jalali_parser(non_gregorian_parser):
         result = source
         for pers, latin in reduce(
             lambda a, b: a + b,
-            [[(value, month) for value in repl[-1]] for month, repl in cls._months.items()]
+            [
+                [(value, month) for value in repl[-1]]
+                for month, repl in cls._months.items()
+            ],
         ):
             result = result.replace(pers, latin)
         return result
@@ -113,7 +129,10 @@ class jalali_parser(non_gregorian_parser):
         result = source
         for pers, latin in reduce(
             lambda a, b: a + b,
-            [[(value, weekday) for value in repl] for weekday, repl in cls._weekdays.items()]
+            [
+                [(value, weekday) for value in repl]
+                for weekday, repl in cls._weekdays.items()
+            ],
         ):
             result = result.replace(pers, latin)
         return result
@@ -122,20 +141,23 @@ class jalali_parser(non_gregorian_parser):
     def _replace_time(cls, source):
         def only_numbers(match_obj):
             matched_string = match_obj.group()
-            return re.sub(r'\D', ' ', matched_string)
-        hour_pattern = r'ساعت\s+\d{2}'
-        minute_pattern = r'\d{2}\s+دقیقه'
-        second_pattern = r'\d{2}\s+ثانیه'
+            return re.sub(r"\D", " ", matched_string)
+
+        hour_pattern = r"ساعت\s+\d{2}"
+        minute_pattern = r"\d{2}\s+دقیقه"
+        second_pattern = r"\d{2}\s+ثانیه"
         result = re.sub(hour_pattern, only_numbers, source)
         result = re.sub(minute_pattern, only_numbers, result)
         result = re.sub(second_pattern, only_numbers, result)
-        result = re.sub(r'\s+و\s+', ':', result)
-        result = result.replace('ساعت', '')
+        result = re.sub(r"\s+و\s+", ":", result)
+        result = result.replace("ساعت", "")
         return result
 
     @classmethod
     def _replace_days(cls, source):
-        result = re.sub(r'ام|م|ین', '', source)  # removes persian variant of th/first/second/third
+        result = re.sub(
+            r"ام|م|ین", "", source
+        )  # removes persian variant of th/first/second/third
         day_pairs = list(cls._number_letters.items())
 
         def comp_key(tup):
@@ -148,7 +170,8 @@ class jalali_parser(non_gregorian_parser):
         day_pairs[1] = thirteen
 
         for persian_number, number in reduce(
-                lambda a, b: a + b,
-                [[(val, repl) for val in persian_word] for repl, persian_word in day_pairs]):
+            lambda a, b: a + b,
+            [[(val, repl) for val in persian_word] for repl, persian_word in day_pairs],
+        ):
             result = result.replace(persian_number, str(number))
         return result

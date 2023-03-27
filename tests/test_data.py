@@ -6,42 +6,126 @@ from dateparser.languages import default_loader
 from dateparser.data import language_locale_dict
 from tests import BaseTestCase
 
-DEFAULT_MONTH_PATTERN = re.compile(r'^M?\d+$', re.U)
-INVALID_AM_PM_PATTERN = re.compile(r'^[AaPp]\.?\s+[Mm]$')
+DEFAULT_MONTH_PATTERN = re.compile(r"^M?\d+$", re.U)
+INVALID_AM_PM_PATTERN = re.compile(r"^[AaPp]\.?\s+[Mm]$")
 
-all_locale_shortnames = list(chain(language_locale_dict.keys(), *language_locale_dict.values()))
-all_locales = list(default_loader.get_locales(locales=all_locale_shortnames,
-                                              allow_conflicting_locales=True))
+all_locale_shortnames = list(
+    chain(language_locale_dict.keys(), *language_locale_dict.values())
+)
+all_locales = list(
+    default_loader.get_locales(
+        locales=all_locale_shortnames, allow_conflicting_locales=True
+    )
+)
 all_locale_params = [[locale] for locale in all_locales]
 
 VALID_KEYS = [
-    'name', 'date_order', 'skip', 'pertain', 'simplifications', 'no_word_spacing', 'ago',
-    'in', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday',
-    'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september',
-    'october', 'november', 'december', 'decade', 'year', 'month', 'week', 'day', 'hour', 'minute',
-    'second', 'am', 'pm', 'relative-type', 'relative-type-regex', 'sentence_splitter_group']
+    "name",
+    "date_order",
+    "skip",
+    "pertain",
+    "simplifications",
+    "no_word_spacing",
+    "ago",
+    "in",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+    "decade",
+    "year",
+    "month",
+    "week",
+    "day",
+    "hour",
+    "minute",
+    "second",
+    "am",
+    "pm",
+    "relative-type",
+    "relative-type-regex",
+    "sentence_splitter_group",
+]
 
-NECESSARY_KEYS = ['name', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',
-                  'sunday', 'january', 'february', 'march', 'april', 'may', 'june', 'july',
-                  'august', 'september', 'october', 'november', 'december', 'year', 'month',
-                  'week', 'day', 'hour', 'minute', 'second']
+NECESSARY_KEYS = [
+    "name",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+    "year",
+    "month",
+    "week",
+    "day",
+    "hour",
+    "minute",
+    "second",
+]
 
-MONTH_NAMES = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
-               'august', 'september', 'october', 'november', 'december']
+MONTH_NAMES = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+]
 
 
 def is_invalid_translation(translation):
-    return (not (translation and isinstance(translation, str))) or '.' in translation
+    return (not (translation and isinstance(translation, str))) or "." in translation
 
 
 def is_invalid_month_translation(translation):
-    return ((not (translation and isinstance(translation, str)))
-            or '.' in translation or DEFAULT_MONTH_PATTERN.match(translation))
+    return (
+        (not (translation and isinstance(translation, str)))
+        or "." in translation
+        or DEFAULT_MONTH_PATTERN.match(translation)
+    )
 
 
 def is_invalid_am_pm_translation(translation):
-    return ((not (translation and isinstance(translation, str)))
-            or '.' in translation or INVALID_AM_PM_PATTERN.match(translation))
+    return (
+        (not (translation and isinstance(translation, str)))
+        or "." in translation
+        or INVALID_AM_PM_PATTERN.match(translation)
+    )
 
 
 def is_invalid_simplification(simplification):
@@ -76,7 +160,8 @@ class TestLocaleInfo(BaseTestCase):
         self.given_locale_info(locale)
         extra_keys = list(set(self.info.keys()) - set(VALID_KEYS))
         self.assertFalse(
-            extra_keys, 'Extra keys found for {}: {}'.format(self.shortname, extra_keys))
+            extra_keys, "Extra keys found for {}: {}".format(self.shortname, extra_keys)
+        )
 
     @parameterized.expand(all_locale_params)
     def test_necessary_keys(self, locale):
@@ -97,162 +182,162 @@ class TestLocaleInfo(BaseTestCase):
     @parameterized.expand(all_locale_params)
     def test_january_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('january')
+        self.then_month_translations_are_valid("january")
 
     @parameterized.expand(all_locale_params)
     def test_february_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('february')
+        self.then_month_translations_are_valid("february")
 
     @parameterized.expand(all_locale_params)
     def test_march_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('march')
+        self.then_month_translations_are_valid("march")
 
     @parameterized.expand(all_locale_params)
     def test_april_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('april')
+        self.then_month_translations_are_valid("april")
 
     @parameterized.expand(all_locale_params)
     def test_may_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('may')
+        self.then_month_translations_are_valid("may")
 
     @parameterized.expand(all_locale_params)
     def test_june_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('june')
+        self.then_month_translations_are_valid("june")
 
     @parameterized.expand(all_locale_params)
     def test_july_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('july')
+        self.then_month_translations_are_valid("july")
 
     @parameterized.expand(all_locale_params)
     def test_august_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('august')
+        self.then_month_translations_are_valid("august")
 
     @parameterized.expand(all_locale_params)
     def test_september_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('september')
+        self.then_month_translations_are_valid("september")
 
     @parameterized.expand(all_locale_params)
     def test_october_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('october')
+        self.then_month_translations_are_valid("october")
 
     @parameterized.expand(all_locale_params)
     def test_november_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('november')
+        self.then_month_translations_are_valid("november")
 
     @parameterized.expand(all_locale_params)
     def test_december_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_month_translations_are_valid('december')
+        self.then_month_translations_are_valid("december")
 
     @parameterized.expand(all_locale_params)
     def test_am_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_am_pm_translations_are_valid('am')
+        self.then_am_pm_translations_are_valid("am")
 
     @parameterized.expand(all_locale_params)
     def test_pm_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_am_pm_translations_are_valid('pm')
+        self.then_am_pm_translations_are_valid("pm")
 
     @parameterized.expand(all_locale_params)
     def test_sunday_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('sunday')
+        self.then_translations_are_valid("sunday")
 
     @parameterized.expand(all_locale_params)
     def test_monday_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('monday')
+        self.then_translations_are_valid("monday")
 
     @parameterized.expand(all_locale_params)
     def test_tuesday_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('tuesday')
+        self.then_translations_are_valid("tuesday")
 
     @parameterized.expand(all_locale_params)
     def test_wednesday_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('wednesday')
+        self.then_translations_are_valid("wednesday")
 
     @parameterized.expand(all_locale_params)
     def test_thursday_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('thursday')
+        self.then_translations_are_valid("thursday")
 
     @parameterized.expand(all_locale_params)
     def test_friday_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('friday')
+        self.then_translations_are_valid("friday")
 
     @parameterized.expand(all_locale_params)
     def test_saturday_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('saturday')
+        self.then_translations_are_valid("saturday")
 
     @parameterized.expand(all_locale_params)
     def test_year_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('year')
+        self.then_translations_are_valid("year")
 
     @parameterized.expand(all_locale_params)
     def test_month_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('month')
+        self.then_translations_are_valid("month")
 
     @parameterized.expand(all_locale_params)
     def test_week_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('week')
+        self.then_translations_are_valid("week")
 
     @parameterized.expand(all_locale_params)
     def test_day_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('day')
+        self.then_translations_are_valid("day")
 
     @parameterized.expand(all_locale_params)
     def test_hour_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('hour')
+        self.then_translations_are_valid("hour")
 
     @parameterized.expand(all_locale_params)
     def test_minute_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('minute')
+        self.then_translations_are_valid("minute")
 
     @parameterized.expand(all_locale_params)
     def test_second_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('second')
+        self.then_translations_are_valid("second")
 
     @parameterized.expand(all_locale_params)
     def test_ago_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('ago')
+        self.then_translations_are_valid("ago")
 
     @parameterized.expand(all_locale_params)
     def test_in_translation(self, locale):
         self.given_locale_info(locale)
-        self.then_translations_are_valid('in')
+        self.then_translations_are_valid("in")
 
     @parameterized.expand(all_locale_params)
     def test_skip_tokens(self, locale):
         self.given_locale_info(locale)
-        self.then_skip_pertain_tokens_are_valid('skip')
+        self.then_skip_pertain_tokens_are_valid("skip")
 
     @parameterized.expand(all_locale_params)
     def test_pertain_tokens(self, locale):
         self.given_locale_info(locale)
-        self.then_skip_pertain_tokens_are_valid('pertain')
+        self.then_skip_pertain_tokens_are_valid("pertain")
 
     @parameterized.expand(all_locale_params)
     def test_simplifications(self, locale):
@@ -281,152 +366,209 @@ class TestLocaleInfo(BaseTestCase):
     def then_keys_present_in_info(self, keys_list):
         absent_keys = list(set(keys_list) - set(self.info.keys()))
         self.assertFalse(
-            absent_keys, '{} not found in locale {}'.format(', '.join(absent_keys), self.shortname))
+            absent_keys,
+            "{} not found in locale {}".format(", ".join(absent_keys), self.shortname),
+        )
 
     def then_translations_present_in_info(self, keys_list):
         no_translation_keys = [key for key in keys_list if not self.info.get(key)]
         self.assertFalse(
             no_translation_keys,
-            'Translations for {} not found in locale {}'.format(
-                ', '.join(no_translation_keys), self.shortname
-            )
+            "Translations for {} not found in locale {}".format(
+                ", ".join(no_translation_keys), self.shortname
+            ),
         )
 
     def then_name_is_valid(self):
-        name = self.info['name']
-        self.assertIsInstance(name, str,
-                              'Invalid type for name: {} for locale {}'.format(
-                                  type(name).__name__, self.shortname))
-        self.assertEqual(name, self.shortname,
-                         'Invalid name: {} for locale {}'.format(name, self.shortname))
+        name = self.info["name"]
+        self.assertIsInstance(
+            name,
+            str,
+            "Invalid type for name: {} for locale {}".format(
+                type(name).__name__, self.shortname
+            ),
+        )
+        self.assertEqual(
+            name,
+            self.shortname,
+            "Invalid name: {} for locale {}".format(name, self.shortname),
+        )
 
     def then_date_order_is_valid(self):
-        if 'date_order' in self.info:
-            date_order = self.info['date_order']
+        if "date_order" in self.info:
+            date_order = self.info["date_order"]
             self.assertIsInstance(
-                date_order, str,
-                'Invalid type for date_order: {} for locale {}'.format(
-                    type(date_order).__name__, self.shortname)
+                date_order,
+                str,
+                "Invalid type for date_order: {} for locale {}".format(
+                    type(date_order).__name__, self.shortname
+                ),
             )
             self.assertIn(
-                date_order, ['DMY', 'DYM', 'MDY', 'MYD', 'YDM', 'YMD'],
-                'Invalid date_order {} for {}'.format(date_order, self.shortname)
+                date_order,
+                ["DMY", "DYM", "MDY", "MYD", "YDM", "YMD"],
+                "Invalid date_order {} for {}".format(date_order, self.shortname),
             )
 
     def then_month_translations_are_valid(self, month):
         if month in self.info:
             month_translations = self.info[month]
             self.assertIsInstance(
-                month_translations, list, 'Invalid type for {}: {} for locale {}'.format(
+                month_translations,
+                list,
+                "Invalid type for {}: {} for locale {}".format(
                     month, type(month_translations).__name__, self.shortname
-                )
+                ),
             )
-            invalid_translations = list(filter(is_invalid_month_translation, month_translations))
+            invalid_translations = list(
+                filter(is_invalid_month_translation, month_translations)
+            )
             self.assertFalse(
-                invalid_translations, 'Invalid translations for {}: {} for locale {}'.format(
-                    month, ', '.join(map(repr, invalid_translations)), self.shortname
-                )
+                invalid_translations,
+                "Invalid translations for {}: {} for locale {}".format(
+                    month, ", ".join(map(repr, invalid_translations)), self.shortname
+                ),
             )
 
     def then_am_pm_translations_are_valid(self, key):
         if key in self.info:
             translations_list = self.info[key]
             self.assertIsInstance(
-                translations_list, list, 'Invalid type for {}: {} for locale {}'.format(
+                translations_list,
+                list,
+                "Invalid type for {}: {} for locale {}".format(
                     key, type(translations_list).__name__, self.shortname
-                )
+                ),
             )
-            invalid_translations = list(filter(is_invalid_am_pm_translation, translations_list))
+            invalid_translations = list(
+                filter(is_invalid_am_pm_translation, translations_list)
+            )
             self.assertFalse(
-                invalid_translations, 'Invalid translations for {}: {} for locale {}'.format(
-                    key, ', '.join(map(repr, invalid_translations)), self.shortname
-                )
+                invalid_translations,
+                "Invalid translations for {}: {} for locale {}".format(
+                    key, ", ".join(map(repr, invalid_translations)), self.shortname
+                ),
             )
 
     def then_translations_are_valid(self, key):
         if key in self.info:
             translations_list = self.info[key]
             self.assertIsInstance(
-                translations_list, list, 'Invalid type for {}: {} for locale {}'.format(
+                translations_list,
+                list,
+                "Invalid type for {}: {} for locale {}".format(
                     key, type(translations_list).__name__, self.shortname
-                )
+                ),
             )
-            invalid_translations = list(filter(is_invalid_translation, translations_list))
+            invalid_translations = list(
+                filter(is_invalid_translation, translations_list)
+            )
             self.assertFalse(
-                invalid_translations, 'Invalid translations for {}: {} for locale {}'.format(
-                    key, ', '.join(map(repr, invalid_translations)), self.shortname
-                )
+                invalid_translations,
+                "Invalid translations for {}: {} for locale {}".format(
+                    key, ", ".join(map(repr, invalid_translations)), self.shortname
+                ),
             )
 
     def then_skip_pertain_tokens_are_valid(self, key):
         if key in self.info:
             tokens_list = self.info[key]
             self.assertIsInstance(
-                tokens_list, list, 'Invalid type for {}: {} for locale {}'.format(
-                    key, type(tokens_list).__name__, self.shortname)
+                tokens_list,
+                list,
+                "Invalid type for {}: {} for locale {}".format(
+                    key, type(tokens_list).__name__, self.shortname
+                ),
             )
-            invalid_tokens = [token for token in tokens_list if not token
-                              or not isinstance(token, str)]
+            invalid_tokens = [
+                token
+                for token in tokens_list
+                if not token or not isinstance(token, str)
+            ]
             self.assertFalse(
-                invalid_tokens, 'Invalid tokens for {}: {} for locale {}'.format(
-                    key, ', '.join(map(repr, invalid_tokens)), self.shortname
-                )
+                invalid_tokens,
+                "Invalid tokens for {}: {} for locale {}".format(
+                    key, ", ".join(map(repr, invalid_tokens)), self.shortname
+                ),
             )
 
     def then_simplifications_are_valid(self):
-        if 'simplifications' in self.info:
-            simplifications_list = self.info['simplifications']
+        if "simplifications" in self.info:
+            simplifications_list = self.info["simplifications"]
             self.assertIsInstance(
-                simplifications_list, list, 'Invalid type for simplifications: {} for locale {}'.format(
-                    type(simplifications_list).__name__, self.shortname)
+                simplifications_list,
+                list,
+                "Invalid type for simplifications: {} for locale {}".format(
+                    type(simplifications_list).__name__, self.shortname
+                ),
             )
-            invalid_simplifications = list(filter(is_invalid_simplification, simplifications_list))
+            invalid_simplifications = list(
+                filter(is_invalid_simplification, simplifications_list)
+            )
             self.assertFalse(
-                invalid_simplifications, 'Invalid simplifications {} for locale {}'.format(
-                    ', '.join(map(repr, invalid_simplifications)), self.shortname
-                ) + ', each simplification must be a single string to string mapping'
+                invalid_simplifications,
+                "Invalid simplifications {} for locale {}".format(
+                    ", ".join(map(repr, invalid_simplifications)), self.shortname
+                )
+                + ", each simplification must be a single string to string mapping",
             )
 
     def then_relative_type_is_valid(self):
-        if 'relative-type' in self.info:
-            relative_type_dict = self.info['relative-type']
+        if "relative-type" in self.info:
+            relative_type_dict = self.info["relative-type"]
             self.assertIsInstance(
-                relative_type_dict, dict, 'Invalid type for relative-type: {} for locale {}'.format(
-                    type(relative_type_dict).__name__, self.shortname)
+                relative_type_dict,
+                dict,
+                "Invalid type for relative-type: {} for locale {}".format(
+                    type(relative_type_dict).__name__, self.shortname
+                ),
             )
-            invalid_relative_type = list(filter(is_invalid_relative_mapping,
-                                                relative_type_dict.items()))
+            invalid_relative_type = list(
+                filter(is_invalid_relative_mapping, relative_type_dict.items())
+            )
             self.assertFalse(
-                invalid_relative_type, 'Invalid relative-type mappings {} for locale {}'.format(
-                    ', '.join(map(repr, invalid_relative_type)), self.shortname
-                ) + ', each mapping must be a string to list (of strings) mapping'
+                invalid_relative_type,
+                "Invalid relative-type mappings {} for locale {}".format(
+                    ", ".join(map(repr, invalid_relative_type)), self.shortname
+                )
+                + ", each mapping must be a string to list (of strings) mapping",
             )
 
     def then_relative_type_regex_is_valid(self):
-        if 'relative-type-regex' in self.info:
-            relative_type_dict = self.info['relative-type-regex']
+        if "relative-type-regex" in self.info:
+            relative_type_dict = self.info["relative-type-regex"]
             self.assertIsInstance(
-                relative_type_dict, dict, 'Invalid type for relative-type-regex: {} for locale {}'.format(
+                relative_type_dict,
+                dict,
+                "Invalid type for relative-type-regex: {} for locale {}".format(
                     type(relative_type_dict).__name__, self.shortname
-                )
+                ),
             )
-            invalid_relative_type_regex = list(filter(is_invalid_relative_regex_mapping,
-                                                      relative_type_dict.items()))
+            invalid_relative_type_regex = list(
+                filter(is_invalid_relative_regex_mapping, relative_type_dict.items())
+            )
             self.assertFalse(
-                invalid_relative_type_regex, 'Invalid relative-type-regex mappings {} for locale {}'.format(
-                    ', '.join(map(repr, invalid_relative_type_regex)), self.shortname
-                ) + ', each mapping must be a string to list (of strings) mapping'
+                invalid_relative_type_regex,
+                "Invalid relative-type-regex mappings {} for locale {}".format(
+                    ", ".join(map(repr, invalid_relative_type_regex)), self.shortname
+                )
+                + ", each mapping must be a string to list (of strings) mapping",
             )
 
     def then_no_word_spacing_is_valid(self):
-        if 'no_word_spacing' in self.info:
-            no_word_spacing = self.info['no_word_spacing']
+        if "no_word_spacing" in self.info:
+            no_word_spacing = self.info["no_word_spacing"]
             self.assertIsInstance(
-                no_word_spacing, str, 'Invalid type for no_word_spacing: {} for locale {}'.format(
-                    type(no_word_spacing).__name__, self.shortname)
+                no_word_spacing,
+                str,
+                "Invalid type for no_word_spacing: {} for locale {}".format(
+                    type(no_word_spacing).__name__, self.shortname
+                ),
             )
             self.assertIn(
-                no_word_spacing, ['True', 'False'], 'Invalid no_word_spacing {} for {}'.format(
+                no_word_spacing,
+                ["True", "False"],
+                "Invalid no_word_spacing {} for {}".format(
                     no_word_spacing, self.shortname
-                )
+                ),
             )
