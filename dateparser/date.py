@@ -4,21 +4,19 @@ from collections.abc import Set
 from datetime import datetime, timedelta
 
 import regex as re
-from tzlocal import get_localzone
 from dateutil.relativedelta import relativedelta
+from tzlocal import get_localzone
 
+from dateparser.conf import apply_settings, check_settings
+from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.conf import apply_settings, check_settings
 from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
-from dateparser.utils import (
-    apply_timezone_from_settings,
-    set_correct_day_from_settings,
-    get_timezone_from_tz_string,
-)
-from dateparser.custom_language_detection.language_mapping import map_languages
+from dateparser.utils import (apply_timezone_from_settings,
+                              get_timezone_from_tz_string,
+                              set_correct_day_from_settings)
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     "\N{RIGHT SINGLE QUOTATION MARK}",  # '\u2019'

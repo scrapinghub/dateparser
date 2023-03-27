@@ -1,14 +1,13 @@
+from collections import OrderedDict
 from itertools import chain
 
 import regex as re
-from collections import OrderedDict
-
 from dateutil import parser
 
 from dateparser.timezone_parser import pop_tz_offset_from_string, word_is_tz
-from dateparser.utils import normalize_unicode, combine_dicts
+from dateparser.utils import combine_dicts, normalize_unicode
 
-from .dictionary import Dictionary, NormalizedDictionary, ALWAYS_KEEP_TOKENS
+from .dictionary import ALWAYS_KEEP_TOKENS, Dictionary, NormalizedDictionary
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
 

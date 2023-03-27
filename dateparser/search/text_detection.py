@@ -1,5 +1,5 @@
-from dateparser.search.detection import BaseLanguageDetector
 from dateparser.conf import apply_settings
+from dateparser.search.detection import BaseLanguageDetector
 from dateparser.utils import normalize_unicode
 
 

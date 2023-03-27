@@ -1,16 +1,13 @@
 from datetime import datetime, timedelta
+from unittest.mock import Mock, patch
+
+from parameterized import param, parameterized
 from pytz import timezone
 
-from unittest.mock import Mock, patch
-from parameterized import parameterized, param
-
 import dateparser.timezone_parser
-from dateparser.timezone_parser import (
-    pop_tz_offset_from_string,
-    get_local_tz_offset,
-    StaticTzInfo,
-)
 from dateparser import parse
+from dateparser.timezone_parser import (StaticTzInfo, get_local_tz_offset,
+                                        pop_tz_offset_from_string)
 from tests import BaseTestCase
 
 

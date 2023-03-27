@@ -1,10 +1,11 @@
 import locale
-from parameterized import parameterized, param
 from datetime import datetime
 from unittest import SkipTest
 
-from tests import BaseTestCase
+from parameterized import param, parameterized
+
 from dateparser.utils.strptime import strptime
+from tests import BaseTestCase
 
 
 class TestStrptime(BaseTestCase):

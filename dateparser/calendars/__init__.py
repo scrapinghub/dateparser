@@ -1,7 +1,8 @@
+from datetime import datetime
+
+from dateparser.conf import settings
 from dateparser.date import DateData
 from dateparser.parser import _parser
-from dateparser.conf import settings
-from datetime import datetime
 
 
 class CalendarBase:

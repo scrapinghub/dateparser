@@ -1,6 +1,7 @@
-from parameterized import parameterized, param
 from operator import attrgetter
+
 import regex as re
+from parameterized import param, parameterized
 
 from dateparser.languages.loader import default_loader
 from tests import BaseTestCase

@@ -2,10 +2,9 @@ import os
 
 import fasttext
 
-from dateparser_cli.fasttext_manager import fasttext_downloader
-from dateparser_cli.utils import dateparser_model_home, create_data_model_home
 from dateparser_cli.exceptions import FastTextModelNotFoundException
-
+from dateparser_cli.fasttext_manager import fasttext_downloader
+from dateparser_cli.utils import create_data_model_home, dateparser_model_home
 
 _supported_models = ["large.bin", "small.bin"]
 _DEFAULT_MODEL = "small"

@@ -1,9 +1,10 @@
 from itertools import chain
+
 import regex as re
 from parameterized import parameterized
 
-from dateparser.languages import default_loader
 from dateparser.data import language_locale_dict
+from dateparser.languages import default_loader
 from tests import BaseTestCase
 
 DEFAULT_MONTH_PATTERN = re.compile(r"^M?\d+$", re.U)

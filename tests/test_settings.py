@@ -1,13 +1,11 @@
-import pytest
-from parameterized import parameterized, param
 from datetime import datetime, tzinfo
 
+import pytest
+from parameterized import param, parameterized
+
+from dateparser import DateDataParser, parse
+from dateparser.conf import SettingValidationError, apply_settings, settings
 from tests import BaseTestCase
-
-from dateparser.conf import settings, SettingValidationError
-from dateparser.conf import apply_settings
-
-from dateparser import parse, DateDataParser
 
 
 def test_function(settings=None):

@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 from pathlib import Path
 
 DEFAULT_DIR_NAME = "dateparser_models"

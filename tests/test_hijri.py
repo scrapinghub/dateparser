@@ -2,11 +2,10 @@ import sys
 import unittest
 from datetime import datetime
 
-from parameterized import parameterized, param
-
-from tests import BaseTestCase
+from parameterized import param, parameterized
 
 from dateparser.calendars.hijri import HijriCalendar
+from tests import BaseTestCase
 
 
 class TestHijriParser(BaseTestCase):

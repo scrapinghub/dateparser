@@ -1,7 +1,7 @@
 __version__ = "1.1.8"
 
-from .date import DateDataParser
 from .conf import apply_settings
+from .date import DateDataParser
 
 _default_parser = DateDataParser()
 

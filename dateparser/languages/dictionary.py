@@ -1,5 +1,6 @@
 from itertools import chain, zip_longest
 from operator import methodcaller
+
 import regex as re
 
 from dateparser.utils import normalize_unicode

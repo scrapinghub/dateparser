@@ -4,18 +4,18 @@ import os
 import unittest
 from collections import OrderedDict
 from copy import copy
-from datetime import datetime, timedelta, timezone as dttz
+from datetime import datetime, timedelta
+from datetime import timezone as dttz
 from itertools import product
 from time import tzset
-
 from unittest.mock import Mock, patch
-from parameterized import parameterized, param
+
+from parameterized import param, parameterized
 
 import dateparser
-from dateparser.date import DateData
 from dateparser import date
 from dateparser.conf import settings
-
+from dateparser.date import DateData
 from tests import BaseTestCase
 
 

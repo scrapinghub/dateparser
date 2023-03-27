@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime, timedelta, date, time
+from datetime import date, datetime, time, timedelta
 from functools import wraps
 
 import pytz
@@ -12,15 +12,16 @@ except ImportError:
     except ImportError:
         ZoneInfo = None  # Python < 3.9
 
-from dateutil.relativedelta import relativedelta
 from unittest.mock import Mock, patch
-from parameterized import parameterized, param
+
+from dateutil.relativedelta import relativedelta
+from parameterized import param, parameterized
 
 import dateparser
-from dateparser.date import DateDataParser, freshness_date_parser
-from tests import BaseTestCase
-from dateparser.utils import normalize_unicode
 from dateparser.conf import settings
+from dateparser.date import DateDataParser, freshness_date_parser
+from dateparser.utils import normalize_unicode
+from tests import BaseTestCase
 
 
 class TestFreshnessDateDataParser(BaseTestCase):

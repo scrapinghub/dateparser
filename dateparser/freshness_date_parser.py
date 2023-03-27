@@ -1,14 +1,13 @@
+from datetime import datetime, time
+
 import regex as re
-from datetime import datetime
-from datetime import time
+from dateutil.relativedelta import relativedelta
 from tzlocal import get_localzone
 
-from dateutil.relativedelta import relativedelta
-
 from dateparser.utils import apply_timezone, localize_timezone, strip_braces
+
 from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
-
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
 PATTERN = re.compile(r"(\d+[.,]?\d*)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)

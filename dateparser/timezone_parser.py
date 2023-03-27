@@ -1,5 +1,6 @@
-import regex as re
 from datetime import datetime, timedelta, tzinfo
+
+import regex as re
 
 from .timezones import timezone_info_list
 

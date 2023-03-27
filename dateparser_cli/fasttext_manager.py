@@ -1,10 +1,10 @@
-from pathlib import Path
-import urllib.request
-import os
 import logging
+import os
+import urllib.request
+from pathlib import Path
 
 from .exceptions import FastTextModelNotFoundException
-from .utils import dateparser_model_home, create_data_model_home
+from .utils import create_data_model_home, dateparser_model_home
 
 
 def fasttext_downloader(model_name):

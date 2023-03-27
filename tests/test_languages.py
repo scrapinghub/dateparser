@@ -1,21 +1,18 @@
+import logging
+from datetime import datetime
 from io import StringIO
 
-import logging
-
 import pytest
-from parameterized import parameterized, param
+from parameterized import param, parameterized
 
-from dateparser.languages import default_loader, Locale
-from dateparser.languages.validation import LanguageValidator
+from dateparser import parse
 from dateparser.conf import apply_settings, settings
+from dateparser.date import DateDataParser
+from dateparser.languages import Locale, default_loader
+from dateparser.languages.validation import LanguageValidator
+from dateparser.search import search_dates
 from dateparser.search.detection import AutoDetectLanguage, ExactLanguages
 from dateparser.utils import normalize_unicode
-from dateparser import parse
-from dateparser.date import DateDataParser
-from dateparser.search import search_dates
-
-from datetime import datetime
-
 from tests import BaseTestCase
 
 

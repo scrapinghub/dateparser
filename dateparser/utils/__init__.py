@@ -2,14 +2,14 @@ import calendar
 import logging
 import types
 import unicodedata
+from collections import OrderedDict
 from datetime import datetime
 
 import regex as re
+from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
-from pytz import UTC, timezone, UnknownTimeZoneError
-from collections import OrderedDict
 
-from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
+from dateparser.timezone_parser import StaticTzInfo, _tz_offsets
 
 
 def strip_braces(date_string):

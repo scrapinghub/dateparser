@@ -1,12 +1,14 @@
-from parameterized import parameterized, param
-from tests import BaseTestCase
-from dateparser.timezone_parser import StaticTzInfo
-from dateparser.search.search import DateSearchWithDetection
-from dateparser.search import search_dates
-from dateparser.conf import Settings, apply_settings
-from dateparser_data.settings import default_parsers
 import datetime
+
 import pytz
+from parameterized import param, parameterized
+
+from dateparser.conf import Settings, apply_settings
+from dateparser.search import search_dates
+from dateparser.search.search import DateSearchWithDetection
+from dateparser.timezone_parser import StaticTzInfo
+from dateparser_data.settings import default_parsers
+from tests import BaseTestCase
 
 today = datetime.datetime.today()
 

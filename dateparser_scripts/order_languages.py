@@ -3,10 +3,10 @@ import os
 from collections import OrderedDict
 
 import regex as re
+import requests
+from parsel import Selector
 
 from dateparser_scripts.utils import get_raw_data
-from parsel import Selector
-import requests
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 

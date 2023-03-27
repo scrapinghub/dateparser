@@ -1,5 +1,6 @@
 import re
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 __version__ = re.search(
     r"__version__.*\s*=\s*[']([^']+)[']", open("dateparser/__init__.py").read()

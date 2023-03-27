@@ -1,6 +1,5 @@
 import langdetect
 
-
 # The below _Factory is set to prevent setting global state of the library
 # but still get consistent results.
 # Refer : https://github.com/Mimino666/langdetect

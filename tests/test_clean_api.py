@@ -1,7 +1,7 @@
 from datetime import date, datetime
-from pytz import utc
 
-from parameterized import parameterized, param
+from parameterized import param, parameterized
+from pytz import utc
 
 import dateparser
 from tests import BaseTestCase

@@ -1,10 +1,11 @@
 from collections import OrderedDict
+from copy import deepcopy
 from importlib import import_module
 from itertools import zip_longest
-import regex as re
-from copy import deepcopy
 
-from ..data import language_order, language_locale_dict
+import regex as re
+
+from ..data import language_locale_dict, language_order
 from .locale import Locale
 
 LOCALE_SPLIT_PATTERN = re.compile(r"-(?=[A-Z0-9]+$)")

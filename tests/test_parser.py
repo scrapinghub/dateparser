@@ -1,13 +1,11 @@
 from datetime import datetime, time
 
-from parameterized import parameterized, param
-from tests import BaseTestCase
+from parameterized import param, parameterized
 
-from dateparser.parser import tokenizer
-from dateparser.parser import _no_spaces_parser
-from dateparser.parser import _parser
-from dateparser.parser import time_parser
 from dateparser.conf import apply_settings
+from dateparser.parser import (_no_spaces_parser, _parser, time_parser,
+                               tokenizer)
+from tests import BaseTestCase
 
 
 class TestTokenizer(BaseTestCase):

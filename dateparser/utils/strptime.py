@@ -1,8 +1,8 @@
-import sys
 import importlib.util
-import regex as re
-
+import sys
 from datetime import datetime
+
+import regex as re
 
 TIME_MATCHER = re.compile(
     r".*?"

@@ -1,6 +1,5 @@
 from dateparser.search.search import DateSearchWithDetection
 
-
 _search_with_detection = DateSearchWithDetection()
 
 
