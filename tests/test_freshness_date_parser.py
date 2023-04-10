@@ -915,6 +915,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("21 izinsuku ezedlule", ago={"days": 21}, period="day"),
         ]
     )
+
     def test_relative_past_dates(self, date_string, ago, period):
         self.given_parser(settings={"NORMALIZE": False})
         self.given_date_string(date_string)
