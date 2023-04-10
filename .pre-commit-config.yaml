@@ -1,14 +1,15 @@
 repos:
 - repo: https://github.com/PyCQA/flake8
-  rev: 5.0.4  # 6.0.0 drops Python 3.7 support
+  rev: 6.0.0  # 6.0.0 drops Python 3.7 support
   hooks:
   - id: flake8
     args: ['--config=.flake8']
 - repo: https://github.com/psf/black.git
-  rev: 23.1.0
+  rev: 23.3.0
   hooks:
   - id: black
+    exclude: ^dateparser/data/date_translation_data/
 - repo: https://github.com/pycqa/isort
-  rev: 5.11.5  # 5.12 drops Python 3.7 support
+  rev: 5.12.0  # 5.12 drops Python 3.7 support
   hooks:
   - id: isort
