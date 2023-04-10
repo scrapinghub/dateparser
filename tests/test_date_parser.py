@@ -1013,7 +1013,6 @@ class TestDateParser(BaseTestCase):
             param("2001год", expected=datetime(2001, 2, 15), period="year"),
         ]
     )
-
     def test_extracted_period(self, date_string, expected=None, period=None):
         self.given_local_tz_offset(0)
         self.given_parser(settings={"RELATIVE_BASE": datetime(2015, 2, 15, 15, 30)})
