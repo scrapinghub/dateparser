@@ -26,9 +26,13 @@ class BaseLanguageDetector:
     def _filter_languages(date_string, languages, settings=None):
         while languages:
             language = languages[0]
-            if language.is_applicable(date_string, strip_timezone=False, settings=settings):
+            if language.is_applicable(
+                date_string, strip_timezone=False, settings=settings
+            ):
                 yield language
-            elif language.is_applicable(date_string, strip_timezone=True, settings=settings):
+            elif language.is_applicable(
+                date_string, strip_timezone=True, settings=settings
+            ):
                 yield language
 
             languages.pop(0)
@@ -50,9 +54,11 @@ class AutoDetectLanguage(BaseLanguageDetector):
             return
 
         # Try languages that was not tried before with this date_string
-        languages = [language
-                     for language in self.language_pool
-                     if language not in initial_languages]
+        languages = [
+            language
+            for language in self.language_pool
+            if language not in initial_languages
+        ]
         if modify:
             self.languages = languages
 
@@ -67,4 +73,6 @@ class ExactLanguages(BaseLanguageDetector):
 
     @_restore_languages_on_generator_exit
     def iterate_applicable_languages(self, date_string, modify=False, settings=None):
-        yield from super().iterate_applicable_languages(date_string, modify=False, settings=settings)
+        yield from super().iterate_applicable_languages(
+            date_string, modify=False, settings=settings
+        )
