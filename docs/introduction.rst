@@ -180,6 +180,16 @@ Incomplete Dates
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
     datetime.datetime(2015, 8, 15, 0, 0)
 
+    >>> import dateparser
+    >>> dateparser.parse("2015") # default behavior
+    datetime.datetime(2015, 3, 27, 0, 0)
+    >>> dateparser.parse("2015", settings={"PREFER_MONTH_OF_YEAR": "last"})
+    datetime.datetime(2015, 12, 27, 0, 0)
+    >>> dateparser.parse("2015", settings={"PREFER_MONTH_OF_YEAR": "first"})
+    datetime.datetime(2015, 1, 27, 0, 0)
+    >>> dateparser.parse("2015", settings={"PREFER_MONTH_OF_YEAR": "current"})
+    datetime.datetime(2015, 3, 27, 0, 0)
+
 You can also ignore parsing incomplete dates altogether by setting `STRICT_PARSING` flag as follows:
 
     >>> parse('December 2015', settings={'STRICT_PARSING': True})

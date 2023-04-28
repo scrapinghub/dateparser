@@ -74,6 +74,18 @@ Handling Incomplete Dates
     >>> parse('December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
     datetime.datetime(2015, 12, 1, 0, 0)
 
+``PREFER_MONTH_OF_YEAR``: Similarly, another useful thing when the date string is missing the month part. It defaults to ``current`` and can be ``first`` and ``last`` denoting first and last month of year respectively as values:
+
+    >>> from dateparser import parse
+    >>> parse("2015") # default behavior
+    datetime.datetime(2015, 3, 27, 0, 0)
+    >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "last"})
+    datetime.datetime(2015, 12, 27, 0, 0)
+    >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "first"})
+    datetime.datetime(2015, 1, 27, 0, 0)
+    >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "current"}) # it exactly behaves like default one
+    datetime.datetime(2015, 3, 27, 0, 0)
+
 ``PREFER_DATES_FROM``: defaults to ``current_period`` and can have ``past`` and ``future`` as values.
 
 If date string is missing some part, this option ensures consistent results depending on the ``past`` or ``future`` preference, for example, assuming current date is `June 16, 2015`:
