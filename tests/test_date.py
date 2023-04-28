@@ -444,19 +444,46 @@ class TestParseWithFormatsFunction(BaseTestCase):
             datetime(year=expected_year, month=expected_month, day=expected_day)
         )
 
-    @parameterized.expand([
-        param(date_string='2014', date_formats=['%Y'],
-              expected_year=2014, prefer_month_of_year='first',
-              current_month=7, expected_month=1, expected_day=1),
-        param(date_string='2014', date_formats=['%Y'],
-              expected_year=2014, prefer_month_of_year='current',
-              current_month=7, expected_month=7, expected_day=1),
-        param(date_string='2014', date_formats=['%Y'],
-              expected_year=2014, prefer_month_of_year='last',
-              current_month=7, expected_month=12, expected_day=1),
-    ])
+    @parameterized.expand(
+        [
+            param(
+                date_string="2014",
+                date_formats=["%Y"],
+                expected_year=2014,
+                prefer_month_of_year="first",
+                current_month=7,
+                expected_month=1,
+                expected_day=1,
+            ),
+            param(
+                date_string="2014",
+                date_formats=["%Y"],
+                expected_year=2014,
+                prefer_month_of_year="current",
+                current_month=7,
+                expected_month=7,
+                expected_day=1,
+            ),
+            param(
+                date_string="2014",
+                date_formats=["%Y"],
+                expected_year=2014,
+                prefer_month_of_year="last",
+                current_month=7,
+                expected_month=12,
+                expected_day=1,
+            ),
+        ]
+    )
     def test_should_use_correct_month_from_settings_for_dates_without_month(
-        self, date_string, date_formats, expected_year, prefer_month_of_year, current_month, expected_month, expected_day
+        self,
+        date_string,
+        date_formats,
+        expected_year,
+        prefer_month_of_year,
+        current_month,
+        expected_month,
+        expected_day,
     ):
         self.given_now(2014, 7, 1)
         settings_mod = copy(settings)
@@ -464,9 +491,9 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.when_date_is_parsed_with_formats(date_string, date_formats, settings_mod)
         self.then_date_was_parsed()
         self.then_parsed_period_is("year")
-        self.then_parsed_date_is(datetime(year=expected_year,
-                                          month=expected_month,
-                                          day=expected_day))
+        self.then_parsed_date_is(
+            datetime(year=expected_year, month=expected_month, day=expected_day)
+        )
 
     def given_now(self, year, month, day, **time):
         now = datetime(year, month, day, **time)

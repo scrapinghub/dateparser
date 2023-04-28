@@ -20,7 +20,6 @@ settings = {
     "RELATIVE_BASE": False,
     "STRICT_PARSING": False,
     "REQUIRE_PARTS": [],
-
     # Language detection
     "SKIP_TOKENS": ["t"],
     "NORMALIZE": True,

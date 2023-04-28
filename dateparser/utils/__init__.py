@@ -186,17 +186,13 @@ def set_correct_day_from_settings(date_obj, settings, current_day=None):
 
 
 def set_correct_month_from_settings(date_obj, settings, current_month=None):
-    """ Set correct month attending the `PREFER_MONTH_OF_YEAR` setting."""
-    options = {
-        'first': 1,
-        'last': 12,
-        'current': current_month or datetime.now().month
-    }
+    """Set correct month attending the `PREFER_MONTH_OF_YEAR` setting."""
+    options = {"first": 1, "last": 12, "current": current_month or datetime.now().month}
 
     try:
         return date_obj.replace(month=options[settings.PREFER_MONTH_OF_YEAR])
     except ValueError:
-        return date_obj.replace(month=options['last'])
+        return date_obj.replace(month=options["last"])
 
 
 def registry(cls):
