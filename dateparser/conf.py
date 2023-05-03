@@ -18,6 +18,7 @@ class Settings:
     * `TIMEZONE`
     * `TO_TIMEZONE`
     * `RETURN_AS_TIMEZONE_AWARE`
+    * `PREFER_MONTH_OF_YEAR`
     * `PREFER_DAY_OF_MONTH`
     * `PREFER_DATES_FROM`
     * `RELATIVE_BASE`
