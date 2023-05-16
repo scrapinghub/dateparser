@@ -3,7 +3,6 @@
 import os
 import unittest
 from collections import OrderedDict
-from copy import copy
 from datetime import datetime, timedelta
 from datetime import timezone as dttz
 from itertools import product
@@ -14,7 +13,7 @@ from parameterized import param, parameterized
 
 import dateparser
 from dateparser import date
-from dateparser.conf import settings
+from dateparser.conf import Settings
 from dateparser.date import DateData
 from tests import BaseTestCase
 
@@ -435,11 +434,100 @@ class TestParseWithFormatsFunction(BaseTestCase):
         expected_day,
     ):
         self.given_now(2014, 8, today_day)
-        settings_mod = copy(settings)
+        settings_mod = Settings()
         settings_mod.PREFER_DAY_OF_MONTH = prefer_day_of_month
         self.when_date_is_parsed_with_formats(date_string, date_formats, settings_mod)
         self.then_date_was_parsed()
         self.then_parsed_period_is("month")
+        self.then_parsed_date_is(
+            datetime(year=expected_year, month=expected_month, day=expected_day)
+        )
+
+    @parameterized.expand(
+        [
+            param(
+                date_string="2014",
+                date_formats=["%Y"],
+                expected_year=2014,
+                prefer_month_of_year="first",
+                current_month=7,
+                expected_month=1,
+                expected_day=1,
+            ),
+            param(
+                date_string="2014",
+                date_formats=["%Y"],
+                expected_year=2014,
+                prefer_month_of_year="current",
+                current_month=7,
+                expected_month=7,
+                expected_day=1,
+            ),
+            param(
+                date_string="2014",
+                date_formats=["%Y"],
+                expected_year=2014,
+                prefer_month_of_year="last",
+                current_month=7,
+                expected_month=12,
+                expected_day=1,
+            ),
+        ]
+    )
+    def test_should_use_correct_month_from_settings_for_dates_without_month(
+        self,
+        date_string,
+        date_formats,
+        expected_year,
+        prefer_month_of_year,
+        current_month,
+        expected_month,
+        expected_day,
+    ):
+        self.given_now(2014, current_month, 1)
+        settings_mod = Settings()
+        settings_mod.PREFER_MONTH_OF_YEAR = prefer_month_of_year
+        self.when_date_is_parsed_with_formats(date_string, date_formats, settings_mod)
+        self.then_date_was_parsed()
+        self.then_parsed_period_is("year")
+        self.then_parsed_date_is(
+            datetime(year=expected_year, month=expected_month, day=expected_day)
+        )
+
+    @parameterized.expand(
+        [
+            param(
+                date_string="2014",
+                date_formats=["%Y"],
+                current_day=15,
+                current_month=4,
+                prefer_day_of_month="last",
+                prefer_month_of_year="last",
+                expected_year=2014,
+                expected_month=12,
+                expected_day=31,
+            )
+        ]
+    )
+    def test_should_use_correct_day_n_month_from_settings_for_dates_without_day_n_month(
+        self,
+        date_string,
+        date_formats,
+        current_day,
+        current_month,
+        prefer_day_of_month,
+        prefer_month_of_year,
+        expected_year,
+        expected_month,
+        expected_day,
+    ):
+        self.given_now(2014, current_month, current_day)
+        settings_mod = Settings()
+        settings_mod.PREFER_DAY_OF_MONTH = prefer_day_of_month
+        settings_mod.PREFER_MONTH_OF_YEAR = prefer_month_of_year
+        self.when_date_is_parsed_with_formats(date_string, date_formats, settings_mod)
+        self.then_date_was_parsed()
+        self.then_parsed_period_is("year")
         self.then_parsed_date_is(
             datetime(year=expected_year, month=expected_month, day=expected_day)
         )
@@ -457,7 +545,7 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self, date_string, date_formats, custom_settings=None
     ):
         self.result = date.parse_with_formats(
-            date_string, date_formats, custom_settings or settings
+            date_string, date_formats, custom_settings or Settings()
         )
 
     def then_date_was_not_parsed(self):
@@ -984,7 +1072,7 @@ class TestDateLocaleParser(BaseTestCase):
             language=["en"],
             date_string="10 jan 2000",
             date_formats=None,
-            settings=settings,
+            settings=Settings(),
         )
         self.when_date_object_is_validated(date_data)
         self.then_date_object_is_invalid()

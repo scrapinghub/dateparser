@@ -18,6 +18,7 @@ class Settings:
     * `TIMEZONE`
     * `TO_TIMEZONE`
     * `RETURN_AS_TIMEZONE_AWARE`
+    * `PREFER_MONTH_OF_YEAR`
     * `PREFER_DAY_OF_MONTH`
     * `PREFER_DATES_FROM`
     * `RELATIVE_BASE`
@@ -191,6 +192,7 @@ def check_settings(settings):
             # It defaults to 'default', but it's not allowed to use it directly
             "type": bool
         },
+        "PREFER_MONTH_OF_YEAR": {"values": ("current", "first", "last"), "type": str},
         "PREFER_DAY_OF_MONTH": {"values": ("current", "first", "last"), "type": str},
         "PREFER_DATES_FROM": {
             "values": ("current_period", "past", "future"),

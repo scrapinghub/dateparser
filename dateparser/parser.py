@@ -13,6 +13,7 @@ from dateparser.utils import (
     get_previous_leap_year,
     get_timezone_from_tz_string,
     set_correct_day_from_settings,
+    set_correct_month_from_settings,
 )
 from dateparser.utils.strptime import strptime
 
@@ -595,6 +596,17 @@ class _parser:
         )
         return dateobj
 
+    def _correct_for_month(self, dateobj):
+        relative_base = getattr(self.settings, "RELATIVE_BASE", None)
+        relative_base_month = (
+            relative_base.month if hasattr(relative_base, "month") else relative_base
+        )
+        if getattr(self, "_token_month", None) or relative_base_month:
+            return dateobj
+
+        dateobj = set_correct_month_from_settings(dateobj, self.settings)
+        return dateobj
+
     @classmethod
     def parse(cls, datestring, settings, tz=None):
         tokens = tokenizer(datestring)
@@ -606,6 +618,9 @@ class _parser:
 
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
+
+        # correction for preference of month: beginning, current, end
+        dateobj = po._correct_for_month(dateobj)
         period = po._get_period()
 
         return dateobj, period
