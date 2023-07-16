@@ -56,7 +56,7 @@ class TestHijriParser(BaseTestCase):
                 dt_obj=datetime(2012, 1, 29, 16, 32),
             ),
             param(
-                dt_string="13 شعبان 1441 هـ, 03:12 صباحاً",
+                dt_string="13 شعبان 1441 هـ, 03:۱۲ صباحاً",
                 dt_obj=datetime(2020, 4, 6, 3, 12),
             ),
         ]

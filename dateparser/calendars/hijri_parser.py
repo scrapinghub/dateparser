@@ -49,6 +49,19 @@ class hijri_parser(non_gregorian_parser):
         "pm": ["مساءً"],
     }
 
+    _digits = {
+        "۰": 0,
+        "۱": 1,
+        "۲": 2,
+        "۳": 3,
+        "۴": 4,
+        "۵": 5,
+        "۶": 6,
+        "۷": 7,
+        "۸": 8,
+        "۹": 9,
+    }
+    
     _months = OrderedDict(
         [ 
             ("01", ["مُحرم", "محرم"]),
@@ -65,6 +78,14 @@ class hijri_parser(non_gregorian_parser):
             ("12", ["ذو الحجة"]),
         ]
     )
+
+
+    @classmethod
+    def _replace_digits(cls, source):
+        result = source
+        for pers_digit, number in cls._digits.items():
+            result = result.replace(pers_digit, str(number))
+        return result
 
 
     @classmethod
