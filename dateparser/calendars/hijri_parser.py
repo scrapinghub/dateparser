@@ -1,3 +1,5 @@
+from collections import OrderedDict
+from functools import reduce
 from hijri_converter import convert
 
 from dateparser.calendars import non_gregorian_parser
@@ -46,6 +48,40 @@ class hijri_parser(non_gregorian_parser):
         "am": ["صباحاً"],
         "pm": ["مساءً"],
     }
+
+    _months = OrderedDict(
+        [ 
+            ("01", ["مُحرم", "محرم"]),
+            ("02", ["صفر"]),
+            ("03", ["ربيع الأول", "ربيع الاول"]),
+            ("04", ["ربيع الثاني", "ربيع الاخر`"]),
+            ("05", ["جمادي الأول", "جمادي الاول"]),
+            ("06", ["جمادي الثاني", "جمادي الاخر"]),
+            ("07", ["رجب"]),
+            ("08", ["شعبان"]),
+            ("09", ["رمضان"]),
+            ("10", ["شوال"]),
+            ("11", ["ذو القعدة"]),
+            ("12", ["ذو الحجة"]),
+        ]
+    )
+
+
+    @classmethod
+    def _replace_months(cls, source):
+        print("Source is ", source)
+        result = source
+        for arabic, number in reduce(
+            lambda a, b: a + b,
+            [
+                [(value, month) for value in rpl]
+                for month, rpl in cls._months.items()
+            ],
+        ):
+            print("arabic", arabic, " latin", number)
+            result = result.replace(arabic, number)
+        return result
+
 
     @classmethod
     def _replace_time_conventions(cls, source):
