@@ -597,19 +597,19 @@ class TestTranslateSearch(BaseTestCase):
                     (
                         "May 2020",
                         datetime.datetime(
-                            2020, 5, datetime.datetime.utcnow().day, 0, 0
+                            2020, 5, datetime.datetime.now(tz=datetime.timezone.utc).day, 0, 0
                         ),
                     ),
                     (
                         "July 2020",
                         datetime.datetime(
-                            2020, 7, datetime.datetime.utcnow().day, 0, 0
+                            2020, 7, datetime.datetime.now(tz=datetime.timezone.utc).day, 0, 0
                         ),
                     ),
                     (
                         "2023",
                         datetime.datetime(
-                            2023, 7, datetime.datetime.utcnow().day, 0, 0
+                            2023, 7, datetime.datetime.now(tz=datetime.timezone.utc).day, 0, 0
                         ),
                     ),
                     (
@@ -617,7 +617,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2023,
                             1,
-                            datetime.datetime.utcnow().day,
+                            datetime.datetime.now(tz=datetime.timezone.utc).day,
                             0,
                             0,
                             tzinfo=pytz.utc,

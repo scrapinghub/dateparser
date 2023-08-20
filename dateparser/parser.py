@@ -1,6 +1,6 @@
 import calendar
 from collections import OrderedDict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from io import StringIO
 
 import pytz
@@ -437,7 +437,7 @@ class _parser:
     def _set_relative_base(self):
         self.now = self.settings.RELATIVE_BASE
         if not self.now:
-            self.now = datetime.utcnow()
+            self.now = datetime.now(tz=timezone.utc).replace(tzinfo=None)
 
     def _get_datetime_obj_params(self):
         if not self.now:

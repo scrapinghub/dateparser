@@ -38,10 +38,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         settings.TIMEZONE = "utc"
 
-    def now_with_timezone(self, tzinfo):
+    def now_with_timezone(self, tz):
         now = self.now
         return datetime(
-            now.year, now.month, now.day, now.hour, now.minute, tzinfo=tzinfo
+            now.year, now.month, now.day, now.hour, now.minute, tzinfo=tz
         )
 
     @parameterized.expand(
@@ -2621,7 +2621,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.freshness_parser = Mock(wraps=freshness_date_parser)
 
         dt_mock = Mock(wraps=dateparser.freshness_date_parser.datetime)
-        dt_mock.utcnow = Mock(return_value=self.now)
         dt_mock.now = Mock(side_effect=self.now_with_timezone)
         self.add_patch(patch("dateparser.freshness_date_parser.datetime", new=dt_mock))
         self.add_patch(

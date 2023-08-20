@@ -1,3 +1,4 @@
+import datetime as dt
 from datetime import datetime, timedelta
 from unittest.mock import Mock, patch
 
@@ -133,16 +134,9 @@ class TestLocalTZOffset(BaseTestCase):
         ]
     )
     def test_timezone_offset_calculation(self, utc, local, offset):
-        self.given_utc_time(utc)
-        self.given_local_time(local)
+        self.given_time(utc, local)
         self.when_offset_popped_from_string()
         self.then_offset_is(offset)
-
-    def given_utc_time(self, datetime_string):
-        self._given_time(datetime_string, "utcnow")
-
-    def given_local_time(self, datetime_string):
-        self._given_time(datetime_string, "now")
 
     def when_offset_popped_from_string(self):
         self.timezone_offset = get_local_tz_offset()
@@ -155,12 +149,19 @@ class TestLocalTZOffset(BaseTestCase):
         )
         self.assertEqual(delta, self.timezone_offset)
 
-    def _given_time(self, datetime_string, getter_name):
+    def given_time(self, utc_dt_string, local_dt_string):
         datetime_cls = dateparser.timezone_parser.datetime
         if not isinstance(datetime_cls, Mock):
             datetime_cls = Mock(wraps=datetime)
-        datetime_obj = datetime.strptime(datetime_string, "%Y-%m-%d %H:%M")
-        setattr(datetime_cls, getter_name, Mock(return_value=datetime_obj))
+        utc_dt_obj = datetime.strptime(utc_dt_string, "%Y-%m-%d %H:%M").astimezone(dt.timezone.utc)
+        local_dt_obj = datetime.strptime(local_dt_string, "%Y-%m-%d %H:%M")
+
+        def _dt_now(tz=None):
+            if tz == dt.timezone.utc:
+                return utc_dt_obj
+            return local_dt_obj
+
+        datetime_cls.now = Mock(side_effect=_dt_now)
         self.add_patch(patch("dateparser.timezone_parser.datetime", new=datetime_cls))
 
 
