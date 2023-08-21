@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import datetime, time, timezone
 
 import regex as re
 from dateutil.relativedelta import relativedelta
@@ -86,7 +86,7 @@ class FreshnessDateDataParser:
 
         else:
             if "local" not in _settings_tz:
-                utc_dt = datetime.utcnow()
+                utc_dt = datetime.now(tz=timezone.utc)
                 now = apply_timezone(utc_dt, settings.TIMEZONE)
             else:
                 now = datetime.now(self.get_local_tz())

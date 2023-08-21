@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, tzinfo
+from datetime import datetime, timedelta, timezone, tzinfo
 
 import regex as re
 
@@ -80,7 +80,7 @@ def build_tz_offsets(search_regex_parts):
 
 
 def get_local_tz_offset():
-    offset = datetime.now() - datetime.utcnow()
+    offset = datetime.now() - datetime.now(tz=timezone.utc).replace(tzinfo=None)
     offset = timedelta(days=offset.days, seconds=round(offset.seconds, -1))
     return offset
 
