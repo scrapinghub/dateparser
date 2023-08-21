@@ -40,9 +40,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     def now_with_timezone(self, tz):
         now = self.now
-        return datetime(
-            now.year, now.month, now.day, now.hour, now.minute, tzinfo=tz
-        )
+        return datetime(now.year, now.month, now.day, now.hour, now.minute, tzinfo=tz)
 
     @parameterized.expand(
         [
