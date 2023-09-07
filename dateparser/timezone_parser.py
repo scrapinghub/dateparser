@@ -32,8 +32,8 @@ class StaticTzInfo(tzinfo):
 
 
 def pop_tz_offset_from_string(date_string, as_offset=True):
-    if _search_regex_ignorecase.search(date_string):
-        for name, info in _tz_offsets:
+    if TzRegexCache.search_regex_ignorecase().search(date_string):
+        for name, info in TzRegexCache.tz_offsets():
             timezone_re = info["regex"]
             timezone_match = timezone_re.search(date_string)
             if timezone_match:
@@ -47,7 +47,7 @@ def pop_tz_offset_from_string(date_string, as_offset=True):
 
 
 def word_is_tz(word):
-    return bool(_search_regex.match(word))
+    return bool(TzRegexCache.search_regex().match(word))
 
 
 def convert_to_local_tz(datetime_obj, datetime_tz_offset):
@@ -85,8 +85,36 @@ def get_local_tz_offset():
     return offset
 
 
-_search_regex_parts = []
-_tz_offsets = list(build_tz_offsets(_search_regex_parts))
-_search_regex = re.compile("|".join(_search_regex_parts))
-_search_regex_ignorecase = re.compile("|".join(_search_regex_parts), re.IGNORECASE)
+class TzRegexCache:
+    _ready = False
+    _search_regex_parts = []
+    _tz_offsets = []
+    _search_regex = None
+    _search_regex_ignorecase = None
+
+    @classmethod
+    def prepare(cls):
+        if not cls._ready:
+            cls._search_regex_parts = []
+            cls._tz_offsets = list(build_tz_offsets(cls._search_regex_parts))
+            cls._search_regex = re.compile("|".join(cls._search_regex_parts))
+            cls._search_regex_ignorecase = re.compile("|".join(cls._search_regex_parts), re.IGNORECASE)
+            cls._ready = True
+
+    @classmethod
+    def tz_offsets(cls):
+        cls.prepare()
+        return cls._tz_offsets
+
+    @classmethod
+    def search_regex(cls):
+        cls.prepare()
+        return cls._search_regex
+
+    @classmethod
+    def search_regex_ignorecase(cls):
+        cls.prepare()
+        return cls._search_regex_ignorecase
+
+
 local_tz_offset = get_local_tz_offset()
