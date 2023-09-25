@@ -54,3 +54,9 @@ class hijri_parser(non_gregorian_parser):
             for arabic in arabics:
                 result = result.replace(arabic, latin)
         return result
+    
+    def handle_two_digit_year(self, year):
+        if year >= 90:
+            return year + 1300
+        else:
+            return year + 1400
