@@ -1,12 +1,12 @@
+import contextlib
+import datetime
 import io
 import tempfile
-import datetime
+from typing import List, TypeVar
 
 import atheris
-import contextlib
-from typing import TypeVar, List
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 class EnhancedFuzzedDataProvider(atheris.FuzzedDataProvider):
@@ -14,7 +14,9 @@ class EnhancedFuzzedDataProvider(atheris.FuzzedDataProvider):
         return self.ConsumeBytes(self.ConsumeIntInRange(0, self.remaining_bytes()))
 
     def ConsumeRandomString(self) -> str:
-        return self.ConsumeUnicodeNoSurrogates(self.ConsumeIntInRange(0, self.remaining_bytes()))
+        return self.ConsumeUnicodeNoSurrogates(
+            self.ConsumeIntInRange(0, self.remaining_bytes())
+        )
 
     def ConsumeRemainingString(self) -> str:
         return self.ConsumeUnicodeNoSurrogates(self.remaining_bytes())
@@ -42,24 +44,40 @@ class EnhancedFuzzedDataProvider(atheris.FuzzedDataProvider):
             return datetime.datetime(year=1970, month=1, day=1)
 
     @contextlib.contextmanager
-    def ConsumeMemoryFile(self, all_data: bool = False, as_bytes: bool = True) -> io.BytesIO:
+    def ConsumeMemoryFile(
+        self, all_data: bool = False, as_bytes: bool = True
+    ) -> io.BytesIO:
         if all_data:
-            file_data = self.ConsumeRemainingBytes() if as_bytes else self.ConsumeRemainingString()
+            file_data = (
+                self.ConsumeRemainingBytes()
+                if as_bytes
+                else self.ConsumeRemainingString()
+            )
         else:
-            file_data = self.ConsumeRandomBytes() if as_bytes else self.ConsumeRandomString()
+            file_data = (
+                self.ConsumeRandomBytes() if as_bytes else self.ConsumeRandomString()
+            )
 
         file = io.BytesIO(file_data) if as_bytes else io.StringIO(file_data)
         yield file
         file.close()
 
     @contextlib.contextmanager
-    def ConsumeTemporaryFile(self, suffix: str, all_data: bool = False, as_bytes: bool = True) -> str:
+    def ConsumeTemporaryFile(
+        self, suffix: str, all_data: bool = False, as_bytes: bool = True
+    ) -> str:
         if all_data:
-            file_data = self.ConsumeRemainingBytes() if as_bytes else self.ConsumeRemainingString()
+            file_data = (
+                self.ConsumeRemainingBytes()
+                if as_bytes
+                else self.ConsumeRemainingString()
+            )
         else:
-            file_data = self.ConsumeRandomBytes() if as_bytes else self.ConsumeRandomString()
+            file_data = (
+                self.ConsumeRandomBytes() if as_bytes else self.ConsumeRandomString()
+            )
 
-        mode = 'w+b' if as_bytes else 'w+'
+        mode = "w+b" if as_bytes else "w+"
         tfile = tempfile.NamedTemporaryFile(mode=mode, suffix=suffix)
         tfile.write(file_data)
         tfile.seek(0)
