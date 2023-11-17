@@ -162,7 +162,7 @@ languages for parsing when language detection fails. eg. ["en", "fr"]:
     >>> from dateparser import parse
     >>> parse('3 de marzo de 2020', settings={'DEFAULT_LANGUAGES': ["es"]})
 
-.. note:: When using this setting, these languages will be tried after trying with the detected languages with no success. It is especially useful when using the ``detect_languages_function`.
+.. note:: When using this setting, these languages will be tried after trying with the detected languages with no success. It is especially useful when using ``detect_languages_function``.
 
 Optional language detection
 +++++++++++++++++++++++++++
@@ -193,7 +193,7 @@ The following parsers exist:
     followed by additional digits or a period (``.``), those first 10 digits
     are interpreted as `Unix time <https://en.wikipedia.org/wiki/Unix_time>`_.
 
--    ``'negative-timestamp'``: ``'timestamp'`` for negative timestamps. For
+-   ``'negative-timestamp'``: ``'timestamp'`` for negative timestamps. For
     example, parses ``-186454800000`` as ``1964-02-03T23:00:00``.
 
 -   ``'relative-time'``: Parses dates and times expressed in relation to the

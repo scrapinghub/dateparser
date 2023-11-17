@@ -2,8 +2,8 @@
 Custom language detection
 =========================
 
-`dateparser` allows to customize the language detection behavior by using the ``detect_languages_function`` parameter. 
-It currently supports two language detection libraries out of the box: `fastText <https://github.com/facebookresearch/fastText>`_ 
+`dateparser` allows to customize the language detection behavior by using the ``detect_languages_function`` parameter.
+It currently supports two language detection libraries out of the box: `fastText <https://github.com/facebookresearch/fastText>`_
 and `langdetect <https://github.com/Mimino666/langdetect>`_, and allows you to implement your own custom language detection.
 
 .. warning::
@@ -25,7 +25,7 @@ parameter. Example::
     >>> dateparser.parse('12/12/12', detect_languages_function=detect_languages)
 
 The fastText integration currently supports the large and the small models.
-Find more information about `fasttext <https://fasttext.cc/blog/2017/10/02/blog-post.html>`_ models.
+Find more information about `fasttext <https://fasttext.cc/blog/2017/10/02/blog-post.html>`__ models.
 You can download your model of choice using ``dateparser-download``.
 
 Downloading small model::
@@ -42,7 +42,7 @@ Deleting all cached models::
 
 .. note::
 
-    If no model has been downloaded, the fastText wrapper downloads and uses 
+    If no model has been downloaded, the fastText wrapper downloads and uses
     the small model by default.
 
 langdetect
@@ -75,20 +75,20 @@ Wrapper for boilerplate for implementing custom language detections::
         """
         Takes 2 parameters, `text` and `confidence_threshold`, and returns
         a list of `languages codes`.
-        
+
         * `text` is the input string whose language needs to be detected.
-        
-        * `confidence_threshold` is a number between 0 and 1 that indicates the 
+
+        * `confidence_threshold` is a number between 0 and 1 that indicates the
         minimum confidence required for language matches.
-        
-        For language detection libraries that, for each language, indicate how 
-        confident they are that the language matches the input text, you should 
+
+        For language detection libraries that, for each language, indicate how
+        confident they are that the language matches the input text, you should
         filter out languages with a confidence lower than this value (adjusted,
         if needed, to the confidence range of the target library).
-        
-        This value comes from the dateparser setting 
+
+        This value comes from the dateparser setting
         `LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`.
-        
+
         The result must be a list of languages codes (strings).
         """
         # here you can apply your own logic
