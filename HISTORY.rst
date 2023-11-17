@@ -3,7 +3,7 @@
 History
 =======
 
-1.2.0 (unreleased)
+1.2.0 (2023-11-17)
 ------------------
 
 New features:
