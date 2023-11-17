@@ -7,13 +7,16 @@ History
 ------------------
 
 New features:
+
 - New ``PREFER_MONTH_OF_YEAR`` setting (#1146)
 
 Fixes:
+
 - Absolute years in Russian are no longer being treated as a number of years in
   the past (#1129)
 
 Cleanups and internal improvements:
+
 - Removed the use of ``datetime.utcnow``, deprecated on Python 3.12 (#1179)
 - Applied Black formatting to the code base (#1158)
 - Initial integration with OSSFuzz (#1198)
@@ -24,6 +27,7 @@ Cleanups and internal improvements:
 ------------------
 
 Improvements:
+
 - Improved date parsing for Chinese (#1148)
 - Improved date parsing for Czech (#1151)
 - Reorder language by popularity (#1152)
