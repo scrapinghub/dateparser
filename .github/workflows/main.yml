@@ -38,6 +38,9 @@ jobs:
           - python-version: "3.11"
             env:
               TOXENV: latest
+          - python-version: "3.11"
+            env:
+              TOXENV: twinecheck
     steps:
       - uses: actions/checkout@v3
       - name: 'Set up Python ${{ matrix.python-version }}'
