@@ -181,26 +181,34 @@ class Dictionary:
         ):
             cache.pop(list(cache.keys())[0])
 
-    def _split_by_known_words(self, string, keep_formatting):
-        if not string:
-            return string
-
+    def _split_by_known_words(self, string: str, keep_formatting: bool):
         regex = self._get_split_regex_cache()
-        match = regex.match(string)
-        if not match:
-            return (
-                self._split_by_numerals(string, keep_formatting)
-                if self._should_capture(string, keep_formatting)
-                else []
-            )
+        splitted = []
+        unknown = string
 
-        unparsed, known, unknown = match.groups()
-        splitted = [known] if self._should_capture(known, keep_formatting) else []
-        if unparsed and self._should_capture(unparsed, keep_formatting):
-            splitted = self._split_by_numerals(unparsed, keep_formatting) + splitted
-        if unknown:
-            splitted.extend(self._split_by_known_words(unknown, keep_formatting))
+        while unknown:
+            match = regex.match(string)
 
+            if not match:
+                curr_split = (
+                    self._split_by_numerals(string, keep_formatting)
+                    if self._should_capture(string, keep_formatting)
+                    else []
+                )
+                unknown = ""
+            else:
+                unparsed, known, unknown = match.groups()
+                curr_split = (
+                    [known] if self._should_capture(known, keep_formatting) else []
+                )
+                if unparsed and self._should_capture(unparsed, keep_formatting):
+                    curr_split = (
+                        self._split_by_numerals(unparsed, keep_formatting) + curr_split
+                    )
+                if unknown:
+                    string = unknown if string != unknown else ""
+
+            splitted.extend(curr_split)
         return splitted
 
     def _split_by_numerals(self, string, keep_formatting):
