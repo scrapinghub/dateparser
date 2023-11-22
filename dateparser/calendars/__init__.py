@@ -76,6 +76,9 @@ class non_gregorian_parser(_parser):
 
         return result
 
+    def handle_two_digit_year(self, year):
+        raise ValueError
+
     def _get_datetime_obj(self, **params):
         day = params["day"]
         year = params["year"]
@@ -129,6 +132,8 @@ class non_gregorian_parser(_parser):
             day = int(token)
         elif directive == "%Y" and token_len == 4 and is_digit:
             year = int(token)
+        elif directive == "%Y" and token_len == 2 and is_digit:
+            year = self.handle_two_digit_year(int(token))
         else:
             raise ValueError
         return self.non_gregorian_date_cls(year, month, day)

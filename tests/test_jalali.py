@@ -240,6 +240,14 @@ class TestJalaliCalendar(BaseTestCase):
                 date_string="پنجشنبه 26 شهریور 1394 ساعت ساعت 11 و 01 دقیقه",
                 dt=datetime(2015, 9, 17, 11, 1),
             ),
+            param(
+                date_string="پنجشنبه 26 شهریور 94 ساعت ساعت 11 و 01 دقیقه",
+                dt=datetime(2015, 9, 17, 11, 1),
+            ),
+            param(
+                date_string="چهارشنبه 22 شهریور 02 ساعت ساعت 11 و 01 دقیقه",
+                dt=datetime(2023, 9, 13, 11, 1),
+            ),
         ]
     )
     def test_get_date(self, date_string, dt):
