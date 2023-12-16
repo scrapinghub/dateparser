@@ -144,10 +144,10 @@ class _no_spaces_parser:
             "%m%d%y": (
                 self._preferred_formats
                 + sorted(
-                    self._all,
-                    key=lambda x: x.lower().startswith("%m%d%y"),
-                    reverse=True,
-                )
+                self._all,
+                key=lambda x: x.lower().startswith("%m%d%y"),
+                reverse=True,
+            )
             ),
             "%m%y%d": sorted(
                 self._all, key=lambda x: x.lower().startswith("%m%y%d"), reverse=True
@@ -566,10 +566,16 @@ class _parser:
             except pytz.UnknownTimeZoneError:
                 tz = None
 
+            dateobj_time = None
             if tz:
-                dateobj_time = (dateobj - tz.utcoffset(dateobj)).time()
-            else:
+                try:
+                    dateobj_time = (dateobj - tz.utcoffset(dateobj)).time()
+                except pytz.InvalidTimeError:
+                    pass
+
+            if not dateobj_time:
                 dateobj_time = dateobj.time()
+
             if "past" in self.settings.PREFER_DATES_FROM:
                 if self.now.time() < dateobj_time:
                     dateobj = dateobj + timedelta(days=-1)
