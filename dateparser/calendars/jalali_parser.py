@@ -1,5 +1,6 @@
 import re
 from collections import OrderedDict
+from datetime import datetime
 from functools import reduce
 
 from convertdate import persian
@@ -176,3 +177,9 @@ class jalali_parser(non_gregorian_parser):
         ):
             result = result.replace(persian_number, str(number))
         return result
+
+    def handle_two_digit_year(self, year):
+        if year > 60:
+            return year + 1300
+        else:
+            return year + 1400
