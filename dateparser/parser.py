@@ -144,10 +144,10 @@ class _no_spaces_parser:
             "%m%d%y": (
                 self._preferred_formats
                 + sorted(
-                self._all,
-                key=lambda x: x.lower().startswith("%m%d%y"),
-                reverse=True,
-            )
+                    self._all,
+                    key=lambda x: x.lower().startswith("%m%d%y"),
+                    reverse=True,
+                )
             ),
             "%m%y%d": sorted(
                 self._all, key=lambda x: x.lower().startswith("%m%y%d"), reverse=True
