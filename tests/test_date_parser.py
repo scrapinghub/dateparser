@@ -1214,6 +1214,16 @@ class TestDateParser(BaseTestCase):
                 {"PREFER_DATES_FROM": "future"},
             ),
             param(
+                "10pm EDT",
+                datetime(2021, 10, 20, 2, 0),
+                {"PREFER_DATES_FROM": "future"},
+            ),
+            param(
+                "8am AEDT",
+                datetime(2021, 10, 18, 21, 0),
+                {"PREFER_DATES_FROM": "past"},
+            ),
+            param(
                 "11pm AEDT",
                 datetime(2021, 10, 19, 12, 0),
                 {"PREFER_DATES_FROM": "past"},
@@ -1222,6 +1232,16 @@ class TestDateParser(BaseTestCase):
                 "4pm",
                 datetime(2021, 10, 19, 20, 0),
                 {"PREFER_DATES_FROM": "future", "TIMEZONE": "EDT"},
+            ),
+            param(
+                "10pm",
+                datetime(2021, 10, 20, 2, 0),
+                {"PREFER_DATES_FROM": "future", "TIMEZONE": "EDT"},
+            ),
+            param(
+                "8am",
+                datetime(2021, 10, 18, 21, 0),
+                {"PREFER_DATES_FROM": "past", "TIMEZONE": "AEDT"},
             ),
             param(
                 "11pm",
