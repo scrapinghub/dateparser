@@ -1,5 +1,6 @@
 import datetime as dt
 from datetime import datetime, timedelta
+from unittest import SkipTest
 from unittest.mock import Mock, patch
 
 from parameterized import param, parameterized
@@ -134,7 +135,10 @@ class TestLocalTZOffset(BaseTestCase):
         ]
     )
     def test_timezone_offset_calculation(self, utc, local, offset):
-        self.given_time(utc, local)
+        try:
+            self.given_time(utc, local)
+        except OverflowError:
+            raise SkipTest("Unsupported with 32-bit time_t")
         self.when_offset_popped_from_string()
         self.then_offset_is(offset)
 
