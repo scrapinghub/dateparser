@@ -158,7 +158,6 @@ class TestParseFunction(BaseTestCase):
             }
         )
         self.then_parsed_date_and_time_is(expected_date)
-        print(self.result)
 
     @parameterized.expand(
         [
