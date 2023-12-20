@@ -563,8 +563,9 @@ class _parser:
             # Convert dateobj to utc time to compare with self.now
             try:
                 tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
+                tz_offset = tz.utcoffset(dateobj)
             except pytz.UnknownTimeZoneError:
-                tz = None
+                tz_offset = timedelta(hours=0)
 
             dateobj_time = None
             if tz:
@@ -577,10 +578,10 @@ class _parser:
                 dateobj_time = dateobj.time()
 
             if "past" in self.settings.PREFER_DATES_FROM:
-                if self.now.time() < dateobj_time:
+                if self.now < dateobj - tz_offset:
                     dateobj = dateobj + timedelta(days=-1)
             if "future" in self.settings.PREFER_DATES_FROM:
-                if self.now.time() > dateobj_time:
+                if self.now > dateobj - tz_offset:
                     dateobj = dateobj + timedelta(days=1)
 
         # Reset dateobj to the original value, thus removing any offset awareness that may
