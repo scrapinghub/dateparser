@@ -564,7 +564,7 @@ class _parser:
             try:
                 tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
                 tz_offset = tz.utcoffset(dateobj)
-            except pytz.UnknownTimeZoneError:
+            except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
                 tz_offset = timedelta(hours=0)
 
             dateobj_time = None
