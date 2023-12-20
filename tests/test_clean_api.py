@@ -113,6 +113,55 @@ class TestParseFunction(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(
+                date_string='0:4',
+                locales=["fr-PF"],
+                languages=["en"],
+                region='',
+                date_formats=['%a', '%a', '%a', '%a'],
+                expected_date=datetime(1969, 12, 31, 14, 4)
+            )
+        ]
+    )
+    def test_dates_parse_utc_offset_does_not_throw(
+        self, date_string, locales, languages, region, date_formats, expected_date
+    ):
+        """
+        Bug discovered by OSSFuzz that caused an exception in pytz to halt parsing
+        Regression test to ensure that this is not reintroduced
+        """
+        self.when_date_is_parsed_with_args_and_settings(
+            date_string,
+            languages=languages,
+            locales=locales,
+            region=region,
+            date_formats=date_formats,
+            settings={
+                'CACHE_SIZE_LIMIT': 1000,
+                'DATE_ORDER': 'YDM',
+                'DEFAULT_LANGUAGES': ['mzn', 'as', 'af', 'fur', 'sr-Cyrl', 'kw', 'ne', 'en', 'vi', 'teo', 'sr', 'cgg'],
+                'LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD': 0.18823535008398845,
+                'NORMALIZE': True,
+                'PARSERS': ['custom-formats', 'absolute-time'],
+                'PREFER_DATES_FROM': 'past',
+                'PREFER_DAY_OF_MONTH': 'first',
+                'PREFER_LOCALE_DATE_ORDER': True,
+                'PREFER_MONTH_OF_YEAR': 'current',
+                'RELATIVE_BASE': datetime(year=1970, month=1, day=1, hour=0, minute=0, second=0),
+                'REQUIRE_PARTS': [],
+                'RETURN_AS_TIMEZONE_AWARE': False,
+                'RETURN_TIME_AS_PERIOD': False,
+                'SKIP_TOKENS': [],
+                'STRICT_PARSING': False,
+                'TIMEZONE': 'America/Hermosillo',
+                'TO_TIMEZONE': 'Asia/Almaty'
+            }
+        )
+        self.then_parsed_date_and_time_is(expected_date)
+        print(self.result)
+
+    @parameterized.expand(
+        [
             param(date_string="January 24, 2014", locales=["pt-AO"]),
         ]
     )
@@ -132,6 +181,15 @@ class TestParseFunction(BaseTestCase):
 
     def when_date_is_parsed_with_settings(self, date_string, settings=None):
         self.result = dateparser.parse(date_string, settings=settings)
+
+    def when_date_is_parsed_with_args_and_settings(self, date_string, languages=None, locales=None, region=None, date_formats=None, settings=None):
+        self.result = dateparser.parse(
+            date_string,
+            languages=languages,
+            locales=locales,
+            region=region,
+            date_formats=date_formats,
+            settings=settings)
 
     def then_parsed_date_is(self, expected_date):
         self.assertEqual(
