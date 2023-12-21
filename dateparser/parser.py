@@ -567,16 +567,6 @@ class _parser:
             except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
                 tz_offset = timedelta(hours=0)
 
-            dateobj_time = None
-            if tz:
-                try:
-                    dateobj_time = (dateobj - tz.utcoffset(dateobj)).time()
-                except pytz.InvalidTimeError:
-                    pass
-
-            if not dateobj_time:
-                dateobj_time = dateobj.time()
-
             if "past" in self.settings.PREFER_DATES_FROM:
                 if self.now < dateobj - tz_offset:
                     dateobj = dateobj + timedelta(days=-1)
