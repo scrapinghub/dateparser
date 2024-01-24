@@ -50,7 +50,7 @@ Key Features
    locales <https://dateparser.readthedocs.io/en/latest/supported_locales.html>`__.
 -  Language autodetection
 -  Customizable behavior through
-   `settings <https://dateparser.readthedocs.io/en/latest/usage.html#settings>`__.
+   `settings <https://dateparser.readthedocs.io/en/latest/settings.html>`__.
 -  Support for `non-Gregorian calendar
    systems <https://dateparser.readthedocs.io/en/latest/introduction.html#supported-calendars>`__.
 -  Support for dates with timezones abbreviations or UTC offsets
