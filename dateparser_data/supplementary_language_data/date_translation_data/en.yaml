@@ -3,8 +3,29 @@ pertain: ["of"]
 
 sentence_splitter_group : 1
 
+# two letters days of week
+
+monday:
+    - mo
+
 tuesday:
+    - tu
     - Tues
+
+wednesday:
+    - we
+
+thursday:
+    - th
+
+friday:
+    - fr
+
+saturday:
+    - sa
+
+sunday:
+    - su
 
 september:
     - sept
