@@ -709,7 +709,7 @@ language_locale_dict = {
     "gsw": ["gsw-FR", "gsw-LI"],
     "ug": [],
     "zgh": [],
-    "ff": ["ff-CM", "ff-GN", "ff-MR"],
+    "ff": [],
     "rn": [],
     "sq": ["sq-MK", "sq-XK"],
     "ks": [],
