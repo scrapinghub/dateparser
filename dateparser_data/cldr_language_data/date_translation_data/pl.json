@@ -115,7 +115,8 @@
     "hour": [
         "g",
         "godz",
-        "godzina"
+        "godzina",
+        "godziny"
     ],
     "minute": [
         "min",

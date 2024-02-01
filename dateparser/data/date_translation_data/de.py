@@ -119,6 +119,7 @@ info = {
     "hour": [
         "std",
         "stunde",
+        "stunden",
         "Stunden"
     ],
     "minute": [

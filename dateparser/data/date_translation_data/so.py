@@ -37,13 +37,13 @@ info = {
     ],
     "august": [
         "bisha sideedaad",
-        "ogost",
+        "ogosto",
         "ogs"
     ],
     "september": [
         "bisha sagaalaad",
         "seb",
-        "sebtembar"
+        "sebteembar"
     ],
     "october": [
         "bisha tobnaad",
@@ -53,12 +53,12 @@ info = {
     "november": [
         "bisha kow iyo tobnaad",
         "nof",
-        "nofembar"
+        "noofeembar"
     ],
     "december": [
         "bisha laba iyo tobnaad",
-        "desembar",
-        "dis"
+        "dis",
+        "diseembar"
     ],
     "monday": [
         "isn",
@@ -89,6 +89,7 @@ info = {
         "axd"
     ],
     "am": [
+        "am",
         "gh"
     ],
     "pm": [
@@ -111,6 +112,7 @@ info = {
     ],
     "hour": [
         "saacad",
+        "saacado",
         "scd"
     ],
     "minute": [

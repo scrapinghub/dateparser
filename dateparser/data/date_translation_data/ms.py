@@ -221,6 +221,9 @@ info = {
         "ms-BN": {
             "name": "ms-BN"
         },
+        "ms-ID": {
+            "name": "ms-ID"
+        },
         "ms-SG": {
             "name": "ms-SG"
         }

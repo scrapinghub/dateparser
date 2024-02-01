@@ -96,6 +96,7 @@ info = {
         "nihuku"
     ],
     "hour": [
+        "hr",
         "isaa"
     ],
     "minute": [

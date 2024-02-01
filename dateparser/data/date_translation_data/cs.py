@@ -136,6 +136,7 @@ info = {
     "hour": [
         "h",
         "hodina",
+        "hodiny",
         "hodin",
         "hodiny",
         "hodinou",

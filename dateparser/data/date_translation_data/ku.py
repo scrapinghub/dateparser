@@ -1,92 +1,80 @@
 info = {
     "name": "ku",
-    "date_order": "YMD",
+    "date_order": "DMY",
     "january": [
-        "rêb",
-        "rêbendan",
-        "rêbendanê"
+        "rbn",
+        "rêbendan"
     ],
     "february": [
-        "reş",
-        "reşemiyê",
-        "reşemî"
+        "sbt",
+        "sibat"
     ],
     "march": [
-        "ada",
         "adar",
-        "adarê"
+        "adr"
     ],
     "april": [
-        "avr",
-        "avrêl",
-        "avrêlê"
+        "nsn",
+        "nîsan"
     ],
     "may": [
-        "gul",
-        "gulan",
-        "gulanê"
+        "gln",
+        "gulan"
     ],
     "june": [
-        "pûş",
-        "pûşper",
-        "pûşperê"
+        "hezîran",
+        "hzr"
     ],
     "july": [
-        "tîr",
-        "tîrmeh",
-        "tîrmehê"
+        "trm",
+        "tîrmeh"
     ],
     "august": [
-        "gel",
-        "gelawêj",
-        "gelawêjê"
+        "tbx",
+        "tebax"
     ],
     "september": [
-        "rez",
-        "rezber",
-        "rezberê"
+        "îln",
+        "îlon"
     ],
     "october": [
-        "kew",
-        "kewçêr",
-        "kewçêrê"
+        "cot",
+        "cotmeh"
     ],
     "november": [
-        "ser",
-        "sermawez",
-        "sermawezê"
+        "mijdar",
+        "mjd"
     ],
     "december": [
-        "ber",
         "berfanbar",
-        "berfanbarê"
+        "brf"
     ],
     "monday": [
         "duşem",
-        "dş"
+        "dşm"
     ],
     "tuesday": [
         "sêşem",
-        "sş"
+        "sşm"
     ],
     "wednesday": [
         "çarşem",
-        "çş"
+        "çşm"
     ],
     "thursday": [
         "pêncşem",
-        "pş"
+        "pşm"
     ],
     "friday": [
-        "în"
+        "înî"
     ],
     "saturday": [
-        "ş",
+        "şem",
         "şemî"
     ],
     "sunday": [
         "yekşem",
-        "yş"
+        "yşm"
     ],
     "am": [
         "bn"
@@ -95,11 +83,9 @@ info = {
         "pn"
     ],
     "year": [
-        "sal",
-        "sl"
+        "sal"
     ],
     "month": [
-        "m",
         "meh"
     ],
     "week": [
@@ -107,20 +93,19 @@ info = {
         "hf"
     ],
     "day": [
-        "r",
         "roj"
     ],
     "hour": [
-        "saet",
-        "st"
+        "sa",
+        "saet"
     ],
     "minute": [
-        "d",
-        "deqîqe"
+        "deqîqe",
+        "dq"
     ],
     "second": [
-        "s",
-        "saniye"
+        "saniye",
+        "sn"
     ],
     "relative-type": {
         "0 day ago": [
@@ -130,13 +115,13 @@ info = {
             "this hour"
         ],
         "0 minute ago": [
-            "this minute"
+            "vê deqeyê"
         ],
         "0 month ago": [
             "vê mehê"
         ],
         "0 second ago": [
-            "now"
+            "vêga"
         ],
         "0 week ago": [
             "vê hefteyê",
@@ -149,36 +134,45 @@ info = {
             "duh"
         ],
         "1 month ago": [
-            "meha borî",
-            "meha br"
+            "meha borî"
         ],
         "1 week ago": [
             "hefteya borî",
             "hft borî"
         ],
         "1 year ago": [
-            "par"
+            "sala borî"
         ],
         "in 1 day": [
-            "sibe"
+            "sibê"
         ],
         "in 1 month": [
-            "meha bê",
-            "meha were"
+            "meha bê"
         ],
         "in 1 week": [
-            "hefteya were",
+            "hefteya bê",
             "hft bê"
         ],
         "in 1 year": [
-            "sala bê",
-            "sala piştî"
+            "sala bê"
         ]
     },
     "relative-type-regex": {
+        "\\1 minute ago": [
+            "berî (\\d+[.,]?\\d*) d",
+            "berî (\\d+[.,]?\\d*) deqeyan",
+            "berî (\\d+[.,]?\\d*) deqeyê",
+            "berî (\\d+[.,]?\\d*) dq"
+        ],
         "\\1 year ago": [
             "berî (\\d+[.,]?\\d*) salan",
             "berî (\\d+[.,]?\\d*) salê"
+        ],
+        "in \\1 minute": [
+            "di (\\d+[.,]?\\d*) deqeyan de",
+            "di (\\d+[.,]?\\d*) deqeyê de",
+            "di (\\d+[.,]?\\d*) dq de",
+            "di (\\d+[.,]?\\d*)dq de"
         ],
         "in \\1 year": [
             "di (\\d+[.,]?\\d*) salan de",

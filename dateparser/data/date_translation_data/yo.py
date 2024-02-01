@@ -126,6 +126,7 @@ info = {
         "ọjọ́"
     ],
     "hour": [
+        "wkt",
         "wákàtí"
     ],
     "minute": [
@@ -154,6 +155,7 @@ info = {
             "ọ̀sẹ̀ yìí"
         ],
         "0 year ago": [
+            "ọdún yìí",
             "ọdúnǹí"
         ],
         "1 day ago": [
@@ -166,7 +168,8 @@ info = {
             "ọ̀sẹ̀ tó kọjá"
         ],
         "1 year ago": [
-            "èṣín"
+            "èṣín",
+            "ọdún tó kọjá"
         ],
         "in 1 day": [
             "ọ̀la"
@@ -178,7 +181,8 @@ info = {
             "ọ́sẹ̀ tó ń bọ̀"
         ],
         "in 1 year": [
-            "àmọ́dún"
+            "àmọ́dún",
+            "ọdún tó ńbọ̀"
         ]
     },
     "locale_specific": {
@@ -297,6 +301,7 @@ info = {
                     "ɔ̀sɛ̀ yìí"
                 ],
                 "0 year ago": [
+                    "ɔdún yìí",
                     "ɔdúnǹí"
                 ],
                 "1 month ago": [
@@ -306,7 +311,8 @@ info = {
                     "ɔ̀sɛ̀ tó kɔjá"
                 ],
                 "1 year ago": [
-                    "èshín"
+                    "èshín",
+                    "ɔdún tó kɔjá"
                 ],
                 "in 1 day": [
                     "ɔ̀la"
@@ -318,7 +324,8 @@ info = {
                     "ɔ́sɛ̀ tó ń bɔ̀"
                 ],
                 "in 1 year": [
-                    "àmɔ́dún"
+                    "àmɔ́dún",
+                    "ɔdún tó ńbɔ̀"
                 ]
             }
         }

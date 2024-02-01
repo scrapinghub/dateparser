@@ -100,7 +100,8 @@
     ],
     "hour": [
         "std",
-        "stunde"
+        "stunde",
+        "stunden"
     ],
     "minute": [
         "min",

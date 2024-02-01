@@ -95,7 +95,8 @@ info = {
     ],
     "hour": [
         "e",
-        "eur"
+        "eur",
+        "eurioù"
     ],
     "minute": [
         "min",
@@ -113,7 +114,7 @@ info = {
             "d'an eur-mañ"
         ],
         "0 minute ago": [
-            "this minute"
+            "ar munut-mañ"
         ],
         "0 month ago": [
             "ar m-mañ",

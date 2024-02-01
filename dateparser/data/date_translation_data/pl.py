@@ -224,6 +224,7 @@ info = {
         "g",
         "godz",
         "godzina",
+        "godziny",
         "godzinę",
         "godzine",
         "godzin",

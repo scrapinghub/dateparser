@@ -98,7 +98,8 @@ info = {
     ],
     "hour": [
         "klst",
-        "klukkustund"
+        "klukkustund",
+        "klukkustundir"
     ],
     "minute": [
         "mín",

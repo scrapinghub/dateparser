@@ -97,7 +97,8 @@ info = {
         "rituko"
     ],
     "hour": [
-        "ensa"
+        "ensa",
+        "hr"
     ],
     "minute": [
         "edakika"

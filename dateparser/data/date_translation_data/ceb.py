@@ -2,7 +2,6 @@ info = {
     "name": "ceb",
     "date_order": "MDY",
     "january": [
-        "en",
         "ene",
         "enero"
     ],
@@ -16,8 +15,7 @@ info = {
     ],
     "april": [
         "abr",
-        "abril",
-        "apr"
+        "abril"
     ],
     "may": [
         "may",
@@ -32,13 +30,12 @@ info = {
         "hulyo"
     ],
     "august": [
-        "ag",
         "ago",
         "agosto"
     ],
     "september": [
-        "set",
-        "setyembre"
+        "sep",
+        "septiyembre"
     ],
     "october": [
         "okt",
@@ -99,12 +96,14 @@ info = {
         "adlaw"
     ],
     "hour": [
+        "mga oras",
         "oras"
     ],
     "minute": [
         "minuto"
     ],
     "second": [
+        "seg",
         "segundo"
     ],
     "relative-type": {

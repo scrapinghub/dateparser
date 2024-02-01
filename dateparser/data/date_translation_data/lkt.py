@@ -77,6 +77,7 @@ info = {
         "aŋpétu"
     ],
     "hour": [
+        "hr",
         "owápȟe"
     ],
     "minute": [

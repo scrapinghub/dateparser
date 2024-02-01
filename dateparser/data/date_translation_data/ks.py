@@ -14,13 +14,14 @@ info = {
         "اپریل"
     ],
     "may": [
-        "میٔ"
+        "مئی"
     ],
     "june": [
         "جوٗن"
     ],
     "july": [
-        "جوٗلایی"
+        "جوٗلایی",
+        "جُلَے"
     ],
     "august": [
         "اگست"
@@ -35,7 +36,8 @@ info = {
         "نومبر"
     ],
     "december": [
-        "دسمبر"
+        "دسمبر",
+        "دَسَمبَر"
     ],
     "monday": [
         "ژٔندرٕروار",
@@ -61,10 +63,12 @@ info = {
         "اَتھوار"
     ],
     "am": [
-        "am"
+        "am",
+        "اے ایم"
     ],
     "pm": [
-        "pm"
+        "pm",
+        "پی ایم"
     ],
     "year": [
         "ؤری"
@@ -79,13 +83,14 @@ info = {
         "دۄہ"
     ],
     "hour": [
+        "hr",
         "گٲنٹہٕ"
     ],
     "minute": [
         "مِنَٹ"
     ],
     "second": [
-        "سؠکَنڑ"
+        "سؠکَنڈ"
     ],
     "relative-type": {
         "0 day ago": [
@@ -98,40 +103,40 @@ info = {
             "this minute"
         ],
         "0 month ago": [
-            "this month"
+            "یٕہ ریتھۍ"
         ],
         "0 second ago": [
             "now"
         ],
         "0 week ago": [
-            "this week"
+            "یٕہ ہفتہ"
         ],
         "0 year ago": [
-            "this year"
+            "یٕہ ؤری"
         ],
         "1 day ago": [
             "راتھ"
         ],
         "1 month ago": [
-            "last month"
+            "پٔتِم ریتھۍ"
         ],
         "1 week ago": [
-            "last week"
+            "پٔتِم ہفتہ"
         ],
         "1 year ago": [
-            "last year"
+            "پٔتِم ؤری"
         ],
         "in 1 day": [
             "پگاہ"
         ],
         "in 1 month": [
-            "next month"
+            "نو ریتھۍ"
         ],
         "in 1 week": [
-            "next week"
+            "نو ہفتہ"
         ],
         "in 1 year": [
-            "next year"
+            "نو ؤری"
         ]
     },
     "locale_specific": {},

@@ -3,63 +3,51 @@
     "date_order": "YMD",
     "january": [
         "urt",
-        "urtarrila",
-        "urtarrilak"
+        "urtarrila"
     ],
     "february": [
         "ots",
-        "otsaila",
-        "otsailak"
+        "otsaila"
     ],
     "march": [
         "mar",
-        "martxoa",
-        "martxoak"
+        "martxoa"
     ],
     "april": [
         "api",
-        "apirila",
-        "apirilak"
+        "apirila"
     ],
     "may": [
         "mai",
-        "maiatza",
-        "maiatzak"
+        "maiatza"
     ],
     "june": [
         "eka",
-        "ekaina",
-        "ekainak"
+        "ekaina"
     ],
     "july": [
         "uzt",
-        "uztaila",
-        "uztailak"
+        "uztaila"
     ],
     "august": [
         "abu",
-        "abuztua",
-        "abuztuak"
+        "abuztua"
     ],
     "september": [
         "ira",
-        "iraila",
-        "irailak"
+        "iraila"
     ],
     "october": [
         "urr",
-        "urria",
-        "urriak"
+        "urria"
     ],
     "november": [
         "aza",
-        "azaroa",
-        "azaroak"
+        "azaroa"
     ],
     "december": [
         "abe",
-        "abendua",
-        "abenduak"
+        "abendua"
     ],
     "monday": [
         "al",
@@ -112,7 +100,8 @@
     ],
     "hour": [
         "h",
-        "ordua"
+        "ordua",
+        "orduak"
     ],
     "minute": [
         "min",

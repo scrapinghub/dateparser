@@ -105,6 +105,7 @@ info = {
     "hour": [
         "s",
         "schtund",
+        "schtunde",
         "std"
     ],
     "minute": [

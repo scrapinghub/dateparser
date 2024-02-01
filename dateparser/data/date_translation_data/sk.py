@@ -113,7 +113,8 @@ info = {
     ],
     "hour": [
         "h",
-        "hodina"
+        "hodina",
+        "hodiny"
     ],
     "minute": [
         "min",

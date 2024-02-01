@@ -96,6 +96,7 @@ info = {
         "duö"
     ],
     "hour": [
+        "hr",
         "wulā"
     ],
     "minute": [

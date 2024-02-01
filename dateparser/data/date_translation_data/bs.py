@@ -102,7 +102,8 @@ info = {
     ],
     "hour": [
         "h",
-        "sat"
+        "sat",
+        "sati"
     ],
     "minute": [
         "min",

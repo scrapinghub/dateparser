@@ -96,7 +96,8 @@
     ],
     "day": [
         "h",
-        "hari"
+        "hari",
+        "hr"
     ],
     "hour": [
         "j",
@@ -120,7 +121,8 @@
             "jam ini"
         ],
         "0 minute ago": [
-            "menit ini"
+            "menit ini",
+            "mnt ini"
         ],
         "0 month ago": [
             "bln ini",
@@ -157,7 +159,7 @@
         ],
         "in 1 month": [
             "bln berikutnya",
-            "bulan berikutnya"
+            "bulan depan"
         ],
         "in 1 week": [
             "mgg depan",
@@ -202,7 +204,8 @@
             "dalam {0} hari"
         ],
         "in \\1 hour": [
-            "dalam {0} jam"
+            "dalam {0} jam",
+            "dlm {0} jam"
         ],
         "in \\1 minute": [
             "dalam {0} menit",

@@ -71,7 +71,6 @@ info = {
     ],
     "saturday": [
         "sab",
-        "sabadu",
         "sábadu"
     ],
     "sunday": [

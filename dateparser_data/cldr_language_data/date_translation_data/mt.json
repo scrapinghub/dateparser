@@ -84,18 +84,21 @@
         "pm"
     ],
     "year": [
-        "sena"
+        "sena",
+        "sn"
     ],
     "month": [
         "xahar"
     ],
     "week": [
-        "ġimgħa"
+        "ġimgħa",
+        "ġm"
     ],
     "day": [
         "jum"
     ],
     "hour": [
+        "hr",
         "siegħa"
     ],
     "minute": [
@@ -157,52 +160,51 @@
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "{0}-il ġurnata ilu"
+            "{0} ġurnata ilu"
         ],
         "\\1 hour ago": [
-            "{0} sigħat ilu"
+            "{0} siegħa ilu"
         ],
         "\\1 minute ago": [
             "{0} min ilu",
-            "{0} minuti ilu"
+            "{0} minuta ilu"
         ],
         "\\1 month ago": [
-            "{0} xahar ilu",
-            "{0} xhur ilu"
+            "{0} xahar ilu"
         ],
         "\\1 second ago": [
             "{0} sek ilu",
-            "{0} sekondi ilu"
+            "{0} sekonda ilu"
         ],
         "\\1 week ago": [
-            "{0} ġimgħat ilu"
+            "{0} ġimgħa ilu"
         ],
         "\\1 year ago": [
-            "{0} snin ilu"
+            "{0} sena ilu"
         ],
         "in \\1 day": [
             "fi żmien {0} ġurnata oħra"
         ],
         "in \\1 hour": [
-            "fi żmien {0} sigħat"
+            "fi żmien {0} siegħa"
         ],
         "in \\1 minute": [
             "sa {0} min oħra",
-            "sa {0} minuti oħra"
+            "sa {0} minuta oħra"
         ],
         "in \\1 month": [
-            "fi {0} xhur oħra",
-            "sa {0} xhur oħra"
+            "fi {0} xahar oħra",
+            "sa {0} xahar oħra"
         ],
         "in \\1 second": [
             "sa {0} sek oħra",
-            "sa {0} sekondi oħra"
+            "sa {0} sekonda oħra"
         ],
         "in \\1 week": [
-            "sa {0} ġimgħat oħra"
+            "sa {0} ġimgħa oħra"
         ],
         "in \\1 year": [
-            "fi żmien {0} snin oħra"
+            "fi żmien {0} sena oħra"
         ]
     },
     "locale_specific": {}

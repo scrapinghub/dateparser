@@ -73,8 +73,8 @@ info = {
         "satọdee"
     ],
     "sunday": [
-        "sọndee",
-        "ụka"
+        "sọn",
+        "sọndee"
     ],
     "am": [
         "am",
@@ -97,7 +97,8 @@ info = {
         "ụbọchị"
     ],
     "hour": [
-        "elekere"
+        "elekere",
+        "hr"
     ],
     "minute": [
         "nkeji"
@@ -111,16 +112,16 @@ info = {
             "taata"
         ],
         "0 hour ago": [
-            "this hour"
+            "elekere a"
         ],
         "0 minute ago": [
-            "this minute"
+            "nkejị a"
         ],
         "0 month ago": [
             "ọnwa a"
         ],
         "0 second ago": [
-            "now"
+            "ụgbụa"
         ],
         "0 week ago": [
             "izu a"

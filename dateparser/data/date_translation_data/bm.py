@@ -94,6 +94,7 @@ info = {
         "don"
     ],
     "hour": [
+        "hr",
         "lɛrɛ"
     ],
     "minute": [

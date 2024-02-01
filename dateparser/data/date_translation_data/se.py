@@ -100,7 +100,8 @@ info = {
         "beaivi"
     ],
     "hour": [
-        "diibmu"
+        "diibmu",
+        "diibmur"
     ],
     "minute": [
         "minuhtta"

@@ -84,19 +84,16 @@ info = {
         "søndag"
     ],
     "am": [
-        "fm",
-        "formiddag"
+        "fm"
     ],
     "pm": [
-        "em",
-        "ettermiddag"
+        "em"
     ],
     "year": [
         "år"
     ],
     "month": [
         "md",
-        "mnd",
         "månad"
     ],
     "week": [
@@ -109,6 +106,7 @@ info = {
     ],
     "hour": [
         "t",
+        "timar",
         "time"
     ],
     "minute": [
@@ -132,6 +130,7 @@ info = {
             "dette minuttet"
         ],
         "0 month ago": [
+            "denne md",
             "denne månaden"
         ],
         "0 second ago": [
@@ -147,6 +146,7 @@ info = {
             "i går"
         ],
         "1 month ago": [
+            "førre md",
             "førre månad"
         ],
         "1 week ago": [
@@ -159,6 +159,7 @@ info = {
             "i morgon"
         ],
         "in 1 month": [
+            "neste md",
             "neste månad"
         ],
         "in 1 week": [

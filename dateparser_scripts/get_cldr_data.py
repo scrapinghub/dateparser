@@ -2,11 +2,12 @@ import json
 import os
 import shutil
 from collections import OrderedDict
+from pathlib import Path
 
 import regex as re
 
 from dateparser_scripts.order_languages import _get_language_locale_dict
-from dateparser_scripts.utils import get_dict_difference, get_raw_data
+from dateparser_scripts.utils import get_dict_difference, get_raw_data, CLDR_JSON_DIR
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     "\N{RIGHT SINGLE QUOTATION MARK}",  # '\u2019'
@@ -30,8 +31,6 @@ AM_PATTERN = re.compile(r"^\s*[Aa]\s*\.?\s*[Mm]\s*\.?\s*$")
 PM_PATTERN = re.compile(r"^\s*[Pp]\s*\.?\s*[Mm]\s*\.?\s*$")
 PARENTHESIS_PATTERN = re.compile(r"[\(\)]")
 
-cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
-
 
 def _filter_relative_string(relative_string):
     return (
@@ -46,18 +45,21 @@ def _filter_month_name(month_name):
 
 
 def _retrieve_locale_data(locale):
-    ca_gregorian_file = cldr_dates_full_dir + locale + "/ca-gregorian.json"
-    dateFields_file = cldr_dates_full_dir + locale + "/dateFields.json"
-    with open(ca_gregorian_file) as f:
-        cldr_gregorian_data = json.load(f, object_pairs_hook=OrderedDict)
 
-    with open(dateFields_file) as g:
-        cldr_datefields_data = json.load(g, object_pairs_hook=OrderedDict)
+    def load(scope, file_id):
+        file_path = CLDR_JSON_DIR / "cldr-json" / f"cldr-{scope}-full" / "main" / locale / f"{file_id}.json"
+        with file_path.open() as f:
+            return json.load(f, object_pairs_hook=OrderedDict)
+
+    cldr_gregorian_data = load("dates", "ca-gregorian")
+    cldr_datefields_data = load("dates", "dateFields")
+    _units = load("units", "units")
 
     gregorian_dict = cldr_gregorian_data["main"][locale]["dates"]["calendars"][
         "gregorian"
     ]
     date_fields_dict = cldr_datefields_data["main"][locale]["dates"]["fields"]
+    units = _units["main"][locale]["units"]["long"]
 
     json_dict = OrderedDict()
 
@@ -287,6 +289,9 @@ def _retrieve_locale_data(locale):
     json_dict["day"] = [date_fields_dict[key]["displayName"] for key in day_keys]
 
     json_dict["hour"] = [date_fields_dict[key]["displayName"] for key in hour_keys]
+    hour_unit = units["duration-hour"]["displayName"]
+    if hour_unit not in json_dict["hour"]:
+        json_dict["hour"].append(hour_unit)
 
     json_dict["minute"] = [date_fields_dict[key]["displayName"] for key in minute_keys]
 

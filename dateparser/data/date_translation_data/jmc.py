@@ -95,6 +95,7 @@ info = {
         "mfiri"
     ],
     "hour": [
+        "hr",
         "saa"
     ],
     "minute": [

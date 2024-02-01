@@ -6,15 +6,17 @@ from pathlib import Path
 from git import Repo
 
 
+CLDR_JSON_DIR = (Path(__file__).parent / "../cldr-json").resolve()
+
+
 def get_raw_data():
     cldr_version = "44.1.0"
-    local_dir = Path(__file__).parent / "../cldr-json"
     url = "https://github.com/unicode-org/cldr-json.git"
-    if os.path.isdir(local_dir):
-        shutil.rmtree(local_dir)
+    if os.path.isdir(CLDR_JSON_DIR):
+        shutil.rmtree(CLDR_JSON_DIR)
 
-    print(f'Clonning {url}...')
-    Repo.clone_from(url, local_dir, branch=cldr_version, depth=1)
+    print(f'Clonning {url} @ {cldr_version} on {CLDR_JSON_DIR}...')
+    Repo.clone_from(url, CLDR_JSON_DIR, branch=cldr_version, depth=1)
 
 
 def get_dict_difference(parent_dict, child_dict):

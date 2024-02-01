@@ -97,7 +97,8 @@ info = {
     ],
     "hour": [
         "t",
-        "tund"
+        "tund",
+        "tunnid"
     ],
     "minute": [
         "min",

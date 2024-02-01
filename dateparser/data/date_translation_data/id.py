@@ -99,7 +99,8 @@ info = {
     ],
     "day": [
         "h",
-        "hari"
+        "hari",
+        "hr"
     ],
     "hour": [
         "j",
@@ -123,7 +124,8 @@ info = {
             "jam ini"
         ],
         "0 minute ago": [
-            "menit ini"
+            "menit ini",
+            "mnt ini"
         ],
         "0 month ago": [
             "bln ini",
@@ -161,7 +163,7 @@ info = {
         ],
         "in 1 month": [
             "bln berikutnya",
-            "bulan berikutnya"
+            "bulan depan"
         ],
         "in 1 week": [
             "mgg depan",
@@ -224,7 +226,8 @@ info = {
             "dalam (\\d+[.,]?\\d*) hari"
         ],
         "in \\1 hour": [
-            "dalam (\\d+[.,]?\\d*) jam"
+            "dalam (\\d+[.,]?\\d*) jam",
+            "dlm (\\d+[.,]?\\d*) jam"
         ],
         "in \\1 minute": [
             "dalam (\\d+[.,]?\\d*) menit",

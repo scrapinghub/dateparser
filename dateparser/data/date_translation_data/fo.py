@@ -101,6 +101,7 @@ info = {
     ],
     "hour": [
         "t",
+        "tímar",
         "tími"
     ],
     "minute": [

@@ -1,6 +1,6 @@
 {
     "name": "xh",
-    "date_order": "YMD",
+    "date_order": "MDY",
     "january": [
         "jan",
         "janyuwari"
@@ -35,11 +35,13 @@
     ],
     "september": [
         "sep",
+        "sept",
         "septemba"
     ],
     "october": [
         "okt",
-        "okthoba"
+        "okthoba",
+        "okthobha"
     ],
     "november": [
         "nov",
@@ -55,6 +57,7 @@
     ],
     "tuesday": [
         "bin",
+        "lwesb",
         "lwesibini"
     ],
     "wednesday": [
@@ -84,29 +87,39 @@
         "pm"
     ],
     "year": [
-        "year"
+        "uny",
+        "unyaka"
     ],
     "month": [
-        "month"
+        "iny",
+        "inyanga",
+        "nya"
     ],
     "week": [
-        "week"
+        "ive",
+        "iveki",
+        "vek"
     ],
     "day": [
-        "day"
+        "usuku"
     ],
     "hour": [
-        "hour"
+        "hr",
+        "iyure",
+        "yur"
     ],
     "minute": [
-        "minute"
+        "umz",
+        "umzuzu"
     ],
     "second": [
-        "second"
+        "mzuzwa",
+        "umzuzwana",
+        "zuzwa"
     ],
     "relative-type": {
         "0 day ago": [
-            "today"
+            "namhlanje"
         ],
         "0 hour ago": [
             "this hour"
@@ -115,40 +128,54 @@
             "this minute"
         ],
         "0 month ago": [
-            "this month"
+            "kule nya",
+            "kule nyanga"
         ],
         "0 second ago": [
             "now"
         ],
         "0 week ago": [
-            "this week"
+            "ku;e veki",
+            "kule vek"
         ],
         "0 year ago": [
-            "this year"
+            "kulo nyak",
+            "kulo nyaka"
         ],
         "1 day ago": [
-            "yesterday"
+            "izolo"
         ],
         "1 month ago": [
-            "last month"
+            "inya ephel",
+            "inyanga ephel",
+            "inyanga ephelileyo"
         ],
         "1 week ago": [
-            "last week"
+            "kwiveki ephelileyo",
+            "vek ephel",
+            "veki ephel"
         ],
         "1 year ago": [
-            "last year"
+            "unyaka ophel",
+            "unyaka ophelileyo"
         ],
         "in 1 day": [
-            "tomorrow"
+            "ngomso"
         ],
         "in 1 month": [
-            "next month"
+            "kwinya eza",
+            "kwinyanga eza",
+            "kwinyanga ezayo"
         ],
         "in 1 week": [
-            "next week"
+            "kwiveki ezayo",
+            "vek eza",
+            "veki eza"
         ],
         "in 1 year": [
-            "next year"
+            "kunyak oza",
+            "kunyaka ozayo",
+            "unyak oza"
         ]
     },
     "locale_specific": {}

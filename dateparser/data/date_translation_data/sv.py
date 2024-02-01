@@ -114,6 +114,7 @@ info = {
     "hour": [
         "h",
         "tim",
+        "timmar",
         "timme",
         "timmar",
         "t"
@@ -143,8 +144,8 @@ info = {
             "denna minut"
         ],
         "0 month ago": [
-            "denna mån",
-            "denna månad"
+            "den här månaden",
+            "denna mån"
         ],
         "0 second ago": [
             "nu"

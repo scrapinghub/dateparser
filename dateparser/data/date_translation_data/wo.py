@@ -96,7 +96,8 @@ info = {
         "fan"
     ],
     "hour": [
-        "waxtu",
+        "hr",
+        "waxt",
         "wxt"
     ],
     "minute": [
@@ -111,46 +112,104 @@ info = {
             "tay"
         ],
         "0 hour ago": [
-            "this hour"
+            "ci waxtu wii"
         ],
         "0 minute ago": [
-            "this minute"
+            "ci simili bii"
         ],
         "0 month ago": [
-            "this month"
+            "we wii",
+            "weer wii"
         ],
         "0 second ago": [
-            "now"
+            "leegi"
         ],
         "0 week ago": [
-            "this week"
+            "ayu-b bii",
+            "ayu-bis bii"
         ],
         "0 year ago": [
-            "this year"
+            "ren"
         ],
         "1 day ago": [
             "démb"
         ],
         "1 month ago": [
-            "last month"
+            "we wi wees",
+            "weer wi weesu"
         ],
         "1 week ago": [
-            "last week"
+            "ayu-b bi wees",
+            "ayu-bis bi weesu"
         ],
         "1 year ago": [
-            "last year"
+            "daaw"
         ],
         "in 1 day": [
             "suba"
         ],
         "in 1 month": [
-            "next month"
+            "we wiy ñëw",
+            "weer wiy ñëw"
         ],
         "in 1 week": [
-            "next week"
+            "ayu-b ñëw",
+            "ayu-bis biy ñëw"
         ],
         "in 1 year": [
-            "next year"
+            "dewen"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "(\\d+[.,]?\\d*) fan ci ginaaw"
+        ],
+        "\\1 hour ago": [
+            "(\\d+[.,]?\\d*) wax ci ginaaw",
+            "(\\d+[.,]?\\d*) waxtu ci ginaaw"
+        ],
+        "\\1 minute ago": [
+            "(\\d+[.,]?\\d*) sim ci ginaaw",
+            "(\\d+[.,]?\\d*) simili ci ginaaw"
+        ],
+        "\\1 month ago": [
+            "(\\d+[.,]?\\d*) we ci ginaaw",
+            "(\\d+[.,]?\\d*) weer ci ginaaw"
+        ],
+        "\\1 second ago": [
+            "(\\d+[.,]?\\d*) saa ci ginaaw"
+        ],
+        "\\1 week ago": [
+            "(\\d+[.,]?\\d*) ayi-b ci ginaaw",
+            "(\\d+[.,]?\\d*) ayi-bis ci ginaaw"
+        ],
+        "\\1 year ago": [
+            "(\\d+[.,]?\\d*) at ci ginaaw"
+        ],
+        "in \\1 day": [
+            "fileek (\\d+[.,]?\\d*) fan"
+        ],
+        "in \\1 hour": [
+            "fileek (\\d+[.,]?\\d*) wax",
+            "fileek (\\d+[.,]?\\d*) waxtu"
+        ],
+        "in \\1 minute": [
+            "fileek (\\d+[.,]?\\d*) sim",
+            "fileek (\\d+[.,]?\\d*) simili"
+        ],
+        "in \\1 month": [
+            "fileek (\\d+[.,]?\\d*) we",
+            "fileek (\\d+[.,]?\\d*) weer"
+        ],
+        "in \\1 second": [
+            "fileek (\\d+[.,]?\\d*) saa"
+        ],
+        "in \\1 week": [
+            "fileek (\\d+[.,]?\\d*) ayi-b",
+            "fileek (\\d+[.,]?\\d*) ayi-bis"
+        ],
+        "in \\1 year": [
+            "fileek (\\d+[.,]?\\d*) at"
         ]
     },
     "locale_specific": {},

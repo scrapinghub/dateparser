@@ -2,80 +2,80 @@ info = {
     "name": "mi",
     "date_order": "DMY",
     "january": [
-        "kohi",
-        "kohitātea"
+        "hān",
+        "hānuere"
     ],
     "february": [
-        "hui",
-        "huitanguru"
+        "pēp",
+        "pēpuere"
     ],
     "march": [
-        "pou",
-        "poutūterangi"
+        "māe",
+        "māehe"
     ],
     "april": [
-        "pae",
-        "paengawhāwhā"
+        "āpe",
+        "āpereira",
+        "āperira"
     ],
     "may": [
-        "hara",
-        "haratua"
+        "mei"
     ],
     "june": [
-        "pipi",
-        "pipiri"
+        "hun",
+        "hune"
     ],
     "july": [
-        "hōngo",
-        "hōngongoi"
+        "hūr",
+        "hūrae"
     ],
     "august": [
-        "here",
-        "hereturikōkā"
+        "āku",
+        "ākuhata"
     ],
     "september": [
-        "mahu",
-        "mahuru"
+        "hep",
+        "hepetema"
     ],
     "october": [
-        "nuku",
-        "whiringa-ā-nuku"
+        "oke",
+        "oketopa"
     ],
     "november": [
-        "rangi",
-        "whiringa-ā-rangi"
+        "noe",
+        "noema"
     ],
     "december": [
-        "haki",
-        "hakihea"
+        "tīh",
+        "tīhema"
     ],
     "monday": [
-        "hin",
-        "rāhina"
+        "man",
+        "mane"
     ],
     "tuesday": [
-        "rātū",
-        "tū"
+        "tūr",
+        "tūrei"
     ],
     "wednesday": [
-        "apa",
-        "rāapa"
+        "wen",
+        "wenerei"
     ],
     "thursday": [
-        "par",
-        "rāpare"
+        "tāi",
+        "tāite"
     ],
     "friday": [
-        "mer",
-        "rāmere"
+        "par",
+        "paraire"
     ],
     "saturday": [
-        "hor",
+        "rāh",
         "rāhoroi"
     ],
     "sunday": [
-        "rātapu",
-        "tap"
+        "rāt",
+        "rātapu"
     ],
     "am": [
         "am"
@@ -99,6 +99,7 @@ info = {
         "rā"
     ],
     "hour": [
+        "haora",
         "hr",
         "hāora"
     ],
@@ -112,49 +113,64 @@ info = {
     ],
     "relative-type": {
         "0 day ago": [
-            "āianei"
+            "i tēnei rā"
         ],
         "0 hour ago": [
-            "this hour"
+            "i tēnei haora"
         ],
         "0 minute ago": [
-            "this minute"
+            "i tēnei meneti"
         ],
         "0 month ago": [
-            "this month"
+            "i tēnei m",
+            "i tēnei marama"
         ],
         "0 second ago": [
-            "now"
+            "ināianei"
         ],
         "0 week ago": [
-            "this week"
+            "i tēnei w",
+            "i tēnei wiki"
         ],
         "0 year ago": [
-            "this year"
+            "i tēnei tau"
         ],
         "1 day ago": [
             "inanahi"
         ],
         "1 month ago": [
-            "last month"
+            "i tērā m",
+            "i tērā marama"
         ],
         "1 week ago": [
-            "last week"
+            "i tērā w",
+            "i tērā wiki"
         ],
         "1 year ago": [
-            "last year"
+            "i tērā tau"
         ],
         "in 1 day": [
             "āpōpō"
         ],
         "in 1 month": [
-            "next month"
+            "ā tērā m",
+            "ā tērā marama"
         ],
         "in 1 week": [
-            "next week"
+            "ā tērā w",
+            "ā tērā wiki"
         ],
         "in 1 year": [
-            "next year"
+            "ā tērā tau"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 year ago": [
+            "i te (\\d+[.,]?\\d*) tau",
+            "i te (\\d+[.,]?\\d*) tau i mua"
+        ],
+        "in \\1 year": [
+            "ā te (\\d+[.,]?\\d*) tau"
         ]
     },
     "locale_specific": {},

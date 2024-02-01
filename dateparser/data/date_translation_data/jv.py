@@ -119,7 +119,8 @@ info = {
             "saiki"
         ],
         "0 week ago": [
-            "pekan iki"
+            "pekan iki",
+            "pkn iki"
         ],
         "0 year ago": [
             "taun iki"
@@ -131,7 +132,8 @@ info = {
             "sasi wingi"
         ],
         "1 week ago": [
-            "pekan wingi"
+            "pekan wingi",
+            "pkn wingi"
         ],
         "1 year ago": [
             "taun wingi"
@@ -143,7 +145,8 @@ info = {
             "sasi ngarep"
         ],
         "in 1 week": [
-            "pekan ngarep"
+            "pekan ngarep",
+            "pkn ngarep"
         ],
         "in 1 year": [
             "taun ngarep"
