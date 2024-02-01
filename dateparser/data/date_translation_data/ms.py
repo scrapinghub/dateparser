@@ -123,8 +123,8 @@ info = {
             "sekarang"
         ],
         "0 week ago": [
-            "minggu ini",
-            "mng ini"
+            "mgu ini",
+            "minggu ini"
         ],
         "0 year ago": [
             "tahun ini",
@@ -139,8 +139,8 @@ info = {
             "bulan lalu"
         ],
         "1 week ago": [
-            "minggu lalu",
-            "mng lepas"
+            "mgu lepas",
+            "minggu lalu"
         ],
         "1 year ago": [
             "tahun lalu",
@@ -154,8 +154,8 @@ info = {
             "bulan depan"
         ],
         "in 1 week": [
-            "minggu depan",
-            "mng depan"
+            "mgu depan",
+            "minggu depan"
         ],
         "in 1 year": [
             "tahun depan",
@@ -213,7 +213,7 @@ info = {
             "dlm (\\d+[.,]?\\d*) mgu"
         ],
         "in \\1 year": [
-            "dalam (\\d+[.,]?\\d*) saat",
+            "dalam (\\d+[.,]?\\d*) tahun",
             "dalam (\\d+[.,]?\\d*) thn"
         ]
     },

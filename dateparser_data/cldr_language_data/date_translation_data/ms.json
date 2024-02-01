@@ -123,8 +123,8 @@
             "sekarang"
         ],
         "0 week ago": [
-            "minggu ini",
-            "mng ini"
+            "mgu ini",
+            "minggu ini"
         ],
         "0 year ago": [
             "tahun ini",
@@ -139,8 +139,8 @@
             "bulan lalu"
         ],
         "1 week ago": [
-            "minggu lalu",
-            "mng lepas"
+            "mgu lepas",
+            "minggu lalu"
         ],
         "1 year ago": [
             "tahun lalu",
@@ -154,8 +154,8 @@
             "bulan depan"
         ],
         "in 1 week": [
-            "minggu depan",
-            "mng depan"
+            "mgu depan",
+            "minggu depan"
         ],
         "in 1 year": [
             "tahun depan",
@@ -213,7 +213,7 @@
             "dlm {0} mgu"
         ],
         "in \\1 year": [
-            "dalam {0} saat",
+            "dalam {0} tahun",
             "dalam {0} thn"
         ]
     },

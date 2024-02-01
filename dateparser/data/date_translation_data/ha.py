@@ -78,10 +78,12 @@ info = {
         "lahadi"
     ],
     "am": [
-        "am"
+        "am",
+        "safiya"
     ],
     "pm": [
-        "pm"
+        "pm",
+        "yamma"
     ],
     "year": [
         "shekara"
@@ -109,46 +111,67 @@ info = {
             "yau"
         ],
         "0 hour ago": [
-            "this hour"
+            "wannan awa"
         ],
         "0 minute ago": [
-            "this minute"
+            "wannan mintin"
         ],
         "0 month ago": [
-            "this month"
+            "wannan watan"
         ],
         "0 second ago": [
-            "now"
+            "yanzu"
         ],
         "0 week ago": [
-            "this week"
+            "wannan satin"
         ],
         "0 year ago": [
-            "this year"
+            "bana"
         ],
         "1 day ago": [
             "jiya"
         ],
         "1 month ago": [
-            "last month"
+            "watan da ya gabata",
+            "watan daya gabata"
         ],
         "1 week ago": [
-            "last week"
+            "satin da ya gabata"
         ],
         "1 year ago": [
-            "last year"
+            "bara"
         ],
         "in 1 day": [
             "gobe"
         ],
         "in 1 month": [
-            "next month"
+            "wata na gaba"
         ],
         "in 1 week": [
-            "next week"
+            "sati na gaba"
         ],
         "in 1 year": [
-            "next year"
+            "badi"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 hour ago": [
+            "(\\d+[.,]?\\d*) awa da ya gabata"
+        ],
+        "\\1 minute ago": [
+            "(\\d+[.,]?\\d*) minti da ya gabata"
+        ],
+        "\\1 second ago": [
+            "(\\d+[.,]?\\d*) dakika da ya gabata"
+        ],
+        "in \\1 hour": [
+            "cikin (\\d+[.,]?\\d*) awa"
+        ],
+        "in \\1 minute": [
+            "cikin (\\d+[.,]?\\d*) minti"
+        ],
+        "in \\1 second": [
+            "cikin (\\d+[.,]?\\d*) dakika"
         ]
     },
     "locale_specific": {

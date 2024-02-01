@@ -134,12 +134,14 @@ info = {
             "v tejto minúte"
         ],
         "0 month ago": [
+            "tento mes",
             "tento mesiac"
         ],
         "0 second ago": [
             "teraz"
         ],
         "0 week ago": [
+            "tento týž",
             "tento týždeň"
         ],
         "0 year ago": [
@@ -149,9 +151,11 @@ info = {
             "včera"
         ],
         "1 month ago": [
+            "minulý mes",
             "minulý mesiac"
         ],
         "1 week ago": [
+            "minulý týž",
             "minulý týždeň"
         ],
         "1 year ago": [
@@ -161,9 +165,11 @@ info = {
             "zajtra"
         ],
         "in 1 month": [
+            "budúci mes",
             "budúci mesiac"
         ],
         "in 1 week": [
+            "budúci týž",
             "budúci týždeň"
         ],
         "in 1 year": [

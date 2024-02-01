@@ -78,9 +78,11 @@ info = {
         "sul"
     ],
     "am": [
+        "am",
         "yb"
     ],
     "pm": [
+        "pm",
         "yh"
     ],
     "year": [
@@ -94,7 +96,7 @@ info = {
         "wythnos"
     ],
     "day": [
-        "dydd"
+        "diwrnod"
     ],
     "hour": [
         "awr"

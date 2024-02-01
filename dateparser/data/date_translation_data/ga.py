@@ -76,10 +76,10 @@ info = {
         "dé domhnaigh"
     ],
     "am": [
-        "am"
+        "rn"
     ],
     "pm": [
-        "pm"
+        "in"
     ],
     "year": [
         "bl",
@@ -220,7 +220,11 @@ info = {
             "i gceann (\\d+[.,]?\\d*) bliain"
         ]
     },
-    "locale_specific": {},
+    "locale_specific": {
+        "ga-GB": {
+            "name": "ga-GB"
+        }
+    },
     "skip": [
         " ",
         "'",

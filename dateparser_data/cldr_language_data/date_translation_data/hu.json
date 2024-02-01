@@ -96,12 +96,15 @@
         "nap"
     ],
     "hour": [
+        "ó",
         "óra"
     ],
     "minute": [
+        "p",
         "perc"
     ],
     "second": [
+        "mp",
         "másodperc"
     ],
     "relative-type": {

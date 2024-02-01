@@ -29,7 +29,7 @@ info = {
         "juli"
     ],
     "august": [
-        "agt",
+        "agu",
         "agustus",
         "Agu"
     ],
@@ -126,6 +126,7 @@ info = {
             "menit ini"
         ],
         "0 month ago": [
+            "bln ini",
             "bulan ini"
         ],
         "0 second ago": [
@@ -133,34 +134,42 @@ info = {
             "baru saja"
         ],
         "0 week ago": [
+            "mgg ini",
             "minggu ini"
         ],
         "0 year ago": [
-            "tahun ini"
+            "tahun ini",
+            "thn ini"
         ],
         "1 day ago": [
             "kemarin"
         ],
         "1 month ago": [
+            "bln lalu",
             "bulan lalu"
         ],
         "1 week ago": [
+            "mgg lalu",
             "minggu lalu"
         ],
         "1 year ago": [
-            "tahun lalu"
+            "tahun lalu",
+            "thn lalu"
         ],
         "in 1 day": [
             "besok"
         ],
         "in 1 month": [
+            "bln berikutnya",
             "bulan berikutnya"
         ],
         "in 1 week": [
+            "mgg depan",
             "minggu depan"
         ],
         "in 1 year": [
-            "tahun depan"
+            "tahun depan",
+            "thn depan"
         ],
         "1 year": [
             "setahun"

@@ -112,10 +112,10 @@ info = {
             "'ahó ni"
         ],
         "0 hour ago": [
-            "this hour"
+            "ko e houa 'eni"
         ],
         "0 minute ago": [
-            "this minute"
+            "ko e miniti 'eni"
         ],
         "0 month ago": [
             "māhiná ni"

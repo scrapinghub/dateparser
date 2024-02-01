@@ -2,47 +2,59 @@ info = {
     "name": "rm",
     "date_order": "DMY",
     "january": [
+        "da schaner",
         "schan",
         "schaner"
     ],
     "february": [
+        "da favrer",
         "favr",
         "favrer"
     ],
     "march": [
+        "da mars",
         "mars"
     ],
     "april": [
         "avr",
-        "avrigl"
+        "avrigl",
+        "d'avrigl"
     ],
     "may": [
+        "da matg",
         "matg"
     ],
     "june": [
+        "da zercladur",
         "zercl",
         "zercladur"
     ],
     "july": [
+        "da fanadur",
         "fan",
         "fanadur"
     ],
     "august": [
-        "avust"
+        "avust",
+        "d'avust"
     ],
     "september": [
+        "da settember",
         "sett",
         "settember"
     ],
     "october": [
+        "d'october",
         "oct",
         "october"
     ],
     "november": [
+        "da november",
         "nov",
         "november"
     ],
     "december": [
+        "da december",
         "dec",
         "december"
     ],

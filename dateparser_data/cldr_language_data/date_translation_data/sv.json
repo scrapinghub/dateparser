@@ -113,7 +113,8 @@
     ],
     "relative-type": {
         "0 day ago": [
-            "i dag"
+            "i dag",
+            "idag"
         ],
         "0 hour ago": [
             "denna timme"
@@ -136,7 +137,8 @@
             "i år"
         ],
         "1 day ago": [
-            "i går"
+            "i går",
+            "igår"
         ],
         "1 month ago": [
             "förra mån",
@@ -150,7 +152,8 @@
             "i fjol"
         ],
         "in 1 day": [
-            "i morgon"
+            "i morgon",
+            "imorgon"
         ],
         "in 1 month": [
             "nästa mån",
@@ -178,19 +181,19 @@
             "−{0} h"
         ],
         "\\1 minute ago": [
-            "för {0} min sedan",
+            "för {0} min sen",
             "för {0} minut sedan",
             "för {0} minuter sedan",
             "−{0} min"
         ],
         "\\1 month ago": [
-            "för {0} mån sedan",
+            "för {0} mån sen",
             "för {0} månad sedan",
             "för {0} månader sedan",
             "−{0} mån"
         ],
         "\\1 second ago": [
-            "för {0} sek sedan",
+            "för {0} s sen",
             "för {0} sekund sedan",
             "för {0} sekunder sedan",
             "−{0} s"
@@ -203,6 +206,7 @@
         ],
         "\\1 year ago": [
             "för {0} år sedan",
+            "för {0} år sen",
             "−{0} år"
         ],
         "in \\1 day": [
@@ -244,8 +248,7 @@
             "name": "sv-AX"
         },
         "sv-FI": {
-            "name": "sv-FI",
-            "date_order": "DMY"
+            "name": "sv-FI"
         }
     }
 }

@@ -281,6 +281,10 @@ info = {
             "name": "en-150",
             "date_order": "DMY"
         },
+        "en-AE": {
+            "name": "en-AE",
+            "date_order": "DMY"
+        },
         "en-AG": {
             "name": "en-AG",
             "date_order": "DMY"
@@ -301,7 +305,39 @@ info = {
             "date_order": "DMY",
             "hour": [
                 "h"
-            ]
+            ],
+            "relative-type-regex": {
+                "\\1 hour ago": [
+                    "(\\d+[.,]?\\d*) hrs ago"
+                ],
+                "\\1 minute ago": [
+                    "(\\d+[.,]?\\d*) mins ago"
+                ],
+                "\\1 second ago": [
+                    "(\\d+[.,]?\\d*) secs ago"
+                ],
+                "\\1 week ago": [
+                    "(\\d+[.,]?\\d*) wks ago"
+                ],
+                "\\1 year ago": [
+                    "(\\d+[.,]?\\d*) yrs ago"
+                ],
+                "in \\1 hour": [
+                    "in (\\d+[.,]?\\d*) hrs"
+                ],
+                "in \\1 minute": [
+                    "in (\\d+[.,]?\\d*) mins"
+                ],
+                "in \\1 second": [
+                    "in (\\d+[.,]?\\d*) secs"
+                ],
+                "in \\1 week": [
+                    "in (\\d+[.,]?\\d*) wks"
+                ],
+                "in \\1 year": [
+                    "in (\\d+[.,]?\\d*) yrs"
+                ]
+            }
         },
         "en-BB": {
             "name": "en-BB",

@@ -78,9 +78,11 @@
         "sul"
     ],
     "am": [
+        "am",
         "yb"
     ],
     "pm": [
+        "pm",
         "yh"
     ],
     "year": [
@@ -94,7 +96,7 @@
         "wythnos"
     ],
     "day": [
-        "dydd"
+        "diwrnod"
     ],
     "hour": [
         "awr"
