@@ -243,7 +243,7 @@ def check_settings(settings):
         setting_props = settings_values[setting_name]
 
         # check type:
-        if not setting_type == setting_props["type"]:
+        if not isinstance(setting_type, setting_props["type"]):
             raise SettingValidationError(
                 '"{}" must be "{}", not "{}".'.format(
                     setting_name, setting_props["type"].__name__, setting_type.__name__
