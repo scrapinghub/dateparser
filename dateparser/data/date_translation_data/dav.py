@@ -96,6 +96,7 @@ info = {
         "ituku"
     ],
     "hour": [
+        "hr",
         "saa"
     ],
     "minute": [

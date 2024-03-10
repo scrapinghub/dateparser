@@ -77,7 +77,8 @@ info = {
         "lyɛ̌'"
     ],
     "hour": [
-        "fʉ̀' nèm"
+        "fʉ̀' nèm",
+        "hr"
     ],
     "minute": [
         "minute"

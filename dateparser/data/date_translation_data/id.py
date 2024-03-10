@@ -29,7 +29,7 @@ info = {
         "juli"
     ],
     "august": [
-        "agt",
+        "agu",
         "agustus",
         "Agu"
     ],
@@ -99,7 +99,8 @@ info = {
     ],
     "day": [
         "h",
-        "hari"
+        "hari",
+        "hr"
     ],
     "hour": [
         "j",
@@ -123,9 +124,11 @@ info = {
             "jam ini"
         ],
         "0 minute ago": [
-            "menit ini"
+            "menit ini",
+            "mnt ini"
         ],
         "0 month ago": [
+            "bln ini",
             "bulan ini"
         ],
         "0 second ago": [
@@ -133,34 +136,42 @@ info = {
             "baru saja"
         ],
         "0 week ago": [
+            "mgg ini",
             "minggu ini"
         ],
         "0 year ago": [
-            "tahun ini"
+            "tahun ini",
+            "thn ini"
         ],
         "1 day ago": [
             "kemarin"
         ],
         "1 month ago": [
+            "bln lalu",
             "bulan lalu"
         ],
         "1 week ago": [
+            "mgg lalu",
             "minggu lalu"
         ],
         "1 year ago": [
-            "tahun lalu"
+            "tahun lalu",
+            "thn lalu"
         ],
         "in 1 day": [
             "besok"
         ],
         "in 1 month": [
-            "bulan berikutnya"
+            "bln berikutnya",
+            "bulan depan"
         ],
         "in 1 week": [
+            "mgg depan",
             "minggu depan"
         ],
         "in 1 year": [
-            "tahun depan"
+            "tahun depan",
+            "thn depan"
         ],
         "1 year": [
             "setahun"
@@ -215,7 +226,8 @@ info = {
             "dalam (\\d+[.,]?\\d*) hari"
         ],
         "in \\1 hour": [
-            "dalam (\\d+[.,]?\\d*) jam"
+            "dalam (\\d+[.,]?\\d*) jam",
+            "dlm (\\d+[.,]?\\d*) jam"
         ],
         "in \\1 minute": [
             "dalam (\\d+[.,]?\\d*) menit",
