@@ -1265,6 +1265,63 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
+
+    @parameterized.expand(
+        [
+            param(
+                "2015",
+                prefer_day="current",
+                prefer_month="current",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2015, 2, 10),
+            ),
+            param(
+                "2015",
+                prefer_day="last",
+                prefer_month="current",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2015, 2, 28),
+            ),
+            param(
+                "2015",
+                prefer_day="first",
+                prefer_month="current",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2015, 2, 1),
+            ),
+            param(
+                "2015",
+                prefer_day="current",
+                prefer_month="last",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2015, 12, 10),
+            ),
+            param(
+                "2015",
+                prefer_day="last",
+                prefer_month="last",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2015, 12, 31),
+            ),
+            param(
+                "2020", #Leap year last day test
+                prefer_day="last",
+                prefer_month="current",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2020, 2, 29),
+            ),
+        ]
+    )
+    def test_dates_with_no_day_or_month(
+        self, date_string, prefer_day, prefer_month, today=None, expected=None
+    ):
+        self.given_parser(
+            settings={"PREFER_DAY_OF_MONTH": prefer_day, "PREFER_MONTH_OF_YEAR": prefer_month, "RELATIVE_BASE": today}
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
     def given_local_tz_offset(self, offset):
         self.add_patch(
             patch.object(
