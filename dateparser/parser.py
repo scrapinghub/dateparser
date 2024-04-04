@@ -598,11 +598,13 @@ class _parser:
         relative_base_month = (
             relative_base.month if hasattr(relative_base, "month") else relative_base
         )
-        
+
         if getattr(self, "_token_month", None):
             return dateobj
 
-        dateobj = set_correct_month_from_settings(dateobj, self.settings, relative_base_month)
+        dateobj = set_correct_month_from_settings(
+            dateobj, self.settings, relative_base_month
+        )
         return dateobj
 
     @classmethod

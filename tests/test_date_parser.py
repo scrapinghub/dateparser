@@ -1265,7 +1265,6 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
-
     @parameterized.expand(
         [
             param(
@@ -1304,7 +1303,7 @@ class TestDateParser(BaseTestCase):
                 expected=datetime(2015, 12, 31),
             ),
             param(
-                "2020", #Leap year last day test
+                "2020",  # Leap year last day test
                 prefer_day="last",
                 prefer_month="current",
                 today=datetime(2010, 2, 10),
@@ -1316,7 +1315,11 @@ class TestDateParser(BaseTestCase):
         self, date_string, prefer_day, prefer_month, today=None, expected=None
     ):
         self.given_parser(
-            settings={"PREFER_DAY_OF_MONTH": prefer_day, "PREFER_MONTH_OF_YEAR": prefer_month, "RELATIVE_BASE": today}
+            settings={
+                "PREFER_DAY_OF_MONTH": prefer_day,
+                "PREFER_MONTH_OF_YEAR": prefer_month,
+                "RELATIVE_BASE": today,
+            }
         )
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
