@@ -410,7 +410,7 @@ class TestTranslateSearch(BaseTestCase):
                 "Die UdSSR blieb gemäß dem Neutralitätspakt "
                 "vom 13. April 1941 gegenüber Japan vorerst neutral.",
                 [
-                    ("Die", datetime.datetime(1999, 12, 28, 0, 0)),
+                    ("Die", datetime.datetime(1999, 1, 28, 0, 0)),
                     ("13. April 1941", datetime.datetime(1941, 4, 13, 0, 0)),
                 ],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
@@ -825,7 +825,10 @@ class TestTranslateSearch(BaseTestCase):
                 "бомбардировки срещу Япония, използувайки новозавладените острови като бази.",
             ),
             # Chinese
-            param("zh", "不過大多數人仍多把第二次世界大戰的爆發定為1939年9月1日德國入侵波蘭開始，2015年04月08日10点05。"),
+            param(
+                "zh",
+                "不過大多數人仍多把第二次世界大戰的爆發定為1939年9月1日德國入侵波蘭開始，2015年04月08日10点05。",
+            ),
             # Czech
             param(
                 "cs",
@@ -897,7 +900,10 @@ class TestTranslateSearch(BaseTestCase):
                 "d'Etiopia. Il 9 maggio 1936 venne proclamato l'Impero. ",
             ),
             # Japanese
-            param("ja", "1933年（昭和8年）12月23日午前6時39分、宮城（現：皇居）内の産殿にて誕生。"),
+            param(
+                "ja",
+                "1933年（昭和8年）12月23日午前6時39分、宮城（現：皇居）内の産殿にて誕生。",
+            ),
             # Persian
             param("fa", "نگ جهانی دوم جنگ جدی بین سپتامبر 1939 و 2 سپتامبر 1945 بود."),
             # Polish

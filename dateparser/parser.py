@@ -598,10 +598,13 @@ class _parser:
         relative_base_month = (
             relative_base.month if hasattr(relative_base, "month") else relative_base
         )
-        if getattr(self, "_token_month", None) or relative_base_month:
+
+        if getattr(self, "_token_month", None):
             return dateobj
 
-        dateobj = set_correct_month_from_settings(dateobj, self.settings)
+        dateobj = set_correct_month_from_settings(
+            dateobj, self.settings, relative_base_month
+        )
         return dateobj
 
     @classmethod
@@ -613,11 +616,13 @@ class _parser:
         # correction for past, future if applicable
         dateobj = po._correct_for_time_frame(dateobj, tz)
 
+        # correction for preference of month: beginning, current, end
+        # must happen before day so that day is derived from the correct month
+        dateobj = po._correct_for_month(dateobj)
+
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
 
-        # correction for preference of month: beginning, current, end
-        dateobj = po._correct_for_month(dateobj)
         period = po._get_period()
 
         return dateobj, period
