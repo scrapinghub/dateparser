@@ -106,6 +106,7 @@ info = {
     ],
     "hour": [
         "h",
+        "ore",
         "oră",
         "ore"
     ],
@@ -138,6 +139,7 @@ info = {
             "acum"
         ],
         "0 week ago": [
+            "săpt aceasta",
             "săptămâna aceasta"
         ],
         "0 year ago": [
@@ -150,6 +152,7 @@ info = {
             "luna trecută"
         ],
         "1 week ago": [
+            "săpt trecută",
             "săptămâna trecută"
         ],
         "1 year ago": [
@@ -162,6 +165,7 @@ info = {
             "luna viitoare"
         ],
         "in 1 week": [
+            "săpt viitoare",
             "săptămâna viitoare"
         ],
         "in 1 year": [
@@ -171,8 +175,7 @@ info = {
     "relative-type-regex": {
         "\\1 day ago": [
             "acum (\\d+[.,]?\\d*) de zile",
-            "acum (\\d+[.,]?\\d*) zi",
-            "acum (\\d+[.,]?\\d*) zile"
+            "acum (\\d+[.,]?\\d*) zi"
         ],
         "\\1 hour ago": [
             "acum (\\d+[.,]?\\d*) de ore",
@@ -205,8 +208,7 @@ info = {
         ],
         "in \\1 day": [
             "peste (\\d+[.,]?\\d*) de zile",
-            "peste (\\d+[.,]?\\d*) zi",
-            "peste (\\d+[.,]?\\d*) zile"
+            "peste (\\d+[.,]?\\d*) zi"
         ],
         "in \\1 hour": [
             "peste (\\d+[.,]?\\d*) de ore",
@@ -235,7 +237,6 @@ info = {
         ],
         "in \\1 year": [
             "peste (\\d+[.,]?\\d*) an",
-            "peste (\\d+[.,]?\\d*) ani",
             "peste (\\d+[.,]?\\d*) de ani"
         ]
     },

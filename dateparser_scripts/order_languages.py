@@ -6,7 +6,7 @@ import regex as re
 import requests
 from parsel import Selector
 
-from dateparser_scripts.utils import get_raw_data
+from dateparser_scripts.utils import get_raw_data, CLDR_JSON_DIR
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -15,14 +15,13 @@ avoid_languages = {"cu", "kkj", "nds", "prg", "tk", "vai", "vai-Latn", "vai-Vaii
 
 
 def _get_language_locale_dict():
-    cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
+    cldr_dates_full_dir = CLDR_JSON_DIR / "cldr-json/cldr-dates-full/main/"
     available_locale_names = os.listdir(cldr_dates_full_dir)
     available_language_names = [
         shortname
         for shortname in available_locale_names
         if not re.search(r"-[A-Z0-9]+$", shortname)
     ]
-    available_language_names.remove("root")
     language_locale_dict = {}
     for language_name in available_language_names:
         language_locale_dict[language_name] = []
@@ -106,7 +105,7 @@ def _get_language_order(language_locale_dict):
             return old_common_locales
         return new_most_common_locales
 
-    territory_info_file = "../raw_data/cldr_core/supplemental/territoryInfo.json"
+    territory_info_file = CLDR_JSON_DIR / "cldr-json/cldr-core/supplemental/territoryInfo.json"
     with open(territory_info_file) as f:
         territory_content = json.load(f)
     territory_info_data = territory_content["supplemental"]["territoryInfo"]

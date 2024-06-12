@@ -70,11 +70,9 @@ info = {
         "jumapili"
     ],
     "am": [
-        "am",
-        "asubuhi"
+        "am"
     ],
     "pm": [
-        "mchana",
         "pm"
     ],
     "year": [
