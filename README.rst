@@ -144,8 +144,8 @@ For that reason it is important that the input is a valid date, otherwise it cou
 
 To reduce the possibility of receiving false positives, make sure that:
 
-- The input string it's a valid date and it doesn't contain any other words or numbers.
-- If you know the language or languages beforehand you add them through the ``languages`` or ``locales`` properties.
+- The input string is a valid date and doesn't contain any other words or numbers.
+- If you know the language or languages beforehand, you add them through the ``languages`` or ``locales`` properties.
 
 
 On the other hand, if you want to exclude any of the default parsers
@@ -172,7 +172,7 @@ If you want to use the jalali or hijri calendar, you need to install the
 Common use cases
 ----------------
 
-**dateparser** can be used with a really different number of purposes,
+**dateparser** can be used for a wide variety of purposes,
 but it stands out when it comes to:
 
 Consuming data from different sources:
@@ -191,7 +191,7 @@ Offering natural interaction with users:
 
 -  **Tooling and CLI**: allow users to write “3 days ago” to retrieve
    information.
--  **Search engine**: allow people to search by date in an easiest /
+-  **Search engine**: allow people to search by date in an easy /
    natural format.
 -  **Bots**: allow users to interact with a bot easily
 
