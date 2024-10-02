@@ -72,9 +72,8 @@ def build_tz_offsets(search_regex_parts):
                 search_regex_parts.append(tz_obj[0])
                 yield get_offset(tz_obj, regex)
 
-            # alternate patterns
-            for replace, replacewith in tz_info.get("replace", []):
-                for tz_obj in tz_info["timezones"]:
+                # alternate patterns
+                for replace, replacewith in tz_info.get("replace", []):
                     search_regex_parts.append(re.sub(replace, replacewith, tz_obj[0]))
                     yield get_offset(tz_obj, regex, repl=replace, replw=replacewith)
 
