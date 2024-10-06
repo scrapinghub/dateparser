@@ -109,6 +109,31 @@ class Locale:
             del dictionary[del_key]
         return dictionary
 
+    @property
+    def weekdays(self):
+        weekdays = [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+        ]
+        return weekdays
+
+    def remove_multiple_occurrences(self, date_str_tokens: list):
+        # first occurrence of day of the week will be considered
+        # followings occurrence(s) will be skipped and removed from the token list.
+        weekdays_counter = 0
+        for i, token in enumerate(date_str_tokens):
+            if token in self.weekdays:
+                weekdays_counter += 1
+
+                if weekdays_counter > 1:
+                    date_str_tokens.pop(i)
+                    continue
+
     def translate(self, date_string, keep_formatting=False, settings=None):
         """
         Translate the date string to its English equivalent.
@@ -145,6 +170,7 @@ class Locale:
         if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
 
+        self.remove_multiple_occurrences(date_string_tokens)
         return self._join(
             list(filter(bool, date_string_tokens)),
             separator="" if keep_formatting else " ",
