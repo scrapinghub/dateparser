@@ -1,0 +1,153 @@
+info = {
+    "name": "tok",
+    "date_order": "YMD",
+    "january": [
+        "mun #1"
+    ],
+    "february": [
+        "mun #2"
+    ],
+    "march": [
+        "mun #3"
+    ],
+    "april": [
+        "mun #4"
+    ],
+    "may": [
+        "mun #5"
+    ],
+    "june": [
+        "mun #6"
+    ],
+    "july": [
+        "mun #7"
+    ],
+    "august": [
+        "mun #8"
+    ],
+    "september": [
+        "mun #9"
+    ],
+    "october": [
+        "mun #10"
+    ],
+    "november": [
+        "mun #11"
+    ],
+    "december": [
+        "mun #12"
+    ],
+    "monday": [
+        "suno esun #1"
+    ],
+    "tuesday": [
+        "suno esun #2"
+    ],
+    "wednesday": [
+        "suno esun #3"
+    ],
+    "thursday": [
+        "suno esun #4"
+    ],
+    "friday": [
+        "suno esun #5"
+    ],
+    "saturday": [
+        "suno esun #6"
+    ],
+    "sunday": [
+        "suno esun #7"
+    ],
+    "am": [
+        "am",
+        "pi open suno"
+    ],
+    "pm": [
+        "pi pini suno",
+        "pm"
+    ],
+    "year": [
+        "year"
+    ],
+    "month": [
+        "month"
+    ],
+    "week": [
+        "week"
+    ],
+    "day": [
+        "day"
+    ],
+    "hour": [
+        "hour",
+        "hr"
+    ],
+    "minute": [
+        "minute"
+    ],
+    "second": [
+        "second"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "today"
+        ],
+        "0 hour ago": [
+            "this hour"
+        ],
+        "0 minute ago": [
+            "this minute"
+        ],
+        "0 month ago": [
+            "this month"
+        ],
+        "0 second ago": [
+            "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
+        ]
+    },
+    "locale_specific": {},
+    "skip": [
+        " ",
+        "'",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
+        "@",
+        "[",
+        "]",
+        "|",
+        "，"
+    ]
+}

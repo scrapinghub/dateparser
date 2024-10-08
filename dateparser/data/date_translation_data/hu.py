@@ -124,6 +124,7 @@ info = {
         "nappal"
     ],
     "hour": [
+        "ó",
         "óra",
         "ó",
         "órák",
@@ -133,6 +134,7 @@ info = {
         "órától"
     ],
     "minute": [
+        "p",
         "perc",
         "p",
         "percek",
@@ -142,6 +144,7 @@ info = {
         "perctől"
     ],
     "second": [
+        "mp",
         "másodperc",
         "mp",
         "másodpercek",
@@ -206,21 +209,27 @@ info = {
             "(\\d+[.,]?\\d*) nappal ezelőtt"
         ],
         "\\1 hour ago": [
+            "(\\d+[.,]?\\d*) órája",
             "(\\d+[.,]?\\d*) órával ezelőtt"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) perccel ezelőtt"
+            "(\\d+[.,]?\\d*) perccel ezelőtt",
+            "(\\d+[.,]?\\d*) perce"
         ],
         "\\1 month ago": [
+            "(\\d+[.,]?\\d*) hónapja",
             "(\\d+[.,]?\\d*) hónappal ezelőtt"
         ],
         "\\1 second ago": [
+            "(\\d+[.,]?\\d*) mperce",
             "(\\d+[.,]?\\d*) másodperccel ezelőtt"
         ],
         "\\1 week ago": [
+            "(\\d+[.,]?\\d*) hete",
             "(\\d+[.,]?\\d*) héttel ezelőtt"
         ],
         "\\1 year ago": [
+            "(\\d+[.,]?\\d*) éve",
             "(\\d+[.,]?\\d*) évvel ezelőtt"
         ],
         "in \\1 day": [

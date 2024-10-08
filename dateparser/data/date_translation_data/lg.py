@@ -96,6 +96,7 @@ info = {
         "lunaku"
     ],
     "hour": [
+        "hr",
         "saawa"
     ],
     "minute": [

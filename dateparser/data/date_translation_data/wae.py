@@ -96,7 +96,8 @@ info = {
         "tag"
     ],
     "hour": [
-        "schtund"
+        "schtund",
+        "stunde"
     ],
     "minute": [
         "mínütta"
