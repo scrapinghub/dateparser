@@ -83,8 +83,8 @@ class _ExactLanguageSearch:
             item_partially_split = []
             original_partially_split = []
             for j in range(0, len(item_all_split), i):
-                item_join = splitter.join(item_all_split[j : j + i])
-                original_join = splitter.join(original_all_split[j : j + i])
+                item_join = splitter.join(item_all_split[j: j + i])
+                original_join = splitter.join(original_all_split[j: j + i])
                 item_partially_split.append(item_join)
                 original_partially_split.append(original_join)
             all_possible_splits.append([item_partially_split, original_partially_split])
