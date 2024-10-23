@@ -55,7 +55,7 @@ jobs:
       - name: 'Set up Python ${{ matrix.python-version }}'
         uses: actions/setup-python@v4
         with:
-          python-version: '${{ matrix.python-version }}'
+          python-version: ${{ matrix.python-version }}
       - name: Install language-pack-fr
         run: sudo apt-get update && sudo apt-get install language-pack-fr
       - name: Install dependencies
@@ -63,13 +63,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox
       - name: Run tests
-        run: tox -e ${{ matrix.env.TOXENV }}
+        run: tox -e ${{ env.TOXENV }}
       - name: Upload coverage.xml to codecov
-        if: ${{ matrix.python-version == '3.9' && matrix.env.TOXENV == 'latest'}}
+        if: ${{ matrix.python-version == '3.9' && env.TOXENV == 'latest' }}
         uses: codecov/codecov-action@v3
 
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: pre-commit/action@v3.0.0
+      - uses: actions/checkout@v3
+      - uses: pre-commit/action@v3.0.0
