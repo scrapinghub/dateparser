@@ -14,15 +14,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python-version: 3.8
+          - python-version: 3.9
             env:
               TOXENV: flake8
-          - python-version: 3.7
-            env:
-              TOXENV: py
-          - python-version: 3.8
-            env:
-              TOXENV: py
           - python-version: 3.9
             env:
               TOXENV: py
@@ -38,10 +32,22 @@ jobs:
           - python-version: "3.11"
             env:
               TOXENV: latest
-          - python-version: "3.11"
+          - python-version: "3.12"
+            env:
+              TOXENV: py
+          - python-version: "3.12"
+            env:
+              TOXENV: latest
+          - python-version: "3.13"
+            env:
+              TOXENV: py
+          - python-version: "3.13"
+            env:
+              TOXENV: latest
+          - python-version: "3.13"
             env:
               TOXENV: twinecheck
-          - python-version: "3.11"  # Keep in sync with tox.ini
+          - python-version: "3.13"  # Keep in sync with tox.ini
             env:
               TOXENV: docs
     steps:
