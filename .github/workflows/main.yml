@@ -63,9 +63,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox
       - name: Run tests
-        run: tox -e ${{ env.TOXENV }}
+        run: tox -e ${{ matrix.env.TOXENV }}
       - name: Upload coverage.xml to codecov
-        if: ${{ matrix.python-version == '3.9' && env.TOXENV == 'latest' }}
+        if: ${{ matrix.python-version == '3.9' &&  matrix.env.TOXENV == 'latest' }}
         uses: codecov/codecov-action@v3
 
   pre-commit:
