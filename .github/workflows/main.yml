@@ -47,7 +47,7 @@ jobs:
           - python-version: "3.13"
             env:
               TOXENV: twinecheck
-          - python-version: "3.13"  # Keep in sync with tox.ini
+          - python-version: "3.12"  # Keep in sync with tox.ini
             env:
               TOXENV: docs
     steps:
