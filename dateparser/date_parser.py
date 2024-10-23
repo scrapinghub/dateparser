@@ -32,7 +32,7 @@ class DateParser:
         else:
             if "local" in _settings_tz:
                 stz = get_localzone()
-                if hasattr(stz, "localize") and sys.version_info < (3, 9):
+                if hasattr(stz, "localize") and sys.version_info < (3, 6):
                     date_obj = stz.localize(date_obj)
                 else:
                     date_obj = date_obj.replace(tzinfo=stz)
