@@ -74,6 +74,18 @@ Handling Incomplete Dates
     >>> parse('December 2015', settings={'PREFER_DAY_OF_MONTH': 'first'})
     datetime.datetime(2015, 12, 1, 0, 0)
 
+``PREFER_MONTH_OF_YEAR``: Similarly, another useful thing when the date string is missing the month part. It defaults to ``current`` and can be ``first`` and ``last`` denoting first and last month of year respectively as values:
+
+    >>> from dateparser import parse
+    >>> parse("2015") # default behavior
+    datetime.datetime(2015, 3, 27, 0, 0)
+    >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "last"})
+    datetime.datetime(2015, 12, 27, 0, 0)
+    >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "first"})
+    datetime.datetime(2015, 1, 27, 0, 0)
+    >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "current"}) # it exactly behaves like default one
+    datetime.datetime(2015, 3, 27, 0, 0)
+
 ``PREFER_DATES_FROM``: defaults to ``current_period`` and can have ``past`` and ``future`` as values.
 
 If date string is missing some part, this option ensures consistent results depending on the ``past`` or ``future`` preference, for example, assuming current date is `June 16, 2015`:
@@ -150,7 +162,7 @@ languages for parsing when language detection fails. eg. ["en", "fr"]:
     >>> from dateparser import parse
     >>> parse('3 de marzo de 2020', settings={'DEFAULT_LANGUAGES': ["es"]})
 
-.. note:: When using this setting, these languages will be tried after trying with the detected languages with no success. It is especially useful when using the ``detect_languages_function`.
+.. note:: When using this setting, these languages will be tried after trying with the detected languages with no success. It is especially useful when using ``detect_languages_function``.
 
 Optional language detection
 +++++++++++++++++++++++++++
@@ -181,7 +193,7 @@ The following parsers exist:
     followed by additional digits or a period (``.``), those first 10 digits
     are interpreted as `Unix time <https://en.wikipedia.org/wiki/Unix_time>`_.
 
--    ``'negative-timestamp'``: ``'timestamp'`` for negative timestamps. For
+-   ``'negative-timestamp'``: ``'timestamp'`` for negative timestamps. For
     example, parses ``-186454800000`` as ``1964-02-03T23:00:00``.
 
 -   ``'relative-time'``: Parses dates and times expressed in relation to the
@@ -210,3 +222,6 @@ Dateparser in the future. For example, to ignore relative times:
     >>> from dateparser_data.settings import default_parsers
     >>> parsers = [parser for parser in default_parsers if parser != 'relative-time']
     >>> parse('today', settings={'PARSERS': parsers})
+
+``CACHE_SIZE_LIMIT``: limits the size of caches, that store data for already processed dates.
+Default to ``1000``, but you can set ``0`` for turning off the limit.

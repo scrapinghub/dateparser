@@ -7,18 +7,18 @@ from .utils import clear_cache
 
 def entrance():
     dateparser_argparse = argparse.ArgumentParser(
-        description='dateparser download manager.'
+        description="dateparser download manager."
     )
     dateparser_argparse.add_argument(
-        '--fasttext',
+        "--fasttext",
         type=str,
-        help='To download a fasttext language detection models. Supported models are "small" and "large"'
+        help='To download a fasttext language detection models. Supported models are "small" and "large"',
     )
     dateparser_argparse.add_argument(
-        '--clear',
-        '--clear-cache',
-        help='To clear all cached models',
-        action='store_true'
+        "--clear",
+        "--clear-cache",
+        help="To clear all cached models",
+        action="store_true",
     )
 
     args = dateparser_argparse.parse_args()
@@ -31,4 +31,6 @@ def entrance():
         fasttext_downloader(args.fasttext)
 
     if not (args.clear or args.fasttext):
-        dateparser_argparse.error("dateparser-download: You need to specify the command (i.e.: --fasttext or --clear)")
+        dateparser_argparse.error(
+            "dateparser-download: You need to specify the command (i.e.: --fasttext or --clear)"
+        )

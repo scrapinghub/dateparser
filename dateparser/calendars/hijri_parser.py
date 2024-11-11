@@ -1,23 +1,22 @@
-from hijri_converter import convert
+from hijridate import Gregorian, Hijri
 
 from dateparser.calendars import non_gregorian_parser
 
 
 class hijri:
-
     @classmethod
     def to_gregorian(cls, year=None, month=None, day=None):
-        g = convert.Hijri(year=year, month=month, day=day, validate=False).to_gregorian()
+        g = Hijri(year=year, month=month, day=day, validate=False).to_gregorian()
         return g.datetuple()
 
     @classmethod
     def from_gregorian(cls, year=None, month=None, day=None):
-        h = convert.Gregorian(year, month, day).to_hijri()
+        h = Gregorian(year, month, day).to_hijri()
         return h.datetuple()
 
     @classmethod
     def month_length(cls, year, month):
-        h = convert.Hijri(year=year, month=month, day=1)
+        h = Hijri(year=year, month=month, day=1)
         return h.month_length()
 
 
@@ -35,7 +34,6 @@ class HijriDate:
 
 
 class hijri_parser(non_gregorian_parser):
-
     calendar_converter = hijri
     default_year = 1389
     default_month = 1
@@ -43,8 +41,8 @@ class hijri_parser(non_gregorian_parser):
     non_gregorian_date_cls = HijriDate
 
     _time_conventions = {
-        'am': ["صباحاً"],
-        'pm': ["مساءً"],
+        "am": ["صباحاً"],
+        "pm": ["مساءً"],
     }
 
     @classmethod
@@ -54,3 +52,9 @@ class hijri_parser(non_gregorian_parser):
             for arabic in arabics:
                 result = result.replace(arabic, latin)
         return result
+
+    def handle_two_digit_year(self, year):
+        if year >= 90:
+            return year + 1300
+        else:
+            return year + 1400

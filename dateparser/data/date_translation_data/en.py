@@ -93,7 +93,6 @@ info = {
     "month": [
         "mo",
         "month",
-        "mon",
         "months"
     ],
     "week": [
@@ -801,13 +800,16 @@ info = {
             "(?:12\\s+)?midnight": "00:00"
         },
         {
-            "(\\d+[.,]?\\d*)h(\\d+[.,]?\\d*)m?": "\\1:\\2"
+            "(\\d+[.,]?\\d*)h(\\d+[.,]?\\d*)": "\\1:\\2"
         },
         {
             "(?<=from\\s+)now": "in"
         },
         {
             "less than 1 minute ago": "45 second ago"
+        },
+        {
+            "(\\d+[.,]?\\d*) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
         },
         {
             "one": "1"

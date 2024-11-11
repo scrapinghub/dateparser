@@ -6,21 +6,21 @@ from git import Repo
 
 
 def get_raw_data():
-    cldr_version = '31.0.1'
+    cldr_version = "31.0.1"
     raw_data_directory = "../raw_data"
 
     cldr_data = {
-        'dates_full': {
-            'url': 'https://github.com/unicode-cldr/cldr-dates-full.git',
-            'dir': "{}/cldr_dates_full/".format(raw_data_directory)
+        "dates_full": {
+            "url": "https://github.com/unicode-cldr/cldr-dates-full.git",
+            "dir": "{}/cldr_dates_full/".format(raw_data_directory),
         },
-        'core': {
-            'url': 'https://github.com/unicode-cldr/cldr-core.git',
-            'dir': "{}/cldr_core/".format(raw_data_directory)
+        "core": {
+            "url": "https://github.com/unicode-cldr/cldr-core.git",
+            "dir": "{}/cldr_core/".format(raw_data_directory),
         },
-        'rbnf': {
-            'url': 'https://github.com/unicode-cldr/cldr-rbnf.git',
-            'dir': "{}/cldr_rbnf/".format(raw_data_directory)
+        "rbnf": {
+            "url": "https://github.com/unicode-cldr/cldr-rbnf.git",
+            "dir": "{}/cldr_rbnf/".format(raw_data_directory),
         },
     }
 
@@ -30,8 +30,8 @@ def get_raw_data():
     os.mkdir(raw_data_directory)
 
     for name, data in cldr_data.items():
-        print('Clonning "{}" from: {}'.format(name, data['url']))
-        repo = Repo.clone_from(data['url'], data['dir'], branch='master')
+        print('Clonning "{}" from: {}'.format(name, data["url"]))
+        repo = Repo.clone_from(data["url"], data["dir"], branch="master")
         repo.git.co(cldr_version)
 
 
@@ -65,7 +65,9 @@ def combine_dicts(primary_dict, supplementary_dict):
                 combined_dict[key] = supplementary_dict[key]
         else:
             combined_dict[key] = primary_dict[key]
-    remaining_keys = [key for key in supplementary_dict.keys() if key not in primary_dict.keys()]
+    remaining_keys = [
+        key for key in supplementary_dict.keys() if key not in primary_dict.keys()
+    ]
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict

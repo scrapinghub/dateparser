@@ -1,3 +1,14 @@
 no_word_spacing: "True"
 
 sentence_splitter_group : 4
+
+relative-type:
+    2 day ago:
+        - 前天
+    0 second ago:
+        - 刚刚
+    0 hour ago:
+        - 这一时间
+        - 此时
+    in 2 days:
+        - 后天

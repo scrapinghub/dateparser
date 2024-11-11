@@ -1,14 +1,21 @@
-__version__ = '1.1.4'
+__version__ = "1.2.0"
 
-from .date import DateDataParser
 from .conf import apply_settings
+from .date import DateDataParser
 
 _default_parser = DateDataParser()
 
 
 @apply_settings
-def parse(date_string, date_formats=None, languages=None, locales=None,
-          region=None, settings=None, detect_languages_function=None):
+def parse(
+    date_string,
+    date_formats=None,
+    languages=None,
+    locales=None,
+    region=None,
+    settings=None,
+    detect_languages_function=None,
+):
     """Parse date and time from given date string.
 
     :param date_string:
@@ -54,11 +61,22 @@ def parse(date_string, date_formats=None, languages=None, locales=None,
     """
     parser = _default_parser
 
-    if languages or locales or region or detect_languages_function or not settings._default:
-        parser = DateDataParser(languages=languages, locales=locales,
-                                region=region, settings=settings, detect_languages_function=detect_languages_function)
+    if (
+        languages
+        or locales
+        or region
+        or detect_languages_function
+        or not settings._default
+    ):
+        parser = DateDataParser(
+            languages=languages,
+            locales=locales,
+            region=region,
+            settings=settings,
+            detect_languages_function=detect_languages_function,
+        )
 
     data = parser.get_date_data(date_string, date_formats)
 
     if data:
-        return data['date_obj']
+        return data["date_obj"]

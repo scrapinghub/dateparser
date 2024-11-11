@@ -3,6 +3,76 @@
 History
 =======
 
+1.2.0 (2023-11-17)
+------------------
+
+New features:
+
+- New ``PREFER_MONTH_OF_YEAR`` setting (#1146)
+
+Fixes:
+
+- Absolute years in Russian are no longer being treated as a number of years in
+  the past (#1129)
+
+Cleanups and internal improvements:
+
+- Removed the use of ``datetime.utcnow``, deprecated on Python 3.12 (#1179)
+- Applied Black formatting to the code base (#1158)
+- Initial integration with OSSFuzz (#1198)
+- Extended test cases (#1191)
+
+
+1.1.8 (2023-03-22)
+------------------
+
+Improvements:
+
+- Improved date parsing for Chinese (#1148)
+- Improved date parsing for Czech (#1151)
+- Reorder language by popularity (#1152)
+- Fix leak of memory in cache (#1140)
+- Add support for "\d units later" (#1154)
+- Move modification in CLDR data to yaml (#1153)
+- Add support to use timezone via settings to get PREFER_DATES_FROM result (#1155)
+
+
+1.1.7 (2023-02-02)
+------------------
+
+Improvements:
+
+- Add an “ago” synonym for Arabic (#1128)
+- Improved date parsing for Czech (#1131)
+- Improved date parsing for Indonesian (#1134)
+
+
+1.1.6 (2023-01-12)
+------------------
+
+Improvements:
+
+- Fix the bug where Monday is parsed as a month (#1121)
+- Prevent ReDoS in Spanish sentence splitting regex (#1084)
+
+
+1.1.5 (2022-12-29)
+------------------
+
+Improvements:
+
+- Parse short versions of day, month, and year (#1103)
+- Add a test for “in 1d” (#1104)
+- Update languages_info (#1107)
+- Add a workaround for zipimporter not having exec_module before Python 3.10 (#1069)
+- Stabilize tests at midnight (#1111)
+- Add a test case for French (#1110)
+
+Cleanups:
+
+- Remove the requirements-build file (#1113)
+
+
 1.1.4 (2022-11-21)
 ------------------
 

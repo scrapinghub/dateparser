@@ -5,7 +5,6 @@ include LICENSE
 include README.rst
 include dateparser_data/settings.py
 include requirements.txt
-include requirements-build.txt
 
 recursive-include tests *
 recursive-exclude * __pycache__

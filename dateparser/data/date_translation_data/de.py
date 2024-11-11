@@ -37,8 +37,8 @@ info = {
     ],
     "september": [
         "sep",
-        "sept",
-        "september"
+        "september",
+        "Sept"
     ],
     "october": [
         "okt",
