@@ -101,6 +101,7 @@ info = {
         "dagen"
     ],
     "hour": [
+        "u",
         "uur"
     ],
     "minute": [

@@ -96,6 +96,7 @@ info = {
         "mokɔlɔ"
     ],
     "hour": [
+        "hr",
         "ngonga"
     ],
     "minute": [

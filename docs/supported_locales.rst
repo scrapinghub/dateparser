@@ -55,7 +55,7 @@ et
 eu
 ewo
 fa                'fa-AF'
-ff                'ff-CM', 'ff-GN', 'ff-MR'
+ff
 fi
 fil
 fo                'fo-DK'
