@@ -19,7 +19,7 @@ Improvements:
 - Check for derived types for configuration (#1223)
 - Parse some abbreviated strings as relative dates (#1219)
 - Migrate from hijri-converter to hijridate (#1211)
-- Fixed ClusterFuzz build error by adding dateparserr.data as a binary (#1208)
+- Fixed ClusterFuzz build error by adding dateparser.data as a binary (#1208)
 - Fix an issue detected by OSSFuzz (#1203)
 - Support two-digit years in non-Gregorian calendars (#1187)
 
