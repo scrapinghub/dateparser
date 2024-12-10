@@ -3,6 +3,27 @@
 History
 =======
 
+1.2.1 (2024-12-10)
+------------------
+
+Fixes:
+
+- Fix PytzUsageWarning (#1109)
+- Fix date_parser with prefer_month_of_year wrong results (#1224)
+- Fix skipped day when UTC and tz are different days (#1183)
+
+Improvements:
+
+- Avoid repeated loop over timezones (#1238)
+- Proofread README.rst (#1234)
+- Check for derived types for configuration (#1223)
+- Parse some abbreviated strings as relative dates (#1219)
+- Migrate from hijri-converter to hijridate (#1211)
+- Fixed ClusterFuzz build error by adding dateparserr.data as a binary (#1208)
+- Fix an issue detected by OSSFuzz (#1203)
+- Support two-digit years in non-Gregorian calendars (#1187)
+
+
 1.2.0 (2023-11-17)
 ------------------
 
