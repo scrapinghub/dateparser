@@ -642,7 +642,7 @@ class TestTranslateSearch(BaseTestCase):
                     (
                         "June 23th 5 pm EST",
                         datetime.datetime(
-                            2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST")
+                            2023, 6, 23, 17, 0, tzinfo=pytz.timezone("US/Eastern")
                         ),
                     ),
                     ("May 31", datetime.datetime(2023, 5, 31, 0, 0)),
