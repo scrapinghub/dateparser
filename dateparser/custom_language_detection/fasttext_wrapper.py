@@ -27,6 +27,7 @@ class FastTextWrapper:
             else:
                 probs, labels = ([], ())
 
+            # Using np.asarray(probs) to avoid errors in the test
             return labels, np.asarray(probs)
 
 
