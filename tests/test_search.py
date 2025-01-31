@@ -576,8 +576,7 @@ class TestTranslateSearch(BaseTestCase):
             ),
             param(
                 "en",
-                "2014 was good! October was excellent!"
-                " Friday, 21 was especially good!",
+                "2014 was good! October was excellent! Friday, 21 was especially good!",
                 [
                     ("2014", datetime.datetime(2014, today.month, today.day, 0, 0)),
                     ("October", datetime.datetime(2014, 10, today.day, 0, 0)),

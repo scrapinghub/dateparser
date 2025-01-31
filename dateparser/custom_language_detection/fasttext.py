@@ -1,6 +1,7 @@
 import os
 
-from dateparser.custom_language_detection.fasttext_wrapper import load_model
+import fasttext
+
 from dateparser_cli.exceptions import FastTextModelNotFoundException
 from dateparser_cli.fasttext_manager import fasttext_downloader
 from dateparser_cli.utils import create_data_model_home, dateparser_model_home
@@ -26,7 +27,7 @@ def _load_fasttext_model():
     model_path = os.path.join(dateparser_model_home, downloaded_models[0])
     if not os.path.isfile(model_path):
         raise FastTextModelNotFoundException("Fasttext model file not found")
-    _FastTextCache.model = load_model(model_path)
+    _FastTextCache.model = fasttext.load_model(model_path)
     return _FastTextCache.model
 
 

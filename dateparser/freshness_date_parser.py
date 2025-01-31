@@ -31,7 +31,7 @@ class FreshnessDateDataParser:
         date_string = re.sub(r"\b(?:ago|in)\b", "", date_string)
         try:
             return time_parser(date_string)
-        except:
+        except Exception:
             pass
 
     def get_local_tz(self):

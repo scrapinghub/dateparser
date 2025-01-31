@@ -1,5 +1,7 @@
-import sys
-import unittest
+import pytest
+
+pytest.importorskip("hijridate")
+
 from datetime import datetime
 
 from parameterized import param, parameterized

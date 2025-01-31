@@ -13,6 +13,8 @@
 import os
 import sys
 
+import dateparser
+
 # Get the project root dir, which is the parent dir of this
 cwd = os.getcwd()
 project_root = os.path.dirname(cwd)
@@ -21,8 +23,6 @@ project_root = os.path.dirname(cwd)
 # This lets us ensure that the source package is imported, and that its
 # version is used.
 sys.path.insert(0, project_root)
-
-import dateparser
 
 # -- General configuration ---------------------------------------------
 

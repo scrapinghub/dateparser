@@ -14,42 +14,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python-version: 3.9
-            env:
-              TOXENV: flake8
-          - python-version: 3.9
-            env:
-              TOXENV: py
+          - python-version: "3.13"
+            toxenv: pre-commit
+          - python-version: "3.9"
           - python-version: "3.10"
-            env:
-              TOXENV: py
-          - python-version: "3.10"
-            env:
-              TOXENV: latest
           - python-version: "3.11"
-            env:
-              TOXENV: py
-          - python-version: "3.11"
-            env:
-              TOXENV: latest
           - python-version: "3.12"
-            env:
-              TOXENV: py
-          - python-version: "3.12"
-            env:
-              TOXENV: latest
           - python-version: "3.13"
-            env:
-              TOXENV: py
-          - python-version: "3.13"
-            env:
-              TOXENV: latest
-          - python-version: "3.13"
-            env:
-              TOXENV: twinecheck
           - python-version: "3.12"  # Keep in sync with tox.ini
-            env:
-              TOXENV: docs
+            toxenv: docs
+          - python-version: "3.13"
+            toxenv: twinecheck
     steps:
       - uses: actions/checkout@v3
       - name: 'Set up Python ${{ matrix.python-version }}'
@@ -63,13 +38,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox
       - name: Run tests
-        run: tox -e ${{ matrix.env.TOXENV }}
+        run: tox -e ${{ matrix.toxenv || 'py' }}
       - name: Upload coverage.xml to codecov
-        if: ${{ matrix.env.python-version == '3.9' && matrix.env.TOXENV == 'latest' }}
-        uses: codecov/codecov-action@v3
-
-  pre-commit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: pre-commit/action@v3.0.0
+        uses: codecov/codecov-action@v4.0.1

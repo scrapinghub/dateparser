@@ -15,8 +15,6 @@ history = re.sub(
     r":mod:|:class:|:func:", "", open("HISTORY.rst", encoding="utf-8").read()
 )
 
-test_requirements = open("tests/requirements.txt").read().splitlines()
-
 setup(
     name="dateparser",
     version=__version__,
@@ -42,7 +40,7 @@ setup(
     },
     extras_require={
         "calendars": ["hijridate", "convertdate"],
-        "fasttext": ["fasttext"],
+        "fasttext": ["fasttext", "numpy<2"],
         "langdetect": ["langdetect"],
     },
     license="BSD",

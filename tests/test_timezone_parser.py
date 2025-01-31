@@ -19,9 +19,9 @@ from tests import BaseTestCase
 class TestTZPopping(BaseTestCase):
     def setUp(self):
         super().setUp()
-        self.initial_string = (
-            self.datetime_string
-        ) = self.timezone_offset = NotImplemented
+        self.initial_string = self.datetime_string = self.timezone_offset = (
+            NotImplemented
+        )
 
     @parameterized.expand(
         [
