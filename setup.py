@@ -15,8 +15,6 @@ history = re.sub(
     r":mod:|:class:|:func:", "", open("HISTORY.rst", encoding="utf-8").read()
 )
 
-test_requirements = open("tests/requirements.txt").read().splitlines()
-
 setup(
     name="dateparser",
     version=__version__,
@@ -31,19 +29,18 @@ setup(
     packages=find_packages(exclude=("tests", "tests.*")),
     include_package_data=True,
     install_requires=[
-        "python-dateutil",
-        "pytz",
-        # https://bitbucket.org/mrabarnett/mrab-regex/issues/314/import-error-no-module-named
-        "regex !=2019.02.19,!=2021.8.27",
-        "tzlocal",
+        "python-dateutil>=2.7.0",
+        "pytz>=2024.2",
+        "regex>=2015.06.24,!=2019.02.19,!=2021.8.27",
+        "tzlocal>=0.2",
     ],
     entry_points={
         "console_scripts": ["dateparser-download = dateparser_cli.cli:entrance"],
     },
     extras_require={
-        "calendars": ["hijridate", "convertdate"],
-        "fasttext": ["fasttext"],
-        "langdetect": ["langdetect"],
+        "calendars": ["convertdate>=2.2.1", "hijridate"],
+        "fasttext": ["fasttext>=0.9.1", "numpy>=1.19.3,<2"],
+        "langdetect": ["langdetect>=1.0.0"],
     },
     license="BSD",
     zip_safe=False,

@@ -81,7 +81,7 @@ class TestDateRangeFunction(BaseTestCase):
         self.when_date_range_generated(
             begin=datetime(2014, 6, 15),
             end=datetime(2014, 6, 25),
-            **{invalid_period: 1}
+            **{invalid_period: 1},
         )
         self.then_period_was_rejected(invalid_period)
 

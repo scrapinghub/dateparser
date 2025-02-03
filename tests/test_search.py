@@ -576,8 +576,7 @@ class TestTranslateSearch(BaseTestCase):
             ),
             param(
                 "en",
-                "2014 was good! October was excellent!"
-                " Friday, 21 was especially good!",
+                "2014 was good! October was excellent! Friday, 21 was especially good!",
                 [
                     ("2014", datetime.datetime(2014, today.month, today.day, 0, 0)),
                     ("October", datetime.datetime(2014, 10, today.day, 0, 0)),
@@ -642,7 +641,14 @@ class TestTranslateSearch(BaseTestCase):
                     (
                         "June 23th 5 pm EST",
                         datetime.datetime(
-                            2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST")
+                            2023,
+                            6,
+                            23,
+                            17,
+                            0,
+                            tzinfo=datetime.timezone(
+                                datetime.timedelta(hours=-5), name="EST"
+                            ),
                         ),
                     ),
                     ("May 31", datetime.datetime(2023, 5, 31, 0, 0)),
