@@ -22,6 +22,8 @@ Improvements:
 - Fixed ClusterFuzz build error by adding dateparser.data as a binary (#1208)
 - Fix an issue detected by OSSFuzz (#1203)
 - Support two-digit years in non-Gregorian calendars (#1187)
+- Refactored CI to run extras separately and test minimum versions of dependencies, replaced flake8 with ruff, fixed tests (#1248)
+- Removed proposed fasttext wrapper, limited numpy to supported versions for corresponding extra (#1248)
 
 
 1.2.0 (2023-11-17)
