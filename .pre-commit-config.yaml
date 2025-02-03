@@ -1,15 +1,7 @@
 repos:
-- repo: https://github.com/PyCQA/flake8
-  rev: 6.0.0  # 6.0.0 drops Python 3.7 support
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.9.3
   hooks:
-  - id: flake8
-    args: ['--config=.flake8']
-- repo: https://github.com/psf/black.git
-  rev: 23.3.0
-  hooks:
-  - id: black
-    exclude: ^dateparser/data/date_translation_data/
-- repo: https://github.com/pycqa/isort
-  rev: 5.12.0  # 5.12 drops Python 3.7 support
-  hooks:
-  - id: isort
+    - id: ruff
+      args: [ --fix ]
+    - id: ruff-format

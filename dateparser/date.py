@@ -1,5 +1,4 @@
 import collections
-import sys
 from collections.abc import Set
 from datetime import datetime, timedelta
 

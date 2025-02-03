@@ -1,0 +1,6 @@
+[tool.ruff]
+exclude = ["date_translation_data"]
+
+[tool.ruff.lint.per-file-ignores]
+"dateparser/data/__init__.py" = ["F401"]
+"dateparser/languages/__init__.py" = ["F401"]
