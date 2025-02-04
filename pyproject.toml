@@ -1,3 +1,17 @@
+[tool.bumpversion]
+current_version = "1.2.0"
+commit = true
+tag = true
+
+[[tool.bumpversion.files]]
+filename = "dateparser/__init__.py"
+
+[[tool.bumpversion.files]]
+filename = 'HISTORY.rst'
+search = "\\(unreleased\\)$"
+replace = "({now:%Y-%m-%d})"
+regex = true
+
 [tool.ruff]
 exclude = ["date_translation_data"]
 
