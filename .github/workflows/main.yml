@@ -47,4 +47,6 @@ jobs:
       - name: Run tests
         run: tox -e ${{ matrix.toxenv || 'py' }}
       - name: Upload coverage.xml to codecov
-        uses: codecov/codecov-action@v4.0.1
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
