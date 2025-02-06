@@ -114,7 +114,8 @@ info = {
     "hour": [
         "h",
         "val",
-        "valanda"
+        "valanda",
+        "valandos"
     ],
     "minute": [
         "min",

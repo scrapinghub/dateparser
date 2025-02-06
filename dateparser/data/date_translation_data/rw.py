@@ -19,7 +19,7 @@ info = {
     ],
     "may": [
         "gic",
-        "gicuransi"
+        "gicurasi"
     ],
     "june": [
         "kam",
@@ -96,7 +96,8 @@ info = {
         "day"
     ],
     "hour": [
-        "hour"
+        "hour",
+        "hr"
     ],
     "minute": [
         "minute"

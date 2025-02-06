@@ -96,6 +96,7 @@ info = {
         "ɛnkɔlɔ́ŋ"
     ],
     "hour": [
+        "hr",
         "ɛ́sáâ"
     ],
     "minute": [

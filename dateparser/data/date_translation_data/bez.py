@@ -96,6 +96,7 @@ info = {
         "sihu"
     ],
     "hour": [
+        "hr",
         "saa"
     ],
     "minute": [

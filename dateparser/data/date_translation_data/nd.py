@@ -96,6 +96,7 @@ info = {
         "ilanga"
     ],
     "hour": [
+        "hr",
         "ihola"
     ],
     "minute": [
