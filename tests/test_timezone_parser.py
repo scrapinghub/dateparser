@@ -19,9 +19,9 @@ from tests import BaseTestCase
 class TestTZPopping(BaseTestCase):
     def setUp(self):
         super().setUp()
-        self.initial_string = (
-            self.datetime_string
-        ) = self.timezone_offset = NotImplemented
+        self.initial_string = self.datetime_string = self.timezone_offset = (
+            NotImplemented
+        )
 
     @parameterized.expand(
         [
@@ -157,8 +157,8 @@ class TestLocalTZOffset(BaseTestCase):
         datetime_cls = dateparser.timezone_parser.datetime
         if not isinstance(datetime_cls, Mock):
             datetime_cls = Mock(wraps=datetime)
-        utc_dt_obj = datetime.strptime(utc_dt_string, "%Y-%m-%d %H:%M").astimezone(
-            dt.timezone.utc
+        utc_dt_obj = datetime.strptime(utc_dt_string, "%Y-%m-%d %H:%M").replace(
+            tzinfo=dt.timezone.utc
         )
         local_dt_obj = datetime.strptime(local_dt_string, "%Y-%m-%d %H:%M")
 
