@@ -120,6 +120,7 @@ def _load_offsets(cache_path, current_hash):
         pickle.dump(
             (current_hash, _tz_offsets, _search_regex, _search_regex_ignorecase),
             file,
+            protocol=5,
         )
 
 
