@@ -1,4 +1,8 @@
+import os
+import pickle
+import zlib
 from datetime import datetime, timedelta, timezone, tzinfo
+from pathlib import Path
 
 import regex as re
 
@@ -84,8 +88,47 @@ def get_local_tz_offset():
     return offset
 
 
-_search_regex_parts = []
-_tz_offsets = list(build_tz_offsets(_search_regex_parts))
-_search_regex = re.compile("|".join(_search_regex_parts))
-_search_regex_ignorecase = re.compile("|".join(_search_regex_parts), re.IGNORECASE)
 local_tz_offset = get_local_tz_offset()
+
+_tz_offsets = None
+_search_regex = None
+_search_regex_ignorecase = None
+
+
+def _load_offsets(cache_path, current_hash):
+    global _tz_offsets, _search_regex, _search_regex_ignorecase
+
+    try:
+        with open(cache_path, mode="rb") as file:
+            (
+                serialized_hash,
+                _tz_offsets,
+                _search_regex,
+                _search_regex_ignorecase,
+            ) = pickle.load(file)
+            if current_hash is None or current_hash == serialized_hash:
+                return
+    except (FileNotFoundError, ValueError, TypeError):
+        pass
+
+    _search_regex_parts = []
+    _tz_offsets = list(build_tz_offsets(_search_regex_parts))
+    _search_regex = re.compile("|".join(_search_regex_parts))
+    _search_regex_ignorecase = re.compile("|".join(_search_regex_parts), re.IGNORECASE)
+
+    with open(cache_path, mode="wb") as file:
+        pickle.dump(
+            (current_hash, _tz_offsets, _search_regex, _search_regex_ignorecase),
+            file,
+            protocol=5,
+        )
+
+
+CACHE_PATH = Path(__file__).parent.joinpath("data", "dateparser_tz_cache.pkl")
+
+if "BUILD_TZ_CACHE" in os.environ:
+    current_hash = zlib.crc32(str(timezone_info_list).encode("utf-8"))
+else:
+    current_hash = None
+
+_load_offsets(CACHE_PATH, current_hash)
