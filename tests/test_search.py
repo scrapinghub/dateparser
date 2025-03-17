@@ -10,7 +10,7 @@ from dateparser.timezone_parser import StaticTzInfo
 from dateparser_data.settings import default_parsers
 from tests import BaseTestCase
 
-today = datetime.datetime.today()
+today = datetime.datetime.now(tz=pytz.timezone("UTC"))
 
 
 class TestTranslateSearch(BaseTestCase):
