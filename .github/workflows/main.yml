@@ -53,9 +53,6 @@ jobs:
       - name: Run tests
         run: |
           TZ=${{ matrix.timezone || 'UTC' }} echo "Running tests with timezone: $TZ"
-          TZ=${{ matrix.timezone || 'UTC' }} date
-          TZ=${{ matrix.timezone || 'UTC' }} python -c "import datetime; print(f'Python datetime now: {datetime.datetime.now()}')"
-          TZ=${{ matrix.timezone || 'UTC' }} python -c "import time; print(f'Python time localtime: {time.localtime()}')"
           TZ=${{ matrix.timezone || 'UTC' }} tox -e ${{ matrix.toxenv || 'py' }}
       - name: Upload coverage.xml to codecov
         uses: codecov/codecov-action@v5
