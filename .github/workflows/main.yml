@@ -32,6 +32,12 @@ jobs:
             toxenv: docs
           - python-version: "3.13"
             toxenv: twinecheck
+          - python-version: "3.13"
+            toxenv: py
+            timezone: "Pacific/Auckland"
+          - python-version: "3.13"
+            toxenv: py
+            timezone: "Pacific/Fiji"
     steps:
       - uses: actions/checkout@v3
       - name: 'Set up Python ${{ matrix.python-version }}'
@@ -45,7 +51,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox
       - name: Run tests
-        run: tox -e ${{ matrix.toxenv || 'py' }}
+        env:
+          TZ: ${{ matrix.timezone || 'UTC' }}
+        run: |
+          echo "Running tests with timezone: $TZ"
+          date
+          python -c "import datetime; print(f'Python datetime now: {datetime.datetime.now()}')"
+          python -c "import time; print(f'Python time localtime: {time.localtime()}')"
+          tox -e ${{ matrix.toxenv || 'py' }}
       - name: Upload coverage.xml to codecov
         uses: codecov/codecov-action@v5
         with:
