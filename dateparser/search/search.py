@@ -295,3 +295,10 @@ class DateSearchWithDetection:
                 language_shortname, text, settings=settings
             ),
         }
+
+    def preprocess_text(self, text, languages):
+        """Preprocess text to handle language-specific quirks."""
+        if languages and "ru" in languages:
+            # Replace "с" (from) before numbers with a placeholder
+            text = re.sub(r"\bс\s+(?=\d)", "[FROM] ", text)
+        return text

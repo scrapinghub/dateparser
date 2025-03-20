@@ -57,12 +57,15 @@ def search_dates(
      ('on May 6th 2004', datetime.datetime(2004, 5, 6, 0, 0))]
 
     """
+    text = _search_with_detection.preprocess_text(text, languages)
+
     result = _search_with_detection.search_dates(
         text=text,
         languages=languages,
         settings=settings,
         detect_languages_function=detect_languages_function,
     )
+
     dates = result.get("Dates")
     if dates:
         if add_detected_language:
