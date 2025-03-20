@@ -65,7 +65,6 @@ def search_dates(
         settings=settings,
         detect_languages_function=detect_languages_function,
     )
-
     dates = result.get("Dates")
     if dates:
         if add_detected_language:
