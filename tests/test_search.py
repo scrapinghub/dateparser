@@ -1091,7 +1091,7 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.check_error_message("Unknown language(s): 'unknown language code'")
 
-    def test_search_dates_with_prepositions():
+    def test_search_dates_with_prepositions(self):
         """Test `search_dates` for parsing Russian date ranges with prepositions and language detection."""
         result = search_dates(
             "Сервис будет недоступен с 12 января по 30 апреля.",
