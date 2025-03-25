@@ -31,7 +31,7 @@ setup(
     install_requires=[
         "python-dateutil>=2.7.0",
         "pytz>=2024.2",
-        "regex>=2015.06.24,!=2019.02.19,!=2021.8.27",
+        "regex>=2024.9.11",
         "tzlocal>=0.2",
     ],
     entry_points={
