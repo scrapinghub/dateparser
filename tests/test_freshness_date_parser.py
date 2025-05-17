@@ -122,6 +122,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
                 period="day",
             ),
             param("just now", ago={"seconds": 0}, period="day"),
+            param('11 hours from now', in_future={'hours': 11}, period='hour'),
+            param('10 days from now', in_future={'days': 10}, period='day'),
+            param('9 weeks from now', in_future={'weeks': 9}, period='week'),
+            param('8 months from now', in_future={'months': 8}, period='month'),
+            param('7 years from now', in_future={'years': 7}, period='year'),
             # Fix for #291, work till one to twelve only
             param("nine hours ago", ago={"hours": 9}, period="day"),
             param("three week ago", ago={"weeks": 3}, period="week"),
