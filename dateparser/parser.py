@@ -182,7 +182,7 @@ class _no_spaces_parser:
                 dt = strptime(datestring, fmt), cls._get_period(fmt)
                 if len(str(dt[0].year)) == 4:
                     return dt
-            except:
+            except Exception:
                 pass
         return None
 
@@ -216,7 +216,7 @@ class _no_spaces_parser:
                     missing = _get_missing_parts(fmt)
                     _check_strict_parsing(missing, settings)
                     return dt
-                except:
+                except Exception:
                     pass
         else:
             if ambiguous_date:
@@ -332,7 +332,7 @@ class _parser:
                     token.index(":")
                     # Is after period? raise ValueError if '.' can't be found:
                     self.tokens[self.tokens.index((token, 0)) + 1][0].index(".")
-                except:
+                except Exception:
                     microsecond = None
 
                 if microsecond:
@@ -342,7 +342,7 @@ class _parser:
                     meridian = MERIDIAN.search(
                         self.filtered_tokens[meridian_index][0]
                     ).group()
-                except:
+                except Exception:
                     meridian = None
 
                 if any([":" in token, meridian, microsecond]):
@@ -514,9 +514,9 @@ class _parser:
 
         # NOTE: If this assert fires, self.now needs to be made offset-aware in a similar
         # way that dateobj is temporarily made offset-aware.
-        assert not (
-            self.now.tzinfo is None and dateobj.tzinfo is not None
-        ), "`self.now` doesn't have `tzinfo`. Review comment in code for details."
+        assert not (self.now.tzinfo is None and dateobj.tzinfo is not None), (
+            "`self.now` doesn't have `tzinfo`. Review comment in code for details."
+        )
 
         # Store the original dateobj values so that upon subsequent parsing everything is not
         # treated as offset-aware if offset awareness is changed.
@@ -686,7 +686,7 @@ class _parser:
                                 (component, getattr(do, component)),
                                 ("day", prev_value),
                             ]
-                    except:
+                    except Exception:
                         pass
             else:
                 raise ValueError("Unable to parse: %s" % token)

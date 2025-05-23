@@ -576,8 +576,7 @@ class TestTranslateSearch(BaseTestCase):
             ),
             param(
                 "en",
-                "2014 was good! October was excellent!"
-                " Friday, 21 was especially good!",
+                "2014 was good! October was excellent! Friday, 21 was especially good!",
                 [
                     ("2014", datetime.datetime(2014, today.month, today.day, 0, 0)),
                     ("October", datetime.datetime(2014, 10, today.day, 0, 0)),
@@ -642,7 +641,14 @@ class TestTranslateSearch(BaseTestCase):
                     (
                         "June 23th 5 pm EST",
                         datetime.datetime(
-                            2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST")
+                            2023,
+                            6,
+                            23,
+                            17,
+                            0,
+                            tzinfo=datetime.timezone(
+                                datetime.timedelta(hours=-5), name="EST"
+                            ),
                         ),
                     ),
                     ("May 31", datetime.datetime(2023, 5, 31, 0, 0)),
@@ -1084,3 +1090,16 @@ class TestTranslateSearch(BaseTestCase):
             text=text, languages=languages, error_type=ValueError
         )
         self.check_error_message("Unknown language(s): 'unknown language code'")
+
+    def test_search_dates_with_prepositions(self):
+        """Test `search_dates` for parsing Russian date ranges with prepositions and language detection."""
+        result = search_dates(
+            "Сервис будет недоступен с 12 января по 30 апреля.",
+            add_detected_language=True,
+            languages=["ru"],
+        )
+        expected = [
+            ("12 января", datetime.datetime(2025, 1, 12, 0, 0), "ru"),
+            ("30 апреля", datetime.datetime(2025, 4, 30, 0, 0), "ru"),
+        ]
+        assert result == expected

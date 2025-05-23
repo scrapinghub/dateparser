@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("convertdate")
+
 from datetime import datetime
 
 from parameterized import param, parameterized

@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("ruamel")
+
 from dateparser_scripts.write_complete_data import write_complete_data
 
 
