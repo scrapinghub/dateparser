@@ -875,7 +875,7 @@ class TestDateParser(BaseTestCase):
     ):
         self.when_date_is_parsed_by_date_parser(date_string)
         self.then_error_was_raised(
-            ValueError, ["day is out of range for month", message]
+            ValueError, ["day is out of range for month", "must be in range", message]
         )
 
     @parameterized.expand(
