@@ -630,6 +630,25 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("Monday", datetime(2015, 3, 2)),
+        ]
+    )
+    def test_preferably_future_dates_relative_last_week_of_month(
+        self, date_string, expected
+    ):
+        self.given_local_tz_offset(0)
+        self.given_parser(
+            settings={
+                "PREFER_DATES_FROM": "future",
+                "RELATIVE_BASE": datetime(2015, 2, 24, 15, 30),
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             param("10 December", datetime(2015, 12, 10)),
             param("March", datetime(2015, 3, 15)),
             param("Friday", datetime(2015, 2, 13)),
