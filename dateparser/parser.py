@@ -512,6 +512,10 @@ class _parser:
 
             dateobj = dateobj + delta
 
+            # set the token_month here so that it is not subsequently
+            # altered by _correct_for_month
+            self._token_month = dateobj.month
+
         # NOTE: If this assert fires, self.now needs to be made offset-aware in a similar
         # way that dateobj is temporarily made offset-aware.
         assert not (self.now.tzinfo is None and dateobj.tzinfo is not None), (
