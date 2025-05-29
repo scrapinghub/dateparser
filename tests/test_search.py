@@ -410,7 +410,7 @@ class TestTranslateSearch(BaseTestCase):
                 "Die UdSSR blieb gemäß dem Neutralitätspakt "
                 "vom 13. April 1941 gegenüber Japan vorerst neutral.",
                 [
-                    ("Die", datetime.datetime(1999, 1, 28, 0, 0)),
+                    ("Die", datetime.datetime(1999, 12, 28, 0, 0)),
                     ("13. April 1941", datetime.datetime(1941, 4, 13, 0, 0)),
                 ],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
