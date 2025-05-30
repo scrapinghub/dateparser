@@ -180,6 +180,8 @@ def set_correct_day_from_settings(date_obj, settings, current_day=None):
     }
 
     try:
+        if settings.PREFER_DAY_OF_MONTH == 'no_correction':
+            return date_obj
         return date_obj.replace(day=options[settings.PREFER_DAY_OF_MONTH])
     except ValueError:
         return date_obj.replace(day=options["last"])
@@ -190,6 +192,8 @@ def set_correct_month_from_settings(date_obj, settings, current_month=None):
     options = {"first": 1, "last": 12, "current": current_month or datetime.now().month}
 
     try:
+        if settings.PREFER_MONTH_OF_YEAR == 'no_correction':
+            return date_obj
         return date_obj.replace(month=options[settings.PREFER_MONTH_OF_YEAR])
     except ValueError:
         return date_obj.replace(month=options["last"])
