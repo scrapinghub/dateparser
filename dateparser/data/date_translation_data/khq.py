@@ -94,7 +94,8 @@ info = {
         "jaari"
     ],
     "hour": [
-        "guuru"
+        "guuru",
+        "hr"
     ],
     "minute": [
         "miniti"

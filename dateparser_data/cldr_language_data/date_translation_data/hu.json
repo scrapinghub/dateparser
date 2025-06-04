@@ -96,12 +96,15 @@
         "nap"
     ],
     "hour": [
+        "ó",
         "óra"
     ],
     "minute": [
+        "p",
         "perc"
     ],
     "second": [
+        "mp",
         "másodperc"
     ],
     "relative-type": {
@@ -157,21 +160,27 @@
             "{0} nappal ezelőtt"
         ],
         "\\1 hour ago": [
+            "{0} órája",
             "{0} órával ezelőtt"
         ],
         "\\1 minute ago": [
-            "{0} perccel ezelőtt"
+            "{0} perccel ezelőtt",
+            "{0} perce"
         ],
         "\\1 month ago": [
+            "{0} hónapja",
             "{0} hónappal ezelőtt"
         ],
         "\\1 second ago": [
+            "{0} mperce",
             "{0} másodperccel ezelőtt"
         ],
         "\\1 week ago": [
+            "{0} hete",
             "{0} héttel ezelőtt"
         ],
         "\\1 year ago": [
+            "{0} éve",
             "{0} évvel ezelőtt"
         ],
         "in \\1 day": [
