@@ -3,6 +3,19 @@
 History
 =======
 
+1.2.2 (unreleased)
+------------------
+
+Fixes:
+
+- Handle the Russian preposition “с” (#1261)
+- Fix weekday search (#1274)
+
+Improvements:
+
+- Add Python 3.14 support (#1273)
+- Cache timezone offsets to improve import time (#1250)
+
 1.2.1 (2025-02-05)
 ------------------
 
