@@ -6,6 +6,10 @@ History
 1.2.2 (unreleased)
 ------------------
 
+Dependency updates:
+
+- The ``fasttext`` extra now requires ``fasttext`` 0.9.2+
+
 Fixes:
 
 - Handle the Russian preposition “с” (#1261)

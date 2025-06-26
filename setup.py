@@ -39,7 +39,7 @@ setup(
     },
     extras_require={
         "calendars": ["convertdate>=2.2.1", "hijridate"],
-        "fasttext": ["fasttext>=0.9.1", "numpy>=1.19.3,<2"],
+        "fasttext": ["fasttext>=0.9.2", "numpy>=1.19.3,<2"],
         "langdetect": ["langdetect>=1.0.0"],
     },
     license="BSD",
