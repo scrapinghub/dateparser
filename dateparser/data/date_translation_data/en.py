@@ -51,32 +51,39 @@ info = {
     ],
     "monday": [
         "mon",
-        "monday"
+        "monday",
+        "mo"
     ],
     "tuesday": [
         "tue",
         "tuesday",
+        "tu",
         "Tues"
     ],
     "wednesday": [
         "wed",
-        "wednesday"
+        "wednesday",
+        "we"
     ],
     "thursday": [
         "thu",
-        "thursday"
+        "thursday",
+        "th"
     ],
     "friday": [
         "fri",
-        "friday"
+        "friday",
+        "fr"
     ],
     "saturday": [
         "sat",
-        "saturday"
+        "saturday",
+        "sa"
     ],
     "sunday": [
         "sun",
-        "sunday"
+        "sunday",
+        "su"
     ],
     "am": [
         "am"
