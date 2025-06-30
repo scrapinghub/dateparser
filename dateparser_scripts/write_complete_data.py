@@ -2,6 +2,7 @@ import json
 import os
 import shutil
 from collections import OrderedDict
+from pathlib import Path
 
 import regex as re
 from ruamel.yaml import RoundTripLoader
@@ -9,15 +10,15 @@ from ruamel.yaml import RoundTripLoader
 from dateparser_scripts.order_languages import avoid_languages
 from dateparser_scripts.utils import combine_dicts
 
-cldr_date_directory = "../dateparser_data/cldr_language_data/date_translation_data/"
-supplementary_directory = "../dateparser_data/supplementary_language_data/"
-supplementary_date_directory = (
-    "../dateparser_data/supplementary_language_data/date_translation_data/"
-)
-translation_data_directory = "../dateparser/data/"
-date_translation_directory = "../dateparser/data/date_translation_data/"
+root = Path(__file__).parent.parent
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+cldr_date_directory = root / "dateparser_data/cldr_language_data/date_translation_data"
+supplementary_directory = root / "dateparser_data/supplementary_language_data"
+supplementary_date_directory = (
+    root / "dateparser_data/supplementary_language_data/date_translation_data"
+)
+translation_data_directory = root / "dateparser/data"
+date_translation_directory = root / "dateparser/data/date_translation_data"
 
 cldr_languages = list(
     set(map(lambda x: x[:-5], os.listdir(cldr_date_directory))) - avoid_languages
@@ -51,10 +52,10 @@ def _get_complete_date_translation_data(language):
     cldr_data = {}
     supplementary_data = {}
     if language in cldr_languages:
-        with open(cldr_date_directory + language + ".json") as f:
+        with open(cldr_date_directory / f"{language}.json") as f:
             cldr_data = json.load(f, object_pairs_hook=OrderedDict)
     if language in supplementary_languages:
-        with open(supplementary_date_directory + language + ".yaml") as g:
+        with open(supplementary_date_directory / f"{language}.yaml") as g:
             supplementary_data = OrderedDict(RoundTripLoader(g).get_data())
     complete_data = combine_dicts(cldr_data, supplementary_data)
     if "name" not in complete_data:
@@ -87,7 +88,7 @@ def write_complete_data(in_memory=False):
             shutil.rmtree(date_translation_directory)
         os.mkdir(date_translation_directory)
 
-    with open(supplementary_directory + "base_data.yaml") as f:
+    with open(supplementary_directory / "base_data.yaml") as f:
         base_data = RoundTripLoader(f).get_data()
 
     for language in all_languages:
@@ -99,7 +100,7 @@ def write_complete_data(in_memory=False):
         )
         out_text = ("info = " + translation_data + "\n").encode("utf-8")
         _write_file(
-            date_translation_directory + language + ".py",
+            date_translation_directory / f"{language}.py",
             out_text,
             "wb",
             in_memory,
@@ -108,18 +109,19 @@ def write_complete_data(in_memory=False):
 
     init_text = (
         "from dateparser.data import date_translation_data\n"
-        "from .languages_info import language_order, language_locale_dict\n"
+        "\n"
+        "from .languages_info import language_locale_dict, language_order\n"
     )
 
     _write_file(
-        translation_data_directory + "__init__.py",
+        translation_data_directory / "__init__.py",
         init_text,
         "w",
         False,
         in_memory_result,
     )
     _write_file(
-        date_translation_directory + "__init__.py", "", "w", False, in_memory_result
+        date_translation_directory / "__init__.py", "", "w", False, in_memory_result
     )
 
     return in_memory_result

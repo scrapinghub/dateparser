@@ -1,38 +1,22 @@
 import os
 import shutil
 from collections import OrderedDict
+from pathlib import Path
 
 from git import Repo
 
 
+CLDR_JSON_DIR = (Path(__file__).parent / "../cldr-json").resolve()
+
+
 def get_raw_data():
-    cldr_version = "31.0.1"
-    raw_data_directory = "../raw_data"
+    cldr_version = "44.1.0"
+    url = "https://github.com/unicode-org/cldr-json.git"
+    if os.path.isdir(CLDR_JSON_DIR):
+        shutil.rmtree(CLDR_JSON_DIR)
 
-    cldr_data = {
-        "dates_full": {
-            "url": "https://github.com/unicode-cldr/cldr-dates-full.git",
-            "dir": "{}/cldr_dates_full/".format(raw_data_directory),
-        },
-        "core": {
-            "url": "https://github.com/unicode-cldr/cldr-core.git",
-            "dir": "{}/cldr_core/".format(raw_data_directory),
-        },
-        "rbnf": {
-            "url": "https://github.com/unicode-cldr/cldr-rbnf.git",
-            "dir": "{}/cldr_rbnf/".format(raw_data_directory),
-        },
-    }
-
-    if os.path.isdir(raw_data_directory):
-        # remove current raw data
-        shutil.rmtree(raw_data_directory)
-    os.mkdir(raw_data_directory)
-
-    for name, data in cldr_data.items():
-        print('Clonning "{}" from: {}'.format(name, data["url"]))
-        repo = Repo.clone_from(data["url"], data["dir"], branch="master")
-        repo.git.co(cldr_version)
+    print(f'Clonning {url} @ {cldr_version} on {CLDR_JSON_DIR}...')
+    Repo.clone_from(url, CLDR_JSON_DIR, branch=cldr_version, depth=1)
 
 
 def get_dict_difference(parent_dict, child_dict):

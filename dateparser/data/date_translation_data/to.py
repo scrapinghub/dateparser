@@ -33,8 +33,9 @@ info = {
         "'aokosi"
     ],
     "september": [
-        "sep",
-        "sepitema"
+        "sepitema",
+        "sēp",
+        "sēpitema"
     ],
     "october": [
         "'oka",
@@ -77,81 +78,98 @@ info = {
         "sāpate"
     ],
     "am": [
-        "am",
         "hengihengi",
         "hh"
     ],
     "pm": [
         "ea",
-        "efiafi",
-        "pm"
+        "efiafi"
     ],
     "year": [
+        "t",
         "ta'u"
     ],
     "month": [
+        "mh",
         "māhina"
     ],
     "week": [
+        "ui",
         "uike"
     ],
     "day": [
+        "'a",
         "'aho"
     ],
     "hour": [
+        "h",
         "houa"
     ],
     "minute": [
+        "m",
         "miniti"
     ],
     "second": [
+        "s",
         "sekoni"
     ],
     "relative-type": {
         "0 day ago": [
-            "'ahó ni"
+            "'ahó ni",
+            "'ani"
         ],
         "0 hour ago": [
-            "this hour"
+            "ko e houa 'eni"
         ],
         "0 minute ago": [
-            "this minute"
+            "ko e miniti 'eni"
         ],
         "0 month ago": [
+            "mhni",
             "māhiná ni"
         ],
         "0 second ago": [
             "taimí ni"
         ],
         "0 week ago": [
-            "uiké ni"
+            "uiké ni",
+            "uini"
         ],
         "0 year ago": [
-            "ta'ú ni"
+            "ta'ú ni",
+            "tni"
         ],
         "1 day ago": [
+            "'ane",
             "'aneafi"
         ],
         "1 month ago": [
+            "mh'osi",
             "māhina kuo'osi"
         ],
         "1 week ago": [
+            "ui'osi",
             "uike kuo'osi"
         ],
         "1 year ago": [
+            "t'osi",
             "ta'u kuo'osi"
         ],
         "in 1 day": [
+            "'apo",
             "'apongipongi"
         ],
         "in 1 month": [
+            "mhha'u",
             "māhina kaha'u"
         ],
         "in 1 week": [
+            "uiha'u",
             "uike kaha'u"
         ],
         "in 1 year": [
-            "ta'u kaha'u"
+            "ta'u kaha'u",
+            "tha'u"
         ]
     },
     "relative-type-regex": {

@@ -3,8 +3,7 @@ info = {
     "date_order": "MDY",
     "january": [
         "jan",
-        "januwari",
-        "umasingana"
+        "januwari"
     ],
     "february": [
         "feb",
@@ -97,6 +96,7 @@ info = {
         "usuku"
     ],
     "hour": [
+        "amahora",
         "ihora"
     ],
     "minute": [

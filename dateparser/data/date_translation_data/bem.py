@@ -88,6 +88,7 @@ info = {
         "ubushiku"
     ],
     "hour": [
+        "hr",
         "insa"
     ],
     "minute": [

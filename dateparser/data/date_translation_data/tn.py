@@ -1,0 +1,174 @@
+info = {
+    "name": "tn",
+    "date_order": "YMD",
+    "january": [
+        "fer",
+        "ferikgong"
+    ],
+    "february": [
+        "tlh",
+        "tlhakole"
+    ],
+    "march": [
+        "mop",
+        "mopitlo"
+    ],
+    "april": [
+        "mor",
+        "moranang"
+    ],
+    "may": [
+        "mot",
+        "motsheganang"
+    ],
+    "june": [
+        "see",
+        "seetebosigo"
+    ],
+    "july": [
+        "phu",
+        "phukwi"
+    ],
+    "august": [
+        "pha",
+        "phatwe"
+    ],
+    "september": [
+        "lwe",
+        "lwetse"
+    ],
+    "october": [
+        "dip",
+        "diphalane"
+    ],
+    "november": [
+        "ngw",
+        "ngwanatsele"
+    ],
+    "december": [
+        "sed",
+        "sedimonthole"
+    ],
+    "monday": [
+        "mos",
+        "mosopulogo"
+    ],
+    "tuesday": [
+        "labb",
+        "labobedi"
+    ],
+    "wednesday": [
+        "laboraro",
+        "labr"
+    ],
+    "thursday": [
+        "labn",
+        "labone"
+    ],
+    "friday": [
+        "labotlhano",
+        "labt"
+    ],
+    "saturday": [
+        "mat",
+        "matlhatso"
+    ],
+    "sunday": [
+        "tsh",
+        "tshipi"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "year"
+    ],
+    "month": [
+        "month"
+    ],
+    "week": [
+        "week"
+    ],
+    "day": [
+        "day"
+    ],
+    "hour": [
+        "hour",
+        "hr"
+    ],
+    "minute": [
+        "minute"
+    ],
+    "second": [
+        "second"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "today"
+        ],
+        "0 hour ago": [
+            "this hour"
+        ],
+        "0 minute ago": [
+            "this minute"
+        ],
+        "0 month ago": [
+            "this month"
+        ],
+        "0 second ago": [
+            "now"
+        ],
+        "0 week ago": [
+            "this week"
+        ],
+        "0 year ago": [
+            "this year"
+        ],
+        "1 day ago": [
+            "yesterday"
+        ],
+        "1 month ago": [
+            "last month"
+        ],
+        "1 week ago": [
+            "last week"
+        ],
+        "1 year ago": [
+            "last year"
+        ],
+        "in 1 day": [
+            "tomorrow"
+        ],
+        "in 1 month": [
+            "next month"
+        ],
+        "in 1 week": [
+            "next week"
+        ],
+        "in 1 year": [
+            "next year"
+        ]
+    },
+    "locale_specific": {
+        "tn-BW": {
+            "name": "tn-BW"
+        }
+    },
+    "skip": [
+        " ",
+        "'",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
+        "@",
+        "[",
+        "]",
+        "|",
+        "，"
+    ]
+}

@@ -89,9 +89,11 @@ info = {
         "njeźela"
     ],
     "am": [
+        "dop",
         "dopołdnja"
     ],
     "pm": [
+        "wótp",
         "wótpołdnja"
     ],
     "year": [
@@ -113,7 +115,8 @@ info = {
     "hour": [
         "g",
         "góź",
-        "góźina"
+        "góźina",
+        "góźiny"
     ],
     "minute": [
         "m",
@@ -127,48 +130,70 @@ info = {
     ],
     "relative-type": {
         "0 day ago": [
-            "źinsa"
+            "źins",
+            "źinsa",
+            "źis"
         ],
         "0 hour ago": [
-            "this hour"
+            "w toś tej góźinje"
         ],
         "0 minute ago": [
-            "this minute"
+            "w toś tej minuśe"
         ],
         "0 month ago": [
-            "ten mjasec"
+            "te mjasec",
+            "ten mjasec",
+            "tot mjasec"
         ],
         "0 second ago": [
-            "now"
+            "něnto"
         ],
         "0 week ago": [
-            "ten tyźeń"
+            "te tyźeń",
+            "ten tyźeń",
+            "tot tyźeń"
         ],
         "0 year ago": [
-            "lětosa"
+            "lět",
+            "lětosa",
+            "lěts"
         ],
         "1 day ago": [
-            "cora"
+            "cora",
+            "cr",
+            "cra"
         ],
         "1 month ago": [
-            "slědny mjasec"
+            "zajź mjasec",
+            "zajźony mjasec"
         ],
         "1 week ago": [
-            "slědny tyźeń"
+            "zajź tyźeń",
+            "zajźony tyźeń"
         ],
         "1 year ago": [
+            "ło",
+            "łon",
             "łoni"
         ],
         "in 1 day": [
+            "wit",
+            "witś",
             "witśe"
         ],
         "in 1 month": [
+            "pśid mjasec",
+            "pśiduc mjasec",
             "pśiducy mjasec"
         ],
         "in 1 week": [
+            "pśid tyźeń",
+            "pśiduc tyźeń",
             "pśiducy tyźeń"
         ],
         "in 1 year": [
+            "zno",
+            "znow",
             "znowa"
         ]
     },

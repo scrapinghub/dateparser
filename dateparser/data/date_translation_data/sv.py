@@ -114,6 +114,7 @@ info = {
     "hour": [
         "h",
         "tim",
+        "timmar",
         "timme",
         "timmar",
         "t"
@@ -133,6 +134,7 @@ info = {
     "relative-type": {
         "0 day ago": [
             "i dag",
+            "idag",
             "idag"
         ],
         "0 hour ago": [
@@ -142,8 +144,8 @@ info = {
             "denna minut"
         ],
         "0 month ago": [
-            "denna mån",
-            "denna månad"
+            "den här månaden",
+            "denna mån"
         ],
         "0 second ago": [
             "nu"
@@ -157,6 +159,7 @@ info = {
         ],
         "1 day ago": [
             "i går",
+            "igår",
             "igår"
         ],
         "1 month ago": [
@@ -173,6 +176,7 @@ info = {
         ],
         "in 1 day": [
             "i morgon",
+            "imorgon",
             "imorgon"
         ],
         "in 1 month": [
@@ -204,19 +208,19 @@ info = {
             "−(\\d+[.,]?\\d*) h"
         ],
         "\\1 minute ago": [
-            "för (\\d+[.,]?\\d*) min sedan",
+            "för (\\d+[.,]?\\d*) min sen",
             "för (\\d+[.,]?\\d*) minut sedan",
             "för (\\d+[.,]?\\d*) minuter sedan",
             "−(\\d+[.,]?\\d*) min"
         ],
         "\\1 month ago": [
-            "för (\\d+[.,]?\\d*) mån sedan",
+            "för (\\d+[.,]?\\d*) mån sen",
             "för (\\d+[.,]?\\d*) månad sedan",
             "för (\\d+[.,]?\\d*) månader sedan",
             "−(\\d+[.,]?\\d*) mån"
         ],
         "\\1 second ago": [
-            "för (\\d+[.,]?\\d*) sek sedan",
+            "för (\\d+[.,]?\\d*) s sen",
             "för (\\d+[.,]?\\d*) sekund sedan",
             "för (\\d+[.,]?\\d*) sekunder sedan",
             "−(\\d+[.,]?\\d*) s"
@@ -229,6 +233,7 @@ info = {
         ],
         "\\1 year ago": [
             "för (\\d+[.,]?\\d*) år sedan",
+            "för (\\d+[.,]?\\d*) år sen",
             "−(\\d+[.,]?\\d*) år"
         ],
         "in \\1 day": [
@@ -270,8 +275,7 @@ info = {
             "name": "sv-AX"
         },
         "sv-FI": {
-            "name": "sv-FI",
-            "date_order": "DMY"
+            "name": "sv-FI"
         }
     },
     "skip": [

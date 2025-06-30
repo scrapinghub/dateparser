@@ -84,6 +84,7 @@ info = {
         "mfiri"
     ],
     "hour": [
+        "hr",
         "isaa"
     ],
     "minute": [

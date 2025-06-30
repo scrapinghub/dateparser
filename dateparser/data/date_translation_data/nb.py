@@ -103,6 +103,7 @@ info = {
     "hour": [
         "t",
         "time",
+        "timer",
         "timer"
     ],
     "minute": [
@@ -197,8 +198,7 @@ info = {
             "for (\\d+[.,]?\\d*) uker siden"
         ],
         "\\1 year ago": [
-            "for (\\d+[.,]?\\d*) år siden",
-            "–(\\d+[.,]?\\d*) år"
+            "for (\\d+[.,]?\\d*) år siden"
         ],
         "in \\1 day": [
             "om (\\d+[.,]?\\d*) d",

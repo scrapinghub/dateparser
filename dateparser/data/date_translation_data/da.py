@@ -53,7 +53,7 @@ info = {
         "mandag"
     ],
     "tuesday": [
-        "tir",
+        "tirs",
         "tirsdag"
     ],
     "wednesday": [
@@ -61,7 +61,7 @@ info = {
         "onsdag"
     ],
     "thursday": [
-        "tor",
+        "tors",
         "torsdag"
     ],
     "friday": [
@@ -101,6 +101,7 @@ info = {
     "hour": [
         "t",
         "time",
+        "timer",
         "timer"
     ],
     "minute": [
@@ -119,10 +120,10 @@ info = {
             "i dag"
         ],
         "0 hour ago": [
-            "i den kommende time"
+            "denne time"
         ],
         "0 minute ago": [
-            "i det kommende minut"
+            "dette minut"
         ],
         "0 month ago": [
             "denne md",
@@ -167,40 +168,47 @@ info = {
     "relative-type-regex": {
         "\\1 day ago": [
             "for (\\d+[.,]?\\d*) dag siden",
-            "for (\\d+[.,]?\\d*) dage siden"
+            "for (\\d+[.,]?\\d*) dage siden",
+            "(\\d+[.,]?\\d*) dag siden",
+            "(\\d+[.,]?\\d*) dage siden"
         ],
         "\\1 hour ago": [
             "for (\\d+[.,]?\\d*) time siden",
             "for (\\d+[.,]?\\d*) timer siden",
+            "(\\d+[.,]?\\d*) time siden",
+            "(\\d+[.,]?\\d*) timer siden",
             "for (\\d+[.,]?\\d*)\\s*h",
             "for (\\d+[.,]?\\d*) timer"
         ],
         "\\1 minute ago": [
-            "for (\\d+[.,]?\\d*) min siden",
             "for (\\d+[.,]?\\d*) minut siden",
             "for (\\d+[.,]?\\d*) minutter siden",
+            "(\\d+[.,]?\\d*) min siden",
             "for (\\d+[.,]?\\d*)\\s*m",
             "for (\\d+[.,]?\\d*) minutter"
         ],
         "\\1 month ago": [
-            "for (\\d+[.,]?\\d*) md siden",
-            "for (\\d+[.,]?\\d*) mdr siden",
             "for (\\d+[.,]?\\d*) måned siden",
-            "for (\\d+[.,]?\\d*) måneder siden"
+            "for (\\d+[.,]?\\d*) måneder siden",
+            "(\\d+[.,]?\\d*) md siden",
+            "(\\d+[.,]?\\d*) mdr siden"
         ],
         "\\1 second ago": [
-            "for (\\d+[.,]?\\d*) sek siden",
             "for (\\d+[.,]?\\d*) sekund siden",
             "for (\\d+[.,]?\\d*) sekunder siden",
+            "(\\d+[.,]?\\d*) sek siden",
             "for (\\d+[.,]?\\d*)\\s*s",
             "for (\\d+[.,]?\\d*) sekunder"
         ],
         "\\1 week ago": [
             "for (\\d+[.,]?\\d*) uge siden",
-            "for (\\d+[.,]?\\d*) uger siden"
+            "for (\\d+[.,]?\\d*) uger siden",
+            "(\\d+[.,]?\\d*) uge siden",
+            "(\\d+[.,]?\\d*) uger siden"
         ],
         "\\1 year ago": [
-            "for (\\d+[.,]?\\d*) år siden"
+            "for (\\d+[.,]?\\d*) år siden",
+            "(\\d+[.,]?\\d*) år siden"
         ],
         "in \\1 day": [
             "om (\\d+[.,]?\\d*) dag",

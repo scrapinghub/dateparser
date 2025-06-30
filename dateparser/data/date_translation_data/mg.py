@@ -95,6 +95,7 @@ info = {
         "andro"
     ],
     "hour": [
+        "hr",
         "ora"
     ],
     "minute": [

@@ -78,7 +78,8 @@ info = {
         "anəg"
     ],
     "hour": [
-        "hour"
+        "hour",
+        "hr"
     ],
     "minute": [
         "minute"

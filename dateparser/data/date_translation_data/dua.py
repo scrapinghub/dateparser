@@ -96,6 +96,7 @@ info = {
         "búnyá"
     ],
     "hour": [
+        "hr",
         "ŋgandɛ"
     ],
     "minute": [

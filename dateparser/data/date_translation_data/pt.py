@@ -110,16 +110,15 @@ info = {
     "hour": [
         "h",
         "hora",
+        "horas",
         "horas"
     ],
     "minute": [
-        "m",
         "min",
         "minuto",
         "minutos"
     ],
     "second": [
-        "s",
         "seg",
         "segundo",
         "segundos"
@@ -186,7 +185,6 @@ info = {
         ],
         "\\1 minute ago": [
             "há (\\d+[.,]?\\d*) min",
-            "há (\\d+[.,]?\\d*) mins",
             "há (\\d+[.,]?\\d*) minuto",
             "há (\\d+[.,]?\\d*) minutos"
         ],
@@ -219,7 +217,6 @@ info = {
         ],
         "in \\1 minute": [
             "em (\\d+[.,]?\\d*) min",
-            "em (\\d+[.,]?\\d*) mins",
             "em (\\d+[.,]?\\d*) minuto",
             "em (\\d+[.,]?\\d*) minutos"
         ],
@@ -229,7 +226,6 @@ info = {
         ],
         "in \\1 second": [
             "em (\\d+[.,]?\\d*) seg",
-            "em (\\d+[.,]?\\d*) segs",
             "em (\\d+[.,]?\\d*) segundo",
             "em (\\d+[.,]?\\d*) segundos"
         ],
@@ -268,6 +264,9 @@ info = {
             "pm": [
                 "da tarde",
                 "tarde"
+            ],
+            "second": [
+                "s"
             ],
             "relative-type-regex": {
                 "\\1 second ago": [
@@ -332,6 +331,9 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d+[.,]?\\d*) s"
@@ -394,6 +396,9 @@ info = {
             "pm": [
                 "da tarde",
                 "tarde"
+            ],
+            "second": [
+                "s"
             ],
             "relative-type-regex": {
                 "\\1 second ago": [
@@ -458,6 +463,9 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d+[.,]?\\d*) s"
@@ -520,6 +528,9 @@ info = {
             "pm": [
                 "da tarde",
                 "tarde"
+            ],
+            "second": [
+                "s"
             ],
             "relative-type-regex": {
                 "\\1 second ago": [
@@ -584,6 +595,9 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d+[.,]?\\d*) s"
@@ -646,6 +660,9 @@ info = {
             "pm": [
                 "da tarde",
                 "tarde"
+            ],
+            "second": [
+                "s"
             ],
             "relative-type-regex": {
                 "\\1 second ago": [
@@ -710,6 +727,9 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d+[.,]?\\d*) s"
@@ -772,6 +792,9 @@ info = {
             "pm": [
                 "da tarde",
                 "tarde"
+            ],
+            "second": [
+                "s"
             ],
             "relative-type-regex": {
                 "\\1 second ago": [
@@ -836,6 +859,9 @@ info = {
                 "da tarde",
                 "tarde"
             ],
+            "second": [
+                "s"
+            ],
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d+[.,]?\\d*) s"
@@ -898,6 +924,9 @@ info = {
             "pm": [
                 "da tarde",
                 "tarde"
+            ],
+            "second": [
+                "s"
             ],
             "relative-type-regex": {
                 "\\1 second ago": [

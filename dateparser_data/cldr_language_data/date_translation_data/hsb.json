@@ -90,9 +90,11 @@
         "njedźela"
     ],
     "am": [
+        "dop",
         "dopołdnja"
     ],
     "pm": [
+        "pop",
         "popołdnju"
     ],
     "year": [
@@ -114,7 +116,8 @@
     "hour": [
         "h",
         "hodź",
-        "hodźina"
+        "hodźina",
+        "hodźiny"
     ],
     "minute": [
         "m",
@@ -128,48 +131,72 @@
     ],
     "relative-type": {
         "0 day ago": [
+            "dźe",
+            "dźens",
             "dźensa"
         ],
         "0 hour ago": [
-            "this hour"
+            "w tutej hodźinje"
         ],
         "0 minute ago": [
-            "this minute"
+            "w tutej mjeńšinje"
         ],
         "0 month ago": [
+            "tu měsac",
+            "tut měsac",
             "tutón měsac"
         ],
         "0 second ago": [
-            "now"
+            "nětko"
         ],
         "0 week ago": [
+            "tu tydźeń",
+            "tut tydźeń",
             "tutón tydźeń"
         ],
         "0 year ago": [
+            "lět",
+            "lěts",
             "lětsa"
         ],
         "1 day ago": [
+            "wč",
+            "wčer",
             "wčera"
         ],
         "1 month ago": [
+            "zaš měsac",
+            "zašł měsac",
             "zašły měsac"
         ],
         "1 week ago": [
+            "zaš tydźeń",
+            "zašł tydźeń",
             "zašły tydźeń"
         ],
         "1 year ago": [
+            "lo",
+            "lon",
             "loni"
         ],
         "in 1 day": [
+            "jut",
+            "jutř",
             "jutře"
         ],
         "in 1 month": [
+            "přich měsac",
+            "přichodn měsac",
             "přichodny měsac"
         ],
         "in 1 week": [
+            "přich tydźeń",
+            "přichodn tydźeń",
             "přichodny tydźeń"
         ],
         "in 1 year": [
+            "klě",
+            "klět",
             "klětu"
         ]
     },

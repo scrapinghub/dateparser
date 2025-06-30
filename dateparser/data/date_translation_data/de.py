@@ -37,6 +37,7 @@ info = {
     ],
     "september": [
         "sep",
+        "sept",
         "september",
         "Sept"
     ],
@@ -88,10 +89,10 @@ info = {
         "Son"
     ],
     "am": [
-        "vorm"
+        "am"
     ],
     "pm": [
-        "nachm"
+        "pm"
     ],
     "year": [
         "j",
@@ -118,6 +119,7 @@ info = {
     "hour": [
         "std",
         "stunde",
+        "stunden",
         "Stunden"
     ],
     "minute": [
