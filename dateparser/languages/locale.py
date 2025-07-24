@@ -426,9 +426,37 @@ class Locale:
     def _simplify(self, date_string, settings=None):
         date_string = date_string.lower()
         simplifications = self._get_simplifications(settings=settings)
+
+        if self.info.get("name") == "ru":
+            date_string = self._process_russian_compound_ordinals(
+                date_string, simplifications
+            )
+        else:
+            date_string = self._apply_simplifications(date_string, simplifications)
+
+        return date_string
+
+    def _apply_simplifications(self, date_string, simplifications):
         for simplification in simplifications:
             pattern, replacement = list(simplification.items())[0]
             date_string = pattern.sub(replacement, date_string).lower()
+        return date_string
+
+    def _process_russian_compound_ordinals(self, date_string, simplifications):
+        """Process Russian compound ordinals mathematically (двадцать + первое = 21)."""
+        date_string = self._apply_simplifications(date_string, simplifications)
+
+        def replace_number_pairs(match):
+            first_num = int(match.group(1))
+            second_num = int(match.group(2))
+            result = first_num + second_num
+            if 1 <= result <= 31 and first_num in [20, 30] and 1 <= second_num <= 9:
+                return str(result)
+            return match.group(0)
+
+        number_pair_pattern = r"\b(\d+)\s+(\d+)\b"
+        date_string = re.sub(number_pair_pattern, replace_number_pairs, date_string)
+
         return date_string
 
     def _get_simplifications(self, settings=None):
