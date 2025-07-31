@@ -1756,6 +1756,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in a week", in_future={"weeks": 1}, period="week"),
             param("in three weeks", in_future={"weeks": 3}, period="week"),
             param("in three weeks time", in_future={"weeks": 3}, period="week"),
+            param("in three weeks' time", in_future={"weeks": 3}, period="week"),
             param("in 2 hours", in_future={"hours": 2}, period="day"),
             param("in about 23 hours", in_future={"hours": 23}, period="day"),
             param(
