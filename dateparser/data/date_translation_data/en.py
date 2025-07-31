@@ -258,6 +258,7 @@ info = {
         "in \\1 week": [
             "in (\\d+[.,]?\\d*) week",
             "in (\\d+[.,]?\\d*) weeks",
+            "in (\\d+[.,]?\\d*) weeks time",
             "in (\\d+[.,]?\\d*) wk"
         ],
         "in \\1 year": [

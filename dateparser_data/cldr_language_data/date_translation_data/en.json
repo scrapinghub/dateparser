@@ -227,6 +227,7 @@
         "in \\1 week": [
             "in {0} week",
             "in {0} weeks",
+            "in {0} weeks time",
             "in {0} wk"
         ],
         "in \\1 year": [
