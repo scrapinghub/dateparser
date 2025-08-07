@@ -26,6 +26,10 @@ settings = {
     "DEFAULT_LANGUAGES": [],
     # Optional language detection
     "LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": 0.5,
+    # Time span settings
+    "RETURN_TIME_SPAN": False,
+    "DEFAULT_START_OF_WEEK": "monday",
+    "DEFAULT_DAYS_IN_MONTH": 30,
     # Other settings
     "RETURN_TIME_AS_PERIOD": False,
     "PARSERS": default_parsers,
