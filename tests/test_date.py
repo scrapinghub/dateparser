@@ -836,20 +836,6 @@ class TestDateDataParser(BaseTestCase):
     @parameterized.expand(
         [
             param(
-                "Fr",
-                datetime(2025, 8, 1, 0, 0),
-            ),
-        ]
-    )
-    def test_short_weekday_names(self, date_string, expected):
-        self.given_parser(["en"])
-        self.given_now(2025, 8, 1)
-        self.when_date_string_is_parsed(date_string)
-        self.then_parsed_datetime_is(expected)
-
-    @parameterized.expand(
-        [
-            param(
                 "Tu",
                 datetime(2025, 7, 29, 0, 0),
             ),
@@ -862,6 +848,10 @@ class TestDateDataParser(BaseTestCase):
                 datetime(2025, 7, 31, 0, 0),
             ),
             param(
+                "Fr",
+                datetime(2025, 8, 1, 0, 0),
+            ),
+            param(
                 "Sa",
                 datetime(2025, 7, 26, 0, 0),
             ),
@@ -871,11 +861,12 @@ class TestDateDataParser(BaseTestCase):
             ),
         ]
     )
-    @unittest.expectedFailure
-    def test_short_weekday_names_xfail(self, date_string, expected):
+    # @unittest.expectedFailure
+    def test_short_weekday_names(self, date_string, expected):
         self.given_parser(["en"])
         self.given_now(2025, 8, 1)
         self.when_date_string_is_parsed(date_string)
+        print(self.result, expected)
         self.then_parsed_datetime_is(expected)
 
     @parameterized.expand(
