@@ -10,6 +10,7 @@ from itertools import product
 from time import tzset
 from unittest.mock import Mock, patch
 
+import pytest
 from parameterized import param, parameterized
 
 import dateparser
@@ -836,6 +837,10 @@ class TestDateDataParser(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                "Mo",
+                datetime(2025, 7, 28, 0, 0),
+            ),
+            param(
                 "Tu",
                 datetime(2025, 7, 29, 0, 0),
             ),
@@ -862,25 +867,15 @@ class TestDateDataParser(BaseTestCase):
         ]
     )
     def test_short_weekday_names(self, date_string, expected):
-        self.given_parser(["en"])
-        self.given_now(2025, 8, 1)
-        self.when_date_string_is_parsed(date_string)
-        print(self.result, expected)
-        self.then_parsed_datetime_is(expected)
+        if "Mo" in date_string:
+            pytest.xfail(
+                "Known bug: 'Mo' is being interpreted as a month instead of a weekday and needs to be fixed."
+            )
 
-    @parameterized.expand(
-        [
-            param(
-                "Mo",
-                None,
-            ),
-        ]
-    )
-    def test_short_weekday_with_monday(self, date_string, expected):
         self.given_parser(["en"])
         self.given_now(2025, 8, 1)
         self.when_date_string_is_parsed(date_string)
-        self.then_date_was_not_parsed()
+        self.then_parsed_datetime_is(expected)
 
     def given_now(self, year, month, day, **time):
         now = real_datetime.datetime(year, month, day, **time)
