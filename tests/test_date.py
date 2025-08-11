@@ -861,7 +861,6 @@ class TestDateDataParser(BaseTestCase):
             ),
         ]
     )
-    # @unittest.expectedFailure
     def test_short_weekday_names(self, date_string, expected):
         self.given_parser(["en"])
         self.given_now(2025, 8, 1)
