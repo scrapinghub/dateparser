@@ -1,4 +1,0 @@
-flake8
-parameterized
-pytest
-pytest-cov

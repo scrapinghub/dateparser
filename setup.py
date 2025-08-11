@@ -15,8 +15,6 @@ history = re.sub(
     r":mod:|:class:|:func:", "", open("HISTORY.rst", encoding="utf-8").read()
 )
 
-test_requirements = open("tests/requirements.txt").read().splitlines()
-
 setup(
     name="dateparser",
     version=__version__,
@@ -31,35 +29,34 @@ setup(
     packages=find_packages(exclude=("tests", "tests.*")),
     include_package_data=True,
     install_requires=[
-        "python-dateutil",
-        "pytz",
-        # https://bitbucket.org/mrabarnett/mrab-regex/issues/314/import-error-no-module-named
-        "regex !=2019.02.19,!=2021.8.27",
-        "tzlocal",
+        "python-dateutil>=2.7.0",
+        "pytz>=2024.2",
+        "regex>=2024.9.11",
+        "tzlocal>=0.2",
     ],
     entry_points={
         "console_scripts": ["dateparser-download = dateparser_cli.cli:entrance"],
     },
     extras_require={
-        "calendars": ["hijri-converter", "convertdate"],
-        "fasttext": ["fasttext"],
-        "langdetect": ["langdetect"],
+        "calendars": ["convertdate>=2.2.1", "hijridate"],
+        "fasttext": ["fasttext>=0.9.1", "numpy>=1.19.3,<2"],
+        "langdetect": ["langdetect>=1.0.0"],
     },
     license="BSD",
     zip_safe=False,
     keywords="dateparser",
-    python_requires=">=3.7",
+    python_requires=">=3.8",  # Python 3.8 is required for fuzzing
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Natural Language :: English",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Programming Language :: Python :: Implementation :: CPython",
     ],
 )

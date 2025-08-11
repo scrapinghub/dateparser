@@ -198,9 +198,7 @@ class TestDateParser(BaseTestCase):
             param("[সেপ্টেম্বর] 04, 2014.", datetime(2014, 9, 4)),
             param("মঙ্গলবার জুলাই 22, 2014", datetime(2014, 7, 22)),
             param("শুক্রবার", datetime(2012, 11, 9)),
-            param(
-                "শুক্র, 12 ডিসেম্বর 2014 10:55:50", datetime(2014, 12, 12, 10, 55, 50)
-            ),
+            param("শুক্র, 12 ডিসেম্বর 2014 10:55:50", datetime(2014, 12, 12, 10, 55, 50)),
             param("1লা জানুয়ারী 2015", datetime(2015, 1, 1)),
             param("25শে মার্চ 1971", datetime(1971, 3, 25)),
             param("8ই মে 2002", datetime(2002, 5, 8)),
@@ -418,9 +416,7 @@ class TestDateParser(BaseTestCase):
             param("[সেপ্টেম্বর] 04, 2014.", datetime(2014, 9, 4)),
             param("মঙ্গলবার জুলাই 22, 2014", datetime(2014, 7, 22)),
             param("শুক্রবার", datetime(2012, 11, 9)),
-            param(
-                "শুক্র, 12 ডিসেম্বর 2014 10:55:50", datetime(2014, 12, 12, 10, 55, 50)
-            ),
+            param("শুক্র, 12 ডিসেম্বর 2014 10:55:50", datetime(2014, 12, 12, 10, 55, 50)),
             param("1লা জানুয়ারী 2015", datetime(2015, 1, 1)),
             param("25শে মার্চ 1971", datetime(1971, 3, 25)),
             param("8ই মে 2002", datetime(2002, 5, 8)),
@@ -626,6 +622,25 @@ class TestDateParser(BaseTestCase):
             settings={
                 "PREFER_DATES_FROM": "future",
                 "RELATIVE_BASE": datetime(2015, 2, 15, 15, 30),
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("Monday", datetime(2015, 3, 2)),
+        ]
+    )
+    def test_preferably_future_dates_relative_last_week_of_month(
+        self, date_string, expected
+    ):
+        self.given_local_tz_offset(0)
+        self.given_parser(
+            settings={
+                "PREFER_DATES_FROM": "future",
+                "RELATIVE_BASE": datetime(2015, 2, 24, 15, 30),
             }
         )
         self.when_date_is_parsed(date_string)
@@ -879,7 +894,7 @@ class TestDateParser(BaseTestCase):
     ):
         self.when_date_is_parsed_by_date_parser(date_string)
         self.then_error_was_raised(
-            ValueError, ["day is out of range for month", message]
+            ValueError, ["day is out of range for month", "must be in range", message]
         )
 
     @parameterized.expand(
@@ -1259,6 +1274,66 @@ class TestDateParser(BaseTestCase):
                 "RETURN_AS_TIMEZONE_AWARE": False,
                 "RELATIVE_BASE": datetime(2021, 10, 19, 18, 0),
                 **test_settings,
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param(
+                "2015",
+                prefer_day="current",
+                prefer_month="current",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2015, 2, 10),
+            ),
+            param(
+                "2015",
+                prefer_day="last",
+                prefer_month="current",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2015, 2, 28),
+            ),
+            param(
+                "2015",
+                prefer_day="first",
+                prefer_month="current",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2015, 2, 1),
+            ),
+            param(
+                "2015",
+                prefer_day="current",
+                prefer_month="last",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2015, 12, 10),
+            ),
+            param(
+                "2015",
+                prefer_day="last",
+                prefer_month="last",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2015, 12, 31),
+            ),
+            param(
+                "2020",  # Leap year last day test
+                prefer_day="last",
+                prefer_month="current",
+                today=datetime(2010, 2, 10),
+                expected=datetime(2020, 2, 29),
+            ),
+        ]
+    )
+    def test_dates_with_no_day_or_month(
+        self, date_string, prefer_day, prefer_month, today=None, expected=None
+    ):
+        self.given_parser(
+            settings={
+                "PREFER_DAY_OF_MONTH": prefer_day,
+                "PREFER_MONTH_OF_YEAR": prefer_month,
+                "RELATIVE_BASE": today,
             }
         )
         self.when_date_is_parsed(date_string)

@@ -31,7 +31,7 @@ class FreshnessDateDataParser:
         date_string = re.sub(r"\b(?:ago|in)\b", "", date_string)
         try:
             return time_parser(date_string)
-        except:
+        except Exception:
             pass
 
     def get_local_tz(self):
@@ -71,10 +71,7 @@ class FreshnessDateDataParser:
                         now = now.replace(tzinfo=ptz)
 
             if not now.tzinfo:
-                if hasattr(self.get_local_tz(), "localize"):
-                    now = self.get_local_tz().localize(now)
-                else:
-                    now = now.replace(tzinfo=self.get_local_tz())
+                now = now.replace(tzinfo=self.get_local_tz())
 
         elif ptz:
             localized_now = datetime.now(ptz)

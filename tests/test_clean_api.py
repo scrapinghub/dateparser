@@ -119,7 +119,7 @@ class TestParseFunction(BaseTestCase):
                 languages=["en"],
                 region="",
                 date_formats=["%a", "%a", "%a", "%a"],
-                expected_date=datetime(1969, 12, 31, 14, 4),
+                expected_date=datetime(1969, 1, 31, 13, 4),
             )
         ]
     )

@@ -145,9 +145,7 @@ class TestBundledLanguages(BaseTestCase):
             param("be", "3 стд 2015 г. у 10:33", "3 january 2015 year.  10:33"),
             # Arabic
             param("ar", "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
-            param(
-                "ar", "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"
-            ),
+            param("ar", "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
             param("vi", "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015  22:34"),
@@ -385,9 +383,7 @@ class TestBundledLanguages(BaseTestCase):
             param("dyo", "arjuma de 10", "friday december 10"),
             # dz
             param("dz", "ཟླ་བཅུ་གཅིག་པ་ 10 གཟའ་ཉི་མ་", "november 10 saturday"),
-            param(
-                "dz", "མིར་ 2 སྤྱི་ཟླ་དྲུག་པ 2009 2 ཕྱི་ཆ་", "monday 2 june 2009 2 pm"
-            ),
+            param("dz", "མིར་ 2 སྤྱི་ཟླ་དྲུག་པ 2009 2 ཕྱི་ཆ་", "monday 2 june 2009 2 pm"),
             # ebu
             param(
                 "ebu", "mweri wa gatantatũ 11 maa 08:05 ut", "june 11 friday 08:05 pm"
@@ -761,9 +757,7 @@ class TestBundledLanguages(BaseTestCase):
             param("nl", "4 augustus 1678 zaterdag", "4 august 1678 saturday"),
             param("nl", "vr 27 juni 1997", "friday 27 june 1997"),
             # nmg
-            param(
-                "nmg", "5 ngwɛn ńna 1897 sɔ́ndɔ mafú málal", "5 april 1897 wednesday"
-            ),
+            param("nmg", "5 ngwɛn ńna 1897 sɔ́ndɔ mafú málal", "5 april 1897 wednesday"),
             param(
                 "nmg",
                 "mɔ́ndɔ 1 ng11 1678 04:15 kugú",
@@ -1088,6 +1082,14 @@ class TestBundledLanguages(BaseTestCase):
             param("en", "day before yesterday", "2 day ago"),
             param("en", "last month", "1 month ago"),
             param("en", "less than a minute ago", "45 second ago"),
+            param("en", "10h11", "10:11"),
+            param("en", "10h11m", "10 hour 11 minute"),
+            param("en", "3d8h2m", "3 day 8 hour 2 minute"),
+            param("en", "5d9h59m10s", "5 day 9 hour 59 minute 10 second"),
+            param("en", "3d1h", "3 day 1 hour"),
+            param("en", "3d29m", "3 day 29 minute"),
+            param("en", "1.5d10s", "1.5 day 10 second"),
+            param("en", "7m1s", "7 minute 1 second"),
             # German
             param("de", "vorgestern", "2 day ago"),
             param("de", "heute", "0 day ago"),
@@ -2590,7 +2592,7 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             param(
                 "en",
                 "string instead of dict",
-                log_msg="Language 'en' info expected to be dict, " "but have got str",
+                log_msg="Language 'en' info expected to be dict, but have got str",
             ),
         ]
     )

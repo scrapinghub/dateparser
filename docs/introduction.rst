@@ -223,13 +223,13 @@ Dependencies
 
   * dateutil_'s module ``relativedelta`` for its freshness parser.
   * convertdate_ to convert *Jalali* dates to *Gregorian*.
-  * hijri-converter_ to convert *Hijri* dates to *Gregorian*.
+  * hijridate_ to convert *Hijri* dates to *Gregorian*.
   * tzlocal_ to reliably get local timezone.
   * ruamel.yaml_ (optional) for operations on language files.
 
 .. _dateutil: https://pypi.python.org/pypi/python-dateutil
 .. _convertdate: https://pypi.python.org/pypi/convertdate
-.. _hijri-converter: https://pypi.python.org/pypi/hijri-converter
+.. _hijridate: https://pypi.python.org/pypi/hijridate
 .. _tzlocal: https://pypi.python.org/pypi/tzlocal
 .. _ruamel.yaml: https://pypi.python.org/pypi/ruamel.yaml
 
@@ -261,4 +261,4 @@ To be able to use them you need to install the `calendar` extra by typing:
     >>> HijriCalendar('17-01-1437 هـ 08:30 مساءً').get_date()
     DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None)
 
-.. note:: `HijriCalendar` only works with Python ≥ 3.6.
+.. note:: `HijriCalendar` only works with Python ≥ 3.7.

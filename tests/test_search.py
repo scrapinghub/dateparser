@@ -576,8 +576,7 @@ class TestTranslateSearch(BaseTestCase):
             ),
             param(
                 "en",
-                "2014 was good! October was excellent!"
-                " Friday, 21 was especially good!",
+                "2014 was good! October was excellent! Friday, 21 was especially good!",
                 [
                     ("2014", datetime.datetime(2014, today.month, today.day, 0, 0)),
                     ("October", datetime.datetime(2014, 10, today.day, 0, 0)),
@@ -642,7 +641,14 @@ class TestTranslateSearch(BaseTestCase):
                     (
                         "June 23th 5 pm EST",
                         datetime.datetime(
-                            2023, 6, 23, 17, 0, tzinfo=pytz.timezone("EST")
+                            2023,
+                            6,
+                            23,
+                            17,
+                            0,
+                            tzinfo=datetime.timezone(
+                                datetime.timedelta(hours=-5), name="EST"
+                            ),
                         ),
                     ),
                     ("May 31", datetime.datetime(2023, 5, 31, 0, 0)),
@@ -825,7 +831,10 @@ class TestTranslateSearch(BaseTestCase):
                 "бомбардировки срещу Япония, използувайки новозавладените острови като бази.",
             ),
             # Chinese
-            param("zh", "不過大多數人仍多把第二次世界大戰的爆發定為1939年9月1日德國入侵波蘭開始，2015年04月08日10点05。"),
+            param(
+                "zh",
+                "不過大多數人仍多把第二次世界大戰的爆發定為1939年9月1日德國入侵波蘭開始，2015年04月08日10点05。",
+            ),
             # Czech
             param(
                 "cs",
@@ -897,7 +906,10 @@ class TestTranslateSearch(BaseTestCase):
                 "d'Etiopia. Il 9 maggio 1936 venne proclamato l'Impero. ",
             ),
             # Japanese
-            param("ja", "1933年（昭和8年）12月23日午前6時39分、宮城（現：皇居）内の産殿にて誕生。"),
+            param(
+                "ja",
+                "1933年（昭和8年）12月23日午前6時39分、宮城（現：皇居）内の産殿にて誕生。",
+            ),
             # Persian
             param("fa", "نگ جهانی دوم جنگ جدی بین سپتامبر 1939 و 2 سپتامبر 1945 بود."),
             # Polish
@@ -1078,3 +1090,126 @@ class TestTranslateSearch(BaseTestCase):
             text=text, languages=languages, error_type=ValueError
         )
         self.check_error_message("Unknown language(s): 'unknown language code'")
+
+    def test_search_dates_with_prepositions(self):
+        """Test `search_dates` for parsing Russian date ranges with prepositions and language detection."""
+        result = search_dates(
+            "Сервис будет недоступен с 12 января по 30 апреля.",
+            add_detected_language=True,
+            languages=["ru"],
+        )
+        expected = [
+            ("12 января", datetime.datetime(2025, 1, 12, 0, 0), "ru"),
+            ("30 апреля", datetime.datetime(2025, 4, 30, 0, 0), "ru"),
+        ]
+        assert result == expected
+
+    @parameterized.expand(
+        [
+            param(
+                text="Ужасное событие произошло в тот день. Двадцатое февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцатое февраля",
+                expected_day=20,
+                expected_month=2,
+                description="20th February",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать первое февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать первое февраля",
+                expected_day=21,
+                expected_month=2,
+                description="21st February",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать второе февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать второе февраля",
+                expected_day=22,
+                expected_month=2,
+                description="22nd February",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать третье февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать третье февраля",
+                expected_day=23,
+                expected_month=2,
+                description="23rd February",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать четвёртое февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать четвёртое февраля",
+                expected_day=24,
+                expected_month=2,
+                description="24th February (with ё)",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать четвертое февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать четвертое февраля",
+                expected_day=24,
+                expected_month=2,
+                description="24th February (without ё)",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать пятое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать пятое марта",
+                expected_day=25,
+                expected_month=3,
+                description="25th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать шестое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать шестое марта",
+                expected_day=26,
+                expected_month=3,
+                description="26th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать седьмое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать седьмое марта",
+                expected_day=27,
+                expected_month=3,
+                description="27th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать восьмое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать восьмое марта",
+                expected_day=28,
+                expected_month=3,
+                description="28th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать девятое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать девятое марта",
+                expected_day=29,
+                expected_month=3,
+                description="29th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Тридцатое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Тридцатое марта",
+                expected_day=30,
+                expected_month=3,
+                description="30th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Тридцать первое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Тридцать первое марта",
+                expected_day=31,
+                expected_month=3,
+                description="31st March",
+            ),
+        ]
+    )
+    def test_search_dates_multi_word_expression(
+        self, text, expected_text, expected_day, expected_month, description
+    ):
+        """Test parsing of multi-word date expressions in Russian."""
+        result = search_dates(text, languages=["ru"])
+        expected = [
+            (
+                expected_text,
+                datetime.datetime(
+                    datetime.datetime.now().year, expected_month, expected_day, 0, 0
+                ),
+            )
+        ]
+        self.assertEqual(result, expected)
