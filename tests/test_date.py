@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import datetime as real_datetime
 import os
 import unittest
 from collections import OrderedDict
@@ -832,13 +833,84 @@ class TestDateDataParser(BaseTestCase):
         self.when_get_date_tuple_is_called(date_string)
         self.then_returned_tuple_is(expected_result)
 
+    @parameterized.expand(
+        [
+            param(
+                "Fr",
+                datetime(2025, 8, 1, 0, 0),
+            ),
+        ]
+    )
+    def test_short_weekday_names(self, date_string, expected):
+        self.given_parser(["en"])
+        self.given_now(2025, 8, 1)
+        self.when_date_string_is_parsed(date_string)
+        self.then_parsed_datetime_is(expected)
+
+    @parameterized.expand(
+        [
+            param(
+                "Tu",
+                datetime(2025, 7, 29, 0, 0),
+            ),
+            param(
+                "We",
+                datetime(2025, 7, 30, 0, 0),
+            ),
+            param(
+                "Th",
+                datetime(2025, 7, 31, 0, 0),
+            ),
+            param(
+                "Sa",
+                datetime(2025, 7, 26, 0, 0),
+            ),
+            param(
+                "Su",
+                datetime(2025, 7, 27, 0, 0),
+            ),
+        ]
+    )
+    @unittest.expectedFailure
+    def test_short_weekday_names_xfail(self, date_string, expected):
+        self.given_parser(["en"])
+        self.given_now(2025, 8, 1)
+        self.when_date_string_is_parsed(date_string)
+        self.then_parsed_datetime_is(expected)
+
+    @parameterized.expand(
+        [
+            param(
+                "Mo",
+                None,
+            ),
+        ]
+    )
+    def test_short_weekday_with_monday(self, date_string, expected):
+        self.given_parser(["en"])
+        self.given_now(2025, 8, 1)
+        self.when_date_string_is_parsed(date_string)
+        self.then_date_was_not_parsed()
+
     def given_now(self, year, month, day, **time):
-        now = datetime(year, month, day, **time)
-        datetime_mock = Mock(wraps=datetime)
-        datetime_mock.utcnow = Mock(return_value=now)
-        datetime_mock.now = Mock(return_value=now)
-        datetime_mock.today = Mock(return_value=now)
-        self.add_patch(patch("dateparser.date.datetime", new=datetime_mock))
+        now = real_datetime.datetime(year, month, day, **time)
+
+        # Patch the datetime *class* in each target module
+        class DateParserDateTime(real_datetime.datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return now.replace(tzinfo=tz) if tz else now
+
+            @classmethod
+            def utcnow(cls):
+                return now
+
+            @classmethod
+            def today(cls):
+                return now
+
+        self.add_patch(patch("dateparser.date.datetime", DateParserDateTime))
+        self.add_patch(patch("dateparser.parser.datetime", DateParserDateTime))
 
     def given_parser(self, restrict_to_languages=None, **params):
         self.parser = date.DateDataParser(languages=restrict_to_languages, **params)
@@ -873,6 +945,9 @@ class TestDateDataParser(BaseTestCase):
 
     def then_date_was_parsed(self):
         self.assertIsNotNone(self.result["date_obj"])
+
+    def then_date_was_not_parsed(self):
+        self.assertIsNone(self.result["date_obj"])
 
     def then_date_locale(self):
         self.assertIsNotNone(self.result["locale"])
