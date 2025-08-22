@@ -58,6 +58,7 @@ Key Features
 -  `Search
    dates <https://dateparser.readthedocs.io/en/latest/introduction.html#search-for-dates-in-longer-chunks-of-text>`__
    in longer texts.
+-  Time span detection for expressions like "past month", "last week".
 
 Online demo
 -----------

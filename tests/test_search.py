@@ -1,4 +1,5 @@
 import datetime
+from datetime import timedelta
 
 import pytz
 from parameterized import param, parameterized
@@ -1213,3 +1214,122 @@ class TestTranslateSearch(BaseTestCase):
             )
         ]
         self.assertEqual(result, expected)
+
+    def test_search_dates_time_span_past_month(self):
+        """Test search_dates with 'past month' time span."""
+        text = "messages received for the past month"
+        settings = {
+            "RETURN_TIME_SPAN": True,
+            "RELATIVE_BASE": datetime.datetime(2025, 2, 15, 12, 0, 0),
+            "DEFAULT_DAYS_IN_MONTH": 30,
+        }
+
+        result = search_dates(text, settings=settings)
+
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        if result is not None:
+            self.assertGreaterEqual(len(result), 2)
+
+            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
+            self.assertEqual(len(span_results), 2)
+
+            start_result = next(r for r in span_results if "(start)" in r[0])
+            end_result = next(r for r in span_results if "(end)" in r[0])
+            self.assertEqual(end_result[1], datetime.datetime(2025, 2, 15, 12, 0, 0))
+
+            expected_start = datetime.datetime(2025, 2, 15, 12, 0, 0) - timedelta(
+                days=30
+            )
+            self.assertEqual(start_result[1], expected_start)
+
+    def test_search_dates_time_span_last_week(self):
+        """Test search_dates with 'last week' time span."""
+        text = "messages received last week"
+        settings = {
+            "RETURN_TIME_SPAN": True,
+            "RELATIVE_BASE": datetime.datetime(2025, 2, 18, 12, 0, 0),  # Tuesday
+            "DEFAULT_START_OF_WEEK": "monday",
+        }
+
+        result = search_dates(text, settings=settings)
+
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        if result is not None:
+            self.assertGreaterEqual(len(result), 2)
+
+            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
+            self.assertEqual(len(span_results), 2)
+
+            start_result = next(r for r in span_results if "(start)" in r[0])
+            end_result = next(r for r in span_results if "(end)" in r[0])
+            expected_start = datetime.datetime(2025, 2, 10, 12, 0, 0)
+            expected_end = datetime.datetime(2025, 2, 16, 12, 0, 0)
+
+            self.assertEqual(start_result[1], expected_start)
+            self.assertEqual(end_result[1], expected_end)
+
+    def test_search_dates_time_span_custom_start_of_week(self):
+        """Test search_dates with custom start_of_week setting."""
+        text = "messages received last week"
+        settings = {
+            "RETURN_TIME_SPAN": True,
+            "RELATIVE_BASE": datetime.datetime(2025, 2, 18, 12, 0, 0),  # Tuesday
+            "DEFAULT_START_OF_WEEK": "sunday",  # Custom start of week
+        }
+
+        result = search_dates(text, settings=settings)
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        if result is not None:
+            self.assertGreaterEqual(len(result), 2)
+
+            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
+            self.assertEqual(len(span_results), 2)
+
+            start_result = next(r for r in span_results if "(start)" in r[0])
+            end_result = next(r for r in span_results if "(end)" in r[0])
+            expected_start = datetime.datetime(2025, 2, 9, 12, 0, 0)
+            expected_end = datetime.datetime(2025, 2, 15, 12, 0, 0)
+
+            self.assertEqual(start_result[1], expected_start)
+            self.assertEqual(end_result[1], expected_end)
+
+    def test_search_dates_time_span_custom_days_in_month(self):
+        """Test search_dates with custom days_in_month setting."""
+        text = "messages received for the past month"
+        settings = {
+            "RETURN_TIME_SPAN": True,
+            "RELATIVE_BASE": datetime.datetime(2025, 2, 15, 12, 0, 0),
+            "DEFAULT_DAYS_IN_MONTH": 28,  # Custom month length
+        }
+
+        result = search_dates(text, settings=settings)
+
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        if result is not None:
+            self.assertGreaterEqual(len(result), 2)
+
+            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
+            self.assertEqual(len(span_results), 2)
+
+            start_result = next(r for r in span_results if "(start)" in r[0])
+            end_result = next(r for r in span_results if "(end)" in r[0])
+            self.assertEqual(end_result[1], datetime.datetime(2025, 2, 15, 12, 0, 0))
+
+            expected_start = datetime.datetime(2025, 2, 15, 12, 0, 0) - timedelta(
+                days=28
+            )
+            self.assertEqual(start_result[1], expected_start)
+
+    def test_search_dates_time_span_disabled_by_default(self):
+        """Test that time span functionality is disabled by default."""
+        text = "messages received for the past month"
+
+        result = search_dates(text)
+
+        if result:
+            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
+            self.assertEqual(len(span_results), 0)
