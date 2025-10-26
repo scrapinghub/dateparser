@@ -1,8 +1,6 @@
 import locale
 from datetime import datetime
-import sys
 from unittest import SkipTest
-import unittest
 import warnings
 
 from parameterized import param, parameterized
