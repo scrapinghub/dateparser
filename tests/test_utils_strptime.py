@@ -1,6 +1,9 @@
 import locale
 from datetime import datetime
+import sys
 from unittest import SkipTest
+import unittest
+import warnings
 
 from parameterized import param, parameterized
 
@@ -173,3 +176,21 @@ class TestStrptime(BaseTestCase):
     def test_microseconds_are_parsed_correctly(self, date_string, fmt, expected):
         self.when_date_string_is_parsed(date_string, fmt)
         self.then_date_object_is(expected)
+
+    @parameterized.expand(
+        [
+            param(date_string="oct 14", fmt=r"%m %d"),
+        ]
+    )
+    def test_dates_with_no_year_do_not_raise_a_deprecation_warning(
+        self, date_string, fmt
+    ):
+        with warnings.catch_warnings(record=True, action="always") as w:
+            self.when_date_string_is_parsed(date_string, fmt)
+            year_warnings = [
+                warn
+                for warn in w
+                if "day of month without a year specified is ambiguious"
+                in str(warn.message)
+            ]
+            self.assertEqual(len(year_warnings), 0)
