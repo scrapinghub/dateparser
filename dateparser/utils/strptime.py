@@ -103,7 +103,7 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str]:
         if format_char in ("Y", "y", "G"):
             nonlocal year_in_format
             year_in_format = True
-        elif format_char in "d":
+        elif format_char in ("d",):
             nonlocal day_of_month_in_format
             day_of_month_in_format = True
 

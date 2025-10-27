@@ -183,7 +183,8 @@ class TestStrptime(BaseTestCase):
     def test_dates_with_no_year_do_not_raise_a_deprecation_warning(
         self, date_string, fmt
     ):
-        with warnings.catch_warnings(record=True, action="always") as w:
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
             self.when_date_string_is_parsed(date_string, fmt)
             year_warnings = [
                 warn
