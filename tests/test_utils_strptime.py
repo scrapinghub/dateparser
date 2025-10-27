@@ -178,6 +178,9 @@ class TestStrptime(BaseTestCase):
     @parameterized.expand(
         [
             param(date_string="oct 14", fmt=r"%m %d"),
+            param(date_string="10-14", fmt=r"%b %d"),
+            param(date_string="12 Dec 10:30:55.000111", fmt="%d %b %H:%M:%S.%f"),
+            param(date_string="Wed 12 December 22:41", fmt="%a %d %B %H:%M"),
         ]
     )
     def test_dates_with_no_year_do_not_raise_a_deprecation_warning(
@@ -193,3 +196,30 @@ class TestStrptime(BaseTestCase):
                 in str(warn.message)
             ]
             self.assertEqual(len(year_warnings), 0)
+
+    @parameterized.expand(
+        [
+            param(
+                date_string="oct 14", fmt=r"%b %d", expected_month=10, expected_day=14
+            ),
+            param(
+                date_string="10 14", fmt=r"%m %d", expected_month=10, expected_day=14
+            ),
+            param(
+                date_string="10-14", fmt=r"%m-%d", expected_month=10, expected_day=14
+            ),
+            param(date_string="03.05", fmt=r"%m.%d", expected_month=3, expected_day=5),
+            param(
+                date_string="14 Oct", fmt=r"%d %b", expected_month=10, expected_day=14
+            ),
+        ]
+    )
+    def test_dates_with_no_year_use_the_current_year(
+        self, date_string, fmt, expected_month, expected_day
+    ):
+        self.when_date_string_is_parsed(date_string, fmt)
+
+        current_year = datetime.today().year
+        self.assertEqual(self.result.year, current_year)
+        self.assertEqual(self.result.month, expected_month)
+        self.assertEqual(self.result.day, expected_day)
