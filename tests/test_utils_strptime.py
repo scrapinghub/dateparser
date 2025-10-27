@@ -200,26 +200,41 @@ class TestStrptime(BaseTestCase):
     @parameterized.expand(
         [
             param(
-                date_string="oct 14", fmt=r"%b %d", expected_month=10, expected_day=14
+                date_string="oct 14",
+                fmt=r"%b %d",
+                expected=datetime(2010, 10, 14, 0, 0),
             ),
             param(
-                date_string="10 14", fmt=r"%m %d", expected_month=10, expected_day=14
+                date_string="10 14",
+                fmt=r"%m %d",
+                expected=datetime(2010, 10, 14, 0, 0),
             ),
             param(
-                date_string="10-14", fmt=r"%m-%d", expected_month=10, expected_day=14
+                date_string="14 Oct",
+                fmt=r"%d %b",
+                expected=datetime(2010, 10, 14, 0, 0),
             ),
-            param(date_string="03.05", fmt=r"%m.%d", expected_month=3, expected_day=5),
             param(
-                date_string="14 Oct", fmt=r"%d %b", expected_month=10, expected_day=14
+                "Monday 21 January",
+                "%A %d %B",
+                expected=datetime(2010, 1, 21, 0, 0),
+            ),
+            param(
+                "Tue 2 Mar",
+                "%a %d %b",
+                expected=datetime(2010, 3, 2, 0, 0),
+            ),
+            param(
+                "Friday 12 December 10:30",
+                "%A %d %B %H:%M",
+                expected=datetime(2010, 12, 12, 10, 30),
             ),
         ]
     )
     def test_dates_with_no_year_use_the_current_year(
-        self, date_string, fmt, expected_month, expected_day
+        self, date_string: str, fmt: str, expected: datetime
     ):
         self.when_date_string_is_parsed(date_string, fmt)
-
         current_year = datetime.today().year
-        self.assertEqual(self.result.year, current_year)
-        self.assertEqual(self.result.month, expected_month)
-        self.assertEqual(self.result.day, expected_day)
+        expected = expected.replace(year=current_year)
+        self.assertEqual(self.result, expected)
