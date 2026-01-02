@@ -1100,8 +1100,8 @@ class TestTranslateSearch(BaseTestCase):
             languages=["ru"],
         )
         expected = [
-            ("12 января", datetime.datetime(2025, 1, 12, 0, 0), "ru"),
-            ("30 апреля", datetime.datetime(2025, 4, 30, 0, 0), "ru"),
+            ("12 января", datetime.datetime(today.year, 1, 12, 0, 0), "ru"),
+            ("30 апреля", datetime.datetime(today.year, 4, 30, 0, 0), "ru"),
         ]
         assert result == expected
 
