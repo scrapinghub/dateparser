@@ -14,22 +14,21 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python-version: "3.13"
+          - python-version: "3.14"
             toxenv: pre-commit
           - python-version: "3.10"
             toxenv: min
           - python-version: "3.10"
             toxenv: min-all
-          - python-version: "3.10"
           - python-version: "3.11"
           - python-version: "3.12"
-          - python-version: "3.13"
+          - python-version: "3.14"
             toxenv: all
-          - python-version: "3.13"
+          - python-version: "3.14"
             toxenv: scripts
-          - python-version: "3.12"  # Keep in sync with tox.ini
+          - python-version: "3.14"
             toxenv: docs
-          - python-version: "3.13"
+          - python-version: "3.14"
             toxenv: twinecheck
     steps:
       - uses: actions/checkout@v3
