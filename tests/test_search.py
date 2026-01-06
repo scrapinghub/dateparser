@@ -1098,9 +1098,10 @@ class TestTranslateSearch(BaseTestCase):
             add_detected_language=True,
             languages=["ru"],
         )
+        current_year = datetime.datetime.now().year
         expected = [
-            ("12 января", datetime.datetime(2025, 1, 12, 0, 0), "ru"),
-            ("30 апреля", datetime.datetime(2025, 4, 30, 0, 0), "ru"),
+            ("12 января", datetime.datetime(current_year, 1, 12, 0, 0), "ru"),
+            ("30 апреля", datetime.datetime(current_year, 4, 30, 0, 0), "ru"),
         ]
         assert result == expected
 
