@@ -58,6 +58,7 @@ Key Features
 -  `Search
    dates <https://dateparser.readthedocs.io/en/latest/introduction.html#search-for-dates-in-longer-chunks-of-text>`__
    in longer texts.
+-  Time span detection for expressions like "past month", "last week".
 
 Online demo
 -----------
@@ -156,7 +157,7 @@ are executed, you can do so through the
 Installation
 ------------
 
-Dateparser supports Python >= 3.9. You can install it by doing:
+Dateparser supports Python 3.10+. You can install it by doing:
 
 ::
 

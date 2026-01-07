@@ -4,13 +4,7 @@ from functools import wraps
 
 import pytz
 
-try:
-    from zoneinfo import ZoneInfo
-except ImportError:
-    try:
-        from backports.zoneinfo import ZoneInfo  # Python < 3.9 + tzlocal >= 3
-    except ImportError:
-        ZoneInfo = None  # Python < 3.9
+from zoneinfo import ZoneInfo
 
 from unittest.mock import Mock, patch
 

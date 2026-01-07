@@ -39,24 +39,24 @@ setup(
     },
     extras_require={
         "calendars": ["convertdate>=2.2.1", "hijridate"],
-        "fasttext": ["fasttext>=0.9.1", "numpy>=1.19.3,<2"],
+        "fasttext": ["fasttext>=0.9.1", "numpy>=1.22.0,<2"],
         "langdetect": ["langdetect>=1.0.0"],
     },
     license="BSD",
     zip_safe=False,
     keywords="dateparser",
-    python_requires=">=3.8",  # Python 3.8 is required for fuzzing
+    python_requires=">=3.10",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Natural Language :: English",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
         "Programming Language :: Python :: Implementation :: CPython",
     ],
 )

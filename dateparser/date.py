@@ -19,6 +19,7 @@ from dateparser.utils import (
     set_correct_day_from_settings,
     set_correct_month_from_settings,
 )
+from dateparser.utils.strptime import strptime as patched_strptime
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     "\N{RIGHT SINGLE QUOTATION MARK}",  # '\u2019'
@@ -182,7 +183,7 @@ def parse_with_formats(date_string, date_formats, settings):
     period = "day"
     for date_format in date_formats:
         try:
-            date_obj = datetime.strptime(date_string, date_format)
+            date_obj = patched_strptime(date_string, date_format)
         except ValueError:
             continue
         else:
