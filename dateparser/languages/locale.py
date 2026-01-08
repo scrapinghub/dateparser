@@ -144,7 +144,6 @@ class Locale:
                     date_string_tokens[i] = dictionary[word] or fallback
         if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
-
         return self._join(
             list(filter(bool, date_string_tokens)),
             separator="" if keep_formatting else " ",
