@@ -931,9 +931,6 @@ class TestDateDataParser(BaseTestCase):
     def then_date_was_parsed(self):
         self.assertIsNotNone(self.result["date_obj"])
 
-    def then_date_was_not_parsed(self):
-        self.assertIsNone(self.result["date_obj"])
-
     def then_date_locale(self):
         self.assertIsNotNone(self.result["locale"])
 

@@ -109,19 +109,6 @@ class Locale:
             del dictionary[del_key]
         return dictionary
 
-    @property
-    def weekdays(self):
-        weekdays = [
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-            "saturday",
-            "sunday",
-        ]
-        return weekdays
-
     def translate(self, date_string, keep_formatting=False, settings=None):
         """
         Translate the date string to its English equivalent.

@@ -3,8 +3,6 @@ pertain: ["of"]
 
 sentence_splitter_group : 1
 
-# two letters days of week
-
 monday:
     - mo
 
