@@ -275,26 +275,48 @@ class _DateLocaleParser:
         return self._try_parser(parse_method=_parse_nospaces)
 
     def _try_parser(self, parse_method):
-        _order = self._settings.DATE_ORDER
+        original_order = self._settings.DATE_ORDER
+
+        # Use locale date order unless DATE_ORDER was explicitly set by the caller.
+        if (
+            self._settings.PREFER_LOCALE_DATE_ORDER
+            and "DATE_ORDER" not in self._settings._mod_settings
+        ):
+            first_order = self.locale.info.get("date_order", original_order)
+        else:
+            first_order = original_order
+
+        candidates = [first_order]
+
+        # If the caller requires a year (and not a day) and did not set DATE_ORDER,
+        # retry once or twice with year-biased orders to resolve month-number ambiguity.
+        require_parts = set(getattr(self._settings, "REQUIRE_PARTS", None) or [])
+        if (
+            "DATE_ORDER" not in self._settings._mod_settings
+            and "year" in require_parts
+            and "day" not in require_parts
+        ):
+            for order in ("MYD", "YMD"):
+                if order not in candidates:
+                    candidates.append(order)
+
+        translated = self._get_translated_date()
+
         try:
-            if self._settings.PREFER_LOCALE_DATE_ORDER:
-                if "DATE_ORDER" not in self._settings._mod_settings:
-                    self._settings.DATE_ORDER = self.locale.info.get(
-                        "date_order", _order
+            for order in candidates:
+                self._settings.DATE_ORDER = order
+                try:
+                    date_obj, period = date_parser.parse(
+                        translated,
+                        parse_method=parse_method,
+                        settings=self._settings,
                     )
-            date_obj, period = date_parser.parse(
-                self._get_translated_date(),
-                parse_method=parse_method,
-                settings=self._settings,
-            )
-            self._settings.DATE_ORDER = _order
-            return DateData(
-                date_obj=date_obj,
-                period=period,
-            )
-        except ValueError:
-            self._settings.DATE_ORDER = _order
+                    return DateData(date_obj=date_obj, period=period)
+                except ValueError:
+                    continue
             return None
+        finally:
+            self._settings.DATE_ORDER = original_order
 
     def _try_given_formats(self):
         if not self.date_formats:

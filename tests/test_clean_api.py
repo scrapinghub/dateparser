@@ -185,6 +185,51 @@ class TestParseFunction(BaseTestCase):
         self.when_date_is_parsed(date_string, locales=locales)
         self.then_date_was_not_parsed()
 
+    @parameterized.expand(
+        [
+            param(date_string="Oct-23", expected_date=datetime(2023, 10, 1, 0, 0)),
+            param(date_string="May-23", expected_date=datetime(2023, 5, 1, 0, 0)),
+        ]
+    )
+    def test_require_parts_month_year_parses_month_year(self, date_string, expected_date):
+        # Regression: when year is required, Mon-YY should be interpreted as month-year.
+        base = datetime(2050, 1, 1, 0, 0)
+        self.when_date_is_parsed_with_settings(
+            date_string,
+            settings={
+                "RELATIVE_BASE": base,
+                "PREFER_DAY_OF_MONTH": "first",
+                "PREFER_DATES_FROM": "past",
+                "REQUIRE_PARTS": ["month", "year"],
+            },
+        )
+        self.then_parsed_date_and_time_is(expected_date)
+
+    def test_require_parts_does_not_override_explicit_date_order(self):
+        # Explicit DATE_ORDER must be respected.
+        base = datetime(2050, 1, 1, 0, 0)
+        self.when_date_is_parsed_with_settings(
+            "Oct-23",
+            settings={
+                "RELATIVE_BASE": base,
+                "REQUIRE_PARTS": ["month", "year"],
+                "DATE_ORDER": "MDY",
+            },
+        )
+        self.then_date_was_not_parsed()
+
+    def test_require_parts_month_day_parses_month_day(self):
+        # If day is required, Mon-XX should remain month-day.
+        base = datetime(2000, 1, 1, 0, 0)
+        self.when_date_is_parsed_with_settings(
+            "Oct-23",
+            settings={
+                "RELATIVE_BASE": base,
+                "REQUIRE_PARTS": ["month", "day"],
+            },
+        )
+        self.then_parsed_date_and_time_is(datetime(2000, 10, 23, 0, 0))
+
     def when_date_is_parsed_with_defaults(self, date_string):
         self.result = dateparser.parse(date_string)
 
