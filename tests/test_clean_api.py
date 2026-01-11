@@ -191,7 +191,9 @@ class TestParseFunction(BaseTestCase):
             param(date_string="May-23", expected_date=datetime(2023, 5, 1, 0, 0)),
         ]
     )
-    def test_require_parts_month_year_parses_month_year(self, date_string, expected_date):
+    def test_require_parts_month_year_parses_month_year(
+        self, date_string, expected_date
+    ):
         # Regression: when year is required, Mon-YY should be interpreted as month-year.
         base = datetime(2050, 1, 1, 0, 0)
         self.when_date_is_parsed_with_settings(
