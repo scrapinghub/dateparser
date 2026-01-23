@@ -6,6 +6,7 @@ from unittest.mock import Mock, patch
 from parameterized import param, parameterized
 
 import dateparser.timezone_parser
+from dateparser import parse
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.parser import _parse_absolute
@@ -1340,6 +1341,82 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
+    @parameterized.expand(
+        [
+            param(
+                "yesterday +1h",
+                lambda base: base - timedelta(days=1) + timedelta(hours=1),
+                "Yesterday plus 1 hour",
+            ),
+            param(
+                "yesterday +2h",
+                lambda base: base - timedelta(days=1) + timedelta(hours=2),
+                "Yesterday plus 2 hours",
+            ),
+            param(
+                "yesterday +30m",
+                lambda base: base - timedelta(days=1) + timedelta(minutes=30),
+                "Yesterday plus 30 minutes",
+            ),
+            param(
+                "yesterday -1h",
+                lambda base: base - timedelta(days=1) - timedelta(hours=1),
+                "Yesterday minus 1 hour",
+            ),
+            param(
+                "yesterday -2h",
+                lambda base: base - timedelta(days=1) - timedelta(hours=2),
+                "Yesterday minus 2 hours",
+            ),
+            param(
+                "yesterday -30m",
+                lambda base: base - timedelta(days=1) - timedelta(minutes=30),
+                "Yesterday minus 30 minutes",
+            ),
+            param(
+                "tomorrow +1h",
+                lambda base: base + timedelta(days=1) + timedelta(hours=1),
+                "Tomorrow plus 1 hour",
+            ),
+            param(
+                "tomorrow +3h",
+                lambda base: base + timedelta(days=1) + timedelta(hours=3),
+                "Tomorrow plus 3 hours",
+            ),
+            param(
+                "tomorrow -1h",
+                lambda base: base + timedelta(days=1) - timedelta(hours=1),
+                "Tomorrow minus 1 hour",
+            ),
+            param(
+                "tomorrow -2h",
+                lambda base: base + timedelta(days=1) - timedelta(hours=2),
+                "Tomorrow minus 2 hours",
+            ),
+        ]
+    )
+    def test_relative_date_with_time_offset(
+        self, date_string, offset_calculator, description
+    ):
+        """Ensure +/- signs in time offsets are parsed correctly."""
+        base_date = datetime(2026, 1, 19, 12, 0, 0)
+        expected = offset_calculator(base_date)
+
+        result = parse(
+            date_string,
+            settings={
+                "RELATIVE_BASE": base_date,
+                "RETURN_AS_TIMEZONE_AWARE": False,
+            },
+        )
+
+        self.assertIsNotNone(result, f"Failed to parse: {description}")
+        self.assertEqual(
+            expected,
+            result,
+            f"{description}: Expected {expected}, got {result}",
+        )
+
     def given_local_tz_offset(self, offset):
         self.add_patch(
             patch.object(
@@ -1347,6 +1424,53 @@ class TestDateParser(BaseTestCase):
                 "local_tz_offset",
                 new=timedelta(seconds=3600 * offset),
             )
+        )
+
+    def test_yesterday_plus_and_minus_not_equal(self):
+        """Verify plus and minus time offsets produce different results."""
+        base_date = datetime(2026, 1, 19, 12, 0, 0)
+
+        plus = parse(
+            "yesterday +1h",
+            settings={"RELATIVE_BASE": base_date, "RETURN_AS_TIMEZONE_AWARE": False},
+        )
+        minus = parse(
+            "yesterday -1h",
+            settings={"RELATIVE_BASE": base_date, "RETURN_AS_TIMEZONE_AWARE": False},
+        )
+
+        self.assertIsNotNone(plus)
+        self.assertIsNotNone(minus)
+        self.assertNotEqual(plus, minus)
+
+    def test_yesterday_plus_and_minus_expected_values(self):
+        """Verify correct time offset calculations for yesterday."""
+        # Base: 2026-01-08 21:38:10
+        base_date = datetime(2026, 1, 8, 21, 38, 10)
+
+        plus_result = parse(
+            "yesterday +1h",
+            settings={"RELATIVE_BASE": base_date, "RETURN_AS_TIMEZONE_AWARE": False},
+        )
+        minus_result = parse(
+            "yesterday -1h",
+            settings={"RELATIVE_BASE": base_date, "RETURN_AS_TIMEZONE_AWARE": False},
+        )
+
+        # Expected: 2026-01-07 22:38:10 (yesterday at same time, plus 1 hour)
+        expected_plus = datetime(2026, 1, 7, 22, 38, 10)
+        # Expected: 2026-01-07 20:38:10 (yesterday at same time, minus 1 hour)
+        expected_minus = datetime(2026, 1, 7, 20, 38, 10)
+
+        self.assertEqual(
+            expected_plus,
+            plus_result,
+            f"'yesterday +1h' should be {expected_plus}, got {plus_result}",
+        )
+        self.assertEqual(
+            expected_minus,
+            minus_result,
+            f"'yesterday -1h' should be {expected_minus}, got {minus_result}",
         )
 
     def given_parser(self, *args, **kwds):
