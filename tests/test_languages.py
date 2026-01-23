@@ -334,9 +334,7 @@ class TestBundledLanguages(BaseTestCase):
             # bs-Cyrl
             param("bs-Cyrl", "2 септембар 2000, четвртак", "2 september 2000 thursday"),
             param("bs-Cyrl", "1 јули 1987 9:25 поподне", "1 july 1987 9:25 pm"),
-            param(
-                "bs-Cyrl", "1 јули 1987 9:25 послијеподне", "1 july 1987 9:25 pm"
-            ),
+            param("bs-Cyrl", "1 јули 1987 9:25 послијеподне", "1 july 1987 9:25 pm"),
             param(
                 "bs-Cyrl",
                 "понедјељак, 1 јули 1987 9:25 пријеподне",
