@@ -214,6 +214,11 @@ class TestDateParser(BaseTestCase):
             # Finnish dates
             param("5.7.2018 5.45 ip.", datetime(2018, 7, 5, 17, 45)),
             param("5 .7 .2018 5.45 ip.", datetime(2018, 7, 5, 17, 45)),
+            param("28 maalis klo 9:37", datetime(2012, 3, 28, 9, 37)),
+            param("28 maalis 9:37", datetime(2012, 3, 28, 9, 37)),
+            param("15 tammi klo 14:30", datetime(2012, 1, 15, 14, 30)),
+            param("5 kesä klo 18:00", datetime(2012, 6, 5, 18, 0)),
+            param("12.5.2020 klo 16:45", datetime(2020, 5, 12, 16, 45)),
             # Croatian dates
             param("06. travnja 2021.", datetime(2021, 4, 6, 0, 0)),
             param("13. svibanj 2022.", datetime(2022, 5, 13, 0, 0)),

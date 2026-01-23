@@ -214,6 +214,7 @@ class TestBundledLanguages(BaseTestCase):
             param("fi", "su joulu 16, 2015", "sunday december 16 2015"),
             param("fi", "1. tammikuuta, 2016", "1. january 2016"),
             param("fi", "tiistaina, 27. lokakuuta 2015", "tuesday 27. october 2015"),
+            param("fi", "28 maalis klo 9:37", "28 march  9:37"),
             # Japanese
             param("ja", "午後3時", "pm 3:00"),
             param("ja", "2時", "2:00"),

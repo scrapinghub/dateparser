@@ -201,14 +201,25 @@ class Dictionary:
                 curr_split = (
                     [known] if self._should_capture(known, keep_formatting) else []
                 )
+
                 if unparsed and self._should_capture(unparsed, keep_formatting):
                     curr_split = (
                         self._split_by_numerals(unparsed, keep_formatting) + curr_split
                     )
+
                 if unknown:
                     string = unknown if string != unknown else ""
 
-            splitted.extend(curr_split)
+            for token in curr_split:
+                if (
+                    splitted
+                    and splitted[-1].isdigit()
+                    and token in {"st", "nd", "rd", "th"}
+                ):
+                    continue
+
+                splitted.append(token)
+
         return splitted
 
     def _split_by_numerals(self, string, keep_formatting):
