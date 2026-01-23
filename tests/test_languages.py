@@ -334,6 +334,17 @@ class TestBundledLanguages(BaseTestCase):
             # bs-Cyrl
             param("bs-Cyrl", "2 септембар 2000, четвртак", "2 september 2000 thursday"),
             param("bs-Cyrl", "1 јули 1987 9:25 поподне", "1 july 1987 9:25 pm"),
+            param("bs-Cyrl", "1 јули 1987 9:25 послијеподне", "1 july 1987 9:25 pm"),
+            param(
+                "bs-Cyrl",
+                "понедјељак, 1 јули 1987 9:25 пријеподне",
+                "monday 1 july 1987 9:25 am",
+            ),
+            param(
+                "bs-Cyrl",
+                "недјеља, 2 септембар 2000 7:00 послијеподне",
+                "sunday 2 september 2000 7:00 pm",
+            ),
             # bs-Latn
             param("bs-Latn", "23 septembar 1879, petak", "23 september 1879 friday"),
             param(
@@ -1396,6 +1407,17 @@ class TestBundledLanguages(BaseTestCase):
             param("bs-Cyrl", "следећег месеца", "in 1 month"),
             param("bs-Cyrl", "прошле године 10:05 пре подне", "1 year ago 10:05 am"),
             param("bs-Cyrl", "пре 28 недеља", "28 week ago"),
+            param("bs-Cyrl", "сљедећи мјесец", "in 1 month"),
+            param("bs-Cyrl", "сљедеће седмице", "in 1 week"),
+            param("bs-Cyrl", "сљедеће године", "in 1 year"),
+            param("bs-Cyrl", "прије 4 мјесеца", "4 month ago"),
+            param("bs-Cyrl", "прије 2 седмице", "2 week ago"),
+            param("bs-Cyrl", "прошли мјесец", "1 month ago"),
+            param("bs-Cyrl", "прошле седмице", "1 week ago"),
+            param("bs-Cyrl", "овај мјесец", "0 month ago"),
+            param("bs-Cyrl", "ове седмице", "0 week ago"),
+            param("bs-Cyrl", "за 2 мјесеца", "in 2 month"),
+            param("bs-Cyrl", "за 3 седмице", "in 3 week"),
             # bs-Latn
             param("bs-Latn", "sljedeće godine", "in 1 year"),
             param("bs-Latn", "prije 4 mjeseci", "4 month ago"),
