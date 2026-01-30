@@ -1426,23 +1426,6 @@ class TestDateParser(BaseTestCase):
             )
         )
 
-    def test_yesterday_plus_and_minus_not_equal(self):
-        """Verify plus and minus time offsets produce different results."""
-        base_date = datetime(2026, 1, 19, 12, 0, 0)
-
-        plus = parse(
-            "yesterday +1h",
-            settings={"RELATIVE_BASE": base_date, "RETURN_AS_TIMEZONE_AWARE": False},
-        )
-        minus = parse(
-            "yesterday -1h",
-            settings={"RELATIVE_BASE": base_date, "RETURN_AS_TIMEZONE_AWARE": False},
-        )
-
-        self.assertIsNotNone(plus)
-        self.assertIsNotNone(minus)
-        self.assertNotEqual(plus, minus)
-
     def test_yesterday_plus_and_minus_expected_values(self):
         """Verify correct time offset calculations for yesterday."""
         # Base: 2026-01-08 21:38:10
