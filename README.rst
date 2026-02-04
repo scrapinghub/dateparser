@@ -64,7 +64,7 @@ Online demo
 -----------
 
 Do you want to try it out without installing any dependency? Now you can test
-it quickly by visiting `this online demo <https://dateparser-demo.netlify.app/>`__!
+it quickly by visiting `this online demo <https://gnyman.github.io/dateparser-demo-app/>`__!
 
 
 
