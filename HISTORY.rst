@@ -24,6 +24,10 @@ Fixes:
 - Finish: Support dates with “klo” (#1301)
 - Russian: Support compound ordinals (#1280)
 
+Cleanups and internal improvements:
+
+- Fixed year expectation issues in tests. (#1294)
+
 1.2.2 (2025-06-26)
 ------------------
 
@@ -36,10 +40,6 @@ Improvements:
 
 - Add Python 3.14 support (#1273)
 - Cache timezone offsets to improve import time (#1250)
-
-Cleanups and internal improvements:
-
-- Fixed year expectation issues in tests. (#1294)
 
 1.2.1 (2025-02-05)
 ------------------
