@@ -11,7 +11,7 @@ Dropped Python 3.9 support. (#1296)
 New features:
 
 - ``search_dates()`` can now detect time spans from expressions like “past
-  month”, “last week”, etc. For defails, see the “Time Span Detection” section
+  month”, “last week”, etc. For details, see the “Time Span Detection” section
   and the ``RETURN_TIME_SPAN``, ``DEFAULT_START_OF_WEEK`` and
   ``DEFAULT_DAYS_IN_MONTH`` settings in the documentation. (#1284)
 
