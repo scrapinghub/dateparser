@@ -3,6 +3,27 @@
 History
 =======
 
+1.3.0 (unreleased)
+------------------
+
+Dropped Python 3.9 support. (#1296)
+
+New features:
+
+- ``search_dates()`` can now detect time spans from expressions like “past
+  month”, “last week”, etc. For defails, see the “Time Span Detection” section
+  and the ``RETURN_TIME_SPAN``, ``DEFAULT_START_OF_WEEK`` and
+  ``DEFAULT_DAYS_IN_MONTH`` settings in the documentation. (#1284)
+
+Fixes:
+
+- Assume the current year if not specified (#1288)
+- Support expressions like “yesterday +1h” (#1303)
+- English: Support most 2-letter day-of-the-week names (#1214)
+- English: Support “in N weeks' time” (#1283)
+- Finish: Support dates with “klo” (#1301)
+- Russian: Support compound ordinals (#1280)
+
 1.2.2 (2025-06-26)
 ------------------
 
@@ -15,6 +36,10 @@ Improvements:
 
 - Add Python 3.14 support (#1273)
 - Cache timezone offsets to improve import time (#1250)
+
+Cleanups and internal improvements:
+
+- Fixed year expectation issues in tests. (#1294)
 
 1.2.1 (2025-02-05)
 ------------------
