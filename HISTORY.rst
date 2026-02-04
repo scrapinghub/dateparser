@@ -3,7 +3,7 @@
 History
 =======
 
-1.3.0 (unreleased)
+1.3.0 (2026-02-04)
 ------------------
 
 Dropped Python 3.9 support. (#1296)
