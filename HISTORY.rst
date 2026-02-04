@@ -21,7 +21,7 @@ Fixes:
 - Support expressions like “yesterday +1h” (#1303)
 - English: Support most 2-letter day-of-the-week names (#1214)
 - English: Support “in N weeks' time” (#1283)
-- Finish: Support dates with “klo” (#1301)
+- Finnish: Support dates with “klo” (#1301)
 - Russian: Support compound ordinals (#1280)
 
 Cleanups and internal improvements:
