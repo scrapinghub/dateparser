@@ -1,4 +1,5 @@
 import datetime
+from datetime import timedelta
 
 import pytz
 from parameterized import param, parameterized
@@ -410,7 +411,7 @@ class TestTranslateSearch(BaseTestCase):
                 "Die UdSSR blieb gemäß dem Neutralitätspakt "
                 "vom 13. April 1941 gegenüber Japan vorerst neutral.",
                 [
-                    ("Die", datetime.datetime(1999, 1, 28, 0, 0)),
+                    ("Die", datetime.datetime(1999, 12, 28, 0, 0)),
                     ("13. April 1941", datetime.datetime(1941, 4, 13, 0, 0)),
                 ],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
@@ -1099,7 +1100,236 @@ class TestTranslateSearch(BaseTestCase):
             languages=["ru"],
         )
         expected = [
-            ("12 января", datetime.datetime(2025, 1, 12, 0, 0), "ru"),
-            ("30 апреля", datetime.datetime(2025, 4, 30, 0, 0), "ru"),
+            ("12 января", datetime.datetime(today.year, 1, 12, 0, 0), "ru"),
+            ("30 апреля", datetime.datetime(today.year, 4, 30, 0, 0), "ru"),
         ]
         assert result == expected
+
+    @parameterized.expand(
+        [
+            param(
+                text="Ужасное событие произошло в тот день. Двадцатое февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцатое февраля",
+                expected_day=20,
+                expected_month=2,
+                description="20th February",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать первое февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать первое февраля",
+                expected_day=21,
+                expected_month=2,
+                description="21st February",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать второе февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать второе февраля",
+                expected_day=22,
+                expected_month=2,
+                description="22nd February",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать третье февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать третье февраля",
+                expected_day=23,
+                expected_month=2,
+                description="23rd February",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать четвёртое февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать четвёртое февраля",
+                expected_day=24,
+                expected_month=2,
+                description="24th February (with ё)",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать четвертое февраля. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать четвертое февраля",
+                expected_day=24,
+                expected_month=2,
+                description="24th February (without ё)",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать пятое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать пятое марта",
+                expected_day=25,
+                expected_month=3,
+                description="25th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать шестое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать шестое марта",
+                expected_day=26,
+                expected_month=3,
+                description="26th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать седьмое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать седьмое марта",
+                expected_day=27,
+                expected_month=3,
+                description="27th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать восьмое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать восьмое марта",
+                expected_day=28,
+                expected_month=3,
+                description="28th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Двадцать девятое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Двадцать девятое марта",
+                expected_day=29,
+                expected_month=3,
+                description="29th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Тридцатое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Тридцатое марта",
+                expected_day=30,
+                expected_month=3,
+                description="30th March",
+            ),
+            param(
+                text="Ужасное событие произошло в тот день. Тридцать первое марта. Вспоминаю тот день с ужасом.",
+                expected_text="Тридцать первое марта",
+                expected_day=31,
+                expected_month=3,
+                description="31st March",
+            ),
+        ]
+    )
+    def test_search_dates_multi_word_expression(
+        self, text, expected_text, expected_day, expected_month, description
+    ):
+        """Test parsing of multi-word date expressions in Russian."""
+        result = search_dates(text, languages=["ru"])
+        expected = [
+            (
+                expected_text,
+                datetime.datetime(
+                    datetime.datetime.now().year, expected_month, expected_day, 0, 0
+                ),
+            )
+        ]
+        self.assertEqual(result, expected)
+
+    def test_search_dates_time_span_past_month(self):
+        """Test search_dates with 'past month' time span."""
+        text = "messages received for the past month"
+        settings = {
+            "RETURN_TIME_SPAN": True,
+            "RELATIVE_BASE": datetime.datetime(2025, 2, 15, 12, 0, 0),
+            "DEFAULT_DAYS_IN_MONTH": 30,
+        }
+
+        result = search_dates(text, settings=settings)
+
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        if result is not None:
+            self.assertGreaterEqual(len(result), 2)
+
+            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
+            self.assertEqual(len(span_results), 2)
+
+            start_result = next(r for r in span_results if "(start)" in r[0])
+            end_result = next(r for r in span_results if "(end)" in r[0])
+            self.assertEqual(end_result[1], datetime.datetime(2025, 2, 15, 12, 0, 0))
+
+            expected_start = datetime.datetime(2025, 2, 15, 12, 0, 0) - timedelta(
+                days=30
+            )
+            self.assertEqual(start_result[1], expected_start)
+
+    def test_search_dates_time_span_last_week(self):
+        """Test search_dates with 'last week' time span."""
+        text = "messages received last week"
+        settings = {
+            "RETURN_TIME_SPAN": True,
+            "RELATIVE_BASE": datetime.datetime(2025, 2, 18, 12, 0, 0),  # Tuesday
+            "DEFAULT_START_OF_WEEK": "monday",
+        }
+
+        result = search_dates(text, settings=settings)
+
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        if result is not None:
+            self.assertGreaterEqual(len(result), 2)
+
+            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
+            self.assertEqual(len(span_results), 2)
+
+            start_result = next(r for r in span_results if "(start)" in r[0])
+            end_result = next(r for r in span_results if "(end)" in r[0])
+            expected_start = datetime.datetime(2025, 2, 10, 12, 0, 0)
+            expected_end = datetime.datetime(2025, 2, 16, 12, 0, 0)
+
+            self.assertEqual(start_result[1], expected_start)
+            self.assertEqual(end_result[1], expected_end)
+
+    def test_search_dates_time_span_custom_start_of_week(self):
+        """Test search_dates with custom start_of_week setting."""
+        text = "messages received last week"
+        settings = {
+            "RETURN_TIME_SPAN": True,
+            "RELATIVE_BASE": datetime.datetime(2025, 2, 18, 12, 0, 0),  # Tuesday
+            "DEFAULT_START_OF_WEEK": "sunday",  # Custom start of week
+        }
+
+        result = search_dates(text, settings=settings)
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        if result is not None:
+            self.assertGreaterEqual(len(result), 2)
+
+            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
+            self.assertEqual(len(span_results), 2)
+
+            start_result = next(r for r in span_results if "(start)" in r[0])
+            end_result = next(r for r in span_results if "(end)" in r[0])
+            expected_start = datetime.datetime(2025, 2, 9, 12, 0, 0)
+            expected_end = datetime.datetime(2025, 2, 15, 12, 0, 0)
+
+            self.assertEqual(start_result[1], expected_start)
+            self.assertEqual(end_result[1], expected_end)
+
+    def test_search_dates_time_span_custom_days_in_month(self):
+        """Test search_dates with custom days_in_month setting."""
+        text = "messages received for the past month"
+        settings = {
+            "RETURN_TIME_SPAN": True,
+            "RELATIVE_BASE": datetime.datetime(2025, 2, 15, 12, 0, 0),
+            "DEFAULT_DAYS_IN_MONTH": 28,  # Custom month length
+        }
+
+        result = search_dates(text, settings=settings)
+
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        if result is not None:
+            self.assertGreaterEqual(len(result), 2)
+
+            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
+            self.assertEqual(len(span_results), 2)
+
+            start_result = next(r for r in span_results if "(start)" in r[0])
+            end_result = next(r for r in span_results if "(end)" in r[0])
+            self.assertEqual(end_result[1], datetime.datetime(2025, 2, 15, 12, 0, 0))
+
+            expected_start = datetime.datetime(2025, 2, 15, 12, 0, 0) - timedelta(
+                days=28
+            )
+            self.assertEqual(start_result[1], expected_start)
+
+    def test_search_dates_time_span_disabled_by_default(self):
+        """Test that time span functionality is disabled by default."""
+        text = "messages received for the past month"
+
+        result = search_dates(text)
+
+        if result:
+            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
+            self.assertEqual(len(span_results), 0)

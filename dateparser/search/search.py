@@ -1,4 +1,5 @@
 from collections.abc import Set
+from datetime import datetime
 
 import regex as re
 
@@ -7,6 +8,7 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date import DateDataParser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.search.text_detection import FullTextLanguageDetector
+from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 
@@ -185,8 +187,23 @@ class _ExactLanguageSearch:
             translated=translated,
             settings=settings,
         )
+
+        results = list(zip(substrings, [i[0]["date_obj"] for i in parsed]))
+
+        if getattr(settings, "RETURN_TIME_SPAN", False):
+            span_info = detect_time_span(text)
+            if span_info:
+                base_date = getattr(settings, "RELATIVE_BASE", None) or datetime.now()
+                start_date, end_date = generate_time_span(
+                    span_info, base_date, settings
+                )
+
+                matched_text = span_info["matched_text"]
+                results.append((matched_text + " (start)", start_date))
+                results.append((matched_text + " (end)", end_date))
+
         parser._settings = Settings()
-        return list(zip(substrings, [i[0]["date_obj"] for i in parsed]))
+        return results
 
 
 class DateSearchWithDetection:
