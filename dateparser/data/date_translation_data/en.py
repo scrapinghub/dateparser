@@ -756,6 +756,7 @@ info = {
         "and",
         "at",
         "by",
+        "from",
         "just",
         "m",
         "nd",
