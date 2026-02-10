@@ -76,7 +76,7 @@ installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv dateparser
     $ cd dateparser/
-    $ python setup.py develop
+    $ pip install -e .
 
 4. Create a branch for local development::
 
