@@ -528,6 +528,13 @@ class DateDataParser:
             period='day', locale='en')
 
         """
+
+        if date_formats:
+            try:
+                validate_date_format(date_string, date_formats)
+            except InvalidDateString as e:
+                pass
+
         if not isinstance(date_string, str):
             raise TypeError("Input type must be str")
 
@@ -620,3 +627,14 @@ class DateDataParser:
         if not cls.locale_loader:
             cls.locale_loader = LocaleDataLoader()
         return cls.locale_loader
+
+def validate_date_format(date_string, date_formats):
+        for date_format in date_formats:
+            try:
+                datetime.strptime(date_string, date_format)
+                return
+            except ValueError:
+                raise InvalidDateString("Date string does not match any of the given formats")
+
+class InvalidDateString(Exception):
+    pass
