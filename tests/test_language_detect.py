@@ -15,9 +15,6 @@ from dateparser.custom_language_detection.langdetect import (
 from dateparser.date import DateDataParser
 from dateparser.search import search_dates
 
-detect_languages = Mock()
-detect_languages.return_value = ["en"]
-
 
 class LangDetectBasicTest(unittest.TestCase):
     """Tests for basic langdetect functionality"""
