@@ -1503,6 +1503,60 @@ class TestDateParser(BaseTestCase):
         self.assertTrue(tzstr in repr(self.result["date_obj"].tzinfo))
         self.result["date_obj"] = self.result["date_obj"].replace(tzinfo=None)
 
+    @parameterized.expand(
+        [
+            # Test word numbers with "later"
+            param("two days later", timedelta(days=2), "two days later"),
+            param("three weeks later", timedelta(weeks=3), "three weeks later"),
+            param("five hours later", timedelta(hours=5), "five hours later"),
+            param("ten minutes later", timedelta(minutes=10), "ten minutes later"),
+            param("seven seconds later", timedelta(seconds=7), "seven seconds later"),
+            param("twelve days later", timedelta(days=12), "twelve days later"),
+            # Test numeric values still work
+            param("2 days later", timedelta(days=2), "2 days later"),
+            param("5 hours later", timedelta(hours=5), "5 hours later"),
+            # Test other word numbers with "later"
+            param("one day later", timedelta(days=1), "one day later"),
+            param("four months later", None, "four months later"),
+            param("six years later", None, "six years later"),
+            # Test pluralization with "later"
+            param("one days later", timedelta(days=1), "one days later (with plural)"),
+            param("two day later", timedelta(days=2), "two day later (without plural)"),
+            # Test word numbers with "from now"
+            param("two days from now", timedelta(days=2), "two days from now"),
+            param("three weeks from now", timedelta(weeks=3), "three weeks from now"),
+            param("five hours from now", timedelta(hours=5), "five hours from now"),
+            param("one day from now", timedelta(days=1), "one day from now"),
+            # Test numeric values with "from now" still work
+            param("2 days from now", timedelta(days=2), "2 days from now"),
+            param("5 hours from now", timedelta(hours=5), "5 hours from now"),
+        ]
+    )
+    def test_word_numbers_with_later_and_from_now(
+        self, date_string, expected_delta, description
+    ):
+        """Test that word numbers (one, two, three, etc.) work with 'later' and 'from now'."""
+        base_date = datetime(2025, 6, 15, 12, 0, 0)
+
+        result = parse(
+            date_string,
+            settings={
+                "RELATIVE_BASE": base_date,
+                "RETURN_AS_TIMEZONE_AWARE": False,
+            },
+        )
+
+        self.assertIsNotNone(result, f"Failed to parse: {description}")
+        if expected_delta is None:
+            self.assertGreater(result, base_date, f"{description}: should be in future")
+        else:
+            expected = base_date + expected_delta
+            self.assertEqual(
+                expected,
+                result,
+                f"{description}: Expected {expected}, got {result}",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
