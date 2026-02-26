@@ -1503,6 +1503,51 @@ class TestDateParser(BaseTestCase):
         self.assertTrue(tzstr in repr(self.result["date_obj"].tzinfo))
         self.result["date_obj"] = self.result["date_obj"].replace(tzinfo=None)
 
+    @parameterized.expand(
+        [
+            # Test word numbers with "later"
+            param("two days later", timedelta(days=2), "two days later"),
+            param("three weeks later", timedelta(weeks=3), "three weeks later"),
+            param("five hours later", timedelta(hours=5), "five hours later"),
+            param("ten minutes later", timedelta(minutes=10), "ten minutes later"),
+            param("seven seconds later", timedelta(seconds=7), "seven seconds later"),
+            # Test numeric values still work
+            param("2 days later", timedelta(days=2), "2 days later"),
+            param("5 hours later", timedelta(hours=5), "5 hours later"),
+            # Test other word numbers
+            param("one day later", timedelta(days=1), "one day later"),
+            param(
+                "four months later", timedelta(days=120), "four months later (approx)"
+            ),
+            param("six years later", timedelta(days=2190), "six years later (approx)"),
+            # Test pluralization
+            param("one days later", timedelta(days=1), "one days later (with plural)"),
+            param("two day later", timedelta(days=2), "two day later (without plural)"),
+        ]
+    )
+    def test_word_numbers_with_later(self, date_string, expected_delta, description):
+        """Test that word numbers (one, two, three, etc.) work with 'later' pattern."""
+        base_date = datetime(2025, 6, 15, 12, 0, 0)
+        expected = base_date + expected_delta
+
+        result = parse(
+            date_string,
+            settings={
+                "RELATIVE_BASE": base_date,
+                "RETURN_AS_TIMEZONE_AWARE": False,
+            },
+        )
+
+        self.assertIsNotNone(result, f"Failed to parse: {description}")
+        if "approx" in description:
+            self.assertGreater(result, base_date, f"{description}: should be in future")
+        else:
+            self.assertEqual(
+                expected,
+                result,
+                f"{description}: Expected {expected}, got {result}",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
