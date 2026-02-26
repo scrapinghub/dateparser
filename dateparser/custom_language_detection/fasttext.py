@@ -1,9 +1,16 @@
 import os
 import warnings
 
-from dateparser_cli.exceptions import FastTextModelNotFoundException
-from dateparser_cli.fasttext_manager import fasttext_downloader
-from dateparser_cli.utils import create_data_model_home, dateparser_model_home
+try:
+    from dateparser_cli.exceptions import FastTextModelNotFoundException
+    from dateparser_cli.fasttext_manager import fasttext_downloader
+    from dateparser_cli.utils import create_data_model_home, dateparser_model_home
+except ImportError:
+    raise ImportError(
+        "fastText support via dateparser_cli utilities is deprecated and may be removed. "
+        "Please migrate to langdetect: from "
+        "dateparser.custom_language_detection.langdetect import detect_languages"
+    )
 
 warnings.warn(
     "fastText support is deprecated and will be removed in a future version. "
