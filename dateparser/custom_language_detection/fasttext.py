@@ -1,10 +1,26 @@
 import os
-
-import fasttext
+import warnings
 
 from dateparser_cli.exceptions import FastTextModelNotFoundException
 from dateparser_cli.fasttext_manager import fasttext_downloader
 from dateparser_cli.utils import create_data_model_home, dateparser_model_home
+
+warnings.warn(
+    "fastText support is deprecated and will be removed in a future version. "
+    "The fastText library is archived and unmaintained. "
+    "Please migrate to langdetect: from dateparser.custom_language_detection.langdetect import detect_languages",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
+try:
+    import fasttext
+except ImportError:
+    raise ImportError(
+        "fastText is no longer included as a dependency. "
+        "The library is archived and unmaintained. "
+        "Please use langdetect instead: pip install dateparser[langdetect]"
+    )
 
 _supported_models = ["large.bin", "small.bin"]
 _DEFAULT_MODEL = "small"
