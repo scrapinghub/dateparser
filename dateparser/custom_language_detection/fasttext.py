@@ -1,16 +1,11 @@
-import os
-import warnings
+"""
+Deprecated fastText language detection module.
 
-try:
-    from dateparser_cli.exceptions import FastTextModelNotFoundException
-    from dateparser_cli.fasttext_manager import fasttext_downloader
-    from dateparser_cli.utils import create_data_model_home, dateparser_model_home
-except ImportError:
-    raise ImportError(
-        "fastText support via dateparser_cli utilities is deprecated and may be removed. "
-        "Please migrate to langdetect: from "
-        "dateparser.custom_language_detection.langdetect import detect_languages"
-    )
+This module is deprecated as the fastText library is archived and unmaintained.
+Please use langdetect instead.
+"""
+
+import warnings
 
 warnings.warn(
     "fastText support is deprecated and will be removed in a future version. "
@@ -20,47 +15,21 @@ warnings.warn(
     stacklevel=2,
 )
 
-try:
-    import fasttext
-except ImportError:
-    raise ImportError(
-        "fastText is no longer included as a dependency. "
-        "The library is archived and unmaintained. "
-        "Please use langdetect instead: pip install dateparser[langdetect]"
-    )
-
-_supported_models = ["large.bin", "small.bin"]
-_DEFAULT_MODEL = "small"
-
-
-class _FastTextCache:
-    model = None
-
-
-def _load_fasttext_model():
-    if _FastTextCache.model:
-        return _FastTextCache.model
-    create_data_model_home()
-    downloaded_models = [
-        file for file in os.listdir(dateparser_model_home) if file in _supported_models
-    ]
-    if not downloaded_models:
-        fasttext_downloader(_DEFAULT_MODEL)
-        return _load_fasttext_model()
-    model_path = os.path.join(dateparser_model_home, downloaded_models[0])
-    if not os.path.isfile(model_path):
-        raise FastTextModelNotFoundException("Fasttext model file not found")
-    _FastTextCache.model = fasttext.load_model(model_path)
-    return _FastTextCache.model
-
 
 def detect_languages(text, confidence_threshold):
-    _language_parser = _load_fasttext_model()
-    text = text.replace("\n", " ").replace("\r", "")
-    language_codes = []
-    parser_data = _language_parser.predict(text)
-    for idx, language_probability in enumerate(parser_data[1]):
-        if language_probability > confidence_threshold:
-            language_code = parser_data[0][idx].replace("__label__", "")
-            language_codes.append(language_code)
-    return language_codes
+    """
+    Deprecated function. FastText support has been removed.
+
+    Args:
+        text: The text to detect languages from (unused)
+        confidence_threshold: Minimum confidence threshold (unused)
+
+    Raises:
+        ImportError: Always, as fastText is no longer supported.
+    """
+    raise ImportError(
+        "fastText is no longer supported as the library is archived and unmaintained. "
+        "Please use langdetect instead:\n"
+        "  pip install dateparser[langdetect]\n"
+        "  from dateparser.custom_language_detection.langdetect import detect_languages"
+    )
