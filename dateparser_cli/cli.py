@@ -38,7 +38,7 @@ def entrance():
             "fastText is no longer supported. Please use langdetect for language detection."
         )
 
-    if not (args.clear or args.fasttext):
+    if not args.clear:
         dateparser_argparse.error(
             "dateparser-download: You need to specify the command (i.e.: --clear)"
         )
