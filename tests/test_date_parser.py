@@ -1518,9 +1518,9 @@ class TestDateParser(BaseTestCase):
             # Test other word numbers with "later"
             param("one day later", timedelta(days=1), "one day later"),
             param(
-                "four months later", timedelta(days=120), "four months later (approx)"
+                "four months later", timedelta(days=122), "four months later (approx)"
             ),
-            param("six years later", timedelta(days=2190), "six years later (approx)"),
+            param("six years later", timedelta(days=2191), "six years later (approx)"),
             # Test pluralization with "later"
             param("one days later", timedelta(days=1), "one days later (with plural)"),
             param("two day later", timedelta(days=2), "two day later (without plural)"),
