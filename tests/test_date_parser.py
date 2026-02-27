@@ -1541,7 +1541,14 @@ class TestDateParser(BaseTestCase):
 
         self.assertIsNotNone(result, f"Failed to parse: {description}")
         if "approx" in description:
+            # For approximate cases, ensure the result is after the base date
+            # and not later than the expected upper bound.
             self.assertGreater(result, base_date, f"{description}: should be in future")
+            self.assertLessEqual(
+                result,
+                expected,
+                f"{description}: Expected at most {expected}, got {result}",
+            )
         else:
             self.assertEqual(
                 expected,
