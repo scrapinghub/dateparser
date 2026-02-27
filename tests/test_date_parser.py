@@ -1555,13 +1555,15 @@ class TestDateParser(BaseTestCase):
                 result,
                 f"{description}: Expected {expected}, got {result}",
             )
-    
+
     @parameterized.expand(
         [
             # Test word numbers with "from now"
             param("two days from now", timedelta(days=2), "two days from now"),
             param("five hours from now", timedelta(hours=5), "five hours from now"),
-            param("ten minutes from now", timedelta(minutes=10), "ten minutes from now"),
+            param(
+                "ten minutes from now", timedelta(minutes=10), "ten minutes from now"
+            ),
             # Still works with digits
             param("2 days from now", timedelta(days=2), "2 days from now"),
             param("5 hours from now", timedelta(hours=5), "5 hours from now"),
