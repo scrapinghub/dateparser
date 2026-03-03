@@ -1704,6 +1704,11 @@ class TestBundledLanguages(BaseTestCase):
             param("ko", "2분 후", "in 2 minute"),
             param("ko", "5년 전", "5 year ago"),
             param("ko", "다음 달", "in 1 month"),
+            param("ko", "금일", "0 day ago"),
+            param("ko", "작일", "1 day ago"),
+            param("ko", "명일", "in 1 day"),
+            param("ko", "3달 전", "3 month ago"),
+            param("ko", "2달 후", "in 2 month"),
             # ksb
             param("ksb", "keloi", "in 1 day"),
             param("ksb", "evi eo", "0 day ago"),
