@@ -1,3 +1,4 @@
+from ast import literal_eval
 from collections import OrderedDict
 from itertools import chain
 
@@ -459,7 +460,7 @@ class Locale:
         return date_string
 
     def _get_simplifications(self, settings=None):
-        no_word_spacing = eval(self.info.get("no_word_spacing", "False"))
+        no_word_spacing = literal_eval(self.info.get("no_word_spacing", "False"))
         if settings.NORMALIZE:
             if self._normalized_simplifications is None:
                 self._normalized_simplifications = []

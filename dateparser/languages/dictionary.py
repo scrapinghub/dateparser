@@ -1,3 +1,4 @@
+from ast import literal_eval
 from itertools import chain, zip_longest
 from operator import methodcaller
 
@@ -102,7 +103,7 @@ class Dictionary:
         self._dictionary = dictionary
 
         no_word_spacing = locale_info.get("no_word_spacing", "False")
-        self._no_word_spacing = bool(eval(no_word_spacing))
+        self._no_word_spacing = bool(literal_eval(no_word_spacing))
 
         relative_type_regex = locale_info.get("relative-type-regex", {})
         self._relative_strings = list(chain.from_iterable(relative_type_regex.values()))
