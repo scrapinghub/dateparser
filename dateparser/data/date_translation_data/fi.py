@@ -316,6 +316,7 @@ info = {
     "locale_specific": {},
     "skip": [
         ":n",
+        "klo",
         " ",
         "'",
         ",",

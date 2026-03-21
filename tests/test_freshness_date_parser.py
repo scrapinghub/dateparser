@@ -4,13 +4,7 @@ from functools import wraps
 
 import pytz
 
-try:
-    from zoneinfo import ZoneInfo
-except ImportError:
-    try:
-        from backports.zoneinfo import ZoneInfo  # Python < 3.9 + tzlocal >= 3
-    except ImportError:
-        ZoneInfo = None  # Python < 3.9
+from zoneinfo import ZoneInfo
 
 from unittest.mock import Mock, patch
 
@@ -1754,6 +1748,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 1 day", in_future={"days": 1}, period="day"),
             param("in 1d", in_future={"days": 1}, period="day"),
             param("in a week", in_future={"weeks": 1}, period="week"),
+            param("in three weeks", in_future={"weeks": 3}, period="week"),
+            param("in three weeks time", in_future={"weeks": 3}, period="week"),
+            param("in three weeks' time", in_future={"weeks": 3}, period="week"),
             param("in 2 hours", in_future={"hours": 2}, period="day"),
             param("in about 23 hours", in_future={"hours": 23}, period="day"),
             param(
@@ -1811,6 +1808,22 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("3 hours later", in_future={"hours": 3}, period="day"),
             param("4 minutes later", in_future={"minutes": 4}, period="day"),
             param("5 seconds later", in_future={"seconds": 5}, period="day"),
+            # from now
+            param("7 years from now", in_future={"years": 7}, period="year"),
+            param("6 months from now", in_future={"months": 6}, period="month"),
+            param("5 weeks from now", in_future={"weeks": 5}, period="week"),
+            param("4 days from now", in_future={"days": 4}, period="day"),
+            param("3 hours from now", in_future={"hours": 3}, period="day"),
+            param("2 minutes from now", in_future={"minutes": 2}, period="day"),
+            param("1 second from now", in_future={"seconds": 1}, period="day"),
+            param("five years from now", in_future={"years": 5}, period="year"),
+            param("a year from now", in_future={"years": 1}, period="year"),
+            param("an hour from now", in_future={"hours": 1}, period="day"),
+            param(
+                "1 year 2 months from now",
+                in_future={"years": 1, "months": 2},
+                period="month",
+            ),
             # Fractional units
             param("in 2.5 hours", in_future={"hours": 2.5}, period="day"),
             param("in 10.75 minutes", in_future={"minutes": 10.75}, period="day"),

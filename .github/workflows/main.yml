@@ -14,24 +14,28 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python-version: "3.13"
+          - python-version: "3.14"
             toxenv: pre-commit
-          - python-version: "3.9"
-            toxenv: min
-          - python-version: "3.9"
-            toxenv: min-all
-          - python-version: "3.9"
           - python-version: "3.10"
+            toxenv: min
+          - python-version: "3.10"
+            toxenv: min-all
           - python-version: "3.11"
           - python-version: "3.12"
-          - python-version: "3.13"
+          - python-version: "3.14"
             toxenv: all
-          - python-version: "3.13"
+          - python-version: "3.14"
             toxenv: scripts
-          - python-version: "3.12"  # Keep in sync with tox.ini
+          - python-version: "3.14"
             toxenv: docs
-          - python-version: "3.13"
+          - python-version: "3.14"
             toxenv: twinecheck
+          - python-version: "3.13"
+            toxenv: py
+            timezone: "Pacific/Auckland"
+          - python-version: "3.13"
+            toxenv: py
+            timezone: "Pacific/Fiji"
     steps:
       - uses: actions/checkout@v3
       - name: 'Set up Python ${{ matrix.python-version }}'
@@ -45,7 +49,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox
       - name: Run tests
-        run: tox -e ${{ matrix.toxenv || 'py' }}
+        run: |
+          TZ=${{ matrix.timezone || 'UTC' }} echo "Running tests with timezone: $TZ"
+          TZ=${{ matrix.timezone || 'UTC' }} tox -e ${{ matrix.toxenv || 'py' }}
       - name: Upload coverage.xml to codecov
         uses: codecov/codecov-action@v5
         with:

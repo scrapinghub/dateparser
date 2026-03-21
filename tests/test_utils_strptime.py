@@ -1,6 +1,7 @@
 import locale
 from datetime import datetime
 from unittest import SkipTest
+import warnings
 
 from parameterized import param, parameterized
 
@@ -173,3 +174,67 @@ class TestStrptime(BaseTestCase):
     def test_microseconds_are_parsed_correctly(self, date_string, fmt, expected):
         self.when_date_string_is_parsed(date_string, fmt)
         self.then_date_object_is(expected)
+
+    @parameterized.expand(
+        [
+            param(date_string="oct 14", fmt=r"%m %d"),
+            param(date_string="10-14", fmt=r"%b %d"),
+            param(date_string="12 Dec 10:30:55.000111", fmt="%d %b %H:%M:%S.%f"),
+            param(date_string="Wed 12 December 22:41", fmt="%a %d %B %H:%M"),
+        ]
+    )
+    def test_dates_with_no_year_do_not_raise_a_deprecation_warning(
+        self, date_string, fmt
+    ):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.when_date_string_is_parsed(date_string, fmt)
+            year_warnings = [
+                warn
+                for warn in w
+                if "day of month without a year specified is ambiguious"
+                in str(warn.message)
+            ]
+            self.assertEqual(len(year_warnings), 0)
+
+    @parameterized.expand(
+        [
+            param(
+                date_string="oct 14",
+                fmt=r"%b %d",
+                expected=datetime(2010, 10, 14, 0, 0),
+            ),
+            param(
+                date_string="10 14",
+                fmt=r"%m %d",
+                expected=datetime(2010, 10, 14, 0, 0),
+            ),
+            param(
+                date_string="14 Oct",
+                fmt=r"%d %b",
+                expected=datetime(2010, 10, 14, 0, 0),
+            ),
+            param(
+                "Monday 21 January",
+                "%A %d %B",
+                expected=datetime(2010, 1, 21, 0, 0),
+            ),
+            param(
+                "Tue 2 Mar",
+                "%a %d %b",
+                expected=datetime(2010, 3, 2, 0, 0),
+            ),
+            param(
+                "Friday 12 December 10:30",
+                "%A %d %B %H:%M",
+                expected=datetime(2010, 12, 12, 10, 30),
+            ),
+        ]
+    )
+    def test_dates_with_no_year_use_the_current_year(
+        self, date_string: str, fmt: str, expected: datetime
+    ):
+        self.when_date_string_is_parsed(date_string, fmt)
+        current_year = datetime.today().year
+        expected = expected.replace(year=current_year)
+        self.assertEqual(self.result, expected)

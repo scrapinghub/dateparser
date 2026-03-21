@@ -27,6 +27,9 @@ class Settings:
     * `SKIP_TOKENS`
     * `NORMALIZE`
     * `RETURN_TIME_AS_PERIOD`
+    * `RETURN_TIME_SPAN`
+    * `DEFAULT_START_OF_WEEK`
+    * `DEFAULT_DAYS_IN_MONTH`
     * `PARSERS`
     * `DEFAULT_LANGUAGES`
     * `LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD`
@@ -49,7 +52,9 @@ class Settings:
             return "default"
 
         keys = sorted(["%s-%s" % (key, str(settings[key])) for key in settings])
-        return hashlib.md5("".join(keys).encode("utf-8")).hexdigest()
+        return hashlib.md5(
+            "".join(keys).encode("utf-8"), usedforsecurity=False
+        ).hexdigest()
 
     @classmethod
     def _get_settings_from_pyfile(cls):
@@ -227,6 +232,14 @@ def check_settings(settings):
             "extra_check": _check_between_0_and_1,
         },
         "CACHE_SIZE_LIMIT": {
+            "type": int,
+        },
+        "RETURN_TIME_SPAN": {"type": bool},
+        "DEFAULT_START_OF_WEEK": {
+            "values": ("monday", "sunday"),
+            "type": str,
+        },
+        "DEFAULT_DAYS_IN_MONTH": {
             "type": int,
         },
     }

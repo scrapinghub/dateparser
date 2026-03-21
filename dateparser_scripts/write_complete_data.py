@@ -4,7 +4,7 @@ import shutil
 from collections import OrderedDict
 
 import regex as re
-from ruamel.yaml import RoundTripLoader
+from ruamel.yaml import YAML
 
 from dateparser_scripts.order_languages import avoid_languages
 from dateparser_scripts.utils import combine_dicts
@@ -55,7 +55,8 @@ def _get_complete_date_translation_data(language):
             cldr_data = json.load(f, object_pairs_hook=OrderedDict)
     if language in supplementary_languages:
         with open(supplementary_date_directory + language + ".yaml") as g:
-            supplementary_data = OrderedDict(RoundTripLoader(g).get_data())
+            yaml = YAML()
+            supplementary_data = OrderedDict(yaml.load(g))
     complete_data = combine_dicts(cldr_data, supplementary_data)
     if "name" not in complete_data:
         complete_data["name"] = language
@@ -88,7 +89,8 @@ def write_complete_data(in_memory=False):
         os.mkdir(date_translation_directory)
 
     with open(supplementary_directory + "base_data.yaml") as f:
-        base_data = RoundTripLoader(f).get_data()
+        yaml = YAML()
+        base_data = yaml.load(f)
 
     for language in all_languages:
         date_translation_data = _get_complete_date_translation_data(language)

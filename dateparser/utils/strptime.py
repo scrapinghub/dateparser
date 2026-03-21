@@ -90,7 +90,34 @@ def patch_strptime():
 __strptime = patch_strptime()
 
 
-def strptime(date_string, format):
+def _prepare_format(date_string: str, og_format: str) -> tuple[str, str]:
+    # Adapted from std lib: https://github.com/python/cpython/blob/e34a5e33049ce845de646cf24a498766a2da3586/Lib/_strptime.py#L448
+    format = re.sub(r"([\\.^$*+?\(\){}\[\]|])", r"\\\1", og_format)
+    format = re.sub(r"\s+", r"\\s+", format)
+    format = re.sub(r"'", "['\u02bc]", format)
+    year_in_format = False
+    day_of_month_in_format = False
+
+    def repl(m: re.Match[str]) -> str:
+        format_char = m[1]
+        if format_char in ("Y", "y", "G"):
+            nonlocal year_in_format
+            year_in_format = True
+        elif format_char in ("d",):
+            nonlocal day_of_month_in_format
+            day_of_month_in_format = True
+
+        return ""
+
+    _ = re.sub(r"%[-_0^#]*[0-9]*([OE]?\\?.?)", repl, format)
+    if day_of_month_in_format and not year_in_format:
+        current_year = datetime.today().year
+        return f"{current_year} {date_string}", f"%Y {og_format}"
+    return date_string, og_format
+
+
+def strptime(date_string: str, format: str) -> datetime:
+    date_string, format = _prepare_format(date_string, format)
     obj = datetime(*__strptime(date_string, format)[:-3])
 
     if "%f" in format:

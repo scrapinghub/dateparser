@@ -399,8 +399,8 @@ class _parser:
             return datetime(**params)
         except ValueError as e:
             error_text = e.__str__()
-            error_msgs = ["day is out of range", "day must be in"]
-            if error_msgs[0] in error_text or error_msgs[1] in error_text:
+            error_msgs = ["day is out of range", "day must be in", "must be in range"]
+            if any(msg in error_text for msg in error_msgs):
                 if not (self._token_day or hasattr(self, "_token_weekday")):
                     # if day is not available put last day of the month
                     params["day"] = get_last_day_of_month(
@@ -511,6 +511,10 @@ class _parser:
                 delta = timedelta(days=-steps)
 
             dateobj = dateobj + delta
+
+            # set the token_month here so that it is not subsequently
+            # altered by _correct_for_month
+            self._token_month = dateobj.month
 
         # NOTE: If this assert fires, self.now needs to be made offset-aware in a similar
         # way that dateobj is temporarily made offset-aware.

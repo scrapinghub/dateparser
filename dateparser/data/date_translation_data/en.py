@@ -51,32 +51,39 @@ info = {
     ],
     "monday": [
         "mon",
-        "monday"
+        "monday",
+        "mo"
     ],
     "tuesday": [
         "tue",
         "tuesday",
+        "tu",
         "Tues"
     ],
     "wednesday": [
         "wed",
-        "wednesday"
+        "wednesday",
+        "we"
     ],
     "thursday": [
         "thu",
-        "thursday"
+        "thursday",
+        "th"
     ],
     "friday": [
         "fri",
-        "friday"
+        "friday",
+        "fr"
     ],
     "saturday": [
         "sat",
-        "saturday"
+        "saturday",
+        "sa"
     ],
     "sunday": [
         "sun",
-        "sunday"
+        "sunday",
+        "su"
     ],
     "am": [
         "am"
@@ -258,6 +265,8 @@ info = {
         "in \\1 week": [
             "in (\\d+[.,]?\\d*) week",
             "in (\\d+[.,]?\\d*) weeks",
+            "in (\\d+[.,]?\\d*) weeks time",
+            "in (\\d+[.,]?\\d*) weeks' time",
             "in (\\d+[.,]?\\d*) wk"
         ],
         "in \\1 year": [
@@ -747,6 +756,7 @@ info = {
         "and",
         "at",
         "by",
+        "from",
         "just",
         "m",
         "nd",
@@ -803,13 +813,13 @@ info = {
             "(\\d+[.,]?\\d*)h(\\d+[.,]?\\d*)": "\\1:\\2"
         },
         {
-            "(?<=from\\s+)now": "in"
+            "from\\s+now": "in"
         },
         {
             "less than 1 minute ago": "45 second ago"
         },
         {
-            "(\\d+[.,]?\\d*) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
+            "(\\d+[.,]?\\d*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
         },
         {
             "one": "1"

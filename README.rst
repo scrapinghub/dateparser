@@ -5,7 +5,7 @@
     <h1 align="center">
         <br/>
         <a href="https://github.com/scrapinghub/dateparser">
-            <img src="https://raw.githubusercontent.com/scrapinghub/dateparser/master/artwork/dateparser-logo.png" alt="Dateparser" width="500">
+            <img src="artwork/dateparser-logo.png" alt="Dateparser" width="500">
         </a>
         <br/>
     </h1>
@@ -58,12 +58,13 @@ Key Features
 -  `Search
    dates <https://dateparser.readthedocs.io/en/latest/introduction.html#search-for-dates-in-longer-chunks-of-text>`__
    in longer texts.
+-  Time span detection for expressions like "past month", "last week".
 
 Online demo
 -----------
 
 Do you want to try it out without installing any dependency? Now you can test
-it quickly by visiting `this online demo <https://dateparser-demo.netlify.app/>`__!
+it quickly by visiting `this online demo <https://gnyman.github.io/dateparser-demo-app/>`__!
 
 
 
@@ -156,7 +157,7 @@ are executed, you can do so through the
 Installation
 ------------
 
-Dateparser supports Python >= 3.9. You can install it by doing:
+Dateparser supports Python 3.10+. You can install it by doing:
 
 ::
 

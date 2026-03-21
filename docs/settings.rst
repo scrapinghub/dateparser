@@ -112,6 +112,27 @@ For example, assuming current date is `June 16, 2015`:
     >>> parse('tomorrow', settings={'RELATIVE_BASE': datetime.datetime(2020, 1, 1)})
     datetime.datetime(2020, 1, 2, 0, 0)
 
+``RETURN_TIME_SPAN``
+~~~~~~~~~~~~~~~~~~~~
+
+**default**: ``False``
+
+When enabled, `search_dates` detects time span expressions (e.g., "past month", "last week") and returns start/end dates instead of single dates.
+
+``DEFAULT_START_OF_WEEK``
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**default**: ``'monday'``
+
+Sets which day starts the week for time span calculations. Options: ``'monday'``, ``'sunday'``.
+
+``DEFAULT_DAYS_IN_MONTH``
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**default**: ``30``
+
+Sets the number of days to use for "past month" and similar expressions in time span detection.
+
 ``STRICT_PARSING``: defaults to ``False``.
 
 When set to ``True`` if missing any of ``day``, ``month`` or ``year`` parts, it does not return any result altogether.:

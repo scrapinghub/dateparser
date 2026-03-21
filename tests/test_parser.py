@@ -1,4 +1,5 @@
 from datetime import datetime, time
+import warnings
 
 from parameterized import param, parameterized
 
@@ -506,6 +507,30 @@ class TestParser(BaseTestCase):
     def then_error_is_raised_when_date_is_parsed(self, date_string):
         with self.assertRaises(ValueError):
             self.parser.parse(date_string, self.settings)
+
+    @parameterized.expand(
+        [
+            param(date_string="oct 14"),
+            param(date_string="14-October-2025"),
+            param(date_string="2024-11-27"),
+            param(date_string="tomorrow"),
+            param(date_string="1484823450"),
+            param(date_string="In two months"),
+        ]
+    )
+    def test_parser_does_not_raise_ambiguious_date_deprecation_warning(
+        self, date_string
+    ):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.when_date_is_parsed(date_string)
+            year_warnings = [
+                warn
+                for warn in w
+                if "day of month without a year specified is ambiguious"
+                in str(warn.message)
+            ]
+            self.assertEqual(len(year_warnings), 0)
 
 
 class TestTimeParser(BaseTestCase):

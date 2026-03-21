@@ -10,7 +10,7 @@ from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
-PATTERN = re.compile(r"(\d+[.,]?\d*)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
+PATTERN = re.compile(r"([+-]?\d+[.,]?\d*)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
 
 
 class FreshnessDateDataParser:
@@ -112,7 +112,13 @@ class FreshnessDateDataParser:
         if not self._are_all_words_units(date_string):
             return None, None
 
-        kwargs = self.get_kwargs(date_string)
+        result = self.get_kwargs(date_string)
+        if isinstance(result, tuple):
+            kwargs, explicit_signs = result
+        else:
+            kwargs = result
+            explicit_signs = {}
+
         if not kwargs:
             return None, None
         period = "day"
@@ -121,16 +127,27 @@ class FreshnessDateDataParser:
                 if k in kwargs:
                     period = k[:-1]
                     break
-        td = relativedelta(**kwargs)
 
-        if (
+        going_forward = (
             re.search(r"\bin\b", date_string)
             or re.search(r"\bfuture\b", prefer_dates_from)
             and not re.search(r"\bago\b", date_string)
-        ):
-            date = now + td
-        else:
-            date = now - td
+        )
+
+        adjusted_kwargs = {}
+        for key, value in kwargs.items():
+            if explicit_signs.get(key, False):
+                adjusted_kwargs[key] = value
+            else:
+                if going_forward:
+                    adjusted_kwargs[key] = value
+                else:
+                    adjusted_kwargs[key] = -value
+
+        td = relativedelta(**adjusted_kwargs)
+
+        date = now + td
+
         return date, period
 
     def get_kwargs(self, date_string):
@@ -139,12 +156,21 @@ class FreshnessDateDataParser:
             return {}
 
         kwargs = {}
+        explicit_signs = {}
+
         for num, unit in m:
+            has_explicit_sign = num.startswith("+") or num.startswith("-")
+            explicit_signs[unit + "s"] = has_explicit_sign
             kwargs[unit + "s"] = float(num.replace(",", "."))
+
         if "decades" in kwargs:
             kwargs["years"] = 10 * kwargs["decades"] + kwargs.get("years", 0)
+            if "decades" in explicit_signs:
+                explicit_signs["years"] = explicit_signs["decades"]
             del kwargs["decades"]
-        return kwargs
+            explicit_signs.pop("decades", None)
+
+        return kwargs, explicit_signs
 
     def get_date_data(self, date_string, settings=None):
         from dateparser.date import DateData
