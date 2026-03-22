@@ -1,3 +1,62 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+    "setuptools >= 77.0",
+]
+
+[project]
+name = "dateparser"
+description = "Date parsing library designed to parse dates from HTML pages"
+authors = [
+    { name = "Scrapinghub", email = "opensource@zyte.com" },
+]
+license = "BSD-3-Clause"
+keywords = ["dateparser"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+requires-python = ">=3.10"
+dynamic = ["readme", "version"]
+
+dependencies = [
+    "python-dateutil>=2.7.0",
+    "pytz>=2024.2",
+    "regex>=2024.9.11",
+    "tzlocal>=0.2",
+]
+
+[project.optional-dependencies]
+calendars = ["convertdate>=2.2.1", "hijridate"]
+fasttext = ["fasttext>=0.9.1", "numpy>=1.22.0,<2"]
+langdetect = ["langdetect>=1.0.0"]
+
+[project.urls]
+Source = "https://github.com/scrapinghub/dateparser"
+History = "https://dateparser.readthedocs.io/en/latest/history.html"
+
+[project.scripts]
+dateparser-download = "dateparser_cli.cli:entrance"
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+namespaces = false
+exclude = ["tests", "tests.*"]
+
+[tool.setuptools.dynamic]
+version = { attr = "dateparser.__version__" }
+
 [tool.bumpversion]
 current_version = "1.3.0"
 commit = true
