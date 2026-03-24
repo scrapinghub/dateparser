@@ -12,6 +12,11 @@ search = "\\(unreleased\\)$"
 replace = "({now:%Y-%m-%d})"
 regex = true
 
+[[tool.bumpversion.files]]
+filename = "SECURITY.md"
+parse = """(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)"""
+serialize = ["{major}.{minor}"]
+
 [tool.ruff]
 exclude = ["date_translation_data"]
 
