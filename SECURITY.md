@@ -10,4 +10,4 @@
 ## Reporting a Vulnerability
 
 Please report the vulnerability using
-https://github.com/dateparser/dateparser/security/advisories/new.
+https://github.com/scrapinghub/dateparser/security/advisories/new.
