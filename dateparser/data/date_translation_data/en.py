@@ -718,6 +718,9 @@ info = {
         "en-UM": {
             "name": "en-UM"
         },
+        "en-US": {
+            "name": "en-US"
+        },
         "en-VC": {
             "name": "en-VC",
             "date_order": "DMY"
