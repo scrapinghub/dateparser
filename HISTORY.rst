@@ -3,6 +3,29 @@
 History
 =======
 
+1.4.0 (unreleased)
+------------------
+
+New features:
+
+- Add support for expressions like "N {interval} from now" in English (#1271)
+- Add support for the ``en-US`` locale (#1222)
+
+Fixes:
+
+- Honor ``REQUIRE_PARTS`` for ambiguous month-number inputs by retrying with a
+  year-biased ``DATE_ORDER`` (#1298)
+- Fix parsing word-number relative phrases such as "two days later" (#1316)
+- Allow md5hash to work in FIPS environments (#1267)
+
+Improvements:
+
+- Add Bosnian Cyrillic (ijekavica) date translations (#1293)
+- Add a new browser-based demo to the project documentation (#1306)
+- Update installation documentation to replace ``setup.py install`` guidance
+  (#1310)
+- Add a project security policy (#1318)
+
 1.3.0 (2026-02-04)
 ------------------
 
