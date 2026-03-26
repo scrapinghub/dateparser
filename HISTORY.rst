@@ -6,6 +6,11 @@ History
 1.4.0 (unreleased)
 ------------------
 
+Security fixes:
+
+- Remove import-time loading of timezone offset data from pickle to prevent
+  unsafe deserialization from packaged data
+
 New features:
 
 - Add support for expressions like "N {interval} from now" in English (#1271)
