@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 from io import StringIO
+from unittest.mock import patch
 
 import pytest
 from parameterized import param, parameterized
@@ -9,6 +10,7 @@ from dateparser import parse
 from dateparser.conf import apply_settings, settings
 from dateparser.date import DateDataParser
 from dateparser.languages import Locale, default_loader
+from dateparser.languages.dictionary import Dictionary
 from dateparser.languages.validation import LanguageValidator
 from dateparser.search import search_dates
 from dateparser.search.detection import AutoDetectLanguage, ExactLanguages
@@ -3040,3 +3042,34 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
     ):
         result = parse(date_string, languages=languages, settings=settings)
         assert result == expected
+
+
+class TestNoWordSpacingSecurity:
+    def test_dictionary_does_not_evaluate_no_word_spacing(self):
+        locale_info = {
+            "name": "Test",
+            "skip": [],
+            "pertain": [],
+            "relative-type": {},
+            "relative-type-regex": {},
+            "no_word_spacing": "__import__('os').system('echo vulnerable')",
+        }
+
+        with patch("os.system") as os_system:
+            Dictionary(locale_info, settings=settings)
+
+        os_system.assert_not_called()
+
+    def test_locale_does_not_evaluate_no_word_spacing(self):
+        language_info = {
+            "name": "Test",
+            "simplifications": [{"x": "y"}],
+            "no_word_spacing": "__import__('os').system('echo vulnerable')",
+        }
+
+        with patch("os.system") as os_system:
+            locale = Locale("xx", language_info)
+            simplifications = locale._get_simplifications(settings=settings)
+
+        os_system.assert_not_called()
+        assert simplifications

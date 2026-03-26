@@ -12,6 +12,14 @@ from .dictionary import ALWAYS_KEEP_TOKENS, Dictionary, NormalizedDictionary
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
 
 
+def _parse_bool(value):
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.strip().lower() in ("true", "1", "yes")
+    return False
+
+
 class Locale:
     """
     Class that deals with applicability and translation from a locale.
@@ -459,7 +467,7 @@ class Locale:
         return date_string
 
     def _get_simplifications(self, settings=None):
-        no_word_spacing = eval(self.info.get("no_word_spacing", "False"))
+        no_word_spacing = _parse_bool(self.info.get("no_word_spacing", False))
         if settings.NORMALIZE:
             if self._normalized_simplifications is None:
                 self._normalized_simplifications = []

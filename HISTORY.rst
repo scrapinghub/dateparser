@@ -10,6 +10,8 @@ Security fixes:
 
 - Remove import-time loading of timezone offset data from pickle to prevent
   unsafe deserialization from packaged data
+- Replace ``eval()`` use when parsing ``no_word_spacing`` with strict boolean
+  parsing to prevent code execution from locale metadata (#1056)
 
 New features:
 
