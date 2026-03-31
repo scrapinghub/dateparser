@@ -3,8 +3,7 @@ Custom language detection
 =========================
 
 `dateparser` allows to customize the language detection behavior by using the ``detect_languages_function`` parameter.
-It currently supports two language detection libraries out of the box: `fastText <https://github.com/facebookresearch/fastText>`_
-and `langdetect <https://github.com/Mimino666/langdetect>`_, and allows you to implement your own custom language detection.
+It supports the `langdetect <https://github.com/Mimino666/langdetect>`_ library out of the box, and allows you to implement your own custom language detection.
 
 .. warning::
 
@@ -14,51 +13,24 @@ and `langdetect <https://github.com/Mimino666/langdetect>`_, and allows you to i
 Built-in implementations
 ========================
 
-fastText
-~~~~~~~~
-Language detection with fastText.
-
-Import the fastText wrapper and pass it as ``detect_languages_function``
-parameter. Example::
-
-    >>> from dateparser.custom_language_detection.fasttext import detect_languages
-    >>> dateparser.parse('12/12/12', detect_languages_function=detect_languages)
-
-The fastText integration currently supports the large and the small models.
-Find more information about `fasttext <https://fasttext.cc/blog/2017/10/02/blog-post.html>`__ models.
-You can download your model of choice using ``dateparser-download``.
-
-Downloading small model::
-
-    >>> dateparser-download --fasttext small
-
-Downloading large model::
-
-    >>> dateparser-download --fasttext large
-
-Deleting all cached models::
-
-    >>> dateparser-download --clear_cache
-
-.. note::
-
-    If no model has been downloaded, the fastText wrapper downloads and uses
-    the small model by default.
-
 langdetect
 ~~~~~~~~~~
 Language detection with langdetect.
 
-Import the langdetect wrapper and pass it as ``detect_languages_function``
+To use langdetect, first install it::
+
+    pip install dateparser[langdetect]
+
+Then import the langdetect wrapper and pass it as ``detect_languages_function``
 parameter. Example::
 
     >>> from dateparser.custom_language_detection.langdetect import detect_languages
     >>> dateparser.parse('12/12/12', detect_languages_function=detect_languages)
 
-
 .. note::
 
-    From some tests we did, we recommend to use ``fastText`` for faster and more accurate results.
+    **Deprecated fastText support**: The fastText integration has been removed as the library
+    is archived and no longer maintained. If you were using fastText, please migrate to langdetect.
 
 Custom implementation
 =====================
