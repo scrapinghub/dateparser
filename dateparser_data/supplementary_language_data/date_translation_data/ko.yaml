@@ -1,0 +1,14 @@
+relative-type:
+    0 day ago:
+        - 금일
+    1 day ago:
+        - 작일
+    in 1 day:
+        - 명일
+
+relative-type-regex:
+    \1 month ago:
+        - (\d+[.,]?\d*)달 전
+    in \1 month:
+        - (\d+[.,]?\d*)달 후
+
