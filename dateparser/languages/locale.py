@@ -152,8 +152,53 @@ class Locale:
                     date_string_tokens[i] = dictionary[word] or fallback
         if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
+
+        # Remove empty tokens (skip words) and handle adjacent whitespace
+        # When a skip token is removed between spaces, keep the maximum number of spaces
+        filtered_tokens = []
+        i = 0
+        while i < len(date_string_tokens):
+            token = date_string_tokens[i]
+
+            # Skip empty tokens (removed skip words)
+            if not token:
+                # Count preceding spaces already in filtered_tokens
+                prev_spaces = 0
+                j = len(filtered_tokens) - 1
+                while j >= 0 and filtered_tokens[j] == " ":
+                    prev_spaces += 1
+                    j -= 1
+
+                # Count following spaces in the remaining tokens
+                next_spaces = 0
+                j = i + 1
+                while j < len(date_string_tokens) and date_string_tokens[j] == " ":
+                    next_spaces += 1
+                    j += 1
+
+                # If surrounded by spaces, keep max(prev_spaces, next_spaces)
+                if prev_spaces > 0 and next_spaces > 0:
+                    # Remove prev_spaces from filtered_tokens
+                    for _ in range(prev_spaces):
+                        filtered_tokens.pop()
+
+                    # Add back the maximum number of spaces
+                    max_spaces = max(prev_spaces, next_spaces)
+                    for _ in range(max_spaces):
+                        filtered_tokens.append(" ")
+
+                    # Skip the empty token and all following spaces
+                    i += next_spaces + 1
+                    continue
+
+                i += 1
+                continue
+
+            filtered_tokens.append(token)
+            i += 1
+
         return self._join(
-            list(filter(bool, date_string_tokens)),
+            filtered_tokens,
             separator="" if keep_formatting else " ",
             settings=settings,
         )

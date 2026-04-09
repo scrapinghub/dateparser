@@ -80,7 +80,7 @@ class TestBundledLanguages(BaseTestCase):
             # French
             param("fr", "20 Février 2012", "20 february 2012"),
             param("fr", "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
-            param("fr", "18 octobre 2012 à 19 h 21 min", "18 october 2012  19:21"),
+            param("fr", "18 octobre 2012 à 19 h 21 min", "18 october 2012 19:21"),
             # German
             param("de", "29. Juni 2007", "29. june 2007"),
             param("de", "Montag 5 Januar, 2015", "monday 5 january 2015"),
@@ -109,13 +109,15 @@ class TestBundledLanguages(BaseTestCase):
             param("it", "Giovedi Maggio 29 2013", "thursday may 29 2013"),
             param("it", "19 Luglio 2013", "19 july 2013"),
             # Portuguese
-            param("pt", "22 de dezembro de 2014 às 02:38", "22  december  2014  02:38"),
+            param("pt", "22 de dezembro de 2014 às 02:38", "22 december 2014 02:38"),
             # Russian
-            param("ru", "5 августа 2014 г. в 12:00", "5 august 2014 year.  12:00"),
+            param("ru", "5 августа 2014 г. в 12:00", "5 august 2014 year. 12:00"),
             # Turkish
             param("tr", "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
             # Czech
-            param("cs", "22. prosinec 2014 v 2:38", "22. december 2014  2:38"),
+            param(
+                "cs", "22. prosinec 2014 v 2:38", "22. december 2014  2:38"
+            ),  # Issue #1302: v becomes in, (cleared, leaves 2 spaces)
             # Dutch
             param(
                 "nl",
@@ -123,35 +125,39 @@ class TestBundledLanguages(BaseTestCase):
                 "monday 22 december 2014  2:38",
             ),
             # Romanian
-            param("ro", "22 Decembrie 2014 la 02:38", "22 december 2014  02:38"),
+            param("ro", "22 Decembrie 2014 la 02:38", "22 december 2014 02:38"),
             # Polish
-            param("pl", "4 stycznia o 13:50", "4 january  13:50"),
-            param("pl", "29 listopada 2014 o 08:40", "29 november 2014  08:40"),
+            param("pl", "4 stycznia o 13:50", "4 january 13:50"),
+            param(
+                "pl", "29 listopada 2014 o 08:40", "29 november 2014  08:40"
+            ),  # Issue #1302
             # Ukrainian
-            param("uk", "30 листопада 2013 о 04:27", "30 november 2013  04:27"),
-            param("uk", "22 верес 2021 о 07:37", "22 september 2021  07:37"),
-            param("uk", "28 лютого 2020 року об 11:57", "28 february 2020 year  11:57"),
+            param("uk", "30 листопада 2013 о 04:27", "30 november 2013 04:27"),
+            param("uk", "22 верес 2021 о 07:37", "22 september 2021 07:37"),
+            param("uk", "28 лютого 2020 року об 11:57", "28 february 2020 year 11:57"),
             param(
                 "uk",
                 "середу, 28 лютого 2020 року об 11:57",
-                "wednesday 28 february 2020 year  11:57",
+                "wednesday 28 february 2020 year 11:57",
             ),
             param(
                 "uk",
                 "понед, 12 вересня 2022 року об 09:22",
-                "monday 12 september 2022 year  09:22",
+                "monday 12 september 2022 year 09:22",
             ),
             # Belarusian
-            param("be", "5 снежня 2015 г. у 12:00", "5 december 2015 year.  12:00"),
-            param("be", "11 верасня 2015 г. у 12:11", "11 september 2015 year.  12:11"),
-            param("be", "3 стд 2015 г. у 10:33", "3 january 2015 year.  10:33"),
+            param("be", "5 снежня 2015 г. у 12:00", "5 december 2015 year. 12:00"),
+            param("be", "11 верасня 2015 г. у 12:11", "11 september 2015 year. 12:11"),
+            param("be", "3 стд 2015 г. у 10:33", "3 january 2015 year. 10:33"),
             # Arabic
             param("ar", "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
             param("ar", "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
-            param("vi", "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015  22:34"),
-            param("vi", "9 Tháng 1 2015 lúc 15:08", "9 january 2015  15:08"),
+            param("vi", "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015 22:34"),
+            param(
+                "vi", "9 Tháng 1 2015 lúc 15:08", "9 january 2015  15:08"
+            ),  # Issue #1302
             # Thai
             param(
                 "th",
@@ -184,11 +190,13 @@ class TestBundledLanguages(BaseTestCase):
             param("en", "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
             param("en", "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
             param("en", "28 Oct 2014 16:39:01 +0000", "28 october 2014 16:39:01 +0000"),
-            param("es", "13 Febrero 2015 a las 23:00", "13 february 2015  23:00"),
+            param("es", "13 Febrero 2015 a las 23:00", "13 february 2015 23:00"),
             # Danish
             param("da", "Sep 03 2014", "september 03 2014"),
             param("da", "fredag, 03 september 2014", "friday 03 september 2014"),
-            param("da", "fredag d. 3 september 2014", "friday  3 september 2014"),
+            param(
+                "da", "fredag d. 3 september 2014", "friday  3 september 2014"
+            ),  # Issue #1302: 'd.' keeps spaces
             # Finnish
             param("fi", "maanantai tammikuu 16, 2015", "monday january 16 2015"),
             param("fi", "ma tammi 16, 2015", "monday january 16 2015"),
@@ -216,7 +224,9 @@ class TestBundledLanguages(BaseTestCase):
             param("fi", "su joulu 16, 2015", "sunday december 16 2015"),
             param("fi", "1. tammikuuta, 2016", "1. january 2016"),
             param("fi", "tiistaina, 27. lokakuuta 2015", "tuesday 27. october 2015"),
-            param("fi", "28 maalis klo 9:37", "28 march  9:37"),
+            param(
+                "fi", "28 maalis klo 9:37", "28 march 9:37"
+            ),  # Issue #1302: preserve single space
             # Japanese
             param("ja", "午後3時", "pm 3:00"),
             param("ja", "2時", "2:00"),
@@ -239,7 +249,7 @@ class TestBundledLanguages(BaseTestCase):
             # Hebrew
             param("he", "20 לאפריל 2012", "20 april 2012"),
             param("he", "יום רביעי ה-19 בנובמבר 2013", "wednesday 19 november 2013"),
-            param("he", "18 לאוקטובר 2012 בשעה 19:21", "18 october 2012  19:21"),
+            param("he", "18 לאוקטובר 2012 בשעה 19:21", "18 october 2012 19:21"),
             param("he", "יום ה' 6/10/2016", "thursday 6/10/2016"),
             param("he", "חצות", "12 am"),
             param("he", "1 אחר חצות", "1 am"),
@@ -1210,7 +1220,9 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "اليوم", "0 day ago"),
             # Polish
             param("pl", "2 godz.", "2 hour."),
-            param("pl", "Wczoraj o 07:40", "1 day ago  07:40"),
+            param(
+                "pl", "Wczoraj o 07:40", "1 day ago 07:40"
+            ),  # Issue #1302: fixed double space
             # Vietnamese
             param("vi", "2 tuần 3 ngày", "2 week 3 day"),
             param("vi", "21 giờ trước", "21 hour ago"),
@@ -1249,10 +1261,10 @@ class TestBundledLanguages(BaseTestCase):
             param("id", "hari ini", "0 day ago"),
             param("id", "kemarin", "1 day ago"),
             param("id", "kemarin lusa", "2 day ago"),
-            param("id", "sehari yang lalu", "1 day  ago"),
-            param("id", "seminggu yang lalu", "1 week  ago"),
-            param("id", "sebulan yang lalu", "1 month  ago"),
-            param("id", "setahun yang lalu", "1 year  ago"),
+            param("id", "sehari yang lalu", "1 day ago"),
+            param("id", "seminggu yang lalu", "1 week ago"),
+            param("id", "sebulan yang lalu", "1 month ago"),
+            param("id", "setahun yang lalu", "1 year ago"),
             # Finnish
             param("fi", "1 vuosi sitten", "1 year ago"),
             param("fi", "2 vuotta sitten", "2 year ago"),
@@ -1320,7 +1332,9 @@ class TestBundledLanguages(BaseTestCase):
             param("ja", "明後日", "in 2 day"),
             # Hebrew
             param("he", "אתמול", "1 day ago"),
-            param("he", "אתמול בשעה 3", "1 day ago  3"),
+            param(
+                "he", "אתמול בשעה 3", "1 day ago  3"
+            ),  # Issue #1302: "בשעה" clears, leaves 2 spaces
             param("he", "היום", "0 day ago"),
             param("he", "לפני יומיים", "2 day ago"),
             param("he", "לפני שבועיים", "2 week ago"),
