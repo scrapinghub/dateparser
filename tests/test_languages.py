@@ -122,15 +122,15 @@ class TestBundledLanguages(BaseTestCase):
             param(
                 "nl",
                 "maandag 22 december 2014 om 2:38",
-                "monday 22 december 2014  2:38",
+                "monday 22 december 2014 2:38",
             ),
             # Romanian
             param("ro", "22 Decembrie 2014 la 02:38", "22 december 2014 02:38"),
             # Polish
             param("pl", "4 stycznia o 13:50", "4 january 13:50"),
             param(
-                "pl", "29 listopada 2014 o 08:40", "29 november 2014  08:40"
-            ),  # Issue #1302
+                "pl", "29 listopada 2014 o 08:40", "29 november 2014 08:40"
+            ),  # Issue #1302: "o" removed, whitespace preserved
             # Ukrainian
             param("uk", "30 листопада 2013 о 04:27", "30 november 2013 04:27"),
             param("uk", "22 верес 2021 о 07:37", "22 september 2021 07:37"),
@@ -154,10 +154,12 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
-            param("vi", "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015 22:34"),
             param(
-                "vi", "9 Tháng 1 2015 lúc 15:08", "9 january 2015  15:08"
-            ),  # Issue #1302
+                "vi", "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015  22:34"
+            ),  # Pipe between spaces preserved
+            param(
+                "vi", "9 Tháng 1 2015 lúc 15:08", "9 january 2015 15:08"
+            ),  # Issue #1302: "lúc" removed, whitespace preserved
             # Thai
             param(
                 "th",
@@ -195,8 +197,8 @@ class TestBundledLanguages(BaseTestCase):
             param("da", "Sep 03 2014", "september 03 2014"),
             param("da", "fredag, 03 september 2014", "friday 03 september 2014"),
             param(
-                "da", "fredag d. 3 september 2014", "friday  3 september 2014"
-            ),  # Issue #1302: 'd.' keeps spaces
+                "da", "fredag d. 3 september 2014", "friday 3 september 2014"
+            ),  # Issue #1302: 'd.' removed, whitespace preserved
             # Finnish
             param("fi", "maanantai tammikuu 16, 2015", "monday january 16 2015"),
             param("fi", "ma tammi 16, 2015", "monday january 16 2015"),
@@ -1333,8 +1335,8 @@ class TestBundledLanguages(BaseTestCase):
             # Hebrew
             param("he", "אתמול", "1 day ago"),
             param(
-                "he", "אתמול בשעה 3", "1 day ago  3"
-            ),  # Issue #1302: "בשעה" clears, leaves 2 spaces
+                "he", "אתמול בשעה 3", "1 day ago 3"
+            ),  # Issue #1302: "בשעה" removed, whitespace preserved
             param("he", "היום", "0 day ago"),
             param("he", "לפני יומיים", "2 day ago"),
             param("he", "לפני שבועיים", "2 week ago"),
