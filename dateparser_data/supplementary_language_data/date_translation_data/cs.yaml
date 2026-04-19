@@ -1,4 +1,4 @@
-skip: ["přibližně", "v", "ve", "přibližně", "asi", "zhruba", "cca", "kolem", "okolo"]
+skip: ["přibližně", "v", "ve", "přibližně", "asi", "zhruba", "cca", "kolem", "okolo", "někdy"]
 
 
 sentence_splitter_group : 1
@@ -93,6 +93,10 @@ relative-type:
         - předevčírem
     3 day ago:
         - předpředevčírem
+    in 1 day:
+        - zítra
+        - zítřek
+        - zítřka
     in 2 day:
         - pozítří
     in 3 day:
@@ -119,12 +123,19 @@ relative-type:
         - za (\d+[.,]?\d*) století
 
 simplifications:
+    # Now
     - teď hned: za 0 sekunda
     - teď: za 0 sekunda
     - okamžitě: za 0 sekunda
     - právě teď: za 0 sekunda
 
-    - o půlnoci: 0:00
+    # 12-hour modificators
+    - (o )?půlnoc(i|í)?: 0:00
+    - ráno: AM
+    - dopoledne: AM
+    - odpoledne: PM
+    - (pod)?večer: PM
+
 
     # Synonyms
     - budoucí(ho)?: příští
@@ -136,13 +147,13 @@ simplifications:
     - loni: minulý rok
 
     # Numbers (Normal)
-    - jed(en|na|no|ním|ným|nou|noho|né): '1'
+    - jed(en|na|no|ním|ným|nou|noho|né|ný): '1'
     - dv(a|ě|ou|ěma): '2'
     - tř(i|ech|em|emi): '3'
-    - čtyř(i|ech|em|mi): '4'
+    - čty(r|ř)(i|ech|em|mi): '4'
     - pět(i)?: '5'
     - šest(i)?: '6'
-    - sedm(i)?: '7'
+    - sed(u)?m(i)?: '7'
     - osm(i)?: '8'
     - devět|devíti: '9'
     - deset(i)?: '10'
@@ -150,6 +161,7 @@ simplifications:
     - dvanáct(i)?: '12'
     - čtrnáct(i)?: '14'
     - dvacet(i)?: '20'
+    - třicet(i)?: '30'
 
     # Numbers (Ordinal)
     - první(ho|mu|m)?: '1.'
@@ -166,6 +178,7 @@ simplifications:
     - dvanáct(ý|á|ého|ému|ým|ou|ýho|é): '12.'
     - čtrnáct(ý|á|ého|ému|ým|ou|ýho|é): '14.'
     - dvacát(ý|á|ého|ému|ým|ou|ýho|é): '20.'
+    - třicát(ý|á|ého|ému|ým|ou|ýho|é): '30.'
 
     # Variant of "1" in places, where czechs would not use the nuber. (e.g. "za 1 hodinu" vs "za hodinu")
     - '(?<=(za|před)\s)hodin(u|ou)\b': '1 hodinu'
@@ -174,6 +187,7 @@ simplifications:
     - '(?<=(za|před)\s)týdn(em)\b': '1 týden'
     - '(?<=(za|před)\s)měsíc(em)\b': '1 měsíc'
     - '(?<=(za|před)\s)rok(em)\b': '1 rok'
+    - '(?<=(za|před)\s)den(em)\b': '1 den'
 
     # Fractions of hours (For relative time)
     - 'čtvrt\s*hodin(y|u)': 15 minut

@@ -1192,6 +1192,7 @@ class TestBundledLanguages(BaseTestCase):
             param("cs", "za čtrnáct dní", "in 14 day"),
             param("cs", "čtvrt na tři", "2:15"),
             param("cs", "zítra o půlnoci", "in 1 day 0:00"),
+            param("cs", "v sedum třicet odpoledne", " 7 30 pm"),
             # Chinese
             param("zh", "昨天", "1 day ago"),
             param("zh", "前天", "2 day ago"),

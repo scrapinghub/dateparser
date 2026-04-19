@@ -216,7 +216,10 @@ info = {
             "minulý rok"
         ],
         "in 1 day": [
-            "zítra"
+            "zítra",
+            "zítra",
+            "zítřek",
+            "zítřka"
         ],
         "in 1 month": [
             "příští měsíc"
@@ -345,6 +348,7 @@ info = {
         "cca",
         "kolem",
         "okolo",
+        "někdy",
         " ",
         "'",
         ",",
@@ -379,7 +383,19 @@ info = {
             "právě teď": "za 0 sekunda"
         },
         {
-            "o půlnoci": "0:00"
+            "(o )?půlnoc(i|í)?": "0:00"
+        },
+        {
+            "ráno": "AM"
+        },
+        {
+            "dopoledne": "AM"
+        },
+        {
+            "odpoledne": "PM"
+        },
+        {
+            "(pod)?večer": "PM"
         },
         {
             "budoucí(ho)?": "příští"
@@ -403,7 +419,7 @@ info = {
             "loni": "minulý rok"
         },
         {
-            "jed(en|na|no|ním|ným|nou|noho|né)": "1"
+            "jed(en|na|no|ním|ným|nou|noho|né|ný)": "1"
         },
         {
             "dv(a|ě|ou|ěma)": "2"
@@ -412,7 +428,7 @@ info = {
             "tř(i|ech|em|emi)": "3"
         },
         {
-            "čtyř(i|ech|em|mi)": "4"
+            "čty(r|ř)(i|ech|em|mi)": "4"
         },
         {
             "pět(i)?": "5"
@@ -421,7 +437,7 @@ info = {
             "šest(i)?": "6"
         },
         {
-            "sedm(i)?": "7"
+            "sed(u)?m(i)?": "7"
         },
         {
             "osm(i)?": "8"
@@ -443,6 +459,9 @@ info = {
         },
         {
             "dvacet(i)?": "20"
+        },
+        {
+            "třicet(i)?": "30"
         },
         {
             "první(ho|mu|m)?": "1."
@@ -487,6 +506,9 @@ info = {
             "dvacát(ý|á|ého|ému|ým|ou|ýho|é)": "20."
         },
         {
+            "třicát(ý|á|ého|ému|ým|ou|ýho|é)": "30."
+        },
+        {
             "(?<=(za|před)\\s)hodin(u|ou)\\b": "1 hodinu"
         },
         {
@@ -503,6 +525,9 @@ info = {
         },
         {
             "(?<=(za|před)\\s)rok(em)\\b": "1 rok"
+        },
+        {
+            "(?<=(za|před)\\s)den(em)\\b": "1 den"
         },
         {
             "čtvrt\\s*hodin(y|u)": "15 minut"
