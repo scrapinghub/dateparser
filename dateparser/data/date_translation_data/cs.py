@@ -36,9 +36,7 @@ info = {
     "july": [
         "července",
         "červenec",
-        "čvc",
-        "Črc",
-        "črv"
+        "čvc"
     ],
     "august": [
         "srp",
@@ -67,50 +65,43 @@ info = {
     "monday": [
         "po",
         "pondělí",
-        "Pon",
-        "po"
+        "Pon"
     ],
     "tuesday": [
         "út",
         "úterý",
-        "Úte",
-        "út"
+        "Úte"
     ],
     "wednesday": [
         "st",
         "středa",
         "Stř",
         "Středu",
-        "Středy",
-        "st"
+        "Středy"
     ],
     "thursday": [
         "čt",
         "čtvrtek",
-        "Čtv",
-        "čt"
+        "Čtv"
     ],
     "friday": [
         "pá",
         "pátek",
         "Pát",
-        "Pátku",
-        "pá"
+        "Pátku"
     ],
     "saturday": [
         "so",
         "sobota",
         "Sob",
         "Sobotu",
-        "Soboty",
-        "so"
+        "Soboty"
     ],
     "sunday": [
         "ne",
         "neděle",
         "Ned",
-        "Neděli",
-        "ne"
+        "Neděli"
     ],
     "am": [
         "dop"
@@ -134,7 +125,7 @@ info = {
         "měsíce",
         "měsícem",
         "měsícemi",
-        "měsícama"
+        "měsícema"
     ],
     "week": [
         "týd",
@@ -193,7 +184,11 @@ info = {
             "tento měsíc"
         ],
         "0 second ago": [
-            "nyní"
+            "nyní",
+            "teď hned",
+            "teď",
+            "okamžitě",
+            "právě teď"
         ],
         "0 week ago": [
             "tento týd",
@@ -216,7 +211,6 @@ info = {
             "minulý rok"
         ],
         "in 1 day": [
-            "zítra",
             "zítra",
             "zítřek",
             "zítřka"
@@ -370,18 +364,6 @@ info = {
         "za"
     ],
     "simplifications": [
-        {
-            "teď hned": "za 0 sekunda"
-        },
-        {
-            "teď": "za 0 sekunda"
-        },
-        {
-            "okamžitě": "za 0 sekunda"
-        },
-        {
-            "právě teď": "za 0 sekunda"
-        },
         {
             "(o )?půlnoc(i|í)?": "0:00"
         },

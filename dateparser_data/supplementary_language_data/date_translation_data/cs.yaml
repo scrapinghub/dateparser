@@ -5,40 +5,29 @@ sentence_splitter_group : 1
 
 monday:
     - Pon
-    - po
 tuesday:
     - Úte
-    - út
 wednesday:
     - Stř
     - Středu
     - Středy
-    - st
 thursday:
     - Čtv
-    - čt
 friday:
     - Pát
     - Pátku
-    - pá
 saturday:
     - Sob
     - Sobotu
     - Soboty
-    - so
 sunday:
     - Ned
     - Neděli
-    - ne
 
 february:
     - únr
 june:
     - Čer
-july:
-    - Črc
-    - črv
-
 year:
     - roků
     - roky
@@ -50,7 +39,7 @@ month:
     - měsíce
     - měsícem
     - měsícemi
-    - měsícama
+    - měsícema
 week:
     - týdnů
     - týdny
@@ -94,7 +83,6 @@ relative-type:
     3 day ago:
         - předpředevčírem
     in 1 day:
-        - zítra
         - zítřek
         - zítřka
     in 2 day:
@@ -121,14 +109,13 @@ relative-type:
     in \1 century:
         - za (\d+[.,]?\d*) staletí
         - za (\d+[.,]?\d*) století
+    0 second ago:
+        - teď hned
+        - teď
+        - okamžitě
+        - právě teď
 
 simplifications:
-    # Now
-    - teď hned: za 0 sekunda
-    - teď: za 0 sekunda
-    - okamžitě: za 0 sekunda
-    - právě teď: za 0 sekunda
-
     # 12-hour modificators
     - (o )?půlnoc(i|í)?: 0:00
     - ráno: AM
