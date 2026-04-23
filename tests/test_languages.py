@@ -116,8 +116,8 @@ class TestBundledLanguages(BaseTestCase):
             param("tr", "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
             # Czech
             param(
-                "cs", "22. prosinec 2014 v 2:38", "22. december 2014  2:38"
-            ),  # Issue #1302: v becomes in, (cleared, leaves 2 spaces)
+                "cs", "22. prosinec 2014 v 2:38", "22. december 2014 2:38"
+            ),  # Issue #1302: "v" → "in" → cleared, whitespace preserved
             # Dutch
             param(
                 "nl",
@@ -509,7 +509,7 @@ class TestBundledLanguages(BaseTestCase):
             param("hr", "2 ožujak 1980 pet", "2 march 1980 friday"),
             param("hr", "nedjelja 3 lis 1879", "sunday 3 october 1879"),
             param("hr", "06. travnja 2021.", "06. april 2021."),
-            param("hr", "13. svibanj 2022. u 14:34", "13. may 2022.  14:34"),
+            param("hr", "13. svibanj 2022. u 14:34", "13. may 2022. 14:34"),
             param("hr", "20. studenoga 2010. @ 07:28", "20. november 2010.  07:28"),
             param("hr", "13. studenog 1989.", "13. november 1989."),
             param("hr", "u listopadu 2056.", " october 2056."),

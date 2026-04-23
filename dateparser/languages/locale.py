@@ -556,7 +556,7 @@ class Locale:
     def _clear_future_words(self, words):
         freshness_words = {"day", "week", "month", "year", "hour", "minute", "second"}
         if set(words).isdisjoint(freshness_words):
-            words.remove("in")
+            words[words.index("in")] = ""
         return words
 
     def _join(self, tokens, separator=" ", settings=None):
