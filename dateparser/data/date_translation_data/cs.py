@@ -36,7 +36,8 @@ info = {
     "july": [
         "července",
         "červenec",
-        "čvc"
+        "čvc",
+        "Črc"
     ],
     "august": [
         "srp",
