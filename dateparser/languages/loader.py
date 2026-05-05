@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from copy import deepcopy
 from importlib import import_module
 from itertools import zip_longest
@@ -81,7 +80,7 @@ class LocaleDataLoader:
 
         :return: ordered locale code to locale instance mapping
         """
-        return OrderedDict(
+        return dict(
             self._load_data(
                 languages=languages,
                 locales=locales,
@@ -158,7 +157,7 @@ class LocaleDataLoader:
         use_given_order=False,
         allow_conflicting_locales=False,
     ):
-        locale_dict = OrderedDict()
+        locale_dict = {}
         if locales:
             invalid_locales = []
             for locale in locales:
@@ -198,7 +197,7 @@ class LocaleDataLoader:
             )
 
         if not use_given_order:
-            locale_dict = OrderedDict(
+            locale_dict = dict(
                 sorted(locale_dict.items(), key=lambda x: language_order.index(x[1][0]))
             )
 

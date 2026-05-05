@@ -1,7 +1,6 @@
 import json
 import os
 import shutil
-from collections import OrderedDict
 
 import regex as re
 from ruamel.yaml import YAML
@@ -29,7 +28,7 @@ RELATIVE_PATTERN = re.compile(r"\{0\}")
 
 
 def _modify_relative_data(relative_data):
-    modified_relative_data = OrderedDict()
+    modified_relative_data = {}
     for key, value in relative_data.items():
         for i, string in enumerate(value):
             string = RELATIVE_PATTERN.sub(r"(\\d+[.,]?\\d*)", string)
@@ -52,11 +51,11 @@ def _get_complete_date_translation_data(language):
     supplementary_data = {}
     if language in cldr_languages:
         with open(cldr_date_directory + language + ".json") as f:
-            cldr_data = json.load(f, object_pairs_hook=OrderedDict)
+            cldr_data = json.load(f)
     if language in supplementary_languages:
         with open(supplementary_date_directory + language + ".yaml") as g:
             yaml = YAML()
-            supplementary_data = OrderedDict(yaml.load(g))
+            supplementary_data = dict(yaml.load(g))
     complete_data = combine_dicts(cldr_data, supplementary_data)
     if "name" not in complete_data:
         complete_data["name"] = language

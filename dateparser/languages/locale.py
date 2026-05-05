@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from itertools import chain
 
 import regex as re
@@ -226,7 +225,7 @@ class Locale:
 
     def _generate_relative_translations(self, normalize=False):
         relative_translations = self.info.get("relative-type-regex", {})
-        relative_dictionary = OrderedDict()
+        relative_dictionary = {}
         for key, value in relative_translations.items():
             if normalize:
                 value = list(map(normalize_unicode, value))

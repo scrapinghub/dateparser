@@ -3,7 +3,6 @@
 import datetime as real_datetime
 import os
 import unittest
-from collections import OrderedDict
 from datetime import datetime, timedelta
 from datetime import timezone as dttz
 from itertools import product
@@ -615,18 +614,15 @@ class TestDateDataParser(BaseTestCase):
         self.then_date_is_n_days_ago(days=days_ago)
 
     def test_should_not_assume_language_too_early(self):
-        dates_to_parse = OrderedDict(
-            [
-                ("07/07/2014", datetime(2014, 7, 7).date()),  # any language
-                ("07.jul.2014 | 12:52", datetime(2014, 7, 7).date()),  # en, es, pt, nl
-                ("07.ago.2014 | 12:52", datetime(2014, 8, 7).date()),  # es, it, pt
-                (
-                    "07.feb.2014 | 12:52",
-                    datetime(2014, 2, 7).date(),
-                ),  # en, de, es, it, nl, ro
-                ("07.ene.2014 | 12:52", datetime(2014, 1, 7).date()),
-            ]
-        )  # es
+        dates_to_parse = {
+            "07/07/2014": datetime(2014, 7, 7).date(),  # any language
+            "07.jul.2014 | 12:52": datetime(2014, 7, 7).date(),  # en, es, pt, nl
+            "07.ago.2014 | 12:52": datetime(2014, 8, 7).date(),  # es, it, pt
+            "07.feb.2014 | 12:52": datetime(
+                2014, 2, 7
+            ).date(),  # en, de, es, it, nl, ro
+            "07.ene.2014 | 12:52": datetime(2014, 1, 7).date(),  # es
+        }
 
         self.given_parser(
             restrict_to_languages=["en", "de", "fr", "it", "pt", "nl", "ro", "es", "ru"]

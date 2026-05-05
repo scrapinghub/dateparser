@@ -2,7 +2,6 @@ import calendar
 import logging
 import types
 import unicodedata
-from collections import OrderedDict
 from datetime import datetime
 
 import regex as re
@@ -25,7 +24,7 @@ def normalize_unicode(string, form="NFKD"):
 
 
 def combine_dicts(primary_dict, supplementary_dict):
-    combined_dict = OrderedDict()
+    combined_dict = {}
     for key, value in primary_dict.items():
         if key in supplementary_dict:
             if isinstance(value, list):
