@@ -50,6 +50,7 @@ info = {
         "december"
     ],
     "monday": [
+        "mon",
         "monday",
         "mo"
     ],
