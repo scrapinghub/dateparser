@@ -28,6 +28,25 @@ all_languages = set(cldr_languages).union(set(supplementary_languages))
 RELATIVE_PATTERN = re.compile(r"\{0\}")
 
 
+def _to_plain_types(obj):
+    """Recursively convert ruamel.yaml CommentedMap/CommentedSeq to plain
+    OrderedDict/list so that json.dumps produces stable output across all
+    Python versions.
+
+    Python 3.14 changed the json C encoder to bypass the Python-level
+    ``__iter__``/``items()`` of dict subclasses and access the underlying C
+    dict directly.  ruamel.yaml's CommentedMap relies on its Python-level
+    iteration for correct key ordering, so the C shortcut produces a
+    different (non-deterministic) key order on 3.14.  Converting to plain
+    types before serialisation avoids the issue entirely.
+    """
+    if isinstance(obj, dict):
+        return OrderedDict((k, _to_plain_types(v)) for k, v in obj.items())
+    elif isinstance(obj, list):
+        return [_to_plain_types(v) for v in obj]
+    return obj
+
+
 def _modify_relative_data(relative_data):
     modified_relative_data = OrderedDict()
     for key, value in relative_data.items():
@@ -95,6 +114,7 @@ def write_complete_data(in_memory=False):
     for language in all_languages:
         date_translation_data = _get_complete_date_translation_data(language)
         date_translation_data = combine_dicts(date_translation_data, base_data)
+        date_translation_data = _to_plain_types(date_translation_data)
         _modify_data(date_translation_data)
         translation_data = json.dumps(
             date_translation_data, indent=4, separators=(",", ": "), ensure_ascii=False
