@@ -2364,15 +2364,19 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand(
         [
-            param("1mon ago"),  # 1116
+            param("1mon ago", ago={"months": 1}, period="month"),  # 1123
+            param("2mon ago", ago={"months": 2}, period="month"),  # 1123
+            param("3mons ago", ago={"months": 3}, period="month"),  # 1123
         ]
     )
-    def test_known_issues(self, date_string):
+    def test_known_issues(self, date_string, ago, period):
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_error_was_not_raised()
-        self.assertEqual(None, self.result["date_obj"])
+        self.then_date_was_parsed_by_freshness_parser()
+        self.then_date_obj_is_exactly_this_time_ago(ago)
+        self.then_period_is(period)
 
     @parameterized.expand(
         [
