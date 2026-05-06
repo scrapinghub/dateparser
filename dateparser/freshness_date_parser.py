@@ -9,7 +9,7 @@ from dateparser.utils import apply_timezone, localize_timezone, strip_braces
 from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
-_UNITS = r"decade|year|month|mons|mon|week|day|hour|minute|second"
+_UNITS = r"decade|year|month|week|day|hour|minute|second"
 PATTERN = re.compile(r"([+-]?\d+[.,]?\d*)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
 
 
@@ -159,8 +159,6 @@ class FreshnessDateDataParser:
         explicit_signs = {}
 
         for num, unit in m:
-            if unit.lower() in ("mon", "mons"):
-                unit = "month"
             has_explicit_sign = num.startswith("+") or num.startswith("-")
             explicit_signs[unit + "s"] = has_explicit_sign
             kwargs[unit + "s"] = float(num.replace(",", "."))
