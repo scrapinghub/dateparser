@@ -1186,7 +1186,7 @@ class TestBundledLanguages(BaseTestCase):
             param("cs", "dnes", "0 day ago"),
             param("cs", "teď", "0 second ago"),
             param("cs", "před rokem", "ago 1 year"),
-            param("cs", "prvního ledna 2021 v půl šesté", "1. january 2021  5:30"),
+            param("cs", "prvního ledna 2021 v půl šesté", "1. january 2021 5:30"),
             param("cs", "desátého šestý", "10. 6."),
             param("cs", "za dvacet let", "in 20 year"),
             param("cs", "za čtrnáct dní", "in 14 day"),
