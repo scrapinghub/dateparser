@@ -165,7 +165,10 @@ class FreshnessDateDataParser:
 
         if "decades" in kwargs:
             kwargs["years"] = 10 * kwargs["decades"] + kwargs.get("years", 0)
-            if "decades" in explicit_signs:
+            # Only propagate the decades sign to years when years was not
+            # itself explicitly signed; prevents overwriting a user-supplied
+            # "+"/"-" on the years component (fixes #1304).
+            if "decades" in explicit_signs and not explicit_signs.get("years"):
                 explicit_signs["years"] = explicit_signs["decades"]
             del kwargs["decades"]
             explicit_signs.pop("decades", None)
