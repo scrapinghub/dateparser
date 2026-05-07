@@ -237,27 +237,6 @@ info = {
         ],
         "in 3 day": [
             "popozítří"
-        ],
-        "\\1 decade ago": [
-            "před (\\d+[.,]?\\d*) desetiletími",
-            "před (\\d+[.,]?\\d*) dekádami",
-            "před (\\d+[.,]?\\d*) dekádou",
-            "před (\\d+[.,]?\\d*) desetiletím"
-        ],
-        "in \\1 decade": [
-            "za (\\d+[.,]?\\d*) desetiletí",
-            "za (\\d+[.,]?\\d*) dekád",
-            "za (\\d+[.,]?\\d*) dekády",
-            "za (\\d+[.,]?\\d*) dekádu"
-        ],
-        "\\1 century ago": [
-            "před (\\d+[.,]?\\d*) staletími",
-            "před (\\d+[.,]?\\d*) stoletími",
-            "před (\\d+[.,]?\\d*) stoletím"
-        ],
-        "in \\1 century": [
-            "za (\\d+[.,]?\\d*) staletí",
-            "za (\\d+[.,]?\\d*) století"
         ]
     },
     "relative-type-regex": {
@@ -330,6 +309,27 @@ info = {
             "za (\\d+[.,]?\\d*) let",
             "za (\\d+[.,]?\\d*) r",
             "za (\\d+[.,]?\\d*) rok"
+        ],
+        "\\1 decade ago": [
+            "před (\\d+[.,]?\\d*) desetiletími",
+            "před (\\d+[.,]?\\d*) dekádami",
+            "před (\\d+[.,]?\\d*) dekádou",
+            "před (\\d+[.,]?\\d*) desetiletím"
+        ],
+        "in \\1 decade": [
+            "za (\\d+[.,]?\\d*) desetiletí",
+            "za (\\d+[.,]?\\d*) dekád",
+            "za (\\d+[.,]?\\d*) dekády",
+            "za (\\d+[.,]?\\d*) dekádu"
+        ],
+        "\\1 century ago": [
+            "před (\\d+[.,]?\\d*) staletími",
+            "před (\\d+[.,]?\\d*) stoletími",
+            "před (\\d+[.,]?\\d*) stoletím"
+        ],
+        "in \\1 century": [
+            "za (\\d+[.,]?\\d*) staletí",
+            "za (\\d+[.,]?\\d*) století"
         ]
     },
     "locale_specific": {},
@@ -498,7 +498,7 @@ info = {
             "(?<=(za|před)\\s)minut(u|ou)\\b": "1 minutu"
         },
         {
-            "(?<=(za|před)\\s)vteřin(u|ou)|sekund(u|ou)\\b": "1 sekundu"
+            "(?<=(za|před)\\s)(?:vteřin(u|ou)|sekund(u|ou))\\b": "1 sekundu"
         },
         {
             "(?<=(za|před)\\s)týdn(em)\\b": "1 týden"

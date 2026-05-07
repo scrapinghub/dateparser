@@ -91,31 +91,30 @@ relative-type:
         - pozítří
     in 3 day:
         - popozítří
-    \1 decade ago:
-        - před (\d+[.,]?\d*) desetiletími
-        - před (\d+[.,]?\d*) dekádami
-        - před (\d+[.,]?\d*) dekádou
-        - před (\d+[.,]?\d*) desetiletím
-
-    in \1 decade:
-        - za (\d+[.,]?\d*) desetiletí
-        - za (\d+[.,]?\d*) dekád
-        - za (\d+[.,]?\d*) dekády
-        - za (\d+[.,]?\d*) dekádu
-
-    \1 century ago:
-        - před (\d+[.,]?\d*) staletími
-        - před (\d+[.,]?\d*) stoletími
-        - před (\d+[.,]?\d*) stoletím
-
-    in \1 century:
-        - za (\d+[.,]?\d*) staletí
-        - za (\d+[.,]?\d*) století
     0 second ago:
         - teď hned
         - teď
         - okamžitě
         - právě teď
+
+relative-type-regex:
+    \1 decade ago:
+        - před (\d+[.,]?\d*) desetiletími
+        - před (\d+[.,]?\d*) dekádami
+        - před (\d+[.,]?\d*) dekádou
+        - před (\d+[.,]?\d*) desetiletím
+    in \1 decade:
+        - za (\d+[.,]?\d*) desetiletí
+        - za (\d+[.,]?\d*) dekád
+        - za (\d+[.,]?\d*) dekády
+        - za (\d+[.,]?\d*) dekádu
+    \1 century ago:
+        - před (\d+[.,]?\d*) staletími
+        - před (\d+[.,]?\d*) stoletími
+        - před (\d+[.,]?\d*) stoletím
+    in \1 century:
+        - za (\d+[.,]?\d*) staletí
+        - za (\d+[.,]?\d*) století
 
 simplifications:
     # 12-hour modificators
@@ -172,7 +171,7 @@ simplifications:
     # Variant of "1" in places, where czechs would not use the nuber. (e.g. "za 1 hodinu" vs "za hodinu")
     - '(?<=(za|před)\s)hodin(u|ou)\b': '1 hodinu'
     - '(?<=(za|před)\s)minut(u|ou)\b': '1 minutu'
-    - '(?<=(za|před)\s)vteřin(u|ou)|sekund(u|ou)\b': '1 sekundu'
+    - '(?<=(za|před)\s)(?:vteřin(u|ou)|sekund(u|ou))\b': '1 sekundu'
     - '(?<=(za|před)\s)týdn(em)\b': '1 týden'
     - '(?<=(za|před)\s)měsíc(em)\b': '1 měsíc'
     - '(?<=(za|před)\s)rok(em)\b': '1 rok'
