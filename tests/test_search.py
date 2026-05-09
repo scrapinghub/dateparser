@@ -1020,6 +1020,14 @@ class TestTranslateSearch(BaseTestCase):
                 settings={"STRICT_PARSING": True},
                 expected=None,
             ),
+            param(
+                text="Date de facture 23 juillet 2020 Condition Redevable livraison FR",
+                languages=["en", "fr", "es", "pt", "de", "it", "ar"],
+                settings={"STRICT_PARSING": True},
+                expected=[
+                    ("23 juillet 2020", datetime.datetime(2020, 7, 23, 0, 0))
+                ],
+            ),
             param(text="a Americ", languages=None, settings=None, expected=None),
             # Date with comma and apostrophe
             param(
