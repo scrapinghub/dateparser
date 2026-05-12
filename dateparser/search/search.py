@@ -320,7 +320,9 @@ class DateSearchWithDetection:
             detect_languages_function=detect_languages_function,
         )
 
-        candidate_languages = self._get_candidate_languages(language_shortname, languages)
+        candidate_languages = self._get_candidate_languages(
+            language_shortname, languages
+        )
         if not candidate_languages:
             return {"Language": None, "Dates": None}
 
