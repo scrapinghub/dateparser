@@ -44,6 +44,38 @@ class _ExactLanguageSearch:
         relative_base = already_parsed[i][0]["date_obj"]
         return substring, relative_base
 
+    @staticmethod
+    def _has_explicit_year(substring):
+        """Return True if the substring contains a 4-digit year number."""
+        return bool(re.search(r"\b\d{4}\b", substring))
+
+    @staticmethod
+    def _adjust_year_for_rollovers(results):
+        """Fix year-spanning date ranges parsed without explicit years.
+
+        When consecutive parsed dates go backwards chronologically (e.g.
+        "from 23th December until 8th January") but neither substring contains
+        an explicit year, the later-mentioned date belongs to the next calendar
+        year and its year is incremented by one.
+        """
+        if len(results) < 2:
+            return results
+        adjusted = list(results)
+        for i in range(1, len(adjusted)):
+            prev_text, prev_date = adjusted[i - 1]
+            curr_text, curr_date = adjusted[i]
+            if prev_date is None or curr_date is None:
+                continue
+            if _ExactLanguageSearch._has_explicit_year(
+                prev_text
+            ) or _ExactLanguageSearch._has_explicit_year(curr_text):
+                continue
+            if curr_date.month < prev_date.month and (
+                curr_date.month - prev_date.month
+            ) % 12 < 6:
+                adjusted[i] = (curr_text, curr_date.replace(year=curr_date.year + 1))
+        return adjusted
+
     def choose_best_split(self, possible_parsed_splits, possible_substrings_splits):
         rating = []
         for i in range(len(possible_parsed_splits)):
@@ -189,6 +221,7 @@ class _ExactLanguageSearch:
         )
 
         results = list(zip(substrings, [i[0]["date_obj"] for i in parsed]))
+        results = self._adjust_year_for_rollovers(results)
 
         if getattr(settings, "RETURN_TIME_SPAN", False):
             span_info = detect_time_span(text)

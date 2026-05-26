@@ -1105,6 +1105,33 @@ class TestTranslateSearch(BaseTestCase):
         ]
         assert result == expected
 
+    def test_search_dates_with_prepositions_with_turn_of_year(self):
+        """Test `search_dates` for parsing English date ranges with
+        prepositions, turn of year and language detection.
+        """
+        result = search_dates(
+            "Closed from 23th December until 8th January.",
+            add_detected_language=True,
+            languages=["en"],
+        )
+        expected = [
+            ("from 23th December", datetime.datetime(today.year, 12, 23, 0, 0), "en"),
+            ("8th January", datetime.datetime(today.year + 1, 1, 8, 0, 0), "en"),
+        ]
+        assert result == expected
+
+    def test_search_dates_turn_of_year_wide_cross_year_range(self):
+        """November → February spans the year (3 months forward): rollover must be applied."""
+        result = search_dates(
+            "Closed from 15th November until 10th February.",
+            languages=["en"],
+        )
+        expected = [
+            ("from 15th November", datetime.datetime(today.year, 11, 15, 0, 0)),
+            ("10th February", datetime.datetime(today.year + 1, 2, 10, 0, 0)),
+        ]
+        assert result == expected
+
     @parameterized.expand(
         [
             param(
