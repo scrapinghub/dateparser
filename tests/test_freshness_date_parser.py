@@ -68,10 +68,15 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("last decade", ago={"years": 10}, period="year"),
             param("a decade ago", ago={"years": 10}, period="year"),
             param("100 decades", ago={"years": 1000}, period="year"),
-            # Regression tests for #1304: explicit signs preserved with decades + years
+            # Regression tests for #1304: explicit signs preserved with decades + years.
+            # Each component's sign is resolved independently (explicit -> literal,
+            # unsigned -> ago/future context) before ``decades`` is folded into ``years``.
             param("-1 decade", ago={"years": 10}, period="year"),
             param("-1 decade 2 years", ago={"years": 12}, period="year"),
             param("-1 decade +2 years", ago={"years": 8}, period="year"),
+            param("-1 decade -2 years", ago={"years": 12}, period="year"),
+            param("1 decade +2 years", ago={"years": 8}, period="year"),
+            param("1 decade -2 years", ago={"years": 12}, period="year"),
             param("yesterday", ago={"days": 1}, period="day"),
             param("the day before yesterday", ago={"days": 2}, period="day"),
             param("4 days before", ago={"days": 4}, period="day"),
