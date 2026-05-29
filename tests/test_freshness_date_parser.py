@@ -70,7 +70,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("100 decades", ago={"years": 1000}, period="year"),
             # Regression tests for #1304: explicit signs preserved with decades + years
             param("-1 decade", ago={"years": 10}, period="year"),
-            param("-1 decade 2 years", ago={"years": 8}, period="year"),
+            param("-1 decade 2 years", ago={"years": 12}, period="year"),
             param("-1 decade +2 years", ago={"years": 8}, period="year"),
             param("yesterday", ago={"days": 1}, period="day"),
             param("the day before yesterday", ago={"days": 2}, period="day"),
@@ -1744,7 +1744,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in a decade", in_future={"years": 10}, period="year"),
             # Regression tests for #1304: explicit signs preserved with decades + years
             param("+2 years", in_future={"years": 2}, period="year"),
-            param("1 decade +2 years", in_future={"years": 12}, period="year"),
+            param("in 1 decade +2 years", in_future={"years": 12}, period="year"),
             param("+1 decade -2 years", in_future={"years": 8}, period="year"),
             param("tomorrow", in_future={"days": 1}, period="day"),
             param("day after tomorrow", in_future={"days": 2}, period="day"),

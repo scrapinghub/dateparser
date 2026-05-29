@@ -123,9 +123,9 @@ class FreshnessDateDataParser:
             return None, None
         period = "day"
         if "days" not in kwargs:
-            for k in ["weeks", "months", "years"]:
+            for k in ["weeks", "months", "years", "decades"]:
                 if k in kwargs:
-                    period = k[:-1]
+                    period = "year" if k == "decades" else k[:-1]
                     break
 
         going_forward = (
@@ -143,6 +143,15 @@ class FreshnessDateDataParser:
                     adjusted_kwargs[key] = value
                 else:
                     adjusted_kwargs[key] = -value
+
+        # Fold ``decades`` into ``years`` after each component's sign has been
+        # resolved so that an unsigned component combined with an explicitly
+        # signed one still follows the default ago/future context (fixes
+        # #1304).
+        if "decades" in adjusted_kwargs:
+            adjusted_kwargs["years"] = adjusted_kwargs.get(
+                "years", 0
+            ) + 10 * adjusted_kwargs.pop("decades")
 
         td = relativedelta(**adjusted_kwargs)
 
@@ -162,16 +171,6 @@ class FreshnessDateDataParser:
             has_explicit_sign = num.startswith("+") or num.startswith("-")
             explicit_signs[unit + "s"] = has_explicit_sign
             kwargs[unit + "s"] = float(num.replace(",", "."))
-
-        if "decades" in kwargs:
-            kwargs["years"] = 10 * kwargs["decades"] + kwargs.get("years", 0)
-            # Only propagate the decades sign to years when years was not
-            # itself explicitly signed; prevents overwriting a user-supplied
-            # "+"/"-" on the years component (fixes #1304).
-            if "decades" in explicit_signs and not explicit_signs.get("years"):
-                explicit_signs["years"] = explicit_signs["decades"]
-            del kwargs["decades"]
-            explicit_signs.pop("decades", None)
 
         return kwargs, explicit_signs
 
