@@ -598,16 +598,11 @@ class _parser:
         return dateobj
 
     def _correct_for_month(self, dateobj):
-        relative_base = getattr(self.settings, "RELATIVE_BASE", None)
-        relative_base_month = (
-            relative_base.month if hasattr(relative_base, "month") else relative_base
-        )
-
         if getattr(self, "_token_month", None):
             return dateobj
 
         dateobj = set_correct_month_from_settings(
-            dateobj, self.settings, relative_base_month
+            dateobj, self.settings, current_month=self.now.month
         )
         return dateobj
 
