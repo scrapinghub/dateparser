@@ -100,9 +100,7 @@ info = {
     "month": [
         "mo",
         "month",
-        "months",
-        "mon",
-        "mons"
+        "months"
     ],
     "week": [
         "week",
@@ -803,7 +801,7 @@ info = {
     ],
     "simplifications": [
         {
-            "(\\d+)\\s*mons?\\b": "\\1 month"
+            "(\\d+[.,]?\\d*)\\s*mons?\\b": "\\1 month"
         },
         {
             "an": "1"

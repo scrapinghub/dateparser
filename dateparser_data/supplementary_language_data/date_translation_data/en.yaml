@@ -36,8 +36,6 @@ year:
     - years
 month:
     - months
-    - mon
-    - mons
 week:
     - weeks
 day:
@@ -84,7 +82,7 @@ relative-type-regex:
         - (\d+[.,]?\d*) decades? ago
 
 simplifications:
-    - (\d+)\s*mons?\b: \1 month
+    - (\d+[.,]?\d*)\s*mons?\b: \1 month
     - an: '1'
     - a: '1'
     - (?:12\s+)?noon: '12:00'
