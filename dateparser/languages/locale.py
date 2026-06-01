@@ -12,6 +12,14 @@ from .dictionary import ALWAYS_KEEP_TOKENS, Dictionary, NormalizedDictionary
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
 
 
+def _parse_bool(value):
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.strip().lower() in ("true", "1", "yes")
+    return False
+
+
 class Locale:
     """
     Class that deals with applicability and translation from a locale.
@@ -144,8 +152,53 @@ class Locale:
                     date_string_tokens[i] = dictionary[word] or fallback
         if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
+
+        # Remove empty tokens (skip words) and handle adjacent whitespace
+        # When a skip token is removed between spaces, keep the maximum number of spaces
+        filtered_tokens = []
+        i = 0
+        while i < len(date_string_tokens):
+            token = date_string_tokens[i]
+
+            # Skip empty tokens (removed skip words)
+            if not token:
+                # Count preceding spaces already in filtered_tokens
+                prev_spaces = 0
+                j = len(filtered_tokens) - 1
+                while j >= 0 and filtered_tokens[j] == " ":
+                    prev_spaces += 1
+                    j -= 1
+
+                # Count following spaces in the remaining tokens
+                next_spaces = 0
+                j = i + 1
+                while j < len(date_string_tokens) and date_string_tokens[j] == " ":
+                    next_spaces += 1
+                    j += 1
+
+                # If surrounded by spaces, keep max(prev_spaces, next_spaces)
+                if prev_spaces > 0 and next_spaces > 0:
+                    # Remove prev_spaces from filtered_tokens
+                    for _ in range(prev_spaces):
+                        filtered_tokens.pop()
+
+                    # Add back the maximum number of spaces
+                    max_spaces = max(prev_spaces, next_spaces)
+                    for _ in range(max_spaces):
+                        filtered_tokens.append(" ")
+
+                    # Skip the empty token and all following spaces
+                    i += next_spaces + 1
+                    continue
+
+                i += 1
+                continue
+
+            filtered_tokens.append(token)
+            i += 1
+
         return self._join(
-            list(filter(bool, date_string_tokens)),
+            filtered_tokens,
             separator="" if keep_formatting else " ",
             settings=settings,
         )
@@ -459,7 +512,7 @@ class Locale:
         return date_string
 
     def _get_simplifications(self, settings=None):
-        no_word_spacing = eval(self.info.get("no_word_spacing", "False"))
+        no_word_spacing = _parse_bool(self.info.get("no_word_spacing", False))
         if settings.NORMALIZE:
             if self._normalized_simplifications is None:
                 self._normalized_simplifications = []
@@ -503,7 +556,7 @@ class Locale:
     def _clear_future_words(self, words):
         freshness_words = {"day", "week", "month", "year", "hour", "minute", "second"}
         if set(words).isdisjoint(freshness_words):
-            words.remove("in")
+            words[words.index("in")] = ""
         return words
 
     def _join(self, tokens, separator=" ", settings=None):

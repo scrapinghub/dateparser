@@ -76,7 +76,7 @@ installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv dateparser
     $ cd dateparser/
-    $ python setup.py develop
+    $ pip install -e .
 
 4. Create a branch for local development::
 
@@ -179,16 +179,3 @@ Whenever the content of
 the corresponding documentation table::
 
     dateparser_scripts/update_supported_languages_and_locales.py
-
-
-Updating the Timezone Cache
-----------------------------------------------------
-
-Whenever the content of
-``dateparser/timezones.py`` is modified you need to rebuild the timezone cache.
-
-Run this command:
-``BUILD_TZ_CACHE=1 python -c "import dateparser"``
-
-which should update
-``dateparser/data/dateparser_tz_cache.pkl``

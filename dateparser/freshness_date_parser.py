@@ -10,7 +10,7 @@ from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
-PATTERN = re.compile(r"([+-]?\d+[.,]?\d*)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
+PATTERN = re.compile(r"([+-]?\s*\d+[.,]?\d*)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
 
 
 class FreshnessDateDataParser:
@@ -161,7 +161,7 @@ class FreshnessDateDataParser:
         for num, unit in m:
             has_explicit_sign = num.startswith("+") or num.startswith("-")
             explicit_signs[unit + "s"] = has_explicit_sign
-            kwargs[unit + "s"] = float(num.replace(",", "."))
+            kwargs[unit + "s"] = float(num.replace(",", ".").replace(" ", ""))
 
         if "decades" in kwargs:
             kwargs["years"] = 10 * kwargs["decades"] + kwargs.get("years", 0)

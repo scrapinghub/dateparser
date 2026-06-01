@@ -5,7 +5,7 @@
     <h1 align="center">
         <br/>
         <a href="https://github.com/scrapinghub/dateparser">
-            <img src="https://raw.githubusercontent.com/scrapinghub/dateparser/master/artwork/dateparser-logo.png" alt="Dateparser" width="500">
+            <img src="artwork/dateparser-logo.png" alt="Dateparser" width="500">
         </a>
         <br/>
     </h1>

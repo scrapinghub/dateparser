@@ -1346,6 +1346,23 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
+    def test_dates_with_no_day_or_month_use_same_current_date_for_month_and_day(self):
+        class ParserDateTime(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return datetime(2026, 5, 31, 12, 0, tzinfo=tz)
+
+        class UtilsDateTime(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return datetime(2026, 6, 1, 12, 0, tzinfo=tz)
+
+        with (
+            patch("dateparser.parser.datetime", ParserDateTime),
+            patch("dateparser.utils.datetime", UtilsDateTime),
+        ):
+            self.assertEqual(parse("2014"), datetime(2014, 5, 31))
+
     @parameterized.expand(
         [
             param(
@@ -1502,6 +1519,92 @@ class TestDateParser(BaseTestCase):
     def then_timezone_parsed_is(self, tzstr):
         self.assertTrue(tzstr in repr(self.result["date_obj"].tzinfo))
         self.result["date_obj"] = self.result["date_obj"].replace(tzinfo=None)
+
+    @parameterized.expand(
+        [
+            # Test word numbers with "later"
+            param("two days later", timedelta(days=2), "two days later"),
+            param("three weeks later", timedelta(weeks=3), "three weeks later"),
+            param("five hours later", timedelta(hours=5), "five hours later"),
+            param("ten minutes later", timedelta(minutes=10), "ten minutes later"),
+            param("seven seconds later", timedelta(seconds=7), "seven seconds later"),
+            param("twelve days later", timedelta(days=12), "twelve days later"),
+            # Test numeric values still work
+            param("2 days later", timedelta(days=2), "2 days later"),
+            param("5 hours later", timedelta(hours=5), "5 hours later"),
+            # Test other word numbers with "later"
+            param("one day later", timedelta(days=1), "one day later"),
+            param(
+                "four months later", timedelta(days=122), "four months later (approx)"
+            ),
+            param("six years later", timedelta(days=2191), "six years later (approx)"),
+            # Test pluralization with "later"
+            param("one days later", timedelta(days=1), "one days later (with plural)"),
+            param("two day later", timedelta(days=2), "two day later (without plural)"),
+        ]
+    )
+    def test_word_numbers_with_later(self, date_string, expected_delta, description):
+        """Test that word numbers (one, two, three, etc.) work with 'later' pattern."""
+        base_date = datetime(2025, 6, 15, 12, 0, 0)
+        expected = base_date + expected_delta
+
+        result = parse(
+            date_string,
+            settings={
+                "RELATIVE_BASE": base_date,
+                "RETURN_AS_TIMEZONE_AWARE": False,
+            },
+        )
+
+        self.assertIsNotNone(result, f"Failed to parse: {description}")
+        if "approx" in description:
+            # For approximate cases, ensure the result is after the base date
+            # and not later than the expected upper bound.
+            self.assertGreater(result, base_date, f"{description}: should be in future")
+            self.assertLessEqual(
+                result,
+                expected,
+                f"{description}: Expected at most {expected}, got {result}",
+            )
+        else:
+            self.assertEqual(
+                expected,
+                result,
+                f"{description}: Expected {expected}, got {result}",
+            )
+
+    @parameterized.expand(
+        [
+            # Test word numbers with "from now"
+            param("two days from now", timedelta(days=2), "two days from now"),
+            param("five hours from now", timedelta(hours=5), "five hours from now"),
+            param(
+                "ten minutes from now", timedelta(minutes=10), "ten minutes from now"
+            ),
+            # Still works with digits
+            param("2 days from now", timedelta(days=2), "2 days from now"),
+            param("5 hours from now", timedelta(hours=5), "5 hours from now"),
+        ]
+    )
+    def test_word_numbers_advanced(self, date_string, expected_delta, description):
+        """Test number parsing with word numbers (1-12) in 'from now' phrases."""
+        base_date = datetime(2025, 6, 15, 12, 0, 0)
+        expected = base_date + expected_delta
+
+        result = parse(
+            date_string,
+            settings={
+                "RELATIVE_BASE": base_date,
+                "RETURN_AS_TIMEZONE_AWARE": False,
+            },
+        )
+
+        self.assertIsNotNone(result, f"Failed to parse: {description}")
+        self.assertEqual(
+            expected,
+            result,
+            f"{description}: Expected {expected}, got {result}",
+        )
 
 
 if __name__ == "__main__":

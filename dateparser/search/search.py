@@ -218,6 +218,21 @@ class DateSearchWithDetection:
         self.available_language_map = self.loader.get_locale_map()
         self.search = _ExactLanguageSearch(self.loader)
 
+    def _get_candidate_languages(self, detected_language, languages):
+        candidates = []
+        if detected_language:
+            candidates.append(detected_language)
+
+        if isinstance(languages, (list, tuple, Set)) and len(languages) > 1:
+            candidates.extend(languages)
+
+        seen = set()
+        return [
+            language
+            for language in candidates
+            if not (language in seen or seen.add(language))
+        ]
+
     @apply_settings
     def detect_language(
         self, text, languages, settings=None, detect_languages_function=None
@@ -304,13 +319,23 @@ class DateSearchWithDetection:
             settings=settings,
             detect_languages_function=detect_languages_function,
         )
-        if not language_shortname:
+
+        candidate_languages = self._get_candidate_languages(
+            language_shortname, languages
+        )
+        if not candidate_languages:
             return {"Language": None, "Dates": None}
+
+        for candidate_language in candidate_languages:
+            dates = self.search.search_parse(
+                candidate_language, text, settings=settings
+            )
+            if dates:
+                return {"Language": candidate_language, "Dates": dates}
+
         return {
             "Language": language_shortname,
-            "Dates": self.search.search_parse(
-                language_shortname, text, settings=settings
-            ),
+            "Dates": [],
         }
 
     def preprocess_text(self, text, languages):

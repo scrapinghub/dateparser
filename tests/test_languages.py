@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 from io import StringIO
+from unittest.mock import patch
 
 import pytest
 from parameterized import param, parameterized
@@ -9,6 +10,7 @@ from dateparser import parse
 from dateparser.conf import apply_settings, settings
 from dateparser.date import DateDataParser
 from dateparser.languages import Locale, default_loader
+from dateparser.languages.dictionary import Dictionary
 from dateparser.languages.validation import LanguageValidator
 from dateparser.search import search_dates
 from dateparser.search.detection import AutoDetectLanguage, ExactLanguages
@@ -78,7 +80,7 @@ class TestBundledLanguages(BaseTestCase):
             # French
             param("fr", "20 Février 2012", "20 february 2012"),
             param("fr", "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
-            param("fr", "18 octobre 2012 à 19 h 21 min", "18 october 2012  19:21"),
+            param("fr", "18 octobre 2012 à 19 h 21 min", "18 october 2012 19:21"),
             # German
             param("de", "29. Juni 2007", "29. june 2007"),
             param("de", "Montag 5 Januar, 2015", "monday 5 january 2015"),
@@ -107,49 +109,57 @@ class TestBundledLanguages(BaseTestCase):
             param("it", "Giovedi Maggio 29 2013", "thursday may 29 2013"),
             param("it", "19 Luglio 2013", "19 july 2013"),
             # Portuguese
-            param("pt", "22 de dezembro de 2014 às 02:38", "22  december  2014  02:38"),
+            param("pt", "22 de dezembro de 2014 às 02:38", "22 december 2014 02:38"),
             # Russian
-            param("ru", "5 августа 2014 г. в 12:00", "5 august 2014 year.  12:00"),
+            param("ru", "5 августа 2014 г. в 12:00", "5 august 2014 year. 12:00"),
             # Turkish
             param("tr", "2 Ocak 2015 Cuma, 16:49", "2 january 2015 friday 16:49"),
             # Czech
-            param("cs", "22. prosinec 2014 v 2:38", "22. december 2014  2:38"),
+            param(
+                "cs", "22. prosinec 2014 v 2:38", "22. december 2014 2:38"
+            ),  # Issue #1302: "v" → "in" → cleared, whitespace preserved
             # Dutch
             param(
                 "nl",
                 "maandag 22 december 2014 om 2:38",
-                "monday 22 december 2014  2:38",
+                "monday 22 december 2014 2:38",
             ),
             # Romanian
-            param("ro", "22 Decembrie 2014 la 02:38", "22 december 2014  02:38"),
+            param("ro", "22 Decembrie 2014 la 02:38", "22 december 2014 02:38"),
             # Polish
-            param("pl", "4 stycznia o 13:50", "4 january  13:50"),
-            param("pl", "29 listopada 2014 o 08:40", "29 november 2014  08:40"),
+            param("pl", "4 stycznia o 13:50", "4 january 13:50"),
+            param(
+                "pl", "29 listopada 2014 o 08:40", "29 november 2014 08:40"
+            ),  # Issue #1302: "o" removed, whitespace preserved
             # Ukrainian
-            param("uk", "30 листопада 2013 о 04:27", "30 november 2013  04:27"),
-            param("uk", "22 верес 2021 о 07:37", "22 september 2021  07:37"),
-            param("uk", "28 лютого 2020 року об 11:57", "28 february 2020 year  11:57"),
+            param("uk", "30 листопада 2013 о 04:27", "30 november 2013 04:27"),
+            param("uk", "22 верес 2021 о 07:37", "22 september 2021 07:37"),
+            param("uk", "28 лютого 2020 року об 11:57", "28 february 2020 year 11:57"),
             param(
                 "uk",
                 "середу, 28 лютого 2020 року об 11:57",
-                "wednesday 28 february 2020 year  11:57",
+                "wednesday 28 february 2020 year 11:57",
             ),
             param(
                 "uk",
                 "понед, 12 вересня 2022 року об 09:22",
-                "monday 12 september 2022 year  09:22",
+                "monday 12 september 2022 year 09:22",
             ),
             # Belarusian
-            param("be", "5 снежня 2015 г. у 12:00", "5 december 2015 year.  12:00"),
-            param("be", "11 верасня 2015 г. у 12:11", "11 september 2015 year.  12:11"),
-            param("be", "3 стд 2015 г. у 10:33", "3 january 2015 year.  10:33"),
+            param("be", "5 снежня 2015 г. у 12:00", "5 december 2015 year. 12:00"),
+            param("be", "11 верасня 2015 г. у 12:11", "11 september 2015 year. 12:11"),
+            param("be", "3 стд 2015 г. у 10:33", "3 january 2015 year. 10:33"),
             # Arabic
             param("ar", "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
             param("ar", "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
-            param("vi", "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015  22:34"),
-            param("vi", "9 Tháng 1 2015 lúc 15:08", "9 january 2015  15:08"),
+            param(
+                "vi", "Thứ Tư, 07/01/2015 | 22:34", "wednesday 07/01/2015  22:34"
+            ),  # Pipe between spaces preserved
+            param(
+                "vi", "9 Tháng 1 2015 lúc 15:08", "9 january 2015 15:08"
+            ),  # Issue #1302: "lúc" removed, whitespace preserved
             # Thai
             param(
                 "th",
@@ -182,11 +192,13 @@ class TestBundledLanguages(BaseTestCase):
             param("en", "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
             param("en", "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
             param("en", "28 Oct 2014 16:39:01 +0000", "28 october 2014 16:39:01 +0000"),
-            param("es", "13 Febrero 2015 a las 23:00", "13 february 2015  23:00"),
+            param("es", "13 Febrero 2015 a las 23:00", "13 february 2015 23:00"),
             # Danish
             param("da", "Sep 03 2014", "september 03 2014"),
             param("da", "fredag, 03 september 2014", "friday 03 september 2014"),
-            param("da", "fredag d. 3 september 2014", "friday  3 september 2014"),
+            param(
+                "da", "fredag d. 3 september 2014", "friday 3 september 2014"
+            ),  # Issue #1302: 'd.' removed, whitespace preserved
             # Finnish
             param("fi", "maanantai tammikuu 16, 2015", "monday january 16 2015"),
             param("fi", "ma tammi 16, 2015", "monday january 16 2015"),
@@ -214,7 +226,9 @@ class TestBundledLanguages(BaseTestCase):
             param("fi", "su joulu 16, 2015", "sunday december 16 2015"),
             param("fi", "1. tammikuuta, 2016", "1. january 2016"),
             param("fi", "tiistaina, 27. lokakuuta 2015", "tuesday 27. october 2015"),
-            param("fi", "28 maalis klo 9:37", "28 march  9:37"),
+            param(
+                "fi", "28 maalis klo 9:37", "28 march 9:37"
+            ),  # Issue #1302: preserve single space
             # Japanese
             param("ja", "午後3時", "pm 3:00"),
             param("ja", "2時", "2:00"),
@@ -237,7 +251,7 @@ class TestBundledLanguages(BaseTestCase):
             # Hebrew
             param("he", "20 לאפריל 2012", "20 april 2012"),
             param("he", "יום רביעי ה-19 בנובמבר 2013", "wednesday 19 november 2013"),
-            param("he", "18 לאוקטובר 2012 בשעה 19:21", "18 october 2012  19:21"),
+            param("he", "18 לאוקטובר 2012 בשעה 19:21", "18 october 2012 19:21"),
             param("he", "יום ה' 6/10/2016", "thursday 6/10/2016"),
             param("he", "חצות", "12 am"),
             param("he", "1 אחר חצות", "1 am"),
@@ -495,7 +509,7 @@ class TestBundledLanguages(BaseTestCase):
             param("hr", "2 ožujak 1980 pet", "2 march 1980 friday"),
             param("hr", "nedjelja 3 lis 1879", "sunday 3 october 1879"),
             param("hr", "06. travnja 2021.", "06. april 2021."),
-            param("hr", "13. svibanj 2022. u 14:34", "13. may 2022.  14:34"),
+            param("hr", "13. svibanj 2022. u 14:34", "13. may 2022. 14:34"),
             param("hr", "20. studenoga 2010. @ 07:28", "20. november 2010.  07:28"),
             param("hr", "13. studenog 1989.", "13. november 1989."),
             param("hr", "u listopadu 2056.", " october 2056."),
@@ -1175,6 +1189,22 @@ class TestBundledLanguages(BaseTestCase):
             param("cs", "40 sekunda", "40 second"),
             param("cs", "4 týden", "4 week"),
             param("cs", "14 roků", "14 year"),
+            param("cs", "20 let", "20 year"),
+            param("cs", "pět minut", "5 minute"),
+            param("cs", "před šesti minutami", "6 minute ago"),
+            param("cs", "sedmého ledna loni", "7. january 1 year ago"),
+            param("cs", "včera", "1 day ago"),
+            param("cs", "předevčírem", "2 day ago"),
+            param("cs", "dnes", "0 day ago"),
+            param("cs", "teď", "0 second ago"),
+            param("cs", "před rokem", "ago 1 year"),
+            param("cs", "prvního ledna 2021 v půl šesté", "1. january 2021 5:30"),
+            param("cs", "desátého šestý", "10. 6."),
+            param("cs", "za dvacet let", "in 20 year"),
+            param("cs", "za čtrnáct dní", "in 14 day"),
+            param("cs", "čtvrt na tři", "2:15"),
+            param("cs", "zítra o půlnoci", "in 1 day 0:00"),
+            param("cs", "v sedum třicet odpoledne", " 7 30 pm"),
             # Chinese
             param("zh", "昨天", "1 day ago"),
             param("zh", "前天", "2 day ago"),
@@ -1208,7 +1238,9 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "اليوم", "0 day ago"),
             # Polish
             param("pl", "2 godz.", "2 hour."),
-            param("pl", "Wczoraj o 07:40", "1 day ago  07:40"),
+            param(
+                "pl", "Wczoraj o 07:40", "1 day ago 07:40"
+            ),  # Issue #1302: fixed double space
             # Vietnamese
             param("vi", "2 tuần 3 ngày", "2 week 3 day"),
             param("vi", "21 giờ trước", "21 hour ago"),
@@ -1247,10 +1279,10 @@ class TestBundledLanguages(BaseTestCase):
             param("id", "hari ini", "0 day ago"),
             param("id", "kemarin", "1 day ago"),
             param("id", "kemarin lusa", "2 day ago"),
-            param("id", "sehari yang lalu", "1 day  ago"),
-            param("id", "seminggu yang lalu", "1 week  ago"),
-            param("id", "sebulan yang lalu", "1 month  ago"),
-            param("id", "setahun yang lalu", "1 year  ago"),
+            param("id", "sehari yang lalu", "1 day ago"),
+            param("id", "seminggu yang lalu", "1 week ago"),
+            param("id", "sebulan yang lalu", "1 month ago"),
+            param("id", "setahun yang lalu", "1 year ago"),
             # Finnish
             param("fi", "1 vuosi sitten", "1 year ago"),
             param("fi", "2 vuotta sitten", "2 year ago"),
@@ -1318,7 +1350,9 @@ class TestBundledLanguages(BaseTestCase):
             param("ja", "明後日", "in 2 day"),
             # Hebrew
             param("he", "אתמול", "1 day ago"),
-            param("he", "אתמול בשעה 3", "1 day ago  3"),
+            param(
+                "he", "אתמול בשעה 3", "1 day ago 3"
+            ),  # Issue #1302: "בשעה" removed, whitespace preserved
             param("he", "היום", "0 day ago"),
             param("he", "לפני יומיים", "2 day ago"),
             param("he", "לפני שבועיים", "2 week ago"),
@@ -3040,3 +3074,34 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
     ):
         result = parse(date_string, languages=languages, settings=settings)
         assert result == expected
+
+
+class TestNoWordSpacingSecurity:
+    def test_dictionary_does_not_evaluate_no_word_spacing(self):
+        locale_info = {
+            "name": "Test",
+            "skip": [],
+            "pertain": [],
+            "relative-type": {},
+            "relative-type-regex": {},
+            "no_word_spacing": "__import__('os').system('echo vulnerable')",
+        }
+
+        with patch("os.system") as os_system:
+            Dictionary(locale_info, settings=settings)
+
+        os_system.assert_not_called()
+
+    def test_locale_does_not_evaluate_no_word_spacing(self):
+        language_info = {
+            "name": "Test",
+            "simplifications": [{"x": "y"}],
+            "no_word_spacing": "__import__('os').system('echo vulnerable')",
+        }
+
+        with patch("os.system") as os_system:
+            locale = Locale("xx", language_info)
+            simplifications = locale._get_simplifications(settings=settings)
+
+        os_system.assert_not_called()
+        assert simplifications

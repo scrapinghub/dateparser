@@ -718,6 +718,9 @@ info = {
         "en-UM": {
             "name": "en-UM"
         },
+        "en-US": {
+            "name": "en-US"
+        },
         "en-VC": {
             "name": "en-VC",
             "date_order": "DMY"
@@ -813,13 +816,13 @@ info = {
             "(\\d+[.,]?\\d*)h(\\d+[.,]?\\d*)": "\\1:\\2"
         },
         {
-            "(?<=from\\s+)now": "in"
+            "from\\s+now": "in"
         },
         {
             "less than 1 minute ago": "45 second ago"
         },
         {
-            "(\\d+[.,]?\\d*) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
+            "(\\d+[.,]?\\d*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
         },
         {
             "one": "1"
