@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from copy import deepcopy
 from importlib import import_module
 from itertools import zip_longest
@@ -80,7 +81,7 @@ class LocaleDataLoader:
 
         :return: ordered locale code to locale instance mapping
         """
-        return dict(
+        return OrderedDict(
             self._load_data(
                 languages=languages,
                 locales=locales,

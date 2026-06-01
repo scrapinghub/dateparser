@@ -483,7 +483,7 @@ class DateDataParser:
         self.locales = locales
         self.region = region
         self.detect_languages_function = detect_languages_function
-        self.previous_locales = {}
+        self.previous_locales = collections.OrderedDict()
 
     def get_date_data(self, date_string, date_formats=None):
         """
