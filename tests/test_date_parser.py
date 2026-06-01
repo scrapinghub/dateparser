@@ -1346,6 +1346,23 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
+    def test_dates_with_no_day_or_month_use_same_current_date_for_month_and_day(self):
+        class ParserDateTime(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return datetime(2026, 5, 31, 12, 0, tzinfo=tz)
+
+        class UtilsDateTime(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return datetime(2026, 6, 1, 12, 0, tzinfo=tz)
+
+        with (
+            patch("dateparser.parser.datetime", ParserDateTime),
+            patch("dateparser.utils.datetime", UtilsDateTime),
+        ):
+            self.assertEqual(parse("2014"), datetime(2014, 5, 31))
+
     @parameterized.expand(
         [
             param(

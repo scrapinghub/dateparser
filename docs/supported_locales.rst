@@ -3,6 +3,12 @@
 Supported languages and locales
 ===============================
 
+The ``region`` argument accepts the region subtag from one of the locale
+codes listed below. For example, ``languages=['en'], region='IN'`` uses the
+``en-IN`` locale, while ``languages=['fr'], region='CA'`` uses ``fr-CA``.
+If you already know the full locale code, pass it directly through
+``locales=['en-IN']`` instead.
+
 ============    ================================================================
   Language            Locales
 ============    ================================================================
