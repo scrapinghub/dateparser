@@ -5,7 +5,7 @@ dateparser -- python parser for human readable dates
 .. include:: ../README.rst
 
 Indices and tables
-==================
+------------------
 
 
 Contents:
