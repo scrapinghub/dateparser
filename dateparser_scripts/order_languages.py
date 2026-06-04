@@ -1,6 +1,5 @@
 import json
 import os
-from collections import OrderedDict
 
 import regex as re
 import requests
@@ -186,7 +185,7 @@ def main():
         language_order, separators=(",", ": "), indent=4
     )
 
-    complete_language_locale_dict = OrderedDict()
+    complete_language_locale_dict = {}
     for key in language_order:
         if key in language_locale_dict.keys():
             complete_language_locale_dict[key] = sorted(language_locale_dict[key])

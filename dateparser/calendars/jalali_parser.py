@@ -1,5 +1,4 @@
 import re
-from collections import OrderedDict
 from functools import reduce
 
 from convertdate import persian
@@ -40,35 +39,31 @@ class jalali_parser(non_gregorian_parser):
         "۹": 9,
     }
 
-    _months = OrderedDict(
-        [
-            # pinglish : (persian literals, month index, number of days)
-            ("Farvardin", (1, 31, ["فروردین"])),
-            ("Ordibehesht", (2, 31, ["اردیبهشت"])),
-            ("Khordad", (3, 31, ["خرداد"])),
-            ("Tir", (4, 31, ["تیر"])),
-            ("Mordad", (5, 31, ["امرداد", "مرداد"])),
-            ("Shahrivar", (6, 31, ["شهریور", "شهريور"])),
-            ("Mehr", (7, 30, ["مهر"])),
-            ("Aban", (8, 30, ["آبان"])),
-            ("Azar", (9, 30, ["آذر"])),
-            ("Dey", (10, 30, ["دی"])),
-            ("Bahman", (11, 30, ["بهمن", "بهن"])),
-            ("Esfand", (12, 29, ["اسفند"])),
-        ]
-    )
+    _months = {
+        # pinglish : (persian literals, month index, number of days)
+        "Farvardin": (1, 31, ["فروردین"]),
+        "Ordibehesht": (2, 31, ["اردیبهشت"]),
+        "Khordad": (3, 31, ["خرداد"]),
+        "Tir": (4, 31, ["تیر"]),
+        "Mordad": (5, 31, ["امرداد", "مرداد"]),
+        "Shahrivar": (6, 31, ["شهریور", "شهريور"]),
+        "Mehr": (7, 30, ["مهر"]),
+        "Aban": (8, 30, ["آبان"]),
+        "Azar": (9, 30, ["آذر"]),
+        "Dey": (10, 30, ["دی"]),
+        "Bahman": (11, 30, ["بهمن", "بهن"]),
+        "Esfand": (12, 29, ["اسفند"]),
+    }
 
-    _weekdays = OrderedDict(
-        [
-            ("Sunday", ["یکشنبه"]),
-            ("Monday", ["دوشنبه"]),
-            ("Tuesday", ["سهشنبه", "سه شنبه"]),
-            ("Wednesday", ["چهارشنبه", "چهار شنبه"]),
-            ("Thursday", ["پنجشنبه", "پنج شنبه"]),
-            ("Friday", ["جمعه"]),
-            ("Saturday", ["روز شنبه", "شنبه"]),
-        ]
-    )
+    _weekdays = {
+        "Sunday": ["یکشنبه"],
+        "Monday": ["دوشنبه"],
+        "Tuesday": ["سهشنبه", "سه شنبه"],
+        "Wednesday": ["چهارشنبه", "چهار شنبه"],
+        "Thursday": ["پنجشنبه", "پنج شنبه"],
+        "Friday": ["جمعه"],
+        "Saturday": ["روز شنبه", "شنبه"],
+    }
 
     _number_letters = {
         0: ["صفر"],
