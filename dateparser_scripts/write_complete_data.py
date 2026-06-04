@@ -29,7 +29,7 @@ RELATIVE_PATTERN = re.compile(r"\{0\}")
 
 def _to_plain_types(obj):
     """Recursively convert ruamel.yaml CommentedMap/CommentedSeq to plain
-    OrderedDict/list so that json.dumps produces stable output across all
+    dict/list so that json.dumps produces stable output across all
     Python versions.
 
     Python 3.14 changed the json C encoder to bypass the Python-level
@@ -40,7 +40,7 @@ def _to_plain_types(obj):
     types before serialisation avoids the issue entirely.
     """
     if isinstance(obj, dict):
-        return OrderedDict((k, _to_plain_types(v)) for k, v in obj.items())
+        return {k: _to_plain_types(v) for k, v in obj.items()}
     elif isinstance(obj, list):
         return [_to_plain_types(v) for v in obj]
     return obj
