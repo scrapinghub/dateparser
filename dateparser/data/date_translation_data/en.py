@@ -801,6 +801,9 @@ info = {
     ],
     "simplifications": [
         {
+            "(\\d+[.,]?\\d*)\\s*mons?\\b": "\\1 month"
+        },
+        {
             "an": "1"
         },
         {
