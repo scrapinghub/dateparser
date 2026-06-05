@@ -180,7 +180,7 @@ class LocaleDataLoader:
                     )
 
         else:
-            if not languages:
+            if languages is None:
                 languages = language_order
             unsupported_languages = set(languages) - set(language_order)
             if unsupported_languages:

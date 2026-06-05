@@ -185,6 +185,36 @@ languages for parsing when language detection fails. eg. ["en", "fr"]:
 
 .. note:: When using this setting, these languages will be tried after trying with the detected languages with no success. It is especially useful when using ``detect_languages_function``.
 
+Language Order
+++++++++++++++
+
+``USE_GIVEN_LANGUAGE_ORDER``: defaults to ``False``. By default, the languages and
+locales passed through the ``languages`` and ``locales`` arguments are tried in the
+order of the most common languages, regardless of the order in which they are given.
+Set this to ``True`` to instead try them in the order in which they are given, which
+is useful when that order already reflects a preference (for example, the output of a
+language detector ordered by confidence):
+
+    >>> import dateparser
+    >>> dateparser.parse('11/12/2020', languages=['es', 'en'])
+    datetime.datetime(2020, 11, 12, 0, 0)
+    >>> dateparser.parse('11/12/2020', languages=['es', 'en'], settings={'USE_GIVEN_LANGUAGE_ORDER': True})
+    datetime.datetime(2020, 12, 11, 0, 0)
+
+It also applies to the languages given through the ``DEFAULT_LANGUAGES`` setting when
+they are used as a fallback.
+
+.. note:: This setting only reorders the languages and locales that are given. If
+    neither ``languages`` nor ``locales`` is provided, it has no effect and the default
+    order is used:
+
+    >>> dateparser.parse('11/12/2020', settings={'USE_GIVEN_LANGUAGE_ORDER': True})
+    datetime.datetime(2020, 11, 12, 0, 0)
+
+.. note:: This setting does not affect :func:`dateparser.search.search_dates`, which
+    detects a single most likely language and normalizes the text before parsing, so it
+    does not use the given language order to disambiguate values such as ``11/12``.
+
 Optional language detection
 +++++++++++++++++++++++++++
 

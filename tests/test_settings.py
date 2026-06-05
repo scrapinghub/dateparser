@@ -204,6 +204,7 @@ class InvalidSettingsTest(BaseTestCase):
             param("FUZZY", "true", "", False),
             param("PREFER_LOCALE_DATE_ORDER", "false", "", True),
             param("DEFAULT_LANGUAGES", "en", "", ["en"]),
+            param("USE_GIVEN_LANGUAGE_ORDER", "yes", "", True),
             param("LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD", "1", "", 0.5),
         ]
     )
