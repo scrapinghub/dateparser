@@ -2,38 +2,6 @@ skip: ["cirka", "d.", "kl", "kl."]
 
 sentence_splitter_group: 1
 
-# Ukedagsforkortelser - fullstendige navn finnes allerede i CLDR
-mandag:
-    - man
-tirsdag:
-    - tir
-onsdag:
-    - ons
-torsdag:
-    - tor
-fredag:
-    - fre
-lørdag:
-    - lør
-søndag:
-    - søn
-
-# Månedsforkortelser - kun de som mangler i CLDR
-mars:
-    - mar
-mai:
-    - mai
-juni:
-    - jun
-juli:
-    - jul
-oktober:
-    - okt
-november:
-    - nov
-desember:
-    - des
-
 # Flertallsformer - entall finnes allerede i CLDR
 month:
     - måneder

@@ -42,8 +42,7 @@ info = {
     ],
     "november": [
         "nov",
-        "november",
-        "nov"
+        "november"
     ],
     "december": [
         "des",
@@ -266,45 +265,6 @@ info = {
         "，"
     ],
     "sentence_splitter_group": 1,
-    "mandag": [
-        "man"
-    ],
-    "tirsdag": [
-        "tir"
-    ],
-    "onsdag": [
-        "ons"
-    ],
-    "torsdag": [
-        "tor"
-    ],
-    "fredag": [
-        "fre"
-    ],
-    "lørdag": [
-        "lør"
-    ],
-    "søndag": [
-        "søn"
-    ],
-    "mars": [
-        "mar"
-    ],
-    "mai": [
-        "mai"
-    ],
-    "juni": [
-        "jun"
-    ],
-    "juli": [
-        "jul"
-    ],
-    "oktober": [
-        "okt"
-    ],
-    "desember": [
-        "des"
-    ],
     "ago": [
         "siden"
     ],
