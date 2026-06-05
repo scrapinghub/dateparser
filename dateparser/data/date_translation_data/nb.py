@@ -177,31 +177,26 @@ info = {
         "\\1 hour ago": [
             "for (\\d+[.,]?\\d*) t siden",
             "for (\\d+[.,]?\\d*) time siden",
-            "for (\\d+[.,]?\\d*) timer siden",
             "for (\\d+[.,]?\\d*) timer siden"
         ],
         "\\1 minute ago": [
             "for (\\d+[.,]?\\d*) min siden",
             "for (\\d+[.,]?\\d*) minutt siden",
-            "for (\\d+[.,]?\\d*) minutter siden",
             "for (\\d+[.,]?\\d*) minutter siden"
         ],
         "\\1 month ago": [
             "for (\\d+[.,]?\\d*) md siden",
             "for (\\d+[.,]?\\d*) måned siden",
-            "for (\\d+[.,]?\\d*) måneder siden",
             "for (\\d+[.,]?\\d*) måneder siden"
         ],
         "\\1 second ago": [
             "for (\\d+[.,]?\\d*) sek siden",
             "for (\\d+[.,]?\\d*) sekund siden",
-            "for (\\d+[.,]?\\d*) sekunder siden",
             "for (\\d+[.,]?\\d*) sekunder siden"
         ],
         "\\1 week ago": [
             "for (\\d+[.,]?\\d*) u siden",
             "for (\\d+[.,]?\\d*) uke siden",
-            "for (\\d+[.,]?\\d*) uker siden",
             "for (\\d+[.,]?\\d*) uker siden"
         ],
         "\\1 year ago": [

@@ -2,7 +2,6 @@ skip: ["cirka", "d.", "kl", "kl."]
 
 sentence_splitter_group: 1
 
-# Flertallsformer - entall finnes allerede i CLDR
 month:
     - måneder
 week:
@@ -29,16 +28,6 @@ midnight:
 relative-type-regex:
     \1 day ago:
         - for (\d+[.,]?\d*) dager siden
-    \1 hour ago:
-        - for (\d+[.,]?\d*) timer siden
-    \1 minute ago:
-        - for (\d+[.,]?\d*) minutter siden
-    \1 month ago:
-        - for (\d+[.,]?\d*) måneder siden
-    \1 second ago:
-        - for (\d+[.,]?\d*) sekunder siden
-    \1 week ago:
-        - for (\d+[.,]?\d*) uker siden
 
 simplifications:
     - en: '1'
