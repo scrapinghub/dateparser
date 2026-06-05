@@ -266,12 +266,6 @@ info = {
     "in": [
         "om"
     ],
-    "noon": [
-        "middag"
-    ],
-    "midnight": [
-        "midnatt"
-    ],
     "simplifications": [
         {
             "en": "1"
