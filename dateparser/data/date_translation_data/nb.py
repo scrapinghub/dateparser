@@ -88,7 +88,8 @@ info = {
     "month": [
         "md",
         "mnd",
-        "måned"
+        "måned",
+        "måneder"
     ],
     "week": [
         "u",
@@ -108,12 +109,14 @@ info = {
     "minute": [
         "m",
         "min",
-        "minutt"
+        "minutt",
+        "minutter"
     ],
     "second": [
         "s",
         "sek",
-        "sekund"
+        "sekund",
+        "sekunder"
     ],
     "relative-type": {
         "0 day ago": [
@@ -238,13 +241,11 @@ info = {
             "name": "nb-SJ"
         }
     },
-    "ago": [
-        "siden"
-    ],
-    "in": [
-        "om"
-    ],
     "skip": [
+        "cirka",
+        "d.",
+        "kl",
+        "kl.",
         " ",
         "'",
         ",",
@@ -257,5 +258,47 @@ info = {
         "]",
         "|",
         "，"
+    ],
+    "sentence_splitter_group": 1,
+    "ago": [
+        "siden"
+    ],
+    "in": [
+        "om"
+    ],
+    "simplifications": [
+        {
+            "en": "1"
+        },
+        {
+            "ett": "1"
+        },
+        {
+            "to": "2"
+        },
+        {
+            "tre": "3"
+        },
+        {
+            "fire": "4"
+        },
+        {
+            "fem": "5"
+        },
+        {
+            "seks": "6"
+        },
+        {
+            "sju": "7"
+        },
+        {
+            "åtte": "8"
+        },
+        {
+            "ni": "9"
+        },
+        {
+            "ti": "10"
+        }
     ]
 }
