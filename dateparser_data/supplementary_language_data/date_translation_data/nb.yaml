@@ -1,15 +1,86 @@
+skip: ["cirka", "d.", "kl", "kl."]
+
+sentence_splitter_group: 1
+
+# Ukedagsforkortelser - fullstendige navn finnes allerede i CLDR
+mandag:
+    - man
+tirsdag:
+    - tir
+onsdag:
+    - ons
+torsdag:
+    - tor
+fredag:
+    - fre
+lørdag:
+    - lør
+søndag:
+    - søn
+
+# Månedsforkortelser - kun de som mangler i CLDR
+mars:
+    - mar
+mai:
+    - mai
+juni:
+    - jun
+juli:
+    - jul
+oktober:
+    - okt
+november:
+    - nov
+desember:
+    - des
+
+# Flertallsformer - entall finnes allerede i CLDR
+month:
+    - måneder
 week:
     - uker
 day:
     - dager
 hour:
     - timer
+minute:
+    - minutter
+second:
+    - sekunder
 
 ago:
     - siden
 in:
     - om
 
+noon:
+    - middag
+midnight:
+    - midnatt
+
 relative-type-regex:
-  \1 day ago:
-      - for (\d+[.,]?\d*) dager siden
+    \1 day ago:
+        - for (\d+[.,]?\d*) dager siden
+    \1 hour ago:
+        - for (\d+[.,]?\d*) timer siden
+    \1 minute ago:
+        - for (\d+[.,]?\d*) minutter siden
+    \1 month ago:
+        - for (\d+[.,]?\d*) måneder siden
+    \1 second ago:
+        - for (\d+[.,]?\d*) sekunder siden
+    \1 week ago:
+        - for (\d+[.,]?\d*) uker siden
+
+simplifications:
+    - en: '1'
+    - ett: '1'
+    - to: '2'
+    - tre: '3'
+    - fire: '4'
+    - fem: '5'
+    - seks: '6'
+    - sju: '7'
+    - åtte: '8'
+    - ni: '9'
+    - ti: '10'
