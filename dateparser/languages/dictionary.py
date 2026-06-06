@@ -316,6 +316,13 @@ class Dictionary:
         known_relative_strings_group = "|".join(
             self._get_sorted_relative_strings_from_cache()
         )
+        # Make the numeric quantifiers possessive. This regex is matched at every
+        # position of the whole input by ``split``, and a long run of digits would
+        # otherwise make ``\d+[.,]?\d*`` backtrack quadratically without ever
+        # changing the result.
+        known_relative_strings_group = known_relative_strings_group.replace(
+            r"\d+", r"\d++"
+        ).replace(r"\d*", r"\d*+")
         if self._no_word_spacing:
             regex = "({})".format(known_relative_strings_group)
         else:
