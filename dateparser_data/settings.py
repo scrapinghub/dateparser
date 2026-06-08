@@ -24,6 +24,7 @@ settings = {
     "SKIP_TOKENS": ["t"],
     "NORMALIZE": True,
     "DEFAULT_LANGUAGES": [],
+    "USE_GIVEN_LANGUAGE_ORDER": False,
     # Optional language detection
     "LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": 0.5,
     # Time span settings
