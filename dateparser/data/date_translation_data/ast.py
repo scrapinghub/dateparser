@@ -188,78 +188,78 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "hai (\\d+[.,]?\\d*) d",
-            "hai (\\d+[.,]?\\d*) día",
-            "hai (\\d+[.,]?\\d*) díes"
+            "hai (\\d++[.,]?\\d*+) d",
+            "hai (\\d++[.,]?\\d*+) día",
+            "hai (\\d++[.,]?\\d*+) díes"
         ],
         "\\1 hour ago": [
-            "hai (\\d+[.,]?\\d*) h",
-            "hai (\\d+[.,]?\\d*) hora",
-            "hai (\\d+[.,]?\\d*) hores"
+            "hai (\\d++[.,]?\\d*+) h",
+            "hai (\\d++[.,]?\\d*+) hora",
+            "hai (\\d++[.,]?\\d*+) hores"
         ],
         "\\1 minute ago": [
-            "hai (\\d+[.,]?\\d*) min",
-            "hai (\\d+[.,]?\\d*) minutos",
-            "hai (\\d+[.,]?\\d*) minutu"
+            "hai (\\d++[.,]?\\d*+) min",
+            "hai (\\d++[.,]?\\d*+) minutos",
+            "hai (\\d++[.,]?\\d*+) minutu"
         ],
         "\\1 month ago": [
-            "hai (\\d+[.,]?\\d*) m",
-            "hai (\\d+[.,]?\\d*) mes",
-            "hai (\\d+[.,]?\\d*) meses"
+            "hai (\\d++[.,]?\\d*+) m",
+            "hai (\\d++[.,]?\\d*+) mes",
+            "hai (\\d++[.,]?\\d*+) meses"
         ],
         "\\1 second ago": [
-            "hai (\\d+[.,]?\\d*) s",
-            "hai (\\d+[.,]?\\d*) seg",
-            "hai (\\d+[.,]?\\d*) segundos",
-            "hai (\\d+[.,]?\\d*) segundu"
+            "hai (\\d++[.,]?\\d*+) s",
+            "hai (\\d++[.,]?\\d*+) seg",
+            "hai (\\d++[.,]?\\d*+) segundos",
+            "hai (\\d++[.,]?\\d*+) segundu"
         ],
         "\\1 week ago": [
-            "hai (\\d+[.,]?\\d*) se",
-            "hai (\\d+[.,]?\\d*) selm",
-            "hai (\\d+[.,]?\\d*) selmana",
-            "hai (\\d+[.,]?\\d*) selmanes"
+            "hai (\\d++[.,]?\\d*+) se",
+            "hai (\\d++[.,]?\\d*+) selm",
+            "hai (\\d++[.,]?\\d*+) selmana",
+            "hai (\\d++[.,]?\\d*+) selmanes"
         ],
         "\\1 year ago": [
-            "hai (\\d+[.,]?\\d*) a",
-            "hai (\\d+[.,]?\\d*) años",
-            "hai (\\d+[.,]?\\d*) añu"
+            "hai (\\d++[.,]?\\d*+) a",
+            "hai (\\d++[.,]?\\d*+) años",
+            "hai (\\d++[.,]?\\d*+) añu"
         ],
         "in \\1 day": [
-            "en (\\d+[.,]?\\d*) d",
-            "en (\\d+[.,]?\\d*) día",
-            "en (\\d+[.,]?\\d*) díes"
+            "en (\\d++[.,]?\\d*+) d",
+            "en (\\d++[.,]?\\d*+) día",
+            "en (\\d++[.,]?\\d*+) díes"
         ],
         "in \\1 hour": [
-            "en (\\d+[.,]?\\d*) h",
-            "en (\\d+[.,]?\\d*) hora",
-            "en (\\d+[.,]?\\d*) hores"
+            "en (\\d++[.,]?\\d*+) h",
+            "en (\\d++[.,]?\\d*+) hora",
+            "en (\\d++[.,]?\\d*+) hores"
         ],
         "in \\1 minute": [
-            "en (\\d+[.,]?\\d*) min",
-            "en (\\d+[.,]?\\d*) minutos",
-            "en (\\d+[.,]?\\d*) minutu"
+            "en (\\d++[.,]?\\d*+) min",
+            "en (\\d++[.,]?\\d*+) minutos",
+            "en (\\d++[.,]?\\d*+) minutu"
         ],
         "in \\1 month": [
-            "en (\\d+[.,]?\\d*) m",
-            "en (\\d+[.,]?\\d*) mes",
-            "en (\\d+[.,]?\\d*) meses"
+            "en (\\d++[.,]?\\d*+) m",
+            "en (\\d++[.,]?\\d*+) mes",
+            "en (\\d++[.,]?\\d*+) meses"
         ],
         "in \\1 second": [
-            "en (\\d+[.,]?\\d*) s",
-            "en (\\d+[.,]?\\d*) seg",
-            "en (\\d+[.,]?\\d*) segundos",
-            "en (\\d+[.,]?\\d*) segundu"
+            "en (\\d++[.,]?\\d*+) s",
+            "en (\\d++[.,]?\\d*+) seg",
+            "en (\\d++[.,]?\\d*+) segundos",
+            "en (\\d++[.,]?\\d*+) segundu"
         ],
         "in \\1 week": [
-            "en (\\d+[.,]?\\d*) se",
-            "en (\\d+[.,]?\\d*) selm",
-            "en (\\d+[.,]?\\d*) selmana",
-            "en (\\d+[.,]?\\d*) selmanes"
+            "en (\\d++[.,]?\\d*+) se",
+            "en (\\d++[.,]?\\d*+) selm",
+            "en (\\d++[.,]?\\d*+) selmana",
+            "en (\\d++[.,]?\\d*+) selmanes"
         ],
         "in \\1 year": [
-            "en (\\d+[.,]?\\d*) a",
-            "en (\\d+[.,]?\\d*) años",
-            "en (\\d+[.,]?\\d*) añu"
+            "en (\\d++[.,]?\\d*+) a",
+            "en (\\d++[.,]?\\d*+) años",
+            "en (\\d++[.,]?\\d*+) añu"
         ]
     },
     "locale_specific": {},

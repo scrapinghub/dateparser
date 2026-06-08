@@ -165,74 +165,74 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "hai (\\d+[.,]?\\d*) d",
-            "hai (\\d+[.,]?\\d*) día",
-            "hai (\\d+[.,]?\\d*) días"
+            "hai (\\d++[.,]?\\d*+) d",
+            "hai (\\d++[.,]?\\d*+) día",
+            "hai (\\d++[.,]?\\d*+) días"
         ],
         "\\1 hour ago": [
-            "hai (\\d+[.,]?\\d*) h",
-            "hai (\\d+[.,]?\\d*) hora",
-            "hai (\\d+[.,]?\\d*) horas"
+            "hai (\\d++[.,]?\\d*+) h",
+            "hai (\\d++[.,]?\\d*+) hora",
+            "hai (\\d++[.,]?\\d*+) horas"
         ],
         "\\1 minute ago": [
-            "hai (\\d+[.,]?\\d*) min",
-            "hai (\\d+[.,]?\\d*) minuto",
-            "hai (\\d+[.,]?\\d*) minutos"
+            "hai (\\d++[.,]?\\d*+) min",
+            "hai (\\d++[.,]?\\d*+) minuto",
+            "hai (\\d++[.,]?\\d*+) minutos"
         ],
         "\\1 month ago": [
-            "hai (\\d+[.,]?\\d*) m",
-            "hai (\\d+[.,]?\\d*) mes",
-            "hai (\\d+[.,]?\\d*) meses"
+            "hai (\\d++[.,]?\\d*+) m",
+            "hai (\\d++[.,]?\\d*+) mes",
+            "hai (\\d++[.,]?\\d*+) meses"
         ],
         "\\1 second ago": [
-            "hai (\\d+[.,]?\\d*) s",
-            "hai (\\d+[.,]?\\d*) segundo",
-            "hai (\\d+[.,]?\\d*) segundos"
+            "hai (\\d++[.,]?\\d*+) s",
+            "hai (\\d++[.,]?\\d*+) segundo",
+            "hai (\\d++[.,]?\\d*+) segundos"
         ],
         "\\1 week ago": [
-            "hai (\\d+[.,]?\\d*) sem",
-            "hai (\\d+[.,]?\\d*) semana",
-            "hai (\\d+[.,]?\\d*) semanas"
+            "hai (\\d++[.,]?\\d*+) sem",
+            "hai (\\d++[.,]?\\d*+) semana",
+            "hai (\\d++[.,]?\\d*+) semanas"
         ],
         "\\1 year ago": [
-            "hai (\\d+[.,]?\\d*) a",
-            "hai (\\d+[.,]?\\d*) ano",
-            "hai (\\d+[.,]?\\d*) anos"
+            "hai (\\d++[.,]?\\d*+) a",
+            "hai (\\d++[.,]?\\d*+) ano",
+            "hai (\\d++[.,]?\\d*+) anos"
         ],
         "in \\1 day": [
-            "en (\\d+[.,]?\\d*) d",
-            "en (\\d+[.,]?\\d*) día",
-            "en (\\d+[.,]?\\d*) días"
+            "en (\\d++[.,]?\\d*+) d",
+            "en (\\d++[.,]?\\d*+) día",
+            "en (\\d++[.,]?\\d*+) días"
         ],
         "in \\1 hour": [
-            "en (\\d+[.,]?\\d*) h",
-            "en (\\d+[.,]?\\d*) hora",
-            "en (\\d+[.,]?\\d*) horas"
+            "en (\\d++[.,]?\\d*+) h",
+            "en (\\d++[.,]?\\d*+) hora",
+            "en (\\d++[.,]?\\d*+) horas"
         ],
         "in \\1 minute": [
-            "en (\\d+[.,]?\\d*) min",
-            "en (\\d+[.,]?\\d*) minuto",
-            "en (\\d+[.,]?\\d*) minutos"
+            "en (\\d++[.,]?\\d*+) min",
+            "en (\\d++[.,]?\\d*+) minuto",
+            "en (\\d++[.,]?\\d*+) minutos"
         ],
         "in \\1 month": [
-            "en (\\d+[.,]?\\d*) m",
-            "en (\\d+[.,]?\\d*) mes",
-            "en (\\d+[.,]?\\d*) meses"
+            "en (\\d++[.,]?\\d*+) m",
+            "en (\\d++[.,]?\\d*+) mes",
+            "en (\\d++[.,]?\\d*+) meses"
         ],
         "in \\1 second": [
-            "en (\\d+[.,]?\\d*) s",
-            "en (\\d+[.,]?\\d*) segundo",
-            "en (\\d+[.,]?\\d*) segundos"
+            "en (\\d++[.,]?\\d*+) s",
+            "en (\\d++[.,]?\\d*+) segundo",
+            "en (\\d++[.,]?\\d*+) segundos"
         ],
         "in \\1 week": [
-            "en (\\d+[.,]?\\d*) sem",
-            "en (\\d+[.,]?\\d*) semana",
-            "en (\\d+[.,]?\\d*) semanas"
+            "en (\\d++[.,]?\\d*+) sem",
+            "en (\\d++[.,]?\\d*+) semana",
+            "en (\\d++[.,]?\\d*+) semanas"
         ],
         "in \\1 year": [
-            "en (\\d+[.,]?\\d*) a",
-            "en (\\d+[.,]?\\d*) ano",
-            "en (\\d+[.,]?\\d*) anos"
+            "en (\\d++[.,]?\\d*+) a",
+            "en (\\d++[.,]?\\d*+) ano",
+            "en (\\d++[.,]?\\d*+) anos"
         ]
     },
     "locale_specific": {},

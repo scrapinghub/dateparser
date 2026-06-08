@@ -2623,6 +2623,32 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_is(date)
         self.then_time_is(time)
 
+    def test_long_digit_run_does_not_hang(self):
+        # Possessive quantifiers (\d++[.,]?\d*+) prevent quadratic backtracking.
+        # Without the fix, PATTERN.findall('9' * 3200) takes ~23 s; with it, ~0.02 s.
+        import time
+        from dateparser.freshness_date_parser import PATTERN
+        from dateparser.languages.dictionary import Dictionary
+        from dateparser.conf import settings
+        import dateparser.data.date_translation_data.en as en_data
+
+        long_digits = "9" * 3200
+
+        start = time.monotonic()
+        PATTERN.findall(long_digits)
+        elapsed = time.monotonic() - start
+        self.assertLess(elapsed, 1.0, "PATTERN.findall backtracked on long digit run")
+
+        d = Dictionary(en_data.info, settings)
+        split_re = d._get_split_relative_regex_cache()
+
+        start = time.monotonic()
+        split_re.split(long_digits)
+        elapsed = time.monotonic() - start
+        self.assertLess(
+            elapsed, 1.0, "split_relative_regex backtracked on long digit run"
+        )
+
     def given_date_string(self, date_string):
         self.date_string = date_string
 
