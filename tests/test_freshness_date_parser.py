@@ -68,6 +68,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("last decade", ago={"years": 10}, period="year"),
             param("a decade ago", ago={"years": 10}, period="year"),
             param("100 decades", ago={"years": 1000}, period="year"),
+            # Regression tests for #1304: an explicit sign on a component is
+            # preserved when ``decades`` is folded into ``years`` instead of
+            # being overwritten by the decade's sign. Unsigned components still
+            # follow the ago/future context.
+            param("-1 decade", ago={"years": 10}, period="year"),
+            param("-1 decade 2 years", ago={"years": 12}, period="year"),
+            param("-1 decade +2 years", ago={"years": 8}, period="year"),
             param("yesterday", ago={"days": 1}, period="day"),
             param("the day before yesterday", ago={"days": 2}, period="day"),
             param("4 days before", ago={"days": 4}, period="day"),
@@ -1743,6 +1750,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 1 decade 12 years", in_future={"years": 22}, period="year"),
             param("next decade", in_future={"years": 10}, period="year"),
             param("in a decade", in_future={"years": 10}, period="year"),
+            # Regression tests for #1304: explicit signs preserved with decades + years
+            param("+2 years", in_future={"years": 2}, period="year"),
+            param("in 1 decade +2 years", in_future={"years": 12}, period="year"),
+            param("+1 decade -2 years", in_future={"years": 8}, period="year"),
             param("tomorrow", in_future={"days": 1}, period="day"),
             param("day after tomorrow", in_future={"days": 2}, period="day"),
             param("after 4 days", in_future={"days": 4}, period="day"),
