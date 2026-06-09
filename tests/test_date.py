@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 
+import datetime as real_datetime
 import os
 import unittest
-from collections import OrderedDict
 from datetime import datetime, timedelta
 from datetime import timezone as dttz
 from itertools import product
 from time import tzset
 from unittest.mock import Mock, patch
 
+import pytest
 from parameterized import param, parameterized
 
 import dateparser
@@ -613,18 +614,15 @@ class TestDateDataParser(BaseTestCase):
         self.then_date_is_n_days_ago(days=days_ago)
 
     def test_should_not_assume_language_too_early(self):
-        dates_to_parse = OrderedDict(
-            [
-                ("07/07/2014", datetime(2014, 7, 7).date()),  # any language
-                ("07.jul.2014 | 12:52", datetime(2014, 7, 7).date()),  # en, es, pt, nl
-                ("07.ago.2014 | 12:52", datetime(2014, 8, 7).date()),  # es, it, pt
-                (
-                    "07.feb.2014 | 12:52",
-                    datetime(2014, 2, 7).date(),
-                ),  # en, de, es, it, nl, ro
-                ("07.ene.2014 | 12:52", datetime(2014, 1, 7).date()),
-            ]
-        )  # es
+        dates_to_parse = {
+            "07/07/2014": datetime(2014, 7, 7).date(),  # any language
+            "07.jul.2014 | 12:52": datetime(2014, 7, 7).date(),  # en, es, pt, nl
+            "07.ago.2014 | 12:52": datetime(2014, 8, 7).date(),  # es, it, pt
+            "07.feb.2014 | 12:52": datetime(
+                2014, 2, 7
+            ).date(),  # en, de, es, it, nl, ro
+            "07.ene.2014 | 12:52": datetime(2014, 1, 7).date(),  # es
+        }
 
         self.given_parser(
             restrict_to_languages=["en", "de", "fr", "it", "pt", "nl", "ro", "es", "ru"]
@@ -832,13 +830,68 @@ class TestDateDataParser(BaseTestCase):
         self.when_get_date_tuple_is_called(date_string)
         self.then_returned_tuple_is(expected_result)
 
+    @parameterized.expand(
+        [
+            param(
+                "Mo",
+                datetime(2025, 7, 28, 0, 0),
+            ),
+            param(
+                "Tu",
+                datetime(2025, 7, 29, 0, 0),
+            ),
+            param(
+                "We",
+                datetime(2025, 7, 30, 0, 0),
+            ),
+            param(
+                "Th",
+                datetime(2025, 7, 31, 0, 0),
+            ),
+            param(
+                "Fr",
+                datetime(2025, 8, 1, 0, 0),
+            ),
+            param(
+                "Sa",
+                datetime(2025, 7, 26, 0, 0),
+            ),
+            param(
+                "Su",
+                datetime(2025, 7, 27, 0, 0),
+            ),
+        ]
+    )
+    def test_short_weekday_names(self, date_string, expected):
+        if "Mo" in date_string:
+            pytest.xfail(
+                "Known bug: 'Mo' is being interpreted as a month instead of a weekday and needs to be fixed."
+            )
+
+        self.given_parser(["en"])
+        self.given_now(2025, 8, 1)
+        self.when_date_string_is_parsed(date_string)
+        self.then_parsed_datetime_is(expected)
+
     def given_now(self, year, month, day, **time):
-        now = datetime(year, month, day, **time)
-        datetime_mock = Mock(wraps=datetime)
-        datetime_mock.utcnow = Mock(return_value=now)
-        datetime_mock.now = Mock(return_value=now)
-        datetime_mock.today = Mock(return_value=now)
-        self.add_patch(patch("dateparser.date.datetime", new=datetime_mock))
+        now = real_datetime.datetime(year, month, day, **time)
+
+        # Patch the datetime *class* in each target module
+        class DateParserDateTime(real_datetime.datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return now.replace(tzinfo=tz) if tz else now
+
+            @classmethod
+            def utcnow(cls):
+                return now
+
+            @classmethod
+            def today(cls):
+                return now
+
+        self.add_patch(patch("dateparser.date.datetime", DateParserDateTime))
+        self.add_patch(patch("dateparser.parser.datetime", DateParserDateTime))
 
     def given_parser(self, restrict_to_languages=None, **params):
         self.parser = date.DateDataParser(languages=restrict_to_languages, **params)

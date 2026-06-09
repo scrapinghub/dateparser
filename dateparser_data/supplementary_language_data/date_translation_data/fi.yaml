@@ -1,4 +1,4 @@
-skip: [":n"]
+skip: [":n", "klo"]
 
 sentence_splitter_group : 1
 

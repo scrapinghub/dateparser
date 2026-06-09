@@ -202,47 +202,47 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) napja",
-            "(\\d+[.,]?\\d*) nappal ezelőtt"
+            "(\\d++[.,]?\\d*+) napja",
+            "(\\d++[.,]?\\d*+) nappal ezelőtt"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) órával ezelőtt"
+            "(\\d++[.,]?\\d*+) órával ezelőtt"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) perccel ezelőtt"
+            "(\\d++[.,]?\\d*+) perccel ezelőtt"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) hónappal ezelőtt"
+            "(\\d++[.,]?\\d*+) hónappal ezelőtt"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) másodperccel ezelőtt"
+            "(\\d++[.,]?\\d*+) másodperccel ezelőtt"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) héttel ezelőtt"
+            "(\\d++[.,]?\\d*+) héttel ezelőtt"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) évvel ezelőtt"
+            "(\\d++[.,]?\\d*+) évvel ezelőtt"
         ],
         "in \\1 day": [
-            "(\\d+[.,]?\\d*) nap múlva"
+            "(\\d++[.,]?\\d*+) nap múlva"
         ],
         "in \\1 hour": [
-            "(\\d+[.,]?\\d*) óra múlva"
+            "(\\d++[.,]?\\d*+) óra múlva"
         ],
         "in \\1 minute": [
-            "(\\d+[.,]?\\d*) perc múlva"
+            "(\\d++[.,]?\\d*+) perc múlva"
         ],
         "in \\1 month": [
-            "(\\d+[.,]?\\d*) hónap múlva"
+            "(\\d++[.,]?\\d*+) hónap múlva"
         ],
         "in \\1 second": [
-            "(\\d+[.,]?\\d*) másodperc múlva"
+            "(\\d++[.,]?\\d*+) másodperc múlva"
         ],
         "in \\1 week": [
-            "(\\d+[.,]?\\d*) hét múlva"
+            "(\\d++[.,]?\\d*+) hét múlva"
         ],
         "in \\1 year": [
-            "(\\d+[.,]?\\d*) év múlva"
+            "(\\d++[.,]?\\d*+) év múlva"
         ]
     },
     "locale_specific": {},

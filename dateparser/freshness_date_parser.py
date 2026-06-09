@@ -10,7 +10,7 @@ from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
-PATTERN = re.compile(r"(\d+[.,]?\d*)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
+PATTERN = re.compile(r"([+-]?\s*\d++[.,]?\d*+)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
 
 
 class FreshnessDateDataParser:
@@ -112,25 +112,51 @@ class FreshnessDateDataParser:
         if not self._are_all_words_units(date_string):
             return None, None
 
-        kwargs = self.get_kwargs(date_string)
+        result = self.get_kwargs(date_string)
+        if isinstance(result, tuple):
+            kwargs, explicit_signs = result
+        else:
+            kwargs = result
+            explicit_signs = {}
+
         if not kwargs:
             return None, None
         period = "day"
         if "days" not in kwargs:
-            for k in ["weeks", "months", "years"]:
+            for k in ["weeks", "months", "years", "decades"]:
                 if k in kwargs:
-                    period = k[:-1]
+                    period = "year" if k == "decades" else k[:-1]
                     break
-        td = relativedelta(**kwargs)
 
-        if (
+        going_forward = (
             re.search(r"\bin\b", date_string)
             or re.search(r"\bfuture\b", prefer_dates_from)
             and not re.search(r"\bago\b", date_string)
-        ):
-            date = now + td
-        else:
-            date = now - td
+        )
+
+        adjusted_kwargs = {}
+        for key, value in kwargs.items():
+            if explicit_signs.get(key, False):
+                adjusted_kwargs[key] = value
+            else:
+                if going_forward:
+                    adjusted_kwargs[key] = value
+                else:
+                    adjusted_kwargs[key] = -value
+
+        # Fold ``decades`` into ``years`` after each component's sign has been
+        # resolved so that an unsigned component combined with an explicitly
+        # signed one still follows the default ago/future context (fixes
+        # #1304).
+        if "decades" in adjusted_kwargs:
+            adjusted_kwargs["years"] = adjusted_kwargs.get(
+                "years", 0
+            ) + 10 * adjusted_kwargs.pop("decades")
+
+        td = relativedelta(**adjusted_kwargs)
+
+        date = now + td
+
         return date, period
 
     def get_kwargs(self, date_string):
@@ -139,12 +165,14 @@ class FreshnessDateDataParser:
             return {}
 
         kwargs = {}
+        explicit_signs = {}
+
         for num, unit in m:
-            kwargs[unit + "s"] = float(num.replace(",", "."))
-        if "decades" in kwargs:
-            kwargs["years"] = 10 * kwargs["decades"] + kwargs.get("years", 0)
-            del kwargs["decades"]
-        return kwargs
+            has_explicit_sign = num.startswith("+") or num.startswith("-")
+            explicit_signs[unit + "s"] = has_explicit_sign
+            kwargs[unit + "s"] = float(num.replace(",", ".").replace(" ", ""))
+
+        return kwargs, explicit_signs
 
     def get_date_data(self, date_string, settings=None):
         from dateparser.date import DateData

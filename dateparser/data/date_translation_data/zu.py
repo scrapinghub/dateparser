@@ -154,28 +154,28 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) izinsuku ezedlule",
-            "(\\d+[.,]?\\d*) usuku olwedlule"
+            "(\\d++[.,]?\\d*+) izinsuku ezedlule",
+            "(\\d++[.,]?\\d*+) usuku olwedlule"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) amahora edlule",
-            "(\\d+[.,]?\\d*) ihora eledlule"
+            "(\\d++[.,]?\\d*+) amahora edlule",
+            "(\\d++[.,]?\\d*+) ihora eledlule"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) amaminithi edlule",
-            "(\\d+[.,]?\\d*) iminithi eledlule"
+            "(\\d++[.,]?\\d*+) amaminithi edlule",
+            "(\\d++[.,]?\\d*+) iminithi eledlule"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) inyanga edlule",
-            "(\\d+[.,]?\\d*) izinyanga ezedlule"
+            "(\\d++[.,]?\\d*+) inyanga edlule",
+            "(\\d++[.,]?\\d*+) izinyanga ezedlule"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) amasekhondi edlule",
-            "(\\d+[.,]?\\d*) isekhondi eledlule"
+            "(\\d++[.,]?\\d*+) amasekhondi edlule",
+            "(\\d++[.,]?\\d*+) isekhondi eledlule"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) iminyaka edlule",
-            "(\\d+[.,]?\\d*) unyaka odlule"
+            "(\\d++[.,]?\\d*+) iminyaka edlule",
+            "(\\d++[.,]?\\d*+) unyaka odlule"
         ]
     },
     "locale_specific": {},

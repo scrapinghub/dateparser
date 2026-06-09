@@ -174,75 +174,75 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "prieš (\\d+[.,]?\\d*) d",
-            "prieš (\\d+[.,]?\\d*) dieną",
-            "prieš (\\d+[.,]?\\d*) dienų"
+            "prieš (\\d++[.,]?\\d*+) d",
+            "prieš (\\d++[.,]?\\d*+) dieną",
+            "prieš (\\d++[.,]?\\d*+) dienų"
         ],
         "\\1 hour ago": [
-            "prieš (\\d+[.,]?\\d*) val",
-            "prieš (\\d+[.,]?\\d*) valandą",
-            "prieš (\\d+[.,]?\\d*) valandų"
+            "prieš (\\d++[.,]?\\d*+) val",
+            "prieš (\\d++[.,]?\\d*+) valandą",
+            "prieš (\\d++[.,]?\\d*+) valandų"
         ],
         "\\1 minute ago": [
-            "prieš (\\d+[.,]?\\d*) min",
-            "prieš (\\d+[.,]?\\d*) minutę",
-            "prieš (\\d+[.,]?\\d*) minučių"
+            "prieš (\\d++[.,]?\\d*+) min",
+            "prieš (\\d++[.,]?\\d*+) minutę",
+            "prieš (\\d++[.,]?\\d*+) minučių"
         ],
         "\\1 month ago": [
-            "prieš (\\d+[.,]?\\d*) mėn",
-            "prieš (\\d+[.,]?\\d*) mėnesių",
-            "prieš (\\d+[.,]?\\d*) mėnesį"
+            "prieš (\\d++[.,]?\\d*+) mėn",
+            "prieš (\\d++[.,]?\\d*+) mėnesių",
+            "prieš (\\d++[.,]?\\d*+) mėnesį"
         ],
         "\\1 second ago": [
-            "prieš (\\d+[.,]?\\d*) s",
-            "prieš (\\d+[.,]?\\d*) sek",
-            "prieš (\\d+[.,]?\\d*) sekundę",
-            "prieš (\\d+[.,]?\\d*) sekundžių"
+            "prieš (\\d++[.,]?\\d*+) s",
+            "prieš (\\d++[.,]?\\d*+) sek",
+            "prieš (\\d++[.,]?\\d*+) sekundę",
+            "prieš (\\d++[.,]?\\d*+) sekundžių"
         ],
         "\\1 week ago": [
-            "prieš (\\d+[.,]?\\d*) sav",
-            "prieš (\\d+[.,]?\\d*) savaitę",
-            "prieš (\\d+[.,]?\\d*) savaičių"
+            "prieš (\\d++[.,]?\\d*+) sav",
+            "prieš (\\d++[.,]?\\d*+) savaitę",
+            "prieš (\\d++[.,]?\\d*+) savaičių"
         ],
         "\\1 year ago": [
-            "prieš (\\d+[.,]?\\d*) m",
-            "prieš (\\d+[.,]?\\d*) metus",
-            "prieš (\\d+[.,]?\\d*) metų"
+            "prieš (\\d++[.,]?\\d*+) m",
+            "prieš (\\d++[.,]?\\d*+) metus",
+            "prieš (\\d++[.,]?\\d*+) metų"
         ],
         "in \\1 day": [
-            "po (\\d+[.,]?\\d*) d",
-            "po (\\d+[.,]?\\d*) dienos",
-            "po (\\d+[.,]?\\d*) dienų"
+            "po (\\d++[.,]?\\d*+) d",
+            "po (\\d++[.,]?\\d*+) dienos",
+            "po (\\d++[.,]?\\d*+) dienų"
         ],
         "in \\1 hour": [
-            "po (\\d+[.,]?\\d*) val",
-            "po (\\d+[.,]?\\d*) valandos",
-            "po (\\d+[.,]?\\d*) valandų"
+            "po (\\d++[.,]?\\d*+) val",
+            "po (\\d++[.,]?\\d*+) valandos",
+            "po (\\d++[.,]?\\d*+) valandų"
         ],
         "in \\1 minute": [
-            "po (\\d+[.,]?\\d*) min",
-            "po (\\d+[.,]?\\d*) minutės",
-            "po (\\d+[.,]?\\d*) minučių"
+            "po (\\d++[.,]?\\d*+) min",
+            "po (\\d++[.,]?\\d*+) minutės",
+            "po (\\d++[.,]?\\d*+) minučių"
         ],
         "in \\1 month": [
-            "po (\\d+[.,]?\\d*) mėn",
-            "po (\\d+[.,]?\\d*) mėnesio",
-            "po (\\d+[.,]?\\d*) mėnesių"
+            "po (\\d++[.,]?\\d*+) mėn",
+            "po (\\d++[.,]?\\d*+) mėnesio",
+            "po (\\d++[.,]?\\d*+) mėnesių"
         ],
         "in \\1 second": [
-            "po (\\d+[.,]?\\d*) s",
-            "po (\\d+[.,]?\\d*) sek",
-            "po (\\d+[.,]?\\d*) sekundės",
-            "po (\\d+[.,]?\\d*) sekundžių"
+            "po (\\d++[.,]?\\d*+) s",
+            "po (\\d++[.,]?\\d*+) sek",
+            "po (\\d++[.,]?\\d*+) sekundės",
+            "po (\\d++[.,]?\\d*+) sekundžių"
         ],
         "in \\1 week": [
-            "po (\\d+[.,]?\\d*) sav",
-            "po (\\d+[.,]?\\d*) savaitės",
-            "po (\\d+[.,]?\\d*) savaičių"
+            "po (\\d++[.,]?\\d*+) sav",
+            "po (\\d++[.,]?\\d*+) savaitės",
+            "po (\\d++[.,]?\\d*+) savaičių"
         ],
         "in \\1 year": [
-            "po (\\d+[.,]?\\d*) m",
-            "po (\\d+[.,]?\\d*) metų"
+            "po (\\d++[.,]?\\d*+) m",
+            "po (\\d++[.,]?\\d*+) metų"
         ]
     },
     "locale_specific": {},

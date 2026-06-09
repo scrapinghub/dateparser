@@ -3,6 +3,61 @@
 History
 =======
 
+1.4.0 (2026-03-26)
+------------------
+
+Security fixes:
+
+- Remove import-time loading of timezone offset data from pickle to prevent
+  unsafe deserialization from packaged data
+- Replace ``eval()`` use when parsing ``no_word_spacing`` with strict boolean
+  parsing to prevent code execution from locale metadata (#1056)
+
+New features:
+
+- Add support for expressions like "N {interval} from now" in English (#1271)
+- Add support for the ``en-US`` locale (#1222)
+
+Fixes:
+
+- Honor ``REQUIRE_PARTS`` for ambiguous month-number inputs by retrying with a
+  year-biased ``DATE_ORDER`` (#1298)
+- Fix parsing word-number relative phrases such as "two days later" (#1316)
+- Allow md5hash to work in FIPS environments (#1267)
+
+Improvements:
+
+- Add Bosnian Cyrillic (ijekavica) date translations (#1293)
+- Add a new browser-based demo to the project documentation (#1306)
+- Update installation documentation to replace ``setup.py install`` guidance
+  (#1310)
+- Add a project security policy (#1318)
+
+1.3.0 (2026-02-04)
+------------------
+
+Dropped Python 3.9 support. (#1296)
+
+New features:
+
+- ``search_dates()`` can now detect time spans from expressions like “past
+  month”, “last week”, etc. For details, see the “Time Span Detection” section
+  and the ``RETURN_TIME_SPAN``, ``DEFAULT_START_OF_WEEK`` and
+  ``DEFAULT_DAYS_IN_MONTH`` settings in the documentation. (#1284)
+
+Fixes:
+
+- Assume the current year if not specified (#1288)
+- Support expressions like “yesterday +1h” (#1303)
+- English: Support most 2-letter day-of-the-week names (#1214)
+- English: Support “in N weeks' time” (#1283)
+- Finnish: Support dates with “klo” (#1301)
+- Russian: Support compound ordinals (#1280)
+
+Cleanups and internal improvements:
+
+- Fixed year expectation issues in tests. (#1294)
+
 1.2.2 (2025-06-26)
 ------------------
 

@@ -19,6 +19,7 @@ from dateparser.utils import (
     set_correct_day_from_settings,
     set_correct_month_from_settings,
 )
+from dateparser.utils.strptime import strptime as patched_strptime
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     "\N{RIGHT SINGLE QUOTATION MARK}",  # '\u2019'
@@ -182,7 +183,7 @@ def parse_with_formats(date_string, date_formats, settings):
     period = "day"
     for date_format in date_formats:
         try:
-            date_obj = datetime.strptime(date_string, date_format)
+            date_obj = patched_strptime(date_string, date_format)
         except ValueError:
             continue
         else:
@@ -274,26 +275,48 @@ class _DateLocaleParser:
         return self._try_parser(parse_method=_parse_nospaces)
 
     def _try_parser(self, parse_method):
-        _order = self._settings.DATE_ORDER
+        original_order = self._settings.DATE_ORDER
+
+        # Use locale date order unless DATE_ORDER was explicitly set by the caller.
+        if (
+            self._settings.PREFER_LOCALE_DATE_ORDER
+            and "DATE_ORDER" not in self._settings._mod_settings
+        ):
+            first_order = self.locale.info.get("date_order", original_order)
+        else:
+            first_order = original_order
+
+        candidates = [first_order]
+
+        # If the caller requires a year (and not a day) and did not set DATE_ORDER,
+        # retry once or twice with year-biased orders to resolve month-number ambiguity.
+        require_parts = set(getattr(self._settings, "REQUIRE_PARTS", None) or [])
+        if (
+            "DATE_ORDER" not in self._settings._mod_settings
+            and "year" in require_parts
+            and "day" not in require_parts
+        ):
+            for order in ("MYD", "YMD"):
+                if order not in candidates:
+                    candidates.append(order)
+
+        translated = self._get_translated_date()
+
         try:
-            if self._settings.PREFER_LOCALE_DATE_ORDER:
-                if "DATE_ORDER" not in self._settings._mod_settings:
-                    self._settings.DATE_ORDER = self.locale.info.get(
-                        "date_order", _order
+            for order in candidates:
+                self._settings.DATE_ORDER = order
+                try:
+                    date_obj, period = date_parser.parse(
+                        translated,
+                        parse_method=parse_method,
+                        settings=self._settings,
                     )
-            date_obj, period = date_parser.parse(
-                self._get_translated_date(),
-                parse_method=parse_method,
-                settings=self._settings,
-            )
-            self._settings.DATE_ORDER = _order
-            return DateData(
-                date_obj=date_obj,
-                period=period,
-            )
-        except ValueError:
-            self._settings.DATE_ORDER = _order
+                    return DateData(date_obj=date_obj, period=period)
+                except ValueError:
+                    continue
             return None
+        finally:
+            self._settings.DATE_ORDER = original_order
 
     def _try_given_formats(self):
         if not self.date_formats:
@@ -388,7 +411,9 @@ class DateDataParser:
 
     :param use_given_order:
         If True, locales are tried for translation of date string
-        in the order in which they are given.
+        in the order in which they are given. This is equivalent to the
+        ``USE_GIVEN_LANGUAGE_ORDER`` setting; the given order is preserved if
+        either is enabled.
     :type use_given_order: bool
 
     :param settings:
@@ -533,6 +558,15 @@ class DateDataParser:
         return date_tuple(**date_data.__dict__)
 
     def _get_applicable_locales(self, date_string):
+        # The given order is preserved if requested either through the
+        # ``use_given_order`` constructor argument or the
+        # ``USE_GIVEN_LANGUAGE_ORDER`` setting (which also reaches the
+        # top-level :func:`dateparser.parse`). When no languages or locales are
+        # given there is nothing to order, so the default order is used.
+        use_given_order = (
+            self.use_given_order or self._settings.USE_GIVEN_LANGUAGE_ORDER
+        )
+
         pop_tz_cache = []
 
         def date_strings():
@@ -570,7 +604,7 @@ class DateDataParser:
             languages=self.languages,
             locales=self.locales,
             region=self.region,
-            use_given_order=self.use_given_order,
+            use_given_order=use_given_order,
         ):
             for s in date_strings():
                 if self._is_applicable_locale(locale, s):
@@ -581,7 +615,7 @@ class DateDataParser:
                 languages=self._settings.DEFAULT_LANGUAGES,
                 locales=None,
                 region=self.region,
-                use_given_order=self.use_given_order,
+                use_given_order=use_given_order,
             ):
                 yield locale
 

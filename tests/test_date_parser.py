@@ -6,6 +6,7 @@ from unittest.mock import Mock, patch
 from parameterized import param, parameterized
 
 import dateparser.timezone_parser
+from dateparser import parse
 from dateparser.date import DateDataParser, date_parser
 from dateparser.date_parser import DateParser
 from dateparser.parser import _parse_absolute
@@ -214,6 +215,11 @@ class TestDateParser(BaseTestCase):
             # Finnish dates
             param("5.7.2018 5.45 ip.", datetime(2018, 7, 5, 17, 45)),
             param("5 .7 .2018 5.45 ip.", datetime(2018, 7, 5, 17, 45)),
+            param("28 maalis klo 9:37", datetime(2012, 3, 28, 9, 37)),
+            param("28 maalis 9:37", datetime(2012, 3, 28, 9, 37)),
+            param("15 tammi klo 14:30", datetime(2012, 1, 15, 14, 30)),
+            param("5 kesä klo 18:00", datetime(2012, 6, 5, 18, 0)),
+            param("12.5.2020 klo 16:45", datetime(2020, 5, 12, 16, 45)),
             # Croatian dates
             param("06. travnja 2021.", datetime(2021, 4, 6, 0, 0)),
             param("13. svibanj 2022.", datetime(2022, 5, 13, 0, 0)),
@@ -1340,6 +1346,99 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
+    def test_dates_with_no_day_or_month_use_same_current_date_for_month_and_day(self):
+        class ParserDateTime(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return datetime(2026, 5, 31, 12, 0, tzinfo=tz)
+
+        class UtilsDateTime(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return datetime(2026, 6, 1, 12, 0, tzinfo=tz)
+
+        with (
+            patch("dateparser.parser.datetime", ParserDateTime),
+            patch("dateparser.utils.datetime", UtilsDateTime),
+        ):
+            self.assertEqual(parse("2014"), datetime(2014, 5, 31))
+
+    @parameterized.expand(
+        [
+            param(
+                "yesterday +1h",
+                lambda base: base - timedelta(days=1) + timedelta(hours=1),
+                "Yesterday plus 1 hour",
+            ),
+            param(
+                "yesterday +2h",
+                lambda base: base - timedelta(days=1) + timedelta(hours=2),
+                "Yesterday plus 2 hours",
+            ),
+            param(
+                "yesterday +30m",
+                lambda base: base - timedelta(days=1) + timedelta(minutes=30),
+                "Yesterday plus 30 minutes",
+            ),
+            param(
+                "yesterday -1h",
+                lambda base: base - timedelta(days=1) - timedelta(hours=1),
+                "Yesterday minus 1 hour",
+            ),
+            param(
+                "yesterday -2h",
+                lambda base: base - timedelta(days=1) - timedelta(hours=2),
+                "Yesterday minus 2 hours",
+            ),
+            param(
+                "yesterday -30m",
+                lambda base: base - timedelta(days=1) - timedelta(minutes=30),
+                "Yesterday minus 30 minutes",
+            ),
+            param(
+                "tomorrow +1h",
+                lambda base: base + timedelta(days=1) + timedelta(hours=1),
+                "Tomorrow plus 1 hour",
+            ),
+            param(
+                "tomorrow +3h",
+                lambda base: base + timedelta(days=1) + timedelta(hours=3),
+                "Tomorrow plus 3 hours",
+            ),
+            param(
+                "tomorrow -1h",
+                lambda base: base + timedelta(days=1) - timedelta(hours=1),
+                "Tomorrow minus 1 hour",
+            ),
+            param(
+                "tomorrow -2h",
+                lambda base: base + timedelta(days=1) - timedelta(hours=2),
+                "Tomorrow minus 2 hours",
+            ),
+        ]
+    )
+    def test_relative_date_with_time_offset(
+        self, date_string, offset_calculator, description
+    ):
+        """Ensure +/- signs in time offsets are parsed correctly."""
+        base_date = datetime(2026, 1, 19, 12, 0, 0)
+        expected = offset_calculator(base_date)
+
+        result = parse(
+            date_string,
+            settings={
+                "RELATIVE_BASE": base_date,
+                "RETURN_AS_TIMEZONE_AWARE": False,
+            },
+        )
+
+        self.assertIsNotNone(result, f"Failed to parse: {description}")
+        self.assertEqual(
+            expected,
+            result,
+            f"{description}: Expected {expected}, got {result}",
+        )
+
     def given_local_tz_offset(self, offset):
         self.add_patch(
             patch.object(
@@ -1347,6 +1446,131 @@ class TestDateParser(BaseTestCase):
                 "local_tz_offset",
                 new=timedelta(seconds=3600 * offset),
             )
+        )
+
+    def test_yesterday_plus_and_minus_expected_values(self):
+        """Verify correct time offset calculations for yesterday."""
+        # Base: 2026-01-08 21:38:10
+        base_date = datetime(2026, 1, 8, 21, 38, 10)
+
+        plus_result = parse(
+            "yesterday +1h",
+            settings={"RELATIVE_BASE": base_date, "RETURN_AS_TIMEZONE_AWARE": False},
+        )
+        minus_result = parse(
+            "yesterday -1h",
+            settings={"RELATIVE_BASE": base_date, "RETURN_AS_TIMEZONE_AWARE": False},
+        )
+
+        # Expected: 2026-01-07 22:38:10 (yesterday at same time, plus 1 hour)
+        expected_plus = datetime(2026, 1, 7, 22, 38, 10)
+        # Expected: 2026-01-07 20:38:10 (yesterday at same time, minus 1 hour)
+        expected_minus = datetime(2026, 1, 7, 20, 38, 10)
+
+        self.assertEqual(
+            expected_plus,
+            plus_result,
+            f"'yesterday +1h' should be {expected_plus}, got {plus_result}",
+        )
+        self.assertEqual(
+            expected_minus,
+            minus_result,
+            f"'yesterday -1h' should be {expected_minus}, got {minus_result}",
+        )
+
+    @parameterized.expand(
+        [
+            # USE_GIVEN_LANGUAGE_ORDER=True preserves the given order of `languages`.
+            param(
+                "11/12/2020",
+                expected=datetime(2020, 12, 11, 0, 0),
+                languages=["es", "en"],
+                settings={"USE_GIVEN_LANGUAGE_ORDER": True},
+            ),
+            param(
+                "11/12/2020",
+                expected=datetime(2020, 11, 12, 0, 0),
+                languages=["en", "es"],
+                settings={"USE_GIVEN_LANGUAGE_ORDER": True},
+            ),
+            # ... and the given order of `locales`.
+            param(
+                "11/12/2020",
+                expected=datetime(2020, 12, 11, 0, 0),
+                locales=["es", "en"],
+                settings={"USE_GIVEN_LANGUAGE_ORDER": True},
+            ),
+            param(
+                "11/12/2020",
+                expected=datetime(2020, 11, 12, 0, 0),
+                locales=["en", "es"],
+                settings={"USE_GIVEN_LANGUAGE_ORDER": True},
+            ),
+            # Default (False): the most-common-language order is used, regardless
+            # of the order in which languages/locales are given.
+            param(
+                "11/12/2020",
+                expected=datetime(2020, 11, 12, 0, 0),
+                languages=["es", "en"],
+                settings={"USE_GIVEN_LANGUAGE_ORDER": False},
+            ),
+            param(
+                "11/12/2020",
+                expected=datetime(2020, 11, 12, 0, 0),
+                locales=["es", "en"],
+                settings={"USE_GIVEN_LANGUAGE_ORDER": False},
+            ),
+            # No-op (no error) when no languages/locales are given: there is
+            # nothing to reorder, so the default order is used.
+            param(
+                "11/12/2020",
+                expected=datetime(2020, 11, 12, 0, 0),
+                languages=[],
+                settings={"USE_GIVEN_LANGUAGE_ORDER": True},
+            ),
+            param(
+                "11/12/2020",
+                expected=datetime(2020, 11, 12, 0, 0),
+                languages=None,
+                settings={"USE_GIVEN_LANGUAGE_ORDER": True},
+            ),
+        ]
+    )
+    def test_use_given_language_order_setting(
+        self, date_string, expected=None, languages=None, locales=None, settings=None
+    ):
+        self.given_parser(languages=languages, locales=locales, settings=settings)
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    def test_use_given_order_parameter_still_preserves_order_without_setting(self):
+        # The pre-existing ``use_given_order`` constructor argument must keep working
+        # on its own (the new setting is OR-ed with it, not a replacement).
+        self.given_parser(languages=["es", "en"], use_given_order=True)
+        self.when_date_is_parsed("11/12/2020")
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(datetime(2020, 12, 11, 0, 0))
+
+    def test_use_given_language_order_setting_fixes_top_level_parse(self):
+        # Regression test for https://github.com/scrapinghub/dateparser/issues/770
+        # The top-level ``parse`` must honour the given language order through the
+        # ``USE_GIVEN_LANGUAGE_ORDER`` setting.
+        self.assertEqual(
+            datetime(2020, 12, 11, 0, 0),
+            parse(
+                "11/12/2020",
+                languages=["es", "en"],
+                settings={"USE_GIVEN_LANGUAGE_ORDER": True},
+            ),
+        )
+        self.assertEqual(
+            datetime(2020, 11, 12, 0, 0),
+            parse(
+                "11/12/2020",
+                languages=["en", "es"],
+                settings={"USE_GIVEN_LANGUAGE_ORDER": True},
+            ),
         )
 
     def given_parser(self, *args, **kwds):
@@ -1390,6 +1614,92 @@ class TestDateParser(BaseTestCase):
     def then_timezone_parsed_is(self, tzstr):
         self.assertTrue(tzstr in repr(self.result["date_obj"].tzinfo))
         self.result["date_obj"] = self.result["date_obj"].replace(tzinfo=None)
+
+    @parameterized.expand(
+        [
+            # Test word numbers with "later"
+            param("two days later", timedelta(days=2), "two days later"),
+            param("three weeks later", timedelta(weeks=3), "three weeks later"),
+            param("five hours later", timedelta(hours=5), "five hours later"),
+            param("ten minutes later", timedelta(minutes=10), "ten minutes later"),
+            param("seven seconds later", timedelta(seconds=7), "seven seconds later"),
+            param("twelve days later", timedelta(days=12), "twelve days later"),
+            # Test numeric values still work
+            param("2 days later", timedelta(days=2), "2 days later"),
+            param("5 hours later", timedelta(hours=5), "5 hours later"),
+            # Test other word numbers with "later"
+            param("one day later", timedelta(days=1), "one day later"),
+            param(
+                "four months later", timedelta(days=122), "four months later (approx)"
+            ),
+            param("six years later", timedelta(days=2191), "six years later (approx)"),
+            # Test pluralization with "later"
+            param("one days later", timedelta(days=1), "one days later (with plural)"),
+            param("two day later", timedelta(days=2), "two day later (without plural)"),
+        ]
+    )
+    def test_word_numbers_with_later(self, date_string, expected_delta, description):
+        """Test that word numbers (one, two, three, etc.) work with 'later' pattern."""
+        base_date = datetime(2025, 6, 15, 12, 0, 0)
+        expected = base_date + expected_delta
+
+        result = parse(
+            date_string,
+            settings={
+                "RELATIVE_BASE": base_date,
+                "RETURN_AS_TIMEZONE_AWARE": False,
+            },
+        )
+
+        self.assertIsNotNone(result, f"Failed to parse: {description}")
+        if "approx" in description:
+            # For approximate cases, ensure the result is after the base date
+            # and not later than the expected upper bound.
+            self.assertGreater(result, base_date, f"{description}: should be in future")
+            self.assertLessEqual(
+                result,
+                expected,
+                f"{description}: Expected at most {expected}, got {result}",
+            )
+        else:
+            self.assertEqual(
+                expected,
+                result,
+                f"{description}: Expected {expected}, got {result}",
+            )
+
+    @parameterized.expand(
+        [
+            # Test word numbers with "from now"
+            param("two days from now", timedelta(days=2), "two days from now"),
+            param("five hours from now", timedelta(hours=5), "five hours from now"),
+            param(
+                "ten minutes from now", timedelta(minutes=10), "ten minutes from now"
+            ),
+            # Still works with digits
+            param("2 days from now", timedelta(days=2), "2 days from now"),
+            param("5 hours from now", timedelta(hours=5), "5 hours from now"),
+        ]
+    )
+    def test_word_numbers_advanced(self, date_string, expected_delta, description):
+        """Test number parsing with word numbers (1-12) in 'from now' phrases."""
+        base_date = datetime(2025, 6, 15, 12, 0, 0)
+        expected = base_date + expected_delta
+
+        result = parse(
+            date_string,
+            settings={
+                "RELATIVE_BASE": base_date,
+                "RETURN_AS_TIMEZONE_AWARE": False,
+            },
+        )
+
+        self.assertIsNotNone(result, f"Failed to parse: {description}")
+        self.assertEqual(
+            expected,
+            result,
+            f"{description}: Expected {expected}, got {result}",
+        )
 
 
 if __name__ == "__main__":

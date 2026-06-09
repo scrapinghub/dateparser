@@ -153,62 +153,62 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "ŋkeke (\\d+[.,]?\\d*) si va yi",
-            "ŋkeke (\\d+[.,]?\\d*) si wo va yi"
+            "ŋkeke (\\d++[.,]?\\d*+) si va yi",
+            "ŋkeke (\\d++[.,]?\\d*+) si wo va yi"
         ],
         "\\1 hour ago": [
-            "gaƒoƒo (\\d+[.,]?\\d*) si va yi",
-            "gaƒoƒo (\\d+[.,]?\\d*) si wo va yi"
+            "gaƒoƒo (\\d++[.,]?\\d*+) si va yi",
+            "gaƒoƒo (\\d++[.,]?\\d*+) si wo va yi"
         ],
         "\\1 minute ago": [
-            "aɖabaƒoƒo (\\d+[.,]?\\d*) si va yi",
-            "aɖabaƒoƒo (\\d+[.,]?\\d*) si wo va yi"
+            "aɖabaƒoƒo (\\d++[.,]?\\d*+) si va yi",
+            "aɖabaƒoƒo (\\d++[.,]?\\d*+) si wo va yi"
         ],
         "\\1 month ago": [
-            "ɣleti (\\d+[.,]?\\d*) si va yi",
-            "ɣleti (\\d+[.,]?\\d*) si wo va yi"
+            "ɣleti (\\d++[.,]?\\d*+) si va yi",
+            "ɣleti (\\d++[.,]?\\d*+) si wo va yi"
         ],
         "\\1 second ago": [
-            "sekend (\\d+[.,]?\\d*) si va yi",
-            "sekend (\\d+[.,]?\\d*) si wo va yi"
+            "sekend (\\d++[.,]?\\d*+) si va yi",
+            "sekend (\\d++[.,]?\\d*+) si wo va yi"
         ],
         "\\1 week ago": [
-            "kɔsiɖa (\\d+[.,]?\\d*) si va yi",
-            "kɔsiɖa (\\d+[.,]?\\d*) si wo va yi"
+            "kɔsiɖa (\\d++[.,]?\\d*+) si va yi",
+            "kɔsiɖa (\\d++[.,]?\\d*+) si wo va yi"
         ],
         "\\1 year ago": [
-            "le ƒe (\\d+[.,]?\\d*) si va yi me",
-            "ƒe (\\d+[.,]?\\d*) si va yi",
-            "ƒe (\\d+[.,]?\\d*) si va yi me",
-            "ƒe (\\d+[.,]?\\d*) si wo va yi"
+            "le ƒe (\\d++[.,]?\\d*+) si va yi me",
+            "ƒe (\\d++[.,]?\\d*+) si va yi",
+            "ƒe (\\d++[.,]?\\d*+) si va yi me",
+            "ƒe (\\d++[.,]?\\d*+) si wo va yi"
         ],
         "in \\1 day": [
-            "le ŋkeke (\\d+[.,]?\\d*) me",
-            "le ŋkeke (\\d+[.,]?\\d*) wo me"
+            "le ŋkeke (\\d++[.,]?\\d*+) me",
+            "le ŋkeke (\\d++[.,]?\\d*+) wo me"
         ],
         "in \\1 hour": [
-            "le gaƒoƒo (\\d+[.,]?\\d*) me",
-            "le gaƒoƒo (\\d+[.,]?\\d*) wo me"
+            "le gaƒoƒo (\\d++[.,]?\\d*+) me",
+            "le gaƒoƒo (\\d++[.,]?\\d*+) wo me"
         ],
         "in \\1 minute": [
-            "le aɖabaƒoƒo (\\d+[.,]?\\d*) me",
-            "le aɖabaƒoƒo (\\d+[.,]?\\d*) wo me"
+            "le aɖabaƒoƒo (\\d++[.,]?\\d*+) me",
+            "le aɖabaƒoƒo (\\d++[.,]?\\d*+) wo me"
         ],
         "in \\1 month": [
-            "le ɣleti (\\d+[.,]?\\d*) me",
-            "le ɣleti (\\d+[.,]?\\d*) wo me"
+            "le ɣleti (\\d++[.,]?\\d*+) me",
+            "le ɣleti (\\d++[.,]?\\d*+) wo me"
         ],
         "in \\1 second": [
-            "le sekend (\\d+[.,]?\\d*) me",
-            "le sekend (\\d+[.,]?\\d*) wo me"
+            "le sekend (\\d++[.,]?\\d*+) me",
+            "le sekend (\\d++[.,]?\\d*+) wo me"
         ],
         "in \\1 week": [
-            "le kɔsiɖa (\\d+[.,]?\\d*) me",
-            "le kɔsiɖa (\\d+[.,]?\\d*) wo me"
+            "le kɔsiɖa (\\d++[.,]?\\d*+) me",
+            "le kɔsiɖa (\\d++[.,]?\\d*+) wo me"
         ],
         "in \\1 year": [
-            "le ƒe (\\d+[.,]?\\d*) me",
-            "le ƒe (\\d+[.,]?\\d*) si gbɔna me"
+            "le ƒe (\\d++[.,]?\\d*+) me",
+            "le ƒe (\\d++[.,]?\\d*+) si gbɔna me"
         ]
     },
     "locale_specific": {

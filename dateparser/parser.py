@@ -1,5 +1,4 @@
 import calendar
-from collections import OrderedDict
 from datetime import datetime, timedelta, timezone
 from io import StringIO
 
@@ -239,12 +238,10 @@ def _check_strict_parsing(missing, settings):
 
 
 class _parser:
-    alpha_directives = OrderedDict(
-        [
-            ("weekday", ["%A", "%a"]),
-            ("month", ["%B", "%b"]),
-        ]
-    )
+    alpha_directives = {
+        "weekday": ["%A", "%a"],
+        "month": ["%B", "%b"],
+    }
 
     num_directives = {
         "month": ["%m"],
@@ -273,10 +270,10 @@ class _parser:
         self._token_year = None
         self._token_time = None
 
-        self.ordered_num_directives = OrderedDict(
-            (k, self.num_directives[k])
-            for k in (resolve_date_order(settings.DATE_ORDER, lst=True))
-        )
+        self.ordered_num_directives = {
+            k: self.num_directives[k]
+            for k in resolve_date_order(settings.DATE_ORDER, lst=True)
+        }
 
         skip_index = []
         skip_component = None
@@ -598,16 +595,11 @@ class _parser:
         return dateobj
 
     def _correct_for_month(self, dateobj):
-        relative_base = getattr(self.settings, "RELATIVE_BASE", None)
-        relative_base_month = (
-            relative_base.month if hasattr(relative_base, "month") else relative_base
-        )
-
         if getattr(self, "_token_month", None):
             return dateobj
 
         dateobj = set_correct_month_from_settings(
-            dateobj, self.settings, relative_base_month
+            dateobj, self.settings, current_month=self.now.month
         )
         return dateobj
 

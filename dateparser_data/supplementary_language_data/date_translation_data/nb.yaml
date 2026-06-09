@@ -1,9 +1,19 @@
+skip: ["cirka", "d.", "kl", "kl."]
+
+sentence_splitter_group: 1
+
+month:
+    - måneder
 week:
     - uker
 day:
     - dager
 hour:
     - timer
+minute:
+    - minutter
+second:
+    - sekunder
 
 ago:
     - siden
@@ -11,5 +21,18 @@ in:
     - om
 
 relative-type-regex:
-  \1 day ago:
-      - for (\d+[.,]?\d*) dager siden
+    \1 day ago:
+        - for (\d+[.,]?\d*) dager siden
+
+simplifications:
+    - en: '1'
+    - ett: '1'
+    - to: '2'
+    - tre: '3'
+    - fire: '4'
+    - fem: '5'
+    - seks: '6'
+    - sju: '7'
+    - åtte: '8'
+    - ni: '9'
+    - ti: '10'

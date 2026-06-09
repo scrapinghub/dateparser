@@ -159,46 +159,46 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "duela (\\d+[.,]?\\d*) egun"
+            "duela (\\d++[.,]?\\d*+) egun"
         ],
         "\\1 hour ago": [
-            "duela (\\d+[.,]?\\d*) ordu"
+            "duela (\\d++[.,]?\\d*+) ordu"
         ],
         "\\1 minute ago": [
-            "duela (\\d+[.,]?\\d*) minutu"
+            "duela (\\d++[.,]?\\d*+) minutu"
         ],
         "\\1 month ago": [
-            "duela (\\d+[.,]?\\d*) hilabete"
+            "duela (\\d++[.,]?\\d*+) hilabete"
         ],
         "\\1 second ago": [
-            "duela (\\d+[.,]?\\d*) segundo"
+            "duela (\\d++[.,]?\\d*+) segundo"
         ],
         "\\1 week ago": [
-            "duela (\\d+[.,]?\\d*) aste"
+            "duela (\\d++[.,]?\\d*+) aste"
         ],
         "\\1 year ago": [
-            "duela (\\d+[.,]?\\d*) urte"
+            "duela (\\d++[.,]?\\d*+) urte"
         ],
         "in \\1 day": [
-            "(\\d+[.,]?\\d*) egun barru"
+            "(\\d++[.,]?\\d*+) egun barru"
         ],
         "in \\1 hour": [
-            "(\\d+[.,]?\\d*) ordu barru"
+            "(\\d++[.,]?\\d*+) ordu barru"
         ],
         "in \\1 minute": [
-            "(\\d+[.,]?\\d*) minutu barru"
+            "(\\d++[.,]?\\d*+) minutu barru"
         ],
         "in \\1 month": [
-            "(\\d+[.,]?\\d*) hilabete barru"
+            "(\\d++[.,]?\\d*+) hilabete barru"
         ],
         "in \\1 second": [
-            "(\\d+[.,]?\\d*) segundo barru"
+            "(\\d++[.,]?\\d*+) segundo barru"
         ],
         "in \\1 week": [
-            "(\\d+[.,]?\\d*) aste barru"
+            "(\\d++[.,]?\\d*+) aste barru"
         ],
         "in \\1 year": [
-            "(\\d+[.,]?\\d*) urte barru"
+            "(\\d++[.,]?\\d*+) urte barru"
         ]
     },
     "locale_specific": {},

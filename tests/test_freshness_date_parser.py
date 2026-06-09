@@ -4,13 +4,7 @@ from functools import wraps
 
 import pytz
 
-try:
-    from zoneinfo import ZoneInfo
-except ImportError:
-    try:
-        from backports.zoneinfo import ZoneInfo  # Python < 3.9 + tzlocal >= 3
-    except ImportError:
-        ZoneInfo = None  # Python < 3.9
+from zoneinfo import ZoneInfo
 
 from unittest.mock import Mock, patch
 
@@ -74,6 +68,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("last decade", ago={"years": 10}, period="year"),
             param("a decade ago", ago={"years": 10}, period="year"),
             param("100 decades", ago={"years": 1000}, period="year"),
+            # Regression tests for #1304: an explicit sign on a component is
+            # preserved when ``decades`` is folded into ``years`` instead of
+            # being overwritten by the decade's sign. Unsigned components still
+            # follow the ago/future context.
+            param("-1 decade", ago={"years": 10}, period="year"),
+            param("-1 decade 2 years", ago={"years": 12}, period="year"),
+            param("-1 decade +2 years", ago={"years": 8}, period="year"),
             param("yesterday", ago={"days": 1}, period="day"),
             param("the day before yesterday", ago={"days": 2}, period="day"),
             param("4 days before", ago={"days": 4}, period="day"),
@@ -122,6 +123,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
                 period="day",
             ),
             param("just now", ago={"seconds": 0}, period="day"),
+            # now - offset with explicit spaced '-' operator
+            param("now - 1hour", ago={"hours": 1}, period="day"),
+            param("now - 2 hours", ago={"hours": 2}, period="day"),
+            param("now - 30 minutes", ago={"minutes": 30}, period="day"),
+            param("now - 1 day", ago={"days": 1}, period="day"),
             # Fix for #291, work till one to twelve only
             param("nine hours ago", ago={"hours": 9}, period="day"),
             param("three week ago", ago={"weeks": 3}, period="week"),
@@ -1744,6 +1750,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 1 decade 12 years", in_future={"years": 22}, period="year"),
             param("next decade", in_future={"years": 10}, period="year"),
             param("in a decade", in_future={"years": 10}, period="year"),
+            # Regression tests for #1304: explicit signs preserved with decades + years
+            param("+2 years", in_future={"years": 2}, period="year"),
+            param("in 1 decade +2 years", in_future={"years": 12}, period="year"),
+            param("+1 decade -2 years", in_future={"years": 8}, period="year"),
             param("tomorrow", in_future={"days": 1}, period="day"),
             param("day after tomorrow", in_future={"days": 2}, period="day"),
             param("after 4 days", in_future={"days": 4}, period="day"),
@@ -1814,6 +1824,27 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("3 hours later", in_future={"hours": 3}, period="day"),
             param("4 minutes later", in_future={"minutes": 4}, period="day"),
             param("5 seconds later", in_future={"seconds": 5}, period="day"),
+            # from now
+            param("7 years from now", in_future={"years": 7}, period="year"),
+            param("6 months from now", in_future={"months": 6}, period="month"),
+            param("5 weeks from now", in_future={"weeks": 5}, period="week"),
+            param("4 days from now", in_future={"days": 4}, period="day"),
+            param("3 hours from now", in_future={"hours": 3}, period="day"),
+            param("2 minutes from now", in_future={"minutes": 2}, period="day"),
+            param("1 second from now", in_future={"seconds": 1}, period="day"),
+            param("five years from now", in_future={"years": 5}, period="year"),
+            param("a year from now", in_future={"years": 1}, period="year"),
+            param("an hour from now", in_future={"hours": 1}, period="day"),
+            param(
+                "1 year 2 months from now",
+                in_future={"years": 1, "months": 2},
+                period="month",
+            ),
+            # now + offset with explicit spaced '+' operator
+            param("now + 1hour", in_future={"hours": 1}, period="day"),
+            param("now + 2 hours", in_future={"hours": 2}, period="day"),
+            param("now + 30 minutes", in_future={"minutes": 30}, period="day"),
+            param("now + 1 day", in_future={"days": 1}, period="day"),
             # Fractional units
             param("in 2.5 hours", in_future={"hours": 2.5}, period="day"),
             param("in 10.75 minutes", in_future={"minutes": 10.75}, period="day"),
@@ -2354,15 +2385,19 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand(
         [
-            param("1mon ago"),  # 1116
+            param("1mon ago", ago={"months": 1}, period="month"),  # 1123
+            param("2mon ago", ago={"months": 2}, period="month"),  # 1123
+            param("3mons ago", ago={"months": 3}, period="month"),  # 1123
         ]
     )
-    def test_known_issues(self, date_string):
+    def test_known_issues(self, date_string, ago, period):
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_error_was_not_raised()
-        self.assertEqual(None, self.result["date_obj"])
+        self.then_date_was_parsed_by_freshness_parser()
+        self.then_date_obj_is_exactly_this_time_ago(ago)
+        self.then_period_is(period)
 
     @parameterized.expand(
         [
@@ -2598,6 +2633,32 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.when_date_is_parsed()
         self.then_date_is(date)
         self.then_time_is(time)
+
+    def test_long_digit_run_does_not_hang(self):
+        # Possessive quantifiers (\d++[.,]?\d*+) prevent quadratic backtracking.
+        # Without the fix, PATTERN.findall('9' * 3200) takes ~23 s; with it, ~0.02 s.
+        import time
+        from dateparser.freshness_date_parser import PATTERN
+        from dateparser.languages.dictionary import Dictionary
+        from dateparser.conf import settings
+        import dateparser.data.date_translation_data.en as en_data
+
+        long_digits = "9" * 3200
+
+        start = time.monotonic()
+        PATTERN.findall(long_digits)
+        elapsed = time.monotonic() - start
+        self.assertLess(elapsed, 1.0, "PATTERN.findall backtracked on long digit run")
+
+        d = Dictionary(en_data.info, settings)
+        split_re = d._get_split_relative_regex_cache()
+
+        start = time.monotonic()
+        split_re.split(long_digits)
+        elapsed = time.monotonic() - start
+        self.assertLess(
+            elapsed, 1.0, "split_relative_regex backtracked on long digit run"
+        )
 
     def given_date_string(self, date_string):
         self.date_string = date_string
