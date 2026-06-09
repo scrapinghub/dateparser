@@ -160,74 +160,74 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "prije (\\d+[.,]?\\d*) d",
-            "prije (\\d+[.,]?\\d*) dan",
-            "prije (\\d+[.,]?\\d*) dana"
+            "prije (\\d++[.,]?\\d*+) d",
+            "prije (\\d++[.,]?\\d*+) dan",
+            "prije (\\d++[.,]?\\d*+) dana"
         ],
         "\\1 hour ago": [
-            "prije (\\d+[.,]?\\d*) sat",
-            "prije (\\d+[.,]?\\d*) sati"
+            "prije (\\d++[.,]?\\d*+) sat",
+            "prije (\\d++[.,]?\\d*+) sati"
         ],
         "\\1 minute ago": [
-            "prije (\\d+[.,]?\\d*) min",
-            "prije (\\d+[.,]?\\d*) minuta",
-            "prije (\\d+[.,]?\\d*) minutu"
+            "prije (\\d++[.,]?\\d*+) min",
+            "prije (\\d++[.,]?\\d*+) minuta",
+            "prije (\\d++[.,]?\\d*+) minutu"
         ],
         "\\1 month ago": [
-            "prije (\\d+[.,]?\\d*) mj",
-            "prije (\\d+[.,]?\\d*) mjesec",
-            "prije (\\d+[.,]?\\d*) mjeseci"
+            "prije (\\d++[.,]?\\d*+) mj",
+            "prije (\\d++[.,]?\\d*+) mjesec",
+            "prije (\\d++[.,]?\\d*+) mjeseci"
         ],
         "\\1 second ago": [
-            "prije (\\d+[.,]?\\d*) sek",
-            "prije (\\d+[.,]?\\d*) sekundi",
-            "prije (\\d+[.,]?\\d*) sekundu"
+            "prije (\\d++[.,]?\\d*+) sek",
+            "prije (\\d++[.,]?\\d*+) sekundi",
+            "prije (\\d++[.,]?\\d*+) sekundu"
         ],
         "\\1 week ago": [
-            "prije (\\d+[.,]?\\d*) sed",
-            "prije (\\d+[.,]?\\d*) sedmica",
-            "prije (\\d+[.,]?\\d*) sedmicu"
+            "prije (\\d++[.,]?\\d*+) sed",
+            "prije (\\d++[.,]?\\d*+) sedmica",
+            "prije (\\d++[.,]?\\d*+) sedmicu"
         ],
         "\\1 year ago": [
-            "prije (\\d+[.,]?\\d*) g",
-            "prije (\\d+[.,]?\\d*) god",
-            "prije (\\d+[.,]?\\d*) godina",
-            "prije (\\d+[.,]?\\d*) godinu"
+            "prije (\\d++[.,]?\\d*+) g",
+            "prije (\\d++[.,]?\\d*+) god",
+            "prije (\\d++[.,]?\\d*+) godina",
+            "prije (\\d++[.,]?\\d*+) godinu"
         ],
         "in \\1 day": [
-            "za (\\d+[.,]?\\d*) d",
-            "za (\\d+[.,]?\\d*) dan",
-            "za (\\d+[.,]?\\d*) dana"
+            "za (\\d++[.,]?\\d*+) d",
+            "za (\\d++[.,]?\\d*+) dan",
+            "za (\\d++[.,]?\\d*+) dana"
         ],
         "in \\1 hour": [
-            "za (\\d+[.,]?\\d*) sat",
-            "za (\\d+[.,]?\\d*) sati"
+            "za (\\d++[.,]?\\d*+) sat",
+            "za (\\d++[.,]?\\d*+) sati"
         ],
         "in \\1 minute": [
-            "za (\\d+[.,]?\\d*) min",
-            "za (\\d+[.,]?\\d*) minuta",
-            "za (\\d+[.,]?\\d*) minutu"
+            "za (\\d++[.,]?\\d*+) min",
+            "za (\\d++[.,]?\\d*+) minuta",
+            "za (\\d++[.,]?\\d*+) minutu"
         ],
         "in \\1 month": [
-            "za (\\d+[.,]?\\d*) mj",
-            "za (\\d+[.,]?\\d*) mjesec",
-            "za (\\d+[.,]?\\d*) mjeseci"
+            "za (\\d++[.,]?\\d*+) mj",
+            "za (\\d++[.,]?\\d*+) mjesec",
+            "za (\\d++[.,]?\\d*+) mjeseci"
         ],
         "in \\1 second": [
-            "za (\\d+[.,]?\\d*) sek",
-            "za (\\d+[.,]?\\d*) sekundi",
-            "za (\\d+[.,]?\\d*) sekundu"
+            "za (\\d++[.,]?\\d*+) sek",
+            "za (\\d++[.,]?\\d*+) sekundi",
+            "za (\\d++[.,]?\\d*+) sekundu"
         ],
         "in \\1 week": [
-            "za (\\d+[.,]?\\d*) sed",
-            "za (\\d+[.,]?\\d*) sedmica",
-            "za (\\d+[.,]?\\d*) sedmicu"
+            "za (\\d++[.,]?\\d*+) sed",
+            "za (\\d++[.,]?\\d*+) sedmica",
+            "za (\\d++[.,]?\\d*+) sedmicu"
         ],
         "in \\1 year": [
-            "za (\\d+[.,]?\\d*) g",
-            "za (\\d+[.,]?\\d*) god",
-            "za (\\d+[.,]?\\d*) godina",
-            "za (\\d+[.,]?\\d*) godinu"
+            "za (\\d++[.,]?\\d*+) g",
+            "za (\\d++[.,]?\\d*+) god",
+            "za (\\d++[.,]?\\d*+) godina",
+            "za (\\d++[.,]?\\d*+) godinu"
         ]
     },
     "locale_specific": {},

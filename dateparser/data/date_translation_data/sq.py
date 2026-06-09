@@ -156,60 +156,60 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "(\\d+[.,]?\\d*) ditë më parë"
+            "(\\d++[.,]?\\d*+) ditë më parë"
         ],
         "\\1 hour ago": [
-            "(\\d+[.,]?\\d*) orë më parë"
+            "(\\d++[.,]?\\d*+) orë më parë"
         ],
         "\\1 minute ago": [
-            "(\\d+[.,]?\\d*) min më parë",
-            "(\\d+[.,]?\\d*) minuta më parë",
-            "(\\d+[.,]?\\d*) minutë më parë"
+            "(\\d++[.,]?\\d*+) min më parë",
+            "(\\d++[.,]?\\d*+) minuta më parë",
+            "(\\d++[.,]?\\d*+) minutë më parë"
         ],
         "\\1 month ago": [
-            "(\\d+[.,]?\\d*) muaj më parë"
+            "(\\d++[.,]?\\d*+) muaj më parë"
         ],
         "\\1 second ago": [
-            "(\\d+[.,]?\\d*) sek më parë",
-            "(\\d+[.,]?\\d*) sekonda më parë",
-            "(\\d+[.,]?\\d*) sekondë më parë"
+            "(\\d++[.,]?\\d*+) sek më parë",
+            "(\\d++[.,]?\\d*+) sekonda më parë",
+            "(\\d++[.,]?\\d*+) sekondë më parë"
         ],
         "\\1 week ago": [
-            "(\\d+[.,]?\\d*) javë më parë"
+            "(\\d++[.,]?\\d*+) javë më parë"
         ],
         "\\1 year ago": [
-            "(\\d+[.,]?\\d*) vit më parë",
-            "(\\d+[.,]?\\d*) vjet më parë"
+            "(\\d++[.,]?\\d*+) vit më parë",
+            "(\\d++[.,]?\\d*+) vjet më parë"
         ],
         "in \\1 day": [
-            "pas (\\d+[.,]?\\d*) dite",
-            "pas (\\d+[.,]?\\d*) ditësh"
+            "pas (\\d++[.,]?\\d*+) dite",
+            "pas (\\d++[.,]?\\d*+) ditësh"
         ],
         "in \\1 hour": [
-            "pas (\\d+[.,]?\\d*) ore",
-            "pas (\\d+[.,]?\\d*) orësh"
+            "pas (\\d++[.,]?\\d*+) ore",
+            "pas (\\d++[.,]?\\d*+) orësh"
         ],
         "in \\1 minute": [
-            "pas (\\d+[.,]?\\d*) min",
-            "pas (\\d+[.,]?\\d*) minutash",
-            "pas (\\d+[.,]?\\d*) minute"
+            "pas (\\d++[.,]?\\d*+) min",
+            "pas (\\d++[.,]?\\d*+) minutash",
+            "pas (\\d++[.,]?\\d*+) minute"
         ],
         "in \\1 month": [
-            "pas (\\d+[.,]?\\d*) muaji",
-            "pas (\\d+[.,]?\\d*) muajsh"
+            "pas (\\d++[.,]?\\d*+) muaji",
+            "pas (\\d++[.,]?\\d*+) muajsh"
         ],
         "in \\1 second": [
-            "pas (\\d+[.,]?\\d*) sek",
-            "pas (\\d+[.,]?\\d*) sekondash",
-            "pas (\\d+[.,]?\\d*) sekonde"
+            "pas (\\d++[.,]?\\d*+) sek",
+            "pas (\\d++[.,]?\\d*+) sekondash",
+            "pas (\\d++[.,]?\\d*+) sekonde"
         ],
         "in \\1 week": [
-            "pas (\\d+[.,]?\\d*) jave",
-            "pas (\\d+[.,]?\\d*) javësh"
+            "pas (\\d++[.,]?\\d*+) jave",
+            "pas (\\d++[.,]?\\d*+) javësh"
         ],
         "in \\1 year": [
-            "pas (\\d+[.,]?\\d*) viti",
-            "pas (\\d+[.,]?\\d*) vjetësh"
+            "pas (\\d++[.,]?\\d*+) viti",
+            "pas (\\d++[.,]?\\d*+) vjetësh"
         ]
     },
     "locale_specific": {

@@ -153,57 +153,57 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "vor (\\d+[.,]?\\d*) tag",
-            "vor (\\d+[.,]?\\d*) täg"
+            "vor (\\d++[.,]?\\d*+) tag",
+            "vor (\\d++[.,]?\\d*+) täg"
         ],
         "\\1 hour ago": [
-            "vor (\\d+[.,]?\\d*) stund",
-            "vor (\\d+[.,]?\\d*) stunde"
+            "vor (\\d++[.,]?\\d*+) stund",
+            "vor (\\d++[.,]?\\d*+) stunde"
         ],
         "\\1 minute ago": [
-            "vor (\\d+[.,]?\\d*) minüta",
-            "vor (\\d+[.,]?\\d*) minüte"
+            "vor (\\d++[.,]?\\d*+) minüta",
+            "vor (\\d++[.,]?\\d*+) minüte"
         ],
         "\\1 month ago": [
-            "vor (\\d+[.,]?\\d*) mánet"
+            "vor (\\d++[.,]?\\d*+) mánet"
         ],
         "\\1 second ago": [
-            "vor (\\d+[.,]?\\d*) sekund",
-            "vor (\\d+[.,]?\\d*) sekunde"
+            "vor (\\d++[.,]?\\d*+) sekund",
+            "vor (\\d++[.,]?\\d*+) sekunde"
         ],
         "\\1 week ago": [
-            "cor (\\d+[.,]?\\d*) wučä",
-            "vor (\\d+[.,]?\\d*) wuča"
+            "cor (\\d++[.,]?\\d*+) wučä",
+            "vor (\\d++[.,]?\\d*+) wuča"
         ],
         "\\1 year ago": [
-            "cor (\\d+[.,]?\\d*) jár",
-            "vor (\\d+[.,]?\\d*) jár"
+            "cor (\\d++[.,]?\\d*+) jár",
+            "vor (\\d++[.,]?\\d*+) jár"
         ],
         "in \\1 day": [
-            "i (\\d+[.,]?\\d*) tag",
-            "i (\\d+[.,]?\\d*) täg"
+            "i (\\d++[.,]?\\d*+) tag",
+            "i (\\d++[.,]?\\d*+) täg"
         ],
         "in \\1 hour": [
-            "i (\\d+[.,]?\\d*) stund",
-            "i (\\d+[.,]?\\d*) stunde"
+            "i (\\d++[.,]?\\d*+) stund",
+            "i (\\d++[.,]?\\d*+) stunde"
         ],
         "in \\1 minute": [
-            "i (\\d+[.,]?\\d*) minüta",
-            "i (\\d+[.,]?\\d*) minüte"
+            "i (\\d++[.,]?\\d*+) minüta",
+            "i (\\d++[.,]?\\d*+) minüte"
         ],
         "in \\1 month": [
-            "i (\\d+[.,]?\\d*) mánet"
+            "i (\\d++[.,]?\\d*+) mánet"
         ],
         "in \\1 second": [
-            "i (\\d+[.,]?\\d*) sekund",
-            "i (\\d+[.,]?\\d*) sekunde"
+            "i (\\d++[.,]?\\d*+) sekund",
+            "i (\\d++[.,]?\\d*+) sekunde"
         ],
         "in \\1 week": [
-            "i (\\d+[.,]?\\d*) wuča",
-            "i (\\d+[.,]?\\d*) wučä"
+            "i (\\d++[.,]?\\d*+) wuča",
+            "i (\\d++[.,]?\\d*+) wučä"
         ],
         "in \\1 year": [
-            "i (\\d+[.,]?\\d*) jár"
+            "i (\\d++[.,]?\\d*+) jár"
         ]
     },
     "locale_specific": {},

@@ -25,6 +25,11 @@ supplementary_languages = [x[:-5] for x in os.listdir(supplementary_date_directo
 all_languages = set(cldr_languages).union(set(supplementary_languages))
 
 RELATIVE_PATTERN = re.compile(r"\{0\}")
+POSSESSIVE_DIGIT_PATTERN = re.compile(r"\\d\+\[\.,\]\?\\d\*")
+
+
+def _make_possessive(s):
+    return POSSESSIVE_DIGIT_PATTERN.sub(r"\\d++[.,]?\\d*+", s)
 
 
 def _to_plain_types(obj):
@@ -50,15 +55,26 @@ def _modify_relative_data(relative_data):
     modified_relative_data = {}
     for key, value in relative_data.items():
         for i, string in enumerate(value):
-            string = RELATIVE_PATTERN.sub(r"(\\d+[.,]?\\d*)", string)
+            string = RELATIVE_PATTERN.sub(r"(\\d++[.,]?\\d*+)", string)
+            string = _make_possessive(string)
             value[i] = string
         modified_relative_data[key] = value
     return modified_relative_data
 
 
+def _modify_simplifications(simplifications):
+    for simplification in simplifications:
+        for pattern in list(simplification.keys()):
+            new_pattern = _make_possessive(pattern)
+            if new_pattern != pattern:
+                simplification[new_pattern] = simplification.pop(pattern)
+
+
 def _modify_data(language_data):
     relative_data = language_data.get("relative-type-regex", {})
     relative_data = _modify_relative_data(relative_data)
+    simplifications = language_data.get("simplifications", [])
+    _modify_simplifications(simplifications)
     locale_specific_data = language_data.get("locale_specific", {})
     for _, info in locale_specific_data.items():
         locale_relative_data = info.get("relative-type-regex", {})

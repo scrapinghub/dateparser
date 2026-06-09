@@ -160,70 +160,70 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "pred (\\d+[.,]?\\d*) dnevi",
-            "pred (\\d+[.,]?\\d*) dnevom"
+            "pred (\\d++[.,]?\\d*+) dnevi",
+            "pred (\\d++[.,]?\\d*+) dnevom"
         ],
         "\\1 hour ago": [
-            "pred (\\d+[.,]?\\d*) h",
-            "pred (\\d+[.,]?\\d*) urami",
-            "pred (\\d+[.,]?\\d*) uro"
+            "pred (\\d++[.,]?\\d*+) h",
+            "pred (\\d++[.,]?\\d*+) urami",
+            "pred (\\d++[.,]?\\d*+) uro"
         ],
         "\\1 minute ago": [
-            "pred (\\d+[.,]?\\d*) min",
-            "pred (\\d+[.,]?\\d*) minutami",
-            "pred (\\d+[.,]?\\d*) minuto"
+            "pred (\\d++[.,]?\\d*+) min",
+            "pred (\\d++[.,]?\\d*+) minutami",
+            "pred (\\d++[.,]?\\d*+) minuto"
         ],
         "\\1 month ago": [
-            "pred (\\d+[.,]?\\d*) mes",
-            "pred (\\d+[.,]?\\d*) mesecem",
-            "pred (\\d+[.,]?\\d*) meseci"
+            "pred (\\d++[.,]?\\d*+) mes",
+            "pred (\\d++[.,]?\\d*+) mesecem",
+            "pred (\\d++[.,]?\\d*+) meseci"
         ],
         "\\1 second ago": [
-            "pred (\\d+[.,]?\\d*) s",
-            "pred (\\d+[.,]?\\d*) sekundami",
-            "pred (\\d+[.,]?\\d*) sekundo"
+            "pred (\\d++[.,]?\\d*+) s",
+            "pred (\\d++[.,]?\\d*+) sekundami",
+            "pred (\\d++[.,]?\\d*+) sekundo"
         ],
         "\\1 week ago": [
-            "pred (\\d+[.,]?\\d*) ted",
-            "pred (\\d+[.,]?\\d*) tedni",
-            "pred (\\d+[.,]?\\d*) tednom"
+            "pred (\\d++[.,]?\\d*+) ted",
+            "pred (\\d++[.,]?\\d*+) tedni",
+            "pred (\\d++[.,]?\\d*+) tednom"
         ],
         "\\1 year ago": [
-            "pred (\\d+[.,]?\\d*) leti",
-            "pred (\\d+[.,]?\\d*) letom"
+            "pred (\\d++[.,]?\\d*+) leti",
+            "pred (\\d++[.,]?\\d*+) letom"
         ],
         "in \\1 day": [
-            "čez (\\d+[.,]?\\d*) dan",
-            "čez (\\d+[.,]?\\d*) dni"
+            "čez (\\d++[.,]?\\d*+) dan",
+            "čez (\\d++[.,]?\\d*+) dni"
         ],
         "in \\1 hour": [
-            "čez (\\d+[.,]?\\d*) h",
-            "čez (\\d+[.,]?\\d*) ur",
-            "čez (\\d+[.,]?\\d*) uro"
+            "čez (\\d++[.,]?\\d*+) h",
+            "čez (\\d++[.,]?\\d*+) ur",
+            "čez (\\d++[.,]?\\d*+) uro"
         ],
         "in \\1 minute": [
-            "čez (\\d+[.,]?\\d*) min",
-            "čez (\\d+[.,]?\\d*) minut",
-            "čez (\\d+[.,]?\\d*) minuto"
+            "čez (\\d++[.,]?\\d*+) min",
+            "čez (\\d++[.,]?\\d*+) minut",
+            "čez (\\d++[.,]?\\d*+) minuto"
         ],
         "in \\1 month": [
-            "čez (\\d+[.,]?\\d*) mes",
-            "čez (\\d+[.,]?\\d*) mesec",
-            "čez (\\d+[.,]?\\d*) mesecev"
+            "čez (\\d++[.,]?\\d*+) mes",
+            "čez (\\d++[.,]?\\d*+) mesec",
+            "čez (\\d++[.,]?\\d*+) mesecev"
         ],
         "in \\1 second": [
-            "čez (\\d+[.,]?\\d*) s",
-            "čez (\\d+[.,]?\\d*) sekund",
-            "čez (\\d+[.,]?\\d*) sekundo"
+            "čez (\\d++[.,]?\\d*+) s",
+            "čez (\\d++[.,]?\\d*+) sekund",
+            "čez (\\d++[.,]?\\d*+) sekundo"
         ],
         "in \\1 week": [
-            "čez (\\d+[.,]?\\d*) ted",
-            "čez (\\d+[.,]?\\d*) teden",
-            "čez (\\d+[.,]?\\d*) tednov"
+            "čez (\\d++[.,]?\\d*+) ted",
+            "čez (\\d++[.,]?\\d*+) teden",
+            "čez (\\d++[.,]?\\d*+) tednov"
         ],
         "in \\1 year": [
-            "čez (\\d+[.,]?\\d*) let",
-            "čez (\\d+[.,]?\\d*) leto"
+            "čez (\\d++[.,]?\\d*+) let",
+            "čez (\\d++[.,]?\\d*+) leto"
         ]
     },
     "locale_specific": {},
