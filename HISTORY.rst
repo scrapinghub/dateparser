@@ -3,6 +3,53 @@
 History
 =======
 
+1.4.1 (2026-06-15)
+------------------
+
+Breaking changes:
+
+- Remove fastText language detection support: the ``fasttext`` extra is
+  dropped and ``detect_languages()`` now raises ``ImportError``. Migrate to
+  the ``langdetect`` extra, which also unblocks ``numpy`` 2.x compatibility
+  (#1315)
+
+Security fixes:
+
+- Make digit quantifiers possessive in the relative-date regexes to prevent
+  quadratic backtracking (ReDoS) on long digit runs (#1335)
+
+New features:
+
+- Add the ``USE_GIVEN_LANGUAGE_ORDER`` setting to try ``languages`` and
+  ``locales`` in the order given rather than by frequency (#789)
+
+Fixes:
+
+- Preserve explicit signs on individual components when parsing relative
+  dates that combine decades with years, such as "-1 decade +2 years" (#1330)
+- Fall back to other provided languages in ``search_dates`` when the
+  detected language yields no dates (#1331)
+- Parse relative date expressions with spaces between the sign and number,
+  such as "now - 2 hours" and "now + 1 day" (#1327)
+- Use the parser-relative ``now`` for the current month when filling in
+  incomplete dates so the month and day stay consistent (#1332)
+- Fix Norwegian Bokmål (``nb``) parsing of relative date expressions such
+  as "3 måneder siden" and "om 2 måneder" (#1334)
+- Parse abbreviated English month expressions such as "1mon ago" and
+  "3mons ago" (#1329)
+- Preserve surrounding whitespace when removing skip tokens during
+  translation to avoid spurious double spaces (#1324)
+
+Improvements:
+
+- Move project metadata and build configuration to ``pyproject.toml`` (#1311)
+- Add alternative Korean date expressions for today, yesterday, tomorrow,
+  and "N months ago/later" (#1289)
+- Expand Czech date translations with additional inflections, word numbers,
+  decade and century expressions, and clock phrases like "čtvrt na tři"
+  (#1325)
+- Replace internal ``OrderedDict`` usage with the built-in ``dict`` (#1328)
+
 1.4.0 (2026-03-26)
 ------------------
 

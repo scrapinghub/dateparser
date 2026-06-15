@@ -6,7 +6,7 @@ requires = [
 
 [project]
 name = "dateparser"
-version = "1.4.0"
+version = "1.4.1"
 description = "Date parsing library designed to parse dates from HTML pages"
 authors = [
     { name = "Scrapinghub", email = "opensource@zyte.com" },
