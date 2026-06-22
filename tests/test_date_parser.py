@@ -1701,6 +1701,72 @@ class TestDateParser(BaseTestCase):
             f"{description}: Expected {expected}, got {result}",
         )
 
+    @parameterized.expand(
+        [
+            # Test PREFER_DATES_FROM='past' with 2-digit year format (Issue #445)
+            param(
+                date_string="1/15/64",
+                date_format="%m/%d/%y",
+                prefer_from="past",
+                expected_year=1964,
+                description="PREFER_DATES_FROM='past' with 2-digit year",
+            ),
+            # Test PREFER_DATES_FROM='future' with 2-digit year format
+            param(
+                date_string="1/15/64",
+                date_format="%m/%d/%y",
+                prefer_from="future",
+                expected_year=2064,
+                description="PREFER_DATES_FROM='future' with 2-digit year",
+            ),
+            # Test with past date and prefer future
+            param(
+                date_string="1/15/24",
+                date_format="%m/%d/%y",
+                prefer_from="future",
+                expected_year=2124,
+                description="Past date (24) with PREFER_DATES_FROM='future'",
+            ),
+            # Test with future date and prefer past
+            param(
+                date_string="1/15/35",
+                date_format="%m/%d/%y",
+                prefer_from="past",
+                expected_year=1935,
+                description="Future date (35) with PREFER_DATES_FROM='past'",
+            ),
+            # Test 4-digit year format (should not apply PREFER_DATES_FROM adjustment)
+            param(
+                date_string="1/15/2050",
+                date_format="%m/%d/%Y",
+                prefer_from="past",
+                expected_year=2050,
+                description="4-digit year format ignores PREFER_DATES_FROM",
+            ),
+        ]
+    )
+    def test_prefer_dates_from_with_date_formats(
+        self,
+        date_string,
+        date_format,
+        prefer_from,
+        expected_year,
+        description,
+    ):
+        """Test that PREFER_DATES_FROM setting works with date_formats parameter (Issue #445)."""
+        result = parse(
+            date_string,
+            date_formats=[date_format],
+            settings={"PREFER_DATES_FROM": prefer_from},
+        )
+
+        self.assertIsNotNone(result, f"Failed to parse: {description}")
+        self.assertEqual(
+            expected_year,
+            result.year,
+            f"{description}: Expected year {expected_year}, got {result.year}",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
