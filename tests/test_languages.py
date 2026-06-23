@@ -1141,6 +1141,12 @@ class TestBundledLanguages(BaseTestCase):
             param("it", "oggi", "0 day ago"),
             param("it", "2 settimana fa", "2 week ago"),
             param("it", "2 anno fa", "2 year ago"),
+            param("it", "un ora fa", "1 hour ago"),
+            param("it", "un'ora fa", "1 hour ago"),
+            param("it", "oggi alle 11:00", "0 day ago 11:00"),
+            param("it", "oggi 11:00", "0 day ago 11:00"),
+            # "un'ora" simplification must not corrupt words like "orario"
+            param("it", "un orario", "un orario"),
             # Portuguese
             param("pt", "anteontem", "2 day ago"),
             param("pt", "ontem", "1 day ago"),
