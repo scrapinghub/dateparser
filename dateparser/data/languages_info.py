@@ -501,6 +501,7 @@ language_locale_dict = {
         "en-VI",
         "en-VU",
         "en-WS",
+        "en-US",
         "en-ZA",
         "en-ZM",
         "en-ZW",

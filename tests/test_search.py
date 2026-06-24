@@ -845,8 +845,8 @@ class TestTranslateSearch(BaseTestCase):
             # Danish
             param(
                 "da",
-                "Krigen i Europa begyndte den 1. september 1939, da Nazi-Tyskland invaderede Polen, "
-                "og endte med Nazi-Tysklands betingelsesløse overgivelse den 8. marts 1945.",
+                "Anden Verdenskrig begyndte tirsdag den 1. januar 1939, da invasion"
+                " og endte i maj 1945.",
             ),
             # Dutch
             param(

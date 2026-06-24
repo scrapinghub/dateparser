@@ -109,7 +109,8 @@ info = {
     ],
     "second": [
         "s",
-        "sekonde"
+        "sekonde",
+        "sek"
     ],
     "relative-type": {
         "0 day ago": [

@@ -279,7 +279,9 @@ info = {
             "in (\\d++[.,]?\\d*+) week",
             "in (\\d++[.,]?\\d*+) weeks",
             "in (\\d++[.,]?\\d*+) wk",
-            "in (\\d++[.,]?\\d*+)w"
+            "in (\\d++[.,]?\\d*+)w",
+            "in (\\d++[.,]?\\d*+) weeks time",
+            "in (\\d++[.,]?\\d*+) weeks' time"
         ],
         "in \\1 year": [
             "in (\\d++[.,]?\\d*+) year",
