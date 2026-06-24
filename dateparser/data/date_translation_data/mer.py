@@ -95,6 +95,7 @@ info = {
         "ntukũ"
     ],
     "hour": [
+        "hr",
         "ĩthaa"
     ],
     "minute": [

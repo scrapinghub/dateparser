@@ -1,11 +1,12 @@
 import json
 import os
 import shutil
+from collections import OrderedDict
 
 import regex as re
 
 from dateparser_scripts.order_languages import _get_language_locale_dict
-from dateparser_scripts.utils import get_dict_difference, get_raw_data
+from dateparser_scripts.utils import get_dict_difference, get_raw_data, CLDR_JSON_DIR
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     "\N{RIGHT SINGLE QUOTATION MARK}",  # '\u2019'
@@ -29,8 +30,6 @@ AM_PATTERN = re.compile(r"^\s*[Aa]\s*\.?\s*[Mm]\s*\.?\s*$")
 PM_PATTERN = re.compile(r"^\s*[Pp]\s*\.?\s*[Mm]\s*\.?\s*$")
 PARENTHESIS_PATTERN = re.compile(r"[\(\)]")
 
-cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
-
 
 def _filter_relative_string(relative_string):
     return (
@@ -45,20 +44,29 @@ def _filter_month_name(month_name):
 
 
 def _retrieve_locale_data(locale):
-    ca_gregorian_file = cldr_dates_full_dir + locale + "/ca-gregorian.json"
-    dateFields_file = cldr_dates_full_dir + locale + "/dateFields.json"
-    with open(ca_gregorian_file) as f:
-        cldr_gregorian_data = json.load(f)
+    def load(scope, file_id):
+        file_path = (
+            CLDR_JSON_DIR
+            / "cldr-json"
+            / f"cldr-{scope}-full"
+            / "main"
+            / locale
+            / f"{file_id}.json"
+        )
+        with file_path.open() as f:
+            return json.load(f, object_pairs_hook=OrderedDict)
 
-    with open(dateFields_file) as g:
-        cldr_datefields_data = json.load(g)
+    cldr_gregorian_data = load("dates", "ca-gregorian")
+    cldr_datefields_data = load("dates", "dateFields")
+    _units = load("units", "units")
 
     gregorian_dict = cldr_gregorian_data["main"][locale]["dates"]["calendars"][
         "gregorian"
     ]
     date_fields_dict = cldr_datefields_data["main"][locale]["dates"]["fields"]
+    units = _units["main"][locale]["units"]["long"]
 
-    json_dict = {}
+    json_dict = OrderedDict()
 
     field_keys_1 = ["stand-alone", "format"]
     field_keys_2 = [
@@ -286,12 +294,15 @@ def _retrieve_locale_data(locale):
     json_dict["day"] = [date_fields_dict[key]["displayName"] for key in day_keys]
 
     json_dict["hour"] = [date_fields_dict[key]["displayName"] for key in hour_keys]
+    hour_unit = units["duration-hour"]["displayName"]
+    if hour_unit not in json_dict["hour"]:
+        json_dict["hour"].append(hour_unit)
 
     json_dict["minute"] = [date_fields_dict[key]["displayName"] for key in minute_keys]
 
     json_dict["second"] = [date_fields_dict[key]["displayName"] for key in second_keys]
 
-    json_dict["relative-type"] = {}
+    json_dict["relative-type"] = OrderedDict()
 
     json_dict["relative-type"]["1 year ago"] = [
         date_fields_dict[key]["relative-type--1"] for key in year_keys
@@ -353,7 +364,7 @@ def _retrieve_locale_data(locale):
         date_fields_dict[key]["relative-type-0"] for key in second_keys
     ]
 
-    json_dict["relative-type-regex"] = {}
+    json_dict["relative-type-regex"] = OrderedDict()
 
     json_dict["relative-type-regex"]["in \\1 year"] = list(
         filter(
@@ -523,11 +534,11 @@ def _clean_dict(json_dict):
     """Remove duplicates and sort"""
     for key, value in json_dict.items():
         if isinstance(value, list):
-            json_dict[key] = sorted(dict.fromkeys(map(_clean_string, value)))
+            json_dict[key] = sorted(OrderedDict.fromkeys(map(_clean_string, value)))
         elif isinstance(value, dict):
-            json_dict[key] = dict(sorted(value.items()))
+            json_dict[key] = OrderedDict(sorted(value.items()))
             json_dict[key] = _clean_dict(json_dict[key])
-    return dict(filter(lambda x: x[1], json_dict.items()))
+    return OrderedDict(filter(lambda x: x[1], json_dict.items()))
 
 
 def main():
@@ -543,14 +554,14 @@ def main():
 
     for language in language_locale_dict:
         json_language_dict = _clean_dict(_retrieve_locale_data(language))
-        locale_specific_dict = {}
+        locale_specific_dict = OrderedDict()
         locales_list = language_locale_dict[language]
         for locale in locales_list:
             json_locale_dict = _clean_dict(_retrieve_locale_data(locale))
             locale_specific_dict[locale] = _clean_dict(
                 get_dict_difference(json_language_dict, json_locale_dict)
             )
-        json_language_dict["locale_specific"] = dict(
+        json_language_dict["locale_specific"] = OrderedDict(
             sorted(locale_specific_dict.items())
         )
         filename = directory + language + ".json"

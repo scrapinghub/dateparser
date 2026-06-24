@@ -283,11 +283,11 @@ class TestBundledLanguages(BaseTestCase):
             param("ak", "esusow aketseaba-kɔtɔnimba", "may"),
             param("ak", "8 mumu-ɔpɛnimba ben", "8 december tuesday"),
             # am
-            param("am", "ፌብሩወሪ 22 8:00 ጥዋት", "february 22 8:00 am"),
+            param("am", "ፌብሩዋሪ 22 8:00 ጥዋት", "february 22 8:00 am"),
             param("am", "ኖቬም 10", "november 10"),
             # as
             param("as", "17 জানুৱাৰী 1885", "17 january 1885"),
-            param("as", "বৃহষ্পতিবাৰ 1 জুলাই 2009", "thursday 1 july 2009"),
+            param("as", "বৃহস্পতিবাৰ 1 জুলাই 2009", "thursday 1 july 2009"),
             # asa
             param("asa", "12 julai 1879 08:00 ichamthi", "12 july 1879 08:00 pm"),
             param(
@@ -343,8 +343,8 @@ class TestBundledLanguages(BaseTestCase):
             ),
             param("br", "10 gwengolo 2002 sadorn", "10 september 2002 saturday"),
             # brx
-            param("brx", "6 अखथबर 2019 10:00 बेलासे", "6 october 2019 10:00 pm"),
-            param("brx", "बिसथि 8 फेब्रुवारी", "thursday 8 february"),
+            param("brx", "6 अक्ट'बर 2019 10:00 बेलासे", "6 october 2019 10:00 pm"),
+            param("brx", "बिस्थि 8 फेब्रुवारी", "thursday 8 february"),
             # bs-Cyrl
             param("bs-Cyrl", "2 септембар 2000, четвртак", "2 september 2000 thursday"),
             param("bs-Cyrl", "1 јули 1987 9:25 поподне", "1 july 1987 9:25 pm"),
@@ -363,7 +363,7 @@ class TestBundledLanguages(BaseTestCase):
             param("bs-Latn", "23 septembar 1879, petak", "23 september 1879 friday"),
             param(
                 "bs-Latn",
-                "subota 1 avg 2009 02:27 popodne",
+                "subota 1 aug 2009 02:27 popodne",
                 "saturday 1 august 2009 02:27 pm",
             ),
             # bs
@@ -373,8 +373,8 @@ class TestBundledLanguages(BaseTestCase):
             param("ca", "14 d'abril 1980 diumenge", "14 april 1980 sunday"),
             param("ca", "3 de novembre 2004 dj", "3 november 2004 thursday"),
             # ce
-            param("ce", "6 январь 1987 пӏераскан де", "6 january 1987 friday"),
-            param("ce", "оршотан де 3 июль 1890", "monday 3 july 1890"),
+            param("ce", "6 январь 1987 пӏераска", "6 january 1987 friday"),
+            param("ce", "оршот 3 июль 1890", "monday 3 july 1890"),
             # cgg
             param("cgg", "20 okwakataana 2027 orwamukaaga", "20 may 2027 saturday"),
             param("cgg", "okwaikumi na ibiri 12 oks", "december 12 wednesday"),
@@ -526,13 +526,13 @@ class TestBundledLanguages(BaseTestCase):
             # hy
             param(
                 "hy",
-                "2 դեկտեմբերի 2006 շբթ 02:00 կա",
+                "2 դեկտեմբերի 2006 շբթ 02:00 am",
                 "2 december 2006 saturday 02:00 am",
             ),
             param("hy", "չորեքշաբթի մյս 17, 2009", "wednesday may 17 2009"),
             # ig
             param("ig", "1 ọgọọst 2001 wenezdee", "1 august 2001 wednesday"),
-            param("ig", "mbọsị ụka 23 epr 1980", "sunday 23 april 1980"),
+            param("ig", "sọndee 23 epr 1980", "sunday 23 april 1980"),
             # ii
             param("ii", "ꆏꊂꇖ 12 ꌕꆪ 1980", "thursday 12 march 1980"),
             param("ii", "ꉆꆪ 1 02:05 ꁯꋒ", "august 1 02:05 pm"),
@@ -595,8 +595,8 @@ class TestBundledLanguages(BaseTestCase):
             param("kk", "3 маусым 1956 дс", "3 june 1956 monday"),
             param("kk", "жексенбі 12 қыркүйек 1890", "sunday 12 september 1890"),
             # kl
-            param("kl", "2 martsi 2001 ataasinngorneq", "2 march 2001 monday"),
-            param("kl", "pin 1 oktoberi 1901", "wednesday 1 october 1901"),
+            param("kl", "2 marsi 2001 ataasinngorneq", "2 march 2001 monday"),
+            param("kl", "pin 1 oktobari 1901", "wednesday 1 october 1901"),
             # kln
             param(
                 "kln",
@@ -609,7 +609,7 @@ class TestBundledLanguages(BaseTestCase):
             # kok
             param(
                 "kok",
-                "1 नोव्हेंबर 2000 आदित्यवार 01:19 मनं",
+                "1 नोव्हेंबर 2000 आयतार 01:19 pm",
                 "1 november 2000 sunday 01:19 pm",
             ),
             param("kok", "मंगळार 2 फेब्रुवारी 2003", "tuesday 2 february 2003"),
@@ -738,7 +738,7 @@ class TestBundledLanguages(BaseTestCase):
             # mr
             param(
                 "mr",
-                "16 फेब्रुवारी 1908 गुरु 02:03 मउ",
+                "16 फेब्रुवारी 1908 गुरु 02:03 pm",
                 "16 february 1908 thursday 02:03 pm",
             ),
             param("mr", "शनिवार 15 सप्टें 1888", "saturday 15 september 1888"),
@@ -797,7 +797,7 @@ class TestBundledLanguages(BaseTestCase):
             ),
             param(
                 "nn",
-                "2 mai 2000 søndag 09:18 ettermiddag",
+                "2 mai 2000 søndag 09:18 em",
                 "2 may 2000 sunday 09:18 pm",
             ),
             # nnh
@@ -834,8 +834,8 @@ class TestBundledLanguages(BaseTestCase):
             param("pa", "2 ਅਗਸਤ 1682 ਸ਼ਨਿੱਚਰ", "2 august 1682 saturday"),
             param("pa", "12 ਅਕਤੂ 11:08 ਪੂਦੁ", "12 october 11:08 am"),
             # qu
-            param("qu", "5 pauqar waray 1878 miércoles", "5 march 1878 wednesday"),
-            param("qu", "6 int 2009 domingo", "6 june 2009 sunday"),
+            param("qu", "5 marzo 1878 miércoles", "5 march 1878 wednesday"),
+            param("qu", "6 junio 2009 domingo", "6 june 2009 sunday"),
             # rm
             param("rm", "1 schaner 1890 venderdi", "1 january 1890 friday"),
             param("rm", "me 6 avust 2009", "wednesday 6 august 2009"),
@@ -944,10 +944,10 @@ class TestBundledLanguages(BaseTestCase):
             # so
             param(
                 "so",
-                "sab 5 bisha saddexaad 1765 11:08 gn",
+                "sabti 5 bisha saddexaad 1765 11:08 gd",
                 "saturday 5 march 1765 11:08 pm",
             ),
-            param("so", "16 lit 2008 axd", "16 december 2008 sunday"),
+            param("so", "16 dis 2008 axd", "16 december 2008 sunday"),
             # sq
             param(
                 "sq",
@@ -962,7 +962,7 @@ class TestBundledLanguages(BaseTestCase):
             # sr-Cyrl
             param(
                 "sr-Cyrl",
-                "16 април 2016 суб 03:46 по подне",
+                "16 април 2016 суб 03:46 pm",
                 "16 april 2016 saturday 03:46 pm",
             ),
             param("sr-Cyrl", "уторак 3 новембар 1999", "tuesday 3 november 1999"),
@@ -970,13 +970,13 @@ class TestBundledLanguages(BaseTestCase):
             param("sr-Latn", "4 septembar 2000 četvrtak", "4 september 2000 thursday"),
             param(
                 "sr-Latn",
-                "uto 18 maj 2004 11:15 pre podne",
+                "uto 18 maj 2004 11:15 am",
                 "tuesday 18 may 2004 11:15 am",
             ),
             # sr
             param(
                 "sr",
-                "3 децембар 2005 уто 10:15 по подне",
+                "3 децембар 2005 уто 10:15 pm",
                 "3 december 2005 tuesday 10:15 pm",
             ),
             param("sr", "петак 12 август 2001", "friday 12 august 2001"),
@@ -990,9 +990,7 @@ class TestBundledLanguages(BaseTestCase):
                 "sv", "onsdag 16 mars 08:15 eftermiddag", "wednesday 16 march 08:15 pm"
             ),
             # sw
-            param(
-                "sw", "5 mei 1994 jumapili 10:17 asubuhi", "5 may 1994 sunday 10:17 am"
-            ),
+            param("sw", "5 mei 1994 jumapili 10:17 am", "5 may 1994 sunday 10:17 am"),
             param("sw", "jumanne 2 desemba 2003", "tuesday 2 december 2003"),
             # ta
             param(
@@ -1090,7 +1088,7 @@ class TestBundledLanguages(BaseTestCase):
             param("yo", "ọjọ́ àbámẹ́ta 2 oṣù ẹ̀bibi 1896", "saturday 2 may 1896"),
             # zu
             param("zu", "3 mashi 2007 ulwesibili 10:08", "3 march 2007 tuesday 10:08"),
-            param("zu", "son 23 umasingana 1996", "sunday 23 january 1996"),
+            param("zu", "son 23 januwari 1996", "sunday 23 january 1996"),
         ]
     )
     def test_translation(self, shortname, datetime_string, expected_translation):
@@ -1448,11 +1446,11 @@ class TestBundledLanguages(BaseTestCase):
             # brx
             param("brx", "गाबोन", "in 1 day"),
             param("brx", "मैया 11:58 फुं", "1 day ago 11:58 am"),
-            param("brx", "17 मिनिथ", "17 minute"),
+            param("brx", "17 मिनित", "17 minute"),
             # bs-Cyrl
-            param("bs-Cyrl", "следећег месеца", "in 1 month"),
+            param("bs-Cyrl", "сљедећег мјесеца", "in 1 month"),
             param("bs-Cyrl", "прошле године 10:05 пре подне", "1 year ago 10:05 am"),
-            param("bs-Cyrl", "пре 28 недеља", "28 week ago"),
+            param("bs-Cyrl", "прије 28 седмица", "28 week ago"),
             param("bs-Cyrl", "сљедећи мјесец", "in 1 month"),
             param("bs-Cyrl", "сљедеће седмице", "in 1 week"),
             param("bs-Cyrl", "сљедеће године", "in 1 year"),
@@ -1490,7 +1488,7 @@ class TestBundledLanguages(BaseTestCase):
             param("cgg", "5 omwaka", "5 year"),
             # chr
             param("chr", "ᎯᎠ ᎢᏯᏔᏬᏍᏔᏅ", "0 minute ago"),
-            param("chr", "ᎾᎿ 8 ᎧᎸᎢ ᏥᎨᏒ", "8 month ago"),
+            param("chr", "8 ꭷꮈ ꮵꭸꮢ", "8 month ago"),
             param("chr", "ᎾᎿ 22 ᎢᏯᏔᏬᏍᏔᏅ", "in 22 minute"),
             # cs
             param("cs", "za 3 rok", "in 3 year"),
@@ -1510,7 +1508,7 @@ class TestBundledLanguages(BaseTestCase):
             param("dav", "15 juma", "15 week"),
             # de
             param("de", "nächstes jahr", "in 1 year"),
-            param("de", "letzte woche 04:25 nachm", "1 week ago 04:25 pm"),
+            param("de", "letzte woche 04:25 pm", "1 week ago 04:25 pm"),
             # dje
             param("dje", "hõo 08:08 subbaahi", "0 day ago 08:08 am"),
             param("dje", "suba", "in 1 day"),
@@ -1548,7 +1546,7 @@ class TestBundledLanguages(BaseTestCase):
             param("et", "1 a pärast", "in 1 year"),
             param("et", "4 tunni eest", "4 hour ago"),
             # eu
-            param("eu", "aurreko hilabetea", "1 month ago"),
+            param("eu", "aurreko hilabetean", "1 month ago"),
             param("eu", "duela 15 segundo", "15 second ago"),
             param("eu", "2 hilabete barru", "in 2 month"),
             # ewo
@@ -1591,7 +1589,7 @@ class TestBundledLanguages(BaseTestCase):
             param("gsw", "moorn", "in 1 day"),
             param("gsw", "geschter", "1 day ago"),
             # gu
-            param("gu", "2 વર્ષ પહેલા", "2 year ago"),
+            param("gu", "2 વર્ષ પહેલાં", "2 year ago"),
             param("gu", "આવતા મહિને", "in 1 month"),
             param("gu", "22 કલાક પહેલાં", "22 hour ago"),
             # guz
@@ -1687,7 +1685,7 @@ class TestBundledLanguages(BaseTestCase):
             param("id", "dalam 43 menit", "in 43 minute"),
             param("id", "dlm 23 dtk", "in 23 second"),
             # ig
-            param("ig", "nnyaafụ", "1 day ago"),
+            param("ig", "ụnyaahụ", "1 day ago"),
             param("ig", "taata", "0 day ago"),
             # is
             param("is", "í næstu viku", "in 1 week"),
@@ -1827,7 +1825,7 @@ class TestBundledLanguages(BaseTestCase):
             # mk
             param("mk", "пред 4 минута", "4 minute ago"),
             param("mk", "за 6 месеци", "in 6 month"),
-            param("mk", "минатата година", "1 year ago"),
+            param("mk", "минатата год", "1 year ago"),
             # ml
             param("ml", "ഈ മിനിറ്റിൽ", "0 minute ago"),
             param("ml", "7 മണിക്കൂറിൽ", "in 7 hour"),
@@ -1888,8 +1886,8 @@ class TestBundledLanguages(BaseTestCase):
             param("nmg", "nakugú", "1 day ago"),
             param("nmg", "namáná", "in 1 day"),
             # nn
-            param("nn", "for 5 minutter siden", "5 minute ago"),
-            param("nn", "om 3 uker", "in 3 week"),
+            param("nn", "for 5 minutt sidan", "5 minute ago"),
+            param("nn", "om 3 veke", "in 3 week"),
             param("nn", "i morgon", "in 1 day"),
             # nnh
             param("nnh", "jǔɔ gẅie à ne ntóo", "in 1 day"),
@@ -2334,8 +2332,8 @@ class TestBundledLanguages(BaseTestCase):
             ),
             param(
                 "qu",
-                "2 kapaq raymi 1998 domingo",
-                ["2", " ", "kapaq raymi", " ", "1998", " ", "domingo"],
+                "2 enero 1998 domingo",
+                ["2", " ", "enero", " ", "1998", " ", "domingo"],
             ),
             param(
                 "os",

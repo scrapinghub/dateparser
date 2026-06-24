@@ -1,0 +1,239 @@
+{
+    "name": "hi-Latn",
+    "date_order": "DMY",
+    "january": [
+        "jan",
+        "january"
+    ],
+    "february": [
+        "feb",
+        "february"
+    ],
+    "march": [
+        "mar",
+        "march"
+    ],
+    "april": [
+        "apr",
+        "april"
+    ],
+    "may": [
+        "may"
+    ],
+    "june": [
+        "jun",
+        "june"
+    ],
+    "july": [
+        "jul",
+        "july"
+    ],
+    "august": [
+        "aug",
+        "august"
+    ],
+    "september": [
+        "sep",
+        "sept",
+        "september"
+    ],
+    "october": [
+        "oct",
+        "october"
+    ],
+    "november": [
+        "nov",
+        "november"
+    ],
+    "december": [
+        "dec",
+        "december"
+    ],
+    "monday": [
+        "som",
+        "somwaar"
+    ],
+    "tuesday": [
+        "mangal",
+        "mangalwaar"
+    ],
+    "wednesday": [
+        "budh",
+        "budhwaar"
+    ],
+    "thursday": [
+        "guru",
+        "guruwaar"
+    ],
+    "friday": [
+        "shukra",
+        "shukrawaar"
+    ],
+    "saturday": [
+        "shani",
+        "shaniwaar"
+    ],
+    "sunday": [
+        "ravi",
+        "raviwaar"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "saal",
+        "yr"
+    ],
+    "month": [
+        "mahina",
+        "mo"
+    ],
+    "week": [
+        "hafta",
+        "wk"
+    ],
+    "day": [
+        "din"
+    ],
+    "hour": [
+        "ghanta",
+        "hours",
+        "hr"
+    ],
+    "minute": [
+        "min",
+        "minute"
+    ],
+    "second": [
+        "sec",
+        "second"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "aaj"
+        ],
+        "0 hour ago": [
+            "yah ghanta"
+        ],
+        "0 minute ago": [
+            "yah minute"
+        ],
+        "0 month ago": [
+            "is mo",
+            "yah maheena"
+        ],
+        "0 second ago": [
+            "abhi",
+            "now"
+        ],
+        "0 week ago": [
+            "is hafte",
+            "is wk"
+        ],
+        "0 year ago": [
+            "is saal",
+            "is yr"
+        ],
+        "1 day ago": [
+            "kal"
+        ],
+        "1 month ago": [
+            "last mo",
+            "pichhla maheena"
+        ],
+        "1 week ago": [
+            "last wk",
+            "pichhla hafta"
+        ],
+        "1 year ago": [
+            "last yr",
+            "pichhla saal"
+        ],
+        "in 1 day": [
+            "aane wala kal"
+        ],
+        "in 1 month": [
+            "agla maheena",
+            "next mo"
+        ],
+        "in 1 week": [
+            "agla hafta",
+            "next wk"
+        ],
+        "in 1 year": [
+            "agla saal",
+            "next yr"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "{0} din pahle"
+        ],
+        "\\1 hour ago": [
+            "{0} ghante pahle",
+            "{0} hr mein",
+            "{0} hr pahle",
+            "{0}hr pahle"
+        ],
+        "\\1 minute ago": [
+            "{0} min pahle",
+            "{0} minute pahle"
+        ],
+        "\\1 month ago": [
+            "{0} maheene pahle",
+            "{0} mo pahle",
+            "{0}mo pahle"
+        ],
+        "\\1 second ago": [
+            "{0} sec pahle",
+            "{0} second pahle",
+            "{0}s pahle"
+        ],
+        "\\1 week ago": [
+            "{0} hafte pahle",
+            "{0} wk pahle",
+            "{0}w pahle"
+        ],
+        "\\1 year ago": [
+            "{0} saal pahle",
+            "{0} yr pahle",
+            "{0}y pahle"
+        ],
+        "in \\1 day": [
+            "{0} din mein"
+        ],
+        "in \\1 hour": [
+            "{0} ghante mein",
+            "{0} hr mein",
+            "{0}hr mein"
+        ],
+        "in \\1 minute": [
+            "{0} min mein",
+            "{0} minute mein"
+        ],
+        "in \\1 month": [
+            "{0} maheene mein",
+            "{0} mo mein",
+            "{0}mo mein"
+        ],
+        "in \\1 second": [
+            "{0} sec mein",
+            "{0} second mein",
+            "{0}s mein"
+        ],
+        "in \\1 week": [
+            "{0} hafte mein",
+            "{0} wk mein",
+            "{0}w mein"
+        ],
+        "in \\1 year": [
+            "{0} saal mein",
+            "{0} yr mein",
+            "{0}y mein"
+        ]
+    },
+    "locale_specific": {}
+}

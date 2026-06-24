@@ -156,6 +156,7 @@ info = {
     "hour": [
         "h",
         "hodina",
+        "hodiny",
         "hodin",
         "hodiny",
         "hodinou",
@@ -193,6 +194,7 @@ info = {
             "tuto minutu"
         ],
         "0 month ago": [
+            "tento měs",
             "tento měsíc"
         ],
         "0 second ago": [
@@ -213,6 +215,7 @@ info = {
             "včera"
         ],
         "1 month ago": [
+            "minulý měs",
             "minulý měsíc"
         ],
         "1 week ago": [
@@ -228,6 +231,7 @@ info = {
             "zítřka"
         ],
         "in 1 month": [
+            "příští měs",
             "příští měsíc"
         ],
         "in 1 week": [

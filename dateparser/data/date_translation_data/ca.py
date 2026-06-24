@@ -116,7 +116,8 @@ info = {
     ],
     "hour": [
         "h",
-        "hora"
+        "hora",
+        "hores"
     ],
     "minute": [
         "min",
@@ -154,13 +155,11 @@ info = {
             "ahir"
         ],
         "1 month ago": [
-            "el mes passat",
-            "mes passat"
+            "el mes passat"
         ],
         "1 week ago": [
             "la setm passada",
-            "la setmana passada",
-            "setm passada"
+            "la setmana passada"
         ],
         "1 year ago": [
             "l'any passat"
@@ -169,13 +168,11 @@ info = {
             "demà"
         ],
         "in 1 month": [
-            "el mes que ve",
-            "mes vinent"
+            "el mes que ve"
         ],
         "in 1 week": [
             "la setm que ve",
             "la setmana que ve",
-            "setm vinent",
             "la setmana vinent",
             "la pròxima setmana",
             "la propera setmana"
