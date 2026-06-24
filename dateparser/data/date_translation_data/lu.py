@@ -96,7 +96,8 @@ info = {
         "dituku"
     ],
     "hour": [
-        "diba"
+        "diba",
+        "hr"
     ],
     "minute": [
         "kasunsu"

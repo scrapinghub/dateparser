@@ -95,7 +95,8 @@ info = {
         "funak"
     ],
     "hour": [
-        "hour"
+        "hour",
+        "hr"
     ],
     "minute": [
         "minute"

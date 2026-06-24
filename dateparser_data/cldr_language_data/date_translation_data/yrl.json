@@ -1,0 +1,241 @@
+{
+    "name": "yrl",
+    "date_order": "DMY",
+    "january": [
+        "ye",
+        "yepé"
+    ],
+    "february": [
+        "mk",
+        "mukũi"
+    ],
+    "march": [
+        "ms",
+        "musapíri"
+    ],
+    "april": [
+        "id",
+        "irũdí"
+    ],
+    "may": [
+        "pu",
+        "pú"
+    ],
+    "june": [
+        "py",
+        "pú-yepé"
+    ],
+    "july": [
+        "pm",
+        "pú-mukũi"
+    ],
+    "august": [
+        "ps",
+        "pú-musapíri"
+    ],
+    "september": [
+        "pi",
+        "pú-irũdí"
+    ],
+    "october": [
+        "yepé-putimaã",
+        "yp"
+    ],
+    "november": [
+        "yepé-yepé",
+        "yy"
+    ],
+    "december": [
+        "yepé-mukũi",
+        "ym"
+    ],
+    "monday": [
+        "mur",
+        "murakipí"
+    ],
+    "tuesday": [
+        "mmk",
+        "murakí-mukũi"
+    ],
+    "wednesday": [
+        "mms",
+        "murakí-musapíri"
+    ],
+    "thursday": [
+        "sup",
+        "supapá"
+    ],
+    "friday": [
+        "yuk",
+        "yukuakú"
+    ],
+    "saturday": [
+        "sau",
+        "saurú"
+    ],
+    "sunday": [
+        "mit",
+        "mituú"
+    ],
+    "am": [
+        "am"
+    ],
+    "pm": [
+        "pm"
+    ],
+    "year": [
+        "akayú"
+    ],
+    "month": [
+        "yasí"
+    ],
+    "week": [
+        "sẽm",
+        "sẽmãna"
+    ],
+    "day": [
+        "ara"
+    ],
+    "hour": [
+        "h",
+        "hura",
+        "hura-ita"
+    ],
+    "minute": [
+        "min",
+        "minutu"
+    ],
+    "second": [
+        "seg",
+        "segũdu"
+    ],
+    "relative-type": {
+        "0 day ago": [
+            "wií"
+        ],
+        "0 hour ago": [
+            "kuá hura"
+        ],
+        "0 minute ago": [
+            "kuá minutu"
+        ],
+        "0 month ago": [
+            "kuá yasí"
+        ],
+        "0 second ago": [
+            "kuíri"
+        ],
+        "0 week ago": [
+            "kuá sẽmãna"
+        ],
+        "0 year ago": [
+            "kuá akayú"
+        ],
+        "1 day ago": [
+            "kuesê"
+        ],
+        "1 month ago": [
+            "yasí kuera"
+        ],
+        "1 week ago": [
+            "sẽmãna kuera"
+        ],
+        "1 year ago": [
+            "akayú kuera"
+        ],
+        "in 1 day": [
+            "wirãdé"
+        ],
+        "in 1 month": [
+            "amũ yasí"
+        ],
+        "in 1 week": [
+            "amũ sẽmãna"
+        ],
+        "in 1 year": [
+            "amũ akayú"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "aikué {0} ara",
+            "aikué {0} ara itá"
+        ],
+        "\\1 hour ago": [
+            "aikué {0} h",
+            "aikué {0} h itá",
+            "aikué {0} hura",
+            "aikué {0} hura itá"
+        ],
+        "\\1 minute ago": [
+            "aikué {0} min",
+            "aikué {0} min itá",
+            "aikué {0} minutu",
+            "aikué {0} minutu itá"
+        ],
+        "\\1 month ago": [
+            "aikué {0} yasí",
+            "aikué {0} yasí itá"
+        ],
+        "\\1 second ago": [
+            "aikué {0} seg",
+            "aikué {0} seg itá",
+            "aikué {0} segũdu",
+            "aikué {0} segũdu itá"
+        ],
+        "\\1 week ago": [
+            "aikué {0} sẽm",
+            "aikué {0} sẽm itá",
+            "aikué {0} sẽmãna",
+            "aikué {0} sẽmãna itá"
+        ],
+        "\\1 year ago": [
+            "aikué {0} akayú",
+            "aikué {0} akayú itá"
+        ],
+        "in \\1 day": [
+            "{0} ara itá resê",
+            "{0} ara resê"
+        ],
+        "in \\1 hour": [
+            "{0} h resê",
+            "{0} h resê itá",
+            "{0} hura resê",
+            "{0} hura resê itá"
+        ],
+        "in \\1 minute": [
+            "{0} min resê",
+            "{0} min resê itá",
+            "{0} minutu resê",
+            "{0} minutu resê itá"
+        ],
+        "in \\1 month": [
+            "{0} yasí itá resê",
+            "{0} yasí resê"
+        ],
+        "in \\1 second": [
+            "{0} seg resê",
+            "{0} seg resê itá",
+            "{0} segũdu resê",
+            "{0} segũdu resê itá"
+        ],
+        "in \\1 week": [
+            "{0} sẽm itá resê",
+            "{0} sẽm resê",
+            "{0} sẽmãna itá resê",
+            "{0} sẽmãna resê"
+        ],
+        "in \\1 year": [
+            "{0} akayú itá resê",
+            "{0} akayú resê"
+        ]
+    },
+    "locale_specific": {
+        "yrl-CO": {
+            "name": "yrl-CO"
+        },
+        "yrl-VE": {
+            "name": "yrl-VE"
+        }
+    }
+}
