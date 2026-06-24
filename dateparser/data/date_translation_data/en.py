@@ -1088,6 +1088,10 @@ info = {
             "september": [
                 "sept"
             ]
+        },
+        "en-US": {
+            "name": "en-US",
+            "date_order": "MDY"
         }
     },
     "skip": [

@@ -106,3 +106,8 @@ simplifications:
     - ten: '10'
     - eleven: '11'
     - twelve: '12'
+
+locale_specific:
+    en-US:
+        name: en-US
+        date_order: MDY
