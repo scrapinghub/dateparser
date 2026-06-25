@@ -86,6 +86,20 @@ class TestDateRangeFunction(BaseTestCase):
         )
         self.then_period_was_rejected(invalid_period)
 
+    @parameterized.expand(
+        [
+            param(step={"months": 0}),
+            param(step={"days": -1}),
+        ]
+    )
+    def test_should_reject_steps_that_do_not_advance(self, step):
+        with pytest.raises(ValueError, match="date_range step must be positive"):
+            next(
+                date.date_range(
+                    datetime(2014, 6, 15), datetime(2014, 6, 25), **step
+                )
+            )
+
     def when_date_range_generated(self, begin, end, **size):
         try:
             self.result = list(date.date_range(begin, end, **size))
