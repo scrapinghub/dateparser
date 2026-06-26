@@ -78,6 +78,9 @@ def date_range(begin, end, **kwargs):
     step = relativedelta(**kwargs) if kwargs else relativedelta(days=1)
 
     date = begin
+    if date + step <= date:
+        raise ValueError("date_range step must be positive")
+
     while date < end:
         yield date
         date += step
