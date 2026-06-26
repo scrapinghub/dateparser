@@ -94,11 +94,7 @@ class TestDateRangeFunction(BaseTestCase):
     )
     def test_should_reject_steps_that_do_not_advance(self, step):
         with pytest.raises(ValueError, match="date_range step must be positive"):
-            next(
-                date.date_range(
-                    datetime(2014, 6, 15), datetime(2014, 6, 25), **step
-                )
-            )
+            next(date.date_range(datetime(2014, 6, 15), datetime(2014, 6, 25), **step))
 
     def when_date_range_generated(self, begin, end, **size):
         try:
