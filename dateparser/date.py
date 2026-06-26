@@ -14,6 +14,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
+    _get_missing_parts,
     apply_timezone_from_settings,
     get_timezone_from_tz_string,
     set_correct_day_from_settings,
@@ -187,8 +188,9 @@ def parse_with_formats(date_string, date_formats, settings):
         except ValueError:
             continue
         else:
-            missing_month = not any(m in date_format for m in ["%m", "%b", "%B"])
-            missing_day = "%d" not in date_format
+            _missing = _get_missing_parts(date_format)
+            missing_month = "month" in _missing
+            missing_day = "day" in _missing
             if missing_month and missing_day:
                 period = "year"
                 date_obj = set_correct_month_from_settings(date_obj, settings)

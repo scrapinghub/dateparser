@@ -377,6 +377,34 @@ class TestParseWithFormatsFunction(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                date_string="2023-100",
+                date_formats=["%Y-%j"],
+                expected_result=datetime(2023, 4, 10),
+            ),
+            param(
+                date_string="2024-060",
+                date_formats=["%Y-%j"],
+                expected_result=datetime(2024, 2, 29),
+            ),
+            param(
+                date_string="2023 060",
+                date_formats=["%Y %j"],
+                expected_result=datetime(2023, 3, 1),
+            ),
+        ]
+    )
+    def test_should_parse_day_of_year_format(
+        self, date_string, date_formats, expected_result
+    ):
+        """Format %%j (day of year) should correctly set both month and day."""
+        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        self.then_date_was_parsed()
+        self.then_parsed_period_is("day")
+        self.then_parsed_date_is(expected_result)
+
+    @parameterized.expand(
+        [
+            param(
                 date_string="09.16",
                 date_formats=["%m.%d"],
                 expected_month=9,
