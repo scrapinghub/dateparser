@@ -57,7 +57,9 @@ def _get_missing_parts(fmt):
     """
     directive_mapping = {
         "day": ["%d", "%-d", "%j", "%-j"],
-        "month": ["%b", "%B", "%m", "%-m"],
+        # %j (day of year) encodes month implicitly: a successful strptime with %j always
+        # populates the month field, so %j should count as providing month information.
+        "month": ["%b", "%B", "%m", "%-m", "%j", "%-j"],
         "year": ["%y", "%-y", "%Y"],
     }
 
