@@ -207,6 +207,16 @@ def parse_with_formats(date_string, date_formats, settings):
             if not ("%y" in date_format or "%Y" in date_format):
                 today = datetime.today()
                 date_obj = date_obj.replace(year=today.year)
+            else:
+                # Apply PREFER_DATES_FROM logic for 2-digit year formats (%y)
+                if "%y" in date_format and "%Y" not in date_format:
+                    now = datetime.today()
+                    if now < date_obj:
+                        if "past" in settings.PREFER_DATES_FROM:
+                            date_obj = date_obj.replace(year=date_obj.year - 100)
+                    else:
+                        if "future" in settings.PREFER_DATES_FROM:
+                            date_obj = date_obj.replace(year=date_obj.year + 100)
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
