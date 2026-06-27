@@ -175,6 +175,11 @@ def _check_between_0_and_1(setting_name, setting_value):
         )
 
 
+def _check_non_negative(setting_name, setting_value):
+    if setting_value < 0:
+        raise SettingValidationError("{} cannot be negative".format(setting_name))
+
+
 def check_settings(settings):
     """
     Check if provided settings are valid, if not it raises `SettingValidationError`.
@@ -235,6 +240,7 @@ def check_settings(settings):
         },
         "CACHE_SIZE_LIMIT": {
             "type": int,
+            "extra_check": _check_non_negative,
         },
         "RETURN_TIME_SPAN": {"type": bool},
         "DEFAULT_START_OF_WEEK": {
