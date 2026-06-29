@@ -1,6 +1,6 @@
 import collections
 from collections.abc import Set
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import regex as re
 from dateutil.relativedelta import relativedelta
@@ -203,18 +203,16 @@ def parse_with_formats(date_string, date_formats, settings):
                 date_obj = set_correct_day_from_settings(date_obj, settings)
 
             if not ("%y" in date_format or "%Y" in date_format):
-                today = datetime.today()
-                date_obj = date_obj.replace(year=today.year)
-            else:
-                # Apply PREFER_DATES_FROM logic for 2-digit year formats (%y)
-                if "%y" in date_format and "%Y" not in date_format:
-                    now = datetime.today()
-                    if now < date_obj:
-                        if "past" in settings.PREFER_DATES_FROM:
-                            date_obj = date_obj.replace(year=date_obj.year - 100)
-                    else:
-                        if "future" in settings.PREFER_DATES_FROM:
-                            date_obj = date_obj.replace(year=date_obj.year + 100)
+                date_obj = date_obj.replace(year=datetime.now(tz=timezone.utc).year)
+            elif "%y" in date_format and "%Y" not in date_format:
+                # Apply PREFER_DATES_FROM for 2-digit years; fall back to UTC now if RELATIVE_BASE is unset
+                now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
+                    tzinfo=None
+                )
+                if now < date_obj and settings.PREFER_DATES_FROM == "past":
+                    date_obj = date_obj.replace(year=date_obj.year - 100)
+                elif now >= date_obj and settings.PREFER_DATES_FROM == "future":
+                    date_obj = date_obj.replace(year=date_obj.year + 100)
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
 

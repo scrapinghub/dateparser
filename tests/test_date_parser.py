@@ -1767,6 +1767,48 @@ class TestDateParser(BaseTestCase):
             f"{description}: Expected year {expected_year}, got {result.year}",
         )
 
+    def test_prefer_dates_from_with_date_formats_and_relative_base(self):
+        """Test that PREFER_DATES_FROM respects RELATIVE_BASE with date_formats."""
+        # Use a relative base in the past (e.g., 1980-01-01)
+        # When parsing '1/15/64' with RELATIVE_BASE='1980-01-01' and PREFER_DATES_FROM='past',
+        # it should be interpreted as 1964 (past relative to 1980)
+        relative_base = datetime(1980, 1, 1)
+        result = parse(
+            "1/15/64",
+            date_formats=["%m/%d/%y"],
+            settings={
+                "PREFER_DATES_FROM": "past",
+                "RELATIVE_BASE": relative_base,
+            },
+        )
+
+        self.assertIsNotNone(result)
+        self.assertEqual(
+            1964,
+            result.year,
+            f"RELATIVE_BASE not respected: Expected 1964, got {result.year}",
+        )
+
+        # Now test with a relative base in the future
+        # When parsing '1/15/64' with RELATIVE_BASE='2020-01-01' and PREFER_DATES_FROM='future',
+        # it should be interpreted as 2064 (future relative to 2020)
+        relative_base = datetime(2020, 1, 1)
+        result = parse(
+            "1/15/64",
+            date_formats=["%m/%d/%y"],
+            settings={
+                "PREFER_DATES_FROM": "future",
+                "RELATIVE_BASE": relative_base,
+            },
+        )
+
+        self.assertIsNotNone(result)
+        self.assertEqual(
+            2064,
+            result.year,
+            f"RELATIVE_BASE not respected: Expected 2064, got {result.year}",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
