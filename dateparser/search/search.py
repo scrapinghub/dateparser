@@ -3,7 +3,7 @@ from datetime import datetime
 
 import regex as re
 
-from dateparser.conf import Settings, apply_settings, check_settings
+from dateparser.conf import apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date import DateDataParser
 from dateparser.languages.loader import LocaleDataLoader
@@ -111,7 +111,7 @@ class _ExactLanguageSearch:
             item, relative_base = self.set_relative_base(item, parsed)
 
         if relative_base:
-            parser._settings.RELATIVE_BASE = relative_base
+            parser._settings = parser._settings.replace(RELATIVE_BASE=relative_base)
             parsed_item = parser.get_date_data(item)
         return parsed_item, is_relative
 
@@ -202,7 +202,6 @@ class _ExactLanguageSearch:
                 results.append((matched_text + " (start)", start_date))
                 results.append((matched_text + " (end)", end_date))
 
-        parser._settings = Settings()
         return results
 
 

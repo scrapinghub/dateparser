@@ -1,3 +1,5 @@
+import copy
+import threading
 from itertools import chain
 
 import regex as re
@@ -53,6 +55,9 @@ class Locale:
         )
         self.info = combine_dicts(language_info, locale_specific_info)
         self.info.pop("locale_specific", None)
+        # This locale instance is cached and shared across threads; the lock
+        # guards lazy initialisation of the cached attributes below.
+        self._lock = threading.RLock()
 
     def is_applicable(self, date_string, strip_timezone=False, settings=None):
         """
@@ -210,18 +215,19 @@ class Locale:
         return "".join(date_string_tokens)
 
     def _get_relative_translations(self, settings=None):
-        if settings.NORMALIZE:
-            if self._normalized_relative_translations is None:
-                self._normalized_relative_translations = (
-                    self._generate_relative_translations(normalize=True)
-                )
-            return self._normalized_relative_translations
-        else:
-            if self._relative_translations is None:
-                self._relative_translations = self._generate_relative_translations(
-                    normalize=False
-                )
-            return self._relative_translations
+        with self._lock:
+            if settings.NORMALIZE:
+                if self._normalized_relative_translations is None:
+                    self._normalized_relative_translations = (
+                        self._generate_relative_translations(normalize=True)
+                    )
+                return self._normalized_relative_translations
+            else:
+                if self._relative_translations is None:
+                    self._relative_translations = self._generate_relative_translations(
+                        normalize=False
+                    )
+                return self._relative_translations
 
     def _generate_relative_translations(self, normalize=False):
         relative_translations = self.info.get("relative-type-regex", {})
@@ -318,13 +324,14 @@ class Locale:
 
     def _get_abbreviations(self, settings):
         dictionary = self._get_dictionary(settings=settings)
-        abbreviations = []
-        if self._abbreviations is None:
-            for item in dictionary:
-                if item.endswith(".") and len(item) > 1:
-                    abbreviations.append(item)
-            self._abbreviations = abbreviations
-        return self._abbreviations
+        with self._lock:
+            if self._abbreviations is None:
+                abbreviations = []
+                for item in dictionary:
+                    if item.endswith(".") and len(item) > 1:
+                        abbreviations.append(item)
+                self._abbreviations = abbreviations
+            return self._abbreviations
 
     def _sentence_split(self, string, settings):
         abbreviations = self._get_abbreviations(settings=settings)
@@ -410,11 +417,15 @@ class Locale:
         return original_tokens, simplified_tokens
 
     def _get_split_dictionary(self, settings):
-        if self._split_dictionary is None:
-            settings.NORMALIZE = True
-            dictionary = self._get_dictionary(settings=settings)
-            self._split_dictionary = self._split_dict(dictionary)
-        return self._split_dictionary
+        with self._lock:
+            if self._split_dictionary is None:
+                # The split dictionary is always built from the normalized
+                # dictionary, regardless of the ``NORMALIZE`` setting.
+                dictionary = self._bind_settings(
+                    self._get_normalized_dictionary(settings), settings
+                )
+                self._split_dictionary = self._split_dict(dictionary)
+            return self._split_dictionary
 
     def _split_dict(self, dictionary):
         newdict = {}
@@ -512,29 +523,34 @@ class Locale:
 
     def _get_simplifications(self, settings=None):
         no_word_spacing = _parse_bool(self.info.get("no_word_spacing", False))
-        if settings.NORMALIZE:
-            if self._normalized_simplifications is None:
-                self._normalized_simplifications = []
-                simplifications = self._generate_simplifications(normalize=True)
-                for simplification in simplifications:
-                    pattern, replacement = list(simplification.items())[0]
-                    if not no_word_spacing:
-                        pattern = r"(?<=\A|\W|_)%s(?=\Z|\W|_)" % pattern
-                    pattern = re.compile(pattern, flags=re.I | re.U)
-                    self._normalized_simplifications.append({pattern: replacement})
-            return self._normalized_simplifications
+        with self._lock:
+            if settings.NORMALIZE:
+                if self._normalized_simplifications is None:
+                    normalized_simplifications = []
+                    simplifications = self._generate_simplifications(normalize=True)
+                    for simplification in simplifications:
+                        pattern, replacement = list(simplification.items())[0]
+                        if not no_word_spacing:
+                            pattern = r"(?<=\A|\W|_)%s(?=\Z|\W|_)" % pattern
+                        pattern = re.compile(pattern, flags=re.I | re.U)
+                        normalized_simplifications.append({pattern: replacement})
+                    # Assign only once fully built so other threads never observe
+                    # a partially-populated list.
+                    self._normalized_simplifications = normalized_simplifications
+                return self._normalized_simplifications
 
-        else:
-            if self._simplifications is None:
-                self._simplifications = []
-                simplifications = self._generate_simplifications(normalize=False)
-                for simplification in simplifications:
-                    pattern, replacement = list(simplification.items())[0]
-                    if not no_word_spacing:
-                        pattern = r"(?<=\A|\W|_)%s(?=\Z|\W|_)" % pattern
-                    pattern = re.compile(pattern, flags=re.I | re.U)
-                    self._simplifications.append({pattern: replacement})
-            return self._simplifications
+            else:
+                if self._simplifications is None:
+                    simplifications_built = []
+                    simplifications = self._generate_simplifications(normalize=False)
+                    for simplification in simplifications:
+                        pattern, replacement = list(simplification.items())[0]
+                        if not no_word_spacing:
+                            pattern = r"(?<=\A|\W|_)%s(?=\Z|\W|_)" % pattern
+                        pattern = re.compile(pattern, flags=re.I | re.U)
+                        simplifications_built.append({pattern: replacement})
+                    self._simplifications = simplifications_built
+                return self._simplifications
 
     def _generate_simplifications(self, normalize=False):
         simplifications = []
@@ -574,25 +590,41 @@ class Locale:
 
     def _get_dictionary(self, settings=None):
         if not settings.NORMALIZE:
+            return self._bind_settings(self._get_base_dictionary(), settings)
+        return self._bind_settings(self._get_normalized_dictionary(settings), settings)
+
+    def _get_base_dictionary(self):
+        with self._lock:
             if self._dictionary is None:
                 self._generate_dictionary()
-            self._dictionary._settings = settings
             return self._dictionary
-        else:
+
+    def _get_normalized_dictionary(self, settings=None):
+        with self._lock:
             if self._normalized_dictionary is None:
                 self._generate_normalized_dictionary()
-            self._normalized_dictionary._settings = settings
             return self._normalized_dictionary
 
+    @staticmethod
+    def _bind_settings(dictionary, settings):
+        # A shallow copy shares the heavy state (translations, regex caches) by
+        # reference but gets its own settings, so the shared, cached dictionary
+        # instance is not mutated per call.
+        bound = copy.copy(dictionary)
+        bound._settings = settings
+        return bound
+
     def _get_wordchars(self, settings=None):
-        if self._wordchars is None:
-            self._set_wordchars(settings)
-        return self._wordchars
+        with self._lock:
+            if self._wordchars is None:
+                self._set_wordchars(settings)
+            return self._wordchars
 
     def _get_splitters(self, settings=None):
-        if self._splitters is None:
-            self._set_splitters(settings)
-        return self._splitters
+        with self._lock:
+            if self._splitters is None:
+                self._set_splitters(settings)
+            return self._splitters
 
     def _set_splitters(self, settings=None):
         splitters = {
@@ -635,7 +667,9 @@ class Locale:
         }
 
     def get_wordchars_for_detection(self, settings):
-        if self._wordchars_for_detection is None:
+        with self._lock:
+            if self._wordchars_for_detection is not None:
+                return self._wordchars_for_detection
             wordchars = set()
             for word in self._get_dictionary(settings):
                 if re.match(r"^[\W\d_]+$", word, re.UNICODE):
