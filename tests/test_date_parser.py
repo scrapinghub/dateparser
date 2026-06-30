@@ -1757,7 +1757,10 @@ class TestDateParser(BaseTestCase):
         result = parse(
             date_string,
             date_formats=[date_format],
-            settings={"PREFER_DATES_FROM": prefer_from},
+            settings={
+                "PREFER_DATES_FROM": prefer_from,
+                "RELATIVE_BASE": datetime(2026, 1, 1),
+            },
         )
 
         self.assertIsNotNone(result, f"Failed to parse: {description}")
@@ -1808,6 +1811,38 @@ class TestDateParser(BaseTestCase):
             result.year,
             f"RELATIVE_BASE not respected: Expected 2064, got {result.year}",
         )
+
+    def test_prefer_dates_from_with_date_formats_tz_aware_relative_base(self):
+        """Test that a tz-aware RELATIVE_BASE does not crash (Bug #1 fix)."""
+        from datetime import timezone as tz
+
+        result = parse(
+            "1/15/64",
+            date_formats=["%m/%d/%y"],
+            settings={
+                "PREFER_DATES_FROM": "past",
+                "RELATIVE_BASE": datetime(1980, 1, 1, tzinfo=tz.utc),
+            },
+        )
+        self.assertIsNotNone(result)
+        self.assertEqual(1964, result.year)
+
+    def test_prefer_dates_from_with_date_formats_feb29_non_leap(self):
+        """Test that Feb 29 shifted to a non-leap year finds the next valid leap year (Bug #2 fix)."""
+        # 2/29/00 parses as 2000-02-29; shifting +100 → 2100 which is not a leap year.
+        # _apply_century_preference finds the next valid leap year: 2104.
+        result = parse(
+            "2/29/00",
+            date_formats=["%m/%d/%y"],
+            settings={
+                "PREFER_DATES_FROM": "future",
+                "RELATIVE_BASE": datetime(2026, 1, 1),
+            },
+        )
+        self.assertIsNotNone(result)
+        self.assertEqual(2104, result.year)
+        self.assertEqual(2, result.month)
+        self.assertEqual(29, result.day)
 
 
 if __name__ == "__main__":
