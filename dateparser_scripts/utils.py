@@ -1,6 +1,5 @@
 import os
 import shutil
-from collections import OrderedDict
 from pathlib import Path
 
 from git import Repo
@@ -20,7 +19,7 @@ def get_raw_data():
 
 
 def get_dict_difference(parent_dict, child_dict):
-    difference_dict = OrderedDict()
+    difference_dict = {}
     for key, child_value in child_dict.items():
         parent_value = parent_dict.get(key)
         child_specific_value = None
@@ -38,7 +37,7 @@ def get_dict_difference(parent_dict, child_dict):
 
 
 def combine_dicts(primary_dict, supplementary_dict):
-    combined_dict = OrderedDict()
+    combined_dict = {}
     for key, value in primary_dict.items():
         if key in supplementary_dict:
             if isinstance(value, list):

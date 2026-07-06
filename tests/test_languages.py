@@ -1472,6 +1472,8 @@ class TestBundledLanguages(BaseTestCase):
             param("bs", "ovaj sat", "0 hour ago"),
             # ca
             param("ca", "d'aquí a 22 hores", "in 22 hour"),
+            # standalone hour unit, added from the CLDR "duration-hour" unit data
+            param("ca", "2 hores", "2 hour"),
             param("ca", "fa 17 anys", "17 year ago"),
             param("ca", "el mes passat", "1 month ago"),
             param("ca", "la pròxima setmana", "in 1 week"),

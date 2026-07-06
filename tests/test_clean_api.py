@@ -113,6 +113,20 @@ class TestParseFunction(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(date_string="6 yar 2019", locales=["ff-CM"]),
+            param(date_string="6 yar 2019", locales=["ff-GN"]),
+            param(date_string="6 yar 2019", locales=["ff-MR"]),
+        ]
+    )
+    def test_locales_dropped_in_cldr_44_remain_supported(self, date_string, locales):
+        # ff-CM/ff-GN/ff-MR were standalone locales up to CLDR 31 but were dropped in
+        # CLDR 44 (regional data moved under ff-Latn). They remain valid locale codes
+        # and resolve to the base `ff` data, so existing callers keep working.
+        self.when_date_is_parsed(date_string, locales=locales)
+        self.then_parsed_date_is(date(2019, 10, 6))
+
+    @parameterized.expand(
+        [
             param(
                 date_string="0:4",
                 locales=["fr-PF"],
