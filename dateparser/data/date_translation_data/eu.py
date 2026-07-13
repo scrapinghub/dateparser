@@ -122,13 +122,15 @@ info = {
             "minutu honetan"
         ],
         "0 month ago": [
-            "hilabete honetan"
+            "hilabete honetan",
+            "hilabete hau"
         ],
         "0 second ago": [
             "orain"
         ],
         "0 week ago": [
-            "aste honetan"
+            "aste honetan",
+            "aste hau"
         ],
         "0 year ago": [
             "aurten"
@@ -137,10 +139,12 @@ info = {
             "atzo"
         ],
         "1 month ago": [
-            "aurreko hilabetean"
+            "aurreko hilabetean",
+            "aurreko hilabetea"
         ],
         "1 week ago": [
-            "aurreko astean"
+            "aurreko astean",
+            "aurreko astea"
         ],
         "1 year ago": [
             "aurreko urtea",
@@ -150,10 +154,12 @@ info = {
             "bihar"
         ],
         "in 1 month": [
-            "hurrengo hilabetean"
+            "hurrengo hilabetean",
+            "hurrengo hilabetea"
         ],
         "in 1 week": [
-            "hurrengo astean"
+            "hurrengo astean",
+            "hurrengo astea"
         ],
         "in 1 year": [
             "hurrengo urtea",

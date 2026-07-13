@@ -30,7 +30,9 @@ info = {
     ],
     "august": [
         "aug",
-        "august"
+        "august",
+        "avg",
+        "avgust"
     ],
     "september": [
         "sep",

@@ -191,12 +191,14 @@ info = {
         "\\1 hour ago": [
             "il y a (\\d++[.,]?\\d*+) h",
             "il y a (\\d++[.,]?\\d*+) heure",
-            "il y a (\\d++[.,]?\\d*+) heures"
+            "il y a (\\d++[.,]?\\d*+) heures",
+            "il y a (\\d++[.,]?\\d*+)h"
         ],
         "\\1 minute ago": [
             "il y a (\\d++[.,]?\\d*+) min",
             "il y a (\\d++[.,]?\\d*+) minute",
-            "il y a (\\d++[.,]?\\d*+) minutes"
+            "il y a (\\d++[.,]?\\d*+) minutes",
+            "il y a (\\d++[.,]?\\d*+)min"
         ],
         "\\1 month ago": [
             "il y a (\\d++[.,]?\\d*+) m",
@@ -225,7 +227,8 @@ info = {
         "in \\1 hour": [
             "dans (\\d++[.,]?\\d*+) h",
             "dans (\\d++[.,]?\\d*+) heure",
-            "dans (\\d++[.,]?\\d*+) heures"
+            "dans (\\d++[.,]?\\d*+) heures",
+            "dans (\\d++[.,]?\\d*+)h"
         ],
         "in \\1 minute": [
             "dans (\\d++[.,]?\\d*+) min",

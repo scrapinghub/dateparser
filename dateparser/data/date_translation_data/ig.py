@@ -15,7 +15,8 @@ info = {
     ],
     "april": [
         "epr",
-        "epreel"
+        "epreel",
+        "eprel"
     ],
     "may": [
         "mee"
@@ -74,7 +75,9 @@ info = {
     ],
     "sunday": [
         "sọn",
-        "sọndee"
+        "sọndee",
+        "mbọsị ụka",
+        "ụka"
     ],
     "am": [
         "am",
@@ -104,7 +107,8 @@ info = {
         "nkeji"
     ],
     "second": [
-        "tịm kọm"
+        "tịm kọm",
+        "nkejinta"
     ],
     "relative-type": {
         "0 day ago": [
@@ -112,46 +116,59 @@ info = {
             "taata"
         ],
         "0 hour ago": [
-            "elekere a"
+            "elekere a",
+            "this hour"
         ],
         "0 minute ago": [
-            "nkejị a"
+            "nkejị a",
+            "this minute"
         ],
         "0 month ago": [
-            "ọnwa a"
+            "ọnwa a",
+            "this month"
         ],
         "0 second ago": [
-            "ụgbụa"
+            "ụgbụa",
+            "now"
         ],
         "0 week ago": [
-            "izu a"
+            "izu a",
+            "this week"
         ],
         "0 year ago": [
-            "afọ a"
+            "afọ a",
+            "this year"
         ],
         "1 day ago": [
-            "ụnyaahụ"
+            "ụnyaahụ",
+            "nnyaafụ"
         ],
         "1 month ago": [
-            "ọnwa gara aga"
+            "ọnwa gara aga",
+            "last month"
         ],
         "1 week ago": [
-            "izu gara aga"
+            "izu gara aga",
+            "last week"
         ],
         "1 year ago": [
-            "afọ gara aga"
+            "afọ gara aga",
+            "last year"
         ],
         "in 1 day": [
             "echi"
         ],
         "in 1 month": [
-            "ọnwa ọzọ"
+            "ọnwa ọzọ",
+            "next month"
         ],
         "in 1 week": [
-            "izu na-esote"
+            "izu na-esote",
+            "next week"
         ],
         "in 1 year": [
-            "afọ ọzọ"
+            "afọ ọzọ",
+            "next year"
         ]
     },
     "locale_specific": {},

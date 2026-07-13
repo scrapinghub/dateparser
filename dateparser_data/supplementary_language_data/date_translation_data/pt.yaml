@@ -1,7 +1,14 @@
+relative-type-regex:
+    \1 minute ago:
+        - há (\d+[.,]?\d*) mins
+    in \1 minute:
+        - em (\d+[.,]?\d*) mins
+    in \1 second:
+        - em (\d+[.,]?\d*) segs
 skip: ["cerca", "de", "e", "às"]
 pertain: ["de"]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 monday:
     - Segunda
@@ -31,8 +38,10 @@ hour:
     - horas
 minute:
     - minutos
+    - m
 second:
     - segundos
+    - s
 
 ago:
     - atrás

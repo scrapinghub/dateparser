@@ -71,7 +71,8 @@ info = {
     ],
     "saturday": [
         "sab",
-        "sábadu"
+        "sábadu",
+        "sabadu"
     ],
     "sunday": [
         "dum",
@@ -115,16 +116,19 @@ info = {
             "oji"
         ],
         "0 hour ago": [
-            "es ora li"
+            "es ora li",
+            "this hour"
         ],
         "0 minute ago": [
-            "es minutu li"
+            "es minutu li",
+            "this minute"
         ],
         "0 month ago": [
             "es mes li"
         ],
         "0 second ago": [
-            "agora"
+            "agora",
+            "now"
         ],
         "0 week ago": [
             "es simana li"
@@ -145,7 +149,8 @@ info = {
             "anu pasadu"
         ],
         "in 1 day": [
-            "manhan"
+            "manhan",
+            "manha"
         ],
         "in 1 month": [
             "prósimu mes"

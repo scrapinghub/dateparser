@@ -116,16 +116,19 @@ info = {
             "illum"
         ],
         "0 hour ago": [
-            "din is-siegħa"
+            "din is-siegħa",
+            "this hour"
         ],
         "0 minute ago": [
-            "din il-minuta"
+            "din il-minuta",
+            "this minute"
         ],
         "0 month ago": [
             "dan ix-xahar"
         ],
         "0 second ago": [
-            "issa"
+            "issa",
+            "now"
         ],
         "0 week ago": [
             "din il-ġimgħa"
@@ -134,7 +137,8 @@ info = {
             "din is-sena"
         ],
         "1 day ago": [
-            "lbieraħ"
+            "lbieraħ",
+            "ilbieraħ"
         ],
         "1 month ago": [
             "ix-xahar li għadda"
@@ -143,7 +147,8 @@ info = {
             "il-ġimgħa li għaddiet"
         ],
         "1 year ago": [
-            "is-sena l-oħra"
+            "is-sena l-oħra",
+            "is-sena li għaddiet"
         ],
         "in 1 day": [
             "għada"
@@ -180,7 +185,8 @@ info = {
             "(\\d++[.,]?\\d*+) ġimgħa ilu"
         ],
         "\\1 year ago": [
-            "(\\d++[.,]?\\d*+) sena ilu"
+            "(\\d++[.,]?\\d*+) sena ilu",
+            "(\\d++[.,]?\\d*+) snin ilu"
         ],
         "in \\1 day": [
             "fi żmien (\\d++[.,]?\\d*+) ġurnata oħra"

@@ -75,76 +75,98 @@ info = {
     ],
     "year": [
         "ବ",
-        "ବର୍ଷ"
+        "ବର୍ଷ",
+        "year"
     ],
     "month": [
         "ମା",
-        "ମାସ"
+        "ମାସ",
+        "month"
     ],
     "week": [
         "ସ",
-        "ସପ୍ତାହ"
+        "ସପ୍ତାହ",
+        "week"
     ],
     "day": [
-        "ଦିନ"
+        "ଦିନ",
+        "day"
     ],
     "hour": [
         "ଘ",
-        "ଘଣ୍ଟା"
+        "ଘଣ୍ଟା",
+        "hour"
     ],
     "minute": [
         "ମି",
-        "ମିନିଟ୍"
+        "ମିନିଟ୍",
+        "minute"
     ],
     "second": [
         "ସେ",
-        "ସେକେଣ୍ଡ୍"
+        "ସେକେଣ୍ଡ୍",
+        "second"
     ],
     "relative-type": {
         "0 day ago": [
-            "ଆଜି"
+            "ଆଜି",
+            "today"
         ],
         "0 hour ago": [
-            "ଏହି ଘଣ୍ଟା"
+            "ଏହି ଘଣ୍ଟା",
+            "this hour"
         ],
         "0 minute ago": [
-            "ଏହି ମିନିଟ୍"
+            "ଏହି ମିନିଟ୍",
+            "this minute"
         ],
         "0 month ago": [
-            "ଏହି ମାସ"
+            "ଏହି ମାସ",
+            "this month"
         ],
         "0 second ago": [
-            "ବର୍ତ୍ତମାନ"
+            "ବର୍ତ୍ତମାନ",
+            "now"
         ],
         "0 week ago": [
-            "ଏହି ସପ୍ତାହ"
+            "ଏହି ସପ୍ତାହ",
+            "this week"
         ],
         "0 year ago": [
-            "ଏହି ବର୍ଷ"
+            "ଏହି ବର୍ଷ",
+            "this year"
         ],
         "1 day ago": [
-            "ଗତକାଲି"
+            "ଗତକାଲି",
+            "yesterday"
         ],
         "1 month ago": [
-            "ଗତ ମାସ"
+            "ଗତ ମାସ",
+            "last month"
         ],
         "1 week ago": [
-            "ଗତ ସପ୍ତାହ"
+            "ଗତ ସପ୍ତାହ",
+            "last week"
         ],
         "1 year ago": [
-            "ଗତ ବର୍ଷ"
+            "ଗତ ବର୍ଷ",
+            "last year"
         ],
         "in 1 day": [
-            "ଆସନ୍ତାକାଲି"
+            "ଆସନ୍ତାକାଲି",
+            "tomorrow"
         ],
         "in 1 month": [
-            "ଆଗାମୀ ମାସ"
+            "ଆଗାମୀ ମାସ",
+            "next month"
         ],
         "in 1 week": [
-            "ଆଗାମୀ ସପ୍ତାହ"
+            "ଆଗାମୀ ସପ୍ତାହ",
+            "next week"
         ],
         "in 1 year": [
-            "ଆଗାମୀ ବର୍ଷ"
+            "ଆଗାମୀ ବର୍ଷ",
+            "next year"
         ]
     },
     "relative-type-regex": {

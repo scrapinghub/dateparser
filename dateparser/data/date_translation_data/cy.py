@@ -96,7 +96,8 @@ info = {
         "wythnos"
     ],
     "day": [
-        "diwrnod"
+        "diwrnod",
+        "dydd"
     ],
     "hour": [
         "awr",

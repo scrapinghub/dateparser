@@ -79,11 +79,13 @@ info = {
     ],
     "am": [
         "safiya",
-        "sf"
+        "sf",
+        "am"
     ],
     "pm": [
         "yamma",
-        "ym"
+        "ym",
+        "pm"
     ],
     "year": [
         "shekara"
@@ -112,46 +114,58 @@ info = {
             "yau"
         ],
         "0 hour ago": [
-            "wannan awa"
+            "wannan awa",
+            "this hour"
         ],
         "0 minute ago": [
-            "wannan mintin"
+            "wannan mintin",
+            "this minute"
         ],
         "0 month ago": [
-            "wannan watan"
+            "wannan watan",
+            "this month"
         ],
         "0 second ago": [
-            "yanzu"
+            "yanzu",
+            "now"
         ],
         "0 week ago": [
-            "wannan satin"
+            "wannan satin",
+            "this week"
         ],
         "0 year ago": [
-            "bana"
+            "bana",
+            "this year"
         ],
         "1 day ago": [
             "jiya"
         ],
         "1 month ago": [
-            "watan da ya gabata"
+            "watan da ya gabata",
+            "last month"
         ],
         "1 week ago": [
-            "satin da ya gabata"
+            "satin da ya gabata",
+            "last week"
         ],
         "1 year ago": [
-            "bara"
+            "bara",
+            "last year"
         ],
         "in 1 day": [
             "gobe"
         ],
         "in 1 month": [
-            "wata na gaba"
+            "wata na gaba",
+            "next month"
         ],
         "in 1 week": [
-            "sati na gaba"
+            "sati na gaba",
+            "next week"
         ],
         "in 1 year": [
-            "badi"
+            "badi",
+            "next year"
         ]
     },
     "relative-type-regex": {

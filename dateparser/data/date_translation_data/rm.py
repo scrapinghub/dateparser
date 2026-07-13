@@ -103,7 +103,8 @@ info = {
     ],
     "day": [
         "d",
-        "di"
+        "di",
+        "tag"
     ],
     "hour": [
         "ura",
@@ -137,7 +138,8 @@ info = {
             "this week"
         ],
         "0 year ago": [
-            "quest onn"
+            "quest onn",
+            "this year"
         ],
         "1 day ago": [
             "ier"
@@ -149,7 +151,8 @@ info = {
             "last week"
         ],
         "1 year ago": [
-            "l'onn passà"
+            "l'onn passà",
+            "last year"
         ],
         "in 1 day": [
             "damaun"
@@ -161,7 +164,8 @@ info = {
             "next week"
         ],
         "in 1 year": [
-            "l'onn proxim"
+            "l'onn proxim",
+            "next year"
         ]
     },
     "locale_specific": {},

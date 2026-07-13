@@ -1,7 +1,66 @@
 skip: ["a las", "cerca", "de", "del", "en", "y"]
 pertain: ["de", "del"]
+locale_specific:
+    es-419:
+        september:
+            - sep
+    es-AR:
+        september:
+            - sep
+    es-BO:
+        september:
+            - sep
+    es-BR:
+        september:
+            - sep
+    es-BZ:
+        september:
+            - sep
+    es-CL:
+        september:
+            - sep
+    es-CO:
+        september:
+            - sep
+    es-CR:
+        september:
+            - sep
+    es-CU:
+        september:
+            - sep
+    es-DO:
+        september:
+            - sep
+    es-EC:
+        september:
+            - sep
+    es-GT:
+        september:
+            - sep
+    es-HN:
+        september:
+            - sep
+    es-MX:
+        relative-type-regex:
+            in \1 minute:
+                - en (\d+[.,]?\d*) min
+    es-NI:
+        september:
+            - sep
+    es-PA:
+        september:
+            - sep
+    es-PR:
+        september:
+            - sep
+    es-SV:
+        september:
+            - sep
+    es-US:
+        september:
+            - sep
 
-sentence_splitter_group : 2
+sentence_splitter_group: 2
 
 monday:
     - Lu

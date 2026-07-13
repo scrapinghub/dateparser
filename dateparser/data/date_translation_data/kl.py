@@ -4,62 +4,76 @@ info = {
     "january": [
         "jan",
         "januaari",
-        "januaarip"
+        "januaarip",
+        "januari"
     ],
     "february": [
         "febr",
         "februaari",
-        "februaarip"
+        "februaarip",
+        "feb",
+        "februari"
     ],
     "march": [
         "mar",
         "marsi",
-        "marsip"
+        "marsip",
+        "martsi"
     ],
     "april": [
         "apr",
         "apriili",
-        "apriilip"
+        "apriilip",
+        "aprili"
     ],
     "may": [
         "maaji",
         "maajip",
-        "maj"
+        "maj",
+        "maji"
     ],
     "june": [
         "jun",
         "juuni",
-        "juunip"
+        "juunip",
+        "juni"
     ],
     "july": [
         "jul",
         "juuli",
-        "juulip"
+        "juulip",
+        "juli"
     ],
     "august": [
         "aggusti",
         "aggustip",
-        "aug"
+        "aug",
+        "augustusi"
     ],
     "september": [
         "sept",
         "septembari",
-        "septembarip"
+        "septembarip",
+        "sep",
+        "septemberi"
     ],
     "october": [
         "okt",
         "oktobari",
-        "oktobarip"
+        "oktobarip",
+        "oktoberi"
     ],
     "november": [
         "nov",
         "novembari",
-        "novembarip"
+        "novembarip",
+        "novemberi"
     ],
     "december": [
         "dec",
         "decembari",
-        "decembarip"
+        "decembarip",
+        "decemberi"
     ],
     "monday": [
         "ata",
@@ -87,7 +101,9 @@ info = {
     ],
     "sunday": [
         "sap",
-        "sapaat"
+        "sapaat",
+        "sab",
+        "sabaat"
     ],
     "am": [
         "am"

@@ -31,7 +31,8 @@ info = {
     "august": [
         "agu",
         "agustus",
-        "Agu"
+        "Agu",
+        "agt"
     ],
     "september": [
         "sep",
@@ -163,7 +164,8 @@ info = {
         ],
         "in 1 month": [
             "bln berikutnya",
-            "bulan depan"
+            "bulan depan",
+            "bulan berikutnya"
         ],
         "in 1 week": [
             "mgg depan",

@@ -26,11 +26,13 @@ info = {
     ],
     "july": [
         "korr",
-        "korrik"
+        "korrik",
+        "kor"
     ],
     "august": [
         "gush",
-        "gusht"
+        "gusht",
+        "gsh"
     ],
     "september": [
         "sht",

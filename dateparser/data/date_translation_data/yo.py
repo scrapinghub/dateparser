@@ -120,7 +120,8 @@ info = {
         "oṣù"
     ],
     "week": [
-        "ọ̀sẹ̀"
+        "ọ̀sẹ̀",
+        "ọ̀sè"
     ],
     "day": [
         "ọjọ́"
@@ -146,43 +147,52 @@ info = {
             "this minute"
         ],
         "0 month ago": [
-            "oṣù yìí"
+            "oṣù yìí",
+            "this month"
         ],
         "0 second ago": [
             "now"
         ],
         "0 week ago": [
-            "ọ̀sẹ̀ yìí"
+            "ọ̀sẹ̀ yìí",
+            "this week"
         ],
         "0 year ago": [
             "ọdún yìí",
-            "ọdúnǹí"
+            "ọdúnǹí",
+            "this year"
         ],
         "1 day ago": [
             "àná"
         ],
         "1 month ago": [
-            "óṣù tó kọjá"
+            "óṣù tó kọjá",
+            "last month"
         ],
         "1 week ago": [
-            "ọ̀sẹ̀ tó kọjá"
+            "ọ̀sẹ̀ tó kọjá",
+            "last week"
         ],
         "1 year ago": [
             "èṣín",
-            "ọdún tó kọjá"
+            "ọdún tó kọjá",
+            "last year"
         ],
         "in 1 day": [
             "ọ̀la"
         ],
         "in 1 month": [
-            "óṣù tó ń bọ̀,"
+            "óṣù tó ń bọ̀,",
+            "next month"
         ],
         "in 1 week": [
-            "ọ́sẹ̀ tó ń bọ̀"
+            "ọ́sẹ̀ tó ń bọ̀",
+            "next week"
         ],
         "in 1 year": [
             "àmọ́dún",
-            "ọdún tó ńbọ̀"
+            "ọdún tó ńbọ̀",
+            "next year"
         ]
     },
     "locale_specific": {
@@ -282,7 +292,8 @@ info = {
                 "oshù"
             ],
             "week": [
-                "ɔ̀sɛ̀"
+                "ɔ̀sɛ̀",
+                "ɔ̀sè"
             ],
             "day": [
                 "ɔjɔ́"

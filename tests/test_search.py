@@ -259,8 +259,10 @@ class TestTranslateSearch(BaseTestCase):
                 "Krigen i Europa begyndte den 1. september 1939, da Nazi-Tyskland invaderede Polen, "
                 "og endte med Nazi-Tysklands betingelsesløse overgivelse den 8. maj 1945.",
                 [
-                    ("1. september 1939", datetime.datetime(1939, 9, 1, 0, 0)),
-                    ("8. maj 1945", datetime.datetime(1945, 5, 8, 0, 0)),
+                    # "den" is a Danish skip word (as in "den 8. maj"), so it is
+                    # included in the matched substring, like "de" in Spanish.
+                    ("den 1. september 1939", datetime.datetime(1939, 9, 1, 0, 0)),
+                    ("den 8. maj 1945", datetime.datetime(1945, 5, 8, 0, 0)),
                 ],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
@@ -845,8 +847,8 @@ class TestTranslateSearch(BaseTestCase):
             # Danish
             param(
                 "da",
-                "Anden Verdenskrig begyndte tirsdag den 1. januar 1939, da invasion"
-                " og endte i maj 1945.",
+                "Krigen i Europa begyndte den 1. september 1939, da Nazi-Tyskland invaderede Polen, "
+                "og endte med Nazi-Tysklands betingelsesløse overgivelse den 8. marts 1945.",
             ),
             # Dutch
             param(

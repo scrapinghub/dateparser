@@ -175,7 +175,8 @@ info = {
     "relative-type-regex": {
         "\\1 day ago": [
             "acum (\\d++[.,]?\\d*+) de zile",
-            "acum (\\d++[.,]?\\d*+) zi"
+            "acum (\\d++[.,]?\\d*+) zi",
+            "acum (\\d++[.,]?\\d*+) zile"
         ],
         "\\1 hour ago": [
             "acum (\\d++[.,]?\\d*+) de ore",
@@ -208,7 +209,8 @@ info = {
         ],
         "in \\1 day": [
             "peste (\\d++[.,]?\\d*+) de zile",
-            "peste (\\d++[.,]?\\d*+) zi"
+            "peste (\\d++[.,]?\\d*+) zi",
+            "peste (\\d++[.,]?\\d*+) zile"
         ],
         "in \\1 hour": [
             "peste (\\d++[.,]?\\d*+) de ore",
@@ -237,7 +239,8 @@ info = {
         ],
         "in \\1 year": [
             "peste (\\d++[.,]?\\d*+) an",
-            "peste (\\d++[.,]?\\d*+) de ani"
+            "peste (\\d++[.,]?\\d*+) de ani",
+            "peste (\\d++[.,]?\\d*+) ani"
         ]
     },
     "locale_specific": {

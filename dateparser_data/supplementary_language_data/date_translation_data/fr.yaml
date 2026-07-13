@@ -1,6 +1,13 @@
+relative-type-regex:
+    \1 hour ago:
+        - il y a (\d+[.,]?\d*)h
+    \1 minute ago:
+        - il y a (\d+[.,]?\d*)min
+    in \1 hour:
+        - dans (\d+[.,]?\d*)h
 skip: ["environ", "er", "et", "le", "à"]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 monday:
     - lu

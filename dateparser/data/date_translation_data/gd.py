@@ -134,12 +134,14 @@ info = {
         "0 hour ago": [
             "am broinn uair",
             "am broinn uair a thìde",
-            "san uair"
+            "san uair",
+            "this hour"
         ],
         "0 minute ago": [
             "am broinn mion",
             "am broinn mionaid",
-            "sa mhion"
+            "sa mhion",
+            "this minute"
         ],
         "0 month ago": [
             "am mì seo",

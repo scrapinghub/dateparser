@@ -260,7 +260,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-AR": {
             "name": "es-AR",
@@ -282,7 +285,10 @@ info = {
                 "in \\1 second": [
                     "dentro de (\\d++[.,]?\\d*+) seg"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-BO": {
             "name": "es-BO",
@@ -290,7 +296,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-BR": {
             "name": "es-BR",
@@ -298,7 +307,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-BZ": {
             "name": "es-BZ",
@@ -306,7 +318,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-CL": {
             "name": "es-CL",
@@ -314,7 +329,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-CO": {
             "name": "es-CO",
@@ -322,7 +340,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-CR": {
             "name": "es-CR",
@@ -330,7 +351,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-CU": {
             "name": "es-CU",
@@ -338,7 +362,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-DO": {
             "name": "es-DO",
@@ -346,7 +373,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-EA": {
             "name": "es-EA"
@@ -357,7 +387,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-GQ": {
             "name": "es-GQ"
@@ -368,7 +401,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-HN": {
             "name": "es-HN",
@@ -376,7 +412,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-IC": {
             "name": "es-IC"
@@ -422,6 +461,9 @@ info = {
                 ],
                 "in \\1 year": [
                     "en (\\d++[.,]?\\d*+) a"
+                ],
+                "in \\1 minute": [
+                    "en (\\d++[.,]?\\d*+) min"
                 ]
             }
         },
@@ -431,7 +473,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-PA": {
             "name": "es-PA",
@@ -440,7 +485,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-PE": {
             "name": "es-PE",
@@ -464,7 +512,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-PY": {
             "name": "es-PY",
@@ -491,7 +542,10 @@ info = {
                 "1 week ago": [
                     "sem pas"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-US": {
             "name": "es-US",
@@ -502,7 +556,10 @@ info = {
                 "in 1 week": [
                     "próxima sem"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-UY": {
             "name": "es-UY",

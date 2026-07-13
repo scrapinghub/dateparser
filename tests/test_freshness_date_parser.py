@@ -695,7 +695,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             ),
             # chr
             param(
-                "10 ꮢꮎꮩꮣꮖꮝꮧ ꮵꭸꮢ 5 ꭲꭶ ꮵꭸꮢ", ago={"weeks": 10, "days": 5}, period="day"
+                "ᎾᎿ 10 ᏒᎾᏙᏓᏆᏍᏗ ᏥᎨᏒ 5 ᎢᎦ ᏥᎨᏒ", ago={"weeks": 10, "days": 5}, period="day"
             ),
             # cs
             param(
@@ -1517,7 +1517,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             ),
             # chr
             param(
-                "10 ꮢꮎꮩꮣꮖꮝꮧ ꮵꭸꮢ 5 ꭲꭶ ꮵꭸꮢ", ago={"weeks": 10, "days": 5}, period="day"
+                "ᎾᎿ 10 ᏒᎾᏙᏓᏆᏍᏗ ᏥᎨᏒ 5 ᎢᎦ ᏥᎨᏒ", ago={"weeks": 10, "days": 5}, period="day"
             ),
             # cs
             param(

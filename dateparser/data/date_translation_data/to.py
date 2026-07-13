@@ -35,7 +35,8 @@ info = {
     "september": [
         "sepitema",
         "sēp",
-        "sēpitema"
+        "sēpitema",
+        "sep"
     ],
     "october": [
         "'oka",
@@ -79,11 +80,13 @@ info = {
     ],
     "am": [
         "hengihengi",
-        "hh"
+        "hh",
+        "am"
     ],
     "pm": [
         "ea",
-        "efiafi"
+        "efiafi",
+        "pm"
     ],
     "year": [
         "t",
@@ -119,10 +122,12 @@ info = {
             "'ani"
         ],
         "0 hour ago": [
-            "ko e houa 'eni"
+            "ko e houa 'eni",
+            "this hour"
         ],
         "0 minute ago": [
-            "ko e miniti 'eni"
+            "ko e miniti 'eni",
+            "this minute"
         ],
         "0 month ago": [
             "mhni",

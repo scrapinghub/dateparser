@@ -161,7 +161,8 @@ info = {
             "(\\d++[.,]?\\d*+) araw ang nakalipas"
         ],
         "\\1 hour ago": [
-            "(\\d++[.,]?\\d*+) oras ang nakalipas"
+            "(\\d++[.,]?\\d*+) oras ang nakalipas",
+            "(\\d++[.,]?\\d*+) oras nakalipas"
         ],
         "\\1 minute ago": [
             "(\\d++[.,]?\\d*+) min ang nakalipas",
@@ -172,7 +173,8 @@ info = {
         ],
         "\\1 second ago": [
             "(\\d++[.,]?\\d*+) seg ang nakalipas",
-            "(\\d++[.,]?\\d*+) segundo ang nakalipas"
+            "(\\d++[.,]?\\d*+) segundo ang nakalipas",
+            "(\\d++[.,]?\\d*+) seg nakalipas"
         ],
         "\\1 week ago": [
             "(\\d++[.,]?\\d*+) linggo ang nakalipas"

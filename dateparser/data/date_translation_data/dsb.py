@@ -135,10 +135,12 @@ info = {
             "źis"
         ],
         "0 hour ago": [
-            "w toś tej góźinje"
+            "w toś tej góźinje",
+            "this hour"
         ],
         "0 minute ago": [
-            "w toś tej minuśe"
+            "w toś tej minuśe",
+            "this minute"
         ],
         "0 month ago": [
             "te mjasec",
@@ -165,11 +167,13 @@ info = {
         ],
         "1 month ago": [
             "zajź mjasec",
-            "zajźony mjasec"
+            "zajźony mjasec",
+            "slědny mjasec"
         ],
         "1 week ago": [
             "zajź tyźeń",
-            "zajźony tyźeń"
+            "zajźony tyźeń",
+            "slědny tyźeń"
         ],
         "1 year ago": [
             "ło",

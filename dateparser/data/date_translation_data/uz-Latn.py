@@ -141,7 +141,8 @@ info = {
         ],
         "1 year ago": [
             "o‘'tgan yil",
-            "o‘tgan yil"
+            "o‘tgan yil",
+            "o'tgan yil"
         ],
         "in 1 day": [
             "ertaga"

@@ -3,51 +3,75 @@ info = {
     "date_order": "DMY",
     "january": [
         "ene",
-        "enero"
+        "enero",
+        "qul",
+        "qulla puquy"
     ],
     "february": [
         "feb",
-        "febrero"
+        "febrero",
+        "hat",
+        "hatun puquy"
     ],
     "march": [
         "mar",
-        "marzo"
+        "marzo",
+        "pau",
+        "pauqar waray"
     ],
     "april": [
         "abr",
-        "abril"
+        "abril",
+        "ayr",
+        "ayriwa"
     ],
     "may": [
         "may",
-        "mayo"
+        "mayo",
+        "aym",
+        "aymuray"
     ],
     "june": [
         "jun",
-        "junio"
+        "junio",
+        "int",
+        "inti raymi"
     ],
     "july": [
         "jul",
-        "julio"
+        "julio",
+        "ant",
+        "anta sitwa"
     ],
     "august": [
         "ago",
-        "agosto"
+        "agosto",
+        "qha",
+        "qhapaq sitwa"
     ],
     "september": [
         "set",
-        "setiembre"
+        "setiembre",
+        "uma",
+        "uma raymi"
     ],
     "october": [
         "oct",
-        "octubre"
+        "octubre",
+        "kan",
+        "kantaray"
     ],
     "november": [
         "nov",
-        "noviembre"
+        "noviembre",
+        "aya",
+        "ayamarq'a"
     ],
     "december": [
         "dic",
-        "diciembre"
+        "diciembre",
+        "kap",
+        "kapaq raymi"
     ],
     "monday": [
         "lun",
@@ -107,49 +131,63 @@ info = {
     ],
     "relative-type": {
         "0 day ago": [
-            "kunan punchaw"
+            "kunan punchaw",
+            "today"
         ],
         "0 hour ago": [
-            "kay hora"
+            "kay hora",
+            "this hour"
         ],
         "0 minute ago": [
-            "kay minuto"
+            "kay minuto",
+            "this minute"
         ],
         "0 month ago": [
-            "kunan killa"
+            "kunan killa",
+            "this month"
         ],
         "0 second ago": [
             "now"
         ],
         "0 week ago": [
-            "kunan semana"
+            "kunan semana",
+            "this week"
         ],
         "0 year ago": [
-            "kunan wata"
+            "kunan wata",
+            "this year"
         ],
         "1 day ago": [
-            "qayna punchaw"
+            "qayna punchaw",
+            "yesterday"
         ],
         "1 month ago": [
-            "qayna killa"
+            "qayna killa",
+            "last month"
         ],
         "1 week ago": [
-            "qayna semana"
+            "qayna semana",
+            "last week"
         ],
         "1 year ago": [
-            "qayna wata"
+            "qayna wata",
+            "last year"
         ],
         "in 1 day": [
-            "paqarin"
+            "paqarin",
+            "tomorrow"
         ],
         "in 1 month": [
-            "hamuq killa"
+            "hamuq killa",
+            "next month"
         ],
         "in 1 week": [
-            "hamuq semana"
+            "hamuq semana",
+            "next week"
         ],
         "in 1 year": [
-            "hamuq wata"
+            "hamuq wata",
+            "next year"
         ]
     },
     "locale_specific": {

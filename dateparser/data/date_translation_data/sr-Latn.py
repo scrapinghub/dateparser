@@ -75,10 +75,12 @@ info = {
         "nedelja"
     ],
     "am": [
-        "am"
+        "am",
+        "pre podne"
     ],
     "pm": [
-        "pm"
+        "pm",
+        "po podne"
     ],
     "year": [
         "g",
@@ -87,11 +89,13 @@ info = {
     ],
     "month": [
         "mes",
-        "mesec"
+        "mesec",
+        "m"
     ],
     "week": [
         "ned",
-        "nedelja"
+        "nedelja",
+        "n"
     ],
     "day": [
         "d",
@@ -259,7 +263,8 @@ info = {
             ],
             "wednesday": [
                 "sri",
-                "srijeda"
+                "srijeda",
+                "sr"
             ],
             "sunday": [
                 "nedjelja"
@@ -362,7 +367,13 @@ info = {
                     "za (\\d++[.,]?\\d*+) sedmica",
                     "za (\\d++[.,]?\\d*+) sedmicu"
                 ]
-            }
+            },
+            "tuesday": [
+                "ut"
+            ],
+            "september": [
+                "sept"
+            ]
         },
         "sr-Latn-ME": {
             "name": "sr-Latn-ME",
@@ -370,7 +381,8 @@ info = {
                 "sept"
             ],
             "wednesday": [
-                "srijeda"
+                "srijeda",
+                "sr"
             ],
             "sunday": [
                 "nedjelja"
@@ -380,12 +392,21 @@ info = {
             ],
             "pm": [
                 "po podne"
+            ],
+            "tuesday": [
+                "ut"
             ]
         },
         "sr-Latn-XK": {
             "name": "sr-Latn-XK",
             "september": [
                 "sept"
+            ],
+            "tuesday": [
+                "ut"
+            ],
+            "wednesday": [
+                "sr"
             ]
         }
     },

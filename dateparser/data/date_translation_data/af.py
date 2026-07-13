@@ -131,7 +131,8 @@ info = {
         ],
         "0 week ago": [
             "hierdie w",
-            "hierdie week"
+            "hierdie week",
+            "vandeesweek"
         ],
         "0 year ago": [
             "hierdie j",
@@ -190,7 +191,8 @@ info = {
         "\\1 second ago": [
             "(\\d++[.,]?\\d*+) s gelede",
             "(\\d++[.,]?\\d*+) sekonde gelede",
-            "(\\d++[.,]?\\d*+) sekondes gelede"
+            "(\\d++[.,]?\\d*+) sekondes gelede",
+            "(\\d++[.,]?\\d*+) sek gelede"
         ],
         "\\1 week ago": [
             "(\\d++[.,]?\\d*+) w gelede",
@@ -222,7 +224,8 @@ info = {
         "in \\1 second": [
             "oor (\\d++[.,]?\\d*+) s",
             "oor (\\d++[.,]?\\d*+) sekonde",
-            "oor (\\d++[.,]?\\d*+) sekondes"
+            "oor (\\d++[.,]?\\d*+) sekondes",
+            "oor (\\d++[.,]?\\d*+) sek"
         ],
         "in \\1 week": [
             "oor (\\d++[.,]?\\d*+) w",

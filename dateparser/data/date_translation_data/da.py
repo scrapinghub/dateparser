@@ -54,7 +54,8 @@ info = {
     ],
     "tuesday": [
         "tirs",
-        "tirsdag"
+        "tirsdag",
+        "tir"
     ],
     "wednesday": [
         "ons",
@@ -62,7 +63,8 @@ info = {
     ],
     "thursday": [
         "tors",
-        "torsdag"
+        "torsdag",
+        "tor"
     ],
     "friday": [
         "fre",
@@ -120,10 +122,12 @@ info = {
             "i dag"
         ],
         "0 hour ago": [
-            "denne time"
+            "denne time",
+            "i den kommende time"
         ],
         "0 minute ago": [
-            "dette minut"
+            "dette minut",
+            "i det kommende minut"
         ],
         "0 month ago": [
             "denne md",
@@ -185,20 +189,24 @@ info = {
             "for (\\d++[.,]?\\d*+) minutter siden",
             "(\\d++[.,]?\\d*+) min siden",
             "for (\\d++[.,]?\\d*+)\\s*m",
-            "for (\\d++[.,]?\\d*+) minutter"
+            "for (\\d++[.,]?\\d*+) minutter",
+            "for (\\d++[.,]?\\d*+) min siden"
         ],
         "\\1 month ago": [
             "for (\\d++[.,]?\\d*+) måned siden",
             "for (\\d++[.,]?\\d*+) måneder siden",
             "(\\d++[.,]?\\d*+) md siden",
-            "(\\d++[.,]?\\d*+) mdr siden"
+            "(\\d++[.,]?\\d*+) mdr siden",
+            "for (\\d++[.,]?\\d*+) md siden",
+            "for (\\d++[.,]?\\d*+) mdr siden"
         ],
         "\\1 second ago": [
             "for (\\d++[.,]?\\d*+) sekund siden",
             "for (\\d++[.,]?\\d*+) sekunder siden",
             "(\\d++[.,]?\\d*+) sek siden",
             "for (\\d++[.,]?\\d*+)\\s*s",
-            "for (\\d++[.,]?\\d*+) sekunder"
+            "for (\\d++[.,]?\\d*+) sekunder",
+            "for (\\d++[.,]?\\d*+) sek siden"
         ],
         "\\1 week ago": [
             "for (\\d++[.,]?\\d*+) uge siden",
@@ -250,6 +258,7 @@ info = {
     "skip": [
         "cirka",
         "d.",
+        "den",
         "kl",
         "kl.",
         " ",

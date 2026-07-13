@@ -145,7 +145,8 @@ info = {
         ],
         "0 month ago": [
             "den här månaden",
-            "denna mån"
+            "denna mån",
+            "denna månad"
         ],
         "0 second ago": [
             "nu"
@@ -211,19 +212,22 @@ info = {
             "för (\\d++[.,]?\\d*+) min sen",
             "för (\\d++[.,]?\\d*+) minut sedan",
             "för (\\d++[.,]?\\d*+) minuter sedan",
-            "−(\\d++[.,]?\\d*+) min"
+            "−(\\d++[.,]?\\d*+) min",
+            "för (\\d++[.,]?\\d*+) min sedan"
         ],
         "\\1 month ago": [
             "för (\\d++[.,]?\\d*+) mån sen",
             "för (\\d++[.,]?\\d*+) månad sedan",
             "för (\\d++[.,]?\\d*+) månader sedan",
-            "−(\\d++[.,]?\\d*+) mån"
+            "−(\\d++[.,]?\\d*+) mån",
+            "för (\\d++[.,]?\\d*+) mån sedan"
         ],
         "\\1 second ago": [
             "för (\\d++[.,]?\\d*+) s sen",
             "för (\\d++[.,]?\\d*+) sekund sedan",
             "för (\\d++[.,]?\\d*+) sekunder sedan",
-            "−(\\d++[.,]?\\d*+) s"
+            "−(\\d++[.,]?\\d*+) s",
+            "för (\\d++[.,]?\\d*+) sek sedan"
         ],
         "\\1 week ago": [
             "för (\\d++[.,]?\\d*+) v sedan",

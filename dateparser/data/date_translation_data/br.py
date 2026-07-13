@@ -43,7 +43,8 @@ info = {
     ],
     "december": [
         "kerzu",
-        "kzu"
+        "kzu",
+        "ker"
     ],
     "monday": [
         "lun"
@@ -111,10 +112,12 @@ info = {
             "hiziv"
         ],
         "0 hour ago": [
-            "d'an eur-mañ"
+            "d'an eur-mañ",
+            "this hour"
         ],
         "0 minute ago": [
-            "ar munut-mañ"
+            "ar munut-mañ",
+            "this minute"
         ],
         "0 month ago": [
             "ar m-mañ",

@@ -201,7 +201,8 @@ info = {
             "for (\\d++[.,]?\\d*+) uker siden"
         ],
         "\\1 year ago": [
-            "for (\\d++[.,]?\\d*+) år siden"
+            "for (\\d++[.,]?\\d*+) år siden",
+            "–(\\d++[.,]?\\d*+) år"
         ],
         "in \\1 day": [
             "om (\\d++[.,]?\\d*+) d",

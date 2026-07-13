@@ -221,25 +221,31 @@ info = {
             ],
             "monday": [
                 "má",
-                "mánnodat"
+                "mánnodat",
+                "vuossárgga"
             ],
             "tuesday": [
                 "di",
-                "disdat"
+                "disdat",
+                "maŋŋebárgga"
             ],
             "wednesday": [
-                "ga"
+                "ga",
+                "gaskavahku"
             ],
             "thursday": [
                 "du",
-                "duorastat"
+                "duorastat",
+                "duorastaga"
             ],
             "friday": [
-                "be"
+                "be",
+                "bearjadaga"
             ],
             "saturday": [
                 "lá",
-                "lávvordat"
+                "lávvordat",
+                "lávvardaga"
             ],
             "sunday": [
                 "so"
@@ -293,7 +299,8 @@ info = {
                     "mannan vahku"
                 ],
                 "1 year ago": [
-                    "diibmá"
+                    "diibmá",
+                    "mannan jagi"
                 ],
                 "in 1 month": [
                     "boahtte mánu"
@@ -334,7 +341,8 @@ info = {
                 ],
                 "\\1 year ago": [
                     "(\\d++[.,]?\\d*+) j dás ovdal",
-                    "(\\d++[.,]?\\d*+) jagi dás ovdal"
+                    "(\\d++[.,]?\\d*+) jagi dás ovdal",
+                    "(\\d++[.,]?\\d*+) jagi árat"
                 ],
                 "in \\1 day": [
                     "(\\d++[.,]?\\d*+) beaivve siste"

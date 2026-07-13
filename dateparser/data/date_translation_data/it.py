@@ -110,12 +110,14 @@ info = {
     "minute": [
         "min",
         "minuto",
-        "minuti"
+        "minuti",
+        "m"
     ],
     "second": [
         "s",
         "secondo",
-        "secondi"
+        "secondi",
+        "sec"
     ],
     "relative-type": {
         "0 day ago": [

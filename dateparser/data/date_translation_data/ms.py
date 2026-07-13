@@ -124,7 +124,8 @@ info = {
         ],
         "0 week ago": [
             "mgu ini",
-            "minggu ini"
+            "minggu ini",
+            "mng ini"
         ],
         "0 year ago": [
             "tahun ini",
@@ -140,7 +141,8 @@ info = {
         ],
         "1 week ago": [
             "mgu lepas",
-            "minggu lalu"
+            "minggu lalu",
+            "mng lepas"
         ],
         "1 year ago": [
             "tahun lalu",
@@ -155,7 +157,8 @@ info = {
         ],
         "in 1 week": [
             "mgu depan",
-            "minggu depan"
+            "minggu depan",
+            "mng depan"
         ],
         "in 1 year": [
             "tahun depan",

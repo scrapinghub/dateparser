@@ -1,6 +1,6 @@
 skip: ["върху", "до", "на", "около", "от", "под"]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 monday:
     - пон
@@ -29,6 +29,7 @@ year:
 month:
     - мес
     - месеци
+    - м
 week:
     - с
     - сед
@@ -60,6 +61,7 @@ relative-type:
         - след 1 десетилетие
     1 week ago:
         - преди седмица
+        - миналата седмица
     2 day ago:
         - онзи ден
     1 day ago:

@@ -4,61 +4,73 @@ info = {
     "january": [
         "bisha koobaad",
         "jan",
-        "jannaayo"
+        "jannaayo",
+        "kob"
     ],
     "february": [
         "bisha labaad",
         "feb",
-        "febraayo"
+        "febraayo",
+        "lab"
     ],
     "march": [
         "bisha saddexaad",
         "maarso",
-        "mar"
+        "mar",
+        "sad"
     ],
     "april": [
         "abr",
         "abriil",
-        "bisha afraad"
+        "bisha afraad",
+        "afr"
     ],
     "may": [
         "bisha shanaad",
-        "may"
+        "may",
+        "sha"
     ],
     "june": [
         "bisha lixaad",
         "jun",
-        "juun"
+        "juun",
+        "lix"
     ],
     "july": [
         "bisha todobaad",
         "lul",
-        "luuliyo"
+        "luuliyo",
+        "tod"
     ],
     "august": [
         "bisha sideedaad",
         "ogosto",
-        "ogs"
+        "ogs",
+        "sid"
     ],
     "september": [
         "bisha sagaalaad",
         "seb",
-        "sebteembar"
+        "sebteembar",
+        "sag"
     ],
     "october": [
         "bisha tobnaad",
         "okt",
-        "oktoobar"
+        "oktoobar",
+        "tob"
     ],
     "november": [
         "bisha kow iyo tobnaad",
         "nof",
-        "noofeembar"
+        "noofeembar",
+        "kit"
     ],
     "december": [
         "bisha laba iyo tobnaad",
         "dis",
-        "diseembar"
+        "diseembar",
+        "lit"
     ],
     "monday": [
         "isn",
@@ -66,23 +78,28 @@ info = {
     ],
     "tuesday": [
         "talaado",
-        "tldo"
+        "tldo",
+        "tal"
     ],
     "wednesday": [
         "arbaco",
-        "arbc"
+        "arbc",
+        "arb"
     ],
     "thursday": [
         "khamiis",
-        "khms"
+        "khms",
+        "kha"
     ],
     "friday": [
         "jimco",
-        "jmc"
+        "jmc",
+        "jim"
     ],
     "saturday": [
         "sabti",
-        "sbti"
+        "sbti",
+        "sab"
     ],
     "sunday": [
         "axad",
@@ -90,88 +107,109 @@ info = {
     ],
     "am": [
         "am",
-        "gh"
+        "gh",
+        "sn"
     ],
     "pm": [
-        "gd"
+        "gd",
+        "gn"
     ],
     "year": [
         "sannad",
-        "snd"
+        "snd",
+        "year"
     ],
     "month": [
-        "bil"
+        "bil",
+        "month"
     ],
     "week": [
         "tdbd",
-        "toddobaad"
+        "toddobaad",
+        "week"
     ],
     "day": [
         "maalin",
-        "mln"
+        "mln",
+        "day"
     ],
     "hour": [
         "saacad",
         "saacado",
-        "scd"
+        "scd",
+        "hour"
     ],
     "minute": [
         "daqiiqad",
-        "dqqd"
+        "dqqd",
+        "minute"
     ],
     "second": [
         "ilbiriqsi",
-        "ilbrqsi"
+        "ilbrqsi",
+        "second"
     ],
     "relative-type": {
         "0 day ago": [
             "maanta"
         ],
         "0 hour ago": [
-            "saacadan"
+            "saacadan",
+            "this hour"
         ],
         "0 minute ago": [
-            "daqiiqadan"
+            "daqiiqadan",
+            "this minute"
         ],
         "0 month ago": [
-            "bishan"
+            "bishan",
+            "this month"
         ],
         "0 second ago": [
             "imika",
-            "iminka"
+            "iminka",
+            "now"
         ],
         "0 week ago": [
             "toddobaadkan",
-            "usbuucan"
+            "usbuucan",
+            "this week"
         ],
         "0 year ago": [
-            "sannadkan"
+            "sannadkan",
+            "this year"
         ],
         "1 day ago": [
             "shalay"
         ],
         "1 month ago": [
-            "bishii hore"
+            "bishii hore",
+            "last month"
         ],
         "1 week ago": [
-            "toddobaadkii hore"
+            "toddobaadkii hore",
+            "last week"
         ],
         "1 year ago": [
             "sannadkii hore",
-            "sannadkii la soo dhaafay"
+            "sannadkii la soo dhaafay",
+            "last year"
         ],
         "in 1 day": [
             "berri"
         ],
         "in 1 month": [
-            "bisha danbe"
+            "bisha danbe",
+            "next month"
         ],
         "in 1 week": [
-            "toddobaadka danbe"
+            "toddobaadka danbe",
+            "next week"
         ],
         "in 1 year": [
             "sannadka danbe",
-            "sannadka xiga"
+            "sannadka xiga",
+            "next year"
         ]
     },
     "relative-type-regex": {

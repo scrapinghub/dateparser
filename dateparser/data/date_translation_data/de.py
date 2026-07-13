@@ -89,10 +89,12 @@ info = {
         "Son"
     ],
     "am": [
-        "am"
+        "am",
+        "vorm"
     ],
     "pm": [
-        "pm"
+        "pm",
+        "nachm"
     ],
     "year": [
         "j",

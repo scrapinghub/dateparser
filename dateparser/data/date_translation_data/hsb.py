@@ -136,10 +136,12 @@ info = {
             "dźensa"
         ],
         "0 hour ago": [
-            "w tutej hodźinje"
+            "w tutej hodźinje",
+            "this hour"
         ],
         "0 minute ago": [
-            "w tutej mjeńšinje"
+            "w tutej mjeńšinje",
+            "this minute"
         ],
         "0 month ago": [
             "tu měsac",

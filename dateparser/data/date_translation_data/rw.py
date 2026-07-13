@@ -19,7 +19,8 @@ info = {
     ],
     "may": [
         "gic",
-        "gicurasi"
+        "gicurasi",
+        "gicuransi"
     ],
     "june": [
         "kam",
