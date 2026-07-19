@@ -712,6 +712,27 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("December 25", "past", datetime(2026, 6, 15), datetime(2025, 12, 25)),
+            param("March 10", "future", datetime(2026, 6, 15), datetime(2027, 3, 10)),
+        ]
+    )
+    def test_prefer_dates_from_with_yearless_format(
+        self, date_string, prefer_from, relative_base, expected
+    ):
+        # PREFER_DATES_FROM must apply to a date_formats entry that has no year
+        # directive, not only to the two-digit-year case.
+        result = parse(
+            date_string,
+            date_formats=["%B %d"],
+            settings={
+                "PREFER_DATES_FROM": prefer_from,
+                "RELATIVE_BASE": relative_base,
+            },
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
             param("29 Feb", datetime(2020, 1, 1), datetime(2020, 2, 29)),
             param("29/02", datetime(2020, 3, 30), datetime(2020, 2, 29)),
             param("29 Feb", datetime(1702, 3, 1), datetime(1704, 2, 29)),
