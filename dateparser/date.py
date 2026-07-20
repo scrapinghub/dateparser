@@ -1,6 +1,6 @@
 import collections
 from collections.abc import Set
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import regex as re
 from dateutil.relativedelta import relativedelta
@@ -16,6 +16,8 @@ from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
     _get_missing_parts,
     apply_timezone_from_settings,
+    get_next_leap_year,
+    get_previous_leap_year,
     get_timezone_from_tz_string,
     set_correct_day_from_settings,
     set_correct_month_from_settings,
@@ -175,6 +177,37 @@ def get_date_from_timestamp(date_string, settings, negative=False):
         return date_obj
 
 
+def _apply_century_preference(date_obj, now, prefer_from):
+    """Shift *date_obj* by ±100 years to satisfy PREFER_DATES_FROM.
+
+    *now* is normalised to naive so a tz-aware RELATIVE_BASE does not raise
+    TypeError.  When the shifted year falls on Feb 29 in a non-leap year, the
+    nearest valid leap year in the preferred direction is used — matching the
+    behaviour of the NLP path in ``parser.py``.
+
+    Returns the adjusted datetime, or the original when no shift is needed.
+    """
+    now_naive = now.replace(tzinfo=None) if now.tzinfo is not None else now
+
+    if now_naive < date_obj and prefer_from == "past":
+        target_year = date_obj.year - 100
+    elif now_naive >= date_obj and prefer_from == "future":
+        target_year = date_obj.year + 100
+    else:
+        return date_obj
+
+    try:
+        return date_obj.replace(year=target_year)
+    except ValueError:
+        # Feb 29 shifted into a non-leap year — find the nearest valid one
+        target_year = (
+            get_next_leap_year(target_year)
+            if prefer_from == "future"
+            else get_previous_leap_year(target_year)
+        )
+        return date_obj.replace(year=target_year)
+
+
 def parse_with_formats(date_string, date_formats, settings):
     """Parse with formats and return a dictionary with 'period' and 'obj_date'.
 
@@ -204,9 +237,15 @@ def parse_with_formats(date_string, date_formats, settings):
                 period = "month"
                 date_obj = set_correct_day_from_settings(date_obj, settings)
 
+            now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
+                tzinfo=None
+            )
             if not ("%y" in date_format or "%Y" in date_format):
-                today = datetime.today()
-                date_obj = date_obj.replace(year=today.year)
+                date_obj = date_obj.replace(year=now.year)
+            elif "%y" in date_format and "%Y" not in date_format:
+                date_obj = _apply_century_preference(
+                    date_obj, now, settings.PREFER_DATES_FROM
+                )
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
