@@ -1339,3 +1339,118 @@ class TestTranslateSearch(BaseTestCase):
         if result:
             span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
             self.assertEqual(len(span_results), 0)
+
+
+class TestNgramSearch(BaseTestCase):
+    def setUp(self):
+        super().setUp()
+        self.search_with_detection = DateSearchWithDetection()
+
+    @parameterized.expand(
+        [
+            # noise words ("on") are not part of the returned substring and
+            # trailing punctuation is stripped
+            param(
+                "en",
+                text="The first artificial Earth satellite was launched"
+                " on 4 October 1957.",
+                expected=[("4 October 1957", datetime.datetime(1957, 10, 4))],
+            ),
+            # all non-overlapping dates are returned, longest match first
+            param(
+                "en",
+                text="The client arrived to the office for the first time"
+                " in March 3rd, 2004 and got serviced, after a couple of months,"
+                " on May 6th 2004, the customer returned indicating a defect on"
+                " the part",
+                expected=[
+                    ("in March 3rd, 2004 and", datetime.datetime(2004, 3, 3)),
+                    ("May 6th 2004, the", datetime.datetime(2004, 5, 6)),
+                ],
+            ),
+            # bare small numbers are blacklisted and do not produce dates
+            param("en", text="Chapter 12, page 3", expected=[]),
+            # French
+            param(
+                "fr",
+                text="Publié le 11 juillet 2016",
+                expected=[("le 11 juillet 2016", datetime.datetime(2016, 7, 11))],
+            ),
+            param(
+                "fr",
+                text="Le premier satellite artificiel, lancé le 4 octobre 1957,"
+                " pesait 83 kg",
+                expected=[("le 4 octobre 1957", datetime.datetime(1957, 10, 4))],
+            ),
+            # Russian
+            param(
+                "ru",
+                text="веб-страница обновлена 11 июля 2016 года",
+                expected=[("11 июля 2016 года", datetime.datetime(2016, 7, 11))],
+            ),
+        ]
+    )
+    def test_ngram_search(self, shortname, text, expected):
+        result = self.search_with_detection.search_dates(
+            text, languages=[shortname], strategy="ngram"
+        )
+        self.assertEqual(result["Language"], shortname)
+        self.assertEqual(result["Dates"], expected)
+
+    def test_ngram_search_with_relative_base(self):
+        result = self.search_with_detection.search_dates(
+            "posted 10 minutes ago",
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 1, 1, 12, 0)},
+            strategy="ngram",
+        )
+        self.assertEqual(
+            result["Dates"],
+            [("10 minutes ago", datetime.datetime(2020, 1, 1, 11, 50))],
+        )
+
+    def test_ngram_search_returns_time_spans(self):
+        result = self.search_with_detection.search_dates(
+            "messages received for the past week",
+            languages=["en"],
+            settings={
+                "RETURN_TIME_SPAN": True,
+                "RELATIVE_BASE": datetime.datetime(2025, 2, 15, 12, 0),
+            },
+            strategy="ngram",
+        )
+        self.assertEqual(
+            result["Dates"],
+            [
+                ("for the past week (start)", datetime.datetime(2025, 2, 3, 12, 0)),
+                ("for the past week (end)", datetime.datetime(2025, 2, 9, 12, 0)),
+            ],
+        )
+
+    def test_search_dates_with_ngram_strategy(self):
+        result = search_dates(
+            "launched on 4 October 1957", languages=["en"], strategy="ngram"
+        )
+        self.assertEqual(result, [("4 October 1957", datetime.datetime(1957, 10, 4))])
+
+    def test_search_dates_with_ngram_strategy_and_detected_language(self):
+        result = search_dates(
+            "launched on 4 October 1957",
+            languages=["en"],
+            strategy="ngram",
+            add_detected_language=True,
+        )
+        self.assertEqual(
+            result, [("4 October 1957", datetime.datetime(1957, 10, 4), "en")]
+        )
+
+    def test_search_dates_ngram_strategy_returns_none_when_no_dates_found(self):
+        self.assertIsNone(
+            search_dates(
+                "Hello world nothing here at all", languages=["en"], strategy="ngram"
+            )
+        )
+
+    def test_unknown_strategy_raises_error(self):
+        with self.assertRaisesRegex(ValueError, "strategy must be"):
+            search_dates("4 October 1957", languages=["en"], strategy="unknown")

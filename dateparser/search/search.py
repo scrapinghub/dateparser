@@ -7,6 +7,7 @@ from dateparser.conf import Settings, apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date import DateDataParser
 from dateparser.languages.loader import LocaleDataLoader
+from dateparser.search.ngram_search import _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
@@ -15,6 +16,19 @@ RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 
 def date_is_relative(translation):
     return re.search(RELATIVE_REG, translation) is not None
+
+
+def _add_time_span_results(results, text, settings):
+    """Append time span start/end dates if RETURN_TIME_SPAN is enabled."""
+    if getattr(settings, "RETURN_TIME_SPAN", False):
+        span_info = detect_time_span(text)
+        if span_info:
+            base_date = getattr(settings, "RELATIVE_BASE", None) or datetime.now()
+            start_date, end_date = generate_time_span(span_info, base_date, settings)
+            matched_text = span_info["matched_text"]
+            results.append((matched_text + " (start)", start_date))
+            results.append((matched_text + " (end)", end_date))
+    return results
 
 
 class _ExactLanguageSearch:
@@ -190,17 +204,7 @@ class _ExactLanguageSearch:
 
         results = list(zip(substrings, [i[0]["date_obj"] for i in parsed]))
 
-        if getattr(settings, "RETURN_TIME_SPAN", False):
-            span_info = detect_time_span(text)
-            if span_info:
-                base_date = getattr(settings, "RELATIVE_BASE", None) or datetime.now()
-                start_date, end_date = generate_time_span(
-                    span_info, base_date, settings
-                )
-
-                matched_text = span_info["matched_text"]
-                results.append((matched_text + " (start)", start_date))
-                results.append((matched_text + " (end)", end_date))
+        _add_time_span_results(results, text, settings)
 
         parser._settings = Settings()
         return results
@@ -217,6 +221,7 @@ class DateSearchWithDetection:
         self.loader = LocaleDataLoader()
         self.available_language_map = self.loader.get_locale_map()
         self.search = _ExactLanguageSearch(self.loader)
+        self.ngram_search = _NgramDateSearch()
 
     def _get_candidate_languages(self, detected_language, languages):
         candidates = []
@@ -279,7 +284,12 @@ class DateSearchWithDetection:
 
     @apply_settings
     def search_dates(
-        self, text, languages=None, settings=None, detect_languages_function=None
+        self,
+        text,
+        languages=None,
+        settings=None,
+        detect_languages_function=None,
+        strategy="split",
     ):
         """
         Find all substrings of the given string which represent date and/or time and parse them.
@@ -302,6 +312,13 @@ class DateSearchWithDetection:
                returns a list of detected language codes.
         :type detect_languages_function: function
 
+        :param strategy:
+               The search strategy to use: "split" (default) translates the text and splits it
+               into chunks that are likely to contain dates, while "ngram" tries to parse the
+               longest possible sequences of tokens as dates. The "ngram" strategy tends to
+               produce more predictable results, at the cost of more parse attempts.
+        :type strategy: str
+
         :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
                 substring representing date expressions and corresponding :mod:`datetime.datetime` object.
             For example:
@@ -310,6 +327,10 @@ class DateSearchWithDetection:
             {'Language': None, 'Dates': None}
         :raises: ValueError - Unknown Language
         """
+        if strategy not in ("split", "ngram"):
+            raise ValueError(
+                'strategy must be "split" or "ngram" (%r given)' % strategy
+            )
 
         check_settings(settings)
 
@@ -325,6 +346,13 @@ class DateSearchWithDetection:
         )
         if not candidate_languages:
             return {"Language": None, "Dates": None}
+
+        if strategy == "ngram":
+            dates = self.ngram_search.search_parse(
+                candidate_languages, text, settings=settings
+            )
+            _add_time_span_results(dates, text, settings)
+            return {"Language": language_shortname, "Dates": dates}
 
         for candidate_language in candidate_languages:
             dates = self.search.search_parse(

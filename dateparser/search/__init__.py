@@ -9,6 +9,7 @@ def search_dates(
     settings=None,
     add_detected_language=False,
     detect_languages_function=None,
+    strategy="split",
 ):
     """Find all substrings of the given string which represent date and/or time and parse them.
 
@@ -34,6 +35,13 @@ def search_dates(
         and returns a list of detected language codes.
         Note: detect_languages_function is only uses if `languages` are not provided.
     :type detect_languages_function: function
+
+    :param strategy:
+        The search strategy to use: "split" (default) translates the text and splits it
+        into chunks that are likely to contain dates, while "ngram" tries to parse the
+        longest possible sequences of tokens as dates. The "ngram" strategy tends to
+        produce more predictable results, at the cost of more parse attempts.
+    :type strategy: str
 
     :return: Returns list of tuples containing:
         substrings representing date and/or time, corresponding :mod:`datetime.datetime`
@@ -64,6 +72,7 @@ def search_dates(
         languages=languages,
         settings=settings,
         detect_languages_function=detect_languages_function,
+        strategy=strategy,
     )
     dates = result.get("Dates")
     if dates:
