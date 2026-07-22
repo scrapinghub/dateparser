@@ -94,12 +94,13 @@ info = {
         "vika"
     ],
     "day": [
-        "d",
-        "dagur"
+        "dagur",
+        "d"
     ],
     "hour": [
         "klst",
-        "klukkustund"
+        "klukkustund",
+        "klukkustundir"
     ],
     "minute": [
         "mín",
@@ -114,9 +115,11 @@ info = {
             "í dag"
         ],
         "0 hour ago": [
+            "þessa stundina",
             "this hour"
         ],
         "0 minute ago": [
+            "á þessari mínútu",
             "this minute"
         ],
         "0 month ago": [

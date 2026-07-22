@@ -1,0 +1,11 @@
+am:
+    - am
+pm:
+    - pm
+relative-type:
+    0 year ago:
+        - an bhl seo
+        - an bhliain seo
+relative-type-regex:
+    in \1 year:
+        - i gceann (\d+[.,]?\d*) bhliain

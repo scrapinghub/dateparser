@@ -104,6 +104,7 @@ info = {
     "hour": [
         "t",
         "time",
+        "timer",
         "timer"
     ],
     "minute": [

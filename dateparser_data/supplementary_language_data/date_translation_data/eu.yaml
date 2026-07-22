@@ -1,0 +1,13 @@
+relative-type:
+    0 month ago:
+        - hilabete hau
+    0 week ago:
+        - aste hau
+    1 month ago:
+        - aurreko hilabetea
+    1 week ago:
+        - aurreko astea
+    in 1 month:
+        - hurrengo hilabetea
+    in 1 week:
+        - hurrengo astea

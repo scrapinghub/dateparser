@@ -104,19 +104,20 @@ info = {
     "hour": [
         "h",
         "ora",
+        "ore",
         "ore"
     ],
     "minute": [
-        "m",
         "min",
         "minuto",
-        "minuti"
+        "minuti",
+        "m"
     ],
     "second": [
         "s",
-        "sec",
         "secondo",
-        "secondi"
+        "secondi",
+        "sec"
     ],
     "relative-type": {
         "0 day ago": [
@@ -135,6 +136,7 @@ info = {
             "ora"
         ],
         "0 week ago": [
+            "questa sett",
             "questa settimana"
         ],
         "0 year ago": [
@@ -147,6 +149,7 @@ info = {
             "mese scorso"
         ],
         "1 week ago": [
+            "sett scorsa",
             "settimana scorsa"
         ],
         "1 year ago": [
@@ -159,6 +162,7 @@ info = {
             "mese prossimo"
         ],
         "in 1 week": [
+            "sett prossima",
             "settimana prossima"
         ],
         "in 1 year": [

@@ -1,0 +1,18 @@
+may:
+    - मई
+year:
+    - बर्ष
+relative-type:
+    0 hour ago:
+        - यो घडीमा
+    0 second ago:
+        - अब
+    in 1 week:
+        - आउने हप्ता
+    in 1 year:
+        - अर्को वर्ष
+relative-type-regex:
+    \1 second ago:
+        - (\d+[.,]?\d*) सेकेण्ड पहिले
+    in \1 second:
+        - (\d+[.,]?\d*) सेकेण्डमा

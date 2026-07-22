@@ -1,6 +1,6 @@
 skip: ["circa", "e", "alle"]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 year:
     - anni
@@ -14,8 +14,10 @@ hour:
     - ore
 minute:
     - minuti
+    - m
 second:
     - secondi
+    - sec
 
 ago:
     - fa
@@ -27,5 +29,5 @@ relative-type:
         - altro ieri
 
 simplifications:
-    - (\d+[.,]?\d*)\s+ora: \1 ore 
+    - (\d+[.,]?\d*)\s+ora: \1 ore
     - \bun[' ]ora\b: 1 ore

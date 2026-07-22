@@ -93,6 +93,7 @@ info = {
         "cäŋ"
     ],
     "hour": [
+        "hr",
         "thaak"
     ],
     "minute": [

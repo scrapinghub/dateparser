@@ -5,23 +5,174 @@ import regex as re
 import requests
 from parsel import Selector
 
-from dateparser_scripts.utils import get_raw_data
+from dateparser_scripts.utils import get_raw_data, CLDR_JSON_DIR
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # Languages with insufficient translation data are excluded
 avoid_languages = {"cu", "kkj", "nds", "prg", "tk", "vai", "vai-Latn", "vai-Vaii", "vo"}
 
+# Locales that CLDR 44 introduced but which dateparser does not enable yet: enabling
+# them expands language auto-detection (and, for many, requires supplementary data),
+# so they are handled separately from this data refresh to keep the supported set
+# stable. This keeps the generated data limited to the locales already shipped.
+cldr_44_new_languages = {
+    "aa",
+    "ab",
+    "an",
+    "ann",
+    "apc",
+    "arn",
+    "az-Arab",
+    "ba",
+    "bal",
+    "bal-Arab",
+    "bal-Latn",
+    "be-tarask",
+    "bew",
+    "bgc",
+    "bgn",
+    "bho",
+    "blo",
+    "blt",
+    "bm-Nkoo",
+    "bss",
+    "byn",
+    "ca-ES-valencia",
+    "cad",
+    "cch",
+    "ccp",
+    "ceb",
+    "cho",
+    "cic",
+    "co",
+    "csw",
+    "cv",
+    "doi",
+    "dv",
+    "el-polyton",
+    "en-Dsrt",
+    "en-Shaw",
+    "ff-Adlm",
+    "ff-Latn",
+    "frr",
+    "gaa",
+    "gez",
+    "gn",
+    "ha-Arab",
+    "hi-Latn",
+    "hnj",
+    "hnj-Hmnp",
+    "ia",
+    "ie",
+    "io",
+    "iu",
+    "iu-Latn",
+    "jbo",
+    "jv",
+    "kaj",
+    "kcg",
+    "ken",
+    "kgp",
+    "kpe",
+    "ks-Arab",
+    "ks-Deva",
+    "ku",
+    "kxv",
+    "kxv-Deva",
+    "kxv-Latn",
+    "kxv-Orya",
+    "kxv-Telu",
+    "la",
+    "lij",
+    "lmo",
+    "mai",
+    "mdf",
+    "mi",
+    "mic",
+    "mn-Mong",
+    "mni",
+    "mni-Beng",
+    "mni-Mtei",
+    "moh",
+    "ms-Arab",
+    "mus",
+    "myv",
+    "no",
+    "nqo",
+    "nr",
+    "nso",
+    "nv",
+    "ny",
+    "oc",
+    "osa",
+    "pap",
+    "pcm",
+    "pis",
+    "quc",
+    "raj",
+    "rhg",
+    "rhg-Rohg",
+    "rif",
+    "sa",
+    "sat",
+    "sat-Deva",
+    "sat-Olck",
+    "sc",
+    "scn",
+    "sd",
+    "sd-Arab",
+    "sd-Deva",
+    "sdh",
+    "shn",
+    "sid",
+    "skr",
+    "sma",
+    "smj",
+    "sms",
+    "ss",
+    "ssy",
+    "st",
+    "su",
+    "su-Latn",
+    "syr",
+    "szl",
+    "tg",
+    "tig",
+    "tn",
+    "tok",
+    "tpi",
+    "trv",
+    "trw",
+    "ts",
+    "tt",
+    "tyv",
+    "und",
+    "ve",
+    "vec",
+    "vmw",
+    "wa",
+    "wal",
+    "wbp",
+    "wo",
+    "xh",
+    "xnr",
+    "yrl",
+    "yue-Hans",
+    "yue-Hant",
+    "za",
+}
+avoid_languages |= cldr_44_new_languages
+
 
 def _get_language_locale_dict():
-    cldr_dates_full_dir = "../raw_data/cldr_dates_full/main/"
+    cldr_dates_full_dir = CLDR_JSON_DIR / "cldr-json/cldr-dates-full/main/"
     available_locale_names = os.listdir(cldr_dates_full_dir)
     available_language_names = [
         shortname
         for shortname in available_locale_names
         if not re.search(r"-[A-Z0-9]+$", shortname)
     ]
-    available_language_names.remove("root")
     language_locale_dict = {}
     for language_name in available_language_names:
         language_locale_dict[language_name] = []
@@ -105,7 +256,9 @@ def _get_language_order(language_locale_dict):
             return old_common_locales
         return new_most_common_locales
 
-    territory_info_file = "../raw_data/cldr_core/supplemental/territoryInfo.json"
+    territory_info_file = (
+        CLDR_JSON_DIR / "cldr-json/cldr-core/supplemental/territoryInfo.json"
+    )
     with open(territory_info_file) as f:
         territory_content = json.load(f)
     territory_info_data = territory_content["supplemental"]["territoryInfo"]
