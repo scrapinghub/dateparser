@@ -75,6 +75,9 @@ def get_timezone_from_tz_string(tz_string):
     try:
         return timezone(tz_string)
     except UnknownTimeZoneError as e:
+        if re.fullmatch(r"[+-]\d{2}", tz_string):
+            tz_string = "UTC%s" % tz_string
+
         for name, info in _tz_offsets:
             if info["regex"].search(" %s" % tz_string):
                 return StaticTzInfo(name, info["offset"])
