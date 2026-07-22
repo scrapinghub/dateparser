@@ -2745,13 +2745,13 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         [
             param(
                 "en",
-                {"pertain": "it is a string", "skip": [""]},
-                log_msg="Invalid 'pertain' token '' for 'en' language: expected not empty string",
+                {"pertain": "it is a string"},
+                log_msg="Invalid 'pertain' list for 'en' language: expected list type but have got str",
             ),
             param(
                 "en",
-                {"pertain": [""], "skip": "it is a string"},
-                log_msg="Invalid 'pertain' list for 'en' language: expected list type but have got str",
+                {"pertain": [""]},
+                log_msg="Invalid 'pertain' token '' for 'en' language: expected not empty string",
             ),
         ]
     )
