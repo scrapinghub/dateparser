@@ -368,12 +368,21 @@ class _parser:
         params = {}
         for attr in known:
             params.update({attr: getattr(self, attr)})
+        # A leftover numeric token can back-fill a missing component, but under
+        # STRICT_PARSING/REQUIRE_PARTS one token must not stand in for several of
+        # them, otherwise an incomplete date such as "MM/YYYY" invents the parts
+        # it lacks instead of being rejected.
+        enforce_parts = self.settings.STRICT_PARSING or self.settings.REQUIRE_PARTS
+        available_tokens = [
+            token for token, token_type, _ in self.unset_tokens if token_type == 0
+        ]
         for attr in unknown:
-            for token, type, _ in self.unset_tokens:
-                if type == 0:
-                    params.update({attr: int(token)})
-                    setattr(self, "_token_%s" % attr, token)
-                    setattr(self, attr, int(token))
+            if not available_tokens:
+                break
+            token = available_tokens.pop(0) if enforce_parts else available_tokens[-1]
+            params.update({attr: int(token)})
+            setattr(self, "_token_%s" % attr, token)
+            setattr(self, attr, int(token))
 
     def _get_period(self):
         if self.settings.RETURN_TIME_AS_PERIOD:
