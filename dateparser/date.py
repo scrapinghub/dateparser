@@ -177,22 +177,23 @@ def get_date_from_timestamp(date_string, settings, negative=False):
         return date_obj
 
 
-def _apply_century_preference(date_obj, now, prefer_from):
-    """Shift *date_obj* by ±100 years to satisfy PREFER_DATES_FROM.
+def _apply_year_preference(date_obj, now, prefer_from, years):
+    """Shift *date_obj* by ±*years* to satisfy PREFER_DATES_FROM.
 
-    *now* is normalised to naive so a tz-aware RELATIVE_BASE does not raise
-    TypeError.  When the shifted year falls on Feb 29 in a non-leap year, the
-    nearest valid leap year in the preferred direction is used — matching the
-    behaviour of the NLP path in ``parser.py``.
+    Used with ``years=100`` for a two-digit-year format and ``years=1`` for a
+    format with no year at all.  *now* is normalised to naive so a tz-aware
+    RELATIVE_BASE does not raise TypeError.  When the shifted year falls on
+    Feb 29 in a non-leap year, the nearest valid leap year in the preferred
+    direction is used — matching the behaviour of the NLP path in ``parser.py``.
 
     Returns the adjusted datetime, or the original when no shift is needed.
     """
     now_naive = now.replace(tzinfo=None) if now.tzinfo is not None else now
 
     if now_naive < date_obj and prefer_from == "past":
-        target_year = date_obj.year - 100
+        target_year = date_obj.year - years
     elif now_naive >= date_obj and prefer_from == "future":
-        target_year = date_obj.year + 100
+        target_year = date_obj.year + years
     else:
         return date_obj
 
@@ -242,9 +243,12 @@ def parse_with_formats(date_string, date_formats, settings):
             )
             if not ("%y" in date_format or "%Y" in date_format):
                 date_obj = date_obj.replace(year=now.year)
+                date_obj = _apply_year_preference(
+                    date_obj, now, settings.PREFER_DATES_FROM, 1
+                )
             elif "%y" in date_format and "%Y" not in date_format:
-                date_obj = _apply_century_preference(
-                    date_obj, now, settings.PREFER_DATES_FROM
+                date_obj = _apply_year_preference(
+                    date_obj, now, settings.PREFER_DATES_FROM, 100
                 )
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
