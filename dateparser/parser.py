@@ -65,12 +65,12 @@ def resolve_date_order(order, lst=None):
     return chart_list[order] if lst else date_order_chart[order]
 
 
-def _parse_absolute(datestring, settings, tz=None):
-    return _parser.parse(datestring, settings, tz)
+def _parse_absolute(datestring, settings, tz=None, date_order=None):
+    return _parser.parse(datestring, settings, tz, date_order=date_order)
 
 
-def _parse_nospaces(datestring, settings, tz=None):
-    return _no_spaces_parser.parse(datestring, settings)
+def _parse_nospaces(datestring, settings, tz=None, date_order=None):
+    return _no_spaces_parser.parse(datestring, settings, date_order=date_order)
 
 
 class _time_parser:
@@ -186,7 +186,7 @@ class _no_spaces_parser:
         return None
 
     @classmethod
-    def parse(cls, datestring, settings):
+    def parse(cls, datestring, settings, date_order=None):
         if not no_space_parser_eligibile(datestring):
             raise ValueError("Unable to parse date from: %s" % datestring)
 
@@ -194,8 +194,9 @@ class _no_spaces_parser:
         if not datestring:
             raise ValueError("Empty string")
         tokens = tokenizer(datestring)
-        if settings.DATE_ORDER:
-            order = resolve_date_order(settings.DATE_ORDER)
+        date_order = date_order or settings.DATE_ORDER
+        if date_order:
+            order = resolve_date_order(date_order)
         else:
             order = cls._default_order
             if EIGHT_DIGIT.match(datestring):
@@ -249,8 +250,9 @@ class _parser:
         "year": ["%y", "%Y"],
     }
 
-    def __init__(self, tokens, settings):
+    def __init__(self, tokens, settings, date_order=None):
         self.settings = settings
+        self._date_order = date_order or settings.DATE_ORDER
         self.tokens = [(t[0].strip(), t[1]) for t in list(tokens)]
         self.filtered_tokens = [
             (t[0], t[1], i) for i, t in enumerate(self.tokens) if t[1] <= 1
@@ -272,7 +274,7 @@ class _parser:
 
         self.ordered_num_directives = {
             k: self.num_directives[k]
-            for k in resolve_date_order(settings.DATE_ORDER, lst=True)
+            for k in resolve_date_order(self._date_order, lst=True)
         }
 
         skip_index = []
@@ -604,9 +606,9 @@ class _parser:
         return dateobj
 
     @classmethod
-    def parse(cls, datestring, settings, tz=None):
+    def parse(cls, datestring, settings, tz=None, date_order=None):
         tokens = tokenizer(datestring)
-        po = cls(tokens.tokenize(), settings)
+        po = cls(tokens.tokenize(), settings, date_order=date_order)
         dateobj = po._results()
 
         # correction for past, future if applicable

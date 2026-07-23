@@ -1,3 +1,4 @@
+import threading
 from collections import OrderedDict
 from copy import deepcopy
 from importlib import import_module
@@ -41,6 +42,7 @@ class LocaleDataLoader:
 
     _loaded_languages = {}
     _loaded_locales = {}
+    _load_lock = threading.Lock()
 
     def get_locale_map(
         self,
@@ -203,22 +205,30 @@ class LocaleDataLoader:
             )
 
         for shortname, lang_reg in locale_dict.items():
-            if shortname not in self._loaded_locales:
-                lang, reg = lang_reg
-                if lang in self._loaded_languages:
-                    locale = Locale(
-                        shortname, language_info=deepcopy(self._loaded_languages[lang])
-                    )
+            with self._load_lock:
+                if shortname not in self._loaded_locales:
+                    lang, reg = lang_reg
+                    if lang in self._loaded_languages:
+                        locale = Locale(
+                            shortname,
+                            language_info=deepcopy(self._loaded_languages[lang]),
+                        )
+                    else:
+                        language_info = getattr(
+                            import_module(
+                                "dateparser.data.date_translation_data." + lang
+                            ),
+                            "info",
+                        )
+                        locale = Locale(
+                            shortname, language_info=deepcopy(language_info)
+                        )
+                        self._loaded_languages[lang] = language_info
+                    # Store only once fully built so concurrent readers never see
+                    # a half-initialised locale.
                     self._loaded_locales[shortname] = locale
-                else:
-                    language_info = getattr(
-                        import_module("dateparser.data.date_translation_data." + lang),
-                        "info",
-                    )
-                    locale = Locale(shortname, language_info=deepcopy(language_info))
-                    self._loaded_languages[lang] = language_info
-                    self._loaded_locales[shortname] = locale
-            yield shortname, self._loaded_locales[shortname]
+                locale = self._loaded_locales[shortname]
+            yield shortname, locale
 
 
 default_loader = LocaleDataLoader()
