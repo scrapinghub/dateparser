@@ -931,6 +931,32 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("2017-06-22", languages=["it"], expected=datetime(2017, 6, 22)),
+            param("2017-06-10", languages=["it"], expected=datetime(2017, 6, 10)),
+            param("2017-06-22", languages=["fr"], expected=datetime(2017, 6, 22)),
+            param(
+                "2015-05-02T10:20:19+0000",
+                languages=["fr"],
+                expected=datetime(2015, 5, 2, 10, 20, 19),
+            ),
+        ]
+    )
+    def test_iso_datestamp_format_should_parse_with_locale_date_order(
+        self, date_string, languages, expected
+    ):
+        # Regression test for #360: dates starting with a four-digit year
+        # (e.g. ISO 8601 dates) must parse even when the locale date order
+        # is not year-first (Italian and French use DMY), without needing
+        # the PREFER_LOCALE_DATE_ORDER=False workaround.
+        self.given_local_tz_offset(0)
+        self.given_parser(languages=languages)
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.result["date_obj"] = self.result["date_obj"].replace(tzinfo=None)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             # Epoch timestamps.
             param("1484823450", expected=datetime(2017, 1, 19, 10, 57, 30)),
             param("1436745600000", expected=datetime(2015, 7, 13, 0, 0)),
