@@ -135,6 +135,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("six days ago", ago={"days": 6}, period="day"),
             param("five years ago", ago={"years": 5}, period="year"),
             param("2y ago", ago={"years": 2}, period="year"),
+            # Single-letter week abbreviation (#1257)
+            param("1w ago", ago={"weeks": 1}, period="week"),
+            param("2w ago", ago={"weeks": 2}, period="week"),
             # Fractional units
             param("2.5 hours", ago={"hours": 2.5}, period="day"),
             param("10.75 minutes", ago={"minutes": 10.75}, period="day"),
