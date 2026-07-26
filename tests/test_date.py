@@ -1122,6 +1122,15 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("2019:"), "2019")
         self.assertEqual(date.sanitize_date("31/07/2019:"), "31/07/2019")
 
+    def test_sanitize_date_leading_colons(self):
+        # A leading colon must be stripped (issue #889) ...
+        self.assertEqual(date.sanitize_date(": 24 February 2019"), "24 February 2019")
+        self.assertEqual(date.sanitize_date(":24 February 2019"), "24 February 2019")
+        self.assertEqual(date.sanitize_date(":: 2019-02-24"), "2019-02-24")
+        # ... but a colon inside a time must be left alone.
+        self.assertEqual(date.sanitize_date("12:30"), "12:30")
+        self.assertEqual(date.sanitize_date("2019-02-24 12:30"), "2019-02-24 12:30")
+
 
 class TestDateLocaleParser(BaseTestCase):
     def setUp(self):

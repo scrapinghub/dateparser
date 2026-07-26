@@ -40,6 +40,7 @@ RE_NBSP = re.compile("\xa0", flags=re.UNICODE)
 RE_SPACES = re.compile(r"\s+")
 RE_TRIM_SPACES = re.compile(r"^\s+(\S.*?)\s+$")
 RE_TRIM_COLONS = re.compile(r"(\S.*?):*$")
+RE_TRIM_LEADING_COLONS = re.compile(r"^\s*:+\s*")
 
 RE_SANITIZE_SKIP = re.compile(
     r"\t|\n|\r|\u00bb|,\s\u0432\b|\u200e|\xb7|\u200f|\u064e|\u064f", flags=re.M
@@ -143,6 +144,11 @@ def sanitize_date(date_string):
     date_string = RE_SANITIZE_PERIOD.sub("", date_string)
     date_string = RE_SANITIZE_ON.sub(r"\1", date_string)
     date_string = RE_TRIM_COLONS.sub(r"\1", date_string)
+    # RE_TRIM_COLONS only strips trailing colons; a leading colon (e.g.
+    # ": 24 February 2019") otherwise becomes a stray token and the parse
+    # fails. A time such as "12:30" has digits before the colon, so it is
+    # unaffected.
+    date_string = RE_TRIM_LEADING_COLONS.sub("", date_string)
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
     date_string = date_string.strip()
     return date_string
