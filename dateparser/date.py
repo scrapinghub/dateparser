@@ -592,6 +592,42 @@ class DateDataParser:
         else:
             return DateData(date_obj=None, period="day", locale=None)
 
+    def _get_date_data_stripping_extra_text(self, date_string, date_formats=None):
+        """Fallback for strings that are a real date surrounded by harmless
+        extra text (issue #518), e.g. ``"Actualisé le 17 avril 2019"``.
+
+        Used by :func:`dateparser.parse` only when the regular, strict parsing
+        of the whole string found nothing. It is intentionally *not* part of
+        :meth:`get_date_data` so that the strictness relied upon by
+        ``search_dates`` and language detection is preserved.
+
+        Only attempted when the language is known (given explicitly or already
+        detected): with a known language, foreign extra words can be stripped
+        confidently, and only a handful of locales are tried. Without that hint
+        the whole locale set would have to be scanned, so we stay conservative.
+        """
+        if not isinstance(date_string, str):
+            raise TypeError("Input type must be str")
+
+        if not (self.languages or self.locales):
+            return DateData(date_obj=None, period="day", locale=None)
+
+        date_string = sanitize_date(date_string)
+
+        for locale in self._get_locales_to_try():
+            stripped = locale.strip_extra_text(date_string, settings=self._settings)
+            if not stripped:
+                continue
+            parsed_date = _DateLocaleParser.parse(
+                locale, stripped, date_formats, settings=self._settings
+            )
+            if parsed_date and parsed_date["date_obj"]:
+                parsed_date["locale"] = locale.shortname
+                if self.try_previous_locales:
+                    self.previous_locales[locale] = None
+                return parsed_date
+        return DateData(date_obj=None, period="day", locale=None)
+
     def get_date_tuple(self, *args, **kwargs):
         date_data = self.get_date_data(*args, **kwargs)
         fields = date_data.__dict__.keys()
@@ -659,6 +695,28 @@ class DateDataParser:
                 use_given_order=use_given_order,
             ):
                 yield locale
+
+    def _get_locales_to_try(self):
+        """Yield the candidate locales (given languages/locales, then any
+        ``DEFAULT_LANGUAGES``) without the applicability filter, for use by the
+        extra-text fallback where applicability is re-checked on the stripped
+        core."""
+        use_given_order = (
+            self.use_given_order or self._settings.USE_GIVEN_LANGUAGE_ORDER
+        )
+        yield from self._get_locale_loader().get_locales(
+            languages=self.languages,
+            locales=self.locales,
+            region=self.region,
+            use_given_order=use_given_order,
+        )
+        if self._settings.DEFAULT_LANGUAGES:
+            yield from self._get_locale_loader().get_locales(
+                languages=self._settings.DEFAULT_LANGUAGES,
+                locales=None,
+                region=self.region,
+                use_given_order=use_given_order,
+            )
 
     def _is_applicable_locale(self, locale, date_string):
         return locale.is_applicable(

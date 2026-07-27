@@ -714,6 +714,59 @@ class TestDateDataParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            # Issue #518: harmless leading text (unknown words) must not prevent
+            # parsing of an otherwise unambiguous date.
+            param(
+                date_string="Actualisé le 17 avril 2019",
+                languages=["fr"],
+                expected=datetime(2019, 4, 17),
+            ),
+            param(
+                date_string="Publié le 16 avril 2019",
+                languages=["fr"],
+                expected=datetime(2019, 4, 16),
+            ),
+            # The bug is not French-specific: any unknown leading word breaks it.
+            param(
+                date_string="Published on 16 April 2019",
+                languages=["en"],
+                expected=datetime(2019, 4, 16),
+            ),
+            # Already-working baselines, guarded against regression.
+            param(
+                date_string="le 17 avril 2019",
+                languages=["fr"],
+                expected=datetime(2019, 4, 17),
+            ),
+            param(
+                date_string="17 avril 2019",
+                languages=["fr"],
+                expected=datetime(2019, 4, 17),
+            ),
+        ]
+    )
+    def test_dates_with_leading_extra_text_are_parsed(
+        self, date_string, languages, expected
+    ):
+        self.assertEqual(expected, dateparser.parse(date_string, languages=languages))
+
+    @parameterized.expand(
+        [
+            # Only leading/trailing extra text is tolerated; a string with no
+            # real date must still not be parsed.
+            param(date_string="Ceci n'est pas une date", languages=["fr"]),
+            # An unknown word in the *interior* of the date must still prevent a
+            # (wrong) match, so the strictness for genuine garbage is preserved.
+            param(date_string="17 foobar avril 2019", languages=["fr"]),
+            # A bare number left over after stripping extra text is not enough.
+            param(date_string="the 5 apples cost 3 dollars", languages=["en"]),
+        ]
+    )
+    def test_non_dates_with_extra_text_are_not_parsed(self, date_string, languages):
+        self.assertIsNone(dateparser.parse(date_string, languages=languages))
+
+    @parameterized.expand(
+        [
             param(
                 date_string="14 giu 13",
                 date_formats=["%y %B %d"],

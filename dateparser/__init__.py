@@ -78,5 +78,13 @@ def parse(
 
     data = parser.get_date_data(date_string, date_formats)
 
-    if data:
+    if data and data["date_obj"]:
+        return data["date_obj"]
+
+    # The whole string could not be parsed as a date. Retry once, tolerating
+    # harmless extra text around the date, e.g. "Actualisé le 17 avril 2019"
+    # (issue #518). This is kept out of the strict ``get_date_data`` path so
+    # that ``search_dates`` and language detection are unaffected.
+    data = parser._get_date_data_stripping_extra_text(date_string, date_formats)
+    if data and data["date_obj"]:
         return data["date_obj"]

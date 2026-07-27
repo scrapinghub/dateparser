@@ -202,6 +202,26 @@ class Locale:
             settings=settings,
         )
 
+    def strip_extra_text(self, date_string, settings=None):
+        """Return ``date_string`` with harmless extra words removed from its
+        leading and trailing edges (issue #518), e.g.
+        ``"Actualisé le 17 avril 2019"`` -> ``"le 17 avril 2019"``.
+
+        Only the edges are trimmed, and only when the surviving core is a valid
+        date for this locale that contains a month, weekday or relative
+        expression. Returns ``None`` when there is nothing safe to strip, so the
+        caller can tell that the string is not simply "a date with extra text".
+        """
+        prepared = self._translate_numerals(date_string)
+        if settings.NORMALIZE:
+            prepared = normalize_unicode(prepared)
+        prepared = self._simplify(prepared, settings=settings)
+        dictionary = self._get_dictionary(settings)
+        core = dictionary.strip_extra_edge_tokens(dictionary.split(prepared))
+        if not core:
+            return None
+        return "".join(core).strip()
+
     def _translate_numerals(self, date_string):
         date_string_tokens = NUMERAL_PATTERN.split(date_string)
         for i, token in enumerate(date_string_tokens):

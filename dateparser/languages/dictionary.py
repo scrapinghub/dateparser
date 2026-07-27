@@ -42,6 +42,10 @@ KNOWN_WORD_TOKENS = [
     "pm",
 ]
 
+# Month and weekday names — the strong, language-specific date words used to
+# confirm that a string with harmless extra text really contains a date.
+_MONTH_AND_WEEKDAY_TOKENS = frozenset(KNOWN_WORD_TOKENS[:19])
+
 PARENTHESES_PATTERN = re.compile(r"[\(\)]")
 NUMERAL_PATTERN = re.compile(r"(\d+)")
 KEEP_TOKEN_PATTERN = re.compile(r"^.*[^\W_].*$", flags=re.U)
@@ -149,6 +153,59 @@ class Dictionary:
                 return False
         else:
             return True
+
+    def _is_known_token(self, token, match_relative_regex=None):
+        """Whether ``token`` is recognised by this locale: a number, a relative
+        expression, or a dictionary word (this is the per-token check used by
+        :meth:`are_tokens_valid`)."""
+        if match_relative_regex is None:
+            match_relative_regex = self._get_match_relative_regex_cache()
+        return bool(
+            token.isdigit() or match_relative_regex.match(token) or token in self
+        )
+
+    def _is_date_anchor(self, token):
+        """Whether ``token`` is a strong, locale-specific date word — a month or
+        weekday name, or a relative expression — as opposed to a bare number,
+        punctuation, or a universal token such as ``am``/``pm``. Used to make
+        sure extra-text stripping only rescues genuine dates."""
+        if self._get_match_relative_regex_cache().match(token):
+            return True
+        return self._dictionary.get(token) in _MONTH_AND_WEEKDAY_TOKENS
+
+    def _strip_unknown_edge_tokens(self, tokens):
+        """Remove leading and trailing tokens that are not recognised by this
+        locale (neither digits, relative expressions, nor dictionary words).
+        Interior tokens are left untouched."""
+        match_relative_regex = self._get_match_relative_regex_cache()
+        start, end = 0, len(tokens)
+        while start < end and not self._is_known_token(
+            tokens[start], match_relative_regex
+        ):
+            start += 1
+        while end > start and not self._is_known_token(
+            tokens[end - 1], match_relative_regex
+        ):
+            end -= 1
+        return tokens[start:end]
+
+    def strip_extra_edge_tokens(self, tokens):
+        """Return the date ``core`` obtained by removing harmless extra words
+        from the leading/trailing edges of ``tokens`` (issue #518), or ``None``
+        when nothing can be safely stripped.
+
+        Stripping is only applied when it actually removes something, the
+        surviving core is a valid date for this locale, and that core still
+        contains a month, weekday or relative expression (so that genuine
+        non-dates and bare numbers are not rescued)."""
+        core = self._strip_unknown_edge_tokens(tokens)
+        if (
+            len(core) == len(tokens)
+            or not any(self._is_date_anchor(token) for token in core)
+            or not self.are_tokens_valid(core)
+        ):
+            return None
+        return core
 
     def split(self, string, keep_formatting=False):
         """
