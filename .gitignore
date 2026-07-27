@@ -50,5 +50,8 @@ docs/_build
 .idea
 .vscode/
 
+# CLDR
+/cldr-json/
+
 # Other
 raw_data

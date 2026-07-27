@@ -94,7 +94,8 @@ info = {
         "dì"
     ],
     "hour": [
-        "ore"
+        "ore",
+        "oris"
     ],
     "minute": [
         "minût"

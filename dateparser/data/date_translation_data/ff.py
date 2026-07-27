@@ -96,6 +96,7 @@ info = {
         "ñalnde"
     ],
     "hour": [
+        "hr",
         "waktu"
     ],
     "minute": [

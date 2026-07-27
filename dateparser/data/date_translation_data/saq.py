@@ -96,6 +96,7 @@ info = {
         "mpari"
     ],
     "hour": [
+        "hr",
         "saai"
     ],
     "minute": [

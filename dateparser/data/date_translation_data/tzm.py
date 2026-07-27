@@ -96,6 +96,7 @@ info = {
         "ass"
     ],
     "hour": [
+        "hr",
         "tasragt"
     ],
     "minute": [

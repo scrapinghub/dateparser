@@ -76,10 +76,10 @@
         "dé domhnaigh"
     ],
     "am": [
-        "am"
+        "rn"
     ],
     "pm": [
-        "pm"
+        "in"
     ],
     "year": [
         "bl",
@@ -130,8 +130,8 @@
             "an tseachtain seo"
         ],
         "0 year ago": [
-            "an bhl seo",
-            "an bhliain seo"
+            "i mbl",
+            "i mbliana"
         ],
         "1 day ago": [
             "inné"
@@ -204,7 +204,8 @@
         ],
         "in \\1 month": [
             "i gceann {0} mhí",
-            "i gceann {0} mí"
+            "i gceann {0} mí",
+            "i gceann {0} míosa"
         ],
         "in \\1 second": [
             "i gceann {0} soic",
@@ -212,13 +213,18 @@
         ],
         "in \\1 week": [
             "i gceann {0} scht",
-            "i gceann {0} seachtain"
+            "i gceann {0} seachtain",
+            "i gceann {0} seachtaine"
         ],
         "in \\1 year": [
-            "i gceann {0} bhliain",
             "i gceann {0} bl",
-            "i gceann {0} bliain"
+            "i gceann {0} bliain",
+            "i gceann {0} bliana"
         ]
     },
-    "locale_specific": {}
+    "locale_specific": {
+        "ga-GB": {
+            "name": "ga-GB"
+        }
+    }
 }

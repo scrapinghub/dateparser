@@ -96,6 +96,7 @@ info = {
         "sikʉ"
     ],
     "hour": [
+        "hr",
         "sáa"
     ],
     "minute": [

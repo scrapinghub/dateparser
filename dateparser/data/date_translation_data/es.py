@@ -115,6 +115,7 @@ info = {
     "hour": [
         "h",
         "hora",
+        "horas",
         "horas"
     ],
     "minute": [
@@ -144,6 +145,7 @@ info = {
             "ahora"
         ],
         "0 week ago": [
+            "esta sem",
             "esta semana"
         ],
         "0 year ago": [
@@ -156,7 +158,8 @@ info = {
             "el mes pasado"
         ],
         "1 week ago": [
-            "la semana pasada"
+            "la semana pasada",
+            "sem ant"
         ],
         "1 year ago": [
             "el año pasado"
@@ -168,7 +171,8 @@ info = {
             "el próximo mes"
         ],
         "in 1 week": [
-            "la próxima semana"
+            "la próxima semana",
+            "próx sem"
         ],
         "in 1 year": [
             "el próximo año"
@@ -179,6 +183,7 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
+            "hace (\\d++[.,]?\\d*+) d",
             "hace (\\d++[.,]?\\d*+) día",
             "hace (\\d++[.,]?\\d*+) días"
         ],
@@ -213,6 +218,7 @@ info = {
             "hace (\\d++[.,]?\\d*+) años"
         ],
         "in \\1 day": [
+            "dentro de (\\d++[.,]?\\d*+) d",
             "dentro de (\\d++[.,]?\\d*+) día",
             "dentro de (\\d++[.,]?\\d*+) días"
         ],
@@ -250,18 +256,28 @@ info = {
     "locale_specific": {
         "es-419": {
             "name": "es-419",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-AR": {
             "name": "es-AR",
-            "september": [
-                "sep"
+            "hour": [
+                "hs"
             ],
             "second": [
                 "seg"
             ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "hace (\\d++[.,]?\\d*+) seg"
@@ -269,52 +285,95 @@ info = {
                 "in \\1 second": [
                     "dentro de (\\d++[.,]?\\d*+) seg"
                 ]
-            }
+            },
+            "september": [
+                "sep"
+            ]
         },
         "es-BO": {
             "name": "es-BO",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-BR": {
             "name": "es-BR",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-BZ": {
             "name": "es-BZ",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-CL": {
             "name": "es-CL",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-CO": {
             "name": "es-CO",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-CR": {
             "name": "es-CR",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-CU": {
             "name": "es-CU",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-DO": {
             "name": "es-DO",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -324,6 +383,11 @@ info = {
         },
         "es-EC": {
             "name": "es-EC",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -333,12 +397,22 @@ info = {
         },
         "es-GT": {
             "name": "es-GT",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-HN": {
             "name": "es-HN",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -352,6 +426,9 @@ info = {
                 "sep"
             ],
             "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ],
                 "in 1 month": [
                     "el mes próximo"
                 ],
@@ -371,9 +448,6 @@ info = {
                     "en (\\d++[.,]?\\d*+) h",
                     "en (\\d++[.,]?\\d*+) n"
                 ],
-                "in \\1 minute": [
-                    "en (\\d++[.,]?\\d*+) min"
-                ],
                 "in \\1 month": [
                     "en (\\d++[.,]?\\d*+) m",
                     "en (\\d++[.,]?\\d*+) mes",
@@ -387,11 +461,19 @@ info = {
                 ],
                 "in \\1 year": [
                     "en (\\d++[.,]?\\d*+) a"
+                ],
+                "in \\1 minute": [
+                    "en (\\d++[.,]?\\d*+) min"
                 ]
             }
         },
         "es-NI": {
             "name": "es-NI",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -399,6 +481,11 @@ info = {
         "es-PA": {
             "name": "es-PA",
             "date_order": "MDY",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -408,7 +495,12 @@ info = {
             "september": [
                 "set",
                 "setiembre"
-            ]
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
         },
         "es-PH": {
             "name": "es-PH"
@@ -416,6 +508,11 @@ info = {
         "es-PR": {
             "name": "es-PR",
             "date_order": "MDY",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -425,6 +522,11 @@ info = {
             "second": [
                 "seg"
             ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "hace (\\d++[.,]?\\d*+) seg"
@@ -436,12 +538,25 @@ info = {
         },
         "es-SV": {
             "name": "es-SV",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            },
             "september": [
                 "sep"
             ]
         },
         "es-US": {
             "name": "es-US",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pasada"
+                ],
+                "in 1 week": [
+                    "próxima sem"
+                ]
+            },
             "september": [
                 "sep"
             ]
@@ -451,10 +566,20 @@ info = {
             "september": [
                 "set",
                 "setiembre"
-            ]
+            ],
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
         },
         "es-VE": {
-            "name": "es-VE"
+            "name": "es-VE",
+            "relative-type": {
+                "1 week ago": [
+                    "sem pas"
+                ]
+            }
         }
     },
     "skip": [

@@ -93,6 +93,7 @@ info = {
         "zour"
     ],
     "hour": [
+        "hr",
         "ler"
     ],
     "minute": [

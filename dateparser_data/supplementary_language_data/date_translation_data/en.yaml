@@ -76,6 +76,9 @@ relative-type:
         - till date
 
 relative-type-regex:
+    in \1 week:
+        - in {0} weeks time
+        - "in {0} weeks' time"
     in \1 decade:
         - in (\d+[.,]?\d*) decades?
     \1 decade ago:
@@ -103,3 +106,8 @@ simplifications:
     - ten: '10'
     - eleven: '11'
     - twelve: '12'
+
+locale_specific:
+    en-US:
+        name: en-US
+        date_order: MDY

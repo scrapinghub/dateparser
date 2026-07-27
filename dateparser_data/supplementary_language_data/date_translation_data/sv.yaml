@@ -1,6 +1,13 @@
+relative-type-regex:
+    \1 minute ago:
+        - för (\d+[.,]?\d*) min sedan
+    \1 month ago:
+        - för (\d+[.,]?\d*) mån sedan
+    \1 second ago:
+        - för (\d+[.,]?\d*) sek sedan
 skip: ["den", "på"]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 monday:
     - Månd
@@ -59,6 +66,8 @@ relative-type:
     in 1 day:
         - imorgon
 
+    0 month ago:
+        - denna månad
 simplifications:
     - en: '1'
     - två: '2'

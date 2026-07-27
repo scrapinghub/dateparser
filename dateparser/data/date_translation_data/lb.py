@@ -100,7 +100,8 @@ info = {
     ],
     "hour": [
         "st",
-        "stonn"
+        "stonn",
+        "stonnen"
     ],
     "minute": [
         "min",

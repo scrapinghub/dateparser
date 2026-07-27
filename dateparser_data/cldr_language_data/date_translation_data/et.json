@@ -97,7 +97,8 @@
     ],
     "hour": [
         "t",
-        "tund"
+        "tund",
+        "tunnid"
     ],
     "minute": [
         "min",
@@ -119,39 +120,57 @@
             "praegusel minutil"
         ],
         "0 month ago": [
-            "käesolev kuu"
+            "käesolev kuu",
+            "see k",
+            "see kuu"
         ],
         "0 second ago": [
             "nüüd"
         ],
         "0 week ago": [
-            "käesolev nädal"
+            "käesolev nädal",
+            "see n",
+            "see näd"
         ],
         "0 year ago": [
-            "käesolev aasta"
+            "käesolev a",
+            "käesolev aasta",
+            "see a"
         ],
         "1 day ago": [
             "eile"
         ],
         "1 month ago": [
+            "eelm k",
+            "eelm kuu",
             "eelmine kuu"
         ],
         "1 week ago": [
+            "eelm n",
+            "eelm näd",
             "eelmine nädal"
         ],
         "1 year ago": [
+            "eelm a",
+            "eelmine a",
             "eelmine aasta"
         ],
         "in 1 day": [
             "homme"
         ],
         "in 1 month": [
+            "järgm k",
+            "järgm kuu",
             "järgmine kuu"
         ],
         "in 1 week": [
+            "järgm n",
+            "järgm näd",
             "järgmine nädal"
         ],
         "in 1 year": [
+            "järgm a",
+            "järgmine a",
             "järgmine aasta"
         ]
     },

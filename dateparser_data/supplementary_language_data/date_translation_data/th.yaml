@@ -1,4 +1,6 @@
-sentence_splitter_group : 5
+minute:
+    - น
+sentence_splitter_group: 5
 
 skip: ["น.", "เมื่อ ", "เวลา"]
 

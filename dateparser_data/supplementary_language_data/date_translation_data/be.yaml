@@ -1,6 +1,11 @@
+relative-type-regex:
+    \1 day ago:
+        - (\d+[.,]?\d*) д таму
+    in \1 day:
+        - праз (\d+[.,]?\d*) д
 skip: ["каля", "у", "і", "ў"]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 monday:
     - Пнд

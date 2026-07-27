@@ -96,7 +96,8 @@ info = {
         "aparan"
     ],
     "hour": [
-        "esaa"
+        "esaa",
+        "hr"
     ],
     "minute": [
         "idakika"

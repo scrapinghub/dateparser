@@ -106,6 +106,7 @@ info = {
     ],
     "hour": [
         "h",
+        "ore",
         "oră",
         "ore"
     ],
@@ -138,6 +139,7 @@ info = {
             "acum"
         ],
         "0 week ago": [
+            "săpt aceasta",
             "săptămâna aceasta"
         ],
         "0 year ago": [
@@ -150,6 +152,7 @@ info = {
             "luna trecută"
         ],
         "1 week ago": [
+            "săpt trecută",
             "săptămâna trecută"
         ],
         "1 year ago": [
@@ -162,6 +165,7 @@ info = {
             "luna viitoare"
         ],
         "in 1 week": [
+            "săpt viitoare",
             "săptămâna viitoare"
         ],
         "in 1 year": [
@@ -235,8 +239,8 @@ info = {
         ],
         "in \\1 year": [
             "peste (\\d++[.,]?\\d*+) an",
-            "peste (\\d++[.,]?\\d*+) ani",
-            "peste (\\d++[.,]?\\d*+) de ani"
+            "peste (\\d++[.,]?\\d*+) de ani",
+            "peste (\\d++[.,]?\\d*+) ani"
         ]
     },
     "locale_specific": {

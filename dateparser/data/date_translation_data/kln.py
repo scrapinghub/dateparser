@@ -98,6 +98,7 @@ info = {
         "betut"
     ],
     "hour": [
+        "hr",
         "sait"
     ],
     "minute": [

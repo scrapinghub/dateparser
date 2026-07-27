@@ -1,6 +1,6 @@
 no_word_spacing: "True"
 
-sentence_splitter_group : 4
+sentence_splitter_group: 4
 
 skip: ["約"]
 
@@ -78,6 +78,12 @@ relative-type:
     in 2 day:
         - 明後日
 
+    in 1 month:
+        - 翌月
+    in 1 week:
+        - 翌週
+    in 1 year:
+        - 翌年
 simplifications:
     - (\d+[.,]?\d*)年(?:\s+)?(\d+[.,]?\d*)月(?:\s+)?(\d+[.,]?\d*)日: \1-\2-\3
     - (\d+[.,]?\d*)月(?:\s+)?(\d+[.,]?\d*)日: \1-\2
