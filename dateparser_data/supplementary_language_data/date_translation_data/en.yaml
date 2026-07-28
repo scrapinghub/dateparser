@@ -77,20 +77,36 @@ relative-type:
     # "this <weekday>" is supplied here rather than from CLDR, where in many
     # locales it is identical to the bare weekday name (#573). "past <weekday>"
     # is a common English synonym of "last <weekday>" that CLDR does not carry.
+    # The wide/short/narrow forms mirror CLDR's "last"/"next" entries so that
+    # "this fri" and "this f" work just like "next fri" and "next f".
     this monday:
         - this monday
+        - this mon
+        - this m
     this tuesday:
         - this tuesday
+        - this tue
+        - this tu
     this wednesday:
         - this wednesday
+        - this wed
+        - this w
     this thursday:
         - this thursday
+        - this thu
+        - this th
     this friday:
         - this friday
+        - this fri
+        - this f
     this saturday:
         - this saturday
+        - this sat
+        - this sa
     this sunday:
         - this sunday
+        - this sun
+        - this su
     last monday:
         - past monday
     last tuesday:

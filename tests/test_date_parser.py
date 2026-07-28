@@ -805,6 +805,13 @@ class TestDateParser(BaseTestCase):
             # Combined with a time part (base Monday 2015-02-16).
             param("next friday at 5pm", datetime(2015, 2, 20, 17, 0)),
             param("12am last monday", datetime(2015, 2, 9, 0, 0)),
+            # Abbreviated weekday forms work for all three modifiers, including
+            # "this" (which is supplied via supplementary data), so "this fri"
+            # behaves like "next fri"/"last fri".
+            param("next fri", datetime(2015, 2, 20)),
+            param("last mon", datetime(2015, 2, 9)),
+            param("this fri", datetime(2015, 2, 20)),
+            param("this mon", datetime(2015, 2, 16)),
         ]
     )
     def test_relative_weekday_extras(self, date_string, expected):

@@ -281,25 +281,39 @@ info = {
             "day after tomorrow"
         ],
         "this monday": [
-            "this monday"
+            "this monday",
+            "this mon",
+            "this m"
         ],
         "this tuesday": [
-            "this tuesday"
+            "this tuesday",
+            "this tue",
+            "this tu"
         ],
         "this wednesday": [
-            "this wednesday"
+            "this wednesday",
+            "this wed",
+            "this w"
         ],
         "this thursday": [
-            "this thursday"
+            "this thursday",
+            "this thu",
+            "this th"
         ],
         "this friday": [
-            "this friday"
+            "this friday",
+            "this fri",
+            "this f"
         ],
         "this saturday": [
-            "this saturday"
+            "this saturday",
+            "this sat",
+            "this sa"
         ],
         "this sunday": [
-            "this sunday"
+            "this sunday",
+            "this sun",
+            "this su"
         ]
     },
     "relative-type-regex": {
