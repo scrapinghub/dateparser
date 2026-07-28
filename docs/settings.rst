@@ -155,6 +155,34 @@ For example, assuming current date is `June 16, 2019`:
     >>> parse('March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
     datetime.datetime(2012, 3, 12, 0, 0)
 
+``IGNORE_SURROUNDING_TEXT``: defaults to ``False``. By default, the whole input string
+must be a date, so a date wrapped in surrounding text is not parsed. When this setting
+is enabled and the whole string could not be parsed as a date, dateparser retries
+ignoring the words at the beginning and at the end of the string that the tried
+language does not recognize as date-related:
+
+    >>> parse('Actualisé le 17 avril 2019', languages=['fr'])
+    None
+    >>> parse('Actualisé le 17 avril 2019', languages=['fr'], settings={'IGNORE_SURROUNDING_TEXT': True})
+    datetime.datetime(2019, 4, 17, 0, 0)
+    >>> parse('Published on 16/04/2019', settings={'IGNORE_SURROUNDING_TEXT': True})
+    datetime.datetime(2019, 4, 16, 0, 0)
+
+Only the edges of the string are affected. An unrecognized word inside the date still
+prevents parsing, and strings that can be parsed as a whole are parsed exactly as if
+the setting was disabled:
+
+    >>> parse('17 foobar avril 2019', languages=['fr'], settings={'IGNORE_SURROUNDING_TEXT': True})
+    None
+
+.. warning:: When this setting is enabled, the ignored text is discarded — even if it
+   could have changed the meaning of the date (for example, an unrecognized timezone
+   name) — and what remains is parsed as if it were the whole input. As a result,
+   strings that merely contain date-like words can produce a date, e.g.
+   ``'Chapter 12 March of the Penguins'``. Enable it only when the input is expected
+   to contain a date, and consider combining it with ``STRICT_PARSING`` or
+   ``REQUIRE_PARTS`` to discard remainders that are not complete dates.
+
 
 Language Detection
 ++++++++++++++++++

@@ -4,6 +4,7 @@ from parameterized import param, parameterized
 from pytz import utc
 
 import dateparser
+from dateparser.search import search_dates
 from tests import BaseTestCase
 
 
@@ -282,6 +283,191 @@ class TestParseFunction(BaseTestCase):
 
     def then_parsed_date_and_time_is(self, expected_date):
         self.assertEqual(self.result, expected_date)
+
+    def then_date_was_not_parsed(self):
+        self.assertIsNone(self.result)
+
+
+class TestIgnoreSurroundingTextSetting(BaseTestCase):
+    """Tests for the opt-in ``IGNORE_SURROUNDING_TEXT`` setting (issue #518)."""
+
+    def setUp(self):
+        super().setUp()
+        self.result = NotImplemented
+
+    @parameterized.expand(
+        [
+            # Issue #518: dates wrapped in harmless extra text.
+            param(
+                date_string="Actualisé le 17 avril 2019",
+                languages=["fr"],
+                expected_datetime=datetime(2019, 4, 17),
+            ),
+            param(
+                date_string="Publié le 16 avril 2019",
+                languages=["fr"],
+                expected_datetime=datetime(2019, 4, 16),
+            ),
+            # The behavior is not French-specific.
+            param(
+                date_string="Published on 16 April 2019",
+                languages=["en"],
+                expected_datetime=datetime(2019, 4, 16),
+            ),
+            # Purely numeric dates do not need a month name to survive.
+            param(
+                date_string="published 2019-04-16 ok",
+                languages=["en"],
+                expected_datetime=datetime(2019, 4, 16),
+            ),
+            param(
+                date_string="xx 16/04/2019 yy",
+                languages=["en"],
+                expected_datetime=datetime(2019, 4, 16),
+            ),
+            # No language hint is needed: locales are tried as usual.
+            param(
+                date_string="Actualisé le 17 avril 2019",
+                languages=None,
+                expected_datetime=datetime(2019, 4, 17),
+            ),
+            # Strings that parse as a whole are parsed exactly as before.
+            param(
+                date_string="le 17 avril 2019",
+                languages=["fr"],
+                expected_datetime=datetime(2019, 4, 17),
+            ),
+            param(
+                date_string="17 avril 2019",
+                languages=["fr"],
+                expected_datetime=datetime(2019, 4, 17),
+            ),
+        ]
+    )
+    def test_dates_with_surrounding_text_are_parsed(
+        self, date_string, languages, expected_datetime
+    ):
+        self.when_date_is_parsed(
+            date_string,
+            languages=languages,
+            settings={"IGNORE_SURROUNDING_TEXT": True},
+        )
+        self.then_parsed_datetime_is(expected_datetime)
+
+    @parameterized.expand(
+        [
+            param(date_string="Actualisé le 17 avril 2019", languages=["fr"]),
+            param(date_string="Publié le 16 avril 2019", languages=["fr"]),
+            param(date_string="Published on 16 April 2019", languages=["en"]),
+        ]
+    )
+    def test_dates_with_surrounding_text_are_not_parsed_by_default(
+        self, date_string, languages
+    ):
+        self.when_date_is_parsed(date_string, languages=languages)
+        self.then_date_was_not_parsed()
+
+    @parameterized.expand(
+        [
+            # An unrecognized word inside the date still prevents parsing.
+            param(date_string="17 foobar avril 2019", languages=["fr"]),
+            # A string without any date content is still not parsed.
+            param(date_string="hello world", languages=["en"]),
+        ]
+    )
+    def test_non_dates_are_not_parsed_even_when_enabled(self, date_string, languages):
+        self.when_date_is_parsed(
+            date_string,
+            languages=languages,
+            settings={"IGNORE_SURROUNDING_TEXT": True},
+        )
+        self.then_date_was_not_parsed()
+
+    def test_surrounding_text_ignored_with_locales_argument(self):
+        self.when_date_is_parsed(
+            "Actualisé le 17 avril 2019",
+            locales=["fr-CA"],
+            settings={"IGNORE_SURROUNDING_TEXT": True},
+        )
+        self.then_parsed_datetime_is(datetime(2019, 4, 17))
+
+    def test_surrounding_text_ignored_with_region_argument(self):
+        self.when_date_is_parsed(
+            "Actualisé le 17 avril 2019",
+            languages=["fr"],
+            region="CA",
+            settings={"IGNORE_SURROUNDING_TEXT": True},
+        )
+        self.then_parsed_datetime_is(datetime(2019, 4, 17))
+
+    def test_surrounding_text_ignored_with_default_languages_setting(self):
+        self.when_date_is_parsed(
+            "Actualisé le 17 avril 2019",
+            settings={"IGNORE_SURROUNDING_TEXT": True, "DEFAULT_LANGUAGES": ["fr"]},
+        )
+        self.then_parsed_datetime_is(datetime(2019, 4, 17))
+
+    def test_surrounding_text_ignored_with_detected_language(self):
+        self.when_date_is_parsed(
+            "Actualisé le 17 avril 2019",
+            detect_languages_function=lambda text, confidence_threshold: ["fr"],
+            settings={"IGNORE_SURROUNDING_TEXT": True},
+        )
+        self.then_parsed_datetime_is(datetime(2019, 4, 17))
+
+    def test_surrounding_text_ignored_with_date_formats(self):
+        self.when_date_is_parsed(
+            "Published on 16/04/2019",
+            date_formats=["%d/%m/%Y"],
+            languages=["en"],
+            settings={"IGNORE_SURROUNDING_TEXT": True},
+        )
+        self.then_parsed_datetime_is(datetime(2019, 4, 16))
+
+    def test_relative_date_with_surrounding_text(self):
+        self.when_date_is_parsed(
+            "asdf 3 hours ago asdf",
+            languages=["en"],
+            settings={
+                "IGNORE_SURROUNDING_TEXT": True,
+                "RELATIVE_BASE": datetime(2019, 4, 17, 12, 0),
+            },
+        )
+        self.then_parsed_datetime_is(datetime(2019, 4, 17, 9, 0))
+
+    def test_strict_parsing_rejects_incomplete_remainder(self):
+        # The remainder is parsed as if it were the whole input, so settings
+        # such as STRICT_PARSING apply to it as usual.
+        self.when_date_is_parsed(
+            "Page 3",
+            languages=["en"],
+            settings={"IGNORE_SURROUNDING_TEXT": True, "STRICT_PARSING": True},
+        )
+        self.then_date_was_not_parsed()
+
+    def test_surrounding_text_can_turn_non_dates_into_dates(self):
+        # Documented caveat: with the setting enabled, a string that merely
+        # contains date-like words produces a date.
+        self.when_date_is_parsed(
+            "Chapter 12 March of the Penguins",
+            languages=["en"],
+            settings={
+                "IGNORE_SURROUNDING_TEXT": True,
+                "RELATIVE_BASE": datetime(2026, 7, 27),
+            },
+        )
+        self.then_parsed_datetime_is(datetime(2026, 3, 12))
+
+    def test_search_dates_is_not_affected_by_default(self):
+        # search_dates keeps relying on the strict behavior of get_date_data.
+        self.result = search_dates("Actualisé le 17 avril 2019", languages=["fr"])
+        self.assertEqual([("le 17 avril 2019", datetime(2019, 4, 17))], self.result)
+
+    def when_date_is_parsed(self, date_string, **kwargs):
+        self.result = dateparser.parse(date_string, **kwargs)
+
+    def then_parsed_datetime_is(self, expected_datetime):
+        self.assertEqual(expected_datetime, self.result)
 
     def then_date_was_not_parsed(self):
         self.assertIsNone(self.result)
