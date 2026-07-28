@@ -170,6 +170,74 @@ info = {
         ],
         "in 1 year": [
             "anul viitor"
+        ],
+        "last friday": [
+            "vi trecută",
+            "vin trecută",
+            "vinerea trecută"
+        ],
+        "last monday": [
+            "lu trecută",
+            "lun trecută",
+            "lunea trecută"
+        ],
+        "last saturday": [
+            "sâ trecută",
+            "sâm trecută",
+            "sâmbăta trecută"
+        ],
+        "last sunday": [
+            "du trecută",
+            "dum trecută",
+            "duminica trecută"
+        ],
+        "last thursday": [
+            "jo trecută",
+            "joia trecută"
+        ],
+        "last tuesday": [
+            "ma trecută",
+            "mar trecută",
+            "marțea trecută"
+        ],
+        "last wednesday": [
+            "mi trecută",
+            "mie trecută",
+            "miercurea trecută"
+        ],
+        "next friday": [
+            "vi viitoare",
+            "vin viitoare",
+            "vinerea viitoare"
+        ],
+        "next monday": [
+            "lu viitoare",
+            "lun viitoare",
+            "lunea viitoare"
+        ],
+        "next saturday": [
+            "sâ viitoare",
+            "sâm viitoare",
+            "sâmbăta viitoare"
+        ],
+        "next sunday": [
+            "du viitoare",
+            "dum viitoare",
+            "duminica viitoare"
+        ],
+        "next thursday": [
+            "jo viitoare",
+            "joia viitoare"
+        ],
+        "next tuesday": [
+            "ma viitoare",
+            "mar viitoare",
+            "marțea viitoare"
+        ],
+        "next wednesday": [
+            "mi viitoare",
+            "mie viitoare",
+            "miercurea viitoare"
         ]
     },
     "relative-type-regex": {

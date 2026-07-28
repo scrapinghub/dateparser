@@ -156,6 +156,48 @@ info = {
             "পরের বছর",
             "আগামী বছর"
         ],
+        "last friday": [
+            "গত শুক্রবার"
+        ],
+        "last monday": [
+            "গত সোমবার"
+        ],
+        "last saturday": [
+            "গত শনিবার"
+        ],
+        "last sunday": [
+            "গত রবিবার"
+        ],
+        "last thursday": [
+            "গত বৃহস্পতিবার"
+        ],
+        "last tuesday": [
+            "গত মঙ্গলবার"
+        ],
+        "last wednesday": [
+            "গত বুধবার"
+        ],
+        "next friday": [
+            "পরের শুক্রবার"
+        ],
+        "next monday": [
+            "পরের সোমবার"
+        ],
+        "next saturday": [
+            "পরের শনিবার"
+        ],
+        "next sunday": [
+            "পরের রবিবার"
+        ],
+        "next thursday": [
+            "পরের বৃহস্পতিবার"
+        ],
+        "next tuesday": [
+            "পরের মঙ্গলবার"
+        ],
+        "next wednesday": [
+            "পরের বুধবার"
+        ],
         "2 day ago": [
             "গত পরশু"
         ]

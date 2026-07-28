@@ -149,6 +149,48 @@
         ],
         "in 1 year": [
             "folgjend jier"
+        ],
+        "last friday": [
+            "ôfrûne freed"
+        ],
+        "last monday": [
+            "ôfrûne moandei"
+        ],
+        "last saturday": [
+            "ôfrûne sneon"
+        ],
+        "last sunday": [
+            "ôfrûne snein"
+        ],
+        "last thursday": [
+            "ôfrûne tongersdei"
+        ],
+        "last tuesday": [
+            "ôfrûne tiisdei"
+        ],
+        "last wednesday": [
+            "ôfrûne woansdei"
+        ],
+        "next friday": [
+            "folgjende wike freed"
+        ],
+        "next monday": [
+            "folgjende wike moandei"
+        ],
+        "next saturday": [
+            "folgjende wike sneon"
+        ],
+        "next sunday": [
+            "folgjende wike snein"
+        ],
+        "next thursday": [
+            "folgjende wike tongersdei"
+        ],
+        "next tuesday": [
+            "folgjende wike tiisdei"
+        ],
+        "next wednesday": [
+            "folgjende wike woansdei"
         ]
     },
     "relative-type-regex": {

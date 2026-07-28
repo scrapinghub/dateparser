@@ -150,6 +150,48 @@
         ],
         "in 1 year": [
             "ƒe si gbɔ na"
+        ],
+        "last friday": [
+            "fiɖa si va yi"
+        ],
+        "last monday": [
+            "dzoɖa si va yi"
+        ],
+        "last saturday": [
+            "memleɖa si va yi"
+        ],
+        "last sunday": [
+            "kɔsiɖagbe si va yi"
+        ],
+        "last thursday": [
+            "yawoɖa si va yi"
+        ],
+        "last tuesday": [
+            "blaɖa si va yi"
+        ],
+        "last wednesday": [
+            "kuɖa si va yi"
+        ],
+        "next friday": [
+            "fiɖa si gbɔ na"
+        ],
+        "next monday": [
+            "dzoɖa si gbɔ na"
+        ],
+        "next saturday": [
+            "memleɖa si gbɔ na"
+        ],
+        "next sunday": [
+            "kɔsiɖagbe si gbɔ na"
+        ],
+        "next thursday": [
+            "yawoɖa si gbɔ na"
+        ],
+        "next tuesday": [
+            "blaɖa si gbɔ na"
+        ],
+        "next wednesday": [
+            "kuɖa si gbɔ na"
         ]
     },
     "relative-type-regex": {

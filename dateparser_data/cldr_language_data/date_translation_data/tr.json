@@ -156,6 +156,58 @@
         ],
         "in 1 year": [
             "gelecek yıl"
+        ],
+        "last friday": [
+            "geçen cuma"
+        ],
+        "last monday": [
+            "geçen pazartesi",
+            "geçen pzt"
+        ],
+        "last saturday": [
+            "geçen cmt",
+            "geçen cumartesi"
+        ],
+        "last sunday": [
+            "geçen paz",
+            "geçen pazar"
+        ],
+        "last thursday": [
+            "geçen per",
+            "geçen perşembe"
+        ],
+        "last tuesday": [
+            "geçen salı"
+        ],
+        "last wednesday": [
+            "geçen çar",
+            "geçen çarşamba"
+        ],
+        "next friday": [
+            "gelecek cuma"
+        ],
+        "next monday": [
+            "gelecek pazartesi",
+            "gelecek pzt"
+        ],
+        "next saturday": [
+            "gelecek cmt",
+            "gelecek cumartesi"
+        ],
+        "next sunday": [
+            "gelecek paz",
+            "gelecek pazar"
+        ],
+        "next thursday": [
+            "gelecek per",
+            "gelecek perşembe"
+        ],
+        "next tuesday": [
+            "gelecek salı"
+        ],
+        "next wednesday": [
+            "gelecek çar",
+            "gelecek çarşamba"
         ]
     },
     "relative-type-regex": {

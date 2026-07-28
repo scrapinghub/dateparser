@@ -133,6 +133,48 @@ info = {
         ],
         "in 1 year": [
             "ឆ្នាំ​ក្រោយ"
+        ],
+        "last friday": [
+            "ថ្ងៃ​សុក្រ​មុន"
+        ],
+        "last monday": [
+            "ថ្ងៃចន្ទមុន"
+        ],
+        "last saturday": [
+            "ថ្ងៃ​សៅរ៍​មុន"
+        ],
+        "last sunday": [
+            "ថ្ងៃ​អាទិត្យ​មុន"
+        ],
+        "last thursday": [
+            "ថ្ងៃ​ព្រហស្បតិ៍​មុន"
+        ],
+        "last tuesday": [
+            "ថ្ងៃ​អង្គារ​មុន"
+        ],
+        "last wednesday": [
+            "ថ្ងៃ​ពុធ​មុន"
+        ],
+        "next friday": [
+            "ថ្ងៃ​សុក្រ​ក្រោយ"
+        ],
+        "next monday": [
+            "ថ្ងៃចន្ទក្រោយ"
+        ],
+        "next saturday": [
+            "ថ្ងៃ​សៅរ៍​ក្រោយ"
+        ],
+        "next sunday": [
+            "ថ្ងៃ​អាទិត្យ​ក្រោយ"
+        ],
+        "next thursday": [
+            "ថ្ងៃ​ព្រហស្បតិ៍​ក្រោយ"
+        ],
+        "next tuesday": [
+            "ថ្ងៃ​អង្គារ​ក្រោយ"
+        ],
+        "next wednesday": [
+            "ថ្ងៃ​ពុធ​ក្រោយ"
         ]
     },
     "relative-type-regex": {

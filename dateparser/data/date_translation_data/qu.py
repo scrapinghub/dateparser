@@ -188,6 +188,50 @@ info = {
         "in 1 year": [
             "hamuq wata",
             "next year"
+        ],
+        "last friday": [
+            "qayna viernes"
+        ],
+        "last monday": [
+            "qayna lunes"
+        ],
+        "last saturday": [
+            "qayna sábado"
+        ],
+        "last sunday": [
+            "qayna domingo"
+        ],
+        "last thursday": [
+            "qayna jueves"
+        ],
+        "last tuesday": [
+            "qayna martes"
+        ],
+        "last wednesday": [
+            "qayna miércoles"
+        ],
+        "next friday": [
+            "hamuq viernes"
+        ],
+        "next monday": [
+            "hamuq lunes",
+            "next monday"
+        ],
+        "next saturday": [
+            "hamuq sábado",
+            "next saturday"
+        ],
+        "next sunday": [
+            "hamuq domingo"
+        ],
+        "next thursday": [
+            "hamuq jueves"
+        ],
+        "next tuesday": [
+            "hamuq martes"
+        ],
+        "next wednesday": [
+            "hamuq miércoles"
         ]
     },
     "locale_specific": {

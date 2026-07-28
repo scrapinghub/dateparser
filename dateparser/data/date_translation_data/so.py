@@ -210,6 +210,61 @@ info = {
             "sannadka danbe",
             "sannadka xiga",
             "next year"
+        ],
+        "last friday": [
+            "jimcihii hore",
+            "jmchi hre"
+        ],
+        "last monday": [
+            "isniintii hore",
+            "isnti hre"
+        ],
+        "last saturday": [
+            "sabtidii hore",
+            "sbtdi hre"
+        ],
+        "last sunday": [
+            "axadii hore"
+        ],
+        "last thursday": [
+            "khamiistii hore",
+            "khmsti hre"
+        ],
+        "last tuesday": [
+            "talaadadii hore",
+            "tlddi hre"
+        ],
+        "last wednesday": [
+            "arbacadii hore",
+            "arbcdi hre"
+        ],
+        "next friday": [
+            "jimcaha danbe",
+            "jmcha dbe"
+        ],
+        "next monday": [
+            "isniinta danbe",
+            "isnta dbe"
+        ],
+        "next saturday": [
+            "sabtida danbe",
+            "sbtda dbe"
+        ],
+        "next sunday": [
+            "axada danbe",
+            "axada xigta"
+        ],
+        "next thursday": [
+            "khamiista danbe",
+            "khmsta dbe"
+        ],
+        "next tuesday": [
+            "talaadada xigta",
+            "tldda xgta"
+        ],
+        "next wednesday": [
+            "arbacada danbe",
+            "arbcda dbe"
         ]
     },
     "relative-type-regex": {

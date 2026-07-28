@@ -155,6 +155,48 @@ info = {
         ],
         "in 1 year": [
             "keyingi yil"
+        ],
+        "last friday": [
+            "o‘tgan juma"
+        ],
+        "last monday": [
+            "o‘tgan dushanba"
+        ],
+        "last saturday": [
+            "o‘tgan shanba"
+        ],
+        "last sunday": [
+            "o‘tgan yakshanba"
+        ],
+        "last thursday": [
+            "o‘tgan payshanba"
+        ],
+        "last tuesday": [
+            "o‘tgan seshanba"
+        ],
+        "last wednesday": [
+            "o‘tgan chorshanba"
+        ],
+        "next friday": [
+            "keyingi juma"
+        ],
+        "next monday": [
+            "keyingi dushanba"
+        ],
+        "next saturday": [
+            "keyingi shanba"
+        ],
+        "next sunday": [
+            "keyingi yakshanba"
+        ],
+        "next thursday": [
+            "keyingi payshanba"
+        ],
+        "next tuesday": [
+            "keyingi seshanba"
+        ],
+        "next wednesday": [
+            "keyingi chorshanba"
         ]
     },
     "relative-type-regex": {

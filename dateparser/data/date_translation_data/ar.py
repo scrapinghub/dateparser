@@ -148,6 +148,48 @@ info = {
         "in 1 year": [
             "السنة القادمة"
         ],
+        "last friday": [
+            "الجمعة الماضي"
+        ],
+        "last monday": [
+            "الإثنين الماضي"
+        ],
+        "last saturday": [
+            "السبت الماضي"
+        ],
+        "last sunday": [
+            "الأحد الماضي"
+        ],
+        "last thursday": [
+            "الخميس الماضي"
+        ],
+        "last tuesday": [
+            "الثلاثاء الماضي"
+        ],
+        "last wednesday": [
+            "الأربعاء الماضي"
+        ],
+        "next friday": [
+            "الجمعة القادم"
+        ],
+        "next monday": [
+            "الإثنين القادم"
+        ],
+        "next saturday": [
+            "السبت القادم"
+        ],
+        "next sunday": [
+            "الأحد القادم"
+        ],
+        "next thursday": [
+            "الخميس القادم"
+        ],
+        "next tuesday": [
+            "الثلاثاء القادم"
+        ],
+        "next wednesday": [
+            "الأربعاء القادم"
+        ],
         "2 day": [
             "يومين"
         ],

@@ -74,6 +74,37 @@ relative-type:
         - day after tomorrow
     0 day ago:
         - till date
+    # "this <weekday>" is supplied here rather than from CLDR, where in many
+    # locales it is identical to the bare weekday name (#573). "past <weekday>"
+    # is a common English synonym of "last <weekday>" that CLDR does not carry.
+    this monday:
+        - this monday
+    this tuesday:
+        - this tuesday
+    this wednesday:
+        - this wednesday
+    this thursday:
+        - this thursday
+    this friday:
+        - this friday
+    this saturday:
+        - this saturday
+    this sunday:
+        - this sunday
+    last monday:
+        - past monday
+    last tuesday:
+        - past tuesday
+    last wednesday:
+        - past wednesday
+    last thursday:
+        - past thursday
+    last friday:
+        - past friday
+    last saturday:
+        - past saturday
+    last sunday:
+        - past sunday
 
 relative-type-regex:
     in \1 week:

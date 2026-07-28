@@ -157,6 +157,67 @@
         ],
         "in 1 year": [
             "á næsta ári"
+        ],
+        "last friday": [
+            "síðasta fös",
+            "síðasta föstudag"
+        ],
+        "last monday": [
+            "síðasta mán",
+            "síðasta mánudag"
+        ],
+        "last saturday": [
+            "síðasta lau",
+            "síðasta laugardag"
+        ],
+        "last sunday": [
+            "síðasta sun",
+            "síðasta sunnudag"
+        ],
+        "last thursday": [
+            "síðasta fimmtudag",
+            "síðasti fim"
+        ],
+        "last tuesday": [
+            "síðasta þriðjudag",
+            "síðasti þri"
+        ],
+        "last wednesday": [
+            "síðasta miðvikudag",
+            "síðasti mið"
+        ],
+        "next friday": [
+            "næsta fös",
+            "næsta föstudag"
+        ],
+        "next monday": [
+            "nk mán",
+            "næsta mán",
+            "næsta mánudag"
+        ],
+        "next saturday": [
+            "næsta lau",
+            "næsta laugardag"
+        ],
+        "next sunday": [
+            "nk sun",
+            "næsta sun",
+            "næsta sunnudag"
+        ],
+        "next thursday": [
+            "nk fim",
+            "næsta fimmtudag",
+            "næstkomandi fim"
+        ],
+        "next tuesday": [
+            "nk þri",
+            "næsta þriðjudag",
+            "næstkomandi þri"
+        ],
+        "next wednesday": [
+            "nk mið",
+            "næsta miðvikudag",
+            "næstkomandi mið"
         ]
     },
     "relative-type-regex": {

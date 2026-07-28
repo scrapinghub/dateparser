@@ -130,6 +130,48 @@
         ],
         "in 1 year": [
             "下年"
+        ],
+        "last friday": [
+            "上星期五"
+        ],
+        "last monday": [
+            "上星期一"
+        ],
+        "last saturday": [
+            "上星期六"
+        ],
+        "last sunday": [
+            "上星期日"
+        ],
+        "last thursday": [
+            "上星期四"
+        ],
+        "last tuesday": [
+            "上星期二"
+        ],
+        "last wednesday": [
+            "上星期三"
+        ],
+        "next friday": [
+            "下星期五"
+        ],
+        "next monday": [
+            "下星期一"
+        ],
+        "next saturday": [
+            "下星期六"
+        ],
+        "next sunday": [
+            "下星期日"
+        ],
+        "next thursday": [
+            "下星期四"
+        ],
+        "next tuesday": [
+            "下星期二"
+        ],
+        "next wednesday": [
+            "下星期三"
         ]
     },
     "relative-type-regex": {

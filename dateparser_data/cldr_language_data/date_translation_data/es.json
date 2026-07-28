@@ -160,6 +160,76 @@
         ],
         "in 1 year": [
             "el próximo año"
+        ],
+        "last friday": [
+            "el vi pasado",
+            "el vie pasado",
+            "el viernes pasado"
+        ],
+        "last monday": [
+            "el lu pasado",
+            "el lun pasado",
+            "el lunes pasado"
+        ],
+        "last saturday": [
+            "el sa pasado",
+            "el sáb pasado",
+            "el sábado pasado"
+        ],
+        "last sunday": [
+            "el do pasado",
+            "el dom pasado",
+            "el domingo pasado"
+        ],
+        "last thursday": [
+            "el ju pasado",
+            "el jue pasado",
+            "el jueves pasado"
+        ],
+        "last tuesday": [
+            "el ma pasado",
+            "el mar pasado",
+            "el martes pasado"
+        ],
+        "last wednesday": [
+            "el mi pasado",
+            "el mié pasado",
+            "el miércoles pasado"
+        ],
+        "next friday": [
+            "el próximo vi",
+            "el próximo vie",
+            "el próximo viernes"
+        ],
+        "next monday": [
+            "el próximo lu",
+            "el próximo lun",
+            "el próximo lunes"
+        ],
+        "next saturday": [
+            "el próximo sa",
+            "el próximo sáb",
+            "el próximo sábado"
+        ],
+        "next sunday": [
+            "el próximo do",
+            "el próximo dom",
+            "el próximo domingo"
+        ],
+        "next thursday": [
+            "el próximo ju",
+            "el próximo jue",
+            "el próximo jueves"
+        ],
+        "next tuesday": [
+            "el próximo ma",
+            "el próximo mar",
+            "el próximo martes"
+        ],
+        "next wednesday": [
+            "el próximo mi",
+            "el próximo mié",
+            "el próximo miércoles"
         ]
     },
     "relative-type-regex": {
@@ -379,6 +449,35 @@
                 ],
                 "in 1 year": [
                     "el año próximo"
+                ],
+                "last friday": [
+                    "el vier pasado"
+                ],
+                "last wednesday": [
+                    "el miér pasado"
+                ],
+                "next friday": [
+                    "el próximo vier",
+                    "el viernes próximo"
+                ],
+                "next monday": [
+                    "el lunes próximo"
+                ],
+                "next saturday": [
+                    "el sábado próximo"
+                ],
+                "next sunday": [
+                    "el domingo próximo"
+                ],
+                "next thursday": [
+                    "el jueves próximo"
+                ],
+                "next tuesday": [
+                    "el martes próximo"
+                ],
+                "next wednesday": [
+                    "el miércoles próximo",
+                    "el próximo miér"
                 ]
             },
             "relative-type-regex": {
@@ -482,6 +581,9 @@
                 ],
                 "in 1 week": [
                     "próxima sem"
+                ],
+                "last wednesday": [
+                    "el mie pasado"
                 ]
             }
         },

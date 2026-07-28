@@ -151,6 +151,60 @@
         ],
         "in 1 year": [
             "gələn il"
+        ],
+        "last friday": [
+            "keçən c",
+            "keçən cümə"
+        ],
+        "last monday": [
+            "keçən bazar ertəsi",
+            "keçən be"
+        ],
+        "last saturday": [
+            "keçən ş",
+            "keçən şənbə"
+        ],
+        "last sunday": [
+            "keçən bazar"
+        ],
+        "last thursday": [
+            "keçən ca",
+            "keçən cümə axşamı"
+        ],
+        "last tuesday": [
+            "keçən çə",
+            "keçən çərşənbə axşamı"
+        ],
+        "last wednesday": [
+            "keçən ç",
+            "keçən çərşənbə"
+        ],
+        "next friday": [
+            "gələn c",
+            "gələn cümə"
+        ],
+        "next monday": [
+            "gələn bazar ertəsi",
+            "gələn be"
+        ],
+        "next saturday": [
+            "gələn ş",
+            "gələn şənbə"
+        ],
+        "next sunday": [
+            "gələn bazar"
+        ],
+        "next thursday": [
+            "gələn ca",
+            "gələn cümə axşamı"
+        ],
+        "next tuesday": [
+            "gələn çə",
+            "gələn çərşənbə axşamı"
+        ],
+        "next wednesday": [
+            "gələn ç",
+            "gələn çərşənbə"
         ]
     },
     "relative-type-regex": {

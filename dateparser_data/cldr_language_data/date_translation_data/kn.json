@@ -147,6 +147,48 @@
         ],
         "in 1 year": [
             "ಮುಂದಿನ ವರ್ಷ"
+        ],
+        "last friday": [
+            "ಕಳೆದ ಶುಕ್ರವಾರ"
+        ],
+        "last monday": [
+            "ಕಳೆದ ಸೋಮವಾರ"
+        ],
+        "last saturday": [
+            "ಕಳೆದ ಶನಿವಾರ"
+        ],
+        "last sunday": [
+            "ಕಳೆದ ಭಾನುವಾರ"
+        ],
+        "last thursday": [
+            "ಕಳೆದ ಗುರುವಾರ"
+        ],
+        "last tuesday": [
+            "ಕಳೆದ ಮಂಗಳವಾರ"
+        ],
+        "last wednesday": [
+            "ಕಳೆದ ಬುಧವಾರ"
+        ],
+        "next friday": [
+            "ಮುಂದಿನ ಶುಕ್ರವಾರ"
+        ],
+        "next monday": [
+            "ಮುಂದಿನ ಸೋಮವಾರ"
+        ],
+        "next saturday": [
+            "ಮುಂದಿನ ಶನಿವಾರ"
+        ],
+        "next sunday": [
+            "ಮುಂದಿನ ಭಾನುವಾರ"
+        ],
+        "next thursday": [
+            "ಮುಂದಿನ ಗುರುವಾರ"
+        ],
+        "next tuesday": [
+            "ಮುಂದಿನ ಮಂಗಳವಾರ"
+        ],
+        "next wednesday": [
+            "ಮುಂದಿನ ಬುಧವಾರ"
         ]
     },
     "relative-type-regex": {

@@ -157,6 +157,76 @@
         ],
         "in 1 year": [
             "næste år"
+        ],
+        "last friday": [
+            "sidste fr",
+            "sidste fre",
+            "sidste fredag"
+        ],
+        "last monday": [
+            "sidste ma",
+            "sidste man",
+            "sidste mandag"
+        ],
+        "last saturday": [
+            "sidste lø",
+            "sidste lør",
+            "sidste lørdag"
+        ],
+        "last sunday": [
+            "sidste sø",
+            "sidste søn",
+            "sidste søndag"
+        ],
+        "last thursday": [
+            "sidste to",
+            "sidste tor",
+            "sidste torsdag"
+        ],
+        "last tuesday": [
+            "sidste ti",
+            "sidste tir",
+            "sidste tirsdag"
+        ],
+        "last wednesday": [
+            "sidste on",
+            "sidste ons",
+            "sidste onsdag"
+        ],
+        "next friday": [
+            "på fr",
+            "på fre",
+            "på fredag"
+        ],
+        "next monday": [
+            "på ma",
+            "på man",
+            "på mandag"
+        ],
+        "next saturday": [
+            "på lø",
+            "på lør",
+            "på lørdag"
+        ],
+        "next sunday": [
+            "på sø",
+            "på søn",
+            "på søndag"
+        ],
+        "next thursday": [
+            "på to",
+            "på tor",
+            "på torsdag"
+        ],
+        "next tuesday": [
+            "på ti",
+            "på tir",
+            "på tirsdag"
+        ],
+        "next wednesday": [
+            "på on",
+            "på ons",
+            "på onsdag"
         ]
     },
     "relative-type-regex": {

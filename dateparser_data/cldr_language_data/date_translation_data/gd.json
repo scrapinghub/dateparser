@@ -189,6 +189,76 @@
         "in 1 year": [
             "an ath-bhl",
             "an ath-bhliadhna"
+        ],
+        "last friday": [
+            "dih sa chaidh",
+            "dihaoine seo chaidh",
+            "ha ch"
+        ],
+        "last monday": [
+            "dil sa chaidh",
+            "diluain seo chaidh",
+            "lu ch"
+        ],
+        "last saturday": [
+            "dis sa chaidh",
+            "disathairne seo chaidh",
+            "sa ch"
+        ],
+        "last sunday": [
+            "did sa chaidh",
+            "didòmhnaich seo chaidh",
+            "dò ch"
+        ],
+        "last thursday": [
+            "da ch",
+            "dia sa chaidh",
+            "diardaoin seo chaidh"
+        ],
+        "last tuesday": [
+            "dim sa chaidh",
+            "dimàirt seo chaidh",
+            "mà ch"
+        ],
+        "last wednesday": [
+            "ci ch",
+            "dic sa chaidh",
+            "diciadain seo chaidh"
+        ],
+        "next friday": [
+            "dih sa tighinn",
+            "dihaoine seo tighinn",
+            "ha ti"
+        ],
+        "next monday": [
+            "dil sa tighinn",
+            "diluain seo tighinn",
+            "lu ti"
+        ],
+        "next saturday": [
+            "dis sa tighinn",
+            "disathairne seo tighinn",
+            "sa ti"
+        ],
+        "next sunday": [
+            "did sa tighinn",
+            "didòmhnaich seo tighinn",
+            "dò ti"
+        ],
+        "next thursday": [
+            "da ti",
+            "dia sa tighinn",
+            "diardaoin seo tighinn"
+        ],
+        "next tuesday": [
+            "dim sa tighinn",
+            "dimàirt seo tighinn",
+            "mà ti"
+        ],
+        "next wednesday": [
+            "ci ti",
+            "dic sa tighinn",
+            "diciadain seo tighinn"
         ]
     },
     "relative-type-regex": {

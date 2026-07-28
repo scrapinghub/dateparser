@@ -171,6 +171,60 @@
             "sledeće g",
             "sledeće god",
             "sledeće godine"
+        ],
+        "last friday": [
+            "prošlog pet",
+            "prošlog petka"
+        ],
+        "last monday": [
+            "prošlog pon",
+            "prošlog ponedeljka"
+        ],
+        "last saturday": [
+            "prošle sub",
+            "prošle subote"
+        ],
+        "last sunday": [
+            "pr ned"
+        ],
+        "last thursday": [
+            "prošlog čet",
+            "prošlog četvrtka"
+        ],
+        "last tuesday": [
+            "prošlog uto",
+            "prošlog utorka"
+        ],
+        "last wednesday": [
+            "prošle sre",
+            "prošle srede"
+        ],
+        "next friday": [
+            "sledećeg pet",
+            "sledećeg petka"
+        ],
+        "next monday": [
+            "sledećeg pon",
+            "sledećeg ponedeljka"
+        ],
+        "next saturday": [
+            "sledeće sub",
+            "sledeće subote"
+        ],
+        "next sunday": [
+            "sl ned"
+        ],
+        "next thursday": [
+            "sledećeg čet",
+            "sledećeg četvrtka"
+        ],
+        "next tuesday": [
+            "sledećeg uto",
+            "sledećeg utorka"
+        ],
+        "next wednesday": [
+            "sledeće sre",
+            "sledeće srede"
         ]
     },
     "relative-type-regex": {
@@ -311,6 +365,44 @@
                     "sljedeće g",
                     "sljedeće god",
                     "sljedeće godine"
+                ],
+                "last monday": [
+                    "prošlog ponedjeljka"
+                ],
+                "last sunday": [
+                    "prošle nedjelje"
+                ],
+                "last wednesday": [
+                    "prošle sri",
+                    "prošle srijede"
+                ],
+                "next friday": [
+                    "sljedećeg pet",
+                    "sljedećeg petka"
+                ],
+                "next monday": [
+                    "sljedećeg pon",
+                    "sljedećeg ponedjeljka"
+                ],
+                "next saturday": [
+                    "sljedeće sub",
+                    "sljedeće subote"
+                ],
+                "next sunday": [
+                    "slj ned",
+                    "sljedeće nedjelje"
+                ],
+                "next thursday": [
+                    "sljedećeg čet",
+                    "sljedećeg četvrtka"
+                ],
+                "next tuesday": [
+                    "sljedećeg uto",
+                    "sljedećeg utorka"
+                ],
+                "next wednesday": [
+                    "sljedeće sri",
+                    "sljedeće srijede"
                 ]
             },
             "relative-type-regex": {

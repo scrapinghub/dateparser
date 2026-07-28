@@ -156,6 +156,74 @@ info = {
         ],
         "in 1 year": [
             "nächst joer"
+        ],
+        "last friday": [
+            "leschte fr",
+            "leschte fre",
+            "leschte freideg"
+        ],
+        "last monday": [
+            "leschte mé",
+            "leschte méi",
+            "leschte méindeg"
+        ],
+        "last saturday": [
+            "leschte sa",
+            "leschte sam",
+            "leschte samschdeg"
+        ],
+        "last sunday": [
+            "leschte so",
+            "leschte son",
+            "leschte sonndeg"
+        ],
+        "last thursday": [
+            "leschten do",
+            "leschten don",
+            "leschten donneschdeg"
+        ],
+        "last tuesday": [
+            "leschten dë",
+            "leschten dënschdeg"
+        ],
+        "last wednesday": [
+            "leschte më",
+            "leschte mët",
+            "leschte mëttwoch"
+        ],
+        "next friday": [
+            "nächste fr",
+            "nächste fre",
+            "nächste freideg"
+        ],
+        "next monday": [
+            "nächste mé",
+            "nächste méi",
+            "nächste méindeg"
+        ],
+        "next saturday": [
+            "nächste sa",
+            "nächste sam",
+            "nächste samschdeg"
+        ],
+        "next sunday": [
+            "nächste so",
+            "nächste son",
+            "nächste sonndeg"
+        ],
+        "next thursday": [
+            "nächsten do",
+            "nächsten don",
+            "nächsten donneschdeg"
+        ],
+        "next tuesday": [
+            "nächsten dë",
+            "nächsten dënschdeg"
+        ],
+        "next wednesday": [
+            "nächste më",
+            "nächste mët",
+            "nächste mëttwoch"
         ]
     },
     "relative-type-regex": {

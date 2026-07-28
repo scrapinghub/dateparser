@@ -22,6 +22,36 @@ MICROSECOND = re.compile(r"\d{1,6}")
 EIGHT_DIGIT = re.compile(r"^\d{8}$")
 HOUR_MINUTE_REGEX = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
 
+# Words that modify a weekday token (e.g. "next friday"). Non-English forms are
+# translated to these canonical English words before reaching the parser
+# ("past" is translated to "last"), so only these three need listing.
+WEEKDAY_MODIFIERS = {
+    "last": "past",
+    "next": "future",
+    "this": "current",
+}
+
+
+def _weekday_offset(base_index, target_index, modifier):
+    """Return the number of days from ``base_index`` (the base date's weekday)
+    to the target weekday, given a modifier direction. Indices are
+    0=Monday .. 6=Sunday.
+
+    The interpretation is the nearest occurrence in the modifier's direction,
+    which needs no notion of a calendar week or its starting day:
+
+    * ``"future"`` ("next <weekday>"): first occurrence strictly after the base.
+    * ``"past"`` ("last <weekday>"): most recent occurrence strictly before.
+    * ``"current"`` ("this <weekday>"): the coming occurrence, with the base's
+      own weekday mapping to itself (offset 0).
+    """
+    if modifier == "future":
+        return (target_index - base_index) % 7 or 7
+    if modifier == "past":
+        return -((base_index - target_index) % 7 or 7)
+    # modifier == "current"
+    return (target_index - base_index) % 7
+
 
 def no_space_parser_eligibile(datestring):
     src = NSP_COMPATIBLE.search(datestring)
@@ -269,6 +299,7 @@ class _parser:
         self._token_month = None
         self._token_year = None
         self._token_time = None
+        self._weekday_modifier = None
 
         self.ordered_num_directives = {
             k: self.num_directives[k]
@@ -286,6 +317,17 @@ class _parser:
             token, type, original_index = token_type_original_index
 
             if token in skip_tokens:
+                continue
+
+            # Capture a weekday modifier ("last"/"next"/"this") so that it can
+            # later steer weekday resolution in ``_correct_for_time_frame``.
+            # Without this the word would be an unrecognized token and parsing
+            # would fail (#573). Reject a repeated modifier ("next next friday")
+            # or one trailing its weekday ("friday next"); both are malformed.
+            if token in WEEKDAY_MODIFIERS:
+                if self._weekday_modifier or getattr(self, "_token_weekday", None):
+                    raise ValueError("Unable to parse: %s" % token)
+                self._weekday_modifier = WEEKDAY_MODIFIERS[token]
                 continue
 
             if self.time is None:
@@ -476,6 +518,29 @@ class _parser:
 
         return self._get_datetime_obj(**params)
 
+    def _bare_weekday_delta(self, days, day_index, day):
+        """Resolve a bare weekday (no modifier) using ``PREFER_DATES_FROM``."""
+        steps = 0
+        if "future" in self.settings.PREFER_DATES_FROM:
+            if days[day_index] == day:
+                steps = 7
+            else:
+                while days[day_index] != day:
+                    day_index = (day_index + 1) % 7
+                    steps += 1
+            return timedelta(days=steps)
+        else:
+            if days[day_index] == day:
+                if self.settings.PREFER_DATES_FROM == "past":
+                    steps = 7
+                else:
+                    steps = 0
+            else:
+                while days[day_index] != day:
+                    day_index -= 1
+                    steps += 1
+            return timedelta(days=-steps)
+
     def _correct_for_time_frame(self, dateobj, tz):
         days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
@@ -486,26 +551,16 @@ class _parser:
         ):
             day_index = calendar.weekday(dateobj.year, dateobj.month, dateobj.day)
             day = token_weekday[:3].lower()
-            steps = 0
-            if "future" in self.settings.PREFER_DATES_FROM:
-                if days[day_index] == day:
-                    steps = 7
-                else:
-                    while days[day_index] != day:
-                        day_index = (day_index + 1) % 7
-                        steps += 1
-                delta = timedelta(days=steps)
+            if self._weekday_modifier:
+                # "last/next/this <weekday>": the nearest occurrence in the
+                # modifier's direction, overriding PREFER_DATES_FROM (#573).
+                delta = timedelta(
+                    days=_weekday_offset(
+                        day_index, days.index(day), self._weekday_modifier
+                    )
+                )
             else:
-                if days[day_index] == day:
-                    if self.settings.PREFER_DATES_FROM == "past":
-                        steps = 7
-                    else:
-                        steps = 0
-                else:
-                    while days[day_index] != day:
-                        day_index -= 1
-                        steps += 1
-                delta = timedelta(days=-steps)
+                delta = self._bare_weekday_delta(days, day_index, day)
 
             dateobj = dateobj + delta
 

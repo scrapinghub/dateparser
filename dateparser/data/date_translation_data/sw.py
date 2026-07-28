@@ -145,6 +145,48 @@ info = {
         ],
         "in 1 year": [
             "mwaka ujao"
+        ],
+        "last friday": [
+            "ijumaa iliyopita"
+        ],
+        "last monday": [
+            "jumatatu iliyopita"
+        ],
+        "last saturday": [
+            "jumamosi iliyopita"
+        ],
+        "last sunday": [
+            "jumapili iliyopita"
+        ],
+        "last thursday": [
+            "alhamisi iliyopita"
+        ],
+        "last tuesday": [
+            "jumanne iliyopita"
+        ],
+        "last wednesday": [
+            "jumatano iliyopita"
+        ],
+        "next friday": [
+            "ijumaa ijayo"
+        ],
+        "next monday": [
+            "jumatatu ijayo"
+        ],
+        "next saturday": [
+            "jumamosi ijayo"
+        ],
+        "next sunday": [
+            "jumapili ijayo"
+        ],
+        "next thursday": [
+            "alhamisi ijayo"
+        ],
+        "next tuesday": [
+            "jumanne ijayo"
+        ],
+        "next wednesday": [
+            "jumatano ijayo"
         ]
     },
     "relative-type-regex": {

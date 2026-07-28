@@ -168,6 +168,49 @@ info = {
             "راتلونکی کال",
             "روتلونکی کال",
             "next year"
+        ],
+        "last friday": [
+            "تېره جمعه"
+        ],
+        "last monday": [
+            "تېره دوشنبه"
+        ],
+        "last saturday": [
+            "تېره شنبه"
+        ],
+        "last sunday": [
+            "تېره يکشنبه"
+        ],
+        "last thursday": [
+            "تېره پنجشنبه"
+        ],
+        "last tuesday": [
+            "تيره سه شنبه",
+            "تېره سه شنبه"
+        ],
+        "last wednesday": [
+            "تېره چارشنبه"
+        ],
+        "next friday": [
+            "راتلونکې جمعه"
+        ],
+        "next monday": [
+            "راتلونکې دوشنبه"
+        ],
+        "next saturday": [
+            "راتلونکې شنبه"
+        ],
+        "next sunday": [
+            "راتلونکې يکشنبه"
+        ],
+        "next thursday": [
+            "راتلونکې پنجشنبه"
+        ],
+        "next tuesday": [
+            "راتلونکې سه شنبه"
+        ],
+        "next wednesday": [
+            "راتلونکې چارشنبه"
         ]
     },
     "relative-type-regex": {

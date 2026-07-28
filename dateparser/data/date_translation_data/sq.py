@@ -159,6 +159,48 @@ info = {
         "in 1 year": [
             "mot",
             "vitin e ardhshëm"
+        ],
+        "last friday": [
+            "të premten e kaluar"
+        ],
+        "last monday": [
+            "të hënën e kaluar"
+        ],
+        "last saturday": [
+            "të shtunën e kaluar"
+        ],
+        "last sunday": [
+            "të dielën e kaluar"
+        ],
+        "last thursday": [
+            "të enjten e kaluar"
+        ],
+        "last tuesday": [
+            "të martën e kaluar"
+        ],
+        "last wednesday": [
+            "të mërkurën e kaluar"
+        ],
+        "next friday": [
+            "të premten e ardhshme"
+        ],
+        "next monday": [
+            "të hënën e ardhshme"
+        ],
+        "next saturday": [
+            "të shtunën e ardhshme"
+        ],
+        "next sunday": [
+            "të dielën e ardhshme"
+        ],
+        "next thursday": [
+            "të enjten e ardhshme"
+        ],
+        "next tuesday": [
+            "të martën e ardhshme"
+        ],
+        "next wednesday": [
+            "të mërkurën e ardhshme"
         ]
     },
     "relative-type-regex": {

@@ -154,6 +154,60 @@ info = {
         ],
         "in 1 year": [
             "susunod na taon"
+        ],
+        "last friday": [
+            "nakaraang biy",
+            "nakaraang biyernes"
+        ],
+        "last monday": [
+            "nakaraang lun",
+            "nakaraang lunes"
+        ],
+        "last saturday": [
+            "nakaraang sab",
+            "nakaraang sabado"
+        ],
+        "last sunday": [
+            "nakaraang lin"
+        ],
+        "last thursday": [
+            "nakaraang huw",
+            "nakaraang huwebes"
+        ],
+        "last tuesday": [
+            "nakaraang mar",
+            "nakaraang martes"
+        ],
+        "last wednesday": [
+            "nakaraang miy",
+            "nakaraang miyerkules"
+        ],
+        "next friday": [
+            "susunod na biy",
+            "susunod na biyernes"
+        ],
+        "next monday": [
+            "susunod na lun",
+            "susunod na lunes"
+        ],
+        "next saturday": [
+            "susunod na sab",
+            "susunod na sabado"
+        ],
+        "next sunday": [
+            "susunod na lin"
+        ],
+        "next thursday": [
+            "susunod na huw",
+            "susunod na huwebes"
+        ],
+        "next tuesday": [
+            "susunod na mar",
+            "susunod na martes"
+        ],
+        "next wednesday": [
+            "susunod na miy",
+            "susunod na miyerkules"
         ]
     },
     "relative-type-regex": {

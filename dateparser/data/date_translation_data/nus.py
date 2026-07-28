@@ -147,6 +147,48 @@ info = {
         ],
         "in 1 year": [
             "next year"
+        ],
+        "last friday": [
+            "last friday"
+        ],
+        "last monday": [
+            "last monday"
+        ],
+        "last saturday": [
+            "last saturday"
+        ],
+        "last sunday": [
+            "last sunday"
+        ],
+        "last thursday": [
+            "last thursday"
+        ],
+        "last tuesday": [
+            "last tuesday"
+        ],
+        "last wednesday": [
+            "last wednesday"
+        ],
+        "next friday": [
+            "next friday"
+        ],
+        "next monday": [
+            "next monday"
+        ],
+        "next saturday": [
+            "next saturday"
+        ],
+        "next sunday": [
+            "next sunday"
+        ],
+        "next thursday": [
+            "next thursday"
+        ],
+        "next tuesday": [
+            "next tuesday"
+        ],
+        "next wednesday": [
+            "next wednesday"
         ]
     },
     "locale_specific": {},

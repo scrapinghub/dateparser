@@ -161,6 +161,76 @@
         ],
         "in 1 year": [
             "neste år"
+        ],
+        "last friday": [
+            "forrige fredag",
+            "sist fr",
+            "sist fre"
+        ],
+        "last monday": [
+            "forrige mandag",
+            "sist ma",
+            "sist man"
+        ],
+        "last saturday": [
+            "forrige lørdag",
+            "sist lø",
+            "sist lør"
+        ],
+        "last sunday": [
+            "forrige søndag",
+            "sist sø",
+            "sist søn"
+        ],
+        "last thursday": [
+            "forrige torsdag",
+            "sist to",
+            "sist tor"
+        ],
+        "last tuesday": [
+            "forrige tirsdag",
+            "sist ti",
+            "sist tir"
+        ],
+        "last wednesday": [
+            "forrige onsdag",
+            "sist on",
+            "sist ons"
+        ],
+        "next friday": [
+            "neste fr",
+            "neste fre",
+            "neste fredag"
+        ],
+        "next monday": [
+            "neste ma",
+            "neste man",
+            "neste mandag"
+        ],
+        "next saturday": [
+            "neste lø",
+            "neste lør",
+            "neste lørdag"
+        ],
+        "next sunday": [
+            "neste sø",
+            "neste søn",
+            "neste søndag"
+        ],
+        "next thursday": [
+            "neste to",
+            "neste tor",
+            "neste torsdag"
+        ],
+        "next tuesday": [
+            "neste ti",
+            "neste tir",
+            "neste tirsdag"
+        ],
+        "next wednesday": [
+            "neste on",
+            "neste ons",
+            "neste onsdag"
         ]
     },
     "relative-type-regex": {

@@ -175,6 +175,62 @@ info = {
         "in 1 year": [
             "l'année prochaine"
         ],
+        "last friday": [
+            "ven dernier",
+            "vendredi dernier"
+        ],
+        "last monday": [
+            "lun dernier",
+            "lundi dernier"
+        ],
+        "last saturday": [
+            "sam dernier",
+            "samedi dernier"
+        ],
+        "last sunday": [
+            "dim dernier",
+            "dimanche dernier"
+        ],
+        "last thursday": [
+            "jeu dernier",
+            "jeudi dernier"
+        ],
+        "last tuesday": [
+            "mar dernier",
+            "mardi dernier"
+        ],
+        "last wednesday": [
+            "mer dernier",
+            "mercredi dernier"
+        ],
+        "next friday": [
+            "ven prochain",
+            "vendredi prochain"
+        ],
+        "next monday": [
+            "lun prochain",
+            "lundi prochain"
+        ],
+        "next saturday": [
+            "sam prochain",
+            "samedi prochain"
+        ],
+        "next sunday": [
+            "dim prochain",
+            "dimanche prochain"
+        ],
+        "next thursday": [
+            "jeu prochain",
+            "jeudi prochain"
+        ],
+        "next tuesday": [
+            "mar prochain",
+            "mardi prochain"
+        ],
+        "next wednesday": [
+            "mer prochain",
+            "mercredi prochain"
+        ],
         "2 day ago": [
             "avant-hier"
         ],
@@ -276,7 +332,12 @@ info = {
             "date_order": "YMD",
             "july": [
                 "juill"
-            ]
+            ],
+            "relative-type": {
+                "next saturday": [
+                    "sam proch"
+                ]
+            }
         },
         "fr-CD": {
             "name": "fr-CD"

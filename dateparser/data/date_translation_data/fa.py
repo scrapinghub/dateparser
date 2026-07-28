@@ -156,6 +156,48 @@ info = {
         ],
         "in 1 year": [
             "سال آینده"
+        ],
+        "last friday": [
+            "جمعهٔ گذشته"
+        ],
+        "last monday": [
+            "دوشنبهٔ گذشته"
+        ],
+        "last saturday": [
+            "شنبهٔ گذشته"
+        ],
+        "last sunday": [
+            "یکشنبهٔ گذشته"
+        ],
+        "last thursday": [
+            "پنجشنبهٔ گذشته"
+        ],
+        "last tuesday": [
+            "سه‌شنبهٔ گذشته"
+        ],
+        "last wednesday": [
+            "چهارشنبهٔ گذشته"
+        ],
+        "next friday": [
+            "جمعهٔ آینده"
+        ],
+        "next monday": [
+            "دوشنبهٔ آینده"
+        ],
+        "next saturday": [
+            "شنبهٔ آینده"
+        ],
+        "next sunday": [
+            "یکشنبهٔ آینده"
+        ],
+        "next thursday": [
+            "پنجشنبهٔ آینده"
+        ],
+        "next tuesday": [
+            "سه‌شنبهٔ آینده"
+        ],
+        "next wednesday": [
+            "چهارشنبهٔ آینده"
         ]
     },
     "relative-type-regex": {

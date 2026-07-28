@@ -193,6 +193,65 @@ info = {
             "àmọ́dún",
             "ọdún tó ńbọ̀",
             "next year"
+        ],
+        "last friday": [
+            "etì àná",
+            "e̩tì tóko̩já",
+            "f tóko̩já"
+        ],
+        "last monday": [
+            "last monday"
+        ],
+        "last saturday": [
+            "ab sẹ́yìn",
+            "aba tókojá",
+            "abameta tóko̩já"
+        ],
+        "last sunday": [
+            "ọjọ́ àìkú tó kọjá"
+        ],
+        "last thursday": [
+            "ojọ́ sẹ́yìn",
+            "ojọ́bọ̀ kẹyìn"
+        ],
+        "last tuesday": [
+            "ìṣẹ́ tókọ́já",
+            "ìṣẹ́gun tókọ́já",
+            "ìṣẹ́gun tẹ́lẹ̀"
+        ],
+        "last wednesday": [
+            "o àná",
+            "ojọ́rú àná"
+        ],
+        "next friday": [
+            "et tónbọ̀",
+            "e̩tì tómbò̩",
+            "f tómbò̩"
+        ],
+        "next monday": [
+            "next monday"
+        ],
+        "next saturday": [
+            "ab tónbò",
+            "aba tónbọ̀",
+            "abameta tombo"
+        ],
+        "next sunday": [
+            "ọjọ́ àìkú tó ń bọ̀"
+        ],
+        "next thursday": [
+            "ojọ́ tónbọ̀",
+            "ojọ́bọ̀ tónbọ̀"
+        ],
+        "next tuesday": [
+            "ìṣẹ́ tónbọ̀",
+            "ìṣẹ́gun tóńbọ̀",
+            "ìṣẹ́gun tọ́ńbọ̀"
+        ],
+        "next wednesday": [
+            "o tóńbọ̀",
+            "ojọ́rú tónbọ̀",
+            "ojọ́rú tóńbọ̀"
         ]
     },
     "locale_specific": {
@@ -337,6 +396,47 @@ info = {
                 "in 1 year": [
                     "àmɔ́dún",
                     "ɔdún tó ńbɔ̀"
+                ],
+                "last saturday": [
+                    "ab sɛ́yìn"
+                ],
+                "last sunday": [
+                    "ɔjɔ́ àìkú tó kɔjá"
+                ],
+                "last thursday": [
+                    "ojɔ́ sɛ́yìn",
+                    "ojɔ́bɔ̀ kɛyìn"
+                ],
+                "last tuesday": [
+                    "ìshɛ́ tókɔ́já",
+                    "ìshɛ́gun tókɔ́já",
+                    "ìshɛ́gun tɛ́lɛ̀"
+                ],
+                "last wednesday": [
+                    "ojɔ́rú àná"
+                ],
+                "next friday": [
+                    "et tónbɔ̀"
+                ],
+                "next saturday": [
+                    "aba tónbɔ̀"
+                ],
+                "next sunday": [
+                    "ɔjɔ́ àìkú tó ń bɔ̀"
+                ],
+                "next thursday": [
+                    "ojɔ́ tónbɔ̀",
+                    "ojɔ́bɔ̀ tónbɔ̀"
+                ],
+                "next tuesday": [
+                    "ìshɛ́ tónbɔ̀",
+                    "ìshɛ́gun tóńbɔ̀",
+                    "ìshɛ́gun tɔ́ńbɔ̀"
+                ],
+                "next wednesday": [
+                    "o tóńbɔ̀",
+                    "ojɔ́rú tónbɔ̀",
+                    "ojɔ́rú tóńbɔ̀"
                 ]
             }
         }

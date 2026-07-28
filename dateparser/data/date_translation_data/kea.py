@@ -160,6 +160,62 @@ info = {
         ],
         "in 1 year": [
             "prósimu anu"
+        ],
+        "last friday": [
+            "ses pasadu",
+            "sesta-fera pasadu"
+        ],
+        "last monday": [
+            "sig pasadu",
+            "sigunda-fera pasadu"
+        ],
+        "last saturday": [
+            "sab pasadu",
+            "sabadu pasadu"
+        ],
+        "last sunday": [
+            "dum pasadu",
+            "dumingu pasadu"
+        ],
+        "last thursday": [
+            "kin pasadu",
+            "kinta-fera pasadu"
+        ],
+        "last tuesday": [
+            "ter pasadu",
+            "tersa-fera pasadu"
+        ],
+        "last wednesday": [
+            "kua pasadu",
+            "kuarta-fera pasadu"
+        ],
+        "next friday": [
+            "prósimu ses",
+            "prósimu sesta-fera"
+        ],
+        "next monday": [
+            "prósimu sig",
+            "prósimu sigunda-fera"
+        ],
+        "next saturday": [
+            "prósimu sab",
+            "prósimu sabadu"
+        ],
+        "next sunday": [
+            "prósimu dum",
+            "prósimu dumingu"
+        ],
+        "next thursday": [
+            "prósimu kin",
+            "prósimu kinta-fera"
+        ],
+        "next tuesday": [
+            "prósimu ter",
+            "prósimu tersa-fera"
+        ],
+        "next wednesday": [
+            "prósimu kua",
+            "prósimu kuarta-fera"
         ]
     },
     "relative-type-regex": {

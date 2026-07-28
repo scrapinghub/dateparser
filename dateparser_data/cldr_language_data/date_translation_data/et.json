@@ -172,6 +172,74 @@
             "järgm a",
             "järgmine a",
             "järgmine aasta"
+        ],
+        "last friday": [
+            "eelmine r",
+            "eelmine reede"
+        ],
+        "last monday": [
+            "eelmine e",
+            "eelmine esmasp",
+            "eelmine esmaspäev"
+        ],
+        "last saturday": [
+            "eelmine l",
+            "eelmine laup",
+            "eelmine laupäev"
+        ],
+        "last sunday": [
+            "eelmine p",
+            "eelmine pühap",
+            "eelmine pühapäev"
+        ],
+        "last thursday": [
+            "eelmine n",
+            "eelmine neljap",
+            "eelmine neljapäev"
+        ],
+        "last tuesday": [
+            "eelmine t",
+            "eelmine teisip",
+            "eelmine teisipäev"
+        ],
+        "last wednesday": [
+            "eelmine k",
+            "eelmine kolmap",
+            "eelmine kolmapäev"
+        ],
+        "next friday": [
+            "järgmine r",
+            "järgmine reede"
+        ],
+        "next monday": [
+            "järgmine e",
+            "järgmine esmasp",
+            "järgmine esmaspäev"
+        ],
+        "next saturday": [
+            "järgmine l",
+            "järgmine laup",
+            "järgmine laupäev"
+        ],
+        "next sunday": [
+            "järgmine p",
+            "järgmine pühap",
+            "järgmine pühapäev"
+        ],
+        "next thursday": [
+            "järgmine n",
+            "järgmine neljap",
+            "järgmine neljapäev"
+        ],
+        "next tuesday": [
+            "järgmine t",
+            "järgmine teisip",
+            "järgmine teisipäev"
+        ],
+        "next wednesday": [
+            "järgmine k",
+            "järgmine kolmap",
+            "järgmine kolmapäev"
         ]
     },
     "relative-type-regex": {

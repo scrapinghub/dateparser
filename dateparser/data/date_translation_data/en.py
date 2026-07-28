@@ -190,6 +190,83 @@ info = {
             "next year",
             "next yr"
         ],
+        "last friday": [
+            "last f",
+            "last fri",
+            "last friday",
+            "past friday"
+        ],
+        "last monday": [
+            "last m",
+            "last mon",
+            "last monday",
+            "past monday"
+        ],
+        "last saturday": [
+            "last sa",
+            "last sat",
+            "last saturday",
+            "past saturday"
+        ],
+        "last sunday": [
+            "last su",
+            "last sun",
+            "last sunday",
+            "past sunday"
+        ],
+        "last thursday": [
+            "last th",
+            "last thu",
+            "last thursday",
+            "past thursday"
+        ],
+        "last tuesday": [
+            "last tu",
+            "last tue",
+            "last tuesday",
+            "past tuesday"
+        ],
+        "last wednesday": [
+            "last w",
+            "last wed",
+            "last wednesday",
+            "past wednesday"
+        ],
+        "next friday": [
+            "next f",
+            "next fri",
+            "next friday"
+        ],
+        "next monday": [
+            "next m",
+            "next mon",
+            "next monday"
+        ],
+        "next saturday": [
+            "next sa",
+            "next sat",
+            "next saturday"
+        ],
+        "next sunday": [
+            "next su",
+            "next sun",
+            "next sunday"
+        ],
+        "next thursday": [
+            "next th",
+            "next thu",
+            "next thursday"
+        ],
+        "next tuesday": [
+            "next tu",
+            "next tue",
+            "next tuesday"
+        ],
+        "next wednesday": [
+            "next w",
+            "next wed",
+            "next wednesday"
+        ],
         "2 day ago": [
             "day before yesterday"
         ],
@@ -202,6 +279,27 @@ info = {
         ],
         "in 2 day": [
             "day after tomorrow"
+        ],
+        "this monday": [
+            "this monday"
+        ],
+        "this tuesday": [
+            "this tuesday"
+        ],
+        "this wednesday": [
+            "this wednesday"
+        ],
+        "this thursday": [
+            "this thursday"
+        ],
+        "this friday": [
+            "this friday"
+        ],
+        "this saturday": [
+            "this saturday"
+        ],
+        "this sunday": [
+            "this sunday"
         ]
     },
     "relative-type-regex": {

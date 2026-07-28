@@ -178,6 +178,48 @@ info = {
         ],
         "in 1 year": [
             "năm sau"
+        ],
+        "last friday": [
+            "thứ sáu tuần trước"
+        ],
+        "last monday": [
+            "thứ hai tuần trước"
+        ],
+        "last saturday": [
+            "thứ bảy tuần trước"
+        ],
+        "last sunday": [
+            "chủ nhật tuần trước"
+        ],
+        "last thursday": [
+            "thứ năm tuần trước"
+        ],
+        "last tuesday": [
+            "thứ ba tuần trước"
+        ],
+        "last wednesday": [
+            "thứ tư tuần trước"
+        ],
+        "next friday": [
+            "thứ sáu tuần sau"
+        ],
+        "next monday": [
+            "thứ hai tuần sau"
+        ],
+        "next saturday": [
+            "thứ bảy tuần sau"
+        ],
+        "next sunday": [
+            "chủ nhật tuần sau"
+        ],
+        "next thursday": [
+            "thứ năm tuần sau"
+        ],
+        "next tuesday": [
+            "thứ ba tuần sau"
+        ],
+        "next wednesday": [
+            "thứ tư tuần sau"
         ]
     },
     "relative-type-regex": {

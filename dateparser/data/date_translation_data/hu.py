@@ -199,6 +199,48 @@ info = {
         "in 1 year": [
             "következő év"
         ],
+        "last friday": [
+            "előző péntek"
+        ],
+        "last monday": [
+            "előző hétfő"
+        ],
+        "last saturday": [
+            "előző szombat"
+        ],
+        "last sunday": [
+            "előző vasárnap"
+        ],
+        "last thursday": [
+            "előző csütörtök"
+        ],
+        "last tuesday": [
+            "előző kedd"
+        ],
+        "last wednesday": [
+            "előző szerda"
+        ],
+        "next friday": [
+            "következő péntek"
+        ],
+        "next monday": [
+            "következő hétfő"
+        ],
+        "next saturday": [
+            "következő szombat"
+        ],
+        "next sunday": [
+            "következő vasárnap"
+        ],
+        "next thursday": [
+            "következő csütörtök"
+        ],
+        "next tuesday": [
+            "következő kedd"
+        ],
+        "next wednesday": [
+            "következő szerda"
+        ],
         "2 day ago": [
             "tegnapelőtt"
         ]

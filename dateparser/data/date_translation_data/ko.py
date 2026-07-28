@@ -143,6 +143,48 @@ info = {
         ],
         "in 1 year": [
             "내년"
+        ],
+        "last friday": [
+            "지난 금요일"
+        ],
+        "last monday": [
+            "지난 월요일"
+        ],
+        "last saturday": [
+            "지난 토요일"
+        ],
+        "last sunday": [
+            "지난 일요일"
+        ],
+        "last thursday": [
+            "지난 목요일"
+        ],
+        "last tuesday": [
+            "지난 화요일"
+        ],
+        "last wednesday": [
+            "지난 수요일"
+        ],
+        "next friday": [
+            "다음 금요일"
+        ],
+        "next monday": [
+            "다음 월요일"
+        ],
+        "next saturday": [
+            "다음 토요일"
+        ],
+        "next sunday": [
+            "다음 일요일"
+        ],
+        "next thursday": [
+            "다음 목요일"
+        ],
+        "next tuesday": [
+            "다음 화요일"
+        ],
+        "next wednesday": [
+            "다음 수요일"
         ]
     },
     "relative-type-regex": {

@@ -153,6 +153,48 @@
         ],
         "in 1 year": [
             "ඊළඟ වසර"
+        ],
+        "last friday": [
+            "පසුගිය සිකුරාදා"
+        ],
+        "last monday": [
+            "පසුගිය සඳුදා"
+        ],
+        "last saturday": [
+            "පසුගිය සෙනසුරාදා"
+        ],
+        "last sunday": [
+            "පසුගිය ඉරිදා"
+        ],
+        "last thursday": [
+            "පසුගිය බ්‍රහස්පතින්දා"
+        ],
+        "last tuesday": [
+            "පසුගිය අඟහරුවාදා"
+        ],
+        "last wednesday": [
+            "පසුගිය බදාදා"
+        ],
+        "next friday": [
+            "ඊළඟ සිකුරාදා"
+        ],
+        "next monday": [
+            "ඊළඟ සඳුදා"
+        ],
+        "next saturday": [
+            "ඊළඟ සෙනසුරාදා"
+        ],
+        "next sunday": [
+            "ඊළඟ ඉරිදා"
+        ],
+        "next thursday": [
+            "ඊළඟ බ්‍රහස්පතින්දා"
+        ],
+        "next tuesday": [
+            "ඊළඟ අඟහරුවාදා"
+        ],
+        "next wednesday": [
+            "ඊළඟ බදාදා"
         ]
     },
     "relative-type-regex": {

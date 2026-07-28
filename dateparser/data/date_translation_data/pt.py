@@ -171,6 +171,62 @@ info = {
         "in 1 year": [
             "próximo ano"
         ],
+        "last friday": [
+            "sex passada",
+            "sexta-feira passada"
+        ],
+        "last monday": [
+            "seg passada",
+            "segunda-feira passada"
+        ],
+        "last saturday": [
+            "sáb passado",
+            "sábado passado"
+        ],
+        "last sunday": [
+            "dom passado",
+            "domingo passado"
+        ],
+        "last thursday": [
+            "qui passada",
+            "quinta-feira passada"
+        ],
+        "last tuesday": [
+            "ter passada",
+            "terça-feira passada"
+        ],
+        "last wednesday": [
+            "qua passada",
+            "quarta-feira passada"
+        ],
+        "next friday": [
+            "próxima sex",
+            "próxima sexta-feira"
+        ],
+        "next monday": [
+            "próxima seg",
+            "próxima segunda-feira"
+        ],
+        "next saturday": [
+            "próximo sáb",
+            "próximo sábado"
+        ],
+        "next sunday": [
+            "próximo dom",
+            "próximo domingo"
+        ],
+        "next thursday": [
+            "próxima qui",
+            "próxima quinta-feira"
+        ],
+        "next tuesday": [
+            "próxima ter",
+            "próxima terça-feira"
+        ],
+        "next wednesday": [
+            "próxima qua",
+            "próxima quarta-feira"
+        ],
         "2 day ago": [
             "anteontem"
         ]
@@ -273,6 +329,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"
@@ -339,6 +427,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"
@@ -405,6 +525,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"
@@ -471,6 +623,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"
@@ -537,6 +721,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"
@@ -603,6 +819,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"
@@ -669,6 +917,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"
@@ -735,6 +1015,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"
@@ -801,6 +1113,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"
@@ -867,6 +1211,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"
@@ -933,6 +1309,38 @@ info = {
             "second": [
                 "s"
             ],
+            "relative-type": {
+                "last friday": [
+                    "sexta passada"
+                ],
+                "last monday": [
+                    "segunda passada"
+                ],
+                "last thursday": [
+                    "quinta passada"
+                ],
+                "last tuesday": [
+                    "terça passada"
+                ],
+                "last wednesday": [
+                    "quarta passada"
+                ],
+                "next friday": [
+                    "próxima sexta"
+                ],
+                "next monday": [
+                    "próxima segunda"
+                ],
+                "next thursday": [
+                    "próxima quinta"
+                ],
+                "next tuesday": [
+                    "próxima terça"
+                ],
+                "next wednesday": [
+                    "próxima quarta"
+                ]
+            },
             "relative-type-regex": {
                 "\\1 second ago": [
                     "há (\\d++[.,]?\\d*+) s"

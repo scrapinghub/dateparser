@@ -8,6 +8,21 @@ from dateparser.utils import normalize_unicode
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
 PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z"]
 ALWAYS_KEEP_TOKENS = ["+"] + PARSER_HARDCODED_TOKENS
+# A weekday modifier ("last"/"next"/"this") only forms a date when immediately
+# followed by a weekday ("last friday"). Elsewhere they are ordinary English
+# words ("last updated", "the last three", "this April"), so a modifier not
+# followed by a weekday must not be treated as a date, to avoid false positives
+# in ``search_dates``. Keyed by the canonical dictionary value.
+WEEKDAY_MODIFIER_KEYS = {"last", "next", "this"}
+WEEKDAY_KEYS = {
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+}
 KNOWN_WORD_TOKENS = [
     "monday",
     "tuesday",
@@ -141,6 +156,8 @@ class Dictionary:
         has_only_keep_tokens = not set(tokens) - set(ALWAYS_KEEP_TOKENS)
         if has_only_keep_tokens:
             return False
+        if not self._weekday_modifiers_are_valid(tokens):
+            return False
         match_relative_regex = self._get_match_relative_regex_cache()
         for token in tokens:
             if token.isdigit() or match_relative_regex.match(token) or token in self:
@@ -149,6 +166,25 @@ class Dictionary:
                 return False
         else:
             return True
+
+    def _weekday_modifiers_are_valid(self, tokens):
+        """A weekday modifier ("last"/"next"/"this") is only a date component
+        when the next meaningful token is a weekday. Otherwise ("last updated",
+        "the last three", "this April") it must not validate as a date."""
+        meaningful = []
+        for token in tokens:
+            if token in ALWAYS_KEEP_TOKENS or token in self._settings.SKIP_TOKENS:
+                continue
+            mapped = self._dictionary.get(token, token)
+            if mapped is None:  # dictionary skip word (e.g. "the")
+                continue
+            meaningful.append(mapped)
+        for i, mapped in enumerate(meaningful):
+            if mapped in WEEKDAY_MODIFIER_KEYS:
+                following = meaningful[i + 1] if i + 1 < len(meaningful) else None
+                if following not in WEEKDAY_KEYS:
+                    return False
+        return True
 
     def split(self, string, keep_formatting=False):
         """

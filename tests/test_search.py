@@ -293,6 +293,28 @@ class TestTranslateSearch(BaseTestCase):
                 [("last decade", datetime.datetime(1990, 1, 1, 0, 0))],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
+            # "last/next <weekday>" is detected as a single date (#573). The
+            # RELATIVE_BASE 2000-01-01 is a Saturday.
+            param(
+                "en",
+                "Let's meet next friday",
+                [("next friday", datetime.datetime(2000, 1, 7, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
+            param(
+                "en",
+                "it was updated last monday",
+                [("last monday", datetime.datetime(1999, 12, 27, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
+            # A modifier not followed by a weekday must not be picked up as a
+            # date (#573): "the last three", "this April", "last updated".
+            param(
+                "en",
+                "the last three commits were reverted",
+                [],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
             param(
                 "en",
                 "July 13th.\r\n July 14th",

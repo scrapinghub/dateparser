@@ -163,6 +163,63 @@ info = {
         "in 1 year": [
             "an bhl seo chugainn",
             "an bhliain seo chugainn"
+        ],
+        "last friday": [
+            "an aoine seo caite"
+        ],
+        "last monday": [
+            "an luan seo caite"
+        ],
+        "last saturday": [
+            "an sath seo caite",
+            "an satharn seo caite"
+        ],
+        "last sunday": [
+            "an domh seo caite",
+            "an domhnach seo caite"
+        ],
+        "last thursday": [
+            "an déar seo caite",
+            "an déardaoin seo caite"
+        ],
+        "last tuesday": [
+            "an mháirt seo caite"
+        ],
+        "last wednesday": [
+            "an chéad seo caite",
+            "an chéadaoin seo caite"
+        ],
+        "next friday": [
+            "an aoine seo chug",
+            "an aoine seo chugainn"
+        ],
+        "next monday": [
+            "an luan seo chug",
+            "an luan seo chugainn"
+        ],
+        "next saturday": [
+            "an sath seo chug",
+            "an sath seo chugainn",
+            "an satharn seo chugainn"
+        ],
+        "next sunday": [
+            "an domh seo chug",
+            "an domh seo chugainn",
+            "an domhnach seo chugainn"
+        ],
+        "next thursday": [
+            "an déar seo chug",
+            "an déar seo chugainn",
+            "an déardaoin seo chugainn"
+        ],
+        "next tuesday": [
+            "an mháirt seo chug",
+            "an mháirt seo chugainn"
+        ],
+        "next wednesday": [
+            "an chéad seo chug",
+            "an chéad seo chugainn",
+            "an chéadaoin seo chugainn"
         ]
     },
     "relative-type-regex": {

@@ -175,6 +175,48 @@ info = {
         "in 1 year": [
             "ንዓመታ",
             "next year"
+        ],
+        "last friday": [
+            "ዝሓለፈ ዓርቢ"
+        ],
+        "last monday": [
+            "ዝሓለፈ ሰኑይ"
+        ],
+        "last saturday": [
+            "ዝሓለፈ ቀዳም"
+        ],
+        "last sunday": [
+            "ዝሓለፈ ሰንበት"
+        ],
+        "last thursday": [
+            "ዝሓለፈ ሓሙስ"
+        ],
+        "last tuesday": [
+            "ዝሓለፈ ሰሉስ"
+        ],
+        "last wednesday": [
+            "ዝሓለፈ ረቡዕ"
+        ],
+        "next friday": [
+            "ዝመጽእ ዓርቢ"
+        ],
+        "next monday": [
+            "ዝመጽእ ሰኑይ"
+        ],
+        "next saturday": [
+            "ዝመጽእ ቀዳም"
+        ],
+        "next sunday": [
+            "ዝመጽእ ሰንበት"
+        ],
+        "next thursday": [
+            "ዝመጽእ ሓሙስ"
+        ],
+        "next tuesday": [
+            "ዝመጽእ ሰሉስ"
+        ],
+        "next wednesday": [
+            "ዝመጽእ ረቡዕ"
         ]
     },
     "relative-type-regex": {

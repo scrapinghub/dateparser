@@ -156,6 +156,62 @@
         ],
         "in 1 year": [
             "nächstes jahr"
+        ],
+        "last friday": [
+            "letzten fr",
+            "letzten freitag"
+        ],
+        "last monday": [
+            "letzten mo",
+            "letzten montag"
+        ],
+        "last saturday": [
+            "letzten sa",
+            "letzten samstag"
+        ],
+        "last sunday": [
+            "letzten so",
+            "letzten sonntag"
+        ],
+        "last thursday": [
+            "letzten do",
+            "letzten donnerstag"
+        ],
+        "last tuesday": [
+            "letzten di",
+            "letzten dienstag"
+        ],
+        "last wednesday": [
+            "letzten mi",
+            "letzten mittwoch"
+        ],
+        "next friday": [
+            "nächsten fr",
+            "nächsten freitag"
+        ],
+        "next monday": [
+            "nächsten mo",
+            "nächsten montag"
+        ],
+        "next saturday": [
+            "nächsten sa",
+            "nächsten samstag"
+        ],
+        "next sunday": [
+            "nächsten so",
+            "nächsten sonntag"
+        ],
+        "next thursday": [
+            "nächsten do",
+            "nächsten donnerstag"
+        ],
+        "next tuesday": [
+            "nächsten di",
+            "nächsten dienstag"
+        ],
+        "next wednesday": [
+            "nächsten mi",
+            "nächsten mittwoch"
         ]
     },
     "relative-type-regex": {

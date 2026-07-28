@@ -131,6 +131,48 @@ info = {
         ],
         "in 1 year": [
             "tȟokáta ómakȟa kiŋháŋ"
+        ],
+        "last friday": [
+            "aŋpétuzaŋptaŋ k'uŋ héhaŋ"
+        ],
+        "last monday": [
+            "aŋpétutȟokahe k'uŋ héhaŋ"
+        ],
+        "last saturday": [
+            "owáŋkayužažapi k'uŋ héhaŋ"
+        ],
+        "last sunday": [
+            "aŋpétuwakȟáŋ k'uŋ héhaŋ"
+        ],
+        "last thursday": [
+            "aŋpétutopa k'uŋ héhaŋ"
+        ],
+        "last tuesday": [
+            "aŋpétunuŋpa k'uŋ héhaŋ"
+        ],
+        "last wednesday": [
+            "aŋpétuyamni k'uŋ héhaŋ"
+        ],
+        "next friday": [
+            "aŋpétuzaptaŋ kiŋháŋ"
+        ],
+        "next monday": [
+            "aŋpétutȟokahe kiŋháŋ"
+        ],
+        "next saturday": [
+            "owáŋkayužažapi kiŋháŋ"
+        ],
+        "next sunday": [
+            "aŋpétuwakȟáŋ kiŋháŋ"
+        ],
+        "next thursday": [
+            "aŋpétutopa kiŋháŋ"
+        ],
+        "next tuesday": [
+            "aŋpétunuŋpa kiŋháŋ"
+        ],
+        "next wednesday": [
+            "aŋpétuyamni kiŋháŋ"
         ]
     },
     "relative-type-regex": {

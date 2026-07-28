@@ -162,6 +162,76 @@ info = {
         "in 1 year": [
             "volgend jaar"
         ],
+        "last friday": [
+            "afgelopen vr",
+            "afgelopen vrij",
+            "afgelopen vrijdag"
+        ],
+        "last monday": [
+            "afgelopen ma",
+            "afgelopen maan",
+            "afgelopen maandag"
+        ],
+        "last saturday": [
+            "afgelopen za",
+            "afgelopen zater",
+            "afgelopen zaterdag"
+        ],
+        "last sunday": [
+            "afgelopen zo",
+            "afgelopen zon",
+            "afgelopen zondag"
+        ],
+        "last thursday": [
+            "afgelopen do",
+            "afgelopen donder",
+            "afgelopen donderdag"
+        ],
+        "last tuesday": [
+            "afgelopen di",
+            "afgelopen dins",
+            "afgelopen dinsdag"
+        ],
+        "last wednesday": [
+            "afgelopen wo",
+            "afgelopen woens",
+            "afgelopen woensdag"
+        ],
+        "next friday": [
+            "volgende week vr",
+            "volgende week vrij",
+            "volgende week vrijdag"
+        ],
+        "next monday": [
+            "volgende week ma",
+            "volgende week maan",
+            "volgende week maandag"
+        ],
+        "next saturday": [
+            "volgende week za",
+            "volgende week zater",
+            "volgende week zaterdag"
+        ],
+        "next sunday": [
+            "volgende week zo",
+            "volgende week zon",
+            "volgende week zondag"
+        ],
+        "next thursday": [
+            "volgende week do",
+            "volgende week donder",
+            "volgende week donderdag"
+        ],
+        "next tuesday": [
+            "volgende week di",
+            "volgende week dins",
+            "volgende week dinsdag"
+        ],
+        "next wednesday": [
+            "volgende week wo",
+            "volgende week woens",
+            "volgende week woensdag"
+        ],
         "2 day ago": [
             "eergisteren"
         ],

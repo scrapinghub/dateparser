@@ -170,6 +170,76 @@
         "in 1 year": [
             "ta'u kaha'u",
             "tha'u"
+        ],
+        "last friday": [
+            "fa'osi",
+            "fal 'osi",
+            "falaite kuo'osi"
+        ],
+        "last monday": [
+            "mō'osi",
+            "mōn 'osi",
+            "mōnite kuo'osi"
+        ],
+        "last saturday": [
+            "to'osi",
+            "tok 'osi",
+            "tokonaki kuo'osi"
+        ],
+        "last sunday": [
+            "sā'osi",
+            "sāp 'osi",
+            "sāpate kuo'osi"
+        ],
+        "last thursday": [
+            "tp'osi",
+            "tu'a 'osi",
+            "tu'apulelulu kuo'osi"
+        ],
+        "last tuesday": [
+            "tū'osi",
+            "tūs 'osi",
+            "tūsite kuo'osi"
+        ],
+        "last wednesday": [
+            "pu'osi",
+            "pul 'osi",
+            "pulelulu kuo'osi"
+        ],
+        "next friday": [
+            "faha'u",
+            "fal ha'u",
+            "falaite kaha'u"
+        ],
+        "next monday": [
+            "mōha'u",
+            "mōn ha'u",
+            "mōnite kaha'u"
+        ],
+        "next saturday": [
+            "toha'u",
+            "tok ha'u",
+            "tokonaki kaha'u"
+        ],
+        "next sunday": [
+            "sāha'u",
+            "sāp ha'u",
+            "sāpate kaha'u"
+        ],
+        "next thursday": [
+            "tpha'u",
+            "tu'a ha'u",
+            "tu'apulelulu kaha'u"
+        ],
+        "next tuesday": [
+            "tūha'u",
+            "tūs ha'u",
+            "tūsite kaha'u"
+        ],
+        "next wednesday": [
+            "puha'u",
+            "pul ha'u",
+            "pulelulu kaha'u"
         ]
     },
     "relative-type-regex": {

@@ -179,6 +179,48 @@ info = {
         "in 1 year": [
             "फैगौ बोसोर",
             "next year"
+        ],
+        "last friday": [
+            "थांनाय सुखुरबार"
+        ],
+        "last monday": [
+            "थांनाय समबार"
+        ],
+        "last saturday": [
+            "थांनाय सनिबार"
+        ],
+        "last sunday": [
+            "थांनाय रबिबार"
+        ],
+        "last thursday": [
+            "थांनाय बिस्थिबार"
+        ],
+        "last tuesday": [
+            "थांनाय मंगलबार"
+        ],
+        "last wednesday": [
+            "थांनाय बुधबार"
+        ],
+        "next friday": [
+            "फैगौ सुखुरबार"
+        ],
+        "next monday": [
+            "फैगौ समबार"
+        ],
+        "next saturday": [
+            "फैगौ सनिबार"
+        ],
+        "next sunday": [
+            "फैगौ रबिबार"
+        ],
+        "next thursday": [
+            "फैगौ बिस्थिबार"
+        ],
+        "next tuesday": [
+            "फैगौ मंगलबार"
+        ],
+        "next wednesday": [
+            "फैगौ बुधबार"
         ]
     },
     "relative-type-regex": {

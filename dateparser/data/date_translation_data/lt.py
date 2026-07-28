@@ -171,6 +171,62 @@ info = {
         ],
         "in 1 year": [
             "kitais metais"
+        ],
+        "last friday": [
+            "praėjusį penkt",
+            "praėjusį penktadienį"
+        ],
+        "last monday": [
+            "praėjusį pirm",
+            "praėjusį pirmadienį"
+        ],
+        "last saturday": [
+            "praėjusį šešt",
+            "praėjusį šeštadienį"
+        ],
+        "last sunday": [
+            "praėjusį sekm",
+            "praėjusį sekmadienį"
+        ],
+        "last thursday": [
+            "praėjusį ketv",
+            "praėjusį ketvirtadienį"
+        ],
+        "last tuesday": [
+            "praėjusį antr",
+            "praėjusį antradienį"
+        ],
+        "last wednesday": [
+            "praėjusį treč",
+            "praėjusį trečiadienį"
+        ],
+        "next friday": [
+            "kitą penkt",
+            "kitą penktadienį"
+        ],
+        "next monday": [
+            "kitą pirm",
+            "kitą pirmadienį"
+        ],
+        "next saturday": [
+            "kitą šešt",
+            "kitą šeštadienį"
+        ],
+        "next sunday": [
+            "kitą sekm",
+            "kitą sekmadienį"
+        ],
+        "next thursday": [
+            "kitą ketv",
+            "kitą ketvirtadienį"
+        ],
+        "next tuesday": [
+            "kitą antr",
+            "kitą antradienį"
+        ],
+        "next wednesday": [
+            "kitą treč",
+            "kitą trečiadienį"
         ]
     },
     "relative-type-regex": {

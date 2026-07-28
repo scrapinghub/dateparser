@@ -184,6 +184,62 @@ info = {
         "in 1 year": [
             "l'any que ve"
         ],
+        "last friday": [
+            "divendres passat",
+            "dv passat"
+        ],
+        "last monday": [
+            "dilluns passat",
+            "dl passat"
+        ],
+        "last saturday": [
+            "dissabte passat",
+            "ds passat"
+        ],
+        "last sunday": [
+            "dg passat",
+            "diumenge passat"
+        ],
+        "last thursday": [
+            "dijous passat",
+            "dj passat"
+        ],
+        "last tuesday": [
+            "dimarts passat",
+            "dt passat"
+        ],
+        "last wednesday": [
+            "dc passat",
+            "dimecres passat"
+        ],
+        "next friday": [
+            "divendres que ve",
+            "dv que ve"
+        ],
+        "next monday": [
+            "dilluns que ve",
+            "dl que ve"
+        ],
+        "next saturday": [
+            "dissabte que ve",
+            "ds que ve"
+        ],
+        "next sunday": [
+            "dg que ve",
+            "diumenge que ve"
+        ],
+        "next thursday": [
+            "dijous que ve",
+            "dj que ve"
+        ],
+        "next tuesday": [
+            "dimarts que ve",
+            "dt que ve"
+        ],
+        "next wednesday": [
+            "dc que ve",
+            "dimecres que ve"
+        ],
         "2 day ago": [
             "despús-ahir",
             "abans-d’ahir",

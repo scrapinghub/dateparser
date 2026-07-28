@@ -140,6 +140,48 @@ info = {
         ],
         "in 1 year": [
             "كېلەر يىل"
+        ],
+        "last friday": [
+            "ئۆتكەن جۈمە"
+        ],
+        "last monday": [
+            "ئۆتكەن دۈشەنبە"
+        ],
+        "last saturday": [
+            "ئۆتكەن شەنبە"
+        ],
+        "last sunday": [
+            "ئۆتكەن يەكشەنبە"
+        ],
+        "last thursday": [
+            "ئۆتكەن پەيشەنبە"
+        ],
+        "last tuesday": [
+            "ئۆتكەن سەيشەنبە"
+        ],
+        "last wednesday": [
+            "ئۆتكەن چارشەنبە"
+        ],
+        "next friday": [
+            "كېلەر جۈمە"
+        ],
+        "next monday": [
+            "كېلەر دۈشەنبە"
+        ],
+        "next saturday": [
+            "كېلەر شەنبە"
+        ],
+        "next sunday": [
+            "كېلەر يەكشەنبە"
+        ],
+        "next thursday": [
+            "كېلەر پەيشەنبە"
+        ],
+        "next tuesday": [
+            "كېلەر سەيشەنبە"
+        ],
+        "next wednesday": [
+            "كېلەر چارشەنبە"
         ]
     },
     "relative-type-regex": {

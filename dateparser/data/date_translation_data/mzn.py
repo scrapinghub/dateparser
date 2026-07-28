@@ -132,6 +132,50 @@ info = {
         ],
         "in 1 year": [
             "سال دیگه"
+        ],
+        "last friday": [
+            "قبلی جومه"
+        ],
+        "last monday": [
+            "قبلی دِشنبه"
+        ],
+        "last saturday": [
+            "قبلی شنبه"
+        ],
+        "last sunday": [
+            "قبلی یکشنبه",
+            "یکشنبه قبل"
+        ],
+        "last thursday": [
+            "قبلی پنجشنبه"
+        ],
+        "last tuesday": [
+            "قبلی سه‌شنبه"
+        ],
+        "last wednesday": [
+            "قبلی چارشنبه"
+        ],
+        "next friday": [
+            "بعدی جومه"
+        ],
+        "next monday": [
+            "بعدی دِشنبه"
+        ],
+        "next saturday": [
+            "بعدی شنبه"
+        ],
+        "next sunday": [
+            "بعدی یکشنبه",
+            "یکشنبه بعد"
+        ],
+        "next thursday": [
+            "بعدی پنجشنبه"
+        ],
+        "next tuesday": [
+            "بعدی سه‌شنبه"
+        ],
+        "next wednesday": [
+            "بعدی چارشنبه"
         ]
     },
     "relative-type-regex": {

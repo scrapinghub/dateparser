@@ -150,6 +150,49 @@
         ],
         "in 1 year": [
             "unyaka ozayo"
+        ],
+        "last friday": [
+            "ulwesihlanu oludlule"
+        ],
+        "last monday": [
+            "umsombuluko odlule"
+        ],
+        "last saturday": [
+            "umgqibelo odlule"
+        ],
+        "last sunday": [
+            "isonto eledlule"
+        ],
+        "last thursday": [
+            "ulwesine oludlule",
+            "ulwesine olwedlule"
+        ],
+        "last tuesday": [
+            "ulwesibili oludlule"
+        ],
+        "last wednesday": [
+            "ulwesithathu oludlule"
+        ],
+        "next friday": [
+            "ulwesihlanu oluzayo"
+        ],
+        "next monday": [
+            "umsombuluko ozayo"
+        ],
+        "next saturday": [
+            "umgqibelo ozayo"
+        ],
+        "next sunday": [
+            "isonto elizayo"
+        ],
+        "next thursday": [
+            "ulwesine oluzayo"
+        ],
+        "next tuesday": [
+            "ulwesibili oluzayo"
+        ],
+        "next wednesday": [
+            "ulwesithathu oluzayo"
         ]
     },
     "relative-type-regex": {

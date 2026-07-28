@@ -156,6 +156,52 @@
         ],
         "in 1 year": [
             "is-sena d-dieħla"
+        ],
+        "last friday": [
+            "last friday"
+        ],
+        "last monday": [
+            "it-tn li għadda",
+            "it-tnejn li għadda"
+        ],
+        "last saturday": [
+            "last saturday"
+        ],
+        "last sunday": [
+            "il-ħadd li għadda",
+            "il-ħd li għadda"
+        ],
+        "last thursday": [
+            "last thursday"
+        ],
+        "last tuesday": [
+            "it-tlieta li għaddiet"
+        ],
+        "last wednesday": [
+            "last wednesday"
+        ],
+        "next friday": [
+            "next friday"
+        ],
+        "next monday": [
+            "it-tn ta' wara",
+            "it-tnejn li ġej"
+        ],
+        "next saturday": [
+            "next saturday"
+        ],
+        "next sunday": [
+            "il-ħadd ta' wara",
+            "il-ħd ta' wara"
+        ],
+        "next thursday": [
+            "next thursday"
+        ],
+        "next tuesday": [
+            "it-tlieta ta' wara"
+        ],
+        "next wednesday": [
+            "next wednesday"
         ]
     },
     "relative-type-regex": {

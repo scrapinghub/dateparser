@@ -185,6 +185,76 @@
             "añu vin",
             "l'añu vin",
             "l'añu viniente"
+        ],
+        "last friday": [
+            "el vienres pasáu",
+            "vie pas",
+            "vie pasáu"
+        ],
+        "last monday": [
+            "el llunes pasáu",
+            "llu pas",
+            "llun pasáu"
+        ],
+        "last saturday": [
+            "el sábadu pasáu",
+            "sáb pas",
+            "sáb pasáu"
+        ],
+        "last sunday": [
+            "dom pas",
+            "dom pasáu",
+            "el domingu pasáu"
+        ],
+        "last thursday": [
+            "el xueves pasáu",
+            "xue pas",
+            "xue pasáu"
+        ],
+        "last tuesday": [
+            "el martes pasáu",
+            "mar pas",
+            "mar pasáu"
+        ],
+        "last wednesday": [
+            "el miércoles pasáu",
+            "mié pas",
+            "mié pasáu"
+        ],
+        "next friday": [
+            "el vienres viniente",
+            "vie vin",
+            "vie viniente"
+        ],
+        "next monday": [
+            "el llunes viniente",
+            "llu vin",
+            "llun viniente"
+        ],
+        "next saturday": [
+            "el sábadu viniente",
+            "sáb vin",
+            "sáb viniente"
+        ],
+        "next sunday": [
+            "dom vin",
+            "dom viniente",
+            "el domingu viniente"
+        ],
+        "next thursday": [
+            "el xueves viniente",
+            "xue vin",
+            "xue viniente"
+        ],
+        "next tuesday": [
+            "el martes viniente",
+            "mar vin",
+            "mar viniente"
+        ],
+        "next wednesday": [
+            "el miércoles viniente",
+            "mié vin",
+            "mié viniente"
         ]
     },
     "relative-type-regex": {

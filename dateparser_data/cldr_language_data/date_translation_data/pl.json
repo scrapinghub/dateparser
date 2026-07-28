@@ -180,6 +180,48 @@
         ],
         "in 1 year": [
             "w przyszłym roku"
+        ],
+        "last friday": [
+            "w zeszły piątek"
+        ],
+        "last monday": [
+            "w zeszły poniedziałek"
+        ],
+        "last saturday": [
+            "w zeszłą sobotę"
+        ],
+        "last sunday": [
+            "w zeszłą niedzielę"
+        ],
+        "last thursday": [
+            "w zeszły czwartek"
+        ],
+        "last tuesday": [
+            "w zeszły wtorek"
+        ],
+        "last wednesday": [
+            "w zeszłą środę"
+        ],
+        "next friday": [
+            "w przyszły piątek"
+        ],
+        "next monday": [
+            "w przyszły poniedziałek"
+        ],
+        "next saturday": [
+            "w przyszłą sobotę"
+        ],
+        "next sunday": [
+            "w przyszłą niedzielę"
+        ],
+        "next thursday": [
+            "w przyszły czwartek"
+        ],
+        "next tuesday": [
+            "w przyszły wtorek"
+        ],
+        "next wednesday": [
+            "w przyszłą środę"
         ]
     },
     "relative-type-regex": {

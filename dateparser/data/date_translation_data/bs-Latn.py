@@ -161,6 +161,62 @@ info = {
         ],
         "in 1 year": [
             "sljedeće godine"
+        ],
+        "last friday": [
+            "prošli pet",
+            "prošli petak"
+        ],
+        "last monday": [
+            "prošli pon",
+            "prošli ponedjeljak"
+        ],
+        "last saturday": [
+            "prošla sub",
+            "prošla subota"
+        ],
+        "last sunday": [
+            "prošla ned",
+            "prošla nedjelja"
+        ],
+        "last thursday": [
+            "prošli čet",
+            "prošli četvrtak"
+        ],
+        "last tuesday": [
+            "prošli uto",
+            "prošli utorak"
+        ],
+        "last wednesday": [
+            "prošla sri",
+            "prošla srijeda"
+        ],
+        "next friday": [
+            "sljedeći pet",
+            "sljedeći petak"
+        ],
+        "next monday": [
+            "sljedeći pon",
+            "sljedeći ponedjeljak"
+        ],
+        "next saturday": [
+            "sljedeća sub",
+            "sljedeća subota"
+        ],
+        "next sunday": [
+            "sljedeća ned",
+            "sljedeća nedjelja"
+        ],
+        "next thursday": [
+            "sljedeći čet",
+            "sljedeći četvrtak"
+        ],
+        "next tuesday": [
+            "sljedeći uto",
+            "sljedeći utorak"
+        ],
+        "next wednesday": [
+            "sljedeća sri",
+            "sljedeća srijeda"
         ]
     },
     "relative-type-regex": {

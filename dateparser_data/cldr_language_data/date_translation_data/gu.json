@@ -149,6 +149,50 @@
         ],
         "in 1 year": [
             "આવતા વર્ષે"
+        ],
+        "last friday": [
+            "ગયા શુક્રવારે"
+        ],
+        "last monday": [
+            "ગયા સોમવારે"
+        ],
+        "last saturday": [
+            "ગયા શનિવારે"
+        ],
+        "last sunday": [
+            "ગયા રવિ",
+            "ગયા રવિવારે"
+        ],
+        "last thursday": [
+            "ગયા ગુરુવારે"
+        ],
+        "last tuesday": [
+            "ગયા મંગળવારે"
+        ],
+        "last wednesday": [
+            "ગયા બુધવારે"
+        ],
+        "next friday": [
+            "આવતા શુક્રવારે"
+        ],
+        "next monday": [
+            "આવતા સોમવારે"
+        ],
+        "next saturday": [
+            "આવતા શનિવારે"
+        ],
+        "next sunday": [
+            "આવતા રવિ",
+            "આવતા રવિવારે"
+        ],
+        "next thursday": [
+            "આવતા ગુરુવારે"
+        ],
+        "next tuesday": [
+            "આવતા મંગળવારે"
+        ],
+        "next wednesday": [
+            "આવતા બુધવારે"
         ]
     },
     "relative-type-regex": {

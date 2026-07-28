@@ -236,6 +236,62 @@ info = {
             "ensi v",
             "ensi vuonna"
         ],
+        "last friday": [
+            "viime pe",
+            "viime perjantaina"
+        ],
+        "last monday": [
+            "viime ma",
+            "viime maanantaina"
+        ],
+        "last saturday": [
+            "viime la",
+            "viime lauantaina"
+        ],
+        "last sunday": [
+            "viime su",
+            "viime sunnuntaina"
+        ],
+        "last thursday": [
+            "viime to",
+            "viime torstaina"
+        ],
+        "last tuesday": [
+            "viime ti",
+            "viime tiistaina"
+        ],
+        "last wednesday": [
+            "viime ke",
+            "viime keskiviikkona"
+        ],
+        "next friday": [
+            "ensi pe",
+            "ensi perjantaina"
+        ],
+        "next monday": [
+            "ensi ma",
+            "ensi maanantaina"
+        ],
+        "next saturday": [
+            "ensi la",
+            "ensi lauantaina"
+        ],
+        "next sunday": [
+            "ensi su",
+            "ensi sunnuntaina"
+        ],
+        "next thursday": [
+            "ensi to",
+            "ensi torstaina"
+        ],
+        "next tuesday": [
+            "ensi ti",
+            "ensi tiistaina"
+        ],
+        "next wednesday": [
+            "ensi ke",
+            "ensi keskiviikkona"
+        ],
         "2 year ago": [
             "toissa vuonna"
         ],

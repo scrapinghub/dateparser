@@ -172,6 +172,70 @@
         ],
         "in 1 year": [
             "budúci rok"
+        ],
+        "last friday": [
+            "minulý pi",
+            "minulý piatok"
+        ],
+        "last monday": [
+            "minulý po",
+            "minulý pond",
+            "minulý pondelok"
+        ],
+        "last saturday": [
+            "minulú so",
+            "minulú sobotu"
+        ],
+        "last sunday": [
+            "minulú ne",
+            "minulú ned",
+            "minulú nedeľu"
+        ],
+        "last thursday": [
+            "minulý št",
+            "minulý štvrtok"
+        ],
+        "last tuesday": [
+            "minulý ut",
+            "minulý utor",
+            "minulý utorok"
+        ],
+        "last wednesday": [
+            "minulú st",
+            "minulú str",
+            "minulú stredu"
+        ],
+        "next friday": [
+            "budúci pi",
+            "budúci piatok"
+        ],
+        "next monday": [
+            "budúci po",
+            "budúci pond",
+            "budúci pondelok"
+        ],
+        "next saturday": [
+            "budúcu so",
+            "budúcu sobotu"
+        ],
+        "next sunday": [
+            "budúcu ne",
+            "budúcu ned",
+            "budúcu nedeľu"
+        ],
+        "next thursday": [
+            "budúci št",
+            "budúci štvrtok"
+        ],
+        "next tuesday": [
+            "budúci ut",
+            "budúci utor",
+            "budúci utorok"
+        ],
+        "next wednesday": [
+            "budúcu st",
+            "budúcu str",
+            "budúcu stredu"
         ]
     },
     "relative-type-regex": {

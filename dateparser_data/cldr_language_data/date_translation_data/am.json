@@ -143,6 +143,48 @@
         ],
         "in 1 year": [
             "የሚቀጥለው ዓመት"
+        ],
+        "last friday": [
+            "ያለፈው ዓርብ"
+        ],
+        "last monday": [
+            "ያለፈው ሰኞ"
+        ],
+        "last saturday": [
+            "ያለፈው ቅዳሜ"
+        ],
+        "last sunday": [
+            "ያለፈው እሑድ"
+        ],
+        "last thursday": [
+            "ያለፈው ሐሙስ"
+        ],
+        "last tuesday": [
+            "ያለፈው ማክሰኞ"
+        ],
+        "last wednesday": [
+            "ያለፈው ረቡዕ"
+        ],
+        "next friday": [
+            "የሚቀጥለው ዓርብ"
+        ],
+        "next monday": [
+            "የሚቀጥለው ሰኞ"
+        ],
+        "next saturday": [
+            "የሚቀጥለው ቅዳሜ"
+        ],
+        "next sunday": [
+            "የሚቀጥለው እሑድ"
+        ],
+        "next thursday": [
+            "የሚቀጥለው ሐሙስ"
+        ],
+        "next tuesday": [
+            "የሚቀጥለው ማክሰኞ"
+        ],
+        "next wednesday": [
+            "የሚቀጥለው ረቡዕ"
         ]
     },
     "relative-type-regex": {

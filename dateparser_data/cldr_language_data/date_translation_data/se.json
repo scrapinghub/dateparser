@@ -154,6 +154,48 @@
         ],
         "in 1 year": [
             "next year"
+        ],
+        "last friday": [
+            "last friday"
+        ],
+        "last monday": [
+            "last monday"
+        ],
+        "last saturday": [
+            "last saturday"
+        ],
+        "last sunday": [
+            "last sunday"
+        ],
+        "last thursday": [
+            "last thursday"
+        ],
+        "last tuesday": [
+            "last tuesday"
+        ],
+        "last wednesday": [
+            "last wednesday"
+        ],
+        "next friday": [
+            "next friday"
+        ],
+        "next monday": [
+            "next monday"
+        ],
+        "next saturday": [
+            "next saturday"
+        ],
+        "next sunday": [
+            "next sunday"
+        ],
+        "next thursday": [
+            "next thursday"
+        ],
+        "next tuesday": [
+            "next tuesday"
+        ],
+        "next wednesday": [
+            "next wednesday"
         ]
     },
     "relative-type-regex": {
@@ -303,6 +345,62 @@
                 ],
                 "in 1 year": [
                     "boahtte jagi"
+                ],
+                "last friday": [
+                    "mannan be",
+                    "mannan bearjadaga"
+                ],
+                "last monday": [
+                    "mannan má",
+                    "mannan mánnodaga"
+                ],
+                "last saturday": [
+                    "mannan lá",
+                    "mannan lávvordaga"
+                ],
+                "last sunday": [
+                    "mannan so",
+                    "mannan sotnabeaivve"
+                ],
+                "last thursday": [
+                    "mannan du",
+                    "mannan duorastaga"
+                ],
+                "last tuesday": [
+                    "mannan di",
+                    "mannan disdaga"
+                ],
+                "last wednesday": [
+                    "mannan ga",
+                    "mannan gaskavahku"
+                ],
+                "next friday": [
+                    "boahtte be",
+                    "boahtte bearjadaga"
+                ],
+                "next monday": [
+                    "boahtte má",
+                    "boahtte mánnodaga"
+                ],
+                "next saturday": [
+                    "boahtte lá",
+                    "boahtte lávvordaga"
+                ],
+                "next sunday": [
+                    "boahtte so",
+                    "boahtte sotnabeaivve"
+                ],
+                "next thursday": [
+                    "boahtte du",
+                    "boahtte duorastaga"
+                ],
+                "next tuesday": [
+                    "boahtte di",
+                    "boahtte disdaga"
+                ],
+                "next wednesday": [
+                    "boahtte ga",
+                    "boahtte gaskavahku"
                 ]
             },
             "relative-type-regex": {

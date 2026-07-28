@@ -158,6 +158,62 @@
         "in 1 year": [
             "hurrengo urtea",
             "hurrengo urtean"
+        ],
+        "last friday": [
+            "aurreko or",
+            "aurreko ostiralean"
+        ],
+        "last monday": [
+            "aurreko al",
+            "aurreko astelehenean"
+        ],
+        "last saturday": [
+            "aurreko larunbatean",
+            "aurreko lr"
+        ],
+        "last sunday": [
+            "aurreko ig",
+            "aurreko igandean"
+        ],
+        "last thursday": [
+            "aurreko og",
+            "aurreko ostegunean"
+        ],
+        "last tuesday": [
+            "aurreko ar",
+            "aurreko asteartean"
+        ],
+        "last wednesday": [
+            "aurreko asteazkenean",
+            "aurreko az"
+        ],
+        "next friday": [
+            "hurrengo or",
+            "hurrengo ostiralean"
+        ],
+        "next monday": [
+            "hurrengo al",
+            "hurrengo astelehenean"
+        ],
+        "next saturday": [
+            "hurrengo larunbatean",
+            "hurrengo lr"
+        ],
+        "next sunday": [
+            "hurrengo ig",
+            "hurrengo igandean"
+        ],
+        "next thursday": [
+            "hurrengo og",
+            "hurrengo ostegunean"
+        ],
+        "next tuesday": [
+            "hurrengo ar",
+            "hurrengo asteartean"
+        ],
+        "next wednesday": [
+            "hurrengo asteazkenean",
+            "hurrengo az"
         ]
     },
     "relative-type-regex": {

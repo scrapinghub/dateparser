@@ -152,6 +152,57 @@
         ],
         "in 1 year": [
             "afọ ọzọ"
+        ],
+        "last friday": [
+            "ụbọchị faraịde gara aga"
+        ],
+        "last monday": [
+            "mon gara aga",
+            "ụbọchị monde gara aga",
+            "ụbọchị mọnde gara aga"
+        ],
+        "last saturday": [
+            "ụbọchị satụde gara aga"
+        ],
+        "last sunday": [
+            "ụbọchị ụka gara aga"
+        ],
+        "last thursday": [
+            "ụbọchị tọsdee gara aga"
+        ],
+        "last tuesday": [
+            "ụbọchị tuesde gara aga",
+            "ụbọchị tụesde gara aga"
+        ],
+        "last wednesday": [
+            "ụbọchị wednesde gara ag",
+            "ụbọchị wednesde gara aga"
+        ],
+        "next friday": [
+            "ụbọchị faraịde na abịa",
+            "ụbọchị na abịa",
+            "ụọchị faraịde na abịa"
+        ],
+        "next monday": [
+            "ụbọchị monde a",
+            "ụbọchị monde na abịa",
+            "ụbọchị mọnde na abịa"
+        ],
+        "next saturday": [
+            "ụbọchị satụde na abịa"
+        ],
+        "next sunday": [
+            "ụbọchị ụka na abịa"
+        ],
+        "next thursday": [
+            "ụbọchị tọsdee na abịa"
+        ],
+        "next tuesday": [
+            "ụbọchị tuesde na abịa"
+        ],
+        "next wednesday": [
+            "ụbọchị wednesde a",
+            "ụbọchị wednesde na abịa"
         ]
     },
     "locale_specific": {}

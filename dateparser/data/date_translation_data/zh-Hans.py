@@ -154,6 +154,48 @@ info = {
         "in 1 year": [
             "明年"
         ],
+        "last friday": [
+            "上周五"
+        ],
+        "last monday": [
+            "上周一"
+        ],
+        "last saturday": [
+            "上周六"
+        ],
+        "last sunday": [
+            "上周日"
+        ],
+        "last thursday": [
+            "上周四"
+        ],
+        "last tuesday": [
+            "上周二"
+        ],
+        "last wednesday": [
+            "上周三"
+        ],
+        "next friday": [
+            "下周五"
+        ],
+        "next monday": [
+            "下周一"
+        ],
+        "next saturday": [
+            "下周六"
+        ],
+        "next sunday": [
+            "下周日"
+        ],
+        "next thursday": [
+            "下周四"
+        ],
+        "next tuesday": [
+            "下周二"
+        ],
+        "next wednesday": [
+            "下周三"
+        ],
         "2 day ago": [
             "前天"
         ],

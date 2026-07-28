@@ -732,6 +732,126 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
+    # Relative weekdays: "last/next/this <weekday>" (#573, #1177, #635).
+    # Nearest-occurrence semantics: "next" is the first occurrence strictly
+    # after the base, "last" the most recent strictly before, "this" the coming
+    # occurrence with the base's own weekday mapping to itself.
+    _WEEKDAYS = [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday",
+    ]
+
+    @staticmethod
+    def _expected_relative_weekday(base, modifier, target_index):
+        base_index = base.weekday()
+        if modifier == "next":
+            offset = (target_index - base_index) % 7 or 7
+        elif modifier == "last":
+            offset = -((base_index - target_index) % 7 or 7)
+        else:  # "this"
+            offset = (target_index - base_index) % 7
+        return (base + timedelta(days=offset)).replace(
+            hour=0, minute=0, second=0, microsecond=0
+        )
+
+    @parameterized.expand(
+        # 7 base weekdays x 7 target weekdays x {last, next, this}.
+        [
+            param(
+                base=datetime(2015, 2, 16) + timedelta(days=base_offset),
+                modifier=modifier,
+                target_index=target_index,
+            )
+            for base_offset in range(7)
+            for target_index in range(7)
+            for modifier in ("last", "next", "this")
+        ]
+    )
+    def test_relative_weekday_matrix(self, base, modifier, target_index):
+        date_string = "{} {}".format(modifier, self._WEEKDAYS[target_index])
+        expected = self._expected_relative_weekday(base, modifier, target_index)
+        self.given_local_tz_offset(0)
+        self.given_parser(settings={"RELATIVE_BASE": base.replace(hour=15, minute=30)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            # When the base date IS the target weekday, "last"/"next" are
+            # unambiguous: exactly a week back / a week ahead, and "this" is
+            # the base day itself. Base 2015-02-18 is a Wednesday.
+            param("last wednesday", datetime(2015, 2, 11)),
+            param("next wednesday", datetime(2015, 2, 25)),
+            param("this wednesday", datetime(2015, 2, 18)),
+        ]
+    )
+    def test_relative_weekday_base_equals_target(self, date_string, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser(settings={"RELATIVE_BASE": datetime(2015, 2, 18, 15, 30)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            # "past" is an English synonym of "last".
+            param("past friday", datetime(2015, 2, 13)),
+            # Combined with a time part (base Monday 2015-02-16).
+            param("next friday at 5pm", datetime(2015, 2, 20, 17, 0)),
+            param("12am last monday", datetime(2015, 2, 9, 0, 0)),
+        ]
+    )
+    def test_relative_weekday_extras(self, date_string, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser(settings={"RELATIVE_BASE": datetime(2015, 2, 16, 15, 30)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            # A weekday modifier overrides PREFER_DATES_FROM: "next friday" is
+            # the coming Friday even when past dates are preferred, and vice
+            # versa. Base Monday 2015-02-16.
+            param("next friday", "past", datetime(2015, 2, 20)),
+            param("last friday", "future", datetime(2015, 2, 13)),
+        ]
+    )
+    def test_relative_weekday_overrides_prefer_dates_from(
+        self, date_string, prefer, expected
+    ):
+        self.given_local_tz_offset(0)
+        self.given_parser(
+            settings={
+                "RELATIVE_BASE": datetime(2015, 2, 16, 15, 30),
+                "PREFER_DATES_FROM": prefer,
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            # A doubled modifier or a modifier trailing its weekday is malformed
+            # and must not parse to a date.
+            param("next next friday"),
+            param("friday next"),
+            param("this last friday"),
+        ]
+    )
+    def test_relative_weekday_malformed_not_parsed(self, date_string):
+        self.given_local_tz_offset(0)
+        self.given_parser(settings={"RELATIVE_BASE": datetime(2015, 2, 16, 15, 30)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_is_none()
+
     @parameterized.expand(
         [
             param(
@@ -1632,6 +1752,9 @@ class TestDateParser(BaseTestCase):
 
     def then_date_obj_exactly_is(self, expected):
         self.assertEqual(expected, self.result["date_obj"])
+
+    def then_date_obj_is_none(self):
+        self.assertIsNone(self.result["date_obj"])
 
     def then_date_was_parsed_by_date_parser(self):
         self.assertNotEqual(NotImplemented, self.date_result, "Date was not parsed")

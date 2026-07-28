@@ -200,6 +200,76 @@ info = {
             "klě",
             "klět",
             "klětu"
+        ],
+        "last friday": [
+            "zašły pj",
+            "zašły pja",
+            "zašły pjatk"
+        ],
+        "last monday": [
+            "zašłu pó",
+            "zašłu pón",
+            "zašłu póndźelu"
+        ],
+        "last saturday": [
+            "zašłu so",
+            "zašłu sob",
+            "zašłu sobotu"
+        ],
+        "last sunday": [
+            "zašłu nj",
+            "zašłu nje",
+            "zašłu njedźelu"
+        ],
+        "last thursday": [
+            "zašły št",
+            "zašły štw",
+            "zašły štwórtk"
+        ],
+        "last tuesday": [
+            "zašłu wu",
+            "zašłu wut",
+            "zašłu wutoru"
+        ],
+        "last wednesday": [
+            "zašłu sr",
+            "zašłu srj",
+            "zašłu srjedu"
+        ],
+        "next friday": [
+            "přichodny pj",
+            "přichodny pja",
+            "přichodny pjatk"
+        ],
+        "next monday": [
+            "přichodnu pó",
+            "přichodnu pón",
+            "přichodnu póndźelu"
+        ],
+        "next saturday": [
+            "přichodnu so",
+            "přichodnu sob",
+            "přichodnu sobotu"
+        ],
+        "next sunday": [
+            "přichodnu nj",
+            "přichodnu nje",
+            "přichodnu njedźelu"
+        ],
+        "next thursday": [
+            "přichodny št",
+            "přichodny štw",
+            "přichodny štwórtk"
+        ],
+        "next tuesday": [
+            "přichodnu wu",
+            "přichodnu wut",
+            "přichodnu wutoru"
+        ],
+        "next wednesday": [
+            "přichodnu sr",
+            "přichodnu srj",
+            "přichodnu srjedu"
         ]
     },
     "relative-type-regex": {

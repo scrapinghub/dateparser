@@ -170,6 +170,62 @@ info = {
         "in 1 year": [
             "nāk gadā",
             "nākamajā gadā"
+        ],
+        "last friday": [
+            "pag piektd",
+            "pagājušajā piektdienā"
+        ],
+        "last monday": [
+            "pag pirmd",
+            "pagājušajā pirmdienā"
+        ],
+        "last saturday": [
+            "pag sestd",
+            "pagājušajā sestdienā"
+        ],
+        "last sunday": [
+            "pag svētd",
+            "pagājušajā svētdienā"
+        ],
+        "last thursday": [
+            "pag ceturtd",
+            "pagājušajā ceturtdienā"
+        ],
+        "last tuesday": [
+            "pag otrd",
+            "pagājušajā otrdienā"
+        ],
+        "last wednesday": [
+            "pag trešd",
+            "pagājušajā trešdienā"
+        ],
+        "next friday": [
+            "nāk piektd",
+            "nākamajā piektdienā"
+        ],
+        "next monday": [
+            "nāk pirmd",
+            "nākamajā pirmdienā"
+        ],
+        "next saturday": [
+            "nāk sestd",
+            "nākamajā sestdienā"
+        ],
+        "next sunday": [
+            "nāk svētd",
+            "nākamajā svētdienā"
+        ],
+        "next thursday": [
+            "nāk ceturtd",
+            "nākamajā ceturtdienā"
+        ],
+        "next tuesday": [
+            "nāk otrd",
+            "nākamajā otrdienā"
+        ],
+        "next wednesday": [
+            "nāk trešd",
+            "nākamajā trešdienā"
         ]
     },
     "relative-type-regex": {

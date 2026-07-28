@@ -168,6 +168,62 @@
         "in 1 year": [
             "tahun depan",
             "thn depan"
+        ],
+        "last friday": [
+            "jum lalu",
+            "jumat lalu"
+        ],
+        "last monday": [
+            "sen lalu",
+            "senin lalu"
+        ],
+        "last saturday": [
+            "sab lalu",
+            "sabtu lalu"
+        ],
+        "last sunday": [
+            "hari minggu lalu",
+            "min lalu"
+        ],
+        "last thursday": [
+            "kam lalu",
+            "kamis lalu"
+        ],
+        "last tuesday": [
+            "sel lalu",
+            "selasa lalu"
+        ],
+        "last wednesday": [
+            "rab lalu",
+            "rabu lalu"
+        ],
+        "next friday": [
+            "jum berikutnya",
+            "jumat berikutnya"
+        ],
+        "next monday": [
+            "sen berikutnya",
+            "senin berikutnya"
+        ],
+        "next saturday": [
+            "sab berikutnya",
+            "sabtu berikutnya"
+        ],
+        "next sunday": [
+            "hari minggu berikutnya",
+            "min berikutnya"
+        ],
+        "next thursday": [
+            "kam berikutnya",
+            "kamis berikutnya"
+        ],
+        "next tuesday": [
+            "sel berikutnya",
+            "selasa berikutnya"
+        ],
+        "next wednesday": [
+            "rab berikutnya",
+            "rabu berikutnya"
         ]
     },
     "relative-type-regex": {

@@ -159,6 +159,70 @@ info = {
         "in 1 year": [
             "bl nesaf",
             "blwyddyn nesaf"
+        ],
+        "last friday": [
+            "dydd gwener diwethaf",
+            "g diwethaf",
+            "gwener diwethaf"
+        ],
+        "last monday": [
+            "dydd llun diwethaf",
+            "ll diwethaf",
+            "llun diwethaf"
+        ],
+        "last saturday": [
+            "dydd sadwrn diwethaf",
+            "sad diwethaf"
+        ],
+        "last sunday": [
+            "dydd sul diwethaf",
+            "sul diwethaf"
+        ],
+        "last thursday": [
+            "dydd iau diwethaf",
+            "i diwethaf",
+            "iau diwethaf"
+        ],
+        "last tuesday": [
+            "dydd mawrth diwethaf",
+            "maw diwethaf"
+        ],
+        "last wednesday": [
+            "dydd mercher diwethaf",
+            "me diwethaf",
+            "mer diwethaf"
+        ],
+        "next friday": [
+            "dydd gwener nesaf",
+            "g nesaf",
+            "gwen nesaf"
+        ],
+        "next monday": [
+            "dydd llun nesaf",
+            "ll nesaf",
+            "llun nesaf"
+        ],
+        "next saturday": [
+            "dydd sadwrn nesaf",
+            "sad nesaf"
+        ],
+        "next sunday": [
+            "dydd sul nesaf",
+            "sul nesaf"
+        ],
+        "next thursday": [
+            "dydd iau nesaf",
+            "i nesaf",
+            "iau nesaf"
+        ],
+        "next tuesday": [
+            "dydd mawrth nesaf",
+            "maw nesaf"
+        ],
+        "next wednesday": [
+            "dydd mercher nesaf",
+            "me nesaf",
+            "mer nesaf"
         ]
     },
     "relative-type-regex": {

@@ -241,6 +241,48 @@ info = {
         "in 1 year": [
             "příští rok"
         ],
+        "last friday": [
+            "minulý pátek"
+        ],
+        "last monday": [
+            "minulé pondělí"
+        ],
+        "last saturday": [
+            "minulou sobotu"
+        ],
+        "last sunday": [
+            "minulou neděli"
+        ],
+        "last thursday": [
+            "minulý čtvrtek"
+        ],
+        "last tuesday": [
+            "minulé úterý"
+        ],
+        "last wednesday": [
+            "minulou středu"
+        ],
+        "next friday": [
+            "příští pátek"
+        ],
+        "next monday": [
+            "příští pondělí"
+        ],
+        "next saturday": [
+            "příští sobotu"
+        ],
+        "next sunday": [
+            "příští neděli"
+        ],
+        "next thursday": [
+            "příští čtvrtek"
+        ],
+        "next tuesday": [
+            "příští úterý"
+        ],
+        "next wednesday": [
+            "příští středu"
+        ],
         "2 day ago": [
             "předevčírem"
         ],

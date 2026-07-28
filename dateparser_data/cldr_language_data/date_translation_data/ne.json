@@ -138,6 +138,48 @@
         ],
         "in 1 year": [
             "आगामी वर्ष"
+        ],
+        "last friday": [
+            "गत शुक्रबार"
+        ],
+        "last monday": [
+            "गत सोमबार"
+        ],
+        "last saturday": [
+            "गत शनिबार"
+        ],
+        "last sunday": [
+            "गत आइतबार"
+        ],
+        "last thursday": [
+            "गत बिहिबार"
+        ],
+        "last tuesday": [
+            "गत मंगलबार"
+        ],
+        "last wednesday": [
+            "गत बुधबार"
+        ],
+        "next friday": [
+            "अर्को शुक्रबार"
+        ],
+        "next monday": [
+            "अर्को सोमबार"
+        ],
+        "next saturday": [
+            "अर्को शनिबार"
+        ],
+        "next sunday": [
+            "अर्को आइतबार"
+        ],
+        "next thursday": [
+            "अर्को बिहिबार"
+        ],
+        "next tuesday": [
+            "अर्को मंगलबार"
+        ],
+        "next wednesday": [
+            "अर्को बुधबार"
         ]
     },
     "relative-type-regex": {

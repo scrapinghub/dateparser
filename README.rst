@@ -149,6 +149,8 @@ Relative Dates
     datetime.datetime(2015, 5, 25, 0, 0)
     >>> parse('2小时前')  # Chinese (2 hours ago)
     datetime.datetime(2015, 5, 31, 22, 0)
+    >>> parse('next friday')  # first Friday after the current date
+    datetime.datetime(2015, 6, 5, 0, 0)
 
 .. note:: Testing above code might return different values depending on your environment's current date and time.
 

@@ -172,6 +172,74 @@ info = {
             "o próx ano",
             "o próximo ano",
             "seguinte ano"
+        ],
+        "last friday": [
+            "o ven pas",
+            "o ven pasado",
+            "o venres pasado"
+        ],
+        "last monday": [
+            "o luns pas",
+            "o luns pasado"
+        ],
+        "last saturday": [
+            "o sáb pas",
+            "o sáb pasado",
+            "o sábado pasado"
+        ],
+        "last sunday": [
+            "o dom pas",
+            "o dom pasado",
+            "o domingo pasado"
+        ],
+        "last thursday": [
+            "o xov pas",
+            "o xov pasado",
+            "o xoves pasado"
+        ],
+        "last tuesday": [
+            "o mar pas",
+            "o mar pasado",
+            "o martes pasado"
+        ],
+        "last wednesday": [
+            "o mér pas",
+            "o mér pasado",
+            "o mércores pasado"
+        ],
+        "next friday": [
+            "o próx ven",
+            "o próximo ven",
+            "o próximo venres"
+        ],
+        "next monday": [
+            "o próx luns",
+            "o próximo luns"
+        ],
+        "next saturday": [
+            "o próx sáb",
+            "o próximo sáb",
+            "o próximo sábado"
+        ],
+        "next sunday": [
+            "o próx dom",
+            "o próximo dom",
+            "o próximo domingo"
+        ],
+        "next thursday": [
+            "o próx xov",
+            "o próximo xov",
+            "o próximo xoves"
+        ],
+        "next tuesday": [
+            "o próx mar",
+            "o próximo mar",
+            "o próximo martes"
+        ],
+        "next wednesday": [
+            "o próx mér",
+            "o próximo mér",
+            "o próximo mércores"
         ]
     },
     "relative-type-regex": {

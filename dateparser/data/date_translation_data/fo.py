@@ -168,6 +168,76 @@ info = {
         ],
         "in 1 year": [
             "næsta ár"
+        ],
+        "last friday": [
+            "seinasta fr",
+            "seinasta frí",
+            "seinasta fríggjadag"
+        ],
+        "last monday": [
+            "seinasta má",
+            "seinasta mán",
+            "seinasta mánadag"
+        ],
+        "last saturday": [
+            "seinasta le",
+            "seinasta ley",
+            "seinasta leygardag"
+        ],
+        "last sunday": [
+            "seinasta su",
+            "seinasta sun",
+            "seinasta sunnudag"
+        ],
+        "last thursday": [
+            "seinasta hó",
+            "seinasta hós",
+            "seinasta hósdag"
+        ],
+        "last tuesday": [
+            "seinasta tý",
+            "seinasta týs",
+            "seinasta týsdag"
+        ],
+        "last wednesday": [
+            "seinasta mi",
+            "seinasta mik",
+            "seinasta mikudag"
+        ],
+        "next friday": [
+            "fr í næstu viku",
+            "frí í næstu viku",
+            "fríggjadagin í næstu viku"
+        ],
+        "next monday": [
+            "má í næstu viku",
+            "mán í næstu viku",
+            "mánadagin í næstu viku"
+        ],
+        "next saturday": [
+            "le í næstu viku",
+            "ley í næstu viku",
+            "leygardagin í næstu viku"
+        ],
+        "next sunday": [
+            "su í næstu viku",
+            "sun í næstu viku",
+            "sunnudagin í næstu viku"
+        ],
+        "next thursday": [
+            "hó í næstu viku",
+            "hós í næstu viku",
+            "hósdagin í næstu viku"
+        ],
+        "next tuesday": [
+            "tý í næstu viku",
+            "týs í næstu viku",
+            "týsdagin í næstu viku"
+        ],
+        "next wednesday": [
+            "mi í næstu viku",
+            "mik í næstu viku",
+            "mikudagin í næstu viku"
         ]
     },
     "relative-type-regex": {

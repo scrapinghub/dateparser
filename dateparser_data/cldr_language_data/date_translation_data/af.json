@@ -165,6 +165,65 @@
         "in 1 year": [
             "volgende j",
             "volgende jaar"
+        ],
+        "last friday": [
+            "verlede vr",
+            "verlede vrydag"
+        ],
+        "last monday": [
+            "verlede ma",
+            "verlede maandag"
+        ],
+        "last saturday": [
+            "verlede sa",
+            "verlede saterdag"
+        ],
+        "last sunday": [
+            "verlede so",
+            "verlede sondag"
+        ],
+        "last thursday": [
+            "verlede do",
+            "verlede donderdag"
+        ],
+        "last tuesday": [
+            "verlede di",
+            "verlede dinsdag"
+        ],
+        "last wednesday": [
+            "verlede wo",
+            "verlede woensdag"
+        ],
+        "next friday": [
+            "vlg vr",
+            "volgende vr",
+            "volgende vrydag"
+        ],
+        "next monday": [
+            "volgende ma",
+            "volgende maandag"
+        ],
+        "next saturday": [
+            "volgende sa",
+            "volgende saterdag"
+        ],
+        "next sunday": [
+            "volgende so",
+            "volgende sondag"
+        ],
+        "next thursday": [
+            "vlg do",
+            "volgende do",
+            "volgende donderdag"
+        ],
+        "next tuesday": [
+            "volgende di",
+            "volgende dinsdag"
+        ],
+        "next wednesday": [
+            "vlg wo",
+            "volgende wo",
+            "volgende woensdag"
         ]
     },
     "relative-type-regex": {

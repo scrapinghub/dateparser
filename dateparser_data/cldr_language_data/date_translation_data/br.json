@@ -159,6 +159,76 @@
         "in 1 year": [
             "ar bl a zeu",
             "ar bloaz a zeu"
+        ],
+        "last friday": [
+            "digwener diwezhañ",
+            "g diwezhañ",
+            "gwe diwezhañ"
+        ],
+        "last monday": [
+            "dilun diwezhañ",
+            "l diwezhañ",
+            "lun diwezhañ"
+        ],
+        "last saturday": [
+            "disadorn diwezhañ",
+            "sa diwezhañ",
+            "sad diwezhañ"
+        ],
+        "last sunday": [
+            "disul diwezhañ",
+            "su diwezhañ",
+            "sul diwezhañ"
+        ],
+        "last thursday": [
+            "diriaou diwezhañ",
+            "y diwezhañ",
+            "yaou diwezhañ"
+        ],
+        "last tuesday": [
+            "dimeurzh diwezhañ",
+            "meu diwezhañ",
+            "mz diwezhañ"
+        ],
+        "last wednesday": [
+            "dimerc'her diwezhañ",
+            "mc diwezhañ",
+            "mer diwezhañ"
+        ],
+        "next friday": [
+            "digwener a zeu",
+            "g a zeu",
+            "gwe a zeu"
+        ],
+        "next monday": [
+            "dilun a zeu",
+            "l a zeu",
+            "lun a zeu"
+        ],
+        "next saturday": [
+            "disadorn a zeu",
+            "sa a zeu",
+            "sad a zeu"
+        ],
+        "next sunday": [
+            "disul a zeu",
+            "su a zeu",
+            "sul a zeu"
+        ],
+        "next thursday": [
+            "diriaou a zeu",
+            "y a zeu",
+            "yaou a zeu"
+        ],
+        "next tuesday": [
+            "dimeurzh a zeu",
+            "meu a zeu",
+            "mz a zeu"
+        ],
+        "next wednesday": [
+            "dimerc'her a zeu",
+            "mc a zeu",
+            "mer a zeu"
         ]
     },
     "relative-type-regex": {

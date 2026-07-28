@@ -80,6 +80,28 @@ def _retrieve_locale_data(locale):
     minute_keys = ["minute", "minute-short", "minute-narrow"]
     second_keys = ["second", "second-short", "second-narrow"]
     relative_keys = ["relativeTimePattern-count-one", "relativeTimePattern-count-other"]
+    # Per-weekday CLDR fields (mon, mon-short, mon-narrow, ...) carry
+    # relative-type--1/0/1 phrases ("last Monday" / "this Monday" / "next
+    # Monday"). We map each locale's phrases to a canonical English target so
+    # the parser can resolve them uniformly across languages (#573).
+    weekday_keys = {
+        "monday": ["mon", "mon-short", "mon-narrow"],
+        "tuesday": ["tue", "tue-short", "tue-narrow"],
+        "wednesday": ["wed", "wed-short", "wed-narrow"],
+        "thursday": ["thu", "thu-short", "thu-narrow"],
+        "friday": ["fri", "fri-short", "fri-narrow"],
+        "saturday": ["sat", "sat-short", "sat-narrow"],
+        "sunday": ["sun", "sun-short", "sun-narrow"],
+    }
+    # CLDR relative-type key -> canonical modifier word. Only "last" (-1) and
+    # "next" (+1) are imported: the "this" (0) phrase is, in many locales,
+    # identical to the bare weekday name (e.g. nb "torsdag", sr "u nedelju"),
+    # so importing it would shadow the plain weekday translation. "this
+    # <weekday>" is left to supplementary data where it is genuinely distinct.
+    weekday_relative_types = {
+        "relative-type--1": "last",
+        "relative-type-1": "next",
+    }
 
     json_dict["name"] = locale
 
@@ -362,6 +384,49 @@ def _retrieve_locale_data(locale):
     json_dict["relative-type"]["0 second ago"] = [
         date_fields_dict[key]["relative-type-0"] for key in second_keys
     ]
+
+    # Weekday relative phrases -> canonical "<modifier> <weekday>" targets.
+    # e.g. es "el próximo martes" -> "next tuesday". The canonical English
+    # phrase is then translated and resolved by the parser like any weekday.
+    #
+    # In some locales a relative phrase is identical to the bare weekday name
+    # (e.g. nb "torsdag" is both "Thursday" and "this Thursday"). Mapping such a
+    # phrase would break the plain weekday translation, so those collisions are
+    # skipped: the bare-weekday handling already covers them.
+    bare_weekday_names = {
+        name.lower()
+        for names in (json_dict[weekday] for weekday in weekday_keys)
+        for name in names
+    }
+    # Phrases already claimed by another relative-type entry (e.g. sr "prošle
+    # nedelje" is both "last week" and "last Sunday"; "week" wins as it is
+    # established behavior). Weekday phrases must not clobber these.
+    claimed_phrases = {
+        phrase.lower()
+        for phrases in json_dict["relative-type"].values()
+        for phrase in phrases
+    }
+    for weekday, keys in weekday_keys.items():
+        for rel_key, modifier in weekday_relative_types.items():
+            target = "{} {}".format(modifier, weekday)
+            phrases = []
+            for key in keys:
+                field = date_fields_dict.get(key)
+                if not field:
+                    continue
+                phrase = field.get(rel_key)
+                # Skip missing entries, CLDR "no value" markers, phrases that
+                # collide with a bare weekday name, and phrases already used by
+                # another relative-type entry.
+                if (
+                    phrase
+                    and phrase != "∅∅∅"
+                    and phrase.lower() not in bare_weekday_names
+                    and phrase.lower() not in claimed_phrases
+                ):
+                    phrases.append(phrase)
+            if phrases:
+                json_dict["relative-type"][target] = phrases
 
     json_dict["relative-type-regex"] = {}
 

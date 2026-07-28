@@ -163,6 +163,62 @@ info = {
         "in 1 year": [
             "tahun depan",
             "thn depan"
+        ],
+        "last friday": [
+            "jum lalu",
+            "jumaat lalu"
+        ],
+        "last monday": [
+            "isn lalu",
+            "isnin lalu"
+        ],
+        "last saturday": [
+            "sab lalu",
+            "sabtu lalu"
+        ],
+        "last sunday": [
+            "ahad lalu",
+            "ahd lalu"
+        ],
+        "last thursday": [
+            "kha lalu",
+            "khamis lalu"
+        ],
+        "last tuesday": [
+            "sel lalu",
+            "selasa lalu"
+        ],
+        "last wednesday": [
+            "rab lalu",
+            "rabu lalu"
+        ],
+        "next friday": [
+            "jum depan",
+            "jumaat depan"
+        ],
+        "next monday": [
+            "isn depan",
+            "isnin depan"
+        ],
+        "next saturday": [
+            "sab depan",
+            "sabtu depan"
+        ],
+        "next sunday": [
+            "ahad depan",
+            "ahd depan"
+        ],
+        "next thursday": [
+            "kha depan",
+            "khamis depan"
+        ],
+        "next tuesday": [
+            "sel depan",
+            "selasa depan"
+        ],
+        "next wednesday": [
+            "rab depan",
+            "rabu depan"
         ]
     },
     "relative-type-regex": {

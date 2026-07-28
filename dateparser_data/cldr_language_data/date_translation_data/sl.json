@@ -167,6 +167,76 @@
         ],
         "in 1 year": [
             "naslednje leto"
+        ],
+        "last friday": [
+            "prejš pet",
+            "prejšnji pet",
+            "prejšnji petek"
+        ],
+        "last monday": [
+            "prejš pon",
+            "prejšnji pon",
+            "prejšnji ponedeljek"
+        ],
+        "last saturday": [
+            "prejš sob",
+            "prejšnjo sob",
+            "prejšnjo soboto"
+        ],
+        "last sunday": [
+            "prejš ned",
+            "prejšnjo ned",
+            "prejšnjo nedeljo"
+        ],
+        "last thursday": [
+            "prejš čet",
+            "prejšnji čet",
+            "prejšnji četrtek"
+        ],
+        "last tuesday": [
+            "prejš tor",
+            "prejšnji tor",
+            "prejšnji torek"
+        ],
+        "last wednesday": [
+            "prejš sre",
+            "prejšnjo sre",
+            "prejšnjo sredo"
+        ],
+        "next friday": [
+            "nasl pet",
+            "naslednji pet",
+            "naslednji petek"
+        ],
+        "next monday": [
+            "nasl pon",
+            "naslednji pon",
+            "naslednji ponedeljek"
+        ],
+        "next saturday": [
+            "nasl sob",
+            "naslednjo sob",
+            "naslednjo soboto"
+        ],
+        "next sunday": [
+            "nasl ned",
+            "naslednjo ned",
+            "naslednjo nedeljo"
+        ],
+        "next thursday": [
+            "nasl čet",
+            "naslednji čet",
+            "naslednji četrtek"
+        ],
+        "next tuesday": [
+            "nasl tor",
+            "naslednji tor",
+            "naslednji torek"
+        ],
+        "next wednesday": [
+            "nasl sre",
+            "naslednjo sre",
+            "naslednjo sredo"
         ]
     },
     "relative-type-regex": {

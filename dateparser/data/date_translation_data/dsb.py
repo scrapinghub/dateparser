@@ -199,6 +199,76 @@ info = {
             "zno",
             "znow",
             "znowa"
+        ],
+        "last friday": [
+            "zajźony pě",
+            "zajźony pět",
+            "zajźony pětk"
+        ],
+        "last monday": [
+            "zajźone pó",
+            "zajźone pónj",
+            "zajźone pónjeźele"
+        ],
+        "last saturday": [
+            "zajźonu so",
+            "zajźonu sob",
+            "zajźonu sobotu"
+        ],
+        "last sunday": [
+            "zajźonu nj",
+            "zajźonu nje",
+            "zajźonu njeźelu"
+        ],
+        "last thursday": [
+            "zajźony st",
+            "zajźony stw",
+            "zajźony stwórtk"
+        ],
+        "last tuesday": [
+            "zajźonu wa",
+            "zajźonu wałt",
+            "zajźonu wałtoru"
+        ],
+        "last wednesday": [
+            "zajźonu sr",
+            "zajźonu srj",
+            "zajźonu srjodu"
+        ],
+        "next friday": [
+            "pśiducy pě",
+            "pśiducy pět",
+            "pśiducy pětk"
+        ],
+        "next monday": [
+            "pśiduce pó",
+            "pśiduce pónj",
+            "pśiduce pónjeźele"
+        ],
+        "next saturday": [
+            "pśiducu so",
+            "pśiducu sob",
+            "pśiducu sobotu"
+        ],
+        "next sunday": [
+            "pśiducu nj",
+            "pśiducu nje",
+            "pśiducu njeźelu"
+        ],
+        "next thursday": [
+            "pśiducy st",
+            "pśiducy stw",
+            "pśiducy stwórtk"
+        ],
+        "next tuesday": [
+            "pśiducu wa",
+            "pśiducu wałt",
+            "pśiducu wałtoru"
+        ],
+        "next wednesday": [
+            "pśiducu sr",
+            "pśiducu srj",
+            "pśiducu srjodu"
         ]
     },
     "relative-type-regex": {

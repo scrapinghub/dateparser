@@ -166,6 +166,48 @@ info = {
         "in 1 year": [
             "badi",
             "next year"
+        ],
+        "last friday": [
+            "juma'a da ta gabata"
+        ],
+        "last monday": [
+            "litinin din da ta gabata"
+        ],
+        "last saturday": [
+            "asabar din da ya gabata"
+        ],
+        "last sunday": [
+            "lahadin da ya gabata"
+        ],
+        "last thursday": [
+            "alhamis din da ya gabata"
+        ],
+        "last tuesday": [
+            "talata da ta gabata"
+        ],
+        "last wednesday": [
+            "laraba da ta gabata"
+        ],
+        "next friday": [
+            "juma'a mai zuwa"
+        ],
+        "next monday": [
+            "litinin din da ya gabata"
+        ],
+        "next saturday": [
+            "asabar mai zuwa"
+        ],
+        "next sunday": [
+            "lahadi mai zuwa"
+        ],
+        "next thursday": [
+            "alhamis din mai zuwa"
+        ],
+        "next tuesday": [
+            "talata mai zuwa"
+        ],
+        "next wednesday": [
+            "laraba mai zuwa"
         ]
     },
     "relative-type-regex": {

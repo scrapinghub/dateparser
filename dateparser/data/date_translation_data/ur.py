@@ -139,6 +139,49 @@ info = {
         ],
         "in 1 year": [
             "اگلے سال"
+        ],
+        "last friday": [
+            "گزشتہ جمعہ"
+        ],
+        "last monday": [
+            "گزشتہ پیر"
+        ],
+        "last saturday": [
+            "گزشتہ سنیچر"
+        ],
+        "last sunday": [
+            "گزشتہ اتوار"
+        ],
+        "last thursday": [
+            "گزشتہ جمعرات"
+        ],
+        "last tuesday": [
+            "گزشتہ منگل"
+        ],
+        "last wednesday": [
+            "گزشتہ بدھ"
+        ],
+        "next friday": [
+            "اگلے جمعہ"
+        ],
+        "next monday": [
+            "اگلے پیر"
+        ],
+        "next saturday": [
+            "اگلے سنیچر"
+        ],
+        "next sunday": [
+            "اگلے اتوار"
+        ],
+        "next thursday": [
+            "اگلی جمعرات",
+            "اگلے جمعرات"
+        ],
+        "next tuesday": [
+            "اگلے منگل"
+        ],
+        "next wednesday": [
+            "اگلے بدھ"
         ]
     },
     "relative-type-regex": {
@@ -203,6 +246,24 @@ info = {
             "relative-type": {
                 "1 week ago": [
                     "گزشتہ ہفتہ"
+                ],
+                "last friday": [
+                    "پچھلے جمعہ"
+                ],
+                "last monday": [
+                    "پچھلے سوموار"
+                ],
+                "last thursday": [
+                    "پچھلے جمعرات"
+                ],
+                "last tuesday": [
+                    "پچھلے منگل"
+                ],
+                "last wednesday": [
+                    "پچھلے بدھ"
+                ],
+                "next monday": [
+                    "اگلے سوموار"
                 ]
             },
             "relative-type-regex": {

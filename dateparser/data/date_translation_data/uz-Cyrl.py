@@ -147,6 +147,48 @@ info = {
         ],
         "in 1 year": [
             "кейинги йил"
+        ],
+        "last friday": [
+            "ўтган жума"
+        ],
+        "last monday": [
+            "ўтган душанба"
+        ],
+        "last saturday": [
+            "ўтган шанба"
+        ],
+        "last sunday": [
+            "ўтган якшанба"
+        ],
+        "last thursday": [
+            "ўтган пайшанба"
+        ],
+        "last tuesday": [
+            "ўтган сешанба"
+        ],
+        "last wednesday": [
+            "ўтган чоршанба"
+        ],
+        "next friday": [
+            "кейинги жума"
+        ],
+        "next monday": [
+            "кейинги душанба"
+        ],
+        "next saturday": [
+            "кейинги шанба"
+        ],
+        "next sunday": [
+            "кейинги якшанба"
+        ],
+        "next thursday": [
+            "кейинги пайшанба"
+        ],
+        "next tuesday": [
+            "кейинги сешанба"
+        ],
+        "next wednesday": [
+            "кейинги чоршанба"
         ]
     },
     "relative-type-regex": {

@@ -163,6 +163,48 @@ info = {
         ],
         "in 1 year": [
             "näx johr"
+        ],
+        "last friday": [
+            "friidaach letzte woche"
+        ],
+        "last monday": [
+            "moondaach letzte woche"
+        ],
+        "last saturday": [
+            "samsdaach letzte woche"
+        ],
+        "last sunday": [
+            "sunndaach letzte woche"
+        ],
+        "last thursday": [
+            "dunnersdaach letzte woche"
+        ],
+        "last tuesday": [
+            "dinnsdaach letzte woche"
+        ],
+        "last wednesday": [
+            "metwoch letzte woche"
+        ],
+        "next friday": [
+            "friidaach nächste woche"
+        ],
+        "next monday": [
+            "moondaach nächste woche"
+        ],
+        "next saturday": [
+            "samsdaach nächste woche"
+        ],
+        "next sunday": [
+            "sunndaach nächste woche"
+        ],
+        "next thursday": [
+            "dunnersdaach nächste woche"
+        ],
+        "next tuesday": [
+            "dinnsdaach nächste woche"
+        ],
+        "next wednesday": [
+            "metwoch nächste woche"
         ]
     },
     "relative-type-regex": {
