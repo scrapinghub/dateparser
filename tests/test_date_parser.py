@@ -1188,6 +1188,57 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            # Japanese dates without a year: the day must not be read as
+            # a two-digit year just because the year comes first (#519).
+            param(
+                "4月20日 18:10",
+                expected=datetime(2019, 4, 20, 18, 10),
+                languages=["ja"],
+            ),
+            param(
+                "3月8日",
+                expected=datetime(2019, 3, 8, 0, 0),
+                languages=["ja"],
+            ),
+            # The root cause is locale-independent: any year-first date
+            # order must not consume the day as a year either.
+            param(
+                "4-20 18:10",
+                expected=datetime(2019, 4, 20, 18, 10),
+                settings={"DATE_ORDER": "YMD"},
+            ),
+            # A number that cannot be a day is still parsed as a year.
+            param(
+                "4-99",
+                expected=datetime(1999, 4, 27, 0, 0),
+                settings={"DATE_ORDER": "YMD"},
+            ),
+            # Fully specified dates keep their meaning.
+            param(
+                "2020年4月20日 18:10",
+                expected=datetime(2020, 4, 20, 18, 10),
+                languages=["ja"],
+            ),
+            param(
+                "19年4月20日",
+                expected=datetime(2019, 4, 20, 0, 0),
+                languages=["ja"],
+            ),
+        ]
+    )
+    def test_two_digit_day_is_not_confused_with_year(
+        self, date_string, expected=None, languages=None, settings=None
+    ):
+        self.given_parser(
+            languages=languages,
+            settings={"RELATIVE_BASE": datetime(2019, 6, 27), **(settings or {})},
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             param("201508", expected=datetime(2015, 8, 20, 0, 0), order="DYM"),
             param("201508", expected=datetime(2020, 8, 15, 0, 0), order="YDM"),
             param("201108", expected=datetime(2008, 11, 20, 0, 0), order="DMY"),
