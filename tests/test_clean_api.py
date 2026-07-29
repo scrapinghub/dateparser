@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from parameterized import param, parameterized
 from pytz import utc
@@ -462,6 +462,33 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         # search_dates keeps relying on the strict behavior of get_date_data.
         self.result = search_dates("Actualisé le 17 avril 2019", languages=["fr"])
         self.assertEqual([("le 17 avril 2019", datetime(2019, 4, 17))], self.result)
+
+    def test_trailing_timezone_is_preserved(self):
+        # A recognized timezone at the trailing edge must not be discarded with
+        # the surrounding text: wrapping a date in extra text yields the same
+        # instant as parsing the bare date, timezone included.
+        settings = {"IGNORE_SURROUNDING_TEXT": True, "RETURN_AS_TIMEZONE_AWARE": True}
+        wrapped = dateparser.parse(
+            "Updated 23 March 2000 1:21 PM EST", languages=["en"], settings=settings
+        )
+        unwrapped = dateparser.parse(
+            "23 March 2000 1:21 PM EST",
+            languages=["en"],
+            settings={"RETURN_AS_TIMEZONE_AWARE": True},
+        )
+        self.assertEqual(timedelta(hours=-5), wrapped.utcoffset())
+        self.assertEqual(unwrapped, wrapped)
+
+    def test_leading_numeric_noise_is_not_ignored(self):
+        # Documented limitation: stripping stops at the first recognized token,
+        # and a number counts as recognized, so leading text that contains a
+        # number of its own blocks parsing. search_dates covers this shape.
+        self.when_date_is_parsed(
+            "invoice 12345 paid on 3 March 2019",
+            languages=["en"],
+            settings={"IGNORE_SURROUNDING_TEXT": True},
+        )
+        self.then_date_was_not_parsed()
 
     def when_date_is_parsed(self, date_string, **kwargs):
         self.result = dateparser.parse(date_string, **kwargs)

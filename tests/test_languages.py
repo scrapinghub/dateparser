@@ -2481,6 +2481,13 @@ class TestBundledLanguages(BaseTestCase):
             param("fr", "actualisé le 17 avril 2019", " 17 april 2019"),
             param("en", "published on 16 april 2019", " 16 april 2019"),
             param("en", "xx 16/04/2019 yy", "16/04/2019"),
+            # A recognized timezone at the trailing edge is kept, so the offset
+            # is not discarded; the result matches the unwrapped translation.
+            param(
+                "en",
+                "updated 23 march 2000 1:21 pm est",
+                "23 march 2000 1:21 pm  est",
+            ),
         ]
     )
     def test_translation_when_ignoring_surrounding_text(

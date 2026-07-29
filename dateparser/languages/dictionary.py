@@ -3,6 +3,7 @@ from operator import methodcaller
 
 import regex as re
 
+from dateparser.timezone_parser import is_timezone_token
 from dateparser.utils import normalize_unicode
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
@@ -142,13 +143,9 @@ class Dictionary:
         if has_only_keep_tokens:
             return False
         match_relative_regex = self._get_match_relative_regex_cache()
-        for token in tokens:
-            if token.isdigit() or match_relative_regex.match(token) or token in self:
-                continue
-            else:
-                return False
-        else:
-            return True
+        return all(
+            self._is_known_token(token, match_relative_regex) for token in tokens
+        )
 
     def _is_known_token(self, token, match_relative_regex):
         """Whether ``token`` is recognised by this locale: a number, a relative
@@ -163,7 +160,13 @@ class Dictionary:
         locale does not recognise (neither digits, relative expressions, nor
         dictionary words), along with any whitespace those removals leave at
         the edges. Interior tokens are left untouched. Used when the
-        ``IGNORE_SURROUNDING_TEXT`` setting is enabled."""
+        ``IGNORE_SURROUNDING_TEXT`` setting is enabled.
+
+        A trailing timezone abbreviation (e.g. ``"EST"``) is kept even though
+        the locale dictionary does not list it, so that the offset is applied
+        rather than silently discarded. It survives translation and is popped
+        later by :func:`~dateparser.timezone_parser.pop_tz_offset_from_string`,
+        exactly as it would for the same date without surrounding text."""
         match_relative_regex = self._get_match_relative_regex_cache()
 
         def is_extra_text(token):
@@ -174,7 +177,11 @@ class Dictionary:
         start, end = 0, len(tokens)
         while start < end and is_extra_text(tokens[start]):
             start += 1
-        while end > start and is_extra_text(tokens[end - 1]):
+        while (
+            end > start
+            and is_extra_text(tokens[end - 1])
+            and not is_timezone_token(tokens[end - 1])
+        ):
             end -= 1
         return tokens[start:end]
 
