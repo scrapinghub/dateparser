@@ -40,7 +40,9 @@ RE_NBSP = re.compile("\xa0", flags=re.UNICODE)
 RE_SPACES = re.compile(r"\s+")
 RE_TRIM_SPACES = re.compile(r"^\s+(\S.*?)\s+$")
 RE_TRIM_COLONS = re.compile(r"(\S.*?):*$")
-RE_TRIM_LEADING_COLONS = re.compile(r"^\s*:+\s*")
+# Not applied when the remainder is a bare number: ":30" looks like a time
+# fragment, and stripping the colon would turn a former None into day 30.
+RE_TRIM_LEADING_COLONS = re.compile(r"^\s*:+\s*(?!\s*\d+\s*$)")
 
 RE_SANITIZE_SKIP = re.compile(
     r"\t|\n|\r|\u00bb|,\s\u0432\b|\u200e|\xb7|\u200f|\u064e|\u064f", flags=re.M

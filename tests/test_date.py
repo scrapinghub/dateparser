@@ -1127,9 +1127,13 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date(": 24 February 2019"), "24 February 2019")
         self.assertEqual(date.sanitize_date(":24 February 2019"), "24 February 2019")
         self.assertEqual(date.sanitize_date(":: 2019-02-24"), "2019-02-24")
-        # ... but a colon inside a time must be left alone.
+        # ... but a colon inside a time must be left alone ...
         self.assertEqual(date.sanitize_date("12:30"), "12:30")
         self.assertEqual(date.sanitize_date("2019-02-24 12:30"), "2019-02-24 12:30")
+        # ... and a colon followed by a bare number looks like a time fragment,
+        # not a prefixed date: stripping it would turn None into day-of-month.
+        self.assertEqual(date.sanitize_date(":30"), ":30")
+        self.assertEqual(date.sanitize_date(": 30"), ": 30")
 
 
 class TestDateLocaleParser(BaseTestCase):
