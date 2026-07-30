@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from parameterized import param, parameterized
 from pytz import utc
@@ -462,6 +462,133 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         # search_dates keeps relying on the strict behavior of get_date_data.
         self.result = search_dates("Actualisé le 17 avril 2019", languages=["fr"])
         self.assertEqual([("le 17 avril 2019", datetime(2019, 4, 17))], self.result)
+
+    def test_trailing_timezone_is_preserved(self):
+        # A recognized timezone at the trailing edge must not be discarded with
+        # the surrounding text: wrapping a date in extra text yields the same
+        # instant as parsing the bare date, timezone included.
+        settings = {"IGNORE_SURROUNDING_TEXT": True, "RETURN_AS_TIMEZONE_AWARE": True}
+        wrapped = dateparser.parse(
+            "Updated 23 March 2000 1:21 PM EST", languages=["en"], settings=settings
+        )
+        unwrapped = dateparser.parse(
+            "23 March 2000 1:21 PM EST",
+            languages=["en"],
+            settings={"RETURN_AS_TIMEZONE_AWARE": True},
+        )
+        self.assertEqual(timedelta(hours=-5), wrapped.utcoffset())
+        self.assertEqual(unwrapped, wrapped)
+
+    @parameterized.expand(
+        [
+            # Abbreviations that are not dictionary words, so they are kept via
+            # is_timezone_token rather than the plain known-word branch. Their
+            # names and offsets are chosen not to coincide with a plausible
+            # local timezone (in particular not UTC or CET), so a reversion of
+            # the trailing-tz exception is caught on any machine rather than
+            # only under a non-local timezone.
+            param(
+                wrapped="Updated 23 March 2000 1:21 PM PST",
+                bare="23 March 2000 1:21 PM PST",
+                tzname="PST",
+                utcoffset=timedelta(hours=-8),
+            ),
+            param(
+                wrapped="Updated 23 March 2000 1:21 PM JST",
+                bare="23 March 2000 1:21 PM JST",
+                tzname="JST",
+                utcoffset=timedelta(hours=9),
+            ),
+        ]
+    )
+    def test_more_trailing_timezones_are_preserved(
+        self, wrapped, bare, tzname, utcoffset
+    ):
+        # Like test_trailing_timezone_is_preserved, for further abbreviations:
+        # wrapping the date in extra text yields the same tz-aware instant as
+        # parsing the bare date. The timezone *name* is asserted (not only the
+        # offset) so the test cannot pass by the dropped timezone happening to
+        # match the machine's local offset.
+        settings = {"IGNORE_SURROUNDING_TEXT": True, "RETURN_AS_TIMEZONE_AWARE": True}
+        wrapped_result = dateparser.parse(wrapped, languages=["en"], settings=settings)
+        bare_result = dateparser.parse(
+            bare, languages=["en"], settings={"RETURN_AS_TIMEZONE_AWARE": True}
+        )
+        self.assertEqual(tzname, wrapped_result.tzname())
+        self.assertEqual(utcoffset, wrapped_result.utcoffset())
+        self.assertEqual(bare_result, wrapped_result)
+
+    def test_parenthesized_trailing_timezone_is_applied(self):
+        # A parenthesized trailing timezone is applied end to end. GMT is a
+        # dictionary token, so the parentheses are split off and it is kept via
+        # the ordinary known-word branch, not via is_timezone_token (which the
+        # PST/JST cases above exercise). A parenthesized abbreviation that is
+        # *not* a dictionary word stays glued to its parentheses and is dropped
+        # like any other unrecognized edge token, so GMT is used here.
+        settings = {"IGNORE_SURROUNDING_TEXT": True, "RETURN_AS_TIMEZONE_AWARE": True}
+        wrapped = dateparser.parse(
+            "Last updated: 12 March 2019 at 10:30 (GMT)",
+            languages=["en"],
+            settings=settings,
+        )
+        bare = dateparser.parse(
+            "12 March 2019 at 10:30 (GMT)",
+            languages=["en"],
+            settings={"RETURN_AS_TIMEZONE_AWARE": True},
+        )
+        self.assertEqual("GMT", wrapped.tzname())
+        self.assertEqual(timedelta(0), wrapped.utcoffset())
+        self.assertEqual(bare, wrapped)
+
+    def test_only_trailing_timezone_is_preserved(self):
+        # tz-recognition when stripping edge tokens is deliberately applied to
+        # the trailing edge only: a timezone that follows the date is kept and
+        # applied, while the same abbreviation before the date is treated as
+        # ordinary surrounding text and dropped.
+        settings = {"IGNORE_SURROUNDING_TEXT": True, "RETURN_AS_TIMEZONE_AWARE": True}
+        trailing = dateparser.parse(
+            "23 March 2000 1:21 PM EST", languages=["en"], settings=settings
+        )
+        leading = dateparser.parse(
+            "EST 23 March 2000 1:21 PM", languages=["en"], settings=settings
+        )
+        without_tz = dateparser.parse(
+            "23 March 2000 1:21 PM",
+            languages=["en"],
+            settings={"RETURN_AS_TIMEZONE_AWARE": True},
+        )
+        # Trailing EST is applied...
+        self.assertEqual(timedelta(hours=-5), trailing.utcoffset())
+        # ...leading EST is not: the result matches the same string with no
+        # timezone at all, and does not carry the EST offset.
+        self.assertEqual(without_tz, leading)
+        self.assertNotEqual(trailing, leading)
+
+    def test_trailing_timezone_followed_by_more_text_is_dropped(self):
+        # Known limitation: a trailing timezone is kept only when it is the
+        # final token. If unrecognized text follows it, the tokenizer merges
+        # the two, so the timezone is stripped together with that text and its
+        # offset is not applied (use search_dates for such input). The date is
+        # still parsed -- only the timezone is lost.
+        settings = {"IGNORE_SURROUNDING_TEXT": True, "RETURN_AS_TIMEZONE_AWARE": True}
+        result = dateparser.parse(
+            "Updated 23 March 2000 1:21 PM EST reportedly",
+            languages=["en"],
+            settings=settings,
+        )
+        self.assertEqual(datetime(2000, 3, 23, 13, 21), result.replace(tzinfo=None))
+        self.assertNotEqual(timedelta(hours=-5), result.utcoffset())
+
+    def test_leading_numeric_noise_is_not_ignored(self):
+        # Documented limitation: stripping stops at the first recognized token,
+        # and a number counts as recognized, so leading text that contains a
+        # number of its own blocks parsing. search_dates covers this shape.
+        self.when_date_is_parsed(
+            "invoice 12345 paid on 3 March 2019",
+            languages=["en"],
+            settings={"IGNORE_SURROUNDING_TEXT": True},
+        )
+        self.then_date_was_not_parsed()
 
     def when_date_is_parsed(self, date_string, **kwargs):
         self.result = dateparser.parse(date_string, **kwargs)

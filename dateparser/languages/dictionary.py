@@ -3,6 +3,7 @@ from operator import methodcaller
 
 import regex as re
 
+from dateparser.timezone_parser import is_timezone_token
 from dateparser.utils import normalize_unicode
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
@@ -142,13 +143,9 @@ class Dictionary:
         if has_only_keep_tokens:
             return False
         match_relative_regex = self._get_match_relative_regex_cache()
-        for token in tokens:
-            if token.isdigit() or match_relative_regex.match(token) or token in self:
-                continue
-            else:
-                return False
-        else:
-            return True
+        return all(
+            self._is_known_token(token, match_relative_regex) for token in tokens
+        )
 
     def _is_known_token(self, token, match_relative_regex):
         """Whether ``token`` is recognised by this locale: a number, a relative
@@ -163,7 +160,21 @@ class Dictionary:
         locale does not recognise (neither digits, relative expressions, nor
         dictionary words), along with any whitespace those removals leave at
         the edges. Interior tokens are left untouched. Used when the
-        ``IGNORE_SURROUNDING_TEXT`` setting is enabled."""
+        ``IGNORE_SURROUNDING_TEXT`` setting is enabled.
+
+        A timezone abbreviation that is the final token (e.g. a trailing
+        ``"EST"``) is kept even though the locale dictionary does not list it,
+        so that the offset is applied rather than silently discarded. It
+        survives translation and is popped later by
+        :func:`~dateparser.timezone_parser.pop_tz_offset_from_string`. The
+        timezone is kept only when it is the last token: if further
+        unrecognized text follows it, the tokenizer merges the two and the
+        timezone is dropped together with that text, like any other edge noise.
+
+        This timezone exception is deliberately made at the trailing edge
+        only: a timezone conventionally follows the date it qualifies
+        (``"... 1:21 PM EST"``) and does not precede it, so the leading edge
+        keeps stripping unrecognized tokens unconditionally."""
         match_relative_regex = self._get_match_relative_regex_cache()
 
         def is_extra_text(token):
@@ -172,9 +183,17 @@ class Dictionary:
             )
 
         start, end = 0, len(tokens)
+        # Leading edge: drop every unrecognized token. A timezone does not
+        # precede the date it qualifies, so no timezone exception is made here.
         while start < end and is_extra_text(tokens[start]):
             start += 1
-        while end > start and is_extra_text(tokens[end - 1]):
+        # Trailing edge: drop unrecognized tokens, but keep a recognized
+        # timezone abbreviation (e.g. ``" est"``) so its offset is applied.
+        while (
+            end > start
+            and is_extra_text(tokens[end - 1])
+            and not is_timezone_token(tokens[end - 1])
+        ):
             end -= 1
         return tokens[start:end]
 

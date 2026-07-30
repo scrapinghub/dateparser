@@ -175,13 +175,29 @@ the setting was disabled:
     >>> parse('17 foobar avril 2019', languages=['fr'], settings={'IGNORE_SURROUNDING_TEXT': True})
     None
 
-.. warning:: When this setting is enabled, the ignored text is discarded — even if it
-   could have changed the meaning of the date (for example, an unrecognized timezone
-   name) — and what remains is parsed as if it were the whole input. As a result,
-   strings that merely contain date-like words can produce a date, e.g.
-   ``'Chapter 12 March of the Penguins'``. Enable it only when the input is expected
-   to contain a date, and consider combining it with ``STRICT_PARSING`` or
-   ``REQUIRE_PARTS`` to discard remainders that are not complete dates.
+Stripping stops at the first token the language *does* recognize, and a number counts
+as recognized. So surrounding text that contains a number of its own (an id, a page
+number, a count) is not ignored, and the string is not parsed:
+
+    >>> parse('invoice 12345 paid on 3 March 2019', settings={'IGNORE_SURROUNDING_TEXT': True})
+    None
+
+To extract a date out of arbitrary text that does not follow this shape, use
+:func:`dateparser.search.search_dates` instead, which scans the whole string rather
+than only trimming its edges.
+
+.. warning:: When this setting is enabled, discarded edge text is dropped even if it
+   could have changed the meaning of the date, and what remains is parsed as if it
+   were the whole input. As a result, strings that merely contain date-like words can
+   produce a date, e.g. ``'Chapter 12 March of the Penguins'``. A recognized timezone is
+   kept and applied only when it is the last token of the string (e.g.
+   ``'... 1:21 PM EST'``); a timezone before the date, one followed by further
+   unrecognized text, or any timezone name the parser does not recognize, is discarded
+   with the rest of the surrounding text (use
+   :func:`dateparser.search.search_dates` for such input). Enable this setting only when
+   the input is expected to contain a date, and consider combining it with
+   ``STRICT_PARSING`` or ``REQUIRE_PARTS`` to discard remainders that are not complete
+   dates.
 
 
 Language Detection

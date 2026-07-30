@@ -50,6 +50,22 @@ def word_is_tz(word):
     return bool(_search_regex.match(word))
 
 
+def is_timezone_token(token):
+    """Whether ``token`` is, on its own, a recognized timezone abbreviation.
+
+    Unlike :func:`word_is_tz` (a case-sensitive prefix match used while
+    scanning original-cased text), this trims surrounding whitespace and does a
+    case-insensitive *full* match, so it recognizes an already-lowercased,
+    space-padded token such as ``" est"``. Because the match is anchored, an
+    ordinary word that merely begins with a timezone abbreviation is not
+    treated as a timezone (e.g. ``"actualisé"`` is not the ``ACT`` zone). This
+    is used only on single edge tokens, so the trailing ``.*`` in the UTC/GMT
+    numeric-offset patterns (which a full match would otherwise let absorb
+    following text) is not a concern here.
+    """
+    return bool(_search_regex_ignorecase.fullmatch(token.strip()))
+
+
 def convert_to_local_tz(datetime_obj, datetime_tz_offset):
     return datetime_obj - datetime_tz_offset + local_tz_offset
 
