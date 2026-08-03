@@ -34,5 +34,6 @@ settings = {
     # Other settings
     "RETURN_TIME_AS_PERIOD": False,
     "PARSERS": default_parsers,
+    "IGNORE_SURROUNDING_TEXT": False,
     "CACHE_SIZE_LIMIT": 1000,
 }
