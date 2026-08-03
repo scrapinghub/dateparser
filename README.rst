@@ -18,6 +18,12 @@
 
     </div>
 
+
+.. docs-include-marker
+
+
+.. raw:: html
+
     <p align="center">
         <a href="https://pypi.python.org/pypi/dateparser">
             <img src="https://img.shields.io/pypi/dm/dateparser.svg" alt="PyPI - Downloads">
