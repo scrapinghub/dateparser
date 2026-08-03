@@ -3,6 +3,15 @@
 History
 =======
 
+1.4.2 (unreleased)
+------------------
+
+Fixes:
+
+- Parse RFC 2822 email dates that carry both a numeric UTC offset and a
+  redundant, equivalent timezone abbreviation in parentheses, such as
+  "Thu, 30 May 2024 10:13:10 -0500 (CDT)" (#1227)
+
 1.4.1 (2026-06-15)
 ------------------
 

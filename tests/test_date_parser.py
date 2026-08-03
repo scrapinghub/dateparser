@@ -547,6 +547,20 @@ class TestDateParser(BaseTestCase):
                 "Fri Sep 23 2016 10:34:51 GMT+0800 (CST)",
                 datetime(2016, 9, 23, 2, 34, 51),
             ),
+            # RFC 2822 email dates carry a numeric offset plus a redundant,
+            # equivalent timezone abbreviation in parentheses (#1227).
+            param(
+                "Thu, 30 May 2024 10:13:10 -0500 (CDT)",
+                datetime(2024, 5, 30, 15, 13, 10),
+            ),
+            param(
+                "30 May 2024 10:13:10 -0500 CDT",
+                datetime(2024, 5, 30, 15, 13, 10),
+            ),
+            param(
+                "Mon, 15 Jan 2024 09:30:00 +0000 (UTC)",
+                datetime(2024, 1, 15, 9, 30, 0),
+            ),
         ]
     )
     def test_parsing_with_utc_offsets(self, date_string, expected):
