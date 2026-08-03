@@ -2,15 +2,21 @@
 
 .. raw:: html
 
-    <h1 align="center">
-        <br/>
-        <a href="https://github.com/scrapinghub/dateparser">
-            <img src="artwork/dateparser-logo.png" alt="Dateparser" width="500">
-        </a>
-        <br/>
-    </h1>
+    <div align="center">
 
-    <h3 align="center">Python parser for human readable dates</h4>
+
+.. image:: artwork/dateparser-logo.png
+   :alt: Dateparser
+   :width: 500
+   :target: https://github.com/scrapinghub/dateparser
+
+
+**Python parser for human readable dates**
+
+
+.. raw:: html
+
+    </div>
 
     <p align="center">
         <a href="https://pypi.python.org/pypi/dateparser">
