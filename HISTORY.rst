@@ -3,6 +3,47 @@
 History
 =======
 
+1.4.2 (unreleased)
+------------------
+
+New features:
+
+- Add an ``IGNORE_SURROUNDING_TEXT`` setting that, when enabled, retries
+  parsing after ignoring the leading and trailing words the language does
+  not recognize, so a date wrapped in extra text such as "Published on
+  16/04/2019" is parsed (#1356)
+- Add a ``strategy`` argument to ``search_dates()`` to choose the search
+  strategy: the default ``"split"`` keeps the current behavior, while the
+  new ``"ngram"`` strategy parses the longest sequences of tokens as dates
+  for more predictable results on noisy text (#1351)
+
+Fixes:
+
+- Do not read a two-digit number as a year once a later component has been
+  found in year-first date orders, so the day in Japanese dates such as
+  "4月20日" is no longer consumed as the year (#1358)
+- Parse ISO 8601 dates (those starting with a four-digit year) in month-day
+  order even when an explicit day-first language such as ``it`` or ``fr`` is
+  given, without needing to set ``PREFER_LOCALE_DATE_ORDER`` to ``False``
+  (#1352)
+- Honor ``PREFER_DATES_FROM`` and ``RELATIVE_BASE`` when parsing with custom
+  ``date_formats`` that use a two-digit year (``%y``) (#1342)
+- Honor the ``%j`` (day of year) directive in ``date_formats`` instead of
+  overwriting the parsed month and day with the current date (#1345)
+
+Improvements:
+
+- Update the bundled CLDR locale data to 44.1.0, adding many newly
+  recognized date forms across locales and a standalone hour/duration unit
+  (e.g. Catalan "2 hores"), while keeping previously supported forms
+  parseable (#1343)
+- Add the Italian expressions "un ora fa" and "un'ora fa", and skip "alle"
+  so phrases like "oggi alle 11:00" parse (#1049)
+- Expand Czech date translations with month locative/dative forms (e.g. "v
+  lednu 2023"), the July abbreviation "črv", and relative expressions such
+  as "za týden", "za měsíc" and "za rok" (#1172)
+- Specify the README header content as RST rather than raw HTML (#1360)
+
 1.4.1 (2026-06-15)
 ------------------
 
