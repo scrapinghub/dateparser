@@ -41,7 +41,7 @@
 
 
 Key Features
-------------
+============
 
 -  Support for almost every existing date format: absolute dates,
    relative dates (``"two weeks ago"`` or ``"tomorrow"``), timestamps,
@@ -60,7 +60,7 @@ Key Features
 -  Time span detection for expressions like "past month", "last week".
 
 Online demo
------------
+===========
 
 Do you want to try it out without installing any dependency? Now you can test
 it quickly by visiting `this online demo <https://gnyman.github.io/dateparser-demo-app/>`__!
@@ -68,7 +68,7 @@ it quickly by visiting `this online demo <https://gnyman.github.io/dateparser-de
 
 
 How To Use
-----------
+==========
 
 The most straightforward way to parse dates with **dateparser** is to
 use the ``dateparser.parse()`` function, that wraps around most of the
@@ -132,7 +132,7 @@ If you know the possible formats of the dates, you can use the
     datetime.datetime(2010, 12, 22, 0, 0)
 
 Relative Dates
-^^^^^^^^^^^^^^
+--------------
 
 .. code:: python
 
@@ -155,7 +155,7 @@ Relative Dates
 .. note:: For the ``Finnish`` language, please specify ``settings={'SKIP_TOKENS': []}`` to correctly parse relative dates.
 
 Date Order
-^^^^^^^^^^
+----------
 
 .. code:: python
 
@@ -176,7 +176,7 @@ Date Order
 For more on date order, see the `settings documentation <https://dateparser.readthedocs.io/en/latest/settings.html>`__.
 
 Timezone and UTC Offset
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 By default, `dateparser` returns a timezone-aware ``datetime`` if a timezone is
 present in the date string. Otherwise it returns a naive ``datetime`` object.
@@ -212,7 +212,7 @@ using the ``TIMEZONE`` setting:
 For more on timezones, see the `settings documentation <https://dateparser.readthedocs.io/en/latest/settings.html>`__.
 
 Incomplete Dates
-^^^^^^^^^^^^^^^^
+----------------
 
 .. code:: python
 
@@ -247,7 +247,7 @@ You can also ignore incomplete dates by setting the ``STRICT_PARSING`` flag:
 For more on handling incomplete dates, see the `settings documentation <https://dateparser.readthedocs.io/en/latest/settings.html>`__.
 
 Search for Dates in Longer Chunks of Text
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------
 
 .. warning:: Support for date searching is limited and needs improvement.
    Contributions are welcome — see `contributing <https://dateparser.readthedocs.io/en/latest/contributing.html>`__.
@@ -262,7 +262,7 @@ list of ``(substring, datetime)`` tuples:
     [('25 of October 2017', datetime.datetime(2017, 10, 25, 0, 0)), ('the 27th is in 2 days', datetime.datetime(2017, 10, 27, 0, 0))]
 
 Time Span Detection
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 The ``search_dates`` function can also detect time spans such as
 "past month" or "last week". When ``RETURN_TIME_SPAN`` is enabled it
@@ -275,7 +275,7 @@ returns start and end dates for the detected period:
      ('past month (end)', datetime.datetime(2024, 12, 7, 23, 59, 59, 999999))]
 
 Settings
-^^^^^^^^
+--------
 
 You can control multiple behaviors by using the ``settings`` parameter:
 
@@ -297,7 +297,7 @@ To see all available settings, check the `settings
 documentation <https://dateparser.readthedocs.io/en/latest/settings.html>`__.
 
 False positives
-^^^^^^^^^^^^^^^
+---------------
 
 **dateparser** will do its best to return a date, dealing with multiple formats and different locales.
 For that reason it is important that the input is a valid date, otherwise it could return false positives.
@@ -314,7 +314,7 @@ are executed, you can do so through the
 `settings PARSERS <https://dateparser.readthedocs.io/en/latest/usage.html#handling-incomplete-dates>`_.
 
 Installation
-------------
+============
 
 Dateparser supports Python 3.10+. You can install it by doing:
 
@@ -330,7 +330,7 @@ If you want to use the jalali or hijri calendar, you need to install the
     $ pip install dateparser[calendars]
 
 Supported Calendars
--------------------
+===================
 
 Apart from the Gregorian calendar, `dateparser` supports the
 `Persian Jalali calendar` and the `Hijri/Islamic calendar`.
@@ -355,7 +355,7 @@ Example using the `Hijri/Islamic calendar
     DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None)
 
 Dependencies
-------------
+============
 
 `dateparser` relies on the following libraries:
 
@@ -372,13 +372,13 @@ Dependencies
 .. _ruamel.yaml: https://pypi.python.org/pypi/ruamel.yaml
 
 Common use cases
-----------------
+================
 
 **dateparser** can be used for a wide variety of purposes,
 but it stands out when it comes to:
 
 Consuming data from different sources:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------
 
 -  **Scraping**: extract dates from different places with several
    different formats and languages
@@ -389,7 +389,7 @@ Consuming data from different sources:
    different files (PDF, CSV, etc.) to other formats (database, etc).
 
 Offering natural interaction with users:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------
 
 -  **Tooling and CLI**: allow users to write “3 days ago” to retrieve
    information.
@@ -398,7 +398,7 @@ Offering natural interaction with users:
 -  **Bots**: allow users to interact with a bot easily
 
 You may also like...
---------------------
+====================
 
 -  `price-parser <https://github.com/scrapinghub/price-parser/>`__ - A
    small library for extracting price and currency from raw text
@@ -410,6 +410,6 @@ You may also like...
    scraping framework
 
 License
--------
+=======
 
 `BSD3-Clause <https://github.com/scrapinghub/dateparser/blob/master/LICENSE>`__
