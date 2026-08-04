@@ -24,6 +24,7 @@ class Settings:
     * `RELATIVE_BASE`
     * `STRICT_PARSING`
     * `REQUIRE_PARTS`
+    * `IGNORE_SURROUNDING_TEXT`
     * `SKIP_TOKENS`
     * `NORMALIZE`
     * `RETURN_TIME_AS_PERIOD`
@@ -209,6 +210,7 @@ def check_settings(settings):
             "type": datetime
         },
         "STRICT_PARSING": {"type": bool},
+        "IGNORE_SURROUNDING_TEXT": {"type": bool},
         "REQUIRE_PARTS": {
             # "values" covered by the 'extra_check'
             "type": list,
