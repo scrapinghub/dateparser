@@ -2438,6 +2438,67 @@ class TestBundledLanguages(BaseTestCase):
         self.when_datetime_string_checked_if_applicable(strip_timezone)
         self.then_language_is_not_applicable()
 
+    @parameterized.expand(
+        [
+            # Dates wrapped in text the locale does not recognize (issue #518).
+            param("fr", "actualisé le 17 avril 2019"),
+            param("fr", "publié le 16 avril 2019"),
+            param("en", "published on 16 april 2019"),
+            param("en", "xx 16/04/2019 yy"),
+        ]
+    )
+    def test_applicable_languages_when_ignoring_surrounding_text(
+        self, shortname, datetime_string
+    ):
+        self.given_settings()
+        self.given_bundled_language(shortname)
+        self.given_string(datetime_string)
+        self.when_datetime_string_checked_if_applicable_ignoring_surrounding_text()
+        self.then_language_is_applicable()
+
+    @parameterized.expand(
+        [
+            # An unrecognized token inside the date keeps the locale
+            # inapplicable: only the edges may be ignored.
+            param("fr", "17 foobar avril 2019"),
+            # Nothing is left when every token is unrecognized.
+            param("en", "hello world"),
+        ]
+    )
+    def test_not_applicable_languages_when_ignoring_surrounding_text(
+        self, shortname, datetime_string
+    ):
+        self.given_settings()
+        self.given_bundled_language(shortname)
+        self.given_string(datetime_string)
+        self.when_datetime_string_checked_if_applicable_ignoring_surrounding_text()
+        self.then_language_is_not_applicable()
+
+    @parameterized.expand(
+        [
+            # The result is the same as translating the date without the
+            # surrounding text.
+            param("fr", "actualisé le 17 avril 2019", " 17 april 2019"),
+            param("en", "published on 16 april 2019", " 16 april 2019"),
+            param("en", "xx 16/04/2019 yy", "16/04/2019"),
+            # A recognized timezone at the trailing edge is kept, so the offset
+            # is not discarded; the result matches the unwrapped translation.
+            param(
+                "en",
+                "updated 23 march 2000 1:21 pm est",
+                "23 march 2000 1:21 pm  est",
+            ),
+        ]
+    )
+    def test_translation_when_ignoring_surrounding_text(
+        self, shortname, datetime_string, expected_translation
+    ):
+        self.given_settings()
+        self.given_bundled_language(shortname)
+        self.given_string(datetime_string)
+        self.when_datetime_string_translated_ignoring_surrounding_text()
+        self.then_string_translated_to(expected_translation)
+
     @apply_settings
     def given_settings(self, settings=None):
         self.settings = settings
@@ -2463,6 +2524,21 @@ class TestBundledLanguages(BaseTestCase):
     def when_datetime_string_checked_if_applicable(self, strip_timezone):
         self.result = self.language.is_applicable(
             self.datetime_string, strip_timezone, settings=self.settings
+        )
+
+    def when_datetime_string_checked_if_applicable_ignoring_surrounding_text(self):
+        self.result = self.language.is_applicable(
+            self.datetime_string,
+            strip_timezone=False,
+            settings=self.settings,
+            ignore_surrounding_text=True,
+        )
+
+    def when_datetime_string_translated_ignoring_surrounding_text(self):
+        self.translation = self.language.translate(
+            self.datetime_string,
+            settings=self.settings,
+            ignore_surrounding_text=True,
         )
 
     def then_string_translated_to(self, expected_string):

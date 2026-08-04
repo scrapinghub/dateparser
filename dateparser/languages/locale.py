@@ -54,7 +54,13 @@ class Locale:
         self.info = combine_dicts(language_info, locale_specific_info)
         self.info.pop("locale_specific", None)
 
-    def is_applicable(self, date_string, strip_timezone=False, settings=None):
+    def is_applicable(
+        self,
+        date_string,
+        strip_timezone=False,
+        settings=None,
+        ignore_surrounding_text=False,
+    ):
         """
         Check if the locale is applicable to translate date string.
 
@@ -65,6 +71,11 @@ class Locale:
         :param strip_timezone:
             If True, timezone is stripped from date string.
         :type strip_timezone: bool
+
+        :param ignore_surrounding_text:
+            If True, tokens that the locale does not recognise are ignored at
+            the edges of the date string (``IGNORE_SURROUNDING_TEXT`` setting).
+        :type ignore_surrounding_text: bool
 
         :return: boolean value representing if the locale is applicable for the date string or not.
         """
@@ -77,6 +88,8 @@ class Locale:
         date_string = self._simplify(date_string, settings=settings)
         dictionary = self._get_dictionary(settings)
         date_tokens = dictionary.split(date_string)
+        if ignore_surrounding_text:
+            date_tokens = dictionary._strip_unknown_edge_tokens(date_tokens)
         return dictionary.are_tokens_valid(date_tokens)
 
     def count_applicability(self, text, strip_timezone=False, settings=None):
@@ -116,7 +129,13 @@ class Locale:
             del dictionary[del_key]
         return dictionary
 
-    def translate(self, date_string, keep_formatting=False, settings=None):
+    def translate(
+        self,
+        date_string,
+        keep_formatting=False,
+        settings=None,
+        ignore_surrounding_text=False,
+    ):
         """
         Translate the date string to its English equivalent.
 
@@ -128,6 +147,12 @@ class Locale:
             If True, retain formatting of the date string after translation.
         :type keep_formatting: bool
 
+        :param ignore_surrounding_text:
+            If True, tokens that the locale does not recognise are dropped from
+            the edges of the date string before translation
+            (``IGNORE_SURROUNDING_TEXT`` setting).
+        :type ignore_surrounding_text: bool
+
         :return: translated date string.
         """
         date_string = self._translate_numerals(date_string)
@@ -136,6 +161,10 @@ class Locale:
         date_string = self._simplify(date_string, settings=settings)
         dictionary = self._get_dictionary(settings)
         date_string_tokens = dictionary.split(date_string, keep_formatting)
+        if ignore_surrounding_text:
+            date_string_tokens = dictionary._strip_unknown_edge_tokens(
+                date_string_tokens
+            )
 
         relative_translations = self._get_relative_translations(settings=settings)
 

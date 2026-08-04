@@ -11,7 +11,9 @@ from dateparser import parse
 from dateparser.timezone_parser import (
     StaticTzInfo,
     get_local_tz_offset,
+    is_timezone_token,
     pop_tz_offset_from_string,
+    word_is_tz,
 )
 from tests import BaseTestCase
 
@@ -240,3 +242,37 @@ class TestStaticTzInfo(BaseTestCase):
     def then_localized_date_is(self, expected_date, expected_tzname):
         self.assertEqual(self.localized_date.date(), expected_date.date())
         self.assertEqual(self.localized_date.tzname(), expected_tzname)
+
+
+class TestIsTimezoneToken(BaseTestCase):
+    """Unit tests for ``is_timezone_token``, used to keep a trailing timezone
+    when ``IGNORE_SURROUNDING_TEXT`` strips edge tokens."""
+
+    @parameterized.expand(
+        [
+            param(token="EST", expected=True),
+            # Already-lowercased and space-padded tokens (as produced by the
+            # translation pipeline) are recognized too.
+            param(token="est", expected=True),
+            param(token=" est", expected=True),
+            param(token="cet", expected=True),
+            param(token="pst", expected=True),
+            param(token="utc", expected=True),
+            # A longer word that merely starts with a timezone abbreviation must
+            # not be treated as a timezone.
+            param(token="actualisé", expected=False),
+            param(token="ACTUALISÉ", expected=False),
+            param(token="updated", expected=False),
+            param(token="", expected=False),
+            param(token="   ", expected=False),
+        ]
+    )
+    def test_is_timezone_token(self, token, expected):
+        self.assertEqual(expected, is_timezone_token(token))
+
+    def test_anchored_match_unlike_word_is_tz(self):
+        # word_is_tz prefix-matches ("ACT" of "ACTUALISÉ"); is_timezone_token is
+        # anchored, so it does not — this is what keeps a noise word from
+        # surviving as a timezone when edges are stripped.
+        self.assertTrue(word_is_tz("ACTUALISÉ"))
+        self.assertFalse(is_timezone_token("ACTUALISÉ"))
