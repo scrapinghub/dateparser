@@ -70,9 +70,10 @@ class _ExactLanguageSearch:
                 prev_text
             ) or _ExactLanguageSearch._has_explicit_year(curr_text):
                 continue
-            if curr_date.month < prev_date.month and (
-                curr_date.month - prev_date.month
-            ) % 12 < 6:
+            if (
+                curr_date.month < prev_date.month
+                and (curr_date.month - prev_date.month) % 12 < 6
+            ):
                 adjusted[i] = (curr_text, curr_date.replace(year=curr_date.year + 1))
         return adjusted
 
