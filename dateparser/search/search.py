@@ -64,8 +64,6 @@ class _ExactLanguageSearch:
         for i in range(1, len(adjusted)):
             prev_text, prev_date = adjusted[i - 1]
             curr_text, curr_date = adjusted[i]
-            if prev_date is None or curr_date is None:
-                continue
             if _ExactLanguageSearch._has_explicit_year(
                 prev_text
             ) or _ExactLanguageSearch._has_explicit_year(curr_text):
