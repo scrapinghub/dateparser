@@ -1132,6 +1132,47 @@ class TestTranslateSearch(BaseTestCase):
         ]
         assert result == expected
 
+    def test_search_dates_turn_of_year_beyond_six_months(self):
+        """September → March spans a 6-month forward gap: rollover must still be applied."""
+        result = search_dates(
+            "Closed from 1st September until 15th March.",
+            languages=["en"],
+        )
+        expected = [
+            ("from 1st September", datetime.datetime(today.year, 9, 1, 0, 0)),
+            ("15th March", datetime.datetime(today.year + 1, 3, 15, 0, 0)),
+        ]
+        assert result == expected
+
+    def test_search_dates_no_rollover_without_range_connector(self):
+        """Standalone month mentions going backwards (no "from ... until"-style
+        connector between them) must not be treated as a year-spanning range.
+        """
+        result = search_dates(
+            "June 23rd. May 31st.",
+            languages=["en"],
+        )
+        expected = [
+            ("June 23rd", datetime.datetime(today.year, 6, 23, 0, 0)),
+            ("May 31st", datetime.datetime(today.year, 5, 31, 0, 0)),
+        ]
+        assert result == expected
+
+    def test_search_dates_rollover_skipped_when_substring_position_not_found(self):
+        """When irregular whitespace keeps a parsed substring from being
+        located verbatim in the original text, the rollover must be safely
+        skipped rather than raising or guessing.
+        """
+        result = search_dates(
+            "Closed from  23th   December  until 8th   January.",
+            languages=["en"],
+        )
+        expected = [
+            ("from 23th December", datetime.datetime(today.year, 12, 23, 0, 0)),
+            ("8th January", datetime.datetime(today.year, 1, 8, 0, 0)),
+        ]
+        assert result == expected
+
     @parameterized.expand(
         [
             param(
