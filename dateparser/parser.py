@@ -564,7 +564,9 @@ class _parser:
             # Convert dateobj to utc time to compare with self.now
             try:
                 tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
-                tz_offset = tz.utcoffset(dateobj)
+                # `dateobj` may have been localized above when `self.now` is
+                # offset-aware; `utcoffset()` requires a naive datetime.
+                tz_offset = tz.utcoffset(dateobj.replace(tzinfo=None))
             except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
                 tz_offset = timedelta(hours=0)
 
