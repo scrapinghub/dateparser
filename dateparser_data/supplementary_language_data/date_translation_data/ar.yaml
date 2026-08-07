@@ -46,3 +46,9 @@ relative-type:
         - ساعتين
     1 hour ago:
         - ساعة واحدة
+
+relative-type-regex:
+    "\\1 hour ago":
+        - قبل {0} ساعات
+    "in \\1 hour":
+        - خلال {0} ساعات
