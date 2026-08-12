@@ -179,3 +179,24 @@ Whenever the content of
 the corresponding documentation table::
 
     dateparser_scripts/update_supported_languages_and_locales.py
+
+Updating Timezone Abbreviations
+-------------------------------
+
+``dateparser/timezones.py`` maps each timezone abbreviation to a single UTC
+offset. Unrelated zones often share the same letters, so to check that those
+offsets still match the tz database, run::
+
+    python -m dateparser_scripts.tz_abbreviation_conflicts
+
+It reports every abbreviation whose offset no tz database zone uses, and exits
+non-zero when it finds any. ``tests/test_timezone_parser.py`` runs the same
+check, so a clean test run means the table is in sync.
+
+Abbreviations the tz database resolves to several offsets, such as ``CST``, are
+left alone: there is no single answer to prefer, so dateparser keeps its
+long-standing choice.
+
+When refreshing the table, slide ``REFERENCE_YEARS`` forward rather than
+widening it. Reaching further back re-admits abbreviations the tz database has
+since dropped and reports them as current.
