@@ -1175,6 +1175,24 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(" until ", True),
+            param(" to ", True),
+            param(" through ", True),
+            param(" till ", True),
+            param(" - ", True),
+            param(" – ", True),
+            param(" — ", True),
+            param(", UNTIL ", True),
+            param("\n                    ", False),
+            param(" and ", False),
+            param(", we also closed on ", False),
+        ]
+    )
+    def test_is_range_connector(self, connector, expected):
+        assert self.exact_language_search._is_range_connector(connector) == expected
+
+    @parameterized.expand(
+        [
             param(
                 text="Ужасное событие произошло в тот день. Двадцатое февраля. Вспоминаю тот день с ужасом.",
                 expected_text="Двадцатое февраля",
