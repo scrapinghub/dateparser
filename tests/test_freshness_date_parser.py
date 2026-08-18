@@ -2589,6 +2589,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 10.75 minutes", date(2010, 6, 4), time(13, 25, 45)),
             param("in 1.5 days", date(2010, 6, 6), time(1, 15)),
             param("0,5 hours ago", date(2010, 6, 4), time(12, 45)),
+            param("1,5 hours ago", date(2010, 6, 4), time(11, 45)),
+            # Thousands separators must not truncate the relative number (#1367)
+            param("1,000 days ago", date(2007, 9, 8), time(13, 15)),
+            param("12,345 days ago", date(1976, 8, 16), time(13, 15)),
+            param("2,000 hours ago", date(2010, 3, 13), time(5, 15)),
         ]
     )
     def test_freshness_date_with_relative_base(self, date_string, date, time):

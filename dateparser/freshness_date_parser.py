@@ -10,7 +10,32 @@ from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
-PATTERN = re.compile(r"([+-]?\s*\d++[.,]?\d*+)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
+PATTERN = re.compile(
+    r"([+-]?\s*\d++(?:,\d{3})*+(?:[.,]\d++)?+)\s*(%s)\b" % _UNITS,
+    re.I | re.S | re.U,
+)
+# A ``,`` grouping exactly three digits (optionally repeated) is a thousands
+# separator, e.g. ``1,000`` or ``1,000,000``.
+_THOUSANDS_GROUPED = re.compile(r"[+-]?\d{1,3}(?:,\d{3})+")
+
+
+def _parse_number(num):
+    """Convert a captured numeric token such as ``1,000`` or ``0,5`` to a float.
+
+    ``,`` is ambiguous: depending on locale it groups thousands (``1,000``) or
+    marks the decimal fraction (``0,5``, added in #876). A ``,`` followed by
+    exactly three digits is treated as a thousands separator; a lone ``,``
+    before a shorter group is treated as the decimal separator.
+    """
+    num = num.replace(" ", "")
+    if "." in num:
+        # ``.`` is the decimal separator, so any ``,`` groups thousands.
+        num = num.replace(",", "")
+    elif _THOUSANDS_GROUPED.fullmatch(num):
+        num = num.replace(",", "")
+    else:
+        num = num.replace(",", ".")
+    return float(num)
 
 
 class FreshnessDateDataParser:
@@ -170,7 +195,7 @@ class FreshnessDateDataParser:
         for num, unit in m:
             has_explicit_sign = num.startswith("+") or num.startswith("-")
             explicit_signs[unit + "s"] = has_explicit_sign
-            kwargs[unit + "s"] = float(num.replace(",", ".").replace(" ", ""))
+            kwargs[unit + "s"] = _parse_number(num)
 
         return kwargs, explicit_signs
 
