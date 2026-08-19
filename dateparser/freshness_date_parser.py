@@ -11,7 +11,7 @@ from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
 PATTERN = re.compile(
-    r"([+-]?\s*\d++(?:,\d{3})*+(?:[.,]\d++)?+)\s*(%s)\b" % _UNITS,
+    r"([+-]?\s*\d++(?:[.,]\d++)*+)\s*(%s)\b" % _UNITS,
     re.I | re.S | re.U,
 )
 # A ``,`` grouping exactly three digits (optionally repeated) is a thousands
@@ -28,10 +28,18 @@ def _parse_number(num):
     before a shorter group is treated as the decimal separator.
     """
     num = num.replace(" ", "")
-    if "." in num:
-        # ``.`` is the decimal separator, so any ``,`` groups thousands.
-        num = num.replace(",", "")
+    if "." in num and "," in num:
+        # Both separators are present, so the one that comes last is the
+        # decimal separator and the other one groups thousands.
+        decimal, thousands = (
+            (".", ",") if num.rfind(".") > num.rfind(",") else (",", ".")
+        )
+        num = num.replace(thousands, "").replace(decimal, ".")
     elif _THOUSANDS_GROUPED.fullmatch(num):
+        num = num.replace(",", "")
+    elif num.count(",") > 1:
+        # Repeated ``,`` cannot be a decimal separator, and the token is not a
+        # well-formed grouping either; drop the separators instead of failing.
         num = num.replace(",", "")
     else:
         num = num.replace(",", ".")

@@ -2594,6 +2594,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("1,000 days ago", date(2007, 9, 8), time(13, 15)),
             param("12,345 days ago", date(1976, 8, 16), time(13, 15)),
             param("2,000 hours ago", date(2010, 3, 13), time(5, 15)),
+            # A "," group that is not exactly three digits stays a decimal separator
+            param("1,0000 hours ago", date(2010, 6, 4), time(12, 15)),
+            # With both separators present, the last one is the decimal separator
+            param("1,000.5 days ago", date(2007, 9, 8), time(1, 15)),
+            param("1.000,5 days ago", date(2007, 9, 8), time(1, 15)),
+            # A malformed grouping must still parse instead of raising
+            param("1,000,00 days ago", date(1736, 8, 19), time(13, 15)),
         ]
     )
     def test_freshness_date_with_relative_base(self, date_string, date, time):
