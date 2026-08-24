@@ -712,6 +712,39 @@ class TestDateDataParser(BaseTestCase):
         self.then_date_was_parsed()
         self.then_parsed_date_has_timezone()
 
+    def test_ignore_surrounding_text_setting_parses_wrapped_date(self):
+        # Issue #518: a date wrapped in harmless extra text is parsed when the
+        # ``IGNORE_SURROUNDING_TEXT`` setting is enabled.
+        self.given_parser(
+            restrict_to_languages=["fr"], settings={"IGNORE_SURROUNDING_TEXT": True}
+        )
+        self.when_date_string_is_parsed("Actualisé le 17 avril 2019")
+        self.then_date_was_parsed()
+        self.then_parsed_datetime_is(datetime(2019, 4, 17))
+        self.then_detected_locale("fr")
+        self.then_period_is("day")
+
+    def test_get_date_data_ignores_surrounding_text_only_when_enabled(self):
+        # The safety property of the ``IGNORE_SURROUNDING_TEXT`` setting: by
+        # default, ``get_date_data`` keeps requiring the whole string to be a
+        # date, so language detection and ``search_dates`` are unaffected.
+        self.given_parser(restrict_to_languages=["fr"])
+        self.when_date_string_is_parsed("Actualisé le 17 avril 2019")
+        self.then_date_was_not_parsed()
+
+    def test_ignore_surrounding_text_with_try_previous_locales(self):
+        self.given_parser(
+            restrict_to_languages=["fr", "en"],
+            try_previous_locales=True,
+            settings={"IGNORE_SURROUNDING_TEXT": True},
+        )
+        self.when_date_string_is_parsed("Actualisé le 17 avril 2019")
+        self.then_parsed_datetime_is(datetime(2019, 4, 17))
+        self.then_previous_locales_is(["fr"])
+        self.when_date_string_is_parsed("Publié le 16 avril 2019")
+        self.then_parsed_datetime_is(datetime(2019, 4, 16))
+        self.then_previous_locales_is(["fr"])
+
     @parameterized.expand(
         [
             param(
@@ -954,6 +987,9 @@ class TestDateDataParser(BaseTestCase):
 
     def then_date_was_parsed(self):
         self.assertIsNotNone(self.result["date_obj"])
+
+    def then_date_was_not_parsed(self):
+        self.assertIsNone(self.result["date_obj"])
 
     def then_date_locale(self):
         self.assertIsNotNone(self.result["locale"])

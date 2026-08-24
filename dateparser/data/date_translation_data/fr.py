@@ -116,6 +116,7 @@ info = {
     "hour": [
         "h",
         "heure",
+        "heures",
         "heures"
     ],
     "minute": [

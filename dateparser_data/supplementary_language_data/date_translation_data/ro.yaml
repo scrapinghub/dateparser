@@ -1,6 +1,13 @@
+relative-type-regex:
+    \1 day ago:
+        - acum (\d+[.,]?\d*) zile
+    in \1 day:
+        - peste (\d+[.,]?\d*) zile
+    in \1 year:
+        - peste (\d+[.,]?\d*) ani
 skip: ["de", "la"]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 wednesday:
     - Mi

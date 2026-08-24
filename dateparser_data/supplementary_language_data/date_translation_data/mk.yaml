@@ -1,0 +1,15 @@
+tuesday:
+    - вт
+september:
+    - септ
+november:
+    - ноем
+am:
+    - претпладне
+pm:
+    - попладне
+relative-type:
+    1 year ago:
+        - минатата година
+    in 1 year:
+        - следната година

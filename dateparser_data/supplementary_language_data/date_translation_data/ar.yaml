@@ -1,4 +1,8 @@
-sentence_splitter_group : 6
+locale_specific:
+    ar-IQ:
+        october:
+            - تشرین الأول
+sentence_splitter_group: 6
 
 skip: ["الساعة", "في", "مساءً", "هـ"]
 

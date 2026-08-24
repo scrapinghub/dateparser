@@ -931,6 +931,32 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("2017-06-22", languages=["it"], expected=datetime(2017, 6, 22)),
+            param("2017-06-10", languages=["it"], expected=datetime(2017, 6, 10)),
+            param("2017-06-22", languages=["fr"], expected=datetime(2017, 6, 22)),
+            param(
+                "2015-05-02T10:20:19+0000",
+                languages=["fr"],
+                expected=datetime(2015, 5, 2, 10, 20, 19),
+            ),
+        ]
+    )
+    def test_iso_datestamp_format_should_parse_with_locale_date_order(
+        self, date_string, languages, expected
+    ):
+        # Regression test for #360: dates starting with a four-digit year
+        # (e.g. ISO 8601 dates) must parse even when the locale date order
+        # is not year-first (Italian and French use DMY), without needing
+        # the PREFER_LOCALE_DATE_ORDER=False workaround.
+        self.given_local_tz_offset(0)
+        self.given_parser(languages=languages)
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.result["date_obj"] = self.result["date_obj"].replace(tzinfo=None)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             # Epoch timestamps.
             param("1484823450", expected=datetime(2017, 1, 19, 10, 57, 30)),
             param("1436745600000", expected=datetime(2015, 7, 13, 0, 0)),
@@ -1156,6 +1182,57 @@ class TestDateParser(BaseTestCase):
     )
     def test_order(self, date_string, expected=None, order=None):
         self.given_parser(settings={"DATE_ORDER": order})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            # Japanese dates without a year: the day must not be read as
+            # a two-digit year just because the year comes first (#519).
+            param(
+                "4月20日 18:10",
+                expected=datetime(2019, 4, 20, 18, 10),
+                languages=["ja"],
+            ),
+            param(
+                "3月8日",
+                expected=datetime(2019, 3, 8, 0, 0),
+                languages=["ja"],
+            ),
+            # The root cause is locale-independent: any year-first date
+            # order must not consume the day as a year either.
+            param(
+                "4-20 18:10",
+                expected=datetime(2019, 4, 20, 18, 10),
+                settings={"DATE_ORDER": "YMD"},
+            ),
+            # A number that cannot be a day is still parsed as a year.
+            param(
+                "4-99",
+                expected=datetime(1999, 4, 27, 0, 0),
+                settings={"DATE_ORDER": "YMD"},
+            ),
+            # Fully specified dates keep their meaning.
+            param(
+                "2020年4月20日 18:10",
+                expected=datetime(2020, 4, 20, 18, 10),
+                languages=["ja"],
+            ),
+            param(
+                "19年4月20日",
+                expected=datetime(2019, 4, 20, 0, 0),
+                languages=["ja"],
+            ),
+        ]
+    )
+    def test_two_digit_day_is_not_confused_with_year(
+        self, date_string, expected=None, languages=None, settings=None
+    ):
+        self.given_parser(
+            languages=languages,
+            settings={"RELATIVE_BASE": datetime(2019, 6, 27), **(settings or {})},
+        )
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -1700,6 +1777,149 @@ class TestDateParser(BaseTestCase):
             result,
             f"{description}: Expected {expected}, got {result}",
         )
+
+    @parameterized.expand(
+        [
+            # Test PREFER_DATES_FROM='past' with 2-digit year format (Issue #445)
+            param(
+                date_string="1/15/64",
+                date_format="%m/%d/%y",
+                prefer_from="past",
+                expected_year=1964,
+                description="PREFER_DATES_FROM='past' with 2-digit year",
+            ),
+            # Test PREFER_DATES_FROM='future' with 2-digit year format
+            param(
+                date_string="1/15/64",
+                date_format="%m/%d/%y",
+                prefer_from="future",
+                expected_year=2064,
+                description="PREFER_DATES_FROM='future' with 2-digit year",
+            ),
+            # Test with past date and prefer future
+            param(
+                date_string="1/15/24",
+                date_format="%m/%d/%y",
+                prefer_from="future",
+                expected_year=2124,
+                description="Past date (24) with PREFER_DATES_FROM='future'",
+            ),
+            # Test with future date and prefer past
+            param(
+                date_string="1/15/35",
+                date_format="%m/%d/%y",
+                prefer_from="past",
+                expected_year=1935,
+                description="Future date (35) with PREFER_DATES_FROM='past'",
+            ),
+            # Test 4-digit year format (should not apply PREFER_DATES_FROM adjustment)
+            param(
+                date_string="1/15/2050",
+                date_format="%m/%d/%Y",
+                prefer_from="past",
+                expected_year=2050,
+                description="4-digit year format ignores PREFER_DATES_FROM",
+            ),
+        ]
+    )
+    def test_prefer_dates_from_with_date_formats(
+        self,
+        date_string,
+        date_format,
+        prefer_from,
+        expected_year,
+        description,
+    ):
+        """Test that PREFER_DATES_FROM setting works with date_formats parameter (Issue #445)."""
+        result = parse(
+            date_string,
+            date_formats=[date_format],
+            settings={
+                "PREFER_DATES_FROM": prefer_from,
+                "RELATIVE_BASE": datetime(2026, 1, 1),
+            },
+        )
+
+        self.assertIsNotNone(result, f"Failed to parse: {description}")
+        self.assertEqual(
+            expected_year,
+            result.year,
+            f"{description}: Expected year {expected_year}, got {result.year}",
+        )
+
+    def test_prefer_dates_from_with_date_formats_and_relative_base(self):
+        """Test that PREFER_DATES_FROM respects RELATIVE_BASE with date_formats."""
+        # Use a relative base in the past (e.g., 1980-01-01)
+        # When parsing '1/15/64' with RELATIVE_BASE='1980-01-01' and PREFER_DATES_FROM='past',
+        # it should be interpreted as 1964 (past relative to 1980)
+        relative_base = datetime(1980, 1, 1)
+        result = parse(
+            "1/15/64",
+            date_formats=["%m/%d/%y"],
+            settings={
+                "PREFER_DATES_FROM": "past",
+                "RELATIVE_BASE": relative_base,
+            },
+        )
+
+        self.assertIsNotNone(result)
+        self.assertEqual(
+            1964,
+            result.year,
+            f"RELATIVE_BASE not respected: Expected 1964, got {result.year}",
+        )
+
+        # Now test with a relative base in the future
+        # When parsing '1/15/64' with RELATIVE_BASE='2020-01-01' and PREFER_DATES_FROM='future',
+        # it should be interpreted as 2064 (future relative to 2020)
+        relative_base = datetime(2020, 1, 1)
+        result = parse(
+            "1/15/64",
+            date_formats=["%m/%d/%y"],
+            settings={
+                "PREFER_DATES_FROM": "future",
+                "RELATIVE_BASE": relative_base,
+            },
+        )
+
+        self.assertIsNotNone(result)
+        self.assertEqual(
+            2064,
+            result.year,
+            f"RELATIVE_BASE not respected: Expected 2064, got {result.year}",
+        )
+
+    def test_prefer_dates_from_with_date_formats_tz_aware_relative_base(self):
+        """Test that a tz-aware RELATIVE_BASE does not crash (Bug #1 fix)."""
+        from datetime import timezone as tz
+
+        result = parse(
+            "1/15/64",
+            date_formats=["%m/%d/%y"],
+            settings={
+                "PREFER_DATES_FROM": "past",
+                "RELATIVE_BASE": datetime(1980, 1, 1, tzinfo=tz.utc),
+            },
+        )
+        self.assertIsNotNone(result)
+        self.assertEqual(1964, result.year)
+
+    def test_prefer_dates_from_with_date_formats_feb29_non_leap(self):
+        """Test that Feb 29 shifted to a non-leap year finds the next valid leap year (Bug #2 fix)."""
+        # 2/29/00 parses as 2000-02-29; shifting +100 → 2100 which is not a leap year.
+        # _apply_century_preference finds the next valid leap year: 2104.
+        result = parse(
+            "2/29/00",
+            date_formats=["%m/%d/%y"],
+            settings={
+                "PREFER_DATES_FROM": "future",
+                "RELATIVE_BASE": datetime(2026, 1, 1),
+            },
+        )
+        self.assertIsNotNone(result)
+        self.assertEqual(2104, result.year)
+        self.assertEqual(2, result.month)
+        self.assertEqual(29, result.day)
 
 
 if __name__ == "__main__":

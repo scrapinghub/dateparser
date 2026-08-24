@@ -96,6 +96,7 @@ info = {
         "lâ"
     ],
     "hour": [
+        "hr",
         "ngbonga"
     ],
     "minute": [

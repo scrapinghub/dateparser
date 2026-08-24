@@ -86,7 +86,8 @@ info = {
         "일"
     ],
     "hour": [
-        "시"
+        "시",
+        "시간"
     ],
     "minute": [
         "분"
@@ -191,6 +192,9 @@ info = {
         ]
     },
     "locale_specific": {
+        "ko-CN": {
+            "name": "ko-CN"
+        },
         "ko-KP": {
             "name": "ko-KP"
         }

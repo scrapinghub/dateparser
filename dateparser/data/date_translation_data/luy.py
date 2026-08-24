@@ -95,6 +95,7 @@ info = {
         "ridiku"
     ],
     "hour": [
+        "hr",
         "isaa"
     ],
     "minute": [

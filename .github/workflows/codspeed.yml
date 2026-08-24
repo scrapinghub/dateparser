@@ -1,0 +1,56 @@
+name: CodSpeed
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+    paths:
+      - dateparser/**
+      - dateparser_data/**
+      - tests/benchmarks/**
+      - pytest.ini
+      - tox.ini
+      - pyproject.toml
+      - .github/workflows/codspeed.yml
+  # Lets CodSpeed trigger a run to collect the initial baseline.
+  workflow_dispatch:
+
+# Superseded runs of the same pull request are cancelled. Outside pull requests
+# the group is unique per run, so a master baseline is never cancelled.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  benchmarks:
+    name: Run benchmarks
+    runs-on: ubuntu-latest
+    # A reintroduced #1335-style regression makes the benchmarks orders of
+    # magnitude slower, so cap the job instead of letting it run for hours.
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install tox
+          tox -e benchmark --notest
+      - name: Run benchmarks
+        uses: CodSpeedHQ/action@v5
+        with:
+          mode: simulation
+          # The step above already built the environment, so the measured command
+          # only runs pytest instead of packaging and installing again.
+          run: tox -e benchmark --skip-pkg-install

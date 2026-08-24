@@ -635,31 +635,69 @@ class _parser:
         def parse_number(token, skip_component=None):
             type = 0
 
-            for component, directives in self.ordered_num_directives.items():
-                if skip_component == component:
-                    continue
-                for directive in directives:
-                    try:
-                        do = self._get_date_obj(token, directive)
-                        prev_value = getattr(self, component, None)
-                        if not prev_value:
-                            return set_and_return(token, type, component, do)
-                        else:
-                            try:
-                                prev_token, prev_type = getattr(
-                                    self, "_token_%s" % component
-                                )
-                                if prev_type == type:
-                                    do = self._get_date_obj(prev_token, directive)
-                            except ValueError:
-                                self.unset_tokens.append(
-                                    (prev_token, prev_type, component)
-                                )
+            num_directives = self.ordered_num_directives
+            if (
+                skip_component == "year"
+                and self.day is None
+                and self.month is None
+                and "DATE_ORDER" not in self.settings._mod_settings
+            ):
+                # The date string starts with a four-digit year (e.g. an
+                # ISO 8601 date like "2017-06-22"), so the remaining numeric
+                # components are expected in month-day order, regardless of
+                # the locale date order, unless the caller explicitly set
+                # DATE_ORDER (#360).
+                num_directives = {
+                    k: self.num_directives[k] for k in ("month", "day", "year")
+                }
+
+            def try_directives(skip_directive=None):
+                for component, directives in num_directives.items():
+                    if skip_component == component:
+                        continue
+                    for directive in directives:
+                        if directive == skip_directive:
+                            continue
+                        try:
+                            do = self._get_date_obj(token, directive)
+                            prev_value = getattr(self, component, None)
+                            if not prev_value:
                                 return set_and_return(token, type, component, do)
-                    except ValueError:
-                        pass
-            else:
-                raise ValueError("Unable to parse: %s" % token)
+                            else:
+                                try:
+                                    prev_token, prev_type = getattr(
+                                        self, "_token_%s" % component
+                                    )
+                                    if prev_type == type:
+                                        do = self._get_date_obj(prev_token, directive)
+                                except ValueError:
+                                    self.unset_tokens.append(
+                                        (prev_token, prev_type, component)
+                                    )
+                                    return set_and_return(token, type, component, do)
+                        except ValueError:
+                            pass
+                else:
+                    raise ValueError("Unable to parse: %s" % token)
+
+            order = list(self.ordered_num_directives)
+            components_after_year = order[order.index("year") + 1 :]
+            year_position_already_passed = any(
+                getattr(self, component) is not None
+                for component in components_after_year
+            )
+            if year_position_already_passed:
+                # A component that the date order places after the year has
+                # already been found, so the year position in the date string
+                # has already been passed and this number cannot be a
+                # two-digit year: in "4月20日" ("April 20"), 20 is the day,
+                # not the year 2020 (#519). Read it as a two-digit year only
+                # if it cannot be anything else (e.g. 99 in "4-99").
+                try:
+                    return try_directives(skip_directive="%y")
+                except ValueError:
+                    pass
+            return try_directives()
 
         def parse_alpha(token, skip_component=None):
             type = 1

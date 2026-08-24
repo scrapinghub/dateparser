@@ -96,7 +96,8 @@ info = {
         "da"
     ],
     "hour": [
-        "dɔnhwer"
+        "dɔnhwer",
+        "hr"
     ],
     "minute": [
         "sema"

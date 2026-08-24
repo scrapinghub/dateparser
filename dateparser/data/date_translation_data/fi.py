@@ -158,6 +158,7 @@ info = {
     ],
     "hour": [
         "t",
+        "tunnit",
         "tunti",
         "tuntia",
         "tunnin"

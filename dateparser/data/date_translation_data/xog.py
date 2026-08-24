@@ -96,7 +96,8 @@ info = {
         "olunaku"
     ],
     "hour": [
-        "essawa"
+        "essawa",
+        "hr"
     ],
     "minute": [
         "edakiika"
