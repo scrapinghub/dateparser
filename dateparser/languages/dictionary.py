@@ -236,12 +236,15 @@ class Dictionary:
 
     def _add_to_cache(self, value, cache):
         with self._cache_lock:
-            cache.setdefault(self._settings.registry_key, {})[self.info["name"]] = value
+            key = self._settings.registry_key
+            entry = cache.pop(key, {})
+            entry[self.info["name"]] = value
+            cache[key] = entry
             if (
                 self._settings.CACHE_SIZE_LIMIT
                 and len(cache) > self._settings.CACHE_SIZE_LIMIT
             ):
-                cache.pop(list(cache.keys())[0])
+                cache.pop(next(iter(cache)))
 
     def _split_by_known_words(self, string: str, keep_formatting: bool):
         regex = self._get_split_regex_cache()
