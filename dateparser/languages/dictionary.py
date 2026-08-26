@@ -1,3 +1,4 @@
+import threading
 from itertools import chain, zip_longest
 from operator import methodcaller
 
@@ -80,6 +81,11 @@ class Dictionary:
     _split_relative_regex_cache = {}
     _sorted_relative_strings_cache = {}
     _match_relative_regex_cache = {}
+
+    # The caches above are shared across all Dictionary instances and threads.
+    # The lock keeps each check-populate-evict-read sequence atomic, so a
+    # concurrent eviction cannot drop an entry between its check and its read.
+    _cache_lock = threading.RLock()
 
     def __init__(self, locale_info, settings=None):
         dictionary = {}
@@ -229,12 +235,16 @@ class Dictionary:
         return list(filter(bool, chain.from_iterable(tokens)))
 
     def _add_to_cache(self, value, cache):
-        cache.setdefault(self._settings.registry_key, {})[self.info["name"]] = value
-        if (
-            self._settings.CACHE_SIZE_LIMIT
-            and len(cache) > self._settings.CACHE_SIZE_LIMIT
-        ):
-            cache.pop(list(cache.keys())[0])
+        with self._cache_lock:
+            key = self._settings.registry_key
+            entry = cache.pop(key, {})
+            entry[self.info["name"]] = value
+            cache[key] = entry
+            if (
+                self._settings.CACHE_SIZE_LIMIT
+                and len(cache) > self._settings.CACHE_SIZE_LIMIT
+            ):
+                cache.pop(next(iter(cache)))
 
     def _split_by_known_words(self, string: str, keep_formatting: bool):
         regex = self._get_split_regex_cache()
@@ -292,25 +302,31 @@ class Dictionary:
         )
 
     def _get_sorted_words_from_cache(self):
-        if (
-            self._settings.registry_key not in self._sorted_words_cache
-            or self.info["name"]
-            not in self._sorted_words_cache[self._settings.registry_key]
-        ):
-            self._add_to_cache(
-                cache=self._sorted_words_cache,
-                value=sorted([key for key in self], key=len, reverse=True),
-            )
-        return self._sorted_words_cache[self._settings.registry_key][self.info["name"]]
+        with self._cache_lock:
+            if (
+                self._settings.registry_key not in self._sorted_words_cache
+                or self.info["name"]
+                not in self._sorted_words_cache[self._settings.registry_key]
+            ):
+                self._add_to_cache(
+                    cache=self._sorted_words_cache,
+                    value=sorted([key for key in self], key=len, reverse=True),
+                )
+            return self._sorted_words_cache[self._settings.registry_key][
+                self.info["name"]
+            ]
 
     def _get_split_regex_cache(self):
-        if (
-            self._settings.registry_key not in self._split_regex_cache
-            or self.info["name"]
-            not in self._split_regex_cache[self._settings.registry_key]
-        ):
-            self._construct_split_regex()
-        return self._split_regex_cache[self._settings.registry_key][self.info["name"]]
+        with self._cache_lock:
+            if (
+                self._settings.registry_key not in self._split_regex_cache
+                or self.info["name"]
+                not in self._split_regex_cache[self._settings.registry_key]
+            ):
+                self._construct_split_regex()
+            return self._split_regex_cache[self._settings.registry_key][
+                self.info["name"]
+            ]
 
     def _construct_split_regex(self):
         known_words_group = "|".join(
@@ -328,36 +344,38 @@ class Dictionary:
         )
 
     def _get_sorted_relative_strings_from_cache(self):
-        if (
-            self._settings.registry_key not in self._sorted_relative_strings_cache
-            or self.info["name"]
-            not in self._sorted_relative_strings_cache[self._settings.registry_key]
-        ):
-            self._add_to_cache(
-                cache=self._sorted_relative_strings_cache,
-                value=sorted(
-                    [
-                        PARENTHESES_PATTERN.sub("", key)
-                        for key in self._relative_strings
-                    ],
-                    key=len,
-                    reverse=True,
-                ),
-            )
-        return self._sorted_relative_strings_cache[self._settings.registry_key][
-            self.info["name"]
-        ]
+        with self._cache_lock:
+            if (
+                self._settings.registry_key not in self._sorted_relative_strings_cache
+                or self.info["name"]
+                not in self._sorted_relative_strings_cache[self._settings.registry_key]
+            ):
+                self._add_to_cache(
+                    cache=self._sorted_relative_strings_cache,
+                    value=sorted(
+                        [
+                            PARENTHESES_PATTERN.sub("", key)
+                            for key in self._relative_strings
+                        ],
+                        key=len,
+                        reverse=True,
+                    ),
+                )
+            return self._sorted_relative_strings_cache[self._settings.registry_key][
+                self.info["name"]
+            ]
 
     def _get_split_relative_regex_cache(self):
-        if (
-            self._settings.registry_key not in self._split_relative_regex_cache
-            or self.info["name"]
-            not in self._split_relative_regex_cache[self._settings.registry_key]
-        ):
-            self._construct_split_relative_regex()
-        return self._split_relative_regex_cache[self._settings.registry_key][
-            self.info["name"]
-        ]
+        with self._cache_lock:
+            if (
+                self._settings.registry_key not in self._split_relative_regex_cache
+                or self.info["name"]
+                not in self._split_relative_regex_cache[self._settings.registry_key]
+            ):
+                self._construct_split_relative_regex()
+            return self._split_relative_regex_cache[self._settings.registry_key][
+                self.info["name"]
+            ]
 
     def _construct_split_relative_regex(self):
         known_relative_strings_group = "|".join(
@@ -375,15 +393,16 @@ class Dictionary:
         )
 
     def _get_match_relative_regex_cache(self):
-        if (
-            self._settings.registry_key not in self._match_relative_regex_cache
-            or self.info["name"]
-            not in self._match_relative_regex_cache[self._settings.registry_key]
-        ):
-            self._construct_match_relative_regex()
-        return self._match_relative_regex_cache[self._settings.registry_key][
-            self.info["name"]
-        ]
+        with self._cache_lock:
+            if (
+                self._settings.registry_key not in self._match_relative_regex_cache
+                or self.info["name"]
+                not in self._match_relative_regex_cache[self._settings.registry_key]
+            ):
+                self._construct_match_relative_regex()
+            return self._match_relative_regex_cache[self._settings.registry_key][
+                self.info["name"]
+            ]
 
     def _construct_match_relative_regex(self):
         known_relative_strings_group = "|".join(

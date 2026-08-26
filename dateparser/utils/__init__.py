@@ -1,5 +1,6 @@
 import calendar
 import logging
+import threading
 import types
 import unicodedata
 from collections import OrderedDict
@@ -197,19 +198,26 @@ def set_correct_month_from_settings(date_obj, settings, current_month=None):
         return date_obj.replace(month=options["last"])
 
 
+_registry_lock = threading.Lock()
+
+
 def registry(cls):
     def choose(creator):
         def constructor(cls, *args, **kwargs):
             key = cls.get_key(*args, **kwargs)
 
-            if not hasattr(cls, "__registry_dict"):
-                setattr(cls, "__registry_dict", {})
-            registry_dict = getattr(cls, "__registry_dict")
+            with _registry_lock:
+                if not hasattr(cls, "__registry_dict"):
+                    setattr(cls, "__registry_dict", {})
+                registry_dict = getattr(cls, "__registry_dict")
 
-            if key not in registry_dict:
-                registry_dict[key] = creator(cls, *args)
-                setattr(registry_dict[key], "registry_key", key)
-            return registry_dict[key]
+                if key not in registry_dict:
+                    instance = creator(cls, *args)
+                    # Set the key before publishing the instance so other
+                    # threads never observe an entry without ``registry_key``.
+                    setattr(instance, "registry_key", key)
+                    registry_dict[key] = instance
+                return registry_dict[key]
 
         return staticmethod(constructor)
 

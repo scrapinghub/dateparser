@@ -1,4 +1,5 @@
 import collections
+import threading
 from collections.abc import Set
 from datetime import datetime, timedelta, timezone
 
@@ -360,21 +361,18 @@ class _DateLocaleParser:
 
         translated = self._get_translated_date()
 
-        try:
-            for order in candidates:
-                self._settings.DATE_ORDER = order
-                try:
-                    date_obj, period = date_parser.parse(
-                        translated,
-                        parse_method=parse_method,
-                        settings=self._settings,
-                    )
-                    return DateData(date_obj=date_obj, period=period)
-                except ValueError:
-                    continue
-            return None
-        finally:
-            self._settings.DATE_ORDER = original_order
+        for order in candidates:
+            try:
+                date_obj, period = date_parser.parse(
+                    translated,
+                    parse_method=parse_method,
+                    settings=self._settings,
+                    date_order=order,
+                )
+                return DateData(date_obj=date_obj, period=period)
+            except ValueError:
+                continue
+        return None
 
     def _try_given_formats(self):
         if not self.date_formats:
@@ -550,6 +548,9 @@ class DateDataParser:
         self.region = region
         self.detect_languages_function = detect_languages_function
         self.previous_locales = collections.OrderedDict()
+        # Guards the per-instance state mutated when a parser is shared by
+        # multiple threads (previous_locales and the lazily detected languages).
+        self._lock = threading.RLock()
 
     def get_date_data(self, date_string, date_formats=None):
         """
@@ -631,7 +632,8 @@ class DateDataParser:
             if parsed_date:
                 parsed_date["locale"] = locale.shortname
                 if self.try_previous_locales:
-                    self.previous_locales[locale] = None
+                    with self._lock:
+                        self.previous_locales[locale] = None
                 return parsed_date
         return None
 
@@ -671,7 +673,9 @@ class DateDataParser:
                 yield stripped_date_string
 
         if self.try_previous_locales:
-            for locale in self.previous_locales.keys():
+            with self._lock:
+                previous_locales = list(self.previous_locales.keys())
+            for locale in previous_locales:
                 for s in date_strings():
                     if self._is_applicable_locale(locale, s, ignore_surrounding_text):
                         yield locale
@@ -711,8 +715,12 @@ class DateDataParser:
             ignore_surrounding_text=ignore_surrounding_text,
         )
 
+    _locale_loader_lock = threading.Lock()
+
     @classmethod
     def _get_locale_loader(cls):
         if not cls.locale_loader:
-            cls.locale_loader = LocaleDataLoader()
+            with cls._locale_loader_lock:
+                if not cls.locale_loader:
+                    cls.locale_loader = LocaleDataLoader()
         return cls.locale_loader

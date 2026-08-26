@@ -9,7 +9,7 @@ from .utils import apply_timezone, localize_timezone, strip_braces
 
 class DateParser:
     @apply_settings
-    def parse(self, date_string, parse_method, settings=None):
+    def parse(self, date_string, parse_method, settings=None, date_order=None):
         date_string = str(date_string)
 
         if not date_string.strip():
@@ -18,7 +18,9 @@ class DateParser:
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
 
-        date_obj, period = parse_method(date_string, settings=settings, tz=ptz)
+        date_obj, period = parse_method(
+            date_string, settings=settings, tz=ptz, date_order=date_order
+        )
 
         _settings_tz = settings.TIMEZONE.lower()
 
