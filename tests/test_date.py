@@ -405,6 +405,78 @@ class TestParseWithFormatsFunction(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                date_string="1999001",
+                date_formats=["%Y%j"],
+                expected_result=datetime(1999, 1, 1),
+            ),
+            param(
+                date_string="1999050",
+                date_formats=["%Y%j"],
+                expected_result=datetime(1999, 2, 19),
+            ),
+            param(
+                date_string="1999032",
+                date_formats=["%Y%j"],
+                expected_result=datetime(1999, 2, 1),
+            ),
+            param(
+                date_string="1999059",
+                date_formats=["%Y%j"],
+                expected_result=datetime(1999, 2, 28),
+            ),
+            param(
+                date_string="1999060",
+                date_formats=["%Y%j"],
+                expected_result=datetime(1999, 3, 1),
+            ),
+            param(
+                date_string="1999365",
+                date_formats=["%Y%j"],
+                expected_result=datetime(1999, 12, 31),
+            ),
+            param(
+                date_string="2000060",
+                date_formats=["%Y%j"],
+                expected_result=datetime(2000, 2, 29),
+            ),
+            param(
+                date_string="2000366",
+                date_formats=["%Y%j"],
+                expected_result=datetime(2000, 12, 31),
+            ),
+        ]
+    )
+    def test_should_parse_day_of_year_boundaries(
+        self, date_string, date_formats, expected_result
+    ):
+        """Format %%j (day of year) should handle month and leap year edges."""
+        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        self.then_date_was_parsed()
+        self.then_parsed_period_is("day")
+        self.then_parsed_date_is(expected_result)
+
+    @parameterized.expand(
+        [
+            # 366 is only a valid day of year in leap years, and must not be
+            # rolled over into the next year.
+            param(date_string="1999366", date_formats=["%Y%j"]),
+            param(date_string="2023-366", date_formats=["%Y-%j"]),
+            param(date_string="1900366", date_formats=["%Y%j"]),
+            param(date_string="2100 366", date_formats=["%Y %j"]),
+            # Values that are out of the %j range altogether.
+            param(date_string="1999000", date_formats=["%Y%j"]),
+            param(date_string="1999367", date_formats=["%Y%j"]),
+            param(date_string="1999777", date_formats=["%Y%j"]),
+        ]
+    )
+    def test_should_not_parse_out_of_range_day_of_year(self, date_string, date_formats):
+        """Format %%j (day of year) should reject days the year does not have."""
+        self.when_date_is_parsed_with_formats(date_string, date_formats)
+        self.then_date_was_not_parsed()
+
+    @parameterized.expand(
+        [
+            param(
                 date_string="09.16",
                 date_formats=["%m.%d"],
                 expected_month=9,
