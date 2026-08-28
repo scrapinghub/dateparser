@@ -90,13 +90,14 @@ def patch_strptime():
 __strptime = patch_strptime()
 
 
-def _prepare_format(date_string: str, og_format: str) -> tuple[str, str]:
+def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
     # Adapted from std lib: https://github.com/python/cpython/blob/e34a5e33049ce845de646cf24a498766a2da3586/Lib/_strptime.py#L448
     format = re.sub(r"([\\.^$*+?\(\){}\[\]|])", r"\\\1", og_format)
     format = re.sub(r"\s+", r"\\s+", format)
     format = re.sub(r"'", "['\u02bc]", format)
     year_in_format = False
     day_of_month_in_format = False
+    day_of_year_in_format = False
 
     def repl(m: re.Match[str]) -> str:
         format_char = m[1]
@@ -106,19 +107,36 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str]:
         elif format_char in ("d",):
             nonlocal day_of_month_in_format
             day_of_month_in_format = True
+        elif format_char in ("j",):
+            nonlocal day_of_year_in_format
+            day_of_year_in_format = True
 
         return ""
 
     _ = re.sub(r"%[-_0^#]*[0-9]*([OE]?\\?.?)", repl, format)
     if day_of_month_in_format and not year_in_format:
         current_year = datetime.today().year
-        return f"{current_year} {date_string}", f"%Y {og_format}"
-    return date_string, og_format
+        return (
+            f"{current_year} {date_string}",
+            f"%Y {og_format}",
+            day_of_year_in_format,
+        )
+    return date_string, og_format, day_of_year_in_format
 
 
 def strptime(date_string: str, format: str) -> datetime:
-    date_string, format = _prepare_format(date_string, format)
-    obj = datetime(*__strptime(date_string, format)[:-3])
+    date_string, format, day_of_year_in_format = _prepare_format(date_string, format)
+    time_tuple = __strptime(date_string, format)
+    obj = datetime(*time_tuple[:-3])
+
+    if day_of_year_in_format and time_tuple.tm_yday != obj.timetuple().tm_yday:
+        # A day of year past the end of the parsed year is rolled over into the
+        # next year by the std lib (e.g. day 366 of 1999 becomes 2000-01-01),
+        # which keeps the original value in tm_yday. Such a day does not belong
+        # to the parsed year, so reject it instead of returning another year.
+        raise ValueError(
+            f"day of year {time_tuple.tm_yday} is out of range for year {obj.year - 1}"
+        )
 
     if "%f" in format:
         try:
