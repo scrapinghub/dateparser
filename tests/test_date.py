@@ -1226,6 +1226,15 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("2005 г. 15:24"), "2005 15:24")
         self.assertEqual(date.sanitize_date("Авг."), "Авг")
 
+    def test_remove_year_in_russian_without_period(self):
+        self.assertEqual(date.sanitize_date("2005г"), "2005")
+        self.assertEqual(date.sanitize_date("2005 г"), "2005")
+        self.assertEqual(date.sanitize_date("09/08/2021г"), "09/08/2021")
+        self.assertEqual(date.sanitize_date("13 авг 2005 г 19:13"), "13 авг 2005 19:13")
+        # 'г' that is not a year abbreviation must be left alone
+        self.assertEqual(date.sanitize_date("2005 год"), "2005 год")
+        self.assertEqual(date.sanitize_date("5 г назад"), "5 г назад")
+
     def test_sanitize_date_colons(self):
         self.assertEqual(date.sanitize_date("2019:"), "2019")
         self.assertEqual(date.sanitize_date("31/07/2019:"), "31/07/2019")
