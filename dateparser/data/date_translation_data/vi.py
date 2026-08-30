@@ -4,47 +4,65 @@ info = {
     "january": [
         "thg 1",
         "tháng 1",
-        "Tháng một"
+        "Tháng một",
+        "tháng 01",
+        "thg 01"
     ],
     "february": [
         "thg 2",
         "tháng 2",
-        "Tháng hai"
+        "Tháng hai",
+        "tháng 02",
+        "thg 02"
     ],
     "march": [
         "thg 3",
         "tháng 3",
-        "Tháng ba"
+        "Tháng ba",
+        "tháng 03",
+        "thg 03"
     ],
     "april": [
         "thg 4",
         "tháng 4",
-        "Tháng tư"
+        "Tháng tư",
+        "tháng 04",
+        "thg 04"
     ],
     "may": [
         "thg 5",
         "tháng 5",
-        "Tháng năm"
+        "Tháng năm",
+        "tháng 05",
+        "thg 05"
     ],
     "june": [
         "thg 6",
         "tháng 6",
-        "Tháng sáu"
+        "Tháng sáu",
+        "tháng 06",
+        "thg 06"
     ],
     "july": [
         "thg 7",
         "tháng 7",
-        "Tháng bảy"
+        "Tháng bảy",
+        "tháng 07",
+        "thg 07"
     ],
     "august": [
         "thg 8",
         "tháng 8",
-        "Tháng tám"
+        "Tháng tám",
+        "tháng 08",
+        "thg 08"
     ],
     "september": [
         "thg 9",
         "tháng 9",
-        "Tháng chín"
+        "Tháng chín",
+        "tháng 09",
+        "thg 09"
     ],
     "october": [
         "thg 10",
