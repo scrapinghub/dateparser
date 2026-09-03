@@ -34,15 +34,13 @@ def _add_time_span_results(results, text, settings):
 class _ExactLanguageSearch:
     def __init__(self, loader):
         self.loader = loader
-        self.language = None
 
     def get_current_language(self, shortname):
-        if self.language is None or self.language.shortname != shortname:
-            self.language = self.loader.get_locale(shortname)
+        return self.loader.get_locale(shortname)
 
     def search(self, shortname, text, settings):
-        self.get_current_language(shortname)
-        result = self.language.translate_search(text, settings=settings)
+        language = self.get_current_language(shortname)
+        result = language.translate_search(text, settings=settings)
         return result
 
     @staticmethod
@@ -270,13 +268,13 @@ class DateSearchWithDetection:
             )
 
         if languages:
-            self.language_detector = FullTextLanguageDetector(languages=languages)
+            language_detector = FullTextLanguageDetector(languages=languages)
         else:
-            self.language_detector = FullTextLanguageDetector(
+            language_detector = FullTextLanguageDetector(
                 list(self.available_language_map.values())
             )
 
-        detected_language = self.language_detector._best_language(text) or (
+        detected_language = language_detector._best_language(text) or (
             settings.DEFAULT_LANGUAGES[0] if settings.DEFAULT_LANGUAGES else None
         )
         return detected_language
