@@ -523,6 +523,13 @@ class TestBundledLanguages(BaseTestCase):
                 "5 march 1789 monday 11:13 pm",
             ),
             param("hsb", "štwórtk 2000 awg 14", "thursday 2000 august 14"),
+            # ht
+            param("ht", "15 janvye 2023", "15 january 2023"),
+            param("ht", "3 fevriye 2021 14:30", "3 february 2021 14:30"),
+            param("ht", "lendi 5 jen 2023", "monday 5 june 2023"),
+            param("ht", "madi 12 mas 2020", "tuesday 12 march 2020"),
+            param("ht", "samdi 11 out 2018", "saturday 11 august 2018"),
+            param("ht", "dimanch 20 desanm 2020", "sunday 20 december 2020"),
             # hy
             param(
                 "hy",
@@ -1127,6 +1134,14 @@ class TestBundledLanguages(BaseTestCase):
             param("fr", "hier", "1 day ago"),
             param("fr", "aujourd'hui", "0 day ago"),
             param("fr", "après dix ans", "in 10 year"),
+            # ht
+            param("ht", "yè", "1 day ago"),
+            param("ht", "jodi a", "0 day ago"),
+            param("ht", "demen", "in 1 day"),
+            param("ht", "avan yè", "2 day ago"),
+            param("ht", "aprè demen", "in 2 day"),
+            param("ht", "sa gen 3 jou", "3 day ago"),
+            param("ht", "nan 2 semèn", "in 2 week"),
             # Spanish
             param("es", "anteayer", "2 day ago"),
             param("es", "ayer", "1 day ago"),
