@@ -1,0 +1,238 @@
+name: ht
+date_order: DMY
+january:
+    - janv
+    - janvye
+    - jan
+february:
+    - fevr
+    - fevriye
+    - fev
+march:
+    - mas
+april:
+    - avr
+    - avril
+may:
+    - me
+june:
+    - jen
+july:
+    - jiyè
+    - jwiyè
+august:
+    - out
+    - dawout
+september:
+    - sept
+    - septanm
+    - sep
+october:
+    - okt
+    - oktòb
+november:
+    - nov
+    - novanm
+december:
+    - des
+    - desanm
+monday:
+    - lendi
+    - len
+tuesday:
+    - madi
+    - mad
+    - ma
+wednesday:
+    - mèkredi
+    - mèkr
+    - mè
+thursday:
+    - jedi
+    - je
+friday:
+    - vand
+    - vandredi
+    - van
+saturday:
+    - sam
+    - samdi
+    - sa
+sunday:
+    - dim
+    - dimanch
+    - di
+am:
+    - am
+pm:
+    - pm
+year:
+    - a
+    - an
+    - ane
+    - lane
+    - lanne
+    - zan
+month:
+    - m
+    - mwa
+week:
+    - sem
+    - semèn
+day:
+    - j
+    - jr
+    - jou
+hour:
+    - h
+    - hr
+    - è
+    - zè
+    - èdtan
+minute:
+    - min
+    - minit
+second:
+    - s
+    - sec
+    - segonn
+    - segond
+relative-type:
+    0 day ago:
+        - jodi a
+    0 hour ago:
+        - nan lè sa
+    0 minit ago:
+        - nan minit sa
+    0 month ago:
+        - nan mwa sa
+    0 second ago:
+        - kounye a
+    0 week ago:
+        - semèn sa
+    0 year ago:
+        - ane sa
+    1 day ago:
+        - yè
+    1 month ago:
+        - mwa pase a
+    1 week ago:
+        - semèn pase a
+    1 year ago:
+        - ane pase a
+    in 1 day:
+        - demen
+    in 1 month:
+        - mwa pwochen
+    in 1 week:
+        - semèn pwochèn
+    in 1 year:
+        - ane pwochèn
+    2 day ago:
+        - avan yè
+    in 2 day:
+        - aprè demen
+relative-type-regex:
+    \1 day ago:
+        - sa gen (\d+[.,]?\d*) j
+        - sa gen (\d+[.,]?\d*) jou
+    \1 hour ago:
+        - sa gen (\d+[.,]?\d*) è
+        - sa gen (\d+[.,]?\d*) èdtan
+        - sa gen (\d+[.,]?\d*)è
+        - sa gen (\d+[.,]?\d*)h
+        - sa gen (\d+[.,]?\d*) h
+    \1 minit ago:
+        - sa gen (\d+[.,]?\d*) min
+        - sa gen (\d+[.,]?\d*) minit
+        - sa gen (\d+[.,]?\d*)min
+    \1 month ago:
+        - sa gen (\d+[.,]?\d*) mwa
+    \1 second ago:
+        - sa gen (\d+[.,]?\d*) s
+        - sa gen (\d+[.,]?\d*) segonn
+        - sa gen (\d+[.,]?\d*) segond
+        - sa gen (\d+[.,]?\d*)s
+    \1 week ago:
+        - sa gen (\d+[.,]?\d*) sem
+        - sa gen (\d+[.,]?\d*) semèn
+    \1 year ago:
+        - sa gen (\d+[.,]?\d*) a
+        - sa gen (\d+[.,]?\d*) an
+        - sa gen (\d+[.,]?\d*) ane
+    in \1 day:
+        - nan (\d+[.,]?\d*) j
+        - nan (\d+[.,]?\d*) jou
+    in \1 hour:
+        - nan (\d+[.,]?\d*) è
+        - nan (\d+[.,]?\d*) èdtan
+        - nan (\d+[.,]?\d*)è
+        - nan (\d+[.,]?\d*) h
+        - nan (\d+[.,]?\d*)h
+    in \1 minit:
+        - nan (\d+[.,]?\d*) min
+        - nan (\d+[.,]?\d*) minit
+    in \1 month:
+        - nan (\d+[.,]?\d*) m
+        - nan (\d+[.,]?\d*) mwa
+    in \1 second:
+        - nan (\d+[.,]?\d*) s
+        - nan (\d+[.,]?\d*) segonn
+        - nan (\d+[.,]?\d*) segond
+        - nan (\d+[.,]?\d*)s
+    in \1 week:
+        - nan (\d+[.,]?\d*) sem
+        - nan (\d+[.,]?\d*) semèn
+    in \1 year:
+        - nan (\d+[.,]?\d*) a
+        - nan (\d+[.,]?\d*) an
+        - nan (\d+[.,]?\d*) ane
+skip:
+    - anviwon
+    - e
+    - le
+    - li
+    - a
+sentence_splitter_group: 1
+ago:
+    - sa gen
+    - sa genyen
+    - sa fè
+    - gen
+in:
+    - nan
+    - aprè
+simplifications:
+    - yon: '1'
+    - en: '1'
+    - midi: '12:00'
+    - minwi: '00:00'
+    - (\d+[.,]?\d*)\s+h\s+(\d+[.,]?\d*)\s+min: \1h\2m
+    - (\d+[.,]?\d*)h(\d+[.,]?\d*)m?: \1:\2
+    - mwens\s(?:(?:pase|ke)\s)?(\d+[.,]?\d*)\s(minit|segond|è): \1 \2
+    - mwens\s(?:(?:pase|ke)\s)?(\d+[.,]?\d*)\ss: \1 segond
+    - mwens\s(?:(?:pase|ke)\s)?(\d+[.,]?\d*)\sm: \1 minit
+    - mwens\s(?:(?:pase|ke)\s)?(\d+[.,]?\d*)\sh: \1 è
+    - (\d+[.,]?\d*|youn|de|twa|kat|senk|sis|sèt|uit|nèf|dis|onz|douz) (deseni|l?ane|mwa|semèn|jou|è|minit|segon[nd]) aprè: nan \1 \2
+    - de: '2'
+    - dezè: 2 è
+    - twa: '3'
+    - twazè: 3 è
+    - kat: '4'
+    - katè: 4 è
+    - senk: '5'
+    - senkè: 5 è
+    - sis: '6'
+    - sizè: 6 è
+    - sèt: '7'
+    - sètè: 7 è
+    - uit: '8'
+    - uitè: 8 è
+    - nèf: '9'
+    - nèvè: 9 è
+    - dis: '10'
+    - dizè: 10 è
+    - onz: '11'
+    - onzè: 11 è
+    - douz: '12'
+    - douzè: 12 è
