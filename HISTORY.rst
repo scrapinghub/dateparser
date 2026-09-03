@@ -3,6 +3,42 @@
 History
 =======
 
+1.4.3 (unreleased)
+------------------
+
+Fixes:
+
+- Make parsing thread-safe: parsing from several threads no longer
+  raises an intermittent ``KeyError`` from the shared language caches,
+  and a ``DATE_ORDER`` or ``RELATIVE_BASE`` value meant for one parse no
+  longer leaks into the settings that other parses read, where it could
+  make them return a wrong date (#1346)
+- Do not share the language detector and the detected locale between
+  ``search_dates()`` calls, so concurrent searches over text in
+  different languages no longer return ``None`` or a date read in the
+  wrong locale (#1371)
+- Resolve the ``BST`` and ``HDT`` timezone abbreviations to the offsets
+  the tz database gives them, UTC+1 (British Summer Time) and UTC-9
+  (Hawaii-Aleutian Daylight Time), instead of +11 and -9:30, which no
+  zone goes by those names today; abbreviations that the tz database
+  maps to more than one offset, such as ``CST`` and ``IST``, keep their
+  current offset. Text carrying these abbreviations keeps its wall clock
+  but moves by 10 hours for ``BST`` and 30 minutes for ``HDT``, which can
+  put the parsed instant on a different day (#1366)
+- Reject a ``%j`` (day of year) value that the parsed year does not
+  have, instead of rolling it over into the next year, so "1999366" with
+  ``date_formats=["%Y%j"]`` returns ``None`` rather than 2000-01-01. A
+  format with no year directive is checked against the year ``strptime``
+  defaults to, 1900, which is not a leap year, so "366" with
+  ``date_formats=["%j"]`` now returns ``None`` where it used to return
+  January 1 (#1370)
+
+Cleanups and internal improvements:
+
+- Add CodSpeed benchmarks and a workflow that runs them, so a
+  performance regression such as the quadratic backtracking fixed in
+  1.4.1 is reported on the pull request that introduces it (#1365)
+
 1.4.2 (2026-08-04)
 ------------------
 
