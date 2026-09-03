@@ -238,3 +238,57 @@ class TestStrptime(BaseTestCase):
         current_year = datetime.today().year
         expected = expected.replace(year=current_year)
         self.assertEqual(self.result, expected)
+
+    @parameterized.expand(
+        [
+            param("1999001", "%Y%j", expected=datetime(1999, 1, 1)),
+            param("1999032", "%Y%j", expected=datetime(1999, 2, 1)),
+            param("1999050", "%Y%j", expected=datetime(1999, 2, 19)),
+            param("1999059", "%Y%j", expected=datetime(1999, 2, 28)),
+            param("1999060", "%Y%j", expected=datetime(1999, 3, 1)),
+            param("1999365", "%Y%j", expected=datetime(1999, 12, 31)),
+            param("2000060", "%Y%j", expected=datetime(2000, 2, 29)),
+            param("2000061", "%Y%j", expected=datetime(2000, 3, 1)),
+            param("2000366", "%Y%j", expected=datetime(2000, 12, 31)),
+            param("2400366", "%Y%j", expected=datetime(2400, 12, 31)),
+            param("2023-100", "%Y-%j", expected=datetime(2023, 4, 10)),
+            param("2024 366", "%Y %j", expected=datetime(2024, 12, 31)),
+            param("1999001 12:30", "%Y%j %H:%M", expected=datetime(1999, 1, 1, 12, 30)),
+        ]
+    )
+    def test_day_of_year_is_parsed(self, date_string, fmt, expected):
+        self.when_date_string_is_parsed(date_string, fmt)
+        self.then_date_object_is(expected)
+
+    @parameterized.expand(
+        [
+            # 366 is only a valid day of year in leap years.
+            param("1999366", "%Y%j"),
+            param("2023-366", "%Y-%j"),
+            param("1900366", "%Y%j"),  # divisible by 100 but not by 400
+            param("2100366", "%Y%j"),
+            param("2025366 12:30", "%Y%j %H:%M"),
+            # Values that strptime itself rejects.
+            param("1999000", "%Y%j"),
+            param("1999367", "%Y%j"),
+            param("1999777", "%Y%j"),
+        ]
+    )
+    def test_day_of_year_out_of_range_is_not_parsed(self, date_string, fmt):
+        self.when_date_string_is_parsed(date_string, fmt)
+        self.then_date_object_is_instance_of(ValueError)
+
+    @parameterized.expand(
+        [
+            param("%j", "%%j", expected=datetime(1900, 1, 1)),
+            param("1999%j", "%Y%%j", expected=datetime(1999, 1, 1)),
+            # A literal "%j" must not be taken for a day of year directive, not
+            # even when another directive rolls the year over.
+            param("2023 53 1 %j", "%Y %U %w %%j", expected=datetime(2024, 1, 1)),
+        ]
+    )
+    def test_escaped_day_of_year_directive_is_a_literal(
+        self, date_string, fmt, expected
+    ):
+        self.when_date_string_is_parsed(date_string, fmt)
+        self.then_date_object_is(expected)

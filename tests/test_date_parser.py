@@ -1921,6 +1921,28 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(2, result.month)
         self.assertEqual(29, result.day)
 
+    @parameterized.expand(
+        [
+            param(date_string="1999001", expected=datetime(1999, 1, 1)),
+            param(date_string="1999050", expected=datetime(1999, 2, 19)),
+            param(date_string="1999365", expected=datetime(1999, 12, 31)),
+            param(date_string="2000366", expected=datetime(2000, 12, 31)),
+        ]
+    )
+    def test_day_of_year_is_parsed(self, date_string, expected):
+        """Test that %j maps the day of year onto the right date (Issue #271)."""
+        self.assertEqual(expected, parse(date_string, date_formats=["%Y%j"]))
+
+    @parameterized.expand(
+        [
+            param(date_string="1999366"),  # 1999 is not a leap year
+            param(date_string="1999777"),
+        ]
+    )
+    def test_out_of_range_day_of_year_is_not_parsed(self, date_string):
+        """Test that an invalid %j value is not read as another date (Issue #271)."""
+        self.assertIsNone(parse(date_string, date_formats=["%Y%j"]))
+
 
 if __name__ == "__main__":
     unittest.main()
