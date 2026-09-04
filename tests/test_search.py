@@ -1453,6 +1453,14 @@ class TestNgramSearch(BaseTestCase):
             )
         )
 
+
+    def test_search_dates_cjk_locales_no_index_error(self):
+        self.assertIsNotNone(search_dates("聽日"))
+        self.assertIsNotNone(search_dates("舊年"))
+        self.assertIsNotNone(search_dates("今天", languages=["zh-Hans"]))
+        self.assertIsNone(search_dates("2020年3月4日", languages=["zh-Hant"]))
+        self.assertIsNotNone(search_dates("00Z", languages=["yue"]))
+
     def test_unknown_strategy_raises_error(self):
         with self.assertRaisesRegex(ValueError, "strategy must be"):
             search_dates("4 October 1957", languages=["en"], strategy="unknown")
