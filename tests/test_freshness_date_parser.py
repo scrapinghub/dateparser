@@ -2660,6 +2660,15 @@ class TestFreshnessDateDataParser(BaseTestCase):
             elapsed, 1.0, "split_relative_regex backtracked on long digit run"
         )
 
+    def test_arabic_plural_hours_ago(self):
+        # Arabic plural form "ساعات" was missing from the
+        # relative-type-regex patterns, so "قبل N ساعات" was not parsed.
+        self.given_parser()
+        self.given_date_string("قبل 5 ساعات")
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_obj_is_exactly_this_time_ago({"hours": 5})
+
     def given_date_string(self, date_string):
         self.date_string = date_string
 
