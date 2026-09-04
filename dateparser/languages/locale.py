@@ -300,7 +300,8 @@ class Locale:
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
                 elif (
-                    current_and_next_joined in dictionary
+                    i < last_token_index
+                    and current_and_next_joined in dictionary
                     and word not in dashes
                     and self.shortname not in word_joint_unsupported_languages
                 ):
