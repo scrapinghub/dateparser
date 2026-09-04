@@ -81,6 +81,18 @@ class TestBundledLanguages(BaseTestCase):
             param("fr", "20 Février 2012", "20 february 2012"),
             param("fr", "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
             param("fr", "18 octobre 2012 à 19 h 21 min", "18 october 2012 19:21"),
+            # "sept" is both the abbreviation for "septembre" and the word for
+            # 7, so it must only be simplified to a number where it is used as
+            # a quantity.
+            param("fr", "1 sept. 2024", "1 september. 2024"),
+            param("fr", "11 sept. 2014", "11 september. 2014"),
+            param("fr", "mardi 3 sept 2024", "tuesday 3 september 2024"),
+            param("fr", "3 sept à 14h30", "3 september 14:30"),
+            param("fr", "sept heures", "7 hour"),
+            param("fr", "il y a sept jours", "7 day ago"),
+            param("fr", "sept ans", "7 year"),
+            param("fr", "il y a sept a", "7 year ago"),
+            param("fr", "sept:30", "7:30"),
             # German
             param("de", "29. Juni 2007", "29. june 2007"),
             param("de", "Montag 5 Januar, 2015", "monday 5 january 2015"),
