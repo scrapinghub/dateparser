@@ -957,6 +957,38 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("2026-08-31", settings={"DATE_ORDER": "DMY"}, expected=datetime(2026, 8, 31)),
+            param(
+                "2026-08-31T01:46:00+00:00",
+                settings={"DATE_ORDER": "DMY"},
+                expected=datetime(2026, 8, 31, 1, 46),
+            ),
+            param(
+                "2026-05-08",
+                settings={"DATE_ORDER": "DMY"},
+                expected=datetime(2026, 5, 8),
+            ),
+            param(
+                "03-12-2026",
+                settings={"DATE_ORDER": "DMY"},
+                expected=datetime(2026, 12, 3),
+            ),
+        ]
+    )
+    def test_iso_datestamp_format_should_parse_with_explicit_date_order(
+        self, date_string, settings, expected
+    ):
+        # Extends #1352/#360 to explicit DATE_ORDER: ISO dates must parse;
+        # ambiguous dates without a leading year must still honor DATE_ORDER.
+        self.given_local_tz_offset(0)
+        self.given_parser(languages=["en"], settings=settings)
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.result["date_obj"] = self.result["date_obj"].replace(tzinfo=None)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             # Epoch timestamps.
             param("1484823450", expected=datetime(2017, 1, 19, 10, 57, 30)),
             param("1436745600000", expected=datetime(2015, 7, 13, 0, 0)),
