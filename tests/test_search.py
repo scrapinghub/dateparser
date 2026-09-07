@@ -1113,6 +1113,92 @@ class TestTranslateSearch(BaseTestCase):
         ]
         assert result == expected
 
+    def test_search_dates_with_prepositions_with_turn_of_year(self):
+        """Test `search_dates` for parsing English date ranges with
+        prepositions, turn of year and language detection.
+        """
+        result = search_dates(
+            "Closed from 23th December until 8th January.",
+            add_detected_language=True,
+            languages=["en"],
+        )
+        expected = [
+            ("from 23th December", datetime.datetime(today.year, 12, 23, 0, 0), "en"),
+            ("8th January", datetime.datetime(today.year + 1, 1, 8, 0, 0), "en"),
+        ]
+        assert result == expected
+
+    def test_search_dates_turn_of_year_wide_cross_year_range(self):
+        """November → February spans the year (3 months forward): rollover must be applied."""
+        result = search_dates(
+            "Closed from 15th November until 10th February.",
+            languages=["en"],
+        )
+        expected = [
+            ("from 15th November", datetime.datetime(today.year, 11, 15, 0, 0)),
+            ("10th February", datetime.datetime(today.year + 1, 2, 10, 0, 0)),
+        ]
+        assert result == expected
+
+    def test_search_dates_turn_of_year_beyond_six_months(self):
+        """September → March spans a 6-month forward gap: rollover must still be applied."""
+        result = search_dates(
+            "Closed from 1st September until 15th March.",
+            languages=["en"],
+        )
+        expected = [
+            ("from 1st September", datetime.datetime(today.year, 9, 1, 0, 0)),
+            ("15th March", datetime.datetime(today.year + 1, 3, 15, 0, 0)),
+        ]
+        assert result == expected
+
+    def test_search_dates_no_rollover_without_range_connector(self):
+        """Standalone month mentions going backwards (no "from ... until"-style
+        connector between them) must not be treated as a year-spanning range.
+        """
+        result = search_dates(
+            "June 23rd. May 31st.",
+            languages=["en"],
+        )
+        expected = [
+            ("June 23rd", datetime.datetime(today.year, 6, 23, 0, 0)),
+            ("May 31st", datetime.datetime(today.year, 5, 31, 0, 0)),
+        ]
+        assert result == expected
+
+    def test_search_dates_rollover_skipped_when_substring_position_not_found(self):
+        """When irregular whitespace keeps a parsed substring from being
+        located verbatim in the original text, the rollover must be safely
+        skipped rather than raising or guessing.
+        """
+        result = search_dates(
+            "Closed from  23th   December  until 8th   January.",
+            languages=["en"],
+        )
+        expected = [
+            ("from 23th December", datetime.datetime(today.year, 12, 23, 0, 0)),
+            ("8th January", datetime.datetime(today.year, 1, 8, 0, 0)),
+        ]
+        assert result == expected
+
+    @parameterized.expand(
+        [
+            param(" until ", True),
+            param(" to ", True),
+            param(" through ", True),
+            param(" till ", True),
+            param(" - ", True),
+            param(" – ", True),
+            param(" — ", True),
+            param(", UNTIL ", True),
+            param("\n                    ", False),
+            param(" and ", False),
+            param(", we also closed on ", False),
+        ]
+    )
+    def test_is_range_connector(self, connector, expected):
+        assert self.exact_language_search._is_range_connector(connector) == expected
+
     @parameterized.expand(
         [
             param(

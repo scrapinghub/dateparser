@@ -56,6 +56,69 @@ class _ExactLanguageSearch:
         relative_base = already_parsed[i][0]["date_obj"]
         return substring, relative_base
 
+    @staticmethod
+    def _has_explicit_year(substring):
+        """Return True if the substring contains a 4-digit year number."""
+        return bool(re.search(r"\b\d{4}\b", substring))
+
+    # Text joining two dates that reads as one range rather than two
+    # unrelated mentions (e.g. "from 23th December UNTIL 8th January").
+    # English-only: non-English ranges fall back to no rollover instead of
+    # guessing, since translating this word list per-locale is out of scope.
+    _RANGE_CONNECTOR_REG = re.compile(
+        r"^[\s,]*(?:until|to|through|till|-|–|—)[\s,]*$", re.IGNORECASE
+    )
+
+    @staticmethod
+    def _is_range_connector(connector):
+        return bool(_ExactLanguageSearch._RANGE_CONNECTOR_REG.match(connector))
+
+    @staticmethod
+    def _adjust_year_for_rollovers(results, text):
+        """Fix year-spanning date ranges parsed without explicit years.
+
+        When two consecutive parsed dates are joined by a range connector
+        (e.g. "from 23th December until 8th January") and go backwards
+        chronologically, but neither substring contains an explicit year, the
+        later-mentioned date belongs to the next calendar year and its year
+        is incremented by one.
+
+        The connector check (rather than a bare month comparison) is what
+        keeps this from misfiring on unrelated date mentions in running text
+        that merely happen to go backwards in month, e.g. "June 23 ... May
+        31" listed as separate standalone dates within the same year.
+        """
+        if len(results) < 2:
+            return results
+        adjusted = list(results)
+        cursor = 0
+        positions = []
+        for substring, _ in adjusted:
+            start = text.find(substring, cursor)
+            if start == -1:
+                positions.append((None, None))
+                continue
+            end = start + len(substring)
+            positions.append((start, end))
+            cursor = end
+        for i in range(1, len(adjusted)):
+            prev_text, prev_date = adjusted[i - 1]
+            curr_text, curr_date = adjusted[i]
+            if _ExactLanguageSearch._has_explicit_year(
+                prev_text
+            ) or _ExactLanguageSearch._has_explicit_year(curr_text):
+                continue
+            prev_end = positions[i - 1][1]
+            curr_start = positions[i][0]
+            if prev_end is None or curr_start is None:
+                continue
+            connector = text[prev_end:curr_start]
+            if not _ExactLanguageSearch._is_range_connector(connector):
+                continue
+            if curr_date.month < prev_date.month:
+                adjusted[i] = (curr_text, curr_date.replace(year=curr_date.year + 1))
+        return adjusted
+
     def choose_best_split(self, possible_parsed_splits, possible_substrings_splits):
         rating = []
         for i in range(len(possible_parsed_splits)):
@@ -201,6 +264,7 @@ class _ExactLanguageSearch:
         )
 
         results = list(zip(substrings, [i[0]["date_obj"] for i in parsed]))
+        results = self._adjust_year_for_rollovers(results, text)
 
         _add_time_span_results(results, text, settings)
 
