@@ -131,7 +131,7 @@ info = {
         "0 hour ago": [
             "nan lè sa"
         ],
-        "0 minit ago": [
+        "0 minute ago": [
             "nan minit sa"
         ],
         "0 month ago": [
@@ -188,7 +188,7 @@ info = {
             "sa gen (\\d++[.,]?\\d*+)h",
             "sa gen (\\d++[.,]?\\d*+) h"
         ],
-        "\\1 minit ago": [
+        "\\1 minute ago": [
             "sa gen (\\d++[.,]?\\d*+) min",
             "sa gen (\\d++[.,]?\\d*+) minit",
             "sa gen (\\d++[.,]?\\d*+)min"
@@ -220,7 +220,7 @@ info = {
             "nan (\\d++[.,]?\\d*+) h",
             "nan (\\d++[.,]?\\d*+)h"
         ],
-        "in \\1 minit": [
+        "in \\1 minute": [
             "nan (\\d++[.,]?\\d*+) min",
             "nan (\\d++[.,]?\\d*+) minit"
         ],

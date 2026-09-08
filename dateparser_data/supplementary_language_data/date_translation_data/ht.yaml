@@ -100,7 +100,7 @@ relative-type:
         - jodi a
     0 hour ago:
         - nan lè sa
-    0 minit ago:
+    0 minute ago:
         - nan minit sa
     0 month ago:
         - nan mwa sa
@@ -139,7 +139,7 @@ relative-type-regex:
         - sa gen (\d+[.,]?\d*)è
         - sa gen (\d+[.,]?\d*)h
         - sa gen (\d+[.,]?\d*) h
-    \1 minit ago:
+    \1 minute ago:
         - sa gen (\d+[.,]?\d*) min
         - sa gen (\d+[.,]?\d*) minit
         - sa gen (\d+[.,]?\d*)min
@@ -164,7 +164,7 @@ relative-type-regex:
         - nan (\d+[.,]?\d*)è
         - nan (\d+[.,]?\d*) h
         - nan (\d+[.,]?\d*)h
-    in \1 minit:
+    in \1 minute:
         - nan (\d+[.,]?\d*) min
         - nan (\d+[.,]?\d*) minit
     in \1 month:
