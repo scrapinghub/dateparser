@@ -65,9 +65,8 @@ class _ExactLanguageSearch:
     # unrelated mentions (e.g. "from 23th December UNTIL 8th January").
     # English-only: non-English ranges fall back to no rollover instead of
     # guessing, since translating this word list per-locale is out of scope.
-    _RANGE_CONNECTOR_REG = re.compile(
-        r"^[\s,]*(?:until|to|through|till|-|–|—)[\s,]*$", re.IGNORECASE
-    )
+    _RANGE_CONNECTOR_PATTERN = r"^[\s,]*(?:until|to|through|till|-|–|—)[\s,]*$"
+    _RANGE_CONNECTOR_REG = re.compile(_RANGE_CONNECTOR_PATTERN, re.IGNORECASE)
 
     @staticmethod
     def _is_range_connector(connector):
