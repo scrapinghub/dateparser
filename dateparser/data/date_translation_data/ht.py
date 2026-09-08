@@ -89,7 +89,6 @@ info = {
         "pm"
     ],
     "year": [
-        "a",
         "an",
         "ane",
         "lane",
@@ -105,7 +104,6 @@ info = {
         "semèn"
     ],
     "day": [
-        "j",
         "jr",
         "jou"
     ],
@@ -181,7 +179,6 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "sa gen (\\d++[.,]?\\d*+) j",
             "sa gen (\\d++[.,]?\\d*+) jou"
         ],
         "\\1 hour ago": [
@@ -210,12 +207,10 @@ info = {
             "sa gen (\\d++[.,]?\\d*+) semèn"
         ],
         "\\1 year ago": [
-            "sa gen (\\d++[.,]?\\d*+) a",
             "sa gen (\\d++[.,]?\\d*+) an",
             "sa gen (\\d++[.,]?\\d*+) ane"
         ],
         "in \\1 day": [
-            "nan (\\d++[.,]?\\d*+) j",
             "nan (\\d++[.,]?\\d*+) jou"
         ],
         "in \\1 hour": [
@@ -244,7 +239,6 @@ info = {
             "nan (\\d++[.,]?\\d*+) semèn"
         ],
         "in \\1 year": [
-            "nan (\\d++[.,]?\\d*+) a",
             "nan (\\d++[.,]?\\d*+) an",
             "nan (\\d++[.,]?\\d*+) ane"
         ]
