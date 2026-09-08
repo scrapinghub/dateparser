@@ -11,6 +11,7 @@ from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
 PATTERN = re.compile(r"([+-]?\s*\d++[.,]?\d*+)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
+_NUMERIC_PREFIX = re.compile(r"(?<![\d:])\d[\d.,]*[.,\s]*\Z", re.REVERSE)
 
 
 class FreshnessDateDataParser:
@@ -160,19 +161,20 @@ class FreshnessDateDataParser:
         return date, period
 
     def get_kwargs(self, date_string):
-        m = PATTERN.findall(date_string)
-        if not m:
-            return {}
-
         kwargs = {}
         explicit_signs = {}
 
-        for num, unit in m:
+        for match in PATTERN.finditer(date_string):
+            # Do not accept a suffix of a number split by translation or an
+            # unsupported separator. A preceding clock time is allowed.
+            if _NUMERIC_PREFIX.search(date_string, endpos=match.start()):
+                return {}
+            num, unit = match.groups()
             has_explicit_sign = num.startswith("+") or num.startswith("-")
             explicit_signs[unit + "s"] = has_explicit_sign
             kwargs[unit + "s"] = float(num.replace(",", ".").replace(" ", ""))
 
-        return kwargs, explicit_signs
+        return (kwargs, explicit_signs) if kwargs else {}
 
     def get_date_data(self, date_string, settings=None):
         from dateparser.date import DateData

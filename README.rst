@@ -146,6 +146,12 @@ If you know the possible formats of the dates, you can use the
 Relative Dates
 --------------
 
+For relative quantities, use ungrouped numbers such as ``1000 days ago``.
+A comma can denote a decimal fraction (``1,5 hours ago``); it is not reliably
+interpreted as a thousands separator. Inputs such as ``1,000,000 days ago``
+that would otherwise parse only part of the number are rejected rather than
+silently producing a truncated relative offset.
+
 .. code:: python
 
     >>> from dateparser import parse
