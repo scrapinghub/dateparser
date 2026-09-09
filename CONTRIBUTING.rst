@@ -76,7 +76,7 @@ installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv dateparser
     $ cd dateparser/
-    $ pip install -e .
+    $ pip install -e . pytest parameterized tox
 
 4. Create a branch for local development::
 
@@ -84,12 +84,20 @@ installed, this is how you set up your fork for local development::
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the
-tests, including testing other Python versions with tox::
+5. Run the tests and the ruff linting and formatting hooks::
 
-    $ tox
+    $ pytest
+    $ tox -e pre-commit
 
-   To get ``tox``, just ``pip install`` it into your virtualenv. In addition to tests, ``tox`` checks for code style and maximum line length (119 characters).
+   Bare ``pytest`` runs the ``tests/`` directory. Optional calendar and language
+   detection tests require ``pip install -e '.[calendars,langdetect]'``.
+   The ruff formatter uses its default line length of 88; the linter does not
+   enforce a maximum line length.
+
+   Use ``tox`` to run the full environment list, including the supported Python
+   versions, documentation, scripts, packaging checks, and benchmarks. These
+   environments require their configured Python interpreters to be installed.
+   To run just the packaging check, use ``tox -e twinecheck``.
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -153,9 +161,10 @@ language, you must:
     :ref:`language-data-template` for details.
 
 #.  Regenerate the corresponding file within
-    ``dateparser/data/date_translation_data`` running the following script::
+    ``dateparser/data/date_translation_data`` after installing the script dependencies::
 
-        dateparser_scripts/write_complete_data.py
+        pip install -r dateparser_scripts/requirements.txt
+        python -m dateparser_scripts.write_complete_data
 
 #.  Write tests that cover your changes
 
