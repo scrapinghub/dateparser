@@ -14,6 +14,12 @@ on:
   # `gh workflow enable nightly.yml`, since a disabled workflow answers no
   # triggers at all.
   workflow_dispatch:
+
+# The called matrix only checks out and tests; the report job below asks for
+# the one extra scope it needs.
+permissions:
+  contents: read
+
 jobs:
   build:
     uses: ./.github/workflows/main.yml
@@ -24,8 +30,13 @@ jobs:
     needs: build
     # A push or pull request failure is already in front of whoever caused it.
     # A failure with no commit behind it has nowhere to land but a single
-    # notification email to whoever last edited the schedule.
-    if: failure()
+    # notification email to whoever last edited the schedule. A cancelled build
+    # counts, since a leg that hangs until GitHub kills it is a failure too.
+    # Master only, so that a dispatch on a work branch can neither file a
+    # report nor mask the real one.
+    if: >-
+      (needs.build.result == 'failure' || needs.build.result == 'cancelled')
+      && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -35,26 +46,31 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           TITLE: The nightly build is failing
-          LABEL: "Type: Maintenance"
+          LABEL: nightly-failure
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           # One issue per outage: a daily comment stream would only be one more
-          # signal to ignore. Passing --label runs this through the issue search
-          # index, which trails issue creation by seconds, while a whole matrix
-          # run separates one nightly from the next.
-          existing="$(gh issue list --state open --label "$LABEL" --limit 100 \
-            --json number,title \
-            --jq 'map(select(.title == env.TITLE)) | .[0].number // empty')"
+          # signal to ignore. The label, not the title, identifies the tracking
+          # issue, so retitling it to record the cause does not defeat the
+          # check; --force makes creating the label idempotent. A transient
+          # listing failure must not stop the report, since a duplicate issue
+          # is cheaper than silence.
+          gh label create "$LABEL" --force --color d93f0b \
+            --description "Filed by the Nightly workflow"
+          existing="$(gh issue list --state open --label "$LABEL" --limit 1 \
+            --json number --jq '.[0].number // empty' || true)"
           if [ -n "$existing" ]; then
             echo "Already tracked in #$existing."
             exit 0
           fi
-          gh issue create --title "$TITLE" --label "$LABEL" --body-file - <<EOF
-          The nightly run of the Build workflow failed:
+          gh issue create --title "$TITLE" --label "$LABEL" \
+            --label "Type: Maintenance" --body-file - <<EOF
+          The nightly run of the Build workflow failed on master at $SHA:
           $RUN_URL
 
-          It tested master with no new commit behind it, so this is most likely
+          It tested a commit that was already on master, so this is most likely
           drift in an unpinned dependency, drift in the CI toolchain, or a test
           that only fails on this date.
 

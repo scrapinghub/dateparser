@@ -80,6 +80,11 @@ serialize = ["{major}.{minor}"]
 [tool.ruff]
 exclude = ["date_translation_data"]
 
+[tool.ruff.lint]
+# An invalid string escape warns at compile time, which pip's byte-compilation
+# absorbs before the test suite's warnings-as-errors setting can see it.
+extend-select = ["W605"]
+
 [tool.ruff.lint.per-file-ignores]
 "dateparser/data/__init__.py" = ["F401"]
 "dateparser/languages/__init__.py" = ["F401"]

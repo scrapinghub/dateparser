@@ -60,9 +60,10 @@ jobs:
           TZ=${{ matrix.timezone || 'UTC' }} echo "Running tests with timezone: $TZ"
           TZ=${{ matrix.timezone || 'UTC' }} tox -e ${{ matrix.toxenv || 'py' }}
       - name: Upload coverage.xml to codecov
-        # A scheduled run re-tests a commit that already has a coverage report,
-        # so uploading again only repeats the Codecov notification for that SHA.
-        if: github.event_name != 'schedule'
+        # A nightly run, scheduled or dispatched, re-tests a commit that already
+        # has a coverage report, so uploading again only repeats the Codecov
+        # notification for that SHA.
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
