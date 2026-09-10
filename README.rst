@@ -96,6 +96,9 @@ functionality of the module.
     >>> dateparser.parse('1991-05-17')
     datetime.datetime(1991, 5, 17, 0, 0)
 
+    >>> dateparser.parse('the 1st day of March, 2025')
+    datetime.datetime(2025, 3, 1, 0, 0)
+
     >>> dateparser.parse('In two months')  # today is 1st Aug 2020
     datetime.datetime(2020, 10, 1, 11, 12, 27, 764201)
 
