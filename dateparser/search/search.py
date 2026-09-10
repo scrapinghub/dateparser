@@ -112,19 +112,27 @@ class _ExactLanguageSearch:
                 possible_splits.extend(self.split_by(item, original, splitter))
         return possible_splits
 
-    def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
+    def parse_item(
+        self, parser, item, translated_item, parsed, need_relative_base, settings
+    ):
         relative_base = None
         item = item.replace("ngày", "")
         item = item.replace("am", "")
-        parsed_item = parser.get_date_data(item)
-        is_relative = date_is_relative(translated_item)
 
         if need_relative_base:
             item, relative_base = self.set_relative_base(item, parsed)
 
-        if relative_base:
-            parser._settings = parser._settings.replace(RELATIVE_BASE=relative_base)
-            parsed_item = parser.get_date_data(item)
+        # Always set RELATIVE_BASE explicitly from the pristine settings for
+        # this parse, restoring the base settings when there is none. parser
+        # is a single object shared/reused across every item (and every
+        # candidate split explored in choose_best_split), so leaving a
+        # previous item's RELATIVE_BASE in place would otherwise leak into
+        # this unrelated parse.
+        parser._settings = (
+            settings.replace(RELATIVE_BASE=relative_base) if relative_base else settings
+        )
+        parsed_item = parser.get_date_data(item)
+        is_relative = date_is_relative(translated_item)
         return parsed_item, is_relative
 
     def parse_found_objects(self, parser, to_parse, original, translated, settings):
@@ -138,7 +146,7 @@ class _ExactLanguageSearch:
                 continue
 
             parsed_item, is_relative = self.parse_item(
-                parser, item, translated[i], parsed, need_relative_base
+                parser, item, translated[i], parsed, need_relative_base, settings
             )
             if parsed_item["date_obj"]:
                 parsed.append((parsed_item, is_relative))
@@ -152,7 +160,12 @@ class _ExactLanguageSearch:
             possible_parsed = []
             possible_substrings = []
             for split_translated, split_original in possible_splits:
-                current_parsed = []
+                # Seed with the outer chain (dates already parsed from
+                # earlier substrings in the text) so relative-base chaining
+                # can see them, instead of starting this candidate split from
+                # an empty, disconnected chain.
+                seed_len = len(parsed)
+                current_parsed = list(parsed)
                 current_substrings = []
                 if split_translated:
                     for j, jtem in enumerate(split_translated):
@@ -164,10 +177,11 @@ class _ExactLanguageSearch:
                             split_translated[j],
                             current_parsed,
                             need_relative_base,
+                            settings,
                         )
                         current_parsed.append((parsed_jtem, is_relative_jtem))
                         current_substrings.append(split_original[j].strip(" .,:()[]-"))
-                possible_parsed.append(current_parsed)
+                possible_parsed.append(current_parsed[seed_len:])
                 possible_substrings.append(current_substrings)
             parsed_best, substrings_best = self.choose_best_split(
                 possible_parsed, possible_substrings
