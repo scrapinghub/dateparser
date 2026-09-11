@@ -54,21 +54,21 @@ dz
 ebu
 ee                'ee-TG'
 el                'el-CY'
-en                'en-001', 'en-150', 'en-AE', 'en-AG', 'en-AI', 'en-AS', 'en-AT', 'en-AU', 'en-BB', 'en-BE', 'en-BI', 'en-BM', 'en-BS', 'en-BW', 'en-BZ', 'en-CA', 'en-CC', 'en-CH', 'en-CK', 'en-CM', 'en-CX', 'en-CY', 'en-DE', 'en-DG', 'en-DK', 'en-DM', 'en-ER', 'en-FI', 'en-FJ', 'en-FK', 'en-FM', 'en-GB', 'en-GD', 'en-GG', 'en-GH', 'en-GI', 'en-GM', 'en-GU', 'en-GY', 'en-HK', 'en-ID', 'en-IE', 'en-IL', 'en-IM', 'en-IN', 'en-IO', 'en-JE', 'en-JM', 'en-KE', 'en-KI', 'en-KN', 'en-KY', 'en-LC', 'en-LR', 'en-LS', 'en-MG', 'en-MH', 'en-MO', 'en-MP', 'en-MS', 'en-MT', 'en-MU', 'en-MV', 'en-MW', 'en-MY', 'en-NA', 'en-NF', 'en-NG', 'en-NL', 'en-NR', 'en-NU', 'en-NZ', 'en-PG', 'en-PH', 'en-PK', 'en-PN', 'en-PR', 'en-PW', 'en-RW', 'en-SB', 'en-SC', 'en-SD', 'en-SE', 'en-SG', 'en-SH', 'en-SI', 'en-SL', 'en-SS', 'en-SX', 'en-SZ', 'en-TC', 'en-TK', 'en-TO', 'en-TT', 'en-TV', 'en-TZ', 'en-UG', 'en-UM', 'en-VC', 'en-VG', 'en-VI', 'en-VU', 'en-WS', 'en-ZA', 'en-ZM', 'en-ZW'
+en                'en-001', 'en-150', 'en-AG', 'en-AI', 'en-AS', 'en-AT', 'en-AU', 'en-BB', 'en-BE', 'en-BI', 'en-BM', 'en-BS', 'en-BW', 'en-BZ', 'en-CA', 'en-CC', 'en-CH', 'en-CK', 'en-CM', 'en-CX', 'en-CY', 'en-DE', 'en-DG', 'en-DK', 'en-DM', 'en-ER', 'en-FI', 'en-FJ', 'en-FK', 'en-FM', 'en-GB', 'en-GD', 'en-GG', 'en-GH', 'en-GI', 'en-GM', 'en-GU', 'en-GY', 'en-HK', 'en-IE', 'en-IL', 'en-IM', 'en-IN', 'en-IO', 'en-JE', 'en-JM', 'en-KE', 'en-KI', 'en-KN', 'en-KY', 'en-LC', 'en-LR', 'en-LS', 'en-MG', 'en-MH', 'en-MO', 'en-MP', 'en-MS', 'en-MT', 'en-MU', 'en-MW', 'en-MY', 'en-NA', 'en-NF', 'en-NG', 'en-NL', 'en-NR', 'en-NU', 'en-NZ', 'en-PG', 'en-PH', 'en-PK', 'en-PN', 'en-PR', 'en-PW', 'en-RW', 'en-SB', 'en-SC', 'en-SD', 'en-SE', 'en-SG', 'en-SH', 'en-SI', 'en-SL', 'en-SS', 'en-SX', 'en-SZ', 'en-TC', 'en-TK', 'en-TO', 'en-TT', 'en-TV', 'en-TZ', 'en-UG', 'en-UM', 'en-US', 'en-VC', 'en-VG', 'en-VI', 'en-VU', 'en-WS', 'en-ZA', 'en-ZM', 'en-ZW'
 eo
 es                'es-419', 'es-AR', 'es-BO', 'es-BR', 'es-BZ', 'es-CL', 'es-CO', 'es-CR', 'es-CU', 'es-DO', 'es-EA', 'es-EC', 'es-GQ', 'es-GT', 'es-HN', 'es-IC', 'es-MX', 'es-NI', 'es-PA', 'es-PE', 'es-PH', 'es-PR', 'es-PY', 'es-SV', 'es-US', 'es-UY', 'es-VE'
 et
 eu
 ewo
 fa                'fa-AF'
-ff
+ff                'ff-CM', 'ff-GN', 'ff-MR'
 fi
 fil
 fo                'fo-DK'
 fr                'fr-BE', 'fr-BF', 'fr-BI', 'fr-BJ', 'fr-BL', 'fr-CA', 'fr-CD', 'fr-CF', 'fr-CG', 'fr-CH', 'fr-CI', 'fr-CM', 'fr-DJ', 'fr-DZ', 'fr-GA', 'fr-GF', 'fr-GN', 'fr-GP', 'fr-GQ', 'fr-HT', 'fr-KM', 'fr-LU', 'fr-MA', 'fr-MC', 'fr-MF', 'fr-MG', 'fr-ML', 'fr-MQ', 'fr-MR', 'fr-MU', 'fr-NC', 'fr-NE', 'fr-PF', 'fr-PM', 'fr-RE', 'fr-RW', 'fr-SC', 'fr-SN', 'fr-SY', 'fr-TD', 'fr-TG', 'fr-TN', 'fr-VU', 'fr-WF', 'fr-YT'
 fur
 fy
-ga                'ga-GB'
+ga
 gd
 gl
 gsw               'gsw-FR', 'gsw-LI'
@@ -104,7 +104,7 @@ kl
 kln
 km
 kn
-ko                'ko-CN', 'ko-KP'
+ko                'ko-KP'
 kok
 ks
 ksb
@@ -134,7 +134,7 @@ mk
 ml
 mn
 mr
-ms                'ms-BN', 'ms-ID', 'ms-SG'
+ms                'ms-BN', 'ms-SG'
 mt
 mua
 my
@@ -156,7 +156,7 @@ pa
 pa-Arab
 pa-Guru
 pl
-ps                'ps-PK'
+ps
 pt                'pt-AO', 'pt-CH', 'pt-CV', 'pt-GQ', 'pt-GW', 'pt-LU', 'pt-MO', 'pt-MZ', 'pt-PT', 'pt-ST', 'pt-TL'
 qu                'qu-BO', 'qu-EC'
 rm
