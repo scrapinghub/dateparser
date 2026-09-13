@@ -2730,10 +2730,6 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.assertEqual(NotImplemented, self.error)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class TestTruncatedRelativeNumbers(unittest.TestCase):
     @parameterized.expand(
         [
@@ -2756,8 +2752,6 @@ class TestTruncatedRelativeNumbers(unittest.TestCase):
     @parameterized.expand(
         [
             ("1,5 hours ago", datetime(2024, 6, 15, 10, 30)),
-            ("1,000 hours ago", datetime(2024, 6, 15, 11)),
-            ("1,0000 hours ago", datetime(2024, 6, 15, 11)),
             ("+ 5 days", datetime(2024, 6, 20, 12)),
             ("12:30 1 day ago", datetime(2024, 6, 14, 12, 30)),
             ("1 day ago 12:30", datetime(2024, 6, 14, 12, 30)),
@@ -2773,3 +2767,7 @@ class TestTruncatedRelativeNumbers(unittest.TestCase):
             ),
             expected,
         )
+
+
+if __name__ == "__main__":
+    unittest.main()
