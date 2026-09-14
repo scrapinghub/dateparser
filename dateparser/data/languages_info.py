@@ -204,7 +204,7 @@ language_order = [
     "gv",
     "smn",
     "eo",
-    "tl"
+    "tl",
 ]
 
 language_map = {
