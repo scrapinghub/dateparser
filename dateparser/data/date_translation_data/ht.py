@@ -96,7 +96,6 @@ info = {
         "zan"
     ],
     "month": [
-        "m",
         "mwa"
     ],
     "week": [
@@ -115,6 +114,7 @@ info = {
         "èdtan"
     ],
     "minute": [
+        "m",
         "min",
         "minit"
     ],
@@ -221,11 +221,12 @@ info = {
             "nan (\\d++[.,]?\\d*+)h"
         ],
         "in \\1 minute": [
+            "nan (\\d++[.,]?\\d*+)m",
+            "nan (\\d++[.,]?\\d*+) m",
             "nan (\\d++[.,]?\\d*+) min",
             "nan (\\d++[.,]?\\d*+) minit"
         ],
         "in \\1 month": [
-            "nan (\\d++[.,]?\\d*+) m",
             "nan (\\d++[.,]?\\d*+) mwa"
         ],
         "in \\1 second": [
