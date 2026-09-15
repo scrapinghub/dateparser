@@ -160,6 +160,9 @@ class TestBundledLanguages(BaseTestCase):
             param(
                 "vi", "9 Tháng 1 2015 lúc 15:08", "9 january 2015 15:08"
             ),  # Issue #1302: "lúc" removed, whitespace preserved
+            param(
+                "vi", "21 tháng 09 năm 2025", "21 september 2025"
+            ),  # Issue #1297: zero-padded month "09"
             # Thai
             param(
                 "th",
