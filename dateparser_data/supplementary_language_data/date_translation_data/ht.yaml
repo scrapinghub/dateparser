@@ -73,7 +73,6 @@ year:
     - lanne
     - zan
 month:
-    - m
     - mwa
 week:
     - sem
@@ -88,6 +87,7 @@ hour:
     - zè
     - èdtan
 minute:
+    - m
     - min
     - minit
 second:
@@ -104,6 +104,7 @@ relative-type:
         - nan minit sa
     0 month ago:
         - nan mwa sa
+        - mwa sa
     0 second ago:
         - kounye a
     0 week ago:
@@ -165,10 +166,11 @@ relative-type-regex:
         - nan (\d+[.,]?\d*) h
         - nan (\d+[.,]?\d*)h
     in \1 minute:
+        - nan (\d+[.,]?\d*)m
+        - nan (\d+[.,]?\d*) m
         - nan (\d+[.,]?\d*) min
         - nan (\d+[.,]?\d*) minit
     in \1 month:
-        - nan (\d+[.,]?\d*) m
         - nan (\d+[.,]?\d*) mwa
     in \1 second:
         - nan (\d+[.,]?\d*) s

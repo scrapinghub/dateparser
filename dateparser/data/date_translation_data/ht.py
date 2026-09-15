@@ -135,13 +135,14 @@ info = {
             "nan minit sa"
         ],
         "0 month ago": [
-            "nan mwa sa"
+            "nan mwa sa",
+            "mwa sa"
         ],
         "0 second ago": [
             "kounye a"
         ],
         "0 week ago": [
-            "nan semèn sa"
+            "semèn sa"
         ],
         "0 year ago": [
             "ane sa"
