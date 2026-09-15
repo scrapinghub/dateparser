@@ -141,7 +141,7 @@ info = {
             "kounye a"
         ],
         "0 week ago": [
-            "semèn sa"
+            "nan semèn sa"
         ],
         "0 year ago": [
             "ane sa"
