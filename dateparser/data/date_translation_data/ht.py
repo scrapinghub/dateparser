@@ -60,8 +60,7 @@ info = {
     ],
     "wednesday": [
         "mèkredi",
-        "mèkr",
-        "mè"
+        "mèkr"
     ],
     "thursday": [
         "jedi",
@@ -247,7 +246,6 @@ info = {
     },
     "skip": [
         "anviwon",
-        "e",
         "le",
         "li",
         "a",

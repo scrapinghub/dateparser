@@ -46,7 +46,6 @@ tuesday:
 wednesday:
     - mèkredi
     - mèkr
-    - mè
 thursday:
     - jedi
     - je
@@ -185,7 +184,6 @@ relative-type-regex:
         - nan (\d+[.,]?\d*) ane
 skip:
     - anviwon
-    - e
     - le
     - li
     - a
