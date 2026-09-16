@@ -12,6 +12,7 @@ from dateparser_data.settings import default_parsers
 from tests import BaseTestCase
 
 today = datetime.datetime.now(tz=pytz.timezone("UTC"))
+relative_base = datetime.datetime(2020, 2, 13, 20, 7, 6)
 
 
 class TestTranslateSearch(BaseTestCase):
@@ -1046,6 +1047,84 @@ class TestTranslateSearch(BaseTestCase):
     )
     def test_date_search_function(self, text, languages, settings, expected):
         result = search_dates(text, languages=languages, settings=settings)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            # The comma used to be what told the expression and the date apart
+            param(
+                text="Today 13 Feb 2020",
+                languages=["en"],
+                expected=[
+                    ("Today", relative_base),
+                    ("13 Feb 2020", datetime.datetime(2020, 2, 13, 0, 0)),
+                ],
+            ),
+            param(
+                text="Today, 13 Feb 2020",
+                languages=["en"],
+                expected=[
+                    ("Today", relative_base),
+                    ("13 Feb 2020", datetime.datetime(2020, 2, 13, 0, 0)),
+                ],
+            ),
+            # The expression written after the date instead of before it
+            param(
+                text="13 Feb 2020 Today",
+                languages=["en"],
+                expected=[
+                    ("13 Feb 2020", datetime.datetime(2020, 2, 13, 0, 0)),
+                    ("Today", relative_base),
+                ],
+            ),
+            # An expression translated into "in 1 day" instead of "0 day ago"
+            param(
+                text="Tomorrow 13 Feb 2020",
+                languages=["en"],
+                expected=[
+                    ("Tomorrow", datetime.datetime(2020, 2, 14, 20, 7, 6)),
+                    ("13 Feb 2020", datetime.datetime(2020, 2, 13, 0, 0)),
+                ],
+            ),
+            param(
+                text="hoy 13 feb 2020",
+                languages=["es"],
+                expected=[
+                    ("hoy", relative_base),
+                    ("13 feb 2020", datetime.datetime(2020, 2, 13, 0, 0)),
+                ],
+            ),
+            # "and" is written by the text but not by its translation, so the
+            # words left of the expression no longer line up with the ones
+            # they were translated from
+            param(
+                text="Today 13 Feb 2020 and 14 Mar 2021",
+                languages=["en"],
+                expected=None,
+            ),
+            # "3 days ago" is written as three words and translated into three,
+            # which the two "tomorrow" adds back: the counts line up although
+            # the expression was not translated from "3" alone
+            param(
+                text="3 days ago tomorrow 13 Feb 2020",
+                languages=["en"],
+                expected=None,
+            ),
+            # Cutting "today" off would leave "13 feb 2020 before", which is no
+            # longer a date, so the expression was not written next to one
+            param(
+                text="13 feb 2020 before today",
+                languages=["en"],
+                expected=None,
+            ),
+        ]
+    )
+    def test_search_dates_with_a_relative_expression_next_to_a_date(
+        self, text, languages, expected
+    ):
+        result = search_dates(
+            text, languages=languages, settings={"RELATIVE_BASE": relative_base}
+        )
         self.assertEqual(result, expected)
 
     @parameterized.expand(
