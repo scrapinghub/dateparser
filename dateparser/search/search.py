@@ -6,12 +6,20 @@ import regex as re
 from dateparser.conf import apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date import DateDataParser
+from dateparser.freshness_date_parser import _UNITS
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.search.ngram_search import _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
 RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
+
+# How a relative expression looks once translated. A single word such as "today"
+# turns into several words ("0 day ago"), which is why the translation of a
+# chunk can hold more words than the text it was translated from.
+TRANSLATED_RELATIVE_REG = re.compile(
+    r"\bin \d+ (?:{units})s?\b|\b\d+ (?:{units})s? ago\b".format(units=_UNITS)
+)
 
 
 def date_is_relative(translation):
@@ -104,12 +112,61 @@ class _ExactLanguageSearch:
             all_possible_splits.append([item_partially_split, original_partially_split])
         return all_possible_splits
 
-    def split_if_not_parsed(self, item, original):
+    def split_by_relative_expression(self, parser, item, original, language, settings):
+        """Split a chunk into a relative expression and the date next to it.
+
+        A word translated into a multi-word relative expression gives the
+        translation more separators than the text it was translated from, which
+        is what keeps the splitters above from lining the two up. Cutting the
+        chunk in two where the expression ends lines them up again, once the
+        word the expression was translated from is known and the rest of the
+        chunk turns out to be the date it was written next to.
+        """
+        words = original.split()
+        possible_splits = []
+        for match in TRANSLATED_RELATIVE_REG.finditer(item):
+            before = item[: match.start()].strip()
+            after = item[match.end() :].strip()
+            if bool(before) == bool(after):
+                # The expression is the whole chunk, or sits between two parts of
+                # it, which leaves no boundary the original text can be cut at.
+                continue
+            rest = after or before
+            if len(rest.split()) != len(words) - 1:
+                # What is left of the translation does not keep one word per
+                # remaining original one, so it would not line up either.
+                continue
+            index = 1 if after else len(words) - 1
+            expression = words[0] if after else words[-1]
+            if language.translate(expression, settings=settings) != match.group():
+                # The word next to the boundary is not the one the expression was
+                # translated from: some other word of the chunk also changed the
+                # word count, and only made the one above add up.
+                continue
+            if parser.get_date_data(rest)["date_obj"] is None:
+                # There is no date next to the expression, so cutting the chunk
+                # would report the expression and drop the rest of it.
+                continue
+            possible_splits.append(
+                [
+                    [match.group(), after] if after else [before, match.group()],
+                    [" ".join(words[:index]), " ".join(words[index:])],
+                ]
+            )
+        return possible_splits
+
+    def split_if_not_parsed(self, parser, item, original, language, settings):
         splitters = [",", "،", "——", "—", "–", ".", " "]
         possible_splits = []
         for splitter in splitters:
             if splitter in item and item.count(splitter) == original.count(splitter):
                 possible_splits.extend(self.split_by(item, original, splitter))
+        if not possible_splits:
+            # Only when no splitter lines up, so that a chunk which already
+            # splits keeps being split exactly the way it is split today.
+            possible_splits = self.split_by_relative_expression(
+                parser, item, original, language, settings
+            )
         return possible_splits
 
     def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
@@ -127,7 +184,9 @@ class _ExactLanguageSearch:
             parsed_item = parser.get_date_data(item)
         return parsed_item, is_relative
 
-    def parse_found_objects(self, parser, to_parse, original, translated, settings):
+    def parse_found_objects(
+        self, parser, to_parse, original, translated, settings, language
+    ):
         parsed = []
         substrings = []
         need_relative_base = True
@@ -145,7 +204,9 @@ class _ExactLanguageSearch:
                 substrings.append(original[i].strip(" .,:()[]-'"))
                 continue
 
-            possible_splits = self.split_if_not_parsed(item, original[i])
+            possible_splits = self.split_if_not_parsed(
+                parser, item, original[i], language, settings
+            )
             if not possible_splits:
                 continue
 
@@ -179,6 +240,7 @@ class _ExactLanguageSearch:
         return parsed, substrings
 
     def search_parse(self, shortname, text, settings):
+        language = self.get_current_language(shortname)
         translated, original = self.search(shortname, text, settings)
         bad_translate_with_search = [
             "vi",
@@ -198,6 +260,7 @@ class _ExactLanguageSearch:
             original=original,
             translated=translated,
             settings=settings,
+            language=language,
         )
 
         results = list(zip(substrings, [i[0]["date_obj"] for i in parsed]))
