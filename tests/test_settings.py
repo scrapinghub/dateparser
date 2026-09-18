@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import warnings
 from datetime import datetime, timedelta, tzinfo
 from pathlib import Path
 from typing import Any
@@ -314,6 +315,36 @@ class InvalidSettingsTest(BaseTestCase):
             r"between 0 and 1",
         ):
             DateDataParser(settings={"LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": 1.1})
+
+    def test_check_settings_bool_for_int_settings_warns_and_converts(self) -> None:
+        """bool still works, stored as int, and warns. False stays 0 (no cache limit)."""
+        cases = (
+            ("CACHE_SIZE_LIMIT", False, 0),
+            ("CACHE_SIZE_LIMIT", True, 1),
+            ("DEFAULT_DAYS_IN_MONTH", False, 0),
+            ("DEFAULT_DAYS_IN_MONTH", True, 1),
+        )
+        for setting, value, stored in cases:
+            with warnings.catch_warnings(record=True) as caught:
+                warnings.simplefilter("always", DeprecationWarning)
+                parser = DateDataParser(settings={setting: value})
+            self.assertTrue(
+                any(
+                    issubclass(item.category, DeprecationWarning)
+                    and setting in str(item.message)
+                    for item in caught
+                )
+            )
+            got = getattr(parser._settings, setting)
+            self.assertEqual(got, stored)
+            self.assertIs(type(got), int)
+
+        parser = DateDataParser(settings={"CACHE_SIZE_LIMIT": 100})
+        self.assertEqual(parser._settings.CACHE_SIZE_LIMIT, 100)
+        parser = DateDataParser(settings={"CACHE_SIZE_LIMIT": 0})
+        self.assertEqual(parser._settings.CACHE_SIZE_LIMIT, 0)
+        parser = DateDataParser(settings={"DEFAULT_DAYS_IN_MONTH": 30})
+        self.assertEqual(parser._settings.DEFAULT_DAYS_IN_MONTH, 30)
 
     def test_check_settings_extra_check_default_languages(self) -> None:
         with self.assertRaisesRegex(

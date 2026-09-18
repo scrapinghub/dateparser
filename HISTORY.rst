@@ -3,6 +3,16 @@
 History
 =======
 
+1.5.1 (unreleased)
+------------------
+
+Deprecations:
+
+- Passing a bool for ``CACHE_SIZE_LIMIT`` or ``DEFAULT_DAYS_IN_MONTH`` is
+  deprecated. ``False`` is still accepted as ``0`` (which disables the cache
+  limit) and ``True`` as ``1``, and both emit ``DeprecationWarning``. A later
+  release will reject them. (#1386)
+
 1.5.0 (2026-11-04)
 ------------------
 
