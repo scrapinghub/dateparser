@@ -263,6 +263,19 @@ class InvalidSettingsTest(BaseTestCase):
         ):
             DateDataParser(settings={"LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": 1.1})
 
+    def test_check_settings_rejects_bool_for_int_settings(self):
+        """bool subclasses int; True must not silently become 1 for int settings."""
+        for setting in ("CACHE_SIZE_LIMIT", "DEFAULT_DAYS_IN_MONTH"):
+            for value in (True, False):
+                with self.assertRaisesRegex(
+                    SettingValidationError,
+                    r'"{}" must be "int", not "bool".'.format(setting),
+                ):
+                    DateDataParser(settings={setting: value})
+        # valid ints still accepted
+        assert DateDataParser(settings={"CACHE_SIZE_LIMIT": 100})
+        assert DateDataParser(settings={"DEFAULT_DAYS_IN_MONTH": 30})
+
     def test_check_settings_extra_check_default_languages(self):
         with self.assertRaisesRegex(
             SettingValidationError,
