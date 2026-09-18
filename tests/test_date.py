@@ -1312,6 +1312,26 @@ class TestTimestampParser(BaseTestCase):
         # Restore the old timezone behavior
         tzset()
 
+    @parameterized.expand(
+        [
+            ("-1570308760263", -1570308760263000),
+            ("-1570308760999", -1570308760999000),
+            ("-1570308760000", -1570308760000000),
+            ("-1570308760263111", -1570308760263111),
+            ("-1570308760000001", -1570308760000001),
+            ("-1570308760999999", -1570308760999999),
+            ("-1570308760000000", -1570308760000000),
+        ]
+    )
+    def test_negative_subsecond_timestamp(self, timestamp, microseconds):
+        self.given_parser(
+            settings={"PARSERS": ["negative-timestamp"], "TIMEZONE": "UTC"}
+        )
+        self.assertEqual(
+            self.parser.get_date_data(timestamp)["date_obj"],
+            datetime(1970, 1, 1) + timedelta(microseconds=microseconds),
+        )
+
     def test_timestamp_in_milliseconds(self):
         self.assertEqual(
             date.get_date_from_timestamp("1570308760263", None),
