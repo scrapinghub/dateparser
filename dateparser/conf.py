@@ -319,17 +319,43 @@ def check_settings(settings: Settings) -> None:
     }
 
     modified_settings = settings._mod_settings  # check only modified settings
+    # The object the caller passed. Coercion must not write back into it.
+    caller_settings = modified_settings
 
     # check settings keys:
-    for setting in modified_settings:
+    for setting in caller_settings:
         if setting not in settings_values:
             raise SettingValidationError(f'"{setting}" is not a valid setting')
 
-    for setting_name, setting_value in modified_settings.items():
+    for setting_name, setting_value in list(caller_settings.items()):
         setting_type = type(setting_value)
         setting_props = settings_values[setting_name]
 
         # check type:
+        # bool subclasses int. CACHE_SIZE_LIMIT=False means "no limit" today
+        # because the cache check treats any falsy value as unlimited. Rejecting
+        # it would break callers, so keep accepting it and warn.
+        if isinstance(setting_value, bool) and setting_props["type"] is int:
+            warnings.warn(
+                'Passing a bool for "{}" is deprecated and will be rejected in a '
+                "future release. Pass an int instead (0 disables CACHE_SIZE_LIMIT). "
+                "Got {!r}.".format(setting_name, setting_value),
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            setting_value = int(setting_value)
+            setattr(settings, setting_name, setting_value)
+            # Copy on the first coercion. Later keys in this call update the copy.
+            if modified_settings is caller_settings and isinstance(
+                caller_settings, dict
+            ):
+                modified_settings = dict(caller_settings)
+                settings._mod_settings = modified_settings
+            if (
+                isinstance(modified_settings, dict)
+                and modified_settings is not caller_settings
+            ):
+                modified_settings[setting_name] = setting_value
         if not isinstance(setting_value, setting_props["type"]):
             raise SettingValidationError(
                 '"{}" must be "{}", not "{}".'.format(
