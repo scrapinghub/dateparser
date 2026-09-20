@@ -16,6 +16,19 @@ from tests import BaseTestCase
 
 
 class TestDateParser(BaseTestCase):
+    @parameterized.expand([(2024, 29), (2023, 28)])
+    def test_yearless_format_uses_current_year_for_month_end(self, year, day):
+        result = parse(
+            "February",
+            date_formats=["%B"],
+            settings={
+                "RELATIVE_BASE": datetime(year, 6, 15),
+                "PREFER_DAY_OF_MONTH": "last",
+                "PARSERS": ["custom-formats"],
+            },
+        )
+        self.assertEqual(result, datetime(year, 2, day))
+
     def setUp(self):
         super().setUp()
         self.parser = NotImplemented
