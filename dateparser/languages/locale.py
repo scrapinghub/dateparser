@@ -21,6 +21,12 @@ def _parse_bool(value):
     return False
 
 
+# Punctuation a word can be written next to without ceasing to be that word:
+# it is looked up in the dictionary without it, and the translation carries
+# it on so the text and its translation keep the same separators.
+PUNCTUATION = "()\"'{}[],.،"
+
+
 class Locale:
     """
     Class that deals with applicability and translation from a locale.
@@ -315,14 +321,13 @@ class Locale:
                 elif word in dictionary and word not in dashes:
                     translated_chunk.append(dictionary[word])
                     original_chunk.append(original_tokens[i])
-                elif word.strip("()\"'{}[],.،") in dictionary and word not in dashes:
-                    punct = word[len(word.strip("()\"'{}[],.،")) :]
-                    if punct and dictionary[word.strip("()\"'{}[],.،")]:
-                        translated_chunk.append(
-                            dictionary[word.strip("()\"'{}[],.،")] + punct
-                        )
+                elif word.strip(PUNCTUATION) in dictionary and word not in dashes:
+                    bare_word = word.strip(PUNCTUATION)
+                    punct = word[len(bare_word) :]
+                    if punct and dictionary[bare_word]:
+                        translated_chunk.append(dictionary[bare_word] + punct)
                     else:
-                        translated_chunk.append(dictionary[word.strip("()\"'{}[],.،")])
+                        translated_chunk.append(dictionary[bare_word])
                     original_chunk.append(original_tokens[i])
                 elif self._token_with_digits_is_ok(word):
                     translated_chunk.append(word)
@@ -602,8 +607,8 @@ class Locale:
         # A unit keeps the punctuation it was written next to, so "2 hours,"
         # becomes "hour,". That is still the unit of a future expression, and
         # dropping the "in" of one is what turns it into a past date.
-        units = {word.strip("()\"'{}[],.،") for word in words if word}
-        if units.isdisjoint(freshness_words):
+        bare_words = {word.strip(PUNCTUATION) for word in words if word}
+        if bare_words.isdisjoint(freshness_words):
             words[words.index("in")] = ""
         return words
 

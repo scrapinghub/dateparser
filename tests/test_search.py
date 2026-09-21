@@ -1172,8 +1172,8 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["en"],
                 expected=[("in 2 hours", relative_base + timedelta(hours=2))],
             ),
-            # Any punctuation the unit is written next to, not only a comma.
-            # ``parse`` already reads this one as a future date
+            # Not only a comma: any punctuation the translation carries on the
+            # unit. ``parse`` already reads this one as a future date
             param(
                 text="in three weeks' time",
                 languages=["en"],
