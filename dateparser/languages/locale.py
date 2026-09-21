@@ -599,7 +599,11 @@ class Locale:
 
     def _clear_future_words(self, words):
         freshness_words = {"day", "week", "month", "year", "hour", "minute", "second"}
-        if set(words).isdisjoint(freshness_words):
+        # A unit keeps the punctuation it was written next to, so "2 hours,"
+        # becomes "hour,". That is still the unit of a future expression, and
+        # dropping the "in" of one is what turns it into a past date.
+        units = {word.strip("()\"'{}[],.،") for word in words if word}
+        if units.isdisjoint(freshness_words):
             words[words.index("in")] = ""
         return words
 
