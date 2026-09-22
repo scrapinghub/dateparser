@@ -139,6 +139,14 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("2.5 hours", ago={"hours": 2.5}, period="day"),
             param("10.75 minutes", ago={"minutes": 10.75}, period="day"),
             param("1.5 days", ago={"days": 1.5}, period="day"),
+            param("1,5 hours ago", ago={"hours": 1.5}, period="day"),
+            param("12,3456 days ago", ago={"days": 12.3456}, period="day"),
+            # Thousands separators
+            param("1,000 days", ago={"days": 1000}, period="day"),
+            param("1 000 days", ago={"days": 1000}, period="day"),
+            param("1.000 days", ago={"days": 1000}, period="day"),
+            param("10,000,000 seconds", ago={"seconds": 10000000}, period="day"),
+            param("1.000,5 days ago", ago={"days": 1000.5}, period="day"),
             # French dates
             param("Aujourd'hui", ago={"days": 0}, period="day"),
             param("Aujourd’hui", ago={"days": 0}, period="day"),

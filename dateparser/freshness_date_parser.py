@@ -10,7 +10,11 @@ from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
-PATTERN = re.compile(r"([+-]?\s*\d++[.,]?\d*+)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
+PATTERN = re.compile(
+    r"(?<!\d[.,]?)([+-]?\s*\d++(?:[.,\s]\d{3}(?!\d))*+(?:[.,]\d*+)?+)\s*(%s)\b"
+    % _UNITS,
+    re.I | re.S | re.U,
+)
 
 
 class FreshnessDateDataParser:
@@ -159,6 +163,14 @@ class FreshnessDateDataParser:
 
         return date, period
 
+    @staticmethod
+    def _parse_number(num):
+        # A separator followed by exactly 3 digits groups thousands, any other
+        # one is a decimal mark.
+        parts = re.split(r"[.,]", re.sub(r"\s", "", num))
+        decimals = parts.pop() if len(parts) > 1 and len(parts[-1]) != 3 else ""
+        return float("".join(parts) + "." + decimals)
+
     def get_kwargs(self, date_string):
         m = PATTERN.findall(date_string)
         if not m:
@@ -170,7 +182,7 @@ class FreshnessDateDataParser:
         for num, unit in m:
             has_explicit_sign = num.startswith("+") or num.startswith("-")
             explicit_signs[unit + "s"] = has_explicit_sign
-            kwargs[unit + "s"] = float(num.replace(",", ".").replace(" ", ""))
+            kwargs[unit + "s"] = self._parse_number(num)
 
         return kwargs, explicit_signs
 
