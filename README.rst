@@ -276,15 +276,17 @@ list of ``(substring, datetime)`` tuples:
 Time Span Detection
 -------------------
 
-The ``search_dates`` function can also detect time spans such as
-"past month" or "last week". When ``RETURN_TIME_SPAN`` is enabled it
-returns start and end dates for the detected period:
+The ``search_dates`` function can also detect time spans such as "past month"
+or "last week". When ``RETURN_TIME_SPAN`` is enabled it returns start and end
+dates for the detected period.
+
+For example, assuming the current date and time is `December 7, 2024, 15:30`:
 
 .. code:: python
 
     >>> search_dates("Messages from the past month", settings={'RETURN_TIME_SPAN': True})
-    [('past month (start)', datetime.datetime(2024, 11, 7, 0, 0)),
-     ('past month (end)', datetime.datetime(2024, 12, 7, 23, 59, 59, 999999))]
+    [('past month (start)', datetime.datetime(2024, 11, 7, 15, 30)),
+     ('past month (end)', datetime.datetime(2024, 12, 7, 15, 30))]
 
 Settings
 --------
