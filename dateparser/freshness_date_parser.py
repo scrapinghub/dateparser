@@ -11,10 +11,10 @@ from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
 PATTERN = re.compile(
-    r"(?<!\d[.,]?)([+-]?\s*\d++(?:[.,\s]\d{3}(?!\d))*+(?:[.,]\d*+)?+)\s*(%s)\b"
-    % _UNITS,
+    r"([+-]?\s*\d++(?:[.,\s]\d{3}(?!\d))*+(?:[.,]\d*+)?+)\s*(%s)\b" % _UNITS,
     re.I | re.S | re.U,
 )
+_NUMERIC_PREFIX = re.compile(r"(?<![\d:])\d[\d.,/-]*[.,\s/-]*$")
 
 
 class FreshnessDateDataParser:
@@ -116,12 +116,7 @@ class FreshnessDateDataParser:
         if not self._are_all_words_units(date_string):
             return None, None
 
-        result = self.get_kwargs(date_string)
-        if isinstance(result, tuple):
-            kwargs, explicit_signs = result
-        else:
-            kwargs = result
-            explicit_signs = {}
+        kwargs, explicit_signs = self.get_kwargs(date_string)
 
         if not kwargs:
             return None, None
@@ -172,14 +167,18 @@ class FreshnessDateDataParser:
         return float("".join(parts) + "." + decimals)
 
     def get_kwargs(self, date_string):
-        m = PATTERN.findall(date_string)
-        if not m:
-            return {}
-
         kwargs = {}
         explicit_signs = {}
 
-        for num, unit in m:
+        for match in PATTERN.finditer(date_string):
+            start = match.start()
+            if (
+                start
+                and not date_string[start - 1].isalpha()
+                and _NUMERIC_PREFIX.search(date_string[:start])
+            ):
+                return {}, {}
+            num, unit = match.groups()
             has_explicit_sign = num.startswith("+") or num.startswith("-")
             explicit_signs[unit + "s"] = has_explicit_sign
             kwargs[unit + "s"] = self._parse_number(num)
