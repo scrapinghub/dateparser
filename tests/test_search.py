@@ -1129,6 +1129,68 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            # The word a future expression is written with is what points it
+            # forward, and reporting it is what tells the two directions apart
+            param(
+                text="через 2 часа",
+                languages=["ru"],
+                expected=[("через 2 часа", relative_base + timedelta(hours=2))],
+            ),
+            # The unit is written next to a comma, which used to keep it from
+            # being read as the unit of a future expression
+            param(
+                text="через 2 часа, пожалуйста",
+                languages=["ru"],
+                expected=[("через 2 часа", relative_base + timedelta(hours=2))],
+            ),
+            param(
+                text="Позвони мне через 2 часа, пожалуйста",
+                languages=["ru"],
+                expected=[("через 2 часа", relative_base + timedelta(hours=2))],
+            ),
+            param(
+                text="через 3 дня, пожалуйста",
+                languages=["ru"],
+                expected=[("через 3 дня", relative_base + timedelta(days=3))],
+            ),
+            # A past expression is written with its own word and keeps pointing
+            # back, comma or not
+            param(
+                text="2 часа назад",
+                languages=["ru"],
+                expected=[("2 часа назад", relative_base - timedelta(hours=2))],
+            ),
+            param(
+                text="2 часа назад, пожалуйста",
+                languages=["ru"],
+                expected=[("2 часа назад", relative_base - timedelta(hours=2))],
+            ),
+            # The expression is translated into English before it is parsed, so
+            # the comma reaches the same code whatever it was written in
+            param(
+                text="in 2 hours, please",
+                languages=["en"],
+                expected=[("in 2 hours", relative_base + timedelta(hours=2))],
+            ),
+            # Not only a comma: any punctuation the translation carries on the
+            # unit. ``parse`` already reads this one as a future date
+            param(
+                text="in three weeks' time",
+                languages=["en"],
+                expected=[("in three weeks", relative_base + timedelta(weeks=3))],
+            ),
+        ]
+    )
+    def test_search_dates_with_a_relative_expression_reads_its_direction(
+        self, text, languages, expected
+    ):
+        result = search_dates(
+            text, languages=languages, settings={"RELATIVE_BASE": relative_base}
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
             param(
                 text="15 de outubro de 1936",
                 add_detected_language=True,
