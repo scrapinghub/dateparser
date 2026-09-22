@@ -135,15 +135,9 @@ def _check_require_part(setting_name, setting_value):
 
 def _check_parsers(setting_name, setting_value):
     """Returns `True` if the provided list of parsers contains valid values"""
-    existing_parsers = [
-        "timestamp",
-        "relative-time",
-        "custom-formats",
-        "absolute-time",
-        "no-spaces-time",
-        "negative-timestamp",
-    ]  # FIXME: Extract the list of existing parsers from another place (#798)
-    unknown_parsers = set(setting_value) - set(existing_parsers)
+    from dateparser.date import _DateLocaleParser
+
+    unknown_parsers = set(setting_value) - _DateLocaleParser._parsers.keys()
     if unknown_parsers:
         raise SettingValidationError(
             'Found unknown parsers in the "{}" setting: {}'.format(
