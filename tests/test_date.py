@@ -350,6 +350,52 @@ class TestParseWithFormatsFunction(BaseTestCase):
 
     @parameterized.expand(
         [
+            ("2022", "%Y", datetime(2022, 4, 30), "year"),
+            ("02-2024", "%m-%Y", datetime(2024, 2, 29), "month"),
+            ("02-2023", "%m-%Y", datetime(2023, 2, 28), "month"),
+            ("10-2022", "%d-%Y", datetime(2022, 4, 10), "year"),
+            ("2022-05-03", "%Y-%m-%d", datetime(2022, 5, 3), "day"),
+        ]
+    )
+    def test_missing_parts_use_relative_base(
+        self, date_string, date_format, expected, period
+    ):
+        self.given_now(2015, 8, 12)
+        settings = Settings().replace(
+            RELATIVE_BASE=datetime(2020, 4, 30),
+            PREFER_DAY_OF_MONTH="current",
+            PREFER_MONTH_OF_YEAR="current",
+        )
+        self.when_date_is_parsed_with_formats(date_string, [date_format], settings)
+        self.then_parsed_date_is(expected)
+        self.then_parsed_period_is(period)
+
+    @parameterized.expand(
+        [("first", datetime(2022, 1, 1)), ("last", datetime(2022, 12, 31))]
+    )
+    def test_explicit_preferences_override_relative_base(self, preference, expected):
+        self.given_now(2015, 8, 12)
+        settings = Settings().replace(
+            RELATIVE_BASE=datetime(2020, 4, 30),
+            PREFER_DAY_OF_MONTH=preference,
+            PREFER_MONTH_OF_YEAR=preference,
+        )
+        self.when_date_is_parsed_with_formats("2022", ["%Y"], settings)
+        self.then_parsed_date_is(expected)
+        self.then_parsed_period_is("year")
+
+    def test_missing_parts_keep_local_clock_defaults_without_relative_base(self):
+        self.given_now(2020, 4, 30)
+        utc_datetime_mock = Mock(wraps=datetime)
+        utc_datetime_mock.now.return_value = datetime(2020, 5, 1)
+        self.add_patch(patch("dateparser.date.datetime", new=utc_datetime_mock))
+
+        self.when_date_is_parsed_with_formats("2022", ["%Y"])
+        self.then_parsed_date_is(datetime(2022, 4, 30))
+        self.then_parsed_period_is("year")
+
+    @parameterized.expand(
+        [
             param(date_string="yesterday", date_formats=["%Y-%m-%d"]),
         ]
     )

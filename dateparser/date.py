@@ -222,25 +222,34 @@ def parse_with_formats(date_string, date_formats, settings):
         except ValueError:
             continue
         else:
+            relative_base = settings.RELATIVE_BASE
+            current_month = relative_base.month if relative_base else None
+            current_day = relative_base.day if relative_base else None
             _missing = _get_missing_parts(date_format)
             missing_month = "month" in _missing
             missing_day = "day" in _missing
             if missing_month and missing_day:
                 period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
-                date_obj = set_correct_day_from_settings(date_obj, settings)
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, current_month=current_month
+                )
+                date_obj = set_correct_day_from_settings(
+                    date_obj, settings, current_day=current_day
+                )
 
             elif missing_month:
                 period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, current_month=current_month
+                )
 
             elif missing_day:
                 period = "month"
-                date_obj = set_correct_day_from_settings(date_obj, settings)
+                date_obj = set_correct_day_from_settings(
+                    date_obj, settings, current_day=current_day
+                )
 
-            now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
-                tzinfo=None
-            )
+            now = relative_base or datetime.now(tz=timezone.utc).replace(tzinfo=None)
             if not ("%y" in date_format or "%Y" in date_format):
                 date_obj = date_obj.replace(year=now.year)
             elif "%y" in date_format and "%Y" not in date_format:
