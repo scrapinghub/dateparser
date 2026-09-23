@@ -317,7 +317,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
                 period="day",
             ),
             param("991 год", ago={"years": 991}, period="year"),
-            param("2000 лет", ago={"years": 2000}, period="year"),
+            param("2000 лет назад", ago={"years": 2000}, period="year"),
             param(
                 "2001 год 2 месяца", ago={"years": 2001, "months": 2}, period="month"
             ),
