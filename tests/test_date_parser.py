@@ -2002,9 +2002,10 @@ class TestDateParser(BaseTestCase):
             param("thursday next"),
             param("next next friday"),
             param("last three"),
+            param("next friday last monday"),
         ]
     )
-    def test_modifier_without_weekday_is_not_parsed(self, date_string):
+    def test_misplaced_modifier_is_not_parsed(self, date_string):
         self.assertIsNone(parse(date_string, languages=["en"]))
 
 

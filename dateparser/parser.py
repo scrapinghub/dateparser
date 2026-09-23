@@ -373,9 +373,6 @@ class _parser:
                     skip_component = "year"
                 setattr(self, *res)
 
-        if self._weekday_modifier and not hasattr(self, "_token_weekday"):
-            raise ValueError("Unable to parse: %s" % self._weekday_modifier)
-
         known, unknown = get_unresolved_attrs(self)
         params = {}
         for attr in known:
