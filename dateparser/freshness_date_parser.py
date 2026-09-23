@@ -11,6 +11,8 @@ from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
 PATTERN = re.compile(r"([+-]?\s*\d++[.,]?\d*+)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
+# "the 1st of last month" translates to " 1 1 month ago".
+_DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?=(?:in\s+)?\d+\s+month\b)")
 
 
 class FreshnessDateDataParser:
@@ -40,6 +42,10 @@ class FreshnessDateDataParser:
     def parse(self, date_string, settings):
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
+        day = None
+        if match := _DAY_OF_MONTH.match(date_string):
+            day = int(match[1])
+            date_string = date_string[match.end() :]
         _time = self._parse_time(date_string, settings)
 
         _settings_tz = settings.TIMEZONE.lower()
@@ -89,6 +95,15 @@ class FreshnessDateDataParser:
                 now = datetime.now(self.get_local_tz())
 
         date, period = self._parse_date(date_string, now, settings.PREFER_DATES_FROM)
+
+        if date and day is not None:
+            if period != "month":
+                return None, None
+            try:
+                date = date.replace(day=day)
+            except ValueError:
+                return None, None
+            period = "day"
 
         if date:
             old_date = date
