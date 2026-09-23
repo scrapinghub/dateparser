@@ -241,7 +241,7 @@ def parse_with_formats(date_string, date_formats, settings):
             now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
                 tzinfo=None
             )
-            if not ("%y" in date_format or "%Y" in date_format):
+            if "year" in _missing:
                 date_obj = date_obj.replace(year=now.year)
             elif "%y" in date_format and "%Y" not in date_format:
                 date_obj = _apply_century_preference(
