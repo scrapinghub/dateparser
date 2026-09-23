@@ -381,6 +381,8 @@ class Locale:
                 abbreviation_string += (
                     "(?<!" + digit_abbreviation + ")"
                 )  # negative lookbehind
+        # A dot between digits is part of a numeric date, e.g. 03.03.2011.
+        abbreviation_string += r"(?!(?<=\d)\.\d)"
 
         splitters_dict = {
             1: r"[\.!?;…\r\n]+(?:\s|$)*",  # most European, Tagalog, Hebrew, Georgian,
