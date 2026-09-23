@@ -76,8 +76,4 @@ def parse(
             detect_languages_function=detect_languages_function,
         )
 
-    data = parser.get_date_data(date_string, date_formats)
-
-    if data:
-        return data["date_obj"]
-    return None
+    return parser.get_date_data(date_string, date_formats)["date_obj"]

@@ -54,6 +54,11 @@ class TestUtils(BaseTestCase):
         self.when_date_separator_is_parsed()
         self.then_date_separator_is(expected_sep)
 
+    def test_separator_extraction_without_separator(self):
+        self.given_date_format("%Y")
+        self.when_date_separator_is_parsed()
+        self.then_date_separator_is(None)
+
     @parameterized.expand(
         [
             param(datetime(2015, 12, 12), timezone="UTC", zone="UTC"),

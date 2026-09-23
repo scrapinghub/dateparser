@@ -61,12 +61,7 @@ class FreshnessDateDataParser:
                 now = localize_timezone(now, settings.TIMEZONE)
 
             if ptz:
-                if now.tzinfo:
-                    now = now.astimezone(ptz)
-                elif hasattr(ptz, "localize"):
-                    now = ptz.localize(now)
-                else:
-                    now = now.replace(tzinfo=ptz)
+                now = now.astimezone(ptz) if now.tzinfo else ptz.localize(now)
 
             if not now.tzinfo:
                 now = now.replace(tzinfo=self.get_local_tz())
