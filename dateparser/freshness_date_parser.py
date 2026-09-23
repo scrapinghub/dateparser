@@ -11,10 +11,15 @@ from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
 PATTERN = re.compile(
-    r"([+-]?\s*\d++(?:[.,\s]\d{3}(?!\d))*+(?:[.,]\d*+)?+)\s*(%s)\b" % _UNITS,
+    r"([+-]?\s*(?>\d+(?:[.,\s]\d{3}(?!\d))*(?:[.,]\d*)?))\s*(%s)\b" % _UNITS,
     re.I | re.S | re.U,
 )
-_NUMERIC_PREFIX = re.compile(r"(?<![\d:])\d[\d.,/-]*[.,\s/-]*$")
+# The first group captures a digit when the number is the end of a longer one,
+# e.g. the day in "2024-06-01 3 days".
+_KWARGS_PATTERN = re.compile(
+    r"(?:(?<=[\d.,\s/-])(?<=(?<![\d:])(\d)[\d.,/-]*[.,\s/-]*))?" + PATTERN.pattern,
+    PATTERN.flags,
+)
 
 
 class FreshnessDateDataParser:
@@ -174,18 +179,13 @@ class FreshnessDateDataParser:
         kwargs = {}
         explicit_signs = {}
 
-        for match in PATTERN.finditer(date_string):
-            start = match.start()
-            if (
-                start
-                and not date_string[start - 1].isalpha()
-                and _NUMERIC_PREFIX.search(date_string[:start])
-            ):
+        for fragment, num, unit in _KWARGS_PATTERN.findall(date_string):
+            if fragment:
                 return {}, {}
-            num, unit = match.groups()
-            has_explicit_sign = num.startswith("+") or num.startswith("-")
-            explicit_signs[unit + "s"] = has_explicit_sign
-            kwargs[unit + "s"] = self._parse_number(num)
+            unit += "s"
+            num = num.lstrip()
+            explicit_signs[unit] = num[0] in "+-"
+            kwargs[unit] = float(num) if num.isdecimal() else self._parse_number(num)
 
         return kwargs, explicit_signs
 
