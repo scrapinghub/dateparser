@@ -696,14 +696,10 @@ class _parser:
                                     if prev_type == type:
                                         do = self._get_date_obj(prev_token, directive)
                                 except ValueError:
-                                    results = set_and_return(token, type, component, do)
-                                    swapped = swap_day_and_month(prev_token)
-                                    if swapped:
-                                        return results + swapped
                                     self.unset_tokens.append(
                                         (prev_token, prev_type, component)
                                     )
-                                    return results
+                                    return set_and_return(token, type, component, do)
                         except ValueError:
                             pass
                 swapped = swap_day_and_month(token)
