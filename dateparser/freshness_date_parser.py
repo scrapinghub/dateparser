@@ -1,6 +1,8 @@
 from datetime import datetime, time, timezone
 
-import regex as re
+import re
+
+import regex
 from dateutil.relativedelta import relativedelta
 from tzlocal import get_localzone
 
@@ -10,10 +12,12 @@ from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
-PATTERN = re.compile(
-    r"([+-]?\s*(?>\d+(?:[.,\s]\d{3}(?!\d))*(?:[.,]\d*)?))\s*(%s)\b" % _UNITS,
-    re.I | re.S | re.U,
-)
+_PATTERN = r"([+-]?\s*(?>\d+(?:[.,\s]\d{3}(?!\d))*(?:[.,]\d*)?))\s*(%s)\b" % _UNITS
+try:
+    PATTERN = re.compile(_PATTERN, re.I | re.S)
+except re.error:
+    # Python 3.10 has no atomic groups.
+    PATTERN = regex.compile(_PATTERN, regex.I | regex.S)
 # Matches the text before a number that is the end of a longer one, e.g. the
 # day in "2024-06-01 3 days".
 _NUMERIC_PREFIX = re.compile(r"(?<![\d:])\d[\d.,/-]*[.,\s/-]*$")
