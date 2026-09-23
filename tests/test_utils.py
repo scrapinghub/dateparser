@@ -78,6 +78,7 @@ class TestUtils(BaseTestCase):
     @parameterized.expand(
         [
             param(datetime(2015, 12, 12), timezone="UTC+3", zone=r"UTC\+03:00"),
+            param(datetime(2015, 12, 12), timezone="+08", zone=r"UTC\+08:00"),
         ]
     )
     def test_localize_timezone_function_exception(self, date, timezone, zone):
@@ -95,6 +96,11 @@ class TestUtils(BaseTestCase):
                 datetime(2015, 12, 12, 10, 12),
                 timezone="-0500",
                 expected=datetime(2015, 12, 12, 5, 12),
+            ),
+            param(
+                datetime(2015, 12, 12, 10, 12),
+                timezone="-03",
+                expected=datetime(2015, 12, 12, 7, 12),
             ),
         ]
     )

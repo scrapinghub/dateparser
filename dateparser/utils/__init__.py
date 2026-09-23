@@ -72,15 +72,24 @@ def _get_missing_parts(fmt):
     return missing
 
 
+def _get_static_timezone(tz_string):
+    # "+08" is how time.tzname and datetime.tzname() name whole-hour offsets.
+    if re.fullmatch(r"[+-]\d{2}", tz_string):
+        tz_string += "00"
+    for name, info in _tz_offsets:
+        if info["regex"].search(" %s" % tz_string):
+            return StaticTzInfo(name, info["offset"])
+    return None
+
+
 def get_timezone_from_tz_string(tz_string):
     try:
         return timezone(tz_string)
-    except UnknownTimeZoneError as e:
-        for name, info in _tz_offsets:
-            if info["regex"].search(" %s" % tz_string):
-                return StaticTzInfo(name, info["offset"])
-        else:
-            raise e
+    except UnknownTimeZoneError:
+        tz = _get_static_timezone(tz_string)
+        if tz is None:
+            raise
+        return tz
 
 
 def localize_timezone(date_time, tz_string):
@@ -107,10 +116,9 @@ def apply_tzdatabase_timezone(date_time, pytz_string):
 
 
 def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
-    for name, info in _tz_offsets:
-        if info["regex"].search(" %s" % offset_or_timezone_abb):
-            tz = StaticTzInfo(name, info["offset"])
-            return utc_datetime.astimezone(tz)
+    tz = _get_static_timezone(offset_or_timezone_abb)
+    if tz is not None:
+        return utc_datetime.astimezone(tz)
 
 
 def apply_timezone(date_time, tz_string):
