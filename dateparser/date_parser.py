@@ -16,7 +16,7 @@ class DateParser:
             raise ValueError("Empty string")
 
         date_string = strip_braces(date_string)
-        date_string, ptz = pop_tz_offset_from_string(date_string)
+        date_string, ptz = pop_tz_offset_from_string(date_string, settings=settings)
 
         date_obj, period = parse_method(
             date_string, settings=settings, tz=ptz, date_order=date_order

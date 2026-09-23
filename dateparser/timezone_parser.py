@@ -31,7 +31,7 @@ class StaticTzInfo(tzinfo):
         return self.__name, self.__offset
 
 
-def pop_tz_offset_from_string(date_string, as_offset=True):
+def pop_tz_offset_from_string(date_string, as_offset=True, settings=None):
     if _search_regex_ignorecase.search(date_string):
         for name, info in _tz_offsets:
             timezone_re = info["regex"]
@@ -39,10 +39,12 @@ def pop_tz_offset_from_string(date_string, as_offset=True):
             if timezone_match:
                 start, stop = timezone_match.span()
                 date_string = date_string[: start + 1] + date_string[stop:]
-                return (
-                    date_string,
-                    StaticTzInfo(name, info["offset"]) if as_offset else name,
-                )
+                if not as_offset:
+                    return date_string, name
+                offset = info["offset"]
+                if settings is not None:
+                    offset = settings.TIMEZONE_ABBREVIATIONS.get(name, offset)
+                return date_string, StaticTzInfo(name, offset)
     return date_string, None
 
 

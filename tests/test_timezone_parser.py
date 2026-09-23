@@ -466,3 +466,30 @@ class TestTzDatabasePreference(BaseTestCase):
             self.checker.static_tz_abbreviations()["LMT"],
             self.offset_of("13 August 2026 10:00 LMT").total_seconds(),
         )
+
+
+class TestTimezoneAbbreviationsSetting(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("10:00 IST"),
+            param("in 1 hour IST"),
+        ]
+    )
+    def test_custom_offset(self, date_string):
+        date = parse(
+            date_string,
+            settings={
+                "TIMEZONE_ABBREVIATIONS": {"IST": timedelta(hours=5, minutes=30)},
+                "RETURN_AS_TIMEZONE_AWARE": True,
+            },
+        )
+        self.assertEqual(date.utcoffset(), timedelta(hours=5, minutes=30))
+
+    def test_other_abbreviations_keep_their_offset(self):
+        date = parse(
+            "10:00 CET",
+            settings={
+                "TIMEZONE_ABBREVIATIONS": {"IST": timedelta(hours=5, minutes=30)}
+            },
+        )
+        self.assertEqual(date.utcoffset(), timedelta(hours=1))

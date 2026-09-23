@@ -13,6 +13,7 @@ settings = {
     "TIMEZONE": "local",
     "TO_TIMEZONE": False,
     "RETURN_AS_TIMEZONE_AWARE": "default",
+    "TIMEZONE_ABBREVIATIONS": {},
     # Incomplete dates
     "PREFER_DAY_OF_MONTH": "current",
     "PREFER_MONTH_OF_YEAR": "current",

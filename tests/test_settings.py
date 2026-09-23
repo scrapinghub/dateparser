@@ -1,4 +1,4 @@
-from datetime import datetime, tzinfo
+from datetime import datetime, timedelta, tzinfo
 
 import pytest
 from parameterized import param, parameterized
@@ -253,6 +253,21 @@ class InvalidSettingsTest(BaseTestCase):
             DateDataParser(
                 settings={"PARSERS": ["absolute-time", "timestamp", "absolute-time"]}
             )
+
+    def test_check_settings_extra_check_timezone_abbreviations(self):
+        with self.assertRaisesRegex(
+            SettingValidationError,
+            r'Found unknown timezone abbreviations in the "TIMEZONE_ABBREVIATIONS" '
+            r"setting: 'XYZ'",
+        ):
+            DateDataParser(settings={"TIMEZONE_ABBREVIATIONS": {"XYZ": timedelta()}})
+
+        with self.assertRaisesRegex(
+            SettingValidationError,
+            r"The offset of 'IST' in the \"TIMEZONE_ABBREVIATIONS\" setting must be "
+            r"a timedelta, not '\+05:30'.",
+        ):
+            DateDataParser(settings={"TIMEZONE_ABBREVIATIONS": {"IST": "+05:30"}})
 
     def test_check_settings_extra_check_confidence_threshold(self):
         with self.assertRaisesRegex(
