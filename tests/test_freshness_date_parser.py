@@ -2354,6 +2354,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         [
             param("15th of Aug, 2014 Diane Bennett"),
             param("4 heures ago"),
+            param("the 31st of the month"),
         ]
     )
     def test_insane_dates(self, date_string):
@@ -2589,6 +2590,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 10.75 minutes", date(2010, 6, 4), time(13, 25, 45)),
             param("in 1.5 days", date(2010, 6, 6), time(1, 15)),
             param("0,5 hours ago", date(2010, 6, 4), time(12, 45)),
+            param("the 1st of the month", date(2010, 6, 1), time(13, 15)),
         ]
     )
     def test_freshness_date_with_relative_base(self, date_string, date, time):

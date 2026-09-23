@@ -1163,6 +1163,9 @@ info = {
             "from\\s+now": "in"
         },
         {
+            "of the month": "of this month"
+        },
+        {
             "less than 1 minute ago": "45 second ago"
         },
         {
