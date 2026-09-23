@@ -1231,6 +1231,43 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("31/07/2019:"), "31/07/2019")
 
 
+class TestQuarter(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("2025Q1", datetime(2025, 1, 1), "quarter"),
+            param("2025q02", datetime(2025, 4, 1), "quarter"),
+            param("2025-Q3", datetime(2025, 7, 1), "quarter"),
+            param("Q4 2025", datetime(2025, 10, 1), "quarter"),
+            param("2025Q5", None, "day"),
+            param("X2025Q2", None, "day"),
+            param("Q2", None, "day"),
+        ]
+    )
+    def test_quarter(self, date_string, expected_date, expected_period):
+        date_data = date.DateDataParser(
+            settings={"PREFER_DAY_OF_MONTH": "first", "PREFER_MONTH_OF_YEAR": "first"}
+        ).get_date_data(date_string)
+        self.assertEqual(date_data.date_obj, expected_date)
+        self.assertEqual(date_data.period, expected_period)
+
+    @parameterized.expand(
+        [
+            param("first", datetime(2026, 9, 23), datetime(2025, 4, 30)),
+            param("last", datetime(2026, 9, 23), datetime(2025, 6, 30)),
+            param("current", datetime(2026, 9, 23), datetime(2025, 6, 30)),
+            param("current", datetime(2026, 8, 23), datetime(2025, 5, 31)),
+            param("current", datetime(2026, 1, 23), datetime(2025, 4, 30)),
+        ]
+    )
+    def test_quarter_month_preference(self, prefer_month, relative_base, expected):
+        settings = {
+            "PREFER_DAY_OF_MONTH": "last",
+            "PREFER_MONTH_OF_YEAR": prefer_month,
+            "RELATIVE_BASE": relative_base,
+        }
+        self.assertEqual(dateparser.parse("2025Q2", settings=settings), expected)
+
+
 class TestDateLocaleParser(BaseTestCase):
     def setUp(self):
         super().setUp()
