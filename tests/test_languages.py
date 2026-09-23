@@ -88,6 +88,13 @@ class TestBundledLanguages(BaseTestCase):
             param("de", "in zwei Monaten", "in 2 month"),
             param("de", "übermorgen", "in 2 day"),
             param("de", "3 mrz 1999", "3 march 1999"),
+            param("de", "18 Uhr", "18:00"),
+            param("de", "18Uhr", "18:00"),
+            param("de", "18 Uhr 30", "18:30"),
+            param("de", "zwölf Uhr", "12:00"),
+            param("de", "heute 18 Uhr", "0 day ago 18:00"),
+            param("de", "18:00 Uhr", "18:00 "),
+            param("de", "18.30 Uhr", "18.30 "),
             # Hungarian
             param("hu", "2016 augusztus 11.", "2016 august 11."),
             param("hu", "2016-08-13 szombat 10:21", "2016-08-13 saturday 10:21"),
