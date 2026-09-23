@@ -161,6 +161,13 @@ Relative Dates
     datetime.datetime(2015, 5, 25, 0, 0)
     >>> parse('2小时前')  # Chinese (2 hours ago)
     datetime.datetime(2015, 5, 31, 22, 0)
+    >>> parse('next Wednesday')
+    datetime.datetime(2015, 6, 3, 0, 0)
+
+``last``, ``this`` and ``next`` before a weekday mean its closest occurrence
+before, on or after, and after the current date, respectively, regardless of
+the ``PREFER_DATES_FROM`` setting. So ``this Wednesday`` and ``next
+Wednesday`` are the same date except on a Wednesday.
 
 .. note:: Testing above code might return different values depending on your environment's current date and time.
 

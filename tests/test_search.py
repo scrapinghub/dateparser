@@ -1192,6 +1192,30 @@ class TestTranslateSearch(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                text="See you next Friday at 5pm.",
+                expected=[("next Friday at 5pm", datetime.datetime(2026, 9, 25, 17))],
+            ),
+            param(
+                text="Meet this Friday or last Tuesday",
+                expected=[
+                    ("this Friday", datetime.datetime(2026, 9, 25)),
+                    ("last Tuesday", datetime.datetime(2026, 9, 22)),
+                ],
+            ),
+            param(text="The last three commits were fine", expected=None),
+        ]
+    )
+    def test_search_dates_weekday_with_modifier(self, text, expected):
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)},
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
                 text="15 de outubro de 1936",
                 add_detected_language=True,
                 expected=[

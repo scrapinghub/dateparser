@@ -1943,6 +1943,70 @@ class TestDateParser(BaseTestCase):
         """Test that an invalid %j value is not read as another date (Issue #271)."""
         self.assertIsNone(parse(date_string, date_formats=["%Y%j"]))
 
+    @parameterized.expand(
+        [
+            param(prefer_dates_from="current_period"),
+            param(prefer_dates_from="past"),
+            param(prefer_dates_from="future"),
+        ]
+    )
+    def test_weekday_with_modifier(self, prefer_dates_from):
+        weekdays = [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+        ]
+        for base_weekday in range(7):
+            relative_base = datetime(2026, 9, 21 + base_weekday, 12)
+            settings = {
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "RELATIVE_BASE": relative_base,
+            }
+            midnight = relative_base.replace(hour=0)
+            for weekday, name in enumerate(weekdays):
+                expected = {
+                    "last": -((base_weekday - weekday - 1) % 7 + 1),
+                    "this": (weekday - base_weekday) % 7,
+                    "next": (weekday - base_weekday - 1) % 7 + 1,
+                }
+                for modifier, days in expected.items():
+                    date_string = f"{modifier} {name}"
+                    with self.subTest(date_string=date_string, base=relative_base):
+                        self.assertEqual(
+                            parse(date_string, settings=settings),
+                            midnight + timedelta(days=days),
+                        )
+
+    @parameterized.expand(
+        [
+            param("Next Tuesday", datetime(2026, 9, 29)),
+            param("next tues", datetime(2026, 9, 29)),
+            param("last fri", datetime(2026, 9, 18)),
+            param("next Friday at 5pm", datetime(2026, 9, 25, 17)),
+            param("12am last monday", datetime(2026, 9, 21)),
+        ]
+    )
+    def test_weekday_with_modifier_variants(self, date_string, expected):
+        settings = {"RELATIVE_BASE": datetime(2026, 9, 23, 12)}
+        self.assertEqual(parse(date_string, settings=settings), expected)
+
+    @parameterized.expand(
+        [
+            param("next"),
+            param("this"),
+            param("last 5pm"),
+            param("thursday next"),
+            param("next next friday"),
+            param("last three"),
+        ]
+    )
+    def test_modifier_without_weekday_is_not_parsed(self, date_string):
+        self.assertIsNone(parse(date_string, languages=["en"]))
+
 
 if __name__ == "__main__":
     unittest.main()
