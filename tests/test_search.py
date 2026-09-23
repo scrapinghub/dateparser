@@ -11,7 +11,7 @@ from dateparser.timezone_parser import StaticTzInfo
 from dateparser_data.settings import default_parsers
 from tests import BaseTestCase
 
-today = datetime.datetime.now(tz=pytz.timezone("UTC"))
+today = datetime.datetime.now()
 relative_base = datetime.datetime(2020, 2, 13, 20, 7, 6)
 
 
@@ -602,7 +602,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2020,
                             5,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -612,7 +612,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2020,
                             7,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -622,7 +622,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2023,
                             7,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -632,7 +632,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2023,
                             1,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                             tzinfo=pytz.utc,
