@@ -640,13 +640,12 @@ class _parser:
                 skip_component == "year"
                 and self.day is None
                 and self.month is None
-                and "DATE_ORDER" not in self.settings._mod_settings
+                and not self._date_order.startswith("Y")
             ):
                 # The date string starts with a four-digit year (e.g. an
                 # ISO 8601 date like "2017-06-22"), so the remaining numeric
-                # components are expected in month-day order, regardless of
-                # the locale date order, unless the caller explicitly set
-                # DATE_ORDER (#360).
+                # components are expected in month-day order, unless the date
+                # order itself puts the year first (e.g. YDM).
                 num_directives = {
                     k: self.num_directives[k] for k in ("month", "day", "year")
                 }
