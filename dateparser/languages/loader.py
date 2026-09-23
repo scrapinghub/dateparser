@@ -2,7 +2,6 @@ import threading
 from collections import OrderedDict
 from copy import deepcopy
 from importlib import import_module
-from itertools import zip_longest
 
 import regex as re
 
@@ -22,19 +21,6 @@ def _isvalidlocale(locale):
             return True
         else:
             return False
-
-
-def _filter_valid_locales(locales):
-    return [locale for locale in locales if _isvalidlocale(locale)]
-
-
-def _construct_locales(languages, region):
-    if region:
-        possible_locales = [language + "-" + region for language in languages]
-        locales = _filter_valid_locales(possible_locales)
-    else:
-        locales = languages
-    return locales
 
 
 class LocaleDataLoader:
@@ -192,12 +178,10 @@ class LocaleDataLoader:
                 )
             if region is None:
                 region = ""
-            locales = _construct_locales(languages, region)
-            locale_dict.update(
-                zip_longest(
-                    locales, tuple(zip_longest(languages, [], fillvalue=region))
-                )
-            )
+            for language in languages:
+                locale = f"{language}-{region}" if region else language
+                if _isvalidlocale(locale):
+                    locale_dict[locale] = (language, region)
 
         if not use_given_order:
             locale_dict = dict(
