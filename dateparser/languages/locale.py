@@ -132,15 +132,12 @@ class Locale:
 
     @staticmethod
     def clean_dictionary(dictionary, threshold=2):
-        del_keys = []
-        for key in dictionary:
-            if len(key) < threshold:
-                del_keys.append(key)
+        del_keys = [key for key in dictionary if len(key) < threshold]
         for del_key in del_keys:
             del dictionary[del_key]
         return dictionary
 
-    def translate(
+    def translate(  # noqa: PLR0912
         self,
         date_string,
         keep_formatting=False,
@@ -179,8 +176,8 @@ class Locale:
 
         relative_translations = self._get_relative_translations(settings=settings)
 
-        for i, word in enumerate(date_string_tokens):
-            word = word.lower()
+        for i, token in enumerate(date_string_tokens):
+            word = token.lower()
             for pattern, replacement in relative_translations.items():
                 if pattern.match(word):
                     date_string_tokens[i] = pattern.sub(replacement, word)
@@ -223,8 +220,7 @@ class Locale:
 
                     # Add back the maximum number of spaces
                     max_spaces = max(prev_spaces, next_spaces)
-                    for _ in range(max_spaces):
-                        filtered_tokens.append(" ")
+                    filtered_tokens.extend(" " * max_spaces)
 
                     # Skip the empty token and all following spaces
                     i += next_spaces + 1
@@ -257,28 +253,24 @@ class Locale:
                         self._generate_relative_translations(normalize=True)
                     )
                 return self._normalized_relative_translations
-            else:
-                if self._relative_translations is None:
-                    self._relative_translations = self._generate_relative_translations(
-                        normalize=False
-                    )
-                return self._relative_translations
+            if self._relative_translations is None:
+                self._relative_translations = self._generate_relative_translations(
+                    normalize=False
+                )
+            return self._relative_translations
 
     def _generate_relative_translations(self, normalize=False):
         relative_translations = self.info.get("relative-type-regex", {})
         relative_dictionary = {}
         for key, value in relative_translations.items():
-            if normalize:
-                value = list(map(normalize_unicode, value))
-            pattern = "|".join(sorted(value, key=len, reverse=True))
+            translations = map(normalize_unicode, value) if normalize else value
+            pattern = "|".join(sorted(translations, key=len, reverse=True))
             pattern = pattern.replace(r"(\d+", r"(?P<n>\d+")
-            pattern = re.compile(
-                r"^(?:{})$".format(pattern), re.UNICODE | re.IGNORECASE
-            )
+            pattern = re.compile(rf"^(?:{pattern})$", re.UNICODE | re.IGNORECASE)
             relative_dictionary[pattern] = key
         return relative_dictionary
 
-    def translate_search(self, search_string, settings=None):
+    def translate_search(self, search_string, settings=None):  # noqa: PLR0912
         dashes = ["-", "——", "—", "～"]
         word_joint_unsupported_languages = ["zh", "ja"]
         sentences = self._sentence_split(search_string, settings=settings)
@@ -302,7 +294,7 @@ class Locale:
                     skip_next_token = False
                     continue
 
-                if word == "" or word == " ":
+                if word in {"", " "}:
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
                 elif (
@@ -329,19 +321,16 @@ class Locale:
                     else:
                         translated_chunk.append(dictionary[bare_word])
                     original_chunk.append(original_tokens[i])
-                elif self._token_with_digits_is_ok(word):
+                elif self._token_with_digits_is_ok(word) or (
+                    translated_chunk and word_is_tz(original_tokens[i])
+                ):
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
-                # Use original token because word_is_tz is case sensitive
-                elif translated_chunk and word_is_tz(original_tokens[i]):
-                    translated_chunk.append(word)
-                    original_chunk.append(original_tokens[i])
-                else:
-                    if translated_chunk:
-                        translated.append(translated_chunk)
-                        translated_chunk = []
-                        original.append(original_chunk)
-                        original_chunk = []
+                elif translated_chunk:
+                    translated.append(translated_chunk)
+                    translated_chunk = []
+                    original.append(original_chunk)
+                    original_chunk = []
             if translated_chunk:
                 translated.append(translated_chunk)
                 original.append(original_chunk)
@@ -360,11 +349,9 @@ class Locale:
         dictionary = self._get_dictionary(settings=settings)
         with self._lock:
             if self._abbreviations is None:
-                abbreviations = []
-                for item in dictionary:
-                    if item.endswith(".") and len(item) > 1:
-                        abbreviations.append(item)
-                self._abbreviations = abbreviations
+                self._abbreviations = [
+                    item for item in dictionary if item.endswith(".") and len(item) > 1
+                ]
             return self._abbreviations
 
     def _sentence_split(self, string, settings):
@@ -401,10 +388,9 @@ class Locale:
             )
             sentences = re.split(split_reg, string)
 
-        sentences = filter(None, sentences)
-        return sentences
+        return filter(None, sentences)
 
-    def _simplify_split_align(self, original, settings):
+    def _simplify_split_align(self, original, settings):  # noqa: PLR0912
         # TODO: Switch to new split method.
         original_tokens = self._word_split(original, settings=settings)
         simplified_tokens = self._word_split(
@@ -414,18 +400,17 @@ class Locale:
         if len(original_tokens) == len(simplified_tokens):
             return original_tokens, simplified_tokens
 
-        elif len(original_tokens) < len(simplified_tokens):
+        if len(original_tokens) < len(simplified_tokens):
             add_empty = False
             for i, token in enumerate(simplified_tokens):
                 if i < len(original_tokens):
                     if token == normalize_unicode(original_tokens[i].lower()):
                         add_empty = False
+                    elif not add_empty:
+                        add_empty = True
+                        continue
                     else:
-                        if not add_empty:
-                            add_empty = True
-                            continue
-                        else:
-                            original_tokens.insert(i, "")
+                        original_tokens.insert(i, "")
                 else:
                     original_tokens.insert(i, "")
         else:
@@ -434,12 +419,11 @@ class Locale:
                 if i < len(simplified_tokens):
                     if normalize_unicode(token.lower()) == simplified_tokens[i]:
                         add_empty = False
+                    elif not add_empty:
+                        add_empty = True
+                        continue
                     else:
-                        if not add_empty:
-                            add_empty = True
-                            continue
-                        else:
-                            simplified_tokens.insert(i, "")
+                        simplified_tokens.insert(i, "")
                 else:
                     simplified_tokens.insert(i, "")
 
@@ -475,18 +459,16 @@ class Locale:
     def _word_split(self, string, settings):
         if "no_word_spacing" in self.info:
             return self._split(string, keep_formatting=True, settings=settings)
-        else:
-            return string.split()
+        return string.split()
 
     def _split(self, date_string, keep_formatting, settings=None):
         tokens = [date_string]
         tokens = list(self._split_tokens_with_regex(tokens, r"(\d+)"))
-        tokens = list(
+        return list(
             self._split_tokens_by_known_words(
                 tokens, keep_formatting, settings=settings
             )
         )
-        return tokens
 
     def _split_tokens_with_regex(self, tokens, regex):
         tokens = tokens[:]
@@ -503,21 +485,13 @@ class Locale:
     def _join_chunk(self, chunk, settings):
         if "no_word_spacing" in self.info:
             return self._join(chunk, separator="", settings=settings)
-        else:
-            return re.sub(r"\s{2,}", " ", " ".join(chunk))
+        return re.sub(r"\s{2,}", " ", " ".join(chunk))
 
     def _token_with_digits_is_ok(self, token):
         if "no_word_spacing" in self.info:
-            if re.search(r"[\d\.:\-/]+", token) is not None:
-                return True
-            else:
-                return False
+            return re.search(r"[\d\.:\-/]+", token) is not None
 
-        else:
-            if re.search(r"\d+", token) is not None:
-                return True
-            else:
-                return False
+        return re.search(r"\d+", token) is not None
 
     def _simplify(self, date_string, settings=None):
         date_string = date_string.lower()
@@ -534,7 +508,7 @@ class Locale:
 
     def _apply_simplifications(self, date_string, simplifications):
         for simplification in simplifications:
-            pattern, replacement = list(simplification.items())[0]
+            pattern, replacement = next(iter(simplification.items()))
             date_string = pattern.sub(replacement, date_string).lower()
         return date_string
 
@@ -551,9 +525,7 @@ class Locale:
             return match.group(0)
 
         number_pair_pattern = r"\b(\d+)\s+(\d+)\b"
-        date_string = re.sub(number_pair_pattern, replace_number_pairs, date_string)
-
-        return date_string
+        return re.sub(number_pair_pattern, replace_number_pairs, date_string)
 
     def _get_simplifications(self, settings=None):
         no_word_spacing = _parse_bool(self.info.get("no_word_spacing", False))
@@ -563,9 +535,9 @@ class Locale:
                     normalized_simplifications = []
                     simplifications = self._generate_simplifications(normalize=True)
                     for simplification in simplifications:
-                        pattern, replacement = list(simplification.items())[0]
+                        pattern, replacement = next(iter(simplification.items()))
                         if not no_word_spacing:
-                            pattern = r"(?<=\A|\W|_)%s(?=\Z|\W|_)" % pattern
+                            pattern = rf"(?<=\A|\W|_){pattern}(?=\Z|\W|_)"
                         pattern = re.compile(pattern, flags=re.I | re.U)
                         normalized_simplifications.append({pattern: replacement})
                     # Assign only once fully built so other threads never observe
@@ -573,24 +545,23 @@ class Locale:
                     self._normalized_simplifications = normalized_simplifications
                 return self._normalized_simplifications
 
-            else:
-                if self._simplifications is None:
-                    simplifications_built = []
-                    simplifications = self._generate_simplifications(normalize=False)
-                    for simplification in simplifications:
-                        pattern, replacement = list(simplification.items())[0]
-                        if not no_word_spacing:
-                            pattern = r"(?<=\A|\W|_)%s(?=\Z|\W|_)" % pattern
-                        pattern = re.compile(pattern, flags=re.I | re.U)
-                        simplifications_built.append({pattern: replacement})
-                    self._simplifications = simplifications_built
-                return self._simplifications
+            if self._simplifications is None:
+                simplifications_built = []
+                simplifications = self._generate_simplifications(normalize=False)
+                for simplification in simplifications:
+                    pattern, replacement = next(iter(simplification.items()))
+                    if not no_word_spacing:
+                        pattern = rf"(?<=\A|\W|_){pattern}(?=\Z|\W|_)"
+                    pattern = re.compile(pattern, flags=re.I | re.U)
+                    simplifications_built.append({pattern: replacement})
+                self._simplifications = simplifications_built
+            return self._simplifications
 
     def _generate_simplifications(self, normalize=False):
         simplifications = []
         for simplification in self.info.get("simplifications", []):
             c_simplification = {}
-            key, value = list(simplification.items())[0]
+            key, value = next(iter(simplification.items()))
             if normalize:
                 key = normalize_unicode(key)
 

@@ -4,6 +4,7 @@ Utilities for handling time spans and date ranges.
 
 import re
 from datetime import datetime, timedelta
+
 from dateutil.relativedelta import relativedelta
 
 
@@ -97,7 +98,7 @@ def detect_time_span(text):
     return None
 
 
-def generate_time_span(span_info, base_date=None, settings=None):
+def generate_time_span(span_info, base_date=None, settings=None):  # noqa: PLR0912
     """Generate start and end dates for a time span."""
     if base_date is None:
         base_date = datetime.now()

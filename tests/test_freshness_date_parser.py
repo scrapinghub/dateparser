@@ -1,19 +1,20 @@
 import unittest
 from datetime import date, datetime, time, timedelta
 from functools import wraps
-
-import pytz
-
+from time import monotonic
+from unittest.mock import Mock, patch
 from zoneinfo import ZoneInfo
 
-from unittest.mock import Mock, patch
-
+import pytz
 from dateutil.relativedelta import relativedelta
 from parameterized import param, parameterized
 
 import dateparser
+import dateparser.data.date_translation_data.en as en_data
 from dateparser.conf import settings
 from dateparser.date import DateDataParser, freshness_date_parser
+from dateparser.freshness_date_parser import PATTERN
+from dateparser.languages.dictionary import Dictionary
 from dateparser.utils import normalize_unicode
 from tests import BaseTestCase
 
@@ -106,7 +107,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             ),  # We've fixed .now in setUp
             param("5000 months ago", ago={"years": 416, "months": 8}, period="month"),
             param(
-                "{} months ago".format(2013 * 12 + 8),
+                f"{2013 * 12 + 8} months ago",
                 ago={"years": 2013, "months": 8},
                 period="month",
             ),
@@ -545,7 +546,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("1000 বছর আগে", ago={"years": 1000}, period="year"),
             param("5000 মাস আগে", ago={"years": 416, "months": 8}, period="month"),
             param(
-                "{} মাস আগে".format(2013 * 12 + 8),
+                f"{2013 * 12 + 8} মাস আগে",
                 ago={"years": 2013, "months": 8},
                 period="month",
             ),
@@ -809,7 +810,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # kl
             param("for 6 ulloq unnuarlu siden", ago={"days": 6}, period="day"),
             # km
-            param("11 សប្ដាហ៍​មុន", ago={"weeks": 11}, period="week"),
+            param("11 សប្ដាហ៍\u200bមុន", ago={"weeks": 11}, period="week"),
             # kn
             param("15 ಸೆಕೆಂಡುಗಳ ಹಿಂದೆ", ago={"seconds": 15}, period="day"),
             # ko
@@ -974,7 +975,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             ),  # We've fixed .now in setUp
             param("5000 months ago", ago={"years": 416, "months": 8}, period="month"),
             param(
-                "{} months ago".format(2013 * 12 + 8),
+                f"{2013 * 12 + 8} months ago",
                 ago={"years": 2013, "months": 8},
                 period="month",
             ),
@@ -1368,7 +1369,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("1000 বছর আগে", ago={"years": 1000}, period="year"),
             param("5000 মাস আগে", ago={"years": 416, "months": 8}, period="month"),
             param(
-                "{} মাস আগে".format(2013 * 12 + 8),
+                f"{2013 * 12 + 8} মাস আগে",
                 ago={"years": 2013, "months": 8},
                 period="month",
             ),
@@ -1626,7 +1627,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # kl
             param("for 6 ulloq unnuarlu siden", ago={"days": 6}, period="day"),
             # km
-            param("11 សប្ដាហ៍​មុន", ago={"weeks": 11}, period="week"),
+            param("11 សប្ដាហ៍\u200bមុន", ago={"weeks": 11}, period="week"),
             # kn
             param("15 ಸೆಕೆಂಡುಗಳ ಹಿಂದೆ", ago={"seconds": 15}, period="day"),
             # ko
@@ -1799,7 +1800,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
                 "in 5000 months", in_future={"years": 416, "months": 8}, period="month"
             ),
             param(
-                "in {} months".format(2013 * 12 + 8),
+                f"in {2013 * 12 + 8} months",
                 in_future={"years": 2013, "months": 8},
                 period="month",
             ),
@@ -2367,7 +2368,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         [
             param("5000 years ago"),
             param("2014 years ago"),  # We've fixed .now in setUp
-            param("{} months ago".format(2013 * 12 + 9)),
+            param(f"{2013 * 12 + 9} months ago"),
             param("123456789 hour"),
             param("123456789123 hour"),
             param("1234567 days"),
@@ -2497,11 +2498,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     def test_freshness_date_with_to_timezone_setting(self):
         _settings = settings.replace(
-            **{
-                "TIMEZONE": "local",
-                "TO_TIMEZONE": "UTC",
-                "RELATIVE_BASE": datetime(2014, 9, 1, 10, 30),
-            }
+            TIMEZONE="local",
+            TO_TIMEZONE="UTC",
+            RELATIVE_BASE=datetime(2014, 9, 1, 10, 30),
         )
 
         parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
@@ -2577,7 +2576,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("1000 years ago", date(1010, 6, 4), time(13, 15)),
             param("2008 years ago", date(2, 6, 4), time(13, 15)),
             param("5000 months ago", date(1593, 10, 4), time(13, 15)),
-            param("{} months ago".format(2008 * 12 + 8), date(1, 10, 4), time(13, 15)),
+            param(f"{2008 * 12 + 8} months ago", date(1, 10, 4), time(13, 15)),
             param(
                 "1 year, 1 month, 1 week, 1 day, 1 hour and 1 minute ago",
                 date(2009, 4, 26),
@@ -2637,25 +2636,19 @@ class TestFreshnessDateDataParser(BaseTestCase):
     def test_long_digit_run_does_not_hang(self):
         # Possessive quantifiers (\d++[.,]?\d*+) prevent quadratic backtracking.
         # Without the fix, PATTERN.findall('9' * 3200) takes ~23 s; with it, ~0.02 s.
-        import time
-        from dateparser.freshness_date_parser import PATTERN
-        from dateparser.languages.dictionary import Dictionary
-        from dateparser.conf import settings
-        import dateparser.data.date_translation_data.en as en_data
-
         long_digits = "9" * 3200
 
-        start = time.monotonic()
+        start = monotonic()
         PATTERN.findall(long_digits)
-        elapsed = time.monotonic() - start
+        elapsed = monotonic() - start
         self.assertLess(elapsed, 1.0, "PATTERN.findall backtracked on long digit run")
 
         d = Dictionary(en_data.info, settings)
         split_re = d._get_split_relative_regex_cache()
 
-        start = time.monotonic()
+        start = monotonic()
         split_re.split(long_digits)
-        elapsed = time.monotonic() - start
+        elapsed = monotonic() - start
         self.assertLess(
             elapsed, 1.0, "split_relative_regex backtracked on long digit run"
         )
@@ -2720,7 +2713,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     def then_date_was_not_parsed(self):
         self.assertIsNone(
-            self.result["date_obj"], '"%s" should not be parsed' % self.date_string
+            self.result["date_obj"], f'"{self.date_string}" should not be parsed'
         )
 
     def then_date_was_parsed_by_freshness_parser(self):

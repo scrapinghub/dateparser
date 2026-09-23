@@ -30,7 +30,7 @@ _NOISE_TOKENS = frozenset(["on", "at", "of", "a"])
 # false positives. They can still be parsed as part of a longer candidate.
 _BAD_CANDIDATE_RE = re.compile(
     "^("
-    + "|".join(
+    + "|".join(  # noqa: FLY002
         [
             r"\d{1,3}",  # bare numbers of less than 4 digits
             r"#\d+",  # sequence numbers

@@ -1,7 +1,7 @@
 import locale
+import warnings
 from datetime import datetime
 from unittest import SkipTest
-import warnings
 
 from parameterized import param, parameterized
 
@@ -17,7 +17,7 @@ class TestStrptime(BaseTestCase):
         try:
             locale.setlocale(locale.LC_ALL, locale_str)
         except locale.Error:
-            raise SkipTest("Locale {} is not installed".format(locale_str))
+            raise SkipTest(f"Locale {locale_str} is not installed")
 
     def when_date_string_is_parsed(self, date_string, fmt):
         try:

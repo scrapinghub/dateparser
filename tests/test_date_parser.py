@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from functools import wraps
 from unittest.mock import Mock, patch
 
@@ -150,7 +150,7 @@ class TestDateParser(BaseTestCase):
             param("Thứ sáu", datetime(2012, 11, 9)),  # Friday
             param(
                 "Tháng Mười Hai 29, 2013, 14:14", datetime(2013, 12, 29, 14, 14)
-            ),  # bpsosrcs.wordpress.com  # NOQA
+            ),  # bpsosrcs.wordpress.com
             param("05 Tháng một 2015 - 03:54 AM", datetime(2015, 1, 5, 3, 54)),
             # Belarusian dates
             param("11 траўня", datetime(2012, 5, 11)),
@@ -392,7 +392,7 @@ class TestDateParser(BaseTestCase):
             param("Thứ sáu", datetime(2012, 11, 9)),  # Friday
             param(
                 "Tháng Mười Hai 29, 2013, 14:14", datetime(2013, 12, 29, 14, 14)
-            ),  # bpsosrcs.wordpress.com  # NOQA
+            ),  # bpsosrcs.wordpress.com
             param("05 Tháng một 2015 - 03:54 AM", datetime(2015, 1, 5, 3, 54)),
             # Belarusian dates
             param("11 траўня", datetime(2012, 5, 11)),
@@ -1891,14 +1891,12 @@ class TestDateParser(BaseTestCase):
 
     def test_prefer_dates_from_with_date_formats_tz_aware_relative_base(self):
         """Test that a tz-aware RELATIVE_BASE does not crash (Bug #1 fix)."""
-        from datetime import timezone as tz
-
         result = parse(
             "1/15/64",
             date_formats=["%m/%d/%y"],
             settings={
                 "PREFER_DATES_FROM": "past",
-                "RELATIVE_BASE": datetime(1980, 1, 1, tzinfo=tz.utc),
+                "RELATIVE_BASE": datetime(1980, 1, 1, tzinfo=timezone.utc),
             },
         )
         self.assertIsNotNone(result)

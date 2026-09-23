@@ -78,5 +78,6 @@ def search_dates(
     if dates:
         if add_detected_language:
             language = result.get("Language")
-            dates = [date + (language,) for date in dates]
+            dates = [(*date, language) for date in dates]
         return dates
+    return None

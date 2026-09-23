@@ -15,10 +15,8 @@ class TestDateData:
 
     def test_get_item_like_dict_keyerror(self):
         dd = DateData(date_obj=None, period="day", locale="de")
-        with pytest.raises(KeyError) as e:
-            date_obj = dd["date"]
-            assert e == "date"
-            assert not date_obj
+        with pytest.raises(KeyError, match="date"):
+            dd["date"]
 
     def test_set_item_like_dict(self):
         dd = DateData()
@@ -30,12 +28,11 @@ class TestDateData:
 
     def test_set_item_like_dict_keyerror(self):
         dd = DateData()
-        with pytest.raises(KeyError) as e:
+        with pytest.raises(KeyError, match="date"):
             dd["date"] = datetime(year=5432, month=3, day=1)
-            assert e == "date"
 
     @pytest.mark.parametrize(
-        "date,period,locale,expected",
+        ("date", "period", "locale", "expected"),
         [
             (
                 datetime(year=2020, month=10, day=28),

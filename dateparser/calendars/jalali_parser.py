@@ -1,5 +1,6 @@
 import re
 from functools import reduce
+from typing import ClassVar
 
 from convertdate import persian
 
@@ -17,6 +18,7 @@ class PersianDate:
             for idx, day in enumerate(week):
                 if day == self.day:
                     return idx
+        return None
 
 
 class jalali_parser(non_gregorian_parser):
@@ -26,7 +28,7 @@ class jalali_parser(non_gregorian_parser):
     default_day = 1
     non_gregorian_date_cls = PersianDate
 
-    _digits = {
+    _digits: ClassVar[dict[str, int]] = {
         "۰": 0,
         "۱": 1,
         "۲": 2,
@@ -39,7 +41,7 @@ class jalali_parser(non_gregorian_parser):
         "۹": 9,
     }
 
-    _months = {
+    _months: ClassVar[dict[str, tuple[int, int, list[str]]]] = {
         # pinglish : (persian literals, month index, number of days)
         "Farvardin": (1, 31, ["فروردین"]),
         "Ordibehesht": (2, 31, ["اردیبهشت"]),
@@ -55,7 +57,7 @@ class jalali_parser(non_gregorian_parser):
         "Esfand": (12, 29, ["اسفند"]),
     }
 
-    _weekdays = {
+    _weekdays: ClassVar[dict[str, list[str]]] = {
         "Sunday": ["یکشنبه"],
         "Monday": ["دوشنبه"],
         "Tuesday": ["سهشنبه", "سه شنبه"],
@@ -65,7 +67,7 @@ class jalali_parser(non_gregorian_parser):
         "Saturday": ["روز شنبه", "شنبه"],
     }
 
-    _number_letters = {
+    _number_letters: ClassVar[dict[int, list[str]]] = {
         0: ["صفر"],
         1: ["یک", "اول"],
         2: ["دو"],
@@ -146,8 +148,7 @@ class jalali_parser(non_gregorian_parser):
         result = re.sub(minute_pattern, only_numbers, result)
         result = re.sub(second_pattern, only_numbers, result)
         result = re.sub(r"\s+و\s+", ":", result)
-        result = result.replace("ساعت", "")
-        return result
+        return result.replace("ساعت", "")
 
     @classmethod
     def _replace_days(cls, source):
@@ -175,5 +176,4 @@ class jalali_parser(non_gregorian_parser):
     def handle_two_digit_year(self, year):
         if year > 60:
             return year + 1300
-        else:
-            return year + 1400
+        return year + 1400

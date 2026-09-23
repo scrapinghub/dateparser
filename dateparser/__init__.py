@@ -80,3 +80,4 @@ def parse(
 
     if data:
         return data["date_obj"]
+    return None

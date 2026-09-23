@@ -15,6 +15,7 @@ from dateparser.timezone_parser import (
     pop_tz_offset_from_string,
     word_is_tz,
 )
+from dateparser_scripts import tz_abbreviation_conflicts
 from tests import BaseTestCase
 
 
@@ -308,8 +309,6 @@ class TestTzDatabasePreference(BaseTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        from dateparser_scripts import tz_abbreviation_conflicts
-
         cls.checker = tz_abbreviation_conflicts
         # Sampling every zone takes a moment, so it is done once for the class.
         cls.tz_database = tz_abbreviation_conflicts.tz_database_abbreviations()

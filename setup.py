@@ -1,12 +1,13 @@
 import re
+from pathlib import Path
 
 from setuptools import setup
 
-readme = open("README.rst", encoding="utf-8").read()
+readme = Path("README.rst").read_text(encoding="utf-8")
 # Remove `.. raw:: html` blocks, which are not supported by PyPI.
 readme = re.sub(r"(?m)^\.\. raw:: html\n(?:^[ \t].*\n|^[ \t]*\n)*?\n\n", "", readme)
 history = re.sub(
-    r":mod:|:class:|:func:", "", open("HISTORY.rst", encoding="utf-8").read()
+    r":mod:|:class:|:func:", "", Path("HISTORY.rst").read_text(encoding="utf-8")
 )
 
 setup(

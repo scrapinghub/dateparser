@@ -20,7 +20,7 @@ class StaticTzInfo(tzinfo):
         return timedelta(0)
 
     def __repr__(self):
-        return "<%s '%s'>" % (self.__class__.__name__, self.__name)
+        return f"<{self.__class__.__name__} '{self.__name}'>"
 
     def localize(self, dt, is_dst=False):
         if dt.tzinfo is not None:
@@ -96,8 +96,7 @@ def build_tz_offsets(search_regex_parts):
 
 def get_local_tz_offset():
     offset = datetime.now() - datetime.now(tz=timezone.utc).replace(tzinfo=None)
-    offset = timedelta(days=offset.days, seconds=round(offset.seconds, -1))
-    return offset
+    return timedelta(days=offset.days, seconds=round(offset.seconds, -1))
 
 
 _search_regex_parts = []

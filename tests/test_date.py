@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import datetime as real_datetime
 import os
 import unittest
@@ -109,7 +107,7 @@ class TestDateRangeFunction(BaseTestCase):
             self.assertLess(self.result[i], self.result[i + 1])
 
     def then_period_was_rejected(self, period):
-        self.then_error_was_raised(ValueError, ["Invalid argument: {}".format(period)])
+        self.then_error_was_raised(ValueError, [f"Invalid argument: {period}"])
 
 
 class TestGetIntersectingPeriodsFunction(BaseTestCase):
@@ -868,7 +866,7 @@ class TestDateDataParser(BaseTestCase):
             TypeError,
             [
                 "Date formats should be list, tuple or set of strings",
-                "'{}' object is not iterable".format(type(date_formats).__name__),
+                f"'{type(date_formats).__name__}' object is not iterable",
             ],
         )
 
@@ -1119,7 +1117,7 @@ class TestParserInitialization(BaseTestCase):
         self.when_parser_is_initialized(languages=languages)
         self.then_error_was_raised(
             TypeError,
-            ["languages argument must be a list (%r given)" % type(languages)],
+            [f"languages argument must be a list ({type(languages)!r} given)"],
         )
 
     @parameterized.expand(
@@ -1131,7 +1129,7 @@ class TestParserInitialization(BaseTestCase):
     def test_error_raised_for_invalid_locales_argument(self, locales):
         self.when_parser_is_initialized(locales=locales)
         self.then_error_was_raised(
-            TypeError, ["locales argument must be a list (%r given)" % type(locales)]
+            TypeError, [f"locales argument must be a list ({type(locales)!r} given)"]
         )
 
     @parameterized.expand(
@@ -1143,7 +1141,7 @@ class TestParserInitialization(BaseTestCase):
     def test_error_raised_for_invalid_region_argument(self, region):
         self.when_parser_is_initialized(region=region)
         self.then_error_was_raised(
-            TypeError, ["region argument must be str (%r given)" % type(region)]
+            TypeError, [f"region argument must be str ({type(region)!r} given)"]
         )
 
     @parameterized.expand(
@@ -1161,8 +1159,7 @@ class TestParserInitialization(BaseTestCase):
         self.then_error_was_raised(
             TypeError,
             [
-                "try_previous_locales argument must be a boolean (%r given)"
-                % type(try_previous_locales)
+                f"try_previous_locales argument must be a boolean ({type(try_previous_locales)!r} given)"
             ],
         )
 
@@ -1181,8 +1178,7 @@ class TestParserInitialization(BaseTestCase):
         self.then_error_was_raised(
             TypeError,
             [
-                "use_given_order argument must be a boolean (%r given)"
-                % type(use_given_order)
+                f"use_given_order argument must be a boolean ({type(use_given_order)!r} given)"
             ],
         )
 
@@ -1284,7 +1280,7 @@ class TestTimestampParser(BaseTestCase):
 
     def given_tzstr(self, tzstr):
         # Save the existing value
-        self.old_tzstr = os.environ["TZ"] if "TZ" in os.environ else None
+        self.old_tzstr = os.environ.get("TZ", None)
 
         # Overwrite the value, or remove it
         if tzstr is not None:

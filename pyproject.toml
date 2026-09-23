@@ -81,10 +81,175 @@ serialize = ["{major}.{minor}"]
 exclude = ["date_translation_data"]
 
 [tool.ruff.lint]
-# An invalid string escape warns at compile time, which pip's byte-compilation
-# absorbs before the test suite's warnings-as-errors setting can see it.
-extend-select = ["W605"]
+extend-select = [
+    # flake8-builtins
+    "A",
+    # flake8-async
+    "ASYNC",
+    # flake8-bugbear
+    "B",
+    # flake8-comprehensions
+    "C4",
+    # flake8-commas
+    "COM",
+    # pydocstyle
+    "D",
+    # pycodestyle
+    "E4",
+    "E7",
+    "E9",
+    # Pyflakes
+    "F",
+    # flake8-future-annotations
+    "FA",
+    # flynt
+    "FLY",
+    # refurb
+    "FURB",
+    # isort
+    "I",
+    # flake8-implicit-str-concat
+    "ISC",
+    # flake8-logging
+    "LOG",
+    # Perflint
+    "PERF",
+    # pygrep-hooks
+    "PGH",
+    # flake8-pie
+    "PIE",
+    # pylint
+    "PL",
+    # flake8-pytest-style
+    "PT",
+    # flake8-use-pathlib
+    "PTH",
+    # flake8-pyi
+    "PYI",
+    # flake8-quotes
+    "Q",
+    # flake8-return
+    "RET",
+    # flake8-raise
+    "RSE",
+    # Ruff-specific rules
+    "RUF",
+    # flake8-bandit
+    "S",
+    # flake8-simplify
+    "SIM",
+    # flake8-slots
+    "SLOT",
+    # flake8-debugger
+    "T10",
+    # flake8-type-checking
+    "TC",
+    # flake8-tidy-imports
+    "TID",
+    # pyupgrade
+    "UP",
+    # pycodestyle warnings
+    "W",
+    # flake8-2020
+    "YTT",
+]
+ignore = [
+    # Do not catch blind exception
+    "BLE001",
+    # Trailing comma missing
+    "COM812",
+    # Missing docstring in public module
+    "D100",
+    # Missing docstring in public class
+    "D101",
+    # Missing docstring in public method
+    "D102",
+    # Missing docstring in public function
+    "D103",
+    # Missing docstring in public package
+    "D104",
+    # Missing docstring in magic method
+    "D105",
+    # Missing docstring in public nested class
+    "D106",
+    # Missing docstring in __init__
+    "D107",
+    # One-line docstring should fit on one line with quotes
+    "D200",
+    # No blank lines allowed after function docstring
+    "D202",
+    # 1 blank line required between summary line and description
+    "D205",
+    # Multi-line docstring closing quotes should be on a separate line
+    "D209",
+    # First line should end with a period
+    "D400",
+    # First line should be in imperative mood; try rephrasing
+    "D401",
+    # First line should not be the function's "signature"
+    "D402",
+    # First word of the first line should be properly capitalized
+    "D403",
+    # Naive datetime objects are part of the dateparser API
+    "DTZ",
+    # `try`-`except` within a loop incurs performance overhead
+    "PERF203",
+    # Too many return statements
+    "PLR0911",
+    # Too many arguments in function definition
+    "PLR0913",
+    # Too many positional arguments
+    "PLR0917",
+    # Magic value used in comparison
+    "PLR2004",
+    # String contains ambiguous {}.
+    "RUF001",
+    # Docstring contains ambiguous {}.
+    "RUF002",
+    # Comment contains ambiguous {}.
+    "RUF003",
+    # Use of `assert` detected; needed for mypy
+    "S101",
+    # Use a context manager for opening files
+    "SIM115",
+    # Yoda condition detected
+    "SIM300",
+    # Prefer `TypeError` exception for invalid type
+    "TRY004",
+]
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma = false
 
 [tool.ruff.lint.per-file-ignores]
 "dateparser/data/__init__.py" = ["F401"]
 "dateparser/languages/__init__.py" = ["F401"]
+"tests/**" = [
+    # Skip bandit and allow blocking file I/O in tests
+    "ASYNC240",
+    "S",
+    # Assigning to `os.environ` doesn't clear the environment.
+    "B003",
+    # Do not use mutable data structures for argument defaults.
+    "B006",
+    # Found useless expression.
+    "B018",
+    # No explicit stacklevel argument found.
+    "B028",
+    # Within an `except` clause, raise exceptions with `raise ... from`
+    "B904",
+    # `for` loop variable overwritten by assignment target
+    "PLW2901",
+    # Tests are unittest-based
+    "PT009",
+    "PT027",
+    # Default values of parameterized test parameters are optional parameters
+    "PT028",
+    # Mutable class attributes should be annotated with `typing.ClassVar`
+    "RUF012",
+    # Use capitalized environment variable
+    "SIM112",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
