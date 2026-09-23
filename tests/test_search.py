@@ -640,7 +640,7 @@ class TestTranslateSearch(BaseTestCase):
                     ),
                     (
                         "June 5 am utc",
-                        datetime.datetime(2023, 6, 5, 0, 0, tzinfo=pytz.utc),
+                        datetime.datetime(2023, 6, 23, 5, 0, tzinfo=pytz.utc),
                     ),
                     (
                         "June 23th 5 pm EST",
@@ -655,8 +655,10 @@ class TestTranslateSearch(BaseTestCase):
                             ),
                         ),
                     ),
-                    ("May 31", datetime.datetime(2023, 5, 31, 0, 0)),
-                    ("8am UTC", datetime.datetime(2023, 8, 31, 0, 0, tzinfo=pytz.utc)),
+                    (
+                        "May 31, 8am UTC",
+                        datetime.datetime(2023, 5, 31, 8, 0, tzinfo=pytz.utc),
+                    ),
                 ],
             ),
             # Russian
