@@ -1594,6 +1594,25 @@ class TestNgramSearch(BaseTestCase):
             )
         )
 
+    def test_search_dates_with_date_formats(self):
+        result = search_dates(
+            "Ref 15032024 due 2 Apr 2024",
+            languages=["en"],
+            strategy="ngram",
+            date_formats=["%d%m%Y"],
+        )
+        self.assertEqual(
+            result,
+            [
+                ("15032024", datetime.datetime(2024, 3, 15)),
+                ("2 Apr 2024", datetime.datetime(2024, 4, 2)),
+            ],
+        )
+
+    def test_date_formats_require_ngram_strategy(self):
+        with self.assertRaisesRegex(ValueError, "date_formats requires"):
+            search_dates("15032024", languages=["en"], date_formats=["%d%m%Y"])
+
     def test_unknown_strategy_raises_error(self):
         with self.assertRaisesRegex(ValueError, "strategy must be"):
             search_dates("4 October 1957", languages=["en"], strategy="unknown")
