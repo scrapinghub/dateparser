@@ -928,6 +928,40 @@ class TestDateDataParser(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                settings={},
+                expected_result=datetime(
+                    2021, 9, 22, 12, 30, tzinfo=dttz(-timedelta(hours=10.5))
+                ),
+            ),
+            param(
+                settings={"TO_TIMEZONE": "UTC"},
+                expected_result=datetime(2021, 9, 22, 23, 0, tzinfo=dttz.utc),
+            ),
+            param(
+                settings={"TIMEZONE": "Asia/Tokyo"},
+                expected_result=datetime(
+                    2021, 9, 23, 8, 0, tzinfo=dttz(timedelta(hours=9))
+                ),
+            ),
+            param(
+                settings={"RETURN_AS_TIMEZONE_AWARE": False},
+                expected_result=datetime(2021, 9, 22, 12, 30),
+            ),
+        ]
+    )
+    def test_parse_date_with_offset_using_formats(self, settings, expected_result):
+        self.given_parser(settings=settings)
+        self.when_date_string_is_parsed("2021-09-22 12:30-1030", ["%Y-%m-%d %H:%M%z"])
+        self.then_date_was_parsed()
+        date_obj = self.result["date_obj"]
+        self.assertEqual(
+            (expected_result, expected_result.utcoffset()),
+            (date_obj, date_obj.utcoffset()),
+        )
+
+    @parameterized.expand(
+        [
+            param(
                 date_string="08-08-2014\xa018:29",
                 expected_result=datetime(2014, 8, 8, 18, 29),
             ),

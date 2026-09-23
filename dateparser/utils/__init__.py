@@ -133,7 +133,11 @@ def apply_timezone_from_settings(date_obj, settings):
     if settings is None:
         return date_obj
 
-    if "local" in settings.TIMEZONE.lower():
+    parsed_tz = date_obj.tzinfo is not None
+    if parsed_tz:
+        if "local" not in settings.TIMEZONE.lower():
+            date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+    elif "local" in settings.TIMEZONE.lower():
         if hasattr(tz, "localize"):
             date_obj = tz.localize(date_obj)
         else:
@@ -144,7 +148,9 @@ def apply_timezone_from_settings(date_obj, settings):
     if settings.TO_TIMEZONE:
         date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
-    if settings.RETURN_AS_TIMEZONE_AWARE is not True:
+    if not settings.RETURN_AS_TIMEZONE_AWARE or (
+        settings.RETURN_AS_TIMEZONE_AWARE == "default" and not parsed_tz
+    ):
         date_obj = date_obj.replace(tzinfo=None)
 
     return date_obj

@@ -1,6 +1,6 @@
 import importlib.util
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 import regex as re
 
@@ -128,6 +128,8 @@ def strptime(date_string: str, format: str) -> datetime:
     date_string, format, day_of_year_in_format = _prepare_format(date_string, format)
     time_tuple = __strptime(date_string, format)
     obj = datetime(*time_tuple[:-3])
+    if time_tuple.tm_gmtoff is not None:
+        obj = obj.replace(tzinfo=timezone(timedelta(seconds=time_tuple.tm_gmtoff)))
 
     if day_of_year_in_format and time_tuple.tm_yday != obj.timetuple().tm_yday:
         # A day of year past the end of the parsed year is rolled over into the
