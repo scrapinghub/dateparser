@@ -1701,6 +1701,12 @@ class TestDateParser(BaseTestCase):
             param("ten minutes later", timedelta(minutes=10), "ten minutes later"),
             param("seven seconds later", timedelta(seconds=7), "seven seconds later"),
             param("twelve days later", timedelta(days=12), "twelve days later"),
+            param("thirty days later", timedelta(days=30), "thirty days later"),
+            param(
+                "twenty-five minutes later",
+                timedelta(minutes=25),
+                "twenty-five minutes later",
+            ),
             # Test numeric values still work
             param("2 days later", timedelta(days=2), "2 days later"),
             param("5 hours later", timedelta(hours=5), "5 hours later"),

@@ -128,8 +128,12 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("now - 2 hours", ago={"hours": 2}, period="day"),
             param("now - 30 minutes", ago={"minutes": 30}, period="day"),
             param("now - 1 day", ago={"days": 1}, period="day"),
-            # Fix for #291, work till one to twelve only
+            # Word numbers
             param("nine hours ago", ago={"hours": 9}, period="day"),
+            param("fifteen minutes ago", ago={"minutes": 15}, period="day"),
+            param("twenty one days ago", ago={"days": 21}, period="day"),
+            param("forty-five seconds ago", ago={"seconds": 45}, period="day"),
+            param("ninety minutes ago", ago={"minutes": 90}, period="day"),
             param("three week ago", ago={"weeks": 3}, period="week"),
             param("eight months ago", ago={"months": 8}, period="month"),
             param("six days ago", ago={"days": 6}, period="day"),
@@ -1816,6 +1820,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
                 period="day",
             ),
             param("just now", in_future={"seconds": 0}, period="day"),
+            param("in twenty minutes", in_future={"minutes": 20}, period="day"),
             param("1 decade later", in_future={"years": 10}, period="year"),
             param("2 years later", in_future={"years": 2}, period="year"),
             param("3 months later", in_future={"months": 3}, period="month"),

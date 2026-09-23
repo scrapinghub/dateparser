@@ -1166,9 +1166,6 @@ info = {
             "less than 1 minute ago": "45 second ago"
         },
         {
-            "(\\d++[.,]?\\d*+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
-        },
-        {
             "one": "1"
         },
         {
@@ -1203,6 +1200,78 @@ info = {
         },
         {
             "twelve": "12"
+        },
+        {
+            "thirteen": "13"
+        },
+        {
+            "fourteen": "14"
+        },
+        {
+            "fifteen": "15"
+        },
+        {
+            "sixteen": "16"
+        },
+        {
+            "seventeen": "17"
+        },
+        {
+            "eighteen": "18"
+        },
+        {
+            "nineteen": "19"
+        },
+        {
+            "twenty[ -]([1-9])": "2\\1"
+        },
+        {
+            "thirty[ -]([1-9])": "3\\1"
+        },
+        {
+            "forty[ -]([1-9])": "4\\1"
+        },
+        {
+            "fifty[ -]([1-9])": "5\\1"
+        },
+        {
+            "sixty[ -]([1-9])": "6\\1"
+        },
+        {
+            "seventy[ -]([1-9])": "7\\1"
+        },
+        {
+            "eighty[ -]([1-9])": "8\\1"
+        },
+        {
+            "ninety[ -]([1-9])": "9\\1"
+        },
+        {
+            "twenty": "20"
+        },
+        {
+            "thirty": "30"
+        },
+        {
+            "forty": "40"
+        },
+        {
+            "fifty": "50"
+        },
+        {
+            "sixty": "60"
+        },
+        {
+            "seventy": "70"
+        },
+        {
+            "eighty": "80"
+        },
+        {
+            "ninety": "90"
+        },
+        {
+            "(\\d++[.,]?\\d*+) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
         }
     ]
 }
