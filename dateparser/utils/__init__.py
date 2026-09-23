@@ -51,25 +51,33 @@ def find_date_separator(format):
         return m.group(1)
 
 
+_PART_DIRECTIVES = {
+    "year": ["%y", "%-y", "%Y"],
+    # %j (day of year) encodes month implicitly: a successful strptime with %j always
+    # populates the month field, so %j should count as providing month information.
+    "month": ["%b", "%B", "%m", "%-m", "%j", "%-j"],
+    "day": ["%d", "%-d", "%j", "%-j"],
+    "time": ["%H", "%-H", "%I", "%-I", "%M", "%-M", "%S", "%-S"],
+}
+
+
+def _get_parts(fmt):
+    """Return a tuple with the parts (year, month, day, time) that a date format
+    provides, based on its directives."""
+    return tuple(
+        part
+        for part, directives in _PART_DIRECTIVES.items()
+        if any(directive in fmt for directive in directives)
+    )
+
+
 def _get_missing_parts(fmt):
     """
     Return a list containing missing parts (day, month, year)
     from a date format checking its directives
     """
-    directive_mapping = {
-        "day": ["%d", "%-d", "%j", "%-j"],
-        # %j (day of year) encodes month implicitly: a successful strptime with %j always
-        # populates the month field, so %j should count as providing month information.
-        "month": ["%b", "%B", "%m", "%-m", "%j", "%-j"],
-        "year": ["%y", "%-y", "%Y"],
-    }
-
-    missing = [
-        field
-        for field in ("day", "month", "year")
-        if not any(directive in fmt for directive in directive_mapping[field])
-    ]
-    return missing
+    parts = _get_parts(fmt)
+    return [field for field in ("day", "month", "year") if field not in parts]
 
 
 def get_timezone_from_tz_string(tz_string):

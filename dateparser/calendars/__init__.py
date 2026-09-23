@@ -20,8 +20,8 @@ class CalendarBase:
 
     def get_date(self):
         try:
-            date_obj, period = self.parser.parse(self.source, settings)
-            return DateData(date_obj=date_obj, period=period)
+            date_obj, period, parts = self.parser.parse(self.source, settings)
+            return DateData(date_obj=date_obj, period=period, parts=parts)
         except ValueError:
             pass
 

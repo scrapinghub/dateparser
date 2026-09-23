@@ -1395,5 +1395,36 @@ class TestTimestampParser(BaseTestCase):
         self.assertEqual(date.get_date_from_timestamp(date_string, None), None)
 
 
+YMD = ("year", "month", "day")
+
+
+@pytest.mark.parametrize(
+    "date_string,date_formats,settings,expected",
+    [
+        ("2017", None, None, ("year",)),
+        ("January 2017", None, None, ("year", "month")),
+        ("22 May", None, None, ("month", "day")),
+        ("22 May 2017", None, None, YMD),
+        ("22 May 2017 10:30", None, None, (*YMD, "time")),
+        ("May 2017 4pm", None, None, ("year", "month", "time")),
+        ("Monday", None, None, YMD),
+        ("4pm", None, None, (*YMD, "time")),
+        ("22/05", ["%d/%m"], None, ("month", "day")),
+        ("22/05 10:30", ["%d/%m %H:%M"], None, ("month", "day", "time")),
+        ("20170522", None, {"DATE_ORDER": "YMD", "PARSERS": ["no-spaces-time"]}, YMD),
+        ("1439251200", None, None, (*YMD, "time")),
+        ("2 years ago", None, None, ("year",)),
+        ("3 months ago", None, None, ("year", "month")),
+        ("yesterday", None, None, YMD),
+        ("tomorrow 4pm", None, None, (*YMD, "time")),
+        ("2 hours ago", None, None, (*YMD, "time")),
+        ("foo", None, None, ()),
+    ],
+)
+def test_parts(date_string, date_formats, settings, expected):
+    parser = date.DateDataParser(languages=["en"], settings=settings)
+    assert parser.get_date_data(date_string, date_formats).parts == expected
+
+
 if __name__ == "__main__":
     unittest.main()

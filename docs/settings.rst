@@ -207,7 +207,7 @@ Language Detection
 
     >>> from dateparser.date import DateDataParser
     >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
-    DateData(date_obj=datetime.datetime(1981, 6, 27, 0, 0), period='day', locale='tr')
+    DateData(date_obj=datetime.datetime(1981, 6, 27, 0, 0), period='day', locale='tr', parts=('year', 'month', 'day'))
 
 ``NORMALIZE``: applies unicode normalization (removing accents, diacritics...) when parsing the words. Defaults to True.
 
@@ -276,7 +276,7 @@ Defaults to ``False``.
 
     >>> ddp = DateDataParser(settings={'RETURN_TIME_AS_PERIOD': True})
     >>> ddp.get_date_data('vr jan 24, 2014 12:49')
-    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl')
+    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl', parts=('year', 'month', 'day', 'time'))
 
 ``PARSERS``: it is a list of names of parsers to try, allowing to customize which
 parsers are tried against the input date string, and in which order they are

@@ -41,13 +41,13 @@ class TestDateData:
                 datetime(year=2020, month=10, day=28),
                 "day",
                 "en",
-                "DateData(date_obj=datetime.datetime(2020, 10, 28, 0, 0), period='day', locale='en')",
+                "DateData(date_obj=datetime.datetime(2020, 10, 28, 0, 0), period='day', locale='en', parts=())",
             ),
             (
                 datetime(year=2014, month=5, day=29, hour=3, minute=2),
                 "day",
                 "es",
-                "DateData(date_obj=datetime.datetime(2014, 5, 29, 3, 2), period='day', locale='es')",
+                "DateData(date_obj=datetime.datetime(2014, 5, 29, 3, 2), period='day', locale='es', parts=())",
             ),
             (
                 datetime(
@@ -61,22 +61,32 @@ class TestDateData:
                 ),
                 "time",
                 "fr",
-                "DateData(date_obj=datetime.datetime(2028, 7, 31, 3, 2, 12, 601265), period='time', locale='fr')",
+                "DateData(date_obj=datetime.datetime(2028, 7, 31, 3, 2, 12, 601265), period='time', locale='fr', parts=())",
             ),
             (
                 datetime(year=1994, month=8, day=1),
                 "month",
                 "ca",
-                "DateData(date_obj=datetime.datetime(1994, 8, 1, 0, 0), period='month', locale='ca')",
+                "DateData(date_obj=datetime.datetime(1994, 8, 1, 0, 0), period='month', locale='ca', parts=())",
             ),
             (
                 datetime(year=2033, month=10, day=12),
                 "month",
                 None,
-                "DateData(date_obj=datetime.datetime(2033, 10, 12, 0, 0), period='month', locale=None)",
+                "DateData(date_obj=datetime.datetime(2033, 10, 12, 0, 0), period='month', locale=None, parts=())",
             ),
-            (None, "day", None, "DateData(date_obj=None, period='day', locale=None)"),
-            (None, "year", "fr", "DateData(date_obj=None, period='year', locale='fr')"),
+            (
+                None,
+                "day",
+                None,
+                "DateData(date_obj=None, period='day', locale=None, parts=())",
+            ),
+            (
+                None,
+                "year",
+                "fr",
+                "DateData(date_obj=None, period='year', locale='fr', parts=())",
+            ),
         ],
     )
     def test_repr(self, date, period, locale, expected):
