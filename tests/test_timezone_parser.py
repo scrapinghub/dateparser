@@ -34,6 +34,8 @@ class TestTZPopping(BaseTestCase):
             param("20 Oct 2014 13:08 CET", +1),
             param("20 Oct 2014 13:08cet", +1),
             param("Nov 25 2014 | 10:17 pm EST", -5),
+            param("01/26/2023 02:55PM CT", -6),
+            param("01/26/2023 02:55PM MT", -7),
             param("Nov 25 2014 | 10:17 pm +0600", +6),
             param("Nov 25 2014 | 10:17 pm -0930", -9.5),
             param("20 Oct 2014 | 05:17 am -1200", -12),
