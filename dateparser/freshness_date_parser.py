@@ -16,9 +16,12 @@ PATTERN = re.compile(r"([+-]?\s*\d++[.,]?\d*+)\s*(%s)\b" % _UNITS, re.I | re.S |
 class FreshnessDateDataParser:
     """Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago" """
 
-    def _are_all_words_units(self, date_string):
-        skip = [_UNITS, r"ago|in|\d+", r":|[ap]m"]
+    def _are_all_words_units(self, date_string, has_time):
+        skip = [_UNITS, r"ago|in", r":|[ap]m"]
+        if has_time:
+            skip.append(r"\d+")
 
+        date_string = PATTERN.sub("", date_string)
         date_string = re.sub(r"\s+", " ", date_string.strip())
 
         words = [x for x in re.split(r"\W", date_string) if x]
@@ -88,7 +91,9 @@ class FreshnessDateDataParser:
             else:
                 now = datetime.now(self.get_local_tz())
 
-        date, period = self._parse_date(date_string, now, settings.PREFER_DATES_FROM)
+        date, period = self._parse_date(
+            date_string, now, settings.PREFER_DATES_FROM, _time is not None
+        )
 
         if date:
             old_date = date
@@ -108,8 +113,8 @@ class FreshnessDateDataParser:
 
         return date, period
 
-    def _parse_date(self, date_string, now, prefer_dates_from):
-        if not self._are_all_words_units(date_string):
+    def _parse_date(self, date_string, now, prefer_dates_from, has_time):
+        if not self._are_all_words_units(date_string, has_time):
             return None, None
 
         result = self.get_kwargs(date_string)
