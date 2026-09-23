@@ -4,7 +4,13 @@ import regex as re
 from dateutil.relativedelta import relativedelta
 from tzlocal import get_localzone
 
-from dateparser.utils import apply_timezone, localize_timezone, strip_braces
+from dateparser.utils import (
+    apply_timezone,
+    localize_timezone,
+    set_correct_day_from_settings,
+    set_correct_month_from_settings,
+    strip_braces,
+)
 
 from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
@@ -91,6 +97,10 @@ class FreshnessDateDataParser:
         date, period = self._parse_date(date_string, now, settings.PREFER_DATES_FROM)
 
         if date:
+            if period == "year":
+                date = set_correct_month_from_settings(date, settings, date.month)
+            if period in ("year", "month"):
+                date = set_correct_day_from_settings(date, settings, date.day)
             old_date = date
             date = apply_time(date, _time)
             if settings.RETURN_TIME_AS_PERIOD and old_date != date:
