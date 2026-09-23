@@ -82,6 +82,7 @@ class TestBundledLanguages(BaseTestCase):
             param("zh-Hant", "1年11個月", "1 year 11 month"),
             param("zh-Hant", "2015年04月08日10點05", "2015-04-08 10:05"),
             param("zh-Hant", "禮拜一 中午", "monday 12:00"),
+            param("zh-Hant", "2020年9月1日 下午6:25", "2020-9-1 6:25 pm"),
             # French
             param("fr", "20 Février 2012", "20 february 2012"),
             param("fr", "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
