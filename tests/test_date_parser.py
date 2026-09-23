@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from functools import wraps
 from unittest.mock import Mock, patch
 
@@ -1424,21 +1424,43 @@ class TestDateParser(BaseTestCase):
         self.then_date_obj_exactly_is(expected)
 
     def test_dates_with_no_day_or_month_use_same_current_date_for_month_and_day(self):
-        class ParserDateTime(datetime):
-            @classmethod
-            def now(cls, tz=None):
-                return datetime(2026, 5, 31, 12, 0, tzinfo=tz)
-
         class UtilsDateTime(datetime):
             @classmethod
             def now(cls, tz=None):
                 return datetime(2026, 6, 1, 12, 0, tzinfo=tz)
 
         with (
-            patch("dateparser.parser.datetime", ParserDateTime),
+            patch("dateparser.parser._now", return_value=datetime(2026, 5, 31, 12)),
             patch("dateparser.utils.datetime", UtilsDateTime),
         ):
             self.assertEqual(parse("2014"), datetime(2014, 5, 31))
+
+    @parameterized.expand(
+        [
+            param("Monday", {}, datetime(2023, 11, 6)),
+            param("Tuesday", {}, datetime(2023, 10, 31)),
+            param("Tuesday", {"PREFER_DATES_FROM": "future"}, datetime(2023, 11, 7)),
+            param("Monday", {"PREFER_DATES_FROM": "past"}, datetime(2023, 10, 30)),
+            param("November 7", {"PREFER_DATES_FROM": "past"}, datetime(2022, 11, 7)),
+            param("9pm", {"PREFER_DATES_FROM": "past"}, datetime(2023, 11, 5, 21)),
+        ]
+    )
+    def test_current_date_is_taken_from_timezone(self, date_string, settings, expected):
+        class UtilsDateTime(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return datetime(2023, 11, 7, 2, 15, tzinfo=timezone.utc).astimezone(tz)
+
+        with patch("dateparser.utils.datetime", UtilsDateTime):
+            result = parse(
+                date_string,
+                settings={
+                    "TIMEZONE": "America/Chicago",
+                    "RETURN_AS_TIMEZONE_AWARE": False,
+                    **settings,
+                },
+            )
+        self.assertEqual(result, expected)
 
     @parameterized.expand(
         [

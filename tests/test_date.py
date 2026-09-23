@@ -1025,6 +1025,7 @@ class TestDateDataParser(BaseTestCase):
 
         self.add_patch(patch("dateparser.date.datetime", DateParserDateTime))
         self.add_patch(patch("dateparser.parser.datetime", DateParserDateTime))
+        self.add_patch(patch("dateparser.utils.datetime", DateParserDateTime))
 
     def given_parser(self, restrict_to_languages=None, **params):
         self.parser = date.DateDataParser(languages=restrict_to_languages, **params)
