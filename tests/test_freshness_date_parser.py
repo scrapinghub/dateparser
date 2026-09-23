@@ -2730,5 +2730,44 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.assertEqual(NotImplemented, self.error)
 
 
+class TestTruncatedRelativeNumbers(unittest.TestCase):
+    @parameterized.expand(
+        [
+            "1,000,000 days ago",
+            "1 000,000 days ago",
+            "1,000,00 days ago",
+            "1.000,000 days ago",
+            "1 234 days ago",
+        ]
+    )
+    def test_does_not_parse_a_suffix_of_a_number(self, text):
+        self.assertIsNone(
+            dateparser.parse(
+                text,
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime(2024, 6, 15, 12)},
+            )
+        )
+
+    @parameterized.expand(
+        [
+            ("1,5 hours ago", datetime(2024, 6, 15, 10, 30)),
+            ("+ 5 days", datetime(2024, 6, 20, 12)),
+            ("12:30 1 day ago", datetime(2024, 6, 14, 12, 30)),
+            ("1 day ago 12:30", datetime(2024, 6, 14, 12, 30)),
+            ("1 day, 2 hours ago", datetime(2024, 6, 14, 10)),
+        ]
+    )
+    def test_preserves_decimals_signs_and_times(self, text, expected):
+        self.assertEqual(
+            dateparser.parse(
+                text,
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime(2024, 6, 15, 12)},
+            ),
+            expected,
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
