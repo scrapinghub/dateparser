@@ -175,8 +175,11 @@ class _no_spaces_parser:
             return "year"
 
     @classmethod
-    def _find_best_matching_date(cls, datestring):
-        for fmt in cls._preferred_formats_ordered_8_digit:
+    def _find_best_matching_date(cls, datestring, order):
+        formats = sorted(
+            cls._preferred_formats_ordered_8_digit, key=lambda x: x.lower() != order
+        )
+        for fmt in formats:
             try:
                 dt = strptime(datestring, fmt), cls._get_period(fmt)
                 if len(str(dt[0].year)) == 4:
@@ -199,10 +202,10 @@ class _no_spaces_parser:
             order = resolve_date_order(date_order)
         else:
             order = cls._default_order
-            if EIGHT_DIGIT.match(datestring):
-                dt = cls._find_best_matching_date(datestring)
-                if dt is not None:
-                    return dt
+        if EIGHT_DIGIT.match(datestring):
+            dt = cls._find_best_matching_date(datestring, order)
+            if dt is not None:
+                return dt
         nsp = cls()
         ambiguous_date = None
         for token, _ in tokens.tokenize():
@@ -607,6 +610,9 @@ class _parser:
 
     @classmethod
     def parse(cls, datestring, settings, tz=None, date_order=None):
+        if EIGHT_DIGIT.match(datestring):
+            # ISO 8601 basic format, e.g. 20240201.
+            return strptime(datestring, "%Y%m%d"), "day"
         tokens = tokenizer(datestring)
         po = cls(tokens.tokenize(), settings, date_order=date_order)
         dateobj = po._results()

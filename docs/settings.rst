@@ -300,8 +300,8 @@ The following parsers exist:
     <dateparser.date.DateDataParser.get_date_data>`.
 
 -   ``'absolute-time'``: Parses dates and times expressed in absolute form
-    (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as
-    ``DATE_ORDER`` or ``PREFER_LOCALE_DATE_ORDER``.
+    (e.g. “May 4th”, “1991-05-17”, “19910517”). It takes into account settings
+    such as ``DATE_ORDER`` or ``PREFER_LOCALE_DATE_ORDER``.
 
 -   ``'no-spaces-time'``: Parses dates and times that consist in only digits or
     a combination of digits and non-digits where the first non-digit it's a colon

@@ -934,6 +934,8 @@ class TestDateParser(BaseTestCase):
             param("2017-06-22", languages=["it"], expected=datetime(2017, 6, 22)),
             param("2017-06-10", languages=["it"], expected=datetime(2017, 6, 10)),
             param("2017-06-22", languages=["fr"], expected=datetime(2017, 6, 22)),
+            param("20170622", languages=None, expected=datetime(2017, 6, 22)),
+            param("20170610", languages=["fr"], expected=datetime(2017, 6, 10)),
             param(
                 "2015-05-02T10:20:19+0000",
                 languages=["fr"],
@@ -1242,6 +1244,8 @@ class TestDateParser(BaseTestCase):
             param("201508", expected=datetime(2015, 8, 20, 0, 0), order="DYM"),
             param("201508", expected=datetime(2020, 8, 15, 0, 0), order="YDM"),
             param("201108", expected=datetime(2008, 11, 20, 0, 0), order="DMY"),
+            param("20240201", expected=datetime(2024, 2, 1, 0, 0), order="MDY"),
+            param("01022024", expected=datetime(2024, 2, 1, 0, 0), order="DMY"),
         ]
     )
     def test_order_no_spaces(self, date_string, expected=None, order=None):
