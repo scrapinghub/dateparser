@@ -367,6 +367,10 @@ class _parser:
                 setattr(self, *res)
 
         known, unknown = get_unresolved_attrs(self)
+        if not unknown and any(type == 0 for _, type, _ in self.unset_tokens):
+            # A number was displaced from a component by a later one, and
+            # there is no component left for it, e.g. 25 in "6/4/25 0730".
+            raise ValueError(f"Unable to parse: {self.unset_tokens[0][0]}")
         params = {}
         for attr in known:
             params.update({attr: getattr(self, attr)})

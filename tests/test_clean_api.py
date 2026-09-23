@@ -598,3 +598,51 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
 
     def then_date_was_not_parsed(self):
         self.assertIsNone(self.result)
+
+
+class TestDayFirstNumericDateWithTrailingNumber(BaseTestCase):
+    base = datetime(2025, 4, 5, 9, 41)
+
+    @parameterized.expand(
+        [
+            param("6/4/25 7"),
+            param("6/4/25 0730"),
+            param("6/4/25 1930"),
+        ]
+    )
+    def test_not_parsed(self, date_string):
+        self.assertIsNone(
+            dateparser.parse(
+                date_string,
+                settings={"DATE_ORDER": "DMY", "RELATIVE_BASE": self.base},
+            )
+        )
+
+    @parameterized.expand(
+        [
+            param("6/4/25 7am", datetime(2025, 4, 6, 7)),
+            param("6/4/25 07:30", datetime(2025, 4, 6, 7, 30)),
+        ]
+    )
+    def test_parsed(self, date_string, expected):
+        self.assertEqual(
+            dateparser.parse(
+                date_string,
+                settings={"DATE_ORDER": "DMY", "RELATIVE_BASE": self.base},
+            ),
+            expected,
+        )
+
+    @parameterized.expand(
+        [
+            param({}, datetime(2025, 3, 31)),
+            param({"PREFER_DATES_FROM": "future"}, datetime(2025, 4, 7)),
+        ]
+    )
+    def test_weekday(self, settings, expected):
+        self.assertEqual(
+            dateparser.parse(
+                "Monday", settings={"RELATIVE_BASE": self.base, **settings}
+            ),
+            expected,
+        )
