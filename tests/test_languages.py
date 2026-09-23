@@ -152,6 +152,10 @@ class TestBundledLanguages(BaseTestCase):
             # Arabic
             param("ar", "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
             param("ar", "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
+            param("ar", "۳ یولیو ۲۰۱۴", "3 july 2014"),
+            # Persian
+            param("fa", "3 ژوئيه 2014", "3 july 2014"),
+            param("fa", "1 اكتبر 2020", "1 october 2020"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
             param(

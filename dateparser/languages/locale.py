@@ -12,6 +12,25 @@ from .dictionary import ALWAYS_KEEP_TOKENS, Dictionary, NormalizedDictionary
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
 
+# Arabic and Persian text is often typed with the yeh and kaf of the other
+# language, so both the language data and the input of these languages use the
+# Arabic letters, which are also what Unicode normalization turns ئ into.
+_LETTER_VARIANTS = str.maketrans("یک", "يك")
+_LETTER_VARIANT_LANGUAGES = {"ar", "fa"}
+
+
+def _translate_letters(value):
+    if isinstance(value, str):
+        return value.translate(_LETTER_VARIANTS)
+    if isinstance(value, dict):
+        return {
+            _translate_letters(key): _translate_letters(item)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [_translate_letters(item) for item in value]
+    return value
+
 
 def _parse_bool(value):
     if isinstance(value, bool):
@@ -61,6 +80,9 @@ class Locale:
         )
         self.info = combine_dicts(language_info, locale_specific_info)
         self.info.pop("locale_specific", None)
+        self._translates_letters = shortname.split("-")[0] in _LETTER_VARIANT_LANGUAGES
+        if self._translates_letters:
+            self.info = _translate_letters(self.info)
         # This locale instance is cached and shared across threads; the lock
         # guards lazy initialisation of the cached attributes below.
         self._lock = threading.RLock()
@@ -521,6 +543,8 @@ class Locale:
 
     def _simplify(self, date_string, settings=None):
         date_string = date_string.lower()
+        if self._translates_letters:
+            date_string = _translate_letters(date_string)
         simplifications = self._get_simplifications(settings=settings)
 
         if self.info.get("name") == "ru":
