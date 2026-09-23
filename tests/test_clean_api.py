@@ -681,6 +681,12 @@ class TestParseMany(BaseTestCase):
         with self.assertRaisesRegex(ValueError, "25/12/2015"):
             list(result)
 
-    def test_no_fitting_order(self):
-        with self.assertRaisesRegex(ValueError, "01/13/2015"):
-            list(dateparser.parse_many(["13/01/2015", "01/13/2015"]))
+    @parameterized.expand(
+        [
+            param(["13/01/2015", "01/13/2015"]),
+            param(["3 March 2015", "2015/31/12"]),
+        ]
+    )
+    def test_no_fitting_order(self, date_strings):
+        with self.assertRaisesRegex(ValueError, date_strings[-1]):
+            list(dateparser.parse_many(date_strings))
