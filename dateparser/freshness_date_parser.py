@@ -162,9 +162,13 @@ class FreshnessDateDataParser:
     def _parse_number(num):
         # A separator followed by exactly 3 digits groups thousands, any other
         # one is a decimal mark.
-        parts = re.split(r"[.,]", re.sub(r"\s", "", num))
-        decimals = parts.pop() if len(parts) > 1 and len(parts[-1]) != 3 else ""
-        return float("".join(parts) + "." + decimals)
+        num = "".join(num.split()).replace(",", ".")
+        integer, separator, decimals = num.rpartition(".")
+        if not separator:
+            return float(num)
+        if len(decimals) == 3:
+            return float(num.replace(".", ""))
+        return float(integer.replace(".", "") + "." + decimals)
 
     def get_kwargs(self, date_string):
         kwargs = {}
