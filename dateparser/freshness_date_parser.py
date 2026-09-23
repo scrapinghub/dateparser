@@ -14,12 +14,9 @@ PATTERN = re.compile(
     r"([+-]?\s*(?>\d+(?:[.,\s]\d{3}(?!\d))*(?:[.,]\d*)?))\s*(%s)\b" % _UNITS,
     re.I | re.S | re.U,
 )
-# The first group captures a digit when the number is the end of a longer one,
-# e.g. the day in "2024-06-01 3 days".
-_KWARGS_PATTERN = re.compile(
-    r"(?:(?<=[\d.,\s/-])(?<=(?<![\d:])(\d)[\d.,/-]*[.,\s/-]*))?" + PATTERN.pattern,
-    PATTERN.flags,
-)
+# Matches the text before a number that is the end of a longer one, e.g. the
+# day in "2024-06-01 3 days".
+_NUMERIC_PREFIX = re.compile(r"(?<![\d:])\d[\d.,/-]*[.,\s/-]*$")
 
 
 class FreshnessDateDataParser:
@@ -179,9 +176,15 @@ class FreshnessDateDataParser:
         kwargs = {}
         explicit_signs = {}
 
-        for fragment, num, unit in _KWARGS_PATTERN.findall(date_string):
-            if fragment:
+        for match in PATTERN.finditer(date_string):
+            start = match.start()
+            if (
+                start
+                and not date_string[start - 1].isalpha()
+                and _NUMERIC_PREFIX.search(date_string, 0, start)
+            ):
                 return {}, {}
+            num, unit = match.groups()
             unit += "s"
             num = num.lstrip()
             explicit_signs[unit] = num[0] in "+-"
