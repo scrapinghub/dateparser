@@ -88,7 +88,12 @@ class FreshnessDateDataParser:
             else:
                 now = datetime.now(self.get_local_tz())
 
-        date, period = self._parse_date(date_string, now, settings.PREFER_DATES_FROM)
+        date, period = self._parse_date(
+            date_string,
+            now,
+            settings.PREFER_DATES_FROM,
+            settings.RETURN_TIME_AS_PERIOD,
+        )
 
         if date:
             old_date = date
@@ -108,7 +113,7 @@ class FreshnessDateDataParser:
 
         return date, period
 
-    def _parse_date(self, date_string, now, prefer_dates_from):
+    def _parse_date(self, date_string, now, prefer_dates_from, return_time_as_period):
         if not self._are_all_words_units(date_string):
             return None, None
 
@@ -122,7 +127,11 @@ class FreshnessDateDataParser:
         if not kwargs:
             return None, None
         period = "day"
-        if "days" not in kwargs:
+        if return_time_as_period and any(
+            unit in kwargs for unit in ("hours", "minutes", "seconds")
+        ):
+            period = "time"
+        elif "days" not in kwargs:
             for k in ["weeks", "months", "years", "decades"]:
                 if k in kwargs:
                     period = "year" if k == "decades" else k[:-1]
