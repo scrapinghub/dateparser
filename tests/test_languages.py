@@ -1249,6 +1249,7 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "4 عام", "4 year"),
             param("ar", "منذ 2 ساعات", "ago 2 hour"),
             param("ar", "منذ ساعتين", "ago 2 hour"),
+            param("ar", "قبل 5 دقائق", "ago 5 minute"),
             param("ar", "اليوم السابق", "1 day ago"),
             param("ar", "اليوم", "0 day ago"),
             # Polish
