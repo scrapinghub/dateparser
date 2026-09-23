@@ -179,8 +179,9 @@ class LocaleDataLoader:
             if region is None:
                 region = ""
             for language in languages:
-                locale = f"{language}-{region}" if region else language
-                if _isvalidlocale(locale):
+                if not region:
+                    locale_dict[language] = (language, region)
+                elif _isvalidlocale(locale := f"{language}-{region}"):
                     locale_dict[locale] = (language, region)
 
         if not use_given_order:
