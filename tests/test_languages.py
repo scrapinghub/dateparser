@@ -1115,6 +1115,7 @@ class TestBundledLanguages(BaseTestCase):
             param("en", "10h11m", "10 hour 11 minute"),
             param("en", "3d8h2m", "3 day 8 hour 2 minute"),
             param("en", "5d9h59m10s", "5 day 9 hour 59 minute 10 second"),
+            param("en", "2w3d", "2 week 3 day"),
             param("en", "3d1h", "3 day 1 hour"),
             param("en", "3d29m", "3 day 29 minute"),
             param("en", "1.5d10s", "1.5 day 10 second"),

@@ -166,11 +166,17 @@ class FreshnessDateDataParser:
 
         kwargs = {}
         explicit_signs = {}
+        sign = ""
 
         for num, unit in m:
-            has_explicit_sign = num.startswith("+") or num.startswith("-")
-            explicit_signs[unit + "s"] = has_explicit_sign
-            kwargs[unit + "s"] = float(num.replace(",", ".").replace(" ", ""))
+            num = num.replace(",", ".").replace(" ", "")
+            if num[0] in "+-":
+                sign = num[0]
+            else:
+                # "+1d2h" means "+1d +2h".
+                num = sign + num
+            explicit_signs[unit + "s"] = bool(sign)
+            kwargs[unit + "s"] = float(num)
 
         return kwargs, explicit_signs
 
