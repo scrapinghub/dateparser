@@ -598,3 +598,89 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
 
     def then_date_was_not_parsed(self):
         self.assertIsNone(self.result)
+
+
+class TestStrictDateOrder(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("2015/2/3", "YMD", datetime(2015, 2, 3)),
+            param("2015/2/3", "YDM", datetime(2015, 3, 2)),
+            param("2015/31/12", "YMD", None),
+            param("2015/31/12", "YDM", datetime(2015, 12, 31)),
+            param("31/12/2015", "MDY", None),
+            param("3 March 2015", "MDY", datetime(2015, 3, 3)),
+            param("3 March 2015", "YMD", None),
+        ]
+    )
+    def test_strict_date_order(self, date_string, order, expected):
+        settings = {"DATE_ORDER": order, "STRICT_DATE_ORDER": True}
+        self.assertEqual(expected, dateparser.parse(date_string, settings=settings))
+
+
+class TestParseMany(BaseTestCase):
+    @parameterized.expand(
+        [
+            param(
+                ["2015/1/1", "2015/2/3", "2015/31/12"],
+                [datetime(2015, 1, 1), datetime(2015, 3, 2), datetime(2015, 12, 31)],
+            ),
+            param(
+                ["01/02/2015", "", "25/12/2015", "junk", "03/04/2015"],
+                [
+                    datetime(2015, 2, 1),
+                    None,
+                    datetime(2015, 12, 25),
+                    None,
+                    datetime(2015, 4, 3),
+                ],
+            ),
+            param(
+                ["01/02/2015", "12/25/2015", "3 March 2015"],
+                [datetime(2015, 1, 2), datetime(2015, 12, 25), datetime(2015, 3, 3)],
+            ),
+        ]
+    )
+    def test_parse_many(self, date_strings, expected):
+        self.assertEqual(expected, list(dateparser.parse_many(date_strings)))
+
+    def test_relative_date(self):
+        base = datetime(2020, 1, 2)
+        result = dateparser.parse_many(
+            ["yesterday", "13/01/2020"], settings={"RELATIVE_BASE": base}
+        )
+        self.assertEqual([datetime(2020, 1, 1), datetime(2020, 1, 13)], list(result))
+
+    def test_lazy(self):
+        def date_strings():
+            yield "2015/1/1"
+            yield "2015/2/3"
+            yield "2015/31/12"
+            raise AssertionError("Read past the date string that settles the order")
+
+        dates = dateparser.parse_many(date_strings())
+        self.assertEqual(datetime(2015, 1, 1), next(dates))
+        self.assertEqual(datetime(2015, 3, 2), next(dates))
+        self.assertEqual(datetime(2015, 12, 31), next(dates))
+
+    def test_ambiguous(self):
+        with self.assertRaises(dateparser.AmbiguousDateOrderError) as cm:
+            list(dateparser.parse_many(["3 March 2015", "01/02/2015", "03/04/2015"]))
+        self.assertEqual(["01/02/2015", "03/04/2015"], cm.exception.date_strings)
+        self.assertEqual(["DMY", "MDY"], cm.exception.date_orders)
+        result = dateparser.parse_many(["01/02/2015"], settings={"DATE_ORDER": "DMY"})
+        self.assertEqual([datetime(2015, 2, 1)], list(result))
+
+    def test_max_pending(self):
+        date_strings = ["01/02/2015", "03/04/2015", "25/12/2015"]
+        with self.assertRaises(dateparser.AmbiguousDateOrderError) as cm:
+            list(dateparser.parse_many(date_strings, max_pending=1))
+        self.assertEqual(["01/02/2015", "03/04/2015"], cm.exception.date_strings)
+        result = dateparser.parse_many(
+            date_strings, settings={"DATE_ORDER": "MDY"}, max_pending=1
+        )
+        with self.assertRaisesRegex(ValueError, "25/12/2015"):
+            list(result)
+
+    def test_no_fitting_order(self):
+        with self.assertRaisesRegex(ValueError, "01/13/2015"):
+            list(dateparser.parse_many(["13/01/2015", "01/13/2015"]))

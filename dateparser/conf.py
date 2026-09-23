@@ -15,6 +15,7 @@ class Settings:
 
     * `DATE_ORDER`
     * `PREFER_LOCALE_DATE_ORDER`
+    * `STRICT_DATE_ORDER`
     * `TIMEZONE`
     * `TO_TIMEZONE`
     * `RETURN_AS_TIMEZONE_AWARE`
@@ -229,6 +230,7 @@ def check_settings(settings):
         },
         "FUZZY": {"type": bool},
         "PREFER_LOCALE_DATE_ORDER": {"type": bool},
+        "STRICT_DATE_ORDER": {"type": bool},
         "DEFAULT_LANGUAGES": {"type": list, "extra_check": _check_default_languages},
         "USE_GIVEN_LANGUAGE_ORDER": {"type": bool},
         "LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": {

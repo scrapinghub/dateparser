@@ -37,6 +37,12 @@ Date Order
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY', 'PREFER_LOCALE_DATE_ORDER': False})
     datetime.datetime(2016, 2, 3, 0, 0)  # MDY worked!
 
+``STRICT_DATE_ORDER``: defaults to ``False``. When set to ``True``, date
+strings with numbers out of the date order are not parsed:
+
+    >>> parse('15-12-18', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': True})
+    None
+
 
 Timezone Related Configurations
 +++++++++++++++++++++++++++++++
