@@ -120,7 +120,9 @@ class Locale:
         )
         dict_cnt = 0
         skip_cnt = 0
-        for word in set(words):
+        # The split dictionary only holds single words, while tokens can be
+        # multi-word dictionary entries, e.g. "next week".
+        for word in {w for token in words for w in token.split()}:
             if word in dictionary:
                 if dictionary[word]:
                     dict_cnt += 1
