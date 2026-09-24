@@ -409,6 +409,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("منذ يومين", ago={"days": 2}, period="day"),
             param("منذ 3 أيام", ago={"days": 3}, period="day"),
             param("منذ 21 أيام", ago={"days": 21}, period="day"),
+            param("قبل ٥ ساعات", ago={"hours": 5}, period="day"),
             param(
                 "1 عام, 1 شهر, 1 أسبوع, 1 يوم, 1 ساعة, 1 دقيقة",
                 ago={
