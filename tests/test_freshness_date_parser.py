@@ -2634,6 +2634,32 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_is(date)
         self.then_time_is(time)
 
+    @parameterized.expand(
+        [
+            param("this month", {"PREFER_DAY_OF_MONTH": "first"}, date(2010, 6, 1)),
+            param("next month", {"PREFER_DAY_OF_MONTH": "last"}, date(2010, 7, 31)),
+            param("2 months ago", {"PREFER_DAY_OF_MONTH": "last"}, date(2010, 4, 30)),
+            param("next month", {"PREFER_DAY_OF_MONTH": "current"}, date(2010, 7, 4)),
+            param("next week", {"PREFER_DAY_OF_MONTH": "first"}, date(2010, 6, 11)),
+            param(
+                "last year",
+                {"PREFER_MONTH_OF_YEAR": "first", "PREFER_DAY_OF_MONTH": "first"},
+                date(2009, 1, 1),
+            ),
+            param("last year", {"PREFER_MONTH_OF_YEAR": "last"}, date(2009, 12, 4)),
+        ]
+    )
+    def test_freshness_date_with_prefer_day_and_month(
+        self, date_string, prefer_settings, date
+    ):
+        self.given_parser(
+            settings={"RELATIVE_BASE": datetime(2010, 6, 4, 13, 15), **prefer_settings}
+        )
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time(13, 15))
+
     def test_long_digit_run_does_not_hang(self):
         # Possessive quantifiers (\d++[.,]?\d*+) prevent quadratic backtracking.
         # Without the fix, PATTERN.findall('9' * 3200) takes ~23 s; with it, ~0.02 s.
