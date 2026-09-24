@@ -172,7 +172,9 @@ class _ExactLanguageSearch:
     def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
         relative_base = None
         item = item.replace("ngày", "")
-        item = item.replace("am", "")
+        # German "am" ("on the") translates to "am", which only means AM
+        # after a time.
+        item = re.sub(r"(?<!\d\s*)\bam\b", "", item)
         parsed_item = parser.get_date_data(item)
         is_relative = date_is_relative(translated_item)
 
