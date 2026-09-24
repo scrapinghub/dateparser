@@ -139,6 +139,14 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("2.5 hours", ago={"hours": 2.5}, period="day"),
             param("10.75 minutes", ago={"minutes": 10.75}, period="day"),
             param("1.5 days", ago={"days": 1.5}, period="day"),
+            param("1,5 hours ago", ago={"hours": 1.5}, period="day"),
+            param("12,3456 days ago", ago={"days": 12.3456}, period="day"),
+            # Thousands separators
+            param("1,000 days", ago={"days": 1000}, period="day"),
+            param("1 000 days", ago={"days": 1000}, period="day"),
+            param("1.000 days", ago={"days": 1000}, period="day"),
+            param("10,000,000 seconds", ago={"seconds": 10000000}, period="day"),
+            param("1.000,5 days ago", ago={"days": 1000.5}, period="day"),
             # French dates
             param("Aujourd'hui", ago={"days": 0}, period="day"),
             param("Aujourd’hui", ago={"days": 0}, period="day"),
@@ -2728,6 +2736,30 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     def then_error_was_not_raised(self):
         self.assertEqual(NotImplemented, self.error)
+
+
+class TestNumberFragments(unittest.TestCase):
+    @parameterized.expand(
+        [
+            param("1,0000,000 days 3 hours ago"),
+            param("2024-06-01 3 days ago"),
+        ]
+    )
+    def test_rejected(self, date_string):
+        self.assertIsNone(dateparser.parse(date_string, languages=["en"]))
+
+    @parameterized.expand(
+        [
+            param("25.02.2018, ore 08:51"),
+            param("25/02/2018, ore 08:51"),
+            param("25-02-2018, ore 08:51"),
+        ]
+    )
+    def test_date_is_not_read_as_relative(self, date_string):
+        self.assertEqual(
+            dateparser.parse(date_string, languages=["it"]),
+            datetime(2018, 2, 25, 8, 51),
+        )
 
 
 if __name__ == "__main__":

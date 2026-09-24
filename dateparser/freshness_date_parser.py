@@ -1,6 +1,8 @@
 from datetime import datetime, time, timezone
 
-import regex as re
+import re
+
+import regex
 from dateutil.relativedelta import relativedelta
 from tzlocal import get_localzone
 
@@ -10,7 +12,15 @@ from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
-PATTERN = re.compile(r"([+-]?\s*\d++[.,]?\d*+)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
+_PATTERN = r"([+-]?\s*(?>\d+(?:[.,\s]\d{3}(?!\d))*(?:[.,]\d*)?))\s*(%s)\b" % _UNITS
+try:
+    PATTERN = re.compile(_PATTERN, re.I | re.S)
+except re.error:
+    # Python 3.10 has no atomic groups.
+    PATTERN = regex.compile(_PATTERN, regex.I | regex.S)
+# Matches the text before a number that is the end of a longer one, e.g. the
+# day in "2024-06-01 3 days".
+_NUMERIC_PREFIX = re.compile(r"(?<![\d:])\d[\d.,/-]*[.,\s/-]*$")
 
 
 class FreshnessDateDataParser:
@@ -112,12 +122,7 @@ class FreshnessDateDataParser:
         if not self._are_all_words_units(date_string):
             return None, None
 
-        result = self.get_kwargs(date_string)
-        if isinstance(result, tuple):
-            kwargs, explicit_signs = result
-        else:
-            kwargs = result
-            explicit_signs = {}
+        kwargs, explicit_signs = self.get_kwargs(date_string)
 
         if not kwargs:
             return None, None
@@ -159,18 +164,35 @@ class FreshnessDateDataParser:
 
         return date, period
 
-    def get_kwargs(self, date_string):
-        m = PATTERN.findall(date_string)
-        if not m:
-            return {}
+    @staticmethod
+    def _parse_number(num):
+        # A separator followed by exactly 3 digits groups thousands, any other
+        # one is a decimal mark.
+        num = "".join(num.split()).replace(",", ".")
+        integer, separator, decimals = num.rpartition(".")
+        if not separator:
+            return float(num)
+        if len(decimals) == 3:
+            return float(num.replace(".", ""))
+        return float(integer.replace(".", "") + "." + decimals)
 
+    def get_kwargs(self, date_string):
         kwargs = {}
         explicit_signs = {}
 
-        for num, unit in m:
-            has_explicit_sign = num.startswith("+") or num.startswith("-")
-            explicit_signs[unit + "s"] = has_explicit_sign
-            kwargs[unit + "s"] = float(num.replace(",", ".").replace(" ", ""))
+        for match in PATTERN.finditer(date_string):
+            start = match.start()
+            if (
+                start
+                and not date_string[start - 1].isalpha()
+                and _NUMERIC_PREFIX.search(date_string, 0, start)
+            ):
+                return {}, {}
+            num, unit = match.groups()
+            unit += "s"
+            num = num.lstrip()
+            explicit_signs[unit] = num[0] in "+-"
+            kwargs[unit] = float(num) if num.isdecimal() else self._parse_number(num)
 
         return kwargs, explicit_signs
 
