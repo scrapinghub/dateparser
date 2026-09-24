@@ -91,6 +91,7 @@ simplifications:
     - (?:12\s+)?noon: '12:00'
     - (?:12\s+)?midnight: '00:00'
     - (\d+[.,]?\d*)h(\d+[.,]?\d*): \1:\2
+    - \bat (\d{1,2})h\b: at \1:00
     - from\s+now: in
     - less than 1 minute ago: 45 second ago
     - (\d+[.,]?\d*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (decade|year|month|week|day|hour|minute|second)s? later: in \1 \2
