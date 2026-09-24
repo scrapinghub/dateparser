@@ -1,6 +1,9 @@
 from datetime import datetime, timedelta, timezone, tzinfo
+from functools import cache
 
-import regex as re
+import re
+
+import regex
 
 from .timezones import timezone_info_list
 
@@ -32,22 +35,19 @@ class StaticTzInfo(tzinfo):
 
 
 def pop_tz_offset_from_string(date_string, as_offset=True):
-    if _search_regex_ignorecase.search(date_string):
-        for name, info in _tz_offsets:
-            timezone_re = info["regex"]
-            timezone_match = timezone_re.search(date_string)
-            if timezone_match:
-                start, stop = timezone_match.span()
-                date_string = date_string[: start + 1] + date_string[stop:]
-                return (
-                    date_string,
-                    StaticTzInfo(name, info["offset"]) if as_offset else name,
-                )
+    found = _find_tz(date_string)
+    if found:
+        (start, stop), name, offset = found
+        date_string = date_string[: start + 1] + date_string[stop:]
+        return (
+            date_string,
+            StaticTzInfo(name, offset) if as_offset else name,
+        )
     return date_string, None
 
 
 def word_is_tz(word):
-    return bool(_search_regex.match(word))
+    return bool(_tz_regexes()[1].match(word))
 
 
 def is_timezone_token(token):
@@ -63,35 +63,68 @@ def is_timezone_token(token):
     numeric-offset patterns (which a full match would otherwise let absorb
     following text) is not a concern here.
     """
-    return bool(_search_regex_ignorecase.fullmatch(token.strip()))
+    return bool(_tz_regexes()[2].fullmatch(token.strip()))
 
 
 def convert_to_local_tz(datetime_obj, datetime_tz_offset):
     return datetime_obj - datetime_tz_offset + local_tz_offset
 
 
-def build_tz_offsets(search_regex_parts):
-    def get_offset(tz_obj, regex, repl="", replw=""):
-        return (
-            tz_obj[0],
-            {
-                "regex": re.compile(
-                    re.sub(repl, replw, regex % tz_obj[0]), re.IGNORECASE
-                ),
-                "offset": timedelta(seconds=tz_obj[1]),
-            },
-        )
+@cache
+def _tz_regexes():
+    """Return the timezone regexes, compiled on first use.
 
+    The first item is a list of ``(pattern, timezones)`` pairs, one per
+    pattern template of :data:`~dateparser.timezones.timezone_info_list`,
+    where group ``tz<i>`` of *pattern* matching means that ``timezones[i]``, a
+    ``(name, offset)`` pair, was found. The other two items match any timezone
+    name, case-sensitively and case-insensitively.
+    """
+    families = []
+    names = []
     for tz_info in timezone_info_list:
-        for regex in tz_info["regex_patterns"]:
-            for tz_obj in tz_info["timezones"]:
-                search_regex_parts.append(tz_obj[0])
-                yield get_offset(tz_obj, regex)
+        for template in tz_info["regex_patterns"]:
+            alternatives = []
+            timezones = []
+            for name, offset in tz_info["timezones"]:
+                variants = [name] + [
+                    regex.sub(replace, replacewith, name)
+                    for replace, replacewith in tz_info.get("replace", [])
+                ]
+                for variant in variants:
+                    names.append(variant)
+                    alternatives.append(f"(?P<tz{len(timezones)}>{variant})")
+                    timezones.append((name, timedelta(seconds=offset)))
+            flags = regex.IGNORECASE
+            if template.endswith("$"):
+                # Every match ends at the end of the string, so searching
+                # backwards finds the same match much faster.
+                flags |= regex.REVERSE
+            pattern = regex.compile(template % f"(?:{'|'.join(alternatives)})", flags)
+            families.append((pattern, timezones))
+    # Only used for anchored matching, which re compiles and runs faster.
+    names_pattern = "|".join(names)
+    return (
+        families,
+        re.compile(names_pattern),
+        re.compile(names_pattern, re.IGNORECASE),
+    )
 
-                # alternate patterns
-                for replace, replacewith in tz_info.get("replace", []):
-                    search_regex_parts.append(re.sub(replace, replacewith, tz_obj[0]))
-                    yield get_offset(tz_obj, regex, repl=replace, replw=replacewith)
+
+def _find_tz(string):
+    """Return the span, name and offset of the timezone found in *string*,
+    or ``None``.
+
+    Earlier pattern templates take precedence over later ones. Within a
+    template, the leftmost match wins, and ties go to the earliest timezone.
+    """
+    for pattern, timezones in _tz_regexes()[0]:
+        match = pattern.search(string)
+        if match:
+            group = next(k for k, v in match.groupdict().items() if v is not None)
+            name, offset = timezones[int(group[2:])]
+            return match.span(), name, offset
+    return None
 
 
 def get_local_tz_offset():
@@ -100,8 +133,4 @@ def get_local_tz_offset():
     return offset
 
 
-_search_regex_parts = []
-_tz_offsets = list(build_tz_offsets(_search_regex_parts))
-_search_regex = re.compile("|".join(_search_regex_parts))
-_search_regex_ignorecase = re.compile("|".join(_search_regex_parts), re.IGNORECASE)
 local_tz_offset = get_local_tz_offset()

@@ -97,11 +97,10 @@ def static_tz_abbreviations():
 
     A few abbreviations are listed more than once in ``timezone_info_list``
     (``LMT`` appears four times with four different offsets). Only the first
-    entry can ever win: ``build_tz_offsets`` keeps the table order and
-    ``pop_tz_offset_from_string`` returns the first pattern that matches. So
-    the first entry, not the set of all of them, is what this comparison has
-    to use -- otherwise a wrong first entry would be masked by a correct later
-    one.
+    entry can ever win: ``pop_tz_offset_from_string`` gives precedence to
+    earlier entries. So the first entry, not the set of all of them, is what
+    this comparison has to use -- otherwise a wrong first entry would be
+    masked by a correct later one.
 
     Keys are upper-cased because dateparser matches abbreviations
     case-insensitively, so a differently-cased entry such as ``ChST`` is the
