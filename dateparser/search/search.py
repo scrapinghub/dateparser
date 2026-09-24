@@ -169,19 +169,23 @@ class _ExactLanguageSearch:
             )
         return possible_splits
 
-    def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
+    def parse_item(
+        self, parser, item, translated_item, parsed, need_relative_base, settings
+    ):
         relative_base = None
         item = item.replace("ngày", "")
         item = item.replace("am", "")
-        parsed_item = parser.get_date_data(item)
-        is_relative = date_is_relative(translated_item)
 
         if need_relative_base:
             item, relative_base = self.set_relative_base(item, parsed)
 
-        if relative_base:
-            parser._settings = parser._settings.replace(RELATIVE_BASE=relative_base)
-            parsed_item = parser.get_date_data(item)
+        # parser is reused across items/splits, so always set _settings
+        # explicitly rather than mutating leftover state from a prior call.
+        parser._settings = (
+            settings.replace(RELATIVE_BASE=relative_base) if relative_base else settings
+        )
+        parsed_item = parser.get_date_data(item)
+        is_relative = date_is_relative(translated_item)
         return parsed_item, is_relative
 
     def parse_found_objects(
@@ -197,7 +201,7 @@ class _ExactLanguageSearch:
                 continue
 
             parsed_item, is_relative = self.parse_item(
-                parser, item, translated[i], parsed, need_relative_base
+                parser, item, translated[i], parsed, need_relative_base, settings
             )
             if parsed_item["date_obj"]:
                 parsed.append((parsed_item, is_relative))
@@ -223,8 +227,9 @@ class _ExactLanguageSearch:
                             parser,
                             jtem,
                             split_translated[j],
-                            current_parsed,
+                            parsed + current_parsed,
                             need_relative_base,
+                            settings,
                         )
                         current_parsed.append((parsed_jtem, is_relative_jtem))
                         current_substrings.append(split_original[j].strip(" .,:()[]-"))
