@@ -1178,6 +1178,14 @@ class TestDateParser(BaseTestCase):
                 expected=datetime(1856, 5, 23, 0, 9, 8),
                 order="DMY",
             ),
+            # A day and month that do not fit the date order are swapped.
+            param("2021-13-01", expected=datetime(2021, 1, 13), order="YMD"),
+            param("2021-01-13", expected=datetime(2021, 1, 13), order="YDM"),
+            param("13/01/2021", expected=datetime(2021, 1, 13), order="MDY"),
+            param("01/13/2021", expected=datetime(2021, 1, 13), order="DMY"),
+            param("01/13/21", expected=datetime(2021, 1, 13), order="DMY"),
+            param("13-2021-01", expected=datetime(2021, 1, 13), order="MYD"),
+            param("01-2021-13", expected=datetime(2021, 1, 13), order="DYM"),
         ]
     )
     def test_order(self, date_string, expected=None, order=None):
