@@ -218,16 +218,22 @@ Language Detection
     datetime.datetime(2015, 12, 4, 0, 0)
 
 
-Default Languages
+Default languages
 +++++++++++++++++
 
-``DEFAULT_LANGUAGES``: It is a ``list`` of language codes in ISO 639 that will be used as default
-languages for parsing when language detection fails. eg. ["en", "fr"]:
+``DEFAULT_LANGUAGES``: a ``list`` of ISO 639 language codes to fall back to
+when parsing fails with every other language, i.e. those given through the
+``languages`` or ``locales`` arguments of :func:`dateparser.parse` or those
+detected. These fallback languages are tried even if the input contains no word
+of theirs:
 
     >>> from dateparser import parse
-    >>> parse('3 de marzo de 2020', settings={'DEFAULT_LANGUAGES': ["es"]})
+    >>> parse('3 de marzo de 2020', languages=['en'])
+    >>> parse('3 de marzo de 2020', languages=['en'], settings={'DEFAULT_LANGUAGES': ['es']})
+    datetime.datetime(2020, 3, 3, 0, 0)
 
-.. note:: When using this setting, these languages will be tried after trying with the detected languages with no success. It is especially useful when using ``detect_languages_function``.
+It is especially useful with ``detect_languages_function``, to cover input for
+which language detection fails.
 
 Language Order
 ++++++++++++++
