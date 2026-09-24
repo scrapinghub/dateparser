@@ -64,10 +64,21 @@ _PART_DIRECTIVES = {
 def _get_parts(fmt):
     """Return a tuple with the parts (year, month, day, time) that a date format
     provides, based on its directives."""
+    complete_week_date = False
+    if "%U" in fmt or "%W" in fmt or "%V" in fmt:
+        # A year, week number and weekday determine the complete date. Consume
+        # %% pairs so literal directive names do not count as date components.
+        directives = set(re.findall(r"%[%UWVwuAaYyG]", fmt))
+        complete_week_date = bool(
+            directives & {"%U", "%W", "%V"}
+            and directives & {"%w", "%u", "%a", "%A"}
+            and directives & {"%Y", "%y", "%G"}
+        )
     return tuple(
         part
         for part, directives in _PART_DIRECTIVES.items()
-        if any(directive in fmt for directive in directives)
+        if (complete_week_date and part != "time")
+        or any(directive in fmt for directive in directives)
     )
 
 
