@@ -249,6 +249,19 @@ class _ExactLanguageSearch:
         if shortname not in bad_translate_with_search:
             languages = ["en"]
             to_parse = translated
+            if (
+                settings.PREFER_LOCALE_DATE_ORDER
+                and "DATE_ORDER" not in settings._mod_settings
+                and "date_order" in language.info
+            ):
+                # The translated text is parsed as English, so give it the date
+                # order of the source language, without marking DATE_ORDER as
+                # set by the caller.
+                settings = settings.replace(
+                    mod_settings=settings._mod_settings,
+                    DATE_ORDER=language.info["date_order"],
+                    PREFER_LOCALE_DATE_ORDER=False,
+                )
         else:
             languages = [shortname]
             to_parse = original

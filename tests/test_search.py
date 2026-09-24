@@ -1241,6 +1241,22 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.check_error_message("Unknown language(s): 'unknown language code'")
 
+    @parameterized.expand(
+        [
+            param(["pt"], None, datetime.datetime(2024, 2, 6, 16, 22)),
+            param(["de"], None, datetime.datetime(2024, 2, 6, 16, 22)),
+            param(["en"], None, datetime.datetime(2024, 6, 2, 16, 22)),
+            param(["pt"], {"DATE_ORDER": "MDY"}, datetime.datetime(2024, 6, 2, 16, 22)),
+        ]
+    )
+    def test_search_dates_uses_the_date_order_of_the_language(
+        self, languages, settings, expected
+    ):
+        result = search_dates(
+            "06/02/2024 16:22", languages=languages, settings=settings
+        )
+        assert [date for _, date in result] == [expected]
+
     def test_search_dates_with_prepositions(self):
         """Test `search_dates` for parsing Russian date ranges with prepositions and language detection."""
         result = search_dates(
