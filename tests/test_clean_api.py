@@ -61,6 +61,21 @@ class TestParseFunction(BaseTestCase):
                 expected_date=datetime(1981, 2, 26, 5, 0, tzinfo=utc),
                 relative=datetime(1981, 2, 26, 5, 0, tzinfo=utc),
             ),
+            param(
+                date_string="2010 Year",
+                expected_date=datetime(2010, 7, 31),
+                relative=datetime(2023, 7, 31),
+            ),
+            param(
+                date_string="2010年",
+                expected_date=datetime(2010, 7, 31),
+                relative=datetime(2023, 7, 31),
+            ),
+            param(
+                date_string="2010 years ago",
+                expected_date=datetime(13, 7, 31),
+                relative=datetime(2023, 7, 31),
+            ),
         ]
     )
     def test_parse_dates_with_specific_time_and_settings(

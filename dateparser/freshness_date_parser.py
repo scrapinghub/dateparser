@@ -121,6 +121,15 @@ class FreshnessDateDataParser:
 
         if not kwargs:
             return None, None
+
+        # "2010 year" is the year 2010 unless "ago" or "in" make it a duration.
+        if (
+            list(kwargs) == ["years"]
+            and re.search(r"(?<![+-]\s*)\b\d{4}\s*year\b", date_string)
+            and not re.search(r"\b(?:ago|in)\b", date_string)
+        ):
+            return None, None
+
         period = "day"
         if "days" not in kwargs:
             for k in ["weeks", "months", "years", "decades"]:
