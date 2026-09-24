@@ -52,6 +52,11 @@ RE_SANITIZE_CROATIAN = re.compile(
 RE_SANITIZE_PERIOD = re.compile(r"(?<=[^0-9\s])\.", flags=re.U)
 RE_SANITIZE_ON = re.compile(r"^.*?on:\s+(.*)")
 RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
+_RE_QUARTER = re.compile(
+    r"(?<!\w)(?:(?P<year>\d{4})[-\s]?Q0?(?P<quarter>[1-4])"
+    r"|Q0?(?P<quarter2>[1-4])[-\s]?(?P<year2>\d{4}))(?!\w)",
+    flags=re.I,
+)
 
 RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
@@ -130,6 +135,23 @@ def get_intersecting_periods(low, high, period="day"):
     while current_period_start < high:
         yield current_period_start
         current_period_start += step
+
+
+def _replace_quarters(date_string, settings):
+    """Return *date_string* with every quarter replaced by one of its months,
+    chosen according to the ``PREFER_MONTH_OF_YEAR`` setting, and the number
+    of replacements."""
+    now = settings.RELATIVE_BASE or datetime.now()
+    offset = {"first": 0, "last": 2, "current": (now.month - 1) % 3}[
+        settings.PREFER_MONTH_OF_YEAR
+    ]
+
+    def replace(match):
+        year = match["year"] or match["year2"]
+        quarter = int(match["quarter"] or match["quarter2"])
+        return f"{year}-{3 * quarter - 2 + offset:02}"
+
+    return _RE_QUARTER.subn(replace, date_string)
 
 
 def sanitize_date(date_string):
@@ -570,7 +592,7 @@ class DateDataParser:
 
         :raises: ValueError - Unknown Language
 
-        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time'.
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'quarter', 'year', 'time'.
 
         *Period* represents the granularity of date parsed from the given string.
 
@@ -603,6 +625,7 @@ class DateDataParser:
             return res
 
         date_string = sanitize_date(date_string)
+        date_string, quarters = _replace_quarters(date_string, self._settings)
 
         parsed_date = self._parse_using_applicable_locales(date_string, date_formats)
         if not parsed_date and self._settings.IGNORE_SURROUNDING_TEXT:
@@ -614,6 +637,8 @@ class DateDataParser:
             parsed_date = self._parse_using_applicable_locales(
                 date_string, date_formats, ignore_surrounding_text=True
             )
+        if quarters and parsed_date and parsed_date["period"] == "month":
+            parsed_date["period"] = "quarter"
         return parsed_date or DateData(date_obj=None, period="day", locale=None)
 
     def _parse_using_applicable_locales(
