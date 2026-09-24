@@ -10,6 +10,7 @@ def search_dates(
     add_detected_language=False,
     detect_languages_function=None,
     strategy="split",
+    date_formats=None,
 ):
     """Find all substrings of the given string which represent date and/or time and parse them.
 
@@ -43,6 +44,14 @@ def search_dates(
         produce more predictable results, at the cost of more parse attempts.
     :type strategy: str
 
+    :param date_formats:
+        A list of format strings using directives as given `here
+        <https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior>`_,
+        tried on every candidate before regular parsing. Requires
+        ``strategy="ngram"``, which splits text on ",", "|", "(", ")", "@" and
+        whitespace, so formats cannot contain those, other than single spaces.
+    :type date_formats: list
+
     :return: Returns list of tuples containing:
         substrings representing date and/or time, corresponding :mod:`datetime.datetime`
         object and detected language if *add_detected_language* is True.
@@ -73,6 +82,7 @@ def search_dates(
         settings=settings,
         detect_languages_function=detect_languages_function,
         strategy=strategy,
+        date_formats=date_formats,
     )
     dates = result.get("Dates")
     if dates:
