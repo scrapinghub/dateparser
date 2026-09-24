@@ -105,6 +105,7 @@ info = {
     "week": [
         "week",
         "wk",
+        "w",
         "weeks"
     ],
     "day": [

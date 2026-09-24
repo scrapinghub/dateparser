@@ -37,6 +37,7 @@ year:
 month:
     - months
 week:
+    - w
     - weeks
 day:
     - d

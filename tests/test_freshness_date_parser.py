@@ -128,6 +128,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("now - 2 hours", ago={"hours": 2}, period="day"),
             param("now - 30 minutes", ago={"minutes": 30}, period="day"),
             param("now - 1 day", ago={"days": 1}, period="day"),
+            param("now-1d 2h", ago={"days": 1, "hours": 2}, period="day"),
             # Fix for #291, work till one to twelve only
             param("nine hours ago", ago={"hours": 9}, period="day"),
             param("three week ago", ago={"weeks": 3}, period="week"),
@@ -1845,6 +1846,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("now + 2 hours", in_future={"hours": 2}, period="day"),
             param("now + 30 minutes", in_future={"minutes": 30}, period="day"),
             param("now + 1 day", in_future={"days": 1}, period="day"),
+            param("now+1d2h", in_future={"days": 1, "hours": 2}, period="day"),
             # Fractional units
             param("in 2.5 hours", in_future={"hours": 2.5}, period="day"),
             param("in 10.75 minutes", in_future={"minutes": 10.75}, period="day"),
