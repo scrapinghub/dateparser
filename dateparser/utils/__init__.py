@@ -55,6 +55,17 @@ def _get_missing_parts(fmt):
     Return a list containing missing parts (day, month, year)
     from a date format checking its directives
     """
+    if "%U" in fmt or "%W" in fmt or "%V" in fmt:
+        # A year, week number and weekday determine the complete date. Consume
+        # %% pairs so literal directive names do not count as date components.
+        directives = set(re.findall(r"%[%UWVwuAaYyG]", fmt))
+        if (
+            directives & {"%U", "%W", "%V"}
+            and directives & {"%w", "%u", "%a", "%A"}
+            and directives & {"%Y", "%y", "%G"}
+        ):
+            return []
+
     directive_mapping = {
         "day": ["%d", "%-d", "%j", "%-j"],
         # %j (day of year) encodes month implicitly: a successful strptime with %j always

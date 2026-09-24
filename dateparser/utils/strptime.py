@@ -1,6 +1,8 @@
+import calendar
 import importlib.util
 import sys
 from datetime import datetime
+from types import ModuleType
 
 import regex as re
 
@@ -27,8 +29,10 @@ def patch_strptime():
     _strptime_spec.loader.exec_module(_strptime)
     sys.modules["strptime_patched"] = _strptime
 
-    _calendar = importlib.util.module_from_spec(_strptime_spec)
-    _strptime_spec.loader.exec_module(_calendar)
+    # Copy the namespace without re-executing calendar, whose enum decorators
+    # would modify the original module. English names are rebound only here.
+    _calendar = ModuleType("calendar_patched")
+    _calendar.__dict__.update(vars(calendar), __name__="calendar_patched")
     sys.modules["calendar_patched"] = _calendar
 
     _strptime._getlang = lambda: ("en_US", "UTF-8")
