@@ -987,7 +987,9 @@ class TestDateParser(BaseTestCase):
         [
             param("-1484823450", expected=datetime(1922, 12, 13, 13, 2, 30)),
             param("-1436745600000", expected=datetime(1924, 6, 22, 0, 0)),
-            param("-1015673450000001", expected=datetime(1937, 10, 25, 12, 29, 10, 1)),
+            param(
+                "-1015673450000001", expected=datetime(1937, 10, 25, 12, 29, 9, 999999)
+            ),
         ]
     )
     def test_parse_negative_timestamp(self, date_string, expected):

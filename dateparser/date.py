@@ -170,9 +170,11 @@ def get_date_from_timestamp(date_string, settings, negative=False):
 
         seconds = int(match.group(1))
         millis = int(match.group(2) or 0)
-        micros = int(match.group(3) or 0)
+        micros = millis * 1000 + int(match.group(3) or 0)
+        if negative:
+            seconds, micros = divmod(seconds * 1000000 - micros, 1000000)
         date_obj = datetime.fromtimestamp(seconds, timezone).replace(
-            microsecond=millis * 1000 + micros, tzinfo=None
+            microsecond=micros, tzinfo=None
         )
         date_obj = apply_timezone_from_settings(date_obj, settings)
         return date_obj
