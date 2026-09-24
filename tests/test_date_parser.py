@@ -192,6 +192,11 @@ class TestDateParser(BaseTestCase):
             param("2016年6月29", datetime(2016, 6, 29, 0, 0)),
             param("2016年 2月 5日", datetime(2016, 2, 5, 0, 0)),
             param("2016年9月14日晚8:00", datetime(2016, 9, 14, 20, 0)),
+            # Korean dates
+            param("2023년 2월 10일 오전 3시 30분", datetime(2023, 2, 10, 3, 30)),
+            param("2000년 1월 1일 19:30", datetime(2000, 1, 1, 19, 30)),
+            param("12월 31일", datetime(2012, 12, 31)),
+            param("2023. 3. 18 오후 10:58", datetime(2023, 3, 18, 22, 58)),
             # Bulgarian
             param("25 ян 2016", datetime(2016, 1, 25, 0, 0)),
             param("23 декември 2013 15:10:01", datetime(2013, 12, 23, 15, 10, 1)),
