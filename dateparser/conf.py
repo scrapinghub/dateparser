@@ -1,10 +1,11 @@
 import hashlib
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import wraps
 
 from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
+from .timezone_parser import _tz_offsets
 from .utils import registry
 
 
@@ -18,6 +19,7 @@ class Settings:
     * `TIMEZONE`
     * `TO_TIMEZONE`
     * `RETURN_AS_TIMEZONE_AWARE`
+    * `TIMEZONE_ABBREVIATIONS`
     * `PREFER_MONTH_OF_YEAR`
     * `PREFER_DAY_OF_MONTH`
     * `PREFER_DATES_FROM`
@@ -164,6 +166,22 @@ def _check_default_languages(setting_name, setting_value):
     _check_repeated_values(setting_name, setting_value)
 
 
+def _check_timezone_abbreviations(setting_name, setting_value):
+    unknown = set(setting_value) - {name for name, _ in _tz_offsets}
+    if unknown:
+        raise SettingValidationError(
+            'Found unknown timezone abbreviations in the "{}" setting: {}'.format(
+                setting_name, ", ".join(map(repr, sorted(unknown)))
+            )
+        )
+    for abbreviation, offset in setting_value.items():
+        if not isinstance(offset, timedelta):
+            raise SettingValidationError(
+                'The offset of {!r} in the "{}" setting must be a timedelta, '
+                "not {!r}.".format(abbreviation, setting_name, offset)
+            )
+
+
 def _check_between_0_and_1(setting_name, setting_value):
     is_valid = 0 <= setting_value <= 1
     if not is_valid:
@@ -198,6 +216,10 @@ def check_settings(settings):
         "RETURN_AS_TIMEZONE_AWARE": {
             # It defaults to 'default', but it's not allowed to use it directly
             "type": bool
+        },
+        "TIMEZONE_ABBREVIATIONS": {
+            "type": dict,
+            "extra_check": _check_timezone_abbreviations,
         },
         "PREFER_MONTH_OF_YEAR": {"values": ("current", "first", "last"), "type": str},
         "PREFER_DAY_OF_MONTH": {"values": ("current", "first", "last"), "type": str},

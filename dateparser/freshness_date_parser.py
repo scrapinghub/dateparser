@@ -39,7 +39,7 @@ class FreshnessDateDataParser:
 
     def parse(self, date_string, settings):
         date_string = strip_braces(date_string)
-        date_string, ptz = pop_tz_offset_from_string(date_string)
+        date_string, ptz = pop_tz_offset_from_string(date_string, settings=settings)
         _time = self._parse_time(date_string, settings)
 
         _settings_tz = settings.TIMEZONE.lower()
