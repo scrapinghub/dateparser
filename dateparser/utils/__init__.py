@@ -1,7 +1,5 @@
 import calendar
 import logging
-import threading
-import types
 import unicodedata
 from collections import OrderedDict
 from datetime import datetime
@@ -207,42 +205,6 @@ def set_correct_month_from_settings(date_obj, settings, current_month=None):
         return date_obj.replace(month=options[settings.PREFER_MONTH_OF_YEAR])
     except ValueError:
         return date_obj.replace(month=options["last"])
-
-
-_registry_lock = threading.Lock()
-
-
-def registry(cls):
-    def choose(creator):
-        def constructor(cls, *args, **kwargs):
-            key = cls.get_key(*args, **kwargs)
-
-            with _registry_lock:
-                if not hasattr(cls, "__registry_dict"):
-                    setattr(cls, "__registry_dict", {})
-                registry_dict = getattr(cls, "__registry_dict")
-
-                if key not in registry_dict:
-                    instance = creator(cls, *args)
-                    # Set the key before publishing the instance so other
-                    # threads never observe an entry without ``registry_key``.
-                    setattr(instance, "registry_key", key)
-                    registry_dict[key] = instance
-                return registry_dict[key]
-
-        return staticmethod(constructor)
-
-    if not (
-        hasattr(cls, "get_key")
-        and isinstance(cls.get_key, types.MethodType)
-        and cls.get_key.__self__ is cls
-    ):
-        raise NotImplementedError(
-            "Registry classes require to implement class method get_key"
-        )
-
-    setattr(cls, "__new__", choose(cls.__new__))
-    return cls
 
 
 def get_logger():

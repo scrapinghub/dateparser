@@ -5,10 +5,8 @@ from functools import wraps
 from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
-from .utils import registry
 
 
-@registry
 class Settings:
     """Control and configure default parsing behavior of dateparser.
     Currently, supported settings are:
@@ -43,6 +41,7 @@ class Settings:
     _mod_settings = dict()
 
     def __init__(self, settings=None):
+        self.registry_key = self.get_key(settings)
         if settings:
             self._updateall(settings.items())
         else:
@@ -53,7 +52,13 @@ class Settings:
         if not settings:
             return "default"
 
-        keys = sorted(["%s-%s" % (key, str(settings[key])) for key in settings])
+        # Used as a key for dictionary caches, which do not depend on the
+        # relative base.
+        keys = sorted(
+            "%s-%s" % (key, str(settings[key]))
+            for key in settings
+            if key not in {"RELATIVE_BASE", "_mod_settings"}
+        )
         return hashlib.md5(
             "".join(keys).encode("utf-8"), usedforsecurity=False
         ).hexdigest()
