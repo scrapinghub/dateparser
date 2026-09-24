@@ -293,6 +293,27 @@ def test_no_spaces_strict_parsing(date_string, expected_result):
     assert parser.get_date_data(date_string)["date_obj"] is None
 
 
+@pytest.mark.parametrize("languages", [["zh"], ["en"], None])
+def test_strict_parsing_rejects_month_and_year_without_day(languages):
+    # Regression test for #850: a YMD locale (zh) left a spare token that
+    # back-filled the missing day, so STRICT_PARSING wrongly accepted "10/2017".
+    assert (
+        parse("10/2017", languages=languages, settings={"STRICT_PARSING": True}) is None
+    )
+
+
+def test_require_parts_rejects_month_and_year_without_day():
+    # Same #850 reuse path, reached through REQUIRE_PARTS.
+    assert (
+        parse(
+            "10/2017",
+            languages=["zh"],
+            settings={"REQUIRE_PARTS": ["day", "month", "year"]},
+        )
+        is None
+    )
+
+
 def detect_languages(text, confidence_threshold):
     if confidence_threshold > 0.5:
         return ["en"]
