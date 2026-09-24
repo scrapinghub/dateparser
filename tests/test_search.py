@@ -1015,7 +1015,10 @@ class TestTranslateSearch(BaseTestCase):
                 text="DECEMBER 21 19.87 87",
                 languages=None,
                 settings=None,
-                expected=[("DECEMBER 21 19", datetime.datetime(2019, 12, 21, 0, 0))],
+                expected=[
+                    ("DECEMBER", datetime.datetime(2019, 12, 21, 0, 0)),
+                    ("19.87", datetime.datetime(1987, 12, 19, 0, 0)),
+                ],
             ),
             param(
                 text="bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41",
@@ -1184,6 +1187,35 @@ class TestTranslateSearch(BaseTestCase):
     def test_search_dates_with_a_relative_expression_reads_its_direction(
         self, text, languages, expected
     ):
+        result = search_dates(
+            text, languages=languages, settings={"RELATIVE_BASE": relative_base}
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="03.03.2011",
+                languages=["en"],
+                expected=[("03.03.2011", datetime.datetime(2011, 3, 3, 0, 0))],
+            ),
+            # A dot followed by a space still ends a sentence
+            param(
+                text="It ended 03.03.2011. It rained 13.03.2011.",
+                languages=["en"],
+                expected=[
+                    ("03.03.2011", datetime.datetime(2011, 3, 3, 0, 0)),
+                    ("13.03.2011", datetime.datetime(2011, 3, 13, 0, 0)),
+                ],
+            ),
+            param(
+                text="Llovió el 03.03.2011",
+                languages=["es"],
+                expected=[("03.03.2011", datetime.datetime(2011, 3, 3, 0, 0))],
+            ),
+        ]
+    )
+    def test_search_dates_with_dots_between_digits(self, text, languages, expected):
         result = search_dates(
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
