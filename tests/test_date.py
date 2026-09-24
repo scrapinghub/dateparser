@@ -376,6 +376,74 @@ class TestParseWithFormatsFunction(BaseTestCase):
 
     @parameterized.expand(
         [
+            ("01.24-1", "%W.%y-%w", datetime(2024, 1, 1)),
+            ("2024-01-1", "%Y-%U-%w", datetime(2024, 1, 8)),
+            ("2023-00-1", "%Y-%W-%w", datetime(2022, 12, 26)),
+            ("2024-09-4", "%Y-%W-%u", datetime(2024, 2, 29)),
+            ("2024-09-Thu", "%Y-%W-%a", datetime(2024, 2, 29)),
+            ("2024-08-Thursday", "%Y-%U-%A", datetime(2024, 2, 29)),
+            ("01.2024-1", "%V.%G-%u", datetime(2024, 1, 1)),
+            ("2019-W01-1", "%G-W%V-%u", datetime(2018, 12, 31)),
+            ("2020-W53-5", "%G-W%V-%u", datetime(2021, 1, 1)),
+            ("2020-W53-Fri", "%G-W%V-%a", datetime(2021, 1, 1)),
+            ("2020-W53-Friday", "%G-W%V-%A", datetime(2021, 1, 1)),
+            ("2020-W53-5", "%G-W%V-%w", datetime(2021, 1, 1)),
+        ]
+    )
+    def test_should_preserve_complete_week_date(self, text, fmt, expected):
+        self.given_now(2026, 9, 15)
+        for preference in ("first", "last", "current"):
+            with self.subTest(preference=preference):
+                settings = {
+                    "RELATIVE_BASE": datetime(2026, 9, 15),
+                    "PREFER_DAY_OF_MONTH": preference,
+                    "PREFER_MONTH_OF_YEAR": preference,
+                    "PARSERS": ["custom-formats"],
+                }
+                parsed = date.DateDataParser(settings=settings).get_date_data(
+                    text, date_formats=[fmt]
+                )
+                self.assertEqual(parsed.date_obj, expected)
+                self.assertEqual(parsed.period, "day")
+                self.assertEqual(
+                    dateparser.parse(text, date_formats=[fmt], settings=settings),
+                    expected,
+                )
+
+    @parameterized.expand(
+        [
+            ("2024-09", "%Y-%W", 2024),
+            ("2024-1", "%Y-%w", 2024),
+            ("2024-%W-1", "%Y-%%W-%w", 2024),
+            ("2024-01-%w", "%Y-%W-%%w", 2024),
+            ("09-1", "%W-%w", 2026),
+        ]
+    )
+    def test_incomplete_week_date_keeps_date_preferences(self, text, fmt, year):
+        self.given_now(2026, 9, 15)
+        settings = Settings().replace(
+            RELATIVE_BASE=datetime(2026, 9, 15),
+            PREFER_DAY_OF_MONTH="last",
+            PREFER_MONTH_OF_YEAR="last",
+        )
+        self.when_date_is_parsed_with_formats(text, [fmt], settings)
+        self.then_parsed_date_is(datetime(year, 12, 31))
+        self.then_parsed_period_is("year")
+
+    @parameterized.expand(
+        [
+            ("2024-W01", "%G-W%V"),
+            ("2024-W01-1", "%Y-W%V-%u"),
+            ("2024-W01-1", "%G-W%W-%u"),
+            ("2024-W01-8", "%G-W%V-%u"),
+        ]
+    )
+    def test_invalid_iso_week_date_is_not_parsed(self, text, fmt):
+        self.when_date_is_parsed_with_formats(text, [fmt])
+        self.then_date_was_not_parsed()
+
+    @parameterized.expand(
+        [
             param(
                 date_string="2023-100",
                 date_formats=["%Y-%j"],
