@@ -256,6 +256,15 @@ def parse_with_formats(date_string, date_formats, settings):
 
 
 class _DateLocaleParser:
+    _parsers = {
+        "timestamp": "_try_timestamp",
+        "negative-timestamp": "_try_negative_timestamp",
+        "relative-time": "_try_freshness_parser",
+        "custom-formats": "_try_given_formats",
+        "absolute-time": "_try_absolute_parser",
+        "no-spaces-time": "_try_nospaces_parser",
+    }
+
     def __init__(
         self,
         locale,
@@ -274,14 +283,6 @@ class _DateLocaleParser:
         self._ignore_surrounding_text = ignore_surrounding_text
         self._translated_date = None
         self._translated_date_with_formatting = None
-        self._parsers = {
-            "timestamp": self._try_timestamp,
-            "negative-timestamp": self._try_negative_timestamp,
-            "relative-time": self._try_freshness_parser,
-            "custom-formats": self._try_given_formats,
-            "absolute-time": self._try_absolute_parser,
-            "no-spaces-time": self._try_nospaces_parser,
-        }
 
     @classmethod
     def parse(
@@ -299,7 +300,7 @@ class _DateLocaleParser:
 
     def _parse(self):
         for parser_name in self._settings.PARSERS:
-            date_data = self._parsers[parser_name]()
+            date_data = getattr(self, self._parsers[parser_name])()
             if self._is_valid_date_data(date_data):
                 return date_data
         else:
