@@ -924,6 +924,7 @@ class TestBundledLanguages(BaseTestCase):
             param("sk", "o 2 mesiace", "in 2 month"),
             param("sk", "o týždeň", "in 1 week"),
             param("sk", "predvčerom", "2 day ago"),
+            param("sk", "pozajtra", "in 2 day"),
             param("sk", "v sobotu", " saturday"),
             # sl
             param(
@@ -1223,6 +1224,10 @@ class TestBundledLanguages(BaseTestCase):
             # Chinese
             param("zh", "昨天", "1 day ago"),
             param("zh", "前天", "2 day ago"),
+            param("zh", "大前天", "3 day ago"),
+            param("zh", "后天", "in 2 day"),
+            param("zh", "大后天", "in 3 day"),
+            param("zh-Hant", "後天", "in 2 day"),
             param("zh", "50 秒", "50 second"),
             param("zh", "7 周", "7 week"),
             param("zh", "12 年", "12 year"),
