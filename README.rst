@@ -355,7 +355,7 @@ Example using the `Persian Jalali calendar
 
     >>> from dateparser.calendars.jalali import JalaliCalendar
     >>> JalaliCalendar('جمعه سی ام اسفند ۱۳۸۷').get_date()
-    DateData(date_obj=datetime.datetime(2009, 3, 20, 0, 0), period='day', locale=None)
+    DateData(date_obj=datetime.datetime(2009, 3, 20, 0, 0), period='day', locale=None, parts=('year', 'month', 'day'))
 
 Example using the `Hijri/Islamic calendar
 <https://en.wikipedia.org/wiki/Islamic_calendar>`_:
@@ -364,7 +364,7 @@ Example using the `Hijri/Islamic calendar
 
     >>> from dateparser.calendars.hijri import HijriCalendar
     >>> HijriCalendar('17-01-1437 هـ 08:30 مساءً').get_date()
-    DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None)
+    DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None, parts=('year', 'month', 'day', 'time'))
 
 Dependencies
 ============

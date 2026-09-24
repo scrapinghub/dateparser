@@ -7,6 +7,7 @@ import regex as re
 
 from dateparser.utils import (
     _get_missing_parts,
+    _get_parts,
     get_last_day_of_month,
     get_next_leap_year,
     get_previous_leap_year,
@@ -178,7 +179,7 @@ class _no_spaces_parser:
     def _find_best_matching_date(cls, datestring):
         for fmt in cls._preferred_formats_ordered_8_digit:
             try:
-                dt = strptime(datestring, fmt), cls._get_period(fmt)
+                dt = strptime(datestring, fmt), cls._get_period(fmt), _get_parts(fmt)
                 if len(str(dt[0].year)) == 4:
                     return dt
             except Exception:
@@ -208,7 +209,7 @@ class _no_spaces_parser:
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[order]:
                 try:
-                    dt = strptime(token, fmt), cls._get_period(fmt)
+                    dt = strptime(token, fmt), cls._get_period(fmt), _get_parts(fmt)
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
                         continue
@@ -392,6 +393,16 @@ class _parser:
 
         if self._results():
             return "day"
+
+    def _get_parts(self):
+        parts = tuple(part for part in ("year", "month", "day") if getattr(self, part))
+        if not parts and (hasattr(self, "_token_weekday") or self.time):
+            # A weekday or a time on its own is resolved to a full date by
+            # _correct_for_time_frame.
+            parts = ("year", "month", "day")
+        if self.time:
+            parts += ("time",)
+        return parts
 
     def _get_datetime_obj(self, **params):
         try:
@@ -623,7 +634,7 @@ class _parser:
 
         period = po._get_period()
 
-        return dateobj, period
+        return dateobj, period, po._get_parts()
 
     def _parse(self, type, token, skip_component=None):
         def set_and_return(token, type, component, dateobj, skip_date_order=False):
