@@ -122,12 +122,8 @@ class _ExactLanguageSearch:
         if need_relative_base:
             item, relative_base = self.set_relative_base(item, parsed)
 
-        # Always set RELATIVE_BASE explicitly from the pristine settings for
-        # this parse, restoring the base settings when there is none. parser
-        # is a single object shared/reused across every item (and every
-        # candidate split explored in choose_best_split), so leaving a
-        # previous item's RELATIVE_BASE in place would otherwise leak into
-        # this unrelated parse.
+        # parser is reused across items/splits, so always set _settings
+        # explicitly rather than mutating leftover state from a prior call.
         parser._settings = (
             settings.replace(RELATIVE_BASE=relative_base) if relative_base else settings
         )
@@ -160,12 +156,7 @@ class _ExactLanguageSearch:
             possible_parsed = []
             possible_substrings = []
             for split_translated, split_original in possible_splits:
-                # Seed with the outer chain (dates already parsed from
-                # earlier substrings in the text) so relative-base chaining
-                # can see them, instead of starting this candidate split from
-                # an empty, disconnected chain.
-                seed_len = len(parsed)
-                current_parsed = list(parsed)
+                current_parsed = []
                 current_substrings = []
                 if split_translated:
                     for j, jtem in enumerate(split_translated):
@@ -175,13 +166,13 @@ class _ExactLanguageSearch:
                             parser,
                             jtem,
                             split_translated[j],
-                            current_parsed,
+                            parsed + current_parsed,
                             need_relative_base,
                             settings,
                         )
                         current_parsed.append((parsed_jtem, is_relative_jtem))
                         current_substrings.append(split_original[j].strip(" .,:()[]-"))
-                possible_parsed.append(current_parsed[seed_len:])
+                possible_parsed.append(current_parsed)
                 possible_substrings.append(current_substrings)
             parsed_best, substrings_best = self.choose_best_split(
                 possible_parsed, possible_substrings
