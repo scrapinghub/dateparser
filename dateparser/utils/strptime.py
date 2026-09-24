@@ -17,16 +17,6 @@ TIME_MATCHER = re.compile(
 MS_SEARCHER = re.compile(r"\.(?P<microsecond>[0-9]{1,6})")
 
 
-def _exec_module(spec, module):
-    if hasattr(spec.loader, "exec_module"):
-        spec.loader.exec_module(module)
-    else:
-        # This can happen before Python 3.10
-        # if spec.loader is a zipimporter and the Python runtime is in a zipfile
-        code = spec.loader.get_code(module.__name__)
-        exec(code, module.__dict__)
-
-
 def patch_strptime():
     """Monkey patching _strptime to avoid problems related with non-english
     locale changes on the system.
@@ -36,7 +26,7 @@ def patch_strptime():
     """
     _strptime_spec = importlib.util.find_spec("_strptime")
     _strptime = importlib.util.module_from_spec(_strptime_spec)
-    _exec_module(_strptime_spec, _strptime)
+    _strptime_spec.loader.exec_module(_strptime)
     sys.modules["strptime_patched"] = _strptime
 
     # Copy the namespace without re-executing calendar, whose enum decorators
@@ -96,9 +86,9 @@ __strptime = patch_strptime()
 
 def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
     # Adapted from std lib: https://github.com/python/cpython/blob/e34a5e33049ce845de646cf24a498766a2da3586/Lib/_strptime.py#L448
-    format = re.sub(r"([\\.^$*+?\(\){}\[\]|])", r"\\\1", og_format)
-    format = re.sub(r"\s+", r"\\s+", format)
-    format = re.sub(r"'", "['\u02bc]", format)
+    regex_format = re.sub(r"([\\.^$*+?\(\){}\[\]|])", r"\\\1", og_format)
+    regex_format = re.sub(r"\s+", r"\\s+", regex_format)
+    regex_format = re.sub(r"'", "['\u02bc]", regex_format)
     year_in_format = False
     day_of_month_in_format = False
     day_of_year_in_format = False
@@ -108,16 +98,16 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
         if format_char in ("Y", "y", "G"):
             nonlocal year_in_format
             year_in_format = True
-        elif format_char in ("d",):
+        elif format_char == "d":
             nonlocal day_of_month_in_format
             day_of_month_in_format = True
-        elif format_char in ("j",):
+        elif format_char == "j":
             nonlocal day_of_year_in_format
             day_of_year_in_format = True
 
         return ""
 
-    _ = re.sub(r"%[-_0^#]*[0-9]*([OE]?\\?.?)", repl, format)
+    _ = re.sub(r"%[-_0^#]*[0-9]*([OE]?\\?.?)", repl, regex_format)
     if day_of_month_in_format and not year_in_format:
         current_year = datetime.today().year
         return (
@@ -128,9 +118,11 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
     return date_string, og_format, day_of_year_in_format
 
 
-def strptime(date_string: str, format: str) -> datetime:
-    date_string, format, day_of_year_in_format = _prepare_format(date_string, format)
-    time_tuple = __strptime(date_string, format)
+def strptime(date_string: str, format: str) -> datetime:  # noqa: A002
+    date_string, prepared_format, day_of_year_in_format = _prepare_format(
+        date_string, format
+    )
+    time_tuple = __strptime(date_string, prepared_format)
     obj = datetime(*time_tuple[:-3])
 
     if day_of_year_in_format and time_tuple.tm_yday != obj.timetuple().tm_yday:
@@ -142,7 +134,7 @@ def strptime(date_string: str, format: str) -> datetime:
             f"day of year {time_tuple.tm_yday} is out of range for year {obj.year - 1}"
         )
 
-    if "%f" in format:
+    if "%f" in prepared_format:
         try:
             match_groups = TIME_MATCHER.match(date_string).groupdict()
             ms = match_groups["microsecond"]

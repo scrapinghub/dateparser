@@ -1,6 +1,7 @@
 import threading
 from itertools import chain, zip_longest
 from operator import methodcaller
+from typing import ClassVar
 
 import regex as re
 
@@ -9,7 +10,7 @@ from dateparser.utils import normalize_unicode
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
 PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z"]
-ALWAYS_KEEP_TOKENS = ["+"] + PARSER_HARDCODED_TOKENS
+ALWAYS_KEEP_TOKENS = ["+", *PARSER_HARDCODED_TOKENS]
 KNOWN_WORD_TOKENS = [
     "monday",
     "tuesday",
@@ -76,11 +77,11 @@ class Dictionary:
     :return: a Dictionary instance.
     """
 
-    _split_regex_cache = {}
-    _sorted_words_cache = {}
-    _split_relative_regex_cache = {}
-    _sorted_relative_strings_cache = {}
-    _match_relative_regex_cache = {}
+    _split_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
+    _sorted_words_cache: ClassVar[dict[str, dict[str, list[str]]]] = {}
+    _split_relative_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
+    _sorted_relative_strings_cache: ClassVar[dict[str, dict[str, list[str]]]] = {}
+    _match_relative_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
 
     # The caches above are shared across all Dictionary instances and threads.
     # The lock keeps each check-populate-evict-read sequence atomic, so a
@@ -310,7 +311,7 @@ class Dictionary:
             ):
                 self._add_to_cache(
                     cache=self._sorted_words_cache,
-                    value=sorted([key for key in self], key=len, reverse=True),
+                    value=sorted(self, key=len, reverse=True),
                 )
             return self._sorted_words_cache[self._settings.registry_key][
                 self.info["name"]
@@ -333,11 +334,9 @@ class Dictionary:
             map(re.escape, self._get_sorted_words_from_cache())
         )
         if self._no_word_spacing:
-            regex = r"^(.*?)({})(.*)$".format(known_words_group)
+            regex = rf"^(.*?)({known_words_group})(.*)$"
         else:
-            regex = r"^(.*?(?:\A|\W|_|\d))({})((?:\Z|\W|_|\d).*)$".format(
-                known_words_group
-            )
+            regex = rf"^(.*?(?:\A|\W|_|\d))({known_words_group})((?:\Z|\W|_|\d).*)$"
         self._add_to_cache(
             cache=self._split_regex_cache,
             value=re.compile(regex, re.UNICODE | re.IGNORECASE),
@@ -382,10 +381,10 @@ class Dictionary:
             self._get_sorted_relative_strings_from_cache()
         )
         if self._no_word_spacing:
-            regex = "({})".format(known_relative_strings_group)
+            regex = f"({known_relative_strings_group})"
         else:
-            regex = "(?<=(?:\\A|\\W|_))({})(?=(?:\\Z|\\W|_))".format(
-                known_relative_strings_group
+            regex = (
+                f"(?<=(?:\\A|\\W|_))({known_relative_strings_group})(?=(?:\\Z|\\W|_))"
             )
         self._add_to_cache(
             cache=self._split_relative_regex_cache,
@@ -408,7 +407,7 @@ class Dictionary:
         known_relative_strings_group = "|".join(
             self._get_sorted_relative_strings_from_cache()
         )
-        regex = "^({})$".format(known_relative_strings_group)
+        regex = f"^({known_relative_strings_group})$"
         self._add_to_cache(
             cache=self._match_relative_regex_cache,
             value=re.compile(regex, re.UNICODE | re.IGNORECASE),

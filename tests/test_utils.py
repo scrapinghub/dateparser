@@ -48,8 +48,7 @@ class TestUtils(BaseTestCase):
         class SomeClass:
             pass
 
-        some_class = SomeClass
-        return some_class
+        return SomeClass
 
     @parameterized.expand(
         [
@@ -63,6 +62,11 @@ class TestUtils(BaseTestCase):
         self.given_date_format(date_format)
         self.when_date_separator_is_parsed()
         self.then_date_separator_is(expected_sep)
+
+    def test_separator_extraction_without_separator(self):
+        self.given_date_format("%Y")
+        self.when_date_separator_is_parsed()
+        self.then_date_separator_is(None)
 
     @parameterized.expand(
         [
@@ -128,7 +132,7 @@ class TestUtils(BaseTestCase):
     )
     def test_apply_timezone_from_settings_function(self, date, timezone, expected):
         result = apply_timezone_from_settings(
-            date, settings.replace(**{"TO_TIMEZONE": timezone, "TIMEZONE": "UTC"})
+            date, settings.replace(TO_TIMEZONE=timezone, TIMEZONE="UTC")
         )
         self.assertEqual(expected, result)
 
@@ -155,7 +159,7 @@ class TestUtils(BaseTestCase):
     )
     def test_apply_timezone_from_settings_function_should_return_tz(self, date):
         result = apply_timezone_from_settings(
-            date, settings.replace(**{"RETURN_AS_TIMEZONE_AWARE": True})
+            date, settings.replace(RETURN_AS_TIMEZONE_AWARE=True)
         )
         self.assertTrue(bool(result.tzinfo))
 
@@ -187,7 +191,7 @@ class TestUtils(BaseTestCase):
 
 
 @pytest.mark.parametrize(
-    "year,expected_previous_leap_year",
+    ("year", "expected_previous_leap_year"),
     [
         (2020, 2016),
         (2000, 1996),  # leap and centurial year
@@ -202,7 +206,7 @@ def test_get_previous_leap_year(year, expected_previous_leap_year):
 
 
 @pytest.mark.parametrize(
-    "year,expected_next_leap_year",
+    ("year", "expected_next_leap_year"),
     [
         (2020, 2024),
         (1996, 2000),  # leap and centurial year

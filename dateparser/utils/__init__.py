@@ -36,19 +36,18 @@ def combine_dicts(primary_dict, supplementary_dict):
             else:
                 combined_dict[key] = supplementary_dict[key]
         else:
-            combined_dict[key] = primary_dict[key]
-    remaining_keys = [
-        key for key in supplementary_dict.keys() if key not in primary_dict.keys()
-    ]
+            combined_dict[key] = value
+    remaining_keys = [key for key in supplementary_dict if key not in primary_dict]
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict
 
 
-def find_date_separator(format):
+def find_date_separator(format):  # noqa: A002
     m = re.search(r"(?:(?:%[dbBmaA])(\W))+", format)
     if m:
         return m.group(1)
+    return None
 
 
 def _get_missing_parts(fmt):
@@ -75,23 +74,21 @@ def _get_missing_parts(fmt):
         "year": ["%y", "%-y", "%Y"],
     }
 
-    missing = [
+    return [
         field
         for field in ("day", "month", "year")
         if not any(directive in fmt for directive in directive_mapping[field])
     ]
-    return missing
 
 
 def get_timezone_from_tz_string(tz_string):
     try:
         return timezone(tz_string)
-    except UnknownTimeZoneError as e:
+    except UnknownTimeZoneError:
         for name, info in _tz_offsets:
-            if info["regex"].search(" %s" % tz_string):
+            if info["regex"].search(f" {tz_string}"):
                 return StaticTzInfo(name, info["offset"])
-        else:
-            raise e
+        raise
 
 
 def localize_timezone(date_time, tz_string):
@@ -119,9 +116,10 @@ def apply_tzdatabase_timezone(date_time, pytz_string):
 
 def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
     for name, info in _tz_offsets:
-        if info["regex"].search(" %s" % offset_or_timezone_abb):
+        if info["regex"].search(f" {offset_or_timezone_abb}"):
             tz = StaticTzInfo(name, info["offset"])
             return utc_datetime.astimezone(tz)
+    return None
 
 
 def apply_timezone(date_time, tz_string):
@@ -226,7 +224,7 @@ def registry(cls):
                     instance = creator(cls, *args)
                     # Set the key before publishing the instance so other
                     # threads never observe an entry without ``registry_key``.
-                    setattr(instance, "registry_key", key)
+                    instance.registry_key = key
                     registry_dict[key] = instance
                 return registry_dict[key]
 
@@ -241,7 +239,7 @@ def registry(cls):
             "Registry classes require to implement class method get_key"
         )
 
-    setattr(cls, "__new__", choose(cls.__new__))
+    cls.__new__ = choose(cls.__new__)
     return cls
 
 
