@@ -1889,6 +1889,49 @@ class TestDateParser(BaseTestCase):
             f"RELATIVE_BASE not respected: Expected 2064, got {result.year}",
         )
 
+    @parameterized.expand(
+        [
+            param("December 25", "%B %d", "past", datetime(2025, 12, 25)),
+            param("December 25", "%B %d", "current_period", datetime(2026, 12, 25)),
+            param("March 10", "%B %d", "future", datetime(2027, 3, 10)),
+            param("March 10", "%B %d", "past", datetime(2026, 3, 10)),
+            param("February 29", "%B %d", "future", datetime(2028, 2, 29)),
+        ]
+    )
+    def test_prefer_dates_from_with_yearless_date_formats(
+        self, date_string, date_format, prefer_from, expected
+    ):
+        result = parse(
+            date_string,
+            date_formats=[date_format],
+            settings={
+                "PREFER_DATES_FROM": prefer_from,
+                "RELATIVE_BASE": datetime(2026, 6, 15),
+            },
+        )
+        self.assertEqual(expected, result)
+
+    @parameterized.expand(
+        [
+            param("13:00", "%H:%M", "past"),
+            param("13:00", "%H:%M", "future"),
+            param("20", "%d", "past"),
+            param("20", "%d", "future"),
+        ]
+    )
+    def test_prefer_dates_from_with_monthless_date_formats(
+        self, date_string, date_format, prefer_from
+    ):
+        result = parse(
+            date_string,
+            date_formats=[date_format],
+            settings={
+                "PREFER_DATES_FROM": prefer_from,
+                "RELATIVE_BASE": datetime(2026, 6, 15),
+            },
+        )
+        self.assertEqual(2026, result.year)
+
     def test_prefer_dates_from_with_date_formats_tz_aware_relative_base(self):
         """Test that a tz-aware RELATIVE_BASE does not crash (Bug #1 fix)."""
         from datetime import timezone as tz
