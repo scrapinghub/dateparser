@@ -30,8 +30,34 @@ ABSOLUTE_DATE_STRINGS = [
     "2015-06-01T13:00:00Z",
 ]
 
+# Dates in languages other than English, so that language autodetection does
+# real work before the date is parsed.
+AUTODETECTED_DATE_STRINGS = [
+    "13 août 2014",
+    "Le 11 Décembre 2014 à 09:00",
+    "13 Setembro, 2014",
+    "1 Ноябрь 2014",
+    "2014年04月08日",
+    "11 Ağustos, 2014",
+    "hace 2 horas",
+    "vor 3 Tagen",
+]
 
-def _benchmark_parse(benchmark: BenchmarkFixture, date_strings: list[str]) -> None:
+# Values that a scraped date field carries in practice but that are not dates.
+UNPARSEABLE_STRINGS = [
+    "—",
+    "TBD",
+    "Unknown",
+    "Out of stock",
+    "v2.3.1",
+    "Updated regularly, check back soon",
+    "2019-11-29 08:08-08",
+]
+
+
+def _benchmark_parse(
+    benchmark: BenchmarkFixture, date_strings: list[str], parses: bool = True
+) -> None:
     def run():
         for date_string in date_strings:
             dateparser.parse(date_string)
@@ -39,7 +65,8 @@ def _benchmark_parse(benchmark: BenchmarkFixture, date_strings: list[str]) -> No
     # Load the locale data and warm the parser caches outside the measurement.
     run()
 
-    assert dateparser.parse(date_strings[0]) is not None
+    for date_string in date_strings:
+        assert (dateparser.parse(date_string) is not None) is parses, date_string
 
     benchmark(run)
 
@@ -50,3 +77,11 @@ def test_parse_relative_date_strings(benchmark: BenchmarkFixture) -> None:
 
 def test_parse_absolute_date_strings(benchmark: BenchmarkFixture) -> None:
     _benchmark_parse(benchmark, ABSOLUTE_DATE_STRINGS)
+
+
+def test_parse_autodetected_date_strings(benchmark: BenchmarkFixture) -> None:
+    _benchmark_parse(benchmark, AUTODETECTED_DATE_STRINGS)
+
+
+def test_parse_unparseable_strings(benchmark: BenchmarkFixture) -> None:
+    _benchmark_parse(benchmark, UNPARSEABLE_STRINGS, parses=False)

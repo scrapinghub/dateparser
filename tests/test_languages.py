@@ -45,6 +45,31 @@ class TestLocaleTranslation:
         print(result)
         assert expected == result
 
+    def test_letter_free_strings_translate_identically(self):
+        # DateDataParser._get_applicable_locales relies on this to try a
+        # single locale per date order for strings without letters.
+        locales = list(default_loader.get_locales())
+        letter_free_keys = set()
+        for locale in locales:
+            letter_free_keys.update(
+                key
+                for key in locale._get_dictionary(settings)._dictionary
+                if not any(c.isalpha() for c in key)
+            )
+        for date_string in (
+            "2019-11-29 08:08-08",
+            "12 03 2014".join(sorted(letter_free_keys)),
+            "12 03 2014 ".join(sorted(letter_free_keys)),
+        ):
+            for keep_formatting in (False, True):
+                translations = {
+                    locale.translate(
+                        date_string, keep_formatting=keep_formatting, settings=settings
+                    )
+                    for locale in locales
+                }
+                assert len(translations) == 1, (date_string, translations)
+
 
 class TestBundledLanguages(BaseTestCase):
     def setUp(self):
