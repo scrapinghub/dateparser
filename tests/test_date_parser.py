@@ -1,7 +1,10 @@
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from functools import wraps
 from unittest.mock import Mock, patch
+from zoneinfo import ZoneInfo
+
+import pytz
 
 from parameterized import param, parameterized
 
@@ -1306,6 +1309,7 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("9am AEDT", datetime(2021, 10, 19, 22, 0), {}),
             param(
                 "4pm EDT",
                 datetime(2021, 10, 19, 20, 0),
@@ -1328,8 +1332,17 @@ class TestDateParser(BaseTestCase):
             ),
             param(
                 "4pm",
-                datetime(2021, 10, 19, 20, 0),
+                datetime(2021, 10, 20, 20, 0),
                 {"PREFER_DATES_FROM": "future", "TIMEZONE": "EDT"},
+            ),
+            param(
+                "4pm",
+                datetime(2021, 10, 19, 20, 0),
+                {
+                    "PREFER_DATES_FROM": "future",
+                    "TIMEZONE": "EDT",
+                    "RELATIVE_BASE": datetime(2021, 10, 19, 18, 0, tzinfo=timezone.utc),
+                },
             ),
             param(
                 "10pm",
@@ -1343,7 +1356,7 @@ class TestDateParser(BaseTestCase):
             ),
             param(
                 "11pm",
-                datetime(2021, 10, 19, 12, 0),
+                datetime(2021, 10, 18, 12, 0),
                 {"PREFER_DATES_FROM": "past", "TIMEZONE": "AEDT"},
             ),
         ]
@@ -1353,6 +1366,7 @@ class TestDateParser(BaseTestCase):
     ):
         self.given_parser(
             settings={
+                "TIMEZONE": "UTC",
                 "TO_TIMEZONE": "etc/utc",
                 "RETURN_AS_TIMEZONE_AWARE": False,
                 "RELATIVE_BASE": datetime(2021, 10, 19, 18, 0),
@@ -1362,6 +1376,27 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param(pytz.timezone("America/New_York")),
+            param(ZoneInfo("America/New_York")),
+        ]
+    )
+    def test_naive_relative_base_in_local_timezone(self, local_tz):
+        self.given_parser(
+            settings={
+                "TIMEZONE": "local",
+                "TO_TIMEZONE": "etc/utc",
+                "RETURN_AS_TIMEZONE_AWARE": False,
+                "PREFER_DATES_FROM": "past",
+                "RELATIVE_BASE": datetime(2021, 10, 19, 18, 0),
+            }
+        )
+        with patch("dateparser.parser.get_localzone", return_value=local_tz):
+            self.when_date_is_parsed("9pm UTC")
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(datetime(2021, 10, 19, 21, 0))
 
     @parameterized.expand(
         [
@@ -1438,7 +1473,9 @@ class TestDateParser(BaseTestCase):
             patch("dateparser.parser.datetime", ParserDateTime),
             patch("dateparser.utils.datetime", UtilsDateTime),
         ):
-            self.assertEqual(parse("2014"), datetime(2014, 5, 31))
+            self.assertEqual(
+                parse("2014", settings={"TIMEZONE": "UTC"}), datetime(2014, 5, 31)
+            )
 
     @parameterized.expand(
         [
