@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from functools import wraps
 from unittest.mock import Mock, patch
 
@@ -1306,6 +1306,7 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("9am AEDT", datetime(2021, 10, 19, 22, 0), {}),
             param(
                 "4pm EDT",
                 datetime(2021, 10, 19, 20, 0),
@@ -1328,8 +1329,17 @@ class TestDateParser(BaseTestCase):
             ),
             param(
                 "4pm",
-                datetime(2021, 10, 19, 20, 0),
+                datetime(2021, 10, 20, 20, 0),
                 {"PREFER_DATES_FROM": "future", "TIMEZONE": "EDT"},
+            ),
+            param(
+                "4pm",
+                datetime(2021, 10, 19, 20, 0),
+                {
+                    "PREFER_DATES_FROM": "future",
+                    "TIMEZONE": "EDT",
+                    "RELATIVE_BASE": datetime(2021, 10, 19, 18, 0, tzinfo=timezone.utc),
+                },
             ),
             param(
                 "10pm",
@@ -1343,7 +1353,7 @@ class TestDateParser(BaseTestCase):
             ),
             param(
                 "11pm",
-                datetime(2021, 10, 19, 12, 0),
+                datetime(2021, 10, 18, 12, 0),
                 {"PREFER_DATES_FROM": "past", "TIMEZONE": "AEDT"},
             ),
         ]
@@ -1353,6 +1363,7 @@ class TestDateParser(BaseTestCase):
     ):
         self.given_parser(
             settings={
+                "TIMEZONE": "UTC",
                 "TO_TIMEZONE": "etc/utc",
                 "RETURN_AS_TIMEZONE_AWARE": False,
                 "RELATIVE_BASE": datetime(2021, 10, 19, 18, 0),
@@ -1438,7 +1449,9 @@ class TestDateParser(BaseTestCase):
             patch("dateparser.parser.datetime", ParserDateTime),
             patch("dateparser.utils.datetime", UtilsDateTime),
         ):
-            self.assertEqual(parse("2014"), datetime(2014, 5, 31))
+            self.assertEqual(
+                parse("2014", settings={"TIMEZONE": "UTC"}), datetime(2014, 5, 31)
+            )
 
     @parameterized.expand(
         [
