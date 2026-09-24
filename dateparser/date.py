@@ -563,7 +563,10 @@ class DateDataParser:
         :param date_formats:
             A list of format strings using directives as given
             `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
-            The parser applies formats one by one, taking into account the detected languages.
+            The parser applies formats one by one, taking into account the
+            detected languages. If none matches, the other parsers of the
+            :ref:`PARSERS <settings>` setting are tried; set it to
+            ``['custom-formats']`` to use only these formats.
         :type date_formats: list
 
         :return: a ``DateData`` object.

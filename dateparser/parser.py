@@ -280,6 +280,8 @@ class _parser:
         skip_index = []
         skip_component = None
         skip_tokens = ["t", "year", "hour", "minute"]
+        if all(token in skip_tokens for token, _, _ in self.filtered_tokens):
+            raise ValueError("Nothing to parse")
 
         for index, token_type_original_index in enumerate(self.filtered_tokens):
             if index in skip_index:
