@@ -55,6 +55,22 @@ class TestHijriParser(BaseTestCase):
             ),
             param(dt_string="30-02-33", dt_obj=datetime(2012, 1, 24)),
             param(dt_string="10-03-90", dt_obj=datetime(1970, 5, 16)),
+            param(
+                dt_string="06 ربيع الأول 1433 هـ, 04:32 مساءً",
+                dt_obj=datetime(2012, 1, 29, 16, 32),
+            ),
+            param(
+                dt_string="١٣ شعبان ١٤٤١ هـ، ٠٣:١٢ صباحاً",
+                dt_obj=datetime(2020, 4, 6, 3, 12),
+            ),
+            param(dt_string="۱۳ شعبان ۱۴۴۱", dt_obj=datetime(2020, 4, 6)),
+            param(dt_string="1 المحرم 1446", dt_obj=datetime(2024, 7, 7)),
+            param(dt_string="9 رمضان 1445", dt_obj=datetime(2024, 3, 19)),
+            param(dt_string="20 ربيع الآخر 1445", dt_obj=datetime(2023, 11, 4)),
+            param(dt_string="1 جمادى الأولى 1445", dt_obj=datetime(2023, 11, 15)),
+            param(dt_string="1 جمادى الآخرة 1445", dt_obj=datetime(2023, 12, 14)),
+            param(dt_string="5 ذو القعدة 1445", dt_obj=datetime(2024, 5, 13)),
+            param(dt_string="15 ذي الحجة 1444", dt_obj=datetime(2023, 7, 3)),
         ]
     )
     def test_datetime_parsing(
