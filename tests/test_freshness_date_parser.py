@@ -41,6 +41,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # English dates
             param("yesterday", ago={"days": 1}, period="day"),
             param("yesterday at 11:30", ago={"hours": 23}, period="time"),
+            param("2 hours ago", ago={"hours": 2}, period="time"),
+            param("5 minutes ago", ago={"minutes": 5}, period="time"),
+            param("30 seconds ago", ago={"seconds": 30}, period="time"),
+            param("1 week 2 hours ago", ago={"weeks": 1, "hours": 2}, period="time"),
         ]
     )
     def test_relative_past_dates_with_time_as_period(self, date_string, ago, period):

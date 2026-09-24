@@ -61,7 +61,7 @@ class _NgramDateSearch:
     def __init__(self, max_tokens=7):
         self.max_tokens = max_tokens
 
-    def search_parse(self, languages, text, settings):
+    def search_parse(self, languages, text, settings, add_period=False):
         """Find all dates in ``text`` and return ``(substring, date)`` pairs.
 
         ``languages`` are tried in the given order for every candidate
@@ -83,10 +83,13 @@ class _NgramDateSearch:
                 candidate = " ".join(token.group() for token in ngram)
                 if _BAD_CANDIDATE_RE.match(candidate):
                     continue
-                date_obj = self._parse_candidate(parser, candidate, languages)
-                if date_obj is not None:
+                date_data = self._parse_candidate(parser, candidate, languages)
+                if date_data is not None and date_data.date_obj is not None:
                     substring = text[ngram[0].start() : ngram[-1].end()]
-                    results.append((substring.strip(_STRIP_CHARS), date_obj))
+                    results.append(
+                        (substring.strip(_STRIP_CHARS), date_data.date_obj)
+                        + ((date_data.period,) if add_period else ())
+                    )
                     index += size
                     break
             else:
@@ -96,7 +99,7 @@ class _NgramDateSearch:
     @staticmethod
     def _parse_candidate(parser, candidate, languages):
         try:
-            return parser.get_date_data(candidate).date_obj
+            return parser.get_date_data(candidate)
         except Exception:
             logger.warning(
                 "Failed to parse %r (languages=%r)",
