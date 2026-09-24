@@ -5,7 +5,6 @@ from datetime import datetime, timedelta, timezone
 
 import regex as re
 from dateutil.relativedelta import relativedelta
-from tzlocal import get_localzone
 
 from dateparser.conf import apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
@@ -15,6 +14,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
+    _get_localzone,
     _get_missing_parts,
     apply_timezone_from_settings,
     get_next_leap_year,
@@ -163,7 +163,7 @@ def get_date_from_timestamp(date_string, settings, negative=False):
         ):
             # If the timezone in settings is unset, or it's 'local', use the
             # local timezone
-            timezone = get_localzone()
+            timezone = _get_localzone()
         else:
             # Otherwise, use the timezone given in settings
             timezone = get_timezone_from_tz_string(settings.TIMEZONE)
