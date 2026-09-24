@@ -4,7 +4,7 @@ import threading
 import types
 import unicodedata
 from collections import OrderedDict
-from datetime import datetime
+from datetime import datetime, timezone as dt_timezone
 
 import regex as re
 from pytz import UTC, UnknownTimeZoneError, timezone
@@ -137,6 +137,17 @@ def apply_timezone(date_time, tz_string):
         new_datetime = apply_tzdatabase_timezone(date_time, tz_string)
 
     return new_datetime
+
+
+def _now(settings, tz=None):
+    """Return the current time as a naive datetime in *tz*, or in the
+    ``TIMEZONE`` setting if *tz* is ``None``."""
+    if tz is not None:
+        return datetime.now(tz).replace(tzinfo=None)
+    if "local" in settings.TIMEZONE.lower():
+        return datetime.now()
+    utc_now = datetime.now(dt_timezone.utc)
+    return apply_timezone(utc_now, settings.TIMEZONE).replace(tzinfo=None)
 
 
 def apply_timezone_from_settings(date_obj, settings):

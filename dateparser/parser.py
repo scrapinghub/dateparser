@@ -1,5 +1,5 @@
 import calendar
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from io import StringIO
 
 import pytz
@@ -7,6 +7,7 @@ import regex as re
 
 from dateparser.utils import (
     _get_missing_parts,
+    _now,
     get_last_day_of_month,
     get_next_leap_year,
     get_previous_leap_year,
@@ -250,8 +251,9 @@ class _parser:
         "year": ["%y", "%Y"],
     }
 
-    def __init__(self, tokens, settings, date_order=None):
+    def __init__(self, tokens, settings, date_order=None, tz=None):
         self.settings = settings
+        self._tz = tz
         self._date_order = date_order or settings.DATE_ORDER
         self.tokens = [(t[0].strip(), t[1]) for t in list(tokens)]
         self.filtered_tokens = [
@@ -436,7 +438,7 @@ class _parser:
     def _set_relative_base(self):
         self.now = self.settings.RELATIVE_BASE
         if not self.now:
-            self.now = datetime.now(tz=timezone.utc).replace(tzinfo=None)
+            self.now = _now(self.settings, self._tz)
 
     def _get_datetime_obj_params(self):
         if not self.now:
@@ -563,12 +565,14 @@ class _parser:
                 hasattr(self, "_token_weekday"),
             ]
         ):
-            # Convert dateobj to utc time to compare with self.now
-            try:
-                tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
-                tz_offset = tz.utcoffset(dateobj)
-            except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
-                tz_offset = timedelta(hours=0)
+            tz_offset = timedelta(hours=0)
+            if self.settings.RELATIVE_BASE:
+                # Convert dateobj to utc time to compare with RELATIVE_BASE
+                try:
+                    tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
+                    tz_offset = tz.utcoffset(dateobj)
+                except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
+                    pass
 
             if "past" in self.settings.PREFER_DATES_FROM:
                 if self.now < dateobj - tz_offset:
@@ -608,7 +612,7 @@ class _parser:
     @classmethod
     def parse(cls, datestring, settings, tz=None, date_order=None):
         tokens = tokenizer(datestring)
-        po = cls(tokens.tokenize(), settings, date_order=date_order)
+        po = cls(tokens.tokenize(), settings, date_order=date_order, tz=tz)
         dateobj = po._results()
 
         # correction for past, future if applicable
