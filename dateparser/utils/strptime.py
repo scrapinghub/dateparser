@@ -87,6 +87,9 @@ def patch_strptime():
         "november",
         "december",
     ]
+    _strptime.LocaleTime._LocaleTime__calc_am_pm = lambda self: setattr(
+        self, "am_pm", ["am", "pm"]
+    )
 
     return _strptime._strptime_time
 
