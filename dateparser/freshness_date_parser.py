@@ -28,7 +28,9 @@ class FreshnessDateDataParser:
     def _parse_time(self, date_string, settings):
         """Attempts to parse time part of date strings like '1 day ago, 2 PM'"""
         date_string = PATTERN.sub("", date_string)
-        date_string = re.sub(r"\b(?:ago|in)\b", "", date_string)
+        date_string = re.sub(r"\b(?:ago|in)\b", "", date_string).strip()
+        if re.fullmatch(r"\d{1,2}", date_string) and int(date_string) < 24:
+            return time(int(date_string))
         try:
             return time_parser(date_string)
         except Exception:

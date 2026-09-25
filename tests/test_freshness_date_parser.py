@@ -2428,6 +2428,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("1 week ago at 12:00 am", date(2014, 8, 25), time(0, 0)),
             param("one week ago at 12:00 am", date(2014, 8, 25), time(0, 0)),
             param("tomorrow at 2 PM", date(2014, 9, 2), time(14, 0)),
+            param("tomorrow at 12", date(2014, 9, 2), time(12, 0)),
+            param("in 2 days at 0", date(2014, 9, 3), time(0, 0)),
+            param("2 days ago 23", date(2014, 8, 30), time(23, 0)),
         ]
     )
     def test_freshness_date_with_time(self, date_string, date, time):
