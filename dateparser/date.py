@@ -1,4 +1,5 @@
 import collections
+import functools
 import threading
 from collections.abc import Set
 from datetime import datetime, timedelta, timezone
@@ -12,7 +13,7 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.parser import _parse_absolute, _parse_nospaces
+from dateparser.parser import _MisplacedYearError, _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
     _get_missing_parts,
@@ -23,6 +24,7 @@ from dateparser.utils import (
     set_correct_day_from_settings,
     set_correct_month_from_settings,
 )
+from dateparser.utils.strptime import _has_format_shape
 from dateparser.utils.strptime import strptime as patched_strptime
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -55,6 +57,10 @@ RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
 RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
+
+# A format directive, skipping flags and widths (e.g. %-d, %_m, %2d) and the E
+# and O modifiers, as strptime() skips them.
+RE_FORMAT_DIRECTIVE = re.compile(r"%[-_0^#]*[0-9]*[OE]?(.)")
 
 
 def sanitize_spaces(date_string):
@@ -255,6 +261,34 @@ def parse_with_formats(date_string, date_formats, settings):
         return DateData(date_obj=None, period=period)
 
 
+def _get_year_positions_of_matching_formats(date_strings, date_formats):
+    """Return the positions of the year among the date numbers of the date
+    formats that one of the date strings has the shape of, e.g. {1} for
+    "32 DEC 10" and "%d %b %y", or None if there are no such formats.
+
+    """
+    matching_formats_numbers = []
+    for date_format in date_formats:
+        directives = RE_FORMAT_DIRECTIVE.findall(date_format)
+        # %c, %D, %F and %x hold a day, a month or a year of their own.
+        if not set("cDFx").intersection(directives) and any(
+            _has_format_shape(date_string, date_format) for date_string in date_strings
+        ):
+            # The absolute parser reads week numbers, weekdays and days of the
+            # year as days, months or years too.
+            matching_formats_numbers.append(
+                [d for d in directives if d in "deGjmuUVwWyY"]
+            )
+    if not matching_formats_numbers:
+        return None
+    return {
+        i
+        for numbers in matching_formats_numbers
+        for i, d in enumerate(numbers)
+        if d in "GyY"
+    }
+
+
 class _DateLocaleParser:
     def __init__(
         self,
@@ -298,12 +332,24 @@ class _DateLocaleParser:
         return instance._parse()
 
     def _parse(self):
+        misplaced_year = None
         for parser_name in self._settings.PARSERS:
-            date_data = self._parsers[parser_name]()
+            if misplaced_year is not None and parser_name == "no-spaces-time":
+                # It would read the same numbers in a date order again.
+                continue
+            try:
+                date_data = self._parsers[parser_name]()
+            except _MisplacedYearError as error:
+                # The other parsers may still read the date string. The message
+                # is kept, not the error, which would form a reference cycle
+                # with this frame through its traceback.
+                misplaced_year = str(error)
+                continue
             if self._is_valid_date_data(date_data):
                 return date_data
-        else:
-            return None
+        if misplaced_year is not None:
+            raise _MisplacedYearError(misplaced_year)
+        return None
 
     def _try_timestamp_parser(self, negative=False):
         return DateData(
@@ -328,7 +374,25 @@ class _DateLocaleParser:
             return None
 
     def _try_absolute_parser(self):
-        return self._try_parser(parse_method=_parse_absolute)
+        parse_method = _parse_absolute
+        if self.date_formats:
+            # A date string with the shape of a given format but values out of
+            # range for it must still have its year where the format has it,
+            # so that an invalid day is not read as the year (#868).
+            parse_method = functools.partial(
+                _parse_absolute,
+                get_format_year_positions=self._get_format_year_positions,
+            )
+        return self._try_parser(parse_method=parse_method)
+
+    def _get_format_year_positions(self):
+        date_strings = [self.date_string]
+        translated_date = self._get_translated_date_with_formatting()
+        # strptime() ignores case, so an English date string and its translation
+        # often need a single check.
+        if translated_date.lower() != self.date_string.lower():
+            date_strings.append(translated_date)
+        return _get_year_positions_of_matching_formats(date_strings, self.date_formats)
 
     def _try_nospaces_parser(self):
         return self._try_parser(parse_method=_parse_nospaces)
@@ -361,6 +425,7 @@ class _DateLocaleParser:
 
         translated = self._get_translated_date()
 
+        misplaced_year = None
         for order in candidates:
             try:
                 date_obj, period = date_parser.parse(
@@ -370,8 +435,13 @@ class _DateLocaleParser:
                     date_order=order,
                 )
                 return DateData(date_obj=date_obj, period=period)
+            except _MisplacedYearError as error:
+                # The other date orders may still read the date string.
+                misplaced_year = str(error)
             except ValueError:
                 continue
+        if misplaced_year is not None:
+            raise _MisplacedYearError(misplaced_year)
         return None
 
     def _try_given_formats(self):
@@ -622,13 +692,16 @@ class DateDataParser:
         for locale in self._get_applicable_locales(
             date_string, ignore_surrounding_text=ignore_surrounding_text
         ):
-            parsed_date = _DateLocaleParser.parse(
-                locale,
-                date_string,
-                date_formats,
-                settings=self._settings,
-                ignore_surrounding_text=ignore_surrounding_text,
-            )
+            try:
+                parsed_date = _DateLocaleParser.parse(
+                    locale,
+                    date_string,
+                    date_formats,
+                    settings=self._settings,
+                    ignore_surrounding_text=ignore_surrounding_text,
+                )
+            except _MisplacedYearError:
+                return None
             if parsed_date:
                 parsed_date["locale"] = locale.shortname
                 if self.try_previous_locales:

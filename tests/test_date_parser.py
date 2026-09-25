@@ -1943,6 +1943,214 @@ class TestDateParser(BaseTestCase):
         """Test that an invalid %j value is not read as another date (Issue #271)."""
         self.assertIsNone(parse(date_string, date_formats=["%Y%j"]))
 
+    @parameterized.expand(
+        [
+            param(date_string="32 DEC 95", date_formats=["%d %b %y"]),
+            param(date_string="32 DEC 10", date_formats=["%d %b %y"]),
+            param(date_string="00 DEC 10", date_formats=["%d %b %y"]),
+            param(date_string="31 FEB 10", date_formats=["%d %b %y"]),
+            param(date_string="29 FEB 23", date_formats=["%d %b %y"]),
+            param(date_string="32 DEC 2010", date_formats=["%d %b %Y"]),
+            param(date_string="32/12/10", date_formats=["%d/%m/%y"]),
+            param(date_string="31/04/10", date_formats=["%d/%m/%y"]),
+            param(date_string="10/32/10", date_formats=["%m/%d/%y"]),
+            param(date_string="32 décembre 10", date_formats=["%d %B %y"]),
+            param(
+                date_string="32/12/10 10:30:15.123",
+                date_formats=["%d/%m/%y %H:%M:%S.%f"],
+            ),
+            # The year is first in the format.
+            param(date_string="10/12/32", date_formats=["%y/%m/%d"]),
+            param(date_string="10 DEC 32", date_formats=["%y %b %d"]),
+            # The format has no year.
+            param(date_string="32 DEC", date_formats=["%d %b"]),
+            param(date_string="DEC 32", date_formats=["%b %d"]),
+            # An invalid week number is not read as the year either.
+            param(date_string="54.24-1", date_formats=["%W.%y-%w"]),
+            # "İ" matches itself, although its lower() has two characters.
+            param(date_string="32 DEC 10 İ", date_formats=["%d %b %y İ"]),
+        ]
+    )
+    def test_invalid_day_is_not_read_as_year_with_date_formats(
+        self, date_string, date_formats
+    ):
+        """Test that a date string shaped like one of the given formats but
+        with an invalid day is not parsed with its day read as the year
+        (Issue #868)."""
+        self.assertIsNone(parse(date_string, date_formats=date_formats))
+
+    @parameterized.expand(
+        [
+            param(date_string="32 DEC 95", order="DMY"),
+            param(date_string="32 DEC 10", order="DMY"),
+            param(date_string="00 DEC 10", order="DMY"),
+            param(date_string="31 FEB 10", order="DMY"),
+            param(date_string="32 DEC 2010", order="DMY"),
+            param(date_string="32/12/10", order="DMY"),
+            param(date_string="32-12-10", order="DMY"),
+            param(date_string="32 DEC 10 10:30", order="DMY"),
+            param(date_string="32 décembre 10", order="DMY"),
+            param(date_string="DEC 32 10", order="MDY"),
+            param(date_string="10/32/12", order="MDY"),
+            # The same goes for an invalid month.
+            param(date_string="12/13/10", order="DMY"),
+            # Other locales must not read it differently: "ru" translates
+            # "20 09 29" to "29 29" and would find 2029-06-29.
+            param(date_string="20 09 29", order="MYD"),
+            # Nor must the no-spaces parser, which would find 1900-01-01 10:03.
+            param(
+                date_string="10:30 PM 32/12/10",
+                order="DMY",
+                parsers=["absolute-time", "no-spaces-time"],
+            ),
+        ]
+    )
+    def test_invalid_day_is_not_read_as_year_with_date_order(
+        self, date_string, order, parsers=None
+    ):
+        """Test that a number that is invalid in the position DATE_ORDER gives
+        it is not read as a two-digit year instead (Issue #868)."""
+        settings = {"DATE_ORDER": order, "RELATIVE_BASE": datetime(2019, 6, 24)}
+        if parsers:
+            settings["PARSERS"] = parsers
+        self.assertIsNone(parse(date_string, settings=settings))
+
+    @parameterized.expand(
+        [
+            param("31 DEC 10", datetime(2010, 12, 31), date_formats=["%d %b %y"]),
+            param("10 DEC 32", datetime(2032, 12, 10), date_formats=["%d %b %y"]),
+            param("31 DEC 10", datetime(2010, 12, 31), order="DMY"),
+            param("10 DEC 32", datetime(2032, 12, 10), order="DMY"),
+            # A year after the month is where DMY expects it.
+            param("DEC 32", datetime(2032, 12, 24), order="DMY"),
+            # The day may be missing before the year.
+            param("DEC 95", datetime(1995, 12, 24), order="MDY"),
+            param("12/95", datetime(1995, 12, 24), order="MDY"),
+            # A four-digit year cannot be anything else.
+            param("2010 DEC 10", datetime(2010, 12, 10), order="DMY"),
+            param("31 DEC 2010", datetime(2010, 12, 31), order="MYD"),
+            # YMD asks for the year first.
+            param("32 DEC 10", datetime(2032, 12, 10), order="YMD"),
+            param("95年12月10日", datetime(1995, 12, 10), order="YMD"),
+            # A month name is not checked: "12月" is translated to "december".
+            param("95年12月", datetime(1995, 12, 24), order="DMY"),
+            # A day and a month in each other's place are still swapped.
+            param("13/12/10", datetime(2010, 12, 13), order="MDY"),
+            param("12/13/10", datetime(2010, 12, 13), date_formats=["%d/%m/%y"]),
+            param("13/12/10", datetime(2010, 12, 13), date_formats=["%m/%d/%y"]),
+            param("13/12/10", datetime(2010, 12, 13), date_formats=["%x"]),
+            param("12/31/2020", datetime(2020, 12, 31), date_formats=["%d/%m/%Y"]),
+            param(
+                "10:30 12/13/10",
+                datetime(2010, 12, 13, 10, 30),
+                date_formats=["%H:%M %d/%m/%y"],
+            ),
+            # A flag, which recent Python versions accept, does not move the year.
+            param("12/13/20", datetime(2020, 12, 13), date_formats=["%-d/%-m/%y"]),
+            # A matching format, not DATE_ORDER, says where the year is.
+            param(
+                "95-31-12",
+                datetime(1995, 12, 31),
+                date_formats=["%y-%m-%d"],
+                order="DMY",
+            ),
+            # Any of the formats may give the place of the year.
+            param(
+                "32/13/10",
+                datetime(2032, 10, 13),
+                date_formats=["%d/%m/%y", "%y/%m/%d"],
+            ),
+            param(
+                "32/13/10",
+                datetime(2032, 10, 13),
+                date_formats=["%y/%m/%d", "%d/%m/%y"],
+            ),
+            # Without DATE_ORDER or a matching format, ambiguous numbers are
+            # still resolved to the first valid reading.
+            param("32 DEC 10", datetime(2032, 12, 10)),
+            param("32 January 10", datetime(2032, 1, 10)),
+            param("32/12/10", datetime(2032, 12, 10)),
+            param("95年12月10日", datetime(1995, 12, 10)),
+        ]
+    )
+    def test_valid_date_is_parsed_with_date_order_or_formats(
+        self, date_string, expected, date_formats=None, order=None
+    ):
+        """Test that dates that DATE_ORDER and date formats do not rule out are
+        parsed as before: two-digit years where they are expected, four-digit
+        years, swapped days and months, and ambiguous numbers without either
+        (Issue #868)."""
+        settings = {"RELATIVE_BASE": datetime(2019, 6, 24)}
+        if order:
+            settings["DATE_ORDER"] = order
+        self.assertEqual(
+            expected,
+            parse(date_string, date_formats=date_formats, settings=settings),
+        )
+
+    @parameterized.expand(
+        [
+            # The parsers after the absolute parser still read the string.
+            param(
+                "32 hours 31 minutes",
+                datetime(2019, 6, 22, 15, 29),
+                settings={
+                    "DATE_ORDER": "DMY",
+                    "PARSERS": ["absolute-time", "relative-time"],
+                },
+            ),
+            param(
+                "10 décembre 31",
+                datetime(2010, 12, 31),
+                date_formats=["%y %B %d"],
+                languages=["fr"],
+                settings={"PARSERS": ["absolute-time", "custom-formats"]},
+            ),
+            # So do the other date orders tried for REQUIRE_PARTS.
+            param(
+                "31/30/04",
+                datetime(2031, 4, 30),
+                date_formats=["%y/%m/%d"],
+                settings={"REQUIRE_PARTS": ["year"]},
+            ),
+        ]
+    )
+    def test_misplaced_year_does_not_stop_other_parsers_or_date_orders(
+        self, date_string, expected, settings, date_formats=None, languages=None
+    ):
+        """Test that a two-digit year read from where it is not expected does
+        not keep the other parsers of the locale, or the other date orders it
+        tries, from reading the date string (Issue #868)."""
+        settings = {"RELATIVE_BASE": datetime(2019, 6, 24), **settings}
+        self.assertEqual(
+            expected,
+            parse(
+                date_string,
+                date_formats=date_formats,
+                languages=languages,
+                settings=settings,
+            ),
+        )
+
+    @parameterized.expand(
+        [
+            param("December 31, 20", date_formats=["%d/%m/%Y"]),
+            param("12/31/20", date_formats=["%Y-%m-%d"]),
+            param("32 DEC 10", date_formats=["%d/%m/%y"]),
+        ]
+    )
+    def test_date_not_shaped_like_date_formats_is_parsed_as_without_them(
+        self, date_string, date_formats
+    ):
+        """Test that date formats that a date string does not have the shape of
+        do not decide where its year is (Issue #868)."""
+        settings = {"RELATIVE_BASE": datetime(2019, 6, 24)}
+        expected = parse(date_string, settings=settings)
+        self.assertIsNotNone(expected)
+        self.assertEqual(
+            expected, parse(date_string, date_formats=date_formats, settings=settings)
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

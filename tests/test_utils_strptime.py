@@ -5,7 +5,7 @@ import warnings
 
 from parameterized import param, parameterized
 
-from dateparser.utils.strptime import strptime
+from dateparser.utils.strptime import _has_format_shape, strptime
 from tests import BaseTestCase
 
 
@@ -292,3 +292,21 @@ class TestStrptime(BaseTestCase):
     ):
         self.when_date_string_is_parsed(date_string, fmt)
         self.then_date_object_is(expected)
+
+    @parameterized.expand(
+        [
+            param("32 DEC 10", "%d %b %y", expected=True),
+            param("00/13/2010", "%d/%m/%Y", expected=True),
+            param("32 DEC", "%d %b", expected=True),
+            # The %f handling of strptime(), which expects a "." before the
+            # microseconds, must not be involved.
+            param("32/12/10 10:30:15,123", "%d/%m/%y %H:%M:%S,%f", expected=True),
+            param("32 DEC 10", "%d/%m/%y", expected=False),
+            param("32 DEC 2010", "%d %b %y", expected=False),
+            param("December 31, 20", "%d/%m/%Y", expected=False),
+        ]
+    )
+    def test_format_shape_ignores_the_values_of_numbers(
+        self, date_string, fmt, expected
+    ):
+        self.assertEqual(expected, _has_format_shape(date_string, fmt))
