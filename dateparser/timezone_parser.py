@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone, tzinfo
 
+import pytz
 import regex as re
 
 from .timezones import timezone_info_list
@@ -41,7 +42,7 @@ def pop_tz_offset_from_string(date_string, as_offset=True):
                 date_string = date_string[: start + 1] + date_string[stop:]
                 return (
                     date_string,
-                    StaticTzInfo(name, info["offset"]) if as_offset else name,
+                    info["tzinfo"] if as_offset else name,
                 )
     return date_string, None
 
@@ -72,13 +73,16 @@ def convert_to_local_tz(datetime_obj, datetime_tz_offset):
 
 def build_tz_offsets(search_regex_parts):
     def get_offset(tz_obj, regex, repl="", replw=""):
+        name, offset = tz_obj
         return (
-            tz_obj[0],
+            name,
             {
-                "regex": re.compile(
-                    re.sub(repl, replw, regex % tz_obj[0]), re.IGNORECASE
+                "regex": re.compile(re.sub(repl, replw, regex % name), re.IGNORECASE),
+                "tzinfo": (
+                    pytz.timezone(offset)
+                    if isinstance(offset, str)
+                    else StaticTzInfo(name, timedelta(seconds=offset))
                 ),
-                "offset": timedelta(seconds=tz_obj[1]),
             },
         )
 

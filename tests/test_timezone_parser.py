@@ -34,8 +34,6 @@ class TestTZPopping(BaseTestCase):
             param("20 Oct 2014 13:08 CET", +1),
             param("20 Oct 2014 13:08cet", +1),
             param("Nov 25 2014 | 10:17 pm EST", -5),
-            param("01/26/2023 02:55PM CT", -6),
-            param("01/26/2023 02:55PM MT", -7),
             param("Nov 25 2014 | 10:17 pm +0600", +6),
             param("Nov 25 2014 | 10:17 pm -0930", -9.5),
             param("20 Oct 2014 | 05:17 am -1200", -12),
@@ -196,6 +194,8 @@ class TestTimeZoneConversion(BaseTestCase):
                 "+0200",
                 datetime(2015, 12, 30, 7, 4),
             ),
+            param("2022-08-24 07:00 PM", "CT", "UTC", datetime(2022, 8, 25, 0, 0)),
+            param("2022-08-24 07:00 PM", "UTC", "CT", datetime(2022, 8, 24, 14, 0)),
         ]
     )
     def test_timezone_conversion(self, datestring, from_tz, to_tz, expected):
@@ -215,6 +215,23 @@ class TestTimeZoneConversion(BaseTestCase):
 
     def then_date_is(self, date):
         self.assertEqual(date, self.result)
+
+
+class TestDaylightSavingAbbreviations(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("01/26/2023 02:55PM CT", -6),
+            param("August 24, 2022 19:00 CT", -5),
+            param("01/26/2023 02:55PM MT", -7),
+            param("August 24, 2022 19:00 MT", -6),
+            param("August 24, 2022 19:00 ET", -4),
+            param("August 24, 2022 19:00 PT", -7),
+            param("in 1 hour CT", -5),
+        ]
+    )
+    def test_offset_follows_daylight_saving_time(self, date_string, offset):
+        date = parse(date_string, settings={"RELATIVE_BASE": datetime(2022, 8, 24)})
+        self.assertEqual(timedelta(hours=offset), date.utcoffset())
 
 
 class TestStaticTzInfo(BaseTestCase):
