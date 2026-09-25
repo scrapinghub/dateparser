@@ -828,6 +828,7 @@ class TestDateDataParser(BaseTestCase):
             ),
             param("12 Feb 2015 4pm Est", datetime(2015, 2, 12, 16), "en", "EST"),
             param("10 Feb 2015 MART", datetime(2015, 2, 10), "en", "MART"),
+            param("10 Feb 2015 Mart", datetime(2015, 2, 10), "en", "MART"),
         ]
     )
     def test_timezone_vs_word(self, date_string, expected, locale, tz=None):
