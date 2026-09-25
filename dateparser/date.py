@@ -422,6 +422,14 @@ class DateData:
     It can be accessed with square brackets like a dict object.
     """
 
+    relative_delta = None
+    """:class:`~dateutil.relativedelta.relativedelta` that the parsed date
+    string adds to the current date, e.g. ``relativedelta(hours=-2)`` for
+    ``"2 hours ago"``, or ``None`` if the date string is not relative.
+
+    .. versionadded:: VERSION
+    """
+
     def __init__(self, *, date_obj=None, period=None, locale=None):
         self.date_obj = date_obj
         self.period = period
