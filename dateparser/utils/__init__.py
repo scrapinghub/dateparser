@@ -10,7 +10,7 @@ import regex as re
 from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
 
-from dateparser.timezone_parser import StaticTzInfo, _tz_offsets
+from dateparser.timezone_parser import _tz_offsets
 
 
 def strip_braces(date_string):
@@ -89,7 +89,7 @@ def get_timezone_from_tz_string(tz_string):
     except UnknownTimeZoneError as e:
         for name, info in _tz_offsets:
             if info["regex"].search(" %s" % tz_string):
-                return StaticTzInfo(name, info["offset"])
+                return info["tzinfo"]
         else:
             raise e
 
@@ -120,8 +120,7 @@ def apply_tzdatabase_timezone(date_time, pytz_string):
 def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
     for name, info in _tz_offsets:
         if info["regex"].search(" %s" % offset_or_timezone_abb):
-            tz = StaticTzInfo(name, info["offset"])
-            return utc_datetime.astimezone(tz)
+            return utc_datetime.astimezone(info["tzinfo"])
 
 
 def apply_timezone(date_time, tz_string):
