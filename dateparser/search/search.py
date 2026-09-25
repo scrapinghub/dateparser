@@ -8,7 +8,7 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date import DateDataParser
 from dateparser.freshness_date_parser import _UNITS
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.search.ngram_search import _NgramDateSearch
+from dateparser.search.ngram_search import _is_bad_translation, _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
@@ -193,7 +193,7 @@ class _ExactLanguageSearch:
         if settings.RELATIVE_BASE:
             need_relative_base = False
         for i, item in enumerate(to_parse):
-            if len(item) <= 2:
+            if len(item) <= 2 or _is_bad_translation(translated[i]):
                 continue
 
             parsed_item, is_relative = self.parse_item(
@@ -217,7 +217,7 @@ class _ExactLanguageSearch:
                 current_substrings = []
                 if split_translated:
                     for j, jtem in enumerate(split_translated):
-                        if len(jtem) <= 2:
+                        if len(jtem) <= 2 or _is_bad_translation(jtem):
                             continue
                         parsed_jtem, is_relative_jtem = self.parse_item(
                             parser,

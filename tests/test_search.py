@@ -1043,6 +1043,24 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
             ),
+            param(
+                text="Year of the Four Emperors",
+                languages=["en"],
+                settings=None,
+                expected=None,
+            ),
+            param(
+                text="2021-08-04T14:21:37&#x2B;05:30",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    (
+                        "2021-08-04T14:21:37&#x2B",
+                        datetime.datetime(2021, 8, 4, 14, 21, 37),
+                    ),
+                    ("05:30", datetime.datetime(2021, 8, 4, 5, 30)),
+                ],
+            ),
         ]
     )
     def test_date_search_function(self, text, languages, settings, expected):
@@ -1513,6 +1531,27 @@ class TestNgramSearch(BaseTestCase):
             ),
             # bare small numbers are blacklisted and do not produce dates
             param("en", text="Chapter 12, page 3", expected=[]),
+            param("en", text="Year of the Four Emperors", expected=[]),
+            param(
+                "en",
+                text="2021-08-04T14:21:37&#x2B;05:30",
+                expected=[
+                    (
+                        "2021-08-04T14:21:37&#x2B;05:30",
+                        datetime.datetime(
+                            2021,
+                            8,
+                            4,
+                            14,
+                            21,
+                            37,
+                            tzinfo=datetime.timezone(
+                                datetime.timedelta(hours=5, minutes=30)
+                            ),
+                        ),
+                    )
+                ],
+            ),
             # French
             param(
                 "fr",

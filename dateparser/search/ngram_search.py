@@ -12,6 +12,8 @@ import logging
 import regex as re
 
 from dateparser.date import DateDataParser
+from dateparser.languages.loader import default_loader
+from dateparser.parser import _SKIP_TOKENS
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +47,14 @@ _BAD_CANDIDATE_RE = re.compile(
 # Punctuation stripped from the returned substrings, matching the behavior
 # of the translation-based search strategy.
 _STRIP_CHARS = " .,:()[]-'"
+
+
+def _is_bad_translation(translation):
+    """Return whether *translation*, the English translation of a candidate,
+    is empty or deny-listed once the words the parser ignores are dropped,
+    e.g. "year 4" for "Year of the Four"."""
+    words = [word for word in translation.split() if word not in _SKIP_TOKENS]
+    return not words or bool(_BAD_CANDIDATE_RE.match(" ".join(words)))
 
 
 class _NgramDateSearch:
@@ -96,7 +106,14 @@ class _NgramDateSearch:
     @staticmethod
     def _parse_candidate(parser, candidate, languages):
         try:
-            return parser.get_date_data(candidate).date_obj
+            date_data = parser.get_date_data(candidate)
+            if date_data.date_obj is None:
+                return None
+            locale = default_loader.get_locale(date_data.locale)
+            translation = locale.translate(candidate, settings=parser._settings)
+            if _is_bad_translation(translation):
+                return None
+            return date_data.date_obj
         except Exception:
             logger.warning(
                 "Failed to parse %r (languages=%r)",
