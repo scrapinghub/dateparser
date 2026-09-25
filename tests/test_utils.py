@@ -1,6 +1,8 @@
 import calendar
 import itertools
+import time
 from datetime import datetime
+from unittest import mock
 
 import pytest
 from parameterized import param, parameterized
@@ -33,6 +35,17 @@ class TestUtils(BaseTestCase):
         self.assertEqual(set(vars(calendar)), set(before))
         for name, value in before.items():
             self.assertIs(getattr(calendar, name), value, name)
+
+    def test_patch_strptime_ignores_locale_am_pm(self):
+        strftime = time.strftime
+
+        def localized_strftime(fmt, *args):
+            return "下午" if fmt == "%p" else strftime(fmt, *args)
+
+        with mock.patch("time.strftime", localized_strftime):
+            patched_strptime = patch_strptime()
+            result = patched_strptime("10:00 PM", "%I:%M %p")
+        self.assertEqual(result[3:5], (22, 0))
 
     def given_date_format(self, date_format):
         self.date_format = date_format
