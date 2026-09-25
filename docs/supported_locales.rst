@@ -81,6 +81,7 @@ he
 hi
 hr                'hr-BA'
 hsb
+ht
 hu
 hy
 id
