@@ -31,19 +31,46 @@ class StaticTzInfo(tzinfo):
         return self.__name, self.__offset
 
 
-def pop_tz_offset_from_string(date_string, as_offset=True):
+def _search_tz(date_string):
     if _search_regex_ignorecase.search(date_string):
         for name, info in _tz_offsets:
-            timezone_re = info["regex"]
-            timezone_match = timezone_re.search(date_string)
+            timezone_match = info["regex"].search(date_string)
             if timezone_match:
-                start, stop = timezone_match.span()
-                date_string = date_string[: start + 1] + date_string[stop:]
-                return (
-                    date_string,
-                    StaticTzInfo(name, info["offset"]) if as_offset else name,
-                )
+                return name, info, timezone_match
+    return None
+
+
+def pop_tz_offset_from_string(date_string, as_offset=True):
+    found = _search_tz(date_string)
+    if found:
+        name, info, timezone_match = found
+        start, stop = timezone_match.span()
+        date_string = date_string[: start + 1] + date_string[stop:]
+        return (
+            date_string,
+            StaticTzInfo(name, info["offset"]) if as_offset else name,
+        )
     return date_string, None
+
+
+_time_suffix_regex = re.compile(
+    r"(?:\d:\d{2}(?::\d{2})?(?:\s*[ap]\.?m\.?)?|\d\s*[ap]\.?m\.?)\s*$",
+    re.IGNORECASE,
+)
+
+
+def _strip_tz(date_string):
+    """Return *date_string* without its timezone, or ``None`` if it has none,
+    and whether that timezone is unambiguous, i.e. unlikely to be a word of
+    some language instead: written in uppercase, like ``MART``, or right after
+    a time, like ``4:30 pm est``, as opposed to the Turkish month ``Mart``."""
+    found = _search_tz(date_string)
+    if not found:
+        return None, False
+    start, stop = found[2].span()
+    before, tz = date_string[: start + 1], date_string[start + 1 : stop]
+    unambiguous = tz.isupper() or bool(_time_suffix_regex.search(before))
+    return before + date_string[stop:], unambiguous
 
 
 def word_is_tz(word):

@@ -819,6 +819,26 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed(date_string)
         self.then_detected_locale(locale)
 
+    @parameterized.expand(
+        [
+            param("20 Mart 2001", datetime(2001, 3, 20), "tr"),
+            param("20 mart 2001, 10:00 est", datetime(2001, 3, 20, 10), "tr", "EST"),
+            param(
+                "12 Feb 2015 4:30 pm est", datetime(2015, 2, 12, 16, 30), "en", "EST"
+            ),
+            param("12 Feb 2015 4pm Est", datetime(2015, 2, 12, 16), "en", "EST"),
+            param("10 Feb 2015 MART", datetime(2015, 2, 10), "en", "MART"),
+            param("10 Feb 2015 Mart", datetime(2015, 2, 10), "en", "MART"),
+        ]
+    )
+    def test_timezone_vs_word(self, date_string, expected, locale, tz=None):
+        self.given_parser()
+        self.when_date_string_is_parsed(date_string)
+        self.then_detected_locale(locale)
+        date_obj = self.result["date_obj"]
+        assert date_obj.replace(tzinfo=None) == expected
+        assert (date_obj.tzname() if date_obj.tzinfo else None) == tz
+
     def test_try_previous_locales_false(self):
         self.given_parser(try_previous_locales=False)
         self.when_date_string_is_parsed("Mañana")  # es
