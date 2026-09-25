@@ -80,3 +80,41 @@ def search_dates(
             language = result.get("Language")
             dates = [date + (language,) for date in dates]
         return dates
+
+
+def search_first_date(
+    text,
+    languages=None,
+    settings=None,
+    add_detected_language=False,
+    detect_languages_function=None,
+    strategy="split",
+):
+    """Return the first item that :func:`search_dates` would return for the
+    same arguments, or ``None`` if it would return ``None``.
+
+    .. versionadded:: VERSION
+
+    The search stops at the first date found, so it is faster than
+    :func:`search_dates` on text with more dates after the first one.
+
+    >>> from dateparser.search import search_first_date
+    >>> search_first_date('Launched on 4 October 1957, it fell on 4 January 1958.')
+    ('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))
+    """
+    text = _search_with_detection.preprocess_text(text, languages)
+
+    result = _search_with_detection.search_dates(
+        text=text,
+        languages=languages,
+        settings=settings,
+        detect_languages_function=detect_languages_function,
+        strategy=strategy,
+        _limit=1,
+    )
+    dates = result.get("Dates")
+    if dates:
+        date = dates[0]
+        if add_detected_language:
+            date += (result.get("Language"),)
+        return date

@@ -5,7 +5,7 @@ import pytz
 from parameterized import param, parameterized
 
 from dateparser.conf import Settings, apply_settings
-from dateparser.search import search_dates
+from dateparser.search import search_dates, search_first_date
 from dateparser.search.search import DateSearchWithDetection
 from dateparser.timezone_parser import StaticTzInfo
 from dateparser_data.settings import default_parsers
@@ -1597,3 +1597,51 @@ class TestNgramSearch(BaseTestCase):
     def test_unknown_strategy_raises_error(self):
         with self.assertRaisesRegex(ValueError, "strategy must be"):
             search_dates("4 October 1957", languages=["en"], strategy="unknown")
+
+
+class TestSearchFirstDate(BaseTestCase):
+    @parameterized.expand(
+        [
+            param(text, languages, settings, strategy)
+            for text, languages, settings in [
+                (
+                    "Launched on 4 October 1957, it fell on 4 January 1958.",
+                    ["en"],
+                    None,
+                ),
+                (
+                    "19 марта 2001 был хороший день. 20 марта тоже был хороший день.",
+                    ["en", "ru"],
+                    None,
+                ),
+                (
+                    "Em outubro de 1936, Alemanha e Itália formaram o Eixo Roma-Berlim.",
+                    None,
+                    {"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+                ),
+                (
+                    "Messages from the past month",
+                    ["en"],
+                    {
+                        "RETURN_TIME_SPAN": True,
+                        "RELATIVE_BASE": datetime.datetime(2025, 2, 15),
+                    },
+                ),
+                ("Hello world", ["en"], None),
+            ]
+            for strategy in ("split", "ngram")
+        ]
+    )
+    def test_matches_first_search_dates_result(
+        self, text, languages, settings, strategy
+    ):
+        kwargs = {
+            "languages": languages,
+            "settings": settings,
+            "strategy": strategy,
+            "add_detected_language": True,
+        }
+        expected = search_dates(text, **kwargs)
+        self.assertEqual(
+            search_first_date(text, **kwargs), expected[0] if expected else None
+        )
