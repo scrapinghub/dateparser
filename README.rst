@@ -273,6 +273,15 @@ list of ``(substring, datetime)`` tuples:
     >>> search_dates('Today is 25 of October 2017, so the 27th is in 2 days.')
     [('25 of October 2017', datetime.datetime(2017, 10, 25, 0, 0)), ('the 27th is in 2 days', datetime.datetime(2017, 10, 27, 0, 0))]
 
+``search_first_date`` stops at the first date, which is faster when you only
+need that one:
+
+.. code:: python
+
+    >>> from dateparser.search import search_first_date
+    >>> search_first_date('Launched on 4 October 1957, it fell on 4 January 1958.')
+    ('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))
+
 Time Span Detection
 -------------------
 

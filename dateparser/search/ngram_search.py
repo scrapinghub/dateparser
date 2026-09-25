@@ -61,11 +61,11 @@ class _NgramDateSearch:
     def __init__(self, max_tokens=7):
         self.max_tokens = max_tokens
 
-    def search_parse(self, languages, text, settings):
+    def search_parse(self, languages, text, settings, limit=None):
         """Find all dates in ``text`` and return ``(substring, date)`` pairs.
 
         ``languages`` are tried in the given order for every candidate
-        n-gram.
+        n-gram. The scan stops once ``limit`` dates are found.
         """
         parser = DateDataParser(
             languages=languages, use_given_order=True, settings=settings
@@ -91,6 +91,8 @@ class _NgramDateSearch:
                     break
             else:
                 index += 1
+            if len(results) == limit:
+                break
         return results
 
     @staticmethod
