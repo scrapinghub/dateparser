@@ -107,3 +107,6 @@ relative-type:
 simplifications:
     - una: '1'
     - un: '1'
+    # "de" never joins a number to its unit, so "11 de a" is not a duration.
+    # Joining "de" to the unit leaves an unknown word that fails to parse.
+    - (\d+) de (años?|a|mes(?:es)?|m|semanas?|sem|días?|d|horas?|hs?|minutos?|min|segundos?|seg|s): \1 de\2

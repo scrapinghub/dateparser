@@ -619,6 +619,9 @@ info = {
         },
         {
             "un": "1"
+        },
+        {
+            "(\\d+) de (años?|a|mes(?:es)?|m|semanas?|sem|días?|d|horas?|hs?|minutos?|min|segundos?|seg|s)": "\\1 de\\2"
         }
     ]
 }
