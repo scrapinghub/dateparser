@@ -1142,6 +1142,9 @@ info = {
     ],
     "simplifications": [
         {
+            "(\\d{1,2}(?:st|nd|rd|th))\\s+day\\s+of": "\\1 of"
+        },
+        {
             "(\\d++[.,]?\\d*+)\\s*mons?\\b": "\\1 month"
         },
         {

@@ -262,6 +262,21 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("the 1st day of March, 2025", datetime(2025, 3, 1)),
+            param("2nd day of March, 2025", datetime(2025, 3, 2)),
+            param("the 3rd day of March, 2025 at 10:30", datetime(2025, 3, 3, 10, 30)),
+            param("27th day of February, 2025", datetime(2025, 2, 27)),
+        ]
+    )
+    def test_dates_with_day_of(self, date_string, expected):
+        self.given_parser(settings={"RELATIVE_BASE": datetime(2025, 3, 15, 12, 30)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is("day")
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             param("2016020417:10", datetime(2016, 2, 4, 17, 10)),
         ]
     )
