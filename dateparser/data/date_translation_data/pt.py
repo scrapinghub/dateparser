@@ -1010,6 +1010,9 @@ info = {
         },
         {
             "alguns segundos": "44 segundos"
+        },
+        {
+            "(\\d+) de (anos?|mês|meses|m|semanas?|sem|dias?|horas?|h|minutos?|min|segundos?|seg|s)": "\\1 de\\2"
         }
     ]
 }

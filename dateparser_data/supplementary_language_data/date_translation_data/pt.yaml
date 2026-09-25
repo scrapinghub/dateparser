@@ -57,3 +57,6 @@ simplifications:
     - uma: '1'
     - um: '1'
     - alguns segundos: 44 segundos
+    # "de" never joins a number to its unit, so "11 de m" is not a duration.
+    # Joining "de" to the unit leaves an unknown word that fails to parse.
+    - (\d+) de (anos?|mês|meses|m|semanas?|sem|dias?|horas?|h|minutos?|min|segundos?|seg|s): \1 de\2
