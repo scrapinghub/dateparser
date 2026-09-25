@@ -1,6 +1,9 @@
 import calendar
+import functools
 import importlib.util
+import locale
 import sys
+import time
 from datetime import datetime
 from types import ModuleType
 
@@ -15,6 +18,8 @@ TIME_MATCHER = re.compile(
 )
 
 MS_SEARCHER = re.compile(r"\.(?P<microsecond>[0-9]{1,6})")
+
+DIGIT = re.compile(r"\d")
 
 
 def _exec_module(spec, module):
@@ -126,6 +131,41 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
             day_of_year_in_format,
         )
     return date_string, og_format, day_of_year_in_format
+
+
+def _has_format_shape(date_string: str, format: str) -> bool:
+    """Return whether *date_string* would match *format* if its numbers were in
+    range, e.g. "32 DEC 10" and "%d %b %y"."""
+    # Every digit becomes 1, and a run of 1s is valid for any numeric directive
+    # that takes that many digits.
+    date_string = DIGIT.sub("1", date_string)
+    if len(date_string) > 100:
+        # Not a date string worth caching, e.g. a whole text with
+        # IGNORE_SURROUNDING_TEXT.
+        return _has_format_layout.__wrapped__(date_string, format)
+    # Only the layout matters, so the result is cached for every date string
+    # with the same layout, for as long as the std-lib keeps its patterns: they
+    # are rebuilt when the LC_TIME locale or the time zone names change.
+    return _has_format_layout(
+        date_string,
+        format,
+        locale.setlocale(locale.LC_TIME),
+        time.tzname,
+        time.daylight,
+    )
+
+
+@functools.lru_cache(maxsize=1024)
+def _has_format_layout(date_string: str, format: str, *strptime_state) -> bool:
+    # The std-lib function is called, not strptime(), since the %f handling of
+    # strptime() raises AttributeError when the microseconds do not follow a
+    # ".".
+    date_string, format, _ = _prepare_format(date_string, format)
+    try:
+        __strptime(date_string, format)
+    except ValueError:
+        return False
+    return True
 
 
 def strptime(date_string: str, format: str) -> datetime:

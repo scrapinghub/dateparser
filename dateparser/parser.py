@@ -65,8 +65,23 @@ def resolve_date_order(order, lst=None):
     return chart_list[order] if lst else date_order_chart[order]
 
 
-def _parse_absolute(datestring, settings, tz=None, date_order=None):
-    return _parser.parse(datestring, settings, tz, date_order=date_order)
+class _MisplacedYearError(ValueError):
+    """A two-digit year was read from where a matching date format or, with no
+    matching format, the DATE_ORDER set by the caller does not put the year
+    (#868). The other parsers of the locale may still read the date string, but
+    no other locale should guess a reading of it."""
+
+
+def _parse_absolute(
+    datestring, settings, tz=None, date_order=None, get_format_year_positions=None
+):
+    return _parser.parse(
+        datestring,
+        settings,
+        tz,
+        date_order=date_order,
+        get_format_year_positions=get_format_year_positions,
+    )
 
 
 def _parse_nospaces(datestring, settings, tz=None, date_order=None):
@@ -250,7 +265,9 @@ class _parser:
         "year": ["%y", "%Y"],
     }
 
-    def __init__(self, tokens, settings, date_order=None):
+    def __init__(
+        self, tokens, settings, date_order=None, get_format_year_positions=None
+    ):
         self.settings = settings
         self._date_order = date_order or settings.DATE_ORDER
         self.tokens = [(t[0].strip(), t[1]) for t in list(tokens)]
@@ -365,6 +382,31 @@ class _parser:
                 if len(token) == 4 and res[0] == "year":
                     skip_component = "year"
                 setattr(self, *res)
+
+        if self._token_year and len(self._token_year[0]) == 2:
+            # Any number that is not a valid day or month is read as a two-digit
+            # year, so check that it is where the year is expected: in "32 DEC
+            # 10" with DMY, 32 is an invalid day, not the year 2032 (#868). With
+            # a matching date format, the year must be where the format has it;
+            # otherwise, with an explicit DATE_ORDER, a day or month number that
+            # the order puts before the year must not come after it.
+            year_index = self.auto_order.index("year")
+            format_year_positions = (
+                get_format_year_positions() if get_format_year_positions else None
+            )
+            if format_year_positions is not None:
+                misplaced = year_index not in format_year_positions
+            else:
+                order = list(self.ordered_num_directives)
+                misplaced = "DATE_ORDER" in self.settings._mod_settings and bool(
+                    set(self.auto_order[year_index + 1 :]).intersection(
+                        order[: order.index("year")]
+                    )
+                )
+            if misplaced:
+                raise _MisplacedYearError(
+                    "%s is not where the year is expected" % self._token_year[0]
+                )
 
         known, unknown = get_unresolved_attrs(self)
         params = {}
@@ -606,9 +648,21 @@ class _parser:
         return dateobj
 
     @classmethod
-    def parse(cls, datestring, settings, tz=None, date_order=None):
+    def parse(
+        cls,
+        datestring,
+        settings,
+        tz=None,
+        date_order=None,
+        get_format_year_positions=None,
+    ):
         tokens = tokenizer(datestring)
-        po = cls(tokens.tokenize(), settings, date_order=date_order)
+        po = cls(
+            tokens.tokenize(),
+            settings,
+            date_order=date_order,
+            get_format_year_positions=get_format_year_positions,
+        )
         dateobj = po._results()
 
         # correction for past, future if applicable
