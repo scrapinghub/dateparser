@@ -279,7 +279,7 @@ class _parser:
 
         skip_index = []
         skip_component = None
-        skip_tokens = ["t", "year", "hour", "minute"]
+        skip_tokens = ["t", "year", "hour", "minute", "nth"]
 
         for index, token_type_original_index in enumerate(self.filtered_tokens):
             if index in skip_index:
@@ -360,7 +360,15 @@ class _parser:
                     self.time = lambda: time_parser(self._token_time)
                     continue
 
-            results = self._parse(type, token, skip_component=skip_component)
+            # Simplifications turn ordinals (e.g. English "2nd") into "2nth",
+            # and an ordinal number is always a day.
+            is_ordinal = (
+                index + 1 < len(self.filtered_tokens)
+                and self.filtered_tokens[index + 1][0] == "nth"
+            )
+            results = self._parse(
+                type, token, skip_component=skip_component, ordinal=is_ordinal
+            )
             for res in results:
                 if len(token) == 4 and res[0] == "year":
                     skip_component = "year"
@@ -625,7 +633,7 @@ class _parser:
 
         return dateobj, period
 
-    def _parse(self, type, token, skip_component=None):
+    def _parse(self, type, token, skip_component=None, ordinal=False):
         def set_and_return(token, type, component, dateobj, skip_date_order=False):
             if not skip_date_order:
                 self.auto_order.append(component)
@@ -636,7 +644,9 @@ class _parser:
             type = 0
 
             num_directives = self.ordered_num_directives
-            if (
+            if ordinal:
+                num_directives = {"day": self.num_directives["day"]}
+            elif (
                 skip_component == "year"
                 and self.day is None
                 and self.month is None
