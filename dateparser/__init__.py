@@ -110,6 +110,7 @@ def parse_many(
     settings: dict[str, Any] | None = None,
     detect_languages_function: Callable[[str, float], list[str]] | None = None,
     max_pending: int | None = None,
+    date_orders: Iterable[str] | None = None,
 ) -> Iterator[datetime | None]:
     """Parse *date_strings* with the date order that fits all of them.
 
@@ -118,6 +119,10 @@ def parse_many(
     one is 2 March 2015, while :func:`parse` would read it as 3 February 2015.
     Date strings that cannot be parsed become ``None``, and do not count when
     finding the date order.
+
+    *date_orders* limits the candidate date orders, e.g. to ``["DMY", "MDY"]``
+    to only tell days and months apart. By default, all date orders are
+    candidates.
 
     Date strings that different date orders parse differently stay pending
     until a later date string settles the date order, so input that settles it
@@ -153,7 +158,7 @@ def parse_many(
             )
         return strict_parsers[order, locale].get_date_data(date_string)["date_obj"]
 
-    orders = list(date_order_chart)
+    orders = list(date_orders or date_order_chart)
     pending: collections.deque[tuple[str, dict[str, datetime | None]]] = (
         collections.deque()
     )

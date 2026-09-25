@@ -681,6 +681,14 @@ class TestParseMany(BaseTestCase):
         with self.assertRaisesRegex(ValueError, "25/12/2015"):
             list(result)
 
+    def test_date_orders(self):
+        date_orders = ["DMY", "MDY"]
+        result = dateparser.parse_many(["31.12.13"], date_orders=date_orders)
+        self.assertEqual([datetime(2013, 12, 31)], list(result))
+        with self.assertRaises(dateparser.AmbiguousDateOrderError) as cm:
+            list(dateparser.parse_many(["11.12.13"], date_orders=date_orders))
+        self.assertEqual(date_orders, cm.exception.date_orders)
+
     @parameterized.expand(
         [
             param(["13/01/2015", "01/13/2015"]),
