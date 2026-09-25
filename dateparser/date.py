@@ -1,4 +1,5 @@
 import collections
+import html
 import threading
 from collections.abc import Set
 from datetime import datetime, timedelta, timezone
@@ -133,6 +134,7 @@ def get_intersecting_periods(low, high, period="day"):
 
 
 def sanitize_date(date_string):
+    date_string = html.unescape(date_string)
     date_string = RE_SANITIZE_SKIP.sub(" ", date_string)
     date_string = RE_SANITIZE_RUSSIAN.sub(
         r"\1 ", date_string
