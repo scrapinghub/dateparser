@@ -1943,6 +1943,24 @@ class TestDateParser(BaseTestCase):
         """Test that an invalid %j value is not read as another date (Issue #271)."""
         self.assertIsNone(parse(date_string, date_formats=["%Y%j"]))
 
+    @parameterized.expand(
+        [
+            param("11 de a", None),
+            param("11 de a", ["es"]),
+            param("hace 11 de años", ["es"]),
+            param("3 de h", ["es"]),
+            param("11 de a de 2020", ["es"]),
+            param("11 de m", ["pt"]),
+            param("5 de h", ["pt"]),
+            param("há 11 de anos", ["pt"]),
+            param("2 de meses", ["pt"]),
+        ]
+    )
+    def test_number_de_unit_is_not_parsed(self, date_string, languages):
+        """Test that "de" between a number and a unit makes Spanish and
+        Portuguese text unparseable (Issue #1065)."""
+        self.assertIsNone(parse(date_string, languages=languages))
+
 
 if __name__ == "__main__":
     unittest.main()
