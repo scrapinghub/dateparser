@@ -8,7 +8,7 @@ from dateparser.timezone_parser import is_timezone_token
 from dateparser.utils import normalize_unicode
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
-PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z"]
+PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z", "nth"]
 ALWAYS_KEEP_TOKENS = ["+"] + PARSER_HARDCODED_TOKENS
 KNOWN_WORD_TOKENS = [
     "monday",

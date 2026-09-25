@@ -86,6 +86,7 @@ relative-type-regex:
 
 simplifications:
     - (\d+[.,]?\d*)\s*mons?\b: \1 month
+    - (?<![\d.,])(\d{1,2})(?:st|nd|rd|th)\b: \1nth
     - an: '1'
     - a: '1'
     - (?:12\s+)?noon: '12:00'
