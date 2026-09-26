@@ -987,11 +987,11 @@ class TestDateDataParser(BaseTestCase):
             ),
             param(
                 "Sa",
-                datetime(2025, 7, 26, 0, 0),
+                datetime(2025, 8, 2, 0, 0),
             ),
             param(
                 "Su",
-                datetime(2025, 7, 27, 0, 0),
+                datetime(2025, 8, 3, 0, 0),
             ),
         ]
     )
