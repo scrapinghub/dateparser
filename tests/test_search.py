@@ -1030,6 +1030,12 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[("23 juillet 2020", datetime.datetime(2020, 7, 23, 0, 0))],
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
+            param(
+                text="in the sample papers. The year of mention refers ",
+                languages=None,
+                settings=None,
+                expected=None,
+            ),
             # Date with comma and apostrophe
             param(
                 text="9/3/2017  , ",
