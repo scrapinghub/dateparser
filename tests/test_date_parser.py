@@ -1947,14 +1947,18 @@ class TestDateParser(BaseTestCase):
         [
             param("friday at 22h", "en", datetime(2026, 9, 18, 22)),
             param("September 24, 2026 at 18h", "en", datetime(2026, 9, 24, 18)),
+            param("September 24, 2026 18h", "en", datetime(2026, 9, 24, 18)),
             param("22h", "en", datetime(2026, 9, 23, 14)),
             param("22h ago", "en", datetime(2026, 9, 23, 14)),
             param("demain à 8h", "fr", datetime(2026, 9, 25, 8)),
             param("24 septembre 2026 à 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("24 septembre 2026 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("24/09/2026 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("2026-09-24 18h", "fr", datetime(2026, 9, 24, 18)),
             param("il y a 22h", "fr", datetime(2026, 9, 23, 14)),
         ]
     )
-    def test_hour_after_at_is_time(self, date_string, language, expected):
+    def test_hour_after_at_or_date_is_time(self, date_string, language, expected):
         settings = {"RELATIVE_BASE": datetime(2026, 9, 24, 12)}
         self.assertEqual(
             parse(date_string, languages=[language], settings=settings), expected
