@@ -251,6 +251,12 @@ class TestBundledLanguages(BaseTestCase):
             param("ja", "2016年3月20日 (日) 21時40分", "2016-3-20 sunday 21:40"),
             param("ja", "正午", "12:00"),
             param("ja", "明日の13時20分", "in 1 day 13:20"),
+            # Korean
+            param("ko", "시월", "october"),
+            param("ko", "유월 (일)", "june sunday"),
+            param("ko", "十二月 (月)", "december monday"),
+            param("ko", "3주간", "3 week"),
+            param("ko", "약 53개월전", " 53 month ago"),
             # Hebrew
             param("he", "20 לאפריל 2012", "20 april 2012"),
             param("he", "יום רביעי ה-19 בנובמבר 2013", "wednesday 19 november 2013"),
@@ -1760,6 +1766,10 @@ class TestBundledLanguages(BaseTestCase):
             param("ko", "명일", "in 1 day"),
             param("ko", "3달 전", "3 month ago"),
             param("ko", "2달 후", "in 2 month"),
+            param("ko", "그저께", "2 day ago"),
+            param("ko", "금년", "0 year ago"),
+            param("ko", "3일후", "in 3 day"),
+            param("ko", "지금부터 3일", "in 3 day"),
             # ksb
             param("ksb", "keloi", "in 1 day"),
             param("ksb", "evi eo", "0 day ago"),
