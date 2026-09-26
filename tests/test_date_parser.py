@@ -145,6 +145,9 @@ class TestDateParser(BaseTestCase):
             param("11 กุมภา 2020, 8:13 AM", datetime(2020, 2, 11, 8, 13)),
             param("1 เดือนตุลาคม 2005, 1:00 AM", datetime(2005, 10, 1, 1, 0)),
             param("11 ก.พ. 2020, 1:13 pm", datetime(2020, 2, 11, 13, 13)),
+            param("6 มิถุนายน 2554", datetime(2011, 6, 6)),
+            param("29 ก.พ. พ.ศ. ๒๕๕๕", datetime(2012, 2, 29)),
+            param("6 มิถุนายน ค.ศ. 2011", datetime(2011, 6, 6)),
             # Vietnamese dates
             param("Thứ năm", datetime(2012, 11, 8)),  # Thursday
             param("Thứ sáu", datetime(2012, 11, 9)),  # Friday
@@ -1266,13 +1269,13 @@ class TestDateParser(BaseTestCase):
             ),
             param(
                 "03/11/2559 05:13",
-                datetime(2559, 3, 11, 5, 13),
+                datetime(2016, 3, 11, 5, 13),
                 languages=["th"],
                 settings={"DATE_ORDER": "MDY"},
             ),
             param(
                 "03/15/2559 05:13",
-                datetime(2559, 3, 15, 5, 13),
+                datetime(2016, 3, 15, 5, 13),
                 languages=["th"],
                 settings={"DATE_ORDER": "MDY"},
             ),

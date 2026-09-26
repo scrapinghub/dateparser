@@ -526,6 +526,11 @@ class TestTranslateSearch(BaseTestCase):
                 [("11 พฤษภาคม 1939", datetime.datetime(1939, 5, 11, 0, 0))],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
+            param(
+                "th",
+                "ประชุมวันที่ 6 มิถุนายน พ.ศ. 2554",
+                [("6 มิถุนายน พ.ศ. 2554", datetime.datetime(2011, 6, 6, 0, 0))],
+            ),
             # Turkish
             param(
                 "tr",
