@@ -413,10 +413,7 @@ class TestTranslateSearch(BaseTestCase):
                 "de",
                 "Die UdSSR blieb gemäß dem Neutralitätspakt "
                 "vom 13. April 1941 gegenüber Japan vorerst neutral.",
-                [
-                    ("Die", datetime.datetime(1999, 12, 28, 0, 0)),
-                    ("13. April 1941", datetime.datetime(1941, 4, 13, 0, 0)),
-                ],
+                [("13. April 1941", datetime.datetime(1941, 4, 13, 0, 0))],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
             # Indonesian
@@ -892,11 +889,7 @@ class TestTranslateSearch(BaseTestCase):
             # Georgian
             param("ka", "1937 წელს დაიწყო იაპონია-ჩინეთის მეორე ომი."),
             # German
-            param(
-                "de",
-                "Die UdSSR blieb dem Neutralitätspakt "
-                "vom 13. April 1941 gegenüber Japan vorerst neutral.",
-            ),
+            param("de", "Der Zweite Weltkrieg endete in Europa am 8. Mai 1945."),
             # Indonesian
             param(
                 "id",

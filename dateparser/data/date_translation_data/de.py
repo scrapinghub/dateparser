@@ -55,38 +55,31 @@ info = {
     ],
     "monday": [
         "mo",
-        "montag",
-        "Mon"
+        "montag"
     ],
     "tuesday": [
         "di",
-        "dienstag",
-        "Die"
+        "dienstag"
     ],
     "wednesday": [
         "mi",
-        "mittwoch",
-        "Mit"
+        "mittwoch"
     ],
     "thursday": [
         "do",
-        "donnerstag",
-        "Don"
+        "donnerstag"
     ],
     "friday": [
         "fr",
-        "freitag",
-        "Fre"
+        "freitag"
     ],
     "saturday": [
         "sa",
-        "samstag",
-        "Sam"
+        "samstag"
     ],
     "sunday": [
         "so",
-        "sonntag",
-        "Son"
+        "sonntag"
     ],
     "am": [
         "am",

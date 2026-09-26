@@ -6,21 +6,6 @@ skip: ["etwa", "uhr", "um", "und"]
 
 sentence_splitter_group: 1
 
-monday:
-    - Mon
-tuesday:
-    - Die
-wednesday:
-    - Mit
-thursday:
-    - Don
-friday:
-    - Fre
-saturday:
-    - Sam
-sunday:
-    - Son
-
 january:
     - Jänner
 february:
