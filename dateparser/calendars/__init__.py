@@ -25,8 +25,7 @@ class CalendarBase:
             date_obj, period = self.parser.parse(self.source, settings)
             return DateData(date_obj=date_obj, period=period)
         except ValueError:
-            pass
-        return None
+            return None
 
 
 class non_gregorian_parser(_parser):

@@ -82,8 +82,5 @@ def parse(
         )
 
     data = parser.get_date_data(date_string, date_formats)
-
-    if data:
-        date_obj: datetime | None = data["date_obj"]
-        return date_obj
-    return None
+    date_obj: datetime | None = data["date_obj"]
+    return date_obj

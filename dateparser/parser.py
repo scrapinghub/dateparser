@@ -431,9 +431,7 @@ class _parser:
             if getattr(self, period, None):
                 return period
 
-        if self._results():
-            return "day"
-        return None
+        return "day" if self._results() else None
 
     def _get_datetime_obj(self, **params: Any) -> datetime:
         try:

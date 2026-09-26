@@ -20,7 +20,7 @@ class TestPersianDate(BaseTestCase):
     def when_date_is_given(self, year: int, month: int, day: int) -> None:
         self.persian_date = PersianDate(year, month, day)
 
-    def then_weekday_is(self, weekday: int) -> None:
+    def then_weekday_is(self, weekday: int | None) -> None:
         self.assertEqual(self.persian_date.weekday(), weekday)
 
     @parameterized.expand(
@@ -29,9 +29,12 @@ class TestPersianDate(BaseTestCase):
             param(year=1348, month=2, day=28, weekday=0),
             param(year=1348, month=3, day=27, weekday=2),
             param(year=1348, month=4, day=11, weekday=3),
+            param(year=1348, month=1, day=32, weekday=None),
         ]
     )
-    def test_weekday(self, year: int, month: int, day: int, weekday: int) -> None:
+    def test_weekday(
+        self, year: int, month: int, day: int, weekday: int | None
+    ) -> None:
         self.when_date_is_given(year, month, day)
         self.then_weekday_is(weekday)
 
@@ -261,3 +264,7 @@ class TestJalaliCalendar(BaseTestCase):
     def test_get_date(self, date_string: str, dt: datetime) -> None:
         self.when_date_is_given(date_string)
         self.then_date_parsed_is(dt)
+
+    def test_get_date_invalid(self) -> None:
+        self.when_date_is_given("foo")
+        self.assertIsNone(self.result)

@@ -26,13 +26,6 @@ class HijriDate:
         self.month = month
         self.day = day
 
-    def weekday(self) -> int | None:
-        for week in hijri.monthcalendar(self.year, self.month):  # type: ignore[attr-defined]
-            for idx, day in enumerate(week):
-                if day == self.day:
-                    return idx
-        return None
-
 
 class hijri_parser(non_gregorian_parser):
     calendar_converter = hijri

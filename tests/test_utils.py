@@ -43,7 +43,7 @@ class TestUtils(BaseTestCase):
         assert self.date_format is not None
         self.result = find_date_separator(self.date_format)
 
-    def then_date_separator_is(self, sep: str) -> None:
+    def then_date_separator_is(self, sep: str | None) -> None:
         self.assertEqual(self.result, sep)
 
     @staticmethod
@@ -66,6 +66,11 @@ class TestUtils(BaseTestCase):
         self.given_date_format(date_format)
         self.when_date_separator_is_parsed()
         self.then_date_separator_is(expected_sep)
+
+    def test_separator_extraction_without_separator(self) -> None:
+        self.given_date_format("%Y")
+        self.when_date_separator_is_parsed()
+        self.then_date_separator_is(None)
 
     @parameterized.expand(
         [
