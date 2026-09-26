@@ -5,7 +5,6 @@ from itertools import chain
 from typing import TYPE_CHECKING, Any, TypeVar
 
 import regex as re
-from dateutil import parser
 
 from dateparser.timezone_parser import pop_tz_offset_from_string, word_is_tz
 from dateparser.utils import combine_dicts, normalize_unicode
@@ -814,37 +813,3 @@ class Locale:
         self, settings: "Settings | None" = None
     ) -> None:
         self._normalized_dictionary = NormalizedDictionary(self.info, settings=settings)
-
-    def to_parserinfo(
-        self, base_cls: type[parser.parserinfo] = parser.parserinfo
-    ) -> type[parser.parserinfo]:
-        attributes = {
-            "JUMP": self.info.get("skip", []),
-            "PERTAIN": self.info.get("pertain", []),
-            "WEEKDAYS": [
-                self.info["monday"],
-                self.info["tuesday"],
-                self.info["wednesday"],
-                self.info["thursday"],
-                self.info["friday"],
-                self.info["saturday"],
-                self.info["sunday"],
-            ],
-            "MONTHS": [
-                self.info["january"],
-                self.info["february"],
-                self.info["march"],
-                self.info["april"],
-                self.info["may"],
-                self.info["june"],
-                self.info["july"],
-                self.info["august"],
-                self.info["september"],
-                self.info["october"],
-                self.info["november"],
-                self.info["december"],
-            ],
-            "HMS": [self.info["hour"], self.info["minute"], self.info["second"]],
-        }
-        name = "{language}ParserInfo".format(language=self.info["name"])
-        return type(name, bases=[base_cls], dict=attributes)  # type: ignore[call-overload,no-any-return]
