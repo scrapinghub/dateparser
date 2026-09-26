@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+from typing import Any
 
 import regex as re
 
@@ -30,7 +31,7 @@ PM_PATTERN = re.compile(r"^\s*[Pp]\s*\.?\s*[Mm]\s*\.?\s*$")
 PARENTHESIS_PATTERN = re.compile(r"[\(\)]")
 
 
-def _filter_relative_string(relative_string):
+def _filter_relative_string(relative_string: object) -> bool | re.Match[str] | None:
     return (
         isinstance(relative_string, str)
         and RELATIVE_PATTERN.search(relative_string)
@@ -38,12 +39,12 @@ def _filter_relative_string(relative_string):
     )
 
 
-def _filter_month_name(month_name):
+def _filter_month_name(month_name: str) -> bool:
     return not DEFAULT_MONTH_PATTERN.match(month_name)
 
 
-def _retrieve_locale_data(locale):
-    def load(scope, file_id):
+def _retrieve_locale_data(locale: str) -> dict[str, Any]:
+    def load(scope: str, file_id: str) -> Any:
         file_path = (
             CLDR_JSON_DIR
             / "cldr-json"
@@ -65,7 +66,7 @@ def _retrieve_locale_data(locale):
     date_fields_dict = cldr_datefields_data["main"][locale]["dates"]["fields"]
     units = _units["main"][locale]["units"]["long"]
 
-    json_dict = {}
+    json_dict: dict[str, Any] = {}
 
     field_keys_1 = ["stand-alone", "format"]
     field_keys_2 = [
@@ -88,8 +89,10 @@ def _retrieve_locale_data(locale):
     except AttributeError:
         date_format_string = gregorian_dict["dateFormats"]["short"]["_value"].upper()
 
+    date_order_match = DATE_ORDER_PATTERN.search(date_format_string)
+    assert date_order_match is not None
     json_dict["date_order"] = DATE_ORDER_PATTERN.sub(
-        r"\1\2\3", DATE_ORDER_PATTERN.search(date_format_string).group()
+        r"\1\2\3", date_order_match.group()
     )
 
     json_dict["january"] = list(
@@ -522,14 +525,14 @@ def _retrieve_locale_data(locale):
     return json_dict
 
 
-def _clean_string(given_string):
+def _clean_string(given_string: str) -> str:
     given_string = RE_SANITIZE_APOSTROPHE.sub("'", given_string)
     given_string = given_string.replace(".", "")
     given_string = given_string.lower()
     return " ".join(given_string.split())
 
 
-def _clean_dict(json_dict):
+def _clean_dict(json_dict: dict[str, Any]) -> dict[str, Any]:
     """Remove duplicates and sort"""
     for key, value in json_dict.items():
         if isinstance(value, list):
@@ -540,7 +543,7 @@ def _clean_dict(json_dict):
     return dict(filter(lambda x: x[1], json_dict.items()))
 
 
-def main():
+def main() -> None:
     get_raw_data()
     language_locale_dict = _get_language_locale_dict()
     parent_directory = "../dateparser_data/cldr_language_data"
@@ -553,7 +556,7 @@ def main():
 
     for language in language_locale_dict:
         json_language_dict = _clean_dict(_retrieve_locale_data(language))
-        locale_specific_dict = {}
+        locale_specific_dict: dict[str, dict[str, Any]] = {}
         locales_list = language_locale_dict[language]
         for locale in locales_list:
             json_locale_dict = _clean_dict(_retrieve_locale_data(locale))

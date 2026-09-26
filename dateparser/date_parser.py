@@ -1,15 +1,25 @@
 import sys
+from collections.abc import Callable
+from datetime import datetime
+from typing import Any
 
 from tzlocal import get_localzone
 
-from .conf import apply_settings
+from .conf import Settings, apply_settings
 from .timezone_parser import pop_tz_offset_from_string
 from .utils import apply_timezone, localize_timezone, strip_braces
 
 
 class DateParser:
     @apply_settings
-    def parse(self, date_string, parse_method, settings=None, date_order=None):
+    def parse(
+        self,
+        date_string: str,
+        parse_method: Callable[..., tuple[datetime, str | None]],
+        settings: Settings | dict[str, Any] | None = None,
+        date_order: str | None = None,
+    ) -> tuple[datetime, str | None]:
+        assert isinstance(settings, Settings)
         date_string = str(date_string)
 
         if not date_string.strip():

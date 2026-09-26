@@ -7,7 +7,7 @@ from .exceptions import FastTextModelNotFoundException
 from .utils import create_data_model_home, dateparser_model_home
 
 
-def fasttext_downloader(model_name):
+def fasttext_downloader(model_name: str) -> None:
     create_data_model_home()
     models = {
         "small": "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.ftz",

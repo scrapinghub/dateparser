@@ -18,10 +18,10 @@ else:
 dateparser_model_home = os.path.expanduser(os.path.join(_cache_dir, DEFAULT_DIR_NAME))
 
 
-def create_data_model_home():
+def create_data_model_home() -> None:
     os.makedirs(dateparser_model_home, exist_ok=True)
 
 
-def clear_cache(*args):
+def clear_cache(*args: object) -> None:
     for path in Path(dateparser_model_home).rglob("*.*"):
         os.remove(path)

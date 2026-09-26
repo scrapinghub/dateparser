@@ -1,3 +1,5 @@
+from typing import Any
+
 import langdetect
 
 # The below _Factory is set to prevent setting global state of the library
@@ -6,24 +8,24 @@ import langdetect
 
 
 class _Factory:
-    data = None
+    data: Any = None
 
 
-def _init_factory():
+def _init_factory() -> None:
     if _Factory.data is None:
         _Factory.data = langdetect.detector_factory.DetectorFactory()
         _Factory.data.load_profile(langdetect.detector_factory.PROFILES_DIRECTORY)
         _Factory.data.seed = 0
 
 
-def _get_language_probablities(text):
+def _get_language_probablities(text: str) -> Any:
     _init_factory()
     detector = _Factory.data.create()
     detector.append(text)
     return detector.get_probabilities()
 
 
-def detect_languages(text, confidence_threshold):
+def detect_languages(text: str, confidence_threshold: float) -> list[str]:
     language_codes = []
     try:
         parser_data = _get_language_probablities(text)

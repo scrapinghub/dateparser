@@ -1,21 +1,25 @@
 __version__ = "1.4.3"
 
-from .conf import apply_settings
-from .date import DateDataParser
+from collections.abc import Callable, Iterable
+from datetime import datetime
+from typing import Any
+
+from .conf import Settings, apply_settings
+from .date import DateDataParser as DateDataParser
 
 _default_parser = DateDataParser()
 
 
 @apply_settings
 def parse(
-    date_string,
-    date_formats=None,
-    languages=None,
-    locales=None,
-    region=None,
-    settings=None,
-    detect_languages_function=None,
-):
+    date_string: str,
+    date_formats: Iterable[str] | None = None,
+    languages: Iterable[str] | None = None,
+    locales: Iterable[str] | None = None,
+    region: str | None = None,
+    settings: Settings | dict[str, Any] | None = None,
+    detect_languages_function: Callable[..., list[str]] | None = None,
+) -> datetime | None:
     """Parse date and time from given date string.
 
     :param date_string:
@@ -59,6 +63,7 @@ def parse(
         ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list,
         ``SettingValidationError``: A provided setting is not valid.
     """
+    assert isinstance(settings, Settings)
     parser = _default_parser
 
     if (
@@ -77,6 +82,5 @@ def parse(
         )
 
     data = parser.get_date_data(date_string, date_formats)
-
-    if data:
-        return data["date_obj"]
+    date_obj: datetime | None = data["date_obj"]
+    return date_obj

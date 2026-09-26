@@ -5,7 +5,7 @@ import warnings
 from .utils import clear_cache
 
 
-def entrance():
+def entrance() -> None:
     dateparser_argparse = argparse.ArgumentParser(
         description="dateparser download manager."
     )

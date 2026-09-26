@@ -2,6 +2,7 @@ import json
 import os
 import shutil
 from pathlib import Path
+from typing import Any
 
 import regex as re
 from ruamel.yaml import YAML
@@ -29,11 +30,11 @@ RELATIVE_PATTERN = re.compile(r"\{0\}")
 POSSESSIVE_DIGIT_PATTERN = re.compile(r"\\d\+\[\.,\]\?\\d\*")
 
 
-def _make_possessive(s):
+def _make_possessive(s: str) -> str:
     return POSSESSIVE_DIGIT_PATTERN.sub(r"\\d++[.,]?\\d*+", s)
 
 
-def _to_plain_types(obj):
+def _to_plain_types(obj: Any) -> Any:
     """Recursively convert ruamel.yaml CommentedMap/CommentedSeq to plain
     dict/list so that json.dumps produces stable output across all
     Python versions.
@@ -52,7 +53,9 @@ def _to_plain_types(obj):
     return obj
 
 
-def _modify_relative_data(relative_data):
+def _modify_relative_data(
+    relative_data: dict[str, list[str]],
+) -> dict[str, list[str]]:
     modified_relative_data = {}
     for key, value in relative_data.items():
         for i, string in enumerate(value):
@@ -63,7 +66,7 @@ def _modify_relative_data(relative_data):
     return modified_relative_data
 
 
-def _modify_simplifications(simplifications):
+def _modify_simplifications(simplifications: list[dict[str, Any]]) -> None:
     for simplification in simplifications:
         for pattern in list(simplification.keys()):
             new_pattern = _make_possessive(pattern)
@@ -71,7 +74,7 @@ def _modify_simplifications(simplifications):
                 simplification[new_pattern] = simplification.pop(pattern)
 
 
-def _modify_data(language_data):
+def _modify_data(language_data: dict[str, Any]) -> None:
     relative_data = language_data.get("relative-type-regex", {})
     relative_data = _modify_relative_data(relative_data)
     simplifications = language_data.get("simplifications", [])
@@ -82,9 +85,9 @@ def _modify_data(language_data):
         locale_relative_data = _modify_relative_data(locale_relative_data)
 
 
-def _get_complete_date_translation_data(language):
-    cldr_data = {}
-    supplementary_data = {}
+def _get_complete_date_translation_data(language: str) -> dict[str, Any]:
+    cldr_data: dict[str, Any] = {}
+    supplementary_data: dict[str, Any] = {}
     if language in cldr_languages:
         with open(cldr_date_directory / f"{language}.json") as f:
             cldr_data = json.load(f)
@@ -98,7 +101,13 @@ def _get_complete_date_translation_data(language):
     return complete_data
 
 
-def _write_file(filename, text, mode, in_memory, in_memory_result):
+def _write_file(
+    filename: Path,
+    text: str | bytes,
+    mode: str,
+    in_memory: bool,
+    in_memory_result: dict[Path, str | bytes],
+) -> None:
     if in_memory:
         in_memory_result[filename] = text
     else:
@@ -106,7 +115,7 @@ def _write_file(filename, text, mode, in_memory, in_memory_result):
             out.write(text)
 
 
-def write_complete_data(in_memory=False):
+def write_complete_data(in_memory: bool = False) -> dict[Path, str | bytes]:
     """
     This function is responsible of generating the needed py files from the
     CLDR files (JSON format) and supplementary language data (YAML format).
@@ -114,7 +123,7 @@ def write_complete_data(in_memory=False):
     Use it with in_memory=True to avoid writing real files and getting a
     dictionary containing the file names and their content (used when testing).
     """
-    in_memory_result = {}
+    in_memory_result: dict[Path, str | bytes] = {}
 
     if not in_memory:
         if not os.path.isdir(translation_data_directory):

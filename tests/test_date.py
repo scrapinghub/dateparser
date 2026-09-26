@@ -5,8 +5,10 @@ import os
 import unittest
 from datetime import datetime, timedelta
 from datetime import timezone as dttz
+from collections.abc import Iterable
 from itertools import product
 from time import tzset
+from typing import Any
 from unittest.mock import Mock, patch
 
 import pytest
@@ -16,13 +18,14 @@ import dateparser
 from dateparser import date
 from dateparser.conf import Settings
 from dateparser.date import DateData
+from dateparser.languages.locale import Locale
 from tests import BaseTestCase
 
 
 class TestDateRangeFunction(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.result = NotImplemented
+        self.result: list[datetime] = NotImplemented
 
     @parameterized.expand(
         [
@@ -33,7 +36,9 @@ class TestDateRangeFunction(BaseTestCase):
             )
         ]
     )
-    def test_date_range(self, begin, end, expected_length):
+    def test_date_range(
+        self, begin: datetime, end: datetime, expected_length: int
+    ) -> None:
         self.when_date_range_generated(begin, end)
         self.then_range_length_is(expected_length)
         self.then_all_dates_in_range_are_present(begin, end)
@@ -63,7 +68,9 @@ class TestDateRangeFunction(BaseTestCase):
             ),
         ]
     )
-    def test_one_date_for_each_month(self, begin, end, expected_months):
+    def test_one_date_for_each_month(
+        self, begin: datetime, end: datetime, expected_months: list[tuple[int, int]]
+    ) -> None:
         self.when_date_range_generated(begin, end, months=1)
         self.then_expected_months_are(expected_months)
 
@@ -78,7 +85,9 @@ class TestDateRangeFunction(BaseTestCase):
             "second",
         ]
     )
-    def test_should_reject_easily_mistaken_dateutil_arguments(self, invalid_period):
+    def test_should_reject_easily_mistaken_dateutil_arguments(
+        self, invalid_period: str
+    ) -> None:
         self.when_date_range_generated(
             begin=datetime(2014, 6, 15),
             end=datetime(2014, 6, 25),
@@ -86,43 +95,47 @@ class TestDateRangeFunction(BaseTestCase):
         )
         self.then_period_was_rejected(invalid_period)
 
-    def when_date_range_generated(self, begin, end, **size):
+    def when_date_range_generated(
+        self, begin: datetime, end: datetime, **size: int
+    ) -> None:
         try:
             self.result = list(date.date_range(begin, end, **size))
         except Exception as error:
             self.error = error
 
-    def then_expected_months_are(self, expected):
+    def then_expected_months_are(self, expected: list[tuple[int, int]]) -> None:
         self.assertEqual(expected, [(d.year, d.month) for d in self.result])
 
-    def then_range_length_is(self, expected_length):
+    def then_range_length_is(self, expected_length: int) -> None:
         self.assertEqual(expected_length, len(self.result))
 
-    def then_all_dates_in_range_are_present(self, begin, end):
+    def then_all_dates_in_range_are_present(
+        self, begin: datetime, end: datetime
+    ) -> None:
         date_under_test = begin
         while date_under_test < end:
             self.assertIn(date_under_test, self.result)
             date_under_test += timedelta(days=1)
 
-    def then_range_is_in_ascending_order(self):
+    def then_range_is_in_ascending_order(self) -> None:
         for i in range(len(self.result) - 1):
             self.assertLess(self.result[i], self.result[i + 1])
 
-    def then_period_was_rejected(self, period):
+    def then_period_was_rejected(self, period: str) -> None:
         self.then_error_was_raised(ValueError, ["Invalid argument: {}".format(period)])
 
 
 class TestGetIntersectingPeriodsFunction(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.result = NotImplemented
+        self.result: list[datetime] = NotImplemented
 
     @parameterized.expand(
         [param(low=datetime(2014, 6, 15), high=datetime(2014, 6, 16), length=1)]
     )
     def test_date_arguments_and_date_range_with_default_post_days(
-        self, low, high, length
-    ):
+        self, low: datetime, high: datetime, length: int
+    ) -> None:
         self.when_intersecting_period_calculated(low, high, period_size="day")
         self.then_all_dates_in_range_are_present(begin=low, end=high)
         self.then_date_range_length_is(length)
@@ -170,8 +183,8 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
         ]
     )
     def test_dates_in_intersecting_period_should_use_first_day_when_period_is_month(
-        self, low, high, expected_results
-    ):
+        self, low: datetime, high: datetime, expected_results: list[datetime]
+    ) -> None:
         self.when_intersecting_period_calculated(low, high, period_size="month")
         self.then_results_are(expected_results)
 
@@ -222,8 +235,8 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
         ]
     )
     def test_dates_in_intersecting_period_should_use_first_month_and_first_day_when_period_is_year(
-        self, low, high, expected_results
-    ):
+        self, low: datetime, high: datetime, expected_results: list[datetime]
+    ) -> None:
         self.when_intersecting_period_calculated(low, high, period_size="year")
         self.then_results_are(expected_results)
 
@@ -277,7 +290,13 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             ),
         ]
     )
-    def test_periods(self, low, high, period_size, expected_results):
+    def test_periods(
+        self,
+        low: datetime,
+        high: datetime,
+        period_size: str,
+        expected_results: list[datetime],
+    ) -> None:
         self.when_intersecting_period_calculated(low, high, period_size=period_size)
         self.then_results_are(expected_results)
 
@@ -293,7 +312,9 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             param("some_period"),
         ]
     )
-    def test_should_reject_easily_mistaken_dateutil_arguments(self, period_size):
+    def test_should_reject_easily_mistaken_dateutil_arguments(
+        self, period_size: str
+    ) -> None:
         self.when_intersecting_period_calculated(
             low=datetime(2014, 6, 15),
             high=datetime(2014, 6, 25),
@@ -315,11 +336,15 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
             ),
         ]
     )
-    def test_empty_period(self, low, high, period_size):
+    def test_empty_period(
+        self, low: datetime, high: datetime, period_size: str
+    ) -> None:
         self.when_intersecting_period_calculated(low, high, period_size)
         self.then_period_is_empty()
 
-    def when_intersecting_period_calculated(self, low, high, period_size):
+    def when_intersecting_period_calculated(
+        self, low: datetime, high: datetime, period_size: str
+    ) -> None:
         try:
             self.result = list(
                 date.get_intersecting_periods(low, high, period=period_size)
@@ -327,26 +352,28 @@ class TestGetIntersectingPeriodsFunction(BaseTestCase):
         except Exception as error:
             self.error = error
 
-    def then_results_are(self, expected_results):
+    def then_results_are(self, expected_results: list[datetime]) -> None:
         self.assertEqual(expected_results, self.result)
 
-    def then_date_range_length_is(self, size):
+    def then_date_range_length_is(self, size: int) -> None:
         self.assertEqual(size, len(self.result))
 
-    def then_all_dates_in_range_are_present(self, begin, end):
+    def then_all_dates_in_range_are_present(
+        self, begin: datetime, end: datetime
+    ) -> None:
         date_under_test = begin
         while date_under_test < end:
             self.assertIn(date_under_test, self.result)
             date_under_test += timedelta(days=1)
 
-    def then_period_is_empty(self):
+    def then_period_is_empty(self) -> None:
         self.assertEqual([], self.result)
 
 
 class TestParseWithFormatsFunction(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.result = NotImplemented
+        self.result: DateData = NotImplemented
 
     @parameterized.expand(
         [
@@ -354,8 +381,8 @@ class TestParseWithFormatsFunction(BaseTestCase):
         ]
     )
     def test_date_with_not_matching_format_is_not_parsed(
-        self, date_string, date_formats
-    ):
+        self, date_string: str, date_formats: list[str]
+    ) -> None:
         self.when_date_is_parsed_with_formats(date_string, date_formats)
         self.then_date_was_not_parsed()
 
@@ -368,7 +395,9 @@ class TestParseWithFormatsFunction(BaseTestCase):
             ),
         ]
     )
-    def test_should_parse_date(self, date_string, date_formats, expected_result):
+    def test_should_parse_date(
+        self, date_string: str, date_formats: list[str], expected_result: datetime
+    ) -> None:
         self.when_date_is_parsed_with_formats(date_string, date_formats)
         self.then_date_was_parsed()
         self.then_parsed_period_is("day")
@@ -390,7 +419,9 @@ class TestParseWithFormatsFunction(BaseTestCase):
             ("2020-W53-5", "%G-W%V-%w", datetime(2021, 1, 1)),
         ]
     )
-    def test_should_preserve_complete_week_date(self, text, fmt, expected):
+    def test_should_preserve_complete_week_date(
+        self, text: str, fmt: str, expected: datetime
+    ) -> None:
         self.given_now(2026, 9, 15)
         for preference in ("first", "last", "current"):
             with self.subTest(preference=preference):
@@ -419,7 +450,9 @@ class TestParseWithFormatsFunction(BaseTestCase):
             ("09-1", "%W-%w", 2026),
         ]
     )
-    def test_incomplete_week_date_keeps_date_preferences(self, text, fmt, year):
+    def test_incomplete_week_date_keeps_date_preferences(
+        self, text: str, fmt: str, year: int
+    ) -> None:
         self.given_now(2026, 9, 15)
         settings = Settings().replace(
             RELATIVE_BASE=datetime(2026, 9, 15),
@@ -438,7 +471,7 @@ class TestParseWithFormatsFunction(BaseTestCase):
             ("2024-W01-8", "%G-W%V-%u"),
         ]
     )
-    def test_invalid_iso_week_date_is_not_parsed(self, text, fmt):
+    def test_invalid_iso_week_date_is_not_parsed(self, text: str, fmt: str) -> None:
         self.when_date_is_parsed_with_formats(text, [fmt])
         self.then_date_was_not_parsed()
 
@@ -462,8 +495,8 @@ class TestParseWithFormatsFunction(BaseTestCase):
         ]
     )
     def test_should_parse_day_of_year_format(
-        self, date_string, date_formats, expected_result
-    ):
+        self, date_string: str, date_formats: list[str], expected_result: datetime
+    ) -> None:
         """Format %%j (day of year) should correctly set both month and day."""
         self.when_date_is_parsed_with_formats(date_string, date_formats)
         self.then_date_was_parsed()
@@ -515,8 +548,8 @@ class TestParseWithFormatsFunction(BaseTestCase):
         ]
     )
     def test_should_parse_day_of_year_boundaries(
-        self, date_string, date_formats, expected_result
-    ):
+        self, date_string: str, date_formats: list[str], expected_result: datetime
+    ) -> None:
         """Format %%j (day of year) should handle month and leap year edges."""
         self.when_date_is_parsed_with_formats(date_string, date_formats)
         self.then_date_was_parsed()
@@ -537,7 +570,9 @@ class TestParseWithFormatsFunction(BaseTestCase):
             param(date_string="1999777", date_formats=["%Y%j"]),
         ]
     )
-    def test_should_not_parse_out_of_range_day_of_year(self, date_string, date_formats):
+    def test_should_not_parse_out_of_range_day_of_year(
+        self, date_string: str, date_formats: list[str]
+    ) -> None:
         """Format %%j (day of year) should reject days the year does not have."""
         self.when_date_is_parsed_with_formats(date_string, date_formats)
         self.then_date_was_not_parsed()
@@ -553,8 +588,12 @@ class TestParseWithFormatsFunction(BaseTestCase):
         ]
     )
     def test_should_use_current_year_for_dates_without_year(
-        self, date_string, date_formats, expected_month, expected_day
-    ):
+        self,
+        date_string: str,
+        date_formats: list[str],
+        expected_month: int,
+        expected_day: int,
+    ) -> None:
         self.given_now(2015, 2, 4)
         self.when_date_is_parsed_with_formats(date_string, date_formats)
         self.then_date_was_parsed()
@@ -594,14 +633,14 @@ class TestParseWithFormatsFunction(BaseTestCase):
     )
     def test_should_use_correct_day_from_settings_for_dates_without_day(
         self,
-        date_string,
-        date_formats,
-        expected_year,
-        expected_month,
-        today_day,
-        prefer_day_of_month,
-        expected_day,
-    ):
+        date_string: str,
+        date_formats: list[str],
+        expected_year: int,
+        expected_month: int,
+        today_day: int,
+        prefer_day_of_month: str,
+        expected_day: int,
+    ) -> None:
         self.given_now(2014, 8, today_day)
         settings_mod = Settings()
         settings_mod.PREFER_DAY_OF_MONTH = prefer_day_of_month
@@ -645,14 +684,14 @@ class TestParseWithFormatsFunction(BaseTestCase):
     )
     def test_should_use_correct_month_from_settings_for_dates_without_month(
         self,
-        date_string,
-        date_formats,
-        expected_year,
-        prefer_month_of_year,
-        current_month,
-        expected_month,
-        expected_day,
-    ):
+        date_string: str,
+        date_formats: list[str],
+        expected_year: int,
+        prefer_month_of_year: str,
+        current_month: int,
+        expected_month: int,
+        expected_day: int,
+    ) -> None:
         self.given_now(2014, current_month, 1)
         settings_mod = Settings()
         settings_mod.PREFER_MONTH_OF_YEAR = prefer_month_of_year
@@ -680,16 +719,16 @@ class TestParseWithFormatsFunction(BaseTestCase):
     )
     def test_should_use_correct_day_n_month_from_settings_for_dates_without_day_n_month(
         self,
-        date_string,
-        date_formats,
-        current_day,
-        current_month,
-        prefer_day_of_month,
-        prefer_month_of_year,
-        expected_year,
-        expected_month,
-        expected_day,
-    ):
+        date_string: str,
+        date_formats: list[str],
+        current_day: int,
+        current_month: int,
+        prefer_day_of_month: str,
+        prefer_month_of_year: str,
+        expected_year: int,
+        expected_month: int,
+        expected_day: int,
+    ) -> None:
         self.given_now(2014, current_month, current_day)
         settings_mod = Settings()
         settings_mod.PREFER_DAY_OF_MONTH = prefer_day_of_month
@@ -701,7 +740,7 @@ class TestParseWithFormatsFunction(BaseTestCase):
             datetime(year=expected_year, month=expected_month, day=expected_day)
         )
 
-    def given_now(self, year, month, day, **time):
+    def given_now(self, year: int, month: int, day: int, **time: Any) -> None:
         now = datetime(year, month, day, **time)
         datetime_mock = Mock(wraps=datetime)
         datetime_mock.utcnow = Mock(return_value=now)
@@ -711,40 +750,43 @@ class TestParseWithFormatsFunction(BaseTestCase):
         self.add_patch(patch("dateparser.utils.datetime", new=datetime_mock))
 
     def when_date_is_parsed_with_formats(
-        self, date_string, date_formats, custom_settings=None
-    ):
+        self,
+        date_string: str,
+        date_formats: Iterable[str],
+        custom_settings: Settings | None = None,
+    ) -> None:
         self.result = date.parse_with_formats(
             date_string, date_formats, custom_settings or Settings()
         )
 
-    def then_date_was_not_parsed(self):
+    def then_date_was_not_parsed(self) -> None:
         self.assertIsNotNone(self.result)
         self.assertIsNone(self.result["date_obj"])
 
-    def then_date_was_parsed(self):
+    def then_date_was_parsed(self) -> None:
         self.assertIsNotNone(self.result)
         self.assertIsNotNone(self.result["date_obj"])
 
-    def then_parsed_date_is(self, date_obj):
+    def then_parsed_date_is(self, date_obj: datetime) -> None:
         self.assertEqual(date_obj.date(), self.result["date_obj"].date())
 
-    def then_parsed_period_is(self, period):
+    def then_parsed_period_is(self, period: str) -> None:
         self.assertEqual(period, self.result["period"])
 
 
 class TestDateDataParser(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.parser = NotImplemented
-        self.result = NotImplemented
-        self.multiple_results = NotImplemented
+        self.parser: date.DateDataParser = NotImplemented
+        self.result: DateData = NotImplemented
+        self.multiple_results: list[DateData | Exception] = NotImplemented
 
     @parameterized.expand(
         [
             param("10:04am EDT"),
         ]
     )
-    def test_time_without_date_should_use_today(self, date_string):
+    def test_time_without_date_should_use_today(self, date_string: str) -> None:
         self.given_parser(settings={"RELATIVE_BASE": datetime(2020, 7, 19)})
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
@@ -775,13 +817,13 @@ class TestDateDataParser(BaseTestCase):
             param("снощи", days_ago=1),
         ]
     )
-    def test_temporal_nouns_are_parsed(self, date_string, days_ago):
+    def test_temporal_nouns_are_parsed(self, date_string: str, days_ago: int) -> None:
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
         self.then_date_is_n_days_ago(days=days_ago)
 
-    def test_should_not_assume_language_too_early(self):
+    def test_should_not_assume_language_too_early(self) -> None:
         dates_to_parse = {
             "07/07/2014": datetime(2014, 7, 7).date(),  # any language
             "07.jul.2014 | 12:52": datetime(2014, 7, 7).date(),  # en, es, pt, nl
@@ -814,26 +856,28 @@ class TestDateDataParser(BaseTestCase):
             param(date_string="24 януари 2015г.", locale="bg"),
         ]
     )
-    def test_returned_detected_locale_should_be(self, date_string, locale):
+    def test_returned_detected_locale_should_be(
+        self, date_string: str, locale: str
+    ) -> None:
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
         self.then_detected_locale(locale)
 
-    def test_try_previous_locales_false(self):
+    def test_try_previous_locales_false(self) -> None:
         self.given_parser(try_previous_locales=False)
         self.when_date_string_is_parsed("Mañana")  # es
         self.then_detected_locale("es")
         self.when_date_string_is_parsed("2020-05-01")
         self.then_detected_locale("en")
 
-    def test_try_previous_locales_true(self):
+    def test_try_previous_locales_true(self) -> None:
         self.given_parser(try_previous_locales=True)
         self.when_date_string_is_parsed("Mañana")  # es
         self.then_detected_locale("es")
         self.when_date_string_is_parsed("2020-05-01")
         self.then_detected_locale("es")
 
-    def test_try_previous_locales_order_deterministic(self):
+    def test_try_previous_locales_order_deterministic(self) -> None:
         self.given_parser(try_previous_locales=True)
         self.when_date_string_is_parsed("Mañana")  # es
         self.then_detected_locale("es")
@@ -846,13 +890,15 @@ class TestDateDataParser(BaseTestCase):
             param("2014-10-09T17:57:39+00:00"),
         ]
     )
-    def test_get_date_data_should_not_strip_timezone_info(self, date_string):
+    def test_get_date_data_should_not_strip_timezone_info(
+        self, date_string: str
+    ) -> None:
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
         self.then_parsed_date_has_timezone()
 
-    def test_ignore_surrounding_text_setting_parses_wrapped_date(self):
+    def test_ignore_surrounding_text_setting_parses_wrapped_date(self) -> None:
         # Issue #518: a date wrapped in harmless extra text is parsed when the
         # ``IGNORE_SURROUNDING_TEXT`` setting is enabled.
         self.given_parser(
@@ -864,7 +910,7 @@ class TestDateDataParser(BaseTestCase):
         self.then_detected_locale("fr")
         self.then_period_is("day")
 
-    def test_get_date_data_ignores_surrounding_text_only_when_enabled(self):
+    def test_get_date_data_ignores_surrounding_text_only_when_enabled(self) -> None:
         # The safety property of the ``IGNORE_SURROUNDING_TEXT`` setting: by
         # default, ``get_date_data`` keeps requiring the whole string to be a
         # date, so language detection and ``search_dates`` are unaffected.
@@ -872,7 +918,7 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed("Actualisé le 17 avril 2019")
         self.then_date_was_not_parsed()
 
-    def test_ignore_surrounding_text_with_try_previous_locales(self):
+    def test_ignore_surrounding_text_with_try_previous_locales(self) -> None:
         self.given_parser(
             restrict_to_languages=["fr", "en"],
             try_previous_locales=True,
@@ -909,7 +955,9 @@ class TestDateDataParser(BaseTestCase):
             ),
         ]
     )
-    def test_parse_date_using_format(self, date_string, date_formats, expected_result):
+    def test_parse_date_using_format(
+        self, date_string: str, date_formats: list[str], expected_result: datetime
+    ) -> None:
         self.given_local_tz_offset(0)
         self.given_parser()
         self.when_date_string_is_parsed(date_string, date_formats)
@@ -927,11 +975,11 @@ class TestDateDataParser(BaseTestCase):
         ]
     )
     def test_parsing_date_using_invalid_type_date_format_must_raise_error(
-        self, date_string, date_formats
-    ):
+        self, date_string: str, date_formats: object
+    ) -> None:
         self.given_local_tz_offset(0)
         self.given_parser()
-        self.when_date_string_is_parsed(date_string, date_formats)
+        self.when_date_string_is_parsed(date_string, date_formats)  # type: ignore[arg-type]
         self.then_error_was_raised(
             TypeError,
             [
@@ -950,10 +998,10 @@ class TestDateDataParser(BaseTestCase):
         ]
     )
     def test_parsing_date_using_invalid_type_date_string_must_raise_error(
-        self, date_string
-    ):
+        self, date_string: object
+    ) -> None:
         self.given_parser()
-        self.when_date_string_is_parsed(date_string)
+        self.when_date_string_is_parsed(date_string)  # type: ignore[arg-type]
         self.then_error_was_raised(TypeError, ["Input type must be str"])
 
     @parameterized.expand(
@@ -965,8 +1013,8 @@ class TestDateDataParser(BaseTestCase):
         ]
     )
     def test_parse_date_with_timezones_not_using_formats(
-        self, date_string, expected_result
-    ):
+        self, date_string: str, expected_result: datetime
+    ) -> None:
         self.given_parser(settings={"TO_TIMEZONE": "UTC"})
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
@@ -984,8 +1032,8 @@ class TestDateDataParser(BaseTestCase):
         ]
     )
     def test_parse_date_with_timezones_using_formats_ignore_timezone(
-        self, date_string, date_formats, expected_result
-    ):
+        self, date_string: str, date_formats: list[str], expected_result: datetime
+    ) -> None:
         self.given_local_tz_offset(0)
         self.given_parser()
         self.when_date_string_is_parsed(date_string, date_formats)
@@ -1002,8 +1050,8 @@ class TestDateDataParser(BaseTestCase):
         ]
     )
     def test_should_parse_with_no_break_space_in_dates(
-        self, date_string, expected_result
-    ):
+        self, date_string: str, expected_result: datetime
+    ) -> None:
         self.given_parser()
         self.when_date_string_is_parsed(date_string)
         self.then_date_was_parsed()
@@ -1026,7 +1074,9 @@ class TestDateDataParser(BaseTestCase):
             ),
         ]
     )
-    def test_get_date_tuple(self, date_string, expected_result):
+    def test_get_date_tuple(
+        self, date_string: str, expected_result: tuple[datetime, str, str]
+    ) -> None:
         self.given_parser()
         self.when_get_date_tuple_is_called(date_string)
         self.then_returned_tuple_is(expected_result)
@@ -1063,7 +1113,7 @@ class TestDateDataParser(BaseTestCase):
             ),
         ]
     )
-    def test_short_weekday_names(self, date_string, expected):
+    def test_short_weekday_names(self, date_string: str, expected: datetime) -> None:
         if "Mo" in date_string:
             pytest.xfail(
                 "Known bug: 'Mo' is being interpreted as a month instead of a weekday and needs to be fixed."
@@ -1074,30 +1124,34 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed(date_string)
         self.then_parsed_datetime_is(expected)
 
-    def given_now(self, year, month, day, **time):
+    def given_now(self, year: int, month: int, day: int, **time: Any) -> None:
         now = real_datetime.datetime(year, month, day, **time)
 
         # Patch the datetime *class* in each target module
         class DateParserDateTime(real_datetime.datetime):
             @classmethod
-            def now(cls, tz=None):
+            def now(  # type: ignore[override]
+                cls, tz: real_datetime.tzinfo | None = None
+            ) -> real_datetime.datetime:
                 return now.replace(tzinfo=tz) if tz else now
 
             @classmethod
-            def utcnow(cls):
+            def utcnow(cls) -> real_datetime.datetime:  # type: ignore[override]
                 return now
 
             @classmethod
-            def today(cls):
+            def today(cls) -> real_datetime.datetime:  # type: ignore[override]
                 return now
 
         self.add_patch(patch("dateparser.date.datetime", DateParserDateTime))
         self.add_patch(patch("dateparser.parser.datetime", DateParserDateTime))
 
-    def given_parser(self, restrict_to_languages=None, **params):
+    def given_parser(
+        self, restrict_to_languages: list[str] | None = None, **params: Any
+    ) -> None:
         self.parser = date.DateDataParser(languages=restrict_to_languages, **params)
 
-    def given_local_tz_offset(self, offset):
+    def given_local_tz_offset(self, offset: int) -> None:
         self.add_patch(
             patch.object(
                 dateparser.timezone_parser,
@@ -1106,15 +1160,18 @@ class TestDateDataParser(BaseTestCase):
             )
         )
 
-    def when_date_string_is_parsed(self, date_string, date_formats=None):
+    def when_date_string_is_parsed(
+        self, date_string: str, date_formats: Iterable[str] | None = None
+    ) -> None:
         try:
             self.result = self.parser.get_date_data(date_string, date_formats)
         except Exception as error:
             self.error = error
 
-    def when_multiple_dates_are_parsed(self, date_strings):
+    def when_multiple_dates_are_parsed(self, date_strings: Iterable[str]) -> None:
         self.multiple_results = []
         for date_string in date_strings:
+            result: DateData | Exception
             try:
                 result = self.parser.get_date_data(date_string)
             except Exception as error:
@@ -1122,60 +1179,64 @@ class TestDateDataParser(BaseTestCase):
             finally:
                 self.multiple_results.append(result)
 
-    def when_get_date_tuple_is_called(self, date_string):
-        self.result = self.parser.get_date_tuple(date_string)
+    def when_get_date_tuple_is_called(self, date_string: str) -> None:
+        self.date_tuple = self.parser.get_date_tuple(date_string)
 
-    def then_date_was_parsed(self):
+    def then_date_was_parsed(self) -> None:
         self.assertIsNotNone(self.result["date_obj"])
 
-    def then_date_was_not_parsed(self):
+    def then_date_was_not_parsed(self) -> None:
         self.assertIsNone(self.result["date_obj"])
 
-    def then_date_locale(self):
+    def then_date_locale(self) -> None:
         self.assertIsNotNone(self.result["locale"])
 
-    def then_date_is_n_days_ago(self, days):
+    def then_date_is_n_days_ago(self, days: int) -> None:
         today = datetime.now().date()
         expected_date = today - timedelta(days=days)
         self.assertEqual(expected_date, self.result["date_obj"].date())
 
-    def then_all_results_were_parsed(self):
+    def then_all_results_were_parsed(self) -> None:
         self.assertNotIn(None, self.multiple_results)
 
-    def then_parsed_dates_are(self, expected_dates):
+    def then_parsed_dates_are(self, expected_dates: list[real_datetime.date]) -> None:
         self.assertEqual(
             expected_dates,
-            [result["date_obj"].date() for result in self.multiple_results],
+            [
+                result["date_obj"].date()
+                for result in self.multiple_results
+                if isinstance(result, DateData)
+            ],
         )
 
-    def then_detected_locale(self, locale):
+    def then_detected_locale(self, locale: str) -> None:
         self.assertEqual(locale, self.result["locale"])
 
-    def then_period_is(self, day):
+    def then_period_is(self, day: str) -> None:
         self.assertEqual(day, self.result["period"])
 
-    def then_parsed_datetime_is(self, expected_datetime):
+    def then_parsed_datetime_is(self, expected_datetime: datetime) -> None:
         self.assertEqual(expected_datetime, self.result["date_obj"])
 
-    def then_parsed_date_is(self, expected_date):
+    def then_parsed_date_is(self, expected_date: real_datetime.date) -> None:
         self.assertEqual(expected_date, self.result["date_obj"].date())
 
-    def then_parsed_date_has_timezone(self):
+    def then_parsed_date_has_timezone(self) -> None:
         self.assertTrue(hasattr(self.result["date_obj"], "tzinfo"))
 
-    def then_returned_tuple_is(self, expected_tuple):
-        self.assertEqual(expected_tuple, self.result)
+    def then_returned_tuple_is(self, expected_tuple: tuple[datetime, str, str]) -> None:
+        self.assertEqual(expected_tuple, self.date_tuple)
 
-    def then_previous_locales_is(self, expected_list):
+    def then_previous_locales_is(self, expected_list: list[str]) -> None:
         self.assertEqual(
             expected_list, [locale.shortname for locale in self.parser.previous_locales]
         )
 
 
 class TestParserInitialization(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.parser = NotImplemented
+        self.parser: date.DateDataParser = NotImplemented
 
     @parameterized.expand(
         [
@@ -1183,8 +1244,10 @@ class TestParserInitialization(BaseTestCase):
             param(languages={"languages": ["en", "he", "it"]}),
         ]
     )
-    def test_error_raised_for_invalid_languages_argument(self, languages):
-        self.when_parser_is_initialized(languages=languages)
+    def test_error_raised_for_invalid_languages_argument(
+        self, languages: object
+    ) -> None:
+        self.when_parser_is_initialized(languages=languages)  # type: ignore[arg-type]
         self.then_error_was_raised(
             TypeError,
             ["languages argument must be a list (%r given)" % type(languages)],
@@ -1196,8 +1259,8 @@ class TestParserInitialization(BaseTestCase):
             param(locales={"locales": ["zh-Hant-HK", "ha-NE", "se-SE"]}),
         ]
     )
-    def test_error_raised_for_invalid_locales_argument(self, locales):
-        self.when_parser_is_initialized(locales=locales)
+    def test_error_raised_for_invalid_locales_argument(self, locales: object) -> None:
+        self.when_parser_is_initialized(locales=locales)  # type: ignore[arg-type]
         self.then_error_was_raised(
             TypeError, ["locales argument must be a list (%r given)" % type(locales)]
         )
@@ -1208,8 +1271,8 @@ class TestParserInitialization(BaseTestCase):
             param(region=150),
         ]
     )
-    def test_error_raised_for_invalid_region_argument(self, region):
-        self.when_parser_is_initialized(region=region)
+    def test_error_raised_for_invalid_region_argument(self, region: object) -> None:
+        self.when_parser_is_initialized(region=region)  # type: ignore[arg-type]
         self.then_error_was_raised(
             TypeError, ["region argument must be str (%r given)" % type(region)]
         )
@@ -1223,9 +1286,9 @@ class TestParserInitialization(BaseTestCase):
         ]
     )
     def test_error_raised_for_invalid_try_previous_locales_argument(
-        self, try_previous_locales
-    ):
-        self.when_parser_is_initialized(try_previous_locales=try_previous_locales)
+        self, try_previous_locales: object
+    ) -> None:
+        self.when_parser_is_initialized(try_previous_locales=try_previous_locales)  # type: ignore[arg-type]
         self.then_error_was_raised(
             TypeError,
             [
@@ -1242,9 +1305,12 @@ class TestParserInitialization(BaseTestCase):
             param(use_given_order=1),
         ]
     )
-    def test_error_raised_for_invalid_use_given_order_argument(self, use_given_order):
+    def test_error_raised_for_invalid_use_given_order_argument(
+        self, use_given_order: object
+    ) -> None:
         self.when_parser_is_initialized(
-            locales=["en", "es"], use_given_order=use_given_order
+            locales=["en", "es"],
+            use_given_order=use_given_order,  # type: ignore[arg-type]
         )
         self.then_error_was_raised(
             TypeError,
@@ -1256,24 +1322,24 @@ class TestParserInitialization(BaseTestCase):
 
     def test_error_is_raised_when_use_given_order_is_True_and_locales_and_languages_is_None(
         self,
-    ):
+    ) -> None:
         self.when_parser_is_initialized(use_given_order=True)
         self.then_error_was_raised(
             ValueError,
             ["locales or languages must be given if use_given_order is True"],
         )
 
-    def test_no_error_for_order_with_languages_without_locales(self):
+    def test_no_error_for_order_with_languages_without_locales(self) -> None:
         self.when_parser_is_initialized(languages=["en", "fr"], use_given_order=True)
 
     def when_parser_is_initialized(
         self,
-        languages=None,
-        locales=None,
-        region=None,
-        try_previous_locales=True,
-        use_given_order=False,
-    ):
+        languages: Iterable[str] | None = None,
+        locales: Iterable[str] | None = None,
+        region: str | None = None,
+        try_previous_locales: bool = True,
+        use_given_order: bool = False,
+    ) -> None:
         try:
             self.parser = date.DateDataParser(
                 languages=languages,
@@ -1287,20 +1353,20 @@ class TestParserInitialization(BaseTestCase):
 
 
 class TestSanitizeDate(BaseTestCase):
-    def test_remove_year_in_russian(self):
+    def test_remove_year_in_russian(self) -> None:
         self.assertEqual(date.sanitize_date("2005г."), "2005")
         self.assertEqual(date.sanitize_date("2005г. 20:37"), "2005 20:37")
         self.assertEqual(date.sanitize_date("2005 г."), "2005")
         self.assertEqual(date.sanitize_date("2005 г. 15:24"), "2005 15:24")
         self.assertEqual(date.sanitize_date("Авг."), "Авг")
 
-    def test_sanitize_date_colons(self):
+    def test_sanitize_date_colons(self) -> None:
         self.assertEqual(date.sanitize_date("2019:"), "2019")
         self.assertEqual(date.sanitize_date("31/07/2019:"), "31/07/2019")
 
 
 class TestDateLocaleParser(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
 
     @parameterized.expand(
@@ -1320,13 +1386,13 @@ class TestDateLocaleParser(BaseTestCase):
             ),  # wrong format (list)
             param(date_data=DateData(date_obj=None, period="day")),  # date_obj is None
             param(
-                date_data=DateData(date_obj="29/05/1994", period="day")
+                date_data=DateData(date_obj="29/05/1994", period="day")  # type: ignore[arg-type]
             ),  # wrong date_obj format
         ]
     )
-    def test_is_valid_date_data(self, date_data):
+    def test_is_valid_date_data(self, date_data: object) -> None:
         self.given_parser(
-            language=["en"],
+            language=["en"],  # type: ignore[arg-type]
             date_string="10 jan 2000",
             date_formats=None,
             settings=Settings(),
@@ -1334,25 +1400,31 @@ class TestDateLocaleParser(BaseTestCase):
         self.when_date_object_is_validated(date_data)
         self.then_date_object_is_invalid()
 
-    def given_parser(self, language, date_string, date_formats, settings):
+    def given_parser(
+        self,
+        language: Locale,
+        date_string: str,
+        date_formats: Iterable[str] | None,
+        settings: Settings,
+    ) -> None:
         self.parser = date._DateLocaleParser(
             language, date_string, date_formats, settings
         )
 
-    def when_date_object_is_validated(self, date_data):
+    def when_date_object_is_validated(self, date_data: object) -> None:
         self.is_valid_date_obj = self.parser._is_valid_date_data(date_data)
 
-    def then_date_object_is_invalid(self):
+    def then_date_object_is_invalid(self) -> None:
         self.assertFalse(self.is_valid_date_obj)
 
 
 class TestTimestampParser(BaseTestCase):
-    def given_parser(self, **params):
+    def given_parser(self, **params: Any) -> None:
         self.parser = date.DateDataParser(**params)
 
-    def given_tzstr(self, tzstr):
+    def given_tzstr(self, tzstr: str | None) -> None:
         # Save the existing value
-        self.old_tzstr = os.environ["TZ"] if "TZ" in os.environ else None
+        self.old_tzstr: str | None = os.environ["TZ"] if "TZ" in os.environ else None
 
         # Overwrite the value, or remove it
         if tzstr is not None:
@@ -1363,7 +1435,7 @@ class TestTimestampParser(BaseTestCase):
         # Call tzset
         tzset()
 
-    def reset_tzstr(self):
+    def reset_tzstr(self) -> None:
         # If we never set it with given_tzstr, don't bother resetting it
         if not hasattr(self, "old_tzstr"):
             return
@@ -1380,7 +1452,7 @@ class TestTimestampParser(BaseTestCase):
         # Restore the old timezone behavior
         tzset()
 
-    def test_timestamp_in_milliseconds(self):
+    def test_timestamp_in_milliseconds(self) -> None:
         self.assertEqual(
             date.get_date_from_timestamp("1570308760263", None),
             datetime.fromtimestamp(1570308760).replace(microsecond=263000),
@@ -1395,9 +1467,9 @@ class TestTimestampParser(BaseTestCase):
         )
     )
     def test_timestamp_with_different_timestr(
-        self, timestamp, timezone, to_timezone, tzstr
-    ):
-        settings = {
+        self, timestamp: str, timezone: str, to_timezone: str | None, tzstr: str | None
+    ) -> None:
+        settings: dict[str, object] = {
             "RETURN_AS_TIMEZONE_AWARE": True,
             "TIMEZONE": timezone,
         }
@@ -1417,7 +1489,7 @@ class TestTimestampParser(BaseTestCase):
 
         self.reset_tzstr()
 
-    def test_timestamp_in_microseconds(self):
+    def test_timestamp_in_microseconds(self) -> None:
         self.assertEqual(
             date.get_date_from_timestamp("1570308760263111", None),
             datetime.fromtimestamp(1570308760).replace(microsecond=263111),
@@ -1439,7 +1511,9 @@ class TestTimestampParser(BaseTestCase):
             ),
         ]
     )
-    def test_timestamp_with_negative(self, input_timestamp, negative, result):
+    def test_timestamp_with_negative(
+        self, input_timestamp: str, negative: bool, result: datetime | None
+    ) -> None:
         self.assertEqual(
             date.get_date_from_timestamp(input_timestamp, None, negative=negative),
             result,
@@ -1459,7 +1533,7 @@ class TestTimestampParser(BaseTestCase):
             param(date_string="1570308760263111222"),
         ]
     )
-    def test_timestamp_with_wrong_length(self, date_string):
+    def test_timestamp_with_wrong_length(self, date_string: str) -> None:
         self.assertEqual(date.get_date_from_timestamp(date_string, None), None)
 
 

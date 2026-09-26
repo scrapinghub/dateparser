@@ -1,15 +1,22 @@
 import sys
 import threading
 import unittest
+from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
+from typing import Literal, TypeVar
 
 import dateparser.data.date_translation_data.en as en_data
 from dateparser.conf import settings as base_settings
-from dateparser.date import DateDataParser
+from dateparser.date import DateData, DateDataParser
+from dateparser.languages.locale import Locale
 from dateparser.languages.dictionary import Dictionary
 from dateparser.search import search_dates
 from dateparser.search.search import DateSearchWithDetection, _ExactLanguageSearch
 from tests import BaseTestCase
+
+_T = TypeVar("_T")
+_R = TypeVar("_R")
 
 
 class TestThreadSafety(BaseTestCase):
@@ -20,7 +27,7 @@ class TestThreadSafety(BaseTestCase):
     https://github.com/scrapinghub/dateparser/issues/1369.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         # A tiny thread-switch interval makes the interpreter yield between
         # almost every bytecode, so the narrow check-then-read windows that
@@ -29,16 +36,18 @@ class TestThreadSafety(BaseTestCase):
         self._switch_interval = sys.getswitchinterval()
         sys.setswitchinterval(1e-7)
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         sys.setswitchinterval(self._switch_interval)
         super().tearDown()
 
-    def _run_concurrently(self, func, args_list, workers=32):
+    def _run_concurrently(
+        self, func: Callable[[_T], _R], args_list: Iterable[_T], workers: int = 32
+    ) -> list[_R]:
         with ThreadPoolExecutor(max_workers=workers) as executor:
             futures = [executor.submit(func, arg) for arg in args_list]
             return [future.result() for future in futures]
 
-    def test_dictionary_cache_eviction_concurrently(self):
+    def test_dictionary_cache_eviction_concurrently(self) -> None:
         # Issue #1291: concurrent population/eviction of the size-limited
         # dictionary caches raised intermittent ``KeyError`` because the cache
         # was read after a concurrent eviction could remove the entry.
@@ -50,7 +59,7 @@ class TestThreadSafety(BaseTestCase):
             for i in range(24)
         ]
 
-        def hammer(index):
+        def hammer(index: int) -> bool:
             dictionary = dictionaries[index % len(dictionaries)]
             for _ in range(50):
                 dictionary.split("2 days ago")
@@ -60,7 +69,7 @@ class TestThreadSafety(BaseTestCase):
         results = self._run_concurrently(hammer, range(24))
         self.assertTrue(all(results))
 
-    def test_settings_date_order_not_mutated_while_parsing(self):
+    def test_settings_date_order_not_mutated_while_parsing(self) -> None:
         # The absolute-time parser used to assign the locale-specific date order
         # onto the shared Settings object in place (restoring it afterwards), so
         # a concurrent parse could observe and use a foreign DATE_ORDER. Here the
@@ -72,14 +81,14 @@ class TestThreadSafety(BaseTestCase):
         baseline = parser._settings.DATE_ORDER
         self.assertEqual(baseline, "MDY")
 
-        observed = set()
+        observed: set[str] = set()
         stop = threading.Event()
 
-        def watch():
+        def watch() -> None:
             while not stop.is_set():
                 observed.add(parser._settings.DATE_ORDER)
 
-        def parse(i):
+        def parse(i: int) -> DateData:
             return parser.get_date_data(
                 ["02.03.2014", "2014-03-02", "11.12.2013"][i % 3]
             )
@@ -94,7 +103,7 @@ class TestThreadSafety(BaseTestCase):
 
         self.assertEqual(observed, {baseline})
 
-    def test_search_does_not_mutate_shared_relative_base(self):
+    def test_search_does_not_mutate_shared_relative_base(self) -> None:
         # search_dates used to assign RELATIVE_BASE onto the shared default
         # Settings while resolving relative dates, polluting it for concurrent
         # parses/searches.
@@ -104,14 +113,16 @@ class TestThreadSafety(BaseTestCase):
         )
         baseline = base_settings.RELATIVE_BASE
 
-        observed = set()
+        observed: set[datetime | Literal[False]] = set()
         stop = threading.Event()
 
-        def watch():
+        def watch() -> None:
             while not stop.is_set():
                 observed.add(base_settings.RELATIVE_BASE)
 
-        def search(i):
+        def search(
+            i: int,
+        ) -> list[tuple[str, datetime]] | list[tuple[str, datetime, str | None]] | None:
             return search_dates(text, languages=["ru"])
 
         watcher = threading.Thread(target=watch)
@@ -125,7 +136,7 @@ class TestThreadSafety(BaseTestCase):
         self.assertTrue(all(result is not None for result in results))
         self.assertEqual(observed, {baseline})
 
-    def test_detect_language_does_not_leave_narrowed_detector_on_instance(self):
+    def test_detect_language_does_not_leave_narrowed_detector_on_instance(self) -> None:
         # Issue #1369 site 1: detect_language used to stash a FullTextLanguageDetector
         # on the process-wide singleton. _best_language narrows detector.languages
         # in place, so a concurrent search_dates can load another call's already-
@@ -144,7 +155,7 @@ class TestThreadSafety(BaseTestCase):
                 "(issue #1369). leftover=%r" % leftover,
             )
 
-    def test_concurrent_search_dates_does_not_share_language_detector(self):
+    def test_concurrent_search_dates_does_not_share_language_detector(self) -> None:
         # Issue #1369 site 1: the store/load gap is a few bytecodes, so park each
         # thread immediately after it stores the detector. Sequential search_dates
         # is not a valid RED for this race.
@@ -155,20 +166,20 @@ class TestThreadSafety(BaseTestCase):
         self.assertIsNotNone(sequential_ru)
         self.assertIsNotNone(sequential_en)
 
-        slot = {}
+        slot: dict[str, object] = {}
         barrier = threading.Barrier(2, timeout=10)
 
-        def _get(self):
+        def _get(self: DateSearchWithDetection) -> object:
             return slot["v"]
 
-        def _set(self, value):
+        def _set(self: DateSearchWithDetection, value: object) -> None:
             slot["v"] = value
             try:
                 barrier.wait()
             except threading.BrokenBarrierError:
                 pass
 
-        DateSearchWithDetection.language_detector = property(_get, _set)
+        DateSearchWithDetection.language_detector = property(_get, _set)  # type: ignore[attr-defined]
         try:
             with ThreadPoolExecutor(max_workers=2) as executor:
                 ru, en = executor.map(
@@ -176,12 +187,12 @@ class TestThreadSafety(BaseTestCase):
                     [(ru_text, "ru"), (en_text, "en")],
                 )
         finally:
-            del DateSearchWithDetection.language_detector
+            del DateSearchWithDetection.language_detector  # type: ignore[attr-defined]
 
         self.assertEqual(ru, sequential_ru)
         self.assertEqual(en, sequential_en)
 
-    def test_concurrent_search_dates_does_not_share_locale_slot(self):
+    def test_concurrent_search_dates_does_not_share_locale_slot(self) -> None:
         # Issue #1369 site 2: _ExactLanguageSearch.self.language is a 1-slot cache
         # on the same singleton. Park after get_current_language so a store from
         # the other thread lands before translate_search.
@@ -195,7 +206,7 @@ class TestThreadSafety(BaseTestCase):
         original = _ExactLanguageSearch.get_current_language
         barrier = threading.Barrier(2, timeout=10)
 
-        def patched(self, shortname):
+        def patched(self: _ExactLanguageSearch, shortname: str) -> Locale:
             result = original(self, shortname)
             try:
                 barrier.wait()
@@ -203,7 +214,7 @@ class TestThreadSafety(BaseTestCase):
                 pass
             return result
 
-        _ExactLanguageSearch.get_current_language = patched
+        _ExactLanguageSearch.get_current_language = patched  # type: ignore[method-assign]
         try:
             with ThreadPoolExecutor(max_workers=2) as executor:
                 ru, en = executor.map(
@@ -211,7 +222,7 @@ class TestThreadSafety(BaseTestCase):
                     [(ru_text, "ru"), (en_text, "en")],
                 )
         finally:
-            _ExactLanguageSearch.get_current_language = original
+            _ExactLanguageSearch.get_current_language = original  # type: ignore[method-assign]
 
         self.assertEqual(ru, sequential_ru)
         self.assertEqual(en, sequential_en)

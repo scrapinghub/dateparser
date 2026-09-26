@@ -1,6 +1,7 @@
 import os
 import shutil
 from pathlib import Path
+from typing import Any
 
 from git import Repo
 
@@ -8,7 +9,7 @@ from git import Repo
 CLDR_JSON_DIR = (Path(__file__).parent / "../cldr-json").resolve()
 
 
-def get_raw_data():
+def get_raw_data() -> None:
     cldr_version = "44.1.0"
     url = "https://github.com/unicode-org/cldr-json.git"
     if os.path.isdir(CLDR_JSON_DIR):
@@ -18,7 +19,9 @@ def get_raw_data():
     Repo.clone_from(url, CLDR_JSON_DIR, branch=cldr_version, depth=1)
 
 
-def get_dict_difference(parent_dict, child_dict):
+def get_dict_difference(
+    parent_dict: dict[str, Any], child_dict: dict[str, Any]
+) -> dict[str, Any]:
     difference_dict = {}
     for key, child_value in child_dict.items():
         parent_value = parent_dict.get(key)
@@ -36,7 +39,9 @@ def get_dict_difference(parent_dict, child_dict):
     return difference_dict
 
 
-def combine_dicts(primary_dict, supplementary_dict):
+def combine_dicts(
+    primary_dict: dict[str, Any], supplementary_dict: dict[str, Any]
+) -> dict[str, Any]:
     combined_dict = {}
     for key, value in primary_dict.items():
         if key in supplementary_dict:

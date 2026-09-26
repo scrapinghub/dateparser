@@ -54,6 +54,7 @@ Run it to print a report; it exits non-zero when it finds anything::
 """
 
 from collections import namedtuple
+from collections.abc import Collection, Mapping
 from datetime import datetime
 
 import pytz
@@ -92,7 +93,7 @@ Conflict = namedtuple(
 )
 
 
-def static_tz_abbreviations():
+def static_tz_abbreviations() -> dict[str, int]:
     """Return ``{abbreviation: offset_in_seconds}`` as dateparser resolves it.
 
     A few abbreviations are listed more than once in ``timezone_info_list``
@@ -107,14 +108,14 @@ def static_tz_abbreviations():
     case-insensitively, so a differently-cased entry such as ``ChST`` is the
     same abbreviation and has to be compared as one.
     """
-    effective = {}
+    effective: dict[str, int] = {}
     for group in timezone_info_list:
         for name, offset in group["timezones"]:
             effective.setdefault(name.upper(), offset)
     return effective
 
 
-def tz_database_abbreviations():
+def tz_database_abbreviations() -> dict[str, set[int]]:
     """Return ``{abbreviation: {offset_in_seconds, ...}}`` from the tz database.
 
     Every zone is sampled, including the deprecated aliases (``US/Pacific``,
@@ -129,7 +130,7 @@ def tz_database_abbreviations():
         for year in REFERENCE_YEARS
         for month in REFERENCE_MONTHS
     ]
-    abbreviations = {}
+    abbreviations: dict[str, set[int]] = {}
     for zone_name in pytz.all_timezones:
         zone = pytz.timezone(zone_name)
         for naive in samples:
@@ -137,12 +138,17 @@ def tz_database_abbreviations():
             abbreviation = localized.tzname()
             if not abbreviation or _NUMERIC_ZONE_NAME.fullmatch(abbreviation):
                 continue
-            offset = int(localized.utcoffset().total_seconds())
+            utcoffset = localized.utcoffset()
+            assert utcoffset is not None
+            offset = int(utcoffset.total_seconds())
             abbreviations.setdefault(abbreviation.upper(), set()).add(offset)
     return abbreviations
 
 
-def find_conflicts(static=None, tz_database=None):
+def find_conflicts(
+    static: Mapping[str, int] | None = None,
+    tz_database: Mapping[str, Collection[int]] | None = None,
+) -> list[Conflict]:
     """Return the sorted list of :class:`Conflict` between both tables.
 
     ``static`` and ``tz_database`` default to the real tables and are only
@@ -170,7 +176,7 @@ def find_conflicts(static=None, tz_database=None):
     return sorted(conflicts)
 
 
-def main():
+def main() -> int:
     found = find_conflicts()
     if not found:
         print(
