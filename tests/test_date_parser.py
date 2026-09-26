@@ -30,7 +30,7 @@ class TestDateParser(BaseTestCase):
             param("Tuesday Jul 22, 2014", datetime(2014, 7, 22)),
             param("Tues 9th Aug, 2015", datetime(2015, 8, 9)),
             param("10:04am", datetime(2012, 11, 13, 10, 4)),
-            param("Friday", datetime(2012, 11, 9)),
+            param("Friday", datetime(2012, 11, 16)),
             param("November 19, 2014 at noon", datetime(2014, 11, 19, 12, 0)),
             param("December 13, 2014 at midnight", datetime(2014, 12, 13, 0, 0)),
             param("Nov 25 2014 10:17 pm", datetime(2014, 11, 25, 22, 17)),
@@ -68,7 +68,7 @@ class TestDateParser(BaseTestCase):
             param("le 08 Déc 2014 15:11", datetime(2014, 12, 8, 15, 11)),
             param("Le 11 Décembre 2014 à 09:00", datetime(2014, 12, 11, 9, 0)),
             param("fév 15, 2013", datetime(2013, 2, 15, 0, 0)),
-            param("Jeu 15:12", datetime(2012, 11, 8, 15, 12)),
+            param("Jeu 15:12", datetime(2012, 11, 15, 15, 12)),
             # Spanish dates
             param("Martes 21 de Octubre de 2014", datetime(2014, 10, 21)),
             param("Miércoles 20 de Noviembre de 2013", datetime(2013, 11, 20)),
@@ -77,7 +77,7 @@ class TestDateParser(BaseTestCase):
             param("13 Septiembre, 2014", datetime(2014, 9, 13)),
             param("11 Marzo, 2014", datetime(2014, 3, 11)),
             param("julio 5, 2015 en 1:04 pm", datetime(2015, 7, 5, 13, 4)),
-            param("Vi 17:15", datetime(2012, 11, 9, 17, 15)),
+            param("Vi 17:15", datetime(2012, 11, 16, 17, 15)),
             # Dutch dates
             param("11 augustus 2014", datetime(2014, 8, 11)),
             param("14 januari 2014", datetime(2014, 1, 14)),
@@ -85,13 +85,13 @@ class TestDateParser(BaseTestCase):
             # Italian dates
             param("16 giu 2014", datetime(2014, 6, 16)),
             param("26 gennaio 2014", datetime(2014, 1, 26)),
-            param("Ven 18:23", datetime(2012, 11, 9, 18, 23)),
+            param("Ven 18:23", datetime(2012, 11, 16, 18, 23)),
             # Portuguese dates
             param(
                 "sexta-feira, 10 de junho de 2014 14:52", datetime(2014, 6, 10, 14, 52)
             ),
             param("13 Setembro, 2014", datetime(2014, 9, 13)),
-            param("Sab 3:03", datetime(2012, 11, 10, 3, 3)),
+            param("Sab 3:03", datetime(2012, 11, 17, 3, 3)),
             # Russian dates
             param("10 мая", datetime(2012, 5, 10)),  # forum.codenet.ru
             param("26 апреля", datetime(2012, 4, 26)),
@@ -133,7 +133,7 @@ class TestDateParser(BaseTestCase):
             param("1. Sept 2000", datetime(2000, 9, 1)),
             param("18.10.14 um 22:56 Uhr", datetime(2014, 10, 18, 22, 56)),
             param("12-Mär-2014", datetime(2014, 3, 12)),
-            param("Mit 13:14", datetime(2012, 11, 7, 13, 14)),
+            param("Mit 13:14", datetime(2012, 11, 14, 13, 14)),
             param("23. März 18.37 Uhr", datetime(2012, 3, 23, 18, 37)),
             # Czech dates
             param("pon 16. čer 2014 10:07:43", datetime(2014, 6, 16, 10, 7, 43)),
@@ -146,8 +146,8 @@ class TestDateParser(BaseTestCase):
             param("1 เดือนตุลาคม 2005, 1:00 AM", datetime(2005, 10, 1, 1, 0)),
             param("11 ก.พ. 2020, 1:13 pm", datetime(2020, 2, 11, 13, 13)),
             # Vietnamese dates
-            param("Thứ năm", datetime(2012, 11, 8)),  # Thursday
-            param("Thứ sáu", datetime(2012, 11, 9)),  # Friday
+            param("Thứ năm", datetime(2012, 11, 15)),  # Thursday
+            param("Thứ sáu", datetime(2012, 11, 16)),  # Friday
             param(
                 "Tháng Mười Hai 29, 2013, 14:14", datetime(2013, 12, 29, 14, 14)
             ),  # bpsosrcs.wordpress.com  # NOQA
@@ -172,7 +172,7 @@ class TestDateParser(BaseTestCase):
             param("12 Hulyo 2003 13:01", datetime(2003, 7, 12, 13, 1)),
             param("1978, 1 Peb, 7:05 PM", datetime(1978, 2, 1, 19, 5)),
             param("2 hun", datetime(2012, 6, 2)),
-            param("Lin 16:16", datetime(2012, 11, 11, 16, 16)),
+            param("Lin 16:16", datetime(2012, 11, 18, 16, 16)),
             # Japanese dates
             param("2016年3月20日(日) 21時40分", datetime(2016, 3, 20, 21, 40)),
             param("2016年3月20日 21時40分", datetime(2016, 3, 20, 21, 40)),
@@ -198,7 +198,7 @@ class TestDateParser(BaseTestCase):
             # Bangla dates
             param("[সেপ্টেম্বর] 04, 2014.", datetime(2014, 9, 4)),
             param("মঙ্গলবার জুলাই 22, 2014", datetime(2014, 7, 22)),
-            param("শুক্রবার", datetime(2012, 11, 9)),
+            param("শুক্রবার", datetime(2012, 11, 16)),
             param("শুক্র, 12 ডিসেম্বর 2014 10:55:50", datetime(2014, 12, 12, 10, 55, 50)),
             param("1লা জানুয়ারী 2015", datetime(2015, 1, 1)),
             param("25শে মার্চ 1971", datetime(1971, 3, 25)),
@@ -293,7 +293,7 @@ class TestDateParser(BaseTestCase):
             param("[Sept] 04, 2014.", datetime(2014, 9, 4)),
             param("Tuesday Jul 22, 2014", datetime(2014, 7, 22)),
             param("10:04am", datetime(2012, 11, 13, 10, 4)),
-            param("Friday", datetime(2012, 11, 9)),
+            param("Friday", datetime(2012, 11, 16)),
             param("November 19, 2014 at noon", datetime(2014, 11, 19, 12, 0)),
             param("December 13, 2014 at midnight", datetime(2014, 12, 13, 0, 0)),
             param("Nov 25 2014 10:17 pm", datetime(2014, 11, 25, 22, 17)),
@@ -316,7 +316,7 @@ class TestDateParser(BaseTestCase):
             param("le 08 Déc 2014 15:11", datetime(2014, 12, 8, 15, 11)),
             param("Le 11 Décembre 2014 à 09:00", datetime(2014, 12, 11, 9, 0)),
             param("fév 15, 2013", datetime(2013, 2, 15, 0, 0)),
-            param("Jeu 15:12", datetime(2012, 11, 8, 15, 12)),
+            param("Jeu 15:12", datetime(2012, 11, 15, 15, 12)),
             # Spanish dates
             param("Martes 21 de Octubre de 2014", datetime(2014, 10, 21)),
             param("Miércoles 20 de Noviembre de 2013", datetime(2013, 11, 20)),
@@ -325,7 +325,7 @@ class TestDateParser(BaseTestCase):
             param("13 Septiembre, 2014", datetime(2014, 9, 13)),
             param("11 Marzo, 2014", datetime(2014, 3, 11)),
             param("julio 5, 2015 en 1:04 pm", datetime(2015, 7, 5, 13, 4)),
-            param("Vi 17:15", datetime(2012, 11, 9, 17, 15)),
+            param("Vi 17:15", datetime(2012, 11, 16, 17, 15)),
             # Dutch dates
             param("11 augustus 2014", datetime(2014, 8, 11)),
             param("14 januari 2014", datetime(2014, 1, 14)),
@@ -333,13 +333,13 @@ class TestDateParser(BaseTestCase):
             # Italian dates
             param("16 giu 2014", datetime(2014, 6, 16)),
             param("26 gennaio 2014", datetime(2014, 1, 26)),
-            param("Ven 18:23", datetime(2012, 11, 9, 18, 23)),
+            param("Ven 18:23", datetime(2012, 11, 16, 18, 23)),
             # Portuguese dates
             param(
                 "sexta-feira, 10 de junho de 2014 14:52", datetime(2014, 6, 10, 14, 52)
             ),
             param("13 Setembro, 2014", datetime(2014, 9, 13)),
-            param("Sab 3:03", datetime(2012, 11, 10, 3, 3)),
+            param("Sab 3:03", datetime(2012, 11, 17, 3, 3)),
             # Russian dates
             param("10 мая", datetime(2012, 5, 10)),  # forum.codenet.ru
             param("26 апреля", datetime(2012, 4, 26)),
@@ -366,7 +366,7 @@ class TestDateParser(BaseTestCase):
             param("13 iunie 2013", datetime(2013, 6, 13)),
             param("14 aprilie 2014", datetime(2014, 4, 14)),
             param("18 martie 2012", datetime(2012, 3, 18)),
-            param("S 14:14", datetime(2012, 11, 10, 14, 14)),
+            param("S 14:14", datetime(2012, 11, 17, 14, 14)),
             param("12-Iun-2013", datetime(2013, 6, 12)),
             # German dates
             param("21. Dezember 2013", datetime(2013, 12, 21)),
@@ -374,7 +374,7 @@ class TestDateParser(BaseTestCase):
             param("26. Juli 2014", datetime(2014, 7, 26)),
             param("18.10.14 um 22:56 Uhr", datetime(2014, 10, 18, 22, 56)),
             param("12-Mär-2014", datetime(2014, 3, 12)),
-            param("Mit 13:14", datetime(2012, 11, 7, 13, 14)),
+            param("Mit 13:14", datetime(2012, 11, 14, 13, 14)),
             # Czech dates
             param("pon 16. čer 2014 10:07:43", datetime(2014, 6, 16, 10, 7, 43)),
             param("13 Srpen, 2014", datetime(2014, 8, 13)),
@@ -388,8 +388,8 @@ class TestDateParser(BaseTestCase):
             param("1 เดือนตุลาคม 2005, 1:00 AM", datetime(2005, 10, 1, 1, 0)),
             param("11 ก.พ. 2020, 1:13 pm", datetime(2020, 2, 11, 13, 13)),
             # Vietnamese dates
-            param("Thứ năm", datetime(2012, 11, 8)),  # Thursday
-            param("Thứ sáu", datetime(2012, 11, 9)),  # Friday
+            param("Thứ năm", datetime(2012, 11, 15)),  # Thursday
+            param("Thứ sáu", datetime(2012, 11, 16)),  # Friday
             param(
                 "Tháng Mười Hai 29, 2013, 14:14", datetime(2013, 12, 29, 14, 14)
             ),  # bpsosrcs.wordpress.com  # NOQA
@@ -414,14 +414,14 @@ class TestDateParser(BaseTestCase):
             param("12 Hulyo 2003 13:01", datetime(2003, 7, 12, 13, 1)),
             param("1978, 1 Peb, 7:05 PM", datetime(1978, 2, 1, 19, 5)),
             param("2 hun", datetime(2012, 6, 2)),
-            param("Lin 16:16", datetime(2012, 11, 11, 16, 16)),
+            param("Lin 16:16", datetime(2012, 11, 18, 16, 16)),
             # Japanese dates
             param("2016年3月20日(日) 21時40分", datetime(2016, 3, 20, 21, 40)),
             param("2016年3月20日 21時40分", datetime(2016, 3, 20, 21, 40)),
             # Bangla dates
             param("[সেপ্টেম্বর] 04, 2014.", datetime(2014, 9, 4)),
             param("মঙ্গলবার জুলাই 22, 2014", datetime(2014, 7, 22)),
-            param("শুক্রবার", datetime(2012, 11, 9)),
+            param("শুক্রবার", datetime(2012, 11, 16)),
             param("শুক্র, 12 ডিসেম্বর 2014 10:55:50", datetime(2014, 12, 12, 10, 55, 50)),
             param("1লা জানুয়ারী 2015", datetime(2015, 1, 1)),
             param("25শে মার্চ 1971", datetime(1971, 3, 25)),
@@ -670,6 +670,26 @@ class TestDateParser(BaseTestCase):
             settings={
                 "PREFER_DATES_FROM": "current_period",
                 "RELATIVE_BASE": datetime(2015, 2, 15, 15, 30),
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("Monday", datetime(2021, 12, 20)),
+            param("Thursday", datetime(2021, 12, 23)),
+            param("Friday", datetime(2021, 12, 24)),
+            param("Sunday", datetime(2021, 12, 26)),
+        ]
+    )
+    def test_weekday_without_preference_is_in_current_week(self, date_string, expected):
+        self.given_local_tz_offset(0)
+        self.given_parser(
+            settings={
+                "PREFER_DATES_FROM": "current_period",
+                "RELATIVE_BASE": datetime(2021, 12, 23, 15, 30),
             }
         )
         self.when_date_is_parsed(date_string)
@@ -1942,6 +1962,71 @@ class TestDateParser(BaseTestCase):
     def test_out_of_range_day_of_year_is_not_parsed(self, date_string):
         """Test that an invalid %j value is not read as another date (Issue #271)."""
         self.assertIsNone(parse(date_string, date_formats=["%Y%j"]))
+
+    @parameterized.expand(
+        [
+            param(prefer_dates_from="current_period"),
+            param(prefer_dates_from="past"),
+            param(prefer_dates_from="future"),
+        ]
+    )
+    def test_weekday_with_modifier(self, prefer_dates_from):
+        weekdays = [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+        ]
+        for base_weekday in range(7):
+            relative_base = datetime(2026, 9, 21 + base_weekday, 12)
+            settings = {
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "RELATIVE_BASE": relative_base,
+            }
+            midnight = relative_base.replace(hour=0)
+            for weekday, name in enumerate(weekdays):
+                expected = {
+                    "last": -((base_weekday - weekday - 1) % 7 + 1),
+                    "this": (weekday - base_weekday) % 7,
+                    "next": (weekday - base_weekday - 1) % 7 + 1,
+                }
+                for modifier, days in expected.items():
+                    date_string = f"{modifier} {name}"
+                    with self.subTest(date_string=date_string, base=relative_base):
+                        self.assertEqual(
+                            parse(date_string, settings=settings),
+                            midnight + timedelta(days=days),
+                        )
+
+    @parameterized.expand(
+        [
+            param("Next Tuesday", datetime(2026, 9, 29)),
+            param("next tues", datetime(2026, 9, 29)),
+            param("last fri", datetime(2026, 9, 18)),
+            param("next Friday at 5pm", datetime(2026, 9, 25, 17)),
+            param("12am last monday", datetime(2026, 9, 21)),
+        ]
+    )
+    def test_weekday_with_modifier_variants(self, date_string, expected):
+        settings = {"RELATIVE_BASE": datetime(2026, 9, 23, 12)}
+        self.assertEqual(parse(date_string, settings=settings), expected)
+
+    @parameterized.expand(
+        [
+            param("next"),
+            param("this"),
+            param("last 5pm"),
+            param("thursday next"),
+            param("next next friday"),
+            param("last three"),
+            param("next friday last monday"),
+        ]
+    )
+    def test_misplaced_modifier_is_not_parsed(self, date_string):
+        self.assertIsNone(parse(date_string, languages=["en"]))
 
 
 if __name__ == "__main__":
