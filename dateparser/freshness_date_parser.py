@@ -38,6 +38,10 @@ class FreshnessDateDataParser:
         return get_localzone()
 
     def parse(self, date_string, settings):
+        date, period, _ = self._parse(date_string, settings)
+        return date, period
+
+    def _parse(self, date_string, settings):
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
         _time = self._parse_time(date_string, settings)
@@ -88,7 +92,9 @@ class FreshnessDateDataParser:
             else:
                 now = datetime.now(self.get_local_tz())
 
-        date, period = self._parse_date(date_string, now, settings.PREFER_DATES_FROM)
+        date, period, delta = self._parse_date(
+            date_string, now, settings.PREFER_DATES_FROM
+        )
 
         if date:
             old_date = date
@@ -106,11 +112,11 @@ class FreshnessDateDataParser:
             ):
                 date = date.replace(tzinfo=None)
 
-        return date, period
+        return date, period, delta
 
     def _parse_date(self, date_string, now, prefer_dates_from):
         if not self._are_all_words_units(date_string):
-            return None, None
+            return None, None, None
 
         result = self.get_kwargs(date_string)
         if isinstance(result, tuple):
@@ -120,7 +126,7 @@ class FreshnessDateDataParser:
             explicit_signs = {}
 
         if not kwargs:
-            return None, None
+            return None, None, None
         period = "day"
         if "days" not in kwargs:
             for k in ["weeks", "months", "years", "decades"]:
@@ -157,7 +163,7 @@ class FreshnessDateDataParser:
 
         date = now + td
 
-        return date, period
+        return date, period, td
 
     def get_kwargs(self, date_string):
         m = PATTERN.findall(date_string)
@@ -177,8 +183,11 @@ class FreshnessDateDataParser:
     def get_date_data(self, date_string, settings=None):
         from dateparser.date import DateData
 
-        date, period = self.parse(date_string, settings)
-        return DateData(date_obj=date, period=period)
+        date, period, delta = self._parse(date_string, settings)
+        date_data = DateData(date_obj=date, period=period)
+        if delta is not None:
+            date_data.relative_delta = delta
+        return date_data
 
 
 freshness_date_parser = FreshnessDateDataParser()
