@@ -467,6 +467,12 @@ class TestTranslateSearch(BaseTestCase):
                 ],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
+            param(
+                "pl",
+                "Nie przyjdę dziś o 11:00",
+                [("dziś o 11:00", datetime.datetime(2000, 1, 1, 11, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
             # Portuguese
             param(
                 "pt",
