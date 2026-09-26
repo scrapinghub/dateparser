@@ -92,6 +92,7 @@ class TestDateData:
             ("-5wk", relativedelta(weeks=-5)),
             ("2 decades, +1 year", relativedelta(years=-19)),
             ("hace 2 horas", relativedelta(hours=-2)),
+            ("2 days ago at 5pm", relativedelta(days=-2)),
             ("1 may 1990", None),
         ],
     )

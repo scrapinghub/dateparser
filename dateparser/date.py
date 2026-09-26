@@ -428,6 +428,9 @@ class DateData:
     ``"2 hours ago"``, or ``None`` if the date string is not relative.
 
     .. versionadded:: VERSION
+
+    A time of day in the date string, e.g. ``"2 days ago at 5pm"``, sets the
+    time of :attr:`date_obj` and is not part of the delta.
     """
 
     def __init__(self, *, date_obj=None, period=None, locale=None):
