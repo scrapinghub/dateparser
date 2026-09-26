@@ -309,7 +309,7 @@ class _parser:
                         ][2]
 
                         next_token_is_last = (
-                            index_next_token == len(self.filtered_tokens) - 1
+                            index_in_tokens_for_next_token == len(self.tokens) - 1
                         )
                         if (
                             next_token_is_last
