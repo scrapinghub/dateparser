@@ -179,7 +179,6 @@ info = {
         "Niedziela",
         "Niedzielę",
         "Niedziele",
-        "Nie",
         "Nd"
     ],
     "am": [
