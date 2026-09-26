@@ -3,11 +3,17 @@ Utilities for handling time spans and date ranges.
 """
 
 import re
+from collections.abc import Mapping
 from datetime import datetime, timedelta
+from typing import TYPE_CHECKING, Any
+
 from dateutil.relativedelta import relativedelta
 
+if TYPE_CHECKING:
+    from dateparser.conf import Settings
 
-def get_week_start(date, start_of_week="monday"):
+
+def get_week_start(date: datetime, start_of_week: str = "monday") -> datetime:
     """Get the start of the week for a given date."""
     if start_of_week == "monday":
         days_back = date.weekday()
@@ -17,13 +23,13 @@ def get_week_start(date, start_of_week="monday"):
     return date - timedelta(days=days_back)
 
 
-def get_week_end(date, start_of_week="monday"):
+def get_week_end(date: datetime, start_of_week: str = "monday") -> datetime:
     """Get the end of the week for a given date."""
     week_start = get_week_start(date, start_of_week)
     return week_start + timedelta(days=6)
 
 
-def detect_time_span(text):
+def detect_time_span(text: str) -> dict[str, Any] | None:
     """Detect time span expressions in text and return span information."""
     span_patterns = [
         {
@@ -81,7 +87,7 @@ def detect_time_span(text):
     for pattern_info in span_patterns:
         match = re.search(pattern_info["pattern"], text, re.IGNORECASE)
         if match:
-            result = {
+            result: dict[str, Any] = {
                 "type": pattern_info["type"],
                 "direction": pattern_info["direction"],
                 "matched_text": match.group(0),
@@ -97,7 +103,11 @@ def detect_time_span(text):
     return None
 
 
-def generate_time_span(span_info, base_date=None, settings=None):
+def generate_time_span(
+    span_info: Mapping[str, Any],
+    base_date: datetime | None = None,
+    settings: "Settings | None" = None,
+) -> tuple[datetime, datetime]:
     """Generate start and end dates for a time span."""
     if base_date is None:
         base_date = datetime.now()

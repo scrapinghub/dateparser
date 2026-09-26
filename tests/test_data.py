@@ -1,10 +1,13 @@
+from collections.abc import Iterable, Mapping
 from itertools import chain
+from typing import Any
 
 import regex as re
 from parameterized import parameterized
 
-from dateparser.data import language_locale_dict
+from dateparser.data.languages_info import language_locale_dict
 from dateparser.languages import default_loader
+from dateparser.languages.locale import Locale
 from tests import BaseTestCase
 
 DEFAULT_MONTH_PATTERN = re.compile(r"^M?\d+$", re.U)
@@ -109,11 +112,11 @@ MONTH_NAMES = [
 ]
 
 
-def is_invalid_translation(translation):
+def is_invalid_translation(translation: object) -> bool:
     return (not (translation and isinstance(translation, str))) or "." in translation
 
 
-def is_invalid_month_translation(translation):
+def is_invalid_month_translation(translation: object) -> bool | re.Match[str] | None:
     return (
         (not (translation and isinstance(translation, str)))
         or "." in translation
@@ -121,7 +124,7 @@ def is_invalid_month_translation(translation):
     )
 
 
-def is_invalid_am_pm_translation(translation):
+def is_invalid_am_pm_translation(translation: object) -> bool | re.Match[str] | None:
     return (
         (not (translation and isinstance(translation, str)))
         or "." in translation
@@ -129,21 +132,23 @@ def is_invalid_am_pm_translation(translation):
     )
 
 
-def is_invalid_simplification(simplification):
+def is_invalid_simplification(simplification: object) -> bool:
     if not isinstance(simplification, dict) or len(simplification) != 1:
         return True
     key, value = list(simplification.items())[0]
     return not isinstance(key, str) or not isinstance(value, str)
 
 
-def is_invalid_relative_mapping(relative_mapping):
+def is_invalid_relative_mapping(relative_mapping: tuple[object, object]) -> bool:
     key, value = relative_mapping
     if not (key and value and isinstance(key, str) and isinstance(value, list)):
         return True
     return not all([isinstance(x, str) for x in value])
 
 
-def is_invalid_relative_regex_mapping(relative_regex_mapping):
+def is_invalid_relative_regex_mapping(
+    relative_regex_mapping: tuple[object, object],
+) -> bool:
     key, value = relative_regex_mapping
     if not (key and value and isinstance(key, str) and isinstance(value, list)):
         return True
@@ -151,13 +156,13 @@ def is_invalid_relative_regex_mapping(relative_regex_mapping):
 
 
 class TestLocaleInfo(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.info = NotImplemented
-        self.shortname = NotImplemented
+        self.info: Mapping[str, Any] = NotImplemented
+        self.shortname: str = NotImplemented
 
     @parameterized.expand(all_locale_params)
-    def test_extra_keys(self, locale):
+    def test_extra_keys(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         extra_keys = list(set(self.info.keys()) - set(VALID_KEYS))
         self.assertFalse(
@@ -165,213 +170,213 @@ class TestLocaleInfo(BaseTestCase):
         )
 
     @parameterized.expand(all_locale_params)
-    def test_necessary_keys(self, locale):
+    def test_necessary_keys(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_keys_present_in_info(NECESSARY_KEYS)
         self.then_translations_present_in_info(NECESSARY_KEYS)
 
     @parameterized.expand(all_locale_params)
-    def test_name(self, locale):
+    def test_name(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_name_is_valid()
 
     @parameterized.expand(all_locale_params)
-    def test_date_order(self, locale):
+    def test_date_order(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_date_order_is_valid()
 
     @parameterized.expand(all_locale_params)
-    def test_january_translation(self, locale):
+    def test_january_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("january")
 
     @parameterized.expand(all_locale_params)
-    def test_february_translation(self, locale):
+    def test_february_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("february")
 
     @parameterized.expand(all_locale_params)
-    def test_march_translation(self, locale):
+    def test_march_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("march")
 
     @parameterized.expand(all_locale_params)
-    def test_april_translation(self, locale):
+    def test_april_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("april")
 
     @parameterized.expand(all_locale_params)
-    def test_may_translation(self, locale):
+    def test_may_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("may")
 
     @parameterized.expand(all_locale_params)
-    def test_june_translation(self, locale):
+    def test_june_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("june")
 
     @parameterized.expand(all_locale_params)
-    def test_july_translation(self, locale):
+    def test_july_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("july")
 
     @parameterized.expand(all_locale_params)
-    def test_august_translation(self, locale):
+    def test_august_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("august")
 
     @parameterized.expand(all_locale_params)
-    def test_september_translation(self, locale):
+    def test_september_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("september")
 
     @parameterized.expand(all_locale_params)
-    def test_october_translation(self, locale):
+    def test_october_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("october")
 
     @parameterized.expand(all_locale_params)
-    def test_november_translation(self, locale):
+    def test_november_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("november")
 
     @parameterized.expand(all_locale_params)
-    def test_december_translation(self, locale):
+    def test_december_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_month_translations_are_valid("december")
 
     @parameterized.expand(all_locale_params)
-    def test_am_translation(self, locale):
+    def test_am_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_am_pm_translations_are_valid("am")
 
     @parameterized.expand(all_locale_params)
-    def test_pm_translation(self, locale):
+    def test_pm_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_am_pm_translations_are_valid("pm")
 
     @parameterized.expand(all_locale_params)
-    def test_sunday_translation(self, locale):
+    def test_sunday_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("sunday")
 
     @parameterized.expand(all_locale_params)
-    def test_monday_translation(self, locale):
+    def test_monday_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("monday")
 
     @parameterized.expand(all_locale_params)
-    def test_tuesday_translation(self, locale):
+    def test_tuesday_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("tuesday")
 
     @parameterized.expand(all_locale_params)
-    def test_wednesday_translation(self, locale):
+    def test_wednesday_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("wednesday")
 
     @parameterized.expand(all_locale_params)
-    def test_thursday_translation(self, locale):
+    def test_thursday_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("thursday")
 
     @parameterized.expand(all_locale_params)
-    def test_friday_translation(self, locale):
+    def test_friday_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("friday")
 
     @parameterized.expand(all_locale_params)
-    def test_saturday_translation(self, locale):
+    def test_saturday_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("saturday")
 
     @parameterized.expand(all_locale_params)
-    def test_year_translation(self, locale):
+    def test_year_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("year")
 
     @parameterized.expand(all_locale_params)
-    def test_month_translation(self, locale):
+    def test_month_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("month")
 
     @parameterized.expand(all_locale_params)
-    def test_week_translation(self, locale):
+    def test_week_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("week")
 
     @parameterized.expand(all_locale_params)
-    def test_day_translation(self, locale):
+    def test_day_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("day")
 
     @parameterized.expand(all_locale_params)
-    def test_hour_translation(self, locale):
+    def test_hour_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("hour")
 
     @parameterized.expand(all_locale_params)
-    def test_minute_translation(self, locale):
+    def test_minute_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("minute")
 
     @parameterized.expand(all_locale_params)
-    def test_second_translation(self, locale):
+    def test_second_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("second")
 
     @parameterized.expand(all_locale_params)
-    def test_ago_translation(self, locale):
+    def test_ago_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("ago")
 
     @parameterized.expand(all_locale_params)
-    def test_in_translation(self, locale):
+    def test_in_translation(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_translations_are_valid("in")
 
     @parameterized.expand(all_locale_params)
-    def test_skip_tokens(self, locale):
+    def test_skip_tokens(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_skip_pertain_tokens_are_valid("skip")
 
     @parameterized.expand(all_locale_params)
-    def test_pertain_tokens(self, locale):
+    def test_pertain_tokens(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_skip_pertain_tokens_are_valid("pertain")
 
     @parameterized.expand(all_locale_params)
-    def test_simplifications(self, locale):
+    def test_simplifications(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_simplifications_are_valid()
 
     @parameterized.expand(all_locale_params)
-    def test_relative_type(self, locale):
+    def test_relative_type(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_relative_type_is_valid()
 
     @parameterized.expand(all_locale_params)
-    def test_relative_type_regex(self, locale):
+    def test_relative_type_regex(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_relative_type_regex_is_valid()
 
     @parameterized.expand(all_locale_params)
-    def test_no_word_spacing(self, locale):
+    def test_no_word_spacing(self, locale: Locale) -> None:
         self.given_locale_info(locale)
         self.then_no_word_spacing_is_valid()
 
-    def given_locale_info(self, locale):
+    def given_locale_info(self, locale: Locale) -> None:
         self.info = locale.info
         self.shortname = locale.shortname
 
-    def then_keys_present_in_info(self, keys_list):
+    def then_keys_present_in_info(self, keys_list: Iterable[str]) -> None:
         absent_keys = list(set(keys_list) - set(self.info.keys()))
         self.assertFalse(
             absent_keys,
             "{} not found in locale {}".format(", ".join(absent_keys), self.shortname),
         )
 
-    def then_translations_present_in_info(self, keys_list):
+    def then_translations_present_in_info(self, keys_list: Iterable[str]) -> None:
         no_translation_keys = [key for key in keys_list if not self.info.get(key)]
         self.assertFalse(
             no_translation_keys,
@@ -380,7 +385,7 @@ class TestLocaleInfo(BaseTestCase):
             ),
         )
 
-    def then_name_is_valid(self):
+    def then_name_is_valid(self) -> None:
         name = self.info["name"]
         self.assertIsInstance(
             name,
@@ -395,7 +400,7 @@ class TestLocaleInfo(BaseTestCase):
             "Invalid name: {} for locale {}".format(name, self.shortname),
         )
 
-    def then_date_order_is_valid(self):
+    def then_date_order_is_valid(self) -> None:
         if "date_order" in self.info:
             date_order = self.info["date_order"]
             self.assertIsInstance(
@@ -411,7 +416,7 @@ class TestLocaleInfo(BaseTestCase):
                 "Invalid date_order {} for {}".format(date_order, self.shortname),
             )
 
-    def then_month_translations_are_valid(self, month):
+    def then_month_translations_are_valid(self, month: str) -> None:
         if month in self.info:
             month_translations = self.info[month]
             self.assertIsInstance(
@@ -431,7 +436,7 @@ class TestLocaleInfo(BaseTestCase):
                 ),
             )
 
-    def then_am_pm_translations_are_valid(self, key):
+    def then_am_pm_translations_are_valid(self, key: str) -> None:
         if key in self.info:
             translations_list = self.info[key]
             self.assertIsInstance(
@@ -451,7 +456,7 @@ class TestLocaleInfo(BaseTestCase):
                 ),
             )
 
-    def then_translations_are_valid(self, key):
+    def then_translations_are_valid(self, key: str) -> None:
         if key in self.info:
             translations_list = self.info[key]
             self.assertIsInstance(
@@ -471,7 +476,7 @@ class TestLocaleInfo(BaseTestCase):
                 ),
             )
 
-    def then_skip_pertain_tokens_are_valid(self, key):
+    def then_skip_pertain_tokens_are_valid(self, key: str) -> None:
         if key in self.info:
             tokens_list = self.info[key]
             self.assertIsInstance(
@@ -493,7 +498,7 @@ class TestLocaleInfo(BaseTestCase):
                 ),
             )
 
-    def then_simplifications_are_valid(self):
+    def then_simplifications_are_valid(self) -> None:
         if "simplifications" in self.info:
             simplifications_list = self.info["simplifications"]
             self.assertIsInstance(
@@ -514,7 +519,7 @@ class TestLocaleInfo(BaseTestCase):
                 + ", each simplification must be a single string to string mapping",
             )
 
-    def then_relative_type_is_valid(self):
+    def then_relative_type_is_valid(self) -> None:
         if "relative-type" in self.info:
             relative_type_dict = self.info["relative-type"]
             self.assertIsInstance(
@@ -535,7 +540,7 @@ class TestLocaleInfo(BaseTestCase):
                 + ", each mapping must be a string to list (of strings) mapping",
             )
 
-    def then_relative_type_regex_is_valid(self):
+    def then_relative_type_regex_is_valid(self) -> None:
         if "relative-type-regex" in self.info:
             relative_type_dict = self.info["relative-type-regex"]
             self.assertIsInstance(
@@ -556,7 +561,7 @@ class TestLocaleInfo(BaseTestCase):
                 + ", each mapping must be a string to list (of strings) mapping",
             )
 
-    def then_no_word_spacing_is_valid(self):
+    def then_no_word_spacing_is_valid(self) -> None:
         if "no_word_spacing" in self.info:
             no_word_spacing = self.info["no_word_spacing"]
             self.assertIsInstance(

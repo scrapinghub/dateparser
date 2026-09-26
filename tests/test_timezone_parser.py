@@ -1,5 +1,7 @@
 import datetime as dt
 from datetime import datetime, timedelta
+from types import ModuleType
+from typing import ClassVar
 from unittest import SkipTest
 from unittest.mock import Mock, patch
 
@@ -19,11 +21,11 @@ from tests import BaseTestCase
 
 
 class TestTZPopping(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.initial_string = self.datetime_string = self.timezone_offset = (
-            NotImplemented
-        )
+        self.initial_string: str = NotImplemented
+        self.datetime_string: str = NotImplemented
+        self.timezone_offset: timedelta | None = NotImplemented
 
     @parameterized.expand(
         [
@@ -69,7 +71,9 @@ class TestTZPopping(BaseTestCase):
             param("16. srpna 2021 9:59:44 VEČ", 2),
         ]
     )
-    def test_extracting_valid_offset(self, initial_string, expected_offset):
+    def test_extracting_valid_offset(
+        self, initial_string: str, expected_offset: float | None
+    ) -> None:
         self.given_string(initial_string)
         self.when_offset_popped_from_string()
         self.then_offset_is(expected_offset)
@@ -90,32 +94,34 @@ class TestTZPopping(BaseTestCase):
             param("Sep 03 2014 4:32 pm +0630", "Sep 03 2014 4:32 pm "),
         ]
     )
-    def test_timezone_deleted_from_string(self, initial_string, result_string):
+    def test_timezone_deleted_from_string(
+        self, initial_string: str, result_string: str
+    ) -> None:
         self.given_string(initial_string)
         self.when_offset_popped_from_string()
         self.then_string_modified_to(result_string)
 
-    def test_string_not_changed_if_no_timezone(self):
+    def test_string_not_changed_if_no_timezone(self) -> None:
         self.given_string("15 May 2004")
         self.when_offset_popped_from_string()
         self.then_string_modified_to("15 May 2004")
 
-    def given_string(self, string_):
+    def given_string(self, string_: str) -> None:
         self.initial_string = string_
 
-    def when_offset_popped_from_string(self):
+    def when_offset_popped_from_string(self) -> None:
         self.datetime_string, timezone_offset = pop_tz_offset_from_string(
             self.initial_string
         )
-        if timezone_offset:
-            self.timezone_offset = timezone_offset.utcoffset("")
+        if timezone_offset is not None:
+            self.timezone_offset = timezone_offset.utcoffset(None)
         else:
             self.timezone_offset = timezone_offset
 
-    def then_string_modified_to(self, expected_string):
+    def then_string_modified_to(self, expected_string: str) -> None:
         self.assertEqual(expected_string, self.datetime_string)
 
-    def then_offset_is(self, expected_offset):
+    def then_offset_is(self, expected_offset: float | None) -> None:
         delta = (
             timedelta(hours=expected_offset) if expected_offset is not None else None
         )
@@ -123,9 +129,9 @@ class TestTZPopping(BaseTestCase):
 
 
 class TestLocalTZOffset(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.timezone_offset = NotImplemented
+        self.timezone_offset: timedelta = NotImplemented
 
     @parameterized.expand(
         [
@@ -136,7 +142,9 @@ class TestLocalTZOffset(BaseTestCase):
             param(utc="2014-10-18 17:41", local="2014-10-18 17:41", offset=0),
         ]
     )
-    def test_timezone_offset_calculation(self, utc, local, offset):
+    def test_timezone_offset_calculation(
+        self, utc: str, local: str, offset: float
+    ) -> None:
         try:
             self.given_time(utc, local)
         except OverflowError:
@@ -144,10 +152,10 @@ class TestLocalTZOffset(BaseTestCase):
         self.when_offset_popped_from_string()
         self.then_offset_is(offset)
 
-    def when_offset_popped_from_string(self):
+    def when_offset_popped_from_string(self) -> None:
         self.timezone_offset = get_local_tz_offset()
 
-    def then_offset_is(self, expected_offset):
+    def then_offset_is(self, expected_offset: float | None) -> None:
         delta = (
             timedelta(seconds=3600 * expected_offset)
             if expected_offset is not None
@@ -155,8 +163,8 @@ class TestLocalTZOffset(BaseTestCase):
         )
         self.assertEqual(delta, self.timezone_offset)
 
-    def given_time(self, utc_dt_string, local_dt_string):
-        datetime_cls = dateparser.timezone_parser.datetime
+    def given_time(self, utc_dt_string: str, local_dt_string: str) -> None:
+        datetime_cls = dateparser.timezone_parser.datetime  # type: ignore[attr-defined]
         if not isinstance(datetime_cls, Mock):
             datetime_cls = Mock(wraps=datetime)
         utc_dt_obj = datetime.strptime(utc_dt_string, "%Y-%m-%d %H:%M").replace(
@@ -164,7 +172,7 @@ class TestLocalTZOffset(BaseTestCase):
         )
         local_dt_obj = datetime.strptime(local_dt_string, "%Y-%m-%d %H:%M")
 
-        def _dt_now(tz=None):
+        def _dt_now(tz: dt.tzinfo | None = None) -> datetime:
             if tz == dt.timezone.utc:
                 return utc_dt_obj
             return local_dt_obj
@@ -174,11 +182,11 @@ class TestLocalTZOffset(BaseTestCase):
 
 
 class TestTimeZoneConversion(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.settings = {}
+        self.settings: dict[str, str] = {}
         self.parser = parse
-        self.result = NotImplemented
+        self.result: datetime | None = NotImplemented
 
     @parameterized.expand(
         [
@@ -196,27 +204,29 @@ class TestTimeZoneConversion(BaseTestCase):
             ),
         ]
     )
-    def test_timezone_conversion(self, datestring, from_tz, to_tz, expected):
+    def test_timezone_conversion(
+        self, datestring: str, from_tz: str, to_tz: str, expected: datetime
+    ) -> None:
         self.given_from_timezone(from_tz)
         self.given_to_timezone(to_tz)
         self.when_date_is_parsed(datestring)
         self.then_date_is(expected)
 
-    def given_from_timezone(self, timezone):
+    def given_from_timezone(self, timezone: str) -> None:
         self.settings["TIMEZONE"] = timezone
 
-    def given_to_timezone(self, timezone):
+    def given_to_timezone(self, timezone: str) -> None:
         self.settings["TO_TIMEZONE"] = timezone
 
-    def when_date_is_parsed(self, datestring):
+    def when_date_is_parsed(self, datestring: str) -> None:
         self.result = self.parser(datestring, settings=self.settings)
 
-    def then_date_is(self, date):
+    def then_date_is(self, date: datetime) -> None:
         self.assertEqual(date, self.result)
 
 
 class TestStaticTzInfo(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
 
     @parameterized.expand(
@@ -226,20 +236,24 @@ class TestStaticTzInfo(BaseTestCase):
             param(given_date=datetime(2000, 2, 20, tzinfo=timezone("Pacific/Samoa"))),
         ]
     )
-    def test_localize_raises_error_if_date_has_tzinfo(self, given_date):
+    def test_localize_raises_error_if_date_has_tzinfo(
+        self, given_date: datetime
+    ) -> None:
         self.timezone_info = StaticTzInfo("UTC\\+00:00", timedelta(0))
         self.when_date_is_localized(given_date)
         self.then_error_was_raised(
             ValueError, ["Not naive datetime (tzinfo is already set)"]
         )
 
-    def when_date_is_localized(self, given_date):
+    def when_date_is_localized(self, given_date: datetime) -> None:
         try:
             self.localized_date = self.timezone_info.localize(given_date)
         except Exception as error:
             self.error = error
 
-    def then_localized_date_is(self, expected_date, expected_tzname):
+    def then_localized_date_is(
+        self, expected_date: datetime, expected_tzname: str
+    ) -> None:
         self.assertEqual(self.localized_date.date(), expected_date.date())
         self.assertEqual(self.localized_date.tzname(), expected_tzname)
 
@@ -267,10 +281,10 @@ class TestIsTimezoneToken(BaseTestCase):
             param(token="   ", expected=False),
         ]
     )
-    def test_is_timezone_token(self, token, expected):
+    def test_is_timezone_token(self, token: str, expected: bool) -> None:
         self.assertEqual(expected, is_timezone_token(token))
 
-    def test_anchored_match_unlike_word_is_tz(self):
+    def test_anchored_match_unlike_word_is_tz(self) -> None:
         # word_is_tz prefix-matches ("ACT" of "ACTUALISÉ"); is_timezone_token is
         # anchored, so it does not — this is what keeps a noise word from
         # surviving as a timezone when edges are stripped.
@@ -305,8 +319,11 @@ class TestTzDatabasePreference(BaseTestCase):
         "CST": {-21600, -18000, 28800},
     }
 
+    checker: ClassVar[ModuleType]
+    tz_database: ClassVar[dict[str, set[int]]]
+
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         super().setUpClass()
         from dateparser_scripts import tz_abbreviation_conflicts
 
@@ -314,9 +331,10 @@ class TestTzDatabasePreference(BaseTestCase):
         # Sampling every zone takes a moment, so it is done once for the class.
         cls.tz_database = tz_abbreviation_conflicts.tz_database_abbreviations()
 
-    def offset_of(self, date_string):
+    def offset_of(self, date_string: str) -> timedelta:
         _, timezone_offset = pop_tz_offset_from_string(date_string)
         self.assertIsNotNone(timezone_offset, f"no timezone found in {date_string!r}")
+        assert timezone_offset is not None
         return timezone_offset.utcoffset(None)
 
     @parameterized.expand(
@@ -330,8 +348,8 @@ class TestTzDatabasePreference(BaseTestCase):
         ]
     )
     def test_unambiguous_abbreviation_uses_tz_database_offset(
-        self, date_string, expected_offset, abbreviation
-    ):
+        self, date_string: str, expected_offset: float, abbreviation: str
+    ) -> None:
         self.assertEqual(timedelta(hours=expected_offset), self.offset_of(date_string))
         # And the tz database really does name only that one offset.
         self.assertEqual({int(expected_offset * 3600)}, self.tz_database[abbreviation])
@@ -343,10 +361,11 @@ class TestTzDatabasePreference(BaseTestCase):
         ]
     )
     def test_unambiguous_abbreviation_parses_end_to_end(
-        self, date_string, expected_offset, abbreviation
-    ):
+        self, date_string: str, expected_offset: float, abbreviation: str
+    ) -> None:
         # The #1321 report as a user would hit it, not just at the popping layer.
         parsed = parse(date_string, settings={"RETURN_AS_TIMEZONE_AWARE": True})
+        assert parsed is not None
         self.assertEqual(timedelta(hours=expected_offset), parsed.utcoffset())
         self.assertEqual(abbreviation, parsed.tzname())
 
@@ -363,8 +382,8 @@ class TestTzDatabasePreference(BaseTestCase):
         ]
     )
     def test_ambiguous_abbreviation_keeps_its_offset(
-        self, date_string, expected_offset
-    ):
+        self, date_string: str, expected_offset: float
+    ) -> None:
         # These keep the value dateparser has always used. The assertion below
         # holds whether or not the abbreviation stays ambiguous: what matters is
         # that the retained value is one a real zone uses, not an arbitrary one.
@@ -372,7 +391,7 @@ class TestTzDatabasePreference(BaseTestCase):
         abbreviation = date_string.rsplit(" ", 1)[1]
         self.assertIn(int(expected_offset * 3600), self.tz_database[abbreviation])
 
-    def test_table_agrees_with_the_tz_database(self):
+    def test_table_agrees_with_the_tz_database(self) -> None:
         # The generalized check behind #1322: instead of asserting a fixed list
         # of abbreviations, ask the tz database about every abbreviation the two
         # tables share, so a regression on any of them is caught.
@@ -385,18 +404,18 @@ class TestTzDatabasePreference(BaseTestCase):
         conflicts = self.checker.find_conflicts(tz_database=self.tz_database)
         self.assertEqual([], conflicts, f"conflicts with the tz database: {conflicts}")
 
-    def test_report_runs_clean(self):
+    def test_report_runs_clean(self) -> None:
         # Exercises the module's entry point with its real defaults, which the
         # test above bypasses by passing the tz database in.
         self.assertEqual(0, self.checker.main())
 
-    def test_reference_years_stay_in_settled_years(self):
+    def test_reference_years_stay_in_settled_years(self) -> None:
         # The tz database records future daylight-saving rules as predictions
         # that change between releases, so sampling them would tie the result to
         # the installed version rather than to real usage.
         self.assertLess(max(self.checker.REFERENCE_YEARS), datetime.now().year)
 
-    def test_pre_fix_offsets_are_reported_as_conflicts(self):
+    def test_pre_fix_offsets_are_reported_as_conflicts(self) -> None:
         # Reproduces the bug this change fixes, and keeps the whole-table check
         # from passing vacuously: the offsets shipped before #1322 are flagged.
         conflicts = self.checker.find_conflicts(
@@ -411,7 +430,7 @@ class TestTzDatabasePreference(BaseTestCase):
             [tuple(conflict) for conflict in conflicts],
         )
 
-    def test_offset_no_zone_uses_is_reported_even_when_ambiguous(self):
+    def test_offset_no_zone_uses_is_reported_even_when_ambiguous(self) -> None:
         # "CST" has several meanings, so none of them can be preferred, but +11
         # is not one of them and is still worth reporting.
         (conflict,) = self.checker.find_conflicts(
@@ -422,7 +441,7 @@ class TestTzDatabasePreference(BaseTestCase):
         self.assertNotIn(39600, conflict.tz_database_offsets)
 
     @parameterized.expand([param(-21600), param(28800)])
-    def test_any_offset_a_zone_really_uses_is_accepted(self, offset):
+    def test_any_offset_a_zone_really_uses_is_accepted(self, offset: int) -> None:
         # Both US Central (-6) and China (+8) are legitimate readings of "CST".
         self.assertEqual(
             [],
@@ -431,7 +450,7 @@ class TestTzDatabasePreference(BaseTestCase):
             ),
         )
 
-    def test_abbreviations_outside_the_reference_window_are_ignored(self):
+    def test_abbreviations_outside_the_reference_window_are_ignored(self) -> None:
         # dateparser keeps abbreviations no zone is named after any more, such
         # as "AHST", so historical text still parses. The tz database says
         # nothing about them, so they are skipped rather than reported.
@@ -443,14 +462,14 @@ class TestTzDatabasePreference(BaseTestCase):
             ),
         )
 
-    def test_abbreviations_are_compared_case_insensitively(self):
+    def test_abbreviations_are_compared_case_insensitively(self) -> None:
         # dateparser matches abbreviations regardless of case, so the table's
         # "ChST" entry and the tz database's "ChST" are one abbreviation and
         # have to meet under the same key.
         self.assertIn("CHST", self.checker.static_tz_abbreviations())
         self.assertIn("CHST", self.tz_database)
 
-    def test_numeric_zone_names_are_not_treated_as_abbreviations(self):
+    def test_numeric_zone_names_are_not_treated_as_abbreviations(self) -> None:
         # The tz database names zones that have no established abbreviation
         # after their offset, as in "+11" or "-0930". Those are offsets rather
         # than identities, and dateparser matches numeric offsets through its
@@ -458,7 +477,7 @@ class TestTzDatabasePreference(BaseTestCase):
         self.assertEqual([], [name for name in self.tz_database if name[0] in "+-"])
         self.assertIn("BST", self.tz_database)
 
-    def test_repeated_abbreviation_resolves_to_its_first_entry(self):
+    def test_repeated_abbreviation_resolves_to_its_first_entry(self) -> None:
         # "LMT" is listed four times with four different offsets. Only the first
         # can ever match, so that is the value the comparison has to use;
         # checking against all four would hide a wrong first entry.

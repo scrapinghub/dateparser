@@ -1,6 +1,8 @@
-from datetime import datetime
+from collections.abc import Callable
+from datetime import datetime, tzinfo
+from typing import Any
 
-from dateparser.conf import settings
+from dateparser.conf import Settings, settings
 from dateparser.date import DateData
 from dateparser.parser import _parser
 
@@ -13,57 +15,58 @@ class CalendarBase:
     :type source: str
     """
 
-    parser = NotImplemented
+    parser: type["non_gregorian_parser"] = NotImplemented
 
-    def __init__(self, source):
+    def __init__(self, source: str) -> None:
         self.source = source
 
-    def get_date(self):
+    def get_date(self) -> DateData | None:
         try:
             date_obj, period = self.parser.parse(self.source, settings)
             return DateData(date_obj=date_obj, period=period)
         except ValueError:
             pass
+        return None
 
 
 class non_gregorian_parser(_parser):
-    calendar_converter = NotImplemented
-    default_year = NotImplemented
-    default_month = NotImplemented
-    default_day = NotImplemented
-    non_gregorian_date_cls = NotImplemented
+    calendar_converter: Any = NotImplemented
+    default_year: int = NotImplemented
+    default_month: int = NotImplemented
+    default_day: int = NotImplemented
+    non_gregorian_date_cls: Callable[[int, int, int], Any] = NotImplemented
 
-    _digits = None
-    _months = None
-    _weekdays = None
-    _number_letters = None
+    _digits: dict[str, int] | None = None
+    _months: dict[str, tuple[int, int, list[str]]] | None = None
+    _weekdays: dict[str, list[str]] | None = None
+    _number_letters: dict[int, list[str]] | None = None
 
     @classmethod
-    def _replace_time_conventions(cls, source):
+    def _replace_time_conventions(cls, source: str) -> str:
         return source
 
     @classmethod
-    def _replace_digits(cls, source):
+    def _replace_digits(cls, source: str) -> str:
         return source
 
     @classmethod
-    def _replace_months(cls, source):
+    def _replace_months(cls, source: str) -> str:
         return source
 
     @classmethod
-    def _replace_weekdays(cls, source):
+    def _replace_weekdays(cls, source: str) -> str:
         return source
 
     @classmethod
-    def _replace_time(cls, source):
+    def _replace_time(cls, source: str) -> str:
         return source
 
     @classmethod
-    def _replace_days(cls, source):
+    def _replace_days(cls, source: str) -> str:
         return source
 
     @classmethod
-    def to_latin(cls, source):
+    def to_latin(cls, source: str) -> str:
         result = source
         result = cls._replace_months(result)
         result = cls._replace_weekdays(result)
@@ -76,10 +79,10 @@ class non_gregorian_parser(_parser):
 
         return result
 
-    def handle_two_digit_year(self, year):
+    def handle_two_digit_year(self, year: int) -> int:
         raise ValueError
 
-    def _get_datetime_obj(self, **params):
+    def _get_datetime_obj(self, **params: Any) -> datetime:
         day = params["day"]
         year = params["year"]
         month = params["month"]
@@ -94,7 +97,7 @@ class non_gregorian_parser(_parser):
         c_params.update(dict(year=year, month=month, day=day))
         return datetime(**c_params)
 
-    def _get_datetime_obj_params(self):
+    def _get_datetime_obj_params(self) -> dict[str, int]:
         if not self.now:
             self._set_relative_base()
         now_year, now_month, now_day = self.calendar_converter.from_gregorian(
@@ -111,7 +114,7 @@ class non_gregorian_parser(_parser):
         }
         return params
 
-    def _get_date_obj(self, token, directive):
+    def _get_date_obj(self, token: str, directive: str) -> Any:
         year, month, day = self.default_year, self.default_month, self.default_day
         token_len = len(token)
         is_digit = token.isdigit()
@@ -139,6 +142,12 @@ class non_gregorian_parser(_parser):
         return self.non_gregorian_date_cls(year, month, day)
 
     @classmethod
-    def parse(cls, datestring, settings):
+    def parse(
+        cls,
+        datestring: str,
+        settings: Settings,
+        tz: tzinfo | None = None,
+        date_order: str | None = None,
+    ) -> tuple[datetime, str | None]:
         datestring = cls.to_latin(datestring)
-        return super().parse(datestring, settings)
+        return super().parse(datestring, settings, tz, date_order)

@@ -7,23 +7,30 @@ from datetime import datetime
 from parameterized import param, parameterized
 
 from dateparser.calendars.hijri import HijriCalendar
+from dateparser.date import DateData
 from tests import BaseTestCase
 
 
 class TestHijriParser(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.result = NotImplemented
-        self.date_string = NotImplemented
-        self.parser = NotImplemented
+        self.result: DateData | None = NotImplemented
+        self.date_string: str = NotImplemented
+        self.parser: HijriCalendar = NotImplemented
         self.translated = NotImplemented
 
-    def when_date_is_given(self, dt_string, date_formats, languages):
+    def when_date_is_given(
+        self,
+        dt_string: str,
+        date_formats: list[str] | None,
+        languages: list[str] | None,
+    ) -> None:
         self.date_string = dt_string
         self.parser = HijriCalendar(dt_string)
         self.result = self.parser.get_date()
 
-    def then_parsed_datetime_is(self, dt):
+    def then_parsed_datetime_is(self, dt: datetime) -> None:
+        assert self.result is not None
         self.assertEqual(dt, self.result["date_obj"])
 
     @parameterized.expand(
@@ -58,8 +65,12 @@ class TestHijriParser(BaseTestCase):
         ]
     )
     def test_datetime_parsing(
-        self, dt_string, dt_obj, date_formats=None, languages=None
-    ):
+        self,
+        dt_string: str,
+        dt_obj: datetime,
+        date_formats: list[str] | None = None,
+        languages: list[str] | None = None,
+    ) -> None:
         from dateparser.conf import settings
 
         settings.DATE_ORDER = "DMY"

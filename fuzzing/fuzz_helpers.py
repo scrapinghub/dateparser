@@ -2,6 +2,7 @@ import contextlib
 import datetime
 import io
 import tempfile
+from collections.abc import Iterator
 from typing import List, TypeVar
 
 import atheris
@@ -9,20 +10,26 @@ import atheris
 T = TypeVar("T")
 
 
-class EnhancedFuzzedDataProvider(atheris.FuzzedDataProvider):
+class EnhancedFuzzedDataProvider(atheris.FuzzedDataProvider):  # type: ignore[misc]
     def ConsumeRandomBytes(self) -> bytes:
-        return self.ConsumeBytes(self.ConsumeIntInRange(0, self.remaining_bytes()))
-
-    def ConsumeRandomString(self) -> str:
-        return self.ConsumeUnicodeNoSurrogates(
+        result: bytes = self.ConsumeBytes(
             self.ConsumeIntInRange(0, self.remaining_bytes())
         )
+        return result
+
+    def ConsumeRandomString(self) -> str:
+        result: str = self.ConsumeUnicodeNoSurrogates(
+            self.ConsumeIntInRange(0, self.remaining_bytes())
+        )
+        return result
 
     def ConsumeRemainingString(self) -> str:
-        return self.ConsumeUnicodeNoSurrogates(self.remaining_bytes())
+        result: str = self.ConsumeUnicodeNoSurrogates(self.remaining_bytes())
+        return result
 
     def ConsumeRemainingBytes(self) -> bytes:
-        return self.ConsumeBytes(self.remaining_bytes())
+        result: bytes = self.ConsumeBytes(self.remaining_bytes())
+        return result
 
     def ConsumeSublist(self, source: List[T]) -> List[T]:
         """
@@ -46,26 +53,26 @@ class EnhancedFuzzedDataProvider(atheris.FuzzedDataProvider):
     @contextlib.contextmanager
     def ConsumeMemoryFile(
         self, all_data: bool = False, as_bytes: bool = True
-    ) -> io.BytesIO:
-        if all_data:
-            file_data = (
-                self.ConsumeRemainingBytes()
-                if as_bytes
-                else self.ConsumeRemainingString()
+    ) -> Iterator[io.BytesIO | io.StringIO]:
+        file: io.BytesIO | io.StringIO
+        if as_bytes:
+            file = io.BytesIO(
+                self.ConsumeRemainingBytes() if all_data else self.ConsumeRandomBytes()
             )
         else:
-            file_data = (
-                self.ConsumeRandomBytes() if as_bytes else self.ConsumeRandomString()
+            file = io.StringIO(
+                self.ConsumeRemainingString()
+                if all_data
+                else self.ConsumeRandomString()
             )
-
-        file = io.BytesIO(file_data) if as_bytes else io.StringIO(file_data)
         yield file
         file.close()
 
     @contextlib.contextmanager
     def ConsumeTemporaryFile(
         self, suffix: str, all_data: bool = False, as_bytes: bool = True
-    ) -> str:
+    ) -> Iterator[str]:
+        file_data: bytes | str
         if all_data:
             file_data = (
                 self.ConsumeRemainingBytes()

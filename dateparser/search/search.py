@@ -1,13 +1,15 @@
-from collections.abc import Set
+from collections.abc import Callable, Iterable, Sequence, Set
 from datetime import datetime
+from typing import Any, TypedDict
 
 import regex as re
 
-from dateparser.conf import apply_settings, check_settings
+from dateparser.conf import Settings, apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
-from dateparser.date import DateDataParser
+from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import _UNITS
 from dateparser.languages.loader import LocaleDataLoader
+from dateparser.languages.locale import Locale
 from dateparser.search.ngram_search import _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
@@ -22,11 +24,18 @@ TRANSLATED_RELATIVE_REG = re.compile(
 )
 
 
-def date_is_relative(translation):
+class _SearchResult(TypedDict):
+    Language: str | None
+    Dates: list[tuple[str, datetime]] | None
+
+
+def date_is_relative(translation: str) -> bool:
     return re.search(RELATIVE_REG, translation) is not None
 
 
-def _add_time_span_results(results, text, settings):
+def _add_time_span_results(
+    results: list[tuple[str, datetime]], text: str, settings: Settings
+) -> list[tuple[str, datetime]]:
     """Append time span start/end dates if RETURN_TIME_SPAN is enabled."""
     if getattr(settings, "RETURN_TIME_SPAN", False):
         span_info = detect_time_span(text)
@@ -40,19 +49,23 @@ def _add_time_span_results(results, text, settings):
 
 
 class _ExactLanguageSearch:
-    def __init__(self, loader):
+    def __init__(self, loader: LocaleDataLoader) -> None:
         self.loader = loader
 
-    def get_current_language(self, shortname):
+    def get_current_language(self, shortname: str) -> Locale:
         return self.loader.get_locale(shortname)
 
-    def search(self, shortname, text, settings):
+    def search(
+        self, shortname: str, text: str, settings: Settings
+    ) -> tuple[list[str], list[str]]:
         language = self.get_current_language(shortname)
         result = language.translate_search(text, settings=settings)
         return result
 
     @staticmethod
-    def set_relative_base(substring, already_parsed):
+    def set_relative_base(
+        substring: str, already_parsed: Sequence[tuple[DateData, bool]]
+    ) -> tuple[str, datetime | None]:
         if len(already_parsed) == 0:
             return substring, None
 
@@ -64,8 +77,12 @@ class _ExactLanguageSearch:
         relative_base = already_parsed[i][0]["date_obj"]
         return substring, relative_base
 
-    def choose_best_split(self, possible_parsed_splits, possible_substrings_splits):
-        rating = []
+    def choose_best_split(
+        self,
+        possible_parsed_splits: Sequence[list[tuple[DateData, bool]]],
+        possible_substrings_splits: Sequence[list[str]],
+    ) -> tuple[list[tuple[DateData, bool]], list[str]]:
+        rating: list[list[float]] = []
         for i in range(len(possible_parsed_splits)):
             num_substrings = len(possible_substrings_splits[i])
             num_substrings_without_digits = 0
@@ -94,7 +111,9 @@ class _ExactLanguageSearch:
             possible_substrings_splits[best_index],
         )
 
-    def split_by(self, item, original, splitter):
+    def split_by(
+        self, item: str, original: str, splitter: str
+    ) -> list[list[list[str]]]:
         if item.count(splitter) <= 2:
             return [[item.split(splitter), original.split(splitter)]]
 
@@ -112,7 +131,14 @@ class _ExactLanguageSearch:
             all_possible_splits.append([item_partially_split, original_partially_split])
         return all_possible_splits
 
-    def split_by_relative_expression(self, parser, item, original, language, settings):
+    def split_by_relative_expression(
+        self,
+        parser: DateDataParser,
+        item: str,
+        original: str,
+        language: Locale,
+        settings: Settings,
+    ) -> list[list[list[str]]]:
         """Split a chunk into a relative expression and the date next to it.
 
         A word translated into a multi-word relative expression gives the
@@ -123,7 +149,7 @@ class _ExactLanguageSearch:
         chunk turns out to be the date it was written next to.
         """
         words = original.split()
-        possible_splits = []
+        possible_splits: list[list[list[str]]] = []
         for match in TRANSLATED_RELATIVE_REG.finditer(item):
             before = item[: match.start()].strip()
             after = item[match.end() :].strip()
@@ -155,9 +181,16 @@ class _ExactLanguageSearch:
             )
         return possible_splits
 
-    def split_if_not_parsed(self, parser, item, original, language, settings):
+    def split_if_not_parsed(
+        self,
+        parser: DateDataParser,
+        item: str,
+        original: str,
+        language: Locale,
+        settings: Settings,
+    ) -> list[list[list[str]]]:
         splitters = [",", "،", "——", "—", "–", ".", " "]
-        possible_splits = []
+        possible_splits: list[list[list[str]]] = []
         for splitter in splitters:
             if splitter in item and item.count(splitter) == original.count(splitter):
                 possible_splits.extend(self.split_by(item, original, splitter))
@@ -169,7 +202,14 @@ class _ExactLanguageSearch:
             )
         return possible_splits
 
-    def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
+    def parse_item(
+        self,
+        parser: DateDataParser,
+        item: str,
+        translated_item: str,
+        parsed: Sequence[tuple[DateData, bool]],
+        need_relative_base: bool,
+    ) -> tuple[DateData, bool]:
         relative_base = None
         item = item.replace("ngày", "")
         item = item.replace("am", "")
@@ -185,9 +225,15 @@ class _ExactLanguageSearch:
         return parsed_item, is_relative
 
     def parse_found_objects(
-        self, parser, to_parse, original, translated, settings, language
-    ):
-        parsed = []
+        self,
+        parser: DateDataParser,
+        to_parse: Sequence[str],
+        original: Sequence[str],
+        translated: Sequence[str],
+        settings: Settings,
+        language: Locale,
+    ) -> tuple[list[tuple[DateData, bool]], list[str]]:
+        parsed: list[tuple[DateData, bool]] = []
         substrings = []
         need_relative_base = True
         if settings.RELATIVE_BASE:
@@ -210,11 +256,11 @@ class _ExactLanguageSearch:
             if not possible_splits:
                 continue
 
-            possible_parsed = []
-            possible_substrings = []
+            possible_parsed: list[list[tuple[DateData, bool]]] = []
+            possible_substrings: list[list[str]] = []
             for split_translated, split_original in possible_splits:
-                current_parsed = []
-                current_substrings = []
+                current_parsed: list[tuple[DateData, bool]] = []
+                current_substrings: list[str] = []
                 if split_translated:
                     for j, jtem in enumerate(split_translated):
                         if len(jtem) <= 2:
@@ -239,7 +285,9 @@ class _ExactLanguageSearch:
                     substrings.append(substrings_best[k])
         return parsed, substrings
 
-    def search_parse(self, shortname, text, settings):
+    def search_parse(
+        self, shortname: str, text: str, settings: Settings
+    ) -> list[tuple[str, datetime]]:
         language = self.get_current_language(shortname)
         translated, original = self.search(shortname, text, settings)
         bad_translate_with_search = [
@@ -277,13 +325,15 @@ class DateSearchWithDetection:
 
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.loader = LocaleDataLoader()
         self.available_language_map = self.loader.get_locale_map()
         self.search = _ExactLanguageSearch(self.loader)
         self.ngram_search = _NgramDateSearch()
 
-    def _get_candidate_languages(self, detected_language, languages):
+    def _get_candidate_languages(
+        self, detected_language: str | None, languages: Iterable[str] | None
+    ) -> list[str]:
         candidates = []
         if detected_language:
             candidates.append(detected_language)
@@ -291,17 +341,17 @@ class DateSearchWithDetection:
         if isinstance(languages, (list, tuple, Set)) and len(languages) > 1:
             candidates.extend(languages)
 
-        seen = set()
-        return [
-            language
-            for language in candidates
-            if not (language in seen or seen.add(language))
-        ]
+        return list(dict.fromkeys(candidates))
 
     @apply_settings
     def detect_language(
-        self, text, languages, settings=None, detect_languages_function=None
-    ):
+        self,
+        text: str,
+        languages: Iterable[str] | None,
+        settings: Settings | dict[str, Any] | None = None,
+        detect_languages_function: Callable[..., list[str]] | None = None,
+    ) -> str | None:
+        assert isinstance(settings, Settings)
         if detect_languages_function and not languages:
             detected_languages = detect_languages_function(
                 text,
@@ -312,9 +362,10 @@ class DateSearchWithDetection:
             )
             return detected_languages[0] if detected_languages else None
 
+        locales = None
         if isinstance(languages, (list, tuple, Set)):
             if all([language in self.available_language_map for language in languages]):
-                languages = [
+                locales = [
                     self.available_language_map[language] for language in languages
                 ]
             else:
@@ -330,8 +381,8 @@ class DateSearchWithDetection:
                 "languages argument must be a list (%r given)" % type(languages)
             )
 
-        if languages:
-            language_detector = FullTextLanguageDetector(languages=languages)
+        if locales:
+            language_detector = FullTextLanguageDetector(languages=locales)
         else:
             language_detector = FullTextLanguageDetector(
                 list(self.available_language_map.values())
@@ -345,12 +396,12 @@ class DateSearchWithDetection:
     @apply_settings
     def search_dates(
         self,
-        text,
-        languages=None,
-        settings=None,
-        detect_languages_function=None,
-        strategy="split",
-    ):
+        text: str,
+        languages: Iterable[str] | None = None,
+        settings: Settings | dict[str, Any] | None = None,
+        detect_languages_function: Callable[..., list[str]] | None = None,
+        strategy: str = "split",
+    ) -> _SearchResult:
         """
         Find all substrings of the given string which represent date and/or time and parse them.
 
@@ -392,6 +443,7 @@ class DateSearchWithDetection:
                 'strategy must be "split" or "ngram" (%r given)' % strategy
             )
 
+        assert isinstance(settings, Settings)
         check_settings(settings)
 
         language_shortname = self.detect_language(
@@ -426,7 +478,7 @@ class DateSearchWithDetection:
             "Dates": [],
         }
 
-    def preprocess_text(self, text, languages):
+    def preprocess_text(self, text: str, languages: Iterable[str] | None) -> str:
         """Preprocess text to handle language-specific quirks."""
         if languages and "ru" in languages:
             # Replace "с" (from) before numbers with a placeholder

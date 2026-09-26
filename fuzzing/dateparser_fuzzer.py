@@ -67,7 +67,7 @@ def _get_format_strings(fdp: EnhancedFuzzedDataProvider) -> List[str]:
     return format_strings
 
 
-def TestOneInput(data):
+def TestOneInput(data: bytes) -> int | None:
     fdp = EnhancedFuzzedDataProvider(data)
 
     settings = {
@@ -103,9 +103,10 @@ def TestOneInput(data):
         )
     except re.error:
         return -1
+    return None
 
 
-def main():
+def main() -> None:
     atheris.Setup(sys.argv, TestOneInput)
     atheris.Fuzz()
 

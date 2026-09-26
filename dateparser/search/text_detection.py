@@ -1,16 +1,19 @@
-from dateparser.conf import apply_settings
+from typing import Any
+
+from dateparser.conf import Settings, apply_settings
+from dateparser.languages.locale import Locale
 from dateparser.search.detection import BaseLanguageDetector
 from dateparser.utils import normalize_unicode
 
 
 class FullTextLanguageDetector(BaseLanguageDetector):
-    def __init__(self, languages):
+    def __init__(self, languages: list[Locale]) -> None:
         super(BaseLanguageDetector, self).__init__()
         self.languages = languages[:]
-        self.language_unique_chars = []
-        self.language_chars = []
+        self.language_unique_chars: list[set[str]] = []
+        self.language_chars: list[set[str]] = []
 
-    def get_unique_characters(self, settings):
+    def get_unique_characters(self, settings: Settings) -> None:
         settings = settings.replace(NORMALIZE=False)
 
         for language in self.languages:
@@ -24,7 +27,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
                     unique_chars = unique_chars - other_char_set
             self.language_unique_chars.append(unique_chars)
 
-    def character_check(self, date_string, settings):
+    def character_check(self, date_string: str, settings: Settings) -> None:
         date_string_set = set(date_string.lower())
         symbol_set = {
             "0",
@@ -66,7 +69,10 @@ class FullTextLanguageDetector(BaseLanguageDetector):
         ]
 
     @apply_settings
-    def _best_language(self, date_string, settings=None):
+    def _best_language(
+        self, date_string: str, settings: Settings | dict[str, Any] | None = None
+    ) -> str | None:
+        assert isinstance(settings, Settings)
         self.character_check(date_string, settings)
         date_string = normalize_unicode(date_string.lower())
         if len(self.languages) == 1:

@@ -1,8 +1,8 @@
 import unittest
-from datetime import date, datetime, time, timedelta
+from collections.abc import Callable
+from datetime import date, datetime, time, timedelta, tzinfo
 from functools import wraps
-
-import pytz
+from typing import Any
 
 from zoneinfo import ZoneInfo
 
@@ -12,27 +12,28 @@ from dateutil.relativedelta import relativedelta
 from parameterized import param, parameterized
 
 import dateparser
-from dateparser.conf import settings
-from dateparser.date import DateDataParser, freshness_date_parser
+from dateparser.conf import Settings, settings
+from dateparser.date import DateData, DateDataParser
+from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.utils import normalize_unicode
 from tests import BaseTestCase
 
 
 class TestFreshnessDateDataParser(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.now = datetime(2014, 9, 1, 10, 30)
-        self.date_string = NotImplemented
-        self.parser = NotImplemented
-        self.result = NotImplemented
-        self.freshness_parser = NotImplemented
-        self.freshness_result = NotImplemented
+        self.date_string: str = NotImplemented
+        self.parser: DateDataParser = NotImplemented
+        self.result: DateData = NotImplemented
+        self.freshness_parser: Mock = NotImplemented
+        self.freshness_result: DateData = NotImplemented
         self.date = NotImplemented
         self.time = NotImplemented
 
         settings.TIMEZONE = "utc"
 
-    def now_with_timezone(self, tz):
+    def now_with_timezone(self, tz: tzinfo | None) -> datetime:
         now = self.now
         return datetime(now.year, now.month, now.day, now.hour, now.minute, tzinfo=tz)
 
@@ -43,7 +44,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("yesterday at 11:30", ago={"hours": 23}, period="time"),
         ]
     )
-    def test_relative_past_dates_with_time_as_period(self, date_string, ago, period):
+    def test_relative_past_dates_with_time_as_period(
+        self, date_string: str, ago: dict[str, Any], period: str
+    ) -> None:
         self.given_parser(settings={"NORMALIZE": False, "RETURN_TIME_AS_PERIOD": True})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -919,7 +922,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("21 izinsuku ezedlule", ago={"days": 21}, period="day"),
         ]
     )
-    def test_relative_past_dates(self, date_string, ago, period):
+    def test_relative_past_dates(
+        self, date_string: str, ago: dict[str, Any], period: str
+    ) -> None:
         self.given_parser(settings={"NORMALIZE": False})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -1728,7 +1733,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("21 izinsuku ezedlule", ago={"days": 21}, period="day"),
         ]
     )
-    def test_normalized_relative_dates(self, date_string, ago, period):
+    def test_normalized_relative_dates(
+        self, date_string: str, ago: dict[str, Any], period: str
+    ) -> None:
         date_string = normalize_unicode(date_string)
         self.given_parser(settings={"NORMALIZE": True})
         self.given_date_string(date_string)
@@ -2341,7 +2348,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("4 週後", in_future={"weeks": 4}, period="week"),
         ]
     )
-    def test_relative_future_dates(self, date_string, in_future, period):
+    def test_relative_future_dates(
+        self, date_string: str, in_future: dict[str, Any], period: str
+    ) -> None:
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -2356,7 +2365,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("4 heures ago"),
         ]
     )
-    def test_insane_dates(self, date_string):
+    def test_insane_dates(self, date_string: str) -> None:
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -2376,7 +2385,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("123455678976543 month"),
         ]
     )
-    def test_dates_not_supported_by_date_time(self, date_string):
+    def test_dates_not_supported_by_date_time(self, date_string: str) -> None:
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -2390,7 +2399,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("3mons ago", ago={"months": 3}, period="month"),  # 1123
         ]
     )
-    def test_known_issues(self, date_string, ago, period):
+    def test_known_issues(
+        self, date_string: str, ago: dict[str, Any], period: str
+    ) -> None:
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -2405,7 +2416,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("há alguns segundos", boundary={"seconds": 45}, period="day"),
         ]
     )
-    def test_inexplicit_dates(self, date_string, boundary, period):
+    def test_inexplicit_dates(
+        self, date_string: str, boundary: dict[str, int], period: str
+    ) -> None:
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -2430,14 +2443,16 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("tomorrow at 2 PM", date(2014, 9, 2), time(14, 0)),
         ]
     )
-    def test_freshness_date_with_time(self, date_string, date, time):
+    def test_freshness_date_with_time(
+        self, date_string: str, date: date, time: time
+    ) -> None:
         self.given_parser()
         self.given_date_string(date_string)
         self.when_date_is_parsed()
         self.then_date_is(date)
         self.then_time_is(time)
 
-    def test_freshness_date_with_time_and_timezone(self):
+    def test_freshness_date_with_time_and_timezone(self) -> None:
         self.given_parser(settings={"TIMEZONE": "local"})
         self.given_date_string("tomorrow 8:30 CST")
         self.when_date_is_parsed()
@@ -2456,8 +2471,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         ]
     )
     def test_freshness_date_with_pytz_timezones(
-        self, date_string, timezone, date, time
-    ):
+        self, date_string: str, timezone: str, date: date, time: time
+    ) -> None:
         self.given_parser(settings={"TIMEZONE": timezone})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -2481,8 +2496,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         ]
     )
     def test_freshness_date_with_timezone_conversion(
-        self, date_string, timezone, to_timezone, date, time
-    ):
+        self, date_string: str, timezone: str, to_timezone: str, date: date, time: time
+    ) -> None:
         self.given_parser(
             settings={
                 "TIMEZONE": timezone,
@@ -2495,20 +2510,16 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_is(date)
         self.then_time_is(time)
 
-    def test_freshness_date_with_to_timezone_setting(self):
+    def test_freshness_date_with_to_timezone_setting(self) -> None:
         _settings = settings.replace(
-            **{
-                "TIMEZONE": "local",
-                "TO_TIMEZONE": "UTC",
-                "RELATIVE_BASE": datetime(2014, 9, 1, 10, 30),
-            }
+            TIMEZONE="local",
+            TO_TIMEZONE="UTC",
+            RELATIVE_BASE=datetime(2014, 9, 1, 10, 30),
         )
 
         parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
-        timezone = (
-            ZoneInfo(key="US/Eastern") if ZoneInfo else pytz.timezone("US/Eastern")
-        )
-        parser.get_local_tz = Mock(return_value=timezone)
+        timezone = ZoneInfo(key="US/Eastern")
+        parser.get_local_tz = Mock(return_value=timezone)  # type: ignore[method-assign]
         result = parser.get_date_data("1 minute ago", _settings)
         result = result["date_obj"]
         self.assertEqual(result.date(), date(2014, 9, 1))
@@ -2522,8 +2533,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         ]
     )
     def test_freshness_date_with_timezone_abbreviations(
-        self, date_string, timezone, date, time
-    ):
+        self, date_string: str, timezone: str, date: date, time: time
+    ) -> None:
         self.given_parser(settings={"TIMEZONE": timezone})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -2538,8 +2549,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         ]
     )
     def test_freshness_date_with_timezone_utc_offset(
-        self, date_string, timezone, date, time
-    ):
+        self, date_string: str, timezone: str, date: date, time: time
+    ) -> None:
         self.given_parser(settings={"TIMEZONE": timezone})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -2591,7 +2602,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("0,5 hours ago", date(2010, 6, 4), time(12, 45)),
         ]
     )
-    def test_freshness_date_with_relative_base(self, date_string, date, time):
+    def test_freshness_date_with_relative_base(
+        self, date_string: str, date: date, time: time
+    ) -> None:
         self.given_parser(settings={"RELATIVE_BASE": datetime(2010, 6, 4, 13, 15)})
         self.given_date_string(date_string)
         self.when_date_is_parsed()
@@ -2604,7 +2617,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("2 years", date(2008, 6, 4), time(13, 15)),
         ]
     )
-    def test_freshness_date_with_relative_base_past(self, date_string, date, time):
+    def test_freshness_date_with_relative_base_past(
+        self, date_string: str, date: date, time: time
+    ) -> None:
         self.given_parser(
             settings={
                 "PREFER_DATES_FROM": "past",
@@ -2622,7 +2637,9 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("2 years", date(2012, 6, 4), time(13, 15)),
         ]
     )
-    def test_freshness_date_with_relative_base_future(self, date_string, date, time):
+    def test_freshness_date_with_relative_base_future(
+        self, date_string: str, date: date, time: time
+    ) -> None:
         self.given_parser(
             settings={
                 "PREFER_DATES_FROM": "future",
@@ -2634,7 +2651,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_is(date)
         self.then_time_is(time)
 
-    def test_long_digit_run_does_not_hang(self):
+    def test_long_digit_run_does_not_hang(self) -> None:
         # Possessive quantifiers (\d++[.,]?\d*+) prevent quadratic backtracking.
         # Without the fix, PATTERN.findall('9' * 3200) takes ~23 s; with it, ~0.02 s.
         import time
@@ -2660,13 +2677,15 @@ class TestFreshnessDateDataParser(BaseTestCase):
             elapsed, 1.0, "split_relative_regex backtracked on long digit run"
         )
 
-    def given_date_string(self, date_string):
+    def given_date_string(self, date_string: str) -> None:
         self.date_string = date_string
 
-    def given_parser(self, settings=None):
-        def collecting_get_date_data(get_date_data):
+    def given_parser(self, settings: Settings | dict[str, Any] | None = None) -> None:
+        def collecting_get_date_data(
+            get_date_data: Callable[..., DateData],
+        ) -> Callable[..., DateData]:
             @wraps(get_date_data)
-            def wrapped(*args, **kwargs):
+            def wrapped(*args: Any, **kwargs: Any) -> DateData:
                 self.freshness_result = get_date_data(*args, **kwargs)
                 return self.freshness_result
 
@@ -2682,7 +2701,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
         self.freshness_parser = Mock(wraps=freshness_date_parser)
 
-        dt_mock = Mock(wraps=dateparser.freshness_date_parser.datetime)
+        dt_mock = Mock(wraps=dateparser.freshness_date_parser.datetime)  # type: ignore[attr-defined]
         dt_mock.now = Mock(side_effect=self.now_with_timezone)
         self.add_patch(patch("dateparser.freshness_date_parser.datetime", new=dt_mock))
         self.add_patch(
@@ -2690,43 +2709,47 @@ class TestFreshnessDateDataParser(BaseTestCase):
         )
         self.parser = DateDataParser(settings=settings)
 
-    def when_date_is_parsed(self):
+    def when_date_is_parsed(self) -> None:
         try:
             self.result = self.parser.get_date_data(self.date_string)
         except Exception as error:
             self.error = error
 
-    def then_date_is(self, date):
+    def then_date_is(self, date: date) -> None:
         self.assertEqual(date, self.result["date_obj"].date())
 
-    def then_time_is(self, time):
+    def then_time_is(self, time: time) -> None:
         self.assertEqual(time, self.result["date_obj"].time())
 
-    def then_timezone_is(self, timezone):
+    def then_timezone_is(self, timezone: str) -> None:
         self.assertEqual(timezone, self.result["date_obj"].tzname())
 
-    def then_period_is(self, period):
+    def then_period_is(self, period: str) -> None:
         self.assertEqual(period, self.result["period"])
 
-    def then_date_obj_is_between(self, low_boundary, high_boundary):
+    def then_date_obj_is_between(
+        self, low_boundary: datetime, high_boundary: datetime
+    ) -> None:
         self.assertGreater(self.result["date_obj"], low_boundary)
         self.assertLess(self.result["date_obj"], high_boundary)
 
-    def then_date_obj_is_exactly_this_time_ago(self, ago):
+    def then_date_obj_is_exactly_this_time_ago(self, ago: dict[str, Any]) -> None:
         self.assertEqual(self.now - relativedelta(**ago), self.result["date_obj"])
 
-    def then_date_obj_is_exactly_this_time_in_future(self, in_future):
+    def then_date_obj_is_exactly_this_time_in_future(
+        self, in_future: dict[str, Any]
+    ) -> None:
         self.assertEqual(self.now + relativedelta(**in_future), self.result["date_obj"])
 
-    def then_date_was_not_parsed(self):
+    def then_date_was_not_parsed(self) -> None:
         self.assertIsNone(
             self.result["date_obj"], '"%s" should not be parsed' % self.date_string
         )
 
-    def then_date_was_parsed_by_freshness_parser(self):
+    def then_date_was_parsed_by_freshness_parser(self) -> None:
         self.assertEqual(self.result, self.freshness_result)
 
-    def then_error_was_not_raised(self):
+    def then_error_was_not_raised(self) -> None:
         self.assertEqual(NotImplemented, self.error)
 
 

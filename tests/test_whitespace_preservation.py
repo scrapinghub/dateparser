@@ -6,6 +6,7 @@ from parameterized import param, parameterized
 
 from dateparser.conf import settings
 from dateparser.languages import default_loader
+from dateparser.languages.locale import Locale
 from tests import BaseTestCase
 
 
@@ -17,11 +18,11 @@ class TestWhitespacePreservation(BaseTestCase):
     Issue #1302: Extra whitespace handling during date translation
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.language = NotImplemented
-        self.datetime_string = NotImplemented
-        self.translation = NotImplemented
+        self.language: Locale = NotImplemented
+        self.datetime_string: str = NotImplemented
+        self.translation: str = NotImplemented
         self.settings = settings
 
     @parameterized.expand(
@@ -49,8 +50,8 @@ class TestWhitespacePreservation(BaseTestCase):
         ]
     )
     def test_whitespace_preservation_during_translation(
-        self, shortname, datetime_string, expected_translation
-    ):
+        self, shortname: str, datetime_string: str, expected_translation: str
+    ) -> None:
         """Test that exact whitespace is preserved when translating date strings."""
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
@@ -70,31 +71,31 @@ class TestWhitespacePreservation(BaseTestCase):
         ]
     )
     def test_whitespace_preservation_keep_formatting(
-        self, shortname, datetime_string, expected_translation
-    ):
+        self, shortname: str, datetime_string: str, expected_translation: str
+    ) -> None:
         """Test whitespace preservation with keep_formatting=True."""
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
         self.when_datetime_string_translated_keep_formatting()
         self.then_string_translated_to(expected_translation)
 
-    def given_bundled_language(self, shortname):
+    def given_bundled_language(self, shortname: str) -> None:
         self.language = default_loader.get_locale(shortname)
 
-    def given_string(self, datetime_string):
+    def given_string(self, datetime_string: str) -> None:
         self.datetime_string = datetime_string
 
-    def when_datetime_string_translated(self):
+    def when_datetime_string_translated(self) -> None:
         self.translation = self.language.translate(
             self.datetime_string, settings=self.settings
         )
 
-    def when_datetime_string_translated_keep_formatting(self):
+    def when_datetime_string_translated_keep_formatting(self) -> None:
         self.translation = self.language.translate(
             self.datetime_string, keep_formatting=True, settings=self.settings
         )
 
-    def then_string_translated_to(self, expected_string):
+    def then_string_translated_to(self, expected_string: str) -> None:
         self.assertEqual(
             expected_string,
             self.translation,

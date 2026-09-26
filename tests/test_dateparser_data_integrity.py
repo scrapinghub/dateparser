@@ -5,7 +5,7 @@ pytest.importorskip("ruamel")
 from dateparser_scripts.write_complete_data import write_complete_data
 
 
-def test_dateparser_data_integrity():
+def test_dateparser_data_integrity() -> None:
     files = write_complete_data(in_memory=True)
 
     for filename in files:

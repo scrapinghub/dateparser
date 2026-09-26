@@ -1,5 +1,6 @@
 import json
 import os
+from collections.abc import Iterable, Mapping
 
 import regex as re
 import requests
@@ -165,7 +166,7 @@ cldr_44_new_languages = {
 avoid_languages |= cldr_44_new_languages
 
 
-def _get_language_locale_dict():
+def _get_language_locale_dict() -> dict[str, list[str]]:
     cldr_dates_full_dir = CLDR_JSON_DIR / "cldr-json/cldr-dates-full/main/"
     available_locale_names = os.listdir(cldr_dates_full_dir)
     available_language_names = [
@@ -173,7 +174,7 @@ def _get_language_locale_dict():
         for shortname in available_locale_names
         if not re.search(r"-[A-Z0-9]+$", shortname)
     ]
-    language_locale_dict = {}
+    language_locale_dict: dict[str, list[str]] = {}
     for language_name in available_language_names:
         language_locale_dict[language_name] = []
         for locale_name in available_locale_names:
@@ -186,8 +187,8 @@ def _get_language_locale_dict():
     return language_locale_dict
 
 
-def _get_language_order(language_locale_dict):
-    def get_most_common_locales():
+def _get_language_order(language_locale_dict: Mapping[str, list[str]]) -> list[str]:
+    def get_most_common_locales() -> list[str]:
         # Order from https://w3techs.com/technologies/overview/content_language
         # Last updated on 03.10.2022
         old_common_locales = [
@@ -263,7 +264,7 @@ def _get_language_order(language_locale_dict):
         territory_content = json.load(f)
     territory_info_data = territory_content["supplemental"]["territoryInfo"]
 
-    language_population_dict = {}
+    language_population_dict: dict[str, float] = {}
     for territory in territory_info_data:
         population = int(territory_info_data[territory]["_population"])
         try:
@@ -315,7 +316,7 @@ def _get_language_order(language_locale_dict):
     return language_order
 
 
-def generate_language_map(language_order):
+def generate_language_map(language_order: Iterable[str]) -> dict[str, list[str]]:
     data = {}
     for lang in sorted(language_order):
         if "-" not in lang:
@@ -325,7 +326,7 @@ def generate_language_map(language_order):
     return data
 
 
-def main():
+def main() -> None:
     get_raw_data()
     language_locale_dict = _get_language_locale_dict()
     language_order = _get_language_order(language_locale_dict)

@@ -10,31 +10,33 @@ from tests import BaseTestCase
 
 
 class TestStrptime(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
 
-    def given_system_locale_is(self, locale_str):
+    def given_system_locale_is(self, locale_str: str) -> None:
         try:
             locale.setlocale(locale.LC_ALL, locale_str)
         except locale.Error:
             raise SkipTest("Locale {} is not installed".format(locale_str))
 
-    def when_date_string_is_parsed(self, date_string, fmt):
+    def when_date_string_is_parsed(self, date_string: str, fmt: str) -> None:
         try:
-            self.result = strptime(date_string, fmt)
+            self.result: datetime | ValueError = strptime(date_string, fmt)
         except ValueError as e:
             self.result = e
 
-    def when_date_string_is_parsed_using_datetime_strptime(self, date_string, fmt):
+    def when_date_string_is_parsed_using_datetime_strptime(
+        self, date_string: str, fmt: str
+    ) -> None:
         try:
             self.result = datetime.strptime(date_string, fmt)
         except ValueError as e:
             self.result = e
 
-    def then_date_object_is(self, expected):
+    def then_date_object_is(self, expected: datetime) -> None:
         assert self.result == expected
 
-    def then_date_object_is_instance_of(self, expected):
+    def then_date_object_is_instance_of(self, expected: type[Exception]) -> None:
         assert isinstance(self.result, expected)
 
     @parameterized.expand(
@@ -70,8 +72,8 @@ class TestStrptime(BaseTestCase):
         ]
     )
     def test_dates_with_months_are_parsed_if_locale_is_non_english(
-        self, date_string, fmt, expected
-    ):
+        self, date_string: str, fmt: str, expected: datetime
+    ) -> None:
         self.given_system_locale_is("fr_FR.UTF-8")
         self.when_date_string_is_parsed(date_string, fmt)
         self.then_date_object_is(expected)
@@ -102,15 +104,15 @@ class TestStrptime(BaseTestCase):
         ]
     )
     def test_dates_with_days_are_parsed_if_locale_is_non_english(
-        self, date_string, fmt, expected
-    ):
+        self, date_string: str, fmt: str, expected: datetime
+    ) -> None:
         self.given_system_locale_is("fr_FR.UTF-8")
         self.when_date_string_is_parsed(date_string, fmt)
         self.then_date_object_is(expected)
 
     def test_parsing_date_should_fail_using_datetime_strptime_if_locale_is_non_english(
         self,
-    ):
+    ) -> None:
         self.given_system_locale_is("fr_FR.UTF-8")
         self.when_date_string_is_parsed_using_datetime_strptime(
             "21 february 2010", "%d %B %Y"
@@ -171,7 +173,9 @@ class TestStrptime(BaseTestCase):
             ),
         ]
     )
-    def test_microseconds_are_parsed_correctly(self, date_string, fmt, expected):
+    def test_microseconds_are_parsed_correctly(
+        self, date_string: str, fmt: str, expected: datetime
+    ) -> None:
         self.when_date_string_is_parsed(date_string, fmt)
         self.then_date_object_is(expected)
 
@@ -184,8 +188,8 @@ class TestStrptime(BaseTestCase):
         ]
     )
     def test_dates_with_no_year_do_not_raise_a_deprecation_warning(
-        self, date_string, fmt
-    ):
+        self, date_string: str, fmt: str
+    ) -> None:
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             self.when_date_string_is_parsed(date_string, fmt)
@@ -233,7 +237,7 @@ class TestStrptime(BaseTestCase):
     )
     def test_dates_with_no_year_use_the_current_year(
         self, date_string: str, fmt: str, expected: datetime
-    ):
+    ) -> None:
         self.when_date_string_is_parsed(date_string, fmt)
         current_year = datetime.today().year
         expected = expected.replace(year=current_year)
@@ -256,7 +260,9 @@ class TestStrptime(BaseTestCase):
             param("1999001 12:30", "%Y%j %H:%M", expected=datetime(1999, 1, 1, 12, 30)),
         ]
     )
-    def test_day_of_year_is_parsed(self, date_string, fmt, expected):
+    def test_day_of_year_is_parsed(
+        self, date_string: str, fmt: str, expected: datetime
+    ) -> None:
         self.when_date_string_is_parsed(date_string, fmt)
         self.then_date_object_is(expected)
 
@@ -274,7 +280,9 @@ class TestStrptime(BaseTestCase):
             param("1999777", "%Y%j"),
         ]
     )
-    def test_day_of_year_out_of_range_is_not_parsed(self, date_string, fmt):
+    def test_day_of_year_out_of_range_is_not_parsed(
+        self, date_string: str, fmt: str
+    ) -> None:
         self.when_date_string_is_parsed(date_string, fmt)
         self.then_date_object_is_instance_of(ValueError)
 
@@ -288,7 +296,7 @@ class TestStrptime(BaseTestCase):
         ]
     )
     def test_escaped_day_of_year_directive_is_a_literal(
-        self, date_string, fmt, expected
-    ):
+        self, date_string: str, fmt: str, expected: datetime
+    ) -> None:
         self.when_date_string_is_parsed(date_string, fmt)
         self.then_date_object_is(expected)

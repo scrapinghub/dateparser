@@ -1,16 +1,21 @@
+from collections.abc import Callable, Iterable
+from datetime import datetime
+from typing import Any
+
+from dateparser.conf import Settings
 from dateparser.search.search import DateSearchWithDetection
 
 _search_with_detection = DateSearchWithDetection()
 
 
 def search_dates(
-    text,
-    languages=None,
-    settings=None,
-    add_detected_language=False,
-    detect_languages_function=None,
-    strategy="split",
-):
+    text: str,
+    languages: Iterable[str] | None = None,
+    settings: Settings | dict[str, Any] | None = None,
+    add_detected_language: bool = False,
+    detect_languages_function: Callable[..., list[str]] | None = None,
+    strategy: str = "split",
+) -> list[tuple[str, datetime]] | list[tuple[str, datetime, str | None]] | None:
     """Find all substrings of the given string which represent date and/or time and parse them.
 
     :param text:
@@ -78,5 +83,6 @@ def search_dates(
     if dates:
         if add_detected_language:
             language = result.get("Language")
-            dates = [date + (language,) for date in dates]
+            return [date + (language,) for date in dates]
         return dates
+    return None

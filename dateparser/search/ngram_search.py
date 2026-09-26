@@ -8,9 +8,12 @@ than the translation-based search.
 """
 
 import logging
+from collections.abc import Sequence
+from datetime import datetime
 
 import regex as re
 
+from dateparser.conf import Settings
 from dateparser.date import DateDataParser
 
 logger = logging.getLogger(__name__)
@@ -58,10 +61,12 @@ class _NgramDateSearch:
     so the reported dates never overlap.
     """
 
-    def __init__(self, max_tokens=7):
+    def __init__(self, max_tokens: int = 7) -> None:
         self.max_tokens = max_tokens
 
-    def search_parse(self, languages, text, settings):
+    def search_parse(
+        self, languages: list[str], text: str, settings: Settings
+    ) -> list[tuple[str, datetime]]:
         """Find all dates in ``text`` and return ``(substring, date)`` pairs.
 
         ``languages`` are tried in the given order for every candidate
@@ -75,7 +80,7 @@ class _NgramDateSearch:
             for token in _TOKEN_RE.finditer(text)
             if token.group() not in _NOISE_TOKENS
         ]
-        results = []
+        results: list[tuple[str, datetime]] = []
         index = 0
         while index < len(tokens):
             for size in range(min(self.max_tokens, len(tokens) - index), 0, -1):
@@ -94,7 +99,9 @@ class _NgramDateSearch:
         return results
 
     @staticmethod
-    def _parse_candidate(parser, candidate, languages):
+    def _parse_candidate(
+        parser: DateDataParser, candidate: str, languages: Sequence[str]
+    ) -> datetime | None:
         try:
             return parser.get_date_data(candidate).date_obj
         except Exception:

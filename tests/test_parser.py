@@ -1,9 +1,10 @@
 from datetime import datetime, time
 import warnings
+from typing import Any
 
 from parameterized import param, parameterized
 
-from dateparser.conf import apply_settings
+from dateparser.conf import Settings, apply_settings
 from dateparser.parser import _no_spaces_parser, _parser, time_parser, tokenizer
 from tests import BaseTestCase
 
@@ -91,27 +92,29 @@ class TestTokenizer(BaseTestCase):
             ),
         ]
     )
-    def test_tokenization(self, date_string, expected_tokens, expected_types):
+    def test_tokenization(
+        self, date_string: str, expected_tokens: list[str], expected_types: list[int]
+    ) -> None:
         self.given_tokenizer(date_string)
         self.when_tokenized()
         self.then_tokens_were(expected_tokens)
         self.then_token_types_were(expected_types)
 
-    def given_tokenizer(self, date_string):
+    def given_tokenizer(self, date_string: str) -> None:
         self.tokenizer = tokenizer(date_string)
 
-    def when_tokenized(self):
-        self.result = list(self.tokenizer.tokenize())
+    def when_tokenized(self) -> None:
+        self.result: list[tuple[str, int]] = list(self.tokenizer.tokenize())
 
-    def then_tokens_were(self, expected_tokens):
+    def then_tokens_were(self, expected_tokens: list[str]) -> None:
         self.assertEqual([token_type[0] for token_type in self.result], expected_tokens)
 
-    def then_token_types_were(self, expected_types):
+    def then_token_types_were(self, expected_types: list[int]) -> None:
         self.assertEqual([token_type[1] for token_type in self.result], expected_types)
 
 
 class TestNoSpaceParser(BaseTestCase):
-    def test_date_with_spaces_is_not_parsed(self):
+    def test_date_with_spaces_is_not_parsed(self) -> None:
         datestring = "2013 25 12"
         self.given_parser()
         self.given_settings()
@@ -130,7 +133,7 @@ class TestNoSpaceParser(BaseTestCase):
             ),
         ]
     )
-    def test_empty_string_is_not_parsed(self, date_string):
+    def test_empty_string_is_not_parsed(self, date_string: str) -> None:
         self.given_parser()
         self.given_settings()
         self.when_date_is_parsed(date_string)
@@ -146,7 +149,7 @@ class TestNoSpaceParser(BaseTestCase):
             ),
         ]
     )
-    def test_colons_string_is_not_parsed(self, date_string):
+    def test_colons_string_is_not_parsed(self, date_string: str) -> None:
         self.given_parser()
         self.given_settings()
         self.when_date_is_parsed(date_string)
@@ -154,7 +157,7 @@ class TestNoSpaceParser(BaseTestCase):
             ValueError, ["Unable to parse date from: %s" % date_string]
         )
 
-    def test_date_with_alphabets_is_not_parsed(self):
+    def test_date_with_alphabets_is_not_parsed(self) -> None:
         datestring = "12AUG2015"
         self.given_parser()
         self.given_settings()
@@ -288,8 +291,12 @@ class TestNoSpaceParser(BaseTestCase):
         ]
     )
     def test_date_are_parsed_in_order_supplied(
-        self, date_string, expected_date, expected_period, date_order
-    ):
+        self,
+        date_string: str,
+        expected_date: datetime,
+        expected_period: str,
+        date_order: str,
+    ) -> None:
         self.given_parser()
         self.given_settings(settings={"DATE_ORDER": date_order})
         self.when_date_is_parsed(date_string)
@@ -311,8 +318,8 @@ class TestNoSpaceParser(BaseTestCase):
         ]
     )
     def test_default_order_used_if_date_order_not_supplied(
-        self, date_string, expected_date, expected_period
-    ):
+        self, date_string: str, expected_date: datetime, expected_period: str
+    ) -> None:
         self.given_parser()
         self.given_settings(settings={"DATE_ORDER": ""})
         self.when_date_is_parsed(date_string)
@@ -354,8 +361,8 @@ class TestNoSpaceParser(BaseTestCase):
         ]
     )
     def test_best_order_used_if_date_order_not_supplied_to_8_digit_numbers(
-        self, date_string, expected_date, expected_period
-    ):
+        self, date_string: str, expected_date: datetime, expected_period: str
+    ) -> None:
         self.given_parser()
         self.given_settings(settings={"DATE_ORDER": ""})
         self.when_date_is_parsed(date_string)
@@ -368,7 +375,9 @@ class TestNoSpaceParser(BaseTestCase):
             param(date_string="987654321234567890123456789", date_order="DMY"),
         ]
     )
-    def test_error_is_raised_when_date_cannot_be_parsed(self, date_string, date_order):
+    def test_error_is_raised_when_date_cannot_be_parsed(
+        self, date_string: str, date_order: str
+    ) -> None:
         self.given_parser()
         self.given_settings(settings={"DATE_ORDER": date_order})
         self.when_date_is_parsed(date_string)
@@ -394,37 +403,42 @@ class TestNoSpaceParser(BaseTestCase):
             param(format_string="%M%S.%f", expected_period="day"),
         ]
     )
-    def test_get_period_function(self, format_string, expected_period):
+    def test_get_period_function(
+        self, format_string: str, expected_period: str
+    ) -> None:
         self.given_parser()
         self.when_get_period_is_called(format_string)
         self.then_returned_period_is(expected_period)
 
-    def given_parser(self):
+    def given_parser(self) -> None:
         self.parser = _no_spaces_parser
 
     @apply_settings
-    def given_settings(self, settings=None):
+    def given_settings(self, settings: Settings | dict[str, Any] | None = None) -> None:
+        assert isinstance(settings, Settings)
         self.settings = settings
 
-    def when_date_is_parsed(self, date_string):
+    def when_date_is_parsed(self, date_string: str) -> None:
         try:
-            self.result = self.parser.parse(date_string, self.settings)
+            self.result: tuple[datetime, str] | str = self.parser.parse(
+                date_string, self.settings
+            )
         except Exception as error:
             self.error = error
 
-    def when_get_period_is_called(self, format_string):
+    def when_get_period_is_called(self, format_string: str) -> None:
         self.result = self.parser._get_period(format_string)
 
-    def then_date_exactly_is(self, expected_date):
+    def then_date_exactly_is(self, expected_date: datetime) -> None:
         self.assertEqual(self.result[0], expected_date)
 
-    def then_period_exactly_is(self, expected_period):
+    def then_period_exactly_is(self, expected_period: str) -> None:
         self.assertEqual(self.result[1], expected_period)
 
-    def then_date_is_not_parsed(self):
+    def then_date_is_not_parsed(self) -> None:
         self.assertIsNone(self.result)
 
-    def then_returned_period_is(self, expected_period):
+    def then_returned_period_is(self, expected_period: str) -> None:
         self.assertEqual(self.result, expected_period)
 
 
@@ -438,7 +452,9 @@ class TestParser(BaseTestCase):
             param(date_string="31/2010"),
         ]
     )
-    def test_error_is_raised_when_incomplete_dates_given(self, date_string):
+    def test_error_is_raised_when_incomplete_dates_given(
+        self, date_string: str
+    ) -> None:
         self.given_parser()
         self.given_settings(settings={"STRICT_PARSING": True})
         self.then_error_is_raised_when_date_is_parsed(date_string)
@@ -452,7 +468,9 @@ class TestParser(BaseTestCase):
             param(date_string="31/2010"),
         ]
     )
-    def test_error_is_raised_when_partially_complete_dates_given(self, date_string):
+    def test_error_is_raised_when_partially_complete_dates_given(
+        self, date_string: str
+    ) -> None:
         self.given_parser()
         self.given_settings(settings={"REQUIRE_PARTS": ["day", "month", "year"]})
         self.then_error_is_raised_when_date_is_parsed(date_string)
@@ -464,7 +482,7 @@ class TestParser(BaseTestCase):
             param(date_string="2010"),
         ]
     )
-    def test_error_is_raised_when_day_part_missing(self, date_string):
+    def test_error_is_raised_when_day_part_missing(self, date_string: str) -> None:
         self.given_parser()
         self.given_settings(settings={"REQUIRE_PARTS": ["day"]})
         self.then_error_is_raised_when_date_is_parsed(date_string)
@@ -475,7 +493,7 @@ class TestParser(BaseTestCase):
             param(date_string="31/2010"),
         ]
     )
-    def test_error_is_raised_when_month_part_missing(self, date_string):
+    def test_error_is_raised_when_month_part_missing(self, date_string: str) -> None:
         self.given_parser()
         self.given_settings(settings={"REQUIRE_PARTS": ["month"]})
         self.then_error_is_raised_when_date_is_parsed(date_string)
@@ -486,25 +504,26 @@ class TestParser(BaseTestCase):
             param(date_string="March"),
         ]
     )
-    def test_error_is_raised_when_year_part_missing(self, date_string):
+    def test_error_is_raised_when_year_part_missing(self, date_string: str) -> None:
         self.given_parser()
         self.given_settings(settings={"REQUIRE_PARTS": ["year"]})
         self.then_error_is_raised_when_date_is_parsed(date_string)
 
-    def given_parser(self):
+    def given_parser(self) -> None:
         self.parser = _parser
 
     @apply_settings
-    def given_settings(self, settings=None):
+    def given_settings(self, settings: Settings | dict[str, Any] | None = None) -> None:
+        assert isinstance(settings, Settings)
         self.settings = settings
 
-    def when_date_is_parsed(self, date_string):
+    def when_date_is_parsed(self, date_string: str) -> None:
         try:
             self.parser.parse(date_string, self.settings)
         except Exception as error:
             self.error = error
 
-    def then_error_is_raised_when_date_is_parsed(self, date_string):
+    def then_error_is_raised_when_date_is_parsed(self, date_string: str) -> None:
         with self.assertRaises(ValueError):
             self.parser.parse(date_string, self.settings)
 
@@ -519,8 +538,8 @@ class TestParser(BaseTestCase):
         ]
     )
     def test_parser_does_not_raise_ambiguious_date_deprecation_warning(
-        self, date_string
-    ):
+        self, date_string: str
+    ) -> None:
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             self.when_date_is_parsed(date_string)
@@ -552,7 +571,7 @@ class TestTimeParser(BaseTestCase):
             param(date_string="14:30:15.330100", timeobj=time(14, 30, 15, 330100)),
         ]
     )
-    def test_time_is_parsed(self, date_string, timeobj):
+    def test_time_is_parsed(self, date_string: str, timeobj: time) -> None:
         self.given_parser()
         self.when_time_is_parsed(date_string)
         self.then_time_exactly_is(timeobj)
@@ -568,7 +587,7 @@ class TestTimeParser(BaseTestCase):
             param(date_string="2.45 PM"),
         ]
     )
-    def test_error_is_raised_for_invalid_time_string(self, date_string):
+    def test_error_is_raised_for_invalid_time_string(self, date_string: str) -> None:
         self.given_parser()
         self.when_time_is_parsed(date_string)
         self.then_error_was_raised(
@@ -576,14 +595,14 @@ class TestTimeParser(BaseTestCase):
             ["{} does not seem to be a valid time string".format(date_string)],
         )
 
-    def given_parser(self):
+    def given_parser(self) -> None:
         self.parser = time_parser
 
-    def when_time_is_parsed(self, datestring):
+    def when_time_is_parsed(self, datestring: str) -> None:
         try:
-            self.result = self.parser(datestring)
+            self.result: time = self.parser(datestring)
         except Exception as error:
             self.error = error
 
-    def then_time_exactly_is(self, timeobj):
+    def then_time_exactly_is(self, timeobj: time) -> None:
         self.assertEqual(self.result, timeobj)

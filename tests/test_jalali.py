@@ -8,18 +8,19 @@ from parameterized import param, parameterized
 
 from dateparser.calendars.jalali import JalaliCalendar
 from dateparser.calendars.jalali_parser import PersianDate, jalali_parser
+from dateparser.date import DateData
 from tests import BaseTestCase
 
 
 class TestPersianDate(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.persian_date = NotImplemented
+        self.persian_date: PersianDate = NotImplemented
 
-    def when_date_is_given(self, year, month, day):
+    def when_date_is_given(self, year: int, month: int, day: int) -> None:
         self.persian_date = PersianDate(year, month, day)
 
-    def then_weekday_is(self, weekday):
+    def then_weekday_is(self, weekday: int) -> None:
         self.assertEqual(self.persian_date.weekday(), weekday)
 
     @parameterized.expand(
@@ -30,29 +31,29 @@ class TestPersianDate(BaseTestCase):
             param(year=1348, month=4, day=11, weekday=3),
         ]
     )
-    def test_weekday(self, year, month, day, weekday):
+    def test_weekday(self, year: int, month: int, day: int, weekday: int) -> None:
         self.when_date_is_given(year, month, day)
         self.then_weekday_is(weekday)
 
 
 class TestJalaliParser(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.translated = NotImplemented
+        self.translated: str = NotImplemented
 
-    def when_date_is_given(self, date_string):
+    def when_date_is_given(self, date_string: str) -> None:
         self.translated = jalali_parser.to_latin(date_string)
 
-    def then_month_is_parsed_as(self, month_name):
+    def then_month_is_parsed_as(self, month_name: str) -> None:
         self.assertEqual(month_name, self.translated)
 
-    def then_weekday_is_parsed_as(self, weekday):
+    def then_weekday_is_parsed_as(self, weekday: str) -> None:
         self.assertEqual(weekday, self.translated)
 
-    def then_digit_is_parsed_as(self, digit):
+    def then_digit_is_parsed_as(self, digit: str) -> None:
         self.assertEqual(digit, self.translated)
 
-    def then_numeral_parsed_is(self, datetime):
+    def then_numeral_parsed_is(self, datetime: str) -> None:
         self.assertEqual(datetime, self.translated)
 
     @parameterized.expand(
@@ -71,7 +72,7 @@ class TestJalaliParser(BaseTestCase):
             param(date_string="اسفند", latin="Esfand"),
         ]
     )
-    def test_replace_months(self, date_string, latin):
+    def test_replace_months(self, date_string: str, latin: str) -> None:
         self.when_date_is_given(date_string)
         self.then_month_is_parsed_as(latin)
 
@@ -86,7 +87,7 @@ class TestJalaliParser(BaseTestCase):
             param(date_string="جمعه", latin="Friday"),
         ]
     )
-    def test_replace_weekdays(self, date_string, latin):
+    def test_replace_weekdays(self, date_string: str, latin: str) -> None:
         self.when_date_is_given(date_string)
         self.then_weekday_is_parsed_as(latin)
 
@@ -98,7 +99,7 @@ class TestJalaliParser(BaseTestCase):
             param(date_string="۰۵۶۱۲۷۳۸۹۴", latin="0561273894"),
         ]
     )
-    def test_replace_digits(self, date_string, latin):
+    def test_replace_digits(self, date_string: str, latin: str) -> None:
         self.when_date_is_given(date_string)
         self.then_digit_is_parsed_as(latin)
 
@@ -163,24 +164,27 @@ class TestJalaliParser(BaseTestCase):
             param(persian="سی و یکم", numeral="31"),
         ]
     )
-    def test_replace_day_literal_with_numerals(self, persian, numeral):
+    def test_replace_day_literal_with_numerals(
+        self, persian: str, numeral: str
+    ) -> None:
         self.when_date_is_given(persian)
         self.then_numeral_parsed_is(numeral)
 
 
 class TestJalaliCalendar(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.result = NotImplemented
-        self.date_string = NotImplemented
-        self.calendar = NotImplemented
+        self.result: DateData | None = NotImplemented
+        self.date_string: str = NotImplemented
+        self.calendar: JalaliCalendar = NotImplemented
 
-    def when_date_is_given(self, date_string):
+    def when_date_is_given(self, date_string: str) -> None:
         self.date_string = date_string
         self.calendar = JalaliCalendar(date_string)
         self.result = self.calendar.get_date()
 
-    def then_date_parsed_is(self, datetime):
+    def then_date_parsed_is(self, datetime: datetime) -> None:
+        assert self.result is not None
         self.assertEqual(datetime, self.result["date_obj"])
 
     @parameterized.expand(
@@ -254,6 +258,6 @@ class TestJalaliCalendar(BaseTestCase):
             ),
         ]
     )
-    def test_get_date(self, date_string, dt):
+    def test_get_date(self, date_string: str, dt: datetime) -> None:
         self.when_date_is_given(date_string)
         self.then_date_parsed_is(dt)

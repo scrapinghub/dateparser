@@ -1,18 +1,20 @@
 import threading
 from collections import OrderedDict
+from collections.abc import Iterable, Iterator
 from copy import deepcopy
 from importlib import import_module
 from itertools import zip_longest
+from typing import Any
 
 import regex as re
 
-from ..data import language_locale_dict, language_order
+from ..data.languages_info import language_locale_dict, language_order
 from .locale import Locale
 
 LOCALE_SPLIT_PATTERN = re.compile(r"-(?=[A-Z0-9]+$)")
 
 
-def _isvalidlocale(locale):
+def _isvalidlocale(locale: str) -> bool:
     language = LOCALE_SPLIT_PATTERN.split(locale)[0]
     if language not in language_order:
         return False
@@ -24,14 +26,14 @@ def _isvalidlocale(locale):
             return False
 
 
-def _filter_valid_locales(locales):
+def _filter_valid_locales(locales: Iterable[str]) -> list[str]:
     return [locale for locale in locales if _isvalidlocale(locale)]
 
 
-def _construct_locales(languages, region):
+def _construct_locales(languages: Iterable[str], region: str) -> Iterable[str]:
     if region:
         possible_locales = [language + "-" + region for language in languages]
-        locales = _filter_valid_locales(possible_locales)
+        locales: Iterable[str] = _filter_valid_locales(possible_locales)
     else:
         locales = languages
     return locales
@@ -40,18 +42,18 @@ def _construct_locales(languages, region):
 class LocaleDataLoader:
     """Class that handles loading of locale instances."""
 
-    _loaded_languages = {}
-    _loaded_locales = {}
+    _loaded_languages: dict[str, dict[str, Any]] = {}
+    _loaded_locales: dict[str, Locale] = {}
     _load_lock = threading.Lock()
 
     def get_locale_map(
         self,
-        languages=None,
-        locales=None,
-        region=None,
-        use_given_order=False,
-        allow_conflicting_locales=False,
-    ):
+        languages: Iterable[str] | None = None,
+        locales: Iterable[str] | None = None,
+        region: str | None = None,
+        use_given_order: bool = False,
+        allow_conflicting_locales: bool = False,
+    ) -> OrderedDict[str, Locale]:
         """
         Get an ordered mapping with locale codes as keys
         and corresponding locale instances as values.
@@ -95,12 +97,12 @@ class LocaleDataLoader:
 
     def get_locales(
         self,
-        languages=None,
-        locales=None,
-        region=None,
-        use_given_order=False,
-        allow_conflicting_locales=False,
-    ):
+        languages: Iterable[str] | None = None,
+        locales: Iterable[str] | None = None,
+        region: str | None = None,
+        use_given_order: bool = False,
+        allow_conflicting_locales: bool = False,
+    ) -> Iterator[Locale]:
         """
         Yield locale instances.
 
@@ -140,7 +142,7 @@ class LocaleDataLoader:
         ):
             yield locale
 
-    def get_locale(self, shortname):
+    def get_locale(self, shortname: str) -> Locale:
         """
         Get a locale instance.
 
@@ -154,20 +156,20 @@ class LocaleDataLoader:
 
     def _load_data(
         self,
-        languages=None,
-        locales=None,
-        region=None,
-        use_given_order=False,
-        allow_conflicting_locales=False,
-    ):
-        locale_dict = {}
+        languages: Iterable[str] | None = None,
+        locales: Iterable[str] | None = None,
+        region: str | None = None,
+        use_given_order: bool = False,
+        allow_conflicting_locales: bool = False,
+    ) -> Iterator[tuple[str, Locale]]:
+        locale_dict: dict[str, tuple[str, ...]] = {}
         if locales:
             invalid_locales = []
             for locale in locales:
-                lang_reg = LOCALE_SPLIT_PATTERN.split(locale)
-                if len(lang_reg) == 1:
-                    lang_reg.append("")
-                locale_dict[locale] = tuple(lang_reg)
+                split_locale = LOCALE_SPLIT_PATTERN.split(locale)
+                if len(split_locale) == 1:
+                    split_locale.append("")
+                locale_dict[locale] = tuple(split_locale)
                 if not _isvalidlocale(locale):
                     invalid_locales.append(locale)
             if invalid_locales:
@@ -209,7 +211,7 @@ class LocaleDataLoader:
                 if shortname not in self._loaded_locales:
                     lang, reg = lang_reg
                     if lang in self._loaded_languages:
-                        locale = Locale(
+                        locale_obj = Locale(
                             shortname,
                             language_info=deepcopy(self._loaded_languages[lang]),
                         )
@@ -220,15 +222,15 @@ class LocaleDataLoader:
                             ),
                             "info",
                         )
-                        locale = Locale(
+                        locale_obj = Locale(
                             shortname, language_info=deepcopy(language_info)
                         )
                         self._loaded_languages[lang] = language_info
                     # Store only once fully built so concurrent readers never see
                     # a half-initialised locale.
-                    self._loaded_locales[shortname] = locale
-                locale = self._loaded_locales[shortname]
-            yield shortname, locale
+                    self._loaded_locales[shortname] = locale_obj
+                locale_obj = self._loaded_locales[shortname]
+            yield shortname, locale_obj
 
 
 default_loader = LocaleDataLoader()
