@@ -548,7 +548,7 @@ class TestDateParser(BaseTestCase):
                 datetime(2016, 9, 23, 2, 34, 51),
             ),
             # RFC 2822 email dates carry a numeric offset plus a redundant,
-            # equivalent timezone abbreviation in parentheses (#1227).
+            # equivalent timezone abbreviation in parentheses.
             param(
                 "Thu, 30 May 2024 10:13:10 -0500 (CDT)",
                 datetime(2024, 5, 30, 15, 13, 10),
@@ -561,6 +561,7 @@ class TestDateParser(BaseTestCase):
                 "Mon, 15 Jan 2024 09:30:00 +0000 (UTC)",
                 datetime(2024, 1, 15, 9, 30, 0),
             ),
+            param("2019-09-28WIB19:17:34+07:00", datetime(2019, 9, 28, 12, 17, 34)),
         ]
     )
     def test_parsing_with_utc_offsets(self, date_string, expected):

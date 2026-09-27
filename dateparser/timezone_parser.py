@@ -43,7 +43,16 @@ def _search_and_pop_tz(date_string):
         timezone_match = info["regex"].search(date_string)
         if timezone_match:
             start, stop = timezone_match.span()
-            return date_string[: start + 1] + date_string[stop:], name, info
+            # A token glued to the digits that follow, as in
+            # 2019-09-28WIB19:17:34, leaves a space so that the date and time
+            # digits stay apart.
+            glued = stop < len(date_string) and date_string[stop - 1].isalpha()
+            separator = " " if glued else ""
+            return (
+                date_string[: start + 1] + separator + date_string[stop:],
+                name,
+                info,
+            )
     return None
 
 

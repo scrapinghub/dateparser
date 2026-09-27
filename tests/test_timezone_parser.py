@@ -94,6 +94,7 @@ class TestTZPopping(BaseTestCase):
                 "Thu 30 May 2024 10:13:10 CDT -0500",
                 "Thu 30 May 2024 10:13:10 ",
             ),
+            param("2019-09-28WIB19:17:34+07:00", "2019-09-28 19:17:34"),
         ]
     )
     def test_timezone_deleted_from_string(self, initial_string, result_string):
