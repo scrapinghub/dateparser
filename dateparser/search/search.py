@@ -405,6 +405,22 @@ class DateSearchWithDetection:
             language_shortname, languages
         )
         if not candidate_languages:
+            # Language detection returned nothing and no explicit languages were
+            # given. Fall back to trying every installed language, with English
+            # first, so that short relative expressions ("last decade", "next
+            # week") still get searched. This mirrors dateparser.parse, which
+            # walks every locale when none is detected.
+            candidate_languages = ["en"] + [
+                language
+                for language in self.available_language_map
+                if language != "en"
+            ]
+        elif not languages and "en" not in candidate_languages:
+            # Detection guessed a language but it didn't pan out; English is the
+            # most common fallback for short relative expressions, so give it a
+            # chance after the detected candidates.
+            candidate_languages.append("en")
+        if not candidate_languages:
             return {"Language": None, "Dates": None}
 
         if strategy == "ngram":
