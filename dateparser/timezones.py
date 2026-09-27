@@ -18,6 +18,8 @@ timezone_info_list = [
             (r"(?:UTC|GMT)\\(\+|\-)0(\d):00", r"(?:UTC|GMT)\\\1\2"),
             # UTC+n:mm, UTC-n:mm, GMT+n:mm, GMT-n:mm:
             (r"(?:UTC|GMT)\\(\+|\-)0(\d):(\d{2})", r"(?:UTC|GMT)\\\1\2:\3"),
+            # +n:mm, -n:mm:
+            (r"(?:UTC|GMT)\\(\+|\-)0(\d):(\d{2})", r"\\\1\2:\3"),
             # UTC+nn, UTC-nn, GMT+nn, GMT-nn:
             (r"(?:UTC|GMT)\\(\+|\-)(\d{2}):00", r"(?:UTC|GMT)\\\1\2"),
             # UTC+nnmm, UTC-nnmm, GMT+nnmm, GMT-nnmm:
