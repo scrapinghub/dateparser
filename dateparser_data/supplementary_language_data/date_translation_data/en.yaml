@@ -86,8 +86,8 @@ relative-type-regex:
 
 simplifications:
     - (\d+[.,]?\d*)\s*mons?\b: \1 month
-    - an: '1'
-    - a: '1'
+    - an(?=\s+[^\W\d_]): '1'
+    - a(?=\s+[^\W\d_]): '1'
     - (?:12\s+)?noon: '12:00'
     - (?:12\s+)?midnight: '00:00'
     - (\d+[.,]?\d*)h(\d+[.,]?\d*): \1:\2
