@@ -122,6 +122,23 @@ class TestTZPopping(BaseTestCase):
         self.assertEqual(delta, self.timezone_offset)
 
 
+class TestUnicodeDashOffsets(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("jan 15th UTC‐06:00", -6),  # HYPHEN
+            param("jan 15th UTC–06:00", -6),  # EN DASH
+            param("jan 15th UTC—06:00", -6),  # EM DASH
+            param("jan 15th UTC−06:00", -6),  # MINUS SIGN
+            param("jan 15th UTC－06:00", -6),  # FULLWIDTH HYPHEN-MINUS
+            param("jan 15th UTC+06:00", 6),
+        ]
+    )
+    def test_parses_dash_look_alike_offsets(self, date_string, expected_offset_hours):
+        parsed = parse(date_string)
+        self.assertIsNotNone(parsed)
+        self.assertEqual(parsed.utcoffset(), timedelta(hours=expected_offset_hours))
+
+
 class TestLocalTZOffset(BaseTestCase):
     def setUp(self):
         super().setUp()

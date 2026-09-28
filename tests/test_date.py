@@ -1298,6 +1298,13 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("2019:"), "2019")
         self.assertEqual(date.sanitize_date("31/07/2019:"), "31/07/2019")
 
+    def test_sanitize_date_dash_look_alikes(self):
+        for dash in date.DASH_LOOK_ALIKE_CHARS:
+            self.assertEqual(
+                date.sanitize_date(f"UTC{dash}06:00"),
+                "UTC-06:00",
+            )
+
 
 class TestDateLocaleParser(BaseTestCase):
     def setUp(self):

@@ -37,6 +37,42 @@ APOSTROPHE_LOOK_ALIKE_CHARS = [
     "\N{FULLWIDTH APOSTROPHE}",  # '\uff07'
 ]
 
+# Unicode Dash Characters, per the "Dash" property table in the Unicode Standard
+# (https://www.unicode.org/versions/latest/core-spec/chapter-6/#G9697), excluding
+# U+002D HYPHEN-MINUS itself.
+DASH_LOOK_ALIKE_CHARS = [
+    "\N{ARMENIAN HYPHEN}",  # '\u058a'
+    "\N{HEBREW PUNCTUATION MAQAF}",  # '\u05be'
+    "\N{CANADIAN SYLLABICS HYPHEN}",  # '\u1400'
+    "\N{MONGOLIAN TODO SOFT HYPHEN}",  # '\u1806'
+    "\N{HYPHEN}",  # '\u2010'
+    "\N{NON-BREAKING HYPHEN}",  # '\u2011'
+    "\N{FIGURE DASH}",  # '\u2012'
+    "\N{EN DASH}",  # '\u2013'
+    "\N{EM DASH}",  # '\u2014'
+    "\N{HORIZONTAL BAR}",  # '\u2015'
+    "\N{SWUNG DASH}",  # '\u2053'
+    "\N{SUPERSCRIPT MINUS}",  # '\u207b'
+    "\N{SUBSCRIPT MINUS}",  # '\u208b'
+    "\N{MINUS SIGN}",  # '\u2212'
+    "\N{DOUBLE OBLIQUE HYPHEN}",  # '\u2e17'
+    "\N{HYPHEN WITH DIAERESIS}",  # '\u2e1a'
+    "\N{TWO-EM DASH}",  # '\u2e3a'
+    "\N{THREE-EM DASH}",  # '\u2e3b'
+    "\N{DOUBLE HYPHEN}",  # '\u2e40'
+    "\N{OBLIQUE HYPHEN}",  # '\u2e5d'
+    "\N{WAVE DASH}",  # '\u301c'
+    "\N{WAVY DASH}",  # '\u3030'
+    "\N{KATAKANA-HIRAGANA DOUBLE HYPHEN}",  # '\u30a0'
+    "\N{PRESENTATION FORM FOR VERTICAL EM DASH}",  # '\ufe31'
+    "\N{PRESENTATION FORM FOR VERTICAL EN DASH}",  # '\ufe32'
+    "\N{SMALL EM DASH}",  # '\ufe58'
+    "\N{SMALL HYPHEN-MINUS}",  # '\ufe63'
+    "\N{FULLWIDTH HYPHEN-MINUS}",  # '\uff0d'
+    "\U00010d6e",  # GARAY HYPHEN
+    "\N{YEZIDI HYPHENATION MARK}",  # '\U00010ead'
+]
+
 RE_NBSP = re.compile("\xa0", flags=re.UNICODE)
 RE_SPACES = re.compile(r"\s+")
 RE_TRIM_SPACES = re.compile(r"^\s+(\S.*?)\s+$")
@@ -52,6 +88,7 @@ RE_SANITIZE_CROATIAN = re.compile(
 RE_SANITIZE_PERIOD = re.compile(r"(?<=[^0-9\s])\.", flags=re.U)
 RE_SANITIZE_ON = re.compile(r"^.*?on:\s+(.*)")
 RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
+RE_SANITIZE_DASH = re.compile("|".join(DASH_LOOK_ALIKE_CHARS))
 
 RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
@@ -145,6 +182,7 @@ def sanitize_date(date_string):
     date_string = RE_SANITIZE_ON.sub(r"\1", date_string)
     date_string = RE_TRIM_COLONS.sub(r"\1", date_string)
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
+    date_string = RE_SANITIZE_DASH.sub("-", date_string)
     date_string = date_string.strip()
     return date_string
 
