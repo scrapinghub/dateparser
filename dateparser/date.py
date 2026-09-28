@@ -50,6 +50,7 @@ RE_SANITIZE_CROATIAN = re.compile(
     r"(\d+)\.\s?(\d+)\.\s?(\d+)\.( u)?", flags=re.I | re.U
 )
 RE_SANITIZE_PERIOD = re.compile(r"(?<=[^0-9\s])\.", flags=re.U)
+RE_SANITIZE_DECIMAL_COMMA = re.compile(r"(?<=\d:\d{2}:\d{2}),(?=\d{3})")
 RE_SANITIZE_ON = re.compile(r"^.*?on:\s+(.*)")
 RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
 
@@ -142,6 +143,7 @@ def sanitize_date(date_string):
     )  # extra '.' and 'u' interferes with parsing relative fractional dates
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub("", date_string)
+    date_string = RE_SANITIZE_DECIMAL_COMMA.sub(".", date_string)
     date_string = RE_SANITIZE_ON.sub(r"\1", date_string)
     date_string = RE_TRIM_COLONS.sub(r"\1", date_string)
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)

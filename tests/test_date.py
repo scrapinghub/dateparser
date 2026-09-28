@@ -1294,6 +1294,10 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("2005 г. 15:24"), "2005 15:24")
         self.assertEqual(date.sanitize_date("Авг."), "Авг")
 
+    def test_sanitize_date_decimal_comma(self):
+        self.assertEqual(date.sanitize_date("06:38:49,946"), "06:38:49.946")
+        self.assertEqual(date.sanitize_date("06:38:49,12 June"), "06:38:49,12 June")
+
     def test_sanitize_date_colons(self):
         self.assertEqual(date.sanitize_date("2019:"), "2019")
         self.assertEqual(date.sanitize_date("31/07/2019:"), "31/07/2019")

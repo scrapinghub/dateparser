@@ -915,6 +915,11 @@ class TestDateParser(BaseTestCase):
                 languages=["en"],
                 expected=datetime(2015, 5, 2, 10, 20, 19),
             ),
+            param(
+                "2021-04-29T06:38:49,946902974+02:00",
+                languages=["fr"],
+                expected=datetime(2021, 4, 29, 6, 38, 49, 946902),
+            ),
         ]
     )
     def test_iso_datestamp_format_should_always_parse(
