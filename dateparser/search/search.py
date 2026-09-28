@@ -70,24 +70,27 @@ class _ExactLanguageSearch:
             num_substrings = len(possible_substrings_splits[i])
             num_substrings_without_digits = 0
             not_parsed = 0
+            parsed_length = 0
             for j, item in enumerate(possible_parsed_splits[i]):
+                substring = possible_substrings_splits[i][j]
                 if item[0]["date_obj"] is None:
                     not_parsed += 1
-                if not any(char.isdigit() for char in possible_substrings_splits[i][j]):
+                    continue
+                parsed_length += len(substring)
+                if not any(char.isdigit() for char in substring):
                     num_substrings_without_digits += 1
             rating.append(
                 [
                     num_substrings,
-                    0
-                    if not_parsed == 0
-                    else (float(not_parsed) / float(num_substrings)),
+                    not_parsed,
                     0
                     if num_substrings_without_digits == 0
                     else (float(num_substrings_without_digits) / float(num_substrings)),
+                    -parsed_length,
                 ]
             )
             best_index, best_rating = min(
-                enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2])
+                enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2], p[1][3])
             )
         return (
             possible_parsed_splits[best_index],

@@ -1129,6 +1129,21 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(
+                text="afghanistan Independence Day, 19 August 1919",
+                expected=[("19 August 1919", datetime.datetime(1919, 8, 19))],
+            ),
+            param(
+                text="week, 19 August 1919",
+                expected=[("19 August 1919", datetime.datetime(1919, 8, 19))],
+            ),
+        ]
+    )
+    def test_search_dates_after_a_date_word_and_a_comma(self, text, expected):
+        self.assertEqual(search_dates(text, languages=["en"]), expected)
+
+    @parameterized.expand(
+        [
             # The word a future expression is written with is what points it
             # forward, and reporting it is what tells the two directions apart
             param(
