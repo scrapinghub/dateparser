@@ -1017,6 +1017,24 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("DECEMBER 21 19", datetime.datetime(2019, 12, 21, 0, 0))],
             ),
+            # Full stops between digits
+            param(
+                text="Sampled on 2019-10-19 20:28:35.973000 by the sensor",
+                languages=None,
+                settings=None,
+                expected=[
+                    (
+                        "2019-10-19 20:28:35.973000",
+                        datetime.datetime(2019, 10, 19, 20, 28, 35, 973000),
+                    )
+                ],
+            ),
+            param(
+                text="test 13.07.2016 test",
+                languages=None,
+                settings=None,
+                expected=[("13.07.2016", datetime.datetime(2016, 7, 13, 0, 0))],
+            ),
             param(
                 text="bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41",
                 languages=None,

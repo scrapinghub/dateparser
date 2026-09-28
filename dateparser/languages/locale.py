@@ -391,6 +391,8 @@ class Locale:
             5: r"[\r\n]+",  # Thai
             6: r"[\r\n؟!\.…]+(?:\s|$)+",
         }  # Arabic and Farsi
+        # Full stops of fractional seconds and of dates like 13.07.2016.
+        abbreviation_string += r"(?!(?<=:\d\d)\.\d|(?<=\d)\.\d+\.\d|(?<=\d\.\d+)\.\d)"
         if "sentence_splitter_group" not in self.info:
             split_reg = abbreviation_string + splitters_dict[1]
             sentences = re.split(split_reg, string)
