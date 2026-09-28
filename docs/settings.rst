@@ -99,8 +99,9 @@ If date string is missing some part, this option ensures consistent results depe
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
     datetime.datetime(2015, 8, 15, 0, 0)
 
-``RELATIVE_BASE``: allows setting the base datetime to use for interpreting partial or relative date strings.
-Defaults to the current date and time.
+``RELATIVE_BASE``: allows setting the base datetime to use for interpreting
+partial or relative date strings. Defaults to the current date and time. A
+naive ``RELATIVE_BASE`` is read in the timezone of the ``TIMEZONE`` setting.
 
 For example, assuming current date is `June 16, 2015`:
 
