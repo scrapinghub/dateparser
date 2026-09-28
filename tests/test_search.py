@@ -1219,6 +1219,16 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(text="11 sent 12-Dec-2014"),
+            param(text="09 sent 12-Dec-2014"),
+        ]
+    )
+    def test_search_dates_with_numbers_that_are_months_in_other_languages(self, text):
+        result = search_dates(text)
+        self.assertEqual(result, [("12-Dec-2014", datetime.datetime(2014, 12, 12))])
+
+    @parameterized.expand(
+        [
             param(text="19 марта 2001", languages="wrong type: str instead of list"),
         ]
     )
