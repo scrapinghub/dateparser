@@ -39,38 +39,40 @@ APOSTROPHE_LOOK_ALIKE_CHARS = [
 
 # Unicode Dash Characters, per the "Dash" property table in the Unicode Standard
 # (https://www.unicode.org/versions/latest/core-spec/chapter-6/#G9697), excluding
-# U+002D HYPHEN-MINUS itself.
+# U+002D HYPHEN-MINUS itself. Written as \u/\U escapes rather than \N{...} names
+# since some of these (e.g. Garay Hyphen, Yezidi Hyphenation Mark) are recent
+# Unicode additions not present in the unicodedata name tables of older Pythons.
 DASH_LOOK_ALIKE_CHARS = [
-    "\N{ARMENIAN HYPHEN}",  # '\u058a'
-    "\N{HEBREW PUNCTUATION MAQAF}",  # '\u05be'
-    "\N{CANADIAN SYLLABICS HYPHEN}",  # '\u1400'
-    "\N{MONGOLIAN TODO SOFT HYPHEN}",  # '\u1806'
-    "\N{HYPHEN}",  # '\u2010'
-    "\N{NON-BREAKING HYPHEN}",  # '\u2011'
-    "\N{FIGURE DASH}",  # '\u2012'
-    "\N{EN DASH}",  # '\u2013'
-    "\N{EM DASH}",  # '\u2014'
-    "\N{HORIZONTAL BAR}",  # '\u2015'
-    "\N{SWUNG DASH}",  # '\u2053'
-    "\N{SUPERSCRIPT MINUS}",  # '\u207b'
-    "\N{SUBSCRIPT MINUS}",  # '\u208b'
-    "\N{MINUS SIGN}",  # '\u2212'
-    "\N{DOUBLE OBLIQUE HYPHEN}",  # '\u2e17'
-    "\N{HYPHEN WITH DIAERESIS}",  # '\u2e1a'
-    "\N{TWO-EM DASH}",  # '\u2e3a'
-    "\N{THREE-EM DASH}",  # '\u2e3b'
-    "\N{DOUBLE HYPHEN}",  # '\u2e40'
-    "\N{OBLIQUE HYPHEN}",  # '\u2e5d'
-    "\N{WAVE DASH}",  # '\u301c'
-    "\N{WAVY DASH}",  # '\u3030'
-    "\N{KATAKANA-HIRAGANA DOUBLE HYPHEN}",  # '\u30a0'
-    "\N{PRESENTATION FORM FOR VERTICAL EM DASH}",  # '\ufe31'
-    "\N{PRESENTATION FORM FOR VERTICAL EN DASH}",  # '\ufe32'
-    "\N{SMALL EM DASH}",  # '\ufe58'
-    "\N{SMALL HYPHEN-MINUS}",  # '\ufe63'
-    "\N{FULLWIDTH HYPHEN-MINUS}",  # '\uff0d'
+    "\u058a",  # ARMENIAN HYPHEN
+    "\u05be",  # HEBREW PUNCTUATION MAQAF
+    "\u1400",  # CANADIAN SYLLABICS HYPHEN
+    "\u1806",  # MONGOLIAN TODO SOFT HYPHEN
+    "\u2010",  # HYPHEN
+    "\u2011",  # NON-BREAKING HYPHEN
+    "\u2012",  # FIGURE DASH
+    "\u2013",  # EN DASH
+    "\u2014",  # EM DASH
+    "\u2015",  # HORIZONTAL BAR
+    "\u2053",  # SWUNG DASH
+    "\u207b",  # SUPERSCRIPT MINUS
+    "\u208b",  # SUBSCRIPT MINUS
+    "\u2212",  # MINUS SIGN
+    "\u2e17",  # DOUBLE OBLIQUE HYPHEN
+    "\u2e1a",  # HYPHEN WITH DIAERESIS
+    "\u2e3a",  # TWO-EM DASH
+    "\u2e3b",  # THREE-EM DASH
+    "\u2e40",  # DOUBLE HYPHEN
+    "\u2e5d",  # OBLIQUE HYPHEN
+    "\u301c",  # WAVE DASH
+    "\u3030",  # WAVY DASH
+    "\u30a0",  # KATAKANA-HIRAGANA DOUBLE HYPHEN
+    "\ufe31",  # PRESENTATION FORM FOR VERTICAL EM DASH
+    "\ufe32",  # PRESENTATION FORM FOR VERTICAL EN DASH
+    "\ufe58",  # SMALL EM DASH
+    "\ufe63",  # SMALL HYPHEN-MINUS
+    "\uff0d",  # FULLWIDTH HYPHEN-MINUS
     "\U00010d6e",  # GARAY HYPHEN
-    "\N{YEZIDI HYPHENATION MARK}",  # '\U00010ead'
+    "\U00010ead",  # YEZIDI HYPHENATION MARK
 ]
 
 RE_NBSP = re.compile("\xa0", flags=re.UNICODE)
