@@ -155,6 +155,20 @@ class _ExactLanguageSearch:
             )
         return possible_splits
 
+    def split_off_trailing_words(self, parser, item, original):
+        """Split a chunk into the longest date it starts with and the words
+        after it, when those words are the same in the original text."""
+        words = item.split()
+        for end in range(len(words) - 1, 0, -1):
+            rest = " ".join(words[end:])
+            if not original.lower().endswith(" " + rest):
+                break
+            date = " ".join(words[:end])
+            if parser.get_date_data(date)["date_obj"] is not None:
+                cut = len(original) - len(rest)
+                return [[[date, rest], [original[:cut], original[cut:]]]]
+        return []
+
     def split_if_not_parsed(self, parser, item, original, language, settings):
         splitters = [",", "،", "——", "—", "–", ".", " "]
         possible_splits = []
@@ -167,6 +181,8 @@ class _ExactLanguageSearch:
             possible_splits = self.split_by_relative_expression(
                 parser, item, original, language, settings
             )
+        if not possible_splits:
+            possible_splits = self.split_off_trailing_words(parser, item, original)
         return possible_splits
 
     def parse_item(self, parser, item, translated_item, parsed, need_relative_base):

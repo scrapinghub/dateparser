@@ -1129,6 +1129,21 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(
+                text="At 30 September 2018 E'000",
+                expected=[("At 30 September 2018", datetime.datetime(2018, 9, 30))],
+            ),
+            param(
+                text="On 5 May 2020 ABC-123 XYZ-9",
+                expected=[("On 5 May 2020", datetime.datetime(2020, 5, 5))],
+            ),
+        ]
+    )
+    def test_search_dates_followed_by_words_with_digits(self, text, expected):
+        self.assertEqual(search_dates(text, languages=["en"]), expected)
+
+    @parameterized.expand(
+        [
             # The word a future expression is written with is what points it
             # forward, and reporting it is what tells the two directions apart
             param(
