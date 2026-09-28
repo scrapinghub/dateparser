@@ -1234,11 +1234,10 @@ class TestTranslateSearch(BaseTestCase):
         [
             param(text="See you Mon", languages=None, expected="Mon"),
             param(text="Nos vemos el lun", languages=["es"], expected="lun"),
+            param(text="hoy", languages=None, expected="hoy"),
         ]
     )
-    def test_search_dates_finds_short_words_of_a_known_language(
-        self, text, languages, expected
-    ):
+    def test_search_dates_finds_short_words(self, text, languages, expected):
         result = search_dates(text, languages=languages)
         self.assertEqual([substring for substring, _ in result], [expected])
 
