@@ -1017,6 +1017,51 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            # Regression test for #1127: a bare, unpadded-minute UTC offset
+            # (e.g. "+03" instead of "+03:00"/"+0300") should not break parsing.
+            param(
+                "Thu, 19 Jan 2023 10:45:00 +03",
+                expected=datetime(
+                    2023,
+                    1,
+                    19,
+                    10,
+                    45,
+                    tzinfo=StaticTzInfo(r"\+03", timedelta(hours=3)),
+                ),
+            ),
+            param(
+                "19 Jan 2023 10:45:00 +03",
+                expected=datetime(
+                    2023,
+                    1,
+                    19,
+                    10,
+                    45,
+                    tzinfo=StaticTzInfo(r"\+03", timedelta(hours=3)),
+                ),
+            ),
+            param(
+                "19 Jan 2023 10:45:00 -04",
+                expected=datetime(
+                    2023,
+                    1,
+                    19,
+                    10,
+                    45,
+                    tzinfo=StaticTzInfo(r"\-04", timedelta(hours=-4)),
+                ),
+            ),
+            # A dash-separated date must not be mistaken for a bare offset.
+            param("2015-04-12", expected=datetime(2015, 4, 12)),
+        ]
+    )
+    def test_parse_bare_utc_offset(self, date_string, expected):
+        result = parse(date_string)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
             # Epoch timestamps.
             param("1484823450", expected=datetime(2017, 1, 19, 10, 57, 30)),
             param("1436745600000", expected=datetime(2015, 7, 13, 0, 0)),
