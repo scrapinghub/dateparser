@@ -973,6 +973,29 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("05/2020", date_order="DMY", expected=datetime(2020, 5, 1)),
+            param("5-2020", date_order="YMD", expected=datetime(2020, 5, 1)),
+            param(
+                "05/2020 10:00", date_order="YDM", expected=datetime(2020, 5, 28, 10)
+            ),
+            param("13/2020", date_order="DMY", expected=datetime(2020, 9, 13)),
+        ]
+    )
+    def test_month_and_year_with_explicit_date_order(
+        self, date_string, date_order, expected
+    ):
+        self.given_parser(
+            settings={
+                "DATE_ORDER": date_order,
+                "PREFER_DAY_OF_MONTH": "first",
+                "RELATIVE_BASE": datetime(2020, 9, 28),
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             # Epoch timestamps.
             param("1484823450", expected=datetime(2017, 1, 19, 10, 57, 30)),
             param("1436745600000", expected=datetime(2015, 7, 13, 0, 0)),
