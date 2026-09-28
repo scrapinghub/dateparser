@@ -1,5 +1,4 @@
-import sys
-
+from pytz.tzinfo import BaseTzInfo
 from tzlocal import get_localzone
 
 from .conf import apply_settings
@@ -34,7 +33,7 @@ class DateParser:
         else:
             if "local" in _settings_tz:
                 stz = get_localzone()
-                if hasattr(stz, "localize") and sys.version_info < (3, 6):
+                if isinstance(stz, BaseTzInfo):
                     date_obj = stz.localize(date_obj)
                 else:
                     date_obj = date_obj.replace(tzinfo=stz)
