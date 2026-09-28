@@ -48,6 +48,9 @@ PARENTHESES_PATTERN = re.compile(r"[\(\)]")
 NUMERAL_PATTERN = re.compile(r"(\d+)")
 KEEP_TOKEN_PATTERN = re.compile(r"^.*[^\W_].*$", flags=re.U)
 
+WEEKDAY_TOKENS = KNOWN_WORD_TOKENS[0:7]
+MONTH_TOKENS = KNOWN_WORD_TOKENS[7:19]
+
 
 class UnknownTokenError(Exception):
     pass
@@ -102,6 +105,29 @@ class Dictionary:
             if word in locale_info:
                 translations = map(methodcaller("lower"), locale_info[word])
                 dictionary.update(zip_longest(translations, [], fillvalue=word))
+
+        # Some locales (mostly Romance languages) reuse the same abbreviation for a
+        # weekday and a month (e.g. Italian "mar" is both "martedì" and "marzo").
+        # The loop above always resolves those in favor of the month, since months
+        # are listed after weekdays in KNOWN_WORD_TOKENS. Keep track of the weekday
+        # each conflicting token could also mean, so a caller with extra context
+        # (e.g. the word is immediately followed by a comma, as in "Tue, 07 Jun") can
+        # recover the weekday reading.
+        weekday_translations = {}
+        for word in WEEKDAY_TOKENS:
+            if word in locale_info:
+                for token in map(methodcaller("lower"), locale_info[word]):
+                    weekday_translations[token] = word
+        month_translations = set()
+        for word in MONTH_TOKENS:
+            if word in locale_info:
+                month_translations.update(map(methodcaller("lower"), locale_info[word]))
+        self.weekday_month_conflicts = {
+            token: weekday
+            for token, weekday in weekday_translations.items()
+            if token in month_translations
+        }
+
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(
             zip_longest(

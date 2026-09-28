@@ -26,6 +26,11 @@ def _parse_bool(value):
 # it on so the text and its translation keep the same separators.
 PUNCTUATION = "()\"'{}[],.،"
 
+# A word immediately followed by a comma at the start of a date string (e.g. "Tue, 07
+# Jun 2022") is a weekday, never a month. This disambiguates locales where the same
+# abbreviation is used for both (see Dictionary.weekday_month_conflicts).
+RE_LEADING_WORD_BEFORE_COMMA = re.compile(r"^\s*([^\s,]+)\s*,")
+
 
 class Locale:
     """
@@ -179,6 +184,13 @@ class Locale:
 
         relative_translations = self._get_relative_translations(settings=settings)
 
+        leading_weekday_match = RE_LEADING_WORD_BEFORE_COMMA.match(date_string)
+        forced_weekday_token = (
+            leading_weekday_match.group(1).lower() if leading_weekday_match else None
+        )
+        if forced_weekday_token not in dictionary.weekday_month_conflicts:
+            forced_weekday_token = None
+
         for i, word in enumerate(date_string_tokens):
             word = word.lower()
             for pattern, replacement in relative_translations.items():
@@ -186,7 +198,10 @@ class Locale:
                     date_string_tokens[i] = pattern.sub(replacement, word)
                     break
             else:
-                if word in dictionary:
+                if forced_weekday_token and word == forced_weekday_token:
+                    date_string_tokens[i] = dictionary.weekday_month_conflicts[word]
+                    forced_weekday_token = None
+                elif word in dictionary:
                     fallback = word if keep_formatting and not word.isalpha() else ""
                     date_string_tokens[i] = dictionary[word] or fallback
         if "in" in date_string_tokens:

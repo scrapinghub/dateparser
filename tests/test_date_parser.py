@@ -1959,6 +1959,25 @@ class TestDateParser(BaseTestCase):
         """Test that an invalid %j value is not read as another date (Issue #271)."""
         self.assertIsNone(parse(date_string, date_formats=["%Y%j"]))
 
+    @parameterized.expand(
+        [
+            param(
+                date_string="mar, 07 giu 2022 08:56:47 +0200",
+                date_formats=["%a, %d %b %Y %H:%M:%S %z"],
+            ),
+            param(date_string="mar, 07 giu 2022 08:56:47 +0200", date_formats=None),
+        ]
+    )
+    def test_leading_weekday_month_abbreviation_conflict(
+        self, date_string, date_formats
+    ):
+        """Italian "mar" abbreviates both "martedì" (Tue) and "marzo" (Mar). When it
+        leads the string followed by a comma it must be read as the weekday, or the
+        string fails to parse entirely (Issue #1061)."""
+        result = parse(date_string, date_formats=date_formats, languages=["it"])
+        self.assertIsNotNone(result)
+        self.assertEqual(datetime(2022, 6, 7, 8, 56, 47), result.replace(tzinfo=None))
+
 
 if __name__ == "__main__":
     unittest.main()
