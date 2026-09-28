@@ -122,8 +122,7 @@ class _ExactLanguageSearch:
         if need_relative_base:
             item, relative_base = self.set_relative_base(item, parsed)
 
-        # parser is reused across items/splits, so always set _settings
-        # explicitly rather than mutating leftover state from a prior call.
+        # parser is reused across items/splits, so always set _settings explicitly.
         parser._settings = (
             settings.replace(RELATIVE_BASE=relative_base) if relative_base else settings
         )

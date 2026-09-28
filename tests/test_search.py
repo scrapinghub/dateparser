@@ -816,16 +816,6 @@ class TestTranslateSearch(BaseTestCase):
         """The first date of a text must not inherit RELATIVE_BASE left over
         from a different, unrelated candidate split explored earlier for the
         same substring.
-
-        `choose_best_split` explores several ways of splitting one
-        unparsed substring (by comma, by space, by grouping chunks
-        together, etc.), all sharing the same `DateDataParser` instance.
-        A leftover `RELATIVE_BASE` mutation from an earlier-explored (and
-        ultimately discarded) candidate could bleed into the first token
-        of a later, unrelated candidate - even though that token has
-        nothing before it in its own chain. Here "March 3" has no date
-        preceding it and must resolve to the current year, not to a year
-        leaked from a different candidate's exploration.
         """
         result = search_dates(
             "March 3, 2001, April 9 2001, May 10, June, 14 2002, July 2",
