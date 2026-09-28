@@ -547,6 +547,12 @@ class TestDateParser(BaseTestCase):
                 "Fri Sep 23 2016 10:34:51 GMT+0800 (CST)",
                 datetime(2016, 9, 23, 2, 34, 51),
             ),
+            param("10:56:58 PM UTC+2:00 2/22/2018", datetime(2018, 2, 22, 20, 56, 58)),
+            param("10:56:58 PM UTC+2 Feb 22, 2018", datetime(2018, 2, 22, 20, 56, 58)),
+            param(
+                "10:56:58 PM GMT+0800 (CST) 2/22/2018",
+                datetime(2018, 2, 22, 14, 56, 58),
+            ),
         ]
     )
     def test_parsing_with_utc_offsets(self, date_string, expected):

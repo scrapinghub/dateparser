@@ -58,10 +58,7 @@ def is_timezone_token(token):
     case-insensitive *full* match, so it recognizes an already-lowercased,
     space-padded token such as ``" est"``. Because the match is anchored, an
     ordinary word that merely begins with a timezone abbreviation is not
-    treated as a timezone (e.g. ``"actualisé"`` is not the ``ACT`` zone). This
-    is used only on single edge tokens, so the trailing ``.*`` in the UTC/GMT
-    numeric-offset patterns (which a full match would otherwise let absorb
-    following text) is not a concern here.
+    treated as a timezone (e.g. ``"actualisé"`` is not the ``ACT`` zone).
     """
     return bool(_search_regex_ignorecase.fullmatch(token.strip()))
 
