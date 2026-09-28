@@ -2,6 +2,7 @@ import hashlib
 from datetime import datetime
 from functools import wraps
 
+from dateparser._parts_of_day import PartsOfDay
 from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
@@ -31,6 +32,7 @@ class Settings:
     * `RETURN_TIME_SPAN`
     * `DEFAULT_START_OF_WEEK`
     * `DEFAULT_DAYS_IN_MONTH`
+    * `PARTS_OF_DAY`
     * `PARSERS`
     * `DEFAULT_LANGUAGES`
     * `USE_GIVEN_LANGUAGE_ORDER`
@@ -246,6 +248,7 @@ def check_settings(settings):
         "DEFAULT_DAYS_IN_MONTH": {
             "type": int,
         },
+        "PARTS_OF_DAY": {"type": PartsOfDay},
     }
 
     modified_settings = settings._mod_settings  # check only modified settings

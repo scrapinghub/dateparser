@@ -1,5 +1,7 @@
 __version__ = "1.4.3"
 
+from ._parts_of_day import PartOfDay as PartOfDay
+from ._parts_of_day import PartsOfDay as PartsOfDay
 from .conf import apply_settings
 from .date import DateDataParser
 

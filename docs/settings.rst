@@ -278,6 +278,26 @@ Defaults to ``False``.
     >>> ddp.get_date_data('vr jan 24, 2014 12:49')
     DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl')
 
+``PARTS_OF_DAY``: a :class:`~dateparser.PartsOfDay` object that sets the time
+to use for each part of the day, e.g. for ``tonight``. Defaults to
+``PartsOfDay()``.
+
+.. versionadded:: VERSION
+
+    >>> from datetime import time
+    >>> from dateparser import PartsOfDay
+    >>> ddp = DateDataParser(settings={'PARTS_OF_DAY': PartsOfDay(night=time(22)), 'RETURN_TIME_AS_PERIOD': True})
+    >>> ddp.get_date_data('5 January 2026 at night')
+    DateData(date_obj=datetime.datetime(2026, 1, 5, 22, 0), period='part_of_day', locale='en', part_of_day=<PartOfDay.NIGHT: 'night'>)
+
+.. autoclass:: dateparser.PartsOfDay
+    :members:
+    :undoc-members:
+
+.. autoclass:: dateparser.PartOfDay
+    :members:
+    :undoc-members:
+
 ``PARSERS``: it is a list of names of parsers to try, allowing to customize which
 parsers are tried against the input date string, and in which order they are
 tried.

@@ -7,6 +7,7 @@ import regex as re
 from dateutil.relativedelta import relativedelta
 from tzlocal import get_localzone
 
+from dateparser._parts_of_day import _replace_part_of_day
 from dateparser.conf import apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
@@ -274,6 +275,8 @@ class _DateLocaleParser:
         self._ignore_surrounding_text = ignore_surrounding_text
         self._translated_date = None
         self._translated_date_with_formatting = None
+        self._part_of_day = None
+        self._part_of_day_sets_time = False
         self._parsers = {
             "timestamp": self._try_timestamp,
             "negative-timestamp": self._try_negative_timestamp,
@@ -301,6 +304,13 @@ class _DateLocaleParser:
         for parser_name in self._settings.PARSERS:
             date_data = self._parsers[parser_name]()
             if self._is_valid_date_data(date_data):
+                if self._part_of_day:
+                    date_data.part_of_day = self._part_of_day
+                    if (
+                        self._part_of_day_sets_time
+                        and self._settings.RETURN_TIME_AS_PERIOD
+                    ):
+                        date_data.period = "part_of_day"
                 return date_data
         else:
             return None
@@ -386,12 +396,17 @@ class _DateLocaleParser:
 
     def _get_translated_date(self):
         if self._translated_date is None:
-            self._translated_date = self.locale.translate(
+            translated = self.locale.translate(
                 self.date_string,
                 keep_formatting=False,
                 settings=self._settings,
                 ignore_surrounding_text=self._ignore_surrounding_text,
             )
+            (
+                self._translated_date,
+                self._part_of_day,
+                self._part_of_day_sets_time,
+            ) = _replace_part_of_day(translated, self._settings.PARTS_OF_DAY)
         return self._translated_date
 
     def _get_translated_date_with_formatting(self):
@@ -420,6 +435,18 @@ class DateData:
     """
     Class that represents the parsed data with useful information.
     It can be accessed with square brackets like a dict object.
+    """
+
+    part_of_day = None
+    """:class:`~dateparser.PartOfDay` that the date string refers to, e.g.
+    :attr:`~dateparser.PartOfDay.NIGHT` for ``"tonight"``, or ``None``.
+
+    .. versionadded:: VERSION
+
+    Its time comes from the ``PARTS_OF_DAY`` :ref:`setting <settings>`, unless
+    the date string also has a time, e.g. ``"tonight at 11pm"``. If it does
+    not, and the ``RETURN_TIME_AS_PERIOD`` setting is enabled, ``period`` is
+    ``"part_of_day"``.
     """
 
     def __init__(self, *, date_obj=None, period=None, locale=None):
@@ -570,7 +597,8 @@ class DateDataParser:
 
         :raises: ValueError - Unknown Language
 
-        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time'.
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time',
+            'part_of_day'.
 
         *Period* represents the granularity of date parsed from the given string.
 
