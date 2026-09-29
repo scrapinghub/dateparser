@@ -1,6 +1,6 @@
 import copy
 import threading
-from itertools import chain
+from itertools import chain, islice, product
 
 import regex as re
 from dateutil import parser
@@ -11,6 +11,7 @@ from dateparser.utils import combine_dicts, normalize_unicode
 from .dictionary import ALWAYS_KEEP_TOKENS, Dictionary, NormalizedDictionary
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
+_MAX_TRANSLATIONS = 16
 
 
 def _parse_bool(value):
@@ -166,6 +167,27 @@ class Locale:
 
         :return: translated date string.
         """
+        return self._translate(
+            date_string,
+            keep_formatting=keep_formatting,
+            settings=settings,
+            ignore_surrounding_text=ignore_surrounding_text,
+        )
+
+    def _translate(
+        self,
+        date_string,
+        keep_formatting=False,
+        settings=None,
+        ignore_surrounding_text=False,
+        alternative=0,
+    ):
+        """Return the translation of *date_string* that reads its words with
+        several meanings according to the combination of meanings with index
+        *alternative*, where 0 is the combination that :meth:`translate` uses,
+        or ``None`` if there is no such combination."""
+        if alternative >= _MAX_TRANSLATIONS:
+            return None
         date_string = self._translate_numerals(date_string)
         if settings.NORMALIZE:
             date_string = normalize_unicode(date_string)
@@ -179,6 +201,7 @@ class Locale:
 
         relative_translations = self._get_relative_translations(settings=settings)
 
+        ambiguous_tokens = {}
         for i, word in enumerate(date_string_tokens):
             word = word.lower()
             for pattern, replacement in relative_translations.items():
@@ -189,6 +212,16 @@ class Locale:
                 if word in dictionary:
                     fallback = word if keep_formatting and not word.isalpha() else ""
                     date_string_tokens[i] = dictionary[word] or fallback
+                    meanings = dictionary._get_meanings(word)
+                    if len(meanings) > 1:
+                        ambiguous_tokens[i] = meanings
+        if alternative:
+            combinations = product(*ambiguous_tokens.values())
+            combination = next(islice(combinations, alternative, None), None)
+            if combination is None:
+                return None
+            for i, meaning in zip(ambiguous_tokens, combination):
+                date_string_tokens[i] = meaning
         if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
 

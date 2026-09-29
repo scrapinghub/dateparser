@@ -1959,6 +1959,32 @@ class TestDateParser(BaseTestCase):
         """Test that an invalid %j value is not read as another date (Issue #271)."""
         self.assertIsNone(parse(date_string, date_formats=["%Y%j"]))
 
+    @parameterized.expand(
+        [
+            param("mar 5 mar 2019", "it", datetime(2019, 3, 5)),
+            param("mar, 07 giu 2022 08:56:47", "it", datetime(2022, 6, 7, 8, 56, 47)),
+            param("seg, 3 fev 2020", "pt", datetime(2020, 2, 3)),
+            param("luni, 3 mar 2020", "ro", datetime(2020, 3, 3)),
+            param("3월 5일 2020", "ko", datetime(2020, 3, 5)),
+            param("mar 2019", "es", datetime(2019, 3, 15)),
+        ]
+    )
+    def test_word_with_several_meanings(self, date_string, language, expected):
+        settings = {"RELATIVE_BASE": datetime(2020, 1, 15)}
+        self.assertEqual(
+            expected, parse(date_string, languages=[language], settings=settings)
+        )
+
+    def test_word_with_several_meanings_with_date_formats(self):
+        self.assertEqual(
+            datetime(2022, 6, 7, 8, 56, 47),
+            parse(
+                "mar, 07 giu 2022 08:56:47",
+                date_formats=["%a, %d %b %Y %H:%M:%S"],
+                languages=["it"],
+            ),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

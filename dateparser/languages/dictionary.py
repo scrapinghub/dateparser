@@ -98,10 +98,14 @@ class Dictionary:
         if "pertain" in locale_info:
             pertain = map(methodcaller("lower"), locale_info["pertain"])
             dictionary.update(zip_longest(pertain, [], fillvalue=None))
+        meanings = {}
         for word in KNOWN_WORD_TOKENS:
             if word in locale_info:
-                translations = map(methodcaller("lower"), locale_info[word])
+                translations = list(map(methodcaller("lower"), locale_info[word]))
                 dictionary.update(zip_longest(translations, [], fillvalue=word))
+                for translation in translations:
+                    meanings.setdefault(translation, []).append(word)
+        self._meanings = meanings
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(
             zip_longest(
@@ -134,6 +138,15 @@ class Dictionary:
 
     def __iter__(self):
         return chain(self._settings.SKIP_TOKENS, iter(self._dictionary))
+
+    def _get_meanings(self, key):
+        """Return every meaning of *key*, starting with the one that indexing
+        returns."""
+        default = self[key]
+        if default is None:
+            return [default]
+        others = [m for m in self._meanings.get(key, ()) if m != default]
+        return [default, *others]
 
     def are_tokens_valid(self, tokens):
         """
@@ -434,4 +447,9 @@ class NormalizedDictionary(Dictionary):
             if key in (self.info.get("skip", []) + self.info.get("pertain", [])):
                 new_dict[normalized] = self._dictionary[key]
         self._dictionary = new_dict
+        meanings = {}
+        for key, value in self._meanings.items():
+            normalized_meanings = meanings.setdefault(normalize_unicode(key), [])
+            normalized_meanings.extend(m for m in value if m not in normalized_meanings)
+        self._meanings = meanings
         self._relative_strings = list(map(normalize_unicode, self._relative_strings))

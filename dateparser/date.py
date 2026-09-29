@@ -2,6 +2,7 @@ import collections
 import threading
 from collections.abc import Set
 from datetime import datetime, timedelta, timezone
+from itertools import count
 
 import regex as re
 from dateutil.relativedelta import relativedelta
@@ -303,6 +304,7 @@ class _DateLocaleParser:
         date_formats,
         settings=None,
         ignore_surrounding_text=False,
+        alternatives=False,
     ):
         self._settings = settings
         if not (date_formats is None or isinstance(date_formats, (list, tuple, Set))):
@@ -312,6 +314,8 @@ class _DateLocaleParser:
         self.date_string = date_string
         self.date_formats = date_formats
         self._ignore_surrounding_text = ignore_surrounding_text
+        self._alternatives = alternatives
+        self._alternative = 0
         self._translated_date = None
         self._translated_date_with_formatting = None
         self._parsers = {
@@ -331,13 +335,30 @@ class _DateLocaleParser:
         date_formats=None,
         settings=None,
         ignore_surrounding_text=False,
+        alternatives=False,
     ):
         instance = cls(
-            locale, date_string, date_formats, settings, ignore_surrounding_text
+            locale,
+            date_string,
+            date_formats,
+            settings,
+            ignore_surrounding_text,
+            alternatives,
         )
         return instance._parse()
 
     def _parse(self):
+        if not self._alternatives:
+            return self._parse_translation()
+        for self._alternative in count(1):
+            self._translated_date = self._translated_date_with_formatting = None
+            if self._get_translated_date() is None:
+                return None
+            date_data = self._parse_translation()
+            if date_data:
+                return date_data
+
+    def _parse_translation(self):
         for parser_name in self._settings.PARSERS:
             date_data = self._parsers[parser_name]()
             if self._is_valid_date_data(date_data):
@@ -426,21 +447,23 @@ class _DateLocaleParser:
 
     def _get_translated_date(self):
         if self._translated_date is None:
-            self._translated_date = self.locale.translate(
+            self._translated_date = self.locale._translate(
                 self.date_string,
                 keep_formatting=False,
                 settings=self._settings,
                 ignore_surrounding_text=self._ignore_surrounding_text,
+                alternative=self._alternative,
             )
         return self._translated_date
 
     def _get_translated_date_with_formatting(self):
         if self._translated_date_with_formatting is None:
-            self._translated_date_with_formatting = self.locale.translate(
+            self._translated_date_with_formatting = self.locale._translate(
                 self.date_string,
                 keep_formatting=True,
                 settings=self._settings,
                 ignore_surrounding_text=self._ignore_surrounding_text,
+                alternative=self._alternative,
             )
         return self._translated_date_with_formatting
 
@@ -659,23 +682,53 @@ class DateDataParser:
     def _parse_using_applicable_locales(
         self, date_string, date_formats, ignore_surrounding_text=False
     ):
+        locales = []
         for locale in self._get_applicable_locales(
             date_string, ignore_surrounding_text=ignore_surrounding_text
         ):
-            parsed_date = _DateLocaleParser.parse(
+            locales.append(locale)
+            parsed_date = self._parse_using_locale(
+                locale, date_string, date_formats, ignore_surrounding_text
+            )
+            if parsed_date:
+                return parsed_date
+        # Words with several meanings (e.g. Spanish "mar", Tuesday or March)
+        # get their other meanings only once no locale can parse the string
+        # with the default ones.
+        for locale in locales:
+            parsed_date = self._parse_using_locale(
                 locale,
                 date_string,
                 date_formats,
-                settings=self._settings,
-                ignore_surrounding_text=ignore_surrounding_text,
+                ignore_surrounding_text,
+                alternatives=True,
             )
             if parsed_date:
-                parsed_date["locale"] = locale.shortname
-                if self.try_previous_locales:
-                    with self._lock:
-                        self.previous_locales[locale] = None
                 return parsed_date
         return None
+
+    def _parse_using_locale(
+        self,
+        locale,
+        date_string,
+        date_formats,
+        ignore_surrounding_text,
+        alternatives=False,
+    ):
+        parsed_date = _DateLocaleParser.parse(
+            locale,
+            date_string,
+            date_formats,
+            settings=self._settings,
+            ignore_surrounding_text=ignore_surrounding_text,
+            alternatives=alternatives,
+        )
+        if parsed_date:
+            parsed_date["locale"] = locale.shortname
+            if self.try_previous_locales:
+                with self._lock:
+                    self.previous_locales[locale] = None
+        return parsed_date
 
     def get_date_tuple(self, *args, **kwargs):
         date_data = self.get_date_data(*args, **kwargs)
