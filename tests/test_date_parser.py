@@ -2002,8 +2002,7 @@ class TestDateParser(BaseTestCase):
         self, date_string, expected_year, expected_month, expected_day=None
     ):
         """Without another, unambiguous month elsewhere in the string, the ambiguous
-        Italian "mar" abbreviation must still be read as the month, as it was before
-        Issue #1061 was fixed (no unrelated regression for the common case)."""
+        Italian "mar" abbreviation must still be read as the month."""
         result = parse(date_string, languages=["it"])
         self.assertIsNotNone(result)
         self.assertEqual(expected_year, result.year)

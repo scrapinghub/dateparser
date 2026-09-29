@@ -184,7 +184,7 @@ class Locale:
         # unambiguous month is present elsewhere in the string - otherwise it keeps
         # meaning a month, as it does everywhere else in the string's locale.
         has_unambiguous_month = any(
-            dictionary.is_unambiguous_month(token.lower())
+            dictionary._is_unambiguous_month(token.lower())
             for token in date_string_tokens
         )
 

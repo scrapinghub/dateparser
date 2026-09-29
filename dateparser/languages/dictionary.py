@@ -151,7 +151,7 @@ class Dictionary:
         relative_type_regex = locale_info.get("relative-type-regex", {})
         self._relative_strings = list(chain.from_iterable(relative_type_regex.values()))
 
-    def is_unambiguous_month(self, token):
+    def _is_unambiguous_month(self, token):
         """
         Whether ``token`` (already lowercased) names a month and, unlike the
         tokens in :attr:`_weekday_month_conflicts`, cannot also mean a weekday.
