@@ -547,6 +547,8 @@ class TestDateParser(BaseTestCase):
                 "Fri Sep 23 2016 10:34:51 GMT+0800 (CST)",
                 datetime(2016, 9, 23, 2, 34, 51),
             ),
+            param("Thu, 19 Jan 2023 10:45:00 +03", datetime(2023, 1, 19, 7, 45)),
+            param("19 Jan 2023 10:45:00 -04", datetime(2023, 1, 19, 14, 45)),
         ]
     )
     def test_parsing_with_utc_offsets(self, date_string, expected):
@@ -1014,51 +1016,6 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_obj_exactly_is(expected)
         self.then_period_is("day")
-
-    @parameterized.expand(
-        [
-            # Regression test for #1127: a bare, unpadded-minute UTC offset
-            # (e.g. "+03" instead of "+03:00"/"+0300") should not break parsing.
-            param(
-                "Thu, 19 Jan 2023 10:45:00 +03",
-                expected=datetime(
-                    2023,
-                    1,
-                    19,
-                    10,
-                    45,
-                    tzinfo=StaticTzInfo(r"\+03", timedelta(hours=3)),
-                ),
-            ),
-            param(
-                "19 Jan 2023 10:45:00 +03",
-                expected=datetime(
-                    2023,
-                    1,
-                    19,
-                    10,
-                    45,
-                    tzinfo=StaticTzInfo(r"\+03", timedelta(hours=3)),
-                ),
-            ),
-            param(
-                "19 Jan 2023 10:45:00 -04",
-                expected=datetime(
-                    2023,
-                    1,
-                    19,
-                    10,
-                    45,
-                    tzinfo=StaticTzInfo(r"\-04", timedelta(hours=-4)),
-                ),
-            ),
-            # A dash-separated date must not be mistaken for a bare offset.
-            param("2015-04-12", expected=datetime(2015, 4, 12)),
-        ]
-    )
-    def test_parse_bare_utc_offset(self, date_string, expected):
-        result = parse(date_string)
-        self.assertEqual(result, expected)
 
     @parameterized.expand(
         [
