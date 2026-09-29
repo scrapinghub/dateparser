@@ -1202,6 +1202,11 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed("01/13/2021")
         self.then_date_obj_exactly_is(None)
 
+    def test_order_is_not_swapped_with_a_month_name(self):
+        self.given_parser(languages=["en"], settings={"DATE_ORDER": "DMY"})
+        self.when_date_is_parsed("12/24, Monday 15 March 2021")
+        self.then_date_obj_exactly_is(None)
+
     @parameterized.expand(
         [
             # Japanese dates without a year: the day must not be read as
