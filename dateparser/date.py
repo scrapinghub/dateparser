@@ -46,6 +46,7 @@ RE_SANITIZE_SKIP = re.compile(
     r"\t|\n|\r|\u00bb|,\s\u0432\b|\u200e|\xb7|\u200f|\u064e|\u064f", flags=re.M
 )
 RE_SANITIZE_RUSSIAN = re.compile(r"([\W\d])\u0433\.", flags=re.I | re.U)
+RE_SANITIZE_RUSSIAN_YEAR = re.compile(r"(\d{4})\s*\u0433(?![\w.])", flags=re.I | re.U)
 RE_SANITIZE_CROATIAN = re.compile(
     r"(\d+)\.\s?(\d+)\.\s?(\d+)\.( u)?", flags=re.I | re.U
 )
@@ -137,6 +138,9 @@ def sanitize_date(date_string):
     date_string = RE_SANITIZE_RUSSIAN.sub(
         r"\1 ", date_string
     )  # remove 'г.' (Russian for year) but not in words
+    date_string = RE_SANITIZE_RUSSIAN_YEAR.sub(
+        r"\1 ", date_string
+    )  # remove a trailing 'г' after a year, where the period is omitted
     date_string = RE_SANITIZE_CROATIAN.sub(
         r"\1.\2.\3 ", date_string
     )  # extra '.' and 'u' interferes with parsing relative fractional dates
