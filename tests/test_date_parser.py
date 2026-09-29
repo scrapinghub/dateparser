@@ -957,6 +957,22 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("2023-11-08", date_order="DMY", expected=datetime(2023, 11, 8)),
+            param("1960-12-23", date_order="DMY", expected=datetime(1960, 12, 23)),
+            param("2023-11-08", date_order="MDY", expected=datetime(2023, 11, 8)),
+            param("2023-11-08", date_order="YDM", expected=datetime(2023, 8, 11)),
+        ]
+    )
+    def test_year_first_date_with_explicit_date_order(
+        self, date_string, date_order, expected
+    ):
+        self.given_parser(languages=["en"], settings={"DATE_ORDER": date_order})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             # Epoch timestamps.
             param("1484823450", expected=datetime(2017, 1, 19, 10, 57, 30)),
             param("1436745600000", expected=datetime(2015, 7, 13, 0, 0)),
