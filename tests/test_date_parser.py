@@ -1985,6 +1985,9 @@ class TestDateParser(BaseTestCase):
             ),
         )
 
+    def test_word_with_too_many_meaning_combinations(self):
+        self.assertIsNone(parse("mar mar mar mar mar", languages=["it"]))
+
 
 if __name__ == "__main__":
     unittest.main()
