@@ -1186,6 +1186,9 @@ class TestDateParser(BaseTestCase):
             param("01/13/21", expected=datetime(2021, 1, 13), order="DMY"),
             param("13-2021-01", expected=datetime(2021, 1, 13), order="MYD"),
             param("01-2021-13", expected=datetime(2021, 1, 13), order="DYM"),
+            param("13/01/2021", expected=datetime(2021, 1, 13), order="YDM"),
+            param("01/13/2021", expected=datetime(2021, 1, 13), order="DYM"),
+            param("12 13 December", expected=datetime(2013, 12, 12), order="DMY"),
         ]
     )
     def test_order(self, date_string, expected=None, order=None):
@@ -1193,6 +1196,11 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
+    def test_locale_order_is_not_swapped(self):
+        self.given_parser(languages=["fr"])
+        self.when_date_is_parsed("01/13/2021")
+        self.then_date_obj_exactly_is(None)
 
     @parameterized.expand(
         [

@@ -377,6 +377,19 @@ class _parser:
                     setattr(self, "_token_%s" % attr, token)
                     setattr(self, attr, int(token))
 
+    @classmethod
+    def _has_month_name(cls, tokens):
+        for token, type in tokens:
+            if type != 1:
+                continue
+            for directive in cls.alpha_directives["month"]:
+                try:
+                    strptime(token.strip(), directive)
+                    return True
+                except ValueError:
+                    pass
+        return False
+
     def _get_period(self):
         if self.settings.RETURN_TIME_AS_PERIOD:
             if getattr(self, "time", None):
@@ -607,9 +620,23 @@ class _parser:
 
     @classmethod
     def parse(cls, datestring, settings, tz=None, date_order=None):
-        tokens = tokenizer(datestring)
-        po = cls(tokens.tokenize(), settings, date_order=date_order)
-        dateobj = po._results()
+        tokens = list(tokenizer(datestring).tokenize())
+        date_order = date_order or settings.DATE_ORDER
+        try:
+            po = cls(tokens, settings, date_order=date_order)
+            dateobj = po._results()
+        except ValueError as error:
+            if (
+                "DATE_ORDER" not in settings._mod_settings
+                or str(error).startswith("Fields missing")
+                or cls._has_month_name(tokens)
+            ):
+                raise
+            # The numbers do not fit the date order set by the caller, so read
+            # them with the day and month swapped, e.g. "2021-01-13" with YDM.
+            swapped = date_order.translate(str.maketrans("DM", "MD"))
+            po = cls(tokens, settings, date_order=swapped)
+            dateobj = po._results()
 
         # correction for past, future if applicable
         dateobj = po._correct_for_time_frame(dateobj, tz)
@@ -651,31 +678,6 @@ class _parser:
                     k: self.num_directives[k] for k in ("month", "day", "year")
                 }
 
-            def parse_as(token, component):
-                try:
-                    return self._get_date_obj(token, num_directives[component][0])
-                except ValueError:
-                    return None
-
-            def swap_day_and_month(token):
-                # Place a number that is only valid for an already-found day
-                # or month by moving the number found there into the other
-                # one, e.g. 13 in "2021-01-13" with the YDM date order.
-                for component, other in (("day", "month"), ("month", "day")):
-                    if getattr(self, other, None) or not getattr(self, component, None):
-                        continue
-                    prev_token, prev_type = getattr(self, "_token_%s" % component)
-                    do = parse_as(token, component)
-                    prev_do = parse_as(prev_token, other)
-                    if prev_type != type or do is None or prev_do is None:
-                        continue
-                    self.auto_order[self.auto_order.index(component)] = other
-                    setattr(self, "_token_%s" % other, (prev_token, prev_type))
-                    return set_and_return(
-                        token, type, component, do, skip_date_order=True
-                    ) + [(other, getattr(prev_do, other))]
-                return None
-
             def try_directives(skip_directive=None):
                 for component, directives in num_directives.items():
                     if skip_component == component:
@@ -702,25 +704,22 @@ class _parser:
                                     return set_and_return(token, type, component, do)
                         except ValueError:
                             pass
-                swapped = swap_day_and_month(token)
-                if swapped:
-                    return swapped
-                raise ValueError("Unable to parse: %s" % token)
+                else:
+                    raise ValueError("Unable to parse: %s" % token)
 
             order = list(self.ordered_num_directives)
-            year_index = order.index("year")
-            at_year_position = all(
-                getattr(self, component) is not None for component in order[:year_index]
-            ) and all(
-                getattr(self, component) is None
-                for component in order[year_index + 1 :]
+            components_after_year = order[order.index("year") + 1 :]
+            year_position_already_passed = any(
+                getattr(self, component) is not None
+                for component in components_after_year
             )
-            if not at_year_position:
-                # The date order does not expect the year at this point of the
-                # date string, so read this number as a two-digit year only if
-                # it cannot be anything else (e.g. 99 in "4-99"). In "4月20日"
-                # ("April 20"), 20 is the day, not the year 2020 (#519), and in
-                # "01/13/21" with the DMY date order, 13 is the day.
+            if year_position_already_passed:
+                # A component that the date order places after the year has
+                # already been found, so the year position in the date string
+                # has already been passed and this number cannot be a
+                # two-digit year: in "4月20日" ("April 20"), 20 is the day,
+                # not the year 2020 (#519). Read it as a two-digit year only
+                # if it cannot be anything else (e.g. 99 in "4-99").
                 try:
                     return try_directives(skip_directive="%y")
                 except ValueError:
