@@ -367,6 +367,8 @@ class _parser:
                 setattr(self, *res)
 
         known, unknown = get_unresolved_attrs(self)
+        if len(self.unset_tokens) > len(unknown):
+            raise ValueError("Too many numbers in date string")
         params = {}
         for attr in known:
             params.update({attr: getattr(self, attr)})
@@ -712,7 +714,9 @@ class _parser:
                             return set_and_return(
                                 token, type, component, do, skip_date_order=True
                             )
-                        elif component == "month":
+                        elif component == "month" and not self.day:
+                            # A number read as the month becomes the day, which
+                            # requires the day to be free.
                             index = self.auto_order.index("month")
                             self.auto_order[index] = "day"
                             setattr(self, "_token_day", self._token_month)

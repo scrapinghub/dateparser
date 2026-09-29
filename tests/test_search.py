@@ -1029,6 +1029,15 @@ class TestTranslateSearch(BaseTestCase):
                 settings={"STRICT_PARSING": True},
                 expected=[("23 juillet 2020", datetime.datetime(2020, 7, 23, 0, 0))],
             ),
+            param(
+                text="Bubble -58.5 06 Mar 2009 in need of -43.4 30 Oct 1974",
+                languages=["en"],
+                settings={"STRICT_PARSING": True},
+                expected=[
+                    ("06 Mar 2009 in", datetime.datetime(2009, 3, 6, 0, 0)),
+                    ("30 Oct 1974", datetime.datetime(1974, 10, 30, 0, 0)),
+                ],
+            ),
             param(text="a Americ", languages=None, settings=None, expected=None),
             # Date with comma and apostrophe
             param(

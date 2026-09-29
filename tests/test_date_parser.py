@@ -575,6 +575,8 @@ class TestDateParser(BaseTestCase):
                 "Unable to parse: 8",
             ),
             param("12/09/18567", "Unable to parse: 18567"),
+            param("5 06 Mar 2009", "Unable to parse: march"),
+            param("Mar 5 06 2009", "Too many numbers in date string"),
         ]
     )
     def test_dates_not_parsed(self, date_string, message):
