@@ -290,6 +290,9 @@ class _parser:
             if token in skip_tokens:
                 continue
 
+            if token == "day" and index and self.filtered_tokens[index - 1][1] == 0:
+                continue
+
             if self.time is None:
                 meridian_index = index + 1
 
