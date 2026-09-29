@@ -2,79 +2,79 @@ info = {
     "name": "af",
     "date_order": "YMD",
     "january": [
-        "januarie",
-        "jan"
+        "jan",
+        "januarie"
     ],
     "february": [
-        "februarie",
-        "feb"
+        "feb",
+        "februarie"
     ],
     "march": [
         "maart",
         "mrt"
     ],
     "april": [
-        "april",
-        "apr"
+        "apr",
+        "april"
     ],
     "may": [
         "mei"
     ],
     "june": [
-        "junie",
-        "jun"
+        "jun",
+        "junie"
     ],
     "july": [
-        "julie",
-        "jul"
+        "jul",
+        "julie"
     ],
     "august": [
-        "augustus",
-        "aug"
+        "aug",
+        "augustus"
     ],
     "september": [
-        "september",
-        "sep"
+        "sep",
+        "september"
     ],
     "october": [
-        "oktober",
-        "okt"
+        "okt",
+        "oktober"
     ],
     "november": [
-        "november",
-        "nov"
+        "nov",
+        "november"
     ],
     "december": [
-        "desember",
-        "des"
+        "des",
+        "desember"
     ],
     "monday": [
-        "maandag",
-        "ma"
+        "ma",
+        "maandag"
     ],
     "tuesday": [
-        "dinsdag",
-        "di"
+        "di",
+        "dinsdag"
     ],
     "wednesday": [
-        "woensdag",
-        "wo"
+        "wo",
+        "woensdag"
     ],
     "thursday": [
-        "donderdag",
-        "do"
+        "do",
+        "donderdag"
     ],
     "friday": [
-        "vrydag",
-        "vr"
+        "vr",
+        "vrydag"
     ],
     "saturday": [
-        "saterdag",
-        "sa"
+        "sa",
+        "saterdag"
     ],
     "sunday": [
-        "sondag",
-        "so"
+        "so",
+        "sondag"
     ],
     "am": [
         "vm"
@@ -83,8 +83,8 @@ info = {
         "nm"
     ],
     "year": [
-        "jaar",
-        "j"
+        "j",
+        "jaar"
     ],
     "month": [
         "maand",
@@ -95,59 +95,26 @@ info = {
         "wk"
     ],
     "day": [
-        "dag",
-        "d"
+        "d",
+        "dag"
     ],
     "hour": [
-        "uur",
-        "u"
+        "u",
+        "uur"
     ],
     "minute": [
-        "minuut",
+        "m",
         "min",
-        "m"
+        "minuut"
     ],
     "second": [
+        "s",
         "sekonde",
-        "sek",
-        "s"
+        "sek"
     ],
     "relative-type": {
-        "1 year ago": [
-            "verlede jaar"
-        ],
-        "0 year ago": [
-            "hierdie jaar"
-        ],
-        "in 1 year": [
-            "volgende jaar"
-        ],
-        "1 month ago": [
-            "verlede maand"
-        ],
-        "0 month ago": [
-            "vandeesmaand"
-        ],
-        "in 1 month": [
-            "volgende maand"
-        ],
-        "1 week ago": [
-            "verlede week"
-        ],
-        "0 week ago": [
-            "vandeesweek"
-        ],
-        "in 1 week": [
-            "volgende week"
-        ],
-        "1 day ago": [
-            "gister"
-        ],
         "0 day ago": [
             "vandag"
-        ],
-        "in 1 day": [
-            "môre"
         ],
         "0 hour ago": [
             "hierdie uur"
@@ -155,69 +122,119 @@ info = {
         "0 minute ago": [
             "hierdie minuut"
         ],
+        "0 month ago": [
+            "hierdie md",
+            "vandeesmaand"
+        ],
         "0 second ago": [
             "nou"
+        ],
+        "0 week ago": [
+            "hierdie w",
+            "hierdie week",
+            "vandeesweek"
+        ],
+        "0 year ago": [
+            "hierdie j",
+            "hierdie jaar"
+        ],
+        "1 day ago": [
+            "gister"
+        ],
+        "1 month ago": [
+            "verlede maand",
+            "verlede md"
+        ],
+        "1 week ago": [
+            "verlede w",
+            "verlede week"
+        ],
+        "1 year ago": [
+            "verlede j",
+            "verlede jaar"
+        ],
+        "in 1 day": [
+            "môre"
+        ],
+        "in 1 month": [
+            "volgende maand",
+            "volgende md"
+        ],
+        "in 1 week": [
+            "volgende w",
+            "volgende week"
+        ],
+        "in 1 year": [
+            "volgende j",
+            "volgende jaar"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "oor (\\d+) jaar"
-        ],
-        "\\1 year ago": [
-            "(\\d+) jaar gelede"
-        ],
-        "in \\1 month": [
-            "oor (\\d+) minuut",
-            "oor (\\d+) md"
-        ],
-        "\\1 month ago": [
-            "(\\d+) maand gelede",
-            "(\\d+) maande gelede",
-            "(\\d+) md gelede"
-        ],
-        "in \\1 week": [
-            "oor (\\d+) week",
-            "oor (\\d+) weke",
-            "oor (\\d+) w"
-        ],
-        "\\1 week ago": [
-            "(\\d+) week gelede",
-            "(\\d+) weke gelede",
-            "(\\d+) w gelede"
-        ],
-        "in \\1 day": [
-            "oor (\\d+) minuut",
-            "oor (\\d+) dag",
-            "oor (\\d+) dae"
-        ],
         "\\1 day ago": [
-            "(\\d+) dag gelede",
-            "(\\d+) dae gelede"
-        ],
-        "in \\1 hour": [
-            "oor (\\d+) uur"
+            "(\\d++[.,]?\\d*+) dae gelede",
+            "(\\d++[.,]?\\d*+) dag gelede"
         ],
         "\\1 hour ago": [
-            "(\\d+) uur gelede"
-        ],
-        "in \\1 minute": [
-            "oor (\\d+) minuut",
-            "oor (\\d+) min"
+            "(\\d++[.,]?\\d*+) u gelede",
+            "(\\d++[.,]?\\d*+) uur gelede"
         ],
         "\\1 minute ago": [
-            "(\\d+) minuut gelede",
-            "(\\d+) minute gelede",
-            "(\\d+) min gelede"
+            "(\\d++[.,]?\\d*+) min gelede",
+            "(\\d++[.,]?\\d*+) minute gelede",
+            "(\\d++[.,]?\\d*+) minuut gelede"
         ],
-        "in \\1 second": [
-            "oor (\\d+) sekonde",
-            "oor (\\d+) sekondes",
-            "oor (\\d+) sek"
+        "\\1 month ago": [
+            "(\\d++[.,]?\\d*+) maand gelede",
+            "(\\d++[.,]?\\d*+) maande gelede",
+            "(\\d++[.,]?\\d*+) md gelede"
         ],
         "\\1 second ago": [
-            "(\\d+) sekonde gelede",
-            "(\\d+) sekondes gelede",
-            "(\\d+) sek gelede"
+            "(\\d++[.,]?\\d*+) s gelede",
+            "(\\d++[.,]?\\d*+) sekonde gelede",
+            "(\\d++[.,]?\\d*+) sekondes gelede",
+            "(\\d++[.,]?\\d*+) sek gelede"
+        ],
+        "\\1 week ago": [
+            "(\\d++[.,]?\\d*+) w gelede",
+            "(\\d++[.,]?\\d*+) week gelede",
+            "(\\d++[.,]?\\d*+) weke gelede"
+        ],
+        "\\1 year ago": [
+            "(\\d++[.,]?\\d*+) j gelede",
+            "(\\d++[.,]?\\d*+) jaar gelede"
+        ],
+        "in \\1 day": [
+            "oor (\\d++[.,]?\\d*+) dae",
+            "oor (\\d++[.,]?\\d*+) dag"
+        ],
+        "in \\1 hour": [
+            "oor (\\d++[.,]?\\d*+) u",
+            "oor (\\d++[.,]?\\d*+) uur"
+        ],
+        "in \\1 minute": [
+            "oor (\\d++[.,]?\\d*+) min",
+            "oor (\\d++[.,]?\\d*+) minute",
+            "oor (\\d++[.,]?\\d*+) minuut"
+        ],
+        "in \\1 month": [
+            "oor (\\d++[.,]?\\d*+) maand",
+            "oor (\\d++[.,]?\\d*+) maande",
+            "oor (\\d++[.,]?\\d*+) md"
+        ],
+        "in \\1 second": [
+            "oor (\\d++[.,]?\\d*+) s",
+            "oor (\\d++[.,]?\\d*+) sekonde",
+            "oor (\\d++[.,]?\\d*+) sekondes",
+            "oor (\\d++[.,]?\\d*+) sek"
+        ],
+        "in \\1 week": [
+            "oor (\\d++[.,]?\\d*+) w",
+            "oor (\\d++[.,]?\\d*+) week",
+            "oor (\\d++[.,]?\\d*+) weke"
+        ],
+        "in \\1 year": [
+            "oor (\\d++[.,]?\\d*+) j",
+            "oor (\\d++[.,]?\\d*+) jaar"
         ]
     },
     "locale_specific": {
@@ -227,16 +244,16 @@ info = {
     },
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

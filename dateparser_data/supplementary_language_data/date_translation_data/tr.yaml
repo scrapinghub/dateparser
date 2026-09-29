@@ -1,4 +1,4 @@
-skip: ["yaklaşık", "ve"]
+skip: ["ve", "yaklaşık"]
 
 sentence_splitter_group : 1
 

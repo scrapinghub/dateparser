@@ -9,7 +9,7 @@ Language Data Template
         name: language name (e.g. English)
         no_word_spacing: False (set to True for languages that do not use spaces between words)
 
-        skip: ["words", "to", "skip", "such", "as", "and", "or", "at"]
+        skip: ["words", "to", "skip", "such", "as", "and", "or", "at", "in", "alphabetical", "order"]
 
         pertain: []
 

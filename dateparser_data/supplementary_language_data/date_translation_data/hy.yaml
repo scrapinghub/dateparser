@@ -1,0 +1,9 @@
+am:
+    - կա
+pm:
+    - կհ
+relative-type:
+    0 second ago:
+        - այժմ
+    1 month ago:
+        - անցյալ ամիս

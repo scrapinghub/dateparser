@@ -1,0 +1,79 @@
+name: Nightly
+on:
+  # Dependency, time zone database and calendar drift arrives with no commit
+  # behind it, and tests that only fail on the 31st of a month need a run on
+  # every date; a fixed weekday lands on a 31st about once a year. Off the hour,
+  # which GitHub names as a high-load window, and early in the UTC day so that
+  # the Pacific/Auckland and Pacific/Fiji legs stay on the same calendar date as
+  # the rest of the matrix.
+  schedule:
+    - cron: "17 4 * * *"
+  # Runs the same legs on demand, which is also the only way to exercise the
+  # reporting below before it is needed. GitHub disables this workflow after 60
+  # days without repository activity; re-enable it from the Actions tab or with
+  # `gh workflow enable nightly.yml`, since a disabled workflow answers no
+  # triggers at all.
+  workflow_dispatch:
+
+# The called matrix only checks out and tests; the report job below asks for
+# the one extra scope it needs.
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/main.yml
+    secrets: inherit
+
+  report:
+    name: Report failure
+    needs: build
+    # A push or pull request failure is already in front of whoever caused it.
+    # A failure with no commit behind it has nowhere to land but a single
+    # notification email to whoever last edited the schedule. A cancelled build
+    # counts, since a leg that hangs until GitHub kills it is a failure too.
+    # Master only, so that a dispatch on a work branch can neither file a
+    # report nor mask the real one.
+    if: >-
+      (needs.build.result == 'failure' || needs.build.result == 'cancelled')
+      && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: File a tracking issue unless one is already open
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TITLE: The nightly build is failing
+          LABEL: nightly-failure
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          # One issue per outage: a daily comment stream would only be one more
+          # signal to ignore. The label, not the title, identifies the tracking
+          # issue, so retitling it to record the cause does not defeat the
+          # check; --force makes creating the label idempotent. A transient
+          # listing failure must not stop the report, since a duplicate issue
+          # is cheaper than silence.
+          gh label create "$LABEL" --force --color d93f0b \
+            --description "Filed by the Nightly workflow"
+          existing="$(gh issue list --state open --label "$LABEL" --limit 1 \
+            --json number --jq '.[0].number // empty' || true)"
+          if [ -n "$existing" ]; then
+            echo "Already tracked in #$existing."
+            exit 0
+          fi
+          gh issue create --title "$TITLE" --label "$LABEL" \
+            --label "Type: Maintenance" --body-file - <<EOF
+          The nightly run of the Build workflow failed on master at $SHA:
+          $RUN_URL
+
+          It tested a commit that was already on master, so this is most likely
+          drift in an unpinned dependency, drift in the CI toolchain, or a test
+          that only fails on this date.
+
+          Filed once per outage, with no follow-up comments. Close it once a
+          nightly run is green again.
+          EOF

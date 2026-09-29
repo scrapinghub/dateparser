@@ -17,5 +17,3 @@ end_of_line = crlf
 [LICENSE]
 insert_final_newline = false
 
-[Makefile]
-indent_style = tab

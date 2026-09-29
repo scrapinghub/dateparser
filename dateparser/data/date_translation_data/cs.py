@@ -2,101 +2,116 @@ info = {
     "name": "cs",
     "date_order": "DMY",
     "january": [
-        "leden",
         "led",
-        "ledna"
+        "leden",
+        "ledna",
+        "lednu"
     ],
     "february": [
-        "únor",
         "úno",
-        "února"
+        "únor",
+        "února",
+        "únr",
+        "únoru"
     ],
     "march": [
-        "březen",
         "bře",
-        "března"
+        "březen",
+        "března",
+        "březnu"
     ],
     "april": [
-        "duben",
         "dub",
-        "dubna"
+        "duben",
+        "dubna",
+        "dubnu"
     ],
     "may": [
-        "květen",
         "kvě",
-        "května"
+        "květen",
+        "května",
+        "květnu"
     ],
     "june": [
         "červen",
-        "čvn",
         "června",
-        "Čer"
+        "čvn",
+        "Čer",
+        "červnu"
     ],
     "july": [
+        "července",
         "červenec",
         "čvc",
-        "července",
-        "Črc"
+        "Črc",
+        "červenci",
+        "črv"
     ],
     "august": [
-        "srpen",
         "srp",
-        "srpna"
+        "srpen",
+        "srpna",
+        "srpnu"
     ],
     "september": [
-        "září",
-        "zář"
+        "zář",
+        "září"
     ],
     "october": [
-        "říjen",
         "říj",
-        "října"
+        "říjen",
+        "října",
+        "říjnu"
     ],
     "november": [
-        "listopad",
         "lis",
+        "listopad",
         "listopadu"
     ],
     "december": [
-        "prosinec",
         "pro",
-        "prosince"
+        "prosince",
+        "prosinec",
+        "prosinci"
     ],
     "monday": [
-        "pondělí",
         "po",
+        "pondělí",
         "Pon"
     ],
     "tuesday": [
-        "úterý",
         "út",
+        "úterý",
         "Úte"
     ],
     "wednesday": [
-        "středa",
         "st",
+        "středa",
         "Stř",
-        "Středu"
+        "Středu",
+        "Středy"
     ],
     "thursday": [
-        "čtvrtek",
         "čt",
+        "čtvrtek",
         "Čtv"
     ],
     "friday": [
-        "pátek",
         "pá",
-        "Pát"
+        "pátek",
+        "Pát",
+        "Pátku"
     ],
     "saturday": [
-        "sobota",
         "so",
+        "sobota",
         "Sob",
-        "Sobotu"
+        "Sobotu",
+        "Soboty"
     ],
     "sunday": [
-        "neděle",
         "ne",
+        "neděle",
         "Ned",
         "Neděli"
     ],
@@ -107,90 +122,70 @@ info = {
         "odp"
     ],
     "year": [
-        "rok",
         "r",
+        "rok",
         "roků",
-        "roky"
+        "roky",
+        "let",
+        "léta",
+        "lety"
     ],
     "month": [
-        "měsíc",
         "měs",
+        "měsíc",
         "měsíců",
-        "měsíce"
+        "měsíce",
+        "měsícem",
+        "měsícemi",
+        "měsícema"
     ],
     "week": [
-        "týden",
         "týd",
+        "týden",
         "týdnů",
-        "týdny"
+        "týdny",
+        "týdnem"
     ],
     "day": [
         "den",
         "dnů",
-        "dny"
+        "dny",
+        "dnem",
+        "dní"
     ],
     "hour": [
-        "hodina",
         "h",
+        "hodina",
+        "hodiny",
         "hodin",
         "hodiny",
+        "hodinou",
         "hodinu",
-        "hodinami"
+        "hodinami",
+        "hodinama"
     ],
     "minute": [
-        "minuta",
         "min",
+        "minuta",
         "minut",
-        "minuty"
+        "minutami",
+        "minuty",
+        "minutama"
     ],
     "second": [
-        "sekunda",
         "s",
+        "sekunda",
         "sekundy",
         "sekund",
+        "sekundami",
         "vteřina",
         "vteřin",
-        "vteřiny"
+        "vteřiny",
+        "vteřinami"
     ],
     "relative-type": {
-        "1 year ago": [
-            "minulý rok"
-        ],
-        "0 year ago": [
-            "tento rok"
-        ],
-        "in 1 year": [
-            "příští rok"
-        ],
-        "1 month ago": [
-            "minulý měsíc"
-        ],
-        "0 month ago": [
-            "tento měsíc"
-        ],
-        "in 1 month": [
-            "příští měsíc"
-        ],
-        "1 week ago": [
-            "minulý týden",
-            "minulý týd"
-        ],
-        "0 week ago": [
-            "tento týden",
-            "tento týd"
-        ],
-        "in 1 week": [
-            "příští týden",
-            "příští týd"
-        ],
-        "1 day ago": [
-            "včera"
-        ],
         "0 day ago": [
             "dnes"
-        ],
-        "in 1 day": [
-            "zítra"
         ],
         "0 hour ago": [
             "tuto hodinu"
@@ -198,100 +193,183 @@ info = {
         "0 minute ago": [
             "tuto minutu"
         ],
+        "0 month ago": [
+            "tento měs",
+            "tento měsíc"
+        ],
         "0 second ago": [
-            "nyní"
+            "nyní",
+            "teď hned",
+            "teď",
+            "okamžitě",
+            "právě teď"
+        ],
+        "0 week ago": [
+            "tento týd",
+            "tento týden"
+        ],
+        "0 year ago": [
+            "tento rok"
+        ],
+        "1 day ago": [
+            "včera"
+        ],
+        "1 month ago": [
+            "minulý měs",
+            "minulý měsíc"
+        ],
+        "1 week ago": [
+            "minulý týd",
+            "minulý týden"
+        ],
+        "1 year ago": [
+            "minulý rok"
+        ],
+        "in 1 day": [
+            "zítra",
+            "zítřek",
+            "zítřka"
+        ],
+        "in 1 month": [
+            "příští měs",
+            "příští měsíc"
+        ],
+        "in 1 week": [
+            "příští týd",
+            "příští týden"
+        ],
+        "in 1 year": [
+            "příští rok"
         ],
         "2 day ago": [
             "předevčírem"
+        ],
+        "3 day ago": [
+            "předpředevčírem"
+        ],
+        "in 2 day": [
+            "pozítří"
+        ],
+        "in 3 day": [
+            "popozítří"
         ]
     },
     "relative-type-regex": {
-        "in \\1 year": [
-            "za (\\d+) rok",
-            "za (\\d+) let",
-            "za (\\d+) r",
-            "za (\\d+) l"
-        ],
-        "\\1 year ago": [
-            "před (\\d+) rokem",
-            "před (\\d+) lety",
-            "před (\\d+) r",
-            "před (\\d+) l"
-        ],
-        "in \\1 month": [
-            "za (\\d+) měsíc",
-            "za (\\d+) měsíců",
-            "za (\\d+) měs"
-        ],
-        "\\1 month ago": [
-            "před (\\d+) měsícem",
-            "před (\\d+) měsíci",
-            "před (\\d+) měs"
-        ],
-        "in \\1 week": [
-            "za (\\d+) týden",
-            "za (\\d+) týdnů",
-            "za (\\d+) týd"
-        ],
-        "\\1 week ago": [
-            "před (\\d+) týdnem",
-            "před (\\d+) týdny",
-            "před (\\d+) týd"
-        ],
-        "in \\1 day": [
-            "za (\\d+) den",
-            "za (\\d+) dní"
-        ],
         "\\1 day ago": [
-            "před (\\d+) dnem",
-            "před (\\d+) dny"
-        ],
-        "in \\1 hour": [
-            "za (\\d+) hodinu",
-            "za (\\d+) hodin",
-            "za (\\d+) h"
+            "před (\\d++[.,]?\\d*+) dnem",
+            "před (\\d++[.,]?\\d*+) dny"
         ],
         "\\1 hour ago": [
-            "před (\\d+) hodinou",
-            "před (\\d+) hodinami",
-            "před (\\d+) h"
-        ],
-        "in \\1 minute": [
-            "za (\\d+) minutu",
-            "za (\\d+) minut",
-            "za (\\d+) min"
+            "před (\\d++[.,]?\\d*+) h",
+            "před (\\d++[.,]?\\d*+) hodinami",
+            "před (\\d++[.,]?\\d*+) hodinou"
         ],
         "\\1 minute ago": [
-            "před (\\d+) minutou",
-            "před (\\d+) minutami",
-            "před (\\d+) min"
+            "před (\\d++[.,]?\\d*+) min",
+            "před (\\d++[.,]?\\d*+) minutami",
+            "před (\\d++[.,]?\\d*+) minutou"
         ],
-        "in \\1 second": [
-            "za (\\d+) sekundu",
-            "za (\\d+) sekund",
-            "za (\\d+) s"
+        "\\1 month ago": [
+            "před (\\d++[.,]?\\d*+) měs",
+            "před (\\d++[.,]?\\d*+) měsícem",
+            "před (\\d++[.,]?\\d*+) měsíci"
         ],
         "\\1 second ago": [
-            "před (\\d+) sekundou",
-            "před (\\d+) sekundami",
-            "před (\\d+) s"
+            "před (\\d++[.,]?\\d*+) s",
+            "před (\\d++[.,]?\\d*+) sekundami",
+            "před (\\d++[.,]?\\d*+) sekundou"
+        ],
+        "\\1 week ago": [
+            "před (\\d++[.,]?\\d*+) týd",
+            "před (\\d++[.,]?\\d*+) týdnem",
+            "před (\\d++[.,]?\\d*+) týdny"
+        ],
+        "\\1 year ago": [
+            "před (\\d++[.,]?\\d*+) l",
+            "před (\\d++[.,]?\\d*+) lety",
+            "před (\\d++[.,]?\\d*+) r",
+            "před (\\d++[.,]?\\d*+) rokem"
+        ],
+        "in \\1 day": [
+            "za (\\d++[.,]?\\d*+) den",
+            "za (\\d++[.,]?\\d*+) dní"
+        ],
+        "in \\1 hour": [
+            "za (\\d++[.,]?\\d*+) h",
+            "za (\\d++[.,]?\\d*+) hodin",
+            "za (\\d++[.,]?\\d*+) hodinu"
+        ],
+        "in \\1 minute": [
+            "za (\\d++[.,]?\\d*+) min",
+            "za (\\d++[.,]?\\d*+) minut",
+            "za (\\d++[.,]?\\d*+) minutu"
+        ],
+        "in \\1 month": [
+            "za (\\d++[.,]?\\d*+) měs",
+            "za (\\d++[.,]?\\d*+) měsíc",
+            "za (\\d++[.,]?\\d*+) měsíců"
+        ],
+        "in \\1 second": [
+            "za (\\d++[.,]?\\d*+) s",
+            "za (\\d++[.,]?\\d*+) sekund",
+            "za (\\d++[.,]?\\d*+) sekundu"
+        ],
+        "in \\1 week": [
+            "za (\\d++[.,]?\\d*+) týd",
+            "za (\\d++[.,]?\\d*+) týden",
+            "za (\\d++[.,]?\\d*+) týdnů"
+        ],
+        "in \\1 year": [
+            "za (\\d++[.,]?\\d*+) l",
+            "za (\\d++[.,]?\\d*+) let",
+            "za (\\d++[.,]?\\d*+) r",
+            "za (\\d++[.,]?\\d*+) rok"
+        ],
+        "\\1 decade ago": [
+            "před (\\d++[.,]?\\d*+) desetiletími",
+            "před (\\d++[.,]?\\d*+) dekádami",
+            "před (\\d++[.,]?\\d*+) dekádou",
+            "před (\\d++[.,]?\\d*+) desetiletím"
+        ],
+        "in \\1 decade": [
+            "za (\\d++[.,]?\\d*+) desetiletí",
+            "za (\\d++[.,]?\\d*+) dekád",
+            "za (\\d++[.,]?\\d*+) dekády",
+            "za (\\d++[.,]?\\d*+) dekádu"
+        ],
+        "\\1 century ago": [
+            "před (\\d++[.,]?\\d*+) staletími",
+            "před (\\d++[.,]?\\d*+) stoletími",
+            "před (\\d++[.,]?\\d*+) stoletím"
+        ],
+        "in \\1 century": [
+            "za (\\d++[.,]?\\d*+) staletí",
+            "za (\\d++[.,]?\\d*+) století"
         ]
     },
     "locale_specific": {},
     "skip": [
         "přibližně",
         "v",
+        "ve",
+        "přibližně",
+        "asi",
+        "zhruba",
+        "cca",
+        "kolem",
+        "okolo",
+        "někdy",
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ],
     "sentence_splitter_group": 1,
@@ -299,7 +377,290 @@ info = {
         "před"
     ],
     "in": [
-        "ve",
-        "v"
+        "za"
+    ],
+    "simplifications": [
+        {
+            "(o )?půlnoc(i|í)?": "0:00"
+        },
+        {
+            "ráno": "AM"
+        },
+        {
+            "dopoledne": "AM"
+        },
+        {
+            "odpoledne": "PM"
+        },
+        {
+            "(pod)?večer": "PM"
+        },
+        {
+            "budoucí(ho)?": "příští"
+        },
+        {
+            "nadcházející(ho)?": "příští"
+        },
+        {
+            "tenhle": "tento"
+        },
+        {
+            "tohle": "tento"
+        },
+        {
+            "letos": "tento rok"
+        },
+        {
+            "vloni": "minulý rok"
+        },
+        {
+            "loni": "minulý rok"
+        },
+        {
+            "jed(en|na|no|ním|ným|nou|noho|né|ný)": "1"
+        },
+        {
+            "dv(a|ě|ou|ěma)": "2"
+        },
+        {
+            "tř(i|ech|em|emi)": "3"
+        },
+        {
+            "čty(r|ř)(i|ech|em|mi)": "4"
+        },
+        {
+            "pět(i)?": "5"
+        },
+        {
+            "šest(i)?": "6"
+        },
+        {
+            "sed(u)?m(i)?": "7"
+        },
+        {
+            "osm(i)?": "8"
+        },
+        {
+            "devět|devíti": "9"
+        },
+        {
+            "deset(i)?": "10"
+        },
+        {
+            "jedenáct(i)?": "11"
+        },
+        {
+            "dvanáct(i)?": "12"
+        },
+        {
+            "čtrnáct(i)?": "14"
+        },
+        {
+            "dvacet(i)?": "20"
+        },
+        {
+            "třicet(i)?": "30"
+        },
+        {
+            "první(ho|mu|m)?": "1."
+        },
+        {
+            "druh(ý|á|é|ého|ému|ým|ou|ýho)": "2."
+        },
+        {
+            "třet(í|ího|ímu|ím)": "3."
+        },
+        {
+            "čtvrt(ý|á|é|ého|ému|ým|ou|ýho)": "4."
+        },
+        {
+            "pát(ý|á|é|ého|ému|ým|ou|ýho)": "5."
+        },
+        {
+            "šest(ý|á|é|ého|ému|ým|ou|ýho)": "6."
+        },
+        {
+            "sedm(ý|á|é|ého|ému|ým|ou|ýho)": "7."
+        },
+        {
+            "osm(ý|á|é|ého|ému|ým|ou|ýho)": "8."
+        },
+        {
+            "devát(ý|á|é|ého|ému|ým|ou|ýho)": "9."
+        },
+        {
+            "desát(ý|á|é|ého|ému|ým|ou|ýho)": "10."
+        },
+        {
+            "jedenáct(ý|á|ého|ému|ým|ou|ýho|é)": "11."
+        },
+        {
+            "dvanáct(ý|á|ého|ému|ým|ou|ýho|é)": "12."
+        },
+        {
+            "čtrnáct(ý|á|ého|ému|ým|ou|ýho|é)": "14."
+        },
+        {
+            "dvacát(ý|á|ého|ému|ým|ou|ýho|é)": "20."
+        },
+        {
+            "třicát(ý|á|ého|ému|ým|ou|ýho|é)": "30."
+        },
+        {
+            "(?<=(za|před)\\s)hodin(u|ou)\\b": "1 hodinu"
+        },
+        {
+            "(?<=(za|před)\\s)minut(u|ou)\\b": "1 minutu"
+        },
+        {
+            "(?<=(za|před)\\s)(?:vteřin(u|ou)|sekund(u|ou))\\b": "1 sekundu"
+        },
+        {
+            "(?<=(za|před)\\s)týdn(em)\\b": "1 týden"
+        },
+        {
+            "(?<=(za|před)\\s)měsíc(em)\\b": "1 měsíc"
+        },
+        {
+            "(?<=(za|před)\\s)rok(em)\\b": "1 rok"
+        },
+        {
+            "(?<=(za|před)\\s)den(em)\\b": "1 den"
+        },
+        {
+            "(?<=za\\s)týden\\b": "1 týden"
+        },
+        {
+            "(?<=za\\s)měsíc\\b": "1 měsíc"
+        },
+        {
+            "(?<=za\\s)rok\\b": "1 rok"
+        },
+        {
+            "čtvrt\\s*hodin(y|u)": "15 minut"
+        },
+        {
+            "čtvrt\\s*hodinou": "15 minutami"
+        },
+        {
+            "půl\\s*hodin(y|u)": "30 minut"
+        },
+        {
+            "půl\\s*hodinou": "30 minutami"
+        },
+        {
+            "tři\\s*čtvrtě\\s*hodin(y|u)": "45 minut"
+        },
+        {
+            "tři\\s*čtvrtě\\s*hodinou": "45 minutami"
+        },
+        {
+            "čtvrt na 1\\.?": "12:15"
+        },
+        {
+            "čtvrt na 2\\.?": "1:15"
+        },
+        {
+            "čtvrt na 3\\.?": "2:15"
+        },
+        {
+            "čtvrt na 4\\.?": "3:15"
+        },
+        {
+            "čtvrt na 5\\.?": "4:15"
+        },
+        {
+            "čtvrt na 6\\.?": "5:15"
+        },
+        {
+            "čtvrt na 7\\.?": "6:15"
+        },
+        {
+            "čtvrt na 8\\.?": "7:15"
+        },
+        {
+            "čtvrt na 9\\.?": "8:15"
+        },
+        {
+            "čtvrt na 10\\.?": "9:15"
+        },
+        {
+            "čtvrt na 11\\.?": "10:15"
+        },
+        {
+            "čtvrt na 12\\.?": "11:15"
+        },
+        {
+            "půl 1\\.?": "12:30"
+        },
+        {
+            "půl 2\\.?": "1:30"
+        },
+        {
+            "půl 3\\.?": "2:30"
+        },
+        {
+            "půl 4\\.?": "3:30"
+        },
+        {
+            "půl 5\\.?": "4:30"
+        },
+        {
+            "půl 6\\.?": "5:30"
+        },
+        {
+            "půl 7\\.?": "6:30"
+        },
+        {
+            "půl 8\\.?": "7:30"
+        },
+        {
+            "půl 9\\.?": "8:30"
+        },
+        {
+            "půl 10\\.?": "9:30"
+        },
+        {
+            "půl 11\\.?": "10:30"
+        },
+        {
+            "půl 12\\.?": "11:30"
+        },
+        {
+            "tři\\s*čtvrtě na 1\\.?": "12:45"
+        },
+        {
+            "tři\\s*čtvrtě na 2\\.?": "1:45"
+        },
+        {
+            "tři\\s*čtvrtě na 3\\.?": "2:45"
+        },
+        {
+            "tři\\s*čtvrtě na 4\\.?": "3:45"
+        },
+        {
+            "tři\\s*čtvrtě na 5\\.?": "4:45"
+        },
+        {
+            "tři\\s*čtvrtě na 6\\.?": "5:45"
+        },
+        {
+            "tři\\s*čtvrtě na 7\\.?": "6:45"
+        },
+        {
+            "tři\\s*čtvrtě na 8\\.?": "7:45"
+        },
+        {
+            "tři\\s*čtvrtě na 9\\.?": "8:45"
+        },
+        {
+            "tři\\s*čtvrtě na 10\\.?": "9:45"
+        },
+        {
+            "tři\\s*čtvrtě na 11\\.?": "10:45"
+        },
+        {
+            "tři\\s*čtvrtě na 12\\.?": "11:45"
+        }
     ]
 }

@@ -2,85 +2,89 @@ info = {
     "name": "ha",
     "date_order": "DMY",
     "january": [
-        "janairu",
-        "jan"
+        "jan",
+        "janairu"
     ],
     "february": [
-        "faburairu",
-        "fab"
+        "fab",
+        "faburairu"
     ],
     "march": [
-        "maris",
-        "mar"
+        "mar",
+        "maris"
     ],
     "april": [
-        "afirilu",
-        "afi"
+        "afi",
+        "afirilu"
     ],
     "may": [
-        "mayu",
-        "may"
+        "may",
+        "mayu"
     ],
     "june": [
-        "yuni",
-        "yun"
+        "yun",
+        "yuni"
     ],
     "july": [
-        "yuli",
-        "yul"
+        "yul",
+        "yuli"
     ],
     "august": [
-        "agusta",
-        "agu"
+        "agu",
+        "agusta"
     ],
     "september": [
-        "satumba",
-        "sat"
+        "sat",
+        "satumba"
     ],
     "october": [
-        "oktoba",
-        "okt"
+        "okt",
+        "oktoba"
     ],
     "november": [
-        "nuwamba",
-        "nuw"
+        "nuw",
+        "nuwamba"
     ],
     "december": [
-        "disamba",
-        "dis"
+        "dis",
+        "disamba"
     ],
     "monday": [
-        "litinin",
-        "lit"
+        "lit",
+        "litinin"
     ],
     "tuesday": [
-        "talata",
-        "tal"
+        "tal",
+        "talata"
     ],
     "wednesday": [
-        "laraba",
-        "lar"
+        "lar",
+        "laraba"
     ],
     "thursday": [
-        "alhamis",
-        "alh"
+        "alh",
+        "alhamis"
     ],
     "friday": [
-        "jumma'a",
-        "jum"
+        "jum",
+        "jumma'a"
     ],
     "saturday": [
-        "asabar",
-        "asa"
+        "asa",
+        "asabar"
     ],
     "sunday": [
-        "lahadi",
-        "lah"
+        "lah",
+        "lahadi"
     ],
     "am": [
+        "safiya",
+        "sf",
         "am"
     ],
     "pm": [
+        "yamma",
+        "ym",
         "pm"
     ],
     "year": [
@@ -96,7 +100,8 @@ info = {
         "kwana"
     ],
     "hour": [
-        "awa"
+        "awa",
+        "sa'o'i"
     ],
     "minute": [
         "minti"
@@ -105,50 +110,114 @@ info = {
         "daƙiƙa"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
+        "0 day ago": [
+            "yau"
         ],
-        "0 year ago": [
-            "this year"
+        "0 hour ago": [
+            "wannan awa",
+            "this hour"
         ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
+        "0 minute ago": [
+            "wannan mintin",
+            "this minute"
         ],
         "0 month ago": [
+            "wannan watan",
             "this month"
         ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
+        "0 second ago": [
+            "yanzu",
+            "now"
         ],
         "0 week ago": [
+            "wannan satin",
             "this week"
         ],
-        "in 1 week": [
-            "next week"
+        "0 year ago": [
+            "bana",
+            "this year"
         ],
         "1 day ago": [
             "jiya"
         ],
-        "0 day ago": [
-            "yau"
+        "1 month ago": [
+            "watan da ya gabata",
+            "last month"
+        ],
+        "1 week ago": [
+            "satin da ya gabata",
+            "last week"
+        ],
+        "1 year ago": [
+            "bara",
+            "last year"
         ],
         "in 1 day": [
             "gobe"
         ],
-        "0 hour ago": [
-            "this hour"
+        "in 1 month": [
+            "wata na gaba",
+            "next month"
         ],
-        "0 minute ago": [
-            "this minute"
+        "in 1 week": [
+            "sati na gaba",
+            "next week"
         ],
-        "0 second ago": [
-            "now"
+        "in 1 year": [
+            "badi",
+            "next year"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "kwanaki da suka gabata (\\d++[.,]?\\d*+)",
+            "rana da ya gabata (\\d++[.,]?\\d*+)"
+        ],
+        "\\1 hour ago": [
+            "(\\d++[.,]?\\d*+) awa da ya gabata"
+        ],
+        "\\1 minute ago": [
+            "(\\d++[.,]?\\d*+) minti da ya gabata"
+        ],
+        "\\1 month ago": [
+            "watan da ya gabata (\\d++[.,]?\\d*+)",
+            "watanni da suka gabata (\\d++[.,]?\\d*+)}"
+        ],
+        "\\1 second ago": [
+            "(\\d++[.,]?\\d*+) dakika da ya gabata"
+        ],
+        "\\1 week ago": [
+            "mako da suka gabata (\\d++[.,]?\\d*+)",
+            "mako da ya gabata (\\d++[.,]?\\d*+)",
+            "makonni da suka gabata (\\d++[.,]?\\d*+)"
+        ],
+        "\\1 year ago": [
+            "shekara da suka gabata (\\d++[.,]?\\d*+)"
+        ],
+        "in \\1 day": [
+            "a cikin kwanaki (\\d++[.,]?\\d*+)",
+            "a cikin rana (\\d++[.,]?\\d*+)"
+        ],
+        "in \\1 hour": [
+            "cikin (\\d++[.,]?\\d*+) awa"
+        ],
+        "in \\1 minute": [
+            "cikin (\\d++[.,]?\\d*+) minti"
+        ],
+        "in \\1 month": [
+            "a cikin watan (\\d++[.,]?\\d*+)",
+            "a cikin watanni (\\d++[.,]?\\d*+)"
+        ],
+        "in \\1 second": [
+            "cikin (\\d++[.,]?\\d*+) dakika"
+        ],
+        "in \\1 week": [
+            "a cikin mako (\\d++[.,]?\\d*+)",
+            "a cikin makonni (\\d++[.,]?\\d*+)"
+        ],
+        "in \\1 year": [
+            "a shekarar (\\d++[.,]?\\d*+)",
+            "a shekaru (\\d++[.,]?\\d*+)"
         ]
     },
     "locale_specific": {
@@ -161,16 +230,16 @@ info = {
     },
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

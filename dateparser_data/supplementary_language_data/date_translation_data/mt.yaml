@@ -1,0 +1,14 @@
+relative-type:
+    0 hour ago:
+        - this hour
+    0 minute ago:
+        - this minute
+    0 second ago:
+        - now
+    1 day ago:
+        - ilbieraħ
+    1 year ago:
+        - is-sena li għaddiet
+relative-type-regex:
+    \1 year ago:
+        - (\d+[.,]?\d*) snin ilu

@@ -1,42 +1,37 @@
+from datetime import datetime, time, timezone
+
 import regex as re
-from datetime import datetime
-from datetime import time
+from dateutil.relativedelta import relativedelta
 from tzlocal import get_localzone
 
-from dateutil.relativedelta import relativedelta
-
 from dateparser.utils import apply_timezone, localize_timezone, strip_braces
+
 from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
 
-
-_UNITS = r'decade|year|month|week|day|hour|minute|second'
-PATTERN = re.compile(r'(\d+)\s*(%s)\b' % _UNITS, re.I | re.S | re.U)
+_UNITS = r"decade|year|month|week|day|hour|minute|second"
+PATTERN = re.compile(r"([+-]?\s*\d++[.,]?\d*+)\s*(%s)\b" % _UNITS, re.I | re.S | re.U)
 
 
 class FreshnessDateDataParser:
-    """ Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago" """
-    def __init__(self):
-        self.now = None
+    """Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago" """
 
     def _are_all_words_units(self, date_string):
-        skip = [_UNITS,
-                r'ago|in|\d+',
-                r':|[ap]m']
+        skip = [_UNITS, r"ago|in|\d+", r":|[ap]m"]
 
-        date_string = re.sub(r'\s+', ' ', date_string.strip())
+        date_string = re.sub(r"\s+", " ", date_string.strip())
 
-        words = [x for x in re.split(r'\W', date_string) if x]
-        words = [x for x in words if not re.match(r'%s' % '|'.join(skip), x)]
+        words = [x for x in re.split(r"\W", date_string) if x]
+        words = [x for x in words if not re.match(r"%s" % "|".join(skip), x)]
         return not words
 
     def _parse_time(self, date_string, settings):
-        """Attempts to parse time part of date strings like '1 day ago, 2 PM' """
-        date_string = PATTERN.sub('', date_string)
-        date_string = re.sub(r'\b(?:ago|in)\b', '', date_string)
+        """Attempts to parse time part of date strings like '1 day ago, 2 PM'"""
+        date_string = PATTERN.sub("", date_string)
+        date_string = re.sub(r"\b(?:ago|in)\b", "", date_string)
         try:
             return time_parser(date_string)
-        except:
+        except Exception:
             pass
 
     def get_local_tz(self):
@@ -54,80 +49,114 @@ class FreshnessDateDataParser:
                 return dateobj
 
             return dateobj.replace(
-                hour=timeobj.hour, minute=timeobj.minute,
-                second=timeobj.second, microsecond=timeobj.microsecond
+                hour=timeobj.hour,
+                minute=timeobj.minute,
+                second=timeobj.second,
+                microsecond=timeobj.microsecond,
             )
 
         if settings.RELATIVE_BASE:
-            self.now = settings.RELATIVE_BASE
+            now = settings.RELATIVE_BASE
 
-            if 'local' not in _settings_tz:
-                self.now = localize_timezone(self.now, settings.TIMEZONE)
+            if "local" not in _settings_tz:
+                now = localize_timezone(now, settings.TIMEZONE)
 
             if ptz:
-                if self.now.tzinfo:
-                    self.now = self.now.astimezone(ptz)
+                if now.tzinfo:
+                    now = now.astimezone(ptz)
                 else:
-                    self.now = ptz.localize(self.now)
+                    if hasattr(ptz, "localize"):
+                        now = ptz.localize(now)
+                    else:
+                        now = now.replace(tzinfo=ptz)
 
-            if not self.now.tzinfo:
-                self.now = self.get_local_tz().localize(self.now)
+            if not now.tzinfo:
+                now = now.replace(tzinfo=self.get_local_tz())
 
         elif ptz:
-            _now = datetime.now(ptz)
+            localized_now = datetime.now(ptz)
 
-            if 'local' in _settings_tz:
-                self.now = _now
+            if "local" in _settings_tz:
+                now = localized_now
             else:
-                self.now = apply_timezone(_now, settings.TIMEZONE)
+                now = apply_timezone(localized_now, settings.TIMEZONE)
 
         else:
-            if 'local' not in _settings_tz:
-                utc_dt = datetime.utcnow()
-                self.now = apply_timezone(utc_dt, settings.TIMEZONE)
+            if "local" not in _settings_tz:
+                utc_dt = datetime.now(tz=timezone.utc)
+                now = apply_timezone(utc_dt, settings.TIMEZONE)
             else:
-                self.now = datetime.now(self.get_local_tz())
+                now = datetime.now(self.get_local_tz())
 
-        date, period = self._parse_date(date_string, settings.PREFER_DATES_FROM)
+        date, period = self._parse_date(date_string, now, settings.PREFER_DATES_FROM)
 
         if date:
+            old_date = date
             date = apply_time(date, _time)
+            if settings.RETURN_TIME_AS_PERIOD and old_date != date:
+                period = "time"
+
             if settings.TO_TIMEZONE:
                 date = apply_timezone(date, settings.TO_TIMEZONE)
 
-            if (
-                not settings.RETURN_AS_TIMEZONE_AWARE or
-                (settings.RETURN_AS_TIMEZONE_AWARE and
-                 'default' == settings.RETURN_AS_TIMEZONE_AWARE and not ptz)
+            if not settings.RETURN_AS_TIMEZONE_AWARE or (
+                settings.RETURN_AS_TIMEZONE_AWARE
+                and "default" == settings.RETURN_AS_TIMEZONE_AWARE
+                and not ptz
             ):
                 date = date.replace(tzinfo=None)
 
-        self.now = None
         return date, period
 
-    def _parse_date(self, date_string, prefer_dates_from):
+    def _parse_date(self, date_string, now, prefer_dates_from):
         if not self._are_all_words_units(date_string):
             return None, None
 
-        kwargs = self.get_kwargs(date_string)
+        result = self.get_kwargs(date_string)
+        if isinstance(result, tuple):
+            kwargs, explicit_signs = result
+        else:
+            kwargs = result
+            explicit_signs = {}
+
         if not kwargs:
             return None, None
-        period = 'day'
-        if 'days' not in kwargs:
-            for k in ['weeks', 'months', 'years']:
+        period = "day"
+        if "days" not in kwargs:
+            for k in ["weeks", "months", "years", "decades"]:
                 if k in kwargs:
-                    period = k[:-1]
+                    period = "year" if k == "decades" else k[:-1]
                     break
-        td = relativedelta(**kwargs)
 
-        if (
-            re.search(r'\bin\b', date_string) or
-            re.search(r'\bfuture\b', prefer_dates_from) and
-            not re.search(r'\bago\b', date_string)
-        ):
-            date = self.now + td
-        else:
-            date = self.now - td
+        going_forward = (
+            re.search(r"\bin\b", date_string)
+            or re.search(r"\bfuture\b", prefer_dates_from)
+            and not re.search(r"\bago\b", date_string)
+        )
+
+        adjusted_kwargs = {}
+        for key, value in kwargs.items():
+            if explicit_signs.get(key, False):
+                adjusted_kwargs[key] = value
+            else:
+                if going_forward:
+                    adjusted_kwargs[key] = value
+                else:
+                    adjusted_kwargs[key] = -value
+
+        # Fold ``decades`` into ``years`` after each component's sign has been
+        # resolved so that an unsigned component combined with an explicitly
+        # signed one still follows the default ago/future context (fixes
+        # #1304).
+        if "decades" in adjusted_kwargs:
+            adjusted_kwargs["years"] = adjusted_kwargs.get(
+                "years", 0
+            ) + 10 * adjusted_kwargs.pop("decades")
+
+        td = relativedelta(**adjusted_kwargs)
+
+        date = now + td
+
         return date, period
 
     def get_kwargs(self, date_string):
@@ -136,16 +165,20 @@ class FreshnessDateDataParser:
             return {}
 
         kwargs = {}
+        explicit_signs = {}
+
         for num, unit in m:
-            kwargs[unit + 's'] = int(num)
-        if 'decades' in kwargs:
-            kwargs['years'] = 10 * kwargs['decades'] + kwargs.get('years', 0)
-            del kwargs['decades']
-        return kwargs
+            has_explicit_sign = num.startswith("+") or num.startswith("-")
+            explicit_signs[unit + "s"] = has_explicit_sign
+            kwargs[unit + "s"] = float(num.replace(",", ".").replace(" ", ""))
+
+        return kwargs, explicit_signs
 
     def get_date_data(self, date_string, settings=None):
+        from dateparser.date import DateData
+
         date, period = self.parse(date_string, settings)
-        return dict(date_obj=date, period=period)
+        return DateData(date_obj=date, period=period)
 
 
 freshness_date_parser = FreshnessDateDataParser()

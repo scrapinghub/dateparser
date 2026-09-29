@@ -1,0 +1,26 @@
+month:
+    - m
+week:
+    - n
+am:
+    - pre podne
+pm:
+    - po podne
+locale_specific:
+    sr-Latn-BA:
+        tuesday:
+            - ut
+        wednesday:
+            - sr
+        september:
+            - sept
+    sr-Latn-ME:
+        tuesday:
+            - ut
+        wednesday:
+            - sr
+    sr-Latn-XK:
+        tuesday:
+            - ut
+        wednesday:
+            - sr

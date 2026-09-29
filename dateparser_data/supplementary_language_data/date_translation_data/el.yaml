@@ -1,0 +1,14 @@
+hour:
+    - ώρ
+relative-type:
+    0 hour ago:
+        - αυτήν την ώρα
+    0 minute ago:
+        - αυτό το λεπτό
+    0 week ago:
+        - αυτήν την εβδομάδα
+relative-type-regex:
+    \1 hour ago:
+        - πριν από (\d+[.,]?\d*) ώρ
+    in \1 hour:
+        - σε (\d+[.,]?\d*) ώρ

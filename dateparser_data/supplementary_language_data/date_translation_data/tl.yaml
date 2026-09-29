@@ -1,6 +1,6 @@
 sentence_splitter_group : 1
 
-skip: ["noong", "noon", "sa", "ganap", "na"]
+skip: ["ganap", "na", "noon", "noong", "sa"]
 
 monday:
     - Lunes
@@ -85,4 +85,3 @@ simplifications:
     - kahapon: 1 araw nakaraan
     - ngayon: 0 segundo nakalipas
     - isang araw: 2 araw
-

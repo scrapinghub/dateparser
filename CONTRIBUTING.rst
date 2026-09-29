@@ -21,24 +21,18 @@ If you are reporting a bug, please include:
 * Any details about your local setup that might be helpful in troubleshooting.
 * Detailed steps to reproduce the bug.
 
-Fix Bugs
-~~~~~~~~
+Fix Bugs and Implement Features
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Look through the GitHub issues for bugs. Anything tagged with "bug"
-is open to whoever wants to implement it.
-
-Implement Features
-~~~~~~~~~~~~~~~~~~
-
-Look through the GitHub issues for features. Anything tagged with "feature"
-is open to whoever wants to implement it.
-We encourage you to add new languages to existing stack.
+Look through the GitHub issues for bugs and feature requests. To avoid
+duplicate efforts, try to choose issues without related PRs or with staled PRs.
+We also encourage you to add new languages to the existing stack.
 
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-DateParser could always use more documentation, whether as part of the
-official DateParser docs, in docstrings, or even on the web in blog posts,
+Dateparser could always use more documentation, whether as part of the
+official Dateparser docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 After you make local changes to the documentation, you will be able to build the
@@ -77,11 +71,12 @@ Ready to contribute? Here's how to set up `dateparser` for local development.
 
     $ git clone git@github.com:your_name_here/dateparser.git
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper
+installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv dateparser
     $ cd dateparser/
-    $ python setup.py develop
+    $ pip install -e . pytest parameterized tox
 
 4. Create a branch for local development::
 
@@ -89,11 +84,24 @@ Ready to contribute? Here's how to set up `dateparser` for local development.
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox::
+5. Run the tests and the ruff linting and formatting hooks::
 
-    $ tox
+    $ pytest
+    $ tox -e pre-commit
 
-   To get flake8 and tox, just pip install them into your virtualenv. (Note that we use ``max-line-length = 100`` for flake8, this is configured in ``setup.cfg`` file.)
+   Bare ``pytest`` runs the ``tests/`` directory. Optional calendar and language
+   detection tests require ``pip install -e '.[calendars,langdetect]'``.
+   The suite turns warnings into errors (``filterwarnings`` in ``pytest.ini``),
+   so a new deprecation warning fails the run: use ``pytest -W default`` to see
+   such a warning without failing, fix it when it comes from dateparser itself,
+   and otherwise add a narrowly scoped ``ignore:`` line to ``pytest.ini``.
+   The ruff formatter uses its default line length of 88; the linter does not
+   enforce a maximum line length.
+
+   Use ``tox`` to run the full environment list, including the supported Python
+   versions, documentation, scripts, packaging checks, and benchmarks. These
+   environments require their configured Python interpreters to be installed.
+   To run just the packaging check, use ``tox -e twinecheck``.
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -112,10 +120,17 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in *README.rst*.
-3. Check https://travis-ci.org/scrapinghub/dateparser/pull_requests
-   and make sure that the tests pass for all supported Python versions.
-4. Follow the core developers' advice which aim to ensure code's consistency regardless of variety of approaches used by many contributors.
-5. In case you are unable to continue working on a PR, please leave a short comment to notify us. We will be pleased to make any changes required to get it done.
+3. Check the pipelines (Github Actions) in the PR comments (or in
+   https://github.com/scrapinghub/dateparser/actions) and make sure that the
+   tests pass for all supported Python versions.
+4. Check the new project coverage in the PR comments (or in
+   https://app.codecov.io/gh/scrapinghub/dateparser/pulls) and make sure that
+   it remained equal or higher than previously.
+5. Follow the core developers' advice which aims to ensure code's consistency
+   regardless of the variety of approaches used by many contributors.
+6. In case you are unable to continue working on a PR, please leave a short
+   comment to notify us. We will be pleased to make any changes required to get
+   it done.
 
 Guidelines for Editing Translation Data
 ---------------------------------------
@@ -150,9 +165,10 @@ language, you must:
     :ref:`language-data-template` for details.
 
 #.  Regenerate the corresponding file within
-    ``dateparser/data/date_translation_data`` running the following script::
+    ``dateparser/data/date_translation_data`` after installing the script dependencies::
 
-        dateparser_scripts/write_complete_data.py
+        pip install -r dateparser_scripts/requirements.txt
+        python -m dateparser_scripts.write_complete_data
 
 #.  Write tests that cover your changes
 
@@ -160,3 +176,40 @@ language, you must:
     copy-and-paste to create the corresponding new test.
 
     If in doubt, ask Dateparser maintainers for help.
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   template
+
+Updating the List of Supported Languages and Locales
+----------------------------------------------------
+
+Whenever the content of
+``dateparser.data.languages_info.language_locale_dict`` is modified, use
+``dateparser_scripts/update_supported_languages_and_locales.py`` to update
+the corresponding documentation table::
+
+    dateparser_scripts/update_supported_languages_and_locales.py
+
+Updating Timezone Abbreviations
+-------------------------------
+
+``dateparser/timezones.py`` maps each timezone abbreviation to a single UTC
+offset. Unrelated zones often share the same letters, so to check that those
+offsets still match the tz database, run::
+
+    python -m dateparser_scripts.tz_abbreviation_conflicts
+
+It reports every abbreviation whose offset no tz database zone uses, and exits
+non-zero when it finds any. ``tests/test_timezone_parser.py`` runs the same
+check, so a clean test run means the table is in sync.
+
+Abbreviations the tz database resolves to several offsets, such as ``CST``, are
+left alone: there is no single answer to prefer, so dateparser keeps its
+long-standing choice.
+
+When refreshing the table, slide ``REFERENCE_YEARS`` forward rather than
+widening it. Reaching further back re-admits abbreviations the tz database has
+since dropped and reports them as current.

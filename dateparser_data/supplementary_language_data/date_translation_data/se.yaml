@@ -1,0 +1,20 @@
+locale_specific:
+    se-FI:
+        monday:
+            - vuossárgga
+        tuesday:
+            - maŋŋebárgga
+        wednesday:
+            - gaskavahku
+        thursday:
+            - duorastaga
+        friday:
+            - bearjadaga
+        saturday:
+            - lávvardaga
+        relative-type:
+            1 year ago:
+                - mannan jagi
+        relative-type-regex:
+            \1 year ago:
+                - (\d+[.,]?\d*) jagi árat

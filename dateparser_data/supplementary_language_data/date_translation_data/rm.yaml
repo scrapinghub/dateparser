@@ -1,0 +1,9 @@
+day:
+    - tag
+relative-type:
+    0 year ago:
+        - this year
+    1 year ago:
+        - last year
+    in 1 year:
+        - next year

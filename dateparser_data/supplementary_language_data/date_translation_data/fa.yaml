@@ -1,4 +1,7 @@
-sentence_splitter_group : 6
+relative-type:
+    1 month ago:
+        - ماه پیش
+sentence_splitter_group: 6
 
 tuesday:
     - سهشنبه

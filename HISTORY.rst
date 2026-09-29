@@ -3,6 +3,418 @@
 History
 =======
 
+1.4.3 (2026-09-03)
+------------------
+
+Fixes:
+
+- Make parsing thread-safe: parsing from several threads no longer
+  raises an intermittent ``KeyError`` from the shared language caches,
+  and a ``DATE_ORDER`` or ``RELATIVE_BASE`` value meant for one parse no
+  longer leaks into the settings that other parses read, where it could
+  make them return a wrong date (#1346)
+- Do not share the language detector and the detected locale between
+  ``search_dates()`` calls, so concurrent searches over text in
+  different languages no longer return ``None`` or a date read in the
+  wrong locale (#1371)
+- Resolve the ``BST`` and ``HDT`` timezone abbreviations to the offsets
+  the tz database gives them, UTC+1 (British Summer Time) and UTC-9
+  (Hawaii-Aleutian Daylight Time), instead of +11 and -9:30, which no
+  zone goes by those names today; abbreviations that the tz database
+  maps to more than one offset, such as ``CST`` and ``IST``, keep their
+  current offset. Text carrying these abbreviations keeps its wall clock
+  but moves by 10 hours for ``BST`` and 30 minutes for ``HDT``, which can
+  put the parsed instant on a different day (#1366)
+- Reject a ``%j`` (day of year) value that the parsed year does not
+  have, instead of rolling it over into the next year, so "1999366" with
+  ``date_formats=["%Y%j"]`` returns ``None`` rather than 2000-01-01. A
+  format with no year directive is checked against the year ``strptime``
+  defaults to, 1900, which is not a leap year, so "366" with
+  ``date_formats=["%j"]`` now returns ``None`` where it used to return
+  January 1 (#1370)
+
+Cleanups and internal improvements:
+
+- Add CodSpeed benchmarks and a workflow that runs them, so a
+  performance regression such as the quadratic backtracking fixed in
+  1.4.1 is reported on the pull request that introduces it (#1365)
+
+1.4.2 (2026-08-04)
+------------------
+
+New features:
+
+- Add an ``IGNORE_SURROUNDING_TEXT`` setting that, when enabled, retries
+  parsing after ignoring the leading and trailing words the language does
+  not recognize, so a date wrapped in extra text such as "Published on
+  16/04/2019" is parsed (#1356)
+- Add a ``strategy`` argument to ``search_dates()`` to choose the search
+  strategy: the default ``"split"`` keeps the current behavior, while the
+  new ``"ngram"`` strategy parses the longest sequences of tokens as dates
+  for more predictable results on noisy text (#1351)
+
+Fixes:
+
+- Do not read a two-digit number as a year once a later component has been
+  found in year-first date orders, so the day in Japanese dates such as
+  "4月20日" is no longer consumed as the year (#1358)
+- Parse ISO 8601 dates (those starting with a four-digit year) in month-day
+  order even when an explicit day-first language such as ``it`` or ``fr`` is
+  given, without needing to set ``PREFER_LOCALE_DATE_ORDER`` to ``False``
+  (#1352)
+- Honor ``PREFER_DATES_FROM`` and ``RELATIVE_BASE`` when parsing with custom
+  ``date_formats`` that use a two-digit year (``%y``) (#1342)
+- Honor the ``%j`` (day of year) directive in ``date_formats`` instead of
+  overwriting the parsed month and day with the current date (#1345)
+
+Improvements:
+
+- Update the bundled CLDR locale data to 44.1.0, adding many newly
+  recognized date forms across locales and a standalone hour/duration unit
+  (e.g. Catalan "2 hores"), while keeping previously supported forms
+  parseable (#1343)
+- Add the Italian expressions "un ora fa" and "un'ora fa", and skip "alle"
+  so phrases like "oggi alle 11:00" parse (#1049)
+- Expand Czech date translations with month locative/dative forms (e.g. "v
+  lednu 2023"), the July abbreviation "črv", and relative expressions such
+  as "za týden", "za měsíc" and "za rok" (#1172)
+- Specify the README header content as RST rather than raw HTML (#1360)
+
+1.4.1 (2026-06-15)
+------------------
+
+Breaking changes:
+
+- Remove fastText language detection support: the ``fasttext`` extra is
+  dropped and ``detect_languages()`` now raises ``ImportError``. Migrate to
+  the ``langdetect`` extra, which also unblocks ``numpy`` 2.x compatibility
+  (#1315)
+
+Security fixes:
+
+- Make digit quantifiers possessive in the relative-date regexes to prevent
+  quadratic backtracking (ReDoS) on long digit runs (#1335)
+
+New features:
+
+- Add the ``USE_GIVEN_LANGUAGE_ORDER`` setting to try ``languages`` and
+  ``locales`` in the order given rather than by frequency (#789)
+
+Fixes:
+
+- Preserve explicit signs on individual components when parsing relative
+  dates that combine decades with years, such as "-1 decade +2 years" (#1330)
+- Fall back to other provided languages in ``search_dates`` when the
+  detected language yields no dates (#1331)
+- Parse relative date expressions with spaces between the sign and number,
+  such as "now - 2 hours" and "now + 1 day" (#1327)
+- Use the parser-relative ``now`` for the current month when filling in
+  incomplete dates so the month and day stay consistent (#1332)
+- Fix Norwegian Bokmål (``nb``) parsing of relative date expressions such
+  as "3 måneder siden" and "om 2 måneder" (#1334)
+- Parse abbreviated English month expressions such as "1mon ago" and
+  "3mons ago" (#1329)
+- Preserve surrounding whitespace when removing skip tokens during
+  translation to avoid spurious double spaces (#1324)
+
+Improvements:
+
+- Move project metadata and build configuration to ``pyproject.toml`` (#1311)
+- Add alternative Korean date expressions for today, yesterday, tomorrow,
+  and "N months ago/later" (#1289)
+- Expand Czech date translations with additional inflections, word numbers,
+  decade and century expressions, and clock phrases like "čtvrt na tři"
+  (#1325)
+- Replace internal ``OrderedDict`` usage with the built-in ``dict`` (#1328)
+
+1.4.0 (2026-03-26)
+------------------
+
+Security fixes:
+
+- Remove import-time loading of timezone offset data from pickle to prevent
+  unsafe deserialization from packaged data
+- Replace ``eval()`` use when parsing ``no_word_spacing`` with strict boolean
+  parsing to prevent code execution from locale metadata (#1056)
+
+New features:
+
+- Add support for expressions like "N {interval} from now" in English (#1271)
+- Add support for the ``en-US`` locale (#1222)
+
+Fixes:
+
+- Honor ``REQUIRE_PARTS`` for ambiguous month-number inputs by retrying with a
+  year-biased ``DATE_ORDER`` (#1298)
+- Fix parsing word-number relative phrases such as "two days later" (#1316)
+- Allow md5hash to work in FIPS environments (#1267)
+
+Improvements:
+
+- Add Bosnian Cyrillic (ijekavica) date translations (#1293)
+- Add a new browser-based demo to the project documentation (#1306)
+- Update installation documentation to replace ``setup.py install`` guidance
+  (#1310)
+- Add a project security policy (#1318)
+
+1.3.0 (2026-02-04)
+------------------
+
+Dropped Python 3.9 support. (#1296)
+
+New features:
+
+- ``search_dates()`` can now detect time spans from expressions like “past
+  month”, “last week”, etc. For details, see the “Time Span Detection” section
+  and the ``RETURN_TIME_SPAN``, ``DEFAULT_START_OF_WEEK`` and
+  ``DEFAULT_DAYS_IN_MONTH`` settings in the documentation. (#1284)
+
+Fixes:
+
+- Assume the current year if not specified (#1288)
+- Support expressions like “yesterday +1h” (#1303)
+- English: Support most 2-letter day-of-the-week names (#1214)
+- English: Support “in N weeks' time” (#1283)
+- Finnish: Support dates with “klo” (#1301)
+- Russian: Support compound ordinals (#1280)
+
+Cleanups and internal improvements:
+
+- Fixed year expectation issues in tests. (#1294)
+
+1.2.2 (2025-06-26)
+------------------
+
+Fixes:
+
+- Handle the Russian preposition “с” (#1261)
+- Fix weekday search (#1274)
+
+Improvements:
+
+- Add Python 3.14 support (#1273)
+- Cache timezone offsets to improve import time (#1250)
+
+1.2.1 (2025-02-05)
+------------------
+
+Fixes:
+
+- Fix PytzUsageWarning (#1109)
+- Fix date_parser with prefer_month_of_year wrong results (#1224)
+- Fix skipped day when UTC and tz are different days (#1183)
+
+Improvements:
+
+- Avoid repeated loop over timezones (#1238)
+- Proofread README.rst (#1234)
+- Check for derived types for configuration (#1223)
+- Parse some abbreviated strings as relative dates (#1219)
+- Migrate from hijri-converter to hijridate (#1211)
+- Fixed ClusterFuzz build error by adding dateparser.data as a binary (#1208)
+- Fix an issue detected by OSSFuzz (#1203)
+- Support two-digit years in non-Gregorian calendars (#1187)
+- Refactored CI to run extras separately and test minimum versions of dependencies, replaced flake8 with ruff, fixed tests (#1248)
+- Set minimum versions for dependencies (#1248)
+- Limited ``numpy`` to 1.x when installing ``dateparser[fasttext]`` (#1248)
+
+
+1.2.0 (2023-11-17)
+------------------
+
+New features:
+
+- New ``PREFER_MONTH_OF_YEAR`` setting (#1146)
+
+Fixes:
+
+- Absolute years in Russian are no longer being treated as a number of years in
+  the past (#1129)
+
+Cleanups and internal improvements:
+
+- Removed the use of ``datetime.utcnow``, deprecated on Python 3.12 (#1179)
+- Applied Black formatting to the code base (#1158)
+- Initial integration with OSSFuzz (#1198)
+- Extended test cases (#1191)
+
+
+1.1.8 (2023-03-22)
+------------------
+
+Improvements:
+
+- Improved date parsing for Chinese (#1148)
+- Improved date parsing for Czech (#1151)
+- Reorder language by popularity (#1152)
+- Fix leak of memory in cache (#1140)
+- Add support for "\d units later" (#1154)
+- Move modification in CLDR data to yaml (#1153)
+- Add support to use timezone via settings to get PREFER_DATES_FROM result (#1155)
+
+
+1.1.7 (2023-02-02)
+------------------
+
+Improvements:
+
+- Add an “ago” synonym for Arabic (#1128)
+- Improved date parsing for Czech (#1131)
+- Improved date parsing for Indonesian (#1134)
+
+
+1.1.6 (2023-01-12)
+------------------
+
+Improvements:
+
+- Fix the bug where Monday is parsed as a month (#1121)
+- Prevent ReDoS in Spanish sentence splitting regex (#1084)
+
+
+1.1.5 (2022-12-29)
+------------------
+
+Improvements:
+
+- Parse short versions of day, month, and year (#1103)
+- Add a test for “in 1d” (#1104)
+- Update languages_info (#1107)
+- Add a workaround for zipimporter not having exec_module before Python 3.10 (#1069)
+- Stabilize tests at midnight (#1111)
+- Add a test case for French (#1110)
+
+Cleanups:
+
+- Remove the requirements-build file (#1113)
+
+
+1.1.4 (2022-11-21)
+------------------
+
+Improvements:
+
+- Improved support for languages such as Slovak, Indonesian, Hindi, German and Japanese (#1064, #1094, #986, #1071, #1068)
+- Recursively create a model home (#996)
+- Replace regex sub with simple string replace (#1095)
+- Add Python 3.10, 3.11 support (#1096)
+- Drop support for Python 3.5, 3.6 versions (#1097)
+
+
+1.1.3 (2022-11-03)
+------------------
+
+New features:
+
+- Add support for fractional units (#876)
+
+Improvements:
+
+- Fix the returned datetime skipping a day with time+timezone input and PREFER_DATES_FROM = 'future' (#1002)
+- Fix input translatation breaking keep_formatting (#720)
+- English: support "till date" (#1005)
+- English: support “after” and “before” in relative dates (#1008)
+
+Cleanups:
+
+- Reorganize internal data (#1090)
+- CI updates (#1088)
+
+
+1.1.2 (2022-10-20)
+------------------
+
+Improvements:
+
+- Added support for negative timestamp (#1060)
+- Fixed PytzUsageWarning for Python versions >= 3.6 (#1062)
+- Added support for dates with dots and spaces (#1028)
+- Improved support for Ukrainian, Croatian and Russian (#1072, #1074, #1079, #1082, #1073, #1083)
+- Added support for parsing Unix timestamps consistently regardless of timezones (#954)
+- Improved tests (#1086)
+
+
+1.1.1 (2022-03-17)
+------------------
+
+Improvements:
+
+- Fixed issue with regex library by pinning dependencies to an earlier version (< 2022.3.15, #1046).
+- Extended support for Russian language dates starting with lowercase (#999).
+- Allowed to use_given_order for languages too (#997).
+- Fixed link to settings section (#1018).
+- Defined UTF-8 encoding for Windows (#998).
+- Fixed directories creation error in CLI utils (#1022).
+
+
+1.1.0 (2021-10-04)
+------------------
+
+New features:
+
+* Support language detection based on ``langdetect``, ``fastText``, or a
+  custom implementation (see #932)
+* Add support for 'by <time>' (see #839)
+* Sort default language list by internet usage (see #805)
+
+Improvements:
+
+* Improved support of Chinese (#910), Czech (#977)
+* Improvements in ``search_dates`` (see #953)
+* Make order of previous locales deterministic (see #851)
+* Fix parsing with trailing space (see #841)
+* Consider ``RETURN_TIME_AS_PERIOD`` for timestamp times (see #922)
+* Exclude failing regex version (see #974)
+* Ongoing work multithreading support (see #881, #885)
+* Add demo URL (see #883)
+
+QA:
+
+* Migrate pipelines from Travis CI to Github Actions (see #859, #879, #884,
+  #886, #911, #966)
+* Use versioned CLDR data (see #825)
+* Add a script to update table of supported languages and locales (see #601)
+* Sort 'skip' keys in yaml files (see #844)
+* Improve test coverage (see #827)
+* Code cleanup (see #888, #907, #951, #958, #957)
+
+
+1.0.0 (2020-10-29)
+------------------
+
+Breaking changes:
+
+* Drop support for Python 2.7 and pypy (see #727, #744, #748, #749, #754, #755, #758, #761, #763, #764, #777 and #783)
+* Now ``DateDataParser.get_date_data()`` returns a ``DateData`` object instead of a ``dict`` (see #778).
+* From now wrong ``settings`` are not silenced and raise ``SettingValidationError`` (see #797)
+* Now ``dateparser.parse()`` is deterministic and doesn't try previous locales. Also, ``DateDataParser.get_date_data()`` doesn't try the previous locales by default (see #781)
+* Remove the ``'base-formats'`` parser (see #721)
+* Extract the ``'no-spaces-time'`` parser from the ``'absolute-time'`` parser and make it an optional parser (see #786)
+* Remove ``numeral_translation_data`` (see #782)
+* Remove the undocumented ``SKIP_TOKENS_PARSER`` and ``FUZZY`` settings (see #728, #794)
+* Remove support for using strings in ``date_formats`` (see #726)
+* The undocumented ``ExactLanguageSearch`` class has been moved to the private scope and some internal methods have changed (see #778)
+* Changes in ``dateparser.utils``: ``normalize_unicode()`` doesn't accept ``bytes`` as input and ``convert_to_unicode`` has been deprecated (see #749)
+
+New features:
+
+* Add Python 3.9 support (see #732, #823)
+* Detect hours separated with a period/dot (see #741)
+* Add support for "decade" (see #762)
+* Add support for the hijri calendar in Python ≥ 3.6 (see #718)
+
+Improvements:
+
+* New logo! (see #719)
+* Improve the README and docs (see #779, #722)
+* Fix the "calendars" extra (see #740)
+* Fix leap years when ``PREFER_DATES_FROM`` is set (see #738)
+* Fix ``STRICT_PARSING`` setting in ``no-spaces-time`` parser (see #715)
+* Consider ``RETURN_AS_TIME_PERIOD`` setting for ``relative-time`` parser (see #807)
+* Parse the 24hr time format with meridian info (see #634)
+* Other small improvements (see #698, #709, #710, #712, #730, #731, #735, #739, #784, #788, #795 and #801)
+
+
 0.7.6 (2020-06-12)
 ------------------
 

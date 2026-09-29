@@ -1,0 +1,69 @@
+name: Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  # Called by the Nightly workflow, which re-runs these same legs daily. The
+  # schedule lives there and not here because GitHub disables a workflow that
+  # has a schedule after 60 days without repository activity, and a disabled
+  # workflow answers none of its triggers, which would take pull request runs
+  # down with it.
+  workflow_call:
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python-version: "3.14"
+            toxenv: pre-commit
+          - python-version: "3.10"
+            toxenv: min
+          - python-version: "3.10"
+            toxenv: min-all
+          - python-version: "3.10"
+          - python-version: "3.11"
+          - python-version: "3.12"
+          - python-version: "3.14"
+            toxenv: all
+          - python-version: "3.14"
+            toxenv: scripts
+          - python-version: "3.14"
+            toxenv: docs
+          - python-version: "3.14"
+            toxenv: twinecheck
+          - python-version: "3.13"
+            toxenv: py
+            timezone: "Pacific/Auckland"
+          - python-version: "3.13"
+            toxenv: py
+            timezone: "Pacific/Fiji"
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'Set up Python ${{ matrix.python-version }}'
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install language-pack-fr
+        run: sudo apt-get update && sudo apt-get install -y language-pack-fr build-essential
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install tox
+      - name: Run tests
+        run: |
+          TZ=${{ matrix.timezone || 'UTC' }} echo "Running tests with timezone: $TZ"
+          TZ=${{ matrix.timezone || 'UTC' }} tox -e ${{ matrix.toxenv || 'py' }}
+      - name: Upload coverage.xml to codecov
+        # A nightly run, scheduled or dispatched, re-tests a commit that already
+        # has a coverage report, so uploading again only repeats the Codecov
+        # notification for that SHA.
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

@@ -1,12 +1,13 @@
-skip: ["tanggal", "pukul", "yang"]
+skip: ["pukul", "tanggal", "yang"]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 sunday:
     - Ahad
 
 august:
     - Agu
+    - agt
 september:
     - Sept
 
@@ -28,3 +29,17 @@ relative-type:
         - sehari
     0 second ago:
         - baru saja
+
+    in 1 month:
+        - bulan berikutnya
+relative-type-regex:
+    \1 week ago:
+        - (\d+[.,]?\d*) minggu lalu
+    \1 month ago:
+        - (\d+[.,]?\d*) bulan lalu
+    \1 year ago:
+        - (\d+[.,]?\d*) tahun lalu
+    \1 week:
+        - (\d+[.,]?\d*) minggu
+    sunday:
+        - minggu

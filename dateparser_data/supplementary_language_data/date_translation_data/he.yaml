@@ -1,6 +1,11 @@
-sentence_splitter_group : 1
+relative-type-regex:
+    \1 day ago:
+        - לפני (\d+[.,]?\d*) ימ׳
+    in \1 day:
+        - בעוד (\d+[.,]?\d*) ימ׳
+sentence_splitter_group: 1
 
-skip: ['ה-', 'ב-', 'בשעה', 'בסביבות', 'בערך', 'בקירוב']
+skip: ["ב-", "בסביבות", "בערך", "בקירוב", "בשעה", "ה-"]
 
 monday:
     - שני
@@ -121,4 +126,3 @@ simplifications:
     - אחה"צ: pm
     - לפנות ערב: pm
     - בערב: pm
-

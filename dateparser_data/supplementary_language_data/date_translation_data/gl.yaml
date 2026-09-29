@@ -1,0 +1,38 @@
+year:
+    - a
+month:
+    - m
+day:
+    - d
+relative-type:
+    0 hour ago:
+        - nesta hora
+    0 minute ago:
+        - neste minuto
+    0 month ago:
+        - este m
+    1 month ago:
+        - m pasado
+    1 week ago:
+        - sem pasada
+    1 year ago:
+        - ano pasado
+    in 1 month:
+        - m seguinte
+    in 1 week:
+        - sem seguinte
+    in 1 year:
+        - seguinte ano
+relative-type-regex:
+    \1 day ago:
+        - hai (\d+[.,]?\d*) d
+    \1 month ago:
+        - hai (\d+[.,]?\d*) m
+    \1 year ago:
+        - hai (\d+[.,]?\d*) a
+    in \1 day:
+        - en (\d+[.,]?\d*) d
+    in \1 month:
+        - en (\d+[.,]?\d*) m
+    in \1 year:
+        - en (\d+[.,]?\d*) a

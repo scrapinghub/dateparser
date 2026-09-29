@@ -2,84 +2,89 @@ info = {
     "name": "ig",
     "date_order": "DMY",
     "january": [
-        "jenụwarị",
-        "jen"
+        "jen",
+        "jenụwarị"
     ],
     "february": [
-        "febrụwarị",
-        "feb"
+        "feb",
+        "febrụwarị"
     ],
     "march": [
-        "maachị",
-        "maa"
+        "maa",
+        "maachị"
     ],
     "april": [
-        "eprel",
-        "epr"
+        "epr",
+        "epreel",
+        "eprel"
     ],
     "may": [
         "mee"
     ],
     "june": [
-        "juun",
-        "juu"
+        "juu",
+        "juun"
     ],
     "july": [
-        "julaị",
-        "jul"
+        "jul",
+        "julaị"
     ],
     "august": [
-        "ọgọọst",
-        "ọgọ"
+        "ọgọ",
+        "ọgọọst"
     ],
     "september": [
-        "septemba",
-        "sep"
+        "sep",
+        "septemba"
     ],
     "october": [
-        "ọktoba",
-        "ọkt"
+        "ọkt",
+        "ọktoba"
     ],
     "november": [
-        "novemba",
-        "nov"
+        "nov",
+        "novemba"
     ],
     "december": [
-        "disemba",
-        "dis"
+        "dis",
+        "disemba"
     ],
     "monday": [
-        "mọnde",
-        "mọn"
+        "mọn",
+        "mọnde"
     ],
     "tuesday": [
-        "tiuzdee",
-        "tiu"
+        "tiu",
+        "tiuzdee"
     ],
     "wednesday": [
-        "wenezdee",
-        "wen"
+        "wen",
+        "wenezdee"
     ],
     "thursday": [
-        "tọọzdee",
-        "tọọ"
+        "tọọ",
+        "tọọzdee"
     ],
     "friday": [
-        "fraịdee",
-        "fraị"
+        "fraị",
+        "fraịdee"
     ],
     "saturday": [
-        "satọdee",
-        "sat"
+        "sat",
+        "satọdee"
     ],
     "sunday": [
+        "sọn",
+        "sọndee",
         "mbọsị ụka",
         "ụka"
     ],
     "am": [
-        "am"
+        "am",
+        "n'ụtụtụ"
     ],
     "pm": [
+        "n'abali",
         "pm"
     ],
     "year": [
@@ -95,74 +100,90 @@ info = {
         "ụbọchị"
     ],
     "hour": [
-        "elekere"
+        "elekere",
+        "hr"
     ],
     "minute": [
         "nkeji"
     ],
     "second": [
+        "tịm kọm",
         "nkejinta"
     ],
     "relative-type": {
-        "1 year ago": [
-            "last year"
+        "0 day ago": [
+            "taa",
+            "taata"
         ],
-        "0 year ago": [
-            "this year"
+        "0 hour ago": [
+            "elekere a",
+            "this hour"
         ],
-        "in 1 year": [
-            "next year"
-        ],
-        "1 month ago": [
-            "last month"
+        "0 minute ago": [
+            "nkejị a",
+            "this minute"
         ],
         "0 month ago": [
+            "ọnwa a",
             "this month"
         ],
-        "in 1 month": [
-            "next month"
-        ],
-        "1 week ago": [
-            "last week"
+        "0 second ago": [
+            "ụgbụa",
+            "now"
         ],
         "0 week ago": [
+            "izu a",
             "this week"
         ],
-        "in 1 week": [
-            "next week"
+        "0 year ago": [
+            "afọ a",
+            "this year"
         ],
         "1 day ago": [
+            "ụnyaahụ",
             "nnyaafụ"
         ],
-        "0 day ago": [
-            "taata"
+        "1 month ago": [
+            "ọnwa gara aga",
+            "last month"
+        ],
+        "1 week ago": [
+            "izu gara aga",
+            "last week"
+        ],
+        "1 year ago": [
+            "afọ gara aga",
+            "last year"
         ],
         "in 1 day": [
             "echi"
         ],
-        "0 hour ago": [
-            "this hour"
+        "in 1 month": [
+            "ọnwa ọzọ",
+            "next month"
         ],
-        "0 minute ago": [
-            "this minute"
+        "in 1 week": [
+            "izu na-esote",
+            "next week"
         ],
-        "0 second ago": [
-            "now"
+        "in 1 year": [
+            "afọ ọzọ",
+            "next year"
         ]
     },
     "locale_specific": {},
     "skip": [
         " ",
-        ".",
-        ",",
-        ";",
-        "-",
-        "/",
         "'",
-        "|",
+        ",",
+        "-",
+        ".",
+        "/",
+        ";",
         "@",
         "[",
         "]",
+        "|",
         "，"
     ]
 }

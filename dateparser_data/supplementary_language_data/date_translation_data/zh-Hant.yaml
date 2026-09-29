@@ -1,3 +1,26 @@
+locale_specific:
+    zh-Hant-HK:
+        relative-type:
+            1 month ago:
+                - 上月
+            in 1 month:
+                - 下月
+        relative-type-regex:
+            \1 week ago:
+                - (\d+[.,]?\d*)週前
+            in \1 week:
+                - (\d+[.,]?\d*)週後
+    zh-Hant-MO:
+        relative-type:
+            1 month ago:
+                - 上月
+            in 1 month:
+                - 下月
+        relative-type-regex:
+            \1 week ago:
+                - (\d+[.,]?\d*)週前
+            in \1 week:
+                - (\d+[.,]?\d*)週後
 no_word_spacing: "True"
 
-sentence_splitter_group : 4
+sentence_splitter_group: 4

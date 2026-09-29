@@ -1,25 +1,27 @@
 import calendar
 import logging
+import threading
 import types
 import unicodedata
+from collections import OrderedDict
 from datetime import datetime
 
 import regex as re
+from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
-from pytz import UTC, timezone, UnknownTimeZoneError
-from collections import OrderedDict
 
-from dateparser.timezone_parser import _tz_offsets, StaticTzInfo
+from dateparser.timezone_parser import StaticTzInfo, _tz_offsets
 
 
 def strip_braces(date_string):
-    return re.sub(r'[{}()<>\[\]]+', '', date_string)
+    return re.sub(r"[{}()<>\[\]]+", "", date_string)
 
 
-def normalize_unicode(string, form='NFKD'):
-    return ''.join(
-        c for c in unicodedata.normalize(form, string)
-        if unicodedata.category(c) != 'Mn'
+def normalize_unicode(string, form="NFKD"):
+    return "".join(
+        c
+        for c in unicodedata.normalize(form, string)
+        if unicodedata.category(c) != "Mn"
     )
 
 
@@ -35,35 +37,75 @@ def combine_dicts(primary_dict, supplementary_dict):
                 combined_dict[key] = supplementary_dict[key]
         else:
             combined_dict[key] = primary_dict[key]
-    remaining_keys = [key for key in supplementary_dict.keys() if key not in primary_dict.keys()]
+    remaining_keys = [
+        key for key in supplementary_dict.keys() if key not in primary_dict.keys()
+    ]
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict
 
 
 def find_date_separator(format):
-    m = re.search(r'(?:(?:%[dbBmaA])(\W))+', format)
+    m = re.search(r"(?:(?:%[dbBmaA])(\W))+", format)
     if m:
         return m.group(1)
+
+
+def _get_missing_parts(fmt):
+    """
+    Return a list containing missing parts (day, month, year)
+    from a date format checking its directives
+    """
+    if "%U" in fmt or "%W" in fmt or "%V" in fmt:
+        # A year, week number and weekday determine the complete date. Consume
+        # %% pairs so literal directive names do not count as date components.
+        directives = set(re.findall(r"%[%UWVwuAaYyG]", fmt))
+        if (
+            directives & {"%U", "%W", "%V"}
+            and directives & {"%w", "%u", "%a", "%A"}
+            and directives & {"%Y", "%y", "%G"}
+        ):
+            return []
+
+    directive_mapping = {
+        "day": ["%d", "%-d", "%j", "%-j"],
+        # %j (day of year) encodes month implicitly: a successful strptime with %j always
+        # populates the month field, so %j should count as providing month information.
+        "month": ["%b", "%B", "%m", "%-m", "%j", "%-j"],
+        "year": ["%y", "%-y", "%Y"],
+    }
+
+    missing = [
+        field
+        for field in ("day", "month", "year")
+        if not any(directive in fmt for directive in directive_mapping[field])
+    ]
+    return missing
+
+
+def get_timezone_from_tz_string(tz_string):
+    try:
+        return timezone(tz_string)
+    except UnknownTimeZoneError as e:
+        for name, info in _tz_offsets:
+            if info["regex"].search(" %s" % tz_string):
+                return StaticTzInfo(name, info["offset"])
+        else:
+            raise e
 
 
 def localize_timezone(date_time, tz_string):
     if date_time.tzinfo:
         return date_time
 
-    tz = None
+    tz = get_timezone_from_tz_string(tz_string)
 
-    try:
-        tz = timezone(tz_string)
-    except UnknownTimeZoneError as e:
-        for name, info in _tz_offsets:
-            if info['regex'].search(' %s' % tz_string):
-                tz = StaticTzInfo(name, info['offset'])
-                break
-        else:
-            raise e
+    if hasattr(tz, "localize"):
+        date_time = tz.localize(date_time)
+    else:
+        date_time = date_time.replace(tzinfo=tz)
 
-    return tz.localize(date_time)
+    return date_time
 
 
 def apply_tzdatabase_timezone(date_time, pytz_string):
@@ -77,14 +119,17 @@ def apply_tzdatabase_timezone(date_time, pytz_string):
 
 def apply_dateparser_timezone(utc_datetime, offset_or_timezone_abb):
     for name, info in _tz_offsets:
-        if info['regex'].search(' %s' % offset_or_timezone_abb):
-            tz = StaticTzInfo(name, info['offset'])
+        if info["regex"].search(" %s" % offset_or_timezone_abb):
+            tz = StaticTzInfo(name, info["offset"])
             return utc_datetime.astimezone(tz)
 
 
 def apply_timezone(date_time, tz_string):
     if not date_time.tzinfo:
-        date_time = UTC.localize(date_time)
+        if hasattr(UTC, "localize"):
+            date_time = UTC.localize(date_time)
+        else:
+            date_time = date_time.replace(tzinfo=UTC)
 
     new_datetime = apply_dateparser_timezone(date_time, tz_string)
 
@@ -99,8 +144,11 @@ def apply_timezone_from_settings(date_obj, settings):
     if settings is None:
         return date_obj
 
-    if 'local' in settings.TIMEZONE.lower():
-        date_obj = tz.localize(date_obj)
+    if "local" in settings.TIMEZONE.lower():
+        if hasattr(tz, "localize"):
+            date_obj = tz.localize(date_obj)
+        else:
+            date_obj = date_obj.replace(tzinfo=tz)
     else:
         date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 
@@ -138,17 +186,30 @@ def _get_leap_year(year, future):
 
 
 def set_correct_day_from_settings(date_obj, settings, current_day=None):
-    """ Set correct day attending the `PREFER_DAY_OF_MONTH` setting."""
+    """Set correct day attending the `PREFER_DAY_OF_MONTH` setting."""
     options = {
-        'first': 1,
-        'last': get_last_day_of_month(date_obj.year, date_obj.month),
-        'current': current_day or datetime.now().day
+        "first": 1,
+        "last": get_last_day_of_month(date_obj.year, date_obj.month),
+        "current": current_day or datetime.now().day,
     }
 
     try:
         return date_obj.replace(day=options[settings.PREFER_DAY_OF_MONTH])
     except ValueError:
-        return date_obj.replace(day=options['last'])
+        return date_obj.replace(day=options["last"])
+
+
+def set_correct_month_from_settings(date_obj, settings, current_month=None):
+    """Set correct month attending the `PREFER_MONTH_OF_YEAR` setting."""
+    options = {"first": 1, "last": 12, "current": current_month or datetime.now().month}
+
+    try:
+        return date_obj.replace(month=options[settings.PREFER_MONTH_OF_YEAR])
+    except ValueError:
+        return date_obj.replace(month=options["last"])
+
+
+_registry_lock = threading.Lock()
 
 
 def registry(cls):
@@ -156,28 +217,37 @@ def registry(cls):
         def constructor(cls, *args, **kwargs):
             key = cls.get_key(*args, **kwargs)
 
-            if not hasattr(cls, "__registry_dict"):
-                setattr(cls, "__registry_dict", {})
-            registry_dict = getattr(cls, "__registry_dict")
+            with _registry_lock:
+                if not hasattr(cls, "__registry_dict"):
+                    setattr(cls, "__registry_dict", {})
+                registry_dict = getattr(cls, "__registry_dict")
 
-            if key not in registry_dict:
-                registry_dict[key] = creator(cls, *args)
-                setattr(registry_dict[key], 'registry_key', key)
-            return registry_dict[key]
+                if key not in registry_dict:
+                    instance = creator(cls, *args)
+                    # Set the key before publishing the instance so other
+                    # threads never observe an entry without ``registry_key``.
+                    setattr(instance, "registry_key", key)
+                    registry_dict[key] = instance
+                return registry_dict[key]
+
         return staticmethod(constructor)
 
-    if not (hasattr(cls, "get_key")
-            and isinstance(cls.get_key, types.MethodType)
-            and cls.get_key.__self__ is cls):
-        raise NotImplementedError("Registry classes require to implement class method get_key")
+    if not (
+        hasattr(cls, "get_key")
+        and isinstance(cls.get_key, types.MethodType)
+        and cls.get_key.__self__ is cls
+    ):
+        raise NotImplementedError(
+            "Registry classes require to implement class method get_key"
+        )
 
-    setattr(cls, '__new__', choose(cls.__new__))
+    setattr(cls, "__new__", choose(cls.__new__))
     return cls
 
 
 def get_logger():
     setup_logging()
-    return logging.getLogger('dateparser')
+    return logging.getLogger("dateparser")
 
 
 def setup_logging():
@@ -185,24 +255,24 @@ def setup_logging():
         return
 
     config = {
-        'version': 1,
-        'disable_existing_loggers': True,
-        'formatters': {
-            'console': {
-                'format': "%(asctime)s %(levelname)s: [%(name)s] %(message)s",
+        "version": 1,
+        "disable_existing_loggers": True,
+        "formatters": {
+            "console": {
+                "format": "%(asctime)s %(levelname)s: [%(name)s] %(message)s",
             },
         },
-        'handlers': {
-            'console': {
-                'level': logging.DEBUG,
-                'class': "logging.StreamHandler",
-                'formatter': "console",
-                'stream': "ext://sys.stdout",
+        "handlers": {
+            "console": {
+                "level": logging.DEBUG,
+                "class": "logging.StreamHandler",
+                "formatter": "console",
+                "stream": "ext://sys.stdout",
             },
         },
-        'root': {
-            'level': logging.DEBUG,
-            'handlers': ["console"],
+        "root": {
+            "level": logging.DEBUG,
+            "handlers": ["console"],
         },
     }
     logging.config.dictConfig(config)

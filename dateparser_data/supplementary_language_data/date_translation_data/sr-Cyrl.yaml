@@ -1,0 +1,26 @@
+month:
+    - м
+week:
+    - н
+am:
+    - пре подне
+pm:
+    - по подне
+locale_specific:
+    sr-Cyrl-BA:
+        tuesday:
+            - ут
+        wednesday:
+            - ср
+        september:
+            - септ
+    sr-Cyrl-ME:
+        tuesday:
+            - ут
+        wednesday:
+            - ср
+    sr-Cyrl-XK:
+        tuesday:
+            - ут
+        wednesday:
+            - ср

@@ -1,6 +1,10 @@
-sentence_splitter_group : 6
+locale_specific:
+    ar-IQ:
+        october:
+            - تشرین الأول
+sentence_splitter_group: 6
 
-skip: ['الساعة', 'مساءً', 'في', 'هـ']
+skip: ["الساعة", "في", "مساءً", "هـ"]
 
 monday:
     - الإثنين
@@ -25,6 +29,7 @@ second:
 
 ago:
     - منذ
+    - مضت
 in:
     - خلال
 

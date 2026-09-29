@@ -4,14 +4,6 @@ dateparser.languages package
 Submodules
 ----------
 
-dateparser.languages.detection module
--------------------------------------
-
-.. automodule:: dateparser.languages.detection
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 dateparser.languages.dictionary module
 --------------------------------------
 
@@ -20,18 +12,18 @@ dateparser.languages.dictionary module
    :undoc-members:
    :show-inheritance:
 
-dateparser.languages.language module
-------------------------------------
-
-.. automodule:: dateparser.languages.language
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 dateparser.languages.loader module
 ----------------------------------
 
 .. automodule:: dateparser.languages.loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dateparser.languages.locale module
+----------------------------------
+
+.. automodule:: dateparser.languages.locale
    :members:
    :undoc-members:
    :show-inheritance:

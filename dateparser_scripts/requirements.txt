@@ -1,3 +1,4 @@
 gitpython
-orderedset
+parsel
+requests
 ruamel.yaml

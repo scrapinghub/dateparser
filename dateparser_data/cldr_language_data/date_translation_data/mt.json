@@ -2,52 +2,52 @@
     "name": "mt",
     "date_order": "DMY",
     "january": [
-        "jannar",
-        "jan"
+        "jan",
+        "jannar"
     ],
     "february": [
-        "frar",
-        "fra"
+        "fra",
+        "frar"
     ],
     "march": [
-        "marzu",
-        "mar"
+        "mar",
+        "marzu"
     ],
     "april": [
-        "april",
-        "apr"
+        "apr",
+        "april"
     ],
     "may": [
-        "mejju",
-        "mej"
+        "mej",
+        "mejju"
     ],
     "june": [
-        "ġunju",
-        "ġun"
+        "ġun",
+        "ġunju"
     ],
     "july": [
-        "lulju",
-        "lul"
+        "lul",
+        "lulju"
     ],
     "august": [
-        "awwissu",
-        "aww"
+        "aww",
+        "awwissu"
     ],
     "september": [
-        "settembru",
-        "set"
+        "set",
+        "settembru"
     ],
     "october": [
-        "ottubru",
-        "ott"
+        "ott",
+        "ottubru"
     ],
     "november": [
-        "novembru",
-        "nov"
+        "nov",
+        "novembru"
     ],
     "december": [
-        "diċembru",
-        "diċ"
+        "diċ",
+        "diċembru"
     ],
     "monday": [
         "it-tnejn",
@@ -58,8 +58,8 @@
         "tli"
     ],
     "wednesday": [
-        "l-erbgħa",
-        "erb"
+        "erb",
+        "l-erbgħa"
     ],
     "thursday": [
         "il-ħamis",
@@ -84,77 +84,127 @@
         "pm"
     ],
     "year": [
-        "sena"
+        "sena",
+        "sn"
     ],
     "month": [
         "xahar"
     ],
     "week": [
-        "ġimgħa"
+        "ġimgħa",
+        "ġm"
     ],
     "day": [
         "jum"
     ],
     "hour": [
+        "hr",
         "siegħa"
     ],
     "minute": [
+        "m",
+        "min",
         "minuta"
     ],
     "second": [
+        "s",
+        "sek",
         "sekonda"
     ],
     "relative-type": {
-        "1 year ago": [
-            "is-sena li għaddiet"
+        "0 day ago": [
+            "illum"
         ],
-        "0 year ago": [
-            "din is-sena"
+        "0 hour ago": [
+            "din is-siegħa"
         ],
-        "in 1 year": [
-            "is-sena d-dieħla"
-        ],
-        "1 month ago": [
-            "ix-xahar li għadda"
+        "0 minute ago": [
+            "din il-minuta"
         ],
         "0 month ago": [
             "dan ix-xahar"
         ],
-        "in 1 month": [
-            "ix-xahar id-dieħel"
-        ],
-        "1 week ago": [
-            "il-ġimgħa li għaddiet"
+        "0 second ago": [
+            "issa"
         ],
         "0 week ago": [
             "din il-ġimgħa"
         ],
-        "in 1 week": [
-            "il-ġimgħa d-dieħla"
+        "0 year ago": [
+            "din is-sena"
         ],
         "1 day ago": [
-            "ilbieraħ"
+            "lbieraħ"
         ],
-        "0 day ago": [
-            "illum"
+        "1 month ago": [
+            "ix-xahar li għadda"
+        ],
+        "1 week ago": [
+            "il-ġimgħa li għaddiet"
+        ],
+        "1 year ago": [
+            "is-sena l-oħra"
         ],
         "in 1 day": [
             "għada"
         ],
-        "0 hour ago": [
-            "this hour"
+        "in 1 month": [
+            "ix-xahar id-dieħel"
         ],
-        "0 minute ago": [
-            "this minute"
+        "in 1 week": [
+            "il-ġimgħa d-dieħla"
         ],
-        "0 second ago": [
-            "now"
+        "in 1 year": [
+            "is-sena d-dieħla"
         ]
     },
     "relative-type-regex": {
+        "\\1 day ago": [
+            "{0} ġurnata ilu"
+        ],
+        "\\1 hour ago": [
+            "{0} siegħa ilu"
+        ],
+        "\\1 minute ago": [
+            "{0} min ilu",
+            "{0} minuta ilu"
+        ],
+        "\\1 month ago": [
+            "{0} xahar ilu"
+        ],
+        "\\1 second ago": [
+            "{0} sek ilu",
+            "{0} sekonda ilu"
+        ],
+        "\\1 week ago": [
+            "{0} ġimgħa ilu"
+        ],
         "\\1 year ago": [
-            "{0} sena ilu",
-            "{0} snin ilu"
+            "{0} sena ilu"
+        ],
+        "in \\1 day": [
+            "fi żmien {0} ġurnata oħra"
+        ],
+        "in \\1 hour": [
+            "fi żmien {0} siegħa"
+        ],
+        "in \\1 minute": [
+            "sa {0} min oħra",
+            "sa {0} minuta oħra"
+        ],
+        "in \\1 month": [
+            "fi {0} xahar oħra",
+            "sa {0} xahar oħra"
+        ],
+        "in \\1 second": [
+            "sa {0} sek oħra",
+            "sa {0} sekonda oħra"
+        ],
+        "in \\1 week": [
+            "sa {0} ġimgħa oħra"
+        ],
+        "in \\1 year": [
+            "fi żmien {0} sena oħra"
         ]
     },
     "locale_specific": {}
