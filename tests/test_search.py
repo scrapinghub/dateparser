@@ -1043,6 +1043,40 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
             ),
+            # Abbreviated month and weekday names followed by a full stop
+            param(
+                text="He left on 31 Jul. 1999 and came back.",
+                languages=None,
+                settings=None,
+                expected=[("on 31 Jul. 1999", datetime.datetime(1999, 7, 31, 0, 0))],
+            ),
+            param(
+                text="Sept. 5, 2020",
+                languages=["en"],
+                settings=None,
+                expected=[("Sept. 5, 2020", datetime.datetime(2020, 9, 5, 0, 0))],
+            ),
+            param(
+                text="Fri. Jan. 3, 2020",
+                languages=["en"],
+                settings=None,
+                expected=[("Fri. Jan. 3, 2020", datetime.datetime(2020, 1, 3, 0, 0))],
+            ),
+            param(
+                text="5 déc. 2020",
+                languages=["fr"],
+                settings=None,
+                expected=[("5 déc. 2020", datetime.datetime(2020, 12, 5, 0, 0))],
+            ),
+            param(
+                text="I left on 3 July. On 5 May 2020 I came back.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2019, 1, 1)},
+                expected=[
+                    ("on 3 July", datetime.datetime(2019, 7, 3, 0, 0)),
+                    ("On 5 May 2020", datetime.datetime(2020, 5, 5, 0, 0)),
+                ],
+            ),
         ]
     )
     def test_date_search_function(self, text, languages, settings, expected):

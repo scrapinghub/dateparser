@@ -8,7 +8,12 @@ from dateutil import parser
 from dateparser.timezone_parser import pop_tz_offset_from_string, word_is_tz
 from dateparser.utils import combine_dicts, normalize_unicode
 
-from .dictionary import ALWAYS_KEEP_TOKENS, Dictionary, NormalizedDictionary
+from .dictionary import (
+    ALWAYS_KEEP_TOKENS,
+    KNOWN_WORD_TOKENS,
+    Dictionary,
+    NormalizedDictionary,
+)
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
 
@@ -376,6 +381,16 @@ class Locale:
             abbreviation_string += (
                 "(?<! " + abbreviation[:-1] + ")"
             )  # negative lookbehind
+        # Full stops of abbreviated month and weekday names, e.g. "31 Jul. 1999".
+        names = [
+            name
+            for key in KNOWN_WORD_TOKENS[: KNOWN_WORD_TOKENS.index("december") + 1]
+            for name in self.info.get(key, [])
+        ]
+        if names:
+            abbreviation_string += (
+                r"(?!(?<=\b(?i:" + "|".join(map(re.escape, names)) + r"))\.)"
+            )
         if self.shortname in ["fi", "cs", "hu", "de", "da"]:
             for digit_abbreviation in digit_abbreviations:
                 abbreviation_string += (
