@@ -131,7 +131,13 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
 def strptime(date_string: str, format: str) -> datetime:
     date_string, format, day_of_year_in_format = _prepare_format(date_string, format)
     time_tuple = __strptime(date_string, format)
-    obj = datetime(*time_tuple[:-3])
+    year, month, day, hour, minute, second = time_tuple[:6]
+    if second >= 60:
+        # `datetime` has no representation for a leap second (`%S` may be 60 or
+        # 61 per the stdlib strptime). Clamp it to the last regular second of
+        # the minute rather than rejecting the otherwise-valid date/time.
+        second = 59
+    obj = datetime(year, month, day, hour, minute, second)
 
     if day_of_year_in_format and time_tuple.tm_yday != obj.timetuple().tm_yday:
         # A day of year past the end of the parsed year is rolled over into the

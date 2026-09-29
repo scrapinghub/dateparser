@@ -17,7 +17,7 @@ from dateparser.utils import (
     localize_timezone,
     registry,
 )
-from dateparser.utils.strptime import patch_strptime
+from dateparser.utils.strptime import patch_strptime, strptime
 from tests import BaseTestCase
 
 
@@ -33,6 +33,16 @@ class TestUtils(BaseTestCase):
         self.assertEqual(set(vars(calendar)), set(before))
         for name, value in before.items():
             self.assertIs(getattr(calendar, name), value, name)
+
+    @parameterized.expand(
+        [
+            param("2016-12-31 23:59:59", datetime(2016, 12, 31, 23, 59, 59)),
+            param("2016-12-31 23:59:60", datetime(2016, 12, 31, 23, 59, 59)),
+            param("2016-12-31 23:59:61", datetime(2016, 12, 31, 23, 59, 59)),
+        ]
+    )
+    def test_strptime_clamps_leap_second(self, date_string, expected):
+        self.assertEqual(strptime(date_string, "%Y-%m-%d %H:%M:%S"), expected)
 
     def given_date_format(self, date_format):
         self.date_format = date_format
