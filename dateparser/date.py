@@ -91,6 +91,20 @@ RE_SANITIZE_PERIOD = re.compile(r"(?<=[^0-9\s])\.", flags=re.U)
 RE_SANITIZE_ON = re.compile(r"^.*?on:\s+(.*)")
 RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
 RE_SANITIZE_DASH = re.compile("|".join(DASH_LOOK_ALIKE_CHARS))
+# Uppercase Roman numerals from 1000 on, allowing the additive IIII, XXXX and
+# CCCC of old prints.
+_RE_ROMAN_YEAR = re.compile(
+    r"\bM{1,3}(?:CM|CD|D?C{0,4})(?:XC|XL|L?X{0,4})(?:IX|IV|V?I{0,4})\b"
+)
+_ROMAN_NUMERAL_VALUES = {
+    "M": 1000,
+    "D": 500,
+    "C": 100,
+    "L": 50,
+    "X": 10,
+    "V": 5,
+    "I": 1,
+}
 
 RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
@@ -181,12 +195,27 @@ def sanitize_date(date_string):
     )  # extra '.' and 'u' interferes with parsing relative fractional dates
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub("", date_string)
+    date_string = _RE_ROMAN_YEAR.sub(_roman_year_to_digits, date_string)
     date_string = RE_SANITIZE_ON.sub(r"\1", date_string)
     date_string = RE_TRIM_COLONS.sub(r"\1", date_string)
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
     date_string = RE_SANITIZE_DASH.sub("-", date_string)
     date_string = date_string.strip()
     return date_string
+
+
+def _roman_year_to_digits(match):
+    numeral = match[0]
+    # Too ambiguous with abbreviations like MD or MC.
+    if len(numeral) < 3:
+        return numeral
+    values = [_ROMAN_NUMERAL_VALUES[char] for char in numeral]
+    return str(
+        sum(
+            -value if value < next_value else value
+            for value, next_value in zip(values, values[1:] + [0])
+        )
+    )
 
 
 def get_date_from_timestamp(date_string, settings, negative=False):
