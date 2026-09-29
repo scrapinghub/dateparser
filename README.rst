@@ -344,9 +344,9 @@ If you want to use the jalali or hijri calendar, you need to install the
 Supported Calendars
 ===================
 
-Apart from the Gregorian calendar, `dateparser` supports the
-`Persian Jalali calendar` and the `Hijri/Islamic calendar`.
-To use them, install the ``calendars`` extra (see `Installation`_).
+Apart from the Gregorian calendar, `dateparser` supports the `Persian Jalali
+calendar`, the `Hijri/Islamic calendar` and the `Minguo calendar`. To use the
+first two, install the ``calendars`` extra (see `Installation`_).
 
 Example using the `Persian Jalali calendar
 <https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>`_:
@@ -365,6 +365,15 @@ Example using the `Hijri/Islamic calendar
     >>> from dateparser.calendars.hijri import HijriCalendar
     >>> HijriCalendar('17-01-1437 هـ 08:30 مساءً').get_date()
     DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None)
+
+Example using the `Minguo calendar
+<https://en.wikipedia.org/wiki/Republic_of_China_calendar>`_:
+
+.. code:: python
+
+    >>> from dateparser.calendars.minguo import MinguoCalendar
+    >>> MinguoCalendar('民國101年5月25日 08:36').get_date()
+    DateData(date_obj=datetime.datetime(2012, 5, 25, 8, 36), period='day', locale=None)
 
 Dependencies
 ============
