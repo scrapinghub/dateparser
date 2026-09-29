@@ -1966,17 +1966,50 @@ class TestDateParser(BaseTestCase):
                 date_formats=["%a, %d %b %Y %H:%M:%S %z"],
             ),
             param(date_string="mar, 07 giu 2022 08:56:47 +0200", date_formats=None),
+            param(date_string="mar 07 giu 2022 08:56:47 +0200", date_formats=None),
         ]
     )
-    def test_leading_weekday_month_abbreviation_conflict(
+    def test_weekday_month_abbreviation_conflict_is_read_as_weekday(
         self, date_string, date_formats
     ):
-        """Italian "mar" abbreviates both "martedì" (Tue) and "marzo" (Mar). When it
-        leads the string followed by a comma it must be read as the weekday, or the
-        string fails to parse entirely (Issue #1061)."""
+        """Italian "mar" abbreviates both "martedì" (Tue) and "marzo" (Mar). When
+        another, unambiguous month ("giu") is present in the same string, "mar" must
+        be read as the weekday, comma or not, or the string fails to parse entirely
+        (Issue #1061)."""
         result = parse(date_string, date_formats=date_formats, languages=["it"])
         self.assertIsNotNone(result)
         self.assertEqual(datetime(2022, 6, 7, 8, 56, 47), result.replace(tzinfo=None))
+
+    @parameterized.expand(
+        [
+            param(date_string="mar 2022", expected_year=2022, expected_month=3),
+            param(date_string="mar, 2022", expected_year=2022, expected_month=3),
+            param(
+                date_string="mar, 7 2022",
+                expected_year=2022,
+                expected_month=3,
+                expected_day=7,
+            ),
+            param(
+                date_string="mar, 10, 2022",
+                expected_year=2022,
+                expected_month=3,
+                expected_day=10,
+            ),
+        ]
+    )
+    def test_weekday_month_abbreviation_conflict_is_read_as_month(
+        self, date_string, expected_year, expected_month, expected_day=None
+    ):
+        """Without another, unambiguous month elsewhere in the string, the ambiguous
+        Italian "mar" abbreviation must still be read as the month, as it was before
+        Issue #1061 was fixed (no unrelated regression for the common case)."""
+        result = parse(date_string, languages=["it"])
+        self.assertIsNotNone(result)
+        self.assertEqual(expected_year, result.year)
+        self.assertEqual(expected_month, result.month)
+        if expected_day is not None:
+            self.assertEqual(expected_day, result.day)
 
 
 if __name__ == "__main__":

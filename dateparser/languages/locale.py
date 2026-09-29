@@ -26,11 +26,6 @@ def _parse_bool(value):
 # it on so the text and its translation keep the same separators.
 PUNCTUATION = "()\"'{}[],.،"
 
-# A word immediately followed by a comma at the start of a date string (e.g. "Tue, 07
-# Jun 2022") is a weekday, never a month. This disambiguates locales where the same
-# abbreviation is used for both (see Dictionary.weekday_month_conflicts).
-RE_LEADING_WORD_BEFORE_COMMA = re.compile(r"^\s*([^\s,]+)\s*,")
-
 
 class Locale:
     """
@@ -184,12 +179,14 @@ class Locale:
 
         relative_translations = self._get_relative_translations(settings=settings)
 
-        leading_weekday_match = RE_LEADING_WORD_BEFORE_COMMA.match(date_string)
-        forced_weekday_token = (
-            leading_weekday_match.group(1).lower() if leading_weekday_match else None
+        # A token that could be either a weekday or a month abbreviation (see
+        # Dictionary._weekday_month_conflicts) can only be the weekday if another,
+        # unambiguous month is present elsewhere in the string - otherwise it keeps
+        # meaning a month, as it does everywhere else in the string's locale.
+        has_unambiguous_month = any(
+            dictionary.is_unambiguous_month(token.lower())
+            for token in date_string_tokens
         )
-        if forced_weekday_token not in dictionary.weekday_month_conflicts:
-            forced_weekday_token = None
 
         for i, word in enumerate(date_string_tokens):
             word = word.lower()
@@ -198,9 +195,11 @@ class Locale:
                     date_string_tokens[i] = pattern.sub(replacement, word)
                     break
             else:
-                if forced_weekday_token and word == forced_weekday_token:
-                    date_string_tokens[i] = dictionary.weekday_month_conflicts[word]
-                    forced_weekday_token = None
+                if (
+                    has_unambiguous_month
+                    and word in dictionary._weekday_month_conflicts
+                ):
+                    date_string_tokens[i] = dictionary._weekday_month_conflicts[word]
                 elif word in dictionary:
                     fallback = word if keep_formatting and not word.isalpha() else ""
                     date_string_tokens[i] = dictionary[word] or fallback
