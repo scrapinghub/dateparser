@@ -1470,5 +1470,41 @@ class TestTimestampParser(BaseTestCase):
         self.assertEqual(date.get_date_from_timestamp(date_string, None), None)
 
 
+@pytest.mark.parametrize(
+    "date_string,languages,settings,date_formats,expected",
+    [
+        ("5 de julio de 2017", ["es"], None, None, "%d %B %Y"),
+        ("Dienstag, 4. Juli 2017", ["de"], None, None, "%A, %d. %B %Y"),
+        ("July 5, 2017", ["en"], None, None, "%B %d, %Y"),
+        ("[5 July 2017]", ["en"], None, None, "[%d %B %Y]"),
+        ("17/12/15", ["en"], None, None, "%d/%m/%y"),
+        ("13-03-2017", ["en"], None, None, "%d-%m-%Y"),
+        ("03-13-2017", ["en"], None, None, "%m-%d-%Y"),
+        ("July 2017", ["en"], None, None, "%B %Y"),
+        (
+            "05072017",
+            ["en"],
+            {"PARSERS": ["no-spaces-time"]},
+            None,
+            "%m%d%Y",
+        ),
+        ("5/7/2017", ["en"], None, ["%d/%m/%Y"], "%d/%m/%Y"),
+        ("5th of July 2017", ["en"], None, None, None),
+        ("5 July 2017 10:30", ["en"], None, None, None),
+        ("5 July 2017 UTC", ["en"], None, None, None),
+        ("3 days ago", ["en"], None, None, None),
+        ("1500000000", ["en"], None, None, None),
+    ],
+)
+def test_date_format(date_string, languages, settings, date_formats, expected):
+    parser = date.DateDataParser(languages=languages, settings=settings)
+    date_data = parser.get_date_data(date_string, date_formats)
+    assert date_data.date_format == expected
+    if expected is not None:
+        round_trip = parser.get_date_data(date_string, [expected])
+        assert round_trip.date_obj == date_data.date_obj
+        assert round_trip.date_format == expected
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -178,7 +178,11 @@ class _no_spaces_parser:
     def _find_best_matching_date(cls, datestring):
         for fmt in cls._preferred_formats_ordered_8_digit:
             try:
-                dt = strptime(datestring, fmt), cls._get_period(fmt)
+                dt = (
+                    strptime(datestring, fmt),
+                    cls._get_period(fmt),
+                    [(datestring, fmt)],
+                )
                 if len(str(dt[0].year)) == 4:
                     return dt
             except Exception:
@@ -208,7 +212,7 @@ class _no_spaces_parser:
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[order]:
                 try:
-                    dt = strptime(token, fmt), cls._get_period(fmt)
+                    dt = strptime(token, fmt), cls._get_period(fmt), [(token, fmt)]
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
                         continue
@@ -271,6 +275,7 @@ class _parser:
         self._token_month = None
         self._token_year = None
         self._token_time = None
+        self._token_indexes = {}
 
         self.ordered_num_directives = {
             k: self.num_directives[k]
@@ -360,7 +365,7 @@ class _parser:
                     self.time = lambda: time_parser(self._token_time)
                     continue
 
-            results = self._parse(type, token, skip_component=skip_component)
+            results = self._parse(type, token, index, skip_component=skip_component)
             for res in results:
                 if len(token) == 4 and res[0] == "year":
                     skip_component = "year"
@@ -623,13 +628,35 @@ class _parser:
 
         period = po._get_period()
 
-        return dateobj, period
+        return dateobj, period, po._get_directives()
 
-    def _parse(self, type, token, skip_component=None):
+    def _get_directives(self):
+        """Return a ``(token, directive)`` pair for each number or word
+        token, with ``None`` as directive for tokens that are not a date
+        component, or return ``None`` if the tokens cannot be described with
+        directives."""
+        if self._token_time or self.unset_tokens:
+            return None
+        directives = {}
+        for component, index in self._token_indexes.items():
+            token, type, _ = self.filtered_tokens[index]
+            if component == "month":
+                directives[index] = "%B" if type else "%m"
+            elif component == "year":
+                directives[index] = "%Y" if len(token) == 4 else "%y"
+            else:
+                directives[index] = {"day": "%d", "weekday": "%A"}[component]
+        return [
+            (token, directives.get(index))
+            for index, (token, _, _) in enumerate(self.filtered_tokens)
+        ]
+
+    def _parse(self, type, token, token_index, skip_component=None):
         def set_and_return(token, type, component, dateobj, skip_date_order=False):
             if not skip_date_order:
                 self.auto_order.append(component)
             setattr(self, "_token_%s" % component, (token, type))
+            self._token_indexes[component] = token_index
             return [(component, getattr(dateobj, component))]
 
         def parse_number(token, skip_component=None):
@@ -717,6 +744,8 @@ class _parser:
                             self.auto_order[index] = "day"
                             setattr(self, "_token_day", self._token_month)
                             setattr(self, "_token_month", (token, type))
+                            self._token_indexes["day"] = self._token_indexes["month"]
+                            self._token_indexes["month"] = token_index
                             return [
                                 (component, getattr(do, component)),
                                 ("day", prev_value),
