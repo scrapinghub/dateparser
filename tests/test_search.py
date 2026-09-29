@@ -569,6 +569,52 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(
+                "en",
+                "between Friday and Monday",
+                [
+                    ("Friday", datetime.datetime(1999, 12, 31, 0, 0)),
+                    ("Monday", datetime.datetime(1999, 12, 27, 0, 0)),
+                ],
+            ),
+            param(
+                "en",
+                "Sept 1st and Oct 10th",
+                [
+                    ("Sept 1st", datetime.datetime(2000, 9, 1, 0, 0)),
+                    ("Oct 10th", datetime.datetime(2000, 10, 10, 0, 0)),
+                ],
+            ),
+            param(
+                "es",
+                "1 de junio de 1998 y 5 de julio de 1999",
+                [
+                    ("1 de junio de 1998", datetime.datetime(1998, 6, 1, 0, 0)),
+                    ("5 de julio de 1999", datetime.datetime(1999, 7, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "de",
+                "Freitag und Montag",
+                [
+                    ("Freitag", datetime.datetime(1999, 12, 31, 0, 0)),
+                    ("Montag", datetime.datetime(1999, 12, 27, 0, 0)),
+                ],
+            ),
+        ]
+    )
+    @apply_settings
+    def test_search_dates_joined_by_skipped_words(
+        self, shortname, string, expected, settings=None
+    ):
+        settings = settings.replace(RELATIVE_BASE=datetime.datetime(2000, 1, 1))
+        result = self.exact_language_search.search_parse(
+            shortname, string, settings=settings
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
             # English
             param(
                 "en",
