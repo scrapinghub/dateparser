@@ -1470,5 +1470,37 @@ class TestTimestampParser(BaseTestCase):
         self.assertEqual(date.get_date_from_timestamp(date_string, None), None)
 
 
+class TestLeapSecondDateData(BaseTestCase):
+    """GH #862: a leap second (`:60`/`:61`) is clamped to `:59` rather than
+    failing to parse. `DateData.leap_second` carries the original raw second
+    (60 or 61), since the returned `date_obj` can no longer distinguish the
+    clamp from a plain `:59`.
+    """
+
+    def test_leap_second_is_flagged_on_date_data(self):
+        result = date.DateDataParser().get_date_data("December 31st, 2016 23:59:60 UTC")
+        self.assertEqual(result["date_obj"].second, 59)
+        self.assertEqual(result["leap_second"], 60)
+
+    def test_positive_leap_second_is_flagged_on_date_data(self):
+        result = date.DateDataParser().get_date_data("December 31st, 2016 23:59:61 UTC")
+        self.assertEqual(result["date_obj"].second, 59)
+        self.assertEqual(result["leap_second"], 61)
+
+    def test_regular_second_is_not_flagged(self):
+        result = date.DateDataParser().get_date_data("December 31st, 2016 23:59:59 UTC")
+        self.assertEqual(result["date_obj"].second, 59)
+        self.assertNotIn("leap_second", result.__dict__)
+        with self.assertRaises(KeyError):
+            result["leap_second"]
+
+    def test_leap_second_is_flagged_with_custom_date_formats(self):
+        result = date.DateDataParser().get_date_data(
+            "2016-12-31 23:59:60", date_formats=["%Y-%m-%d %H:%M:%S"]
+        )
+        self.assertEqual(result["date_obj"].second, 59)
+        self.assertEqual(result["leap_second"], 60)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,10 +1,26 @@
 import calendar
+import contextvars
 import importlib.util
 import sys
 from datetime import datetime
 from types import ModuleType
 
 import regex as re
+
+# Set to the original `%S` value (60 or 61) when `strptime` clamps a leap
+# second down to 59, since `datetime` cannot represent it. Callers that build
+# the final parse result reset this before parsing and check it after, to
+# flag the result with the raw second `datetime` could not preserve.
+_clamped_leap_second = contextvars.ContextVar("_clamped_leap_second", default=None)
+
+
+def reset_leap_second_flag() -> None:
+    _clamped_leap_second.set(None)
+
+
+def get_clamped_leap_second() -> int | None:
+    return _clamped_leap_second.get()
+
 
 TIME_MATCHER = re.compile(
     r".*?"
@@ -136,6 +152,7 @@ def strptime(date_string: str, format: str) -> datetime:
         # `datetime` has no representation for a leap second (`%S` may be 60 or
         # 61 per the stdlib strptime). Clamp it to the last regular second of
         # the minute rather than rejecting the otherwise-valid date/time.
+        _clamped_leap_second.set(second)
         second = 59
     obj = datetime(year, month, day, hour, minute, second)
 
