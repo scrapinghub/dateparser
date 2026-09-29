@@ -2,6 +2,7 @@ import collections
 import threading
 from collections.abc import Set
 from datetime import datetime, timedelta, timezone
+from functools import partial
 
 import regex as re
 from dateutil.relativedelta import relativedelta
@@ -262,25 +263,33 @@ def parse_with_formats(date_string, date_formats, settings):
         except ValueError:
             continue
         else:
+            now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
+                tzinfo=None
+            )
             _missing = _get_missing_parts(date_format)
             missing_month = "month" in _missing
             missing_day = "day" in _missing
             if missing_month and missing_day:
                 period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
-                date_obj = set_correct_day_from_settings(date_obj, settings)
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, current_month=now.month
+                )
+                date_obj = set_correct_day_from_settings(
+                    date_obj, settings, current_day=now.day
+                )
 
             elif missing_month:
                 period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, current_month=now.month
+                )
 
             elif missing_day:
                 period = "month"
-                date_obj = set_correct_day_from_settings(date_obj, settings)
+                date_obj = set_correct_day_from_settings(
+                    date_obj, settings, current_day=now.day
+                )
 
-            now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
-                tzinfo=None
-            )
             if "year" in _missing:
                 date_obj = date_obj.replace(year=now.year)
             elif "%y" in date_format and "%Y" not in date_format:
@@ -435,7 +444,9 @@ class _DateLocaleParser:
                 return DateData(
                     date_obj=date_obj,
                     period=period,
-                    date_format=self._get_date_format(date_obj, directives),
+                    date_format=partial(
+                        self._get_date_format, date_obj, directives, self._now()
+                    ),
                 )
             except ValueError:
                 continue
@@ -451,14 +462,21 @@ class _DateLocaleParser:
             settings=self._settings,
         )
 
-    def _get_date_format(self, date_obj, directives):
+    def _now(self):
+        return self._settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
+            tzinfo=None
+        )
+
+    def _get_date_format(self, date_obj, directives, now):
         # The format must work as a custom format, which is matched against
-        # the translation that keeps formatting.
+        # the translation that keeps formatting. *now* is the time of parsing,
+        # so that missing date parts are filled in the same way.
         date_string = self._get_translated_date_with_formatting()
         date_format = _build_date_format(date_string, directives)
         if date_format is None:
             return None
-        date_data = parse_with_formats(date_string, [date_format], self._settings)
+        settings = self._settings.replace(RELATIVE_BASE=now)
+        date_data = parse_with_formats(date_string, [date_format], settings)
         if date_data.date_obj != date_obj:
             return None
         return date_format
@@ -507,6 +525,16 @@ class DateData:
         self.locale = locale
         self.date_format = date_format
 
+    @property
+    def date_format(self):
+        if callable(self._date_format):
+            self._date_format = self._date_format()
+        return self._date_format
+
+    @date_format.setter
+    def date_format(self, value):
+        self._date_format = value
+
     def __getitem__(self, k):
         if not hasattr(self, k):
             raise KeyError(k)
@@ -519,7 +547,8 @@ class DateData:
 
     def __repr__(self):
         properties_text = ", ".join(
-            "{}={}".format(prop, val.__repr__()) for prop, val in self.__dict__.items()
+            f"{prop}={self[prop]!r}"
+            for prop in ("date_obj", "period", "locale", "date_format")
         )
 
         return "{}({})".format(self.__class__.__name__, properties_text)
