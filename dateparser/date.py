@@ -307,8 +307,7 @@ def parse_with_formats(date_string, date_formats, settings):
 def _build_date_format(date_string, directives):
     """Return *date_string* with each number or word token replaced by its
     directive from *directives*, a list of ``(token, directive)`` pairs, or
-    ``None`` if the tokens of *date_string* do not match those of
-    *directives*."""
+    ``None`` if a token of *date_string* does not match its pair."""
     if directives is None:
         return None
     directives = iter(directives)
@@ -322,8 +321,6 @@ def _build_date_format(date_string, directives):
         else:
             token = token.replace("%", "%%")
         parts.append(token)
-    if next(directives, None) is not None:
-        return None
     return "".join(parts)
 
 

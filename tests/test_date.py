@@ -1489,6 +1489,8 @@ class TestTimestampParser(BaseTestCase):
             "%m%d%Y",
         ),
         ("5/7/2017", ["en"], None, ["%d/%m/%Y"], "%d/%m/%Y"),
+        ("5 2017", ["en"], None, ["%d %Y"], "%d %Y"),
+        ("July 5", ["en"], {"PREFER_DATES_FROM": "future"}, None, None),
         ("5th of July 2017", ["en"], None, None, None),
         ("5 July 2017 10:30", ["en"], None, None, None),
         ("5 July 2017 UTC", ["en"], None, None, None),
