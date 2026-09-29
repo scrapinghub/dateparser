@@ -1,10 +1,26 @@
 import calendar
+import contextvars
 import importlib.util
 import sys
 from datetime import datetime
 from types import ModuleType
 
 import regex as re
+
+# Set to the original `%S` value (60 or 61) when `strptime` clamps a leap
+# second down to 59, since `datetime` cannot represent it. Callers that build
+# the final parse result reset this before parsing and check it after, to
+# flag the result with the raw second `datetime` could not preserve.
+_clamped_leap_second = contextvars.ContextVar("_clamped_leap_second", default=None)
+
+
+def reset_leap_second_flag() -> None:
+    _clamped_leap_second.set(None)
+
+
+def get_clamped_leap_second() -> int | None:
+    return _clamped_leap_second.get()
+
 
 TIME_MATCHER = re.compile(
     r".*?"
@@ -131,7 +147,14 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
 def strptime(date_string: str, format: str) -> datetime:
     date_string, format, day_of_year_in_format = _prepare_format(date_string, format)
     time_tuple = __strptime(date_string, format)
-    obj = datetime(*time_tuple[:-3])
+    year, month, day, hour, minute, second = time_tuple[:6]
+    if second >= 60:
+        # `datetime` has no representation for a leap second (`%S` may be 60 or
+        # 61 per the stdlib strptime). Clamp it to the last regular second of
+        # the minute rather than rejecting the otherwise-valid date/time.
+        _clamped_leap_second.set(second)
+        second = 59
+    obj = datetime(year, month, day, hour, minute, second)
 
     if day_of_year_in_format and time_tuple.tm_yday != obj.timetuple().tm_yday:
         # A day of year past the end of the parsed year is rolled over into the
