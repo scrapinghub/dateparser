@@ -10,6 +10,7 @@ import dateparser.timezone_parser
 from dateparser import parse
 from dateparser.timezone_parser import (
     StaticTzInfo,
+    convert_to_local_tz,
     get_local_tz_offset,
     is_timezone_token,
     pop_tz_offset_from_string,
@@ -483,3 +484,9 @@ class TestTzDatabasePreference(BaseTestCase):
             self.checker.static_tz_abbreviations()["LMT"],
             self.offset_of("13 August 2026 10:00 LMT").total_seconds(),
         )
+
+
+class TestConvertToLocalTz(BaseTestCase):
+    def test_deprecated(self):
+        with self.assertWarns(FutureWarning):
+            convert_to_local_tz(datetime(2020, 1, 1), timedelta(0))

@@ -1,3 +1,4 @@
+import warnings
 from datetime import datetime, timedelta, timezone, tzinfo
 
 import regex as re
@@ -67,6 +68,12 @@ def is_timezone_token(token):
 
 
 def convert_to_local_tz(datetime_obj, datetime_tz_offset):
+    warnings.warn(
+        "dateparser.timezone_parser.convert_to_local_tz is deprecated and "
+        "will be removed in a future version.",
+        FutureWarning,
+        stacklevel=2,
+    )
     return datetime_obj - datetime_tz_offset + local_tz_offset
 
 
