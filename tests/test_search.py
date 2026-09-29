@@ -1006,6 +1006,15 @@ class TestTranslateSearch(BaseTestCase):
                     ("21 марта", datetime.datetime(2001, 3, 21, 0, 0)),
                 ],
             ),
+            # "k" is not in the Italian dictionary, but it is still Italian.
+            param(
+                text="10 Febbraio 2020 15:00 ciao moka",
+                languages=["it", "en"],
+                settings=None,
+                expected=[
+                    ("10 Febbraio 2020 15:00", datetime.datetime(2020, 2, 10, 15, 0))
+                ],
+            ),
             # Dates not found
             param(text="", languages=None, settings=None, expected=None),
             # Language not detected

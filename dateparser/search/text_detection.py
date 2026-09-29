@@ -54,7 +54,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
         self.get_unique_characters(settings=settings)
         for i in range(len(self.languages)):
             for char in self.language_unique_chars[i]:
-                if char.lower() in date_string.lower():
+                if not char.isascii() and char.lower() in date_string.lower():
                     self.languages = [self.languages[i]]
                     return
         indices_to_pop = []
