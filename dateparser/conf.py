@@ -260,6 +260,11 @@ def check_settings(settings):
         setting_props = settings_values[setting_name]
 
         # check type:
+        # bool subclasses int; CACHE_SIZE_LIMIT=True would silently become 1
+        if isinstance(setting_value, bool) and setting_props["type"] is int:
+            raise SettingValidationError(
+                '"{}" must be "int", not "bool".'.format(setting_name)
+            )
         if not isinstance(setting_value, setting_props["type"]):
             raise SettingValidationError(
                 '"{}" must be "{}", not "{}".'.format(
