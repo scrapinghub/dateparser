@@ -44,7 +44,7 @@ class _minguo_parser(non_gregorian_parser):
         settings: Settings,
         tz: tzinfo | None = None,
         date_order: str | None = None,
-    ) -> tuple[datetime, str | None, _Directives]:
+    ) -> tuple[datetime, str | None, tuple[str, ...], _Directives]:
         return super(non_gregorian_parser, cls).parse(
             datestring, settings, tz, date_order or "YMD"
         )

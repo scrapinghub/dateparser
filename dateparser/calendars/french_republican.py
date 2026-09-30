@@ -60,7 +60,7 @@ class _french_republican_parser:
     @classmethod
     def parse(
         cls, datestring: str, settings: "Settings"
-    ) -> "tuple[datetime, str | None, _Directives]":
+    ) -> "tuple[datetime, str | None, tuple[str, ...], _Directives]":
         normalized = "".join(
             char
             for char in unicodedata.normalize("NFKD", datestring.strip())
@@ -93,7 +93,8 @@ class _french_republican_parser:
             )
         date = datetime(*french_republican.to_gregorian(year, month, day))
         period = "day" if match["day"] else "month" if match["month"] else "year"
-        return date, period, None
+        parts = ("year", "month", "day")[: ("year", "month", "day").index(period) + 1]
+        return date, period, parts, None
 
 
 class FrenchRepublicanCalendar(CalendarBase):

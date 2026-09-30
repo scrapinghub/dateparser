@@ -28,37 +28,48 @@ class TestFrenchRepublicanCalendar(BaseTestCase):
         assert date_data is not None
         self.assertEqual(date_data.date_obj, expected)
         self.assertEqual(date_data.period, "day")
+        self.assertEqual(date_data.parts, ("year", "month", "day"))
 
     @parameterized.expand(
         [
-            param("An XIV", datetime(1805, 9, 23), "year"),
-            param("An 3.eme", datetime(1794, 9, 22), "year"),
-            param("An IVme.", datetime(1795, 9, 23), "year"),
-            param("Sans-culottides an I", datetime(1793, 9, 17), "month"),
+            param("An XIV", datetime(1805, 9, 23), "year", ("year",)),
+            param("An 3.eme", datetime(1794, 9, 22), "year", ("year",)),
+            param("An IVme.", datetime(1795, 9, 23), "year", ("year",)),
+            param(
+                "Sans-culottides an I",
+                datetime(1793, 9, 17),
+                "month",
+                ("year", "month"),
+            ),
         ]
     )
     def test_prefer_first(
-        self, date_string: str, expected: datetime, period: str
+        self,
+        date_string: str,
+        expected: datetime,
+        period: str,
+        parts: tuple[str, ...],
     ) -> None:
         first = settings.replace(
             PREFER_DAY_OF_MONTH="first", PREFER_MONTH_OF_YEAR="first"
         )
         self.assertEqual(
-            _french_republican_parser.parse(date_string, first)[:2], (expected, period)
+            _french_republican_parser.parse(date_string, first)[:3],
+            (expected, period, parts),
         )
 
     def test_prefer_current(self) -> None:
         current = settings.replace(RELATIVE_BASE=datetime(2026, 9, 29))
         self.assertEqual(
-            _french_republican_parser.parse("an VIII", current)[:2],
-            (datetime(1799, 9, 29), "year"),
+            _french_republican_parser.parse("an VIII", current)[:3],
+            (datetime(1799, 9, 29), "year", ("year",)),
         )
 
     def test_prefer_last(self) -> None:
         last = settings.replace(PREFER_DAY_OF_MONTH="last", PREFER_MONTH_OF_YEAR="last")
         self.assertEqual(
-            _french_republican_parser.parse("an III", last)[:2],
-            (datetime(1795, 9, 22), "year"),
+            _french_republican_parser.parse("an III", last)[:3],
+            (datetime(1795, 9, 22), "year", ("year",)),
         )
 
     @parameterized.expand(

@@ -19,6 +19,7 @@ from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
     _get_localzone,
     _get_missing_parts,
+    _get_parts,
     apply_timezone_from_settings,
     get_next_leap_year,
     get_previous_leap_year,
@@ -315,7 +316,12 @@ def _parse_with_formats(
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
-            return DateData(date_obj=date_obj, period=period, date_format=date_format)
+            return DateData(
+                date_obj=date_obj,
+                period=period,
+                parts=_get_parts(date_format),
+                date_format=date_format,
+            )
     return DateData(date_obj=None, period=period)
 
 
@@ -396,6 +402,7 @@ class _DateLocaleParser:
                 self.date_string, self._settings, negative=negative
             ),
             period="time" if self._settings.RETURN_TIME_AS_PERIOD else "day",
+            parts=("year", "month", "day", "time"),
         )
 
     def _try_timestamp(self) -> "DateData":
@@ -419,7 +426,10 @@ class _DateLocaleParser:
         return self._try_parser(parse_method=_parse_nospaces)
 
     def _try_parser(
-        self, parse_method: Callable[..., tuple[datetime, str | None, _Directives]]
+        self,
+        parse_method: Callable[
+            ..., tuple[datetime, str | None, tuple[str, ...], _Directives]
+        ],
     ) -> "DateData | None":
         original_order = self._settings.DATE_ORDER
 
@@ -450,7 +460,7 @@ class _DateLocaleParser:
 
         for order in candidates:
             try:
-                date_obj, period, directives = date_parser.parse(
+                date_obj, period, parts, directives = date_parser.parse(
                     translated,
                     parse_method=parse_method,
                     settings=self._settings,
@@ -459,6 +469,7 @@ class _DateLocaleParser:
                 return DateData(
                     date_obj=date_obj,
                     period=period,
+                    parts=parts,
                     date_format=partial(
                         self._get_date_format, date_obj, directives, self._now()
                     ),
@@ -541,11 +552,17 @@ class DateData:
         date_obj: datetime | None = None,
         period: str | None = None,
         locale: str | None = None,
+        parts: tuple[str, ...] = (),
         date_format: str | Callable[[], str | None] | None = None,
     ) -> None:
         self.date_obj = date_obj
         self.period = period
         self.locale = locale
+        self.parts = parts
+        """Parts of :attr:`date_obj` determined by the parsed string, as a
+        tuple with some or all of ``"year"``, ``"month"``, ``"day"`` and
+        ``"time"``, in that order. The remaining parts come from
+        :ref:`settings`, e.g. ``RELATIVE_BASE`` or ``PREFER_DAY_OF_MONTH``."""
         self.date_format = date_format
 
     @property
@@ -574,7 +591,7 @@ class DateData:
     def __repr__(self) -> str:
         properties_text = ", ".join(
             f"{prop}={self[prop]!r}"
-            for prop in ("date_obj", "period", "locale", "date_format")
+            for prop in ("date_obj", "period", "locale", "parts", "date_format")
         )
 
         return f"{self.__class__.__name__}({properties_text})"
@@ -719,20 +736,29 @@ class DateDataParser:
         Hence, the level of precision is ``month``:
 
             >>> DateDataParser().get_date_data('March 2015')
-            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en', date_format='%B %Y')
+            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en',
+            parts=('year', 'month'), date_format='%B %Y')
 
         Similarly, for date strings with no day and month information present, level of precision
         is ``year`` and day ``16`` and month ``6`` are from *current_date*.
 
             >>> DateDataParser().get_date_data('2014')
-            DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en', date_format='%Y')
+            DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en',
+            parts=('year',), date_format='%Y')
+
+        *Parts* lists the parts of the date that the given string determines,
+        including those that *period* cannot tell apart, like a missing year:
+
+            >>> DateDataParser().get_date_data('16 March')
+            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='day', locale='en',
+            parts=('month', 'day'), date_format='%d %B')
 
         Dates with time zone indications or UTC offsets are returned in UTC time unless
         specified using `Settings <https://dateparser.readthedocs.io/en/latest/settings.html#settings>`__.
 
             >>> DateDataParser().get_date_data('23 March 2000, 1:21 PM CET')
             DateData(date_obj=datetime.datetime(2000, 3, 23, 13, 21, tzinfo=<StaticTzInfo 'CET'>),
-            period='day', locale='en', date_format=None)
+            period='day', locale='en', parts=('year', 'month', 'day', 'time'), date_format=None)
 
         """
         if not isinstance(date_string, str):

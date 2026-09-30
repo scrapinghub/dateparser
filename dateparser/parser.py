@@ -11,6 +11,7 @@ import regex as re
 
 from dateparser.utils import (
     _get_missing_parts,
+    _get_parts,
     get_last_day_of_month,
     get_next_leap_year,
     get_previous_leap_year,
@@ -86,7 +87,7 @@ def _parse_absolute(
     settings: "Settings",
     tz: tzinfo | None = None,
     date_order: str | None = None,
-) -> tuple[datetime, str | None, _Directives]:
+) -> tuple[datetime, str | None, tuple[str, ...], _Directives]:
     return _parser.parse(datestring, settings, tz, date_order=date_order)
 
 
@@ -95,7 +96,7 @@ def _parse_nospaces(
     settings: "Settings",
     tz: tzinfo | None = None,
     date_order: str | None = None,
-) -> tuple[datetime, str, _Directives]:
+) -> tuple[datetime, str, tuple[str, ...], _Directives]:
     return _no_spaces_parser.parse(datestring, settings, date_order=date_order)
 
 
@@ -208,12 +209,13 @@ class _no_spaces_parser:
     @classmethod
     def _find_best_matching_date(
         cls, datestring: str
-    ) -> tuple[datetime, str, _Directives] | None:
+    ) -> tuple[datetime, str, tuple[str, ...], _Directives] | None:
         for fmt in cls._preferred_formats_ordered_8_digit:
             with contextlib.suppress(Exception):
-                dt: tuple[datetime, str, _Directives] = (
+                dt: tuple[datetime, str, tuple[str, ...], _Directives] = (
                     strptime(datestring, fmt),
                     cls._get_period(fmt),
+                    _get_parts(fmt),
                     [(datestring, fmt)],
                 )
                 if len(str(dt[0].year)) == 4:
@@ -223,7 +225,7 @@ class _no_spaces_parser:
     @classmethod
     def parse(
         cls, datestring: str, settings: "Settings", date_order: str | None = None
-    ) -> tuple[datetime, str, _Directives]:
+    ) -> tuple[datetime, str, tuple[str, ...], _Directives]:
         if not no_space_parser_eligibile(datestring):
             raise ValueError(f"Unable to parse date from: {datestring}")
 
@@ -241,11 +243,16 @@ class _no_spaces_parser:
                 if dt is not None:
                     return dt
         nsp = cls()
-        ambiguous_date: tuple[datetime, str, _Directives] | None = None
+        ambiguous_date: tuple[datetime, str, tuple[str, ...], _Directives] | None = None
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[order]:
                 with contextlib.suppress(Exception):
-                    dt = strptime(token, fmt), cls._get_period(fmt), [(token, fmt)]
+                    dt = (
+                        strptime(token, fmt),
+                        cls._get_period(fmt),
+                        _get_parts(fmt),
+                        [(token, fmt)],
+                    )
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
                         continue
@@ -482,6 +489,16 @@ class _parser:
 
         return "day"
 
+    def _get_parts(self) -> tuple[str, ...]:
+        parts = tuple(part for part in ("year", "month", "day") if getattr(self, part))
+        if not parts and (hasattr(self, "_token_weekday") or self.time):
+            # A weekday or a time on its own is resolved to a full date by
+            # _correct_for_time_frame.
+            parts = ("year", "month", "day")
+        if self.time:
+            parts += ("time",)
+        return parts
+
     def _get_datetime_obj(self, **params: Any) -> datetime:
         try:
             return datetime(**params)
@@ -619,7 +636,7 @@ class _parser:
 
         if self.month and not self.year:
             try:
-                if self.now < dateobj:
+                if self.now < self._correct_for_day(dateobj):
                     if self.settings.PREFER_DATES_FROM == "past":
                         dateobj = dateobj.replace(year=dateobj.year - 1)
                 elif self.settings.PREFER_DATES_FROM == "future":
@@ -698,7 +715,7 @@ class _parser:
         settings: "Settings",
         tz: tzinfo | None = None,
         date_order: str | None = None,
-    ) -> tuple[datetime, str | None, _Directives]:
+    ) -> tuple[datetime, str | None, tuple[str, ...], _Directives]:
         tokens = list(tokenizer(datestring).tokenize())
         date_order = date_order or settings.DATE_ORDER
         try:
@@ -729,7 +746,7 @@ class _parser:
 
         period = po._get_period()
 
-        return dateobj, period, po._get_directives()
+        return dateobj, period, po._get_parts(), po._get_directives()
 
     def _get_directives(self) -> _Directives:
         """Return a ``(token, directive)`` pair for each number or word
