@@ -1201,6 +1201,12 @@ class TestDateParser(BaseTestCase):
             param("²⁹/⁰⁵/²⁰¹⁵", expected=datetime(2015, 5, 29), period="day"),
             param("₁₅/₀₂/₂₀₂₀", expected=datetime(2020, 2, 15), period="day"),
             param("₃₁ December", expected=datetime(2015, 12, 31), period="day"),
+            # Roman numeral years
+            param("MCMXCIX", expected=datetime(1999, 2, 15), period="year"),
+            param("M.DC.LXXIX.", expected=datetime(1679, 2, 15), period="year"),
+            param(
+                "April MCCCCLXXVIIII", expected=datetime(1479, 4, 15), period="month"
+            ),
             # Russian
             param("1000 год", expected=datetime(1000, 2, 15), period="year"),
             param("1001 год", expected=datetime(1001, 2, 15), period="year"),

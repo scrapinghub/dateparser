@@ -1379,6 +1379,11 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("2005 г. 15:24"), "2005 15:24")
         self.assertEqual(date.sanitize_date("Авг."), "Авг")
 
+    def test_sanitize_date_roman_numeral_years(self) -> None:
+        self.assertEqual(date.sanitize_date("Anno MDCCXVII."), "Anno 1717")
+        for date_string in ("MD", "MIXED", "mdccxvii", "MDCLXXXIIX", "CMXCIX"):
+            self.assertEqual(date.sanitize_date(date_string), date_string)
+
     def test_sanitize_date_decimal_comma(self) -> None:
         self.assertEqual(date.sanitize_date("06:38:49,946"), "06:38:49.946")
         self.assertEqual(date.sanitize_date("06:38:49,12 June"), "06:38:49,12 June")
