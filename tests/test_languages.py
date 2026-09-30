@@ -159,6 +159,10 @@ class TestBundledLanguages(BaseTestCase):
             # Arabic
             param("ar", "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
             param("ar", "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
+            param("ar", "الجمعه 5 يونيه 2020", "friday 5 june 2020"),
+            param("ar", "6 يونية 2020", "6 june 2020"),
+            param("ar", "7 يوليه 2020", "7 july 2020"),
+            param("ar", "8 يولية 2020", "8 july 2020"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
             param(
@@ -1256,6 +1260,8 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "يومين", "2 day"),
             param("ar", "أمس", "1 day ago"),
             param("ar", "4 عام", "4 year"),
+            param("ar", "4 السنه", "4 year"),
+            param("ar", "منذ 3 ثانيه", "ago 3 second"),
             param("ar", "منذ 2 ساعات", "ago 2 hour"),
             param("ar", "منذ ساعتين", "ago 2 hour"),
             param("ar", "اليوم السابق", "1 day ago"),
