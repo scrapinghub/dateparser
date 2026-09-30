@@ -11,8 +11,7 @@ from the same source.
 :class:`DateDataParser <dateparser.date.DateDataParser>` provides an alternate and efficient way
 to control language detection behavior.
 
-The instance of :class:`DateDataParser <dateparser.date.DateDataParser>` caches the found
-languages and will prioritize them when trying to parse the next string.
+See :ref:`performance` for ways to make parsing faster.
 
 :class:`dateparser.date.DateDataParser` can also be initialized with known languages:
 
