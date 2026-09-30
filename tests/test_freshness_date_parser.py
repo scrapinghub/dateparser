@@ -32,7 +32,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.date = NotImplemented
         self.time = NotImplemented
 
-        settings.TIMEZONE = "utc"
+        self.add_patch(patch.object(settings, "TIMEZONE", "utc"))
 
     def now_with_timezone(self, tz: tzinfo | None) -> datetime:
         now = self.now
@@ -2368,6 +2368,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("15th of Aug, 2014 Diane Bennett"),
             param("4 heures ago"),
             param("the 31st of the month"),
+            param("the 31st of this month"),
+            param("the 1st of last month 2 days ago"),
         ]
     )
     def test_insane_dates(self, date_string: str) -> None:
@@ -2605,7 +2607,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 10.75 minutes", date(2010, 6, 4), time(13, 25, 45)),
             param("in 1.5 days", date(2010, 6, 6), time(1, 15)),
             param("0,5 hours ago", date(2010, 6, 4), time(12, 45)),
+            # Day of a relative month
             param("the 1st of the month", date(2010, 6, 1), time(13, 15)),
+            param("the 1st of last month", date(2010, 5, 1), time(13, 15)),
+            param("the 1st of this month", date(2010, 6, 1), time(13, 15)),
+            param("30th of next month at 5pm", date(2010, 7, 30), time(17, 0)),
         ]
     )
     def test_freshness_date_with_relative_base(
@@ -2656,6 +2662,32 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.when_date_is_parsed()
         self.then_date_is(date)
         self.then_time_is(time)
+
+    @parameterized.expand(
+        [
+            param("this month", {"PREFER_DAY_OF_MONTH": "first"}, date(2010, 6, 1)),
+            param("next month", {"PREFER_DAY_OF_MONTH": "last"}, date(2010, 7, 31)),
+            param("2 months ago", {"PREFER_DAY_OF_MONTH": "last"}, date(2010, 4, 30)),
+            param("next month", {"PREFER_DAY_OF_MONTH": "current"}, date(2010, 7, 4)),
+            param("next week", {"PREFER_DAY_OF_MONTH": "first"}, date(2010, 6, 11)),
+            param(
+                "last year",
+                {"PREFER_MONTH_OF_YEAR": "first", "PREFER_DAY_OF_MONTH": "first"},
+                date(2009, 1, 1),
+            ),
+            param("last year", {"PREFER_MONTH_OF_YEAR": "last"}, date(2009, 12, 4)),
+        ]
+    )
+    def test_freshness_date_with_prefer_day_and_month(
+        self, date_string: str, prefer_settings: dict[str, Any], date: date
+    ) -> None:
+        self.given_parser(
+            settings={"RELATIVE_BASE": datetime(2010, 6, 4, 13, 15), **prefer_settings}
+        )
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time(13, 15))
 
     def test_long_digit_run_does_not_hang(self) -> None:
         # Possessive quantifiers (\d++[.,]?\d*+) prevent quadratic backtracking.
