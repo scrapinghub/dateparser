@@ -11,6 +11,7 @@ import regex as re
 
 from dateparser.utils import (
     _get_missing_parts,
+    _get_parts,
     _now,
     get_last_day_of_month,
     get_next_leap_year,
@@ -85,7 +86,7 @@ def _parse_absolute(
     settings: "Settings",
     tz: tzinfo | None = None,
     date_order: str | None = None,
-) -> tuple[datetime, str | None]:
+) -> tuple[datetime, str | None, tuple[str, ...]]:
     return _parser.parse(datestring, settings, tz, date_order=date_order)
 
 
@@ -94,7 +95,7 @@ def _parse_nospaces(
     settings: "Settings",
     tz: tzinfo | None = None,
     date_order: str | None = None,
-) -> tuple[datetime, str]:
+) -> tuple[datetime, str, tuple[str, ...]]:
     return _no_spaces_parser.parse(datestring, settings, date_order=date_order)
 
 
@@ -205,10 +206,12 @@ class _no_spaces_parser:
         return "year"
 
     @classmethod
-    def _find_best_matching_date(cls, datestring: str) -> tuple[datetime, str] | None:
+    def _find_best_matching_date(
+        cls, datestring: str
+    ) -> tuple[datetime, str, tuple[str, ...]] | None:
         for fmt in cls._preferred_formats_ordered_8_digit:
             with contextlib.suppress(Exception):
-                dt = strptime(datestring, fmt), cls._get_period(fmt)
+                dt = strptime(datestring, fmt), cls._get_period(fmt), _get_parts(fmt)
                 if len(str(dt[0].year)) == 4:
                     return dt
         return None
@@ -216,7 +219,7 @@ class _no_spaces_parser:
     @classmethod
     def parse(
         cls, datestring: str, settings: "Settings", date_order: str | None = None
-    ) -> tuple[datetime, str]:
+    ) -> tuple[datetime, str, tuple[str, ...]]:
         if not no_space_parser_eligibile(datestring):
             raise ValueError(f"Unable to parse date from: {datestring}")
 
@@ -234,11 +237,11 @@ class _no_spaces_parser:
                 if dt is not None:
                     return dt
         nsp = cls()
-        ambiguous_date: tuple[datetime, str] | None = None
+        ambiguous_date: tuple[datetime, str, tuple[str, ...]] | None = None
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[order]:
                 with contextlib.suppress(Exception):
-                    dt = strptime(token, fmt), cls._get_period(fmt)
+                    dt = strptime(token, fmt), cls._get_period(fmt), _get_parts(fmt)
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
                         continue
@@ -474,6 +477,16 @@ class _parser:
 
         return "day"
 
+    def _get_parts(self) -> tuple[str, ...]:
+        parts = tuple(part for part in ("year", "month", "day") if getattr(self, part))
+        if not parts and (hasattr(self, "_token_weekday") or self.time):
+            # A weekday or a time on its own is resolved to a full date by
+            # _correct_for_time_frame.
+            parts = ("year", "month", "day")
+        if self.time:
+            parts += ("time",)
+        return parts
+
     def _get_datetime_obj(self, **params: Any) -> datetime:
         try:
             return datetime(**params)
@@ -609,7 +622,7 @@ class _parser:
 
         if self.month and not self.year:
             try:
-                if self.now < dateobj:
+                if self.now < self._correct_for_day(dateobj):
                     if self.settings.PREFER_DATES_FROM == "past":
                         dateobj = dateobj.replace(year=dateobj.year - 1)
                 elif self.settings.PREFER_DATES_FROM == "future":
@@ -689,7 +702,7 @@ class _parser:
         settings: "Settings",
         tz: tzinfo | None = None,
         date_order: str | None = None,
-    ) -> tuple[datetime, str | None]:
+    ) -> tuple[datetime, str | None, tuple[str, ...]]:
         tokens = list(tokenizer(datestring).tokenize())
         date_order = date_order or settings.DATE_ORDER
         try:
@@ -720,7 +733,7 @@ class _parser:
 
         period = po._get_period()
 
-        return dateobj, period
+        return dateobj, period, po._get_parts()
 
     def _parse(
         self, token_type: int, token: str, skip_component: str | None = None

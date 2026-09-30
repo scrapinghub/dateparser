@@ -9,6 +9,8 @@ from dateparser.utils import (
     _get_localzone,
     apply_timezone,
     localize_timezone,
+    set_correct_day_from_settings,
+    set_correct_month_from_settings,
     strip_braces,
 )
 
@@ -48,7 +50,7 @@ class FreshnessDateDataParser:
 
     def parse(  # noqa: PLR0912
         self, date_string: str, settings: "Settings"
-    ) -> tuple[datetime | None, str | None]:
+    ) -> tuple[datetime | None, str | None, tuple[str, ...]]:
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
         _time = self._parse_time(date_string, settings)
@@ -92,13 +94,21 @@ class FreshnessDateDataParser:
         else:
             now = datetime.now(self.get_local_tz())
 
-        date, period = self._parse_date(date_string, now, settings.PREFER_DATES_FROM)
+        date, period, parts = self._parse_date(
+            date_string, now, settings.PREFER_DATES_FROM
+        )
 
         if date:
+            if period == "year":
+                date = set_correct_month_from_settings(date, settings, date.month)
+            if period in ("year", "month"):
+                date = set_correct_day_from_settings(date, settings, date.day)
             old_date = date
             date = apply_time(date, _time)
             if settings.RETURN_TIME_AS_PERIOD and old_date != date:
                 period = "time"
+            if isinstance(_time, time) and "time" not in parts:
+                parts += ("time",)
 
             if settings.TO_TIMEZONE:
                 date = apply_timezone(date, settings.TO_TIMEZONE)
@@ -110,13 +120,13 @@ class FreshnessDateDataParser:
             ):
                 date = date.replace(tzinfo=None)
 
-        return date, period
+        return date, period, parts
 
-    def _parse_date(
+    def _parse_date(  # noqa: PLR0912
         self, date_string: str, now: datetime, prefer_dates_from: str
-    ) -> tuple[datetime, str] | tuple[None, None]:
+    ) -> tuple[datetime, str, tuple[str, ...]] | tuple[None, None, tuple[()]]:
         if not self._are_all_words_units(date_string):
-            return None, None
+            return None, None, ()
 
         result = self.get_kwargs(date_string)
         if isinstance(result, tuple):
@@ -126,7 +136,7 @@ class FreshnessDateDataParser:
             explicit_signs = {}
 
         if not kwargs:
-            return None, None
+            return None, None, ()
         period = "day"
         if "days" not in kwargs:
             for k in ["weeks", "months", "years", "decades"]:
@@ -159,7 +169,19 @@ class FreshnessDateDataParser:
 
         date = now + td
 
-        return date, period
+        # The smallest unit in the string determines which parts of the
+        # resulting date are meaningful.
+        parts: tuple[str, ...]
+        if kwargs.keys() & {"seconds", "minutes", "hours"}:
+            parts = ("year", "month", "day", "time")
+        elif kwargs.keys() & {"days", "weeks"}:
+            parts = ("year", "month", "day")
+        elif "months" in kwargs:
+            parts = ("year", "month")
+        else:
+            parts = ("year",)
+
+        return date, period, parts
 
     def get_kwargs(
         self, date_string: str
@@ -181,8 +203,8 @@ class FreshnessDateDataParser:
     def get_date_data(self, date_string: str, settings: "Settings") -> "DateData":
         from dateparser.date import DateData  # noqa: PLC0415
 
-        date, period = self.parse(date_string, settings)
-        return DateData(date_obj=date, period=period)
+        date, period, parts = self.parse(date_string, settings)
+        return DateData(date_obj=date, period=period, parts=parts)
 
 
 freshness_date_parser = FreshnessDateDataParser()

@@ -18,6 +18,7 @@ from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
     _get_localzone,
     _get_missing_parts,
+    _get_parts,
     _now,
     apply_timezone_from_settings,
     get_next_leap_year,
@@ -301,7 +302,9 @@ def parse_with_formats(
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
-            return DateData(date_obj=date_obj, period=period)
+            return DateData(
+                date_obj=date_obj, period=period, parts=_get_parts(date_format)
+            )
     return DateData(date_obj=None, period=period)
 
 
@@ -363,6 +366,7 @@ class _DateLocaleParser:
                 self.date_string, self._settings, negative=negative
             ),
             period="time" if self._settings.RETURN_TIME_AS_PERIOD else "day",
+            parts=("year", "month", "day", "time"),
         )
 
     def _try_timestamp(self) -> "DateData":
@@ -386,7 +390,7 @@ class _DateLocaleParser:
         return self._try_parser(parse_method=_parse_nospaces)
 
     def _try_parser(
-        self, parse_method: Callable[..., tuple[datetime, str | None]]
+        self, parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]]
     ) -> "DateData | None":
         original_order = self._settings.DATE_ORDER
 
@@ -417,13 +421,13 @@ class _DateLocaleParser:
 
         for order in candidates:
             try:
-                date_obj, period = date_parser.parse(
+                date_obj, period, parts = date_parser.parse(
                     translated,
                     parse_method=parse_method,
                     settings=self._settings,
                     date_order=order,
                 )
-                return DateData(date_obj=date_obj, period=period)
+                return DateData(date_obj=date_obj, period=period, parts=parts)
             except ValueError:
                 continue
         return None
@@ -480,10 +484,16 @@ class DateData:
         date_obj: datetime | None = None,
         period: str | None = None,
         locale: str | None = None,
+        parts: tuple[str, ...] = (),
     ) -> None:
         self.date_obj = date_obj
         self.period = period
         self.locale = locale
+        self.parts = parts
+        """Parts of :attr:`date_obj` determined by the parsed string, as a
+        tuple with some or all of ``"year"``, ``"month"``, ``"day"`` and
+        ``"time"``, in that order. The remaining parts come from
+        :ref:`settings`, e.g. ``RELATIVE_BASE`` or ``PREFER_DAY_OF_MONTH``."""
 
     def __getitem__(self, k: str) -> Any:
         if not hasattr(self, k):
@@ -642,20 +652,29 @@ class DateDataParser:
         Hence, the level of precision is ``month``:
 
             >>> DateDataParser().get_date_data('March 2015')
-            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en')
+            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en',
+            parts=('year', 'month'))
 
         Similarly, for date strings with no day and month information present, level of precision
         is ``year`` and day ``16`` and month ``6`` are from *current_date*.
 
             >>> DateDataParser().get_date_data('2014')
-            DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en')
+            DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en',
+            parts=('year',))
+
+        *Parts* lists the parts of the date that the given string determines,
+        including those that *period* cannot tell apart, like a missing year:
+
+            >>> DateDataParser().get_date_data('16 March')
+            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='day', locale='en',
+            parts=('month', 'day'))
 
         Dates with time zone indications or UTC offsets are returned in UTC time unless
         specified using `Settings <https://dateparser.readthedocs.io/en/latest/settings.html#settings>`__.
 
             >>> DateDataParser().get_date_data('23 March 2000, 1:21 PM CET')
             DateData(date_obj=datetime.datetime(2000, 3, 23, 13, 21, tzinfo=<StaticTzInfo 'CET'>),
-            period='day', locale='en')
+            period='day', locale='en', parts=('year', 'month', 'day', 'time'))
 
         """
         if not isinstance(date_string, str):
@@ -705,9 +724,9 @@ class DateDataParser:
 
     def get_date_tuple(self, *args: Any, **kwargs: Any) -> tuple[Any, ...]:
         date_data = self.get_date_data(*args, **kwargs)
-        fields = date_data.__dict__.keys()
+        fields = {k: v for k, v in date_data.__dict__.items() if k != "parts"}
         date_tuple = collections.namedtuple("DateData", fields)  # type: ignore[misc]  # noqa: PYI024
-        result: tuple[Any, ...] = date_tuple(**date_data.__dict__)
+        result: tuple[Any, ...] = date_tuple(**fields)
         return result
 
     def _get_applicable_locales(

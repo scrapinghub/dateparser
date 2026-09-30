@@ -23,7 +23,7 @@ class TestDateParser(BaseTestCase):
         self.parser: DateDataParser = NotImplemented
         self.result: DateData = NotImplemented
         self.date_parser: Mock = NotImplemented
-        self.date_result: tuple[datetime, str | None] = NotImplemented
+        self.date_result: tuple[datetime, str | None, tuple[str, ...]] = NotImplemented
 
     @parameterized.expand(
         [
@@ -931,6 +931,50 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(datetime(2012, 4, 24))
 
+    @parameterized.expand(
+        [
+            param("past", "first", datetime(2025, 4, 1)),
+            param("past", "current", datetime(2025, 4, 4)),
+            param("past", "last", datetime(2024, 4, 30)),
+            param("future", "first", datetime(2026, 4, 1)),
+            param("future", "current", datetime(2026, 4, 4)),
+            param("future", "last", datetime(2025, 4, 30)),
+        ]
+    )
+    def test_day_preference_decides_if_current_month_is_past_or_future(
+        self, prefer_dates_from: str, prefer_day_of_month: str, expected: datetime
+    ) -> None:
+        self.given_parser(
+            settings={
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "PREFER_DAY_OF_MONTH": prefer_day_of_month,
+                "RELATIVE_BASE": datetime(2025, 4, 4, 12),
+            }
+        )
+        self.when_date_is_parsed("April")
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("past", datetime(2024, 2, 1), datetime(2023, 2, 28)),
+            param("future", datetime(2024, 3, 1), datetime(2025, 2, 28)),
+        ]
+    )
+    def test_last_day_of_february_moved_to_another_year(
+        self, prefer_dates_from: str, today: datetime, expected: datetime
+    ) -> None:
+        self.given_parser(
+            settings={
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "PREFER_DAY_OF_MONTH": "last",
+                "RELATIVE_BASE": today,
+            }
+        )
+        self.when_date_is_parsed("February")
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
     def test_date_is_parsed_when_skip_tokens_are_supplied(self) -> None:
         self.given_parser(
             settings={"SKIP_TOKENS": ["de"], "RELATIVE_BASE": datetime(2015, 2, 12)}
@@ -1823,10 +1867,12 @@ class TestDateParser(BaseTestCase):
 
     def given_parser(self, *args: Any, **kwds: Any) -> None:
         def collecting_get_date_data(
-            parse: Callable[..., tuple[datetime, str | None]],
-        ) -> Callable[..., tuple[datetime, str | None]]:
+            parse: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
+        ) -> Callable[..., tuple[datetime, str | None, tuple[str, ...]]]:
             @wraps(parse)
-            def wrapped(*args: Any, **kwargs: Any) -> tuple[datetime, str | None]:
+            def wrapped(
+                *args: Any, **kwargs: Any
+            ) -> tuple[datetime, str | None, tuple[str, ...]]:
                 self.date_result = parse(*args, **kwargs)
                 return self.date_result
 
