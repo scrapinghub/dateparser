@@ -268,6 +268,13 @@ def parse_with_formats(
     :returns: :class:`datetime.datetime`, dict or None
 
     """
+    now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(tzinfo=None)
+    return _parse_with_formats(date_string, date_formats, settings, now)
+
+
+def _parse_with_formats(
+    date_string: str, date_formats: Iterable[str], settings: Settings, now: datetime
+) -> "DateData":
     period = "day"
     for date_format in date_formats:
         try:
@@ -275,9 +282,6 @@ def parse_with_formats(
         except ValueError:
             continue
         else:
-            now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
-                tzinfo=None
-            )
             _missing = _get_missing_parts(date_format)
             missing_month = "month" in _missing
             missing_day = "day" in _missing
@@ -488,8 +492,7 @@ class _DateLocaleParser:
         date_format = _build_date_format(date_string, directives)
         if date_format is None:
             return None
-        settings = self._settings.replace(RELATIVE_BASE=now)
-        date_data = parse_with_formats(date_string, [date_format], settings)
+        date_data = _parse_with_formats(date_string, [date_format], self._settings, now)
         if date_data.date_obj != date_obj:
             return None
         return date_format
@@ -554,6 +557,9 @@ class DateData:
     @date_format.setter
     def date_format(self, value: str | Callable[[], str | None] | None) -> None:
         self._date_format = value
+
+    def __getstate__(self) -> dict[str, Any]:
+        return {**self.__dict__, "_date_format": self.date_format}
 
     def __getitem__(self, k: str) -> Any:
         if not hasattr(self, k):

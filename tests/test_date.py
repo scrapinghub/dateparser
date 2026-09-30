@@ -1,5 +1,7 @@
+import copy
 import datetime as real_datetime
 import os
+import pickle
 import unittest
 from collections.abc import Iterable
 from datetime import datetime, timedelta
@@ -1582,6 +1584,22 @@ def test_date_format(
         round_trip = parser.get_date_data(date_string, [expected])
         assert round_trip.date_obj == date_data.date_obj
         assert round_trip.date_format == expected
+
+
+@pytest.mark.parametrize(
+    "copy_function", [copy.deepcopy, lambda d: pickle.loads(pickle.dumps(d))]
+)
+def test_date_format_copy(copy_function: Any) -> None:
+    date_data = date.DateDataParser(languages=["en"]).get_date_data("5 July 2017")
+    assert copy_function(date_data).date_format == "%d %B %Y"
+
+
+def test_date_format_settings_cache() -> None:
+    parser = date.DateDataParser(languages=["en"])
+    parser.get_date_data("5 July 2017").date_format
+    registry_size = len(getattr(Settings, "__registry_dict"))
+    parser.get_date_data("5 July 2017").date_format
+    assert len(getattr(Settings, "__registry_dict")) == registry_size
 
 
 if __name__ == "__main__":
