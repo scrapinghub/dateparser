@@ -63,6 +63,7 @@ class Locale:
     _relative_translations: dict[re.Pattern[str], str] | None = None
     _normalized_relative_translations: dict[re.Pattern[str], str] | None = None
     _abbreviations: list[str] | None = None
+    _sentence_splitter: re.Pattern[str] | None = None
     _split_dictionary: dict[str, str | None] | None = None
     _wordchars_for_detection: set[str] | None = None
 
@@ -401,9 +402,9 @@ class Locale:
                 ]
             return self._abbreviations
 
-    def _sentence_split(
-        self, string: str, settings: "Settings | None"
-    ) -> Iterator[str]:
+    def _get_sentence_splitter(self, settings: "Settings | None") -> re.Pattern[str]:
+        if self._sentence_splitter is not None:
+            return self._sentence_splitter
         abbreviations = self._get_abbreviations(settings=settings)
         digit_abbreviations = ["[0-9]"]  # numeric date with full stop
         abbreviation_string = ""
@@ -413,11 +414,14 @@ class Locale:
                 "(?<! " + abbreviation[:-1] + ")"
             )  # negative lookbehind
         # Full stops of abbreviated month and weekday names, e.g. "31 Jul. 1999".
-        names = [
-            name
-            for key in KNOWN_WORD_TOKENS[: KNOWN_WORD_TOKENS.index("december") + 1]
-            for name in self.info.get(key, [])
-        ]
+        # The longest name of each month and weekday is left out, so that
+        # "on Monday. 5 people came." is still split.
+        names: list[str] = []
+        for key in KNOWN_WORD_TOKENS[: KNOWN_WORD_TOKENS.index("december") + 1]:
+            key_names = self.info.get(key, [])
+            if len(key_names) > 1:
+                longest = max(map(len, key_names))
+                names.extend(name for name in key_names if len(name) < longest)
         if names:
             abbreviation_string += (
                 r"(?!(?<=\b(?i:" + "|".join(map(re.escape, names)) + r"))\.)"
@@ -437,17 +441,16 @@ class Locale:
             5: r"[\r\n]+",  # Thai
             6: r"[\r\n؟!\.…]+(?:\s|$)+",
         }  # Arabic and Farsi
-        if "sentence_splitter_group" not in self.info:
-            split_reg = abbreviation_string + splitters_dict[1]
-            sentences = re.split(split_reg, string)
-        else:
-            split_reg = (
-                abbreviation_string
-                + splitters_dict[self.info["sentence_splitter_group"]]
-            )
-            sentences = re.split(split_reg, string)
+        self._sentence_splitter = re.compile(
+            abbreviation_string
+            + splitters_dict[self.info.get("sentence_splitter_group", 1)]
+        )
+        return self._sentence_splitter
 
-        return filter(None, sentences)
+    def _sentence_split(
+        self, string: str, settings: "Settings | None"
+    ) -> Iterator[str]:
+        return filter(None, self._get_sentence_splitter(settings).split(string))
 
     def _simplify_split_align(  # noqa: PLR0912
         self, original: str, settings: "Settings | None"

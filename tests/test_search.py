@@ -1118,6 +1118,18 @@ class TestTranslateSearch(BaseTestCase):
                     ("On 5 May 2020", datetime.datetime(2020, 5, 5, 0, 0)),
                 ],
             ),
+            param(
+                text="See you on Monday. 5 people will come.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("on Monday", datetime.datetime(2020, 6, 15, 0, 0))],
+            ),
+            param(
+                text="The event is in May. 12 people attended.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("in May", datetime.datetime(2020, 5, 15, 0, 0))],
+            ),
         ]
     )
     def test_date_search_function(
