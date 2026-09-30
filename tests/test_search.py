@@ -1038,6 +1038,14 @@ class TestTranslateSearch(BaseTestCase):
                     ("30 Oct 1974", datetime.datetime(1974, 10, 30, 0, 0)),
                 ],
             ),
+            param(
+                text="The conference is June 12-14, 2021 in Boston.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("June 12-14, 2021 in", datetime.datetime(2021, 6, 12, 0, 0))
+                ],
+            ),
             param(text="a Americ", languages=None, settings=None, expected=None),
             # Date with comma and apostrophe
             param(
