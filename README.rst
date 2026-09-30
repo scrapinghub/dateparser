@@ -162,6 +162,9 @@ Relative Dates
     >>> parse('2小时前')  # Chinese (2 hours ago)
     datetime.datetime(2015, 5, 31, 22, 0)
 
+A comma is read as a decimal mark, and numbers with grouping separators are
+rejected.
+
 .. note:: Testing above code might return different values depending on your environment's current date and time.
 
 .. note:: For the ``Finnish`` language, please specify ``settings={'SKIP_TOKENS': []}`` to correctly parse relative dates.
