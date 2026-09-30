@@ -24,6 +24,8 @@ timezone_info_list: list[dict[str, Any]] = [
             (r"(?:UTC|GMT)\\(\+|\-)(\d{2}):00", r"(?:UTC|GMT)\\\1\2"),
             # UTC+nnmm, UTC-nnmm, GMT+nnmm, GMT-nnmm:
             (r"(?:UTC|GMT)(\\[+-])(\d{2}):(\d{2})", r"(?:UTC|GMT)\1\2:?\3.*"),
+            # +nn, -nn:
+            (r"(?:UTC|GMT)\\(\+|\-)(\d{2}):00", r"(?<=\\s)\\\1\2"),
             # Others:
             (r"UTC", r""),
             (r":", r""),
