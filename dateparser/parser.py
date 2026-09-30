@@ -384,6 +384,19 @@ class _parser:
                     setattr(self, "_token_%s" % attr, token)
                     setattr(self, attr, int(token))
 
+    @classmethod
+    def _has_month_name(cls, tokens):
+        for token, type in tokens:
+            if type != 1:
+                continue
+            for directive in cls.alpha_directives["month"]:
+                try:
+                    strptime(token.strip(), directive)
+                    return True
+                except ValueError:
+                    pass
+        return False
+
     def _get_period(self):
         if self.settings.RETURN_TIME_AS_PERIOD:
             if getattr(self, "time", None):
@@ -606,9 +619,23 @@ class _parser:
 
     @classmethod
     def parse(cls, datestring, settings, tz=None, date_order=None):
-        tokens = tokenizer(datestring)
-        po = cls(tokens.tokenize(), settings, date_order=date_order)
-        dateobj = po._results()
+        tokens = list(tokenizer(datestring).tokenize())
+        date_order = date_order or settings.DATE_ORDER
+        try:
+            po = cls(tokens, settings, date_order=date_order)
+            dateobj = po._results()
+        except ValueError as error:
+            if (
+                "DATE_ORDER" not in settings._mod_settings
+                or str(error).startswith("Fields missing")
+                or cls._has_month_name(tokens)
+            ):
+                raise
+            # The numbers do not fit the date order set by the caller, so read
+            # them with the day and month swapped, e.g. "2021-01-13" with YDM.
+            swapped = date_order.translate(str.maketrans("DM", "MD"))
+            po = cls(tokens, settings, date_order=swapped)
+            dateobj = po._results()
 
         # correction for past, future if applicable
         dateobj = po._correct_for_time_frame(dateobj, tz)
@@ -639,13 +666,12 @@ class _parser:
                 skip_component == "year"
                 and self.day is None
                 and self.month is None
-                and "DATE_ORDER" not in self.settings._mod_settings
+                and not self._date_order.startswith("Y")
             ):
                 # The date string starts with a four-digit year (e.g. an
                 # ISO 8601 date like "2017-06-22"), so the remaining numeric
-                # components are expected in month-day order, regardless of
-                # the locale date order, unless the caller explicitly set
-                # DATE_ORDER (#360).
+                # components are expected in month-day order, unless the date
+                # order itself puts the year first (e.g. YDM).
                 num_directives = {
                     k: self.num_directives[k] for k in ("month", "day", "year")
                 }

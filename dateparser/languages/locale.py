@@ -179,6 +179,15 @@ class Locale:
 
         relative_translations = self._get_relative_translations(settings=settings)
 
+        # A token that could be either a weekday or a month abbreviation (see
+        # Dictionary._weekday_month_conflicts) can only be the weekday if another,
+        # unambiguous month is present elsewhere in the string - otherwise it keeps
+        # meaning a month, as it does everywhere else in the string's locale.
+        has_unambiguous_month = any(
+            dictionary._is_unambiguous_month(token.lower())
+            for token in date_string_tokens
+        )
+
         for i, word in enumerate(date_string_tokens):
             word = word.lower()
             for pattern, replacement in relative_translations.items():
@@ -186,7 +195,12 @@ class Locale:
                     date_string_tokens[i] = pattern.sub(replacement, word)
                     break
             else:
-                if word in dictionary:
+                if (
+                    has_unambiguous_month
+                    and word in dictionary._weekday_month_conflicts
+                ):
+                    date_string_tokens[i] = dictionary._weekday_month_conflicts[word]
+                elif word in dictionary:
                     fallback = word if keep_formatting and not word.isalpha() else ""
                     date_string_tokens[i] = dictionary[word] or fallback
         if "in" in date_string_tokens:

@@ -1,3 +1,4 @@
+import calendar
 import itertools
 from datetime import datetime
 
@@ -16,6 +17,7 @@ from dateparser.utils import (
     localize_timezone,
     registry,
 )
+from dateparser.utils.strptime import patch_strptime
 from tests import BaseTestCase
 
 
@@ -24,6 +26,13 @@ class TestUtils(BaseTestCase):
         super().setUp()
         self.date_format = None
         self.result = None
+
+    def test_patch_strptime_preserves_global_calendar(self):
+        before = vars(calendar).copy()
+        patch_strptime()
+        self.assertEqual(set(vars(calendar)), set(before))
+        for name, value in before.items():
+            self.assertIs(getattr(calendar, name), value, name)
 
     def given_date_format(self, date_format):
         self.date_format = date_format
