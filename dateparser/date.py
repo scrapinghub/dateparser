@@ -4,7 +4,7 @@ import itertools
 import threading
 from collections.abc import Callable, Iterable, Iterator
 from collections.abc import Set as AbstractSet
-from datetime import date, datetime, timedelta, timezone, tzinfo
+from datetime import date, datetime, timedelta, tzinfo
 from itertools import count
 from typing import TYPE_CHECKING, Any, TypeVar
 
@@ -22,6 +22,7 @@ from dateparser.utils import (
     _get_localzone,
     _get_missing_parts,
     _get_parts,
+    _now,
     apply_timezone_from_settings,
     get_next_leap_year,
     get_previous_leap_year,
@@ -296,9 +297,7 @@ def parse_with_formats(
                 period = "month"
                 date_obj = set_correct_day_from_settings(date_obj, settings)
 
-            now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
-                tzinfo=None
-            )
+            now = settings.RELATIVE_BASE or _now(settings)
             if "year" in _missing:
                 date_obj = date_obj.replace(year=now.year)
             elif "%y" in date_format and "%Y" not in date_format:
