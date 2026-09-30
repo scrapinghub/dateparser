@@ -76,7 +76,7 @@ class _ExactLanguageSearch:
                 if item[0]["date_obj"] is None:
                     not_parsed += 1
                     continue
-                parsed_length += len(substring)
+                parsed_length += sum(char.isalnum() for char in substring)
                 if not any(char.isdigit() for char in substring):
                     num_substrings_without_digits += 1
             rating.append(
@@ -90,7 +90,7 @@ class _ExactLanguageSearch:
                 ]
             )
             best_index, best_rating = min(
-                enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2], p[1][3])
+                enumerate(rating), key=lambda p: (p[1][1], p[1][3], p[1][0], p[1][2])
             )
         return (
             possible_parsed_splits[best_index],

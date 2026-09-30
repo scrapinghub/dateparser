@@ -1137,10 +1137,39 @@ class TestTranslateSearch(BaseTestCase):
                 text="week, 19 August 1919",
                 expected=[("19 August 1919", datetime.datetime(1919, 8, 19))],
             ),
+            param(
+                text="The trip lasted 10 days, 1 June 2019 to 10 June 2019.",
+                expected=[
+                    ("10 days", datetime.datetime(2020, 6, 5, 12)),
+                    ("1 June 2019", datetime.datetime(2019, 6, 1)),
+                    ("10 June 2019", datetime.datetime(2019, 6, 10)),
+                ],
+            ),
+            param(
+                text="Race day, 5 May, 6 May, 7 May",
+                expected=[
+                    ("5 May", datetime.datetime(2020, 5, 5)),
+                    ("6 May", datetime.datetime(2020, 5, 6)),
+                    ("7 May", datetime.datetime(2020, 5, 7)),
+                ],
+            ),
+            param(
+                text="Opening day, 5 May 2020, 6 June 2021, 7 July 2022",
+                expected=[
+                    ("5 May 2020", datetime.datetime(2020, 5, 5)),
+                    ("6 June 2021", datetime.datetime(2021, 6, 6)),
+                    ("7 July 2022", datetime.datetime(2022, 7, 7)),
+                ],
+            ),
         ]
     )
     def test_search_dates_after_a_date_word_and_a_comma(self, text, expected):
-        self.assertEqual(search_dates(text, languages=["en"]), expected)
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+        )
+        self.assertEqual(result, expected)
 
     @parameterized.expand(
         [
