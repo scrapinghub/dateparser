@@ -1,6 +1,10 @@
 import calendar
-from datetime import datetime, timedelta, timezone
+import contextlib
+from collections.abc import Callable, Iterable, Iterator
+from datetime import datetime, time, timedelta, timezone, tzinfo
+from functools import partial
 from io import StringIO
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, overload
 
 import pytz
 import regex as re
@@ -16,21 +20,23 @@ from dateparser.utils import (
 )
 from dateparser.utils.strptime import strptime
 
+if TYPE_CHECKING:
+    from dateparser.conf import Settings
+
 NSP_COMPATIBLE = re.compile(r"\D+")
 MERIDIAN = re.compile(r"am|pm")
 MICROSECOND = re.compile(r"\d{1,6}")
 EIGHT_DIGIT = re.compile(r"^\d{8}$")
 HOUR_MINUTE_REGEX = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+_RANGE_DASHES = {"-", "–"}
 
 
-def no_space_parser_eligibile(datestring):
+def no_space_parser_eligibile(datestring: str) -> bool:
     src = NSP_COMPATIBLE.search(datestring)
-    if not src or ":" == src.group():
-        return True
-    return False
+    return not src or src.group() == ":"
 
 
-def get_unresolved_attrs(parser_object):
+def get_unresolved_attrs(parser_object: object) -> tuple[list[str], list[str]]:
     attrs = ["year", "month", "day"]
     seen = []
     unseen = []
@@ -52,7 +58,15 @@ date_order_chart = {
 }
 
 
-def resolve_date_order(order, lst=None):
+@overload
+def resolve_date_order(order: str, lst: Literal[False] | None = None) -> str: ...
+
+
+@overload
+def resolve_date_order(order: str, lst: Literal[True]) -> list[str]: ...
+
+
+def resolve_date_order(order: str, lst: bool | None = None) -> str | list[str]:
     chart_list = {
         "DMY": ["day", "month", "year"],
         "DYM": ["day", "year", "month"],
@@ -65,16 +79,26 @@ def resolve_date_order(order, lst=None):
     return chart_list[order] if lst else date_order_chart[order]
 
 
-def _parse_absolute(datestring, settings, tz=None, date_order=None):
+def _parse_absolute(
+    datestring: str,
+    settings: "Settings",
+    tz: tzinfo | None = None,
+    date_order: str | None = None,
+) -> tuple[datetime, str | None]:
     return _parser.parse(datestring, settings, tz, date_order=date_order)
 
 
-def _parse_nospaces(datestring, settings, tz=None, date_order=None):
+def _parse_nospaces(
+    datestring: str,
+    settings: "Settings",
+    tz: tzinfo | None = None,
+    date_order: str | None = None,
+) -> tuple[datetime, str]:
     return _no_spaces_parser.parse(datestring, settings, date_order=date_order)
 
 
 class _time_parser:
-    time_directives = [
+    time_directives: ClassVar[list[str]] = [
         "%H:%M:%S",
         "%I:%M:%S %p",
         "%H:%M",
@@ -85,22 +109,21 @@ class _time_parser:
         "%H:%M %p",
     ]
 
-    def __call__(self, timestring):
+    def __call__(self, timestring: str) -> time:
         _timestring = timestring
         for directive in self.time_directives:
             try:
                 return strptime(timestring.strip(), directive).time()
             except ValueError:
                 pass
-        else:
-            raise ValueError("%s does not seem to be a valid time string" % _timestring)
+        raise ValueError(f"{_timestring} does not seem to be a valid time string")
 
 
 time_parser = _time_parser()
 
 
 class _no_spaces_parser:
-    _dateformats = [
+    _dateformats: ClassVar[list[str]] = [
         "%Y%m%d",
         "%Y%d%m",
         "%m%Y%d",
@@ -115,9 +138,13 @@ class _no_spaces_parser:
         "%d%m%y",
     ]
 
-    _preferred_formats = ["%Y%m%d%H%M", "%Y%m%d%H%M%S", "%Y%m%d%H%M%S.%f"]
+    _preferred_formats: ClassVar[list[str]] = [
+        "%Y%m%d%H%M",
+        "%Y%m%d%H%M%S",
+        "%Y%m%d%H%M%S.%f",
+    ]
 
-    _preferred_formats_ordered_8_digit = [
+    _preferred_formats_ordered_8_digit: ClassVar[list[str]] = [
         "%m%d%Y",
         "%d%m%Y",
         "%Y%m%d",
@@ -126,13 +153,16 @@ class _no_spaces_parser:
         "%d%Y%m",
     ]
 
-    _timeformats = ["%H%M%S.%f", "%H%M%S", "%H%M", "%H"]
+    _timeformats: ClassVar[list[str]] = ["%H%M%S.%f", "%H%M%S", "%H%M", "%H"]
 
-    period = {"day": ["%d", "%H", "%M", "%S"], "month": ["%m"]}
+    period: ClassVar[dict[str, list[str]]] = {
+        "day": ["%d", "%H", "%M", "%S"],
+        "month": ["%m"],
+    }
 
     _default_order = resolve_date_order("MDY")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         self._all = (
             self._dateformats
             + [x + y for x in self._dateformats for y in self._timeformats]
@@ -166,29 +196,28 @@ class _no_spaces_parser:
         }
 
     @classmethod
-    def _get_period(cls, format_string):
+    def _get_period(cls, format_string: str) -> str:
         for pname, pdrv in sorted(cls.period.items(), key=lambda x: x[0]):
             for drv in pdrv:
                 if drv in format_string:
                     return pname
-        else:
-            return "year"
+        return "year"
 
     @classmethod
-    def _find_best_matching_date(cls, datestring):
+    def _find_best_matching_date(cls, datestring: str) -> tuple[datetime, str] | None:
         for fmt in cls._preferred_formats_ordered_8_digit:
-            try:
+            with contextlib.suppress(Exception):
                 dt = strptime(datestring, fmt), cls._get_period(fmt)
                 if len(str(dt[0].year)) == 4:
                     return dt
-            except Exception:
-                pass
         return None
 
     @classmethod
-    def parse(cls, datestring, settings, date_order=None):
+    def parse(
+        cls, datestring: str, settings: "Settings", date_order: str | None = None
+    ) -> tuple[datetime, str]:
         if not no_space_parser_eligibile(datestring):
-            raise ValueError("Unable to parse date from: %s" % datestring)
+            raise ValueError(f"Unable to parse date from: {datestring}")
 
         datestring = datestring.replace(":", "")
         if not datestring:
@@ -204,10 +233,10 @@ class _no_spaces_parser:
                 if dt is not None:
                     return dt
         nsp = cls()
-        ambiguous_date = None
+        ambiguous_date: tuple[datetime, str] | None = None
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[order]:
-                try:
+                with contextlib.suppress(Exception):
                     dt = strptime(token, fmt), cls._get_period(fmt)
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
@@ -216,41 +245,52 @@ class _no_spaces_parser:
                     missing = _get_missing_parts(fmt)
                     _check_strict_parsing(missing, settings)
                     return dt
-                except Exception:
-                    pass
-        else:
-            if ambiguous_date:
-                return ambiguous_date
-            else:
-                raise ValueError("Unable to parse date from: %s" % datestring)
+        if ambiguous_date:
+            return ambiguous_date
+        raise ValueError(f"Unable to parse date from: {datestring}")
 
 
-def _get_missing_error(missing):
+def _get_missing_error(missing: Iterable[str]) -> str:
     return "Fields missing from the date string: {}".format(", ".join(missing))
 
 
-def _check_strict_parsing(missing, settings):
+def _check_strict_parsing(missing: list[str], settings: "Settings") -> None:
     if settings.STRICT_PARSING and missing:
         raise ValueError(_get_missing_error(missing))
-    elif settings.REQUIRE_PARTS and missing:
+    if settings.REQUIRE_PARTS and missing:
         errors = [part for part in settings.REQUIRE_PARTS if part in missing]
         if errors:
             raise ValueError(_get_missing_error(errors))
 
 
 class _parser:
-    alpha_directives = {
+    alpha_directives: ClassVar[dict[str, list[str]]] = {
         "weekday": ["%A", "%a"],
         "month": ["%B", "%b"],
     }
 
-    num_directives = {
+    num_directives: ClassVar[dict[str, list[str]]] = {
         "month": ["%m"],
         "day": ["%d"],
         "year": ["%y", "%Y"],
     }
 
-    def __init__(self, tokens, settings, date_order=None):
+    day: int | None
+    month: int | None
+    year: int | None
+    time: Callable[[], time] | None
+    now: datetime
+    _token_day: tuple[str, int] | str | int | None
+    _token_month: tuple[str, int] | str | int | None
+    _token_year: tuple[str, int] | str | None
+    _token_time: str | None
+
+    def __init__(  # noqa: PLR0912, PLR0915
+        self,
+        tokens: Iterable[tuple[str, int]],
+        settings: "Settings",
+        date_order: str | None = None,
+    ) -> None:
         self.settings = settings
         self._date_order = date_order or settings.DATE_ORDER
         self.tokens = [(t[0].strip(), t[1]) for t in list(tokens)]
@@ -258,14 +298,14 @@ class _parser:
             (t[0], t[1], i) for i, t in enumerate(self.tokens) if t[1] <= 1
         ]
 
-        self.unset_tokens = []
+        self.unset_tokens: list[tuple[str, int, str]] = []
 
         self.day = None
         self.month = None
         self.year = None
         self.time = None
 
-        self.auto_order = []
+        self.auto_order: list[str] = []
 
         self._token_day = None
         self._token_month = None
@@ -277,15 +317,15 @@ class _parser:
             for k in resolve_date_order(self._date_order, lst=True)
         }
 
-        skip_index = []
-        skip_component = None
+        skip_index: list[int] = []
+        skip_component: str | None = None
         skip_tokens = ["t", "year", "hour", "minute"]
 
         for index, token_type_original_index in enumerate(self.filtered_tokens):
             if index in skip_index:
                 continue
 
-            token, type, original_index = token_type_original_index
+            token, token_type, original_index = token_type_original_index
 
             if token in skip_tokens:
                 continue
@@ -293,7 +333,7 @@ class _parser:
             if self.time is None:
                 meridian_index = index + 1
 
-                try:
+                with contextlib.suppress(Exception):
                     # try case where hours and minutes are separated by a period. Example: 13.20.
                     _is_before_period = self.tokens[original_index + 1][0] == "."
                     _is_after_period = (
@@ -320,11 +360,9 @@ class _parser:
                                 token = new_token
                                 skip_index.append(index + 1)
                                 meridian_index += 1
-                except Exception:
-                    pass
 
                 try:
-                    microsecond = MICROSECOND.search(
+                    microsecond = MICROSECOND.search(  # type: ignore[union-attr]
                         self.filtered_tokens[index + 1][0]
                     ).group()
                     # Is after time token? raise ValueError if ':' can't be found:
@@ -338,7 +376,7 @@ class _parser:
                     meridian_index += 1
 
                 try:
-                    meridian = MERIDIAN.search(
+                    meridian = MERIDIAN.search(  # type: ignore[union-attr]
                         self.filtered_tokens[meridian_index][0]
                     ).group()
                 except Exception:
@@ -346,41 +384,82 @@ class _parser:
 
                 if any([":" in token, meridian, microsecond]):
                     if meridian and not microsecond:
-                        self._token_time = "%s %s" % (token, meridian)
+                        self._token_time = f"{token} {meridian}"
                         skip_index.append(meridian_index)
                     elif microsecond and not meridian:
-                        self._token_time = "%s.%s" % (token, microsecond)
+                        self._token_time = f"{token}.{microsecond}"
                         skip_index.append(index + 1)
                     elif meridian and microsecond:
-                        self._token_time = "%s.%s %s" % (token, microsecond, meridian)
+                        self._token_time = f"{token}.{microsecond} {meridian}"
                         skip_index.append(index + 1)
                         skip_index.append(meridian_index)
                     else:
                         self._token_time = token
-                    self.time = lambda: time_parser(self._token_time)
+                    self.time = partial(time_parser, self._token_time)
                     continue
 
-            results = self._parse(type, token, skip_component=skip_component)
+            results = self._parse(token_type, token, skip_component=skip_component)
             for res in results:
                 if len(token) == 4 and res[0] == "year":
                     skip_component = "year"
                 setattr(self, *res)
 
         known, unknown = get_unresolved_attrs(self)
-        params = {}
+        unset_tokens = [
+            unset_token
+            for unset_token in self.unset_tokens
+            if not (
+                self._token_day and self._is_range(self._token_day[0], unset_token[0])
+            )
+        ]
+        if len(unset_tokens) > len(unknown):
+            raise ValueError("Too many numbers in date string")
+        params: dict[str, int] = {}
         for attr in known:
             params.update({attr: getattr(self, attr)})
         for attr in unknown:
-            for token, type, _ in self.unset_tokens:
-                if type == 0:
+            for token, token_type, _ in unset_tokens:
+                if token_type == 0:
                     params.update({attr: int(token)})
-                    setattr(self, "_token_%s" % attr, token)
+                    setattr(self, f"_token_{attr}", token)
                     setattr(self, attr, int(token))
 
-    def _get_period(self):
-        if self.settings.RETURN_TIME_AS_PERIOD:
-            if getattr(self, "time", None):
-                return "time"
+    def _is_range(self, first: object, last: object) -> bool:
+        """Return whether *first* and *last* are the ends of a range, e.g. 12
+        and 14 in “June 12-14, 2021”. A dash before *first* or after *last*
+        makes them part of a date instead, e.g. 4 and 25 in “6-4-25”."""
+
+        def is_dash(index: int) -> bool:
+            return (
+                0 <= index < len(self.tokens)
+                and self.tokens[index][0].lstrip(".") in _RANGE_DASHES
+            )
+
+        return any(
+            self.tokens[index][0] == first
+            and is_dash(index + 1)
+            and self.tokens[index + 2][0] == last
+            and not is_dash(index - 1)
+            and not is_dash(index + 3)
+            for index in range(len(self.tokens) - 2)
+        )
+
+    @classmethod
+    def _has_month_name(cls, tokens: Iterable[tuple[str, int]]) -> bool:
+        for token, token_type in tokens:
+            if token_type != 1:
+                continue
+            for directive in cls.alpha_directives["month"]:
+                try:
+                    strptime(token.strip(), directive)
+                    return True
+                except ValueError:
+                    pass
+        return False
+
+    def _get_period(self) -> str:
+        if self.settings.RETURN_TIME_AS_PERIOD and getattr(self, "time", None):
+            return "time"
 
         for period in ["time", "day"]:
             if getattr(self, period, None):
@@ -390,10 +469,9 @@ class _parser:
             if getattr(self, period, None):
                 return period
 
-        if self._results():
-            return "day"
+        return "day"
 
-    def _get_datetime_obj(self, **params):
+    def _get_datetime_obj(self, **params: Any) -> datetime:
         try:
             return datetime(**params)
         except ValueError as e:
@@ -406,7 +484,7 @@ class _parser:
                         params["year"], params["month"]
                     )
                     return datetime(**params)
-                elif (
+                if (
                     not self._token_year
                     and params["day"] == 29
                     and params["month"] == 2
@@ -417,9 +495,9 @@ class _parser:
                         self.settings.PREFER_DATES_FROM, params["year"]
                     )
                     return datetime(**params)
-            raise e
+            raise
 
-    def _get_correct_leap_year(self, prefer_dates_from, current_year):
+    def _get_correct_leap_year(self, prefer_dates_from: str, current_year: int) -> int:
         if prefer_dates_from == "future":
             return get_next_leap_year(current_year)
         if prefer_dates_from == "past":
@@ -433,16 +511,16 @@ class _parser:
         )
         return next_leap_year if next_leap_year_is_closer else previous_leap_year
 
-    def _set_relative_base(self):
-        self.now = self.settings.RELATIVE_BASE
-        if not self.now:
-            self.now = datetime.now(tz=timezone.utc).replace(tzinfo=None)
+    def _set_relative_base(self) -> None:
+        self.now = self.settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
+            tzinfo=None
+        )
 
-    def _get_datetime_obj_params(self):
+    def _get_datetime_obj_params(self) -> dict[str, int]:
         if not self.now:
             self._set_relative_base()
 
-        params = {
+        return {
             "day": self.day or self.now.day,
             "month": self.month or self.now.month,
             "year": self.year or self.now.year,
@@ -451,12 +529,11 @@ class _parser:
             "second": 0,
             "microsecond": 0,
         }
-        return params
 
-    def _get_date_obj(self, token, directive):
+    def _get_date_obj(self, token: str, directive: str) -> datetime:
         return strptime(token, directive)
 
-    def _results(self):
+    def _results(self) -> datetime:
         missing = [
             field for field in ("day", "month", "year") if not getattr(self, field)
         ]
@@ -468,17 +545,19 @@ class _parser:
 
         if time:
             params.update(
-                dict(
-                    hour=time.hour,
-                    minute=time.minute,
-                    second=time.second,
-                    microsecond=time.microsecond,
-                )
+                {
+                    "hour": time.hour,
+                    "minute": time.minute,
+                    "second": time.second,
+                    "microsecond": time.microsecond,
+                }
             )
 
         return self._get_datetime_obj(**params)
 
-    def _correct_for_time_frame(self, dateobj, tz):
+    def _correct_for_time_frame(  # noqa: PLR0912, PLR0915
+        self, dateobj: datetime, tz: tzinfo | None
+    ) -> datetime:
         days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
         token_weekday, _ = getattr(self, "_token_weekday", (None, None))
@@ -499,10 +578,7 @@ class _parser:
                 delta = timedelta(days=steps)
             else:
                 if days[day_index] == day:
-                    if self.settings.PREFER_DATES_FROM == "past":
-                        steps = 7
-                    else:
-                        steps = 0
+                    steps = 7 if self.settings.PREFER_DATES_FROM == "past" else 0
                 else:
                     while days[day_index] != day:
                         day_index -= 1
@@ -535,25 +611,23 @@ class _parser:
                 if self.now < dateobj:
                     if self.settings.PREFER_DATES_FROM == "past":
                         dateobj = dateobj.replace(year=dateobj.year - 1)
-                else:
-                    if self.settings.PREFER_DATES_FROM == "future":
-                        dateobj = dateobj.replace(year=dateobj.year + 1)
-            except ValueError as e:
+                elif self.settings.PREFER_DATES_FROM == "future":
+                    dateobj = dateobj.replace(year=dateobj.year + 1)
+            except ValueError:
                 if dateobj.day == 29 and dateobj.month == 2:
                     valid_year = self._get_correct_leap_year(
                         self.settings.PREFER_DATES_FROM, dateobj.year
                     )
                     dateobj = dateobj.replace(year=valid_year)
                 else:
-                    raise e
+                    raise
 
         if self._token_year and len(self._token_year[0]) == 2:
             if self.now < dateobj:
                 if "past" in self.settings.PREFER_DATES_FROM:
                     dateobj = dateobj.replace(year=dateobj.year - 100)
-            else:
-                if "future" in self.settings.PREFER_DATES_FROM:
-                    dateobj = dateobj.replace(year=dateobj.year + 100)
+            elif "future" in self.settings.PREFER_DATES_FROM:
+                dateobj = dateobj.replace(year=dateobj.year + 100)
 
         if self._token_time and not any(
             [
@@ -567,23 +641,26 @@ class _parser:
             try:
                 tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
                 tz_offset = tz.utcoffset(dateobj)
+                assert tz_offset is not None
             except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
                 tz_offset = timedelta(hours=0)
 
-            if "past" in self.settings.PREFER_DATES_FROM:
-                if self.now < dateobj - tz_offset:
-                    dateobj = dateobj + timedelta(days=-1)
-            if "future" in self.settings.PREFER_DATES_FROM:
-                if self.now > dateobj - tz_offset:
-                    dateobj = dateobj + timedelta(days=1)
+            if (
+                "past" in self.settings.PREFER_DATES_FROM
+                and self.now < dateobj - tz_offset
+            ):
+                dateobj = dateobj + timedelta(days=-1)
+            if (
+                "future" in self.settings.PREFER_DATES_FROM
+                and self.now > dateobj - tz_offset
+            ):
+                dateobj = dateobj + timedelta(days=1)
 
         # Reset dateobj to the original value, thus removing any offset awareness that may
         # have been set earlier.
-        dateobj = dateobj.replace(tzinfo=original_dateobj.tzinfo)
+        return dateobj.replace(tzinfo=original_dateobj.tzinfo)
 
-        return dateobj
-
-    def _correct_for_day(self, dateobj):
+    def _correct_for_day(self, dateobj: datetime) -> datetime:
         if (
             getattr(self, "_token_day", None)
             or getattr(self, "_token_weekday", None)
@@ -591,25 +668,43 @@ class _parser:
         ):
             return dateobj
 
-        dateobj = set_correct_day_from_settings(
+        return set_correct_day_from_settings(
             dateobj, self.settings, current_day=self.now.day
         )
-        return dateobj
 
-    def _correct_for_month(self, dateobj):
+    def _correct_for_month(self, dateobj: datetime) -> datetime:
         if getattr(self, "_token_month", None):
             return dateobj
 
-        dateobj = set_correct_month_from_settings(
+        return set_correct_month_from_settings(
             dateobj, self.settings, current_month=self.now.month
         )
-        return dateobj
 
     @classmethod
-    def parse(cls, datestring, settings, tz=None, date_order=None):
-        tokens = tokenizer(datestring)
-        po = cls(tokens.tokenize(), settings, date_order=date_order)
-        dateobj = po._results()
+    def parse(
+        cls,
+        datestring: str,
+        settings: "Settings",
+        tz: tzinfo | None = None,
+        date_order: str | None = None,
+    ) -> tuple[datetime, str | None]:
+        tokens = list(tokenizer(datestring).tokenize())
+        date_order = date_order or settings.DATE_ORDER
+        try:
+            po = cls(tokens, settings, date_order=date_order)
+            dateobj = po._results()
+        except ValueError as error:
+            if (
+                "DATE_ORDER" not in settings._mod_settings
+                or str(error).startswith("Fields missing")
+                or cls._has_month_name(tokens)
+            ):
+                raise
+            # The numbers do not fit the date order set by the caller, so read
+            # them with the day and month swapped, e.g. "2021-01-13" with YDM.
+            swapped = date_order.translate(str.maketrans("DM", "MD"))
+            po = cls(tokens, settings, date_order=swapped)
+            dateobj = po._results()
 
         # correction for past, future if applicable
         dateobj = po._correct_for_time_frame(dateobj, tz)
@@ -625,33 +720,44 @@ class _parser:
 
         return dateobj, period
 
-    def _parse(self, type, token, skip_component=None):
-        def set_and_return(token, type, component, dateobj, skip_date_order=False):
+    def _parse(
+        self, token_type: int, token: str, skip_component: str | None = None
+    ) -> list[tuple[str, int]]:
+        def set_and_return(
+            token: str,
+            token_type: int,
+            component: str,
+            dateobj: Any,
+            skip_date_order: bool = False,
+        ) -> list[tuple[str, int]]:
             if not skip_date_order:
                 self.auto_order.append(component)
-            setattr(self, "_token_%s" % component, (token, type))
+            setattr(self, f"_token_{component}", (token, token_type))
             return [(component, getattr(dateobj, component))]
 
-        def parse_number(token, skip_component=None):
-            type = 0
+        def parse_number(
+            token: str, skip_component: str | None = None
+        ) -> list[tuple[str, int]]:
+            token_type = 0
 
             num_directives = self.ordered_num_directives
             if (
                 skip_component == "year"
                 and self.day is None
                 and self.month is None
-                and "DATE_ORDER" not in self.settings._mod_settings
+                and not self._date_order.startswith("Y")
             ):
                 # The date string starts with a four-digit year (e.g. an
                 # ISO 8601 date like "2017-06-22"), so the remaining numeric
-                # components are expected in month-day order, regardless of
-                # the locale date order, unless the caller explicitly set
-                # DATE_ORDER (#360).
+                # components are expected in month-day order, unless the date
+                # order itself puts the year first (e.g. YDM).
                 num_directives = {
                     k: self.num_directives[k] for k in ("month", "day", "year")
                 }
 
-            def try_directives(skip_directive=None):
+            def try_directives(
+                skip_directive: str | None = None,
+            ) -> list[tuple[str, int]]:
                 for component, directives in num_directives.items():
                     if skip_component == component:
                         continue
@@ -662,23 +768,21 @@ class _parser:
                             do = self._get_date_obj(token, directive)
                             prev_value = getattr(self, component, None)
                             if not prev_value:
-                                return set_and_return(token, type, component, do)
-                            else:
-                                try:
-                                    prev_token, prev_type = getattr(
-                                        self, "_token_%s" % component
-                                    )
-                                    if prev_type == type:
-                                        do = self._get_date_obj(prev_token, directive)
-                                except ValueError:
-                                    self.unset_tokens.append(
-                                        (prev_token, prev_type, component)
-                                    )
-                                    return set_and_return(token, type, component, do)
+                                return set_and_return(token, token_type, component, do)
+                            try:
+                                prev_token, prev_type = getattr(
+                                    self, f"_token_{component}"
+                                )
+                                if prev_type == token_type:
+                                    do = self._get_date_obj(prev_token, directive)
+                            except ValueError:
+                                self.unset_tokens.append(
+                                    (prev_token, prev_type, component)
+                                )
+                                return set_and_return(token, token_type, component, do)
                         except ValueError:
                             pass
-                else:
-                    raise ValueError("Unable to parse: %s" % token)
+                raise ValueError(f"Unable to parse: {token}")
 
             order = list(self.ordered_num_directives)
             components_after_year = order[order.index("year") + 1 :]
@@ -699,52 +803,64 @@ class _parser:
                     pass
             return try_directives()
 
-        def parse_alpha(token, skip_component=None):
-            type = 1
+        def parse_alpha(
+            token: str, skip_component: str | None = None
+        ) -> list[tuple[str, int]]:
+            token_type = 1
 
             for component, directives in self.alpha_directives.items():
                 if skip_component == component:
                     continue
                 for directive in directives:
-                    try:
+                    with contextlib.suppress(Exception):
                         do = self._get_date_obj(token, directive)
                         prev_value = getattr(self, component, None)
                         if not prev_value:
                             return set_and_return(
-                                token, type, component, do, skip_date_order=True
+                                token, token_type, component, do, skip_date_order=True
                             )
-                        elif component == "month":
+                        if component == "month" and (
+                            not self.day
+                            or self._is_range(
+                                self._token_month[0],  # type: ignore[index]
+                                self._token_day[0],  # type: ignore[index]
+                            )
+                        ):
+                            # A number read as the month becomes the day, which
+                            # requires the day to be free, or to be the end of
+                            # a range that starts at that number, e.g. 14 in
+                            # “12-14 June”.
                             index = self.auto_order.index("month")
                             self.auto_order[index] = "day"
-                            setattr(self, "_token_day", self._token_month)
-                            setattr(self, "_token_month", (token, type))
+                            self._token_day = self._token_month
+                            self._token_month = token, token_type
                             return [
                                 (component, getattr(do, component)),
                                 ("day", prev_value),
                             ]
-                    except Exception:
-                        pass
-            else:
-                raise ValueError("Unable to parse: %s" % token)
+            raise ValueError(f"Unable to parse: {token}")
 
-        handlers = {0: parse_number, 1: parse_alpha}
-        return handlers[type](token, skip_component)
+        handlers: dict[int, Callable[[str, str | None], list[tuple[str, int]]]] = {
+            0: parse_number,
+            1: parse_alpha,
+        }
+        return handlers[token_type](token, skip_component)
 
 
 class tokenizer:
     digits = "0123456789:"
     letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-    def _isletter(self, tkn):
+    def _isletter(self, tkn: str) -> bool:
         return tkn in self.letters
 
-    def _isdigit(self, tkn):
+    def _isdigit(self, tkn: str) -> bool:
         return tkn in self.digits
 
-    def __init__(self, ds):
+    def __init__(self, ds: str) -> None:
         self.instream = StringIO(ds)
 
-    def _switch(self, chara, charb):
+    def _switch(self, chara: str, charb: str) -> tuple[int, bool]:
         if self._isdigit(chara):
             return 0, not self._isdigit(charb)
 
@@ -753,7 +869,7 @@ class tokenizer:
 
         return 2, self._isdigit(charb) or self._isletter(charb)
 
-    def tokenize(self):
+    def tokenize(self) -> Iterator[tuple[str, int]]:
         token = ""
         EOF = False
 
@@ -762,17 +878,17 @@ class tokenizer:
 
             if not nextchar:
                 EOF = True
-                type, _ = self._switch(token[-1], nextchar)
-                yield token, type
+                token_type, _ = self._switch(token[-1], nextchar)
+                yield token, token_type
                 return
 
             if token:
-                type, switch = self._switch(token[-1], nextchar)
+                token_type, switch = self._switch(token[-1], nextchar)
 
                 if not switch:
                     token += nextchar
                 else:
-                    yield token, type
+                    yield token, token_type
                     token = nextchar
             else:
                 token += nextchar
