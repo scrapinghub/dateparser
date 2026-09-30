@@ -5,6 +5,7 @@ import threading
 from collections.abc import Callable, Iterable, Iterator
 from collections.abc import Set as AbstractSet
 from datetime import date, datetime, timedelta, tzinfo
+from functools import partial
 from itertools import count
 from typing import TYPE_CHECKING, Any, TypeGuard, TypeVar
 
@@ -17,7 +18,7 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.parser import _parse_absolute, _parse_nospaces
+from dateparser.parser import _Directives, _parse_absolute, _parse_nospaces, tokenizer
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
     _get_localzone,
@@ -275,6 +276,13 @@ def parse_with_formats(
     :returns: :class:`datetime.datetime`, dict or None
 
     """
+    now = settings.RELATIVE_BASE or _now(settings)
+    return _parse_with_formats(date_string, date_formats, settings, now)
+
+
+def _parse_with_formats(
+    date_string: str, date_formats: Iterable[str], settings: Settings, now: datetime
+) -> "DateData":
     period = "day"
     for date_format in date_formats:
         try:
@@ -287,18 +295,25 @@ def parse_with_formats(
             missing_day = "day" in _missing
             if missing_month and missing_day:
                 period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
-                date_obj = set_correct_day_from_settings(date_obj, settings)
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, current_month=now.month
+                )
+                date_obj = set_correct_day_from_settings(
+                    date_obj, settings, current_day=now.day
+                )
 
             elif missing_month:
                 period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, current_month=now.month
+                )
 
             elif missing_day:
                 period = "month"
-                date_obj = set_correct_day_from_settings(date_obj, settings)
+                date_obj = set_correct_day_from_settings(
+                    date_obj, settings, current_day=now.day
+                )
 
-            now = settings.RELATIVE_BASE or _now(settings)
             if "year" in _missing:
                 date_obj = date_obj.replace(year=now.year)
             elif "%y" in date_format and "%Y" not in date_format:
@@ -309,9 +324,31 @@ def parse_with_formats(
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
             return DateData(
-                date_obj=date_obj, period=period, parts=_get_parts(date_format)
+                date_obj=date_obj,
+                period=period,
+                parts=_get_parts(date_format),
+                date_format=date_format,
             )
     return DateData(date_obj=None, period=period)
+
+
+def _build_date_format(date_string: str, directives: _Directives) -> str | None:
+    """Return *date_string* with each number or word token replaced by its
+    directive from *directives*, a list of ``(token, directive)`` pairs, or
+    ``None`` if a token of *date_string* does not match its pair."""
+    if directives is None:
+        return None
+    pairs = iter(directives)
+    parts = []
+    for token, token_type in tokenizer(date_string).tokenize():
+        if token_type <= 1:
+            expected_token, directive = next(pairs, (None, None))
+            if token != expected_token:
+                return None
+            parts.append(directive or token)
+        else:
+            parts.append(token.replace("%", "%%"))
+    return "".join(parts)
 
 
 _MONTHS = (
@@ -515,7 +552,10 @@ class _DateLocaleParser:
         return self._try_parser(parse_method=_parse_nospaces)
 
     def _try_parser(
-        self, parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]]
+        self,
+        parse_method: Callable[
+            ..., tuple[datetime, str | None, tuple[str, ...], _Directives]
+        ],
     ) -> "DateData | None":
         original_order = self._settings.DATE_ORDER
 
@@ -546,13 +586,20 @@ class _DateLocaleParser:
 
         for order in candidates:
             try:
-                date_obj, period, parts = date_parser.parse(
+                date_obj, period, parts, directives = date_parser.parse(
                     translated,
                     parse_method=parse_method,
                     settings=self._settings,
                     date_order=order,
                 )
-                return DateData(date_obj=date_obj, period=period, parts=parts)
+                return DateData(
+                    date_obj=date_obj,
+                    period=period,
+                    parts=parts,
+                    date_format=partial(
+                        self._get_date_format, date_obj, directives, self._now()
+                    ),
+                )
             except ValueError:
                 continue
         return None
@@ -566,6 +613,24 @@ class _DateLocaleParser:
             self.date_formats,
             settings=self._settings,
         )
+
+    def _now(self) -> datetime:
+        return self._settings.RELATIVE_BASE or _now(self._settings)
+
+    def _get_date_format(
+        self, date_obj: datetime, directives: _Directives, now: datetime
+    ) -> str | None:
+        # The format must work as a custom format, which is matched against
+        # the translation that keeps formatting. *now* is the time of parsing,
+        # so that missing date parts are filled in the same way.
+        date_string = self._get_translated_date_with_formatting()
+        date_format = _build_date_format(date_string, directives)
+        if date_format is None:
+            return None
+        date_data = _parse_with_formats(date_string, [date_format], self._settings, now)
+        if date_data.date_obj != date_obj:
+            return None
+        return date_format
 
     def _translate(self, keep_formatting: bool) -> str | None:
         return self.locale._translate(
@@ -617,6 +682,8 @@ class DateData:
     It can be accessed with square brackets like a dict object.
     """
 
+    _date_format: str | Callable[[], str | None] | None
+
     part_of_day: PartOfDay | None = None
     """:class:`~dateparser.PartOfDay` that the date string refers to, e.g.
     :attr:`~dateparser.PartOfDay.NIGHT` for ``"tonight"``, or ``None``.
@@ -636,6 +703,7 @@ class DateData:
         period: str | None = None,
         locale: str | None = None,
         parts: tuple[str, ...] = (),
+        date_format: str | Callable[[], str | None] | None = None,
     ) -> None:
         self.date_obj = date_obj
         self.period = period
@@ -645,6 +713,20 @@ class DateData:
         tuple with some or all of ``"year"``, ``"month"``, ``"day"`` and
         ``"time"``, in that order. The remaining parts come from
         :ref:`settings`, e.g. ``RELATIVE_BASE`` or ``PREFER_DAY_OF_MONTH``."""
+        self.date_format = date_format
+
+    @property
+    def date_format(self) -> str | None:
+        if callable(self._date_format):
+            self._date_format = self._date_format()
+        return self._date_format
+
+    @date_format.setter
+    def date_format(self, value: str | Callable[[], str | None] | None) -> None:
+        self._date_format = value
+
+    def __getstate__(self) -> dict[str, Any]:
+        return {**self.__dict__, "_date_format": self.date_format}
 
     def __getitem__(self, k: str) -> Any:
         if not hasattr(self, k):
@@ -658,7 +740,8 @@ class DateData:
 
     def __repr__(self) -> str:
         properties_text = ", ".join(
-            f"{prop}={val!r}" for prop, val in self.__dict__.items()
+            f"{prop}={self[prop]!r}"
+            for prop in ("date_obj", "period", "locale", "parts", "date_format")
         )
 
         return f"{self.__class__.__name__}({properties_text})"
@@ -805,28 +888,28 @@ class DateDataParser:
 
             >>> DateDataParser().get_date_data('March 2015')
             DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en',
-            parts=('year', 'month'))
+            parts=('year', 'month'), date_format='%B %Y')
 
         Similarly, for date strings with no day and month information present, level of precision
         is ``year`` and day ``16`` and month ``6`` are from *current_date*.
 
             >>> DateDataParser().get_date_data('2014')
             DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en',
-            parts=('year',))
+            parts=('year',), date_format='%Y')
 
         *Parts* lists the parts of the date that the given string determines,
         including those that *period* cannot tell apart, like a missing year:
 
             >>> DateDataParser().get_date_data('16 March')
             DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='day', locale='en',
-            parts=('month', 'day'))
+            parts=('month', 'day'), date_format='%d %B')
 
         Dates with time zone indications or UTC offsets are returned in UTC time unless
         specified using `Settings <https://dateparser.readthedocs.io/en/latest/settings.html#settings>`__.
 
             >>> DateDataParser().get_date_data('23 March 2000, 1:21 PM CET')
             DateData(date_obj=datetime.datetime(2000, 3, 23, 13, 21, tzinfo=<StaticTzInfo 'CET'>),
-            period='day', locale='en', parts=('year', 'month', 'day', 'time'))
+            period='day', locale='en', parts=('year', 'month', 'day', 'time'), date_format=None)
 
         """
         if not isinstance(date_string, str):
@@ -930,9 +1013,12 @@ class DateDataParser:
 
     def get_date_tuple(self, *args: Any, **kwargs: Any) -> tuple[Any, ...]:
         date_data = self.get_date_data(*args, **kwargs)
-        fields = {k: v for k, v in date_data.__dict__.items() if k != "parts"}
-        date_tuple = collections.namedtuple("DateData", fields)  # type: ignore[misc]  # noqa: PYI024
-        result: tuple[Any, ...] = date_tuple(**fields)
+        date_tuple = collections.namedtuple(  # type: ignore[name-match]  # noqa: PYI024
+            "DateData", ("date_obj", "period", "locale")
+        )
+        result: tuple[Any, ...] = date_tuple(
+            *(date_data[field] for field in date_tuple._fields)
+        )
         return result
 
     def _get_applicable_locales(

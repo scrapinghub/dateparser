@@ -4,13 +4,13 @@ from typing import Any, ClassVar, Protocol
 
 from dateparser.conf import Settings, settings
 from dateparser.date import DateData
-from dateparser.parser import _parser
+from dateparser.parser import _Directives, _parser
 
 
 class _CalendarParser(Protocol):
     def parse(
         self, datestring: str, settings: Settings
-    ) -> tuple[datetime, str | None, tuple[str, ...]]: ...
+    ) -> tuple[datetime, str | None, tuple[str, ...], _Directives]: ...
 
 
 class CalendarBase:
@@ -28,7 +28,7 @@ class CalendarBase:
 
     def get_date(self) -> DateData | None:
         try:
-            date_obj, period, parts = self.parser.parse(self.source, settings)
+            date_obj, period, parts, _ = self.parser.parse(self.source, settings)
             return DateData(date_obj=date_obj, period=period, parts=parts)
         except ValueError:
             return None
@@ -150,6 +150,6 @@ class non_gregorian_parser(_parser):
         settings: Settings,
         tz: tzinfo | None = None,
         date_order: str | None = None,
-    ) -> tuple[datetime, str | None, tuple[str, ...]]:
+    ) -> tuple[datetime, str | None, tuple[str, ...], _Directives]:
         datestring = cls.to_latin(datestring)
         return super().parse(datestring, settings, tz, date_order)

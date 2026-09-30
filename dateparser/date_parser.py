@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Any
 
 from .conf import Settings, apply_settings
+from .parser import _Directives
 from .timezone_parser import pop_tz_offset_from_string
 from .utils import _get_localzone, apply_timezone, localize_timezone, strip_braces
 
@@ -12,10 +13,12 @@ class DateParser:
     def parse(
         self,
         date_string: str,
-        parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
+        parse_method: Callable[
+            ..., tuple[datetime, str | None, tuple[str, ...], _Directives]
+        ],
         settings: Settings | dict[str, Any] | None = None,
         date_order: str | None = None,
-    ) -> tuple[datetime, str | None, tuple[str, ...]]:
+    ) -> tuple[datetime, str | None, tuple[str, ...], _Directives]:
         assert isinstance(settings, Settings)
         date_string = str(date_string)
 
@@ -25,7 +28,7 @@ class DateParser:
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
 
-        date_obj, period, parts = parse_method(
+        date_obj, period, parts, directives = parse_method(
             date_string, settings=settings, tz=ptz, date_order=date_order
         )
 
@@ -53,7 +56,7 @@ class DateParser:
         ):
             date_obj = date_obj.replace(tzinfo=None)
 
-        return date_obj, period, parts
+        return date_obj, period, parts, directives
 
 
 date_parser = DateParser()
