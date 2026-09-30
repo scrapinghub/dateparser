@@ -180,6 +180,7 @@ class TestDateParser(BaseTestCase):
             # Japanese dates
             param("2016年3月20日(日) 21時40分", datetime(2016, 3, 20, 21, 40)),
             param("2016年3月20日 21時40分", datetime(2016, 3, 20, 21, 40)),
+            param("2016 年 3 月 20 日 21 時 40 分", datetime(2016, 3, 20, 21, 40)),
             # Numeric dates
             param("06-17-2014", datetime(2014, 6, 17)),
             param("13/03/2014", datetime(2014, 3, 13)),
@@ -195,6 +196,8 @@ class TestDateParser(BaseTestCase):
             param("2016年6月2911:30", datetime(2016, 6, 29, 11, 30)),
             param("2016年6月29", datetime(2016, 6, 29, 0, 0)),
             param("2016年 2月 5日", datetime(2016, 2, 5, 0, 0)),
+            param("2019 年 10 月 30 日", datetime(2019, 10, 30, 0, 0)),
+            param("2016 年 6 月 30 日 9 时 30 分", datetime(2016, 6, 30, 9, 30)),
             param("2016年9月14日晚8:00", datetime(2016, 9, 14, 20, 0)),
             param("2020/10/9 下午 02:26:26", datetime(2020, 10, 9, 14, 26, 26)),
             param("2020/10/9 上午 02:26:26", datetime(2020, 10, 9, 2, 26, 26)),
