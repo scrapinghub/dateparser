@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 
 def test_freshness_pattern_findall(benchmark: BenchmarkFixture) -> None:
-    def run():
+    def run() -> None:
         for date_string in TRANSLATED_RELATIVE_STRINGS:
             PATTERN.findall(date_string)
 
@@ -50,7 +50,7 @@ def test_freshness_pattern_sub_long_digit_run(benchmark: BenchmarkFixture) -> No
 
 
 def test_freshness_get_kwargs(benchmark: BenchmarkFixture) -> None:
-    def run():
+    def run() -> None:
         for date_string in TRANSLATED_RELATIVE_STRINGS:
             freshness_date_parser.get_kwargs(date_string)
 
