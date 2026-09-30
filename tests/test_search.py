@@ -1050,16 +1050,22 @@ class TestTranslateSearch(BaseTestCase):
                 expected=None,
             ),
             param(
-                text="2021-08-04T14:21:37&#x2B;05:30",
+                text="Publié il y a 2 heures",
+                languages=["fr"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("a 2 heures", datetime.datetime(2020, 6, 15, 10))],
+            ),
+            param(
+                text="il y a 3 ans",
+                languages=["fr"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("a 3 ans", datetime.datetime(2017, 6, 15, 12))],
+            ),
+            param(
+                text="minute 5 of the match",
                 languages=["en"],
                 settings=None,
-                expected=[
-                    (
-                        "2021-08-04T14:21:37&#x2B",
-                        datetime.datetime(2021, 8, 4, 14, 21, 37),
-                    ),
-                    ("05:30", datetime.datetime(2021, 8, 4, 5, 30)),
-                ],
+                expected=None,
             ),
         ]
     )
@@ -1590,6 +1596,29 @@ class TestNgramSearch(BaseTestCase):
             result["Dates"],
             [("10 minutes ago", datetime.datetime(2020, 1, 1, 11, 50))],
         )
+
+    @parameterized.expand(
+        [
+            param(
+                "fr",
+                text="il y a une heure",
+                expected=[("une heure", datetime.datetime(2020, 6, 15, 11))],
+            ),
+            param(
+                "en",
+                text="on the 21st",
+                expected=[("the 21st", datetime.datetime(2020, 6, 21))],
+            ),
+        ]
+    )
+    def test_ngram_search_bare_number_translations(self, shortname, text, expected):
+        result = self.search_with_detection.search_dates(
+            text,
+            languages=[shortname],
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+            strategy="ngram",
+        )
+        self.assertEqual(result["Dates"], expected)
 
     def test_ngram_search_returns_time_spans(self):
         result = self.search_with_detection.search_dates(

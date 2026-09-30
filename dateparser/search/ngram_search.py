@@ -49,11 +49,23 @@ _BAD_CANDIDATE_RE = re.compile(
 _STRIP_CHARS = " .,:()[]-'"
 
 
-def _is_bad_translation(translation):
+def _is_bad_translation(translation, candidate=""):
     """Return whether *translation*, the English translation of a candidate,
     is empty or deny-listed once the words the parser ignores are dropped,
-    e.g. "year 4" for "Year of the Four"."""
-    words = [word for word in translation.split() if word not in _SKIP_TOKENS]
+    e.g. "year 4" for "Year of the Four".
+
+    Units after a number, e.g. "2 hour", are kept, since relative dates need
+    them. If *candidate* is given and has digits, a bare number is only
+    rejected if words were dropped, so that "the 21st" is kept while "the
+    Four" is not."""
+    tokens = translation.split()
+    words = [
+        word
+        for i, word in enumerate(tokens)
+        if word not in _SKIP_TOKENS or (word != "t" and i and tokens[i - 1].isdigit())
+    ]
+    if len(words) == len(tokens) and re.search(r"\d", candidate):
+        return False
     return not words or bool(_BAD_CANDIDATE_RE.match(" ".join(words)))
 
 
@@ -111,7 +123,7 @@ class _NgramDateSearch:
                 return None
             locale = default_loader.get_locale(date_data.locale)
             translation = locale.translate(candidate, settings=parser._settings)
-            if _is_bad_translation(translation):
+            if _is_bad_translation(translation, candidate):
                 return None
             return date_data.date_obj
         except Exception:
