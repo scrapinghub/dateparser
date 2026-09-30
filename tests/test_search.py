@@ -1039,6 +1039,20 @@ class TestTranslateSearch(BaseTestCase):
                     ("10 Febbraio 2020 15:00", datetime.datetime(2020, 2, 10, 15, 0))
                 ],
             ),
+            param(
+                text="Posted on 12 Dec 2014 at 10:30",
+                languages=["vi", "en"],
+                settings=None,
+                expected=[
+                    ("on 12 Dec 2014 at 10:30", datetime.datetime(2014, 12, 12, 10, 30))
+                ],
+            ),
+            param(
+                text="2w ago",
+                languages=["it", "en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("2w ago", datetime.datetime(2020, 6, 1, 12, 0))],
+            ),
             # Dates not found
             param(text="", languages=None, settings=None, expected=None),
             # Language not detected
