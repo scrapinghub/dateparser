@@ -41,7 +41,7 @@ def _roman_to_int(numeral):
     values = [_ROMAN_NUMERAL_VALUES[char] for char in numeral.upper()]
     return sum(
         -value if value < next_value else value
-        for value, next_value in zip(values, values[1:] + [0])
+        for value, next_value in zip(values, [*values[1:], 0], strict=True)
     )
 
 

@@ -21,6 +21,5 @@ class BaseTestCase(TestCase):
         self.assertIsInstance(self.error, error_cls)
         self.assertTrue(
             any(mesg in str(self.error) for mesg in allowed_substrings),
-            "Didn't found any of the expected messages (%r) -- message was: %r"
-            % (allowed_substrings, self.error),
+            f"Didn't found any of the expected messages ({allowed_substrings!r}) -- message was: {self.error!r}",
         )

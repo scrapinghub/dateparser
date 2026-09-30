@@ -1,5 +1,4 @@
 import json
-import os
 import shutil
 from pathlib import Path
 
@@ -20,9 +19,9 @@ translation_data_directory = root / "dateparser/data"
 date_translation_directory = root / "dateparser/data/date_translation_data"
 
 cldr_languages = list(
-    set(map(lambda x: x[:-5], os.listdir(cldr_date_directory))) - avoid_languages
+    {path.stem for path in cldr_date_directory.iterdir()} - avoid_languages
 )
-supplementary_languages = [x[:-5] for x in os.listdir(supplementary_date_directory)]
+supplementary_languages = [path.stem for path in supplementary_date_directory.iterdir()]
 all_languages = set(cldr_languages).union(set(supplementary_languages))
 
 RELATIVE_PATTERN = re.compile(r"\{0\}")
@@ -47,7 +46,7 @@ def _to_plain_types(obj):
     """
     if isinstance(obj, dict):
         return {k: _to_plain_types(v) for k, v in obj.items()}
-    elif isinstance(obj, list):
+    if isinstance(obj, list):
         return [_to_plain_types(v) for v in obj]
     return obj
 
@@ -56,9 +55,9 @@ def _modify_relative_data(relative_data):
     modified_relative_data = {}
     for key, value in relative_data.items():
         for i, string in enumerate(value):
-            string = RELATIVE_PATTERN.sub(r"(\\d++[.,]?\\d*+)", string)
-            string = _make_possessive(string)
-            value[i] = string
+            value[i] = _make_possessive(
+                RELATIVE_PATTERN.sub(r"(\\d++[.,]?\\d*+)", string)
+            )
         modified_relative_data[key] = value
     return modified_relative_data
 
@@ -77,7 +76,7 @@ def _modify_data(language_data):
     simplifications = language_data.get("simplifications", [])
     _modify_simplifications(simplifications)
     locale_specific_data = language_data.get("locale_specific", {})
-    for _, info in locale_specific_data.items():
+    for info in locale_specific_data.values():
         locale_relative_data = info.get("relative-type-regex", {})
         locale_relative_data = _modify_relative_data(locale_relative_data)
 
@@ -86,10 +85,10 @@ def _get_complete_date_translation_data(language):
     cldr_data = {}
     supplementary_data = {}
     if language in cldr_languages:
-        with open(cldr_date_directory / f"{language}.json") as f:
+        with (cldr_date_directory / f"{language}.json").open() as f:
             cldr_data = json.load(f)
     if language in supplementary_languages:
-        with open(supplementary_date_directory / f"{language}.yaml") as g:
+        with (supplementary_date_directory / f"{language}.yaml").open() as g:
             yaml = YAML()
             supplementary_data = dict(yaml.load(g))
     complete_data = combine_dicts(cldr_data, supplementary_data)
@@ -102,7 +101,7 @@ def _write_file(filename, text, mode, in_memory, in_memory_result):
     if in_memory:
         in_memory_result[filename] = text
     else:
-        with open(filename, mode) as out:
+        with Path(filename).open(mode) as out:
             out.write(text)
 
 
@@ -117,13 +116,12 @@ def write_complete_data(in_memory=False):
     in_memory_result = {}
 
     if not in_memory:
-        if not os.path.isdir(translation_data_directory):
-            os.mkdir(translation_data_directory)
-        if os.path.isdir(date_translation_directory):
+        translation_data_directory.mkdir(exist_ok=True)
+        if date_translation_directory.is_dir():
             shutil.rmtree(date_translation_directory)
-        os.mkdir(date_translation_directory)
+        date_translation_directory.mkdir()
 
-    with open(supplementary_directory / "base_data.yaml") as f:
+    with (supplementary_directory / "base_data.yaml").open() as f:
         yaml = YAML()
         base_data = yaml.load(f)
 

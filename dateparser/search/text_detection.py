@@ -57,10 +57,11 @@ class FullTextLanguageDetector(BaseLanguageDetector):
                 if char.lower() in date_string.lower():
                     self.languages = [self.languages[i]]
                     return
-        indices_to_pop = []
-        for i in range(len(self.languages)):
-            if len(date_string_set & self.language_chars[i]) == 0:
-                indices_to_pop.append(i)
+        indices_to_pop = [
+            i
+            for i in range(len(self.languages))
+            if len(date_string_set & self.language_chars[i]) == 0
+        ]
         self.languages = [
             i for j, i in enumerate(self.languages) if j not in indices_to_pop
         ]

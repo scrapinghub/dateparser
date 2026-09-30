@@ -1,9 +1,7 @@
-import os
 import shutil
 from pathlib import Path
 
 from git import Repo
-
 
 CLDR_JSON_DIR = (Path(__file__).parent / "../cldr-json").resolve()
 
@@ -11,7 +9,7 @@ CLDR_JSON_DIR = (Path(__file__).parent / "../cldr-json").resolve()
 def get_raw_data():
     cldr_version = "44.1.0"
     url = "https://github.com/unicode-org/cldr-json.git"
-    if os.path.isdir(CLDR_JSON_DIR):
+    if CLDR_JSON_DIR.is_dir():
         shutil.rmtree(CLDR_JSON_DIR)
 
     print(f"Clonning {url} @ {cldr_version} on {CLDR_JSON_DIR}...")
@@ -47,10 +45,8 @@ def combine_dicts(primary_dict, supplementary_dict):
             else:
                 combined_dict[key] = supplementary_dict[key]
         else:
-            combined_dict[key] = primary_dict[key]
-    remaining_keys = [
-        key for key in supplementary_dict.keys() if key not in primary_dict.keys()
-    ]
+            combined_dict[key] = value
+    remaining_keys = [key for key in supplementary_dict if key not in primary_dict]
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict

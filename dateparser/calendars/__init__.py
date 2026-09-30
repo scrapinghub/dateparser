@@ -72,9 +72,7 @@ class non_gregorian_parser(_parser):
         result = cls._replace_time(result)
         result = cls._replace_time_conventions(result)
 
-        result = result.strip()
-
-        return result
+        return result.strip()
 
     def handle_two_digit_year(self, year):
         raise ValueError
@@ -91,7 +89,7 @@ class non_gregorian_parser(_parser):
             year=year, month=month, day=day
         )
         c_params = params.copy()
-        c_params.update(dict(year=year, month=month, day=day))
+        c_params.update({"year": year, "month": month, "day": day})
         return datetime(**c_params)
 
     def _get_datetime_obj_params(self):
@@ -100,7 +98,7 @@ class non_gregorian_parser(_parser):
         now_year, now_month, now_day = self.calendar_converter.from_gregorian(
             self.now.year, self.now.month, self.now.day
         )
-        params = {
+        return {
             "day": self.day or now_day,
             "month": self.month or now_month,
             "year": self.year or now_year,
@@ -109,7 +107,6 @@ class non_gregorian_parser(_parser):
             "second": 0,
             "microsecond": 0,
         }
-        return params
 
     def _get_date_obj(self, token, directive):
         year, month, day = self.default_year, self.default_month, self.default_day

@@ -53,8 +53,8 @@ Run it to print a report; it exits non-zero when it finds anything::
     python -m dateparser_scripts.tz_abbreviation_conflicts
 """
 
-from collections import namedtuple
 from datetime import datetime
+from typing import NamedTuple
 
 import pytz
 import regex as re
@@ -87,9 +87,12 @@ REFERENCE_MONTHS = (1, 4, 7, 10)
 # offsets through separate UTC/GMT patterns, so they are ignored here.
 _NUMERIC_ZONE_NAME = re.compile(r"[+-]\d{2,4}")
 
-Conflict = namedtuple(
-    "Conflict", ["abbreviation", "kind", "dateparser_offset", "tz_database_offsets"]
-)
+
+class Conflict(NamedTuple):
+    abbreviation: str
+    kind: str
+    dateparser_offset: int
+    tz_database_offsets: list[int]
 
 
 def static_tz_abbreviations():

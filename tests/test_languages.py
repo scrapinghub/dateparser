@@ -20,7 +20,7 @@ from tests import BaseTestCase
 
 class TestLocaleTranslation:
     @pytest.mark.parametrize(
-        "date_string,expected,locale,keep_formatting",
+        ("date_string", "expected", "locale", "keep_formatting"),
         [
             (
                 "December 04, 1999, 11:04:59 PM",
@@ -1746,7 +1746,7 @@ class TestBundledLanguages(BaseTestCase):
             # km
             param("km", "ម៉ោងនេះ", "0 hour ago"),
             param("km", "19 ខែមុន", "19 month ago"),
-            param("km", "ក្នុង​រយៈ​ពេល 23 ម៉ោង", "in 23 hour"),
+            param("km", "ក្នុង\u200bរយៈ\u200bពេល 23 ម៉ោង", "in 23 hour"),
             # kn
             param("kn", "18 ತಿಂಗಳುಗಳ ಹಿಂದೆ", "18 month ago"),
             param("kn", "26 ಸೆಕೆಂಡ್‌ನಲ್ಲಿ", "in 26 second"),

@@ -1,5 +1,3 @@
-import sys
-
 from .conf import apply_settings
 from .timezone_parser import pop_tz_offset_from_string
 from .utils import _get_localzone, apply_timezone, localize_timezone, strip_braces
@@ -29,15 +27,10 @@ class DateParser:
                 date_obj = date_obj.replace(tzinfo=ptz)
             if "local" not in _settings_tz:
                 date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+        elif "local" in _settings_tz:
+            date_obj = date_obj.replace(tzinfo=_get_localzone())
         else:
-            if "local" in _settings_tz:
-                stz = _get_localzone()
-                if hasattr(stz, "localize") and sys.version_info < (3, 6):
-                    date_obj = stz.localize(date_obj)
-                else:
-                    date_obj = date_obj.replace(tzinfo=stz)
-            else:
-                date_obj = localize_timezone(date_obj, settings.TIMEZONE)
+            date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 
         if settings.TO_TIMEZONE:
             date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)

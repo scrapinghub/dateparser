@@ -4,6 +4,8 @@ import warnings
 
 from .utils import clear_cache
 
+logger = logging.getLogger(__name__)
+
 
 def entrance():
     dateparser_argparse = argparse.ArgumentParser(
@@ -25,7 +27,7 @@ def entrance():
 
     if args.clear:
         clear_cache()
-        logging.info("dateparser-download: All cache deleted")
+        logger.info("dateparser-download: All cache deleted")
 
     if args.fasttext:
         warnings.warn(

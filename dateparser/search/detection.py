@@ -5,10 +5,8 @@ def _restore_languages_on_generator_exit(method):
     @wraps(method)
     def wrapped(self, *args, **kwargs):
         stored_languages = self.languages[:]
-        for language in method(self, *args, **kwargs):
-            yield language
-        else:
-            self.languages[:] = stored_languages
+        yield from method(self, *args, **kwargs)
+        self.languages[:] = stored_languages
 
     return wrapped
 
@@ -28,9 +26,7 @@ class BaseLanguageDetector:
             language = languages[0]
             if language.is_applicable(
                 date_string, strip_timezone=False, settings=settings
-            ):
-                yield language
-            elif language.is_applicable(
+            ) or language.is_applicable(
                 date_string, strip_timezone=True, settings=settings
             ):
                 yield language

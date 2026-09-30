@@ -1,3 +1,4 @@
+import contextlib
 import sys
 import threading
 import unittest
@@ -45,7 +46,7 @@ class TestThreadSafety(BaseTestCase):
         dictionaries = [
             Dictionary(
                 en_data.info,
-                base_settings.replace(CACHE_SIZE_LIMIT=1, SKIP_TOKENS=["tok%d" % i]),
+                base_settings.replace(CACHE_SIZE_LIMIT=1, SKIP_TOKENS=[f"tok{i}"]),
             )
             for i in range(24)
         ]
@@ -141,7 +142,7 @@ class TestThreadSafety(BaseTestCase):
                 {"ru", "en"},
                 "detect_language left a single-use detector narrowed in place "
                 "on the instance; concurrent search_dates can observe this "
-                "(issue #1369). leftover=%r" % leftover,
+                f"(issue #1369). leftover={leftover!r}",
             )
 
     def test_concurrent_search_dates_does_not_share_language_detector(self):
@@ -163,10 +164,8 @@ class TestThreadSafety(BaseTestCase):
 
         def _set(self, value):
             slot["v"] = value
-            try:
+            with contextlib.suppress(threading.BrokenBarrierError):
                 barrier.wait()
-            except threading.BrokenBarrierError:
-                pass
 
         DateSearchWithDetection.language_detector = property(_get, _set)
         try:
@@ -197,10 +196,8 @@ class TestThreadSafety(BaseTestCase):
 
         def patched(self, shortname):
             result = original(self, shortname)
-            try:
+            with contextlib.suppress(threading.BrokenBarrierError):
                 barrier.wait()
-            except threading.BrokenBarrierError:
-                pass
             return result
 
         _ExactLanguageSearch.get_current_language = patched

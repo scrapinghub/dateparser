@@ -7,6 +7,7 @@ from datetime import datetime
 from parameterized import param, parameterized
 
 from dateparser.calendars.hijri import HijriCalendar
+from dateparser.conf import settings
 from tests import BaseTestCase
 
 
@@ -60,8 +61,6 @@ class TestHijriParser(BaseTestCase):
     def test_datetime_parsing(
         self, dt_string, dt_obj, date_formats=None, languages=None
     ):
-        from dateparser.conf import settings
-
         settings.DATE_ORDER = "DMY"
         self.when_date_is_given(dt_string, date_formats, languages)
         self.then_parsed_datetime_is(dt_obj)

@@ -28,6 +28,7 @@ class TestPersianDate(BaseTestCase):
             param(year=1348, month=2, day=28, weekday=0),
             param(year=1348, month=3, day=27, weekday=2),
             param(year=1348, month=4, day=11, weekday=3),
+            param(year=1348, month=12, day=31, weekday=None),
         ]
     )
     def test_weekday(self, year, month, day, weekday):

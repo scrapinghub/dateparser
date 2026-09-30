@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from hijridate import Gregorian, Hijri
 
 from dateparser.calendars import non_gregorian_parser
@@ -26,12 +28,6 @@ class HijriDate:
         self.month = month
         self.day = day
 
-    def weekday(self):
-        for week in hijri.monthcalendar(self.year, self.month):
-            for idx, day in enumerate(week):
-                if day == self.day:
-                    return idx
-
 
 class hijri_parser(non_gregorian_parser):
     calendar_converter = hijri
@@ -40,7 +36,7 @@ class hijri_parser(non_gregorian_parser):
     default_day = 1
     non_gregorian_date_cls = HijriDate
 
-    _time_conventions = {
+    _time_conventions: ClassVar[dict[str, list[str]]] = {
         "am": ["صباحاً"],
         "pm": ["مساءً"],
     }
@@ -56,5 +52,4 @@ class hijri_parser(non_gregorian_parser):
     def handle_two_digit_year(self, year):
         if year >= 90:
             return year + 1300
-        else:
-            return year + 1400
+        return year + 1400
