@@ -16,6 +16,7 @@ from dateparser.conf import Settings, settings
 from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import PATTERN, freshness_date_parser
 from dateparser.languages.dictionary import Dictionary
+from dateparser.search import search_dates
 from dateparser.utils import normalize_unicode
 from tests import BaseTestCase
 
@@ -2781,6 +2782,19 @@ class TestNumberFragments(unittest.TestCase):
             dateparser.parse(date_string, languages=["it"]),
             datetime(2018, 2, 25, 8, 51),
         )
+
+    @parameterized.expand(
+        [
+            param("Il y a 5 min", datetime(2020, 6, 15, 11, 55)),
+            param("Il y a 40 min", datetime(2020, 6, 15, 11, 20)),
+            param("il y a 2 h 30 min", datetime(2020, 6, 15, 9, 30)),
+        ]
+    )
+    def test_separate_number(self, date_string: str, expected: datetime) -> None:
+        settings = {"RELATIVE_BASE": datetime(2020, 6, 15, 12, 0)}
+        result = search_dates(date_string, settings=settings)
+        assert result
+        self.assertEqual(result[0][1], expected)
 
 
 if __name__ == "__main__":

@@ -183,16 +183,20 @@ class FreshnessDateDataParser:
         explicit_signs: dict[str, bool] = {}
 
         for match in PATTERN.finditer(date_string):
+            num, unit = match.groups()
+            num = num.lstrip()
             start = match.start()
+            # A number separated from the match only by whitespace, e.g. the 1
+            # in "year 1 40 minute", is a fragment only if the match starts
+            # with what could be a digit group of it.
             if (
                 start
                 and not date_string[start - 1].isalpha()
-                and _NUMERIC_PREFIX.search(date_string, 0, start)
+                and (prefix := _NUMERIC_PREFIX.search(date_string, 0, start))
+                and (not prefix.group().rstrip().isdigit() or re.match(r"\d{3}", num))
             ):
                 return {}, {}
-            num, unit = match.groups()
             unit += "s"
-            num = num.lstrip()
             explicit_signs[unit] = num[0] in "+-"
             kwargs[unit] = float(num) if num.isdecimal() else self._parse_number(num)
 
