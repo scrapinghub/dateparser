@@ -23,6 +23,8 @@ if TYPE_CHECKING:
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
 PATTERN = re.compile(rf"([+-]?\s*\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | re.U)
+# "the 1st of last month" translates to " 1 1 month ago".
+_DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?=(?:in\s+)?\d+\s+month\b)")
 
 
 class FreshnessDateDataParser:
@@ -48,11 +50,15 @@ class FreshnessDateDataParser:
     def get_local_tz(self) -> tzinfo:
         return _get_localzone()
 
-    def parse(  # noqa: PLR0912
+    def parse(  # noqa: PLR0912, PLR0915
         self, date_string: str, settings: "Settings"
     ) -> tuple[datetime | None, str | None, tuple[str, ...]]:
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
+        day = None
+        if match := _DAY_OF_MONTH.match(date_string):
+            day = int(match[1])
+            date_string = date_string[match.end() :]
         _time = self._parse_time(date_string, settings)
 
         _settings_tz = settings.TIMEZONE.lower()
@@ -97,6 +103,16 @@ class FreshnessDateDataParser:
         date, period, parts = self._parse_date(
             date_string, now, settings.PREFER_DATES_FROM
         )
+
+        if date and day is not None:
+            if period != "month":
+                return None, None, ()
+            try:
+                date = date.replace(day=day)
+            except ValueError:
+                return None, None, ()
+            period = "day"
+            parts += ("day",)
 
         if date:
             if period == "year":
