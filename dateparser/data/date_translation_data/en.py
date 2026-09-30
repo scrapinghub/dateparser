@@ -1166,6 +1166,9 @@ info = {
             "less than 1 minute ago": "45 second ago"
         },
         {
+            "(\\d+(?:st|nd|rd|th)) day": "\\1"
+        },
+        {
             "one": "1"
         },
         {
@@ -1202,73 +1205,73 @@ info = {
             "twelve": "12"
         },
         {
-            "thirteen": "13"
+            "thirteen(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "13"
         },
         {
-            "fourteen": "14"
+            "fourteen(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "14"
         },
         {
-            "fifteen": "15"
+            "fifteen(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "15"
         },
         {
-            "sixteen": "16"
+            "sixteen(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "16"
         },
         {
-            "seventeen": "17"
+            "seventeen(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "17"
         },
         {
-            "eighteen": "18"
+            "eighteen(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "18"
         },
         {
-            "nineteen": "19"
+            "nineteen(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "19"
         },
         {
-            "twenty[ -]([1-9])": "2\\1"
+            "twenty[ -]([1-9])(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "2\\1"
         },
         {
-            "thirty[ -]([1-9])": "3\\1"
+            "thirty[ -]([1-9])(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "3\\1"
         },
         {
-            "forty[ -]([1-9])": "4\\1"
+            "forty[ -]([1-9])(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "4\\1"
         },
         {
-            "fifty[ -]([1-9])": "5\\1"
+            "fifty[ -]([1-9])(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "5\\1"
         },
         {
-            "sixty[ -]([1-9])": "6\\1"
+            "sixty[ -]([1-9])(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "6\\1"
         },
         {
-            "seventy[ -]([1-9])": "7\\1"
+            "seventy[ -]([1-9])(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "7\\1"
         },
         {
-            "eighty[ -]([1-9])": "8\\1"
+            "eighty[ -]([1-9])(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "8\\1"
         },
         {
-            "ninety[ -]([1-9])": "9\\1"
+            "ninety[ -]([1-9])(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "9\\1"
         },
         {
-            "twenty": "20"
+            "twenty(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "20"
         },
         {
-            "thirty": "30"
+            "thirty(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "30"
         },
         {
-            "forty": "40"
+            "forty(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "40"
         },
         {
-            "fifty": "50"
+            "fifty(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "50"
         },
         {
-            "sixty": "60"
+            "sixty(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "60"
         },
         {
-            "seventy": "70"
+            "seventy(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "70"
         },
         {
-            "eighty": "80"
+            "eighty(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "80"
         },
         {
-            "ninety": "90"
+            "ninety(?=\\s+(?:decades?|years?|y|months?|mo|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\\b)": "90"
         },
         {
             "(\\d++[.,]?\\d*+) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
