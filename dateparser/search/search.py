@@ -159,9 +159,11 @@ class _ExactLanguageSearch:
         """Split a chunk into the longest date it starts with and the words
         after it, when those words are the same in the original text."""
         words = item.split()
-        for end in range(len(words) - 1, 0, -1):
+        for end in range(min(len(words) - 1, 10), 0, -1):
             rest = " ".join(words[end:])
-            if not original.lower().endswith(" " + rest):
+            if not original.lower().endswith(" " + rest) or all(
+                word.isdigit() for word in words[:end]
+            ):
                 break
             date = " ".join(words[:end])
             if parser.get_date_data(date)["date_obj"] is not None:

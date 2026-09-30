@@ -1,4 +1,5 @@
 import datetime
+import time
 from datetime import timedelta
 
 import pytz
@@ -1141,6 +1142,21 @@ class TestTranslateSearch(BaseTestCase):
     )
     def test_search_dates_followed_by_words_with_digits(self, text, expected):
         self.assertEqual(search_dates(text, languages=["en"]), expected)
+
+    @parameterized.expand(
+        [
+            param(text="Shoes available in sizes of 10 12 14 16"),
+            param(text="rooms on 1 2 3 floors"),
+        ]
+    )
+    def test_search_dates_skips_numbers_followed_by_words(self, text):
+        self.assertIsNone(search_dates(text, languages=["en"]))
+
+    def test_search_dates_in_a_long_run_of_numbers(self):
+        text = "Scores at " + " ".join(str(i % 90 + 10) for i in range(400))
+        start = time.perf_counter()
+        search_dates(text, languages=["en"])
+        self.assertLess(time.perf_counter() - start, 1)
 
     @parameterized.expand(
         [
