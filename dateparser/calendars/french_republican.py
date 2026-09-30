@@ -1,10 +1,14 @@
 import re
 import unicodedata
 from datetime import datetime, timezone
+from typing import TYPE_CHECKING
 
 from convertdate import french_republican
 
 from dateparser.calendars import CalendarBase
+
+if TYPE_CHECKING:
+    from dateparser.conf import Settings
 
 _MONTHS = {
     name: index
@@ -37,15 +41,15 @@ _RE_DATE = re.compile(
 _ROMAN_NUMERAL_VALUES = {"C": 100, "L": 50, "X": 10, "V": 5, "I": 1}
 
 
-def _roman_to_int(numeral):
+def _roman_to_int(numeral: str) -> int:
     values = [_ROMAN_NUMERAL_VALUES[char] for char in numeral.upper()]
     return sum(
         -value if value < next_value else value
-        for value, next_value in zip(values, values[1:] + [0])
+        for value, next_value in zip(values, [*values[1:], 0], strict=True)
     )
 
 
-def _month_length(year, month):
+def _month_length(year: int, month: int) -> int:
     if month < 13:
         return 30
     return 6 if french_republican.leap(year) else 5
@@ -53,7 +57,9 @@ def _month_length(year, month):
 
 class _french_republican_parser:
     @classmethod
-    def parse(cls, datestring, settings):
+    def parse(
+        cls, datestring: str, settings: "Settings"
+    ) -> tuple[datetime, str | None]:
         normalized = "".join(
             char
             for char in unicodedata.normalize("NFKD", datestring.strip())

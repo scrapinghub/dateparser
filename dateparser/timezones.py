@@ -10,7 +10,9 @@
 # has to agree with it: "BST" and "HDT" did not, and were corrected in #1322.
 # Run dateparser_scripts/tz_abbreviation_conflicts.py to re-check the table.
 
-timezone_info_list = [
+from typing import Any
+
+timezone_info_list: list[dict[str, Any]] = [
     {
         "regex_patterns": [r"(.)%s$"],
         "replace": [
