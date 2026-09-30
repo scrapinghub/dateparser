@@ -138,6 +138,8 @@ class TestBundledLanguages(BaseTestCase):
             param(
                 "pl", "29 listopada 2014 o 08:40", "29 november 2014 08:40"
             ),  # Issue #1302: "o" removed, whitespace preserved
+            param("pl", "nie, 12 lip 2020 10:00", "sunday 12 july 2020 10:00"),
+            param("pl", "Nie. 12.07.2020", "sunday. 12.07.2020"),
             # Ukrainian
             param("uk", "30 листопада 2013 о 04:27", "30 november 2013 04:27"),
             param("uk", "22 верес 2021 о 07:37", "22 september 2021 07:37"),
