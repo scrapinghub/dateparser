@@ -61,6 +61,7 @@ class TestDateParser(BaseTestCase):
             param(
                 "Wednesday, 22nd June, 2016, 12.16 pm.", datetime(2016, 6, 22, 12, 16)
             ),
+            param("2020/10/9 PM 2:26", datetime(2020, 10, 9, 14, 26)),
             # French dates
             param("11 Mai 2014", datetime(2014, 5, 11)),
             param("11 sept. 2014", datetime(2014, 9, 11)),
@@ -179,6 +180,7 @@ class TestDateParser(BaseTestCase):
             # Japanese dates
             param("2016年3月20日(日) 21時40分", datetime(2016, 3, 20, 21, 40)),
             param("2016年3月20日 21時40分", datetime(2016, 3, 20, 21, 40)),
+            param("2016 年 3 月 20 日 21 時 40 分", datetime(2016, 3, 20, 21, 40)),
             # Numeric dates
             param("06-17-2014", datetime(2014, 6, 17)),
             param("13/03/2014", datetime(2014, 3, 13)),
@@ -194,7 +196,13 @@ class TestDateParser(BaseTestCase):
             param("2016年6月2911:30", datetime(2016, 6, 29, 11, 30)),
             param("2016年6月29", datetime(2016, 6, 29, 0, 0)),
             param("2016年 2月 5日", datetime(2016, 2, 5, 0, 0)),
+            param("2019 年 10 月 30 日", datetime(2019, 10, 30, 0, 0)),
+            param("2016 年 6 月 30 日 9 时 30 分", datetime(2016, 6, 30, 9, 30)),
             param("2016年9月14日晚8:00", datetime(2016, 9, 14, 20, 0)),
+            param("2020/10/9 下午 02:26:26", datetime(2020, 10, 9, 14, 26, 26)),
+            param("2020/10/9 上午 02:26:26", datetime(2020, 10, 9, 2, 26, 26)),
+            # Korean dates
+            param("2020/10/9 오후 2:26", datetime(2020, 10, 9, 14, 26)),
             # Bulgarian
             param("25 ян 2016", datetime(2016, 1, 25, 0, 0)),
             param("23 декември 2013 15:10:01", datetime(2013, 12, 23, 15, 10, 1)),
@@ -1081,6 +1089,29 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("05/2020", date_order="DMY", expected=datetime(2020, 5, 1)),
+            param("5-2020", date_order="YMD", expected=datetime(2020, 5, 1)),
+            param(
+                "05/2020 10:00", date_order="YDM", expected=datetime(2020, 5, 28, 10)
+            ),
+            param("13/2020", date_order="DMY", expected=datetime(2020, 9, 13)),
+        ]
+    )
+    def test_month_and_year_with_explicit_date_order(
+        self, date_string: str, date_order: str, expected: datetime
+    ) -> None:
+        self.given_parser(
+            settings={
+                "DATE_ORDER": date_order,
+                "PREFER_DAY_OF_MONTH": "first",
+                "RELATIVE_BASE": datetime(2020, 9, 28),
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             # Epoch timestamps.
             param("1484823450", expected=datetime(2017, 1, 19, 10, 57, 30)),
             param("1436745600000", expected=datetime(2015, 7, 13, 0, 0)),
@@ -1615,21 +1646,45 @@ class TestDateParser(BaseTestCase):
     def test_dates_with_no_day_or_month_use_same_current_date_for_month_and_day(
         self,
     ) -> None:
-        class ParserDateTime(datetime):
-            @classmethod
-            def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
-                return datetime(2026, 5, 31, 12, 0, tzinfo=tz)
-
         class UtilsDateTime(datetime):
             @classmethod
             def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
                 return datetime(2026, 6, 1, 12, 0, tzinfo=tz)
 
         with (
-            patch("dateparser.parser.datetime", ParserDateTime),
+            patch("dateparser.parser._now", return_value=datetime(2026, 5, 31, 12)),
             patch("dateparser.utils.datetime", UtilsDateTime),
         ):
             self.assertEqual(parse("2014"), datetime(2014, 5, 31))
+
+    @parameterized.expand(
+        [
+            param("Monday", {}, datetime(2023, 11, 6)),
+            param("Tuesday", {}, datetime(2023, 10, 31)),
+            param("Tuesday", {"PREFER_DATES_FROM": "future"}, datetime(2023, 11, 7)),
+            param("Monday", {"PREFER_DATES_FROM": "past"}, datetime(2023, 10, 30)),
+            param("November 7", {"PREFER_DATES_FROM": "past"}, datetime(2022, 11, 7)),
+            param("9pm", {"PREFER_DATES_FROM": "past"}, datetime(2023, 11, 5, 21)),
+        ]
+    )
+    def test_current_date_is_taken_from_timezone(
+        self, date_string: str, settings: dict[str, Any], expected: datetime
+    ) -> None:
+        class UtilsDateTime(datetime):
+            @classmethod
+            def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
+                return datetime(2023, 11, 7, 2, 15, tzinfo=timezone.utc).astimezone(tz)
+
+        with patch("dateparser.utils.datetime", UtilsDateTime):
+            result = parse(
+                date_string,
+                settings={
+                    "TIMEZONE": "America/Chicago",
+                    "RETURN_AS_TIMEZONE_AWARE": False,
+                    **settings,
+                },
+            )
+        self.assertEqual(result, expected)
 
     @parameterized.expand(
         [

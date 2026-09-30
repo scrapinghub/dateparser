@@ -976,8 +976,8 @@ class TestDateDataParser(BaseTestCase):
         ]
     )
     def test_parse_date_using_format_with_literal_text(
-        self, date_string, date_formats, expected_result
-    ):
+        self, date_string: str, date_formats: list[str], expected_result: datetime
+    ) -> None:
         self.given_parser(
             restrict_to_languages=["es"], settings={"PREFER_DAY_OF_MONTH": "first"}
         )
@@ -1165,6 +1165,7 @@ class TestDateDataParser(BaseTestCase):
 
         self.add_patch(patch("dateparser.date.datetime", DateParserDateTime))
         self.add_patch(patch("dateparser.parser.datetime", DateParserDateTime))
+        self.add_patch(patch("dateparser.utils.datetime", DateParserDateTime))
 
     def given_parser(
         self, restrict_to_languages: list[str] | None = None, **params: Any
@@ -1588,6 +1589,7 @@ YMD = ("year", "month", "day")
         ("3 months ago", None, None, ("year", "month")),
         ("yesterday", None, None, YMD),
         ("tomorrow 4pm", None, None, (*YMD, "time")),
+        ("the 1st of last month", None, None, YMD),
         ("2 hours ago", None, None, (*YMD, "time")),
         ("foo", None, None, ()),
     ],

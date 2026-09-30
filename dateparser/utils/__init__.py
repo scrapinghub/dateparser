@@ -8,6 +8,7 @@ import unicodedata
 from collections import OrderedDict
 from collections.abc import Callable, Mapping
 from datetime import datetime, tzinfo
+from datetime import timezone as dt_timezone
 from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 import regex as re
@@ -169,6 +170,17 @@ def apply_timezone(date_time: datetime, tz_string: str) -> datetime:
         new_datetime = apply_tzdatabase_timezone(date_time, tz_string)
 
     return new_datetime
+
+
+def _now(settings: "Settings", tz: tzinfo | None = None) -> datetime:
+    """Return the current time as a naive datetime in *tz*, or in the
+    ``TIMEZONE`` setting if *tz* is ``None``."""
+    if tz is not None:
+        return datetime.now(tz).replace(tzinfo=None)
+    if "local" in settings.TIMEZONE.lower():
+        return datetime.now()
+    utc_now = datetime.now(dt_timezone.utc)
+    return apply_timezone(utc_now, settings.TIMEZONE).replace(tzinfo=None)
 
 
 def apply_timezone_from_settings(

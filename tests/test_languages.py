@@ -83,6 +83,7 @@ class TestBundledLanguages(BaseTestCase):
             param("zh", "周六 2013年04月08日", "saturday 2013-04-08"),
             param("zh", "下午3:30", "3:30 pm"),
             param("zh", "凌晨3:30", "3:30 am"),
+            param("zh", "下午 02:26:26", "02:26:26 pm"),
             param("zh", "中午", "12:00"),
             # French
             param("fr", "20 Février 2012", "20 february 2012"),
@@ -285,6 +286,8 @@ class TestBundledLanguages(BaseTestCase):
             # Swedish
             param("sv", "Sept 03 2014", "september 03 2014"),
             param("sv", "fredag, 03 september 2014", "friday 03 september 2014"),
+            param("sv", "den 24:e december 2020", " 24 december 2020"),
+            param("sv", "1:a januari 2021 10:00", "1 january 2021 10:00"),
             # af
             param("af", "5 Mei 2017", "5 may 2017"),
             param(
