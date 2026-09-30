@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 def test_timezone_regexes_first_use(benchmark: BenchmarkFixture) -> None:
-    def first_use():
+    def first_use() -> tuple[str, str | None]:
         _tz_regexes.cache_clear()
         # Both modules cache compiled patterns, which would otherwise turn
         # every compilation after the first one into a lookup.
