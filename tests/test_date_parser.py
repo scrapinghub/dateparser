@@ -238,6 +238,14 @@ class TestDateParser(BaseTestCase):
             param("2020 m. gruodžio 10 d.", datetime(2020, 12, 10, 0, 0)),
             # Korean dates
             param("2020년 12월 10일", datetime(2020, 12, 10, 0, 0)),
+            # Day ranges
+            param("June 12-14, 2021", datetime(2021, 6, 12, 0, 0)),
+            param("Jun 12–14 2021", datetime(2021, 6, 12, 0, 0)),
+            param("12-14 June 2021", datetime(2021, 6, 12, 0, 0)),
+            param("12.-14. Juni 2021", datetime(2021, 6, 12, 0, 0)),
+            param("12.-14.06.2021", datetime(2021, 6, 12, 0, 0)),
+            param("12-14 июня 2021", datetime(2021, 6, 12, 0, 0)),
+            param("12 - 14 czerwca 2021", datetime(2021, 6, 12, 0, 0)),
         ]
     )
     def test_dates_parsing(self, date_string: str, expected: datetime) -> None:
@@ -607,6 +615,10 @@ class TestDateParser(BaseTestCase):
                 "Unable to parse: 8",
             ),
             param("12/09/18567", "Unable to parse: 18567"),
+            param("5 06 Mar 2009", "Unable to parse: march"),
+            param("Mar 5 06 2009", "Too many numbers in date string"),
+            param("6/4/25 0730", "Too many numbers in date string"),
+            param("6-4-25 0730", "Too many numbers in date string"),
         ]
     )
     def test_dates_not_parsed(self, date_string: str, message: str) -> None:
