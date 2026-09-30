@@ -153,12 +153,6 @@ info = {
         ],
         "in 1 year": [
             "明年"
-        ],
-        "2 day ago": [
-            "前天"
-        ],
-        "in 2 days": [
-            "後天"
         ]
     },
     "relative-type-regex": {
@@ -428,9 +422,6 @@ info = {
     ],
     "ago": [
         "前"
-    ],
-    "in": [
-        "在"
     ],
     "simplifications": [
         {

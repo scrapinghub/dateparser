@@ -55,19 +55,13 @@ day:
 
 ago:
     - 前
-in:
-    - 在
 
 relative-type:
-    2 day ago:
-        - 前天
     0 second ago:
         - 剛剛
     0 hour ago:
         - 這一時間
         - 此時
-    in 2 days:
-        - 後天
 
 simplifications:
     - 半小時前: 30分前
