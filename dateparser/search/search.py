@@ -239,7 +239,7 @@ class _ExactLanguageSearch:
                     substrings.append(substrings_best[k])
         return parsed, substrings
 
-    def search_parse(self, shortname, text, settings):
+    def search_parse(self, shortname, text, settings, use_locale_date_order=False):
         language = self.get_current_language(shortname)
         translated, original = self.search(shortname, text, settings)
         bad_translate_with_search = [
@@ -250,9 +250,10 @@ class _ExactLanguageSearch:
             languages = ["en"]
             to_parse = translated
             if (
-                settings.PREFER_LOCALE_DATE_ORDER
+                use_locale_date_order
+                and settings.PREFER_LOCALE_DATE_ORDER
                 and "DATE_ORDER" not in settings._mod_settings
-                and "date_order" in language.info
+                and not language.info.get("date_order", "Y").startswith("Y")
             ):
                 # The translated text is parsed as English, so give it the date
                 # order of the source language, without marking DATE_ORDER as
@@ -429,7 +430,10 @@ class DateSearchWithDetection:
 
         for candidate_language in candidate_languages:
             dates = self.search.search_parse(
-                candidate_language, text, settings=settings
+                candidate_language,
+                text,
+                settings=settings,
+                use_locale_date_order=bool(languages),
             )
             if dates:
                 return {"Language": candidate_language, "Dates": dates}

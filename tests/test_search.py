@@ -1257,6 +1257,26 @@ class TestTranslateSearch(BaseTestCase):
         )
         assert [date for _, date in result] == [expected]
 
+    @parameterized.expand(
+        [
+            param("Mötet hålls den 16 mars.", ["sv"], datetime.datetime(2020, 3, 16)),
+            param("31 kovo", ["lt"], datetime.datetime(2020, 3, 31)),
+            param(
+                "Posted 5/3/2020 10:30 PM EST",
+                None,
+                datetime.datetime(2020, 5, 3, 22, 30),
+            ),
+            param("03/04/2021 10:00 AM", None, datetime.datetime(2021, 3, 4, 10)),
+        ]
+    )
+    def test_search_dates_keeps_the_default_date_order(self, text, languages, expected):
+        result = search_dates(
+            text,
+            languages=languages,
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+        )
+        assert [date.replace(tzinfo=None) for _, date in result] == [expected]
+
     def test_search_dates_with_prepositions(self):
         """Test `search_dates` for parsing Russian date ranges with prepositions and language detection."""
         result = search_dates(
