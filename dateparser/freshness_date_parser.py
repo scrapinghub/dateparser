@@ -9,6 +9,8 @@ from dateparser.utils import (
     _get_localzone,
     apply_timezone,
     localize_timezone,
+    set_correct_day_from_settings,
+    set_correct_month_from_settings,
     strip_braces,
 )
 
@@ -95,6 +97,10 @@ class FreshnessDateDataParser:
         date, period = self._parse_date(date_string, now, settings.PREFER_DATES_FROM)
 
         if date:
+            if period == "year":
+                date = set_correct_month_from_settings(date, settings, date.month)
+            if period in ("year", "month"):
+                date = set_correct_day_from_settings(date, settings, date.day)
             old_date = date
             date = apply_time(date, _time)
             if settings.RETURN_TIME_AS_PERIOD and old_date != date:

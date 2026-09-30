@@ -361,8 +361,9 @@ Supported Calendars
 ===================
 
 Apart from the Gregorian calendar, `dateparser` supports the `Persian Jalali
-calendar`, the `Hijri/Islamic calendar` and the `French Republican calendar`.
-To use them, install the ``calendars`` extra (see `Installation`_).
+calendar`, the `Hijri/Islamic calendar`, the `French Republican calendar` and
+the `Minguo calendar`. To use the first three, install the ``calendars`` extra
+(see `Installation`_).
 
 Example using the `Persian Jalali calendar
 <https://en.wikipedia.org/wiki/Iranian_calendars#Zoroastrian_calendar>`_:
@@ -390,6 +391,15 @@ Example using the `French Republican calendar
     >>> from dateparser.calendars.french_republican import FrenchRepublicanCalendar
     >>> FrenchRepublicanCalendar('18 brumaire an VIII').get_date()
     DateData(date_obj=datetime.datetime(1799, 11, 9, 0, 0), period='day', locale=None)
+
+Example using the `Minguo calendar
+<https://en.wikipedia.org/wiki/Republic_of_China_calendar>`_:
+
+.. code:: python
+
+    >>> from dateparser.calendars.minguo import MinguoCalendar
+    >>> MinguoCalendar('民國101年5月25日 08:36').get_date()
+    DateData(date_obj=datetime.datetime(2012, 5, 25, 8, 36), period='day', locale=None)
 
 Dependencies
 ============
