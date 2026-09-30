@@ -50,7 +50,7 @@ class FreshnessDateDataParser:
     def get_local_tz(self) -> tzinfo:
         return _get_localzone()
 
-    def parse(  # noqa: PLR0912
+    def parse(  # noqa: PLR0912, PLR0915
         self, date_string: str, settings: "Settings"
     ) -> tuple[datetime | None, str | None, tuple[str, ...]]:
         date_string = strip_braces(date_string)
@@ -106,11 +106,11 @@ class FreshnessDateDataParser:
 
         if date and day is not None:
             if period != "month":
-                return None, None
+                return None, None, ()
             try:
                 date = date.replace(day=day)
             except ValueError:
-                return None, None
+                return None, None, ()
             period = "day"
 
         if date:

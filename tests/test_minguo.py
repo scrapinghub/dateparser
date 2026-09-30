@@ -25,13 +25,21 @@ class TestMinguoCalendar(BaseTestCase):
 
     @parameterized.expand(
         [
-            param("101-02", datetime(2012, 2, 29), "month"),
-            param("110", datetime(2021, 3, 31), "year"),
+            param("101-02", datetime(2012, 2, 29), "month", ("year", "month")),
+            param("110", datetime(2021, 3, 31), "year", ("year",)),
         ]
     )
-    def test_partial(self, date_string: str, expected: datetime, period: str) -> None:
+    def test_partial(
+        self,
+        date_string: str,
+        expected: datetime,
+        period: str,
+        parts: tuple[str, ...],
+    ) -> None:
         current = settings.replace(RELATIVE_BASE=datetime(2026, 3, 31))
-        self.assertEqual(_minguo_parser.parse(date_string, current), (expected, period))
+        self.assertEqual(
+            _minguo_parser.parse(date_string, current), (expected, period, parts)
+        )
 
     @parameterized.expand(
         [
