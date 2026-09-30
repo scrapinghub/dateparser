@@ -181,6 +181,24 @@ class _ExactLanguageSearch:
             )
         return possible_splits
 
+    def split_off_trailing_words(
+        self, parser: DateDataParser, item: str, original: str
+    ) -> list[list[list[str]]]:
+        """Split a chunk into the longest date it starts with and the words
+        after it, when those words are the same in the original text."""
+        words = item.split()
+        for end in range(min(len(words) - 1, 10), 0, -1):
+            rest = " ".join(words[end:])
+            if not original.lower().endswith(" " + rest) or all(
+                word.isdigit() for word in words[:end]
+            ):
+                break
+            date = " ".join(words[:end])
+            if parser.get_date_data(date)["date_obj"] is not None:
+                cut = len(original) - len(rest)
+                return [[[date, rest], [original[:cut], original[cut:]]]]
+        return []
+
     def split_around_skipped_words(
         self, item: str, original: str, language: Locale, settings: Settings
     ) -> list[list[list[str]]]:
@@ -252,6 +270,8 @@ class _ExactLanguageSearch:
             possible_splits = self.split_by_relative_expression(
                 parser, item, original, language, settings
             ) or self.split_around_skipped_words(item, original, language, settings)
+        if not possible_splits:
+            possible_splits = self.split_off_trailing_words(parser, item, original)
         return possible_splits
 
     def parse_item(
