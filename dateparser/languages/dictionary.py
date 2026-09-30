@@ -110,10 +110,14 @@ class Dictionary:
         if "pertain" in locale_info:
             pertain = map(methodcaller("lower"), locale_info["pertain"])
             dictionary.update(dict.fromkeys(pertain))
+        meanings: dict[str, list[str]] = {}
         for word in KNOWN_WORD_TOKENS:
             if word in locale_info:
-                translations = map(methodcaller("lower"), locale_info[word])
+                translations = list(map(methodcaller("lower"), locale_info[word]))
                 dictionary.update(zip_longest(translations, [], fillvalue=word))
+                for translation in translations:
+                    meanings.setdefault(translation, []).append(word)
+        self._meanings = meanings
 
         # Some locales (mostly Romance languages) reuse the same abbreviation for a
         # weekday and a month (e.g. Italian "mar" is both "martedì" and "marzo").
@@ -182,6 +186,15 @@ class Dictionary:
 
     def __iter__(self) -> Iterator[str]:
         return chain(self._settings.SKIP_TOKENS, iter(self._dictionary))
+
+    def _get_meanings(self, key: str) -> list[str]:
+        """Return every meaning of *key*, starting with the one that indexing
+        returns, if any."""
+        default = self[key]
+        if default is None:
+            return []
+        others = [m for m in self._meanings.get(key, ()) if m != default]
+        return [default, *others]
 
     def are_tokens_valid(self, tokens: Iterable[str]) -> bool:
         """
@@ -486,4 +499,11 @@ class NormalizedDictionary(Dictionary):
             if key in (self.info.get("skip", []) + self.info.get("pertain", [])):
                 new_dict[normalized] = self._dictionary[key]
         self._dictionary = new_dict
+        meanings: dict[str, list[str]] = {}
+        for key, key_meanings in self._meanings.items():
+            normalized_meanings = meanings.setdefault(normalize_unicode(key), [])
+            normalized_meanings.extend(
+                m for m in key_meanings if m not in normalized_meanings
+            )
+        self._meanings = meanings
         self._relative_strings = list(map(normalize_unicode, self._relative_strings))
