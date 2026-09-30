@@ -4,6 +4,8 @@ from collections.abc import Callable, Iterable
 from datetime import datetime
 from typing import Any
 
+from ._parts_of_day import PartOfDay as PartOfDay
+from ._parts_of_day import PartsOfDay as PartsOfDay
 from .conf import Settings, apply_settings
 from .date import DateDataParser as DateDataParser
 
