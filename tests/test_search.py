@@ -719,7 +719,6 @@ class TestTranslateSearch(BaseTestCase):
                     ("May 31", datetime.datetime(2023, 5, 31, 0, 0)),
                     ("8am UTC", datetime.datetime(2023, 8, 31, 0, 0, tzinfo=pytz.utc)),
                 ],
-                settings={"TIMEZONE": "UTC"},
             ),
             # Russian
             param(
@@ -818,7 +817,6 @@ class TestTranslateSearch(BaseTestCase):
                     ("July 13th", datetime.datetime(2014, 7, 13, 0, 0)),
                     ("July 14th", datetime.datetime(2014, 7, 14, 0, 0)),
                 ],
-                settings={"TIMEZONE": "UTC"},
             ),
             param(
                 "en",
@@ -853,7 +851,6 @@ class TestTranslateSearch(BaseTestCase):
                     ("July 13th", datetime.datetime(2014, 7, 13, 0, 0)),
                     ("July 14th", datetime.datetime(2014, 7, 14, 0, 0)),
                 ],
-                settings={"TIMEZONE": "UTC"},
             ),
             # Swedish
             param(
@@ -864,7 +861,6 @@ class TestTranslateSearch(BaseTestCase):
                     ("1938", datetime.datetime(1938, today.month, today.day, 0, 0)),
                     ("1939", datetime.datetime(1939, today.month, today.day, 0, 0)),
                 ],
-                settings={"TIMEZONE": "UTC"},
             ),
             # German
             param(
