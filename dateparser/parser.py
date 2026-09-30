@@ -28,6 +28,7 @@ MERIDIAN = re.compile(r"am|pm")
 MICROSECOND = re.compile(r"\d{1,6}")
 EIGHT_DIGIT = re.compile(r"^\d{8}$")
 HOUR_MINUTE_REGEX = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+_RANGE_DASHES = {"-", "–"}
 
 
 def no_space_parser_eligibile(datestring: str) -> bool:
@@ -404,15 +405,44 @@ class _parser:
                 setattr(self, *res)
 
         known, unknown = get_unresolved_attrs(self)
+        unset_tokens = [
+            unset_token
+            for unset_token in self.unset_tokens
+            if not (
+                self._token_day and self._is_range(self._token_day[0], unset_token[0])
+            )
+        ]
+        if len(unset_tokens) > len(unknown):
+            raise ValueError("Too many numbers in date string")
         params: dict[str, int] = {}
         for attr in known:
             params.update({attr: getattr(self, attr)})
         for attr in unknown:
-            for token, token_type, _ in self.unset_tokens:
+            for token, token_type, _ in unset_tokens:
                 if token_type == 0:
                     params.update({attr: int(token)})
                     setattr(self, f"_token_{attr}", token)
                     setattr(self, attr, int(token))
+
+    def _is_range(self, first: object, last: object) -> bool:
+        """Return whether *first* and *last* are the ends of a range, e.g. 12
+        and 14 in “June 12-14, 2021”. A dash before *first* or after *last*
+        makes them part of a date instead, e.g. 4 and 25 in “6-4-25”."""
+
+        def is_dash(index: int) -> bool:
+            return (
+                0 <= index < len(self.tokens)
+                and self.tokens[index][0].lstrip(".") in _RANGE_DASHES
+            )
+
+        return any(
+            self.tokens[index][0] == first
+            and is_dash(index + 1)
+            and self.tokens[index + 2][0] == last
+            and not is_dash(index - 1)
+            and not is_dash(index + 3)
+            for index in range(len(self.tokens) - 2)
+        )
 
     @classmethod
     def _has_month_name(cls, tokens: Iterable[tuple[str, int]]) -> bool:
@@ -789,7 +819,17 @@ class _parser:
                             return set_and_return(
                                 token, token_type, component, do, skip_date_order=True
                             )
-                        if component == "month":
+                        if component == "month" and (
+                            not self.day
+                            or self._is_range(
+                                self._token_month[0],  # type: ignore[index]
+                                self._token_day[0],  # type: ignore[index]
+                            )
+                        ):
+                            # A number read as the month becomes the day, which
+                            # requires the day to be free, or to be the end of
+                            # a range that starts at that number, e.g. 14 in
+                            # “12-14 June”.
                             index = self.auto_order.index("month")
                             self.auto_order[index] = "day"
                             self._token_day = self._token_month

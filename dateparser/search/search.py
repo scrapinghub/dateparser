@@ -181,6 +181,22 @@ class _ExactLanguageSearch:
             )
         return possible_splits
 
+    def split_off_leading_number(
+        self, parser: DateDataParser, item: str, original: str
+    ) -> list[list[list[str]]]:
+        """Split a chunk that starts with a number into that number and the
+        rest, to find a date written after a number that is not part of it,
+        e.g. the decimals of “-58.5” before “06 Mar 2009”."""
+        number, _, rest = item.partition(" ")
+        original_number, _, original_rest = original.partition(" ")
+        if (
+            not number.isdigit()
+            or number != original_number
+            or parser.get_date_data(rest)["date_obj"] is None
+        ):
+            return []
+        return [[[number, rest], [original_number, original_rest]]]
+
     def split_if_not_parsed(
         self,
         parser: DateDataParser,
@@ -190,7 +206,7 @@ class _ExactLanguageSearch:
         settings: Settings,
     ) -> list[list[list[str]]]:
         splitters = [",", "،", "——", "—", "–", ".", " "]
-        possible_splits: list[list[list[str]]] = []
+        possible_splits = self.split_off_leading_number(parser, item, original)
         for splitter in splitters:
             if splitter in item and item.count(splitter) == original.count(splitter):
                 possible_splits.extend(self.split_by(item, original, splitter))
