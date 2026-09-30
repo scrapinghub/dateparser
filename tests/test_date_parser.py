@@ -234,6 +234,10 @@ class TestDateParser(BaseTestCase):
             param("28. u studenom 2017.", datetime(2017, 11, 28, 0, 0)),
             param("13. veljače 1999. u podne", datetime(1999, 2, 13, 12, 0)),
             param("27. siječnja 1994. u ponoć", datetime(1994, 1, 27, 0, 0)),
+            # Lithuanian dates
+            param("2020 m. gruodžio 10 d.", datetime(2020, 12, 10, 0, 0)),
+            # Korean dates
+            param("2020년 12월 10일", datetime(2020, 12, 10, 0, 0)),
             # Day ranges
             param("June 12-14, 2021", datetime(2021, 6, 12, 0, 0)),
             param("Jun 12–14 2021", datetime(2021, 6, 12, 0, 0)),
