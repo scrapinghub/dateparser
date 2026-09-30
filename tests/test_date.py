@@ -977,8 +977,8 @@ class TestDateDataParser(BaseTestCase):
         ]
     )
     def test_parse_date_using_format_with_literal_text(
-        self, date_string, date_formats, expected_result
-    ):
+        self, date_string: str, date_formats: list[str], expected_result: datetime
+    ) -> None:
         self.given_parser(
             restrict_to_languages=["es"], settings={"PREFER_DAY_OF_MONTH": "first"}
         )
