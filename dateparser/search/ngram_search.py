@@ -128,8 +128,7 @@ class _NgramDateSearch:
             date_data = parser.get_date_data(candidate)
             if date_data.date_obj is None:
                 return None
-            if date_data.locale is None:
-                return date_data.date_obj
+            assert date_data.locale is not None
             locale = default_loader.get_locale(date_data.locale)
             translation = locale.translate(candidate, settings=parser._settings)
             if _is_bad_translation(translation, candidate):
