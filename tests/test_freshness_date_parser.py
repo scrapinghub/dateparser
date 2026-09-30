@@ -2367,6 +2367,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         [
             param("15th of Aug, 2014 Diane Bennett"),
             param("4 heures ago"),
+            param("the 31st of the month"),
             param("the 31st of this month"),
             param("the 1st of last month 2 days ago"),
         ]
@@ -2607,6 +2608,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 1.5 days", date(2010, 6, 6), time(1, 15)),
             param("0,5 hours ago", date(2010, 6, 4), time(12, 45)),
             # Day of a relative month
+            param("the 1st of the month", date(2010, 6, 1), time(13, 15)),
             param("the 1st of last month", date(2010, 5, 1), time(13, 15)),
             param("the 1st of this month", date(2010, 6, 1), time(13, 15)),
             param("30th of next month at 5pm", date(2010, 7, 30), time(17, 0)),
