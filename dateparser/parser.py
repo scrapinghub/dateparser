@@ -6,6 +6,7 @@ from functools import partial
 from io import StringIO
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, overload
 
+import pytz
 import regex as re
 from tzlocal import get_localzone
 
@@ -15,6 +16,7 @@ from dateparser.utils import (
     get_last_day_of_month,
     get_next_leap_year,
     get_previous_leap_year,
+    get_timezone_from_tz_string,
     localize_timezone,
     set_correct_day_from_settings,
     set_correct_month_from_settings,
@@ -281,6 +283,7 @@ class _parser:
     year: int | None
     time: Callable[[], time] | None
     now: datetime
+    _now_is_utc: bool
     _token_day: tuple[str, int] | str | int | None
     _token_month: tuple[str, int] | str | int | None
     _token_year: tuple[str, int] | str | None
@@ -517,11 +520,19 @@ class _parser:
     def _set_relative_base(self) -> None:
         # self.now is naive and expressed in the timezone of the parsed date:
         # the one in the date string if any, else the TIMEZONE setting. A naive
-        # RELATIVE_BASE is expressed in the TIMEZONE setting.
+        # RELATIVE_BASE is expressed in the TIMEZONE setting if it is set
+        # explicitly, else it is used as is for the date and as UTC when
+        # comparing times.
         now = self.settings.RELATIVE_BASE
-        if now and not now.tzinfo and not self._tz:
-            self.now = now
-            return
+        self._now_is_utc = False
+        if now and not now.tzinfo:
+            if "TIMEZONE" not in self.settings._mod_settings:
+                self.now = now
+                self._now_is_utc = True
+                return
+            if not self._tz:
+                self.now = now
+                return
         settings_tz = self.settings.TIMEZONE
         is_local = "local" in settings_tz.lower()
         if not now:
@@ -582,7 +593,9 @@ class _parser:
 
         return self._get_datetime_obj(**params)
 
-    def _correct_for_time_frame(self, dateobj: datetime) -> datetime:  # noqa: PLR0912
+    def _correct_for_time_frame(  # noqa: PLR0912, PLR0915
+        self, dateobj: datetime
+    ) -> datetime:
         days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
         token_weekday, _ = getattr(self, "_token_weekday", (None, None))
@@ -647,9 +660,16 @@ class _parser:
                 hasattr(self, "_token_weekday"),
             ]
         ):
-            if "past" in self.settings.PREFER_DATES_FROM and self.now < dateobj:
+            compared = dateobj
+            if self._now_is_utc:
+                try:
+                    tz = self._tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
+                    compared -= tz.utcoffset(dateobj) or timedelta()
+                except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
+                    pass
+            if "past" in self.settings.PREFER_DATES_FROM and self.now < compared:
                 dateobj = dateobj + timedelta(days=-1)
-            if "future" in self.settings.PREFER_DATES_FROM and self.now > dateobj:
+            if "future" in self.settings.PREFER_DATES_FROM and self.now > compared:
                 dateobj = dateobj + timedelta(days=1)
 
         return dateobj
