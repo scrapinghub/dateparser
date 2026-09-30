@@ -6,11 +6,12 @@ from collections.abc import Callable, Iterable, Iterator
 from collections.abc import Set as AbstractSet
 from datetime import date, datetime, timedelta, tzinfo
 from itertools import count
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeGuard, TypeVar
 
 import regex as re
 from dateutil.relativedelta import relativedelta
 
+from dateparser._parts_of_day import PartOfDay, _replace_part_of_day
 from dateparser.conf import Settings, apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
@@ -447,6 +448,8 @@ class _DateLocaleParser:
         self._alternative = 0
         self._translated_date: str | None = None
         self._translated_date_with_formatting: str | None = None
+        self._part_of_day: PartOfDay | None = None
+        self._part_of_day_sets_time = False
         self._parsers: dict[str, Callable[[], DateData | None]] = {
             "timestamp": self._try_timestamp,
             "negative-timestamp": self._try_negative_timestamp,
@@ -480,7 +483,7 @@ class _DateLocaleParser:
         if not self._alternatives:
             return self._parse_translation()
         for self._alternative in count(1):
-            self._translated_date = self._translate(keep_formatting=False)
+            self._set_translated_date()
             if self._translated_date is None:
                 return None
             self._translated_date_with_formatting = None
@@ -493,6 +496,13 @@ class _DateLocaleParser:
         for parser_name in self._settings.PARSERS:
             date_data = self._parsers[parser_name]()
             if self._is_valid_date_data(date_data):
+                if self._part_of_day:
+                    date_data.part_of_day = self._part_of_day
+                    if (
+                        self._part_of_day_sets_time
+                        and self._settings.RETURN_TIME_AS_PERIOD
+                    ):
+                        date_data.period = "part_of_day"
                 return date_data
         return None
 
@@ -587,9 +597,20 @@ class _DateLocaleParser:
             alternative=self._alternative,
         )
 
+    def _set_translated_date(self) -> None:
+        translated = self._translate(keep_formatting=False)
+        if translated is None:
+            self._translated_date = None
+            return
+        (
+            self._translated_date,
+            self._part_of_day,
+            self._part_of_day_sets_time,
+        ) = _replace_part_of_day(translated, self._settings.PARTS_OF_DAY)
+
     def _get_translated_date(self) -> str:
         if self._translated_date is None:
-            self._translated_date = self._translate(keep_formatting=False)
+            self._set_translated_date()
         assert self._translated_date is not None
         return self._translated_date
 
@@ -601,7 +622,7 @@ class _DateLocaleParser:
         assert self._translated_date_with_formatting is not None
         return self._translated_date_with_formatting
 
-    def _is_valid_date_data(self, date_data: object) -> bool:
+    def _is_valid_date_data(self, date_data: object) -> TypeGuard["DateData"]:
         if not isinstance(date_data, DateData):
             return False
         if not date_data["date_obj"] or not date_data["period"]:
@@ -615,6 +636,18 @@ class DateData:
     """
     Class that represents the parsed data with useful information.
     It can be accessed with square brackets like a dict object.
+    """
+
+    part_of_day: PartOfDay | None = None
+    """:class:`~dateparser.PartOfDay` that the date string refers to, e.g.
+    :attr:`~dateparser.PartOfDay.NIGHT` for ``"tonight"``, or ``None``.
+
+    .. versionadded:: VERSION
+
+    Its time comes from the ``PARTS_OF_DAY`` :ref:`setting <settings>`, unless
+    the date string also has a time, e.g. ``"tonight at 11pm"``. If it does
+    not, and the ``RETURN_TIME_AS_PERIOD`` setting is enabled, ``period`` is
+    ``"part_of_day"``.
     """
 
     def __init__(
@@ -782,7 +815,8 @@ class DateDataParser:
 
         :raises: ValueError - Unknown Language
 
-        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time'.
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time',
+            'part_of_day'.
 
         *Period* represents the granularity of date parsed from the given string.
 
