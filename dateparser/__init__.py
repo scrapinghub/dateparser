@@ -5,8 +5,8 @@ from collections.abc import Callable, Iterable, Iterator
 from datetime import datetime
 from typing import Any
 
-from .conf import apply_settings
-from .date import DateDataParser
+from .conf import Settings, apply_settings
+from .date import DateDataParser as DateDataParser
 from .parser import date_order_chart
 
 _default_parser = DateDataParser()
@@ -14,14 +14,14 @@ _default_parser = DateDataParser()
 
 @apply_settings
 def parse(
-    date_string,
-    date_formats=None,
-    languages=None,
-    locales=None,
-    region=None,
-    settings=None,
-    detect_languages_function=None,
-):
+    date_string: str,
+    date_formats: Iterable[str] | None = None,
+    languages: Iterable[str] | None = None,
+    locales: Iterable[str] | None = None,
+    region: str | None = None,
+    settings: Settings | dict[str, Any] | None = None,
+    detect_languages_function: Callable[..., list[str]] | None = None,
+) -> datetime | None:
     """Parse date and time from given date string.
 
     :param date_string:
@@ -65,6 +65,7 @@ def parse(
         ``ValueError``: Unknown Language, ``TypeError``: Languages argument must be a list,
         ``SettingValidationError``: A provided setting is not valid.
     """
+    assert isinstance(settings, Settings)
     parser = _default_parser
 
     if (
@@ -83,9 +84,8 @@ def parse(
         )
 
     data = parser.get_date_data(date_string, date_formats)
-
-    if data:
-        return data["date_obj"]
+    date_obj: datetime | None = data["date_obj"]
+    return date_obj
 
 
 class AmbiguousDateOrderError(ValueError):
@@ -139,16 +139,16 @@ def parse_many(
     preferred_order = settings.get("DATE_ORDER")
     # Relative dates must not change from one date order to the next.
     settings.setdefault("RELATIVE_BASE", datetime.now())
-    parser_kwargs = {
+    parser_kwargs: dict[str, Any] = {
         "languages": languages,
         "locales": locales,
         "region": region,
         "detect_languages_function": detect_languages_function,
     }
     parser = DateDataParser(settings=settings, **parser_kwargs)
-    strict_parsers = {}
+    strict_parsers: dict[tuple[str, str], DateDataParser] = {}
 
-    def parse_strictly(date_string, order, locale):
+    def parse_strictly(date_string: str, order: str, locale: str) -> datetime | None:
         # Parsing with the locale of regular parsing, because a date string
         # that fails under one locale is tried under every other one.
         if (order, locale) not in strict_parsers:
@@ -156,7 +156,10 @@ def parse_many(
                 locales=[locale],
                 settings={**settings, "DATE_ORDER": order, "STRICT_DATE_ORDER": True},
             )
-        return strict_parsers[order, locale].get_date_data(date_string)["date_obj"]
+        date_obj: datetime | None = strict_parsers[order, locale].get_date_data(
+            date_string
+        )["date_obj"]
+        return date_obj
 
     orders = list(date_orders or date_order_chart)
     pending: collections.deque[tuple[str, dict[str, datetime | None]]] = (
@@ -206,7 +209,11 @@ def parse_many(
             yield dates[order]
 
 
-def _settle_date_order(pending, orders, preferred_order):
+def _settle_date_order(
+    pending: Iterable[tuple[str, dict[str, datetime | None]]],
+    orders: list[str],
+    preferred_order: str | None,
+) -> list[str]:
     if preferred_order in orders:
         return [preferred_order]
     raise AmbiguousDateOrderError([date_string for date_string, _ in pending], orders)
