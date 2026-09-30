@@ -400,6 +400,10 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         )
         self.then_parsed_datetime_is(datetime(2019, 4, 17))
 
+    def test_region_of_the_base_locale(self):
+        self.when_date_is_parsed("5. März 2020", languages=["de"], region="DE")
+        self.then_parsed_datetime_is(datetime(2020, 3, 5))
+
     def test_surrounding_text_ignored_with_default_languages_setting(self):
         self.when_date_is_parsed(
             "Actualisé le 17 avril 2019",

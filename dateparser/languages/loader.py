@@ -168,7 +168,8 @@ class LocaleDataLoader:
                     )
 
         else:
-            if languages is None:
+            languages_given = languages is not None
+            if not languages_given:
                 languages = language_order
             unsupported_languages = set(languages) - set(language_order)
             if unsupported_languages:
@@ -183,6 +184,8 @@ class LocaleDataLoader:
                     locale_dict[language] = (language, region)
                 elif _isvalidlocale(locale := f"{language}-{region}"):
                     locale_dict[locale] = (language, region)
+                elif languages_given:
+                    locale_dict[language] = (language, "")
 
         if not use_given_order:
             locale_dict = dict(
