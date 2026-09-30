@@ -353,6 +353,10 @@ class _parser:
                         if (
                             next_token_is_last
                             or self.tokens[index_in_tokens_for_next_token + 1][0] != "."
+                            or (
+                                index_next_token == len(self.filtered_tokens) - 1
+                                and int(next_token) > 12
+                            )
                         ):
                             new_token = token + ":" + next_token
                             if re.match(HOUR_MINUTE_REGEX, new_token):
