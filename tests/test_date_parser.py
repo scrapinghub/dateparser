@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from functools import wraps
 from unittest.mock import Mock, patch
 
+import pytz
 from parameterized import param, parameterized
 
 import dateparser.timezone_parser
@@ -709,6 +710,27 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("3pm", "past", datetime(2020, 6, 15, 18, 0)),
+            param("3pm", "future", datetime(2020, 6, 15, 12, 0)),
+        ]
+    )
+    def test_time_only_with_timezone_aware_relative_base(
+        self, date_string, prefer_dates_from, relative_base
+    ):
+        tz = pytz.timezone("America/Los_Angeles")
+        self.given_parser(
+            settings={
+                "TIMEZONE": "America/Los_Angeles",
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "RELATIVE_BASE": tz.localize(relative_base),
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_period_is("day")
 
     @parameterized.expand(
         [
