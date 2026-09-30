@@ -23,7 +23,7 @@ class TestDateParser(BaseTestCase):
         self.parser: DateDataParser = NotImplemented
         self.result: DateData = NotImplemented
         self.date_parser: Mock = NotImplemented
-        self.date_result: tuple[datetime, str | None] = NotImplemented
+        self.date_result: tuple[datetime, str | None, tuple[str, ...]] = NotImplemented
 
     @parameterized.expand(
         [
@@ -1843,10 +1843,12 @@ class TestDateParser(BaseTestCase):
 
     def given_parser(self, *args: Any, **kwds: Any) -> None:
         def collecting_get_date_data(
-            parse: Callable[..., tuple[datetime, str | None]],
-        ) -> Callable[..., tuple[datetime, str | None]]:
+            parse: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
+        ) -> Callable[..., tuple[datetime, str | None, tuple[str, ...]]]:
             @wraps(parse)
-            def wrapped(*args: Any, **kwargs: Any) -> tuple[datetime, str | None]:
+            def wrapped(
+                *args: Any, **kwargs: Any
+            ) -> tuple[datetime, str | None, tuple[str, ...]]:
                 self.date_result = parse(*args, **kwargs)
                 return self.date_result
 
