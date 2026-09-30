@@ -350,7 +350,7 @@ Dateparser supports Python 3.10+. You can install it by doing:
 
     $ pip install dateparser
 
-If you want to use the jalali or hijri calendar, you need to install the
+If you want to use a non-Gregorian calendar, you need to install the
 ``calendars`` extra:
 
 ::
@@ -360,8 +360,8 @@ If you want to use the jalali or hijri calendar, you need to install the
 Supported Calendars
 ===================
 
-Apart from the Gregorian calendar, `dateparser` supports the
-`Persian Jalali calendar` and the `Hijri/Islamic calendar`.
+Apart from the Gregorian calendar, `dateparser` supports the `Persian Jalali
+calendar`, the `Hijri/Islamic calendar` and the `French Republican calendar`.
 To use them, install the ``calendars`` extra (see `Installation`_).
 
 Example using the `Persian Jalali calendar
@@ -382,13 +382,23 @@ Example using the `Hijri/Islamic calendar
     >>> HijriCalendar('17-01-1437 هـ 08:30 مساءً').get_date()
     DateData(date_obj=datetime.datetime(2015, 10, 30, 20, 30), period='day', locale=None)
 
+Example using the `French Republican calendar
+<https://en.wikipedia.org/wiki/French_Republican_calendar>`_:
+
+.. code:: python
+
+    >>> from dateparser.calendars.french_republican import FrenchRepublicanCalendar
+    >>> FrenchRepublicanCalendar('18 brumaire an VIII').get_date()
+    DateData(date_obj=datetime.datetime(1799, 11, 9, 0, 0), period='day', locale=None)
+
 Dependencies
 ============
 
 `dateparser` relies on the following libraries:
 
 * dateutil_'s module ``relativedelta`` for its freshness parser.
-* convertdate_ to convert *Jalali* dates to *Gregorian*.
+* convertdate_ to convert *Jalali* and *French Republican* dates to
+  *Gregorian*.
 * hijridate_ to convert *Hijri* dates to *Gregorian*.
 * tzlocal_ to reliably get local timezone.
 * ruamel.yaml_ (optional) for operations on language files.
