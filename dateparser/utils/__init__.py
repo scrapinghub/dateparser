@@ -1,5 +1,6 @@
 import calendar
 import logging
+import os
 import threading
 import types
 import unicodedata
@@ -11,6 +12,16 @@ from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
 
 from dateparser.timezone_parser import StaticTzInfo, _find_tz
+
+
+def _get_localzone():
+    try:
+        return get_localzone()
+    except ValueError as error:
+        raise RuntimeError(
+            f"Could not determine the local timezone "
+            f"(TZ={os.environ.get('TZ')!r}): {error}"
+        ) from error
 
 
 def strip_braces(date_string):
@@ -56,6 +67,17 @@ def _get_missing_parts(fmt):
     Return a list containing missing parts (day, month, year)
     from a date format checking its directives
     """
+    if "%U" in fmt or "%W" in fmt or "%V" in fmt:
+        # A year, week number and weekday determine the complete date. Consume
+        # %% pairs so literal directive names do not count as date components.
+        directives = set(re.findall(r"%[%UWVwuAaYyG]", fmt))
+        if (
+            directives & {"%U", "%W", "%V"}
+            and directives & {"%w", "%u", "%a", "%A"}
+            and directives & {"%Y", "%y", "%G"}
+        ):
+            return []
+
     directive_mapping = {
         "day": ["%d", "%-d", "%j", "%-j"],
         # %j (day of year) encodes month implicitly: a successful strptime with %j always
@@ -129,7 +151,7 @@ def apply_timezone(date_time, tz_string):
 
 
 def apply_timezone_from_settings(date_obj, settings):
-    tz = get_localzone()
+    tz = _get_localzone()
     if settings is None:
         return date_obj
 

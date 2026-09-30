@@ -1,11 +1,15 @@
+import calendar
 import itertools
 from datetime import datetime
+from unittest.mock import patch
 
 import pytest
 from parameterized import param, parameterized
 from pytz import UnknownTimeZoneError, utc
 
+import dateparser
 from dateparser.conf import settings
+from dateparser.search import search_dates
 from dateparser.utils import (
     apply_timezone,
     apply_timezone_from_settings,
@@ -16,6 +20,7 @@ from dateparser.utils import (
     localize_timezone,
     registry,
 )
+from dateparser.utils.strptime import patch_strptime
 from tests import BaseTestCase
 
 
@@ -24,6 +29,13 @@ class TestUtils(BaseTestCase):
         super().setUp()
         self.date_format = None
         self.result = None
+
+    def test_patch_strptime_preserves_global_calendar(self):
+        before = vars(calendar).copy()
+        patch_strptime()
+        self.assertEqual(set(vars(calendar)), set(before))
+        for name, value in before.items():
+            self.assertIs(getattr(calendar, name), value, name)
 
     def given_date_format(self, date_format):
         self.date_format = date_format
@@ -205,3 +217,23 @@ def test_get_previous_leap_year(year, expected_previous_leap_year):
 )
 def test_get_next_leap_year(year, expected_next_leap_year):
     assert get_next_leap_year(year) == expected_next_leap_year
+
+
+@pytest.mark.parametrize(
+    "parse",
+    [
+        lambda: dateparser.parse("4 October 1957"),
+        lambda: dateparser.parse("yesterday"),
+        lambda: dateparser.parse("1570308760"),
+        lambda: search_dates("It was launched on 4 October 1957.", languages=["en"]),
+    ],
+)
+def test_broken_local_timezone(parse):
+    with patch(
+        "dateparser.utils.get_localzone",
+        side_effect=ValueError("ZoneInfo keys may not be absolute paths"),
+    ):
+        with pytest.raises(
+            RuntimeError, match="Could not determine the local timezone"
+        ):
+            parse()

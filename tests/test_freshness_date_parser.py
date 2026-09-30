@@ -1286,6 +1286,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
                 },
                 period="day",
             ),
+            param("6 วัน ที่แล้ว", ago={"days": 6}, period="day"),
+            param("3 เดือน ที่ผ่านมา", ago={"months": 3}, period="month"),
             # Vietnamese dates
             param("Hôm nay", ago={"days": 0}, period="day"),
             param("Hôm qua", ago={"days": 1}, period="day"),
@@ -2301,6 +2303,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # th
             param("ในอีก 6 นาที", in_future={"minutes": 6}, period="day"),
             param("ในอีก 3 ปี", in_future={"years": 3}, period="year"),
+            param("อีก 6 วัน", in_future={"days": 6}, period="day"),
             # to
             param("'i he māhina 'e 5", in_future={"months": 5}, period="month"),
             param("'i he houa 'e 11", in_future={"hours": 11}, period="day"),
