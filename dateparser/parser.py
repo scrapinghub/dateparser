@@ -323,6 +323,8 @@ class _parser:
         self.time = None
 
         self.auto_order: list[str] = []
+        self._numeric_components: list[str] = []
+        self._effective_order = resolve_date_order(self._date_order, lst=True)
 
         self._token_day = None
         self._token_month = None
@@ -431,10 +433,22 @@ class _parser:
                     continue
 
             results = self._parse(token_type, token, skip_component=skip_component)
+            if token_type == 0:
+                self._numeric_components.append(results[0][0])
+            elif len(results) > 1 and "month" in self._numeric_components:
+                # A month name took the month of an earlier number, which
+                # became the day.
+                month_index = self._numeric_components.index("month")
+                self._numeric_components[month_index] = "day"
             for res in results:
                 if len(token) == 4 and res[0] == "year":
                     skip_component = "year"
                 setattr(self, *res)
+
+        if self.settings.STRICT_DATE_ORDER:
+            order = iter(self._effective_order)
+            if not all(component in order for component in self._numeric_components):
+                raise ValueError(f"Date components are not in {self._date_order} order")
 
         known, unknown = get_unresolved_attrs(self)
         unset_tokens = [
@@ -737,6 +751,7 @@ class _parser:
         except ValueError as error:
             if (
                 "DATE_ORDER" not in settings._mod_settings
+                or settings.STRICT_DATE_ORDER
                 or str(error).startswith("Fields missing")
                 or cls._has_month_name(tokens)
             ):
@@ -795,6 +810,7 @@ class _parser:
                 num_directives = {
                     k: self.num_directives[k] for k in ("month", "day", "year")
                 }
+                self._effective_order = ["year", "month", "day"]
 
             def try_directives(
                 skip_directive: str | None = None,

@@ -22,3 +22,13 @@ See :ref:`performance` for ways to make parsing faster.
     DateData(date_obj=datetime.datetime(2014, 10, 18, 22, 56), period='day', locale='de', parts=('year', 'month', 'day', 'time'))
     >>> ddp.get_date_data('11 July 2012')
     DateData(date_obj=None, period='day', locale=None, parts=())
+
+Parsing dates written in the same order
+---------------------------------------
+
+To parse dates that share a date order, such as those of a CSV column, use
+:func:`dateparser.parse_many`, which finds the date order that fits all of
+them:
+
+    >>> list(parse_many(['2015/2/3', '2015/31/12']))
+    [datetime.datetime(2015, 3, 2, 0, 0), datetime.datetime(2015, 12, 31, 0, 0)]
