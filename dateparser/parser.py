@@ -407,6 +407,19 @@ class _parser:
             for index in range(len(self.tokens) - 2)
         )
 
+    @classmethod
+    def _has_month_name(cls, tokens):
+        for token, type in tokens:
+            if type != 1:
+                continue
+            for directive in cls.alpha_directives["month"]:
+                try:
+                    strptime(token.strip(), directive)
+                    return True
+                except ValueError:
+                    pass
+        return False
+
     def _get_period(self):
         if self.settings.RETURN_TIME_AS_PERIOD:
             if getattr(self, "time", None):
@@ -637,9 +650,23 @@ class _parser:
 
     @classmethod
     def parse(cls, datestring, settings, tz=None, date_order=None):
-        tokens = tokenizer(datestring)
-        po = cls(tokens.tokenize(), settings, date_order=date_order)
-        dateobj = po._results()
+        tokens = list(tokenizer(datestring).tokenize())
+        date_order = date_order or settings.DATE_ORDER
+        try:
+            po = cls(tokens, settings, date_order=date_order)
+            dateobj = po._results()
+        except ValueError as error:
+            if (
+                "DATE_ORDER" not in settings._mod_settings
+                or str(error).startswith("Fields missing")
+                or cls._has_month_name(tokens)
+            ):
+                raise
+            # The numbers do not fit the date order set by the caller, so read
+            # them with the day and month swapped, e.g. "2021-01-13" with YDM.
+            swapped = date_order.translate(str.maketrans("DM", "MD"))
+            po = cls(tokens, settings, date_order=swapped)
+            dateobj = po._results()
 
         # correction for past, future if applicable
         dateobj = po._correct_for_time_frame(dateobj, tz)
