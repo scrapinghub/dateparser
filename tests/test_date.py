@@ -1356,6 +1356,10 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("2005 г. 15:24"), "2005 15:24")
         self.assertEqual(date.sanitize_date("Авг."), "Авг")
 
+    def test_sanitize_date_decimal_comma(self) -> None:
+        self.assertEqual(date.sanitize_date("06:38:49,946"), "06:38:49.946")
+        self.assertEqual(date.sanitize_date("06:38:49,12 June"), "06:38:49,12 June")
+
     def test_sanitize_date_colons(self) -> None:
         self.assertEqual(date.sanitize_date("2019:"), "2019")
         self.assertEqual(date.sanitize_date("31/07/2019:"), "31/07/2019")
@@ -1538,6 +1542,42 @@ class TestTimestampParser(BaseTestCase):
     )
     def test_timestamp_with_wrong_length(self, date_string: str) -> None:
         self.assertEqual(date.get_date_from_timestamp(date_string, None), None)
+
+
+YMD = ("year", "month", "day")
+
+
+@pytest.mark.parametrize(
+    ("date_string", "date_formats", "settings", "expected"),
+    [
+        ("2017", None, None, ("year",)),
+        ("January 2017", None, None, ("year", "month")),
+        ("22 May", None, None, ("month", "day")),
+        ("22 May 2017", None, None, YMD),
+        ("22 May 2017 10:30", None, None, (*YMD, "time")),
+        ("May 2017 4pm", None, None, ("year", "month", "time")),
+        ("Monday", None, None, YMD),
+        ("4pm", None, None, (*YMD, "time")),
+        ("22/05", ["%d/%m"], None, ("month", "day")),
+        ("22/05 10:30", ["%d/%m %H:%M"], None, ("month", "day", "time")),
+        ("20170522", None, {"DATE_ORDER": "YMD", "PARSERS": ["no-spaces-time"]}, YMD),
+        ("1439251200", None, None, (*YMD, "time")),
+        ("2 years ago", None, None, ("year",)),
+        ("3 months ago", None, None, ("year", "month")),
+        ("yesterday", None, None, YMD),
+        ("tomorrow 4pm", None, None, (*YMD, "time")),
+        ("2 hours ago", None, None, (*YMD, "time")),
+        ("foo", None, None, ()),
+    ],
+)
+def test_parts(
+    date_string: str,
+    date_formats: list[str] | None,
+    settings: dict[str, Any] | None,
+    expected: tuple[str, ...],
+) -> None:
+    parser = date.DateDataParser(languages=["en"], settings=settings)
+    assert parser.get_date_data(date_string, date_formats).parts == expected
 
 
 if __name__ == "__main__":
