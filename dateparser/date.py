@@ -338,8 +338,10 @@ _WEEKDAYS = (
 )
 
 
-@functools.lru_cache(maxsize=None)
-def _get_name_translations(locale, month_form, weekday_form):
+@functools.cache
+def _get_name_translations(
+    locale: "Locale", month_form: str | None, weekday_form: str | None
+) -> tuple[re.Pattern[str], dict[str, list[str]]] | None:
     """Return a pattern matching the month and weekday names of *locale*, and
     a mapping of each lowercase name to the English names it can stand for.
 
@@ -347,18 +349,20 @@ def _get_name_translations(locale, month_form, weekday_form):
     the English form to translate each kind of name into, or ``None`` to leave
     that kind of name untranslated.
     """
-    translations = collections.defaultdict(list)
+    translations: collections.defaultdict[str, list[str]] = collections.defaultdict(
+        list
+    )
     for words, form in ((_MONTHS, month_form), (_WEEKDAYS, weekday_form)):
         if form is None:
             continue
         for word in words:
             english = word if form == "full" else word[:3]
-            for name in locale.info.get(word, ()):
-                name = name.lower()
+            for localized in locale.info.get(word, ()):
+                name = localized.lower()
                 if english not in translations[name]:
                     translations[name].append(english)
     if not translations:
-        return None, None
+        return None
     names = sorted(translations, key=len, reverse=True)
     pattern = re.compile(
         r"(?<!\w)(?:{})(?!\w)".format("|".join(map(re.escape, names))),
@@ -367,7 +371,9 @@ def _get_name_translations(locale, month_form, weekday_form):
     return pattern, dict(translations)
 
 
-def _translate_names(date_string, date_format, locale):
+def _translate_names(
+    date_string: str, date_format: str, locale: "Locale"
+) -> Iterator[str]:
     """Yield the variants of *date_string* that result from replacing the
     month and weekday names of *locale* with the English names that the
     directives of *date_format* expect."""
@@ -377,19 +383,22 @@ def _translate_names(date_string, date_format, locale):
     weekday_form = (
         "full" if "%A" in date_format else "abbr" if "%a" in date_format else None
     )
-    pattern, translations = _get_name_translations(locale, month_form, weekday_form)
-    if pattern is None:
+    name_translations = _get_name_translations(locale, month_form, weekday_form)
+    if name_translations is None:
         return
+    pattern, translations = name_translations
     matches = pattern.findall(date_string)
     if not matches:
         return
+    pieces = pattern.split(date_string)
     # A name can stand for several English names, e.g. "mar" is both "martes"
     # and "marzo" in Spanish, so every combination is yielded.
     for combination in itertools.product(
         *(translations[match.lower()] for match in matches)
     ):
-        english_names = iter(combination)
-        yield pattern.sub(lambda _: next(english_names), date_string)
+        yield "".join(
+            itertools.chain.from_iterable(zip(pieces, (*combination, ""), strict=True))
+        )
 
 
 class _DateLocaleParser:
@@ -793,9 +802,11 @@ class DateDataParser:
         if res["date_obj"]:
             return res
         if date_formats:
-            res = self._parse_with_localized_formats(date_string, date_formats)
-            if res:
-                return res
+            localized_res = self._parse_with_localized_formats(
+                date_string, date_formats
+            )
+            if localized_res:
+                return localized_res
 
         date_string = sanitize_date(date_string)
 
@@ -811,7 +822,9 @@ class DateDataParser:
             )
         return parsed_date or DateData(date_obj=None, period="day", locale=None)
 
-    def _parse_with_localized_formats(self, date_string, date_formats):
+    def _parse_with_localized_formats(
+        self, date_string: str, date_formats: Iterable[str]
+    ) -> DateData | None:
         for locale in self._get_locale_loader().get_locales(
             languages=self.languages,
             locales=self.locales,

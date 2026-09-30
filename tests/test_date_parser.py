@@ -1092,8 +1092,8 @@ class TestDateParser(BaseTestCase):
         ]
     )
     def test_month_and_year_with_explicit_date_order(
-        self, date_string, date_order, expected
-    ):
+        self, date_string: str, date_order: str, expected: datetime
+    ) -> None:
         self.given_parser(
             settings={
                 "DATE_ORDER": date_order,
