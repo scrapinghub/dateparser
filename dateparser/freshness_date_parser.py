@@ -31,6 +31,10 @@ class FreshnessDateDataParser:
         if has_time:
             skip.append(r"\d+")
 
+        matches = list(PATTERN.finditer(date_string))
+        if matches:
+            end = matches[-1].end()
+            date_string = date_string[:end] + re.sub(r"\d+", "", date_string[end:])
         date_string = PATTERN.sub("", date_string)
         date_string = re.sub(r"\s+", " ", date_string.strip())
 
