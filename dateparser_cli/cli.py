@@ -7,7 +7,7 @@ from .utils import clear_cache
 logger = logging.getLogger(__name__)
 
 
-def entrance():
+def entrance() -> None:
     dateparser_argparse = argparse.ArgumentParser(
         description="dateparser download manager."
     )

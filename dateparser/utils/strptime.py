@@ -1,8 +1,11 @@
 import calendar
 import importlib.util
 import sys
+from collections.abc import Callable
 from datetime import datetime
+from time import struct_time
 from types import ModuleType
+from typing import Any
 
 import regex as re
 
@@ -17,7 +20,7 @@ TIME_MATCHER = re.compile(
 MS_SEARCHER = re.compile(r"\.(?P<microsecond>[0-9]{1,6})")
 
 
-def patch_strptime():
+def patch_strptime() -> Callable[[str, str], struct_time]:
     """Monkey patching _strptime to avoid problems related with non-english
     locale changes on the system.
 
@@ -25,7 +28,9 @@ def patch_strptime():
     any date since all languages are translated to english dates.
     """
     _strptime_spec = importlib.util.find_spec("_strptime")
-    _strptime = importlib.util.module_from_spec(_strptime_spec)
+    assert _strptime_spec is not None
+    assert _strptime_spec.loader is not None
+    _strptime: Any = importlib.util.module_from_spec(_strptime_spec)
     _strptime_spec.loader.exec_module(_strptime)
     sys.modules["strptime_patched"] = _strptime
 
@@ -78,7 +83,8 @@ def patch_strptime():
         "december",
     ]
 
-    return _strptime._strptime_time
+    strptime_time: Callable[[str, str], struct_time] = _strptime._strptime_time
+    return strptime_time
 
 
 __strptime = patch_strptime()
@@ -136,12 +142,12 @@ def strptime(date_string: str, format: str) -> datetime:  # noqa: A002
 
     if "%f" in prepared_format:
         try:
-            match_groups = TIME_MATCHER.match(date_string).groupdict()
+            match_groups = TIME_MATCHER.match(date_string).groupdict()  # type: ignore[union-attr]
             ms = match_groups["microsecond"]
             ms = ms + ((6 - len(ms)) * "0")
             obj = obj.replace(microsecond=int(ms))
         except AttributeError:
-            match_groups = MS_SEARCHER.search(date_string).groupdict()
+            match_groups = MS_SEARCHER.search(date_string).groupdict()  # type: ignore[union-attr]
             ms = match_groups["microsecond"]
             ms = ms + ((6 - len(ms)) * "0")
             obj = obj.replace(microsecond=int(ms))

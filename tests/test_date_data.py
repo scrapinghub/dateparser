@@ -6,19 +6,19 @@ from dateparser.date import DateData
 
 
 class TestDateData:
-    def test_get_item_like_dict(self):
+    def test_get_item_like_dict(self) -> None:
         date = datetime(year=5432, month=3, day=1)
         dd = DateData(date_obj=date, period="day", locale="de")
         assert dd["date_obj"] == date
         assert dd["period"] == "day"
         assert dd["locale"] == "de"
 
-    def test_get_item_like_dict_keyerror(self):
+    def test_get_item_like_dict_keyerror(self) -> None:
         dd = DateData(date_obj=None, period="day", locale="de")
         with pytest.raises(KeyError, match="date"):
             dd["date"]
 
-    def test_set_item_like_dict(self):
+    def test_set_item_like_dict(self) -> None:
         dd = DateData()
         assert dd.date_obj is None
 
@@ -26,7 +26,7 @@ class TestDateData:
         dd["date_obj"] = date
         assert dd.date_obj == date
 
-    def test_set_item_like_dict_keyerror(self):
+    def test_set_item_like_dict_keyerror(self) -> None:
         dd = DateData()
         with pytest.raises(KeyError, match="date"):
             dd["date"] = datetime(year=5432, month=3, day=1)
@@ -76,6 +76,8 @@ class TestDateData:
             (None, "year", "fr", "DateData(date_obj=None, period='year', locale='fr')"),
         ],
     )
-    def test_repr(self, date, period, locale, expected):
+    def test_repr(
+        self, date: datetime | None, period: str, locale: str | None, expected: str
+    ) -> None:
         dd = DateData(date_obj=date, period=period, locale=locale)
         assert dd.__repr__() == expected

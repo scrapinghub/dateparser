@@ -8,12 +8,12 @@ from dateparser.calendars import non_gregorian_parser
 
 
 class PersianDate:
-    def __init__(self, year, month, day):
+    def __init__(self, year: int, month: int, day: int) -> None:
         self.year = year
         self.month = month
         self.day = day
 
-    def weekday(self):
+    def weekday(self) -> int | None:
         for week in persian.monthcalendar(self.year, self.month):
             for idx, day in enumerate(week):
                 if day == self.day:
@@ -103,14 +103,14 @@ class jalali_parser(non_gregorian_parser):
     }
 
     @classmethod
-    def _replace_digits(cls, source):
+    def _replace_digits(cls, source: str) -> str:
         result = source
         for pers_digit, number in cls._digits.items():
             result = result.replace(pers_digit, str(number))
         return result
 
     @classmethod
-    def _replace_months(cls, source):
+    def _replace_months(cls, source: str) -> str:
         result = source
         for pers, latin in reduce(
             lambda a, b: a + b,
@@ -123,7 +123,7 @@ class jalali_parser(non_gregorian_parser):
         return result
 
     @classmethod
-    def _replace_weekdays(cls, source):
+    def _replace_weekdays(cls, source: str) -> str:
         result = source
         for pers, latin in reduce(
             lambda a, b: a + b,
@@ -136,8 +136,8 @@ class jalali_parser(non_gregorian_parser):
         return result
 
     @classmethod
-    def _replace_time(cls, source):
-        def only_numbers(match_obj):
+    def _replace_time(cls, source: str) -> str:
+        def only_numbers(match_obj: re.Match[str]) -> str:
             matched_string = match_obj.group()
             return re.sub(r"\D", " ", matched_string)
 
@@ -151,13 +151,13 @@ class jalali_parser(non_gregorian_parser):
         return result.replace("ساعت", "")
 
     @classmethod
-    def _replace_days(cls, source):
+    def _replace_days(cls, source: str) -> str:
         result = re.sub(
             r"ام|م|ین", "", source
         )  # removes persian variant of th/first/second/third
         day_pairs = list(cls._number_letters.items())
 
-        def comp_key(tup):
+        def comp_key(tup: tuple[int, list[str]]) -> int:
             return tup[0]
 
         day_pairs.sort(key=comp_key, reverse=True)
@@ -173,7 +173,7 @@ class jalali_parser(non_gregorian_parser):
             result = result.replace(persian_number, str(number))
         return result
 
-    def handle_two_digit_year(self, year):
+    def handle_two_digit_year(self, year: int) -> int:
         if year > 60:
             return year + 1300
         return year + 1400

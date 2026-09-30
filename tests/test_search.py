@@ -1,5 +1,6 @@
 import datetime
 from datetime import timedelta
+from typing import Any
 
 import pytz
 from parameterized import param, parameterized
@@ -16,19 +17,21 @@ relative_base = datetime.datetime(2020, 2, 13, 20, 7, 6)
 
 
 class TestTranslateSearch(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.search_with_detection = DateSearchWithDetection()
         self.exact_language_search = self.search_with_detection.search
 
-    def run_search_dates_function_invalid_languages(self, text, languages, error_type):
+    def run_search_dates_function_invalid_languages(
+        self, text: str, languages: object, error_type: type[Exception]
+    ) -> None:
         try:
-            search_dates(text=text, languages=languages)
+            search_dates(text=text, languages=languages)  # type: ignore[arg-type]
         except Exception as error:
             self.error = error
             self.assertIsInstance(self.error, error_type)
 
-    def check_error_message(self, message):
+    def check_error_message(self, message: str) -> None:
         self.assertEqual(str(self.error), message)
 
     @parameterized.expand(
@@ -202,7 +205,7 @@ class TestTranslateSearch(BaseTestCase):
             param("sv", "fredag, 03 september 2014"),
         ]
     )
-    def test_search_date_string(self, shortname, datetime_string):
+    def test_search_date_string(self, shortname: str, datetime_string: str) -> None:
         result = self.exact_language_search.search(
             shortname, datetime_string, settings=Settings()
         )[1][0]
@@ -561,7 +564,14 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     @apply_settings
-    def test_search_and_parse(self, shortname, string, expected, settings=None):
+    def test_search_and_parse(
+        self,
+        shortname: str,
+        string: str,
+        expected: list[tuple[str, datetime.datetime]],
+        settings: Settings | dict[str, Any] | None = None,
+    ) -> None:
+        assert isinstance(settings, Settings)
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
@@ -723,7 +733,14 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     @apply_settings
-    def test_relative_base_setting(self, shortname, string, expected, settings=None):
+    def test_relative_base_setting(
+        self,
+        shortname: str,
+        string: str,
+        expected: list[tuple[str, datetime.datetime]],
+        settings: Settings | dict[str, Any] | None = None,
+    ) -> None:
+        assert isinstance(settings, Settings)
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
@@ -807,7 +824,14 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     @apply_settings
-    def test_splitting_of_not_parsed(self, shortname, string, expected, settings=None):
+    def test_splitting_of_not_parsed(
+        self,
+        shortname: str,
+        string: str,
+        expected: list[tuple[str, datetime.datetime]],
+        settings: Settings | dict[str, Any] | None = None,
+    ) -> None:
+        assert isinstance(settings, Settings)
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
@@ -974,7 +998,7 @@ class TestTranslateSearch(BaseTestCase):
             param("en", "2007"),
         ]
     )
-    def test_detection(self, shortname, text):
+    def test_detection(self, shortname: str, text: str) -> None:
         result = self.search_with_detection.detect_language(text, languages=None)
         self.assertEqual(result, shortname)
 
@@ -1045,7 +1069,13 @@ class TestTranslateSearch(BaseTestCase):
             ),
         ]
     )
-    def test_date_search_function(self, text, languages, settings, expected):
+    def test_date_search_function(
+        self,
+        text: str,
+        languages: list[str] | None,
+        settings: dict[str, Any] | None,
+        expected: list[tuple[str, datetime.datetime]] | None,
+    ) -> None:
         result = search_dates(text, languages=languages, settings=settings)
         self.assertEqual(result, expected)
 
@@ -1120,8 +1150,11 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     def test_search_dates_with_a_relative_expression_next_to_a_date(
-        self, text, languages, expected
-    ):
+        self,
+        text: str,
+        languages: list[str],
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
         result = search_dates(
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
@@ -1182,8 +1215,11 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     def test_search_dates_with_a_relative_expression_reads_its_direction(
-        self, text, languages, expected
-    ):
+        self,
+        text: str,
+        languages: list[str],
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
         result = search_dates(
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
@@ -1212,8 +1248,12 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     def test_search_dates_returning_detected_languages_if_requested(
-        self, text, add_detected_language, expected
-    ):
+        self,
+        text: str,
+        add_detected_language: bool,
+        expected: list[tuple[str, datetime.datetime]]
+        | list[tuple[str, datetime.datetime, str]],
+    ) -> None:
         result = search_dates(text, add_detected_language=add_detected_language)
         self.assertEqual(result, expected)
 
@@ -1222,7 +1262,9 @@ class TestTranslateSearch(BaseTestCase):
             param(text="19 марта 2001", languages="wrong type: str instead of list"),
         ]
     )
-    def test_date_search_function_invalid_languages_type(self, text, languages):
+    def test_date_search_function_invalid_languages_type(
+        self, text: str, languages: str
+    ) -> None:
         self.run_search_dates_function_invalid_languages(
             text=text, languages=languages, error_type=TypeError
         )
@@ -1235,13 +1277,15 @@ class TestTranslateSearch(BaseTestCase):
             param(text="19 марта 2001", languages=["unknown language code"]),
         ]
     )
-    def test_date_search_function_invalid_language_code(self, text, languages):
+    def test_date_search_function_invalid_language_code(
+        self, text: str, languages: list[str]
+    ) -> None:
         self.run_search_dates_function_invalid_languages(
             text=text, languages=languages, error_type=ValueError
         )
         self.check_error_message("Unknown language(s): 'unknown language code'")
 
-    def test_search_dates_with_prepositions(self):
+    def test_search_dates_with_prepositions(self) -> None:
         """Test `search_dates` for parsing Russian date ranges with prepositions and language detection."""
         result = search_dates(
             "Сервис будет недоступен с 12 января по 30 апреля.",
@@ -1350,8 +1394,13 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     def test_search_dates_multi_word_expression(
-        self, text, expected_text, expected_day, expected_month, description
-    ):
+        self,
+        text: str,
+        expected_text: str,
+        expected_day: int,
+        expected_month: int,
+        description: str,
+    ) -> None:
         """Test parsing of multi-word date expressions in Russian."""
         result = search_dates(text, languages=["ru"])
         expected = [
@@ -1440,7 +1489,13 @@ class TestTranslateSearch(BaseTestCase):
             ),
         ]
     )
-    def test_search_dates_time_span(self, expression, start, end, settings=None):
+    def test_search_dates_time_span(
+        self,
+        expression: str,
+        start: datetime.datetime,
+        end: datetime.datetime,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
         result = search_dates(
             "messages received " + expression,
             languages=["en"],
@@ -1450,12 +1505,13 @@ class TestTranslateSearch(BaseTestCase):
                 **(settings or {}),
             },
         )
+        assert result is not None
         self.assertEqual(
             [item for item in result if item[0].startswith(expression + " (")],
             [(expression + " (start)", start), (expression + " (end)", end)],
         )
 
-    def test_search_dates_time_span_without_a_span_expression(self):
+    def test_search_dates_time_span_without_a_span_expression(self) -> None:
         result = search_dates(
             "messages received yesterday",
             languages=["en"],
@@ -1466,7 +1522,7 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.assertEqual(result, [("yesterday", datetime.datetime(2025, 2, 17, 12, 0))])
 
-    def test_search_dates_time_span_disabled_by_default(self):
+    def test_search_dates_time_span_disabled_by_default(self) -> None:
         result = search_dates(
             "messages received for the past month",
             languages=["en"],
@@ -1476,7 +1532,7 @@ class TestTranslateSearch(BaseTestCase):
 
 
 class TestNgramSearch(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.search_with_detection = DateSearchWithDetection()
 
@@ -1524,14 +1580,16 @@ class TestNgramSearch(BaseTestCase):
             ),
         ]
     )
-    def test_ngram_search(self, shortname, text, expected):
+    def test_ngram_search(
+        self, shortname: str, text: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
         result = self.search_with_detection.search_dates(
             text, languages=[shortname], strategy="ngram"
         )
         self.assertEqual(result["Language"], shortname)
         self.assertEqual(result["Dates"], expected)
 
-    def test_ngram_search_with_relative_base(self):
+    def test_ngram_search_with_relative_base(self) -> None:
         result = self.search_with_detection.search_dates(
             "posted 10 minutes ago",
             languages=["en"],
@@ -1543,7 +1601,7 @@ class TestNgramSearch(BaseTestCase):
             [("10 minutes ago", datetime.datetime(2020, 1, 1, 11, 50))],
         )
 
-    def test_ngram_search_returns_time_spans(self):
+    def test_ngram_search_returns_time_spans(self) -> None:
         result = self.search_with_detection.search_dates(
             "messages received for the past week",
             languages=["en"],
@@ -1561,13 +1619,13 @@ class TestNgramSearch(BaseTestCase):
             ],
         )
 
-    def test_search_dates_with_ngram_strategy(self):
+    def test_search_dates_with_ngram_strategy(self) -> None:
         result = search_dates(
             "launched on 4 October 1957", languages=["en"], strategy="ngram"
         )
         self.assertEqual(result, [("4 October 1957", datetime.datetime(1957, 10, 4))])
 
-    def test_search_dates_with_ngram_strategy_and_detected_language(self):
+    def test_search_dates_with_ngram_strategy_and_detected_language(self) -> None:
         result = search_dates(
             "launched on 4 October 1957",
             languages=["en"],
@@ -1578,13 +1636,13 @@ class TestNgramSearch(BaseTestCase):
             result, [("4 October 1957", datetime.datetime(1957, 10, 4), "en")]
         )
 
-    def test_search_dates_ngram_strategy_returns_none_when_no_dates_found(self):
+    def test_search_dates_ngram_strategy_returns_none_when_no_dates_found(self) -> None:
         self.assertIsNone(
             search_dates(
                 "Hello world nothing here at all", languages=["en"], strategy="ngram"
             )
         )
 
-    def test_unknown_strategy_raises_error(self):
+    def test_unknown_strategy_raises_error(self) -> None:
         with self.assertRaisesRegex(ValueError, "strategy must be"):
             search_dates("4 October 1957", languages=["en"], strategy="unknown")

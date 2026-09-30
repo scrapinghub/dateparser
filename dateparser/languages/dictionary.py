@@ -1,12 +1,18 @@
 import threading
+from collections.abc import Iterable, Iterator
 from itertools import chain, zip_longest
 from operator import methodcaller
-from typing import ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 
 import regex as re
 
 from dateparser.timezone_parser import is_timezone_token
 from dateparser.utils import normalize_unicode
+
+if TYPE_CHECKING:
+    from dateparser.conf import Settings
+
+_T = TypeVar("_T")
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
 PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z"]
@@ -57,7 +63,7 @@ class UnknownTokenError(Exception):
     pass
 
 
-def _parse_bool(value):
+def _parse_bool(value: object) -> bool:
     if isinstance(value, bool):
         return value
     if isinstance(value, str):
@@ -91,17 +97,19 @@ class Dictionary:
     # concurrent eviction cannot drop an entry between its check and its read.
     _cache_lock = threading.RLock()
 
-    def __init__(self, locale_info, settings=None):
-        dictionary = {}
-        self._settings = settings
+    def __init__(
+        self, locale_info: dict[str, Any], settings: "Settings | None" = None
+    ) -> None:
+        dictionary: dict[str, str | None] = {}
+        self._settings = cast("Settings", settings)
         self.info = locale_info
 
         if "skip" in locale_info:
             skip = map(methodcaller("lower"), locale_info["skip"])
-            dictionary.update(zip_longest(skip, [], fillvalue=None))
+            dictionary.update(dict.fromkeys(skip))
         if "pertain" in locale_info:
             pertain = map(methodcaller("lower"), locale_info["pertain"])
-            dictionary.update(zip_longest(pertain, [], fillvalue=None))
+            dictionary.update(dict.fromkeys(pertain))
         for word in KNOWN_WORD_TOKENS:
             if word in locale_info:
                 translations = map(methodcaller("lower"), locale_info[word])
@@ -120,7 +128,7 @@ class Dictionary:
             if word in locale_info:
                 for token in map(methodcaller("lower"), locale_info[word]):
                     weekday_translations[token] = word
-        self._month_translations = set()
+        self._month_translations: set[str] = set()
         for word in _MONTH_TOKENS:
             if word in locale_info:
                 self._month_translations.update(
@@ -152,7 +160,7 @@ class Dictionary:
         relative_type_regex = locale_info.get("relative-type-regex", {})
         self._relative_strings = list(chain.from_iterable(relative_type_regex.values()))
 
-    def _is_unambiguous_month(self, token):
+    def _is_unambiguous_month(self, token: str) -> bool:
         """
         Whether ``token`` (already lowercased) names a month and, unlike the
         tokens in :attr:`_weekday_month_conflicts`, cannot also mean a weekday.
@@ -162,20 +170,20 @@ class Dictionary:
             and token not in self._weekday_month_conflicts
         )
 
-    def __contains__(self, key):
+    def __contains__(self, key: object) -> bool:
         if key in self._settings.SKIP_TOKENS:
             return True
         return self._dictionary.__contains__(key)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> str | None:
         if key in self._settings.SKIP_TOKENS:
             return None
         return self._dictionary.__getitem__(key)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[str]:
         return chain(self._settings.SKIP_TOKENS, iter(self._dictionary))
 
-    def are_tokens_valid(self, tokens):
+    def are_tokens_valid(self, tokens: Iterable[str]) -> bool:
         """
         Check if tokens are valid tokens for the locale.
 
@@ -193,7 +201,9 @@ class Dictionary:
             self._is_known_token(token, match_relative_regex) for token in tokens
         )
 
-    def _is_known_token(self, token, match_relative_regex):
+    def _is_known_token(
+        self, token: str, match_relative_regex: re.Pattern[str]
+    ) -> bool:
         """Whether ``token`` is recognised by this locale: a number, a relative
         expression, or a dictionary word (the same per-token check that
         :meth:`are_tokens_valid` applies)."""
@@ -201,7 +211,7 @@ class Dictionary:
             token.isdigit() or match_relative_regex.match(token) or token in self
         )
 
-    def _strip_unknown_edge_tokens(self, tokens):
+    def _strip_unknown_edge_tokens(self, tokens: list[str]) -> list[str]:
         """Return ``tokens`` without the leading and trailing tokens that this
         locale does not recognise (neither digits, relative expressions, nor
         dictionary words), along with any whitespace those removals leave at
@@ -223,7 +233,7 @@ class Dictionary:
         keeps stripping unrecognized tokens unconditionally."""
         match_relative_regex = self._get_match_relative_regex_cache()
 
-        def is_extra_text(token):
+        def is_extra_text(token: str) -> bool:
             return token.isspace() or not self._is_known_token(
                 token, match_relative_regex
             )
@@ -243,7 +253,7 @@ class Dictionary:
             end -= 1
         return tokens[start:end]
 
-    def split(self, string, keep_formatting=False):
+    def split(self, string: str, keep_formatting: bool = False) -> list[str]:
         """
         Split the date string using translations in locale info.
 
@@ -259,12 +269,12 @@ class Dictionary:
         :return: A list of string tokens formed after splitting the date string.
         """
         if not string:
-            return string
+            return []
 
         split_relative_regex = self._get_split_relative_regex_cache()
         match_relative_regex = self._get_match_relative_regex_cache()
 
-        tokens = split_relative_regex.split(string)
+        tokens: list[Any] = split_relative_regex.split(string)
 
         for i, token in enumerate(tokens):
             if match_relative_regex.match(token):
@@ -274,7 +284,7 @@ class Dictionary:
 
         return list(filter(bool, chain.from_iterable(tokens)))
 
-    def _add_to_cache(self, value, cache):
+    def _add_to_cache(self, value: _T, cache: dict[str, dict[str, _T]]) -> None:
         with self._cache_lock:
             key = self._settings.registry_key
             entry = cache.pop(key, {})
@@ -286,9 +296,9 @@ class Dictionary:
             ):
                 cache.pop(next(iter(cache)))
 
-    def _split_by_known_words(self, string: str, keep_formatting: bool):
+    def _split_by_known_words(self, string: str, keep_formatting: bool) -> list[str]:
         regex = self._get_split_regex_cache()
-        splitted = []
+        splitted: list[str] = []
         unknown = string
 
         while unknown:
@@ -327,21 +337,23 @@ class Dictionary:
 
         return splitted
 
-    def _split_by_numerals(self, string, keep_formatting):
+    def _split_by_numerals(self, string: str, keep_formatting: bool) -> list[str]:
         return [
             token
             for token in NUMERAL_PATTERN.split(string)
             if self._should_capture(token, keep_formatting)
         ]
 
-    def _should_capture(self, token, keep_formatting):
+    def _should_capture(
+        self, token: str, keep_formatting: bool
+    ) -> bool | re.Match[str] | None:
         return (
             keep_formatting
             or token in ALWAYS_KEEP_TOKENS
             or KEEP_TOKEN_PATTERN.match(token)
         )
 
-    def _get_sorted_words_from_cache(self):
+    def _get_sorted_words_from_cache(self) -> list[str]:
         with self._cache_lock:
             if (
                 self._settings.registry_key not in self._sorted_words_cache
@@ -356,7 +368,7 @@ class Dictionary:
                 self.info["name"]
             ]
 
-    def _get_split_regex_cache(self):
+    def _get_split_regex_cache(self) -> re.Pattern[str]:
         with self._cache_lock:
             if (
                 self._settings.registry_key not in self._split_regex_cache
@@ -368,7 +380,7 @@ class Dictionary:
                 self.info["name"]
             ]
 
-    def _construct_split_regex(self):
+    def _construct_split_regex(self) -> None:
         known_words_group = "|".join(
             map(re.escape, self._get_sorted_words_from_cache())
         )
@@ -381,7 +393,7 @@ class Dictionary:
             value=re.compile(regex, re.UNICODE | re.IGNORECASE),
         )
 
-    def _get_sorted_relative_strings_from_cache(self):
+    def _get_sorted_relative_strings_from_cache(self) -> list[str]:
         with self._cache_lock:
             if (
                 self._settings.registry_key not in self._sorted_relative_strings_cache
@@ -403,7 +415,7 @@ class Dictionary:
                 self.info["name"]
             ]
 
-    def _get_split_relative_regex_cache(self):
+    def _get_split_relative_regex_cache(self) -> re.Pattern[str]:
         with self._cache_lock:
             if (
                 self._settings.registry_key not in self._split_relative_regex_cache
@@ -415,7 +427,7 @@ class Dictionary:
                 self.info["name"]
             ]
 
-    def _construct_split_relative_regex(self):
+    def _construct_split_relative_regex(self) -> None:
         known_relative_strings_group = "|".join(
             self._get_sorted_relative_strings_from_cache()
         )
@@ -430,7 +442,7 @@ class Dictionary:
             value=re.compile(regex, re.UNICODE | re.IGNORECASE),
         )
 
-    def _get_match_relative_regex_cache(self):
+    def _get_match_relative_regex_cache(self) -> re.Pattern[str]:
         with self._cache_lock:
             if (
                 self._settings.registry_key not in self._match_relative_regex_cache
@@ -442,7 +454,7 @@ class Dictionary:
                 self.info["name"]
             ]
 
-    def _construct_match_relative_regex(self):
+    def _construct_match_relative_regex(self) -> None:
         known_relative_strings_group = "|".join(
             self._get_sorted_relative_strings_from_cache()
         )
@@ -454,12 +466,14 @@ class Dictionary:
 
 
 class NormalizedDictionary(Dictionary):
-    def __init__(self, locale_info, settings=None):
+    def __init__(
+        self, locale_info: dict[str, Any], settings: "Settings | None" = None
+    ) -> None:
         super().__init__(locale_info, settings)
         self._normalize()
 
-    def _normalize(self):
-        new_dict = {}
+    def _normalize(self) -> None:
+        new_dict: dict[str, str | None] = {}
         conflicting_keys = []
         for key, value in self._dictionary.items():
             normalized = normalize_unicode(key)

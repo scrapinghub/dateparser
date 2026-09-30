@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 from tempfile import TemporaryFile
 
 from dateparser.data.languages_info import language_locale_dict
 
 
-def to_string(data):
+def to_string(data: Mapping[str, Sequence[str]]) -> str:
     result = ""
     language_column_width = 18
     for language in sorted(data):
@@ -19,7 +20,7 @@ def to_string(data):
     return result
 
 
-def main():
+def main() -> None:
     readme_path = Path(__file__).parent.parent / "docs" / "supported_locales.rst"
     new_data = to_string(language_locale_dict)
     temporary_file = TemporaryFile("w+")

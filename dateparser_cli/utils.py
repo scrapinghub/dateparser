@@ -17,6 +17,6 @@ else:
 dateparser_model_home = (Path(_cache_dir) / DEFAULT_DIR_NAME).expanduser()
 
 
-def clear_cache(*args):
+def clear_cache(*args: object) -> None:
     for path in dateparser_model_home.rglob("*.*"):
         path.unlink()

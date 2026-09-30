@@ -77,6 +77,18 @@ filename = "SECURITY.md"
 parse = """(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)"""
 serialize = ["{major}.{minor}"]
 
+[tool.mypy]
+strict = true
+mypy_path = "stubs"
+
+[[tool.mypy.overrides]]
+module = [
+    "atheris",
+    "convertdate.*",
+    "langdetect.*",
+]
+ignore_missing_imports = true
+
 [tool.ruff]
 exclude = ["date_translation_data"]
 
