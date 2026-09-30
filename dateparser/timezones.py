@@ -16,7 +16,7 @@ timezone_info_list: list[dict[str, Any]] = [
     {
         # The replacements below also apply to this pattern, so it spells ":"
         # as \x3a to keep them from removing it.
-        "regex_patterns": [r"(.)%s(\s*\(\w+\))?(?=$|[^\w\x3a])"],
+        "regex_patterns": [r"(.)%s(\s*\([^)]*\))?(?=$|[^\w\x3a])"],
         "replace": [
             # UTC+n, UTC-n, GMT+n, GMT-n:
             (r"(?:UTC|GMT)\\(\+|\-)0(\d):00", r"(?:UTC|GMT)\\\1\2"),
