@@ -223,6 +223,11 @@ class TestTranslateSearch(BaseTestCase):
                 ],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
+            param(
+                "ar",
+                "صدر القرار قبل 5 يونيو 2020",
+                [("5 يونيو 2020", datetime.datetime(2020, 6, 5, 0, 0))],
+            ),
             # Belarusian
             param(
                 "be",
