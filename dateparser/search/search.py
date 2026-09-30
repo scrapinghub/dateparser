@@ -24,6 +24,12 @@ TRANSLATED_RELATIVE_REG = re.compile(
     rf"\bin \d+ (?:{_UNITS})s?\b|\b\d+ (?:{_UNITS})s? ago\b"
 )
 
+_LEADING_NUMBER_REG = re.compile(r"(-?\d+(?:\.\d+)?) (.+)")
+
+# A bare decimal number, e.g. a price or a percentage, is too ambiguous to be
+# reported as a date.
+_DECIMAL_REG = re.compile(r"-?\d+\.\d+")
+
 
 class _SearchResult(TypedDict):
     Language: str | None
@@ -186,16 +192,15 @@ class _ExactLanguageSearch:
     ) -> list[list[list[str]]]:
         """Split a chunk that starts with a number into that number and the
         rest, to find a date written after a number that is not part of it,
-        e.g. the decimals of “-58.5” before “06 Mar 2009”."""
-        number, _, rest = item.partition(" ")
-        original_number, _, original_rest = original.partition(" ")
-        if (
-            not number.isdigit()
-            or number != original_number
-            or parser.get_date_data(rest)["date_obj"] is None
-        ):
+        e.g. “-58.5” before “06 Mar 2009”."""
+        match = _LEADING_NUMBER_REG.match(item)
+        if not match:
             return []
-        return [[[number, rest], [original_number, original_rest]]]
+        number, rest = match.groups()
+        original_head, separator, original_rest = original.partition(f"{number} ")
+        if not separator or parser.get_date_data(rest)["date_obj"] is None:
+            return []
+        return [[[number, rest], [original_head + number, original_rest]]]
 
     def split_if_not_parsed(
         self,
@@ -255,7 +260,7 @@ class _ExactLanguageSearch:
         if settings.RELATIVE_BASE:
             need_relative_base = False
         for i, item in enumerate(to_parse):
-            if len(item) <= 2:
+            if len(item) <= 2 or _DECIMAL_REG.fullmatch(item.strip()):
                 continue
 
             parsed_item, is_relative = self.parse_item(
@@ -279,7 +284,7 @@ class _ExactLanguageSearch:
                 current_substrings: list[str] = []
                 if split_translated:
                     for j, jtem in enumerate(split_translated):
-                        if len(jtem) <= 2:
+                        if len(jtem) <= 2 or _DECIMAL_REG.fullmatch(jtem.strip()):
                             continue
                         parsed_jtem, is_relative_jtem = self.parse_item(
                             parser,

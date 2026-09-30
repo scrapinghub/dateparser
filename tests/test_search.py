@@ -1039,10 +1039,7 @@ class TestTranslateSearch(BaseTestCase):
                 text="DECEMBER 21 19.87 87",
                 languages=None,
                 settings=None,
-                expected=[
-                    ("DECEMBER", datetime.datetime(2019, 12, 21, 0, 0)),
-                    ("19.87", datetime.datetime(1987, 12, 19, 0, 0)),
-                ],
+                expected=[("DECEMBER", datetime.datetime(2019, 12, 21, 0, 0))],
             ),
             param(
                 text="bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41",
@@ -1266,9 +1263,40 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["es"],
                 expected=[("03.03.2011", datetime.datetime(2011, 3, 3, 0, 0))],
             ),
+            param(
+                text="in 2.5 hours",
+                languages=["en"],
+                expected=[("in 2.5 hours", datetime.datetime(2020, 2, 13, 22, 37, 6))],
+            ),
+            # Bare decimal numbers are not dates
+            param(
+                text="Inflation rose 2.5 percent in May 2021.",
+                languages=["en"],
+                expected=[("in May 2021", datetime.datetime(2021, 5, 13, 0, 0))],
+            ),
+            param(
+                text="The item costs 12.99 dollars.",
+                languages=["en"],
+                expected=None,
+            ),
+            param(
+                text="Server 192.168.1.1 went down on 5 May 2021",
+                languages=["en"],
+                expected=[("on 5 May 2021", datetime.datetime(2021, 5, 5, 0, 0))],
+            ),
+            param(
+                text="Le prix est de 12.50 euros depuis le 3 mars 2021.",
+                languages=["fr"],
+                expected=[("le 3 mars 2021", datetime.datetime(2021, 3, 3, 0, 0))],
+            ),
         ]
     )
-    def test_search_dates_with_dots_between_digits(self, text, languages, expected):
+    def test_search_dates_with_dots_between_digits(
+        self,
+        text: str,
+        languages: list[str],
+        expected: list[tuple[str, datetime.datetime]] | None,
+    ) -> None:
         result = search_dates(
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
