@@ -12,7 +12,7 @@ from dateparser.timezone_parser import StaticTzInfo
 from dateparser_data.settings import default_parsers
 from tests import BaseTestCase
 
-today = datetime.datetime.now(tz=pytz.timezone("UTC"))
+today = datetime.datetime.now()
 relative_base = datetime.datetime(2020, 2, 13, 20, 7, 6)
 
 
@@ -579,6 +579,57 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(
+                "en",
+                "between Friday and Monday",
+                [
+                    ("Friday", datetime.datetime(1999, 12, 31, 0, 0)),
+                    ("Monday", datetime.datetime(1999, 12, 27, 0, 0)),
+                ],
+            ),
+            param(
+                "en",
+                "Sept 1st and Oct 10th",
+                [
+                    ("Sept 1st", datetime.datetime(2000, 9, 1, 0, 0)),
+                    ("Oct 10th", datetime.datetime(2000, 10, 10, 0, 0)),
+                ],
+            ),
+            param(
+                "es",
+                "1 de junio de 1998 y 5 de julio de 1999",
+                [
+                    ("1 de junio de 1998", datetime.datetime(1998, 6, 1, 0, 0)),
+                    ("5 de julio de 1999", datetime.datetime(1999, 7, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "de",
+                "Freitag und Montag",
+                [
+                    ("Freitag", datetime.datetime(1999, 12, 31, 0, 0)),
+                    ("Montag", datetime.datetime(1999, 12, 27, 0, 0)),
+                ],
+            ),
+        ]
+    )
+    @apply_settings
+    def test_search_dates_joined_by_skipped_words(
+        self,
+        shortname: str,
+        string: str,
+        expected: list[tuple[str, datetime.datetime]],
+        settings: Settings | dict[str, Any] | None = None,
+    ) -> None:
+        assert isinstance(settings, Settings)
+        settings = settings.replace(RELATIVE_BASE=datetime.datetime(2000, 1, 1))
+        result = self.exact_language_search.search_parse(
+            shortname, string, settings=settings
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
             # English
             param(
                 "en",
@@ -612,7 +663,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2020,
                             5,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -622,7 +673,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2020,
                             7,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -632,7 +683,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2023,
                             7,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -642,7 +693,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2023,
                             1,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                             tzinfo=pytz.utc,
@@ -1290,6 +1341,30 @@ class TestTranslateSearch(BaseTestCase):
         | list[tuple[str, datetime.datetime, str]],
     ) -> None:
         result = search_dates(text, add_detected_language=add_detected_language)
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="birthday:2020-07-08",
+                expected=[("2020-07-08", datetime.datetime(2020, 7, 8, 0, 0))],
+            ),
+            param(
+                text="Date:July 8, 2020",
+                expected=[("July 8, 2020", datetime.datetime(2020, 7, 8, 0, 0))],
+            ),
+            param(
+                text="at:10:30 on 2020-07-08",
+                expected=[
+                    ("10:30 on 2020-07-08", datetime.datetime(2020, 7, 8, 10, 30))
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_after_a_label_and_a_colon(
+        self, text: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
+        result = search_dates(text, languages=["en"])
         self.assertEqual(result, expected)
 
     @parameterized.expand(

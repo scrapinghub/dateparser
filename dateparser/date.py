@@ -1,15 +1,18 @@
 import collections
+import functools
+import itertools
 import threading
 from collections.abc import Callable, Iterable, Iterator
 from collections.abc import Set as AbstractSet
-from datetime import date, datetime, timedelta, timezone, tzinfo
+from datetime import date, datetime, timedelta, tzinfo
 from functools import partial
 from itertools import count
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeGuard, TypeVar
 
 import regex as re
 from dateutil.relativedelta import relativedelta
 
+from dateparser._parts_of_day import PartOfDay, _replace_part_of_day
 from dateparser.conf import Settings, apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
@@ -21,6 +24,7 @@ from dateparser.utils import (
     _get_localzone,
     _get_missing_parts,
     _get_parts,
+    _now,
     apply_timezone_from_settings,
     get_next_leap_year,
     get_previous_leap_year,
@@ -272,7 +276,7 @@ def parse_with_formats(
     :returns: :class:`datetime.datetime`, dict or None
 
     """
-    now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(tzinfo=None)
+    now = settings.RELATIVE_BASE or _now(settings)
     return _parse_with_formats(date_string, date_formats, settings, now)
 
 
@@ -347,6 +351,94 @@ def _build_date_format(date_string: str, directives: _Directives) -> str | None:
     return "".join(parts)
 
 
+_MONTHS = (
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+)
+_WEEKDAYS = (
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+)
+
+
+@functools.cache
+def _get_name_translations(
+    locale: "Locale", month_form: str | None, weekday_form: str | None
+) -> tuple[re.Pattern[str], dict[str, list[str]]] | None:
+    """Return a pattern matching the month and weekday names of *locale*, and
+    a mapping of each lowercase name to the English names it can stand for.
+
+    *month_form* and *weekday_form* are ``"full"``, ``"abbr"`` or ``None``,
+    the English form to translate each kind of name into, or ``None`` to leave
+    that kind of name untranslated.
+    """
+    translations: collections.defaultdict[str, list[str]] = collections.defaultdict(
+        list
+    )
+    for words, form in ((_MONTHS, month_form), (_WEEKDAYS, weekday_form)):
+        if form is None:
+            continue
+        for word in words:
+            english = word if form == "full" else word[:3]
+            for localized in locale.info.get(word, ()):
+                name = localized.lower()
+                if english not in translations[name]:
+                    translations[name].append(english)
+    if not translations:
+        return None
+    names = sorted(translations, key=len, reverse=True)
+    pattern = re.compile(
+        r"(?<!\w)(?:{})(?!\w)".format("|".join(map(re.escape, names))),
+        flags=re.IGNORECASE,
+    )
+    return pattern, dict(translations)
+
+
+def _translate_names(
+    date_string: str, date_format: str, locale: "Locale"
+) -> Iterator[str]:
+    """Yield the variants of *date_string* that result from replacing the
+    month and weekday names of *locale* with the English names that the
+    directives of *date_format* expect."""
+    month_form = (
+        "full" if "%B" in date_format else "abbr" if "%b" in date_format else None
+    )
+    weekday_form = (
+        "full" if "%A" in date_format else "abbr" if "%a" in date_format else None
+    )
+    name_translations = _get_name_translations(locale, month_form, weekday_form)
+    if name_translations is None:
+        return
+    pattern, translations = name_translations
+    matches = pattern.findall(date_string)
+    if not matches:
+        return
+    pieces = pattern.split(date_string)
+    # A name can stand for several English names, e.g. "mar" is both "martes"
+    # and "marzo" in Spanish, so every combination is yielded.
+    for combination in itertools.product(
+        *(translations[match.lower()] for match in matches)
+    ):
+        yield "".join(
+            itertools.chain.from_iterable(zip(pieces, (*combination, ""), strict=True))
+        )
+
+
 class _DateLocaleParser:
     def __init__(
         self,
@@ -372,6 +464,8 @@ class _DateLocaleParser:
         self._alternative = 0
         self._translated_date: str | None = None
         self._translated_date_with_formatting: str | None = None
+        self._part_of_day: PartOfDay | None = None
+        self._part_of_day_sets_time = False
         self._parsers: dict[str, Callable[[], DateData | None]] = {
             "timestamp": self._try_timestamp,
             "negative-timestamp": self._try_negative_timestamp,
@@ -405,7 +499,7 @@ class _DateLocaleParser:
         if not self._alternatives:
             return self._parse_translation()
         for self._alternative in count(1):
-            self._translated_date = self._translate(keep_formatting=False)
+            self._set_translated_date()
             if self._translated_date is None:
                 return None
             self._translated_date_with_formatting = None
@@ -418,6 +512,13 @@ class _DateLocaleParser:
         for parser_name in self._settings.PARSERS:
             date_data = self._parsers[parser_name]()
             if self._is_valid_date_data(date_data):
+                if self._part_of_day:
+                    date_data.part_of_day = self._part_of_day
+                    if (
+                        self._part_of_day_sets_time
+                        and self._settings.RETURN_TIME_AS_PERIOD
+                    ):
+                        date_data.period = "part_of_day"
                 return date_data
         return None
 
@@ -514,9 +615,7 @@ class _DateLocaleParser:
         )
 
     def _now(self) -> datetime:
-        return self._settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
-            tzinfo=None
-        )
+        return self._settings.RELATIVE_BASE or _now(self._settings)
 
     def _get_date_format(
         self, date_obj: datetime, directives: _Directives, now: datetime
@@ -542,9 +641,20 @@ class _DateLocaleParser:
             alternative=self._alternative,
         )
 
+    def _set_translated_date(self) -> None:
+        translated = self._translate(keep_formatting=False)
+        if translated is None:
+            self._translated_date = None
+            return
+        (
+            self._translated_date,
+            self._part_of_day,
+            self._part_of_day_sets_time,
+        ) = _replace_part_of_day(translated, self._settings.PARTS_OF_DAY)
+
     def _get_translated_date(self) -> str:
         if self._translated_date is None:
-            self._translated_date = self._translate(keep_formatting=False)
+            self._set_translated_date()
         assert self._translated_date is not None
         return self._translated_date
 
@@ -556,7 +666,7 @@ class _DateLocaleParser:
         assert self._translated_date_with_formatting is not None
         return self._translated_date_with_formatting
 
-    def _is_valid_date_data(self, date_data: object) -> bool:
+    def _is_valid_date_data(self, date_data: object) -> TypeGuard["DateData"]:
         if not isinstance(date_data, DateData):
             return False
         if not date_data["date_obj"] or not date_data["period"]:
@@ -573,6 +683,18 @@ class DateData:
     """
 
     _date_format: str | Callable[[], str | None] | None
+
+    part_of_day: PartOfDay | None = None
+    """:class:`~dateparser.PartOfDay` that the date string refers to, e.g.
+    :attr:`~dateparser.PartOfDay.NIGHT` for ``"tonight"``, or ``None``.
+
+    .. versionadded:: VERSION
+
+    Its time comes from the ``PARTS_OF_DAY`` :ref:`setting <settings>`, unless
+    the date string also has a time, e.g. ``"tonight at 11pm"``. If it does
+    not, and the ``RETURN_TIME_AS_PERIOD`` setting is enabled, ``period`` is
+    ``"part_of_day"``.
+    """
 
     def __init__(
         self,
@@ -755,7 +877,8 @@ class DateDataParser:
 
         :raises: ValueError - Unknown Language
 
-        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time'.
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time',
+            'part_of_day'.
 
         *Period* represents the granularity of date parsed from the given string.
 
@@ -795,6 +918,12 @@ class DateDataParser:
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res["date_obj"]:
             return res
+        if date_formats:
+            localized_res = self._parse_with_localized_formats(
+                date_string, date_formats
+            )
+            if localized_res:
+                return localized_res
 
         date_string = sanitize_date(date_string)
 
@@ -809,6 +938,24 @@ class DateDataParser:
                 date_string, date_formats, ignore_surrounding_text=True
             )
         return parsed_date or DateData(date_obj=None, period="day", locale=None)
+
+    def _parse_with_localized_formats(
+        self, date_string: str, date_formats: Iterable[str]
+    ) -> DateData | None:
+        for locale in self._get_locale_loader().get_locales(
+            languages=self.languages,
+            locales=self.locales,
+            region=self.region,
+            use_given_order=self.use_given_order
+            or self._settings.USE_GIVEN_LANGUAGE_ORDER,
+        ):
+            for date_format in date_formats:
+                for translated in _translate_names(date_string, date_format, locale):
+                    res = parse_with_formats(translated, [date_format], self._settings)
+                    if res["date_obj"]:
+                        res["locale"] = locale.shortname
+                        return res
+        return None
 
     def _parse_using_applicable_locales(
         self,

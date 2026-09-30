@@ -32,7 +32,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.date = NotImplemented
         self.time = NotImplemented
 
-        settings.TIMEZONE = "utc"
+        self.add_patch(patch.object(settings, "TIMEZONE", "utc"))
 
     def now_with_timezone(self, tz: tzinfo | None) -> datetime:
         now = self.now
