@@ -17,8 +17,9 @@ class TestMinguoCalendar(BaseTestCase):
             param("101/2/29", datetime(2012, 2, 29)),
         ]
     )
-    def test_parse(self, date_string, expected):
+    def test_parse(self, date_string: str, expected: datetime) -> None:
         date_data = MinguoCalendar(date_string).get_date()
+        assert date_data is not None
         self.assertEqual(date_data.date_obj, expected)
         self.assertEqual(date_data.period, "day")
 
@@ -28,7 +29,7 @@ class TestMinguoCalendar(BaseTestCase):
             param("110", datetime(2021, 3, 31), "year"),
         ]
     )
-    def test_partial(self, date_string, expected, period):
+    def test_partial(self, date_string: str, expected: datetime, period: str) -> None:
         current = settings.replace(RELATIVE_BASE=datetime(2026, 3, 31))
         self.assertEqual(_minguo_parser.parse(date_string, current), (expected, period))
 
@@ -40,5 +41,5 @@ class TestMinguoCalendar(BaseTestCase):
             param("101/05/25 08:36 92694"),
         ]
     )
-    def test_invalid(self, date_string):
+    def test_invalid(self, date_string: str) -> None:
         self.assertIsNone(MinguoCalendar(date_string).get_date())
