@@ -246,6 +246,12 @@ class TestTranslateSearch(BaseTestCase):
                 [("1939年9月1", datetime.datetime(1939, 9, 1, 0, 0))],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
+            param(
+                "zh",
+                "6月15日",
+                [("6月15日", datetime.datetime(2000, 6, 15, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
             # Czech
             param(
                 "cs",
@@ -443,6 +449,24 @@ class TestTranslateSearch(BaseTestCase):
                 "ja",
                 "1939年9月1日、ドイツ軍がポーランドへ侵攻したことが第二次世界大戦の始まりとされている。",
                 [("1939年9月1", datetime.datetime(1939, 9, 1, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
+            param(
+                "ja",
+                "12月25日はクリスマスです",
+                [("12月25", datetime.datetime(2000, 12, 25, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
+            param(
+                "ja",
+                "6月15日（月）",
+                [("6月15日（月）", datetime.datetime(2000, 6, 15, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
+            param(
+                "ja",
+                "11月08日 12:52 更新",
+                [("11月08日 12:52", datetime.datetime(2000, 11, 8, 12, 52))],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
             # Persian

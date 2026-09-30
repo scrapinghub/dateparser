@@ -308,7 +308,10 @@ class Locale:
                 elif (
                     current_and_next_joined in dictionary
                     and word not in dashes
-                    and self.shortname not in word_joint_unsupported_languages
+                    and (
+                        self.shortname not in word_joint_unsupported_languages
+                        or word.isdigit()
+                    )
                 ):
                     translated_chunk.append(dictionary[current_and_next_joined])
                     original_chunk.append(
