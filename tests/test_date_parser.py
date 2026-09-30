@@ -1194,6 +1194,17 @@ class TestDateParser(BaseTestCase):
                 expected=datetime(1856, 5, 23, 0, 9, 8),
                 order="DMY",
             ),
+            # A day and month that do not fit the date order are swapped.
+            param("2021-13-01", expected=datetime(2021, 1, 13), order="YMD"),
+            param("2021-01-13", expected=datetime(2021, 1, 13), order="YDM"),
+            param("13/01/2021", expected=datetime(2021, 1, 13), order="MDY"),
+            param("01/13/2021", expected=datetime(2021, 1, 13), order="DMY"),
+            param("01/13/21", expected=datetime(2021, 1, 13), order="DMY"),
+            param("13-2021-01", expected=datetime(2021, 1, 13), order="MYD"),
+            param("01-2021-13", expected=datetime(2021, 1, 13), order="DYM"),
+            param("13/01/2021", expected=datetime(2021, 1, 13), order="YDM"),
+            param("01/13/2021", expected=datetime(2021, 1, 13), order="DYM"),
+            param("12 13 December", expected=datetime(2013, 12, 12), order="DMY"),
         ]
     )
     def test_order(self, date_string, expected=None, order=None):
@@ -1201,6 +1212,16 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
+    def test_locale_order_is_not_swapped(self):
+        self.given_parser(languages=["fr"])
+        self.when_date_is_parsed("01/13/2021")
+        self.then_date_obj_exactly_is(None)
+
+    def test_order_is_not_swapped_with_a_month_name(self):
+        self.given_parser(languages=["en"], settings={"DATE_ORDER": "DMY"})
+        self.when_date_is_parsed("12/24, Monday 15 March 2021")
+        self.then_date_obj_exactly_is(None)
 
     @parameterized.expand(
         [
