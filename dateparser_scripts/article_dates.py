@@ -7,11 +7,13 @@ import re
 import sys
 import urllib.request
 import zipfile
-from collections import Counter, defaultdict, namedtuple
+from collections import Counter, defaultdict
+from collections.abc import Callable, Iterable
 from datetime import datetime
 from functools import cache
 from multiprocessing import Pool
 from pathlib import Path
+from typing import NamedTuple, TextIO
 
 from dateparser.data.languages_info import language_order
 from dateparser.date import DateDataParser
@@ -30,9 +32,18 @@ dates are wrong, and relative dates are resolved against it."""
 
 SETTINGS = {"RELATIVE_BASE": COLLECTION_END}
 
-Result = namedtuple("Result", "text language date hinted locale found error")
 
-PROBLEMS = {
+class Result(NamedTuple):
+    text: str
+    language: str
+    date: datetime | None
+    hinted: datetime | None
+    locale: str | None
+    found: bool
+    error: str | None
+
+
+PROBLEMS: dict[str, Callable[[Result], bool]] = {
     "error": lambda r: r.error is not None,
     "unparsed": lambda r: r.date is None,
     "searchable": lambda r: r.found,
@@ -50,12 +61,12 @@ PROBLEMS = {
 """Checks run on every row. See CONTRIBUTING.rst for what each one means."""
 
 
-def cache_path():
+def cache_path() -> Path:
     root = os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache"
     return Path(root) / "dateparser" / URL.rsplit("/", 1)[1]
 
 
-def load(path):
+def load(path: Path) -> Counter[tuple[str, str]]:
     """Return a Counter of (text, language) pairs, downloading the dataset
     to *path* first if missing."""
     if not path.exists():
@@ -72,11 +83,11 @@ def load(path):
 
 
 @cache
-def parser(language=None):
+def parser(language: str | None = None) -> DateDataParser:
     return DateDataParser(languages=[language] if language else None, settings=SETTINGS)
 
 
-def evaluate(item):
+def evaluate(item: tuple[str, str]) -> Result:
     text, language = item
     result = Result(text, language, None, None, None, False, None)
     try:
@@ -93,17 +104,23 @@ def evaluate(item):
     return result
 
 
-def shape(text):
+def shape(text: str) -> str:
     """Return *text* with digits replaced by 9 and words by a, so that
     strings written in the same format share a shape."""
     return re.sub(r"[^\W\d_]+", "a", re.sub(r"\d", "9", text))
 
 
-def report(results, counts, top, examples, out):
+def report(
+    results: list[Result],
+    counts: Counter[tuple[str, str]],
+    top: int,
+    examples: int,
+    out: TextIO,
+) -> None:
     total = sum(counts.values())
     hits = {name: [r for r in results if check(r)] for name, check in PROBLEMS.items()}
 
-    def weight(rs):
+    def weight(rs: Iterable[Result]) -> int:
         return sum(counts[r.text, r.language] for r in rs)
 
     print(f"{total} rows, {len(results)} distinct\n", file=out)
@@ -137,7 +154,7 @@ def report(results, counts, top, examples, out):
                 )
 
 
-def main(argv=None):
+def main(argv: list[str] | None = None) -> None:
     arg_parser = argparse.ArgumentParser(
         description="Evaluate dateparser against the dataset from #928."
     )
@@ -160,7 +177,7 @@ def main(argv=None):
     if args.language is not None:
         counts = Counter({k: n for k, n in counts.items() if k[1] == args.language})
     if args.sample:
-        rows = random.Random(0).sample(list(counts.elements()), args.sample)
+        rows = random.Random(0).sample(list(counts.elements()), args.sample)  # noqa: S311
         counts = Counter(rows)
     items = sorted(counts)
     with Pool(args.jobs) as pool:

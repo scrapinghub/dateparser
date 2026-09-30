@@ -1,11 +1,14 @@
 import csv
 import io
 import zipfile
+from pathlib import Path
+
+import pytest
 
 from dateparser_scripts import article_dates
 
 
-def test_report(tmp_path, capsys):
+def test_report(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
     rows = io.StringIO()
     writer = csv.writer(rows)
     writer.writerow(
