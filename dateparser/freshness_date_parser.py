@@ -3,9 +3,13 @@ from datetime import datetime, time, timezone
 
 import regex as re
 from dateutil.relativedelta import relativedelta
-from tzlocal import get_localzone
 
-from dateparser.utils import apply_timezone, localize_timezone, strip_braces
+from dateparser.utils import (
+    _get_localzone,
+    apply_timezone,
+    localize_timezone,
+    strip_braces,
+)
 
 from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
@@ -34,7 +38,7 @@ class FreshnessDateDataParser:
             return time_parser(date_string)
 
     def get_local_tz(self):
-        return get_localzone()
+        return _get_localzone()
 
     def parse(self, date_string, settings):  # noqa: PLR0912
         date_string = strip_braces(date_string)
