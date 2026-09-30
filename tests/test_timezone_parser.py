@@ -109,6 +109,19 @@ class TestTZPopping(BaseTestCase):
         self.when_offset_popped_from_string()
         self.then_string_modified_to("15 May 2004")
 
+    @parameterized.expand(
+        [
+            param("10 Jan 2020 10:00 CET/CEST", ("10 Jan 2020 10:00 CET/", "CEST")),
+            param("Jan 10, 2020 10:00 PST/PDT", ("Jan 10, 2020 10:00 PST/", "PDT")),
+            param(
+                "Let's get on 10 Jan 2020 at 10:00 EST",
+                ("Let's get on 10 Jan 2020 at 10:00 ", "EST"),
+            ),
+        ]
+    )
+    def test_earliest_table_entry_wins(self, date_string, expected):
+        assert pop_tz_offset_from_string(date_string, as_offset=False) == expected
+
     def given_string(self, string_):
         self.initial_string = string_
 

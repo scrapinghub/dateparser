@@ -146,14 +146,24 @@ def _find_tz(string):
     or ``None``.
 
     Earlier pattern templates take precedence over later ones. Within a
-    template, the leftmost match wins, and ties go to the earliest timezone.
+    template, the earliest timezone wins, and ties go to the leftmost match.
     """
     for pattern, timezones in _tz_regexes()[0]:
-        match = pattern.search(string)
-        if match:
+        if pattern.flags & regex.REVERSE:
+            match = pattern.search(string)
+            matches = [match] if match else []
+        else:
+            # overlapped: in "EST/EDT" both matches share the "/"
+            matches = pattern.finditer(string, overlapped=True)
+        best = None
+        for match in matches:
             group = next(k for k, v in match.groupdict().items() if v is not None)
-            name, offset = timezones[int(group[2:])]
-            return match.span(), name, offset
+            index = int(group[2:])
+            if best is None or index < best[0]:
+                best = (index, match.span())
+        if best:
+            name, offset = timezones[best[0]]
+            return best[1], name, offset
     return None
 
 
