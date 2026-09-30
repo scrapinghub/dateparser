@@ -1166,6 +1166,9 @@ info = {
             "less than 1 minute ago": "45 second ago"
         },
         {
+            "(\\d+(?:st|nd|rd|th)) day": "\\1"
+        },
+        {
             "(\\d++[.,]?\\d*+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
         },
         {
