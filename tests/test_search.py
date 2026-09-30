@@ -1067,6 +1067,22 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
             ),
+            # A number followed by "day" outside a year-month-day date
+            param(
+                text="Check the 5-day forecast before you go.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=None,
+            ),
+            param(
+                text="The festival lasts 3 days, from 12 June 2021.",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("3 days", datetime.datetime(2020, 6, 12, 12, 0)),
+                    ("from 12 June 2021", datetime.datetime(2021, 6, 12, 0, 0)),
+                ],
+            ),
         ]
     )
     def test_date_search_function(

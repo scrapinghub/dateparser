@@ -329,7 +329,13 @@ class _parser:
             if token in skip_tokens:
                 continue
 
-            if token == "day" and index and self.filtered_tokens[index - 1][1] == 0:
+            if (
+                token == "day"  # noqa: S105
+                and index
+                and self._token_day == self.filtered_tokens[index - 1][:2]
+                and self.month is not None
+                and self.year is not None
+            ):
                 continue
 
             if self.time is None:
