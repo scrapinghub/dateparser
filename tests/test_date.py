@@ -965,6 +965,28 @@ class TestDateDataParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("xxxx junio 2020", ["xxxx %B %Y"], datetime(2020, 6, 1)),
+            param(
+                "el 15 de junio de 2020", ["el %d de %B de %Y"], datetime(2020, 6, 15)
+            ),
+            param(
+                "15 ENE, semana 3, 2020", ["%d %b, semana 3, %Y"], datetime(2020, 1, 15)
+            ),
+            param("mar, 16 jun 2020", ["%a, %d %b %Y"], datetime(2020, 6, 16)),
+        ]
+    )
+    def test_parse_date_using_format_with_literal_text(
+        self, date_string: str, date_formats: list[str], expected_result: datetime
+    ) -> None:
+        self.given_parser(
+            restrict_to_languages=["es"], settings={"PREFER_DAY_OF_MONTH": "first"}
+        )
+        self.when_date_string_is_parsed(date_string, date_formats)
+        self.then_parsed_datetime_is(expected_result)
+        self.then_detected_locale("es")
+
+    @parameterized.expand(
+        [
             param(
                 date_string="11/09/2007", date_formats={"date_formats": ["%d/%m/%Y"]}
             ),
@@ -1143,6 +1165,7 @@ class TestDateDataParser(BaseTestCase):
 
         self.add_patch(patch("dateparser.date.datetime", DateParserDateTime))
         self.add_patch(patch("dateparser.parser.datetime", DateParserDateTime))
+        self.add_patch(patch("dateparser.utils.datetime", DateParserDateTime))
 
     def given_parser(
         self, restrict_to_languages: list[str] | None = None, **params: Any
@@ -1356,6 +1379,15 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("2005 г. 15:24"), "2005 15:24")
         self.assertEqual(date.sanitize_date("Авг."), "Авг")
 
+    def test_sanitize_date_roman_numeral_years(self) -> None:
+        self.assertEqual(date.sanitize_date("Anno MDCCXVII."), "Anno 1717")
+        for date_string in ("MD", "MIXED", "mdccxvii", "MDCLXXXIIX", "CMXCIX"):
+            self.assertEqual(date.sanitize_date(date_string), date_string)
+
+    def test_sanitize_date_decimal_comma(self) -> None:
+        self.assertEqual(date.sanitize_date("06:38:49,946"), "06:38:49.946")
+        self.assertEqual(date.sanitize_date("06:38:49,12 June"), "06:38:49,12 June")
+
     def test_sanitize_date_colons(self) -> None:
         self.assertEqual(date.sanitize_date("2019:"), "2019")
         self.assertEqual(date.sanitize_date("31/07/2019:"), "31/07/2019")
@@ -1538,6 +1570,43 @@ class TestTimestampParser(BaseTestCase):
     )
     def test_timestamp_with_wrong_length(self, date_string: str) -> None:
         self.assertEqual(date.get_date_from_timestamp(date_string, None), None)
+
+
+YMD = ("year", "month", "day")
+
+
+@pytest.mark.parametrize(
+    ("date_string", "date_formats", "settings", "expected"),
+    [
+        ("2017", None, None, ("year",)),
+        ("January 2017", None, None, ("year", "month")),
+        ("22 May", None, None, ("month", "day")),
+        ("22 May 2017", None, None, YMD),
+        ("22 May 2017 10:30", None, None, (*YMD, "time")),
+        ("May 2017 4pm", None, None, ("year", "month", "time")),
+        ("Monday", None, None, YMD),
+        ("4pm", None, None, (*YMD, "time")),
+        ("22/05", ["%d/%m"], None, ("month", "day")),
+        ("22/05 10:30", ["%d/%m %H:%M"], None, ("month", "day", "time")),
+        ("20170522", None, {"DATE_ORDER": "YMD", "PARSERS": ["no-spaces-time"]}, YMD),
+        ("1439251200", None, None, (*YMD, "time")),
+        ("2 years ago", None, None, ("year",)),
+        ("3 months ago", None, None, ("year", "month")),
+        ("yesterday", None, None, YMD),
+        ("tomorrow 4pm", None, None, (*YMD, "time")),
+        ("the 1st of last month", None, None, YMD),
+        ("2 hours ago", None, None, (*YMD, "time")),
+        ("foo", None, None, ()),
+    ],
+)
+def test_parts(
+    date_string: str,
+    date_formats: list[str] | None,
+    settings: dict[str, Any] | None,
+    expected: tuple[str, ...],
+) -> None:
+    parser = date.DateDataParser(languages=["en"], settings=settings)
+    assert parser.get_date_data(date_string, date_formats).parts == expected
 
 
 if __name__ == "__main__":
