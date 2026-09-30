@@ -286,6 +286,8 @@ class TestBundledLanguages(BaseTestCase):
             # Swedish
             param("sv", "Sept 03 2014", "september 03 2014"),
             param("sv", "fredag, 03 september 2014", "friday 03 september 2014"),
+            param("sv", "den 24:e december 2020", " 24 december 2020"),
+            param("sv", "1:a januari 2021 10:00", "1 january 2021 10:00"),
             # af
             param("af", "5 Mei 2017", "5 may 2017"),
             param(
