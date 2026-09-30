@@ -1,7 +1,12 @@
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.9.3
+  rev: v0.16.8
   hooks:
-    - id: ruff
+    - id: ruff-check
       args: [ --fix ]
     - id: ruff-format
+- repo: https://github.com/zizmorcore/zizmor-pre-commit
+  rev: v1.28.0
+  hooks:
+    - id: zizmor
+      args: [--no-progress, --fix]
