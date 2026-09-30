@@ -1071,6 +1071,18 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
+            param(
+                text="Photo of the month, 12 March 1999",
+                languages=["en"],
+                settings=None,
+                expected=[("12 March 1999", datetime.datetime(1999, 3, 12, 0, 0))],
+            ),
+            param(
+                text="Employee of the month",
+                languages=["en"],
+                settings=None,
+                expected=None,
+            ),
             # Date with comma and apostrophe
             param(
                 text="9/3/2017  , ",
