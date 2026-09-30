@@ -23,7 +23,11 @@ from dateparser.utils import (
     set_correct_day_from_settings,
     set_correct_month_from_settings,
 )
-from dateparser.utils.strptime import get_clamped_leap_second, reset_leap_second_flag
+from dateparser.utils.strptime import (
+    get_clamped_leap_second,
+    reset_leap_second_flag,
+    validate_leap_second,
+)
 from dateparser.utils.strptime import strptime as patched_strptime
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
@@ -261,6 +265,7 @@ def parse_with_formats(date_string, date_formats, settings):
         reset_leap_second_flag()
         try:
             date_obj = patched_strptime(date_string, date_format)
+            validate_leap_second(date_obj)
         except ValueError:
             continue
         else:
@@ -412,6 +417,7 @@ class _DateLocaleParser:
         translated = self._get_translated_date()
 
         for order in candidates:
+            reset_leap_second_flag()
             try:
                 date_obj, period = date_parser.parse(
                     translated,
@@ -419,7 +425,11 @@ class _DateLocaleParser:
                     settings=self._settings,
                     date_order=order,
                 )
-                return DateData(date_obj=date_obj, period=period)
+                date_data = DateData(date_obj=date_obj, period=period)
+                clamped_second = get_clamped_leap_second()
+                if clamped_second is not None:
+                    date_data.leap_second = clamped_second
+                return date_data
             except ValueError:
                 continue
         return None

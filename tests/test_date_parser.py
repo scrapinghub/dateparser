@@ -232,9 +232,7 @@ class TestDateParser(BaseTestCase):
             param("13. veljače 1999. u podne", datetime(1999, 2, 13, 12, 0)),
             param("27. siječnja 1994. u ponoć", datetime(1994, 1, 27, 0, 0)),
             # Leap seconds (GH #862): datetime has no leap-second representation,
-            # so :60/:61 is clamped to :59.
             param("December 31st, 2016 23:59:60", datetime(2016, 12, 31, 23, 59, 59)),
-            param("December 31st, 2016 23:59:61", datetime(2016, 12, 31, 23, 59, 59)),
         ]
     )
     def test_dates_parsing(self, date_string, expected):

@@ -14,7 +14,7 @@ from dateparser.utils import (
     set_correct_day_from_settings,
     set_correct_month_from_settings,
 )
-from dateparser.utils.strptime import strptime
+from dateparser.utils.strptime import strptime, validate_leap_second
 
 NSP_COMPATIBLE = re.compile(r"\D+")
 MERIDIAN = re.compile(r"am|pm")
@@ -209,6 +209,7 @@ class _no_spaces_parser:
             for fmt in nsp.date_formats[order]:
                 try:
                     dt = strptime(token, fmt), cls._get_period(fmt)
+                    validate_leap_second(dt[0])
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
                         continue
@@ -610,6 +611,7 @@ class _parser:
         tokens = tokenizer(datestring)
         po = cls(tokens.tokenize(), settings, date_order=date_order)
         dateobj = po._results()
+        validate_leap_second(dateobj, tz)
 
         # correction for past, future if applicable
         dateobj = po._correct_for_time_frame(dateobj, tz)

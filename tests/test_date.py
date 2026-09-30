@@ -1471,10 +1471,13 @@ class TestTimestampParser(BaseTestCase):
 
 
 class TestLeapSecondDateData(BaseTestCase):
-    """GH #862: a leap second (`:60`/`:61`) is clamped to `:59` rather than
-    failing to parse. `DateData.leap_second` carries the original raw second
-    (60 or 61), since the returned `date_obj` can no longer distinguish the
-    clamp from a plain `:59`.
+    """GH #862: a leap second (`:60`) is clamped to `:59` rather than failing
+    to parse, but only when it matches one of the 27 real leap seconds IERS
+    has inserted (all 23:59:60 UTC on June 30 or December 31). `:61`, and a
+    `:60` on any other date/time, keep failing to parse, same as before this
+    fix. `DateData.leap_second` carries the original raw second (60), since
+    the returned `date_obj` can no longer distinguish the clamp from a plain
+    `:59`.
     """
 
     def test_leap_second_is_flagged_on_date_data(self):
@@ -1482,10 +1485,18 @@ class TestLeapSecondDateData(BaseTestCase):
         self.assertEqual(result["date_obj"].second, 59)
         self.assertEqual(result["leap_second"], 60)
 
-    def test_positive_leap_second_is_flagged_on_date_data(self):
+    def test_61_seconds_still_fails_to_parse(self):
         result = date.DateDataParser().get_date_data("December 31st, 2016 23:59:61 UTC")
+        self.assertIsNone(result["date_obj"])
+
+    def test_60_seconds_on_a_non_leap_second_date_still_fails_to_parse(self):
+        result = date.DateDataParser().get_date_data("March 15th, 2017 12:34:60")
+        self.assertIsNone(result["date_obj"])
+
+    def test_leap_second_is_validated_in_utc_with_explicit_offset(self):
+        result = date.DateDataParser().get_date_data("December 31st, 2016 18:59:60 EST")
         self.assertEqual(result["date_obj"].second, 59)
-        self.assertEqual(result["leap_second"], 61)
+        self.assertEqual(result["leap_second"], 60)
 
     def test_regular_second_is_not_flagged(self):
         result = date.DateDataParser().get_date_data("December 31st, 2016 23:59:59 UTC")

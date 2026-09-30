@@ -1,6 +1,7 @@
 import calendar
 import itertools
-from datetime import datetime
+from datetime import datetime, timedelta
+from unittest.mock import patch
 
 import pytest
 from parameterized import param, parameterized
@@ -17,7 +18,7 @@ from dateparser.utils import (
     localize_timezone,
     registry,
 )
-from dateparser.utils.strptime import patch_strptime, strptime
+from dateparser.utils.strptime import patch_strptime, strptime, validate_leap_second
 from tests import BaseTestCase
 
 
@@ -38,11 +39,61 @@ class TestUtils(BaseTestCase):
         [
             param("2016-12-31 23:59:59", datetime(2016, 12, 31, 23, 59, 59)),
             param("2016-12-31 23:59:60", datetime(2016, 12, 31, 23, 59, 59)),
-            param("2016-12-31 23:59:61", datetime(2016, 12, 31, 23, 59, 59)),
         ]
     )
     def test_strptime_clamps_leap_second(self, date_string, expected):
         self.assertEqual(strptime(date_string, "%Y-%m-%d %H:%M:%S"), expected)
+
+    def test_strptime_rejects_61_seconds(self):
+        # No leap second has ever required two extra seconds; `:61` is never
+        # valid, unlike `:60` (which `strptime` clamps and lets a later,
+        # date-aware check validate against the real leap-second list).
+        with self.assertRaises(ValueError):
+            strptime("2016-12-31 23:59:61", "%Y-%m-%d %H:%M:%S")
+
+    def test_validate_leap_second_accepts_known_leap_second(self):
+        date_obj = strptime("2016-12-31 23:59:60", "%Y-%m-%d %H:%M:%S")
+        validate_leap_second(date_obj)  # does not raise
+
+    def test_validate_leap_second_rejects_unknown_leap_second(self):
+        date_obj = strptime("2017-03-15 12:34:60", "%Y-%m-%d %H:%M:%S")
+        with self.assertRaises(ValueError):
+            validate_leap_second(date_obj)
+
+    def test_validate_leap_second_converts_fixed_offset_to_utc(self):
+        from dateparser.timezone_parser import StaticTzInfo
+
+        est = StaticTzInfo("EST", timedelta(hours=-5))
+        date_obj = strptime("2016-12-31 18:59:60", "%Y-%m-%d %H:%M:%S")
+        validate_leap_second(date_obj, tz=est)  # does not raise: 23:59:60 UTC
+
+    def test_validate_leap_second_noop_without_clamp(self):
+        date_obj = strptime("2016-12-31 23:59:59", "%Y-%m-%d %H:%M:%S")
+        validate_leap_second(date_obj)  # does not raise: nothing was clamped
+
+    def test_known_leap_seconds_are_sourced_from_pytz(self):
+        # pytz is a hard dependency, so its `zoneinfo/leapseconds` file
+        # should always be readable in a normal install.
+        from dateparser.utils.strptime import (
+            _LEAP_SECOND_DECEMBER_31_YEARS,
+            _LEAP_SECOND_JUNE_30_YEARS,
+        )
+
+        self.assertIn(2016, _LEAP_SECOND_DECEMBER_31_YEARS)
+        self.assertIn(2015, _LEAP_SECOND_JUNE_30_YEARS)
+
+    def test_load_leap_seconds_from_pytz_returns_empty_when_unreadable(self):
+        from dateparser.utils import strptime as strptime_module
+
+        with patch.object(
+            strptime_module.importlib.resources,
+            "files",
+            side_effect=ModuleNotFoundError,
+        ):
+            self.assertEqual(
+                strptime_module._load_leap_seconds_from_pytz(),
+                (frozenset(), frozenset()),
+            )
 
     def given_date_format(self, date_format):
         self.date_format = date_format
