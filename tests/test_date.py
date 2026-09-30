@@ -966,6 +966,28 @@ class TestDateDataParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("xxxx junio 2020", ["xxxx %B %Y"], datetime(2020, 6, 1)),
+            param(
+                "el 15 de junio de 2020", ["el %d de %B de %Y"], datetime(2020, 6, 15)
+            ),
+            param(
+                "15 ENE, semana 3, 2020", ["%d %b, semana 3, %Y"], datetime(2020, 1, 15)
+            ),
+            param("mar, 16 jun 2020", ["%a, %d %b %Y"], datetime(2020, 6, 16)),
+        ]
+    )
+    def test_parse_date_using_format_with_literal_text(
+        self, date_string, date_formats, expected_result
+    ):
+        self.given_parser(
+            restrict_to_languages=["es"], settings={"PREFER_DAY_OF_MONTH": "first"}
+        )
+        self.when_date_string_is_parsed(date_string, date_formats)
+        self.then_parsed_datetime_is(expected_result)
+        self.then_detected_locale("es")
+
+    @parameterized.expand(
+        [
             param(
                 date_string="11/09/2007", date_formats={"date_formats": ["%d/%m/%Y"]}
             ),
@@ -1144,6 +1166,7 @@ class TestDateDataParser(BaseTestCase):
 
         self.add_patch(patch("dateparser.date.datetime", DateParserDateTime))
         self.add_patch(patch("dateparser.parser.datetime", DateParserDateTime))
+        self.add_patch(patch("dateparser.utils.datetime", DateParserDateTime))
 
     def given_parser(
         self, restrict_to_languages: list[str] | None = None, **params: Any
@@ -1567,6 +1590,7 @@ YMD = ("year", "month", "day")
         ("3 months ago", None, None, ("year", "month")),
         ("yesterday", None, None, YMD),
         ("tomorrow 4pm", None, None, (*YMD, "time")),
+        ("the 1st of last month", None, None, YMD),
         ("2 hours ago", None, None, (*YMD, "time")),
         ("foo", None, None, ()),
     ],

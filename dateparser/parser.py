@@ -1,7 +1,7 @@
 import calendar
 import contextlib
 from collections.abc import Callable, Iterable, Iterator
-from datetime import datetime, time, timedelta, timezone, tzinfo
+from datetime import datetime, time, timedelta, tzinfo
 from functools import partial
 from io import StringIO
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, overload
@@ -13,6 +13,7 @@ from tzlocal import get_localzone
 from dateparser.utils import (
     _get_missing_parts,
     _get_parts,
+    _now,
     apply_timezone,
     get_last_day_of_month,
     get_next_leap_year,
@@ -538,7 +539,10 @@ class _parser:
         # comparing times.
         now = self.settings.RELATIVE_BASE
         self._now_is_utc = False
-        if now and not now.tzinfo:
+        if not now:
+            self.now = _now(self.settings, self._tz)
+            return
+        if not now.tzinfo:
             if "TIMEZONE" not in self.settings._mod_settings:
                 self.now = now
                 self._now_is_utc = True
@@ -548,9 +552,7 @@ class _parser:
                 return
         settings_tz = self.settings.TIMEZONE
         is_local = "local" in settings_tz.lower()
-        if not now:
-            now = datetime.now(tz=timezone.utc)
-        elif not now.tzinfo:
+        if not now.tzinfo:
             if is_local:
                 local_tz = get_localzone()
                 if hasattr(local_tz, "localize"):
