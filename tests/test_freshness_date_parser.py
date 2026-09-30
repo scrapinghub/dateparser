@@ -72,6 +72,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("last decade", ago={"years": 10}, period="year"),
             param("a decade ago", ago={"years": 10}, period="year"),
             param("100 decades", ago={"years": 1000}, period="year"),
+            param("3 days ago 15", ago={"days": 3}, period="day"),
+            param("yesterday at 5", ago={"days": 1}, period="day"),
             # Regression tests for #1304: an explicit sign on a component is
             # preserved when ``decades`` is folded into ``years`` instead of
             # being overwritten by the decade's sign. Unsigned components still
