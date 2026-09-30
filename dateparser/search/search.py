@@ -1,4 +1,5 @@
-from collections.abc import Callable, Iterable, Sequence, Set
+from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Set as AbstractSet
 from datetime import datetime
 from typing import Any, TypedDict
 
@@ -20,7 +21,7 @@ RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 # turns into several words ("0 day ago"), which is why the translation of a
 # chunk can hold more words than the text it was translated from.
 TRANSLATED_RELATIVE_REG = re.compile(
-    r"\bin \d+ (?:{units})s?\b|\b\d+ (?:{units})s? ago\b".format(units=_UNITS)
+    rf"\bin \d+ (?:{_UNITS})s?\b|\b\d+ (?:{_UNITS})s? ago\b"
 )
 
 
@@ -59,8 +60,7 @@ class _ExactLanguageSearch:
         self, shortname: str, text: str, settings: Settings
     ) -> tuple[list[str], list[str]]:
         language = self.get_current_language(shortname)
-        result = language.translate_search(text, settings=settings)
-        return result
+        return language.translate_search(text, settings=settings)
 
     @staticmethod
     def set_relative_base(
@@ -103,7 +103,7 @@ class _ExactLanguageSearch:
                     else (float(num_substrings_without_digits) / float(num_substrings)),
                 ]
             )
-            best_index, best_rating = min(
+            best_index, _best_rating = min(
                 enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2])
             )
         return (
@@ -268,7 +268,7 @@ class _ExactLanguageSearch:
                         parsed_jtem, is_relative_jtem = self.parse_item(
                             parser,
                             jtem,
-                            split_translated[j],
+                            jtem,
                             current_parsed,
                             need_relative_base,
                         )
@@ -311,7 +311,7 @@ class _ExactLanguageSearch:
             language=language,
         )
 
-        results = list(zip(substrings, [i[0]["date_obj"] for i in parsed]))
+        results = list(zip(substrings, [i[0]["date_obj"] for i in parsed], strict=True))
 
         _add_time_span_results(results, text, settings)
 
@@ -338,7 +338,7 @@ class DateSearchWithDetection:
         if detected_language:
             candidates.append(detected_language)
 
-        if isinstance(languages, (list, tuple, Set)) and len(languages) > 1:
+        if isinstance(languages, (list, tuple, AbstractSet)) and len(languages) > 1:
             candidates.extend(languages)
 
         return list(dict.fromkeys(candidates))
@@ -363,8 +363,8 @@ class DateSearchWithDetection:
             return detected_languages[0] if detected_languages else None
 
         locales = None
-        if isinstance(languages, (list, tuple, Set)):
-            if all([language in self.available_language_map for language in languages]):
+        if isinstance(languages, (list, tuple, AbstractSet)):
+            if all(language in self.available_language_map for language in languages):
                 locales = [
                     self.available_language_map[language] for language in languages
                 ]
@@ -373,12 +373,11 @@ class DateSearchWithDetection:
                     self.available_language_map.keys()
                 )
                 raise ValueError(
-                    "Unknown language(s): %s"
-                    % ", ".join(map(repr, unsupported_languages))
+                    f"Unknown language(s): {', '.join(map(repr, unsupported_languages))}"
                 )
         elif languages is not None:
             raise TypeError(
-                "languages argument must be a list (%r given)" % type(languages)
+                f"languages argument must be a list ({type(languages)!r} given)"
             )
 
         if locales:
@@ -388,10 +387,9 @@ class DateSearchWithDetection:
                 list(self.available_language_map.values())
             )
 
-        detected_language = language_detector._best_language(text) or (
+        return language_detector._best_language(text) or (
             settings.DEFAULT_LANGUAGES[0] if settings.DEFAULT_LANGUAGES else None
         )
-        return detected_language
 
     @apply_settings
     def search_dates(
@@ -440,7 +438,7 @@ class DateSearchWithDetection:
         """
         if strategy not in ("split", "ngram"):
             raise ValueError(
-                'strategy must be "split" or "ngram" (%r given)' % strategy
+                f'strategy must be "split" or "ngram" ({strategy!r} given)'
             )
 
         assert isinstance(settings, Settings)

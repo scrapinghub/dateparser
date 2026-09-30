@@ -3,13 +3,16 @@ import pytest
 pytest.importorskip("convertdate")
 
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from parameterized import param, parameterized
 
 from dateparser.calendars.jalali import JalaliCalendar
 from dateparser.calendars.jalali_parser import PersianDate, jalali_parser
-from dateparser.date import DateData
 from tests import BaseTestCase
+
+if TYPE_CHECKING:
+    from dateparser.date import DateData
 
 
 class TestPersianDate(BaseTestCase):
@@ -30,6 +33,7 @@ class TestPersianDate(BaseTestCase):
             param(year=1348, month=3, day=27, weekday=2),
             param(year=1348, month=4, day=11, weekday=3),
             param(year=1348, month=1, day=32, weekday=None),
+            param(year=1348, month=12, day=31, weekday=None),
         ]
     )
     def test_weekday(

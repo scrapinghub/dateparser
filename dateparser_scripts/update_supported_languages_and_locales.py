@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import os
 from collections.abc import Mapping, Sequence
+from pathlib import Path
 from tempfile import TemporaryFile
 
 from dateparser.data.languages_info import language_locale_dict
@@ -15,18 +15,16 @@ def to_string(data: Mapping[str, Sequence[str]]) -> str:
         locales = data[language]
         if locales:
             result += " " * (language_column_width - len(language))
-            result += ", ".join("'{}'".format(locale) for locale in sorted(locales))
+            result += ", ".join(f"'{locale}'" for locale in sorted(locales))
         result += "\n"
     return result
 
 
 def main() -> None:
-    readme_path = os.path.join(
-        os.path.dirname(__file__), "..", "docs", "supported_locales.rst"
-    )
+    readme_path = Path(__file__).parent.parent / "docs" / "supported_locales.rst"
     new_data = to_string(language_locale_dict)
     temporary_file = TemporaryFile("w+")
-    with open(readme_path) as readme_file:
+    with readme_path.open() as readme_file:
         delimiter = "============    ================================================================\n"
         delimiters_seen = 0
         is_inside_table = False
@@ -40,7 +38,7 @@ def main() -> None:
             if is_inside_table:
                 temporary_file.write(new_data)
     temporary_file.seek(0)
-    with open(readme_path, "w") as readme_file:
+    with readme_path.open("w") as readme_file:
         readme_file.write(temporary_file.read())
     temporary_file.close()
 

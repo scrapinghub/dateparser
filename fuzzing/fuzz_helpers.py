@@ -3,7 +3,7 @@ import datetime
 import io
 import tempfile
 from collections.abc import Iterator
-from typing import List, TypeVar
+from typing import TypeVar
 
 import atheris
 
@@ -31,7 +31,7 @@ class EnhancedFuzzedDataProvider(atheris.FuzzedDataProvider):  # type: ignore[mi
         result: bytes = self.ConsumeBytes(self.remaining_bytes())
         return result
 
-    def ConsumeSublist(self, source: List[T]) -> List[T]:
+    def ConsumeSublist(self, source: list[T]) -> list[T]:
         """
         Returns a shuffled sub-list of the given list of len [1, len(source)]
         """

@@ -1,13 +1,17 @@
-from collections import OrderedDict
-from collections.abc import Iterator
 from operator import attrgetter
+from typing import TYPE_CHECKING
 
 import regex as re
 from parameterized import param, parameterized
 
 from dateparser.languages.loader import LocaleDataLoader, default_loader
-from dateparser.languages.locale import Locale
 from tests import BaseTestCase
+
+if TYPE_CHECKING:
+    from collections import OrderedDict
+    from collections.abc import Iterator
+
+    from dateparser.languages.locale import Locale
 
 
 class TestLoading(BaseTestCase):
@@ -20,8 +24,8 @@ class TestLoading(BaseTestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.data_loader = default_loader
-        cls.data_loader._loaded_locales = {}
-        cls.data_loader._loaded_languages = {}
+        cls.data_loader._loaded_locales.clear()
+        cls.data_loader._loaded_languages.clear()
 
     @parameterized.expand(
         [
@@ -295,8 +299,8 @@ class TestLocaleDataLoader(BaseTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.data_loader = default_loader
-        self.data_loader._loaded_languages = {}
-        self.data_loader._loaded_locales = {}
+        self.data_loader._loaded_languages.clear()
+        self.data_loader._loaded_locales.clear()
 
     @parameterized.expand(
         [

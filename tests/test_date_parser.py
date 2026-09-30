@@ -1,6 +1,6 @@
 import unittest
 from collections.abc import Callable
-from datetime import datetime, timedelta, tzinfo
+from datetime import datetime, timedelta, timezone, tzinfo
 from functools import wraps
 from typing import Any
 from unittest.mock import Mock, patch
@@ -31,6 +31,7 @@ class TestDateParser(BaseTestCase):
             param("[Sept] 04, 2014.", datetime(2014, 9, 4)),
             param("Tuesday Jul 22, 2014", datetime(2014, 7, 22)),
             param("Tues 9th Aug, 2015", datetime(2015, 8, 9)),
+            param("the 1st day of March 2015", datetime(2015, 3, 1)),
             param("10:04am", datetime(2012, 11, 13, 10, 4)),
             param("Friday", datetime(2012, 11, 9)),
             param("November 19, 2014 at noon", datetime(2014, 11, 19, 12, 0)),
@@ -152,7 +153,7 @@ class TestDateParser(BaseTestCase):
             param("Thứ sáu", datetime(2012, 11, 9)),  # Friday
             param(
                 "Tháng Mười Hai 29, 2013, 14:14", datetime(2013, 12, 29, 14, 14)
-            ),  # bpsosrcs.wordpress.com  # NOQA
+            ),  # bpsosrcs.wordpress.com
             param("05 Tháng một 2015 - 03:54 AM", datetime(2015, 1, 5, 3, 54)),
             # Belarusian dates
             param("11 траўня", datetime(2012, 5, 11)),
@@ -398,7 +399,7 @@ class TestDateParser(BaseTestCase):
             param("Thứ sáu", datetime(2012, 11, 9)),  # Friday
             param(
                 "Tháng Mười Hai 29, 2013, 14:14", datetime(2013, 12, 29, 14, 14)
-            ),  # bpsosrcs.wordpress.com  # NOQA
+            ),  # bpsosrcs.wordpress.com
             param("05 Tháng một 2015 - 03:54 AM", datetime(2015, 1, 5, 3, 54)),
             # Belarusian dates
             param("11 траўня", datetime(2012, 5, 11)),
@@ -557,6 +558,21 @@ class TestDateParser(BaseTestCase):
                 "Fri Sep 23 2016 10:34:51 GMT+0800 (CST)",
                 datetime(2016, 9, 23, 2, 34, 51),
             ),
+            # RFC 2822 email dates carry a numeric offset plus a redundant,
+            # equivalent timezone abbreviation in parentheses.
+            param(
+                "Thu, 30 May 2024 10:13:10 -0500 (CDT)",
+                datetime(2024, 5, 30, 15, 13, 10),
+            ),
+            param(
+                "30 May 2024 10:13:10 -0500 CDT",
+                datetime(2024, 5, 30, 15, 13, 10),
+            ),
+            param(
+                "Mon, 15 Jan 2024 09:30:00 +0000 (UTC)",
+                datetime(2024, 1, 15, 9, 30, 0),
+            ),
+            param("2019-09-28WIB19:17:34+07:00", datetime(2019, 9, 28, 12, 17, 34)),
         ]
     )
     def test_parsing_with_utc_offsets(
@@ -982,6 +998,22 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("2023-11-08", date_order="DMY", expected=datetime(2023, 11, 8)),
+            param("1960-12-23", date_order="DMY", expected=datetime(1960, 12, 23)),
+            param("2023-11-08", date_order="MDY", expected=datetime(2023, 11, 8)),
+            param("2023-11-08", date_order="YDM", expected=datetime(2023, 8, 11)),
+        ]
+    )
+    def test_year_first_date_with_explicit_date_order(
+        self, date_string: str, date_order: str, expected: datetime
+    ) -> None:
+        self.given_parser(languages=["en"], settings={"DATE_ORDER": date_order})
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
             # Epoch timestamps.
             param("1484823450", expected=datetime(2017, 1, 19, 10, 57, 30)),
             param("1436745600000", expected=datetime(2015, 7, 13, 0, 0)),
@@ -1224,6 +1256,17 @@ class TestDateParser(BaseTestCase):
                 expected=datetime(1856, 5, 23, 0, 9, 8),
                 order="DMY",
             ),
+            # A day and month that do not fit the date order are swapped.
+            param("2021-13-01", expected=datetime(2021, 1, 13), order="YMD"),
+            param("2021-01-13", expected=datetime(2021, 1, 13), order="YDM"),
+            param("13/01/2021", expected=datetime(2021, 1, 13), order="MDY"),
+            param("01/13/2021", expected=datetime(2021, 1, 13), order="DMY"),
+            param("01/13/21", expected=datetime(2021, 1, 13), order="DMY"),
+            param("13-2021-01", expected=datetime(2021, 1, 13), order="MYD"),
+            param("01-2021-13", expected=datetime(2021, 1, 13), order="DYM"),
+            param("13/01/2021", expected=datetime(2021, 1, 13), order="YDM"),
+            param("01/13/2021", expected=datetime(2021, 1, 13), order="DYM"),
+            param("12 13 December", expected=datetime(2013, 12, 12), order="DMY"),
         ]
     )
     def test_order(
@@ -1236,6 +1279,16 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
+    def test_locale_order_is_not_swapped(self) -> None:
+        self.given_parser(languages=["fr"])
+        self.when_date_is_parsed("01/13/2021")
+        self.then_date_obj_exactly_is(None)
+
+    def test_order_is_not_swapped_with_a_month_name(self) -> None:
+        self.given_parser(languages=["en"], settings={"DATE_ORDER": "DMY"})
+        self.when_date_is_parsed("12/24, Monday 15 March 2021")
+        self.then_date_obj_exactly_is(None)
 
     @parameterized.expand(
         [
@@ -1984,14 +2037,12 @@ class TestDateParser(BaseTestCase):
 
     def test_prefer_dates_from_with_date_formats_tz_aware_relative_base(self) -> None:
         """Test that a tz-aware RELATIVE_BASE does not crash (Bug #1 fix)."""
-        from datetime import timezone as tz
-
         result = parse(
             "1/15/64",
             date_formats=["%m/%d/%y"],
             settings={
                 "PREFER_DATES_FROM": "past",
-                "RELATIVE_BASE": datetime(1980, 1, 1, tzinfo=tz.utc),
+                "RELATIVE_BASE": datetime(1980, 1, 1, tzinfo=timezone.utc),
             },
         )
         self.assertIsNotNone(result)
@@ -2037,6 +2088,61 @@ class TestDateParser(BaseTestCase):
     def test_out_of_range_day_of_year_is_not_parsed(self, date_string: str) -> None:
         """Test that an invalid %j value is not read as another date (Issue #271)."""
         self.assertIsNone(parse(date_string, date_formats=["%Y%j"]))
+
+    @parameterized.expand(
+        [
+            param(
+                date_string="mar, 07 giu 2022 08:56:47 +0200",
+                date_formats=["%a, %d %b %Y %H:%M:%S %z"],
+            ),
+            param(date_string="mar, 07 giu 2022 08:56:47 +0200", date_formats=None),
+            param(date_string="mar 07 giu 2022 08:56:47 +0200", date_formats=None),
+        ]
+    )
+    def test_weekday_month_abbreviation_conflict_is_read_as_weekday(
+        self, date_string: str, date_formats: list[str] | None
+    ) -> None:
+        """Italian "mar" abbreviates both "martedì" (Tue) and "marzo" (Mar). When
+        another, unambiguous month ("giu") is present in the same string, "mar" must
+        be read as the weekday, comma or not, or the string fails to parse entirely
+        (Issue #1061)."""
+        result = parse(date_string, date_formats=date_formats, languages=["it"])
+        assert result is not None
+        self.assertEqual(datetime(2022, 6, 7, 8, 56, 47), result.replace(tzinfo=None))
+
+    @parameterized.expand(
+        [
+            param(date_string="mar 2022", expected_year=2022, expected_month=3),
+            param(date_string="mar, 2022", expected_year=2022, expected_month=3),
+            param(
+                date_string="mar, 7 2022",
+                expected_year=2022,
+                expected_month=3,
+                expected_day=7,
+            ),
+            param(
+                date_string="mar, 10, 2022",
+                expected_year=2022,
+                expected_month=3,
+                expected_day=10,
+            ),
+        ]
+    )
+    def test_weekday_month_abbreviation_conflict_is_read_as_month(
+        self,
+        date_string: str,
+        expected_year: int,
+        expected_month: int,
+        expected_day: int | None = None,
+    ) -> None:
+        """Without another, unambiguous month elsewhere in the string, the ambiguous
+        Italian "mar" abbreviation must still be read as the month."""
+        result = parse(date_string, languages=["it"])
+        assert result is not None
+        self.assertEqual(expected_year, result.year)
+        self.assertEqual(expected_month, result.month)
+        if expected_day is not None:
+            self.assertEqual(expected_day, result.day)
 
 
 if __name__ == "__main__":

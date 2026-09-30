@@ -10,7 +10,7 @@ class parameterized:
     @classmethod
     def expand(
         cls,
-        input: Iterable[Any],
+        input: Iterable[Any],  # noqa: A002
         name_func: Callable[..., str] | None = None,
         doc_func: Callable[..., str | None] | None = None,
         skip_on_empty: bool = False,

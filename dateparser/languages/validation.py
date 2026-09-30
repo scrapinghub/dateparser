@@ -1,5 +1,5 @@
 import logging
-from typing import Any
+from typing import Any, ClassVar
 
 import regex as re
 
@@ -9,7 +9,7 @@ from dateparser.utils import get_logger
 class LanguageValidator:
     logger: logging.Logger | None = None
 
-    VALID_KEYS = [
+    VALID_KEYS: ClassVar[list[str]] = [
         "name",
         "skip",
         "pertain",
@@ -383,7 +383,7 @@ class LanguageValidator:
                     result = False
                     continue
 
-                key, value = list(simplification.items())[0]
+                key, value = next(iter(simplification.items()))
                 if not isinstance(key, str) or not isinstance(value, (str, int)):
                     cls.get_logger().error(
                         "Invalid simplification %(simplification)r for '%(id)s' language: "
@@ -417,7 +417,7 @@ class LanguageValidator:
                         result = False
 
                 used_groups = set(map(int, groups))
-                expected_groups = set(range(0, compiled_key.groups + 1))
+                expected_groups = set(range(compiled_key.groups + 1))
                 extra_groups = used_groups - expected_groups
                 not_used_groups = expected_groups - used_groups
                 not_used_groups -= {0}  # Entire substring is not required to be used

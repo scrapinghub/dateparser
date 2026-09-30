@@ -3,12 +3,16 @@ import pytest
 pytest.importorskip("hijridate")
 
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from parameterized import param, parameterized
 
 from dateparser.calendars.hijri import HijriCalendar
-from dateparser.date import DateData
+from dateparser.conf import settings
 from tests import BaseTestCase
+
+if TYPE_CHECKING:
+    from dateparser.date import DateData
 
 
 class TestHijriParser(BaseTestCase):
@@ -71,8 +75,6 @@ class TestHijriParser(BaseTestCase):
         date_formats: list[str] | None = None,
         languages: list[str] | None = None,
     ) -> None:
-        from dateparser.conf import settings
-
         settings.DATE_ORDER = "DMY"
         self.when_date_is_given(dt_string, date_formats, languages)
         self.then_parsed_datetime_is(dt_obj)

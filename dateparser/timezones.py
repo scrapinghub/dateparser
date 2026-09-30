@@ -76,7 +76,7 @@ timezone_info_list: list[dict[str, Any]] = [
         ],
     },
     {
-        "regex_patterns": [r"(\W|\d|_)%s($|\W)"],
+        "regex_patterns": [r"(\W|\d|_)%s($|\W|(?=\d))"],
         "timezones": [
             ("ACDT", 37800),
             ("ACST", 34200),

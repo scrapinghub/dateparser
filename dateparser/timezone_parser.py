@@ -27,7 +27,7 @@ class StaticTzInfo(tzinfo):
         return timedelta(0)
 
     def __repr__(self) -> str:
-        return "<%s '%s'>" % (self.__class__.__name__, self.__name)
+        return f"<{self.__class__.__name__} '{self.__name}'>"
 
     def localize(self, dt: datetime, is_dst: bool = False) -> datetime:
         if dt.tzinfo is not None:
@@ -36,6 +36,31 @@ class StaticTzInfo(tzinfo):
 
     def __getinitargs__(self) -> tuple[str, timedelta]:
         return self.__name, self.__offset
+
+
+def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | None:
+    """Find and remove the first timezone token from ``date_string``.
+
+    Returns a ``(new_string, name, info)`` tuple, or ``None`` if no timezone
+    token is present.
+    """
+    if not _search_regex_ignorecase.search(date_string):
+        return None
+    for name, info in _tz_offsets:
+        timezone_match = info["regex"].search(date_string)
+        if timezone_match:
+            start, stop = timezone_match.span()
+            # A token glued to the digits that follow, as in
+            # 2019-09-28WIB19:17:34, leaves a space so that the date and time
+            # digits stay apart.
+            glued = stop < len(date_string) and date_string[stop - 1].isalpha()
+            separator = " " if glued else ""
+            return (
+                date_string[: start + 1] + separator + date_string[stop:],
+                name,
+                info,
+            )
+    return None
 
 
 @overload
@@ -53,18 +78,27 @@ def pop_tz_offset_from_string(
 def pop_tz_offset_from_string(
     date_string: str, as_offset: bool = True
 ) -> tuple[str, StaticTzInfo | str | None]:
-    if _search_regex_ignorecase.search(date_string):
-        for name, info in _tz_offsets:
-            timezone_re = info["regex"]
-            timezone_match = timezone_re.search(date_string)
-            if timezone_match:
-                start, stop = timezone_match.span()
-                date_string = date_string[: start + 1] + date_string[stop:]
-                return (
-                    date_string,
-                    StaticTzInfo(name, info["offset"]) if as_offset else name,
-                )
-    return date_string, None
+    match = _search_and_pop_tz(date_string)
+    if match is None:
+        return date_string, None
+
+    date_string, name, info = match
+    result = StaticTzInfo(name, info["offset"]) if as_offset else name
+
+    # A date string may carry both a numeric UTC offset and a redundant,
+    # equivalent timezone abbreviation, e.g. the RFC 2822 email form
+    # ``-0500 (CDT)`` (the parenthesised name is informational and the numeric
+    # offset is authoritative). Only one token is removed above; strip a second,
+    # equivalent one so the leftover does not break the rest of the parser.
+    # The remainder is right-stripped first because the numeric-offset regexes
+    # are anchored at the end of the string.
+    while True:
+        extra = _search_and_pop_tz(date_string.rstrip())
+        if extra is None or extra[2]["offset"] != info["offset"]:
+            break
+        date_string = extra[0]
+
+    return date_string, result
 
 
 def word_is_tz(word: str) -> bool:
@@ -123,8 +157,7 @@ def build_tz_offsets(
 
 def get_local_tz_offset() -> timedelta:
     offset = datetime.now() - datetime.now(tz=timezone.utc).replace(tzinfo=None)
-    offset = timedelta(days=offset.days, seconds=round(offset.seconds, -1))
-    return offset
+    return timedelta(days=offset.days, seconds=round(offset.seconds, -1))
 
 
 _search_regex_parts: list[str] = []

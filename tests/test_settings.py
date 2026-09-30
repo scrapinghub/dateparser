@@ -5,12 +5,7 @@ import pytest
 from parameterized import param, parameterized
 
 from dateparser import DateDataParser, parse
-from dateparser.conf import (
-    Settings,
-    SettingValidationError,
-    apply_settings,
-    settings,
-)
+from dateparser.conf import Settings, SettingValidationError, apply_settings, settings
 from tests import BaseTestCase
 
 
@@ -146,7 +141,7 @@ class SettingsTest(BaseTestCase):
             test_func(settings={"PREFER_DATES_FROM": "past"}), self.default_settings
         )
 
-    def test_apply_settings_shouldnt_create_new_settings_when_same_settings_are_supplied_to_the_decorated_function_more_than_once(  # noqa E501
+    def test_apply_settings_shouldnt_create_new_settings_when_same_settings_are_supplied_to_the_decorated_function_more_than_once(
         self,
     ) -> None:
         test_func = apply_settings(test_function)
@@ -154,7 +149,7 @@ class SettingsTest(BaseTestCase):
         settings_twice = test_func(settings={"PREFER_DATES_FROM": "past"})
         self.assertEqual(settings_once, settings_twice)
 
-    def test_apply_settings_should_return_default_settings_when_called_with_no_settings_after_once_called_with_settings_supplied_to_the_decorated_function(  # noqa E501
+    def test_apply_settings_should_return_default_settings_when_called_with_no_settings_after_once_called_with_settings_supplied_to_the_decorated_function(
         self,
     ) -> None:
         test_func = apply_settings(test_function)
@@ -228,7 +223,7 @@ class InvalidSettingsTest(BaseTestCase):
     ) -> None:
         with self.assertRaisesRegex(
             SettingValidationError,
-            r'"{}" must be .*, not "{}".'.format(setting, type(wrong_type).__name__),
+            rf'"{setting}" must be .*, not "{type(wrong_type).__name__}".',
         ):
             DateDataParser(settings={setting: wrong_type})
 
@@ -289,7 +284,7 @@ class InvalidSettingsTest(BaseTestCase):
 
 
 @pytest.mark.parametrize(
-    "date_string,expected_result",
+    ("date_string", "expected_result"),
     [
         # Note that these results are "valid" but probably they shouldn't be considered
         ("2020", datetime(1900, 1, 1, 20, 2)),
@@ -313,8 +308,7 @@ def test_no_spaces_strict_parsing(date_string: str, expected_result: datetime) -
 def detect_languages(text: str, confidence_threshold: float) -> list[str]:
     if confidence_threshold > 0.5:
         return ["en"]
-    else:
-        return ["fr"]
+    return ["fr"]
 
 
 def test_confidence_threshold_setting_is_applied() -> None:

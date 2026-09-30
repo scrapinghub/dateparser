@@ -2,7 +2,7 @@ import threading
 from collections.abc import Iterable, Iterator
 from itertools import chain, zip_longest
 from operator import methodcaller
-from typing import TYPE_CHECKING, Any, TypeVar, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 
 import regex as re
 
@@ -16,7 +16,7 @@ _T = TypeVar("_T")
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
 PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z"]
-ALWAYS_KEEP_TOKENS = ["+"] + PARSER_HARDCODED_TOKENS
+ALWAYS_KEEP_TOKENS = ["+", *PARSER_HARDCODED_TOKENS]
 KNOWN_WORD_TOKENS = [
     "monday",
     "tuesday",
@@ -55,6 +55,9 @@ PARENTHESES_PATTERN = re.compile(r"[\(\)]")
 NUMERAL_PATTERN = re.compile(r"(\d+)")
 KEEP_TOKEN_PATTERN = re.compile(r"^.*[^\W_].*$", flags=re.U)
 
+_WEEKDAY_TOKENS = KNOWN_WORD_TOKENS[0:7]
+_MONTH_TOKENS = KNOWN_WORD_TOKENS[7:19]
+
 
 class UnknownTokenError(Exception):
     pass
@@ -83,11 +86,11 @@ class Dictionary:
     :return: a Dictionary instance.
     """
 
-    _split_regex_cache: dict[str, dict[str, re.Pattern[str]]] = {}
-    _sorted_words_cache: dict[str, dict[str, list[str]]] = {}
-    _split_relative_regex_cache: dict[str, dict[str, re.Pattern[str]]] = {}
-    _sorted_relative_strings_cache: dict[str, dict[str, list[str]]] = {}
-    _match_relative_regex_cache: dict[str, dict[str, re.Pattern[str]]] = {}
+    _split_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
+    _sorted_words_cache: ClassVar[dict[str, dict[str, list[str]]]] = {}
+    _split_relative_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
+    _sorted_relative_strings_cache: ClassVar[dict[str, dict[str, list[str]]]] = {}
+    _match_relative_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
 
     # The caches above are shared across all Dictionary instances and threads.
     # The lock keeps each check-populate-evict-read sequence atomic, so a
@@ -111,6 +114,32 @@ class Dictionary:
             if word in locale_info:
                 translations = map(methodcaller("lower"), locale_info[word])
                 dictionary.update(zip_longest(translations, [], fillvalue=word))
+
+        # Some locales (mostly Romance languages) reuse the same abbreviation for a
+        # weekday and a month (e.g. Italian "mar" is both "martedì" and "marzo").
+        # The loop above always resolves those in favor of the month, since months
+        # are listed after weekdays in KNOWN_WORD_TOKENS. Keep track of the weekday
+        # each conflicting token could also mean, and of which tokens are
+        # unambiguously months, so a caller with extra context (e.g. another,
+        # unambiguous month elsewhere in the same string) can recover the weekday
+        # reading.
+        weekday_translations = {}
+        for word in _WEEKDAY_TOKENS:
+            if word in locale_info:
+                for token in map(methodcaller("lower"), locale_info[word]):
+                    weekday_translations[token] = word
+        self._month_translations: set[str] = set()
+        for word in _MONTH_TOKENS:
+            if word in locale_info:
+                self._month_translations.update(
+                    map(methodcaller("lower"), locale_info[word])
+                )
+        self._weekday_month_conflicts = {
+            token: weekday
+            for token, weekday in weekday_translations.items()
+            if token in self._month_translations
+        }
+
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(
             zip_longest(
@@ -130,6 +159,16 @@ class Dictionary:
 
         relative_type_regex = locale_info.get("relative-type-regex", {})
         self._relative_strings = list(chain.from_iterable(relative_type_regex.values()))
+
+    def _is_unambiguous_month(self, token: str) -> bool:
+        """
+        Whether ``token`` (already lowercased) names a month and, unlike the
+        tokens in :attr:`_weekday_month_conflicts`, cannot also mean a weekday.
+        """
+        return (
+            token in self._month_translations
+            and token not in self._weekday_month_conflicts
+        )
 
     def __contains__(self, key: object) -> bool:
         if key in self._settings.SKIP_TOKENS:
@@ -323,7 +362,7 @@ class Dictionary:
             ):
                 self._add_to_cache(
                     cache=self._sorted_words_cache,
-                    value=sorted([key for key in self], key=len, reverse=True),
+                    value=sorted(self, key=len, reverse=True),
                 )
             return self._sorted_words_cache[self._settings.registry_key][
                 self.info["name"]
@@ -346,11 +385,9 @@ class Dictionary:
             map(re.escape, self._get_sorted_words_from_cache())
         )
         if self._no_word_spacing:
-            regex = r"^(.*?)({})(.*)$".format(known_words_group)
+            regex = rf"^(.*?)({known_words_group})(.*)$"
         else:
-            regex = r"^(.*?(?:\A|\W|_|\d))({})((?:\Z|\W|_|\d).*)$".format(
-                known_words_group
-            )
+            regex = rf"^(.*?(?:\A|\W|_|\d))({known_words_group})((?:\Z|\W|_|\d).*)$"
         self._add_to_cache(
             cache=self._split_regex_cache,
             value=re.compile(regex, re.UNICODE | re.IGNORECASE),
@@ -395,10 +432,10 @@ class Dictionary:
             self._get_sorted_relative_strings_from_cache()
         )
         if self._no_word_spacing:
-            regex = "({})".format(known_relative_strings_group)
+            regex = f"({known_relative_strings_group})"
         else:
-            regex = "(?<=(?:\\A|\\W|_))({})(?=(?:\\Z|\\W|_))".format(
-                known_relative_strings_group
+            regex = (
+                f"(?<=(?:\\A|\\W|_))({known_relative_strings_group})(?=(?:\\Z|\\W|_))"
             )
         self._add_to_cache(
             cache=self._split_relative_regex_cache,
@@ -421,7 +458,7 @@ class Dictionary:
         known_relative_strings_group = "|".join(
             self._get_sorted_relative_strings_from_cache()
         )
-        regex = "^({})$".format(known_relative_strings_group)
+        regex = f"^({known_relative_strings_group})$"
         self._add_to_cache(
             cache=self._match_relative_regex_cache,
             value=re.compile(regex, re.UNICODE | re.IGNORECASE),

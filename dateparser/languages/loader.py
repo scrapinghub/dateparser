@@ -4,11 +4,12 @@ from collections.abc import Iterable, Iterator
 from copy import deepcopy
 from importlib import import_module
 from itertools import zip_longest
-from typing import Any
+from typing import Any, ClassVar
 
 import regex as re
 
-from ..data.languages_info import language_locale_dict, language_order
+from dateparser.data.languages_info import language_locale_dict, language_order
+
 from .locale import Locale
 
 LOCALE_SPLIT_PATTERN = re.compile(r"-(?=[A-Z0-9]+$)")
@@ -18,12 +19,8 @@ def _isvalidlocale(locale: str) -> bool:
     language = LOCALE_SPLIT_PATTERN.split(locale)[0]
     if language not in language_order:
         return False
-    else:
-        locales_list = language_locale_dict[language]
-        if locale == language or locale in locales_list:
-            return True
-        else:
-            return False
+    locales_list = language_locale_dict[language]
+    return locale == language or locale in locales_list
 
 
 def _filter_valid_locales(locales: Iterable[str]) -> list[str]:
@@ -42,8 +39,8 @@ def _construct_locales(languages: Iterable[str], region: str) -> Iterable[str]:
 class LocaleDataLoader:
     """Class that handles loading of locale instances."""
 
-    _loaded_languages: dict[str, dict[str, Any]] = {}
-    _loaded_locales: dict[str, Locale] = {}
+    _loaded_languages: ClassVar[dict[str, dict[str, Any]]] = {}
+    _loaded_locales: ClassVar[dict[str, Locale]] = {}
     _load_lock = threading.Lock()
 
     def get_locale_map(
@@ -152,9 +149,9 @@ class LocaleDataLoader:
 
         :return: locale instance
         """
-        return list(self.get_locales(locales=[shortname]))[0]
+        return next(iter(self.get_locales(locales=[shortname])))
 
-    def _load_data(
+    def _load_data(  # noqa: PLR0912
         self,
         languages: Iterable[str] | None = None,
         locales: Iterable[str] | None = None,
@@ -174,14 +171,15 @@ class LocaleDataLoader:
                     invalid_locales.append(locale)
             if invalid_locales:
                 raise ValueError(
-                    "Unknown locale(s): %s" % ", ".join(map(repr, invalid_locales))
+                    f"Unknown locale(s): {', '.join(map(repr, invalid_locales))}"
                 )
 
-            if not allow_conflicting_locales:
-                if len(set(locales)) > len({t[0] for t in locale_dict.values()}):
-                    raise ValueError(
-                        "Locales should not have same language and different region"
-                    )
+            if not allow_conflicting_locales and len(set(locales)) > len(
+                {t[0] for t in locale_dict.values()}
+            ):
+                raise ValueError(
+                    "Locales should not have same language and different region"
+                )
 
         else:
             if languages is None:
@@ -189,8 +187,7 @@ class LocaleDataLoader:
             unsupported_languages = set(languages) - set(language_order)
             if unsupported_languages:
                 raise ValueError(
-                    "Unknown language(s): %s"
-                    % ", ".join(map(repr, unsupported_languages))
+                    f"Unknown language(s): {', '.join(map(repr, unsupported_languages))}"
                 )
             if region is None:
                 region = ""
@@ -209,19 +206,18 @@ class LocaleDataLoader:
         for shortname, lang_reg in locale_dict.items():
             with self._load_lock:
                 if shortname not in self._loaded_locales:
-                    lang, reg = lang_reg
+                    lang, _reg = lang_reg
                     if lang in self._loaded_languages:
                         locale_obj = Locale(
                             shortname,
                             language_info=deepcopy(self._loaded_languages[lang]),
                         )
                     else:
-                        language_info = getattr(
+                        language_info = (
                             import_module(
                                 "dateparser.data.date_translation_data." + lang
-                            ),
-                            "info",
-                        )
+                            )
+                        ).info
                         locale_obj = Locale(
                             shortname, language_info=deepcopy(language_info)
                         )

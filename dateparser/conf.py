@@ -2,6 +2,7 @@ import hashlib
 from collections.abc import Callable, Iterable, Mapping
 from datetime import datetime
 from functools import wraps
+from types import MappingProxyType
 from typing import Any, Literal, ParamSpec, TypeVar
 
 from dateparser.data.languages_info import language_order
@@ -45,7 +46,7 @@ class Settings:
 
     _default: bool = True
     _pyfile_data: dict[str, Any] | None = None
-    _mod_settings: dict[str, Any] = dict()
+    _mod_settings: Mapping[str, Any] = MappingProxyType({})
 
     registry_key: str
     DATE_ORDER: str
@@ -83,7 +84,7 @@ class Settings:
         if not settings:
             return "default"
 
-        keys = sorted(["%s-%s" % (key, str(settings[key])) for key in settings])
+        keys = sorted([f"{key}-{settings[key]}" for key in settings])
         return hashlib.md5(
             "".join(keys).encode("utf-8"), usedforsecurity=False
         ).hexdigest()
@@ -91,7 +92,7 @@ class Settings:
     @classmethod
     def _get_settings_from_pyfile(cls) -> dict[str, Any]:
         if not cls._pyfile_data:
-            from dateparser_data import settings
+            from dateparser_data import settings  # noqa: PLC0415
 
             cls._pyfile_data = settings.settings
         return cls._pyfile_data
@@ -105,9 +106,9 @@ class Settings:
     ) -> "Settings":
         for k, v in kwds.items():
             if v is None:
-                raise TypeError('Invalid {{"{}": {}}}'.format(k, v))
+                raise TypeError(f'Invalid {{"{k}": {v}}}')
 
-        for x in self._get_settings_from_pyfile().keys():
+        for x in self._get_settings_from_pyfile():
             kwds.setdefault(x, getattr(self, x))
 
         kwds["_default"] = False
@@ -148,9 +149,8 @@ class SettingValidationError(ValueError):
 def _check_repeated_values(setting_name: str, setting_value: list[Any]) -> None:
     if len(setting_value) != len(set(setting_value)):
         raise SettingValidationError(
-            'There are repeated values in the "{}" setting'.format(setting_name)
+            f'There are repeated values in the "{setting_name}" setting'
         )
-    return
 
 
 def _check_require_part(setting_name: str, setting_value: list[str]) -> None:
@@ -200,11 +200,8 @@ def _check_between_0_and_1(setting_name: str, setting_value: float) -> None:
     is_valid = 0 <= setting_value <= 1
     if not is_valid:
         raise SettingValidationError(
-            "{} is not a valid value for {}. It can take values between 0 and "
-            "1.".format(
-                setting_value,
-                setting_name,
-            )
+            f"{setting_value} is not a valid value for {setting_name}. It can take "
+            "values between 0 and 1."
         )
 
 
@@ -285,7 +282,7 @@ def check_settings(settings: Settings) -> None:
     # check settings keys:
     for setting in modified_settings:
         if setting not in settings_values:
-            raise SettingValidationError('"{}" is not a valid setting'.format(setting))
+            raise SettingValidationError(f'"{setting}" is not a valid setting')
 
     for setting_name, setting_value in modified_settings.items():
         setting_type = type(setting_value)

@@ -2,12 +2,16 @@
 Tests for issue #1302: Whitespace preservation during translation
 """
 
+from typing import TYPE_CHECKING
+
 from parameterized import param, parameterized
 
 from dateparser.conf import settings
 from dateparser.languages import default_loader
-from dateparser.languages.locale import Locale
 from tests import BaseTestCase
+
+if TYPE_CHECKING:
+    from dateparser.languages.locale import Locale
 
 
 class TestWhitespacePreservation(BaseTestCase):

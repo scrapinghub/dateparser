@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
 from typing import TYPE_CHECKING, Any
 from unittest import TestCase
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from unittest.mock import _patch
 
 
@@ -32,6 +32,5 @@ class BaseTestCase(TestCase):
         self.assertIsInstance(self.error, error_cls)
         self.assertTrue(
             any(mesg in str(self.error) for mesg in allowed_substrings),
-            "Didn't found any of the expected messages (%r) -- message was: %r"
-            % (allowed_substrings, self.error),
+            f"Didn't found any of the expected messages ({allowed_substrings!r}) -- message was: {self.error!r}",
         )

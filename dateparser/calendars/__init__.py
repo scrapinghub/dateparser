@@ -1,10 +1,16 @@
 from collections.abc import Callable
 from datetime import datetime, tzinfo
-from typing import Any
+from typing import Any, ClassVar, Protocol
 
 from dateparser.conf import Settings, settings
 from dateparser.date import DateData
 from dateparser.parser import _parser
+
+
+class _CalendarParser(Protocol):
+    def parse(
+        self, datestring: str, settings: Settings
+    ) -> tuple[datetime, str | None]: ...
 
 
 class CalendarBase:
@@ -15,7 +21,7 @@ class CalendarBase:
     :type source: str
     """
 
-    parser: type["non_gregorian_parser"] = NotImplemented
+    parser: _CalendarParser = NotImplemented
 
     def __init__(self, source: str) -> None:
         self.source = source
@@ -35,10 +41,10 @@ class non_gregorian_parser(_parser):
     default_day: int = NotImplemented
     non_gregorian_date_cls: Callable[[int, int, int], Any] = NotImplemented
 
-    _digits: dict[str, int] | None = None
-    _months: dict[str, tuple[int, int, list[str]]] | None = None
-    _weekdays: dict[str, list[str]] | None = None
-    _number_letters: dict[int, list[str]] | None = None
+    _digits: ClassVar[dict[str, int] | None] = None
+    _months: ClassVar[dict[str, tuple[int, int, list[str]]] | None] = None
+    _weekdays: ClassVar[dict[str, list[str]] | None] = None
+    _number_letters: ClassVar[dict[int, list[str]] | None] = None
 
     @classmethod
     def _replace_time_conventions(cls, source: str) -> str:
@@ -74,9 +80,7 @@ class non_gregorian_parser(_parser):
         result = cls._replace_time(result)
         result = cls._replace_time_conventions(result)
 
-        result = result.strip()
-
-        return result
+        return result.strip()
 
     def handle_two_digit_year(self, year: int) -> int:
         raise ValueError
@@ -93,7 +97,7 @@ class non_gregorian_parser(_parser):
             year=year, month=month, day=day
         )
         c_params = params.copy()
-        c_params.update(dict(year=year, month=month, day=day))
+        c_params.update({"year": year, "month": month, "day": day})
         return datetime(**c_params)
 
     def _get_datetime_obj_params(self) -> dict[str, int]:
@@ -102,7 +106,7 @@ class non_gregorian_parser(_parser):
         now_year, now_month, now_day = self.calendar_converter.from_gregorian(
             self.now.year, self.now.month, self.now.day
         )
-        params = {
+        return {
             "day": self.day or now_day,
             "month": self.month or now_month,
             "year": self.year or now_year,
@@ -111,7 +115,6 @@ class non_gregorian_parser(_parser):
             "second": 0,
             "microsecond": 0,
         }
-        return params
 
     def _get_date_obj(self, token: str, directive: str) -> Any:
         year, month, day = self.default_year, self.default_month, self.default_day

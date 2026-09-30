@@ -135,7 +135,7 @@ def is_invalid_am_pm_translation(translation: object) -> bool | re.Match[str] | 
 def is_invalid_simplification(simplification: object) -> bool:
     if not isinstance(simplification, dict) or len(simplification) != 1:
         return True
-    key, value = list(simplification.items())[0]
+    key, value = next(iter(simplification.items()))
     return not isinstance(key, str) or not isinstance(value, str)
 
 
@@ -143,7 +143,7 @@ def is_invalid_relative_mapping(relative_mapping: tuple[object, object]) -> bool
     key, value = relative_mapping
     if not (key and value and isinstance(key, str) and isinstance(value, list)):
         return True
-    return not all([isinstance(x, str) for x in value])
+    return not all(isinstance(x, str) for x in value)
 
 
 def is_invalid_relative_regex_mapping(
@@ -152,7 +152,7 @@ def is_invalid_relative_regex_mapping(
     key, value = relative_regex_mapping
     if not (key and value and isinstance(key, str) and isinstance(value, list)):
         return True
-    return not all([isinstance(x, str) for x in value])
+    return not all(isinstance(x, str) for x in value)
 
 
 class TestLocaleInfo(BaseTestCase):
@@ -166,7 +166,7 @@ class TestLocaleInfo(BaseTestCase):
         self.given_locale_info(locale)
         extra_keys = list(set(self.info.keys()) - set(VALID_KEYS))
         self.assertFalse(
-            extra_keys, "Extra keys found for {}: {}".format(self.shortname, extra_keys)
+            extra_keys, f"Extra keys found for {self.shortname}: {extra_keys}"
         )
 
     @parameterized.expand(all_locale_params)
@@ -390,14 +390,12 @@ class TestLocaleInfo(BaseTestCase):
         self.assertIsInstance(
             name,
             str,
-            "Invalid type for name: {} for locale {}".format(
-                type(name).__name__, self.shortname
-            ),
+            f"Invalid type for name: {type(name).__name__} for locale {self.shortname}",
         )
         self.assertEqual(
             name,
             self.shortname,
-            "Invalid name: {} for locale {}".format(name, self.shortname),
+            f"Invalid name: {name} for locale {self.shortname}",
         )
 
     def then_date_order_is_valid(self) -> None:
@@ -406,14 +404,12 @@ class TestLocaleInfo(BaseTestCase):
             self.assertIsInstance(
                 date_order,
                 str,
-                "Invalid type for date_order: {} for locale {}".format(
-                    type(date_order).__name__, self.shortname
-                ),
+                f"Invalid type for date_order: {type(date_order).__name__} for locale {self.shortname}",
             )
             self.assertIn(
                 date_order,
                 ["DMY", "DYM", "MDY", "MYD", "YDM", "YMD"],
-                "Invalid date_order {} for {}".format(date_order, self.shortname),
+                f"Invalid date_order {date_order} for {self.shortname}",
             )
 
     def then_month_translations_are_valid(self, month: str) -> None:
@@ -422,9 +418,7 @@ class TestLocaleInfo(BaseTestCase):
             self.assertIsInstance(
                 month_translations,
                 list,
-                "Invalid type for {}: {} for locale {}".format(
-                    month, type(month_translations).__name__, self.shortname
-                ),
+                f"Invalid type for {month}: {type(month_translations).__name__} for locale {self.shortname}",
             )
             invalid_translations = list(
                 filter(is_invalid_month_translation, month_translations)
@@ -442,9 +436,7 @@ class TestLocaleInfo(BaseTestCase):
             self.assertIsInstance(
                 translations_list,
                 list,
-                "Invalid type for {}: {} for locale {}".format(
-                    key, type(translations_list).__name__, self.shortname
-                ),
+                f"Invalid type for {key}: {type(translations_list).__name__} for locale {self.shortname}",
             )
             invalid_translations = list(
                 filter(is_invalid_am_pm_translation, translations_list)
@@ -462,9 +454,7 @@ class TestLocaleInfo(BaseTestCase):
             self.assertIsInstance(
                 translations_list,
                 list,
-                "Invalid type for {}: {} for locale {}".format(
-                    key, type(translations_list).__name__, self.shortname
-                ),
+                f"Invalid type for {key}: {type(translations_list).__name__} for locale {self.shortname}",
             )
             invalid_translations = list(
                 filter(is_invalid_translation, translations_list)
@@ -482,9 +472,7 @@ class TestLocaleInfo(BaseTestCase):
             self.assertIsInstance(
                 tokens_list,
                 list,
-                "Invalid type for {}: {} for locale {}".format(
-                    key, type(tokens_list).__name__, self.shortname
-                ),
+                f"Invalid type for {key}: {type(tokens_list).__name__} for locale {self.shortname}",
             )
             invalid_tokens = [
                 token
@@ -504,9 +492,7 @@ class TestLocaleInfo(BaseTestCase):
             self.assertIsInstance(
                 simplifications_list,
                 list,
-                "Invalid type for simplifications: {} for locale {}".format(
-                    type(simplifications_list).__name__, self.shortname
-                ),
+                f"Invalid type for simplifications: {type(simplifications_list).__name__} for locale {self.shortname}",
             )
             invalid_simplifications = list(
                 filter(is_invalid_simplification, simplifications_list)
@@ -525,9 +511,7 @@ class TestLocaleInfo(BaseTestCase):
             self.assertIsInstance(
                 relative_type_dict,
                 dict,
-                "Invalid type for relative-type: {} for locale {}".format(
-                    type(relative_type_dict).__name__, self.shortname
-                ),
+                f"Invalid type for relative-type: {type(relative_type_dict).__name__} for locale {self.shortname}",
             )
             invalid_relative_type = list(
                 filter(is_invalid_relative_mapping, relative_type_dict.items())
@@ -546,9 +530,7 @@ class TestLocaleInfo(BaseTestCase):
             self.assertIsInstance(
                 relative_type_dict,
                 dict,
-                "Invalid type for relative-type-regex: {} for locale {}".format(
-                    type(relative_type_dict).__name__, self.shortname
-                ),
+                f"Invalid type for relative-type-regex: {type(relative_type_dict).__name__} for locale {self.shortname}",
             )
             invalid_relative_type_regex = list(
                 filter(is_invalid_relative_regex_mapping, relative_type_dict.items())
@@ -567,14 +549,10 @@ class TestLocaleInfo(BaseTestCase):
             self.assertIsInstance(
                 no_word_spacing,
                 str,
-                "Invalid type for no_word_spacing: {} for locale {}".format(
-                    type(no_word_spacing).__name__, self.shortname
-                ),
+                f"Invalid type for no_word_spacing: {type(no_word_spacing).__name__} for locale {self.shortname}",
             )
             self.assertIn(
                 no_word_spacing,
                 ["True", "False"],
-                "Invalid no_word_spacing {} for {}".format(
-                    no_word_spacing, self.shortname
-                ),
+                f"Invalid no_word_spacing {no_word_spacing} for {self.shortname}",
             )

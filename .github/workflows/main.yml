@@ -12,6 +12,9 @@ on:
   # workflow answers none of its triggers, which would take pull request runs
   # down with it.
   workflow_call:
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build
@@ -46,9 +49,11 @@ jobs:
             toxenv: py
             timezone: "Pacific/Fiji"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
+        with:
+          persist-credentials: false
       - name: 'Set up Python ${{ matrix.python-version }}'
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install language-pack-fr
@@ -66,6 +71,6 @@ jobs:
         # has a coverage report, so uploading again only repeats the Codecov
         # notification for that SHA.
         if: github.event_name == 'push' || github.event_name == 'pull_request'
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

@@ -1,5 +1,6 @@
 import re
 from functools import reduce
+from typing import ClassVar
 
 from convertdate import persian
 
@@ -27,7 +28,7 @@ class jalali_parser(non_gregorian_parser):
     default_day = 1
     non_gregorian_date_cls = PersianDate
 
-    _digits: dict[str, int] = {
+    _digits: ClassVar[dict[str, int]] = {
         "۰": 0,
         "۱": 1,
         "۲": 2,
@@ -40,7 +41,7 @@ class jalali_parser(non_gregorian_parser):
         "۹": 9,
     }
 
-    _months: dict[str, tuple[int, int, list[str]]] = {
+    _months: ClassVar[dict[str, tuple[int, int, list[str]]]] = {
         # pinglish : (persian literals, month index, number of days)
         "Farvardin": (1, 31, ["فروردین"]),
         "Ordibehesht": (2, 31, ["اردیبهشت"]),
@@ -56,7 +57,7 @@ class jalali_parser(non_gregorian_parser):
         "Esfand": (12, 29, ["اسفند"]),
     }
 
-    _weekdays: dict[str, list[str]] = {
+    _weekdays: ClassVar[dict[str, list[str]]] = {
         "Sunday": ["یکشنبه"],
         "Monday": ["دوشنبه"],
         "Tuesday": ["سهشنبه", "سه شنبه"],
@@ -66,7 +67,7 @@ class jalali_parser(non_gregorian_parser):
         "Saturday": ["روز شنبه", "شنبه"],
     }
 
-    _number_letters: dict[int, list[str]] = {
+    _number_letters: ClassVar[dict[int, list[str]]] = {
         0: ["صفر"],
         1: ["یک", "اول"],
         2: ["دو"],
@@ -147,8 +148,7 @@ class jalali_parser(non_gregorian_parser):
         result = re.sub(minute_pattern, only_numbers, result)
         result = re.sub(second_pattern, only_numbers, result)
         result = re.sub(r"\s+و\s+", ":", result)
-        result = result.replace("ساعت", "")
-        return result
+        return result.replace("ساعت", "")
 
     @classmethod
     def _replace_days(cls, source: str) -> str:
@@ -176,5 +176,4 @@ class jalali_parser(non_gregorian_parser):
     def handle_two_digit_year(self, year: int) -> int:
         if year > 60:
             return year + 1300
-        else:
-            return year + 1400
+        return year + 1400

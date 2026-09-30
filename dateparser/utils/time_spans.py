@@ -1,7 +1,3 @@
-"""
-Utilities for handling time spans and date ranges.
-"""
-
 import re
 from collections.abc import Mapping
 from datetime import datetime, timedelta
@@ -11,22 +7,6 @@ from dateutil.relativedelta import relativedelta
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
-
-
-def get_week_start(date: datetime, start_of_week: str = "monday") -> datetime:
-    """Get the start of the week for a given date."""
-    if start_of_week == "monday":
-        days_back = date.weekday()
-    else:  # sunday
-        days_back = (date.weekday() + 1) % 7
-
-    return date - timedelta(days=days_back)
-
-
-def get_week_end(date: datetime, start_of_week: str = "monday") -> datetime:
-    """Get the end of the week for a given date."""
-    week_start = get_week_start(date, start_of_week)
-    return week_start + timedelta(days=6)
 
 
 def detect_time_span(text: str) -> dict[str, Any] | None:
@@ -104,59 +84,33 @@ def detect_time_span(text: str) -> dict[str, Any] | None:
 
 
 def generate_time_span(
-    span_info: Mapping[str, Any],
-    base_date: datetime | None = None,
-    settings: "Settings | None" = None,
+    span_info: Mapping[str, Any], base_date: datetime, settings: "Settings"
 ) -> tuple[datetime, datetime]:
-    """Generate start and end dates for a time span."""
-    if base_date is None:
-        base_date = datetime.now()
-
-    if settings is None:
-        start_of_week = "monday"
-        days_in_month = 30
-    else:
-        start_of_week = getattr(settings, "DEFAULT_START_OF_WEEK", "monday")
-        days_in_month = getattr(settings, "DEFAULT_DAYS_IN_MONTH", 30)
-
+    """Return the start and end dates of the span described by *span_info*."""
     span_type = span_info["type"]
-    direction = span_info["direction"]
     number = span_info.get("number", 1)
+    past = span_info["direction"] == "past"
 
-    if direction == "past":
-        end_date = base_date
+    if span_type == "week":
+        days_back = base_date.weekday()
+        if settings.DEFAULT_START_OF_WEEK == "sunday":
+            days_back = (days_back + 1) % 7
+        week_start = base_date - timedelta(days=days_back)
+        if past:
+            return week_start - timedelta(days=7), week_start - timedelta(days=1)
+        start_date = week_start + timedelta(days=7)
+        return start_date, start_date + timedelta(days=6)
 
-        if span_type == "month":
-            start_date = end_date - relativedelta(days=days_in_month)
-        elif span_type == "week":
-            week_start = get_week_start(end_date, start_of_week)
-            start_date = week_start - timedelta(days=7)
-            end_date = week_start - timedelta(days=1)
-        elif span_type == "days":
-            start_date = end_date - timedelta(days=number)
-        elif span_type == "weeks":
-            start_date = end_date - timedelta(weeks=number)
-        elif span_type == "months":
-            start_date = end_date - relativedelta(months=number)
-        else:
-            start_date = end_date - timedelta(days=1)
-
+    span: timedelta | relativedelta
+    if span_type == "month":
+        span = timedelta(days=settings.DEFAULT_DAYS_IN_MONTH)
+    elif span_type == "days":
+        span = timedelta(days=number)
+    elif span_type == "weeks":
+        span = timedelta(weeks=number)
     else:
-        start_date = base_date
+        span = relativedelta(months=number)
 
-        if span_type == "month":
-            end_date = start_date + relativedelta(days=days_in_month)
-        elif span_type == "week":
-            week_start = get_week_start(start_date, start_of_week)
-            start_date = week_start + timedelta(days=7)
-            end_date = start_date + timedelta(days=6)
-        elif span_type == "days":
-            end_date = start_date + timedelta(days=number)
-        elif span_type == "weeks":
-            end_date = start_date + timedelta(weeks=number)
-        elif span_type == "months":
-            end_date = start_date + relativedelta(months=number)
-        else:
-            end_date = start_date + timedelta(days=1)
-
-    return (start_date, end_date)
+    if past:
+        return base_date - span, base_date
+    return base_date, base_date + span

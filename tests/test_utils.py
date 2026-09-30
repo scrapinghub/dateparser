@@ -1,13 +1,17 @@
 import calendar
 import itertools
+from collections.abc import Callable
 from datetime import datetime
+from unittest.mock import patch
 
 import pytest
 from parameterized import param, parameterized
 from pytz import UnknownTimeZoneError, utc
 from pytz.tzinfo import BaseTzInfo
 
+import dateparser
 from dateparser.conf import settings
+from dateparser.search import search_dates
 from dateparser.timezone_parser import StaticTzInfo
 from dateparser.utils import (
     apply_timezone,
@@ -51,8 +55,7 @@ class TestUtils(BaseTestCase):
         class SomeClass:
             pass
 
-        some_class = SomeClass
-        return some_class
+        return SomeClass
 
     @parameterized.expand(
         [
@@ -213,7 +216,7 @@ class TestUtils(BaseTestCase):
 
 
 @pytest.mark.parametrize(
-    "year,expected_previous_leap_year",
+    ("year", "expected_previous_leap_year"),
     [
         (2020, 2016),
         (2000, 1996),  # leap and centurial year
@@ -228,7 +231,7 @@ def test_get_previous_leap_year(year: int, expected_previous_leap_year: int) -> 
 
 
 @pytest.mark.parametrize(
-    "year,expected_next_leap_year",
+    ("year", "expected_next_leap_year"),
     [
         (2020, 2024),
         (1996, 2000),  # leap and centurial year
@@ -240,3 +243,23 @@ def test_get_previous_leap_year(year: int, expected_previous_leap_year: int) -> 
 )
 def test_get_next_leap_year(year: int, expected_next_leap_year: int) -> None:
     assert get_next_leap_year(year) == expected_next_leap_year
+
+
+@pytest.mark.parametrize(
+    "parse",
+    [
+        lambda: dateparser.parse("4 October 1957"),
+        lambda: dateparser.parse("yesterday"),
+        lambda: dateparser.parse("1570308760"),
+        lambda: search_dates("It was launched on 4 October 1957.", languages=["en"]),
+    ],
+)
+def test_broken_local_timezone(parse: Callable[[], object]) -> None:
+    with (
+        patch(
+            "dateparser.utils.get_localzone",
+            side_effect=ValueError("ZoneInfo keys may not be absolute paths"),
+        ),
+        pytest.raises(RuntimeError, match="Could not determine the local timezone"),
+    ):
+        parse()

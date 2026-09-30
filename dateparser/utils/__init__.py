@@ -1,6 +1,7 @@
 import calendar
 import logging
 import logging.config
+import os
 import threading
 import types
 import unicodedata
@@ -19,6 +20,16 @@ if TYPE_CHECKING:
     from dateparser.conf import Settings
 
 _T = TypeVar("_T")
+
+
+def _get_localzone() -> tzinfo:
+    try:
+        return get_localzone()
+    except ValueError as error:
+        raise RuntimeError(
+            f"Could not determine the local timezone "
+            f"(TZ={os.environ.get('TZ')!r}): {error}"
+        ) from error
 
 
 def strip_braces(date_string: str) -> str:
@@ -48,16 +59,14 @@ def combine_dicts(
             else:
                 combined_dict[key] = supplementary_dict[key]
         else:
-            combined_dict[key] = primary_dict[key]
-    remaining_keys = [
-        key for key in supplementary_dict.keys() if key not in primary_dict.keys()
-    ]
+            combined_dict[key] = value
+    remaining_keys = [key for key in supplementary_dict if key not in primary_dict]
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict
 
 
-def find_date_separator(format: str) -> str | None:
+def find_date_separator(format: str) -> str | None:  # noqa: A002
     m = re.search(r"(?:(?:%[dbBmaA])(\W))+", format)
     if m:
         return m.group(1)
@@ -88,23 +97,21 @@ def _get_missing_parts(fmt: str) -> list[str]:
         "year": ["%y", "%-y", "%Y"],
     }
 
-    missing = [
+    return [
         field
         for field in ("day", "month", "year")
         if not any(directive in fmt for directive in directive_mapping[field])
     ]
-    return missing
 
 
 def get_timezone_from_tz_string(tz_string: str) -> tzinfo:
     try:
         return timezone(tz_string)
-    except UnknownTimeZoneError as e:
+    except UnknownTimeZoneError:
         for name, info in _tz_offsets:
-            if info["regex"].search(" %s" % tz_string):
+            if info["regex"].search(f" {tz_string}"):
                 return StaticTzInfo(name, info["offset"])
-        else:
-            raise e
+        raise
 
 
 def localize_timezone(date_time: datetime, tz_string: str) -> datetime:
@@ -134,7 +141,7 @@ def apply_dateparser_timezone(
     utc_datetime: datetime, offset_or_timezone_abb: str
 ) -> datetime | None:
     for name, info in _tz_offsets:
-        if info["regex"].search(" %s" % offset_or_timezone_abb):
+        if info["regex"].search(f" {offset_or_timezone_abb}"):
             tz = StaticTzInfo(name, info["offset"])
             return utc_datetime.astimezone(tz)
     return None
@@ -158,7 +165,7 @@ def apply_timezone(date_time: datetime, tz_string: str) -> datetime:
 def apply_timezone_from_settings(
     date_obj: datetime, settings: "Settings | None"
 ) -> datetime:
-    tz = get_localzone()
+    tz = _get_localzone()
     if settings is None:
         return date_obj
 
@@ -248,7 +255,7 @@ def registry(cls: type[_T]) -> type[_T]:
                     instance = creator(cls, *args)
                     # Set the key before publishing the instance so other
                     # threads never observe an entry without ``registry_key``.
-                    setattr(instance, "registry_key", key)
+                    instance.registry_key = key
                     registry_dict[key] = instance
                 return registry_dict[key]
 
@@ -260,7 +267,7 @@ def registry(cls: type[_T]) -> type[_T]:
             "Registry classes require to implement class method get_key"
         )
 
-    setattr(cls, "__new__", choose(cls.__new__))
+    cls.__new__ = choose(cls.__new__)  # type: ignore[method-assign]
     return cls
 
 

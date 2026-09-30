@@ -1,5 +1,5 @@
-from datetime import datetime, time
 import warnings
+from datetime import datetime, time
 from typing import Any
 
 from parameterized import param, parameterized
@@ -120,7 +120,7 @@ class TestNoSpaceParser(BaseTestCase):
         self.given_settings()
         self.when_date_is_parsed(datestring)
         self.then_error_was_raised(
-            ValueError, ["Unable to parse date from: %s" % datestring]
+            ValueError, [f"Unable to parse date from: {datestring}"]
         )
 
     @parameterized.expand(
@@ -154,7 +154,7 @@ class TestNoSpaceParser(BaseTestCase):
         self.given_settings()
         self.when_date_is_parsed(date_string)
         self.then_error_was_raised(
-            ValueError, ["Unable to parse date from: %s" % date_string]
+            ValueError, [f"Unable to parse date from: {date_string}"]
         )
 
     def test_date_with_alphabets_is_not_parsed(self) -> None:
@@ -163,7 +163,7 @@ class TestNoSpaceParser(BaseTestCase):
         self.given_settings()
         self.when_date_is_parsed(datestring)
         self.then_error_was_raised(
-            ValueError, ["Unable to parse date from: %s" % datestring]
+            ValueError, [f"Unable to parse date from: {datestring}"]
         )
 
     @parameterized.expand(
@@ -358,6 +358,11 @@ class TestNoSpaceParser(BaseTestCase):
                 expected_date=datetime(1234, 5, 6, 7, 8),
                 expected_period="day",
             ),
+            param(
+                date_string="00592763",
+                expected_date=datetime(59, 6, 27, 3),
+                expected_period="day",
+            ),
         ]
     )
     def test_best_order_used_if_date_order_not_supplied_to_8_digit_numbers(
@@ -382,7 +387,7 @@ class TestNoSpaceParser(BaseTestCase):
         self.given_settings(settings={"DATE_ORDER": date_order})
         self.when_date_is_parsed(date_string)
         self.then_error_was_raised(
-            ValueError, ["Unable to parse date from: {}".format(date_string)]
+            ValueError, [f"Unable to parse date from: {date_string}"]
         )
 
     @parameterized.expand(
@@ -509,6 +514,24 @@ class TestParser(BaseTestCase):
         self.given_settings(settings={"REQUIRE_PARTS": ["year"]})
         self.then_error_is_raised_when_date_is_parsed(date_string)
 
+    @parameterized.expand(
+        [
+            param(relative_base=datetime(1, 1, 1), prefer_dates_from="past"),
+            param(relative_base=datetime(9999, 6, 1), prefer_dates_from="future"),
+        ]
+    )
+    def test_error_is_raised_when_preferred_year_is_out_of_range(
+        self, relative_base: datetime, prefer_dates_from: str
+    ) -> None:
+        self.given_parser()
+        self.given_settings(
+            settings={
+                "RELATIVE_BASE": relative_base,
+                "PREFER_DATES_FROM": prefer_dates_from,
+            }
+        )
+        self.then_error_is_raised_when_date_is_parsed("March 3")
+
     def given_parser(self) -> None:
         self.parser = _parser
 
@@ -592,7 +615,7 @@ class TestTimeParser(BaseTestCase):
         self.when_time_is_parsed(date_string)
         self.then_error_was_raised(
             ValueError,
-            ["{} does not seem to be a valid time string".format(date_string)],
+            [f"{date_string} does not seem to be a valid time string"],
         )
 
     def given_parser(self) -> None:

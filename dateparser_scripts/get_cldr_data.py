@@ -1,12 +1,12 @@
 import json
-import os
 import shutil
+from pathlib import Path
 from typing import Any
 
 import regex as re
 
 from dateparser_scripts.order_languages import _get_language_locale_dict
-from dateparser_scripts.utils import get_dict_difference, get_raw_data, CLDR_JSON_DIR
+from dateparser_scripts.utils import CLDR_JSON_DIR, get_dict_difference, get_raw_data
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     "\N{RIGHT SINGLE QUOTATION MARK}",  # '\u2019'
@@ -43,7 +43,7 @@ def _filter_month_name(month_name: str) -> bool:
     return not DEFAULT_MONTH_PATTERN.match(month_name)
 
 
-def _retrieve_locale_data(locale: str) -> dict[str, Any]:
+def _retrieve_locale_data(locale: str) -> dict[str, Any]:  # noqa: PLR0915
     def load(scope: str, file_id: str) -> Any:
         file_path = (
             CLDR_JSON_DIR
@@ -546,13 +546,12 @@ def _clean_dict(json_dict: dict[str, Any]) -> dict[str, Any]:
 def main() -> None:
     get_raw_data()
     language_locale_dict = _get_language_locale_dict()
-    parent_directory = "../dateparser_data/cldr_language_data"
-    directory = "../dateparser_data/cldr_language_data/date_translation_data/"
-    if not os.path.isdir(parent_directory):
-        os.mkdir(parent_directory)
-    if os.path.isdir(directory):
+    parent_directory = Path("../dateparser_data/cldr_language_data")
+    directory = parent_directory / "date_translation_data"
+    parent_directory.mkdir(exist_ok=True)
+    if directory.is_dir():
         shutil.rmtree(directory)
-    os.mkdir(directory)
+    directory.mkdir()
 
     for language in language_locale_dict:
         json_language_dict = _clean_dict(_retrieve_locale_data(language))
@@ -566,13 +565,12 @@ def main() -> None:
         json_language_dict["locale_specific"] = dict(
             sorted(locale_specific_dict.items())
         )
-        filename = directory + language + ".json"
-        print("writing " + filename)
+        filename = directory / f"{language}.json"
+        print(f"writing {filename}")
         json_string = json.dumps(
             json_language_dict, indent=4, separators=(",", ": "), ensure_ascii=False
         ).encode("utf-8")
-        with open(filename, "wb") as f:
-            f.write(json_string)
+        filename.write_bytes(json_string)
 
 
 if __name__ == "__main__":
