@@ -1,8 +1,10 @@
 import collections
+import functools
+import itertools
 import threading
 from collections.abc import Callable, Iterable, Iterator
 from collections.abc import Set as AbstractSet
-from datetime import date, datetime, timedelta, timezone, tzinfo
+from datetime import date, datetime, timedelta, tzinfo
 from itertools import count
 from typing import TYPE_CHECKING, Any, TypeVar
 
@@ -20,6 +22,7 @@ from dateparser.utils import (
     _get_localzone,
     _get_missing_parts,
     _get_parts,
+    _now,
     apply_timezone_from_settings,
     get_next_leap_year,
     get_previous_leap_year,
@@ -294,9 +297,7 @@ def parse_with_formats(
                 period = "month"
                 date_obj = set_correct_day_from_settings(date_obj, settings)
 
-            now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
-                tzinfo=None
-            )
+            now = settings.RELATIVE_BASE or _now(settings)
             if "year" in _missing:
                 date_obj = date_obj.replace(year=now.year)
             elif "%y" in date_format and "%Y" not in date_format:
@@ -310,6 +311,85 @@ def parse_with_formats(
                 date_obj=date_obj, period=period, parts=_get_parts(date_format)
             )
     return DateData(date_obj=None, period=period)
+
+
+_MONTHS = (
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+)
+_WEEKDAYS = (
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+)
+
+
+@functools.lru_cache(maxsize=None)
+def _get_name_translations(locale, month_form, weekday_form):
+    """Return a pattern matching the month and weekday names of *locale*, and
+    a mapping of each lowercase name to the English names it can stand for.
+
+    *month_form* and *weekday_form* are ``"full"``, ``"abbr"`` or ``None``,
+    the English form to translate each kind of name into, or ``None`` to leave
+    that kind of name untranslated.
+    """
+    translations = collections.defaultdict(list)
+    for words, form in ((_MONTHS, month_form), (_WEEKDAYS, weekday_form)):
+        if form is None:
+            continue
+        for word in words:
+            english = word if form == "full" else word[:3]
+            for name in locale.info.get(word, ()):
+                name = name.lower()
+                if english not in translations[name]:
+                    translations[name].append(english)
+    if not translations:
+        return None, None
+    names = sorted(translations, key=len, reverse=True)
+    pattern = re.compile(
+        r"(?<!\w)(?:{})(?!\w)".format("|".join(map(re.escape, names))),
+        flags=re.IGNORECASE,
+    )
+    return pattern, dict(translations)
+
+
+def _translate_names(date_string, date_format, locale):
+    """Yield the variants of *date_string* that result from replacing the
+    month and weekday names of *locale* with the English names that the
+    directives of *date_format* expect."""
+    month_form = (
+        "full" if "%B" in date_format else "abbr" if "%b" in date_format else None
+    )
+    weekday_form = (
+        "full" if "%A" in date_format else "abbr" if "%a" in date_format else None
+    )
+    pattern, translations = _get_name_translations(locale, month_form, weekday_form)
+    if pattern is None:
+        return
+    matches = pattern.findall(date_string)
+    if not matches:
+        return
+    # A name can stand for several English names, e.g. "mar" is both "martes"
+    # and "marzo" in Spanish, so every combination is yielded.
+    for combination in itertools.product(
+        *(translations[match.lower()] for match in matches)
+    ):
+        english_names = iter(combination)
+        yield pattern.sub(lambda _: next(english_names), date_string)
 
 
 class _DateLocaleParser:
@@ -712,6 +792,10 @@ class DateDataParser:
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res["date_obj"]:
             return res
+        if date_formats:
+            res = self._parse_with_localized_formats(date_string, date_formats)
+            if res:
+                return res
 
         date_string = sanitize_date(date_string)
 
@@ -726,6 +810,22 @@ class DateDataParser:
                 date_string, date_formats, ignore_surrounding_text=True
             )
         return parsed_date or DateData(date_obj=None, period="day", locale=None)
+
+    def _parse_with_localized_formats(self, date_string, date_formats):
+        for locale in self._get_locale_loader().get_locales(
+            languages=self.languages,
+            locales=self.locales,
+            region=self.region,
+            use_given_order=self.use_given_order
+            or self._settings.USE_GIVEN_LANGUAGE_ORDER,
+        ):
+            for date_format in date_formats:
+                for translated in _translate_names(date_string, date_format, locale):
+                    res = parse_with_formats(translated, [date_format], self._settings)
+                    if res["date_obj"]:
+                        res["locale"] = locale.shortname
+                        return res
+        return None
 
     def _parse_using_applicable_locales(
         self,

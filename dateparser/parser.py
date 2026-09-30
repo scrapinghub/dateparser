@@ -1,7 +1,7 @@
 import calendar
 import contextlib
 from collections.abc import Callable, Iterable, Iterator
-from datetime import datetime, time, timedelta, timezone, tzinfo
+from datetime import datetime, time, timedelta, tzinfo
 from functools import partial
 from io import StringIO
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, overload
@@ -12,6 +12,7 @@ import regex as re
 from dateparser.utils import (
     _get_missing_parts,
     _get_parts,
+    _now,
     get_last_day_of_month,
     get_next_leap_year,
     get_previous_leap_year,
@@ -293,8 +294,10 @@ class _parser:
         tokens: Iterable[tuple[str, int]],
         settings: "Settings",
         date_order: str | None = None,
+        tz: tzinfo | None = None,
     ) -> None:
         self.settings = settings
+        self._tz = tz
         self._date_order = date_order or settings.DATE_ORDER
         self.tokens = [(t[0].strip(), t[1]) for t in list(tokens)]
         self.filtered_tokens = [
@@ -525,9 +528,7 @@ class _parser:
         return next_leap_year if next_leap_year_is_closer else previous_leap_year
 
     def _set_relative_base(self) -> None:
-        self.now = self.settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
-            tzinfo=None
-        )
+        self.now = self.settings.RELATIVE_BASE or _now(self.settings, self._tz)
 
     def _get_datetime_obj_params(self) -> dict[str, int]:
         if not self.now:
@@ -650,13 +651,14 @@ class _parser:
                 hasattr(self, "_token_weekday"),
             ]
         ):
-            # Convert dateobj to utc time to compare with self.now
-            try:
-                tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
-                tz_offset = tz.utcoffset(dateobj)
-                assert tz_offset is not None
-            except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
-                tz_offset = timedelta(hours=0)
+            tz_offset = timedelta(hours=0)
+            if self.settings.RELATIVE_BASE:
+                # Convert dateobj to utc time to compare with RELATIVE_BASE
+                try:
+                    tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
+                    tz_offset = tz.utcoffset(dateobj) or tz_offset
+                except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
+                    pass
 
             if (
                 "past" in self.settings.PREFER_DATES_FROM
@@ -704,7 +706,7 @@ class _parser:
         tokens = list(tokenizer(datestring).tokenize())
         date_order = date_order or settings.DATE_ORDER
         try:
-            po = cls(tokens, settings, date_order=date_order)
+            po = cls(tokens, settings, date_order=date_order, tz=tz)
             dateobj = po._results()
         except ValueError as error:
             if (
@@ -716,7 +718,7 @@ class _parser:
             # The numbers do not fit the date order set by the caller, so read
             # them with the day and month swapped, e.g. "2021-01-13" with YDM.
             swapped = date_order.translate(str.maketrans("DM", "MD"))
-            po = cls(tokens, settings, date_order=swapped)
+            po = cls(tokens, settings, date_order=swapped, tz=tz)
             dateobj = po._results()
 
         # correction for past, future if applicable

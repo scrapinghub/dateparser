@@ -112,6 +112,7 @@ class FreshnessDateDataParser:
             except ValueError:
                 return None, None, ()
             period = "day"
+            parts += ("day",)
 
         if date:
             if period == "year":
