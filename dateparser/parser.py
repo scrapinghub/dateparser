@@ -303,6 +303,17 @@ class _parser:
         self.filtered_tokens = [
             (t[0], t[1], i) for i, t in enumerate(self.tokens) if t[1] <= 1
         ]
+        # Move a meridian written before a time (e.g. Chinese 下午 02:26) after
+        # it, where the time parsing below looks for it.
+        for i in range(len(self.filtered_tokens) - 1):
+            current, following = self.filtered_tokens[i : i + 2]
+            preceding = self.filtered_tokens[i - 1][0] if i else ""
+            if (
+                current[0] in ("am", "pm")
+                and ":" in following[0]
+                and ":" not in preceding
+            ):
+                self.filtered_tokens[i : i + 2] = [following, current]
 
         self.unset_tokens: list[tuple[str, int, str]] = []
 
@@ -322,6 +333,21 @@ class _parser:
             k: self.num_directives[k]
             for k in resolve_date_order(self._date_order, lst=True)
         }
+        numbers = sorted(
+            (t[0] for t in self.filtered_tokens if t[1] == 0 and t[0].isdigit()),
+            key=len,
+        )
+        if (
+            not any(t[1] == 1 for t in self.filtered_tokens)
+            and len(numbers) == 2
+            and len(numbers[0]) <= 2
+            and len(numbers[1]) == 4
+        ):
+            # A year and a single other number (e.g. "05/2020"): the other
+            # number is the month whatever the date order.
+            self.ordered_num_directives = {
+                k: self.num_directives[k] for k in ("month", "day", "year")
+            }
 
         skip_index: list[int] = []
         skip_component: str | None = None
