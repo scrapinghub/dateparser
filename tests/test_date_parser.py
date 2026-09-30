@@ -620,6 +620,7 @@ class TestDateParser(BaseTestCase):
             param("Mar 5 06 2009", "Too many numbers in date string"),
             param("6/4/25 0730", "Too many numbers in date string"),
             param("6-4-25 0730", "Too many numbers in date string"),
+            param("xth May 2021", "No number before 'xth'"),
         ]
     )
     def test_dates_not_parsed(self, date_string: str, message: str) -> None:
