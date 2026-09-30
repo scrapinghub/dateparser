@@ -1061,13 +1061,33 @@ class TestDateDataParser(BaseTestCase):
                 settings={"RETURN_AS_TIMEZONE_AWARE": False},
                 expected_result=datetime(2021, 9, 22, 12, 30),
             ),
+            param(
+                settings={},
+                expected_result=datetime(
+                    1999, 1, 26, 16, 32, 21, tzinfo=dttz(timedelta(hours=1))
+                ),
+                date_string="26 Jan 99 16:32:21 +0100",
+                date_format="%d %b %y %H:%M:%S %z",
+            ),
+            param(
+                settings={"PREFER_DATES_FROM": "future"},
+                expected_result=datetime(
+                    2099, 1, 26, 16, 32, 21, tzinfo=dttz(timedelta(hours=1))
+                ),
+                date_string="26 Jan 99 16:32:21 +0100",
+                date_format="%d %b %y %H:%M:%S %z",
+            ),
         ]
     )
     def test_parse_date_with_offset_using_formats(
-        self, settings: dict[str, Any], expected_result: datetime
+        self,
+        settings: dict[str, Any],
+        expected_result: datetime,
+        date_string: str = "2021-09-22 12:30-1030",
+        date_format: str = "%Y-%m-%d %H:%M%z",
     ) -> None:
         self.given_parser(settings=settings)
-        self.when_date_string_is_parsed("2021-09-22 12:30-1030", ["%Y-%m-%d %H:%M%z"])
+        self.when_date_string_is_parsed(date_string, [date_format])
         self.then_date_was_parsed()
         date_obj = self.result["date_obj"]
         self.assertEqual(
