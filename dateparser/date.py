@@ -1,14 +1,15 @@
 import collections
 import threading
-from collections.abc import Set
-from datetime import datetime, timedelta, timezone
+from collections.abc import Callable, Iterable, Iterator
+from collections.abc import Set as AbstractSet
+from datetime import date, datetime, timedelta, timezone, tzinfo
 from itertools import count
+from typing import TYPE_CHECKING, Any, TypeVar
 
 import regex as re
 from dateutil.relativedelta import relativedelta
-from tzlocal import get_localzone
 
-from dateparser.conf import apply_settings, check_settings
+from dateparser.conf import Settings, apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
@@ -16,6 +17,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
+    _get_localzone,
     _get_missing_parts,
     apply_timezone_from_settings,
     get_next_leap_year,
@@ -25,6 +27,11 @@ from dateparser.utils import (
     set_correct_month_from_settings,
 )
 from dateparser.utils.strptime import strptime as patched_strptime
+
+if TYPE_CHECKING:
+    from dateparser.languages.locale import Locale
+
+_D = TypeVar("_D", bound=date)
 
 APOSTROPHE_LOOK_ALIKE_CHARS = [
     "\N{RIGHT SINGLE QUOTATION MARK}",  # '\u2019'
@@ -97,14 +104,13 @@ RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
 
 
-def sanitize_spaces(date_string):
+def sanitize_spaces(date_string: str) -> str:
     date_string = RE_NBSP.sub(" ", date_string)
     date_string = RE_SPACES.sub(" ", date_string)
-    date_string = RE_TRIM_SPACES.sub(r"\1", date_string)
-    return date_string
+    return RE_TRIM_SPACES.sub(r"\1", date_string)
 
 
-def date_range(begin, end, **kwargs):
+def date_range(begin: _D, end: _D, **kwargs: Any) -> Iterator[_D]:
     dateutil_error_prone_args = [
         "year",
         "month",
@@ -116,7 +122,7 @@ def date_range(begin, end, **kwargs):
     ]
     for arg in dateutil_error_prone_args:
         if arg in kwargs:
-            raise ValueError("Invalid argument: %s" % arg)
+            raise ValueError(f"Invalid argument: {arg}")
 
     step = relativedelta(**kwargs) if kwargs else relativedelta(days=1)
 
@@ -130,7 +136,7 @@ def date_range(begin, end, **kwargs):
         yield end
 
 
-def get_intersecting_periods(low, high, period="day"):
+def get_intersecting_periods(low: _D, high: _D, period: str = "day") -> Iterator[_D]:
     if period not in [
         "year",
         "month",
@@ -141,16 +147,17 @@ def get_intersecting_periods(low, high, period="day"):
         "second",
         "microsecond",
     ]:
-        raise ValueError("Invalid period: {}".format(period))
+        raise ValueError(f"Invalid period: {period}")
 
     if high <= low:
         return
 
-    step = relativedelta(**{period + "s": 1})
+    step_kwargs: dict[str, Any] = {period + "s": 1}
+    step = relativedelta(**step_kwargs)
 
     current_period_start = low
     if isinstance(current_period_start, datetime):
-        reset_arguments = {}
+        reset_arguments: dict[str, Any] = {}
         for test_period in ["microsecond", "second", "minute", "hour"]:
             if test_period == period:
                 break
@@ -172,7 +179,7 @@ def get_intersecting_periods(low, high, period="day"):
         current_period_start += step
 
 
-def sanitize_date(date_string):
+def sanitize_date(date_string: str) -> str:
     date_string = RE_SANITIZE_SKIP.sub(" ", date_string)
     date_string = RE_SANITIZE_RUSSIAN.sub(
         r"\1 ", date_string
@@ -186,11 +193,12 @@ def sanitize_date(date_string):
     date_string = RE_TRIM_COLONS.sub(r"\1", date_string)
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
     date_string = RE_SANITIZE_DASH.sub("-", date_string)
-    date_string = date_string.strip()
-    return date_string
+    return date_string.strip()
 
 
-def get_date_from_timestamp(date_string, settings, negative=False):
+def get_date_from_timestamp(
+    date_string: str, settings: Settings | None, negative: bool = False
+) -> datetime | None:
     if negative:
         match = RE_SEARCH_NEGATIVE_TIMESTAMP.search(date_string)
     else:
@@ -204,7 +212,7 @@ def get_date_from_timestamp(date_string, settings, negative=False):
         ):
             # If the timezone in settings is unset, or it's 'local', use the
             # local timezone
-            timezone = get_localzone()
+            timezone: tzinfo = _get_localzone()
         else:
             # Otherwise, use the timezone given in settings
             timezone = get_timezone_from_tz_string(settings.TIMEZONE)
@@ -215,11 +223,13 @@ def get_date_from_timestamp(date_string, settings, negative=False):
         date_obj = datetime.fromtimestamp(seconds, timezone).replace(
             microsecond=millis * 1000 + micros, tzinfo=None
         )
-        date_obj = apply_timezone_from_settings(date_obj, settings)
-        return date_obj
+        return apply_timezone_from_settings(date_obj, settings)
+    return None
 
 
-def _apply_century_preference(date_obj, now, prefer_from):
+def _apply_century_preference(
+    date_obj: datetime, now: datetime, prefer_from: str
+) -> datetime:
     """Shift *date_obj* by ±100 years to satisfy PREFER_DATES_FROM.
 
     *now* is normalised to naive so a tz-aware RELATIVE_BASE does not raise
@@ -250,7 +260,9 @@ def _apply_century_preference(date_obj, now, prefer_from):
         return date_obj.replace(year=target_year)
 
 
-def parse_with_formats(date_string, date_formats, settings):
+def parse_with_formats(
+    date_string: str, date_formats: Iterable[str], settings: Settings
+) -> "DateData":
     """Parse with formats and return a dictionary with 'period' and 'obj_date'.
 
     :returns: :class:`datetime.datetime`, dict or None
@@ -292,22 +304,24 @@ def parse_with_formats(date_string, date_formats, settings):
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
             return DateData(date_obj=date_obj, period=period)
-    else:
-        return DateData(date_obj=None, period=period)
+    return DateData(date_obj=None, period=period)
 
 
 class _DateLocaleParser:
     def __init__(
         self,
-        locale,
-        date_string,
-        date_formats,
-        settings=None,
-        ignore_surrounding_text=False,
-        alternatives=False,
-    ):
+        locale: "Locale",
+        date_string: str,
+        date_formats: Iterable[str] | None,
+        settings: Settings | None = None,
+        ignore_surrounding_text: bool = False,
+        alternatives: bool = False,
+    ) -> None:
+        assert settings is not None
         self._settings = settings
-        if not (date_formats is None or isinstance(date_formats, (list, tuple, Set))):
+        if not (
+            date_formats is None or isinstance(date_formats, (list, tuple, AbstractSet))
+        ):
             raise TypeError("Date formats should be list, tuple or set of strings")
 
         self.locale = locale
@@ -316,9 +330,9 @@ class _DateLocaleParser:
         self._ignore_surrounding_text = ignore_surrounding_text
         self._alternatives = alternatives
         self._alternative = 0
-        self._translated_date = None
-        self._translated_date_with_formatting = None
-        self._parsers = {
+        self._translated_date: str | None = None
+        self._translated_date_with_formatting: str | None = None
+        self._parsers: dict[str, Callable[[], DateData | None]] = {
             "timestamp": self._try_timestamp,
             "negative-timestamp": self._try_negative_timestamp,
             "relative-time": self._try_freshness_parser,
@@ -330,13 +344,13 @@ class _DateLocaleParser:
     @classmethod
     def parse(
         cls,
-        locale,
-        date_string,
-        date_formats=None,
-        settings=None,
-        ignore_surrounding_text=False,
-        alternatives=False,
-    ):
+        locale: "Locale",
+        date_string: str,
+        date_formats: Iterable[str] | None = None,
+        settings: Settings | None = None,
+        ignore_surrounding_text: bool = False,
+        alternatives: bool = False,
+    ) -> "DateData | None":
         instance = cls(
             locale,
             date_string,
@@ -347,26 +361,27 @@ class _DateLocaleParser:
         )
         return instance._parse()
 
-    def _parse(self):
+    def _parse(self) -> "DateData | None":
         if not self._alternatives:
             return self._parse_translation()
         for self._alternative in count(1):
-            self._translated_date = self._translated_date_with_formatting = None
-            if self._get_translated_date() is None:
+            self._translated_date = self._translate(keep_formatting=False)
+            if self._translated_date is None:
                 return None
+            self._translated_date_with_formatting = None
             date_data = self._parse_translation()
             if date_data:
                 return date_data
+        return None
 
-    def _parse_translation(self):
+    def _parse_translation(self) -> "DateData | None":
         for parser_name in self._settings.PARSERS:
             date_data = self._parsers[parser_name]()
             if self._is_valid_date_data(date_data):
                 return date_data
-        else:
-            return None
+        return None
 
-    def _try_timestamp_parser(self, negative=False):
+    def _try_timestamp_parser(self, negative: bool = False) -> "DateData":
         return DateData(
             date_obj=get_date_from_timestamp(
                 self.date_string, self._settings, negative=negative
@@ -374,13 +389,13 @@ class _DateLocaleParser:
             period="time" if self._settings.RETURN_TIME_AS_PERIOD else "day",
         )
 
-    def _try_timestamp(self):
+    def _try_timestamp(self) -> "DateData":
         return self._try_timestamp_parser()
 
-    def _try_negative_timestamp(self):
+    def _try_negative_timestamp(self) -> "DateData":
         return self._try_timestamp_parser(negative=True)
 
-    def _try_freshness_parser(self):
+    def _try_freshness_parser(self) -> "DateData | None":
         try:
             return freshness_date_parser.get_date_data(
                 self._get_translated_date(), self._settings
@@ -388,13 +403,15 @@ class _DateLocaleParser:
         except (OverflowError, ValueError):
             return None
 
-    def _try_absolute_parser(self):
+    def _try_absolute_parser(self) -> "DateData | None":
         return self._try_parser(parse_method=_parse_absolute)
 
-    def _try_nospaces_parser(self):
+    def _try_nospaces_parser(self) -> "DateData | None":
         return self._try_parser(parse_method=_parse_nospaces)
 
-    def _try_parser(self, parse_method):
+    def _try_parser(
+        self, parse_method: Callable[..., tuple[datetime, str | None]]
+    ) -> "DateData | None":
         original_order = self._settings.DATE_ORDER
 
         # Use locale date order unless DATE_ORDER was explicitly set by the caller.
@@ -435,9 +452,9 @@ class _DateLocaleParser:
                 continue
         return None
 
-    def _try_given_formats(self):
+    def _try_given_formats(self) -> "DateData | None":
         if not self.date_formats:
-            return
+            return None
 
         return parse_with_formats(
             self._get_translated_date_with_formatting(),
@@ -445,38 +462,37 @@ class _DateLocaleParser:
             settings=self._settings,
         )
 
-    def _get_translated_date(self):
+    def _translate(self, keep_formatting: bool) -> str | None:
+        return self.locale._translate(
+            self.date_string,
+            keep_formatting=keep_formatting,
+            settings=self._settings,
+            ignore_surrounding_text=self._ignore_surrounding_text,
+            alternative=self._alternative,
+        )
+
+    def _get_translated_date(self) -> str:
         if self._translated_date is None:
-            self._translated_date = self.locale._translate(
-                self.date_string,
-                keep_formatting=False,
-                settings=self._settings,
-                ignore_surrounding_text=self._ignore_surrounding_text,
-                alternative=self._alternative,
-            )
+            self._translated_date = self._translate(keep_formatting=False)
+        assert self._translated_date is not None
         return self._translated_date
 
-    def _get_translated_date_with_formatting(self):
+    def _get_translated_date_with_formatting(self) -> str:
         if self._translated_date_with_formatting is None:
-            self._translated_date_with_formatting = self.locale._translate(
-                self.date_string,
-                keep_formatting=True,
-                settings=self._settings,
-                ignore_surrounding_text=self._ignore_surrounding_text,
-                alternative=self._alternative,
+            self._translated_date_with_formatting = self._translate(
+                keep_formatting=True
             )
+        assert self._translated_date_with_formatting is not None
         return self._translated_date_with_formatting
 
-    def _is_valid_date_data(self, date_data):
+    def _is_valid_date_data(self, date_data: object) -> bool:
         if not isinstance(date_data, DateData):
             return False
         if not date_data["date_obj"] or not date_data["period"]:
             return False
         if date_data["date_obj"] and not isinstance(date_data["date_obj"], datetime):
             return False
-        if date_data["period"] not in ("time", "day", "week", "month", "year"):
-            return False
-        return True
+        return date_data["period"] in ("time", "day", "week", "month", "year")
 
 
 class DateData:
@@ -485,27 +501,33 @@ class DateData:
     It can be accessed with square brackets like a dict object.
     """
 
-    def __init__(self, *, date_obj=None, period=None, locale=None):
+    def __init__(
+        self,
+        *,
+        date_obj: datetime | None = None,
+        period: str | None = None,
+        locale: str | None = None,
+    ) -> None:
         self.date_obj = date_obj
         self.period = period
         self.locale = locale
 
-    def __getitem__(self, k):
+    def __getitem__(self, k: str) -> Any:
         if not hasattr(self, k):
             raise KeyError(k)
         return getattr(self, k)
 
-    def __setitem__(self, k, v):
+    def __setitem__(self, k: str, v: Any) -> None:
         if not hasattr(self, k):
             raise KeyError(k)
         setattr(self, k, v)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         properties_text = ", ".join(
-            "{}={}".format(prop, val.__repr__()) for prop, val in self.__dict__.items()
+            f"{prop}={val!r}" for prop, val in self.__dict__.items()
         )
 
-        return "{}({})".format(self.__class__.__name__, properties_text)
+        return f"{self.__class__.__name__}({properties_text})"
 
 
 class DateDataParser:
@@ -558,42 +580,43 @@ class DateDataParser:
          ``SettingValidationError``: A provided setting is not valid.
     """
 
-    locale_loader = None
+    locale_loader: LocaleDataLoader | None = None
 
     @apply_settings
     def __init__(
         self,
-        languages=None,
-        locales=None,
-        region=None,
-        try_previous_locales=False,
-        use_given_order=False,
-        settings=None,
-        detect_languages_function=None,
-    ):
-        if languages is not None and not isinstance(languages, (list, tuple, Set)):
+        languages: Iterable[str] | None = None,
+        locales: Iterable[str] | None = None,
+        region: str | None = None,
+        try_previous_locales: bool = False,
+        use_given_order: bool = False,
+        settings: Settings | dict[str, Any] | None = None,
+        detect_languages_function: Callable[..., list[str]] | None = None,
+    ) -> None:
+        assert isinstance(settings, Settings)
+        if languages is not None and not isinstance(
+            languages, (list, tuple, AbstractSet)
+        ):
             raise TypeError(
-                "languages argument must be a list (%r given)" % type(languages)
+                f"languages argument must be a list ({type(languages)!r} given)"
             )
 
-        if locales is not None and not isinstance(locales, (list, tuple, Set)):
+        if locales is not None and not isinstance(locales, (list, tuple, AbstractSet)):
             raise TypeError(
-                "locales argument must be a list (%r given)" % type(locales)
+                f"locales argument must be a list ({type(locales)!r} given)"
             )
 
         if region is not None and not isinstance(region, str):
-            raise TypeError("region argument must be str (%r given)" % type(region))
+            raise TypeError(f"region argument must be str ({type(region)!r} given)")
 
         if not isinstance(try_previous_locales, bool):
             raise TypeError(
-                "try_previous_locales argument must be a boolean (%r given)"
-                % type(try_previous_locales)
+                f"try_previous_locales argument must be a boolean ({type(try_previous_locales)!r} given)"
             )
 
         if not isinstance(use_given_order, bool):
             raise TypeError(
-                "use_given_order argument must be a boolean (%r given)"
-                % type(use_given_order)
+                f"use_given_order argument must be a boolean ({type(use_given_order)!r} given)"
             )
 
         if not locales and not languages and use_given_order:
@@ -610,12 +633,16 @@ class DateDataParser:
         self.locales = locales
         self.region = region
         self.detect_languages_function = detect_languages_function
-        self.previous_locales = collections.OrderedDict()
+        self.previous_locales: collections.OrderedDict[Locale, None] = (
+            collections.OrderedDict()
+        )
         # Guards the per-instance state mutated when a parser is shared by
         # multiple threads (previous_locales and the lazily detected languages).
         self._lock = threading.RLock()
 
-    def get_date_data(self, date_string, date_formats=None):
+    def get_date_data(
+        self, date_string: str, date_formats: Iterable[str] | None = None
+    ) -> DateData:
         """
         Parse string representing date and/or time in recognizable localized formats.
         Supports parsing multiple languages and timezones.
@@ -680,8 +707,11 @@ class DateDataParser:
         return parsed_date or DateData(date_obj=None, period="day", locale=None)
 
     def _parse_using_applicable_locales(
-        self, date_string, date_formats, ignore_surrounding_text=False
-    ):
+        self,
+        date_string: str,
+        date_formats: Iterable[str] | None,
+        ignore_surrounding_text: bool = False,
+    ) -> DateData | None:
         locales = []
         for locale in self._get_applicable_locales(
             date_string, ignore_surrounding_text=ignore_surrounding_text
@@ -709,12 +739,12 @@ class DateDataParser:
 
     def _parse_using_locale(
         self,
-        locale,
-        date_string,
-        date_formats,
-        ignore_surrounding_text,
-        alternatives=False,
-    ):
+        locale: "Locale",
+        date_string: str,
+        date_formats: Iterable[str] | None,
+        ignore_surrounding_text: bool,
+        alternatives: bool = False,
+    ) -> DateData | None:
         parsed_date = _DateLocaleParser.parse(
             locale,
             date_string,
@@ -730,13 +760,16 @@ class DateDataParser:
                     self.previous_locales[locale] = None
         return parsed_date
 
-    def get_date_tuple(self, *args, **kwargs):
+    def get_date_tuple(self, *args: Any, **kwargs: Any) -> tuple[Any, ...]:
         date_data = self.get_date_data(*args, **kwargs)
         fields = date_data.__dict__.keys()
-        date_tuple = collections.namedtuple("DateData", fields)
-        return date_tuple(**date_data.__dict__)
+        date_tuple = collections.namedtuple("DateData", fields)  # type: ignore[misc]  # noqa: PYI024
+        result: tuple[Any, ...] = date_tuple(**date_data.__dict__)
+        return result
 
-    def _get_applicable_locales(self, date_string, ignore_surrounding_text=False):
+    def _get_applicable_locales(
+        self, date_string: str, ignore_surrounding_text: bool = False
+    ) -> Iterator["Locale"]:
         # The given order is preserved if requested either through the
         # ``use_given_order`` constructor argument or the
         # ``USE_GIVEN_LANGUAGE_ORDER`` setting (which also reaches the
@@ -746,13 +779,14 @@ class DateDataParser:
             self.use_given_order or self._settings.USE_GIVEN_LANGUAGE_ORDER
         )
 
-        pop_tz_cache = []
+        pop_tz_cache: list[str | None] = []
 
-        def date_strings():
+        def date_strings() -> Iterator[str]:
             """A generator instead of a static list to avoid calling
             pop_tz_offset_from_string if the first locale matches on unmodified
             date_string.
             """
+            stripped_date_string: str | None
             yield date_string
             if not pop_tz_cache:
                 stripped_date_string, _ = pop_tz_offset_from_string(
@@ -800,7 +834,12 @@ class DateDataParser:
             ):
                 yield locale
 
-    def _is_applicable_locale(self, locale, date_string, ignore_surrounding_text=False):
+    def _is_applicable_locale(
+        self,
+        locale: "Locale",
+        date_string: str,
+        ignore_surrounding_text: bool = False,
+    ) -> bool:
         return locale.is_applicable(
             date_string,
             strip_timezone=False,  # it is stripped outside
@@ -811,7 +850,7 @@ class DateDataParser:
     _locale_loader_lock = threading.Lock()
 
     @classmethod
-    def _get_locale_loader(cls):
+    def _get_locale_loader(cls) -> LocaleDataLoader:
         if not cls.locale_loader:
             with cls._locale_loader_lock:
                 if not cls.locale_loader:
