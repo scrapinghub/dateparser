@@ -23,8 +23,9 @@ class TestFrenchRepublicanCalendar(BaseTestCase):
             param("1 Floréal an. 79", datetime(1871, 4, 21)),
         ]
     )
-    def test_dates(self, date_string, expected):
+    def test_dates(self, date_string: str, expected: datetime) -> None:
         date_data = FrenchRepublicanCalendar(date_string).get_date()
+        assert date_data is not None
         self.assertEqual(date_data.date_obj, expected)
         self.assertEqual(date_data.period, "day")
 
@@ -36,7 +37,9 @@ class TestFrenchRepublicanCalendar(BaseTestCase):
             param("Sans-culottides an I", datetime(1793, 9, 17), "month"),
         ]
     )
-    def test_prefer_first(self, date_string, expected, period):
+    def test_prefer_first(
+        self, date_string: str, expected: datetime, period: str
+    ) -> None:
         first = settings.replace(
             PREFER_DAY_OF_MONTH="first", PREFER_MONTH_OF_YEAR="first"
         )
@@ -44,14 +47,14 @@ class TestFrenchRepublicanCalendar(BaseTestCase):
             _french_republican_parser.parse(date_string, first), (expected, period)
         )
 
-    def test_prefer_current(self):
+    def test_prefer_current(self) -> None:
         current = settings.replace(RELATIVE_BASE=datetime(2026, 9, 29))
         self.assertEqual(
             _french_republican_parser.parse("an VIII", current),
             (datetime(1799, 9, 29), "year"),
         )
 
-    def test_prefer_last(self):
+    def test_prefer_last(self) -> None:
         last = settings.replace(PREFER_DAY_OF_MONTH="last", PREFER_MONTH_OF_YEAR="last")
         self.assertEqual(
             _french_republican_parser.parse("an III", last),
@@ -69,5 +72,5 @@ class TestFrenchRepublicanCalendar(BaseTestCase):
             param("18 brumaire 1799"),
         ]
     )
-    def test_invalid(self, date_string):
+    def test_invalid(self, date_string: str) -> None:
         self.assertIsNone(FrenchRepublicanCalendar(date_string).get_date())
