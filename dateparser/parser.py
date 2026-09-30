@@ -1,7 +1,7 @@
 import calendar
 import contextlib
 from collections.abc import Callable, Iterable, Iterator
-from datetime import datetime, time, timedelta, timezone, tzinfo
+from datetime import datetime, time, timedelta, tzinfo
 from functools import partial
 from io import StringIO
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, overload
@@ -11,6 +11,8 @@ import regex as re
 
 from dateparser.utils import (
     _get_missing_parts,
+    _get_parts,
+    _now,
     get_last_day_of_month,
     get_next_leap_year,
     get_previous_leap_year,
@@ -28,6 +30,7 @@ MERIDIAN = re.compile(r"am|pm")
 MICROSECOND = re.compile(r"\d{1,6}")
 EIGHT_DIGIT = re.compile(r"^\d{8}$")
 HOUR_MINUTE_REGEX = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+_RANGE_DASHES = {"-", "–"}
 
 
 def no_space_parser_eligibile(datestring: str) -> bool:
@@ -83,7 +86,7 @@ def _parse_absolute(
     settings: "Settings",
     tz: tzinfo | None = None,
     date_order: str | None = None,
-) -> tuple[datetime, str | None]:
+) -> tuple[datetime, str | None, tuple[str, ...]]:
     return _parser.parse(datestring, settings, tz, date_order=date_order)
 
 
@@ -92,7 +95,7 @@ def _parse_nospaces(
     settings: "Settings",
     tz: tzinfo | None = None,
     date_order: str | None = None,
-) -> tuple[datetime, str]:
+) -> tuple[datetime, str, tuple[str, ...]]:
     return _no_spaces_parser.parse(datestring, settings, date_order=date_order)
 
 
@@ -203,10 +206,12 @@ class _no_spaces_parser:
         return "year"
 
     @classmethod
-    def _find_best_matching_date(cls, datestring: str) -> tuple[datetime, str] | None:
+    def _find_best_matching_date(
+        cls, datestring: str
+    ) -> tuple[datetime, str, tuple[str, ...]] | None:
         for fmt in cls._preferred_formats_ordered_8_digit:
             with contextlib.suppress(Exception):
-                dt = strptime(datestring, fmt), cls._get_period(fmt)
+                dt = strptime(datestring, fmt), cls._get_period(fmt), _get_parts(fmt)
                 if len(str(dt[0].year)) == 4:
                     return dt
         return None
@@ -214,7 +219,7 @@ class _no_spaces_parser:
     @classmethod
     def parse(
         cls, datestring: str, settings: "Settings", date_order: str | None = None
-    ) -> tuple[datetime, str]:
+    ) -> tuple[datetime, str, tuple[str, ...]]:
         if not no_space_parser_eligibile(datestring):
             raise ValueError(f"Unable to parse date from: {datestring}")
 
@@ -232,11 +237,11 @@ class _no_spaces_parser:
                 if dt is not None:
                     return dt
         nsp = cls()
-        ambiguous_date: tuple[datetime, str] | None = None
+        ambiguous_date: tuple[datetime, str, tuple[str, ...]] | None = None
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[order]:
                 with contextlib.suppress(Exception):
-                    dt = strptime(token, fmt), cls._get_period(fmt)
+                    dt = strptime(token, fmt), cls._get_period(fmt), _get_parts(fmt)
                     if len(str(dt[0].year)) < 4:
                         ambiguous_date = dt
                         continue
@@ -289,13 +294,26 @@ class _parser:
         tokens: Iterable[tuple[str, int]],
         settings: "Settings",
         date_order: str | None = None,
+        tz: tzinfo | None = None,
     ) -> None:
         self.settings = settings
+        self._tz = tz
         self._date_order = date_order or settings.DATE_ORDER
         self.tokens = [(t[0].strip(), t[1]) for t in list(tokens)]
         self.filtered_tokens = [
             (t[0], t[1], i) for i, t in enumerate(self.tokens) if t[1] <= 1
         ]
+        # Move a meridian written before a time (e.g. Chinese 下午 02:26) after
+        # it, where the time parsing below looks for it.
+        for i in range(len(self.filtered_tokens) - 1):
+            current, following = self.filtered_tokens[i : i + 2]
+            preceding = self.filtered_tokens[i - 1][0] if i else ""
+            if (
+                current[0] in ("am", "pm")
+                and ":" in following[0]
+                and ":" not in preceding
+            ):
+                self.filtered_tokens[i : i + 2] = [following, current]
 
         self.unset_tokens: list[tuple[str, int, str]] = []
 
@@ -315,6 +333,21 @@ class _parser:
             k: self.num_directives[k]
             for k in resolve_date_order(self._date_order, lst=True)
         }
+        numbers = sorted(
+            (t[0] for t in self.filtered_tokens if t[1] == 0 and t[0].isdigit()),
+            key=len,
+        )
+        if (
+            not any(t[1] == 1 for t in self.filtered_tokens)
+            and len(numbers) == 2
+            and len(numbers[0]) <= 2
+            and len(numbers[1]) == 4
+        ):
+            # A year and a single other number (e.g. "05/2020"): the other
+            # number is the month whatever the date order.
+            self.ordered_num_directives = {
+                k: self.num_directives[k] for k in ("month", "day", "year")
+            }
 
         skip_index: list[int] = []
         skip_component: str | None = None
@@ -404,15 +437,44 @@ class _parser:
                 setattr(self, *res)
 
         known, unknown = get_unresolved_attrs(self)
+        unset_tokens = [
+            unset_token
+            for unset_token in self.unset_tokens
+            if not (
+                self._token_day and self._is_range(self._token_day[0], unset_token[0])
+            )
+        ]
+        if len(unset_tokens) > len(unknown):
+            raise ValueError("Too many numbers in date string")
         params: dict[str, int] = {}
         for attr in known:
             params.update({attr: getattr(self, attr)})
         for attr in unknown:
-            for token, token_type, _ in self.unset_tokens:
+            for token, token_type, _ in unset_tokens:
                 if token_type == 0:
                     params.update({attr: int(token)})
                     setattr(self, f"_token_{attr}", token)
                     setattr(self, attr, int(token))
+
+    def _is_range(self, first: object, last: object) -> bool:
+        """Return whether *first* and *last* are the ends of a range, e.g. 12
+        and 14 in “June 12-14, 2021”. A dash before *first* or after *last*
+        makes them part of a date instead, e.g. 4 and 25 in “6-4-25”."""
+
+        def is_dash(index: int) -> bool:
+            return (
+                0 <= index < len(self.tokens)
+                and self.tokens[index][0].lstrip(".") in _RANGE_DASHES
+            )
+
+        return any(
+            self.tokens[index][0] == first
+            and is_dash(index + 1)
+            and self.tokens[index + 2][0] == last
+            and not is_dash(index - 1)
+            and not is_dash(index + 3)
+            for index in range(len(self.tokens) - 2)
+        )
 
     @classmethod
     def _has_month_name(cls, tokens: Iterable[tuple[str, int]]) -> bool:
@@ -440,6 +502,16 @@ class _parser:
                 return period
 
         return "day"
+
+    def _get_parts(self) -> tuple[str, ...]:
+        parts = tuple(part for part in ("year", "month", "day") if getattr(self, part))
+        if not parts and (hasattr(self, "_token_weekday") or self.time):
+            # A weekday or a time on its own is resolved to a full date by
+            # _correct_for_time_frame.
+            parts = ("year", "month", "day")
+        if self.time:
+            parts += ("time",)
+        return parts
 
     def _get_datetime_obj(self, **params: Any) -> datetime:
         try:
@@ -482,9 +554,7 @@ class _parser:
         return next_leap_year if next_leap_year_is_closer else previous_leap_year
 
     def _set_relative_base(self) -> None:
-        self.now = self.settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
-            tzinfo=None
-        )
+        self.now = self.settings.RELATIVE_BASE or _now(self.settings, self._tz)
 
     def _get_datetime_obj_params(self) -> dict[str, int]:
         if not self.now:
@@ -578,7 +648,7 @@ class _parser:
 
         if self.month and not self.year:
             try:
-                if self.now < dateobj:
+                if self.now < self._correct_for_day(dateobj):
                     if self.settings.PREFER_DATES_FROM == "past":
                         dateobj = dateobj.replace(year=dateobj.year - 1)
                 elif self.settings.PREFER_DATES_FROM == "future":
@@ -607,13 +677,14 @@ class _parser:
                 hasattr(self, "_token_weekday"),
             ]
         ):
-            # Convert dateobj to utc time to compare with self.now
-            try:
-                tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
-                tz_offset = tz.utcoffset(dateobj)
-                assert tz_offset is not None
-            except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
-                tz_offset = timedelta(hours=0)
+            tz_offset = timedelta(hours=0)
+            if self.settings.RELATIVE_BASE:
+                # Convert dateobj to utc time to compare with RELATIVE_BASE
+                try:
+                    tz = tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
+                    tz_offset = tz.utcoffset(dateobj) or tz_offset
+                except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
+                    pass
 
             if (
                 "past" in self.settings.PREFER_DATES_FROM
@@ -657,11 +728,11 @@ class _parser:
         settings: "Settings",
         tz: tzinfo | None = None,
         date_order: str | None = None,
-    ) -> tuple[datetime, str | None]:
+    ) -> tuple[datetime, str | None, tuple[str, ...]]:
         tokens = list(tokenizer(datestring).tokenize())
         date_order = date_order or settings.DATE_ORDER
         try:
-            po = cls(tokens, settings, date_order=date_order)
+            po = cls(tokens, settings, date_order=date_order, tz=tz)
             dateobj = po._results()
         except ValueError as error:
             if (
@@ -673,7 +744,7 @@ class _parser:
             # The numbers do not fit the date order set by the caller, so read
             # them with the day and month swapped, e.g. "2021-01-13" with YDM.
             swapped = date_order.translate(str.maketrans("DM", "MD"))
-            po = cls(tokens, settings, date_order=swapped)
+            po = cls(tokens, settings, date_order=swapped, tz=tz)
             dateobj = po._results()
 
         # correction for past, future if applicable
@@ -688,7 +759,7 @@ class _parser:
 
         period = po._get_period()
 
-        return dateobj, period
+        return dateobj, period, po._get_parts()
 
     def _parse(
         self, token_type: int, token: str, skip_component: str | None = None
@@ -789,7 +860,17 @@ class _parser:
                             return set_and_return(
                                 token, token_type, component, do, skip_date_order=True
                             )
-                        if component == "month":
+                        if component == "month" and (
+                            not self.day
+                            or self._is_range(
+                                self._token_month[0],  # type: ignore[index]
+                                self._token_day[0],  # type: ignore[index]
+                            )
+                        ):
+                            # A number read as the month becomes the day, which
+                            # requires the day to be free, or to be the end of
+                            # a range that starts at that number, e.g. 14 in
+                            # “12-14 June”.
                             index = self.auto_order.index("month")
                             self.auto_order[index] = "day"
                             self._token_day = self._token_month
