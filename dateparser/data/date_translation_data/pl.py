@@ -405,6 +405,9 @@ info = {
     ],
     "simplifications": [
         {
+            "nie(?=\\.?,?\\s*\\d)": "niedz"
+        },
+        {
             "dziś": "0 dnia"
         },
         {

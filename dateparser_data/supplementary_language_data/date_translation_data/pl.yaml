@@ -159,6 +159,7 @@ in:
     - za
 
 simplifications:
+    - nie(?=\.?,?\s*\d): niedz
     - dziś: 0 dnia
     - dzisiaj: 0 dnia
     - onegdaj: 2 dnia
