@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 _T = TypeVar("_T")
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
-PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z"]
+PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z", "early_morning"]
 ALWAYS_KEEP_TOKENS = ["+", *PARSER_HARDCODED_TOKENS]
 KNOWN_WORD_TOKENS = [
     "monday",
@@ -49,6 +49,11 @@ KNOWN_WORD_TOKENS = [
     "in",
     "am",
     "pm",
+    "early_morning",
+    "morning",
+    "afternoon",
+    "evening",
+    "night",
 ]
 
 PARENTHESES_PATTERN = re.compile(r"[\(\)]")

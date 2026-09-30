@@ -43,6 +43,11 @@ class LanguageValidator:
         "hour",
         "minute",
         "second",
+        "early_morning",
+        "morning",
+        "afternoon",
+        "evening",
+        "night",
         "sentence_splitter_group",
     ]
 
