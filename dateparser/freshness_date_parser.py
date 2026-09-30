@@ -37,9 +37,17 @@ class FreshnessDateDataParser:
 
     def _parse_time(self, date_string: str, settings: "Settings") -> time | None:
         """Attempts to parse time part of date strings like '1 day ago, 2 PM'"""
+        has_clock_units = any(
+            unit in ("hour", "minute", "second")
+            for _, unit in PATTERN.findall(date_string)
+        )
         date_string = PATTERN.sub("", date_string)
         date_string = re.sub(r"\b(?:ago|in)\b", "", date_string).strip()
-        if re.fullmatch(r"\d{1,2}", date_string) and int(date_string) < 24:
+        if (
+            not has_clock_units
+            and re.fullmatch(r"\d{1,2}", date_string)
+            and int(date_string) < 24
+        ):
             return time(int(date_string))
         with contextlib.suppress(Exception):
             return time_parser(date_string)
