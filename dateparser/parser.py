@@ -519,7 +519,7 @@ class _parser:
             elif modifier == "last" or self.settings.PREFER_DATES_FROM == "past":
                 steps = -(steps_back or 7)
             else:
-                steps = target - dateobj.weekday()
+                steps = -steps_back
 
             dateobj = dateobj + timedelta(days=steps)
 
