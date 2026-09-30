@@ -93,4 +93,4 @@ class FullTextLanguageDetector(BaseLanguageDetector):
                     applicable_languages.append((language.shortname, num_words))
         if not applicable_languages:
             return None
-        return max(applicable_languages, key=lambda p: (p[1][0], p[1][1]))[0]
+        return max(applicable_languages, key=lambda p: p[1])[0]
