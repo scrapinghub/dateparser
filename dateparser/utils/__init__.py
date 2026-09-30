@@ -1,5 +1,6 @@
 import calendar
 import logging
+import os
 import threading
 import types
 import unicodedata
@@ -11,6 +12,16 @@ from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
 
 from dateparser.timezone_parser import StaticTzInfo, _tz_offsets
+
+
+def _get_localzone():
+    try:
+        return get_localzone()
+    except ValueError as error:
+        raise RuntimeError(
+            f"Could not determine the local timezone "
+            f"(TZ={os.environ.get('TZ')!r}): {error}"
+        ) from error
 
 
 def strip_braces(date_string):
@@ -140,7 +151,7 @@ def apply_timezone(date_time, tz_string):
 
 
 def apply_timezone_from_settings(date_obj, settings):
-    tz = get_localzone()
+    tz = _get_localzone()
     if settings is None:
         return date_obj
 
