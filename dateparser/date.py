@@ -358,7 +358,8 @@ def _get_name_translations(
             continue
         for word in words:
             english = word if form == "full" else word[:3]
-            for name in map(str.lower, locale.info.get(word, ())):
+            for localized in locale.info.get(word, ()):
+                name = localized.lower()
                 if english not in translations[name]:
                     translations[name].append(english)
     if not translations:
@@ -390,13 +391,15 @@ def _translate_names(
     matches = pattern.findall(date_string)
     if not matches:
         return
+    pieces = pattern.split(date_string)
     # A name can stand for several English names, e.g. "mar" is both "martes"
     # and "marzo" in Spanish, so every combination is yielded.
     for combination in itertools.product(
         *(translations[match.lower()] for match in matches)
     ):
-        parts = pattern.split(date_string)
-        yield "".join(itertools.chain(*zip(parts, (*combination, ""), strict=True)))
+        yield "".join(
+            itertools.chain.from_iterable(zip(pieces, (*combination, ""), strict=True))
+        )
 
 
 class _DateLocaleParser:
