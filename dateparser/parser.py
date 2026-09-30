@@ -28,6 +28,9 @@ MERIDIAN = re.compile(r"am|pm")
 MICROSECOND = re.compile(r"\d{1,6}")
 EIGHT_DIGIT = re.compile(r"^\d{8}$")
 HOUR_MINUTE_REGEX = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+_ORDINAL_SUFFIX = "xth"
+"""What simplifications turn ordinal suffixes into, e.g. English "2nd" into
+"2xth"."""
 
 
 def no_space_parser_eligibile(datestring: str) -> bool:
@@ -318,13 +321,18 @@ class _parser:
 
         skip_index: list[int] = []
         skip_component: str | None = None
-        skip_tokens = ["t", "year", "hour", "minute", "nth"]
+        skip_tokens = ["t", "year", "hour", "minute", _ORDINAL_SUFFIX]
 
         for index, token_type_original_index in enumerate(self.filtered_tokens):
             if index in skip_index:
                 continue
 
             token, token_type, original_index = token_type_original_index
+
+            if token == _ORDINAL_SUFFIX and (
+                index == 0 or self.filtered_tokens[index - 1][1] != 0
+            ):
+                raise ValueError(f"No number before {token!r} in {self.tokens}")
 
             if token in skip_tokens:
                 continue
@@ -397,12 +405,14 @@ class _parser:
                     self.time = partial(time_parser, self._token_time)
                     continue
 
-            # Simplifications turn ordinals (e.g. English "2nd") into "2nth",
-            # and an ordinal number is always a day.
+            # An ordinal number is always a day. Of several ordinals, e.g. in
+            # a range, the first one is the day.
             is_ordinal = (
                 index + 1 < len(self.filtered_tokens)
-                and self.filtered_tokens[index + 1][0] == "nth"
+                and self.filtered_tokens[index + 1][0] == _ORDINAL_SUFFIX
             )
+            if is_ordinal and self.day is not None:
+                continue
             results = self._parse(
                 token_type, token, skip_component=skip_component, ordinal=is_ordinal
             )

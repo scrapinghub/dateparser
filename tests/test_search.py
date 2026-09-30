@@ -1067,6 +1067,20 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
             ),
+            param(
+                text="The festival runs June 12th-14th, 2021 in Leeds",
+                languages=None,
+                settings=None,
+                expected=[
+                    ("June 12th-14th, 2021 in", datetime.datetime(2021, 6, 12, 0, 0))
+                ],
+            ),
+            param(
+                text="Office at 12 Nth Street, Nth Sydney, opened 5 May 2021",
+                languages=None,
+                settings=None,
+                expected=[("5 May 2021", datetime.datetime(2021, 5, 5, 0, 0))],
+            ),
         ]
     )
     def test_date_search_function(

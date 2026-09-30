@@ -34,6 +34,8 @@ class TestDateParser(BaseTestCase):
             param("2nd 9pm", datetime(2012, 11, 2, 21, 0)),
             param("the 12th", datetime(2012, 11, 12)),
             param("Jan.5th 2024", datetime(2024, 1, 5)),
+            param("12th-14th June 2021", datetime(2021, 6, 12)),
+            param("1st and 2nd May 2021", datetime(2021, 5, 1)),
             param("the 1st day of March 2015", datetime(2015, 3, 1)),
             param("10:04am", datetime(2012, 11, 13, 10, 4)),
             param("Friday", datetime(2012, 11, 9)),
