@@ -282,6 +282,13 @@ info = {
         }
     },
     "skip": [
+        "die",
+        "don",
+        "fre",
+        "mit",
+        "mon",
+        "sam",
+        "son",
         "etwa",
         "uhr",
         "um",

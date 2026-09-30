@@ -2,7 +2,7 @@ am:
     - vorm
 pm:
     - nachm
-skip: ["etwa", "uhr", "um", "und"]
+skip: ["die", "don", "fre", "mit", "mon", "sam", "son", "etwa", "uhr", "um", "und"]
 
 sentence_splitter_group: 1
 

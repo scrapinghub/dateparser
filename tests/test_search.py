@@ -913,7 +913,11 @@ class TestTranslateSearch(BaseTestCase):
             # Georgian
             param("ka", "1937 წელს დაიწყო იაპონია-ჩინეთის მეორე ომი."),
             # German
-            param("de", "Der Zweite Weltkrieg endete in Europa am 8. Mai 1945."),
+            param(
+                "de",
+                "Die UdSSR blieb dem Neutralitätspakt "
+                "vom 13. April 1941 gegenüber Japan vorerst neutral.",
+            ),
             # Indonesian
             param(
                 "id",
@@ -1012,6 +1016,14 @@ class TestTranslateSearch(BaseTestCase):
                 languages=None,
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
                 expected=[("Em outubro de 1936", datetime.datetime(1936, 10, 1, 0, 0))],
+            ),
+            param(
+                text="Am 9. November 1989 fiel die Mauer.",
+                languages=None,
+                settings=None,
+                expected=[
+                    ("Am 9. November 1989", datetime.datetime(1989, 11, 9, 0, 0))
+                ],
             ),
             param(
                 text="19 марта 2001, 20 марта, 21 марта был отличный день.",
