@@ -89,6 +89,15 @@ class TestTZPopping(BaseTestCase):
                 "17th October, 2034 @ 01:08 am +0700", "17th October, 2034 @ 01:08 am "
             ),
             param("Sep 03 2014 4:32 pm +0630", "Sep 03 2014 4:32 pm "),
+            param(
+                "Thu 30 May 2024 10:13:10 -0500 CDT",
+                "Thu 30 May 2024 10:13:10 ",
+            ),
+            param(
+                "Thu 30 May 2024 10:13:10 CDT -0500",
+                "Thu 30 May 2024 10:13:10 ",
+            ),
+            param("2019-09-28WIB19:17:34+07:00", "2019-09-28 19:17:34"),
         ]
     )
     def test_timezone_deleted_from_string(self, initial_string, result_string):
@@ -121,6 +130,23 @@ class TestTZPopping(BaseTestCase):
             timedelta(hours=expected_offset) if expected_offset is not None else None
         )
         self.assertEqual(delta, self.timezone_offset)
+
+
+class TestUnicodeDashOffsets(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("jan 15th UTC‐06:00", -6),  # HYPHEN
+            param("jan 15th UTC–06:00", -6),  # EN DASH
+            param("jan 15th UTC—06:00", -6),  # EM DASH
+            param("jan 15th UTC−06:00", -6),  # MINUS SIGN
+            param("jan 15th UTC－06:00", -6),  # FULLWIDTH HYPHEN-MINUS
+            param("jan 15th UTC+06:00", 6),
+        ]
+    )
+    def test_parses_dash_look_alike_offsets(self, date_string, expected_offset_hours):
+        parsed = parse(date_string)
+        self.assertIsNotNone(parsed)
+        self.assertEqual(parsed.utcoffset(), timedelta(hours=expected_offset_hours))
 
 
 class TestLocalTZOffset(BaseTestCase):

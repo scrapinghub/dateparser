@@ -5,3 +5,8 @@ repos:
     - id: ruff-check
       args: [ --fix ]
     - id: ruff-format
+- repo: https://github.com/zizmorcore/zizmor-pre-commit
+  rev: v1.28.0
+  hooks:
+    - id: zizmor
+      args: [--no-progress, --fix]

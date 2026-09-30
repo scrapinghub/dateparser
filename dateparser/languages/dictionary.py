@@ -49,6 +49,9 @@ PARENTHESES_PATTERN = re.compile(r"[\(\)]")
 NUMERAL_PATTERN = re.compile(r"(\d+)")
 KEEP_TOKEN_PATTERN = re.compile(r"^.*[^\W_].*$", flags=re.U)
 
+_WEEKDAY_TOKENS = KNOWN_WORD_TOKENS[0:7]
+_MONTH_TOKENS = KNOWN_WORD_TOKENS[7:19]
+
 
 class UnknownTokenError(Exception):
     pass
@@ -103,6 +106,32 @@ class Dictionary:
             if word in locale_info:
                 translations = map(methodcaller("lower"), locale_info[word])
                 dictionary.update(zip_longest(translations, [], fillvalue=word))
+
+        # Some locales (mostly Romance languages) reuse the same abbreviation for a
+        # weekday and a month (e.g. Italian "mar" is both "martedì" and "marzo").
+        # The loop above always resolves those in favor of the month, since months
+        # are listed after weekdays in KNOWN_WORD_TOKENS. Keep track of the weekday
+        # each conflicting token could also mean, and of which tokens are
+        # unambiguously months, so a caller with extra context (e.g. another,
+        # unambiguous month elsewhere in the same string) can recover the weekday
+        # reading.
+        weekday_translations = {}
+        for word in _WEEKDAY_TOKENS:
+            if word in locale_info:
+                for token in map(methodcaller("lower"), locale_info[word]):
+                    weekday_translations[token] = word
+        self._month_translations = set()
+        for word in _MONTH_TOKENS:
+            if word in locale_info:
+                self._month_translations.update(
+                    map(methodcaller("lower"), locale_info[word])
+                )
+        self._weekday_month_conflicts = {
+            token: weekday
+            for token, weekday in weekday_translations.items()
+            if token in self._month_translations
+        }
+
         dictionary.update(zip_longest(ALWAYS_KEEP_TOKENS, ALWAYS_KEEP_TOKENS))
         dictionary.update(
             zip_longest(
@@ -122,6 +151,16 @@ class Dictionary:
 
         relative_type_regex = locale_info.get("relative-type-regex", {})
         self._relative_strings = list(chain.from_iterable(relative_type_regex.values()))
+
+    def _is_unambiguous_month(self, token):
+        """
+        Whether ``token`` (already lowercased) names a month and, unlike the
+        tokens in :attr:`_weekday_month_conflicts`, cannot also mean a weekday.
+        """
+        return (
+            token in self._month_translations
+            and token not in self._weekday_month_conflicts
+        )
 
     def __contains__(self, key):
         if key in self._settings.SKIP_TOKENS:

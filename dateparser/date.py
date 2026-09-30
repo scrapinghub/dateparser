@@ -37,6 +37,44 @@ APOSTROPHE_LOOK_ALIKE_CHARS = [
     "\N{FULLWIDTH APOSTROPHE}",  # '\uff07'
 ]
 
+# Unicode Dash Characters, per the "Dash" property table in the Unicode Standard
+# (https://www.unicode.org/versions/latest/core-spec/chapter-6/#G9697), excluding
+# U+002D HYPHEN-MINUS itself. Written as \u/\U escapes rather than \N{...} names
+# since some of these (e.g. Garay Hyphen, Yezidi Hyphenation Mark) are recent
+# Unicode additions not present in the unicodedata name tables of older Pythons.
+DASH_LOOK_ALIKE_CHARS = [
+    "\u058a",  # ARMENIAN HYPHEN
+    "\u05be",  # HEBREW PUNCTUATION MAQAF
+    "\u1400",  # CANADIAN SYLLABICS HYPHEN
+    "\u1806",  # MONGOLIAN TODO SOFT HYPHEN
+    "\u2010",  # HYPHEN
+    "\u2011",  # NON-BREAKING HYPHEN
+    "\u2012",  # FIGURE DASH
+    "\u2013",  # EN DASH
+    "\u2014",  # EM DASH
+    "\u2015",  # HORIZONTAL BAR
+    "\u2053",  # SWUNG DASH
+    "\u207b",  # SUPERSCRIPT MINUS
+    "\u208b",  # SUBSCRIPT MINUS
+    "\u2212",  # MINUS SIGN
+    "\u2e17",  # DOUBLE OBLIQUE HYPHEN
+    "\u2e1a",  # HYPHEN WITH DIAERESIS
+    "\u2e3a",  # TWO-EM DASH
+    "\u2e3b",  # THREE-EM DASH
+    "\u2e40",  # DOUBLE HYPHEN
+    "\u2e5d",  # OBLIQUE HYPHEN
+    "\u301c",  # WAVE DASH
+    "\u3030",  # WAVY DASH
+    "\u30a0",  # KATAKANA-HIRAGANA DOUBLE HYPHEN
+    "\ufe31",  # PRESENTATION FORM FOR VERTICAL EM DASH
+    "\ufe32",  # PRESENTATION FORM FOR VERTICAL EN DASH
+    "\ufe58",  # SMALL EM DASH
+    "\ufe63",  # SMALL HYPHEN-MINUS
+    "\uff0d",  # FULLWIDTH HYPHEN-MINUS
+    "\U00010d6e",  # GARAY HYPHEN
+    "\U00010ead",  # YEZIDI HYPHENATION MARK
+]
+
 RE_NBSP = re.compile("\xa0", flags=re.UNICODE)
 RE_SPACES = re.compile(r"\s+")
 RE_TRIM_SPACES = re.compile(r"^\s+(\S.*?)\s+$")
@@ -52,6 +90,7 @@ RE_SANITIZE_CROATIAN = re.compile(
 RE_SANITIZE_PERIOD = re.compile(r"(?<=[^0-9\s])\.", flags=re.U)
 RE_SANITIZE_ON = re.compile(r"^.*?on:\s+(.*)")
 RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
+RE_SANITIZE_DASH = re.compile("|".join(DASH_LOOK_ALIKE_CHARS))
 
 RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
@@ -144,6 +183,7 @@ def sanitize_date(date_string):
     date_string = RE_SANITIZE_ON.sub(r"\1", date_string)
     date_string = RE_TRIM_COLONS.sub(r"\1", date_string)
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
+    date_string = RE_SANITIZE_DASH.sub("-", date_string)
     return date_string.strip()
 
 
