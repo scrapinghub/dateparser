@@ -37,7 +37,7 @@ class PartsOfDay:
     evening: time = time(18)
     night: time = time(20)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         for field in fields(self):
             value = getattr(self, field.name)
             if not isinstance(value, time):
@@ -61,7 +61,7 @@ _TRAILING_NUMBER_PATTERN = re.compile(
 )
 
 
-def _meridiem(part, hour):
+def _meridiem(part: PartOfDay, hour: int) -> str:
     if part in (PartOfDay.EARLY_MORNING, PartOfDay.MORNING):
         return "am"
     if part is PartOfDay.NIGHT and not 6 <= hour <= 11:
@@ -69,7 +69,9 @@ def _meridiem(part, hour):
     return "pm"
 
 
-def _replace_part_of_day(translated, parts_of_day):
+def _replace_part_of_day(
+    translated: str, parts_of_day: PartsOfDay
+) -> tuple[str, PartOfDay | None, bool]:
     """Return *translated* with its part-of-day token replaced by a time, the
     matching :class:`PartOfDay` (or ``None``), and whether that time came from
     *parts_of_day*.
@@ -95,5 +97,5 @@ def _replace_part_of_day(translated, parts_of_day):
         return translated, None, False
     if _TIME_PATTERN.search(rest):
         return rest, part, False
-    part_time = getattr(parts_of_day, part.value)
+    part_time: time = getattr(parts_of_day, part.value)
     return f"{rest} {part_time:%H:%M:%S}", part, True

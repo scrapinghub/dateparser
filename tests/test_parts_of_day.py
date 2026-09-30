@@ -37,7 +37,9 @@ BASE = datetime(2026, 9, 28, 15, 0)
         ("17 in the afternoon", ["en"], None),
     ],
 )
-def test_parse(date_string, languages, expected):
+def test_parse(
+    date_string: str, languages: list[str], expected: datetime | None
+) -> None:
     settings = {"RELATIVE_BASE": BASE}
     assert parse(date_string, languages=languages, settings=settings) == expected
 
@@ -50,7 +52,7 @@ def test_parse(date_string, languages, expected):
         ("tonight at 11pm", True, "time"),
     ],
 )
-def test_date_data(date_string, return_time_as_period, period):
+def test_date_data(date_string: str, return_time_as_period: bool, period: str) -> None:
     parser = DateDataParser(
         settings={"RELATIVE_BASE": BASE, "RETURN_TIME_AS_PERIOD": return_time_as_period}
     )
@@ -59,25 +61,25 @@ def test_date_data(date_string, return_time_as_period, period):
     assert date_data.part_of_day is PartOfDay.NIGHT
 
 
-def test_date_data_without_part_of_day():
+def test_date_data_without_part_of_day() -> None:
     date_data = DateDataParser().get_date_data("today")
     assert date_data.part_of_day is None
     assert "part_of_day" not in repr(date_data)
 
 
-def test_setting():
+def test_setting() -> None:
     settings = {"RELATIVE_BASE": BASE, "PARTS_OF_DAY": PartsOfDay(night=time(22, 30))}
     assert parse("tonight", settings=settings) == datetime(2026, 9, 28, 22, 30)
 
 
-def test_setting_validation():
+def test_setting_validation() -> None:
     with pytest.raises(SettingValidationError):
         parse("tonight", settings={"PARTS_OF_DAY": {"night": time(22)}})
     with pytest.raises(TypeError):
-        PartsOfDay(night="22:00")
+        PartsOfDay(night="22:00")  # type: ignore[arg-type]
 
 
-def test_search_dates():
+def test_search_dates() -> None:
     assert search_dates(
         "There is a party tonight. It was a dark night.",
         languages=["en"],
