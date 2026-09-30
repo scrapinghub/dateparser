@@ -273,6 +273,20 @@ list of ``(substring, datetime)`` tuples:
     >>> search_dates('Today is 25 of October 2017, so the 27th is in 2 days.')
     [('25 of October 2017', datetime.datetime(2017, 10, 25, 0, 0)), ('the 27th is in 2 days', datetime.datetime(2017, 10, 27, 0, 0))]
 
+Pass ``languages`` when you know them: language detection is slow and
+error-prone on short text. If no date is found, ``None`` is returned:
+
+.. code:: python
+
+    >>> search_dates('Lancé le 4 octobre 1957.', languages=['fr'])
+    [('le 4 octobre 1957', datetime.datetime(1957, 10, 4, 0, 0))]
+    >>> search_dates('Rien à voir.', languages=['fr'])
+    None
+
+See the `API reference
+<https://dateparser.readthedocs.io/en/latest/dateparser.html#dateparser.search.search_dates>`__
+for other parameters, such as ``strategy``.
+
 Time Span Detection
 -------------------
 
