@@ -328,6 +328,7 @@ class _parser:
         self._token_month = None
         self._token_year = None
         self._token_time = None
+        self._weekday_modifier = None
 
         self.ordered_num_directives = {
             k: self.num_directives[k]
@@ -360,6 +361,12 @@ class _parser:
             token, token_type, original_index = token_type_original_index
 
             if token in skip_tokens:
+                continue
+
+            if token in ("last", "this", "next"):
+                if self._weekday_modifier:
+                    raise ValueError(f"Unable to parse: {token}")
+                self._weekday_modifier = token
                 continue
 
             if self.time is None:
@@ -605,27 +612,22 @@ class _parser:
         if token_weekday and not (
             self._token_year or self._token_month or self._token_day
         ):
-            day_index = calendar.weekday(dateobj.year, dateobj.month, dateobj.day)
-            day = token_weekday[:3].lower()
-            steps = 0
-            if "future" in self.settings.PREFER_DATES_FROM:
-                if days[day_index] == day:
-                    steps = 7
-                else:
-                    while days[day_index] != day:
-                        day_index = (day_index + 1) % 7
-                        steps += 1
-                delta = timedelta(days=steps)
+            target = days.index(token_weekday[:3].lower())
+            steps_forward = (target - dateobj.weekday()) % 7
+            steps_back = (dateobj.weekday() - target) % 7
+            modifier = self._weekday_modifier
+            if modifier == "next" or (
+                not modifier and "future" in self.settings.PREFER_DATES_FROM
+            ):
+                steps = steps_forward or 7
+            elif modifier == "this":
+                steps = steps_forward
+            elif modifier == "last" or self.settings.PREFER_DATES_FROM == "past":
+                steps = -(steps_back or 7)
             else:
-                if days[day_index] == day:
-                    steps = 7 if self.settings.PREFER_DATES_FROM == "past" else 0
-                else:
-                    while days[day_index] != day:
-                        day_index -= 1
-                        steps += 1
-                delta = timedelta(days=-steps)
+                steps = -steps_back
 
-            dateobj = dateobj + delta
+            dateobj = dateobj + timedelta(days=steps)
 
             # set the token_month here so that it is not subsequently
             # altered by _correct_for_month

@@ -136,7 +136,16 @@ class Locale:
         )
         dict_cnt = 0
         skip_cnt = 0
-        for word in set(words):
+        # The splitter keeps multi-word dictionary entries, e.g. "next friday",
+        # as a single token, so count each of their words.
+        split_words = set()
+        for word in words:
+            parts = word.split()
+            if word not in dictionary and all(part in dictionary for part in parts):
+                split_words.update(parts)
+            else:
+                split_words.add(word)
+        for word in split_words:
             if word in dictionary:
                 if dictionary[word]:
                     dict_cnt += 1

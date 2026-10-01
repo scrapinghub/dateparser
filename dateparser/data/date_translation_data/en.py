@@ -202,6 +202,93 @@ info = {
         ],
         "in 2 day": [
             "day after tomorrow"
+        ],
+        "last monday": [
+            "last monday",
+            "last mon"
+        ],
+        "last tuesday": [
+            "last tuesday",
+            "last tue",
+            "last tues"
+        ],
+        "last wednesday": [
+            "last wednesday",
+            "last wed"
+        ],
+        "last thursday": [
+            "last thursday",
+            "last thu"
+        ],
+        "last friday": [
+            "last friday",
+            "last fri"
+        ],
+        "last saturday": [
+            "last saturday",
+            "last sat"
+        ],
+        "last sunday": [
+            "last sunday",
+            "last sun"
+        ],
+        "this monday": [
+            "this monday",
+            "this mon"
+        ],
+        "this tuesday": [
+            "this tuesday",
+            "this tue",
+            "this tues"
+        ],
+        "this wednesday": [
+            "this wednesday",
+            "this wed"
+        ],
+        "this thursday": [
+            "this thursday",
+            "this thu"
+        ],
+        "this friday": [
+            "this friday",
+            "this fri"
+        ],
+        "this saturday": [
+            "this saturday",
+            "this sat"
+        ],
+        "this sunday": [
+            "this sunday",
+            "this sun"
+        ],
+        "next monday": [
+            "next monday",
+            "next mon"
+        ],
+        "next tuesday": [
+            "next tuesday",
+            "next tue",
+            "next tues"
+        ],
+        "next wednesday": [
+            "next wednesday",
+            "next wed"
+        ],
+        "next thursday": [
+            "next thursday",
+            "next thu"
+        ],
+        "next friday": [
+            "next friday",
+            "next fri"
+        ],
+        "next saturday": [
+            "next saturday",
+            "next sat"
+        ],
+        "next sunday": [
+            "next sunday",
+            "next sun"
         ]
     },
     "relative-type-regex": {
