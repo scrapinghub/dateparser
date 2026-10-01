@@ -1,6 +1,6 @@
 from collections.abc import Callable, Iterable, Sequence
 from collections.abc import Set as AbstractSet
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Any, TypedDict
 
 import regex as re
@@ -25,6 +25,12 @@ TRANSLATED_RELATIVE_REG = re.compile(
 )
 
 
+_RANGE_CONNECTORS = frozenset(
+    ["-", "–", "—", "——", "～", "~", "to", "until", "till", "through", "thru"]
+)
+_PERIODS = ["second", "minute", "hour", "time", "day", "week", "month", "year"]
+
+
 class _SearchResult(TypedDict):
     Language: str | None
     Dates: list[tuple[str, datetime]] | None
@@ -47,6 +53,171 @@ def _add_time_span_results(
             results.append((matched_text + " (start)", start_date))
             results.append((matched_text + " (end)", end_date))
     return results
+
+
+_DATE_PARTS = frozenset(["year", "month", "day"])
+
+
+def _naive(date_obj: datetime) -> datetime:
+    return date_obj.replace(tzinfo=None)
+
+
+class _RangeCompleter:
+    """Complete each end of a range with what the other end adds.
+
+    In “12th - 13th April 2019” the start of the range is written without the
+    month and year of its end, and in “May 2 - 5, 2027” the end is written
+    without the month of its start, so on their own “12th” and “5, 2027” are
+    misread. The end is parsed again preceded by the leading words of the
+    start, and then the start followed by the trailing words of the end, from
+    the most words to the fewest, and the first reading that fits each end of
+    the range replaces it.
+    """
+
+    def __init__(self, languages: list[str], settings: Settings) -> None:
+        base = settings.RELATIVE_BASE or datetime.now()
+        self.parser, self.next_day_parser = (
+            DateDataParser(
+                languages=languages,
+                use_given_order=True,
+                settings=settings.replace(RELATIVE_BASE=relative_base),
+            )
+            for relative_base in (base, base + timedelta(days=1))
+        )
+
+    def is_undated(self, substring: str, date_obj: datetime) -> bool:
+        # A date that moves with the relative base is not written in the text,
+        # e.g. that of “2:30” in “2:30 - 3:30 PM”.
+        next_day = self.next_day_parser.get_date_data(substring).date_obj
+        return next_day == date_obj + timedelta(days=1)
+
+    def complete(self, start: str, end: str) -> tuple[datetime | None, datetime | None]:
+        """Return the completed start and end dates, or ``None`` for each one
+        that does not change."""
+        start_data = self.parser.get_date_data(start)
+        end_data = self.parser.get_date_data(end)
+        if start_data.date_obj is None or end_data.date_obj is None:
+            return None, None
+        start_undated = self.is_undated(start, start_data.date_obj)
+        end_undated = self.is_undated(end, end_data.date_obj)
+        completed_end = None
+        if not (start_undated and end_undated):
+            completed_end = self.complete_end(start, start_data, end, end_data)
+        completed_start = self.complete_start(
+            start, start_data, start_undated, end, completed_end or end_data.date_obj
+        )
+        return completed_start, completed_end
+
+    def complete_end(
+        self, start: str, start_data: DateData, end: str, end_data: DateData
+    ) -> datetime | None:
+        start_date, end_date = start_data.date_obj, end_data.date_obj
+        assert start_date is not None
+        assert end_date is not None
+        missing = _DATE_PARTS & (set(start_data.parts) - set(end_data.parts))
+        # Only an end with no date of its own may take the whole start, e.g.
+        # “10:14 PM” in “29 September 2026 - 10:14 PM”.
+        if missing:
+            longest = len(start.split()) - 1
+        elif self.is_undated(end, end_date):
+            longest = len(start.split())
+        else:
+            return None
+        start_words = start.split()
+        for k in range(longest, 0, -1):
+            prefix = " ".join(start_words[:k])
+            # What the words taken from the start say must match the start,
+            # e.g. “May” in “May 2 - 5, 2027”, where on its own the end reads
+            # its day as a month.
+            prefix_date = self.parser.get_date_data(prefix)
+            if prefix_date.date_obj is None:
+                continue
+            prefix_parts = _DATE_PARTS & set(prefix_date.parts)
+            data = self.parser.get_date_data(f"{prefix} {end}")
+            date_obj = data.date_obj
+            if (
+                prefix_parts
+                and date_obj is not None
+                and date_obj != end_date
+                and _naive(date_obj) > _naive(start_date)
+                and set(end_data.parts) <= set(data.parts)
+                and all(
+                    getattr(prefix_date.date_obj, part)
+                    == getattr(date_obj, part)
+                    == getattr(start_date, part)
+                    for part in prefix_parts
+                )
+                and (
+                    missing <= set(data.parts)
+                    if missing
+                    else date_obj.date() != end_date.date()
+                )
+            ):
+                return date_obj
+        return None
+
+    def complete_start(
+        self,
+        start: str,
+        start_data: DateData,
+        start_undated: bool,
+        end: str,
+        end_date: datetime,
+    ) -> datetime | None:
+        start_date = start_data.date_obj
+        assert start_date is not None
+        end_words = end.split()
+        for k in range(1, len(end_words)):
+            data = self.parser.get_date_data(f"{start} {' '.join(end_words[k:])}")
+            date_obj = data.date_obj
+            if (
+                date_obj is not None
+                and date_obj != start_date
+                and _naive(date_obj) < _naive(end_date)
+                and (start_undated or date_obj.date() != start_date.date())
+                and _PERIODS.index(data.period or "day")
+                <= _PERIODS.index(start_data.period or "day")
+            ):
+                return date_obj
+        return None
+
+
+def _complete_ranges(
+    results: list[tuple[str, datetime]],
+    text: str,
+    languages: list[str],
+    settings: Settings,
+) -> list[tuple[str, datetime]]:
+    """Complete each end of the ranges in *results*, i.e. each pair of
+    dates joined by a range connector, with what the other end adds."""
+    positions = []
+    position = 0
+    for substring, _ in results:
+        offset = text.find(substring, position)
+        if offset == -1:
+            return results
+        position = offset + len(substring)
+        positions.append((offset, position))
+    ranges = [
+        i
+        for i in range(len(results) - 1)
+        if text[positions[i][1] : positions[i + 1][0]].strip().lower()
+        in _RANGE_CONNECTORS
+    ]
+    if not ranges:
+        return results
+    completer = _RangeCompleter(languages, settings)
+    completed = list(results)
+    for i in ranges:
+        start, end = results[i][0], results[i + 1][0]
+        start_date, end_date = completer.complete(start, end)
+        if end_date is not None:
+            completed[i + 1] = (end, end_date)
+        # A start that is also the end of the previous range keeps what that
+        # range gave it.
+        if start_date is not None and completed[i] == results[i]:
+            completed[i] = (start, start_date)
+    return completed
 
 
 class _ExactLanguageSearch:
@@ -364,6 +535,7 @@ class _ExactLanguageSearch:
         )
 
         results = list(zip(substrings, [i[0]["date_obj"] for i in parsed], strict=True))
+        results = _complete_ranges(results, text, [shortname], settings)
 
         _add_time_span_results(results, text, settings)
 
@@ -513,6 +685,7 @@ class DateSearchWithDetection:
             dates = self.ngram_search.search_parse(
                 candidate_languages, text, settings=settings
             )
+            dates = _complete_ranges(dates, text, candidate_languages, settings)
             _add_time_span_results(dates, text, settings)
             return {"Language": language_shortname, "Dates": dates}
 
