@@ -287,6 +287,15 @@ See the `API reference
 <https://dateparser.readthedocs.io/en/latest/dateparser.html#dateparser.search.search_dates>`__
 for other parameters, such as ``strategy``.
 
+``search_first_date`` stops at the first date, which is faster when you only
+need that one:
+
+.. code:: python
+
+    >>> from dateparser.search import search_first_date
+    >>> search_first_date('Launched on 4 October 1957, it fell on 4 January 1958.')
+    ('on 4 October 1957', datetime.datetime(1957, 10, 4, 0, 0))
+
 Time Span Detection
 -------------------
 
