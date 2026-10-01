@@ -1,4 +1,5 @@
 import logging
+import warnings
 from typing import Any, ClassVar
 
 import regex as re
@@ -6,7 +7,7 @@ import regex as re
 from dateparser.utils import get_logger
 
 
-class LanguageValidator:
+class _LanguageValidator:
     logger: logging.Logger | None = None
 
     VALID_KEYS: ClassVar[list[str]] = [
@@ -121,32 +122,6 @@ class LanguageValidator:
         return result
 
     @classmethod
-    def _validate_sentence_splitter_group(cls, language_id: str, info: Any) -> bool:
-        if "sentence_splitter_group" not in info:
-            return True  # Optional key
-
-        result = True
-
-        group = info["sentence_splitter_group"]
-        if isinstance(group, int) or not group:
-            if group < 1 or group > 6:
-                cls.get_logger().error(
-                    "Invalid 'sentence_splitter_group' number %(number)r for '%(id)s' language: "
-                    "expected number from 1 to 6",
-                    {"number": group, "id": language_id},
-                )
-                result = False
-        else:
-            cls.get_logger().error(
-                "Invalid 'sentence_splitter_group' for '%(id)s' language: "
-                "expected int type but have got %(type)s",
-                {"id": language_id, "type": type(group).__name__},
-            )
-            result = False
-
-        return result
-
-    @classmethod
     def _validate_skip_list(cls, language_id: str, info: Any) -> bool:
         if "skip" not in info:
             return True  # Optional key
@@ -180,7 +155,7 @@ class LanguageValidator:
 
         result = True
 
-        pertain_tokens_list = info["skip"]
+        pertain_tokens_list = info["pertain"]
         if isinstance(pertain_tokens_list, list):
             for token in pertain_tokens_list:
                 if not isinstance(token, str) or not token:
@@ -473,3 +448,15 @@ class LanguageValidator:
             result = False
 
         return result
+
+
+def __getattr__(name: str) -> Any:
+    if name == "LanguageValidator":
+        warnings.warn(
+            "dateparser.languages.validation.LanguageValidator is deprecated "
+            "and will be removed in a future version.",
+            FutureWarning,
+            stacklevel=2,
+        )
+        return _LanguageValidator
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
