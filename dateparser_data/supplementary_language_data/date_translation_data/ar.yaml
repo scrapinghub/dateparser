@@ -6,12 +6,22 @@ sentence_splitter_group: 6
 
 skip: ["الساعة", "في", "مساءً", "هـ"]
 
+june:
+    - يونيه
+    - يونية
+july:
+    - يوليه
+    - يولية
+
 monday:
     - الإثنين
+friday:
+    - الجمعه
 
 year:
     - عام
     - سنة
+    - السنه
 month:
     - شهر
 week:
@@ -26,6 +36,7 @@ minute:
     - دقائق
 second:
     - ثانية
+    - ثانيه
 
 ago:
     - منذ

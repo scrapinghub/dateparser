@@ -1,4 +1,5 @@
 import re
+import warnings
 from datetime import datetime, timedelta, timezone, tzinfo
 from functools import cache
 from typing import TYPE_CHECKING, Literal, overload
@@ -116,6 +117,12 @@ def is_timezone_token(token: str) -> bool:
 def convert_to_local_tz(
     datetime_obj: datetime, datetime_tz_offset: timedelta
 ) -> datetime:
+    warnings.warn(
+        "dateparser.timezone_parser.convert_to_local_tz is deprecated and "
+        "will be removed in a future version.",
+        FutureWarning,
+        stacklevel=2,
+    )
     return datetime_obj - datetime_tz_offset + local_tz_offset
 
 

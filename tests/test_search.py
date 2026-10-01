@@ -12,7 +12,7 @@ from dateparser.timezone_parser import StaticTzInfo
 from dateparser_data.settings import default_parsers
 from tests import BaseTestCase
 
-today = datetime.datetime.now(tz=pytz.timezone("UTC"))
+today = datetime.datetime.now()
 relative_base = datetime.datetime(2020, 2, 13, 20, 7, 6)
 
 
@@ -579,6 +579,57 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(
+                "en",
+                "between Friday and Monday",
+                [
+                    ("Friday", datetime.datetime(1999, 12, 31, 0, 0)),
+                    ("Monday", datetime.datetime(1999, 12, 27, 0, 0)),
+                ],
+            ),
+            param(
+                "en",
+                "Sept 1st and Oct 10th",
+                [
+                    ("Sept 1st", datetime.datetime(2000, 9, 1, 0, 0)),
+                    ("Oct 10th", datetime.datetime(2000, 10, 10, 0, 0)),
+                ],
+            ),
+            param(
+                "es",
+                "1 de junio de 1998 y 5 de julio de 1999",
+                [
+                    ("1 de junio de 1998", datetime.datetime(1998, 6, 1, 0, 0)),
+                    ("5 de julio de 1999", datetime.datetime(1999, 7, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "de",
+                "Freitag und Montag",
+                [
+                    ("Freitag", datetime.datetime(1999, 12, 31, 0, 0)),
+                    ("Montag", datetime.datetime(1999, 12, 27, 0, 0)),
+                ],
+            ),
+        ]
+    )
+    @apply_settings
+    def test_search_dates_joined_by_skipped_words(
+        self,
+        shortname: str,
+        string: str,
+        expected: list[tuple[str, datetime.datetime]],
+        settings: Settings | dict[str, Any] | None = None,
+    ) -> None:
+        assert isinstance(settings, Settings)
+        settings = settings.replace(RELATIVE_BASE=datetime.datetime(2000, 1, 1))
+        result = self.exact_language_search.search_parse(
+            shortname, string, settings=settings
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
             # English
             param(
                 "en",
@@ -612,7 +663,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2020,
                             5,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -622,7 +673,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2020,
                             7,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -632,7 +683,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2023,
                             7,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -642,7 +693,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2023,
                             1,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                             tzinfo=pytz.utc,
@@ -1041,6 +1092,24 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("DECEMBER 21 19", datetime.datetime(2019, 12, 21, 0, 0))],
             ),
+            # Full stops between digits
+            param(
+                text="Sampled on 2019-10-19 20:28:35.973000 by the sensor",
+                languages=None,
+                settings=None,
+                expected=[
+                    (
+                        "2019-10-19 20:28:35.973000",
+                        datetime.datetime(2019, 10, 19, 20, 28, 35, 973000),
+                    )
+                ],
+            ),
+            param(
+                text="test 13.07.2016 test",
+                languages=None,
+                settings=None,
+                expected=[("13.07.2016", datetime.datetime(2016, 7, 13, 0, 0))],
+            ),
             param(
                 text="bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41",
                 languages=None,
@@ -1052,6 +1121,23 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["en", "fr", "es", "pt", "de", "it", "ar"],
                 settings={"STRICT_PARSING": True},
                 expected=[("23 juillet 2020", datetime.datetime(2020, 7, 23, 0, 0))],
+            ),
+            param(
+                text="Bubble -58.5 06 Mar 2009 in need of -43.4 30 Oct 1974",
+                languages=["en"],
+                settings={"STRICT_PARSING": True},
+                expected=[
+                    ("06 Mar 2009 in", datetime.datetime(2009, 3, 6, 0, 0)),
+                    ("30 Oct 1974", datetime.datetime(1974, 10, 30, 0, 0)),
+                ],
+            ),
+            param(
+                text="The conference is June 12-14, 2021 in Boston.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("June 12-14, 2021 in", datetime.datetime(2021, 6, 12, 0, 0))
+                ],
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
             # Date with comma and apostrophe

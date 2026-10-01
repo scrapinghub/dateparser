@@ -12,10 +12,10 @@ class DateParser:
     def parse(
         self,
         date_string: str,
-        parse_method: Callable[..., tuple[datetime, str | None]],
+        parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
         settings: Settings | dict[str, Any] | None = None,
         date_order: str | None = None,
-    ) -> tuple[datetime, str | None]:
+    ) -> tuple[datetime, str | None, tuple[str, ...]]:
         assert isinstance(settings, Settings)
         date_string = str(date_string)
 
@@ -25,7 +25,7 @@ class DateParser:
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
 
-        date_obj, period = parse_method(
+        date_obj, period, parts = parse_method(
             date_string, settings=settings, tz=ptz, date_order=date_order
         )
 
@@ -53,7 +53,7 @@ class DateParser:
         ):
             date_obj = date_obj.replace(tzinfo=None)
 
-        return date_obj, period
+        return date_obj, period, parts
 
 
 date_parser = DateParser()

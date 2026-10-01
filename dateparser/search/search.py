@@ -181,6 +181,58 @@ class _ExactLanguageSearch:
             )
         return possible_splits
 
+    def split_around_skipped_words(
+        self, item: str, original: str, language: Locale, settings: Settings
+    ) -> list[list[list[str]]]:
+        """Split a chunk by spaces, ignoring the words its translation skips.
+
+        Words like "and" or "of" are left out of the translation but not of
+        the original text, so splitting both by spaces does not line them up.
+        Each part of the original text spans from its first word that is not
+        skipped to its last one.
+        """
+        words = original.split()
+        kept = []
+        for index, word in enumerate(words):
+            translation = language.translate(word, settings=settings).split()
+            if len(translation) > 1:
+                return []
+            if translation:
+                kept.append(index)
+        item_words = item.split()
+        if len(kept) == len(words) or len(kept) != len(item_words):
+            return []
+        sizes = [1] if len(kept) <= 3 else [1, 2, 3]
+        possible_splits = []
+        for size in sizes:
+            starts = range(0, len(kept), size)
+            possible_splits.append(
+                [
+                    [" ".join(item_words[i : i + size]) for i in starts],
+                    [
+                        " ".join(words[kept[i] : kept[i : i + size][-1] + 1])
+                        for i in starts
+                    ],
+                ]
+            )
+        return possible_splits
+
+    def split_off_leading_number(
+        self, parser: DateDataParser, item: str, original: str
+    ) -> list[list[list[str]]]:
+        """Split a chunk that starts with a number into that number and the
+        rest, to find a date written after a number that is not part of it,
+        e.g. the decimals of “-58.5” before “06 Mar 2009”."""
+        number, _, rest = item.partition(" ")
+        original_number, _, original_rest = original.partition(" ")
+        if (
+            not number.isdigit()
+            or number != original_number
+            or parser.get_date_data(rest)["date_obj"] is None
+        ):
+            return []
+        return [[[number, rest], [original_number, original_rest]]]
+
     def split_if_not_parsed(
         self,
         parser: DateDataParser,
@@ -190,7 +242,7 @@ class _ExactLanguageSearch:
         settings: Settings,
     ) -> list[list[list[str]]]:
         splitters = [",", "،", "——", "—", "–", ".", " "]
-        possible_splits: list[list[list[str]]] = []
+        possible_splits = self.split_off_leading_number(parser, item, original)
         for splitter in splitters:
             if splitter in item and item.count(splitter) == original.count(splitter):
                 possible_splits.extend(self.split_by(item, original, splitter))
@@ -199,7 +251,7 @@ class _ExactLanguageSearch:
             # splits keeps being split exactly the way it is split today.
             possible_splits = self.split_by_relative_expression(
                 parser, item, original, language, settings
-            )
+            ) or self.split_around_skipped_words(item, original, language, settings)
         return possible_splits
 
     def parse_item(
