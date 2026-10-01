@@ -1153,6 +1153,26 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
             ),
+            # Language detection returns nothing (or a wrong guess) for short
+            # relative expressions; they must still be searched (issue #930)
+            param(
+                text="last decade",
+                languages=None,
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 2, 13)},
+                expected=[("last decade", datetime.datetime(2010, 2, 13))],
+            ),
+            param(
+                text="next year",
+                languages=None,
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 2, 13)},
+                expected=[("next year", datetime.datetime(2021, 2, 13))],
+            ),
+            param(
+                text="a week ago",
+                languages=None,
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 2, 13)},
+                expected=[("a week ago", datetime.datetime(2020, 2, 6))],
+            ),
         ]
     )
     def test_date_search_function(
