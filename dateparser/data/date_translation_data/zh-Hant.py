@@ -137,6 +137,18 @@ info = {
         ],
         "in 1 year": [
             "明年"
+        ],
+        "3 day ago": [
+            "大前天"
+        ],
+        "2 day ago": [
+            "前天"
+        ],
+        "in 2 day": [
+            "後天"
+        ],
+        "in 3 day": [
+            "大後天"
         ]
     },
     "relative-type-regex": {
