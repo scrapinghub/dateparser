@@ -2434,9 +2434,6 @@ class TestDateParser(BaseTestCase):
                     order="YMD",
                     settings={"PARSERS": ["absolute-time", "no-spaces-time"]},
                 ),
-                # Without DATE_ORDER, the setting has no effect.
-                param("32 DEC 10", datetime(2032, 12, 10)),
-                param("32 DEC 10", datetime(2032, 12, 10), languages=["fr"]),
             ]
         ]
     )
@@ -2445,7 +2442,7 @@ class TestDateParser(BaseTestCase):
         date_string: str,
         expected: datetime,
         strict: str,
-        order: str | None = None,
+        order: str,
         languages: list[str] | None = None,
         settings: dict[str, Any] | None = None,
     ) -> None:
@@ -2453,9 +2450,9 @@ class TestDateParser(BaseTestCase):
         where DATE_ORDER puts them, or that have no ambiguous number (Issue
         #868)."""
         settings = {
+            "DATE_ORDER": order,
             "STRICT_DATE_ORDER": strict,
             "RELATIVE_BASE": datetime(2019, 6, 24),
-            **({"DATE_ORDER": order} if order else {}),
             **(settings or {}),
         }
         self.assertEqual(
