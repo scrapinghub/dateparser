@@ -10,9 +10,9 @@ from parameterized import param, parameterized
 from dateparser import parse
 from dateparser.conf import Settings, apply_settings, settings
 from dateparser.date import DateDataParser
-from dateparser.languages import Locale, default_loader
+from dateparser.languages import Locale, default_loader, validation
 from dateparser.languages.dictionary import Dictionary
-from dateparser.languages.validation import LanguageValidator
+from dateparser.languages.validation import _LanguageValidator
 from dateparser.search import search_dates
 from dateparser.search.detection import (
     AutoDetectLanguage,
@@ -2774,7 +2774,7 @@ class TestAutoDetectLanguageDetectorWithRedetection(
 class TestLanguageValidatorWhenInvalid(BaseTestCase):
     def setUp(self) -> None:
         super().setUp()
-        self.validator = LanguageValidator
+        self.validator = _LanguageValidator
         self.captured_logs = StringIO()
         self.sh = logging.StreamHandler(self.captured_logs)
         self.validator.get_logger().addHandler(self.sh)
@@ -2868,12 +2868,12 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         [
             param(
                 "en",
-                {"pertain": "it is a string", "skip": [""]},
+                {"pertain": [""]},
                 log_msg="Invalid 'pertain' token '' for 'en' language: expected not empty string",
             ),
             param(
                 "en",
-                {"pertain": [""], "skip": "it is a string"},
+                {"pertain": "it is a string"},
                 log_msg="Invalid 'pertain' list for 'en' language: expected list type but have got str",
             ),
         ]
@@ -3134,29 +3134,6 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         [
             param(
                 "en",
-                {"sentence_splitter_group": "string instead of int"},
-                log_msg="Invalid 'sentence_splitter_group' for 'en' language: "
-                "expected int type but have got str",
-            ),
-            param(
-                "en",
-                {"sentence_splitter_group": 48},
-                log_msg="Invalid 'sentence_splitter_group' number 48 for 'en' language: "
-                "expected number from 1 to 6",
-            ),
-        ]
-    )
-    def test_validate_sentence_splitter_group_when_invalid(
-        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
-    ) -> None:
-        result = self.validator._validate_sentence_splitter_group(lang_id, lang_info)
-        self.assertEqual(log_msg, self.get_log_str())
-        self.assertFalse(result)
-
-    @parameterized.expand(
-        [
-            param(
-                "en",
                 {"invalid_key": ""},
                 log_msg="Extra keys found for 'en' language: 'invalid_key'",
             ),
@@ -3256,6 +3233,67 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
     ) -> None:
         result = parse(date_string, languages=languages, settings=settings)
         assert result == expected
+
+
+_REQUIRED_LANGUAGE_INFO = {
+    "name": "en",
+    **{
+        key: ["x"]
+        for key in (
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+            "january",
+            "february",
+            "march",
+            "april",
+            "may",
+            "june",
+            "july",
+            "august",
+            "september",
+            "october",
+            "november",
+            "december",
+            "year",
+            "month",
+            "week",
+            "day",
+            "hour",
+            "minute",
+            "second",
+            "ago",
+        )
+    },
+}
+
+
+@pytest.mark.parametrize(
+    "info",
+    [
+        _REQUIRED_LANGUAGE_INFO,
+        {
+            **_REQUIRED_LANGUAGE_INFO,
+            "no_word_spacing": False,
+            "skip": ["at"],
+            "pertain": ["of"],
+            "simplifications": [{r"(\d+)h": r"\1 hour"}],
+        },
+    ],
+)
+def test_language_validator_valid_info(info: dict[str, Any]) -> None:
+    assert _LanguageValidator.validate_info("en", info)
+
+
+def test_language_validator_deprecation() -> None:
+    with pytest.warns(FutureWarning, match="LanguageValidator is deprecated"):
+        assert validation.LanguageValidator is validation._LanguageValidator
+    with pytest.raises(AttributeError):
+        validation.Foo
 
 
 class TestNoWordSpacingSecurity:
