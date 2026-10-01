@@ -191,10 +191,7 @@ def apply_timezone_from_settings(
         return date_obj
 
     if "local" in settings.TIMEZONE.lower():
-        if hasattr(tz, "localize"):
-            date_obj = tz.localize(date_obj)
-        else:
-            date_obj = date_obj.replace(tzinfo=tz)
+        date_obj = date_obj.replace(tzinfo=tz)
     else:
         date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 

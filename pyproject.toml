@@ -32,7 +32,7 @@ dependencies = [
     "python-dateutil>=2.7.0",
     "pytz>=2024.2",
     "regex>=2024.9.11",
-    "tzlocal>=0.2",
+    "tzlocal>=3.0",
 ]
 
 [project.optional-dependencies]
