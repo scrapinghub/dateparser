@@ -50,9 +50,15 @@ class FreshnessDateDataParser:
     def get_local_tz(self) -> tzinfo:
         return _get_localzone()
 
-    def parse(  # noqa: PLR0912, PLR0915
+    def parse(
         self, date_string: str, settings: "Settings"
     ) -> tuple[datetime | None, str | None, tuple[str, ...]]:
+        date, period, parts, _ = self._parse(date_string, settings)
+        return date, period, parts
+
+    def _parse(  # noqa: PLR0912, PLR0915
+        self, date_string: str, settings: "Settings"
+    ) -> tuple[datetime | None, str | None, tuple[str, ...], relativedelta | None]:
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
         day = None
@@ -100,17 +106,17 @@ class FreshnessDateDataParser:
         else:
             now = datetime.now(self.get_local_tz())
 
-        date, period, parts = self._parse_date(
+        date, period, parts, delta = self._parse_date(
             date_string, now, settings.PREFER_DATES_FROM
         )
 
         if date and day is not None:
             if period != "month":
-                return None, None, ()
+                return None, None, (), None
             try:
                 date = date.replace(day=day)
             except ValueError:
-                return None, None, ()
+                return None, None, (), None
             period = "day"
             parts += ("day",)
 
@@ -136,13 +142,16 @@ class FreshnessDateDataParser:
             ):
                 date = date.replace(tzinfo=None)
 
-        return date, period, parts
+        return date, period, parts, delta
 
     def _parse_date(  # noqa: PLR0912
         self, date_string: str, now: datetime, prefer_dates_from: str
-    ) -> tuple[datetime, str, tuple[str, ...]] | tuple[None, None, tuple[()]]:
+    ) -> (
+        tuple[datetime, str, tuple[str, ...], relativedelta]
+        | tuple[None, None, tuple[()], None]
+    ):
         if not self._are_all_words_units(date_string):
-            return None, None, ()
+            return None, None, (), None
 
         result = self.get_kwargs(date_string)
         if isinstance(result, tuple):
@@ -152,7 +161,7 @@ class FreshnessDateDataParser:
             explicit_signs = {}
 
         if not kwargs:
-            return None, None, ()
+            return None, None, (), None
         period = "day"
         if "days" not in kwargs:
             for k in ["weeks", "months", "years", "decades"]:
@@ -197,7 +206,7 @@ class FreshnessDateDataParser:
         else:
             parts = ("year",)
 
-        return date, period, parts
+        return date, period, parts, td
 
     def get_kwargs(
         self, date_string: str
@@ -219,8 +228,11 @@ class FreshnessDateDataParser:
     def get_date_data(self, date_string: str, settings: "Settings") -> "DateData":
         from dateparser.date import DateData  # noqa: PLC0415
 
-        date, period, parts = self.parse(date_string, settings)
-        return DateData(date_obj=date, period=period, parts=parts)
+        date, period, parts, delta = self._parse(date_string, settings)
+        date_data = DateData(date_obj=date, period=period, parts=parts)
+        if delta is not None:
+            date_data.relative_delta = delta
+        return date_data
 
 
 freshness_date_parser = FreshnessDateDataParser()

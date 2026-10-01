@@ -644,6 +644,17 @@ class DateData:
     It can be accessed with square brackets like a dict object.
     """
 
+    relative_delta: relativedelta | None = None
+    """:class:`~dateutil.relativedelta.relativedelta` that the parsed date
+    string adds to the current date, e.g. ``relativedelta(hours=-2)`` for
+    ``"2 hours ago"``, or ``None`` if the date string is not relative.
+
+    .. versionadded:: VERSION
+
+    A time of day in the date string, e.g. ``"2 days ago at 5pm"``, sets the
+    time of :attr:`date_obj` and is not part of the delta.
+    """
+
     part_of_day: PartOfDay | None = None
     """:class:`~dateparser.PartOfDay` that the date string refers to, e.g.
     :attr:`~dateparser.PartOfDay.NIGHT` for ``"tonight"``, or ``None``.
