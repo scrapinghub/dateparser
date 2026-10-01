@@ -74,11 +74,9 @@
         "söndag"
     ],
     "am": [
-        "fm",
-        "förmiddag"
+        "fm"
     ],
     "pm": [
-        "eftermiddag",
         "em"
     ],
     "year": [
@@ -94,6 +92,7 @@
         "vecka"
     ],
     "day": [
+        "d",
         "dag"
     ],
     "hour": [
@@ -150,7 +149,7 @@
             "förra veckan"
         ],
         "1 year ago": [
-            "i fjol"
+            "förra året"
         ],
         "in 1 day": [
             "i morgon",
@@ -246,10 +245,12 @@
     },
     "locale_specific": {
         "sv-AX": {
-            "name": "sv-AX"
+            "name": "sv-AX",
+            "date_order": "DMY"
         },
         "sv-FI": {
-            "name": "sv-FI"
+            "name": "sv-FI",
+            "date_order": "DMY"
         }
     }
 }

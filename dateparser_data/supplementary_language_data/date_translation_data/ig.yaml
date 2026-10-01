@@ -5,6 +5,7 @@ april:
     - eprel
 second:
     - nkejinta
+    - tịm kọm
 relative-type:
     0 hour ago:
         - this hour
@@ -28,7 +29,17 @@ relative-type:
         - last year
     in 1 month:
         - next month
+        - ọnwa ọzọ
     in 1 week:
         - next week
     in 1 year:
         - next year
+        - afọ ọzọ
+june:
+    - juun
+am:
+    - am
+pm:
+    - pm
+hour:
+    - hr

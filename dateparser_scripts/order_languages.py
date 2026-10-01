@@ -15,11 +15,11 @@ os.chdir(Path(__file__).resolve().parent)
 # Languages with insufficient translation data are excluded
 avoid_languages = {"cu", "kkj", "nds", "prg", "tk", "vai", "vai-Latn", "vai-Vaii", "vo"}
 
-# Locales that CLDR 44 introduced but which dateparser does not enable yet: enabling
-# them expands language auto-detection (and, for many, requires supplementary data),
-# so they are handled separately from this data refresh to keep the supported set
-# stable. This keeps the generated data limited to the locales already shipped.
-cldr_44_new_languages = {
+# Locales that CLDR introduced after 31 but which dateparser does not enable yet:
+# enabling them expands language auto-detection (and, for many, requires
+# supplementary data), so they are left out of CLDR data refreshes to keep the
+# generated data limited to the locales already shipped.
+new_cldr_languages = {
     "aa",
     "ab",
     "an",
@@ -39,7 +39,9 @@ cldr_44_new_languages = {
     "blo",
     "blt",
     "bm-Nkoo",
+    "bqi",
     "bss",
+    "bua",
     "byn",
     "ca-ES-valencia",
     "cad",
@@ -49,6 +51,7 @@ cldr_44_new_languages = {
     "cho",
     "cic",
     "co",
+    "cop",
     "csw",
     "cv",
     "doi",
@@ -66,6 +69,7 @@ cldr_44_new_languages = {
     "hi-Latn",
     "hnj",
     "hnj-Hmnp",
+    "ht",
     "ia",
     "ie",
     "io",
@@ -73,14 +77,24 @@ cldr_44_new_languages = {
     "iu-Latn",
     "jbo",
     "jv",
+    "kaa",
+    "kaa-Cyrl",
+    "kaa-Latn",
     "kaj",
     "kcg",
+    "kek",
     "ken",
     "kgp",
+    "kk-Arab",
+    "kk-Cyrl",
+    "kok-Deva",
+    "kok-Latn",
     "kpe",
     "ks-Arab",
     "ks-Deva",
     "ku",
+    "ku-Arab",
+    "ku-Latn",
     "kxv",
     "kxv-Deva",
     "kxv-Latn",
@@ -88,9 +102,13 @@ cldr_44_new_languages = {
     "kxv-Telu",
     "la",
     "lij",
+    "lld",
     "lmo",
+    "ltg",
+    "lzz",
     "mai",
     "mdf",
+    "mhn",
     "mi",
     "mic",
     "mn-Mong",
@@ -100,6 +118,8 @@ cldr_44_new_languages = {
     "moh",
     "ms-Arab",
     "mus",
+    "mww",
+    "mww-Hmnp",
     "myv",
     "no",
     "nqo",
@@ -108,10 +128,14 @@ cldr_44_new_languages = {
     "nv",
     "ny",
     "oc",
+    "oka",
     "osa",
     "pap",
     "pcm",
+    "pi",
+    "pi-Latn",
     "pis",
+    "pms",
     "quc",
     "raj",
     "rhg",
@@ -127,6 +151,7 @@ cldr_44_new_languages = {
     "sd-Arab",
     "sd-Deva",
     "sdh",
+    "sgs",
     "shn",
     "sid",
     "skr",
@@ -138,6 +163,9 @@ cldr_44_new_languages = {
     "st",
     "su",
     "su-Latn",
+    "suz",
+    "suz-Deva",
+    "suz-Sunu",
     "syr",
     "szl",
     "tg",
@@ -164,8 +192,9 @@ cldr_44_new_languages = {
     "yue-Hans",
     "yue-Hant",
     "za",
+    "zh-Latn",
 }
-avoid_languages |= cldr_44_new_languages
+avoid_languages |= new_cldr_languages
 
 
 def _get_language_locale_dict() -> dict[str, list[str]]:

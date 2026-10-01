@@ -50,30 +50,37 @@ info = {
         "duǧembeṛ"
     ],
     "monday": [
+        "arim",
         "san",
         "sanass"
     ],
     "tuesday": [
+        "aram",
         "kraḍ",
         "kraḍass"
     ],
     "wednesday": [
+        "ahad",
         "kuẓ",
         "kuẓass"
     ],
     "thursday": [
+        "amhad",
         "sam",
         "samass"
     ],
     "friday": [
+        "sem",
         "sḍis",
         "sḍisass"
     ],
     "saturday": [
+        "sed",
         "say",
         "sayass"
     ],
     "sunday": [
+        "acer",
         "yan",
         "yanass"
     ],

@@ -11,4 +11,8 @@ relative-type-regex:
         - (\d+[.,]?\d*)달 전
     in \1 month:
         - (\d+[.,]?\d*)달 후
+am:
+    - am
+pm:
+    - pm
 

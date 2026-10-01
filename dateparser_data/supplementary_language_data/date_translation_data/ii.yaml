@@ -1,0 +1,40 @@
+november:
+    - ꊰꊪꆪ
+sunday:
+    - ꑭꆏ
+    - ꑭꆏꑍ
+year:
+    - ꈎ
+month:
+    - ꆪ
+week:
+    - ꑭꆏ
+day:
+    - ꑍ
+hour:
+    - ꄮꈉ
+minute:
+    - ꃏ
+second:
+    - ꇙ
+relative-type:
+    0 month ago:
+        - this month
+    0 week ago:
+        - this week
+    0 year ago:
+        - this year
+    1 day ago:
+        - ꀋꅔꉈ
+    1 month ago:
+        - last month
+    1 week ago:
+        - last week
+    1 year ago:
+        - last year
+    in 1 month:
+        - next month
+    in 1 week:
+        - next week
+    in 1 year:
+        - next year

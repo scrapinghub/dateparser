@@ -156,46 +156,51 @@
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "kwanaki da suka gabata {0}",
-            "rana da ya gabata {0}"
+            "kwana {0} da ya gabata",
+            "kwanaki {0} da suka gabata"
         ],
         "\\1 hour ago": [
-            "{0} awa da ya gabata"
+            "awa {0} da ta gabata",
+            "awanni {0} da suka gabata"
         ],
         "\\1 minute ago": [
-            "{0} minti da ya gabata"
+            "minti {0} da ya gabata",
+            "mintuna {0} da suka gabata"
         ],
         "\\1 month ago": [
-            "watan da ya gabata {0}",
-            "watanni da suka gabata {0}}"
+            "wata {0} da ya gabata",
+            "watanni {0} da suka gabata"
         ],
         "\\1 second ago": [
-            "{0} dakika da ya gabata"
+            "dakika {0} da ta gabata",
+            "dakiku {0} da suka gabata"
         ],
         "\\1 week ago": [
-            "mako da suka gabata {0}",
-            "mako da ya gabata {0}",
-            "makonni da suka gabata {0}"
+            "mako {0} da ya gabata",
+            "makonni {0} da suka gabata"
         ],
         "\\1 year ago": [
-            "shekara da suka gabata {0}"
+            "shekara {0} da ta gabata",
+            "shekaru {0} da suka gabata"
         ],
         "in \\1 day": [
-            "a cikin kwanaki {0}",
-            "a cikin rana {0}"
+            "a cikin kwanaki {0}"
         ],
         "in \\1 hour": [
-            "cikin {0} awa"
+            "cikin awa {0}",
+            "cikin awanni {0}"
         ],
         "in \\1 minute": [
-            "cikin {0} minti"
+            "cikin minti {0}",
+            "cikin mintuna {0}"
         ],
         "in \\1 month": [
             "a cikin watan {0}",
             "a cikin watanni {0}"
         ],
         "in \\1 second": [
-            "cikin {0} dakika"
+            "cikin dakika {0}",
+            "cikin dakiku {0}"
         ],
         "in \\1 week": [
             "a cikin mako {0}",

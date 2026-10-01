@@ -12,10 +12,12 @@ day:
     - day
 hour:
     - hour
+    - hr
 minute:
     - minute
 second:
     - second
+    - ካልኢት
 am:
     - ንጉሆ ሰዓተ
 pm:
@@ -43,6 +45,7 @@ relative-type:
         - last week
     1 year ago:
         - last year
+        - ዓሚ
     in 1 day:
         - tomorrow
     in 1 month:
@@ -51,3 +54,6 @@ relative-type:
         - next week
     in 1 year:
         - next year
+        - ንዓመታ
+may:
+    - ግንቦት

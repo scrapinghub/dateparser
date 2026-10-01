@@ -1,3 +1,9 @@
 relative-type-regex:
     \1 year ago:
         - (\d+[.,]?\d*) વર્ષ પહેલા
+hour:
+    - ક
+minute:
+    - મિ
+second:
+    - સેકન્ડ

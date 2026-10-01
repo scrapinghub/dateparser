@@ -2,107 +2,64 @@
     "name": "yo",
     "date_order": "DMY",
     "january": [
-        "oṣù ṣẹ́rẹ́",
-        "ṣẹ́",
-        "ṣẹ́r",
-        "ṣẹ́rẹ́"
+        "oṣù ṣẹ́rẹ́"
     ],
     "february": [
-        "oṣù èrèlè",
-        "èr",
-        "èrèl",
-        "èrèlè"
+        "oṣù èrèlè"
     ],
     "march": [
-        "oṣù ẹrẹ̀nà",
-        "ẹr",
-        "ẹrẹ̀n",
-        "ẹrẹ̀nà"
+        "oṣù ẹrẹ̀nà"
     ],
     "april": [
-        "oṣù ìgbé",
-        "ìg",
-        "ìgb",
-        "ìgbé"
+        "oṣù ìgbé"
     ],
     "may": [
-        "oṣù ẹ̀bibi",
-        "ẹ̀b",
-        "ẹ̀bi",
-        "ẹ̀bibi"
+        "oṣù ẹ̀bibi"
     ],
     "june": [
-        "oṣù òkúdu",
-        "òk",
-        "òkú",
-        "òkúdu"
+        "oṣù òkúdu"
     ],
     "july": [
-        "ag",
-        "agẹ",
-        "agẹmọ",
         "oṣù agẹmọ"
     ],
     "august": [
-        "oṣù ògún",
-        "òg",
-        "ògú",
-        "ògún"
+        "oṣù ògún"
     ],
     "september": [
-        "ow",
-        "owe",
-        "owewe",
         "oṣù owewe"
     ],
     "october": [
-        "oṣù ọ̀wàrà",
-        "ọ̀w",
-        "ọ̀wà",
-        "ọ̀wàrà"
+        "oṣù ọ̀wàrà"
     ],
     "november": [
-        "bé",
-        "bél",
-        "bélú",
         "oṣù bélú"
     ],
     "december": [
-        "oṣù ọ̀pẹ̀",
-        "ọ̀p",
-        "ọ̀pẹ",
-        "ọ̀pẹ̀"
+        "oṣù ọ̀pẹ̀"
     ],
     "monday": [
-        "aj",
         "ajé",
         "ọjọ́ ajé"
     ],
     "tuesday": [
-        "ìsẹ́g",
         "ìsẹ́gun",
         "ọjọ́ ìsẹ́gun"
     ],
     "wednesday": [
-        "ọjọ́r",
         "ọjọ́rú"
     ],
     "thursday": [
-        "ọjọ́b",
         "ọjọ́bọ"
     ],
     "friday": [
-        "ẹt",
         "ẹtì",
         "ọjọ́ ẹtì"
     ],
     "saturday": [
-        "àbám",
         "àbámẹ́ta",
         "ọjọ́ àbámẹ́ta"
     ],
     "sunday": [
-        "àìk",
         "àìkú",
         "ọjọ́ àìkú"
     ],
@@ -140,23 +97,22 @@
             "òní"
         ],
         "0 hour ago": [
-            "this hour"
+            "wákàtí yìí"
         ],
         "0 minute ago": [
-            "this minute"
+            "ìṣẹ́jú yìí"
         ],
         "0 month ago": [
             "oṣù yìí"
         ],
         "0 second ago": [
-            "now"
+            "nísinsìyí"
         ],
         "0 week ago": [
             "ọ̀sẹ̀ yìí"
         ],
         "0 year ago": [
-            "ọdún yìí",
-            "ọdúnǹí"
+            "ọdún yìí"
         ],
         "1 day ago": [
             "àná"
@@ -168,7 +124,7 @@
             "ọ̀sẹ̀ tó kọjá"
         ],
         "1 year ago": [
-            "èṣín",
+            "èṣí",
             "ọdún tó kọjá"
         ],
         "in 1 day": [
@@ -185,39 +141,37 @@
             "ọdún tó ńbọ̀"
         ]
     },
+    "relative-type-regex": {
+        "\\1 year ago": [
+            "{0} ọdún sẹ́yìn",
+            "ọdún {0} sẹ́yìn"
+        ],
+        "in \\1 year": [
+            "ní {0} ọdún"
+        ]
+    },
     "locale_specific": {
         "yo-BJ": {
             "name": "yo-BJ",
             "january": [
-                "oshù shɛ́rɛ́",
-                "shɛ́",
-                "shɛ́r",
-                "shɛ́rɛ́"
+                "oshù shɛ́rɛ́"
             ],
             "february": [
                 "oshù èrèlè"
             ],
             "march": [
-                "oshù ɛrɛ̀nà",
-                "ɛr",
-                "ɛrɛ̀n",
-                "ɛrɛ̀nà"
+                "oshù ɛrɛ̀nà"
             ],
             "april": [
                 "oshù ìgbé"
             ],
             "may": [
-                "oshù ɛ̀bibi",
-                "ɛ̀b",
-                "ɛ̀bi",
-                "ɛ̀bibi"
+                "oshù ɛ̀bibi"
             ],
             "june": [
                 "oshù òkúdu"
             ],
             "july": [
-                "agɛ",
-                "agɛmɔ",
                 "oshù agɛmɔ"
             ],
             "august": [
@@ -227,39 +181,29 @@
                 "oshù owewe"
             ],
             "october": [
-                "oshù ɔ̀wàrà",
-                "ɔ̀w",
-                "ɔ̀wà",
-                "ɔ̀wàrà"
+                "oshù ɔ̀wàrà"
             ],
             "november": [
                 "oshù bélú"
             ],
             "december": [
-                "oshù ɔ̀pɛ̀",
-                "ɔ̀p",
-                "ɔ̀pɛ",
-                "ɔ̀pɛ̀"
+                "oshù ɔ̀pɛ̀"
             ],
             "monday": [
                 "ɔjɔ́ ajé"
             ],
             "tuesday": [
-                "ìsɛ́g",
                 "ìsɛ́gun",
                 "ɔjɔ́ ìsɛ́gun"
             ],
             "wednesday": [
-                "ɔjɔ́r",
                 "ɔjɔ́rú"
             ],
             "thursday": [
-                "ɔjɔ́b",
                 "ɔjɔ́bɔ"
             ],
             "friday": [
                 "ɔjɔ́ ɛtì",
-                "ɛt",
                 "ɛtì"
             ],
             "saturday": [
@@ -294,6 +238,9 @@
                 "ìsɛ́jú ààyá"
             ],
             "relative-type": {
+                "0 minute ago": [
+                    "ìshɛ́jú yìí"
+                ],
                 "0 month ago": [
                     "oshù yìí"
                 ],
@@ -301,8 +248,7 @@
                     "ɔ̀sɛ̀ yìí"
                 ],
                 "0 year ago": [
-                    "ɔdún yìí",
-                    "ɔdúnǹí"
+                    "ɔdún yìí"
                 ],
                 "1 month ago": [
                     "óshù tó kɔjá"
@@ -311,7 +257,7 @@
                     "ɔ̀sɛ̀ tó kɔjá"
                 ],
                 "1 year ago": [
-                    "èshín",
+                    "èshí",
                     "ɔdún tó kɔjá"
                 ],
                 "in 1 day": [
@@ -326,6 +272,15 @@
                 "in 1 year": [
                     "àmɔ́dún",
                     "ɔdún tó ńbɔ̀"
+                ]
+            },
+            "relative-type-regex": {
+                "\\1 year ago": [
+                    "{0} ɔdún sɛ́yìn",
+                    "ɔdún {0} sɛ́yìn"
+                ],
+                "in \\1 year": [
+                    "ní {0} ɔdún"
                 ]
             }
         }

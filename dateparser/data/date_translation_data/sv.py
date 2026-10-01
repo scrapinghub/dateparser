@@ -88,8 +88,8 @@ info = {
         "förmiddag"
     ],
     "pm": [
-        "eftermiddag",
-        "em"
+        "em",
+        "eftermiddag"
     ],
     "year": [
         "år",
@@ -108,6 +108,7 @@ info = {
         "veckor"
     ],
     "day": [
+        "d",
         "dag",
         "dagar"
     ],
@@ -172,8 +173,9 @@ info = {
             "förra veckan"
         ],
         "1 year ago": [
-            "i fjol",
-            "förra året"
+            "förra året",
+            "förra året",
+            "i fjol"
         ],
         "in 1 day": [
             "i morgon",
@@ -276,10 +278,12 @@ info = {
     },
     "locale_specific": {
         "sv-AX": {
-            "name": "sv-AX"
+            "name": "sv-AX",
+            "date_order": "DMY"
         },
         "sv-FI": {
-            "name": "sv-FI"
+            "name": "sv-FI",
+            "date_order": "DMY"
         }
     },
     "skip": [

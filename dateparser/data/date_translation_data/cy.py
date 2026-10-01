@@ -209,7 +209,8 @@ info = {
             "ymhen (\\d++[.,]?\\d*+) wythnos"
         ],
         "in \\1 year": [
-            "ymhen (\\d++[.,]?\\d*+) mlynedd"
+            "ymhen (\\d++[.,]?\\d*+) mlynedd",
+            "ymhen (\\d++[.,]?\\d*+) o flynyddoedd"
         ]
     },
     "locale_specific": {},
