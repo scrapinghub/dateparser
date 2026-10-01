@@ -102,6 +102,10 @@ class TestTZPopping(BaseTestCase):
                 "Thu 30 May 2024 10:13:10 CDT -0500",
                 "Thu 30 May 2024 10:13:10 ",
             ),
+            param(
+                "Mon 25 Jun 2018 10:37:47 +0530 IST",
+                "Mon 25 Jun 2018 10:37:47 ",
+            ),
             param("2019-09-28WIB19:17:34+07:00", "2019-09-28 19:17:34"),
         ]
     )
