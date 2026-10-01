@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from hijridate import Gregorian, Hijri
 
 from dateparser.calendars import non_gregorian_parser
@@ -5,32 +7,26 @@ from dateparser.calendars import non_gregorian_parser
 
 class hijri:
     @classmethod
-    def to_gregorian(cls, year=None, month=None, day=None):
+    def to_gregorian(cls, year: int, month: int, day: int) -> tuple[int, int, int]:
         g = Hijri(year=year, month=month, day=day, validate=False).to_gregorian()
         return g.datetuple()
 
     @classmethod
-    def from_gregorian(cls, year=None, month=None, day=None):
+    def from_gregorian(cls, year: int, month: int, day: int) -> tuple[int, int, int]:
         h = Gregorian(year, month, day).to_hijri()
         return h.datetuple()
 
     @classmethod
-    def month_length(cls, year, month):
+    def month_length(cls, year: int, month: int) -> int:
         h = Hijri(year=year, month=month, day=1)
         return h.month_length()
 
 
 class HijriDate:
-    def __init__(self, year, month, day):
+    def __init__(self, year: int, month: int, day: int) -> None:
         self.year = year
         self.month = month
         self.day = day
-
-    def weekday(self):
-        for week in hijri.monthcalendar(self.year, self.month):
-            for idx, day in enumerate(week):
-                if day == self.day:
-                    return idx
 
 
 class hijri_parser(non_gregorian_parser):
@@ -40,15 +36,17 @@ class hijri_parser(non_gregorian_parser):
     default_day = 1
     non_gregorian_date_cls = HijriDate
 
-    _digits = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789")
+    _digit_table: ClassVar[dict[int, int]] = str.maketrans(
+        "٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789"
+    )
 
     # Month names are matched after mapping alef and yeh variants to ا and ي.
     # Arabic letters are separators for the tokenizer, so a variant also
     # covers any name that starts with it, e.g. جمادي الاول covers جمادي الاولي.
     # Keys are uppercase so that the parser does not read "am" in them as a
     # meridian.
-    _alef_yeh = str.maketrans("أإآىی", "ااايي")
-    _months = {
+    _alef_yeh: ClassVar[dict[int, int]] = str.maketrans("أإآىی", "ااايي")
+    _months: ClassVar[dict[str, list[str]]] = {
         "MUHARRAM": ["محرم"],
         "SAFAR": ["صفر"],
         "RABIALAWWAL": ["ربيع الاول"],
@@ -63,17 +61,17 @@ class hijri_parser(non_gregorian_parser):
         "DHUALHIJJAH": ["ذو الحجة", "ذي الحجة"],
     }
 
-    _time_conventions = {
+    _time_conventions: ClassVar[dict[str, list[str]]] = {
         "am": ["صباحاً"],
         "pm": ["مساءً"],
     }
 
     @classmethod
-    def _replace_digits(cls, source):
-        return source.translate(cls._digits)
+    def _replace_digits(cls, source: str) -> str:
+        return source.translate(cls._digit_table)
 
     @classmethod
-    def _replace_months(cls, source):
+    def _replace_months(cls, source: str) -> str:
         result = source.translate(cls._alef_yeh)
         for latin, arabics in cls._months.items():
             for arabic in arabics:
@@ -81,15 +79,14 @@ class hijri_parser(non_gregorian_parser):
         return result
 
     @classmethod
-    def _replace_time_conventions(cls, source):
+    def _replace_time_conventions(cls, source: str) -> str:
         result = source
         for latin, arabics in cls._time_conventions.items():
             for arabic in arabics:
                 result = result.replace(arabic, latin)
         return result
 
-    def handle_two_digit_year(self, year):
+    def handle_two_digit_year(self, year: int) -> int:
         if year >= 90:
             return year + 1300
-        else:
-            return year + 1400
+        return year + 1400
