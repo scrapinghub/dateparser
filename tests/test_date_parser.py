@@ -1402,6 +1402,16 @@ class TestDateParser(BaseTestCase):
                 expected=datetime(2019, 3, 8, 0, 0),
                 languages=["ja"],
             ),
+            param(
+                "11月08日 12:52",
+                expected=datetime(2019, 11, 8, 12, 52),
+                languages=["ja"],
+            ),
+            param(
+                "11月08日 12:52",
+                expected=datetime(2019, 11, 8, 12, 52),
+                languages=["zh"],
+            ),
             # The root cause is locale-independent: any year-first date
             # order must not consume the day as a year either.
             param(
