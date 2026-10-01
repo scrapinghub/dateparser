@@ -13,7 +13,9 @@
 # Abbreviations that switch between standard and daylight saving time, such as
 # "CT", map to a tz database zone instead of an offset.
 
-timezone_info_list = [
+from typing import Any
+
+timezone_info_list: list[dict[str, Any]] = [
     {
         "regex_patterns": [r"(.)%s$"],
         "replace": [
@@ -77,7 +79,7 @@ timezone_info_list = [
         ],
     },
     {
-        "regex_patterns": [r"(\W|\d|_)%s($|\W)"],
+        "regex_patterns": [r"(\W|\d|_)%s($|\W|(?=\d))"],
         "timezones": [
             ("ACDT", 37800),
             ("ACST", 34200),

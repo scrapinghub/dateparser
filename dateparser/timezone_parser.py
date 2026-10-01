@@ -1,57 +1,120 @@
+import warnings
+from collections.abc import Iterator
 from datetime import datetime, timedelta, timezone, tzinfo
+from typing import Literal, TypedDict, overload
 
 import pytz
 import regex as re
+from pytz.tzinfo import BaseTzInfo
 
 from .timezones import timezone_info_list
 
 
 class StaticTzInfo(tzinfo):
-    def __init__(self, name, offset):
+    def __init__(self, name: str, offset: timedelta) -> None:
         self.__offset = offset
         self.__name = name
 
-    def tzname(self, dt):
+    def tzname(self, dt: datetime | None) -> str:
         return self.__name
 
-    def utcoffset(self, dt):
+    def utcoffset(self, dt: datetime | None) -> timedelta:
         return self.__offset
 
-    def dst(self, dt):
+    def dst(self, dt: datetime | None) -> timedelta:
         return timedelta(0)
 
-    def __repr__(self):
-        return "<%s '%s'>" % (self.__class__.__name__, self.__name)
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__} '{self.__name}'>"
 
-    def localize(self, dt, is_dst=False):
+    def localize(self, dt: datetime, is_dst: bool = False) -> datetime:
         if dt.tzinfo is not None:
             raise ValueError("Not naive datetime (tzinfo is already set)")
         return dt.replace(tzinfo=self)
 
-    def __getinitargs__(self):
+    def __getinitargs__(self) -> tuple[str, timedelta]:
         return self.__name, self.__offset
 
 
-def pop_tz_offset_from_string(date_string, as_offset=True):
-    if _search_regex_ignorecase.search(date_string):
-        for name, info in _tz_offsets:
-            timezone_re = info["regex"]
-            timezone_match = timezone_re.search(date_string)
-            if timezone_match:
-                start, stop = timezone_match.span()
-                date_string = date_string[: start + 1] + date_string[stop:]
-                return (
-                    date_string,
-                    info["tzinfo"] if as_offset else name,
-                )
-    return date_string, None
+class _TzOffsetInfo(TypedDict):
+    regex: re.Pattern[str]
+    tzinfo: StaticTzInfo | BaseTzInfo
 
 
-def word_is_tz(word):
+def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | None:
+    """Find and remove the first timezone token from ``date_string``.
+
+    Returns a ``(new_string, name, info)`` tuple, or ``None`` if no timezone
+    token is present.
+    """
+    if not _search_regex_ignorecase.search(date_string):
+        return None
+    for name, info in _tz_offsets:
+        timezone_match = info["regex"].search(date_string)
+        if timezone_match:
+            start, stop = timezone_match.span()
+            # A token glued to the digits that follow, as in
+            # 2019-09-28WIB19:17:34, leaves a space so that the date and time
+            # digits stay apart.
+            glued = stop < len(date_string) and date_string[stop - 1].isalpha()
+            separator = " " if glued else ""
+            return (
+                date_string[: start + 1] + separator + date_string[stop:],
+                name,
+                info,
+            )
+    return None
+
+
+def _same_offset(a: StaticTzInfo | BaseTzInfo, b: StaticTzInfo | BaseTzInfo) -> bool:
+    if isinstance(a, StaticTzInfo) and isinstance(b, StaticTzInfo):
+        return a.utcoffset(None) == b.utcoffset(None)
+    return a is b
+
+
+@overload
+def pop_tz_offset_from_string(
+    date_string: str, as_offset: Literal[True] = True
+) -> tuple[str, StaticTzInfo | BaseTzInfo | None]: ...
+
+
+@overload
+def pop_tz_offset_from_string(
+    date_string: str, as_offset: Literal[False]
+) -> tuple[str, str | None]: ...
+
+
+def pop_tz_offset_from_string(
+    date_string: str, as_offset: bool = True
+) -> tuple[str, StaticTzInfo | BaseTzInfo | str | None]:
+    match = _search_and_pop_tz(date_string)
+    if match is None:
+        return date_string, None
+
+    date_string, name, info = match
+    result = info["tzinfo"] if as_offset else name
+
+    # A date string may carry both a numeric UTC offset and a redundant,
+    # equivalent timezone abbreviation, e.g. the RFC 2822 email form
+    # ``-0500 (CDT)`` (the parenthesised name is informational and the numeric
+    # offset is authoritative). Only one token is removed above; strip a second,
+    # equivalent one so the leftover does not break the rest of the parser.
+    # The remainder is right-stripped first because the numeric-offset regexes
+    # are anchored at the end of the string.
+    while True:
+        extra = _search_and_pop_tz(date_string.rstrip())
+        if extra is None or not _same_offset(extra[2]["tzinfo"], info["tzinfo"]):
+            break
+        date_string = extra[0]
+
+    return date_string, result
+
+
+def word_is_tz(word: str) -> bool:
     return bool(_search_regex.match(word))
 
 
-def is_timezone_token(token):
+def is_timezone_token(token: str) -> bool:
     """Whether ``token`` is, on its own, a recognized timezone abbreviation.
 
     Unlike :func:`word_is_tz` (a case-sensitive prefix match used while
@@ -67,12 +130,24 @@ def is_timezone_token(token):
     return bool(_search_regex_ignorecase.fullmatch(token.strip()))
 
 
-def convert_to_local_tz(datetime_obj, datetime_tz_offset):
+def convert_to_local_tz(
+    datetime_obj: datetime, datetime_tz_offset: timedelta
+) -> datetime:
+    warnings.warn(
+        "dateparser.timezone_parser.convert_to_local_tz is deprecated and "
+        "will be removed in a future version.",
+        FutureWarning,
+        stacklevel=2,
+    )
     return datetime_obj - datetime_tz_offset + local_tz_offset
 
 
-def build_tz_offsets(search_regex_parts):
-    def get_offset(tz_obj, regex, repl="", replw=""):
+def build_tz_offsets(
+    search_regex_parts: list[str],
+) -> Iterator[tuple[str, _TzOffsetInfo]]:
+    def get_offset(
+        tz_obj: tuple[str, int | str], regex: str, repl: str = "", replw: str = ""
+    ) -> tuple[str, _TzOffsetInfo]:
         name, offset = tz_obj
         return (
             name,
@@ -98,13 +173,12 @@ def build_tz_offsets(search_regex_parts):
                     yield get_offset(tz_obj, regex, repl=replace, replw=replacewith)
 
 
-def get_local_tz_offset():
+def get_local_tz_offset() -> timedelta:
     offset = datetime.now() - datetime.now(tz=timezone.utc).replace(tzinfo=None)
-    offset = timedelta(days=offset.days, seconds=round(offset.seconds, -1))
-    return offset
+    return timedelta(days=offset.days, seconds=round(offset.seconds, -1))
 
 
-_search_regex_parts = []
+_search_regex_parts: list[str] = []
 _tz_offsets = list(build_tz_offsets(_search_regex_parts))
 _search_regex = re.compile("|".join(_search_regex_parts))
 _search_regex_ignorecase = re.compile("|".join(_search_regex_parts), re.IGNORECASE)
