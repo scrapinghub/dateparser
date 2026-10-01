@@ -130,8 +130,6 @@ class _RangeCompleter:
             # e.g. “May” in “May 2 - 5, 2027”, where on its own the end reads
             # its day as a month.
             prefix_date = self.parser.get_date_data(prefix)
-            if prefix_date.date_obj is None:
-                continue
             prefix_parts = _DATE_PARTS & set(prefix_date.parts)
             data = self.parser.get_date_data(f"{prefix} {end}")
             date_obj = data.date_obj
@@ -193,11 +191,14 @@ def _complete_ranges(
     positions = []
     position = 0
     for substring, _ in results:
-        offset = text.find(substring, position)
-        if offset == -1:
+        # Substrings may differ from the text in whitespace, e.g. “April 2019”
+        # in “April  2019”.
+        pattern = r"\s*".join(map(re.escape, "".join(substring.split())))
+        match = re.compile(pattern).search(text, position)
+        if match is None:
             return results
-        position = offset + len(substring)
-        positions.append((offset, position))
+        position = match.end()
+        positions.append(match.span())
     ranges = [
         i
         for i in range(len(results) - 1)

@@ -738,6 +738,38 @@ class TestTranslateSearch(BaseTestCase):
         self.assertEqual(result, expected)
 
     @parameterized.expand(
+        [param("split", "13th April 2019"), param("ngram", "13th  April 2019")]
+    )
+    def test_search_dates_range_with_irregular_whitespace(
+        self, strategy: str, end: str
+    ) -> None:
+        result = search_dates(
+            "12th to 13th  April 2019", languages=["en"], strategy=strategy
+        )
+        self.assertEqual(
+            result,
+            [
+                ("12th", datetime.datetime(2019, 4, 12)),
+                (end, datetime.datetime(2019, 4, 13)),
+            ],
+        )
+
+    def test_search_dates_range_with_ends_the_range_parser_cannot_read(self) -> None:
+        result = search_dates(
+            "May a 2 - June a 5",
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            strategy="ngram",
+        )
+        self.assertEqual(
+            result,
+            [
+                ("May a 2", datetime.datetime(2000, 5, 2)),
+                ("June a 5", datetime.datetime(2000, 6, 5)),
+            ],
+        )
+
+    @parameterized.expand(
         [
             # English
             param(
