@@ -39,11 +39,14 @@ class StaticTzInfo(tzinfo):
         return self.__name, self.__offset
 
 
-def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | None:
+def _search_and_pop_tz(
+    date_string: str,
+) -> tuple[str, str, _TzOffsetInfo, bool] | None:
     """Find and remove the first timezone token from ``date_string``.
 
-    Returns a ``(new_string, name, info)`` tuple, or ``None`` if no timezone
-    token is present.
+    Returns a ``(new_string, name, info, at_end)`` tuple, where *at_end* tells
+    whether the token ended the string, or ``None`` if no timezone token is
+    present.
     """
     if not _search_regex_ignorecase.search(date_string):
         return None
@@ -60,6 +63,7 @@ def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | Non
                 date_string[: start + 1] + separator + date_string[stop:],
                 name,
                 info,
+                stop == len(date_string),
             )
     return None
 
@@ -83,23 +87,32 @@ def pop_tz_offset_from_string(
     if match is None:
         return date_string, None
 
-    date_string, name, info = match
-    result = StaticTzInfo(name, info["offset"]) if as_offset else name
+    date_string, name, info, _ = match
 
-    # A date string may carry both a numeric UTC offset and a redundant,
-    # equivalent timezone abbreviation, e.g. the RFC 2822 email form
-    # ``-0500 (CDT)`` (the parenthesised name is informational and the numeric
-    # offset is authoritative). Only one token is removed above; strip a second,
-    # equivalent one so the leftover does not break the rest of the parser.
-    # The remainder is right-stripped first because the numeric-offset regexes
-    # are anchored at the end of the string.
+    # Dates may carry a numeric offset plus a redundant timezone, e.g. RFC 2822
+    # "-0500 (CDT)". Strip both; if their offsets differ, the numeric one wins,
+    # since abbreviations are ambiguous (IST is India or Israel). rstrip()
+    # because the numeric-offset regexes are anchored at the end.
     while True:
         extra = _search_and_pop_tz(date_string.rstrip())
-        if extra is None or extra[2]["offset"] != info["offset"]:
+        if extra is None:
             break
-        date_string = extra[0]
+        extra_string, extra_name, extra_info, extra_at_end = extra
+        if extra_info["offset"] != info["offset"]:
+            if not extra_at_end:
+                break
+            if _is_numeric_offset(extra_name):
+                name, info = extra_name, extra_info
+            elif not _is_numeric_offset(name):
+                break
+        date_string = extra_string
 
+    result = StaticTzInfo(name, info["offset"]) if as_offset else name
     return date_string, result
+
+
+def _is_numeric_offset(name: str) -> bool:
+    return name.startswith("UTC\\")
 
 
 def word_is_tz(word: str) -> bool:
