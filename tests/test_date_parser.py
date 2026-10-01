@@ -156,6 +156,7 @@ class TestDateParser(BaseTestCase):
                 "Tháng Mười Hai 29, 2013, 14:14", datetime(2013, 12, 29, 14, 14)
             ),  # bpsosrcs.wordpress.com
             param("05 Tháng một 2015 - 03:54 AM", datetime(2015, 1, 5, 3, 54)),
+            param("15 Tháng năm 2020", datetime(2020, 5, 15)),  # May
             # Belarusian dates
             param("11 траўня", datetime(2012, 5, 11)),
             param("4 мая", datetime(2012, 5, 4)),
@@ -417,6 +418,7 @@ class TestDateParser(BaseTestCase):
                 "Tháng Mười Hai 29, 2013, 14:14", datetime(2013, 12, 29, 14, 14)
             ),  # bpsosrcs.wordpress.com
             param("05 Tháng một 2015 - 03:54 AM", datetime(2015, 1, 5, 3, 54)),
+            param("15 Tháng năm 2020", datetime(2020, 5, 15)),  # May
             # Belarusian dates
             param("11 траўня", datetime(2012, 5, 11)),
             param("4 мая", datetime(2012, 5, 4)),
