@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 _T = TypeVar("_T")
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
-PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z", "early_morning"]
+PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z", "xth", "early_morning"]
 ALWAYS_KEEP_TOKENS = ["+", *PARSER_HARDCODED_TOKENS]
 KNOWN_WORD_TOKENS = [
     "monday",
