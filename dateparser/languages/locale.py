@@ -475,7 +475,9 @@ class Locale:
         self, original: str, settings: "Settings | None"
     ) -> tuple[list[str], list[str]]:
         # TODO: Switch to new split method.
-        original_tokens = self._word_split(original, settings=settings)
+        original_tokens = self._word_split(
+            self._break_standalone_marks(original), settings=settings
+        )
         simplified_tokens = self._word_split(
             self._simplify(normalize_unicode(original), settings=settings),
             settings=settings,
@@ -541,6 +543,24 @@ class Locale:
             else:
                 newdict[item] = dictionary[item]
         return newdict
+
+    @staticmethod
+    def _break_standalone_marks(string: str) -> str:
+        """Turn standalone spacing-modifier marks (e.g. the acute accent "´"
+        in "C´1997") into word breaks.
+
+        ``normalize_unicode`` already does this for the simplified copy of
+        the text used to look words up in the dictionary, since such marks
+        decompose to a bare space once their combining-mark half is dropped.
+        Without doing the same here, a single original token like "C´1997"
+        stays one token while its simplified counterpart splits into two
+        ("c" and "1997"), which misaligns the two token lists and leaves the
+        date-shaped word with no original text to report back.
+        """
+        return "".join(
+            " " if not char.isspace() and normalize_unicode(char) == " " else char
+            for char in string
+        )
 
     def _word_split(self, string: str, settings: "Settings | None") -> list[str]:
         if "no_word_spacing" in self.info:
