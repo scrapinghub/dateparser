@@ -1,15 +1,22 @@
-import sys
+from collections.abc import Callable
+from datetime import datetime
+from typing import Any
 
-from tzlocal import get_localzone
-
-from .conf import apply_settings
+from .conf import Settings, apply_settings
 from .timezone_parser import pop_tz_offset_from_string
-from .utils import apply_timezone, localize_timezone, strip_braces
+from .utils import _get_localzone, apply_timezone, localize_timezone, strip_braces
 
 
 class DateParser:
     @apply_settings
-    def parse(self, date_string, parse_method, settings=None, date_order=None):
+    def parse(
+        self,
+        date_string: str,
+        parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
+        settings: Settings | dict[str, Any] | None = None,
+        date_order: str | None = None,
+    ) -> tuple[datetime, str | None, tuple[str, ...]]:
+        assert isinstance(settings, Settings)
         date_string = str(date_string)
 
         if not date_string.strip():
@@ -18,7 +25,7 @@ class DateParser:
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string, settings=settings)
 
-        date_obj, period = parse_method(
+        date_obj, period, parts = parse_method(
             date_string, settings=settings, tz=ptz, date_order=date_order
         )
 
@@ -31,15 +38,10 @@ class DateParser:
                 date_obj = date_obj.replace(tzinfo=ptz)
             if "local" not in _settings_tz:
                 date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+        elif "local" in _settings_tz:
+            date_obj = date_obj.replace(tzinfo=_get_localzone())
         else:
-            if "local" in _settings_tz:
-                stz = get_localzone()
-                if hasattr(stz, "localize") and sys.version_info < (3, 6):
-                    date_obj = stz.localize(date_obj)
-                else:
-                    date_obj = date_obj.replace(tzinfo=stz)
-            else:
-                date_obj = localize_timezone(date_obj, settings.TIMEZONE)
+            date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 
         if settings.TO_TIMEZONE:
             date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
@@ -51,7 +53,7 @@ class DateParser:
         ):
             date_obj = date_obj.replace(tzinfo=None)
 
-        return date_obj, period
+        return date_obj, period, parts
 
 
 date_parser = DateParser()
