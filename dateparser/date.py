@@ -6,7 +6,7 @@ from collections.abc import Callable, Iterable, Iterator
 from collections.abc import Set as AbstractSet
 from datetime import date, datetime, timedelta, tzinfo
 from itertools import count
-from typing import TYPE_CHECKING, Any, TypeGuard, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar, TypeGuard, TypeVar
 
 import regex as re
 from dateutil.relativedelta import relativedelta
@@ -430,6 +430,15 @@ def _translate_names(
 
 
 class _DateLocaleParser:
+    _parsers: ClassVar[dict[str, str]] = {
+        "timestamp": "_try_timestamp",
+        "negative-timestamp": "_try_negative_timestamp",
+        "relative-time": "_try_freshness_parser",
+        "custom-formats": "_try_given_formats",
+        "absolute-time": "_try_absolute_parser",
+        "no-spaces-time": "_try_nospaces_parser",
+    }
+
     def __init__(
         self,
         locale: "Locale",
@@ -456,14 +465,6 @@ class _DateLocaleParser:
         self._translated_date_with_formatting: str | None = None
         self._part_of_day: PartOfDay | None = None
         self._part_of_day_sets_time = False
-        self._parsers: dict[str, Callable[[], DateData | None]] = {
-            "timestamp": self._try_timestamp,
-            "negative-timestamp": self._try_negative_timestamp,
-            "relative-time": self._try_freshness_parser,
-            "custom-formats": self._try_given_formats,
-            "absolute-time": self._try_absolute_parser,
-            "no-spaces-time": self._try_nospaces_parser,
-        }
 
     @classmethod
     def parse(
@@ -500,7 +501,7 @@ class _DateLocaleParser:
 
     def _parse_translation(self) -> "DateData | None":
         for parser_name in self._settings.PARSERS:
-            date_data = self._parsers[parser_name]()
+            date_data = getattr(self, self._parsers[parser_name])()
             if self._is_valid_date_data(date_data):
                 if self._part_of_day:
                     date_data.part_of_day = self._part_of_day
