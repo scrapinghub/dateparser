@@ -14,6 +14,7 @@ from tests import BaseTestCase
 
 today = datetime.datetime.now()
 relative_base = datetime.datetime(2020, 2, 13, 20, 7, 6)
+EDT = StaticTzInfo("EDT", timedelta(hours=-4))
 
 
 class TestTranslateSearch(BaseTestCase):
@@ -627,6 +628,146 @@ class TestTranslateSearch(BaseTestCase):
             shortname, string, settings=settings
         )
         self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(strategy, text, expected)
+            for strategy in ("split", "ngram")
+            for text, expected in [
+                (
+                    "12th to 13th April 2019",
+                    [
+                        ("12th", datetime.datetime(2019, 4, 12)),
+                        ("13th April 2019", datetime.datetime(2019, 4, 13)),
+                    ],
+                ),
+                (
+                    "Aug - Sept 2018",
+                    [
+                        ("Aug", datetime.datetime(2018, 8, 1)),
+                        ("Sept 2018", datetime.datetime(2018, 9, 1)),
+                    ],
+                ),
+                (
+                    "from 10:00 to 12:00 on 3 May 2020",
+                    [
+                        ("from 10:00", datetime.datetime(2020, 5, 3, 10)),
+                        ("12:00 on 3 May 2020", datetime.datetime(2020, 5, 3, 12)),
+                    ],
+                ),
+                (
+                    "12 April - 3 May 2019",
+                    [
+                        ("12 April", datetime.datetime(2019, 4, 12)),
+                        ("3 May 2019", datetime.datetime(2019, 5, 3)),
+                    ],
+                ),
+                (
+                    "2:30 - 3:30 PM EDT",
+                    [
+                        ("2:30", datetime.datetime(2000, 1, 1, 14, 30, tzinfo=EDT)),
+                        (
+                            "3:30 PM EDT",
+                            datetime.datetime(2000, 1, 1, 15, 30, tzinfo=EDT),
+                        ),
+                    ],
+                ),
+                (
+                    "10:00 - 7:00 pm EDT",
+                    [
+                        ("10:00", datetime.datetime(2000, 1, 1, 10, tzinfo=EDT)),
+                        ("7:00 pm EDT", datetime.datetime(2000, 1, 1, 19, tzinfo=EDT)),
+                    ],
+                ),
+                (
+                    "May 2 - 5, 2027",
+                    [
+                        ("May 2", datetime.datetime(2027, 5, 2)),
+                        ("5, 2027", datetime.datetime(2027, 5, 5)),
+                    ],
+                ),
+                (
+                    "31 December 1999 8:00 - 9:00 am EDT",
+                    [
+                        ("31 December 1999 8:00", datetime.datetime(1999, 12, 31, 8)),
+                        (
+                            "9:00 am EDT",
+                            datetime.datetime(1999, 12, 31, 9, tzinfo=EDT),
+                        ),
+                    ],
+                ),
+                (
+                    "12 April 2018 - 3 May 2019",
+                    [
+                        ("12 April 2018", datetime.datetime(2018, 4, 12)),
+                        ("3 May 2019", datetime.datetime(2019, 5, 3)),
+                    ],
+                ),
+                (
+                    "Monday - Friday, 3 May 2019",
+                    [
+                        ("Monday", datetime.datetime(1999, 12, 27)),
+                        ("Friday, 3 May 2019", datetime.datetime(2019, 5, 3)),
+                    ],
+                ),
+                (
+                    "Monday - Friday 9:00 EDT",
+                    [
+                        ("Monday", datetime.datetime(1999, 12, 27)),
+                        (
+                            "Friday 9:00 EDT",
+                            datetime.datetime(1999, 12, 31, 9, tzinfo=EDT),
+                        ),
+                    ],
+                ),
+            ]
+        ]
+    )
+    def test_search_dates_range_ends_take_what_the_other_adds(
+        self,
+        strategy: str,
+        text: str,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            strategy=strategy,
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [param("split", "13th April 2019"), param("ngram", "13th  April 2019")]
+    )
+    def test_search_dates_range_with_irregular_whitespace(
+        self, strategy: str, end: str
+    ) -> None:
+        result = search_dates(
+            "12th to 13th  April 2019", languages=["en"], strategy=strategy
+        )
+        self.assertEqual(
+            result,
+            [
+                ("12th", datetime.datetime(2019, 4, 12)),
+                (end, datetime.datetime(2019, 4, 13)),
+            ],
+        )
+
+    def test_search_dates_range_with_ends_the_range_parser_cannot_read(self) -> None:
+        result = search_dates(
+            "May a 2 - June a 5",
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            strategy="ngram",
+        )
+        self.assertEqual(
+            result,
+            [
+                ("May a 2", datetime.datetime(2000, 5, 2)),
+                ("June a 5", datetime.datetime(2000, 6, 5)),
+            ],
+        )
 
     @parameterized.expand(
         [
