@@ -203,6 +203,13 @@ class TestBundledLanguages(BaseTestCase):
             param("id", "Minggu, 18 Mar 2018 07:30", "sunday 18 march 2018 07:30"),
             param("id", "3 minggu yang lalu", "3 week ago"),
             param("id", "5 minggu", "5 week"),
+            param("id", "6 Nop 2019", "6 november 2019"),
+            param("id", "6 Djan 2019", "6 january 2019"),
+            param("id", "6 Peb 2019", "6 february 2019"),
+            param("id", "6 Mrt 2019", "6 march 2019"),
+            param("id", "6 Mai 2019", "6 may 2019"),
+            param("id", "6 Djuni 2019", "6 june 2019"),
+            param("id", "6 Djuli 2019", "6 july 2019"),
             # Miscellaneous
             param("en", "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
             param("en", "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
