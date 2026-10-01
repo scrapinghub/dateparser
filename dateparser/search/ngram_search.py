@@ -8,12 +8,17 @@ than the translation-based search.
 """
 
 import logging
+from collections.abc import Sequence
+from datetime import datetime
 
 import regex as re
 
-from dateparser.date import DateDataParser
+from dateparser.conf import Settings
+from dateparser.date import DateData, DateDataParser
 
 logger = logging.getLogger(__name__)
+
+_DateResult = tuple[str, datetime] | tuple[str, datetime, str | None]
 
 # Characters that never occur inside a date expression and can therefore be
 # used to split a text into tokens. Unlike whitespace, ",", "|", "(", ")"
@@ -30,7 +35,7 @@ _NOISE_TOKENS = frozenset(["on", "at", "of", "a"])
 # false positives. They can still be parsed as part of a longer candidate.
 _BAD_CANDIDATE_RE = re.compile(
     "^("
-    + "|".join(
+    + "|".join(  # noqa: FLY002
         [
             r"\d{1,3}",  # bare numbers of less than 4 digits
             r"#\d+",  # sequence numbers
@@ -58,10 +63,16 @@ class _NgramDateSearch:
     so the reported dates never overlap.
     """
 
-    def __init__(self, max_tokens=7):
+    def __init__(self, max_tokens: int = 7) -> None:
         self.max_tokens = max_tokens
 
-    def search_parse(self, languages, text, settings, add_period=False):
+    def search_parse(
+        self,
+        languages: list[str],
+        text: str,
+        settings: Settings,
+        add_period: bool = False,
+    ) -> list[_DateResult]:
         """Find all dates in ``text`` and return ``(substring, date)`` pairs.
 
         ``languages`` are tried in the given order for every candidate
@@ -75,7 +86,7 @@ class _NgramDateSearch:
             for token in _TOKEN_RE.finditer(text)
             if token.group() not in _NOISE_TOKENS
         ]
-        results = []
+        results: list[_DateResult] = []
         index = 0
         while index < len(tokens):
             for size in range(min(self.max_tokens, len(tokens) - index), 0, -1):
@@ -86,9 +97,11 @@ class _NgramDateSearch:
                 date_data = self._parse_candidate(parser, candidate, languages)
                 if date_data is not None and date_data.date_obj is not None:
                     substring = text[ngram[0].start() : ngram[-1].end()]
+                    substring = substring.strip(_STRIP_CHARS)
                     results.append(
-                        (substring.strip(_STRIP_CHARS), date_data.date_obj)
-                        + ((date_data.period,) if add_period else ())
+                        (substring, date_data.date_obj, date_data.period)
+                        if add_period
+                        else (substring, date_data.date_obj)
                     )
                     index += size
                     break
@@ -97,7 +110,9 @@ class _NgramDateSearch:
         return results
 
     @staticmethod
-    def _parse_candidate(parser, candidate, languages):
+    def _parse_candidate(
+        parser: DateDataParser, candidate: str, languages: Sequence[str]
+    ) -> DateData | None:
         try:
             return parser.get_date_data(candidate)
         except Exception:
