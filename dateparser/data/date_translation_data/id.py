@@ -4,12 +4,14 @@ info = {
     "january": [
         "jan",
         "januari",
-        "Djan"
+        "Djan",
+        "Djanuari"
     ],
     "february": [
         "feb",
         "februari",
-        "Peb"
+        "Peb",
+        "Pebruari"
     ],
     "march": [
         "mar",
@@ -38,7 +40,8 @@ info = {
         "agu",
         "agustus",
         "Agu",
-        "agt"
+        "agt",
+        "Ag"
     ],
     "september": [
         "sep",
@@ -52,7 +55,8 @@ info = {
     "november": [
         "nov",
         "november",
-        "Nop"
+        "Nop",
+        "Nopember"
     ],
     "december": [
         "des",

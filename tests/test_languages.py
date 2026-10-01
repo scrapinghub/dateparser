@@ -210,6 +210,10 @@ class TestBundledLanguages(BaseTestCase):
             param("id", "6 Mai 2019", "6 may 2019"),
             param("id", "6 Djuni 2019", "6 june 2019"),
             param("id", "6 Djuli 2019", "6 july 2019"),
+            param("id", "6 Ag 2019", "6 august 2019"),
+            param("id", "6 Djanuari 2019", "6 january 2019"),
+            param("id", "6 Pebruari 2019", "6 february 2019"),
+            param("id", "6 Nopember 2019", "6 november 2019"),
             # Miscellaneous
             param("en", "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
             param("en", "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),

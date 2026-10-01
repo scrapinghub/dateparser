@@ -7,8 +7,10 @@ sunday:
 
 january:
     - Djan
+    - Djanuari
 february:
     - Peb
+    - Pebruari
 march:
     - Mrt
 may:
@@ -20,10 +22,12 @@ july:
 august:
     - Agu
     - agt
+    - Ag
 september:
     - Sept
 november:
     - Nop
+    - Nopember
 
 ago:
     - lalu
