@@ -23,7 +23,7 @@ class TestDateParser(BaseTestCase):
         self.parser: DateDataParser = NotImplemented
         self.result: DateData = NotImplemented
         self.date_parser: Mock = NotImplemented
-        self.date_result: tuple[datetime, str | None] = NotImplemented
+        self.date_result: tuple[datetime, str | None, tuple[str, ...]] = NotImplemented
 
     @parameterized.expand(
         [
@@ -66,6 +66,7 @@ class TestDateParser(BaseTestCase):
             param(
                 "Wednesday, 22nd June, 2016, 12.16 pm.", datetime(2016, 6, 22, 12, 16)
             ),
+            param("2020/10/9 PM 2:26", datetime(2020, 10, 9, 14, 26)),
             # French dates
             param("11 Mai 2014", datetime(2014, 5, 11)),
             param("11 sept. 2014", datetime(2014, 9, 11)),
@@ -184,6 +185,7 @@ class TestDateParser(BaseTestCase):
             # Japanese dates
             param("2016年3月20日(日) 21時40分", datetime(2016, 3, 20, 21, 40)),
             param("2016年3月20日 21時40分", datetime(2016, 3, 20, 21, 40)),
+            param("2016 年 3 月 20 日 21 時 40 分", datetime(2016, 3, 20, 21, 40)),
             # Numeric dates
             param("06-17-2014", datetime(2014, 6, 17)),
             param("13/03/2014", datetime(2014, 3, 13)),
@@ -199,7 +201,13 @@ class TestDateParser(BaseTestCase):
             param("2016年6月2911:30", datetime(2016, 6, 29, 11, 30)),
             param("2016年6月29", datetime(2016, 6, 29, 0, 0)),
             param("2016年 2月 5日", datetime(2016, 2, 5, 0, 0)),
+            param("2019 年 10 月 30 日", datetime(2019, 10, 30, 0, 0)),
+            param("2016 年 6 月 30 日 9 时 30 分", datetime(2016, 6, 30, 9, 30)),
             param("2016年9月14日晚8:00", datetime(2016, 9, 14, 20, 0)),
+            param("2020/10/9 下午 02:26:26", datetime(2020, 10, 9, 14, 26, 26)),
+            param("2020/10/9 上午 02:26:26", datetime(2020, 10, 9, 2, 26, 26)),
+            # Korean dates
+            param("2020/10/9 오후 2:26", datetime(2020, 10, 9, 14, 26)),
             # Bulgarian
             param("25 ян 2016", datetime(2016, 1, 25, 0, 0)),
             param("23 декември 2013 15:10:01", datetime(2013, 12, 23, 15, 10, 1)),
@@ -1018,6 +1026,11 @@ class TestDateParser(BaseTestCase):
                 languages=["en"],
                 expected=datetime(2015, 5, 2, 10, 20, 19),
             ),
+            param(
+                "2021-04-29T06:38:49,946902974+02:00",
+                languages=["fr"],
+                expected=datetime(2021, 4, 29, 6, 38, 49, 946902),
+            ),
         ]
     )
     def test_iso_datestamp_format_should_always_parse(
@@ -1072,6 +1085,29 @@ class TestDateParser(BaseTestCase):
         self.given_parser(languages=["en"], settings={"DATE_ORDER": date_order})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("05/2020", date_order="DMY", expected=datetime(2020, 5, 1)),
+            param("5-2020", date_order="YMD", expected=datetime(2020, 5, 1)),
+            param(
+                "05/2020 10:00", date_order="YDM", expected=datetime(2020, 5, 28, 10)
+            ),
+            param("13/2020", date_order="DMY", expected=datetime(2020, 9, 13)),
+        ]
+    )
+    def test_month_and_year_with_explicit_date_order(
+        self, date_string: str, date_order: str, expected: datetime
+    ) -> None:
+        self.given_parser(
+            settings={
+                "DATE_ORDER": date_order,
+                "PREFER_DAY_OF_MONTH": "first",
+                "RELATIVE_BASE": datetime(2020, 9, 28),
+            }
+        )
+        self.when_date_is_parsed(date_string)
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand(
@@ -1171,6 +1207,12 @@ class TestDateParser(BaseTestCase):
             param("²⁹/⁰⁵/²⁰¹⁵", expected=datetime(2015, 5, 29), period="day"),
             param("₁₅/₀₂/₂₀₂₀", expected=datetime(2020, 2, 15), period="day"),
             param("₃₁ December", expected=datetime(2015, 12, 31), period="day"),
+            # Roman numeral years
+            param("MCMXCIX", expected=datetime(1999, 2, 15), period="year"),
+            param("M.DC.LXXIX.", expected=datetime(1679, 2, 15), period="year"),
+            param(
+                "April MCCCCLXXVIIII", expected=datetime(1479, 4, 15), period="month"
+            ),
             # Russian
             param("1000 год", expected=datetime(1000, 2, 15), period="year"),
             param("1001 год", expected=datetime(1001, 2, 15), period="year"),
@@ -1610,21 +1652,45 @@ class TestDateParser(BaseTestCase):
     def test_dates_with_no_day_or_month_use_same_current_date_for_month_and_day(
         self,
     ) -> None:
-        class ParserDateTime(datetime):
-            @classmethod
-            def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
-                return datetime(2026, 5, 31, 12, 0, tzinfo=tz)
-
         class UtilsDateTime(datetime):
             @classmethod
             def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
                 return datetime(2026, 6, 1, 12, 0, tzinfo=tz)
 
         with (
-            patch("dateparser.parser.datetime", ParserDateTime),
+            patch("dateparser.parser._now", return_value=datetime(2026, 5, 31, 12)),
             patch("dateparser.utils.datetime", UtilsDateTime),
         ):
             self.assertEqual(parse("2014"), datetime(2014, 5, 31))
+
+    @parameterized.expand(
+        [
+            param("Monday", {}, datetime(2023, 11, 6)),
+            param("Tuesday", {}, datetime(2023, 10, 31)),
+            param("Tuesday", {"PREFER_DATES_FROM": "future"}, datetime(2023, 11, 7)),
+            param("Monday", {"PREFER_DATES_FROM": "past"}, datetime(2023, 10, 30)),
+            param("November 7", {"PREFER_DATES_FROM": "past"}, datetime(2022, 11, 7)),
+            param("9pm", {"PREFER_DATES_FROM": "past"}, datetime(2023, 11, 5, 21)),
+        ]
+    )
+    def test_current_date_is_taken_from_timezone(
+        self, date_string: str, settings: dict[str, Any], expected: datetime
+    ) -> None:
+        class UtilsDateTime(datetime):
+            @classmethod
+            def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
+                return datetime(2023, 11, 7, 2, 15, tzinfo=timezone.utc).astimezone(tz)
+
+        with patch("dateparser.utils.datetime", UtilsDateTime):
+            result = parse(
+                date_string,
+                settings={
+                    "TIMEZONE": "America/Chicago",
+                    "RETURN_AS_TIMEZONE_AWARE": False,
+                    **settings,
+                },
+            )
+        self.assertEqual(result, expected)
 
     @parameterized.expand(
         [
@@ -1849,10 +1915,12 @@ class TestDateParser(BaseTestCase):
 
     def given_parser(self, *args: Any, **kwds: Any) -> None:
         def collecting_get_date_data(
-            parse: Callable[..., tuple[datetime, str | None]],
-        ) -> Callable[..., tuple[datetime, str | None]]:
+            parse: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
+        ) -> Callable[..., tuple[datetime, str | None, tuple[str, ...]]]:
             @wraps(parse)
-            def wrapped(*args: Any, **kwargs: Any) -> tuple[datetime, str | None]:
+            def wrapped(
+                *args: Any, **kwargs: Any
+            ) -> tuple[datetime, str | None, tuple[str, ...]]:
                 self.date_result = parse(*args, **kwargs)
                 return self.date_result
 
@@ -2205,6 +2273,37 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(expected_month, result.month)
         if expected_day is not None:
             self.assertEqual(expected_day, result.day)
+
+    @parameterized.expand(
+        [
+            param("mar 5 mar 2019", "it", datetime(2019, 3, 5)),
+            param("mar, 07 giu 2022 08:56:47", "it", datetime(2022, 6, 7, 8, 56, 47)),
+            param("seg, 3 fev 2020", "pt", datetime(2020, 2, 3)),
+            param("luni, 3 mar 2020", "ro", datetime(2020, 3, 3)),
+            param("3월 5일 2020", "ko", datetime(2020, 3, 5)),
+            param("mar 2019", "es", datetime(2019, 3, 15)),
+        ]
+    )
+    def test_word_with_several_meanings(
+        self, date_string: str, language: str, expected: datetime
+    ) -> None:
+        settings = {"RELATIVE_BASE": datetime(2020, 1, 15)}
+        self.assertEqual(
+            expected, parse(date_string, languages=[language], settings=settings)
+        )
+
+    def test_word_with_several_meanings_with_date_formats(self) -> None:
+        self.assertEqual(
+            datetime(2022, 6, 7, 8, 56, 47),
+            parse(
+                "mar, 07 giu 2022 08:56:47",
+                date_formats=["%a, %d %b %Y %H:%M:%S"],
+                languages=["it"],
+            ),
+        )
+
+    def test_word_with_too_many_meaning_combinations(self) -> None:
+        self.assertIsNone(parse("mar mar mar mar mar", languages=["it"]))
 
 
 if __name__ == "__main__":

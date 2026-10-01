@@ -11,6 +11,7 @@ from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import _UNITS
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import Locale
+from dateparser.parser import _ORDINAL_SUFFIX
 from dateparser.search.ngram_search import _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
@@ -181,6 +182,48 @@ class _ExactLanguageSearch:
             )
         return possible_splits
 
+    def split_around_skipped_words(
+        self, item: str, original: str, language: Locale, settings: Settings
+    ) -> list[list[list[str]]]:
+        """Split a chunk by spaces, ignoring the words its translation skips.
+
+        Words like "and" or "of" are left out of the translation but not of
+        the original text, so splitting both by spaces does not line them up.
+        Each part of the original text spans from its first word that is not
+        skipped to its last one.
+        """
+        words = original.split()
+        kept = []
+        for index, word in enumerate(words):
+            # The search translation keeps ordinal suffixes attached, e.g.
+            # "1st" becomes "1xth" there but "1 xth" here.
+            translation = (
+                language.translate(word, settings=settings)
+                .replace(f" {_ORDINAL_SUFFIX}", _ORDINAL_SUFFIX)
+                .split()
+            )
+            if len(translation) > 1:
+                return []
+            if translation:
+                kept.append(index)
+        item_words = item.split()
+        if len(kept) == len(words) or len(kept) != len(item_words):
+            return []
+        sizes = [1] if len(kept) <= 3 else [1, 2, 3]
+        possible_splits = []
+        for size in sizes:
+            starts = range(0, len(kept), size)
+            possible_splits.append(
+                [
+                    [" ".join(item_words[i : i + size]) for i in starts],
+                    [
+                        " ".join(words[kept[i] : kept[i : i + size][-1] + 1])
+                        for i in starts
+                    ],
+                ]
+            )
+        return possible_splits
+
     def split_off_leading_number(
         self, parser: DateDataParser, item: str, original: str
     ) -> list[list[list[str]]]:
@@ -215,7 +258,7 @@ class _ExactLanguageSearch:
             # splits keeps being split exactly the way it is split today.
             possible_splits = self.split_by_relative_expression(
                 parser, item, original, language, settings
-            )
+            ) or self.split_around_skipped_words(item, original, language, settings)
         return possible_splits
 
     def parse_item(
