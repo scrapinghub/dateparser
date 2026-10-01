@@ -1,25 +1,26 @@
 from datetime import datetime, tzinfo
+from typing import Any
 
 import pytest
 from parameterized import param, parameterized
 
 from dateparser import DateDataParser, parse
-from dateparser.conf import SettingValidationError, apply_settings, settings
+from dateparser.conf import Settings, SettingValidationError, apply_settings, settings
 from dateparser.languages.dictionary import Dictionary
 from tests import BaseTestCase
 
 
-def test_function(settings=None):
+def test_function(settings: object = None) -> object:
     return settings
 
 
 class TimeZoneSettingsTest(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.given_ds = NotImplemented
-        self.result = NotImplemented
+        self.given_ds: str = NotImplemented
+        self.result: datetime | None = NotImplemented
         self.timezone = NotImplemented
-        self.confs = NotImplemented
+        self.confs: Settings = NotImplemented
 
     @parameterized.expand(
         [
@@ -33,7 +34,7 @@ class TimeZoneSettingsTest(BaseTestCase):
             param("12 Feb 2015 8:30 PM ACT", datetime(2015, 2, 12, 20, 30), "ACT"),
         ]
     )
-    def test_should_return_and_assert_tz(self, ds, dt, tz):
+    def test_should_return_and_assert_tz(self, ds: str, dt: datetime, tz: str) -> None:
         self.given(ds)
         self.given_configurations({})
         self.when_date_is_parsed()
@@ -49,7 +50,9 @@ class TimeZoneSettingsTest(BaseTestCase):
             param("12 Feb 2015 8:30 PM", datetime(2015, 2, 12, 20, 30), ""),
         ]
     )
-    def test_only_return_explicit_timezone(self, ds, dt, tz):
+    def test_only_return_explicit_timezone(
+        self, ds: str, dt: datetime, tz: str
+    ) -> None:
         self.given(ds)
         self.given_configurations({})
         self.when_date_is_parsed()
@@ -80,61 +83,68 @@ class TimeZoneSettingsTest(BaseTestCase):
             ),
         ]
     )
-    def test_should_return_naive_if_RETURN_AS_TIMEZONE_AWARE_IS_FALSE(self, ds, dt):
+    def test_should_return_naive_if_RETURN_AS_TIMEZONE_AWARE_IS_FALSE(
+        self, ds: str, dt: datetime
+    ) -> None:
         self.given(ds)
         self.given_configurations({"RETURN_AS_TIMEZONE_AWARE": False})
         self.when_date_is_parsed()
         self.then_date_is(dt)
         self.then_date_is_not_tz_aware()
 
-    def then_timezone_is(self, tzname):
-        self.assertEqual(self.result.tzinfo.tzname(""), tzname)
+    def then_timezone_is(self, tzname: str) -> None:
+        assert self.result is not None
+        assert self.result.tzinfo is not None
+        self.assertEqual(self.result.tzinfo.tzname(None), tzname)
 
-    def given(self, ds):
+    def given(self, ds: str) -> None:
         self.given_ds = ds
 
-    def given_configurations(self, confs):
+    def given_configurations(self, confs: dict[str, Any]) -> None:
         if "TIMEZONE" not in confs:
             confs.update({"TIMEZONE": "local"})
 
         self.confs = settings.replace(**confs)
 
-    def when_date_is_parsed(self):
+    def when_date_is_parsed(self) -> None:
         self.result = parse(self.given_ds, settings=(self.confs or {}))
 
-    def then_date_is_tz_aware(self):
+    def then_date_is_tz_aware(self) -> None:
+        assert self.result is not None
         self.assertIsInstance(self.result.tzinfo, tzinfo)
 
-    def then_date_is_not_tz_aware(self):
+    def then_date_is_not_tz_aware(self) -> None:
+        assert self.result is not None
         self.assertIsNone(self.result.tzinfo)
 
-    def then_date_is(self, date):
+    def then_date_is(self, date: datetime) -> None:
+        assert self.result is not None
         dtc = self.result.replace(tzinfo=None)
         self.assertEqual(dtc, date)
 
 
 class SettingsTest(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.default_settings = settings
 
     def test_apply_settings_should_return_default_settings_when_no_settings_are_supplied_to_the_decorated_function(
         self,
-    ):
+    ) -> None:
         test_func = apply_settings(test_function)
         self.assertEqual(test_func(), self.default_settings)
 
     def test_apply_settings_should_return_non_default_settings_when_settings_are_supplied_to_the_decorated_function(
         self,
-    ):
+    ) -> None:
         test_func = apply_settings(test_function)
         self.assertNotEqual(
             test_func(settings={"PREFER_DATES_FROM": "past"}), self.default_settings
         )
 
-    def test_apply_settings_should_return_default_settings_when_called_with_no_settings_after_once_called_with_settings_supplied_to_the_decorated_function(  # noqa E501
+    def test_apply_settings_should_return_default_settings_when_called_with_no_settings_after_once_called_with_settings_supplied_to_the_decorated_function(
         self,
-    ):
+    ) -> None:
         test_func = apply_settings(test_function)
         settings_once = test_func(settings={"PREFER_DATES_FROM": "past"})
         settings_twice = test_func()
@@ -143,10 +153,10 @@ class SettingsTest(BaseTestCase):
 
 
 class InvalidSettingsTest(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
 
-    def test_error_is_raised_when_none_is_passed_in_settings(self):
+    def test_error_is_raised_when_none_is_passed_in_settings(self) -> None:
         test_func = apply_settings(test_function)
         with self.assertRaisesRegex(TypeError, r"Invalid.*None\}"):
             test_func(settings={"PREFER_DATES_FROM": None})
@@ -157,7 +167,7 @@ class InvalidSettingsTest(BaseTestCase):
         with self.assertRaisesRegex(TypeError, r"Invalid.*None\}"):
             test_func(settings={"TO_TIMEZONE": None})
 
-    def test_error_is_raised_for_invalid_type_settings(self):
+    def test_error_is_raised_for_invalid_type_settings(self) -> None:
         test_func = apply_settings(test_function)
         try:
             test_func(settings=["current_period", False, "current"])
@@ -168,7 +178,7 @@ class InvalidSettingsTest(BaseTestCase):
                 ["settings can only be either dict or instance of Settings class"],
             )
 
-    def test_check_settings_wrong_setting_name(self):
+    def test_check_settings_wrong_setting_name(self) -> None:
         with self.assertRaisesRegex(
             SettingValidationError, r".* is not a valid setting"
         ):
@@ -201,10 +211,12 @@ class InvalidSettingsTest(BaseTestCase):
             param("LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD", "1", "", 0.5),
         ]
     )
-    def test_check_settings(self, setting, wrong_type, wrong_value, valid_value):
+    def test_check_settings(
+        self, setting: str, wrong_type: object, wrong_value: str, valid_value: object
+    ) -> None:
         with self.assertRaisesRegex(
             SettingValidationError,
-            r'"{}" must be .*, not "{}".'.format(setting, type(wrong_type).__name__),
+            rf'"{setting}" must be .*, not "{type(wrong_type).__name__}".',
         ):
             DateDataParser(settings={setting: wrong_type})
 
@@ -220,7 +232,7 @@ class InvalidSettingsTest(BaseTestCase):
         # check that a valid value doesn't raise an error
         assert DateDataParser(settings={setting: valid_value})
 
-    def test_check_settings_extra_check_require_parts(self):
+    def test_check_settings_extra_check_require_parts(self) -> None:
         with self.assertRaisesRegex(
             SettingValidationError,
             r'"REQUIRE_PARTS" setting contains invalid values: time',
@@ -232,7 +244,7 @@ class InvalidSettingsTest(BaseTestCase):
         ):
             DateDataParser(settings={"REQUIRE_PARTS": ["month", "day", "month"]})
 
-    def test_check_settings_extra_check_parsers(self):
+    def test_check_settings_extra_check_parsers(self) -> None:
         with self.assertRaisesRegex(
             SettingValidationError,
             r'Found unknown parsers in the "PARSERS" setting: no-spaces',
@@ -247,7 +259,7 @@ class InvalidSettingsTest(BaseTestCase):
                 settings={"PARSERS": ["absolute-time", "timestamp", "absolute-time"]}
             )
 
-    def test_check_settings_extra_check_confidence_threshold(self):
+    def test_check_settings_extra_check_confidence_threshold(self) -> None:
         with self.assertRaisesRegex(
             SettingValidationError,
             r"1.1 is not a valid value for "
@@ -256,7 +268,7 @@ class InvalidSettingsTest(BaseTestCase):
         ):
             DateDataParser(settings={"LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": 1.1})
 
-    def test_check_settings_extra_check_default_languages(self):
+    def test_check_settings_extra_check_default_languages(self) -> None:
         with self.assertRaisesRegex(
             SettingValidationError,
             "Found invalid languages in the 'DEFAULT_LANGUAGES' setting: 'abcd'",
@@ -265,7 +277,7 @@ class InvalidSettingsTest(BaseTestCase):
 
 
 @pytest.mark.parametrize(
-    "date_string,expected_result",
+    ("date_string", "expected_result"),
     [
         # Note that these results are "valid" but probably they shouldn't be considered
         ("2020", datetime(1900, 1, 1, 20, 2)),
@@ -274,7 +286,7 @@ class InvalidSettingsTest(BaseTestCase):
         ("100000", datetime(1900, 1, 1, 10, 0)),
     ],
 )
-def test_no_spaces_strict_parsing(date_string, expected_result):
+def test_no_spaces_strict_parsing(date_string: str, expected_result: datetime) -> None:
     parser = DateDataParser(
         settings={"PARSERS": ["no-spaces-time"], "STRICT_PARSING": False}
     )
@@ -286,14 +298,13 @@ def test_no_spaces_strict_parsing(date_string, expected_result):
     assert parser.get_date_data(date_string)["date_obj"] is None
 
 
-def detect_languages(text, confidence_threshold):
+def detect_languages(text: str, confidence_threshold: float) -> list[str]:
     if confidence_threshold > 0.5:
         return ["en"]
-    else:
-        return ["fr"]
+    return ["fr"]
 
 
-def test_confidence_threshold_setting_is_applied():
+def test_confidence_threshold_setting_is_applied() -> None:
     ddp = DateDataParser(
         detect_languages_function=detect_languages,
         settings={"LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": 0.6},
@@ -307,7 +318,7 @@ def test_confidence_threshold_setting_is_applied():
     assert ddp2.get_date_data("21/06/2020").locale == "fr"
 
 
-def test_relative_base_does_not_grow_caches():
+def test_relative_base_does_not_grow_caches() -> None:
     parse("2 days ago", settings={"RELATIVE_BASE": datetime(2000, 1, 3)})
     cache_size = len(Dictionary._split_regex_cache)
     for day in range(4, 10):
