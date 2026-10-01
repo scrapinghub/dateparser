@@ -43,6 +43,12 @@ second:
     - segundos
     - s
 
+early_morning:
+    - de madrugada
+    - na madrugada
+    - pela madrugada
+    - madrugada
+
 ago:
     - atrás
     - há
@@ -54,6 +60,7 @@ relative-type:
         - anteontem
 
 simplifications:
+    - esta madrugada: hoje madrugada
     - uma: '1'
     - um: '1'
     - alguns segundos: 44 segundos

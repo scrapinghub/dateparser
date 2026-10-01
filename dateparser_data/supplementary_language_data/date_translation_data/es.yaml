@@ -95,6 +95,10 @@ minute:
 second:
     - segundos
 
+early_morning:
+    - de madrugada
+    - madrugada
+
 ago:
     - hace
 in:
@@ -105,6 +109,8 @@ relative-type:
         - anteayer
 
 simplifications:
+    - esta madrugada: hoy madrugada
+    - (?:de|por|en) la madrugada: madrugada
     - una: '1'
     - un: '1'
     # "de" never joins a number to its unit, so "11 de a" is not a duration.
