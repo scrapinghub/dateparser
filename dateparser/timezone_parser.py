@@ -3,14 +3,11 @@ from collections.abc import Iterator
 from datetime import datetime, timedelta, timezone, tzinfo
 from typing import Literal, TypedDict, overload
 
+import pytz
 import regex as re
+from pytz.tzinfo import BaseTzInfo
 
 from .timezones import timezone_info_list
-
-
-class _TzOffsetInfo(TypedDict):
-    regex: re.Pattern[str]
-    offset: timedelta
 
 
 class StaticTzInfo(tzinfo):
@@ -39,6 +36,11 @@ class StaticTzInfo(tzinfo):
         return self.__name, self.__offset
 
 
+class _TzOffsetInfo(TypedDict):
+    regex: re.Pattern[str]
+    tzinfo: StaticTzInfo | BaseTzInfo
+
+
 def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | None:
     """Find and remove the first timezone token from ``date_string``.
 
@@ -64,10 +66,24 @@ def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | Non
     return None
 
 
+def _same_offset(a: StaticTzInfo | BaseTzInfo, b: StaticTzInfo | BaseTzInfo) -> bool:
+    if isinstance(a, StaticTzInfo) and isinstance(b, StaticTzInfo):
+        return a.utcoffset(None) == b.utcoffset(None)
+    if isinstance(a, StaticTzInfo):
+        a, b = b, a
+    if isinstance(b, StaticTzInfo):
+        # January and July cover both the standard and the daylight saving
+        # offset of a zone, in either hemisphere.
+        return b.utcoffset(None) in {
+            a.utcoffset(datetime(2000, month, 1)) for month in (1, 7)
+        }
+    return a is b
+
+
 @overload
 def pop_tz_offset_from_string(
     date_string: str, as_offset: Literal[True] = True
-) -> tuple[str, StaticTzInfo | None]: ...
+) -> tuple[str, StaticTzInfo | BaseTzInfo | None]: ...
 
 
 @overload
@@ -78,13 +94,13 @@ def pop_tz_offset_from_string(
 
 def pop_tz_offset_from_string(
     date_string: str, as_offset: bool = True
-) -> tuple[str, StaticTzInfo | str | None]:
+) -> tuple[str, StaticTzInfo | BaseTzInfo | str | None]:
     match = _search_and_pop_tz(date_string)
     if match is None:
         return date_string, None
 
     date_string, name, info = match
-    result = StaticTzInfo(name, info["offset"]) if as_offset else name
+    result = info["tzinfo"] if as_offset else name
 
     # A date string may carry both a numeric UTC offset and a redundant,
     # equivalent timezone abbreviation, e.g. the RFC 2822 email form
@@ -95,7 +111,7 @@ def pop_tz_offset_from_string(
     # are anchored at the end of the string.
     while True:
         extra = _search_and_pop_tz(date_string.rstrip())
-        if extra is None or extra[2]["offset"] != info["offset"]:
+        if extra is None or not _same_offset(extra[2]["tzinfo"], info["tzinfo"]):
             break
         date_string = extra[0]
 
@@ -138,15 +154,18 @@ def build_tz_offsets(
     search_regex_parts: list[str],
 ) -> Iterator[tuple[str, _TzOffsetInfo]]:
     def get_offset(
-        tz_obj: tuple[str, int], regex: str, repl: str = "", replw: str = ""
+        tz_obj: tuple[str, int | str], regex: str, repl: str = "", replw: str = ""
     ) -> tuple[str, _TzOffsetInfo]:
+        name, offset = tz_obj
         return (
-            tz_obj[0],
+            name,
             {
-                "regex": re.compile(
-                    re.sub(repl, replw, regex % tz_obj[0]), re.IGNORECASE
+                "regex": re.compile(re.sub(repl, replw, regex % name), re.IGNORECASE),
+                "tzinfo": (
+                    pytz.timezone(offset)
+                    if isinstance(offset, str)
+                    else StaticTzInfo(name, timedelta(seconds=offset))
                 ),
-                "offset": timedelta(seconds=tz_obj[1]),
             },
         )
 
