@@ -1737,7 +1737,7 @@ class TestNgramSearch(BaseTestCase):
 class TestSearchFirstDate(BaseTestCase):
     @parameterized.expand(
         [
-            param(text, languages, settings, strategy)
+            param(text, languages, settings, strategy, add_detected_language)
             for text, languages, settings in [
                 (
                     "Launched on 4 October 1957, it fell on 4 January 1958.",
@@ -1765,6 +1765,7 @@ class TestSearchFirstDate(BaseTestCase):
                 ("Hello world", ["en"], None),
             ]
             for strategy in ("split", "ngram")
+            for add_detected_language in (False, True)
         ]
     )
     def test_matches_first_search_dates_result(
@@ -1773,12 +1774,13 @@ class TestSearchFirstDate(BaseTestCase):
         languages: list[str],
         settings: dict[str, Any] | None,
         strategy: str,
+        add_detected_language: bool,
     ) -> None:
         kwargs: dict[str, Any] = {
             "languages": languages,
             "settings": settings,
             "strategy": strategy,
-            "add_detected_language": True,
+            "add_detected_language": add_detected_language,
         }
         expected = search_dates(text, **kwargs)
         self.assertEqual(
