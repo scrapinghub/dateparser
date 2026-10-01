@@ -15,6 +15,7 @@ def search_dates(
     add_detected_language: bool = False,
     detect_languages_function: Callable[..., list[str]] | None = None,
     strategy: str = "split",
+    date_formats: Iterable[str] | None = None,
 ) -> list[tuple[str, datetime]] | list[tuple[str, datetime, str | None]] | None:
     """Find all substrings of the given string which represent date and/or time and parse them.
 
@@ -48,6 +49,13 @@ def search_dates(
         produce more predictable results, at the cost of more parse attempts.
     :type strategy: str
 
+    :param date_formats:
+        A list of :ref:`format strings <python:strftime-strptime-behavior>`,
+        tried on every candidate before regular parsing. Requires
+        ``strategy="ngram"``, which splits text on ",", "|", "(", ")", "@" and
+        whitespace, so formats cannot contain those, other than single spaces.
+    :type date_formats: list
+
     :return: Returns list of tuples containing:
         substrings representing date and/or time, corresponding :mod:`datetime.datetime`
         object and detected language if *add_detected_language* is True.
@@ -78,6 +86,7 @@ def search_dates(
         settings=settings,
         detect_languages_function=detect_languages_function,
         strategy=strategy,
+        date_formats=date_formats,
     )
     dates = result.get("Dates")
     if dates:

@@ -451,6 +451,7 @@ class DateSearchWithDetection:
         settings: Settings | dict[str, Any] | None = None,
         detect_languages_function: Callable[..., list[str]] | None = None,
         strategy: str = "split",
+        date_formats: Iterable[str] | None = None,
     ) -> _SearchResult:
         """
         Find all substrings of the given string which represent date and/or time and parse them.
@@ -480,6 +481,11 @@ class DateSearchWithDetection:
                produce more predictable results, at the cost of more parse attempts.
         :type strategy: str
 
+        :param date_formats:
+               A list of format strings to try on each candidate. Only
+               supported by the "ngram" strategy.
+        :type date_formats: list
+
         :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
                 substring representing date expressions and corresponding :mod:`datetime.datetime` object.
             For example:
@@ -492,6 +498,8 @@ class DateSearchWithDetection:
             raise ValueError(
                 f'strategy must be "split" or "ngram" ({strategy!r} given)'
             )
+        if date_formats and strategy != "ngram":
+            raise ValueError('date_formats requires strategy="ngram"')
 
         assert isinstance(settings, Settings)
         check_settings(settings)
@@ -511,7 +519,7 @@ class DateSearchWithDetection:
 
         if strategy == "ngram":
             dates = self.ngram_search.search_parse(
-                candidate_languages, text, settings=settings
+                candidate_languages, text, settings=settings, date_formats=date_formats
             )
             _add_time_span_results(dates, text, settings)
             return {"Language": language_shortname, "Dates": dates}
