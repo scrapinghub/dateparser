@@ -188,22 +188,21 @@ def _complete_ranges(
 ) -> list[tuple[str, datetime]]:
     """Complete each end of the ranges in *results*, i.e. each pair of
     dates joined by a range connector, with what the other end adds."""
-    positions = []
-    position = 0
-    for substring, _ in results:
-        # Substrings may differ from the text in whitespace, e.g. “April 2019”
-        # in “April  2019”.
-        pattern = r"\s*".join(map(re.escape, "".join(substring.split())))
-        match = re.compile(pattern).search(text, position)
-        if match is None:
-            return results
-        position = match.end()
-        positions.append(match.span())
+    # Substrings may differ from the text in whitespace, e.g. “April 2019” in
+    # “April  2019”.
+    patterns = [
+        r"\s*".join(map(re.escape, "".join(substring.split())))
+        for substring, _ in results
+    ]
+    connectors = "|".join(map(re.escape, _RANGE_CONNECTORS))
     ranges = [
         i
         for i in range(len(results) - 1)
-        if text[positions[i][1] : positions[i + 1][0]].strip().lower()
-        in _RANGE_CONNECTORS
+        if re.search(
+            rf"{patterns[i]}\s*(?:{connectors})\s*{patterns[i + 1]}",
+            text,
+            re.IGNORECASE,
+        )
     ]
     if not ranges:
         return results
