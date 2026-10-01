@@ -267,6 +267,9 @@ class TestDaylightSavingAbbreviations(BaseTestCase):
             param("August 24, 2022 19:00 ET", -4),
             param("August 24, 2022 19:00 PT", -7),
             param("in 1 hour CT", -5),
+            param("Wed, 24 Aug 2022 19:00:00 -0400 (ET)", -4),
+            param("Mon, 24 Jan 2022 19:00:00 -0500 (ET)", -5),
+            param("Wed, 24 Aug 2022 19:00:00 CT CT", -5),
         ]
     )
     def test_offset_follows_daylight_saving_time(

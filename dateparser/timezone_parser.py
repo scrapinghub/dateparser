@@ -69,6 +69,14 @@ def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | Non
 def _same_offset(a: StaticTzInfo | BaseTzInfo, b: StaticTzInfo | BaseTzInfo) -> bool:
     if isinstance(a, StaticTzInfo) and isinstance(b, StaticTzInfo):
         return a.utcoffset(None) == b.utcoffset(None)
+    if isinstance(a, StaticTzInfo):
+        a, b = b, a
+    if isinstance(b, StaticTzInfo):
+        # January and July cover both the standard and the daylight saving
+        # offset of a zone, in either hemisphere.
+        return b.utcoffset(None) in {
+            a.utcoffset(datetime(2000, month, 1)) for month in (1, 7)
+        }
     return a is b
 
 
