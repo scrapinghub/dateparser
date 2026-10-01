@@ -5,11 +5,29 @@ sentence_splitter_group: 1
 sunday:
     - Ahad
 
+january:
+    - Djan
+    - Djanuari
+february:
+    - Peb
+    - Pebruari
+march:
+    - Mrt
+may:
+    - Mai
+june:
+    - Djuni
+july:
+    - Djuli
 august:
     - Agu
     - agt
+    - Ag
 september:
     - Sept
+november:
+    - Nop
+    - Nopember
 
 ago:
     - lalu
