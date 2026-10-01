@@ -5,6 +5,7 @@ from functools import wraps
 from types import MappingProxyType
 from typing import Any, Literal, ParamSpec, TypeVar
 
+from dateparser._parts_of_day import PartsOfDay
 from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
@@ -37,6 +38,7 @@ class Settings:
     * `RETURN_TIME_SPAN`
     * `DEFAULT_START_OF_WEEK`
     * `DEFAULT_DAYS_IN_MONTH`
+    * `PARTS_OF_DAY`
     * `PARSERS`
     * `DEFAULT_LANGUAGES`
     * `USE_GIVEN_LANGUAGE_ORDER`
@@ -67,6 +69,7 @@ class Settings:
     RETURN_TIME_SPAN: bool
     DEFAULT_START_OF_WEEK: str
     DEFAULT_DAYS_IN_MONTH: int
+    PARTS_OF_DAY: PartsOfDay
     PARSERS: list[str]
     DEFAULT_LANGUAGES: list[str]
     USE_GIVEN_LANGUAGE_ORDER: bool
@@ -275,6 +278,7 @@ def check_settings(settings: Settings) -> None:
         "DEFAULT_DAYS_IN_MONTH": {
             "type": int,
         },
+        "PARTS_OF_DAY": {"type": PartsOfDay},
     }
 
     modified_settings = settings._mod_settings  # check only modified settings
