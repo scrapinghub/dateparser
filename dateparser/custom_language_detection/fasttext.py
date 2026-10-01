@@ -6,6 +6,7 @@ Please use langdetect instead.
 """
 
 import warnings
+from typing import NoReturn
 
 warnings.warn(
     "fastText support is deprecated and will be removed in a future version. "
@@ -16,7 +17,7 @@ warnings.warn(
 )
 
 
-def detect_languages(text, confidence_threshold):
+def detect_languages(text: str, confidence_threshold: float) -> NoReturn:
     """
     Deprecated function. FastText support has been removed.
 

@@ -7,6 +7,8 @@ import pytest
 from dateparser.search import search_dates, search_first_date
 
 if TYPE_CHECKING:
+    from datetime import datetime
+
     from pytest_codspeed import BenchmarkFixture
 
 # The language is given so that language detection, which both functions run
@@ -26,22 +28,28 @@ STRATEGIES = pytest.mark.parametrize("strategy", ["split", "ngram"])
 
 @STRATEGIES
 def test_search_dates(benchmark: BenchmarkFixture, strategy: str) -> None:
-    def run():
+    def run() -> (
+        list[tuple[str, datetime]] | list[tuple[str, datetime, str | None]] | None
+    ):
         return search_dates(TEXT, languages=LANGUAGES, strategy=strategy)
 
     # Dates after the first one are what search_first_date() gets to skip.
     # Running the search here also loads the locale data and warms the parser
     # caches outside the measurement.
-    assert len(run()) > 1
+    dates = run()
+    assert dates is not None
+    assert len(dates) > 1
 
     benchmark(run)
 
 
 @STRATEGIES
 def test_search_first_date(benchmark: BenchmarkFixture, strategy: str) -> None:
-    def run():
+    def run() -> tuple[str, datetime] | tuple[str, datetime, str | None] | None:
         return search_first_date(TEXT, languages=LANGUAGES, strategy=strategy)
 
-    assert run()[0].endswith("4 October 1957")
+    date = run()
+    assert date is not None
+    assert date[0].endswith("4 October 1957")
 
     benchmark(run)
