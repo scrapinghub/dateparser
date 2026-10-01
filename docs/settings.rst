@@ -37,17 +37,23 @@ Date Order
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY', 'PREFER_LOCALE_DATE_ORDER': False})
     datetime.datetime(2016, 2, 3, 0, 0)  # MDY worked!
 
-``STRICT_DATE_ORDER``: defaults to ``False``. ``DATE_ORDER`` is a preference: a number that does not fit where the order puts it can be read as another part of the date. Any number that is not a valid day or month is a valid two-digit year, so ``32`` becomes the year 2032 here:
+``STRICT_DATE_ORDER``: defaults to ``none``. ``DATE_ORDER`` is a preference: a number that does not fit where the order puts it is read as another part of the date. ``13`` is not a valid month, so it is read as the day where ``MDY`` puts the month, and any number that is not a valid day or month is a valid two-digit year, so ``32`` becomes the year 2032:
 
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY'})
+    datetime.datetime(2010, 12, 13, 0, 0)
     >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY'})
     datetime.datetime(2032, 12, 10, 0, 0)
 
-Set it to ``True`` to read a two-digit year only where ``DATE_ORDER`` puts the year. A date string that needs one anywhere else then gives ``None``, and no other language is tried for it:
+Set it to ``year`` so that a day or month that ``DATE_ORDER`` puts before the year is not read after a two-digit year, or to ``all`` so that the day, month and year are only read in the order ``DATE_ORDER`` gives. A date string that does not fit then gives ``None``, and no other language is tried for it:
 
-    >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY', 'STRICT_DATE_ORDER': True})
+    >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY', 'STRICT_DATE_ORDER': 'year'})
+    None
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'year'})
+    datetime.datetime(2010, 12, 13, 0, 0)
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'all'})
     None
 
-It has an effect only when ``DATE_ORDER`` is set, and it can only turn a date into ``None``: four-digit years, month names, and a day and month in each other's place (``'13-12-10'`` with ``MDY``) are read as without it. Some dates that are read correctly without it are rejected too, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
+It has an effect only when ``DATE_ORDER`` is set, and with the default parsers it can only turn a date into ``None``. Only the parts that are read from numbers are checked: a month name or a missing part is not, so ``'DEC 32'`` with ``DMY`` is December 2032, and a four-digit year cannot be anything else, so ``year`` never rejects a date that has one. With ``all``, a date that starts with a four-digit year is still read as year, month and day, unless ``DATE_ORDER`` itself starts with the year. Some dates that are read correctly without the setting are rejected too, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
 
 
 Timezone Related Configurations
