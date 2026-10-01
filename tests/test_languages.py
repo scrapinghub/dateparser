@@ -1,26 +1,31 @@
 import logging
 from datetime import datetime
 from io import StringIO
+from typing import Any
 from unittest.mock import patch
 
 import pytest
 from parameterized import param, parameterized
 
 from dateparser import parse
-from dateparser.conf import apply_settings, settings
+from dateparser.conf import Settings, apply_settings, settings
 from dateparser.date import DateDataParser
 from dateparser.languages import Locale, default_loader
 from dateparser.languages.dictionary import Dictionary
 from dateparser.languages.validation import LanguageValidator
 from dateparser.search import search_dates
-from dateparser.search.detection import AutoDetectLanguage, ExactLanguages
+from dateparser.search.detection import (
+    AutoDetectLanguage,
+    BaseLanguageDetector,
+    ExactLanguages,
+)
 from dateparser.utils import normalize_unicode
 from tests import BaseTestCase
 
 
 class TestLocaleTranslation:
     @pytest.mark.parametrize(
-        "date_string,expected,locale,keep_formatting",
+        ("date_string", "expected", "locale", "keep_formatting"),
         [
             (
                 "December 04, 1999, 11:04:59 PM",
@@ -38,7 +43,9 @@ class TestLocaleTranslation:
             ("23 März 18:37", "23 march 18:37", "de", False),
         ],
     )
-    def test_keep_formatting(self, date_string, expected, locale, keep_formatting):
+    def test_keep_formatting(
+        self, date_string: str, expected: str, locale: str, keep_formatting: bool
+    ) -> None:
         result = default_loader.get_locale(locale).translate(
             date_string=date_string, keep_formatting=keep_formatting, settings=settings
         )
@@ -47,14 +54,14 @@ class TestLocaleTranslation:
 
 
 class TestBundledLanguages(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.language = NotImplemented
-        self.datetime_string = NotImplemented
-        self.translation = NotImplemented
-        self.tokens = NotImplemented
-        self.result = NotImplemented
-        self.settings = NotImplemented
+        self.language: Locale = NotImplemented
+        self.datetime_string: str = NotImplemented
+        self.translation: str = NotImplemented
+        self.tokens: list[str] = NotImplemented
+        self.result: bool = NotImplemented
+        self.settings: Settings = NotImplemented
 
     @parameterized.expand(
         [
@@ -76,6 +83,7 @@ class TestBundledLanguages(BaseTestCase):
             param("zh", "周六 2013年04月08日", "saturday 2013-04-08"),
             param("zh", "下午3:30", "3:30 pm"),
             param("zh", "凌晨3:30", "3:30 am"),
+            param("zh", "下午 02:26:26", "02:26:26 pm"),
             param("zh", "中午", "12:00"),
             # French
             param("fr", "20 Février 2012", "20 february 2012"),
@@ -152,6 +160,10 @@ class TestBundledLanguages(BaseTestCase):
             # Arabic
             param("ar", "6 يناير، 2015، الساعة 05:16 مساءً", "6 january 2015 05:16 pm"),
             param("ar", "7 يناير، 2015، الساعة 11:00 صباحاً", "7 january 2015 11:00 am"),
+            param("ar", "الجمعه 5 يونيه 2020", "friday 5 june 2020"),
+            param("ar", "6 يونية 2020", "6 june 2020"),
+            param("ar", "7 يوليه 2020", "7 july 2020"),
+            param("ar", "8 يولية 2020", "8 july 2020"),
             param("ar", "۳ یولیو ۲۰۱۴", "3 july 2014"),
             # Persian
             param("fa", "3 ژوئيه 2014", "3 july 2014"),
@@ -278,6 +290,8 @@ class TestBundledLanguages(BaseTestCase):
             # Swedish
             param("sv", "Sept 03 2014", "september 03 2014"),
             param("sv", "fredag, 03 september 2014", "friday 03 september 2014"),
+            param("sv", "den 24:e december 2020", " 24 december 2020"),
+            param("sv", "1:a januari 2021 10:00", "1 january 2021 10:00"),
             # af
             param("af", "5 Mei 2017", "5 may 2017"),
             param(
@@ -1100,7 +1114,9 @@ class TestBundledLanguages(BaseTestCase):
             param("zu", "son 23 umasingana 1996", "sunday 23 january 1996"),
         ]
     )
-    def test_translation(self, shortname, datetime_string, expected_translation):
+    def test_translation(
+        self, shortname: str, datetime_string: str, expected_translation: str
+    ) -> None:
         self.given_settings()
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
@@ -1251,6 +1267,8 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "يومين", "2 day"),
             param("ar", "أمس", "1 day ago"),
             param("ar", "4 عام", "4 year"),
+            param("ar", "4 السنه", "4 year"),
+            param("ar", "منذ 3 ثانيه", "ago 3 second"),
             param("ar", "منذ 2 ساعات", "ago 2 hour"),
             param("ar", "منذ ساعتين", "ago 2 hour"),
             param("ar", "اليوم السابق", "1 day ago"),
@@ -1750,7 +1768,7 @@ class TestBundledLanguages(BaseTestCase):
             # km
             param("km", "ម៉ោងនេះ", "0 hour ago"),
             param("km", "19 ខែមុន", "19 month ago"),
-            param("km", "ក្នុង​រយៈ​ពេល 23 ម៉ោង", "in 23 hour"),
+            param("km", "ក្នុង\u200bរយៈ\u200bពេល 23 ម៉ោង", "in 23 hour"),
             # kn
             param("kn", "18 ತಿಂಗಳುಗಳ ಹಿಂದೆ", "18 month ago"),
             param("kn", "26 ಸೆಕೆಂಡ್‌ನಲ್ಲಿ", "in 26 second"),
@@ -2103,8 +2121,8 @@ class TestBundledLanguages(BaseTestCase):
         ]
     )
     def test_freshness_translation(
-        self, shortname, datetime_string, expected_translation
-    ):
+        self, shortname: str, datetime_string: str, expected_translation: str
+    ) -> None:
         self.given_settings(settings={"NORMALIZE": False})
         # Finnish language use "t" as hour, so empty SKIP_TOKENS.
         if shortname == "fi":
@@ -2392,7 +2410,9 @@ class TestBundledLanguages(BaseTestCase):
             param("naq", "13 ǃkhanǀgôab 1887", ["13", " ", "ǃkhanǀgôab", " ", "1887"]),
         ]
     )
-    def test_split(self, shortname, datetime_string, expected_tokens):
+    def test_split(
+        self, shortname: str, datetime_string: str, expected_tokens: list[str]
+    ) -> None:
         self.given_settings(settings={"NORMALIZE": False})
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
@@ -2423,7 +2443,9 @@ class TestBundledLanguages(BaseTestCase):
             param("bn", "3 সপ্তাহ", strip_timezone=False),
         ]
     )
-    def test_applicable_languages(self, shortname, datetime_string, strip_timezone):
+    def test_applicable_languages(
+        self, shortname: str, datetime_string: str, strip_timezone: bool
+    ) -> None:
         self.given_settings()
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
@@ -2438,7 +2460,9 @@ class TestBundledLanguages(BaseTestCase):
             param("cs", "3 hafta", strip_timezone=False),
         ]
     )
-    def test_not_applicable_languages(self, shortname, datetime_string, strip_timezone):
+    def test_not_applicable_languages(
+        self, shortname: str, datetime_string: str, strip_timezone: bool
+    ) -> None:
         self.given_settings()
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
@@ -2455,8 +2479,8 @@ class TestBundledLanguages(BaseTestCase):
         ]
     )
     def test_applicable_languages_when_ignoring_surrounding_text(
-        self, shortname, datetime_string
-    ):
+        self, shortname: str, datetime_string: str
+    ) -> None:
         self.given_settings()
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
@@ -2473,8 +2497,8 @@ class TestBundledLanguages(BaseTestCase):
         ]
     )
     def test_not_applicable_languages_when_ignoring_surrounding_text(
-        self, shortname, datetime_string
-    ):
+        self, shortname: str, datetime_string: str
+    ) -> None:
         self.given_settings()
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
@@ -2498,8 +2522,8 @@ class TestBundledLanguages(BaseTestCase):
         ]
     )
     def test_translation_when_ignoring_surrounding_text(
-        self, shortname, datetime_string, expected_translation
-    ):
+        self, shortname: str, datetime_string: str, expected_translation: str
+    ) -> None:
         self.given_settings()
         self.given_bundled_language(shortname)
         self.given_string(datetime_string)
@@ -2507,33 +2531,36 @@ class TestBundledLanguages(BaseTestCase):
         self.then_string_translated_to(expected_translation)
 
     @apply_settings
-    def given_settings(self, settings=None):
+    def given_settings(self, settings: Settings | dict[str, Any] | None = None) -> None:
+        assert isinstance(settings, Settings)
         self.settings = settings
 
-    def given_string(self, datetime_string):
+    def given_string(self, datetime_string: str) -> None:
         if self.settings.NORMALIZE:
             datetime_string = normalize_unicode(datetime_string)
         self.datetime_string = datetime_string
 
-    def given_bundled_language(self, shortname):
+    def given_bundled_language(self, shortname: str) -> None:
         self.language = default_loader.get_locale(shortname)
 
-    def when_datetime_string_translated(self):
+    def when_datetime_string_translated(self) -> None:
         self.translation = self.language.translate(
             self.datetime_string, settings=self.settings
         )
 
-    def when_datetime_string_splitted(self, keep_formatting=False):
+    def when_datetime_string_splitted(self, keep_formatting: bool = False) -> None:
         self.tokens = self.language._get_dictionary(self.settings).split(
             self.datetime_string
         )
 
-    def when_datetime_string_checked_if_applicable(self, strip_timezone):
+    def when_datetime_string_checked_if_applicable(self, strip_timezone: bool) -> None:
         self.result = self.language.is_applicable(
             self.datetime_string, strip_timezone, settings=self.settings
         )
 
-    def when_datetime_string_checked_if_applicable_ignoring_surrounding_text(self):
+    def when_datetime_string_checked_if_applicable_ignoring_surrounding_text(
+        self,
+    ) -> None:
         self.result = self.language.is_applicable(
             self.datetime_string,
             strip_timezone=False,
@@ -2541,23 +2568,23 @@ class TestBundledLanguages(BaseTestCase):
             ignore_surrounding_text=True,
         )
 
-    def when_datetime_string_translated_ignoring_surrounding_text(self):
+    def when_datetime_string_translated_ignoring_surrounding_text(self) -> None:
         self.translation = self.language.translate(
             self.datetime_string,
             settings=self.settings,
             ignore_surrounding_text=True,
         )
 
-    def then_string_translated_to(self, expected_string):
+    def then_string_translated_to(self, expected_string: str) -> None:
         self.assertEqual(expected_string, self.translation)
 
-    def then_tokens_are(self, expected_tokens):
+    def then_tokens_are(self, expected_tokens: list[str]) -> None:
         self.assertEqual(expected_tokens, self.tokens)
 
-    def then_language_is_applicable(self):
+    def then_language_is_applicable(self) -> None:
         self.assertTrue(self.result)
 
-    def then_language_is_not_applicable(self):
+    def then_language_is_not_applicable(self) -> None:
         self.assertFalse(self.result)
 
 
@@ -2566,19 +2593,21 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
 
     NOT_DETECTED = object()
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.datetime_string = NotImplemented
-        self.detector = NotImplemented
-        self.detected_language = NotImplemented
-        self.known_languages = None
+        self.datetime_string: str = NotImplemented
+        self.detector: BaseLanguageDetector = NotImplemented
+        self.detected_language: object = NotImplemented
+        self.known_languages: list[Locale] | None = None
 
     @parameterized.expand(
         [
             param("1 january 2015", "en"),
         ]
     )
-    def test_valid_dates_detected(self, datetime_string, expected_language):
+    def test_valid_dates_detected(
+        self, datetime_string: str, expected_language: str
+    ) -> None:
         self.given_locales(expected_language)
         self.given_detector()
         self.given_settings()
@@ -2591,7 +2620,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
             param("foo"),
         ]
     )
-    def test_invalid_dates_not_detected(self, datetime_string):
+    def test_invalid_dates_not_detected(self, datetime_string: str) -> None:
         self.given_locales("en")
         self.given_detector()
         self.given_settings()
@@ -2599,7 +2628,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         self.when_searching_for_first_applicable_language()
         self.then_no_language_was_detected()
 
-    def test_invalid_date_after_valid_date_not_detected(self):
+    def test_invalid_date_after_valid_date_not_detected(self) -> None:
         self.given_settings()
         self.given_locales("en")
         self.given_detector()
@@ -2608,7 +2637,7 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         self.when_searching_for_first_applicable_language()
         self.then_no_language_was_detected()
 
-    def test_valid_date_after_invalid_date_detected(self):
+    def test_valid_date_after_invalid_date_detected(self) -> None:
         self.given_locales("en")
         self.given_settings()
         self.given_detector()
@@ -2617,28 +2646,29 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         self.when_searching_for_first_applicable_language()
         self.then_language_was_detected("en")
 
-    def given_locales(self, *shortnames):
+    def given_locales(self, *shortnames: str) -> None:
         self.known_languages = [
             default_loader.get_locale(shortname) for shortname in shortnames
         ]
 
     @apply_settings
-    def given_settings(self, settings=None):
+    def given_settings(self, settings: Settings | dict[str, Any] | None = None) -> None:
+        assert isinstance(settings, Settings)
         self.settings = settings
 
-    def given_previously_detected_string(self, datetime_string):
+    def given_previously_detected_string(self, datetime_string: str) -> None:
         for _ in self.detector.iterate_applicable_languages(
             datetime_string, modify=True, settings=self.settings
         ):
             break
 
-    def given_string(self, datetime_string):
+    def given_string(self, datetime_string: str) -> None:
         self.datetime_string = datetime_string
 
-    def given_detector(self):
+    def given_detector(self) -> None:
         raise NotImplementedError
 
-    def when_searching_for_first_applicable_language(self):
+    def when_searching_for_first_applicable_language(self) -> None:
         for language in self.detector.iterate_applicable_languages(
             self.datetime_string, modify=True, settings=self.settings
         ):
@@ -2647,13 +2677,14 @@ class BaseLanguageDetectorTestCase(BaseTestCase):
         else:
             self.detected_language = self.NOT_DETECTED
 
-    def then_language_was_detected(self, shortname):
+    def then_language_was_detected(self, shortname: str) -> None:
         self.assertIsInstance(
             self.detected_language, Locale, "Language was not properly detected"
         )
+        assert isinstance(self.detected_language, Locale)
         self.assertEqual(shortname, self.detected_language.shortname)
 
-    def then_no_language_was_detected(self):
+    def then_no_language_was_detected(self) -> None:
         self.assertIs(self.detected_language, self.NOT_DETECTED)
 
 
@@ -2668,7 +2699,7 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
             param("01-01-12", ["en"]),
         ]
     )
-    def test_exact_languages(self, datetime_string, shortnames):
+    def test_exact_languages(self, datetime_string: str, shortnames: list[str]) -> None:
         self.given_settings()
         self.given_string(datetime_string)
         self.given_known_languages(shortnames)
@@ -2676,25 +2707,27 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         self.when_using_exact_languages()
         self.then_exact_languages_were_filtered(shortnames)
 
-    def test_none_raises_value_error(self):
+    def test_none_raises_value_error(self) -> None:
         with self.assertRaisesRegex(
             ValueError, r"language cannot be None for ExactLanguages"
         ):
             ExactLanguages(None)
 
     @apply_settings
-    def given_settings(self, settings=None):
+    def given_settings(self, settings: Settings | dict[str, Any] | None = None) -> None:
+        assert isinstance(settings, Settings)
         self.settings = settings
 
-    def given_known_languages(self, shortnames):
+    def given_known_languages(self, shortnames: list[str]) -> None:
         self.known_languages = [
             default_loader.get_locale(shortname) for shortname in shortnames
         ]
 
-    def given_detector(self):
+    def given_detector(self) -> None:
         self.assertIsInstance(
             self.known_languages, list, "Require a list of languages to initialize"
         )
+        assert self.known_languages is not None
         self.assertGreaterEqual(
             len(self.known_languages),
             1,
@@ -2702,27 +2735,29 @@ class TestExactLanguages(BaseLanguageDetectorTestCase):
         )
         self.detector = ExactLanguages(languages=self.known_languages)
 
-    def when_using_exact_languages(self):
+    def when_using_exact_languages(self) -> None:
         self.exact_languages = self.detector.iterate_applicable_languages(
             self.datetime_string, modify=True, settings=self.settings
         )
 
-    def then_exact_languages_were_filtered(self, shortnames):
+    def then_exact_languages_were_filtered(self, shortnames: list[str]) -> None:
         self.assertEqual(
             set(shortnames), {lang.shortname for lang in self.exact_languages}
         )
 
 
 class BaseAutoDetectLanguageDetectorTestCase(BaseLanguageDetectorTestCase):
-    allow_redetection = NotImplemented
+    allow_redetection: bool = NotImplemented
 
-    def given_detector(self):
+    def given_detector(self) -> None:
+        assert self.known_languages is not None
         self.detector = AutoDetectLanguage(
             languages=self.known_languages, allow_redetection=self.allow_redetection
         )
 
     @apply_settings
-    def given_settings(self, settings=None):
+    def given_settings(self, settings: Settings | dict[str, Any] | None = None) -> None:
+        assert isinstance(settings, Settings)
         self.settings = settings
 
 
@@ -2741,16 +2776,15 @@ class TestAutoDetectLanguageDetectorWithRedetection(
 
 
 class TestLanguageValidatorWhenInvalid(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.validator = LanguageValidator
         self.captured_logs = StringIO()
-        self.validator.get_logger()
         self.sh = logging.StreamHandler(self.captured_logs)
-        self.validator.logger.addHandler(self.sh)
+        self.validator.get_logger().addHandler(self.sh)
         self.log_list = self.captured_logs.getvalue().split("\n")[0]
 
-    def get_log_str(self):
+    def get_log_str(self) -> str:
         return self.captured_logs.getvalue().split("\n")[0]
 
     @parameterized.expand(
@@ -2762,7 +2796,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             ),
         ]
     )
-    def test_validate_info_when_invalid_type(self, lang_id, lang_info, log_msg):
+    def test_validate_info_when_invalid_type(
+        self, lang_id: str, lang_info: object, log_msg: str
+    ) -> None:
         result = self.validator.validate_info(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -2774,7 +2810,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             param("en", {"name": ""}, log_msg="Language 'en' does not have a name"),
         ]
     )
-    def test_validate_name_when_invalid(self, lang_id, lang_info, log_msg):
+    def test_validate_name_when_invalid(
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
+    ) -> None:
         result = self.validator._validate_name(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -2789,7 +2827,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             ),
         ]
     )
-    def test_validate_word_spacing_when_invalid(self, lang_id, lang_info, log_msg):
+    def test_validate_word_spacing_when_invalid(
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
+    ) -> None:
         result = self.validator._validate_word_spacing(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -2810,7 +2850,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             ),
         ]
     )
-    def test_validate_skip_list_when_invalid(self, lang_id, lang_info, log_msg):
+    def test_validate_skip_list_when_invalid(
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
+    ) -> None:
         result = self.validator._validate_skip_list(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -2820,7 +2862,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             param("en", {}),
         ]
     )
-    def test_validate_skip_list_when_absent(self, lang_id, lang_info):
+    def test_validate_skip_list_when_absent(
+        self, lang_id: str, lang_info: dict[str, Any]
+    ) -> None:
         result = self.validator._validate_skip_list(lang_id, lang_info)
         self.assertTrue(result)
 
@@ -2838,7 +2882,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             ),
         ]
     )
-    def test_validate_pertain_list_when_invalid(self, lang_id, lang_info, log_msg):
+    def test_validate_pertain_list_when_invalid(
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
+    ) -> None:
         result = self.validator._validate_pertain_list(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -2848,7 +2894,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             param("en", {}),
         ]
     )
-    def test_validate_pertain_list_when_absent(self, lang_id, lang_info):
+    def test_validate_pertain_list_when_absent(
+        self, lang_id: str, lang_info: dict[str, Any]
+    ) -> None:
         result = self.validator._validate_pertain_list(lang_id, lang_info)
         self.assertTrue(result)
 
@@ -2887,7 +2935,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             ),
         ]
     )
-    def test_validate_weekdays_when_invalid(self, lang_id, lang_info, log_msg):
+    def test_validate_weekdays_when_invalid(
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
+    ) -> None:
         result = self.validator._validate_weekdays(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -2937,7 +2987,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             ),
         ]
     )
-    def test_validate_months_when_invalid(self, lang_id, lang_info, log_msg):
+    def test_validate_months_when_invalid(
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
+    ) -> None:
         result = self.validator._validate_months(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -2977,7 +3029,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             ),
         ]
     )
-    def test_validate_units_when_invalid(self, lang_id, lang_info, log_msg):
+    def test_validate_units_when_invalid(
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
+    ) -> None:
         result = self.validator._validate_units(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -3005,7 +3059,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             ),
         ]
     )
-    def test_validate_other_words_when_invalid(self, lang_id, lang_info, log_msg="na"):
+    def test_validate_other_words_when_invalid(
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str = "na"
+    ) -> None:
         result = self.validator._validate_other_words(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -3015,7 +3071,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             param("en", {}),
         ]
     )
-    def test_validate_simplifications_when_absent(self, lang_id, lang_info):
+    def test_validate_simplifications_when_absent(
+        self, lang_id: str, lang_info: dict[str, Any]
+    ) -> None:
         result = self.validator._validate_simplifications(lang_id, lang_info)
         self.assertTrue(result)
 
@@ -3069,7 +3127,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             ),
         ]
     )
-    def test_validate_simplifications_when_invalid(self, lang_id, lang_info, log_msg):
+    def test_validate_simplifications_when_invalid(
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
+    ) -> None:
         result = self.validator._validate_simplifications(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -3091,8 +3151,8 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         ]
     )
     def test_validate_sentence_splitter_group_when_invalid(
-        self, lang_id, lang_info, log_msg
-    ):
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
+    ) -> None:
         result = self.validator._validate_sentence_splitter_group(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -3106,7 +3166,9 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
             ),
         ]
     )
-    def test_validate_extra_keys_when_invalid(self, lang_id, lang_info, log_msg):
+    def test_validate_extra_keys_when_invalid(
+        self, lang_id: str, lang_info: dict[str, Any], log_msg: str
+    ) -> None:
         result = self.validator._validate_extra_keys(lang_id, lang_info)
         self.assertEqual(log_msg, self.get_log_str())
         self.assertFalse(result)
@@ -3122,8 +3184,12 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         ]
     )
     def test_parse_settings_default_languages(
-        self, date_string, languages, settings, expected
-    ):
+        self,
+        date_string: str,
+        languages: list[str],
+        settings: dict[str, Any],
+        expected: datetime,
+    ) -> None:
         result = parse(date_string, languages=languages, settings=settings)
         assert result == expected
 
@@ -3138,8 +3204,12 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         ]
     )
     def test_date_data_parser_settings_default_languages(
-        self, date_string, languages, settings, expected
-    ):
+        self,
+        date_string: str,
+        languages: list[str],
+        settings: dict[str, Any],
+        expected: datetime,
+    ) -> None:
         ddp = DateDataParser(languages=languages, settings=settings)
         result = ddp.get_date_data(date_string)
         assert result.date_obj == expected
@@ -3154,8 +3224,11 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         ]
     )
     def test_search_dates_settings_default_languages(
-        self, date_string, settings, expected
-    ):
+        self,
+        date_string: str,
+        settings: dict[str, Any],
+        expected: list[tuple[str, datetime]],
+    ) -> None:
         result = search_dates(date_string, settings=settings)
         assert result == expected
 
@@ -3163,8 +3236,8 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         [param(date_string="RANDOM_WORD ", settings={"DEFAULT_LANGUAGES": ["en"]})]
     )
     def test_parse_settings_default_languages_no_language_detect(
-        self, date_string, settings
-    ):
+        self, date_string: str, settings: dict[str, Any]
+    ) -> None:
         result = parse(date_string, settings=settings)
         assert result is None
 
@@ -3179,14 +3252,18 @@ class TestLanguageValidatorWhenInvalid(BaseTestCase):
         ]
     )
     def test_parse_settings_default_languages_with_detected_language(
-        self, date_string, languages, expected, settings
-    ):
+        self,
+        date_string: str,
+        languages: list[str],
+        expected: datetime,
+        settings: dict[str, Any],
+    ) -> None:
         result = parse(date_string, languages=languages, settings=settings)
         assert result == expected
 
 
 class TestNoWordSpacingSecurity:
-    def test_dictionary_does_not_evaluate_no_word_spacing(self):
+    def test_dictionary_does_not_evaluate_no_word_spacing(self) -> None:
         locale_info = {
             "name": "Test",
             "skip": [],
@@ -3201,7 +3278,7 @@ class TestNoWordSpacingSecurity:
 
         os_system.assert_not_called()
 
-    def test_locale_does_not_evaluate_no_word_spacing(self):
+    def test_locale_does_not_evaluate_no_word_spacing(self) -> None:
         language_info = {
             "name": "Test",
             "simplifications": [{"x": "y"}],
