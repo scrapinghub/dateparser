@@ -1,14 +1,121 @@
+skip: ["약"]
+
+monday:
+    - (월)
+    - (月)
+tuesday:
+    - (화)
+    - (火)
+wednesday:
+    - (수)
+    - (水)
+thursday:
+    - (목)
+    - (木)
+friday:
+    - (금)
+    - (金)
+saturday:
+    - (토)
+    - (土)
+sunday:
+    - (일)
+    - (日)
+
+january:
+    - 일월
+    - 一月
+february:
+    - 이월
+    - 二月
+march:
+    - 삼월
+    - 三月
+april:
+    - 사월
+    - 四月
+may:
+    - 오월
+    - 五月
+june:
+    - 유월
+    - 六月
+july:
+    - 칠월
+    - 七月
+august:
+    - 팔월
+    - 八月
+september:
+    - 구월
+    - 九月
+october:
+    - 시월
+    - 十月
+november:
+    - 십일월
+    - 十一月
+december:
+    - 십이월
+    - 十二月
+
+week:
+    - 주간
+day:
+    - 일간
+minute:
+    - 분간
+second:
+    - 초간
+
+in:
+    - 지금부터
+
 relative-type:
     0 day ago:
         - 금일
+    0 week ago:
+        - 금주
+    0 month ago:
+        - 이달
+    0 year ago:
+        - 금년
     1 day ago:
         - 작일
+    2 day ago:
+        - 그저께
+        - 그제
     in 1 day:
         - 명일
 
 relative-type-regex:
+    \1 year ago:
+        - (\d+[.,]?\d*)년전
     \1 month ago:
+        - (\d+[.,]?\d*)개월전
         - (\d+[.,]?\d*)달 전
+    \1 week ago:
+        - (\d+[.,]?\d*)주전
+    \1 day ago:
+        - (\d+[.,]?\d*)일전
+    \1 hour ago:
+        - (\d+[.,]?\d*)시간전
+    \1 minute ago:
+        - (\d+[.,]?\d*)분전
+    \1 second ago:
+        - (\d+[.,]?\d*)초전
+    in \1 year:
+        - (\d+[.,]?\d*)년후
     in \1 month:
+        - (\d+[.,]?\d*)개월후
         - (\d+[.,]?\d*)달 후
-
+    in \1 week:
+        - (\d+[.,]?\d*)주후
+    in \1 day:
+        - (\d+[.,]?\d*)일후
+    in \1 hour:
+        - (\d+[.,]?\d*)시간후
+    in \1 minute:
+        - (\d+[.,]?\d*)분후
+    in \1 second:
+        - (\d+[.,]?\d*)초후
