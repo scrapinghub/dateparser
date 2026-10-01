@@ -429,6 +429,62 @@ def _translate_names(
         )
 
 
+_ISO_PATTERNS = (
+    # extended format
+    re.compile(
+        r"""
+        (?P<year>\d{4}|\+\d{5,})
+        -
+        (?P<month>\d\d)
+        -
+        (?P<day>\d\d)
+        (?:
+            [T\s]
+            (?P<hour>\d\d)
+            :
+            (?P<minute>\d\d)
+            (?:
+                :
+                (?P<second>\d\d(?:[.,]\d*)?)
+            )?
+        )?
+        """,
+        re.VERBOSE,
+    ),
+    # basic format
+    re.compile(
+        r"""
+        (?P<year>\d{4}|\+\d{5,})
+        (?P<month>\d\d)
+        (?P<day>\d\d)
+        (?:
+            T
+            (?P<hour>\d\d)
+            (?P<minute>\d\d)
+            (?P<second>\d\d(?:[.,]\d*)?)?
+        )?
+        """,
+        re.VERBOSE,
+    ),
+)
+
+
+def _parse_iso(date_string, settings=None, tz=None, date_order=None):
+    for pattern in _ISO_PATTERNS:
+        match = pattern.fullmatch(date_string)
+        if match:
+            break
+    else:
+        raise ValueError(f"{date_string!r} is not an ISO 8601 date")
+    components = {k: int(v or 0) for k, v in match.groupdict().items() if k != "second"}
+    period = "day" if match["hour"] is None else "time"
+    if match["second"]:
+        seconds = float(match["second"].replace(",", "."))
+        components["second"] = int(seconds)
+        components["microsecond"] = min(round((seconds % 1) * 1_000_000), 999_999)
+    return datetime(**components), period
+
+
 class _DateLocaleParser:
     def __init__(
         self,
@@ -500,6 +556,8 @@ class _DateLocaleParser:
 
     def _parse_translation(self) -> "DateData | None":
         for parser_name in self._settings.PARSERS:
+            if parser_name not in self._parsers:
+                continue
             date_data = self._parsers[parser_name]()
             if self._is_valid_date_data(date_data):
                 if self._part_of_day:
@@ -872,6 +930,15 @@ class DateDataParser:
         date_string = sanitize_date(date_string)
 
         parsed_date = self._parse_using_applicable_locales(date_string, date_formats)
+        if not parsed_date and "iso" in self._settings.PARSERS:
+            try:
+                date_obj, period = date_parser.parse(
+                    date_string, parse_method=_parse_iso, settings=self._settings
+                )
+            except ValueError:
+                pass
+            else:
+                parsed_date = DateData(date_obj=date_obj, period=period)
         if not parsed_date and self._settings.IGNORE_SURROUNDING_TEXT:
             # The whole string could not be parsed as a date. Retry, ignoring
             # unrecognized words at the edges of the string, so that a date

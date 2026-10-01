@@ -329,6 +329,12 @@ The following parsers exist:
     (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as
     ``DATE_ORDER`` or ``PREFER_LOCALE_DATE_ORDER``.
 
+-   ``'iso'``: Parses complete `ISO 8601
+    <https://en.wikipedia.org/wiki/ISO_8601>`_ dates, optionally with a time,
+    in both the extended and basic formats (e.g. “2021-06-29T12:30:45Z”,
+    “20210629T123045Z”). It is tried after all other parsers, regardless of
+    its position in the list.
+
 -   ``'no-spaces-time'``: Parses dates and times that consist in only digits or
     a combination of digits and non-digits where the first non-digit it's a colon
     (e.g. “121994”, “11:052020”). It's not included in the default parsers and it

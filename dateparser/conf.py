@@ -177,6 +177,7 @@ def _check_parsers(setting_name: str, setting_value: list[str]) -> None:
         "absolute-time",
         "no-spaces-time",
         "negative-timestamp",
+        "iso",
     ]  # FIXME: Extract the list of existing parsers from another place (#798)
     unknown_parsers = set(setting_value) - set(existing_parsers)
     if unknown_parsers:
