@@ -1,3 +1,16 @@
 august:
     - avg
     - avgust
+week:
+    - sed
+second:
+    - sek
+relative-type-regex:
+    \1 day ago:
+        - prije (\d+[.,]?\d*) d
+    \1 week ago:
+        - prije (\d+[.,]?\d*) sed
+    in \1 day:
+        - za (\d+[.,]?\d*) d
+    in \1 week:
+        - za (\d+[.,]?\d*) sed

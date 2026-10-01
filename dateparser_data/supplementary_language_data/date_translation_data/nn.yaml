@@ -45,6 +45,7 @@ relative-type-regex:
     \1 week ago:
         - for (\d+[.,]?\d*) uke siden
         - for (\d+[.,]?\d*) uker siden
+        - –(\d+[.,]?\d*) v
     \1 year ago:
         - for (\d+[.,]?\d*) år siden
     in \1 hour:

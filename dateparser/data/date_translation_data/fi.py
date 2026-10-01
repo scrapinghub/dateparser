@@ -3,87 +3,87 @@ info = {
     "date_order": "DMY",
     "january": [
         "tammi",
-        "tammik",
         "tammikuu",
         "tammikuuta",
-        "tammikuussa"
+        "tammikuussa",
+        "tammik"
     ],
     "february": [
         "helmi",
-        "helmik",
         "helmikuu",
         "helmikuuta",
-        "helmikuussa"
+        "helmikuussa",
+        "helmik"
     ],
     "march": [
         "maalis",
-        "maalisk",
         "maaliskuu",
         "maaliskuuta",
-        "maaliskuussa"
+        "maaliskuussa",
+        "maalisk"
     ],
     "april": [
         "huhti",
-        "huhtik",
         "huhtikuu",
         "huhtikuuta",
-        "huhtikuussa"
+        "huhtikuussa",
+        "huhtik"
     ],
     "may": [
         "touko",
-        "toukok",
         "toukokuu",
         "toukokuuta",
-        "toukokuussa"
+        "toukokuussa",
+        "toukok"
     ],
     "june": [
         "kesä",
-        "kesäk",
         "kesäkuu",
         "kesäkuuta",
-        "kesäkuussa"
+        "kesäkuussa",
+        "kesäk"
     ],
     "july": [
         "heinä",
-        "heinäk",
         "heinäkuu",
         "heinäkuuta",
-        "heinäkuussa"
+        "heinäkuussa",
+        "heinäk"
     ],
     "august": [
         "elo",
-        "elok",
         "elokuu",
         "elokuuta",
-        "elokuussa"
+        "elokuussa",
+        "elok"
     ],
     "september": [
         "syys",
-        "syysk",
         "syyskuu",
         "syyskuuta",
-        "Syyskuussa"
+        "Syyskuussa",
+        "syysk"
     ],
     "october": [
         "loka",
-        "lokak",
         "lokakuu",
         "lokakuuta",
-        "Lokakuussa"
+        "Lokakuussa",
+        "lokak"
     ],
     "november": [
         "marras",
-        "marrask",
         "marraskuu",
         "marraskuuta",
-        "Marraskuussa"
+        "Marraskuussa",
+        "marrask"
     ],
     "december": [
         "joulu",
-        "jouluk",
         "joulukuu",
         "joulukuuta",
-        "Joulukuussa"
+        "Joulukuussa",
+        "jouluk"
     ],
     "monday": [
         "ma",

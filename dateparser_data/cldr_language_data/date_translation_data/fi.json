@@ -3,73 +3,61 @@
     "date_order": "DMY",
     "january": [
         "tammi",
-        "tammik",
         "tammikuu",
         "tammikuuta"
     ],
     "february": [
         "helmi",
-        "helmik",
         "helmikuu",
         "helmikuuta"
     ],
     "march": [
         "maalis",
-        "maalisk",
         "maaliskuu",
         "maaliskuuta"
     ],
     "april": [
         "huhti",
-        "huhtik",
         "huhtikuu",
         "huhtikuuta"
     ],
     "may": [
         "touko",
-        "toukok",
         "toukokuu",
         "toukokuuta"
     ],
     "june": [
         "kesä",
-        "kesäk",
         "kesäkuu",
         "kesäkuuta"
     ],
     "july": [
         "heinä",
-        "heinäk",
         "heinäkuu",
         "heinäkuuta"
     ],
     "august": [
         "elo",
-        "elok",
         "elokuu",
         "elokuuta"
     ],
     "september": [
         "syys",
-        "syysk",
         "syyskuu",
         "syyskuuta"
     ],
     "october": [
         "loka",
-        "lokak",
         "lokakuu",
         "lokakuuta"
     ],
     "november": [
         "marras",
-        "marrask",
         "marraskuu",
         "marraskuuta"
     ],
     "december": [
         "joulu",
-        "jouluk",
         "joulukuu",
         "joulukuuta"
     ],

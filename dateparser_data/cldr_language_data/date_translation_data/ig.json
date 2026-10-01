@@ -21,8 +21,8 @@
         "mee"
     ],
     "june": [
-        "juu",
-        "juun"
+        "jun",
+        "juu"
     ],
     "july": [
         "jul",
@@ -77,12 +77,11 @@
         "sọndee"
     ],
     "am": [
-        "am",
         "n'ụtụtụ"
     ],
     "pm": [
         "n'abali",
-        "pm"
+        "n'abalị"
     ],
     "year": [
         "afọ"
@@ -98,13 +97,14 @@
     ],
     "hour": [
         "elekere",
-        "hr"
+        "ọtụtụ awa"
     ],
     "minute": [
         "nkeji"
     ],
     "second": [
-        "tịm kọm"
+        "second",
+        "sekọnd"
     ],
     "relative-type": {
         "0 day ago": [
@@ -145,13 +145,24 @@
             "echi"
         ],
         "in 1 month": [
-            "ọnwa ọzọ"
+            "ọnwa na-abịa"
         ],
         "in 1 week": [
             "izu na-esote"
         ],
         "in 1 year": [
-            "afọ ọzọ"
+            "afọ na-abịa"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "n'ụbọchị {0} gara aga"
+        ],
+        "\\1 year ago": [
+            "afọ {0} gara aga"
+        ],
+        "in \\1 day": [
+            "n'ụbọchị {0}"
         ]
     },
     "locale_specific": {}

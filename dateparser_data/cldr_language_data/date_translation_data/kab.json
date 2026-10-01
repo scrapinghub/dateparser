@@ -50,32 +50,25 @@
         "duǧembeṛ"
     ],
     "monday": [
-        "san",
-        "sanass"
+        "arim"
     ],
     "tuesday": [
-        "kraḍ",
-        "kraḍass"
+        "aram"
     ],
     "wednesday": [
-        "kuẓ",
-        "kuẓass"
+        "ahad"
     ],
     "thursday": [
-        "sam",
-        "samass"
+        "amhad"
     ],
     "friday": [
-        "sḍis",
-        "sḍisass"
+        "sem"
     ],
     "saturday": [
-        "say",
-        "sayass"
+        "sed"
     ],
     "sunday": [
-        "yan",
-        "yanass"
+        "acer"
     ],
     "am": [
         "n tufat"
