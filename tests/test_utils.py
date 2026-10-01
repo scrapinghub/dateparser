@@ -1,11 +1,18 @@
+import calendar
 import itertools
+from collections.abc import Callable
 from datetime import datetime
+from unittest.mock import patch
 
 import pytest
 from parameterized import param, parameterized
 from pytz import UnknownTimeZoneError, utc
+from pytz.tzinfo import BaseTzInfo
 
+import dateparser
 from dateparser.conf import settings
+from dateparser.search import search_dates
+from dateparser.timezone_parser import StaticTzInfo
 from dateparser.utils import (
     apply_timezone,
     apply_timezone_from_settings,
@@ -16,31 +23,39 @@ from dateparser.utils import (
     localize_timezone,
     registry,
 )
+from dateparser.utils.strptime import patch_strptime
 from tests import BaseTestCase
 
 
 class TestUtils(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.date_format = None
-        self.result = None
+        self.date_format: str | None = None
+        self.result: str | None = None
 
-    def given_date_format(self, date_format):
+    def test_patch_strptime_preserves_global_calendar(self) -> None:
+        before = vars(calendar).copy()
+        patch_strptime()
+        self.assertEqual(set(vars(calendar)), set(before))
+        for name, value in before.items():
+            self.assertIs(getattr(calendar, name), value, name)
+
+    def given_date_format(self, date_format: str) -> None:
         self.date_format = date_format
 
-    def when_date_separator_is_parsed(self):
+    def when_date_separator_is_parsed(self) -> None:
+        assert self.date_format is not None
         self.result = find_date_separator(self.date_format)
 
-    def then_date_separator_is(self, sep):
+    def then_date_separator_is(self, sep: str | None) -> None:
         self.assertEqual(self.result, sep)
 
     @staticmethod
-    def make_class_without_get_keys():
+    def make_class_without_get_keys() -> type:
         class SomeClass:
             pass
 
-        some_class = SomeClass
-        return some_class
+        return SomeClass
 
     @parameterized.expand(
         [
@@ -50,10 +65,15 @@ class TestUtils(BaseTestCase):
             )
         ]
     )
-    def test_separator_extraction(self, date_format, expected_sep):
+    def test_separator_extraction(self, date_format: str, expected_sep: str) -> None:
         self.given_date_format(date_format)
         self.when_date_separator_is_parsed()
         self.then_date_separator_is(expected_sep)
+
+    def test_separator_extraction_without_separator(self) -> None:
+        self.given_date_format("%Y")
+        self.when_date_separator_is_parsed()
+        self.then_date_separator_is(None)
 
     @parameterized.expand(
         [
@@ -62,8 +82,11 @@ class TestUtils(BaseTestCase):
             param(datetime(2015, 12, 12, tzinfo=utc), timezone="UTC", zone="UTC"),
         ]
     )
-    def test_localize_timezone_function(self, date, timezone, zone):
+    def test_localize_timezone_function(
+        self, date: datetime, timezone: str, zone: str
+    ) -> None:
         tzaware_dt = localize_timezone(date, timezone)
+        assert isinstance(tzaware_dt.tzinfo, BaseTzInfo)
         self.assertEqual(tzaware_dt.tzinfo.zone, zone)
 
     @parameterized.expand(
@@ -72,7 +95,9 @@ class TestUtils(BaseTestCase):
             param(datetime(2015, 12, 12), timezone="Asia/Karach"),
         ]
     )
-    def test_localize_timezone_function_raise_error(self, date, timezone):
+    def test_localize_timezone_function_raise_error(
+        self, date: datetime, timezone: str
+    ) -> None:
         self.assertRaises(UnknownTimeZoneError, localize_timezone, date, timezone)
 
     @parameterized.expand(
@@ -81,9 +106,12 @@ class TestUtils(BaseTestCase):
             param(datetime(2015, 12, 12), timezone="+08", zone=r"UTC\+08:00"),
         ]
     )
-    def test_localize_timezone_function_exception(self, date, timezone, zone):
+    def test_localize_timezone_function_exception(
+        self, date: datetime, timezone: str, zone: str
+    ) -> None:
         tzaware_dt = localize_timezone(date, timezone)
-        self.assertEqual(tzaware_dt.tzinfo._StaticTzInfo__name, zone)
+        assert isinstance(tzaware_dt.tzinfo, StaticTzInfo)
+        self.assertEqual(tzaware_dt.tzinfo.tzname(None), zone)
 
     @parameterized.expand(
         [
@@ -104,7 +132,9 @@ class TestUtils(BaseTestCase):
             ),
         ]
     )
-    def test_apply_timezone_function(self, date, timezone, expected):
+    def test_apply_timezone_function(
+        self, date: datetime, timezone: str, expected: datetime
+    ) -> None:
         result = apply_timezone(date, timezone)
         result = result.replace(tzinfo=None)
         self.assertEqual(expected, result)
@@ -123,9 +153,11 @@ class TestUtils(BaseTestCase):
             ),
         ]
     )
-    def test_apply_timezone_from_settings_function(self, date, timezone, expected):
+    def test_apply_timezone_from_settings_function(
+        self, date: datetime, timezone: str, expected: datetime
+    ) -> None:
         result = apply_timezone_from_settings(
-            date, settings.replace(**{"TO_TIMEZONE": timezone, "TIMEZONE": "UTC"})
+            date, settings.replace(TO_TIMEZONE=timezone, TIMEZONE="UTC")
         )
         self.assertEqual(expected, result)
 
@@ -136,7 +168,9 @@ class TestUtils(BaseTestCase):
             ),
         ]
     )
-    def test_apply_timezone_from_settings_function_none_settings(self, date, expected):
+    def test_apply_timezone_from_settings_function_none_settings(
+        self, date: datetime, expected: datetime
+    ) -> None:
         result = apply_timezone_from_settings(date, None)
         self.assertEqual(expected, result)
 
@@ -150,13 +184,15 @@ class TestUtils(BaseTestCase):
             ),
         ]
     )
-    def test_apply_timezone_from_settings_function_should_return_tz(self, date):
+    def test_apply_timezone_from_settings_function_should_return_tz(
+        self, date: datetime
+    ) -> None:
         result = apply_timezone_from_settings(
-            date, settings.replace(**{"RETURN_AS_TIMEZONE_AWARE": True})
+            date, settings.replace(RETURN_AS_TIMEZONE_AWARE=True)
         )
         self.assertTrue(bool(result.tzinfo))
 
-    def test_registry_when_get_keys_not_implemented(self):
+    def test_registry_when_get_keys_not_implemented(self) -> None:
         cl = self.make_class_without_get_keys()
         self.assertRaises(NotImplementedError, registry, cl)
 
@@ -179,12 +215,14 @@ class TestUtils(BaseTestCase):
             param(2300, 12, 31),
         ]
     )
-    def test_get_last_day_of_month(self, year, month, expected_last_day):
+    def test_get_last_day_of_month(
+        self, year: int, month: int, expected_last_day: int
+    ) -> None:
         assert get_last_day_of_month(year, month) == expected_last_day
 
 
 @pytest.mark.parametrize(
-    "year,expected_previous_leap_year",
+    ("year", "expected_previous_leap_year"),
     [
         (2020, 2016),
         (2000, 1996),  # leap and centurial year
@@ -194,12 +232,12 @@ class TestUtils(BaseTestCase):
         (0, -4),  # even if this is not a valid year, it is the expected result
     ],
 )
-def test_get_previous_leap_year(year, expected_previous_leap_year):
+def test_get_previous_leap_year(year: int, expected_previous_leap_year: int) -> None:
     assert get_previous_leap_year(year) == expected_previous_leap_year
 
 
 @pytest.mark.parametrize(
-    "year,expected_next_leap_year",
+    ("year", "expected_next_leap_year"),
     [
         (2020, 2024),
         (1996, 2000),  # leap and centurial year
@@ -209,5 +247,25 @@ def test_get_previous_leap_year(year, expected_previous_leap_year):
         (0, 4),
     ],
 )
-def test_get_next_leap_year(year, expected_next_leap_year):
+def test_get_next_leap_year(year: int, expected_next_leap_year: int) -> None:
     assert get_next_leap_year(year) == expected_next_leap_year
+
+
+@pytest.mark.parametrize(
+    "parse",
+    [
+        lambda: dateparser.parse("4 October 1957"),
+        lambda: dateparser.parse("yesterday"),
+        lambda: dateparser.parse("1570308760"),
+        lambda: search_dates("It was launched on 4 October 1957.", languages=["en"]),
+    ],
+)
+def test_broken_local_timezone(parse: Callable[[], object]) -> None:
+    with (
+        patch(
+            "dateparser.utils.get_localzone",
+            side_effect=ValueError("ZoneInfo keys may not be absolute paths"),
+        ),
+        pytest.raises(RuntimeError, match="Could not determine the local timezone"),
+    ):
+        parse()
