@@ -81,7 +81,13 @@ simplifications:
     - quatre: '4'
     - cinq: '5'
     - six: '6'
-    - sept: '7'
+    # 'sept' is both the abbreviation for 'septembre' and the word for 7,
+    # and simplifications run before month names are translated. Only
+    # simplify it to 7 where it is a quantity, i.e. followed by a duration
+    # unit or a clock time. 'a' (for 'annee') counts as a unit only when no
+    # number follows it, because the preposition 'a' loses its accent during
+    # normalization and introduces a time, as in '3 sept a 14h30'.
+    - 'sept(?=:\d|\s*(?:années|année|ans|an|semaines|semaine|sem|secondes|seconde|minutes|minute|min|mois|heures|heure|jours|jour|[jhms])\b|\s*a\b(?!\s*\d))': '7'
     - huit: '8'
     - neuf: '9'
     - dix: '10'
