@@ -546,21 +546,22 @@ class Locale:
 
     @staticmethod
     def _break_standalone_marks(string: str) -> str:
-        """Turn standalone spacing-modifier marks (e.g. the acute accent "´"
-        in "C´1997") into word breaks.
-
-        ``normalize_unicode`` already does this for the simplified copy of
-        the text used to look words up in the dictionary, since such marks
-        decompose to a bare space once their combining-mark half is dropped.
-        Without doing the same here, a single original token like "C´1997"
-        stays one token while its simplified counterpart splits into two
-        ("c" and "1997"), which misaligns the two token lists and leaves the
-        date-shaped word with no original text to report back.
+        """Insert a word break after a standalone spacing-modifier mark
+        (e.g. the acute accent "´" in "C´1997") when it is glued to
+        non-space characters on both sides.
         """
-        return "".join(
-            " " if not char.isspace() and normalize_unicode(char) == " " else char
-            for char in string
-        )
+        chars = list(string)
+        for i in reversed(range(len(chars))):
+            char = chars[i]
+            if (
+                not char.isspace()
+                and normalize_unicode(char) == " "
+                and 0 < i < len(chars) - 1
+                and not chars[i - 1].isspace()
+                and not chars[i + 1].isspace()
+            ):
+                chars.insert(i + 1, " ")
+        return "".join(chars)
 
     def _word_split(self, string: str, settings: "Settings | None") -> list[str]:
         if "no_word_spacing" in self.info:
