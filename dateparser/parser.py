@@ -207,9 +207,12 @@ class _no_spaces_parser:
 
     @classmethod
     def _find_best_matching_date(
-        cls, datestring: str
+        cls, datestring: str, order: str
     ) -> tuple[datetime, str, tuple[str, ...]] | None:
-        for fmt in cls._preferred_formats_ordered_8_digit:
+        formats = sorted(
+            cls._preferred_formats_ordered_8_digit, key=lambda x: x.lower() != order
+        )
+        for fmt in formats:
             with contextlib.suppress(Exception):
                 dt = strptime(datestring, fmt), cls._get_period(fmt), _get_parts(fmt)
                 if len(str(dt[0].year)) == 4:
@@ -228,14 +231,11 @@ class _no_spaces_parser:
             raise ValueError("Empty string")
         tokens = tokenizer(datestring)
         date_order = date_order or settings.DATE_ORDER
-        if date_order:
-            order = resolve_date_order(date_order)
-        else:
-            order = cls._default_order
-            if EIGHT_DIGIT.match(datestring):
-                dt = cls._find_best_matching_date(datestring)
-                if dt is not None:
-                    return dt
+        order = resolve_date_order(date_order) if date_order else cls._default_order
+        if EIGHT_DIGIT.match(datestring):
+            dt = cls._find_best_matching_date(datestring, order)
+            if dt is not None:
+                return dt
         nsp = cls()
         ambiguous_date: tuple[datetime, str, tuple[str, ...]] | None = None
         for token, _ in tokens.tokenize():
@@ -729,6 +729,9 @@ class _parser:
         tz: tzinfo | None = None,
         date_order: str | None = None,
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
+        if EIGHT_DIGIT.match(datestring):
+            # ISO 8601 basic format, e.g. 20240201.
+            return strptime(datestring, "%Y%m%d"), "day", ("year", "month", "day")
         tokens = list(tokenizer(datestring).tokenize())
         date_order = date_order or settings.DATE_ORDER
         try:
