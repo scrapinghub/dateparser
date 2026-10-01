@@ -105,20 +105,24 @@ def _check_strict_date_order(
 ) -> None:
     """Raise _StrictDateOrderError if *parts*, the parts of the date that were
     read from numbers, in the order they were read, are not where DATE_ORDER
-    puts them, as far as *strict*, the STRICT_DATE_ORDER value, requires."""
+    puts them, as far as *strict*, the STRICT_DATE_ORDER value, requires. A
+    month name and a missing part are not in *parts*, so they are not checked:
+    "32 DEC" with DMY is still December 2032."""
     if strict == "none":
         return
     order = resolve_date_order(date_order, lst=True)
     if strict == "year":
         # Any number that is not a valid day or month is read as a two-digit
         # year, so check that it is where DATE_ORDER puts the year: in
-        # "32 DEC 10" with DMY, 32 is an invalid day, not the year 2032. A day
-        # or month number that the order puts before the year must not come
-        # after it. A four-digit year cannot be anything else.
+        # "32 DEC 10" with DMY, 32 is an invalid day, not the year 2032. Of the
+        # parts read, those before the year must be exactly those that the order
+        # puts before it, whichever way they are misplaced: "10 DEC 32" with MYD
+        # reads the day before the year. A four-digit year cannot be anything
+        # else.
         if four_digit_year or "year" not in parts:
             return
-        after_year = parts[parts.index("year") + 1 :]
-        if set(after_year).intersection(order[: order.index("year")]):
+        before_year = order[: order.index("year")]
+        if set(parts[: parts.index("year")]) != set(before_year).intersection(parts):
             raise _StrictDateOrderError(f"The year is not where {date_order} puts it")
         return
     # "all": the day and month must be where DATE_ORDER puts them too, so they

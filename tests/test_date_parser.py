@@ -2332,6 +2332,12 @@ class TestDateParser(BaseTestCase):
                 param(date_string="DEC 32 10", order="MDY"),
                 param(date_string="10/32/12", order="MDY"),
                 param(date_string="40 12", order="DYM"),
+                # A day or month that the order puts after the year must not be
+                # read before it either.
+                param(date_string="10 DEC 32", order="MYD"),
+                param(date_string="DEC 10 95", order="YMD"),
+                # The year is the last resort here (#519), but YMD wants it first.
+                param(date_string="4-99", order="YMD"),
                 # The same goes for an invalid month, and the day and month are
                 # not swapped instead: that reading would not be the one
                 # without the setting.
@@ -2400,9 +2406,11 @@ class TestDateParser(BaseTestCase):
                 # The end of a range is dropped.
                 param("12-14 June 2021", datetime(2021, 6, 12), order="MDY"),
                 param("June 12-14, 2021", datetime(2021, 6, 12), order="MDY"),
-                # YMD asks for the year first.
+                # YMD asks for the year first, and MYD between month and day.
                 param("32 DEC 10", datetime(2032, 12, 10), order="YMD"),
+                param("95 DEC 10", datetime(1995, 12, 10), order="YMD"),
                 param("95年12月10日", datetime(1995, 12, 10), order="YMD"),
+                param("DEC 32 10", datetime(2032, 12, 10), order="MYD"),
                 # A month name is not checked: "12月" is translated to
                 # "december".
                 param("95年12月", datetime(1995, 12, 24), order="DMY"),
@@ -2461,6 +2469,10 @@ class TestDateParser(BaseTestCase):
             # Through the retry with the day and month swapped (#1180).
             param("01/13/21", datetime(2021, 1, 13), order="DMY"),
             param("06/2017/22", datetime(2017, 6, 22), order="DMY"),
+            # DYM and MYD put the year between the day and the month, so the
+            # swap changes which of them is read before it.
+            param("05 95 13", datetime(1995, 5, 13), order="DYM"),
+            param("13 95 12", datetime(1995, 12, 13), order="MYD"),
             param("2017-06-22", datetime(2017, 6, 22), order="YDM"),
             # After a four-digit year, the month and day may be swapped too.
             param("2017-22-06", datetime(2017, 6, 22), order="DMY"),
@@ -2469,10 +2481,7 @@ class TestDateParser(BaseTestCase):
             param("14 12 2021", datetime(2021, 12, 14), order="MYD"),
             param("22 2017 06", datetime(2017, 6, 22), order="YDM"),
             param("05 2017 12", datetime(2017, 5, 12), order="YDM"),
-            # Only a day or month read after the year is checked.
-            param("10 DEC 32", datetime(2032, 12, 10), order="MYD"),
             # A two-digit year remains the last resort (#519).
-            param("4-99", datetime(1999, 4, 24), order="YMD"),
             param("10年20月00日", datetime(2000, 10, 20), order="DMY"),
         ]
     )
@@ -2495,15 +2504,14 @@ class TestDateParser(BaseTestCase):
             param(date_string="13/12", order="MDY"),
             param(date_string="01/13/21", order="DMY"),
             param(date_string="06/2017/22", order="DMY"),
+            param(date_string="05 95 13", order="DYM"),
+            param(date_string="13 95 12", order="MYD"),
             param(date_string="2017-06-22", order="YDM"),
             param(date_string="2017-22-06", order="DMY"),
             param(date_string="31 DEC 2010", order="MYD"),
             param(date_string="14 12 2021", order="MYD"),
             param(date_string="22 2017 06", order="YDM"),
             param(date_string="05 2017 12", order="YDM"),
-            param(date_string="10 DEC 32", order="MYD"),
-            # The year must have two or four digits where YMD puts it.
-            param(date_string="4-99", order="YMD"),
             # Other locales must not read it either: "zh" would read it as a
             # relative date, 10 years and 20 months ago.
             param(date_string="10年20月00日", order="DMY"),
