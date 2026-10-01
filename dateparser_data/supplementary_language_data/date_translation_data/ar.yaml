@@ -51,9 +51,29 @@ relative-type:
     1 day ago:
         - اليوم السابق
         - الأمس
+    2 day ago:
+        - قبل يومين
+    2 hour ago:
+        - قبل ساعتين
     2 day:
         - يومين
     2 hour:
         - ساعتين
     1 hour ago:
         - ساعة واحدة
+
+relative-type-regex:
+    \1 day ago:
+        - قبل {0} أيام
+    \1 hour ago:
+        - قبل {0} ساعات
+    \1 minute ago:
+        - قبل {0} دقائق
+    \1 second ago:
+        - قبل {0} ثوان
+    \1 week ago:
+        - قبل {0} أسابيع
+    \1 month ago:
+        - قبل {0} أشهر
+    \1 year ago:
+        - قبل {0} سنوات
