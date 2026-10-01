@@ -50,8 +50,7 @@ def search_dates(
     :type strategy: str
 
     :param date_formats:
-        A list of format strings using directives as given `here
-        <https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior>`_,
+        A list of :ref:`format strings <python:strftime-strptime-behavior>`,
         tried on every candidate before regular parsing. Requires
         ``strategy="ngram"``, which splits text on ",", "|", "(", ")", "@" and
         whitespace, so formats cannot contain those, other than single spaces.
