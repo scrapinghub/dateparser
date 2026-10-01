@@ -15,7 +15,13 @@ def search_dates(
     add_detected_language: bool = False,
     detect_languages_function: Callable[..., list[str]] | None = None,
     strategy: str = "split",
-) -> list[tuple[str, datetime]] | list[tuple[str, datetime, str | None]] | None:
+    add_period: bool = False,
+) -> (
+    list[tuple[str, datetime]]
+    | list[tuple[str, datetime, str | None]]
+    | list[tuple[str, datetime, str | None, str | None]]
+    | None
+):
     """Find all substrings of the given string which represent date and/or time and parse them.
 
     :param text:
@@ -48,9 +54,18 @@ def search_dates(
         produce more predictable results, at the cost of more parse attempts.
     :type strategy: str
 
+    :param add_period:
+        Indicates if we want the period of each date (``time``, ``day``, ``week``,
+        ``month`` or ``year``) returned in the tuple, before the detected language.
+        ``time`` requires the ``RETURN_TIME_AS_PERIOD`` :ref:`setting <settings>`.
+
+        .. versionadded:: VERSION
+    :type add_period: bool
+
     :return: Returns list of tuples containing:
         substrings representing date and/or time, corresponding :mod:`datetime.datetime`
-        object and detected language if *add_detected_language* is True.
+        object, period if *add_period* is True and detected language if
+        *add_detected_language* is True.
         Returns None if no dates that can be parsed are found.
     :rtype: list
     :raises: ValueError - Unknown Language
@@ -78,11 +93,12 @@ def search_dates(
         settings=settings,
         detect_languages_function=detect_languages_function,
         strategy=strategy,
+        add_period=add_period,
     )
     dates = result.get("Dates")
     if dates:
         if add_detected_language:
             language = result.get("Language")
             return [(*date, language) for date in dates]
-        return dates
+        return dates  # type: ignore[return-value]
     return None
