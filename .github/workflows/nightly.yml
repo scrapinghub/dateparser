@@ -23,7 +23,6 @@ permissions:
 jobs:
   build:
     uses: ./.github/workflows/main.yml
-    secrets: inherit
 
   report:
     name: Report failure
