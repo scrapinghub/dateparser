@@ -106,7 +106,12 @@ class TestTZPopping(BaseTestCase):
                 "Mon 25 Jun 2018 10:37:47 +0530 IST",
                 "Mon 25 Jun 2018 10:37:47 ",
             ),
+            param(
+                "Thu 30 May 2024 10:13:10 CET EST",
+                "Thu 30 May 2024 10:13:10 EST",
+            ),
             param("2019-09-28WIB19:17:34+07:00", "2019-09-28 19:17:34"),
+            param("2019-09-28WIB19:17:34+08:00", "2019-09-28WIB19:17:34"),
         ]
     )
     def test_timezone_deleted_from_string(
