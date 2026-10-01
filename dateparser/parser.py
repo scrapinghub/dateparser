@@ -81,6 +81,12 @@ def resolve_date_order(order: str, lst: bool | None = None) -> str | list[str]:
     return chart_list[order] if lst else date_order_chart[order]
 
 
+class _MisplacedYearError(ValueError):
+    """With STRICT_DATE_ORDER, a two-digit year was read from where DATE_ORDER
+    does not put the year (#868). The other parsers of the locale may still
+    read the date string, but no other locale should guess a reading of it."""
+
+
 def _parse_absolute(
     datestring: str,
     settings: "Settings",
@@ -436,6 +442,26 @@ class _parser:
                     skip_component = "year"
                 setattr(self, *res)
 
+        if (
+            self.settings.STRICT_DATE_ORDER
+            and "DATE_ORDER" in self.settings._mod_settings
+            and self._token_year
+            and len(self._token_year[0]) == 2
+        ):
+            # Any number that is not a valid day or month is read as a two-digit
+            # year, so check that it is where DATE_ORDER puts the year: in
+            # "32 DEC 10" with DMY, 32 is an invalid day, not the year 2032
+            # (#868). A day or month number that the order puts before the year
+            # must not come after it.
+            order = list(self.ordered_num_directives)
+            year_index = self.auto_order.index("year")
+            if set(self.auto_order[year_index + 1 :]).intersection(
+                order[: order.index("year")]
+            ):
+                raise _MisplacedYearError(
+                    f"{self._token_year[0]} is not where the year is expected"
+                )
+
         known, unknown = get_unresolved_attrs(self)
         unset_tokens = [
             unset_token
@@ -736,7 +762,8 @@ class _parser:
             dateobj = po._results()
         except ValueError as error:
             if (
-                "DATE_ORDER" not in settings._mod_settings
+                isinstance(error, _MisplacedYearError)
+                or "DATE_ORDER" not in settings._mod_settings
                 or str(error).startswith("Fields missing")
                 or cls._has_month_name(tokens)
             ):

@@ -2299,6 +2299,125 @@ class TestDateParser(BaseTestCase):
     def test_word_with_too_many_meaning_combinations(self) -> None:
         self.assertIsNone(parse("mar mar mar mar mar", languages=["it"]))
 
+    @parameterized.expand(
+        [
+            param("32 DEC 10", datetime(2032, 12, 10), order="DMY"),
+            param("32/12/10", datetime(2032, 10, 12), order="DMY"),
+            param("12/13/10", datetime(2013, 10, 12), order="DMY"),
+            param("20 09 29", datetime(2020, 9, 29), order="MYD"),
+            param("95年12月10日", datetime(1995, 12, 10), order="MDY"),
+        ]
+    )
+    def test_date_order_is_a_preference_by_default(
+        self, date_string: str, expected: datetime, order: str
+    ) -> None:
+        """Test that without STRICT_DATE_ORDER, a number that does not fit where
+        DATE_ORDER puts it may still be read as a two-digit year (Issue #868)."""
+        settings = {"DATE_ORDER": order, "RELATIVE_BASE": datetime(2019, 6, 24)}
+        self.assertEqual(expected, parse(date_string, settings=settings))
+
+    @parameterized.expand(
+        [
+            param(date_string="32 DEC 10", order="DMY"),
+            param(date_string="00 DEC 10", order="DMY"),
+            param(date_string="32/12/10", order="DMY"),
+            param(date_string="32 DEC 10 10:30", order="DMY"),
+            param(date_string="32 décembre 10", order="DMY"),
+            param(date_string="DEC 32 10", order="MDY"),
+            param(date_string="10/32/12", order="MDY"),
+            param(date_string="40 12", order="DYM"),
+            # The same goes for an invalid month, and the day and month are not
+            # swapped instead: that reading would not be the one without the
+            # setting.
+            param(date_string="12/13/10", order="DMY"),
+            # Translation leaves no marker of the year: "95-12-10".
+            param(date_string="95年12月10日", order="MDY"),
+            # Other locales must not read it differently: "ru" translates
+            # "20 09 29" to "29 29" and would find 2029-06-29.
+            param(date_string="20 09 29", order="MYD"),
+            # Nor must the no-spaces parser, which would find 1900-01-01 10:03.
+            param(
+                date_string="10:30 PM 32/12/10",
+                order="DMY",
+                parsers=["absolute-time", "no-spaces-time"],
+            ),
+        ]
+    )
+    def test_strict_date_order_rejects_misplaced_year(
+        self, date_string: str, order: str, parsers: list[str] | None = None
+    ) -> None:
+        """Test that with STRICT_DATE_ORDER, a number that is invalid where
+        DATE_ORDER puts it is not read as a two-digit year instead (Issue #868)."""
+        settings: dict[str, Any] = {
+            "DATE_ORDER": order,
+            "STRICT_DATE_ORDER": True,
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+        }
+        if parsers:
+            settings["PARSERS"] = parsers
+        self.assertIsNone(parse(date_string, settings=settings))
+
+    @parameterized.expand(
+        [
+            param("31 DEC 10", datetime(2010, 12, 31), order="DMY"),
+            param("10 DEC 32", datetime(2032, 12, 10), order="DMY"),
+            # A year after the month is where DMY expects it.
+            param("DEC 32", datetime(2032, 12, 24), order="DMY"),
+            # The day may be missing before the year.
+            param("DEC 95", datetime(1995, 12, 24), order="MDY"),
+            param("12/95", datetime(1995, 12, 24), order="MDY"),
+            # A four-digit year cannot be anything else.
+            param("2010 DEC 10", datetime(2010, 12, 10), order="DMY"),
+            param("31 DEC 2010", datetime(2010, 12, 31), order="MYD"),
+            # YMD asks for the year first.
+            param("32 DEC 10", datetime(2032, 12, 10), order="YMD"),
+            param("95年12月10日", datetime(1995, 12, 10), order="YMD"),
+            # A month name is not checked: "12月" is translated to "december".
+            param("95年12月", datetime(1995, 12, 24), order="DMY"),
+            # A day and a month in each other's place are still swapped.
+            param("13/12/10", datetime(2010, 12, 13), order="MDY"),
+            param("01/13/21", datetime(2021, 1, 13), order="DMY"),
+            # A two-digit year remains the last resort (#519).
+            param("4-99", datetime(1999, 4, 24), order="YMD"),
+            # Without DATE_ORDER, the setting has no effect.
+            param("32 DEC 10", datetime(2032, 12, 10)),
+            param("32 DEC 10", datetime(2032, 12, 10), languages=["fr"]),
+        ]
+    )
+    def test_strict_date_order_keeps_valid_dates(
+        self,
+        date_string: str,
+        expected: datetime,
+        order: str | None = None,
+        languages: list[str] | None = None,
+    ) -> None:
+        """Test that STRICT_DATE_ORDER does not change dates that read the year
+        where DATE_ORDER puts it, or that have no two-digit year (Issue #868)."""
+        settings: dict[str, Any] = {
+            "STRICT_DATE_ORDER": True,
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+        }
+        if order:
+            settings["DATE_ORDER"] = order
+        self.assertEqual(
+            expected, parse(date_string, languages=languages, settings=settings)
+        )
+
+    def test_strict_date_order_does_not_stop_other_parsers(self) -> None:
+        """Test that a two-digit year rejected by STRICT_DATE_ORDER does not keep
+        the other parsers of the locale from reading the date string (Issue
+        #868)."""
+        settings = {
+            "DATE_ORDER": "DMY",
+            "STRICT_DATE_ORDER": True,
+            "PARSERS": ["absolute-time", "relative-time"],
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+        }
+        self.assertEqual(
+            datetime(2019, 6, 22, 15, 29),
+            parse("32 hours 31 minutes", settings=settings),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

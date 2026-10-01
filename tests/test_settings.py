@@ -210,6 +210,7 @@ class InvalidSettingsTest(BaseTestCase):
             param("STRICT_PARSING", "true", "", True),
             param("RETURN_TIME_AS_PERIOD", "false", "", True),
             param("PREFER_LOCALE_DATE_ORDER", "true", "", False),
+            param("STRICT_DATE_ORDER", "true", "", True),
             param("NORMALIZE", "true", "", True),
             param("FUZZY", "true", "", False),
             param("PREFER_LOCALE_DATE_ORDER", "false", "", True),

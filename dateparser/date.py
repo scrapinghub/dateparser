@@ -17,7 +17,7 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.parser import _parse_absolute, _parse_nospaces
+from dateparser.parser import _MisplacedYearError, _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
     _get_localzone,
@@ -499,8 +499,19 @@ class _DateLocaleParser:
         return None
 
     def _parse_translation(self) -> "DateData | None":
+        misplaced_year = None
         for parser_name in self._settings.PARSERS:
-            date_data = self._parsers[parser_name]()
+            if misplaced_year is not None and parser_name == "no-spaces-time":
+                # It would read the same numbers in a date order again.
+                continue
+            try:
+                date_data = self._parsers[parser_name]()
+            except _MisplacedYearError as error:
+                # The other parsers may still read the date string. The message
+                # is kept, not the error, which would form a reference cycle
+                # with this frame through its traceback.
+                misplaced_year = str(error)
+                continue
             if self._is_valid_date_data(date_data):
                 if self._part_of_day:
                     date_data.part_of_day = self._part_of_day
@@ -510,6 +521,8 @@ class _DateLocaleParser:
                     ):
                         date_data.period = "part_of_day"
                 return date_data
+        if misplaced_year is not None:
+            raise _MisplacedYearError(misplaced_year)
         return None
 
     def _try_timestamp_parser(self, negative: bool = False) -> "DateData":
@@ -580,6 +593,10 @@ class _DateLocaleParser:
                     date_order=order,
                 )
                 return DateData(date_obj=date_obj, period=period, parts=parts)
+            except _MisplacedYearError:
+                # Only raised with an explicit DATE_ORDER, which leaves a single
+                # candidate order.
+                raise
             except ValueError:
                 continue
         return None
@@ -871,16 +888,24 @@ class DateDataParser:
 
         date_string = sanitize_date(date_string)
 
-        parsed_date = self._parse_using_applicable_locales(date_string, date_formats)
-        if not parsed_date and self._settings.IGNORE_SURROUNDING_TEXT:
-            # The whole string could not be parsed as a date. Retry, ignoring
-            # unrecognized words at the edges of the string, so that a date
-            # wrapped in harmless extra text is still parsed (issue #518),
-            # e.g. "Actualisé le 17 avril 2019". Strings that can be parsed as
-            # a whole never reach this fallback, so they are unaffected.
+        try:
             parsed_date = self._parse_using_applicable_locales(
-                date_string, date_formats, ignore_surrounding_text=True
+                date_string, date_formats
             )
+            if not parsed_date and self._settings.IGNORE_SURROUNDING_TEXT:
+                # The whole string could not be parsed as a date. Retry,
+                # ignoring unrecognized words at the edges of the string, so
+                # that a date wrapped in harmless extra text is still parsed
+                # (issue #518), e.g. "Actualisé le 17 avril 2019". Strings that
+                # can be parsed as a whole never reach this fallback, so they
+                # are unaffected.
+                parsed_date = self._parse_using_applicable_locales(
+                    date_string, date_formats, ignore_surrounding_text=True
+                )
+        except _MisplacedYearError:
+            # STRICT_DATE_ORDER rejected a reading of the date string, which
+            # is final: no other locale may guess another reading of it.
+            parsed_date = None
         return parsed_date or DateData(date_obj=None, period="day", locale=None)
 
     def _parse_with_localized_formats(

@@ -37,6 +37,18 @@ Date Order
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY', 'PREFER_LOCALE_DATE_ORDER': False})
     datetime.datetime(2016, 2, 3, 0, 0)  # MDY worked!
 
+``STRICT_DATE_ORDER``: defaults to ``False``. ``DATE_ORDER`` is a preference: a number that does not fit where the order puts it can be read as another part of the date. Any number that is not a valid day or month is a valid two-digit year, so ``32`` becomes the year 2032 here:
+
+    >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY'})
+    datetime.datetime(2032, 12, 10, 0, 0)
+
+Set it to ``True`` to read a two-digit year only where ``DATE_ORDER`` puts the year. A date string that needs one anywhere else then gives ``None``, and no other language is tried for it:
+
+    >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY', 'STRICT_DATE_ORDER': True})
+    None
+
+It has an effect only when ``DATE_ORDER`` is set, and it can only turn a date into ``None``: four-digit years, month names, and a day and month in each other's place (``'13-12-10'`` with ``MDY``) are read as without it. Some dates that are read correctly without it are rejected too, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
+
 
 Timezone Related Configurations
 +++++++++++++++++++++++++++++++
