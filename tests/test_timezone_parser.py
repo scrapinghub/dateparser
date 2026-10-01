@@ -515,6 +515,35 @@ class TestTzDatabasePreference(BaseTestCase):
         )
 
 
+class TestTimezoneAbbreviationsSetting(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("10:00 IST"),
+            param("in 1 hour IST"),
+        ]
+    )
+    def test_custom_offset(self, date_string: str) -> None:
+        date = parse(
+            date_string,
+            settings={
+                "TIMEZONE_ABBREVIATIONS": {"IST": timedelta(hours=5, minutes=30)},
+                "RETURN_AS_TIMEZONE_AWARE": True,
+            },
+        )
+        assert date is not None
+        self.assertEqual(date.utcoffset(), timedelta(hours=5, minutes=30))
+
+    def test_other_abbreviations_keep_their_offset(self) -> None:
+        date = parse(
+            "10:00 CET",
+            settings={
+                "TIMEZONE_ABBREVIATIONS": {"IST": timedelta(hours=5, minutes=30)}
+            },
+        )
+        assert date is not None
+        self.assertEqual(date.utcoffset(), timedelta(hours=1))
+
+
 class TestConvertToLocalTz(BaseTestCase):
     def test_deprecated(self) -> None:
         with self.assertWarns(FutureWarning):

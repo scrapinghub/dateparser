@@ -52,6 +52,21 @@ Timezone Related Configurations
     >>> parse('January 12, 2012 10:00 PM', settings=settings)
     datetime.datetime(2012, 1, 12, 17, 0)
 
+``TIMEZONE_ABBREVIATIONS``: maps timezone abbreviations found in date strings
+to the UTC offset to use for them, as a :class:`~datetime.timedelta`. Use it
+for abbreviations with several meanings, e.g. ``IST`` means Israel Standard
+Time by default.
+
+.. versionadded:: VERSION
+
+>>> from datetime import timedelta
+>>> settings = {
+...     'TIMEZONE_ABBREVIATIONS': {'IST': timedelta(hours=5, minutes=30)},
+...     'TO_TIMEZONE': 'UTC',
+... }
+>>> parse('12 Feb 2015 10:56 PM IST', settings=settings)
+datetime.datetime(2015, 2, 12, 17, 26, tzinfo=<StaticTzInfo 'UTC'>)
+
 ``RETURN_AS_TIMEZONE_AWARE``: if ``True`` returns tz aware datetime objects in case timezone is detected in the date string.
 
     >>> parse('30 mins ago', settings={'RETURN_AS_TIMEZONE_AWARE': True})

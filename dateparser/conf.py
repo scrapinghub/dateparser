@@ -1,6 +1,6 @@
 import hashlib
 from collections.abc import Callable, Iterable, Mapping
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import wraps
 from types import MappingProxyType
 from typing import Any, Literal, ParamSpec, TypeVar
@@ -9,6 +9,7 @@ from dateparser._parts_of_day import PartsOfDay
 from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
+from .timezone_parser import _tz_offsets
 from .utils import registry
 
 _P = ParamSpec("_P")
@@ -25,6 +26,7 @@ class Settings:
     * `TIMEZONE`
     * `TO_TIMEZONE`
     * `RETURN_AS_TIMEZONE_AWARE`
+    * `TIMEZONE_ABBREVIATIONS`
     * `PREFER_MONTH_OF_YEAR`
     * `PREFER_DAY_OF_MONTH`
     * `PREFER_DATES_FROM`
@@ -56,6 +58,7 @@ class Settings:
     TIMEZONE: str
     TO_TIMEZONE: str | Literal[False]
     RETURN_AS_TIMEZONE_AWARE: bool | Literal["default"]
+    TIMEZONE_ABBREVIATIONS: Mapping[str, timedelta]
     PREFER_MONTH_OF_YEAR: str
     PREFER_DAY_OF_MONTH: str
     PREFER_DATES_FROM: str
@@ -199,6 +202,23 @@ def _check_default_languages(setting_name: str, setting_value: list[str]) -> Non
     _check_repeated_values(setting_name, setting_value)
 
 
+def _check_timezone_abbreviations(
+    setting_name: str, setting_value: Mapping[str, Any]
+) -> None:
+    unknown = set(setting_value) - {name for name, _ in _tz_offsets}
+    if unknown:
+        raise SettingValidationError(
+            f'Found unknown timezone abbreviations in the "{setting_name}" '
+            f"setting: {', '.join(map(repr, sorted(unknown)))}"
+        )
+    for abbreviation, offset in setting_value.items():
+        if not isinstance(offset, timedelta):
+            raise SettingValidationError(
+                f'The offset of {abbreviation!r} in the "{setting_name}" setting '
+                f"must be a timedelta, not {offset!r}."
+            )
+
+
 def _check_between_0_and_1(setting_name: str, setting_value: float) -> None:
     is_valid = 0 <= setting_value <= 1
     if not is_valid:
@@ -230,6 +250,10 @@ def check_settings(settings: Settings) -> None:
         "RETURN_AS_TIMEZONE_AWARE": {
             # It defaults to 'default', but it's not allowed to use it directly
             "type": bool
+        },
+        "TIMEZONE_ABBREVIATIONS": {
+            "type": dict,
+            "extra_check": _check_timezone_abbreviations,
         },
         "PREFER_MONTH_OF_YEAR": {"values": ("current", "first", "last"), "type": str},
         "PREFER_DAY_OF_MONTH": {"values": ("current", "first", "last"), "type": str},

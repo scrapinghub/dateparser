@@ -1,11 +1,14 @@
 import warnings
 from collections.abc import Iterator
 from datetime import datetime, timedelta, timezone, tzinfo
-from typing import Literal, TypedDict, overload
+from typing import TYPE_CHECKING, Literal, TypedDict, overload
 
 import regex as re
 
 from .timezones import timezone_info_list
+
+if TYPE_CHECKING:
+    from .conf import Settings
 
 
 class _TzOffsetInfo(TypedDict):
@@ -66,25 +69,35 @@ def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | Non
 
 @overload
 def pop_tz_offset_from_string(
-    date_string: str, as_offset: Literal[True] = True
+    date_string: str,
+    as_offset: Literal[True] = True,
+    settings: "Settings | None" = None,
 ) -> tuple[str, StaticTzInfo | None]: ...
 
 
 @overload
 def pop_tz_offset_from_string(
-    date_string: str, as_offset: Literal[False]
+    date_string: str,
+    as_offset: Literal[False],
+    settings: "Settings | None" = None,
 ) -> tuple[str, str | None]: ...
 
 
 def pop_tz_offset_from_string(
-    date_string: str, as_offset: bool = True
+    date_string: str, as_offset: bool = True, settings: "Settings | None" = None
 ) -> tuple[str, StaticTzInfo | str | None]:
+    def offset_of(name: str, info: _TzOffsetInfo) -> timedelta:
+        if settings is None:
+            return info["offset"]
+        return settings.TIMEZONE_ABBREVIATIONS.get(name, info["offset"])
+
     match = _search_and_pop_tz(date_string)
     if match is None:
         return date_string, None
 
     date_string, name, info = match
-    result = StaticTzInfo(name, info["offset"]) if as_offset else name
+    offset = offset_of(name, info)
+    result = StaticTzInfo(name, offset) if as_offset else name
 
     # A date string may carry both a numeric UTC offset and a redundant,
     # equivalent timezone abbreviation, e.g. the RFC 2822 email form
@@ -95,7 +108,7 @@ def pop_tz_offset_from_string(
     # are anchored at the end of the string.
     while True:
         extra = _search_and_pop_tz(date_string.rstrip())
-        if extra is None or extra[2]["offset"] != info["offset"]:
+        if extra is None or offset_of(extra[1], extra[2]) != offset:
             break
         date_string = extra[0]
 
