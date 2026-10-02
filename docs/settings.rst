@@ -155,6 +155,12 @@ For example, assuming current date is `June 16, 2019`:
     >>> parse('March 12, 2012', settings={'REQUIRE_PARTS': ['day', 'month', 'year']})
     datetime.datetime(2012, 3, 12, 0, 0)
 
+When ``year`` is required but ``day`` is not, numbers are read as a year first,
+then as a month, and only then as a day:
+
+    >>> parse('11/28', settings={'REQUIRE_PARTS': ['year'], 'DATE_ORDER': 'DMY'})
+    datetime.datetime(2028, 11, 16, 0, 0)
+
 ``IGNORE_SURROUNDING_TEXT``: defaults to ``False``. By default, the whole input string
 must be a date, so a date wrapped in surrounding text is not parsed. When this setting
 is enabled and the whole string could not be parsed as a date, dateparser retries

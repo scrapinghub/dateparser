@@ -235,18 +235,29 @@ class TestParseFunction(BaseTestCase):
         )
         self.then_parsed_date_and_time_is(expected_date)
 
-    def test_require_parts_does_not_override_explicit_date_order(self) -> None:
-        # Explicit DATE_ORDER must be respected.
-        base = datetime(2050, 1, 1, 0, 0)
+    @parameterized.expand(
+        [
+            param("28", "DMY", datetime(2028, 1, 1)),
+            param("11/28", "DMY", datetime(2028, 11, 1)),
+            param("05/11/28", "DMY", datetime(2028, 11, 5)),
+            param("Oct-23", "MDY", datetime(2023, 10, 1)),
+            param("05/11/28", "MDY", datetime(2028, 5, 11)),
+            param("11/28", "YMD", datetime(2011, 1, 28)),
+        ]
+    )
+    def test_require_parts_year_with_explicit_date_order(
+        self, date_string: str, date_order: str, expected_date: datetime
+    ) -> None:
         self.when_date_is_parsed_with_settings(
-            "Oct-23",
+            date_string,
             settings={
-                "RELATIVE_BASE": base,
-                "REQUIRE_PARTS": ["month", "year"],
-                "DATE_ORDER": "MDY",
+                "RELATIVE_BASE": datetime(2050, 1, 1),
+                "PREFER_DAY_OF_MONTH": "first",
+                "REQUIRE_PARTS": ["year"],
+                "DATE_ORDER": date_order,
             },
         )
-        self.then_date_was_not_parsed()
+        self.then_parsed_date_and_time_is(expected_date)
 
     def test_require_parts_month_day_parses_month_day(self) -> None:
         # If day is required, Mon-XX should remain month-day.
