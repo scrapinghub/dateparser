@@ -1248,6 +1248,66 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(
+                text="afghanistan Independence Day, 19 August 1919",
+                expected=[("19 August 1919", datetime.datetime(1919, 8, 19))],
+            ),
+            param(
+                text="week, 19 August 1919",
+                expected=[("19 August 1919", datetime.datetime(1919, 8, 19))],
+            ),
+            param(
+                text="The trip lasted 10 days, 1 June 2019 to 10 June 2019.",
+                expected=[
+                    ("10 days", datetime.datetime(2020, 6, 5, 12)),
+                    ("1 June 2019", datetime.datetime(2019, 6, 1)),
+                    ("10 June 2019", datetime.datetime(2019, 6, 10)),
+                ],
+            ),
+            param(
+                text="Race day, 5 May, 6 May, 7 May",
+                expected=[
+                    ("5 May", datetime.datetime(2020, 5, 5)),
+                    ("6 May", datetime.datetime(2020, 5, 6)),
+                    ("7 May", datetime.datetime(2020, 5, 7)),
+                ],
+            ),
+            param(
+                text="Opening day, 5 May 2020, 6 June 2021, 7 July 2022",
+                expected=[
+                    ("5 May 2020", datetime.datetime(2020, 5, 5)),
+                    ("6 June 2021", datetime.datetime(2021, 6, 6)),
+                    ("7 July 2022", datetime.datetime(2022, 7, 7)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_after_a_date_word_and_a_comma(
+        self, text: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+        )
+        self.assertEqual(result, expected)
+
+    def test_search_dates_followed_by_numbers(self) -> None:
+        result = search_dates(
+            "Statement: 4 February 2019 10 4",
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+        )
+        self.assertEqual(
+            result,
+            [
+                ("4 February 2019", datetime.datetime(2019, 2, 4)),
+                ("10 4", datetime.datetime(2020, 10, 4)),
+            ],
+        )
+
+    @parameterized.expand(
+        [
             # The word a future expression is written with is what points it
             # forward, and reporting it is what tells the two directions apart
             param(
