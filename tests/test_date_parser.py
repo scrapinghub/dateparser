@@ -1688,6 +1688,38 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("2019", ["%Y"], {}, datetime(2019, 1, 1)),
+            param("October 2018", ["%B %Y"], {}, datetime(2018, 10, 1)),
+            param(
+                "2019",
+                ["%Y"],
+                {"RELATIVE_BASE": datetime(2019, 5, 5)},
+                datetime(2019, 5, 5),
+            ),
+        ]
+    )
+    def test_date_formats_take_current_date_from_timezone(
+        self,
+        date_string: str,
+        date_formats: list[str],
+        settings: dict[str, Any],
+        expected: datetime,
+    ) -> None:
+        class UtilsDateTime(datetime):
+            @classmethod
+            def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
+                return datetime(2018, 12, 31, 20, tzinfo=timezone.utc).astimezone(tz)
+
+        with patch("dateparser.utils.datetime", UtilsDateTime):
+            result = parse(
+                date_string,
+                date_formats=date_formats,
+                settings={"TIMEZONE": "+1400", **settings},
+            )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
             param(
                 "yesterday +1h",
                 lambda base: base - timedelta(days=1) + timedelta(hours=1),
