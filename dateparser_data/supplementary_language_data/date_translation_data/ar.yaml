@@ -1,7 +1,50 @@
 locale_specific:
     ar-IQ:
+        january:
+            - كانون 2
         october:
             - تشرین الأول
+            - تشرين 1
+        november:
+            - تشرين 2
+        december:
+            - كانون 1
+    ar-JO:
+        january:
+            - كانون 2
+        october:
+            - تشرين 1
+        november:
+            - تشرين 2
+        december:
+            - كانون 1
+    ar-LB:
+        january:
+            - كانون 2
+        october:
+            - تشرين 1
+        november:
+            - تشرين 2
+        december:
+            - كانون 1
+    ar-PS:
+        january:
+            - كانون 2
+        october:
+            - تشرين 1
+        november:
+            - تشرين 2
+        december:
+            - كانون 1
+    ar-SY:
+        january:
+            - كانون 2
+        october:
+            - تشرين 1
+        november:
+            - تشرين 2
+        december:
+            - كانون 1
 sentence_splitter_group: 6
 
 skip: ["الساعة", "في", "مساءً", "هـ"]
