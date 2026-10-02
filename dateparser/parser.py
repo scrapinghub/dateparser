@@ -10,6 +10,7 @@ import pytz
 import regex as re
 
 from dateparser.utils import (
+    _decode_bytes,
     _get_missing_parts,
     _get_parts,
     _now,
@@ -34,6 +35,7 @@ _RANGE_DASHES = {"-", "–"}
 
 
 def no_space_parser_eligibile(datestring: str) -> bool:
+    datestring = _decode_bytes(datestring)
     src = NSP_COMPATIBLE.search(datestring)
     return not src or src.group() == ":"
 
@@ -112,6 +114,7 @@ class _time_parser:
     ]
 
     def __call__(self, timestring: str) -> time:
+        timestring = _decode_bytes(timestring)
         _timestring = timestring
         for directive in self.time_directives:
             try:
@@ -220,6 +223,7 @@ class _no_spaces_parser:
     def parse(
         cls, datestring: str, settings: "Settings", date_order: str | None = None
     ) -> tuple[datetime, str, tuple[str, ...]]:
+        datestring = _decode_bytes(datestring)
         if not no_space_parser_eligibile(datestring):
             raise ValueError(f"Unable to parse date from: {datestring}")
 
@@ -729,6 +733,7 @@ class _parser:
         tz: tzinfo | None = None,
         date_order: str | None = None,
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
+        datestring = _decode_bytes(datestring)
         tokens = list(tokenizer(datestring).tokenize())
         date_order = date_order or settings.DATE_ORDER
         try:

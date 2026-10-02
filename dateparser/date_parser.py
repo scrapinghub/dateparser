@@ -4,7 +4,13 @@ from typing import Any
 
 from .conf import Settings, apply_settings
 from .timezone_parser import pop_tz_offset_from_string
-from .utils import _get_localzone, apply_timezone, localize_timezone, strip_braces
+from .utils import (
+    _decode_bytes,
+    _get_localzone,
+    apply_timezone,
+    localize_timezone,
+    strip_braces,
+)
 
 
 class DateParser:
@@ -17,7 +23,7 @@ class DateParser:
         date_order: str | None = None,
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
         assert isinstance(settings, Settings)
-        date_string = str(date_string)
+        date_string = str(_decode_bytes(date_string))
 
         if not date_string.strip():
             raise ValueError("Empty string")

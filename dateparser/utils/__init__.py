@@ -33,6 +33,19 @@ def _get_localzone() -> tzinfo:
         ) from error
 
 
+def _decode_bytes(value: Any) -> Any:
+    if isinstance(value, (bytes, bytearray, memoryview)):
+        raw = bytes(value)
+        try:
+            return raw.decode("utf-8")
+        except UnicodeDecodeError:
+            try:
+                return raw.decode("utf-8", errors="surrogateescape")
+            except UnicodeDecodeError:
+                return raw.decode("utf-8", errors="ignore")
+    return value
+
+
 def strip_braces(date_string: str) -> str:
     return re.sub(r"[{}()<>\[\]]+", "", date_string)
 

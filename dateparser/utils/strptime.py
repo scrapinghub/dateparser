@@ -125,6 +125,15 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
 
 
 def strptime(date_string: str, format: str) -> datetime:  # noqa: A002
+    if isinstance(date_string, (bytes, bytearray, memoryview)):
+        raw = bytes(date_string)
+        try:
+            date_string = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            try:
+                date_string = raw.decode("utf-8", errors="surrogateescape")
+            except UnicodeDecodeError:
+                date_string = raw.decode("utf-8", errors="ignore")
     date_string, prepared_format, day_of_year_in_format = _prepare_format(
         date_string, format
     )

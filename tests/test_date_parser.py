@@ -2299,6 +2299,35 @@ class TestDateParser(BaseTestCase):
     def test_word_with_too_many_meaning_combinations(self) -> None:
         self.assertIsNone(parse("mar mar mar mar mar", languages=["it"]))
 
+    @parameterized.expand(
+        [
+            param(b"2020-01-01", datetime(2020, 1, 1)),
+            param(b"12 Dec 2014", datetime(2014, 12, 12)),
+            param(b"2021-05-20 14:30:00", datetime(2021, 5, 20, 14, 30)),
+            param(b"11 Mai 2014", datetime(2014, 5, 11)),
+        ]
+    )
+    def test_bytes_input_handling(
+        self, date_bytes: bytes, expected: datetime
+    ) -> None:
+        self.assertEqual(parse(date_bytes), expected)  # type: ignore[arg-type]
+
+    def test_bytes_input_with_date_formats(self) -> None:
+        self.assertEqual(
+            parse(b"2020-01-01", date_formats=["%Y-%m-%d"]),  # type: ignore[arg-type]
+            datetime(2020, 1, 1),
+        )
+
+    def test_bytes_input_with_invalid_utf8(self) -> None:
+        result = parse(b"\xff\xfe\xfd")  # type: ignore[arg-type]
+        self.assertIsNone(result)
+
+    def test_bytearray_input_handling(self) -> None:
+        self.assertEqual(
+            parse(bytearray(b"2020-01-01")),  # type: ignore[arg-type]
+            datetime(2020, 1, 1),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

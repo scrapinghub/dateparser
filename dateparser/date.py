@@ -20,6 +20,7 @@ from dateparser.languages.loader import LocaleDataLoader
 from dateparser.parser import _parse_absolute, _parse_nospaces
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
+    _decode_bytes,
     _get_localzone,
     _get_missing_parts,
     _get_parts,
@@ -305,6 +306,7 @@ def parse_with_formats(
 
     """
     period = "day"
+    date_string = _decode_bytes(date_string)
     for date_format in date_formats:
         try:
             date_obj = patched_strptime(date_string, date_format)
@@ -856,6 +858,7 @@ class DateDataParser:
             period='day', locale='en', parts=('year', 'month', 'day', 'time'))
 
         """
+        date_string = _decode_bytes(date_string)
         if not isinstance(date_string, str):
             raise TypeError("Input type must be str")
 

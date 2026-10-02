@@ -6,6 +6,7 @@ import regex as re
 from dateutil.relativedelta import relativedelta
 
 from dateparser.utils import (
+    _decode_bytes,
     _get_localzone,
     apply_timezone,
     localize_timezone,
@@ -53,6 +54,7 @@ class FreshnessDateDataParser:
     def parse(  # noqa: PLR0912, PLR0915
         self, date_string: str, settings: "Settings"
     ) -> tuple[datetime | None, str | None, tuple[str, ...]]:
+        date_string = _decode_bytes(date_string)
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
         day = None
