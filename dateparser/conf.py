@@ -22,6 +22,7 @@ class Settings:
 
     * `DATE_ORDER`
     * `PREFER_LOCALE_DATE_ORDER`
+    * `STRICT_DATE_ORDER`
     * `TIMEZONE`
     * `TO_TIMEZONE`
     * `RETURN_AS_TIMEZONE_AWARE`
@@ -53,6 +54,7 @@ class Settings:
     registry_key: str
     DATE_ORDER: str
     PREFER_LOCALE_DATE_ORDER: bool
+    STRICT_DATE_ORDER: str
     TIMEZONE: str
     TO_TIMEZONE: str | Literal[False]
     RETURN_AS_TIMEZONE_AWARE: bool | Literal["default"]
@@ -261,6 +263,7 @@ def check_settings(settings: Settings) -> None:
         },
         "FUZZY": {"type": bool},
         "PREFER_LOCALE_DATE_ORDER": {"type": bool},
+        "STRICT_DATE_ORDER": {"values": ("none", "year", "all"), "type": str},
         "DEFAULT_LANGUAGES": {"type": list, "extra_check": _check_default_languages},
         "USE_GIVEN_LANGUAGE_ORDER": {"type": bool},
         "LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": {
@@ -315,3 +318,12 @@ def check_settings(settings: Settings) -> None:
         extra_check = setting_props.get("extra_check")
         if extra_check:
             extra_check(setting_name, setting_value)
+
+    # STRICT_DATE_ORDER enforces the DATE_ORDER that the caller sets. The default
+    # one is only a preference, so without it there is nothing to enforce.
+    strict_date_order = modified_settings.get("STRICT_DATE_ORDER", "none")
+    if strict_date_order != "none" and "DATE_ORDER" not in modified_settings:
+        raise SettingValidationError(
+            f'"STRICT_DATE_ORDER": "{strict_date_order}" requires the "DATE_ORDER" '
+            "setting"
+        )
