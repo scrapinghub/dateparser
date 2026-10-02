@@ -265,6 +265,8 @@ class TestBundledLanguages(BaseTestCase):
             param("ja", "明日の13時20分", "in 1 day 13:20"),
             # Hebrew
             param("he", "20 לאפריל 2012", "20 april 2012"),
+            param("he", "31 באוג׳ 2014", "31 august 2014"),
+            param("he", "6 לדצמ' 2014", "6 december 2014"),
             param("he", "יום רביעי ה-19 בנובמבר 2013", "wednesday 19 november 2013"),
             param("he", "18 לאוקטובר 2012 בשעה 19:21", "18 october 2012 19:21"),
             param("he", "יום ה' 6/10/2016", "thursday 6/10/2016"),
