@@ -1081,6 +1081,15 @@ class TestTranslateSearch(BaseTestCase):
                     ("21 марта", datetime.datetime(2001, 3, 21, 0, 0)),
                 ],
             ),
+            param(
+                text="july 2018 - december 2020",
+                languages=["en", "fr"],
+                settings={"PREFER_DAY_OF_MONTH": "first"},
+                expected=[
+                    ("july 2018", datetime.datetime(2018, 7, 1, 0, 0)),
+                    ("december 2020", datetime.datetime(2020, 12, 1, 0, 0)),
+                ],
+            ),
             # Dates not found
             param(text="", languages=None, settings=None, expected=None),
             # Language not detected
