@@ -1292,6 +1292,20 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.assertEqual(result, expected)
 
+    def test_search_dates_followed_by_numbers(self) -> None:
+        result = search_dates(
+            "Statement: 4 February 2019 10 4",
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+        )
+        self.assertEqual(
+            result,
+            [
+                ("4 February 2019", datetime.datetime(2019, 2, 4)),
+                ("10 4", datetime.datetime(2020, 10, 4)),
+            ],
+        )
+
     @parameterized.expand(
         [
             # The word a future expression is written with is what points it
