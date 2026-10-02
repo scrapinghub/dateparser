@@ -1,3 +1,22 @@
+january:
+    - 01월
+february:
+    - 02월
+march:
+    - 03월
+april:
+    - 04월
+may:
+    - 05월
+june:
+    - 06월
+july:
+    - 07월
+august:
+    - 08월
+september:
+    - 09월
+
 relative-type:
     0 day ago:
         - 금일

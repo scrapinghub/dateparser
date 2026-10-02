@@ -267,6 +267,7 @@ class TestBundledLanguages(BaseTestCase):
             param("ko", "2023년 2월 10일 오전 3시 30분", "2023 february 10 3:30 am"),
             param("ko", "12월 31일 오후 3시", "december 31 3:00 pm"),
             param("ko", "11시 42분 15초", "11:42:15"),
+            param("ko", "2013년 08월 04일", "2013 august 04"),
             param("ko", "2023. 3. 18 오전 10:58", "2023. 3. 18 10:58 am"),
             param("ko", "3시간 전", "3 hour ago"),
             # Hebrew
