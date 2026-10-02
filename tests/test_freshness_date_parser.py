@@ -2338,6 +2338,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # vi
             param("sau 5 năm nữa", in_future={"years": 5}, period="year"),
             param("sau 2 phút nữa", in_future={"minutes": 2}, period="day"),
+            param("3 tuần sau", in_future={"weeks": 3}, period="week"),
+            param("2 giờ nữa", in_future={"hours": 2}, period="day"),
+            param("sau 4 tháng", in_future={"months": 4}, period="month"),
+            param("tuần tới", in_future={"weeks": 1}, period="week"),
+            param("năm tới", in_future={"years": 1}, period="year"),
             # wae
             param("i 3 stunde", in_future={"hours": 3}, period="day"),
             param("i 5 täg", in_future={"days": 5}, period="day"),
