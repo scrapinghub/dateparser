@@ -86,6 +86,13 @@ Handling Incomplete Dates
     >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "current"}) # it exactly behaves like default one
     datetime.datetime(2015, 3, 27, 0, 0)
 
+It also picks the month of a calendar quarter, such as ``2015Q2`` or
+``Q2 2015``, where ``current`` means the month that is as far into the quarter
+as the current month is into its own:
+
+    >>> parse("2015Q2", settings={"PREFER_MONTH_OF_YEAR": "last", "PREFER_DAY_OF_MONTH": "last"})
+    datetime.datetime(2015, 6, 30, 0, 0)
+
 ``PREFER_DATES_FROM``: defaults to ``current_period`` and can have ``past`` and ``future`` as values.
 
 If date string is missing some part, this option ensures consistent results depending on the ``past`` or ``future`` preference, for example, assuming current date is `June 16, 2015`:
