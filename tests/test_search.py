@@ -1732,3 +1732,26 @@ class TestNgramSearch(BaseTestCase):
     def test_unknown_strategy_raises_error(self) -> None:
         with self.assertRaisesRegex(ValueError, "strategy must be"):
             search_dates("4 October 1957", languages=["en"], strategy="unknown")
+
+    def test_search_dates_with_fractional_seconds(self) -> None:
+        result = search_dates(
+            "Cloud-init v. 0.7.6 running 'init-local' at Thu, 05 Jul 2018 15:13:48 +0000. Up 27.78 seconds.",
+            languages=["en"],
+        )
+        self.assertIsNotNone(result)
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result[0][0], "at Thu, 05 Jul 2018 15:13:48 +0000")
+        self.assertEqual(
+            result[1],
+            ("27.78 seconds", datetime.datetime(2018, 7, 5, 15, 13, 20, 220000)),
+        )
+
+        result_relative = search_dates(
+            "Up 27.78 seconds.",
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 1, 1, 12, 0, 30)},
+        )
+        self.assertEqual(
+            result_relative,
+            [("27.78 seconds", datetime.datetime(2020, 1, 1, 12, 0, 2, 220000))],
+        )
