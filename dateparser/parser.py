@@ -363,6 +363,24 @@ class _parser:
                 continue
 
             if self.time is None:
+                # A 4-digit number after a full date is a 24-hour time, e.g.
+                # 1313 in “Jul 20, 2019, 1313”, unless the date has a 2-digit
+                # year and the number could be the year, e.g. “Mar 5 06 2009”.
+                hhmm = f"{token[:2]}:{token[2:]}"
+                if (
+                    None not in (self.year, self.month, self.day)
+                    and len(token) == 4
+                    and token.isdigit()
+                    and HOUR_MINUTE_REGEX.match(hhmm)
+                    and not (
+                        len(self._token_year[0]) == 2  # type: ignore[index]
+                        and token[:2] in ("19", "20")
+                    )
+                ):
+                    self._token_time = token
+                    self.time = partial(time_parser, hhmm)
+                    continue
+
                 meridian_index = index + 1
 
                 with contextlib.suppress(Exception):
