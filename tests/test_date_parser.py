@@ -1690,6 +1690,7 @@ class TestDateParser(BaseTestCase):
         [
             param("2019", ["%Y"], {}, datetime(2019, 1, 1)),
             param("October 2018", ["%B %Y"], {}, datetime(2018, 10, 1)),
+            param("15 2019", ["%d %Y"], {}, datetime(2019, 1, 15)),
             param(
                 "2019",
                 ["%Y"],
