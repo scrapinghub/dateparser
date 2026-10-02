@@ -53,7 +53,7 @@ Set it to ``year`` to read a two-digit year only from the position ``DATE_ORDER`
     >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'all'})
     None
 
-``year`` and ``all`` raise a ``SettingValidationError`` unless ``DATE_ORDER`` is given too. Some dates that are read correctly without the setting are rejected, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
+``year`` and ``all`` raise a ``SettingValidationError`` unless ``DATE_ORDER`` is given too. Only the parts read from numbers are checked, and a four-digit year is read wherever it is, so ``'32 DEC'`` with ``DMY`` is still December 2032. Some dates that are read correctly without the setting are rejected, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
 
 
 Timezone Related Configurations
