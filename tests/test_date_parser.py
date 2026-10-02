@@ -1088,7 +1088,6 @@ class TestDateParser(BaseTestCase):
             param(
                 "05/2020 10:00", date_order="YDM", expected=datetime(2020, 5, 28, 10)
             ),
-            param("13/2020", date_order="DMY", expected=datetime(2020, 9, 13)),
         ]
     )
     def test_month_and_year_with_explicit_date_order(
@@ -1103,6 +1102,27 @@ class TestDateParser(BaseTestCase):
         )
         self.when_date_is_parsed(date_string)
         self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("23 2019"),
+            param("2019 23"),
+            param("23, 2019"),
+            param("13/2020", date_order="DMY"),
+        ]
+    )
+    def test_day_and_year_without_month(
+        self, date_string: str, date_order: str | None = None
+    ) -> None:
+        settings = {"DATE_ORDER": date_order} if date_order else {}
+        self.given_parser(settings=settings)
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(None)
+
+    def test_day_and_year_with_preferred_month(self) -> None:
+        self.given_parser(settings={"PREFER_MONTH_OF_YEAR": "first"})
+        self.when_date_is_parsed("23 2019")
+        self.then_date_obj_exactly_is(datetime(2019, 1, 23))
 
     @parameterized.expand(
         [
