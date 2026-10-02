@@ -22,6 +22,19 @@ class TestTranslateSearch(BaseTestCase):
         self.search_with_detection = DateSearchWithDetection()
         self.exact_language_search = self.search_with_detection.search
 
+    def test_explicit_date_order_is_preserved_after_first_date(self) -> None:
+        self.assertEqual(
+            search_dates(
+                "op 30-05-2027. Deze op 01-11-2026",
+                languages=["nl"],
+                settings={"DATE_ORDER": "DMY", "STRICT_PARSING": True},
+            ),
+            [
+                ("30-05-2027", datetime.datetime(2027, 5, 30)),
+                ("01-11-2026", datetime.datetime(2026, 11, 1)),
+            ],
+        )
+
     def run_search_dates_function_invalid_languages(
         self, text: str, languages: object, error_type: type[Exception]
     ) -> None:
