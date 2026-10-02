@@ -333,6 +333,14 @@ class TestLocaleDataLoader(BaseTestCase):
         self.load_data(given_locales, use_given_order=False)
         self.then_locales_are_yielded_in_order(expected_locales)
 
+    def test_region_without_locale_for_some_languages(self) -> None:
+        locales = self.data_loader.get_locales(
+            languages=["en", "fr", "es"], region="CU", use_given_order=True
+        )
+        self.assertEqual(
+            [locale.shortname for locale in locales], ["en", "fr", "es-CU"]
+        )
+
     @parameterized.expand(
         [
             param(given_locales=["sw-KE", "ru-UA", "he"]),

@@ -1186,6 +1186,9 @@ info = {
             "in the ((?:early )?morning|afternoon|evening|night|small hours|wee hours)": "\\1"
         },
         {
+            "in the year (\\d+)": "\\1"
+        },
+        {
             "(\\d++[.,]?\\d*+)h(\\d++[.,]?\\d*+)": "\\1:\\2"
         },
         {
