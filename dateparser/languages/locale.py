@@ -20,6 +20,74 @@ _T = TypeVar("_T")
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
 _MAX_TRANSLATIONS = 16
 
+_ENGLISH_UNITS = [
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+]
+_ENGLISH_TEENS = [
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+]
+_ENGLISH_TENS = [
+    "twenty",
+    "thirty",
+    "forty",
+    "fifty",
+    "sixty",
+    "seventy",
+    "eighty",
+    "ninety",
+]
+_ENGLISH_NUMBER_WORDS = {
+    **{word: value for value, word in enumerate(_ENGLISH_UNITS, 1)},
+    **{word: value for value, word in enumerate(_ENGLISH_TEENS, 10)},
+    **{word: value * 10 for value, word in enumerate(_ENGLISH_TENS, 2)},
+}
+_ENGLISH_UNIT = f"(?:{'|'.join(_ENGLISH_UNITS)})"
+_ENGLISH_TENS_UNIT = rf"(?:{'|'.join(_ENGLISH_TENS)})(?:[\s-]{_ENGLISH_UNIT})?"
+_ENGLISH_10_99 = f"(?:{_ENGLISH_TENS_UNIT}|{'|'.join(_ENGLISH_TEENS)})"
+_ENGLISH_1_99 = f"(?:{_ENGLISH_10_99}|{_ENGLISH_UNIT})"
+# Pairs starting below thirteen, like "ten twenty", are times of the day.
+_ENGLISH_13_99 = f"(?:{_ENGLISH_TENS_UNIT}|{'|'.join(_ENGLISH_TEENS[3:])})"
+_RE_ENGLISH_YEAR = re.compile(
+    rf"\b(?:{_ENGLISH_UNIT}\s+thousand(?:\s+(?:and\s+)?{_ENGLISH_UNIT}\s+hundred)?"
+    rf"(?:\s+(?:and\s+)?{_ENGLISH_1_99})?"
+    rf"|{_ENGLISH_10_99}\s+hundred(?:\s+(?:and\s+)?{_ENGLISH_1_99})?"
+    rf"|(?P<century>{_ENGLISH_13_99})\s+(?P<rest>oh\s+{_ENGLISH_UNIT}|{_ENGLISH_10_99})"
+    r")\b"
+)
+
+
+def _english_year_to_digits(match: re.Match[str]) -> str:
+    words = match[0]
+    if match["century"]:
+        words = f"{match['century']} hundred {match['rest']}"
+    total = current = 0
+    for word in re.split(r"[\s-]+", words):
+        if word == "thousand":
+            total += current * 1000
+            current = 0
+        elif word == "hundred":
+            current *= 100
+        else:
+            current += _ENGLISH_NUMBER_WORDS.get(word, 0)
+    return str(total + current)
+
 
 def _parse_bool(value: object) -> bool:
     if isinstance(value, bool):
@@ -591,6 +659,8 @@ class Locale:
 
     def _simplify(self, date_string: str, settings: "Settings | None" = None) -> str:
         date_string = date_string.lower()
+        if self.shortname.split("-")[0] == "en":
+            date_string = _RE_ENGLISH_YEAR.sub(_english_year_to_digits, date_string)
         simplifications = self._get_simplifications(settings=settings)
 
         if self.info.get("name") == "ru":
