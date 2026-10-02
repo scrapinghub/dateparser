@@ -2395,6 +2395,9 @@ class TestDateParser(BaseTestCase):
                 param("DEC 95", datetime(1995, 12, 24), order="MDY"),
                 param("12/95", datetime(1995, 12, 24), order="MDY"),
                 param("13/2020", datetime(2020, 6, 13), order="MDY"),
+                # A two-digit year is still the last resort (#519).
+                param("DEC 95", datetime(1995, 12, 24), order="YMD"),
+                param("5 Dec 99", datetime(1999, 12, 5), order="DYM"),
                 # A four-digit year cannot be anything else.
                 param("2010 DEC 10", datetime(2010, 12, 10), order="DMY"),
                 param("12/2017/10", datetime(2017, 10, 12), order="DMY"),
@@ -2481,7 +2484,7 @@ class TestDateParser(BaseTestCase):
             param("14 12 2021", datetime(2021, 12, 14), order="MYD"),
             param("22 2017 06", datetime(2017, 6, 22), order="YDM"),
             param("05 2017 12", datetime(2017, 5, 12), order="YDM"),
-            # A two-digit year remains the last resort (#519).
+            # A CJK date goes through the same swap retry.
             param("10年20月00日", datetime(2000, 10, 20), order="DMY"),
         ]
     )

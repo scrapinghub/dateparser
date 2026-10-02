@@ -331,9 +331,9 @@ class StrictDateOrderSettingsTest(BaseTestCase):
     def test_search_dates_does_not_check_the_rebuilt_settings(
         self, strict: str
     ) -> None:
-        """Test that search_dates, which rebuilds the settings for the dates
-        after the first one and so forgets which of them the caller set, does
-        not treat DATE_ORDER as missing."""
+        """Test that search_dates does not raise SettingValidationError for the
+        settings that it rebuilds for the dates after the first one, which
+        forget which settings the caller set."""
         text = "Opened 25/12/2020, closed 31/12/2020."
         self.assertEqual(
             [
