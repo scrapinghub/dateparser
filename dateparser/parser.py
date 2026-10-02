@@ -577,12 +577,12 @@ class _parser:
 
     def _month_number_becomes_day(self) -> None:
         """Record in auto_order that the number read as the month is the day,
-        now that a month name was found, and that the end of a range it
-        starts, which was read as the day, is dropped."""
-        index = self.auto_order.index("month")
-        self.auto_order[index] = "day"
+        now that a month name was found, and that the other end of the range,
+        which was read as the day, is dropped. That end comes after the month
+        in "12-14 June" with MDY, but before it in "12-12 June" with DMY."""
         if self.day:
-            del self.auto_order[index + 1]
+            self.auto_order.remove("day")
+        self.auto_order[self.auto_order.index("month")] = "day"
 
     def _unparsed_number_error(self, token: str) -> ValueError:
         """Return the error for a number that fits none of the parts of the date

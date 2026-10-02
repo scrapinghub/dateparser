@@ -249,6 +249,8 @@ class TestDateParser(BaseTestCase):
             param("12.-14. Juni 2021", datetime(2021, 6, 12, 0, 0)),
             param("12.-14.06.2021", datetime(2021, 6, 12, 0, 0)),
             param("12-14 июня 2021", datetime(2021, 6, 12, 0, 0)),
+            param("12-12 июня 2021", datetime(2021, 6, 12, 0, 0)),
+            param("5-5 juin 2021", datetime(2021, 6, 5, 0, 0)),
             param("12 - 14 czerwca 2021", datetime(2021, 6, 12, 0, 0)),
         ]
     )
@@ -2406,6 +2408,7 @@ class TestDateParser(BaseTestCase):
                 # The end of a range is dropped.
                 param("12-14 June 2021", datetime(2021, 6, 12), order="MDY"),
                 param("June 12-14, 2021", datetime(2021, 6, 12), order="MDY"),
+                param("12-12 June 2021", datetime(2021, 6, 12), order="DMY"),
                 # YMD asks for the year first, and MYD between month and day.
                 param("32 DEC 10", datetime(2032, 12, 10), order="YMD"),
                 param("95 DEC 10", datetime(1995, 12, 10), order="YMD"),
