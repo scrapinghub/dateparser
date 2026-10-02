@@ -58,7 +58,7 @@ UNPARSEABLE_STRINGS = [
 def _benchmark_parse(
     benchmark: BenchmarkFixture, date_strings: list[str], parses: bool = True
 ) -> None:
-    def run():
+    def run() -> None:
         for date_string in date_strings:
             dateparser.parse(date_string)
 
