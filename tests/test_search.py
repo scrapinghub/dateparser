@@ -1293,6 +1293,13 @@ class TestTranslateSearch(BaseTestCase):
             [("ngày 11 tháng 12 năm 2014", datetime.datetime(2014, 12, 11), "vi")],
         )
 
+    def test_search_dates_does_not_detect_language_from_numbers_alone(self) -> None:
+        result = search_dates("2018-10-17T00:00:00", add_detected_language=True)
+        self.assertEqual(
+            result,
+            [("2018-10-17T00:00:00", datetime.datetime(2018, 10, 17), "en")],
+        )
+
     @parameterized.expand(
         [
             param(text="19 марта 2001", languages="wrong type: str instead of list"),
