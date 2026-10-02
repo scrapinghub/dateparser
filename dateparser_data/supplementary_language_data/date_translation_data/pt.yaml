@@ -61,6 +61,7 @@ relative-type:
 
 simplifications:
     - esta madrugada: hoje madrugada
+    - daqui a: em
     - uma: '1'
     - um: '1'
     - alguns segundos: 44 segundos

@@ -1174,6 +1174,8 @@ class TestBundledLanguages(BaseTestCase):
             param("pt", "12 dias", "12 day"),
             param("pt", "há 14 min.", "14 minute ago."),
             param("pt", "1 segundo atrás", "1 second ago"),
+            param("pt", "daqui a 3 dias", "in 3 day"),
+            param("pt", "daqui a uma semana", "in 1 week"),
             # Russian
             param("ru", "9 месяцев", "9 month"),
             param("ru", "8 недель", "8 week"),
