@@ -37,23 +37,21 @@ Date Order
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY', 'PREFER_LOCALE_DATE_ORDER': False})
     datetime.datetime(2016, 2, 3, 0, 0)  # MDY worked!
 
-``STRICT_DATE_ORDER``: defaults to ``none``. ``DATE_ORDER`` is a preference: a number that does not fit where the order puts it is read as another part of the date. ``13`` is not a valid month, so it is read as the day where ``MDY`` puts the month, and any number that is not a valid day or month is a valid two-digit year, so ``32`` becomes the year 2032:
+``STRICT_DATE_ORDER``: defaults to ``'none'``. ``DATE_ORDER`` is a preference: a number that does not fit where the order puts it is read as another part of the date. ``13`` is not a valid month, so it is read as the day where ``MDY`` puts the month, and any number that is not a valid day or month is a valid two-digit year, so ``32`` becomes the year 2032:
 
     >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY'})
     datetime.datetime(2010, 12, 13, 0, 0)
     >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY'})
     datetime.datetime(2032, 12, 10, 0, 0)
 
-Set it to ``year`` to read a two-digit year only from the position ``DATE_ORDER`` gives the year, or to ``all`` to read the day, month and year only in the order ``DATE_ORDER`` gives. A date string that does not fit then gives ``None``:
+Set it to ``'year'`` to read a two-digit year only from the position ``DATE_ORDER`` gives the year, or to ``'all'`` to read the day, month and year only in the order ``DATE_ORDER`` gives. A date string that does not fit then gives ``None``:
 
     >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY', 'STRICT_DATE_ORDER': 'year'})
-    None
     >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'year'})
     datetime.datetime(2010, 12, 13, 0, 0)
     >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'all'})
-    None
 
-``year`` and ``all`` raise a ``SettingValidationError`` unless ``DATE_ORDER`` is given too. Only the parts read from numbers are checked, and a four-digit year is read wherever it is, so ``'32 DEC'`` with ``DMY`` is still December 2032. Some dates that are read correctly without the setting are rejected, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
+``'year'`` and ``'all'`` raise a ``SettingValidationError`` unless ``DATE_ORDER`` is given too. Only the parts read from numbers are checked, and a four-digit year is read wherever it is, so ``'32 DEC'`` with ``DMY`` is still December 2032. Some dates that are read correctly without the setting are rejected, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
 
 
 Timezone Related Configurations

@@ -82,9 +82,9 @@ def resolve_date_order(order: str, lst: bool | None = None) -> str | list[str]:
 
 
 class _StrictDateOrderError(ValueError):
-    """The date string does not fit DATE_ORDER as STRICT_DATE_ORDER requires
-    (#868): a number was read as a part that the order does not put at its
-    position, or with "all", a number could not be read in that order at all.
+    """The date string does not fit DATE_ORDER as STRICT_DATE_ORDER requires:
+    a number was read as a part that the order does not put at its position,
+    or with "all", a number could not be read in that order at all.
     The other parsers of the locale may still read the date string, but no
     other locale should guess a reading of it."""
 
@@ -130,7 +130,7 @@ def _check_strict_date_order(
     if four_digit_year:
         # A four-digit year is read wherever it is, and a date that starts
         # with one is read as year, month and day unless DATE_ORDER starts
-        # with the year (#1419).
+        # with the year.
         if parts[:1] == ["year"] and not date_order.startswith("Y"):
             order = ["month", "day"]
         parts = [part for part in parts if part != "year"]
