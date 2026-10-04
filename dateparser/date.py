@@ -18,7 +18,13 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.parser import _Directives, _parse_absolute, _parse_nospaces, tokenizer
+from dateparser.parser import (
+    _Directives,
+    _parse_absolute,
+    _parse_nospaces,
+    _StrictDateOrderError,
+    tokenizer,
+)
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
     _get_localzone,
@@ -106,6 +112,20 @@ RE_SANITIZE_DECIMAL_COMMA = re.compile(r"(?<=\d:\d{2}:\d{2}),(?=\d{3})")
 RE_SANITIZE_ON = re.compile(r"^.*?on:\s+(.*)")
 RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
 RE_SANITIZE_DASH = re.compile("|".join(DASH_LOOK_ALIKE_CHARS))
+# Uppercase Roman numerals from 1000 on, allowing the additive IIII, XXXX and
+# CCCC of old prints.
+_RE_ROMAN_YEAR = re.compile(
+    r"\bM{1,3}(?:CM|CD|D?C{0,4})(?:XC|XL|L?X{0,4})(?:IX|IV|V?I{0,4})\b"
+)
+_ROMAN_NUMERAL_VALUES = {
+    "M": 1000,
+    "D": 500,
+    "C": 100,
+    "L": 50,
+    "X": 10,
+    "V": 5,
+    "I": 1,
+}
 
 RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
@@ -196,12 +216,27 @@ def sanitize_date(date_string: str) -> str:
     )  # extra '.' and 'u' interferes with parsing relative fractional dates
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub("", date_string)
+    date_string = _RE_ROMAN_YEAR.sub(_roman_year_to_digits, date_string)
     date_string = RE_SANITIZE_DECIMAL_COMMA.sub(".", date_string)
     date_string = RE_SANITIZE_ON.sub(r"\1", date_string)
     date_string = RE_TRIM_COLONS.sub(r"\1", date_string)
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
     date_string = RE_SANITIZE_DASH.sub("-", date_string)
     return date_string.strip()
+
+
+def _roman_year_to_digits(match: re.Match[str]) -> str:
+    numeral = match[0]
+    # Too ambiguous with abbreviations like MD or MC.
+    if len(numeral) < 3:
+        return numeral
+    values = [_ROMAN_NUMERAL_VALUES[char] for char in numeral]
+    return str(
+        sum(
+            -value if value < next_value else value
+            for value, next_value in zip(values, [*values[1:], 0], strict=True)
+        )
+    )
 
 
 def get_date_from_timestamp(
@@ -381,22 +416,20 @@ def _get_name_translations(
     locale: "Locale", month_form: str | None, weekday_form: str | None
 ) -> tuple[re.Pattern[str], dict[str, list[str]]] | None:
     """Return a pattern matching the month and weekday names of *locale*, and
-    a mapping of each lowercase name to the English names it can stand for.
+    a mapping of each lowercase name to the English names it can stand for, or
+    ``None`` if there are no such names.
 
     *month_form* and *weekday_form* are ``"full"``, ``"abbr"`` or ``None``,
     the English form to translate each kind of name into, or ``None`` to leave
     that kind of name untranslated.
     """
-    translations: collections.defaultdict[str, list[str]] = collections.defaultdict(
-        list
-    )
+    translations: dict[str, list[str]] = collections.defaultdict(list)
     for words, form in ((_MONTHS, month_form), (_WEEKDAYS, weekday_form)):
         if form is None:
             continue
         for word in words:
             english = word if form == "full" else word[:3]
-            for localized in locale.info.get(word, ()):
-                name = localized.lower()
+            for name in map(str.lower, locale.info.get(word, ())):
                 if english not in translations[name]:
                     translations[name].append(english)
     if not translations:
@@ -428,14 +461,14 @@ def _translate_names(
     matches = pattern.findall(date_string)
     if not matches:
         return
-    pieces = pattern.split(date_string)
+    parts = pattern.split(date_string)
     # A name can stand for several English names, e.g. "mar" is both "martes"
     # and "marzo" in Spanish, so every combination is yielded.
     for combination in itertools.product(
         *(translations[match.lower()] for match in matches)
     ):
         yield "".join(
-            itertools.chain.from_iterable(zip(pieces, (*combination, ""), strict=True))
+            part + name for part, name in zip(parts, (*combination, ""), strict=True)
         )
 
 
@@ -509,8 +542,18 @@ class _DateLocaleParser:
         return None
 
     def _parse_translation(self) -> "DateData | None":
+        rejected: _StrictDateOrderError | None = None
         for parser_name in self._settings.PARSERS:
-            date_data = self._parsers[parser_name]()
+            if rejected is not None and parser_name == "no-spaces-time":
+                # It would read the same numbers in a date order again.
+                continue
+            try:
+                date_data = self._parsers[parser_name]()
+            except _StrictDateOrderError as error:
+                # STRICT_DATE_ORDER rejected the reading of this parser. The
+                # other parsers may still read the date string.
+                rejected = error
+                continue
             if self._is_valid_date_data(date_data):
                 if self._part_of_day:
                     date_data.part_of_day = self._part_of_day
@@ -520,6 +563,8 @@ class _DateLocaleParser:
                     ):
                         date_data.period = "part_of_day"
                 return date_data
+        if rejected is not None:
+            raise rejected
         return None
 
     def _try_timestamp_parser(self, negative: bool = False) -> "DateData":
@@ -600,6 +645,10 @@ class _DateLocaleParser:
                         self._get_date_format, date_obj, directives, self._now()
                     ),
                 )
+            except _StrictDateOrderError:
+                # Only raised with an explicit DATE_ORDER, which leaves a single
+                # candidate order.
+                raise
             except ValueError:
                 continue
         return None
@@ -927,16 +976,24 @@ class DateDataParser:
 
         date_string = sanitize_date(date_string)
 
-        parsed_date = self._parse_using_applicable_locales(date_string, date_formats)
-        if not parsed_date and self._settings.IGNORE_SURROUNDING_TEXT:
-            # The whole string could not be parsed as a date. Retry, ignoring
-            # unrecognized words at the edges of the string, so that a date
-            # wrapped in harmless extra text is still parsed (issue #518),
-            # e.g. "Actualisé le 17 avril 2019". Strings that can be parsed as
-            # a whole never reach this fallback, so they are unaffected.
+        try:
             parsed_date = self._parse_using_applicable_locales(
-                date_string, date_formats, ignore_surrounding_text=True
+                date_string, date_formats
             )
+            if not parsed_date and self._settings.IGNORE_SURROUNDING_TEXT:
+                # The whole string could not be parsed as a date. Retry,
+                # ignoring unrecognized words at the edges of the string, so
+                # that a date wrapped in harmless extra text is still parsed
+                # (issue #518), e.g. "Actualisé le 17 avril 2019". Strings that
+                # can be parsed as a whole never reach this fallback, so they
+                # are unaffected.
+                parsed_date = self._parse_using_applicable_locales(
+                    date_string, date_formats, ignore_surrounding_text=True
+                )
+        except _StrictDateOrderError:
+            # STRICT_DATE_ORDER rejected a reading of the date string, which
+            # is final: no other locale may guess another reading of it.
+            parsed_date = None
         return parsed_date or DateData(date_obj=None, period="day", locale=None)
 
     def _parse_with_localized_formats(

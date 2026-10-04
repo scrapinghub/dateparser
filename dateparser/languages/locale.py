@@ -545,9 +545,7 @@ class Locale:
     def _word_split(self, string: str, settings: "Settings | None") -> list[str]:
         if "no_word_spacing" in self.info:
             return self._split(string, keep_formatting=True, settings=settings)
-        # A colon right after a letter ends a label, as in
-        # "birthday:2020-07-08", while one after a digit belongs to a time.
-        return re.sub(r"(?<=[^\W\d_]:)(?=\w)", " ", string).split()
+        return string.split()
 
     def _split(
         self,
