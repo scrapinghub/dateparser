@@ -7,6 +7,7 @@ from parameterized import param, parameterized
 from dateparser import DateDataParser, parse
 from dateparser.conf import Settings, SettingValidationError, apply_settings, settings
 from dateparser.languages.dictionary import Dictionary
+from dateparser.search import search_dates
 from tests import BaseTestCase
 
 
@@ -203,6 +204,7 @@ class InvalidSettingsTest(BaseTestCase):
             param("STRICT_PARSING", "true", "", True),
             param("RETURN_TIME_AS_PERIOD", "false", "", True),
             param("PREFER_LOCALE_DATE_ORDER", "true", "", False),
+            param("STRICT_DATE_ORDER", True, "full", "none"),
             param("NORMALIZE", "true", "", True),
             param("FUZZY", "true", "", False),
             param("PREFER_LOCALE_DATE_ORDER", "false", "", True),
@@ -274,6 +276,71 @@ class InvalidSettingsTest(BaseTestCase):
             "Found invalid languages in the 'DEFAULT_LANGUAGES' setting: 'abcd'",
         ):
             DateDataParser(settings={"DEFAULT_LANGUAGES": ["abcd"]})
+
+
+class StrictDateOrderSettingsTest(BaseTestCase):
+    """STRICT_DATE_ORDER enforces the DATE_ORDER that the caller sets, so it
+    needs one."""
+
+    @parameterized.expand([param("year"), param("all")])
+    def test_strict_date_order_requires_date_order(self, strict: str) -> None:
+        with self.assertRaisesRegex(
+            SettingValidationError,
+            rf'"STRICT_DATE_ORDER": "{strict}" requires the "DATE_ORDER" setting',
+        ):
+            DateDataParser(settings={"STRICT_DATE_ORDER": strict})
+
+        # parse() builds the parser too, whatever the date string.
+        with self.assertRaises(SettingValidationError):
+            parse("12/10/95", settings={"STRICT_DATE_ORDER": strict})
+
+        # The default DATE_ORDER is a preference, but one that the caller sets
+        # is enforced, even if it is the default one.
+        assert DateDataParser(
+            settings={"STRICT_DATE_ORDER": strict, "DATE_ORDER": "MDY"}
+        )
+
+    def test_strict_date_order_none_does_not_require_date_order(self) -> None:
+        assert DateDataParser(settings={"STRICT_DATE_ORDER": "none"})
+        self.assertEqual(
+            datetime(1995, 12, 10),
+            parse("12/10/95", settings={"STRICT_DATE_ORDER": "none"}),
+        )
+
+    @parameterized.expand([param("year"), param("all")])
+    def test_strict_date_order_stays_in_force_when_a_parser_is_reused(
+        self, strict: str
+    ) -> None:
+        parser = DateDataParser(
+            settings={"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": strict}
+        )
+        for _ in range(2):
+            self.assertIsNone(parser.get_date_data("32 DEC 10")["date_obj"])
+            self.assertEqual(
+                datetime(2010, 12, 31), parser.get_date_data("31 DEC 10")["date_obj"]
+            )
+
+    @parameterized.expand([param("year"), param("all")])
+    def test_search_dates_does_not_check_the_rebuilt_settings(
+        self, strict: str
+    ) -> None:
+        """Test that search_dates does not raise SettingValidationError for the
+        settings that it rebuilds for the dates after the first one, which
+        forget which settings the caller set."""
+        text = "Opened 25/12/2020, closed 31/12/2020."
+        self.assertEqual(
+            [
+                ("25/12/2020", datetime(2020, 12, 25)),
+                ("31/12/2020", datetime(2020, 12, 31)),
+            ],
+            search_dates(
+                text,
+                languages=["en"],
+                settings={"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": strict},
+            ),
+        )
+        with self.assertRaises(SettingValidationError):
+            search_dates(text, languages=["en"], settings={"STRICT_DATE_ORDER": strict})
 
 
 @pytest.mark.parametrize(
