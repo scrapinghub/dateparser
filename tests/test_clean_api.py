@@ -259,6 +259,19 @@ class TestParseFunction(BaseTestCase):
         )
         self.then_parsed_date_and_time_is(expected_date)
 
+    def test_require_parts_year_with_strict_date_order(self) -> None:
+        # 40 cannot be a month, so YMD fails and the DYM reading stays.
+        self.when_date_is_parsed_with_settings(
+            "5/40",
+            settings={
+                "RELATIVE_BASE": datetime(2050, 1, 1),
+                "REQUIRE_PARTS": ["year"],
+                "DATE_ORDER": "DYM",
+                "STRICT_DATE_ORDER": "year",
+            },
+        )
+        self.then_parsed_date_and_time_is(datetime(2040, 1, 5))
+
     def test_require_parts_month_day_parses_month_day(self) -> None:
         # If day is required, Mon-XX should remain month-day.
         base = datetime(2000, 1, 1, 0, 0)
