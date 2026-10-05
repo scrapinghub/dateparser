@@ -82,6 +82,9 @@ def patch_strptime() -> Callable[[str, str], struct_time]:
         "november",
         "december",
     ]
+    _strptime.LocaleTime._LocaleTime__calc_am_pm = lambda self: setattr(
+        self, "am_pm", ["am", "pm"]
+    )
 
     strptime_time: Callable[[str, str], struct_time] = _strptime._strptime_time
     return strptime_time
