@@ -9,6 +9,9 @@
 # Where the tz database names only one offset for an abbreviation, this table
 # has to agree with it: "BST" and "HDT" did not, and were corrected in #1322.
 # Run dateparser_scripts/tz_abbreviation_conflicts.py to re-check the table.
+#
+# Abbreviations that switch between standard and daylight saving time, such as
+# "CT", map to a tz database zone instead of an offset.
 
 from typing import Any
 
@@ -164,6 +167,7 @@ timezone_info_list: list[dict[str, Any]] = [
             ("COT", -18000),
             ("CPT", -18000),
             ("CST", -21600),
+            ("CT", "America/Chicago"),
             ("CUT", 8400),
             ("CVST", -3600),
             ("CVT", -3600),
@@ -192,7 +196,7 @@ timezone_info_list: list[dict[str, Any]] = [
             ("EMT", -26220),
             ("EPT", -14400),
             ("EST", -18000),
-            ("ET", -18000),
+            ("ET", "America/New_York"),
             ("EWT", -14400),
             ("FET", 10800),
             ("FFMT", -14640),
@@ -311,6 +315,7 @@ timezone_info_list: list[dict[str, Any]] = [
             ("MSK", 10800),
             ("MSM", 18000),
             ("MST", -25200),
+            ("MT", "America/Denver"),
             ("MUST", 18000),
             ("MUT", 14400),
             ("MVT", 18000),
@@ -362,7 +367,7 @@ timezone_info_list: list[dict[str, Any]] = [
             ("PPMT", -17340),
             ("PPT", -25200),
             ("PST", -28800),
-            ("PT", -28800),
+            ("PT", "America/Los_Angeles"),
             ("PWT", -25200),
             ("PYST", -10800),
             ("PYT", -14400),
