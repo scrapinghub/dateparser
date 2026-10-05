@@ -696,6 +696,13 @@ class _parser:
             field for field in ("day", "month", "year") if not getattr(self, field)
         ]
         _check_strict_parsing(missing, self.settings)
+        if (
+            missing == ["month"]
+            and "PREFER_MONTH_OF_YEAR" not in self.settings._mod_settings
+        ):
+            # The current month is a reasonable guess for a day alone, e.g.
+            # “the 23rd”, but not for a day of a given year, e.g. “23 2019”.
+            raise ValueError(_get_missing_error(missing))
         self._set_relative_base()
 
         time = self.time() if self.time is not None else None

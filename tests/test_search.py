@@ -1608,6 +1608,12 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.assertEqual(result, [("yesterday", datetime.datetime(2025, 2, 17, 12, 0))])
 
+    def test_search_dates_day_and_year_without_month(self) -> None:
+        result = search_dates(
+            "23 2019", settings={"RELATIVE_BASE": datetime.datetime(2020, 9, 28)}
+        )
+        self.assertEqual(result, [("2019", datetime.datetime(2019, 9, 28, 0, 0))])
+
     def test_search_dates_time_span_disabled_by_default(self) -> None:
         result = search_dates(
             "messages received for the past month",
