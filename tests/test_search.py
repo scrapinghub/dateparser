@@ -378,6 +378,34 @@ class TestTranslateSearch(BaseTestCase):
                 ],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
+            param(
+                "fr",
+                "On se voit demain à midi.",
+                [("demain à midi", datetime.datetime(2000, 1, 2, 12, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
+            param(
+                "fr",
+                "Rendez-vous mardi à midi, ou lundi à 14:30.",
+                [
+                    ("mardi à midi", datetime.datetime(1999, 12, 28, 12, 0)),
+                    ("lundi à 14:30", datetime.datetime(1999, 12, 27, 14, 30)),
+                ],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
+            # The afternoon and before noon are not noon
+            param(
+                "fr",
+                "Réunion demain après-midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
+            param(
+                "fr",
+                "Réunion avant midi ou cet après-midi.",
+                [],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
             # Hebrew
             param(
                 "he",
