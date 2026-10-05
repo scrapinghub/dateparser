@@ -3,7 +3,6 @@ from collections import OrderedDict
 from collections.abc import Iterable, Iterator
 from copy import deepcopy
 from importlib import import_module
-from itertools import zip_longest
 from typing import Any, ClassVar
 
 import regex as re
@@ -21,19 +20,6 @@ def _isvalidlocale(locale: str) -> bool:
         return False
     locales_list = language_locale_dict[language]
     return locale == language or locale in locales_list
-
-
-def _filter_valid_locales(locales: Iterable[str]) -> list[str]:
-    return [locale for locale in locales if _isvalidlocale(locale)]
-
-
-def _construct_locales(languages: Iterable[str], region: str) -> Iterable[str]:
-    if region:
-        possible_locales = [language + "-" + region for language in languages]
-        locales: Iterable[str] = _filter_valid_locales(possible_locales)
-    else:
-        locales = languages
-    return locales
 
 
 class LocaleDataLoader:
@@ -182,6 +168,7 @@ class LocaleDataLoader:
                 )
 
         else:
+            languages_given = languages is not None
             if languages is None:
                 languages = language_order
             unsupported_languages = set(languages) - set(language_order)
@@ -191,12 +178,13 @@ class LocaleDataLoader:
                 )
             if region is None:
                 region = ""
-            locales = _construct_locales(languages, region)
-            locale_dict.update(
-                zip_longest(
-                    locales, tuple(zip_longest(languages, [], fillvalue=region))
-                )
-            )
+            for language in languages:
+                if not region:
+                    locale_dict[language] = (language, region)
+                elif _isvalidlocale(locale := f"{language}-{region}"):
+                    locale_dict[locale] = (language, region)
+                elif languages_given:
+                    locale_dict[language] = (language, "")
 
         if not use_given_order:
             locale_dict = dict(
