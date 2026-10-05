@@ -1153,6 +1153,21 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
             ),
+            # Number words without a time unit
+            param(
+                text="She turned thirty on 14 February 2018.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("on 14 February 2018", datetime.datetime(2018, 2, 14, 0, 0))
+                ],
+            ),
+            param(
+                text="Chapter Twenty: The return. It was 5 June 2019.",
+                languages=["en"],
+                settings=None,
+                expected=[("5 June 2019", datetime.datetime(2019, 6, 5, 0, 0))],
+            ),
         ]
     )
     def test_date_search_function(
