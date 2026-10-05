@@ -252,6 +252,10 @@ class TestDateParser(BaseTestCase):
             param("12-12 июня 2021", datetime(2021, 6, 12, 0, 0)),
             param("5-5 juin 2021", datetime(2021, 6, 5, 0, 0)),
             param("12 - 14 czerwca 2021", datetime(2021, 6, 12, 0, 0)),
+            # 24-hour times without a colon
+            param("Jul 20, 2019, 1313", datetime(2019, 7, 20, 13, 13)),
+            param("2019-07-20 0800", datetime(2019, 7, 20, 8, 0)),
+            param("6/4/25 0730", datetime(2025, 6, 4, 7, 30)),
         ]
     )
     def test_dates_parsing(self, date_string: str, expected: datetime) -> None:
@@ -623,8 +627,6 @@ class TestDateParser(BaseTestCase):
             param("12/09/18567", "Unable to parse: 18567"),
             param("5 06 Mar 2009", "Unable to parse: march"),
             param("Mar 5 06 2009", "Too many numbers in date string"),
-            param("6/4/25 0730", "Too many numbers in date string"),
-            param("6-4-25 0730", "Too many numbers in date string"),
         ]
     )
     def test_dates_not_parsed(self, date_string: str, message: str) -> None:
