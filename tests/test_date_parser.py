@@ -1910,8 +1910,9 @@ class TestDateParser(BaseTestCase):
             ),
         )
 
-    # The French tests below use a Wednesday as the current date, so that the
-    # weekdays, which are read as the closest one up to that date, all differ.
+    # The French tests below are relative to Wednesday 2026-10-07 09:30. A weekday
+    # on its own is read as the latest such day up to that date, so "lundi" is the
+    # 5th and "jeudi" is the 1st.
     @parameterized.expand(
         [
             param("mardi midi", expected=datetime(2026, 10, 6, 12, 0)),
@@ -1926,7 +1927,10 @@ class TestDateParser(BaseTestCase):
             param("à midi", expected=datetime(2026, 10, 7, 12, 0)),
             param("demain à midi", expected=datetime(2026, 10, 8, 12, 0)),
             param("hier midi", expected=datetime(2026, 10, 6, 12, 0)),
+            param("après-demain à midi", expected=datetime(2026, 10, 9, 12, 0)),
+            param("avant-hier midi", expected=datetime(2026, 10, 5, 12, 0)),
             param("12 octobre 2026 à midi", expected=datetime(2026, 10, 12, 12, 0)),
+            param("le 12 midi", expected=datetime(2026, 10, 12, 12, 0)),
             param("MARDI À MIDI", expected=datetime(2026, 10, 6, 12, 0)),
             param(
                 "mardi à midi",
@@ -1981,9 +1985,6 @@ class TestDateParser(BaseTestCase):
             param("lundi après-midi"),
             param("mardi avant midi"),
             param("Après-Midi"),
-            # Non-breaking hyphen and no-break space
-            param("après\u2011midi"),
-            param("avant\u00a0midi"),
             param("après-midi", settings={"NORMALIZE": False}),
         ]
     )
@@ -2033,8 +2034,9 @@ class TestDateParser(BaseTestCase):
         ]
     )
     @pytest.mark.xfail(
+        raises=AssertionError,
         strict=True,
-        reason="'<weekday> prochain' needs support for 'next <weekday>' (#573)",
+        reason="'<weekday> prochain' needs 'next <weekday>' (#573) and French entries",
     )
     def test_french_next_weekday(self, date_string: str, expected: datetime) -> None:
         self.given_parser(

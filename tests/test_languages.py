@@ -89,9 +89,6 @@ class TestBundledLanguages(BaseTestCase):
             param("fr", "20 Février 2012", "20 february 2012"),
             param("fr", "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
             param("fr", "18 octobre 2012 à 19 h 21 min", "18 october 2012 19:21"),
-            param("fr", "midi", "12:00"),
-            param("fr", "Mardi à midi", "tuesday 12:00"),
-            param("fr", "12 octobre 2026 à midi", "12 october 2026 12:00"),
             # German
             param("de", "29. Juni 2007", "29. june 2007"),
             param("de", "Montag 5 Januar, 2015", "monday 5 january 2015"),
@@ -1118,6 +1115,22 @@ class TestBundledLanguages(BaseTestCase):
     ) -> None:
         self.given_settings()
         self.given_bundled_language(shortname)
+        self.given_string(datetime_string)
+        self.when_datetime_string_translated()
+        self.then_string_translated_to(expected_translation)
+
+    @parameterized.expand(
+        [
+            param("midi", "12:00"),
+            param("Mardi à midi", "tuesday 12:00"),
+            param("12 octobre 2026 à midi", "12 october 2026 12:00"),
+        ]
+    )
+    def test_french_midi_translation(
+        self, datetime_string: str, expected_translation: str
+    ) -> None:
+        self.given_settings()
+        self.given_bundled_language("fr")
         self.given_string(datetime_string)
         self.when_datetime_string_translated()
         self.then_string_translated_to(expected_translation)

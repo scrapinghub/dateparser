@@ -378,34 +378,6 @@ class TestTranslateSearch(BaseTestCase):
                 ],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
-            param(
-                "fr",
-                "On se voit demain à midi.",
-                [("demain à midi", datetime.datetime(2000, 1, 2, 12, 0))],
-                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
-            ),
-            param(
-                "fr",
-                "Rendez-vous mardi à midi, ou lundi à 14:30.",
-                [
-                    ("mardi à midi", datetime.datetime(1999, 12, 28, 12, 0)),
-                    ("lundi à 14:30", datetime.datetime(1999, 12, 27, 14, 30)),
-                ],
-                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
-            ),
-            # The afternoon and before noon are not noon
-            param(
-                "fr",
-                "Réunion demain après-midi",
-                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
-                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
-            ),
-            param(
-                "fr",
-                "Réunion avant midi ou cet après-midi.",
-                [],
-                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
-            ),
             # Hebrew
             param(
                 "he",
@@ -1965,6 +1937,45 @@ class TestTranslateSearch(BaseTestCase):
         self.assertEqual(
             result, [("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0))]
         )
+
+    @parameterized.expand(
+        [
+            param(
+                "On se voit demain à midi.",
+                [("demain à midi", datetime.datetime(2000, 1, 2, 12, 0))],
+            ),
+            param(
+                "Rendez-vous mardi à midi, ou lundi à 14:30.",
+                [
+                    ("mardi à midi", datetime.datetime(1999, 12, 28, 12, 0)),
+                    ("lundi à 14:30", datetime.datetime(1999, 12, 27, 14, 30)),
+                ],
+            ),
+            # The afternoon and before noon are not noon, whatever the hyphen
+            param(
+                "Réunion demain après-midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+            ),
+            param(
+                "Réunion demain après\u2013midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+            ),
+            param(
+                "Réunion demain après\u2011midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+            ),
+            param("Réunion avant midi ou cet après-midi.", None),
+        ]
+    )
+    def test_search_dates_with_french_midi(
+        self, text: str, expected: list[tuple[str, datetime.datetime]] | None
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["fr"],
+            settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+        )
+        self.assertEqual(result, expected)
 
 
 class TestNgramSearch(BaseTestCase):
