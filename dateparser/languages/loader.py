@@ -23,17 +23,13 @@ def _isvalidlocale(locale: str) -> bool:
     return locale == language or locale in locales_list
 
 
-def _filter_valid_locales(locales: Iterable[str]) -> list[str]:
-    return [locale for locale in locales if _isvalidlocale(locale)]
-
-
-def _construct_locales(languages: Iterable[str], region: str) -> Iterable[str]:
-    if region:
-        possible_locales = [language + "-" + region for language in languages]
-        locales: Iterable[str] = _filter_valid_locales(possible_locales)
-    else:
-        locales = languages
-    return locales
+def _construct_locales(languages: Iterable[str], region: str) -> list[str]:
+    return [
+        f"{language}-{region}"
+        if region and _isvalidlocale(f"{language}-{region}")
+        else language
+        for language in languages
+    ]
 
 
 class LocaleDataLoader:

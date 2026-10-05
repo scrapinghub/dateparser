@@ -1209,6 +1209,24 @@ class TestDateParser(BaseTestCase):
             param(
                 "April MCCCCLXXVIIII", expected=datetime(1479, 4, 15), period="month"
             ),
+            # English year words
+            param(
+                "26th day of August, in the year Two Thousand Eight",
+                expected=datetime(2008, 8, 26),
+                period="day",
+            ),
+            param(
+                "1 May, one thousand nine hundred and ninety-nine",
+                expected=datetime(1999, 5, 1),
+                period="day",
+            ),
+            param(
+                "May nineteen ninety nine",
+                expected=datetime(1999, 5, 15),
+                period="month",
+            ),
+            param("nineteen oh five", expected=datetime(1905, 2, 15), period="year"),
+            param("nineteen hundred", expected=datetime(1900, 2, 15), period="year"),
             # Russian
             param("1000 год", expected=datetime(1000, 2, 15), period="year"),
             param("1001 год", expected=datetime(1001, 2, 15), period="year"),
