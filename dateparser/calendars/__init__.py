@@ -42,7 +42,7 @@ class non_gregorian_parser(_parser):
     non_gregorian_date_cls: Callable[[int, int, int], Any] = NotImplemented
 
     _digits: ClassVar[dict[str, int] | None] = None
-    _months: ClassVar[dict[str, tuple[int, int, list[str]]] | None] = None
+    _months: ClassVar[dict[str, Any] | None] = None
     _weekdays: ClassVar[dict[str, list[str]] | None] = None
     _number_letters: ClassVar[dict[int, list[str]] | None] = None
 
