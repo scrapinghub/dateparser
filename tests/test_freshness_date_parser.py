@@ -16,6 +16,7 @@ from dateparser.conf import Settings, settings
 from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import PATTERN, freshness_date_parser
 from dateparser.languages.dictionary import Dictionary
+from dateparser.search import search_dates
 from dateparser.utils import normalize_unicode
 from tests import BaseTestCase
 
@@ -143,6 +144,15 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("2.5 hours", ago={"hours": 2.5}, period="day"),
             param("10.75 minutes", ago={"minutes": 10.75}, period="day"),
             param("1.5 days", ago={"days": 1.5}, period="day"),
+            param("1,5 hours ago", ago={"hours": 1.5}, period="day"),
+            param("12,3456 days ago", ago={"days": 12.3456}, period="day"),
+            # Thousands separators
+            param("1,000 days", ago={"days": 1000}, period="day"),
+            param("1 000 days", ago={"days": 1000}, period="day"),
+            param("1 000 months ago", ago={"months": 1000}, period="month"),
+            param("1.000 days", ago={"days": 1000}, period="day"),
+            param("10,000,000 seconds", ago={"seconds": 10000000}, period="day"),
+            param("1.000,5 days ago", ago={"days": 1000.5}, period="day"),
             # French dates
             param("Aujourd'hui", ago={"days": 0}, period="day"),
             param("Aujourd’hui", ago={"days": 0}, period="day"),
@@ -2781,6 +2791,43 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     def then_error_was_not_raised(self) -> None:
         self.assertEqual(NotImplemented, self.error)
+
+
+class TestNumberFragments(unittest.TestCase):
+    @parameterized.expand(
+        [
+            param("1,0000,000 days 3 hours ago"),
+            param("2024-06-01 3 days ago"),
+        ]
+    )
+    def test_rejected(self, date_string: str) -> None:
+        self.assertIsNone(dateparser.parse(date_string, languages=["en"]))
+
+    @parameterized.expand(
+        [
+            param("25.02.2018, ore 08:51"),
+            param("25/02/2018, ore 08:51"),
+            param("25-02-2018, ore 08:51"),
+        ]
+    )
+    def test_date_is_not_read_as_relative(self, date_string: str) -> None:
+        self.assertEqual(
+            dateparser.parse(date_string, languages=["it"]),
+            datetime(2018, 2, 25, 8, 51),
+        )
+
+    @parameterized.expand(
+        [
+            param("Il y a 5 min", datetime(2020, 6, 15, 11, 55)),
+            param("Il y a 40 min", datetime(2020, 6, 15, 11, 20)),
+            param("il y a 2 h 30 min", datetime(2020, 6, 15, 9, 30)),
+        ]
+    )
+    def test_separate_number(self, date_string: str, expected: datetime) -> None:
+        settings = {"RELATIVE_BASE": datetime(2020, 6, 15, 12, 0)}
+        result = search_dates(date_string, settings=settings)
+        assert result
+        self.assertEqual(result[0][1], expected)
 
 
 if __name__ == "__main__":
