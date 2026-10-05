@@ -1090,7 +1090,7 @@ class TestTranslateSearch(BaseTestCase):
                 text="DECEMBER 21 19.87 87",
                 languages=None,
                 settings=None,
-                expected=[("DECEMBER 21 19", datetime.datetime(2019, 12, 21, 0, 0))],
+                expected=[("DECEMBER", datetime.datetime(2019, 12, 21, 0, 0))],
             ),
             # Full stops between digits
             param(
@@ -1305,6 +1305,66 @@ class TestTranslateSearch(BaseTestCase):
         text: str,
         languages: list[str],
         expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        result = search_dates(
+            text, languages=languages, settings={"RELATIVE_BASE": relative_base}
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="03.03.2011",
+                languages=["en"],
+                expected=[("03.03.2011", datetime.datetime(2011, 3, 3, 0, 0))],
+            ),
+            # A dot followed by a space still ends a sentence
+            param(
+                text="It ended 03.03.2011. It rained 13.03.2011.",
+                languages=["en"],
+                expected=[
+                    ("03.03.2011", datetime.datetime(2011, 3, 3, 0, 0)),
+                    ("13.03.2011", datetime.datetime(2011, 3, 13, 0, 0)),
+                ],
+            ),
+            param(
+                text="Llovió el 03.03.2011",
+                languages=["es"],
+                expected=[("03.03.2011", datetime.datetime(2011, 3, 3, 0, 0))],
+            ),
+            param(
+                text="in 2.5 hours",
+                languages=["en"],
+                expected=[("in 2.5 hours", datetime.datetime(2020, 2, 13, 22, 37, 6))],
+            ),
+            # Bare decimal numbers are not dates
+            param(
+                text="Inflation rose 2.5 percent in May 2021.",
+                languages=["en"],
+                expected=[("in May 2021", datetime.datetime(2021, 5, 13, 0, 0))],
+            ),
+            param(
+                text="The item costs 12.99 dollars.",
+                languages=["en"],
+                expected=None,
+            ),
+            param(
+                text="Server 192.168.1.1 went down on 5 May 2021",
+                languages=["en"],
+                expected=[("on 5 May 2021", datetime.datetime(2021, 5, 5, 0, 0))],
+            ),
+            param(
+                text="Le prix est de 12.50 euros depuis le 3 mars 2021.",
+                languages=["fr"],
+                expected=[("le 3 mars 2021", datetime.datetime(2021, 3, 3, 0, 0))],
+            ),
+        ]
+    )
+    def test_search_dates_with_dots_between_digits(
+        self,
+        text: str,
+        languages: list[str],
+        expected: list[tuple[str, datetime.datetime]] | None,
     ) -> None:
         result = search_dates(
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
