@@ -932,6 +932,8 @@ class TestBundledLanguages(BaseTestCase):
                 "6 february 2014 wednesday 07:06 am",
             ),
             param("shi-Latn", "asamas 15 ɣuct 2045", "sunday 15 august 2045"),
+            # si
+            param("si", "2020 ජනවාරි 5 සඳුදා", "2020 january 5 monday"),
             # sk
             param("sk", "15 marec 1987 utorok", "15 march 1987 tuesday"),
             param("sk", "streda 17 mája 2003", "wednesday 17 may 2003"),

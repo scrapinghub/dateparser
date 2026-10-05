@@ -93,12 +93,15 @@
         "pm"
     ],
     "year": [
+        "o",
         "onn"
     ],
     "month": [
+        "m",
         "mais"
     ],
     "week": [
+        "e",
         "emna"
     ],
     "day": [
@@ -106,6 +109,7 @@
         "di"
     ],
     "hour": [
+        "h",
         "ura",
         "uras"
     ],
@@ -122,19 +126,19 @@
             "oz"
         ],
         "0 hour ago": [
-            "this hour"
+            "quest'ura"
         ],
         "0 minute ago": [
-            "this minute"
+            "questa minuta"
         ],
         "0 month ago": [
-            "this month"
+            "quest mais"
         ],
         "0 second ago": [
-            "now"
+            "ussa"
         ],
         "0 week ago": [
-            "this week"
+            "quest'emna"
         ],
         "0 year ago": [
             "quest onn"
@@ -143,10 +147,12 @@
             "ier"
         ],
         "1 month ago": [
-            "last month"
+            "l'ultim mais",
+            "ultim mais"
         ],
         "1 week ago": [
-            "last week"
+            "l'ultima emna",
+            "ultim'emna"
         ],
         "1 year ago": [
             "l'onn passà"
@@ -155,13 +161,87 @@
             "damaun"
         ],
         "in 1 month": [
-            "next month"
+            "il proxim mais",
+            "proxim mais"
         ],
         "in 1 week": [
-            "next week"
+            "proxim'emna"
         ],
         "in 1 year": [
+            "l'onn prox",
             "l'onn proxim"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "avant {0} di",
+            "avant {0} dis",
+            "avant {0}d"
+        ],
+        "\\1 hour ago": [
+            "avant {0} h",
+            "avant {0} ura",
+            "avant {0} uras",
+            "avant {0}h"
+        ],
+        "\\1 minute ago": [
+            "avant {0} min",
+            "avant {0} minuta",
+            "avant {0} minutas"
+        ],
+        "\\1 month ago": [
+            "avant {0} mais",
+            "avant {0}mais"
+        ],
+        "\\1 second ago": [
+            "avant {0} s",
+            "avant {0} secunda",
+            "avant {0} secundas"
+        ],
+        "\\1 week ago": [
+            "avant {0} emna",
+            "avant {0} emnas",
+            "avant {0}e"
+        ],
+        "\\1 year ago": [
+            "avant {0} onn",
+            "avant {0} onns",
+            "avant {0}o"
+        ],
+        "in \\1 day": [
+            "en {0} di",
+            "en {0} dis",
+            "en {0}d"
+        ],
+        "in \\1 hour": [
+            "en {0} h",
+            "en {0} ura",
+            "en {0} uras",
+            "en {0}h"
+        ],
+        "in \\1 minute": [
+            "en {0} min",
+            "en {0} minuta",
+            "en {0} minutas"
+        ],
+        "in \\1 month": [
+            "en {0} mais",
+            "en {0}mais"
+        ],
+        "in \\1 second": [
+            "en {0} s",
+            "en {0} secunda",
+            "en {0} secundas"
+        ],
+        "in \\1 week": [
+            "en {0} emna",
+            "en {0} emnas",
+            "en {0}e"
+        ],
+        "in \\1 year": [
+            "en {0} onn",
+            "en {0} onns",
+            "en {0}o"
         ]
     },
     "locale_specific": {}

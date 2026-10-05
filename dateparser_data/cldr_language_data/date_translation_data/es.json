@@ -387,8 +387,7 @@
                     "en {0} días"
                 ],
                 "in \\1 hour": [
-                    "en {0} h",
-                    "en {0} n"
+                    "en {0} h"
                 ],
                 "in \\1 month": [
                     "en {0} m",

@@ -111,8 +111,9 @@ info = {
             "this minute"
         ],
         "0 month ago": [
-            "یٕہ ریتھۍ",
-            "this month"
+            "یٕہ ریتھؠ",
+            "this month",
+            "یٕہ ریتھۍ"
         ],
         "0 second ago": [
             "now"
@@ -129,8 +130,9 @@ info = {
             "راتھ"
         ],
         "1 month ago": [
-            "پٔتِم ریتھۍ",
-            "last month"
+            "پٔتِم ریتھؠ",
+            "last month",
+            "پٔتِم ریتھۍ"
         ],
         "1 week ago": [
             "پٔتِم ہفتہ",
@@ -144,8 +146,9 @@ info = {
             "پگاہ"
         ],
         "in 1 month": [
-            "نو ریتھۍ",
-            "next month"
+            "نو ریتھؠ",
+            "next month",
+            "نو ریتھۍ"
         ],
         "in 1 week": [
             "نو ہفتہ",

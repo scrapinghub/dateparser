@@ -32,7 +32,7 @@
         "ꊰꆪ"
     ],
     "november": [
-        "ꊰꊪꆪ"
+        "ꊯꊪꆪ"
     ],
     "december": [
         "ꊰꑋꆪ"
@@ -62,8 +62,8 @@
         "ꆏꊂꃘ"
     ],
     "sunday": [
-        "ꑭꆏ",
-        "ꑭꆏꑍ"
+        "ꑬꆏ",
+        "ꑬꆏꑍ"
     ],
     "am": [
         "ꎸꄑ"
@@ -72,26 +72,26 @@
         "ꁯꋒ"
     ],
     "year": [
-        "ꈎ"
+        "ꃅꈎ"
     ],
     "month": [
-        "ꆪ"
+        "ꃅꆪ"
     ],
     "week": [
-        "ꑭꆏ"
+        "ꆏꊂ"
     ],
     "day": [
-        "ꑍ"
+        "ꃅꑍ"
     ],
     "hour": [
         "hr",
-        "ꄮꈉ"
+        "ꄮꈉꂷ"
     ],
     "minute": [
-        "ꃏ"
+        "ꄮꈉꃏ"
     ],
     "second": [
-        "ꇙ"
+        "ꄮꈉꇅ"
     ],
     "relative-type": {
         "0 day ago": [
@@ -104,40 +104,41 @@
             "this minute"
         ],
         "0 month ago": [
-            "this month"
+            "ꀋꃋꋋꁮꆪ"
         ],
         "0 second ago": [
             "now"
         ],
         "0 week ago": [
-            "this week"
+            "ꀋꃋꋋꆏꊂ"
         ],
         "0 year ago": [
-            "this year"
+            "ꀋꃋꎼꈎ",
+            "ꎼꈎ"
         ],
         "1 day ago": [
-            "ꀋꅔꉈ"
+            "ꀋꅔꉇ"
         ],
         "1 month ago": [
-            "last month"
+            "ꂴꁮꆪ"
         ],
         "1 week ago": [
-            "last week"
+            "ꆏꊂꂴꂶꌠ"
         ],
         "1 year ago": [
-            "last year"
+            "ꀋꉊꄹꈎ"
         ],
         "in 1 day": [
             "ꃆꏂꑍ"
         ],
         "in 1 month": [
-            "next month"
+            "ꊁꁮꆪ"
         ],
         "in 1 week": [
-            "next week"
+            "ꆏꊂꊁꂶꌠ"
         ],
         "in 1 year": [
-            "next year"
+            "ꑎꉐꄻꈎ"
         ]
     },
     "locale_specific": {}

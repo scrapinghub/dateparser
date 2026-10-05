@@ -10,28 +10,41 @@ saturday:
     - sab
 january:
     - kob
+    - bisha koobaad
 february:
     - lab
+    - bisha labaad
 march:
     - sad
+    - bisha saddexaad
 april:
     - afr
+    - bisha afraad
 may:
     - sha
+    - bisha shanaad
 june:
     - lix
+    - bisha lixaad
 july:
     - tod
+    - bisha todobaad
+    - luuliyo
 august:
     - sid
+    - bisha sideedaad
 september:
     - sag
+    - bisha sagaalaad
 october:
     - tob
+    - bisha tobnaad
 november:
     - kit
+    - bisha kow iyo tobnaad
 december:
     - lit
+    - bisha laba iyo tobnaad
 year:
     - year
 month:
@@ -48,6 +61,7 @@ second:
     - second
 am:
     - sn
+    - am
 pm:
     - gn
 relative-type:

@@ -84,9 +84,11 @@ info = {
         "日"
     ],
     "hour": [
-        "小時"
+        "小時",
+        "時"
     ],
     "minute": [
+        "分",
         "分鐘"
     ],
     "second": [
@@ -190,12 +192,6 @@ info = {
             "week": [
                 "星期"
             ],
-            "hour": [
-                "時"
-            ],
-            "minute": [
-                "分"
-            ],
             "relative-type": {
                 "0 day ago": [
                     "今日"
@@ -291,12 +287,6 @@ info = {
             "week": [
                 "星期"
             ],
-            "hour": [
-                "時"
-            ],
-            "minute": [
-                "分"
-            ],
             "relative-type": {
                 "0 day ago": [
                     "今日"
@@ -385,6 +375,9 @@ info = {
                     "(\\d++[.,]?\\d*+)年後"
                 ]
             }
+        },
+        "zh-Hant-MY": {
+            "name": "zh-Hant-MY"
         }
     },
     "no_word_spacing": "True",

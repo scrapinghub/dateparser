@@ -55,3 +55,7 @@ relative-type:
         - next week
     in 1 year:
         - next year
+am:
+    - am
+pm:
+    - pm

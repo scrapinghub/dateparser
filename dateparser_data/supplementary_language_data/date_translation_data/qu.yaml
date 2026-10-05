@@ -63,3 +63,17 @@ relative-type:
         - next week
     in 1 year:
         - next year
+year:
+    - year
+month:
+    - month
+week:
+    - week
+day:
+    - day
+hour:
+    - hour
+minute:
+    - minute
+second:
+    - second

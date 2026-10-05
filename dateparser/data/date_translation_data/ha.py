@@ -170,28 +170,41 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
+            "kwana (\\d++[.,]?\\d*+) da ya gabata",
+            "kwanaki (\\d++[.,]?\\d*+) da suka gabata",
             "kwanaki da suka gabata (\\d++[.,]?\\d*+)",
             "rana da ya gabata (\\d++[.,]?\\d*+)"
         ],
         "\\1 hour ago": [
+            "awa (\\d++[.,]?\\d*+) da ta gabata",
+            "awanni (\\d++[.,]?\\d*+) da suka gabata",
             "(\\d++[.,]?\\d*+) awa da ya gabata"
         ],
         "\\1 minute ago": [
+            "minti (\\d++[.,]?\\d*+) da ya gabata",
+            "mintuna (\\d++[.,]?\\d*+) da suka gabata",
             "(\\d++[.,]?\\d*+) minti da ya gabata"
         ],
         "\\1 month ago": [
-            "watan da ya gabata (\\d++[.,]?\\d*+)",
-            "watanni da suka gabata (\\d++[.,]?\\d*+)}"
+            "wata (\\d++[.,]?\\d*+) da ya gabata",
+            "watanni (\\d++[.,]?\\d*+) da suka gabata",
+            "watan da ya gabata (\\d++[.,]?\\d*+)"
         ],
         "\\1 second ago": [
+            "dakika (\\d++[.,]?\\d*+) da ta gabata",
+            "dakiku (\\d++[.,]?\\d*+) da suka gabata",
             "(\\d++[.,]?\\d*+) dakika da ya gabata"
         ],
         "\\1 week ago": [
+            "mako (\\d++[.,]?\\d*+) da ya gabata",
+            "makonni (\\d++[.,]?\\d*+) da suka gabata",
             "mako da suka gabata (\\d++[.,]?\\d*+)",
             "mako da ya gabata (\\d++[.,]?\\d*+)",
             "makonni da suka gabata (\\d++[.,]?\\d*+)"
         ],
         "\\1 year ago": [
+            "shekara (\\d++[.,]?\\d*+) da ta gabata",
+            "shekaru (\\d++[.,]?\\d*+) da suka gabata",
             "shekara da suka gabata (\\d++[.,]?\\d*+)"
         ],
         "in \\1 day": [
@@ -199,9 +212,13 @@ info = {
             "a cikin rana (\\d++[.,]?\\d*+)"
         ],
         "in \\1 hour": [
+            "cikin awa (\\d++[.,]?\\d*+)",
+            "cikin awanni (\\d++[.,]?\\d*+)",
             "cikin (\\d++[.,]?\\d*+) awa"
         ],
         "in \\1 minute": [
+            "cikin minti (\\d++[.,]?\\d*+)",
+            "cikin mintuna (\\d++[.,]?\\d*+)",
             "cikin (\\d++[.,]?\\d*+) minti"
         ],
         "in \\1 month": [
@@ -209,6 +226,8 @@ info = {
             "a cikin watanni (\\d++[.,]?\\d*+)"
         ],
         "in \\1 second": [
+            "cikin dakika (\\d++[.,]?\\d*+)",
+            "cikin dakiku (\\d++[.,]?\\d*+)",
             "cikin (\\d++[.,]?\\d*+) dakika"
         ],
         "in \\1 week": [

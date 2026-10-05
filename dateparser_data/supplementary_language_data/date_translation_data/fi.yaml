@@ -4,28 +4,40 @@ sentence_splitter_group : 1
 
 january:
     - tammikuussa
+    - tammik
 february:
     - helmikuussa
+    - helmik
 march:
     - maaliskuussa
+    - maalisk
 april:
     - huhtikuussa
+    - huhtik
 may:
     - toukokuussa
+    - toukok
 june:
     - kesäkuussa
+    - kesäk
 july:
     - heinäkuussa
+    - heinäk
 august:
     - elokuussa
+    - elok
 september:
     - Syyskuussa
+    - syysk
 october:
     - Lokakuussa
+    - lokak
 november:
     - Marraskuussa
+    - marrask
 december:
     - Joulukuussa
+    - jouluk
 
 year:
     - vuotta

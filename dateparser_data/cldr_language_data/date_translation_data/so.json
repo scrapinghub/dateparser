@@ -2,61 +2,53 @@
     "name": "so",
     "date_order": "DMY",
     "january": [
-        "bisha koobaad",
         "jan",
+        "janaayo",
         "jannaayo"
     ],
     "february": [
-        "bisha labaad",
         "feb",
         "febraayo"
     ],
     "march": [
-        "bisha saddexaad",
         "maarso",
         "mar"
     ],
     "april": [
         "abr",
-        "abriil",
-        "bisha afraad"
+        "abriil"
     ],
     "may": [
-        "bisha shanaad",
+        "maayo",
         "may"
     ],
     "june": [
-        "bisha lixaad",
         "jun",
         "juun"
     ],
     "july": [
-        "bisha todobaad",
         "lul",
-        "luuliyo"
+        "luulyo"
     ],
     "august": [
-        "bisha sideedaad",
+        "agosto",
         "ogosto",
         "ogs"
     ],
     "september": [
-        "bisha sagaalaad",
         "seb",
-        "sebteembar"
+        "sebteembar",
+        "sebtembar"
     ],
     "october": [
-        "bisha tobnaad",
         "okt",
         "oktoobar"
     ],
     "november": [
-        "bisha kow iyo tobnaad",
         "nof",
         "noofeembar"
     ],
     "december": [
-        "bisha laba iyo tobnaad",
         "dis",
         "diseembar"
     ],
@@ -89,7 +81,6 @@
         "axd"
     ],
     "am": [
-        "am",
         "gh"
     ],
     "pm": [

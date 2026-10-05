@@ -3,14 +3,20 @@ thursday:
 relative-type-regex:
     \1 minute ago:
         - (\d+[.,]?\d*) মিনিট পূর্বে
+    \1 hour ago:
+        - (\d+[.,]?\d*) ঘন্টা আগে
+    in \1 hour:
+        - (\d+[.,]?\d*) ঘন্টায়
 skip: ["ই", "এবং", "টা", "প্রায়", "লা", "শে"]
 
 sentence_splitter_group: 3
 
 january:
     - জানুয়ারি
+    - জানুয়ারী
 february:
     - ফেব্রুয়ারি
+    - ফেব্রুয়ারী
 
 year:
     - বৎসর
@@ -34,3 +40,5 @@ relative-type:
 simplifications:
     - মধ্যাহ্ন: '12:00'
     - মধ্যরাত: '00:00'
+hour:
+    - ঘন্টা

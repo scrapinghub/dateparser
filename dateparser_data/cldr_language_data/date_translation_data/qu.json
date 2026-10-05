@@ -84,26 +84,26 @@
         "pm"
     ],
     "year": [
-        "year"
+        "wata"
     ],
     "month": [
-        "month"
+        "killa"
     ],
     "week": [
-        "week"
+        "simana"
     ],
     "day": [
-        "day"
+        "punchaw"
     ],
     "hour": [
         "hora",
-        "hour"
+        "ura"
     ],
     "minute": [
-        "minute"
+        "minutu"
     ],
     "second": [
-        "second"
+        "segundu"
     ],
     "relative-type": {
         "0 day ago": [
@@ -150,6 +150,52 @@
         ],
         "in 1 year": [
             "hamuq wata"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "{0} qipa punchaw"
+        ],
+        "\\1 hour ago": [
+            "{0} qipa ura"
+        ],
+        "\\1 minute ago": [
+            "{0} qipa minutu"
+        ],
+        "\\1 month ago": [
+            "{0} qipa killa"
+        ],
+        "\\1 second ago": [
+            "{0} qipa segundu"
+        ],
+        "\\1 week ago": [
+            "{0} qipa semana"
+        ],
+        "\\1 year ago": [
+            "{0} qipa watapi",
+            "{0} ñawpaq watapi"
+        ],
+        "in \\1 day": [
+            "{0} punchawpi"
+        ],
+        "in \\1 hour": [
+            "{0} urapi"
+        ],
+        "in \\1 minute": [
+            "{0} minutupi"
+        ],
+        "in \\1 month": [
+            "{0} killapi"
+        ],
+        "in \\1 second": [
+            "{0} segundupi"
+        ],
+        "in \\1 week": [
+            "{0} semanapi"
+        ],
+        "in \\1 year": [
+            "{0} hamuq watapi",
+            "{0} watapi"
         ]
     },
     "locale_specific": {

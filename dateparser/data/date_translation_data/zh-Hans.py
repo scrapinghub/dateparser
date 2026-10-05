@@ -216,6 +216,9 @@ info = {
             "name": "zh-Hans-MO",
             "date_order": "DMY"
         },
+        "zh-Hans-MY": {
+            "name": "zh-Hans-MY"
+        },
         "zh-Hans-SG": {
             "name": "zh-Hans-SG",
             "date_order": "DMY"

@@ -190,8 +190,8 @@ info = {
         ],
         "\\1 month ago": [
             "acum (\\d++[.,]?\\d*+) de luni",
-            "acum (\\d++[.,]?\\d*+) luni",
-            "acum (\\d++[.,]?\\d*+) lună"
+            "acum (\\d++[.,]?\\d*+) lună",
+            "acum (\\d++[.,]?\\d*+) luni"
         ],
         "\\1 second ago": [
             "acum (\\d++[.,]?\\d*+) de secunde",
@@ -224,8 +224,8 @@ info = {
         ],
         "in \\1 month": [
             "peste (\\d++[.,]?\\d*+) de luni",
-            "peste (\\d++[.,]?\\d*+) luni",
-            "peste (\\d++[.,]?\\d*+) lună"
+            "peste (\\d++[.,]?\\d*+) lună",
+            "peste (\\d++[.,]?\\d*+) luni"
         ],
         "in \\1 second": [
             "peste (\\d++[.,]?\\d*+) de secunde",
