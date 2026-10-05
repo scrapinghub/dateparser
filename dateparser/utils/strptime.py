@@ -30,7 +30,8 @@ def _load_leap_seconds_from_pytz() -> tuple[frozenset[int], frozenset[int]]:
     try:
         text = (
             importlib.resources.files("pytz")
-            .joinpath("zoneinfo", "leapseconds")
+            .joinpath("zoneinfo")
+            .joinpath("leapseconds")
             .read_text()
         )
     except (FileNotFoundError, ModuleNotFoundError, OSError):
