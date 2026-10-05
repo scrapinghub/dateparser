@@ -189,13 +189,16 @@ info = {
             "ngày mai"
         ],
         "in 1 month": [
-            "tháng sau"
+            "tháng sau",
+            "tháng tới"
         ],
         "in 1 week": [
-            "tuần sau"
+            "tuần sau",
+            "tuần tới"
         ],
         "in 1 year": [
-            "năm sau"
+            "năm sau",
+            "năm tới"
         ]
     },
     "relative-type-regex": {
@@ -221,25 +224,46 @@ info = {
             "(\\d++[.,]?\\d*+) năm trước"
         ],
         "in \\1 day": [
-            "sau (\\d++[.,]?\\d*+) ngày nữa"
+            "sau (\\d++[.,]?\\d*+) ngày nữa",
+            "(\\d++[.,]?\\d*+) ngày sau",
+            "(\\d++[.,]?\\d*+) ngày nữa",
+            "sau (\\d++[.,]?\\d*+) ngày"
         ],
         "in \\1 hour": [
-            "sau (\\d++[.,]?\\d*+) giờ nữa"
+            "sau (\\d++[.,]?\\d*+) giờ nữa",
+            "(\\d++[.,]?\\d*+) giờ sau",
+            "(\\d++[.,]?\\d*+) giờ nữa",
+            "sau (\\d++[.,]?\\d*+) giờ"
         ],
         "in \\1 minute": [
-            "sau (\\d++[.,]?\\d*+) phút nữa"
+            "sau (\\d++[.,]?\\d*+) phút nữa",
+            "(\\d++[.,]?\\d*+) phút sau",
+            "(\\d++[.,]?\\d*+) phút nữa",
+            "sau (\\d++[.,]?\\d*+) phút"
         ],
         "in \\1 month": [
-            "sau (\\d++[.,]?\\d*+) tháng nữa"
+            "sau (\\d++[.,]?\\d*+) tháng nữa",
+            "(\\d++[.,]?\\d*+) tháng sau",
+            "(\\d++[.,]?\\d*+) tháng nữa",
+            "sau (\\d++[.,]?\\d*+) tháng"
         ],
         "in \\1 second": [
-            "sau (\\d++[.,]?\\d*+) giây nữa"
+            "sau (\\d++[.,]?\\d*+) giây nữa",
+            "(\\d++[.,]?\\d*+) giây sau",
+            "(\\d++[.,]?\\d*+) giây nữa",
+            "sau (\\d++[.,]?\\d*+) giây"
         ],
         "in \\1 week": [
-            "sau (\\d++[.,]?\\d*+) tuần nữa"
+            "sau (\\d++[.,]?\\d*+) tuần nữa",
+            "(\\d++[.,]?\\d*+) tuần sau",
+            "(\\d++[.,]?\\d*+) tuần nữa",
+            "sau (\\d++[.,]?\\d*+) tuần"
         ],
         "in \\1 year": [
-            "sau (\\d++[.,]?\\d*+) năm nữa"
+            "sau (\\d++[.,]?\\d*+) năm nữa",
+            "(\\d++[.,]?\\d*+) năm sau",
+            "(\\d++[.,]?\\d*+) năm nữa",
+            "sau (\\d++[.,]?\\d*+) năm"
         ]
     },
     "locale_specific": {},

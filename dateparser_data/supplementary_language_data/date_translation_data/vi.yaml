@@ -76,6 +76,44 @@ second:
     - giây đồng hồ
     - hạng nhì
 
+relative-type:
+    in 1 week:
+        - tuần tới
+    in 1 month:
+        - tháng tới
+    in 1 year:
+        - năm tới
+
+relative-type-regex:
+    in \1 second:
+        - (\d+[.,]?\d*) giây sau
+        - (\d+[.,]?\d*) giây nữa
+        - sau (\d+[.,]?\d*) giây
+    in \1 minute:
+        - (\d+[.,]?\d*) phút sau
+        - (\d+[.,]?\d*) phút nữa
+        - sau (\d+[.,]?\d*) phút
+    in \1 hour:
+        - (\d+[.,]?\d*) giờ sau
+        - (\d+[.,]?\d*) giờ nữa
+        - sau (\d+[.,]?\d*) giờ
+    in \1 day:
+        - (\d+[.,]?\d*) ngày sau
+        - (\d+[.,]?\d*) ngày nữa
+        - sau (\d+[.,]?\d*) ngày
+    in \1 week:
+        - (\d+[.,]?\d*) tuần sau
+        - (\d+[.,]?\d*) tuần nữa
+        - sau (\d+[.,]?\d*) tuần
+    in \1 month:
+        - (\d+[.,]?\d*) tháng sau
+        - (\d+[.,]?\d*) tháng nữa
+        - sau (\d+[.,]?\d*) tháng
+    in \1 year:
+        - (\d+[.,]?\d*) năm sau
+        - (\d+[.,]?\d*) năm nữa
+        - sau (\d+[.,]?\d*) năm
+
 ago:
     - cách đây
     - trước đây
