@@ -341,14 +341,16 @@ def parse_with_formats(
                     date_obj, now, settings.PREFER_DATES_FROM
                 )
 
-            date_obj = apply_timezone_from_settings(date_obj, settings)
-
             # A format missing the year/month/day parses a placeholder date
-            # (e.g. 1900-01-01); validate only once it has its real date.
+            # (e.g. 1900-01-01); validate only once it has its real date, and
+            # before settings.TIMEZONE is applied below, since that reflects
+            # display preference rather than an offset the string itself had.
             try:
-                validate_leap_second(date_obj, tz=date_obj.tzinfo)
+                validate_leap_second(date_obj)
             except ValueError:
                 continue
+
+            date_obj = apply_timezone_from_settings(date_obj, settings)
 
             date_data = DateData(
                 date_obj=date_obj, period=period, parts=_get_parts(date_format)

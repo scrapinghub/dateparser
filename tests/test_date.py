@@ -1650,6 +1650,100 @@ class TestLeapSecondDateData(BaseTestCase):
         self.assertEqual(result["date_obj"], datetime(2016, 12, 31, 23, 59, 59))
         self.assertEqual(result["leap_second"], 60)
 
+    def test_60_seconds_wrong_time_on_a_leap_second_date_fails_to_parse(self) -> None:
+        # Dec 31, 2016 was a real leap second, but only at 23:59:60.
+        result = date.DateDataParser().get_date_data("December 31st, 2016 12:34:60 UTC")
+        self.assertIsNone(result["date_obj"])
+
+    def test_60_seconds_right_time_wrong_year_fails_to_parse(self) -> None:
+        # June 30 / Dec 31 at 23:59 is the right shape, but 1980 and 1986
+        # never actually had a leap second.
+        result = date.DateDataParser().get_date_data("June 30th, 1980 23:59:60 UTC")
+        self.assertIsNone(result["date_obj"])
+        result = date.DateDataParser().get_date_data("December 31st, 1986 23:59:60 UTC")
+        self.assertIsNone(result["date_obj"])
+
+    def test_60_seconds_before_the_first_leap_second_fails_to_parse(self) -> None:
+        # The leap second mechanism did not exist before 1972.
+        result = date.DateDataParser().get_date_data("December 31st, 1971 23:59:60 UTC")
+        self.assertIsNone(result["date_obj"])
+
+    def test_61_seconds_on_a_real_leap_second_date_still_fails_to_parse(self) -> None:
+        # :61 is never valid, even on a date that had a real :60.
+        result = date.DateDataParser().get_date_data("December 31st, 2016 23:59:61 UTC")
+        self.assertIsNone(result["date_obj"])
+
+    def test_leap_second_with_meridian_time(self) -> None:
+        result = date.DateDataParser().get_date_data(
+            "December 31st, 2016 11:59:60 PM UTC"
+        )
+        self.assertEqual(
+            result["date_obj"], datetime(2016, 12, 31, 23, 59, 59, tzinfo=dttz.utc)
+        )
+        self.assertEqual(result["leap_second"], 60)
+
+    def test_leap_second_with_microseconds(self) -> None:
+        result = date.DateDataParser().get_date_data("2016-12-31 23:59:60.123456")
+        self.assertEqual(result["date_obj"], datetime(2016, 12, 31, 23, 59, 59, 123456))
+        self.assertEqual(result["leap_second"], 60)
+
+    def test_leap_second_with_no_spaces_parser(self) -> None:
+        settings = {"PARSERS": ["no-spaces-time"], "DATE_ORDER": "YMD"}
+        result = date.DateDataParser(settings=settings).get_date_data("20161231235960")
+        self.assertEqual(result["date_obj"], datetime(2016, 12, 31, 23, 59, 59))
+        self.assertEqual(result["leap_second"], 60)
+
+        result = date.DateDataParser(settings=settings).get_date_data("20170315123460")
+        self.assertIsNone(result["date_obj"])
+
+        result = date.DateDataParser(settings=settings).get_date_data("20161231235961")
+        self.assertIsNone(result["date_obj"])
+
+    def test_leap_second_offset_rolls_over_to_the_next_utc_day(self) -> None:
+        # Local time is Jan 1st, but the +01:00 offset makes the UTC instant
+        # Dec 31st 23:59:60 — a real leap second.
+        result = date.DateDataParser().get_date_data(
+            "January 1st, 2017 00:59:60 +01:00"
+        )
+        self.assertEqual(result["date_obj"].second, 59)
+        self.assertEqual(result["leap_second"], 60)
+
+    def test_leap_second_offset_rolls_over_to_the_previous_utc_day(self) -> None:
+        # Local time is Jul 1st, but the +02:00 offset makes the UTC instant
+        # Jun 30th 23:59:60 — a real leap second in 2015.
+        result = date.DateDataParser().get_date_data("July 1st, 2015 01:59:60 +02:00")
+        self.assertEqual(result["date_obj"].second, 59)
+        self.assertEqual(result["leap_second"], 60)
+
+    def test_leap_second_validated_consistently_with_settings_timezone(self) -> None:
+        # settings.TIMEZONE reflects a display preference, not an offset the
+        # string itself had, so it must not shift what counts as the real
+        # leap second — for the absolute-time parser and custom date_formats
+        # alike.
+        settings = {
+            "TIMEZONE": "America/New_York",
+            "RETURN_AS_TIMEZONE_AWARE": True,
+        }
+        result = date.DateDataParser(settings=settings).get_date_data(
+            "December 31st, 2016 23:59:60"
+        )
+        self.assertEqual(result["leap_second"], 60)
+
+        settings["PARSERS"] = ["custom-formats"]
+        result = date.DateDataParser(settings=settings).get_date_data(
+            "2016-12-31 23:59:60", date_formats=["%Y-%m-%d %H:%M:%S"]
+        )
+        self.assertEqual(result["leap_second"], 60)
+
+    def test_leap_second_flag_does_not_leak_across_parses(self) -> None:
+        parser = date.DateDataParser()
+        leap = parser.get_date_data("December 31st, 2016 23:59:60 UTC")
+        self.assertEqual(leap["leap_second"], 60)
+
+        ordinary = parser.get_date_data("Friday")
+        self.assertNotIn("leap_second", ordinary.__dict__)
+        self.assertIsNone(ordinary["leap_second"])
+
 
 YMD = ("year", "month", "day")
 
