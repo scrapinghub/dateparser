@@ -2217,6 +2217,26 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("11 de a", None),
+            param("11 de a", ["es"]),
+            param("hace 11 de años", ["es"]),
+            param("3 de h", ["es"]),
+            param("11 de a de 2020", ["es"]),
+            param("11 de m", ["pt"]),
+            param("5 de h", ["pt"]),
+            param("há 11 de anos", ["pt"]),
+            param("2 de meses", ["pt"]),
+        ]
+    )
+    def test_number_de_unit_is_not_parsed(
+        self, date_string: str, languages: list[str] | None
+    ) -> None:
+        """Test that "de" between a number and a unit makes Spanish and
+        Portuguese text unparseable (Issue #1065)."""
+        self.assertIsNone(parse(date_string, languages=languages))
+
+    @parameterized.expand(
+        [
             param(
                 date_string="mar, 07 giu 2022 08:56:47 +0200",
                 date_formats=["%a, %d %b %Y %H:%M:%S %z"],
