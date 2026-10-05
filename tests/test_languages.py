@@ -1121,6 +1121,22 @@ class TestBundledLanguages(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("midi", "12:00"),
+            param("Mardi à midi", "tuesday 12:00"),
+            param("12 octobre 2026 à midi", "12 october 2026 12:00"),
+        ]
+    )
+    def test_french_midi_translation(
+        self, datetime_string: str, expected_translation: str
+    ) -> None:
+        self.given_settings()
+        self.given_bundled_language("fr")
+        self.given_string(datetime_string)
+        self.when_datetime_string_translated()
+        self.then_string_translated_to(expected_translation)
+
+    @parameterized.expand(
+        [
             # English
             param("en", "yesterday", "1 day ago"),
             param("en", "today", "0 day ago"),
