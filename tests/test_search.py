@@ -701,7 +701,17 @@ class TestTranslateSearch(BaseTestCase):
                     ),
                     (
                         "June 5 am utc",
-                        datetime.datetime(2023, 6, 5, 0, 0, tzinfo=pytz.utc),
+                        datetime.datetime(
+                            2023,
+                            6,
+                            # June has no 31st.
+                            min(
+                                datetime.datetime.now(tz=datetime.timezone.utc).day, 30
+                            ),
+                            5,
+                            0,
+                            tzinfo=pytz.utc,
+                        ),
                     ),
                     (
                         "June 23th 5 pm EST",
@@ -716,8 +726,10 @@ class TestTranslateSearch(BaseTestCase):
                             ),
                         ),
                     ),
-                    ("May 31", datetime.datetime(2023, 5, 31, 0, 0)),
-                    ("8am UTC", datetime.datetime(2023, 8, 31, 0, 0, tzinfo=pytz.utc)),
+                    (
+                        "May 31, 8am UTC",
+                        datetime.datetime(2023, 5, 31, 8, 0, tzinfo=pytz.utc),
+                    ),
                 ],
             ),
             # Russian
@@ -1080,6 +1092,28 @@ class TestTranslateSearch(BaseTestCase):
                     ("20 марта", datetime.datetime(2001, 3, 20, 0, 0)),
                     ("21 марта", datetime.datetime(2001, 3, 21, 0, 0)),
                 ],
+            ),
+            param(
+                text="Das Konzert findet um 20 Uhr am 5. Mai 2021 statt.",
+                languages=["de"],
+                settings=None,
+                expected=[
+                    ("um 20 Uhr am 5. Mai 2021", datetime.datetime(2021, 5, 5, 0, 0))
+                ],
+            ),
+            param(
+                text="um 10 Uhr am 5. Mai 2021",
+                languages=["de"],
+                settings=None,
+                expected=[
+                    ("um 10 Uhr am 5. Mai 2021", datetime.datetime(2021, 5, 5, 10, 0))
+                ],
+            ),
+            param(
+                text="Er wurde 1990 am 3. März in Berlin geboren",
+                languages=["de"],
+                settings=None,
+                expected=[("1990 am 3. März in", datetime.datetime(1990, 3, 3, 0, 0))],
             ),
             # Dates not found
             param(text="", languages=None, settings=None, expected=None),
