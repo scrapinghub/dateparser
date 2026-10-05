@@ -31,6 +31,11 @@ class TestDateParser(BaseTestCase):
             param("[Sept] 04, 2014.", datetime(2014, 9, 4)),
             param("Tuesday Jul 22, 2014", datetime(2014, 7, 22)),
             param("Tues 9th Aug, 2015", datetime(2015, 8, 9)),
+            param("2nd 9pm", datetime(2012, 11, 2, 21, 0)),
+            param("the 12th", datetime(2012, 11, 12)),
+            param("Jan.5th 2024", datetime(2024, 1, 5)),
+            param("12th-14th June 2021", datetime(2021, 6, 12)),
+            param("1st and 2nd May 2021", datetime(2021, 5, 1)),
             param("the 1st day of March 2015", datetime(2015, 3, 1)),
             param("10:04am", datetime(2012, 11, 13, 10, 4)),
             param("Friday", datetime(2012, 11, 9)),
@@ -625,6 +630,7 @@ class TestDateParser(BaseTestCase):
             param("Mar 5 06 2009", "Too many numbers in date string"),
             param("6/4/25 0730", "Too many numbers in date string"),
             param("6-4-25 0730", "Too many numbers in date string"),
+            param("xth May 2021", "No number before 'xth'"),
         ]
     )
     def test_dates_not_parsed(self, date_string: str, message: str) -> None:

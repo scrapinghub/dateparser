@@ -30,6 +30,9 @@ MERIDIAN = re.compile(r"am|pm")
 MICROSECOND = re.compile(r"\d{1,6}")
 EIGHT_DIGIT = re.compile(r"^\d{8}$")
 HOUR_MINUTE_REGEX = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+_ORDINAL_SUFFIX = "xth"
+"""What simplifications turn ordinal suffixes into, e.g. English "2nd" into
+"2xth"."""
 _RANGE_DASHES = {"-", "–"}
 
 
@@ -424,13 +427,18 @@ class _parser:
 
         skip_index: list[int] = []
         skip_component: str | None = None
-        skip_tokens = ["t", "year", "hour", "minute"]
+        skip_tokens = ["t", "year", "hour", "minute", _ORDINAL_SUFFIX]
 
         for index, token_type_original_index in enumerate(self.filtered_tokens):
             if index in skip_index:
                 continue
 
             token, token_type, original_index = token_type_original_index
+
+            if token == _ORDINAL_SUFFIX and (
+                index == 0 or self.filtered_tokens[index - 1][1] != 0
+            ):
+                raise ValueError(f"No number before {token!r} in {self.tokens}")
 
             if token in skip_tokens:
                 continue
@@ -503,7 +511,17 @@ class _parser:
                     self.time = partial(time_parser, self._token_time)
                     continue
 
-            results = self._parse(token_type, token, skip_component=skip_component)
+            # An ordinal number is always a day. Of several ordinals, e.g. in
+            # a range, the first one is the day.
+            is_ordinal = (
+                index + 1 < len(self.filtered_tokens)
+                and self.filtered_tokens[index + 1][0] == _ORDINAL_SUFFIX
+            )
+            if is_ordinal and self.day is not None:
+                continue
+            results = self._parse(
+                token_type, token, skip_component=skip_component, ordinal=is_ordinal
+            )
             for res in results:
                 if len(token) == 4 and res[0] == "year":
                     skip_component = "year"
@@ -884,8 +902,12 @@ class _parser:
 
         return dateobj, period, po._get_parts()
 
-    def _parse(
-        self, token_type: int, token: str, skip_component: str | None = None
+    def _parse(  # noqa: PLR0915
+        self,
+        token_type: int,
+        token: str,
+        skip_component: str | None = None,
+        ordinal: bool = False,
     ) -> list[tuple[str, int]]:
         def set_and_return(
             token: str,
@@ -905,7 +927,9 @@ class _parser:
             token_type = 0
 
             num_directives = self.ordered_num_directives
-            if (
+            if ordinal:
+                num_directives = {"day": self.num_directives["day"]}
+            elif (
                 skip_component == "year"
                 and self.day is None
                 and self.month is None

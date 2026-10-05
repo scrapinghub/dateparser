@@ -23,8 +23,8 @@ if TYPE_CHECKING:
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
 PATTERN = re.compile(rf"([+-]?\s*\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | re.U)
-# "the 1st of last month" translates to " 1 1 month ago".
-_DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?=(?:in\s+)?\d+\s+month\b)")
+# "the 1st of last month" translates to " 1 xth 1 month ago".
+_DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?:xth\s+)?(?=(?:in\s+)?\d+\s+month\b)")
 
 
 class FreshnessDateDataParser:
