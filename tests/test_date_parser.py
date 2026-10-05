@@ -1206,6 +1206,8 @@ class TestDateParser(BaseTestCase):
             # Roman numeral years
             param("MCMXCIX", expected=datetime(1999, 2, 15), period="year"),
             param("M.DC.LXXIX.", expected=datetime(1679, 2, 15), period="year"),
+            param("M. DC. XIII.", expected=datetime(1613, 2, 15), period="year"),
+            param("M.cccc.lxxviij", expected=datetime(1478, 2, 15), period="year"),
             param(
                 "April MCCCCLXXVIIII", expected=datetime(1479, 4, 15), period="month"
             ),
