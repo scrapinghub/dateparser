@@ -1153,6 +1153,30 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
             ),
+            param(
+                text="Year of the Four Emperors",
+                languages=["en"],
+                settings=None,
+                expected=None,
+            ),
+            param(
+                text="Publié il y a 2 heures",
+                languages=["fr"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("a 2 heures", datetime.datetime(2020, 6, 15, 10))],
+            ),
+            param(
+                text="il y a 3 ans",
+                languages=["fr"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("a 3 ans", datetime.datetime(2017, 6, 15, 12))],
+            ),
+            param(
+                text="minute 5 of the match",
+                languages=["en"],
+                settings=None,
+                expected=None,
+            ),
         ]
     )
     def test_date_search_function(
@@ -1968,6 +1992,27 @@ class TestNgramSearch(BaseTestCase):
             ),
             # bare small numbers are blacklisted and do not produce dates
             param("en", text="Chapter 12, page 3", expected=[]),
+            param("en", text="Year of the Four Emperors", expected=[]),
+            param(
+                "en",
+                text="2021-08-04T14:21:37&#x2B;05:30",
+                expected=[
+                    (
+                        "2021-08-04T14:21:37&#x2B;05:30",
+                        datetime.datetime(
+                            2021,
+                            8,
+                            4,
+                            14,
+                            21,
+                            37,
+                            tzinfo=datetime.timezone(
+                                datetime.timedelta(hours=5, minutes=30)
+                            ),
+                        ),
+                    )
+                ],
+            ),
             # French
             param(
                 "fr",
@@ -2008,6 +2053,34 @@ class TestNgramSearch(BaseTestCase):
             result["Dates"],
             [("10 minutes ago", datetime.datetime(2020, 1, 1, 11, 50))],
         )
+
+    @parameterized.expand(
+        [
+            param(
+                "fr",
+                text="il y a une heure",
+                expected=[("une heure", datetime.datetime(2020, 6, 15, 11))],
+            ),
+            param(
+                "en",
+                text="on the 21st",
+                expected=[("the 21st", datetime.datetime(2020, 6, 21))],
+            ),
+        ]
+    )
+    def test_ngram_search_bare_number_translations(
+        self,
+        shortname: str,
+        text: str,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        result = self.search_with_detection.search_dates(
+            text,
+            languages=[shortname],
+            settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+            strategy="ngram",
+        )
+        self.assertEqual(result["Dates"], expected)
 
     def test_ngram_search_returns_time_spans(self) -> None:
         result = self.search_with_detection.search_dates(

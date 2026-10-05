@@ -30,6 +30,7 @@ MERIDIAN = re.compile(r"am|pm")
 MICROSECOND = re.compile(r"\d{1,6}")
 EIGHT_DIGIT = re.compile(r"^\d{8}$")
 HOUR_MINUTE_REGEX = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+_SKIP_TOKENS = frozenset(["t", "year", "hour", "minute"])
 _RANGE_DASHES = {"-", "–"}
 
 
@@ -424,7 +425,6 @@ class _parser:
 
         skip_index: list[int] = []
         skip_component: str | None = None
-        skip_tokens = ["t", "year", "hour", "minute"]
 
         for index, token_type_original_index in enumerate(self.filtered_tokens):
             if index in skip_index:
@@ -432,7 +432,7 @@ class _parser:
 
             token, token_type, original_index = token_type_original_index
 
-            if token in skip_tokens:
+            if token in _SKIP_TOKENS:
                 continue
 
             if self.time is None:
