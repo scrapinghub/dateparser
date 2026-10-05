@@ -1744,6 +1744,25 @@ class TestLeapSecondDateData(BaseTestCase):
         self.assertNotIn("leap_second", ordinary.__dict__)
         self.assertIsNone(ordinary["leap_second"])
 
+    def test_leap_second_validated_in_relative_dates(self) -> None:
+        settings = {
+            "RELATIVE_BASE": datetime(2017, 1, 2),
+            "PARSERS": ["relative-time"],
+        }
+        result = date.DateDataParser(settings=settings).get_date_data(
+            "2 days ago at 23:59:60"
+        )
+        self.assertEqual(result["date_obj"], datetime(2016, 12, 31, 23, 59, 59))
+        self.assertEqual(result["leap_second"], 60)
+
+    def test_60_seconds_in_a_relative_date_fails_without_a_real_leap_second(
+        self,
+    ) -> None:
+        result = date.DateDataParser(
+            settings={"PARSERS": ["relative-time"]}
+        ).get_date_data("2 days ago at 12:34:60")
+        self.assertIsNone(result["date_obj"])
+
 
 YMD = ("year", "month", "day")
 

@@ -16,6 +16,7 @@ from dateparser.utils import (
 
 from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
+from .utils.strptime import get_clamped_leap_second, validate_leap_second
 
 if TYPE_CHECKING:
     from .conf import Settings
@@ -121,6 +122,10 @@ class FreshnessDateDataParser:
                 date = set_correct_day_from_settings(date, settings, date.day)
             old_date = date
             date = apply_time(date, _time)
+            try:
+                validate_leap_second(date, ptz)
+            except ValueError:
+                return None, None, ()
             if settings.RETURN_TIME_AS_PERIOD and old_date != date:
                 period = "time"
             if isinstance(_time, time) and "time" not in parts:
@@ -220,7 +225,11 @@ class FreshnessDateDataParser:
         from dateparser.date import DateData  # noqa: PLC0415
 
         date, period, parts = self.parse(date_string, settings)
-        return DateData(date_obj=date, period=period, parts=parts)
+        date_data = DateData(date_obj=date, period=period, parts=parts)
+        clamped_second = get_clamped_leap_second()
+        if clamped_second is not None:
+            date_data.leap_second = clamped_second
+        return date_data
 
 
 freshness_date_parser = FreshnessDateDataParser()
