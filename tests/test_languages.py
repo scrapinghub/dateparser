@@ -1254,6 +1254,7 @@ class TestBundledLanguages(BaseTestCase):
             param("nl", "45 minuten", "45 minute"),
             param("nl", "nu", "0 second ago"),
             param("nl", "eergisteren", "2 day ago"),
+            param("nl", "10h11", "10:11"),
             param("nl", "volgende maand", "in 1 month"),
             # Romanian
             param("ro", "23 săptămâni în urmă", "23 week ago"),
