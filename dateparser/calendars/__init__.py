@@ -30,7 +30,7 @@ class CalendarBase:
         try:
             date_obj, period, parts = self.parser.parse(self.source, settings)
             return DateData(date_obj=date_obj, period=period, parts=parts)
-        except ValueError:
+        except (ValueError, OverflowError):
             return None
 
 
