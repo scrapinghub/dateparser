@@ -1,3 +1,22 @@
+january:
+    - 01월
+february:
+    - 02월
+march:
+    - 03월
+april:
+    - 04월
+may:
+    - 05월
+june:
+    - 06월
+july:
+    - 07월
+august:
+    - 08월
+september:
+    - 09월
+
 relative-type:
     0 day ago:
         - 금일
@@ -12,3 +31,11 @@ relative-type-regex:
     in \1 month:
         - (\d+[.,]?\d*)달 후
 
+
+simplifications:
+    - (\d+)년\s*(\d+월): \1 \2
+    - (\d+월)\s*(\d+)일: \1 \2
+    - (\d+)시\s*(\d+)분\s*(\d+)초: \1:\2:\3
+    - (\d+)시\s*(\d+)분: \1:\2
+    - (\d+)시(?!간): \1:00
+    - (오전|오후)\s*(\d+:\d+(?::\d+)?): \2 \1
