@@ -22,3 +22,9 @@ See :ref:`performance` for ways to make parsing faster.
     DateData(date_obj=datetime.datetime(2014, 10, 18, 22, 56), period='day', locale='de', parts=('year', 'month', 'day', 'time'))
     >>> ddp.get_date_data('11 July 2012')
     DateData(date_obj=None, period='day', locale=None, parts=())
+
+For relative dates, :attr:`~dateparser.date.DateData.relative_delta` holds the
+parsed offset:
+
+    >>> ddp.get_date_data('vor 3 Jahren und 6 Monaten').relative_delta
+    relativedelta(years=-3, months=-6)
