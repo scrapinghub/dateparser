@@ -1314,6 +1314,55 @@ class TestTranslateSearch(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                text="I will be there next Tuesday.",
+                expected=[("next Tuesday", datetime.datetime(2026, 9, 29), "en")],
+            ),
+            param(
+                text="11 Mai 2014",
+                expected=[("11 Mai 2014", datetime.datetime(2014, 5, 11), "fr")],
+            ),
+            param(
+                text="Le 11 Décembre 2014 à 09:00",
+                expected=[
+                    (
+                        "Le 11 Décembre 2014 à 09:00",
+                        datetime.datetime(2014, 12, 11, 9),
+                        "fr",
+                    )
+                ],
+            ),
+            param(
+                text="il 5 maggio 2026",
+                expected=[("5 maggio 2026", datetime.datetime(2026, 5, 5), "it")],
+            ),
+            param(
+                text="след 12 мин 18 сек",
+                expected=[
+                    (
+                        "след 12 мин 18 сек",
+                        datetime.datetime(2026, 9, 23, 12, 12, 18),
+                        "bg",
+                    )
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_language_detection_counts_only_whole_entries(
+        self, text: str, expected: list[tuple[str, datetime.datetime, str]]
+    ) -> None:
+        # Only the words of a multi-word dictionary entry that the splitter keeps
+        # whole count for language detection, not those of an unrecognised chunk
+        # such as " mai " (the "mai" of Vietnamese "ngày mai").
+        result = search_dates(
+            text,
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)},
+            add_detected_language=True,
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
                 text="See you next Friday at 5pm.",
                 expected=[("next Friday at 5pm", datetime.datetime(2026, 9, 25, 17))],
             ),
@@ -1322,6 +1371,14 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[
                     ("this Friday", datetime.datetime(2026, 9, 25)),
                     ("last Tuesday", datetime.datetime(2026, 9, 22)),
+                ],
+            ),
+            param(
+                text="Meet friday, last monday and next sunday",
+                expected=[
+                    ("friday", datetime.datetime(2026, 9, 18)),
+                    ("last monday", datetime.datetime(2026, 9, 21)),
+                    ("next sunday", datetime.datetime(2026, 9, 27)),
                 ],
             ),
             param(text="The last three commits were fine", expected=None),

@@ -2277,10 +2277,18 @@ class TestDateParser(BaseTestCase):
             param("next next friday"),
             param("last three"),
             param("next friday last monday"),
+            param("last friday of may"),
+            param("next friday june"),
         ]
     )
     def test_misplaced_modifier_is_not_parsed(self, date_string: str) -> None:
         self.assertIsNone(parse(date_string, languages=["en"]))
+
+    @parameterized.expand([param("next 2020-05-05"), param("last 10:00")])
+    def test_modifier_without_weekday_is_not_parsed_by_default_languages(
+        self, date_string: str
+    ) -> None:
+        self.assertIsNone(parse(date_string, settings={"DEFAULT_LANGUAGES": ["en"]}))
 
     @parameterized.expand(
         [

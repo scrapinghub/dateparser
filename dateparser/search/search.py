@@ -310,31 +310,49 @@ class _ExactLanguageSearch:
 
             possible_parsed: list[list[tuple[DateData, bool]]] = []
             possible_substrings: list[list[str]] = []
+            possible_parts: list[list[tuple[str, str]]] = []
             for split_translated, split_original in possible_splits:
                 current_parsed: list[tuple[DateData, bool]] = []
                 current_substrings: list[str] = []
-                if split_translated:
-                    for j, jtem in enumerate(split_translated):
-                        if len(jtem) <= 2:
-                            continue
-                        parsed_jtem, is_relative_jtem = self.parse_item(
-                            parser,
-                            jtem,
-                            jtem,
-                            current_parsed,
-                            need_relative_base,
-                        )
-                        current_parsed.append((parsed_jtem, is_relative_jtem))
-                        current_substrings.append(split_original[j].strip(" .,:()[]-"))
+                current_parts: list[tuple[str, str]] = []
+                for j, jtem in enumerate(split_translated):
+                    if len(jtem) <= 2:
+                        continue
+                    parsed_jtem, is_relative_jtem = self.parse_item(
+                        parser,
+                        jtem,
+                        jtem,
+                        current_parsed,
+                        need_relative_base,
+                    )
+                    current_parsed.append((parsed_jtem, is_relative_jtem))
+                    current_substrings.append(split_original[j].strip(" .,:()[]-"))
+                    current_parts.append((jtem, split_original[j]))
                 possible_parsed.append(current_parsed)
                 possible_substrings.append(current_substrings)
+                possible_parts.append(current_parts)
             parsed_best, substrings_best = self.choose_best_split(
                 possible_parsed, possible_substrings
             )
-            for k in range(len(parsed_best)):
-                if parsed_best[k][0]["date_obj"]:
-                    parsed.append(parsed_best[k])
-                    substrings.append(substrings_best[k])
+            best_index = next(
+                index
+                for index, current_parsed in enumerate(possible_parsed)
+                if current_parsed is parsed_best
+            )
+            for parsed_part, substring, (part, original_part) in zip(
+                parsed_best, substrings_best, possible_parts[best_index], strict=True
+            ):
+                if parsed_part[0]["date_obj"]:
+                    parsed.append(parsed_part)
+                    substrings.append(substring)
+                    continue
+                # A part can join several dates, e.g. "last monday and next
+                # sunday" after splitting by commas, so split it again.
+                sub_parsed, sub_substrings = self.parse_found_objects(
+                    parser, [part], [original_part], [part], settings, language
+                )
+                parsed.extend(sub_parsed)
+                substrings.extend(sub_substrings)
         return parsed, substrings
 
     def search_parse(

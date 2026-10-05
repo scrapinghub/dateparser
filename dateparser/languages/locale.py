@@ -134,6 +134,7 @@ class Locale:
         dictionary = self.clean_dictionary(
             self._get_split_dictionary(settings=settings)
         )
+        entries = self._get_dictionary(settings)
         dict_cnt = 0
         skip_cnt = 0
         # The splitter keeps multi-word dictionary entries, e.g. "next friday",
@@ -141,7 +142,11 @@ class Locale:
         split_words = set()
         for word in words:
             parts = word.split()
-            if word not in dictionary and all(part in dictionary for part in parts):
+            if (
+                len(parts) > 1
+                and word in entries
+                and all(part in dictionary for part in parts)
+            ):
                 split_words.update(parts)
             else:
                 split_words.add(word)
