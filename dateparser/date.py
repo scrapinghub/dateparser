@@ -569,20 +569,24 @@ class _DateLocaleParser:
 
         candidates = [first_order]
 
-        # If the caller requires a year (and not a day) and did not set DATE_ORDER,
-        # retry once or twice with year-biased orders to resolve month-number ambiguity.
+        # If the caller requires a year but not a day, numbers are read as a
+        # year first, then as a month, and only then as a day: retry with
+        # orders that put the day last, and skip readings that have a day but
+        # no month.
         require_parts = set(getattr(self._settings, "REQUIRE_PARTS", None) or [])
-        if (
-            "DATE_ORDER" not in self._settings._mod_settings
-            and "year" in require_parts
-            and "day" not in require_parts
-        ):
-            for order in ("MYD", "YMD"):
+        year_first = "year" in require_parts and "day" not in require_parts
+        if year_first:
+            if "DATE_ORDER" in self._settings._mod_settings:
+                retry_orders: tuple[str, ...] = (first_order.replace("D", "") + "D",)
+            else:
+                retry_orders = ("MYD", "YMD")
+            for order in retry_orders:
                 if order not in candidates:
                     candidates.append(order)
 
         translated = self._get_translated_date()
 
+        fallback = None
         for order in candidates:
             try:
                 date_obj, period, parts = date_parser.parse(
@@ -591,14 +595,20 @@ class _DateLocaleParser:
                     settings=self._settings,
                     date_order=order,
                 )
-                return DateData(date_obj=date_obj, period=period, parts=parts)
             except _StrictDateOrderError:
-                # Only raised with an explicit DATE_ORDER, which leaves a single
-                # candidate order.
-                raise
+                # STRICT_DATE_ORDER rejected this order: keep the reading of
+                # an earlier order, if any.
+                if fallback is None:
+                    raise
+                return fallback
             except ValueError:
                 continue
-        return None
+            date_data = DateData(date_obj=date_obj, period=period, parts=parts)
+            if year_first and "day" in parts and "month" not in parts:
+                fallback = fallback or date_data
+                continue
+            return date_data
+        return fallback
 
     def _try_given_formats(self) -> "DateData | None":
         if not self.date_formats:
