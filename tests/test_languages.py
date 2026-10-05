@@ -252,7 +252,7 @@ class TestBundledLanguages(BaseTestCase):
             param("ja", "約53か月前", "53 month ago"),
             param("ja", "3月", "march"),
             param("ja", "十二月", "december"),
-            param("ja", "2月10日", "2-10"),
+            param("ja", "2月10日", "february 10"),
             param("ja", "2013年2月", "2013 year february"),
             param("ja", "2013年04月08日", "2013-04-08"),
             param("ja", "2016年03月24日 木曜日 10時05分", "2016-03-24 thursday 10:05"),
