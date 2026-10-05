@@ -30,9 +30,16 @@ _DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?=(?:in\s+)?\d+\s+month\b)")
 class FreshnessDateDataParser:
     """Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago"."""
 
-    def _are_all_words_units(self, date_string: str) -> bool:
-        skip = [_UNITS, r"ago|in|\d+", r":|[ap]m"]
+    def _are_all_words_units(self, date_string: str, has_time: bool) -> bool:
+        skip = [_UNITS, r"ago|in", r":|[ap]m"]
+        if has_time:
+            skip.append(r"\d+")
 
+        matches = list(PATTERN.finditer(date_string))
+        if matches:
+            end = matches[-1].end()
+            date_string = date_string[:end] + re.sub(r"\d+", "", date_string[end:])
+        date_string = PATTERN.sub("", date_string)
         date_string = re.sub(r"\s+", " ", date_string.strip())
 
         words = [x for x in re.split(r"\W", date_string) if x]
@@ -101,7 +108,7 @@ class FreshnessDateDataParser:
             now = datetime.now(self.get_local_tz())
 
         date, period, parts = self._parse_date(
-            date_string, now, settings.PREFER_DATES_FROM
+            date_string, now, settings.PREFER_DATES_FROM, _time is not None
         )
 
         if date and day is not None:
@@ -139,9 +146,13 @@ class FreshnessDateDataParser:
         return date, period, parts
 
     def _parse_date(  # noqa: PLR0912
-        self, date_string: str, now: datetime, prefer_dates_from: str
+        self,
+        date_string: str,
+        now: datetime,
+        prefer_dates_from: str,
+        has_time: bool,
     ) -> tuple[datetime, str, tuple[str, ...]] | tuple[None, None, tuple[()]]:
-        if not self._are_all_words_units(date_string):
+        if not self._are_all_words_units(date_string, has_time):
             return None, None, ()
 
         result = self.get_kwargs(date_string)
