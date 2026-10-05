@@ -1964,16 +1964,40 @@ class TestTranslateSearch(BaseTestCase):
                 "Réunion demain après\u2011midi",
                 [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
             ),
+            param(
+                "Réunion demain après_midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+            ),
+            param("Réunion avant midi", None),
             param("Réunion avant midi ou cet après-midi.", None),
+            # The text is accent-stripped before it is simplified, whatever
+            # NORMALIZE says
+            param(
+                "Réunion demain après-midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+                settings={"NORMALIZE": False},
+            ),
+            param("Livraison après midi", None, settings={"NORMALIZE": False}),
+            param(
+                "Réunion demain après le midi.",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+                settings={"NORMALIZE": False},
+            ),
         ]
     )
     def test_search_dates_with_french_midi(
-        self, text: str, expected: list[tuple[str, datetime.datetime]] | None
+        self,
+        text: str,
+        expected: list[tuple[str, datetime.datetime]] | None,
+        settings: dict[str, Any] | None = None,
     ) -> None:
         result = search_dates(
             text,
             languages=["fr"],
-            settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            settings={
+                "RELATIVE_BASE": datetime.datetime(2000, 1, 1),
+                **(settings or {}),
+            },
         )
         self.assertEqual(result, expected)
 

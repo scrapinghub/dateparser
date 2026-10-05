@@ -1931,6 +1931,7 @@ class TestDateParser(BaseTestCase):
             param("avant-hier midi", expected=datetime(2026, 10, 5, 12, 0)),
             param("12 octobre 2026 à midi", expected=datetime(2026, 10, 12, 12, 0)),
             param("le 12 midi", expected=datetime(2026, 10, 12, 12, 0)),
+            param("2026-10-12 midi", expected=datetime(2026, 10, 12, 12, 0)),
             param("MARDI À MIDI", expected=datetime(2026, 10, 6, 12, 0)),
             param(
                 "mardi à midi",
@@ -1985,6 +1986,9 @@ class TestDateParser(BaseTestCase):
             param("lundi après-midi"),
             param("mardi avant midi"),
             param("Après-Midi"),
+            param("après_midi"),
+            param("demain après_midi"),
+            param("après_le_midi"),
             param("après-midi", settings={"NORMALIZE": False}),
         ]
     )
