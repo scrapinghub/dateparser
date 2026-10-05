@@ -1619,8 +1619,6 @@ class TestTranslateSearch(BaseTestCase):
     def test_search_dates_keeps_an_explicit_date_order_after_the_first_date(
         self,
     ) -> None:
-        # Issue #1512: the dates after the first one were read in the order of
-        # the locale.
         result = search_dates(
             "op 30-05-2027. Deze op 01-11-2026",
             languages=["nl"],

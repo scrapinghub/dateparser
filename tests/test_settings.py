@@ -357,7 +357,7 @@ class StrictDateOrderSettingsTest(BaseTestCase):
     ) -> None:
         """Test that search_dates does not raise SettingValidationError for the
         settings that it rebuilds for the dates after the first one, which
-        forget which settings the caller set."""
+        remember which settings the caller set."""
         text = "Opened 25/12/2020, closed 31/12/2020."
         self.assertEqual(
             [
