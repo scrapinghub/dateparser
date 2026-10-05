@@ -8,7 +8,7 @@ than the translation-based search.
 """
 
 import logging
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
 from datetime import datetime
 
 import regex as re
@@ -65,7 +65,11 @@ class _NgramDateSearch:
         self.max_tokens = max_tokens
 
     def search_parse(
-        self, languages: list[str], text: str, settings: Settings
+        self,
+        languages: list[str],
+        text: str,
+        settings: Settings,
+        date_formats: Iterable[str] | None = None,
     ) -> list[tuple[str, datetime]]:
         """Find all dates in ``text`` and return ``(substring, date)`` pairs.
 
@@ -88,7 +92,9 @@ class _NgramDateSearch:
                 candidate = " ".join(token.group() for token in ngram)
                 if _BAD_CANDIDATE_RE.match(candidate):
                     continue
-                date_obj = self._parse_candidate(parser, candidate, languages)
+                date_obj = self._parse_candidate(
+                    parser, candidate, languages, date_formats
+                )
                 if date_obj is not None:
                     substring = text[ngram[0].start() : ngram[-1].end()]
                     results.append((substring.strip(_STRIP_CHARS), date_obj))
@@ -100,10 +106,13 @@ class _NgramDateSearch:
 
     @staticmethod
     def _parse_candidate(
-        parser: DateDataParser, candidate: str, languages: Sequence[str]
+        parser: DateDataParser,
+        candidate: str,
+        languages: Sequence[str],
+        date_formats: Iterable[str] | None,
     ) -> datetime | None:
         try:
-            return parser.get_date_data(candidate).date_obj
+            return parser.get_date_data(candidate, date_formats).date_obj
         except Exception:
             logger.warning(
                 "Failed to parse %r (languages=%r)",
