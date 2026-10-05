@@ -117,6 +117,11 @@ class Settings:
             kwds.setdefault(x, getattr(self, x))
 
         kwds["_default"] = False
+        # Keep track of the settings that the caller set, or replacing another
+        # one, like RELATIVE_BASE, makes an explicit DATE_ORDER give way to the
+        # order of the locale.
+        if mod_settings is None:
+            mod_settings = self._mod_settings
         if mod_settings:
             kwds["_mod_settings"] = mod_settings
 

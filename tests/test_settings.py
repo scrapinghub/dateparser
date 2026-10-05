@@ -159,6 +159,30 @@ class SettingsTest(BaseTestCase):
         self.assertNotEqual(settings_once, self.default_settings)
         self.assertEqual(settings_twice, self.default_settings)
 
+    def test_replace_keeps_the_settings_that_the_caller_set(self) -> None:
+        test_func = apply_settings(test_function)
+        caller_settings = test_func(settings={"DATE_ORDER": "DMY"})
+        assert isinstance(caller_settings, Settings)
+        replaced = caller_settings.replace(RELATIVE_BASE=datetime(2020, 12, 25))
+        # A DATE_ORDER that the caller set wins over the MDY order of the locale.
+        parser = DateDataParser(languages=["en"], settings=replaced)
+        self.assertEqual(
+            datetime(2021, 1, 2), parser.get_date_data("02/01/2021")["date_obj"]
+        )
+
+    def test_replace_does_not_count_the_settings_it_copies_as_set_by_the_caller(
+        self,
+    ) -> None:
+        test_func = apply_settings(test_function)
+        caller_settings = test_func(settings={"PREFER_DATES_FROM": "past"})
+        assert isinstance(caller_settings, Settings)
+        replaced = caller_settings.replace(RELATIVE_BASE=datetime(2020, 12, 25))
+        # The default DATE_ORDER, MDY, gives way to the DMY order of the locale.
+        parser = DateDataParser(languages=["de"], settings=replaced)
+        self.assertEqual(
+            datetime(2021, 1, 2), parser.get_date_data("02.01.2021")["date_obj"]
+        )
+
 
 class InvalidSettingsTest(BaseTestCase):
     def setUp(self) -> None:
@@ -333,7 +357,7 @@ class StrictDateOrderSettingsTest(BaseTestCase):
     ) -> None:
         """Test that search_dates does not raise SettingValidationError for the
         settings that it rebuilds for the dates after the first one, which
-        forget which settings the caller set."""
+        remember which settings the caller set."""
         text = "Opened 25/12/2020, closed 31/12/2020."
         self.assertEqual(
             [
