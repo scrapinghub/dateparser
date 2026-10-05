@@ -1573,13 +1573,12 @@ class TestTimestampParser(BaseTestCase):
 
 
 class TestLeapSecondDateData(BaseTestCase):
-    """GH #862: a leap second (`:60`) is clamped to `:59` rather than failing
-    to parse, but only when it matches one of the 27 real leap seconds IERS
-    has inserted (all 23:59:60 UTC on June 30 or December 31). `:61`, and a
-    `:60` on any other date/time, keep failing to parse, same as before this
-    fix. `DateData.leap_second` carries the original raw second (60), since
-    the returned `date_obj` can no longer distinguish the clamp from a plain
-    `:59`.
+    """A leap second (`:60`) is clamped to `:59` rather than failing to parse,
+    but only when it matches one of the 27 real leap seconds IERS has
+    inserted (all 23:59:60 UTC on June 30 or December 31). `:61`, and a `:60`
+    on any other date/time, fail to parse. `DateData.leap_second` carries the
+    original raw second (60), since the returned `date_obj` can no longer
+    distinguish the clamp from a plain `:59`.
     """
 
     def test_leap_second_is_flagged_on_date_data(self) -> None:
@@ -1615,10 +1614,8 @@ class TestLeapSecondDateData(BaseTestCase):
 
     def test_leap_second_is_validated_after_year_is_filled_in(self) -> None:
         # A format missing only the year parses month/day straight from the
-        # string, but defaults the year to 1900 until the correction below
-        # fills in the real one. Validating a real leap second before that
-        # fill-in would see 1900-12-31, which isn't a real leap second, and
-        # wrongly reject it.
+        # string, defaulting the year to 1900 until a later correction fills
+        # in the real one.
         settings = {
             "RELATIVE_BASE": datetime(2016, 6, 1),
             "PARSERS": ["custom-formats"],
@@ -1629,7 +1626,6 @@ class TestLeapSecondDateData(BaseTestCase):
         self.assertEqual(result["date_obj"], datetime(2016, 12, 31, 23, 59, 59))
         self.assertEqual(result["leap_second"], 60)
 
-        # A non-leap second must still fail once the real year is 2017.
         settings["RELATIVE_BASE"] = datetime(2017, 6, 1)
         result = date.DateDataParser(settings=settings).get_date_data(
             "03-15 12:34:60", date_formats=["%m-%d %H:%M:%S"]
@@ -1640,10 +1636,8 @@ class TestLeapSecondDateData(BaseTestCase):
         self,
     ) -> None:
         # A bare time-only string has no date tokens, so PREFER_DATES_FROM can
-        # shift the day _after_ the date would otherwise have been checked
-        # against the real leap seconds. "past" shifts 2016-12-31 back to
-        # 2016-12-30, which was never a real leap second, so it must still
-        # fail to parse instead of being mislabeled as one.
+        # shift the day. "past" shifts 2016-12-31 back to 2016-12-30, which
+        # was never a real leap second.
         settings = {
             "RELATIVE_BASE": datetime(2016, 12, 31, 12, 0, 0),
             "PREFER_DATES_FROM": "past",

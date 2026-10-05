@@ -343,10 +343,8 @@ def parse_with_formats(
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
-            # Validated last, against the final date: a format missing the
-            # year/month/day defaults to a placeholder date (e.g. 1900-01-01)
-            # until the corrections above fill in the real one, so checking
-            # any earlier would reject a real leap second as not-yet-dated.
+            # A format missing the year/month/day parses a placeholder date
+            # (e.g. 1900-01-01); validate only once it has its real date.
             try:
                 validate_leap_second(date_obj, tz=date_obj.tzinfo)
             except ValueError:
@@ -607,9 +605,8 @@ class _DateLocaleParser:
         translated = self._get_translated_date()
 
         for order in candidates:
-            # Reset per candidate, not just once for the whole method: a
-            # rejected leap second from a failed candidate must not leak into
-            # a later candidate that never touches a time component at all.
+            # A rejected leap second from one candidate must not leak into a
+            # later candidate that never touches a time component at all.
             reset_leap_second_flag()
             try:
                 date_obj, period, parts = date_parser.parse(
@@ -704,12 +701,11 @@ class DateData:
     """
 
     leap_second: int | None = None
-    """The original ``:60``/``:61`` second from the input string, if the
-    string named a real leap second (see GH #862); ``None`` otherwise.
+    """``60`` if the input string named a real leap second, or ``None``
+    otherwise.
 
     ``date_obj``'s ``second`` is always 59 in that case, since `datetime`
-    cannot represent a leap second, so this is the only way to tell a real
-    leap second apart from an ordinary ``:59``.
+    cannot represent a leap second.
     """
 
     def __init__(

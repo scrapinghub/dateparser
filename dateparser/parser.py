@@ -881,9 +881,7 @@ class _parser:
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
 
-        # Validated last, against the final date: a bare time-only string with
-        # PREFER_DATES_FROM can shift the day in _correct_for_time_frame above,
-        # which could move the date off of, or onto, a real leap second.
+        # Validate against the final date, after the corrections above.
         validate_leap_second(dateobj, tz)
 
         period = po._get_period()

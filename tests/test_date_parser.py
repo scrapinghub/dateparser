@@ -242,10 +242,7 @@ class TestDateParser(BaseTestCase):
             param("28. u studenom 2017.", datetime(2017, 11, 28, 0, 0)),
             param("13. veljače 1999. u podne", datetime(1999, 2, 13, 12, 0)),
             param("27. siječnja 1994. u ponoć", datetime(1994, 1, 27, 0, 0)),
-            # Leap seconds (GH #862): datetime has no leap-second representation,
-            # so a real leap second's :60 is clamped to :59. (:61, and :60 on any
-            # other date, are never valid and still fail to parse — see
-            # TestLeapSecondDateData in test_date.py.)
+            # Leap seconds: see TestLeapSecondDateData in test_date.py.
             param("December 31st, 2016 23:59:60", datetime(2016, 12, 31, 23, 59, 59)),
             # Day ranges
             param("June 12-14, 2021", datetime(2021, 6, 12, 0, 0)),

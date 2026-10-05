@@ -12,10 +12,8 @@ from typing import Any
 import regex as re
 
 # Set to the original `%S` value (60) when `strptime` clamps a real leap
-# second down to 59, since `datetime` cannot represent it. Reset at the top
-# of every `strptime` call, so it always reflects only the most recent call.
-# Callers that build the final parse result check it right after parsing, to
-# flag the result with the raw second `datetime` could not preserve.
+# second down to 59, since `datetime` cannot represent it; reset at the top
+# of every `strptime` call, so it reflects only the most recent call.
 _clamped_leap_second: contextvars.ContextVar[int | None] = contextvars.ContextVar(
     "_clamped_leap_second", default=None
 )
@@ -23,15 +21,11 @@ _clamped_leap_second: contextvars.ContextVar[int | None] = contextvars.ContextVa
 
 def _load_leap_seconds_from_pytz() -> tuple[frozenset[int], frozenset[int]]:
     """Read the known leap-second dates from pytz's bundled `leapseconds`
-    file (lines like ``Leap 2016 Dec 31 23:59:60 + S``), itself generated
-    from IERS's authoritative leap-seconds.list. `pytz` is already a
-    dateparser dependency and gets its tzdata refreshed independently of
-    dateparser's own release cycle, so reading it here means a newly
-    announced leap second is picked up by upgrading `pytz` alone.
+    file (lines like ``Leap 2016 Dec 31 23:59:60 + S``), generated from
+    IERS's authoritative leap-seconds.list.
 
     Returns two empty frozensets if the file cannot be read, e.g. a minimal
-    `pytz` build that omits zoneinfo data, so a `:60` is then always rejected
-    rather than validated against stale or missing data.
+    `pytz` build that omits zoneinfo data.
     """
     try:
         text = (
@@ -95,8 +89,7 @@ def validate_leap_second(date_obj: datetime, tz: tzinfo | None = None) -> None:
     if clamped_second is None:
         return
 
-    # No (fixed) offset to convert with: treat the value as already UTC, since
-    # that is the only deterministic reading (no host-timezone guessing).
+    # No fixed offset: treat the value as already UTC.
     offset = tz.utcoffset(date_obj) if tz is not None else None
     utc_dt = date_obj - offset if offset is not None else date_obj
 
@@ -232,21 +225,16 @@ def strptime(date_string: str, format: str) -> datetime:  # noqa: A002
     time_tuple = __strptime(date_string, prepared_format)
     year, month, day, hour, minute, second = time_tuple[:6]
 
-    # Reset unconditionally so this flag never reflects a stale result from
-    # an earlier, unrelated `strptime` call (e.g. a previous locale/date-order
-    # attempt, or a previous top-level `dateparser.parse()` call).
     _clamped_leap_second.set(None)
 
     if second == 61:
-        # No leap second has ever required two extra seconds (`%S` of 61 is
-        # only in stdlib's regex to accommodate that theoretical case), so
-        # unlike a real leap second (`:60`), this is never valid.
+        # `%S` of 61 is only in stdlib's regex for a theoretical double leap
+        # second, which has never happened.
         raise ValueError("61 is not a valid value for second")
     if second == 60:
-        # `datetime` has no representation for a leap second. Clamp it to the
-        # last regular second of the minute rather than rejecting the
-        # otherwise-valid date/time; callers validate it against the known
-        # leap seconds using this flag once the full date is known.
+        # `datetime` cannot represent a leap second: clamp it to 59. Callers
+        # validate it against the known leap seconds (see
+        # `validate_leap_second`) once the full date is known.
         _clamped_leap_second.set(second)
         second = 59
     obj = datetime(year, month, day, hour, minute, second)
