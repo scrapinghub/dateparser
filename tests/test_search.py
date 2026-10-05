@@ -1153,6 +1153,27 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
             ),
+            param(
+                text="时间是下午3:30",
+                languages=["zh-Hans"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("下午3:30", datetime.datetime(2020, 6, 15, 15, 30))],
+            ),
+            param(
+                text="禮拜一在會議室開會，時間是下午3:30",
+                languages=None,
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("禮拜一", datetime.datetime(2020, 6, 15, 0, 0)),
+                    ("下午3:30", datetime.datetime(2020, 6, 15, 15, 30)),
+                ],
+            ),
+            param(
+                text="他在2020年去了北京",
+                languages=["zh-Hant"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("2020年", datetime.datetime(2020, 6, 15, 0, 0))],
+            ),
         ]
     )
     def test_date_search_function(

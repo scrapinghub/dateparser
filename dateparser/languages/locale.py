@@ -376,7 +376,8 @@ class Locale:
                 elif (
                     current_and_next_joined in dictionary
                     and word not in dashes
-                    and self.shortname not in word_joint_unsupported_languages
+                    and self.shortname.split("-")[0]
+                    not in word_joint_unsupported_languages
                 ):
                     translated_chunk.append(dictionary[current_and_next_joined])
                     original_chunk.append(
