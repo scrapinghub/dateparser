@@ -1,7 +1,7 @@
 import copy
 import threading
 from collections.abc import Iterable, Iterator, Mapping, Sequence
-from itertools import chain
+from itertools import chain, islice, product
 from typing import TYPE_CHECKING, Any, TypeVar
 
 import regex as re
@@ -18,6 +18,7 @@ _D = TypeVar("_D", bound=Dictionary)
 _T = TypeVar("_T")
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
+_MAX_TRANSLATIONS = 16
 
 
 def _parse_bool(value: object) -> bool:
@@ -163,7 +164,7 @@ class Locale:
             del dictionary[del_key]
         return dictionary
 
-    def translate(  # noqa: PLR0912
+    def translate(
         self,
         date_string: str,
         keep_formatting: bool = False,
@@ -189,6 +190,29 @@ class Locale:
 
         :return: translated date string.
         """
+        translation = self._translate(
+            date_string,
+            keep_formatting=keep_formatting,
+            settings=settings,
+            ignore_surrounding_text=ignore_surrounding_text,
+        )
+        assert translation is not None
+        return translation
+
+    def _translate(  # noqa: PLR0912, PLR0915
+        self,
+        date_string: str,
+        keep_formatting: bool = False,
+        settings: "Settings | None" = None,
+        ignore_surrounding_text: bool = False,
+        alternative: int = 0,
+    ) -> str | None:
+        """Return the translation of *date_string* that reads its words with
+        several meanings according to the combination of meanings with index
+        *alternative*, where 0 is the combination that :meth:`translate` uses,
+        or ``None`` if there is no such combination."""
+        if alternative >= _MAX_TRANSLATIONS:
+            return None
         date_string = self._translate_numerals(date_string)
         assert settings is not None
         if settings.NORMALIZE:
@@ -203,6 +227,7 @@ class Locale:
 
         relative_translations = self._get_relative_translations(settings=settings)
 
+        ambiguous_tokens: dict[int, list[str]] = {}
         # A token that could be either a weekday or a month abbreviation (see
         # Dictionary._weekday_month_conflicts) can only be the weekday if another,
         # unambiguous month is present elsewhere in the string - otherwise it keeps
@@ -227,6 +252,16 @@ class Locale:
                 elif word in dictionary:
                     fallback = word if keep_formatting and not word.isalpha() else ""
                     date_string_tokens[i] = dictionary[word] or fallback
+                    meanings = dictionary._get_meanings(word)
+                    if len(meanings) > 1:
+                        ambiguous_tokens[i] = meanings
+        if alternative:
+            combinations = product(*ambiguous_tokens.values())
+            combination = next(islice(combinations, alternative, None), None)
+            if combination is None:
+                return None
+            for i, meaning in zip(ambiguous_tokens, combination, strict=True):
+                date_string_tokens[i] = meaning
         if "in" in date_string_tokens:
             date_string_tokens = self._clear_future_words(date_string_tokens)
 
@@ -431,6 +466,8 @@ class Locale:
             5: r"[\r\n]+",  # Thai
             6: r"[\r\n؟!\.…]+(?:\s|$)+",
         }  # Arabic and Farsi
+        # Full stops of fractional seconds and of dates like 13.07.2016.
+        abbreviation_string += r"(?!(?<=:\d\d)\.\d|(?<=\d)\.\d+\.\d|(?<=\d\.\d+)\.\d)"
         if "sentence_splitter_group" not in self.info:
             split_reg = abbreviation_string + splitters_dict[1]
             sentences = re.split(split_reg, string)

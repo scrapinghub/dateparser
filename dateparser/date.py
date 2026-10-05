@@ -1,23 +1,29 @@
 import collections
+import functools
+import itertools
 import threading
 from collections.abc import Callable, Iterable, Iterator
 from collections.abc import Set as AbstractSet
-from datetime import date, datetime, timedelta, timezone, tzinfo
-from typing import TYPE_CHECKING, Any, TypeVar
+from datetime import date, datetime, timedelta, tzinfo
+from itertools import count
+from typing import TYPE_CHECKING, Any, TypeGuard, TypeVar
 
 import regex as re
 from dateutil.relativedelta import relativedelta
 
+from dateparser._parts_of_day import PartOfDay, _replace_part_of_day
 from dateparser.conf import Settings, apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.parser import _parse_absolute, _parse_nospaces
+from dateparser.parser import _parse_absolute, _parse_nospaces, _StrictDateOrderError
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
     _get_localzone,
     _get_missing_parts,
+    _get_parts,
+    _now,
     apply_timezone_from_settings,
     get_next_leap_year,
     get_previous_leap_year,
@@ -95,9 +101,24 @@ RE_SANITIZE_CROATIAN = re.compile(
     r"(\d+)\.\s?(\d+)\.\s?(\d+)\.( u)?", flags=re.I | re.U
 )
 RE_SANITIZE_PERIOD = re.compile(r"(?<=[^0-9\s])\.", flags=re.U)
+RE_SANITIZE_DECIMAL_COMMA = re.compile(r"(?<=\d:\d{2}:\d{2}),(?=\d{3})")
 RE_SANITIZE_ON = re.compile(r"^.*?on:\s+(.*)")
 RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
 RE_SANITIZE_DASH = re.compile("|".join(DASH_LOOK_ALIKE_CHARS))
+# Uppercase Roman numerals from 1000 on, allowing the additive IIII, XXXX and
+# CCCC of old prints.
+_RE_ROMAN_YEAR = re.compile(
+    r"\bM{1,3}(?:CM|CD|D?C{0,4})(?:XC|XL|L?X{0,4})(?:IX|IV|V?I{0,4})\b"
+)
+_ROMAN_NUMERAL_VALUES = {
+    "M": 1000,
+    "D": 500,
+    "C": 100,
+    "L": 50,
+    "X": 10,
+    "V": 5,
+    "I": 1,
+}
 
 RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
@@ -188,11 +209,27 @@ def sanitize_date(date_string: str) -> str:
     )  # extra '.' and 'u' interferes with parsing relative fractional dates
     date_string = sanitize_spaces(date_string)
     date_string = RE_SANITIZE_PERIOD.sub("", date_string)
+    date_string = _RE_ROMAN_YEAR.sub(_roman_year_to_digits, date_string)
+    date_string = RE_SANITIZE_DECIMAL_COMMA.sub(".", date_string)
     date_string = RE_SANITIZE_ON.sub(r"\1", date_string)
     date_string = RE_TRIM_COLONS.sub(r"\1", date_string)
     date_string = RE_SANITIZE_APOSTROPHE.sub("'", date_string)
     date_string = RE_SANITIZE_DASH.sub("-", date_string)
     return date_string.strip()
+
+
+def _roman_year_to_digits(match: re.Match[str]) -> str:
+    numeral = match[0]
+    # Too ambiguous with abbreviations like MD or MC.
+    if len(numeral) < 3:
+        return numeral
+    values = [_ROMAN_NUMERAL_VALUES[char] for char in numeral]
+    return str(
+        sum(
+            -value if value < next_value else value
+            for value, next_value in zip(values, [*values[1:], 0], strict=True)
+        )
+    )
 
 
 def get_date_from_timestamp(
@@ -290,9 +327,7 @@ def parse_with_formats(
                 period = "month"
                 date_obj = set_correct_day_from_settings(date_obj, settings)
 
-            now = settings.RELATIVE_BASE or datetime.now(tz=timezone.utc).replace(
-                tzinfo=None
-            )
+            now = settings.RELATIVE_BASE or _now(settings)
             if "year" in _missing:
                 date_obj = date_obj.replace(year=now.year)
             elif "%y" in date_format and "%Y" not in date_format:
@@ -302,8 +337,96 @@ def parse_with_formats(
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
-            return DateData(date_obj=date_obj, period=period)
+            return DateData(
+                date_obj=date_obj, period=period, parts=_get_parts(date_format)
+            )
     return DateData(date_obj=None, period=period)
+
+
+_MONTHS = (
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+)
+_WEEKDAYS = (
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+)
+
+
+@functools.cache
+def _get_name_translations(
+    locale: "Locale", month_form: str | None, weekday_form: str | None
+) -> tuple[re.Pattern[str], dict[str, list[str]]] | None:
+    """Return a pattern matching the month and weekday names of *locale*, and
+    a mapping of each lowercase name to the English names it can stand for, or
+    ``None`` if there are no such names.
+
+    *month_form* and *weekday_form* are ``"full"``, ``"abbr"`` or ``None``,
+    the English form to translate each kind of name into, or ``None`` to leave
+    that kind of name untranslated.
+    """
+    translations: dict[str, list[str]] = collections.defaultdict(list)
+    for words, form in ((_MONTHS, month_form), (_WEEKDAYS, weekday_form)):
+        if form is None:
+            continue
+        for word in words:
+            english = word if form == "full" else word[:3]
+            for name in map(str.lower, locale.info.get(word, ())):
+                if english not in translations[name]:
+                    translations[name].append(english)
+    if not translations:
+        return None
+    names = sorted(translations, key=len, reverse=True)
+    pattern = re.compile(
+        r"(?<!\w)(?:{})(?!\w)".format("|".join(map(re.escape, names))),
+        flags=re.IGNORECASE,
+    )
+    return pattern, dict(translations)
+
+
+def _translate_names(
+    date_string: str, date_format: str, locale: "Locale"
+) -> Iterator[str]:
+    """Yield the variants of *date_string* that result from replacing the
+    month and weekday names of *locale* with the English names that the
+    directives of *date_format* expect."""
+    month_form = (
+        "full" if "%B" in date_format else "abbr" if "%b" in date_format else None
+    )
+    weekday_form = (
+        "full" if "%A" in date_format else "abbr" if "%a" in date_format else None
+    )
+    name_translations = _get_name_translations(locale, month_form, weekday_form)
+    if name_translations is None:
+        return
+    pattern, translations = name_translations
+    matches = pattern.findall(date_string)
+    if not matches:
+        return
+    parts = pattern.split(date_string)
+    # A name can stand for several English names, e.g. "mar" is both "martes"
+    # and "marzo" in Spanish, so every combination is yielded.
+    for combination in itertools.product(
+        *(translations[match.lower()] for match in matches)
+    ):
+        yield "".join(
+            part + name for part, name in zip(parts, (*combination, ""), strict=True)
+        )
 
 
 class _DateLocaleParser:
@@ -314,6 +437,7 @@ class _DateLocaleParser:
         date_formats: Iterable[str] | None,
         settings: Settings | None = None,
         ignore_surrounding_text: bool = False,
+        alternatives: bool = False,
     ) -> None:
         assert settings is not None
         self._settings = settings
@@ -326,8 +450,12 @@ class _DateLocaleParser:
         self.date_string = date_string
         self.date_formats = date_formats
         self._ignore_surrounding_text = ignore_surrounding_text
+        self._alternatives = alternatives
+        self._alternative = 0
         self._translated_date: str | None = None
         self._translated_date_with_formatting: str | None = None
+        self._part_of_day: PartOfDay | None = None
+        self._part_of_day_sets_time = False
         self._parsers: dict[str, Callable[[], DateData | None]] = {
             "timestamp": self._try_timestamp,
             "negative-timestamp": self._try_negative_timestamp,
@@ -345,17 +473,55 @@ class _DateLocaleParser:
         date_formats: Iterable[str] | None = None,
         settings: Settings | None = None,
         ignore_surrounding_text: bool = False,
+        alternatives: bool = False,
     ) -> "DateData | None":
         instance = cls(
-            locale, date_string, date_formats, settings, ignore_surrounding_text
+            locale,
+            date_string,
+            date_formats,
+            settings,
+            ignore_surrounding_text,
+            alternatives,
         )
         return instance._parse()
 
     def _parse(self) -> "DateData | None":
-        for parser_name in self._settings.PARSERS:
-            date_data = self._parsers[parser_name]()
-            if self._is_valid_date_data(date_data):
+        if not self._alternatives:
+            return self._parse_translation()
+        for self._alternative in count(1):
+            self._set_translated_date()
+            if self._translated_date is None:
+                return None
+            self._translated_date_with_formatting = None
+            date_data = self._parse_translation()
+            if date_data:
                 return date_data
+        return None
+
+    def _parse_translation(self) -> "DateData | None":
+        rejected: _StrictDateOrderError | None = None
+        for parser_name in self._settings.PARSERS:
+            if rejected is not None and parser_name == "no-spaces-time":
+                # It would read the same numbers in a date order again.
+                continue
+            try:
+                date_data = self._parsers[parser_name]()
+            except _StrictDateOrderError as error:
+                # STRICT_DATE_ORDER rejected the reading of this parser. The
+                # other parsers may still read the date string.
+                rejected = error
+                continue
+            if self._is_valid_date_data(date_data):
+                if self._part_of_day:
+                    date_data.part_of_day = self._part_of_day
+                    if (
+                        self._part_of_day_sets_time
+                        and self._settings.RETURN_TIME_AS_PERIOD
+                    ):
+                        date_data.period = "part_of_day"
+                return date_data
+        if rejected is not None:
+            raise rejected
         return None
 
     def _try_timestamp_parser(self, negative: bool = False) -> "DateData":
@@ -364,6 +530,7 @@ class _DateLocaleParser:
                 self.date_string, self._settings, negative=negative
             ),
             period="time" if self._settings.RETURN_TIME_AS_PERIOD else "day",
+            parts=("year", "month", "day", "time"),
         )
 
     def _try_timestamp(self) -> "DateData":
@@ -387,7 +554,7 @@ class _DateLocaleParser:
         return self._try_parser(parse_method=_parse_nospaces)
 
     def _try_parser(
-        self, parse_method: Callable[..., tuple[datetime, str | None]]
+        self, parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]]
     ) -> "DateData | None":
         original_order = self._settings.DATE_ORDER
 
@@ -418,13 +585,17 @@ class _DateLocaleParser:
 
         for order in candidates:
             try:
-                date_obj, period = date_parser.parse(
+                date_obj, period, parts = date_parser.parse(
                     translated,
                     parse_method=parse_method,
                     settings=self._settings,
                     date_order=order,
                 )
-                return DateData(date_obj=date_obj, period=period)
+                return DateData(date_obj=date_obj, period=period, parts=parts)
+            except _StrictDateOrderError:
+                # Only raised with an explicit DATE_ORDER, which leaves a single
+                # candidate order.
+                raise
             except ValueError:
                 continue
         return None
@@ -439,27 +610,41 @@ class _DateLocaleParser:
             settings=self._settings,
         )
 
+    def _translate(self, keep_formatting: bool) -> str | None:
+        return self.locale._translate(
+            self.date_string,
+            keep_formatting=keep_formatting,
+            settings=self._settings,
+            ignore_surrounding_text=self._ignore_surrounding_text,
+            alternative=self._alternative,
+        )
+
+    def _set_translated_date(self) -> None:
+        translated = self._translate(keep_formatting=False)
+        if translated is None:
+            self._translated_date = None
+            return
+        (
+            self._translated_date,
+            self._part_of_day,
+            self._part_of_day_sets_time,
+        ) = _replace_part_of_day(translated, self._settings.PARTS_OF_DAY)
+
     def _get_translated_date(self) -> str:
         if self._translated_date is None:
-            self._translated_date = self.locale.translate(
-                self.date_string,
-                keep_formatting=False,
-                settings=self._settings,
-                ignore_surrounding_text=self._ignore_surrounding_text,
-            )
+            self._set_translated_date()
+        assert self._translated_date is not None
         return self._translated_date
 
     def _get_translated_date_with_formatting(self) -> str:
         if self._translated_date_with_formatting is None:
-            self._translated_date_with_formatting = self.locale.translate(
-                self.date_string,
-                keep_formatting=True,
-                settings=self._settings,
-                ignore_surrounding_text=self._ignore_surrounding_text,
+            self._translated_date_with_formatting = self._translate(
+                keep_formatting=True
             )
+        assert self._translated_date_with_formatting is not None
         return self._translated_date_with_formatting
 
-    def _is_valid_date_data(self, date_data: object) -> bool:
+    def _is_valid_date_data(self, date_data: object) -> TypeGuard["DateData"]:
         if not isinstance(date_data, DateData):
             return False
         if not date_data["date_obj"] or not date_data["period"]:
@@ -475,16 +660,34 @@ class DateData:
     It can be accessed with square brackets like a dict object.
     """
 
+    part_of_day: PartOfDay | None = None
+    """:class:`~dateparser.PartOfDay` that the date string refers to, e.g.
+    :attr:`~dateparser.PartOfDay.NIGHT` for ``"tonight"``, or ``None``.
+
+    .. versionadded:: VERSION
+
+    Its time comes from the ``PARTS_OF_DAY`` :ref:`setting <settings>`, unless
+    the date string also has a time, e.g. ``"tonight at 11pm"``. If it does
+    not, and the ``RETURN_TIME_AS_PERIOD`` setting is enabled, ``period`` is
+    ``"part_of_day"``.
+    """
+
     def __init__(
         self,
         *,
         date_obj: datetime | None = None,
         period: str | None = None,
         locale: str | None = None,
+        parts: tuple[str, ...] = (),
     ) -> None:
         self.date_obj = date_obj
         self.period = period
         self.locale = locale
+        self.parts = parts
+        """Parts of :attr:`date_obj` determined by the parsed string, as a
+        tuple with some or all of ``"year"``, ``"month"``, ``"day"`` and
+        ``"time"``, in that order. The remaining parts come from
+        :ref:`settings`, e.g. ``RELATIVE_BASE`` or ``PREFER_DAY_OF_MONTH``."""
 
     def __getitem__(self, k: str) -> Any:
         if not hasattr(self, k):
@@ -634,7 +837,8 @@ class DateDataParser:
 
         :raises: ValueError - Unknown Language
 
-        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time'.
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time',
+            'part_of_day'.
 
         *Period* represents the granularity of date parsed from the given string.
 
@@ -643,20 +847,29 @@ class DateDataParser:
         Hence, the level of precision is ``month``:
 
             >>> DateDataParser().get_date_data('March 2015')
-            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en')
+            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='month', locale='en',
+            parts=('year', 'month'))
 
         Similarly, for date strings with no day and month information present, level of precision
         is ``year`` and day ``16`` and month ``6`` are from *current_date*.
 
             >>> DateDataParser().get_date_data('2014')
-            DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en')
+            DateData(date_obj=datetime.datetime(2014, 6, 16, 0, 0), period='year', locale='en',
+            parts=('year',))
+
+        *Parts* lists the parts of the date that the given string determines,
+        including those that *period* cannot tell apart, like a missing year:
+
+            >>> DateDataParser().get_date_data('16 March')
+            DateData(date_obj=datetime.datetime(2015, 3, 16, 0, 0), period='day', locale='en',
+            parts=('month', 'day'))
 
         Dates with time zone indications or UTC offsets are returned in UTC time unless
         specified using `Settings <https://dateparser.readthedocs.io/en/latest/settings.html#settings>`__.
 
             >>> DateDataParser().get_date_data('23 March 2000, 1:21 PM CET')
             DateData(date_obj=datetime.datetime(2000, 3, 23, 13, 21, tzinfo=<StaticTzInfo 'CET'>),
-            period='day', locale='en')
+            period='day', locale='en', parts=('year', 'month', 'day', 'time'))
 
         """
         if not isinstance(date_string, str):
@@ -665,20 +878,52 @@ class DateDataParser:
         res = parse_with_formats(date_string, date_formats or [], self._settings)
         if res["date_obj"]:
             return res
+        if date_formats:
+            localized_res = self._parse_with_localized_formats(
+                date_string, date_formats
+            )
+            if localized_res:
+                return localized_res
 
         date_string = sanitize_date(date_string)
 
-        parsed_date = self._parse_using_applicable_locales(date_string, date_formats)
-        if not parsed_date and self._settings.IGNORE_SURROUNDING_TEXT:
-            # The whole string could not be parsed as a date. Retry, ignoring
-            # unrecognized words at the edges of the string, so that a date
-            # wrapped in harmless extra text is still parsed (issue #518),
-            # e.g. "Actualisé le 17 avril 2019". Strings that can be parsed as
-            # a whole never reach this fallback, so they are unaffected.
+        try:
             parsed_date = self._parse_using_applicable_locales(
-                date_string, date_formats, ignore_surrounding_text=True
+                date_string, date_formats
             )
+            if not parsed_date and self._settings.IGNORE_SURROUNDING_TEXT:
+                # The whole string could not be parsed as a date. Retry,
+                # ignoring unrecognized words at the edges of the string, so
+                # that a date wrapped in harmless extra text is still parsed
+                # (issue #518), e.g. "Actualisé le 17 avril 2019". Strings that
+                # can be parsed as a whole never reach this fallback, so they
+                # are unaffected.
+                parsed_date = self._parse_using_applicable_locales(
+                    date_string, date_formats, ignore_surrounding_text=True
+                )
+        except _StrictDateOrderError:
+            # STRICT_DATE_ORDER rejected a reading of the date string, which
+            # is final: no other locale may guess another reading of it.
+            parsed_date = None
         return parsed_date or DateData(date_obj=None, period="day", locale=None)
+
+    def _parse_with_localized_formats(
+        self, date_string: str, date_formats: Iterable[str]
+    ) -> DateData | None:
+        for locale in self._get_locale_loader().get_locales(
+            languages=self.languages,
+            locales=self.locales,
+            region=self.region,
+            use_given_order=self.use_given_order
+            or self._settings.USE_GIVEN_LANGUAGE_ORDER,
+        ):
+            for date_format in date_formats:
+                for translated in _translate_names(date_string, date_format, locale):
+                    res = parse_with_formats(translated, [date_format], self._settings)
+                    if res["date_obj"]:
+                        res["locale"] = locale.shortname
+                        return res
+        return None
 
     def _parse_using_applicable_locales(
         self,
@@ -686,29 +931,59 @@ class DateDataParser:
         date_formats: Iterable[str] | None,
         ignore_surrounding_text: bool = False,
     ) -> DateData | None:
+        locales = []
         for locale in self._get_applicable_locales(
             date_string, ignore_surrounding_text=ignore_surrounding_text
         ):
-            parsed_date = _DateLocaleParser.parse(
+            locales.append(locale)
+            parsed_date = self._parse_using_locale(
+                locale, date_string, date_formats, ignore_surrounding_text
+            )
+            if parsed_date:
+                return parsed_date
+        # Words with several meanings (e.g. Spanish "mar", Tuesday or March)
+        # get their other meanings only once no locale can parse the string
+        # with the default ones.
+        for locale in locales:
+            parsed_date = self._parse_using_locale(
                 locale,
                 date_string,
                 date_formats,
-                settings=self._settings,
-                ignore_surrounding_text=ignore_surrounding_text,
+                ignore_surrounding_text,
+                alternatives=True,
             )
             if parsed_date:
-                parsed_date["locale"] = locale.shortname
-                if self.try_previous_locales:
-                    with self._lock:
-                        self.previous_locales[locale] = None
                 return parsed_date
         return None
 
+    def _parse_using_locale(
+        self,
+        locale: "Locale",
+        date_string: str,
+        date_formats: Iterable[str] | None,
+        ignore_surrounding_text: bool,
+        alternatives: bool = False,
+    ) -> DateData | None:
+        parsed_date = _DateLocaleParser.parse(
+            locale,
+            date_string,
+            date_formats,
+            settings=self._settings,
+            ignore_surrounding_text=ignore_surrounding_text,
+            alternatives=alternatives,
+        )
+        if parsed_date:
+            parsed_date["locale"] = locale.shortname
+            if self.try_previous_locales:
+                with self._lock:
+                    self.previous_locales[locale] = None
+        return parsed_date
+
     def get_date_tuple(self, *args: Any, **kwargs: Any) -> tuple[Any, ...]:
         date_data = self.get_date_data(*args, **kwargs)
-        fields = date_data.__dict__.keys()
+        fields = {k: v for k, v in date_data.__dict__.items() if k != "parts"}
         date_tuple = collections.namedtuple("DateData", fields)  # type: ignore[misc]  # noqa: PYI024
-        result: tuple[Any, ...] = date_tuple(**date_data.__dict__)
+        result: tuple[Any, ...] = date_tuple(**fields)
         return result
 
     def _get_applicable_locales(

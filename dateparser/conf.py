@@ -5,6 +5,7 @@ from functools import wraps
 from types import MappingProxyType
 from typing import Any, Literal, ParamSpec, TypeVar
 
+from dateparser._parts_of_day import PartsOfDay
 from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
@@ -21,6 +22,7 @@ class Settings:
 
     * `DATE_ORDER`
     * `PREFER_LOCALE_DATE_ORDER`
+    * `STRICT_DATE_ORDER`
     * `TIMEZONE`
     * `TO_TIMEZONE`
     * `RETURN_AS_TIMEZONE_AWARE`
@@ -37,6 +39,7 @@ class Settings:
     * `RETURN_TIME_SPAN`
     * `DEFAULT_START_OF_WEEK`
     * `DEFAULT_DAYS_IN_MONTH`
+    * `PARTS_OF_DAY`
     * `PARSERS`
     * `DEFAULT_LANGUAGES`
     * `USE_GIVEN_LANGUAGE_ORDER`
@@ -51,6 +54,7 @@ class Settings:
     registry_key: str
     DATE_ORDER: str
     PREFER_LOCALE_DATE_ORDER: bool
+    STRICT_DATE_ORDER: str
     TIMEZONE: str
     TO_TIMEZONE: str | Literal[False]
     RETURN_AS_TIMEZONE_AWARE: bool | Literal["default"]
@@ -67,6 +71,7 @@ class Settings:
     RETURN_TIME_SPAN: bool
     DEFAULT_START_OF_WEEK: str
     DEFAULT_DAYS_IN_MONTH: int
+    PARTS_OF_DAY: PartsOfDay
     PARSERS: list[str]
     DEFAULT_LANGUAGES: list[str]
     USE_GIVEN_LANGUAGE_ORDER: bool
@@ -112,6 +117,11 @@ class Settings:
             kwds.setdefault(x, getattr(self, x))
 
         kwds["_default"] = False
+        # Keep track of the settings that the caller set, or replacing another
+        # one, like RELATIVE_BASE, makes an explicit DATE_ORDER give way to the
+        # order of the locale.
+        if mod_settings is None:
+            mod_settings = self._mod_settings
         if mod_settings:
             kwds["_mod_settings"] = mod_settings
 
@@ -258,6 +268,7 @@ def check_settings(settings: Settings) -> None:
         },
         "FUZZY": {"type": bool},
         "PREFER_LOCALE_DATE_ORDER": {"type": bool},
+        "STRICT_DATE_ORDER": {"values": ("none", "year", "all"), "type": str},
         "DEFAULT_LANGUAGES": {"type": list, "extra_check": _check_default_languages},
         "USE_GIVEN_LANGUAGE_ORDER": {"type": bool},
         "LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": {
@@ -275,6 +286,7 @@ def check_settings(settings: Settings) -> None:
         "DEFAULT_DAYS_IN_MONTH": {
             "type": int,
         },
+        "PARTS_OF_DAY": {"type": PartsOfDay},
     }
 
     modified_settings = settings._mod_settings  # check only modified settings
@@ -311,3 +323,12 @@ def check_settings(settings: Settings) -> None:
         extra_check = setting_props.get("extra_check")
         if extra_check:
             extra_check(setting_name, setting_value)
+
+    # STRICT_DATE_ORDER enforces the DATE_ORDER that the caller sets. The default
+    # one is only a preference, so without it there is nothing to enforce.
+    strict_date_order = modified_settings.get("STRICT_DATE_ORDER", "none")
+    if strict_date_order != "none" and "DATE_ORDER" not in modified_settings:
+        raise SettingValidationError(
+            f'"STRICT_DATE_ORDER": "{strict_date_order}" requires the "DATE_ORDER" '
+            "setting"
+        )

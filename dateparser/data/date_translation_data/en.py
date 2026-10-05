@@ -1218,6 +1218,23 @@ info = {
         "decade",
         "decades"
     ],
+    "early_morning": [
+        "early morning",
+        "small hours",
+        "wee hours"
+    ],
+    "morning": [
+        "morning"
+    ],
+    "afternoon": [
+        "afternoon"
+    ],
+    "evening": [
+        "evening"
+    ],
+    "night": [
+        "night"
+    ],
     "ago": [
         "ago",
         "before"
@@ -1242,6 +1259,18 @@ info = {
         },
         {
             "(?:12\\s+)?midnight": "00:00"
+        },
+        {
+            "tonight": "today night"
+        },
+        {
+            "last night": "yesterday night"
+        },
+        {
+            "this ((?:early )?morning|afternoon|evening|night)": "today \\1"
+        },
+        {
+            "in the ((?:early )?morning|afternoon|evening|night|small hours|wee hours)": "\\1"
         },
         {
             "(\\d++[.,]?\\d*+)h(\\d++[.,]?\\d*+)": "\\1:\\2"

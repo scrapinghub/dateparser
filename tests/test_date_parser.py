@@ -23,7 +23,7 @@ class TestDateParser(BaseTestCase):
         self.parser: DateDataParser = NotImplemented
         self.result: DateData = NotImplemented
         self.date_parser: Mock = NotImplemented
-        self.date_result: tuple[datetime, str | None] = NotImplemented
+        self.date_result: tuple[datetime, str | None, tuple[str, ...]] = NotImplemented
 
     @parameterized.expand(
         [
@@ -61,6 +61,7 @@ class TestDateParser(BaseTestCase):
             param(
                 "Wednesday, 22nd June, 2016, 12.16 pm.", datetime(2016, 6, 22, 12, 16)
             ),
+            param("2020/10/9 PM 2:26", datetime(2020, 10, 9, 14, 26)),
             # French dates
             param("11 Mai 2014", datetime(2014, 5, 11)),
             param("11 sept. 2014", datetime(2014, 9, 11)),
@@ -179,6 +180,7 @@ class TestDateParser(BaseTestCase):
             # Japanese dates
             param("2016年3月20日(日) 21時40分", datetime(2016, 3, 20, 21, 40)),
             param("2016年3月20日 21時40分", datetime(2016, 3, 20, 21, 40)),
+            param("2016 年 3 月 20 日 21 時 40 分", datetime(2016, 3, 20, 21, 40)),
             # Numeric dates
             param("06-17-2014", datetime(2014, 6, 17)),
             param("13/03/2014", datetime(2014, 3, 13)),
@@ -194,7 +196,13 @@ class TestDateParser(BaseTestCase):
             param("2016年6月2911:30", datetime(2016, 6, 29, 11, 30)),
             param("2016年6月29", datetime(2016, 6, 29, 0, 0)),
             param("2016年 2月 5日", datetime(2016, 2, 5, 0, 0)),
+            param("2019 年 10 月 30 日", datetime(2019, 10, 30, 0, 0)),
+            param("2016 年 6 月 30 日 9 时 30 分", datetime(2016, 6, 30, 9, 30)),
             param("2016年9月14日晚8:00", datetime(2016, 9, 14, 20, 0)),
+            param("2020/10/9 下午 02:26:26", datetime(2020, 10, 9, 14, 26, 26)),
+            param("2020/10/9 上午 02:26:26", datetime(2020, 10, 9, 2, 26, 26)),
+            # Korean dates
+            param("2020/10/9 오후 2:26", datetime(2020, 10, 9, 14, 26)),
             # Bulgarian
             param("25 ян 2016", datetime(2016, 1, 25, 0, 0)),
             param("23 декември 2013 15:10:01", datetime(2013, 12, 23, 15, 10, 1)),
@@ -234,6 +242,16 @@ class TestDateParser(BaseTestCase):
             param("28. u studenom 2017.", datetime(2017, 11, 28, 0, 0)),
             param("13. veljače 1999. u podne", datetime(1999, 2, 13, 12, 0)),
             param("27. siječnja 1994. u ponoć", datetime(1994, 1, 27, 0, 0)),
+            # Day ranges
+            param("June 12-14, 2021", datetime(2021, 6, 12, 0, 0)),
+            param("Jun 12–14 2021", datetime(2021, 6, 12, 0, 0)),
+            param("12-14 June 2021", datetime(2021, 6, 12, 0, 0)),
+            param("12.-14. Juni 2021", datetime(2021, 6, 12, 0, 0)),
+            param("12.-14.06.2021", datetime(2021, 6, 12, 0, 0)),
+            param("12-14 июня 2021", datetime(2021, 6, 12, 0, 0)),
+            param("12-12 июня 2021", datetime(2021, 6, 12, 0, 0)),
+            param("5-5 juin 2021", datetime(2021, 6, 5, 0, 0)),
+            param("12 - 14 czerwca 2021", datetime(2021, 6, 12, 0, 0)),
         ]
     )
     def test_dates_parsing(self, date_string: str, expected: datetime) -> None:
@@ -603,6 +621,10 @@ class TestDateParser(BaseTestCase):
                 "Unable to parse: 8",
             ),
             param("12/09/18567", "Unable to parse: 18567"),
+            param("5 06 Mar 2009", "Unable to parse: march"),
+            param("Mar 5 06 2009", "Too many numbers in date string"),
+            param("6/4/25 0730", "Too many numbers in date string"),
+            param("6-4-25 0730", "Too many numbers in date string"),
         ]
     )
     def test_dates_not_parsed(self, date_string: str, message: str) -> None:
@@ -919,6 +941,50 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(datetime(2012, 4, 24))
 
+    @parameterized.expand(
+        [
+            param("past", "first", datetime(2025, 4, 1)),
+            param("past", "current", datetime(2025, 4, 4)),
+            param("past", "last", datetime(2024, 4, 30)),
+            param("future", "first", datetime(2026, 4, 1)),
+            param("future", "current", datetime(2026, 4, 4)),
+            param("future", "last", datetime(2025, 4, 30)),
+        ]
+    )
+    def test_day_preference_decides_if_current_month_is_past_or_future(
+        self, prefer_dates_from: str, prefer_day_of_month: str, expected: datetime
+    ) -> None:
+        self.given_parser(
+            settings={
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "PREFER_DAY_OF_MONTH": prefer_day_of_month,
+                "RELATIVE_BASE": datetime(2025, 4, 4, 12),
+            }
+        )
+        self.when_date_is_parsed("April")
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("past", datetime(2024, 2, 1), datetime(2023, 2, 28)),
+            param("future", datetime(2024, 3, 1), datetime(2025, 2, 28)),
+        ]
+    )
+    def test_last_day_of_february_moved_to_another_year(
+        self, prefer_dates_from: str, today: datetime, expected: datetime
+    ) -> None:
+        self.given_parser(
+            settings={
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "PREFER_DAY_OF_MONTH": "last",
+                "RELATIVE_BASE": today,
+            }
+        )
+        self.when_date_is_parsed("February")
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
     def test_date_is_parsed_when_skip_tokens_are_supplied(self) -> None:
         self.given_parser(
             settings={"SKIP_TOKENS": ["de"], "RELATIVE_BASE": datetime(2015, 2, 12)}
@@ -955,6 +1021,11 @@ class TestDateParser(BaseTestCase):
                 "2015-05-02T10:20:19+0000",
                 languages=["en"],
                 expected=datetime(2015, 5, 2, 10, 20, 19),
+            ),
+            param(
+                "2021-04-29T06:38:49,946902974+02:00",
+                languages=["fr"],
+                expected=datetime(2021, 4, 29, 6, 38, 49, 946902),
             ),
         ]
     )
@@ -1010,6 +1081,29 @@ class TestDateParser(BaseTestCase):
         self.given_parser(languages=["en"], settings={"DATE_ORDER": date_order})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("05/2020", date_order="DMY", expected=datetime(2020, 5, 1)),
+            param("5-2020", date_order="YMD", expected=datetime(2020, 5, 1)),
+            param(
+                "05/2020 10:00", date_order="YDM", expected=datetime(2020, 5, 28, 10)
+            ),
+            param("13/2020", date_order="DMY", expected=datetime(2020, 9, 13)),
+        ]
+    )
+    def test_month_and_year_with_explicit_date_order(
+        self, date_string: str, date_order: str, expected: datetime
+    ) -> None:
+        self.given_parser(
+            settings={
+                "DATE_ORDER": date_order,
+                "PREFER_DAY_OF_MONTH": "first",
+                "RELATIVE_BASE": datetime(2020, 9, 28),
+            }
+        )
+        self.when_date_is_parsed(date_string)
         self.then_date_obj_exactly_is(expected)
 
     @parameterized.expand(
@@ -1109,6 +1203,12 @@ class TestDateParser(BaseTestCase):
             param("²⁹/⁰⁵/²⁰¹⁵", expected=datetime(2015, 5, 29), period="day"),
             param("₁₅/₀₂/₂₀₂₀", expected=datetime(2020, 2, 15), period="day"),
             param("₃₁ December", expected=datetime(2015, 12, 31), period="day"),
+            # Roman numeral years
+            param("MCMXCIX", expected=datetime(1999, 2, 15), period="year"),
+            param("M.DC.LXXIX.", expected=datetime(1679, 2, 15), period="year"),
+            param(
+                "April MCCCCLXXVIIII", expected=datetime(1479, 4, 15), period="month"
+            ),
             # Russian
             param("1000 год", expected=datetime(1000, 2, 15), period="year"),
             param("1001 год", expected=datetime(1001, 2, 15), period="year"),
@@ -1548,21 +1648,45 @@ class TestDateParser(BaseTestCase):
     def test_dates_with_no_day_or_month_use_same_current_date_for_month_and_day(
         self,
     ) -> None:
-        class ParserDateTime(datetime):
-            @classmethod
-            def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
-                return datetime(2026, 5, 31, 12, 0, tzinfo=tz)
-
         class UtilsDateTime(datetime):
             @classmethod
             def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
                 return datetime(2026, 6, 1, 12, 0, tzinfo=tz)
 
         with (
-            patch("dateparser.parser.datetime", ParserDateTime),
+            patch("dateparser.parser._now", return_value=datetime(2026, 5, 31, 12)),
             patch("dateparser.utils.datetime", UtilsDateTime),
         ):
             self.assertEqual(parse("2014"), datetime(2014, 5, 31))
+
+    @parameterized.expand(
+        [
+            param("Monday", {}, datetime(2023, 11, 6)),
+            param("Tuesday", {}, datetime(2023, 10, 31)),
+            param("Tuesday", {"PREFER_DATES_FROM": "future"}, datetime(2023, 11, 7)),
+            param("Monday", {"PREFER_DATES_FROM": "past"}, datetime(2023, 10, 30)),
+            param("November 7", {"PREFER_DATES_FROM": "past"}, datetime(2022, 11, 7)),
+            param("9pm", {"PREFER_DATES_FROM": "past"}, datetime(2023, 11, 5, 21)),
+        ]
+    )
+    def test_current_date_is_taken_from_timezone(
+        self, date_string: str, settings: dict[str, Any], expected: datetime
+    ) -> None:
+        class UtilsDateTime(datetime):
+            @classmethod
+            def now(cls, tz: tzinfo | None = None) -> datetime:  # type: ignore[override]
+                return datetime(2023, 11, 7, 2, 15, tzinfo=timezone.utc).astimezone(tz)
+
+        with patch("dateparser.utils.datetime", UtilsDateTime):
+            result = parse(
+                date_string,
+                settings={
+                    "TIMEZONE": "America/Chicago",
+                    "RETURN_AS_TIMEZONE_AWARE": False,
+                    **settings,
+                },
+            )
+        self.assertEqual(result, expected)
 
     @parameterized.expand(
         [
@@ -1787,10 +1911,12 @@ class TestDateParser(BaseTestCase):
 
     def given_parser(self, *args: Any, **kwds: Any) -> None:
         def collecting_get_date_data(
-            parse: Callable[..., tuple[datetime, str | None]],
-        ) -> Callable[..., tuple[datetime, str | None]]:
+            parse: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
+        ) -> Callable[..., tuple[datetime, str | None, tuple[str, ...]]]:
             @wraps(parse)
-            def wrapped(*args: Any, **kwargs: Any) -> tuple[datetime, str | None]:
+            def wrapped(
+                *args: Any, **kwargs: Any
+            ) -> tuple[datetime, str | None, tuple[str, ...]]:
                 self.date_result = parse(*args, **kwargs)
                 return self.date_result
 
@@ -2210,6 +2336,285 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(expected_month, result.month)
         if expected_day is not None:
             self.assertEqual(expected_day, result.day)
+
+    @parameterized.expand(
+        [
+            param("mar 5 mar 2019", "it", datetime(2019, 3, 5)),
+            param("mar, 07 giu 2022 08:56:47", "it", datetime(2022, 6, 7, 8, 56, 47)),
+            param("seg, 3 fev 2020", "pt", datetime(2020, 2, 3)),
+            param("luni, 3 mar 2020", "ro", datetime(2020, 3, 3)),
+            param("3월 5일 2020", "ko", datetime(2020, 3, 5)),
+            param("mar 2019", "es", datetime(2019, 3, 15)),
+        ]
+    )
+    def test_word_with_several_meanings(
+        self, date_string: str, language: str, expected: datetime
+    ) -> None:
+        settings = {"RELATIVE_BASE": datetime(2020, 1, 15)}
+        self.assertEqual(
+            expected, parse(date_string, languages=[language], settings=settings)
+        )
+
+    def test_word_with_several_meanings_with_date_formats(self) -> None:
+        self.assertEqual(
+            datetime(2022, 6, 7, 8, 56, 47),
+            parse(
+                "mar, 07 giu 2022 08:56:47",
+                date_formats=["%a, %d %b %Y %H:%M:%S"],
+                languages=["it"],
+            ),
+        )
+
+    def test_word_with_too_many_meaning_combinations(self) -> None:
+        self.assertIsNone(parse("mar mar mar mar mar", languages=["it"]))
+
+    @parameterized.expand(
+        [
+            param("32 DEC 10", datetime(2032, 12, 10), order="DMY"),
+            param("32/12/10", datetime(2032, 10, 12), order="DMY"),
+            param("12/13/10", datetime(2013, 10, 12), order="DMY"),
+            param("20 09 29", datetime(2020, 9, 29), order="MYD"),
+            param("95年12月10日", datetime(1995, 12, 10), order="MDY"),
+            # A day and a month in each other's place are swapped.
+            param("13/12/10", datetime(2010, 12, 13), order="MDY"),
+            param("01/13/21", datetime(2021, 1, 13), order="DMY"),
+        ]
+    )
+    def test_date_order_is_a_preference_by_default(
+        self, date_string: str, expected: datetime, order: str
+    ) -> None:
+        """Test that without STRICT_DATE_ORDER, a number that does not fit where
+        DATE_ORDER puts it is read as another part of the date (Issue #868)."""
+        settings = {"DATE_ORDER": order, "RELATIVE_BASE": datetime(2019, 6, 24)}
+        self.assertEqual(expected, parse(date_string, settings=settings))
+
+    @parameterized.expand(
+        [
+            param(*case.args, strict=strict, **case.kwargs)
+            for strict in ("year", "all")
+            for case in [
+                param(date_string="32 DEC 10", order="DMY"),
+                param(date_string="00 DEC 10", order="DMY"),
+                param(date_string="32/12/10", order="DMY"),
+                param(date_string="32 DEC 10 10:30", order="DMY"),
+                param(date_string="32 décembre 10", order="DMY"),
+                param(date_string="DEC 32 10", order="MDY"),
+                param(date_string="10/32/12", order="MDY"),
+                param(date_string="40 12", order="DYM"),
+                # A day or month that the order puts after the year must not be
+                # read before it either.
+                param(date_string="10 DEC 32", order="MYD"),
+                param(date_string="DEC 10 95", order="YMD"),
+                # The year is the last resort here (#519), but YMD wants it first.
+                param(date_string="4-99", order="YMD"),
+                # The same goes for an invalid month, and the day and month are
+                # not swapped instead: that reading would not be the one
+                # without the setting.
+                param(date_string="12/13/10", order="DMY"),
+                # Translation leaves no marker of the year: "95-12-10".
+                param(date_string="95年12月10日", order="MDY"),
+                # Other locales must not read it differently: "ru" translates
+                # "20 09 29" to "29 29" and would find 2029-06-29.
+                param(date_string="20 09 29", order="MYD"),
+                # Nor must the no-spaces parser, which would find 1900-01-01
+                # 10:03 in the first, and read 00 as the year in the second.
+                param(
+                    date_string="10:30 PM 32/12/10",
+                    order="DMY",
+                    settings={"PARSERS": ["absolute-time", "no-spaces-time"]},
+                ),
+                param(
+                    date_string="001210",
+                    order="DMY",
+                    settings={"PARSERS": ["absolute-time", "no-spaces-time"]},
+                ),
+            ]
+        ]
+    )
+    def test_strict_date_order_rejects_misplaced_year(
+        self,
+        date_string: str,
+        order: str,
+        strict: str,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
+        """Test that with STRICT_DATE_ORDER, a number that is invalid where
+        DATE_ORDER puts it is not read as a two-digit year instead, whether only
+        the year or the whole order is enforced (Issue #868)."""
+        settings = {
+            "DATE_ORDER": order,
+            "STRICT_DATE_ORDER": strict,
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+            **(settings or {}),
+        }
+        self.assertIsNone(parse(date_string, settings=settings))
+
+    @parameterized.expand(
+        [
+            param(*case.args, strict=strict, **case.kwargs)
+            for strict in ("year", "all")
+            for case in [
+                param("31 DEC 10", datetime(2010, 12, 31), order="DMY"),
+                param("10 DEC 32", datetime(2032, 12, 10), order="DMY"),
+                # A year after the month is where DMY expects it.
+                param("DEC 32", datetime(2032, 12, 24), order="DMY"),
+                # A missing part is not checked.
+                param("DEC 95", datetime(1995, 12, 24), order="MDY"),
+                param("12/95", datetime(1995, 12, 24), order="MDY"),
+                param("13/2020", datetime(2020, 6, 13), order="MDY"),
+                # A two-digit year is still the last resort (#519).
+                param("DEC 95", datetime(1995, 12, 24), order="YMD"),
+                param("5 Dec 99", datetime(1999, 12, 5), order="DYM"),
+                # A four-digit year cannot be anything else.
+                param("2010 DEC 10", datetime(2010, 12, 10), order="DMY"),
+                param("12/2017/10", datetime(2017, 10, 12), order="DMY"),
+                param("DEC 2017 06", datetime(2017, 12, 6), order="DMY"),
+                # A date that starts with a four-digit year is read as year,
+                # month and day (#1419).
+                param("2017-06-22", datetime(2017, 6, 22), order="DMY"),
+                param("2017 06 DEC", datetime(2017, 12, 6), order="DMY"),
+                # A lone number next to a four-digit year is the month (#1472).
+                param("05/2020", datetime(2020, 5, 24), order="YMD"),
+                # The end of a range is dropped.
+                param("12-14 June 2021", datetime(2021, 6, 12), order="MDY"),
+                param("June 12-14, 2021", datetime(2021, 6, 12), order="MDY"),
+                param("12-12 June 2021", datetime(2021, 6, 12), order="DMY"),
+                # YMD asks for the year first, and MYD between month and day.
+                param("32 DEC 10", datetime(2032, 12, 10), order="YMD"),
+                param("95 DEC 10", datetime(1995, 12, 10), order="YMD"),
+                param("95年12月10日", datetime(1995, 12, 10), order="YMD"),
+                param("DEC 32 10", datetime(2032, 12, 10), order="MYD"),
+                # A month name is not checked: "12月" is translated to
+                # "december".
+                param("95年12月", datetime(1995, 12, 24), order="DMY"),
+                param("12 13 December", datetime(2013, 12, 12), order="DMY"),
+                # A word that another language reads as a date part does not
+                # stop that language: "ago" is August in Spanish.
+                param("12 ago 2019", datetime(2019, 8, 12), order="DMY"),
+                # Nor does a word with several meanings stop its other
+                # meanings: "mar" is Tuesday or March in Spanish.
+                param(
+                    "mar 13 mar 2010",
+                    datetime(2010, 3, 13),
+                    order="DMY",
+                    languages=["es"],
+                ),
+                # Nor does a number that is no date part at all stop the
+                # no-spaces parser.
+                param(
+                    "20101231",
+                    datetime(2010, 12, 31),
+                    order="YMD",
+                    settings={"PARSERS": ["absolute-time", "no-spaces-time"]},
+                ),
+            ]
+        ]
+    )
+    def test_strict_date_order_keeps_valid_dates(
+        self,
+        date_string: str,
+        expected: datetime,
+        strict: str,
+        order: str,
+        languages: list[str] | None = None,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
+        """Test that STRICT_DATE_ORDER does not change dates whose parts are
+        where DATE_ORDER puts them, or that have no ambiguous number (Issue
+        #868)."""
+        settings = {
+            "DATE_ORDER": order,
+            "STRICT_DATE_ORDER": strict,
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+            **(settings or {}),
+        }
+        self.assertEqual(
+            expected, parse(date_string, languages=languages, settings=settings)
+        )
+
+    @parameterized.expand(
+        [
+            param("13/12/10", datetime(2010, 12, 13), order="MDY"),
+            param("13/12", datetime(2019, 12, 13), order="MDY"),
+            # Through the retry with the day and month swapped (#1180).
+            param("01/13/21", datetime(2021, 1, 13), order="DMY"),
+            param("06/2017/22", datetime(2017, 6, 22), order="DMY"),
+            # DYM and MYD put the year between the day and the month, so the
+            # swap changes which of them is read before it.
+            param("05 95 13", datetime(1995, 5, 13), order="DYM"),
+            param("13 95 12", datetime(1995, 12, 13), order="MYD"),
+            param("2017-06-22", datetime(2017, 6, 22), order="YDM"),
+            # After a four-digit year, the month and day may be swapped too.
+            param("2017-22-06", datetime(2017, 6, 22), order="DMY"),
+            # A four-digit year may displace a number read as the year.
+            param("31 DEC 2010", datetime(2010, 12, 31), order="MYD"),
+            param("14 12 2021", datetime(2021, 12, 14), order="MYD"),
+            param("22 2017 06", datetime(2017, 6, 22), order="YDM"),
+            param("05 2017 12", datetime(2017, 5, 12), order="YDM"),
+            # A CJK date goes through the same swap retry.
+            param("10年20月00日", datetime(2000, 10, 20), order="DMY"),
+        ]
+    )
+    def test_strict_date_order_year_keeps_day_month_swaps(
+        self, date_string: str, expected: datetime, order: str
+    ) -> None:
+        """Test that STRICT_DATE_ORDER="year" enforces the position of the year
+        only, so a day and a month in each other's place are still swapped
+        (Issue #868)."""
+        settings = {
+            "DATE_ORDER": order,
+            "STRICT_DATE_ORDER": "year",
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+        }
+        self.assertEqual(expected, parse(date_string, settings=settings))
+
+    @parameterized.expand(
+        [
+            param(date_string="13/12/10", order="MDY"),
+            param(date_string="13/12", order="MDY"),
+            param(date_string="01/13/21", order="DMY"),
+            param(date_string="06/2017/22", order="DMY"),
+            param(date_string="05 95 13", order="DYM"),
+            param(date_string="13 95 12", order="MYD"),
+            param(date_string="2017-06-22", order="YDM"),
+            param(date_string="2017-22-06", order="DMY"),
+            param(date_string="31 DEC 2010", order="MYD"),
+            param(date_string="14 12 2021", order="MYD"),
+            param(date_string="22 2017 06", order="YDM"),
+            param(date_string="05 2017 12", order="YDM"),
+            # Other locales must not read it either: "zh" would read it as a
+            # relative date, 10 years and 20 months ago.
+            param(date_string="10年20月00日", order="DMY"),
+        ]
+    )
+    def test_strict_date_order_all_rejects_day_month_swaps(
+        self, date_string: str, order: str
+    ) -> None:
+        """Test that STRICT_DATE_ORDER="all" also keeps the day and month where
+        DATE_ORDER puts them, instead of swapping them when they do not fit
+        (Issue #868)."""
+        settings = {
+            "DATE_ORDER": order,
+            "STRICT_DATE_ORDER": "all",
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+        }
+        self.assertIsNone(parse(date_string, settings=settings))
+
+    @parameterized.expand([param(strict="year"), param(strict="all")])
+    def test_strict_date_order_does_not_stop_other_parsers(self, strict: str) -> None:
+        """Test that a reading rejected by STRICT_DATE_ORDER does not keep the
+        other parsers of the locale from reading the date string (Issue #868)."""
+        settings = {
+            "DATE_ORDER": "DMY",
+            "STRICT_DATE_ORDER": strict,
+            "PARSERS": ["absolute-time", "relative-time"],
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+        }
+        # The absolute parser would read it as 2032-06-10.
+        self.assertEqual(
+            datetime(2019, 6, 22, 15, 50),
+            parse("32 hours 10 minutes", settings=settings),
+        )
 
 
 if __name__ == "__main__":

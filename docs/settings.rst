@@ -37,6 +37,22 @@ Date Order
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY', 'PREFER_LOCALE_DATE_ORDER': False})
     datetime.datetime(2016, 2, 3, 0, 0)  # MDY worked!
 
+``STRICT_DATE_ORDER``: defaults to ``'none'``. ``DATE_ORDER`` is a preference: a number that does not fit where the order puts it is read as another part of the date. ``13`` is not a valid month, so it is read as the day where ``MDY`` puts the month, and any number that is not a valid day or month is a valid two-digit year, so ``32`` becomes the year 2032:
+
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY'})
+    datetime.datetime(2010, 12, 13, 0, 0)
+    >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY'})
+    datetime.datetime(2032, 12, 10, 0, 0)
+
+Set it to ``'year'`` to read a two-digit year only from the position ``DATE_ORDER`` gives the year, or to ``'all'`` to read the day, month and year only in the order ``DATE_ORDER`` gives. A date string that does not fit then gives ``None``:
+
+    >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY', 'STRICT_DATE_ORDER': 'year'})
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'year'})
+    datetime.datetime(2010, 12, 13, 0, 0)
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'all'})
+
+``'year'`` and ``'all'`` raise a ``SettingValidationError`` unless ``DATE_ORDER`` is given too. Only the parts read from numbers are checked, and a four-digit year is read wherever it is, so ``'32 DEC'`` with ``DMY`` is still December 2032. Some dates that are read correctly without the setting are rejected, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
+
 
 Timezone Related Configurations
 +++++++++++++++++++++++++++++++
@@ -97,7 +113,7 @@ If date string is missing some part, this option ensures consistent results depe
     datetime.datetime(2016, 3, 16, 0, 0)
     >>> # parsing with preference set for 'past'
     >>> parse('August', settings={'PREFER_DATES_FROM': 'past'})
-    datetime.datetime(2015, 8, 15, 0, 0)
+    datetime.datetime(2014, 8, 16, 0, 0)
 
 ``RELATIVE_BASE``: allows setting the base datetime to use for interpreting partial or relative date strings.
 Defaults to the current date and time.
@@ -207,7 +223,7 @@ Language Detection
 
     >>> from dateparser.date import DateDataParser
     >>> DateDataParser(settings={'SKIP_TOKENS': ['de']}).get_date_data(u'27 Haziran 1981 de')  # Turkish (at 27 June 1981)
-    DateData(date_obj=datetime.datetime(1981, 6, 27, 0, 0), period='day', locale='tr')
+    DateData(date_obj=datetime.datetime(1981, 6, 27, 0, 0), period='day', locale='tr', parts=('year', 'month', 'day'))
 
 ``NORMALIZE``: applies unicode normalization (removing accents, diacritics...) when parsing the words. Defaults to True.
 
@@ -282,7 +298,27 @@ Defaults to ``False``.
 
     >>> ddp = DateDataParser(settings={'RETURN_TIME_AS_PERIOD': True})
     >>> ddp.get_date_data('vr jan 24, 2014 12:49')
-    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl')
+    DateData(date_obj=datetime.datetime(2014, 1, 24, 12, 49), period='time', locale='nl', parts=('year', 'month', 'day', 'time'))
+
+``PARTS_OF_DAY``: a :class:`~dateparser.PartsOfDay` object that sets the time
+to use for each part of the day, e.g. for ``tonight``. Defaults to
+``PartsOfDay()``.
+
+.. versionadded:: VERSION
+
+    >>> from datetime import time
+    >>> from dateparser import PartsOfDay
+    >>> ddp = DateDataParser(settings={'PARTS_OF_DAY': PartsOfDay(night=time(22)), 'RETURN_TIME_AS_PERIOD': True})
+    >>> ddp.get_date_data('5 January 2026 at night')
+    DateData(date_obj=datetime.datetime(2026, 1, 5, 22, 0), period='part_of_day', locale='en', part_of_day=<PartOfDay.NIGHT: 'night'>)
+
+.. autoclass:: dateparser.PartsOfDay
+    :members:
+    :undoc-members:
+
+.. autoclass:: dateparser.PartOfDay
+    :members:
+    :undoc-members:
 
 ``PARSERS``: it is a list of names of parsers to try, allowing to customize which
 parsers are tried against the input date string, and in which order they are
