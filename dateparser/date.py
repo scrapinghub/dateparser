@@ -314,20 +314,24 @@ def parse_with_formats(
             _missing = _get_missing_parts(date_format)
             missing_month = "month" in _missing
             missing_day = "day" in _missing
+            now = settings.RELATIVE_BASE or _now(settings)
             if missing_month and missing_day:
                 period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
-                date_obj = set_correct_day_from_settings(date_obj, settings)
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, now.month
+                )
+                date_obj = set_correct_day_from_settings(date_obj, settings, now.day)
 
             elif missing_month:
                 period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, now.month
+                )
 
             elif missing_day:
                 period = "month"
-                date_obj = set_correct_day_from_settings(date_obj, settings)
+                date_obj = set_correct_day_from_settings(date_obj, settings, now.day)
 
-            now = settings.RELATIVE_BASE or _now(settings)
             if "year" in _missing:
                 date_obj = date_obj.replace(year=now.year)
             elif "%y" in date_format and "%Y" not in date_format:
