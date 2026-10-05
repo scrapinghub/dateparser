@@ -3,8 +3,11 @@ import contextvars
 import importlib.resources
 import importlib.util
 import sys
-from datetime import datetime
+from collections.abc import Callable
+from datetime import datetime, tzinfo
+from time import struct_time
 from types import ModuleType
+from typing import Any
 
 import regex as re
 
@@ -13,10 +16,12 @@ import regex as re
 # of every `strptime` call, so it always reflects only the most recent call.
 # Callers that build the final parse result check it right after parsing, to
 # flag the result with the raw second `datetime` could not preserve.
-_clamped_leap_second = contextvars.ContextVar("_clamped_leap_second", default=None)
+_clamped_leap_second: contextvars.ContextVar[int | None] = contextvars.ContextVar(
+    "_clamped_leap_second", default=None
+)
 
 
-def _load_leap_seconds_from_pytz():
+def _load_leap_seconds_from_pytz() -> tuple[frozenset[int], frozenset[int]]:
     """Read the known leap-second dates from pytz's bundled `leapseconds`
     file (lines like ``Leap 2016 Dec 31 23:59:60 + S``), itself generated
     from IERS's authoritative leap-seconds.list. `pytz` is already a
@@ -78,7 +83,7 @@ def is_known_leap_second(
     return False
 
 
-def validate_leap_second(date_obj: datetime, tz=None) -> None:
+def validate_leap_second(date_obj: datetime, tz: tzinfo | None = None) -> None:
     """Raise `ValueError` if the most recent `strptime` call clamped a leap
     second (`:60`) that does not correspond to a real one.
 
@@ -90,26 +95,18 @@ def validate_leap_second(date_obj: datetime, tz=None) -> None:
     if clamped_second is None:
         return
 
-    if tz is not None:
-        utc_dt = date_obj - tz.utcoffset(date_obj)
-    else:
-        # No offset to convert with: treat the value as already UTC, since
-        # that is the only deterministic reading (no host-timezone guessing).
-        utc_dt = date_obj
+    # No (fixed) offset to convert with: treat the value as already UTC, since
+    # that is the only deterministic reading (no host-timezone guessing).
+    offset = tz.utcoffset(date_obj) if tz is not None else None
+    utc_dt = date_obj - offset if offset is not None else date_obj
 
     if not is_known_leap_second(
         utc_dt.year, utc_dt.month, utc_dt.day, utc_dt.hour, utc_dt.minute
     ):
         raise ValueError(
-            "%04d-%02d-%02d %02d:%02d:%d is not a known leap second"
-            % (
-                date_obj.year,
-                date_obj.month,
-                date_obj.day,
-                date_obj.hour,
-                date_obj.minute,
-                clamped_second,
-            )
+            f"{date_obj.year:04d}-{date_obj.month:02d}-{date_obj.day:02d} "
+            f"{date_obj.hour:02d}:{date_obj.minute:02d}:{clamped_second} "
+            "is not a known leap second"
         )
 
 
@@ -124,17 +121,7 @@ TIME_MATCHER = re.compile(
 MS_SEARCHER = re.compile(r"\.(?P<microsecond>[0-9]{1,6})")
 
 
-def _exec_module(spec, module):
-    if hasattr(spec.loader, "exec_module"):
-        spec.loader.exec_module(module)
-    else:
-        # This can happen before Python 3.10
-        # if spec.loader is a zipimporter and the Python runtime is in a zipfile
-        code = spec.loader.get_code(module.__name__)
-        exec(code, module.__dict__)
-
-
-def patch_strptime():
+def patch_strptime() -> Callable[[str, str], struct_time]:
     """Monkey patching _strptime to avoid problems related with non-english
     locale changes on the system.
 
@@ -142,8 +129,10 @@ def patch_strptime():
     any date since all languages are translated to english dates.
     """
     _strptime_spec = importlib.util.find_spec("_strptime")
-    _strptime = importlib.util.module_from_spec(_strptime_spec)
-    _exec_module(_strptime_spec, _strptime)
+    assert _strptime_spec is not None
+    assert _strptime_spec.loader is not None
+    _strptime: Any = importlib.util.module_from_spec(_strptime_spec)
+    _strptime_spec.loader.exec_module(_strptime)
     sys.modules["strptime_patched"] = _strptime
 
     # Copy the namespace without re-executing calendar, whose enum decorators
@@ -195,7 +184,8 @@ def patch_strptime():
         "december",
     ]
 
-    return _strptime._strptime_time
+    strptime_time: Callable[[str, str], struct_time] = _strptime._strptime_time
+    return strptime_time
 
 
 __strptime = patch_strptime()
@@ -203,9 +193,9 @@ __strptime = patch_strptime()
 
 def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
     # Adapted from std lib: https://github.com/python/cpython/blob/e34a5e33049ce845de646cf24a498766a2da3586/Lib/_strptime.py#L448
-    format = re.sub(r"([\\.^$*+?\(\){}\[\]|])", r"\\\1", og_format)
-    format = re.sub(r"\s+", r"\\s+", format)
-    format = re.sub(r"'", "['\u02bc]", format)
+    regex_format = re.sub(r"([\\.^$*+?\(\){}\[\]|])", r"\\\1", og_format)
+    regex_format = re.sub(r"\s+", r"\\s+", regex_format)
+    regex_format = re.sub(r"'", "['\u02bc]", regex_format)
     year_in_format = False
     day_of_month_in_format = False
     day_of_year_in_format = False
@@ -215,16 +205,16 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
         if format_char in ("Y", "y", "G"):
             nonlocal year_in_format
             year_in_format = True
-        elif format_char in ("d",):
+        elif format_char == "d":
             nonlocal day_of_month_in_format
             day_of_month_in_format = True
-        elif format_char in ("j",):
+        elif format_char == "j":
             nonlocal day_of_year_in_format
             day_of_year_in_format = True
 
         return ""
 
-    _ = re.sub(r"%[-_0^#]*[0-9]*([OE]?\\?.?)", repl, format)
+    _ = re.sub(r"%[-_0^#]*[0-9]*([OE]?\\?.?)", repl, regex_format)
     if day_of_month_in_format and not year_in_format:
         current_year = datetime.today().year
         return (
@@ -235,17 +225,28 @@ def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
     return date_string, og_format, day_of_year_in_format
 
 
-def strptime(date_string: str, format: str) -> datetime:
-    date_string, format, day_of_year_in_format = _prepare_format(date_string, format)
-    time_tuple = __strptime(date_string, format)
+def strptime(date_string: str, format: str) -> datetime:  # noqa: A002
+    date_string, prepared_format, day_of_year_in_format = _prepare_format(
+        date_string, format
+    )
+    time_tuple = __strptime(date_string, prepared_format)
     year, month, day, hour, minute, second = time_tuple[:6]
 
     # Reset unconditionally so this flag never reflects a stale result from
+    # an earlier, unrelated `strptime` call (e.g. a previous locale/date-order
+    # attempt, or a previous top-level `dateparser.parse()` call).
     _clamped_leap_second.set(None)
 
     if second == 61:
+        # No leap second has ever required two extra seconds (`%S` of 61 is
+        # only in stdlib's regex to accommodate that theoretical case), so
+        # unlike a real leap second (`:60`), this is never valid.
         raise ValueError("61 is not a valid value for second")
     if second == 60:
+        # `datetime` has no representation for a leap second. Clamp it to the
+        # last regular second of the minute rather than rejecting the
+        # otherwise-valid date/time; callers validate it against the known
+        # leap seconds using this flag once the full date is known.
         _clamped_leap_second.set(second)
         second = 59
     obj = datetime(year, month, day, hour, minute, second)
@@ -259,14 +260,14 @@ def strptime(date_string: str, format: str) -> datetime:
             f"day of year {time_tuple.tm_yday} is out of range for year {obj.year - 1}"
         )
 
-    if "%f" in format:
+    if "%f" in prepared_format:
         try:
-            match_groups = TIME_MATCHER.match(date_string).groupdict()
+            match_groups = TIME_MATCHER.match(date_string).groupdict()  # type: ignore[union-attr]
             ms = match_groups["microsecond"]
             ms = ms + ((6 - len(ms)) * "0")
             obj = obj.replace(microsecond=int(ms))
         except AttributeError:
-            match_groups = MS_SEARCHER.search(date_string).groupdict()
+            match_groups = MS_SEARCHER.search(date_string).groupdict()  # type: ignore[union-attr]
             ms = match_groups["microsecond"]
             ms = ms + ((6 - len(ms)) * "0")
             obj = obj.replace(microsecond=int(ms))

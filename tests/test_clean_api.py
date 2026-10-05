@@ -1,4 +1,5 @@
 from datetime import date, datetime, timedelta
+from typing import Any
 
 from parameterized import param, parameterized
 from pytz import utc
@@ -9,9 +10,9 @@ from tests import BaseTestCase
 
 
 class TestParseFunction(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.result = NotImplemented
+        self.result: datetime | None = NotImplemented
 
     @parameterized.expand(
         [
@@ -20,7 +21,9 @@ class TestParseFunction(BaseTestCase):
             param(date_string="January 25, 2014", expected_date=date(2014, 1, 25)),
         ]
     )
-    def test_parse_dates_in_different_languages(self, date_string, expected_date):
+    def test_parse_dates_in_different_languages(
+        self, date_string: str, expected_date: date
+    ) -> None:
         self.when_date_is_parsed_with_defaults(date_string)
         self.then_parsed_date_is(expected_date)
 
@@ -40,7 +43,9 @@ class TestParseFunction(BaseTestCase):
             ),
         ]
     )
-    def test_parse_dates_with_specific_time(self, date_string, expected_date):
+    def test_parse_dates_with_specific_time(
+        self, date_string: str, expected_date: datetime
+    ) -> None:
         self.when_date_is_parsed_with_defaults(date_string)
         self.then_parsed_date_and_time_is(expected_date)
 
@@ -64,8 +69,8 @@ class TestParseFunction(BaseTestCase):
         ]
     )
     def test_parse_dates_with_specific_time_and_settings(
-        self, date_string, expected_date, relative
-    ):
+        self, date_string: str, expected_date: datetime, relative: datetime
+    ) -> None:
         self.when_date_is_parsed_with_settings(
             date_string, settings={"RELATIVE_BASE": relative}
         )
@@ -81,8 +86,8 @@ class TestParseFunction(BaseTestCase):
         ]
     )
     def test_dates_which_match_languages_are_parsed(
-        self, date_string, languages, expected_date
-    ):
+        self, date_string: str, languages: list[str] | None, expected_date: date
+    ) -> None:
         self.when_date_is_parsed(date_string, languages=languages)
         self.then_parsed_date_is(expected_date)
 
@@ -92,8 +97,8 @@ class TestParseFunction(BaseTestCase):
         ]
     )
     def test_dates_which_do_not_match_languages_are_not_parsed(
-        self, date_string, languages
-    ):
+        self, date_string: str, languages: list[str] | None
+    ) -> None:
         self.when_date_is_parsed(date_string, languages=languages)
         self.then_date_was_not_parsed()
 
@@ -107,8 +112,8 @@ class TestParseFunction(BaseTestCase):
         ]
     )
     def test_dates_which_match_locales_are_parsed(
-        self, date_string, locales, expected_date
-    ):
+        self, date_string: str, locales: list[str], expected_date: date
+    ) -> None:
         self.when_date_is_parsed(date_string, locales=locales)
         self.then_parsed_date_is(expected_date)
 
@@ -119,7 +124,9 @@ class TestParseFunction(BaseTestCase):
             param(date_string="6 yar 2019", locales=["ff-MR"]),
         ]
     )
-    def test_locales_dropped_in_cldr_44_remain_supported(self, date_string, locales):
+    def test_locales_dropped_in_cldr_44_remain_supported(
+        self, date_string: str, locales: list[str]
+    ) -> None:
         # ff-CM/ff-GN/ff-MR were standalone locales up to CLDR 31 but were dropped in
         # CLDR 44 (regional data moved under ff-Latn). They remain valid locale codes
         # and resolve to the base `ff` data, so existing callers keep working.
@@ -139,8 +146,14 @@ class TestParseFunction(BaseTestCase):
         ]
     )
     def test_dates_parse_utc_offset_does_not_throw(
-        self, date_string, locales, languages, region, date_formats, expected_date
-    ):
+        self,
+        date_string: str,
+        locales: list[str],
+        languages: list[str] | None,
+        region: str,
+        date_formats: list[str],
+        expected_date: datetime,
+    ) -> None:
         """
         Bug discovered by OSSFuzz that caused an exception in pytz to halt parsing
         Regression test to ensure that this is not reintroduced
@@ -195,8 +208,8 @@ class TestParseFunction(BaseTestCase):
         ]
     )
     def test_dates_which_do_not_match_locales_are_not_parsed(
-        self, date_string, locales
-    ):
+        self, date_string: str, locales: list[str]
+    ) -> None:
         self.when_date_is_parsed(date_string, locales=locales)
         self.then_date_was_not_parsed()
 
@@ -207,8 +220,8 @@ class TestParseFunction(BaseTestCase):
         ]
     )
     def test_require_parts_month_year_parses_month_year(
-        self, date_string, expected_date
-    ):
+        self, date_string: str, expected_date: datetime
+    ) -> None:
         # Regression: when year is required, Mon-YY should be interpreted as month-year.
         base = datetime(2050, 1, 1, 0, 0)
         self.when_date_is_parsed_with_settings(
@@ -222,7 +235,7 @@ class TestParseFunction(BaseTestCase):
         )
         self.then_parsed_date_and_time_is(expected_date)
 
-    def test_require_parts_does_not_override_explicit_date_order(self):
+    def test_require_parts_does_not_override_explicit_date_order(self) -> None:
         # Explicit DATE_ORDER must be respected.
         base = datetime(2050, 1, 1, 0, 0)
         self.when_date_is_parsed_with_settings(
@@ -235,7 +248,7 @@ class TestParseFunction(BaseTestCase):
         )
         self.then_date_was_not_parsed()
 
-    def test_require_parts_month_day_parses_month_day(self):
+    def test_require_parts_month_day_parses_month_day(self) -> None:
         # If day is required, Mon-XX should remain month-day.
         base = datetime(2000, 1, 1, 0, 0)
         self.when_date_is_parsed_with_settings(
@@ -247,26 +260,33 @@ class TestParseFunction(BaseTestCase):
         )
         self.then_parsed_date_and_time_is(datetime(2000, 10, 23, 0, 0))
 
-    def when_date_is_parsed_with_defaults(self, date_string):
+    def when_date_is_parsed_with_defaults(self, date_string: str) -> None:
         self.result = dateparser.parse(date_string)
 
-    def when_date_is_parsed(self, date_string, languages=None, locales=None):
+    def when_date_is_parsed(
+        self,
+        date_string: str,
+        languages: list[str] | None = None,
+        locales: list[str] | None = None,
+    ) -> None:
         self.result = dateparser.parse(
             date_string, languages=languages, locales=locales
         )
 
-    def when_date_is_parsed_with_settings(self, date_string, settings=None):
+    def when_date_is_parsed_with_settings(
+        self, date_string: str, settings: dict[str, Any] | None = None
+    ) -> None:
         self.result = dateparser.parse(date_string, settings=settings)
 
     def when_date_is_parsed_with_args_and_settings(
         self,
-        date_string,
-        languages=None,
-        locales=None,
-        region=None,
-        date_formats=None,
-        settings=None,
-    ):
+        date_string: str,
+        languages: list[str] | None = None,
+        locales: list[str] | None = None,
+        region: str | None = None,
+        date_formats: list[str] | None = None,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
         self.result = dateparser.parse(
             date_string,
             languages=languages,
@@ -276,24 +296,24 @@ class TestParseFunction(BaseTestCase):
             settings=settings,
         )
 
-    def then_parsed_date_is(self, expected_date):
+    def then_parsed_date_is(self, expected_date: date) -> None:
         self.assertEqual(
             self.result, datetime.combine(expected_date, datetime.min.time())
         )
 
-    def then_parsed_date_and_time_is(self, expected_date):
+    def then_parsed_date_and_time_is(self, expected_date: datetime) -> None:
         self.assertEqual(self.result, expected_date)
 
-    def then_date_was_not_parsed(self):
+    def then_date_was_not_parsed(self) -> None:
         self.assertIsNone(self.result)
 
 
 class TestIgnoreSurroundingTextSetting(BaseTestCase):
     """Tests for the opt-in ``IGNORE_SURROUNDING_TEXT`` setting (issue #518)."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.result = NotImplemented
+        self.result: object = NotImplemented
 
     @parameterized.expand(
         [
@@ -345,8 +365,8 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         ]
     )
     def test_dates_with_surrounding_text_are_parsed(
-        self, date_string, languages, expected_datetime
-    ):
+        self, date_string: str, languages: list[str] | None, expected_datetime: datetime
+    ) -> None:
         self.when_date_is_parsed(
             date_string,
             languages=languages,
@@ -362,8 +382,8 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         ]
     )
     def test_dates_with_surrounding_text_are_not_parsed_by_default(
-        self, date_string, languages
-    ):
+        self, date_string: str, languages: list[str] | None
+    ) -> None:
         self.when_date_is_parsed(date_string, languages=languages)
         self.then_date_was_not_parsed()
 
@@ -375,7 +395,9 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
             param(date_string="hello world", languages=["en"]),
         ]
     )
-    def test_non_dates_are_not_parsed_even_when_enabled(self, date_string, languages):
+    def test_non_dates_are_not_parsed_even_when_enabled(
+        self, date_string: str, languages: list[str] | None
+    ) -> None:
         self.when_date_is_parsed(
             date_string,
             languages=languages,
@@ -383,7 +405,7 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         )
         self.then_date_was_not_parsed()
 
-    def test_surrounding_text_ignored_with_locales_argument(self):
+    def test_surrounding_text_ignored_with_locales_argument(self) -> None:
         self.when_date_is_parsed(
             "Actualisé le 17 avril 2019",
             locales=["fr-CA"],
@@ -391,7 +413,7 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         )
         self.then_parsed_datetime_is(datetime(2019, 4, 17))
 
-    def test_surrounding_text_ignored_with_region_argument(self):
+    def test_surrounding_text_ignored_with_region_argument(self) -> None:
         self.when_date_is_parsed(
             "Actualisé le 17 avril 2019",
             languages=["fr"],
@@ -400,14 +422,14 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         )
         self.then_parsed_datetime_is(datetime(2019, 4, 17))
 
-    def test_surrounding_text_ignored_with_default_languages_setting(self):
+    def test_surrounding_text_ignored_with_default_languages_setting(self) -> None:
         self.when_date_is_parsed(
             "Actualisé le 17 avril 2019",
             settings={"IGNORE_SURROUNDING_TEXT": True, "DEFAULT_LANGUAGES": ["fr"]},
         )
         self.then_parsed_datetime_is(datetime(2019, 4, 17))
 
-    def test_surrounding_text_ignored_with_detected_language(self):
+    def test_surrounding_text_ignored_with_detected_language(self) -> None:
         self.when_date_is_parsed(
             "Actualisé le 17 avril 2019",
             detect_languages_function=lambda text, confidence_threshold: ["fr"],
@@ -415,7 +437,7 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         )
         self.then_parsed_datetime_is(datetime(2019, 4, 17))
 
-    def test_surrounding_text_ignored_with_date_formats(self):
+    def test_surrounding_text_ignored_with_date_formats(self) -> None:
         self.when_date_is_parsed(
             "Published on 16/04/2019",
             date_formats=["%d/%m/%Y"],
@@ -424,7 +446,7 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         )
         self.then_parsed_datetime_is(datetime(2019, 4, 16))
 
-    def test_relative_date_with_surrounding_text(self):
+    def test_relative_date_with_surrounding_text(self) -> None:
         self.when_date_is_parsed(
             "asdf 3 hours ago asdf",
             languages=["en"],
@@ -435,7 +457,7 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         )
         self.then_parsed_datetime_is(datetime(2019, 4, 17, 9, 0))
 
-    def test_strict_parsing_rejects_incomplete_remainder(self):
+    def test_strict_parsing_rejects_incomplete_remainder(self) -> None:
         # The remainder is parsed as if it were the whole input, so settings
         # such as STRICT_PARSING apply to it as usual.
         self.when_date_is_parsed(
@@ -445,7 +467,7 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         )
         self.then_date_was_not_parsed()
 
-    def test_surrounding_text_can_turn_non_dates_into_dates(self):
+    def test_surrounding_text_can_turn_non_dates_into_dates(self) -> None:
         # Documented caveat: with the setting enabled, a string that merely
         # contains date-like words produces a date.
         self.when_date_is_parsed(
@@ -458,12 +480,12 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         )
         self.then_parsed_datetime_is(datetime(2026, 3, 12))
 
-    def test_search_dates_is_not_affected_by_default(self):
+    def test_search_dates_is_not_affected_by_default(self) -> None:
         # search_dates keeps relying on the strict behavior of get_date_data.
         self.result = search_dates("Actualisé le 17 avril 2019", languages=["fr"])
         self.assertEqual([("le 17 avril 2019", datetime(2019, 4, 17))], self.result)
 
-    def test_trailing_timezone_is_preserved(self):
+    def test_trailing_timezone_is_preserved(self) -> None:
         # A recognized timezone at the trailing edge must not be discarded with
         # the surrounding text: wrapping a date in extra text yields the same
         # instant as parsing the bare date, timezone included.
@@ -476,6 +498,7 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
             languages=["en"],
             settings={"RETURN_AS_TIMEZONE_AWARE": True},
         )
+        assert wrapped is not None
         self.assertEqual(timedelta(hours=-5), wrapped.utcoffset())
         self.assertEqual(unwrapped, wrapped)
 
@@ -502,8 +525,8 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         ]
     )
     def test_more_trailing_timezones_are_preserved(
-        self, wrapped, bare, tzname, utcoffset
-    ):
+        self, wrapped: str, bare: str, tzname: str, utcoffset: timedelta
+    ) -> None:
         # Like test_trailing_timezone_is_preserved, for further abbreviations:
         # wrapping the date in extra text yields the same tz-aware instant as
         # parsing the bare date. The timezone *name* is asserted (not only the
@@ -514,11 +537,12 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         bare_result = dateparser.parse(
             bare, languages=["en"], settings={"RETURN_AS_TIMEZONE_AWARE": True}
         )
+        assert wrapped_result is not None
         self.assertEqual(tzname, wrapped_result.tzname())
         self.assertEqual(utcoffset, wrapped_result.utcoffset())
         self.assertEqual(bare_result, wrapped_result)
 
-    def test_parenthesized_trailing_timezone_is_applied(self):
+    def test_parenthesized_trailing_timezone_is_applied(self) -> None:
         # A parenthesized trailing timezone is applied end to end. GMT is a
         # dictionary token, so the parentheses are split off and it is kept via
         # the ordinary known-word branch, not via is_timezone_token (which the
@@ -536,11 +560,12 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
             languages=["en"],
             settings={"RETURN_AS_TIMEZONE_AWARE": True},
         )
+        assert wrapped is not None
         self.assertEqual("GMT", wrapped.tzname())
         self.assertEqual(timedelta(0), wrapped.utcoffset())
         self.assertEqual(bare, wrapped)
 
-    def test_only_trailing_timezone_is_preserved(self):
+    def test_only_trailing_timezone_is_preserved(self) -> None:
         # tz-recognition when stripping edge tokens is deliberately applied to
         # the trailing edge only: a timezone that follows the date is kept and
         # applied, while the same abbreviation before the date is treated as
@@ -558,13 +583,14 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
             settings={"RETURN_AS_TIMEZONE_AWARE": True},
         )
         # Trailing EST is applied...
+        assert trailing is not None
         self.assertEqual(timedelta(hours=-5), trailing.utcoffset())
         # ...leading EST is not: the result matches the same string with no
         # timezone at all, and does not carry the EST offset.
         self.assertEqual(without_tz, leading)
         self.assertNotEqual(trailing, leading)
 
-    def test_trailing_timezone_followed_by_more_text_is_dropped(self):
+    def test_trailing_timezone_followed_by_more_text_is_dropped(self) -> None:
         # Known limitation: a trailing timezone is kept only when it is the
         # final token. If unrecognized text follows it, the tokenizer merges
         # the two, so the timezone is stripped together with that text and its
@@ -576,10 +602,11 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
             languages=["en"],
             settings=settings,
         )
+        assert result is not None
         self.assertEqual(datetime(2000, 3, 23, 13, 21), result.replace(tzinfo=None))
         self.assertNotEqual(timedelta(hours=-5), result.utcoffset())
 
-    def test_leading_numeric_noise_is_not_ignored(self):
+    def test_leading_numeric_noise_is_not_ignored(self) -> None:
         # Documented limitation: stripping stops at the first recognized token,
         # and a number counts as recognized, so leading text that contains a
         # number of its own blocks parsing. search_dates covers this shape.
@@ -590,11 +617,11 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         )
         self.then_date_was_not_parsed()
 
-    def when_date_is_parsed(self, date_string, **kwargs):
+    def when_date_is_parsed(self, date_string: str, **kwargs: Any) -> None:
         self.result = dateparser.parse(date_string, **kwargs)
 
-    def then_parsed_datetime_is(self, expected_datetime):
+    def then_parsed_datetime_is(self, expected_datetime: datetime) -> None:
         self.assertEqual(expected_datetime, self.result)
 
-    def then_date_was_not_parsed(self):
+    def then_date_was_not_parsed(self) -> None:
         self.assertIsNone(self.result)
