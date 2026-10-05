@@ -576,6 +576,16 @@ class TestDateParser(BaseTestCase):
                 "Fri Sep 23 2016 10:34:51 GMT+0800 (CST)",
                 datetime(2016, 9, 23, 2, 34, 51),
             ),
+            param(
+                "Wed May 06 2020 10:00:00 GMT+0200 (Central European Summer Time)",
+                datetime(2020, 5, 6, 8, 0),
+            ),
+            param("10:56:58 PM UTC+2:00 2/22/2018", datetime(2018, 2, 22, 20, 56, 58)),
+            param("10:56:58 PM UTC+2 Feb 22, 2018", datetime(2018, 2, 22, 20, 56, 58)),
+            param(
+                "10:56:58 PM GMT+0800 (CST) 2/22/2018",
+                datetime(2018, 2, 22, 14, 56, 58),
+            ),
             # RFC 2822 email dates carry a numeric offset plus a redundant,
             # equivalent timezone abbreviation in parentheses.
             param(
