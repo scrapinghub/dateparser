@@ -70,7 +70,7 @@ class _ExactLanguageSearch:
             return substring, None
 
         i = len(already_parsed) - 1
-        while already_parsed[i][1]:
+        while already_parsed[i][1] or already_parsed[i][0]["date_obj"] is None:
             i -= 1
             if i == -1:
                 return substring, None
@@ -284,8 +284,9 @@ class _ExactLanguageSearch:
         translated: Sequence[str],
         settings: Settings,
         language: Locale,
+        already_parsed: Sequence[tuple[DateData, bool]] = (),
     ) -> tuple[list[tuple[DateData, bool]], list[str]]:
-        parsed: list[tuple[DateData, bool]] = []
+        parsed: list[tuple[DateData, bool]] = list(already_parsed)
         substrings = []
         need_relative_base = True
         if settings.RELATIVE_BASE:
@@ -322,7 +323,7 @@ class _ExactLanguageSearch:
                         parser,
                         jtem,
                         jtem,
-                        current_parsed,
+                        [*parsed, *current_parsed],
                         need_relative_base,
                     )
                     current_parsed.append((parsed_jtem, is_relative_jtem))
@@ -349,11 +350,17 @@ class _ExactLanguageSearch:
                 # A part can join several dates, e.g. "last monday and next
                 # sunday" after splitting by commas, so split it again.
                 sub_parsed, sub_substrings = self.parse_found_objects(
-                    parser, [part], [original_part], [part], settings, language
+                    parser,
+                    [part],
+                    [original_part],
+                    [part],
+                    settings,
+                    language,
+                    already_parsed=parsed,
                 )
                 parsed.extend(sub_parsed)
                 substrings.extend(sub_substrings)
-        return parsed, substrings
+        return parsed[len(already_parsed) :], substrings
 
     def search_parse(
         self, shortname: str, text: str, settings: Settings

@@ -358,7 +358,7 @@ class Locale:
             relative_dictionary[compiled_pattern] = key
         return relative_dictionary
 
-    def translate_search(  # noqa: PLR0912
+    def translate_search(
         self, search_string: str, settings: "Settings | None" = None
     ) -> tuple[list[str], list[str]]:
         dashes = ["-", "——", "—", "～"]
@@ -388,11 +388,14 @@ class Locale:
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
                 elif (
-                    current_and_next_joined in dictionary
+                    next_word
+                    and self._in_dictionary(current_and_next_joined, dictionary)
                     and word not in dashes
                     and self.shortname not in word_joint_unsupported_languages
                 ):
-                    translated_chunk.append(dictionary[current_and_next_joined])
+                    translated_chunk.append(
+                        self._translate_token(current_and_next_joined, dictionary)
+                    )
                     original_chunk.append(
                         self._join_chunk(
                             [original_tokens[i], original_tokens[i + 1]],
@@ -400,17 +403,8 @@ class Locale:
                         )
                     )
                     skip_next_token = True
-                elif word in dictionary and word not in dashes:
-                    translated_chunk.append(dictionary[word])
-                    original_chunk.append(original_tokens[i])
-                elif word.strip(PUNCTUATION) in dictionary and word not in dashes:
-                    bare_word = word.strip(PUNCTUATION)
-                    punct = word[len(bare_word) :]
-                    bare_translation = dictionary[bare_word]
-                    if punct and bare_translation:
-                        translated_chunk.append(bare_translation + punct)
-                    else:
-                        translated_chunk.append(bare_translation)
+                elif self._in_dictionary(word, dictionary) and word not in dashes:
+                    translated_chunk.append(self._translate_token(word, dictionary))
                     original_chunk.append(original_tokens[i])
                 elif self._token_with_digits_is_ok(word) or (
                     translated_chunk and word_is_tz(original_tokens[i])
@@ -591,6 +585,22 @@ class Locale:
         for i, token in enumerate(tokens):
             tokens[i] = dictionary.split(token, keep_formatting)
         return list(chain.from_iterable(tokens))
+
+    @staticmethod
+    def _in_dictionary(token: str, dictionary: Dictionary) -> bool:
+        return token in dictionary or token.strip(PUNCTUATION) in dictionary
+
+    @staticmethod
+    def _translate_token(token: str, dictionary: Dictionary) -> str | None:
+        """Translate *token*, keeping any punctuation that ends it if
+        *dictionary* only knows it without punctuation."""
+        if token in dictionary:
+            return dictionary[token]
+        translation = dictionary[token.strip(PUNCTUATION)]
+        punct = token[len(token.rstrip(PUNCTUATION)) :]
+        if punct and translation:
+            return translation + punct
+        return translation
 
     def _join_chunk(self, chunk: Sequence[str], settings: "Settings | None") -> str:
         if "no_word_spacing" in self.info:
