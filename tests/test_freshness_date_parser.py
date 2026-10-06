@@ -2419,6 +2419,23 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("20th century"),
+            param("the 21st century"),
+            param("1st century"),
+            param("2nd fortnight"),
+        ]
+    )
+    def test_ordinal_century_and_fortnight_are_not_relative_dates(
+        self, date_string: str
+    ) -> None:
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_was_not_parsed()
+
+    @parameterized.expand(
+        [
             param("1mon ago", ago={"months": 1}, period="month"),  # 1123
             param("2mon ago", ago={"months": 2}, period="month"),  # 1123
             param("3mons ago", ago={"months": 3}, period="month"),  # 1123
