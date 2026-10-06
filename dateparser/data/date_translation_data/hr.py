@@ -360,6 +360,27 @@ info = {
         },
         {
             "ponoć": "00:00"
+        },
+        {
+            "(?<=prije\\s+)tjedan(\\s+dana)?": "1 tjedan"
+        },
+        {
+            "(?<=prije\\s+)mjesec(\\s+dana)?": "1 mjesec"
+        },
+        {
+            "(?<=prije\\s+)godinu(\\s+dana)?": "1 godinu"
+        },
+        {
+            "(?<=prije\\s+)sat(\\s+vremena)?": "1 sat"
+        },
+        {
+            "(?<=prije\\s+)dan\\b": "1 dan"
+        },
+        {
+            "(?<=prije\\s+)minutu": "1 minutu"
+        },
+        {
+            "(?<=prije\\s+)sekundu": "1 sekundu"
         }
     ],
     "skip": [

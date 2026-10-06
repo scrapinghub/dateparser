@@ -238,6 +238,29 @@ info = {
         ]
     },
     "locale_specific": {},
+    "simplifications": [
+        {
+            "(?<=pred\\s+)tednom\\b": "1 tednom"
+        },
+        {
+            "(?<=pred\\s+)mesecem\\b": "1 mesecem"
+        },
+        {
+            "(?<=pred\\s+)letom\\b": "1 letom"
+        },
+        {
+            "(?<=pred\\s+)dnevom\\b": "1 dnevom"
+        },
+        {
+            "(?<=pred\\s+)uro\\b": "1 uro"
+        },
+        {
+            "(?<=pred\\s+)minuto\\b": "1 minuto"
+        },
+        {
+            "(?<=pred\\s+)sekundo\\b": "1 sekundo"
+        }
+    ],
     "skip": [
         " ",
         "'",

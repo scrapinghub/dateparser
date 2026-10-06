@@ -342,6 +342,21 @@ info = {
     "simplifications": [
         {
             "(\\d++[.,]?\\d*+) (sekunnin|sekuntin|minuutin|tunnin|päivän|viikon|kuukauden|vuoden) (päästä|kuluttua)": "\\3 \\1 \\2"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)viikko(?=\\s+sitten)": "1 viikko"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)kuukausi(?=\\s+sitten)": "1 kuukausi"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)vuosi(?=\\s+sitten)": "1 vuosi"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)päivä(?=\\s+sitten)": "1 päivä"
+        },
+        {
+            "(?<=[^\\d]\\s+|^)tunti(?=\\s+sitten)": "1 tunti"
         }
     ]
 }

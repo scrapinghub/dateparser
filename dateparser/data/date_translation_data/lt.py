@@ -247,6 +247,29 @@ info = {
         ]
     },
     "locale_specific": {},
+    "simplifications": [
+        {
+            "(?<=prieš\\s+)savaitę\\b": "1 savaitę"
+        },
+        {
+            "(?<=prieš\\s+)mėnesį\\b": "1 mėnesį"
+        },
+        {
+            "(?<=prieš\\s+)metus\\b": "1 metus"
+        },
+        {
+            "(?<=prieš\\s+)dieną\\b": "1 dieną"
+        },
+        {
+            "(?<=prieš\\s+)valandą\\b": "1 valandą"
+        },
+        {
+            "(?<=prieš\\s+)minutę\\b": "1 minutę"
+        },
+        {
+            "(?<=prieš\\s+)sekundę\\b": "1 sekundę"
+        }
+    ],
     "skip": [
         " ",
         "'",

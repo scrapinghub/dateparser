@@ -720,6 +720,31 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("před hodinu", ago={"hours": 1}, period="day"),
             param("před minutu", ago={"minutes": 1}, period="day"),
             param("před sekundu", ago={"seconds": 1}, period="day"),
+            param("قبل أسبوع", ago={"weeks": 1}, period="week"),  # ar
+            param("قبل ساعة", ago={"hours": 1}, period="day"),  # ar
+            param("тыдзень таму", ago={"weeks": 1}, period="week"),  # be
+            param("год таму", ago={"years": 1}, period="year"),  # be
+            param("преди месец", ago={"months": 1}, period="month"),  # bg
+            param("viikko sitten", ago={"weeks": 1}, period="week"),  # fi
+            param("tunti sitten", ago={"hours": 1}, period="day"),  # fi
+            param("לפני שבוע", ago={"weeks": 1}, period="week"),  # he
+            param("לפני שעה", ago={"hours": 1}, period="day"),  # he
+            param("prije tjedan dana", ago={"weeks": 1}, period="week"),  # hr
+            param("prije mjesec dana", ago={"months": 1}, period="month"),  # hr
+            param("prije sat vremena", ago={"hours": 1}, period="day"),  # hr
+            param("prieš savaitę", ago={"weeks": 1}, period="week"),  # lt
+            param("prieš metus", ago={"years": 1}, period="year"),  # lt
+            param("pirms nedēļas", ago={"weeks": 1}, period="week"),  # lv
+            param("pirms gada", ago={"years": 1}, period="year"),  # lv
+            param("пред седмица", ago={"weeks": 1}, period="week"),  # mk
+            param("пред месец", ago={"months": 1}, period="month"),  # mk
+            param("tydzień temu", ago={"weeks": 1}, period="week"),  # pl
+            param("miesiąc temu", ago={"months": 1}, period="month"),  # pl
+            param("godzinę temu", ago={"hours": 1}, period="day"),  # pl
+            param("pred tednom", ago={"weeks": 1}, period="week"),  # sl
+            param("pred uro", ago={"hours": 1}, period="day"),  # sl
+            param("тиждень тому", ago={"weeks": 1}, period="week"),  # uk
+            param("рік тому", ago={"years": 1}, period="year"),  # uk
             # cy
             param("5 wythnos yn ôl", ago={"weeks": 5}, period="week"),
             param(

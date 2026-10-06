@@ -80,3 +80,6 @@ simplifications:
     - един: '1'
     - два: '2'
     - три: '3'
+
+    # The numeral "1" is optional: a bare unit means "1 unit" ago
+    - '(?<=преди\s+)месец\b': '1 месец'
