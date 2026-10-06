@@ -168,6 +168,8 @@ info = {
         "min",
         "minuta",
         "minut",
+        "minutu",
+        "minutou",
         "minutami",
         "minuty",
         "minutama"
@@ -177,8 +179,12 @@ info = {
         "sekunda",
         "sekundy",
         "sekund",
+        "sekundu",
+        "sekundou",
         "sekundami",
         "vteřina",
+        "vteřinu",
+        "vteřinou",
         "vteřin",
         "vteřiny",
         "vteřinami"

@@ -79,14 +79,20 @@ hour:
     - hodinama
 minute:
     - minut
+    - minutu
+    - minutou
     - minutami
     - minuty
     - minutama
 second:
     - sekundy
     - sekund
+    - sekundu
+    - sekundou
     - sekundami
     - vteřina
+    - vteřinu
+    - vteřinou
     - vteřin
     - vteřiny
     - vteřinami
