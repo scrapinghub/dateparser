@@ -1583,6 +1583,41 @@ class TestDateParser(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                "10:00", "future", datetime(2024, 2, 29, 12), datetime(2024, 3, 1, 10)
+            ),
+            param(
+                "10am", "future", datetime(2024, 1, 31, 12), datetime(2024, 2, 1, 10)
+            ),
+            param(
+                "10:00", "future", datetime(2024, 12, 31, 12), datetime(2025, 1, 1, 10)
+            ),
+            param("10:00", "past", datetime(2024, 3, 1, 8), datetime(2024, 2, 29, 10)),
+            param("10:00", "past", datetime(2024, 1, 1, 8), datetime(2023, 12, 31, 10)),
+            param(
+                "10:00", "future", datetime(2024, 3, 15, 12), datetime(2024, 3, 16, 10)
+            ),
+        ]
+    )
+    def test_prefer_dates_from_with_time_only_across_month_boundary(
+        self,
+        date_string: str,
+        prefer_dates_from: str,
+        relative_base: datetime,
+        expected: datetime,
+    ) -> None:
+        self.given_parser(
+            settings={
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "RELATIVE_BASE": relative_base,
+            }
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param(
                 "2015",
                 prefer_day="current",
                 prefer_month="current",

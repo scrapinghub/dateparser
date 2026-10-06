@@ -809,11 +809,15 @@ class _parser:
                 and self.now < dateobj - tz_offset
             ):
                 dateobj = dateobj + timedelta(days=-1)
+                # the day may now be in another month, so keep that month
+                # from being altered by _correct_for_month
+                self._token_month = dateobj.month
             if (
                 "future" in self.settings.PREFER_DATES_FROM
                 and self.now > dateobj - tz_offset
             ):
                 dateobj = dateobj + timedelta(days=1)
+                self._token_month = dateobj.month
 
         # Reset dateobj to the original value, thus removing any offset awareness that may
         # have been set earlier.
