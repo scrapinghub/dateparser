@@ -685,7 +685,18 @@ class Locale:
         return simplifications
 
     def _clear_future_words(self, words: list[str]) -> list[str]:
-        freshness_words = {"day", "week", "month", "year", "hour", "minute", "second"}
+        freshness_words = {
+            "century",
+            "decade",
+            "fortnight",
+            "day",
+            "week",
+            "month",
+            "year",
+            "hour",
+            "minute",
+            "second",
+        }
         # A unit keeps the punctuation it was written next to, so "2 hours,"
         # becomes "hour,". That is still the unit of a future expression, and
         # dropping the "in" of one is what turns it into a past date.

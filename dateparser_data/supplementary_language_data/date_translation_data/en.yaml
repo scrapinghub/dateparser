@@ -28,9 +28,15 @@ sunday:
 september:
     - sept
 
+century:
+    - century
+    - centuries
 decade:
     - decade
     - decades
+fortnight:
+    - fortnight
+    - fortnights
 year:
     - y
     - years
@@ -78,11 +84,21 @@ in:
 relative-type:
     2 day ago:
         - day before yesterday
+    1 century ago:
+        - last century
+        - this century
+    in 1 century:
+        - next century
     1 decade ago:
         - last decade
         - this decade
     in 1 decade:
         - next decade
+    1 fortnight ago:
+        - last fortnight
+        - this fortnight
+    in 1 fortnight:
+        - next fortnight
     in 2 day:
         - day after tomorrow
     0 day ago:
@@ -92,10 +108,20 @@ relative-type-regex:
     in \1 week:
         - in {0} weeks time
         - "in {0} weeks' time"
+    in \1 century:
+        - in (\d+[.,]?\d*) century
+        - in (\d+[.,]?\d*) centuries
+    \1 century ago:
+        - (\d+[.,]?\d*) century ago
+        - (\d+[.,]?\d*) centuries ago
     in \1 decade:
         - in (\d+[.,]?\d*) decades?
     \1 decade ago:
         - (\d+[.,]?\d*) decades? ago
+    in \1 fortnight:
+        - in (\d+[.,]?\d*) fortnights?
+    \1 fortnight ago:
+        - (\d+[.,]?\d*) fortnights? ago
 
 simplifications:
     - (\d+[.,]?\d*)\s*mons?\b: \1 month
@@ -111,7 +137,8 @@ simplifications:
     - from\s+now: in
     - less than 1 minute ago: 45 second ago
     - (\d+(?:st|nd|rd|th)) day: \1
-    - (\d+[.,]?\d*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (decade|year|month|week|day|hour|minute|second)s? later: in \1 \2
+    - (\d+)(?:st|nd|rd|th)\s+(?:century|centuries|fortnight|fortnights)\b: \1 ordinal
+    - (\d+[.,]?\d*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (centur(?:y|ies)|decade|fortnight|year|month|week|day|hour|minute|second)s? later: in \1 \2
     - one: '1'
     - two: '2'
     - three: '3'
