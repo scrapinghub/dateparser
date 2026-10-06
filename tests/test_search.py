@@ -1616,6 +1616,328 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.assertIsNone(result)
 
+    def test_search_dates_keeps_an_explicit_date_order_after_the_first_date(
+        self,
+    ) -> None:
+        result = search_dates(
+            "op 30-05-2027. Deze op 01-11-2026",
+            languages=["nl"],
+            settings={"DATE_ORDER": "DMY", "STRICT_PARSING": True},
+        )
+        self.assertEqual(
+            result,
+            [
+                ("30-05-2027", datetime.datetime(2027, 5, 30, 0, 0)),
+                ("01-11-2026", datetime.datetime(2026, 11, 1, 0, 0)),
+            ],
+        )
+
+    @parameterized.expand(
+        [
+            # Every language but vi and hu is searched in its English
+            # translation, so the dates after the first one were read as MDY
+            param(
+                "nl",
+                "Besteld op 25-12-2020, verzonden op 02-01-2021 en geleverd op 05-01-2021.",
+                "DMY",
+                [
+                    ("25-12-2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02-01-2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05-01-2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "de",
+                "Bestellt 25.12.2020, versandt 02.01.2021, geliefert 05.01.2021.",
+                "DMY",
+                [
+                    ("25.12.2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02.01.2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05.01.2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "fr",
+                "Commandé 25/12/2020, expédié 02/01/2021, livré 05/01/2021.",
+                "DMY",
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05/01/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "ru",
+                "Заказ 25.12.2020, отправка 02.01.2021, доставка 05.01.2021.",
+                "DMY",
+                [
+                    ("25.12.2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02.01.2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05.01.2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "en",
+                "Ordered 25/12/2020, shipped 02/01/2021, delivered 05/01/2021.",
+                "DMY",
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05/01/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            # vi and hu are searched in their own locale, whose order is DMY
+            # and YMD respectively
+            param(
+                "vi",
+                "Đặt hàng 12/25/2020, giao hàng 01/02/2021, nhận hàng 01/05/2021.",
+                "MDY",
+                [
+                    ("12/25/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("01/02/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("01/05/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "hu",
+                "Rendelés 12/25/2020, szállítás 01/02/2021, kézbesítés 01/05/2021.",
+                "MDY",
+                [
+                    ("12/25/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("01/02/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("01/05/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "en",
+                "Ordered 12/25/2020, shipped 01/02/2021, delivered 01/05/2021.",
+                "MDY",
+                [
+                    ("12/25/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("01/02/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("01/05/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            # With a four-digit year first, any order reads the year first, so
+            # only a two-digit year tells YMD apart
+            param(
+                "en",
+                "Ordered 20-12-25, shipped 21-01-02, delivered 21-01-05.",
+                "YMD",
+                [
+                    ("20-12-25", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("21-01-02", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("21-01-05", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "es",
+                "Pedido 20/12/25, enviado 21/01/02, entregado 21/01/05.",
+                "YMD",
+                [
+                    ("20/12/25", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("21/01/02", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("21/01/05", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "vi",
+                "Đặt hàng 20/12/25, giao hàng 21/01/02, nhận hàng 21/01/05.",
+                "YMD",
+                [
+                    ("20/12/25", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("21/01/02", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("21/01/05", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_reads_every_date_in_an_explicit_date_order(
+        self,
+        language: str,
+        text: str,
+        date_order: str,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        for strict_parsing in (False, True):
+            with self.subTest(strict_parsing=strict_parsing):
+                result = search_dates(
+                    text,
+                    languages=[language],
+                    settings={
+                        "DATE_ORDER": date_order,
+                        "STRICT_PARSING": strict_parsing,
+                    },
+                )
+                self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                "en",
+                "Ordered 12/25/2020, shipped 01/02/2021, delivered 01/05/2021.",
+                [
+                    ("12/25/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("01/02/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("01/05/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "vi",
+                "Đặt hàng 25/12/2020, giao hàng 02/01/2021, nhận hàng 05/01/2021.",
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05/01/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "hu",
+                "Rendelés 20.12.25, szállítás 21.01.02, kézbesítés 21.01.05.",
+                [
+                    ("20.12.25", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("21.01.02", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("21.01.05", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_reads_every_date_in_the_locale_date_order_by_default(
+        self,
+        language: str,
+        text: str,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        # Setting something else must not make the default DATE_ORDER count as
+        # one set by the caller for the dates after the first one.
+        for settings in (
+            None,
+            {"STRICT_PARSING": True},
+            {"PREFER_DAY_OF_MONTH": "first"},
+        ):
+            with self.subTest(settings=settings):
+                result = search_dates(text, languages=[language], settings=settings)
+                self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            # The second date has no year, so it is the year of the first date
+            # or the next one, as PREFER_DATES_FROM prefers
+            param(
+                "en",
+                "Ordered 25/12/2020, delivered 02/01.",
+                {"PREFER_DATES_FROM": "future"},
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01", datetime.datetime(2021, 1, 2, 0, 0)),
+                ],
+            ),
+            param(
+                "en",
+                "Ordered 25/12/2020, delivered 02/01.",
+                {"PREFER_DATES_FROM": "past"},
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01", datetime.datetime(2020, 1, 2, 0, 0)),
+                ],
+            ),
+            # A relative date counts from the date found before it
+            param(
+                "en",
+                "Ordered 25/12/2020. Paid 02/01/2021. Shipped in 3 days. "
+                "Delivered 10/01/2021.",
+                {},
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("in 3 days", datetime.datetime(2021, 1, 5, 0, 0)),
+                    ("10/01/2021", datetime.datetime(2021, 1, 10, 0, 0)),
+                ],
+            ),
+            param(
+                "ru",
+                "Заказ 25.12.2020. Оплата 02.01.2021. Через 3 дня отправка. "
+                "Доставка 10.01.2021.",
+                {},
+                [
+                    ("25.12.2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02.01.2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("Через 3 дня", datetime.datetime(2021, 1, 5, 0, 0)),
+                    ("10.01.2021", datetime.datetime(2021, 1, 10, 0, 0)),
+                ],
+            ),
+            param(
+                "nl",
+                "op 30-05-2027 om 10:00. Deze op 01-11-2026 om 09:30",
+                {"TIMEZONE": "Europe/Amsterdam", "TO_TIMEZONE": "UTC"},
+                [
+                    ("30-05-2027 om 10:00", datetime.datetime(2027, 5, 30, 8, 0)),
+                    ("01-11-2026 om 09:30", datetime.datetime(2026, 11, 1, 8, 30)),
+                ],
+            ),
+            param(
+                "nl",
+                "op 30-05-2027 om 10:00. Deze op 01-11-2026 om 09:30",
+                {"TIMEZONE": "Europe/Amsterdam", "RETURN_AS_TIMEZONE_AWARE": True},
+                [
+                    (
+                        "30-05-2027 om 10:00",
+                        datetime.datetime(
+                            2027,
+                            5,
+                            30,
+                            10,
+                            0,
+                            tzinfo=datetime.timezone(timedelta(hours=2)),
+                        ),
+                    ),
+                    (
+                        "01-11-2026 om 09:30",
+                        datetime.datetime(
+                            2026,
+                            11,
+                            1,
+                            9,
+                            30,
+                            tzinfo=datetime.timezone(timedelta(hours=1)),
+                        ),
+                    ),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_keeps_the_other_settings_after_the_first_date(
+        self,
+        language: str,
+        text: str,
+        settings: dict[str, Any],
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        result = search_dates(
+            text, languages=[language], settings={"DATE_ORDER": "DMY", **settings}
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            # 25 cannot be the month, and "all" does not swap it with the day
+            param("all", "Opened 25/12/2020, closed 12/25/2021."),
+            # 32 cannot be the day, so it is the year, which DMY puts last
+            param("year", "Opened 25/12/2020, closed 32/12/10."),
+        ]
+    )
+    def test_search_dates_keeps_strict_date_order_after_the_first_date(
+        self, strict: str, text: str
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": strict},
+        )
+        self.assertEqual(
+            result, [("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0))]
+        )
+
 
 class TestNgramSearch(BaseTestCase):
     def setUp(self) -> None:
