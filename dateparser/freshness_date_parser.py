@@ -202,6 +202,14 @@ class FreshnessDateDataParser:
     def get_kwargs(
         self, date_string: str
     ) -> tuple[dict[str, float], dict[str, bool]] | dict[str, float]:
+        # Thousand-separated integers ("2,000 years", "1 000 000 days")
+        # must be joined before matching: PATTERN captures at most one
+        # separator in a number, and a single ",ddd" group would otherwise
+        # be treated as a decimal comma below, reading "2,000 years" as
+        # 2.0 years (#1367). A separator followed by exactly three digits
+        # is a group separator; any other comma use stays a decimal comma
+        # ("1,5 hours").
+        date_string = re.sub(r"(?<=\d)[ ,](?=\d{3}(?:\D|$))", "", date_string)
         m = PATTERN.findall(date_string)
         if not m:
             return {}

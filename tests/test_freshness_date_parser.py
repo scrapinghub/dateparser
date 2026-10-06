@@ -108,6 +108,16 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param(
                 "2013 years ago", ago={"years": 2013}, period="year"
             ),  # We've fixed .now in setUp
+            # thousand-separated relative amounts must not be read as
+            # decimal commas ("2,000" != 2.0) (#1367)
+            param("2,000 years ago", ago={"years": 2000}, period="year"),
+            param("3,000 minutes ago", ago={"minutes": 3000}, period="day"),
+            param("1,000,000 minutes ago", ago={"minutes": 1000000}, period="day"),
+            param("1 000 hours ago", ago={"hours": 1000}, period="day"),
+            param("12,345 minutes ago", ago={"minutes": 12345}, period="day"),
+            # decimal commas keep working
+            param("1,5 hours ago", ago={"hours": 1.5}, period="day"),
+            param("0,75 days ago", ago={"days": 0.75}, period="day"),
             param("5000 months ago", ago={"years": 416, "months": 8}, period="month"),
             param(
                 f"{2013 * 12 + 8} months ago",
@@ -978,6 +988,16 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param(
                 "2013 years ago", ago={"years": 2013}, period="year"
             ),  # We've fixed .now in setUp
+            # thousand-separated relative amounts must not be read as
+            # decimal commas ("2,000" != 2.0) (#1367)
+            param("2,000 years ago", ago={"years": 2000}, period="year"),
+            param("3,000 minutes ago", ago={"minutes": 3000}, period="day"),
+            param("1,000,000 minutes ago", ago={"minutes": 1000000}, period="day"),
+            param("1 000 hours ago", ago={"hours": 1000}, period="day"),
+            param("12,345 minutes ago", ago={"minutes": 12345}, period="day"),
+            # decimal commas keep working
+            param("1,5 hours ago", ago={"hours": 1.5}, period="day"),
+            param("0,75 days ago", ago={"days": 0.75}, period="day"),
             param("5000 months ago", ago={"years": 416, "months": 8}, period="month"),
             param(
                 f"{2013 * 12 + 8} months ago",
