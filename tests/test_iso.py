@@ -1,14 +1,15 @@
 from datetime import MAXYEAR, MINYEAR, datetime, timedelta, timezone
+from typing import Any
 from unittest import TestCase
 
-from parameterized import parameterized, param
+from parameterized import param, parameterized
 
 from dateparser import parse
 from dateparser.conf import settings
 from dateparser.date import DateDataParser
 
 
-def _parse_iso_date(date_string):
+def _parse_iso_date(date_string: str) -> dict[str, Any] | None:
     date_data = DateDataParser(settings={"PARSERS": ["iso"]}).get_date_data(date_string)
     if date_data.date_obj is None:
         return None
@@ -32,7 +33,7 @@ class TestISOParser(TestCase):
             param("+0000020170622", True),
         ]
     )
-    def test_day_formats(self, date_string, is_valid):
+    def test_day_formats(self, date_string: str, is_valid: bool) -> None:
         actual = _parse_iso_date(date_string)
         expected = (
             None
@@ -129,7 +130,9 @@ class TestISOParser(TestCase):
             param("+0000020200102T0304", True),
         ]
     )
-    def test_date_time_formats(self, date_string, is_valid, seconds=0, microseconds=0):
+    def test_date_time_formats(
+        self, date_string: str, is_valid: bool, seconds: int = 0, microseconds: int = 0
+    ) -> None:
         actual = _parse_iso_date(date_string)
         expected = (
             None
@@ -307,7 +310,7 @@ class TestISOParser(TestCase):
             ),
         ]
     )
-    def test_limits(self, date_string, result):
+    def test_limits(self, date_string: str, result: dict[str, Any] | None) -> None:
         actual = _parse_iso_date(date_string)
         expected = None if result is None else {**result, "locale": None}
         self.assertEqual(actual, expected)
@@ -344,7 +347,7 @@ class TestISOParser(TestCase):
             param("2020-01-01 00:00:00.9999999", 999999),
         ]
     )
-    def test_microsecond_rounding(self, date_string, microseconds):
+    def test_microsecond_rounding(self, date_string: str, microseconds: int) -> None:
         actual = _parse_iso_date(date_string)
         expected = {
             "date_obj": datetime(2020, 1, 1, 0, 0, 0, microseconds),
@@ -372,9 +375,9 @@ class TestISOParser(TestCase):
             param("20210629", datetime(2021, 6, 29)),
         ]
     )
-    def test_parse(self, date_string, expected):
+    def test_parse(self, date_string: str, expected: datetime) -> None:
         self.assertEqual(parse(date_string), expected)
 
-    def test_disabled(self):
+    def test_disabled(self) -> None:
         parsers = [p for p in settings.PARSERS if p != "iso"]
         self.assertIsNone(parse("20210629", settings={"PARSERS": parsers}))

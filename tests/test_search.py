@@ -1,5 +1,6 @@
 import datetime
 from datetime import timedelta
+from typing import Any
 
 import pytz
 from parameterized import param, parameterized
@@ -11,24 +12,26 @@ from dateparser.timezone_parser import StaticTzInfo
 from dateparser_data.settings import default_parsers
 from tests import BaseTestCase
 
-today = datetime.datetime.now(tz=pytz.timezone("UTC"))
+today = datetime.datetime.now()
 relative_base = datetime.datetime(2020, 2, 13, 20, 7, 6)
 
 
 class TestTranslateSearch(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.search_with_detection = DateSearchWithDetection()
         self.exact_language_search = self.search_with_detection.search
 
-    def run_search_dates_function_invalid_languages(self, text, languages, error_type):
+    def run_search_dates_function_invalid_languages(
+        self, text: str, languages: object, error_type: type[Exception]
+    ) -> None:
         try:
-            search_dates(text=text, languages=languages)
+            search_dates(text=text, languages=languages)  # type: ignore[arg-type]
         except Exception as error:
             self.error = error
             self.assertIsInstance(self.error, error_type)
 
-    def check_error_message(self, message):
+    def check_error_message(self, message: str) -> None:
         self.assertEqual(str(self.error), message)
 
     @parameterized.expand(
@@ -202,7 +205,7 @@ class TestTranslateSearch(BaseTestCase):
             param("sv", "fredag, 03 september 2014"),
         ]
     )
-    def test_search_date_string(self, shortname, datetime_string):
+    def test_search_date_string(self, shortname: str, datetime_string: str) -> None:
         result = self.exact_language_search.search(
             shortname, datetime_string, settings=Settings()
         )[1][0]
@@ -561,7 +564,65 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     @apply_settings
-    def test_search_and_parse(self, shortname, string, expected, settings=None):
+    def test_search_and_parse(
+        self,
+        shortname: str,
+        string: str,
+        expected: list[tuple[str, datetime.datetime]],
+        settings: Settings | dict[str, Any] | None = None,
+    ) -> None:
+        assert isinstance(settings, Settings)
+        result = self.exact_language_search.search_parse(
+            shortname, string, settings=settings
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                "en",
+                "between Friday and Monday",
+                [
+                    ("Friday", datetime.datetime(1999, 12, 31, 0, 0)),
+                    ("Monday", datetime.datetime(1999, 12, 27, 0, 0)),
+                ],
+            ),
+            param(
+                "en",
+                "Sept 1st and Oct 10th",
+                [
+                    ("Sept 1st", datetime.datetime(2000, 9, 1, 0, 0)),
+                    ("Oct 10th", datetime.datetime(2000, 10, 10, 0, 0)),
+                ],
+            ),
+            param(
+                "es",
+                "1 de junio de 1998 y 5 de julio de 1999",
+                [
+                    ("1 de junio de 1998", datetime.datetime(1998, 6, 1, 0, 0)),
+                    ("5 de julio de 1999", datetime.datetime(1999, 7, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "de",
+                "Freitag und Montag",
+                [
+                    ("Freitag", datetime.datetime(1999, 12, 31, 0, 0)),
+                    ("Montag", datetime.datetime(1999, 12, 27, 0, 0)),
+                ],
+            ),
+        ]
+    )
+    @apply_settings
+    def test_search_dates_joined_by_skipped_words(
+        self,
+        shortname: str,
+        string: str,
+        expected: list[tuple[str, datetime.datetime]],
+        settings: Settings | dict[str, Any] | None = None,
+    ) -> None:
+        assert isinstance(settings, Settings)
+        settings = settings.replace(RELATIVE_BASE=datetime.datetime(2000, 1, 1))
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
@@ -602,7 +663,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2020,
                             5,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -612,7 +673,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2020,
                             7,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -622,7 +683,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2023,
                             7,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                         ),
@@ -632,7 +693,7 @@ class TestTranslateSearch(BaseTestCase):
                         datetime.datetime(
                             2023,
                             1,
-                            datetime.datetime.now(tz=datetime.timezone.utc).day,
+                            today.day,
                             0,
                             0,
                             tzinfo=pytz.utc,
@@ -723,7 +784,14 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     @apply_settings
-    def test_relative_base_setting(self, shortname, string, expected, settings=None):
+    def test_relative_base_setting(
+        self,
+        shortname: str,
+        string: str,
+        expected: list[tuple[str, datetime.datetime]],
+        settings: Settings | dict[str, Any] | None = None,
+    ) -> None:
+        assert isinstance(settings, Settings)
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
@@ -807,7 +875,14 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     @apply_settings
-    def test_splitting_of_not_parsed(self, shortname, string, expected, settings=None):
+    def test_splitting_of_not_parsed(
+        self,
+        shortname: str,
+        string: str,
+        expected: list[tuple[str, datetime.datetime]],
+        settings: Settings | dict[str, Any] | None = None,
+    ) -> None:
+        assert isinstance(settings, Settings)
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
@@ -974,7 +1049,7 @@ class TestTranslateSearch(BaseTestCase):
             param("en", "2007"),
         ]
     )
-    def test_detection(self, shortname, text):
+    def test_detection(self, shortname: str, text: str) -> None:
         result = self.search_with_detection.detect_language(text, languages=None)
         self.assertEqual(result, shortname)
 
@@ -1017,6 +1092,24 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("DECEMBER 21 19", datetime.datetime(2019, 12, 21, 0, 0))],
             ),
+            # Full stops between digits
+            param(
+                text="Sampled on 2019-10-19 20:28:35.973000 by the sensor",
+                languages=None,
+                settings=None,
+                expected=[
+                    (
+                        "2019-10-19 20:28:35.973000",
+                        datetime.datetime(2019, 10, 19, 20, 28, 35, 973000),
+                    )
+                ],
+            ),
+            param(
+                text="test 13.07.2016 test",
+                languages=None,
+                settings=None,
+                expected=[("13.07.2016", datetime.datetime(2016, 7, 13, 0, 0))],
+            ),
             param(
                 text="bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41",
                 languages=None,
@@ -1028,6 +1121,23 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["en", "fr", "es", "pt", "de", "it", "ar"],
                 settings={"STRICT_PARSING": True},
                 expected=[("23 juillet 2020", datetime.datetime(2020, 7, 23, 0, 0))],
+            ),
+            param(
+                text="Bubble -58.5 06 Mar 2009 in need of -43.4 30 Oct 1974",
+                languages=["en"],
+                settings={"STRICT_PARSING": True},
+                expected=[
+                    ("06 Mar 2009 in", datetime.datetime(2009, 3, 6, 0, 0)),
+                    ("30 Oct 1974", datetime.datetime(1974, 10, 30, 0, 0)),
+                ],
+            ),
+            param(
+                text="The conference is June 12-14, 2021 in Boston.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("June 12-14, 2021 in", datetime.datetime(2021, 6, 12, 0, 0))
+                ],
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
             # Date with comma and apostrophe
@@ -1045,7 +1155,13 @@ class TestTranslateSearch(BaseTestCase):
             ),
         ]
     )
-    def test_date_search_function(self, text, languages, settings, expected):
+    def test_date_search_function(
+        self,
+        text: str,
+        languages: list[str] | None,
+        settings: dict[str, Any] | None,
+        expected: list[tuple[str, datetime.datetime]] | None,
+    ) -> None:
         result = search_dates(text, languages=languages, settings=settings)
         self.assertEqual(result, expected)
 
@@ -1120,8 +1236,11 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     def test_search_dates_with_a_relative_expression_next_to_a_date(
-        self, text, languages, expected
-    ):
+        self,
+        text: str,
+        languages: list[str],
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
         result = search_dates(
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
@@ -1182,8 +1301,11 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     def test_search_dates_with_a_relative_expression_reads_its_direction(
-        self, text, languages, expected
-    ):
+        self,
+        text: str,
+        languages: list[str],
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
         result = search_dates(
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
@@ -1212,8 +1334,12 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     def test_search_dates_returning_detected_languages_if_requested(
-        self, text, add_detected_language, expected
-    ):
+        self,
+        text: str,
+        add_detected_language: bool,
+        expected: list[tuple[str, datetime.datetime]]
+        | list[tuple[str, datetime.datetime, str]],
+    ) -> None:
         result = search_dates(text, add_detected_language=add_detected_language)
         self.assertEqual(result, expected)
 
@@ -1222,7 +1348,9 @@ class TestTranslateSearch(BaseTestCase):
             param(text="19 марта 2001", languages="wrong type: str instead of list"),
         ]
     )
-    def test_date_search_function_invalid_languages_type(self, text, languages):
+    def test_date_search_function_invalid_languages_type(
+        self, text: str, languages: str
+    ) -> None:
         self.run_search_dates_function_invalid_languages(
             text=text, languages=languages, error_type=TypeError
         )
@@ -1235,13 +1363,15 @@ class TestTranslateSearch(BaseTestCase):
             param(text="19 марта 2001", languages=["unknown language code"]),
         ]
     )
-    def test_date_search_function_invalid_language_code(self, text, languages):
+    def test_date_search_function_invalid_language_code(
+        self, text: str, languages: list[str]
+    ) -> None:
         self.run_search_dates_function_invalid_languages(
             text=text, languages=languages, error_type=ValueError
         )
         self.check_error_message("Unknown language(s): 'unknown language code'")
 
-    def test_search_dates_with_prepositions(self):
+    def test_search_dates_with_prepositions(self) -> None:
         """Test `search_dates` for parsing Russian date ranges with prepositions and language detection."""
         result = search_dates(
             "Сервис будет недоступен с 12 января по 30 апреля.",
@@ -1350,8 +1480,13 @@ class TestTranslateSearch(BaseTestCase):
         ]
     )
     def test_search_dates_multi_word_expression(
-        self, text, expected_text, expected_day, expected_month, description
-    ):
+        self,
+        text: str,
+        expected_text: str,
+        expected_day: int,
+        expected_month: int,
+        description: str,
+    ) -> None:
         """Test parsing of multi-word date expressions in Russian."""
         result = search_dates(text, languages=["ru"])
         expected = [
@@ -1364,128 +1499,448 @@ class TestTranslateSearch(BaseTestCase):
         ]
         self.assertEqual(result, expected)
 
-    def test_search_dates_time_span_past_month(self):
-        """Test search_dates with 'past month' time span."""
-        text = "messages received for the past month"
-        settings = {
-            "RETURN_TIME_SPAN": True,
-            "RELATIVE_BASE": datetime.datetime(2025, 2, 15, 12, 0, 0),
-            "DEFAULT_DAYS_IN_MONTH": 30,
-        }
+    # A Tuesday, so that the start of the week is neither the base date itself
+    # nor the day before it under either DEFAULT_START_OF_WEEK value.
+    TIME_SPAN_BASE = datetime.datetime(2025, 2, 18, 12, 0)
 
-        result = search_dates(text, settings=settings)
+    @parameterized.expand(
+        [
+            param(
+                "for the past month",
+                start=datetime.datetime(2025, 1, 19, 12, 0),
+                end=datetime.datetime(2025, 2, 18, 12, 0),
+            ),
+            param(
+                "for the past month",
+                start=datetime.datetime(2025, 1, 21, 12, 0),
+                end=datetime.datetime(2025, 2, 18, 12, 0),
+                settings={"DEFAULT_DAYS_IN_MONTH": 28},
+            ),
+            param(
+                "last week",
+                start=datetime.datetime(2025, 2, 10, 12, 0),
+                end=datetime.datetime(2025, 2, 16, 12, 0),
+            ),
+            param(
+                "last week",
+                start=datetime.datetime(2025, 2, 9, 12, 0),
+                end=datetime.datetime(2025, 2, 15, 12, 0),
+                settings={"DEFAULT_START_OF_WEEK": "sunday"},
+            ),
+            param(
+                "in the past 5 days",
+                start=datetime.datetime(2025, 2, 13, 12, 0),
+                end=datetime.datetime(2025, 2, 18, 12, 0),
+            ),
+            param(
+                "previous 3 weeks",
+                start=datetime.datetime(2025, 1, 28, 12, 0),
+                end=datetime.datetime(2025, 2, 18, 12, 0),
+            ),
+            param(
+                "during the last 2 months",
+                start=datetime.datetime(2024, 12, 18, 12, 0),
+                end=datetime.datetime(2025, 2, 18, 12, 0),
+            ),
+            param(
+                "next month",
+                start=datetime.datetime(2025, 2, 18, 12, 0),
+                end=datetime.datetime(2025, 3, 20, 12, 0),
+            ),
+            param(
+                "coming week",
+                start=datetime.datetime(2025, 2, 24, 12, 0),
+                end=datetime.datetime(2025, 3, 2, 12, 0),
+            ),
+            param(
+                "coming week",
+                start=datetime.datetime(2025, 2, 23, 12, 0),
+                end=datetime.datetime(2025, 3, 1, 12, 0),
+                settings={"DEFAULT_START_OF_WEEK": "sunday"},
+            ),
+            param(
+                "in the next 10 days",
+                start=datetime.datetime(2025, 2, 18, 12, 0),
+                end=datetime.datetime(2025, 2, 28, 12, 0),
+            ),
+            param(
+                "following 2 weeks",
+                start=datetime.datetime(2025, 2, 18, 12, 0),
+                end=datetime.datetime(2025, 3, 4, 12, 0),
+            ),
+            param(
+                "next 6 months",
+                start=datetime.datetime(2025, 2, 18, 12, 0),
+                end=datetime.datetime(2025, 8, 18, 12, 0),
+            ),
+        ]
+    )
+    def test_search_dates_time_span(
+        self,
+        expression: str,
+        start: datetime.datetime,
+        end: datetime.datetime,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
+        result = search_dates(
+            "messages received " + expression,
+            languages=["en"],
+            settings={
+                "RETURN_TIME_SPAN": True,
+                "RELATIVE_BASE": self.TIME_SPAN_BASE,
+                **(settings or {}),
+            },
+        )
+        assert result is not None
+        self.assertEqual(
+            [item for item in result if item[0].startswith(expression + " (")],
+            [(expression + " (start)", start), (expression + " (end)", end)],
+        )
 
-        self.assertIsNotNone(result)
-        self.assertIsInstance(result, list)
-        if result is not None:
-            self.assertGreaterEqual(len(result), 2)
+    def test_search_dates_time_span_without_a_span_expression(self) -> None:
+        result = search_dates(
+            "messages received yesterday",
+            languages=["en"],
+            settings={
+                "RETURN_TIME_SPAN": True,
+                "RELATIVE_BASE": self.TIME_SPAN_BASE,
+            },
+        )
+        self.assertEqual(result, [("yesterday", datetime.datetime(2025, 2, 17, 12, 0))])
 
-            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
-            self.assertEqual(len(span_results), 2)
+    def test_search_dates_time_span_disabled_by_default(self) -> None:
+        result = search_dates(
+            "messages received for the past month",
+            languages=["en"],
+            settings={"RELATIVE_BASE": self.TIME_SPAN_BASE},
+        )
+        self.assertIsNone(result)
 
-            start_result = next(r for r in span_results if "(start)" in r[0])
-            end_result = next(r for r in span_results if "(end)" in r[0])
-            self.assertEqual(end_result[1], datetime.datetime(2025, 2, 15, 12, 0, 0))
+    def test_search_dates_keeps_an_explicit_date_order_after_the_first_date(
+        self,
+    ) -> None:
+        result = search_dates(
+            "op 30-05-2027. Deze op 01-11-2026",
+            languages=["nl"],
+            settings={"DATE_ORDER": "DMY", "STRICT_PARSING": True},
+        )
+        self.assertEqual(
+            result,
+            [
+                ("30-05-2027", datetime.datetime(2027, 5, 30, 0, 0)),
+                ("01-11-2026", datetime.datetime(2026, 11, 1, 0, 0)),
+            ],
+        )
 
-            expected_start = datetime.datetime(2025, 2, 15, 12, 0, 0) - timedelta(
-                days=30
-            )
-            self.assertEqual(start_result[1], expected_start)
+    @parameterized.expand(
+        [
+            # Every language but vi and hu is searched in its English
+            # translation, so the dates after the first one were read as MDY
+            param(
+                "nl",
+                "Besteld op 25-12-2020, verzonden op 02-01-2021 en geleverd op 05-01-2021.",
+                "DMY",
+                [
+                    ("25-12-2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02-01-2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05-01-2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "de",
+                "Bestellt 25.12.2020, versandt 02.01.2021, geliefert 05.01.2021.",
+                "DMY",
+                [
+                    ("25.12.2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02.01.2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05.01.2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "fr",
+                "Commandé 25/12/2020, expédié 02/01/2021, livré 05/01/2021.",
+                "DMY",
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05/01/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "ru",
+                "Заказ 25.12.2020, отправка 02.01.2021, доставка 05.01.2021.",
+                "DMY",
+                [
+                    ("25.12.2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02.01.2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05.01.2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "en",
+                "Ordered 25/12/2020, shipped 02/01/2021, delivered 05/01/2021.",
+                "DMY",
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05/01/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            # vi and hu are searched in their own locale, whose order is DMY
+            # and YMD respectively
+            param(
+                "vi",
+                "Đặt hàng 12/25/2020, giao hàng 01/02/2021, nhận hàng 01/05/2021.",
+                "MDY",
+                [
+                    ("12/25/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("01/02/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("01/05/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "hu",
+                "Rendelés 12/25/2020, szállítás 01/02/2021, kézbesítés 01/05/2021.",
+                "MDY",
+                [
+                    ("12/25/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("01/02/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("01/05/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "en",
+                "Ordered 12/25/2020, shipped 01/02/2021, delivered 01/05/2021.",
+                "MDY",
+                [
+                    ("12/25/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("01/02/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("01/05/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            # With a four-digit year first, any order reads the year first, so
+            # only a two-digit year tells YMD apart
+            param(
+                "en",
+                "Ordered 20-12-25, shipped 21-01-02, delivered 21-01-05.",
+                "YMD",
+                [
+                    ("20-12-25", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("21-01-02", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("21-01-05", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "es",
+                "Pedido 20/12/25, enviado 21/01/02, entregado 21/01/05.",
+                "YMD",
+                [
+                    ("20/12/25", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("21/01/02", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("21/01/05", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "vi",
+                "Đặt hàng 20/12/25, giao hàng 21/01/02, nhận hàng 21/01/05.",
+                "YMD",
+                [
+                    ("20/12/25", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("21/01/02", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("21/01/05", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_reads_every_date_in_an_explicit_date_order(
+        self,
+        language: str,
+        text: str,
+        date_order: str,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        for strict_parsing in (False, True):
+            with self.subTest(strict_parsing=strict_parsing):
+                result = search_dates(
+                    text,
+                    languages=[language],
+                    settings={
+                        "DATE_ORDER": date_order,
+                        "STRICT_PARSING": strict_parsing,
+                    },
+                )
+                self.assertEqual(result, expected)
 
-    def test_search_dates_time_span_last_week(self):
-        """Test search_dates with 'last week' time span."""
-        text = "messages received last week"
-        settings = {
-            "RETURN_TIME_SPAN": True,
-            "RELATIVE_BASE": datetime.datetime(2025, 2, 18, 12, 0, 0),  # Tuesday
-            "DEFAULT_START_OF_WEEK": "monday",
-        }
+    @parameterized.expand(
+        [
+            param(
+                "en",
+                "Ordered 12/25/2020, shipped 01/02/2021, delivered 01/05/2021.",
+                [
+                    ("12/25/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("01/02/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("01/05/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "vi",
+                "Đặt hàng 25/12/2020, giao hàng 02/01/2021, nhận hàng 05/01/2021.",
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("05/01/2021", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+            param(
+                "hu",
+                "Rendelés 20.12.25, szállítás 21.01.02, kézbesítés 21.01.05.",
+                [
+                    ("20.12.25", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("21.01.02", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("21.01.05", datetime.datetime(2021, 1, 5, 0, 0)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_reads_every_date_in_the_locale_date_order_by_default(
+        self,
+        language: str,
+        text: str,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        # Setting something else must not make the default DATE_ORDER count as
+        # one set by the caller for the dates after the first one.
+        for settings in (
+            None,
+            {"STRICT_PARSING": True},
+            {"PREFER_DAY_OF_MONTH": "first"},
+        ):
+            with self.subTest(settings=settings):
+                result = search_dates(text, languages=[language], settings=settings)
+                self.assertEqual(result, expected)
 
-        result = search_dates(text, settings=settings)
+    @parameterized.expand(
+        [
+            # The second date has no year, so it is the year of the first date
+            # or the next one, as PREFER_DATES_FROM prefers
+            param(
+                "en",
+                "Ordered 25/12/2020, delivered 02/01.",
+                {"PREFER_DATES_FROM": "future"},
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01", datetime.datetime(2021, 1, 2, 0, 0)),
+                ],
+            ),
+            param(
+                "en",
+                "Ordered 25/12/2020, delivered 02/01.",
+                {"PREFER_DATES_FROM": "past"},
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01", datetime.datetime(2020, 1, 2, 0, 0)),
+                ],
+            ),
+            # A relative date counts from the date found before it
+            param(
+                "en",
+                "Ordered 25/12/2020. Paid 02/01/2021. Shipped in 3 days. "
+                "Delivered 10/01/2021.",
+                {},
+                [
+                    ("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02/01/2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("in 3 days", datetime.datetime(2021, 1, 5, 0, 0)),
+                    ("10/01/2021", datetime.datetime(2021, 1, 10, 0, 0)),
+                ],
+            ),
+            param(
+                "ru",
+                "Заказ 25.12.2020. Оплата 02.01.2021. Через 3 дня отправка. "
+                "Доставка 10.01.2021.",
+                {},
+                [
+                    ("25.12.2020", datetime.datetime(2020, 12, 25, 0, 0)),
+                    ("02.01.2021", datetime.datetime(2021, 1, 2, 0, 0)),
+                    ("Через 3 дня", datetime.datetime(2021, 1, 5, 0, 0)),
+                    ("10.01.2021", datetime.datetime(2021, 1, 10, 0, 0)),
+                ],
+            ),
+            param(
+                "nl",
+                "op 30-05-2027 om 10:00. Deze op 01-11-2026 om 09:30",
+                {"TIMEZONE": "Europe/Amsterdam", "TO_TIMEZONE": "UTC"},
+                [
+                    ("30-05-2027 om 10:00", datetime.datetime(2027, 5, 30, 8, 0)),
+                    ("01-11-2026 om 09:30", datetime.datetime(2026, 11, 1, 8, 30)),
+                ],
+            ),
+            param(
+                "nl",
+                "op 30-05-2027 om 10:00. Deze op 01-11-2026 om 09:30",
+                {"TIMEZONE": "Europe/Amsterdam", "RETURN_AS_TIMEZONE_AWARE": True},
+                [
+                    (
+                        "30-05-2027 om 10:00",
+                        datetime.datetime(
+                            2027,
+                            5,
+                            30,
+                            10,
+                            0,
+                            tzinfo=datetime.timezone(timedelta(hours=2)),
+                        ),
+                    ),
+                    (
+                        "01-11-2026 om 09:30",
+                        datetime.datetime(
+                            2026,
+                            11,
+                            1,
+                            9,
+                            30,
+                            tzinfo=datetime.timezone(timedelta(hours=1)),
+                        ),
+                    ),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_keeps_the_other_settings_after_the_first_date(
+        self,
+        language: str,
+        text: str,
+        settings: dict[str, Any],
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        result = search_dates(
+            text, languages=[language], settings={"DATE_ORDER": "DMY", **settings}
+        )
+        self.assertEqual(result, expected)
 
-        self.assertIsNotNone(result)
-        self.assertIsInstance(result, list)
-        if result is not None:
-            self.assertGreaterEqual(len(result), 2)
-
-            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
-            self.assertEqual(len(span_results), 2)
-
-            start_result = next(r for r in span_results if "(start)" in r[0])
-            end_result = next(r for r in span_results if "(end)" in r[0])
-            expected_start = datetime.datetime(2025, 2, 10, 12, 0, 0)
-            expected_end = datetime.datetime(2025, 2, 16, 12, 0, 0)
-
-            self.assertEqual(start_result[1], expected_start)
-            self.assertEqual(end_result[1], expected_end)
-
-    def test_search_dates_time_span_custom_start_of_week(self):
-        """Test search_dates with custom start_of_week setting."""
-        text = "messages received last week"
-        settings = {
-            "RETURN_TIME_SPAN": True,
-            "RELATIVE_BASE": datetime.datetime(2025, 2, 18, 12, 0, 0),  # Tuesday
-            "DEFAULT_START_OF_WEEK": "sunday",  # Custom start of week
-        }
-
-        result = search_dates(text, settings=settings)
-        self.assertIsNotNone(result)
-        self.assertIsInstance(result, list)
-        if result is not None:
-            self.assertGreaterEqual(len(result), 2)
-
-            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
-            self.assertEqual(len(span_results), 2)
-
-            start_result = next(r for r in span_results if "(start)" in r[0])
-            end_result = next(r for r in span_results if "(end)" in r[0])
-            expected_start = datetime.datetime(2025, 2, 9, 12, 0, 0)
-            expected_end = datetime.datetime(2025, 2, 15, 12, 0, 0)
-
-            self.assertEqual(start_result[1], expected_start)
-            self.assertEqual(end_result[1], expected_end)
-
-    def test_search_dates_time_span_custom_days_in_month(self):
-        """Test search_dates with custom days_in_month setting."""
-        text = "messages received for the past month"
-        settings = {
-            "RETURN_TIME_SPAN": True,
-            "RELATIVE_BASE": datetime.datetime(2025, 2, 15, 12, 0, 0),
-            "DEFAULT_DAYS_IN_MONTH": 28,  # Custom month length
-        }
-
-        result = search_dates(text, settings=settings)
-
-        self.assertIsNotNone(result)
-        self.assertIsInstance(result, list)
-        if result is not None:
-            self.assertGreaterEqual(len(result), 2)
-
-            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
-            self.assertEqual(len(span_results), 2)
-
-            start_result = next(r for r in span_results if "(start)" in r[0])
-            end_result = next(r for r in span_results if "(end)" in r[0])
-            self.assertEqual(end_result[1], datetime.datetime(2025, 2, 15, 12, 0, 0))
-
-            expected_start = datetime.datetime(2025, 2, 15, 12, 0, 0) - timedelta(
-                days=28
-            )
-            self.assertEqual(start_result[1], expected_start)
-
-    def test_search_dates_time_span_disabled_by_default(self):
-        """Test that time span functionality is disabled by default."""
-        text = "messages received for the past month"
-
-        result = search_dates(text)
-
-        if result:
-            span_results = [r for r in result if "(start)" in r[0] or "(end)" in r[0]]
-            self.assertEqual(len(span_results), 0)
+    @parameterized.expand(
+        [
+            # 25 cannot be the month, and "all" does not swap it with the day
+            param("all", "Opened 25/12/2020, closed 12/25/2021."),
+            # 32 cannot be the day, so it is the year, which DMY puts last
+            param("year", "Opened 25/12/2020, closed 32/12/10."),
+        ]
+    )
+    def test_search_dates_keeps_strict_date_order_after_the_first_date(
+        self, strict: str, text: str
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": strict},
+        )
+        self.assertEqual(
+            result, [("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0))]
+        )
 
 
 class TestNgramSearch(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.search_with_detection = DateSearchWithDetection()
 
@@ -1533,14 +1988,16 @@ class TestNgramSearch(BaseTestCase):
             ),
         ]
     )
-    def test_ngram_search(self, shortname, text, expected):
+    def test_ngram_search(
+        self, shortname: str, text: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
         result = self.search_with_detection.search_dates(
             text, languages=[shortname], strategy="ngram"
         )
         self.assertEqual(result["Language"], shortname)
         self.assertEqual(result["Dates"], expected)
 
-    def test_ngram_search_with_relative_base(self):
+    def test_ngram_search_with_relative_base(self) -> None:
         result = self.search_with_detection.search_dates(
             "posted 10 minutes ago",
             languages=["en"],
@@ -1552,7 +2009,7 @@ class TestNgramSearch(BaseTestCase):
             [("10 minutes ago", datetime.datetime(2020, 1, 1, 11, 50))],
         )
 
-    def test_ngram_search_returns_time_spans(self):
+    def test_ngram_search_returns_time_spans(self) -> None:
         result = self.search_with_detection.search_dates(
             "messages received for the past week",
             languages=["en"],
@@ -1570,13 +2027,13 @@ class TestNgramSearch(BaseTestCase):
             ],
         )
 
-    def test_search_dates_with_ngram_strategy(self):
+    def test_search_dates_with_ngram_strategy(self) -> None:
         result = search_dates(
             "launched on 4 October 1957", languages=["en"], strategy="ngram"
         )
         self.assertEqual(result, [("4 October 1957", datetime.datetime(1957, 10, 4))])
 
-    def test_search_dates_with_ngram_strategy_and_detected_language(self):
+    def test_search_dates_with_ngram_strategy_and_detected_language(self) -> None:
         result = search_dates(
             "launched on 4 October 1957",
             languages=["en"],
@@ -1587,13 +2044,13 @@ class TestNgramSearch(BaseTestCase):
             result, [("4 October 1957", datetime.datetime(1957, 10, 4), "en")]
         )
 
-    def test_search_dates_ngram_strategy_returns_none_when_no_dates_found(self):
+    def test_search_dates_ngram_strategy_returns_none_when_no_dates_found(self) -> None:
         self.assertIsNone(
             search_dates(
                 "Hello world nothing here at all", languages=["en"], strategy="ngram"
             )
         )
 
-    def test_unknown_strategy_raises_error(self):
+    def test_unknown_strategy_raises_error(self) -> None:
         with self.assertRaisesRegex(ValueError, "strategy must be"):
             search_dates("4 October 1957", languages=["en"], strategy="unknown")
