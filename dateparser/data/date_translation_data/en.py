@@ -193,12 +193,26 @@ info = {
         "2 day ago": [
             "day before yesterday"
         ],
+        "1 century ago": [
+            "last century",
+            "this century"
+        ],
+        "in 1 century": [
+            "next century"
+        ],
         "1 decade ago": [
             "last decade",
             "this decade"
         ],
         "in 1 decade": [
             "next decade"
+        ],
+        "1 fortnight ago": [
+            "last fortnight",
+            "this fortnight"
+        ],
+        "in 1 fortnight": [
+            "next fortnight"
         ],
         "in 2 day": [
             "day after tomorrow"
@@ -289,11 +303,25 @@ info = {
             "in (\\d++[.,]?\\d*+) yr",
             "in (\\d++[.,]?\\d*+)y"
         ],
+        "in \\1 century": [
+            "in (\\d++[.,]?\\d*+) century",
+            "in (\\d++[.,]?\\d*+) centuries"
+        ],
+        "\\1 century ago": [
+            "(\\d++[.,]?\\d*+) century ago",
+            "(\\d++[.,]?\\d*+) centuries ago"
+        ],
         "in \\1 decade": [
             "in (\\d++[.,]?\\d*+) decades?"
         ],
         "\\1 decade ago": [
             "(\\d++[.,]?\\d*+) decades? ago"
+        ],
+        "in \\1 fortnight": [
+            "in (\\d++[.,]?\\d*+) fortnights?"
+        ],
+        "\\1 fortnight ago": [
+            "(\\d++[.,]?\\d*+) fortnights? ago"
         ]
     },
     "locale_specific": {
@@ -1127,9 +1155,17 @@ info = {
         "of"
     ],
     "sentence_splitter_group": 1,
+    "century": [
+        "century",
+        "centuries"
+    ],
     "decade": [
         "decade",
         "decades"
+    ],
+    "fortnight": [
+        "fortnight",
+        "fortnights"
     ],
     "early_morning": [
         "early morning",
@@ -1198,7 +1234,7 @@ info = {
             "(\\d+(?:st|nd|rd|th)) day": "\\1"
         },
         {
-            "(\\d++[.,]?\\d*+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
+            "(\\d++[.,]?\\d*+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (century|decade|fortnight|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
         },
         {
             "one": "1"

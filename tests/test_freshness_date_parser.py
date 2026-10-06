@@ -72,6 +72,15 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("last decade", ago={"years": 10}, period="year"),
             param("a decade ago", ago={"years": 10}, period="year"),
             param("100 decades", ago={"years": 1000}, period="year"),
+            param("1 century", ago={"years": 100}, period="year"),
+            param("2 centuries ago", ago={"years": 200}, period="year"),
+            param("last century", ago={"years": 100}, period="year"),
+            param("1 century 2 decades", ago={"years": 120}, period="year"),
+            param("1 fortnight", ago={"weeks": 2}, period="week"),
+            param("a fortnight ago", ago={"weeks": 2}, period="week"),
+            param("2 fortnights ago", ago={"weeks": 4}, period="week"),
+            param("last fortnight", ago={"weeks": 2}, period="week"),
+            param("1 fortnight 3 days", ago={"weeks": 2, "days": 3}, period="day"),
             # Regression tests for #1304: an explicit sign on a component is
             # preserved when ``decades`` is folded into ``years`` instead of
             # being overwritten by the decade's sign. Unsigned components still
@@ -1760,6 +1769,14 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 1 decade 12 years", in_future={"years": 22}, period="year"),
             param("next decade", in_future={"years": 10}, period="year"),
             param("in a decade", in_future={"years": 10}, period="year"),
+            param("in two centuries", in_future={"years": 200}, period="year"),
+            param("next century", in_future={"years": 100}, period="year"),
+            param("in a fortnight", in_future={"weeks": 2}, period="week"),
+            param("a fortnight from now", in_future={"weeks": 2}, period="week"),
+            param("a decade from now", in_future={"years": 10}, period="year"),
+            param("2 centuries from now", in_future={"years": 200}, period="year"),
+            param("in 2 fortnights", in_future={"weeks": 4}, period="week"),
+            param("next fortnight", in_future={"weeks": 2}, period="week"),
             # Regression tests for #1304: explicit signs preserved with decades + years
             param("+2 years", in_future={"years": 2}, period="year"),
             param("in 1 decade +2 years", in_future={"years": 12}, period="year"),
