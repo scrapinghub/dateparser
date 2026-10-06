@@ -525,7 +525,16 @@ info = {
             "(?<=(za|před)\\s)rok(em)\\b": "1 rok"
         },
         {
-            "(?<=(za|před)\\s)den(em)\\b": "1 den"
+            "(?<=(za|před)\\s)(?:denem|dnem|den)\\b": "1 den"
+        },
+        {
+            "(?<=před\\s)týden\\b": "1 týden"
+        },
+        {
+            "(?<=před\\s)měsíc\\b": "1 měsíc"
+        },
+        {
+            "(?<=před\\s)rok\\b": "1 rok"
         },
         {
             "(?<=za\\s)týden\\b": "1 týden"

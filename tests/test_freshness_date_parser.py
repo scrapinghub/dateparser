@@ -712,6 +712,11 @@ class TestFreshnessDateDataParser(BaseTestCase):
                 ago={"minutes": 2, "seconds": 45},
                 period="day",
             ),
+            param("před týden", ago={"weeks": 1}, period="week"),
+            param("před měsíc", ago={"months": 1}, period="month"),
+            param("před rok", ago={"years": 1}, period="year"),
+            param("před den", ago={"days": 1}, period="day"),
+            param("před dnem", ago={"days": 1}, period="day"),
             # cy
             param("5 wythnos yn ôl", ago={"weeks": 5}, period="week"),
             param(

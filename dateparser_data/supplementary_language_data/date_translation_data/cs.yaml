@@ -193,7 +193,11 @@ simplifications:
     - '(?<=(za|před)\s)týdn(em)\b': '1 týden'
     - '(?<=(za|před)\s)měsíc(em)\b': '1 měsíc'
     - '(?<=(za|před)\s)rok(em)\b': '1 rok'
-    - '(?<=(za|před)\s)den(em)\b': '1 den'
+    - '(?<=(za|před)\s)(?:denem|dnem|den)\b': '1 den'
+    # The numeral "1" is optional: "před týden" means "před 1 týden"
+    - '(?<=před\s)týden\b': '1 týden'
+    - '(?<=před\s)měsíc\b': '1 měsíc'
+    - '(?<=před\s)rok\b': '1 rok'
     # Accusative forms used with "za" (e.g. "za týden" = "in a week")
     - '(?<=za\s)týden\b': '1 týden'
     - '(?<=za\s)měsíc\b': '1 měsíc'
