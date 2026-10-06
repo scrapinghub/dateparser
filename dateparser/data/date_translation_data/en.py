@@ -1234,7 +1234,7 @@ info = {
             "(\\d+(?:st|nd|rd|th)) day": "\\1"
         },
         {
-            "(\\d++[.,]?\\d*+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (century|decade|fortnight|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
+            "(\\d++[.,]?\\d*+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (centur(?:y|ies)|decade|fortnight|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
         },
         {
             "one": "1"

@@ -1773,6 +1773,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("next century", in_future={"years": 100}, period="year"),
             param("in a fortnight", in_future={"weeks": 2}, period="week"),
             param("a fortnight from now", in_future={"weeks": 2}, period="week"),
+            param("2 centuries later", in_future={"years": 200}, period="year"),
+            param("two fortnights later", in_future={"weeks": 4}, period="week"),
             param("a decade from now", in_future={"years": 10}, period="year"),
             param("2 centuries from now", in_future={"years": 200}, period="year"),
             param("in 2 fortnights", in_future={"weeks": 4}, period="week"),

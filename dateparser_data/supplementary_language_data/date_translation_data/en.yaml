@@ -137,7 +137,7 @@ simplifications:
     - from\s+now: in
     - less than 1 minute ago: 45 second ago
     - (\d+(?:st|nd|rd|th)) day: \1
-    - (\d+[.,]?\d*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (century|decade|fortnight|year|month|week|day|hour|minute|second)s? later: in \1 \2
+    - (\d+[.,]?\d*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (centur(?:y|ies)|decade|fortnight|year|month|week|day|hour|minute|second)s? later: in \1 \2
     - one: '1'
     - two: '2'
     - three: '3'
