@@ -1350,6 +1350,22 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(text="Počkej minutu.", languages=["cs"]),
+            param(text="před dnem nezávislosti", languages=["cs"]),
+            param(text="לפני יום הולדת", languages=["he"]),
+            param(text="לפני יום כיפור", languages=["he"]),
+        ]
+    )
+    def test_search_dates_does_not_read_a_noun_as_a_relative_date(
+        self, text: str, languages: list[str]
+    ) -> None:
+        result = search_dates(
+            text, languages=languages, settings={"RELATIVE_BASE": relative_base}
+        )
+        self.assertIsNone(result)
+
+    @parameterized.expand(
+        [
             param(
                 text="15 de outubro de 1936",
                 add_detected_language=True,

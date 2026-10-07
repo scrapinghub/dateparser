@@ -716,7 +716,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("před měsíc", ago={"months": 1}, period="month"),
             param("před rok", ago={"years": 1}, period="year"),
             param("před den", ago={"days": 1}, period="day"),
-            param("před dnem", ago={"days": 1}, period="day"),
+            param("לפני יום 15", ago={"days": 15}, period="day"),  # he
             param("před hodinu", ago={"hours": 1}, period="day"),
             param("před minutu", ago={"minutes": 1}, period="day"),
             param("před sekundu", ago={"seconds": 1}, period="day"),

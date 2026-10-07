@@ -168,8 +168,6 @@ info = {
         "min",
         "minuta",
         "minut",
-        "minutu",
-        "minutou",
         "minutami",
         "minuty",
         "minutama"
@@ -179,12 +177,8 @@ info = {
         "sekunda",
         "sekundy",
         "sekund",
-        "sekundu",
-        "sekundou",
         "sekundami",
         "vteřina",
-        "vteřinu",
-        "vteřinou",
         "vteřin",
         "vteřiny",
         "vteřinami"
@@ -516,10 +510,16 @@ info = {
             "(?<=(za|před)\\s)hodin(u|ou)\\b": "1 hodinu"
         },
         {
-            "(?<=(za|před)\\s)minut(u|ou)\\b": "1 minutu"
+            "(?<=za\\s)minut(u|ou)\\b": "1 minutu"
         },
         {
-            "(?<=(za|před)\\s)(?:vteřin(u|ou)|sekund(u|ou))\\b": "1 sekundu"
+            "(?<=za\\s)(?:vteřin(u|ou)|sekund(u|ou))\\b": "1 sekundu"
+        },
+        {
+            "(?<=před\\s)minut(u|ou)\\b": "1 minut"
+        },
+        {
+            "(?<=před\\s)(?:vteřin(u|ou)|sekund(u|ou))\\b": "1 sekund"
         },
         {
             "(?<=(za|před)\\s)týdn(em)\\b": "1 týden"
@@ -531,7 +531,7 @@ info = {
             "(?<=(za|před)\\s)rok(em)\\b": "1 rok"
         },
         {
-            "(?<=(za|před)\\s)(?:denem|dnem|den)\\b": "1 den"
+            "(?<=(za|před)\\s)den(em)\\b": "1 den"
         },
         {
             "(?<=před\\s)týden\\b": "1 týden"
@@ -541,6 +541,9 @@ info = {
         },
         {
             "(?<=před\\s)rok\\b": "1 rok"
+        },
+        {
+            "(?<=před\\s)den\\b": "1 den"
         },
         {
             "(?<=za\\s)týden\\b": "1 týden"
