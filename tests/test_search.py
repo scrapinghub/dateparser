@@ -1298,6 +1298,17 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["en"],
                 expected=[("in three weeks", relative_base + timedelta(weeks=3))],
             ),
+            # A weekday named with "يوم" is not "1 day ago"
+            param(
+                text="قبل يوم الجمعة",
+                languages=["ar"],
+                expected=[("الجمعة", datetime.datetime(2020, 2, 7, 0, 0))],
+            ),
+            param(
+                text="قبل يوم",
+                languages=["ar"],
+                expected=[("يوم", relative_base - timedelta(days=1))],
+            ),
         ]
     )
     def test_search_dates_with_a_relative_expression_reads_its_direction(
