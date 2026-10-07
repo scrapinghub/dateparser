@@ -1367,6 +1367,43 @@ class TestTranslateSearch(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                text="قبل ساعة الصفر",
+                languages=["ar"],
+                not_expected=relative_base - timedelta(hours=1),
+            ),
+            param(
+                text="قبل سنة الهجرة",
+                languages=["ar"],
+                not_expected=relative_base - timedelta(days=366),
+            ),
+            param(
+                text="قبل أسبوع الامتحانات",
+                languages=["ar"],
+                not_expected=relative_base - timedelta(weeks=1),
+            ),
+            param(
+                text="לפני שבוע הספר",
+                languages=["he"],
+                not_expected=relative_base - timedelta(weeks=1),
+            ),
+            param(
+                text="לפני שנה הבאה",
+                languages=["he"],
+                not_expected=relative_base - timedelta(days=366),
+            ),
+        ]
+    )
+    def test_search_dates_does_not_read_a_unit_before_a_definite_noun_as_ago(
+        self, text: str, languages: list[str], not_expected: datetime.datetime
+    ) -> None:
+        result = search_dates(
+            text, languages=languages, settings={"RELATIVE_BASE": relative_base}
+        )
+        self.assertNotIn(not_expected, [date for _, date in result or []])
+
+    @parameterized.expand(
+        [
+            param(
                 text="15 de outubro de 1936",
                 add_detected_language=True,
                 expected=[
