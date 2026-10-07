@@ -1309,6 +1309,32 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["ar"],
                 expected=[("يوم", relative_base - timedelta(days=1))],
             ),
+            # "month" next to a month name is not "1 month ago"
+            param(
+                text="منذ شهر مايو",
+                languages=["ar"],
+                expected=[("مايو", datetime.datetime(2020, 5, 13, 0, 0))],
+            ),
+            param(
+                text="לפני חודש מרץ",
+                languages=["he"],
+                expected=[("מרץ", datetime.datetime(2020, 3, 13, 0, 0))],
+            ),
+            param(
+                text="преди месец май",
+                languages=["bg"],
+                expected=[("май", datetime.datetime(2020, 5, 13, 0, 0))],
+            ),
+            param(
+                text="пред месец мај",
+                languages=["mk"],
+                expected=[("мај", datetime.datetime(2020, 5, 13, 0, 0))],
+            ),
+            param(
+                text="prije mjesec ožujak",
+                languages=["hr"],
+                expected=[("ožujak", datetime.datetime(2020, 3, 13, 0, 0))],
+            ),
         ]
     )
     def test_search_dates_with_a_relative_expression_reads_its_direction(

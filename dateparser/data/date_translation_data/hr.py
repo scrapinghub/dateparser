@@ -365,7 +365,7 @@ info = {
             "(?<=prije\\s+)tjedan(\\s+dana)?": "1 tjedan"
         },
         {
-            "(?<=prije\\s+)mjesec(\\s+dana)?": "1 mjesec"
+            "(?<=prije\\s+)mjesec(\\s+dana)?(?!\\s+(?:listopadom|kolovozom|listopada|listopadu|prosincem|siječnjem|studenoga|studenome|studenomu|kolovoza|kolovozu|listopad|prosinac|prosinca|prosincu|siječanj|siječnja|siječnju|studenim|studenog|studenom|svibnjem|travnjem|veljačom|kolovoz|lipnjem|ožujkom|srpnjem|studeni|svibanj|svibnja|svibnju|travanj|travnja|travnju|veljača|veljače|veljači|lipanj|lipnja|lipnju|ožujak|ožujka|ožujku|rujnom|srpanj|srpnja|srpnju|rujan|rujna|rujnu|velj|kol|lip|lis|ožu|pro|ruj|sij|srp|stu|svi|tra))": "1 mjesec"
         },
         {
             "(?<=prije\\s+)godinu(\\s+dana)?": "1 godinu"
