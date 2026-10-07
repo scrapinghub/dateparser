@@ -415,6 +415,15 @@ class TestNoSpaceParser(BaseTestCase):
         self.when_get_period_is_called(format_string)
         self.then_returned_period_is(expected_period)
 
+    def test_leap_second_is_validated_when_parser_is_called_directly(self) -> None:
+        self.given_parser()
+        self.given_settings(settings={"DATE_ORDER": "YMD"})
+        self.when_date_is_parsed("19801231235960")
+        self.then_error_was_raised(ValueError, ["Unable to parse date from"])
+
+        self.when_date_is_parsed("20161231235960")
+        self.then_date_exactly_is(datetime(2016, 12, 31, 23, 59, 59))
+
     def given_parser(self) -> None:
         self.parser = _no_spaces_parser
 
@@ -531,6 +540,19 @@ class TestParser(BaseTestCase):
             }
         )
         self.then_error_is_raised_when_date_is_parsed("March 3")
+
+    def test_leap_second_is_validated_when_parser_is_called_directly(self) -> None:
+        # Non-Gregorian calendar parsing (dateparser.calendars) calls
+        # _parser.parse() directly rather than through date_parser.py, so
+        # leap-second validation must not depend on that wrapper running.
+        self.given_parser()
+        self.given_settings()
+        self.then_error_is_raised_when_date_is_parsed("December 31, 1980 23:59:60")
+
+        date_obj, _period, _parts = self.parser.parse(
+            "December 31, 2016 23:59:60", self.settings
+        )
+        self.assertEqual(date_obj, datetime(2016, 12, 31, 23, 59, 59))
 
     def given_parser(self) -> None:
         self.parser = _parser

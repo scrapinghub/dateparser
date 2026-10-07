@@ -344,10 +344,15 @@ def parse_with_formats(
 
             # A format missing the year/month/day parses a placeholder date
             # (e.g. 1900-01-01); validate only once it has its real date.
+            # Resolving settings.TIMEZONE is skipped entirely when nothing
+            # was clamped, which is the common case.
             try:
-                _validate_leap_second(
-                    date_obj, _effective_tz_for_naive_input(date_obj, settings)
+                effective_tz = (
+                    _effective_tz_for_naive_input(date_obj, settings)
+                    if _get_clamped_leap_second() is not None
+                    else None
                 )
+                _validate_leap_second(date_obj, effective_tz)
             except ValueError:
                 continue
 
