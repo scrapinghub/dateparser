@@ -84,7 +84,7 @@ def _effective_tz_for_naive_input(
     if hasattr(tz, "localize"):
         localized: datetime = tz.localize(date_obj)
         return localized.tzinfo
-    return tz
+    return tz  # pragma: no cover -- every tz get_timezone_from_tz_string returns has localize()
 
 
 def _validate_leap_second(date_obj: datetime, tz: tzinfo | None = None) -> None:
