@@ -891,9 +891,8 @@ class _parser:
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
 
-        # Validate against the final date, after the corrections above.
-        # Callers that bypass date_parser.py (e.g. non-Gregorian calendar
-        # parsing) rely on this; others validate again there, redundantly.
+        # Validate against the final date, after the corrections above, since
+        # not every caller of this method goes through date_parser.py.
         if _get_clamped_leap_second() is not None:
             effective_tz = (
                 tz

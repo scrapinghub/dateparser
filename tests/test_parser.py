@@ -542,9 +542,7 @@ class TestParser(BaseTestCase):
         self.then_error_is_raised_when_date_is_parsed("March 3")
 
     def test_leap_second_is_validated_when_parser_is_called_directly(self) -> None:
-        # Non-Gregorian calendar parsing (dateparser.calendars) calls
-        # _parser.parse() directly rather than through date_parser.py, so
-        # leap-second validation must not depend on that wrapper running.
+        # dateparser.calendars calls _parser.parse() directly.
         self.given_parser()
         self.given_settings()
         self.then_error_is_raised_when_date_is_parsed("December 31, 1980 23:59:60")
