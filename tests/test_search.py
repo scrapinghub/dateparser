@@ -1399,7 +1399,7 @@ class TestTranslateSearch(BaseTestCase):
         result = search_dates(
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
-        self.assertNotIn(not_expected, [date for _, date in result or []])
+        self.assertNotIn(not_expected, [item[1] for item in result or []])
 
     @parameterized.expand(
         [
