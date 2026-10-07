@@ -1298,6 +1298,43 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["en"],
                 expected=[("in three weeks", relative_base + timedelta(weeks=3))],
             ),
+            # A weekday named with "يوم" is not "1 day ago"
+            param(
+                text="قبل يوم الجمعة",
+                languages=["ar"],
+                expected=[("الجمعة", datetime.datetime(2020, 2, 7, 0, 0))],
+            ),
+            param(
+                text="قبل يوم",
+                languages=["ar"],
+                expected=[("يوم", relative_base - timedelta(days=1))],
+            ),
+            # "month" next to a month name is not "1 month ago"
+            param(
+                text="منذ شهر مايو",
+                languages=["ar"],
+                expected=[("مايو", datetime.datetime(2020, 5, 13, 0, 0))],
+            ),
+            param(
+                text="לפני חודש מרץ",
+                languages=["he"],
+                expected=[("מרץ", datetime.datetime(2020, 3, 13, 0, 0))],
+            ),
+            param(
+                text="преди месец май",
+                languages=["bg"],
+                expected=[("май", datetime.datetime(2020, 5, 13, 0, 0))],
+            ),
+            param(
+                text="пред месец мај",
+                languages=["mk"],
+                expected=[("мај", datetime.datetime(2020, 5, 13, 0, 0))],
+            ),
+            param(
+                text="prije mjesec ožujak",
+                languages=["hr"],
+                expected=[("ožujak", datetime.datetime(2020, 3, 13, 0, 0))],
+            ),
         ]
     )
     def test_search_dates_with_a_relative_expression_reads_its_direction(
@@ -1310,6 +1347,59 @@ class TestTranslateSearch(BaseTestCase):
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
         self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(text="Počkej minutu.", languages=["cs"]),
+            param(text="před dnem nezávislosti", languages=["cs"]),
+            param(text="לפני יום הולדת", languages=["he"]),
+            param(text="לפני יום כיפור", languages=["he"]),
+        ]
+    )
+    def test_search_dates_does_not_read_a_noun_as_a_relative_date(
+        self, text: str, languages: list[str]
+    ) -> None:
+        result = search_dates(
+            text, languages=languages, settings={"RELATIVE_BASE": relative_base}
+        )
+        self.assertIsNone(result)
+
+    @parameterized.expand(
+        [
+            param(
+                text="قبل ساعة الصفر",
+                languages=["ar"],
+                not_expected=relative_base - timedelta(hours=1),
+            ),
+            param(
+                text="قبل سنة الهجرة",
+                languages=["ar"],
+                not_expected=relative_base - timedelta(days=366),
+            ),
+            param(
+                text="قبل أسبوع الامتحانات",
+                languages=["ar"],
+                not_expected=relative_base - timedelta(weeks=1),
+            ),
+            param(
+                text="לפני שבוע הספר",
+                languages=["he"],
+                not_expected=relative_base - timedelta(weeks=1),
+            ),
+            param(
+                text="לפני שנה הבאה",
+                languages=["he"],
+                not_expected=relative_base - timedelta(days=366),
+            ),
+        ]
+    )
+    def test_search_dates_does_not_read_a_unit_before_a_definite_noun_as_ago(
+        self, text: str, languages: list[str], not_expected: datetime.datetime
+    ) -> None:
+        result = search_dates(
+            text, languages=languages, settings={"RELATIVE_BASE": relative_base}
+        )
+        self.assertNotIn(not_expected, [item[1] for item in result or []])
 
     @parameterized.expand(
         [

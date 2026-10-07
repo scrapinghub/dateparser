@@ -188,12 +188,19 @@ simplifications:
 
     # Variant of "1" in places, where czechs would not use the nuber. (e.g. "za 1 hodinu" vs "za hodinu")
     - '(?<=(za|před)\s)hodin(u|ou)\b': '1 hodinu'
-    - '(?<=(za|před)\s)minut(u|ou)\b': '1 minutu'
-    - '(?<=(za|před)\s)(?:vteřin(u|ou)|sekund(u|ou))\b': '1 sekundu'
+    - '(?<=za\s)minut(u|ou)\b': '1 minutu'
+    - '(?<=za\s)(?:vteřin(u|ou)|sekund(u|ou))\b': '1 sekundu'
+    - '(?<=před\s)minut(u|ou)\b': '1 minut'
+    - '(?<=před\s)(?:vteřin(u|ou)|sekund(u|ou))\b': '1 sekund'
     - '(?<=(za|před)\s)týdn(em)\b': '1 týden'
     - '(?<=(za|před)\s)měsíc(em)\b': '1 měsíc'
     - '(?<=(za|před)\s)rok(em)\b': '1 rok'
     - '(?<=(za|před)\s)den(em)\b': '1 den'
+    # The numeral "1" is optional: "před týden" means "před 1 týden"
+    - '(?<=před\s)týden\b': '1 týden'
+    - '(?<=před\s)měsíc\b': '1 měsíc'
+    - '(?<=před\s)rok\b': '1 rok'
+    - '(?<=před\s)den\b': '1 den'
     # Accusative forms used with "za" (e.g. "za týden" = "in a week")
     - '(?<=za\s)týden\b': '1 týden'
     - '(?<=za\s)měsíc\b': '1 měsíc'
