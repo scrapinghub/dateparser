@@ -32,9 +32,10 @@ from dateparser.utils import (
     set_correct_month_from_settings,
 )
 from dateparser.utils.strptime import (
-    get_clamped_leap_second,
-    reset_leap_second_flag,
-    validate_leap_second,
+    _effective_tz_for_naive_input,
+    _get_clamped_leap_second,
+    _reset_leap_second_flag,
+    _validate_leap_second,
 )
 from dateparser.utils.strptime import strptime as patched_strptime
 
@@ -311,7 +312,7 @@ def parse_with_formats(
     """
     period = "day"
     for date_format in date_formats:
-        reset_leap_second_flag()
+        _reset_leap_second_flag()
         try:
             date_obj = patched_strptime(date_string, date_format)
         except ValueError:
@@ -342,11 +343,11 @@ def parse_with_formats(
                 )
 
             # A format missing the year/month/day parses a placeholder date
-            # (e.g. 1900-01-01); validate only once it has its real date, and
-            # before settings.TIMEZONE is applied below, since that reflects
-            # display preference rather than an offset the string itself had.
+            # (e.g. 1900-01-01); validate only once it has its real date.
             try:
-                validate_leap_second(date_obj)
+                _validate_leap_second(
+                    date_obj, _effective_tz_for_naive_input(date_obj, settings)
+                )
             except ValueError:
                 continue
 
@@ -355,7 +356,7 @@ def parse_with_formats(
             date_data = DateData(
                 date_obj=date_obj, period=period, parts=_get_parts(date_format)
             )
-            clamped_second = get_clamped_leap_second()
+            clamped_second = _get_clamped_leap_second()
             if clamped_second is not None:
                 date_data.leap_second = clamped_second
             return date_data
@@ -523,7 +524,7 @@ class _DateLocaleParser:
             if rejected is not None and parser_name == "no-spaces-time":
                 # It would read the same numbers in a date order again.
                 continue
-            reset_leap_second_flag()
+            _reset_leap_second_flag()
             try:
                 date_data = self._parsers[parser_name]()
             except _StrictDateOrderError as error:
@@ -532,7 +533,7 @@ class _DateLocaleParser:
                 rejected = error
                 continue
             if self._is_valid_date_data(date_data):
-                clamped_second = get_clamped_leap_second()
+                clamped_second = _get_clamped_leap_second()
                 if clamped_second is not None:
                     date_data.leap_second = clamped_second
                 if self._part_of_day:
@@ -609,7 +610,7 @@ class _DateLocaleParser:
         for order in candidates:
             # A rejected leap second from one candidate must not leak into a
             # later candidate that never touches a time component at all.
-            reset_leap_second_flag()
+            _reset_leap_second_flag()
             try:
                 date_obj, period, parts = date_parser.parse(
                     translated,
@@ -618,7 +619,7 @@ class _DateLocaleParser:
                     date_order=order,
                 )
                 date_data = DateData(date_obj=date_obj, period=period, parts=parts)
-                clamped_second = get_clamped_leap_second()
+                clamped_second = _get_clamped_leap_second()
                 if clamped_second is not None:
                     date_data.leap_second = clamped_second
                 return date_data

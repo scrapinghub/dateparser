@@ -16,7 +16,7 @@ from dateparser.utils import (
 
 from .parser import time_parser
 from .timezone_parser import pop_tz_offset_from_string
-from .utils.strptime import get_clamped_leap_second, validate_leap_second
+from .utils.strptime import _get_clamped_leap_second, _validate_leap_second
 
 if TYPE_CHECKING:
     from .conf import Settings
@@ -122,8 +122,12 @@ class FreshnessDateDataParser:
                 date = set_correct_day_from_settings(date, settings, date.day)
             old_date = date
             date = apply_time(date, _time)
+            # The string's own offset, or settings.TIMEZONE if explicitly
+            # configured, converts to UTC for leap-second validation; the
+            # default ("local") does not, since that is just the host's zone.
+            convert_tz = date.tzinfo if (ptz or "local" not in _settings_tz) else None
             try:
-                validate_leap_second(date, ptz)
+                _validate_leap_second(date, convert_tz)
             except ValueError:
                 return None, None, ()
             if settings.RETURN_TIME_AS_PERIOD and old_date != date:
@@ -226,7 +230,7 @@ class FreshnessDateDataParser:
 
         date, period, parts = self.parse(date_string, settings)
         date_data = DateData(date_obj=date, period=period, parts=parts)
-        clamped_second = get_clamped_leap_second()
+        clamped_second = _get_clamped_leap_second()
         if clamped_second is not None:
             date_data.leap_second = clamped_second
         return date_data

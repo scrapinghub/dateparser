@@ -1,5 +1,4 @@
 import calendar
-import importlib.resources
 import itertools
 from collections.abc import Callable
 from datetime import datetime, timedelta
@@ -24,13 +23,13 @@ from dateparser.utils import (
     localize_timezone,
     registry,
 )
-from dateparser.utils import strptime as strptime_module
 from dateparser.utils.strptime import (
     _LEAP_SECOND_DECEMBER_31_YEARS,
     _LEAP_SECOND_JUNE_30_YEARS,
+    _effective_tz_for_naive_input,
+    _validate_leap_second,
     patch_strptime,
     strptime,
-    validate_leap_second,
 )
 from tests import BaseTestCase
 
@@ -68,36 +67,38 @@ class TestUtils(BaseTestCase):
 
     def test_validate_leap_second_accepts_known_leap_second(self) -> None:
         date_obj = strptime("2016-12-31 23:59:60", "%Y-%m-%d %H:%M:%S")
-        validate_leap_second(date_obj)  # does not raise
+        _validate_leap_second(date_obj)  # does not raise
 
     def test_validate_leap_second_rejects_unknown_leap_second(self) -> None:
         date_obj = strptime("2017-03-15 12:34:60", "%Y-%m-%d %H:%M:%S")
         with self.assertRaises(ValueError):
-            validate_leap_second(date_obj)
+            _validate_leap_second(date_obj)
 
     def test_validate_leap_second_converts_fixed_offset_to_utc(self) -> None:
         est = StaticTzInfo("EST", timedelta(hours=-5))
         date_obj = strptime("2016-12-31 18:59:60", "%Y-%m-%d %H:%M:%S")
-        validate_leap_second(date_obj, tz=est)  # does not raise: 23:59:60 UTC
+        _validate_leap_second(date_obj, tz=est)  # does not raise: 23:59:60 UTC
 
     def test_validate_leap_second_noop_without_clamp(self) -> None:
         date_obj = strptime("2016-12-31 23:59:59", "%Y-%m-%d %H:%M:%S")
-        validate_leap_second(date_obj)  # does not raise: nothing was clamped
+        _validate_leap_second(date_obj)  # does not raise: nothing was clamped
 
-    def test_known_leap_seconds_are_sourced_from_pytz(self) -> None:
-        # pytz is a hard dependency, so its `zoneinfo/leapseconds` file
-        # should always be readable in a normal install.
-        self.assertIn(2016, _LEAP_SECOND_DECEMBER_31_YEARS)
-        self.assertIn(2015, _LEAP_SECOND_JUNE_30_YEARS)
+    def test_known_leap_seconds_list_has_27_entries(self) -> None:
+        self.assertEqual(
+            len(_LEAP_SECOND_JUNE_30_YEARS) + len(_LEAP_SECOND_DECEMBER_31_YEARS), 27
+        )
 
-    def test_load_leap_seconds_from_pytz_returns_empty_when_unreadable(self) -> None:
-        with patch.object(
-            importlib.resources, "files", side_effect=ModuleNotFoundError
-        ):
-            self.assertEqual(
-                strptime_module._load_leap_seconds_from_pytz(),
-                (frozenset(), frozenset()),
-            )
+    def test_effective_tz_for_naive_input_is_none_by_default(self) -> None:
+        date_obj = datetime(2016, 12, 31, 23, 59, 59)
+        self.assertIsNone(_effective_tz_for_naive_input(date_obj, settings))
+
+    def test_effective_tz_for_naive_input_resolves_configured_timezone(self) -> None:
+        date_obj = datetime(2016, 12, 31, 18, 59, 59)
+        configured = settings.replace(TIMEZONE="America/New_York")
+        tz = _effective_tz_for_naive_input(date_obj, configured)
+        self.assertIsNotNone(tz)
+        assert tz is not None
+        self.assertEqual(tz.utcoffset(date_obj), timedelta(hours=-5))
 
     def given_date_format(self, date_format: str) -> None:
         self.date_format = date_format

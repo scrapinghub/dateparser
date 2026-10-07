@@ -1,15 +1,19 @@
 import calendar
 import contextvars
-import importlib.resources
 import importlib.util
 import sys
 from collections.abc import Callable
 from datetime import datetime, tzinfo
 from time import struct_time
 from types import ModuleType
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import regex as re
+
+from dateparser.utils import get_timezone_from_tz_string
+
+if TYPE_CHECKING:
+    from dateparser.conf import Settings
 
 # Set to the original `%S` value (60) when `strptime` clamps a real leap
 # second down to 59, since `datetime` cannot represent it; reset at the top
@@ -18,53 +22,42 @@ _clamped_leap_second: contextvars.ContextVar[int | None] = contextvars.ContextVa
     "_clamped_leap_second", default=None
 )
 
-
-def _load_leap_seconds_from_pytz() -> tuple[frozenset[int], frozenset[int]]:
-    """Read the known leap-second dates from pytz's bundled `leapseconds`
-    file (lines like ``Leap 2016 Dec 31 23:59:60 + S``), generated from
-    IERS's authoritative leap-seconds.list.
-
-    Returns two empty frozensets if the file cannot be read, e.g. a minimal
-    `pytz` build that omits zoneinfo data.
-    """
-    try:
-        text = (
-            importlib.resources.files("pytz")
-            .joinpath("zoneinfo")
-            .joinpath("leapseconds")
-            .read_text()
-        )
-    except (FileNotFoundError, ModuleNotFoundError, OSError):
-        return frozenset(), frozenset()
-
-    june_years, december_years = set(), set()
-    for line in text.splitlines():
-        fields = line.split()
-        if len(fields) < 4 or fields[0] != "Leap":
-            continue
-        year, month, day = int(fields[1]), fields[2], int(fields[3])
-        if (month, day) == ("Jun", 30):
-            june_years.add(year)
-        elif (month, day) == ("Dec", 31):
-            december_years.add(year)
-
-    return frozenset(june_years), frozenset(december_years)
-
-
-_LEAP_SECOND_JUNE_30_YEARS, _LEAP_SECOND_DECEMBER_31_YEARS = (
-    _load_leap_seconds_from_pytz()
+# The 27 leap seconds IERS has inserted so far (none since 2016-12-31), all at
+# 23:59:60 UTC on 30 June or 31 December.
+_LEAP_SECOND_JUNE_30_YEARS = frozenset(
+    {1972, 1981, 1982, 1983, 1985, 1992, 1993, 1994, 1997, 2012, 2015}
+)
+_LEAP_SECOND_DECEMBER_31_YEARS = frozenset(
+    {
+        1972,
+        1973,
+        1974,
+        1975,
+        1976,
+        1977,
+        1978,
+        1979,
+        1987,
+        1989,
+        1990,
+        1995,
+        1998,
+        2005,
+        2008,
+        2016,
+    }
 )
 
 
-def reset_leap_second_flag() -> None:
+def _reset_leap_second_flag() -> None:
     _clamped_leap_second.set(None)
 
 
-def get_clamped_leap_second() -> int | None:
+def _get_clamped_leap_second() -> int | None:
     return _clamped_leap_second.get()
 
 
-def is_known_leap_second(
+def _is_known_leap_second(
     year: int, month: int, day: int, hour: int, minute: int
 ) -> bool:
     """Whether (year, month, day, hour, minute), taken as UTC, is one of the
@@ -78,15 +71,31 @@ def is_known_leap_second(
     return False
 
 
-def validate_leap_second(date_obj: datetime, tz: tzinfo | None = None) -> None:
+def _effective_tz_for_naive_input(
+    date_obj: datetime, settings: "Settings"
+) -> tzinfo | None:
+    """The timezone naive input is interpreted in: `settings.TIMEZONE`,
+    resolved for *date_obj*'s specific instant (to handle DST correctly), or
+    `None` (treated as UTC) for the default "local" setting.
+    """
+    if "local" in settings.TIMEZONE.lower():
+        return None
+    tz = get_timezone_from_tz_string(settings.TIMEZONE)
+    if hasattr(tz, "localize"):
+        localized: datetime = tz.localize(date_obj)
+        return localized.tzinfo
+    return tz
+
+
+def _validate_leap_second(date_obj: datetime, tz: tzinfo | None = None) -> None:
     """Raise `ValueError` if the most recent `strptime` call clamped a leap
     second (`:60`) that does not correspond to a real one.
 
     `date_obj` must already carry the clamped second (59) and the real
-    calendar date; `tz` is the fixed UTC offset the string was written in,
+    calendar date; `tz` is the timezone the string's wall-clock value is in,
     if any (the check is undefined, and skipped, for non-fixed-offset zones).
     """
-    clamped_second = get_clamped_leap_second()
+    clamped_second = _get_clamped_leap_second()
     if clamped_second is None:
         return
 
@@ -94,7 +103,7 @@ def validate_leap_second(date_obj: datetime, tz: tzinfo | None = None) -> None:
     offset = tz.utcoffset(date_obj) if tz is not None else None
     utc_dt = date_obj - offset if offset is not None else date_obj
 
-    if not is_known_leap_second(
+    if not _is_known_leap_second(
         utc_dt.year, utc_dt.month, utc_dt.day, utc_dt.hour, utc_dt.minute
     ):
         raise ValueError(
@@ -235,7 +244,7 @@ def strptime(date_string: str, format: str) -> datetime:  # noqa: A002
     if second == 60:
         # `datetime` cannot represent a leap second: clamp it to 59. Callers
         # validate it against the known leap seconds (see
-        # `validate_leap_second`) once the full date is known.
+        # `_validate_leap_second`) once the full date is known.
         _clamped_leap_second.set(second)
         second = 59
     obj = datetime(year, month, day, hour, minute, second)
