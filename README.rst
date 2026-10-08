@@ -457,7 +457,7 @@ You may also like...
 -  `Scrapy <https://github.com/scrapy/scrapy/>`__ - Web crawling and web
    scraping framework
 
-License
-=======
+License.
+========
 
 `BSD3-Clause <https://github.com/scrapinghub/dateparser/blob/master/LICENSE>`__
