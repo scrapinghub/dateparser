@@ -750,7 +750,9 @@ class _parser:
             # set the token_month here so that it is not subsequently
             # altered by _correct_for_month
             self._token_month = dateobj.month
-        elif self._weekday_modifier:
+        elif self._weekday_modifier and not (token_weekday and self._token_day):
+            # With an explicit day, e.g. "next friday, july 4", the weekday and
+            # its modifier only describe the date.
             raise ValueError(f"Unable to parse: {self._weekday_modifier}")
 
         # NOTE: If this assert fires, self.now needs to be made offset-aware in a similar

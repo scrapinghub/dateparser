@@ -358,7 +358,7 @@ class Locale:
             relative_dictionary[compiled_pattern] = key
         return relative_dictionary
 
-    def translate_search(
+    def translate_search(  # noqa: PLR0912, PLR0915
         self, search_string: str, settings: "Settings | None" = None
     ) -> tuple[list[str], list[str]]:
         dashes = ["-", "——", "—", "～"]
@@ -393,6 +393,17 @@ class Locale:
                     and word not in dashes
                     and self.shortname not in word_joint_unsupported_languages
                 ):
+                    if translated_chunk and (
+                        word.startswith(("(", "["))
+                        or not self._in_dictionary(word, dictionary)
+                    ):
+                        # The first word would end the chunk on its own, e.g.
+                        # "last" in "yesterday and last friday", or opens a
+                        # bracket, so the entry starts a new chunk.
+                        translated.append(translated_chunk)
+                        translated_chunk = []
+                        original.append(original_chunk)
+                        original_chunk = []
                     translated_chunk.append(
                         self._translate_token(current_and_next_joined, dictionary)
                     )
@@ -403,8 +414,17 @@ class Locale:
                         )
                     )
                     skip_next_token = True
-                elif self._in_dictionary(word, dictionary) and word not in dashes:
-                    translated_chunk.append(self._translate_token(word, dictionary))
+                elif word in dictionary and word not in dashes:
+                    translated_chunk.append(dictionary[word])
+                    original_chunk.append(original_tokens[i])
+                elif word.strip(PUNCTUATION) in dictionary and word not in dashes:
+                    bare_word = word.strip(PUNCTUATION)
+                    punct = word[len(bare_word) :]
+                    bare_translation = dictionary[bare_word]
+                    if punct and bare_translation:
+                        translated_chunk.append(bare_translation + punct)
+                    else:
+                        translated_chunk.append(bare_translation)
                     original_chunk.append(original_tokens[i])
                 elif self._token_with_digits_is_ok(word) or (
                     translated_chunk and word_is_tz(original_tokens[i])
@@ -592,15 +612,16 @@ class Locale:
 
     @staticmethod
     def _translate_token(token: str, dictionary: Dictionary) -> str | None:
-        """Translate *token*, keeping any punctuation that ends it if
-        *dictionary* only knows it without punctuation."""
+        """Translate *token*, keeping the punctuation around it if *dictionary*
+        only knows it without punctuation."""
         if token in dictionary:
             return dictionary[token]
         translation = dictionary[token.strip(PUNCTUATION)]
-        punct = token[len(token.rstrip(PUNCTUATION)) :]
-        if punct and translation:
-            return translation + punct
-        return translation
+        if not translation:
+            return translation
+        start = len(token) - len(token.lstrip(PUNCTUATION))
+        end = len(token.rstrip(PUNCTUATION))
+        return token[:start] + translation + token[end:]
 
     def _join_chunk(self, chunk: Sequence[str], settings: "Settings | None") -> str:
         if "no_word_spacing" in self.info:

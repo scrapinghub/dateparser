@@ -272,8 +272,12 @@ class _ExactLanguageSearch:
             item, relative_base = self.set_relative_base(item, parsed)
 
         if relative_base:
-            parser._settings = parser._settings.replace(RELATIVE_BASE=relative_base)
-            parsed_item = parser.get_date_data(item)
+            settings = parser._settings
+            parser._settings = settings.replace(RELATIVE_BASE=relative_base)
+            try:
+                parsed_item = parser.get_date_data(item)
+            finally:
+                parser._settings = settings
         return parsed_item, is_relative
 
     def parse_found_objects(

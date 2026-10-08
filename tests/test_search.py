@@ -1,6 +1,7 @@
 import datetime
 from datetime import timedelta
 from typing import Any
+from unittest.mock import patch
 
 import pytz
 from parameterized import param, parameterized
@@ -1377,7 +1378,7 @@ class TestTranslateSearch(BaseTestCase):
                 text="Meet friday, last monday and next sunday",
                 expected=[
                     ("friday", datetime.datetime(2026, 9, 18)),
-                    ("last monday", datetime.datetime(2026, 9, 21)),
+                    ("last monday and", datetime.datetime(2026, 9, 21)),
                     ("next sunday", datetime.datetime(2026, 9, 27)),
                 ],
             ),
@@ -1389,6 +1390,41 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(text="The last three commits were fine", expected=None),
+            param(
+                text="The case was heard yesterday and last Friday.",
+                expected=[
+                    ("yesterday and", datetime.datetime(2026, 9, 22, 12)),
+                    ("last Friday", datetime.datetime(2026, 9, 18)),
+                ],
+            ),
+            param(
+                text="I was there last Sunday at 5pm and last Friday at 5pm",
+                expected=[
+                    ("last Sunday at 5pm and", datetime.datetime(2026, 9, 20, 17)),
+                    ("last Friday at 5pm", datetime.datetime(2026, 9, 18, 17)),
+                ],
+            ),
+            param(
+                text="Fireworks are next Friday, July 4, 2025.",
+                expected=[("next Friday, July 4, 2025", datetime.datetime(2025, 7, 4))],
+            ),
+            param(
+                text="next Friday the 19th at 5pm",
+                expected=[
+                    ("next Friday the 19th at 5pm", datetime.datetime(2026, 9, 19, 17))
+                ],
+            ),
+            param(
+                text="April 24 (next week)",
+                expected=[
+                    ("April 24", datetime.datetime(2026, 4, 24)),
+                    ("next week", datetime.datetime(2026, 9, 30, 12)),
+                ],
+            ),
+            param(
+                text="19/06/2020 [month]",
+                expected=[("19/06/2020", datetime.datetime(2020, 6, 19))],
+            ),
         ]
     )
     def test_search_dates_weekday_with_modifier(
@@ -1427,16 +1463,26 @@ class TestTranslateSearch(BaseTestCase):
     def test_search_dates_weekday_with_modifier_relative_to_previous_date(
         self,
     ) -> None:
-        result = search_dates(
-            "On 5 Jan 2020, friday, last monday and next sunday", languages=["en"]
-        )
+        result = search_dates("5 Jan 2020, last monday, next sunday", languages=["en"])
         self.assertEqual(
             result,
             [
-                ("On 5 Jan 2020", datetime.datetime(2020, 1, 5)),
-                ("friday", datetime.datetime(2020, 1, 3)),
+                ("5 Jan 2020", datetime.datetime(2020, 1, 5)),
                 ("last monday", datetime.datetime(2019, 12, 30)),
                 ("next sunday", datetime.datetime(2020, 1, 5)),
+            ],
+        )
+
+    def test_search_dates_relative_to_now_without_relative_base(self) -> None:
+        with patch(
+            "dateparser.parser._now", return_value=datetime.datetime(2026, 9, 23, 12)
+        ):
+            result = search_dates("Monday 10:00 and Wednesday 11:00", languages=["en"])
+        self.assertEqual(
+            result,
+            [
+                ("Monday 10:00", datetime.datetime(2026, 9, 21, 10)),
+                ("Wednesday 11:00", datetime.datetime(2026, 9, 16, 11)),
             ],
         )
 

@@ -2260,6 +2260,7 @@ class TestDateParser(BaseTestCase):
             param("last fri", datetime(2026, 9, 18)),
             param("next Friday at 5pm", datetime(2026, 9, 25, 17)),
             param("12am last monday", datetime(2026, 9, 21)),
+            param("next Friday, July 4, 2025", datetime(2025, 7, 4)),
         ]
     )
     def test_weekday_with_modifier_variants(
