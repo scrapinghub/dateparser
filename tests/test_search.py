@@ -1416,9 +1416,24 @@ class TestTranslateSearch(BaseTestCase):
             ),
             param(
                 text="April 24 (next week)",
+                expected=[("April 24", datetime.datetime(2026, 4, 24))],
+            ),
+            param(
+                text="5th June to next week, the 19th",
                 expected=[
-                    ("April 24", datetime.datetime(2026, 4, 24)),
-                    ("next week", datetime.datetime(2026, 9, 30, 12)),
+                    ("5th June", datetime.datetime(2026, 6, 5)),
+                    ("the 19th", datetime.datetime(2026, 9, 19)),
+                ],
+            ),
+            param(
+                text='Posted "next week" / 19/06/2020',
+                expected=[("19/06/2020", datetime.datetime(2020, 6, 19))],
+            ),
+            param(
+                text="June 19 / today",
+                expected=[
+                    ("June 19 /", datetime.datetime(2026, 6, 19)),
+                    ("today", datetime.datetime(2026, 9, 23, 12)),
                 ],
             ),
             param(
@@ -1482,18 +1497,54 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.assertEqual(result, expected)
 
-    def test_search_dates_weekday_with_modifier_relative_to_previous_date(
-        self,
+    @parameterized.expand(
+        [
+            param(
+                text="5 Jan 2020, last monday, next sunday",
+                expected=[
+                    ("5 Jan 2020", datetime.datetime(2020, 1, 5)),
+                    ("last monday", datetime.datetime(2026, 9, 21)),
+                    ("next sunday", datetime.datetime(2026, 9, 27)),
+                ],
+            ),
+            param(
+                text="next Tuesday or last Friday",
+                expected=[
+                    ("next Tuesday", datetime.datetime(2026, 9, 29)),
+                    ("last Friday", datetime.datetime(2026, 9, 18)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_weekday_with_modifier_relative_to_now(
+        self, text: str, expected: list[tuple[str, datetime.datetime]]
     ) -> None:
-        result = search_dates("5 Jan 2020, last monday, next sunday", languages=["en"])
-        self.assertEqual(
-            result,
-            [
-                ("5 Jan 2020", datetime.datetime(2020, 1, 5)),
-                ("last monday", datetime.datetime(2019, 12, 30)),
-                ("next sunday", datetime.datetime(2020, 1, 5)),
-            ],
-        )
+        with patch(
+            "dateparser.parser._now", return_value=datetime.datetime(2026, 9, 23, 12)
+        ):
+            result = search_dates(text, languages=["en"])
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="06:22 thứ sáu ngày 19/03/2021",
+                language="vi",
+                expected=["06:22 thứ sáu ngày 19/03/2021"],
+            ),
+            param(
+                text="Minggu, 14 Feb 2021 20:31 WIB",
+                language="id",
+                expected=["Feb 2021", "20:31 WIB"],
+            ),
+        ]
+    )
+    def test_search_dates_other_languages_unaffected_by_weekday_modifiers(
+        self, text: str, language: str, expected: list[str]
+    ) -> None:
+        result = search_dates(text, languages=[language])
+        assert result is not None
+        self.assertEqual([found[0] for found in result], expected)
 
     def test_search_dates_relative_to_now_without_relative_base(self) -> None:
         with patch(

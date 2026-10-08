@@ -176,8 +176,11 @@ class _ExactLanguageSearch:
             return []
         words = original.split()
         # Skipped words, e.g. "and", have no counterpart in the translation.
-        skip = {word.lower() for word in language.info.get("skip", [])}
-        kept = [index for index, word in enumerate(words) if word.lower() not in skip]
+        kept = [
+            index
+            for index, word in enumerate(words)
+            if language.translate(word, settings=settings).strip()
+        ]
         possible_splits: list[list[list[str]]] = []
         for match in TRANSLATED_RELATIVE_REG.finditer(item):
             before = item[: match.start()].strip()
@@ -306,9 +309,12 @@ class _ExactLanguageSearch:
         item = item.replace("ngày", "")
         item = item.replace("am", "")
         parsed_item = parser.get_date_data(item)
-        is_relative = date_is_relative(translated_item)
+        # A weekday modifier, e.g. "last" in "last friday", is relative to the
+        # current date, not to a date found earlier in the text.
+        has_weekday_modifier = not _WEEKDAY_MODIFIERS.isdisjoint(item.split())
+        is_relative = date_is_relative(translated_item) or has_weekday_modifier
 
-        if need_relative_base:
+        if need_relative_base and not has_weekday_modifier:
             item, relative_base = self.set_relative_base(item, parsed)
 
         if relative_base:
@@ -390,6 +396,8 @@ class _ExactLanguageSearch:
                 if parsed_part[0]["date_obj"]:
                     parsed.append(parsed_part)
                     substrings.append(substring)
+                    continue
+                if _WEEKDAY_MODIFIERS.isdisjoint(part.split()):
                     continue
                 # A part can join several dates, e.g. "last monday and next
                 # sunday" after splitting by commas, so split it again.

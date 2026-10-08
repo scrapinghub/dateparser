@@ -34,6 +34,21 @@ def _parse_bool(value: object) -> bool:
 # it on so the text and its translation keep the same separators.
 PUNCTUATION = "()\"'{}[],.،"
 
+_WEEKDAY_MODIFIER_ENTRIES = {
+    f"{modifier} {weekday}"
+    for modifier in ("last", "this", "next")
+    for weekday in (
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday",
+    )
+}
+"""Translations of the entries that put a modifier before a weekday."""
+
 
 class Locale:
     """
@@ -389,13 +404,24 @@ class Locale:
                     original_chunk.append(original_tokens[i])
                 elif (
                     next_word
-                    and self._in_dictionary(current_and_next_joined, dictionary)
+                    and (
+                        current_and_next_joined in dictionary
+                        or self._is_weekday_modifier_entry(
+                            current_and_next_joined.strip(PUNCTUATION), dictionary
+                        )
+                    )
                     and word not in dashes
                     and self.shortname not in word_joint_unsupported_languages
                 ):
-                    if translated_chunk and (
-                        word.startswith(("(", "["))
-                        or not self._in_dictionary(word, dictionary)
+                    if (
+                        translated_chunk
+                        and self._is_weekday_modifier_entry(
+                            current_and_next_joined.strip(PUNCTUATION), dictionary
+                        )
+                        and (
+                            word.startswith(("(", "["))
+                            or not self._in_dictionary(word, dictionary)
+                        )
                     ):
                         # The first word would end the chunk on its own, e.g.
                         # "last" in "yesterday and last friday", or opens a
@@ -615,6 +641,10 @@ class Locale:
         for i, token in enumerate(tokens):
             tokens[i] = dictionary.split(token, keep_formatting)
         return list(chain.from_iterable(tokens))
+
+    @staticmethod
+    def _is_weekday_modifier_entry(token: str, dictionary: Dictionary) -> bool:
+        return token in dictionary and dictionary[token] in _WEEKDAY_MODIFIER_ENTRIES
 
     @staticmethod
     def _in_dictionary(token: str, dictionary: Dictionary) -> bool:
