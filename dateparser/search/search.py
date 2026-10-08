@@ -25,6 +25,29 @@ TRANSLATED_RELATIVE_REG = re.compile(
 )
 
 
+_WEEKDAY_MODIFIERS = {"last", "this", "next"}
+
+
+def _join_weekday_modifiers(
+    item_units: Sequence[str], original_units: Sequence[str], separator: str
+) -> tuple[list[str], list[str]]:
+    """Join each weekday modifier of *item_units* to the unit after it, and
+    the matching *original_units* likewise, so that a group of units cannot
+    separate a modifier from its weekday."""
+    item_joined: list[str] = []
+    original_joined: list[str] = []
+    after_modifier = False
+    for item_unit, original_unit in zip(item_units, original_units, strict=True):
+        if after_modifier:
+            item_joined[-1] += separator + item_unit
+            original_joined[-1] += separator + original_unit
+        else:
+            item_joined.append(item_unit)
+            original_joined.append(original_unit)
+        after_modifier = item_unit.strip() in _WEEKDAY_MODIFIERS
+    return item_joined, original_joined
+
+
 class _SearchResult(TypedDict):
     Language: str | None
     Dates: list[tuple[str, datetime]] | None
@@ -114,11 +137,12 @@ class _ExactLanguageSearch:
     def split_by(
         self, item: str, original: str, splitter: str
     ) -> list[list[list[str]]]:
-        if item.count(splitter) <= 2:
-            return [[item.split(splitter), original.split(splitter)]]
+        item_all_split, original_all_split = _join_weekday_modifiers(
+            item.split(splitter), original.split(splitter), splitter
+        )
+        if len(item_all_split) <= 3:
+            return [[item_all_split, original_all_split]]
 
-        item_all_split = item.split(splitter)
-        original_all_split = original.split(splitter)
         all_possible_splits = [[item_all_split, original_all_split]]
         for i in range(2, 4):
             item_partially_split = []
@@ -148,7 +172,12 @@ class _ExactLanguageSearch:
         word the expression was translated from is known and the rest of the
         chunk turns out to be the date it was written next to.
         """
+        if not TRANSLATED_RELATIVE_REG.search(item):
+            return []
         words = original.split()
+        # Skipped words, e.g. "and", have no counterpart in the translation.
+        skip = {word.lower() for word in language.info.get("skip", [])}
+        kept = [index for index, word in enumerate(words) if word.lower() not in skip]
         possible_splits: list[list[list[str]]] = []
         for match in TRANSLATED_RELATIVE_REG.finditer(item):
             before = item[: match.start()].strip()
@@ -158,12 +187,11 @@ class _ExactLanguageSearch:
                 # it, which leaves no boundary the original text can be cut at.
                 continue
             rest = after or before
-            if len(rest.split()) != len(words) - 1:
+            if len(kept) < 2 or len(rest.split()) != len(kept) - 1:
                 # What is left of the translation does not keep one word per
                 # remaining original one, so it would not line up either.
                 continue
-            index = 1 if after else len(words) - 1
-            expression = words[0] if after else words[-1]
+            expression = words[kept[0] if after else kept[-1]]
             if language.translate(expression, settings=settings) != match.group():
                 # The word next to the boundary is not the one the expression was
                 # translated from: some other word of the chunk also changed the
@@ -176,7 +204,9 @@ class _ExactLanguageSearch:
             possible_splits.append(
                 [
                     [match.group(), after] if after else [before, match.group()],
-                    [" ".join(words[:index]), " ".join(words[index:])],
+                    [" ".join(words[: kept[0] + 1]), " ".join(words[kept[1] :])]
+                    if after
+                    else [" ".join(words[: kept[-2] + 1]), " ".join(words[kept[-1] :])],
                 ]
             )
         return possible_splits
@@ -202,16 +232,26 @@ class _ExactLanguageSearch:
         item_words = item.split()
         if len(kept) == len(words) or len(kept) != len(item_words):
             return []
-        sizes = [1] if len(kept) <= 3 else [1, 2, 3]
+        # A weekday modifier and its weekday make a single unit.
+        unit_starts = [
+            k
+            for k in range(len(kept))
+            if k == 0 or item_words[k - 1] not in _WEEKDAY_MODIFIERS
+        ]
+        sizes = [1] if len(unit_starts) <= 3 else [1, 2, 3]
         possible_splits = []
         for size in sizes:
-            starts = range(0, len(kept), size)
+            starts = unit_starts[::size]
+            ends = [start - 1 for start in starts[1:]] + [len(kept) - 1]
             possible_splits.append(
                 [
-                    [" ".join(item_words[i : i + size]) for i in starts],
                     [
-                        " ".join(words[kept[i] : kept[i : i + size][-1] + 1])
-                        for i in starts
+                        " ".join(item_words[start : end + 1])
+                        for start, end in zip(starts, ends, strict=True)
+                    ],
+                    [
+                        " ".join(words[kept[start] : kept[end] + 1])
+                        for start, end in zip(starts, ends, strict=True)
                     ],
                 ]
             )

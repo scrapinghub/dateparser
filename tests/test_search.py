@@ -232,7 +232,7 @@ class TestTranslateSearch(BaseTestCase):
                 "be",
                 "Пасля апублікавання Патсдамскай дэкларацыі 26 ліпеня 1945 года і адмовы Японіі капітуляваць "
                 "на яе ўмовах ЗША скінулі атамныя бомбы.",
-                [("26 ліпеня 1945 года і", datetime.datetime(1945, 7, 26, 0, 0))],
+                [("26 ліпеня 1945 года", datetime.datetime(1945, 7, 26, 0, 0))],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
             # Bulgarian
@@ -1378,7 +1378,7 @@ class TestTranslateSearch(BaseTestCase):
                 text="Meet friday, last monday and next sunday",
                 expected=[
                     ("friday", datetime.datetime(2026, 9, 18)),
-                    ("last monday and", datetime.datetime(2026, 9, 21)),
+                    ("last monday", datetime.datetime(2026, 9, 21)),
                     ("next sunday", datetime.datetime(2026, 9, 27)),
                 ],
             ),
@@ -1393,14 +1393,14 @@ class TestTranslateSearch(BaseTestCase):
             param(
                 text="The case was heard yesterday and last Friday.",
                 expected=[
-                    ("yesterday and", datetime.datetime(2026, 9, 22, 12)),
+                    ("yesterday", datetime.datetime(2026, 9, 22, 12)),
                     ("last Friday", datetime.datetime(2026, 9, 18)),
                 ],
             ),
             param(
                 text="I was there last Sunday at 5pm and last Friday at 5pm",
                 expected=[
-                    ("last Sunday at 5pm and", datetime.datetime(2026, 9, 20, 17)),
+                    ("last Sunday at 5pm", datetime.datetime(2026, 9, 20, 17)),
                     ("last Friday at 5pm", datetime.datetime(2026, 9, 18, 17)),
                 ],
             ),
@@ -1419,6 +1419,28 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[
                     ("April 24", datetime.datetime(2026, 4, 24)),
                     ("next week", datetime.datetime(2026, 9, 30, 12)),
+                ],
+            ),
+            param(
+                text="last Tuesday Sept 6 and May 20",
+                expected=[
+                    ("last Tuesday Sept 6", datetime.datetime(2026, 9, 6)),
+                    ("May 20", datetime.datetime(2026, 5, 20)),
+                ],
+            ),
+            param(
+                text="last Tuesday Sept 6 / May 20",
+                expected=[
+                    ("last Tuesday Sept 6", datetime.datetime(2026, 9, 6)),
+                    ("/ May 20", datetime.datetime(2026, 5, 20)),
+                ],
+            ),
+            param(
+                text="June 5 and yesterday and last Tuesday",
+                expected=[
+                    ("June 5", datetime.datetime(2026, 6, 5)),
+                    ("yesterday", datetime.datetime(2026, 9, 22, 12)),
+                    ("last Tuesday", datetime.datetime(2026, 9, 22)),
                 ],
             ),
             param(
