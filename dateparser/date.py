@@ -31,6 +31,12 @@ from dateparser.utils import (
     set_correct_day_from_settings,
     set_correct_month_from_settings,
 )
+from dateparser.utils.strptime import (
+    _effective_tz_for_naive_input,
+    _get_clamped_leap_second,
+    _reset_leap_second_flag,
+    _validate_leap_second,
+)
 from dateparser.utils.strptime import strptime as patched_strptime
 
 if TYPE_CHECKING:
@@ -306,6 +312,7 @@ def parse_with_formats(
     """
     period = "day"
     for date_format in date_formats:
+        _reset_leap_second_flag()
         try:
             date_obj = patched_strptime(date_string, date_format)
         except ValueError:
@@ -335,11 +342,29 @@ def parse_with_formats(
                     date_obj, now, settings.PREFER_DATES_FROM
                 )
 
+            # A format missing the year/month/day parses a placeholder date
+            # (e.g. 1900-01-01); validate only once it has its real date.
+            # Resolving settings.TIMEZONE is skipped entirely when nothing
+            # was clamped, which is the common case.
+            try:
+                effective_tz = (
+                    _effective_tz_for_naive_input(date_obj, settings)
+                    if _get_clamped_leap_second() is not None
+                    else None
+                )
+                _validate_leap_second(date_obj, effective_tz)
+            except ValueError:
+                continue
+
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
-            return DateData(
+            date_data = DateData(
                 date_obj=date_obj, period=period, parts=_get_parts(date_format)
             )
+            clamped_second = _get_clamped_leap_second()
+            if clamped_second is not None:
+                date_data.leap_second = clamped_second
+            return date_data
     return DateData(date_obj=None, period=period)
 
 
@@ -504,6 +529,7 @@ class _DateLocaleParser:
             if rejected is not None and parser_name == "no-spaces-time":
                 # It would read the same numbers in a date order again.
                 continue
+            _reset_leap_second_flag()
             try:
                 date_data = self._parsers[parser_name]()
             except _StrictDateOrderError as error:
@@ -512,6 +538,9 @@ class _DateLocaleParser:
                 rejected = error
                 continue
             if self._is_valid_date_data(date_data):
+                clamped_second = _get_clamped_leap_second()
+                if clamped_second is not None:
+                    date_data.leap_second = clamped_second
                 if self._part_of_day:
                     date_data.part_of_day = self._part_of_day
                     if (
@@ -584,6 +613,9 @@ class _DateLocaleParser:
         translated = self._get_translated_date()
 
         for order in candidates:
+            # A rejected leap second from one candidate must not leak into a
+            # later candidate that never touches a time component at all.
+            _reset_leap_second_flag()
             try:
                 date_obj, period, parts = date_parser.parse(
                     translated,
@@ -591,7 +623,11 @@ class _DateLocaleParser:
                     settings=self._settings,
                     date_order=order,
                 )
-                return DateData(date_obj=date_obj, period=period, parts=parts)
+                date_data = DateData(date_obj=date_obj, period=period, parts=parts)
+                clamped_second = _get_clamped_leap_second()
+                if clamped_second is not None:
+                    date_data.leap_second = clamped_second
+                return date_data
             except _StrictDateOrderError:
                 # Only raised with an explicit DATE_ORDER, which leaves a single
                 # candidate order.
@@ -670,6 +706,14 @@ class DateData:
     the date string also has a time, e.g. ``"tonight at 11pm"``. If it does
     not, and the ``RETURN_TIME_AS_PERIOD`` setting is enabled, ``period`` is
     ``"part_of_day"``.
+    """
+
+    leap_second: int | None = None
+    """``60`` if the input string named a real leap second, or ``None``
+    otherwise.
+
+    ``date_obj``'s ``second`` is always 59 in that case, since `datetime`
+    cannot represent a leap second.
     """
 
     def __init__(
