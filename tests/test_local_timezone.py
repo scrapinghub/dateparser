@@ -9,7 +9,7 @@ from dateparser import parse
 
 
 @pytest.mark.parametrize("timezone_factory", [pytz.timezone, ZoneInfo])
-@pytest.mark.parametrize("month, offset", [(1, 1), (6, 2)])
+@pytest.mark.parametrize(("month", "offset"), [(1, 1), (6, 2)])
 @pytest.mark.parametrize("to_timezone", [None, "UTC"])
 @pytest.mark.parametrize("aware", [False, True])
 def test_local_timezone_offset(timezone_factory, month, offset, to_timezone, aware):
@@ -18,7 +18,7 @@ def test_local_timezone_offset(timezone_factory, month, offset, to_timezone, awa
     if to_timezone:
         settings["TO_TIMEZONE"] = to_timezone
 
-    with patch("dateparser.date_parser.get_localzone", return_value=local_timezone):
+    with patch("dateparser.date_parser._get_localzone", return_value=local_timezone):
         result = parse(
             f"2024-{month:02}-15 12:00:00", languages=["en"], settings=settings
         )
@@ -39,7 +39,7 @@ def test_modern_local_timezone_does_not_use_legacy_localize():
     # Compatibility shims may expose a deprecated localize method even though
     # they implement the modern tzinfo interface.
     local_timezone = ModernTimezone("Europe/Warsaw")
-    with patch("dateparser.date_parser.get_localzone", return_value=local_timezone):
+    with patch("dateparser.date_parser._get_localzone", return_value=local_timezone):
         result = parse(
             "2024-06-15 12:00:00",
             languages=["en"],

@@ -1,11 +1,18 @@
 import hashlib
+from collections.abc import Callable, Iterable, Mapping
 from datetime import datetime
 from functools import wraps
+from types import MappingProxyType
+from typing import Any, Literal, ParamSpec, TypeVar
 
+from dateparser._parts_of_day import PartsOfDay
 from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
 from .utils import registry
+
+_P = ParamSpec("_P")
+_R = TypeVar("_R")
 
 
 @registry
@@ -15,6 +22,7 @@ class Settings:
 
     * `DATE_ORDER`
     * `PREFER_LOCALE_DATE_ORDER`
+    * `STRICT_DATE_ORDER`
     * `TIMEZONE`
     * `TO_TIMEZONE`
     * `RETURN_AS_TIMEZONE_AWARE`
@@ -31,6 +39,7 @@ class Settings:
     * `RETURN_TIME_SPAN`
     * `DEFAULT_START_OF_WEEK`
     * `DEFAULT_DAYS_IN_MONTH`
+    * `PARTS_OF_DAY`
     * `PARSERS`
     * `DEFAULT_LANGUAGES`
     * `USE_GIVEN_LANGUAGE_ORDER`
@@ -38,47 +47,81 @@ class Settings:
     * `CACHE_SIZE_LIMIT`
     """
 
-    _default = True
-    _pyfile_data = None
-    _mod_settings = dict()
+    _default: bool = True
+    _pyfile_data: dict[str, Any] | None = None
+    _mod_settings: Mapping[str, Any] = MappingProxyType({})
 
-    def __init__(self, settings=None):
+    registry_key: str
+    DATE_ORDER: str
+    PREFER_LOCALE_DATE_ORDER: bool
+    STRICT_DATE_ORDER: str
+    TIMEZONE: str
+    TO_TIMEZONE: str | Literal[False]
+    RETURN_AS_TIMEZONE_AWARE: bool | Literal["default"]
+    PREFER_MONTH_OF_YEAR: str
+    PREFER_DAY_OF_MONTH: str
+    PREFER_DATES_FROM: str
+    RELATIVE_BASE: datetime | Literal[False]
+    STRICT_PARSING: bool
+    REQUIRE_PARTS: list[str]
+    IGNORE_SURROUNDING_TEXT: bool
+    SKIP_TOKENS: list[str]
+    NORMALIZE: bool
+    RETURN_TIME_AS_PERIOD: bool
+    RETURN_TIME_SPAN: bool
+    DEFAULT_START_OF_WEEK: str
+    DEFAULT_DAYS_IN_MONTH: int
+    PARTS_OF_DAY: PartsOfDay
+    PARSERS: list[str]
+    DEFAULT_LANGUAGES: list[str]
+    USE_GIVEN_LANGUAGE_ORDER: bool
+    LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD: float
+    CACHE_SIZE_LIMIT: int
+
+    def __init__(self, settings: Mapping[str, Any] | None = None) -> None:
         if settings:
             self._updateall(settings.items())
         else:
             self._updateall(self._get_settings_from_pyfile().items())
 
     @classmethod
-    def get_key(cls, settings=None):
+    def get_key(cls, settings: Mapping[str, Any] | None = None) -> str:
         if not settings:
             return "default"
 
-        keys = sorted(["%s-%s" % (key, str(settings[key])) for key in settings])
+        keys = sorted([f"{key}-{settings[key]}" for key in settings])
         return hashlib.md5(
             "".join(keys).encode("utf-8"), usedforsecurity=False
         ).hexdigest()
 
     @classmethod
-    def _get_settings_from_pyfile(cls):
+    def _get_settings_from_pyfile(cls) -> dict[str, Any]:
         if not cls._pyfile_data:
-            from dateparser_data import settings
+            from dateparser_data import settings  # noqa: PLC0415
 
             cls._pyfile_data = settings.settings
         return cls._pyfile_data
 
-    def _updateall(self, iterable):
+    def _updateall(self, iterable: Iterable[tuple[str, Any]]) -> None:
         for key, value in iterable:
             setattr(self, key, value)
 
-    def replace(self, mod_settings=None, **kwds):
+    def replace(
+        self, mod_settings: Mapping[str, Any] | None = None, **kwds: Any
+    ) -> "Settings":
         for k, v in kwds.items():
             if v is None:
-                raise TypeError('Invalid {{"{}": {}}}'.format(k, v))
+                raise TypeError(f'Invalid {{"{k}": {v}}}')
 
-        for x in self._get_settings_from_pyfile().keys():
+        for x in self._get_settings_from_pyfile():
             kwds.setdefault(x, getattr(self, x))
 
         kwds["_default"] = False
+        # Keep track of the settings that the caller set, or replacing another
+        # one, like RELATIVE_BASE, makes an explicit DATE_ORDER give way to the
+        # order of the locale.
+        if mod_settings is None:
+            mod_settings = self._mod_settings
         if mod_settings:
             kwds["_mod_settings"] = mod_settings
 
@@ -88,10 +131,10 @@ class Settings:
 settings = Settings()
 
 
-def apply_settings(f):
+def apply_settings(f: Callable[_P, _R]) -> Callable[_P, _R]:
     @wraps(f)
-    def wrapper(*args, **kwargs):
-        mod_settings = kwargs.get("settings")
+    def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
+        mod_settings: Any = kwargs.get("settings")
         kwargs["settings"] = mod_settings or settings
 
         if isinstance(kwargs["settings"], dict):
@@ -113,15 +156,14 @@ class SettingValidationError(ValueError):
     pass
 
 
-def _check_repeated_values(setting_name, setting_value):
+def _check_repeated_values(setting_name: str, setting_value: list[Any]) -> None:
     if len(setting_value) != len(set(setting_value)):
         raise SettingValidationError(
-            'There are repeated values in the "{}" setting'.format(setting_name)
+            f'There are repeated values in the "{setting_name}" setting'
         )
-    return
 
 
-def _check_require_part(setting_name, setting_value):
+def _check_require_part(setting_name: str, setting_value: list[str]) -> None:
     """Returns `True` if the provided list of parts contains valid values"""
     invalid_values = set(setting_value) - {"day", "month", "year"}
     if invalid_values:
@@ -133,7 +175,7 @@ def _check_require_part(setting_name, setting_value):
     _check_repeated_values(setting_name, setting_value)
 
 
-def _check_parsers(setting_name, setting_value):
+def _check_parsers(setting_name: str, setting_value: list[str]) -> None:
     """Returns `True` if the provided list of parsers contains valid values"""
     existing_parsers = [
         "timestamp",
@@ -153,7 +195,7 @@ def _check_parsers(setting_name, setting_value):
     _check_repeated_values(setting_name, setting_value)
 
 
-def _check_default_languages(setting_name, setting_value):
+def _check_default_languages(setting_name: str, setting_value: list[str]) -> None:
     unsupported_languages = set(setting_value) - set(language_order)
     if unsupported_languages:
         raise SettingValidationError(
@@ -164,24 +206,21 @@ def _check_default_languages(setting_name, setting_value):
     _check_repeated_values(setting_name, setting_value)
 
 
-def _check_between_0_and_1(setting_name, setting_value):
+def _check_between_0_and_1(setting_name: str, setting_value: float) -> None:
     is_valid = 0 <= setting_value <= 1
     if not is_valid:
         raise SettingValidationError(
-            "{} is not a valid value for {}. It can take values between 0 and "
-            "1.".format(
-                setting_value,
-                setting_name,
-            )
+            f"{setting_value} is not a valid value for {setting_name}. It can take "
+            "values between 0 and 1."
         )
 
 
-def check_settings(settings):
+def check_settings(settings: Settings) -> None:
     """
     Check if provided settings are valid, if not it raises `SettingValidationError`.
     Only checks for the modified settings.
     """
-    settings_values = {
+    settings_values: dict[str, dict[str, Any]] = {
         "DATE_ORDER": {
             "values": tuple(date_order_chart.keys()),
             "type": str,
@@ -229,6 +268,7 @@ def check_settings(settings):
         },
         "FUZZY": {"type": bool},
         "PREFER_LOCALE_DATE_ORDER": {"type": bool},
+        "STRICT_DATE_ORDER": {"values": ("none", "year", "all"), "type": str},
         "DEFAULT_LANGUAGES": {"type": list, "extra_check": _check_default_languages},
         "USE_GIVEN_LANGUAGE_ORDER": {"type": bool},
         "LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": {
@@ -246,6 +286,7 @@ def check_settings(settings):
         "DEFAULT_DAYS_IN_MONTH": {
             "type": int,
         },
+        "PARTS_OF_DAY": {"type": PartsOfDay},
     }
 
     modified_settings = settings._mod_settings  # check only modified settings
@@ -253,7 +294,7 @@ def check_settings(settings):
     # check settings keys:
     for setting in modified_settings:
         if setting not in settings_values:
-            raise SettingValidationError('"{}" is not a valid setting'.format(setting))
+            raise SettingValidationError(f'"{setting}" is not a valid setting')
 
     for setting_name, setting_value in modified_settings.items():
         setting_type = type(setting_value)
@@ -282,3 +323,12 @@ def check_settings(settings):
         extra_check = setting_props.get("extra_check")
         if extra_check:
             extra_check(setting_name, setting_value)
+
+    # STRICT_DATE_ORDER enforces the DATE_ORDER that the caller sets. The default
+    # one is only a preference, so without it there is nothing to enforce.
+    strict_date_order = modified_settings.get("STRICT_DATE_ORDER", "none")
+    if strict_date_order != "none" and "DATE_ORDER" not in modified_settings:
+        raise SettingValidationError(
+            f'"STRICT_DATE_ORDER": "{strict_date_order}" requires the "DATE_ORDER" '
+            "setting"
+        )
