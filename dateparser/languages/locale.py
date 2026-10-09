@@ -642,8 +642,7 @@ class Locale:
         if token in dictionary:
             return dictionary[token]
         translation = dictionary[token.strip(PUNCTUATION)]
-        if not translation:
-            return translation
+        assert translation is not None
         start = len(token) - len(token.lstrip(PUNCTUATION))
         end = len(token.rstrip(PUNCTUATION))
         return token[:start] + translation + token[end:]

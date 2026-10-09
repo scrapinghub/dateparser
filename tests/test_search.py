@@ -1599,6 +1599,22 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                text="June  5 and next week",
+                language="en",
+                expected=[
+                    ("June 5", datetime.datetime(2026, 6, 5)),
+                    ("next week", datetime.datetime(2026, 9, 30, 12)),
+                ],
+            ),
+            param(
+                text="June 5 and next week and tomorrow",
+                language="en",
+                expected=[
+                    ("June 5", datetime.datetime(2026, 6, 5)),
+                    ("next week and tomorrow", datetime.datetime(2026, 10, 1, 12)),
+                ],
+            ),
+            param(
                 text="June 5 and tomorrow at 5pm",
                 language="en",
                 expected=[
