@@ -28,6 +28,10 @@ TRANSLATED_RELATIVE_REG = re.compile(
 
 _WEEKDAY_MODIFIERS = {"last", "this", "next"}
 
+_MAX_TRAILING_WORDS = 3
+"""Words after a relative expression, e.g. "5 pm" after "in 1 day", that
+:meth:`_ExactLanguageSearch.split_by_relative_expression` keeps with it."""
+
 
 def _is_weekday_modifier(word: str) -> bool:
     return word.strip().strip(PUNCTUATION) in _WEEKDAY_MODIFIERS
@@ -38,9 +42,8 @@ def _has_weekday_modifier(text: str) -> bool:
 
 
 def _clean_substring(substring: str, skip: AbstractSet[str]) -> str:
-    """Strip the punctuation around *substring*, the words of *skip*, e.g.
-    "and", that end it, and the punctuation of *skip*, e.g. "/", that starts
-    it."""
+    """Strip the punctuation around *substring*, including that of *skip*,
+    e.g. "/"."""
     while True:
         substring = substring.strip(" .,:()[]-'\"")
         first, _, rest = substring.partition(" ")
@@ -48,9 +51,39 @@ def _clean_substring(substring: str, skip: AbstractSet[str]) -> str:
             substring = rest
             continue
         rest, _, last = substring.rpartition(" ")
-        if not rest or last.lower() not in skip:
-            return substring
-        substring = rest
+        if rest and last in skip and not any(char.isalnum() for char in last):
+            substring = rest
+            continue
+        return substring
+
+
+def _trim_connectors(
+    text: str, substrings: Sequence[str], skip: AbstractSet[str]
+) -> list[str]:
+    """Strip the words of *skip* that end each of *substrings* followed right
+    away in *text* by the next one, e.g. "and" in "yesterday and"."""
+    positions = []
+    start = 0
+    for substring in substrings:
+        position = text.find(substring, start)
+        positions.append(position)
+        if position != -1:
+            start = position + len(substring)
+    trimmed = list(substrings)
+    for index, (substring, position, next_position) in enumerate(
+        zip(substrings, positions, positions[1:], strict=False)
+    ):
+        if position == -1 or next_position == -1:
+            continue
+        if text[position + len(substring) : next_position].strip(" ([{\"'"):
+            # Words such as German "Uhr" are skipped as well, and are part of
+            # the date unless another date follows them.
+            continue
+        words = substring.split(" ")
+        while len(words) > 1 and words[-1].lower() in skip:
+            words.pop()
+        trimmed[index] = " ".join(words)
+    return trimmed
 
 
 def _join_weekday_modifiers(
@@ -193,9 +226,9 @@ class _ExactLanguageSearch:
         A word translated into a multi-word relative expression gives the
         translation more separators than the text it was translated from, which
         is what keeps the splitters above from lining the two up. Cutting the
-        chunk in two where the expression ends lines them up again, once the
-        word the expression was translated from is known and the rest of the
-        chunk turns out to be the date it was written next to.
+        chunk in two where the expression starts or ends lines them up again,
+        once the words the expression part was translated from are known and
+        the other part turns out to be the date it was written next to.
         """
         if not TRANSLATED_RELATIVE_REG.search(item):
             return []
@@ -208,35 +241,81 @@ class _ExactLanguageSearch:
         ]
         possible_splits: list[list[list[str]]] = []
         for match in TRANSLATED_RELATIVE_REG.finditer(item):
-            before = item[: match.start()].strip()
-            after = item[match.end() :].strip()
-            if bool(before) == bool(after):
-                # The expression is the whole chunk, or sits between two parts of
-                # it, which leaves no boundary the original text can be cut at.
-                continue
-            rest = after or before
-            if len(kept) < 2 or len(rest.split()) != len(kept) - 1:
-                # What is left of the translation does not keep one word per
-                # remaining original one, so it would not line up either.
-                continue
-            expression = words[kept[0] if after else kept[-1]]
-            if language.translate(expression, settings=settings) != match.group():
-                # The word next to the boundary is not the one the expression was
-                # translated from: some other word of the chunk also changed the
-                # word count, and only made the one above add up.
-                continue
-            if parser.get_date_data(rest)["date_obj"] is None:
-                # There is no date next to the expression, so cutting the chunk
-                # would report the expression and drop the rest of it.
-                continue
-            possible_splits.append(
-                [
-                    [match.group(), after] if after else [before, match.group()],
-                    [" ".join(words[: kept[0] + 1]), " ".join(words[kept[1] :])]
-                    if after
-                    else [" ".join(words[: kept[-2] + 1]), " ".join(words[kept[-1] :])],
+            # The expression starts or ends the chunk, which leaves a single
+            # boundary to cut it at. The date part keeps one word per original
+            # one, the other part holds the expression, which may be translated
+            # from several words, e.g. "next week", and may have a few more
+            # words after it, e.g. "tomorrow at 5pm", so a date after it starts
+            # at the first of those words that lines up.
+            cuts = []
+            if len(item[match.end() :].split()) <= _MAX_TRAILING_WORDS:
+                cuts.append((match.start(), True))
+            if not item[: match.start()].strip():
+                later_spaces = [
+                    index
+                    for index, char in enumerate(item)
+                    if char == " " and index > match.end()
                 ]
-            )
+                cuts.append((match.end(), False))
+                cuts.extend(
+                    (index, False) for index in later_spaces[:_MAX_TRAILING_WORDS]
+                )
+            date_after_found = False
+            for cut, date_first in cuts:
+                parts = [item[:cut].strip(), item[cut:].strip()]
+                if not all(parts) or (date_after_found and not date_first):
+                    continue
+                date, expression_part = parts if date_first else parts[::-1]
+                size = len(date.split())
+                if size >= len(kept):
+                    continue
+                boundary = size if date_first else len(kept) - size
+                # Skipped words between the two parts, e.g. "and", usually
+                # belong to neither, but some only translate as part of the
+                # expression, e.g. Arabic "خلال" ("within") as "in".
+                gap_start = kept[boundary - 1] + 1
+                gap_end = kept[boundary]
+                for expression_start, expression_end in (
+                    (gap_end, len(words)) if date_first else (0, gap_start),
+                    (gap_start, len(words)) if date_first else (0, gap_end),
+                ):
+                    expression = " ".join(words[expression_start:expression_end])
+                    translation = " ".join(
+                        chain.from_iterable(
+                            language.translate_search(expression, settings=settings)[0]
+                        )
+                    )
+                    if translation.replace(" ", "") == expression_part.replace(" ", ""):
+                        break
+                else:
+                    # The words next to the boundary are not the ones the
+                    # expression part was translated from: some other word of
+                    # the chunk also changed the word count, and only made the
+                    # one above add up. Spaces are ignored because a whole
+                    # chunk keeps "5pm" together, which alone gives "5 pm".
+                    continue
+                if any(
+                    parser.get_date_data(part)["date_obj"] is None for part in parts
+                ):
+                    # There is no date next to the expression, so cutting the
+                    # chunk would report the expression and drop the rest of
+                    # it, or the words after the expression are not part of it.
+                    continue
+                date_original = (
+                    " ".join(words[: kept[boundary - 1] + 1])
+                    if date_first
+                    else " ".join(words[kept[boundary] :])
+                )
+                if not date_first:
+                    date_after_found = True
+                possible_splits.append(
+                    [
+                        parts,
+                        [date_original, expression]
+                        if date_first
+                        else [expression, date_original],
+                    ]
+                )
         return possible_splits
 
     def split_around_skipped_words(
@@ -323,6 +402,7 @@ class _ExactLanguageSearch:
     ) -> list[list[list[str]]]:
         splitters = [",", "،", "——", "—", "–", ".", " "]
         possible_splits = self.split_off_leading_number(parser, item, original)
+        misaligned = False
         for splitter in splitters:
             if splitter not in item or item.count(splitter) != original.count(splitter):
                 continue
@@ -337,12 +417,14 @@ class _ExactLanguageSearch:
                 # A skipped word, e.g. "and", has no counterpart in the
                 # translation, so the words of both only line up by chance,
                 # unless the language is searched untranslated.
+                misaligned = True
                 continue
             possible_splits.extend(self.split_by(item, original, splitter))
-        if not possible_splits:
-            # Only when no splitter lines up, so that a chunk which already
-            # splits keeps being split exactly the way it is split today.
-            possible_splits = self.split_by_relative_expression(
+        if not possible_splits or misaligned:
+            # Only when no splitter lines up, or skipped words keep spaces from
+            # doing so, so that a chunk which already splits keeps being split
+            # exactly the way it is split today.
+            possible_splits += self.split_by_relative_expression(
                 parser, item, original, language, settings
             ) or self.split_around_skipped_words(item, original, language, settings)
         return possible_splits
@@ -490,6 +572,8 @@ class _ExactLanguageSearch:
             language=language,
         )
 
+        skip = {word.lower() for word in language.info.get("skip", [])}
+        substrings = _trim_connectors(text, substrings, skip)
         results = list(zip(substrings, [i[0]["date_obj"] for i in parsed], strict=True))
 
         _add_time_span_results(results, text, settings)

@@ -232,7 +232,7 @@ class TestTranslateSearch(BaseTestCase):
                 "be",
                 "Пасля апублікавання Патсдамскай дэкларацыі 26 ліпеня 1945 года і адмовы Японіі капітуляваць "
                 "на яе ўмовах ЗША скінулі атамныя бомбы.",
-                [("26 ліпеня 1945 года", datetime.datetime(1945, 7, 26, 0, 0))],
+                [("26 ліпеня 1945 года і", datetime.datetime(1945, 7, 26, 0, 0))],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
             # Bulgarian
@@ -1219,13 +1219,14 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["en"],
                 expected=None,
             ),
-            # "3 days ago" is written as three words and translated into three,
-            # which the two "tomorrow" adds back: the counts line up although
-            # the expression was not translated from "3" alone
+            # Two expressions next to each other make a single one
             param(
                 text="3 days ago tomorrow 13 Feb 2020",
                 languages=["en"],
-                expected=None,
+                expected=[
+                    ("3 days ago tomorrow", datetime.datetime(2020, 2, 14, 20, 7, 6)),
+                    ("13 Feb 2020", datetime.datetime(2020, 2, 13, 0, 0)),
+                ],
             ),
             # Cutting "today" off would leave "13 feb 2020 before", which is no
             # longer a date, so the expression was not written next to one
@@ -1467,6 +1468,13 @@ class TestTranslateSearch(BaseTestCase):
                 text="Enjoy this sun",
                 expected=[("sun", datetime.datetime(2026, 9, 20))],
             ),
+            param(
+                text="On this Saturday 20th / yesterday, nothing.",
+                expected=[
+                    ("this Saturday 20th", datetime.datetime(2026, 9, 20)),
+                    ("yesterday", datetime.datetime(2026, 9, 22, 12)),
+                ],
+            ),
         ]
     )
     def test_search_dates_weekday_with_modifier(
@@ -1579,6 +1587,74 @@ class TestTranslateSearch(BaseTestCase):
             languages=["id"],
         )
         self.assertEqual(result, [("01 Oktober 2020", datetime.datetime(2020, 10, 1))])
+
+    @parameterized.expand(
+        [
+            param(
+                text="June 5 and next week",
+                language="en",
+                expected=[
+                    ("June 5", datetime.datetime(2026, 6, 5)),
+                    ("next week", datetime.datetime(2026, 9, 30, 12)),
+                ],
+            ),
+            param(
+                text="June 5 and tomorrow at 5pm",
+                language="en",
+                expected=[
+                    ("June 5", datetime.datetime(2026, 6, 5)),
+                    ("tomorrow at 5pm", datetime.datetime(2026, 9, 24, 17)),
+                ],
+            ),
+            param(
+                text="5. Juni und nächste Woche",
+                language="de",
+                expected=[
+                    ("5. Juni", datetime.datetime(2026, 6, 5)),
+                    ("nächste Woche", datetime.datetime(2026, 9, 30, 12)),
+                ],
+            ),
+            param(
+                text="5 июня и завтра в 17:00",
+                language="ru",
+                expected=[
+                    ("5 июня", datetime.datetime(2026, 6, 5)),
+                    ("завтра в 17:00", datetime.datetime(2026, 9, 24, 17)),
+                ],
+            ),
+            param(
+                text="الأحد خلال 4 ساعات",
+                language="ar",
+                expected=[
+                    ("الأحد", datetime.datetime(2026, 9, 20)),
+                    ("خلال 4 ساعات", datetime.datetime(2026, 9, 23, 16)),
+                ],
+            ),
+            param(
+                text="05.06.2020, 17:30 Uhr",
+                language="de",
+                expected=[
+                    ("05.06.2020, 17:30 Uhr", datetime.datetime(2020, 5, 6, 17, 30))
+                ],
+            ),
+            param(
+                text="5 يونيو 2020 الساعة 5:00 مساءً",
+                language="ar",
+                expected=[
+                    ("5 يونيو 2020 الساعة 5:00 مساءً", datetime.datetime(2020, 6, 5, 17))
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_skipped_words(
+        self, text: str, language: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=[language],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)},
+        )
+        self.assertEqual(result, expected)
 
     def test_search_dates_relative_to_now_without_relative_base(self) -> None:
         with patch(
