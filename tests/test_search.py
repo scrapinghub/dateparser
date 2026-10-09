@@ -1432,7 +1432,7 @@ class TestTranslateSearch(BaseTestCase):
             param(
                 text="June 19 / today",
                 expected=[
-                    ("June 19 /", datetime.datetime(2026, 6, 19)),
+                    ("June 19", datetime.datetime(2026, 6, 19)),
                     ("today", datetime.datetime(2026, 9, 23, 12)),
                 ],
             ),
@@ -1514,6 +1514,20 @@ class TestTranslateSearch(BaseTestCase):
                     ("last Friday", datetime.datetime(2026, 9, 18)),
                 ],
             ),
+            param(
+                text="3 June 2020 (last Friday)",
+                expected=[
+                    ("3 June 2020", datetime.datetime(2020, 6, 3)),
+                    ("last Friday", datetime.datetime(2026, 9, 18)),
+                ],
+            ),
+            param(
+                text='3 June 2020, "next Friday"',
+                expected=[
+                    ("3 June 2020", datetime.datetime(2020, 6, 3)),
+                    ("next Friday", datetime.datetime(2026, 9, 25)),
+                ],
+            ),
         ]
     )
     def test_search_dates_weekday_with_modifier_relative_to_now(
@@ -1545,6 +1559,13 @@ class TestTranslateSearch(BaseTestCase):
         result = search_dates(text, languages=[language])
         assert result is not None
         self.assertEqual([found[0] for found in result], expected)
+
+    def test_search_dates_skipped_word_does_not_line_up_words(self) -> None:
+        result = search_dates(
+            "01 Oktober 2020, 14: 00: 59 WIB | editor : Mochamad Chariris",
+            languages=["id"],
+        )
+        self.assertEqual(result, [("01 Oktober 2020", datetime.datetime(2020, 10, 1))])
 
     def test_search_dates_relative_to_now_without_relative_base(self) -> None:
         with patch(

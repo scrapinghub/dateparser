@@ -10,7 +10,7 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import _UNITS
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.languages.locale import Locale
+from dateparser.languages.locale import PUNCTUATION, Locale
 from dateparser.search.ngram_search import _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
@@ -26,6 +26,25 @@ TRANSLATED_RELATIVE_REG = re.compile(
 
 
 _WEEKDAY_MODIFIERS = {"last", "this", "next"}
+
+
+def _is_weekday_modifier(word: str) -> bool:
+    return word.strip().strip(PUNCTUATION) in _WEEKDAY_MODIFIERS
+
+
+def _has_weekday_modifier(text: str) -> bool:
+    return any(_is_weekday_modifier(word) for word in text.split())
+
+
+def _clean_substring(substring: str, skip: AbstractSet[str]) -> str:
+    """Strip the punctuation around *substring* and the words of *skip*, e.g.
+    "and", that end it."""
+    while True:
+        substring = substring.strip(" .,:()[]-'\"")
+        rest, _, last = substring.rpartition(" ")
+        if not rest or last.lower() not in skip:
+            return substring
+        substring = rest
 
 
 def _join_weekday_modifiers(
@@ -44,7 +63,7 @@ def _join_weekday_modifiers(
         else:
             item_joined.append(item_unit)
             original_joined.append(original_unit)
-        after_modifier = item_unit.strip() in _WEEKDAY_MODIFIERS
+        after_modifier = _is_weekday_modifier(item_unit)
     return item_joined, original_joined
 
 
@@ -239,7 +258,7 @@ class _ExactLanguageSearch:
         unit_starts = [
             k
             for k in range(len(kept))
-            if k == 0 or item_words[k - 1] not in _WEEKDAY_MODIFIERS
+            if k == 0 or not _is_weekday_modifier(item_words[k - 1])
         ]
         sizes = [1] if len(unit_starts) <= 3 else [1, 2, 3]
         possible_splits = []
@@ -287,8 +306,16 @@ class _ExactLanguageSearch:
         splitters = [",", "،", "——", "—", "–", ".", " "]
         possible_splits = self.split_off_leading_number(parser, item, original)
         for splitter in splitters:
-            if splitter in item and item.count(splitter) == original.count(splitter):
-                possible_splits.extend(self.split_by(item, original, splitter))
+            if splitter not in item or item.count(splitter) != original.count(splitter):
+                continue
+            if splitter == " " and any(
+                not language.translate(word, settings=settings).strip()
+                for word in original.split()
+            ):
+                # A skipped word, e.g. "and", has no counterpart in the
+                # translation, so the words of both only line up by chance.
+                continue
+            possible_splits.extend(self.split_by(item, original, splitter))
         if not possible_splits:
             # Only when no splitter lines up, so that a chunk which already
             # splits keeps being split exactly the way it is split today.
@@ -311,7 +338,7 @@ class _ExactLanguageSearch:
         parsed_item = parser.get_date_data(item)
         # A weekday modifier, e.g. "last" in "last friday", is relative to the
         # current date, not to a date found earlier in the text.
-        has_weekday_modifier = not _WEEKDAY_MODIFIERS.isdisjoint(item.split())
+        has_weekday_modifier = _has_weekday_modifier(item)
         is_relative = date_is_relative(translated_item) or has_weekday_modifier
 
         if need_relative_base and not has_weekday_modifier:
@@ -338,6 +365,7 @@ class _ExactLanguageSearch:
     ) -> tuple[list[tuple[DateData, bool]], list[str]]:
         parsed: list[tuple[DateData, bool]] = list(already_parsed)
         substrings = []
+        skip = {word.lower() for word in language.info.get("skip", [])}
         need_relative_base = True
         if settings.RELATIVE_BASE:
             need_relative_base = False
@@ -350,7 +378,7 @@ class _ExactLanguageSearch:
             )
             if parsed_item["date_obj"]:
                 parsed.append((parsed_item, is_relative))
-                substrings.append(original[i].strip(" .,:()[]-'"))
+                substrings.append(_clean_substring(original[i], skip))
                 continue
 
             possible_splits = self.split_if_not_parsed(
@@ -377,7 +405,7 @@ class _ExactLanguageSearch:
                         need_relative_base,
                     )
                     current_parsed.append((parsed_jtem, is_relative_jtem))
-                    current_substrings.append(split_original[j].strip(" .,:()[]-"))
+                    current_substrings.append(_clean_substring(split_original[j], skip))
                     current_parts.append((jtem, split_original[j]))
                 possible_parsed.append(current_parsed)
                 possible_substrings.append(current_substrings)
@@ -397,7 +425,7 @@ class _ExactLanguageSearch:
                     parsed.append(parsed_part)
                     substrings.append(substring)
                     continue
-                if _WEEKDAY_MODIFIERS.isdisjoint(part.split()):
+                if not _has_weekday_modifier(part):
                     continue
                 # A part can join several dates, e.g. "last monday and next
                 # sunday" after splitting by commas, so split it again.

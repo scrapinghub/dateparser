@@ -465,17 +465,7 @@ class Locale:
             if translated_chunk:
                 translated.append(translated_chunk)
                 original.append(original_chunk)
-        skip = {word.lower() for word in self.info.get("skip", [])}
         for i in range(len(translated)):
-            # Skipped words, e.g. "and", are not part of the date when they end
-            # the chunk.
-            while (
-                translated[i]
-                and not (translated[i][-1] or "").strip()
-                and original[i][-1].strip().lower() in {*skip, ""}
-            ):
-                translated[i].pop()
-                original[i].pop()
             if "in" in translated[i]:
                 translated[i] = self._clear_future_words(translated[i])
             translated[i] = self._join_chunk(
