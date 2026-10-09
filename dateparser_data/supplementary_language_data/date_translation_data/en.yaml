@@ -96,7 +96,6 @@ relative-type:
         - last tues
     last wednesday:
         - last wednesday
-        - last wed
     last thursday:
         - last thursday
         - last thu
@@ -105,10 +104,8 @@ relative-type:
         - last fri
     last saturday:
         - last saturday
-        - last sat
     last sunday:
         - last sunday
-        - last sun
     this monday:
         - this monday
         - this mon
@@ -118,7 +115,6 @@ relative-type:
         - this tues
     this wednesday:
         - this wednesday
-        - this wed
     this thursday:
         - this thursday
         - this thu
@@ -127,10 +123,8 @@ relative-type:
         - this fri
     this saturday:
         - this saturday
-        - this sat
     this sunday:
         - this sunday
-        - this sun
     next monday:
         - next monday
         - next mon
@@ -140,7 +134,6 @@ relative-type:
         - next tues
     next wednesday:
         - next wednesday
-        - next wed
     next thursday:
         - next thursday
         - next thu
@@ -149,10 +142,8 @@ relative-type:
         - next fri
     next saturday:
         - next saturday
-        - next sat
     next sunday:
         - next sunday
-        - next sun
 
 relative-type-regex:
     in \1 week:

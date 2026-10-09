@@ -1,6 +1,7 @@
 from collections.abc import Callable, Iterable, Sequence
 from collections.abc import Set as AbstractSet
 from datetime import datetime
+from itertools import chain
 from typing import Any, TypedDict
 
 import regex as re
@@ -37,10 +38,15 @@ def _has_weekday_modifier(text: str) -> bool:
 
 
 def _clean_substring(substring: str, skip: AbstractSet[str]) -> str:
-    """Strip the punctuation around *substring* and the words of *skip*, e.g.
-    "and", that end it."""
+    """Strip the punctuation around *substring*, the words of *skip*, e.g.
+    "and", that end it, and the punctuation of *skip*, e.g. "/", that starts
+    it."""
     while True:
         substring = substring.strip(" .,:()[]-'\"")
+        first, _, rest = substring.partition(" ")
+        if rest and first in skip and not any(char.isalnum() for char in first):
+            substring = rest
+            continue
         rest, _, last = substring.rpartition(" ")
         if not rest or last.lower() not in skip:
             return substring
@@ -254,26 +260,38 @@ class _ExactLanguageSearch:
         item_words = item.split()
         if len(kept) == len(words) or len(kept) != len(item_words):
             return []
-        # A weekday modifier and its weekday make a single unit.
-        unit_starts = [
-            k
-            for k in range(len(kept))
-            if k == 0 or not _is_weekday_modifier(item_words[k - 1])
-        ]
-        sizes = [1] if len(unit_starts) <= 3 else [1, 2, 3]
+        units: list[list[int]] = []
+        for k in range(len(kept)):
+            # A weekday modifier and its weekday make a single unit, which also
+            # takes the word after "of", e.g. "last friday of march".
+            if k and (
+                _is_weekday_modifier(item_words[k - 1])
+                or (
+                    k > 1
+                    and _is_weekday_modifier(item_words[k - 2])
+                    and "of"
+                    in (word.lower() for word in words[kept[k - 1] + 1 : kept[k]])
+                )
+            ):
+                units[-1].append(k)
+            else:
+                units.append([k])
+        sizes = [1] if len(units) <= 3 else [1, 2, 3]
         possible_splits = []
         for size in sizes:
-            starts = unit_starts[::size]
-            ends = [start - 1 for start in starts[1:]] + [len(kept) - 1]
+            groups = [
+                [*chain.from_iterable(units[start : start + size])]
+                for start in range(0, len(units), size)
+            ]
             possible_splits.append(
                 [
                     [
-                        " ".join(item_words[start : end + 1])
-                        for start, end in zip(starts, ends, strict=True)
+                        " ".join(item_words[group[0] : group[-1] + 1])
+                        for group in groups
                     ],
                     [
-                        " ".join(words[kept[start] : kept[end] + 1])
-                        for start, end in zip(starts, ends, strict=True)
+                        " ".join(words[kept[group[0]] : kept[group[-1]] + 1])
+                        for group in groups
                     ],
                 ]
             )
@@ -308,12 +326,17 @@ class _ExactLanguageSearch:
         for splitter in splitters:
             if splitter not in item or item.count(splitter) != original.count(splitter):
                 continue
-            if splitter == " " and any(
-                not language.translate(word, settings=settings).strip()
-                for word in original.split()
+            if (
+                splitter == " "
+                and item != original
+                and any(
+                    not language.translate(word, settings=settings).strip()
+                    for word in original.split()
+                )
             ):
                 # A skipped word, e.g. "and", has no counterpart in the
-                # translation, so the words of both only line up by chance.
+                # translation, so the words of both only line up by chance,
+                # unless the language is searched untranslated.
                 continue
             possible_splits.extend(self.split_by(item, original, splitter))
         if not possible_splits:
@@ -336,12 +359,11 @@ class _ExactLanguageSearch:
         item = item.replace("ngày", "")
         item = item.replace("am", "")
         parsed_item = parser.get_date_data(item)
+        is_relative = date_is_relative(translated_item)
+
         # A weekday modifier, e.g. "last" in "last friday", is relative to the
         # current date, not to a date found earlier in the text.
-        has_weekday_modifier = _has_weekday_modifier(item)
-        is_relative = date_is_relative(translated_item) or has_weekday_modifier
-
-        if need_relative_base and not has_weekday_modifier:
+        if need_relative_base and not _has_weekday_modifier(item):
             item, relative_base = self.set_relative_base(item, parsed)
 
         if relative_base:
@@ -425,7 +447,7 @@ class _ExactLanguageSearch:
                     parsed.append(parsed_part)
                     substrings.append(substring)
                     continue
-                if not _has_weekday_modifier(part):
+                if part == item or not _has_weekday_modifier(part):
                     continue
                 # A part can join several dates, e.g. "last monday and next
                 # sunday" after splitting by commas, so split it again.

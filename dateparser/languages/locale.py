@@ -152,17 +152,12 @@ class Locale:
         entries = self._get_dictionary(settings)
         dict_cnt = 0
         skip_cnt = 0
-        # The splitter keeps multi-word dictionary entries, e.g. "next friday",
-        # as a single token, so count each of their words.
+        # The splitter keeps a weekday modifier and its weekday, e.g. "next
+        # friday", as a single token, so count each of their words.
         split_words = set()
         for word in words:
-            parts = word.split()
-            if (
-                len(parts) > 1
-                and word in entries
-                and all(part in dictionary for part in parts)
-            ):
-                split_words.update(parts)
+            if self._is_weekday_modifier_entry(word, entries):
+                split_words.update(word.split())
             else:
                 split_words.add(word)
         for word in split_words:

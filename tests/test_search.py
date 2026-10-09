@@ -1447,7 +1447,7 @@ class TestTranslateSearch(BaseTestCase):
                 text="last Tuesday Sept 6 / May 20",
                 expected=[
                     ("last Tuesday Sept 6", datetime.datetime(2026, 9, 6)),
-                    ("/ May 20", datetime.datetime(2026, 5, 20)),
+                    ("May 20", datetime.datetime(2026, 5, 20)),
                 ],
             ),
             param(
@@ -1461,6 +1461,11 @@ class TestTranslateSearch(BaseTestCase):
             param(
                 text="19/06/2020 [month]",
                 expected=[("19/06/2020", datetime.datetime(2020, 6, 19))],
+            ),
+            param(text="Meet on the last friday of June", expected=None),
+            param(
+                text="Enjoy this sun",
+                expected=[("sun", datetime.datetime(2026, 9, 20))],
             ),
         ]
     )
@@ -1487,10 +1492,11 @@ class TestTranslateSearch(BaseTestCase):
                     ("last Monday", datetime.datetime(2026, 9, 21)),
                 ],
             ),
+            param(text="114 this week", expected=None),
         ]
     )
     def test_search_dates_detects_language_of_multi_word_entries(
-        self, text: str, expected: list[tuple[str, datetime.datetime]]
+        self, text: str, expected: list[tuple[str, datetime.datetime]] | None
     ) -> None:
         result = search_dates(
             text, settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)}
@@ -1526,6 +1532,13 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[
                     ("3 June 2020", datetime.datetime(2020, 6, 3)),
                     ("next Friday", datetime.datetime(2026, 9, 25)),
+                ],
+            ),
+            param(
+                text="next Friday and Thursday",
+                expected=[
+                    ("next Friday", datetime.datetime(2026, 9, 25)),
+                    ("Thursday", datetime.datetime(2026, 9, 24)),
                 ],
             ),
         ]

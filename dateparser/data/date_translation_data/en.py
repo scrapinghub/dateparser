@@ -213,8 +213,7 @@ info = {
             "last tues"
         ],
         "last wednesday": [
-            "last wednesday",
-            "last wed"
+            "last wednesday"
         ],
         "last thursday": [
             "last thursday",
@@ -225,12 +224,10 @@ info = {
             "last fri"
         ],
         "last saturday": [
-            "last saturday",
-            "last sat"
+            "last saturday"
         ],
         "last sunday": [
-            "last sunday",
-            "last sun"
+            "last sunday"
         ],
         "this monday": [
             "this monday",
@@ -242,8 +239,7 @@ info = {
             "this tues"
         ],
         "this wednesday": [
-            "this wednesday",
-            "this wed"
+            "this wednesday"
         ],
         "this thursday": [
             "this thursday",
@@ -254,12 +250,10 @@ info = {
             "this fri"
         ],
         "this saturday": [
-            "this saturday",
-            "this sat"
+            "this saturday"
         ],
         "this sunday": [
-            "this sunday",
-            "this sun"
+            "this sunday"
         ],
         "next monday": [
             "next monday",
@@ -271,8 +265,7 @@ info = {
             "next tues"
         ],
         "next wednesday": [
-            "next wednesday",
-            "next wed"
+            "next wednesday"
         ],
         "next thursday": [
             "next thursday",
@@ -283,12 +276,10 @@ info = {
             "next fri"
         ],
         "next saturday": [
-            "next saturday",
-            "next sat"
+            "next saturday"
         ],
         "next sunday": [
-            "next sunday",
-            "next sun"
+            "next sunday"
         ]
     },
     "relative-type-regex": {
