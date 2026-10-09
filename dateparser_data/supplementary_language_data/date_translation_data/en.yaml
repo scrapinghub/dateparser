@@ -87,6 +87,63 @@ relative-type:
         - day after tomorrow
     0 day ago:
         - till date
+    last monday:
+        - last monday
+        - last mon
+    last tuesday:
+        - last tuesday
+        - last tue
+        - last tues
+    last wednesday:
+        - last wednesday
+    last thursday:
+        - last thursday
+        - last thu
+    last friday:
+        - last friday
+        - last fri
+    last saturday:
+        - last saturday
+    last sunday:
+        - last sunday
+    this monday:
+        - this monday
+        - this mon
+    this tuesday:
+        - this tuesday
+        - this tue
+        - this tues
+    this wednesday:
+        - this wednesday
+    this thursday:
+        - this thursday
+        - this thu
+    this friday:
+        - this friday
+        - this fri
+    this saturday:
+        - this saturday
+    this sunday:
+        - this sunday
+    next monday:
+        - next monday
+        - next mon
+    next tuesday:
+        - next tuesday
+        - next tue
+        - next tues
+    next wednesday:
+        - next wednesday
+    next thursday:
+        - next thursday
+        - next thu
+    next friday:
+        - next friday
+        - next fri
+    next saturday:
+        - next saturday
+    next sunday:
+        - next sunday
 
 relative-type-regex:
     in \1 week:

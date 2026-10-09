@@ -34,6 +34,21 @@ def _parse_bool(value: object) -> bool:
 # it on so the text and its translation keep the same separators.
 PUNCTUATION = "()\"'{}[],.،"
 
+_WEEKDAY_MODIFIER_ENTRIES = {
+    f"{modifier} {weekday}"
+    for modifier in ("last", "this", "next")
+    for weekday in (
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday",
+    )
+}
+"""Translations of the entries that put a modifier before a weekday."""
+
 
 class Locale:
     """
@@ -134,9 +149,18 @@ class Locale:
         dictionary = self.clean_dictionary(
             self._get_split_dictionary(settings=settings)
         )
+        entries = self._get_dictionary(settings)
         dict_cnt = 0
         skip_cnt = 0
-        for word in set(words):
+        # The splitter keeps a weekday modifier and its weekday, e.g. "next
+        # friday", as a single token, so count each of their words.
+        split_words = set()
+        for word in words:
+            if self._is_weekday_modifier_entry(word, entries):
+                split_words.update(word.split())
+            else:
+                split_words.add(word)
+        for word in split_words:
             if word in dictionary:
                 if dictionary[word]:
                     dict_cnt += 1
@@ -344,7 +368,7 @@ class Locale:
             relative_dictionary[compiled_pattern] = key
         return relative_dictionary
 
-    def translate_search(  # noqa: PLR0912
+    def translate_search(  # noqa: PLR0912, PLR0915
         self, search_string: str, settings: "Settings | None" = None
     ) -> tuple[list[str], list[str]]:
         dashes = ["-", "——", "—", "～"]
@@ -374,11 +398,36 @@ class Locale:
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
                 elif (
-                    current_and_next_joined in dictionary
+                    next_word
+                    and (
+                        current_and_next_joined in dictionary
+                        or self._is_weekday_modifier_entry(
+                            current_and_next_joined.strip(PUNCTUATION), dictionary
+                        )
+                    )
                     and word not in dashes
                     and self.shortname not in word_joint_unsupported_languages
                 ):
-                    translated_chunk.append(dictionary[current_and_next_joined])
+                    if (
+                        translated_chunk
+                        and self._is_weekday_modifier_entry(
+                            current_and_next_joined.strip(PUNCTUATION), dictionary
+                        )
+                        and (
+                            word.startswith(("(", "["))
+                            or not self._in_dictionary(word, dictionary)
+                        )
+                    ):
+                        # The first word would end the chunk on its own, e.g.
+                        # "last" in "yesterday and last friday", or opens a
+                        # bracket, so the entry starts a new chunk.
+                        translated.append(translated_chunk)
+                        translated_chunk = []
+                        original.append(original_chunk)
+                        original_chunk = []
+                    translated_chunk.append(
+                        self._translate_token(current_and_next_joined, dictionary)
+                    )
                     original_chunk.append(
                         self._join_chunk(
                             [original_tokens[i], original_tokens[i + 1]],
@@ -577,6 +626,26 @@ class Locale:
         for i, token in enumerate(tokens):
             tokens[i] = dictionary.split(token, keep_formatting)
         return list(chain.from_iterable(tokens))
+
+    @staticmethod
+    def _is_weekday_modifier_entry(token: str, dictionary: Dictionary) -> bool:
+        return token in dictionary and dictionary[token] in _WEEKDAY_MODIFIER_ENTRIES
+
+    @staticmethod
+    def _in_dictionary(token: str, dictionary: Dictionary) -> bool:
+        return token in dictionary or token.strip(PUNCTUATION) in dictionary
+
+    @staticmethod
+    def _translate_token(token: str, dictionary: Dictionary) -> str | None:
+        """Translate *token*, keeping the punctuation around it if *dictionary*
+        only knows it without punctuation."""
+        if token in dictionary:
+            return dictionary[token]
+        translation = dictionary[token.strip(PUNCTUATION)]
+        assert translation is not None
+        start = len(token) - len(token.lstrip(PUNCTUATION))
+        end = len(token.rstrip(PUNCTUATION))
+        return token[:start] + translation + token[end:]
 
     def _join_chunk(self, chunk: Sequence[str], settings: "Settings | None") -> str:
         if "no_word_spacing" in self.info:

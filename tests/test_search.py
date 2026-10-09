@@ -1,6 +1,7 @@
 import datetime
 from datetime import timedelta
 from typing import Any
+from unittest.mock import patch
 
 import pytz
 from parameterized import param, parameterized
@@ -1218,13 +1219,14 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["en"],
                 expected=None,
             ),
-            # "3 days ago" is written as three words and translated into three,
-            # which the two "tomorrow" adds back: the counts line up although
-            # the expression was not translated from "3" alone
+            # Two expressions next to each other make a single one
             param(
                 text="3 days ago tomorrow 13 Feb 2020",
                 languages=["en"],
-                expected=None,
+                expected=[
+                    ("3 days ago tomorrow", datetime.datetime(2020, 2, 14, 20, 7, 6)),
+                    ("13 Feb 2020", datetime.datetime(2020, 2, 13, 0, 0)),
+                ],
             ),
             # Cutting "today" off would leave "13 feb 2020 before", which is no
             # longer a date, so the expression was not written next to one
@@ -1310,6 +1312,378 @@ class TestTranslateSearch(BaseTestCase):
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
         self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="I will be there next Tuesday.",
+                expected=[("next Tuesday", datetime.datetime(2026, 9, 29), "en")],
+            ),
+            param(
+                text="11 Mai 2014",
+                expected=[("11 Mai 2014", datetime.datetime(2014, 5, 11), "fr")],
+            ),
+            param(
+                text="Le 11 Décembre 2014 à 09:00",
+                expected=[
+                    (
+                        "Le 11 Décembre 2014 à 09:00",
+                        datetime.datetime(2014, 12, 11, 9),
+                        "fr",
+                    )
+                ],
+            ),
+            param(
+                text="il 5 maggio 2026",
+                expected=[("5 maggio 2026", datetime.datetime(2026, 5, 5), "it")],
+            ),
+            param(
+                text="след 12 мин 18 сек",
+                expected=[
+                    (
+                        "след 12 мин 18 сек",
+                        datetime.datetime(2026, 9, 23, 12, 12, 18),
+                        "bg",
+                    )
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_language_detection_counts_only_whole_entries(
+        self, text: str, expected: list[tuple[str, datetime.datetime, str]]
+    ) -> None:
+        # Only the words of a multi-word dictionary entry that the splitter keeps
+        # whole count for language detection, not those of an unrecognised chunk
+        # such as " mai " (the "mai" of Vietnamese "ngày mai").
+        result = search_dates(
+            text,
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)},
+            add_detected_language=True,
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="See you next Friday at 5pm.",
+                expected=[("next Friday at 5pm", datetime.datetime(2026, 9, 25, 17))],
+            ),
+            param(
+                text="Meet this Friday or last Tuesday",
+                expected=[
+                    ("this Friday", datetime.datetime(2026, 9, 25)),
+                    ("last Tuesday", datetime.datetime(2026, 9, 22)),
+                ],
+            ),
+            param(
+                text="Meet friday, last monday and next sunday",
+                expected=[
+                    ("friday", datetime.datetime(2026, 9, 18)),
+                    ("last monday", datetime.datetime(2026, 9, 21)),
+                    ("next sunday", datetime.datetime(2026, 9, 27)),
+                ],
+            ),
+            param(
+                text="Do it this Sunday, or (next Friday)",
+                expected=[
+                    ("this Sunday", datetime.datetime(2026, 9, 27)),
+                    ("next Friday", datetime.datetime(2026, 9, 25)),
+                ],
+            ),
+            param(text="The last three commits were fine", expected=None),
+            param(
+                text="The case was heard yesterday and last Friday.",
+                expected=[
+                    ("yesterday", datetime.datetime(2026, 9, 22, 12)),
+                    ("last Friday", datetime.datetime(2026, 9, 18)),
+                ],
+            ),
+            param(
+                text="I was there last Sunday at 5pm and last Friday at 5pm",
+                expected=[
+                    ("last Sunday at 5pm", datetime.datetime(2026, 9, 20, 17)),
+                    ("last Friday at 5pm", datetime.datetime(2026, 9, 18, 17)),
+                ],
+            ),
+            param(
+                text="Fireworks are next Friday, July 4, 2025.",
+                expected=[("next Friday, July 4, 2025", datetime.datetime(2025, 7, 4))],
+            ),
+            param(
+                text="next Friday the 19th at 5pm",
+                expected=[
+                    ("next Friday the 19th at 5pm", datetime.datetime(2026, 9, 19, 17))
+                ],
+            ),
+            param(
+                text="April 24 (next week)",
+                expected=[("April 24", datetime.datetime(2026, 4, 24))],
+            ),
+            param(
+                text="5th June to next week, the 19th",
+                expected=[
+                    ("5th June", datetime.datetime(2026, 6, 5)),
+                    ("the 19th", datetime.datetime(2026, 9, 19)),
+                ],
+            ),
+            param(
+                text='Posted "next week" / 19/06/2020',
+                expected=[("19/06/2020", datetime.datetime(2020, 6, 19))],
+            ),
+            param(
+                text="June 19 / today",
+                expected=[
+                    ("June 19", datetime.datetime(2026, 6, 19)),
+                    ("today", datetime.datetime(2026, 9, 23, 12)),
+                ],
+            ),
+            param(
+                text="last Tuesday Sept 6 and May 20",
+                expected=[
+                    ("last Tuesday Sept 6", datetime.datetime(2026, 9, 6)),
+                    ("May 20", datetime.datetime(2026, 5, 20)),
+                ],
+            ),
+            param(
+                text="last Tuesday Sept 6 / May 20",
+                expected=[
+                    ("last Tuesday Sept 6", datetime.datetime(2026, 9, 6)),
+                    ("May 20", datetime.datetime(2026, 5, 20)),
+                ],
+            ),
+            param(
+                text="June 5 and yesterday and last Tuesday",
+                expected=[
+                    ("June 5", datetime.datetime(2026, 6, 5)),
+                    ("yesterday", datetime.datetime(2026, 9, 22, 12)),
+                    ("last Tuesday", datetime.datetime(2026, 9, 22)),
+                ],
+            ),
+            param(
+                text="19/06/2020 [month]",
+                expected=[("19/06/2020", datetime.datetime(2020, 6, 19))],
+            ),
+            param(text="Meet on the last friday of June", expected=None),
+            param(
+                text="Enjoy this sun",
+                expected=[("sun", datetime.datetime(2026, 9, 20))],
+            ),
+            param(
+                text="On this Saturday 20th / yesterday, nothing.",
+                expected=[
+                    ("this Saturday 20th", datetime.datetime(2026, 9, 20)),
+                    ("yesterday", datetime.datetime(2026, 9, 22, 12)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_weekday_with_modifier(
+        self, text: str, expected: list[tuple[str, datetime.datetime]] | None
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)},
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="Deadline: next Friday",
+                expected=[("next Friday", datetime.datetime(2026, 9, 25))],
+            ),
+            param(
+                text="See you next Friday at 5pm or last Monday",
+                expected=[
+                    ("next Friday at 5pm", datetime.datetime(2026, 9, 25, 17)),
+                    ("last Monday", datetime.datetime(2026, 9, 21)),
+                ],
+            ),
+            param(text="114 this week", expected=None),
+        ]
+    )
+    def test_search_dates_detects_language_of_multi_word_entries(
+        self, text: str, expected: list[tuple[str, datetime.datetime]] | None
+    ) -> None:
+        result = search_dates(
+            text, settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)}
+        )
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="5 Jan 2020, last monday, next sunday",
+                expected=[
+                    ("5 Jan 2020", datetime.datetime(2020, 1, 5)),
+                    ("last monday", datetime.datetime(2026, 9, 21)),
+                    ("next sunday", datetime.datetime(2026, 9, 27)),
+                ],
+            ),
+            param(
+                text="next Tuesday or last Friday",
+                expected=[
+                    ("next Tuesday", datetime.datetime(2026, 9, 29)),
+                    ("last Friday", datetime.datetime(2026, 9, 18)),
+                ],
+            ),
+            param(
+                text="3 June 2020 (last Friday)",
+                expected=[
+                    ("3 June 2020", datetime.datetime(2020, 6, 3)),
+                    ("last Friday", datetime.datetime(2026, 9, 18)),
+                ],
+            ),
+            param(
+                text='3 June 2020, "next Friday"',
+                expected=[
+                    ("3 June 2020", datetime.datetime(2020, 6, 3)),
+                    ("next Friday", datetime.datetime(2026, 9, 25)),
+                ],
+            ),
+            param(
+                text="next Friday and Thursday",
+                expected=[
+                    ("next Friday", datetime.datetime(2026, 9, 25)),
+                    ("Thursday", datetime.datetime(2026, 9, 24)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_weekday_with_modifier_relative_to_now(
+        self, text: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
+        with patch(
+            "dateparser.parser._now", return_value=datetime.datetime(2026, 9, 23, 12)
+        ):
+            result = search_dates(text, languages=["en"])
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="06:22 thứ sáu ngày 19/03/2021",
+                language="vi",
+                expected=["06:22 thứ sáu ngày 19/03/2021"],
+            ),
+            param(
+                text="Minggu, 14 Feb 2021 20:31 WIB",
+                language="id",
+                expected=["Feb 2021", "20:31 WIB"],
+            ),
+        ]
+    )
+    def test_search_dates_other_languages_unaffected_by_weekday_modifiers(
+        self, text: str, language: str, expected: list[str]
+    ) -> None:
+        result = search_dates(text, languages=[language])
+        assert result is not None
+        self.assertEqual([found[0] for found in result], expected)
+
+    def test_search_dates_skipped_word_does_not_line_up_words(self) -> None:
+        result = search_dates(
+            "01 Oktober 2020, 14: 00: 59 WIB | editor : Mochamad Chariris",
+            languages=["id"],
+        )
+        self.assertEqual(result, [("01 Oktober 2020", datetime.datetime(2020, 10, 1))])
+
+    @parameterized.expand(
+        [
+            param(
+                text="June 5 and next week",
+                language="en",
+                expected=[
+                    ("June 5", datetime.datetime(2026, 6, 5)),
+                    ("next week", datetime.datetime(2026, 9, 30, 12)),
+                ],
+            ),
+            param(
+                text="June  5 and next week",
+                language="en",
+                expected=[
+                    ("June 5", datetime.datetime(2026, 6, 5)),
+                    ("next week", datetime.datetime(2026, 9, 30, 12)),
+                ],
+            ),
+            param(
+                text="June 5 and next week and tomorrow",
+                language="en",
+                expected=[
+                    ("June 5", datetime.datetime(2026, 6, 5)),
+                    ("next week and tomorrow", datetime.datetime(2026, 10, 1, 12)),
+                ],
+            ),
+            param(
+                text="June 5 and tomorrow at 5pm",
+                language="en",
+                expected=[
+                    ("June 5", datetime.datetime(2026, 6, 5)),
+                    ("tomorrow at 5pm", datetime.datetime(2026, 9, 24, 17)),
+                ],
+            ),
+            param(
+                text="5. Juni und nächste Woche",
+                language="de",
+                expected=[
+                    ("5. Juni", datetime.datetime(2026, 6, 5)),
+                    ("nächste Woche", datetime.datetime(2026, 9, 30, 12)),
+                ],
+            ),
+            param(
+                text="5 июня и завтра в 17:00",
+                language="ru",
+                expected=[
+                    ("5 июня", datetime.datetime(2026, 6, 5)),
+                    ("завтра в 17:00", datetime.datetime(2026, 9, 24, 17)),
+                ],
+            ),
+            param(
+                text="الأحد خلال 4 ساعات",
+                language="ar",
+                expected=[
+                    ("الأحد", datetime.datetime(2026, 9, 20)),
+                    ("خلال 4 ساعات", datetime.datetime(2026, 9, 23, 16)),
+                ],
+            ),
+            param(
+                text="05.06.2020, 17:30 Uhr",
+                language="de",
+                expected=[
+                    ("05.06.2020, 17:30 Uhr", datetime.datetime(2020, 5, 6, 17, 30))
+                ],
+            ),
+            param(
+                text="5 يونيو 2020 الساعة 5:00 مساءً",
+                language="ar",
+                expected=[
+                    ("5 يونيو 2020 الساعة 5:00 مساءً", datetime.datetime(2020, 6, 5, 17))
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_skipped_words(
+        self, text: str, language: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=[language],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 23, 12)},
+        )
+        self.assertEqual(result, expected)
+
+    def test_search_dates_relative_to_now_without_relative_base(self) -> None:
+        with patch(
+            "dateparser.parser._now", return_value=datetime.datetime(2026, 9, 23, 12)
+        ):
+            result = search_dates("Monday 10:00 and Wednesday 11:00", languages=["en"])
+        self.assertEqual(
+            result,
+            [
+                ("Monday 10:00", datetime.datetime(2026, 9, 21, 10)),
+                ("Wednesday 11:00", datetime.datetime(2026, 9, 16, 11)),
+            ],
+        )
 
     @parameterized.expand(
         [
