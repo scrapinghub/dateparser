@@ -71,6 +71,9 @@ class TestTZPopping(BaseTestCase):
             param("16. srpna 2021 9:59:44 SEČ", 1),
             param("16. srpna 2021 9:59:44 ZEČ", 0),
             param("16. srpna 2021 9:59:44 VEČ", 2),
+            param("Thu, 19 Jan 2023 10:45:00 +03", 3),
+            param("19 Jan 2023 10:45:00 -04", -4),
+            param("2015-04-12", None),
         ]
     )
     def test_extracting_valid_offset(
@@ -94,6 +97,7 @@ class TestTZPopping(BaseTestCase):
                 "17th October, 2034 @ 01:08 am +0700", "17th October, 2034 @ 01:08 am "
             ),
             param("Sep 03 2014 4:32 pm +0630", "Sep 03 2014 4:32 pm "),
+            param("Thu, 19 Jan 2023 10:45:00 +03", "Thu, 19 Jan 2023 10:45:00 "),
             param(
                 "Thu 30 May 2024 10:13:10 -0500 CDT",
                 "Thu 30 May 2024 10:13:10 ",
