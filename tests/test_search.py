@@ -1140,6 +1140,13 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
+            # A standalone "W" is not a week
+            param(
+                text="Route 66 W exit, 12 March 2020",
+                languages=["en"],
+                settings=None,
+                expected=[("12 March 2020", datetime.datetime(2020, 3, 12, 0, 0))],
+            ),
             # Date with comma and apostrophe
             param(
                 text="9/3/2017  , ",
