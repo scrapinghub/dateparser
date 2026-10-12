@@ -510,10 +510,16 @@ info = {
             "(?<=(za|před)\\s)hodin(u|ou)\\b": "1 hodinu"
         },
         {
-            "(?<=(za|před)\\s)minut(u|ou)\\b": "1 minutu"
+            "(?<=za\\s)minut(u|ou)\\b": "1 minutu"
         },
         {
-            "(?<=(za|před)\\s)(?:vteřin(u|ou)|sekund(u|ou))\\b": "1 sekundu"
+            "(?<=za\\s)(?:vteřin(u|ou)|sekund(u|ou))\\b": "1 sekundu"
+        },
+        {
+            "(?<=před\\s)minut(u|ou)\\b": "1 minut"
+        },
+        {
+            "(?<=před\\s)(?:vteřin(u|ou)|sekund(u|ou))\\b": "1 sekund"
         },
         {
             "(?<=(za|před)\\s)týdn(em)\\b": "1 týden"
@@ -526,6 +532,18 @@ info = {
         },
         {
             "(?<=(za|před)\\s)den(em)\\b": "1 den"
+        },
+        {
+            "(?<=před\\s)týden\\b": "1 týden"
+        },
+        {
+            "(?<=před\\s)měsíc\\b": "1 měsíc"
+        },
+        {
+            "(?<=před\\s)rok\\b": "1 rok"
+        },
+        {
+            "(?<=před\\s)den\\b": "1 den"
         },
         {
             "(?<=za\\s)týden\\b": "1 týden"

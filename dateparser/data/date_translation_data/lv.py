@@ -249,6 +249,29 @@ info = {
         ]
     },
     "locale_specific": {},
+    "simplifications": [
+        {
+            "(?<=pirms\\s+)nedēļas\\b": "1 nedēļas"
+        },
+        {
+            "(?<=pirms\\s+)mēneša\\b": "1 mēneša"
+        },
+        {
+            "(?<=pirms\\s+)gada\\b": "1 gada"
+        },
+        {
+            "(?<=pirms\\s+)dienas\\b": "1 dienas"
+        },
+        {
+            "(?<=pirms\\s+)stundas\\b": "1 stundas"
+        },
+        {
+            "(?<=pirms\\s+)minūtes\\b": "1 minūtes"
+        },
+        {
+            "(?<=pirms\\s+)sekundes\\b": "1 sekundes"
+        }
+    ],
     "skip": [
         " ",
         "'",
