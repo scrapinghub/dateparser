@@ -1384,6 +1384,33 @@ class TestTranslateSearch(BaseTestCase):
         ]
         assert result == expected
 
+    def test_search_dates_with_standalone_accent_mark_before_a_date(self) -> None:
+        """A standalone accent mark glued to a date should not swallow its text."""
+        result = search_dates(
+            "ABC´1997.",
+            languages=["en"],
+            settings={"RELATIVE_BASE": relative_base},
+        )
+        expected = [
+            (
+                "1997",
+                datetime.datetime(1997, relative_base.month, relative_base.day, 0, 0),
+            )
+        ]
+        assert result == expected
+
+    def test_search_dates_with_standalone_accent_mark_not_glued_to_a_date(
+        self,
+    ) -> None:
+        """An accent mark already next to a space is left untouched."""
+        result = search_dates(
+            "Jan´ 5, 2020",
+            languages=["en"],
+            settings={"RELATIVE_BASE": relative_base},
+        )
+        expected = [("Jan´ 5, 2020", datetime.datetime(2020, 1, 5, 0, 0))]
+        assert result == expected
+
     @parameterized.expand(
         [
             param(
