@@ -416,10 +416,7 @@ class TestTranslateSearch(BaseTestCase):
                 "de",
                 "Die UdSSR blieb gemäß dem Neutralitätspakt "
                 "vom 13. April 1941 gegenüber Japan vorerst neutral.",
-                [
-                    ("Die", datetime.datetime(1999, 12, 28, 0, 0)),
-                    ("13. April 1941", datetime.datetime(1941, 4, 13, 0, 0)),
-                ],
+                [("13. April 1941", datetime.datetime(1941, 4, 13, 0, 0))],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
             # Indonesian
@@ -1070,6 +1067,14 @@ class TestTranslateSearch(BaseTestCase):
                 languages=None,
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
                 expected=[("Em outubro de 1936", datetime.datetime(1936, 10, 1, 0, 0))],
+            ),
+            param(
+                text="Am 9. November 1989 fiel die Mauer.",
+                languages=None,
+                settings=None,
+                expected=[
+                    ("Am 9. November 1989", datetime.datetime(1989, 11, 9, 0, 0))
+                ],
             ),
             param(
                 text="19 марта 2001, 20 марта, 21 марта был отличный день.",
