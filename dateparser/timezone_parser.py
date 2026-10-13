@@ -39,29 +39,38 @@ class StaticTzInfo(tzinfo):
         return self.__name, self.__offset
 
 
+def _search_tz(
+    date_string: str,
+) -> tuple[str, _TzOffsetInfo, re.Match[str]] | None:
+    if _search_regex_ignorecase.search(date_string):
+        for name, info in _tz_offsets:
+            timezone_match = info["regex"].search(date_string)
+            if timezone_match:
+                return name, info, timezone_match
+    return None
+
+
 def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | None:
     """Find and remove the first timezone token from ``date_string``.
 
     Returns a ``(new_string, name, info)`` tuple, or ``None`` if no timezone
     token is present.
     """
-    if not _search_regex_ignorecase.search(date_string):
+    found = _search_tz(date_string)
+    if found is None:
         return None
-    for name, info in _tz_offsets:
-        timezone_match = info["regex"].search(date_string)
-        if timezone_match:
-            start, stop = timezone_match.span()
-            # A token glued to the digits that follow, as in
-            # 2019-09-28WIB19:17:34, leaves a space so that the date and time
-            # digits stay apart.
-            glued = stop < len(date_string) and date_string[stop - 1].isalpha()
-            separator = " " if glued else ""
-            return (
-                date_string[: start + 1] + separator + date_string[stop:],
-                name,
-                info,
-            )
-    return None
+    name, info, timezone_match = found
+    start, stop = timezone_match.span()
+    # A token glued to the digits that follow, as in
+    # 2019-09-28WIB19:17:34, leaves a space so that the date and time
+    # digits stay apart.
+    glued = stop < len(date_string) and date_string[stop - 1].isalpha()
+    separator = " " if glued else ""
+    return (
+        date_string[: start + 1] + separator + date_string[stop:],
+        name,
+        info,
+    )
 
 
 @overload
@@ -100,6 +109,27 @@ def pop_tz_offset_from_string(
         date_string = extra[0]
 
     return date_string, result
+
+
+_time_suffix_regex = re.compile(
+    r"(?:\d:\d{2}(?::\d{2})?(?:\s*[ap]\.?m\.?)?|\d\s*[ap]\.?m\.?)\s*$",
+    re.IGNORECASE,
+)
+
+
+def _strip_tz(date_string: str) -> tuple[str | None, bool]:
+    """Return *date_string* without its timezone, or ``None`` if it has none,
+    and whether that timezone is unambiguous, i.e. unlikely to be a word of
+    some language instead: written in uppercase, like ``MART``, or right after
+    a time, like ``4:30 pm est``, as opposed to the Turkish month ``Mart``."""
+    found = _search_tz(date_string)
+    if not found:
+        return None, False
+    start, stop = found[2].span()
+    before, tz = date_string[: start + 1], date_string[start + 1 : stop]
+    unambiguous = tz.isupper() or bool(_time_suffix_regex.search(before))
+    stripped, _ = pop_tz_offset_from_string(date_string, as_offset=False)
+    return stripped, unambiguous
 
 
 def word_is_tz(word: str) -> bool:
