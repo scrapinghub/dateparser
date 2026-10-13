@@ -105,10 +105,14 @@ RE_SANITIZE_DECIMAL_COMMA = re.compile(r"(?<=\d:\d{2}:\d{2}),(?=\d{3})")
 RE_SANITIZE_ON = re.compile(r"^.*?on:\s+(.*)")
 RE_SANITIZE_APOSTROPHE = re.compile("|".join(APOSTROPHE_LOOK_ALIKE_CHARS))
 RE_SANITIZE_DASH = re.compile("|".join(DASH_LOOK_ALIKE_CHARS))
-# Uppercase Roman numerals from 1000 on, allowing the additive IIII, XXXX and
-# CCCC of old prints.
+# Roman numerals from 1000 on, allowing the additive IIII, XXXX and CCCC of
+# old prints. They are either uppercase, with an optional space between
+# hundreds, tens and units, as in "M DC LIII", or lowercase after the initial
+# M, with a final i written as j, as in "Mcccclxxviij".
 _RE_ROMAN_YEAR = re.compile(
-    r"\bM{1,3}(?:CM|CD|D?C{0,4})(?:XC|XL|L?X{0,4})(?:IX|IV|V?I{0,4})\b"
+    r"\b(?:M{1,3}(?: ?(?:CM|CD|DC{0,4}|C{1,4}))?(?: ?(?:XC|XL|LX{0,4}|X{1,4}))?"
+    r"(?: ?(?:IX|IV|VI{0,4}|I{1,4}))?"
+    r"|M(?:cm|cd|d?c{0,4})(?:xc|xl|l?x{0,4})(?:ix|iv|v?i{0,3}j|v?i{0,4}))\b"
 )
 _ROMAN_NUMERAL_VALUES = {
     "M": 1000,
@@ -219,11 +223,11 @@ def sanitize_date(date_string: str) -> str:
 
 
 def _roman_year_to_digits(match: re.Match[str]) -> str:
-    numeral = match[0]
-    # Too ambiguous with abbreviations like MD or MC.
-    if len(numeral) < 3:
-        return numeral
-    values = [_ROMAN_NUMERAL_VALUES[char] for char in numeral]
+    numeral = match[0].replace(" ", "")
+    # Too ambiguous with abbreviations like MD or MC, or with words like Mix.
+    if len(numeral) < (3 if numeral.isupper() else 4):
+        return match[0]
+    values = [_ROMAN_NUMERAL_VALUES[char] for char in numeral.upper().replace("J", "I")]
     return str(
         sum(
             -value if value < next_value else value

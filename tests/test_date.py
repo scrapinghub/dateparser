@@ -1381,7 +1381,20 @@ class TestSanitizeDate(BaseTestCase):
 
     def test_sanitize_date_roman_numeral_years(self) -> None:
         self.assertEqual(date.sanitize_date("Anno MDCCXVII."), "Anno 1717")
-        for date_string in ("MD", "MIXED", "mdccxvii", "MDCLXXXIIX", "CMXCIX"):
+        self.assertEqual(date.sanitize_date("M. D. LXXX. Iulio"), "1580 Iulio")
+        self.assertEqual(date.sanitize_date("M.cccc.xciiij"), "1494")
+        self.assertEqual(date.sanitize_date("MDC Martii"), "1600 Martii")
+        for date_string in (
+            "MD",
+            "MIXED",
+            "mdccxvii",
+            "MDCLXXXIIX",
+            "CMXCIX",
+            "Mix",
+            "M D",
+            "MD C",
+            "Mccjii",
+        ):
             self.assertEqual(date.sanitize_date(date_string), date_string)
 
     def test_sanitize_date_decimal_comma(self) -> None:
