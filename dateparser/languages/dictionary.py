@@ -59,6 +59,9 @@ KNOWN_WORD_TOKENS = [
 PARENTHESES_PATTERN = re.compile(r"[\(\)]")
 NUMERAL_PATTERN = re.compile(r"(\d+)")
 KEEP_TOKEN_PATTERN = re.compile(r"^.*[^\W_].*$", flags=re.U)
+_NUMBER_AND_WORD_PATTERN = re.compile(r"\d+\s*([^\W\d_]+)", flags=re.U)
+_DECIMAL_COMMA_NUMBER_PATTERN = re.compile(r"\d+,\d+")
+_UNITS = {"decade", "year", "month", "week", "day", "hour", "minute", "second"}
 
 _WEEKDAY_TOKENS = KNOWN_WORD_TOKENS[0:7]
 _MONTH_TOKENS = KNOWN_WORD_TOKENS[7:19]
@@ -226,7 +229,10 @@ class Dictionary:
         expression, or a dictionary word (the same per-token check that
         :meth:`are_tokens_valid` applies)."""
         return bool(
-            token.isdigit() or match_relative_regex.match(token) or token in self
+            token.isdigit()
+            or _DECIMAL_COMMA_NUMBER_PATTERN.fullmatch(token)
+            or match_relative_regex.match(token)
+            or token in self
         )
 
     def _strip_unknown_edge_tokens(self, tokens: list[str]) -> list[str]:
@@ -318,9 +324,11 @@ class Dictionary:
         regex = self._get_split_regex_cache()
         splitted: list[str] = []
         unknown = string
+        decimal_comma = False
 
         while unknown:
             match = regex.match(string)
+            after_decimal_comma, decimal_comma = decimal_comma, False
 
             if not match:
                 curr_split = (
@@ -340,10 +348,23 @@ class Dictionary:
                         self._split_by_numerals(unparsed, keep_formatting) + curr_split
                     )
 
+                # Keep the comma of a decimal number like 2,5 in 2,5 hours.
+                decimal_comma = (
+                    known == ","
+                    and bool(curr_split)
+                    and curr_split[-1].isdigit()
+                    and self._starts_with_number_and_unit(unknown)
+                )
+
                 if unknown:
                     string = unknown if string != unknown else ""
 
             for token in curr_split:
+                if after_decimal_comma and token.isdigit():
+                    splitted[-1] += f",{token}"
+                    after_decimal_comma = False
+                    continue
+
                 if (
                     splitted
                     and splitted[-1].isdigit()
@@ -354,6 +375,13 @@ class Dictionary:
                 splitted.append(token)
 
         return splitted
+
+    def _starts_with_number_and_unit(self, string: str) -> bool:
+        match = _NUMBER_AND_WORD_PATTERN.match(string)
+        if not match:
+            return False
+        word = match.group(1).lower()
+        return word in self and self[word] in _UNITS
 
     def _split_by_numerals(self, string: str, keep_formatting: bool) -> list[str]:
         return [
