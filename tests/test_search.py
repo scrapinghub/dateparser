@@ -1,4 +1,5 @@
 import datetime
+import time
 from datetime import timedelta
 from typing import Any
 
@@ -1245,6 +1246,38 @@ class TestTranslateSearch(BaseTestCase):
             text, languages=languages, settings={"RELATIVE_BASE": relative_base}
         )
         self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(
+                text="At 30 September 2018 E'000",
+                expected=[("At 30 September 2018", datetime.datetime(2018, 9, 30))],
+            ),
+            param(
+                text="On 5 May 2020 ABC-123 XYZ-9",
+                expected=[("On 5 May 2020", datetime.datetime(2020, 5, 5))],
+            ),
+        ]
+    )
+    def test_search_dates_followed_by_words_with_digits(
+        self, text: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
+        self.assertEqual(search_dates(text, languages=["en"]), expected)
+
+    @parameterized.expand(
+        [
+            param(text="Shoes available in sizes of 10 12 14 16"),
+            param(text="rooms on 1 2 3 floors"),
+        ]
+    )
+    def test_search_dates_skips_numbers_followed_by_words(self, text: str) -> None:
+        self.assertIsNone(search_dates(text, languages=["en"]))
+
+    def test_search_dates_in_a_long_run_of_numbers(self) -> None:
+        text = "Scores at ABC-123 " + " ".join(str(i % 90 + 10) for i in range(400))
+        start = time.perf_counter()
+        search_dates(text, languages=["en"])
+        self.assertLess(time.perf_counter() - start, 1)
 
     @parameterized.expand(
         [
