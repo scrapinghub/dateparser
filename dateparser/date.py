@@ -1,5 +1,6 @@
 import collections
 import functools
+import html
 import itertools
 import threading
 from collections.abc import Callable, Iterable, Iterator
@@ -200,6 +201,7 @@ def get_intersecting_periods(low: _D, high: _D, period: str = "day") -> Iterator
 
 
 def sanitize_date(date_string: str) -> str:
+    date_string = html.unescape(date_string)
     date_string = RE_SANITIZE_SKIP.sub(" ", date_string)
     date_string = RE_SANITIZE_RUSSIAN.sub(
         r"\1 ", date_string
