@@ -11,7 +11,7 @@ from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import _UNITS
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import Locale
-from dateparser.search.ngram_search import _NgramDateSearch
+from dateparser.search.ngram_search import _DateResult, _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
@@ -27,7 +27,7 @@ TRANSLATED_RELATIVE_REG = re.compile(
 
 class _SearchResult(TypedDict):
     Language: str | None
-    Dates: list[tuple[str, datetime]] | None
+    Dates: list[_DateResult] | None
 
 
 def date_is_relative(translation: str) -> bool:
@@ -35,8 +35,11 @@ def date_is_relative(translation: str) -> bool:
 
 
 def _add_time_span_results(
-    results: list[tuple[str, datetime]], text: str, settings: Settings
-) -> list[tuple[str, datetime]]:
+    results: list[_DateResult],
+    text: str,
+    settings: Settings,
+    add_period: bool = False,
+) -> list[_DateResult]:
     """Append time span start/end dates if RETURN_TIME_SPAN is enabled."""
     if getattr(settings, "RETURN_TIME_SPAN", False):
         span_info = detect_time_span(text)
@@ -44,8 +47,11 @@ def _add_time_span_results(
             base_date = getattr(settings, "RELATIVE_BASE", None) or datetime.now()
             start_date, end_date = generate_time_span(span_info, base_date, settings)
             matched_text = span_info["matched_text"]
-            results.append((matched_text + " (start)", start_date))
-            results.append((matched_text + " (end)", end_date))
+            for label, date in (("start", start_date), ("end", end_date)):
+                substring = f"{matched_text} ({label})"
+                results.append(
+                    (substring, date, "day") if add_period else (substring, date)
+                )
     return results
 
 
@@ -338,8 +344,12 @@ class _ExactLanguageSearch:
         return parsed, substrings
 
     def search_parse(
-        self, shortname: str, text: str, settings: Settings
-    ) -> list[tuple[str, datetime]]:
+        self,
+        shortname: str,
+        text: str,
+        settings: Settings,
+        add_period: bool = False,
+    ) -> list[_DateResult]:
         language = self.get_current_language(shortname)
         translated, original = self.search(shortname, text, settings)
         bad_translate_with_search = [
@@ -363,9 +373,14 @@ class _ExactLanguageSearch:
             language=language,
         )
 
-        results = list(zip(substrings, [i[0]["date_obj"] for i in parsed], strict=True))
+        results: list[_DateResult] = [
+            (substring, date_data["date_obj"], date_data["period"])
+            if add_period
+            else (substring, date_data["date_obj"])
+            for substring, (date_data, _) in zip(substrings, parsed, strict=True)
+        ]
 
-        _add_time_span_results(results, text, settings)
+        _add_time_span_results(results, text, settings, add_period)
 
         return results
 
@@ -451,6 +466,7 @@ class DateSearchWithDetection:
         settings: Settings | dict[str, Any] | None = None,
         detect_languages_function: Callable[..., list[str]] | None = None,
         strategy: str = "split",
+        add_period: bool = False,
     ) -> _SearchResult:
         """
         Find all substrings of the given string which represent date and/or time and parse them.
@@ -511,14 +527,14 @@ class DateSearchWithDetection:
 
         if strategy == "ngram":
             dates = self.ngram_search.search_parse(
-                candidate_languages, text, settings=settings
+                candidate_languages, text, settings=settings, add_period=add_period
             )
-            _add_time_span_results(dates, text, settings)
+            _add_time_span_results(dates, text, settings, add_period)
             return {"Language": language_shortname, "Dates": dates}
 
         for candidate_language in candidate_languages:
             dates = self.search.search_parse(
-                candidate_language, text, settings=settings
+                candidate_language, text, settings=settings, add_period=add_period
             )
             if dates:
                 return {"Language": candidate_language, "Dates": dates}
