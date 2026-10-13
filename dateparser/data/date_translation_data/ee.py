@@ -19,6 +19,7 @@ info = {
     ],
     "may": [
         "dam",
+        "dame",
         "dama"
     ],
     "june": [

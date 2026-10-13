@@ -224,9 +224,9 @@ info = {
             "for (\\d++[.,]?\\d*+) v sidan",
             "for (\\d++[.,]?\\d*+) veke sidan",
             "for (\\d++[.,]?\\d*+) veker sidan",
-            "–(\\d++[.,]?\\d*+) v",
             "for (\\d++[.,]?\\d*+) uke siden",
-            "for (\\d++[.,]?\\d*+) uker siden"
+            "for (\\d++[.,]?\\d*+) uker siden",
+            "–(\\d++[.,]?\\d*+) v"
         ],
         "\\1 year ago": [
             "for (\\d++[.,]?\\d*+) år sidan",

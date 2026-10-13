@@ -44,6 +44,8 @@ locale_specific:
         relative-type-regex:
             in \1 minute:
                 - en (\d+[.,]?\d*) min
+            in \1 hour:
+                - en (\d+[.,]?\d*) n
     es-NI:
         september:
             - sep

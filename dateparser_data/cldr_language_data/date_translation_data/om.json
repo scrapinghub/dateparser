@@ -1,6 +1,6 @@
 {
     "name": "om",
-    "date_order": "DMY",
+    "date_order": "MDY",
     "january": [
         "ama",
         "amajjii"
@@ -10,15 +10,14 @@
         "guraandhala"
     ],
     "march": [
-        "bit",
-        "bitooteessa"
+        "bitootessa"
     ],
     "april": [
-        "elb",
-        "elba"
+        "eebila",
+        "elb"
     ],
     "may": [
-        "caamsa",
+        "caamsaa",
         "cam"
     ],
     "june": [
@@ -27,7 +26,7 @@
     ],
     "july": [
         "ado",
-        "adooleessa"
+        "adoolessa"
     ],
     "august": [
         "hag",
@@ -35,27 +34,26 @@
     ],
     "september": [
         "ful",
-        "fuulbana"
+        "fulbaana"
     ],
     "october": [
         "onk",
-        "onkololeessa"
+        "onkoloolessa"
     ],
     "november": [
-        "sad",
         "sadaasa"
     ],
     "december": [
         "mud",
-        "muddee"
+        "mudde"
     ],
     "monday": [
         "wiixata",
         "wix"
     ],
     "tuesday": [
-        "qib",
-        "qibxata"
+        "kib",
+        "kibxata"
     ],
     "wednesday": [
         "rob",
@@ -63,7 +61,7 @@
     ],
     "thursday": [
         "kam",
-        "kamiisa"
+        "kamisa"
     ],
     "friday": [
         "jim",
@@ -84,72 +82,170 @@
         "wb"
     ],
     "year": [
-        "year"
+        "waggaa",
+        "wg"
     ],
     "month": [
-        "month"
+        "ji",
+        "ji'a"
     ],
     "week": [
-        "week"
+        "torbee",
+        "tr"
     ],
     "day": [
-        "day"
+        "guyyaa"
     ],
     "hour": [
-        "hour",
-        "hr"
+        "hr",
+        "sa",
+        "sa'aatii"
     ],
     "minute": [
-        "minute"
+        "daqiiqaa",
+        "dq"
     ],
     "second": [
-        "second"
+        "sek",
+        "sekoondii"
     ],
     "relative-type": {
         "0 day ago": [
-            "today"
+            "har'a"
         ],
         "0 hour ago": [
-            "this hour"
+            "sa'aatii kana"
         ],
         "0 minute ago": [
+            "daqiiqaa kana",
             "this minute"
         ],
         "0 month ago": [
-            "this month"
+            "ji kana",
+            "ji'a kana"
         ],
         "0 second ago": [
-            "now"
+            "amma"
         ],
         "0 week ago": [
-            "this week"
+            "torbee kana",
+            "tr kana"
         ],
         "0 year ago": [
-            "this year"
+            "waggaa kana",
+            "wg kana"
         ],
         "1 day ago": [
-            "yesterday"
+            "kaleessa"
         ],
         "1 month ago": [
-            "last month"
+            "ji darbe",
+            "ji'a darbe"
         ],
         "1 week ago": [
-            "last week"
+            "torbee darbe",
+            "tr darbe"
         ],
         "1 year ago": [
-            "last year"
+            "waggaa darbe",
+            "wg darbe"
         ],
         "in 1 day": [
-            "tomorrow"
+            "boru"
         ],
         "in 1 month": [
-            "next month"
+            "ji dhufu",
+            "ji'a dhufu"
         ],
         "in 1 week": [
-            "next week"
+            "torbee dhufu",
+            "tr dhufu"
         ],
         "in 1 year": [
-            "next year"
+            "waggaa dhufu",
+            "wg dhufu"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "g {0} darbe",
+            "guyyaa {0} darbe",
+            "guyyoota {0} darban"
+        ],
+        "\\1 hour ago": [
+            "h {0} darbe",
+            "sa {0} darbe",
+            "sa'aatii {0} darbe",
+            "sa'aatiiwwan {0} darban"
+        ],
+        "\\1 minute ago": [
+            "d {0} darbe",
+            "daq {0} darbe",
+            "daqiiqaa {0} darbe",
+            "daqiiqaawwan {0} darban"
+        ],
+        "\\1 month ago": [
+            "ji {0} darbe",
+            "ji'a {0} darbe",
+            "ji'oota {0} darban"
+        ],
+        "\\1 second ago": [
+            "s {0} darbe",
+            "sek {0} darbe",
+            "sekoondii {0} darbe",
+            "sekoondiiwwan {0} darban"
+        ],
+        "\\1 week ago": [
+            "torbanoota {0} darban",
+            "torbee {0} darbe",
+            "tr {0} darbe",
+            "w {0} darbe"
+        ],
+        "\\1 year ago": [
+            "w {0} dura",
+            "waggaa {0} dura",
+            "waggoota {0} dura",
+            "wg {0} dura"
+        ],
+        "in \\1 day": [
+            "g {0} keessatti",
+            "guyyaa {0} keessatti",
+            "guyyoota {0} keessatti"
+        ],
+        "in \\1 hour": [
+            "h {0} keessatti",
+            "sa {0} keessatti",
+            "sa'aatii {0} keessatti",
+            "sa'aatiiwwan {0} keessatti"
+        ],
+        "in \\1 minute": [
+            "d {0} keessatti",
+            "daq {0} keessatti",
+            "daqiiqaa {0} keessatti",
+            "daqiiqaawwan {0} keessatti"
+        ],
+        "in \\1 month": [
+            "ji {0} keessatti",
+            "ji'a {0} keessatti",
+            "ji'oota {0} keessatti"
+        ],
+        "in \\1 second": [
+            "s {0} keessatti",
+            "sek {0} keessatti",
+            "sekoondii {0} keessatti",
+            "sekoondiiwwan {0} keessatti"
+        ],
+        "in \\1 week": [
+            "torbanoota {0} keessatti",
+            "torbee {0} keessatti",
+            "tr {0} keessatti",
+            "w {0} keessatti"
+        ],
+        "in \\1 year": [
+            "w {0} keessatti",
+            "waggaa {0} keessatti",
+            "waggoota {0} keessatti",
+            "wg {0} keessatti"
         ]
     },
     "locale_specific": {

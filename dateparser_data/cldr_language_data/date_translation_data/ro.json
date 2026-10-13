@@ -176,7 +176,6 @@
         ],
         "\\1 month ago": [
             "acum {0} de luni",
-            "acum {0} luni",
             "acum {0} lună"
         ],
         "\\1 second ago": [
@@ -209,7 +208,6 @@
         ],
         "in \\1 month": [
             "peste {0} de luni",
-            "peste {0} luni",
             "peste {0} lună"
         ],
         "in \\1 second": [

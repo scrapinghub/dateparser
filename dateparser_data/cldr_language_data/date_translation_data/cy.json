@@ -208,7 +208,8 @@
             "ymhen {0} wythnos"
         ],
         "in \\1 year": [
-            "ymhen {0} mlynedd"
+            "ymhen {0} mlynedd",
+            "ymhen {0} o flynyddoedd"
         ]
     },
     "locale_specific": {}

@@ -104,6 +104,7 @@ info = {
     ],
     "month": [
         "m",
+        "mon",
         "monat",
         "Monate",
         "Monaten"

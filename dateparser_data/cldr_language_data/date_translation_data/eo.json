@@ -84,72 +84,165 @@
         "ptm"
     ],
     "year": [
-        "year"
+        "jaro"
     ],
     "month": [
-        "month"
+        "mon",
+        "monato"
     ],
     "week": [
-        "week"
+        "sem",
+        "semajno"
     ],
     "day": [
-        "day"
+        "t",
+        "tago"
     ],
     "hour": [
-        "hour",
-        "hr"
+        "h",
+        "horo",
+        "horoj"
     ],
     "minute": [
-        "minute"
+        "min",
+        "minuto"
     ],
     "second": [
-        "second"
+        "s",
+        "sek",
+        "sekundo"
     ],
     "relative-type": {
         "0 day ago": [
-            "today"
+            "hod",
+            "hodiaŭ"
         ],
         "0 hour ago": [
-            "this hour"
+            "nuna horo"
         ],
         "0 minute ago": [
-            "this minute"
+            "nuna minuto"
         ],
         "0 month ago": [
-            "this month"
+            "nuna mon",
+            "nuna monato"
         ],
         "0 second ago": [
-            "now"
+            "nun"
         ],
         "0 week ago": [
-            "this week"
+            "nuna sem",
+            "nuna semajno"
         ],
         "0 year ago": [
-            "this year"
+            "nuna j",
+            "nuna jaro"
         ],
         "1 day ago": [
-            "yesterday"
+            "hier",
+            "hieraŭ"
         ],
         "1 month ago": [
-            "last month"
+            "pasinta mon",
+            "pasinta monato"
         ],
         "1 week ago": [
-            "last week"
+            "pasinta sem",
+            "pasinta semajno"
         ],
         "1 year ago": [
-            "last year"
+            "pasinta j",
+            "pasinta jaro"
         ],
         "in 1 day": [
-            "tomorrow"
+            "morg",
+            "morgaŭ"
         ],
         "in 1 month": [
-            "next month"
+            "venonta mon",
+            "venonta monato"
         ],
         "in 1 week": [
-            "next week"
+            "venonta sem",
+            "venonta semajno"
         ],
         "in 1 year": [
-            "next year"
+            "venonta j",
+            "venonta jaro"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "antaŭ {0} t",
+            "antaŭ {0} tago",
+            "antaŭ {0} tagoj"
+        ],
+        "\\1 hour ago": [
+            "antaŭ {0} h",
+            "antaŭ {0} horo",
+            "antaŭ {0} horoj"
+        ],
+        "\\1 minute ago": [
+            "antaŭ {0} min",
+            "antaŭ {0} minuto",
+            "antaŭ {0} minutoj"
+        ],
+        "\\1 month ago": [
+            "antaŭ {0} mon",
+            "antaŭ {0} monato",
+            "antaŭ {0} monatoj"
+        ],
+        "\\1 second ago": [
+            "antaŭ {0} s",
+            "antaŭ {0} sek",
+            "antaŭ {0} sekundo",
+            "antaŭ {0} sekundoj"
+        ],
+        "\\1 week ago": [
+            "antaŭ {0} sem",
+            "antaŭ {0} semajno",
+            "antaŭ {0} semajnoj"
+        ],
+        "\\1 year ago": [
+            "antaŭ {0} j",
+            "antaŭ {0} jaro",
+            "antaŭ {0} jaroj"
+        ],
+        "in \\1 day": [
+            "post {0} t",
+            "post {0} tago",
+            "post {0} tagoj"
+        ],
+        "in \\1 hour": [
+            "post {0} h",
+            "post {0} horo",
+            "post {0} horoj"
+        ],
+        "in \\1 minute": [
+            "post {0} min",
+            "post {0} minuto",
+            "post {0} minutoj"
+        ],
+        "in \\1 month": [
+            "post {0} mon",
+            "post {0} monato",
+            "post {0} monatoj"
+        ],
+        "in \\1 second": [
+            "post {0} s",
+            "post {0} sek",
+            "post {0} sekundo",
+            "post {0} sekundoj"
+        ],
+        "in \\1 week": [
+            "post {0} sem",
+            "post {0} semajno",
+            "post {0} semajnoj"
+        ],
+        "in \\1 year": [
+            "post {0} j",
+            "post {0} jaro",
+            "post {0} jaroj"
         ]
     },
     "locale_specific": {}

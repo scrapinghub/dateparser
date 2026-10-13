@@ -210,5 +210,9 @@
             "{0} жылдан кейін"
         ]
     },
-    "locale_specific": {}
+    "locale_specific": {
+        "kk-KZ": {
+            "name": "kk-KZ"
+        }
+    }
 }

@@ -200,8 +200,7 @@
         "\\1 week ago": [
             "for {0} v sidan",
             "for {0} veke sidan",
-            "for {0} veker sidan",
-            "–{0} v"
+            "for {0} veker sidan"
         ],
         "\\1 year ago": [
             "for {0} år sidan"

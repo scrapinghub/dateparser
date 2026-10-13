@@ -1,57 +1,45 @@
 {
     "name": "ak",
-    "date_order": "YMD",
+    "date_order": "DMY",
     "january": [
-        "s-ɔ",
-        "sanda-ɔpɛpɔn"
+        "ɔpɛpɔn"
     ],
     "february": [
-        "k-ɔ",
-        "kwakwar-ɔgyefuo"
+        "ɔgyefoɔ"
     ],
     "march": [
-        "e-ɔ",
-        "ebɔw-ɔbenem"
+        "ɔbɛnem"
     ],
     "april": [
-        "e-o",
-        "ebɔbira-oforisuo"
+        "oforisuo"
     ],
     "may": [
-        "e-k",
-        "esusow aketseaba-kɔtɔnimba"
+        "kɔtɔnimma"
     ],
     "june": [
-        "o-a",
-        "obirade-ayɛwohomumu"
+        "ayɛwohomumu"
     ],
     "july": [
-        "a-k",
-        "ayɛwoho-kitawonsa"
+        "kutawonsa"
     ],
     "august": [
-        "d-ɔ",
-        "difuu-ɔsandaa"
+        "ɔsanaa"
     ],
     "september": [
-        "f-ɛ",
-        "fankwa-ɛbɔ"
+        "ɛbɔ"
     ],
     "october": [
-        "ɔ-a",
-        "ɔbɛsɛ-ahinime"
+        "ahinime"
     ],
     "november": [
-        "ɔ-o",
-        "ɔberɛfɛw-obubuo"
+        "obubuo"
     ],
     "december": [
-        "m-ɔ",
-        "mumu-ɔpɛnimba"
+        "ɔpɛnimma"
     ],
     "monday": [
         "dwo",
-        "dwowda"
+        "dwoada"
     ],
     "tuesday": [
         "ben",
@@ -59,29 +47,29 @@
     ],
     "wednesday": [
         "wuk",
-        "wukuda"
+        "wukuada"
     ],
     "thursday": [
         "yaw",
-        "yawda"
+        "yawoada"
     ],
     "friday": [
         "fia",
-        "fida"
+        "fiada"
     ],
     "saturday": [
         "mem",
         "memeneda"
     ],
     "sunday": [
-        "kwe",
-        "kwesida"
+        "kwa",
+        "sun"
     ],
     "am": [
         "an"
     ],
     "pm": [
-        "ew"
+        "anw"
     ],
     "year": [
         "afe"
@@ -90,66 +78,120 @@
         "bosome"
     ],
     "week": [
-        "dapɛn"
+        "nnawɔtwe"
     ],
     "day": [
         "da"
     ],
     "hour": [
-        "dɔnhwer",
-        "hr"
+        "dɔnhwere"
     ],
     "minute": [
-        "sema"
+        "sima"
     ],
     "second": [
-        "sɛkɛnd"
+        "simasin"
     ],
     "relative-type": {
         "0 day ago": [
-            "ndɛ"
+            "ɛnnɛ"
         ],
         "0 hour ago": [
-            "this hour"
+            "dɔnhwere yi"
         ],
         "0 minute ago": [
-            "this minute"
+            "sima yi"
         ],
         "0 month ago": [
-            "this month"
+            "bosome yi"
         ],
         "0 second ago": [
-            "now"
+            "seesei"
         ],
         "0 week ago": [
-            "this week"
+            "nnawɔtwe yi"
         ],
         "0 year ago": [
-            "this year"
+            "afe yi"
         ],
         "1 day ago": [
-            "ndeda"
+            "nnora",
+            "ɛnnora"
         ],
         "1 month ago": [
-            "last month"
+            "bosome a atwam"
         ],
         "1 week ago": [
-            "last week"
+            "nnawɔtwe a atwam"
         ],
         "1 year ago": [
-            "last year"
+            "afe a atwam"
         ],
         "in 1 day": [
             "ɔkyena"
         ],
         "in 1 month": [
-            "next month"
+            "bosome a ɛdi hɔ"
         ],
         "in 1 week": [
-            "next week"
+            "nnawɔtwe a ɛdi hɔ"
         ],
         "in 1 year": [
-            "next year"
+            "afe a ɛdi hɔ"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "da{0} a atwam",
+            "nna{0} a atwam"
+        ],
+        "\\1 hour ago": [
+            "dɔnhwere {0} a atwam",
+            "nnɔnhwere {0} a atwam"
+        ],
+        "\\1 minute ago": [
+            "sima {0} a atwam"
+        ],
+        "\\1 month ago": [
+            "abosome{0} a atwam",
+            "bosome {0} a atwam"
+        ],
+        "\\1 second ago": [
+            "simasin {0} a atwam"
+        ],
+        "\\1 week ago": [
+            "nnawɔtwe {0} a atwam",
+            "nnawɔtwe{0} a atwam"
+        ],
+        "\\1 year ago": [
+            "afe {0} a atwam",
+            "mfeɛ {0} a atwam"
+        ],
+        "in \\1 day": [
+            "da {0} mu",
+            "nna {0} mu"
+        ],
+        "in \\1 hour": [
+            "dɔnhwere {0} mu",
+            "nnɔnhwere {0} mu"
+        ],
+        "in \\1 minute": [
+            "sima {0} mu"
+        ],
+        "in \\1 month": [
+            "abosome{0} mu",
+            "bosome {0} mu",
+            "bosome{0} mu"
+        ],
+        "in \\1 second": [
+            "simasin {0} mu"
+        ],
+        "in \\1 week": [
+            "nnawɔtwe {0} mu"
+        ],
+        "in \\1 year": [
+            "afe {0} mu",
+            "mfeɛ {0} mu"
         ]
     },
     "locale_specific": {}

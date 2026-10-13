@@ -4,16 +4,22 @@ sentence_splitter_group : 1
 
 monday:
     - Thứ 2
+    - th 2
 tuesday:
     - Thứ 3
+    - th 3
 wednesday:
     - Thứ 4
+    - th 4
 thursday:
     - Thứ 5
+    - th 5
 friday:
     - Thứ 6
+    - th 6
 saturday:
     - Thứ 7
+    - th 7
 sunday:
     - Thứ 1
 

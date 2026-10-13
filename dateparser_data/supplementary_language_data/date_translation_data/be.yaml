@@ -86,6 +86,10 @@ relative-type:
         - ўчора
     0 day ago:
         - сення
+    0 year ago:
+        - у гэтым годзе
+    1 year ago:
+        - у мінулым годзе
 
 simplifications:
     - ^гадзіна: 1 гадзіна

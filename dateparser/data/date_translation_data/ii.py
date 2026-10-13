@@ -32,6 +32,7 @@ info = {
         "ꊰꆪ"
     ],
     "november": [
+        "ꊯꊪꆪ",
         "ꊰꊪꆪ"
     ],
     "december": [
@@ -62,6 +63,8 @@ info = {
         "ꆏꊂꃘ"
     ],
     "sunday": [
+        "ꑬꆏ",
+        "ꑬꆏꑍ",
         "ꑭꆏ",
         "ꑭꆏꑍ"
     ],
@@ -72,25 +75,32 @@ info = {
         "ꁯꋒ"
     ],
     "year": [
+        "ꃅꈎ",
         "ꈎ"
     ],
     "month": [
+        "ꃅꆪ",
         "ꆪ"
     ],
     "week": [
+        "ꆏꊂ",
         "ꑭꆏ"
     ],
     "day": [
+        "ꃅꑍ",
         "ꑍ"
     ],
     "hour": [
         "hr",
+        "ꄮꈉꂷ",
         "ꄮꈉ"
     ],
     "minute": [
+        "ꄮꈉꃏ",
         "ꃏ"
     ],
     "second": [
+        "ꄮꈉꇅ",
         "ꇙ"
     ],
     "relative-type": {
@@ -104,39 +114,50 @@ info = {
             "this minute"
         ],
         "0 month ago": [
+            "ꀋꃋꋋꁮꆪ",
             "this month"
         ],
         "0 second ago": [
             "now"
         ],
         "0 week ago": [
+            "ꀋꃋꋋꆏꊂ",
             "this week"
         ],
         "0 year ago": [
+            "ꀋꃋꎼꈎ",
+            "ꎼꈎ",
             "this year"
         ],
         "1 day ago": [
+            "ꀋꅔꉇ",
             "ꀋꅔꉈ"
         ],
         "1 month ago": [
+            "ꂴꁮꆪ",
             "last month"
         ],
         "1 week ago": [
+            "ꆏꊂꂴꂶꌠ",
             "last week"
         ],
         "1 year ago": [
+            "ꀋꉊꄹꈎ",
             "last year"
         ],
         "in 1 day": [
             "ꃆꏂꑍ"
         ],
         "in 1 month": [
+            "ꊁꁮꆪ",
             "next month"
         ],
         "in 1 week": [
+            "ꆏꊂꊁꂶꌠ",
             "next week"
         ],
         "in 1 year": [
+            "ꑎꉐꄻꈎ",
             "next year"
         ]
     },
