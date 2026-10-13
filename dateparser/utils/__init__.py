@@ -114,14 +114,24 @@ def _get_missing_parts(fmt: str) -> list[str]:
     return [field for field in ("day", "month", "year") if field not in parts]
 
 
+def _get_static_timezone(tz_string: str) -> StaticTzInfo | None:
+    # "+08" is how time.tzname and datetime.tzname() name whole-hour offsets.
+    if re.fullmatch(r"[+-]\d{2}", tz_string):
+        tz_string += "00"
+    for name, info in _tz_offsets:
+        if info["regex"].search(f" {tz_string}"):
+            return StaticTzInfo(name, info["offset"])
+    return None
+
+
 def get_timezone_from_tz_string(tz_string: str) -> tzinfo:
     try:
         return timezone(tz_string)
     except UnknownTimeZoneError:
-        for name, info in _tz_offsets:
-            if info["regex"].search(f" {tz_string}"):
-                return StaticTzInfo(name, info["offset"])
-        raise
+        tz = _get_static_timezone(tz_string)
+        if tz is None:
+            raise
+        return tz
 
 
 def localize_timezone(date_time: datetime, tz_string: str) -> datetime:
@@ -150,10 +160,9 @@ def apply_tzdatabase_timezone(date_time: datetime, pytz_string: str) -> datetime
 def apply_dateparser_timezone(
     utc_datetime: datetime, offset_or_timezone_abb: str
 ) -> datetime | None:
-    for name, info in _tz_offsets:
-        if info["regex"].search(f" {offset_or_timezone_abb}"):
-            tz = StaticTzInfo(name, info["offset"])
-            return utc_datetime.astimezone(tz)
+    tz = _get_static_timezone(offset_or_timezone_abb)
+    if tz is not None:
+        return utc_datetime.astimezone(tz)
     return None
 
 
