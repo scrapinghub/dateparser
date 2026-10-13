@@ -7,7 +7,7 @@ import types
 import unicodedata
 from collections import OrderedDict
 from collections.abc import Callable, Mapping
-from datetime import datetime, tzinfo
+from datetime import MINYEAR, datetime, timedelta, tzinfo
 from datetime import timezone as dt_timezone
 from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
@@ -131,7 +131,14 @@ def localize_timezone(date_time: datetime, tz_string: str) -> datetime:
     tz = get_timezone_from_tz_string(tz_string)
 
     if hasattr(tz, "localize"):
-        date_time = tz.localize(date_time)
+        try:
+            date_time = tz.localize(date_time)
+        except OverflowError:
+            # pytz computes the UTC equivalent, which can fall outside the
+            # supported year range near its edges. The offset of a date 1
+            # day closer to the middle of the range is the same.
+            shift = timedelta(days=1 if date_time.year == MINYEAR else -1)
+            date_time = tz.localize(date_time + shift) - shift
     else:
         date_time = date_time.replace(tzinfo=tz)
 
