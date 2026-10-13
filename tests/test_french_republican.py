@@ -54,21 +54,21 @@ class TestFrenchRepublicanCalendar(BaseTestCase):
             PREFER_DAY_OF_MONTH="first", PREFER_MONTH_OF_YEAR="first"
         )
         self.assertEqual(
-            _french_republican_parser.parse(date_string, first),
+            _french_republican_parser.parse(date_string, first)[:3],
             (expected, period, parts),
         )
 
     def test_prefer_current(self) -> None:
         current = settings.replace(RELATIVE_BASE=datetime(2026, 9, 29))
         self.assertEqual(
-            _french_republican_parser.parse("an VIII", current),
+            _french_republican_parser.parse("an VIII", current)[:3],
             (datetime(1799, 9, 29), "year", ("year",)),
         )
 
     def test_prefer_last(self) -> None:
         last = settings.replace(PREFER_DAY_OF_MONTH="last", PREFER_MONTH_OF_YEAR="last")
         self.assertEqual(
-            _french_republican_parser.parse("an III", last),
+            _french_republican_parser.parse("an III", last)[:3],
             (datetime(1795, 9, 22), "year", ("year",)),
         )
 
