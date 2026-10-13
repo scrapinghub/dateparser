@@ -1140,6 +1140,12 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
+            param(
+                text="in the sample papers. The year of mention refers ",
+                languages=None,
+                settings=None,
+                expected=None,
+            ),
             # Date with comma and apostrophe
             param(
                 text="9/3/2017  , ",
