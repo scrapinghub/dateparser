@@ -15,7 +15,7 @@ import regex as re
 from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
 
-from dateparser.timezone_parser import StaticTzInfo, _tz_offsets
+from dateparser.timezone_parser import StaticTzInfo, _find_tz
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
@@ -118,9 +118,10 @@ def get_timezone_from_tz_string(tz_string: str) -> tzinfo:
     try:
         return timezone(tz_string)
     except UnknownTimeZoneError:
-        for name, info in _tz_offsets:
-            if info["regex"].search(f" {tz_string}"):
-                return StaticTzInfo(name, info["offset"])
+        found = _find_tz(f" {tz_string}")
+        if found:
+            _, name, offset = found
+            return StaticTzInfo(name, offset)
         raise
 
 
@@ -150,10 +151,10 @@ def apply_tzdatabase_timezone(date_time: datetime, pytz_string: str) -> datetime
 def apply_dateparser_timezone(
     utc_datetime: datetime, offset_or_timezone_abb: str
 ) -> datetime | None:
-    for name, info in _tz_offsets:
-        if info["regex"].search(f" {offset_or_timezone_abb}"):
-            tz = StaticTzInfo(name, info["offset"])
-            return utc_datetime.astimezone(tz)
+    found = _find_tz(f" {offset_or_timezone_abb}")
+    if found:
+        _, name, offset = found
+        return utc_datetime.astimezone(StaticTzInfo(name, offset))
     return None
 
 
