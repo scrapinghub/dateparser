@@ -27,4 +27,6 @@ For relative dates, :attr:`~dateparser.date.DateData.relative_delta` holds the
 parsed offset:
 
     >>> ddp.get_date_data('vor 3 Jahren und 6 Monaten').relative_delta
-    relativedelta(years=-3, months=-6)
+    RelativeDelta(years=-3, months=-6)
+
+.. autoclass:: dateparser.RelativeDelta

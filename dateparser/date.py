@@ -15,7 +15,7 @@ from dateparser._parts_of_day import PartOfDay, _replace_part_of_day
 from dateparser.conf import Settings, apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
-from dateparser.freshness_date_parser import freshness_date_parser
+from dateparser.freshness_date_parser import RelativeDelta, freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.parser import _parse_absolute, _parse_nospaces, _StrictDateOrderError
 from dateparser.timezone_parser import pop_tz_offset_from_string
@@ -660,10 +660,10 @@ class DateData:
     It can be accessed with square brackets like a dict object.
     """
 
-    relative_delta: relativedelta | None = None
-    """:class:`~dateutil.relativedelta.relativedelta` that the parsed date
-    string adds to the current date, e.g. ``relativedelta(hours=-2)`` for
-    ``"2 hours ago"``, or ``None`` if the date string is not relative.
+    relative_delta: RelativeDelta | None = None
+    """:class:`~dateparser.RelativeDelta` that the parsed date string adds to
+    the current date, e.g. ``RelativeDelta(hours=-2)`` for ``"2 hours ago"``,
+    or ``None`` if the date string is not relative.
 
     .. versionadded:: VERSION
 
