@@ -86,6 +86,7 @@ class TestDateParser(BaseTestCase):
             param("11 augustus 2014", datetime(2014, 8, 11)),
             param("14 januari 2014", datetime(2014, 1, 14)),
             param("vr jan 24, 2014 12:49", datetime(2014, 1, 24, 12, 49)),
+            param("22mei2010 02h04", datetime(2010, 5, 22, 2, 4)),
             # Italian dates
             param("16 giu 2014", datetime(2014, 6, 16)),
             param("26 gennaio 2014", datetime(2014, 1, 26)),
