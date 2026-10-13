@@ -1140,6 +1140,14 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
+            param(
+                text="Signed: May 3, twenty twenty-six.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("May 3, twenty twenty-six", datetime.datetime(2026, 5, 3, 0, 0))
+                ],
+            ),
             # Date with comma and apostrophe
             param(
                 text="9/3/2017  , ",
