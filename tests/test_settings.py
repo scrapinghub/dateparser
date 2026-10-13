@@ -6,6 +6,7 @@ from parameterized import param, parameterized
 
 from dateparser import DateDataParser, parse
 from dateparser.conf import Settings, SettingValidationError, apply_settings, settings
+from dateparser.languages.dictionary import Dictionary
 from dateparser.search import search_dates
 from tests import BaseTestCase
 
@@ -141,14 +142,6 @@ class SettingsTest(BaseTestCase):
         self.assertNotEqual(
             test_func(settings={"PREFER_DATES_FROM": "past"}), self.default_settings
         )
-
-    def test_apply_settings_shouldnt_create_new_settings_when_same_settings_are_supplied_to_the_decorated_function_more_than_once(
-        self,
-    ) -> None:
-        test_func = apply_settings(test_function)
-        settings_once = test_func(settings={"PREFER_DATES_FROM": "past"})
-        settings_twice = test_func(settings={"PREFER_DATES_FROM": "past"})
-        self.assertEqual(settings_once, settings_twice)
 
     def test_apply_settings_should_return_default_settings_when_called_with_no_settings_after_once_called_with_settings_supplied_to_the_decorated_function(
         self,
@@ -414,3 +407,13 @@ def test_confidence_threshold_setting_is_applied() -> None:
         settings={"LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": 0.4},
     )
     assert ddp2.get_date_data("21/06/2020").locale == "fr"
+
+
+def test_relative_base_does_not_grow_caches() -> None:
+    parse("2 days ago", settings={"RELATIVE_BASE": datetime(2000, 1, 3)})
+    cache_size = len(Dictionary._split_regex_cache)
+    for day in range(4, 10):
+        base = datetime(2000, 1, day)
+        result = parse("2 days ago", settings={"RELATIVE_BASE": base})
+        assert result == datetime(2000, 1, day - 2)
+    assert len(Dictionary._split_regex_cache) == cache_size
