@@ -35,6 +35,8 @@ in:
     - 在
 
 relative-type:
+    3 day ago:
+        - 大前天
     2 day ago:
         - 前天
     0 second ago:
@@ -42,8 +44,10 @@ relative-type:
     0 hour ago:
         - 这一时间
         - 此时
-    in 2 days:
+    in 2 day:
         - 后天
+    in 3 day:
+        - 大后天
 
 simplifications:
     - 半小时前: 30分前
