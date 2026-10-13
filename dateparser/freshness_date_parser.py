@@ -1,8 +1,9 @@
 import contextlib
+import re
 from datetime import datetime, time, timezone, tzinfo
 from typing import TYPE_CHECKING, Any
 
-import regex as re
+import regex
 from dateutil.relativedelta import relativedelta
 
 from dateparser.utils import (
@@ -22,9 +23,18 @@ if TYPE_CHECKING:
     from .date import DateData
 
 _UNITS = r"decade|year|month|week|day|hour|minute|second"
-PATTERN = re.compile(rf"([+-]?\s*\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | re.U)
+_PATTERN = rf"([+-]?\s*(?>\d+(?:[.,\s]\d{{3}}(?!\d))*(?:[.,]\d*)?))\s*({_UNITS})\b"
+PATTERN: "re.Pattern[str] | regex.Pattern[str]"
+try:
+    PATTERN = re.compile(_PATTERN, re.IGNORECASE | re.DOTALL)
+except re.error:
+    # Python 3.10 has no atomic groups.
+    PATTERN = regex.compile(_PATTERN, regex.IGNORECASE | regex.DOTALL)
+# Matches the text before a number that is the end of a longer one, e.g. the
+# day in "2024-06-01 3 days".
+_NUMERIC_PREFIX = re.compile(r"(?<![\d:])\d[\d.,/-]*[.,\s/-]*$")
 # "the 1st of last month" translates to " 1 1 month ago".
-_DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?=(?:in\s+)?\d+\s+month\b)")
+_DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?!\d{3}\s)(?=(?:in\s+)?\d+\s+month\b)")
 
 
 class FreshnessDateDataParser:
@@ -144,12 +154,7 @@ class FreshnessDateDataParser:
         if not self._are_all_words_units(date_string):
             return None, None, ()
 
-        result = self.get_kwargs(date_string)
-        if isinstance(result, tuple):
-            kwargs, explicit_signs = result
-        else:
-            kwargs = result
-            explicit_signs = {}
+        kwargs, explicit_signs = self.get_kwargs(date_string)
 
         if not kwargs:
             return None, None, ()
@@ -199,20 +204,39 @@ class FreshnessDateDataParser:
 
         return date, period, parts
 
-    def get_kwargs(
-        self, date_string: str
-    ) -> tuple[dict[str, float], dict[str, bool]] | dict[str, float]:
-        m = PATTERN.findall(date_string)
-        if not m:
-            return {}
+    @staticmethod
+    def _parse_number(num: str) -> float:
+        # A separator followed by exactly 3 digits groups thousands, any other
+        # one is a decimal mark.
+        num = "".join(num.split()).replace(",", ".")
+        integer, separator, decimals = num.rpartition(".")
+        if not separator:
+            return float(num)
+        if len(decimals) == 3:
+            return float(num.replace(".", ""))
+        return float(integer.replace(".", "") + "." + decimals)
 
+    def get_kwargs(self, date_string: str) -> tuple[dict[str, float], dict[str, bool]]:
         kwargs: dict[str, float] = {}
         explicit_signs: dict[str, bool] = {}
 
-        for num, unit in m:
-            has_explicit_sign = num.startswith(("+", "-"))
-            explicit_signs[unit + "s"] = has_explicit_sign
-            kwargs[unit + "s"] = float(num.replace(",", ".").replace(" ", ""))
+        for match in PATTERN.finditer(date_string):
+            num, unit = match.groups()
+            num = num.lstrip()
+            start = match.start()
+            # A number separated from the match only by whitespace, e.g. the 1
+            # in "year 1 40 minute", is a fragment only if the match starts
+            # with what could be a digit group of it.
+            if (
+                start
+                and not date_string[start - 1].isalpha()
+                and (prefix := _NUMERIC_PREFIX.search(date_string, 0, start))
+                and (not prefix.group().rstrip().isdigit() or re.match(r"\d{3}", num))
+            ):
+                return {}, {}
+            unit += "s"
+            explicit_signs[unit] = num[0] in "+-"
+            kwargs[unit] = float(num) if num.isdecimal() else self._parse_number(num)
 
         return kwargs, explicit_signs
 

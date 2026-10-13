@@ -1,7 +1,7 @@
 r"""Benchmarks for :mod:`dateparser.freshness_date_parser`.
 
 ``PATTERN`` matches a number followed by a time unit, and is applied to the whole
-input string by ``findall()`` (in ``get_kwargs()``) and by ``sub()`` (in
+input string by ``finditer()`` (in ``get_kwargs()``) and by ``sub()`` (in
 ``_parse_time()``). Until #1335 it spelled the number as the greedy
 ``\d+[.,]?\d*``, whose adjacent digit quantifiers backtrack without ever
 changing the match, so the cost grew superlinearly with the length of a digit
