@@ -28,14 +28,6 @@ dateparser.languages.locale module
    :undoc-members:
    :show-inheritance:
 
-dateparser.languages.validation module
---------------------------------------
-
-.. automodule:: dateparser.languages.validation
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 
 Module contents
 ---------------
