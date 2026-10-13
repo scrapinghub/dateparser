@@ -20,7 +20,12 @@ from dateparser.utils import (
     set_correct_day_from_settings,
     set_correct_month_from_settings,
 )
-from dateparser.utils.strptime import strptime
+from dateparser.utils.strptime import (
+    _effective_tz_for_naive_input,
+    _get_clamped_leap_second,
+    _validate_leap_second,
+    strptime,
+)
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
@@ -300,6 +305,12 @@ class _no_spaces_parser:
             for fmt in nsp.date_formats[order]:
                 with contextlib.suppress(Exception):
                     dt = strptime(token, fmt), cls._get_period(fmt), _get_parts(fmt)
+                    _validate_leap_second(
+                        dt[0],
+                        _effective_tz_for_naive_input(dt[0], settings)
+                        if _get_clamped_leap_second() is not None
+                        else None,
+                    )
                     if len(str(dt[0].year)) < 4:
                         ambiguous = dt, fmt
                         continue
@@ -879,6 +890,16 @@ class _parser:
 
         # correction for preference of day: beginning, current, end
         dateobj = po._correct_for_day(dateobj)
+
+        # Validate against the final date, after the corrections above, since
+        # not every caller of this method goes through date_parser.py.
+        if _get_clamped_leap_second() is not None:
+            effective_tz = (
+                tz
+                if tz is not None
+                else _effective_tz_for_naive_input(dateobj, settings)
+            )
+            _validate_leap_second(dateobj, effective_tz)
 
         period = po._get_period()
 
