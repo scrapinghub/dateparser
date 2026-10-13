@@ -2531,6 +2531,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.assertEqual(result.date(), date(2014, 9, 1))
         self.assertEqual(result.time(), time(14, 29))
 
+    def test_parse(self) -> None:
+        _settings = settings.replace(RELATIVE_BASE=datetime(2014, 9, 1, 10, 30))
+        self.assertEqual(
+            freshness_date_parser.parse("2 hour ago", _settings),
+            (datetime(2014, 9, 1, 8, 30), "day", ("year", "month", "day", "time")),
+        )
+
     @parameterized.expand(
         [
             param("2 hours ago", "PKT", date(2014, 9, 1), time(13, 30)),

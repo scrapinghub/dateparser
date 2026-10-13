@@ -1,4 +1,5 @@
 import contextlib
+from dataclasses import dataclass, fields
 from datetime import datetime, time, timezone, tzinfo
 from typing import TYPE_CHECKING, Any
 
@@ -27,6 +28,34 @@ PATTERN = re.compile(rf"([+-]?\s*\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | r
 _DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?=(?:in\s+)?\d+\s+month\b)")
 
 
+@dataclass(frozen=True)
+class RelativeDelta:
+    """Offset from the current date that a relative date string expresses,
+    e.g. ``RelativeDelta(hours=-2)`` for ``"2 hours ago"``.
+
+    See :attr:`DateData.relative_delta
+    <dateparser.date.DateData.relative_delta>`.
+
+    .. versionadded:: VERSION
+    """
+
+    years: float = 0
+    months: float = 0
+    weeks: float = 0
+    days: float = 0
+    hours: float = 0
+    minutes: float = 0
+    seconds: float = 0
+
+    def __repr__(self) -> str:
+        args = ", ".join(
+            f"{field.name}={value!r}"
+            for field in fields(self)
+            if (value := getattr(self, field.name))
+        )
+        return f"RelativeDelta({args})"
+
+
 class FreshnessDateDataParser:
     """Parses date string like "1 year, 2 months ago" and "3 hours, 50 minutes ago"."""
 
@@ -50,9 +79,15 @@ class FreshnessDateDataParser:
     def get_local_tz(self) -> tzinfo:
         return _get_localzone()
 
-    def parse(  # noqa: PLR0912, PLR0915
+    def parse(
         self, date_string: str, settings: "Settings"
     ) -> tuple[datetime | None, str | None, tuple[str, ...]]:
+        date, period, parts, _ = self._parse(date_string, settings)
+        return date, period, parts
+
+    def _parse(  # noqa: PLR0912, PLR0915
+        self, date_string: str, settings: "Settings"
+    ) -> tuple[datetime | None, str | None, tuple[str, ...], RelativeDelta | None]:
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string)
         day = None
@@ -100,17 +135,17 @@ class FreshnessDateDataParser:
         else:
             now = datetime.now(self.get_local_tz())
 
-        date, period, parts = self._parse_date(
+        date, period, parts, delta = self._parse_date(
             date_string, now, settings.PREFER_DATES_FROM
         )
 
         if date and day is not None:
             if period != "month":
-                return None, None, ()
+                return None, None, (), None
             try:
                 date = date.replace(day=day)
             except ValueError:
-                return None, None, ()
+                return None, None, (), None
             period = "day"
             parts += ("day",)
 
@@ -136,13 +171,16 @@ class FreshnessDateDataParser:
             ):
                 date = date.replace(tzinfo=None)
 
-        return date, period, parts
+        return date, period, parts, delta
 
     def _parse_date(  # noqa: PLR0912
         self, date_string: str, now: datetime, prefer_dates_from: str
-    ) -> tuple[datetime, str, tuple[str, ...]] | tuple[None, None, tuple[()]]:
+    ) -> (
+        tuple[datetime, str, tuple[str, ...], RelativeDelta]
+        | tuple[None, None, tuple[()], None]
+    ):
         if not self._are_all_words_units(date_string):
-            return None, None, ()
+            return None, None, (), None
 
         result = self.get_kwargs(date_string)
         if isinstance(result, tuple):
@@ -152,7 +190,7 @@ class FreshnessDateDataParser:
             explicit_signs = {}
 
         if not kwargs:
-            return None, None, ()
+            return None, None, (), None
         period = "day"
         if "days" not in kwargs:
             for k in ["weeks", "months", "years", "decades"]:
@@ -181,9 +219,7 @@ class FreshnessDateDataParser:
                 "years", 0
             ) + 10 * adjusted_kwargs.pop("decades")
 
-        td = relativedelta(**adjusted_kwargs)
-
-        date = now + td
+        date = now + relativedelta(**adjusted_kwargs)
 
         # The smallest unit in the string determines which parts of the
         # resulting date are meaningful.
@@ -197,7 +233,13 @@ class FreshnessDateDataParser:
         else:
             parts = ("year",)
 
-        return date, period, parts
+        delta = RelativeDelta(
+            **{
+                key: int(value) if value.is_integer() else value
+                for key, value in adjusted_kwargs.items()
+            }
+        )
+        return date, period, parts, delta
 
     def get_kwargs(
         self, date_string: str
@@ -219,8 +261,11 @@ class FreshnessDateDataParser:
     def get_date_data(self, date_string: str, settings: "Settings") -> "DateData":
         from dateparser.date import DateData  # noqa: PLC0415
 
-        date, period, parts = self.parse(date_string, settings)
-        return DateData(date_obj=date, period=period, parts=parts)
+        date, period, parts, delta = self._parse(date_string, settings)
+        date_data = DateData(date_obj=date, period=period, parts=parts)
+        if delta is not None:
+            date_data.relative_delta = delta
+        return date_data
 
 
 freshness_date_parser = FreshnessDateDataParser()
