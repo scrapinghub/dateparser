@@ -1140,6 +1140,19 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
+            # "a" only means 1 before a word, as in "a day ago"
+            param(
+                text="call a 24-Aug-2021 11:00",
+                languages=["en"],
+                settings=None,
+                expected=[("24-Aug-2021 11:00", datetime.datetime(2021, 8, 24, 11, 0))],
+            ),
+            param(
+                text='"timestamp">timestamp</a>  24-Aug-2021 11:00',
+                languages=None,
+                settings=None,
+                expected=[("24-Aug-2021 11:00", datetime.datetime(2021, 8, 24, 11, 0))],
+            ),
             # Date with comma and apostrophe
             param(
                 text="9/3/2017  , ",
