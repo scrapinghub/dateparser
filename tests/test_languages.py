@@ -118,6 +118,7 @@ class TestBundledLanguages(BaseTestCase):
             param("it", "19 Luglio 2013", "19 july 2013"),
             # Portuguese
             param("pt", "22 de dezembro de 2014 às 02:38", "22 december 2014 02:38"),
+            param("pt", "07/03/21 - 18h59", "07/03/21 - 18:59"),
             # Russian
             param("ru", "5 августа 2014 г. в 12:00", "5 august 2014 year. 12:00"),
             # Turkish
