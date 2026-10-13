@@ -936,7 +936,7 @@ class TestTranslateSearch(BaseTestCase):
             param("en", "I will meet you tomorrow at noon"),
             # Filipino / Tagalog
             param(
-                "tl",
+                "fil",
                 "Maraming namatay sa mga Hapon hanggang sila'y sumuko noong Agosto 15, 1945.",
             ),
             # Finnish
@@ -1047,6 +1047,9 @@ class TestTranslateSearch(BaseTestCase):
             ),
             # Only digits
             param("en", "2007"),
+            # Only multi-word dictionary entries
+            param("en", "next week"),
+            param("en", "next month"),
         ]
     )
     def test_detection(self, shortname: str, text: str) -> None:
