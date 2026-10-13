@@ -268,18 +268,19 @@ def _apply_century_preference(
 ) -> datetime:
     """Shift *date_obj* by ±100 years to satisfy PREFER_DATES_FROM.
 
-    *now* is normalised to naive so a tz-aware RELATIVE_BASE does not raise
-    TypeError.  When the shifted year falls on Feb 29 in a non-leap year, the
-    nearest valid leap year in the preferred direction is used — matching the
-    behaviour of the NLP path in ``parser.py``.
+    *date_obj* and *now* are compared as naive datetimes, so either of them
+    can be tz-aware.  When the shifted year falls on Feb 29 in a non-leap
+    year, the nearest valid leap year in the preferred direction is used —
+    matching the behaviour of the NLP path in :file:`parser.py`.
 
     Returns the adjusted datetime, or the original when no shift is needed.
     """
-    now_naive = now.replace(tzinfo=None) if now.tzinfo is not None else now
+    now_naive = now.replace(tzinfo=None)
+    date_naive = date_obj.replace(tzinfo=None)
 
-    if now_naive < date_obj and prefer_from == "past":
+    if now_naive < date_naive and prefer_from == "past":
         target_year = date_obj.year - 100
-    elif now_naive >= date_obj and prefer_from == "future":
+    elif now_naive >= date_naive and prefer_from == "future":
         target_year = date_obj.year + 100
     else:
         return date_obj

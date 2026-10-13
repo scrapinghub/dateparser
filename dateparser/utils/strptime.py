@@ -2,7 +2,7 @@ import calendar
 import importlib.util
 import sys
 from collections.abc import Callable
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from time import struct_time
 from types import ModuleType
 from typing import Any
@@ -130,6 +130,8 @@ def strptime(date_string: str, format: str) -> datetime:  # noqa: A002
     )
     time_tuple = __strptime(date_string, prepared_format)
     obj = datetime(*time_tuple[:-3])
+    if time_tuple.tm_gmtoff is not None:
+        obj = obj.replace(tzinfo=timezone(timedelta(seconds=time_tuple.tm_gmtoff)))
 
     if day_of_year_in_format and time_tuple.tm_yday != obj.timetuple().tm_yday:
         # A day of year past the end of the parsed year is rolled over into the
