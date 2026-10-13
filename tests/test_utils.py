@@ -1,13 +1,14 @@
 import calendar
 import itertools
 from collections.abc import Callable
-from datetime import datetime
+from datetime import datetime, timedelta
 from unittest.mock import patch
 
 import pytest
 from parameterized import param, parameterized
 from pytz import UnknownTimeZoneError, utc
 from pytz.tzinfo import BaseTzInfo
+from tzlocal import reload_localzone
 
 import dateparser
 from dateparser.conf import settings
@@ -263,3 +264,24 @@ def test_broken_local_timezone(parse: Callable[[], object]) -> None:
         pytest.raises(RuntimeError, match="Could not determine the local timezone"),
     ):
         parse()
+
+
+@pytest.mark.parametrize(
+    ("date_string", "offset"),
+    [("15 January 2024 12:00", 1), ("15 June 2024 12:00", 2)],
+)
+def test_local_timezone_offset(
+    date_string: str, offset: int, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("TZ", "Europe/Warsaw")
+    reload_localzone()
+    try:
+        date_obj = dateparser.parse(
+            date_string,
+            settings={"TIMEZONE": "local", "RETURN_AS_TIMEZONE_AWARE": True},
+        )
+    finally:
+        monkeypatch.undo()
+        reload_localzone()
+    assert date_obj is not None
+    assert date_obj.utcoffset() == timedelta(hours=offset)
