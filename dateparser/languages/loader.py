@@ -3,7 +3,7 @@ from collections import OrderedDict
 from collections.abc import Iterable, Iterator
 from copy import deepcopy
 from importlib import import_module
-from itertools import zip_longest
+from itertools import chain, zip_longest
 from typing import Any, ClassVar
 
 import regex as re
@@ -13,6 +13,9 @@ from dateparser.data.languages_info import language_locale_dict, language_order
 from .locale import Locale
 
 LOCALE_SPLIT_PATTERN = re.compile(r"-(?=[A-Z0-9]+$)")
+_CANONICAL_LOCALE_CODES = {
+    code.lower(): code for code in chain(language_order, *language_locale_dict.values())
+}
 
 
 def _isvalidlocale(locale: str) -> bool:
@@ -161,6 +164,10 @@ class LocaleDataLoader:
     ) -> Iterator[tuple[str, Locale]]:
         locale_dict: dict[str, tuple[str, ...]] = {}
         if locales:
+            locales = [
+                _CANONICAL_LOCALE_CODES.get(locale.lower(), locale)
+                for locale in locales
+            ]
             invalid_locales = []
             for locale in locales:
                 split_locale = LOCALE_SPLIT_PATTERN.split(locale)
@@ -189,8 +196,7 @@ class LocaleDataLoader:
                 raise ValueError(
                     f"Unknown language(s): {', '.join(map(repr, unsupported_languages))}"
                 )
-            if region is None:
-                region = ""
+            region = (region or "").upper()
             locales = _construct_locales(languages, region)
             locale_dict.update(
                 zip_longest(

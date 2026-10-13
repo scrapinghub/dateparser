@@ -314,6 +314,16 @@ class TestLocaleDataLoader(BaseTestCase):
         self.load_data(given_locales, use_given_order=True)
         self.then_locales_are_yielded_in_order(given_locales)
 
+    def test_loading_locales_in_any_case(self) -> None:
+        self.load_data(["en-gb", "ZH-HANS-HK"], use_given_order=True)
+        self.then_locales_are_yielded_in_order(["en-GB", "zh-Hans-HK"])
+
+    def test_loading_region_in_any_case(self) -> None:
+        self.locale_generator = self.data_loader.get_locales(
+            languages=["en", "de"], region="at"
+        )
+        self.then_locales_are_yielded_in_order(["en-AT", "de-AT"])
+
     @parameterized.expand(
         [
             param(
