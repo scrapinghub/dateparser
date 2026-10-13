@@ -309,7 +309,13 @@ class Locale:
         date_string_tokens = NUMERAL_PATTERN.split(date_string)
         for i, token in enumerate(date_string_tokens):
             if token.isdecimal():
-                date_string_tokens[i] = str(int(token)).zfill(len(token))
+                number = int(token)
+                # Thai dates may use Buddhist Era years, 543 years ahead of the
+                # Gregorian calendar, and no Thai date means a Gregorian year
+                # this far in the future.
+                if self.shortname == "th" and len(token) == 4 and number >= 2400:
+                    number -= 543
+                date_string_tokens[i] = str(number).zfill(len(token))
         return "".join(date_string_tokens)
 
     def _get_relative_translations(
@@ -401,7 +407,7 @@ class Locale:
                 elif self._token_with_digits_is_ok(word) or (
                     translated_chunk and word_is_tz(original_tokens[i])
                 ):
-                    translated_chunk.append(word)
+                    translated_chunk.append(self._translate_numerals(word))
                     original_chunk.append(original_tokens[i])
                 elif translated_chunk:
                     translated.append(translated_chunk)
