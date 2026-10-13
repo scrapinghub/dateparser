@@ -500,7 +500,7 @@ info = {
             "six": "6"
         },
         {
-            "sept": "7"
+            "sept(?=:\\d|\\s*(?:années|année|ans|an|semaines|semaine|sem|secondes|seconde|minutes|minute|min|mois|heures|heure|jours|jour|[jhms])\\b|\\s*a\\b(?!\\s*\\d))": "7"
         },
         {
             "huit": "8"
