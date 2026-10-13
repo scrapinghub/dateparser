@@ -54,7 +54,7 @@ class FreshnessDateDataParser:
         self, date_string: str, settings: "Settings"
     ) -> tuple[datetime | None, str | None, tuple[str, ...]]:
         date_string = strip_braces(date_string)
-        date_string, ptz = pop_tz_offset_from_string(date_string)
+        date_string, ptz = pop_tz_offset_from_string(date_string, settings=settings)
         day = None
         if match := _DAY_OF_MONTH.match(date_string):
             day = int(match[1])
