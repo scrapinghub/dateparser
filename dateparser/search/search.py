@@ -264,7 +264,9 @@ class _ExactLanguageSearch:
     ) -> tuple[DateData, bool]:
         relative_base = None
         item = item.replace("ngày", "")
-        item = item.replace("am", "")
+        # German "am" ("on the") translates to "am", which only means AM
+        # after a 12-hour time.
+        item = re.sub(r"(?<!\b(?:0?[1-9]|1[0-2])(?:[:.][0-5]\d)?\s*)\bam\b", "", item)
         parsed_item = parser.get_date_data(item)
         is_relative = date_is_relative(translated_item)
 
