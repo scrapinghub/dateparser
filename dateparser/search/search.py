@@ -24,6 +24,11 @@ TRANSLATED_RELATIVE_REG = re.compile(
     rf"\bin \d+ (?:{_UNITS})s?\b|\b\d+ (?:{_UNITS})s? ago\b"
 )
 
+# A lone word this short that translates into a bare weekday, month or unit
+# name is too weak a signal to trust the language detected from it, e.g.
+# "car" is an abbreviation of Wednesday in Turkish.
+_AMBIGUOUS_ABBREVIATION_REG = re.compile(r"[a-zA-Z]{1,3}")
+
 
 class _SearchResult(TypedDict):
     Language: str | None
@@ -395,6 +400,24 @@ class DateSearchWithDetection:
 
         return list(dict.fromkeys(candidates))
 
+    def _is_ambiguous_abbreviation(self, substring, shortname, settings):
+        if not _AMBIGUOUS_ABBREVIATION_REG.fullmatch(substring):
+            return False
+        translation = self.loader.get_locale(shortname).translate(
+            substring, settings=settings
+        )
+        if not translation.isalpha():
+            return False
+        english = self.loader.get_locale("en")
+        return english.translate(substring, settings=settings) != translation
+
+    def _drop_ambiguous_abbreviations(self, dates, shortname, settings):
+        return [
+            date
+            for date in dates
+            if not self._is_ambiguous_abbreviation(date[0], shortname, settings)
+        ]
+
     @apply_settings
     def detect_language(
         self,
@@ -513,6 +536,10 @@ class DateSearchWithDetection:
             dates = self.ngram_search.search_parse(
                 candidate_languages, text, settings=settings
             )
+            if not languages:
+                dates = self._drop_ambiguous_abbreviations(
+                    dates, language_shortname, settings
+                )
             _add_time_span_results(dates, text, settings)
             return {"Language": language_shortname, "Dates": dates}
 
@@ -520,6 +547,10 @@ class DateSearchWithDetection:
             dates = self.search.search_parse(
                 candidate_language, text, settings=settings
             )
+            if not languages:
+                dates = self._drop_ambiguous_abbreviations(
+                    dates, candidate_language, settings
+                )
             if dates:
                 return {"Language": candidate_language, "Dates": dates}
 

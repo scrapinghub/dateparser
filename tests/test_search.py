@@ -1345,6 +1345,30 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(text="Do you have a car", strategy="split"),
+            param(text="bar", strategy="split"),
+            param(text="are", strategy="ngram"),
+            param(text="car", strategy="ngram"),
+        ]
+    )
+    def test_search_dates_ignores_short_words_of_a_detected_language(
+        self, text, strategy
+    ):
+        self.assertIsNone(search_dates(text, strategy=strategy))
+
+    @parameterized.expand(
+        [
+            param(text="See you Mon", languages=None, expected="Mon"),
+            param(text="Nos vemos el lun", languages=["es"], expected="lun"),
+            param(text="hoy", languages=None, expected="hoy"),
+        ]
+    )
+    def test_search_dates_finds_short_words(self, text, languages, expected):
+        result = search_dates(text, languages=languages)
+        self.assertEqual([substring for substring, _ in result], [expected])
+
+    @parameterized.expand(
+        [
             param(text="19 марта 2001", languages="wrong type: str instead of list"),
         ]
     )
