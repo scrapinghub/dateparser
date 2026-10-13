@@ -429,6 +429,73 @@ def _translate_names(
         )
 
 
+_ISO_PATTERNS = (
+    # extended format
+    re.compile(
+        r"""
+        (?P<year>\d{4}|\+\d{5,})
+        -
+        (?P<month>\d\d)
+        -
+        (?P<day>\d\d)
+        (?:
+            [T\s]
+            (?P<hour>\d\d)
+            :
+            (?P<minute>\d\d)
+            (?:
+                :
+                (?P<second>\d\d(?:[.,]\d*)?)
+            )?
+        )?
+        """,
+        re.VERBOSE,
+    ),
+    # basic format
+    re.compile(
+        r"""
+        (?P<year>\d{4}|\+\d{5,})
+        (?P<month>\d\d)
+        (?P<day>\d\d)
+        (?:
+            T
+            (?P<hour>\d\d)
+            (?P<minute>\d\d)
+            (?P<second>\d\d(?:[.,]\d*)?)?
+        )?
+        """,
+        re.VERBOSE,
+    ),
+)
+
+
+def _parse_iso(
+    date_string: str,
+    settings: Settings | None = None,
+    tz: tzinfo | None = None,
+    date_order: str | None = None,
+) -> tuple[datetime, str, tuple[str, ...]]:
+    for pattern in _ISO_PATTERNS:
+        match = pattern.fullmatch(date_string)
+        if match:
+            break
+    else:
+        raise ValueError(f"{date_string!r} is not an ISO 8601 date")
+    seconds = float((match["second"] or "0").replace(",", "."))
+    date_obj = datetime(
+        int(match["year"]),
+        int(match["month"]),
+        int(match["day"]),
+        int(match["hour"] or 0),
+        int(match["minute"] or 0),
+        int(seconds),
+        min(round((seconds % 1) * 1_000_000), 999_999),
+    )
+    if match["hour"] is None:
+        return date_obj, "day", ("year", "month", "day")
+    return date_obj, "time", ("year", "month", "day", "time")
+
+
 class _DateLocaleParser:
     def __init__(
         self,
@@ -501,6 +568,8 @@ class _DateLocaleParser:
     def _parse_translation(self) -> "DateData | None":
         rejected: _StrictDateOrderError | None = None
         for parser_name in self._settings.PARSERS:
+            if parser_name not in self._parsers:
+                continue
             if rejected is not None and parser_name == "no-spaces-time":
                 # It would read the same numbers in a date order again.
                 continue
@@ -891,6 +960,17 @@ class DateDataParser:
             parsed_date = self._parse_using_applicable_locales(
                 date_string, date_formats
             )
+            if not parsed_date and "iso" in self._settings.PARSERS:
+                try:
+                    date_obj, period, parts = date_parser.parse(
+                        date_string, parse_method=_parse_iso, settings=self._settings
+                    )
+                except ValueError:
+                    pass
+                else:
+                    parsed_date = DateData(
+                        date_obj=date_obj, period=period, parts=parts
+                    )
             if not parsed_date and self._settings.IGNORE_SURROUNDING_TEXT:
                 # The whole string could not be parsed as a date. Retry,
                 # ignoring unrecognized words at the edges of the string, so

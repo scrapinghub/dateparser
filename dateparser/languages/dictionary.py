@@ -499,13 +499,18 @@ class NormalizedDictionary(Dictionary):
                 conflicting_keys.append(key)
             else:
                 new_dict[normalized] = value
+        dropped_keys = set()
         for key in conflicting_keys:
             normalized = normalize_unicode(key)
             if key in (self.info.get("skip", []) + self.info.get("pertain", [])):
                 new_dict[normalized] = self._dictionary[key]
+            else:
+                dropped_keys.add(key)
         self._dictionary = new_dict
         meanings: dict[str, list[str]] = {}
         for key, key_meanings in self._meanings.items():
+            if key in dropped_keys:
+                continue
             normalized_meanings = meanings.setdefault(normalize_unicode(key), [])
             normalized_meanings.extend(
                 m for m in key_meanings if m not in normalized_meanings
