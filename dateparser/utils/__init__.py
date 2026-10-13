@@ -232,13 +232,13 @@ def _get_leap_year(year: int, future: bool) -> int:
 
 
 def set_correct_day_from_settings(
-    date_obj: datetime, settings: "Settings", current_day: int | None = None
+    date_obj: datetime, settings: "Settings", current_day: int
 ) -> datetime:
     """Set correct day attending the `PREFER_DAY_OF_MONTH` setting."""
     options = {
         "first": 1,
         "last": get_last_day_of_month(date_obj.year, date_obj.month),
-        "current": current_day or datetime.now().day,
+        "current": current_day,
     }
 
     try:
@@ -248,10 +248,10 @@ def set_correct_day_from_settings(
 
 
 def set_correct_month_from_settings(
-    date_obj: datetime, settings: "Settings", current_month: int | None = None
+    date_obj: datetime, settings: "Settings", current_month: int
 ) -> datetime:
     """Set correct month attending the `PREFER_MONTH_OF_YEAR` setting."""
-    options = {"first": 1, "last": 12, "current": current_month or datetime.now().month}
+    options = {"first": 1, "last": 12, "current": current_month}
 
     try:
         return date_obj.replace(month=options[settings.PREFER_MONTH_OF_YEAR])
