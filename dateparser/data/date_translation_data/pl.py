@@ -179,7 +179,6 @@ info = {
         "Niedziela",
         "Niedzielę",
         "Niedziele",
-        "Nie",
         "Nd"
     ],
     "am": [
@@ -405,6 +404,9 @@ info = {
         "za"
     ],
     "simplifications": [
+        {
+            "nie(?=\\.?,?\\s*\\d)": "niedz"
+        },
         {
             "dziś": "0 dnia"
         },
