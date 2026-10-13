@@ -13,6 +13,10 @@ from dateparser.data.languages_info import language_locale_dict, language_order
 from .locale import Locale
 
 LOCALE_SPLIT_PATTERN = re.compile(r"-(?=[A-Z0-9]+$)")
+_POSIX_LOCALE_PATTERN = re.compile(
+    r"(?P<language>[a-z]+)(?:_(?P<region>[A-Z0-9]+))?(?:\.[^@]*)?(?:@(?P<modifier>.+))?"
+)
+_POSIX_SCRIPT_MODIFIERS = {"cyrillic": "Cyrl", "devanagari": "Deva", "latin": "Latn"}
 
 
 def _isvalidlocale(locale: str) -> bool:
@@ -21,6 +25,16 @@ def _isvalidlocale(locale: str) -> bool:
         return False
     locales_list = language_locale_dict[language]
     return locale == language or locale in locales_list
+
+
+def _from_posix_locale(locale: str) -> str:
+    """Return *locale* as a locale code if it is a POSIX locale name, e.g.
+    ``sr-Latn-RS`` for ``sr_RS.UTF-8@latin``."""
+    match = _POSIX_LOCALE_PATTERN.fullmatch(locale)
+    if not match:
+        return locale
+    script = _POSIX_SCRIPT_MODIFIERS.get(match["modifier"] or "")
+    return "-".join(filter(None, (match["language"], script, match["region"])))
 
 
 def _filter_valid_locales(locales: Iterable[str]) -> list[str]:
@@ -161,14 +175,16 @@ class LocaleDataLoader:
     ) -> Iterator[tuple[str, Locale]]:
         locale_dict: dict[str, tuple[str, ...]] = {}
         if locales:
+            given_locales = list(locales)
+            locales = [_from_posix_locale(locale) for locale in given_locales]
             invalid_locales = []
-            for locale in locales:
+            for given_locale, locale in zip(given_locales, locales, strict=True):
                 split_locale = LOCALE_SPLIT_PATTERN.split(locale)
                 if len(split_locale) == 1:
                     split_locale.append("")
                 locale_dict[locale] = tuple(split_locale)
                 if not _isvalidlocale(locale):
-                    invalid_locales.append(locale)
+                    invalid_locales.append(given_locale)
             if invalid_locales:
                 raise ValueError(
                     f"Unknown locale(s): {', '.join(map(repr, invalid_locales))}"
