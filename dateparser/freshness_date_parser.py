@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 import regex as re
 from dateutil.relativedelta import relativedelta
+from pytz.tzinfo import DstTzInfo
 
 from dateparser.utils import (
     _get_localzone,
@@ -125,6 +126,10 @@ class FreshnessDateDataParser:
                 period = "time"
             if isinstance(_time, time) and "time" not in parts:
                 parts += ("time",)
+
+            # Resolve the offset for the resulting wall time after date arithmetic.
+            if isinstance(date.tzinfo, DstTzInfo):
+                date = date.tzinfo.localize(date.replace(tzinfo=None))
 
             if settings.TO_TIMEZONE:
                 date = apply_timezone(date, settings.TO_TIMEZONE)

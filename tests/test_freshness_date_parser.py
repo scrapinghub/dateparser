@@ -2516,6 +2516,48 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.then_date_is(date)
         self.then_time_is(time)
 
+    @parameterized.expand(
+        [
+            param(
+                "tomorrow at 12:00",
+                datetime(2024, 3, 9, 12),
+                "2024-03-10T12:00:00-04:00",
+            ),
+            param(
+                "yesterday at 12:00",
+                datetime(2024, 3, 10, 12),
+                "2024-03-09T12:00:00-05:00",
+            ),
+            param(
+                "tomorrow at 12:00",
+                datetime(2024, 11, 2, 12),
+                "2024-11-03T12:00:00-05:00",
+            ),
+            param(
+                "yesterday at 12:00",
+                datetime(2024, 11, 3, 12),
+                "2024-11-02T12:00:00-04:00",
+            ),
+            param("today at 12:00", datetime(2024, 3, 10), "2024-03-10T12:00:00-04:00"),
+            param("tomorrow", datetime(2024, 3, 9, 12), "2024-03-10T12:00:00-04:00"),
+        ]
+    )
+    def test_freshness_date_across_dst(
+        self, date_string: str, base: datetime, expected: str
+    ) -> None:
+        self.given_parser(
+            settings={
+                "RELATIVE_BASE": base,
+                "TIMEZONE": "America/New_York",
+                "RETURN_AS_TIMEZONE_AWARE": True,
+            }
+        )
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_was_parsed_by_freshness_parser()
+        self.assertEqual(expected, self.result["date_obj"].isoformat())
+
     def test_freshness_date_with_to_timezone_setting(self) -> None:
         _settings = settings.replace(
             TIMEZONE="local",
