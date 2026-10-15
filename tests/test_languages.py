@@ -164,6 +164,10 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "6 يونية 2020", "6 june 2020"),
             param("ar", "7 يوليه 2020", "7 july 2020"),
             param("ar", "8 يولية 2020", "8 july 2020"),
+            param("ar", "۳ یولیو ۲۰۱۴", "3 july 2014"),
+            # Persian
+            param("fa", "3 ژوئيه 2014", "3 july 2014"),
+            param("fa", "1 اكتبر 2020", "1 october 2020"),
             # Arabic (Levantine month names, numbered alternate form)
             param("ar-SY", "15 كانون 2 2023", "15 january 2023"),
             param("ar-JO", "15 كانون 1 2023", "15 december 2023"),

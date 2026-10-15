@@ -1387,6 +1387,22 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed("01/13/2021")
         self.then_date_obj_exactly_is(None)
 
+    @parameterized.expand(
+        [
+            param("08 أكتوبر 2020 08:15 م", datetime(2020, 10, 8, 20, 15), "ar"),
+            param("10 اکتوبر 2020", datetime(2020, 10, 10), "fa"),
+            param("۳ یولیو ۲۰۱۴", datetime(2014, 7, 3), "ar"),
+            param("1 اكتبر 2020", datetime(2020, 10, 1), "fa"),
+        ]
+    )
+    def test_letter_variant_locale_detection(
+        self, date_string: str, expected: datetime, locale: str
+    ) -> None:
+        self.given_parser()
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+        self.assertEqual(self.result["locale"], locale)
+
     def test_order_is_not_swapped_with_a_month_name(self) -> None:
         self.given_parser(languages=["en"], settings={"DATE_ORDER": "DMY"})
         self.when_date_is_parsed("12/24, Monday 15 March 2021")

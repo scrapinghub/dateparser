@@ -1034,6 +1034,9 @@ class DateDataParser:
 
             self.languages = map_languages(detected_languages)
 
+        # Locales that only apply thanks to letter variants go last, so that
+        # e.g. Arabic text is not taken for Persian.
+        letter_variant_locales = []
         for locale in self._get_locale_loader().get_locales(
             languages=self.languages,
             locales=self.locales,
@@ -1041,8 +1044,15 @@ class DateDataParser:
             use_given_order=use_given_order,
         ):
             for s in date_strings():
-                if self._is_applicable_locale(locale, s, ignore_surrounding_text):
+                if self._is_applicable_locale(
+                    locale._native, s, ignore_surrounding_text
+                ):
                     yield locale
+                elif locale._native is not locale and self._is_applicable_locale(
+                    locale, s, ignore_surrounding_text
+                ):
+                    letter_variant_locales.append(locale)
+        yield from letter_variant_locales
 
         if self._settings.DEFAULT_LANGUAGES:
             for locale in self._get_locale_loader().get_locales(
