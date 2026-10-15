@@ -706,6 +706,7 @@ class TestParseMany(BaseTestCase):
         [
             param(["13/01/2015", "01/13/2015"]),
             param(["2015/31/12", "12/31/2015"]),
+            param(["01/02/2015", "2015/31/12"]),
         ]
     )
     def test_no_fitting_order(self, date_strings: list[str]) -> None:
