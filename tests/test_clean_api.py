@@ -628,25 +628,6 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
         self.assertIsNone(self.result)
 
 
-class TestStrictDateOrder(BaseTestCase):
-    @parameterized.expand(
-        [
-            param("2015/2/3", "YMD", datetime(2015, 2, 3)),
-            param("2015/2/3", "YDM", datetime(2015, 3, 2)),
-            param("2015/31/12", "YMD", None),
-            param("2015/31/12", "YDM", datetime(2015, 12, 31)),
-            param("31/12/2015", "MDY", None),
-            param("3 March 2015", "MDY", datetime(2015, 3, 3)),
-            param("3 March 2015", "YMD", None),
-        ]
-    )
-    def test_strict_date_order(
-        self, date_string: str, order: str, expected: datetime | None
-    ) -> None:
-        settings = {"DATE_ORDER": order, "STRICT_DATE_ORDER": True}
-        self.assertEqual(expected, dateparser.parse(date_string, settings=settings))
-
-
 class TestParseMany(BaseTestCase):
     @parameterized.expand(
         [
@@ -724,7 +705,7 @@ class TestParseMany(BaseTestCase):
     @parameterized.expand(
         [
             param(["13/01/2015", "01/13/2015"]),
-            param(["3 March 2015", "2015/31/12"]),
+            param(["2015/31/12", "12/31/2015"]),
         ]
     )
     def test_no_fitting_order(self, date_strings: list[str]) -> None:

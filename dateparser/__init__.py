@@ -156,7 +156,7 @@ def parse_many(
         if (order, locale) not in strict_parsers:
             strict_parsers[order, locale] = DateDataParser(
                 locales=[locale],
-                settings={**settings, "DATE_ORDER": order, "STRICT_DATE_ORDER": True},
+                settings={**settings, "DATE_ORDER": order, "STRICT_DATE_ORDER": "all"},
             )
         date_obj: datetime | None = strict_parsers[order, locale].get_date_data(
             date_string
@@ -201,7 +201,7 @@ def parse_many(
                 settings={
                     **settings,
                     "DATE_ORDER": orders[0],
-                    "STRICT_DATE_ORDER": True,
+                    "STRICT_DATE_ORDER": "all",
                 },
                 **parser_kwargs,
             )
