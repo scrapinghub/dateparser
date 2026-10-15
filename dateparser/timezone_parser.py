@@ -1,3 +1,4 @@
+import warnings
 from collections.abc import Iterator
 from datetime import datetime, timedelta, timezone, tzinfo
 from typing import Literal, TypedDict, overload
@@ -51,9 +52,13 @@ def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | Non
         if timezone_match:
             start, stop = timezone_match.span()
             # A token glued to the digits that follow, as in
-            # 2019-09-28WIB19:17:34, leaves a space so that the date and time
-            # digits stay apart.
-            glued = stop < len(date_string) and date_string[stop - 1].isalpha()
+            # 2019-09-28WIB19:17:34 or 2018-10-30GMT+000015:46:25, leaves a
+            # space so that the date and time digits stay apart.
+            glued = (
+                stop < len(date_string)
+                and date_string[stop - 1].isalnum()
+                and date_string[stop].isalnum()
+            )
             separator = " " if glued else ""
             head, tail = date_string[: start + 1], date_string[stop:]
             if head[-1:].isspace() and tail[:1].isspace():
@@ -122,6 +127,12 @@ def is_timezone_token(token: str) -> bool:
 def convert_to_local_tz(
     datetime_obj: datetime, datetime_tz_offset: timedelta
 ) -> datetime:
+    warnings.warn(
+        "dateparser.timezone_parser.convert_to_local_tz is deprecated and "
+        "will be removed in a future version.",
+        FutureWarning,
+        stacklevel=2,
+    )
     return datetime_obj - datetime_tz_offset + local_tz_offset
 
 

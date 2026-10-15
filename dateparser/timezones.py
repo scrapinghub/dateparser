@@ -16,7 +16,7 @@ timezone_info_list: list[dict[str, Any]] = [
     {
         # The replacements below also apply to this pattern, so it spells ":"
         # as \x3a to keep them from removing it.
-        "regex_patterns": [r"(.)%s(\s*\([^)]*\))?(?=$|[^\w\x3a])"],
+        "regex_patterns": [r"(.)%s(\s*\([^)]*\))?(?=$|[^\w\x3a]|\d\d\x3a\d\d)"],
         "replace": [
             # UTC+n, UTC-n, GMT+n, GMT-n:
             (r"(?:UTC|GMT)\\(\+|\-)0(\d):00", r"(?:UTC|GMT)\\\1\2"),
@@ -26,6 +26,9 @@ timezone_info_list: list[dict[str, Any]] = [
             (r"(?:UTC|GMT)\\(\+|\-)(\d{2}):00", r"(?:UTC|GMT)\\\1\2"),
             # UTC+nnmm, UTC-nnmm, GMT+nnmm, GMT-nnmm:
             (r"(?:UTC|GMT)(\\[+-])(\d{2}):(\d{2})", r"(?:UTC|GMT)\1\2:?\3"),
+            # +nn, -nn, only at the end, since elsewhere they are more likely
+            # part of a date, e.g. "2023 -04-05":
+            (r"(?:UTC|GMT)\\(\+|\-)(\d{2}):00", r"(?<=\\s)\\\1\2$"),
             # Others:
             (r"UTC", r""),
             (r":", r""),
