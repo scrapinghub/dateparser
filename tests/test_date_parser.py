@@ -1391,9 +1391,11 @@ class TestDateParser(BaseTestCase):
         [
             param("08 أكتوبر 2020 08:15 م", datetime(2020, 10, 8, 20, 15), "ar"),
             param("10 اکتوبر 2020", datetime(2020, 10, 10), "fa"),
+            param("۳ یولیو ۲۰۱۴", datetime(2014, 7, 3), "ar"),
+            param("1 اكتبر 2020", datetime(2020, 10, 1), "fa"),
         ]
     )
-    def test_letter_variants_do_not_override_native_matches(
+    def test_letter_variant_locale_detection(
         self, date_string: str, expected: datetime, locale: str
     ) -> None:
         self.given_parser()
