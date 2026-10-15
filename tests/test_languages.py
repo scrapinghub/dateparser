@@ -168,6 +168,12 @@ class TestBundledLanguages(BaseTestCase):
             # Persian
             param("fa", "3 ژوئيه 2014", "3 july 2014"),
             param("fa", "1 اكتبر 2020", "1 october 2020"),
+            # Arabic (Levantine month names, numbered alternate form)
+            param("ar-SY", "15 كانون 2 2023", "15 january 2023"),
+            param("ar-JO", "15 كانون 1 2023", "15 december 2023"),
+            param("ar-LB", "5 تشرين 1 2023", "5 october 2023"),
+            param("ar-PS", "5 تشرين 2 2023", "5 november 2023"),
+            param("ar-IQ", "5 تشرين 1 2023", "5 october 2023"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
             param(
@@ -207,6 +213,17 @@ class TestBundledLanguages(BaseTestCase):
             param("id", "Minggu, 18 Mar 2018 07:30", "sunday 18 march 2018 07:30"),
             param("id", "3 minggu yang lalu", "3 week ago"),
             param("id", "5 minggu", "5 week"),
+            param("id", "6 Nop 2019", "6 november 2019"),
+            param("id", "6 Djan 2019", "6 january 2019"),
+            param("id", "6 Peb 2019", "6 february 2019"),
+            param("id", "6 Mrt 2019", "6 march 2019"),
+            param("id", "6 Mai 2019", "6 may 2019"),
+            param("id", "6 Djuni 2019", "6 june 2019"),
+            param("id", "6 Djuli 2019", "6 july 2019"),
+            param("id", "6 Ag 2019", "6 august 2019"),
+            param("id", "6 Djanuari 2019", "6 january 2019"),
+            param("id", "6 Pebruari 2019", "6 february 2019"),
+            param("id", "6 Nopember 2019", "6 november 2019"),
             # Miscellaneous
             param("en", "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
             param("en", "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),

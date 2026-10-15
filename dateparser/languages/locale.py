@@ -81,7 +81,12 @@ class Locale:
     _split_dictionary: dict[str, str | None] | None = None
     _wordchars_for_detection: set[str] | None = None
 
-    def __init__(self, shortname: str, language_info: Mapping[str, Any]) -> None:
+    def __init__(
+        self,
+        shortname: str,
+        language_info: Mapping[str, Any],
+        _letter_variants: bool = True,
+    ) -> None:
         self.shortname = shortname
         locale_specific_info = language_info.get("locale_specific", {}).get(
             shortname, {}
@@ -89,10 +94,17 @@ class Locale:
         self.info = combine_dicts(language_info, locale_specific_info)
         self.info.pop("locale_specific", None)
         self._translates_letters = (
-            shortname.split("-", maxsplit=1)[0] in _LETTER_VARIANT_LANGUAGES
+            _letter_variants
+            and shortname.split("-", maxsplit=1)[0] in _LETTER_VARIANT_LANGUAGES
         )
+        # Same locale without letter variants, to tell text written in this
+        # language apart from text that only matches thanks to them.
+        self._native = self
         if self._translates_letters:
             self.info = _translate_letters(self.info)
+            self._native = Locale(shortname, language_info, _letter_variants=False)
+            # Dictionary caches are keyed by name.
+            self._native.info["name"] += "~native"
         # This locale instance is cached and shared across threads; the lock
         # guards lazy initialisation of the cached attributes below.
         self._lock = threading.RLock()
@@ -499,7 +511,9 @@ class Locale:
         self, original: str, settings: "Settings | None"
     ) -> tuple[list[str], list[str]]:
         # TODO: Switch to new split method.
-        original_tokens = self._word_split(original, settings=settings)
+        original_tokens = self._word_split(
+            self._break_standalone_marks(original), settings=settings
+        )
         simplified_tokens = self._word_split(
             self._simplify(normalize_unicode(original), settings=settings),
             settings=settings,
@@ -565,6 +579,25 @@ class Locale:
             else:
                 newdict[item] = dictionary[item]
         return newdict
+
+    @staticmethod
+    def _break_standalone_marks(string: str) -> str:
+        """Insert a word break after a standalone spacing-modifier mark
+        (e.g. the acute accent "´" in "C´1997") when it is glued to
+        non-space characters on both sides.
+        """
+        chars = list(string)
+        for i in reversed(range(len(chars))):
+            char = chars[i]
+            if (
+                not char.isspace()
+                and normalize_unicode(char) == " "
+                and 0 < i < len(chars) - 1
+                and not chars[i - 1].isspace()
+                and not chars[i + 1].isspace()
+            ):
+                chars.insert(i + 1, " ")
+        return "".join(chars)
 
     def _word_split(self, string: str, settings: "Settings | None") -> list[str]:
         if "no_word_spacing" in self.info:
