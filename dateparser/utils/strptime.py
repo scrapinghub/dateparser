@@ -95,9 +95,6 @@ __strptime = patch_strptime()
 def _inspect_format(og_format: str) -> tuple[bool, bool]:
     """Return whether *og_format* has a day of month but no year, and whether
     it has a day of year.
-
-    The result depends only on the format, which is checked against many
-    strings, so it is cached instead of being worked out on every call.
     """
     # Adapted from std lib: https://github.com/python/cpython/blob/e34a5e33049ce845de646cf24a498766a2da3586/Lib/_strptime.py#L448
     regex_format = re.sub(r"([\\.^$*+?\(\){}\[\]|])", r"\\\1", og_format)
