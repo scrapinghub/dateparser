@@ -782,6 +782,7 @@ class TestDateDataParser(BaseTestCase):
     @parameterized.expand(
         [
             param("10:04am EDT"),
+            param("9pm UTC"),
         ]
     )
     def test_time_without_date_should_use_today(self, date_string: str) -> None:
@@ -1139,7 +1140,7 @@ class TestDateDataParser(BaseTestCase):
                 "Known bug: 'Mo' is being interpreted as a month instead of a weekday and needs to be fixed."
             )
 
-        self.given_parser(["en"])
+        self.given_parser(["en"], settings={"TIMEZONE": "UTC"})
         self.given_now(2025, 8, 1)
         self.when_date_string_is_parsed(date_string)
         self.then_parsed_datetime_is(expected)
