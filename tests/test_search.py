@@ -1511,6 +1511,43 @@ class TestTranslateSearch(BaseTestCase):
     @parameterized.expand(
         [
             param(
+                "en",
+                "May 5, 2020 (10:30 am)",
+                ("May 5, 2020 (10:30 am", datetime.datetime(2020, 5, 5, 10, 30)),
+            ),
+            param(
+                "hu",
+                "2020. december 21. (hétfő) 20:00",
+                (
+                    "2020. december 21. (hétfő) 20:00",
+                    datetime.datetime(2020, 12, 21, 20),
+                ),
+            ),
+            param(
+                "ru",
+                "9 ноября 2020 18:44 (UTC+04:00)",
+                (
+                    "9 ноября 2020 18:44 (UTC+04:00",
+                    datetime.datetime(
+                        2020,
+                        11,
+                        9,
+                        18,
+                        44,
+                        tzinfo=datetime.timezone(datetime.timedelta(hours=4)),
+                    ),
+                ),
+            ),
+        ]
+    )
+    def test_search_dates_enclosed_part_of_date(
+        self, language: str, text: str, expected: tuple[str, datetime.datetime]
+    ) -> None:
+        self.assertEqual(search_dates(text, languages=[language]), [expected])
+
+    @parameterized.expand(
+        [
+            param(
                 text="Deadline: next Friday",
                 expected=[("next Friday", datetime.datetime(2026, 9, 25))],
             ),

@@ -6,7 +6,11 @@ from typing import TYPE_CHECKING, Any, TypeVar
 
 import regex as re
 
-from dateparser.timezone_parser import pop_tz_offset_from_string, word_is_tz
+from dateparser.timezone_parser import (
+    is_timezone_token,
+    pop_tz_offset_from_string,
+    word_is_tz,
+)
 from dateparser.utils import combine_dicts, normalize_unicode
 
 from .dictionary import ALWAYS_KEEP_TOKENS, Dictionary, NormalizedDictionary
@@ -51,6 +55,18 @@ _WEEKDAY_MODIFIER_ENTRIES = {
 
 _OPENING_MARKS = ("(", "[", "{", '"')
 _CLOSING_MARKS = (")", "]", "}", '"')
+_ENCLOSED_TIME = re.compile(r"\d{1,2}:\d{2}(?::\d{2})?(?:am|pm)?")
+_ENCLOSED_WORDS = {
+    "am",
+    "pm",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+}
 
 
 class Locale:
@@ -391,6 +407,7 @@ class Locale:
             # Without spaces between words, brackets enclose parts of a date,
             # e.g. the weekday of "2016年3月21日(月)".
             enclosed_dates = "no_word_spacing" not in self.info
+            attached_group_end = None
             for i, word in enumerate(simplified_tokens):
                 next_word = simplified_tokens[i + 1] if i < last_token_index else ""
                 current_and_next_joined = self._join_chunk(
@@ -405,11 +422,17 @@ class Locale:
                     and translated_chunk
                     and word.startswith(_OPENING_MARKS)
                 ):
-                    # Brackets and quotes enclose a date of their own.
-                    translated.append(translated_chunk)
-                    translated_chunk = []
-                    original.append(original_chunk)
-                    original_chunk = []
+                    attached_group_end = self._attached_group_end(
+                        simplified_tokens, original_tokens, i, dictionary
+                    )
+                    if attached_group_end is None:
+                        # Brackets and quotes enclose a date of their own,
+                        # unless they only add a time, a timezone or a weekday
+                        # to the preceding date, e.g. "8 May 2020 (16:05)".
+                        translated.append(translated_chunk)
+                        translated_chunk = []
+                        original.append(original_chunk)
+                        original_chunk = []
 
                 if word in {"", " "}:
                     translated_chunk.append(word)
@@ -465,11 +488,14 @@ class Locale:
                     translated_chunk = []
                     original.append(original_chunk)
                     original_chunk = []
-                last_word = next_word if skip_next_token else word
+                last_index = i + 1 if skip_next_token else i
                 if (
                     enclosed_dates
                     and translated_chunk
-                    and last_word.rstrip(",.;:").endswith(_CLOSING_MARKS)
+                    and last_index != attached_group_end
+                    and simplified_tokens[last_index]
+                    .rstrip(",.;:")
+                    .endswith(_CLOSING_MARKS)
                 ):
                     translated.append(translated_chunk)
                     translated_chunk = []
@@ -686,6 +712,30 @@ class Locale:
         start = len(token) - len(token.lstrip(PUNCTUATION))
         end = len(token.rstrip(PUNCTUATION))
         return token[:start] + translation + token[end:]
+
+    @staticmethod
+    def _attached_group_end(
+        simplified_tokens: list[str],
+        original_tokens: list[str],
+        start: int,
+        dictionary: Dictionary,
+    ) -> int | None:
+        """Return the index of the token that closes the group *start* opens,
+        if the group only holds a time, a timezone or a weekday, which belong
+        to the date before it."""
+        for i in range(start, len(simplified_tokens)):
+            token = simplified_tokens[i].rstrip(",.;:")
+            bare = token.strip(PUNCTUATION)
+            original_bare = original_tokens[i].strip(PUNCTUATION + ",.;:")
+            if bare and not (
+                _ENCLOSED_TIME.fullmatch(bare)
+                or (bare in dictionary and dictionary[bare] in _ENCLOSED_WORDS)
+                or (original_bare.isupper() and is_timezone_token(original_bare))
+            ):
+                return None
+            if token.endswith(_CLOSING_MARKS) and (i > start or len(token) > 1):
+                return i
+        return None
 
     def _join_chunk(self, chunk: Sequence[str], settings: "Settings | None") -> str:
         if "no_word_spacing" in self.info:
