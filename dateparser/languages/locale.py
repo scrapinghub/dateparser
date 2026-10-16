@@ -49,6 +49,9 @@ _WEEKDAY_MODIFIER_ENTRIES = {
 }
 """Translations of the entries that put a modifier before a weekday."""
 
+_OPENING_MARKS = ("(", "[", "{", '"')
+_CLOSING_MARKS = (")", "]", "}", '"')
+
 
 class Locale:
     """
@@ -385,6 +388,9 @@ class Locale:
             original_chunk: list[str] = []
             last_token_index = len(simplified_tokens) - 1
             skip_next_token = False
+            # Without spaces between words, brackets enclose parts of a date,
+            # e.g. the weekday of "2016年3月21日(月)".
+            enclosed_dates = "no_word_spacing" not in self.info
             for i, word in enumerate(simplified_tokens):
                 next_word = simplified_tokens[i + 1] if i < last_token_index else ""
                 current_and_next_joined = self._join_chunk(
@@ -393,6 +399,17 @@ class Locale:
                 if skip_next_token:
                     skip_next_token = False
                     continue
+
+                if (
+                    enclosed_dates
+                    and translated_chunk
+                    and word.startswith(_OPENING_MARKS)
+                ):
+                    # Brackets and quotes enclose a date of their own.
+                    translated.append(translated_chunk)
+                    translated_chunk = []
+                    original.append(original_chunk)
+                    original_chunk = []
 
                 if word in {"", " "}:
                     translated_chunk.append(word)
@@ -413,14 +430,11 @@ class Locale:
                         and self._is_weekday_modifier_entry(
                             current_and_next_joined.strip(PUNCTUATION), dictionary
                         )
-                        and (
-                            word.startswith(("(", "["))
-                            or not self._in_dictionary(word, dictionary)
-                        )
+                        and not self._in_dictionary(word, dictionary)
                     ):
                         # The first word would end the chunk on its own, e.g.
-                        # "last" in "yesterday and last friday", or opens a
-                        # bracket, so the entry starts a new chunk.
+                        # "last" in "yesterday and last friday", so the entry
+                        # starts a new chunk.
                         translated.append(translated_chunk)
                         translated_chunk = []
                         original.append(original_chunk)
@@ -439,13 +453,7 @@ class Locale:
                     translated_chunk.append(dictionary[word])
                     original_chunk.append(original_tokens[i])
                 elif word.strip(PUNCTUATION) in dictionary and word not in dashes:
-                    bare_word = word.strip(PUNCTUATION)
-                    punct = word[len(bare_word) :]
-                    bare_translation = dictionary[bare_word]
-                    if punct and bare_translation:
-                        translated_chunk.append(bare_translation + punct)
-                    else:
-                        translated_chunk.append(bare_translation)
+                    translated_chunk.append(self._translate_token(word, dictionary))
                     original_chunk.append(original_tokens[i])
                 elif self._token_with_digits_is_ok(word) or (
                     translated_chunk and word_is_tz(original_tokens[i])
@@ -453,6 +461,16 @@ class Locale:
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
                 elif translated_chunk:
+                    translated.append(translated_chunk)
+                    translated_chunk = []
+                    original.append(original_chunk)
+                    original_chunk = []
+                last_word = next_word if skip_next_token else word
+                if (
+                    enclosed_dates
+                    and translated_chunk
+                    and last_word.rstrip(",.;:").endswith(_CLOSING_MARKS)
+                ):
                     translated.append(translated_chunk)
                     translated_chunk = []
                     original.append(original_chunk)
@@ -663,7 +681,8 @@ class Locale:
         if token in dictionary:
             return dictionary[token]
         translation = dictionary[token.strip(PUNCTUATION)]
-        assert translation is not None
+        if not translation:
+            return translation
         start = len(token) - len(token.lstrip(PUNCTUATION))
         end = len(token.rstrip(PUNCTUATION))
         return token[:start] + translation + token[end:]

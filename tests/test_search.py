@@ -466,7 +466,7 @@ class TestTranslateSearch(BaseTestCase):
                 "trwająca od 1 września 1939 do 2 września 1945 (w Europie do 8 maja 1945)",
                 [
                     ("1 września 1939", datetime.datetime(1939, 9, 1, 0, 0)),
-                    ("2 września 1945 (w", datetime.datetime(1945, 9, 2, 0, 0)),
+                    ("2 września 1945", datetime.datetime(1945, 9, 2, 0, 0)),
                     ("8 maja 1945", datetime.datetime(1945, 5, 8, 0, 0)),
                 ],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
@@ -1462,6 +1462,27 @@ class TestTranslateSearch(BaseTestCase):
             param(
                 text="19/06/2020 [month]",
                 expected=[("19/06/2020", datetime.datetime(2020, 6, 19))],
+            ),
+            param(
+                text="last Friday at 5pm and (yesterday)",
+                expected=[
+                    ("last Friday at 5pm", datetime.datetime(2026, 9, 18, 17)),
+                    ("yesterday", datetime.datetime(2026, 9, 22, 12)),
+                ],
+            ),
+            param(
+                text="19/06/2020 and [tomorrow at 5pm]",
+                expected=[
+                    ("19/06/2020", datetime.datetime(2020, 6, 19)),
+                    ("tomorrow at 5pm", datetime.datetime(2026, 9, 24, 17)),
+                ],
+            ),
+            param(
+                text='20 June 2020 / "in 3 days"',
+                expected=[
+                    ("20 June 2020", datetime.datetime(2020, 6, 20)),
+                    ("in 3 days", datetime.datetime(2026, 9, 26, 12)),
+                ],
             ),
             param(text="Meet on the last friday of June", expected=None),
             param(

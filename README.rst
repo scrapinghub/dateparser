@@ -167,7 +167,8 @@ Relative Dates
 In English, ``last``, ``this`` and ``next`` before a weekday mean its closest
 occurrence before, on or after, and after the current date, respectively,
 regardless of the ``PREFER_DATES_FROM`` setting. So ``this Wednesday`` and
-``next Wednesday`` are the same date except on a Wednesday.
+``next Wednesday`` are the same date except on a Wednesday. They do not apply
+to ``wed``, ``sat`` and ``sun``, which are also common English words.
 
 .. note:: Testing above code might return different values depending on your environment's current date and time.
 
