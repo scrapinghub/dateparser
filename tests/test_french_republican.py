@@ -21,6 +21,7 @@ class TestFrenchRepublicanCalendar(BaseTestCase):
             param("1er Vendémiaire an II", datetime(1793, 9, 22)),
             param("6 jours complémentaires an iii", datetime(1795, 9, 22)),
             param("1 Floréal an. 79", datetime(1871, 4, 21)),
+            param("18 brumaire an VIII [1799]", datetime(1799, 11, 9)),
         ]
     )
     def test_dates(self, date_string: str, expected: datetime) -> None:
@@ -35,6 +36,17 @@ class TestFrenchRepublicanCalendar(BaseTestCase):
             param("An XIV", datetime(1805, 9, 23), "year", ("year",)),
             param("An 3.eme", datetime(1794, 9, 22), "year", ("year",)),
             param("An IVme.", datetime(1795, 9, 23), "year", ("year",)),
+            param("An Quatrième", datetime(1795, 9, 23), "year", ("year",)),
+            param("Anno VI. [1797/98]", datetime(1797, 9, 22), "year", ("year",)),
+            param("An 9(1801)", datetime(1800, 9, 23), "year", ("year",)),
+            param("An III, 1794/95", datetime(1794, 9, 22), "year", ("year",)),
+            param("An X. = 1802", datetime(1801, 9, 23), "year", ("year",)),
+            param(
+                "An 2. de la République française, une et indivisible [i.e. 1793/94]",
+                datetime(1793, 9, 22),
+                "year",
+                ("year",),
+            ),
             param(
                 "Sans-culottides an I",
                 datetime(1793, 9, 17),
@@ -79,6 +91,8 @@ class TestFrenchRepublicanCalendar(BaseTestCase):
             param("An 0"),
             param("An"),
             param("An XIIII"),
+            param("An X [bis]"),
+            param("Anno 1499"),
             param("brumaire"),
             param("18 brumaire 1799"),
         ]
