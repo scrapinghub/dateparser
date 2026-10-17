@@ -156,6 +156,20 @@ When set to ``True`` if missing any of ``day``, ``month`` or ``year`` parts, it 
     >>> parse('March', settings={'STRICT_PARSING': True})
     None
 
+.. note:: ``STRICT_PARSING`` and ``REQUIRE_PARTS`` only apply to dates handled by the
+   ``absolute-time`` and ``no-spaces-time`` parsers, which can tell which parts were
+   missing from the input. They do not apply to the ``relative-time`` and ``timestamp``
+   parsers: a relative date such as ``'90 days'`` or ``'2 weeks ago'`` is always
+   resolved to a complete date, so it is still returned. To only accept dates that
+   are written out explicitly, restrict ``PARSERS`` to ``absolute-time``:
+
+       >>> parse('90 days', settings={'STRICT_PARSING': True})  # doctest: +SKIP
+       datetime.datetime(2019, 3, 18, 0, 0)
+       >>> parse('90 days', settings={'STRICT_PARSING': True, 'PARSERS': ['absolute-time']})
+       None
+
+   The same applies to :func:`dateparser.search.search_dates`.
+
 ``REQUIRE_PARTS``: ensures results are dates that have all specified parts. It defaults to ``[]`` and can include ``day``, ``month`` and/or ``year``.
 
 For example, assuming current date is `June 16, 2019`:

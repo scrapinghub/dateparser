@@ -396,6 +396,21 @@ def test_no_spaces_strict_parsing(date_string: str, expected_result: datetime) -
     assert parser.get_date_data(date_string)["date_obj"] is None
 
 
+@pytest.mark.parametrize("date_string", ["90 days", "2 weeks ago", "yesterday"])
+@pytest.mark.parametrize("setting", ["STRICT_PARSING", "REQUIRE_PARTS"])
+def test_strict_parsing_only_applies_to_absolute_parser(
+    date_string: str, setting: str
+) -> None:
+    value: Any = True if setting == "STRICT_PARSING" else ["day", "month", "year"]
+
+    assert parse(date_string, settings={setting: value}) is not None
+    assert search_dates(date_string, settings={setting: value}) is not None
+
+    settings = {setting: value, "PARSERS": ["absolute-time"]}
+    assert parse(date_string, settings=settings) is None
+    assert search_dates(date_string, settings=settings) is None
+
+
 def detect_languages(text: str, confidence_threshold: float) -> list[str]:
     if confidence_threshold > 0.5:
         return ["en"]
