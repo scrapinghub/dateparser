@@ -1516,6 +1516,21 @@ class TestTranslateSearch(BaseTestCase):
                 ("May 5, 2020 (10:30 am", datetime.datetime(2020, 5, 5, 10, 30)),
             ),
             param(
+                "en",
+                "May 5, 2020 (5pm)",
+                ("May 5, 2020 (5pm", datetime.datetime(2020, 5, 5, 17)),
+            ),
+            param(
+                "en",
+                "May 5, 2020 (at 5 pm)",
+                ("May 5, 2020 (at 5 pm", datetime.datetime(2020, 5, 5, 17)),
+            ),
+            param(
+                "en",
+                "Thu (12 Feb 2016)",
+                ("Thu (12 Feb 2016", datetime.datetime(2016, 2, 12)),
+            ),
+            param(
                 "hu",
                 "2020. december 21. (hétfő) 20:00",
                 (

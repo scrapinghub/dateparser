@@ -38,27 +38,7 @@ def _parse_bool(value: object) -> bool:
 # it on so the text and its translation keep the same separators.
 PUNCTUATION = "()\"'{}[],.،"
 
-_WEEKDAY_MODIFIER_ENTRIES = {
-    f"{modifier} {weekday}"
-    for modifier in ("last", "this", "next")
-    for weekday in (
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday",
-    )
-}
-"""Translations of the entries that put a modifier before a weekday."""
-
-_OPENING_MARKS = ("(", "[", "{", '"')
-_CLOSING_MARKS = (")", "]", "}", '"')
-_ENCLOSED_TIME = re.compile(r"\d{1,2}:\d{2}(?::\d{2})?(?:am|pm)?")
-_ENCLOSED_WORDS = {
-    "am",
-    "pm",
+_WEEKDAYS = (
     "monday",
     "tuesday",
     "wednesday",
@@ -66,7 +46,18 @@ _ENCLOSED_WORDS = {
     "friday",
     "saturday",
     "sunday",
+)
+_WEEKDAY_MODIFIER_ENTRIES = {
+    f"{modifier} {weekday}"
+    for modifier in ("last", "this", "next")
+    for weekday in _WEEKDAYS
 }
+"""Translations of the entries that put a modifier before a weekday."""
+
+_OPENING_MARKS = ("(", "[", "{", '"')
+_CLOSING_MARKS = (")", "]", "}", '"')
+_ENCLOSED_TIME = re.compile(r"\d{1,2}(?::\d{2}(?::\d{2})?)?(?:am|pm)?")
+_ENCLOSED_WORDS = {"am", "pm", *_WEEKDAYS}
 
 
 class Locale:
@@ -425,10 +416,16 @@ class Locale:
                     attached_group_end = self._attached_group_end(
                         simplified_tokens, original_tokens, i, dictionary
                     )
-                    if attached_group_end is None:
+                    if attached_group_end is None and not all(
+                        token.strip(PUNCTUATION + " ") in {"", *_WEEKDAYS}
+                        for token in translated_chunk
+                        if token
+                    ):
                         # Brackets and quotes enclose a date of their own,
                         # unless they only add a time, a timezone or a weekday
-                        # to the preceding date, e.g. "8 May 2020 (16:05)".
+                        # to the preceding date, e.g. "8 May 2020 (16:05)", or
+                        # the preceding date is only a weekday, e.g.
+                        # "Thu (12 Feb 2016)".
                         translated.append(translated_chunk)
                         translated_chunk = []
                         original.append(original_chunk)
@@ -729,7 +726,10 @@ class Locale:
             original_bare = original_tokens[i].strip(PUNCTUATION + ",.;:")
             if bare and not (
                 _ENCLOSED_TIME.fullmatch(bare)
-                or (bare in dictionary and dictionary[bare] in _ENCLOSED_WORDS)
+                or (
+                    bare in dictionary
+                    and (not dictionary[bare] or dictionary[bare] in _ENCLOSED_WORDS)
+                )
                 or (original_bare.isupper() and is_timezone_token(original_bare))
             ):
                 return None
