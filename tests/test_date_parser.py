@@ -2440,6 +2440,13 @@ class TestDateParser(BaseTestCase):
             ),
         )
 
+    def test_normalization_does_not_add_meanings(self) -> None:
+        # Lower Sorbian "ź" (day) normalizes to "z", the UTC designator.
+        self.assertEqual(
+            datetime(2021, 1, 1, tzinfo=timezone.utc),
+            parse("20210101T000000Z", languages=["dsb"]),
+        )
+
     def test_word_with_too_many_meaning_combinations(self) -> None:
         self.assertIsNone(parse("mar mar mar mar mar", languages=["it"]))
 
