@@ -11,6 +11,7 @@ from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import _UNITS
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import Locale
+from dateparser.parser import _ORDINAL_SUFFIX
 from dateparser.search.ngram_search import _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
@@ -194,7 +195,13 @@ class _ExactLanguageSearch:
         words = original.split()
         kept = []
         for index, word in enumerate(words):
-            translation = language.translate(word, settings=settings).split()
+            # The search translation keeps ordinal suffixes attached, e.g.
+            # "1st" becomes "1xth" there but "1 xth" here.
+            translation = (
+                language.translate(word, settings=settings)
+                .replace(f" {_ORDINAL_SUFFIX}", _ORDINAL_SUFFIX)
+                .split()
+            )
             if len(translation) > 1:
                 return []
             if translation:
