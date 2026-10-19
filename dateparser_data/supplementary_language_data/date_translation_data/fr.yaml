@@ -87,3 +87,4 @@ simplifications:
     - dix: '10'
     - onze: '11'
     - douze: '12'
+    - (?<!(?:apr[eè]s|avant)(?:[\W_]+le)?[\W_]+)midi: '12:00'
