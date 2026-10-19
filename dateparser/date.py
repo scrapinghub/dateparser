@@ -31,6 +31,7 @@ from dateparser.utils import (
     set_correct_day_from_settings,
     set_correct_month_from_settings,
 )
+from dateparser.utils.strptime import has_format_shape, matches_format
 from dateparser.utils.strptime import strptime as patched_strptime
 
 if TYPE_CHECKING:
@@ -427,6 +428,28 @@ def _translate_names(
         yield "".join(
             part + name for part, name in zip(parts, (*combination, ""), strict=True)
         )
+
+
+def _swap_day_and_month(date_format: str) -> str:
+    # "%x" is "%m/%d/%y" for the strptime that dateparser uses, which is English.
+    return re.sub(
+        r"%(%|d|m|x)",
+        lambda match: {"%": "%%", "d": "%m", "m": "%d", "x": "%d/%m/%y"}[match[1]],
+        date_format,
+    )
+
+
+def _is_out_of_range_for_formats(date_string: str, date_formats: Iterable[str]) -> bool:
+    """Return whether *date_string* is written in one of *date_formats*, but
+    with a number that is out of range for it, e.g. "32 DEC 10" and
+    "%d %b %y", and it is no valid date for any of the formats either."""
+    return any(has_format_shape(date_string, f) for f in date_formats) and not any(
+        # A day and a month in each other's place: "12/31/2020" and "%d/%m/%Y".
+        matches_format(date_string, _swap_day_and_month(f))
+        # A leap day without a year: "29 Feb" and "%d %b".
+        or matches_format(date_string, f, leap_year=True)
+        for f in date_formats
+    )
 
 
 class _DateLocaleParser:
@@ -910,6 +933,18 @@ class DateDataParser:
     def _parse_with_localized_formats(
         self, date_string: str, date_formats: Iterable[str]
     ) -> DateData | None:
+        """Parse *date_string* with *date_formats* after translating the month
+        and weekday names in it from each locale.
+
+        With STRICT_DATE_FORMATS, if no date results but the string, translated
+        or not, is written in one of the formats with a number out of range for
+        it, return a ``DateData`` without a date. That is final: the other
+        parsers must not read the numbers in another order, e.g. the day 32 of
+        "32 DEC 10" as the year 2032. A string of digits only is not checked,
+        since a format that fits it is as likely to be a timestamp or a year.
+        """
+        strict = self._settings.STRICT_DATE_FORMATS and not date_string.isdigit()
+        out_of_range = False
         for locale in self._get_locale_loader().get_locales(
             languages=self.languages,
             locales=self.locales,
@@ -923,6 +958,14 @@ class DateDataParser:
                     if res["date_obj"]:
                         res["locale"] = locale.shortname
                         return res
+                    out_of_range = out_of_range or (
+                        strict
+                        and _is_out_of_range_for_formats(translated, date_formats)
+                    )
+        if strict and (
+            out_of_range or _is_out_of_range_for_formats(date_string, date_formats)
+        ):
+            return DateData(date_obj=None, period="day", locale=None)
         return None
 
     def _parse_using_applicable_locales(

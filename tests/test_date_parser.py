@@ -2551,6 +2551,198 @@ class TestDateParser(BaseTestCase):
             parse("32 hours 10 minutes", settings=settings),
         )
 
+    @parameterized.expand(
+        [
+            # "32" is read as the year 2032 by the parsers that go on from
+            # date_formats (#868).
+            param("32 DEC 10", datetime(2032, 12, 10)),
+            param("32 DEC 10", datetime(2032, 12, 10), languages=["en"]),
+            # "sv" reads "31 FEB 10" as year, month and day, "en" does not.
+            param("31 FEB 10", datetime(2031, 2, 10)),
+            param("31 FEB 10", None, languages=["en"]),
+            param("32 DEC 95", None),
+            param("31 DEC 10", datetime(2010, 12, 31)),
+            param("31 DEC 95", datetime(1995, 12, 31)),
+        ]
+    )
+    def test_date_formats_are_followed_by_other_parsers_by_default(
+        self,
+        date_string: str,
+        expected: datetime | None,
+        languages: list[str] | None = None,
+    ) -> None:
+        """Test that without STRICT_DATE_FORMATS, a string that none of the
+        date_formats parses goes on to the other parsers (Issue #868)."""
+        for settings in ({}, {"STRICT_DATE_FORMATS": False}):
+            with self.subTest(settings=settings):
+                self.assertEqual(
+                    expected,
+                    parse(
+                        date_string,
+                        date_formats=["%d %b %y"],
+                        languages=languages,
+                        settings={"RELATIVE_BASE": datetime(2019, 6, 24), **settings},
+                    ),
+                )
+
+    @parameterized.expand(
+        [
+            param(*case.args, languages=languages, **case.kwargs)
+            for languages in (None, ["en"])
+            for case in [
+                param("32 DEC 10", ["%d %b %y"]),
+                param("32 DEC 95", ["%d %b %y"]),
+                # A day that the month does not have.
+                param("31 FEB 10", ["%d %b %y"]),
+                param("30 Feb", ["%d %b"]),
+                param("31/04/2020", ["%d/%m/%Y"]),
+                param("13/13/2020", ["%d/%m/%Y"]),
+                param("25:61", ["%H:%M"]),
+                # The month name does not have to be English.
+                param("32 December 10", ["%d %B %y"]),
+                # Any of the formats may be the one that has the shape.
+                param("32 DEC 10", ["%Y-%m-%d", "%d %b %y"]),
+                param("32/12/20", ["%x"]),
+                # The other parsers must not be tried either way.
+                param(
+                    "32 DEC 10",
+                    ["%d %b %y"],
+                    settings={"PARSERS": ["absolute-time", "no-spaces-time"]},
+                ),
+            ]
+        ]
+        + [
+            param("32 décembre 10", ["%d %B %y"], languages=languages)
+            for languages in (None, ["fr"])
+        ]
+    )
+    def test_strict_date_formats_rejects_out_of_range_numbers(
+        self,
+        date_string: str,
+        date_formats: list[str],
+        languages: list[str] | None = None,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
+        """Test that with STRICT_DATE_FORMATS, a string that has the shape of
+        one of the date_formats but a number out of range for it is not read by
+        the other parsers, which would take the number for another part of the
+        date (Issue #868)."""
+        settings = {
+            "STRICT_DATE_FORMATS": True,
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+            **(settings or {}),
+        }
+        self.assertIsNone(
+            parse(
+                date_string,
+                date_formats=date_formats,
+                languages=languages,
+                settings=settings,
+            )
+        )
+
+    @parameterized.expand(
+        [
+            param(*case.args, languages=languages, **case.kwargs)
+            for languages in (None, ["en"])
+            for case in [
+                param("31 DEC 10", ["%d %b %y"], datetime(2010, 12, 31)),
+                param("31 DEC 95", ["%d %b %y"], datetime(1995, 12, 31)),
+                # A day and a month in each other's place are still read by
+                # the other parsers.
+                param("12/31/2020", ["%d/%m/%Y"], datetime(2020, 12, 31)),
+                # Also if the swap is the reading of another format of the list,
+                # or if the format is "%x", which is "%m/%d/%y".
+                param(
+                    "15/15/10",
+                    ["%y/%m/%d", "%d/%m/%y"],
+                    datetime(2015, 10, 15),
+                ),
+                param("31/12/20", ["%x"], datetime(2020, 12, 31)),
+                # Not every string without a date has the shape of a format.
+                param("31 DEC", ["%d %b %y"], datetime(2019, 12, 31)),
+                param("tomorrow", ["%d/%m/%Y"], datetime(2019, 6, 25)),
+                param("31/12/2010 10:00", ["%d/%m/%Y"], datetime(2010, 12, 31, 10)),
+                # A leap day is a valid day for a format without a year.
+                param(
+                    "29 Feb",
+                    ["%d %b"],
+                    datetime(2020, 2, 29),
+                    settings={"RELATIVE_BASE": datetime(2020, 6, 24)},
+                ),
+                # Strings of digits only are not checked: a year for "%y%m%d",
+                # and a Unix timestamp for "%d%m%Y".
+                param("2010", ["%y%m%d"], datetime(2010, 6, 24)),
+                param(
+                    "1700000000",
+                    ["%d%m%Y"],
+                    datetime(2023, 11, 14, 22, 13, 20),
+                    settings={"TIMEZONE": "UTC"},
+                ),
+                # Digits of another script are not replaced, so the string has
+                # no shape.
+                param(
+                    "\u0663\u0661 DEC \u0661\u0660",
+                    ["%d %b %y"],
+                    datetime(2010, 12, 31),
+                ),
+            ]
+        ]
+        + [
+            param(
+                "31 décembre 10", ["%d %B %y"], datetime(2010, 12, 31), languages=lang
+            )
+            for lang in (None, ["fr"])
+        ]
+    )
+    def test_strict_date_formats_keeps_other_dates(
+        self,
+        date_string: str,
+        date_formats: list[str],
+        expected: datetime,
+        languages: list[str] | None = None,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
+        """Test that STRICT_DATE_FORMATS does not change the dates of strings
+        that are valid, or that do not have the shape of a format (Issue #868)."""
+        base = {"RELATIVE_BASE": datetime(2019, 6, 24), **(settings or {})}
+        self.assertEqual(
+            parse(
+                date_string,
+                date_formats=date_formats,
+                languages=languages,
+                settings=base,
+            ),
+            expected,
+        )
+        self.assertEqual(
+            parse(
+                date_string,
+                date_formats=date_formats,
+                languages=languages,
+                settings={"STRICT_DATE_FORMATS": True, **base},
+            ),
+            expected,
+        )
+
+    @parameterized.expand(
+        [
+            # The string must be written in the format as a whole.
+            param("32 DEC 10 10:00", ["%d %b %y"], datetime(2032, 12, 10, 10)),
+            param("32 DEC 10.", ["%d %b %y"], datetime(2032, 12, 10)),
+            param(" 32 DEC 10", ["%d %b %y"], datetime(2032, 12, 10)),
+        ]
+    )
+    def test_strict_date_formats_does_not_check_the_rest(
+        self, date_string: str, date_formats: list[str], expected: datetime
+    ) -> None:
+        """Test the strings that STRICT_DATE_FORMATS still hands to the other
+        parsers, because they do not have the shape of the format (Issue #868)."""
+        settings = {"STRICT_DATE_FORMATS": True, "RELATIVE_BASE": datetime(2019, 6, 24)}
+        self.assertEqual(
+            expected, parse(date_string, date_formats=date_formats, settings=settings)
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
