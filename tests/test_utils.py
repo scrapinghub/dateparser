@@ -1,7 +1,7 @@
 import calendar
 import itertools
 from collections.abc import Callable
-from datetime import datetime
+from datetime import datetime, timedelta
 from unittest.mock import patch
 
 import pytest
@@ -23,7 +23,14 @@ from dateparser.utils import (
     localize_timezone,
     registry,
 )
-from dateparser.utils.strptime import patch_strptime
+from dateparser.utils.strptime import (
+    _LEAP_SECOND_DECEMBER_31_YEARS,
+    _LEAP_SECOND_JUNE_30_YEARS,
+    _effective_tz_for_naive_input,
+    _validate_leap_second,
+    patch_strptime,
+    strptime,
+)
 from tests import BaseTestCase
 
 
@@ -39,6 +46,59 @@ class TestUtils(BaseTestCase):
         self.assertEqual(set(vars(calendar)), set(before))
         for name, value in before.items():
             self.assertIs(getattr(calendar, name), value, name)
+
+    @parameterized.expand(
+        [
+            param("2016-12-31 23:59:59", datetime(2016, 12, 31, 23, 59, 59)),
+            param("2016-12-31 23:59:60", datetime(2016, 12, 31, 23, 59, 59)),
+        ]
+    )
+    def test_strptime_clamps_leap_second(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        self.assertEqual(strptime(date_string, "%Y-%m-%d %H:%M:%S"), expected)
+
+    def test_strptime_rejects_61_seconds(self) -> None:
+        # No leap second has ever required two extra seconds; `:61` is never
+        # valid, unlike `:60` (which `strptime` clamps and lets a later,
+        # date-aware check validate against the real leap-second list).
+        with self.assertRaises(ValueError):
+            strptime("2016-12-31 23:59:61", "%Y-%m-%d %H:%M:%S")
+
+    def test_validate_leap_second_accepts_known_leap_second(self) -> None:
+        date_obj = strptime("2016-12-31 23:59:60", "%Y-%m-%d %H:%M:%S")
+        _validate_leap_second(date_obj)  # does not raise
+
+    def test_validate_leap_second_rejects_unknown_leap_second(self) -> None:
+        date_obj = strptime("2017-03-15 12:34:60", "%Y-%m-%d %H:%M:%S")
+        with self.assertRaises(ValueError):
+            _validate_leap_second(date_obj)
+
+    def test_validate_leap_second_converts_fixed_offset_to_utc(self) -> None:
+        est = StaticTzInfo("EST", timedelta(hours=-5))
+        date_obj = strptime("2016-12-31 18:59:60", "%Y-%m-%d %H:%M:%S")
+        _validate_leap_second(date_obj, tz=est)  # does not raise: 23:59:60 UTC
+
+    def test_validate_leap_second_noop_without_clamp(self) -> None:
+        date_obj = strptime("2016-12-31 23:59:59", "%Y-%m-%d %H:%M:%S")
+        _validate_leap_second(date_obj)  # does not raise: nothing was clamped
+
+    def test_known_leap_seconds_list_has_27_entries(self) -> None:
+        self.assertEqual(
+            len(_LEAP_SECOND_JUNE_30_YEARS) + len(_LEAP_SECOND_DECEMBER_31_YEARS), 27
+        )
+
+    def test_effective_tz_for_naive_input_is_none_by_default(self) -> None:
+        date_obj = datetime(2016, 12, 31, 23, 59, 59)
+        self.assertIsNone(_effective_tz_for_naive_input(date_obj, settings))
+
+    def test_effective_tz_for_naive_input_resolves_configured_timezone(self) -> None:
+        date_obj = datetime(2016, 12, 31, 18, 59, 59)
+        configured = settings.replace(TIMEZONE="America/New_York")
+        tz = _effective_tz_for_naive_input(date_obj, configured)
+        self.assertIsNotNone(tz)
+        assert tz is not None
+        self.assertEqual(tz.utcoffset(date_obj), timedelta(hours=-5))
 
     def given_date_format(self, date_format: str) -> None:
         self.date_format = date_format

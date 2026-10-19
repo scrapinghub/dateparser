@@ -5,6 +5,7 @@ from typing import Any
 from .conf import Settings, apply_settings
 from .timezone_parser import pop_tz_offset_from_string
 from .utils import _get_localzone, apply_timezone, localize_timezone, strip_braces
+from .utils.strptime import _validate_leap_second
 
 
 class DateParser:
@@ -42,6 +43,12 @@ class DateParser:
             date_obj = date_obj.replace(tzinfo=_get_localzone())
         else:
             date_obj = localize_timezone(date_obj, settings.TIMEZONE)
+
+        # The string's own offset, or settings.TIMEZONE if explicitly
+        # configured, converts to UTC for leap-second validation; the
+        # default ("local") does not, since that is just the host's zone.
+        convert_tz = date_obj.tzinfo if (ptz or "local" not in _settings_tz) else None
+        _validate_leap_second(date_obj, convert_tz)
 
         if settings.TO_TIMEZONE:
             date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
