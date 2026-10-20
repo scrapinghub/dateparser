@@ -57,6 +57,7 @@ in:
 relative-type:
     1 year ago:
         - förra året
+        - i fjol
     2 day ago:
         - förrgår
     1 day ago:
@@ -72,3 +73,7 @@ simplifications:
     - (\d+):[ae]\b: \1
     - en: '1'
     - två: '2'
+am:
+    - förmiddag
+pm:
+    - eftermiddag

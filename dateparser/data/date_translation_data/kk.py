@@ -210,7 +210,11 @@ info = {
             "(\\d++[.,]?\\d*+) жылдан кейін"
         ]
     },
-    "locale_specific": {},
+    "locale_specific": {
+        "kk-KZ": {
+            "name": "kk-KZ"
+        }
+    },
     "skip": [
         " ",
         "'",

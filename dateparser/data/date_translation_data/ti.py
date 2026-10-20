@@ -1,6 +1,6 @@
 info = {
     "name": "ti",
-    "date_order": "DMY",
+    "date_order": "MDY",
     "january": [
         "ጥሪ"
     ],
@@ -17,6 +17,7 @@ info = {
         "ሚያዝያ"
     ],
     "may": [
+        "ጉንበት",
         "ግን",
         "ግንቦት"
     ],
@@ -102,9 +103,10 @@ info = {
         "day"
     ],
     "hour": [
-        "hr",
+        "ሰዓታት",
         "ሰዓት",
-        "hour"
+        "hour",
+        "hr"
     ],
     "minute": [
         "ደቒ",
@@ -112,8 +114,9 @@ info = {
         "minute"
     ],
     "second": [
-        "ካልኢት",
-        "second"
+        "ሴኮንድ",
+        "second",
+        "ካልኢት"
     ],
     "relative-type": {
         "0 day ago": [
@@ -157,8 +160,9 @@ info = {
             "last week"
         ],
         "1 year ago": [
-            "ዓሚ",
-            "last year"
+            "ዝሓለፈ ዓመት",
+            "last year",
+            "ዓሚ"
         ],
         "in 1 day": [
             "ጽባሕ",
@@ -173,8 +177,9 @@ info = {
             "next week"
         ],
         "in 1 year": [
-            "ንዓመታ",
-            "next year"
+            "ዝመጽእ ዓመት",
+            "next year",
+            "ንዓመታ"
         ]
     },
     "relative-type-regex": {

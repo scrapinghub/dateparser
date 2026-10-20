@@ -22,6 +22,7 @@ info = {
         "mee"
     ],
     "june": [
+        "jun",
         "juu",
         "juun"
     ],
@@ -80,11 +81,12 @@ info = {
         "ụka"
     ],
     "am": [
-        "am",
-        "n'ụtụtụ"
+        "n'ụtụtụ",
+        "am"
     ],
     "pm": [
         "n'abali",
+        "n'abalị",
         "pm"
     ],
     "year": [
@@ -101,14 +103,17 @@ info = {
     ],
     "hour": [
         "elekere",
+        "ọtụtụ awa",
         "hr"
     ],
     "minute": [
         "nkeji"
     ],
     "second": [
-        "tịm kọm",
-        "nkejinta"
+        "second",
+        "sekọnd",
+        "nkejinta",
+        "tịm kọm"
     ],
     "relative-type": {
         "0 day ago": [
@@ -159,16 +164,29 @@ info = {
             "echi"
         ],
         "in 1 month": [
-            "ọnwa ọzọ",
-            "next month"
+            "ọnwa na-abịa",
+            "next month",
+            "ọnwa ọzọ"
         ],
         "in 1 week": [
             "izu na-esote",
             "next week"
         ],
         "in 1 year": [
-            "afọ ọzọ",
-            "next year"
+            "afọ na-abịa",
+            "next year",
+            "afọ ọzọ"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 day ago": [
+            "n'ụbọchị (\\d++[.,]?\\d*+) gara aga"
+        ],
+        "\\1 year ago": [
+            "afọ (\\d++[.,]?\\d*+) gara aga"
+        ],
+        "in \\1 day": [
+            "n'ụbọchị (\\d++[.,]?\\d*+)"
         ]
     },
     "locale_specific": {},

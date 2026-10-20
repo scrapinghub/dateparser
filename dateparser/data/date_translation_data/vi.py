@@ -80,34 +80,40 @@ info = {
         "Tháng mười hai"
     ],
     "monday": [
-        "th 2",
+        "thứ 2",
         "thứ hai",
-        "Thứ 2"
+        "Thứ 2",
+        "th 2"
     ],
     "tuesday": [
-        "th 3",
+        "thứ 3",
         "thứ ba",
-        "Thứ 3"
+        "Thứ 3",
+        "th 3"
     ],
     "wednesday": [
-        "th 4",
+        "thứ 4",
         "thứ tư",
-        "Thứ 4"
+        "Thứ 4",
+        "th 4"
     ],
     "thursday": [
-        "th 5",
+        "thứ 5",
         "thứ năm",
-        "Thứ 5"
+        "Thứ 5",
+        "th 5"
     ],
     "friday": [
-        "th 6",
+        "thứ 6",
         "thứ sáu",
-        "Thứ 6"
+        "Thứ 6",
+        "th 6"
     ],
     "saturday": [
-        "th 7",
+        "thứ 7",
         "thứ bảy",
-        "Thứ 7"
+        "Thứ 7",
+        "th 7"
     ],
     "sunday": [
         "chủ nhật",

@@ -94,7 +94,7 @@
         "mjesec"
     ],
     "week": [
-        "sed",
+        "sedm",
         "sedmica"
     ],
     "day": [
@@ -111,7 +111,6 @@
     ],
     "second": [
         "s",
-        "sek",
         "sekunda"
     ],
     "relative-type": {
@@ -125,12 +124,14 @@
             "ova minuta"
         ],
         "0 month ago": [
+            "ovaj mj",
             "ovaj mjesec"
         ],
         "0 second ago": [
             "sada"
         ],
         "0 week ago": [
+            "ove sedm",
             "ove sedmice"
         ],
         "0 year ago": [
@@ -140,9 +141,11 @@
             "jučer"
         ],
         "1 month ago": [
+            "prošli mj",
             "prošli mjesec"
         ],
         "1 week ago": [
+            "prošle sedm",
             "prošle sedmice"
         ],
         "1 year ago": [
@@ -152,9 +155,11 @@
             "sutra"
         ],
         "in 1 month": [
+            "sljedeći mj",
             "sljedeći mjesec"
         ],
         "in 1 week": [
+            "sljedeće sedm",
             "sljedeće sedmice"
         ],
         "in 1 year": [
@@ -163,7 +168,6 @@
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "prije {0} d",
             "prije {0} dan",
             "prije {0} dana"
         ],
@@ -187,7 +191,7 @@
             "prije {0} sekundu"
         ],
         "\\1 week ago": [
-            "prije {0} sed",
+            "prije {0} sedm",
             "prije {0} sedmica",
             "prije {0} sedmicu"
         ],
@@ -198,7 +202,6 @@
             "prije {0} godinu"
         ],
         "in \\1 day": [
-            "za {0} d",
             "za {0} dan",
             "za {0} dana"
         ],
@@ -222,7 +225,7 @@
             "za {0} sekundu"
         ],
         "in \\1 week": [
-            "za {0} sed",
+            "za {0} sedm",
             "za {0} sedmica",
             "za {0} sedmicu"
         ],

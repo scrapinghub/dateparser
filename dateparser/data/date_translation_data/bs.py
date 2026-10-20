@@ -96,8 +96,9 @@ info = {
         "mjesec"
     ],
     "week": [
-        "sed",
-        "sedmica"
+        "sedm",
+        "sedmica",
+        "sed"
     ],
     "day": [
         "dan"
@@ -113,8 +114,8 @@ info = {
     ],
     "second": [
         "s",
-        "sek",
-        "sekunda"
+        "sekunda",
+        "sek"
     ],
     "relative-type": {
         "0 day ago": [
@@ -127,12 +128,14 @@ info = {
             "ova minuta"
         ],
         "0 month ago": [
+            "ovaj mj",
             "ovaj mjesec"
         ],
         "0 second ago": [
             "sada"
         ],
         "0 week ago": [
+            "ove sedm",
             "ove sedmice"
         ],
         "0 year ago": [
@@ -142,9 +145,11 @@ info = {
             "jučer"
         ],
         "1 month ago": [
+            "prošli mj",
             "prošli mjesec"
         ],
         "1 week ago": [
+            "prošle sedm",
             "prošle sedmice"
         ],
         "1 year ago": [
@@ -154,9 +159,11 @@ info = {
             "sutra"
         ],
         "in 1 month": [
+            "sljedeći mj",
             "sljedeći mjesec"
         ],
         "in 1 week": [
+            "sljedeće sedm",
             "sljedeće sedmice"
         ],
         "in 1 year": [
@@ -165,9 +172,9 @@ info = {
     },
     "relative-type-regex": {
         "\\1 day ago": [
-            "prije (\\d++[.,]?\\d*+) d",
             "prije (\\d++[.,]?\\d*+) dan",
-            "prije (\\d++[.,]?\\d*+) dana"
+            "prije (\\d++[.,]?\\d*+) dana",
+            "prije (\\d++[.,]?\\d*+) d"
         ],
         "\\1 hour ago": [
             "prije (\\d++[.,]?\\d*+) sat",
@@ -189,9 +196,10 @@ info = {
             "prije (\\d++[.,]?\\d*+) sekundu"
         ],
         "\\1 week ago": [
-            "prije (\\d++[.,]?\\d*+) sed",
+            "prije (\\d++[.,]?\\d*+) sedm",
             "prije (\\d++[.,]?\\d*+) sedmica",
-            "prije (\\d++[.,]?\\d*+) sedmicu"
+            "prije (\\d++[.,]?\\d*+) sedmicu",
+            "prije (\\d++[.,]?\\d*+) sed"
         ],
         "\\1 year ago": [
             "prije (\\d++[.,]?\\d*+) g",
@@ -200,9 +208,9 @@ info = {
             "prije (\\d++[.,]?\\d*+) godinu"
         ],
         "in \\1 day": [
-            "za (\\d++[.,]?\\d*+) d",
             "za (\\d++[.,]?\\d*+) dan",
-            "za (\\d++[.,]?\\d*+) dana"
+            "za (\\d++[.,]?\\d*+) dana",
+            "za (\\d++[.,]?\\d*+) d"
         ],
         "in \\1 hour": [
             "za (\\d++[.,]?\\d*+) sat",
@@ -224,9 +232,10 @@ info = {
             "za (\\d++[.,]?\\d*+) sekundu"
         ],
         "in \\1 week": [
-            "za (\\d++[.,]?\\d*+) sed",
+            "za (\\d++[.,]?\\d*+) sedm",
             "za (\\d++[.,]?\\d*+) sedmica",
-            "za (\\d++[.,]?\\d*+) sedmicu"
+            "za (\\d++[.,]?\\d*+) sedmicu",
+            "za (\\d++[.,]?\\d*+) sed"
         ],
         "in \\1 year": [
             "za (\\d++[.,]?\\d*+) g",

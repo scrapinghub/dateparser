@@ -161,6 +161,7 @@ info = {
             "la semaine dernière"
         ],
         "1 year ago": [
+            "l'an dernier",
             "l'année dernière"
         ],
         "in 1 day": [
@@ -173,6 +174,7 @@ info = {
             "la semaine prochaine"
         ],
         "in 1 year": [
+            "l'an prochain",
             "l'année prochaine"
         ],
         "2 day ago": [

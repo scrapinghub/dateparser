@@ -43,8 +43,10 @@ second:
     - second
 am:
     - मपू
+    - सकाळ
 pm:
     - मनं
+    - सांज
 relative-type:
     0 day ago:
         - today
@@ -52,6 +54,7 @@ relative-type:
         - this hour
     0 minute ago:
         - this minute
+        - हें मिनीट
     0 month ago:
         - this month
     0 second ago:
@@ -66,8 +69,10 @@ relative-type:
         - last month
     1 week ago:
         - last week
+        - निमाणो सप्तक
     1 year ago:
         - last year
+        - फाटलें वर्स
     in 1 day:
         - tomorrow
     in 1 month:
@@ -76,3 +81,21 @@ relative-type:
         - next week
     in 1 year:
         - next year
+november:
+    - नो
+relative-type-regex:
+    \1 hour ago:
+        - (\d+[.,]?\d*) वरा आदीं
+    \1 minute ago:
+        - (\d+[.,]?\d*) मिन्टां आदीं
+    \1 month ago:
+        - (\d+[.,]?\d*) म्हयन्यां आदीं
+    \1 second ago:
+        - (\d+[.,]?\d*) से आदीं
+        - (\d+[.,]?\d*) सेकंद आदीं
+    \1 week ago:
+        - (\d+[.,]?\d*) सप्त आदीं
+    in \1 minute:
+        - (\d+[.,]?\d*) मिन्टां
+    in \1 second:
+        - (\d+[.,]?\d*) सेकंदानीं

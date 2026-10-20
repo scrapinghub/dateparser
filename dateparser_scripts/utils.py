@@ -8,7 +8,7 @@ CLDR_JSON_DIR = (Path(__file__).parent / "../cldr-json").resolve()
 
 
 def get_raw_data() -> None:
-    cldr_version = "44.1.0"
+    cldr_version = "48.2.3"
     url = "https://github.com/unicode-org/cldr-json.git"
     if CLDR_JSON_DIR.is_dir():
         shutil.rmtree(CLDR_JSON_DIR)

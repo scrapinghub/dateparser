@@ -2,75 +2,80 @@ info = {
     "name": "so",
     "date_order": "DMY",
     "january": [
-        "bisha koobaad",
         "jan",
+        "janaayo",
         "jannaayo",
-        "kob"
+        "kob",
+        "bisha koobaad"
     ],
     "february": [
-        "bisha labaad",
         "feb",
         "febraayo",
-        "lab"
+        "lab",
+        "bisha labaad"
     ],
     "march": [
-        "bisha saddexaad",
         "maarso",
         "mar",
-        "sad"
+        "sad",
+        "bisha saddexaad"
     ],
     "april": [
         "abr",
         "abriil",
-        "bisha afraad",
-        "afr"
+        "afr",
+        "bisha afraad"
     ],
     "may": [
-        "bisha shanaad",
+        "maayo",
         "may",
-        "sha"
+        "sha",
+        "bisha shanaad"
     ],
     "june": [
-        "bisha lixaad",
         "jun",
         "juun",
-        "lix"
+        "lix",
+        "bisha lixaad"
     ],
     "july": [
-        "bisha todobaad",
         "lul",
-        "luuliyo",
-        "tod"
+        "luulyo",
+        "tod",
+        "bisha todobaad",
+        "luuliyo"
     ],
     "august": [
-        "bisha sideedaad",
+        "agosto",
         "ogosto",
         "ogs",
-        "sid"
+        "sid",
+        "bisha sideedaad"
     ],
     "september": [
-        "bisha sagaalaad",
         "seb",
         "sebteembar",
-        "sag"
+        "sebtembar",
+        "sag",
+        "bisha sagaalaad"
     ],
     "october": [
-        "bisha tobnaad",
         "okt",
         "oktoobar",
-        "tob"
+        "tob",
+        "bisha tobnaad"
     ],
     "november": [
-        "bisha kow iyo tobnaad",
         "nof",
         "noofeembar",
-        "kit"
+        "kit",
+        "bisha kow iyo tobnaad"
     ],
     "december": [
-        "bisha laba iyo tobnaad",
         "dis",
         "diseembar",
-        "lit"
+        "lit",
+        "bisha laba iyo tobnaad"
     ],
     "monday": [
         "isn",
@@ -106,9 +111,9 @@ info = {
         "axd"
     ],
     "am": [
-        "am",
         "gh",
-        "sn"
+        "sn",
+        "am"
     ],
     "pm": [
         "gd",

@@ -535,6 +535,13 @@ info = {
                 "sept"
             ]
         },
+        "en-CZ": {
+            "name": "en-CZ",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
         "en-DE": {
             "name": "en-DE",
             "date_order": "DMY",
@@ -563,8 +570,22 @@ info = {
                 "sept"
             ]
         },
+        "en-EE": {
+            "name": "en-EE",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
         "en-ER": {
             "name": "en-ER",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
+        "en-ES": {
+            "name": "en-ES",
             "date_order": "DMY",
             "september": [
                 "sept"
@@ -598,6 +619,13 @@ info = {
                 "sept"
             ]
         },
+        "en-FR": {
+            "name": "en-FR",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
         "en-GB": {
             "name": "en-GB",
             "date_order": "DMY",
@@ -607,6 +635,13 @@ info = {
         },
         "en-GD": {
             "name": "en-GD",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
+        "en-GE": {
+            "name": "en-GE",
             "date_order": "DMY",
             "september": [
                 "sept"
@@ -640,6 +675,13 @@ info = {
                 "sept"
             ]
         },
+        "en-GS": {
+            "name": "en-GS",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
         "en-GU": {
             "name": "en-GU"
         },
@@ -652,6 +694,13 @@ info = {
         },
         "en-HK": {
             "name": "en-HK",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
+        "en-HU": {
+            "name": "en-HU",
             "date_order": "DMY",
             "september": [
                 "sept"
@@ -699,6 +748,13 @@ info = {
                 "sept"
             ]
         },
+        "en-IT": {
+            "name": "en-IT",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
         "en-JE": {
             "name": "en-JE",
             "date_order": "DMY",
@@ -712,6 +768,10 @@ info = {
             "september": [
                 "sept"
             ]
+        },
+        "en-JP": {
+            "name": "en-JP",
+            "date_order": "YMD"
         },
         "en-KE": {
             "name": "en-KE",
@@ -757,6 +817,20 @@ info = {
         },
         "en-LS": {
             "name": "en-LS",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
+        "en-LT": {
+            "name": "en-LT",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
+        "en-LV": {
+            "name": "en-LV",
             "date_order": "DMY",
             "september": [
                 "sept"
@@ -852,6 +926,13 @@ info = {
                 "sept"
             ]
         },
+        "en-NO": {
+            "name": "en-NO",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
         "en-NR": {
             "name": "en-NR",
             "date_order": "DMY",
@@ -890,6 +971,13 @@ info = {
                 "sept"
             ]
         },
+        "en-PL": {
+            "name": "en-PL",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
         "en-PN": {
             "name": "en-PN",
             "date_order": "DMY",
@@ -900,8 +988,22 @@ info = {
         "en-PR": {
             "name": "en-PR"
         },
+        "en-PT": {
+            "name": "en-PT",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
         "en-PW": {
             "name": "en-PW",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
+        "en-RO": {
+            "name": "en-RO",
             "date_order": "DMY",
             "september": [
                 "sept"
@@ -985,6 +1087,13 @@ info = {
                 "sept"
             ]
         },
+        "en-SK": {
+            "name": "en-SK",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
         "en-SL": {
             "name": "en-SL",
             "date_order": "DMY",
@@ -1050,6 +1159,13 @@ info = {
         },
         "en-TZ": {
             "name": "en-TZ",
+            "date_order": "DMY",
+            "september": [
+                "sept"
+            ]
+        },
+        "en-UA": {
+            "name": "en-UA",
             "date_order": "DMY",
             "september": [
                 "sept"

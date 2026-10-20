@@ -15,3 +15,7 @@ sunday:
 no_word_spacing: "True"
 
 sentence_splitter_group: 4
+am:
+    - 上午
+pm:
+    - 下午

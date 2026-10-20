@@ -38,10 +38,10 @@ info = {
         "òkúdu"
     ],
     "july": [
+        "oṣù agẹmọ",
         "ag",
         "agẹ",
-        "agẹmọ",
-        "oṣù agẹmọ"
+        "agẹmọ"
     ],
     "august": [
         "oṣù ògún",
@@ -50,10 +50,10 @@ info = {
         "ògún"
     ],
     "september": [
+        "oṣù owewe",
         "ow",
         "owe",
-        "owewe",
-        "oṣù owewe"
+        "owewe"
     ],
     "october": [
         "oṣù ọ̀wàrà",
@@ -62,10 +62,10 @@ info = {
         "ọ̀wàrà"
     ],
     "november": [
+        "oṣù bélú",
         "bé",
         "bél",
-        "bélú",
-        "oṣù bélú"
+        "bélú"
     ],
     "december": [
         "oṣù ọ̀pẹ̀",
@@ -74,37 +74,37 @@ info = {
         "ọ̀pẹ̀"
     ],
     "monday": [
-        "aj",
         "ajé",
-        "ọjọ́ ajé"
+        "ọjọ́ ajé",
+        "aj"
     ],
     "tuesday": [
-        "ìsẹ́g",
         "ìsẹ́gun",
-        "ọjọ́ ìsẹ́gun"
+        "ọjọ́ ìsẹ́gun",
+        "ìsẹ́g"
     ],
     "wednesday": [
-        "ọjọ́r",
-        "ọjọ́rú"
+        "ọjọ́rú",
+        "ọjọ́r"
     ],
     "thursday": [
-        "ọjọ́b",
-        "ọjọ́bọ"
+        "ọjọ́bọ",
+        "ọjọ́b"
     ],
     "friday": [
-        "ẹt",
         "ẹtì",
-        "ọjọ́ ẹtì"
+        "ọjọ́ ẹtì",
+        "ẹt"
     ],
     "saturday": [
-        "àbám",
         "àbámẹ́ta",
-        "ọjọ́ àbámẹ́ta"
+        "ọjọ́ àbámẹ́ta",
+        "àbám"
     ],
     "sunday": [
-        "àìk",
         "àìkú",
-        "ọjọ́ àìkú"
+        "ọjọ́ àìkú",
+        "àìk"
     ],
     "am": [
         "àárọ̀"
@@ -141,9 +141,11 @@ info = {
             "òní"
         ],
         "0 hour ago": [
+            "wákàtí yìí",
             "this hour"
         ],
         "0 minute ago": [
+            "ìṣẹ́jú yìí",
             "this minute"
         ],
         "0 month ago": [
@@ -151,6 +153,7 @@ info = {
             "this month"
         ],
         "0 second ago": [
+            "nísinsìyí",
             "now"
         ],
         "0 week ago": [
@@ -159,8 +162,8 @@ info = {
         ],
         "0 year ago": [
             "ọdún yìí",
-            "ọdúnǹí",
-            "this year"
+            "this year",
+            "ọdúnǹí"
         ],
         "1 day ago": [
             "àná"
@@ -174,9 +177,10 @@ info = {
             "last week"
         ],
         "1 year ago": [
-            "èṣín",
+            "èṣí",
             "ọdún tó kọjá",
-            "last year"
+            "last year",
+            "èṣín"
         ],
         "in 1 day": [
             "ọ̀la"
@@ -193,6 +197,15 @@ info = {
             "àmọ́dún",
             "ọdún tó ńbọ̀",
             "next year"
+        ]
+    },
+    "relative-type-regex": {
+        "\\1 year ago": [
+            "(\\d++[.,]?\\d*+) ọdún sẹ́yìn",
+            "ọdún (\\d++[.,]?\\d*+) sẹ́yìn"
+        ],
+        "in \\1 year": [
+            "ní (\\d++[.,]?\\d*+) ọdún"
         ]
     },
     "locale_specific": {
@@ -226,9 +239,9 @@ info = {
                 "oshù òkúdu"
             ],
             "july": [
+                "oshù agɛmɔ",
                 "agɛ",
-                "agɛmɔ",
-                "oshù agɛmɔ"
+                "agɛmɔ"
             ],
             "august": [
                 "oshù ògún"
@@ -255,22 +268,22 @@ info = {
                 "ɔjɔ́ ajé"
             ],
             "tuesday": [
-                "ìsɛ́g",
                 "ìsɛ́gun",
-                "ɔjɔ́ ìsɛ́gun"
+                "ɔjɔ́ ìsɛ́gun",
+                "ìsɛ́g"
             ],
             "wednesday": [
-                "ɔjɔ́r",
-                "ɔjɔ́rú"
+                "ɔjɔ́rú",
+                "ɔjɔ́r"
             ],
             "thursday": [
-                "ɔjɔ́b",
-                "ɔjɔ́bɔ"
+                "ɔjɔ́bɔ",
+                "ɔjɔ́b"
             ],
             "friday": [
                 "ɔjɔ́ ɛtì",
-                "ɛt",
-                "ɛtì"
+                "ɛtì",
+                "ɛt"
             ],
             "saturday": [
                 "àbámɛ́ta",
@@ -305,6 +318,9 @@ info = {
                 "ìsɛ́jú ààyá"
             ],
             "relative-type": {
+                "0 minute ago": [
+                    "ìshɛ́jú yìí"
+                ],
                 "0 month ago": [
                     "oshù yìí"
                 ],
@@ -322,8 +338,9 @@ info = {
                     "ɔ̀sɛ̀ tó kɔjá"
                 ],
                 "1 year ago": [
-                    "èshín",
-                    "ɔdún tó kɔjá"
+                    "èshí",
+                    "ɔdún tó kɔjá",
+                    "èshín"
                 ],
                 "in 1 day": [
                     "ɔ̀la"
@@ -337,6 +354,15 @@ info = {
                 "in 1 year": [
                     "àmɔ́dún",
                     "ɔdún tó ńbɔ̀"
+                ]
+            },
+            "relative-type-regex": {
+                "\\1 year ago": [
+                    "(\\d++[.,]?\\d*+) ɔdún sɛ́yìn",
+                    "ɔdún (\\d++[.,]?\\d*+) sɛ́yìn"
+                ],
+                "in \\1 year": [
+                    "ní (\\d++[.,]?\\d*+) ɔdún"
                 ]
             }
         }
