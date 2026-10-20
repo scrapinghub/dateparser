@@ -475,7 +475,9 @@ class Locale:
         self, original: str, settings: "Settings | None"
     ) -> tuple[list[str], list[str]]:
         # TODO: Switch to new split method.
-        original_tokens = self._word_split(original, settings=settings)
+        original_tokens = self._word_split(
+            self._break_standalone_marks(original), settings=settings
+        )
         simplified_tokens = self._word_split(
             self._simplify(normalize_unicode(original), settings=settings),
             settings=settings,
@@ -541,6 +543,25 @@ class Locale:
             else:
                 newdict[item] = dictionary[item]
         return newdict
+
+    @staticmethod
+    def _break_standalone_marks(string: str) -> str:
+        """Insert a word break after a standalone spacing-modifier mark
+        (e.g. the acute accent "´" in "C´1997") when it is glued to
+        non-space characters on both sides.
+        """
+        chars = list(string)
+        for i in reversed(range(len(chars))):
+            char = chars[i]
+            if (
+                not char.isspace()
+                and normalize_unicode(char) == " "
+                and 0 < i < len(chars) - 1
+                and not chars[i - 1].isspace()
+                and not chars[i + 1].isspace()
+            ):
+                chars.insert(i + 1, " ")
+        return "".join(chars)
 
     def _word_split(self, string: str, settings: "Settings | None") -> list[str]:
         if "no_word_spacing" in self.info:
@@ -685,7 +706,18 @@ class Locale:
         return simplifications
 
     def _clear_future_words(self, words: list[str]) -> list[str]:
-        freshness_words = {"day", "week", "month", "year", "hour", "minute", "second"}
+        freshness_words = {
+            "century",
+            "decade",
+            "fortnight",
+            "day",
+            "week",
+            "month",
+            "year",
+            "hour",
+            "minute",
+            "second",
+        }
         # A unit keeps the punctuation it was written next to, so "2 hours,"
         # becomes "hour,". That is still the unit of a future expression, and
         # dropping the "in" of one is what turns it into a past date.
