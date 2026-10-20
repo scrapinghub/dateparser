@@ -15,6 +15,8 @@ import regex as re
 
 from dateparser.conf import Settings
 from dateparser.date import DateDataParser
+from dateparser.languages.loader import default_loader
+from dateparser.parser import _SKIP_TOKENS
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +50,26 @@ _BAD_CANDIDATE_RE = re.compile(
 # Punctuation stripped from the returned substrings, matching the behavior
 # of the translation-based search strategy.
 _STRIP_CHARS = " .,:()[]-'"
+
+
+def _is_bad_translation(translation: str, candidate: str = "") -> bool:
+    """Return whether *translation*, the English translation of a candidate,
+    is empty or deny-listed once the words the parser ignores are dropped,
+    e.g. "year 4" for "Year of the Four".
+
+    Units after a number, e.g. "2 hour", are kept, since relative dates need
+    them. If *candidate* is given and has digits, a bare number is only
+    rejected if words were dropped, so that "the 21st" is kept while "the
+    Four" is not."""
+    tokens = translation.split()
+    words = [
+        word
+        for i, word in enumerate(tokens)
+        if word not in _SKIP_TOKENS or (word != "t" and i and tokens[i - 1].isdigit())
+    ]
+    if len(words) == len(tokens) and re.search(r"\d", candidate):
+        return False
+    return not words or bool(_BAD_CANDIDATE_RE.match(" ".join(words)))
 
 
 class _NgramDateSearch:
@@ -103,7 +125,15 @@ class _NgramDateSearch:
         parser: DateDataParser, candidate: str, languages: Sequence[str]
     ) -> datetime | None:
         try:
-            return parser.get_date_data(candidate).date_obj
+            date_data = parser.get_date_data(candidate)
+            if date_data.date_obj is None:
+                return None
+            assert date_data.locale is not None
+            locale = default_loader.get_locale(date_data.locale)
+            translation = locale.translate(candidate, settings=parser._settings)
+            if _is_bad_translation(translation, candidate):
+                return None
+            return date_data.date_obj
         except Exception:
             logger.warning(
                 "Failed to parse %r (languages=%r)",

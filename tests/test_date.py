@@ -1392,6 +1392,12 @@ class TestSanitizeDate(BaseTestCase):
         self.assertEqual(date.sanitize_date("2019:"), "2019")
         self.assertEqual(date.sanitize_date("31/07/2019:"), "31/07/2019")
 
+    def test_sanitize_date_html_entities(self) -> None:
+        self.assertEqual(
+            date.sanitize_date("2021-08-04T14:21:37&#x2B;05:30"),
+            "2021-08-04T14:21:37+05:30",
+        )
+
     def test_sanitize_date_dash_look_alikes(self) -> None:
         for dash in date.DASH_LOOK_ALIKE_CHARS:
             self.assertEqual(
