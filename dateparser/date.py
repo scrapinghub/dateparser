@@ -432,15 +432,6 @@ def _translate_names(
 
 
 class _DateLocaleParser:
-    _parsers: ClassVar[dict[str, str]] = {
-        "timestamp": "_try_timestamp",
-        "negative-timestamp": "_try_negative_timestamp",
-        "relative-time": "_try_freshness_parser",
-        "custom-formats": "_try_given_formats",
-        "absolute-time": "_try_absolute_parser",
-        "no-spaces-time": "_try_nospaces_parser",
-    }
-
     def __init__(
         self,
         locale: "Locale",
@@ -508,7 +499,7 @@ class _DateLocaleParser:
                 # It would read the same numbers in a date order again.
                 continue
             try:
-                date_data = getattr(self, self._parsers[parser_name])()
+                date_data = self._parsers[parser_name](self)
             except _StrictDateOrderError as error:
                 # STRICT_DATE_ORDER rejected the reading of this parser. The
                 # other parsers may still read the date string.
@@ -612,6 +603,17 @@ class _DateLocaleParser:
             self.date_formats,
             settings=self._settings,
         )
+
+    _parsers: ClassVar[
+        dict[str, Callable[["_DateLocaleParser"], "DateData | None"]]
+    ] = {
+        "timestamp": _try_timestamp,
+        "negative-timestamp": _try_negative_timestamp,
+        "relative-time": _try_freshness_parser,
+        "custom-formats": _try_given_formats,
+        "absolute-time": _try_absolute_parser,
+        "no-spaces-time": _try_nospaces_parser,
+    }
 
     def _translate(self, keep_formatting: bool) -> str | None:
         return self.locale._translate(

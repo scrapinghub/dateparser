@@ -183,7 +183,7 @@ def _check_parsers(setting_name: str, setting_value: list[str]) -> None:
     if unknown_parsers:
         raise SettingValidationError(
             'Found unknown parsers in the "{}" setting: {}'.format(
-                setting_name, ", ".join(unknown_parsers)
+                setting_name, ", ".join(sorted(unknown_parsers))
             )
         )
     _check_repeated_values(setting_name, setting_value)
