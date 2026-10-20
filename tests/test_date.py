@@ -16,6 +16,7 @@ import dateparser
 from dateparser import date
 from dateparser.conf import Settings
 from dateparser.date import DateData
+from dateparser.languages.loader import default_loader
 from dateparser.languages.locale import Locale
 from tests import BaseTestCase
 
@@ -874,6 +875,30 @@ class TestDateDataParser(BaseTestCase):
         self.then_detected_locale("es")
         self.when_date_string_is_parsed("2020-05-01")
         self.then_detected_locale("es")
+
+    @parameterized.expand(
+        [
+            param(date_string="2020-13-45"),
+            param(date_string="2020-13-45 pm"),
+        ]
+    )
+    def test_failed_attempts_skip_equivalent_locales(self, date_string: str) -> None:
+        # Locales that translate the string identically and share a date
+        # order can only fail the same way, so a failing string is tried once
+        # per date order, not on every one of the 200+ locales.
+        max_attempts = len(
+            {locale.info.get("date_order") for locale in default_loader.get_locales()}
+        )
+        self.given_parser()
+        with patch.object(
+            date._DateLocaleParser,
+            "_parse_translation",
+            autospec=True,
+            side_effect=date._DateLocaleParser._parse_translation,
+        ) as parse:
+            self.when_date_string_is_parsed(date_string)
+        self.then_date_was_not_parsed()
+        self.assertLessEqual(parse.call_count, max_attempts)
 
     def test_try_previous_locales_order_deterministic(self) -> None:
         self.given_parser(try_previous_locales=True)
