@@ -6,7 +6,7 @@ from collections.abc import Callable, Iterable, Iterator
 from collections.abc import Set as AbstractSet
 from datetime import date, datetime, timedelta, tzinfo
 from itertools import count
-from typing import TYPE_CHECKING, Any, TypeGuard, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar, TypeGuard, TypeVar
 
 import regex as re
 from dateutil.relativedelta import relativedelta
@@ -460,14 +460,6 @@ class _DateLocaleParser:
         self._translated_date_with_formatting: str | None = None
         self._part_of_day: PartOfDay | None = None
         self._part_of_day_sets_time = False
-        self._parsers: dict[str, Callable[[], DateData | None]] = {
-            "timestamp": self._try_timestamp,
-            "negative-timestamp": self._try_negative_timestamp,
-            "relative-time": self._try_freshness_parser,
-            "custom-formats": self._try_given_formats,
-            "absolute-time": self._try_absolute_parser,
-            "no-spaces-time": self._try_nospaces_parser,
-        }
 
     def _parse(self) -> "DateData | None":
         if not self._alternatives:
@@ -501,7 +493,7 @@ class _DateLocaleParser:
                 # It would read the same numbers in a date order again.
                 continue
             try:
-                date_data = self._parsers[parser_name]()
+                date_data = self._parsers[parser_name](self)
             except _StrictDateOrderError as error:
                 # STRICT_DATE_ORDER rejected the reading of this parser. The
                 # other parsers may still read the date string.
@@ -615,6 +607,17 @@ class _DateLocaleParser:
             self.date_formats,
             settings=self._settings,
         )
+
+    _parsers: ClassVar[
+        dict[str, Callable[["_DateLocaleParser"], "DateData | None"]]
+    ] = {
+        "timestamp": _try_timestamp,
+        "negative-timestamp": _try_negative_timestamp,
+        "relative-time": _try_freshness_parser,
+        "custom-formats": _try_given_formats,
+        "absolute-time": _try_absolute_parser,
+        "no-spaces-time": _try_nospaces_parser,
+    }
 
     def _translate(self, keep_formatting: bool) -> str | None:
         return self.locale._translate(
