@@ -440,6 +440,7 @@ class _DateLocaleParser:
         settings: Settings | None = None,
         ignore_surrounding_text: bool = False,
         alternatives: bool = False,
+        failed: set[tuple[str, str | None, str]] | None = None,
     ) -> None:
         assert settings is not None
         self._settings = settings
@@ -454,6 +455,7 @@ class _DateLocaleParser:
         self._ignore_surrounding_text = ignore_surrounding_text
         self._alternatives = alternatives
         self._alternative = 0
+        self._failed = failed
         self._translated_date: str | None = None
         self._translated_date_with_formatting: str | None = None
         self._part_of_day: PartOfDay | None = None
@@ -469,16 +471,30 @@ class _DateLocaleParser:
 
     def _parse(self) -> "DateData | None":
         if not self._alternatives:
-            return self._parse_translation()
+            return self._parse_unless_failed()
         for self._alternative in count(1):
             self._set_translated_date()
             if self._translated_date is None:
                 return None
             self._translated_date_with_formatting = None
-            date_data = self._parse_translation()
+            date_data = self._parse_unless_failed()
             if date_data:
                 return date_data
         return None
+
+    def _parse_unless_failed(self) -> "DateData | None":
+        """Like :meth:`_parse_translation`, but skip translations whose
+        outcome key is in *failed*, and add the key of a failed one to it."""
+        if self._failed is None:
+            return self._parse_translation()
+        # With nothing failed yet, the timestamp parsers get to run before the
+        # date string is translated.
+        if self._failed and self._outcome_key() in self._failed:
+            return None
+        date_data = self._parse_translation()
+        if not date_data:
+            self._failed.add(self._outcome_key())
+        return date_data
 
     def _parse_translation(self) -> "DateData | None":
         rejected: _StrictDateOrderError | None = None
@@ -952,6 +968,7 @@ class DateDataParser:
                 date_formats,
                 ignore_surrounding_text,
                 alternatives=True,
+                failed=failed,
             )
             if parsed_date:
                 return parsed_date
@@ -973,15 +990,10 @@ class DateDataParser:
             settings=self._settings,
             ignore_surrounding_text=ignore_surrounding_text,
             alternatives=alternatives,
+            failed=failed,
         )
-        if failed is not None:
-            outcome_key = parser._outcome_key()
-            if outcome_key in failed:
-                return None
         parsed_date = parser._parse()
         if not parsed_date:
-            if failed is not None:
-                failed.add(outcome_key)
             return None
         parsed_date["locale"] = locale.shortname
         if self.try_previous_locales:
