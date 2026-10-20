@@ -9,6 +9,7 @@ from dateparser.calendars import CalendarBase
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
+    from dateparser.parser import _Directives
 
 _MONTHS = {
     name: index
@@ -59,7 +60,7 @@ class _french_republican_parser:
     @classmethod
     def parse(
         cls, datestring: str, settings: "Settings"
-    ) -> tuple[datetime, str | None, tuple[str, ...]]:
+    ) -> "tuple[datetime, str | None, tuple[str, ...], _Directives]":
         normalized = "".join(
             char
             for char in unicodedata.normalize("NFKD", datestring.strip())
@@ -93,7 +94,7 @@ class _french_republican_parser:
         date = datetime(*french_republican.to_gregorian(year, month, day))
         period = "day" if match["day"] else "month" if match["month"] else "year"
         parts = ("year", "month", "day")[: ("year", "month", "day").index(period) + 1]
-        return date, period, parts
+        return date, period, parts, None
 
 
 class FrenchRepublicanCalendar(CalendarBase):

@@ -38,7 +38,7 @@ class TestMinguoCalendar(BaseTestCase):
     ) -> None:
         current = settings.replace(RELATIVE_BASE=datetime(2026, 3, 31))
         self.assertEqual(
-            _minguo_parser.parse(date_string, current), (expected, period, parts)
+            _minguo_parser.parse(date_string, current)[:3], (expected, period, parts)
         )
 
     @parameterized.expand(
