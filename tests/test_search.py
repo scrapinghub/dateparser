@@ -1384,6 +1384,33 @@ class TestTranslateSearch(BaseTestCase):
         ]
         assert result == expected
 
+    def test_search_dates_with_standalone_accent_mark_before_a_date(self) -> None:
+        """A standalone accent mark glued to a date should not swallow its text."""
+        result = search_dates(
+            "ABC´1997.",
+            languages=["en"],
+            settings={"RELATIVE_BASE": relative_base},
+        )
+        expected = [
+            (
+                "1997",
+                datetime.datetime(1997, relative_base.month, relative_base.day, 0, 0),
+            )
+        ]
+        assert result == expected
+
+    def test_search_dates_with_standalone_accent_mark_not_glued_to_a_date(
+        self,
+    ) -> None:
+        """An accent mark already next to a space is left untouched."""
+        result = search_dates(
+            "Jan´ 5, 2020",
+            languages=["en"],
+            settings={"RELATIVE_BASE": relative_base},
+        )
+        expected = [("Jan´ 5, 2020", datetime.datetime(2020, 1, 5, 0, 0))]
+        assert result == expected
+
     @parameterized.expand(
         [
             param(
@@ -1937,6 +1964,69 @@ class TestTranslateSearch(BaseTestCase):
         self.assertEqual(
             result, [("25/12/2020", datetime.datetime(2020, 12, 25, 0, 0))]
         )
+
+    @parameterized.expand(
+        [
+            param(
+                "On se voit demain à midi.",
+                [("demain à midi", datetime.datetime(2000, 1, 2, 12, 0))],
+            ),
+            param(
+                "Rendez-vous mardi à midi, ou lundi à 14:30.",
+                [
+                    ("mardi à midi", datetime.datetime(1999, 12, 28, 12, 0)),
+                    ("lundi à 14:30", datetime.datetime(1999, 12, 27, 14, 30)),
+                ],
+            ),
+            # The afternoon and before noon are not noon, whatever the hyphen
+            param(
+                "Réunion demain après-midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+            ),
+            param(
+                "Réunion demain après\u2013midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+            ),
+            param(
+                "Réunion demain après\u2011midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+            ),
+            param(
+                "Réunion demain après_midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+            ),
+            param("Réunion avant midi", None),
+            param("Réunion avant midi ou cet après-midi.", None),
+            # The text is accent-stripped before it is simplified, whatever
+            # NORMALIZE says
+            param(
+                "Réunion demain après-midi",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+                settings={"NORMALIZE": False},
+            ),
+            param("Livraison après midi", None, settings={"NORMALIZE": False}),
+            param(
+                "Réunion demain après le midi.",
+                [("demain", datetime.datetime(2000, 1, 2, 0, 0))],
+                settings={"NORMALIZE": False},
+            ),
+        ]
+    )
+    def test_search_dates_with_french_midi(
+        self,
+        text: str,
+        expected: list[tuple[str, datetime.datetime]] | None,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["fr"],
+            settings={
+                "RELATIVE_BASE": datetime.datetime(2000, 1, 1),
+                **(settings or {}),
+            },
+        )
+        self.assertEqual(result, expected)
 
 
 class TestNgramSearch(BaseTestCase):

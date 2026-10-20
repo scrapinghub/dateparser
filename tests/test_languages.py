@@ -89,6 +89,18 @@ class TestBundledLanguages(BaseTestCase):
             param("fr", "20 Février 2012", "20 february 2012"),
             param("fr", "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
             param("fr", "18 octobre 2012 à 19 h 21 min", "18 october 2012 19:21"),
+            # "sept" is both the abbreviation for "septembre" and the word for
+            # 7, so it must only be simplified to a number where it is used as
+            # a quantity.
+            param("fr", "1 sept. 2024", "1 september. 2024"),
+            param("fr", "11 sept. 2014", "11 september. 2014"),
+            param("fr", "mardi 3 sept 2024", "tuesday 3 september 2024"),
+            param("fr", "3 sept à 14h30", "3 september 14:30"),
+            param("fr", "sept heures", "7 hour"),
+            param("fr", "il y a sept jours", "7 day ago"),
+            param("fr", "sept ans", "7 year"),
+            param("fr", "il y a sept a", "7 year ago"),
+            param("fr", "sept:30", "7:30"),
             # German
             param("de", "29. Juni 2007", "29. june 2007"),
             param("de", "Montag 5 Januar, 2015", "monday 5 january 2015"),
@@ -164,6 +176,12 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "6 يونية 2020", "6 june 2020"),
             param("ar", "7 يوليه 2020", "7 july 2020"),
             param("ar", "8 يولية 2020", "8 july 2020"),
+            # Arabic (Levantine month names, numbered alternate form)
+            param("ar-SY", "15 كانون 2 2023", "15 january 2023"),
+            param("ar-JO", "15 كانون 1 2023", "15 december 2023"),
+            param("ar-LB", "5 تشرين 1 2023", "5 october 2023"),
+            param("ar-PS", "5 تشرين 2 2023", "5 november 2023"),
+            param("ar-IQ", "5 تشرين 1 2023", "5 october 2023"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
             param(
@@ -203,6 +221,17 @@ class TestBundledLanguages(BaseTestCase):
             param("id", "Minggu, 18 Mar 2018 07:30", "sunday 18 march 2018 07:30"),
             param("id", "3 minggu yang lalu", "3 week ago"),
             param("id", "5 minggu", "5 week"),
+            param("id", "6 Nop 2019", "6 november 2019"),
+            param("id", "6 Djan 2019", "6 january 2019"),
+            param("id", "6 Peb 2019", "6 february 2019"),
+            param("id", "6 Mrt 2019", "6 march 2019"),
+            param("id", "6 Mai 2019", "6 may 2019"),
+            param("id", "6 Djuni 2019", "6 june 2019"),
+            param("id", "6 Djuli 2019", "6 july 2019"),
+            param("id", "6 Ag 2019", "6 august 2019"),
+            param("id", "6 Djanuari 2019", "6 january 2019"),
+            param("id", "6 Pebruari 2019", "6 february 2019"),
+            param("id", "6 Nopember 2019", "6 november 2019"),
             # Miscellaneous
             param("en", "2014-12-12T12:33:39-08:00", "2014-12-12 12:33:39-08:00"),
             param("en", "2014-10-15T16:12:20+00:00", "2014-10-15 16:12:20+00:00"),
@@ -1115,6 +1144,22 @@ class TestBundledLanguages(BaseTestCase):
     ) -> None:
         self.given_settings()
         self.given_bundled_language(shortname)
+        self.given_string(datetime_string)
+        self.when_datetime_string_translated()
+        self.then_string_translated_to(expected_translation)
+
+    @parameterized.expand(
+        [
+            param("midi", "12:00"),
+            param("Mardi à midi", "tuesday 12:00"),
+            param("12 octobre 2026 à midi", "12 october 2026 12:00"),
+        ]
+    )
+    def test_french_midi_translation(
+        self, datetime_string: str, expected_translation: str
+    ) -> None:
+        self.given_settings()
+        self.given_bundled_language("fr")
         self.given_string(datetime_string)
         self.when_datetime_string_translated()
         self.then_string_translated_to(expected_translation)
