@@ -136,15 +136,21 @@ class Locale:
         )
         dict_cnt = 0
         skip_cnt = 0
+        digit_cnt = 0
         for word in set(words):
-            if word in dictionary:
+            # Some locales map bare numbers to months, e.g. "11" from the
+            # Vietnamese "tháng 11", which is weak evidence of the language,
+            # only good as a tiebreaker.
+            if word.isdigit():
+                skip_cnt += 1
+                if dictionary.get(word):
+                    digit_cnt += 1
+            elif word in dictionary:
                 if dictionary[word]:
                     dict_cnt += 1
                 else:
                     skip_cnt += 1
-            elif word.isdigit():
-                skip_cnt += 1
-        return [dict_cnt, skip_cnt]
+        return [dict_cnt, skip_cnt, digit_cnt]
 
     @staticmethod
     def clean_dictionary(
