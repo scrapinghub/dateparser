@@ -3,6 +3,83 @@
 History
 =======
 
+1.4.3 (2026-09-03)
+------------------
+
+Fixes:
+
+- Make parsing thread-safe: parsing from several threads no longer
+  raises an intermittent ``KeyError`` from the shared language caches,
+  and a ``DATE_ORDER`` or ``RELATIVE_BASE`` value meant for one parse no
+  longer leaks into the settings that other parses read, where it could
+  make them return a wrong date (#1346)
+- Do not share the language detector and the detected locale between
+  ``search_dates()`` calls, so concurrent searches over text in
+  different languages no longer return ``None`` or a date read in the
+  wrong locale (#1371)
+- Resolve the ``BST`` and ``HDT`` timezone abbreviations to the offsets
+  the tz database gives them, UTC+1 (British Summer Time) and UTC-9
+  (Hawaii-Aleutian Daylight Time), instead of +11 and -9:30, which no
+  zone goes by those names today; abbreviations that the tz database
+  maps to more than one offset, such as ``CST`` and ``IST``, keep their
+  current offset. Text carrying these abbreviations keeps its wall clock
+  but moves by 10 hours for ``BST`` and 30 minutes for ``HDT``, which can
+  put the parsed instant on a different day (#1366)
+- Reject a ``%j`` (day of year) value that the parsed year does not
+  have, instead of rolling it over into the next year, so "1999366" with
+  ``date_formats=["%Y%j"]`` returns ``None`` rather than 2000-01-01. A
+  format with no year directive is checked against the year ``strptime``
+  defaults to, 1900, which is not a leap year, so "366" with
+  ``date_formats=["%j"]`` now returns ``None`` where it used to return
+  January 1 (#1370)
+
+Cleanups and internal improvements:
+
+- Add CodSpeed benchmarks and a workflow that runs them, so a
+  performance regression such as the quadratic backtracking fixed in
+  1.4.1 is reported on the pull request that introduces it (#1365)
+
+1.4.2 (2026-08-04)
+------------------
+
+New features:
+
+- Add an ``IGNORE_SURROUNDING_TEXT`` setting that, when enabled, retries
+  parsing after ignoring the leading and trailing words the language does
+  not recognize, so a date wrapped in extra text such as "Published on
+  16/04/2019" is parsed (#1356)
+- Add a ``strategy`` argument to ``search_dates()`` to choose the search
+  strategy: the default ``"split"`` keeps the current behavior, while the
+  new ``"ngram"`` strategy parses the longest sequences of tokens as dates
+  for more predictable results on noisy text (#1351)
+
+Fixes:
+
+- Do not read a two-digit number as a year once a later component has been
+  found in year-first date orders, so the day in Japanese dates such as
+  "4月20日" is no longer consumed as the year (#1358)
+- Parse ISO 8601 dates (those starting with a four-digit year) in month-day
+  order even when an explicit day-first language such as ``it`` or ``fr`` is
+  given, without needing to set ``PREFER_LOCALE_DATE_ORDER`` to ``False``
+  (#1352)
+- Honor ``PREFER_DATES_FROM`` and ``RELATIVE_BASE`` when parsing with custom
+  ``date_formats`` that use a two-digit year (``%y``) (#1342)
+- Honor the ``%j`` (day of year) directive in ``date_formats`` instead of
+  overwriting the parsed month and day with the current date (#1345)
+
+Improvements:
+
+- Update the bundled CLDR locale data to 44.1.0, adding many newly
+  recognized date forms across locales and a standalone hour/duration unit
+  (e.g. Catalan "2 hores"), while keeping previously supported forms
+  parseable (#1343)
+- Add the Italian expressions "un ora fa" and "un'ora fa", and skip "alle"
+  so phrases like "oggi alle 11:00" parse (#1049)
+- Expand Czech date translations with month locative/dative forms (e.g. "v
+  lednu 2023"), the July abbreviation "črv", and relative expressions such
+  as "za týden", "za měsíc" and "za rok" (#1172)
+- Specify the README header content as RST rather than raw HTML (#1360)
+
 1.4.1 (2026-06-15)
 ------------------
 

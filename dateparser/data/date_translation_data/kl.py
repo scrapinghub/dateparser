@@ -3,50 +3,76 @@ info = {
     "date_order": "YMD",
     "january": [
         "jan",
+        "januaari",
+        "januaarip",
         "januari"
     ],
     "february": [
+        "febr",
+        "februaari",
+        "februaarip",
         "feb",
         "februari"
     ],
     "march": [
         "mar",
+        "marsi",
+        "marsip",
         "martsi"
     ],
     "april": [
         "apr",
+        "apriili",
+        "apriilip",
         "aprili"
     ],
     "may": [
+        "maaji",
+        "maajip",
         "maj",
         "maji"
     ],
     "june": [
         "jun",
+        "juuni",
+        "juunip",
         "juni"
     ],
     "july": [
         "jul",
+        "juuli",
+        "juulip",
         "juli"
     ],
     "august": [
+        "aggusti",
+        "aggustip",
         "aug",
         "augustusi"
     ],
     "september": [
+        "sept",
+        "septembari",
+        "septembarip",
         "sep",
         "septemberi"
     ],
     "october": [
         "okt",
+        "oktobari",
+        "oktobarip",
         "oktoberi"
     ],
     "november": [
         "nov",
+        "novembari",
+        "novembarip",
         "novemberi"
     ],
     "december": [
         "dec",
+        "decembari",
+        "decembarip",
         "decemberi"
     ],
     "monday": [
@@ -74,6 +100,8 @@ info = {
         "arfininngorneq"
     ],
     "sunday": [
+        "sap",
+        "sapaat",
         "sab",
         "sabaat"
     ],
@@ -96,7 +124,8 @@ info = {
         "day"
     ],
     "hour": [
-        "hour"
+        "hour",
+        "hr"
     ],
     "minute": [
         "minute"

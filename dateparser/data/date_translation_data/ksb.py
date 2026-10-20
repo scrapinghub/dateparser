@@ -95,6 +95,7 @@ info = {
         "siku"
     ],
     "hour": [
+        "hr",
         "saa"
     ],
     "minute": [

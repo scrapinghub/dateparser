@@ -76,9 +76,11 @@ info = {
         "dé domhnaigh"
     ],
     "am": [
+        "rn",
         "am"
     ],
     "pm": [
+        "in",
         "pm"
     ],
     "year": [
@@ -130,6 +132,8 @@ info = {
             "an tseachtain seo"
         ],
         "0 year ago": [
+            "i mbl",
+            "i mbliana",
             "an bhl seo",
             "an bhliain seo"
         ],
@@ -204,7 +208,8 @@ info = {
         ],
         "in \\1 month": [
             "i gceann (\\d++[.,]?\\d*+) mhí",
-            "i gceann (\\d++[.,]?\\d*+) mí"
+            "i gceann (\\d++[.,]?\\d*+) mí",
+            "i gceann (\\d++[.,]?\\d*+) míosa"
         ],
         "in \\1 second": [
             "i gceann (\\d++[.,]?\\d*+) soic",
@@ -212,15 +217,21 @@ info = {
         ],
         "in \\1 week": [
             "i gceann (\\d++[.,]?\\d*+) scht",
-            "i gceann (\\d++[.,]?\\d*+) seachtain"
+            "i gceann (\\d++[.,]?\\d*+) seachtain",
+            "i gceann (\\d++[.,]?\\d*+) seachtaine"
         ],
         "in \\1 year": [
-            "i gceann (\\d++[.,]?\\d*+) bhliain",
             "i gceann (\\d++[.,]?\\d*+) bl",
-            "i gceann (\\d++[.,]?\\d*+) bliain"
+            "i gceann (\\d++[.,]?\\d*+) bliain",
+            "i gceann (\\d++[.,]?\\d*+) bliana",
+            "i gceann (\\d++[.,]?\\d*+) bhliain"
         ]
     },
-    "locale_specific": {},
+    "locale_specific": {
+        "ga-GB": {
+            "name": "ga-GB"
+        }
+    },
     "skip": [
         " ",
         "'",

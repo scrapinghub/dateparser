@@ -116,7 +116,8 @@ info = {
     ],
     "hour": [
         "h",
-        "hora"
+        "hora",
+        "hores"
     ],
     "minute": [
         "min",
@@ -175,10 +176,10 @@ info = {
         "in 1 week": [
             "la setm que ve",
             "la setmana que ve",
-            "setm vinent",
             "la setmana vinent",
             "la pròxima setmana",
-            "la propera setmana"
+            "la propera setmana",
+            "setm vinent"
         ],
         "in 1 year": [
             "l'any que ve"

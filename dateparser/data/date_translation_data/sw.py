@@ -74,8 +74,8 @@ info = {
         "asubuhi"
     ],
     "pm": [
-        "mchana",
-        "pm"
+        "pm",
+        "mchana"
     ],
     "year": [
         "mwaka"

@@ -1,6 +1,15 @@
+am:
+    - дп
+pm:
+    - пп
+relative-type-regex:
+    \1 day ago:
+        - (\d+[.,]?\d*) д назад
+    in \1 day:
+        - через (\d+[.,]?\d*) д
 skip: ["в", "во", "и", "около", "примерно"]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 monday:
     - пнд
@@ -71,6 +80,8 @@ relative-type:
     in 3 day:
         - послепослезавтра
 
+    0 hour ago:
+        - в этом часе
 simplifications:
     - од(ин|на|ну|ни|ной|ною|но|ного|ному|ним|нем): '1'
     - перв(ой|ого|ому|ым|ом|ая|ую|ое|ые|ых|ыми): '1'

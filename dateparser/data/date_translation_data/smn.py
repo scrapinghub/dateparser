@@ -103,7 +103,8 @@ info = {
         "day"
     ],
     "hour": [
-        "hour"
+        "hour",
+        "tiijmeh"
     ],
     "minute": [
         "minute"

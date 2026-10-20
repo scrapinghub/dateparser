@@ -96,6 +96,7 @@ info = {
         "eizooba"
     ],
     "hour": [
+        "hr",
         "shaaha"
     ],
     "minute": [

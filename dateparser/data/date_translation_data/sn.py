@@ -96,7 +96,8 @@ info = {
         "zuva"
     ],
     "hour": [
-        "awa"
+        "awa",
+        "hr"
     ],
     "minute": [
         "mineti"

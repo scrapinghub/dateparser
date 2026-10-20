@@ -2,47 +2,59 @@ info = {
     "name": "rm",
     "date_order": "DMY",
     "january": [
+        "da schaner",
         "schan",
         "schaner"
     ],
     "february": [
+        "da favrer",
         "favr",
         "favrer"
     ],
     "march": [
+        "da mars",
         "mars"
     ],
     "april": [
         "avr",
-        "avrigl"
+        "avrigl",
+        "d'avrigl"
     ],
     "may": [
+        "da matg",
         "matg"
     ],
     "june": [
+        "da zercladur",
         "zercl",
         "zercladur"
     ],
     "july": [
+        "da fanadur",
         "fan",
         "fanadur"
     ],
     "august": [
-        "avust"
+        "avust",
+        "d'avust"
     ],
     "september": [
+        "da settember",
         "sett",
         "settember"
     ],
     "october": [
+        "d'october",
         "oct",
         "october"
     ],
     "november": [
+        "da november",
         "nov",
         "november"
     ],
     "december": [
+        "da december",
         "dec",
         "december"
     ],
@@ -90,15 +102,20 @@ info = {
         "emna"
     ],
     "day": [
+        "d",
+        "di",
         "tag"
     ],
     "hour": [
-        "ura"
+        "ura",
+        "uras"
     ],
     "minute": [
+        "min",
         "minuta"
     ],
     "second": [
+        "s",
         "secunda"
     ],
     "relative-type": {
@@ -121,6 +138,7 @@ info = {
             "this week"
         ],
         "0 year ago": [
+            "quest onn",
             "this year"
         ],
         "1 day ago": [
@@ -133,6 +151,7 @@ info = {
             "last week"
         ],
         "1 year ago": [
+            "l'onn passà",
             "last year"
         ],
         "in 1 day": [
@@ -145,6 +164,7 @@ info = {
             "next week"
         ],
         "in 1 year": [
+            "l'onn proxim",
             "next year"
         ]
     },

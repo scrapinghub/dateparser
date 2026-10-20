@@ -1,6 +1,6 @@
 info = {
     "name": "br",
-    "date_order": "YMD",
+    "date_order": "DMY",
     "january": [
         "gen",
         "genver"
@@ -42,9 +42,9 @@ info = {
         "du"
     ],
     "december": [
-        "ker",
         "kerzu",
-        "kzu"
+        "kzu",
+        "ker"
     ],
     "monday": [
         "lun"
@@ -78,13 +78,16 @@ info = {
         "gm"
     ],
     "year": [
+        "b",
         "bl",
         "bloaz"
     ],
     "month": [
+        "m",
         "miz"
     ],
     "week": [
+        "sizh",
         "sizhun"
     ],
     "day": [
@@ -93,7 +96,8 @@ info = {
     ],
     "hour": [
         "e",
-        "eur"
+        "eur",
+        "eurioù"
     ],
     "minute": [
         "min",
@@ -108,12 +112,15 @@ info = {
             "hiziv"
         ],
         "0 hour ago": [
+            "d'an eur-mañ",
             "this hour"
         ],
         "0 minute ago": [
+            "ar munut-mañ",
             "this minute"
         ],
         "0 month ago": [
+            "ar m-mañ",
             "ar miz-mañ"
         ],
         "0 second ago": [
@@ -121,6 +128,7 @@ info = {
             "bremañ"
         ],
         "0 week ago": [
+            "ar sizh-mañ",
             "ar sizhun-mañ"
         ],
         "0 year ago": [
@@ -130,9 +138,11 @@ info = {
             "dec'h"
         ],
         "1 month ago": [
+            "ar m diaraok",
             "ar miz diaraok"
         ],
         "1 week ago": [
+            "ar sizh diaraok",
             "ar sizhun diaraok"
         ],
         "1 year ago": [
@@ -142,9 +152,11 @@ info = {
             "warc'hoazh"
         ],
         "in 1 month": [
+            "ar m a zeu",
             "ar miz a zeu"
         ],
         "in 1 week": [
+            "ar sizh a zeu",
             "ar sizhun a zeu"
         ],
         "in 1 year": [
@@ -173,6 +185,7 @@ info = {
             "(\\d++[.,]?\\d*+) s zo"
         ],
         "\\1 week ago": [
+            "(\\d++[.,]?\\d*+) sizh zo",
             "(\\d++[.,]?\\d*+) sizhun zo"
         ],
         "\\1 year ago": [
@@ -200,6 +213,7 @@ info = {
             "a-benn (\\d++[.,]?\\d*+) s"
         ],
         "in \\1 week": [
+            "a-benn (\\d++[.,]?\\d*+) sizh",
             "a-benn (\\d++[.,]?\\d*+) sizhun"
         ],
         "in \\1 year": [

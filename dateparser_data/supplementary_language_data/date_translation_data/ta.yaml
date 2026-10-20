@@ -1,0 +1,3 @@
+relative-type-regex:
+    \1 week ago:
+        - (\d+[.,]?\d*) வாரத்திற்கு முன்பு

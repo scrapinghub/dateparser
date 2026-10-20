@@ -96,6 +96,7 @@ info = {
         "araw"
     ],
     "hour": [
+        "mga oras",
         "oras"
     ],
     "minute": [
@@ -172,8 +173,8 @@ info = {
         ],
         "\\1 second ago": [
             "(\\d++[.,]?\\d*+) seg ang nakalipas",
-            "(\\d++[.,]?\\d*+) seg nakalipas",
-            "(\\d++[.,]?\\d*+) segundo ang nakalipas"
+            "(\\d++[.,]?\\d*+) segundo ang nakalipas",
+            "(\\d++[.,]?\\d*+) seg nakalipas"
         ],
         "\\1 week ago": [
             "(\\d++[.,]?\\d*+) linggo ang nakalipas"

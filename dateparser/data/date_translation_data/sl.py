@@ -100,7 +100,8 @@ info = {
     ],
     "hour": [
         "h",
-        "ura"
+        "ura",
+        "ure"
     ],
     "minute": [
         "min",
@@ -122,12 +123,14 @@ info = {
             "to minuto"
         ],
         "0 month ago": [
+            "ta mes",
             "ta mesec"
         ],
         "0 second ago": [
             "zdaj"
         ],
         "0 week ago": [
+            "ta ted",
             "ta teden"
         ],
         "0 year ago": [
@@ -137,9 +140,13 @@ info = {
             "včeraj"
         ],
         "1 month ago": [
+            "prej mes",
+            "prejšnji mes",
             "prejšnji mesec"
         ],
         "1 week ago": [
+            "prej ted",
+            "prejšnji ted",
             "prejšnji teden"
         ],
         "1 year ago": [
@@ -149,9 +156,13 @@ info = {
             "jutri"
         ],
         "in 1 month": [
+            "nasl mes",
+            "naslednji mes",
             "naslednji mesec"
         ],
         "in 1 week": [
+            "nasl ted",
+            "naslednji ted",
             "naslednji teden"
         ],
         "in 1 year": [

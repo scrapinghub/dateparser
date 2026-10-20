@@ -3,6 +3,7 @@ dateparser -- python parser for human readable dates
 ====================================================
 
 .. include:: ../README.rst
+   :start-after: docs-include-marker
 
 Indices and tables
 ------------------
@@ -17,6 +18,7 @@ Contents:
    usage
    settings
    custom_language_detection
+   performance
    supported_locales
    contributing
    modules

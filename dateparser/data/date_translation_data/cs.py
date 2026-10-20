@@ -4,45 +4,54 @@ info = {
     "january": [
         "led",
         "leden",
-        "ledna"
+        "ledna",
+        "lednu"
     ],
     "february": [
         "úno",
         "únor",
         "února",
-        "únr"
+        "únr",
+        "únoru"
     ],
     "march": [
         "bře",
         "březen",
-        "března"
+        "března",
+        "březnu"
     ],
     "april": [
         "dub",
         "duben",
-        "dubna"
+        "dubna",
+        "dubnu"
     ],
     "may": [
         "kvě",
         "květen",
-        "května"
+        "května",
+        "květnu"
     ],
     "june": [
         "červen",
         "června",
         "čvn",
-        "Čer"
+        "Čer",
+        "červnu"
     ],
     "july": [
         "července",
         "červenec",
         "čvc",
-        "Črc"
+        "Črc",
+        "červenci",
+        "črv"
     ],
     "august": [
         "srp",
         "srpen",
-        "srpna"
+        "srpna",
+        "srpnu"
     ],
     "september": [
         "zář",
@@ -51,7 +60,8 @@ info = {
     "october": [
         "říj",
         "říjen",
-        "října"
+        "října",
+        "říjnu"
     ],
     "november": [
         "lis",
@@ -61,7 +71,8 @@ info = {
     "december": [
         "pro",
         "prosince",
-        "prosinec"
+        "prosinec",
+        "prosinci"
     ],
     "monday": [
         "po",
@@ -145,6 +156,7 @@ info = {
     "hour": [
         "h",
         "hodina",
+        "hodiny",
         "hodin",
         "hodiny",
         "hodinou",
@@ -182,6 +194,7 @@ info = {
             "tuto minutu"
         ],
         "0 month ago": [
+            "tento měs",
             "tento měsíc"
         ],
         "0 second ago": [
@@ -202,6 +215,7 @@ info = {
             "včera"
         ],
         "1 month ago": [
+            "minulý měs",
             "minulý měsíc"
         ],
         "1 week ago": [
@@ -217,6 +231,7 @@ info = {
             "zítřka"
         ],
         "in 1 month": [
+            "příští měs",
             "příští měsíc"
         ],
         "in 1 week": [
@@ -511,6 +526,15 @@ info = {
         },
         {
             "(?<=(za|před)\\s)den(em)\\b": "1 den"
+        },
+        {
+            "(?<=za\\s)týden\\b": "1 týden"
+        },
+        {
+            "(?<=za\\s)měsíc\\b": "1 měsíc"
+        },
+        {
+            "(?<=za\\s)rok\\b": "1 rok"
         },
         {
             "čtvrt\\s*hodin(y|u)": "15 minut"

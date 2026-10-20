@@ -96,6 +96,7 @@ info = {
         "lihiku"
     ],
     "hour": [
+        "hr",
         "saa"
     ],
     "minute": [

@@ -95,7 +95,8 @@ info = {
         "day"
     ],
     "hour": [
-        "hour"
+        "hour",
+        "hr"
     ],
     "minute": [
         "minute"

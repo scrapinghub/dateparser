@@ -95,6 +95,7 @@ info = {
         "thiku"
     ],
     "hour": [
+        "hr",
         "thaa"
     ],
     "minute": [

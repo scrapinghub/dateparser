@@ -1,0 +1,10 @@
+second:
+    - sek
+relative-type:
+    0 week ago:
+        - vandeesweek
+relative-type-regex:
+    \1 second ago:
+        - (\d+[.,]?\d*) sek gelede
+    in \1 second:
+        - oor (\d+[.,]?\d*) sek

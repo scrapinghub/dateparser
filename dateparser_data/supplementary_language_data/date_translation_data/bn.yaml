@@ -1,6 +1,11 @@
+thursday:
+    - বৃহষ্পতিবার
+relative-type-regex:
+    \1 minute ago:
+        - (\d+[.,]?\d*) মিনিট পূর্বে
 skip: ["ই", "এবং", "টা", "প্রায়", "লা", "শে"]
 
-sentence_splitter_group : 3
+sentence_splitter_group: 3
 
 january:
     - জানুয়ারি

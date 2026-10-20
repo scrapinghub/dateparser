@@ -1,40 +1,25 @@
-import os
 import shutil
+from pathlib import Path
+from typing import Any
 
 from git import Repo
 
-
-def get_raw_data():
-    cldr_version = "31.0.1"
-    raw_data_directory = "../raw_data"
-
-    cldr_data = {
-        "dates_full": {
-            "url": "https://github.com/unicode-cldr/cldr-dates-full.git",
-            "dir": "{}/cldr_dates_full/".format(raw_data_directory),
-        },
-        "core": {
-            "url": "https://github.com/unicode-cldr/cldr-core.git",
-            "dir": "{}/cldr_core/".format(raw_data_directory),
-        },
-        "rbnf": {
-            "url": "https://github.com/unicode-cldr/cldr-rbnf.git",
-            "dir": "{}/cldr_rbnf/".format(raw_data_directory),
-        },
-    }
-
-    if os.path.isdir(raw_data_directory):
-        # remove current raw data
-        shutil.rmtree(raw_data_directory)
-    os.mkdir(raw_data_directory)
-
-    for name, data in cldr_data.items():
-        print('Clonning "{}" from: {}'.format(name, data["url"]))
-        repo = Repo.clone_from(data["url"], data["dir"], branch="master")
-        repo.git.co(cldr_version)
+CLDR_JSON_DIR = (Path(__file__).parent / "../cldr-json").resolve()
 
 
-def get_dict_difference(parent_dict, child_dict):
+def get_raw_data() -> None:
+    cldr_version = "44.1.0"
+    url = "https://github.com/unicode-org/cldr-json.git"
+    if CLDR_JSON_DIR.is_dir():
+        shutil.rmtree(CLDR_JSON_DIR)
+
+    print(f"Clonning {url} @ {cldr_version} on {CLDR_JSON_DIR}...")
+    Repo.clone_from(url, CLDR_JSON_DIR, branch=cldr_version, depth=1)
+
+
+def get_dict_difference(
+    parent_dict: dict[str, Any], child_dict: dict[str, Any]
+) -> dict[str, Any]:
     difference_dict = {}
     for key, child_value in child_dict.items():
         parent_value = parent_dict.get(key)
@@ -52,7 +37,9 @@ def get_dict_difference(parent_dict, child_dict):
     return difference_dict
 
 
-def combine_dicts(primary_dict, supplementary_dict):
+def combine_dicts(
+    primary_dict: dict[str, Any], supplementary_dict: dict[str, Any]
+) -> dict[str, Any]:
     combined_dict = {}
     for key, value in primary_dict.items():
         if key in supplementary_dict:
@@ -63,10 +50,8 @@ def combine_dicts(primary_dict, supplementary_dict):
             else:
                 combined_dict[key] = supplementary_dict[key]
         else:
-            combined_dict[key] = primary_dict[key]
-    remaining_keys = [
-        key for key in supplementary_dict.keys() if key not in primary_dict.keys()
-    ]
+            combined_dict[key] = value
+    remaining_keys = [key for key in supplementary_dict if key not in primary_dict]
     for key in remaining_keys:
         combined_dict[key] = supplementary_dict[key]
     return combined_dict

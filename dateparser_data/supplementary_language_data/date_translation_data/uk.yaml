@@ -39,10 +39,23 @@ sunday:
 
 march:
     - берез
+april:
+    - кві
+may:
+    - тра
+june:
+    - чер
+august:
+    - сер
 september:
     - верес
+october:
+    - жов
 november:
     - листоп
+    - лис
+december:
+    - гру
 
 year:
     - р
@@ -146,12 +159,16 @@ relative-type:
         - післязавтра
 
 relative-type-regex:
+    \1 day ago:
+        - (\d+[.,]?\d*) д тому
     \1 hour ago:
         - (\d+[.,]?\d*) година тому
     \1 minute ago:
         - (\d+[.,]?\d*) хвилина тому
     \1 second ago:
         - (\d+[.,]?\d*) секунда тому
+    in \1 day:
+        - за (\d+[.,]?\d*) д
 
 simplifications:
     - од(на|ну|ні|ної|нієї|ин|ній): '1'

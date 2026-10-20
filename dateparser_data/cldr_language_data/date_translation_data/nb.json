@@ -100,7 +100,8 @@
     ],
     "hour": [
         "t",
-        "time"
+        "time",
+        "timer"
     ],
     "minute": [
         "m",
@@ -193,8 +194,7 @@
             "for {0} uker siden"
         ],
         "\\1 year ago": [
-            "for {0} år siden",
-            "–{0} år"
+            "for {0} år siden"
         ],
         "in \\1 day": [
             "om {0} d",

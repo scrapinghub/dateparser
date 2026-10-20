@@ -1,6 +1,15 @@
-skip: ["cirka", "d.", "kl", "kl."]
+tuesday:
+    - tir
+thursday:
+    - tor
+relative-type:
+    0 hour ago:
+        - i den kommende time
+    0 minute ago:
+        - i det kommende minut
+skip: ["cirka", "d.", "den", "kl", "kl."]
 
-sentence_splitter_group : 1
+sentence_splitter_group: 1
 
 month:
     - måneder
@@ -27,10 +36,15 @@ relative-type-regex:
     \1 minute ago:
         - for (\d+[.,]?\d*)\s*m
         - for (\d+[.,]?\d*) minutter
+        - for (\d+[.,]?\d*) min siden
     \1 second ago:
         - for (\d+[.,]?\d*)\s*s
         - for (\d+[.,]?\d*) sekunder
+        - for (\d+[.,]?\d*) sek siden
 
+    \1 month ago:
+        - for (\d+[.,]?\d*) md siden
+        - for (\d+[.,]?\d*) mdr siden
 simplifications:
     - en: '1'
     - et: '1'

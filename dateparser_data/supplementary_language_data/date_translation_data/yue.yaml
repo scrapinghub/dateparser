@@ -1,3 +1,17 @@
+monday:
+    - 週一
+tuesday:
+    - 週二
+wednesday:
+    - 週三
+thursday:
+    - 週四
+friday:
+    - 週五
+saturday:
+    - 週六
+sunday:
+    - 週日
 no_word_spacing: "True"
 
-sentence_splitter_group : 4
+sentence_splitter_group: 4

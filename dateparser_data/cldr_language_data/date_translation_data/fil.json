@@ -96,6 +96,7 @@
         "araw"
     ],
     "hour": [
+        "mga oras",
         "oras"
     ],
     "minute": [
@@ -160,8 +161,7 @@
             "{0} araw ang nakalipas"
         ],
         "\\1 hour ago": [
-            "{0} oras ang nakalipas",
-            "{0} oras nakalipas"
+            "{0} oras ang nakalipas"
         ],
         "\\1 minute ago": [
             "{0} min ang nakalipas",
@@ -172,7 +172,6 @@
         ],
         "\\1 second ago": [
             "{0} seg ang nakalipas",
-            "{0} seg nakalipas",
             "{0} segundo ang nakalipas"
         ],
         "\\1 week ago": [

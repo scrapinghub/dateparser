@@ -96,7 +96,8 @@ info = {
         "ntsiku"
     ],
     "hour": [
-        "hora"
+        "hora",
+        "hr"
     ],
     "minute": [
         "minuto"

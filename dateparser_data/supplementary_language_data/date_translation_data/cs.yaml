@@ -24,12 +24,30 @@ sunday:
     - Ned
     - Neděli
 
+january:
+    - lednu
 february:
     - únr
+    - únoru
+march:
+    - březnu
+april:
+    - dubnu
+may:
+    - květnu
 june:
     - Čer
+    - červnu
 july:
     - Črc
+    - červenci
+    - črv
+august:
+    - srpnu
+october:
+    - říjnu
+december:
+    - prosinci
 year:
     - roků
     - roky
@@ -176,6 +194,10 @@ simplifications:
     - '(?<=(za|před)\s)měsíc(em)\b': '1 měsíc'
     - '(?<=(za|před)\s)rok(em)\b': '1 rok'
     - '(?<=(za|před)\s)den(em)\b': '1 den'
+    # Accusative forms used with "za" (e.g. "za týden" = "in a week")
+    - '(?<=za\s)týden\b': '1 týden'
+    - '(?<=za\s)měsíc\b': '1 měsíc'
+    - '(?<=za\s)rok\b': '1 rok'
 
     # Fractions of hours (For relative time)
     - 'čtvrt\s*hodin(y|u)': 15 minut

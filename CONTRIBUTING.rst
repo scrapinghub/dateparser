@@ -76,7 +76,7 @@ installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv dateparser
     $ cd dateparser/
-    $ pip install -e .
+    $ pip install -e . pytest parameterized tox
 
 4. Create a branch for local development::
 
@@ -84,12 +84,24 @@ installed, this is how you set up your fork for local development::
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the
-tests, including testing other Python versions with tox::
+5. Run the tests and the ruff linting and formatting hooks::
 
-    $ tox
+    $ pytest
+    $ tox -e pre-commit
 
-   To get ``tox``, just ``pip install`` it into your virtualenv. In addition to tests, ``tox`` checks for code style and maximum line length (119 characters).
+   Bare ``pytest`` runs the ``tests/`` directory. Optional calendar and language
+   detection tests require ``pip install -e '.[calendars,langdetect]'``.
+   The suite turns warnings into errors (``filterwarnings`` in ``pytest.ini``),
+   so a new deprecation warning fails the run: use ``pytest -W default`` to see
+   such a warning without failing, fix it when it comes from dateparser itself,
+   and otherwise add a narrowly scoped ``ignore:`` line to ``pytest.ini``.
+   The ruff formatter uses its default line length of 88; the linter does not
+   enforce a maximum line length.
+
+   Use ``tox`` to run the full environment list, including the supported Python
+   versions, documentation, scripts, packaging checks, and benchmarks. These
+   environments require their configured Python interpreters to be installed.
+   To run just the packaging check, use ``tox -e twinecheck``.
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -153,9 +165,10 @@ language, you must:
     :ref:`language-data-template` for details.
 
 #.  Regenerate the corresponding file within
-    ``dateparser/data/date_translation_data`` running the following script::
+    ``dateparser/data/date_translation_data`` after installing the script dependencies::
 
-        dateparser_scripts/write_complete_data.py
+        pip install -r dateparser_scripts/requirements.txt
+        python -m dateparser_scripts.write_complete_data
 
 #.  Write tests that cover your changes
 
@@ -179,3 +192,54 @@ Whenever the content of
 the corresponding documentation table::
 
     dateparser_scripts/update_supported_languages_and_locales.py
+
+Updating Timezone Abbreviations
+-------------------------------
+
+``dateparser/timezones.py`` maps each timezone abbreviation to a single UTC
+offset. Unrelated zones often share the same letters, so to check that those
+offsets still match the tz database, run::
+
+    python -m dateparser_scripts.tz_abbreviation_conflicts
+
+It reports every abbreviation whose offset no tz database zone uses, and exits
+non-zero when it finds any. ``tests/test_timezone_parser.py`` runs the same
+check, so a clean test run means the table is in sync.
+
+Abbreviations the tz database resolves to several offsets, such as ``CST``, are
+left alone: there is no single answer to prefer, so dateparser keeps its
+long-standing choice.
+
+When refreshing the table, slide ``REFERENCE_YEARS`` forward rather than
+widening it. Reaching further back re-admits abbreviations the tz database has
+since dropped and reports them as current.
+
+Evaluating against real-world dates
+-----------------------------------
+
+:file:`dateparser_scripts/article_dates.py` runs dateparser on the 300k
+article publication dates from #928, which it downloads to
+:file:`~/.cache/dateparser/` on first use, and reports how often each of these
+checks fails, per language and grouped by format::
+
+    python -m dateparser_scripts.article_dates --sample 5000
+
+``error``
+    Parsing raised an exception.
+``unparsed``
+    :func:`dateparser.parse` returned ``None``.
+``searchable``
+    :func:`dateparser.parse` returned ``None``, but
+    :func:`dateparser.search.search_dates` finds a date.
+``future``
+    The date is after March 2021, when the dataset was collected.
+``hint-dependent``
+    Passing the language of the article in *languages* changes the date.
+``misdetected``
+    The text parses in the language of the article, but a different one was
+    detected.
+
+The dataset has no expected dates, so these checks point at likely bugs
+rather than prove them. To see how a change affects real-world input, run the
+script with ``--output`` before and after the change, and compare both files
+with ``diff``. The full dataset takes about 40 minutes on 8 cores.

@@ -23,7 +23,14 @@ relative-type:
         - la setmana vinent
         - la pròxima setmana
         - la propera setmana
+        - setm vinent
 
+    1 month ago:
+        - mes passat
+    1 week ago:
+        - setm passada
+    in 1 month:
+        - mes vinent
 simplifications:
     - una: '1'
     - un: '1'

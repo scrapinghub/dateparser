@@ -2,8 +2,17 @@
 # As well as http://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
 # As well as https://github.com/scrapinghub/dateparser/pull/4
 # As well as http://en.wikipedia.org/wiki/List_of_UTC_time_offsets
+#
+# The IANA tz database names several zones with the same abbreviation at
+# different UTC offsets (e.g. "CST", "IST", "PST"), and gives no preferred
+# meaning for those, so one offset was picked arbitrarily per abbreviation.
+# Where the tz database names only one offset for an abbreviation, this table
+# has to agree with it: "BST" and "HDT" did not, and were corrected in #1322.
+# Run dateparser_scripts/tz_abbreviation_conflicts.py to re-check the table.
 
-timezone_info_list = [
+from typing import Any
+
+timezone_info_list: list[dict[str, Any]] = [
     {
         "regex_patterns": [r"(.)%s$"],
         "replace": [
@@ -15,6 +24,8 @@ timezone_info_list = [
             (r"(?:UTC|GMT)\\(\+|\-)(\d{2}):00", r"(?:UTC|GMT)\\\1\2"),
             # UTC+nnmm, UTC-nnmm, GMT+nnmm, GMT-nnmm:
             (r"(?:UTC|GMT)(\\[+-])(\d{2}):(\d{2})", r"(?:UTC|GMT)\1\2:?\3.*"),
+            # +nn, -nn:
+            (r"(?:UTC|GMT)\\(\+|\-)(\d{2}):00", r"(?<=\\s)\\\1\2"),
             # Others:
             (r"UTC", r""),
             (r":", r""),
@@ -67,7 +78,7 @@ timezone_info_list = [
         ],
     },
     {
-        "regex_patterns": [r"(\W|\d|_)%s($|\W)"],
+        "regex_patterns": [r"(\W|\d|_)%s($|\W|(?=\d))"],
         "timezones": [
             ("ACDT", 37800),
             ("ACST", 34200),
@@ -123,7 +134,7 @@ timezone_info_list = [
             ("BOT", -14400),
             ("BRST", -7200),
             ("BRT", -10800),
-            ("BST", 39600),
+            ("BST", 3600),
             ("BTT", 21600),
             ("BURT", 23400),
             ("CANT", -3600),
@@ -218,7 +229,7 @@ timezone_info_list = [
             ("HAST", -36000),
             ("HAT", -9000),
             ("HAY", -28800),
-            ("HDT", -34200),
+            ("HDT", -32400),
             ("HKST", 32400),
             ("HKT", 28800),
             ("HLV", -16200),

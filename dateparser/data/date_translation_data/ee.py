@@ -96,7 +96,8 @@ info = {
         "ŋkeke"
     ],
     "hour": [
-        "gaƒoƒo"
+        "gaƒoƒo",
+        "gaƒoƒowo"
     ],
     "minute": [
         "aɖabaƒoƒo"
