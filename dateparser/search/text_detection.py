@@ -27,6 +27,19 @@ class FullTextLanguageDetector(BaseLanguageDetector):
                     unique_chars = unique_chars - other_char_set
             self.language_unique_chars.append(unique_chars)
 
+    @staticmethod
+    def _recognized_chars(
+        language: Locale, date_string: str, settings: Settings
+    ) -> set[str]:
+        dictionary = language._get_dictionary(settings.replace(NORMALIZE=False))
+        match_relative_regex = dictionary._get_match_relative_regex_cache()
+        return {
+            char
+            for token in dictionary.split(date_string.lower())
+            if dictionary._is_known_token(token, match_relative_regex)
+            for char in token
+        }
+
     def character_check(self, date_string: str, settings: Settings) -> None:
         date_string_set = set(date_string.lower())
         symbol_set = {
@@ -56,10 +69,21 @@ class FullTextLanguageDetector(BaseLanguageDetector):
             return
         self.get_unique_characters(settings=settings)
         for i in range(len(self.languages)):
+            recognized_chars = None
             for char in self.language_unique_chars[i]:
-                if char.lower() in date_string.lower():
-                    self.languages = [self.languages[i]]
-                    return
+                if char.lower() not in date_string.lower():
+                    continue
+                # ASCII letters are common in text of any language, so they
+                # only count inside words that the language recognizes.
+                if char.isascii():
+                    if recognized_chars is None:
+                        recognized_chars = self._recognized_chars(
+                            self.languages[i], date_string, settings
+                        )
+                    if char.lower() not in recognized_chars:
+                        continue
+                self.languages = [self.languages[i]]
+                return
         indices_to_pop = [
             i
             for i in range(len(self.languages))
