@@ -52,12 +52,19 @@ def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | Non
         if timezone_match:
             start, stop = timezone_match.span()
             # A token glued to the digits that follow, as in
-            # 2019-09-28WIB19:17:34, leaves a space so that the date and time
-            # digits stay apart.
-            glued = stop < len(date_string) and date_string[stop - 1].isalpha()
+            # 2019-09-28WIB19:17:34 or 2018-10-30GMT+000015:46:25, leaves a
+            # space so that the date and time digits stay apart.
+            glued = (
+                stop < len(date_string)
+                and date_string[stop - 1].isalnum()
+                and date_string[stop].isalnum()
+            )
             separator = " " if glued else ""
+            head, tail = date_string[: start + 1], date_string[stop:]
+            if head[-1:].isspace() and tail[:1].isspace():
+                head = head[:-1]
             return (
-                date_string[: start + 1] + separator + date_string[stop:],
+                head + separator + tail,
                 name,
                 info,
             )
@@ -91,10 +98,8 @@ def pop_tz_offset_from_string(
     # ``-0500 (CDT)`` (the parenthesised name is informational and the numeric
     # offset is authoritative). Only one token is removed above; strip a second,
     # equivalent one so the leftover does not break the rest of the parser.
-    # The remainder is right-stripped first because the numeric-offset regexes
-    # are anchored at the end of the string.
     while True:
-        extra = _search_and_pop_tz(date_string.rstrip())
+        extra = _search_and_pop_tz(date_string)
         if extra is None or extra[2]["offset"] != info["offset"]:
             break
         date_string = extra[0]
@@ -114,10 +119,7 @@ def is_timezone_token(token: str) -> bool:
     case-insensitive *full* match, so it recognizes an already-lowercased,
     space-padded token such as ``" est"``. Because the match is anchored, an
     ordinary word that merely begins with a timezone abbreviation is not
-    treated as a timezone (e.g. ``"actualisé"`` is not the ``ACT`` zone). This
-    is used only on single edge tokens, so the trailing ``.*`` in the UTC/GMT
-    numeric-offset patterns (which a full match would otherwise let absorb
-    following text) is not a concern here.
+    treated as a timezone (e.g. ``"actualisé"`` is not the ``ACT`` zone).
     """
     return bool(_search_regex_ignorecase.fullmatch(token.strip()))
 

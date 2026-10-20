@@ -577,6 +577,16 @@ class TestDateParser(BaseTestCase):
                 "Fri Sep 23 2016 10:34:51 GMT+0800 (CST)",
                 datetime(2016, 9, 23, 2, 34, 51),
             ),
+            param(
+                "Wed May 06 2020 10:00:00 GMT+0200 (Central European Summer Time)",
+                datetime(2020, 5, 6, 8, 0),
+            ),
+            param("10:56:58 PM UTC+2:00 2/22/2018", datetime(2018, 2, 22, 20, 56, 58)),
+            param("10:56:58 PM UTC+2 Feb 22, 2018", datetime(2018, 2, 22, 20, 56, 58)),
+            param(
+                "10:56:58 PM GMT+0800 (CST) 2/22/2018",
+                datetime(2018, 2, 22, 14, 56, 58),
+            ),
             param("Thu, 19 Jan 2023 10:45:00 +03", datetime(2023, 1, 19, 7, 45)),
             param("19 Jan 2023 10:45:00 -04", datetime(2023, 1, 19, 14, 45)),
             # RFC 2822 email dates carry a numeric offset plus a redundant,
@@ -594,6 +604,9 @@ class TestDateParser(BaseTestCase):
                 datetime(2024, 1, 15, 9, 30, 0),
             ),
             param("2019-09-28WIB19:17:34+07:00", datetime(2019, 9, 28, 12, 17, 34)),
+            param(
+                "2018-10-30GMT+000015:46:25+00:00", datetime(2018, 10, 30, 15, 46, 25)
+            ),
         ]
     )
     def test_parsing_with_utc_offsets(
