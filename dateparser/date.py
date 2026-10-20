@@ -455,7 +455,7 @@ class _DateLocaleParser:
         self._ignore_surrounding_text = ignore_surrounding_text
         self._alternatives = alternatives
         self._alternative = 0
-        self._failed = failed
+        self._failed = set() if failed is None else failed
         self._translated_date: str | None = None
         self._translated_date_with_formatting: str | None = None
         self._part_of_day: PartOfDay | None = None
@@ -485,8 +485,6 @@ class _DateLocaleParser:
     def _parse_unless_failed(self) -> "DateData | None":
         """Like :meth:`_parse_translation`, but skip translations whose
         outcome key is in *failed*, and add the key of a failed one to it."""
-        if self._failed is None:
-            return self._parse_translation()
         # With nothing failed yet, the timestamp parsers get to run before the
         # date string is translated.
         if self._failed and self._outcome_key() in self._failed:

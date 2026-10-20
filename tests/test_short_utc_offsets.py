@@ -13,8 +13,8 @@ from dateparser.utils import get_timezone_from_tz_string
     ],
 )
 def test_two_digit_utc_offsets_without_minutes_are_supported(
-    tz_string, expected_offset
-):
+    tz_string: str, expected_offset: timedelta
+) -> None:
     tzinfo = get_timezone_from_tz_string(tz_string)
 
     assert tzinfo.utcoffset(None) == expected_offset
