@@ -425,6 +425,16 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("قبل ٥ ساعات", ago={"hours": 5}, period="day"),
             param("قبل يومين", ago={"days": 2}, period="day"),
             param("قبل 10 سنوات", ago={"years": 10}, period="year"),
+            param("قبل 20 عاما", ago={"years": 20}, period="year"),
+            param("قبل عامين", ago={"years": 2}, period="year"),
+            param("قبل 4 أشهر", ago={"months": 4}, period="month"),
+            param("قبل 11 شهرا", ago={"months": 11}, period="month"),
+            param("قبل 3 أسابيع", ago={"weeks": 3}, period="week"),
+            param("قبل أسبوعين", ago={"weeks": 2}, period="week"),
+            param("قبل 11 يوما", ago={"days": 11}, period="day"),
+            param("قبل 5 دقائق", ago={"minutes": 5}, period="day"),
+            param("قبل دقيقتين", ago={"minutes": 2}, period="day"),
+            param("قبل 10 ثوان", ago={"seconds": 10}, period="day"),
             param(
                 "1 عام, 1 شهر, 1 أسبوع, 1 يوم, 1 ساعة, 1 دقيقة",
                 ago={
