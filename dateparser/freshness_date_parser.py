@@ -22,14 +22,18 @@ if TYPE_CHECKING:
     from .conf import Settings
     from .date import DateData
 
-_UNITS = r"decade|year|month|week|day|hour|minute|second"
-_PATTERN = rf"([+-]?\s*(?>\d+(?:[.,\s]\d{{3}}(?!\d))*(?:[.,]\d*)?))\s*({_UNITS})\b"
+_UNITS = r"century|decade|fortnight|year|month|week|day|hour|minute|second"
+# A number whose first separator is followed by exactly 3 digits groups
+# thousands, unless it starts with 0 or with more than 3 digits.
+_GROUPED_NUMBER = r"[1-9]\d{0,2}(?:[.,\s]\d{3}(?!\d)){1,6}"
+_PATTERN = rf"([+-]?\s*(?>(?:{_GROUPED_NUMBER}|\d+)(?:[.,]\d*)?))\s*({_UNITS})\b"
 PATTERN: "re.Pattern[str] | regex.Pattern[str]"
 try:
     PATTERN = re.compile(_PATTERN, re.IGNORECASE | re.DOTALL)
 except re.error:
     # Python 3.10 has no atomic groups.
     PATTERN = regex.compile(_PATTERN, regex.IGNORECASE | regex.DOTALL)
+_GROUPED_NUMBER_PATTERN = re.compile(_GROUPED_NUMBER)
 # Matches the text before a number that is the end of a longer one, e.g. the
 # day in "2024-06-01 3 days".
 _NUMERIC_PREFIX = re.compile(r"(?<![\d:])\d[\d.,/-]*[.,\s/-]*$")
@@ -160,9 +164,13 @@ class FreshnessDateDataParser:
             return None, None, ()
         period = "day"
         if "days" not in kwargs:
-            for k in ["weeks", "months", "years", "decades"]:
+            for k in ["weeks", "fortnights", "months", "years", "decades", "centuries"]:
                 if k in kwargs:
-                    period = "year" if k == "decades" else k[:-1]
+                    period = {
+                        "fortnights": "week",
+                        "decades": "year",
+                        "centuries": "year",
+                    }.get(k, k[:-1])
                     break
 
         going_forward = re.search(r"\bin\b", date_string) or (
@@ -181,10 +189,15 @@ class FreshnessDateDataParser:
         # resolved so that an unsigned component combined with an explicitly
         # signed one still follows the default ago/future context (fixes
         # #1304).
-        if "decades" in adjusted_kwargs:
-            adjusted_kwargs["years"] = adjusted_kwargs.get(
-                "years", 0
-            ) + 10 * adjusted_kwargs.pop("decades")
+        for unit, factor, base in (
+            ("centuries", 100, "years"),
+            ("decades", 10, "years"),
+            ("fortnights", 2, "weeks"),
+        ):
+            if unit in adjusted_kwargs:
+                adjusted_kwargs[base] = adjusted_kwargs.get(
+                    base, 0
+                ) + factor * adjusted_kwargs.pop(unit)
 
         td = relativedelta(**adjusted_kwargs)
 
@@ -195,7 +208,7 @@ class FreshnessDateDataParser:
         parts: tuple[str, ...]
         if kwargs.keys() & {"seconds", "minutes", "hours"}:
             parts = ("year", "month", "day", "time")
-        elif kwargs.keys() & {"days", "weeks"}:
+        elif kwargs.keys() & {"days", "weeks", "fortnights"}:
             parts = ("year", "month", "day")
         elif "months" in kwargs:
             parts = ("year", "month")
@@ -206,37 +219,38 @@ class FreshnessDateDataParser:
 
     @staticmethod
     def _parse_number(num: str) -> float:
-        # A separator followed by exactly 3 digits groups thousands, any other
-        # one is a decimal mark.
-        num = "".join(num.split()).replace(",", ".")
-        integer, separator, decimals = num.rpartition(".")
-        if not separator:
-            return float(num)
-        if len(decimals) == 3:
-            return float(num.replace(".", ""))
-        return float(integer.replace(".", "") + "." + decimals)
+        sign = num[0] if num[0] in "+-" else ""
+        num = num.lstrip("+-").lstrip()
+        if grouped := _GROUPED_NUMBER_PATTERN.match(num):
+            integer = "".join(c for c in grouped.group() if c.isdigit())
+            num = integer + num[grouped.end() :]
+        return float(sign + num.replace(",", "."))
 
     def get_kwargs(self, date_string: str) -> tuple[dict[str, float], dict[str, bool]]:
         kwargs: dict[str, float] = {}
         explicit_signs: dict[str, bool] = {}
 
+        previous_end = 0
         for match in PATTERN.finditer(date_string):
             num, unit = match.groups()
             num = num.lstrip()
-            start = match.start()
-            # A number separated from the match only by whitespace, e.g. the 1
-            # in "year 1 40 minute", is a fragment only if the match starts
-            # with what could be a digit group of it.
-            if (
-                start
-                and not date_string[start - 1].isalpha()
-                and (prefix := _NUMERIC_PREFIX.search(date_string, 0, start))
-                and (not prefix.group().rstrip().isdigit() or re.match(r"\d{3}", num))
+            start = match.end(1) - len(num)
+            # A number separated from this one only by whitespace, e.g. the 1
+            # in "year 1 40 minute", is a fragment only if this one starts with
+            # what could be a digit group of it. A sign after whitespace starts
+            # a new number.
+            signed = num[0] in "+-" and date_string[start - 1 : start].isspace()
+            if not signed and (
+                prefix := _NUMERIC_PREFIX.search(date_string, previous_end, start)
             ):
-                return {}, {}
-            unit += "s"
-            explicit_signs[unit] = num[0] in "+-"
-            kwargs[unit] = float(num) if num.isdecimal() else self._parse_number(num)
+                before = prefix.group()
+                is_separate = before[-1].isspace() and before.rstrip().isdigit()
+                if not is_separate or re.match(r"\d{3}", num):
+                    return {}, {}
+            previous_end = match.end()
+            key = "centuries" if unit.lower() == "century" else unit.lower() + "s"
+            explicit_signs[key] = num[0] in "+-"
+            kwargs[key] = float(num) if num.isdecimal() else self._parse_number(num)
 
         return kwargs, explicit_signs
 
