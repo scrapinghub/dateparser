@@ -25,3 +25,6 @@ relative-type:
         - eergisteren
     in 2 day:
         - overmorgen
+
+simplifications:
+    - (\d+[.,]?\d*)h(\d+[.,]?\d*)m?: \1:\2
