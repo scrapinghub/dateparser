@@ -6,7 +6,7 @@ from collections.abc import Callable, Iterable, Iterator
 from collections.abc import Set as AbstractSet
 from datetime import date, datetime, timedelta, tzinfo
 from itertools import count
-from typing import TYPE_CHECKING, Any, TypeGuard, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar, TypeGuard, TypeVar
 
 import regex as re
 from dateutil.relativedelta import relativedelta
@@ -255,9 +255,11 @@ def get_date_from_timestamp(
 
         seconds = int(match.group(1))
         millis = int(match.group(2) or 0)
-        micros = int(match.group(3) or 0)
+        micros = millis * 1000 + int(match.group(3) or 0)
+        if negative:
+            seconds, micros = divmod(seconds * 1000000 - micros, 1000000)
         date_obj = datetime.fromtimestamp(seconds, timezone).replace(
-            microsecond=millis * 1000 + micros, tzinfo=None
+            microsecond=micros, tzinfo=None
         )
         return apply_timezone_from_settings(date_obj, settings)
     return None
@@ -438,6 +440,7 @@ class _DateLocaleParser:
         settings: Settings | None = None,
         ignore_surrounding_text: bool = False,
         alternatives: bool = False,
+        failed: set[tuple[str, str | None, str]] | None = None,
     ) -> None:
         assert settings is not None
         self._settings = settings
@@ -452,51 +455,36 @@ class _DateLocaleParser:
         self._ignore_surrounding_text = ignore_surrounding_text
         self._alternatives = alternatives
         self._alternative = 0
+        self._failed = set() if failed is None else failed
         self._translated_date: str | None = None
         self._translated_date_with_formatting: str | None = None
         self._part_of_day: PartOfDay | None = None
         self._part_of_day_sets_time = False
-        self._parsers: dict[str, Callable[[], DateData | None]] = {
-            "timestamp": self._try_timestamp,
-            "negative-timestamp": self._try_negative_timestamp,
-            "relative-time": self._try_freshness_parser,
-            "custom-formats": self._try_given_formats,
-            "absolute-time": self._try_absolute_parser,
-            "no-spaces-time": self._try_nospaces_parser,
-        }
-
-    @classmethod
-    def parse(
-        cls,
-        locale: "Locale",
-        date_string: str,
-        date_formats: Iterable[str] | None = None,
-        settings: Settings | None = None,
-        ignore_surrounding_text: bool = False,
-        alternatives: bool = False,
-    ) -> "DateData | None":
-        instance = cls(
-            locale,
-            date_string,
-            date_formats,
-            settings,
-            ignore_surrounding_text,
-            alternatives,
-        )
-        return instance._parse()
 
     def _parse(self) -> "DateData | None":
         if not self._alternatives:
-            return self._parse_translation()
+            return self._parse_unless_failed()
         for self._alternative in count(1):
             self._set_translated_date()
             if self._translated_date is None:
                 return None
             self._translated_date_with_formatting = None
-            date_data = self._parse_translation()
+            date_data = self._parse_unless_failed()
             if date_data:
                 return date_data
         return None
+
+    def _parse_unless_failed(self) -> "DateData | None":
+        """Like :meth:`_parse_translation`, but skip translations whose
+        outcome key is in *failed*, and add the key of a failed one to it."""
+        # With nothing failed yet, the timestamp parsers get to run before the
+        # date string is translated.
+        if self._failed and self._outcome_key() in self._failed:
+            return None
+        date_data = self._parse_translation()
+        if not date_data:
+            self._failed.add(self._outcome_key())
+        return date_data
 
     def _parse_translation(self) -> "DateData | None":
         rejected: _StrictDateOrderError | None = None
@@ -505,7 +493,7 @@ class _DateLocaleParser:
                 # It would read the same numbers in a date order again.
                 continue
             try:
-                date_data = self._parsers[parser_name]()
+                date_data = self._parsers[parser_name](self)
             except _StrictDateOrderError as error:
                 # STRICT_DATE_ORDER rejected the reading of this parser. The
                 # other parsers may still read the date string.
@@ -553,21 +541,31 @@ class _DateLocaleParser:
     def _try_nospaces_parser(self) -> "DateData | None":
         return self._try_parser(parse_method=_parse_nospaces)
 
-    def _try_parser(
-        self, parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]]
-    ) -> "DateData | None":
-        original_order = self._settings.DATE_ORDER
+    def _outcome_key(self) -> tuple[str, str | None, str]:
+        """The locale-dependent inputs to :meth:`_parse`: two locales with
+        equal keys parse the date string identically."""
+        return (
+            self._get_translated_date(),
+            self._get_translated_date_with_formatting() if self.date_formats else None,
+            self._date_order(),
+        )
 
+    def _date_order(self) -> str:
         # Use locale date order unless DATE_ORDER was explicitly set by the caller.
         if (
             self._settings.PREFER_LOCALE_DATE_ORDER
             and "DATE_ORDER" not in self._settings._mod_settings
         ):
-            first_order = self.locale.info.get("date_order", original_order)
-        else:
-            first_order = original_order
+            date_order: str = self.locale.info.get(
+                "date_order", self._settings.DATE_ORDER
+            )
+            return date_order
+        return self._settings.DATE_ORDER
 
-        candidates = [first_order]
+    def _try_parser(
+        self, parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]]
+    ) -> "DateData | None":
+        candidates = [self._date_order()]
 
         # If the caller requires a year (and not a day) and did not set DATE_ORDER,
         # retry once or twice with year-biased orders to resolve month-number ambiguity.
@@ -609,6 +607,17 @@ class _DateLocaleParser:
             self.date_formats,
             settings=self._settings,
         )
+
+    _parsers: ClassVar[
+        dict[str, Callable[["_DateLocaleParser"], "DateData | None"]]
+    ] = {
+        "timestamp": _try_timestamp,
+        "negative-timestamp": _try_negative_timestamp,
+        "relative-time": _try_freshness_parser,
+        "custom-formats": _try_given_formats,
+        "absolute-time": _try_absolute_parser,
+        "no-spaces-time": _try_nospaces_parser,
+    }
 
     def _translate(self, keep_formatting: bool) -> str | None:
         return self.locale._translate(
@@ -931,13 +940,22 @@ class DateDataParser:
         date_formats: Iterable[str] | None,
         ignore_surrounding_text: bool = False,
     ) -> DateData | None:
+        # Most locales translate a given string identically, e.g. a numeric
+        # date is the same in every locale and only the locale date order can
+        # change how it is parsed, so an attempt that failed for one locale
+        # would fail the same way for any locale with the same outcome key.
+        failed: set[tuple[str, str | None, str]] = set()
         locales = []
         for locale in self._get_applicable_locales(
             date_string, ignore_surrounding_text=ignore_surrounding_text
         ):
             locales.append(locale)
             parsed_date = self._parse_using_locale(
-                locale, date_string, date_formats, ignore_surrounding_text
+                locale,
+                date_string,
+                date_formats,
+                ignore_surrounding_text,
+                failed=failed,
             )
             if parsed_date:
                 return parsed_date
@@ -951,6 +969,7 @@ class DateDataParser:
                 date_formats,
                 ignore_surrounding_text,
                 alternatives=True,
+                failed=failed,
             )
             if parsed_date:
                 return parsed_date
@@ -963,20 +982,24 @@ class DateDataParser:
         date_formats: Iterable[str] | None,
         ignore_surrounding_text: bool,
         alternatives: bool = False,
+        failed: set[tuple[str, str | None, str]] | None = None,
     ) -> DateData | None:
-        parsed_date = _DateLocaleParser.parse(
+        parser = _DateLocaleParser(
             locale,
             date_string,
             date_formats,
             settings=self._settings,
             ignore_surrounding_text=ignore_surrounding_text,
             alternatives=alternatives,
+            failed=failed,
         )
-        if parsed_date:
-            parsed_date["locale"] = locale.shortname
-            if self.try_previous_locales:
-                with self._lock:
-                    self.previous_locales[locale] = None
+        parsed_date = parser._parse()
+        if not parsed_date:
+            return None
+        parsed_date["locale"] = locale.shortname
+        if self.try_previous_locales:
+            with self._lock:
+                self.previous_locales[locale] = None
         return parsed_date
 
     def get_date_tuple(self, *args: Any, **kwargs: Any) -> tuple[Any, ...]:
@@ -1018,40 +1041,61 @@ class DateDataParser:
             if stripped_date_string is not None:
                 yield stripped_date_string
 
-        if self.try_previous_locales:
-            with self._lock:
-                previous_locales = list(self.previous_locales.keys())
-            for locale in previous_locales:
-                for s in date_strings():
-                    if self._is_applicable_locale(locale, s, ignore_surrounding_text):
-                        yield locale
+        def candidates() -> Iterator[tuple["Locale", bool]]:
+            """Pairs of a locale and whether it must be applicable to the date
+            string to be tried."""
+            if self.try_previous_locales:
+                with self._lock:
+                    previous_locales = list(self.previous_locales.keys())
+                for locale in previous_locales:
+                    yield locale, True
 
-        if self.detect_languages_function and not self.languages and not self.locales:
-            detected_languages = self.detect_languages_function(
-                text=date_string,
-                confidence_threshold=self._settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD,
-            )
+            if (
+                self.detect_languages_function
+                and not self.languages
+                and not self.locales
+            ):
+                detected_languages = self.detect_languages_function(
+                    text=date_string,
+                    confidence_threshold=self._settings.LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD,
+                )
 
-            self.languages = map_languages(detected_languages)
+                self.languages = map_languages(detected_languages)
 
-        for locale in self._get_locale_loader().get_locales(
-            languages=self.languages,
-            locales=self.locales,
-            region=self.region,
-            use_given_order=use_given_order,
-        ):
-            for s in date_strings():
-                if self._is_applicable_locale(locale, s, ignore_surrounding_text):
-                    yield locale
-
-        if self._settings.DEFAULT_LANGUAGES:
             for locale in self._get_locale_loader().get_locales(
-                languages=self._settings.DEFAULT_LANGUAGES,
-                locales=None,
+                languages=self.languages,
+                locales=self.locales,
                 region=self.region,
                 use_given_order=use_given_order,
             ):
-                yield locale
+                yield locale, True
+
+            if self._settings.DEFAULT_LANGUAGES:
+                for locale in self._get_locale_loader().get_locales(
+                    languages=self._settings.DEFAULT_LANGUAGES,
+                    locales=None,
+                    region=self.region,
+                    use_given_order=use_given_order,
+                ):
+                    yield locale, False
+
+        # Every locale translates a string without letters identically (see
+        # test_letter_free_strings_translate_identically), so for such a
+        # string only the locale date order can affect the outcome, and one
+        # locale per date order is enough.
+        letter_free = not any(c.isalpha() for c in date_string)
+        yielded_orders = set()
+        for locale, must_be_applicable in candidates():
+            order = locale.info.get("date_order")
+            if letter_free and order in yielded_orders:
+                continue
+            if must_be_applicable and not any(
+                self._is_applicable_locale(locale, s, ignore_surrounding_text)
+                for s in date_strings()
+            ):
+                continue
+            yielded_orders.add(order)
+            yield locale
 
     def _is_applicable_locale(
         self,
