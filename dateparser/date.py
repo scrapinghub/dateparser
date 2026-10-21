@@ -265,37 +265,101 @@ def get_date_from_timestamp(
     return None
 
 
-def _apply_year_preference(
-    date_obj: datetime, now: datetime, prefer_from: str, years: int
-) -> datetime:
-    """Shift *date_obj* by ±*years* to satisfy PREFER_DATES_FROM.
-
-    *now* is normalised to naive so a tz-aware RELATIVE_BASE does not raise
-    TypeError.  When the shifted year falls on Feb 29 in a non-leap year, the
-    nearest valid leap year in the preferred direction is used — matching the
-    behaviour of the NLP path in :file:`parser.py`.
-
-    Returns the adjusted datetime, or the original when no shift is needed.
-    """
-    now_naive = now.replace(tzinfo=None) if now.tzinfo is not None else now
-
-    if now_naive < date_obj and prefer_from == "past":
-        target_year = date_obj.year - years
-    elif now_naive >= date_obj and prefer_from == "future":
-        target_year = date_obj.year + years
-    else:
-        return date_obj
-
+def _shift_years(date_obj: datetime, years: int) -> datetime:
     try:
-        return date_obj.replace(year=target_year)
+        return date_obj.replace(year=date_obj.year + years)
     except ValueError:
         # Feb 29 shifted into a non-leap year — find the nearest valid one
         target_year = (
-            get_next_leap_year(target_year)
-            if prefer_from == "future"
-            else get_previous_leap_year(target_year)
+            get_next_leap_year(date_obj.year + years)
+            if years > 0
+            else get_previous_leap_year(date_obj.year + years)
         )
         return date_obj.replace(year=target_year)
+
+
+def _shift_centuries(date_obj: datetime, centuries: int) -> datetime:
+    return _shift_years(date_obj, 100 * centuries)
+
+
+def _shift_months(date_obj: datetime, months: int) -> datetime:
+    years, month_index = divmod(date_obj.month - 1 + months, 12)
+    return date_obj.replace(year=date_obj.year + years, month=month_index + 1)
+
+
+def _shift_days(date_obj: datetime, days: int) -> datetime:
+    return date_obj + timedelta(days=days)
+
+
+def _apply_date_preference(
+    date_obj: datetime,
+    now: datetime,
+    prefer_from: str,
+    parts: tuple[str, ...],
+    shift: Callable[[datetime, int], datetime],
+) -> datetime:
+    """Shift *date_obj* by steps of *shift* to satisfy PREFER_DATES_FROM.
+
+    *date_obj* and *now* are compared at the precision of the date *parts*
+    the format provides, or as full datetimes if it provides none, so a date
+    equal to *now* at that precision is never shifted. Steps that *shift*
+    rejects with :exc:`ValueError`, e.g. a month without the requested day,
+    are skipped.
+    """
+    if prefer_from == "past":
+        step = -1
+    elif prefer_from == "future":
+        step = 1
+    else:
+        return date_obj
+
+    precision = (
+        3
+        if "day" in parts
+        else 2
+        if "month" in parts
+        else 1
+        if "year" in parts
+        else None
+    )
+
+    def key(value: datetime) -> tuple[int, ...]:
+        return (
+            value.year,
+            value.month,
+            value.day,
+            value.hour,
+            value.minute,
+            value.second,
+            value.microsecond,
+        )[:precision]
+
+    shifted, steps = date_obj, 0
+    while (key(shifted) > key(now)) if step < 0 else (key(shifted) < key(now)):
+        steps += step
+        try:
+            shifted = shift(date_obj, steps)
+        except ValueError:
+            continue
+    return shifted
+
+
+def _get_preference_shift(
+    date_format: str, parts: tuple[str, ...]
+) -> Callable[[datetime, int], datetime] | None:
+    """Return the shift that PREFER_DATES_FROM applies to dates parsed with
+    *date_format*, which provides *parts*."""
+    if "year" in parts:
+        if "%y" in date_format and "%Y" not in date_format:
+            return _shift_centuries
+        return None
+    if "month" in parts:
+        return _shift_years
+    if "day" in parts:
+        return _shift_months
+    if "time" in parts:
+        return _shift_days
+    return None
 
 
 def parse_with_formats(
@@ -313,39 +377,41 @@ def parse_with_formats(
         except ValueError:
             continue
         else:
+            parts = _get_parts(date_format)
             _missing = _get_missing_parts(date_format)
             missing_month = "month" in _missing
             missing_day = "day" in _missing
-            if missing_month and missing_day:
-                period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
-                date_obj = set_correct_day_from_settings(date_obj, settings)
-
-            elif missing_month:
-                period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
-
-            elif missing_day:
-                period = "month"
-                date_obj = set_correct_day_from_settings(date_obj, settings)
-
             now = settings.RELATIVE_BASE or _now(settings)
+
             if "year" in _missing:
                 date_obj = date_obj.replace(year=now.year)
-                if not missing_month:
-                    date_obj = _apply_year_preference(
-                        date_obj, now, settings.PREFER_DATES_FROM, 1
-                    )
-            elif "%y" in date_format and "%Y" not in date_format:
-                date_obj = _apply_year_preference(
-                    date_obj, now, settings.PREFER_DATES_FROM, 100
+            if missing_month:
+                period = "year"
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, current_month=now.month
+                )
+            elif missing_day:
+                period = "month"
+            # With a month to compare, the day is filled in after the shift, so
+            # that it is the right day for the final year.
+            if missing_day and missing_month:
+                date_obj = set_correct_day_from_settings(
+                    date_obj, settings, current_day=now.day
+                )
+
+            shift = _get_preference_shift(date_format, parts)
+            if shift:
+                date_obj = _apply_date_preference(
+                    date_obj, now, settings.PREFER_DATES_FROM, parts, shift
+                )
+            if missing_day and not missing_month:
+                date_obj = set_correct_day_from_settings(
+                    date_obj, settings, current_day=now.day
                 )
 
             date_obj = apply_timezone_from_settings(date_obj, settings)
 
-            return DateData(
-                date_obj=date_obj, period=period, parts=_get_parts(date_format)
-            )
+            return DateData(date_obj=date_obj, period=period, parts=parts)
     return DateData(date_obj=None, period=period)
 
 
