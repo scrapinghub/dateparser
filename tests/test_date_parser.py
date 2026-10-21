@@ -267,6 +267,7 @@ class TestDateParser(BaseTestCase):
     @parameterized.expand(
         [
             param("hr", "02/10/2016 u 17:20", datetime(2016, 10, 2, 17, 20)),
+            param("es", "8-12 de junio de 2021", datetime(2021, 6, 8)),
         ]
     )
     def test_dates_parsing_with_language(
@@ -1385,10 +1386,21 @@ class TestDateParser(BaseTestCase):
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
 
-    def test_locale_order_is_not_swapped(self) -> None:
-        self.given_parser(languages=["fr"])
-        self.when_date_is_parsed("01/13/2021")
-        self.then_date_obj_exactly_is(None)
+    @parameterized.expand(
+        [
+            param("01/13/2021", datetime(2021, 1, 13)),
+            param("1/14", datetime(2012, 1, 14)),
+            param("12/13/10", datetime(2010, 12, 13)),
+        ]
+    )
+    def test_locale_order_swaps_day_and_month(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        self.given_parser(
+            languages=["fr"], settings={"RELATIVE_BASE": datetime(2012, 11, 13)}
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
 
     def test_order_is_not_swapped_with_a_month_name(self) -> None:
         self.given_parser(languages=["en"], settings={"DATE_ORDER": "DMY"})

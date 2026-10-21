@@ -350,6 +350,7 @@ class _ExactLanguageSearch:
             "vi",
             "hu",
         ]  # splitting done by spaces and some dictionary items contain spaces
+        parser_settings = settings
         if shortname not in bad_translate_with_search:
             languages = ["en"]
             to_parse = translated
@@ -361,9 +362,8 @@ class _ExactLanguageSearch:
             ):
                 # The translated text is parsed as English, so give it the date
                 # order of the source language, without marking DATE_ORDER as
-                # set by the caller.
-                settings = settings.replace(
-                    mod_settings=settings._mod_settings,
+                # set by the caller, so that it works like a locale date order.
+                parser_settings = settings.replace(
                     DATE_ORDER=language.info["date_order"],
                     PREFER_LOCALE_DATE_ORDER=False,
                 )
@@ -371,7 +371,7 @@ class _ExactLanguageSearch:
             languages = [shortname]
             to_parse = original
 
-        parser = DateDataParser(languages=languages, settings=settings)
+        parser = DateDataParser(languages=languages, settings=parser_settings)
         parsed, substrings = self.parse_found_objects(
             parser=parser,
             to_parse=to_parse,
