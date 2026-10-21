@@ -12,6 +12,7 @@ import dateparser.timezone_parser
 from dateparser import parse
 from dateparser.timezone_parser import (
     StaticTzInfo,
+    build_tz_offsets,
     convert_to_local_tz,
     get_local_tz_offset,
     is_timezone_token,
@@ -538,3 +539,13 @@ class TestConvertToLocalTz(BaseTestCase):
     def test_deprecated(self) -> None:
         with self.assertWarns(FutureWarning):
             convert_to_local_tz(datetime(2020, 1, 1), timedelta(0))
+
+
+class TestBuildTzOffsets(BaseTestCase):
+    def test_deprecated(self) -> None:
+        parts: list[str] = []
+        with self.assertWarns(FutureWarning):
+            offsets = dict(build_tz_offsets(parts))
+        assert offsets["CEST"]["offset"] == timedelta(hours=2)
+        assert offsets["CEST"]["regex"].search(" CEST")
+        assert "CEST" in parts
