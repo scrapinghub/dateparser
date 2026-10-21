@@ -47,10 +47,9 @@ _WEEKDAYS = (
     "saturday",
     "sunday",
 )
+_WEEKDAY_MODIFIERS = ("last", "this", "next")
 _WEEKDAY_MODIFIER_ENTRIES = {
-    f"{modifier} {weekday}"
-    for modifier in ("last", "this", "next")
-    for weekday in _WEEKDAYS
+    f"{modifier} {weekday}" for modifier in _WEEKDAY_MODIFIERS for weekday in _WEEKDAYS
 }
 """Translations of the entries that put a modifier before a weekday."""
 
@@ -159,14 +158,15 @@ class Locale:
         dictionary = self.clean_dictionary(
             self._get_split_dictionary(settings=settings)
         )
-        entries = self._get_dictionary(settings)
         dict_cnt = 0
         skip_cnt = 0
         # The splitter keeps a weekday modifier and its weekday, e.g. "next
         # friday", as a single token, so count each of their words.
         split_words = set()
         for word in words:
-            if self._is_weekday_modifier_entry(word, entries):
+            if " " in word and self._is_weekday_modifier_entry(
+                word, self._get_dictionary(settings)
+            ):
                 split_words.update(word.split())
             else:
                 split_words.add(word)

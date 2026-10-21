@@ -11,7 +11,7 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import _UNITS
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.languages.locale import PUNCTUATION, Locale
+from dateparser.languages.locale import _WEEKDAY_MODIFIERS, PUNCTUATION, Locale
 from dateparser.search.ngram_search import _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
@@ -25,8 +25,6 @@ TRANSLATED_RELATIVE_REG = re.compile(
     rf"\bin \d+ (?:{_UNITS})s?\b|\b\d+ (?:{_UNITS})s? ago\b"
 )
 
-
-_WEEKDAY_MODIFIERS = {"last", "this", "next"}
 
 _MAX_TRAILING_WORDS = 3
 """Words after a relative expression, e.g. "5 pm" after "in 1 day", that
@@ -43,9 +41,16 @@ def _has_weekday_modifier(text: str) -> bool:
 
 def _clean_substring(substring: str, skip: AbstractSet[str]) -> str:
     """Strip the punctuation around *substring*, including that of *skip*,
-    e.g. "/"."""
+    e.g. "/", but keep a closing bracket opened within it, e.g. in
+    "May 5 (5pm)"."""
     while True:
-        substring = substring.strip(" .,:()[]-'\"")
+        substring = substring.strip(" .,:-'\"").lstrip("([")
+        closing = substring[-1:]
+        if closing in {")", "]"} and substring.count(closing) > substring.count(
+            "(" if closing == ")" else "["
+        ):
+            substring = substring[:-1]
+            continue
         first, _, rest = substring.partition(" ")
         if rest and first in skip and not any(char.isalnum() for char in first):
             substring = rest

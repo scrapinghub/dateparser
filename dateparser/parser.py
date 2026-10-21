@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Literal, overload
 import pytz
 import regex as re
 
+from dateparser.languages.locale import _WEEKDAY_MODIFIERS
 from dateparser.utils import (
     _get_missing_parts,
     _get_parts,
@@ -436,7 +437,7 @@ class _parser:
             if token in skip_tokens:
                 continue
 
-            if token in ("last", "this", "next"):
+            if token in _WEEKDAY_MODIFIERS:
                 if self._weekday_modifier:
                     raise ValueError(f"Unable to parse: {token}")
                 self._weekday_modifier = token
