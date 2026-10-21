@@ -1032,7 +1032,7 @@ class DateDataParser:
             yield date_string
             if not pop_tz_cache:
                 stripped_date_string, _ = pop_tz_offset_from_string(
-                    date_string, as_offset=False
+                    date_string, as_offset=False, settings=self._settings
                 )
                 if stripped_date_string == date_string:
                     stripped_date_string = None

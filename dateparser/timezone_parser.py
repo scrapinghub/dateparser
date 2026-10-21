@@ -12,6 +12,8 @@ from .timezones import timezone_info_list
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
 
+    from .conf import Settings
+
 
 class _TzOffsetInfo(TypedDict):
     regex: regex.Pattern[str]
@@ -64,24 +66,30 @@ def _search_and_pop_tz(date_string: str) -> tuple[str, str, timedelta] | None:
 
 @overload
 def pop_tz_offset_from_string(
-    date_string: str, as_offset: Literal[True] = True
+    date_string: str,
+    as_offset: Literal[True] = True,
+    settings: "Settings | None" = None,
 ) -> tuple[str, StaticTzInfo | None]: ...
 
 
 @overload
 def pop_tz_offset_from_string(
-    date_string: str, as_offset: Literal[False]
+    date_string: str,
+    as_offset: Literal[False],
+    settings: "Settings | None" = None,
 ) -> tuple[str, str | None]: ...
 
 
 def pop_tz_offset_from_string(
-    date_string: str, as_offset: bool = True
+    date_string: str, as_offset: bool = True, settings: "Settings | None" = None
 ) -> tuple[str, StaticTzInfo | str | None]:
+    overrides = settings.TIMEZONE_ABBREVIATIONS if settings else {}
     match = _search_and_pop_tz(date_string)
     if match is None:
         return date_string, None
 
     date_string, name, offset = match
+    offset = overrides.get(name, offset)
     result = StaticTzInfo(name, offset) if as_offset else name
 
     # A date string may carry both a numeric UTC offset and a redundant,
@@ -93,7 +101,7 @@ def pop_tz_offset_from_string(
     # are anchored at the end of the string.
     while True:
         extra = _search_and_pop_tz(date_string.rstrip())
-        if extra is None or extra[2] != offset:
+        if extra is None or overrides.get(extra[1], extra[2]) != offset:
             break
         date_string = extra[0]
 

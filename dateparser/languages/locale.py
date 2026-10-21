@@ -123,7 +123,9 @@ class Locale:
         :return: boolean value representing if the locale is applicable for the date string or not.
         """
         if strip_timezone:
-            date_string, _ = pop_tz_offset_from_string(date_string, as_offset=False)
+            date_string, _ = pop_tz_offset_from_string(
+                date_string, as_offset=False, settings=settings
+            )
 
         date_string = self._translate_numerals(date_string)
         assert settings is not None
@@ -143,7 +145,9 @@ class Locale:
         settings: "Settings | None" = None,
     ) -> list[int]:
         if strip_timezone:
-            text, _ = pop_tz_offset_from_string(text, as_offset=False)
+            text, _ = pop_tz_offset_from_string(
+                text, as_offset=False, settings=settings
+            )
 
         text = self._simplify(text, settings=settings)
         sentences = self._sentence_split(text, settings=settings)
