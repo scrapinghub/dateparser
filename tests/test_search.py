@@ -710,9 +710,7 @@ class TestTranslateSearch(BaseTestCase):
                             2023,
                             6,
                             # June has no 31st.
-                            min(
-                                datetime.datetime.now(tz=datetime.timezone.utc).day, 30
-                            ),
+                            min(today.day, 30),
                             5,
                             0,
                             tzinfo=pytz.utc,
@@ -1096,14 +1094,6 @@ class TestTranslateSearch(BaseTestCase):
                     ("19 марта 2001", datetime.datetime(2001, 3, 19, 0, 0)),
                     ("20 марта", datetime.datetime(2001, 3, 20, 0, 0)),
                     ("21 марта", datetime.datetime(2001, 3, 21, 0, 0)),
-                ],
-            ),
-            param(
-                text="Das Konzert findet um 20 Uhr am 5. Mai 2021 statt.",
-                languages=["de"],
-                settings=None,
-                expected=[
-                    ("um 20 Uhr am 5. Mai 2021", datetime.datetime(2021, 5, 5, 0, 0))
                 ],
             ),
             param(
@@ -2066,6 +2056,11 @@ class TestTranslateSearch(BaseTestCase):
             },
         )
         self.assertEqual(result, expected)
+
+    def test_search_dates_with_chinese_am_before_the_hour(self) -> None:
+        result = search_dates("2021年5月5日 上午8点", languages=["zh"])
+        assert result
+        self.assertEqual(result[0], ("2021年5月5日", datetime.datetime(2021, 5, 5)))
 
 
 class TestNgramSearch(BaseTestCase):

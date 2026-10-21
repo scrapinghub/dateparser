@@ -24,6 +24,13 @@ TRANSLATED_RELATIVE_REG = re.compile(
     rf"\bin \d+ (?:{_UNITS})s?\b|\b\d+ (?:{_UNITS})s? ago\b"
 )
 
+# Drop "am" unless it follows a 12-hour time: German "am" ("on the") also
+# translates to "am", and an AM written before the hour, as in Chinese
+# "上午8点", would otherwise be read as the AM of the number before it.
+_NON_MERIDIEM_AM_REG = re.compile(
+    r"(?<!\b(?:0?[1-9]|1[0-2])(?:[:.][0-5]\d)?\s*)\bam\b|\bam(?=\d)"
+)
+
 
 class _SearchResult(TypedDict):
     Language: str | None
@@ -264,9 +271,7 @@ class _ExactLanguageSearch:
     ) -> tuple[DateData, bool]:
         relative_base = None
         item = item.replace("ngày", "")
-        # German "am" ("on the") translates to "am", which only means AM
-        # after a 12-hour time.
-        item = re.sub(r"(?<!\b(?:0?[1-9]|1[0-2])(?:[:.][0-5]\d)?\s*)\bam\b", "", item)
+        item = _NON_MERIDIEM_AM_REG.sub("", item)
         parsed_item = parser.get_date_data(item)
         is_relative = date_is_relative(translated_item)
 
