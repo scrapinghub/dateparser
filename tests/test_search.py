@@ -706,7 +706,15 @@ class TestTranslateSearch(BaseTestCase):
                     ),
                     (
                         "June 5 am utc",
-                        datetime.datetime(2023, 6, 5, 0, 0, tzinfo=pytz.utc),
+                        datetime.datetime(
+                            2023,
+                            6,
+                            # June has no 31st.
+                            min(today.day, 30),
+                            5,
+                            0,
+                            tzinfo=pytz.utc,
+                        ),
                     ),
                     (
                         "June 23th 5 pm EST",
@@ -721,8 +729,10 @@ class TestTranslateSearch(BaseTestCase):
                             ),
                         ),
                     ),
-                    ("May 31", datetime.datetime(2023, 5, 31, 0, 0)),
-                    ("8am UTC", datetime.datetime(2023, 8, 31, 0, 0, tzinfo=pytz.utc)),
+                    (
+                        "May 31, 8am UTC",
+                        datetime.datetime(2023, 5, 31, 8, 0, tzinfo=pytz.utc),
+                    ),
                 ],
             ),
             # Russian
@@ -1085,6 +1095,20 @@ class TestTranslateSearch(BaseTestCase):
                     ("20 марта", datetime.datetime(2001, 3, 20, 0, 0)),
                     ("21 марта", datetime.datetime(2001, 3, 21, 0, 0)),
                 ],
+            ),
+            param(
+                text="um 10 Uhr am 5. Mai 2021",
+                languages=["de"],
+                settings=None,
+                expected=[
+                    ("um 10 Uhr am 5. Mai 2021", datetime.datetime(2021, 5, 5, 10, 0))
+                ],
+            ),
+            param(
+                text="Er wurde 1990 am 3. März in Berlin geboren",
+                languages=["de"],
+                settings=None,
+                expected=[("1990 am 3. März in", datetime.datetime(1990, 3, 3, 0, 0))],
             ),
             # Dates not found
             param(text="", languages=None, settings=None, expected=None),
@@ -2032,6 +2056,11 @@ class TestTranslateSearch(BaseTestCase):
             },
         )
         self.assertEqual(result, expected)
+
+    def test_search_dates_with_chinese_am_before_the_hour(self) -> None:
+        result = search_dates("2021年5月5日 上午8点", languages=["zh"])
+        assert result
+        self.assertEqual(result[0], ("2021年5月5日", datetime.datetime(2021, 5, 5)))
 
 
 class TestNgramSearch(BaseTestCase):
