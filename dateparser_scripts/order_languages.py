@@ -316,6 +316,22 @@ def _get_language_order(language_locale_dict: Mapping[str, list[str]]) -> list[s
     return list(map(str, language_order))
 
 
+def _get_language_default_region(language_order: Iterable[str]) -> dict[str, str]:
+    likely_subtags_file = (
+        CLDR_JSON_DIR / "cldr-json/cldr-core/supplemental/likelySubtags.json"
+    )
+    with likely_subtags_file.open() as f:
+        likely_subtags = json.load(f)["supplemental"]["likelySubtags"]
+    language_default_region = {}
+    for language in language_order:
+        likely_locale = likely_subtags.get(language) or likely_subtags.get(
+            language.split("-")[0]
+        )
+        if likely_locale:
+            language_default_region[language] = likely_locale.split("-")[-1]
+    return language_default_region
+
+
 def generate_language_map(language_order: Iterable[str]) -> dict[str, list[str]]:
     data = {}
     for lang in sorted(language_order):
@@ -352,12 +368,18 @@ def main() -> None:
         language_map_data, separators=(",", ": "), indent=4
     )
 
+    language_default_region_string = "_language_default_region = " + json.dumps(
+        _get_language_default_region(language_order), separators=(",", ": "), indent=4
+    )
+
     languages_info_string = (
         language_order_string
         + "\n\n"
         + language_map_data_string
         + "\n\n"
         + language_locale_dict_string
+        + "\n\n"
+        + language_default_region_string
         + "\n"
     )
     (parent_directory / "languages_info.py").write_text(languages_info_string)
