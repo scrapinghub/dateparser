@@ -112,9 +112,12 @@ class TestBundledLanguages(BaseTestCase):
             param("zh", "中午", "12:00"),
             param("zh-Hans", "2024年6月1日", "2024-6-1"),
             param("zh-Hans", "礼拜一 下午3:30", "monday 3:30 pm"),
+            param("zh-Hans", "下午 02:26:26", "02:26:26 pm"),
+            param("zh-Hans", "6月1日前", "june 1 day ago"),
             param("zh-Hant", "1年11個月", "1 year 11 month"),
             param("zh-Hant", "2015年04月08日10點05", "2015-04-08 10:05"),
             param("zh-Hant", "禮拜一 中午", "monday 12:00"),
+            param("zh-Hant", "2024 年 6 月 1 日", "2024-6-1"),
             param("zh-Hant", "2020年9月1日 下午6:25", "2020-9-1 6:25 pm"),
             # French
             param("fr", "20 Février 2012", "20 february 2012"),
@@ -1319,7 +1322,10 @@ class TestBundledLanguages(BaseTestCase):
             param("zh", "7 周", "7 week"),
             param("zh", "12 年", "12 year"),
             param("zh", "半小时前", "30 minute ago"),
+            param("zh-Hans", "大约3天前", "3 day ago"),
+            param("zh-Hans", "3月前", "3 month ago"),
             param("zh-Hant", "半小時前", "30 minute ago"),
+            param("zh-Hant", "大約3天前", "3 day ago"),
             # Danish
             param("da", "i går", "1 day ago"),
             param("da", "i dag", "0 day ago"),
@@ -2532,6 +2538,8 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "6 دقیقه", strip_timezone=False),
             param("fa", "ساعتين", strip_timezone=False),
             param("cs", "3 hafta", strip_timezone=False),
+            param("zh-Hans", "3個月前", strip_timezone=False),
+            param("zh-Hant", "3个月前", strip_timezone=False),
         ]
     )
     def test_not_applicable_languages(

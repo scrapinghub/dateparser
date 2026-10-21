@@ -505,9 +505,18 @@ class Locale:
         for i in range(len(translated)):
             if "in" in translated[i]:
                 translated[i] = self._clear_future_words(translated[i])
-            translated[i] = self._join_chunk(
-                list(filter(bool, translated[i])), settings=settings
-            )
+            tokens = list(filter(bool, translated[i]))
+            if "no_word_spacing" in self.info and tokens:
+                # "1hour ago" parses, "1hourago" does not.
+                tokens = [
+                    " ago" if j and word == "ago" else word
+                    for j, word in enumerate(tokens)
+                ]
+                # The full-width colon of a label, e.g. "日期：2020年12月28日",
+                # sticks to the date that follows it.
+                if tokens[0] == ":" and tokens[1:2] and tokens[1][:1].isdigit():
+                    tokens = tokens[1:]
+            translated[i] = self._join_chunk(tokens, settings=settings)
             original[i] = self._join_chunk(
                 list(filter(bool, original[i])), settings=settings
             )

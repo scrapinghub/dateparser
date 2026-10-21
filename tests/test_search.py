@@ -1199,6 +1199,40 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                text="最後更新於3小時前",
+                languages=["zh-Hant"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("3小時前", datetime.datetime(2020, 6, 15, 9, 0))],
+            ),
+            param(
+                text="日期：2020年12月28日 上午10:07",
+                languages=["zh-Hant"],
+                settings=None,
+                expected=[
+                    ("2020年12月28日 上午10:07", datetime.datetime(2020, 12, 28, 10, 7))
+                ],
+            ),
+            param(
+                text="：2021年02月04日 17:17",
+                languages=["zh-Hant"],
+                settings=None,
+                expected=[
+                    ("2021年02月04日 17:17", datetime.datetime(2021, 2, 4, 17, 17))
+                ],
+            ),
+            param(
+                text="1 小时前",
+                languages=["zh"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("1 小时前", datetime.datetime(2020, 6, 15, 11, 0))],
+            ),
+            param(
+                text="3時間前に更新",
+                languages=["ja"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("3時間前", datetime.datetime(2020, 6, 15, 9, 0))],
+            ),
+            param(
                 text="他在2020年去了北京",
                 languages=["zh-Hant"],
                 settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
