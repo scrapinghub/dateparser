@@ -253,6 +253,10 @@ class TestDateParser(BaseTestCase):
             param("12-12 июня 2021", datetime(2021, 6, 12, 0, 0)),
             param("5-5 juin 2021", datetime(2021, 6, 5, 0, 0)),
             param("12 - 14 czerwca 2021", datetime(2021, 6, 12, 0, 0)),
+            param("03/06/2010a", datetime(2010, 6, 3, 0, 0)),
+            param("01.02.2011, godz. 08:39", datetime(2011, 2, 1, 8, 39)),
+            param("22/09/2010 alle ore 14:31", datetime(2010, 9, 22, 14, 31)),
+            param("28/08/2012 20:43h", datetime(2012, 8, 28, 20, 43)),
         ]
     )
     def test_dates_parsing(self, date_string: str, expected: datetime) -> None:

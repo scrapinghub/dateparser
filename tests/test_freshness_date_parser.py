@@ -2582,6 +2582,20 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("03/06/2010 year"),
+            param("01.02.2021 hour 08:39"),
+            param(":9 month 24 day"),
+        ]
+    )
+    def test_number_continuing_a_date_is_not_a_quantity(self, date_string: str) -> None:
+        parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
+        result = parser.get_date_data(
+            date_string, settings.replace(RELATIVE_BASE=datetime(2014, 9, 1, 10, 30))
+        )
+        self.assertIsNone(result["date_obj"])
+
+    @parameterized.expand(
+        [
             param("2 hours ago", "PKT", date(2014, 9, 1), time(13, 30)),
             param("5 hours ago", "EST", date(2014, 9, 1), time(0, 30)),
             param("3 hours ago", "MET", date(2014, 9, 1), time(8, 30)),

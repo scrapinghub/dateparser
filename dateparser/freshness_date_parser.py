@@ -22,7 +22,12 @@ if TYPE_CHECKING:
     from .date import DateData
 
 _UNITS = r"century|decade|fortnight|year|month|week|day|hour|minute|second"
-PATTERN = re.compile(rf"([+-]?\s*\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | re.U)
+# A number that continues a date or a time, e.g. the year in "03/06/2020 year",
+# is not a quantity, and a string with one is not a relative date.
+PATTERN = re.compile(
+    rf"(?<![\d/.:])([+-]?\s*\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | re.U
+)
+_GLUED_QUANTITY = re.compile(rf"\d\s*(?:{_UNITS})\b", re.I)
 # "the 1st of last month" translates to " 1 1 month ago".
 _DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?=(?:in\s+)?\d+\s+month\b)")
 
@@ -32,6 +37,9 @@ class FreshnessDateDataParser:
 
     def _are_all_words_units(self, date_string: str) -> bool:
         skip = [_UNITS, r"ago|in|\d+", r":|[ap]m"]
+
+        if _GLUED_QUANTITY.search(PATTERN.sub("", date_string)):
+            return False
 
         date_string = re.sub(r"\s+", " ", date_string.strip())
 
