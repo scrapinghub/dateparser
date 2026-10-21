@@ -51,7 +51,7 @@ def _clean_substring(substring: str, skip: AbstractSet[str]) -> str:
     e.g. "/", but keep a closing bracket opened within it, e.g. in
     "May 5 (5pm)"."""
     while True:
-        substring = substring.strip(" .,:-'\"").lstrip("([")
+        substring = substring.strip(" .,:：-'\"").lstrip("([")
         closing = substring[-1:]
         if closing in {")", "]"} and substring.count(closing) > substring.count(
             "(" if closing == ")" else "["

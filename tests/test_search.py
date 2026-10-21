@@ -1183,6 +1183,61 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
             ),
+            param(
+                text="时间是下午3:30",
+                languages=["zh-Hans"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("下午3:30", datetime.datetime(2020, 6, 15, 15, 30))],
+            ),
+            param(
+                text="禮拜一在會議室開會，時間是下午3:30",
+                languages=None,
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("禮拜一", datetime.datetime(2020, 6, 15, 0, 0)),
+                    ("下午3:30", datetime.datetime(2020, 6, 15, 15, 30)),
+                ],
+            ),
+            param(
+                text="最後更新於3小時前",
+                languages=["zh-Hant"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("3小時前", datetime.datetime(2020, 6, 15, 9, 0))],
+            ),
+            param(
+                text="日期：2020年12月28日 上午10:07",
+                languages=["zh-Hant"],
+                settings=None,
+                expected=[
+                    ("2020年12月28日 上午10:07", datetime.datetime(2020, 12, 28, 10, 7))
+                ],
+            ),
+            param(
+                text="：2021年02月04日 17:17",
+                languages=["zh-Hant"],
+                settings=None,
+                expected=[
+                    ("2021年02月04日 17:17", datetime.datetime(2021, 2, 4, 17, 17))
+                ],
+            ),
+            param(
+                text="1 小时前",
+                languages=["zh"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("1 小时前", datetime.datetime(2020, 6, 15, 11, 0))],
+            ),
+            param(
+                text="3時間前に更新",
+                languages=["ja"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("3時間前", datetime.datetime(2020, 6, 15, 9, 0))],
+            ),
+            param(
+                text="他在2020年去了北京",
+                languages=["zh-Hant"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("2020年", datetime.datetime(2020, 6, 15, 0, 0))],
+            ),
         ]
     )
     def test_date_search_function(
