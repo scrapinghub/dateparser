@@ -213,3 +213,33 @@ long-standing choice.
 When refreshing the table, slide ``REFERENCE_YEARS`` forward rather than
 widening it. Reaching further back re-admits abbreviations the tz database has
 since dropped and reports them as current.
+
+Evaluating against real-world dates
+-----------------------------------
+
+:file:`dateparser_scripts/article_dates.py` runs dateparser on the 300k
+article publication dates from #928, which it downloads to
+:file:`~/.cache/dateparser/` on first use, and reports how often each of these
+checks fails, per language and grouped by format::
+
+    python -m dateparser_scripts.article_dates --sample 5000
+
+``error``
+    Parsing raised an exception.
+``unparsed``
+    :func:`dateparser.parse` returned ``None``.
+``searchable``
+    :func:`dateparser.parse` returned ``None``, but
+    :func:`dateparser.search.search_dates` finds a date.
+``future``
+    The date is after March 2021, when the dataset was collected.
+``hint-dependent``
+    Passing the language of the article in *languages* changes the date.
+``misdetected``
+    The text parses in the language of the article, but a different one was
+    detected.
+
+The dataset has no expected dates, so these checks point at likely bugs
+rather than prove them. To see how a change affects real-world input, run the
+script with ``--output`` before and after the change, and compare both files
+with ``diff``. The full dataset takes about 40 minutes on 8 cores.
