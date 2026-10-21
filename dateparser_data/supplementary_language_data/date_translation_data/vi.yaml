@@ -85,4 +85,4 @@ in:
     - trong
 
 simplifications:
-    - (?:ngày|năm)\s(\d+[.,]?\d*): \1
+    - (?<!tháng\s)(?:ngày|năm)\s(\d+[.,]?\d*): \1
