@@ -1,18 +1,22 @@
+import re
+import threading
 import warnings
-from collections.abc import Iterator
 from datetime import datetime, timedelta, timezone, tzinfo
-from typing import TYPE_CHECKING, Literal, TypedDict, overload
+from functools import cache
+from typing import TYPE_CHECKING, Literal, NamedTuple, TypedDict, overload
 
-import regex as re
+import regex
 
 from .timezones import timezone_info_list
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable, Iterator
+
     from .conf import Settings
 
 
 class _TzOffsetInfo(TypedDict):
-    regex: re.Pattern[str]
+    regex: regex.Pattern[str]
     offset: timedelta
 
 
@@ -42,29 +46,22 @@ class StaticTzInfo(tzinfo):
         return self.__name, self.__offset
 
 
-def _search_and_pop_tz(date_string: str) -> tuple[str, str, _TzOffsetInfo] | None:
+def _search_and_pop_tz(date_string: str) -> tuple[str, str, timedelta] | None:
     """Find and remove the first timezone token from ``date_string``.
 
-    Returns a ``(new_string, name, info)`` tuple, or ``None`` if no timezone
+    Returns a ``(new_string, name, offset)`` tuple, or ``None`` if no timezone
     token is present.
     """
-    if not _search_regex_ignorecase.search(date_string):
+    found = _find_tz(date_string)
+    if found is None:
         return None
-    for name, info in _tz_offsets:
-        timezone_match = info["regex"].search(date_string)
-        if timezone_match:
-            start, stop = timezone_match.span()
-            # A token glued to the digits that follow, as in
-            # 2019-09-28WIB19:17:34, leaves a space so that the date and time
-            # digits stay apart.
-            glued = stop < len(date_string) and date_string[stop - 1].isalpha()
-            separator = " " if glued else ""
-            return (
-                date_string[: start + 1] + separator + date_string[stop:],
-                name,
-                info,
-            )
-    return None
+    (start, stop), name, offset = found
+    # A token glued to the digits that follow, as in
+    # 2019-09-28WIB19:17:34, leaves a space so that the date and time
+    # digits stay apart.
+    glued = stop < len(date_string) and date_string[stop - 1].isalpha()
+    separator = " " if glued else ""
+    return date_string[: start + 1] + separator + date_string[stop:], name, offset
 
 
 @overload
@@ -86,17 +83,13 @@ def pop_tz_offset_from_string(
 def pop_tz_offset_from_string(
     date_string: str, as_offset: bool = True, settings: "Settings | None" = None
 ) -> tuple[str, StaticTzInfo | str | None]:
-    def offset_of(name: str, info: _TzOffsetInfo) -> timedelta:
-        if settings is None:
-            return info["offset"]
-        return settings.TIMEZONE_ABBREVIATIONS.get(name, info["offset"])
-
+    overrides = settings.TIMEZONE_ABBREVIATIONS if settings else {}
     match = _search_and_pop_tz(date_string)
     if match is None:
         return date_string, None
 
-    date_string, name, info = match
-    offset = offset_of(name, info)
+    date_string, name, offset = match
+    offset = overrides.get(name, offset)
     result = StaticTzInfo(name, offset) if as_offset else name
 
     # A date string may carry both a numeric UTC offset and a redundant,
@@ -108,7 +101,7 @@ def pop_tz_offset_from_string(
     # are anchored at the end of the string.
     while True:
         extra = _search_and_pop_tz(date_string.rstrip())
-        if extra is None or offset_of(extra[1], extra[2]) != offset:
+        if extra is None or overrides.get(extra[1], extra[2]) != offset:
             break
         date_string = extra[0]
 
@@ -116,7 +109,7 @@ def pop_tz_offset_from_string(
 
 
 def word_is_tz(word: str) -> bool:
-    return bool(_search_regex.match(word))
+    return bool(_tz_regexes().names.match(word))
 
 
 def is_timezone_token(token: str) -> bool:
@@ -132,7 +125,7 @@ def is_timezone_token(token: str) -> bool:
     numeric-offset patterns (which a full match would otherwise let absorb
     following text) is not a concern here.
     """
-    return bool(_search_regex_ignorecase.fullmatch(token.strip()))
+    return bool(_tz_regexes().names_ignorecase.fullmatch(token.strip()))
 
 
 def convert_to_local_tz(
@@ -149,30 +142,125 @@ def convert_to_local_tz(
 
 def build_tz_offsets(
     search_regex_parts: list[str],
-) -> Iterator[tuple[str, _TzOffsetInfo]]:
+) -> "Iterator[tuple[str, _TzOffsetInfo]]":
+    warnings.warn(
+        "dateparser.timezone_parser.build_tz_offsets() is deprecated and "
+        "will be removed in a future version.",
+        FutureWarning,
+        stacklevel=2,
+    )
+
     def get_offset(
-        tz_obj: tuple[str, int], regex: str, repl: str = "", replw: str = ""
+        tz_obj: tuple[str, int], pattern: str, repl: str = "", replw: str = ""
     ) -> tuple[str, _TzOffsetInfo]:
         return (
             tz_obj[0],
             {
-                "regex": re.compile(
-                    re.sub(repl, replw, regex % tz_obj[0]), re.IGNORECASE
+                "regex": regex.compile(
+                    regex.sub(repl, replw, pattern % tz_obj[0]), regex.IGNORECASE
                 ),
                 "offset": timedelta(seconds=tz_obj[1]),
             },
         )
 
-    for tz_info in timezone_info_list:
-        for regex in tz_info["regex_patterns"]:
-            for tz_obj in tz_info["timezones"]:
-                search_regex_parts.append(tz_obj[0])
-                yield get_offset(tz_obj, regex)
+    def offsets() -> "Iterator[tuple[str, _TzOffsetInfo]]":
+        for tz_info in timezone_info_list:
+            for pattern in tz_info["regex_patterns"]:
+                for tz_obj in tz_info["timezones"]:
+                    search_regex_parts.append(tz_obj[0])
+                    yield get_offset(tz_obj, pattern)
+                    for replace, replacewith in tz_info.get("replace", []):
+                        search_regex_parts.append(
+                            regex.sub(replace, replacewith, tz_obj[0])
+                        )
+                        yield get_offset(tz_obj, pattern, replace, replacewith)
 
-                # alternate patterns
-                for replace, replacewith in tz_info.get("replace", []):
-                    search_regex_parts.append(re.sub(replace, replacewith, tz_obj[0]))
-                    yield get_offset(tz_obj, regex, repl=replace, replw=replacewith)
+    return offsets()
+
+
+class _TzRegexes(NamedTuple):
+    families: list[tuple[regex.Pattern[str], list[tuple[str, timedelta]]]]
+    """``(pattern, timezones)`` pairs, one per pattern template of
+    :data:`~dateparser.timezones.timezone_info_list`, where group ``tz<i>`` of
+    *pattern* matching means that ``timezones[i]``, a ``(name, offset)`` pair,
+    was found."""
+    names: re.Pattern[str]
+    """Matches any timezone name."""
+    names_ignorecase: re.Pattern[str]
+    """Matches any timezone name, case-insensitively."""
+
+
+_tz_regexes_lock = threading.Lock()
+
+
+def _tz_regexes() -> _TzRegexes:
+    """Return the timezone regexes, compiled on first use."""
+    with _tz_regexes_lock:
+        return _build_tz_regexes()
+
+
+@cache
+def _build_tz_regexes() -> _TzRegexes:
+    families: list[tuple[regex.Pattern[str], list[tuple[str, timedelta]]]] = []
+    names: list[str] = []
+    for tz_info in timezone_info_list:
+        for template in tz_info["regex_patterns"]:
+            alternatives: list[str] = []
+            timezones: list[tuple[str, timedelta]] = []
+            for name, offset in tz_info["timezones"]:
+                variants = [name] + [
+                    regex.sub(replace, replacewith, name)
+                    for replace, replacewith in tz_info.get("replace", [])
+                ]
+                for variant in variants:
+                    names.append(variant)
+                    alternatives.append(f"(?P<tz{len(timezones)}>{variant})")
+                    timezones.append((name, timedelta(seconds=offset)))
+            flags = regex.IGNORECASE
+            if template.endswith("$"):
+                # Every match ends at the end of the string, so searching
+                # backwards finds the same match much faster.
+                flags |= regex.REVERSE
+            pattern = regex.compile(
+                template % f"(?:{'|'.join(alternatives)})", flags, cache_pattern=False
+            )
+            families.append((pattern, timezones))
+    # Only used for anchored matching, which re compiles and runs faster.
+    names_pattern = "|".join(names)
+    return _TzRegexes(
+        families,
+        re.compile(names_pattern),
+        re.compile(names_pattern, re.IGNORECASE),
+    )
+
+
+def _find_tz(
+    string: str,
+) -> tuple[tuple[int, int], str, timedelta] | None:
+    """Return the span, name and offset of the timezone found in *string*,
+    or ``None``.
+
+    Earlier pattern templates take precedence over later ones. Within a
+    template, the earliest timezone wins, and ties go to the leftmost match.
+    """
+    for pattern, timezones in _tz_regexes().families:
+        matches: Iterable[regex.Match[str]]
+        if pattern.flags & regex.REVERSE:
+            match = pattern.search(string)
+            matches = [match] if match else []
+        else:
+            # overlapped: in "EST/EDT" both matches share the "/"
+            matches = pattern.finditer(string, overlapped=True)
+        best: tuple[int, tuple[int, int]] | None = None
+        for match in matches:
+            group = next(k for k, v in match.groupdict().items() if v is not None)
+            index = int(group[2:])
+            if best is None or index < best[0]:
+                best = (index, match.span())
+        if best:
+            name, offset = timezones[best[0]]
+            return best[1], name, offset
+    return None
 
 
 def get_local_tz_offset() -> timedelta:
@@ -180,8 +268,4 @@ def get_local_tz_offset() -> timedelta:
     return timedelta(days=offset.days, seconds=round(offset.seconds, -1))
 
 
-_search_regex_parts: list[str] = []
-_tz_offsets = list(build_tz_offsets(_search_regex_parts))
-_search_regex = re.compile("|".join(_search_regex_parts))
-_search_regex_ignorecase = re.compile("|".join(_search_regex_parts), re.IGNORECASE)
 local_tz_offset = get_local_tz_offset()
