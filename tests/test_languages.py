@@ -52,6 +52,31 @@ class TestLocaleTranslation:
         print(result)
         assert expected == result
 
+    def test_letter_free_strings_translate_identically(self) -> None:
+        # DateDataParser._get_applicable_locales relies on this to try a
+        # single locale per date order for strings without letters.
+        locales = list(default_loader.get_locales())
+        letter_free_keys: set[str] = set()
+        for locale in locales:
+            letter_free_keys.update(
+                key
+                for key in locale._get_dictionary(settings)._dictionary
+                if not any(c.isalpha() for c in key)
+            )
+        for date_string in (
+            "2019-11-29 08:08-08",
+            "12 03 2014".join(sorted(letter_free_keys)),
+            "12 03 2014 ".join(sorted(letter_free_keys)),
+        ):
+            for keep_formatting in (False, True):
+                translations = {
+                    locale.translate(
+                        date_string, keep_formatting=keep_formatting, settings=settings
+                    )
+                    for locale in locales
+                }
+                assert len(translations) == 1, (date_string, translations)
+
 
 class TestBundledLanguages(BaseTestCase):
     def setUp(self) -> None:
@@ -85,10 +110,31 @@ class TestBundledLanguages(BaseTestCase):
             param("zh", "凌晨3:30", "3:30 am"),
             param("zh", "下午 02:26:26", "02:26:26 pm"),
             param("zh", "中午", "12:00"),
+            param("zh-Hans", "2024年6月1日", "2024-6-1"),
+            param("zh-Hans", "礼拜一 下午3:30", "monday 3:30 pm"),
+            param("zh-Hans", "下午 02:26:26", "02:26:26 pm"),
+            param("zh-Hans", "6月1日前", "june 1 day ago"),
+            param("zh-Hant", "1年11個月", "1 year 11 month"),
+            param("zh-Hant", "2015年04月08日10點05", "2015-04-08 10:05"),
+            param("zh-Hant", "禮拜一 中午", "monday 12:00"),
+            param("zh-Hant", "2024 年 6 月 1 日", "2024-6-1"),
+            param("zh-Hant", "2020年9月1日 下午6:25", "2020-9-1 6:25 pm"),
             # French
             param("fr", "20 Février 2012", "20 february 2012"),
             param("fr", "Mercredi 19 Novembre 2013", "wednesday 19 november 2013"),
             param("fr", "18 octobre 2012 à 19 h 21 min", "18 october 2012 19:21"),
+            # "sept" is both the abbreviation for "septembre" and the word for
+            # 7, so it must only be simplified to a number where it is used as
+            # a quantity.
+            param("fr", "1 sept. 2024", "1 september. 2024"),
+            param("fr", "11 sept. 2014", "11 september. 2014"),
+            param("fr", "mardi 3 sept 2024", "tuesday 3 september 2024"),
+            param("fr", "3 sept à 14h30", "3 september 14:30"),
+            param("fr", "sept heures", "7 hour"),
+            param("fr", "il y a sept jours", "7 day ago"),
+            param("fr", "sept ans", "7 year"),
+            param("fr", "il y a sept a", "7 year ago"),
+            param("fr", "sept:30", "7:30"),
             # German
             param("de", "29. Juni 2007", "29. june 2007"),
             param("de", "Montag 5 Januar, 2015", "monday 5 january 2015"),
@@ -174,6 +220,8 @@ class TestBundledLanguages(BaseTestCase):
             param("ar-LB", "5 تشرين 1 2023", "5 october 2023"),
             param("ar-PS", "5 تشرين 2 2023", "5 november 2023"),
             param("ar-IQ", "5 تشرين 1 2023", "5 october 2023"),
+            # Arabic (Levantine month names, Persian yeh)
+            param("ar-IQ", "10 تشرین الأول 2020", "10 october 2020"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
             param(
@@ -1142,6 +1190,22 @@ class TestBundledLanguages(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("midi", "12:00"),
+            param("Mardi à midi", "tuesday 12:00"),
+            param("12 octobre 2026 à midi", "12 october 2026 12:00"),
+        ]
+    )
+    def test_french_midi_translation(
+        self, datetime_string: str, expected_translation: str
+    ) -> None:
+        self.given_settings()
+        self.given_bundled_language("fr")
+        self.given_string(datetime_string)
+        self.when_datetime_string_translated()
+        self.then_string_translated_to(expected_translation)
+
+    @parameterized.expand(
+        [
             # English
             param("en", "yesterday", "1 day ago"),
             param("en", "today", "0 day ago"),
@@ -1264,6 +1328,10 @@ class TestBundledLanguages(BaseTestCase):
             param("zh", "7 周", "7 week"),
             param("zh", "12 年", "12 year"),
             param("zh", "半小时前", "30 minute ago"),
+            param("zh-Hans", "大约3天前", "3 day ago"),
+            param("zh-Hans", "3月前", "3 month ago"),
+            param("zh-Hant", "半小時前", "30 minute ago"),
+            param("zh-Hant", "大約3天前", "3 day ago"),
             # Danish
             param("da", "i går", "1 day ago"),
             param("da", "i dag", "0 day ago"),
@@ -1288,6 +1356,7 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "منذ 3 ثانيه", "ago 3 second"),
             param("ar", "منذ 2 ساعات", "ago 2 hour"),
             param("ar", "منذ ساعتين", "ago 2 hour"),
+            param("ar", "قبل 5 دقائق", "5 minute ago"),
             param("ar", "اليوم السابق", "1 day ago"),
             param("ar", "اليوم", "0 day ago"),
             # Polish
@@ -2475,6 +2544,8 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "6 دقیقه", strip_timezone=False),
             param("fa", "ساعتين", strip_timezone=False),
             param("cs", "3 hafta", strip_timezone=False),
+            param("zh-Hans", "3個月前", strip_timezone=False),
+            param("zh-Hant", "3个月前", strip_timezone=False),
         ]
     )
     def test_not_applicable_languages(

@@ -88,7 +88,7 @@ class FullTextLanguageDetector(BaseLanguageDetector):
                     # On a tie, prefer the language that matches more words
                     # without letter variants, so that e.g. Arabic text is not
                     # taken for Persian.
-                    num_words += (
+                    native_num_words = (
                         num_words
                         if language._native is language
                         else language._native.count_applicability(
@@ -97,7 +97,9 @@ class FullTextLanguageDetector(BaseLanguageDetector):
                             settings=settings,
                         )
                     )
-                    applicable_languages.append((language.shortname, num_words))
+                    applicable_languages.append(
+                        (language.shortname, (*num_words, *native_num_words))
+                    )
                     break
         if not applicable_languages:
             return None

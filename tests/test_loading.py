@@ -443,9 +443,13 @@ class TestLocaleDataLoader(BaseTestCase):
             [("ar", "ar"), ("de", "de"), ("es-MX", "es-MX")],
         )
 
-    def test_region_filters_languages_if_not_given(self) -> None:
-        locales = self.data_loader.get_locales(region="MX")
-        self.assertEqual([locale.shortname for locale in locales], ["es-MX"])
+    def test_region_falls_back_to_all_languages_without_it(self) -> None:
+        shortnames = [
+            locale.shortname for locale in self.data_loader.get_locales(region="MX")
+        ]
+        self.assertEqual(shortnames[0], "en")
+        self.assertIn("es-MX", shortnames)
+        self.assertNotIn("es", shortnames)
 
     def load_data(
         self,
