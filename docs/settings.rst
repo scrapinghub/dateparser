@@ -37,6 +37,22 @@ Date Order
     >>> parse('le 02-03-2016', settings={'DATE_ORDER': 'MDY', 'PREFER_LOCALE_DATE_ORDER': False})
     datetime.datetime(2016, 2, 3, 0, 0)  # MDY worked!
 
+``STRICT_DATE_ORDER``: defaults to ``'none'``. ``DATE_ORDER`` is a preference: a number that does not fit where the order puts it is read as another part of the date. ``13`` is not a valid month, so it is read as the day where ``MDY`` puts the month, and any number that is not a valid day or month is a valid two-digit year, so ``32`` becomes the year 2032:
+
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY'})
+    datetime.datetime(2010, 12, 13, 0, 0)
+    >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY'})
+    datetime.datetime(2032, 12, 10, 0, 0)
+
+Set it to ``'year'`` to read a two-digit year only from the position ``DATE_ORDER`` gives the year, or to ``'all'`` to read the day, month and year only in the order ``DATE_ORDER`` gives. A date string that does not fit then gives ``None``:
+
+    >>> parse('32 DEC 10', settings={'DATE_ORDER': 'DMY', 'STRICT_DATE_ORDER': 'year'})
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'year'})
+    datetime.datetime(2010, 12, 13, 0, 0)
+    >>> parse('13/12/10', settings={'DATE_ORDER': 'MDY', 'STRICT_DATE_ORDER': 'all'})
+
+``'year'`` and ``'all'`` raise a ``SettingValidationError`` unless ``DATE_ORDER`` is given too. Only the parts read from numbers are checked, and a four-digit year is read wherever it is, so ``'32 DEC'`` with ``DMY`` is still December 2032. Some dates that are read correctly without the setting are rejected, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
+
 
 Timezone Related Configurations
 +++++++++++++++++++++++++++++++
@@ -51,6 +67,23 @@ Timezone Related Configurations
     >>> settings = {'TIMEZONE': 'UTC', 'TO_TIMEZONE': 'US/Eastern'}
     >>> parse('January 12, 2012 10:00 PM', settings=settings)
     datetime.datetime(2012, 1, 12, 17, 0)
+
+``TIMEZONE_ABBREVIATIONS``: maps timezone abbreviations found in date strings
+to the UTC offset to use for them, as a :class:`~datetime.timedelta`. Use it
+for abbreviations with several meanings, e.g. ``IST`` means Israel Standard
+Time by default. Keys are case-sensitive and must be abbreviations that
+dateparser supports, e.g. ``ChST``. ``TIMEZONE`` and ``TO_TIMEZONE`` keep the
+default offsets.
+
+.. versionadded:: VERSION
+
+>>> from datetime import timedelta
+>>> settings = {
+...     'TIMEZONE_ABBREVIATIONS': {'IST': timedelta(hours=5, minutes=30)},
+...     'TO_TIMEZONE': 'UTC',
+... }
+>>> parse('12 Feb 2015 10:56 PM IST', settings=settings)
+datetime.datetime(2015, 2, 12, 17, 26, tzinfo=<StaticTzInfo 'UTC'>)
 
 ``RETURN_AS_TIMEZONE_AWARE``: if ``True`` returns tz aware datetime objects in case timezone is detected in the date string.
 
@@ -85,6 +118,13 @@ Handling Incomplete Dates
     datetime.datetime(2015, 1, 27, 0, 0)
     >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "current"}) # it exactly behaves like default one
     datetime.datetime(2015, 3, 27, 0, 0)
+
+It also picks the month of a calendar quarter, such as ``2015Q2`` or
+``Q2 2015``, where ``current`` means the month that is as far into the quarter
+as the current month is into its own:
+
+    >>> parse("2015Q2", settings={"PREFER_MONTH_OF_YEAR": "last", "PREFER_DAY_OF_MONTH": "last"})
+    datetime.datetime(2015, 6, 30, 0, 0)
 
 ``PREFER_DATES_FROM``: defaults to ``current_period`` and can have ``past`` and ``future`` as values.
 

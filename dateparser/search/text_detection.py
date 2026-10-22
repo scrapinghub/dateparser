@@ -80,17 +80,27 @@ class FullTextLanguageDetector(BaseLanguageDetector):
             return self.languages[0].shortname
         applicable_languages = []
         for language in self.languages:
-            num_words = language.count_applicability(
-                date_string, strip_timezone=False, settings=settings
-            )
-            if num_words[0] > 0 or num_words[1] > 0:
-                applicable_languages.append((language.shortname, num_words))
-            else:
+            for strip_timezone in (False, True):
                 num_words = language.count_applicability(
-                    date_string, strip_timezone=True, settings=settings
+                    date_string, strip_timezone=strip_timezone, settings=settings
                 )
                 if num_words[0] > 0 or num_words[1] > 0:
-                    applicable_languages.append((language.shortname, num_words))
+                    # On a tie, prefer the language that matches more words
+                    # without letter variants, so that e.g. Arabic text is not
+                    # taken for Persian.
+                    native_num_words = (
+                        num_words
+                        if language._native is language
+                        else language._native.count_applicability(
+                            date_string,
+                            strip_timezone=strip_timezone,
+                            settings=settings,
+                        )
+                    )
+                    applicable_languages.append(
+                        (language.shortname, (*num_words, *native_num_words))
+                    )
+                    break
         if not applicable_languages:
             return None
-        return max(applicable_languages, key=lambda p: (p[1][0], p[1][1]))[0]
+        return max(applicable_languages, key=lambda p: p[1])[0]
