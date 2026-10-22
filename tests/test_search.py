@@ -1220,6 +1220,24 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                text="Sep 15, 2026 10:50 AM and fifty years after Paris",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Sep 15, 2026 10:50 AM", datetime.datetime(2026, 9, 15, 10, 50)),
+                    ("fifty years after", datetime.datetime(2070, 6, 15, 12, 0)),
+                ],
+            ),
+            param(
+                text="On 5 June 2019, 50 years ago",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("On 5 June 2019", datetime.datetime(2019, 6, 5, 0, 0)),
+                    ("50 years ago", datetime.datetime(1970, 6, 15, 12, 0)),
+                ],
+            ),
+            param(
                 text="09.09.2026 10711 Seventy-Five Seconds, Forty Years of History",
                 languages=["en"],
                 settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
