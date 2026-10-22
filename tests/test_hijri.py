@@ -82,6 +82,14 @@ class TestHijriParser(BaseTestCase):
             param(dt_string="1 جمادى الآخرة 1445", dt_obj=datetime(2023, 12, 14)),
             param(dt_string="5 ذو القعدة 1445", dt_obj=datetime(2024, 5, 13)),
             param(dt_string="15 ذي الحجة 1444", dt_obj=datetime(2023, 7, 3)),
+            param(dt_string="1 ذوالحجه 1444", dt_obj=datetime(2023, 6, 19)),
+            param(dt_string="9 ربيع الآخرة 1442", dt_obj=datetime(2020, 11, 24)),
+            param(dt_string="1 جمادى ثانية 1445", dt_obj=datetime(2023, 12, 14)),
+            param(dt_string="1 شوّال ۱٤٤٥", dt_obj=datetime(2024, 4, 10)),
+            param(
+                dt_string="9 رمضـان 1445 04:32 مساء",
+                dt_obj=datetime(2024, 3, 19, 16, 32),
+            ),
         ]
     )
     def test_datetime_parsing(
@@ -95,3 +103,12 @@ class TestHijriParser(BaseTestCase):
         self.when_date_is_given(dt_string, date_formats, languages)
         self.then_parsed_datetime_is(dt_obj)
         settings.DATE_ORDER = "MDY"
+
+    @parameterized.expand(
+        [
+            param(dt_string="1 جمادى 1445"),
+            param(dt_string="ربيع 1445"),
+        ]
+    )
+    def test_incomplete_month_name(self, dt_string: str) -> None:
+        assert HijriCalendar(dt_string).get_date() is None

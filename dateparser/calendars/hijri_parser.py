@@ -1,3 +1,4 @@
+import re
 from typing import ClassVar
 
 from hijridate import Gregorian, Hijri
@@ -40,31 +41,42 @@ class hijri_parser(non_gregorian_parser):
         "٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789"
     )
 
-    # Month names are matched after mapping alef and yeh variants to ا and ي.
-    # Arabic letters are separators for the tokenizer, so a variant also
-    # covers any name that starts with it, e.g. جمادي الاول covers جمادي الاولي.
+    # Names are matched after removing tatweel and diacritics, and mapping
+    # alef, yeh and teh marbuta variants to ا, ي and ه.
+    _normalization: ClassVar[dict[int, int | None]] = str.maketrans(
+        "أإآىیة",
+        "اااييه",
+        "\u0640\u064b\u064c\u064d\u064e\u064f\u0650\u0651\u0652\u0670",
+    )
     # Keys are uppercase so that the parser does not read "am" in them as a
     # meridian.
-    _alef_yeh: ClassVar[dict[int, int]] = str.maketrans("أإآىی", "ااايي")
-    _months: ClassVar[dict[str, list[str]]] = {
-        "MUHARRAM": ["محرم"],
-        "SAFAR": ["صفر"],
-        "RABIALAWWAL": ["ربيع الاول"],
-        "RABIALTHANI": ["ربيع الثاني", "ربيع الاخر"],
-        "JUMADAALULA": ["جمادي الاول"],
-        "JUMADAALAKHIRAH": ["جمادي الثاني", "جمادي الاخر"],
-        "RAJAB": ["رجب"],
-        "SHABAN": ["شعبان"],
-        "RAMADAN": ["رمضان"],
-        "SHAWWAL": ["شوال"],
-        "DHUALQADAH": ["ذو القعدة", "ذي القعدة"],
-        "DHUALHIJJAH": ["ذو الحجة", "ذي الحجة"],
+    _months: ClassVar[dict[str, tuple[int, str]]] = {
+        "MUHARRAM": (1, "محرم"),
+        "SAFAR": (2, "صفر"),
+        "RABIALAWWAL": (3, "ربيع (?:ال)?اول[يه]?"),
+        "RABIALTHANI": (4, "ربيع (?:ال)?(?:ثاني|اخر)[يه]?"),
+        "JUMADAALULA": (5, "جمادي (?:ال)?اول[يه]?"),
+        "JUMADAALAKHIRAH": (6, "جمادي (?:ال)?(?:ثاني|اخر)[يه]?"),
+        "RAJAB": (7, "رجب"),
+        "SHABAN": (8, "شعبان"),
+        "RAMADAN": (9, "رمضان"),
+        "SHAWWAL": (10, "شوال"),
+        "DHUALQADAH": (11, "ذ[وي] ?القعده"),
+        "DHUALHIJJAH": (12, "ذ[وي] ?الحجه"),
     }
+    # The first word of a month name that needs a second one.
+    _incomplete_month: ClassVar[re.Pattern[str]] = re.compile(
+        r"(?<!\w)(?:ربيع|جمادي)(?!\w)"
+    )
 
     _time_conventions: ClassVar[dict[str, list[str]]] = {
-        "am": ["صباحاً"],
-        "pm": ["مساءً"],
+        "am": ["صباحا"],
+        "pm": ["مساء"],
     }
+
+    @classmethod
+    def to_latin(cls, source: str) -> str:
+        return super().to_latin(source.translate(cls._normalization))
 
     @classmethod
     def _replace_digits(cls, source: str) -> str:
@@ -72,10 +84,11 @@ class hijri_parser(non_gregorian_parser):
 
     @classmethod
     def _replace_months(cls, source: str) -> str:
-        result = source.translate(cls._alef_yeh)
-        for latin, arabics in cls._months.items():
-            for arabic in arabics:
-                result = result.replace(arabic, latin)
+        result = source
+        for latin, (_, pattern) in cls._months.items():
+            result = re.sub(rf"(?<!\w)(?:ال)?(?:{pattern})(?!\w)", latin, result)
+        if cls._incomplete_month.search(result):
+            raise ValueError(f"Incomplete month name in {source!r}")
         return result
 
     @classmethod
