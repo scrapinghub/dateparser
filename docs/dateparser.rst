@@ -59,6 +59,7 @@ dateparser.timezone_parser module
    :members:
    :undoc-members:
    :show-inheritance:
+   :exclude-members: build_tz_offsets
 
 dateparser.timezones module
 ---------------------------
