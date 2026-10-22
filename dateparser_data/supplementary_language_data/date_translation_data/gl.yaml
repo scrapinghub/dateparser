@@ -36,3 +36,12 @@ relative-type-regex:
         - en (\d+[.,]?\d*) m
     in \1 year:
         - en (\d+[.,]?\d*) a
+
+early_morning:
+    - de madrugada
+    - na madrugada
+    - pola madrugada
+    - madrugada
+
+simplifications:
+    - esta madrugada: hoxe madrugada
