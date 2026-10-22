@@ -14,10 +14,12 @@ from .locale import Locale
 
 LOCALE_SPLIT_PATTERN = re.compile(r"-(?=[A-Z0-9]+$)")
 
+_LANGUAGE_POSITIONS = {language: i for i, language in enumerate(language_order)}
+
 
 def _isvalidlocale(locale: str) -> bool:
     language = LOCALE_SPLIT_PATTERN.split(locale)[0]
-    if language not in language_order:
+    if language not in _LANGUAGE_POSITIONS:
         return False
     locales_list = language_locale_dict[language]
     return locale == language or locale in locales_list
@@ -184,7 +186,7 @@ class LocaleDataLoader:
         else:
             if languages is None:
                 languages = language_order
-            unsupported_languages = set(languages) - set(language_order)
+            unsupported_languages = set(languages) - _LANGUAGE_POSITIONS.keys()
             if unsupported_languages:
                 raise ValueError(
                     f"Unknown language(s): {', '.join(map(repr, unsupported_languages))}"
@@ -200,7 +202,7 @@ class LocaleDataLoader:
 
         if not use_given_order:
             locale_dict = dict(
-                sorted(locale_dict.items(), key=lambda x: language_order.index(x[1][0]))
+                sorted(locale_dict.items(), key=lambda x: _LANGUAGE_POSITIONS[x[1][0]])
             )
 
         for shortname, lang_reg in locale_dict.items():
