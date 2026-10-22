@@ -913,6 +913,7 @@ class TestTranslateSearch(BaseTestCase):
                 " السوفييتي ووقعت أولى المعارك والتي انتصر فيها السوفييت، وعلى الرغم من ذلك رفضت"
                 " اليابان الاعتراف بذلك وقررت في 11 مايو 1939 تحريك الحدود المنغولية حتى نهر غول،",
             ),
+            param("ar", "08 أكتوبر 2020 08:15 م"),
             # Belarusian
             param(
                 "be",
@@ -1007,6 +1008,7 @@ class TestTranslateSearch(BaseTestCase):
             ),
             # Persian
             param("fa", "نگ جهانی دوم جنگ جدی بین سپتامبر 1939 و 2 سپتامبر 1945 بود."),
+            param("fa", "10 اکتوبر 2020"),
             # Polish
             param(
                 "pl",

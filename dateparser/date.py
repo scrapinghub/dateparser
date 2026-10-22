@@ -17,6 +17,7 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
+from dateparser.languages.locale import _VARIANT_LETTERS
 from dateparser.parser import _parse_absolute, _parse_nospaces, _StrictDateOrderError
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
@@ -1067,14 +1068,14 @@ class DateDataParser:
             if stripped_date_string is not None:
                 yield stripped_date_string
 
-        def candidates() -> Iterator[tuple["Locale", bool]]:
-            """Pairs of a locale and whether it must be applicable to the date
-            string to be tried."""
+        def candidates() -> Iterator[tuple["Locale", "Locale | None"]]:
+            """Pairs of a locale and the locale that must be applicable to the
+            date string for the former to be tried, if any."""
             if self.try_previous_locales:
                 with self._lock:
                     previous_locales = list(self.previous_locales.keys())
                 for locale in previous_locales:
-                    yield locale, True
+                    yield locale, locale._native
 
             if (
                 self.detect_languages_function
@@ -1088,13 +1089,21 @@ class DateDataParser:
 
                 self.languages = map_languages(detected_languages)
 
+            # Locales that only apply thanks to letter variants go last, so
+            # that e.g. Arabic text is not taken for Persian.
+            letter_variant_locales = []
             for locale in self._get_locale_loader().get_locales(
                 languages=self.languages,
                 locales=self.locales,
                 region=self.region,
                 use_given_order=use_given_order,
             ):
-                yield locale, True
+                yield locale, locale._native
+                if locale._native is not locale:
+                    letter_variant_locales.append(locale)
+            if _VARIANT_LETTERS.intersection(date_string):
+                for locale in letter_variant_locales:
+                    yield locale, locale
 
             if self._settings.DEFAULT_LANGUAGES:
                 for locale in self._get_locale_loader().get_locales(
@@ -1103,7 +1112,7 @@ class DateDataParser:
                     region=self.region,
                     use_given_order=use_given_order,
                 ):
-                    yield locale, False
+                    yield locale, None
 
         # Every locale translates a string without letters identically (see
         # test_letter_free_strings_translate_identically), so for such a
@@ -1111,16 +1120,20 @@ class DateDataParser:
         # locale per date order is enough.
         letter_free = not any(c.isalpha() for c in date_string)
         yielded_orders = set()
-        for locale, must_be_applicable in candidates():
+        yielded_locales = set()
+        for locale, applicable_locale in candidates():
             order = locale.info.get("date_order")
-            if letter_free and order in yielded_orders:
+            if locale in yielded_locales or (letter_free and order in yielded_orders):
                 continue
-            if must_be_applicable and not any(
-                self._is_applicable_locale(locale, s, ignore_surrounding_text)
+            if applicable_locale is not None and not any(
+                self._is_applicable_locale(
+                    applicable_locale, s, ignore_surrounding_text
+                )
                 for s in date_strings()
             ):
                 continue
             yielded_orders.add(order)
+            yielded_locales.add(locale)
             yield locale
 
     def _is_applicable_locale(
