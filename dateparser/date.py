@@ -119,6 +119,11 @@ _ROMAN_NUMERAL_VALUES = {
     "V": 5,
     "I": 1,
 }
+_RE_QUARTER = re.compile(
+    r"\s*(?:(?P<year>(?:19|20)\d\d)[-\s]?Q0?(?P<quarter>[1-4])"
+    r"|Q0?(?P<quarter2>[1-4])[-\s]?(?P<year2>(?:19|20)\d\d))\s*",
+    flags=re.I,
+)
 
 RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
@@ -197,6 +202,22 @@ def get_intersecting_periods(low: _D, high: _D, period: str = "day") -> Iterator
     while current_period_start < high:
         yield current_period_start
         current_period_start += step
+
+
+def _replace_quarter(date_string: str, settings: Settings) -> str | None:
+    """If *date_string* is a calendar quarter, return one of its months,
+    chosen according to the ``PREFER_MONTH_OF_YEAR`` setting, as a
+    ``YYYY-MM`` string."""
+    match = _RE_QUARTER.fullmatch(date_string)
+    if not match:
+        return None
+    now = settings.RELATIVE_BASE or _now(settings)
+    offset = {"first": 0, "last": 2, "current": (now.month - 1) % 3}[
+        settings.PREFER_MONTH_OF_YEAR
+    ]
+    year = match["year"] or match["year2"]
+    quarter = int(match["quarter"] or match["quarter2"])
+    return f"{year}-{3 * quarter - 2 + offset:02}"
 
 
 def sanitize_date(date_string: str) -> str:
@@ -846,8 +867,8 @@ class DateDataParser:
 
         :raises: ValueError - Unknown Language
 
-        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time',
-            'part_of_day'.
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'quarter', 'year',
+            'time', 'part_of_day'.
 
         *Period* represents the granularity of date parsed from the given string.
 
@@ -895,6 +916,8 @@ class DateDataParser:
                 return localized_res
 
         date_string = sanitize_date(date_string)
+        quarter_month = _replace_quarter(date_string, self._settings)
+        date_string = quarter_month or date_string
 
         try:
             parsed_date = self._parse_using_applicable_locales(
@@ -914,6 +937,9 @@ class DateDataParser:
             # STRICT_DATE_ORDER rejected a reading of the date string, which
             # is final: no other locale may guess another reading of it.
             parsed_date = None
+        if quarter_month and parsed_date:
+            parsed_date.period = "quarter"
+            parsed_date.parts = ("year",)
         return parsed_date or DateData(date_obj=None, period="day", locale=None)
 
     def _parse_with_localized_formats(
