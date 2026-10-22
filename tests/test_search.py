@@ -1170,6 +1170,74 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
+            param(
+                text="Photo of the month, 12 March 1999",
+                languages=["en"],
+                settings=None,
+                expected=[("12 March 1999", datetime.datetime(1999, 3, 12, 0, 0))],
+            ),
+            param(
+                text="Employee of the month",
+                languages=["en"],
+                settings=None,
+                expected=None,
+            ),
+            param(
+                text="the 31st of the month Monday",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2010, 7, 14, 13, 15)},
+                expected=[
+                    ("the 31st of the month", datetime.datetime(2010, 7, 31, 13, 15)),
+                    ("Monday", datetime.datetime(2010, 7, 12, 0, 0)),
+                ],
+            ),
+            param(
+                text="Monday the 15th of the month tomorrow",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2010, 7, 14, 13, 15)},
+                expected=[
+                    ("Monday", datetime.datetime(2010, 7, 12, 0, 0)),
+                    ("15th of the month", datetime.datetime(2010, 7, 15, 13, 15)),
+                    ("tomorrow", datetime.datetime(2010, 7, 15, 13, 15)),
+                ],
+            ),
+            param(
+                text="the 1st of the month 12/03/2021",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2010, 7, 14, 13, 15)},
+                expected=[
+                    ("the 1st of the month", datetime.datetime(2010, 7, 1, 13, 15)),
+                    ("12/03/2021", datetime.datetime(2021, 12, 3, 0, 0)),
+                ],
+            ),
+            param(
+                text="in the 15th of the month",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2010, 7, 14, 13, 15)},
+                expected=None,
+            ),
+            param(
+                text=(
+                    "the 15th of the month, Monday, Tuesday, Wednesday, Thursday, "
+                    "Friday, Saturday, Sunday, January, February, March, April"
+                ),
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2010, 7, 14, 13, 15)},
+                expected=[
+                    ("the 15th of the month", datetime.datetime(2010, 7, 15, 13, 15)),
+                    ("Monday", datetime.datetime(2010, 7, 12, 0, 0)),
+                    ("Tuesday", datetime.datetime(2010, 7, 13, 0, 0)),
+                    ("Wednesday", datetime.datetime(2010, 7, 14, 0, 0)),
+                    ("Thursday", datetime.datetime(2010, 7, 8, 0, 0)),
+                    ("Friday", datetime.datetime(2010, 7, 9, 0, 0)),
+                    ("Saturday", datetime.datetime(2010, 7, 10, 0, 0)),
+                    ("Sunday", datetime.datetime(2010, 7, 11, 0, 0)),
+                    ("January", datetime.datetime(2010, 1, 14, 0, 0)),
+                    ("February", datetime.datetime(2010, 2, 14, 0, 0)),
+                    ("March", datetime.datetime(2010, 3, 14, 0, 0)),
+                    ("April", datetime.datetime(2010, 4, 14, 0, 0)),
+                ],
+            ),
             # Date with comma and apostrophe
             param(
                 text="9/3/2017  , ",
