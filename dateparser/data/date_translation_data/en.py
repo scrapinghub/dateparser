@@ -1306,7 +1306,7 @@ info = {
             "from\\s+now": "in"
         },
         {
-            "(\\d+(?:st|nd|rd|th)?) of the month": "\\1 of this month"
+            "(the (?:[1-9]|[12]\\d|3[01])(?:st|nd|rd|th)?|(?:[1-9]|[12]\\d|3[01])(?:st|nd|rd|th)) of the month": "\\1 of 0 month"
         },
         {
             "less than 1 minute ago": "45 second ago"

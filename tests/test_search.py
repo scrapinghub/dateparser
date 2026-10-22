@@ -1182,6 +1182,34 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=None,
             ),
+            param(
+                text="the 31st of the month Monday",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2010, 7, 14, 13, 15)},
+                expected=[
+                    ("the 31st of the month", datetime.datetime(2010, 7, 31, 13, 15)),
+                    ("Monday", datetime.datetime(2010, 7, 12, 0, 0)),
+                ],
+            ),
+            param(
+                text="Monday the 15th of the month tomorrow",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2010, 7, 14, 13, 15)},
+                expected=[
+                    ("Monday", datetime.datetime(2010, 7, 12, 0, 0)),
+                    ("15th of the month", datetime.datetime(2010, 7, 15, 13, 15)),
+                    ("tomorrow", datetime.datetime(2010, 7, 15, 13, 15)),
+                ],
+            ),
+            param(
+                text="the 1st of the month 12/03/2021",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2010, 7, 14, 13, 15)},
+                expected=[
+                    ("the 1st of the month", datetime.datetime(2010, 7, 1, 13, 15)),
+                    ("12/03/2021", datetime.datetime(2021, 12, 3, 0, 0)),
+                ],
+            ),
             # Date with comma and apostrophe
             param(
                 text="9/3/2017  , ",
