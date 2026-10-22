@@ -72,6 +72,15 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("last decade", ago={"years": 10}, period="year"),
             param("a decade ago", ago={"years": 10}, period="year"),
             param("100 decades", ago={"years": 1000}, period="year"),
+            param("1 century", ago={"years": 100}, period="year"),
+            param("2 centuries ago", ago={"years": 200}, period="year"),
+            param("last century", ago={"years": 100}, period="year"),
+            param("1 century 2 decades", ago={"years": 120}, period="year"),
+            param("1 fortnight", ago={"weeks": 2}, period="week"),
+            param("a fortnight ago", ago={"weeks": 2}, period="week"),
+            param("2 fortnights ago", ago={"weeks": 4}, period="week"),
+            param("last fortnight", ago={"weeks": 2}, period="week"),
+            param("1 fortnight 3 days", ago={"weeks": 2, "days": 3}, period="day"),
             # Regression tests for #1304: an explicit sign on a component is
             # preserved when ``decades`` is folded into ``years`` instead of
             # being overwritten by the decade's sign. Unsigned components still
@@ -413,6 +422,19 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("منذ يومين", ago={"days": 2}, period="day"),
             param("منذ 3 أيام", ago={"days": 3}, period="day"),
             param("منذ 21 أيام", ago={"days": 21}, period="day"),
+            param("قبل ٥ ساعات", ago={"hours": 5}, period="day"),
+            param("قبل يومين", ago={"days": 2}, period="day"),
+            param("قبل 10 سنوات", ago={"years": 10}, period="year"),
+            param("قبل 20 عاما", ago={"years": 20}, period="year"),
+            param("قبل عامين", ago={"years": 2}, period="year"),
+            param("قبل 4 أشهر", ago={"months": 4}, period="month"),
+            param("قبل 11 شهرا", ago={"months": 11}, period="month"),
+            param("قبل 3 أسابيع", ago={"weeks": 3}, period="week"),
+            param("قبل أسبوعين", ago={"weeks": 2}, period="week"),
+            param("قبل 11 يوما", ago={"days": 11}, period="day"),
+            param("قبل 5 دقائق", ago={"minutes": 5}, period="day"),
+            param("قبل دقيقتين", ago={"minutes": 2}, period="day"),
+            param("قبل 10 ثوان", ago={"seconds": 10}, period="day"),
             param(
                 "1 عام, 1 شهر, 1 أسبوع, 1 يوم, 1 ساعة, 1 دقيقة",
                 ago={
@@ -1760,6 +1782,16 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 1 decade 12 years", in_future={"years": 22}, period="year"),
             param("next decade", in_future={"years": 10}, period="year"),
             param("in a decade", in_future={"years": 10}, period="year"),
+            param("in two centuries", in_future={"years": 200}, period="year"),
+            param("next century", in_future={"years": 100}, period="year"),
+            param("in a fortnight", in_future={"weeks": 2}, period="week"),
+            param("a fortnight from now", in_future={"weeks": 2}, period="week"),
+            param("2 centuries later", in_future={"years": 200}, period="year"),
+            param("two fortnights later", in_future={"weeks": 4}, period="week"),
+            param("a decade from now", in_future={"years": 10}, period="year"),
+            param("2 centuries from now", in_future={"years": 200}, period="year"),
+            param("in 2 fortnights", in_future={"weeks": 4}, period="week"),
+            param("next fortnight", in_future={"weeks": 2}, period="week"),
             # Regression tests for #1304: explicit signs preserved with decades + years
             param("+2 years", in_future={"years": 2}, period="year"),
             param("in 1 decade +2 years", in_future={"years": 12}, period="year"),
@@ -2400,6 +2432,23 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("20th century"),
+            param("the 21st century"),
+            param("1st century"),
+            param("2nd fortnight"),
+        ]
+    )
+    def test_ordinal_century_and_fortnight_are_not_relative_dates(
+        self, date_string: str
+    ) -> None:
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_was_not_parsed()
+
+    @parameterized.expand(
+        [
             param("1mon ago", ago={"months": 1}, period="month"),  # 1123
             param("2mon ago", ago={"months": 2}, period="month"),  # 1123
             param("3mons ago", ago={"months": 3}, period="month"),  # 1123
@@ -2530,6 +2579,20 @@ class TestFreshnessDateDataParser(BaseTestCase):
         result = result["date_obj"]
         self.assertEqual(result.date(), date(2014, 9, 1))
         self.assertEqual(result.time(), time(14, 29))
+
+    @parameterized.expand(
+        [
+            param("03/06/2010 year"),
+            param("01.02.2021 hour 08:39"),
+            param(":9 month 24 day"),
+        ]
+    )
+    def test_number_continuing_a_date_is_not_a_quantity(self, date_string: str) -> None:
+        parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
+        result = parser.get_date_data(
+            date_string, settings.replace(RELATIVE_BASE=datetime(2014, 9, 1, 10, 30))
+        )
+        self.assertIsNone(result["date_obj"])
 
     @parameterized.expand(
         [

@@ -5,6 +5,7 @@ from functools import wraps
 from typing import Any
 from unittest.mock import Mock, patch
 
+import pytest
 from parameterized import param, parameterized
 
 import dateparser.timezone_parser
@@ -252,6 +253,10 @@ class TestDateParser(BaseTestCase):
             param("12-12 июня 2021", datetime(2021, 6, 12, 0, 0)),
             param("5-5 juin 2021", datetime(2021, 6, 5, 0, 0)),
             param("12 - 14 czerwca 2021", datetime(2021, 6, 12, 0, 0)),
+            param("03/06/2010a", datetime(2010, 6, 3, 0, 0)),
+            param("01.02.2011, godz. 08:39", datetime(2011, 2, 1, 8, 39)),
+            param("22/09/2010 alle ore 14:31", datetime(2010, 9, 22, 14, 31)),
+            param("28/08/2012 20:43h", datetime(2012, 8, 28, 20, 43)),
         ]
     )
     def test_dates_parsing(self, date_string: str, expected: datetime) -> None:
@@ -576,6 +581,8 @@ class TestDateParser(BaseTestCase):
                 "Fri Sep 23 2016 10:34:51 GMT+0800 (CST)",
                 datetime(2016, 9, 23, 2, 34, 51),
             ),
+            param("Thu, 19 Jan 2023 10:45:00 +03", datetime(2023, 1, 19, 7, 45)),
+            param("19 Jan 2023 10:45:00 -04", datetime(2023, 1, 19, 14, 45)),
             # RFC 2822 email dates carry a numeric offset plus a redundant,
             # equivalent timezone abbreviation in parentheses.
             param(
@@ -1138,7 +1145,9 @@ class TestDateParser(BaseTestCase):
         [
             param("-1484823450", expected=datetime(1922, 12, 13, 13, 2, 30)),
             param("-1436745600000", expected=datetime(1924, 6, 22, 0, 0)),
-            param("-1015673450000001", expected=datetime(1937, 10, 25, 12, 29, 10, 1)),
+            param(
+                "-1015673450000001", expected=datetime(1937, 10, 25, 12, 29, 9, 999999)
+            ),
         ]
     )
     def test_parse_negative_timestamp(
@@ -1909,6 +1918,145 @@ class TestDateParser(BaseTestCase):
             ),
         )
 
+    # The French tests below are relative to Wednesday 2026-10-07 09:30. A weekday
+    # on its own is read as the latest such day up to that date, so "lundi" is the
+    # 5th and "jeudi" is the 1st.
+    @parameterized.expand(
+        [
+            param("mardi midi", expected=datetime(2026, 10, 6, 12, 0)),
+            param("mardi à midi", expected=datetime(2026, 10, 6, 12, 0)),
+            param("lundi à midi", expected=datetime(2026, 10, 5, 12, 0)),
+            param("mercredi midi", expected=datetime(2026, 10, 7, 12, 0)),
+            param("jeudi à midi", expected=datetime(2026, 10, 1, 12, 0)),
+            param("vendredi midi", expected=datetime(2026, 10, 2, 12, 0)),
+            param("samedi à midi", expected=datetime(2026, 10, 3, 12, 0)),
+            param("dimanche midi", expected=datetime(2026, 10, 4, 12, 0)),
+            param("midi", expected=datetime(2026, 10, 7, 12, 0)),
+            param("à midi", expected=datetime(2026, 10, 7, 12, 0)),
+            param("demain à midi", expected=datetime(2026, 10, 8, 12, 0)),
+            param("hier midi", expected=datetime(2026, 10, 6, 12, 0)),
+            param("après-demain à midi", expected=datetime(2026, 10, 9, 12, 0)),
+            param("avant-hier midi", expected=datetime(2026, 10, 5, 12, 0)),
+            param("12 octobre 2026 à midi", expected=datetime(2026, 10, 12, 12, 0)),
+            param("le 12 midi", expected=datetime(2026, 10, 12, 12, 0)),
+            param("2026-10-12 midi", expected=datetime(2026, 10, 12, 12, 0)),
+            param("MARDI À MIDI", expected=datetime(2026, 10, 6, 12, 0)),
+            param(
+                "mardi à midi",
+                settings={"PREFER_DATES_FROM": "future"},
+                expected=datetime(2026, 10, 13, 12, 0),
+            ),
+            param(
+                "mardi à midi",
+                settings={"NORMALIZE": False},
+                expected=datetime(2026, 10, 6, 12, 0),
+            ),
+        ]
+    )
+    def test_french_midi_is_noon(
+        self,
+        date_string: str,
+        expected: datetime,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
+        self.given_parser(
+            languages=["fr"],
+            settings={
+                "RELATIVE_BASE": datetime(2026, 10, 7, 9, 30),
+                **(settings or {}),
+            },
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("mardi à midi", expected=datetime(2026, 10, 6, 12, 0)),
+            param("demain midi", expected=datetime(2026, 10, 8, 12, 0)),
+        ]
+    )
+    def test_french_midi_is_noon_when_french_is_detected(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        self.given_parser(settings={"RELATIVE_BASE": datetime(2026, 10, 7, 9, 30)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("après-midi"),
+            param("après midi"),
+            param("l'après-midi"),
+            param("après le midi"),
+            param("avant midi"),
+            param("avant-midi"),
+            param("demain après-midi"),
+            param("lundi après-midi"),
+            param("mardi avant midi"),
+            param("Après-Midi"),
+            param("après_midi"),
+            param("demain après_midi"),
+            param("après_le_midi"),
+            param("après-midi", settings={"NORMALIZE": False}),
+        ]
+    )
+    def test_french_midi_after_apres_or_avant_is_not_noon(
+        self, date_string: str, settings: dict[str, Any] | None = None
+    ) -> None:
+        # The afternoon and before noon are not 12:00, and they are not
+        # understood either.
+        self.given_parser(
+            languages=["fr"],
+            settings={
+                "RELATIVE_BASE": datetime(2026, 10, 7, 9, 30),
+                **(settings or {}),
+            },
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(None)
+
+    @parameterized.expand(
+        [
+            param("lundi", expected=datetime(2026, 10, 5)),
+            param("mardi", expected=datetime(2026, 10, 6)),
+            param("mardi à 12:00", expected=datetime(2026, 10, 6, 12, 0)),
+            param("mardi 14:30", expected=datetime(2026, 10, 6, 14, 30)),
+            param("demain", expected=datetime(2026, 10, 8, 9, 30)),
+            param("après-demain", expected=datetime(2026, 10, 9, 9, 30)),
+            param("il y a 3 jours", expected=datetime(2026, 10, 4, 9, 30)),
+            param(
+                "18 octobre 2012 à 19 h 21 min", expected=datetime(2012, 10, 18, 19, 21)
+            ),
+        ]
+    )
+    def test_french_dates_that_were_parsed_before_midi_are_unchanged(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        self.given_parser(
+            languages=["fr"], settings={"RELATIVE_BASE": datetime(2026, 10, 7, 9, 30)}
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("lundi prochain", expected=datetime(2026, 10, 12)),
+            param("mardi prochain", expected=datetime(2026, 10, 13)),
+            param("lundi prochain à midi", expected=datetime(2026, 10, 12, 12, 0)),
+        ]
+    )
+    @pytest.mark.xfail(
+        raises=AssertionError,
+        strict=True,
+        reason="'<weekday> prochain' needs 'next <weekday>' (#573) and French entries",
+    )
+    def test_french_next_weekday(self, date_string: str, expected: datetime) -> None:
+        self.given_parser(
+            languages=["fr"], settings={"RELATIVE_BASE": datetime(2026, 10, 7, 9, 30)}
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
     def given_parser(self, *args: Any, **kwds: Any) -> None:
         def collecting_get_date_data(
             parse: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
@@ -2214,6 +2362,82 @@ class TestDateParser(BaseTestCase):
     def test_out_of_range_day_of_year_is_not_parsed(self, date_string: str) -> None:
         """Test that an invalid %j value is not read as another date (Issue #271)."""
         self.assertIsNone(parse(date_string, date_formats=["%Y%j"]))
+
+    @parameterized.expand(
+        [
+            param(prefer_dates_from="current_period"),
+            param(prefer_dates_from="past"),
+            param(prefer_dates_from="future"),
+        ]
+    )
+    def test_weekday_with_modifier(self, prefer_dates_from: str) -> None:
+        weekdays = [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+        ]
+        for base_weekday in range(7):
+            relative_base = datetime(2026, 9, 21 + base_weekday, 12)
+            settings = {
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "RELATIVE_BASE": relative_base,
+            }
+            midnight = relative_base.replace(hour=0)
+            for weekday, name in enumerate(weekdays):
+                expected = {
+                    "last": -((base_weekday - weekday - 1) % 7 + 1),
+                    "this": (weekday - base_weekday) % 7,
+                    "next": (weekday - base_weekday - 1) % 7 + 1,
+                }
+                for modifier, days in expected.items():
+                    date_string = f"{modifier} {name}"
+                    with self.subTest(date_string=date_string, base=relative_base):
+                        self.assertEqual(
+                            parse(date_string, settings=settings),
+                            midnight + timedelta(days=days),
+                        )
+
+    @parameterized.expand(
+        [
+            param("Next Tuesday", datetime(2026, 9, 29)),
+            param("next tues", datetime(2026, 9, 29)),
+            param("last fri", datetime(2026, 9, 18)),
+            param("next Friday at 5pm", datetime(2026, 9, 25, 17)),
+            param("12am last monday", datetime(2026, 9, 21)),
+            param("next Friday, July 4, 2025", datetime(2025, 7, 4)),
+        ]
+    )
+    def test_weekday_with_modifier_variants(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        settings = {"RELATIVE_BASE": datetime(2026, 9, 23, 12)}
+        self.assertEqual(parse(date_string, settings=settings), expected)
+
+    @parameterized.expand(
+        [
+            param("next"),
+            param("this"),
+            param("last 5pm"),
+            param("thursday next"),
+            param("next next friday"),
+            param("last three"),
+            param("next friday last monday"),
+            param("last friday of may"),
+            param("next friday june"),
+        ]
+    )
+    def test_misplaced_modifier_is_not_parsed(self, date_string: str) -> None:
+        self.assertIsNone(parse(date_string, languages=["en"]))
+
+    @parameterized.expand([param("next 2020-05-05"), param("last 10:00")])
+    def test_modifier_without_weekday_is_not_parsed_by_default_languages(
+        self, date_string: str
+    ) -> None:
+        self.assertIsNone(parse(date_string, settings={"DEFAULT_LANGUAGES": ["en"]}))
 
     @parameterized.expand(
         [
