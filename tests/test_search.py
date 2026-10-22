@@ -1063,6 +1063,8 @@ class TestTranslateSearch(BaseTestCase):
                 "Ý theo gương Đức, đã tiến hành xâm lược Ethiopia năm 1935 và sát "
                 "nhập Albania vào ngày 12 tháng 4 năm 1939.",
             ),
+            # Kana are Japanese, even next to a Chinese word such as 後天
+            param("ja", "後天的な要因"),
             # Only digits
             param("en", "2007"),
         ]
@@ -1286,6 +1288,18 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                text="我们大后天见面",
+                languages=["zh"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("大后天", datetime.datetime(2020, 6, 18, 12, 0))],
+            ),
+            param(
+                text="后天性免疫缺陷综合征",
+                languages=["zh"],
+                settings=None,
+                expected=None,
+            ),
+            param(
                 text="1 小时前",
                 languages=["zh"],
                 settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
@@ -1375,6 +1389,50 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[
                     ("3 days ago tomorrow", datetime.datetime(2020, 2, 14, 20, 7, 6)),
                     ("13 Feb 2020", datetime.datetime(2020, 2, 13, 0, 0)),
+                ],
+            ),
+            # Parsed together, the expression would hide the numeric date
+            param(
+                text="09/28/2019 22 hrs ago",
+                languages=["en"],
+                expected=[
+                    ("09/28/2019", datetime.datetime(2019, 9, 28, 0, 0)),
+                    ("22 hrs ago", relative_base - timedelta(hours=22)),
+                ],
+            ),
+            # "mo" alone would also translate into "month"
+            param(
+                text="in 15 months 4/3/2019",
+                languages=["en"],
+                expected=[
+                    ("in 15 months", datetime.datetime(2021, 5, 13, 20, 7, 6)),
+                    ("4/3/2019", datetime.datetime(2019, 4, 3, 0, 0)),
+                ],
+            ),
+            param(
+                text="2020年9月1日後天",
+                languages=["zh-Hant"],
+                expected=[
+                    ("2020年9月1日", datetime.datetime(2020, 9, 1, 0, 0)),
+                    ("後天", relative_base + timedelta(days=2)),
+                ],
+            ),
+            param(
+                text="後天，2020/9/1",
+                languages=["zh-Hant"],
+                expected=[
+                    ("後天", relative_base + timedelta(days=2)),
+                    ("2020/9/1", datetime.datetime(2020, 9, 1, 0, 0)),
+                ],
+            ),
+            # Without a space, the day of the date and the number of days of
+            # the expression would read as a single number
+            param(
+                text="2020-09-01大前天",
+                languages=["zh"],
+                expected=[
+                    ("2020-09-01", datetime.datetime(2020, 9, 1, 0, 0)),
+                    ("大前天", relative_base - timedelta(days=3)),
                 ],
             ),
             # Cutting "today" off would leave "13 feb 2020 before", which is no

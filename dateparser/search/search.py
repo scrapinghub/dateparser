@@ -39,6 +39,15 @@ _TRAILING_QUANTITY_REG = re.compile(
     rf"\s((?:in )?(\d+) ((?:{_UNITS})s?(?: (?:ago|in))?))$"
 )
 
+# A relative expression as translated, e.g. "in 2 day" from Chinese "后天",
+# which no space separates from a number before it in languages written without
+# spaces, e.g. "2020-9-1in 2 day" from "2020年9月1日后天".
+_GLUED_RELATIVE_REG = re.compile(
+    rf"in \d+ (?:{_UNITS})s?(?![a-z])|(?<![\d.])\d+ (?:{_UNITS})s? ago(?![a-z])"
+)
+_NUMERIC_DATE_REG = re.compile(r"\d[-/.]\d+[-/.]\d")
+_SEPARATORS = f"{PUNCTUATION}，、 "
+
 _MAX_TRAILING_WORDS = 3
 """Words after a relative expression, e.g. "5 pm" after "in 1 day", that
 :meth:`_ExactLanguageSearch.split_by_relative_expression` keeps with it."""
@@ -445,6 +454,64 @@ class _ExactLanguageSearch:
                 )
         return None
 
+    def split_off_numeric_date(
+        self,
+        parser: DateDataParser,
+        item: str,
+        original: str,
+        language: Locale,
+        settings: Settings,
+    ) -> list[list[list[str]]]:
+        """Split a chunk made of a relative expression and a numeric date
+        next to it, e.g. “2020年9月1日，后天”, which parses as the relative
+        expression alone, into the two."""
+        for match in _GLUED_RELATIVE_REG.finditer(item):
+            before = item[: match.start()].strip(_SEPARATORS)
+            after = item[match.end() :].strip(_SEPARATORS)
+            if bool(before) == bool(after):
+                continue
+            date = before or after
+            if (
+                not _NUMERIC_DATE_REG.search(date)
+                or _GLUED_RELATIVE_REG.search(date)
+                or parser.get_date_data(date)["date_obj"] is None
+            ):
+                continue
+            expression = match[0].replace(" ", "")
+            # The expression is the shortest end of the chunk, on the side
+            # opposite to the date, that translates into it.
+            for size in range(1, len(original)):
+                cut = len(original) - size if before else size
+                if (
+                    "no_word_spacing" not in language.info
+                    and original[cut - 1].isalnum()
+                    and original[cut].isalnum()
+                ):
+                    continue
+                original_date, original_expression = (
+                    (original[:cut], original[cut:])
+                    if before
+                    else (original[cut:], original[:cut])
+                )
+                translation = "".join(
+                    chain.from_iterable(
+                        language.translate_search(
+                            original_expression.strip(_SEPARATORS), settings=settings
+                        )[0]
+                    )
+                )
+                if translation.replace(" ", "") == expression:
+                    parts = [date, match[0]]
+                    originals = [
+                        original_date.strip(_SEPARATORS),
+                        original_expression.strip(_SEPARATORS),
+                    ]
+                    if after:
+                        parts.reverse()
+                        originals.reverse()
+                    return [[parts, originals]]
+        return []
+
     def split_off_leading_number(
         self, parser: DateDataParser, item: str, original: str
     ) -> list[list[list[str]]]:
@@ -526,7 +593,7 @@ class _ExactLanguageSearch:
                 parser._settings = settings
         return parsed_item, is_relative
 
-    def parse_found_objects(
+    def parse_found_objects(  # noqa: PLR0912, PLR0915
         self,
         parser: DateDataParser,
         to_parse: Sequence[str],
@@ -550,32 +617,36 @@ class _ExactLanguageSearch:
                 parser, item, translated[i], parsed, need_relative_base
             )
             if parsed_item["date_obj"]:
-                parsed.append((parsed_item, is_relative))
-                substrings.append(_clean_substring(original[i], skip))
-                continue
-
-            quantity_split = self.split_off_trailing_quantity(
-                item, original[i], language, settings
-            )
-            if quantity_split:
-                sub_parsed, sub_substrings = self.parse_found_objects(
-                    parser,
-                    quantity_split[0],
-                    quantity_split[1],
-                    quantity_split[0],
-                    settings,
-                    language,
-                    already_parsed=parsed,
+                possible_splits = self.split_off_numeric_date(
+                    parser, item, original[i], language, settings
                 )
-                parsed.extend(sub_parsed)
-                substrings.extend(sub_substrings)
-                continue
+                if not possible_splits:
+                    parsed.append((parsed_item, is_relative))
+                    substrings.append(_clean_substring(original[i], skip))
+                    continue
+            else:
+                quantity_split = self.split_off_trailing_quantity(
+                    item, original[i], language, settings
+                )
+                if quantity_split:
+                    sub_parsed, sub_substrings = self.parse_found_objects(
+                        parser,
+                        quantity_split[0],
+                        quantity_split[1],
+                        quantity_split[0],
+                        settings,
+                        language,
+                        already_parsed=parsed,
+                    )
+                    parsed.extend(sub_parsed)
+                    substrings.extend(sub_substrings)
+                    continue
 
-            possible_splits = self.split_if_not_parsed(
-                parser, item, original[i], language, settings
-            )
-            if not possible_splits:
-                continue
+                possible_splits = self.split_if_not_parsed(
+                    parser, item, original[i], language, settings
+                )
+                if not possible_splits:
+                    continue
 
             possible_parsed: list[list[tuple[DateData, bool]]] = []
             possible_substrings: list[list[str]] = []

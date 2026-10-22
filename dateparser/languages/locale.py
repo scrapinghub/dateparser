@@ -560,6 +560,13 @@ class Locale:
                     " ago" if j and word == "ago" else word
                     for j, word in enumerate(tokens)
                 ]
+                # Digits from two tokens, e.g. "2020-9-1" and "2 day ago", stay apart.
+                tokens = [
+                    f" {word}"
+                    if j and word[:1].isdigit() and tokens[j - 1][-1:].isdigit()
+                    else word
+                    for j, word in enumerate(tokens)
+                ]
                 # The full-width colon of a label, e.g. "日期：2020年12月28日",
                 # sticks to the date that follows it.
                 if tokens[0] == ":" and tokens[1:2] and tokens[1][:1].isdigit():
