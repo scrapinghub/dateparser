@@ -195,7 +195,6 @@ simplifications:
     - less than 1 minute ago: 45 second ago
     - (\d+(?:st|nd|rd|th)) day: \1
     - (\d+)(?:st|nd|rd|th)\s+(?:century|centuries|fortnight|fortnights)\b: \1 ordinal
-    - (\d+[.,]?\d*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (centur(?:y|ies)|decade|fortnight|year|month|week|day|hour|minute|second)s? later: in \1 \2
     - one: '1'
     - two: '2'
     - three: '3'
@@ -208,6 +207,30 @@ simplifications:
     - ten: '10'
     - eleven: '11'
     - twelve: '12'
+    - (?<!\d\s|hundred\s|hundred and\s)thirteen(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '13'
+    - (?<!\d\s|hundred\s|hundred and\s)fourteen(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '14'
+    - (?<!\d\s|hundred\s|hundred and\s)fifteen(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '15'
+    - (?<!\d\s|hundred\s|hundred and\s)sixteen(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '16'
+    - (?<!\d\s|hundred\s|hundred and\s)seventeen(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '17'
+    - (?<!\d\s|hundred\s|hundred and\s)eighteen(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '18'
+    - (?<!\d\s|hundred\s|hundred and\s)nineteen(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '19'
+    - (?<!\d\s|hundred\s|hundred and\s)twenty(?:-|\s+)([1-9])(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): 2\1
+    - (?<!\d\s|hundred\s|hundred and\s)thirty(?:-|\s+)([1-9])(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): 3\1
+    - (?<!\d\s|hundred\s|hundred and\s)forty(?:-|\s+)([1-9])(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): 4\1
+    - (?<!\d\s|hundred\s|hundred and\s)fifty(?:-|\s+)([1-9])(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): 5\1
+    - (?<!\d\s|hundred\s|hundred and\s)sixty(?:-|\s+)([1-9])(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): 6\1
+    - (?<!\d\s|hundred\s|hundred and\s)seventy(?:-|\s+)([1-9])(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): 7\1
+    - (?<!\d\s|hundred\s|hundred and\s)eighty(?:-|\s+)([1-9])(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): 8\1
+    - (?<!\d\s|hundred\s|hundred and\s)ninety(?:-|\s+)([1-9])(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): 9\1
+    - (?<!\d\s|hundred\s|hundred and\s)twenty(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '20'
+    - (?<!\d\s|hundred\s|hundred and\s)thirty(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '30'
+    - (?<!\d\s|hundred\s|hundred and\s)forty(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '40'
+    - (?<!\d\s|hundred\s|hundred and\s)fifty(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '50'
+    - (?<!\d\s|hundred\s|hundred and\s)sixty(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '60'
+    - (?<!\d\s|hundred\s|hundred and\s)seventy(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '70'
+    - (?<!\d\s|hundred\s|hundred and\s)eighty(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '80'
+    - (?<!\d\s|hundred\s|hundred and\s)ninety(?=\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\b): '90'
+    - (\d+[.,]?\d*) (centur(?:y|ies)|decade|fortnight|year|month|week|day|hour|minute|second)s? later: in \1 \2
 
 locale_specific:
     en-US:

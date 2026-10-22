@@ -1183,6 +1183,69 @@ class TestTranslateSearch(BaseTestCase):
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
             ),
+            # Number words without a time unit
+            param(
+                text="She turned thirty on 14 February 2018.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("on 14 February 2018", datetime.datetime(2018, 2, 14, 0, 0))
+                ],
+            ),
+            param(
+                text="Chapter Twenty: The return. It was 5 June 2019.",
+                languages=["en"],
+                settings=None,
+                expected=[("5 June 2019", datetime.datetime(2019, 6, 5, 0, 0))],
+            ),
+            param(
+                text="Twenty second street meeting on 5 June 2019.",
+                languages=["en"],
+                settings=None,
+                expected=[("on 5 June 2019", datetime.datetime(2019, 6, 5, 0, 0))],
+            ),
+            param(
+                text="Twenty five years after the Sept. 11, 2001, attacks",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("11, 2001", datetime.datetime(2001, 11, 15, 0, 0))],
+            ),
+            param(
+                text="Sep 15, 2026 10:50 AM Fifty years after Paris",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Sep 15, 2026 10:50 AM", datetime.datetime(2026, 9, 15, 10, 50)),
+                    ("Fifty years after", datetime.datetime(2070, 6, 15, 12, 0)),
+                ],
+            ),
+            param(
+                text="Sep 15, 2026 10:50 AM and fifty years after Paris",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Sep 15, 2026 10:50 AM", datetime.datetime(2026, 9, 15, 10, 50)),
+                    ("fifty years after", datetime.datetime(2070, 6, 15, 12, 0)),
+                ],
+            ),
+            param(
+                text="On 5 June 2019, 50 years ago",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("On 5 June 2019", datetime.datetime(2019, 6, 5, 0, 0)),
+                    ("50 years ago", datetime.datetime(1970, 6, 15, 12, 0)),
+                ],
+            ),
+            param(
+                text="09.09.2026 10711 Seventy-Five Seconds, Forty Years of History",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("09.09.2026", datetime.datetime(2026, 9, 9, 0, 0)),
+                    ("Forty Years of", datetime.datetime(1980, 6, 15, 12, 0)),
+                ],
+            ),
             param(
                 text="时间是下午3:30",
                 languages=["zh-Hans"],

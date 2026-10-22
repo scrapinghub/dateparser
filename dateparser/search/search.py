@@ -33,6 +33,12 @@ _NON_MERIDIEM_AM_REG = re.compile(
 )
 
 
+# A quantity of time ending a translated chunk, e.g. "50 year in" from "50
+# years after".
+_TRAILING_QUANTITY_REG = re.compile(
+    rf"\s((?:in )?(\d+) ((?:{_UNITS})s?(?: (?:ago|in))?))$"
+)
+
 _MAX_TRAILING_WORDS = 3
 """Words after a relative expression, e.g. "5 pm" after "in 1 day", that
 :meth:`_ExactLanguageSearch.split_by_relative_expression` keeps with it."""
@@ -342,14 +348,20 @@ class _ExactLanguageSearch:
         """
         words = original.split()
         kept = []
+        translations = []
         for index, word in enumerate(words):
             translation = language.translate(word, settings=settings).split()
             if len(translation) > 1:
                 return []
             if translation:
                 kept.append(index)
+                translations.extend(translation)
         item_words = item.split()
         if len(kept) == len(words) or len(kept) != len(item_words):
+            return []
+        if any(word.isdigit() and word not in translations for word in item_words):
+            # A number made of several words, e.g. "25" from "twenty five",
+            # has no single word to line up with.
             return []
         units: list[list[int]] = []
         for k in range(len(kept)):
@@ -387,6 +399,51 @@ class _ExactLanguageSearch:
                 ]
             )
         return possible_splits
+
+    def split_off_trailing_quantity(
+        self, item: str, original: str, language: Locale, settings: Settings
+    ) -> tuple[list[str], list[str]] | None:
+        """Split a chunk that ends with a quantity written in words, e.g.
+        “Sep 15, 2026 10:50 AM Fifty years after”, into the rest and that
+        quantity, so that the rest is searched as if the quantity were not
+        there."""
+        match = _TRAILING_QUANTITY_REG.search(item)
+        if not match:
+            return None
+        quantity, number, unit = match[1], match[2], match[3]
+        if int(number) <= 12:
+            # Small quantities, e.g. "a year", more often mean a rate or a
+            # duration than a date.
+            return None
+
+        def translate(words: list[str]) -> list[str]:
+            return language.translate_search(" ".join(words), settings=settings)[0]
+
+        words = original.split()
+        for size in range(2, len(words)):
+            expression = words[-size:]
+            if any(char.isdigit() for char in expression[0]):
+                break
+            # The first word is the number, e.g. "fifty", or a word before it,
+            # e.g. "after", and the other words end with the unit, e.g.
+            # "years after", translated as "year in".
+            rest = translate(expression[1:])
+            if (
+                len(rest) == 1
+                and rest[0] != quantity
+                and f" {rest[0]}".endswith(f" {unit}")
+                and translate(expression) == [quantity]
+            ):
+                date = words[:-size]
+                # Skipped words before the quantity, e.g. "and", belong to
+                # neither part.
+                while date and not language.translate(date[-1], settings=settings):
+                    date.pop()
+                return (
+                    [item[: match.start()], quantity],
+                    [" ".join(date).rstrip(PUNCTUATION), " ".join(expression)],
+                )
+        return None
 
     def split_off_leading_number(
         self, parser: DateDataParser, item: str, original: str
@@ -495,6 +552,23 @@ class _ExactLanguageSearch:
             if parsed_item["date_obj"]:
                 parsed.append((parsed_item, is_relative))
                 substrings.append(_clean_substring(original[i], skip))
+                continue
+
+            quantity_split = self.split_off_trailing_quantity(
+                item, original[i], language, settings
+            )
+            if quantity_split:
+                sub_parsed, sub_substrings = self.parse_found_objects(
+                    parser,
+                    quantity_split[0],
+                    quantity_split[1],
+                    quantity_split[0],
+                    settings,
+                    language,
+                    already_parsed=parsed,
+                )
+                parsed.extend(sub_parsed)
+                substrings.extend(sub_substrings)
                 continue
 
             possible_splits = self.split_if_not_parsed(
