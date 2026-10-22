@@ -32,7 +32,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.date = NotImplemented
         self.time = NotImplemented
 
-        settings.TIMEZONE = "utc"
+        self.add_patch(patch.object(settings, "TIMEZONE", "utc"))
 
     def now_with_timezone(self, tz: tzinfo | None) -> datetime:
         now = self.now
@@ -72,6 +72,15 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("last decade", ago={"years": 10}, period="year"),
             param("a decade ago", ago={"years": 10}, period="year"),
             param("100 decades", ago={"years": 1000}, period="year"),
+            param("1 century", ago={"years": 100}, period="year"),
+            param("2 centuries ago", ago={"years": 200}, period="year"),
+            param("last century", ago={"years": 100}, period="year"),
+            param("1 century 2 decades", ago={"years": 120}, period="year"),
+            param("1 fortnight", ago={"weeks": 2}, period="week"),
+            param("a fortnight ago", ago={"weeks": 2}, period="week"),
+            param("2 fortnights ago", ago={"weeks": 4}, period="week"),
+            param("last fortnight", ago={"weeks": 2}, period="week"),
+            param("1 fortnight 3 days", ago={"weeks": 2, "days": 3}, period="day"),
             # Regression tests for #1304: an explicit sign on a component is
             # preserved when ``decades`` is folded into ``years`` instead of
             # being overwritten by the decade's sign. Unsigned components still
@@ -132,8 +141,14 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("now - 2 hours", ago={"hours": 2}, period="day"),
             param("now - 30 minutes", ago={"minutes": 30}, period="day"),
             param("now - 1 day", ago={"days": 1}, period="day"),
-            # Fix for #291, work till one to twelve only
+            # Word numbers
             param("nine hours ago", ago={"hours": 9}, period="day"),
+            param("fifteen minutes ago", ago={"minutes": 15}, period="day"),
+            param("twenty one days ago", ago={"days": 21}, period="day"),
+            param("forty-five seconds ago", ago={"seconds": 45}, period="day"),
+            param("ninety minutes ago", ago={"minutes": 90}, period="day"),
+            param("twenty min ago", ago={"minutes": 20}, period="day"),
+            param("thirteen fortnights ago", ago={"weeks": 26}, period="week"),
             param("three week ago", ago={"weeks": 3}, period="week"),
             param("eight months ago", ago={"months": 8}, period="month"),
             param("six days ago", ago={"days": 6}, period="day"),
@@ -413,6 +428,19 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("منذ يومين", ago={"days": 2}, period="day"),
             param("منذ 3 أيام", ago={"days": 3}, period="day"),
             param("منذ 21 أيام", ago={"days": 21}, period="day"),
+            param("قبل ٥ ساعات", ago={"hours": 5}, period="day"),
+            param("قبل يومين", ago={"days": 2}, period="day"),
+            param("قبل 10 سنوات", ago={"years": 10}, period="year"),
+            param("قبل 20 عاما", ago={"years": 20}, period="year"),
+            param("قبل عامين", ago={"years": 2}, period="year"),
+            param("قبل 4 أشهر", ago={"months": 4}, period="month"),
+            param("قبل 11 شهرا", ago={"months": 11}, period="month"),
+            param("قبل 3 أسابيع", ago={"weeks": 3}, period="week"),
+            param("قبل أسبوعين", ago={"weeks": 2}, period="week"),
+            param("قبل 11 يوما", ago={"days": 11}, period="day"),
+            param("قبل 5 دقائق", ago={"minutes": 5}, period="day"),
+            param("قبل دقيقتين", ago={"minutes": 2}, period="day"),
+            param("قبل 10 ثوان", ago={"seconds": 10}, period="day"),
             param(
                 "1 عام, 1 شهر, 1 أسبوع, 1 يوم, 1 ساعة, 1 دقيقة",
                 ago={
@@ -1760,6 +1788,16 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 1 decade 12 years", in_future={"years": 22}, period="year"),
             param("next decade", in_future={"years": 10}, period="year"),
             param("in a decade", in_future={"years": 10}, period="year"),
+            param("in two centuries", in_future={"years": 200}, period="year"),
+            param("next century", in_future={"years": 100}, period="year"),
+            param("in a fortnight", in_future={"weeks": 2}, period="week"),
+            param("a fortnight from now", in_future={"weeks": 2}, period="week"),
+            param("2 centuries later", in_future={"years": 200}, period="year"),
+            param("two fortnights later", in_future={"weeks": 4}, period="week"),
+            param("a decade from now", in_future={"years": 10}, period="year"),
+            param("2 centuries from now", in_future={"years": 200}, period="year"),
+            param("in 2 fortnights", in_future={"weeks": 4}, period="week"),
+            param("next fortnight", in_future={"weeks": 2}, period="week"),
             # Regression tests for #1304: explicit signs preserved with decades + years
             param("+2 years", in_future={"years": 2}, period="year"),
             param("in 1 decade +2 years", in_future={"years": 12}, period="year"),
@@ -1826,6 +1864,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
                 period="day",
             ),
             param("just now", in_future={"seconds": 0}, period="day"),
+            param("in twenty minutes", in_future={"minutes": 20}, period="day"),
             param("1 decade later", in_future={"years": 10}, period="year"),
             param("2 years later", in_future={"years": 2}, period="year"),
             param("3 months later", in_future={"months": 3}, period="month"),
@@ -2367,6 +2406,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         [
             param("15th of Aug, 2014 Diane Bennett"),
             param("4 heures ago"),
+            param("the 31st of this month"),
+            param("the 1st of last month 2 days ago"),
         ]
     )
     def test_insane_dates(self, date_string: str) -> None:
@@ -2395,6 +2436,40 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.when_date_is_parsed()
         self.then_error_was_not_raised()
         self.assertEqual(None, self.result["date_obj"])
+
+    @parameterized.expand(
+        [
+            param("20th century"),
+            param("the 21st century"),
+            param("1st century"),
+            param("2nd fortnight"),
+        ]
+    )
+    def test_ordinal_century_and_fortnight_are_not_relative_dates(
+        self, date_string: str
+    ) -> None:
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_was_not_parsed()
+
+    @parameterized.expand(
+        [
+            param("one thirty minutes ago"),
+            param("one hundred and thirty-six years ago"),
+            param("twenty second ago"),
+            param("twenty"),
+        ]
+    )
+    def test_number_words_without_a_time_unit_are_not_relative_dates(
+        self, date_string: str
+    ) -> None:
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_was_not_parsed()
 
     @parameterized.expand(
         [
@@ -2531,6 +2606,20 @@ class TestFreshnessDateDataParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("03/06/2010 year"),
+            param("01.02.2021 hour 08:39"),
+            param(":9 month 24 day"),
+        ]
+    )
+    def test_number_continuing_a_date_is_not_a_quantity(self, date_string: str) -> None:
+        parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
+        result = parser.get_date_data(
+            date_string, settings.replace(RELATIVE_BASE=datetime(2014, 9, 1, 10, 30))
+        )
+        self.assertIsNone(result["date_obj"])
+
+    @parameterized.expand(
+        [
             param("2 hours ago", "PKT", date(2014, 9, 1), time(13, 30)),
             param("5 hours ago", "EST", date(2014, 9, 1), time(0, 30)),
             param("3 hours ago", "MET", date(2014, 9, 1), time(8, 30)),
@@ -2604,6 +2693,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("in 10.75 minutes", date(2010, 6, 4), time(13, 25, 45)),
             param("in 1.5 days", date(2010, 6, 6), time(1, 15)),
             param("0,5 hours ago", date(2010, 6, 4), time(12, 45)),
+            # Day of a relative month
+            param("the 1st of last month", date(2010, 5, 1), time(13, 15)),
+            param("the 1st of this month", date(2010, 6, 1), time(13, 15)),
+            param("30th of next month at 5pm", date(2010, 7, 30), time(17, 0)),
         ]
     )
     def test_freshness_date_with_relative_base(
@@ -2654,6 +2747,32 @@ class TestFreshnessDateDataParser(BaseTestCase):
         self.when_date_is_parsed()
         self.then_date_is(date)
         self.then_time_is(time)
+
+    @parameterized.expand(
+        [
+            param("this month", {"PREFER_DAY_OF_MONTH": "first"}, date(2010, 6, 1)),
+            param("next month", {"PREFER_DAY_OF_MONTH": "last"}, date(2010, 7, 31)),
+            param("2 months ago", {"PREFER_DAY_OF_MONTH": "last"}, date(2010, 4, 30)),
+            param("next month", {"PREFER_DAY_OF_MONTH": "current"}, date(2010, 7, 4)),
+            param("next week", {"PREFER_DAY_OF_MONTH": "first"}, date(2010, 6, 11)),
+            param(
+                "last year",
+                {"PREFER_MONTH_OF_YEAR": "first", "PREFER_DAY_OF_MONTH": "first"},
+                date(2009, 1, 1),
+            ),
+            param("last year", {"PREFER_MONTH_OF_YEAR": "last"}, date(2009, 12, 4)),
+        ]
+    )
+    def test_freshness_date_with_prefer_day_and_month(
+        self, date_string: str, prefer_settings: dict[str, Any], date: date
+    ) -> None:
+        self.given_parser(
+            settings={"RELATIVE_BASE": datetime(2010, 6, 4, 13, 15), **prefer_settings}
+        )
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_date_is(date)
+        self.then_time_is(time(13, 15))
 
     def test_long_digit_run_does_not_hang(self) -> None:
         # Possessive quantifiers (\d++[.,]?\d*+) prevent quadratic backtracking.
