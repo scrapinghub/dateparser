@@ -1,10 +1,15 @@
 import re
-from datetime import timedelta
+from collections.abc import Mapping
+from datetime import datetime, timedelta
+from typing import TYPE_CHECKING, Any
 
 from dateutil.relativedelta import relativedelta
 
+if TYPE_CHECKING:
+    from dateparser.conf import Settings
 
-def detect_time_span(text):
+
+def detect_time_span(text: str) -> dict[str, Any] | None:
     """Detect time span expressions in text and return span information."""
     span_patterns = [
         {
@@ -62,7 +67,7 @@ def detect_time_span(text):
     for pattern_info in span_patterns:
         match = re.search(pattern_info["pattern"], text, re.IGNORECASE)
         if match:
-            result = {
+            result: dict[str, Any] = {
                 "type": pattern_info["type"],
                 "direction": pattern_info["direction"],
                 "matched_text": match.group(0),
@@ -78,7 +83,9 @@ def detect_time_span(text):
     return None
 
 
-def generate_time_span(span_info, base_date, settings):
+def generate_time_span(
+    span_info: Mapping[str, Any], base_date: datetime, settings: "Settings"
+) -> tuple[datetime, datetime]:
     """Return the start and end dates of the span described by *span_info*."""
     span_type = span_info["type"]
     number = span_info.get("number", 1)
@@ -94,6 +101,7 @@ def generate_time_span(span_info, base_date, settings):
         start_date = week_start + timedelta(days=7)
         return start_date, start_date + timedelta(days=6)
 
+    span: timedelta | relativedelta
     if span_type == "month":
         span = timedelta(days=settings.DEFAULT_DAYS_IN_MONTH)
     elif span_type == "days":
