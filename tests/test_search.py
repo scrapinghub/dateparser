@@ -1303,6 +1303,15 @@ class TestTranslateSearch(BaseTestCase):
                 settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
                 expected=[("2020年", datetime.datetime(2020, 6, 15, 0, 0))],
             ),
+            param(
+                text="Closing Yield, 2010 Year Treasury notes On Dec 31, 2023",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("2010 Year", datetime.datetime(2010, 6, 15, 0, 0)),
+                    ("On Dec 31, 2023", datetime.datetime(2023, 12, 31, 0, 0)),
+                ],
+            ),
         ]
     )
     def test_date_search_function(
