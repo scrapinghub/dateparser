@@ -1053,6 +1053,8 @@ class TestDateParser(BaseTestCase):
             param("2017-06-22", languages=["it"], expected=datetime(2017, 6, 22)),
             param("2017-06-10", languages=["it"], expected=datetime(2017, 6, 10)),
             param("2017-06-22", languages=["fr"], expected=datetime(2017, 6, 22)),
+            param("20170622", languages=None, expected=datetime(2017, 6, 22)),
+            param("20170610", languages=["fr"], expected=datetime(2017, 6, 10)),
             param(
                 "2015-05-02T10:20:19+0000",
                 languages=["fr"],
@@ -1471,6 +1473,31 @@ class TestDateParser(BaseTestCase):
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("20240201", datetime(2024, 2, 1)),
+            param("20240201\n", datetime(2024, 2, 1)),
+            param("19000101", datetime(1900, 1, 1)),
+            param("20991231", datetime(2099, 12, 31)),
+            param("18991231", None),
+            param("21000101", None),
+            param("10111213", None),
+            param("01022024", None),
+            param("01022024", datetime(2024, 2, 1), {"DATE_ORDER": "DMY"}),
+            param("20240201", datetime(2024, 2, 1), {"DATE_ORDER": "MDY"}),
+            param("20240201", datetime(2024, 1, 2), {"DATE_ORDER": "YDM"}),
+            param("10111213", None, {"DATE_ORDER": "MDY"}),
+            param("20240213", None, {"DATE_ORDER": "YDM", "STRICT_DATE_ORDER": "all"}),
+        ]
+    )
+    def test_eight_digits(
+        self,
+        date_string: str,
+        expected: datetime | None,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
+        self.assertEqual(expected, parse(date_string, settings=settings))
 
     @parameterized.expand(
         [
