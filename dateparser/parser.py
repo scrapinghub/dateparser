@@ -30,8 +30,31 @@ NSP_COMPATIBLE = re.compile(r"\D+")
 MERIDIAN = re.compile(r"am|pm")
 MICROSECOND = re.compile(r"\d{1,6}")
 EIGHT_DIGIT = re.compile(r"^\d{8}$")
+_EIGHT_DIGITS = re.compile(r"[0-9]{8}")
 HOUR_MINUTE_REGEX = re.compile(r"^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
 _RANGE_DASHES = {"-", "–"}
+_PART_LENGTHS = {"D": 2, "M": 2, "Y": 4}
+_DATE_ORDER_DIRECTIVES = {"D": "%d", "M": "%m", "Y": "%Y"}
+
+
+def _split_eight_digits(datestring: str, date_order: str) -> str | None:
+    """Return *datestring*, 8 digits, split with dashes into the date parts of
+    *date_order*, or ``None`` if they are not a date from 1900 to 2099.
+
+    Outside those years, 8 digits are far more often a phone number or an ID
+    than a date."""
+    parts = []
+    for part in date_order:
+        parts.append(datestring[: _PART_LENGTHS[part]])
+        datestring = datestring[_PART_LENGTHS[part] :]
+    split = "-".join(parts)
+    fmt = "-".join(_DATE_ORDER_DIRECTIVES[part] for part in date_order)
+    try:
+        if 1900 <= strptime(split, fmt).year <= 2099:
+            return split
+    except ValueError:
+        pass
+    return None
 
 
 def no_space_parser_eligibile(datestring: str) -> bool:
@@ -265,12 +288,9 @@ class _no_spaces_parser:
 
     @classmethod
     def _find_best_matching_date(
-        cls, datestring: str, order: str
+        cls, datestring: str
     ) -> tuple[datetime, str, tuple[str, ...]] | None:
-        formats = sorted(
-            cls._preferred_formats_ordered_8_digit, key=lambda x: x.lower() != order
-        )
-        for fmt in formats:
+        for fmt in cls._preferred_formats_ordered_8_digit:
             with contextlib.suppress(Exception):
                 dt = strptime(datestring, fmt), cls._get_period(fmt), _get_parts(fmt)
                 if len(str(dt[0].year)) == 4:
@@ -289,11 +309,14 @@ class _no_spaces_parser:
             raise ValueError("Empty string")
         tokens = tokenizer(datestring)
         date_order = date_order or settings.DATE_ORDER
-        order = resolve_date_order(date_order) if date_order else cls._default_order
-        if EIGHT_DIGIT.match(datestring):
-            dt = cls._find_best_matching_date(datestring, order)
-            if dt is not None:
-                return dt
+        if date_order:
+            order = resolve_date_order(date_order)
+        else:
+            order = cls._default_order
+            if EIGHT_DIGIT.match(datestring):
+                dt = cls._find_best_matching_date(datestring)
+                if dt is not None:
+                    return dt
         nsp = cls()
         found: tuple[tuple[datetime, str, tuple[str, ...]], str] | None = None
         ambiguous: tuple[tuple[datetime, str, tuple[str, ...]], str] | None = None
@@ -854,11 +877,19 @@ class _parser:
         tz: tzinfo | None = None,
         date_order: str | None = None,
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
-        if EIGHT_DIGIT.match(datestring):
-            # ISO 8601 basic format, e.g. 20240201.
-            return strptime(datestring, "%Y%m%d"), "day", ("year", "month", "day")
-        tokens = list(tokenizer(datestring).tokenize())
         date_order = date_order or settings.DATE_ORDER
+        if _EIGHT_DIGITS.fullmatch(datestring):
+            # The ISO 8601 basic format (e.g. 20240201), or the DATE_ORDER set
+            # by the caller.
+            orders = ["YMD"]
+            if "DATE_ORDER" in settings._mod_settings:
+                orders.insert(0, date_order)
+            for order in orders:
+                split = _split_eight_digits(datestring, order)
+                if split:
+                    datestring = split
+                    break
+        tokens = list(tokenizer(datestring).tokenize())
         try:
             po = cls(tokens, settings, date_order=date_order, tz=tz)
             dateobj = po._results()
