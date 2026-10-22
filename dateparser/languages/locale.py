@@ -23,6 +23,8 @@ _D = TypeVar("_D", bound=Dictionary)
 _T = TypeVar("_T")
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
+_TIME_UNITS = {"hour", "minute", "second"}
+_MERIDIEMS = {"am", "pm"}
 _MAX_TRANSLATIONS = 16
 
 # Arabic and Persian text is often typed with the yeh and kaf of the other
@@ -104,6 +106,7 @@ class Locale:
     _relative_translations: dict[re.Pattern[str], str] | None = None
     _normalized_relative_translations: dict[re.Pattern[str], str] | None = None
     _abbreviations: list[str] | None = None
+    _decimal_stops: str | None = None
     _split_dictionary: dict[str, str | None] | None = None
     _wordchars_for_detection: set[str] | None = None
 
@@ -579,6 +582,42 @@ class Locale:
                 ]
             return self._abbreviations
 
+    def _get_decimal_stops(self, settings: "Settings | None") -> str:
+        """Return regular expression alternatives, each starting with "|",
+        that match the full stop of a decimal number that is part of a date,
+        e.g. in "in 2.5 hours" or "12.16 pm".
+
+        Single letters are left out, since "m" in "2.5m" is more often millions
+        or meters than minutes, so are groups of 3 digits after a number other
+        than 0, which are more often thousands, e.g. "1.722 horas", and only a
+        valid time is kept before a meridiem, unlike "94.1" in "94.1 FM"."""
+        dictionary = self._get_dictionary(settings=settings)
+
+        def words(translations: set[str]) -> str:
+            matches = (
+                word
+                for word in dictionary
+                if len(word) > 1 and dictionary[word] in translations
+            )
+            return "|".join(
+                re.escape(word) for word in sorted(matches, key=len, reverse=True)
+            )
+
+        with self._lock:
+            if self._decimal_stops is None:
+                self._decimal_stops = ""
+                if units := words(_TIME_UNITS):
+                    self._decimal_stops += (
+                        r"|(?:(?<=(?<!\d)0)\.\d+|(?<=\d)\.(?!\d{3}\b)\d+)"
+                        rf"\s*(?i:{units})(?!\w)"
+                    )
+                if meridiems := words(_MERIDIEMS):
+                    self._decimal_stops += (
+                        r"|(?<=(?<!\d)(?:0?[1-9]|1[0-2]))\.[0-5]\d\s*"
+                        rf"(?i:{meridiems})(?!\w)"
+                    )
+            return self._decimal_stops
+
     def _sentence_split(
         self, string: str, settings: "Settings | None"
     ) -> Iterator[str]:
@@ -606,7 +645,11 @@ class Locale:
             6: r"[\r\n؟!\.…]+(?:\s|$)+",
         }  # Arabic and Farsi
         # Full stops of fractional seconds and of dates like 13.07.2016.
-        abbreviation_string += r"(?!(?<=:\d\d)\.\d|(?<=\d)\.\d+\.\d|(?<=\d\.\d+)\.\d)"
+        abbreviation_string += (
+            r"(?!(?<=:\d\d)\.\d|(?<=\d)\.\d+\.\d|(?<=\d\.\d+)\.\d"
+            + self._get_decimal_stops(settings)
+            + ")"
+        )
         if "sentence_splitter_group" not in self.info:
             split_reg = abbreviation_string + splitters_dict[1]
             sentences = re.split(split_reg, string)

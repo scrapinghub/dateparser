@@ -1143,6 +1143,61 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[("13.07.2016", datetime.datetime(2016, 7, 13, 0, 0))],
             ),
             param(
+                text="Up 27.78 seconds.",
+                languages=None,
+                settings={"RELATIVE_BASE": relative_base},
+                expected=[
+                    (
+                        "27.78 seconds",
+                        datetime.datetime(2020, 2, 13, 20, 6, 38, 220000),
+                    )
+                ],
+            ),
+            param(
+                text="Vuelvo en 1.5 horas.",
+                languages=["es"],
+                settings={"RELATIVE_BASE": relative_base},
+                expected=[("en 1.5 horas", datetime.datetime(2020, 2, 13, 21, 37, 6))],
+            ),
+            param(
+                text="Meet at 12.16 pm on 5 May 2021.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    (
+                        "at 12.16 pm on 5 May 2021",
+                        datetime.datetime(2021, 5, 5, 12, 16),
+                    )
+                ],
+            ),
+            param(
+                text="Published 6 months ago on Apr 21, 2020",
+                languages=["en"],
+                settings={"RELATIVE_BASE": relative_base},
+                expected=[
+                    ("6 months ago", datetime.datetime(2019, 8, 13, 20, 7, 6)),
+                    ("Apr 21, 2020", datetime.datetime(2020, 4, 21, 0, 0)),
+                ],
+            ),
+            param(
+                text="0-60 mph in just 3.5 seconds Sep 26, 2026",
+                languages=["en"],
+                settings={"RELATIVE_BASE": relative_base},
+                expected=[
+                    (
+                        "in just 3.5 seconds",
+                        datetime.datetime(2020, 2, 13, 20, 7, 9, 500000),
+                    ),
+                    ("Sep 26, 2026", datetime.datetime(2026, 9, 26, 0, 0)),
+                ],
+            ),
+            param(
+                text="Price 5.50 on 01.02.2020",
+                languages=["en"],
+                settings=None,
+                expected=[("on 01.02.2020", datetime.datetime(2020, 1, 2, 0, 0))],
+            ),
+            param(
                 text="bonjour, pouvez vous me joindre svp par telephone 08 11 58 54 41",
                 languages=None,
                 settings={"STRICT_PARSING": True},
