@@ -1,13 +1,17 @@
-from collections.abc import Set
+from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Set as AbstractSet
 from datetime import datetime
+from itertools import chain
+from typing import Any, TypedDict
 
 import regex as re
 
-from dateparser.conf import apply_settings, check_settings
+from dateparser.conf import Settings, apply_settings, check_settings
 from dateparser.custom_language_detection.language_mapping import map_languages
-from dateparser.date import DateDataParser
+from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import _UNITS
 from dateparser.languages.loader import LocaleDataLoader
+from dateparser.languages.locale import _WEEKDAY_MODIFIERS, PUNCTUATION, Locale
 from dateparser.search.ngram_search import _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
@@ -18,15 +22,120 @@ RELATIVE_REG = re.compile("(ago|in|from now|tomorrow|today|yesterday)")
 # turns into several words ("0 day ago"), which is why the translation of a
 # chunk can hold more words than the text it was translated from.
 TRANSLATED_RELATIVE_REG = re.compile(
-    r"\bin \d+ (?:{units})s?\b|\b\d+ (?:{units})s? ago\b".format(units=_UNITS)
+    rf"\bin \d+ (?:{_UNITS})s?\b|\b\d+ (?:{_UNITS})s? ago\b"
+)
+
+# Drop "am" unless it follows a 12-hour time: German "am" ("on the") also
+# translates to "am", and an AM written before the hour, as in Chinese
+# "上午8点", would otherwise be read as the AM of the number before it.
+_NON_MERIDIEM_AM_REG = re.compile(
+    r"(?<!\b(?:0?[1-9]|1[0-2])(?:[:.][0-5]\d)?\s*)\bam\b|\bam(?=\d)"
 )
 
 
-def date_is_relative(translation):
+# A quantity of time ending a translated chunk, e.g. "50 year in" from "50
+# years after".
+_TRAILING_QUANTITY_REG = re.compile(
+    rf"\s((?:in )?(\d+) ((?:{_UNITS})s?(?: (?:ago|in))?))$"
+)
+
+_MAX_TRAILING_WORDS = 3
+"""Words after a relative expression, e.g. "5 pm" after "in 1 day", that
+:meth:`_ExactLanguageSearch.split_by_relative_expression` keeps with it."""
+
+
+def _is_weekday_modifier(word: str) -> bool:
+    return word.strip().strip(PUNCTUATION) in _WEEKDAY_MODIFIERS
+
+
+def _has_weekday_modifier(text: str) -> bool:
+    return any(_is_weekday_modifier(word) for word in text.split())
+
+
+def _clean_substring(substring: str, skip: AbstractSet[str]) -> str:
+    """Strip the punctuation around *substring*, including that of *skip*,
+    e.g. "/", but keep a closing bracket opened within it, e.g. in
+    "May 5 (5pm)"."""
+    while True:
+        substring = substring.strip(" .,:：-'\"").lstrip("([")
+        closing = substring[-1:]
+        if closing in {")", "]"} and substring.count(closing) > substring.count(
+            "(" if closing == ")" else "["
+        ):
+            substring = substring[:-1]
+            continue
+        first, _, rest = substring.partition(" ")
+        if rest and first in skip and not any(char.isalnum() for char in first):
+            substring = rest
+            continue
+        rest, _, last = substring.rpartition(" ")
+        if rest and last in skip and not any(char.isalnum() for char in last):
+            substring = rest
+            continue
+        return substring
+
+
+def _trim_connectors(
+    text: str, substrings: Sequence[str], skip: AbstractSet[str]
+) -> list[str]:
+    """Strip the words of *skip* that end each of *substrings* followed right
+    away in *text* by the next one, e.g. "and" in "yesterday and"."""
+    positions = []
+    start = 0
+    for substring in substrings:
+        position = text.find(substring, start)
+        positions.append(position)
+        if position != -1:
+            start = position + len(substring)
+    trimmed = list(substrings)
+    for index, (substring, position, next_position) in enumerate(
+        zip(substrings, positions, positions[1:], strict=False)
+    ):
+        if position == -1 or next_position == -1:
+            continue
+        if text[position + len(substring) : next_position].strip(" ([{\"'"):
+            # Words such as German "Uhr" are skipped as well, and are part of
+            # the date unless another date follows them.
+            continue
+        words = substring.split(" ")
+        while len(words) > 1 and words[-1].lower() in skip:
+            words.pop()
+        trimmed[index] = " ".join(words)
+    return trimmed
+
+
+def _join_weekday_modifiers(
+    item_units: Sequence[str], original_units: Sequence[str], separator: str
+) -> tuple[list[str], list[str]]:
+    """Join each weekday modifier of *item_units* to the unit after it, and
+    the matching *original_units* likewise, so that a group of units cannot
+    separate a modifier from its weekday."""
+    item_joined: list[str] = []
+    original_joined: list[str] = []
+    after_modifier = False
+    for item_unit, original_unit in zip(item_units, original_units, strict=True):
+        if after_modifier:
+            item_joined[-1] += separator + item_unit
+            original_joined[-1] += separator + original_unit
+        else:
+            item_joined.append(item_unit)
+            original_joined.append(original_unit)
+        after_modifier = _is_weekday_modifier(item_unit)
+    return item_joined, original_joined
+
+
+class _SearchResult(TypedDict):
+    Language: str | None
+    Dates: list[tuple[str, datetime]] | None
+
+
+def date_is_relative(translation: str) -> bool:
     return re.search(RELATIVE_REG, translation) is not None
 
 
-def _add_time_span_results(results, text, settings):
+def _add_time_span_results(
+    results: list[tuple[str, datetime]], text: str, settings: Settings
+) -> list[tuple[str, datetime]]:
     """Append time span start/end dates if RETURN_TIME_SPAN is enabled."""
     if getattr(settings, "RETURN_TIME_SPAN", False):
         span_info = detect_time_span(text)
@@ -40,32 +149,39 @@ def _add_time_span_results(results, text, settings):
 
 
 class _ExactLanguageSearch:
-    def __init__(self, loader):
+    def __init__(self, loader: LocaleDataLoader) -> None:
         self.loader = loader
 
-    def get_current_language(self, shortname):
+    def get_current_language(self, shortname: str) -> Locale:
         return self.loader.get_locale(shortname)
 
-    def search(self, shortname, text, settings):
+    def search(
+        self, shortname: str, text: str, settings: Settings
+    ) -> tuple[list[str], list[str]]:
         language = self.get_current_language(shortname)
-        result = language.translate_search(text, settings=settings)
-        return result
+        return language.translate_search(text, settings=settings)
 
     @staticmethod
-    def set_relative_base(substring, already_parsed):
+    def set_relative_base(
+        substring: str, already_parsed: Sequence[tuple[DateData, bool]]
+    ) -> tuple[str, datetime | None]:
         if len(already_parsed) == 0:
             return substring, None
 
         i = len(already_parsed) - 1
-        while already_parsed[i][1]:
+        while already_parsed[i][1] or already_parsed[i][0]["date_obj"] is None:
             i -= 1
             if i == -1:
                 return substring, None
         relative_base = already_parsed[i][0]["date_obj"]
         return substring, relative_base
 
-    def choose_best_split(self, possible_parsed_splits, possible_substrings_splits):
-        rating = []
+    def choose_best_split(
+        self,
+        possible_parsed_splits: Sequence[list[tuple[DateData, bool]]],
+        possible_substrings_splits: Sequence[list[str]],
+    ) -> tuple[list[tuple[DateData, bool]], list[str]]:
+        rating: list[list[float]] = []
         for i in range(len(possible_parsed_splits)):
             num_substrings = len(possible_substrings_splits[i])
             num_substrings_without_digits = 0
@@ -86,7 +202,7 @@ class _ExactLanguageSearch:
                     else (float(num_substrings_without_digits) / float(num_substrings)),
                 ]
             )
-            best_index, best_rating = min(
+            best_index, _best_rating = min(
                 enumerate(rating), key=lambda p: (p[1][1], p[1][0], p[1][2])
             )
         return (
@@ -94,12 +210,15 @@ class _ExactLanguageSearch:
             possible_substrings_splits[best_index],
         )
 
-    def split_by(self, item, original, splitter):
-        if item.count(splitter) <= 2:
-            return [[item.split(splitter), original.split(splitter)]]
+    def split_by(
+        self, item: str, original: str, splitter: str
+    ) -> list[list[list[str]]]:
+        item_all_split, original_all_split = _join_weekday_modifiers(
+            item.split(splitter), original.split(splitter), splitter
+        )
+        if len(item_all_split) <= 3:
+            return [[item_all_split, original_all_split]]
 
-        item_all_split = item.split(splitter)
-        original_all_split = original.split(splitter)
         all_possible_splits = [[item_all_split, original_all_split]]
         for i in range(2, 4):
             item_partially_split = []
@@ -112,83 +231,314 @@ class _ExactLanguageSearch:
             all_possible_splits.append([item_partially_split, original_partially_split])
         return all_possible_splits
 
-    def split_by_relative_expression(self, parser, item, original, language, settings):
+    def split_by_relative_expression(
+        self,
+        parser: DateDataParser,
+        item: str,
+        original: str,
+        language: Locale,
+        settings: Settings,
+    ) -> list[list[list[str]]]:
         """Split a chunk into a relative expression and the date next to it.
 
         A word translated into a multi-word relative expression gives the
         translation more separators than the text it was translated from, which
         is what keeps the splitters above from lining the two up. Cutting the
-        chunk in two where the expression ends lines them up again, once the
-        word the expression was translated from is known and the rest of the
-        chunk turns out to be the date it was written next to.
+        chunk in two where the expression starts or ends lines them up again,
+        once the words the expression part was translated from are known and
+        the other part turns out to be the date it was written next to.
+        """
+        if not TRANSLATED_RELATIVE_REG.search(item):
+            return []
+        words = original.split()
+        # Skipped words, e.g. "and", have no counterpart in the translation.
+        kept = [
+            index
+            for index, word in enumerate(words)
+            if language.translate(word, settings=settings).strip()
+        ]
+        possible_splits: list[list[list[str]]] = []
+        for match in TRANSLATED_RELATIVE_REG.finditer(item):
+            # The expression starts or ends the chunk, which leaves a single
+            # boundary to cut it at. The date part keeps one word per original
+            # one, the other part holds the expression, which may be translated
+            # from several words, e.g. "next week", and may have a few more
+            # words after it, e.g. "tomorrow at 5pm", so a date after it starts
+            # at the first of those words that lines up.
+            cuts = []
+            if len(item[match.end() :].split()) <= _MAX_TRAILING_WORDS:
+                cuts.append((match.start(), True))
+            if not item[: match.start()].strip():
+                later_spaces = [
+                    index
+                    for index, char in enumerate(item)
+                    if char == " " and index > match.end()
+                ]
+                cuts.append((match.end(), False))
+                cuts.extend(
+                    (index, False) for index in later_spaces[:_MAX_TRAILING_WORDS]
+                )
+            date_after_found = False
+            for cut, date_first in cuts:
+                parts = [item[:cut].strip(), item[cut:].strip()]
+                if not all(parts) or (date_after_found and not date_first):
+                    continue
+                date, expression_part = parts if date_first else parts[::-1]
+                size = len(date.split())
+                if size >= len(kept):
+                    continue
+                boundary = size if date_first else len(kept) - size
+                # Skipped words between the two parts, e.g. "and", usually
+                # belong to neither, but some only translate as part of the
+                # expression, e.g. Arabic "خلال" ("within") as "in".
+                gap_start = kept[boundary - 1] + 1
+                gap_end = kept[boundary]
+                for expression_start, expression_end in (
+                    (gap_end, len(words)) if date_first else (0, gap_start),
+                    (gap_start, len(words)) if date_first else (0, gap_end),
+                ):
+                    expression = " ".join(words[expression_start:expression_end])
+                    translation = " ".join(
+                        chain.from_iterable(
+                            language.translate_search(expression, settings=settings)[0]
+                        )
+                    )
+                    if translation.replace(" ", "") == expression_part.replace(" ", ""):
+                        break
+                else:
+                    # The words next to the boundary are not the ones the
+                    # expression part was translated from: some other word of
+                    # the chunk also changed the word count, and only made the
+                    # one above add up. Spaces are ignored because a whole
+                    # chunk keeps "5pm" together, which alone gives "5 pm".
+                    continue
+                if any(
+                    parser.get_date_data(part)["date_obj"] is None for part in parts
+                ):
+                    # There is no date next to the expression, so cutting the
+                    # chunk would report the expression and drop the rest of
+                    # it, or the words after the expression are not part of it.
+                    continue
+                date_original = (
+                    " ".join(words[: kept[boundary - 1] + 1])
+                    if date_first
+                    else " ".join(words[kept[boundary] :])
+                )
+                if not date_first:
+                    date_after_found = True
+                possible_splits.append(
+                    [
+                        parts,
+                        [date_original, expression]
+                        if date_first
+                        else [expression, date_original],
+                    ]
+                )
+        return possible_splits
+
+    def split_around_skipped_words(
+        self, item: str, original: str, language: Locale, settings: Settings
+    ) -> list[list[list[str]]]:
+        """Split a chunk by spaces, ignoring the words its translation skips.
+
+        Words like "and" or "of" are left out of the translation but not of
+        the original text, so splitting both by spaces does not line them up.
+        Each part of the original text spans from its first word that is not
+        skipped to its last one.
         """
         words = original.split()
+        kept = []
+        translations = []
+        for index, word in enumerate(words):
+            translation = language.translate(word, settings=settings).split()
+            if len(translation) > 1:
+                return []
+            if translation:
+                kept.append(index)
+                translations.extend(translation)
+        item_words = item.split()
+        if len(kept) == len(words) or len(kept) != len(item_words):
+            return []
+        if any(word.isdigit() and word not in translations for word in item_words):
+            # A number made of several words, e.g. "25" from "twenty five",
+            # has no single word to line up with.
+            return []
+        units: list[list[int]] = []
+        for k in range(len(kept)):
+            # A weekday modifier and its weekday make a single unit, which also
+            # takes the word after "of", e.g. "last friday of march".
+            if k and (
+                _is_weekday_modifier(item_words[k - 1])
+                or (
+                    k > 1
+                    and _is_weekday_modifier(item_words[k - 2])
+                    and "of"
+                    in (word.lower() for word in words[kept[k - 1] + 1 : kept[k]])
+                )
+            ):
+                units[-1].append(k)
+            else:
+                units.append([k])
+        sizes = [1] if len(units) <= 3 else [1, 2, 3]
         possible_splits = []
-        for match in TRANSLATED_RELATIVE_REG.finditer(item):
-            before = item[: match.start()].strip()
-            after = item[match.end() :].strip()
-            if bool(before) == bool(after):
-                # The expression is the whole chunk, or sits between two parts of
-                # it, which leaves no boundary the original text can be cut at.
-                continue
-            rest = after or before
-            if len(rest.split()) != len(words) - 1:
-                # What is left of the translation does not keep one word per
-                # remaining original one, so it would not line up either.
-                continue
-            index = 1 if after else len(words) - 1
-            expression = words[0] if after else words[-1]
-            if language.translate(expression, settings=settings) != match.group():
-                # The word next to the boundary is not the one the expression was
-                # translated from: some other word of the chunk also changed the
-                # word count, and only made the one above add up.
-                continue
-            if parser.get_date_data(rest)["date_obj"] is None:
-                # There is no date next to the expression, so cutting the chunk
-                # would report the expression and drop the rest of it.
-                continue
+        for size in sizes:
+            groups = [
+                [*chain.from_iterable(units[start : start + size])]
+                for start in range(0, len(units), size)
+            ]
             possible_splits.append(
                 [
-                    [match.group(), after] if after else [before, match.group()],
-                    [" ".join(words[:index]), " ".join(words[index:])],
+                    [
+                        " ".join(item_words[group[0] : group[-1] + 1])
+                        for group in groups
+                    ],
+                    [
+                        " ".join(words[kept[group[0]] : kept[group[-1]] + 1])
+                        for group in groups
+                    ],
                 ]
             )
         return possible_splits
 
-    def split_if_not_parsed(self, parser, item, original, language, settings):
+    def split_off_trailing_quantity(
+        self, item: str, original: str, language: Locale, settings: Settings
+    ) -> tuple[list[str], list[str]] | None:
+        """Split a chunk that ends with a quantity written in words, e.g.
+        “Sep 15, 2026 10:50 AM Fifty years after”, into the rest and that
+        quantity, so that the rest is searched as if the quantity were not
+        there."""
+        match = _TRAILING_QUANTITY_REG.search(item)
+        if not match:
+            return None
+        quantity, number, unit = match[1], match[2], match[3]
+        if int(number) <= 12:
+            # Small quantities, e.g. "a year", more often mean a rate or a
+            # duration than a date.
+            return None
+
+        def translate(words: list[str]) -> list[str]:
+            return language.translate_search(" ".join(words), settings=settings)[0]
+
+        words = original.split()
+        for size in range(2, len(words)):
+            expression = words[-size:]
+            if any(char.isdigit() for char in expression[0]):
+                break
+            # The first word is the number, e.g. "fifty", or a word before it,
+            # e.g. "after", and the other words end with the unit, e.g.
+            # "years after", translated as "year in".
+            rest = translate(expression[1:])
+            if (
+                len(rest) == 1
+                and rest[0] != quantity
+                and f" {rest[0]}".endswith(f" {unit}")
+                and translate(expression) == [quantity]
+            ):
+                date = words[:-size]
+                # Skipped words before the quantity, e.g. "and", belong to
+                # neither part.
+                while date and not language.translate(date[-1], settings=settings):
+                    date.pop()
+                return (
+                    [item[: match.start()], quantity],
+                    [" ".join(date).rstrip(PUNCTUATION), " ".join(expression)],
+                )
+        return None
+
+    def split_off_leading_number(
+        self, parser: DateDataParser, item: str, original: str
+    ) -> list[list[list[str]]]:
+        """Split a chunk that starts with a number into that number and the
+        rest, to find a date written after a number that is not part of it,
+        e.g. the decimals of “-58.5” before “06 Mar 2009”."""
+        number, _, rest = item.partition(" ")
+        original_number, _, original_rest = original.partition(" ")
+        if (
+            not number.isdigit()
+            or number != original_number
+            or parser.get_date_data(rest)["date_obj"] is None
+        ):
+            return []
+        return [[[number, rest], [original_number, original_rest]]]
+
+    def split_if_not_parsed(
+        self,
+        parser: DateDataParser,
+        item: str,
+        original: str,
+        language: Locale,
+        settings: Settings,
+    ) -> list[list[list[str]]]:
         splitters = [",", "،", "——", "—", "–", ".", " "]
-        possible_splits = []
+        possible_splits = self.split_off_leading_number(parser, item, original)
+        misaligned = False
         for splitter in splitters:
-            if splitter in item and item.count(splitter) == original.count(splitter):
-                possible_splits.extend(self.split_by(item, original, splitter))
-        if not possible_splits:
-            # Only when no splitter lines up, so that a chunk which already
-            # splits keeps being split exactly the way it is split today.
-            possible_splits = self.split_by_relative_expression(
+            if splitter not in item or item.count(splitter) != original.count(splitter):
+                continue
+            if (
+                splitter == " "
+                and item != original
+                and any(
+                    not language.translate(word, settings=settings).strip()
+                    for word in original.split()
+                )
+            ):
+                # A skipped word, e.g. "and", has no counterpart in the
+                # translation, so the words of both only line up by chance,
+                # unless the language is searched untranslated.
+                misaligned = True
+                continue
+            possible_splits.extend(self.split_by(item, original, splitter))
+        if not possible_splits or misaligned:
+            # Only when no splitter lines up, or skipped words keep spaces from
+            # doing so, so that a chunk which already splits keeps being split
+            # exactly the way it is split today.
+            possible_splits += self.split_by_relative_expression(
                 parser, item, original, language, settings
-            )
+            ) or self.split_around_skipped_words(item, original, language, settings)
         return possible_splits
 
-    def parse_item(self, parser, item, translated_item, parsed, need_relative_base):
+    def parse_item(
+        self,
+        parser: DateDataParser,
+        item: str,
+        translated_item: str,
+        parsed: Sequence[tuple[DateData, bool]],
+        need_relative_base: bool,
+    ) -> tuple[DateData, bool]:
         relative_base = None
         item = item.replace("ngày", "")
-        item = item.replace("am", "")
+        item = _NON_MERIDIEM_AM_REG.sub("", item)
         parsed_item = parser.get_date_data(item)
         is_relative = date_is_relative(translated_item)
 
-        if need_relative_base:
+        # A weekday modifier, e.g. "last" in "last friday", is relative to the
+        # current date, not to a date found earlier in the text.
+        if need_relative_base and not _has_weekday_modifier(item):
             item, relative_base = self.set_relative_base(item, parsed)
 
         if relative_base:
-            parser._settings = parser._settings.replace(RELATIVE_BASE=relative_base)
-            parsed_item = parser.get_date_data(item)
+            settings = parser._settings
+            parser._settings = settings.replace(RELATIVE_BASE=relative_base)
+            try:
+                parsed_item = parser.get_date_data(item)
+            finally:
+                parser._settings = settings
         return parsed_item, is_relative
 
     def parse_found_objects(
-        self, parser, to_parse, original, translated, settings, language
-    ):
-        parsed = []
+        self,
+        parser: DateDataParser,
+        to_parse: Sequence[str],
+        original: Sequence[str],
+        translated: Sequence[str],
+        settings: Settings,
+        language: Locale,
+        already_parsed: Sequence[tuple[DateData, bool]] = (),
+    ) -> tuple[list[tuple[DateData, bool]], list[str]]:
+        parsed: list[tuple[DateData, bool]] = list(already_parsed)
         substrings = []
+        skip = {word.lower() for word in language.info.get("skip", [])}
         need_relative_base = True
         if settings.RELATIVE_BASE:
             need_relative_base = False
@@ -201,7 +551,24 @@ class _ExactLanguageSearch:
             )
             if parsed_item["date_obj"]:
                 parsed.append((parsed_item, is_relative))
-                substrings.append(original[i].strip(" .,:()[]-'"))
+                substrings.append(_clean_substring(original[i], skip))
+                continue
+
+            quantity_split = self.split_off_trailing_quantity(
+                item, original[i], language, settings
+            )
+            if quantity_split:
+                sub_parsed, sub_substrings = self.parse_found_objects(
+                    parser,
+                    quantity_split[0],
+                    quantity_split[1],
+                    quantity_split[0],
+                    settings,
+                    language,
+                    already_parsed=parsed,
+                )
+                parsed.extend(sub_parsed)
+                substrings.extend(sub_substrings)
                 continue
 
             possible_splits = self.split_if_not_parsed(
@@ -210,36 +577,64 @@ class _ExactLanguageSearch:
             if not possible_splits:
                 continue
 
-            possible_parsed = []
-            possible_substrings = []
+            possible_parsed: list[list[tuple[DateData, bool]]] = []
+            possible_substrings: list[list[str]] = []
+            possible_parts: list[list[tuple[str, str]]] = []
             for split_translated, split_original in possible_splits:
-                current_parsed = []
-                current_substrings = []
-                if split_translated:
-                    for j, jtem in enumerate(split_translated):
-                        if len(jtem) <= 2:
-                            continue
-                        parsed_jtem, is_relative_jtem = self.parse_item(
-                            parser,
-                            jtem,
-                            split_translated[j],
-                            current_parsed,
-                            need_relative_base,
-                        )
-                        current_parsed.append((parsed_jtem, is_relative_jtem))
-                        current_substrings.append(split_original[j].strip(" .,:()[]-"))
+                current_parsed: list[tuple[DateData, bool]] = []
+                current_substrings: list[str] = []
+                current_parts: list[tuple[str, str]] = []
+                for j, jtem in enumerate(split_translated):
+                    if len(jtem) <= 2:
+                        continue
+                    parsed_jtem, is_relative_jtem = self.parse_item(
+                        parser,
+                        jtem,
+                        jtem,
+                        [*parsed, *current_parsed],
+                        need_relative_base,
+                    )
+                    current_parsed.append((parsed_jtem, is_relative_jtem))
+                    current_substrings.append(_clean_substring(split_original[j], skip))
+                    current_parts.append((jtem, split_original[j]))
                 possible_parsed.append(current_parsed)
                 possible_substrings.append(current_substrings)
+                possible_parts.append(current_parts)
             parsed_best, substrings_best = self.choose_best_split(
                 possible_parsed, possible_substrings
             )
-            for k in range(len(parsed_best)):
-                if parsed_best[k][0]["date_obj"]:
-                    parsed.append(parsed_best[k])
-                    substrings.append(substrings_best[k])
-        return parsed, substrings
+            best_index = next(
+                index
+                for index, current_parsed in enumerate(possible_parsed)
+                if current_parsed is parsed_best
+            )
+            for parsed_part, substring, (part, original_part) in zip(
+                parsed_best, substrings_best, possible_parts[best_index], strict=True
+            ):
+                if parsed_part[0]["date_obj"]:
+                    parsed.append(parsed_part)
+                    substrings.append(substring)
+                    continue
+                if part == item or not _has_weekday_modifier(part):
+                    continue
+                # A part can join several dates, e.g. "last monday and next
+                # sunday" after splitting by commas, so split it again.
+                sub_parsed, sub_substrings = self.parse_found_objects(
+                    parser,
+                    [part],
+                    [original_part],
+                    [part],
+                    settings,
+                    language,
+                    already_parsed=parsed,
+                )
+                parsed.extend(sub_parsed)
+                substrings.extend(sub_substrings)
+        return parsed[len(already_parsed) :], substrings
 
-    def search_parse(self, shortname, text, settings):
+    def search_parse(
+        self, shortname: str, text: str, settings: Settings
+    ) -> list[tuple[str, datetime]]:
         language = self.get_current_language(shortname)
         translated, original = self.search(shortname, text, settings)
         bad_translate_with_search = [
@@ -263,7 +658,9 @@ class _ExactLanguageSearch:
             language=language,
         )
 
-        results = list(zip(substrings, [i[0]["date_obj"] for i in parsed]))
+        skip = {word.lower() for word in language.info.get("skip", [])}
+        substrings = _trim_connectors(text, substrings, skip)
+        results = list(zip(substrings, [i[0]["date_obj"] for i in parsed], strict=True))
 
         _add_time_span_results(results, text, settings)
 
@@ -277,31 +674,33 @@ class DateSearchWithDetection:
 
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.loader = LocaleDataLoader()
         self.available_language_map = self.loader.get_locale_map()
         self.search = _ExactLanguageSearch(self.loader)
         self.ngram_search = _NgramDateSearch()
 
-    def _get_candidate_languages(self, detected_language, languages):
+    def _get_candidate_languages(
+        self, detected_language: str | None, languages: Iterable[str] | None
+    ) -> list[str]:
         candidates = []
         if detected_language:
             candidates.append(detected_language)
 
-        if isinstance(languages, (list, tuple, Set)) and len(languages) > 1:
+        if isinstance(languages, (list, tuple, AbstractSet)) and len(languages) > 1:
             candidates.extend(languages)
 
-        seen = set()
-        return [
-            language
-            for language in candidates
-            if not (language in seen or seen.add(language))
-        ]
+        return list(dict.fromkeys(candidates))
 
     @apply_settings
     def detect_language(
-        self, text, languages, settings=None, detect_languages_function=None
-    ):
+        self,
+        text: str,
+        languages: Iterable[str] | None,
+        settings: Settings | dict[str, Any] | None = None,
+        detect_languages_function: Callable[..., list[str]] | None = None,
+    ) -> str | None:
+        assert isinstance(settings, Settings)
         if detect_languages_function and not languages:
             detected_languages = detect_languages_function(
                 text,
@@ -312,9 +711,10 @@ class DateSearchWithDetection:
             )
             return detected_languages[0] if detected_languages else None
 
-        if isinstance(languages, (list, tuple, Set)):
-            if all([language in self.available_language_map for language in languages]):
-                languages = [
+        locales = None
+        if isinstance(languages, (list, tuple, AbstractSet)):
+            if all(language in self.available_language_map for language in languages):
+                locales = [
                     self.available_language_map[language] for language in languages
                 ]
             else:
@@ -322,35 +722,33 @@ class DateSearchWithDetection:
                     self.available_language_map.keys()
                 )
                 raise ValueError(
-                    "Unknown language(s): %s"
-                    % ", ".join(map(repr, unsupported_languages))
+                    f"Unknown language(s): {', '.join(map(repr, unsupported_languages))}"
                 )
         elif languages is not None:
             raise TypeError(
-                "languages argument must be a list (%r given)" % type(languages)
+                f"languages argument must be a list ({type(languages)!r} given)"
             )
 
-        if languages:
-            language_detector = FullTextLanguageDetector(languages=languages)
+        if locales:
+            language_detector = FullTextLanguageDetector(languages=locales)
         else:
             language_detector = FullTextLanguageDetector(
                 list(self.available_language_map.values())
             )
 
-        detected_language = language_detector._best_language(text) or (
+        return language_detector._best_language(text) or (
             settings.DEFAULT_LANGUAGES[0] if settings.DEFAULT_LANGUAGES else None
         )
-        return detected_language
 
     @apply_settings
     def search_dates(
         self,
-        text,
-        languages=None,
-        settings=None,
-        detect_languages_function=None,
-        strategy="split",
-    ):
+        text: str,
+        languages: Iterable[str] | None = None,
+        settings: Settings | dict[str, Any] | None = None,
+        detect_languages_function: Callable[..., list[str]] | None = None,
+        strategy: str = "split",
+    ) -> _SearchResult:
         """
         Find all substrings of the given string which represent date and/or time and parse them.
 
@@ -389,9 +787,10 @@ class DateSearchWithDetection:
         """
         if strategy not in ("split", "ngram"):
             raise ValueError(
-                'strategy must be "split" or "ngram" (%r given)' % strategy
+                f'strategy must be "split" or "ngram" ({strategy!r} given)'
             )
 
+        assert isinstance(settings, Settings)
         check_settings(settings)
 
         language_shortname = self.detect_language(
@@ -426,7 +825,7 @@ class DateSearchWithDetection:
             "Dates": [],
         }
 
-    def preprocess_text(self, text, languages):
+    def preprocess_text(self, text: str, languages: Iterable[str] | None) -> str:
         """Preprocess text to handle language-specific quirks."""
         if languages and "ru" in languages:
             # Replace "с" (from) before numbers with a placeholder
