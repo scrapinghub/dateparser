@@ -271,6 +271,13 @@ class TestDateParser(BaseTestCase):
     @parameterized.expand(
         [
             param("hr", "02/10/2016 u 17:20", datetime(2016, 10, 2, 17, 20)),
+            param("de", "18 Uhr", datetime(2012, 11, 13, 18, 0)),
+            param("de", "18Uhr30", datetime(2012, 11, 13, 18, 30)),
+            param("de", "um 18 Uhr 30.", datetime(2012, 11, 13, 18, 30)),
+            param("de", "18 Uhr 30 Minuten", datetime(2012, 11, 13, 18, 30)),
+            param("de", "18 Uhr 15 Mai", datetime(2012, 5, 15, 18, 0)),
+            param("de", "18 Uhr 12. März 2020", datetime(2020, 3, 12, 18, 0)),
+            param("de", "16.9., 10 Uhr", datetime(2012, 9, 16, 10, 0)),
         ]
     )
     def test_dates_parsing_with_language(
