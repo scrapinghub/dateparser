@@ -1186,7 +1186,6 @@ class TestBundledLanguages(BaseTestCase):
             # Portuguese
             param("pt", "anteontem", "2 day ago"),
             param("pt", "ontem", "1 day ago"),
-            param("ru", "меньше минуты назад", "45 second ago"),
             param("pt", "hoje", "0 day ago"),
             param("pt", "56 minutos", "56 minute"),
             param("pt", "12 dias", "12 day"),
@@ -1197,8 +1196,9 @@ class TestBundledLanguages(BaseTestCase):
             param("ru", "8 недель", "8 week"),
             param("ru", "7 лет", "7 year"),
             param("ru", "позавчера", "2 day ago"),
+            param("ru", "меньше минуты назад", "45 second ago"),
             param("ru", "меньше 1 минуты назад", "45 second ago"),
-            param("ru", "менее 1 минуты назад", "45 second ago"),
+            param("ru", "менее одной минуты назад", "45 second ago"),
             param("ru", "сейчас", "0 second ago"),
             param("ru", "спустя 2 дня", "in 2 day"),
             param("ru", "вчера", "1 day ago"),
