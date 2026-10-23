@@ -124,6 +124,17 @@ class TestUtils(BaseTestCase):
                 timezone="-0500",
                 expected=datetime(2015, 12, 12, 5, 12),
             ),
+            param(
+                datetime(2015, 12, 12, 10, 12),
+                timezone="CEST",
+                expected=datetime(2015, 12, 12, 12, 12),
+            ),
+            # The earliest entry of timezone_info_list wins.
+            param(
+                datetime(2015, 12, 12, 10, 12),
+                timezone="CET/CEST",
+                expected=datetime(2015, 12, 12, 12, 12),
+            ),
         ]
     )
     def test_apply_timezone_function(
