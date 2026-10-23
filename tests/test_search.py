@@ -454,6 +454,18 @@ class TestTranslateSearch(BaseTestCase):
                 [("1939年9月1", datetime.datetime(1939, 9, 1, 0, 0))],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
+            # Korean
+            param(
+                "ko",
+                "회의는 2023년 2월 10일(금) 오후 3시 30분에 시작합니다",
+                [
+                    (
+                        "2023년 2월 10일(금) 오후 3시 30분에",
+                        datetime.datetime(2023, 2, 10, 15, 30),
+                    )
+                ],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
             # Persian
             param(
                 "fa",
