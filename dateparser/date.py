@@ -331,31 +331,49 @@ def parse_with_formats(
     """
     period = "day"
     for date_format in date_formats:
+        _missing = _get_missing_parts(date_format)
+        now = settings.RELATIVE_BASE or _now(settings)
         try:
-            date_obj = patched_strptime(date_string, date_format)
+            date_obj = patched_strptime(
+                date_string, date_format, reference_year=now.year
+            )
         except ValueError:
             continue
         else:
-            _missing = _get_missing_parts(date_format)
+            if "year" in _missing:
+                try:
+                    date_obj = date_obj.replace(year=now.year)
+                except ValueError:
+                    continue
+
             missing_month = "month" in _missing
             missing_day = "day" in _missing
             if missing_month and missing_day:
                 period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
-                date_obj = set_correct_day_from_settings(date_obj, settings)
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, current_month=now.month
+                )
+                date_obj = set_correct_day_from_settings(
+                    date_obj, settings, current_day=now.day
+                )
 
             elif missing_month:
                 period = "year"
-                date_obj = set_correct_month_from_settings(date_obj, settings)
+                date_obj = set_correct_month_from_settings(
+                    date_obj, settings, current_month=now.month
+                )
 
             elif missing_day:
                 period = "month"
-                date_obj = set_correct_day_from_settings(date_obj, settings)
+                date_obj = set_correct_day_from_settings(
+                    date_obj, settings, current_day=now.day
+                )
 
-            now = settings.RELATIVE_BASE or _now(settings)
-            if "year" in _missing:
-                date_obj = date_obj.replace(year=now.year)
-            elif "%y" in date_format and "%Y" not in date_format:
+            if (
+                "year" not in _missing
+                and "%y" in date_format
+                and "%Y" not in date_format
+            ):
                 date_obj = _apply_century_preference(
                     date_obj, now, settings.PREFER_DATES_FROM
                 )
