@@ -3,27 +3,38 @@ import pytest
 pytest.importorskip("hijridate")
 
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from parameterized import param, parameterized
 
 from dateparser.calendars.hijri import HijriCalendar
+from dateparser.conf import settings
 from tests import BaseTestCase
+
+if TYPE_CHECKING:
+    from dateparser.date import DateData
 
 
 class TestHijriParser(BaseTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
-        self.result = NotImplemented
-        self.date_string = NotImplemented
-        self.parser = NotImplemented
+        self.result: DateData | None = NotImplemented
+        self.date_string: str = NotImplemented
+        self.parser: HijriCalendar = NotImplemented
         self.translated = NotImplemented
 
-    def when_date_is_given(self, dt_string, date_formats, languages):
+    def when_date_is_given(
+        self,
+        dt_string: str,
+        date_formats: list[str] | None,
+        languages: list[str] | None,
+    ) -> None:
         self.date_string = dt_string
         self.parser = HijriCalendar(dt_string)
         self.result = self.parser.get_date()
 
-    def then_parsed_datetime_is(self, dt):
+    def then_parsed_datetime_is(self, dt: datetime) -> None:
+        assert self.result is not None
         self.assertEqual(dt, self.result["date_obj"])
 
     @parameterized.expand(
@@ -55,14 +66,49 @@ class TestHijriParser(BaseTestCase):
             ),
             param(dt_string="30-02-33", dt_obj=datetime(2012, 1, 24)),
             param(dt_string="10-03-90", dt_obj=datetime(1970, 5, 16)),
+            param(
+                dt_string="06 ربيع الأول 1433 هـ, 04:32 مساءً",
+                dt_obj=datetime(2012, 1, 29, 16, 32),
+            ),
+            param(
+                dt_string="١٣ شعبان ١٤٤١ هـ، ٠٣:١٢ صباحاً",
+                dt_obj=datetime(2020, 4, 6, 3, 12),
+            ),
+            param(dt_string="۱۳ شعبان ۱۴۴۱", dt_obj=datetime(2020, 4, 6)),
+            param(dt_string="1 المحرم 1446", dt_obj=datetime(2024, 7, 7)),
+            param(dt_string="9 رمضان 1445", dt_obj=datetime(2024, 3, 19)),
+            param(dt_string="20 ربيع الآخر 1445", dt_obj=datetime(2023, 11, 4)),
+            param(dt_string="1 جمادى الأولى 1445", dt_obj=datetime(2023, 11, 15)),
+            param(dt_string="1 جمادى الآخرة 1445", dt_obj=datetime(2023, 12, 14)),
+            param(dt_string="5 ذو القعدة 1445", dt_obj=datetime(2024, 5, 13)),
+            param(dt_string="15 ذي الحجة 1444", dt_obj=datetime(2023, 7, 3)),
+            param(dt_string="1 ذوالحجه 1444", dt_obj=datetime(2023, 6, 19)),
+            param(dt_string="9 ربيع الآخرة 1442", dt_obj=datetime(2020, 11, 24)),
+            param(dt_string="1 جمادى ثانية 1445", dt_obj=datetime(2023, 12, 14)),
+            param(dt_string="1 شوّال ۱٤٤٥", dt_obj=datetime(2024, 4, 10)),
+            param(
+                dt_string="9 رمضـان 1445 04:32 مساء",
+                dt_obj=datetime(2024, 3, 19, 16, 32),
+            ),
         ]
     )
     def test_datetime_parsing(
-        self, dt_string, dt_obj, date_formats=None, languages=None
-    ):
-        from dateparser.conf import settings
-
+        self,
+        dt_string: str,
+        dt_obj: datetime,
+        date_formats: list[str] | None = None,
+        languages: list[str] | None = None,
+    ) -> None:
         settings.DATE_ORDER = "DMY"
         self.when_date_is_given(dt_string, date_formats, languages)
         self.then_parsed_datetime_is(dt_obj)
         settings.DATE_ORDER = "MDY"
+
+    @parameterized.expand(
+        [
+            param(dt_string="1 جمادى 1445"),
+            param(dt_string="ربيع 1445"),
+        ]
+    )
+    def test_incomplete_month_name(self, dt_string: str) -> None:
+        assert HijriCalendar(dt_string).get_date() is None

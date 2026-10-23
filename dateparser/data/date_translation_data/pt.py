@@ -994,6 +994,12 @@ info = {
         "de"
     ],
     "sentence_splitter_group": 1,
+    "early_morning": [
+        "de madrugada",
+        "na madrugada",
+        "pela madrugada",
+        "madrugada"
+    ],
     "ago": [
         "atrás",
         "há"
@@ -1002,6 +1008,9 @@ info = {
         "em"
     ],
     "simplifications": [
+        {
+            "esta madrugada": "hoje madrugada"
+        },
         {
             "uma": "1"
         },
