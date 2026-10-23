@@ -101,21 +101,25 @@ def static_tz_abbreviations() -> dict[str, int]:
 
     A few abbreviations are listed more than once in ``timezone_info_list``
     (``LMT`` appears four times with four different offsets). Only the first
-    entry can ever win: ``build_tz_offsets`` keeps the table order and
-    ``pop_tz_offset_from_string`` returns the first pattern that matches. So
-    the first entry, not the set of all of them, is what this comparison has
-    to use -- otherwise a wrong first entry would be masked by a correct later
-    one.
+    entry can ever win: ``pop_tz_offset_from_string`` gives precedence to
+    earlier entries. So the first entry, not the set of all of them, is what
+    this comparison has to use -- otherwise a wrong first entry would be
+    masked by a correct later one.
 
     Keys are upper-cased because dateparser matches abbreviations
     case-insensitively, so a differently-cased entry such as ``ChST`` is the
     same abbreviation and has to be compared as one.
+
+    Abbreviations mapped to a tz database zone are left out, since their
+    offsets come from the tz database already.
     """
-    effective: dict[str, int] = {}
+    effective: dict[str, int | str] = {}
     for group in timezone_info_list:
         for name, offset in group["timezones"]:
             effective.setdefault(name.upper(), offset)
-    return effective
+    return {
+        name: offset for name, offset in effective.items() if isinstance(offset, int)
+    }
 
 
 def tz_database_abbreviations() -> dict[str, set[int]]:

@@ -15,7 +15,7 @@ import regex as re
 from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
 
-from dateparser.timezone_parser import _tz_offsets
+from dateparser.timezone_parser import _find_tz
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
@@ -118,9 +118,9 @@ def get_timezone_from_tz_string(tz_string: str) -> tzinfo:
     try:
         return timezone(tz_string)
     except UnknownTimeZoneError:
-        for _, info in _tz_offsets:
-            if info["regex"].search(f" {tz_string}"):
-                return info["tzinfo"]
+        found = _find_tz(f" {tz_string}")
+        if found:
+            return found[2]
         raise
 
 
@@ -150,9 +150,9 @@ def apply_tzdatabase_timezone(date_time: datetime, pytz_string: str) -> datetime
 def apply_dateparser_timezone(
     utc_datetime: datetime, offset_or_timezone_abb: str
 ) -> datetime | None:
-    for _, info in _tz_offsets:
-        if info["regex"].search(f" {offset_or_timezone_abb}"):
-            return utc_datetime.astimezone(info["tzinfo"])
+    found = _find_tz(f" {offset_or_timezone_abb}")
+    if found:
+        return utc_datetime.astimezone(found[2])
     return None
 
 
@@ -189,7 +189,11 @@ def apply_timezone_from_settings(
     if settings is None:
         return date_obj
 
-    if "local" in settings.TIMEZONE.lower():
+    parsed_tz = date_obj.tzinfo is not None
+    if parsed_tz:
+        if "local" not in settings.TIMEZONE.lower():
+            date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+    elif "local" in settings.TIMEZONE.lower():
         if hasattr(tz, "localize"):
             date_obj = tz.localize(date_obj)
         else:
@@ -200,7 +204,9 @@ def apply_timezone_from_settings(
     if settings.TO_TIMEZONE:
         date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
-    if settings.RETURN_AS_TIMEZONE_AWARE is not True:
+    if not settings.RETURN_AS_TIMEZONE_AWARE or (
+        settings.RETURN_AS_TIMEZONE_AWARE == "default" and not parsed_tz
+    ):
         date_obj = date_obj.replace(tzinfo=None)
 
     return date_obj

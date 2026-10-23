@@ -27,6 +27,8 @@ timezone_info_list: list[dict[str, Any]] = [
             (r"(?:UTC|GMT)\\(\+|\-)(\d{2}):00", r"(?:UTC|GMT)\\\1\2"),
             # UTC+nnmm, UTC-nnmm, GMT+nnmm, GMT-nnmm:
             (r"(?:UTC|GMT)(\\[+-])(\d{2}):(\d{2})", r"(?:UTC|GMT)\1\2:?\3.*"),
+            # +nn, -nn:
+            (r"(?:UTC|GMT)\\(\+|\-)(\d{2}):00", r"(?<=\\s)\\\1\2"),
             # Others:
             (r"UTC", r""),
             (r":", r""),
@@ -79,7 +81,8 @@ timezone_info_list: list[dict[str, Any]] = [
         ],
     },
     {
-        "regex_patterns": [r"(\W|\d|_)%s($|\W|(?=\d))"],
+        # A possessive (CT’s) or a per-second unit (MT/s) is not a timezone.
+        "regex_patterns": [r"(\W|\d|_)%s($|(?!['’][^\W\d_]|/s\b)\W|(?=\d))"],
         "timezones": [
             ("ACDT", 37800),
             ("ACST", 34200),
@@ -167,7 +170,6 @@ timezone_info_list: list[dict[str, Any]] = [
             ("COT", -18000),
             ("CPT", -18000),
             ("CST", -21600),
-            ("CT", "America/Chicago"),
             ("CUT", 8400),
             ("CVST", -3600),
             ("CVT", -3600),
@@ -315,7 +317,6 @@ timezone_info_list: list[dict[str, Any]] = [
             ("MSK", 10800),
             ("MSM", 18000),
             ("MST", -25200),
-            ("MT", "America/Denver"),
             ("MUST", 18000),
             ("MUT", 14400),
             ("MVT", 18000),
@@ -478,6 +479,14 @@ timezone_info_list: list[dict[str, Any]] = [
             ("zzz", 0),
             ("Z", 0),
             ("ZEČ", 0),
+        ],
+    },
+    {
+        # Right after a number these are units, e.g. 18ct or 23.6Mt.
+        "regex_patterns": [r"(\W|_)%s($|(?!['’][^\W\d_]|/s\b)\W|(?=\d))"],
+        "timezones": [
+            ("CT", "America/Chicago"),
+            ("MT", "America/Denver"),
         ],
     },
 ]
