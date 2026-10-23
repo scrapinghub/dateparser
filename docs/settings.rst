@@ -96,6 +96,23 @@ Timezone Related Configurations
     >>> parse('January 12, 2012 10:00 PM', settings=settings)
     datetime.datetime(2012, 1, 12, 17, 0)
 
+``TIMEZONE_ABBREVIATIONS``: maps timezone abbreviations found in date strings
+to the UTC offset to use for them, as a :class:`~datetime.timedelta`. Use it
+for abbreviations with several meanings, e.g. ``IST`` means Israel Standard
+Time by default. Keys are case-sensitive and must be abbreviations that
+dateparser supports, e.g. ``ChST``. ``TIMEZONE`` and ``TO_TIMEZONE`` keep the
+default offsets.
+
+.. versionadded:: VERSION
+
+>>> from datetime import timedelta
+>>> settings = {
+...     'TIMEZONE_ABBREVIATIONS': {'IST': timedelta(hours=5, minutes=30)},
+...     'TO_TIMEZONE': 'UTC',
+... }
+>>> parse('12 Feb 2015 10:56 PM IST', settings=settings)
+datetime.datetime(2015, 2, 12, 17, 26, tzinfo=<StaticTzInfo 'UTC'>)
+
 ``RETURN_AS_TIMEZONE_AWARE``: if ``True`` returns tz aware datetime objects in case timezone is detected in the date string.
 
     >>> parse('30 mins ago', settings={'RETURN_AS_TIMEZONE_AWARE': True})
@@ -129,6 +146,13 @@ Handling Incomplete Dates
     datetime.datetime(2015, 1, 27, 0, 0)
     >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "current"}) # it exactly behaves like default one
     datetime.datetime(2015, 3, 27, 0, 0)
+
+It also picks the month of a calendar quarter, such as ``2015Q2`` or
+``Q2 2015``, where ``current`` means the month that is as far into the quarter
+as the current month is into its own:
+
+    >>> parse("2015Q2", settings={"PREFER_MONTH_OF_YEAR": "last", "PREFER_DAY_OF_MONTH": "last"})
+    datetime.datetime(2015, 6, 30, 0, 0)
 
 ``PREFER_DATES_FROM``: defaults to ``current_period`` and can have ``past`` and ``future`` as values.
 

@@ -1,12 +1,17 @@
 import copy
 import threading
 from collections.abc import Iterable, Iterator, Mapping, Sequence
+from functools import cached_property
 from itertools import chain, islice, product
 from typing import TYPE_CHECKING, Any, TypeVar
 
 import regex as re
 
-from dateparser.timezone_parser import pop_tz_offset_from_string, word_is_tz
+from dateparser.timezone_parser import (
+    is_timezone_token,
+    pop_tz_offset_from_string,
+    word_is_tz,
+)
 from dateparser.utils import combine_dicts, normalize_unicode
 
 from .dictionary import ALWAYS_KEEP_TOKENS, Dictionary, NormalizedDictionary
@@ -19,6 +24,26 @@ _T = TypeVar("_T")
 
 NUMERAL_PATTERN = re.compile(r"(\d+)", re.U)
 _MAX_TRANSLATIONS = 16
+
+# Arabic and Persian text is often typed with the yeh and kaf of the other
+# language, so both the language data and the input of these languages use the
+# Arabic letters, which are also what Unicode normalization turns ئ into.
+_LETTER_VARIANTS = str.maketrans("یک", "يك")
+_VARIANT_LETTERS = frozenset("یکيك")
+_LETTER_VARIANT_LANGUAGES = {"ar", "fa"}
+
+
+def _translate_letters(value: Any) -> Any:
+    if isinstance(value, str):
+        return value.translate(_LETTER_VARIANTS)
+    if isinstance(value, dict):
+        return {
+            _translate_letters(key): _translate_letters(item)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [_translate_letters(item) for item in value]
+    return value
 
 
 def _parse_bool(value: object) -> bool:
@@ -33,6 +58,26 @@ def _parse_bool(value: object) -> bool:
 # it is looked up in the dictionary without it, and the translation carries
 # it on so the text and its translation keep the same separators.
 PUNCTUATION = "()\"'{}[],.،"
+
+_WEEKDAYS = (
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+)
+_WEEKDAY_MODIFIERS = ("last", "this", "next")
+_WEEKDAY_MODIFIER_ENTRIES = {
+    f"{modifier} {weekday}" for modifier in _WEEKDAY_MODIFIERS for weekday in _WEEKDAYS
+}
+"""Translations of the entries that put a modifier before a weekday."""
+
+_OPENING_MARKS = ("(", "[", "{", '"')
+_CLOSING_MARKS = (")", "]", "}", '"')
+_ENCLOSED_TIME = re.compile(r"\d{1,2}(?::\d{2}(?::\d{2})?)?(?:am|pm)?")
+_ENCLOSED_WORDS = {"am", "pm", *_WEEKDAYS}
 
 
 class Locale:
@@ -62,16 +107,39 @@ class Locale:
     _split_dictionary: dict[str, str | None] | None = None
     _wordchars_for_detection: set[str] | None = None
 
-    def __init__(self, shortname: str, language_info: Mapping[str, Any]) -> None:
+    def __init__(
+        self,
+        shortname: str,
+        language_info: Mapping[str, Any],
+        _letter_variants: bool = True,
+    ) -> None:
         self.shortname = shortname
         locale_specific_info = language_info.get("locale_specific", {}).get(
             shortname, {}
         )
         self.info = combine_dicts(language_info, locale_specific_info)
         self.info.pop("locale_specific", None)
+        self._translates_letters = (
+            _letter_variants
+            and shortname.split("-", maxsplit=1)[0] in _LETTER_VARIANT_LANGUAGES
+        )
+        if self._translates_letters:
+            self._language_info = language_info
+            self.info = _translate_letters(self.info)
         # This locale instance is cached and shared across threads; the lock
         # guards lazy initialisation of the cached attributes below.
         self._lock = threading.RLock()
+
+    @cached_property
+    def _native(self) -> "Locale":
+        """Same locale without letter variants, to tell text written in this
+        language apart from text that only matches thanks to them."""
+        if not self._translates_letters:
+            return self
+        native = Locale(self.shortname, self._language_info, _letter_variants=False)
+        # Dictionary caches are keyed by name.
+        native.info["name"] += "~native"
+        return native
 
     def is_applicable(
         self,
@@ -99,7 +167,9 @@ class Locale:
         :return: boolean value representing if the locale is applicable for the date string or not.
         """
         if strip_timezone:
-            date_string, _ = pop_tz_offset_from_string(date_string, as_offset=False)
+            date_string, _ = pop_tz_offset_from_string(
+                date_string, as_offset=False, settings=settings
+            )
 
         date_string = self._translate_numerals(date_string)
         assert settings is not None
@@ -119,7 +189,9 @@ class Locale:
         settings: "Settings | None" = None,
     ) -> list[int]:
         if strip_timezone:
-            text, _ = pop_tz_offset_from_string(text, as_offset=False)
+            text, _ = pop_tz_offset_from_string(
+                text, as_offset=False, settings=settings
+            )
 
         text = self._simplify(text, settings=settings)
         sentences = self._sentence_split(text, settings=settings)
@@ -136,7 +208,17 @@ class Locale:
         )
         dict_cnt = 0
         skip_cnt = 0
-        for word in set(words):
+        # The splitter keeps a weekday modifier and its weekday, e.g. "next
+        # friday", as a single token, so count each of their words.
+        split_words = set()
+        for word in words:
+            if " " in word and self._is_weekday_modifier_entry(
+                word, self._get_dictionary(settings)
+            ):
+                split_words.update(word.split())
+            else:
+                split_words.add(word)
+        for word in split_words:
             if word in dictionary:
                 if dictionary[word]:
                     dict_cnt += 1
@@ -344,7 +426,7 @@ class Locale:
             relative_dictionary[compiled_pattern] = key
         return relative_dictionary
 
-    def translate_search(  # noqa: PLR0912
+    def translate_search(  # noqa: PLR0912, PLR0915
         self, search_string: str, settings: "Settings | None" = None
     ) -> tuple[list[str], list[str]]:
         dashes = ["-", "——", "—", "～"]
@@ -361,6 +443,10 @@ class Locale:
             original_chunk: list[str] = []
             last_token_index = len(simplified_tokens) - 1
             skip_next_token = False
+            # Without spaces between words, brackets enclose parts of a date,
+            # e.g. the weekday of "2016年3月21日(月)".
+            enclosed_dates = "no_word_spacing" not in self.info
+            attached_group_end = None
             for i, word in enumerate(simplified_tokens):
                 next_word = simplified_tokens[i + 1] if i < last_token_index else ""
                 current_and_next_joined = self._join_chunk(
@@ -370,15 +456,61 @@ class Locale:
                     skip_next_token = False
                     continue
 
+                if (
+                    enclosed_dates
+                    and translated_chunk
+                    and word.startswith(_OPENING_MARKS)
+                ):
+                    attached_group_end = self._attached_group_end(
+                        simplified_tokens, original_tokens, i, dictionary
+                    )
+                    if attached_group_end is None and not all(
+                        token.strip(PUNCTUATION + " ") in {"", *_WEEKDAYS}
+                        for token in translated_chunk
+                        if token
+                    ):
+                        # Brackets and quotes enclose a date of their own,
+                        # unless they only add a time, a timezone or a weekday
+                        # to the preceding date, e.g. "8 May 2020 (16:05)", or
+                        # the preceding date is only a weekday, e.g.
+                        # "Thu (12 Feb 2016)".
+                        translated.append(translated_chunk)
+                        translated_chunk = []
+                        original.append(original_chunk)
+                        original_chunk = []
+
                 if word in {"", " "}:
                     translated_chunk.append(word)
                     original_chunk.append(original_tokens[i])
                 elif (
-                    current_and_next_joined in dictionary
+                    next_word
+                    and (
+                        current_and_next_joined in dictionary
+                        or self._is_weekday_modifier_entry(
+                            current_and_next_joined.strip(PUNCTUATION), dictionary
+                        )
+                    )
                     and word not in dashes
-                    and self.shortname not in word_joint_unsupported_languages
+                    and self.shortname.split("-")[0]
+                    not in word_joint_unsupported_languages
                 ):
-                    translated_chunk.append(dictionary[current_and_next_joined])
+                    if (
+                        translated_chunk
+                        and self._is_weekday_modifier_entry(
+                            current_and_next_joined.strip(PUNCTUATION), dictionary
+                        )
+                        and not self._in_dictionary(word, dictionary)
+                    ):
+                        # The first word would end the chunk on its own, e.g.
+                        # "last" in "yesterday and last friday", so the entry
+                        # starts a new chunk.
+                        translated.append(translated_chunk)
+                        translated_chunk = []
+                        original.append(original_chunk)
+                        original_chunk = []
+                    translated_chunk.append(
+                        self._translate_token(current_and_next_joined, dictionary)
+                    )
                     original_chunk.append(
                         self._join_chunk(
                             [original_tokens[i], original_tokens[i + 1]],
@@ -390,13 +522,7 @@ class Locale:
                     translated_chunk.append(dictionary[word])
                     original_chunk.append(original_tokens[i])
                 elif word.strip(PUNCTUATION) in dictionary and word not in dashes:
-                    bare_word = word.strip(PUNCTUATION)
-                    punct = word[len(bare_word) :]
-                    bare_translation = dictionary[bare_word]
-                    if punct and bare_translation:
-                        translated_chunk.append(bare_translation + punct)
-                    else:
-                        translated_chunk.append(bare_translation)
+                    translated_chunk.append(self._translate_token(word, dictionary))
                     original_chunk.append(original_tokens[i])
                 elif self._token_with_digits_is_ok(word) or (
                     translated_chunk and word_is_tz(original_tokens[i])
@@ -408,15 +534,44 @@ class Locale:
                     translated_chunk = []
                     original.append(original_chunk)
                     original_chunk = []
+                last_index = i + 1 if skip_next_token else i
+                if (
+                    enclosed_dates
+                    and translated_chunk
+                    and last_index != attached_group_end
+                    and simplified_tokens[last_index]
+                    .rstrip(",.;:")
+                    .endswith(_CLOSING_MARKS)
+                ):
+                    translated.append(translated_chunk)
+                    translated_chunk = []
+                    original.append(original_chunk)
+                    original_chunk = []
             if translated_chunk:
                 translated.append(translated_chunk)
                 original.append(original_chunk)
         for i in range(len(translated)):
             if "in" in translated[i]:
                 translated[i] = self._clear_future_words(translated[i])
-            translated[i] = self._join_chunk(
-                list(filter(bool, translated[i])), settings=settings
-            )
+            tokens = list(filter(bool, translated[i]))
+            if "no_word_spacing" in self.info and tokens:
+                # "1hour ago" parses, "1hourago" does not.
+                tokens = [
+                    " ago" if j and word == "ago" else word
+                    for j, word in enumerate(tokens)
+                ]
+                # Digits from two tokens, e.g. "2020-9-1" and "2 day ago", stay apart.
+                tokens = [
+                    f" {word}"
+                    if j and word[:1].isdigit() and tokens[j - 1][-1:].isdigit()
+                    else word
+                    for j, word in enumerate(tokens)
+                ]
+                # The full-width colon of a label, e.g. "日期：2020年12月28日",
+                # sticks to the date that follows it.
+                if tokens[0] == ":" and tokens[1:2] and tokens[1][:1].isdigit():
+                    tokens = tokens[1:]
+            translated[i] = self._join_chunk(tokens, settings=settings)
             original[i] = self._join_chunk(
                 list(filter(bool, original[i])), settings=settings
             )
@@ -599,6 +754,54 @@ class Locale:
             tokens[i] = dictionary.split(token, keep_formatting)
         return list(chain.from_iterable(tokens))
 
+    @staticmethod
+    def _is_weekday_modifier_entry(token: str, dictionary: Dictionary) -> bool:
+        return token in dictionary and dictionary[token] in _WEEKDAY_MODIFIER_ENTRIES
+
+    @staticmethod
+    def _in_dictionary(token: str, dictionary: Dictionary) -> bool:
+        return token in dictionary or token.strip(PUNCTUATION) in dictionary
+
+    @staticmethod
+    def _translate_token(token: str, dictionary: Dictionary) -> str | None:
+        """Translate *token*, keeping the punctuation around it if *dictionary*
+        only knows it without punctuation."""
+        if token in dictionary:
+            return dictionary[token]
+        translation = dictionary[token.strip(PUNCTUATION)]
+        if not translation:
+            return translation
+        start = len(token) - len(token.lstrip(PUNCTUATION))
+        end = len(token.rstrip(PUNCTUATION))
+        return token[:start] + translation + token[end:]
+
+    @staticmethod
+    def _attached_group_end(
+        simplified_tokens: list[str],
+        original_tokens: list[str],
+        start: int,
+        dictionary: Dictionary,
+    ) -> int | None:
+        """Return the index of the token that closes the group *start* opens,
+        if the group only holds a time, a timezone or a weekday, which belong
+        to the date before it."""
+        for i in range(start, len(simplified_tokens)):
+            token = simplified_tokens[i].rstrip(",.;:")
+            bare = token.strip(PUNCTUATION)
+            original_bare = original_tokens[i].strip(PUNCTUATION + ",.;:")
+            if bare and not (
+                _ENCLOSED_TIME.fullmatch(bare)
+                or (
+                    bare in dictionary
+                    and (not dictionary[bare] or dictionary[bare] in _ENCLOSED_WORDS)
+                )
+                or (original_bare.isupper() and is_timezone_token(original_bare))
+            ):
+                return None
+            if token.endswith(_CLOSING_MARKS) and (i > start or len(token) > 1):
+                return i
+        return None
+
     def _join_chunk(self, chunk: Sequence[str], settings: "Settings | None") -> str:
         if "no_word_spacing" in self.info:
             return self._join(chunk, separator="", settings=settings)
@@ -612,6 +815,8 @@ class Locale:
 
     def _simplify(self, date_string: str, settings: "Settings | None" = None) -> str:
         date_string = date_string.lower()
+        if self._translates_letters:
+            date_string = _translate_letters(date_string)
         simplifications = self._get_simplifications(settings=settings)
 
         if self.info.get("name") == "ru":
@@ -706,7 +911,18 @@ class Locale:
         return simplifications
 
     def _clear_future_words(self, words: list[str]) -> list[str]:
-        freshness_words = {"day", "week", "month", "year", "hour", "minute", "second"}
+        freshness_words = {
+            "century",
+            "decade",
+            "fortnight",
+            "day",
+            "week",
+            "month",
+            "year",
+            "hour",
+            "minute",
+            "second",
+        }
         # A unit keeps the punctuation it was written next to, so "2 hours,"
         # becomes "hour,". That is still the unit of a future expression, and
         # dropping the "in" of one is what turns it into a past date.
