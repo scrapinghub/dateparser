@@ -210,6 +210,7 @@ class TestDateParser(BaseTestCase):
             param("2023. 3. 18 오후 10:58", datetime(2023, 3, 18, 22, 58)),
             param("2013년 08월 14일", datetime(2013, 8, 14)),
             param("2013.08.14 23시 54분", datetime(2013, 8, 14, 23, 54)),
+            param("2023년02월10일 오후3시30분", datetime(2023, 2, 10, 15, 30)),
             # Bulgarian
             param("25 ян 2016", datetime(2016, 1, 25, 0, 0)),
             param("23 декември 2013 15:10:01", datetime(2013, 12, 23, 15, 10, 1)),

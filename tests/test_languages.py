@@ -333,11 +333,11 @@ class TestBundledLanguages(BaseTestCase):
             param("ja", "正午", "12:00"),
             param("ja", "明日の13時20分", "in 1 day 13:20"),
             # Korean
-            param("ko", "2023년 2월 10일 오전 3시 30분", "2023 february 10 3:30 am"),
-            param("ko", "12월 31일 오후 3시", "december 31 3:00 pm"),
+            param("ko", "2023년 2월 10일 오전 3시 30분", "2023 february 10 am 3:30"),
+            param("ko", "12월 31일 오후 3시", "december 31 pm 3:00"),
             param("ko", "11시 42분 15초", "11:42:15"),
-            param("ko", "2013년 08월 04일", "2013 august 04"),
-            param("ko", "2023. 3. 18 오전 10:58", "2023. 3. 18 10:58 am"),
+            param("ko", "2013년08월04일에", "2013 august 04"),
+            param("ko", "오후3시 반쯤", "pm 3:30"),
             param("ko", "3시간 전", "3 hour ago"),
             # Hebrew
             param("he", "20 לאפריל 2012", "20 april 2012"),
