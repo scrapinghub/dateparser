@@ -54,6 +54,34 @@ Set it to ``'year'`` to read a two-digit year only from the position ``DATE_ORDE
 ``'year'`` and ``'all'`` raise a ``SettingValidationError`` unless ``DATE_ORDER`` is given too. Only the parts read from numbers are checked, and a four-digit year is read wherever it is, so ``'32 DEC'`` with ``DMY`` is still December 2032. Some dates that are read correctly without the setting are rejected, such as ``'95年12月10日'`` with ``MDY``: once translated, it is ``95-12-10``, with nothing left to mark the year.
 
 
+Date Formats
+++++++++++++
+
+The ``date_formats`` argument of :func:`dateparser.parse` is tried first, and a string that none of the formats parses goes on to the other parsers, as if there were no formats. They read the numbers in the order of a locale, so a number that is out of range for the format can be read as another part of the date: ``32`` is not a day, but it is a valid two-digit year. Without ``languages``, every language that the string could be in gets its turn, and Swedish reads ``'31 FEB 10'`` as year, month and day:
+
+    >>> parse('32 DEC 10', date_formats=['%d %b %y'])
+    datetime.datetime(2032, 12, 10, 0, 0)
+    >>> parse('31 FEB 10', date_formats=['%d %b %y'])
+    datetime.datetime(2031, 2, 10, 0, 0)
+
+``STRICT_DATE_FORMATS``: defaults to ``False``. Set it to ``True`` to get ``None`` for a string that is written in one of the formats but has a number out of range for it, instead of letting the other parsers read it:
+
+    >>> settings = {'STRICT_DATE_FORMATS': True}
+    >>> parse('32 DEC 10', date_formats=['%d %b %y'], settings=settings)
+    >>> parse('31 FEB 10', date_formats=['%d %b %y'], settings=settings)
+    >>> parse('31 DEC 10', date_formats=['%d %b %y'], settings=settings)
+    datetime.datetime(2010, 12, 31, 0, 0)
+
+It only applies to a string that no format parses and that has the shape of one of the formats: it would match the format if each of its digits were ``1``. The names of months and weekdays are translated with the given languages, or with all of them if ``languages`` is not given. Everything else is read by the other parsers, as without the setting:
+
+* A string that is not written in the format as a whole: with a time after the date, a period or spaces around it, a month name with a period, a year of another width, or digits of another script: ``'32 DEC 10 10:00'``, ``'32 DEC 10.'``, ``' 32 DEC 10'``, ``'32 Dec. 10'``, ``'32 DEC 10'`` with ``'%d %b %Y'``, ``'٣٢ DEC ١٠'``.
+* A string that parses with the day and the month of the format swapped: ``'12/31/2020'`` with ``'%d/%m/%Y'`` is December 31, 2020.
+* A string of digits only, which can be a year or a Unix timestamp: ``'2010'`` with ``'%y%m%d'``, ``'1700000000'`` with ``'%d%m%Y'``.
+* A leap day with a format that has no year: ``'29 Feb'`` with ``'%d %b'``.
+
+It does not need ``DATE_ORDER``, as ``STRICT_DATE_ORDER`` does, and it does not depend on ``PARSERS``. To read the formats only, set ``PARSERS`` to ``['custom-formats']``, which also turns off timestamps, relative dates and free-form dates.
+
+
 Timezone Related Configurations
 +++++++++++++++++++++++++++++++
 

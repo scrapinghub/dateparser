@@ -5,7 +5,7 @@ from unittest import SkipTest
 
 from parameterized import param, parameterized
 
-from dateparser.utils.strptime import strptime
+from dateparser.utils.strptime import has_format_shape, matches_format, strptime
 from tests import BaseTestCase
 
 
@@ -300,3 +300,38 @@ class TestStrptime(BaseTestCase):
     ) -> None:
         self.when_date_string_is_parsed(date_string, fmt)
         self.then_date_object_is(expected)
+
+    @parameterized.expand(
+        [
+            param("32 DEC 10", "%d %b %y", expected=True),
+            param("31 DEC 10", "%d %b %y", expected=True),
+            param("5 DEC 10", "%d %b %y", expected=True),
+            param("32/12/2010", "%d/%m/%Y", expected=True),
+            param("25:61", "%H:%M", expected=True),
+            # A day without a year is matched against the current year.
+            param("32 DEC", "%d %b", expected=True),
+            param("32 DEC", "%d %b %y", expected=False),
+            param("DEC 32 10", "%d %b %y", expected=False),
+            param("2010-12-32", "%d/%m/%Y", expected=False),
+            # Digits of another script are not replaced.
+            param("\u0663\u0661 DEC \u0661\u0660", "%d %b %y", expected=False),
+            # Digits that the format spells out must be the same.
+            param("32 DEC 2010", "%d %b 2010", expected=False),
+        ]
+    )
+    def test_has_format_shape(self, date_string: str, fmt: str, expected: bool) -> None:
+        assert has_format_shape(date_string, fmt) is expected
+
+    @parameterized.expand(
+        [
+            param("29 Feb", "%d %b", leap_year=True, expected=True),
+            param("30 Feb", "%d %b", leap_year=True, expected=False),
+            # A format with a year does not use the leap year.
+            param("29 Feb 2021", "%d %b %Y", leap_year=True, expected=False),
+            param("29 Feb 2020", "%d %b %Y", leap_year=False, expected=True),
+        ]
+    )
+    def test_matches_format_in_a_leap_year(
+        self, date_string: str, fmt: str, leap_year: bool, expected: bool
+    ) -> None:
+        assert matches_format(date_string, fmt, leap_year=leap_year) is expected

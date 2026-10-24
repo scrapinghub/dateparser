@@ -20,6 +20,8 @@ TIME_MATCHER = re.compile(
 
 MS_SEARCHER = re.compile(r"\.(?P<microsecond>[0-9]{1,6})")
 
+ASCII_DIGIT = re.compile(r"[0-9]")
+
 
 def patch_strptime() -> Callable[[str, str], struct_time]:
     """Monkey patching _strptime to avoid problems related with non-english
@@ -122,16 +124,43 @@ def _inspect_format(og_format: str) -> tuple[bool, bool]:
     return day_of_month_in_format and not year_in_format, day_of_year_in_format
 
 
-def _prepare_format(date_string: str, og_format: str) -> tuple[str, str, bool]:
+def _prepare_format(
+    date_string: str, og_format: str, year: int | None = None
+) -> tuple[str, str, bool]:
     missing_year, day_of_year_in_format = _inspect_format(og_format)
     if missing_year:
-        current_year = datetime.today().year
+        year = datetime.today().year if year is None else year
         return (
-            f"{current_year} {date_string}",
+            f"{year} {date_string}",
             f"%Y {og_format}",
             day_of_year_in_format,
         )
     return date_string, og_format, day_of_year_in_format
+
+
+def matches_format(date_string: str, date_format: str, leap_year: bool = False) -> bool:
+    """Return whether *date_string* is a date written in *date_format*.
+
+    The std-lib function is called, not strptime(), whose %f handling raises
+    AttributeError when the microseconds do not follow a ".". A format with a
+    day but no year is matched against the current year, or against a leap year
+    if *leap_year* is set.
+    """
+    date_string, date_format, _ = _prepare_format(
+        date_string, date_format, year=2000 if leap_year else None
+    )
+    try:
+        __strptime(date_string, date_format)
+    except ValueError:
+        return False
+    return True
+
+
+def has_format_shape(date_string: str, date_format: str) -> bool:
+    """Return whether *date_string* would match *date_format* if the values of
+    its numbers were in range, e.g. "32 DEC 10" and "%d %b %y"."""
+    # Every ASCII digit becomes 1, which any numeric directive accepts.
+    return matches_format(ASCII_DIGIT.sub("1", date_string), date_format)
 
 
 def strptime(date_string: str, format: str) -> datetime:  # noqa: A002

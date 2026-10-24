@@ -12,6 +12,7 @@ settings = {
     "DATE_ORDER": "MDY",
     "PREFER_LOCALE_DATE_ORDER": True,
     "STRICT_DATE_ORDER": "none",
+    "STRICT_DATE_FORMATS": False,
     # Timezone related
     "TIMEZONE": "local",
     "TO_TIMEZONE": False,
