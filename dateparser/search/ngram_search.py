@@ -18,7 +18,7 @@ from dateparser.date import DateData, DateDataParser
 
 logger = logging.getLogger(__name__)
 
-_DateResult = tuple[str, datetime] | tuple[str, datetime, str | None]
+_DateResult = tuple[str, datetime, str | None]
 
 # Characters that never occur inside a date expression and can therefore be
 # used to split a text into tokens. Unlike whitespace, ",", "|", "(", ")"
@@ -67,13 +67,10 @@ class _NgramDateSearch:
         self.max_tokens = max_tokens
 
     def search_parse(
-        self,
-        languages: list[str],
-        text: str,
-        settings: Settings,
-        add_period: bool = False,
+        self, languages: list[str], text: str, settings: Settings
     ) -> list[_DateResult]:
-        """Find all dates in ``text`` and return ``(substring, date)`` pairs.
+        """Find all dates in ``text`` and return ``(substring, date, period)``
+        tuples.
 
         ``languages`` are tried in the given order for every candidate
         n-gram.
@@ -97,11 +94,12 @@ class _NgramDateSearch:
                 date_data = self._parse_candidate(parser, candidate, languages)
                 if date_data is not None and date_data.date_obj is not None:
                     substring = text[ngram[0].start() : ngram[-1].end()]
-                    substring = substring.strip(_STRIP_CHARS)
                     results.append(
-                        (substring, date_data.date_obj, date_data.period)
-                        if add_period
-                        else (substring, date_data.date_obj)
+                        (
+                            substring.strip(_STRIP_CHARS),
+                            date_data.date_obj,
+                            date_data.period,
+                        )
                     )
                     index += size
                     break

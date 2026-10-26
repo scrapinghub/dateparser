@@ -55,9 +55,10 @@ def search_dates(
     :type strategy: str
 
     :param add_period:
-        Indicates if we want the period of each date (``time``, ``day``, ``week``,
-        ``month`` or ``year``) returned in the tuple, before the detected language.
-        ``time`` requires the ``RETURN_TIME_AS_PERIOD`` :ref:`setting <settings>`.
+        Indicates if we want the period of each date (``time``, ``part_of_day``,
+        ``day``, ``week``, ``month`` or ``year``) returned in the tuple, before the
+        detected language. ``time`` and ``part_of_day`` require the
+        ``RETURN_TIME_AS_PERIOD`` :ref:`setting <settings>`.
 
         .. versionadded:: VERSION
     :type add_period: bool
@@ -87,18 +88,19 @@ def search_dates(
     """
     text = _search_with_detection.preprocess_text(text, languages)
 
-    result = _search_with_detection.search_dates(
+    language, dates = _search_with_detection._search_dates(
         text=text,
         languages=languages,
         settings=settings,
         detect_languages_function=detect_languages_function,
         strategy=strategy,
-        add_period=add_period,
     )
-    dates = result.get("Dates")
-    if dates:
+    if not dates:
+        return None
+    if add_period:
         if add_detected_language:
-            language = result.get("Language")
             return [(*date, language) for date in dates]
-        return dates  # type: ignore[return-value]
-    return None
+        return dates
+    if add_detected_language:
+        return [(*date[:2], language) for date in dates]
+    return [date[:2] for date in dates]
