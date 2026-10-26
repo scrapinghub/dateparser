@@ -593,7 +593,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -644,7 +644,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -823,7 +823,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -914,7 +914,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -2008,6 +2008,79 @@ class TestTranslateSearch(BaseTestCase):
     ) -> None:
         result = search_dates(text, add_detected_language=add_detected_language)
         self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(text, strategy, period)
+            for strategy in ("split", "ngram")
+            for text, period in (
+                ("on Monday", "day"),
+                ("on Monday at 00:00", "time"),
+                ("on Monday at night", "part_of_day"),
+                ("in 2 hours", "time"),
+                ("in October 2027", "month"),
+                ("in 2027", "year"),
+            )
+        ]
+    )
+    def test_search_dates_returning_period_if_requested(
+        self, text: str, strategy: str, period: str
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RETURN_TIME_AS_PERIOD": True},
+            strategy=strategy,
+            add_period=True,
+        )
+        assert result is not None
+        self.assertEqual([date[2:] for date in result], [(period,)])
+
+    @parameterized.expand([param("split"), param("ngram")])
+    def test_search_dates_returning_period_of_each_date(self, strategy: str) -> None:
+        result = search_dates(
+            "Founded in 2019, renamed on 5 March 2020 and sold in June 2021.",
+            languages=["en"],
+            strategy=strategy,
+            add_period=True,
+        )
+        assert result is not None
+        self.assertEqual(
+            [date[2:] for date in result], [("year",), ("day",), ("month",)]
+        )
+
+    def test_search_dates_returning_period_before_detected_language(self) -> None:
+        result = search_dates(
+            "15 de outubro de 1936", add_period=True, add_detected_language=True
+        )
+        self.assertEqual(
+            result,
+            [
+                (
+                    "15 de outubro de 1936",
+                    datetime.datetime(1936, 10, 15, 0, 0),
+                    "day",
+                    "pt",
+                )
+            ],
+        )
+
+    def test_search_dates_returning_period_of_time_spans(self) -> None:
+        base = datetime.datetime(2025, 2, 15, 12, 0)
+        result = search_dates(
+            "messages received for the past month",
+            languages=["en"],
+            settings={"RETURN_TIME_SPAN": True, "RELATIVE_BASE": base},
+            add_period=True,
+        )
+        assert result is not None
+        self.assertEqual(
+            result[-2:],
+            [
+                ("for the past month (start)", base - timedelta(days=30), "day"),
+                ("for the past month (end)", base, "day"),
+            ],
+        )
 
     @parameterized.expand(
         [
