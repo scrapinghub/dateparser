@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Literal, overload
 import pytz
 import regex as re
 
+from dateparser.languages.locale import _WEEKDAY_MODIFIERS
 from dateparser.utils import (
     _get_missing_parts,
     _get_parts,
@@ -79,6 +80,63 @@ def resolve_date_order(order: str, lst: bool | None = None) -> str | list[str]:
     }
 
     return chart_list[order] if lst else date_order_chart[order]
+
+
+class _StrictDateOrderError(ValueError):
+    """The date string does not fit DATE_ORDER as STRICT_DATE_ORDER requires:
+    a number was read as a part that the order does not put at its position,
+    or with "all", a number could not be read in that order at all.
+    The other parsers of the locale may still read the date string, but no
+    other locale should guess a reading of it."""
+
+
+_PART_OF_DIRECTIVE = {"%d": "day", "%m": "month", "%y": "year", "%Y": "year"}
+
+
+def _strict_date_order(settings: "Settings") -> str:
+    """Return the STRICT_DATE_ORDER value in effect, which is "none" unless the
+    caller set DATE_ORDER."""
+    if "DATE_ORDER" in settings._mod_settings:
+        return settings.STRICT_DATE_ORDER
+    return "none"
+
+
+def _check_strict_date_order(
+    parts: list[str], four_digit_year: bool, date_order: str, strict: str
+) -> None:
+    """Raise _StrictDateOrderError if *parts*, the parts of the date that were
+    read from numbers, in the order they were read, are not where DATE_ORDER
+    puts them, as far as *strict*, the STRICT_DATE_ORDER value, requires. A
+    month name and a missing part are not in *parts*, so they are not checked:
+    "32 DEC" with DMY is still December 2032."""
+    if strict == "none":
+        return
+    order = resolve_date_order(date_order, lst=True)
+    if strict == "year":
+        # Any number that is not a valid day or month is read as a two-digit
+        # year, so check that it is where DATE_ORDER puts the year: in
+        # "32 DEC 10" with DMY, 32 is an invalid day, not the year 2032. Of the
+        # parts read, those before the year must be exactly those that the order
+        # puts before it, whichever way they are misplaced: "10 DEC 32" with MYD
+        # reads the day before the year. A four-digit year cannot be anything
+        # else.
+        if four_digit_year or "year" not in parts:
+            return
+        before_year = order[: order.index("year")]
+        if set(parts[: parts.index("year")]) != set(before_year).intersection(parts):
+            raise _StrictDateOrderError(f"The year is not where {date_order} puts it")
+        return
+    # "all": the day and month must be where DATE_ORDER puts them too, so they
+    # are not swapped when they do not fit.
+    if four_digit_year:
+        # A four-digit year is read wherever it is, and a date that starts
+        # with one is read as year, month and day unless DATE_ORDER starts
+        # with the year.
+        if parts[:1] == ["year"] and not date_order.startswith("Y"):
+            order = ["month", "day"]
+        parts = [part for part in parts if part != "year"]
+    if parts != [part for part in order if part in parts]:
+        raise _StrictDateOrderError(f"The date parts are not in {date_order} order")
 
 
 def _parse_absolute(
@@ -237,21 +295,36 @@ class _no_spaces_parser:
                 if dt is not None:
                     return dt
         nsp = cls()
-        ambiguous_date: tuple[datetime, str, tuple[str, ...]] | None = None
+        found: tuple[tuple[datetime, str, tuple[str, ...]], str] | None = None
+        ambiguous: tuple[tuple[datetime, str, tuple[str, ...]], str] | None = None
         for token, _ in tokens.tokenize():
             for fmt in nsp.date_formats[order]:
                 with contextlib.suppress(Exception):
                     dt = strptime(token, fmt), cls._get_period(fmt), _get_parts(fmt)
                     if len(str(dt[0].year)) < 4:
-                        ambiguous_date = dt
+                        ambiguous = dt, fmt
                         continue
 
                     missing = _get_missing_parts(fmt)
                     _check_strict_parsing(missing, settings)
-                    return dt
-        if ambiguous_date:
-            return ambiguous_date
-        raise ValueError(f"Unable to parse date from: {datestring}")
+                    found = dt, fmt
+                if found:
+                    break
+            if found:
+                break
+        found = found or ambiguous
+        if found is None:
+            raise ValueError(f"Unable to parse date from: {datestring}")
+        dt, fmt = found
+        # The formats are only sorted by DATE_ORDER, so the one that matched
+        # may read the numbers in another order.
+        _check_strict_date_order(
+            [_PART_OF_DIRECTIVE[directive] for directive in re.findall("%[dmyY]", fmt)],
+            four_digit_year="%Y" in fmt,
+            date_order=date_order,
+            strict=_strict_date_order(settings),
+        )
+        return dt
 
 
 def _get_missing_error(missing: Iterable[str]) -> str:
@@ -299,6 +372,7 @@ class _parser:
         self.settings = settings
         self._tz = tz
         self._date_order = date_order or settings.DATE_ORDER
+        self._strict = _strict_date_order(settings)
         self.tokens = [(t[0].strip(), t[1]) for t in list(tokens)]
         self.filtered_tokens = [
             (t[0], t[1], i) for i, t in enumerate(self.tokens) if t[1] <= 1
@@ -328,6 +402,7 @@ class _parser:
         self._token_month = None
         self._token_year = None
         self._token_time = None
+        self._weekday_modifier = None
 
         self.ordered_num_directives = {
             k: self.num_directives[k]
@@ -360,6 +435,12 @@ class _parser:
             token, token_type, original_index = token_type_original_index
 
             if token in skip_tokens:
+                continue
+
+            if token in _WEEKDAY_MODIFIERS:
+                if self._weekday_modifier:
+                    raise ValueError(f"Unable to parse: {token}")
+                self._weekday_modifier = token
                 continue
 
             if self.time is None:
@@ -444,6 +525,19 @@ class _parser:
                 self._token_day and self._is_range(self._token_day[0], unset_token[0])
             )
         ]
+        if unset_tokens and self._strict == "all":
+            # A four-digit year displaced a number that was read as the year,
+            # so that number was not where DATE_ORDER puts the year.
+            raise _StrictDateOrderError(
+                f"{unset_tokens[0][0]} is not where {self._date_order} puts it"
+            )
+        _check_strict_date_order(
+            self.auto_order,
+            four_digit_year=self._token_year is not None
+            and len(self._token_year[0]) == 4,
+            date_order=self._date_order,
+            strict=self._strict,
+        )
         if len(unset_tokens) > len(unknown):
             raise ValueError("Too many numbers in date string")
         params: dict[str, int] = {}
@@ -487,6 +581,38 @@ class _parser:
                     return True
                 except ValueError:
                     pass
+        return False
+
+    def _month_number_becomes_day(self) -> None:
+        """Record in auto_order that the number read as the month is the day,
+        now that a month name was found, and that the other end of the range,
+        which was read as the day, is dropped. That end comes after the month
+        in "12-14 June" with MDY, but before it in "12-12 June" with DMY."""
+        if self.day:
+            self.auto_order.remove("day")
+        self.auto_order[self.auto_order.index("month")] = "day"
+
+    def _unparsed_number_error(self, token: str) -> ValueError:
+        """Return the error for a number that fits none of the parts of the date
+        that are left in the order."""
+        if self._strict == "all" and self._is_date_part(token):
+            # The number is a date part, but not where DATE_ORDER puts it, so
+            # the date string cannot be read in that order: no other locale
+            # may read it either, e.g. as a relative date.
+            return _StrictDateOrderError(
+                f"{token} is not where {self._date_order} puts it"
+            )
+        return ValueError(f"Unable to parse: {token}")
+
+    def _is_date_part(self, token: str) -> bool:
+        """Return whether *token* can be read as a day, month or year."""
+        for directives in self.num_directives.values():
+            for directive in directives:
+                try:
+                    self._get_date_obj(token, directive)
+                except ValueError:
+                    continue
+                return True
         return False
 
     def _get_period(self) -> str:
@@ -605,31 +731,30 @@ class _parser:
         if token_weekday and not (
             self._token_year or self._token_month or self._token_day
         ):
-            day_index = calendar.weekday(dateobj.year, dateobj.month, dateobj.day)
-            day = token_weekday[:3].lower()
-            steps = 0
-            if "future" in self.settings.PREFER_DATES_FROM:
-                if days[day_index] == day:
-                    steps = 7
-                else:
-                    while days[day_index] != day:
-                        day_index = (day_index + 1) % 7
-                        steps += 1
-                delta = timedelta(days=steps)
+            target = days.index(token_weekday[:3].lower())
+            steps_forward = (target - dateobj.weekday()) % 7
+            steps_back = (dateobj.weekday() - target) % 7
+            modifier = self._weekday_modifier
+            if modifier == "next" or (
+                not modifier and "future" in self.settings.PREFER_DATES_FROM
+            ):
+                steps = steps_forward or 7
+            elif modifier == "this":
+                steps = steps_forward
+            elif modifier == "last" or self.settings.PREFER_DATES_FROM == "past":
+                steps = -(steps_back or 7)
             else:
-                if days[day_index] == day:
-                    steps = 7 if self.settings.PREFER_DATES_FROM == "past" else 0
-                else:
-                    while days[day_index] != day:
-                        day_index -= 1
-                        steps += 1
-                delta = timedelta(days=-steps)
+                steps = -steps_back
 
-            dateobj = dateobj + delta
+            dateobj = dateobj + timedelta(days=steps)
 
             # set the token_month here so that it is not subsequently
             # altered by _correct_for_month
             self._token_month = dateobj.month
+        elif self._weekday_modifier and not (token_weekday and self._token_day):
+            # With an explicit day, e.g. "next friday, july 4", the weekday and
+            # its modifier only describe the date.
+            raise ValueError(f"Unable to parse: {self._weekday_modifier}")
 
         # NOTE: If this assert fires, self.now needs to be made offset-aware in a similar
         # way that dateobj is temporarily made offset-aware.
@@ -737,6 +862,11 @@ class _parser:
         except ValueError as error:
             if (
                 "DATE_ORDER" not in settings._mod_settings
+                # The swap would replace a reading that STRICT_DATE_ORDER
+                # rejected with a date that the default never gives, and
+                # "all" forbids the swap altogether.
+                or isinstance(error, _StrictDateOrderError)
+                or settings.STRICT_DATE_ORDER == "all"
                 or str(error).startswith("Fields missing")
                 or cls._has_month_name(tokens)
             ):
@@ -823,7 +953,7 @@ class _parser:
                                 return set_and_return(token, token_type, component, do)
                         except ValueError:
                             pass
-                raise ValueError(f"Unable to parse: {token}")
+                raise self._unparsed_number_error(token)
 
             order = list(self.ordered_num_directives)
             components_after_year = order[order.index("year") + 1 :]
@@ -871,8 +1001,7 @@ class _parser:
                             # requires the day to be free, or to be the end of
                             # a range that starts at that number, e.g. 14 in
                             # “12-14 June”.
-                            index = self.auto_order.index("month")
-                            self.auto_order[index] = "day"
+                            self._month_number_becomes_day()
                             self._token_day = self._token_month
                             self._token_month = token, token_type
                             return [
