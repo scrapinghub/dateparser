@@ -7,6 +7,7 @@ import pytz
 from parameterized import param, parameterized
 
 from dateparser.conf import Settings, apply_settings
+from dateparser.date import DateDataParser
 from dateparser.search import search_dates
 from dateparser.search.search import DateSearchWithDetection
 from dateparser.timezone_parser import StaticTzInfo
@@ -2958,6 +2959,22 @@ class TestNgramSearch(BaseTestCase):
             date_formats=date_formats,
         )
         self.assertEqual(result, expected)
+
+    def test_parse_errors_are_logged_and_skipped(self) -> None:
+        get_date_data = DateDataParser.get_date_data
+
+        def fail_on_x(self: DateDataParser, date_string: str, *args: Any) -> Any:
+            if "x" in date_string:
+                raise RuntimeError
+            return get_date_data(self, date_string, *args)
+
+        with (
+            patch.object(DateDataParser, "get_date_data", fail_on_x),
+            self.assertLogs("dateparser.search.ngram_search", "WARNING") as logs,
+        ):
+            result = search_dates("x 2 Apr 2024", languages=["en"], strategy="ngram")
+        self.assertEqual(result, [("2 Apr 2024", datetime.datetime(2024, 4, 2))])
+        self.assertIn("Failed to parse 'x 2 Apr 2024'", logs.output[0])
 
     def test_date_formats_with_period_and_language(self) -> None:
         result = search_dates(
