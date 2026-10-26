@@ -193,6 +193,13 @@ info = {
         "2 day ago": [
             "day before yesterday"
         ],
+        "1 century ago": [
+            "last century",
+            "this century"
+        ],
+        "in 1 century": [
+            "next century"
+        ],
         "1 decade ago": [
             "last decade",
             "this decade"
@@ -200,8 +207,93 @@ info = {
         "in 1 decade": [
             "next decade"
         ],
+        "1 fortnight ago": [
+            "last fortnight",
+            "this fortnight"
+        ],
+        "in 1 fortnight": [
+            "next fortnight"
+        ],
         "in 2 day": [
             "day after tomorrow"
+        ],
+        "last monday": [
+            "last monday",
+            "last mon"
+        ],
+        "last tuesday": [
+            "last tuesday",
+            "last tue",
+            "last tues"
+        ],
+        "last wednesday": [
+            "last wednesday"
+        ],
+        "last thursday": [
+            "last thursday",
+            "last thu"
+        ],
+        "last friday": [
+            "last friday",
+            "last fri"
+        ],
+        "last saturday": [
+            "last saturday"
+        ],
+        "last sunday": [
+            "last sunday"
+        ],
+        "this monday": [
+            "this monday",
+            "this mon"
+        ],
+        "this tuesday": [
+            "this tuesday",
+            "this tue",
+            "this tues"
+        ],
+        "this wednesday": [
+            "this wednesday"
+        ],
+        "this thursday": [
+            "this thursday",
+            "this thu"
+        ],
+        "this friday": [
+            "this friday",
+            "this fri"
+        ],
+        "this saturday": [
+            "this saturday"
+        ],
+        "this sunday": [
+            "this sunday"
+        ],
+        "next monday": [
+            "next monday",
+            "next mon"
+        ],
+        "next tuesday": [
+            "next tuesday",
+            "next tue",
+            "next tues"
+        ],
+        "next wednesday": [
+            "next wednesday"
+        ],
+        "next thursday": [
+            "next thursday",
+            "next thu"
+        ],
+        "next friday": [
+            "next friday",
+            "next fri"
+        ],
+        "next saturday": [
+            "next saturday"
+        ],
+        "next sunday": [
+            "next sunday"
         ]
     },
     "relative-type-regex": {
@@ -289,11 +381,25 @@ info = {
             "in (\\d++[.,]?\\d*+) yr",
             "in (\\d++[.,]?\\d*+)y"
         ],
+        "in \\1 century": [
+            "in (\\d++[.,]?\\d*+) century",
+            "in (\\d++[.,]?\\d*+) centuries"
+        ],
+        "\\1 century ago": [
+            "(\\d++[.,]?\\d*+) century ago",
+            "(\\d++[.,]?\\d*+) centuries ago"
+        ],
         "in \\1 decade": [
             "in (\\d++[.,]?\\d*+) decades?"
         ],
         "\\1 decade ago": [
             "(\\d++[.,]?\\d*+) decades? ago"
+        ],
+        "in \\1 fortnight": [
+            "in (\\d++[.,]?\\d*+) fortnights?"
+        ],
+        "\\1 fortnight ago": [
+            "(\\d++[.,]?\\d*+) fortnights? ago"
         ]
     },
     "locale_specific": {
@@ -1127,9 +1233,17 @@ info = {
         "of"
     ],
     "sentence_splitter_group": 1,
+    "century": [
+        "century",
+        "centuries"
+    ],
     "decade": [
         "decade",
         "decades"
+    ],
+    "fortnight": [
+        "fortnight",
+        "fortnights"
     ],
     "early_morning": [
         "early morning",
@@ -1198,7 +1312,7 @@ info = {
             "(\\d+(?:st|nd|rd|th)) day": "\\1"
         },
         {
-            "(\\d++[.,]?\\d*+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve) (decade|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
+            "(\\d+)(?:st|nd|rd|th)\\s+(?:century|centuries|fortnight|fortnights)\\b": "\\1 ordinal"
         },
         {
             "one": "1"
@@ -1235,6 +1349,78 @@ info = {
         },
         {
             "twelve": "12"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)thirteen(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "13"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)fourteen(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "14"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)fifteen(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "15"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)sixteen(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "16"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)seventeen(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "17"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)eighteen(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "18"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)nineteen(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "19"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)twenty(?:-|\\s+)([1-9])(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "2\\1"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)thirty(?:-|\\s+)([1-9])(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "3\\1"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)forty(?:-|\\s+)([1-9])(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "4\\1"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)fifty(?:-|\\s+)([1-9])(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "5\\1"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)sixty(?:-|\\s+)([1-9])(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "6\\1"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)seventy(?:-|\\s+)([1-9])(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "7\\1"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)eighty(?:-|\\s+)([1-9])(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "8\\1"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)ninety(?:-|\\s+)([1-9])(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "9\\1"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)twenty(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "20"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)thirty(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "30"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)forty(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "40"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)fifty(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "50"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)sixty(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "60"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)seventy(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "70"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)eighty(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "80"
+        },
+        {
+            "(?<!\\d\\s|hundred\\s|hundred and\\s)ninety(?=\\s+(?:centuries|decades|fortnights|years|months|weeks|days|hours|hrs?|minutes|mins?|seconds|secs?)\\b)": "90"
+        },
+        {
+            "(\\d++[.,]?\\d*+) (centur(?:y|ies)|decade|fortnight|year|month|week|day|hour|minute|second)s? later": "in \\1 \\2"
         }
     ]
 }
