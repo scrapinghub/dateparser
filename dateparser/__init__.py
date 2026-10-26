@@ -1,6 +1,6 @@
 __version__ = "1.4.3"
 
-import collections
+from collections import deque
 from collections.abc import Callable, Iterable, Iterator
 from datetime import datetime
 from typing import Any
@@ -139,10 +139,10 @@ def parse_many(
     Raises :exc:`ValueError` if a date string does not fit any date order that
     fits the previous ones.
     """
-    settings = dict(settings or {})
-    preferred_order = settings.get("DATE_ORDER")
-    # Relative dates must not change from one date order to the next.
-    settings.setdefault("RELATIVE_BASE", datetime.now())
+    orders = list(date_order_chart if date_orders is None else date_orders)
+    if not orders or not set(orders) <= set(date_order_chart):
+        raise ValueError(f"Invalid date_orders: {date_orders!r}")
+    settings = settings or {}
     parser_kwargs: dict[str, Any] = {
         "languages": languages,
         "locales": locales,
@@ -150,7 +150,11 @@ def parse_many(
         "detect_languages_function": detect_languages_function,
     }
     parser = DateDataParser(settings=settings, **parser_kwargs)
+    # Relative dates must not change from one date order to the next while
+    # finding the date order.
+    strict_settings = {"RELATIVE_BASE": datetime.now(), **settings}
     strict_parsers: dict[tuple[str, str], DateDataParser] = {}
+    order_parsers: dict[str, DateDataParser] = {}
 
     def parse_strictly(date_string: str, order: str, locale: str) -> datetime | None:
         # Parsing with the locale of regular parsing, because a date string
@@ -158,33 +162,55 @@ def parse_many(
         if (order, locale) not in strict_parsers:
             strict_parsers[order, locale] = DateDataParser(
                 locales=[locale],
-                settings={**settings, "DATE_ORDER": order, "STRICT_DATE_ORDER": "all"},
+                settings={
+                    **strict_settings,
+                    "DATE_ORDER": order,
+                    "STRICT_DATE_ORDER": "all",
+                },
             )
         date_obj: datetime | None = strict_parsers[order, locale].get_date_data(
             date_string
         )["date_obj"]
         return date_obj
 
-    orders = list(date_orders or date_order_chart)
-    pending: collections.deque[tuple[str, dict[str, datetime | None]]] = (
-        collections.deque()
-    )
-    locked_parser = None
+    def parse_in_order(date_string: str, order: str) -> datetime | None:
+        if order not in order_parsers:
+            order_parsers[order] = DateDataParser(
+                settings={**settings, "DATE_ORDER": order, "STRICT_DATE_ORDER": "all"},
+                **parser_kwargs,
+            )
+        date_obj: datetime | None = order_parsers[order].get_date_data(date_string)[
+            "date_obj"
+        ]
+        if date_obj is None and parser.get_date_data(date_string)["date_obj"]:
+            raise ValueError(f"{date_string!r} does not fit the {order} date order")
+        return date_obj
+
+    def settle() -> str:
+        if settings.get("DATE_ORDER") in orders:
+            return str(settings["DATE_ORDER"])
+        raise AmbiguousDateOrderError(
+            [date_string for date_string, _ in pending], orders
+        )
+
+    def pop() -> datetime | None:
+        date_string, dates = pending.popleft()
+        if dates[orders[0]] is None:
+            return None
+        return parse_in_order(date_string, orders[0])
+
+    pending: deque[tuple[str, dict[str, datetime | None]]] = deque()
     for date_string in date_strings:
-        if locked_parser:
-            date = locked_parser.get_date_data(date_string)["date_obj"]
-            if date is None and parser.get_date_data(date_string)["date_obj"]:
-                raise ValueError(
-                    f"{date_string!r} does not fit the {orders[0]} date order"
-                )
-            yield date
+        if len(orders) == 1:
+            yield parse_in_order(date_string, orders[0])
             continue
-        locale = parser.get_date_data(date_string)["locale"]
-        if locale is None:
+        data = parser.get_date_data(date_string)
+        if data["locale"] is None:
             dates = dict.fromkeys(orders)
         else:
             dates = {
-                order: parse_strictly(date_string, order, locale) for order in orders
+                order: parse_strictly(date_string, order, data["locale"])
+                for order in orders
             }
             orders = [order for order in orders if dates[order]]
             if not orders:
@@ -193,31 +219,12 @@ def parse_many(
                 )
         pending.append((date_string, dates))
         while pending and len({pending[0][1][order] for order in orders}) == 1:
-            yield pending.popleft()[1][orders[0]]
+            yield pop()
         if max_pending is not None and len(pending) > max_pending:
-            orders = _settle_date_order(pending, orders, preferred_order)
+            orders = [settle()]
             while pending:
-                yield pending.popleft()[1][orders[0]]
-        if len(orders) == 1:
-            locked_parser = DateDataParser(
-                settings={
-                    **settings,
-                    "DATE_ORDER": orders[0],
-                    "STRICT_DATE_ORDER": "all",
-                },
-                **parser_kwargs,
-            )
+                yield pop()
     if pending:
-        order = _settle_date_order(pending, orders, preferred_order)[0]
-        for _, dates in pending:
-            yield dates[order]
-
-
-def _settle_date_order(
-    pending: Iterable[tuple[str, dict[str, datetime | None]]],
-    orders: list[str],
-    preferred_order: str | None,
-) -> list[str]:
-    if preferred_order in orders:
-        return [preferred_order]
-    raise AmbiguousDateOrderError([date_string for date_string, _ in pending], orders)
+        orders = [settle()]
+    while pending:
+        yield pop()

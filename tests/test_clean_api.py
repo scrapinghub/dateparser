@@ -667,6 +667,31 @@ class TestParseMany(BaseTestCase):
         )
         self.assertEqual([datetime(2020, 1, 1), datetime(2020, 1, 13)], list(result))
 
+    @parameterized.expand(
+        [
+            param(
+                "in 1 hour",
+                {"TIMEZONE": "Pacific/Kiritimati", "RETURN_AS_TIMEZONE_AWARE": True},
+            ),
+            param(
+                "in 1 hour", {"TIMEZONE": "UTC", "TO_TIMEZONE": "Pacific/Kiritimati"}
+            ),
+            *(
+                param(
+                    f"{hour:02}:30",
+                    {"TIMEZONE": "Pacific/Kiritimati", "PREFER_DATES_FROM": "past"},
+                )
+                for hour in range(0, 24, 6)
+            ),
+        ]
+    )
+    def test_timezone(self, date_string: str, settings: dict[str, Any]) -> None:
+        (date,) = dateparser.parse_many([date_string], settings=settings)
+        expected = dateparser.parse(date_string, settings=settings)
+        assert date is not None
+        assert expected is not None
+        self.assertLess(abs(expected - date), timedelta(minutes=1))
+
     def test_lazy(self) -> None:
         def date_strings() -> Iterator[str]:
             yield "2015/1/1"
@@ -705,6 +730,11 @@ class TestParseMany(BaseTestCase):
         with self.assertRaises(dateparser.AmbiguousDateOrderError) as cm:
             list(dateparser.parse_many(["11.12.13"], date_orders=date_orders))
         self.assertEqual(date_orders, cm.exception.date_orders)
+
+    @parameterized.expand([param([]), param(["DMY", "XYZ"])])
+    def test_invalid_date_orders(self, date_orders: list[str]) -> None:
+        with self.assertRaisesRegex(ValueError, "date_orders"):
+            list(dateparser.parse_many(["01/02/2015"], date_orders=date_orders))
 
     @parameterized.expand(
         [

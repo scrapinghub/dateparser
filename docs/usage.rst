@@ -30,5 +30,6 @@ To parse dates that share a date order, such as those of a CSV column, use
 :func:`dateparser.parse_many`, which finds the date order that fits all of
 them:
 
+    >>> from dateparser import parse_many
     >>> list(parse_many(['2015/2/3', '2015/31/12']))
     [datetime.datetime(2015, 3, 2, 0, 0), datetime.datetime(2015, 12, 31, 0, 0)]
