@@ -2,6 +2,8 @@ from collections.abc import Callable
 from datetime import datetime
 from typing import Any
 
+from pytz.tzinfo import BaseTzInfo
+
 from .conf import Settings, apply_settings
 from .timezone_parser import pop_tz_offset_from_string
 from .utils import _get_localzone, apply_timezone, localize_timezone, strip_braces
@@ -39,7 +41,11 @@ class DateParser:
             if "local" not in _settings_tz:
                 date_obj = apply_timezone(date_obj, settings.TIMEZONE)
         elif "local" in _settings_tz:
-            date_obj = date_obj.replace(tzinfo=_get_localzone())
+            local_timezone = _get_localzone()
+            if isinstance(local_timezone, BaseTzInfo):
+                date_obj = local_timezone.localize(date_obj)
+            else:
+                date_obj = date_obj.replace(tzinfo=local_timezone)
         else:
             date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 
