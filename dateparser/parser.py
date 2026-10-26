@@ -6,12 +6,11 @@ from functools import partial
 from io import StringIO
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, overload
 
-import pytz
 import regex as re
-from tzlocal import get_localzone
 
 from dateparser.languages.locale import _WEEKDAY_MODIFIERS
 from dateparser.utils import (
+    _get_localzone,
     _get_missing_parts,
     _get_parts,
     _now,
@@ -19,7 +18,6 @@ from dateparser.utils import (
     get_last_day_of_month,
     get_next_leap_year,
     get_previous_leap_year,
-    get_timezone_from_tz_string,
     localize_timezone,
     set_correct_day_from_settings,
     set_correct_month_from_settings,
@@ -407,6 +405,7 @@ class _parser:
         self._token_year = None
         self._token_time = None
         self._weekday_modifier = None
+        self._now_is_utc = False
 
         self.ordered_num_directives = {
             k: self.num_directives[k]
@@ -686,37 +685,25 @@ class _parser:
     def _set_relative_base(self) -> None:
         # self.now is naive and expressed in the timezone of the parsed date:
         # the one in the date string if any, else the TIMEZONE setting. A naive
-        # RELATIVE_BASE is expressed in the TIMEZONE setting if it is set
-        # explicitly, else it is used as is for the date and as UTC when
-        # comparing times.
+        # RELATIVE_BASE is expressed in the TIMEZONE setting, unless that is the
+        # local timezone, in which case it is used as is for the date and as
+        # UTC when comparing times.
         now = self.settings.RELATIVE_BASE
-        self._now_is_utc = False
         if not now:
             self.now = _now(self.settings, self._tz)
             return
-        if not now.tzinfo:
-            if "TIMEZONE" not in self.settings._mod_settings:
-                self.now = now
-                self._now_is_utc = True
-                return
-            if not self._tz:
-                self.now = now
-                return
         settings_tz = self.settings.TIMEZONE
         is_local = "local" in settings_tz.lower()
         if not now.tzinfo:
-            if is_local:
-                local_tz = get_localzone()
-                if hasattr(local_tz, "localize"):
-                    now = local_tz.localize(now)
-                else:
-                    now = now.replace(tzinfo=local_tz)
-            else:
-                now = localize_timezone(now, settings_tz)
+            if is_local or not self._tz:
+                self.now = now
+                self._now_is_utc = is_local
+                return
+            now = localize_timezone(now, settings_tz)
         if self._tz:
             now = now.astimezone(self._tz)
         elif is_local:
-            now = now.astimezone(get_localzone())
+            now = now.astimezone(_get_localzone())
         else:
             now = apply_timezone(now, settings_tz)
         self.now = now.replace(tzinfo=None)
@@ -760,7 +747,7 @@ class _parser:
 
         return self._get_datetime_obj(**params)
 
-    def _correct_for_time_frame(  # noqa: PLR0912, PLR0915
+    def _correct_for_time_frame(  # noqa: PLR0912
         self, dateobj: datetime
     ) -> datetime:
         days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
@@ -812,10 +799,13 @@ class _parser:
                     raise
 
         if self._token_year and len(self._token_year[0]) == 2:
-            if self.now < dateobj:
+            if self.now.date() < dateobj.date():
                 if "past" in self.settings.PREFER_DATES_FROM:
                     dateobj = dateobj.replace(year=dateobj.year - 100)
-            elif "future" in self.settings.PREFER_DATES_FROM:
+            elif (
+                self.now.date() > dateobj.date()
+                and "future" in self.settings.PREFER_DATES_FROM
+            ):
                 dateobj = dateobj.replace(year=dateobj.year + 100)
 
         if self._token_time and not any(
@@ -827,16 +817,18 @@ class _parser:
             ]
         ):
             compared = dateobj
-            if self._now_is_utc:
-                try:
-                    tz = self._tz or get_timezone_from_tz_string(self.settings.TIMEZONE)
-                    compared -= tz.utcoffset(dateobj) or timedelta()
-                except (pytz.UnknownTimeZoneError, pytz.NonExistentTimeError):
-                    pass
+            if self._now_is_utc and self._tz:
+                compared -= self._tz.utcoffset(dateobj) or timedelta()
+            shifted = dateobj
             if "past" in self.settings.PREFER_DATES_FROM and self.now < compared:
-                dateobj = dateobj + timedelta(days=-1)
+                shifted = dateobj + timedelta(days=-1)
             if "future" in self.settings.PREFER_DATES_FROM and self.now > compared:
-                dateobj = dateobj + timedelta(days=1)
+                shifted = dateobj + timedelta(days=1)
+            if shifted.month != dateobj.month:
+                # Keep _correct_for_month from moving the date back to the
+                # month of self.now.
+                self._token_month = shifted.month
+            dateobj = shifted
 
         return dateobj
 
