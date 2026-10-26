@@ -50,10 +50,10 @@ def search_dates(
     :type strategy: str
 
     :param date_formats:
-        A list of :ref:`format strings <python:strftime-strptime-behavior>`,
-        tried on every candidate before regular parsing. Requires
-        ``strategy="ngram"``, which splits text on ",", "|", "(", ")", "@" and
-        whitespace, so formats cannot contain those, other than single spaces.
+        A list of :ref:`format strings <python:strftime-strptime-behavior>`.
+        Text that matches any of them is found before the rest of the text is
+        searched, as long as it does not start or end with whitespace or any of
+        ``,|()@``. Requires ``strategy="ngram"``.
     :type date_formats: list
 
     :return: Returns list of tuples containing:

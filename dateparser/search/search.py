@@ -850,8 +850,10 @@ class DateSearchWithDetection:
         :type strategy: str
 
         :param date_formats:
-               A list of format strings to try on each candidate. Only
-               supported by the "ngram" strategy.
+               A list of format strings. Text that matches any of them is
+               found before the rest of the text is searched, as long as it
+               does not start or end with whitespace or any of ``,|()@``.
+               Requires ``strategy="ngram"``.
         :type date_formats: list
 
         :return: a dict mapping keys to two letter language code and a list of tuples of pairs:
@@ -866,8 +868,12 @@ class DateSearchWithDetection:
             raise ValueError(
                 f'strategy must be "split" or "ngram" ({strategy!r} given)'
             )
-        if date_formats and strategy != "ngram":
-            raise ValueError('date_formats requires strategy="ngram"')
+        if date_formats is not None:
+            if strategy != "ngram":
+                raise ValueError('date_formats requires strategy="ngram"')
+            if isinstance(date_formats, str):
+                raise TypeError("date_formats must be a list of strings")
+            date_formats = tuple(date_formats)
 
         assert isinstance(settings, Settings)
         check_settings(settings)

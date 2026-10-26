@@ -8,13 +8,14 @@ than the translation-based search.
 """
 
 import logging
-from collections.abc import Iterable, Sequence
+from collections.abc import Callable, Iterator, Sequence
 from datetime import datetime
+from functools import partial
 
 import regex as re
 
 from dateparser.conf import Settings
-from dateparser.date import DateDataParser
+from dateparser.date import DateDataParser, parse_with_formats
 
 logger = logging.getLogger(__name__)
 
@@ -69,12 +70,16 @@ class _NgramDateSearch:
         languages: list[str],
         text: str,
         settings: Settings,
-        date_formats: Iterable[str] | None = None,
+        date_formats: Sequence[str] | None = None,
     ) -> list[tuple[str, datetime]]:
         """Find all dates in ``text`` and return ``(substring, date)`` pairs.
 
         ``languages`` are tried in the given order for every candidate
         n-gram.
+
+        Text that matches ``date_formats`` is found first, in a separate scan.
+        A longer n-gram may still contain such a match, e.g. to add a time to
+        a date, but no n-gram may contain only part of one.
         """
         parser = DateDataParser(
             languages=languages, use_given_order=True, settings=settings
@@ -84,40 +89,80 @@ class _NgramDateSearch:
             for token in _TOKEN_RE.finditer(text)
             if token.group() not in _NOISE_TOKENS
         ]
-        results: list[tuple[str, datetime]] = []
+
+        def span(index: int, size: int) -> str:
+            return text[tokens[index].start() : tokens[index + size - 1].end()]
+
+        def parse_formats(index: int, size: int) -> datetime | None:
+            assert date_formats
+            return _try_parse(
+                partial(_parse_with_formats, parser, date_formats),
+                span(index, size),
+                languages,
+            )
+
+        format_dates = dict(self._scan(tokens, parse_formats)) if date_formats else {}
+        inside_format_dates = {
+            index + offset for index, size in format_dates for offset in range(1, size)
+        }
+
+        def parse(index: int, size: int) -> datetime | None:
+            if (index, size) in format_dates:
+                return format_dates[index, size]
+            if index + size in inside_format_dates:
+                return None
+            candidate = " ".join(
+                token.group() for token in tokens[index : index + size]
+            )
+            if _BAD_CANDIDATE_RE.match(candidate):
+                return None
+            return _try_parse(
+                lambda c: parser.get_date_data(c, date_formats).date_obj,
+                candidate,
+                languages,
+            )
+
+        return [
+            (span(index, size).strip(_STRIP_CHARS), date_obj)
+            for (index, size), date_obj in self._scan(tokens, parse)
+        ]
+
+    def _scan(
+        self,
+        tokens: Sequence[re.Match[str]],
+        parse: Callable[[int, int], datetime | None],
+    ) -> Iterator[tuple[tuple[int, int], datetime]]:
+        """Yield the index and size of every n-gram of *tokens* that *parse*
+        parses, longest first, with the parsed date."""
         index = 0
         while index < len(tokens):
             for size in range(min(self.max_tokens, len(tokens) - index), 0, -1):
-                ngram = tokens[index : index + size]
-                candidate = " ".join(token.group() for token in ngram)
-                if _BAD_CANDIDATE_RE.match(candidate):
-                    continue
-                date_obj = self._parse_candidate(
-                    parser, candidate, languages, date_formats
-                )
+                date_obj = parse(index, size)
                 if date_obj is not None:
-                    substring = text[ngram[0].start() : ngram[-1].end()]
-                    results.append((substring.strip(_STRIP_CHARS), date_obj))
+                    yield (index, size), date_obj
                     index += size
                     break
             else:
                 index += 1
-        return results
 
-    @staticmethod
-    def _parse_candidate(
-        parser: DateDataParser,
-        candidate: str,
-        languages: Sequence[str],
-        date_formats: Iterable[str] | None,
-    ) -> datetime | None:
-        try:
-            return parser.get_date_data(candidate, date_formats).date_obj
-        except Exception:
-            logger.warning(
-                "Failed to parse %r (languages=%r)",
-                candidate,
-                languages,
-                exc_info=True,
-            )
-            return None
+
+def _parse_with_formats(
+    parser: DateDataParser, date_formats: Sequence[str], date_string: str
+) -> datetime | None:
+    date_data = parse_with_formats(date_string, date_formats, parser._settings)
+    if date_data.date_obj is not None:
+        return date_data.date_obj
+    localized = parser._parse_with_localized_formats(date_string, date_formats)
+    return localized.date_obj if localized else None
+
+
+def _try_parse(
+    parse: Callable[[str], datetime | None], candidate: str, languages: Sequence[str]
+) -> datetime | None:
+    try:
+        return parse(candidate)
+    except Exception:
+        logger.warning(
+            f"Failed to parse {candidate!r} (languages={languages!r})", exc_info=True
+        )
+        return None

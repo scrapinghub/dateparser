@@ -2812,24 +2812,56 @@ class TestNgramSearch(BaseTestCase):
             )
         )
 
-    def test_search_dates_with_date_formats(self) -> None:
+    @parameterized.expand(
+        [
+            param(
+                "Ref 15032024 due 2 Apr 2024",
+                ["%d%m%Y"],
+                [
+                    ("15032024", datetime.datetime(2024, 3, 15)),
+                    ("2 Apr 2024", datetime.datetime(2024, 4, 2)),
+                ],
+            ),
+            param(
+                "A 15 March 2024 B",
+                ["%d %B %Y"],
+                [("15 March 2024", datetime.datetime(2024, 3, 15))],
+            ),
+            param(
+                "Posted 2024-03-15 14:30",
+                ["%Y-%m-%d"],
+                [("2024-03-15 14:30", datetime.datetime(2024, 3, 15, 14, 30))],
+            ),
+            param(
+                "x 2024-03-15 14:30 (12/03/2024 @ 10:00)",
+                iter(["%Y-%m-%d %H:%M", "%d/%m/%Y @ %H:%M"]),
+                [
+                    ("2024-03-15 14:30", datetime.datetime(2024, 3, 15, 14, 30)),
+                    ("12/03/2024 @ 10:00", datetime.datetime(2024, 3, 12, 10, 0)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_with_date_formats(
+        self,
+        text: str,
+        date_formats: Any,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
         result = search_dates(
-            "Ref 15032024 due 2 Apr 2024",
-            languages=["en"],
-            strategy="ngram",
-            date_formats=["%d%m%Y"],
+            text, languages=["en"], strategy="ngram", date_formats=date_formats
         )
-        self.assertEqual(
-            result,
-            [
-                ("15032024", datetime.datetime(2024, 3, 15)),
-                ("2 Apr 2024", datetime.datetime(2024, 4, 2)),
-            ],
-        )
+        self.assertEqual(result, expected)
 
     def test_date_formats_require_ngram_strategy(self) -> None:
         with self.assertRaisesRegex(ValueError, "date_formats requires"):
-            search_dates("15032024", languages=["en"], date_formats=["%d%m%Y"])
+            search_dates("15032024", languages=["en"], date_formats=[])
+
+    def test_date_formats_string_raises_error(self) -> None:
+        with self.assertRaisesRegex(TypeError, "list of strings"):
+            search_dates(
+                "15032024", languages=["en"], strategy="ngram", date_formats="%d%m%Y"
+            )
 
     def test_unknown_strategy_raises_error(self) -> None:
         with self.assertRaisesRegex(ValueError, "strategy must be"):
