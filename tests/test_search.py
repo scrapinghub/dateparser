@@ -593,7 +593,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -644,7 +644,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -823,7 +823,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -914,7 +914,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -2011,6 +2011,79 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(text, strategy, period)
+            for strategy in ("split", "ngram")
+            for text, period in (
+                ("on Monday", "day"),
+                ("on Monday at 00:00", "time"),
+                ("on Monday at night", "part_of_day"),
+                ("in 2 hours", "time"),
+                ("in October 2027", "month"),
+                ("in 2027", "year"),
+            )
+        ]
+    )
+    def test_search_dates_returning_period_if_requested(
+        self, text: str, strategy: str, period: str
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RETURN_TIME_AS_PERIOD": True},
+            strategy=strategy,
+            add_period=True,
+        )
+        assert result is not None
+        self.assertEqual([date[2:] for date in result], [(period,)])
+
+    @parameterized.expand([param("split"), param("ngram")])
+    def test_search_dates_returning_period_of_each_date(self, strategy: str) -> None:
+        result = search_dates(
+            "Founded in 2019, renamed on 5 March 2020 and sold in June 2021.",
+            languages=["en"],
+            strategy=strategy,
+            add_period=True,
+        )
+        assert result is not None
+        self.assertEqual(
+            [date[2:] for date in result], [("year",), ("day",), ("month",)]
+        )
+
+    def test_search_dates_returning_period_before_detected_language(self) -> None:
+        result = search_dates(
+            "15 de outubro de 1936", add_period=True, add_detected_language=True
+        )
+        self.assertEqual(
+            result,
+            [
+                (
+                    "15 de outubro de 1936",
+                    datetime.datetime(1936, 10, 15, 0, 0),
+                    "day",
+                    "pt",
+                )
+            ],
+        )
+
+    def test_search_dates_returning_period_of_time_spans(self) -> None:
+        base = datetime.datetime(2025, 2, 15, 12, 0)
+        result = search_dates(
+            "messages received for the past month",
+            languages=["en"],
+            settings={"RETURN_TIME_SPAN": True, "RELATIVE_BASE": base},
+            add_period=True,
+        )
+        assert result is not None
+        self.assertEqual(
+            result[-2:],
+            [
+                ("for the past month (start)", base - timedelta(days=30), "day"),
+                ("for the past month (end)", base, "day"),
+            ],
+        )
+
+    @parameterized.expand(
+        [
             param(text="19 марта 2001", languages="wrong type: str instead of list"),
         ]
     )
@@ -2840,6 +2913,35 @@ class TestNgramSearch(BaseTestCase):
                     ("12/03/2024 @ 10:00", datetime.datetime(2024, 3, 12, 10, 0)),
                 ],
             ),
+            param(
+                "Posted 12/03/2024 10:00, updated 1 June 2024",
+                ["%d/%m/%Y", "%B %Y"],
+                [
+                    ("12/03/2024 10:00", datetime.datetime(2024, 3, 12, 10, 0)),
+                    ("1 June 2024", datetime.datetime(2024, 6, 1)),
+                ],
+            ),
+            param(
+                "Due 12/03/2024 10:00 +0200, 12/03 2024, 13/03/2024 tomorrow",
+                ["%d/%m/%Y %H:%M", "%d/%m/%Y", "%d/%m"],
+                [
+                    (
+                        "12/03/2024 10:00 +0200",
+                        datetime.datetime(
+                            2024,
+                            3,
+                            12,
+                            10,
+                            0,
+                            tzinfo=StaticTzInfo("UTC+02:00", timedelta(hours=2)),
+                        ),
+                    ),
+                    ("12/03", datetime.datetime(2026, 3, 12)),
+                    ("2024", datetime.datetime(2024, 1, 1)),
+                    ("13/03/2024", datetime.datetime(2024, 3, 13)),
+                    ("tomorrow", datetime.datetime(2026, 1, 2)),
+                ],
+            ),
         ]
     )
     def test_search_dates_with_date_formats(
@@ -2849,9 +2951,26 @@ class TestNgramSearch(BaseTestCase):
         expected: list[tuple[str, datetime.datetime]],
     ) -> None:
         result = search_dates(
-            text, languages=["en"], strategy="ngram", date_formats=date_formats
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 1, 1)},
+            strategy="ngram",
+            date_formats=date_formats,
         )
         self.assertEqual(result, expected)
+
+    def test_date_formats_with_period_and_language(self) -> None:
+        result = search_dates(
+            "Ref 15032024",
+            languages=["en"],
+            strategy="ngram",
+            date_formats=["%d%m%Y"],
+            add_period=True,
+            add_detected_language=True,
+        )
+        self.assertEqual(
+            result, [("15032024", datetime.datetime(2024, 3, 15), "day", "en")]
+        )
 
     def test_date_formats_require_ngram_strategy(self) -> None:
         with self.assertRaisesRegex(ValueError, "date_formats requires"):

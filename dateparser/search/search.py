@@ -12,7 +12,7 @@ from dateparser.date import DateData, DateDataParser
 from dateparser.freshness_date_parser import _UNITS
 from dateparser.languages.loader import LocaleDataLoader
 from dateparser.languages.locale import _WEEKDAY_MODIFIERS, PUNCTUATION, Locale
-from dateparser.search.ngram_search import _NgramDateSearch
+from dateparser.search.ngram_search import _DateResult, _NgramDateSearch
 from dateparser.search.text_detection import FullTextLanguageDetector
 from dateparser.utils.time_spans import detect_time_span, generate_time_span
 
@@ -143,8 +143,8 @@ def date_is_relative(translation: str) -> bool:
 
 
 def _add_time_span_results(
-    results: list[tuple[str, datetime]], text: str, settings: Settings
-) -> list[tuple[str, datetime]]:
+    results: list[_DateResult], text: str, settings: Settings
+) -> list[_DateResult]:
     """Append time span start/end dates if RETURN_TIME_SPAN is enabled."""
     if getattr(settings, "RETURN_TIME_SPAN", False):
         span_info = detect_time_span(text)
@@ -152,8 +152,8 @@ def _add_time_span_results(
             base_date = getattr(settings, "RELATIVE_BASE", None) or datetime.now()
             start_date, end_date = generate_time_span(span_info, base_date, settings)
             matched_text = span_info["matched_text"]
-            results.append((matched_text + " (start)", start_date))
-            results.append((matched_text + " (end)", end_date))
+            results.append((matched_text + " (start)", start_date, "day"))
+            results.append((matched_text + " (end)", end_date, "day"))
     return results
 
 
@@ -705,7 +705,7 @@ class _ExactLanguageSearch:
 
     def search_parse(
         self, shortname: str, text: str, settings: Settings
-    ) -> list[tuple[str, datetime]]:
+    ) -> list[_DateResult]:
         language = self.get_current_language(shortname)
         translated, original = self.search(shortname, text, settings)
         bad_translate_with_search = [
@@ -731,7 +731,10 @@ class _ExactLanguageSearch:
 
         skip = {word.lower() for word in language.info.get("skip", [])}
         substrings = _trim_connectors(text, substrings, skip)
-        results = list(zip(substrings, [i[0]["date_obj"] for i in parsed], strict=True))
+        results: list[_DateResult] = [
+            (substring, date_data["date_obj"], date_data["period"])
+            for substring, (date_data, _) in zip(substrings, parsed, strict=True)
+        ]
 
         _add_time_span_results(results, text, settings)
 
@@ -850,9 +853,10 @@ class DateSearchWithDetection:
         :type strategy: str
 
         :param date_formats:
-               A list of format strings. Text that matches any of them is
-               found before the rest of the text is searched, as long as it
-               does not start or end with whitespace or any of ``,|()@``.
+               A list of :ref:`format strings
+               <python:strftime-strptime-behavior>`. Text that matches any of
+               them is found before the rest of the text is searched, as long
+               as it does not start or end with whitespace or any of ``,|()@``.
                Requires ``strategy="ngram"``.
         :type date_formats: list
 
@@ -864,6 +868,29 @@ class DateSearchWithDetection:
             {'Language': None, 'Dates': None}
         :raises: ValueError - Unknown Language
         """
+        language, dates = self._search_dates(
+            text=text,
+            languages=languages,
+            settings=settings,
+            detect_languages_function=detect_languages_function,
+            strategy=strategy,
+            date_formats=date_formats,
+        )
+        return {
+            "Language": language,
+            "Dates": None if dates is None else [date[:2] for date in dates],
+        }
+
+    @apply_settings
+    def _search_dates(
+        self,
+        text: str,
+        languages: Iterable[str] | None = None,
+        settings: Settings | dict[str, Any] | None = None,
+        detect_languages_function: Callable[..., list[str]] | None = None,
+        strategy: str = "split",
+        date_formats: Iterable[str] | None = None,
+    ) -> tuple[str | None, list[_DateResult] | None]:
         if strategy not in ("split", "ngram"):
             raise ValueError(
                 f'strategy must be "split" or "ngram" ({strategy!r} given)'
@@ -889,26 +916,23 @@ class DateSearchWithDetection:
             language_shortname, languages
         )
         if not candidate_languages:
-            return {"Language": None, "Dates": None}
+            return None, None
 
         if strategy == "ngram":
             dates = self.ngram_search.search_parse(
                 candidate_languages, text, settings=settings, date_formats=date_formats
             )
             _add_time_span_results(dates, text, settings)
-            return {"Language": language_shortname, "Dates": dates}
+            return language_shortname, dates
 
         for candidate_language in candidate_languages:
             dates = self.search.search_parse(
                 candidate_language, text, settings=settings
             )
             if dates:
-                return {"Language": candidate_language, "Dates": dates}
+                return candidate_language, dates
 
-        return {
-            "Language": language_shortname,
-            "Dates": [],
-        }
+        return language_shortname, []
 
     def preprocess_text(self, text: str, languages: Iterable[str] | None) -> str:
         """Preprocess text to handle language-specific quirks."""
