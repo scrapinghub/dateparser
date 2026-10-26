@@ -42,7 +42,7 @@ class non_gregorian_parser(_parser):
     non_gregorian_date_cls: Callable[[int, int, int], Any] = NotImplemented
 
     _digits: ClassVar[dict[str, int] | None] = None
-    _months: ClassVar[dict[str, tuple[int, int, list[str]]] | None] = None
+    _months: ClassVar[dict[str, tuple[Any, ...]] | None] = None
     _weekdays: ClassVar[dict[str, list[str]] | None] = None
     _number_letters: ClassVar[dict[int, list[str]] | None] = None
 
@@ -127,7 +127,7 @@ class non_gregorian_parser(_parser):
         ):
             month = int(token)
         elif directive == "%B" and self._months and token in self._months:
-            month = list(self._months.keys()).index(token) + 1
+            month = self._months[token][0]
         elif (
             directive == "%d"
             and token_len <= 2
