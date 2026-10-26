@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 
 from dateparser.utils import (
     _get_localzone,
+    _localize,
     apply_timezone,
     localize_timezone,
     set_correct_day_from_settings,
@@ -81,10 +82,10 @@ class FreshnessDateDataParser:
                 now = localize_timezone(now, settings.TIMEZONE)
 
             if ptz:
-                now = now.astimezone(ptz) if now.tzinfo else ptz.localize(now)
+                now = now.astimezone(ptz) if now.tzinfo else _localize(now, ptz)
 
             if not now.tzinfo:
-                now = now.replace(tzinfo=self.get_local_tz())
+                now = _localize(now, self.get_local_tz())
 
         elif ptz:
             localized_now = datetime.now(ptz)

@@ -2,11 +2,15 @@ from collections.abc import Callable
 from datetime import datetime
 from typing import Any
 
-from pytz.tzinfo import BaseTzInfo
-
 from .conf import Settings, apply_settings
 from .timezone_parser import pop_tz_offset_from_string
-from .utils import _get_localzone, apply_timezone, localize_timezone, strip_braces
+from .utils import (
+    _get_localzone,
+    _localize,
+    apply_timezone,
+    localize_timezone,
+    strip_braces,
+)
 
 
 class DateParser:
@@ -34,18 +38,11 @@ class DateParser:
         _settings_tz = settings.TIMEZONE.lower()
 
         if ptz:
-            if hasattr(ptz, "localize"):
-                date_obj = ptz.localize(date_obj)
-            else:
-                date_obj = date_obj.replace(tzinfo=ptz)
+            date_obj = _localize(date_obj, ptz)
             if "local" not in _settings_tz:
                 date_obj = apply_timezone(date_obj, settings.TIMEZONE)
         elif "local" in _settings_tz:
-            local_timezone = _get_localzone()
-            if isinstance(local_timezone, BaseTzInfo):
-                date_obj = local_timezone.localize(date_obj)
-            else:
-                date_obj = date_obj.replace(tzinfo=local_timezone)
+            date_obj = _localize(date_obj, _get_localzone())
         else:
             date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 

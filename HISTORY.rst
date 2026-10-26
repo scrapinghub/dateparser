@@ -3,14 +3,15 @@
 History
 =======
 
-Unreleased
-----------
+1.4.4 (unreleased)
+------------------
 
 Fixes:
 
-- Use the correct local UTC offset when older ``tzlocal`` versions return
-  a ``pytz`` timezone, instead of a historical local mean time offset.
-  Modern timezone objects retain their existing behavior (#1122).
+- Use the correct local UTC offset for absolute dates and naive relative bases
+  when older ``tzlocal`` versions return a ``pytz`` timezone, instead of a
+  historical local mean time offset. Modern timezone objects do not invoke
+  deprecated compatibility-shim ``localize`` methods (#1392).
 
 1.4.3 (2026-09-03)
 ------------------

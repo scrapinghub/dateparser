@@ -13,6 +13,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 import regex as re
 from pytz import UTC, UnknownTimeZoneError, timezone
+from pytz.tzinfo import BaseTzInfo
 from tzlocal import get_localzone
 
 from dateparser.timezone_parser import StaticTzInfo, _tz_offsets
@@ -124,18 +125,20 @@ def get_timezone_from_tz_string(tz_string: str) -> tzinfo:
         raise
 
 
+def _localize(date_time: datetime, tz: tzinfo) -> datetime:
+    """Attach a timezone to a naive datetime without calling shim localize methods."""
+    if isinstance(tz, BaseTzInfo):
+        return tz.localize(date_time)
+    return date_time.replace(tzinfo=tz)
+
+
 def localize_timezone(date_time: datetime, tz_string: str) -> datetime:
     if date_time.tzinfo:
         return date_time
 
     tz = get_timezone_from_tz_string(tz_string)
 
-    if hasattr(tz, "localize"):
-        date_time = tz.localize(date_time)
-    else:
-        date_time = date_time.replace(tzinfo=tz)
-
-    return date_time
+    return _localize(date_time, tz)
 
 
 def apply_tzdatabase_timezone(date_time: datetime, pytz_string: str) -> datetime:
@@ -159,10 +162,7 @@ def apply_dateparser_timezone(
 
 def apply_timezone(date_time: datetime, tz_string: str) -> datetime:
     if not date_time.tzinfo:
-        if hasattr(UTC, "localize"):
-            date_time = UTC.localize(date_time)
-        else:
-            date_time = date_time.replace(tzinfo=UTC)
+        date_time = _localize(date_time, UTC)
 
     new_datetime = apply_dateparser_timezone(date_time, tz_string)
 
@@ -191,10 +191,7 @@ def apply_timezone_from_settings(
         return date_obj
 
     if "local" in settings.TIMEZONE.lower():
-        if hasattr(tz, "localize"):
-            date_obj = tz.localize(date_obj)
-        else:
-            date_obj = date_obj.replace(tzinfo=tz)
+        date_obj = _localize(date_obj, tz)
     else:
         date_obj = localize_timezone(date_obj, settings.TIMEZONE)
 
