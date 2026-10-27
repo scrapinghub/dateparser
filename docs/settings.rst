@@ -363,7 +363,10 @@ The following parsers exist:
 -   ``'custom-formats'``: Parses dates that match one of the date formats in
     the list of the ``date_formats`` parameter of :func:`dateparser.parse` or
     :meth:`DateDataParser.get_date_data
-    <dateparser.date.DateDataParser.get_date_data>`.
+    <dateparser.date.DateDataParser.get_date_data>`. When a date string matches
+    none of the formats, the other parsers still try it. To accept only the
+    given formats, set ``PARSERS`` to ``['custom-formats']``: no other parser is
+    tried then, and without ``date_formats`` nothing is parsed.
 
 -   ``'absolute-time'``: Parses dates and times expressed in absolute form
     (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as
