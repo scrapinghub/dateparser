@@ -1,5 +1,6 @@
 import threading
 from collections.abc import Iterable, Iterator
+from functools import cached_property
 from itertools import chain, zip_longest
 from operator import methodcaller
 from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
@@ -13,6 +14,7 @@ if TYPE_CHECKING:
     from dateparser.conf import Settings
 
 _T = TypeVar("_T")
+_CacheKey = tuple[Any, ...]
 
 PARSER_HARDCODED_TOKENS = [":", ".", " ", "-", "/"]
 PARSER_KNOWN_TOKENS = ["am", "pm", "UTC", "GMT", "Z", "early_morning"]
@@ -93,11 +95,15 @@ class Dictionary:
     :return: a Dictionary instance.
     """
 
-    _split_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
-    _sorted_words_cache: ClassVar[dict[str, dict[str, list[str]]]] = {}
-    _split_relative_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
-    _sorted_relative_strings_cache: ClassVar[dict[str, dict[str, list[str]]]] = {}
-    _match_relative_regex_cache: ClassVar[dict[str, dict[str, re.Pattern[str]]]] = {}
+    _split_regex_cache: ClassVar[dict[_CacheKey, dict[str, re.Pattern[str]]]] = {}
+    _sorted_words_cache: ClassVar[dict[_CacheKey, dict[str, list[str]]]] = {}
+    _split_relative_regex_cache: ClassVar[
+        dict[_CacheKey, dict[str, re.Pattern[str]]]
+    ] = {}
+    _sorted_relative_strings_cache: ClassVar[dict[_CacheKey, dict[str, list[str]]]] = {}
+    _match_relative_regex_cache: ClassVar[
+        dict[_CacheKey, dict[str, re.Pattern[str]]]
+    ] = {}
 
     # The caches above are shared across all Dictionary instances and threads.
     # The lock keeps each check-populate-evict-read sequence atomic, so a
@@ -304,12 +310,12 @@ class Dictionary:
 
         return list(filter(bool, chain.from_iterable(tokens)))
 
-    @property
-    def _cache_key(self) -> str:
+    @cached_property
+    def _cache_key(self) -> _CacheKey:
         # The cached values only depend on the words of the dictionary.
-        return f"{type(self).__name__}-{self._settings.SKIP_TOKENS}"
+        return (type(self), *self._settings.SKIP_TOKENS)
 
-    def _add_to_cache(self, value: _T, cache: dict[str, dict[str, _T]]) -> None:
+    def _add_to_cache(self, value: _T, cache: dict[_CacheKey, dict[str, _T]]) -> None:
         with self._cache_lock:
             key = self._cache_key
             entry = cache.pop(key, {})
