@@ -3402,8 +3402,13 @@ class TestNoWordSpacingSecurity:
 class TestSimplifyLongRun:
     @pytest.mark.parametrize(
         ("shortname", "date_string"),
-        [("ru", "1" * 5000 + " 1"), ("ko", "1" * 20_000), ("ko", "_" * 20_000)],
-        ids=["ru-digits", "ko-digits", "ko-underscores"],
+        [
+            ("ru", "1" * 5000 + " 1"),
+            ("ko", "1" * 20_000),
+            ("ko", "_" * 20_000),
+            ("ko", "00:" * 5000),
+        ],
+        ids=["ru-digits", "ko-digits", "ko-underscores", "ko-colons"],
     )
     def test_long_run(self, shortname: str, date_string: str) -> None:
         locale = default_loader.get_locale(shortname)
