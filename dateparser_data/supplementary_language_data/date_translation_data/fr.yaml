@@ -72,8 +72,8 @@ simplifications:
     - un: '1'
     - (\d+[.,]?\d*)\s+h\s+(\d+[.,]?\d*)\s+min: \1h\2m
     - (\d+[.,]?\d*)h(\d+[.,]?\d*)m?: \1:\2
-    - (?<!\by )\bà (\d{1,2})h\b: à \1:00
-    - \b(\d{4},? |\d{4}-\d{2}-\d{2} )(\d{1,2})h\b: \1\2:00
+    - (?<!\by )(?<!\by a )\bà ([01]?\d|2[0-3])h\b: à \1:00
+    - (?<!\by a )\b((?:19|20)\d\d,? |\d{4}-\d{2}-\d{2} )([01]?\d|2[0-3])h\b: \1\2:00
     - moins\s(?:de\s)?(\d+[.,]?\d*)\s?(minute|seconde|heure): \1 \2
     - moins\s(?:de\s)?(\d+[.,]?\d*)\s?s: \1 seconde
     - moins\s(?:de\s)?(\d+[.,]?\d*)\s?m: \1 minute
@@ -83,9 +83,16 @@ simplifications:
     - quatre: '4'
     - cinq: '5'
     - six: '6'
-    - sept: '7'
+    # 'sept' is both the abbreviation for 'septembre' and the word for 7,
+    # and simplifications run before month names are translated. Only
+    # simplify it to 7 where it is a quantity, i.e. followed by a duration
+    # unit or a clock time. 'a' (for 'annee') counts as a unit only when no
+    # number follows it, because the preposition 'a' loses its accent during
+    # normalization and introduces a time, as in '3 sept a 14h30'.
+    - 'sept(?=:\d|\s*(?:années|année|ans|an|semaines|semaine|sem|secondes|seconde|minutes|minute|min|mois|heures|heure|jours|jour|[jhms])\b|\s*a\b(?!\s*\d))': '7'
     - huit: '8'
     - neuf: '9'
     - dix: '10'
     - onze: '11'
     - douze: '12'
+    - (?<!(?:apr[eè]s|avant)(?:[\W_]+le)?[\W_]+)midi: '12:00'
