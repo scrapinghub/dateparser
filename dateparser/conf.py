@@ -1,6 +1,5 @@
-import hashlib
 from collections.abc import Callable, Iterable, Mapping
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import wraps
 from types import MappingProxyType
 from typing import Any, Literal, ParamSpec, TypeVar
@@ -9,6 +8,7 @@ from dateparser._parts_of_day import PartsOfDay
 from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
+from .timezone_parser import _tz_regexes
 
 _P = ParamSpec("_P")
 _R = TypeVar("_R")
@@ -24,6 +24,7 @@ class Settings:
     * `TIMEZONE`
     * `TO_TIMEZONE`
     * `RETURN_AS_TIMEZONE_AWARE`
+    * `TIMEZONE_ABBREVIATIONS`
     * `PREFER_MONTH_OF_YEAR`
     * `PREFER_DAY_OF_MONTH`
     * `PREFER_DATES_FROM`
@@ -49,13 +50,13 @@ class Settings:
     _pyfile_data: dict[str, Any] | None = None
     _mod_settings: Mapping[str, Any] = MappingProxyType({})
 
-    registry_key: str
     DATE_ORDER: str
     PREFER_LOCALE_DATE_ORDER: bool
     STRICT_DATE_ORDER: str
     TIMEZONE: str
     TO_TIMEZONE: str | Literal[False]
     RETURN_AS_TIMEZONE_AWARE: bool | Literal["default"]
+    TIMEZONE_ABBREVIATIONS: Mapping[str, timedelta]
     PREFER_MONTH_OF_YEAR: str
     PREFER_DAY_OF_MONTH: str
     PREFER_DATES_FROM: str
@@ -77,27 +78,10 @@ class Settings:
     CACHE_SIZE_LIMIT: int
 
     def __init__(self, settings: Mapping[str, Any] | None = None) -> None:
-        self.registry_key = self.get_key(settings)
         if settings:
             self._updateall(settings.items())
         else:
             self._updateall(self._get_settings_from_pyfile().items())
-
-    @classmethod
-    def get_key(cls, settings: Mapping[str, Any] | None = None) -> str:
-        if not settings:
-            return "default"
-
-        # Used as a key for dictionary caches, which do not depend on the
-        # relative base.
-        keys = sorted(
-            f"{key}-{settings[key]}"
-            for key in settings
-            if key not in {"RELATIVE_BASE", "_mod_settings"}
-        )
-        return hashlib.md5(
-            "".join(keys).encode("utf-8"), usedforsecurity=False
-        ).hexdigest()
 
     @classmethod
     def _get_settings_from_pyfile(cls) -> dict[str, Any]:
@@ -122,6 +106,11 @@ class Settings:
             kwds.setdefault(x, getattr(self, x))
 
         kwds["_default"] = False
+        # Keep track of the settings that the caller set, or replacing another
+        # one, like RELATIVE_BASE, makes an explicit DATE_ORDER give way to the
+        # order of the locale.
+        if mod_settings is None:
+            mod_settings = self._mod_settings
         if mod_settings:
             kwds["_mod_settings"] = mod_settings
 
@@ -177,19 +166,13 @@ def _check_require_part(setting_name: str, setting_value: list[str]) -> None:
 
 def _check_parsers(setting_name: str, setting_value: list[str]) -> None:
     """Returns `True` if the provided list of parsers contains valid values"""
-    existing_parsers = [
-        "timestamp",
-        "relative-time",
-        "custom-formats",
-        "absolute-time",
-        "no-spaces-time",
-        "negative-timestamp",
-    ]  # FIXME: Extract the list of existing parsers from another place (#798)
-    unknown_parsers = set(setting_value) - set(existing_parsers)
+    from dateparser.date import _DateLocaleParser  # noqa: PLC0415
+
+    unknown_parsers = set(setting_value) - _DateLocaleParser._parsers.keys()
     if unknown_parsers:
         raise SettingValidationError(
             'Found unknown parsers in the "{}" setting: {}'.format(
-                setting_name, ", ".join(unknown_parsers)
+                setting_name, ", ".join(sorted(unknown_parsers))
             )
         )
     _check_repeated_values(setting_name, setting_value)
@@ -204,6 +187,24 @@ def _check_default_languages(setting_name: str, setting_value: list[str]) -> Non
             )
         )
     _check_repeated_values(setting_name, setting_value)
+
+
+def _check_timezone_abbreviations(
+    setting_name: str, setting_value: Mapping[str, Any]
+) -> None:
+    known = {name for _, timezones in _tz_regexes().families for name, _ in timezones}
+    unknown = set(setting_value) - known
+    if unknown:
+        raise SettingValidationError(
+            f'Found unknown timezone abbreviations in the "{setting_name}" '
+            f"setting: {', '.join(map(repr, sorted(unknown)))}"
+        )
+    for abbreviation, offset in setting_value.items():
+        if not isinstance(offset, timedelta):
+            raise SettingValidationError(
+                f'The offset of {abbreviation!r} in the "{setting_name}" setting '
+                f"must be a timedelta, not {offset!r}."
+            )
 
 
 def _check_between_0_and_1(setting_name: str, setting_value: float) -> None:
@@ -237,6 +238,10 @@ def check_settings(settings: Settings) -> None:
         "RETURN_AS_TIMEZONE_AWARE": {
             # It defaults to 'default', but it's not allowed to use it directly
             "type": bool
+        },
+        "TIMEZONE_ABBREVIATIONS": {
+            "type": Mapping,
+            "extra_check": _check_timezone_abbreviations,
         },
         "PREFER_MONTH_OF_YEAR": {"values": ("current", "first", "last"), "type": str},
         "PREFER_DAY_OF_MONTH": {"values": ("current", "first", "last"), "type": str},
