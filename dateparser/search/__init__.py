@@ -15,6 +15,7 @@ def search_dates(
     add_detected_language: bool = False,
     detect_languages_function: Callable[..., list[str]] | None = None,
     strategy: str = "split",
+    date_formats: Iterable[str] | None = None,
     add_period: bool = False,
 ) -> (
     list[tuple[str, datetime]]
@@ -53,6 +54,13 @@ def search_dates(
         longest possible sequences of tokens as dates. The "ngram" strategy tends to
         produce more predictable results, at the cost of more parse attempts.
     :type strategy: str
+
+    :param date_formats:
+        A list of :ref:`format strings <python:strftime-strptime-behavior>`.
+        Text that matches any of them is found before the rest of the text is
+        searched, as long as it does not start or end with whitespace or any of
+        ``,|()@``. Requires ``strategy="ngram"``.
+    :type date_formats: list
 
     :param add_period:
         Indicates if we want the period of each date (``time``, ``part_of_day``,
@@ -94,6 +102,7 @@ def search_dates(
         settings=settings,
         detect_languages_function=detect_languages_function,
         strategy=strategy,
+        date_formats=date_formats,
     )
     if not dates:
         return None

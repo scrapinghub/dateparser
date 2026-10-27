@@ -7,6 +7,7 @@ import pytz
 from parameterized import param, parameterized
 
 from dateparser.conf import Settings, apply_settings
+from dateparser.date import DateDataParser
 from dateparser.search import search_dates
 from dateparser.search.search import DateSearchWithDetection
 from dateparser.timezone_parser import StaticTzInfo
@@ -2884,6 +2885,119 @@ class TestNgramSearch(BaseTestCase):
                 "Hello world nothing here at all", languages=["en"], strategy="ngram"
             )
         )
+
+    @parameterized.expand(
+        [
+            param(
+                "Ref 15032024 due 2 Apr 2024",
+                ["%d%m%Y"],
+                [
+                    ("15032024", datetime.datetime(2024, 3, 15)),
+                    ("2 Apr 2024", datetime.datetime(2024, 4, 2)),
+                ],
+            ),
+            param(
+                "A 15 March 2024 B",
+                ["%d %B %Y"],
+                [("15 March 2024", datetime.datetime(2024, 3, 15))],
+            ),
+            param(
+                "Posted 2024-03-15 14:30",
+                ["%Y-%m-%d"],
+                [("2024-03-15 14:30", datetime.datetime(2024, 3, 15, 14, 30))],
+            ),
+            param(
+                "x 2024-03-15 14:30 (12/03/2024 @ 10:00)",
+                iter(["%Y-%m-%d %H:%M", "%d/%m/%Y @ %H:%M"]),
+                [
+                    ("2024-03-15 14:30", datetime.datetime(2024, 3, 15, 14, 30)),
+                    ("12/03/2024 @ 10:00", datetime.datetime(2024, 3, 12, 10, 0)),
+                ],
+            ),
+            param(
+                "Posted 12/03/2024 10:00, updated 1 June 2024",
+                ["%d/%m/%Y", "%B %Y"],
+                [
+                    ("12/03/2024 10:00", datetime.datetime(2024, 3, 12, 10, 0)),
+                    ("1 June 2024", datetime.datetime(2024, 6, 1)),
+                ],
+            ),
+            param(
+                "Due 12/03/2024 10:00 +0200, 12/03 2024, 13/03/2024 tomorrow",
+                ["%d/%m/%Y %H:%M", "%d/%m/%Y", "%d/%m"],
+                [
+                    (
+                        "12/03/2024 10:00 +0200",
+                        datetime.datetime(
+                            2024,
+                            3,
+                            12,
+                            10,
+                            0,
+                            tzinfo=StaticTzInfo("UTC+02:00", timedelta(hours=2)),
+                        ),
+                    ),
+                    ("12/03", datetime.datetime(2026, 3, 12)),
+                    ("2024", datetime.datetime(2024, 1, 1)),
+                    ("13/03/2024", datetime.datetime(2024, 3, 13)),
+                    ("tomorrow", datetime.datetime(2026, 1, 2)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_with_date_formats(
+        self,
+        text: str,
+        date_formats: Any,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 1, 1)},
+            strategy="ngram",
+            date_formats=date_formats,
+        )
+        self.assertEqual(result, expected)
+
+    def test_parse_errors_are_logged_and_skipped(self) -> None:
+        get_date_data = DateDataParser.get_date_data
+
+        def fail_on_x(self: DateDataParser, date_string: str, *args: Any) -> Any:
+            if "x" in date_string:
+                raise RuntimeError
+            return get_date_data(self, date_string, *args)
+
+        with (
+            patch.object(DateDataParser, "get_date_data", fail_on_x),
+            self.assertLogs("dateparser.search.ngram_search", "WARNING") as logs,
+        ):
+            result = search_dates("x 2 Apr 2024", languages=["en"], strategy="ngram")
+        self.assertEqual(result, [("2 Apr 2024", datetime.datetime(2024, 4, 2))])
+        self.assertIn("Failed to parse 'x 2 Apr 2024'", logs.output[0])
+
+    def test_date_formats_with_period_and_language(self) -> None:
+        result = search_dates(
+            "Ref 15032024",
+            languages=["en"],
+            strategy="ngram",
+            date_formats=["%d%m%Y"],
+            add_period=True,
+            add_detected_language=True,
+        )
+        self.assertEqual(
+            result, [("15032024", datetime.datetime(2024, 3, 15), "day", "en")]
+        )
+
+    def test_date_formats_require_ngram_strategy(self) -> None:
+        with self.assertRaisesRegex(ValueError, "date_formats requires"):
+            search_dates("15032024", languages=["en"], date_formats=[])
+
+    def test_date_formats_string_raises_error(self) -> None:
+        with self.assertRaisesRegex(TypeError, "list of strings"):
+            search_dates(
+                "15032024", languages=["en"], strategy="ngram", date_formats="%d%m%Y"
+            )
 
     def test_unknown_strategy_raises_error(self) -> None:
         with self.assertRaisesRegex(ValueError, "strategy must be"):
