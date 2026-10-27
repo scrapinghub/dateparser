@@ -2934,7 +2934,7 @@ class TestDateParser(BaseTestCase):
         self, date_string: str, languages: list[str] | None
     ) -> None:
         """Test that a string with no date in it is not parsed as today when
-        none of the date_formats parses it (Issue #1020)."""
+        none of the date_formats parses it."""
         self.assertIsNone(
             parse(date_string, date_formats=["%d.%m.%Y %H:%M"], languages=languages)
         )
