@@ -41,9 +41,10 @@ _TRAILING_QUANTITY_REG = re.compile(
 
 # A relative expression as translated, e.g. "in 2 day" from Chinese "后天",
 # which no space separates from a number before it in languages written without
-# spaces, e.g. "2020-9-1in 2 day" from "2020年9月1日后天".
+# spaces, e.g. "2020-9-1in 2 day" from "2020年9月1日后天", nor its number from
+# its unit, e.g. "2day ago" from "2天前".
 _GLUED_RELATIVE_REG = re.compile(
-    rf"in \d+ (?:{_UNITS})s?(?![a-z])|(?<![\d.])\d+ (?:{_UNITS})s? ago(?![a-z])"
+    rf"in \d+ (?:{_UNITS})s?(?![a-z])|(?<![\d.])\d+ ?(?:{_UNITS})s? ago(?![a-z])"
 )
 _NUMERIC_DATE_REG = re.compile(r"\d[-/.]\d+[-/.]\d")
 _SEPARATORS = f"{PUNCTUATION}，、 "

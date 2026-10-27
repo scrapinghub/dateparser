@@ -901,6 +901,14 @@ class TestDateDataParser(BaseTestCase):
         self.then_date_was_not_parsed()
         self.assertLessEqual(parse.call_count, max_attempts)
 
+    @parameterized.expand([param("MMX"), param("the MCC,"), param("Jan MMM")])
+    def test_short_roman_numeral_is_not_parsed_without_a_month(
+        self, date_string: str
+    ) -> None:
+        self.given_parser(restrict_to_languages=["en"])
+        self.when_date_string_is_parsed(date_string)
+        self.then_date_was_not_parsed()
+
     def test_try_previous_locales_order_deterministic(self) -> None:
         self.given_parser(try_previous_locales=True)
         self.when_date_string_is_parsed("Mañana")  # es
@@ -1472,12 +1480,30 @@ class TestSanitizeDate(BaseTestCase):
 
     def test_sanitize_date_roman_numeral_years(self) -> None:
         self.assertEqual(date.sanitize_date("Anno MDCCXVII."), "Anno 1717")
-        for date_string in ("MD", "MIXED", "mdccxvii", "MDCLXXXIIX", "CMXCIX"):
+        self.assertEqual(date.sanitize_date("© MMX"), "© 2010")
+        self.assertEqual(date.sanitize_date("(c) MCC"), "(c) 1200")
+        for date_string in (
+            "MD",
+            "MIXED",
+            "mdccxvii",
+            "MDCLXXXIIX",
+            "CMXCIX",
+            "MMM",
+            "MCC",
+            "MMDC",
+        ):
             self.assertEqual(date.sanitize_date(date_string), date_string)
 
     def test_sanitize_date_decimal_comma(self) -> None:
         self.assertEqual(date.sanitize_date("06:38:49,946"), "06:38:49.946")
         self.assertEqual(date.sanitize_date("06:38:49,12 June"), "06:38:49,12 June")
+        self.assertEqual(
+            date.sanitize_date("Tue Jan 5 10:00:00,2021"), "Tue Jan 5 10:00:00,2021"
+        )
+        self.assertEqual(
+            date.sanitize_date("2021-01-05 10:00:00,2021"), "2021-01-05 10:00:00.2021"
+        )
+        self.assertEqual(date.sanitize_date("10:00:00,2021 PM"), "10:00:00.2021 PM")
 
     def test_sanitize_date_colons(self) -> None:
         self.assertEqual(date.sanitize_date("2019:"), "2019")

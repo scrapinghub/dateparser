@@ -1437,6 +1437,14 @@ class TestTranslateSearch(BaseTestCase):
                 ],
             ),
             param(
+                text="2020年9月1日 2天前",
+                languages=["zh"],
+                expected=[
+                    ("2020年9月1日", datetime.datetime(2020, 9, 1, 0, 0)),
+                    ("2天前", relative_base - timedelta(days=2)),
+                ],
+            ),
+            param(
                 text="後天，2020/9/1",
                 languages=["zh-Hant"],
                 expected=[
