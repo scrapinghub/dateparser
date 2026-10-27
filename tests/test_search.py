@@ -1911,6 +1911,11 @@ class TestTranslateSearch(BaseTestCase):
         search_dates(", " * 800, languages=["zh"])
         self.assertLess(monotonic() - start, 1.0)
 
+    def test_search_dates_long_skipped_word_run_next_to_numeric_date(self) -> None:
+        start = monotonic()
+        search_dates("and " * 800 + "in 2 days 2020-09-01", languages=["en"])
+        self.assertLess(monotonic() - start, 1.0)
+
     def test_search_dates_skipped_word_changes_translation(self) -> None:
         result = search_dates(
             "Chaque jour de 9h30 à 18h",

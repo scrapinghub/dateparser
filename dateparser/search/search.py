@@ -57,6 +57,11 @@ _MAX_CONTEXT_WORDS = 3
 """Skipped words before a word, e.g. "a las" before "13h", that
 :meth:`_ExactLanguageSearch.split_around_skipped_words` translates it with."""
 
+_MAX_EXPRESSION_LENGTH = 50
+"""Characters at the end of a chunk, opposite to a numeric date, in which
+:meth:`_ExactLanguageSearch.split_off_numeric_date` looks for a relative
+expression, e.g. "后天"."""
+
 
 def _is_weekday_modifier(word: str) -> bool:
     return word.strip().strip(PUNCTUATION) in _WEEKDAY_MODIFIERS
@@ -492,7 +497,7 @@ class _ExactLanguageSearch:
             expression = match[0].replace(" ", "")
             # The expression is the shortest end of the chunk, on the side
             # opposite to the date, that translates into it.
-            for size in range(1, len(original)):
+            for size in range(1, min(len(original), _MAX_EXPRESSION_LENGTH + 1)):
                 cut = len(original) - size if before else size
                 if (
                     "no_word_spacing" not in language.info
