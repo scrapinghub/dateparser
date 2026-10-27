@@ -17,7 +17,7 @@ from dateparser import date
 from dateparser.conf import Settings
 from dateparser.date import DateData
 from dateparser.languages.loader import default_loader
-from dateparser.languages.locale import Locale
+from dateparser.languages.locale import _MAX_TRANSLATIONS, Locale
 from dateparser.search import search_dates
 from tests import BaseTestCase
 
@@ -1010,6 +1010,15 @@ class TestDateDataParser(BaseTestCase):
         self.when_date_string_is_parsed(date_string, date_formats)
         self.then_parsed_datetime_is(expected_result)
         self.then_detected_locale("es")
+
+    def test_translate_names_yields_a_bounded_number_of_readings(self) -> None:
+        # Spanish "mar" is both "martes" and "marzo", so each "mar" doubles
+        # the number of possible readings of the string.
+        locale = default_loader.get_locale("es")
+        date_string = " ".join(["mar"] * 12)
+        readings = list(date._translate_names(date_string, "%a %d %b %Y", locale))
+        assert len(readings) == _MAX_TRANSLATIONS
+        assert len(set(readings)) == _MAX_TRANSLATIONS
 
     @parameterized.expand(
         [
