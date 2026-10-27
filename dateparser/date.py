@@ -864,7 +864,9 @@ class DateDataParser:
             `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
             The parser applies formats one by one, taking into account the
             detected languages. A UTC offset matched by ``%z`` is kept, while a
-            time zone name matched by ``%Z`` is ignored.
+            time zone name matched by ``%Z`` is ignored. If no format matches,
+            the other parsers of the :ref:`PARSERS <settings>` setting are
+            tried; set it to ``['custom-formats']`` to use only these formats.
         :type date_formats: list
 
         :return: a ``DateData`` object.

@@ -635,6 +635,9 @@ class TestDateParser(BaseTestCase):
                 "Unable to parse: 8",
             ),
             param("12/09/18567", "Unable to parse: 18567"),
+            param("year", "Nothing to parse"),
+            param("hour minute", "Nothing to parse"),
+            param("t", "Nothing to parse"),
             param("5 06 Mar 2009", "Unable to parse: march"),
             param("Mar 5 06 2009", "Too many numbers in date string"),
             param("6/4/25 0730", "Too many numbers in date string"),
@@ -2918,6 +2921,22 @@ class TestDateParser(BaseTestCase):
                 languages=languages,
                 settings=settings,
             )
+        )
+
+    @parameterized.expand(
+        [
+            param(date_string, languages=languages)
+            for languages in (None, ["en"])
+            for date_string in ("Time", "(m)")
+        ]
+    )
+    def test_other_parsers_reject_dateless_strings(
+        self, date_string: str, languages: list[str] | None
+    ) -> None:
+        """Test that a string with no date in it is not parsed as today when
+        none of the date_formats parses it."""
+        self.assertIsNone(
+            parse(date_string, date_formats=["%d.%m.%Y %H:%M"], languages=languages)
         )
 
     @parameterized.expand(

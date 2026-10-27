@@ -427,6 +427,7 @@ class _parser:
         skip_index: list[int] = []
         skip_component: str | None = None
         skip_tokens = ["t", "year", "hour", "minute"]
+        nothing_to_parse = True
 
         for index, token_type_original_index in enumerate(self.filtered_tokens):
             if index in skip_index:
@@ -436,6 +437,7 @@ class _parser:
 
             if token in skip_tokens:
                 continue
+            nothing_to_parse = False
 
             if token in _WEEKDAY_MODIFIERS:
                 if self._weekday_modifier:
@@ -517,6 +519,8 @@ class _parser:
                     skip_component = "year"
                 setattr(self, *res)
 
+        if nothing_to_parse:
+            raise ValueError("Nothing to parse")
         known, unknown = get_unresolved_attrs(self)
         unset_tokens = [
             unset_token
