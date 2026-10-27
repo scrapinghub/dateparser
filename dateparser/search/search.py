@@ -53,6 +53,10 @@ _MAX_TRAILING_WORDS = 3
 """Words after a relative expression, e.g. "5 pm" after "in 1 day", that
 :meth:`_ExactLanguageSearch.split_by_relative_expression` keeps with it."""
 
+_MAX_CONTEXT_WORDS = 3
+"""Skipped words before a word, e.g. "a las" before "13h", that
+:meth:`_ExactLanguageSearch.split_around_skipped_words` translates it with."""
+
 
 def _is_weekday_modifier(word: str) -> bool:
     return word.strip().strip(PUNCTUATION) in _WEEKDAY_MODIFIERS
@@ -363,8 +367,9 @@ class _ExactLanguageSearch:
         for index in range(len(words)):
             # Skipped words before a word can change how it translates, e.g.
             # "13h" is a quantity of hours but "à 13h" a time of day.
+            context_start = max(start, index - _MAX_CONTEXT_WORDS)
             translation = language.translate(
-                " ".join(words[start : index + 1]), settings=settings
+                " ".join(words[context_start : index + 1]), settings=settings
             ).split()
             if len(translation) > 1:
                 return []

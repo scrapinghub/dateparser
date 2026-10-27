@@ -99,10 +99,8 @@ def pop_tz_offset_from_string(
     # equivalent one so the leftover does not break the rest of the parser.
     # The remainder is right-stripped first because the numeric-offset regexes
     # are anchored at the end of the string.
-    while True:
-        extra = _search_and_pop_tz(date_string.rstrip())
-        if extra is None or overrides.get(extra[1], extra[2]) != offset:
-            break
+    extra = _search_and_pop_tz(date_string.rstrip())
+    if extra is not None and overrides.get(extra[1], extra[2]) == offset:
         date_string = extra[0]
 
     return date_string, result
@@ -252,9 +250,16 @@ def _find_tz(
             # overlapped: in "EST/EDT" both matches share the "/"
             matches = pattern.finditer(string, overlapped=True)
         best: tuple[int, tuple[int, int]] | None = None
+        # The same timezone text always matches the same group, and finding
+        # that group means checking hundreds of them, so do it once per text.
+        # Group 1 and the last group match the characters around the text.
+        indexes: dict[str, int] = {}
         for match in matches:
-            group = next(k for k, v in match.groupdict().items() if v is not None)
-            index = int(group[2:])
+            text = string[match.end(1) : match.start(pattern.groups)].lower()
+            if text not in indexes:
+                group = next(k for k, v in match.groupdict().items() if v is not None)
+                indexes[text] = int(group[2:])
+            index = indexes[text]
             if best is None or index < best[0]:
                 best = (index, match.span())
         if best:

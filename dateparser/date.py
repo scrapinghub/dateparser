@@ -249,7 +249,7 @@ def _decimal_comma_to_point(match: re.Match[str]) -> str:
     if (
         len(match[1]) == 4
         and not match[2]
-        and not re.search(r"\d{4}", match.string[: match.start()])
+        and not re.search(r"\d{4}", match.string, endpos=match.start())
     ):
         return ","
     return "."
@@ -271,9 +271,13 @@ def _roman_to_int(numeral: str) -> int:
 
 def _roman_year_to_digits(match: re.Match[str]) -> str:
     numeral = match[0]
+    # Spaces are collapsed by then, so a copyright mark before the numeral is
+    # within the 10 characters before it, e.g. "copyright ".
     if len(numeral) >= 5 or (
         _is_short_roman_year(numeral)
-        and _RE_COPYRIGHT.search(match.string[: match.start()])
+        and _RE_COPYRIGHT.search(
+            match.string, max(0, match.start() - 10), match.start()
+        )
     ):
         return str(_roman_to_int(numeral))
     return numeral

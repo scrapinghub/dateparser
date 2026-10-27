@@ -847,10 +847,12 @@ class Locale:
         date_string = self._apply_simplifications(date_string, simplifications)
 
         def replace_number_pairs(match: re.Match[str]) -> str:
-            first_num = int(match.group(1))
-            second_num = int(match.group(2))
-            result = first_num + second_num
-            if 1 <= result <= 31 and first_num in [20, 30] and 1 <= second_num <= 9:
+            first, second = match.groups()
+            # Numbers can be too long for int(), so check their digits first.
+            if first not in ("20", "30") or len(second) != 1:
+                return match.group(0)
+            result = int(first) + int(second)
+            if second != "0" and result <= 31:
                 return str(result)
             return match.group(0)
 

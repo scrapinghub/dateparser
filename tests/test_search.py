@@ -1,5 +1,6 @@
 import datetime
 from datetime import timedelta
+from time import monotonic
 from typing import Any
 from unittest.mock import patch
 
@@ -1904,6 +1905,11 @@ class TestTranslateSearch(BaseTestCase):
         self.assertEqual(
             result, [("at 22h tomorrow", datetime.datetime(2026, 9, 25, 22))]
         )
+
+    def test_search_dates_long_skipped_word_run(self) -> None:
+        start = monotonic()
+        search_dates(", " * 800, languages=["zh"])
+        self.assertLess(monotonic() - start, 1.0)
 
     def test_search_dates_skipped_word_changes_translation(self) -> None:
         result = search_dates(

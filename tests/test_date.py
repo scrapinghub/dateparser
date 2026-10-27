@@ -5,7 +5,7 @@ from collections.abc import Iterable
 from datetime import datetime, timedelta
 from datetime import timezone as dttz
 from itertools import product
-from time import tzset
+from time import monotonic, tzset
 from typing import Any
 from unittest.mock import Mock, patch
 
@@ -901,7 +901,9 @@ class TestDateDataParser(BaseTestCase):
         self.then_date_was_not_parsed()
         self.assertLessEqual(parse.call_count, max_attempts)
 
-    @parameterized.expand([param("MMX"), param("the MCC,"), param("Jan MMM")])
+    @parameterized.expand(
+        [param("MMX"), param("the MCC,"), param("Jan MMM"), param("12 MCC")]
+    )
     def test_short_roman_numeral_is_not_parsed_without_a_month(
         self, date_string: str
     ) -> None:
@@ -1504,6 +1506,11 @@ class TestSanitizeDate(BaseTestCase):
             date.sanitize_date("2021-01-05 10:00:00,2021"), "2021-01-05 10:00:00.2021"
         )
         self.assertEqual(date.sanitize_date("10:00:00,2021 PM"), "10:00:00.2021 PM")
+
+    def test_sanitize_date_long_roman_numeral_run(self) -> None:
+        start = monotonic()
+        date.sanitize_date("MCC " * 32000)
+        self.assertLess(monotonic() - start, 0.5)
 
     def test_sanitize_date_colons(self) -> None:
         self.assertEqual(date.sanitize_date("2019:"), "2019")
