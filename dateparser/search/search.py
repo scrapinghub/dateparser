@@ -358,13 +358,19 @@ class _ExactLanguageSearch:
         words = original.split()
         kept = []
         translations = []
-        for index, word in enumerate(words):
-            translation = language.translate(word, settings=settings).split()
+        start = 0
+        for index in range(len(words)):
+            # Skipped words before a word can change how it translates, e.g.
+            # "13h" is a quantity of hours but "à 13h" a time of day.
+            translation = language.translate(
+                " ".join(words[start : index + 1]), settings=settings
+            ).split()
             if len(translation) > 1:
                 return []
             if translation:
                 kept.append(index)
                 translations.extend(translation)
+                start = index + 1
         item_words = item.split()
         if len(kept) == len(words) or len(kept) != len(item_words):
             return []

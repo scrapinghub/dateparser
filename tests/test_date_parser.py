@@ -2402,6 +2402,49 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("friday at 22h", "en", datetime(2026, 9, 18, 22)),
+            param("September 24, 2026 at 18h", "en", datetime(2026, 9, 24, 18)),
+            param("September 24, 2026 18h", "en", datetime(2026, 9, 24, 18)),
+            param("22h", "en", datetime(2026, 9, 23, 14)),
+            param("22h ago", "en", datetime(2026, 9, 23, 14)),
+            param("demain à 8h", "fr", datetime(2026, 9, 25, 8)),
+            param("24 septembre 2026 à 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("24 septembre 2026 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("24/09/2026 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("2026-09-24 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("il y a 22h", "fr", datetime(2026, 9, 23, 14)),
+        ]
+    )
+    def test_hour_after_at_or_date_is_time(
+        self, date_string: str, language: str, expected: datetime
+    ) -> None:
+        settings = {"RELATIVE_BASE": datetime(2026, 9, 24, 12)}
+        self.assertEqual(
+            parse(date_string, languages=[language], settings=settings), expected
+        )
+
+    @parameterized.expand(
+        [
+            param("at 48h", "en", datetime(2026, 9, 22, 12)),
+            param("at 22h ago", "en", datetime(2026, 9, 23, 14)),
+            param("2026, 3h ago", "en", datetime(2026, 9, 24, 9)),
+            param("2026-09-20 3h ago", "en", datetime(2026, 9, 24, 9)),
+            param("1200 5h", "en", datetime(2026, 9, 24, 7)),
+            param("à 48h", "fr", datetime(2026, 9, 22, 12)),
+            param("il y a à 22h", "fr", datetime(2026, 9, 23, 14)),
+            param("il y a 2026 3h", "fr", datetime(2026, 9, 24, 9)),
+        ]
+    )
+    def test_hour_after_at_or_date_is_duration(
+        self, date_string: str, language: str, expected: datetime
+    ) -> None:
+        settings = {"RELATIVE_BASE": datetime(2026, 9, 24, 12)}
+        self.assertEqual(
+            parse(date_string, languages=[language], settings=settings), expected
+        )
+
+    @parameterized.expand(
+        [
             param(prefer_dates_from="current_period"),
             param(prefer_dates_from="past"),
             param(prefer_dates_from="future"),

@@ -1881,6 +1881,30 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.assertEqual(result, [("01 Oktober 2020", datetime.datetime(2020, 10, 1))])
 
+    def test_search_dates_hour_after_at_is_time(self) -> None:
+        result = search_dates(
+            "see you at 22h tomorrow",
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 24, 12)},
+        )
+        self.assertEqual(
+            result, [("at 22h tomorrow", datetime.datetime(2026, 9, 25, 22))]
+        )
+
+    def test_search_dates_skipped_word_changes_translation(self) -> None:
+        result = search_dates(
+            "Chaque jour de 9h30 à 18h",
+            languages=["fr"],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 24, 12)},
+        )
+        self.assertEqual(
+            result,
+            [
+                ("9h30", datetime.datetime(2026, 9, 24, 9, 30)),
+                ("18h", datetime.datetime(2026, 9, 24, 18)),
+            ],
+        )
+
     @parameterized.expand(
         [
             param(
