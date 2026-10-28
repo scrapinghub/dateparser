@@ -2603,7 +2603,8 @@ class TestFreshnessDateDataParser(BaseTestCase):
         )
 
         parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
-        timezone = ZoneInfo(key="US/Eastern")
+        # Use the canonical name: system tzdata may omit backward-compatibility links.
+        timezone = ZoneInfo(key="America/New_York")
         parser.get_local_tz = Mock(return_value=timezone)  # type: ignore[method-assign]
         result = parser.get_date_data("1 minute ago", _settings)
         result = result["date_obj"]
