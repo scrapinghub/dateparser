@@ -248,26 +248,34 @@ def test_get_next_leap_year(year: int, expected_next_leap_year: int) -> None:
 
 
 @pytest.mark.parametrize(
-    "parse",
+    ("parse", "outcome"),
     [
-        lambda: dateparser.parse("4 October 1957"),
-        lambda: dateparser.parse("yesterday"),
-        lambda: dateparser.parse("1570308760"),
-        lambda: search_dates("It was launched on 4 October 1957.", languages=["en"]),
+        (lambda: dateparser.parse("4 October 1957"), contextlib.nullcontext()),
+        (lambda: dateparser.parse("yesterday"), contextlib.nullcontext()),
+        (
+            lambda: dateparser.parse("1570308760"),
+            pytest.raises(ValueError, match="absolute paths"),
+        ),
+        (
+            lambda: search_dates(
+                "It was launched on 4 October 1957.", languages=["en"]
+            ),
+            contextlib.nullcontext(),
+        ),
     ],
 )
-def test_broken_local_timezone(parse: Callable[[], object]) -> None:
-    result = None
+def test_broken_local_timezone(
+    parse: Callable[[], object], outcome: contextlib.AbstractContextManager[object]
+) -> None:
     with (
         patch(
             "dateparser.utils.get_localzone",
             side_effect=ValueError("ZoneInfo keys may not be absolute paths"),
         ),
         pytest.warns(FutureWarning, match="Could not determine the local timezone"),
-        contextlib.suppress(ValueError),
+        outcome,
     ):
-        result = parse()
-    assert result is None
+        assert parse() is None
 
 
 def test_registry_deprecated() -> None:

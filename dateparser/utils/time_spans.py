@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 def _get_week_start(date: datetime, start_of_week: str) -> datetime:
     days_back = date.weekday()
-    if start_of_week == "sunday":
+    if start_of_week != "monday":
         days_back = (days_back + 1) % 7
     return date - timedelta(days=days_back)
 
@@ -136,8 +136,8 @@ def generate_time_span(
         )
         start_of_week, days_in_month = "monday", 30
     else:
-        start_of_week = settings.DEFAULT_START_OF_WEEK
-        days_in_month = settings.DEFAULT_DAYS_IN_MONTH
+        start_of_week = getattr(settings, "DEFAULT_START_OF_WEEK", "monday")
+        days_in_month = getattr(settings, "DEFAULT_DAYS_IN_MONTH", 30)
     span_type = span_info["type"]
     number = span_info.get("number", 1)
     past = span_info["direction"] == "past"
