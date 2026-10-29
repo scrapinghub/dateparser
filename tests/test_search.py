@@ -7,6 +7,7 @@ import pytz
 from parameterized import param, parameterized
 
 from dateparser.conf import Settings, apply_settings
+from dateparser.date import DateDataParser
 from dateparser.search import search_dates
 from dateparser.search.search import DateSearchWithDetection
 from dateparser.timezone_parser import StaticTzInfo
@@ -454,6 +455,18 @@ class TestTranslateSearch(BaseTestCase):
                 [("1939年9月1", datetime.datetime(1939, 9, 1, 0, 0))],
                 settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
             ),
+            # Korean
+            param(
+                "ko",
+                "회의는 2023년 2월 10일(금) 오후 3시 30분에 시작합니다",
+                [
+                    (
+                        "2023년 2월 10일(금) 오후 3시 30분에",
+                        datetime.datetime(2023, 2, 10, 15, 30),
+                    )
+                ],
+                settings={"RELATIVE_BASE": datetime.datetime(2000, 1, 1)},
+            ),
             # Persian
             param(
                 "fa",
@@ -581,7 +594,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -632,7 +645,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -811,7 +824,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -902,7 +915,7 @@ class TestTranslateSearch(BaseTestCase):
         result = self.exact_language_search.search_parse(
             shortname, string, settings=settings
         )
-        self.assertEqual(result, expected)
+        self.assertEqual([date[:2] for date in result], expected)
 
     @parameterized.expand(
         [
@@ -913,6 +926,7 @@ class TestTranslateSearch(BaseTestCase):
                 " السوفييتي ووقعت أولى المعارك والتي انتصر فيها السوفييت، وعلى الرغم من ذلك رفضت"
                 " اليابان الاعتراف بذلك وقررت في 11 مايو 1939 تحريك الحدود المنغولية حتى نهر غول،",
             ),
+            param("ar", "08 أكتوبر 2020 08:15 م"),
             # Belarusian
             param(
                 "be",
@@ -1007,6 +1021,7 @@ class TestTranslateSearch(BaseTestCase):
             ),
             # Persian
             param("fa", "نگ جهانی دوم جنگ جدی بین سپتامبر 1939 و 2 سپتامبر 1945 بود."),
+            param("fa", "10 اکتوبر 2020"),
             # Polish
             param(
                 "pl",
@@ -1061,6 +1076,8 @@ class TestTranslateSearch(BaseTestCase):
                 "Ý theo gương Đức, đã tiến hành xâm lược Ethiopia năm 1935 và sát "
                 "nhập Albania vào ngày 12 tháng 4 năm 1939.",
             ),
+            # Kana are Japanese, even next to a Chinese word such as 後天
+            param("ja", "後天的な要因"),
             # Only digits
             param("en", "2007"),
         ]
@@ -1238,6 +1255,12 @@ class TestTranslateSearch(BaseTestCase):
                     ("April", datetime.datetime(2010, 4, 14, 0, 0)),
                 ],
             ),
+            param(
+                text="in the sample papers. The year of mention refers ",
+                languages=None,
+                settings=None,
+                expected=None,
+            ),
             # Date with comma and apostrophe
             param(
                 text="9/3/2017  , ",
@@ -1250,6 +1273,69 @@ class TestTranslateSearch(BaseTestCase):
                 languages=["en"],
                 settings=None,
                 expected=[("9/3/2017", datetime.datetime(2017, 9, 3, 0, 0))],
+            ),
+            # Number words without a time unit
+            param(
+                text="She turned thirty on 14 February 2018.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("on 14 February 2018", datetime.datetime(2018, 2, 14, 0, 0))
+                ],
+            ),
+            param(
+                text="Chapter Twenty: The return. It was 5 June 2019.",
+                languages=["en"],
+                settings=None,
+                expected=[("5 June 2019", datetime.datetime(2019, 6, 5, 0, 0))],
+            ),
+            param(
+                text="Twenty second street meeting on 5 June 2019.",
+                languages=["en"],
+                settings=None,
+                expected=[("on 5 June 2019", datetime.datetime(2019, 6, 5, 0, 0))],
+            ),
+            param(
+                text="Twenty five years after the Sept. 11, 2001, attacks",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("11, 2001", datetime.datetime(2001, 11, 15, 0, 0))],
+            ),
+            param(
+                text="Sep 15, 2026 10:50 AM Fifty years after Paris",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Sep 15, 2026 10:50 AM", datetime.datetime(2026, 9, 15, 10, 50)),
+                    ("Fifty years after", datetime.datetime(2070, 6, 15, 12, 0)),
+                ],
+            ),
+            param(
+                text="Sep 15, 2026 10:50 AM and fifty years after Paris",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("Sep 15, 2026 10:50 AM", datetime.datetime(2026, 9, 15, 10, 50)),
+                    ("fifty years after", datetime.datetime(2070, 6, 15, 12, 0)),
+                ],
+            ),
+            param(
+                text="On 5 June 2019, 50 years ago",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("On 5 June 2019", datetime.datetime(2019, 6, 5, 0, 0)),
+                    ("50 years ago", datetime.datetime(1970, 6, 15, 12, 0)),
+                ],
+            ),
+            param(
+                text="09.09.2026 10711 Seventy-Five Seconds, Forty Years of History",
+                languages=["en"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[
+                    ("09.09.2026", datetime.datetime(2026, 9, 9, 0, 0)),
+                    ("Forty Years of", datetime.datetime(1980, 6, 15, 12, 0)),
+                ],
             ),
             param(
                 text="时间是下午3:30",
@@ -1287,6 +1373,18 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[
                     ("2021年02月04日 17:17", datetime.datetime(2021, 2, 4, 17, 17))
                 ],
+            ),
+            param(
+                text="我们大后天见面",
+                languages=["zh"],
+                settings={"RELATIVE_BASE": datetime.datetime(2020, 6, 15, 12)},
+                expected=[("大后天", datetime.datetime(2020, 6, 18, 12, 0))],
+            ),
+            param(
+                text="后天性免疫缺陷综合征",
+                languages=["zh"],
+                settings=None,
+                expected=None,
             ),
             param(
                 text="1 小时前",
@@ -1378,6 +1476,50 @@ class TestTranslateSearch(BaseTestCase):
                 expected=[
                     ("3 days ago tomorrow", datetime.datetime(2020, 2, 14, 20, 7, 6)),
                     ("13 Feb 2020", datetime.datetime(2020, 2, 13, 0, 0)),
+                ],
+            ),
+            # Parsed together, the expression would hide the numeric date
+            param(
+                text="09/28/2019 22 hrs ago",
+                languages=["en"],
+                expected=[
+                    ("09/28/2019", datetime.datetime(2019, 9, 28, 0, 0)),
+                    ("22 hrs ago", relative_base - timedelta(hours=22)),
+                ],
+            ),
+            # "mo" alone would also translate into "month"
+            param(
+                text="in 15 months 4/3/2019",
+                languages=["en"],
+                expected=[
+                    ("in 15 months", datetime.datetime(2021, 5, 13, 20, 7, 6)),
+                    ("4/3/2019", datetime.datetime(2019, 4, 3, 0, 0)),
+                ],
+            ),
+            param(
+                text="2020年9月1日後天",
+                languages=["zh-Hant"],
+                expected=[
+                    ("2020年9月1日", datetime.datetime(2020, 9, 1, 0, 0)),
+                    ("後天", relative_base + timedelta(days=2)),
+                ],
+            ),
+            param(
+                text="後天，2020/9/1",
+                languages=["zh-Hant"],
+                expected=[
+                    ("後天", relative_base + timedelta(days=2)),
+                    ("2020/9/1", datetime.datetime(2020, 9, 1, 0, 0)),
+                ],
+            ),
+            # Without a space, the day of the date and the number of days of
+            # the expression would read as a single number
+            param(
+                text="2020-09-01大前天",
+                languages=["zh"],
+                expected=[
+                    ("2020-09-01", datetime.datetime(2020, 9, 1, 0, 0)),
+                    ("大前天", relative_base - timedelta(days=3)),
                 ],
             ),
             # Cutting "today" off would leave "13 feb 2020 before", which is no
@@ -1813,6 +1955,30 @@ class TestTranslateSearch(BaseTestCase):
         )
         self.assertEqual(result, [("01 Oktober 2020", datetime.datetime(2020, 10, 1))])
 
+    def test_search_dates_hour_after_at_is_time(self) -> None:
+        result = search_dates(
+            "see you at 22h tomorrow",
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 24, 12)},
+        )
+        self.assertEqual(
+            result, [("at 22h tomorrow", datetime.datetime(2026, 9, 25, 22))]
+        )
+
+    def test_search_dates_skipped_word_changes_translation(self) -> None:
+        result = search_dates(
+            "Chaque jour de 9h30 à 18h",
+            languages=["fr"],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 9, 24, 12)},
+        )
+        self.assertEqual(
+            result,
+            [
+                ("9h30", datetime.datetime(2026, 9, 24, 9, 30)),
+                ("18h", datetime.datetime(2026, 9, 24, 18)),
+            ],
+        )
+
     @parameterized.expand(
         [
             param(
@@ -1941,6 +2107,79 @@ class TestTranslateSearch(BaseTestCase):
     ) -> None:
         result = search_dates(text, add_detected_language=add_detected_language)
         self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
+            param(text, strategy, period)
+            for strategy in ("split", "ngram")
+            for text, period in (
+                ("on Monday", "day"),
+                ("on Monday at 00:00", "time"),
+                ("on Monday at night", "part_of_day"),
+                ("in 2 hours", "time"),
+                ("in October 2027", "month"),
+                ("in 2027", "year"),
+            )
+        ]
+    )
+    def test_search_dates_returning_period_if_requested(
+        self, text: str, strategy: str, period: str
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RETURN_TIME_AS_PERIOD": True},
+            strategy=strategy,
+            add_period=True,
+        )
+        assert result is not None
+        self.assertEqual([date[2:] for date in result], [(period,)])
+
+    @parameterized.expand([param("split"), param("ngram")])
+    def test_search_dates_returning_period_of_each_date(self, strategy: str) -> None:
+        result = search_dates(
+            "Founded in 2019, renamed on 5 March 2020 and sold in June 2021.",
+            languages=["en"],
+            strategy=strategy,
+            add_period=True,
+        )
+        assert result is not None
+        self.assertEqual(
+            [date[2:] for date in result], [("year",), ("day",), ("month",)]
+        )
+
+    def test_search_dates_returning_period_before_detected_language(self) -> None:
+        result = search_dates(
+            "15 de outubro de 1936", add_period=True, add_detected_language=True
+        )
+        self.assertEqual(
+            result,
+            [
+                (
+                    "15 de outubro de 1936",
+                    datetime.datetime(1936, 10, 15, 0, 0),
+                    "day",
+                    "pt",
+                )
+            ],
+        )
+
+    def test_search_dates_returning_period_of_time_spans(self) -> None:
+        base = datetime.datetime(2025, 2, 15, 12, 0)
+        result = search_dates(
+            "messages received for the past month",
+            languages=["en"],
+            settings={"RETURN_TIME_SPAN": True, "RELATIVE_BASE": base},
+            add_period=True,
+        )
+        assert result is not None
+        self.assertEqual(
+            result[-2:],
+            [
+                ("for the past month (start)", base - timedelta(days=30), "day"),
+                ("for the past month (end)", base, "day"),
+            ],
+        )
 
     @parameterized.expand(
         [
@@ -2744,6 +2983,119 @@ class TestNgramSearch(BaseTestCase):
                 "Hello world nothing here at all", languages=["en"], strategy="ngram"
             )
         )
+
+    @parameterized.expand(
+        [
+            param(
+                "Ref 15032024 due 2 Apr 2024",
+                ["%d%m%Y"],
+                [
+                    ("15032024", datetime.datetime(2024, 3, 15)),
+                    ("2 Apr 2024", datetime.datetime(2024, 4, 2)),
+                ],
+            ),
+            param(
+                "A 15 March 2024 B",
+                ["%d %B %Y"],
+                [("15 March 2024", datetime.datetime(2024, 3, 15))],
+            ),
+            param(
+                "Posted 2024-03-15 14:30",
+                ["%Y-%m-%d"],
+                [("2024-03-15 14:30", datetime.datetime(2024, 3, 15, 14, 30))],
+            ),
+            param(
+                "x 2024-03-15 14:30 (12/03/2024 @ 10:00)",
+                iter(["%Y-%m-%d %H:%M", "%d/%m/%Y @ %H:%M"]),
+                [
+                    ("2024-03-15 14:30", datetime.datetime(2024, 3, 15, 14, 30)),
+                    ("12/03/2024 @ 10:00", datetime.datetime(2024, 3, 12, 10, 0)),
+                ],
+            ),
+            param(
+                "Posted 12/03/2024 10:00, updated 1 June 2024",
+                ["%d/%m/%Y", "%B %Y"],
+                [
+                    ("12/03/2024 10:00", datetime.datetime(2024, 3, 12, 10, 0)),
+                    ("1 June 2024", datetime.datetime(2024, 6, 1)),
+                ],
+            ),
+            param(
+                "Due 12/03/2024 10:00 +0200, 12/03 2024, 13/03/2024 tomorrow",
+                ["%d/%m/%Y %H:%M", "%d/%m/%Y", "%d/%m"],
+                [
+                    (
+                        "12/03/2024 10:00 +0200",
+                        datetime.datetime(
+                            2024,
+                            3,
+                            12,
+                            10,
+                            0,
+                            tzinfo=StaticTzInfo("UTC+02:00", timedelta(hours=2)),
+                        ),
+                    ),
+                    ("12/03", datetime.datetime(2026, 3, 12)),
+                    ("2024", datetime.datetime(2024, 1, 1)),
+                    ("13/03/2024", datetime.datetime(2024, 3, 13)),
+                    ("tomorrow", datetime.datetime(2026, 1, 2)),
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_with_date_formats(
+        self,
+        text: str,
+        date_formats: Any,
+        expected: list[tuple[str, datetime.datetime]],
+    ) -> None:
+        result = search_dates(
+            text,
+            languages=["en"],
+            settings={"RELATIVE_BASE": datetime.datetime(2026, 1, 1)},
+            strategy="ngram",
+            date_formats=date_formats,
+        )
+        self.assertEqual(result, expected)
+
+    def test_parse_errors_are_logged_and_skipped(self) -> None:
+        get_date_data = DateDataParser.get_date_data
+
+        def fail_on_x(self: DateDataParser, date_string: str, *args: Any) -> Any:
+            if "x" in date_string:
+                raise RuntimeError
+            return get_date_data(self, date_string, *args)
+
+        with (
+            patch.object(DateDataParser, "get_date_data", fail_on_x),
+            self.assertLogs("dateparser.search.ngram_search", "WARNING") as logs,
+        ):
+            result = search_dates("x 2 Apr 2024", languages=["en"], strategy="ngram")
+        self.assertEqual(result, [("2 Apr 2024", datetime.datetime(2024, 4, 2))])
+        self.assertIn("Failed to parse 'x 2 Apr 2024'", logs.output[0])
+
+    def test_date_formats_with_period_and_language(self) -> None:
+        result = search_dates(
+            "Ref 15032024",
+            languages=["en"],
+            strategy="ngram",
+            date_formats=["%d%m%Y"],
+            add_period=True,
+            add_detected_language=True,
+        )
+        self.assertEqual(
+            result, [("15032024", datetime.datetime(2024, 3, 15), "day", "en")]
+        )
+
+    def test_date_formats_require_ngram_strategy(self) -> None:
+        with self.assertRaisesRegex(ValueError, "date_formats requires"):
+            search_dates("15032024", languages=["en"], date_formats=[])
+
+    def test_date_formats_string_raises_error(self) -> None:
+        with self.assertRaisesRegex(TypeError, "list of strings"):
+            search_dates(
+                "15032024", languages=["en"], strategy="ngram", date_formats="%d%m%Y"
+            )
 
     def test_unknown_strategy_raises_error(self) -> None:
         with self.assertRaisesRegex(ValueError, "strategy must be"):

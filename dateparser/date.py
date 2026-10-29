@@ -17,6 +17,7 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
+from dateparser.languages.locale import _MAX_TRANSLATIONS, _VARIANT_LETTERS
 from dateparser.parser import _parse_absolute, _parse_nospaces, _StrictDateOrderError
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
@@ -119,6 +120,11 @@ _ROMAN_NUMERAL_VALUES = {
     "V": 5,
     "I": 1,
 }
+_RE_QUARTER = re.compile(
+    r"\s*(?:(?P<year>(?:19|20)\d\d)[-\s]?Q0?(?P<quarter>[1-4])"
+    r"|Q0?(?P<quarter2>[1-4])[-\s]?(?P<year2>(?:19|20)\d\d))\s*",
+    flags=re.I,
+)
 
 RE_SEARCH_TIMESTAMP = re.compile(r"^(\d{10})(\d{3})?(\d{3})?(?![^.])")
 RE_SEARCH_NEGATIVE_TIMESTAMP = re.compile(r"^([-]\d{10})(\d{3})?(\d{3})?(?![^.])")
@@ -199,6 +205,22 @@ def get_intersecting_periods(low: _D, high: _D, period: str = "day") -> Iterator
         current_period_start += step
 
 
+def _replace_quarter(date_string: str, settings: Settings) -> str | None:
+    """If *date_string* is a calendar quarter, return one of its months,
+    chosen according to the ``PREFER_MONTH_OF_YEAR`` setting, as a
+    ``YYYY-MM`` string."""
+    match = _RE_QUARTER.fullmatch(date_string)
+    if not match:
+        return None
+    now = settings.RELATIVE_BASE or _now(settings)
+    offset = {"first": 0, "last": 2, "current": (now.month - 1) % 3}[
+        settings.PREFER_MONTH_OF_YEAR
+    ]
+    year = match["year"] or match["year2"]
+    quarter = int(match["quarter"] or match["quarter2"])
+    return f"{year}-{3 * quarter - 2 + offset:02}"
+
+
 def sanitize_date(date_string: str) -> str:
     date_string = RE_SANITIZE_SKIP.sub(" ", date_string)
     date_string = RE_SANITIZE_RUSSIAN.sub(
@@ -270,18 +292,19 @@ def _apply_century_preference(
 ) -> datetime:
     """Shift *date_obj* by ±100 years to satisfy PREFER_DATES_FROM.
 
-    *now* is normalised to naive so a tz-aware RELATIVE_BASE does not raise
-    TypeError.  When the shifted year falls on Feb 29 in a non-leap year, the
-    nearest valid leap year in the preferred direction is used — matching the
-    behaviour of the NLP path in ``parser.py``.
+    *date_obj* and *now* are compared as naive datetimes, so either of them
+    can be tz-aware.  When the shifted year falls on Feb 29 in a non-leap
+    year, the nearest valid leap year in the preferred direction is used —
+    matching the behaviour of the NLP path in :file:`parser.py`.
 
     Returns the adjusted datetime, or the original when no shift is needed.
     """
-    now_naive = now.replace(tzinfo=None) if now.tzinfo is not None else now
+    now_naive = now.replace(tzinfo=None)
+    date_naive = date_obj.replace(tzinfo=None)
 
-    if now_naive < date_obj and prefer_from == "past":
+    if now_naive < date_naive and prefer_from == "past":
         target_year = date_obj.year - 100
-    elif now_naive >= date_obj and prefer_from == "future":
+    elif now_naive >= date_naive and prefer_from == "future":
         target_year = date_obj.year + 100
     else:
         return date_obj
@@ -422,9 +445,11 @@ def _translate_names(
         return
     parts = pattern.split(date_string)
     # A name can stand for several English names, e.g. "mar" is both "martes"
-    # and "marzo" in Spanish, so every combination is yielded.
-    for combination in itertools.product(
-        *(translations[match.lower()] for match in matches)
+    # and "marzo" in Spanish, so combinations are yielded, but only the first
+    # few, since their number doubles with each such name.
+    for combination in itertools.islice(
+        itertools.product(*(translations[match.lower()] for match in matches)),
+        _MAX_TRANSLATIONS,
     ):
         yield "".join(
             part + name for part, name in zip(parts, (*combination, ""), strict=True)
@@ -839,15 +864,19 @@ class DateDataParser:
         :param date_formats:
             A list of format strings using directives as given
             `here <https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>`_.
-            The parser applies formats one by one, taking into account the detected languages.
+            The parser applies formats one by one, taking into account the
+            detected languages. A UTC offset matched by ``%z`` is kept, while a
+            time zone name matched by ``%Z`` is ignored. If no format matches,
+            the other parsers of the :ref:`PARSERS <settings>` setting are
+            tried; set it to ``['custom-formats']`` to use only these formats.
         :type date_formats: list
 
         :return: a ``DateData`` object.
 
         :raises: ValueError - Unknown Language
 
-        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'year', 'time',
-            'part_of_day'.
+        .. note:: *Period* values can be a 'day' (default), 'week', 'month', 'quarter', 'year',
+            'time', 'part_of_day'.
 
         *Period* represents the granularity of date parsed from the given string.
 
@@ -895,6 +924,8 @@ class DateDataParser:
                 return localized_res
 
         date_string = sanitize_date(date_string)
+        quarter_month = _replace_quarter(date_string, self._settings)
+        date_string = quarter_month or date_string
 
         try:
             parsed_date = self._parse_using_applicable_locales(
@@ -914,6 +945,9 @@ class DateDataParser:
             # STRICT_DATE_ORDER rejected a reading of the date string, which
             # is final: no other locale may guess another reading of it.
             parsed_date = None
+        if quarter_month and parsed_date:
+            parsed_date.period = "quarter"
+            parsed_date.parts = ("year",)
         return parsed_date or DateData(date_obj=None, period="day", locale=None)
 
     def _parse_with_localized_formats(
@@ -1041,14 +1075,14 @@ class DateDataParser:
             if stripped_date_string is not None:
                 yield stripped_date_string
 
-        def candidates() -> Iterator[tuple["Locale", bool]]:
-            """Pairs of a locale and whether it must be applicable to the date
-            string to be tried."""
+        def candidates() -> Iterator[tuple["Locale", "Locale | None"]]:
+            """Pairs of a locale and the locale that must be applicable to the
+            date string for the former to be tried, if any."""
             if self.try_previous_locales:
                 with self._lock:
                     previous_locales = list(self.previous_locales.keys())
                 for locale in previous_locales:
-                    yield locale, True
+                    yield locale, locale._native
 
             if (
                 self.detect_languages_function
@@ -1062,13 +1096,21 @@ class DateDataParser:
 
                 self.languages = map_languages(detected_languages)
 
+            # Locales that only apply thanks to letter variants go last, so
+            # that e.g. Arabic text is not taken for Persian.
+            letter_variant_locales = []
             for locale in self._get_locale_loader().get_locales(
                 languages=self.languages,
                 locales=self.locales,
                 region=self.region,
                 use_given_order=use_given_order,
             ):
-                yield locale, True
+                yield locale, locale._native
+                if locale._native is not locale:
+                    letter_variant_locales.append(locale)
+            if _VARIANT_LETTERS.intersection(date_string):
+                for locale in letter_variant_locales:
+                    yield locale, locale
 
             if self._settings.DEFAULT_LANGUAGES:
                 for locale in self._get_locale_loader().get_locales(
@@ -1077,7 +1119,7 @@ class DateDataParser:
                     region=self.region,
                     use_given_order=use_given_order,
                 ):
-                    yield locale, False
+                    yield locale, None
 
         # Every locale translates a string without letters identically (see
         # test_letter_free_strings_translate_identically), so for such a
@@ -1085,16 +1127,20 @@ class DateDataParser:
         # locale per date order is enough.
         letter_free = not any(c.isalpha() for c in date_string)
         yielded_orders = set()
-        for locale, must_be_applicable in candidates():
+        yielded_locales = set()
+        for locale, applicable_locale in candidates():
             order = locale.info.get("date_order")
-            if letter_free and order in yielded_orders:
+            if locale in yielded_locales or (letter_free and order in yielded_orders):
                 continue
-            if must_be_applicable and not any(
-                self._is_applicable_locale(locale, s, ignore_surrounding_text)
+            if applicable_locale is not None and not any(
+                self._is_applicable_locale(
+                    applicable_locale, s, ignore_surrounding_text
+                )
                 for s in date_strings()
             ):
                 continue
             yielded_orders.add(order)
+            yielded_locales.add(locale)
             yield locale
 
     def _is_applicable_locale(

@@ -210,12 +210,18 @@ class TestBundledLanguages(BaseTestCase):
             param("ar", "6 يونية 2020", "6 june 2020"),
             param("ar", "7 يوليه 2020", "7 july 2020"),
             param("ar", "8 يولية 2020", "8 july 2020"),
+            param("ar", "۳ یولیو ۲۰۱۴", "3 july 2014"),
+            # Persian
+            param("fa", "3 ژوئيه 2014", "3 july 2014"),
+            param("fa", "1 اكتبر 2020", "1 october 2020"),
             # Arabic (Levantine month names, numbered alternate form)
             param("ar-SY", "15 كانون 2 2023", "15 january 2023"),
             param("ar-JO", "15 كانون 1 2023", "15 december 2023"),
             param("ar-LB", "5 تشرين 1 2023", "5 october 2023"),
             param("ar-PS", "5 تشرين 2 2023", "5 november 2023"),
             param("ar-IQ", "5 تشرين 1 2023", "5 october 2023"),
+            # Arabic (Levantine month names, Persian yeh)
+            param("ar-IQ", "10 تشرین الأول 2020", "10 october 2020"),
             # Vietnamese
             param("vi", "Thứ Năm, ngày 8 tháng 1 năm 2015", "thursday 8 january 2015"),
             param(
@@ -326,6 +332,13 @@ class TestBundledLanguages(BaseTestCase):
             param("ja", "2016年3月20日 (日) 21時40分", "2016-3-20 sunday 21:40"),
             param("ja", "正午", "12:00"),
             param("ja", "明日の13時20分", "in 1 day 13:20"),
+            # Korean
+            param("ko", "2023년 2월 10일 오전 3시 30분", "2023 february 10 am 3:30"),
+            param("ko", "12월 31일 오후 3시", "december 31 pm 3:00"),
+            param("ko", "11시 42분 15초", "11:42:15"),
+            param("ko", "2013년08월04일에", "2013 august 04"),
+            param("ko", "오후3시 반쯤", "pm 3:30"),
+            param("ko", "3시간 전", "3 hour ago"),
             # Hebrew
             param("he", "20 לאפריל 2012", "20 april 2012"),
             param("he", "יום רביעי ה-19 בנובמבר 2013", "wednesday 19 november 2013"),
@@ -1001,6 +1014,8 @@ class TestBundledLanguages(BaseTestCase):
             param("sk", "o 2 mesiace", "in 2 month"),
             param("sk", "o týždeň", "in 1 week"),
             param("sk", "predvčerom", "2 day ago"),
+            param("sk", "pozajtra", "in 2 day"),
+            param("sk", "Pozajtra o 10:00", "in 2 day 10:00"),
             param("sk", "v sobotu", " saturday"),
             # sl
             param(
@@ -1318,6 +1333,12 @@ class TestBundledLanguages(BaseTestCase):
             # Chinese
             param("zh", "昨天", "1 day ago"),
             param("zh", "前天", "2 day ago"),
+            param("zh", "大前天", "3 day ago"),
+            param("zh", "后天", "in 2 day"),
+            param("zh", "大后天", "in 3 day"),
+            param("zh-Hant", "大前天", "3 day ago"),
+            param("zh-Hant", "前天", "2 day ago"),
+            param("zh-Hant", "後天", "in 2 day"),
             param("zh", "50 秒", "50 second"),
             param("zh", "7 周", "7 week"),
             param("zh", "12 年", "12 year"),

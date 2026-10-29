@@ -17,7 +17,8 @@ from dateparser import date
 from dateparser.conf import Settings
 from dateparser.date import DateData
 from dateparser.languages.loader import default_loader
-from dateparser.languages.locale import Locale
+from dateparser.languages.locale import _MAX_TRANSLATIONS, Locale
+from dateparser.search import search_dates
 from tests import BaseTestCase
 
 
@@ -1010,6 +1011,15 @@ class TestDateDataParser(BaseTestCase):
         self.then_parsed_datetime_is(expected_result)
         self.then_detected_locale("es")
 
+    def test_translate_names_yields_a_bounded_number_of_readings(self) -> None:
+        # Spanish "mar" is both "martes" and "marzo", so each "mar" doubles
+        # the number of possible readings of the string.
+        locale = default_loader.get_locale("es")
+        date_string = " ".join(["mar"] * 12)
+        readings = list(date._translate_names(date_string, "%a %d %b %Y", locale))
+        assert len(readings) == _MAX_TRANSLATIONS
+        assert len(set(readings)) == _MAX_TRANSLATIONS
+
     @parameterized.expand(
         [
             param(
@@ -1085,6 +1095,62 @@ class TestDateDataParser(BaseTestCase):
         self.then_date_was_parsed()
         self.then_period_is("day")
         self.then_parsed_datetime_is(expected_result)
+
+    @parameterized.expand(
+        [
+            param(
+                settings={},
+                expected_result=datetime(
+                    2021, 9, 22, 12, 30, tzinfo=dttz(-timedelta(hours=10.5))
+                ),
+            ),
+            param(
+                settings={"TO_TIMEZONE": "UTC"},
+                expected_result=datetime(2021, 9, 22, 23, 0, tzinfo=dttz.utc),
+            ),
+            param(
+                settings={"TIMEZONE": "Asia/Tokyo"},
+                expected_result=datetime(
+                    2021, 9, 23, 8, 0, tzinfo=dttz(timedelta(hours=9))
+                ),
+            ),
+            param(
+                settings={"RETURN_AS_TIMEZONE_AWARE": False},
+                expected_result=datetime(2021, 9, 22, 12, 30),
+            ),
+            param(
+                settings={},
+                expected_result=datetime(
+                    1999, 1, 26, 16, 32, 21, tzinfo=dttz(timedelta(hours=1))
+                ),
+                date_string="26 Jan 99 16:32:21 +0100",
+                date_format="%d %b %y %H:%M:%S %z",
+            ),
+            param(
+                settings={"PREFER_DATES_FROM": "future"},
+                expected_result=datetime(
+                    2099, 1, 26, 16, 32, 21, tzinfo=dttz(timedelta(hours=1))
+                ),
+                date_string="26 Jan 99 16:32:21 +0100",
+                date_format="%d %b %y %H:%M:%S %z",
+            ),
+        ]
+    )
+    def test_parse_date_with_offset_using_formats(
+        self,
+        settings: dict[str, Any],
+        expected_result: datetime,
+        date_string: str = "2021-09-22 12:30-1030",
+        date_format: str = "%Y-%m-%d %H:%M%z",
+    ) -> None:
+        self.given_parser(settings=settings)
+        self.when_date_string_is_parsed(date_string, [date_format])
+        self.then_date_was_parsed()
+        date_obj = self.result["date_obj"]
+        self.assertEqual(
+            (expected_result, expected_result.utcoffset()),
+            (date_obj, date_obj.utcoffset()),
+        )
 
     @parameterized.expand(
         [
@@ -1423,6 +1489,90 @@ class TestSanitizeDate(BaseTestCase):
                 date.sanitize_date(f"UTC{dash}06:00"),
                 "UTC-06:00",
             )
+
+
+class TestQuarter(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("2025Q1", datetime(2025, 1, 1), "quarter"),
+            param("2025q02", datetime(2025, 4, 1), "quarter"),
+            param("2025-Q3", datetime(2025, 7, 1), "quarter"),
+            param("Q4 2025", datetime(2025, 10, 1), "quarter"),
+            param("2025Q5", None, "day"),
+            param("X2025Q2", None, "day"),
+            param("Q2", None, "day"),
+            param("Q2 1530", None, "day"),
+            param("1 Q2 2025", None, "day"),
+            param("Q2 2025 and 3", None, "day"),
+            param("2025Q2 2025Q3", None, "day"),
+        ]
+    )
+    def test_quarter(
+        self, date_string: str, expected_date: datetime | None, expected_period: str
+    ) -> None:
+        date_data = date.DateDataParser(
+            languages=["ru"],
+            settings={"PREFER_DAY_OF_MONTH": "first", "PREFER_MONTH_OF_YEAR": "first"},
+        ).get_date_data(date_string)
+        self.assertEqual(date_data.date_obj, expected_date)
+        self.assertEqual(date_data.period, expected_period)
+        if expected_date:
+            self.assertEqual(date_data.parts, ("year",))
+
+    def test_search(self) -> None:
+        self.assertEqual(
+            search_dates(
+                "Sales grew in Q2 2025 compared to 2024Q1.",
+                settings={
+                    "PREFER_DAY_OF_MONTH": "first",
+                    "PREFER_MONTH_OF_YEAR": "first",
+                },
+            ),
+            [
+                ("in Q2 2025", datetime(2025, 4, 1)),
+                ("2024Q1", datetime(2024, 1, 1)),
+            ],
+        )
+
+    @parameterized.expand(
+        [
+            param("first", datetime(2026, 9, 23), datetime(2025, 4, 30)),
+            param("last", datetime(2026, 9, 23), datetime(2025, 6, 30)),
+            param("current", datetime(2026, 9, 23), datetime(2025, 6, 30)),
+            param("current", datetime(2026, 8, 23), datetime(2025, 5, 31)),
+            param("current", datetime(2026, 1, 23), datetime(2025, 4, 30)),
+        ]
+    )
+    def test_quarter_month_preference(
+        self, prefer_month: str, relative_base: datetime, expected: datetime
+    ) -> None:
+        settings = {
+            "PREFER_DAY_OF_MONTH": "last",
+            "PREFER_MONTH_OF_YEAR": prefer_month,
+            "RELATIVE_BASE": relative_base,
+        }
+        self.assertEqual(dateparser.parse("2025Q2", settings=settings), expected)
+
+    @parameterized.expand(
+        [
+            param("UTC", datetime(2025, 6, 1)),
+            param("+0200", datetime(2025, 4, 1)),
+        ]
+    )
+    def test_quarter_current_month_timezone(
+        self, timezone: str, expected: datetime
+    ) -> None:
+        datetime_mock = Mock(wraps=datetime)
+        datetime_mock.now = Mock(
+            return_value=datetime(2026, 3, 31, 23, tzinfo=dttz.utc)
+        )
+        self.add_patch(patch("dateparser.utils.datetime", new=datetime_mock))
+        settings = {
+            "PREFER_DAY_OF_MONTH": "first",
+            "PREFER_MONTH_OF_YEAR": "current",
+            "TIMEZONE": timezone,
+        }
+        self.assertEqual(dateparser.parse("2025Q2", settings=settings), expected)
 
 
 class TestDateLocaleParser(BaseTestCase):

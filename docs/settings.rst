@@ -119,6 +119,13 @@ Handling Incomplete Dates
     >>> parse("2015", settings={"PREFER_MONTH_OF_YEAR": "current"}) # it exactly behaves like default one
     datetime.datetime(2015, 3, 27, 0, 0)
 
+It also picks the month of a calendar quarter, such as ``2015Q2`` or
+``Q2 2015``, where ``current`` means the month that is as far into the quarter
+as the current month is into its own:
+
+    >>> parse("2015Q2", settings={"PREFER_MONTH_OF_YEAR": "last", "PREFER_DAY_OF_MONTH": "last"})
+    datetime.datetime(2015, 6, 30, 0, 0)
+
 ``PREFER_DATES_FROM``: defaults to ``current_period`` and can have ``past`` and ``future`` as values.
 
 If date string is missing some part, this option ensures consistent results depending on the ``past`` or ``future`` preference, for example, assuming current date is `June 16, 2015`:
@@ -356,7 +363,10 @@ The following parsers exist:
 -   ``'custom-formats'``: Parses dates that match one of the date formats in
     the list of the ``date_formats`` parameter of :func:`dateparser.parse` or
     :meth:`DateDataParser.get_date_data
-    <dateparser.date.DateDataParser.get_date_data>`.
+    <dateparser.date.DateDataParser.get_date_data>`. When a date string matches
+    none of the formats, the other parsers still try it. To accept only the
+    given formats, set ``PARSERS`` to ``['custom-formats']``: no other parser is
+    tried then, and without ``date_formats`` nothing is parsed.
 
 -   ``'absolute-time'``: Parses dates and times expressed in absolute form
     (e.g. “May 4th”, “1991-05-17”). It takes into account settings such as

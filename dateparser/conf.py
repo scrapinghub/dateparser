@@ -1,4 +1,3 @@
-import hashlib
 from collections.abc import Callable, Iterable, Mapping
 from datetime import datetime, timedelta
 from functools import wraps
@@ -10,13 +9,11 @@ from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
 from .timezone_parser import _tz_regexes
-from .utils import registry
 
 _P = ParamSpec("_P")
 _R = TypeVar("_R")
 
 
-@registry
 class Settings:
     """Control and configure default parsing behavior of dateparser.
     Currently, supported settings are:
@@ -53,7 +50,6 @@ class Settings:
     _pyfile_data: dict[str, Any] | None = None
     _mod_settings: Mapping[str, Any] = MappingProxyType({})
 
-    registry_key: str
     DATE_ORDER: str
     PREFER_LOCALE_DATE_ORDER: bool
     STRICT_DATE_ORDER: str
@@ -86,16 +82,6 @@ class Settings:
             self._updateall(settings.items())
         else:
             self._updateall(self._get_settings_from_pyfile().items())
-
-    @classmethod
-    def get_key(cls, settings: Mapping[str, Any] | None = None) -> str:
-        if not settings:
-            return "default"
-
-        keys = sorted([f"{key}-{settings[key]}" for key in settings])
-        return hashlib.md5(
-            "".join(keys).encode("utf-8"), usedforsecurity=False
-        ).hexdigest()
 
     @classmethod
     def _get_settings_from_pyfile(cls) -> dict[str, Any]:
