@@ -2,25 +2,21 @@ import calendar
 import logging
 import logging.config
 import os
-import threading
-import types
 import unicodedata
 from collections import OrderedDict
-from collections.abc import Callable, Mapping
+from collections.abc import Mapping
 from datetime import datetime, tzinfo
 from datetime import timezone as dt_timezone
-from typing import TYPE_CHECKING, Any, Literal, TypeVar
+from typing import TYPE_CHECKING, Any, Literal
 
 import regex as re
 from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
 
-from dateparser.timezone_parser import StaticTzInfo, _tz_offsets
+from dateparser.timezone_parser import StaticTzInfo, _find_tz
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
-
-_T = TypeVar("_T")
 
 
 def _get_localzone() -> tzinfo:
@@ -118,9 +114,10 @@ def get_timezone_from_tz_string(tz_string: str) -> tzinfo:
     try:
         return timezone(tz_string)
     except UnknownTimeZoneError:
-        for name, info in _tz_offsets:
-            if info["regex"].search(f" {tz_string}"):
-                return StaticTzInfo(name, info["offset"])
+        found = _find_tz(f" {tz_string}")
+        if found:
+            _, name, offset = found
+            return StaticTzInfo(name, offset)
         raise
 
 
@@ -150,10 +147,10 @@ def apply_tzdatabase_timezone(date_time: datetime, pytz_string: str) -> datetime
 def apply_dateparser_timezone(
     utc_datetime: datetime, offset_or_timezone_abb: str
 ) -> datetime | None:
-    for name, info in _tz_offsets:
-        if info["regex"].search(f" {offset_or_timezone_abb}"):
-            tz = StaticTzInfo(name, info["offset"])
-            return utc_datetime.astimezone(tz)
+    found = _find_tz(f" {offset_or_timezone_abb}")
+    if found:
+        _, name, offset = found
+        return utc_datetime.astimezone(StaticTzInfo(name, offset))
     return None
 
 
@@ -190,7 +187,11 @@ def apply_timezone_from_settings(
     if settings is None:
         return date_obj
 
-    if "local" in settings.TIMEZONE.lower():
+    parsed_tz = date_obj.tzinfo is not None
+    if parsed_tz:
+        if "local" not in settings.TIMEZONE.lower():
+            date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+    elif "local" in settings.TIMEZONE.lower():
         if hasattr(tz, "localize"):
             date_obj = tz.localize(date_obj)
         else:
@@ -201,7 +202,9 @@ def apply_timezone_from_settings(
     if settings.TO_TIMEZONE:
         date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
-    if settings.RETURN_AS_TIMEZONE_AWARE is not True:
+    if not settings.RETURN_AS_TIMEZONE_AWARE or (
+        settings.RETURN_AS_TIMEZONE_AWARE == "default" and not parsed_tz
+    ):
         date_obj = date_obj.replace(tzinfo=None)
 
     return date_obj
@@ -257,39 +260,6 @@ def set_correct_month_from_settings(
         return date_obj.replace(month=options[settings.PREFER_MONTH_OF_YEAR])
     except ValueError:
         return date_obj.replace(month=options["last"])
-
-
-_registry_lock = threading.Lock()
-
-
-def registry(cls: type[_T]) -> type[_T]:
-    def choose(creator: Callable[..., Any]) -> "staticmethod[..., Any]":
-        def constructor(cls: Any, *args: Any, **kwargs: Any) -> Any:
-            key = cls.get_key(*args, **kwargs)
-
-            with _registry_lock:
-                if not hasattr(cls, "__registry_dict"):
-                    setattr(cls, "__registry_dict", {})
-                registry_dict = getattr(cls, "__registry_dict")
-
-                if key not in registry_dict:
-                    instance = creator(cls, *args)
-                    # Set the key before publishing the instance so other
-                    # threads never observe an entry without ``registry_key``.
-                    instance.registry_key = key
-                    registry_dict[key] = instance
-                return registry_dict[key]
-
-        return staticmethod(constructor)
-
-    get_key = getattr(cls, "get_key", None)
-    if not (isinstance(get_key, types.MethodType) and get_key.__self__ is cls):
-        raise NotImplementedError(
-            "Registry classes require to implement class method get_key"
-        )
-
-    cls.__new__ = choose(cls.__new__)  # type: ignore[method-assign]
-    return cls
 
 
 def get_logger() -> logging.Logger:

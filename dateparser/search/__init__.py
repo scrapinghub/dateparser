@@ -15,7 +15,14 @@ def search_dates(
     add_detected_language: bool = False,
     detect_languages_function: Callable[..., list[str]] | None = None,
     strategy: str = "split",
-) -> list[tuple[str, datetime]] | list[tuple[str, datetime, str | None]] | None:
+    date_formats: Iterable[str] | None = None,
+    add_period: bool = False,
+) -> (
+    list[tuple[str, datetime]]
+    | list[tuple[str, datetime, str | None]]
+    | list[tuple[str, datetime, str | None, str | None]]
+    | None
+):
     """Find all substrings of the given string which represent date and/or time and parse them.
 
     :param text:
@@ -48,9 +55,26 @@ def search_dates(
         produce more predictable results, at the cost of more parse attempts.
     :type strategy: str
 
+    :param date_formats:
+        A list of :ref:`format strings <python:strftime-strptime-behavior>`.
+        Text that matches any of them is found before the rest of the text is
+        searched, as long as it does not start or end with whitespace or any of
+        ``,|()@``. Requires ``strategy="ngram"``.
+    :type date_formats: list
+
+    :param add_period:
+        Indicates if we want the period of each date (``time``, ``part_of_day``,
+        ``day``, ``week``, ``month`` or ``year``) returned in the tuple, before the
+        detected language. ``time`` and ``part_of_day`` require the
+        ``RETURN_TIME_AS_PERIOD`` :ref:`setting <settings>`.
+
+        .. versionadded:: VERSION
+    :type add_period: bool
+
     :return: Returns list of tuples containing:
         substrings representing date and/or time, corresponding :mod:`datetime.datetime`
-        object and detected language if *add_detected_language* is True.
+        object, period if *add_period* is True and detected language if
+        *add_detected_language* is True.
         Returns None if no dates that can be parsed are found.
     :rtype: list
     :raises: ValueError - Unknown Language
@@ -72,17 +96,20 @@ def search_dates(
     """
     text = _search_with_detection.preprocess_text(text, languages)
 
-    result = _search_with_detection.search_dates(
+    language, dates = _search_with_detection._search_dates(
         text=text,
         languages=languages,
         settings=settings,
         detect_languages_function=detect_languages_function,
         strategy=strategy,
+        date_formats=date_formats,
     )
-    dates = result.get("Dates")
-    if dates:
+    if not dates:
+        return None
+    if add_period:
         if add_detected_language:
-            language = result.get("Language")
             return [(*date, language) for date in dates]
         return dates
-    return None
+    if add_detected_language:
+        return [(*date[:2], language) for date in dates]
+    return [date[:2] for date in dates]

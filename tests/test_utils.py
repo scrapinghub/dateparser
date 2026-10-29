@@ -21,7 +21,6 @@ from dateparser.utils import (
     get_next_leap_year,
     get_previous_leap_year,
     localize_timezone,
-    registry,
 )
 from dateparser.utils.strptime import patch_strptime
 from tests import BaseTestCase
@@ -49,13 +48,6 @@ class TestUtils(BaseTestCase):
 
     def then_date_separator_is(self, sep: str | None) -> None:
         self.assertEqual(self.result, sep)
-
-    @staticmethod
-    def make_class_without_get_keys() -> type:
-        class SomeClass:
-            pass
-
-        return SomeClass
 
     @parameterized.expand(
         [
@@ -124,6 +116,17 @@ class TestUtils(BaseTestCase):
                 timezone="-0500",
                 expected=datetime(2015, 12, 12, 5, 12),
             ),
+            param(
+                datetime(2015, 12, 12, 10, 12),
+                timezone="CEST",
+                expected=datetime(2015, 12, 12, 12, 12),
+            ),
+            # The earliest entry of timezone_info_list wins.
+            param(
+                datetime(2015, 12, 12, 10, 12),
+                timezone="CET/CEST",
+                expected=datetime(2015, 12, 12, 12, 12),
+            ),
         ]
     )
     def test_apply_timezone_function(
@@ -185,10 +188,6 @@ class TestUtils(BaseTestCase):
             date, settings.replace(RETURN_AS_TIMEZONE_AWARE=True)
         )
         self.assertTrue(bool(result.tzinfo))
-
-    def test_registry_when_get_keys_not_implemented(self) -> None:
-        cl = self.make_class_without_get_keys()
-        self.assertRaises(NotImplementedError, registry, cl)
 
     @parameterized.expand(
         [

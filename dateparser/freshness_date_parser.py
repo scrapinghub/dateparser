@@ -22,7 +22,12 @@ if TYPE_CHECKING:
     from .date import DateData
 
 _UNITS = r"century|decade|fortnight|year|month|week|day|hour|minute|second"
-PATTERN = re.compile(rf"([+-]?\s*\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | re.U)
+# A number that continues a date or a time, e.g. the year in "03/06/2020 year",
+# is not a quantity, and a string with one is not a relative date.
+PATTERN = re.compile(
+    rf"(?<![\d/.:])([+-]?\s*\d++[.,]?\d*+)\s*({_UNITS})\b", re.I | re.S | re.U
+)
+_GLUED_QUANTITY = re.compile(rf"\d\s*(?:{_UNITS})\b", re.I)
 # "the 1st of last month" translates to " 1 1 month ago".
 _DAY_OF_MONTH = re.compile(r"^\s*(\d{1,2})\s+(?=(?:in\s+)?\d+\s+month\b)")
 
@@ -32,6 +37,9 @@ class FreshnessDateDataParser:
 
     def _are_all_words_units(self, date_string: str) -> bool:
         skip = [_UNITS, r"ago|in|\d+", r":|[ap]m"]
+
+        if _GLUED_QUANTITY.search(PATTERN.sub("", date_string)):
+            return False
 
         date_string = re.sub(r"\s+", " ", date_string.strip())
 
@@ -54,7 +62,7 @@ class FreshnessDateDataParser:
         self, date_string: str, settings: "Settings"
     ) -> tuple[datetime | None, str | None, tuple[str, ...]]:
         date_string = strip_braces(date_string)
-        date_string, ptz = pop_tz_offset_from_string(date_string)
+        date_string, ptz = pop_tz_offset_from_string(date_string, settings=settings)
         day = None
         if match := _DAY_OF_MONTH.match(date_string):
             day = int(match[1])
@@ -101,7 +109,10 @@ class FreshnessDateDataParser:
             now = datetime.now(self.get_local_tz())
 
         date, period, parts = self._parse_date(
-            date_string, now, settings.PREFER_DATES_FROM
+            date_string,
+            now,
+            settings.PREFER_DATES_FROM,
+            settings.RETURN_TIME_AS_PERIOD,
         )
 
         if date and day is not None:
@@ -139,7 +150,11 @@ class FreshnessDateDataParser:
         return date, period, parts
 
     def _parse_date(  # noqa: PLR0912
-        self, date_string: str, now: datetime, prefer_dates_from: str
+        self,
+        date_string: str,
+        now: datetime,
+        prefer_dates_from: str,
+        return_time_as_period: bool,
     ) -> tuple[datetime, str, tuple[str, ...]] | tuple[None, None, tuple[()]]:
         if not self._are_all_words_units(date_string):
             return None, None, ()
@@ -154,7 +169,11 @@ class FreshnessDateDataParser:
         if not kwargs:
             return None, None, ()
         period = "day"
-        if "days" not in kwargs:
+        if return_time_as_period and any(
+            unit in kwargs for unit in ("hours", "minutes", "seconds")
+        ):
+            period = "time"
+        elif "days" not in kwargs:
             for k in ["weeks", "fortnights", "months", "years", "decades", "centuries"]:
                 if k in kwargs:
                     period = {
