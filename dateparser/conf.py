@@ -1,3 +1,5 @@
+import hashlib
+import warnings
 from collections.abc import Callable, Iterable, Mapping
 from datetime import datetime, timedelta
 from functools import wraps
@@ -82,6 +84,22 @@ class Settings:
             self._updateall(settings.items())
         else:
             self._updateall(self._get_settings_from_pyfile().items())
+
+    @classmethod
+    def get_key(cls, settings: Mapping[str, Any] | None = None) -> str:
+        warnings.warn(
+            "dateparser.conf.Settings.get_key() is deprecated and will be "
+            "removed in a future version.",
+            FutureWarning,
+            stacklevel=2,
+        )
+        if not settings:
+            return "default"
+
+        keys = sorted([f"{key}-{settings[key]}" for key in settings])
+        return hashlib.md5(
+            "".join(keys).encode("utf-8"), usedforsecurity=False
+        ).hexdigest()
 
     @classmethod
     def _get_settings_from_pyfile(cls) -> dict[str, Any]:

@@ -8,8 +8,20 @@ from .utils import _get_localzone, apply_timezone, localize_timezone, strip_brac
 
 
 class DateParser:
-    @apply_settings
     def parse(
+        self,
+        date_string: str,
+        parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
+        settings: Settings | dict[str, Any] | None = None,
+        date_order: str | None = None,
+    ) -> tuple[datetime, str | None]:
+        date_obj, period, _ = self._parse_with_parts(
+            date_string, parse_method, settings=settings, date_order=date_order
+        )
+        return date_obj, period
+
+    @apply_settings
+    def _parse_with_parts(
         self,
         date_string: str,
         parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],

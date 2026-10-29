@@ -1,4 +1,5 @@
 import re
+import warnings
 from collections.abc import Mapping
 from datetime import datetime, timedelta
 from typing import TYPE_CHECKING, Any
@@ -7,6 +8,33 @@ from dateutil.relativedelta import relativedelta
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
+
+
+def _get_week_start(date: datetime, start_of_week: str) -> datetime:
+    days_back = date.weekday()
+    if start_of_week == "sunday":
+        days_back = (days_back + 1) % 7
+    return date - timedelta(days=days_back)
+
+
+def get_week_start(date: datetime, start_of_week: str = "monday") -> datetime:
+    warnings.warn(
+        "dateparser.utils.time_spans.get_week_start() is deprecated and will "
+        "be removed in a future version.",
+        FutureWarning,
+        stacklevel=2,
+    )
+    return _get_week_start(date, start_of_week)
+
+
+def get_week_end(date: datetime, start_of_week: str = "monday") -> datetime:
+    warnings.warn(
+        "dateparser.utils.time_spans.get_week_end() is deprecated and will "
+        "be removed in a future version.",
+        FutureWarning,
+        stacklevel=2,
+    )
+    return _get_week_start(date, start_of_week) + timedelta(days=6)
 
 
 def detect_time_span(text: str) -> dict[str, Any] | None:
@@ -84,18 +112,38 @@ def detect_time_span(text: str) -> dict[str, Any] | None:
 
 
 def generate_time_span(
-    span_info: Mapping[str, Any], base_date: datetime, settings: "Settings"
+    span_info: Mapping[str, Any],
+    base_date: datetime | None = None,
+    settings: "Settings | None" = None,
 ) -> tuple[datetime, datetime]:
     """Return the start and end dates of the span described by *span_info*."""
+    if base_date is None:
+        warnings.warn(
+            "Calling dateparser.utils.time_spans.generate_time_span() without "
+            "base_date is deprecated, and base_date will be required in a "
+            "future version.",
+            FutureWarning,
+            stacklevel=2,
+        )
+        base_date = datetime.now()
+    if settings is None:
+        warnings.warn(
+            "Calling dateparser.utils.time_spans.generate_time_span() without "
+            "settings is deprecated, and settings will be required in a "
+            "future version.",
+            FutureWarning,
+            stacklevel=2,
+        )
+        start_of_week, days_in_month = "monday", 30
+    else:
+        start_of_week = settings.DEFAULT_START_OF_WEEK
+        days_in_month = settings.DEFAULT_DAYS_IN_MONTH
     span_type = span_info["type"]
     number = span_info.get("number", 1)
     past = span_info["direction"] == "past"
 
     if span_type == "week":
-        days_back = base_date.weekday()
-        if settings.DEFAULT_START_OF_WEEK == "sunday":
-            days_back = (days_back + 1) % 7
-        week_start = base_date - timedelta(days=days_back)
+        week_start = _get_week_start(base_date, start_of_week)
         if past:
             return week_start - timedelta(days=7), week_start - timedelta(days=1)
         start_date = week_start + timedelta(days=7)
@@ -103,7 +151,7 @@ def generate_time_span(
 
     span: timedelta | relativedelta
     if span_type == "month":
-        span = timedelta(days=settings.DEFAULT_DAYS_IN_MONTH)
+        span = timedelta(days=days_in_month)
     elif span_type == "days":
         span = timedelta(days=number)
     elif span_type == "weeks":

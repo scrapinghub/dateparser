@@ -455,3 +455,12 @@ def test_skip_tokens_get_their_own_cache_entry() -> None:
     ):
         dictionary = locale._get_dictionary(settings.replace(SKIP_TOKENS=skip_tokens))
         assert dictionary.split("2000 foo") == expected
+
+
+def test_get_key_deprecated() -> None:
+    with pytest.warns(FutureWarning, match="get_key"):
+        assert Settings.get_key() == "default"
+    with pytest.warns(FutureWarning, match="get_key"):
+        assert Settings.get_key({"DATE_ORDER": "DMY"}) == Settings.get_key(
+            {"DATE_ORDER": "DMY"}
+        )

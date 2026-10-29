@@ -8,7 +8,7 @@ from dateparser.parser import _parser
 
 
 class _CalendarParser(Protocol):
-    def parse(
+    def _parse_with_parts(
         self, datestring: str, settings: Settings
     ) -> tuple[datetime, str | None, tuple[str, ...]]: ...
 
@@ -28,7 +28,9 @@ class CalendarBase:
 
     def get_date(self) -> DateData | None:
         try:
-            date_obj, period, parts = self.parser.parse(self.source, settings)
+            date_obj, period, parts = self.parser._parse_with_parts(
+                self.source, settings
+            )
             return DateData(date_obj=date_obj, period=period, parts=parts)
         except ValueError:
             return None
@@ -150,6 +152,19 @@ class non_gregorian_parser(_parser):
         settings: Settings,
         tz: tzinfo | None = None,
         date_order: str | None = None,
+    ) -> tuple[datetime, str | None]:
+        date_obj, period, _ = cls._parse_with_parts(
+            datestring, settings, tz, date_order
+        )
+        return date_obj, period
+
+    @classmethod
+    def _parse_with_parts(
+        cls,
+        datestring: str,
+        settings: Settings,
+        tz: tzinfo | None = None,
+        date_order: str | None = None,
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
         datestring = cls.to_latin(datestring)
-        return super().parse(datestring, settings, tz, date_order)
+        return super()._parse_with_parts(datestring, settings, tz, date_order)
