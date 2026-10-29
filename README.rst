@@ -143,6 +143,21 @@ If you know the possible formats of the dates, you can use the
     >>> dateparser.parse('22 Décembre 2010', date_formats=['%d %B %Y'])
     datetime.datetime(2010, 12, 22, 0, 0)
 
+The formats are tried first. A date string that none of them parses is then
+parsed as if no formats were given, so a number that is out of range for a
+format can be read as another part of the date (``32`` is not a day, but it is
+a valid two-digit year). To accept only the given formats, set ``PARSERS`` to
+``['custom-formats']``, which also turns off timestamps, relative dates and
+free-form dates:
+
+.. code:: python
+
+    >>> dateparser.parse('32 DEC 10', date_formats=['%d %b %y'])
+    datetime.datetime(2032, 12, 10, 0, 0)
+
+    >>> dateparser.parse('32 DEC 10', date_formats=['%d %b %y'], settings={'PARSERS': ['custom-formats']})
+    None
+
 Relative Dates
 --------------
 

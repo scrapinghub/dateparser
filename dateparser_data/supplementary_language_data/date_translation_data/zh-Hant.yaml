@@ -25,7 +25,7 @@ no_word_spacing: "True"
 
 sentence_splitter_group: 4
 
-skip: ["大約", "約"]
+skip: ["大約", "約", "後天性"]
 
 monday:
     - 禮拜一
@@ -57,11 +57,19 @@ ago:
     - 前
 
 relative-type:
+    3 day ago:
+        - 大前天
+    2 day ago:
+        - 前天
     0 second ago:
         - 剛剛
     0 hour ago:
         - 這一時間
         - 此時
+    in 2 day:
+        - 後天
+    in 3 day:
+        - 大後天
 
 simplifications:
     - 半小時前: 30分前

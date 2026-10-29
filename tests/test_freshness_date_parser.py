@@ -43,6 +43,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # English dates
             param("yesterday", ago={"days": 1}, period="day"),
             param("yesterday at 11:30", ago={"hours": 23}, period="time"),
+            param("2 hours ago", ago={"hours": 2}, period="time"),
+            param("5 minutes ago", ago={"minutes": 5}, period="time"),
+            param("30 seconds ago", ago={"seconds": 30}, period="time"),
+            param("1 week 2 hours ago", ago={"weeks": 1, "hours": 2}, period="time"),
         ]
     )
     def test_relative_past_dates_with_time_as_period(
@@ -409,6 +413,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # Chinese dates
             param("昨天", ago={"days": 1}, period="day"),
             param("前天", ago={"days": 2}, period="day"),
+            param("大前天", ago={"days": 3}, period="day"),
             param("2小时前", ago={"hours": 2}, period="day"),
             param("约23小时前", ago={"hours": 23}, period="day"),
             param("1年2个月", ago={"years": 1, "months": 2}, period="month"),
@@ -2320,6 +2325,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("දින 3න්", in_future={"days": 3}, period="day"),
             # sk
             param("o 23 týždňov", in_future={"weeks": 23}, period="week"),
+            param("pozajtra", in_future={"days": 2}, period="day"),
             # sl
             param("čez 7 leto", in_future={"years": 7}, period="year"),
             param(
@@ -2395,9 +2401,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # zh-Hans
             param("5个月后", in_future={"months": 5}, period="month"),
             param("7天后", in_future={"days": 7}, period="day"),
+            param("后天", in_future={"days": 2}, period="day"),
+            param("大后天", in_future={"days": 3}, period="day"),
             # zh-Hant
             param("2 分鐘後", in_future={"minutes": 2}, period="day"),
             param("4 週後", in_future={"weeks": 4}, period="week"),
+            param("後天", in_future={"days": 2}, period="day"),
+            param("大後天", in_future={"days": 3}, period="day"),
         ]
     )
     def test_relative_future_dates(
@@ -2606,7 +2616,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
         )
 
         parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
-        timezone = ZoneInfo(key="US/Eastern")
+        timezone = ZoneInfo(key="America/New_York")
         parser.get_local_tz = Mock(return_value=timezone)  # type: ignore[method-assign]
         result = parser.get_date_data("1 minute ago", _settings)
         result = result["date_obj"]

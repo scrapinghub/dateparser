@@ -204,6 +204,13 @@ class TestDateParser(BaseTestCase):
             param("2020/10/9 上午 02:26:26", datetime(2020, 10, 9, 2, 26, 26)),
             # Korean dates
             param("2020/10/9 오후 2:26", datetime(2020, 10, 9, 14, 26)),
+            param("2023년 2월 10일 오전 3시 30분", datetime(2023, 2, 10, 3, 30)),
+            param("2000년 1월 1일 19:30", datetime(2000, 1, 1, 19, 30)),
+            param("12월 31일", datetime(2012, 12, 31)),
+            param("2023. 3. 18 오후 10:58", datetime(2023, 3, 18, 22, 58)),
+            param("2013년 08월 14일", datetime(2013, 8, 14)),
+            param("2013.08.14 23시 54분", datetime(2013, 8, 14, 23, 54)),
+            param("2023년02월10일 오후3시30분", datetime(2023, 2, 10, 15, 30)),
             # Bulgarian
             param("25 ян 2016", datetime(2016, 1, 25, 0, 0)),
             param("23 декември 2013 15:10:01", datetime(2013, 12, 23, 15, 10, 1)),
@@ -628,6 +635,9 @@ class TestDateParser(BaseTestCase):
                 "Unable to parse: 8",
             ),
             param("12/09/18567", "Unable to parse: 18567"),
+            param("year", "Nothing to parse"),
+            param("hour minute", "Nothing to parse"),
+            param("t", "Nothing to parse"),
             param("5 06 Mar 2009", "Unable to parse: march"),
             param("Mar 5 06 2009", "Too many numbers in date string"),
             param("6/4/25 0730", "Too many numbers in date string"),
@@ -1393,6 +1403,30 @@ class TestDateParser(BaseTestCase):
         self.given_parser(languages=["fr"])
         self.when_date_is_parsed("01/13/2021")
         self.then_date_obj_exactly_is(None)
+
+    @parameterized.expand(
+        [
+            param("08 أكتوبر 2020 08:15 م", datetime(2020, 10, 8, 20, 15), "ar"),
+            param("10 اکتوبر 2020", datetime(2020, 10, 10), "fa"),
+            param("۳ یولیو ۲۰۱۴", datetime(2014, 7, 3), "ar"),
+            param("1 اكتبر 2020", datetime(2020, 10, 1), "fa"),
+        ]
+    )
+    def test_letter_variant_locale_detection(
+        self, date_string: str, expected: datetime, locale: str
+    ) -> None:
+        self.given_parser()
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+        self.assertEqual(self.result["locale"], locale)
+
+    def test_previous_locale_with_letter_variants(self) -> None:
+        self.given_parser(try_previous_locales=True)
+        self.when_date_is_parsed("10 اکتوبر 2020")
+        self.assertEqual(self.result["locale"], "fa")
+        self.when_date_is_parsed("5 أكتوبر 2020")
+        self.then_date_obj_exactly_is(datetime(2020, 10, 5))
+        self.assertEqual(self.result["locale"], "ar")
 
     def test_order_is_not_swapped_with_a_month_name(self) -> None:
         self.given_parser(languages=["en"], settings={"DATE_ORDER": "DMY"})
@@ -2371,6 +2405,49 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("friday at 22h", "en", datetime(2026, 9, 18, 22)),
+            param("September 24, 2026 at 18h", "en", datetime(2026, 9, 24, 18)),
+            param("September 24, 2026 18h", "en", datetime(2026, 9, 24, 18)),
+            param("22h", "en", datetime(2026, 9, 23, 14)),
+            param("22h ago", "en", datetime(2026, 9, 23, 14)),
+            param("demain à 8h", "fr", datetime(2026, 9, 25, 8)),
+            param("24 septembre 2026 à 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("24 septembre 2026 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("24/09/2026 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("2026-09-24 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("il y a 22h", "fr", datetime(2026, 9, 23, 14)),
+        ]
+    )
+    def test_hour_after_at_or_date_is_time(
+        self, date_string: str, language: str, expected: datetime
+    ) -> None:
+        settings = {"RELATIVE_BASE": datetime(2026, 9, 24, 12)}
+        self.assertEqual(
+            parse(date_string, languages=[language], settings=settings), expected
+        )
+
+    @parameterized.expand(
+        [
+            param("at 48h", "en", datetime(2026, 9, 22, 12)),
+            param("at 22h ago", "en", datetime(2026, 9, 23, 14)),
+            param("2026, 3h ago", "en", datetime(2026, 9, 24, 9)),
+            param("2026-09-20 3h ago", "en", datetime(2026, 9, 24, 9)),
+            param("1200 5h", "en", datetime(2026, 9, 24, 7)),
+            param("à 48h", "fr", datetime(2026, 9, 22, 12)),
+            param("il y a à 22h", "fr", datetime(2026, 9, 23, 14)),
+            param("il y a 2026 3h", "fr", datetime(2026, 9, 24, 9)),
+        ]
+    )
+    def test_hour_after_at_or_date_is_duration(
+        self, date_string: str, language: str, expected: datetime
+    ) -> None:
+        settings = {"RELATIVE_BASE": datetime(2026, 9, 24, 12)}
+        self.assertEqual(
+            parse(date_string, languages=[language], settings=settings), expected
+        )
+
+    @parameterized.expand(
+        [
             param(prefer_dates_from="current_period"),
             param(prefer_dates_from="past"),
             param(prefer_dates_from="future"),
@@ -2777,6 +2854,122 @@ class TestDateParser(BaseTestCase):
         self.assertEqual(
             datetime(2019, 6, 22, 15, 50),
             parse("32 hours 10 minutes", settings=settings),
+        )
+
+    @parameterized.expand(
+        [
+            param(*case.args, languages=languages, **case.kwargs)
+            for languages in (None, ["en"])
+            for case in [
+                # The absolute parser.
+                param("December 31, 2020", datetime(2020, 12, 31)),
+                # The relative parser.
+                param("tomorrow", datetime(2019, 6, 25)),
+            ]
+        ]
+    )
+    def test_other_parsers_read_what_no_format_parses(
+        self,
+        date_string: str,
+        expected: datetime,
+        languages: list[str] | None = None,
+    ) -> None:
+        """Test that by default, a string that none of the date_formats parses
+        is read by the other parsers (Issue #868)."""
+        settings = {"RELATIVE_BASE": datetime(2019, 6, 24)}
+        self.assertEqual(
+            expected,
+            parse(
+                date_string,
+                date_formats=["%d/%m/%Y"],
+                languages=languages,
+                settings=settings,
+            ),
+        )
+
+    @parameterized.expand(
+        [
+            param(*case.args, languages=languages, **case.kwargs)
+            for languages in (None, ["en"])
+            for case in [
+                param("32 DEC 10", ["%d %b %y"]),
+                param("32 DEC 95", ["%d %b %y"]),
+                # By default, "sv" reads it as year, month and day, "en" does not.
+                param("31 FEB 10", ["%d %b %y"]),
+                # By default, it is read as month, day and year.
+                param("12/31/2020", ["%d/%m/%Y"]),
+            ]
+        ]
+    )
+    def test_custom_formats_only_rejects_what_no_format_parses(
+        self,
+        date_string: str,
+        date_formats: list[str],
+        languages: list[str] | None = None,
+    ) -> None:
+        """Test that with PARSERS set to ["custom-formats"], a string that none
+        of the date_formats parses is not read by the other parsers, which would
+        take a number for another part of the date (Issue #868)."""
+        settings = {
+            "PARSERS": ["custom-formats"],
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+        }
+        self.assertIsNone(
+            parse(
+                date_string,
+                date_formats=date_formats,
+                languages=languages,
+                settings=settings,
+            )
+        )
+
+    @parameterized.expand(
+        [
+            param(date_string, languages=languages)
+            for languages in (None, ["en"])
+            for date_string in ("Time", "(m)")
+        ]
+    )
+    def test_other_parsers_reject_dateless_strings(
+        self, date_string: str, languages: list[str] | None
+    ) -> None:
+        """Test that a string with no date in it is not parsed as today when
+        none of the date_formats parses it."""
+        self.assertIsNone(
+            parse(date_string, date_formats=["%d.%m.%Y %H:%M"], languages=languages)
+        )
+
+    @parameterized.expand(
+        [
+            param(*case.args, languages=languages, **case.kwargs)
+            for languages in (None, ["en"])
+            for case in [
+                param("31 DEC 10", ["%d %b %y"], datetime(2010, 12, 31)),
+                param("31 DEC 95", ["%d %b %y"], datetime(1995, 12, 31)),
+            ]
+        ]
+    )
+    def test_custom_formats_only_keeps_what_a_format_parses(
+        self,
+        date_string: str,
+        date_formats: list[str],
+        expected: datetime,
+        languages: list[str] | None = None,
+    ) -> None:
+        """Test that with PARSERS set to ["custom-formats"], a string that one
+        of the date_formats parses is still parsed (Issue #868)."""
+        settings = {
+            "PARSERS": ["custom-formats"],
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+        }
+        self.assertEqual(
+            expected,
+            parse(
+                date_string,
+                date_formats=date_formats,
+                languages=languages,
+                settings=settings,
+            ),
         )
 
 
