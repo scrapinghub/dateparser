@@ -292,6 +292,15 @@ def test_registry_deprecated() -> None:
     assert Registered(value=1) is Registered(value=1)
     assert Registered(value=1) is not Registered(value=2)
 
+    class Unregistrable:
+        pass
+
+    with (
+        pytest.warns(FutureWarning, match="registry"),
+        pytest.raises(NotImplementedError, match="get_key"),
+    ):
+        registry(Unregistrable)
+
 
 def test_week_start_and_end_deprecated() -> None:
     date = datetime(2020, 1, 1)  # Wednesday
