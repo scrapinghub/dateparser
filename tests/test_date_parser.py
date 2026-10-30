@@ -2987,5 +2987,12 @@ def test_public_parse_methods_return_date_and_period() -> None:
     ) == (datetime(2019, 12, 30), "day")
 
 
+def test_parse_method_without_parts() -> None:
+    def parse_method(date_string: str, **kwargs: Any) -> tuple[datetime, str | None]:
+        return datetime(2020, 1, 2), "day"
+
+    assert DateParser().parse("foo", parse_method) == (datetime(2020, 1, 2), "day")
+
+
 if __name__ == "__main__":
     unittest.main()

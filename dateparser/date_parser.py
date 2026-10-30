@@ -11,7 +11,10 @@ class DateParser:
     def parse(
         self,
         date_string: str,
-        parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
+        parse_method: Callable[
+            ...,
+            tuple[datetime, str | None] | tuple[datetime, str | None, tuple[str, ...]],
+        ],
         settings: Settings | dict[str, Any] | None = None,
         date_order: str | None = None,
     ) -> tuple[datetime, str | None]:
@@ -24,7 +27,10 @@ class DateParser:
     def _parse_with_parts(
         self,
         date_string: str,
-        parse_method: Callable[..., tuple[datetime, str | None, tuple[str, ...]]],
+        parse_method: Callable[
+            ...,
+            tuple[datetime, str | None] | tuple[datetime, str | None, tuple[str, ...]],
+        ],
         settings: Settings | dict[str, Any] | None = None,
         date_order: str | None = None,
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
@@ -37,9 +43,11 @@ class DateParser:
         date_string = strip_braces(date_string)
         date_string, ptz = pop_tz_offset_from_string(date_string, settings=settings)
 
-        date_obj, period, parts = parse_method(
+        result = parse_method(
             date_string, settings=settings, tz=ptz, date_order=date_order
         )
+        date_obj, period = result[:2]
+        parts = result[2] if len(result) == 3 else ()
 
         _settings_tz = settings.TIMEZONE.lower()
 

@@ -13,6 +13,12 @@ class _CalendarParser(Protocol):
     ) -> tuple[datetime, str | None, tuple[str, ...]]: ...
 
 
+class _PartlessCalendarParser(Protocol):
+    def parse(
+        self, datestring: str, settings: Settings
+    ) -> tuple[datetime, str | None]: ...
+
+
 class CalendarBase:
     """Base setup class for non-Gregorian calendar system.
 
@@ -21,16 +27,20 @@ class CalendarBase:
     :type source: str
     """
 
-    parser: _CalendarParser = NotImplemented
+    parser: _CalendarParser | _PartlessCalendarParser = NotImplemented
 
     def __init__(self, source: str) -> None:
         self.source = source
 
     def get_date(self) -> DateData | None:
         try:
-            date_obj, period, parts = self.parser._parse_with_parts(
-                self.source, settings
-            )
+            if hasattr(self.parser, "_parse_with_parts"):
+                date_obj, period, parts = self.parser._parse_with_parts(
+                    self.source, settings
+                )
+            else:
+                date_obj, period = self.parser.parse(self.source, settings)
+                parts = ()
             return DateData(date_obj=date_obj, period=period, parts=parts)
         except ValueError:
             return None
