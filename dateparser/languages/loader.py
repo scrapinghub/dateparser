@@ -3,7 +3,6 @@ from collections import OrderedDict
 from collections.abc import Iterable, Iterator
 from copy import deepcopy
 from importlib import import_module
-from itertools import zip_longest
 from typing import Any, ClassVar
 
 import regex as re
@@ -14,22 +13,15 @@ from .locale import Locale
 
 LOCALE_SPLIT_PATTERN = re.compile(r"-(?=[A-Z0-9]+$)")
 
+_LANGUAGE_POSITIONS = {language: i for i, language in enumerate(language_order)}
+
 
 def _isvalidlocale(locale: str) -> bool:
     language = LOCALE_SPLIT_PATTERN.split(locale)[0]
-    if language not in language_order:
+    if language not in _LANGUAGE_POSITIONS:
         return False
     locales_list = language_locale_dict[language]
     return locale == language or locale in locales_list
-
-
-def _construct_locales(languages: Iterable[str], region: str) -> list[str]:
-    return [
-        f"{language}-{region}"
-        if region and _isvalidlocale(f"{language}-{region}")
-        else language
-        for language in languages
-    ]
 
 
 class LocaleDataLoader:
@@ -180,23 +172,22 @@ class LocaleDataLoader:
         else:
             if languages is None:
                 languages = language_order
-            unsupported_languages = set(languages) - set(language_order)
+            unsupported_languages = set(languages) - _LANGUAGE_POSITIONS.keys()
             if unsupported_languages:
                 raise ValueError(
                     f"Unknown language(s): {', '.join(map(repr, unsupported_languages))}"
                 )
             if region is None:
                 region = ""
-            locales = _construct_locales(languages, region)
-            locale_dict.update(
-                zip_longest(
-                    locales, tuple(zip_longest(languages, [], fillvalue=region))
-                )
-            )
+            for language in languages:
+                locale = f"{language}-{region}"
+                if not region or not _isvalidlocale(locale):
+                    locale = language
+                locale_dict[locale] = (language, region)
 
         if not use_given_order:
             locale_dict = dict(
-                sorted(locale_dict.items(), key=lambda x: language_order.index(x[1][0]))
+                sorted(locale_dict.items(), key=lambda x: _LANGUAGE_POSITIONS[x[1][0]])
             )
 
         for shortname, lang_reg in locale_dict.items():
