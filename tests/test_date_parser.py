@@ -2353,6 +2353,60 @@ class TestDateParser(BaseTestCase):
             f"RELATIVE_BASE not respected: Expected 2064, got {result.year}",
         )
 
+    @parameterized.expand(
+        [
+            param("December 25", "%B %d", "past", datetime(2025, 12, 25)),
+            param("December 25", "%B %d", "current_period", datetime(2026, 12, 25)),
+            param("March 10", "%B %d", "future", datetime(2027, 3, 10)),
+            param("March 10", "%B %d", "past", datetime(2026, 3, 10)),
+            param("June 15", "%B %d", "future", datetime(2026, 6, 15)),
+            param("June 15", "%B %d", "past", datetime(2026, 6, 15)),
+            param("June", "%B", "future", datetime(2026, 6, 15)),
+            param("June", "%B", "past", datetime(2026, 6, 15)),
+            param("May", "%B", "future", datetime(2027, 5, 15)),
+            param("20", "%d", "past", datetime(2026, 5, 20)),
+            param("20", "%d", "future", datetime(2026, 6, 20)),
+            param("10", "%d", "future", datetime(2026, 7, 10)),
+            param("31", "%d", "past", datetime(2026, 5, 31)),
+            param("13:00", "%H:%M", "past", datetime(2026, 6, 14, 13)),
+            param("13:00", "%H:%M", "future", datetime(2026, 6, 15, 13)),
+            param("09:00", "%H:%M", "future", datetime(2026, 6, 16, 9)),
+            param("15/06/26", "%d/%m/%y", "future", datetime(2026, 6, 15)),
+            param(
+                "February",
+                "%B",
+                "future",
+                datetime(2029, 2, 28),
+                {"PREFER_DAY_OF_MONTH": "last", "RELATIVE_BASE": datetime(2028, 6, 1)},
+            ),
+            param(
+                "February",
+                "%B",
+                "past",
+                datetime(2028, 2, 29),
+                {"PREFER_DAY_OF_MONTH": "last", "RELATIVE_BASE": datetime(2028, 6, 1)},
+            ),
+        ]
+    )
+    def test_prefer_dates_from_with_partial_date_formats(
+        self,
+        date_string: str,
+        date_format: str,
+        prefer_from: str,
+        expected: datetime,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
+        result = parse(
+            date_string,
+            date_formats=[date_format],
+            settings={
+                "PREFER_DATES_FROM": prefer_from,
+                "RELATIVE_BASE": datetime(2026, 6, 15, 10),
+                **(settings or {}),
+            },
+        )
+        self.assertEqual(expected, result)
+
     def test_prefer_dates_from_with_date_formats_tz_aware_relative_base(self) -> None:
         """Test that a tz-aware RELATIVE_BASE does not crash (Bug #1 fix)."""
         result = parse(
@@ -2370,7 +2424,7 @@ class TestDateParser(BaseTestCase):
     def test_prefer_dates_from_with_date_formats_feb29_non_leap(self) -> None:
         """Test that Feb 29 shifted to a non-leap year finds the next valid leap year (Bug #2 fix)."""
         # 2/29/00 parses as 2000-02-29; shifting +100 → 2100 which is not a leap year.
-        # _apply_century_preference finds the next valid leap year: 2104.
+        # The next valid leap year is used instead: 2104.
         result = parse(
             "2/29/00",
             date_formats=["%m/%d/%y"],
