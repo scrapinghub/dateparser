@@ -44,6 +44,10 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # English dates
             param("yesterday", ago={"days": 1}, period="day"),
             param("yesterday at 11:30", ago={"hours": 23}, period="time"),
+            param("2 hours ago", ago={"hours": 2}, period="time"),
+            param("5 minutes ago", ago={"minutes": 5}, period="time"),
+            param("30 seconds ago", ago={"seconds": 30}, period="time"),
+            param("1 week 2 hours ago", ago={"weeks": 1, "hours": 2}, period="time"),
         ]
     )
     def test_relative_past_dates_with_time_as_period(
@@ -142,8 +146,14 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("now - 2 hours", ago={"hours": 2}, period="day"),
             param("now - 30 minutes", ago={"minutes": 30}, period="day"),
             param("now - 1 day", ago={"days": 1}, period="day"),
-            # Fix for #291, work till one to twelve only
+            # Word numbers
             param("nine hours ago", ago={"hours": 9}, period="day"),
+            param("fifteen minutes ago", ago={"minutes": 15}, period="day"),
+            param("twenty one days ago", ago={"days": 21}, period="day"),
+            param("forty-five seconds ago", ago={"seconds": 45}, period="day"),
+            param("ninety minutes ago", ago={"minutes": 90}, period="day"),
+            param("twenty min ago", ago={"minutes": 20}, period="day"),
+            param("thirteen fortnights ago", ago={"weeks": 26}, period="week"),
             param("three week ago", ago={"weeks": 3}, period="week"),
             param("eight months ago", ago={"months": 8}, period="month"),
             param("six days ago", ago={"days": 6}, period="day"),
@@ -413,6 +423,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # Chinese dates
             param("昨天", ago={"days": 1}, period="day"),
             param("前天", ago={"days": 2}, period="day"),
+            param("大前天", ago={"days": 3}, period="day"),
             param("2小时前", ago={"hours": 2}, period="day"),
             param("约23小时前", ago={"hours": 23}, period="day"),
             param("1年2个月", ago={"years": 1, "months": 2}, period="month"),
@@ -437,6 +448,19 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("منذ يومين", ago={"days": 2}, period="day"),
             param("منذ 3 أيام", ago={"days": 3}, period="day"),
             param("منذ 21 أيام", ago={"days": 21}, period="day"),
+            param("قبل ٥ ساعات", ago={"hours": 5}, period="day"),
+            param("قبل يومين", ago={"days": 2}, period="day"),
+            param("قبل 10 سنوات", ago={"years": 10}, period="year"),
+            param("قبل 20 عاما", ago={"years": 20}, period="year"),
+            param("قبل عامين", ago={"years": 2}, period="year"),
+            param("قبل 4 أشهر", ago={"months": 4}, period="month"),
+            param("قبل 11 شهرا", ago={"months": 11}, period="month"),
+            param("قبل 3 أسابيع", ago={"weeks": 3}, period="week"),
+            param("قبل أسبوعين", ago={"weeks": 2}, period="week"),
+            param("قبل 11 يوما", ago={"days": 11}, period="day"),
+            param("قبل 5 دقائق", ago={"minutes": 5}, period="day"),
+            param("قبل دقيقتين", ago={"minutes": 2}, period="day"),
+            param("قبل 10 ثوان", ago={"seconds": 10}, period="day"),
             param(
                 "1 عام, 1 شهر, 1 أسبوع, 1 يوم, 1 ساعة, 1 دقيقة",
                 ago={
@@ -1860,6 +1884,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
                 period="day",
             ),
             param("just now", in_future={"seconds": 0}, period="day"),
+            param("in twenty minutes", in_future={"minutes": 20}, period="day"),
             param("1 decade later", in_future={"years": 10}, period="year"),
             param("2 years later", in_future={"years": 2}, period="year"),
             param("3 months later", in_future={"months": 3}, period="month"),
@@ -2306,6 +2331,7 @@ class TestFreshnessDateDataParser(BaseTestCase):
             param("දින 3න්", in_future={"days": 3}, period="day"),
             # sk
             param("o 23 týždňov", in_future={"weeks": 23}, period="week"),
+            param("pozajtra", in_future={"days": 2}, period="day"),
             # sl
             param("čez 7 leto", in_future={"years": 7}, period="year"),
             param(
@@ -2381,9 +2407,13 @@ class TestFreshnessDateDataParser(BaseTestCase):
             # zh-Hans
             param("5个月后", in_future={"months": 5}, period="month"),
             param("7天后", in_future={"days": 7}, period="day"),
+            param("后天", in_future={"days": 2}, period="day"),
+            param("大后天", in_future={"days": 3}, period="day"),
             # zh-Hant
             param("2 分鐘後", in_future={"minutes": 2}, period="day"),
             param("4 週後", in_future={"weeks": 4}, period="week"),
+            param("後天", in_future={"days": 2}, period="day"),
+            param("大後天", in_future={"days": 3}, period="day"),
         ]
     )
     def test_relative_future_dates(
@@ -2441,6 +2471,23 @@ class TestFreshnessDateDataParser(BaseTestCase):
         ]
     )
     def test_ordinal_century_and_fortnight_are_not_relative_dates(
+        self, date_string: str
+    ) -> None:
+        self.given_parser()
+        self.given_date_string(date_string)
+        self.when_date_is_parsed()
+        self.then_error_was_not_raised()
+        self.then_date_was_not_parsed()
+
+    @parameterized.expand(
+        [
+            param("one thirty minutes ago"),
+            param("one hundred and thirty-six years ago"),
+            param("twenty second ago"),
+            param("twenty"),
+        ]
+    )
+    def test_number_words_without_a_time_unit_are_not_relative_dates(
         self, date_string: str
     ) -> None:
         self.given_parser()
@@ -2575,12 +2622,26 @@ class TestFreshnessDateDataParser(BaseTestCase):
         )
 
         parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
-        timezone = ZoneInfo(key="US/Eastern")
+        timezone = ZoneInfo(key="America/New_York")
         parser.get_local_tz = Mock(return_value=timezone)  # type: ignore[method-assign]
         result = parser.get_date_data("1 minute ago", _settings)
         result = result["date_obj"]
         self.assertEqual(result.date(), date(2014, 9, 1))
         self.assertEqual(result.time(), time(14, 29))
+
+    @parameterized.expand(
+        [
+            param("03/06/2010 year"),
+            param("01.02.2021 hour 08:39"),
+            param(":9 month 24 day"),
+        ]
+    )
+    def test_number_continuing_a_date_is_not_a_quantity(self, date_string: str) -> None:
+        parser = dateparser.freshness_date_parser.FreshnessDateDataParser()
+        result = parser.get_date_data(
+            date_string, settings.replace(RELATIVE_BASE=datetime(2014, 9, 1, 10, 30))
+        )
+        self.assertIsNone(result["date_obj"])
 
     @parameterized.expand(
         [
@@ -2838,7 +2899,6 @@ class TestNumberFragments(unittest.TestCase):
     @parameterized.expand(
         [
             param("1,0000,000 days 3 hours ago"),
-            param("2024-06-01 3 days ago"),
             param("2024 300 days ago"),
         ]
     )

@@ -26,13 +26,19 @@ _UNITS = r"century|decade|fortnight|year|month|week|day|hour|minute|second"
 # A number whose first separator is followed by exactly 3 digits groups
 # thousands, unless it starts with 0 or with more than 3 digits.
 _GROUPED_NUMBER = r"[1-9]\d{0,2}(?:[.,\s]\d{3}(?!\d)){1,6}"
-_PATTERN = rf"([+-]?\s*(?>(?:{_GROUPED_NUMBER}|\d+)(?:[.,]\d*)?))\s*({_UNITS})\b"
+# A number that continues a date or a time, e.g. the year in "03/06/2020 year",
+# is not a quantity, and a string with one is not a relative date.
+_PATTERN = (
+    rf"(?<![\d/.:])([+-]?\s*(?>(?:{_GROUPED_NUMBER}|\d+)(?:[.,]\d*)?))"
+    rf"\s*({_UNITS})\b"
+)
 PATTERN: "re.Pattern[str] | regex.Pattern[str]"
 try:
     PATTERN = re.compile(_PATTERN, re.IGNORECASE | re.DOTALL)
 except re.error:
     # Python 3.10 has no atomic groups.
     PATTERN = regex.compile(_PATTERN, regex.IGNORECASE | regex.DOTALL)
+_GLUED_QUANTITY = re.compile(rf"\d\s*(?:{_UNITS})\b", re.IGNORECASE)
 _GROUPED_NUMBER_PATTERN = re.compile(_GROUPED_NUMBER)
 # Matches the text before a number that is the end of a longer one, e.g. the
 # day in "2024-06-01 3 days".
@@ -46,6 +52,9 @@ class FreshnessDateDataParser:
 
     def _are_all_words_units(self, date_string: str) -> bool:
         skip = [_UNITS, r"ago|in|\d+", r":|[ap]m"]
+
+        if _GLUED_QUANTITY.search(PATTERN.sub("", date_string)):
+            return False
 
         date_string = re.sub(r"\s+", " ", date_string.strip())
 
@@ -64,11 +73,17 @@ class FreshnessDateDataParser:
     def get_local_tz(self) -> tzinfo:
         return _get_localzone()
 
-    def parse(  # noqa: PLR0912, PLR0915
+    def parse(
+        self, date_string: str, settings: "Settings"
+    ) -> tuple[datetime | None, str | None]:
+        date, period, _ = self._parse_with_parts(date_string, settings)
+        return date, period
+
+    def _parse_with_parts(  # noqa: PLR0912, PLR0915
         self, date_string: str, settings: "Settings"
     ) -> tuple[datetime | None, str | None, tuple[str, ...]]:
         date_string = strip_braces(date_string)
-        date_string, ptz = pop_tz_offset_from_string(date_string)
+        date_string, ptz = pop_tz_offset_from_string(date_string, settings=settings)
         day = None
         if match := _DAY_OF_MONTH.match(date_string):
             day = int(match[1])
@@ -115,7 +130,10 @@ class FreshnessDateDataParser:
             now = datetime.now(self.get_local_tz())
 
         date, period, parts = self._parse_date(
-            date_string, now, settings.PREFER_DATES_FROM
+            date_string,
+            now,
+            settings.PREFER_DATES_FROM,
+            settings.RETURN_TIME_AS_PERIOD,
         )
 
         if date and day is not None:
@@ -153,7 +171,11 @@ class FreshnessDateDataParser:
         return date, period, parts
 
     def _parse_date(  # noqa: PLR0912
-        self, date_string: str, now: datetime, prefer_dates_from: str
+        self,
+        date_string: str,
+        now: datetime,
+        prefer_dates_from: str,
+        return_time_as_period: bool,
     ) -> tuple[datetime, str, tuple[str, ...]] | tuple[None, None, tuple[()]]:
         if not self._are_all_words_units(date_string):
             return None, None, ()
@@ -163,7 +185,11 @@ class FreshnessDateDataParser:
         if not kwargs:
             return None, None, ()
         period = "day"
-        if "days" not in kwargs:
+        if return_time_as_period and any(
+            unit in kwargs for unit in ("hours", "minutes", "seconds")
+        ):
+            period = "time"
+        elif "days" not in kwargs:
             for k in ["weeks", "fortnights", "months", "years", "decades", "centuries"]:
                 if k in kwargs:
                     period = {
@@ -236,16 +262,18 @@ class FreshnessDateDataParser:
             num = num.lstrip()
             start = match.end(1) - len(num)
             # A number separated from this one only by whitespace, e.g. the 1
-            # in "year 1 40 minute", is a fragment only if this one starts with
-            # what could be a digit group of it. A sign after whitespace starts
-            # a new number.
+            # in "year 1 40 minute" or the date in "2024-06-01 3 days", is a
+            # fragment only if it is all digits and this one starts with what
+            # could be a digit group of it. A sign after whitespace starts a
+            # new number.
             signed = num[0] in "+-" and date_string[start - 1 : start].isspace()
             if not signed and (
                 prefix := _NUMERIC_PREFIX.search(date_string, previous_end, start)
             ):
                 before = prefix.group()
-                is_separate = before[-1].isspace() and before.rstrip().isdigit()
-                if not is_separate or re.match(r"\d{3}", num):
+                if not before[-1].isspace() or (
+                    before.rstrip().isdigit() and re.match(r"\d{3}", num)
+                ):
                     return {}, {}
             previous_end = match.end()
             key = "centuries" if unit.lower() == "century" else unit.lower() + "s"
@@ -257,7 +285,7 @@ class FreshnessDateDataParser:
     def get_date_data(self, date_string: str, settings: "Settings") -> "DateData":
         from dateparser.date import DateData  # noqa: PLC0415
 
-        date, period, parts = self.parse(date_string, settings)
+        date, period, parts = self._parse_with_parts(date_string, settings)
         return DateData(date_obj=date, period=period, parts=parts)
 
 
