@@ -9,6 +9,9 @@ codes listed below. For example, ``languages=['en'], region='IN'`` uses the
 If you already know the full locale code, pass it directly through
 ``locales=['en-IN']`` instead.
 
+``locales`` also accepts POSIX locale names, e.g. ``sr_ME.UTF-8@latin`` for
+``sr-Latn-ME``.
+
 ============    ================================================================
   Language            Locales
 ============    ================================================================
