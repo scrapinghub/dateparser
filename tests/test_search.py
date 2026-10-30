@@ -2042,6 +2042,30 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(
+                text="birthday:2020-07-08",
+                expected=[("2020-07-08", datetime.datetime(2020, 7, 8, 0, 0))],
+            ),
+            param(
+                text="Date:July 8, 2020",
+                expected=[("July 8, 2020", datetime.datetime(2020, 7, 8, 0, 0))],
+            ),
+            param(
+                text="at:10:30 on 2020-07-08",
+                expected=[
+                    ("10:30 on 2020-07-08", datetime.datetime(2020, 7, 8, 10, 30))
+                ],
+            ),
+        ]
+    )
+    def test_search_dates_after_a_label_and_a_colon(
+        self, text: str, expected: list[tuple[str, datetime.datetime]]
+    ) -> None:
+        result = search_dates(text, languages=["en"])
+        self.assertEqual(result, expected)
+
+    @parameterized.expand(
+        [
             param(text, strategy, period)
             for strategy in ("split", "ngram")
             for text, period in (
