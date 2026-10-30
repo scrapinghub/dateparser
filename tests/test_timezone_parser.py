@@ -252,6 +252,8 @@ class TestTimeZoneConversion(BaseTestCase):
                 "+0200",
                 datetime(2015, 12, 30, 7, 4),
             ),
+            param("2022-08-24 07:00 PM", "CT", "UTC", datetime(2022, 8, 25, 0, 0)),
+            param("2022-08-24 07:00 PM", "UTC", "CT", datetime(2022, 8, 24, 14, 0)),
         ]
     )
     def test_timezone_conversion(
@@ -273,6 +275,57 @@ class TestTimeZoneConversion(BaseTestCase):
 
     def then_date_is(self, date: datetime) -> None:
         self.assertEqual(date, self.result)
+
+
+class TestDaylightSavingAbbreviations(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("01/26/2023 02:55PM CT", -6),
+            param("August 24, 2022 19:00 CT", -5),
+            param("01/26/2023 02:55PM MT", -7),
+            param("August 24, 2022 19:00 MT", -6),
+            param("August 24, 2022 19:00 ET", -4),
+            param("August 24, 2022 19:00 PT", -7),
+            param("in 1 hour CT", -5),
+            param("6 months ago ET", -5),
+            param("Wed, 24 Aug 2022 19:00:00 -0400 (ET)", -4),
+            param("Mon, 24 Jan 2022 19:00:00 -0500 (ET)", -5),
+            param("Wed, 24 Aug 2022 19:00:00 -0500 (ET)", -5),
+            param("Mon, 24 Jan 2022 19:00:00 -0400 (ET)", -4),
+            param("Wed, 24 Aug 2022 19:00:00 CT -0600", -6),
+            param("Wed, 24 Aug 2022 19:00:00 CT CT", -5),
+        ]
+    )
+    def test_offset_follows_daylight_saving_time(
+        self, date_string: str, offset: int
+    ) -> None:
+        date = parse(date_string, settings={"RELATIVE_BASE": datetime(2022, 8, 24)})
+        assert date is not None
+        self.assertEqual(timedelta(hours=offset), date.utcoffset())
+
+    @parameterized.expand(
+        [
+            param("September 30, 2026 @ 12:01 am CT’s"),
+            param("Up to 8,000 MT/s Sep 28, 2021"),
+        ]
+    )
+    def test_not_a_timezone(self, date_string: str) -> None:
+        self.assertEqual((date_string, None), pop_tz_offset_from_string(date_string))
+        self.assertFalse(any(map(word_is_tz, date_string.split())))
+
+    @parameterized.expand(
+        [
+            param("01:30 ET", datetime(2022, 11, 6, 12)),
+            param("Nov 6 2022 01:30 CT", datetime(2022, 11, 6, 12)),
+            param("02:30 ET", datetime(2022, 3, 13, 12)),
+        ]
+    )
+    def test_ambiguous_or_missing_local_time(
+        self, date_string: str, relative_base: datetime
+    ) -> None:
+        date = parse(date_string, settings={"RELATIVE_BASE": relative_base})
+        assert date is not None
+        self.assertEqual(relative_base.date(), date.date())
 
 
 class TestStaticTzInfo(BaseTestCase):
@@ -383,7 +436,9 @@ class TestTzDatabasePreference(BaseTestCase):
         _, timezone_offset = pop_tz_offset_from_string(date_string)
         self.assertIsNotNone(timezone_offset, f"no timezone found in {date_string!r}")
         assert timezone_offset is not None
-        return timezone_offset.utcoffset(None)
+        offset = timezone_offset.utcoffset(None)
+        assert offset is not None
+        return offset
 
     @parameterized.expand(
         [
