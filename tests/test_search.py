@@ -1188,6 +1188,20 @@ class TestTranslateSearch(BaseTestCase):
             ),
             param(text="a Americ", languages=None, settings=None, expected=None),
             param(
+                text="Signed: May 3, twenty twenty-six.",
+                languages=["en"],
+                settings=None,
+                expected=[
+                    ("May 3, twenty twenty-six", datetime.datetime(2026, 5, 3, 0, 0))
+                ],
+            ),
+            param(
+                text="September 21, 2026: six thousand islands and fifteen hundred lanterns.",
+                languages=["en"],
+                settings=None,
+                expected=[("September 21, 2026", datetime.datetime(2026, 9, 21, 0, 0))],
+            ),
+            param(
                 text="in the sample papers. The year of mention refers ",
                 languages=None,
                 settings=None,
