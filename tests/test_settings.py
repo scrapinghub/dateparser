@@ -1,4 +1,4 @@
-from datetime import datetime, tzinfo
+from datetime import datetime, timedelta, tzinfo
 from typing import Any
 
 import pytest
@@ -6,6 +6,9 @@ from parameterized import param, parameterized
 
 from dateparser import DateDataParser, parse
 from dateparser.conf import Settings, SettingValidationError, apply_settings, settings
+from dateparser.languages.dictionary import Dictionary
+from dateparser.languages.loader import default_loader
+from dateparser.search import search_dates
 from tests import BaseTestCase
 
 
@@ -141,14 +144,6 @@ class SettingsTest(BaseTestCase):
             test_func(settings={"PREFER_DATES_FROM": "past"}), self.default_settings
         )
 
-    def test_apply_settings_shouldnt_create_new_settings_when_same_settings_are_supplied_to_the_decorated_function_more_than_once(
-        self,
-    ) -> None:
-        test_func = apply_settings(test_function)
-        settings_once = test_func(settings={"PREFER_DATES_FROM": "past"})
-        settings_twice = test_func(settings={"PREFER_DATES_FROM": "past"})
-        self.assertEqual(settings_once, settings_twice)
-
     def test_apply_settings_should_return_default_settings_when_called_with_no_settings_after_once_called_with_settings_supplied_to_the_decorated_function(
         self,
     ) -> None:
@@ -157,6 +152,30 @@ class SettingsTest(BaseTestCase):
         settings_twice = test_func()
         self.assertNotEqual(settings_once, self.default_settings)
         self.assertEqual(settings_twice, self.default_settings)
+
+    def test_replace_keeps_the_settings_that_the_caller_set(self) -> None:
+        test_func = apply_settings(test_function)
+        caller_settings = test_func(settings={"DATE_ORDER": "DMY"})
+        assert isinstance(caller_settings, Settings)
+        replaced = caller_settings.replace(RELATIVE_BASE=datetime(2020, 12, 25))
+        # A DATE_ORDER that the caller set wins over the MDY order of the locale.
+        parser = DateDataParser(languages=["en"], settings=replaced)
+        self.assertEqual(
+            datetime(2021, 1, 2), parser.get_date_data("02/01/2021")["date_obj"]
+        )
+
+    def test_replace_does_not_count_the_settings_it_copies_as_set_by_the_caller(
+        self,
+    ) -> None:
+        test_func = apply_settings(test_function)
+        caller_settings = test_func(settings={"PREFER_DATES_FROM": "past"})
+        assert isinstance(caller_settings, Settings)
+        replaced = caller_settings.replace(RELATIVE_BASE=datetime(2020, 12, 25))
+        # The default DATE_ORDER, MDY, gives way to the DMY order of the locale.
+        parser = DateDataParser(languages=["de"], settings=replaced)
+        self.assertEqual(
+            datetime(2021, 1, 2), parser.get_date_data("02.01.2021")["date_obj"]
+        )
 
 
 class InvalidSettingsTest(BaseTestCase):
@@ -210,6 +229,7 @@ class InvalidSettingsTest(BaseTestCase):
             param("STRICT_PARSING", "true", "", True),
             param("RETURN_TIME_AS_PERIOD", "false", "", True),
             param("PREFER_LOCALE_DATE_ORDER", "true", "", False),
+            param("STRICT_DATE_ORDER", True, "full", "none"),
             param("NORMALIZE", "true", "", True),
             param("FUZZY", "true", "", False),
             param("PREFER_LOCALE_DATE_ORDER", "false", "", True),
@@ -266,6 +286,21 @@ class InvalidSettingsTest(BaseTestCase):
                 settings={"PARSERS": ["absolute-time", "timestamp", "absolute-time"]}
             )
 
+    def test_check_settings_extra_check_timezone_abbreviations(self) -> None:
+        with self.assertRaisesRegex(
+            SettingValidationError,
+            r'Found unknown timezone abbreviations in the "TIMEZONE_ABBREVIATIONS" '
+            r"setting: 'XYZ'",
+        ):
+            DateDataParser(settings={"TIMEZONE_ABBREVIATIONS": {"XYZ": timedelta()}})
+
+        with self.assertRaisesRegex(
+            SettingValidationError,
+            r"The offset of 'IST' in the \"TIMEZONE_ABBREVIATIONS\" setting must be "
+            r"a timedelta, not '\+05:30'.",
+        ):
+            DateDataParser(settings={"TIMEZONE_ABBREVIATIONS": {"IST": "+05:30"}})
+
     def test_check_settings_extra_check_confidence_threshold(self) -> None:
         with self.assertRaisesRegex(
             SettingValidationError,
@@ -281,6 +316,71 @@ class InvalidSettingsTest(BaseTestCase):
             "Found invalid languages in the 'DEFAULT_LANGUAGES' setting: 'abcd'",
         ):
             DateDataParser(settings={"DEFAULT_LANGUAGES": ["abcd"]})
+
+
+class StrictDateOrderSettingsTest(BaseTestCase):
+    """STRICT_DATE_ORDER enforces the DATE_ORDER that the caller sets, so it
+    needs one."""
+
+    @parameterized.expand([param("year"), param("all")])
+    def test_strict_date_order_requires_date_order(self, strict: str) -> None:
+        with self.assertRaisesRegex(
+            SettingValidationError,
+            rf'"STRICT_DATE_ORDER": "{strict}" requires the "DATE_ORDER" setting',
+        ):
+            DateDataParser(settings={"STRICT_DATE_ORDER": strict})
+
+        # parse() builds the parser too, whatever the date string.
+        with self.assertRaises(SettingValidationError):
+            parse("12/10/95", settings={"STRICT_DATE_ORDER": strict})
+
+        # The default DATE_ORDER is a preference, but one that the caller sets
+        # is enforced, even if it is the default one.
+        assert DateDataParser(
+            settings={"STRICT_DATE_ORDER": strict, "DATE_ORDER": "MDY"}
+        )
+
+    def test_strict_date_order_none_does_not_require_date_order(self) -> None:
+        assert DateDataParser(settings={"STRICT_DATE_ORDER": "none"})
+        self.assertEqual(
+            datetime(1995, 12, 10),
+            parse("12/10/95", settings={"STRICT_DATE_ORDER": "none"}),
+        )
+
+    @parameterized.expand([param("year"), param("all")])
+    def test_strict_date_order_stays_in_force_when_a_parser_is_reused(
+        self, strict: str
+    ) -> None:
+        parser = DateDataParser(
+            settings={"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": strict}
+        )
+        for _ in range(2):
+            self.assertIsNone(parser.get_date_data("32 DEC 10")["date_obj"])
+            self.assertEqual(
+                datetime(2010, 12, 31), parser.get_date_data("31 DEC 10")["date_obj"]
+            )
+
+    @parameterized.expand([param("year"), param("all")])
+    def test_search_dates_does_not_check_the_rebuilt_settings(
+        self, strict: str
+    ) -> None:
+        """Test that search_dates does not raise SettingValidationError for the
+        settings that it rebuilds for the dates after the first one, which
+        remember which settings the caller set."""
+        text = "Opened 25/12/2020, closed 31/12/2020."
+        self.assertEqual(
+            [
+                ("25/12/2020", datetime(2020, 12, 25)),
+                ("31/12/2020", datetime(2020, 12, 31)),
+            ],
+            search_dates(
+                text,
+                languages=["en"],
+                settings={"DATE_ORDER": "DMY", "STRICT_DATE_ORDER": strict},
+            ),
+        )
+        with self.assertRaises(SettingValidationError):
+            search_dates(text, languages=["en"], settings={"STRICT_DATE_ORDER": strict})
 
 
 @pytest.mark.parametrize(
@@ -323,3 +423,44 @@ def test_confidence_threshold_setting_is_applied() -> None:
         settings={"LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": 0.4},
     )
     assert ddp2.get_date_data("21/06/2020").locale == "fr"
+
+
+_DICTIONARY_CACHES = (
+    Dictionary._split_regex_cache,
+    Dictionary._sorted_words_cache,
+    Dictionary._split_relative_regex_cache,
+    Dictionary._sorted_relative_strings_cache,
+    Dictionary._match_relative_regex_cache,
+)
+
+
+def test_per_call_settings_do_not_grow_caches() -> None:
+    parse("2 days ago", settings={"RELATIVE_BASE": datetime(2000, 1, 3)})
+    cache_sizes = [len(cache) for cache in _DICTIONARY_CACHES]
+    for day in range(4, 10):
+        base = datetime(2000, 1, day)
+        result = parse(
+            "2 days ago",
+            settings={"RELATIVE_BASE": base, "TIMEZONE": f"UTC+0{day}:00"},
+        )
+        assert result == datetime(2000, 1, day - 2)
+    assert [len(cache) for cache in _DICTIONARY_CACHES] == cache_sizes
+
+
+def test_skip_tokens_get_their_own_cache_entry() -> None:
+    locale = default_loader.get_locale("en")
+    for skip_tokens, expected in (
+        (["foo"], ["2000", " ", "foo"]),
+        (["t"], ["2000", " foo"]),
+    ):
+        dictionary = locale._get_dictionary(settings.replace(SKIP_TOKENS=skip_tokens))
+        assert dictionary.split("2000 foo") == expected
+
+
+def test_get_key_deprecated() -> None:
+    with pytest.warns(FutureWarning, match="get_key"):
+        assert Settings.get_key() == "default"
+    with pytest.warns(FutureWarning, match="get_key"):
+        assert Settings.get_key({"DATE_ORDER": "DMY"}) == Settings.get_key(
+            {"DATE_ORDER": "DMY"}
+        )
