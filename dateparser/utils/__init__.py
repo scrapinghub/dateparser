@@ -5,6 +5,7 @@ import os
 import threading
 import types
 import unicodedata
+import warnings
 from collections import OrderedDict
 from collections.abc import Callable, Mapping
 from datetime import MINYEAR, datetime, timedelta, tzinfo
@@ -15,7 +16,7 @@ import regex as re
 from pytz import UTC, UnknownTimeZoneError, timezone
 from tzlocal import get_localzone
 
-from dateparser.timezone_parser import StaticTzInfo, _tz_offsets
+from dateparser.timezone_parser import StaticTzInfo, _find_tz
 
 if TYPE_CHECKING:
     from dateparser.conf import Settings
@@ -27,10 +28,15 @@ def _get_localzone() -> tzinfo:
     try:
         return get_localzone()
     except ValueError as error:
-        raise RuntimeError(
+        warnings.warn(
             f"Could not determine the local timezone "
-            f"(TZ={os.environ.get('TZ')!r}): {error}"
-        ) from error
+            f"(TZ={os.environ.get('TZ')!r}): {error}. In a future version of "
+            f"dateparser, this will raise RuntimeError instead of failing to "
+            f"parse the date.",
+            FutureWarning,
+            stacklevel=2,
+        )
+        raise
 
 
 def strip_braces(date_string: str) -> str:
@@ -118,9 +124,10 @@ def get_timezone_from_tz_string(tz_string: str) -> tzinfo:
     try:
         return timezone(tz_string)
     except UnknownTimeZoneError:
-        for name, info in _tz_offsets:
-            if info["regex"].search(f" {tz_string}"):
-                return StaticTzInfo(name, info["offset"])
+        found = _find_tz(f" {tz_string}")
+        if found:
+            _, name, offset = found
+            return StaticTzInfo(name, offset)
         raise
 
 
@@ -157,10 +164,10 @@ def apply_tzdatabase_timezone(date_time: datetime, pytz_string: str) -> datetime
 def apply_dateparser_timezone(
     utc_datetime: datetime, offset_or_timezone_abb: str
 ) -> datetime | None:
-    for name, info in _tz_offsets:
-        if info["regex"].search(f" {offset_or_timezone_abb}"):
-            tz = StaticTzInfo(name, info["offset"])
-            return utc_datetime.astimezone(tz)
+    found = _find_tz(f" {offset_or_timezone_abb}")
+    if found:
+        _, name, offset = found
+        return utc_datetime.astimezone(StaticTzInfo(name, offset))
     return None
 
 
@@ -197,7 +204,11 @@ def apply_timezone_from_settings(
     if settings is None:
         return date_obj
 
-    if "local" in settings.TIMEZONE.lower():
+    parsed_tz = date_obj.tzinfo is not None
+    if parsed_tz:
+        if "local" not in settings.TIMEZONE.lower():
+            date_obj = apply_timezone(date_obj, settings.TIMEZONE)
+    elif "local" in settings.TIMEZONE.lower():
         if hasattr(tz, "localize"):
             date_obj = tz.localize(date_obj)
         else:
@@ -208,7 +219,9 @@ def apply_timezone_from_settings(
     if settings.TO_TIMEZONE:
         date_obj = apply_timezone(date_obj, settings.TO_TIMEZONE)
 
-    if settings.RETURN_AS_TIMEZONE_AWARE is not True:
+    if not settings.RETURN_AS_TIMEZONE_AWARE or (
+        settings.RETURN_AS_TIMEZONE_AWARE == "default" and not parsed_tz
+    ):
         date_obj = date_obj.replace(tzinfo=None)
 
     return date_obj
@@ -270,6 +283,13 @@ _registry_lock = threading.Lock()
 
 
 def registry(cls: type[_T]) -> type[_T]:
+    warnings.warn(
+        "dateparser.utils.registry() is deprecated and will be removed in a "
+        "future version.",
+        FutureWarning,
+        stacklevel=2,
+    )
+
     def choose(creator: Callable[..., Any]) -> "staticmethod[..., Any]":
         def constructor(cls: Any, *args: Any, **kwargs: Any) -> Any:
             key = cls.get_key(*args, **kwargs)
