@@ -444,6 +444,23 @@ class TestLocaleDataLoader(BaseTestCase):
         )
         self.then_locales_are_yielded_in_order(given_locales)
 
+    def test_region_falls_back_to_given_languages_without_it(self) -> None:
+        locales = self.data_loader.get_locales(
+            languages=["ar", "de", "es"], region="MX", use_given_order=True
+        )
+        self.assertEqual(
+            [(locale.shortname, locale.info["name"]) for locale in locales],
+            [("ar", "ar"), ("de", "de"), ("es-MX", "es-MX")],
+        )
+
+    def test_region_falls_back_to_all_languages_without_it(self) -> None:
+        shortnames = [
+            locale.shortname for locale in self.data_loader.get_locales(region="MX")
+        ]
+        self.assertEqual(shortnames[0], "en")
+        self.assertIn("es-MX", shortnames)
+        self.assertNotIn("es", shortnames)
+
     def load_data(
         self,
         given_locales: list[str],
