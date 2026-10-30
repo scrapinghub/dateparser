@@ -4,6 +4,7 @@ from datetime import datetime, timedelta, timezone, tzinfo
 from functools import wraps
 from typing import Any
 from unittest.mock import Mock, patch
+from zoneinfo import ZoneInfo
 
 import pytest
 from parameterized import param, parameterized
@@ -673,6 +674,52 @@ class TestDateParser(BaseTestCase):
                 "RELATIVE_BASE": datetime(2015, 2, 15, 15, 30),
             }
         )
+        self.when_date_is_parsed(date_string)
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(expected)
+
+    def test_aware_relative_base_in_local_timezone(self) -> None:
+        self.given_parser(
+            settings={
+                "PREFER_DATES_FROM": "past",
+                "RELATIVE_BASE": datetime(2021, 10, 19, 18, 0, tzinfo=timezone.utc),
+            }
+        )
+        with patch(
+            "dateparser.parser._get_localzone",
+            return_value=ZoneInfo("America/Los_Angeles"),
+        ):
+            self.when_date_is_parsed("4pm")
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(datetime(2021, 10, 18, 16, 0))
+
+    @parameterized.expand([param("past"), param("future")])
+    def test_two_digit_year_on_the_relative_base_day(self, prefer: str) -> None:
+        self.given_parser(
+            settings={
+                "PREFER_DATES_FROM": prefer,
+                "RELATIVE_BASE": datetime(2021, 4, 1, 14),
+            }
+        )
+        self.when_date_is_parsed("16:16 04/01/21")
+        self.then_date_was_parsed_by_date_parser()
+        self.then_date_obj_exactly_is(datetime(2021, 4, 1, 16, 16))
+
+    @parameterized.expand(
+        [
+            param("1am", "past", datetime(2021, 4, 1, 0, 30), datetime(2021, 3, 31, 1)),
+            param(
+                "11pm",
+                "future",
+                datetime(2021, 3, 31, 23, 30),
+                datetime(2021, 4, 1, 23),
+            ),
+        ]
+    )
+    def test_time_shifted_into_another_month(
+        self, date_string: str, prefer: str, base: datetime, expected: datetime
+    ) -> None:
+        self.given_parser(settings={"PREFER_DATES_FROM": prefer, "RELATIVE_BASE": base})
         self.when_date_is_parsed(date_string)
         self.then_date_was_parsed_by_date_parser()
         self.then_date_obj_exactly_is(expected)
@@ -1568,6 +1615,7 @@ class TestDateParser(BaseTestCase):
 
     @parameterized.expand(
         [
+            param("9am AEDT", datetime(2021, 10, 19, 22, 0), {"TIMEZONE": "UTC"}),
             param(
                 "4pm EDT",
                 datetime(2021, 10, 19, 20, 0),
@@ -1590,8 +1638,17 @@ class TestDateParser(BaseTestCase):
             ),
             param(
                 "4pm",
-                datetime(2021, 10, 19, 20, 0),
+                datetime(2021, 10, 20, 20, 0),
                 {"PREFER_DATES_FROM": "future", "TIMEZONE": "EDT"},
+            ),
+            param(
+                "4pm",
+                datetime(2021, 10, 19, 20, 0),
+                {
+                    "PREFER_DATES_FROM": "future",
+                    "TIMEZONE": "EDT",
+                    "RELATIVE_BASE": datetime(2021, 10, 19, 18, 0, tzinfo=timezone.utc),
+                },
             ),
             param(
                 "10pm",
@@ -1605,8 +1662,17 @@ class TestDateParser(BaseTestCase):
             ),
             param(
                 "11pm",
-                datetime(2021, 10, 19, 12, 0),
+                datetime(2021, 10, 18, 12, 0),
                 {"PREFER_DATES_FROM": "past", "TIMEZONE": "AEDT"},
+            ),
+            param(
+                "1:30am",
+                datetime(2021, 11, 7, 6, 30),
+                {
+                    "PREFER_DATES_FROM": "past",
+                    "TIMEZONE": "America/New_York",
+                    "RELATIVE_BASE": datetime(2021, 11, 7, 8, 30),
+                },
             ),
         ]
     )
