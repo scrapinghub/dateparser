@@ -76,7 +76,7 @@ installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv dateparser
     $ cd dateparser/
-    $ pip install -e . pytest parameterized tox
+    $ pip install -e . 'pytest>=9' parameterized tox
 
 4. Create a branch for local development::
 
@@ -91,10 +91,11 @@ installed, this is how you set up your fork for local development::
 
    Bare ``pytest`` runs the ``tests/`` directory. Optional calendar and language
    detection tests require ``pip install -e '.[calendars,langdetect]'``.
-   The suite turns warnings into errors (``filterwarnings`` in ``pytest.ini``),
-   so a new deprecation warning fails the run: use ``pytest -W default`` to see
-   such a warning without failing, fix it when it comes from dateparser itself,
-   and otherwise add a narrowly scoped ``ignore:`` line to ``pytest.ini``.
+   The suite turns warnings into errors (``filterwarnings`` under
+   ``[tool.pytest]`` in ``pyproject.toml``), so a new deprecation warning fails
+   the run: use ``pytest -W default`` to see such a warning without failing, fix
+   it when it comes from dateparser itself, and otherwise add a narrowly scoped
+   ``ignore:`` entry there.
    The ruff formatter uses its default line length of 88; the linter does not
    enforce a maximum line length.
 
