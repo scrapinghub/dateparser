@@ -17,7 +17,7 @@ from dateparser.custom_language_detection.language_mapping import map_languages
 from dateparser.date_parser import date_parser
 from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.languages.loader import LocaleDataLoader
-from dateparser.languages.locale import _VARIANT_LETTERS
+from dateparser.languages.locale import _MAX_TRANSLATIONS, _VARIANT_LETTERS
 from dateparser.parser import _parse_absolute, _parse_nospaces, _StrictDateOrderError
 from dateparser.timezone_parser import pop_tz_offset_from_string
 from dateparser.utils import (
@@ -445,9 +445,11 @@ def _translate_names(
         return
     parts = pattern.split(date_string)
     # A name can stand for several English names, e.g. "mar" is both "martes"
-    # and "marzo" in Spanish, so every combination is yielded.
-    for combination in itertools.product(
-        *(translations[match.lower()] for match in matches)
+    # and "marzo" in Spanish, so combinations are yielded, but only the first
+    # few, since their number doubles with each such name.
+    for combination in itertools.islice(
+        itertools.product(*(translations[match.lower()] for match in matches)),
+        _MAX_TRANSLATIONS,
     ):
         yield "".join(
             part + name for part, name in zip(parts, (*combination, ""), strict=True)
@@ -606,7 +608,7 @@ class _DateLocaleParser:
 
         for order in candidates:
             try:
-                date_obj, period, parts = date_parser.parse(
+                date_obj, period, parts = date_parser._parse_with_parts(
                     translated,
                     parse_method=parse_method,
                     settings=self._settings,
@@ -696,7 +698,7 @@ class DateData:
     """:class:`~dateparser.PartOfDay` that the date string refers to, e.g.
     :attr:`~dateparser.PartOfDay.NIGHT` for ``"tonight"``, or ``None``.
 
-    .. versionadded:: VERSION
+    .. versionadded:: 1.5.0
 
     Its time comes from the ``PARTS_OF_DAY`` :ref:`setting <settings>`, unless
     the date string also has a time, e.g. ``"tonight at 11pm"``. If it does

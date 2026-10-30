@@ -6,6 +6,8 @@ from parameterized import param, parameterized
 
 from dateparser import DateDataParser, parse
 from dateparser.conf import Settings, SettingValidationError, apply_settings, settings
+from dateparser.languages.dictionary import Dictionary
+from dateparser.languages.loader import default_loader
 from dateparser.search import search_dates
 from tests import BaseTestCase
 
@@ -141,14 +143,6 @@ class SettingsTest(BaseTestCase):
         self.assertNotEqual(
             test_func(settings={"PREFER_DATES_FROM": "past"}), self.default_settings
         )
-
-    def test_apply_settings_shouldnt_create_new_settings_when_same_settings_are_supplied_to_the_decorated_function_more_than_once(
-        self,
-    ) -> None:
-        test_func = apply_settings(test_function)
-        settings_once = test_func(settings={"PREFER_DATES_FROM": "past"})
-        settings_twice = test_func(settings={"PREFER_DATES_FROM": "past"})
-        self.assertEqual(settings_once, settings_twice)
 
     def test_apply_settings_should_return_default_settings_when_called_with_no_settings_after_once_called_with_settings_supplied_to_the_decorated_function(
         self,
@@ -429,3 +423,44 @@ def test_confidence_threshold_setting_is_applied() -> None:
         settings={"LANGUAGE_DETECTION_CONFIDENCE_THRESHOLD": 0.4},
     )
     assert ddp2.get_date_data("21/06/2020").locale == "fr"
+
+
+_DICTIONARY_CACHES = (
+    Dictionary._split_regex_cache,
+    Dictionary._sorted_words_cache,
+    Dictionary._split_relative_regex_cache,
+    Dictionary._sorted_relative_strings_cache,
+    Dictionary._match_relative_regex_cache,
+)
+
+
+def test_per_call_settings_do_not_grow_caches() -> None:
+    parse("2 days ago", settings={"RELATIVE_BASE": datetime(2000, 1, 3)})
+    cache_sizes = [len(cache) for cache in _DICTIONARY_CACHES]
+    for day in range(4, 10):
+        base = datetime(2000, 1, day)
+        result = parse(
+            "2 days ago",
+            settings={"RELATIVE_BASE": base, "TIMEZONE": f"UTC+0{day}:00"},
+        )
+        assert result == datetime(2000, 1, day - 2)
+    assert [len(cache) for cache in _DICTIONARY_CACHES] == cache_sizes
+
+
+def test_skip_tokens_get_their_own_cache_entry() -> None:
+    locale = default_loader.get_locale("en")
+    for skip_tokens, expected in (
+        (["foo"], ["2000", " ", "foo"]),
+        (["t"], ["2000", " foo"]),
+    ):
+        dictionary = locale._get_dictionary(settings.replace(SKIP_TOKENS=skip_tokens))
+        assert dictionary.split("2000 foo") == expected
+
+
+def test_get_key_deprecated() -> None:
+    with pytest.warns(FutureWarning, match="get_key"):
+        assert Settings.get_key() == "default"
+    with pytest.warns(FutureWarning, match="get_key"):
+        assert Settings.get_key({"DATE_ORDER": "DMY"}) == Settings.get_key(
+            {"DATE_ORDER": "DMY"}
+        )

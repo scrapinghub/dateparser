@@ -5,6 +5,7 @@ import os
 import threading
 import types
 import unicodedata
+import warnings
 from collections import OrderedDict
 from collections.abc import Callable, Mapping
 from datetime import datetime, tzinfo
@@ -27,10 +28,15 @@ def _get_localzone() -> tzinfo:
     try:
         return get_localzone()
     except ValueError as error:
-        raise RuntimeError(
+        warnings.warn(
             f"Could not determine the local timezone "
-            f"(TZ={os.environ.get('TZ')!r}): {error}"
-        ) from error
+            f"(TZ={os.environ.get('TZ')!r}): {error}. In a future version of "
+            f"dateparser, this will raise RuntimeError instead of failing to "
+            f"parse the date.",
+            FutureWarning,
+            stacklevel=2,
+        )
+        raise
 
 
 def strip_braces(date_string: str) -> str:
@@ -267,6 +273,13 @@ _registry_lock = threading.Lock()
 
 
 def registry(cls: type[_T]) -> type[_T]:
+    warnings.warn(
+        "dateparser.utils.registry() is deprecated and will be removed in a "
+        "future version.",
+        FutureWarning,
+        stacklevel=2,
+    )
+
     def choose(creator: Callable[..., Any]) -> "staticmethod[..., Any]":
         def constructor(cls: Any, *args: Any, **kwargs: Any) -> Any:
             key = cls.get_key(*args, **kwargs)

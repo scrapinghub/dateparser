@@ -1,4 +1,5 @@
 import hashlib
+import warnings
 from collections.abc import Callable, Iterable, Mapping
 from datetime import datetime, timedelta
 from functools import wraps
@@ -10,13 +11,11 @@ from dateparser.data.languages_info import language_order
 
 from .parser import date_order_chart
 from .timezone_parser import _tz_regexes
-from .utils import registry
 
 _P = ParamSpec("_P")
 _R = TypeVar("_R")
 
 
-@registry
 class Settings:
     """Control and configure default parsing behavior of dateparser.
     Currently, supported settings are:
@@ -53,7 +52,6 @@ class Settings:
     _pyfile_data: dict[str, Any] | None = None
     _mod_settings: Mapping[str, Any] = MappingProxyType({})
 
-    registry_key: str
     DATE_ORDER: str
     PREFER_LOCALE_DATE_ORDER: bool
     STRICT_DATE_ORDER: str
@@ -89,6 +87,12 @@ class Settings:
 
     @classmethod
     def get_key(cls, settings: Mapping[str, Any] | None = None) -> str:
+        warnings.warn(
+            "dateparser.conf.Settings.get_key() is deprecated and will be "
+            "removed in a future version.",
+            FutureWarning,
+            stacklevel=2,
+        )
         if not settings:
             return "default"
 
