@@ -14,6 +14,10 @@ if TYPE_CHECKING:
 
     from .conf import Settings
 
+_MAX_EXTRA_TZ = 2
+"""Timezone tokens equivalent to the first one, e.g. "CDT" and "(CDT)" after
+"-0500", that :func:`pop_tz_offset_from_string` also removes."""
+
 
 class _TzOffsetInfo(TypedDict):
     regex: regex.Pattern[str]
@@ -95,12 +99,14 @@ def pop_tz_offset_from_string(
     # A date string may carry both a numeric UTC offset and a redundant,
     # equivalent timezone abbreviation, e.g. the RFC 2822 email form
     # ``-0500 (CDT)`` (the parenthesised name is informational and the numeric
-    # offset is authoritative). Only one token is removed above; strip a second,
-    # equivalent one so the leftover does not break the rest of the parser.
-    # The remainder is right-stripped first because the numeric-offset regexes
-    # are anchored at the end of the string.
-    extra = _search_and_pop_tz(date_string.rstrip())
-    if extra is not None and overrides.get(extra[1], extra[2]) == offset:
+    # offset is authoritative). Only one token is removed above; strip up to
+    # _MAX_EXTRA_TZ more, equivalent ones so the leftover does not break the
+    # rest of the parser. The remainder is right-stripped first because the
+    # numeric-offset regexes are anchored at the end of the string.
+    for _ in range(_MAX_EXTRA_TZ):
+        extra = _search_and_pop_tz(date_string.rstrip())
+        if extra is None or overrides.get(extra[1], extra[2]) != offset:
+            break
         date_string = extra[0]
 
     return date_string, result

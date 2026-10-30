@@ -604,6 +604,10 @@ class TestDateParser(BaseTestCase):
                 datetime(2024, 5, 30, 15, 13, 10),
             ),
             param(
+                "Thu, 30 May 2024 10:13:10 -0500 CDT (CDT)",
+                datetime(2024, 5, 30, 15, 13, 10),
+            ),
+            param(
                 "Mon, 15 Jan 2024 09:30:00 +0000 (UTC)",
                 datetime(2024, 1, 15, 9, 30, 0),
             ),

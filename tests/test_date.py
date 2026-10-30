@@ -1507,6 +1507,11 @@ class TestSanitizeDate(BaseTestCase):
         )
         self.assertEqual(date.sanitize_date("10:00:00,2021 PM"), "10:00:00.2021 PM")
 
+    def test_sanitize_date_many_decimal_commas(self) -> None:
+        start = monotonic()
+        date.sanitize_date("a" * 200_000 + " 2021 " + "10:00:00,1234 " * 8000)
+        self.assertLess(monotonic() - start, 0.5)
+
     def test_sanitize_date_long_roman_numeral_run(self) -> None:
         start = monotonic()
         date.sanitize_date("MCC " * 32000)

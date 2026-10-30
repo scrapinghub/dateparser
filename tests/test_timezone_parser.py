@@ -144,7 +144,7 @@ class TestTZPopping(BaseTestCase):
         start = monotonic()
         result = pop_tz_offset_from_string(date_string, as_offset=False)
         assert monotonic() - start < 1.0
-        assert result == ("1 Jan 2020" + " EST" * 198, "EST")
+        assert result == ("1 Jan 2020" + " EST" * 197, "EST")
 
     def given_string(self, string_: str) -> None:
         self.initial_string = string_

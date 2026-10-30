@@ -345,6 +345,11 @@ class TestIgnoreSurroundingTextSetting(BaseTestCase):
                 languages=["en"],
                 expected_datetime=datetime(2019, 4, 16),
             ),
+            param(
+                date_string="Posted on Jan 5 MMX",
+                languages=["en"],
+                expected_datetime=datetime(2010, 1, 5),
+            ),
             # No language hint is needed: locales are tried as usual.
             param(
                 date_string="Actualisé le 17 avril 2019",

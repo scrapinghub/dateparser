@@ -1,7 +1,7 @@
 from collections.abc import Callable, Iterable, Sequence
 from collections.abc import Set as AbstractSet
 from datetime import datetime
-from itertools import chain
+from itertools import chain, islice
 from typing import Any, TypedDict
 
 import regex as re
@@ -57,10 +57,10 @@ _MAX_CONTEXT_WORDS = 3
 """Skipped words before a word, e.g. "a las" before "13h", that
 :meth:`_ExactLanguageSearch.split_around_skipped_words` translates it with."""
 
-_MAX_EXPRESSION_LENGTH = 50
-"""Characters at the end of a chunk, opposite to a numeric date, in which
-:meth:`_ExactLanguageSearch.split_off_numeric_date` looks for a relative
-expression, e.g. "后天"."""
+_MAX_EXPRESSION_CUTS = 50
+"""Positions, closest to the end of a chunk opposite to a numeric date first,
+at which :meth:`_ExactLanguageSearch.split_off_numeric_date` tries to split a
+relative expression, e.g. "后天", off the chunk."""
 
 
 def _is_weekday_modifier(word: str) -> bool:
@@ -497,14 +497,17 @@ class _ExactLanguageSearch:
             expression = match[0].replace(" ", "")
             # The expression is the shortest end of the chunk, on the side
             # opposite to the date, that translates into it.
-            for size in range(1, min(len(original), _MAX_EXPRESSION_LENGTH + 1)):
-                cut = len(original) - size if before else size
-                if (
-                    "no_word_spacing" not in language.info
-                    and original[cut - 1].isalnum()
-                    and original[cut].isalnum()
-                ):
-                    continue
+            cuts = (
+                len(original) - size if before else size
+                for size in range(1, len(original))
+            )
+            word_cuts = (
+                cut
+                for cut in cuts
+                if "no_word_spacing" in language.info
+                or not (original[cut - 1].isalnum() and original[cut].isalnum())
+            )
+            for cut in islice(word_cuts, _MAX_EXPRESSION_CUTS):
                 original_date, original_expression = (
                     (original[:cut], original[cut:])
                     if before

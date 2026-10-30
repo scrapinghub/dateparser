@@ -1,7 +1,7 @@
 import copy
 import threading
 from collections.abc import Iterable, Iterator, Mapping, Sequence
-from functools import cached_property
+from functools import cache, cached_property
 from itertools import chain, islice, product
 from typing import TYPE_CHECKING, Any, TypeVar
 
@@ -641,10 +641,16 @@ class Locale:
             return original_tokens, simplified_tokens
 
         if len(original_tokens) < len(simplified_tokens):
+            # Inserting empty tokens moves the same original token along, so
+            # it can be compared at every step.
+            @cache
+            def normalize(token: str) -> str:
+                return normalize_unicode(token.lower())
+
             add_empty = False
             for i, token in enumerate(simplified_tokens):
                 if i < len(original_tokens):
-                    if token == normalize_unicode(original_tokens[i].lower()):
+                    if token == normalize(original_tokens[i]):
                         add_empty = False
                     elif not add_empty:
                         add_empty = True
