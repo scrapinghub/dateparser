@@ -608,7 +608,7 @@ class _DateLocaleParser:
 
         for order in candidates:
             try:
-                date_obj, period, parts = date_parser.parse(
+                date_obj, period, parts = date_parser._parse_with_parts(
                     translated,
                     parse_method=parse_method,
                     settings=self._settings,
