@@ -9,12 +9,32 @@ from .utils import _get_localzone, apply_timezone, localize_timezone, strip_brac
 
 
 class DateParser:
-    @apply_settings
     def parse(
         self,
         date_string: str,
         parse_method: Callable[
-            ..., tuple[datetime, str | None, tuple[str, ...], _Directives]
+            ...,
+            tuple[datetime, str | None]
+            | tuple[datetime, str | None, tuple[str, ...]]
+            | tuple[datetime, str | None, tuple[str, ...], _Directives],
+        ],
+        settings: Settings | dict[str, Any] | None = None,
+        date_order: str | None = None,
+    ) -> tuple[datetime, str | None]:
+        date_obj, period, *_ = self._parse_with_parts(
+            date_string, parse_method, settings=settings, date_order=date_order
+        )
+        return date_obj, period
+
+    @apply_settings
+    def _parse_with_parts(
+        self,
+        date_string: str,
+        parse_method: Callable[
+            ...,
+            tuple[datetime, str | None]
+            | tuple[datetime, str | None, tuple[str, ...]]
+            | tuple[datetime, str | None, tuple[str, ...], _Directives],
         ],
         settings: Settings | dict[str, Any] | None = None,
         date_order: str | None = None,
@@ -26,11 +46,14 @@ class DateParser:
             raise ValueError("Empty string")
 
         date_string = strip_braces(date_string)
-        date_string, ptz = pop_tz_offset_from_string(date_string)
+        date_string, ptz = pop_tz_offset_from_string(date_string, settings=settings)
 
-        date_obj, period, parts, directives = parse_method(
+        result = parse_method(
             date_string, settings=settings, tz=ptz, date_order=date_order
         )
+        date_obj, period = result[:2]
+        parts = result[2] if len(result) >= 3 else ()
+        directives = result[3] if len(result) == 4 else None
 
         _settings_tz = settings.TIMEZONE.lower()
 

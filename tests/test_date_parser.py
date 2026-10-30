@@ -5,12 +5,15 @@ from functools import wraps
 from typing import Any
 from unittest.mock import Mock, patch
 
+import pytest
 from parameterized import param, parameterized
 
 import dateparser.timezone_parser
 from dateparser import parse
+from dateparser.conf import settings
 from dateparser.date import DateData, DateDataParser
 from dateparser.date_parser import DateParser, date_parser
+from dateparser.freshness_date_parser import freshness_date_parser
 from dateparser.parser import _parse_absolute
 from dateparser.timezone_parser import StaticTzInfo
 from dateparser.utils import normalize_unicode
@@ -205,6 +208,13 @@ class TestDateParser(BaseTestCase):
             param("2020/10/9 上午 02:26:26", datetime(2020, 10, 9, 2, 26, 26)),
             # Korean dates
             param("2020/10/9 오후 2:26", datetime(2020, 10, 9, 14, 26)),
+            param("2023년 2월 10일 오전 3시 30분", datetime(2023, 2, 10, 3, 30)),
+            param("2000년 1월 1일 19:30", datetime(2000, 1, 1, 19, 30)),
+            param("12월 31일", datetime(2012, 12, 31)),
+            param("2023. 3. 18 오후 10:58", datetime(2023, 3, 18, 22, 58)),
+            param("2013년 08월 14일", datetime(2013, 8, 14)),
+            param("2013.08.14 23시 54분", datetime(2013, 8, 14, 23, 54)),
+            param("2023년02월10일 오후3시30분", datetime(2023, 2, 10, 15, 30)),
             # Bulgarian
             param("25 ян 2016", datetime(2016, 1, 25, 0, 0)),
             param("23 декември 2013 15:10:01", datetime(2013, 12, 23, 15, 10, 1)),
@@ -254,6 +264,10 @@ class TestDateParser(BaseTestCase):
             param("12-12 июня 2021", datetime(2021, 6, 12, 0, 0)),
             param("5-5 juin 2021", datetime(2021, 6, 5, 0, 0)),
             param("12 - 14 czerwca 2021", datetime(2021, 6, 12, 0, 0)),
+            param("03/06/2010a", datetime(2010, 6, 3, 0, 0)),
+            param("01.02.2011, godz. 08:39", datetime(2011, 2, 1, 8, 39)),
+            param("22/09/2010 alle ore 14:31", datetime(2010, 9, 22, 14, 31)),
+            param("28/08/2012 20:43h", datetime(2012, 8, 28, 20, 43)),
         ]
     )
     def test_dates_parsing(self, date_string: str, expected: datetime) -> None:
@@ -578,6 +592,8 @@ class TestDateParser(BaseTestCase):
                 "Fri Sep 23 2016 10:34:51 GMT+0800 (CST)",
                 datetime(2016, 9, 23, 2, 34, 51),
             ),
+            param("Thu, 19 Jan 2023 10:45:00 +03", datetime(2023, 1, 19, 7, 45)),
+            param("19 Jan 2023 10:45:00 -04", datetime(2023, 1, 19, 14, 45)),
             # RFC 2822 email dates carry a numeric offset plus a redundant,
             # equivalent timezone abbreviation in parentheses.
             param(
@@ -623,6 +639,9 @@ class TestDateParser(BaseTestCase):
                 "Unable to parse: 8",
             ),
             param("12/09/18567", "Unable to parse: 18567"),
+            param("year", "Nothing to parse"),
+            param("hour minute", "Nothing to parse"),
+            param("t", "Nothing to parse"),
             param("5 06 Mar 2009", "Unable to parse: march"),
             param("Mar 5 06 2009", "Too many numbers in date string"),
             param("6/4/25 0730", "Too many numbers in date string"),
@@ -1140,7 +1159,9 @@ class TestDateParser(BaseTestCase):
         [
             param("-1484823450", expected=datetime(1922, 12, 13, 13, 2, 30)),
             param("-1436745600000", expected=datetime(1924, 6, 22, 0, 0)),
-            param("-1015673450000001", expected=datetime(1937, 10, 25, 12, 29, 10, 1)),
+            param(
+                "-1015673450000001", expected=datetime(1937, 10, 25, 12, 29, 9, 999999)
+            ),
         ]
     )
     def test_parse_negative_timestamp(
@@ -1386,6 +1407,30 @@ class TestDateParser(BaseTestCase):
         self.given_parser(languages=["fr"])
         self.when_date_is_parsed("01/13/2021")
         self.then_date_obj_exactly_is(None)
+
+    @parameterized.expand(
+        [
+            param("08 أكتوبر 2020 08:15 م", datetime(2020, 10, 8, 20, 15), "ar"),
+            param("10 اکتوبر 2020", datetime(2020, 10, 10), "fa"),
+            param("۳ یولیو ۲۰۱۴", datetime(2014, 7, 3), "ar"),
+            param("1 اكتبر 2020", datetime(2020, 10, 1), "fa"),
+        ]
+    )
+    def test_letter_variant_locale_detection(
+        self, date_string: str, expected: datetime, locale: str
+    ) -> None:
+        self.given_parser()
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+        self.assertEqual(self.result["locale"], locale)
+
+    def test_previous_locale_with_letter_variants(self) -> None:
+        self.given_parser(try_previous_locales=True)
+        self.when_date_is_parsed("10 اکتوبر 2020")
+        self.assertEqual(self.result["locale"], "fa")
+        self.when_date_is_parsed("5 أكتوبر 2020")
+        self.then_date_obj_exactly_is(datetime(2020, 10, 5))
+        self.assertEqual(self.result["locale"], "ar")
 
     def test_order_is_not_swapped_with_a_month_name(self) -> None:
         self.given_parser(languages=["en"], settings={"DATE_ORDER": "DMY"})
@@ -1911,6 +1956,145 @@ class TestDateParser(BaseTestCase):
             ),
         )
 
+    # The French tests below are relative to Wednesday 2026-10-07 09:30. A weekday
+    # on its own is read as the latest such day up to that date, so "lundi" is the
+    # 5th and "jeudi" is the 1st.
+    @parameterized.expand(
+        [
+            param("mardi midi", expected=datetime(2026, 10, 6, 12, 0)),
+            param("mardi à midi", expected=datetime(2026, 10, 6, 12, 0)),
+            param("lundi à midi", expected=datetime(2026, 10, 5, 12, 0)),
+            param("mercredi midi", expected=datetime(2026, 10, 7, 12, 0)),
+            param("jeudi à midi", expected=datetime(2026, 10, 1, 12, 0)),
+            param("vendredi midi", expected=datetime(2026, 10, 2, 12, 0)),
+            param("samedi à midi", expected=datetime(2026, 10, 3, 12, 0)),
+            param("dimanche midi", expected=datetime(2026, 10, 4, 12, 0)),
+            param("midi", expected=datetime(2026, 10, 7, 12, 0)),
+            param("à midi", expected=datetime(2026, 10, 7, 12, 0)),
+            param("demain à midi", expected=datetime(2026, 10, 8, 12, 0)),
+            param("hier midi", expected=datetime(2026, 10, 6, 12, 0)),
+            param("après-demain à midi", expected=datetime(2026, 10, 9, 12, 0)),
+            param("avant-hier midi", expected=datetime(2026, 10, 5, 12, 0)),
+            param("12 octobre 2026 à midi", expected=datetime(2026, 10, 12, 12, 0)),
+            param("le 12 midi", expected=datetime(2026, 10, 12, 12, 0)),
+            param("2026-10-12 midi", expected=datetime(2026, 10, 12, 12, 0)),
+            param("MARDI À MIDI", expected=datetime(2026, 10, 6, 12, 0)),
+            param(
+                "mardi à midi",
+                settings={"PREFER_DATES_FROM": "future"},
+                expected=datetime(2026, 10, 13, 12, 0),
+            ),
+            param(
+                "mardi à midi",
+                settings={"NORMALIZE": False},
+                expected=datetime(2026, 10, 6, 12, 0),
+            ),
+        ]
+    )
+    def test_french_midi_is_noon(
+        self,
+        date_string: str,
+        expected: datetime,
+        settings: dict[str, Any] | None = None,
+    ) -> None:
+        self.given_parser(
+            languages=["fr"],
+            settings={
+                "RELATIVE_BASE": datetime(2026, 10, 7, 9, 30),
+                **(settings or {}),
+            },
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("mardi à midi", expected=datetime(2026, 10, 6, 12, 0)),
+            param("demain midi", expected=datetime(2026, 10, 8, 12, 0)),
+        ]
+    )
+    def test_french_midi_is_noon_when_french_is_detected(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        self.given_parser(settings={"RELATIVE_BASE": datetime(2026, 10, 7, 9, 30)})
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("après-midi"),
+            param("après midi"),
+            param("l'après-midi"),
+            param("après le midi"),
+            param("avant midi"),
+            param("avant-midi"),
+            param("demain après-midi"),
+            param("lundi après-midi"),
+            param("mardi avant midi"),
+            param("Après-Midi"),
+            param("après_midi"),
+            param("demain après_midi"),
+            param("après_le_midi"),
+            param("après-midi", settings={"NORMALIZE": False}),
+        ]
+    )
+    def test_french_midi_after_apres_or_avant_is_not_noon(
+        self, date_string: str, settings: dict[str, Any] | None = None
+    ) -> None:
+        # The afternoon and before noon are not 12:00, and they are not
+        # understood either.
+        self.given_parser(
+            languages=["fr"],
+            settings={
+                "RELATIVE_BASE": datetime(2026, 10, 7, 9, 30),
+                **(settings or {}),
+            },
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(None)
+
+    @parameterized.expand(
+        [
+            param("lundi", expected=datetime(2026, 10, 5)),
+            param("mardi", expected=datetime(2026, 10, 6)),
+            param("mardi à 12:00", expected=datetime(2026, 10, 6, 12, 0)),
+            param("mardi 14:30", expected=datetime(2026, 10, 6, 14, 30)),
+            param("demain", expected=datetime(2026, 10, 8, 9, 30)),
+            param("après-demain", expected=datetime(2026, 10, 9, 9, 30)),
+            param("il y a 3 jours", expected=datetime(2026, 10, 4, 9, 30)),
+            param(
+                "18 octobre 2012 à 19 h 21 min", expected=datetime(2012, 10, 18, 19, 21)
+            ),
+        ]
+    )
+    def test_french_dates_that_were_parsed_before_midi_are_unchanged(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        self.given_parser(
+            languages=["fr"], settings={"RELATIVE_BASE": datetime(2026, 10, 7, 9, 30)}
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
+    @parameterized.expand(
+        [
+            param("lundi prochain", expected=datetime(2026, 10, 12)),
+            param("mardi prochain", expected=datetime(2026, 10, 13)),
+            param("lundi prochain à midi", expected=datetime(2026, 10, 12, 12, 0)),
+        ]
+    )
+    @pytest.mark.xfail(
+        raises=AssertionError,
+        strict=True,
+        reason="'<weekday> prochain' needs 'next <weekday>' (#573) and French entries",
+    )
+    def test_french_next_weekday(self, date_string: str, expected: datetime) -> None:
+        self.given_parser(
+            languages=["fr"], settings={"RELATIVE_BASE": datetime(2026, 10, 7, 9, 30)}
+        )
+        self.when_date_is_parsed(date_string)
+        self.then_date_obj_exactly_is(expected)
+
     def given_parser(self, *args: Any, **kwds: Any) -> None:
         def collecting_get_date_data(
             parse: Callable[..., tuple[datetime, str | None, tuple[str, ...], Any]],
@@ -1926,7 +2110,9 @@ class TestDateParser(BaseTestCase):
 
         self.add_patch(
             patch.object(
-                date_parser, "parse", collecting_get_date_data(date_parser.parse)
+                date_parser,
+                "_parse_with_parts",
+                collecting_get_date_data(date_parser._parse_with_parts),
             )
         )
 
@@ -1966,6 +2152,12 @@ class TestDateParser(BaseTestCase):
             param("ten minutes later", timedelta(minutes=10), "ten minutes later"),
             param("seven seconds later", timedelta(seconds=7), "seven seconds later"),
             param("twelve days later", timedelta(days=12), "twelve days later"),
+            param("thirty days later", timedelta(days=30), "thirty days later"),
+            param(
+                "twenty-five minutes later",
+                timedelta(minutes=25),
+                "twenty-five minutes later",
+            ),
             # Test numeric values still work
             param("2 days later", timedelta(days=2), "2 days later"),
             param("5 hours later", timedelta(hours=5), "5 hours later"),
@@ -2216,6 +2408,125 @@ class TestDateParser(BaseTestCase):
     def test_out_of_range_day_of_year_is_not_parsed(self, date_string: str) -> None:
         """Test that an invalid %j value is not read as another date (Issue #271)."""
         self.assertIsNone(parse(date_string, date_formats=["%Y%j"]))
+
+    @parameterized.expand(
+        [
+            param("friday at 22h", "en", datetime(2026, 9, 18, 22)),
+            param("September 24, 2026 at 18h", "en", datetime(2026, 9, 24, 18)),
+            param("September 24, 2026 18h", "en", datetime(2026, 9, 24, 18)),
+            param("22h", "en", datetime(2026, 9, 23, 14)),
+            param("22h ago", "en", datetime(2026, 9, 23, 14)),
+            param("demain à 8h", "fr", datetime(2026, 9, 25, 8)),
+            param("24 septembre 2026 à 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("24 septembre 2026 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("24/09/2026 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("2026-09-24 18h", "fr", datetime(2026, 9, 24, 18)),
+            param("il y a 22h", "fr", datetime(2026, 9, 23, 14)),
+        ]
+    )
+    def test_hour_after_at_or_date_is_time(
+        self, date_string: str, language: str, expected: datetime
+    ) -> None:
+        settings = {"RELATIVE_BASE": datetime(2026, 9, 24, 12)}
+        self.assertEqual(
+            parse(date_string, languages=[language], settings=settings), expected
+        )
+
+    @parameterized.expand(
+        [
+            param("at 48h", "en", datetime(2026, 9, 22, 12)),
+            param("at 22h ago", "en", datetime(2026, 9, 23, 14)),
+            param("2026, 3h ago", "en", datetime(2026, 9, 24, 9)),
+            param("2026-09-20 3h ago", "en", datetime(2026, 9, 24, 9)),
+            param("1200 5h", "en", datetime(2026, 9, 24, 7)),
+            param("à 48h", "fr", datetime(2026, 9, 22, 12)),
+            param("il y a à 22h", "fr", datetime(2026, 9, 23, 14)),
+            param("il y a 2026 3h", "fr", datetime(2026, 9, 24, 9)),
+        ]
+    )
+    def test_hour_after_at_or_date_is_duration(
+        self, date_string: str, language: str, expected: datetime
+    ) -> None:
+        settings = {"RELATIVE_BASE": datetime(2026, 9, 24, 12)}
+        self.assertEqual(
+            parse(date_string, languages=[language], settings=settings), expected
+        )
+
+    @parameterized.expand(
+        [
+            param(prefer_dates_from="current_period"),
+            param(prefer_dates_from="past"),
+            param(prefer_dates_from="future"),
+        ]
+    )
+    def test_weekday_with_modifier(self, prefer_dates_from: str) -> None:
+        weekdays = [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+        ]
+        for base_weekday in range(7):
+            relative_base = datetime(2026, 9, 21 + base_weekday, 12)
+            settings = {
+                "PREFER_DATES_FROM": prefer_dates_from,
+                "RELATIVE_BASE": relative_base,
+            }
+            midnight = relative_base.replace(hour=0)
+            for weekday, name in enumerate(weekdays):
+                expected = {
+                    "last": -((base_weekday - weekday - 1) % 7 + 1),
+                    "this": (weekday - base_weekday) % 7,
+                    "next": (weekday - base_weekday - 1) % 7 + 1,
+                }
+                for modifier, days in expected.items():
+                    date_string = f"{modifier} {name}"
+                    with self.subTest(date_string=date_string, base=relative_base):
+                        self.assertEqual(
+                            parse(date_string, settings=settings),
+                            midnight + timedelta(days=days),
+                        )
+
+    @parameterized.expand(
+        [
+            param("Next Tuesday", datetime(2026, 9, 29)),
+            param("next tues", datetime(2026, 9, 29)),
+            param("last fri", datetime(2026, 9, 18)),
+            param("next Friday at 5pm", datetime(2026, 9, 25, 17)),
+            param("12am last monday", datetime(2026, 9, 21)),
+            param("next Friday, July 4, 2025", datetime(2025, 7, 4)),
+        ]
+    )
+    def test_weekday_with_modifier_variants(
+        self, date_string: str, expected: datetime
+    ) -> None:
+        settings = {"RELATIVE_BASE": datetime(2026, 9, 23, 12)}
+        self.assertEqual(parse(date_string, settings=settings), expected)
+
+    @parameterized.expand(
+        [
+            param("next"),
+            param("this"),
+            param("last 5pm"),
+            param("thursday next"),
+            param("next next friday"),
+            param("last three"),
+            param("next friday last monday"),
+            param("last friday of may"),
+            param("next friday june"),
+        ]
+    )
+    def test_misplaced_modifier_is_not_parsed(self, date_string: str) -> None:
+        self.assertIsNone(parse(date_string, languages=["en"]))
+
+    @parameterized.expand([param("next 2020-05-05"), param("last 10:00")])
+    def test_modifier_without_weekday_is_not_parsed_by_default_languages(
+        self, date_string: str
+    ) -> None:
+        self.assertIsNone(parse(date_string, settings={"DEFAULT_LANGUAGES": ["en"]}))
 
     @parameterized.expand(
         [
@@ -2550,6 +2861,139 @@ class TestDateParser(BaseTestCase):
             datetime(2019, 6, 22, 15, 50),
             parse("32 hours 10 minutes", settings=settings),
         )
+
+    @parameterized.expand(
+        [
+            param(*case.args, languages=languages, **case.kwargs)
+            for languages in (None, ["en"])
+            for case in [
+                # The absolute parser.
+                param("December 31, 2020", datetime(2020, 12, 31)),
+                # The relative parser.
+                param("tomorrow", datetime(2019, 6, 25)),
+            ]
+        ]
+    )
+    def test_other_parsers_read_what_no_format_parses(
+        self,
+        date_string: str,
+        expected: datetime,
+        languages: list[str] | None = None,
+    ) -> None:
+        """Test that by default, a string that none of the date_formats parses
+        is read by the other parsers (Issue #868)."""
+        settings = {"RELATIVE_BASE": datetime(2019, 6, 24)}
+        self.assertEqual(
+            expected,
+            parse(
+                date_string,
+                date_formats=["%d/%m/%Y"],
+                languages=languages,
+                settings=settings,
+            ),
+        )
+
+    @parameterized.expand(
+        [
+            param(*case.args, languages=languages, **case.kwargs)
+            for languages in (None, ["en"])
+            for case in [
+                param("32 DEC 10", ["%d %b %y"]),
+                param("32 DEC 95", ["%d %b %y"]),
+                # By default, "sv" reads it as year, month and day, "en" does not.
+                param("31 FEB 10", ["%d %b %y"]),
+                # By default, it is read as month, day and year.
+                param("12/31/2020", ["%d/%m/%Y"]),
+            ]
+        ]
+    )
+    def test_custom_formats_only_rejects_what_no_format_parses(
+        self,
+        date_string: str,
+        date_formats: list[str],
+        languages: list[str] | None = None,
+    ) -> None:
+        """Test that with PARSERS set to ["custom-formats"], a string that none
+        of the date_formats parses is not read by the other parsers, which would
+        take a number for another part of the date (Issue #868)."""
+        settings = {
+            "PARSERS": ["custom-formats"],
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+        }
+        self.assertIsNone(
+            parse(
+                date_string,
+                date_formats=date_formats,
+                languages=languages,
+                settings=settings,
+            )
+        )
+
+    @parameterized.expand(
+        [
+            param(date_string, languages=languages)
+            for languages in (None, ["en"])
+            for date_string in ("Time", "(m)")
+        ]
+    )
+    def test_other_parsers_reject_dateless_strings(
+        self, date_string: str, languages: list[str] | None
+    ) -> None:
+        """Test that a string with no date in it is not parsed as today when
+        none of the date_formats parses it."""
+        self.assertIsNone(
+            parse(date_string, date_formats=["%d.%m.%Y %H:%M"], languages=languages)
+        )
+
+    @parameterized.expand(
+        [
+            param(*case.args, languages=languages, **case.kwargs)
+            for languages in (None, ["en"])
+            for case in [
+                param("31 DEC 10", ["%d %b %y"], datetime(2010, 12, 31)),
+                param("31 DEC 95", ["%d %b %y"], datetime(1995, 12, 31)),
+            ]
+        ]
+    )
+    def test_custom_formats_only_keeps_what_a_format_parses(
+        self,
+        date_string: str,
+        date_formats: list[str],
+        expected: datetime,
+        languages: list[str] | None = None,
+    ) -> None:
+        """Test that with PARSERS set to ["custom-formats"], a string that one
+        of the date_formats parses is still parsed (Issue #868)."""
+        settings = {
+            "PARSERS": ["custom-formats"],
+            "RELATIVE_BASE": datetime(2019, 6, 24),
+        }
+        self.assertEqual(
+            expected,
+            parse(
+                date_string,
+                date_formats=date_formats,
+                languages=languages,
+                settings=settings,
+            ),
+        )
+
+
+def test_public_parse_methods_return_date_and_period() -> None:
+    relative_base = datetime(2020, 1, 1)
+    assert DateParser().parse(
+        "2020-03-04", _parse_absolute, settings={"RELATIVE_BASE": relative_base}
+    ) == (datetime(2020, 3, 4), "day")
+    assert freshness_date_parser.parse(
+        "2 day ago", settings.replace(RELATIVE_BASE=relative_base)
+    ) == (datetime(2019, 12, 30), "day")
+
+
+def test_parse_method_without_parts() -> None:
+    def parse_method(date_string: str, **kwargs: Any) -> tuple[datetime, str | None]:
+        return datetime(2020, 1, 2), "day"
+
+    assert DateParser().parse("foo", parse_method) == (datetime(2020, 1, 2), "day")
 
 
 if __name__ == "__main__":
