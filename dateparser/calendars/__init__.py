@@ -8,9 +8,15 @@ from dateparser.parser import _parser
 
 
 class _CalendarParser(Protocol):
-    def parse(
+    def _parse_with_parts(
         self, datestring: str, settings: Settings
     ) -> tuple[datetime, str | None, tuple[str, ...]]: ...
+
+
+class _PartlessCalendarParser(Protocol):
+    def parse(
+        self, datestring: str, settings: Settings
+    ) -> tuple[datetime, str | None]: ...
 
 
 class CalendarBase:
@@ -21,14 +27,20 @@ class CalendarBase:
     :type source: str
     """
 
-    parser: _CalendarParser = NotImplemented
+    parser: _CalendarParser | _PartlessCalendarParser = NotImplemented
 
     def __init__(self, source: str) -> None:
         self.source = source
 
     def get_date(self) -> DateData | None:
         try:
-            date_obj, period, parts = self.parser.parse(self.source, settings)
+            if hasattr(self.parser, "_parse_with_parts"):
+                date_obj, period, parts = self.parser._parse_with_parts(
+                    self.source, settings
+                )
+            else:
+                date_obj, period = self.parser.parse(self.source, settings)
+                parts = ()
             return DateData(date_obj=date_obj, period=period, parts=parts)
         except (ValueError, OverflowError):
             return None
@@ -42,7 +54,7 @@ class non_gregorian_parser(_parser):
     non_gregorian_date_cls: Callable[[int, int, int], Any] = NotImplemented
 
     _digits: ClassVar[dict[str, int] | None] = None
-    _months: ClassVar[dict[str, tuple[int, int, list[str]]] | None] = None
+    _months: ClassVar[dict[str, tuple[Any, ...]] | None] = None
     _weekdays: ClassVar[dict[str, list[str]] | None] = None
     _number_letters: ClassVar[dict[int, list[str]] | None] = None
 
@@ -127,7 +139,7 @@ class non_gregorian_parser(_parser):
         ):
             month = int(token)
         elif directive == "%B" and self._months and token in self._months:
-            month = list(self._months.keys()).index(token) + 1
+            month = self._months[token][0]
         elif (
             directive == "%d"
             and token_len <= 2
@@ -150,6 +162,19 @@ class non_gregorian_parser(_parser):
         settings: Settings,
         tz: tzinfo | None = None,
         date_order: str | None = None,
+    ) -> tuple[datetime, str | None]:
+        date_obj, period, _ = cls._parse_with_parts(
+            datestring, settings, tz, date_order
+        )
+        return date_obj, period
+
+    @classmethod
+    def _parse_with_parts(
+        cls,
+        datestring: str,
+        settings: Settings,
+        tz: tzinfo | None = None,
+        date_order: str | None = None,
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
         datestring = cls.to_latin(datestring)
-        return super().parse(datestring, settings, tz, date_order)
+        return super()._parse_with_parts(datestring, settings, tz, date_order)
