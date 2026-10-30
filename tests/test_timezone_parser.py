@@ -12,6 +12,7 @@ import dateparser.timezone_parser
 from dateparser import parse
 from dateparser.timezone_parser import (
     StaticTzInfo,
+    build_tz_offsets,
     convert_to_local_tz,
     get_local_tz_offset,
     is_timezone_token,
@@ -121,6 +122,21 @@ class TestTZPopping(BaseTestCase):
         self.given_string("15 May 2004")
         self.when_offset_popped_from_string()
         self.then_string_modified_to("15 May 2004")
+
+    @parameterized.expand(
+        [
+            param("10 Jan 2020 10:00 CET/CEST", ("10 Jan 2020 10:00 CET/", "CEST")),
+            param("Jan 10, 2020 10:00 PST/PDT", ("Jan 10, 2020 10:00 PST/", "PDT")),
+            param(
+                "Let's get on 10 Jan 2020 at 10:00 EST",
+                ("Let's get on 10 Jan 2020 at 10:00 ", "EST"),
+            ),
+        ]
+    )
+    def test_earliest_table_entry_wins(
+        self, date_string: str, expected: tuple[str, str]
+    ) -> None:
+        assert pop_tz_offset_from_string(date_string, as_offset=False) == expected
 
     def given_string(self, string_: str) -> None:
         self.initial_string = string_
@@ -520,7 +536,47 @@ class TestTzDatabasePreference(BaseTestCase):
         )
 
 
+class TestTimezoneAbbreviationsSetting(BaseTestCase):
+    @parameterized.expand(
+        [
+            param("10:00 IST"),
+            param("10:00 +05:30 IST"),
+            param("in 1 hour IST"),
+        ]
+    )
+    def test_custom_offset(self, date_string: str) -> None:
+        date = parse(
+            date_string,
+            settings={
+                "TIMEZONE_ABBREVIATIONS": {"IST": timedelta(hours=5, minutes=30)},
+                "RETURN_AS_TIMEZONE_AWARE": True,
+            },
+        )
+        assert date is not None
+        self.assertEqual(date.utcoffset(), timedelta(hours=5, minutes=30))
+
+    def test_other_abbreviations_keep_their_offset(self) -> None:
+        date = parse(
+            "10:00 CET",
+            settings={
+                "TIMEZONE_ABBREVIATIONS": {"IST": timedelta(hours=5, minutes=30)}
+            },
+        )
+        assert date is not None
+        self.assertEqual(date.utcoffset(), timedelta(hours=1))
+
+
 class TestConvertToLocalTz(BaseTestCase):
     def test_deprecated(self) -> None:
         with self.assertWarns(FutureWarning):
             convert_to_local_tz(datetime(2020, 1, 1), timedelta(0))
+
+
+class TestBuildTzOffsets(BaseTestCase):
+    def test_deprecated(self) -> None:
+        parts: list[str] = []
+        with self.assertWarns(FutureWarning):
+            offsets = dict(build_tz_offsets(parts))
+        assert offsets["CEST"]["offset"] == timedelta(hours=2)
+        assert offsets["CEST"]["regex"].search(" CEST")
+        assert "CEST" in parts
