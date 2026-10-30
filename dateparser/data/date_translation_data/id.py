@@ -3,36 +3,45 @@ info = {
     "date_order": "DMY",
     "january": [
         "jan",
-        "januari"
+        "januari",
+        "Djan",
+        "Djanuari"
     ],
     "february": [
         "feb",
-        "februari"
+        "februari",
+        "Peb",
+        "Pebruari"
     ],
     "march": [
         "mar",
-        "maret"
+        "maret",
+        "Mrt"
     ],
     "april": [
         "apr",
         "april"
     ],
     "may": [
-        "mei"
+        "mei",
+        "Mai"
     ],
     "june": [
         "jun",
-        "juni"
+        "juni",
+        "Djuni"
     ],
     "july": [
         "jul",
-        "juli"
+        "juli",
+        "Djuli"
     ],
     "august": [
         "agu",
         "agustus",
         "Agu",
-        "agt"
+        "agt",
+        "Ag"
     ],
     "september": [
         "sep",
@@ -45,7 +54,9 @@ info = {
     ],
     "november": [
         "nov",
-        "november"
+        "november",
+        "Nop",
+        "Nopember"
     ],
     "december": [
         "des",
