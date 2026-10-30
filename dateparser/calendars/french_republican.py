@@ -57,7 +57,7 @@ def _month_length(year: int, month: int) -> int:
 
 class _french_republican_parser:
     @classmethod
-    def parse(
+    def _parse_with_parts(
         cls, datestring: str, settings: "Settings"
     ) -> tuple[datetime, str | None, tuple[str, ...]]:
         normalized = "".join(
