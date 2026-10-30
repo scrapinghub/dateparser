@@ -608,6 +608,7 @@ class _ExactLanguageSearch:
         settings: Settings,
         language: Locale,
         already_parsed: Sequence[tuple[DateData, bool]] = (),
+        limit: int | None = None,
     ) -> tuple[list[tuple[DateData, bool]], list[str]]:
         parsed: list[tuple[DateData, bool]] = list(already_parsed)
         substrings = []
@@ -616,6 +617,8 @@ class _ExactLanguageSearch:
         if settings.RELATIVE_BASE:
             need_relative_base = False
         for i, item in enumerate(to_parse):
+            if limit is not None and len(parsed) >= limit:
+                break
             if len(item) <= 2:
                 continue
 
@@ -710,7 +713,11 @@ class _ExactLanguageSearch:
         return parsed[len(already_parsed) :], substrings
 
     def search_parse(
-        self, shortname: str, text: str, settings: Settings
+        self,
+        shortname: str,
+        text: str,
+        settings: Settings,
+        limit: int | None = None,
     ) -> list[_DateResult]:
         language = self.get_current_language(shortname)
         translated, original = self.search(shortname, text, settings)
@@ -733,6 +740,7 @@ class _ExactLanguageSearch:
             translated=translated,
             settings=settings,
             language=language,
+            limit=limit,
         )
 
         skip = {word.lower() for word in language.info.get("skip", [])}
@@ -896,6 +904,7 @@ class DateSearchWithDetection:
         detect_languages_function: Callable[..., list[str]] | None = None,
         strategy: str = "split",
         date_formats: Iterable[str] | None = None,
+        limit: int | None = None,
     ) -> tuple[str | None, list[_DateResult] | None]:
         if strategy not in ("split", "ngram"):
             raise ValueError(
@@ -926,14 +935,18 @@ class DateSearchWithDetection:
 
         if strategy == "ngram":
             dates = self.ngram_search.search_parse(
-                candidate_languages, text, settings=settings, date_formats=date_formats
+                candidate_languages,
+                text,
+                settings=settings,
+                date_formats=date_formats,
+                limit=limit,
             )
             _add_time_span_results(dates, text, settings)
             return language_shortname, dates
 
         for candidate_language in candidate_languages:
             dates = self.search.search_parse(
-                candidate_language, text, settings=settings
+                candidate_language, text, settings=settings, limit=limit
             )
             if dates:
                 return candidate_language, dates
