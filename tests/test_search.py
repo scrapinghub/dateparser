@@ -2042,6 +2042,32 @@ class TestTranslateSearch(BaseTestCase):
 
     @parameterized.expand(
         [
+            param(text="11 sent 12-Dec-2014"),
+            param(text="09 sent 12-Dec-2014"),
+        ]
+    )
+    def test_search_dates_with_numbers_that_are_months_in_other_languages(
+        self, text: str
+    ) -> None:
+        result = search_dates(text)
+        self.assertEqual(result, [("12-Dec-2014", datetime.datetime(2014, 12, 12))])
+
+    def test_search_dates_detects_vietnamese_with_numeric_months(self) -> None:
+        result = search_dates("ngày 11 tháng 12 năm 2014", add_detected_language=True)
+        self.assertEqual(
+            result,
+            [("ngày 11 tháng 12 năm 2014", datetime.datetime(2014, 12, 11), "vi")],
+        )
+
+    def test_search_dates_does_not_detect_language_from_numbers_alone(self) -> None:
+        result = search_dates("2018-10-17T00:00:00", add_detected_language=True)
+        self.assertEqual(
+            result,
+            [("2018-10-17T00:00:00", datetime.datetime(2018, 10, 17), "en")],
+        )
+
+    @parameterized.expand(
+        [
             param(text, strategy, period)
             for strategy in ("split", "ngram")
             for text, period in (

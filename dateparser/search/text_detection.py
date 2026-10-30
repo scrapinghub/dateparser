@@ -109,9 +109,20 @@ class FullTextLanguageDetector(BaseLanguageDetector):
                         )
                     )
                     applicable_languages.append(
-                        (language.shortname, (*num_words, *native_num_words))
+                        (
+                            language.shortname,
+                            (*num_words[:2], *native_num_words[:2]),
+                            num_words[2],
+                        )
                     )
                     break
         if not applicable_languages:
             return None
-        return max(applicable_languages, key=lambda p: p[1])[0]
+        # Bare-number hits only break ties between languages with word hits;
+        # otherwise every language that maps a number to a month would beat
+        # the first language on text like "2018-10-17T00:00:00".
+        has_words = any(num_words[0] for _, num_words, _ in applicable_languages)
+        return max(
+            applicable_languages,
+            key=lambda p: (p[1], p[2]) if has_words else p[1],
+        )[0]
